@@ -47,11 +47,20 @@
 				ToolbarSize="Medium">
 
 				<controls:Toolbar.Items>
-					<controls:ToolbarItem IconSize="16" Label="Xaml Label 1" ThemedIcon="{StaticResource App.ThemedIcons.Cut}" />
-					<controls:ToolbarItem IconSize="16" Label="Xaml Label 2" ThemedIcon="{StaticResource App.ThemedIcons.Copy}" />
-					<controls:ToolbarItem IconSize="16" Label="Xaml Label 3" ThemedIcon="{StaticResource App.ThemedIcons.PanelLeft}" />
+					<controls:ToolbarItem
+						IconSize="16"
+						Label="Xaml Label 1"
+						ThemedIcon="{StaticResource App.ThemedIcons.Cut}" />
+					<controls:ToolbarItem
+						IconSize="16"
+						Label="Xaml Label 2"
+						ThemedIcon="{StaticResource App.ThemedIcons.Copy}" />
+					<controls:ToolbarItem
+						IconSize="16"
+						Label="Xaml Label 3"
+						ThemedIcon="{StaticResource App.ThemedIcons.PanelLeft}" />
 				</controls:Toolbar.Items>
-				
+
 				<controls:Toolbar.ItemTemplate>
 					<DataTemplate x:DataType="controls:ToolbarItem">
 						<StackPanel Orientation="Vertical">
