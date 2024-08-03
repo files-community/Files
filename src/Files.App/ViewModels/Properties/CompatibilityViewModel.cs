@@ -12,7 +12,8 @@ namespace Files.App.ViewModels.Properties
 	{
 		// Dependency injections
 
-		private IWindowsCompatibilityService WindowsCompatibilityService { get; } = Ioc.Default.GetRequiredService<IWindowsCompatibilityService>();
+		private IWindowsCompatibilityService WindowsCompatibilityService = Ioc.Default.GetRequiredService<IWindowsCompatibilityService>();
+		private IWindowsAppLauncherService WindowsLaunchAppService = Ioc.Default.GetRequiredService<IWindowsAppLauncherService>();
 
 		// Properties
 
@@ -118,7 +119,7 @@ namespace Files.App.ViewModels.Properties
 
 		private Task<bool> ExecuteRunTroubleshooterCommand()
 		{
-			return LaunchHelper.RunCompatibilityTroubleshooterAsync(ItemPath);
+			return WindowsLaunchAppService.LaunchProgramCompatibilityTroubleshooterAsync(ItemPath);
 		}
 	}
 }

@@ -83,7 +83,8 @@ namespace Files.App.Helpers
 			}
 			else
 			{
-				return await LaunchHelper.LaunchAppAsync(application, arguments, workingDirectory);
+				var windowsLaunchAppService = Ioc.Default.GetRequiredService<IWindowsAppLauncherService>();
+				return await windowsLaunchAppService.LaunchApplicationAsync(application, arguments, workingDirectory);
 			}
 		}
 

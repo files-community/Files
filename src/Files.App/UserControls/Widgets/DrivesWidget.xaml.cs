@@ -13,6 +13,7 @@ namespace Files.App.UserControls.Widgets
 	public sealed partial class DrivesWidget : UserControl
 	{
 		public DrivesWidgetViewModel ViewModel { get; set; } = Ioc.Default.GetRequiredService<DrivesWidgetViewModel>();
+		private IWindowsAppLauncherService WindowsLaunchAppService = Ioc.Default.GetRequiredService<IWindowsAppLauncherService>();
 
 		public DrivesWidget()
 		{
@@ -52,7 +53,7 @@ namespace Files.App.UserControls.Widgets
 				button.Tag.ToString() is not string path)
 				return;
 
-			await StorageSenseHelper.OpenStorageSenseAsync(path);
+			await WindowsLaunchAppService.LaunchStorageSensePolicySettingsAsync();
 		}
 	}
 }
