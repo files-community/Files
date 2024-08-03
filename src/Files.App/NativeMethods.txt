@@ -94,3 +94,17 @@ DesktopWallpaper
 SHCreateShellItemArrayFromIDLists
 ILCreateFromPath
 CLSIDFromString
+E_FAIL
+S_OK
+S_FALSE
+MSG
+E_NOTIMPL
+LOGFONTW
+AssocCreate
+IQueryAssociations
+UnregisterClass
+SetWindowLong
+GetModuleHandle
+RegisterClassEx
+CREATESTRUCTW
+AssocQueryString
