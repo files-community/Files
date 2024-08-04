@@ -6,6 +6,7 @@
 
 	<Style x:Key="DefaultThemedIconLayerStyle" TargetType="local:ThemedIconLayer">
 		<Setter Property="Foreground" Value="{ThemeResource ThemedIconAccentContrastBrush}" />
+		<Setter Property="IsTabStop" Value="False" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:ThemedIconLayer">
