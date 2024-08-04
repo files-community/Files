@@ -29,6 +29,8 @@ namespace Files.App.UITests
 
 			m_window.ExtendsContentIntoTitleBar = true;
 
+			m_window.AppWindow.ResizeClient( new Windows.Graphics.SizeInt32(1280 , 1080) );
+
 			m_window.Activate();
 		}
 
