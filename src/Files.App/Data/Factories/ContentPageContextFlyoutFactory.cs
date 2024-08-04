@@ -138,9 +138,9 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SortBy".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					ThemedIconModel = new ThemedIconModel()
 					{
-						OpacityIconStyle = "ColorIconSort",
+						ThemedIconStyle = "App.ThemedIcons.Sorting",
 					},
 					ShowItem = !itemsSelected,
 					ShowInRecycleBin = true,
@@ -350,9 +350,9 @@ namespace Files.App.Data.Factories
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					OpacityIcon = new OpacityIconModel()
+					ThemedIconModel = new ThemedIconModel()
 					{
-						OpacityIconStyle = Commands.AddItem.Glyph.OpacityStyle
+						ThemedIconStyle = Commands.AddItem.Glyph.ThemedIconStyle
 					},
 					Text = Commands.AddItem.Label,
 					Items = GetNewItemItems(commandsViewModel, currentInstanceViewModel.CanCreateFileInPage),
@@ -381,9 +381,9 @@ namespace Files.App.Data.Factories
 				{
 					// TODO add back text and icon when https://github.com/microsoft/microsoft-ui-xaml/issues/9409 is resolved
 					//Text = "OpenWith".GetLocalizedResource(),
-					//OpacityIcon = new OpacityIconModel()
+					//ThemedIconModel = new ThemedIconModel()
 					//{
-					//	OpacityIconStyle = "ColorIconOpenWith"
+					//	ThemedIconStyle = "ColorIconOpenWith"
 					//},
 					Tag = "OpenWithOverflow",
 					IsHidden = true,
@@ -509,9 +509,9 @@ namespace Files.App.Data.Factories
 				{
 					Text = "Compress".GetLocalizedResource(),
 					ShowInSearchPage = true,
-					OpacityIcon = new OpacityIconModel()
+					ThemedIconModel = new ThemedIconModel()
 					{
-						OpacityIconStyle = "ColorIconZip",
+						ThemedIconStyle = "App.ThemedIcons.Zip",
 					},
 					Items =
 					[
@@ -525,9 +525,9 @@ namespace Files.App.Data.Factories
 				{
 					Text = "Extract".GetLocalizedResource(),
 					ShowInSearchPage = true,
-					OpacityIcon = new OpacityIconModel()
+					ThemedIconModel = new ThemedIconModel()
 					{
-						OpacityIconStyle = "ColorIconZip",
+						ThemedIconStyle = "App.ThemedIcons.Zip",
 					},
 					Items =
 					[
@@ -580,7 +580,7 @@ namespace Files.App.Data.Factories
 				},
 				// Shell extensions are not available on the FTP server or in the archive,
 				// but following items are intentionally added because icons in the context menu will not appear
-				// unless there is at least one menu item with an icon that is not an OpacityIcon. (#12943)
+				// unless there is at least one menu item with an icon that is not an ThemedIconModel. (#12943)
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,

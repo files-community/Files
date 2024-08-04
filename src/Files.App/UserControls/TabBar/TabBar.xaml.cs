@@ -18,6 +18,7 @@ namespace Files.App.UserControls.TabBar
 
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly IAppearanceSettingsService AppearanceSettingsService = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
+		private readonly IWindowContext WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
 
 		// Fields
 
@@ -44,12 +45,8 @@ namespace Files.App.UserControls.TabBar
 		public bool ShowTabActionsButton
 			=> AppearanceSettingsService.ShowTabActions;
 
-		// Dragging makes the app crash when run as admin.
-		// For more information:
-		// - https://github.com/files-community/Files/issues/12390
-		// - https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
 		public bool AllowTabsDrag
-			=> !ElevationHelpers.IsAppRunAsAdmin();
+			=> WindowContext.CanDragAndDrop;
 
 		public Rectangle DragArea
 			=> DragAreaRectangle;
@@ -64,7 +61,7 @@ namespace Files.App.UserControls.TabBar
 		{
 			InitializeComponent();
 
-			tabHoverTimer.Interval = TimeSpan.FromMilliseconds(1000);
+			tabHoverTimer.Interval = TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToOpenTimespan);
 			tabHoverTimer.Tick += TabHoverSelected;
 
 			var appWindow = MainWindow.Instance.AppWindow;
@@ -172,7 +169,7 @@ namespace Files.App.UserControls.TabBar
 		{
 			if (e.DataView.Properties.ContainsKey(TabPathIdentifier))
 			{
-				HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
+				HorizontalTabView.CanReorderTabs = WindowContext.CanDragAndDrop;
 
 				e.AcceptedOperation = DataPackageOperation.Move;
 				e.DragUIOverride.Caption = "TabStripDragAndDropUIOverrideCaption".GetLocalizedResource();
@@ -187,12 +184,12 @@ namespace Files.App.UserControls.TabBar
 
 		private void TabView_DragLeave(object sender, DragEventArgs e)
 		{
-			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
+			HorizontalTabView.CanReorderTabs = WindowContext.CanDragAndDrop;
 		}
 
 		private async void TabView_TabStripDrop(object sender, DragEventArgs e)
 		{
-			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
+			HorizontalTabView.CanReorderTabs = WindowContext.CanDragAndDrop;
 
 			if (!(sender is TabView tabStrip))
 				return;

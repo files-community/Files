@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Files.App.Controls;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.Menus;
 using Files.App.ViewModels.Layouts;
@@ -39,6 +40,7 @@ namespace Files.App.Views.Layouts
 		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 		protected ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		public InfoPaneViewModel InfoPaneViewModel { get; } = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
+		protected readonly IWindowContext WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
 
 		// ViewModels
 
@@ -82,10 +84,8 @@ namespace Files.App.Views.Layouts
 		public static AppModel AppModel
 			=> App.AppModel;
 
-		// NOTE: Dragging makes the app crash when run as admin. (#12390)
-		// For more information, visit https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
 		public bool AllowItemDrag
-			=> !ElevationHelpers.IsAppRunAsAdmin();
+			=> WindowContext.CanDragAndDrop;
 
 		public CommandBarFlyout ItemContextMenuFlyout { get; set; } = new()
 		{
@@ -216,14 +216,31 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		private bool isSelectedItemsSorted = false;
 		private List<ListedItem>? selectedItems = [];
 		public List<ListedItem>? SelectedItems
 		{
-			get => selectedItems;
+			get
+			{
+				if (!isSelectedItemsSorted)
+				{
+					var orderedItems = SortingHelper.OrderFileList(selectedItems, FolderSettings.DirectorySortOption, FolderSettings.DirectorySortDirection, FolderSettings.SortDirectoriesAlongsideFiles, FolderSettings.SortFilesFirst).ToList();
+					selectedItems = orderedItems;
+					isSelectedItemsSorted = true;
+				}
+
+				return SelectedItem is null || !selectedItems!.Contains(SelectedItem)
+					? selectedItems
+					: selectedItems
+						.SkipWhile(x => x != SelectedItem)
+						.Concat(selectedItems.TakeWhile(x => x != SelectedItem))
+						.ToList();
+			}
 			internal set
 			{
 				if (value != selectedItems)
 				{
+					isSelectedItemsSorted = false;
 					selectedItems = value;
 
 					if (selectedItems?.Count == 0 || selectedItems?[0] is null)
@@ -261,7 +278,6 @@ namespace Files.App.Views.Layouts
 
 					NotifyPropertyChanged(nameof(SelectedItems));
 				}
-
 				ParentShellPageInstance!.ToolbarViewModel.SelectedItems = value;
 			}
 		}
@@ -739,9 +755,9 @@ namespace Files.App.Views.Layouts
 			contextMenu.SecondaryCommands.Insert(index + 1, new AppBarButton()
 			{
 				Label = "EditTags".GetLocalizedResource(),
-				Content = new OpacityIcon()
+				Content = new ThemedIcon()
 				{
-					Style = (Style)Application.Current.Resources["ColorIconTag"],
+					Style = (Style)Application.Current.Resources["App.ThemedIcons.TagEdit"],
 				},
 				Flyout = fileTagsContextMenu
 			});
@@ -865,10 +881,10 @@ namespace Files.App.Views.Layouts
 					openWithOverflow.Visibility = Visibility.Visible;
 
 					// TODO delete this when https://github.com/microsoft/microsoft-ui-xaml/issues/9409 is resolved
-					openWithOverflow.Content = new OpacityIconModel()
+					openWithOverflow.Content = new ThemedIconModel()
 					{
-						OpacityIconStyle = "ColorIconOpenWith"
-					}.ToOpacityIcon();
+						ThemedIconStyle = "App.ThemedIcons.OpenWith"
+					}.ToThemedIcon();
 					openWithOverflow.Label = "OpenWith".GetLocalizedResource();
 				}
 			}
@@ -971,7 +987,12 @@ namespace Files.App.Views.Layouts
 		{
 			try
 			{
-				var shellItemList = SafetyExtensions.IgnoreExceptions(() => e.Items.OfType<ListedItem>().Select(x => new VanaraWindowsShell.ShellItem(x.ItemPath)).ToArray());
+				var itemList = e.Items.OfType<ListedItem>().ToList();
+				var firstItem = itemList.FirstOrDefault();
+				var sortedItems = SortingHelper.OrderFileList(itemList, FolderSettings.DirectorySortOption, FolderSettings.DirectorySortDirection, FolderSettings.SortDirectoriesAlongsideFiles, FolderSettings.SortFilesFirst).ToList();
+				var orderedItems = sortedItems.SkipWhile(x => x != firstItem).Concat(sortedItems.TakeWhile(x => x != firstItem)).ToList();
+
+				var shellItemList = SafetyExtensions.IgnoreExceptions(() => orderedItems.Select(x => new VanaraWindowsShell.ShellItem(x.ItemPath)).ToArray());
 				if (shellItemList?[0].FileSystemPath is not null && !InstanceViewModel.IsPageTypeSearchResults)
 				{
 					var iddo = shellItemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
@@ -987,7 +1008,7 @@ namespace Files.App.Views.Layouts
 				else
 				{
 					// Only support IStorageItem capable paths
-					var storageItemList = e.Items.OfType<ListedItem>().Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x));
+					var storageItemList = orderedItems.Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x));
 					e.Data.SetStorageItems(storageItemList, false);
 				}
 			}
@@ -1095,7 +1116,7 @@ namespace Files.App.Views.Layouts
 								Commands.OpenItem.ExecuteAsync();
 							}
 						},
-						TimeSpan.FromMilliseconds(1000), false);
+						TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToOpenTimespan), false);
 					}
 				}
 			}
@@ -1176,19 +1197,26 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		protected static void FileListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
+		protected internal void FileListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			if (sender is not SelectorItem selectorItem)
 				return;
 
-			if (selectorItem.IsSelected && e.KeyModifiers == VirtualKeyModifiers.Control)
+			if (selectorItem.IsSelected)
 			{
-				selectorItem.IsSelected = false;
+				if (e.KeyModifiers == VirtualKeyModifiers.Control)
+				{
+					selectorItem.IsSelected = false;
 
-				// Prevent issues arising caused by the default handlers attempting to select the item that has just been deselected by ctrl + click
-				e.Handled = true;
+					// Prevent issues arising caused by the default handlers attempting to select the item that has just been deselected by ctrl + click
+					e.Handled = true;
+				}
+				else
+				{
+					SelectedItem = GetItemFromElement(sender);
+				}
 			}
-			else if (!selectorItem.IsSelected && e.GetCurrentPoint(selectorItem).Properties.IsLeftButtonPressed)
+			else if (e.GetCurrentPoint(selectorItem).Properties.IsLeftButtonPressed)
 			{
 				selectorItem.IsSelected = true;
 			}

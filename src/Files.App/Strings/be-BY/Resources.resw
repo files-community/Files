@@ -121,10 +121,10 @@
     <value>Новае акно</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Скапіраваць шлях</value>
+    <value>Скапіяваць шлях</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>Скапіраваць шлях з двукоссем</value>
+    <value>Скапіяваць шлях з двукоссем</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Агляд</value>
@@ -148,7 +148,7 @@
     <value>Памер без сціскання:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
-    <value>Немагчыма выканаць дзеянне</value>
+    <value>Немагчыма выканаць гэта дзеянне</value>
   </data>
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
     <value>Папка назначэння</value>
@@ -2356,6 +2356,9 @@
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Toggle whether to show hidden items</value>
+  </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>Toggle whether to show dot files</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Toggle whether to show file extensions</value>

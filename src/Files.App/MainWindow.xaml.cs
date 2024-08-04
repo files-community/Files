@@ -1,11 +1,13 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
+using System.Runtime.InteropServices;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using WinUIEx;
@@ -57,15 +59,18 @@ namespace Files.App
 		{
 			var rootFrame = EnsureWindowIsInitialized();
 
-			rootFrame.Navigate(typeof(SplashScreenPage));
+			rootFrame?.Navigate(typeof(SplashScreenPage));
 		}
 
 		public async Task InitializeApplicationAsync(object activatedEventArgs)
 		{
+			var rootFrame = EnsureWindowIsInitialized();
+
+			if (rootFrame is null)
+				return;
+
 			// Set system backdrop
 			SystemBackdrop = new AppSystemBackdrop();
-
-			var rootFrame = EnsureWindowIsInitialized();
 
 			switch (activatedEventArgs)
 			{
@@ -208,22 +213,29 @@ namespace Files.App
 				Instance.Restore(); // Restore window if minimized
 		}
 
-		public Frame EnsureWindowIsInitialized()
+		private Frame? EnsureWindowIsInitialized()
 		{
-			// NOTE:
-			//  Do not repeat app initialization when the Window already has content,
-			//  just ensure that the window is active
-			if (Instance.Content is not Frame rootFrame)
+			try
 			{
-				// Create a Frame to act as the navigation context and navigate to the first page
-				rootFrame = new() { CacheSize = 1 };
-				rootFrame.NavigationFailed += OnNavigationFailed;
+				// NOTE:
+				//  Do not repeat app initialization when the Window already has content,
+				//  just ensure that the window is active
+				if (Instance.Content is not Frame rootFrame)
+				{
+					// Create a Frame to act as the navigation context and navigate to the first page
+					rootFrame = new() { CacheSize = 1 };
+					rootFrame.NavigationFailed += OnNavigationFailed;
 
-				// Place the frame in the current Window
-				Instance.Content = rootFrame;
+					// Place the frame in the current Window
+					Instance.Content = rootFrame;
+				}
+
+				return rootFrame;
 			}
-
-			return rootFrame;
+			catch (COMException)
+			{
+				return null;
+			}
 		}
 
 		/// <summary>
@@ -247,11 +259,26 @@ namespace Files.App
 				}
 
 				var generalSettingsService = Ioc.Default.GetService<IGeneralSettingsService>();
+
+				double boundsWidth = 0;
+				try
+				{
+					boundsWidth = Bounds.Width;
+				}
+				catch (Exception ex)
+				{
+					// Handle exception in case WinUI Windows is closed
+					// (see https://github.com/files-community/Files/issues/15599)
+
+					App.Logger.LogWarning(ex, ex.Message);
+					return;
+				}
+
 				var paneNavigationArgs = new PaneNavigationArguments
 				{
 					LeftPaneNavPathParam = payload,
 					LeftPaneSelectItemParam = selectItem,
-					RightPaneNavPathParam = Bounds.Width > Constants.UI.MultiplePaneWidthThreshold && (generalSettingsService?.AlwaysOpenDualPaneInNewTab ?? false) ? "Home" : null,
+					RightPaneNavPathParam = boundsWidth > Constants.UI.MultiplePaneWidthThreshold && (generalSettingsService?.AlwaysOpenDualPaneInNewTab ?? false) ? "Home" : null,
 				};
 
 				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())

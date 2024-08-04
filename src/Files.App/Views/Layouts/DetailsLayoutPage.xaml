@@ -4,6 +4,7 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:behaviors="using:Files.App.Data.Behaviors"
+	xmlns:controls="using:Files.App.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:datamodels="using:Files.App.Data.Models"
@@ -949,7 +950,10 @@
 												HorizontalAlignment="Left"
 												VerticalAlignment="Bottom"
 												x:Load="{x:Bind IsShortcut}">
-												<uc:OpacityIcon Style="{StaticResource ColorIconShortcut}" />
+												<controls:ThemedIcon
+													Width="12"
+													Height="12"
+													Style="{StaticResource App.ThemedIcons.Shortcut}" />
 											</Border>
 											<Image
 												x:Name="ShieldOverlay"
@@ -1020,7 +1024,7 @@
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
 										x:Load="{x:Bind IsGitItem}">
-										<uc:OpacityIcon
+										<controls:ThemedIcon
 											Width="16"
 											Height="16"
 											HorizontalAlignment="Left"
@@ -1115,10 +1119,14 @@
 															Tapped="TagItem_Tapped"
 															ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
 															<!--  Tag icon  -->
-															<PathIcon
+															<controls:ThemedIcon
+																Width="16"
+																Height="16"
 																VerticalAlignment="Center"
-																Data="{StaticResource ColorIconFilledTag}"
-																Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
+																IconColorType="Custom"
+																IsFilled="True"
+																Style="{StaticResource App.ThemedIcons.Tag}"
+																Color="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
 															<!--  Tag name  -->
 															<TextBlock
 																MaxWidth="200"
@@ -1258,11 +1266,11 @@
 										Background="Transparent"
 										ToolTipService.ToolTip="{x:Bind SyncStatusUI.SyncStatusString, Mode=OneWay}"
 										Visibility="{Binding ColumnsViewModel.StatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
-										<uc:OpacityIcon
+										<controls:ThemedIcon
 											Width="16"
 											Height="16"
 											HorizontalAlignment="Left"
-											Style="{x:Bind SyncStatusUI.OpacityIcon, Mode=OneWay}" />
+											Style="{x:Bind SyncStatusUI.ThemedIconStyle, Mode=OneWay}" />
 									</Border>
 
 									<!--  Visual Status Managing  -->

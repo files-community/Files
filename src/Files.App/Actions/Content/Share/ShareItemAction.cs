@@ -16,7 +16,7 @@ namespace Files.App.Actions
 			=> "ShareItemDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconShare");
+			=> new(themedIconStyle: "App.ThemedIcons.Share");
 
 		public bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&

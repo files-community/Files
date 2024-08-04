@@ -397,7 +397,6 @@ namespace Files.App.ViewModels.UserControls
 				}
 			}
 
-			section.IsExpanded = Ioc.Default.GetRequiredService<SettingsViewModel>().Get(section.Text == "Pinned".GetLocalizedResource(), $"section:{section.Text.Replace('\\', '_')}");
 			section.PropertyChanged += Section_PropertyChanged;
 		}
 
@@ -405,7 +404,30 @@ namespace Files.App.ViewModels.UserControls
 		{
 			if (sender is LocationItem section && e.PropertyName == nameof(section.IsExpanded))
 			{
-				Ioc.Default.GetRequiredService<SettingsViewModel>().Set(section.IsExpanded, $"section:{section.Text.Replace('\\', '_')}");
+				switch (section.Text)
+				{
+					case var text when text == "Pinned".GetLocalizedResource():
+						UserSettingsService.GeneralSettingsService.IsPinnedSectionExpanded = section.IsExpanded;
+						break;
+					case var text when text == "SidebarLibraries".GetLocalizedResource():
+						UserSettingsService.GeneralSettingsService.IsLibrarySectionExpanded = section.IsExpanded;
+						break;
+					case var text when text == "Drives".GetLocalizedResource():
+						UserSettingsService.GeneralSettingsService.IsDriveSectionExpanded = section.IsExpanded;
+						break;
+					case var text when text == "SidebarCloudDrives".GetLocalizedResource():
+						UserSettingsService.GeneralSettingsService.IsCloudDriveSectionExpanded = section.IsExpanded;
+						break;
+					case var text when text == "Network".GetLocalizedResource():
+						UserSettingsService.GeneralSettingsService.IsNetworkSectionExpanded = section.IsExpanded;
+						break;
+					case var text when text == "WSL".GetLocalizedResource():
+						UserSettingsService.GeneralSettingsService.IsWslSectionExpanded = section.IsExpanded;
+						break;
+					case var text when text == "FileTags".GetLocalizedResource():
+						UserSettingsService.GeneralSettingsService.IsFileTagsSectionExpanded = section.IsExpanded;
+						break;
+				}
 			}
 		}
 
@@ -448,6 +470,7 @@ namespace Files.App.ViewModels.UserControls
 						section = BuildSection("Pinned".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.StarIcon));
 						section.IsHeader = true;
+						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsPinnedSectionExpanded;
 
 						break;
 					}
@@ -461,6 +484,7 @@ namespace Files.App.ViewModels.UserControls
 						section = BuildSection("SidebarLibraries".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.Libraries;
 						section.IsHeader = true;
+						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsLibrarySectionExpanded;
 
 						break;
 					}
@@ -474,6 +498,7 @@ namespace Files.App.ViewModels.UserControls
 						section = BuildSection("Drives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.ThisPC;
 						section.IsHeader = true;
+						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsDriveSectionExpanded;
 
 						break;
 					}
@@ -487,6 +512,7 @@ namespace Files.App.ViewModels.UserControls
 						section = BuildSection("SidebarCloudDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.CloudDriveIcon));
 						section.IsHeader = true;
+						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsCloudDriveSectionExpanded;
 
 						break;
 					}
@@ -500,6 +526,7 @@ namespace Files.App.ViewModels.UserControls
 						section = BuildSection("Network".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.Network;
 						section.IsHeader = true;
+						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsNetworkSectionExpanded;
 
 						break;
 					}
@@ -513,6 +540,7 @@ namespace Files.App.ViewModels.UserControls
 						section = BuildSection("WSL".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.WslIconsPaths.GenericIcon));
 						section.IsHeader = true;
+						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsWslSectionExpanded;
 
 						break;
 					}
@@ -526,6 +554,7 @@ namespace Files.App.ViewModels.UserControls
 						section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FileTagsIcon));
 						section.IsHeader = true;
+						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsFileTagsSectionExpanded;
 
 						break;
 					}
@@ -976,9 +1005,9 @@ namespace Files.App.ViewModels.UserControls
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "PinFolderToSidebar".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					ThemedIconModel = new ThemedIconModel()
 					{
-						OpacityIconStyle = "Icons.Pin.16x16",
+						ThemedIconStyle = "App.ThemedIcons.FavoritePin",
 					},
 					Command = PinItemCommand,
 					ShowItem = isDriveItem && !isDriveItemPinned
@@ -986,9 +1015,9 @@ namespace Files.App.ViewModels.UserControls
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "UnpinFolderFromSidebar".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					ThemedIconModel = new ThemedIconModel()
 					{
-						OpacityIconStyle = "Icons.Unpin.16x16",
+						ThemedIconStyle = "App.ThemedIcons.FavoritePinRemove",
 					},
 					Command = UnpinItemCommand,
 					ShowItem = options.ShowUnpinItem || isDriveItemPinned
@@ -1023,9 +1052,9 @@ namespace Files.App.ViewModels.UserControls
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Properties".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					ThemedIconModel = new ThemedIconModel()
 					{
-						OpacityIconStyle = "ColorIconProperties",
+						ThemedIconStyle = "App.ThemedIcons.Properties",
 					},
 					Command = OpenPropertiesCommand,
 					CommandParameter = menu,

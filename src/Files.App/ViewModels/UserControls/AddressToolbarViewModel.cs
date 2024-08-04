@@ -188,13 +188,13 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		private Style _LayoutOpacityIcon;
-		public Style LayoutOpacityIcon
+		private Style _LayoutThemedIcon;
+		public Style LayoutThemedIcon
 		{
-			get => _LayoutOpacityIcon;
+			get => _LayoutThemedIcon;
 			set
 			{
-				if (SetProperty(ref _LayoutOpacityIcon, value))
+				if (SetProperty(ref _LayoutThemedIcon, value))
 				{
 				}
 			}
@@ -373,7 +373,7 @@ namespace Files.App.ViewModels.UserControls
 							dragOverPath = null;
 						}
 					},
-					TimeSpan.FromMilliseconds(1000), false);
+					TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToOpenTimespan), false);
 				}
 			}
 
@@ -969,13 +969,13 @@ namespace Files.App.ViewModels.UserControls
 			switch (e.PropertyName)
 			{
 				case nameof(LayoutPreferencesManager.LayoutMode):
-					LayoutOpacityIcon = instanceViewModel.FolderSettings.LayoutMode switch
+					LayoutThemedIcon = instanceViewModel.FolderSettings.LayoutMode switch
 					{
-						FolderLayoutModes.ListView => Commands.LayoutList.OpacityStyle!,
-						FolderLayoutModes.TilesView => Commands.LayoutTiles.OpacityStyle!,
-						FolderLayoutModes.ColumnView => Commands.LayoutColumns.OpacityStyle!,
-						FolderLayoutModes.GridView => Commands.LayoutGrid.OpacityStyle!,
-						_ => Commands.LayoutDetails.OpacityStyle!
+						FolderLayoutModes.ListView => Commands.LayoutList.ThemedIconStyle!,
+						FolderLayoutModes.TilesView => Commands.LayoutTiles.ThemedIconStyle!,
+						FolderLayoutModes.ColumnView => Commands.LayoutColumns.ThemedIconStyle!,
+						FolderLayoutModes.GridView => Commands.LayoutGrid.ThemedIconStyle!,
+						_ => Commands.LayoutDetails.ThemedIconStyle!
 					};
 					OnPropertyChanged(nameof(IsTilesLayout));
 					OnPropertyChanged(nameof(IsListLayout));

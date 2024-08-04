@@ -373,7 +373,7 @@
     <value>Die Datei, auf die du zugreifen möchtest, wird derzeit von {0} verwendet</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>Die Datei, auf die du zuzugreifen versuchst, wird gerade von einer anderen Bewerbung verwendet</value>
+    <value>Die Datei, auf die du zuzugreifen versuchst, wird gerade von einer anderen Anwendung verwendet</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Datei wird bereits verwendet.</value>
@@ -1617,7 +1617,7 @@
     <value>Lädt die Datei aus der Cloud herunter und lädt die Vorschau.</value>
   </data>
   <data name="DetailsArchiveItems" xml:space="preserve">
-    <value>{0, plural, one {# Element } other {# Elemente }}{1, plural, one {# Datei } other {# Dateien }}{2, plural, one {# Ordner} other {# Ordner}}</value>
+    <value>{0, plural, one {# Element } other {# Elemente }} ({1, plural, one {# Datei} other {# Dateien}}, {2, plural, one {# Ordner} other {# Ordner}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Unkomprimierte Größe</value>
@@ -2356,6 +2356,9 @@
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Umschalten, ob versteckte Elemente angezeigt werden sollen</value>
+  </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>Toggle whether to show dot files</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Umschalten, ob Dateierweiterungen angezeigt werden sollen</value>

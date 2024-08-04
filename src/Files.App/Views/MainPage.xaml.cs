@@ -12,10 +12,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using Sentry;
-using System.Data;
 using Windows.ApplicationModel;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
 using Windows.Services.Store;
@@ -28,23 +25,13 @@ namespace Files.App.Views
 	{
 		private IGeneralSettingsService generalSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 		public IUserSettingsService UserSettingsService { get; }
-
+		private readonly IWindowContext WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
 		public ICommandManager Commands { get; }
-
-		public IWindowContext WindowContext { get; }
-
 		public SidebarViewModel SidebarAdaptiveViewModel { get; }
-
 		public MainPageViewModel ViewModel { get; }
-
 		public StatusCenterViewModel OngoingTasksViewModel { get; }
 
-		public static AppModel AppModel
-			=> App.AppModel;
-
 		private bool keyReleased = true;
-
-		private bool isAppRunningAsAdmin => ElevationHelpers.IsAppRunAsAdmin();
 
 		private DispatcherQueueTimer _updateDateDisplayTimer;
 
@@ -55,7 +42,6 @@ namespace Files.App.Views
 			// Dependency Injection
 			UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			Commands = Ioc.Default.GetRequiredService<ICommandManager>();
-			WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
 			SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
 			SidebarAdaptiveViewModel.PaneFlyout = (MenuFlyout)Resources["SidebarContextMenu"];
 			ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
@@ -113,7 +99,7 @@ namespace Files.App.Views
 				SecondaryButtonText = "DontShowAgain".ToLocalized()
 			};
 
-			var result = await runningAsAdminPrompt.TryShowAsync();
+			var result = await SetContentDialogRoot(runningAsAdminPrompt).TryShowAsync();
 
 			if (result == ContentDialogResult.Secondary)
 				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt = false;
@@ -307,7 +293,7 @@ namespace Files.App.Views
 			if
 			(
 				AppLifecycleHelper.AppEnvironment is not AppEnvironment.Dev &&
-				isAppRunningAsAdmin &&
+				WindowContext.IsRunningAsAdmin &&
 				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt
 			)
 			{
@@ -499,14 +485,6 @@ namespace Files.App.Views
 		{
 			this.ChangeCursor(InputSystemCursor.Create(PaneSplitter.GripperCursor == GridSplitter.GripperCursorType.SizeWestEast ?
 				InputSystemCursorShape.SizeWestEast : InputSystemCursorShape.SizeNorthSouth));
-		}
-
-		private void TogglePaneButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (SidebarControl.DisplayMode == SidebarDisplayMode.Minimal)
-			{
-				SidebarControl.IsPaneOpen = !SidebarControl.IsPaneOpen;
-			}
 		}
 	}
 }

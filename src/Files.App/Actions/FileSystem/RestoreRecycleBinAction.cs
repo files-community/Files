@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "RestoreRecycleBinDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconRestoreItem");
+			=> new(themedIconStyle: "App.ThemedIcons.RestoreDeleted");
 
 		public override bool IsExecutable =>
 			context.PageType is ContentPageTypes.RecycleBin &&

@@ -18,7 +18,7 @@ namespace Files.App.Actions
 			=> new(Keys.V, KeyModifiers.AltShift);
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconAddVerticalPane");
+			=> new(themedIconStyle: "App.ThemedIcons.Panes.Horizontal");
 
 		public bool IsExecutable =>
 			ContentPageContext.IsMultiPaneAvailable &&

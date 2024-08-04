@@ -216,6 +216,11 @@ namespace Files.App
 		{
 			public const int MaxSelectedItems = 5;
 		}
+		
+		public static class DragAndDrop
+		{
+			public const Int32 HoverToOpenTimespan = 1300;
+		}
 
 		public static class UserEnvironmentPaths
 		{
@@ -239,6 +244,14 @@ namespace Files.App
 			public static readonly string SystemRootPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
 
 			public static readonly string RecentItemsPath = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
+
+			public static readonly string SystemDrivePath;
+
+			static UserEnvironmentPaths()
+			{
+				var systemDrive = Environment.GetEnvironmentVariable("SystemDrive");
+				SystemDrivePath = !string.IsNullOrEmpty(systemDrive) ? systemDrive : "C:";
+			}
 
 			public static Dictionary<string, string> ShellPlaces =
 				new()

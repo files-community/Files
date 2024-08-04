@@ -2357,6 +2357,9 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Alternar se deseja mostrar itens ocultos</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>Alternar se deseja mostrar arquivos dot</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Alternar entre mostrar extensões de arquivos</value>
   </data>
@@ -3076,7 +3079,7 @@
     <value>Buscar</value>
   </data>
   <data name="GitPull" xml:space="preserve">
-    <value>Puxar</value>
+    <value>Obter</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
     <value>Executar busca no git</value>
@@ -3125,7 +3128,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Material de plano de fundo</value>
+    <value>Material de Background</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Sólido</value>
@@ -3134,7 +3137,7 @@
     <value>Gerenciar filiais</value>
   </data>
   <data name="Push" xml:space="preserve">
-    <value>Empurrar</value>
+    <value>Enviar</value>
   </data>
   <data name="GitPushDescription" xml:space="preserve">
     <value>Executar push do git</value>
@@ -3796,7 +3799,7 @@
     <value>Alinhamento vertical</value>
   </data>
   <data name="ThinAcrylic" xml:space="preserve">
-    <value>acrílico fino</value>
+    <value>Acrílico Fino</value>
     <comment>This is a type of backdrop for the application background</comment>
   </data>
   <data name="AllLocations" xml:space="preserve">

@@ -23,7 +23,9 @@ namespace Files.App.Utils.Logger
 		public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
 		{
 			// Unhandled exceptions are captured in AppLifecycleHelper.HandleAppUnhandledException
-			if (exception is null || exception.Data[Mechanism.HandledKey] is false)
+			if (exception is null ||
+				exception.Data[Mechanism.HandledKey] is false ||
+				logLevel <= LogLevel.Information)
 				return;
 
 			var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();

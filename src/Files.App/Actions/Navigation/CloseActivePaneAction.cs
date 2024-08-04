@@ -17,7 +17,7 @@ namespace Files.App.Actions
 			=> new(Keys.W, KeyModifiers.CtrlShift);
 
 		public RichGlyph Glyph
-			=> new("\uE89F");
+			=> new(themedIconStyle: "App.ThemedIcons.PanelLeftClose");
 
 		public bool IsExecutable
 			=> ContentPageContext.IsMultiPaneActive;

@@ -196,7 +196,7 @@
 											ToolTipService.ToolTip="{x:Bind Tag.Name}">
 											<PathIcon
 												VerticalAlignment="Center"
-												Data="{StaticResource ColorIconFilledTag}"
+												Data="{StaticResource App.Theme.PathIcon.FilledTag}"
 												Foreground="{x:Bind NewColor, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
 											<TextBlock
 												x:Name="TagName"

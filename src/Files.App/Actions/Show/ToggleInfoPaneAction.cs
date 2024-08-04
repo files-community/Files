@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "ToggleInfoPaneDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconRightPane");
+			=> new(themedIconStyle: "App.ThemedIcons.PanelRight");
 
 		public HotKey HotKey
 			=> new(Keys.I, KeyModifiers.CtrlAlt);

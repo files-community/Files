@@ -3,7 +3,7 @@
 	x:Class="Files.App.UserControls.InfoPane"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+	xmlns:controls="using:Files.App.Controls"
 	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
@@ -11,6 +11,7 @@
 	xmlns:local="using:Files.App.Converters"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:properties="using:Files.App.ViewModels.Properties"
+	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:usercontrols="using:Files.App.UserControls"
 	x:Name="Root"
@@ -290,7 +291,7 @@
 						SelectionMode="None">
 						<GridView.ItemsPanel>
 							<ItemsPanelTemplate>
-								<controls:WrapPanel Orientation="Horizontal" VerticalSpacing="-8" />
+								<toolkit:WrapPanel Orientation="Horizontal" VerticalSpacing="-8" />
 							</ItemsPanelTemplate>
 						</GridView.ItemsPanel>
 
@@ -316,10 +317,13 @@
 											Tapped="TagItem_Tapped"
 											ToolTipService.ToolTip="{x:Bind AsTag.Tag.Name, Mode=OneWay}">
 											<!--  Tag icon  -->
-											<PathIcon
-												VerticalAlignment="Center"
-												Data="{StaticResource ColorIconFilledTag}"
-												Foreground="{x:Bind AsTag.Tag.Color, Mode=OneWay}" />
+											<controls:ThemedIcon
+												Width="16"
+												Height="16"
+												IconColorType="Custom"
+												IsFilled="True"
+												Style="{StaticResource App.ThemedIcons.Tag}"
+												Color="{x:Bind AsTag.Tag.Color, Mode=OneWay}" />
 											<!--  Tag name  -->
 											<TextBlock
 												HorizontalAlignment="Stretch"
@@ -350,11 +354,11 @@
 													Orientation="Horizontal"
 													Spacing="8">
 													<!--  Icon  -->
-													<usercontrols:OpacityIcon
+													<controls:ThemedIcon
 														Width="16"
 														Height="16"
 														VerticalAlignment="Center"
-														Style="{StaticResource ColorIconEditTag}" />
+														Style="{StaticResource App.ThemedIcons.TagEdit}" />
 													<!--  Text  -->
 													<TextBlock
 														HorizontalAlignment="Stretch"
@@ -393,7 +397,7 @@
 					Visibility="Collapsed">
 					<Button.Content>
 						<StackPanel Orientation="Horizontal" Spacing="8">
-							<usercontrols:OpacityIcon Style="{x:Bind Commands.OpenProperties.OpacityStyle}" />
+							<controls:ThemedIcon Style="{x:Bind Commands.OpenProperties.ThemedIconStyle}" />
 							<TextBlock Text="{helpers:ResourceString Name=Properties}" />
 						</StackPanel>
 					</Button.Content>

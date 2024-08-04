@@ -30,11 +30,12 @@ namespace Files.App.Services.Settings
 		public FileTagsSettingsService()
 		{
 			SettingsSerializer = new DefaultSettingsSerializer();
-			JsonSettingsSerializer = new DefaultJsonSettingsSerializer();
-			JsonSettingsDatabase = new CachingJsonSettingsDatabase(SettingsSerializer, JsonSettingsSerializer);
 
 			Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path,
 				Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.FileTagSettingsFileName));
+
+			JsonSettingsSerializer = new DefaultJsonSettingsSerializer();
+			JsonSettingsDatabase = new CachingJsonSettingsDatabase(SettingsSerializer, JsonSettingsSerializer);
 		}
 
 		public IList<TagViewModel> FileTagList

@@ -52,6 +52,7 @@ namespace Files.App.Views
 
 			// Set path of working directory empty
 			await AppInstance.ShellViewModel.SetWorkingDirectoryAsync("Home");
+			AppInstance.ShellViewModel.CheckForBackgroundImage();
 
 			AppInstance.SlimContentPage?.StatusBarViewModel.UpdateGitInfo(false, string.Empty, null);
 
