@@ -47,6 +47,7 @@
 							Content="{TemplateBinding Content}"
 							ContentTemplate="{TemplateBinding ContentTemplate}"
 							ContentTransitions="{TemplateBinding ContentTransitions}"
+							IsTabStop="False"
 							Visibility="Collapsed" />
 
 						<local:ThemedIcon
@@ -54,6 +55,8 @@
 							Width="{TemplateBinding IconSize}"
 							Height="{TemplateBinding IconSize}"
 							IconSize="{TemplateBinding IconSize}"
+							IsFocusEngagementEnabled="False"
+							IsTabStop="False"
 							Style="{TemplateBinding ThemedIcon}" />
 
 						<VisualStateManager.VisualStateGroups>

@@ -6,10 +6,11 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Files.App.Controls.Primitives;
 using System.Collections.Generic;
+using Microsoft.UI.Xaml.Markup;
 
 namespace Files.App.Controls
 {
-	public partial class ToolbarItem : FrameworkElement
+	public partial class ToolbarItem : DependencyObject
 	{
 
 		#region ItemType (enum ToolbarItemTypes)

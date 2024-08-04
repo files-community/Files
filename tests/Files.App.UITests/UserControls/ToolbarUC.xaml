@@ -48,25 +48,21 @@
 
 				<controls:Toolbar.Items>
 					<controls:ToolbarItem
-						x:Name="testXamlItem001"
 						IconSize="16"
 						Label="Xaml Label 1"
 						ThemedIcon="{StaticResource App.ThemedIcons.Cut}" />
 					<controls:ToolbarItem
-						x:Name="testXamlItem002"
 						IconSize="16"
 						Label="Xaml Label 2"
 						ThemedIcon="{StaticResource App.ThemedIcons.Copy}">
 						<controls:ToolbarItem.SubItems>
 							<controls:ToolbarItem
-								x:Name="testXamlItem002a"
 								IconSize="16"
 								Label="Xaml Label 2a"
 								ThemedIcon="{StaticResource App.ThemedIcons.TagEdit}" />
 						</controls:ToolbarItem.SubItems>
 					</controls:ToolbarItem>
 					<controls:ToolbarItem
-						x:Name="testXamlItem003"
 						IconSize="16"
 						Label="Xaml Label 3"
 						ThemedIcon="{StaticResource App.ThemedIcons.PanelLeft}" />
@@ -87,6 +83,8 @@
 								Width="{x:Bind IconSize}"
 								Height="{x:Bind IconSize}"
 								IconSize="{x:Bind IconSize}"
+								IsFocusEngagementEnabled="False"
+								IsTabStop="False"
 								Style="{x:Bind ThemedIcon}" />
 						</StackPanel>
 					</DataTemplate>
@@ -149,8 +147,6 @@
 						</AnimatedIcon>
 					</controls:ToolbarButton.Content>
 				</controls:ToolbarButton>
-
-				<controls:ToolbarItem IconSize="16" Label="Test Label Xaml" />
 
 			</StackPanel>
 

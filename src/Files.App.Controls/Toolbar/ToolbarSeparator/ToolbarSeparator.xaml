@@ -10,6 +10,7 @@
 		<Setter Property="Foreground" Value="{ThemeResource ToolbarSeparatorForeground}" />
 		<Setter Property="Padding" Value="{ThemeResource ToolbarSeparatorMargin}" />
 		<Setter Property="IsTabStop" Value="False" />
+		<Setter Property="IsFocusEngagementEnabled" Value="False" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:ToolbarSeparator">

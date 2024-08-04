@@ -5,6 +5,7 @@ using Files.App.Controls.Primitives;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Markup;
 using System.Collections.Generic;
 
 namespace Files.App.Controls
@@ -14,7 +15,7 @@ namespace Files.App.Controls
 	/// and map them to other controls dependant on their overflow
 	/// behaviour and state
 	/// </summary>
-	public partial class ToolbarItem : FrameworkElement
+	public partial class ToolbarItem : DependencyObject
 	{
 
 		# region Update Item Properties

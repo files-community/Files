@@ -40,6 +40,7 @@
 				IconColorType="Custom"
 				IconSize="16"
 				IsFilled="True"
+				IsFocusEngagementEnabled="False"
 				Style="{StaticResource App.ThemedIcons.Settings.General.FilesDefault}">
 				<controls:ThemedIcon.Color>
 					<LinearGradientBrush StartPoint="0.3,0.3" EndPoint="1,1">
