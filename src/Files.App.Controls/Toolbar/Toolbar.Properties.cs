@@ -61,7 +61,7 @@ namespace Files.App.Controls
 				nameof( Items ), 
 				typeof( IList<ToolbarItem> ),
 				typeof(Toolbar), 
-				new PropertyMetadata( new List<ToolbarItem>(), (d, e) => ((Toolbar)d).OnItemsPropertyChanged(( IList<ToolbarItem> )e.OldValue, ( IList<ToolbarItem> )e.NewValue)));
+				new PropertyMetadata( defaultValue: new List<ToolbarItem>(), (d, e) => ((Toolbar)d).OnItemsPropertyChanged(( IList<ToolbarItem> )e.OldValue, ( IList<ToolbarItem> )e.NewValue)));
 
 
 
@@ -73,7 +73,7 @@ namespace Files.App.Controls
 
 
 
-		protected virtual void OnItemsPropertyChanged(IList<ToolbarItem> oldItems , IList<ToolbarItem> newItems)
+		private void OnItemsPropertyChanged(IList<ToolbarItem> oldItems , IList<ToolbarItem> newItems)
 		{
 			if ( newItems != oldItems )
 			{
@@ -122,6 +122,78 @@ namespace Files.App.Controls
 			}
 		}
 
+		#endregion
+
+
+
+		#region Private ToolbarItemList
+
+		/// <summary>
+		/// Identifies the protected ToolbarItemList dependency property.
+		/// </summary>
+		public static readonly DependencyProperty ItemListProperty =
+			DependencyProperty.Register(
+				nameof(ItemList),
+				typeof(ToolbarItemList),
+				typeof(Toolbar),
+				new PropertyMetadata(new ToolbarItemList(), (d, e) => ((Toolbar)d).OnItemListPropertyChanged(( ToolbarItemList )e.OldValue, ( ToolbarItemList )e.NewValue)));
+
+
+
+		/// <summary>
+		/// Gets or sets the protected ToolbarItemList of the control.
+		/// </summary>
+		private ToolbarItemList ItemList
+		{
+			get { return (ToolbarItemList)GetValue( ItemListProperty ); }
+			set { SetValue( ItemListProperty , value ); }
+		}
+
+
+
+		private void OnItemListPropertyChanged(ToolbarItemList oldList , ToolbarItemList newList)
+		{
+			if ( newList != oldList )
+			{
+				PrivateItemListChanged( newList );
+			}
+		}
+		#endregion
+
+
+
+		#region Private ToolbarItemOverflowList
+
+		/// <summary>
+		/// Identifies the protected ToolbarItemOverflowList dependency property.
+		/// </summary>
+		public static readonly DependencyProperty ItemOverflowListProperty =
+			DependencyProperty.Register(
+				nameof(ItemOverflowList),
+				typeof(ToolbarItemOverflowList),
+				typeof(Toolbar),
+				new PropertyMetadata(new ToolbarItemOverflowList(), (d, e) => ((Toolbar)d).OnItemOverflowListPropertyChanged(( ToolbarItemOverflowList )e.OldValue, ( ToolbarItemOverflowList )e.NewValue)));
+
+
+
+		/// <summary>
+		/// Gets or sets the protected ToolbarItemOverflowList of the control.
+		/// </summary>
+		private ToolbarItemOverflowList ItemOverflowList
+		{
+			get { return (ToolbarItemOverflowList)GetValue( ItemOverflowListProperty ); }
+			set { SetValue( ItemOverflowListProperty , value ); }
+		}
+
+
+
+		private void OnItemOverflowListPropertyChanged(ToolbarItemOverflowList oldList , ToolbarItemOverflowList newList)
+		{
+			if ( newList != oldList )
+			{
+				PrivateItemOverflowListChanged( newList );
+			}
+		}
 		#endregion
 	}
 }

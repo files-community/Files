@@ -16,12 +16,12 @@
 				<ControlTemplate TargetType="local:ToolbarSeparator">
 					<Grid x:Name="RootGrid">
 						<Rectangle
-						Width="{StaticResource ToolbarSeparatorWidth}"
-						Margin="{TemplateBinding Padding}"
-						VerticalAlignment="Stretch"
-						Fill="{TemplateBinding Foreground}"
-						RadiusX="{StaticResource ToolbarSeparatorCornerRadius}"
-						RadiusY="{StaticResource ToolbarSeparatorCornerRadius}" />
+							Width="{StaticResource ToolbarSeparatorWidth}"
+							Margin="{TemplateBinding Padding}"
+							VerticalAlignment="Stretch"
+							Fill="{TemplateBinding Foreground}"
+							RadiusX="{StaticResource ToolbarSeparatorCornerRadius}"
+							RadiusY="{StaticResource ToolbarSeparatorCornerRadius}" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>

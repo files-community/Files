@@ -44,49 +44,42 @@
 			<controls:Toolbar
 				x:Name="testToolbar"
 				HorizontalAlignment="Stretch"
-				ToolbarSize="Medium">
+				ToolbarSize="Large">
 
 				<controls:Toolbar.Items>
 					<controls:ToolbarItem
 						IconSize="16"
+						ItemType="Button"
 						Label="Xaml Label 1"
+						OverflowBehavior="Auto"
 						ThemedIcon="{StaticResource App.ThemedIcons.Cut}" />
 					<controls:ToolbarItem
 						IconSize="16"
+						ItemType="Button"
 						Label="Xaml Label 2"
+						OverflowBehavior="Always"
 						ThemedIcon="{StaticResource App.ThemedIcons.Copy}">
 						<controls:ToolbarItem.SubItems>
 							<controls:ToolbarItem
 								IconSize="16"
+								ItemType="Button"
 								Label="Xaml Label 2a"
+								OverflowBehavior="Auto"
 								ThemedIcon="{StaticResource App.ThemedIcons.TagEdit}" />
 						</controls:ToolbarItem.SubItems>
 					</controls:ToolbarItem>
+					<controls:ToolbarItem ItemType="Separator" OverflowBehavior="Auto" />
 					<controls:ToolbarItem
 						IconSize="16"
+						ItemType="ToggleButton"
 						Label="Xaml Label 3"
+						OverflowBehavior="Never"
 						ThemedIcon="{StaticResource App.ThemedIcons.PanelLeft}" />
 				</controls:Toolbar.Items>
 
 				<controls:Toolbar.ItemTemplate>
-					<DataTemplate x:DataType="controls:ToolbarItem">
-						<StackPanel
-							Padding="2"
-							BorderBrush="#80FFFFFF"
-							BorderThickness="1"
-							Orientation="Vertical">
-							<TextBlock
-								FontSize="12"
-								Foreground="Black"
-								Text="{x:Bind Label}" />
-							<controls:ThemedIcon
-								Width="{x:Bind IconSize}"
-								Height="{x:Bind IconSize}"
-								IconSize="{x:Bind IconSize}"
-								IsFocusEngagementEnabled="False"
-								IsTabStop="False"
-								Style="{x:Bind ThemedIcon}" />
-						</StackPanel>
+					<DataTemplate x:DataType="controls:IToolbarItemSet">
+						<ContentPresenter Content="{x:Bind}"/>
 					</DataTemplate>
 				</controls:Toolbar.ItemTemplate>
 			</controls:Toolbar>

@@ -22,6 +22,7 @@
 		<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
 		<Setter Property="FocusVisualMargin" Value="-3" />
 		<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+		<Setter Property="ToolTipService.Placement" Value="Bottom" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:ToolbarToggleButton">
@@ -36,7 +37,9 @@
 						BackgroundSizing="{TemplateBinding BackgroundSizing}"
 						BorderBrush="{TemplateBinding BorderBrush}"
 						BorderThickness="{TemplateBinding BorderThickness}"
-						CornerRadius="{TemplateBinding CornerRadius}">
+						CornerRadius="{TemplateBinding CornerRadius}"
+						ToolTipService.Placement="{TemplateBinding ToolTipService.Placement}"
+						ToolTipService.ToolTip="{TemplateBinding Label}">
 						<ContentPresenter
 							xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 							x:Name="PART_ContentPresenter"
@@ -47,7 +50,7 @@
 							Content="{TemplateBinding Content}"
 							ContentTemplate="{TemplateBinding ContentTemplate}"
 							ContentTransitions="{TemplateBinding ContentTransitions}"
-							IsTabStop="False"
+							Foreground="{TemplateBinding Foreground}"
 							Visibility="Collapsed" />
 
 						<local:ThemedIcon
@@ -55,8 +58,7 @@
 							Width="{TemplateBinding IconSize}"
 							Height="{TemplateBinding IconSize}"
 							IconSize="{TemplateBinding IconSize}"
-							IsFocusEngagementEnabled="False"
-							IsTabStop="False"
+							IsToggled="False"
 							Style="{TemplateBinding ThemedIcon}" />
 
 						<VisualStateManager.VisualStateGroups>
@@ -106,6 +108,9 @@
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="GridRoot" Storyboard.TargetProperty="Background">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBackgroundChecked}" />
 										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonCheckedForegroundThemeBrush}" />
+										</ObjectAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="GridRoot" Storyboard.TargetProperty="BorderBrush">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBorderBrushChecked}" />
 										</ObjectAnimationUsingKeyFrames>
@@ -113,11 +118,18 @@
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonCheckedStateBackgroundSizing}" />
 										</ObjectAnimationUsingKeyFrames>
 									</Storyboard>
+									<VisualState.Setters>
+										<Setter Target="PART_ThemedIcon.IsToggled" Value="False" />
+										<Setter Target="PART_ThemedIcon.IsFilled" Value="True" />
+									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="CheckedPointerOver">
 									<Storyboard>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="GridRoot" Storyboard.TargetProperty="Background">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBackgroundCheckedPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonCheckedForegroundThemeBrush}" />
 										</ObjectAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="GridRoot" Storyboard.TargetProperty="BorderBrush">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBorderBrushCheckedPointerOver}" />
@@ -132,6 +144,9 @@
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="GridRoot" Storyboard.TargetProperty="Background">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBackgroundCheckedPressed}" />
 										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonCheckedPressedForegroundThemeBrush}" />
+										</ObjectAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="GridRoot" Storyboard.TargetProperty="BorderBrush">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBorderBrushCheckedPressed}" />
 										</ObjectAnimationUsingKeyFrames>
@@ -144,6 +159,9 @@
 									<Storyboard>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="GridRoot" Storyboard.TargetProperty="Background">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBackgroundCheckedDisabled}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonCheckedDisabledForegroundThemeBrush}" />
 										</ObjectAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="GridRoot" Storyboard.TargetProperty="BorderBrush">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBorderBrushCheckedDisabled}" />

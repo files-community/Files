@@ -10,13 +10,13 @@
 	<Style BasedOn="{StaticResource DefaultToolbarStyle}" TargetType="local:Toolbar" />
 
 	<Style x:Key="DefaultToolbarStyle" TargetType="local:Toolbar">
-		<Setter Property="Background" Value="Red" />
+		<Setter Property="Background" Value="{ThemeResource ToolbarBackgroundBrush}" />
 		<Setter Property="BackgroundSizing" Value="OuterBorderEdge" />
-		<Setter Property="BorderBrush" Value="#88FFFF00" />
-		<Setter Property="BorderThickness" Value="1" />
-		<Setter Property="CornerRadius" Value="8,8,8,8" />
-		<Setter Property="Padding" Value="4,4,4,4" />
-
+		<Setter Property="BorderBrush" Value="{ThemeResource ToolbarBorderBrush}" />
+		<Setter Property="BorderThickness" Value="{ThemeResource ToolbarBorderThickness}" />
+		<Setter Property="CornerRadius" Value="{ThemeResource ToolbarCornerRadius}" />
+		<Setter Property="Padding" Value="{ThemeResource ToolbarInnerPadding}" />
+		<Setter Property="IsTabStop" Value="False" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:Toolbar">
@@ -33,7 +33,6 @@
 						<Grid x:Name="RootGrid">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="*" />
-								<ColumnDefinition x:Name="SeparatorColumn" Width="Auto" />
 								<ColumnDefinition x:Name="OverflowColumn" Width="Auto" />
 							</Grid.ColumnDefinitions>
 
@@ -43,81 +42,32 @@
 								Grid.Column="0"
 								HorizontalAlignment="Stretch"
 								VerticalAlignment="Stretch"
-								Background="#44000000"
 								ItemTemplate="{TemplateBinding ItemTemplate}"
 								ItemsSource="{TemplateBinding Items}"
+								TabFocusNavigation="Local"
 								Visibility="Visible">
 								<ItemsRepeater.Layout>
-									<StackLayout Orientation="Horizontal" Spacing="4" />
+									<StackLayout Orientation="Horizontal" Spacing="{ThemeResource ToolbarItemSpacing}" />
 								</ItemsRepeater.Layout>
 							</ItemsRepeater>
 
 							<StackPanel
-								Grid.Column="0"
-								HorizontalAlignment="Left"
-								Background="#88FFFFFF"
-								Orientation="Horizontal"
-								Spacing="4"
-								Visibility="Collapsed">
-								<Border
-									Width="40"
-									Height="32"
-									Background="Black"
-									BackgroundSizing="OuterBorderEdge"
-									BorderBrush="#DD808080"
-									BorderThickness="1"
-									CornerRadius="4" />
-								<Border
-									Width="40"
-									Height="32"
-									Background="Black"
-									BackgroundSizing="OuterBorderEdge"
-									BorderBrush="#DD808080"
-									BorderThickness="1"
-									CornerRadius="4" />
-								<Border Width="4" Height="32">
-									<Rectangle
-										Width="1"
-										Height="24"
-										HorizontalAlignment="Center"
-										Fill="Yellow"
-										RadiusX="0.5"
-										RadiusY="0.5" />
-								</Border>
-								<Border
-									Width="40"
-									Height="32"
-									Background="Black"
-									BackgroundSizing="OuterBorderEdge"
-									BorderBrush="#DD808080"
-									BorderThickness="1"
-									CornerRadius="4" />
-							</StackPanel>
-
-							<Border
-								x:Name="OverflowSeparator"
+								x:Name="OverflowStackPanel"
 								Grid.Column="1"
-								Width="4"
-								Height="32"
-								Margin="4,0,4,0">
-								<Rectangle
-									Width="1"
-									Height="24"
-									HorizontalAlignment="Center"
-									Fill="Cyan"
-									RadiusX="0.5"
-									RadiusY="0.5" />
-							</Border>
+								Orientation="Horizontal"
+								Spacing="{ThemeResource ToolbarItemSpacing}"
+								Visibility="Visible">
 
-							<Border
-								x:Name="OverflowButton"
-								Grid.Column="2"
-								Width="40"
-								Height="32"
-								Background="DarkBlue"
-								BorderBrush="#DD808080"
-								BorderThickness="1"
-								CornerRadius="4" />
+								<local:ToolbarSeparator />
+
+								<local:ToolbarButton
+									MinWidth="40"
+									MinHeight="32"
+									IconSize="16"
+									Label="Overflow Button"
+									ThemedIcon="{StaticResource App.ThemedIcons.More}" />
+
+							</StackPanel>
 						</Grid>
 
 					</Border>

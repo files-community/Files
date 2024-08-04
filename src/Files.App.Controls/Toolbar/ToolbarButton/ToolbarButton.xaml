@@ -22,6 +22,7 @@
 		<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
 		<Setter Property="FocusVisualMargin" Value="-3" />
 		<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+		<Setter Property="ToolTipService.Placement" Value="Bottom" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:ToolbarButton">
@@ -36,7 +37,9 @@
 						BackgroundSizing="{TemplateBinding BackgroundSizing}"
 						BorderBrush="{TemplateBinding BorderBrush}"
 						BorderThickness="{TemplateBinding BorderThickness}"
-						CornerRadius="{TemplateBinding CornerRadius}">
+						CornerRadius="{TemplateBinding CornerRadius}"
+						ToolTipService.Placement="{TemplateBinding ToolTipService.Placement}"
+						ToolTipService.ToolTip="{TemplateBinding Label}">
 						<ContentPresenter
 							xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
 							x:Name="PART_ContentPresenter"

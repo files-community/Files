@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Media;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 
@@ -25,6 +26,9 @@ namespace Files.App.Controls
 		private ToolbarItemList?			_toolbarItemsList;
 		private ToolbarItemOverflowList?    _toolbarItemsOverflowList;
 
+		private ToolbarItemList             _tempToolbarItemsList;
+		private ToolbarItemOverflowList     _tempToolbarItemsOverflowList;
+
 
 		private double				_smallMinWidth    = 24;     // I have set default values, but we pull from resources
 		private double				_mediumMinWidth   = 32;     // if they are available.
@@ -33,6 +37,9 @@ namespace Files.App.Controls
 		private double				_smallMinHeight   = 24;
 		private double				_mediumMinHeight  = 24;
 		private double				_largeMinHeight   = 32;
+
+		private double              _currentMinWidth;
+		private double              _currentMinHeight;
 
 
 
@@ -47,6 +54,24 @@ namespace Files.App.Controls
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
+
+			UpdateMinSizesFromResources();
+
+			if ( Items != null )
+			{
+				_tempToolbarItemsList = new ToolbarItemList();
+				_tempToolbarItemsOverflowList = new ToolbarItemOverflowList();
+
+				UpdateItems( Items );
+			}
+
+			SetItemsRepeater( GetTemplateChild( ToolbarItemsRepeaterPartName ) as ItemsRepeater );
+
+			if ( GetItemsRepeater() != null )
+			{
+				ItemsRepeater itemsRepeater = GetItemsRepeater();
+				itemsRepeater.ItemsSource = GetToolbarItemsList();
+			}
 		}
 
 
@@ -78,7 +103,7 @@ namespace Files.App.Controls
 			return _smallMinWidth;
 		}
 
-		private double GeMediumMinWidth()
+		private double GetMediumMinWidth()
 		{
 			return _mediumMinWidth;
 		}
@@ -103,6 +128,16 @@ namespace Files.App.Controls
 			return _largeMinHeight;
 		}
 
+		private double GetCurrentMinWidth()
+		{
+			return _currentMinWidth;
+		}
+
+		private double GetCurrentMinHeight()
+		{
+			return _currentMinHeight;
+		}
+
 		#endregion
 
 
@@ -124,7 +159,7 @@ namespace Files.App.Controls
 			_toolbarItemsList = toolbarItemsList;
 		}
 
-		private void SetToolbarItemsList(ToolbarItemOverflowList toolbarItemsOverflowList)
+		private void SetToolbarItemsOverflowList(ToolbarItemOverflowList toolbarItemsOverflowList)
 		{
 			_toolbarItemsOverflowList = toolbarItemsOverflowList;
 		}
@@ -159,6 +194,16 @@ namespace Files.App.Controls
 			_largeMinHeight = newValue;
 		}
 
+		private void SetCurrentMinWidth(double newValue)
+		{
+			_currentMinWidth = newValue;
+		}
+
+		private void SetCurrentMinHeight(double newValue)
+		{
+			_currentMinHeight = newValue;
+		}
+
 		#endregion
 
 
@@ -181,36 +226,17 @@ namespace Files.App.Controls
 			/// manage the Buttons and the Menu items
 			///
 
-			// clear both lists and re-add new items
-
-			foreach ( ToolbarItem item in newItems )
+			foreach ( var item in newItems )
 			{
-				if ( item != null )
-				{
-					if ( item.OverflowBehavior == OverflowBehaviors.Always )
-					{
-						AddItemToOverflowList( item );
-					}
-					else 
-					{						
-						/// For now we move it into the main list
-						/// Eventually we need to check if there is room
-						/// 
-						AddItemToItemList( item );
-
-
-						/// If there is no room for more items we must
-						/// move them to the Overflow list, unless...
-						/// 
-						if ( item.OverflowBehavior == OverflowBehaviors.Never )
-						{ 
-							/// If the overflow behaviour is set to never, items
-							/// without room will just be hidden.  This condition
-							/// must be checked as the toolbar size changes.
-						}
-					}
-				}
+				SortItemsByOverflowBehavior( item );
+				Debug.Write( "-> Sorted " + item.Label + " from Items... ..." + Environment.NewLine );
 			}
+
+			UpdatePrivateItemList( _tempToolbarItemsList );
+			Debug.Write( " | tempItemsList " + _tempToolbarItemsList.Count.ToString() + " *" + Environment.NewLine );
+
+			UpdatePrivateItemOverflowList( _tempToolbarItemsOverflowList );
+			Debug.Write( " | tempItemsOverflowList " + _tempToolbarItemsOverflowList.Count.ToString() + " *" + Environment.NewLine );
 		}
 
 
@@ -226,29 +252,7 @@ namespace Files.App.Controls
 
 		private void UpdateToolbarSize( ToolbarSizes newToolbarSize )
 		{
-			switch ( newToolbarSize )
-			{
-				case ToolbarSizes.Small:
-					{
-						// for items in ToolbarItemList
-						// Update button sizes to small
-					}
-					break;
-
-				case ToolbarSizes.Medium:
-					{
-						// for items in ToolbarItemList
-						// Update button sizes to medium
-					}
-					break;
-
-				case ToolbarSizes.Large:
-					{
-						// for items in ToolbarItemList
-						// Update button sizes to large
-					}
-					break;
-			}
+			UpdateMinSizesFromResources();		
 		}
 
 
@@ -284,8 +288,7 @@ namespace Files.App.Controls
 			double mediumMinHeight  = (double)Application.Current.Resources[MediumMinHeightResourceKey];
 
 			double largeMinWidth    = (double)Application.Current.Resources[LargeMinWidthResourceKey];
-			double largeMinHeight   = (double)Application.Current.Resources[LargeMinHeightResourceKey];
-
+			double largeMinHeight   = (double)Application.Current.Resources[LargeMinHeightResourceKey];			
 
 			if ( !double.IsNaN( smallMinWidth )  || !double.IsNaN( smallMinHeight )  ||
 				 !double.IsNaN( mediumMinWidth ) || !double.IsNaN( mediumMinHeight ) ||
@@ -300,6 +303,44 @@ namespace Files.App.Controls
 				SetLargeMinWidth( largeMinWidth );
 				SetLargeMinHeight( largeMinHeight );
 			}
+
+			if ( ToolbarSize == ToolbarSizes.Small )
+			{
+				SetCurrentMinWidth( GetSmallMinWidth() );
+				SetCurrentMinHeight( GetSmallMinHeight() );
+			}
+			else if ( ToolbarSize == ToolbarSizes.Large )
+			{
+				SetCurrentMinWidth( GetLargeMinWidth() );
+				SetCurrentMinHeight( GetLargeMinHeight() );
+			}
+			else
+			{
+				SetCurrentMinWidth( GetMediumMinWidth() );
+				SetCurrentMinHeight( GetMediumMinHeight() );
+			}
+		}
+
+
+
+		/// <summary>
+		/// Updates the Private ToolbarItemList
+		/// </summary>
+		/// <param name="newList"></param>
+		private void UpdatePrivateItemList(ToolbarItemList newList)
+		{
+			SetToolbarItemsList( newList );
+		}
+
+
+
+		/// <summary>
+		/// Updates the Private ToolbarItemOverflowList
+		/// </summary>
+		/// <param name="newOverflowList"></param>
+		private void UpdatePrivateItemOverflowList(ToolbarItemOverflowList newOverflowList)
+		{
+			SetToolbarItemsOverflowList( newOverflowList );
 		}
 
 		#endregion
@@ -337,6 +378,157 @@ namespace Files.App.Controls
 		private void ToolbarSizeChanged(ToolbarSizes newToolbarSize)
 		{
 			UpdateToolbarSize( newToolbarSize );
+		}
+
+
+
+		/// <summary>
+		/// Handles changes to the Private ToolbarItemList
+		/// </summary>
+		/// <param name="newList"></param>
+		private void PrivateItemListChanged(ToolbarItemList newList)
+		{
+			UpdatePrivateItemList( newList );
+		}
+
+
+
+		/// <summary>
+		/// Handles changes to the Private ToolbarItemOverflowList
+		/// </summary>
+		/// <param name="newOverflowList"></param>
+		private void PrivateItemOverflowListChanged(ToolbarItemOverflowList newOverflowList)
+		{
+			UpdatePrivateItemOverflowList( newOverflowList );
+		}
+
+		#endregion
+
+
+
+		#region Sorting
+
+		/// <summary>
+		/// Sorts the ToolbarItem based on the it's OverflowBehavior
+		/// </summary>
+		/// <param name="item"></param>
+		private void SortItemsByOverflowBehavior(ToolbarItem item)
+		{
+			/// We need to check which ToolbarItems go in which list
+			/// we have the OverflowBehavior to give us a hint.
+			/// Then we pass that item through additional sorting and
+			/// then add the relevant control to the lists.
+			/// 
+			if ( item != null )
+			{
+				if ( item.OverflowBehavior == OverflowBehaviors.Always )
+				{
+					AddItemToOverflowList( SortByItemTypeForOverflowItemList( item ) );
+				}
+				else
+				{
+					/// Not sure if we check for space at this point, or
+					/// When we are adding items to the Private ItemList
+					/// 
+					if ( item.OverflowBehavior == OverflowBehaviors.Never )
+					{
+						/// Not sure if we need to behave differently at
+						/// this stage for the items, but we can do if
+						/// it is needed.
+						/// 
+						//AddItemToItemList( SortByItemTypeForItemList( item ) );
+					}
+					else
+					{
+						//AddItemToItemList( SortByItemTypeForItemList( item ) );
+					}
+
+					AddItemToItemList( SortByItemTypeForItemList( item ) );
+				}
+			}
+		}
+
+
+
+		/// <summary>
+		/// Sorts the ToolbarItem by it's ItemType to add to the
+		/// private ItemList
+		/// </summary>
+		/// <param name="item"></param>
+		private IToolbarItemSet SortByItemTypeForItemList(ToolbarItem item)
+		{
+			switch ( item.ItemType )
+			{
+				case ToolbarItemTypes.Button:
+					// Add ToolbarButton
+					return CreateToolbarButton( item.Label , item.ThemedIcon , GetCurrentMinWidth() , GetCurrentMinHeight() , item.IconSize );
+
+				case ToolbarItemTypes.FlyoutButton:
+					// Add ToolbarFlyoutButton
+					return new ToolbarFlyoutButton();
+
+				case ToolbarItemTypes.RadioButton:
+					// Add ToolbarRadioButton
+					return new ToolbarRadioButton();
+
+				case ToolbarItemTypes.SplitButton:
+					// Add ToolbarSplitButton
+					return new ToolbarSplitButton();
+
+				case ToolbarItemTypes.ToggleButton:
+					// Add ToolbarToggleButton
+					return CreateToolbarToggleButton( item.Label , item.ThemedIcon , GetCurrentMinWidth() , GetCurrentMinHeight() , item.IconSize );
+
+				case ToolbarItemTypes.Separator:
+					// Add ToolbarToggleButton
+					return CreateToolbarSeparator();
+
+				case ToolbarItemTypes.Content:
+					// Add Content Presenter
+					return null;
+
+				default:
+					return null;
+			}
+		}
+
+
+
+		/// <summary>
+		/// Sorts the ToolbarItem by it's ItemType to add to the
+		/// private OverflowItemList
+		/// </summary>
+		/// <param name="item"></param>
+		private IToolbarOverflowItemSet SortByItemTypeForOverflowItemList(ToolbarItem item)
+		{
+			switch ( item.ItemType )
+			{
+				case ToolbarItemTypes.Button:
+					// Add MenuFlyoutItemEx
+					break;
+
+				case ToolbarItemTypes.FlyoutButton:
+					// Add MenuFlyoutSubItemEx
+					break;
+
+				case ToolbarItemTypes.RadioButton:
+					// Add RadioMenuFlyoutItemEx
+					break;
+
+				case ToolbarItemTypes.SplitButton:
+					// Add MenuFlyoutSubItemEx + MenuFlyoutItemEx
+					break;
+
+				case ToolbarItemTypes.ToggleButton:
+					// Add ToggleMenuFlyoutItemEx
+					break;
+
+				case ToolbarItemTypes.Separator:
+					// Add MenuFlyoutSeparator
+					break;
+			}
+
+			return null;
 		}
 
 		#endregion
@@ -494,73 +686,78 @@ namespace Files.App.Controls
 
 
 
+		#region Create Elements
+
+		private ToolbarButton CreateToolbarButton(string label , Style iconStyle , double minWidth , double minHeight , double iconSize)
+		{
+			ToolbarButton createdButton = new ToolbarButton
+			{
+				Label = label ,
+				ThemedIcon = iconStyle ,
+				MinWidth = minWidth ,
+				MinHeight = minHeight ,
+				IconSize = iconSize ,
+			};
+
+			return createdButton;
+		}
+
+
+
+		private ToolbarToggleButton CreateToolbarToggleButton(string label , Style iconStyle , double minWidth , double minHeight , double iconSize)
+		{
+			ToolbarToggleButton createdToggleButton = new ToolbarToggleButton
+			{
+				Label = label ,
+				ThemedIcon = iconStyle ,
+				MinWidth = minWidth ,
+				MinHeight = minHeight ,
+				IconSize = iconSize ,
+			};
+
+			return createdToggleButton;
+		}
+
+
+
+		private ToolbarSeparator CreateToolbarSeparator()
+		{
+			ToolbarSeparator createdSeparator = new ToolbarSeparator();
+
+			return createdSeparator;
+		}
+
+		#endregion
+
+
+
 		#region Add ToolbarItems to Lists
 
 		/// <summary>
-		/// Reads a ToolbarItem and adds equivalent Item
-		/// into the ToolbarItemOverflowList
+		/// Adds the given Item into the ToolbarItemOverflowList
 		/// </summary>
 		/// <param name="item"></param>
-		private void AddItemToOverflowList(ToolbarItem item)
+		private void AddItemToOverflowList(IToolbarOverflowItemSet item)
 		{
-			switch ( item.ItemType )
+			if ( item != null && _tempToolbarItemsOverflowList != null)
 			{
-				case ToolbarItemTypes.Button:
-					// Add MenuFlyoutItemEx
-					break;
-
-				case ToolbarItemTypes.FlyoutButton:
-					// Add MenuFlyoutSubItemEx
-					break;
-
-				case ToolbarItemTypes.RadioButton:
-					// Add RadioMenuFlyoutItemEx
-					break;
-
-				case ToolbarItemTypes.SplitButton:
-					// Add MenuFlyoutSubItemEx + MenuFlyoutItemEx
-					break;
-
-				case ToolbarItemTypes.ToggleButton:
-					// Add MenuFlyoutToggleItemEx
-					break;
+				_tempToolbarItemsOverflowList.Add( item );
+				Debug.Write( "<- Added " + item.ToString() + " to OverflowList " + Environment.NewLine );
 			}
 		}
 
 
 
 		/// <summary>
-		/// Reads a ToolbarItem and adds equivalent Item
-		/// into the ToolbarItemList
+		/// Adds the given Item into the ToolbarItemList
 		/// </summary>
 		/// <param name="item"></param>
-		private void AddItemToItemList(ToolbarItem item)
+		private void AddItemToItemList(IToolbarItemSet item)
 		{
-			switch ( item.ItemType )
+			if ( item != null && _tempToolbarItemsList != null )
 			{
-				case ToolbarItemTypes.Button:
-					// Add ToolbarButton
-					break;
-
-				case ToolbarItemTypes.FlyoutButton:
-					// Add ToolbarFlyoutButton
-					break;
-
-				case ToolbarItemTypes.RadioButton:
-					// Add ToolbarRadioButton
-					break;
-
-				case ToolbarItemTypes.SplitButton:
-					// Add ToolbarSplitButton
-					break;
-
-				case ToolbarItemTypes.ToggleButton:
-					// Add ToolbarToggleButton
-					break;
-
-				case ToolbarItemTypes.Content:
-					// Add Content Presenter
-					break;
+				_tempToolbarItemsList.Add( item );
+				Debug.Write( "Added " + item.ToString() + " to ItemList " + Environment.NewLine );
 			}
 		}
 
@@ -585,7 +782,7 @@ namespace Files.App.Controls
 		/// Removes a ToolbarItem from the ToolbarItemList
 		/// </summary>
 		/// <param name="item"></param>
-		private void RemoveItemFromList(ToolbarItem item)
+		private void RemoveItemFromList(IToolbarItemSet item)
 		{
 
 		}
