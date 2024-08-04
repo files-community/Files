@@ -65,12 +65,14 @@ namespace Files.App.ViewModels.Dialogs
 					}
 
 					var uri = new Uri(DestinationItemPath);
+					DestinationPathExists = false;
 					IsLocationValid = uri.IsWellFormedOriginalString();
 					_isLocationInPath = false;
 					_fullPath = DestinationItemPath;
 				}
 				catch (Exception)
 				{
+					DestinationPathExists = false;
 					IsLocationValid = false;
 					_isLocationInPath = false;
 				}
