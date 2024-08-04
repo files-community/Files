@@ -80,7 +80,10 @@ jobs:
   
       - name: Format XAML files
         if: env.CAN_RUN == 1
-        run: xstyler -l None -r -d src/Files.App
+        run: |
+          xstyler -l None -r -d src/Files.App
+          xstyler -l None -r -d src/Files.App.Controls
+          xstyler -l None -r -d tests/Files.App.UITests
 
       - name: Commit formatted files
         if: env.CAN_RUN == 1
