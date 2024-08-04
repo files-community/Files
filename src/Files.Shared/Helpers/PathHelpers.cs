@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace Files.Shared.Helpers
@@ -62,6 +63,40 @@ namespace Files.Shared.Helpers
 			}
 
 			return false;
+		}
+
+		public static bool TryGetFullPath(string exeName, out string fullPath)
+		{
+			try
+			{
+				var p = new Process();
+				p.StartInfo = new ProcessStartInfo
+				{
+					UseShellExecute = false,
+					CreateNoWindow = true,
+					FileName = "where.exe",
+					Arguments = exeName,
+					RedirectStandardOutput = true
+				};
+				p.Start();
+				var output = p.StandardOutput.ReadToEnd();
+				p.WaitForExit();
+
+				if (p.ExitCode != 0)
+				{
+					fullPath = string.Empty;
+					return false;
+				}
+
+				fullPath = output[..output.IndexOf(Environment.NewLine, StringComparison.Ordinal)];
+				return true;
+			}
+			catch (Exception)
+			{
+				fullPath = string.Empty;
+				return false;
+			}
+
 		}
 	}
 }

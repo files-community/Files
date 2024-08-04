@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Input;
 using Windows.Storage.Pickers;
+using Files.Shared.Helpers;
 
 namespace Files.App.ViewModels.Dialogs
 {
@@ -45,20 +46,33 @@ namespace Files.App.ViewModels.Dialogs
 
 				try
 				{
-					DestinationPathExists = Path.Exists(DestinationItemPath) && DestinationItemPath != Path.GetPathRoot(DestinationItemPath);
-					if (DestinationPathExists)
+					if (Path.Exists(DestinationItemPath) && DestinationItemPath != Path.GetPathRoot(DestinationItemPath))
 					{
+						DestinationPathExists = true;
 						IsLocationValid = true;
+						_isLocationInPath = false;
+						_fullPath = DestinationItemPath;
+						return;
 					}
-					else
+
+					var fileName = DestinationItemPath.Split(' ')[0];
+					if (Path.GetFileName(fileName) == fileName && PathHelpers.TryGetFullPath(fileName, out _fullPath))
 					{
-						var uri = new Uri(DestinationItemPath);
-						IsLocationValid = uri.IsWellFormedOriginalString();
+						DestinationPathExists = true;
+						IsLocationValid = true;
+						_isLocationInPath = true;
+						return;
 					}
+
+					var uri = new Uri(DestinationItemPath);
+					IsLocationValid = uri.IsWellFormedOriginalString();
+					_isLocationInPath = false;
+					_fullPath = DestinationItemPath;
 				}
 				catch (Exception)
 				{
 					IsLocationValid = false;
+					_isLocationInPath = false;
 				}
 			}
 		}
@@ -74,6 +88,9 @@ namespace Files.App.ViewModels.Dialogs
 					OnPropertyChanged(nameof(ShowWarningTip));
 			}
 		}
+
+		private bool _isLocationInPath;
+		private string _fullPath;
 
 		public bool ShowWarningTip => !string.IsNullOrEmpty(DestinationItemPath) && !_isLocationValid;
 
@@ -115,12 +132,17 @@ namespace Files.App.ViewModels.Dialogs
 		{
 			string? destinationName;
 			var extension = DestinationPathExists ? ".lnk" : ".url";
+			var arguments = string.Empty;
 
 			if (DestinationPathExists)
 			{
-				destinationName = Path.GetFileName(DestinationItemPath);
-				if (string.IsNullOrEmpty(destinationName))
+				destinationName = Path.GetFileName(_fullPath);
+				if (_isLocationInPath)
+					arguments = DestinationItemPath.Split(' ')[1..].Aggregate(arguments, (current, arg) => current + arg + " ");
+
+				if(string.IsNullOrEmpty(destinationName))
 				{
+					
 					var destinationPath = DestinationItemPath.Replace('/', '\\');
 
 					if (destinationPath.EndsWith('\\'))
@@ -146,7 +168,7 @@ namespace Files.App.ViewModels.Dialogs
 				filePath = Path.Combine(WorkingDirectory, ShortcutCompleteName);
 			}
 
-			ShortcutCreatedSuccessfully = await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, DestinationItemPath);
+			ShortcutCreatedSuccessfully = await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, _fullPath, arguments);
 		}
 	}
 }
