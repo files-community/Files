@@ -79,7 +79,7 @@
 
 				<controls:Toolbar.ItemTemplate>
 					<DataTemplate x:DataType="controls:IToolbarItemSet">
-						<ContentPresenter Content="{x:Bind}"/>
+						<ContentPresenter Content="{x:Bind}" />
 					</DataTemplate>
 				</controls:Toolbar.ItemTemplate>
 			</controls:Toolbar>
