@@ -13,7 +13,7 @@ using System.Reflection.Emit;
 
 namespace Files.App.Controls
 {
-	public partial class ToolbarSplitButton : SplitButton
+	public partial class ToolbarRadioButton : RadioButton, IToolbarItemSet
 	{
 	}
 }

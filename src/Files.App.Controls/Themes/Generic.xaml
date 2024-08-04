@@ -9,15 +9,26 @@
 
 		<!--#region Theme Dictionaries-->
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/ThemedIcon.ThemeResources.xaml" />
+
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/Toolbar.ThemeResources.xaml" />
-		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarItem/ToolbarButton/ToolbarButton.ThemeResources.xaml" />
-		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarItem/ToolbarToggleButton/ToolbarToggleButton.ThemeResources.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarSeparator/ToolbarSeparator.ThemeResources.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarButton/ToolbarButton.ThemeResources.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarToggleButton/ToolbarToggleButton.ThemeResources.xaml" />
 		<!--#endregion-->
 
-		<!--#region ThemedIconStyles-->
+		<!--#region ThemedIcon-->
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/ThemedIcon.xaml" />
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/ThemedIconLayer/ThemedIconLayer.xaml" />
-		<!--  Icon Style Sets  -->
+		<!--#endregion-->
+
+		<!--#region ToolbarButtons-->
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/Toolbar.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarSeparator/ToolbarSeparator.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarButton/ToolbarButton.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarToggleButton/ToolbarToggleButton.xaml" />
+		<!--#endregion-->
+
+		<!--#region  ThemedIcon Styles-->
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Common.xaml" />
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.New.xaml" />
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Open.xaml" />
@@ -33,12 +44,6 @@
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Settings.Sidebar.xaml" />
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Settings.xaml" />
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.SizeLayout28.xaml" />
-		<!--#endregion-->
-
-		<!--#region ToolbarButtons-->
-		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/Toolbar.xaml" />
-		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarItem/ToolbarButton/ToolbarButton.xaml" />
-		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarItem/ToolbarToggleButton/ToolbarToggleButton.xaml" />
 		<!--#endregion-->
 	</ResourceDictionary.MergedDictionaries>
 

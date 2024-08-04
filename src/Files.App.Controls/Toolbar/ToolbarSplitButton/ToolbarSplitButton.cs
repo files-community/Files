@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Controls
 {
-	public partial class ToolbarSplitButton : SplitButton
+	public partial class ToolbarSplitButton : SplitButton, IToolbarItemSet
 	{
 		public ToolbarSplitButton()
 		{

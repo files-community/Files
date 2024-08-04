@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Controls
 {
-	public partial class ToolbarFlyoutButton : DropDownButton
+	public partial class ToolbarFlyoutButton : DropDownButton, IToolbarItemSet
 	{
 		public ToolbarFlyoutButton()
 		{

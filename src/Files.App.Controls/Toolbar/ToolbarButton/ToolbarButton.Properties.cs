@@ -14,7 +14,7 @@ using System.ComponentModel;
 
 namespace Files.App.Controls
 {
-	public partial class ToolbarButton : Button
+	public partial class ToolbarButton : Button, IToolbarItemSet
 	{
 
 		#region Label (string)

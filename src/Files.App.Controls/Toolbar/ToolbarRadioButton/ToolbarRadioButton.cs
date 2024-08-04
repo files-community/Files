@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Controls
 {
-	public partial class ToolbarRadioButton : RadioButton
+	public partial class ToolbarRadioButton : RadioButton, IToolbarItemSet
 	{
 		public ToolbarRadioButton()
 		{

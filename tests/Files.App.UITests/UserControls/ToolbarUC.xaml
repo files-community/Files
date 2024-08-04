@@ -115,7 +115,7 @@
 			<StackPanel
 				Margin="0,0,0,16"
 				Orientation="Horizontal"
-				Spacing="16">
+				Spacing="4">
 				<controls:ToolbarButton
 					MinWidth="40"
 					MinHeight="32"
@@ -130,6 +130,8 @@
 					IsEnabled="False"
 					Label="Button text 002"
 					ThemedIcon="{StaticResource App.ThemedIcons.RunAs.Elevated}" />
+
+				<controls:ToolbarSeparator />
 
 				<controls:ToolbarButton
 					MinWidth="40"
@@ -157,7 +159,7 @@
 			<StackPanel
 				Margin="0,0,0,16"
 				Orientation="Horizontal"
-				Spacing="16">
+				Spacing="4">
 				<controls:ToolbarToggleButton
 					Width="40"
 					Height="32"
@@ -172,6 +174,8 @@
 					IsEnabled="False"
 					Label="Button text 2"
 					ThemedIcon="{StaticResource App.ThemedIcons.New.Folder}" />
+
+				<controls:ToolbarSeparator />
 
 				<controls:ToolbarToggleButton
 					Width="40"
@@ -189,6 +193,8 @@
 					IsEnabled="False"
 					Label="Button text 4"
 					ThemedIcon="{StaticResource App.ThemedIcons.New.Folder}" />
+
+				<controls:ToolbarSeparator />
 
 				<controls:ToolbarToggleButton
 					Width="40"

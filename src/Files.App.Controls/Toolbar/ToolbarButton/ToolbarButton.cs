@@ -1,35 +1,37 @@
-﻿// Copyright (c) 2024 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using CommunityToolkit.WinUI.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Controls
 {
-
-	public partial class ToolbarToggleButton : ToggleButton
+	public partial class ToolbarButton : Button, IToolbarItemSet
 	{
+
 		private bool _hasContent = false;        // True when a button has its Content property assigned
 
 
 
-		public ToolbarToggleButton()
+		public ToolbarButton()
 		{
-			this.DefaultStyleKey = typeof( ToolbarToggleButton );
+			this.DefaultStyleKey = typeof( ToolbarButton );
 		}
 
 
 
 		/// <inheritdoc/>
 		protected override void OnApplyTemplate()
-		{
+		{			
 			RegisterPropertyChangedCallback( ContentProperty , OnContentChanged );
 
 			base.OnApplyTemplate();
@@ -165,13 +167,12 @@ namespace Files.App.Controls
 		}
 
 
-
 		/// <summary>
 		/// Invoked when the IconSize double property has changed.
 		/// </summary>
 		/// <param name="newSize"></param>
 		private void IconSizeChanged(double newSize)
-		{
+		{ 
 			UpdateIconSize( newSize );
 		}
 
@@ -192,7 +193,7 @@ namespace Files.App.Controls
 			{
 				SetHasContent( true );
 			}
-			else
+			else 
 			{
 				SetHasContent( false );
 			}
@@ -201,5 +202,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
+
 	}
 }

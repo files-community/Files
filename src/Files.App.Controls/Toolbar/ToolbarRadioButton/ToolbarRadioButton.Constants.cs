@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Files.App.Controls
 {
-	public partial class ToolbarSplitButton : SplitButton
+	public partial class ToolbarRadioButton : RadioButton, IToolbarItemSet
 	{
 	}
 }

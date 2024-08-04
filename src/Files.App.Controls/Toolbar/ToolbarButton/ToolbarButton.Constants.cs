@@ -23,7 +23,7 @@ namespace Files.App.Controls
 
 
 
-	public partial class ToolbarButton : Button
+	public partial class ToolbarButton : Button, IToolbarItemSet
 	{
 		// TemplatePart Names
 		internal const string ThemedIconPartName		= "PART_ThemedIcon";

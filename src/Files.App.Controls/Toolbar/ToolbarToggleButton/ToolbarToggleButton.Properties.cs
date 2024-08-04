@@ -13,7 +13,7 @@ using System.Reflection.Emit;
 
 namespace Files.App.Controls
 {
-	public partial class ToolbarToggleButton : ToggleButton
+	public partial class ToolbarToggleButton : ToggleButton, IToolbarItemSet
 	{
 
 

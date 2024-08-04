@@ -7,9 +7,10 @@ using System.Collections.Generic;
 namespace Files.App.Controls
 {
 	/// <summary>
-	/// A collection of Toolbar Items
+	/// A collection of Toolbar Items,
+	/// that are included in the IToolbarItemSet interface
 	/// </summary>
-	internal class ToolbarItemList : List<ToolbarItem>
+	internal class ToolbarItemList : List<IToolbarItemSet>
 	{
 	}
 }
