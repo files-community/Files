@@ -142,7 +142,7 @@
     <value>크기:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>디스크 할당 크기</value>
+    <value>디스크 할당 크기:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>압축 해제 후 크기:</value>
@@ -439,11 +439,11 @@
     <value>지정한 항목 이름이 잘못되었습니다</value>
   </data>
   <data name="SelectedItems" xml:space="preserve">
-    <value>{0, plural, other {# items selected}}</value>
+    <value>{0, plural, other {#개 항목 선택함}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>{0, plural, other {items}}</value>
+    <value>{0, plural, other {항목}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
@@ -1785,7 +1785,7 @@
     <value>다른 앱에서 Files 열 때 이미 있던 창에서 탭 열기</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
-    <value>프로그램 시작 시</value>
+    <value>앱 시작 시</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
     <value>호환성</value>
@@ -2357,6 +2357,9 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>숨겨진 항목 표시 여부를 전환합니다</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>Toggle whether to show dot files</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>파일 확장자 표시 여부를 전환합니다</value>
   </data>
@@ -2676,10 +2679,10 @@
     <value>활성 패널 닫기</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
-    <value>Focus other pane</value>
+    <value>다른 패널에 포커스</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Switch focus to the non active pane</value>
+    <value>포커스를 비활성 패널로 전환합니다</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>사이드 바 전환</value>
@@ -3861,45 +3864,45 @@
     <value>탭 동작 메뉴</value>
   </data>
   <data name="AddVerticalPane" xml:space="preserve">
-    <value>Add vertical pane</value>
+    <value>세로 패널 추가</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Add a vertical pane</value>
+    <value>세로 패널을 추가합니다</value>
   </data>
   <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Add horizontal pane</value>
+    <value>가로 패널 추가</value>
   </data>
   <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Add a horizontal pane</value>
+    <value>가로 패널을 추가합니다</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
-    <value>Arrange vertically</value>
+    <value>수직 정렬</value>
   </data>
   <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
-    <value>Arrange panes vertically</value>
+    <value>패널을 수직 정렬합니다</value>
   </data>
   <data name="ArrangePanesHorizontally" xml:space="preserve">
-    <value>Arrange horizontally</value>
+    <value>수평 정렬</value>
   </data>
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
-    <value>Arrange panes horizontally</value>
+    <value>패널을 수평 정렬합니다</value>
   </data>
   <data name="AddPane" xml:space="preserve">
-    <value>Add pane</value>
+    <value>패널 추가</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
-    <value>Show tab actions button in the title bar</value>
+    <value>제목 표시줄에 탭 동작 버튼 표시</value>
   </data>
   <data name="ArrangePanes" xml:space="preserve">
-    <value>Arrange panes</value>
+    <value>패널 정렬</value>
   </data>
   <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>Default pane arrangement</value>
+    <value>기본 패널 정렬</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
-    <value>Horizontal</value>
+    <value>수평</value>
   </data>
   <data name="Vertical" xml:space="preserve">
-    <value>Vertical</value>
+    <value>수직</value>
   </data>
 </root>

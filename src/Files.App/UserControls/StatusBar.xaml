@@ -228,7 +228,7 @@
 							Command="{x:Bind Commands.GitPull}"
 							IsEnabled="{x:Bind Commands.GitPull.IsExecutable, Mode=OneWay}"
 							Text="{x:Bind Commands.GitPull.Label}"
-							ThemedIconStyle ="{StaticResource App.ThemedIcons.Git.Pull}"
+							ThemedIconStyle="{StaticResource App.ThemedIcons.Git.Pull}"
 							ToolTipService.ToolTip="{x:Bind Commands.GitPull.LabelWithHotKey, Mode=OneWay}" />
 
 						<!--  Push Button  -->
@@ -237,7 +237,7 @@
 							Command="{x:Bind Commands.GitPush}"
 							IsEnabled="{x:Bind Commands.GitPush.IsExecutable, Mode=OneWay}"
 							Text="{x:Bind Commands.GitPush.Label}"
-							ThemedIconStyle ="{StaticResource App.ThemedIcons.Git.Push}"
+							ThemedIconStyle="{StaticResource App.ThemedIcons.Git.Push}"
 							ToolTipService.ToolTip="{x:Bind Commands.GitPush.LabelWithHotKey, Mode=OneWay}" />
 
 						<!--  Sync Button  -->
@@ -246,7 +246,7 @@
 							Command="{x:Bind Commands.GitSync}"
 							IsEnabled="{x:Bind Commands.GitSync.IsExecutable, Mode=OneWay}"
 							Text="{x:Bind Commands.GitSync.Label}"
-							ThemedIconStyle ="{StaticResource App.ThemedIcons.Git.Sync}"
+							ThemedIconStyle="{StaticResource App.ThemedIcons.Git.Sync}"
 							ToolTipService.ToolTip="{x:Bind Commands.GitSync.LabelWithHotKey, Mode=OneWay}" />
 					</MenuFlyout>
 				</Button.Flyout>

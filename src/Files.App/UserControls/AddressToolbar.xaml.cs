@@ -18,8 +18,17 @@ namespace Files.App.UserControls
 	{
 		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly ICommand historyItemClickedCommand;
-
+		private readonly MainPageViewModel MainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
+    
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+
+		public static readonly DependencyProperty IsSidebarPaneOpenToggleButtonVisibleProperty =
+			DependencyProperty.Register(nameof(IsSidebarPaneOpenToggleButtonVisible), typeof(bool), typeof(AddressToolbar), new(false));
+		public bool IsSidebarPaneOpenToggleButtonVisible
+		{
+			get => (bool)GetValue(IsSidebarPaneOpenToggleButtonVisibleProperty);
+			set => SetValue(IsSidebarPaneOpenToggleButtonVisibleProperty, value);
+		}
 
 		// Using a DependencyProperty as the backing store for ShowOngoingTasks.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowOngoingTasksProperty =

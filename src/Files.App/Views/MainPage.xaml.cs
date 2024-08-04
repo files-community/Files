@@ -31,9 +31,6 @@ namespace Files.App.Views
 		public MainPageViewModel ViewModel { get; }
 		public StatusCenterViewModel OngoingTasksViewModel { get; }
 
-		public static AppModel AppModel
-			=> App.AppModel;
-
 		private bool keyReleased = true;
 
 		private DispatcherQueueTimer _updateDateDisplayTimer;
@@ -102,7 +99,7 @@ namespace Files.App.Views
 				SecondaryButtonText = "DontShowAgain".ToLocalized()
 			};
 
-			var result = await runningAsAdminPrompt.TryShowAsync();
+			var result = await SetContentDialogRoot(runningAsAdminPrompt).TryShowAsync();
 
 			if (result == ContentDialogResult.Secondary)
 				UserSettingsService.ApplicationSettingsService.ShowRunningAsAdminPrompt = false;
@@ -488,14 +485,6 @@ namespace Files.App.Views
 		{
 			this.ChangeCursor(InputSystemCursor.Create(PaneSplitter.GripperCursor == GridSplitter.GripperCursorType.SizeWestEast ?
 				InputSystemCursorShape.SizeWestEast : InputSystemCursorShape.SizeNorthSouth));
-		}
-
-		private void TogglePaneButton_Click(object sender, RoutedEventArgs e)
-		{
-			if (SidebarControl.DisplayMode == SidebarDisplayMode.Minimal)
-			{
-				SidebarControl.IsPaneOpen = !SidebarControl.IsPaneOpen;
-			}
 		}
 	}
 }

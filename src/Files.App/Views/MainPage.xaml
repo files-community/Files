@@ -120,66 +120,49 @@
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
 		<!--  Background Image  -->
 		<Image
-			Grid.RowSpan="2"
+			Grid.RowSpan="3"
 			HorizontalAlignment="{x:Bind ViewModel.AppThemeBackgroundImageHorizontalAlignment, Mode=OneWay}"
 			VerticalAlignment="{x:Bind ViewModel.AppThemeBackgroundImageVerticalAlignment, Mode=OneWay}"
 			Opacity="{x:Bind ViewModel.AppThemeBackgroundImageOpacity, Mode=OneWay}"
 			Source="{x:Bind ViewModel.AppThemeBackgroundImageSource, Mode=OneWay}"
 			Stretch="{x:Bind ViewModel.AppThemeBackgroundImageFit, Mode=OneWay}" />
 
-		<!--  Header Area  -->
-		<Grid>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
+		<!--  Tab Bar  -->
+		<tabbar:TabBar
+			x:Name="TabControl"
+			HorizontalContentAlignment="Stretch"
+			x:Load="False"
+			Loaded="HorizontalMultitaskingControl_Loaded"
+			TabIndex="0" />
 
-			<!--  Tab Control  -->
-			<tabbar:TabBar
-				x:Name="TabControl"
-				HorizontalContentAlignment="Stretch"
-				x:Load="False"
-				Loaded="HorizontalMultitaskingControl_Loaded"
-				TabIndex="0" />
-
-			<!--  Address Bar  -->
-			<uc:AddressToolbar
-				x:Name="NavToolbar"
-				Grid.Row="1"
-				HorizontalAlignment="Stretch"
-				HorizontalContentAlignment="Stretch"
-				x:Load="False"
-				Loaded="NavToolbar_Loaded"
-				OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
-				ShowOngoingTasks="True"
-				ShowSearchBox="True"
-				ShowSettingsButton="{x:Bind WindowContext.IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-				TabIndex="1" />
-
-			<Button
-				x:Name="TogglePaneButton"
-				Margin="2,2,0,0"
-				HorizontalAlignment="Left"
-				VerticalAlignment="Top"
-				Background="Transparent"
-				BorderThickness="0"
-				Click="TogglePaneButton_Click"
-				Style="{StaticResource PaneToggleButtonStyle}"
-				Visibility="Collapsed" />
-		</Grid>
+		<!--  Address Bar  -->
+		<uc:AddressToolbar
+			x:Name="NavToolbar"
+			Grid.Row="1"
+			HorizontalAlignment="Stretch"
+			HorizontalContentAlignment="Stretch"
+			x:Load="False"
+			Loaded="NavToolbar_Loaded"
+			OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
+			ShowOngoingTasks="True"
+			ShowSearchBox="True"
+			ShowSettingsButton="{x:Bind WindowContext.IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+			TabIndex="1" />
 
 		<!--  Content Area  -->
 		<sidebar:SidebarView
 			x:Name="SidebarControl"
-			Grid.Row="1"
+			Grid.Row="2"
 			HorizontalAlignment="Stretch"
 			HorizontalContentAlignment="Stretch"
 			DisplayMode="{x:Bind SidebarAdaptiveViewModel.SidebarDisplayMode, Mode=TwoWay}"
+			IsPaneOpen="{x:Bind ViewModel.IsSidebarPaneOpen, Mode=TwoWay}"
 			Loaded="SidebarControl_Loaded"
 			MenuItemsSource="{x:Bind SidebarAdaptiveViewModel.SidebarItems, Mode=OneWay}"
 			OpenPaneLength="{x:Bind UserSettingsService.AppearanceSettingsService.SidebarWidth, Mode=TwoWay}"
@@ -289,9 +272,8 @@
 						<AdaptiveTrigger MinWindowWidth="0" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
-						<Setter Target="TabControl.Margin" Value="48,0,0,0" />
 						<Setter Target="SidebarControl.DisplayMode" Value="Minimal" />
-						<Setter Target="TogglePaneButton.Visibility" Value="Visible" />
+						<Setter Target="NavToolbar.IsSidebarPaneOpenToggleButtonVisible" Value="True" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="MinimalSidebarState">

@@ -216,6 +216,11 @@ namespace Files.App
 		{
 			public const int MaxSelectedItems = 5;
 		}
+		
+		public static class DragAndDrop
+		{
+			public const Int32 HoverToOpenTimespan = 1300;
+		}
 
 		public static class UserEnvironmentPaths
 		{

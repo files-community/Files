@@ -1851,7 +1851,7 @@
     <value>Bibliothèques tierces</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Cette option modifie le registre système et peut avoir des effets secondaires inattendus sur votre système. Continuez à vos propres risques.</value>
+    <value>Cette option modifie le registre du système et peut avoir des effets secondaires inattendus sur votre appareil. Continuez à vos risques et périls.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Créer une bibliothèque</value>
@@ -2356,6 +2356,9 @@
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Afficher/Masquer les éléments cachés</value>
+  </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>Afficher/Masquer les fichiers dont le nom commence par un point</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Afficher/Masquer les extensions de fichiers</value>

@@ -33,6 +33,20 @@ namespace Files.App.ViewModels
 
 		public ITabBar? MultitaskingControl { get; set; }
 
+		private bool _IsSidebarPaneOpen;
+		public bool IsSidebarPaneOpen
+		{
+			get => _IsSidebarPaneOpen;
+			set => SetProperty(ref _IsSidebarPaneOpen, value);
+		}
+
+		private bool _IsSidebarPaneOpenToggleButtonVisible;
+		public bool IsSidebarPaneOpenToggleButtonVisible
+		{
+			get => _IsSidebarPaneOpenToggleButtonVisible;
+			set => SetProperty(ref _IsSidebarPaneOpenToggleButtonVisible, value);
+		}
+
 		private TabBarItem? selectedTabItem;
 		public TabBarItem? SelectedTabItem
 		{

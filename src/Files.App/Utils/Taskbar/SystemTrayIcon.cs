@@ -279,7 +279,10 @@ namespace Files.App.Utils.Taskbar
 		{
 			Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
 
-			Program.Pool.Release();
+			var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance", out var isNew);
+			if (!isNew)
+				pool.Release();
+
 			Environment.Exit(0);
 		}
 
@@ -288,8 +291,10 @@ namespace Files.App.Utils.Taskbar
 			Hide();
 
 			App.AppModel.ForceProcessTermination = true;
-			if (Program.Pool is not null)
-				Program.Pool.Release();
+
+			var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance", out var isNew);
+			if (!isNew)
+				pool.Release();
 			else
 				App.Current.Exit();
 		}

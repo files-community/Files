@@ -36,6 +36,7 @@
 				<ResourceDictionary>
 					<SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
 					<SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
+					<SolidColorBrush x:Key="AppBarButtonBackgroundPointerOver" Color="{ThemeResource ButtonBackgroundPointerOver}" />
 
 					<Style
 						x:Key="AddressToolbarButtonStyle"
@@ -240,6 +241,28 @@
 				Grid.Column="0"
 				Orientation="Horizontal"
 				Spacing="4">
+
+				<ToggleButton
+					x:Name="SidebarPaneToggleButton"
+					Width="36"
+					Height="32"
+					Padding="0"
+					x:Load="{x:Bind IsSidebarPaneOpenToggleButtonVisible, Mode=OneWay}"
+					AutomationProperties.Name="ToggleSidebarPane"
+					Background="Transparent"
+					BorderBrush="Transparent"
+					IsChecked="{x:Bind MainPageViewModel.IsSidebarPaneOpen, Mode=TwoWay}"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=ToggleSidebar}">
+					<AnimatedIcon Width="14">
+						<AnimatedIcon.Source>
+							<animatedvisuals:AnimatedGlobalNavigationButtonVisualSource />
+						</AnimatedIcon.Source>
+						<AnimatedIcon.FallbackIconSource>
+							<SymbolIconSource Symbol="GlobalNavigationButton" />
+						</AnimatedIcon.FallbackIconSource>
+					</AnimatedIcon>
+				</ToggleButton>
+
 				<Button
 					x:Name="Back"
 					x:FieldModifier="public"

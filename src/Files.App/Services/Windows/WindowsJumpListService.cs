@@ -148,7 +148,6 @@ namespace Files.App.Services
 
 				if (displayName is null)
 				{
-					var localSettings = ApplicationData.Current.LocalSettings;
 					if (path.Equals(Constants.UserEnvironmentPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "ms-resource:///Resources/Desktop";
 					else if (path.Equals(Constants.UserEnvironmentPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
