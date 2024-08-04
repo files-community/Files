@@ -15,8 +15,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+
 
 namespace Files.App.UITests.UserControls
 {
@@ -37,9 +36,9 @@ namespace Files.App.UITests.UserControls
 			{
 				ToolbarItems = new ObservableCollection<ToolbarItem>();
 			}
-			ToolbarItems.Add( new ToolbarItem() { Label = "Test Label 1" , IconSize = 16 , ThemedIcon = (Style)Application.Current.Resources["App.ThemedIcons.CopyAsPath"] } );
-			ToolbarItems.Add( new ToolbarItem() { Label = "Test Label 2" , IconSize = 16 , ThemedIcon = (Style)Application.Current.Resources["App.ThemedIcons.PasteShortcut"] } );
-			ToolbarItems.Add( new ToolbarItem() { Label = "Test Label 3" , IconSize = 16 , ThemedIcon = (Style)Application.Current.Resources["App.ThemedIcons.MoveTo"] } );
+			ToolbarItems.Add( new ToolbarItem() { Name = "testItem01" , Label = "Test Label 1" , IconSize = 16 , ThemedIcon = (Style)Application.Current.Resources["App.ThemedIcons.CopyAsPath"] } );
+			ToolbarItems.Add( new ToolbarItem() { Name = "testItem02" , Label = "Test Label 2" , IconSize = 16 , ThemedIcon = (Style)Application.Current.Resources["App.ThemedIcons.PasteShortcut"] } );
+			ToolbarItems.Add( new ToolbarItem() { Name = "testItem03" , Label = "Test Label 3" , IconSize = 16 , ThemedIcon = (Style)Application.Current.Resources["App.ThemedIcons.MoveTo"] } );
 		}
 
 
@@ -50,7 +49,7 @@ namespace Files.App.UITests.UserControls
 
 			if ( testToolbar != null )
 			{
-				testToolbar.Items = ToolbarItems;
+				//testToolbar.Items = ToolbarItems;
 			}
 		}
 	}

@@ -5,6 +5,7 @@ using Files.App.Controls.Primitives;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using System.Collections.Generic;
 
 namespace Files.App.Controls
 {
@@ -62,6 +63,16 @@ namespace Files.App.Controls
 			/// Updates the internal item's Text or Label
 			/// property as it changes.
 			///
+		}
+
+
+
+		/// <summary>
+		/// Updates the ToolbarItem's SubItems property
+		/// </summary>
+		/// <param name="newItems"></param>
+		private void UpdateSubItems(IList<ToolbarItem> newItems)
+		{ 		
 		}
 
 
@@ -193,6 +204,18 @@ namespace Files.App.Controls
 		private void LabelChanged(string newLabel) 
 		{
 			UpdateLabel( newLabel );
+		}
+
+
+
+
+		/// <summary>
+		/// Handles changes to the ToolbarItem's SubItems property
+		/// </summary>
+		/// <param name="newItems"></param>
+		private void SubItemsChanged(IList<ToolbarItem> newItems)
+		{
+			UpdateSubItems( newItems );
 		}
 
 

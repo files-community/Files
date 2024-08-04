@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Files.App.Controls.Primitives;
+using System.Collections.Generic;
 
 namespace Files.App.Controls
 {
@@ -115,6 +116,37 @@ namespace Files.App.Controls
 			if ( newValue != oldValue )
 			{ 
 				LabelChanged( newValue );
+			}
+		}
+
+		#endregion
+
+
+
+		#region SubItems (IList<ToolbarItem>)
+
+		public static readonly DependencyProperty SubItemsProperty =
+			DependencyProperty.Register(
+				nameof( SubItems ),
+				typeof( IList<ToolbarItem> ),
+				typeof(ToolbarItem),
+				new PropertyMetadata( new List<ToolbarItem>(), (d, e) => ((ToolbarItem)d).OnSubItemsPropertyChanged(( IList<ToolbarItem> )e.OldValue, ( IList<ToolbarItem> )e.NewValue)));
+
+
+
+		public IList<ToolbarItem> SubItems
+		{
+			get => (IList<ToolbarItem>)GetValue( SubItemsProperty );
+			set => SetValue( SubItemsProperty , value );
+		}
+
+
+
+		protected virtual void OnSubItemsPropertyChanged(IList<ToolbarItem> oldItems , IList<ToolbarItem> newItems)
+		{
+			if ( newItems != oldItems )
+			{
+				SubItemsChanged( newItems );
 			}
 		}
 

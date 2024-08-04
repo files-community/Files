@@ -48,14 +48,25 @@
 
 				<controls:Toolbar.Items>
 					<controls:ToolbarItem
+						x:Name="testXamlItem001"
 						IconSize="16"
 						Label="Xaml Label 1"
 						ThemedIcon="{StaticResource App.ThemedIcons.Cut}" />
 					<controls:ToolbarItem
+						x:Name="testXamlItem002"
 						IconSize="16"
 						Label="Xaml Label 2"
-						ThemedIcon="{StaticResource App.ThemedIcons.Copy}" />
+						ThemedIcon="{StaticResource App.ThemedIcons.Copy}">
+						<controls:ToolbarItem.SubItems>
+							<controls:ToolbarItem
+								x:Name="testXamlItem002a"
+								IconSize="16"
+								Label="Xaml Label 2a"
+								ThemedIcon="{StaticResource App.ThemedIcons.TagEdit}" />
+						</controls:ToolbarItem.SubItems>
+					</controls:ToolbarItem>
 					<controls:ToolbarItem
+						x:Name="testXamlItem003"
 						IconSize="16"
 						Label="Xaml Label 3"
 						ThemedIcon="{StaticResource App.ThemedIcons.PanelLeft}" />
@@ -63,7 +74,11 @@
 
 				<controls:Toolbar.ItemTemplate>
 					<DataTemplate x:DataType="controls:ToolbarItem">
-						<StackPanel Orientation="Vertical">
+						<StackPanel
+							Padding="2"
+							BorderBrush="#80FFFFFF"
+							BorderThickness="1"
+							Orientation="Vertical">
 							<TextBlock
 								FontSize="12"
 								Foreground="Black"
@@ -105,7 +120,7 @@
 					MinWidth="40"
 					MinHeight="32"
 					IconSize="16"
-					Label="Button text"
+					Label="Button text 001"
 					ThemedIcon="{StaticResource App.ThemedIcons.RunAs.Elevated}" />
 
 				<controls:ToolbarButton
@@ -113,14 +128,14 @@
 					MinHeight="32"
 					IconSize="16"
 					IsEnabled="False"
-					Label="Button text"
+					Label="Button text 002"
 					ThemedIcon="{StaticResource App.ThemedIcons.RunAs.Elevated}" />
 
 				<controls:ToolbarButton
 					MinWidth="40"
 					MinHeight="32"
 					IconSize="16"
-					Label="Button text">
+					Label="Button text 003">
 					<controls:ToolbarButton.Content>
 						<AnimatedIcon Width="16" Height="16">
 							<AnimatedIcon.Source>
@@ -147,7 +162,7 @@
 					Width="40"
 					Height="32"
 					IconSize="16"
-					Label="Button text"
+					Label="Button text 1"
 					ThemedIcon="{StaticResource App.ThemedIcons.New.Folder}" />
 
 				<controls:ToolbarToggleButton
@@ -155,7 +170,7 @@
 					Height="32"
 					IconSize="16"
 					IsEnabled="False"
-					Label="Button text"
+					Label="Button text 2"
 					ThemedIcon="{StaticResource App.ThemedIcons.New.Folder}" />
 
 				<controls:ToolbarToggleButton
@@ -163,7 +178,7 @@
 					Height="32"
 					IconSize="16"
 					IsChecked="True"
-					Label="Button text"
+					Label="Button text 3"
 					ThemedIcon="{StaticResource App.ThemedIcons.New.Folder}" />
 
 				<controls:ToolbarToggleButton
@@ -172,14 +187,14 @@
 					IconSize="16"
 					IsChecked="True"
 					IsEnabled="False"
-					Label="Button text"
+					Label="Button text 4"
 					ThemedIcon="{StaticResource App.ThemedIcons.New.Folder}" />
 
 				<controls:ToolbarToggleButton
 					Width="40"
 					Height="32"
 					IconSize="16"
-					Label="Button text">
+					Label="Button text 5">
 					<controls:ToolbarToggleButton.Content>
 						<AnimatedIcon Width="16" Height="16">
 							<AnimatedIcon.Source>
@@ -197,7 +212,7 @@
 					Height="32"
 					IconSize="16"
 					IsChecked="True"
-					Label="Button text">
+					Label="Button text 6">
 					<controls:ToolbarToggleButton.Content>
 						<AnimatedIcon Width="16" Height="16">
 							<AnimatedIcon.Source>
