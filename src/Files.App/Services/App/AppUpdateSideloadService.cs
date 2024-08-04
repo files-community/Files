@@ -27,13 +27,8 @@ namespace Files.App.Services
 
 		private const string TEMPORARY_UPDATE_PACKAGE_NAME = "UpdatePackage.msix";
 
-		private ILogger? Logger
-		{
-			get
-			{
-				return Ioc.Default.GetRequiredService<ILogger<App>>();
-			}
-		}
+		private ILogger? Logger { get; } = Ioc.Default.GetRequiredService<ILogger<App>>();
+
 		private string PackageName { get; } = Package.Current.Id.Name;
 
 		private Version PackageVersion { get; } = new(
@@ -145,7 +140,8 @@ namespace Files.App.Services
 			}
 			catch (Exception e)
 			{
-				Logger?.LogError(e, e.Message);
+				// It seems that the logger may throw an exception, so we need to ignore it. (#15688)
+				SafetyExtensions.IgnoreExceptions(() => Logger?.LogError(e, e.Message));
 			}
 		}
 
