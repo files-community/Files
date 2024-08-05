@@ -128,7 +128,7 @@
 					IsOn="{x:Bind ViewModel.LeaveAppRunning, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
-			
+
 			<!--  System Tray Icon  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowSystemTrayIcon}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>
