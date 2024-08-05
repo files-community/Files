@@ -77,9 +77,7 @@ namespace Files.App.ViewModels.Dialogs
 							return;
 						}
 
-						if (Path.Exists(quoted) 
-						    && Path.IsPathFullyQualified(quoted)
-						    && quoted != Path.GetPathRoot(quoted))
+						if (IsValidAbsolutePath(quoted))
 						{
 							DestinationPathExists = true;
 							IsLocationValid = true;
@@ -119,9 +117,7 @@ namespace Files.App.ViewModels.Dialogs
 							return;
 						}
 
-						if (Path.Exists(filePath)
-						    && Path.IsPathFullyQualified(filePath)
-						    && filePath != Path.GetPathRoot(filePath))
+						if (IsValidAbsolutePath(filePath))
 						{
 							DestinationPathExists = true;
 							IsLocationValid = true;
@@ -132,9 +128,7 @@ namespace Files.App.ViewModels.Dialogs
 						}
 
 						// Try to parse the whole text as path
-						if (Path.Exists(trimmed)
-						    && Path.IsPathFullyQualified(trimmed)
-						    && trimmed != Path.GetPathRoot(trimmed))
+						if (IsValidAbsolutePath(trimmed))
 						{
 							DestinationPathExists = true;
 							IsLocationValid = true;
@@ -203,6 +197,11 @@ namespace Files.App.ViewModels.Dialogs
 
 			SelectDestinationCommand = new AsyncRelayCommand(SelectDestination);
 			PrimaryButtonCommand = new AsyncRelayCommand(CreateShortcutAsync);
+		}
+
+		private bool IsValidAbsolutePath(string path)
+		{
+			return Path.Exists(path) && Path.IsPathFullyQualified(path) && path != Path.GetPathRoot(path);
 		}
 
 		private Task SelectDestination()
