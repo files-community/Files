@@ -65,8 +65,9 @@ namespace Files.Shared.Helpers
 			return false;
 		}
 
-		public static bool TryGetFullPath(string exeName, out string fullPath)
+		public static bool TryGetFullPath(string commandName, out string fullPath)
 		{
+			fullPath = string.Empty;
 			try
 			{
 				var p = new Process();
@@ -75,25 +76,30 @@ namespace Files.Shared.Helpers
 					UseShellExecute = false,
 					CreateNoWindow = true,
 					FileName = "where.exe",
-					Arguments = exeName,
+					Arguments = commandName,
 					RedirectStandardOutput = true
 				};
 				p.Start();
 				var output = p.StandardOutput.ReadToEnd();
-				p.WaitForExit();
+				p.WaitForExit(1000);
+
 
 				if (p.ExitCode != 0)
-				{
-					fullPath = string.Empty;
 					return false;
-				}
 
-				fullPath = output[..output.IndexOf(Environment.NewLine, StringComparison.Ordinal)];
-				return true;
+				// Return the first one with valid executable extension, in case there is a match with no extension
+				foreach (var line in output.Split(Environment.NewLine))
+				{
+					if (FileExtensionHelpers.IsExecutableFile(line))
+					{
+						fullPath = line;
+						return true;
+					}
+				}
+				return false;
 			}
 			catch (Exception)
 			{
-				fullPath = string.Empty;
 				return false;
 			}
 

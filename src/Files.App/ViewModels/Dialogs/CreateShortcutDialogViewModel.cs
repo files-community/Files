@@ -21,13 +21,13 @@ namespace Files.App.ViewModels.Dialogs
 		// Tells whether destination path exists
 		public bool DestinationPathExists { get; set; }
 
-		// Tells wheteher the shortcut has been created
+		// Tells whether the shortcut has been created
 		public bool ShortcutCreatedSuccessfully { get; private set; }
 
 		// Shortcut name with extension
 		public string ShortcutCompleteName { get; private set; } = string.Empty;
 
-		// Destination of the shortcut chosen by the user (can be a path or a URL)
+		// Destination of the shortcut chosen by the user (can be a path, a command or a URL)
 		private string _destinationItemPath;
 		public string DestinationItemPath
 		{
@@ -43,38 +43,85 @@ namespace Files.App.ViewModels.Dialogs
 					IsLocationValid = false;
 					return;
 				}
-
 				try
 				{
-					if (Path.Exists(DestinationItemPath) && DestinationItemPath != Path.GetPathRoot(DestinationItemPath))
+					var trimmed = DestinationItemPath.Trim();
+					// If the text starts with '"', try to parse the quoted part as path, and the rest as arguments
+					if (trimmed.StartsWith('"'))
 					{
-						DestinationPathExists = true;
-						IsLocationValid = true;
-						_isLocationInPath = false;
-						_fullPath = DestinationItemPath;
-						return;
+						var endQuoteIndex = trimmed.IndexOf('"', 1);
+						if (endQuoteIndex == -1)
+						{
+							IsLocationValid = false;
+							return;
+						}
+						var quoted = trimmed[1..endQuoteIndex];
+
+						if (Path.Exists(quoted) && quoted != Path.GetPathRoot(quoted))
+						{
+							DestinationPathExists = true;
+							IsLocationValid = true;
+							_fullPath = Path.GetFullPath(quoted);
+							_arguments = !Directory.Exists(_fullPath) ? trimmed[(endQuoteIndex + 1)..] : string.Empty;
+							return;
+						}
+
+						// If the quoted part is a valid filename, try to find it in the PATH
+						if (quoted == Path.GetFileName(quoted)
+							&& quoted.IndexOfAny(Path.GetInvalidFileNameChars()) == -1
+							&& PathHelpers.TryGetFullPath(quoted, out _fullPath)
+							)
+						{
+							DestinationPathExists = true;
+							IsLocationValid = true;
+							_arguments = trimmed[(endQuoteIndex + 1)..];
+							return;
+						}
+
+						var uri = new Uri(quoted);
+						DestinationPathExists = false;
+						IsLocationValid = uri.IsWellFormedOriginalString();
+						_fullPath = quoted;
+						_arguments = string.Empty;
+					}
+					else
+					{
+						// Try to parse the whole text as path
+						if (Path.Exists(trimmed) && trimmed != Path.GetPathRoot(trimmed))
+						{
+							DestinationPathExists = true;
+							IsLocationValid = true;
+							_fullPath = Path.GetFullPath(trimmed);
+							_arguments = string.Empty;
+							return;
+						}
+
+						var filename = trimmed.Split(' ')[0];
+						if (filename == Path.GetFileName(filename)
+							&& filename.IndexOfAny(Path.GetInvalidFileNameChars()) == -1
+							&& PathHelpers.TryGetFullPath(filename, out _fullPath)
+							)
+						{
+							DestinationPathExists = true;
+							IsLocationValid = true;
+							_arguments = trimmed.Split(' ')[1..].Aggregate(_arguments, (current, arg) => current + arg + " ");
+							return;
+						}
+
+						var uri = new Uri(trimmed);
+						DestinationPathExists = false;
+						IsLocationValid = uri.IsWellFormedOriginalString();
+						_fullPath = trimmed;
+						_arguments = string.Empty;
 					}
 
-					var fileName = DestinationItemPath.Split(' ')[0];
-					if (Path.GetFileName(fileName) == fileName && PathHelpers.TryGetFullPath(fileName, out _fullPath))
-					{
-						DestinationPathExists = true;
-						IsLocationValid = true;
-						_isLocationInPath = true;
-						return;
-					}
-
-					var uri = new Uri(DestinationItemPath);
-					DestinationPathExists = false;
-					IsLocationValid = uri.IsWellFormedOriginalString();
-					_isLocationInPath = false;
-					_fullPath = DestinationItemPath;
 				}
 				catch (Exception)
 				{
 					DestinationPathExists = false;
 					IsLocationValid = false;
-					_isLocationInPath = false;
+					_fullPath = string.Empty;
+					_arguments = string.Empty;
 				}
 			}
 		}
@@ -91,8 +138,8 @@ namespace Files.App.ViewModels.Dialogs
 			}
 		}
 
-		private bool _isLocationInPath;
 		private string _fullPath;
+		private string _arguments;
 
 		public bool ShowWarningTip => !string.IsNullOrEmpty(DestinationItemPath) && !_isLocationValid;
 
@@ -134,18 +181,15 @@ namespace Files.App.ViewModels.Dialogs
 		{
 			string? destinationName;
 			var extension = DestinationPathExists ? ".lnk" : ".url";
-			var arguments = string.Empty;
 
 			if (DestinationPathExists)
 			{
 				destinationName = Path.GetFileName(_fullPath);
-				if (_isLocationInPath)
-					arguments = DestinationItemPath.Split(' ')[1..].Aggregate(arguments, (current, arg) => current + arg + " ");
 
-				if(string.IsNullOrEmpty(destinationName))
+				if(string.IsNullOrEmpty(_fullPath))
 				{
 					
-					var destinationPath = DestinationItemPath.Replace('/', '\\');
+					var destinationPath = _fullPath.Replace('/', '\\');
 
 					if (destinationPath.EndsWith('\\'))
 						destinationPath = destinationPath.Substring(0, destinationPath.Length - 1);
@@ -155,7 +199,7 @@ namespace Files.App.ViewModels.Dialogs
 			}
 			else
 			{
-				var uri = new Uri(DestinationItemPath);
+				var uri = new Uri(_fullPath);
 				destinationName = uri.Host;
 			}
 
@@ -170,7 +214,7 @@ namespace Files.App.ViewModels.Dialogs
 				filePath = Path.Combine(WorkingDirectory, ShortcutCompleteName);
 			}
 
-			ShortcutCreatedSuccessfully = await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, _fullPath, arguments);
+			ShortcutCreatedSuccessfully = await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, _fullPath, _arguments);
 		}
 	}
 }
