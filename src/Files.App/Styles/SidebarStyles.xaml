@@ -49,7 +49,7 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:SidebarItem">
-					<Grid x:Name="RootPanel" Padding="4,0">
+					<Grid x:Name="RootPanel" Padding="4,0,4,0">
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto" />
 							<RowDefinition Height="Auto" />
