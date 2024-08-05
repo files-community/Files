@@ -142,7 +142,6 @@ namespace Files.App.Utils.Taskbar
 
 			CreateOrModifyNotifyIcon();
 
-			GeneralSettingsService.PropertyChanged -= GeneralSettingsService_PropertyChanged;
 			GeneralSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
 		}
 
