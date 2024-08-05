@@ -257,7 +257,7 @@ namespace Files.App.Utils.Storage
 					if (isTargetExecutable || isTargetScriptFile)
 					{
 						var items = await GetDraggedStorageItems(packageView);
-						NavigationHelpers.OpenItemsWithExecutableAsync(associatedInstance, items, destination);
+						await NavigationHelpers.OpenItemsWithExecutableAsync(associatedInstance, items, destination);
 						return ReturnResult.Success;
 					}
 					else
