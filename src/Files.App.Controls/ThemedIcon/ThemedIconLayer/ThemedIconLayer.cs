@@ -16,10 +16,14 @@ namespace Files.App.Controls
     {
         private double _layerSize;
 
+
+
         public ThemedIconLayer()
         {
             DefaultStyleKey = typeof(ThemedIconLayer);
         }
+
+
 
         protected override void OnApplyTemplate()
         {
@@ -31,10 +35,14 @@ namespace Files.App.Controls
             LayerPathDataChanged(PathData);
         }
 
+
+
         private void LayerTypeChanged(ThemedIconLayerType layerType)
         {
             UpdateIconLayerState();
         }
+
+
 
         private void LayerPathDataChanged(string pathData)
         {
@@ -43,6 +51,8 @@ namespace Files.App.Controls
 
             SetPathData(pathData ?? string.Empty, layerCanvas);
         }
+
+
 
         private void LayerSizePropertyChanged(double value)
         {
@@ -54,10 +64,14 @@ namespace Files.App.Controls
             UpdateIconLayerState();
         }
 
+
+
         private void IconColorTypeChanged()
         {
             UpdateIconLayerState();
         }
+
+
 
         private void UpdateIconLayerState()
         {
@@ -104,6 +118,8 @@ namespace Files.App.Controls
             }
         }
   
+
+
         private void SetPathData(string pathData, FrameworkElement element)
         {
             // Code to take the PathData string, and convert it to an actual path
