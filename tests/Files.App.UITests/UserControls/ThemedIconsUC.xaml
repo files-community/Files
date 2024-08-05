@@ -403,27 +403,39 @@
 								Padding="8"
 								AutomationProperties.Name="TestToggle1a"
 								IsChecked="False">
-								<controls:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" ToggleBehavior="Off"/>
+								<controls:ThemedIcon
+									IconType="Layered"
+									Style="{StaticResource IconTest}"
+									ToggleBehavior="Off" />
 							</ToggleButton>
 							<ToggleButton
 								Padding="8"
 								AutomationProperties.Name="TestToggle2a"
 								IsChecked="True">
-								<controls:ThemedIcon IsFilled="True" Style="{StaticResource IconTest}" ToggleBehavior="Off"/>
+								<controls:ThemedIcon
+									IsFilled="True"
+									Style="{StaticResource IconTest}"
+									ToggleBehavior="Off" />
 							</ToggleButton>
 							<ToggleButton
 								Padding="8"
 								AutomationProperties.Name="TestToggle3a"
 								IsChecked="False"
 								IsEnabled="False">
-								<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" ToggleBehavior="Off"/>
+								<controls:ThemedIcon
+									IconType="Outline"
+									Style="{StaticResource IconTest}"
+									ToggleBehavior="Off" />
 							</ToggleButton>
 							<ToggleButton
 								Padding="8"
 								AutomationProperties.Name="TestToggle4a"
 								IsChecked="True"
 								IsEnabled="False">
-								<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" ToggleBehavior="Off"/>
+								<controls:ThemedIcon
+									IconType="Outline"
+									Style="{StaticResource IconTest}"
+									ToggleBehavior="Off" />
 							</ToggleButton>
 						</StackPanel>
 
@@ -492,9 +504,9 @@
 								<controls:ThemedIcon
 									Width="{x:Bind TestSize.Value, Mode=TwoWay}"
 									Height="{x:Bind TestSize.Value, Mode=TwoWay}"
+									Foreground="Yellow"
 									IconColorType="Custom"
 									IconType="Layered"
-									Foreground="Yellow"
 									Style="{StaticResource IconTest}">
 									<controls:ThemedIcon.Color>
 										<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
