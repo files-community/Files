@@ -1,15 +1,15 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Runtime.InteropServices;
 using System.Drawing;
+using System.Runtime.InteropServices;
+using Windows.ApplicationModel;
 using Windows.Foundation;
+using Windows.System;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
-using Windows.ApplicationModel;
-using Windows.System;
 
 namespace Files.App.Utils.Taskbar
 {
@@ -18,6 +18,8 @@ namespace Files.App.Utils.Taskbar
 	/// </summary>
 	public sealed class SystemTrayIcon : IDisposable
 	{
+		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+
 		// Constants
 
 		private const uint WM_FILES_UNIQUE_MESSAGE = 2048u;
@@ -139,6 +141,9 @@ namespace Files.App.Utils.Taskbar
 			_IconWindow = new SystemTrayIconWindow(this);
 
 			CreateOrModifyNotifyIcon();
+
+			GeneralSettingsService.PropertyChanged -= GeneralSettingsService_PropertyChanged;
+			GeneralSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
 		}
 
 		// Public Methods
@@ -297,6 +302,17 @@ namespace Files.App.Utils.Taskbar
 				pool.Release();
 			else
 				App.Current.Exit();
+		}
+
+		private void GeneralSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(IGeneralSettingsService.ShowSystemTrayIcon))
+			{
+				if (GeneralSettingsService.ShowSystemTrayIcon)
+					Show();
+				else
+					Hide();
+			}
 		}
 
 		internal LRESULT WindowProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lParam)

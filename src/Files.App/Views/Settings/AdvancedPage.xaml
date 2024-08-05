@@ -128,6 +128,17 @@
 					IsOn="{x:Bind ViewModel.LeaveAppRunning, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
+			
+			<!--  System Tray Icon  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowSystemTrayIcon}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE75B;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowSystemTrayIcon}"
+					IsOn="{x:Bind ViewModel.ShowSystemTrayIcon, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
 
 			<!--  Experimental Settings  -->
 			<TextBlock
