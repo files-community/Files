@@ -8,11 +8,11 @@
 	<Style BasedOn="{StaticResource DefaultToolbarButtonStyle}" TargetType="local:ToolbarButton" />
 
 	<Style x:Key="DefaultToolbarButtonStyle" TargetType="local:ToolbarButton">
-		<Setter Property="Background" Value="{ThemeResource ButtonBackground}" />
-		<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
-		<Setter Property="Foreground" Value="{ThemeResource ButtonForeground}" />
-		<Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderBrush}" />
-		<Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}" />
+		<Setter Property="Background" Value="{ThemeResource ToolbarButtonBackground}" />
+		<Setter Property="BackgroundSizing" Value="OuterBorderEdge" />
+		<Setter Property="Foreground" Value="{ThemeResource ToolbarButtonForeground}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource ToolbarButtonBorderBrush}" />
+		<Setter Property="BorderThickness" Value="{ThemeResource ToolbarButtonBorderThemeThickness}" />
 		<Setter Property="Padding" Value="{StaticResource ToolbarButtonPadding}" />
 		<Setter Property="HorizontalAlignment" Value="Center" />
 		<Setter Property="VerticalAlignment" Value="Center" />
@@ -50,6 +50,7 @@
 							Content="{TemplateBinding Content}"
 							ContentTemplate="{TemplateBinding ContentTemplate}"
 							ContentTransitions="{TemplateBinding ContentTransitions}"
+							Foreground="{TemplateBinding Foreground}"
 							IsTabStop="False"
 							Visibility="Collapsed" />
 
@@ -60,6 +61,7 @@
 							IconSize="{TemplateBinding IconSize}"
 							IsFocusEngagementEnabled="False"
 							IsTabStop="False"
+							Opacity="1"
 							Style="{TemplateBinding ThemedIcon}" />
 
 						<VisualStateManager.VisualStateGroups>
@@ -69,10 +71,13 @@
 								<VisualState x:Name="PointerOver">
 									<Storyboard>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="GridRoot" Storyboard.TargetProperty="Background">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToolbarButtonBackgroundPointerOver}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToolbarButtonForegroundPointerOver}" />
 										</ObjectAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="GridRoot" Storyboard.TargetProperty="BorderBrush">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToolbarButtonBorderBrushPointerOver}" />
 										</ObjectAnimationUsingKeyFrames>
 									</Storyboard>
 									<VisualState.Setters>
@@ -82,10 +87,16 @@
 								<VisualState x:Name="Pressed">
 									<Storyboard>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="GridRoot" Storyboard.TargetProperty="Background">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToolbarButtonBackgroundPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToolbarButtonForegroundPressed}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ThemedIcon" Storyboard.TargetProperty="Opacity">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="0.75" />
 										</ObjectAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="GridRoot" Storyboard.TargetProperty="BorderBrush">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToolbarButtonBorderBrushPressed}" />
 										</ObjectAnimationUsingKeyFrames>
 									</Storyboard>
 									<VisualState.Setters>
@@ -95,10 +106,13 @@
 								<VisualState x:Name="Disabled">
 									<Storyboard>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="GridRoot" Storyboard.TargetProperty="Background">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundDisabled}" />
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToolbarButtonBackgroundDisabled}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ContentPresenter" Storyboard.TargetProperty="Foreground">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToolbarButtonForegroundDisabled}" />
 										</ObjectAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="GridRoot" Storyboard.TargetProperty="BorderBrush">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushDisabled}" />
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToolbarButtonBorderBrushDisabled}" />
 										</ObjectAnimationUsingKeyFrames>
 									</Storyboard>
 									<VisualState.Setters>

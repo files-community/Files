@@ -44,7 +44,7 @@
 			<controls:Toolbar
 				x:Name="testToolbar"
 				HorizontalAlignment="Stretch"
-				ToolbarSize="Large">
+				ToolbarSize="Medium">
 
 				<controls:Toolbar.Items>
 					<controls:ToolbarItem
@@ -57,14 +57,14 @@
 						IconSize="16"
 						ItemType="Button"
 						Label="Xaml Label 2"
-						OverflowBehavior="Always"
+						OverflowBehavior="Auto"
 						ThemedIcon="{StaticResource App.ThemedIcons.Copy}">
 						<controls:ToolbarItem.SubItems>
 							<controls:ToolbarItem
 								IconSize="16"
 								ItemType="Button"
 								Label="Xaml Label 2a"
-								OverflowBehavior="Auto"
+								OverflowBehavior="Always"
 								ThemedIcon="{StaticResource App.ThemedIcons.TagEdit}" />
 						</controls:ToolbarItem.SubItems>
 					</controls:ToolbarItem>
@@ -73,8 +73,14 @@
 						IconSize="16"
 						ItemType="ToggleButton"
 						Label="Xaml Label 3"
-						OverflowBehavior="Never"
+						OverflowBehavior="Auto"
 						ThemedIcon="{StaticResource App.ThemedIcons.PanelLeft}" />
+					<controls:ToolbarItem
+						IconSize="16"
+						ItemType="ToggleButton"
+						Label="Xaml Label 4"
+						OverflowBehavior="Never"
+						ThemedIcon="{StaticResource App.ThemedIcons.PanelRight}" />
 				</controls:Toolbar.Items>
 
 				<controls:Toolbar.ItemTemplate>
