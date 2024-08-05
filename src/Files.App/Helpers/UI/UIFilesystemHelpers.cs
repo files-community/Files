@@ -198,12 +198,12 @@ namespace Files.App.Helpers
 			if (result != DialogResult.Primary || viewModel.ShortcutCreatedSuccessfully)
 				return;
 
-			await HandleShortcutCannotBeCreated(viewModel.ShortcutCompleteName, viewModel.ShortcutTarget);
+			await HandleShortcutCannotBeCreated(viewModel.ShortcutCompleteName, viewModel.FullPath, viewModel.Arguments);
 
 			await associatedInstance.RefreshIfNoWatcherExistsAsync();
 		}
 
-		public static async Task<bool> HandleShortcutCannotBeCreated(string shortcutName, string destinationPath)
+		public static async Task<bool> HandleShortcutCannotBeCreated(string shortcutName, string destinationPath, string arguments = "")
 		{
 			var result = await DialogDisplayHelper.ShowDialogAsync
 			(
@@ -217,7 +217,7 @@ namespace Files.App.Helpers
 
 			var shortcutPath = Path.Combine(Constants.UserEnvironmentPaths.DesktopPath, shortcutName);
 
-			return await FileOperationsHelpers.CreateOrUpdateLinkAsync(shortcutPath, destinationPath);
+			return await FileOperationsHelpers.CreateOrUpdateLinkAsync(shortcutPath, destinationPath, arguments);
 		}
 
 		/// <summary>

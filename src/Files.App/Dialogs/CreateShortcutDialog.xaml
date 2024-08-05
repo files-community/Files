@@ -46,7 +46,7 @@
 
 			<!--  Path Box  -->
 			<TextBox
-				x:Name="DestinationItemPath"
+				x:Name="ShortcutTarget"
 				Grid.Row="2"
 				Grid.Column="0"
 				HorizontalAlignment="Stretch"

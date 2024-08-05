@@ -28,10 +28,10 @@ namespace Files.App.ViewModels.Dialogs
 		public string ShortcutCompleteName { get; private set; } = string.Empty;
 
 		// Full path of the destination item
-		private string _fullPath;
+		public string FullPath { get; private set; }
 
 		// Arguments to be passed to the destination item if it's an executable
-		private string _arguments;
+		public string Arguments { get; private set; }
 
 		// Previous path of the destination item
 		private string _previousShortcutTargetPath;
@@ -73,7 +73,7 @@ namespace Files.App.ViewModels.Dialogs
 
 						if (quoted == _previousShortcutTargetPath)
 						{
-							_arguments = !Directory.Exists(_fullPath) ? trimmed[(endQuoteIndex + 1)..] : string.Empty;
+							Arguments = !Directory.Exists(FullPath) ? trimmed[(endQuoteIndex + 1)..] : string.Empty;
 							return;
 						}
 
@@ -83,8 +83,8 @@ namespace Files.App.ViewModels.Dialogs
 						{
 							DestinationPathExists = true;
 							IsLocationValid = true;
-							_fullPath = Path.GetFullPath(quoted);
-							_arguments = !Directory.Exists(_fullPath) ? trimmed[(endQuoteIndex + 1)..] : string.Empty;
+							FullPath = Path.GetFullPath(quoted);
+							Arguments = !Directory.Exists(FullPath) ? trimmed[(endQuoteIndex + 1)..] : string.Empty;
 							_previousShortcutTargetPath = quoted;
 							return;
 						}
@@ -92,12 +92,13 @@ namespace Files.App.ViewModels.Dialogs
 						// If the quoted part is a valid filename, try to find it in the PATH
 						if (quoted == Path.GetFileName(quoted)
 							&& quoted.IndexOfAny(Path.GetInvalidFileNameChars()) == -1
-							&& PathHelpers.TryGetFullPath(quoted, out _fullPath)
+							&& PathHelpers.TryGetFullPath(quoted, out var fullPath)
 							)
 						{
 							DestinationPathExists = true;
 							IsLocationValid = true;
-							_arguments = trimmed[(endQuoteIndex + 1)..];
+							FullPath = fullPath;
+							Arguments = trimmed[(endQuoteIndex + 1)..];
 							_previousShortcutTargetPath = quoted;
 							return;
 						}
@@ -105,15 +106,15 @@ namespace Files.App.ViewModels.Dialogs
 						var uri = new Uri(quoted);
 						DestinationPathExists = false;
 						IsLocationValid = uri.IsWellFormedOriginalString();
-						_fullPath = quoted;
-						_arguments = string.Empty;
+						FullPath = quoted;
+						Arguments = string.Empty;
 						_previousShortcutTargetPath = string.Empty;
 					}
 					else
 					{
 						if (trimmed == _previousShortcutTargetPath)
 						{
-							_arguments = trimmed.Split(' ')[1..].Aggregate(_arguments, (current, arg) => current + arg + " ");
+							Arguments = trimmed.Split(' ')[1..].Aggregate(Arguments, (current, arg) => current + arg + " ");
 							return;
 						}
 
@@ -124,8 +125,8 @@ namespace Files.App.ViewModels.Dialogs
 						{
 							DestinationPathExists = true;
 							IsLocationValid = true;
-							_fullPath = Path.GetFullPath(trimmed);
-							_arguments = string.Empty;
+							FullPath = Path.GetFullPath(trimmed);
+							Arguments = string.Empty;
 							_previousShortcutTargetPath = string.Empty;
 							return;
 						}
@@ -133,12 +134,13 @@ namespace Files.App.ViewModels.Dialogs
 						var filename = trimmed.Split(' ')[0];
 						if (filename == Path.GetFileName(filename)
 							&& filename.IndexOfAny(Path.GetInvalidFileNameChars()) == -1
-							&& PathHelpers.TryGetFullPath(filename, out _fullPath)
+							&& PathHelpers.TryGetFullPath(filename, out var fullPath)
 							)
 						{
 							DestinationPathExists = true;
 							IsLocationValid = true;
-							_arguments = trimmed.Split(' ')[1..].Aggregate(_arguments, (current, arg) => current + arg + " ");
+							FullPath = fullPath;
+							Arguments = trimmed.Split(' ')[1..].Aggregate(Arguments, (current, arg) => current + arg + " ");
 							_previousShortcutTargetPath = filename;
 							return;
 						}
@@ -146,8 +148,8 @@ namespace Files.App.ViewModels.Dialogs
 						var uri = new Uri(trimmed);
 						DestinationPathExists = false;
 						IsLocationValid = uri.IsWellFormedOriginalString();
-						_fullPath = trimmed;
-						_arguments = string.Empty;
+						FullPath = trimmed;
+						Arguments = string.Empty;
 						_previousShortcutTargetPath = string.Empty;
 					}
 
@@ -156,8 +158,8 @@ namespace Files.App.ViewModels.Dialogs
 				{
 					DestinationPathExists = false;
 					IsLocationValid = false;
-					_fullPath = string.Empty;
-					_arguments = string.Empty;
+					FullPath = string.Empty;
+					Arguments = string.Empty;
 					_previousShortcutTargetPath = string.Empty;
 				}
 			}
@@ -218,12 +220,12 @@ namespace Files.App.ViewModels.Dialogs
 
 			if (DestinationPathExists)
 			{
-				destinationName = Path.GetFileName(_fullPath);
+				destinationName = Path.GetFileName(FullPath);
 
-				if(string.IsNullOrEmpty(_fullPath))
+				if(string.IsNullOrEmpty(FullPath))
 				{
 					
-					var destinationPath = _fullPath.Replace('/', '\\');
+					var destinationPath = FullPath.Replace('/', '\\');
 
 					if (destinationPath.EndsWith('\\'))
 						destinationPath = destinationPath.Substring(0, destinationPath.Length - 1);
@@ -233,7 +235,7 @@ namespace Files.App.ViewModels.Dialogs
 			}
 			else
 			{
-				var uri = new Uri(_fullPath);
+				var uri = new Uri(FullPath);
 				destinationName = uri.Host;
 			}
 
@@ -248,7 +250,7 @@ namespace Files.App.ViewModels.Dialogs
 				filePath = Path.Combine(WorkingDirectory, ShortcutCompleteName);
 			}
 
-			ShortcutCreatedSuccessfully = await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, _fullPath, _arguments);
+			ShortcutCreatedSuccessfully = await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, FullPath, Arguments);
 		}
 	}
 }
