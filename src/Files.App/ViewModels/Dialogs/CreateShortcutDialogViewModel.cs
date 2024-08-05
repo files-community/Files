@@ -92,8 +92,7 @@ namespace Files.App.ViewModels.Dialogs
 						// If the quoted part is a valid filename, try to find it in the PATH
 						if (quoted == Path.GetFileName(quoted)
 							&& quoted.IndexOfAny(Path.GetInvalidFileNameChars()) == -1
-							&& PathHelpers.TryGetFullPath(quoted, out var fullPath)
-							)
+							&& PathHelpers.TryGetFullPath(quoted, out var fullPath))
 						{
 							DestinationPathExists = true;
 							IsLocationValid = true;
@@ -112,12 +111,6 @@ namespace Files.App.ViewModels.Dialogs
 					}
 					else
 					{
-						if (trimmed == _previousShortcutTargetPath)
-						{
-							Arguments = trimmed.Split(' ')[1..].Aggregate(Arguments, (current, arg) => current + arg + " ");
-							return;
-						}
-
 						// Try to parse the whole text as path
 						if (Path.Exists(trimmed)
 						    && Path.IsPathFullyQualified(trimmed)
@@ -132,10 +125,16 @@ namespace Files.App.ViewModels.Dialogs
 						}
 
 						var filename = trimmed.Split(' ')[0];
+
+						if (filename == _previousShortcutTargetPath)
+						{
+							Arguments = trimmed.Split(' ')[1..].Aggregate(Arguments, (current, arg) => current + arg + " ");
+							return;
+						}
+
 						if (filename == Path.GetFileName(filename)
 							&& filename.IndexOfAny(Path.GetInvalidFileNameChars()) == -1
-							&& PathHelpers.TryGetFullPath(filename, out var fullPath)
-							)
+							&& PathHelpers.TryGetFullPath(filename, out var fullPath))
 						{
 							DestinationPathExists = true;
 							IsLocationValid = true;
