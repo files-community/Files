@@ -128,7 +128,7 @@ namespace Files.App.ViewModels.Dialogs
 
 						if (filename == _previousShortcutTargetPath)
 						{
-							Arguments = trimmed.Split(' ')[1..].Aggregate(Arguments, (current, arg) => current + arg + " ");
+							Arguments = trimmed.Split(' ')[1..].Aggregate(string.Empty, (current, arg) => current + arg + " ");
 							return;
 						}
 
@@ -139,7 +139,7 @@ namespace Files.App.ViewModels.Dialogs
 							DestinationPathExists = true;
 							IsLocationValid = true;
 							FullPath = fullPath;
-							Arguments = trimmed.Split(' ')[1..].Aggregate(Arguments, (current, arg) => current + arg + " ");
+							Arguments = trimmed.Split(' ')[1..].Aggregate(string.Empty, (current, arg) => current + arg + " ");
 							_previousShortcutTargetPath = filename;
 							return;
 						}
