@@ -27,35 +27,55 @@ namespace Files.App.ViewModels.Dialogs
 		// Shortcut name with extension
 		public string ShortcutCompleteName { get; private set; } = string.Empty;
 
+		// Full path of the destination item
+		private string _fullPath;
+
+		// Arguments to be passed to the destination item if it's an executable
+		private string _arguments;
+
+		// Previous path of the destination item
+		private string _previousShortcutTargetPath;
+
 		// Destination of the shortcut chosen by the user (can be a path, a command or a URL)
-		private string _destinationItemPath;
-		public string DestinationItemPath
+		private string _shortcutTarget;
+		public string ShortcutTarget
 		{
-			get => _destinationItemPath;
+			get => _shortcutTarget;
 			set
 			{
-				if (!SetProperty(ref _destinationItemPath, value))
+				if (!SetProperty(ref _shortcutTarget, value))
 					return;
 
 				OnPropertyChanged(nameof(ShowWarningTip));
-				if (string.IsNullOrWhiteSpace(DestinationItemPath))
+				if (string.IsNullOrWhiteSpace(ShortcutTarget))
 				{
+					DestinationPathExists = false;
 					IsLocationValid = false;
+					_previousShortcutTargetPath = string.Empty;
 					return;
 				}
 				try
 				{
-					var trimmed = DestinationItemPath.Trim();
+					var trimmed = ShortcutTarget.Trim();
 					// If the text starts with '"', try to parse the quoted part as path, and the rest as arguments
 					if (trimmed.StartsWith('"'))
 					{
 						var endQuoteIndex = trimmed.IndexOf('"', 1);
 						if (endQuoteIndex == -1)
 						{
+							DestinationPathExists = false;
 							IsLocationValid = false;
+							_previousShortcutTargetPath = string.Empty;
 							return;
 						}
+
 						var quoted = trimmed[1..endQuoteIndex];
+
+						if (quoted == _previousShortcutTargetPath)
+						{
+							_arguments = !Directory.Exists(_fullPath) ? trimmed[(endQuoteIndex + 1)..] : string.Empty;
+							return;
+						}
 
 						if (Path.Exists(quoted) 
 						    && Path.IsPathFullyQualified(quoted)
@@ -65,6 +85,7 @@ namespace Files.App.ViewModels.Dialogs
 							IsLocationValid = true;
 							_fullPath = Path.GetFullPath(quoted);
 							_arguments = !Directory.Exists(_fullPath) ? trimmed[(endQuoteIndex + 1)..] : string.Empty;
+							_previousShortcutTargetPath = quoted;
 							return;
 						}
 
@@ -77,6 +98,7 @@ namespace Files.App.ViewModels.Dialogs
 							DestinationPathExists = true;
 							IsLocationValid = true;
 							_arguments = trimmed[(endQuoteIndex + 1)..];
+							_previousShortcutTargetPath = quoted;
 							return;
 						}
 
@@ -85,9 +107,16 @@ namespace Files.App.ViewModels.Dialogs
 						IsLocationValid = uri.IsWellFormedOriginalString();
 						_fullPath = quoted;
 						_arguments = string.Empty;
+						_previousShortcutTargetPath = string.Empty;
 					}
 					else
 					{
+						if (trimmed == _previousShortcutTargetPath)
+						{
+							_arguments = trimmed.Split(' ')[1..].Aggregate(_arguments, (current, arg) => current + arg + " ");
+							return;
+						}
+
 						// Try to parse the whole text as path
 						if (Path.Exists(trimmed)
 						    && Path.IsPathFullyQualified(trimmed)
@@ -97,6 +126,7 @@ namespace Files.App.ViewModels.Dialogs
 							IsLocationValid = true;
 							_fullPath = Path.GetFullPath(trimmed);
 							_arguments = string.Empty;
+							_previousShortcutTargetPath = string.Empty;
 							return;
 						}
 
@@ -109,6 +139,7 @@ namespace Files.App.ViewModels.Dialogs
 							DestinationPathExists = true;
 							IsLocationValid = true;
 							_arguments = trimmed.Split(' ')[1..].Aggregate(_arguments, (current, arg) => current + arg + " ");
+							_previousShortcutTargetPath = filename;
 							return;
 						}
 
@@ -117,6 +148,7 @@ namespace Files.App.ViewModels.Dialogs
 						IsLocationValid = uri.IsWellFormedOriginalString();
 						_fullPath = trimmed;
 						_arguments = string.Empty;
+						_previousShortcutTargetPath = string.Empty;
 					}
 
 				}
@@ -126,6 +158,7 @@ namespace Files.App.ViewModels.Dialogs
 					IsLocationValid = false;
 					_fullPath = string.Empty;
 					_arguments = string.Empty;
+					_previousShortcutTargetPath = string.Empty;
 				}
 			}
 		}
@@ -142,10 +175,7 @@ namespace Files.App.ViewModels.Dialogs
 			}
 		}
 
-		private string _fullPath;
-		private string _arguments;
-
-		public bool ShowWarningTip => !string.IsNullOrEmpty(DestinationItemPath) && !_isLocationValid;
+		public bool ShowWarningTip => !string.IsNullOrEmpty(ShortcutTarget) && !_isLocationValid;
 
 		// Command invoked when the user clicks the 'Browse' button
 		public ICommand SelectDestinationCommand { get; private set; }
@@ -156,7 +186,7 @@ namespace Files.App.ViewModels.Dialogs
 		public CreateShortcutDialogViewModel(string workingDirectory)
 		{
 			WorkingDirectory = workingDirectory;
-			_destinationItemPath = string.Empty;
+			_shortcutTarget = string.Empty;
 
 			SelectDestinationCommand = new AsyncRelayCommand(SelectDestination);
 			PrimaryButtonCommand = new AsyncRelayCommand(CreateShortcutAsync);
@@ -173,7 +203,7 @@ namespace Files.App.ViewModels.Dialogs
 				StringBuilder path = new StringBuilder(260);
 				if (Win32PInvoke.SHGetPathFromIDList(pidl, path))
 				{
-					DestinationItemPath = path.ToString();
+					ShortcutTarget = path.ToString();
 				}
 				Marshal.FreeCoTaskMem(pidl);
 			}

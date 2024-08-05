@@ -198,7 +198,7 @@ namespace Files.App.Helpers
 			if (result != DialogResult.Primary || viewModel.ShortcutCreatedSuccessfully)
 				return;
 
-			await HandleShortcutCannotBeCreated(viewModel.ShortcutCompleteName, viewModel.DestinationItemPath);
+			await HandleShortcutCannotBeCreated(viewModel.ShortcutCompleteName, viewModel.ShortcutTarget);
 
 			await associatedInstance.RefreshIfNoWatcherExistsAsync();
 		}
