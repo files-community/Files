@@ -132,16 +132,18 @@ namespace Files.App
 					SplashScreenLoadingTCS = null;
 
 					// Create a system tray icon
+					SystemTrayIcon = new SystemTrayIcon();
 					if (userSettingsService.GeneralSettingsService.ShowSystemTrayIcon)
-						SystemTrayIcon = new SystemTrayIcon().Show();
+						SystemTrayIcon.Show();
 
 					_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
 				}
 				else
 				{
 					// Create a system tray icon
+					SystemTrayIcon = new SystemTrayIcon();
 					if (userSettingsService.GeneralSettingsService.ShowSystemTrayIcon)
-						SystemTrayIcon = new SystemTrayIcon().Show();
+						SystemTrayIcon.Show();
 
 					// Sleep current instance
 					Program.Pool = new(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
