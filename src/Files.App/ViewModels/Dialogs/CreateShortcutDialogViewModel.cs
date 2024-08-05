@@ -57,7 +57,9 @@ namespace Files.App.ViewModels.Dialogs
 						}
 						var quoted = trimmed[1..endQuoteIndex];
 
-						if (Path.Exists(quoted) && quoted != Path.GetPathRoot(quoted))
+						if (Path.Exists(quoted) 
+						    && Path.IsPathFullyQualified(quoted)
+						    && quoted != Path.GetPathRoot(quoted))
 						{
 							DestinationPathExists = true;
 							IsLocationValid = true;
@@ -87,7 +89,9 @@ namespace Files.App.ViewModels.Dialogs
 					else
 					{
 						// Try to parse the whole text as path
-						if (Path.Exists(trimmed) && trimmed != Path.GetPathRoot(trimmed))
+						if (Path.Exists(trimmed)
+						    && Path.IsPathFullyQualified(trimmed)
+							&& trimmed != Path.GetPathRoot(trimmed))
 						{
 							DestinationPathExists = true;
 							IsLocationValid = true;
