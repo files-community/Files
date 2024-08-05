@@ -549,7 +549,7 @@
     <value>Web 链接</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value>常规</value>
+    <value>通用</value>
   </data>
   <data name="Shortcut" xml:space="preserve">
     <value>快捷方式</value>
