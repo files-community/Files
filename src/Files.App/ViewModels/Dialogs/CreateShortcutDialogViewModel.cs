@@ -111,10 +111,30 @@ namespace Files.App.ViewModels.Dialogs
 					}
 					else
 					{
+						var filePath = trimmed.Split(' ')[0];
+
+						if (filePath == _previousShortcutTargetPath)
+						{
+							Arguments = !Directory.Exists(FullPath) ? trimmed.Split(' ')[1..].Aggregate(string.Empty, (current, arg) => current + arg + " ") : string.Empty;
+							return;
+						}
+
+						if (Path.Exists(filePath)
+						    && Path.IsPathFullyQualified(filePath)
+						    && filePath != Path.GetPathRoot(filePath))
+						{
+							DestinationPathExists = true;
+							IsLocationValid = true;
+							FullPath = Path.GetFullPath(filePath);
+							Arguments = !Directory.Exists(FullPath) ? trimmed.Split(' ')[1..].Aggregate(string.Empty, (current, arg) => current + arg + " ") : string.Empty;
+							_previousShortcutTargetPath = filePath;
+							return;
+						}
+
 						// Try to parse the whole text as path
 						if (Path.Exists(trimmed)
 						    && Path.IsPathFullyQualified(trimmed)
-							&& trimmed != Path.GetPathRoot(trimmed))
+						    && trimmed != Path.GetPathRoot(trimmed))
 						{
 							DestinationPathExists = true;
 							IsLocationValid = true;
@@ -124,23 +144,15 @@ namespace Files.App.ViewModels.Dialogs
 							return;
 						}
 
-						var filename = trimmed.Split(' ')[0];
-
-						if (filename == _previousShortcutTargetPath)
-						{
-							Arguments = trimmed.Split(' ')[1..].Aggregate(string.Empty, (current, arg) => current + arg + " ");
-							return;
-						}
-
-						if (filename == Path.GetFileName(filename)
-							&& filename.IndexOfAny(Path.GetInvalidFileNameChars()) == -1
-							&& PathHelpers.TryGetFullPath(filename, out var fullPath))
+						if (filePath == Path.GetFileName(filePath)
+							&& filePath.IndexOfAny(Path.GetInvalidFileNameChars()) == -1
+							&& PathHelpers.TryGetFullPath(filePath, out var fullPath))
 						{
 							DestinationPathExists = true;
 							IsLocationValid = true;
 							FullPath = fullPath;
 							Arguments = trimmed.Split(' ')[1..].Aggregate(string.Empty, (current, arg) => current + arg + " ");
-							_previousShortcutTargetPath = filename;
+							_previousShortcutTargetPath = filePath;
 							return;
 						}
 
