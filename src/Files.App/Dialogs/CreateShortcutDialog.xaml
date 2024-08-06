@@ -46,12 +46,12 @@
 
 			<!--  Path Box  -->
 			<TextBox
-				x:Name="DestinationItemPath"
+				x:Name="ShortcutTarget"
 				Grid.Row="2"
 				Grid.Column="0"
 				HorizontalAlignment="Stretch"
 				PlaceholderText="{x:Bind ViewModel.DestinationPlaceholder, Mode=OneWay}"
-				Text="{x:Bind ViewModel.DestinationItemPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+				Text="{x:Bind ViewModel.ShortcutTarget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 				<TextBox.Resources>
 					<TeachingTip
 						x:Name="InvalidPathWarning"
