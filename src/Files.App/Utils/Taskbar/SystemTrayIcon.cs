@@ -18,8 +18,6 @@ namespace Files.App.Utils.Taskbar
 	/// </summary>
 	public sealed class SystemTrayIcon : IDisposable
 	{
-		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
-
 		// Constants
 
 		private const uint WM_FILES_UNIQUE_MESSAGE = 2048u;
@@ -141,8 +139,6 @@ namespace Files.App.Utils.Taskbar
 			_IconWindow = new SystemTrayIconWindow(this);
 
 			CreateOrModifyNotifyIcon();
-
-			GeneralSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
 		}
 
 		// Public Methods
@@ -301,17 +297,6 @@ namespace Files.App.Utils.Taskbar
 				pool.Release();
 			else
 				App.Current.Exit();
-		}
-
-		private void GeneralSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == nameof(IGeneralSettingsService.ShowSystemTrayIcon))
-			{
-				if (GeneralSettingsService.ShowSystemTrayIcon)
-					Show();
-				else
-					Hide();
-			}
 		}
 
 		internal LRESULT WindowProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lParam)

@@ -93,6 +93,8 @@ namespace Files.App.Helpers
 
 				return Task.CompletedTask;
 			}
+
+			generalSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
 		}
 
 		/// <summary>
@@ -355,6 +357,22 @@ namespace Files.App.Helpers
 
 			// The least significant bit of the 9th byte controls the auto-hide setting																		
 			return value != null && ((value[8] & 0x01) == 1);
+		}
+
+		/// <summary>
+		/// Updates the visibility of the system tray icon
+		/// </summary>
+		private static void GeneralSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+
+			if (e.PropertyName == nameof(IGeneralSettingsService.ShowSystemTrayIcon))
+			{
+				if (generalSettingsService.ShowSystemTrayIcon)
+					App.SystemTrayIcon?.Show();
+				else
+					App.SystemTrayIcon?.Hide();
+			}
 		}
 	}
 }

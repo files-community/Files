@@ -18,7 +18,7 @@ namespace Files.App
 	/// </summary>
 	public partial class App : Application
 	{
-		private static SystemTrayIcon? SystemTrayIcon { get; set; }
+		public static SystemTrayIcon? SystemTrayIcon { get; set; }
 
 		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
 		public static string? OutputPath { get; set; }
