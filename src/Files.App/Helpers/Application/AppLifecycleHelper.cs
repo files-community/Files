@@ -364,7 +364,8 @@ namespace Files.App.Helpers
 		/// </summary>
 		private static void GeneralSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+			if (sender is not IGeneralSettingsService generalSettingsService)
+				return;
 
 			if (e.PropertyName == nameof(IGeneralSettingsService.ShowSystemTrayIcon))
 			{
