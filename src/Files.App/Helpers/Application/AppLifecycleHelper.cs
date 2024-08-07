@@ -166,6 +166,7 @@ namespace Files.App.Helpers
 					.AddSingleton<ITagsContext, TagsContext>()
 					.AddSingleton<ISidebarContext, SidebarContext>()
 					// Services
+					.AddSingleton<IWindowsAppLauncherService, WindowsAppLauncherService>()
 					.AddSingleton<IWindowsIniService, WindowsIniService>()
 					.AddSingleton<IWindowsWallpaperService, WindowsWallpaperService>()
 					.AddSingleton<IWindowsSecurityService, WindowsSecurityService>()

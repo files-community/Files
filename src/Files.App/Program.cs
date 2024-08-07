@@ -275,7 +275,8 @@ namespace Files.App
 
 			Task.Run(() =>
 			{
-				LaunchHelper.LaunchAppAsync(filePath, null, null).Wait();
+				var windowsLaunchAppService = Ioc.Default.GetRequiredService<IWindowsAppLauncherService>();
+				windowsLaunchAppService.LaunchApplicationAsync(filePath, null, null).Wait();
 				SetEvent(eventHandle);
 			});
 

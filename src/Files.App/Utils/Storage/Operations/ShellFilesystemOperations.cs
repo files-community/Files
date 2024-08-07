@@ -224,13 +224,13 @@ namespace Files.App.Utils.Storage
 							var args = CommandLineParser.SplitArguments(newEntryInfo.Command);
 							if (args.Any())
 							{
-								if (await LaunchHelper.LaunchAppAsync(
-										args[0].Replace("\"", "", StringComparison.Ordinal),
-										string.Join(' ', args.Skip(1)).Replace("%1", source.Path),
-										PathNormalization.GetParentDir(source.Path)))
-								{
+								var windowsLaunchAppService = Ioc.Default.GetRequiredService<IWindowsAppLauncherService>();
+
+								if (await windowsLaunchAppService.LaunchApplicationAsync(
+									args[0].Replace("\"", "", StringComparison.Ordinal),
+									string.Join(' ', args.Skip(1)).Replace("%1", source.Path),
+									PathNormalization.GetParentDir(source.Path)))
 									success = true;
-								}
 							}
 						}
 						else

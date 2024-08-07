@@ -13,6 +13,7 @@ namespace Files.App.ViewModels.Properties
 	public abstract class BasePropertiesPage : Page, IDisposable
 	{
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
+		private IWindowsAppLauncherService WindowsLaunchAppService = Ioc.Default.GetRequiredService<IWindowsAppLauncherService>();
 
 		public IShellPage AppInstance = null;
 
@@ -41,7 +42,7 @@ namespace Files.App.ViewModels.Properties
 
 				ViewModel.CleanupVisibility = props.Drive.Type != DriveType.Network;
 				ViewModel.FormatVisibility = !(props.Drive.Type == DriveType.Network || string.Equals(props.Drive.Path, $@"{Constants.UserEnvironmentPaths.SystemDrivePath}\", StringComparison.OrdinalIgnoreCase));
-				ViewModel.CleanupDriveCommand = new AsyncRelayCommand(() => StorageSenseHelper.OpenStorageSenseAsync(props.Drive.Path));
+				ViewModel.CleanupDriveCommand = new AsyncRelayCommand(() => WindowsLaunchAppService.LaunchStorageSensePolicySettingsAsync());
 				ViewModel.FormatDriveCommand = new RelayCommand(async () =>
 				{
 					try
