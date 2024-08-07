@@ -19,15 +19,16 @@ namespace Files.App.Controls
     /// </summary>
     public partial class ThemedIcon : Control
     {
-        private bool _isHighContrast;
-        private bool _isToggled;
-        private bool _isEnabled;
-        private bool _isFilled;
-        private double _iconSize;
+        private bool				_isHighContrast;
+        private ToggleBehaviors		_toggleBehavior;
+        private bool				_ownerToggled;
+        private bool				_isEnabled;
+        private bool				_isFilled;
+        private double				_iconSize;
 
-        private ToggleButton? ownerToggleButton = null;
+        private ToggleButton?		ownerToggleButton		= null;
         private AppBarToggleButton? ownerAppBarToggleButton = null;
-        private Control? ownerControl = null;
+        private Control?			ownerControl			= null;
 
         public ThemedIcon()
         {
@@ -152,7 +153,7 @@ namespace Files.App.Controls
                 ownerToggleButton.Checked += OwnerControl_IsCheckedChanged;
                 ownerToggleButton.Unchecked += OwnerControl_IsCheckedChanged;
 
-                ToggleChanged(ownerToggleButton.IsChecked is true);
+                UpdateOwnerToggle( ownerToggleButton.IsChecked is true);
             }
 
             ownerAppBarToggleButton = this.FindAscendant<AppBarToggleButton>();
@@ -162,7 +163,7 @@ namespace Files.App.Controls
                 ownerAppBarToggleButton.Checked += OwnerControl_IsCheckedChanged;
                 ownerAppBarToggleButton.Unchecked += OwnerControl_IsCheckedChanged;
 
-                ToggleChanged(ownerAppBarToggleButton.IsChecked is true);
+                UpdateOwnerToggle( ownerAppBarToggleButton.IsChecked is true);
             }
 
             ownerControl = this.FindAscendant<Control>();
@@ -182,9 +183,9 @@ namespace Files.App.Controls
                 return;
 
             if (ownerToggleButton is not null)
-                ToggleChanged(ownerToggleButton.IsChecked is true);
+                UpdateOwnerToggle( ownerToggleButton.IsChecked is true);
             else if (ownerAppBarToggleButton is not null)
-                ToggleChanged(ownerAppBarToggleButton.IsChecked is true);
+                UpdateOwnerToggle( ownerAppBarToggleButton.IsChecked is true);
         }
 
         private void OwnerControl_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -196,10 +197,17 @@ namespace Files.App.Controls
             EnabledChanged(ownerControl.IsEnabled);
         }
 
-        private void ToggleChanged(bool value)
+        private void ToggleBehaviorChanged(ToggleBehaviors value)
         {
             // Handles the IsToggled property change
-            _isToggled = value;
+            _toggleBehavior = value;
+
+            UpdateVisualStates();
+        }
+
+        private void UpdateOwnerToggle(bool isToggled)
+        {
+            _ownerToggled = isToggled;
 
             UpdateVisualStates();
         }
@@ -256,14 +264,14 @@ namespace Files.App.Controls
         private void InitialIconStateValues()
         {
             _isEnabled = IsEnabled;
-            _isToggled = IsToggled;
+            _toggleBehavior = ToggleBehavior;
             _isHighContrast = IsHighContrast;
             _iconSize = IconSize;
         }
 
         private void UpdateIconStates()
         {
-            ToggleChanged(_isToggled);
+            ToggleBehaviorChanged(_toggleBehavior);
             EnabledChanged(_isEnabled);
             HighContrastChanged(_isHighContrast);
         }
@@ -277,79 +285,108 @@ namespace Files.App.Controls
 
         private void UpdateIconTypeStates()
         {
-            /*
             // Handles changes to the IconType and setting the correct Visual States.
 
-            // Handles the two IconType states, based on the ThemedIcon.IconType value
-            // as well as states derived from owner controls, and other properties
-
-            // We first check for isToggled and isFilled icon types and states
-            // Then we check for Contrast and Disabled states, to replace Layered with Outline and set EnabledStates
-            // Finally we assigned Filled and Layered states, and default otherwise to Outline
-            */
-
-            if (_isToggled is true || IsToggled is true || _isFilled is true || IsFilled is true)
-            {
-                VisualStateManager.GoToState(this, FilledTypeStateName, true);
-                return;
-            }
-            else if (_isHighContrast is true || IsHighContrast is true || _isEnabled is false || IsEnabled is false)
-            {
-                VisualStateManager.GoToState(this, OutlineTypeStateName, true);
-                VisualStateManager.GoToState(this, DisabledStateName, true);
-                return;
-            }
-            else
-            {
-                if (IconType == ThemedIconTypes.Layered)
-                {
-                    VisualStateManager.GoToState(this, LayeredTypeStateName, true);
-                }
-                else
-                {
-                    VisualStateManager.GoToState(this, OutlineTypeStateName, true);
-                }
-            }
+            // If ToggleBehavior is Auto, we check for _ownerToggle
+			if ( _toggleBehavior == ToggleBehaviors.Auto )
+			{
+				if ( _ownerToggled is true || _isFilled is true || IsFilled is true )
+				{
+					VisualStateManager.GoToState( this , FilledTypeStateName , true );
+					return;
+				}
+				else if ( _isHighContrast is true || IsHighContrast is true || _isEnabled is false || IsEnabled is false )
+				{
+					VisualStateManager.GoToState( this , OutlineTypeStateName , true );
+					VisualStateManager.GoToState( this , DisabledStateName , true );
+					return;
+				}
+				else
+				{
+					if ( IconType == ThemedIconTypes.Layered )
+					{
+						VisualStateManager.GoToState( this , LayeredTypeStateName , true );
+					}
+					else
+					{
+						VisualStateManager.GoToState( this , OutlineTypeStateName , true );
+					}
+				}
+			}
+			// If ToggleBehavior is On, we only go to Filled.
+			else if ( _toggleBehavior == ToggleBehaviors.On )
+			{
+				VisualStateManager.GoToState( this , FilledTypeStateName , true );
+			}
+			// For Off, we don't respond to _ownerToggle at all
+			else
+			{
+				if ( _isFilled is true || IsFilled is true )
+				{
+					VisualStateManager.GoToState( this , FilledTypeStateName , true );
+					return;
+				}
+				else if ( _isHighContrast is true || IsHighContrast is true || _isEnabled is false || IsEnabled is false )
+				{
+					VisualStateManager.GoToState( this , OutlineTypeStateName , true );
+					VisualStateManager.GoToState( this , DisabledStateName , true );
+					return;
+				}
+				else
+				{
+					if ( IconType == ThemedIconTypes.Layered )
+					{
+						VisualStateManager.GoToState( this , LayeredTypeStateName , true );
+					}
+					else
+					{
+						VisualStateManager.GoToState( this , OutlineTypeStateName , true );
+					}
+				}
+			}
 
             VisualStateManager.GoToState(this, EnabledStateName, true);
         }
 
         private void UpdateIconColorTypeStates()
         {
-            /*
             // Handles changes to the IconColorType and setting the correct Visual States.
 
-            // We first check if the Icon is Disabled
-            // Then we check if the Disabled Icon is Toggled
-
-            // We then assume the Icon is Enabled
-            // We then check the Toggled state for the Contrast Icons
-            // We have two states depending on toggle.
-
-            // Finally we act on all other Enabled states
-            // We check for Toggled state
-            // And update the IconColorType in the Layered Icon's Layers
-            */
-
+			// First we check the enabled state
             if (_isEnabled is false || IsEnabled is false)
             {
-                if (_isToggled is true || IsToggled is true)
-                {
-                    VisualStateManager.GoToState(this, DisabledToggleColorStateName, true);
-                }
-                else
-                {
-                    VisualStateManager.GoToState(this, DisabledColorStateName, true);
-                }
+				// If ToggleBehavior is Auto and _ownerToggled is true
+				if ( _toggleBehavior == ToggleBehaviors.Auto && _ownerToggled is true )
+				{
+					VisualStateManager.GoToState( this , DisabledToggleColorStateName , true );
+				}
+				// If ToggleBehavior is On
+				else if ( _toggleBehavior == ToggleBehaviors.On )
+				{
+					VisualStateManager.GoToState( this , DisabledToggleColorStateName , true );
+				}
+				// everything else uses Disabled Color
+				else
+				{
+					VisualStateManager.GoToState( this , DisabledColorStateName , true );
+				}
             }
+			// Everything else is Enabled
             else
             {
-                if (_isToggled is true || IsToggled is true)
-                {
+				// If ToggleBehavior is Auto and _ownerToggled is true
+				if ( _toggleBehavior == ToggleBehaviors.Auto && _ownerToggled is true )
+				{
                     VisualStateManager.GoToState(this, ToggleStateName, true);
                 }
-                else
-                {
+				// If ToggleBehavior is On
+				else if ( _toggleBehavior == ToggleBehaviors.On )
+				{
+					VisualStateManager.GoToState( this , ToggleStateName , true );
+				}
+				// everything else uses the appropriate color state
+				else
+				{
                     VisualStateManager.GoToState(
                         this,
                         IconColorType switch

@@ -79,14 +79,14 @@ namespace Files.App.Controls
         // Boolean properties
 
         /// <summary>
-        /// The backing <see cref="DependencyProperty"/> for the <see cref="IsToggled"/> property.
+        /// The backing <see cref="DependencyProperty"/> for the <see cref="ToggleBehavior"/> property.
         /// </summary>
-        public static readonly DependencyProperty IsToggledProperty =
+        public static readonly DependencyProperty ToggleBehaviorProperty =
             DependencyProperty.Register(
-                nameof(IsToggled),
-                typeof(bool),
+                nameof(ToggleBehavior),
+                typeof(ToggleBehaviors),
                 typeof(ThemedIcon),
-                new PropertyMetadata(defaultValue: false, (d, e) => ((ThemedIcon)d).OnIsToggledPropertyChanged((bool)e.OldValue, (bool)e.NewValue)));
+                new PropertyMetadata(defaultValue: ToggleBehaviors.Auto, (d, e) => ((ThemedIcon)d).OnToggleBehaviorPropertyChanged((ToggleBehaviors)e.OldValue, (ToggleBehaviors)e.NewValue)));
 
         /// <summary>
         /// The backing <see cref="DependencyProperty"/> for the <see cref="IsFilled"/> property.
@@ -191,10 +191,10 @@ namespace Files.App.Controls
         /// <summary>
         /// Gets or sets a value indicating whether the Icon should use Toggled states.
         /// </summary>        
-        public bool IsToggled
+        public ToggleBehaviors ToggleBehavior
         {
-            get => (bool)GetValue(IsToggledProperty);
-            set => SetValue(IsToggledProperty, value);
+            get => (ToggleBehaviors)GetValue( ToggleBehaviorProperty );
+            set => SetValue( ToggleBehaviorProperty , value);
         }
 
         /// <summary>
@@ -269,9 +269,9 @@ namespace Files.App.Controls
 
         // Boolean changed events
 
-        protected virtual void OnIsToggledPropertyChanged(bool oldValue, bool newValue)
+        protected virtual void OnToggleBehaviorPropertyChanged(ToggleBehaviors oldValue , ToggleBehaviors newValue)
         {
-            ToggleChanged(newValue);
+            ToggleBehaviorChanged(newValue);
         }
 
         protected virtual void OnIsFilledPropertyChanged(bool oldValue, bool newValue)
