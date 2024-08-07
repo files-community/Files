@@ -175,10 +175,10 @@
     <value>Ostatnio używany:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Wyczyść ostatnie elementy</value>
+    <value>Wyczyść wszystkie elementy</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Wprowadź ścieżkę, do której chcesz przejść lub wpisz "&gt;", aby otworzyć paletę poleceń</value>
+    <value>Wprowadź ścieżkę nawigacji lub wpisz "&gt;", aby otworzyć paletę poleceń</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Szukaj</value>
@@ -187,7 +187,7 @@
     <value>Tutaj pojawią się wcześniej otwierane pliki</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Usuń z listy</value>
+    <value>Usuń ten element</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>Repozytorium GitHub</value>
@@ -196,7 +196,7 @@
     <value>O aplikacji</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Otwarty kod źródłówy</value>
+    <value>Otwarty kod źródłowy</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Format daty</value>
@@ -283,7 +283,7 @@
     <value>Przyznaj uprawnienia</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Przed rozpoczęciem należy przyznać aplikacji uprawnienia do odczytu plików. Otworzy się karta w Ustawieniach, gdzie można przyznać te uprawnienia. Będzie wymagany restart aplikacji po wprowadzeniu zmian. </value>
+    <value>Aby rozpocząć, musisz przyznać uprawnienia do odczytu Twoich plików. Spowoduje to otwarcie strony w Ustawieniach, na której możesz to wykonać. Po wprowadzeniu zmian należy ponownie otworzyć aplikację. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Widok</value>
@@ -439,11 +439,11 @@
     <value>Podana nazwa elementu jest nieprawidłowa</value>
   </data>
   <data name="SelectedItems" xml:space="preserve">
-    <value>{0, plural, one {# element wybrany} few {# elementy wybrane} many {# elementy wybrane} other {# elementy wybrane}}</value>
+    <value>{0, plural, one {# element wybrany} few {# elementy wybrane} many {# elementów wybranych} other {# elementy wybrane}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>{0, plural, one {przedmiot} few {przedmioty} many {przedmioty} other {przedmioty}}</value>
+    <value>{0, plural, one {przedmiot} few {przedmioty} many {przedmiotów} other {przedmioty}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
@@ -477,10 +477,10 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0, number} {0, plural, one {plik} other {plików}}, {1, number} {1, plural, one {folder} other {folderów}}</value>
+    <value>{0, number} {0, plural, one {plik} few {pliki} other {plików}}, {1, number} {1, plural, one {folder} few {foldery} other {folderów}}</value>
   </data>
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
-    <value>{0, number} {0, plural, one {plik} other {plików}}, {1, number} {1, plural, one {folder} other {folderów}} z {2, number} {2, plural, one {lokacji} other {lokacji}}</value>
+    <value>{0, number} {0, plural, one {plik} few {pliki} other {plików}}, {1, number} {1, plural, one {folder} few {foldery} other {folderów}} z {2, number} {2, plural, one {lokacji} other {lokacji}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Uruchom jako inny użytkownik</value>
@@ -516,7 +516,7 @@
     <value>Status</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Domyślny dla systemu Windows</value>
+    <value>Domyślny systemu Windows</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>Brak wyników</value>
@@ -747,7 +747,7 @@
     <value>Odległość ogniskowa</value>
   </data>
   <data name="PropertyAperture" xml:space="preserve">
-    <value>Przysłona</value>
+    <value>Obiektyw</value>
   </data>
   <data name="PropertyPeopleNames" xml:space="preserve">
     <value>Nazwa osób</value>
@@ -873,7 +873,7 @@
     <value>Ilość słów</value>
   </data>
   <data name="PropertyCharacterCount" xml:space="preserve">
-    <value>Ilość liter</value>
+    <value>Ilość znaków</value>
   </data>
   <data name="PropertyLineCount" xml:space="preserve">
     <value>Ilość linii</value>
@@ -948,7 +948,7 @@
     <value>Wybierz</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
-    <value>Element Kosza</value>
+    <value>Kosz</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>Skrót</value>
@@ -1005,7 +1005,7 @@
     <value>Nie</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>Pokaż chronione pliki systemu operacyjnego</value>
+    <value>Pokaż chronione pliki systemu</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
     <value>Synchronizuj układ i preferencje sortowania pomiędzy katalogami</value>
@@ -1068,7 +1068,7 @@
     <value>Żądana nazwa</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Przełącz panel zapory sieciowej</value>
+    <value>Przełącz panel podglądu</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>Przełącz panel szczegółów</value>
@@ -1077,7 +1077,7 @@
     <value>Przełącz panel szczegółów, aby wyświetlić podstawowe właściwości pliku</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Przełącz panel informacyjny</value>
+    <value>Przełącz panel informacji</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Przełącz panel informacji, aby wyświetlić szczegóły/podgląd</value>
@@ -1089,7 +1089,7 @@
     <value>Podgląd niedostępny</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
-    <value>Nazwa</value>
+    <value>Nazwa elementu</value>
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Odepnij z panelu bocznego</value>
@@ -1110,16 +1110,16 @@
     <value>Opinia</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
-    <value>Dostępne w trybie Online</value>
+    <value>Dostępne w trybie online</value>
   </data>
   <data name="Documentation" xml:space="preserve">
     <value>Dokumentacja</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
-    <value>Dostępne w trybie Offline</value>
+    <value>Dostępne w trybie offline</value>
   </data>
   <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
-    <value>Częściowo dostępne w trybie Offline</value>
+    <value>Częściowo dostępne w trybie offline</value>
   </data>
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
     <value>Synchronizowanie</value>
@@ -1140,7 +1140,7 @@
     <value>Stacja dysków CD ROM</value>
   </data>
   <data name="DriveTypeCloudDrive" xml:space="preserve">
-    <value>Chmura</value>
+    <value>Dysk w chmurze</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
     <value>Dysk twardy</value>
@@ -1158,7 +1158,7 @@
     <value>Dysk RAM</value>
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
-    <value>Wymienny urządzenie magazynujące</value>
+    <value>Wymienne urządzenie pamięci masowej</value>
   </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>Nieznany</value>
@@ -1206,10 +1206,10 @@
     <value>Kolumny (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
-    <value>Przypnij do Menu Start</value>
+    <value>Przypnij do menu Start</value>
   </data>
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
-    <value>Odepnij od Menu Start</value>
+    <value>Odepnij od menu Start</value>
   </data>
   <data name="Library" xml:space="preserve">
     <value>Biblioteka</value>
@@ -1230,25 +1230,25 @@
     <value>Nazwa nie może posiadać znaków: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ErrorNameInputRestricted" xml:space="preserve">
-    <value>Niedozwolona nazwa</value>
+    <value>Niedozwolona nazwa!</value>
   </data>
   <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
     <value>Bliblioteka z tą samą nazwą już istnieje!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>Otwórz Storage Sense</value>
+    <value>Otwórz Czujnik pamięci</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Kopiuj</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Skopiuj {0, plural, one {element} few {elementy} many {elementy} other {elementy}}</value>
+    <value>Skopiuj {0, plural, one {element} other {elementy}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
     <value>Usuń {0, plural, one {element} other{elementy}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>Przenoszenie</value>
+    <value>Przenieś</value>
   </data>
   <data name="MoveItemsDialogSubtitle" xml:space="preserve">
     <value>{0, plural, one {# element zostanie przeniesiony} few {# elementy zostaną przeniesione} many {# elementów zostanie przeniesionych} other {# elementów zostanie przeniesionych}}</value>
@@ -1263,7 +1263,7 @@
     <value>Kontynuuj</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
-    <value>{0, plural, one {Istnieje jedna sprzeczna nazwa pliku} few {Istnieją # sprzeczne nazwy plików} many {Istnieje # sprzecznych nazw plików} other {Istnieje # sprzecznych nazw plików}}</value>
+    <value>{0, plural, one {Istnieje # sprzeczna nazwa pliku} few {Istnieją # sprzeczne nazwy plików} many {Istnieje # sprzecznych nazw plików} other {Istnieje # sprzecznych nazw plików}}</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
     <value>{0, plural, one {Istnieje # sprzeczna nazwa pliku} few {Istnieją # sprzeczne nazwy plików} many {Istnieje # sprzecznych nazw plików} other {Istnieje # sprzecznych nazw plików}} i {1, plural, one {# element wychodzący} few {# elementy wychodzące} many {# elementów wychodzących} other {# elementów wychodzących}}</value>
@@ -1275,7 +1275,7 @@
     <value>{0, plural, one {# element zostanie skopiowany} few {# elementy zostaną skopiowane} many {# elementów zostanie skopiowanych} other {# elementów zostanie skopiowanych}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Usuń trwale</value>
+    <value>Usuń na stałe</value>
   </data>
   <data name="PropertyISO" xml:space="preserve">
     <value>Szybkość ISO</value>
@@ -1443,7 +1443,7 @@
     <value>Nieznane konto</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>Nie masz uprawnień do przeglądania zabezpieczeń tego objektu. Kliknij "Uprawnienia zaawansowane" aby kontynuować.</value>
+    <value>Nie masz uprawnień do przeglądania zabezpieczeń tego obiektu. Kliknij "Uprawnienia zaawansowane" aby kontynuować.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Właściciel:</value>
@@ -1470,13 +1470,13 @@
     <value>Czy na pewno chcesz przywrócić domyślne biblioteki? Wszystkie pliki pozostaną na Twoim dysku.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
-    <value>Przywróć Biblioteki</value>
+    <value>Przywróć biblioteki</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Właściciel</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
-    <value>Uprawnienia specjalne</value>
+    <value>Specjalne</value>
   </data>
   <data name="Access" xml:space="preserve">
     <value>Dostęp</value>
@@ -1503,7 +1503,7 @@
     <value>Uprawnienia</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>Nie masz uprawnień do przeglądania właściwości zabezpieczeń tego obiektu. Możesz spróbować przejąć własność nad tym objektem.</value>
+    <value>Nie masz uprawnień do przeglądania właściwości zabezpieczeń tego obiektu. Możesz spróbować przejąć własność nad tym obiektem.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>Ten folder i pliki</value>
@@ -1608,7 +1608,7 @@
     <value>Znaki towarowe</value>
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
-    <value>Wersja pliku:</value>
+    <value>Wersja pliku</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
     <value>Załaduj pełny podgląd</value>
@@ -1656,7 +1656,7 @@
     <value>Ctrl+Shift+6</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
-    <value>Rozpakowywanie archiwum zakończone pomyślnie.</value>
+    <value>Wypakowywanie archiwum zakończone pomyślnie.</value>
   </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
     <value>Wypakowywanie archiwum</value>
@@ -1908,7 +1908,7 @@
     <value>Uruchom skrypt</value>
   </data>
   <data name="RunWithPowerShell" xml:space="preserve">
-    <value>Otwórz za pomocą programu PowerShell</value>
+    <value>Uruchom przy użyciu PowerShell</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Obliczanie rozmiaru folderów wymaga dużej ilości zasobów i może spowodować wzrost wykorzystania procesora.</value>
@@ -2220,7 +2220,7 @@
     <value>Zawsze</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
-    <value>Tylko trwałe usuwanie</value>
+    <value>Tylko usuwanie na stałe</value>
   </data>
   <data name="Never" xml:space="preserve">
     <value>Nigdy</value>
@@ -2358,7 +2358,7 @@
     <value>Przełącz, czy pokazać ukryte elementy</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Toggle whether to show dot files</value>
+    <value>Przełącz, czy pokazać pliki rozpoczynające się kropką</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Przełącz, czy pokazywać rozszerzenia plików</value>
@@ -2445,7 +2445,7 @@
     <value>Przypnij element(y) do menu Start</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Odepnij element(y) z Menu Start</value>
+    <value>Odepnij element(y) z menu Start</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
     <value>Przypnij folder(y) do panelu bocznego</value>
@@ -2938,7 +2938,7 @@
     <value>Otwórz lokalizację elementu</value>
   </data>
   <data name="DeletePermanently" xml:space="preserve">
-    <value>Usuń trwale</value>
+    <value>Usuń na stałe</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
     <value>Usuń element(y) na stałe</value>
@@ -3452,11 +3452,11 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
-    <value>Rozpakowano "{0}" do "{1}"</value>
+    <value>Wypakowano "{0}" do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
-    <value>Rozpakowano "{0}" z "{1}" do "{2}"</value>
+    <value>Wypakowano "{0}" z "{1}" do "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
@@ -3472,7 +3472,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
-    <value>Wyodrębnianie "{0}" z "{1}" do "{2}"</value>
+    <value>Wypakowywanie "{0}" z "{1}" do "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
@@ -3520,7 +3520,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Błąd przesuwania {0} plików do "{1}"</value>
+    <value>Błąd przenoszenia {0} plików do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
@@ -3598,7 +3598,7 @@
     <value>Wypakuj elementy z wybranych archiwów do bieżącego folderu dla jednoelementowych archiwów lub do nowego folderu dla wieloelementowych archiwów</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
-    <value>Wypakuj tutaj (Smart)</value>
+    <value>Wypakuj tutaj (Inteligentnie)</value>
   </data>
   <data name="SortFilesAndFoldersTogether" xml:space="preserve">
     <value>Posortuj razem pliki i foldery</value>
@@ -3799,7 +3799,7 @@
     <value>Wyrównanie pionowe</value>
   </data>
   <data name="ThinAcrylic" xml:space="preserve">
-    <value>Cienka akryla</value>
+    <value>Cienki Akryl</value>
     <comment>This is a type of backdrop for the application background</comment>
   </data>
   <data name="AllLocations" xml:space="preserve">

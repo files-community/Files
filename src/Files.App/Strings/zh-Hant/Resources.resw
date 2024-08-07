@@ -981,7 +981,7 @@
     <value>將索引標籤移到新視窗</value>
   </data>
   <data name="NewTab" xml:space="preserve">
-    <value>新索引標籤</value>
+    <value>新標籤</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>部分屬性可能會包含個資。</value>
@@ -1971,7 +1971,7 @@
     <value>調整欄位至合適寬度</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Automatically choose the best layout</value>
+    <value>詳細資訊</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>自動調整（Ctrl + Shift + 7）</value>
@@ -2313,10 +2313,10 @@
     <value>固定項目</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>減少大小</value>
+    <value>縮小</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
-    <value>增加大小</value>
+    <value>放大</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>切換排序方向</value>
@@ -2520,10 +2520,10 @@
     <value>以系統管理員身分在終端機開啟資料夾</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease item size in the current view</value>
+    <value>在目前視圖中縮小</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase item size in the current view</value>
+    <value>在目前視圖中放大</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>切換至詳細資訊檢視</value>
@@ -2538,16 +2538,16 @@
     <value>列表</value>
   </data>
   <data name="Grid" xml:space="preserve">
-    <value>網格</value>
+    <value>圖示</value>
   </data>
   <data name="LayoutGridDescription" xml:space="preserve">
-    <value>切換至網格檢視</value>
+    <value>切換至圖示檢視</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
     <value>切換至列檢視</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch views adaptively</value>
+    <value>切換至詳細資訊檢視</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
     <value>按名稱排序</value>
@@ -2631,13 +2631,13 @@
     <value>開啟新索引標籤</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward in navigation history</value>
+    <value>在檢索歷史返回上一步</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward in navigation history</value>
+    <value>在檢索歷史前進下一步</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
-    <value>Navigate up one directory</value>
+    <value>上級目錄</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
     <value>複製目前的索引標籤</value>
@@ -3218,7 +3218,7 @@
     <value>Open directory in new tab</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open directory in new window</value>
+    <value>在新視窗中開啟目錄</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
     <value>開啟所有</value>
@@ -3595,10 +3595,10 @@
     <value>套用此標籤時發生錯誤</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to current folder for single-item archive, or to new folder for multi-item archive</value>
+    <value>如果壓縮檔內只有單一文件，將所選的壓縮檔解壓至目前文件夾，否則解壓縮至子資料夾。</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
-    <value>Extract here (Smart)</value>
+    <value>解壓縮檔案（智能）</value>
   </data>
   <data name="SortFilesAndFoldersTogether" xml:space="preserve">
     <value>Sort files and folders together</value>
@@ -3725,13 +3725,13 @@
     <value>Actions</value>
   </data>
   <data name="Commands" xml:space="preserve">
-    <value>Commands</value>
+    <value>指令</value>
   </data>
   <data name="AddCommand" xml:space="preserve">
-    <value>Add command</value>
+    <value>新增指令</value>
   </data>
   <data name="RestoreDefaults" xml:space="preserve">
-    <value>Restore defaults</value>
+    <value>重置為預設</value>
   </data>
   <data name="ChooseAnAction" xml:space="preserve">
     <value>Choose an action</value>
@@ -3749,17 +3749,17 @@
     <value>Customized</value>
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
-    <value>Adaptive layout is not available when preferences are synced, the default layout has been changed to Details.</value>
+    <value>自適應視圖在偏好設定被同步時不可用，預設視圖已更新為詳細資料視圖。</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
     <value>Background image</value>
   </data>
   <data name="Bottom" xml:space="preserve">
-    <value>Bottom</value>
+    <value>底端對齊</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Center" xml:space="preserve">
-    <value>Center</value>
+    <value>中間對齊</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Fill" xml:space="preserve">
@@ -3767,24 +3767,24 @@
     <comment>Image stretch type</comment>
   </data>
   <data name="HorizontalAlignment" xml:space="preserve">
-    <value>Horizontal alignment</value>
+    <value>水平對齊</value>
   </data>
   <data name="ImageFit" xml:space="preserve">
     <value>Image fit</value>
   </data>
   <data name="Left" xml:space="preserve">
-    <value>Left</value>
+    <value>左對齊</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Opacity" xml:space="preserve">
     <value>Opacity</value>
   </data>
   <data name="Right" xml:space="preserve">
-    <value>Right</value>
+    <value>右對齊</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Top" xml:space="preserve">
-    <value>Top</value>
+    <value>頂部對齊</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Uniform" xml:space="preserve">
@@ -3796,7 +3796,7 @@
     <comment>Image stretch type</comment>
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
-    <value>Vertical alignment</value>
+    <value>垂直對齊</value>
   </data>
   <data name="ThinAcrylic" xml:space="preserve">
     <value>Thin Acrylic</value>

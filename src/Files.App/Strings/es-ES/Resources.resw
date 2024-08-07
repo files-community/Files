@@ -2358,7 +2358,7 @@
     <value>Mostrar/Ocultar elementos ocultos</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Toggle whether to show dot files</value>
+    <value>Mostrar/Ocultar archivos de puntos</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Mostrar/Ocultar las extensiones de archivos</value>

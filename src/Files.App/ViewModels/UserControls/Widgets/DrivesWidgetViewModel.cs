@@ -72,8 +72,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				return;
 			}
 
-			ContentPageContext.ShellPage!.NavigateWithArguments(
-				ContentPageContext.ShellPage!.InstanceViewModel.FolderSettings.GetLayoutType(path),
+			if (ContentPageContext.ShellPage is not IShellPage shellPage)
+				return;
+
+			shellPage.NavigateWithArguments(
+				shellPage.InstanceViewModel.FolderSettings.GetLayoutType(path),
 				new() { NavPathParam = path });
 		}
 

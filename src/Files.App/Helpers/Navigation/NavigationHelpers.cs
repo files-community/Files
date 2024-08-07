@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.System;
+using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Helpers
 {
@@ -128,6 +129,35 @@ namespace Files.App.Helpers
 				if (a1.LeftPaneNavPathParam == a2.LeftPaneNavPathParam && a1.RightPaneNavPathParam == a2.RightPaneNavPathParam)
 					(tabItem.Header, tabItem.IconSource, tabItem.ToolTipText) = result;
 			}
+		}
+
+		public static async Task<ImageSource?> GetIconForPathAsync(string path)
+		{
+			ImageSource? imageSource;
+			if (string.IsNullOrEmpty(path) || path == "Home")
+				imageSource = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
+			else if (WSLDistroManager.TryGetDistro(path, out WslDistroItem? wslDistro) && path.Equals(wslDistro.Path))
+				imageSource = new BitmapImage(wslDistro.Icon);
+			else
+			{
+				var normalizedPath = PathNormalization.NormalizePath(path);
+				var matchingCloudDrive = CloudDrivesManager.Drives.FirstOrDefault(x => normalizedPath.Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
+				imageSource = matchingCloudDrive?.Icon;
+
+				if (imageSource is null)
+				{
+					var result = await FileThumbnailHelper.GetIconAsync(
+						path,
+						Constants.ShellIconSizes.Small,
+						true,
+						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+
+					if (result is not null)
+						imageSource = await result.ToBitmapAsync();
+				}
+			}
+
+			return imageSource;
 		}
 
 		public static async Task<(string tabLocationHeader, IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)

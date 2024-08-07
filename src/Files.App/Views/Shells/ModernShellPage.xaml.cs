@@ -1,7 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -13,12 +12,6 @@ namespace Files.App.Views.Shells
 {
 	public sealed partial class ModernShellPage : BaseShellPage
 	{
-		public override bool CanNavigateBackward
-			=> ItemDisplayFrame.CanGoBack;
-
-		public override bool CanNavigateForward
-			=> ItemDisplayFrame.CanGoForward;
-
 		protected override Frame ItemDisplay
 			=> ItemDisplayFrame;
 

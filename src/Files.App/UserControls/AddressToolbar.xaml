@@ -5,7 +5,6 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
-	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -13,10 +12,12 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:items="using:Files.App.Data.Items"
 	xmlns:keyboard="using:Files.App.UserControls.KeyboardShortcut"
+	xmlns:local="using:Files.App.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:ucs="using:Files.App.UserControls.StatusCenter"
+	xmlns:vm="using:Files.App.ViewModels.UserControls"
 	x:Name="NavToolbar"
 	Height="50"
 	d:DesignHeight="50"
@@ -237,7 +238,7 @@
 
 			<!--  Page Navigation Actions  -->
 			<StackPanel
-				Grid.Row="1"
+				Grid.Column="0"
 				Orientation="Horizontal"
 				Spacing="4">
 
@@ -274,6 +275,22 @@
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
+					<Button.ContextFlyout>
+						<MenuFlyout
+							x:Name="BackHistoryFlyout"
+							Opening="BackHistoryFlyout_Opening"
+							Placement="BottomEdgeAlignedLeft"
+							ScrollViewer.VerticalScrollBarVisibility="Auto"
+							ScrollViewer.VerticalScrollMode="Auto">
+							<MenuFlyout.MenuFlyoutPresenterStyle>
+								<Style TargetType="MenuFlyoutPresenter">
+									<Setter Property="MaxHeight" Value="400" />
+									<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
+									<Setter Target="HighContrastAdjustment" Value="None" />
+								</Style>
+							</MenuFlyout.MenuFlyoutPresenterStyle>
+						</MenuFlyout>
+					</Button.ContextFlyout>
 				</Button>
 
 				<Button
@@ -288,6 +305,22 @@
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
+					<Button.ContextFlyout>
+						<MenuFlyout
+							x:Name="ForwardHistoryFlyout"
+							Opening="ForwardHistoryFlyout_Opening"
+							Placement="BottomEdgeAlignedLeft"
+							ScrollViewer.VerticalScrollBarVisibility="Auto"
+							ScrollViewer.VerticalScrollMode="Auto">
+							<MenuFlyout.MenuFlyoutPresenterStyle>
+								<Style TargetType="MenuFlyoutPresenter">
+									<Setter Property="MaxHeight" Value="400" />
+									<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
+									<Setter Target="HighContrastAdjustment" Value="None" />
+								</Style>
+							</MenuFlyout.MenuFlyoutPresenterStyle>
+						</MenuFlyout>
+					</Button.ContextFlyout>
 				</Button>
 
 				<Button
@@ -367,7 +400,6 @@
 									x:Name="RightAlignedKeyboardShortcut"
 									Grid.Column="1"
 									HotKeys="{x:Bind HotKeys, Mode=OneWay}" />
-
 							</Grid>
 						</StackPanel>
 					</DataTemplate>

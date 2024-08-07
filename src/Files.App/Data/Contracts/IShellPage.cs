@@ -1,6 +1,8 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml.Navigation;
+
 namespace Files.App.Data.Contracts
 {
 	public interface IShellPage : ITabBarItemContent, IMultiPaneInfo, IDisposable, INotifyPropertyChanged
@@ -10,6 +12,10 @@ namespace Files.App.Data.Contracts
 		CurrentInstanceViewModel InstanceViewModel { get; }
 
 		StorageHistoryHelpers StorageHistoryHelpers { get; }
+
+		IList<PageStackEntry> ForwardStack { get; }
+
+		IList<PageStackEntry> BackwardStack { get; }
 
 		IBaseLayoutPage SlimContentPage { get; }
 

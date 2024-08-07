@@ -184,7 +184,7 @@
     <value>Suche</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Kürzlich verwendete Dateien und Ordner werden hier angezeigt</value>
+    <value>Kürzlich verwendete Dateien werden hier angezeigt</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Datei aus Verlauf entfernen</value>
@@ -564,7 +564,7 @@
     <value>Files hatte ein Problem, auf das die Entwickler noch nicht vorbereitet sind.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
-    <value>Etwas ist schief gelaufen!</value>
+    <value>Etwas ist schiefgelaufen!</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
     <value>Dieses Problem melden</value>
@@ -582,7 +582,7 @@
     <value>Zurzeit gibt es nichts zu teilen...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
-    <value>Die von Dir ausgewählten Elemente werden geteilt</value>
+    <value>Die von dir ausgewählten Elemente werden geteilt</value>
   </data>
   <data name="ShareDialogSingleItemDescription" xml:space="preserve">
     <value>Das ausgewählte Element wird geteilt</value>
@@ -597,7 +597,7 @@
     <value>Der Eintrag, den du umzubenennen versuchst, existiert nicht mehr. Bitte verifiziere den korrekten Ort des Eintrags, den du umbenennen möchtest.</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
-    <value>Das Element exisitert nicht mehr</value>
+    <value>Das Element existiert nicht mehr</value>
   </data>
   <data name="RenameError.NameInvalid.Text" xml:space="preserve">
     <value>Der angegebene Name war ungültig. Bitte überprüfe den gewünschten Artikelnamen und versuche es erneut.</value>
@@ -1029,7 +1029,7 @@
     <value>Tabs im Doppel-Panel-Modus öffnen</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Option anzeigen, um Ordner in einem neuen Panel zu öffnen</value>
+    <value>Option anzeigen, um Ordner in einem neuen Bereich zu öffnen</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
     <value>Option anzeigen, um den Pfad zu kopieren</value>
@@ -1041,10 +1041,10 @@
     <value>Option anzeigen, um Verknüpfung zu erstellen</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
-    <value>Neues Panel</value>
+    <value>Neuer Bereich</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
-    <value>In neuem Panel öffnen</value>
+    <value>In neuem Bereich öffnen</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>Dateien &amp; Ordner</value>
@@ -1587,7 +1587,7 @@
     <value>Alle Rechte des untergeordneten Objektes mit vererbaren Rechten dieses Objekts ersetzen</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
-    <value>Aktives Panel schließen</value>
+    <value>Aktiven Bereich schließen</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Zum kompakten Overlay wechseln</value>
@@ -1614,7 +1614,7 @@
     <value>Vollständige Vorschau laden</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Lädt die Datei aus der Cloud herunter und lädt die Vorschau.</value>
+    <value>Lädt die Datei aus der Cloud herunter und lädt die Vorschau</value>
   </data>
   <data name="DetailsArchiveItems" xml:space="preserve">
     <value>{0, plural, one {# Element } other {# Elemente }} ({1, plural, one {# Datei} other {# Dateien}}, {2, plural, one {# Ordner} other {# Ordner}})</value>
@@ -2358,7 +2358,7 @@
     <value>Umschalten, ob versteckte Elemente angezeigt werden sollen</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Toggle whether to show dot files</value>
+    <value>Umschalten, ob mit einem Punkt beginnende Dateien angezeigt werden sollen</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Umschalten, ob Dateierweiterungen angezeigt werden sollen</value>
@@ -2676,13 +2676,13 @@
     <value>Aktuellen Tab schließen</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>Aktives Panel schließen</value>
+    <value>Aktiven Bereich schließen</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
-    <value>Anderes Fenster fokussieren</value>
+    <value>Anderen Bereich fokussieren</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Fokus auf das nicht aktive Fenster umschalten</value>
+    <value>Fokus auf den nicht aktiven Bereich wechseln</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Seitenleiste umschalten</value>
@@ -3562,7 +3562,7 @@
     <value>Keine laufenden Dateioperationen</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>Die Option, Dateien beim Windows-Start zu öffnen, ist aufgrund deiner Systemeinstellungen oder Gruppenrichtlinien nicht verfügbar. Um sie wieder zu aktivieren, öffne die Startseite im Task-Manager.</value>
+    <value>Die Option, Files beim Windows-Start zu öffnen, ist aufgrund deiner Systemeinstellungen oder Gruppenrichtlinien nicht verfügbar. Um sie wieder zu aktivieren, öffne die Seite Autostart im Task-Manager.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
     <value>Wiederherstellung der Elemente aus dem Papierkorb fehlgeschlagen</value>
@@ -3864,40 +3864,40 @@
     <value>Tab-Aktionen-Menü</value>
   </data>
   <data name="AddVerticalPane" xml:space="preserve">
-    <value>Vertikales Fenster hinzufügen</value>
+    <value>Vertikalen Bereich hinzufügen</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Vertikales Fenster hinzufügen</value>
+    <value>Vertikalen Bereich hinzufügen</value>
   </data>
   <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Horizontales Fenster hinzufügen</value>
+    <value>Horizontalen Bereich hinzufügen</value>
   </data>
   <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Horizontales Fenster hinzufügen</value>
+    <value>Horizontalen Bereich hinzufügen</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Vertikal anordnen</value>
   </data>
   <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
-    <value>Fenster vertikal anordnen</value>
+    <value>Bereiche vertikal anordnen</value>
   </data>
   <data name="ArrangePanesHorizontally" xml:space="preserve">
     <value>Horizontal anordnen</value>
   </data>
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
-    <value>Fenster waagerecht anordnen</value>
+    <value>Bereiche horizontal anordnen</value>
   </data>
   <data name="AddPane" xml:space="preserve">
-    <value>Fenster hinzufügen</value>
+    <value>Bereich hinzufügen</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Schaltfläche „Registerkartenaktionen“ in der Titelleiste anzeigen</value>
   </data>
   <data name="ArrangePanes" xml:space="preserve">
-    <value>Fenster anordnen</value>
+    <value>Bereiche anordnen</value>
   </data>
   <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>Standard-Anordnung der Fenster</value>
+    <value>Standard-Anordnung der Bereiche</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>Horizontal</value>
