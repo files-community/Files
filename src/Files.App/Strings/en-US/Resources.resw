@@ -3905,4 +3905,7 @@
   <data name="Vertical" xml:space="preserve">
     <value>Vertical</value>
   </data>
+  <data name="SettingsTerminalIntegration" xml:space="preserve">
+    <value>Enable Terminal integration</value>
+  </data>
 </root>
