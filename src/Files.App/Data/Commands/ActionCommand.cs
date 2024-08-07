@@ -27,7 +27,7 @@ namespace Files.App.Data.Commands
 
 		/// <inheritdoc/>
 		public string LabelWithHotKey
-			=> HotKeyText is null ? Label : $"{Label} ({HotKeyText})";
+			=> HotKeyText is null ? Action.LabelSpec : $"{Action.LabelSpec} ({HotKeyText})";
 
 		/// <inheritdoc/>
 		public string AutomationName
@@ -180,6 +180,7 @@ namespace Files.App.Data.Commands
 					break;
 				case nameof(IToggleAction.IsOn) when IsToggle:
 					OnPropertyChanging(nameof(IsOn));
+					OnPropertyChanging(nameof(LabelWithHotKey));
 					break;
 				case nameof(IAction.IsExecutable):
 					OnPropertyChanging(nameof(IsExecutable));
@@ -198,6 +199,7 @@ namespace Files.App.Data.Commands
 					break;
 				case nameof(IToggleAction.IsOn) when IsToggle:
 					OnPropertyChanged(nameof(IsOn));
+					OnPropertyChanged(nameof(LabelWithHotKey));
 					break;
 				case nameof(IAction.IsExecutable):
 					OnPropertyChanged(nameof(IsExecutable));
