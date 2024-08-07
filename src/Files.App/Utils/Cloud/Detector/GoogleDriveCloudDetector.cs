@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System.IO;
 using Windows.Storage;
+// TODO: Avoid to use Vanara (#15000)
 using Vanara.Windows.Shell;
 
 namespace Files.App.Utils.Cloud
