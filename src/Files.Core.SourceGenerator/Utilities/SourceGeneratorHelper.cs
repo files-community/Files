@@ -1,20 +1,17 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Files.Core.SourceGenerator.Utilities
 {
+	/// <summary>
+	/// Helper methods and constants for source code generation tasks.
+	/// </summary>
 	internal static class SourceGeneratorHelper
 	{
 		internal const string AttributeNamespace = $"{nameof(Files)}.App.Data.Attributes.";
+		internal const string HelperNamespace = $"{nameof(Files)}.App.Helpers.";
 		internal const string DisableSourceGeneratorAttribute = AttributeNamespace + "DisableSourceGeneratorAttribute";
 		internal const string AssemblyName = $"{nameof(Files)}.{nameof(SourceGenerator)}.";
 		internal const string AssemblyVersion = "1.1.1";
@@ -311,12 +308,22 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// <returns>4n*space</returns>
 		internal static string Spacing(int n)
 		{
-			var temp = "";
-			for (var i = 0; i < n; ++i)
-				temp += "    ";
-			return temp;
+			Span<char> spaces = stackalloc char[n * 4];
+			spaces.Fill(' ');
+
+			var sb = new StringBuilder(n * 4);
+			foreach (var c in spaces)
+				_ = sb.Append(c);
+
+			return sb.ToString();
 		}
 
+		/// <summary>
+		/// Retrieves properties of a specified type symbol that do not have an attribute indicating they should be ignored.
+		/// </summary>
+		/// <param name="typeSymbol">The type symbol whose properties are examined.</param>
+		/// <param name="attribute">The attribute symbol that indicates properties to ignore.</param>
+		/// <returns>An enumerable collection of property symbols.</returns>
 		internal static IEnumerable<IPropertySymbol> GetProperties(this ITypeSymbol typeSymbol, INamedTypeSymbol attribute)
 		{
 			foreach (var member in typeSymbol.GetMembers())
@@ -331,19 +338,25 @@ namespace Files.Core.SourceGenerator.Utilities
 			}
 		}
 
+		/// <summary>
+		/// Checks if a symbol has an attribute that should cause it to be ignored based on a specified attribute type.
+		/// </summary>
+		/// <param name="symbol">The symbol to check for the attribute.</param>
+		/// <param name="attribute">The attribute symbol indicating that the symbol should be ignored.</param>
+		/// <returns><c>true</c> if the symbol should be ignored based on the attribute; otherwise, <c>false</c>.</returns>
 		internal static bool IgnoreAttribute(ISymbol symbol, INamedTypeSymbol attribute)
 		{
 			attribute = attribute is { IsGenericType: true, IsUnboundGenericType: false } ? attribute.ConstructUnboundGenericType() : attribute;
 			if (symbol.GetAttributes()
-				    .FirstOrDefault(propertyAttribute => propertyAttribute.AttributeClass!.ToDisplayString() is AttributeNamespace + "AttributeIgnoreAttribute")
-			    is { ConstructorArguments: [{ Kind: TypedConstantKind.Array }] args })
+					.FirstOrDefault(propertyAttribute => propertyAttribute.AttributeClass!.ToDisplayString() is AttributeNamespace + "AttributeIgnoreAttribute")
+				is { ConstructorArguments: [{ Kind: TypedConstantKind.Array }] args })
 				if (args[0].Values.Any(t =>
-				    {
-					    if (t.Value is not INamedTypeSymbol type)
-						    return false;
-					    type = type is { IsGenericType: true, IsUnboundGenericType: false } ? type.ConstructUnboundGenericType() : type;
-					    return SymbolEqualityComparer.Default.Equals(type, attribute);
-				    }))
+					{
+						if (t.Value is not INamedTypeSymbol type)
+							return false;
+						type = type is { IsGenericType: true, IsUnboundGenericType: false } ? type.ConstructUnboundGenericType() : type;
+						return SymbolEqualityComparer.Default.Equals(type, attribute);
+					}))
 					return true;
 			return false;
 		}
