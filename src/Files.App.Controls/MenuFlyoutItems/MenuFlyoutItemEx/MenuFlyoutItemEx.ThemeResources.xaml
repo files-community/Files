@@ -1,0 +1,23 @@
+<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Files.App.Controls">
+
+	<ResourceDictionary.ThemeDictionaries>
+
+		<ResourceDictionary x:Key="Default">
+			<SolidColorBrush x:Key="MenuFlyoutItemExBackground" Color="#1100FF00" />
+		</ResourceDictionary>
+
+		<ResourceDictionary x:Key="Light">
+			<SolidColorBrush x:Key="MenuFlyoutItemExBackground" Color="#110000FF" />
+		</ResourceDictionary>
+
+		<ResourceDictionary x:Key="HighContrast">
+			<SolidColorBrush x:Key="MenuFlyoutItemExBackground" Color="#11FF0000" />
+		</ResourceDictionary>
+
+	</ResourceDictionary.ThemeDictionaries>
+
+</ResourceDictionary>
