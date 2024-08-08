@@ -351,7 +351,7 @@ namespace Files.App.Views.Layouts
 
 			textBox.Focus(FocusState.Pointer);
 			textBox.LostFocus += RenameTextBox_LostFocus;
-			textBox.KeyDown += RenameTextBox_KeyDown;
+			textBox.PreviewKeyDown += RenameTextBox_KeyDown;
 
 			int selectedTextLength = RenamingItem.Name.Length;
 			if (!RenamingItem.IsShortcut && UserSettingsService.FoldersSettingsService.ShowFileExtensions)
@@ -406,7 +406,7 @@ namespace Files.App.Views.Layouts
 			if (textBox is not null)
 			{
 				textBox.LostFocus -= RenameTextBox_LostFocus;
-				textBox.KeyDown -= RenameTextBox_KeyDown;
+				textBox.PreviewKeyDown -= RenameTextBox_KeyDown;
 			}
 
 			FileNameTeachingTip.IsOpen = false;

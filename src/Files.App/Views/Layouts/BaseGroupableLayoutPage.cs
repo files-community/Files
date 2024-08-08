@@ -256,7 +256,7 @@ namespace Files.App.Views.Layouts
 
 			textBox.Focus(FocusState.Pointer);
 			textBox.LostFocus += RenameTextBox_LostFocus;
-			textBox.KeyDown += RenameTextBox_KeyDown;
+			textBox.PreviewKeyDown += RenameTextBox_KeyDown;
 
 			int selectedTextLength = SelectedItem.Name.Length;
 
@@ -327,6 +327,16 @@ namespace Files.App.Views.Layouts
 					break;
 				case VirtualKey.Right:
 					e.Handled = (textBox.SelectionStart + textBox.SelectionLength) == textBox.Text.Length;
+					break;
+				case VirtualKey.Home:
+					if (!isShiftPressed)
+						textBox.SelectionStart = 0;
+					e.Handled = true;
+					break;
+				case VirtualKey.End:
+					if (!isShiftPressed)
+						textBox.SelectionStart = textBox.Text.Length;
+					e.Handled = true;
 					break;
 				case VirtualKey.Tab:
 					textBox.LostFocus -= RenameTextBox_LostFocus;
