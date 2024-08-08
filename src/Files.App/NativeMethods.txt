@@ -103,3 +103,11 @@ GetDpiForWindow
 CallWindowProc
 MINMAXINFO
 SUBCLASSPROC
+SetWindowPlacement
+GetWindowPlacement
+WINDOWPLACEMENT
+GetSystemMetrics
+MONITORENUMPROC
+EnumDisplayMonitors
+MONITORINFOEXW
+GetMonitorInfo
