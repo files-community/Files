@@ -6,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System.IO;
 using Windows.Storage;
-// TODO: Avoid to use Vanara (#15000)
 using Vanara.Windows.Shell;
 
 namespace Files.App.Utils.Cloud
@@ -28,14 +27,6 @@ namespace Files.App.Utils.Cloud
 
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{
-
-			// TESTING
-			var rootsLogger = GetAltLogger("debugRoots.log");
-			var mediaLogger = GetAltLogger("debugMedia.log");
-			var yieldReturnLogger = GetAltLogger("debugYieldReturn.log");
-			var rootPrefTablesLogger = GetAltLogger("debugRootPrefTables.log");
-			var invalidPathsLogger = GetAltLogger("debugInvalidPaths.log");
-
 			// Google Drive's sync database can be in a couple different locations. Go find it.
 			string appDataPath = UserDataPaths.GetDefault().LocalAppData;
 
@@ -83,9 +74,10 @@ namespace Files.App.Utils.Cloud
 
 				App.AppModel.GoogleDrivePath = path;
 
-				// TESTING
-				yieldReturnLogger.LogInformation("YIELD RETURNING from GoogleDriveCloudDetector#GetProviders (roots): ");
-				yieldReturnLogger.LogInformation("name=" + $"Google Drive ({title}); path=" + path);
+#if DEBUG
+				Debug.WriteLine("YIELD RETURNING from GoogleDriveCloudDetector#GetProviders (roots): ");
+				Debug.WriteLine("name=" + $"Google Drive ({title}); path=" + path);
+#endif
 
 				yield return new CloudProvider(CloudProviders.GoogleDrive)
 				{
@@ -103,9 +95,9 @@ namespace Files.App.Utils.Cloud
 				if (string.IsNullOrWhiteSpace(path))
 					continue;
 
-				if (!AddMyDriveToPathAndValidate(ref path, invalidPathsLogger))
+				if (!AddMyDriveToPathAndValidate(ref path))
 				{ 
-					invalidPathsLogger.LogInformation("Validation failed for " + path + " (media)");
+					_logger.LogWarning("Validation failed for " + path + " (media)");
 					continue;
 				}
 
@@ -116,9 +108,10 @@ namespace Files.App.Utils.Cloud
 
 				StorageFile? iconFile = await GetGoogleDriveIconFileAsync();
 
-				// TESTING
-				yieldReturnLogger.LogInformation("YIELD RETURNING from GoogleDriveCloudDetector#GetProviders (media): ");
-				yieldReturnLogger.LogInformation("name=" + title + "; path=" + path);
+#if DEBUG
+				Debug.WriteLine("YIELD RETURNING from GoogleDriveCloudDetector#GetProviders (media): ");
+				Debug.WriteLine("name=" + title + "; path=" + path);
+#endif
 
 				yield return new CloudProvider(CloudProviders.GoogleDrive)
 				{
@@ -128,42 +121,42 @@ namespace Files.App.Utils.Cloud
 				};
 			}
 
-			// TESTING
-			await Inspect(database, "SELECT * FROM roots", "root_preferences db, roots table", rootsLogger);
-			await Inspect(database, "SELECT * FROM media", "root_preferences db, media table", mediaLogger);
+#if DEBUG
+			await Inspect(database, "SELECT * FROM roots", "root_preferences db, roots table");
+			await Inspect(database, "SELECT * FROM media", "root_preferences db, media table");
 			await Inspect(database, "SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY 1",
-				"root_preferences db, all tables", rootPrefTablesLogger);
+				"root_preferences db, all tables");
+#endif
 
-			await foreach (var provider in GetGoogleDriveProvidersFromRegistryAsync(invalidPathsLogger))
+			await foreach (var provider in GetGoogleDriveProvidersFromRegistryAsync())
 			{
 
-				// TESTING
-				yieldReturnLogger.LogInformation("YIELD RETURNING from GoogleDriveCloudDetector#GetProviders (registry): ");
-				yieldReturnLogger.LogInformation("name=" + provider.Name + "; path=" + provider.SyncFolder);
+#if DEBUG
+				Debug.WriteLine("YIELD RETURNING from GoogleDriveCloudDetector#GetProviders (registry): ");
+				Debug.WriteLine("name=" + provider.Name + "; path=" + provider.SyncFolder);
+#endif
 
 				yield return provider;
 			}
 		}
 
-		// TESTING
-		private async Task Inspect(SqliteConnection database, string sqlCommand, string contentsOf, ILogger logger)
+		private async Task Inspect(SqliteConnection database, string sqlCommand, string contentsOf)
 		{
 			await using var cmdTablesAll =
 				new SqliteCommand(sqlCommand, database);
 			var reader = await cmdTablesAll.ExecuteReaderAsync();
 			var colNamesList = Enumerable.Range(0, reader.FieldCount).Select(j => reader.GetName(j)).ToList();
 			var i = 0;
-			logger.LogInformation("BEGIN LOGGING of " + contentsOf + " contents");
+			Debug.WriteLine("BEGIN LOGGING of " + contentsOf + " contents");
 			while (reader.Read())
 			{
 				var colVals = new object[reader.FieldCount];
 				reader.GetValues(colVals);
 				colVals.Select((val, j) => $"row {i}: column {j}: {colNamesList[j]}: {val}").ToList()
-					.ForEach(s => logger.LogInformation(s));
+					.ForEach(s => Debug.WriteLine(s));
 				i++;
 			}
-			logger.LogInformation("END LOGGING of " + contentsOf + " contents");
-
+			Debug.WriteLine("END LOGGING of " + contentsOf + " contents");
 		}
 
 		private ILogger GetAltLogger(string filename)
@@ -219,9 +212,8 @@ namespace Files.App.Utils.Cloud
             return googleDriveRegValueJson;
         }
 
-		private async IAsyncEnumerable<ICloudProvider> GetGoogleDriveProvidersFromRegistryAsync(ILogger invalidPathsLogger)
+		private async IAsyncEnumerable<ICloudProvider> GetGoogleDriveProvidersFromRegistryAsync()
 		{
-			var registryLogger = GetAltLogger("debugRegistry.log");
             var googleDriveRegValJson = GetGoogleDriveRegValJson();
 
             if (googleDriveRegValJson is null)
@@ -243,8 +235,10 @@ namespace Files.App.Utils.Cloud
 				yield break;
 			}
 
-			// TESTING
-			registryLogger.LogInformation(googleDriveRegValJsonProperty.ToString());
+#if DEBUG
+			Debug.WriteLine("REGISTRY LOGGING");
+			Debug.WriteLine(googleDriveRegValJsonProperty.ToString());
+#endif
 
 			foreach (var item in googleDriveRegValJsonProperty.Value.EnumerateArray())
 			{
@@ -259,9 +253,9 @@ namespace Files.App.Utils.Cloud
 				if (path is null)
 					continue;
 
-				if (!AddMyDriveToPathAndValidate(ref path, invalidPathsLogger))
+				if (!AddMyDriveToPathAndValidate(ref path))
 				{
-					invalidPathsLogger.LogInformation("Validation failed for " + path + " (media)");
+					_logger.LogWarning("Validation failed for " + path + " (media)");
 					continue;
 				}
 
@@ -290,7 +284,7 @@ namespace Files.App.Utils.Cloud
 			return await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
 		}
 
-		private bool AddMyDriveToPathAndValidate(ref string path, ILogger invalidPathsLogger)
+		private bool AddMyDriveToPathAndValidate(ref string path)
 		{
 			// If Google Drive is mounted as a drive, then the path found in the registry will be
 			// *just* the drive letter (e.g. just "G" as opposed to "G:\"), and therefore must be
@@ -313,6 +307,7 @@ namespace Files.App.Utils.Cloud
 
 			// If `path` contains a shortcut named "My Drive", store its target in `shellFolderBaseFirst`.
 			// This happens when "My Drive syncing options" is set to "Mirror files".
+			// TODO: Avoid to use Vanara (#15000)
 			using var shellFolderBase = ShellFolderExtensions.GetShellItemFromPathOrPIDL(path) as ShellFolder;
 			var shellFolderBaseFirst = Environment.ExpandEnvironmentVariables((
 				                                                                  shellFolderBase?.FirstOrDefault(si =>
@@ -321,8 +316,10 @@ namespace Files.App.Utils.Cloud
 			                                                                  ?.TargetPath ??
 			                                                                  "");
 
-			// TESTING
-			shellFolderBase?.ForEach(si => invalidPathsLogger.LogInformation(si.Name));
+#if DEBUG
+			Debug.WriteLine("INVALID PATHS LOGGER");
+			shellFolderBase?.ForEach(si => Debug.WriteLine(si.Name));
+#endif
 
 			if (!string.IsNullOrEmpty(shellFolderBaseFirst))
 			{
