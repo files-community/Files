@@ -1,0 +1,103 @@
+<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<UserControl
+	x:Class="Files.App.UITests.UserControls.StorageControlsUC"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:Files.App.UITests.UserControls"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:primitives="using:Files.App.Controls.Primitives"
+	mc:Ignorable="d">
+
+	<Grid
+		x:Name="RootGrid"
+		Padding="24"
+		HorizontalAlignment="Stretch"
+		VerticalAlignment="Stretch">
+
+		<ScrollViewer HorizontalContentAlignment="Left" VerticalContentAlignment="Top">
+			<StackPanel Spacing="12">
+
+				<ToggleSwitch
+					x:Name="testCircle"
+					Header="IsCircle"
+					IsOn="True" />
+
+				<NumberBox
+					x:Name="testWidth"
+					Header="Width"
+					SpinButtonPlacementMode="Inline"
+					Value="100" />
+
+				<NumberBox
+					x:Name="testHeight"
+					Header="Height"
+					SpinButtonPlacementMode="Inline"
+					Value="120" />
+
+				<NumberBox
+					x:Name="testRadiusHeight"
+					Header="RadiusHeight"
+					SpinButtonPlacementMode="Inline"
+					Value="50" />
+
+				<Slider
+					x:Name="testAngle"
+					Header="EndAngle"
+					Maximum="540"
+					Minimum="-180"
+					Value="270.0" />
+
+				<StackPanel Orientation="Horizontal" Spacing="16">
+					<Border
+						Width="{x:Bind testWidth.Value, Mode=TwoWay}"
+						Height="{x:Bind testHeight.Value, Mode=TwoWay}"
+						Background="Red">
+
+						<primitives:RingShape
+							Width="{x:Bind testWidth.Value, Mode=TwoWay}"
+							Height="{x:Bind testHeight.Value, Mode=TwoWay}"
+							EndAngle="{x:Bind testAngle.Value, Mode=TwoWay}"
+							IsCircle="{x:Bind testCircle.IsOn, Mode=TwoWay}"
+							MaxAngle="360"
+							MinAngle="0"
+							RadiusHeight="{x:Bind testRadiusHeight.Value, Mode=TwoWay}"
+							RadiusWidth="{x:Bind testRadiusHeight.Value, Mode=TwoWay}"
+							StartAngle="0"
+							Stroke="Yellow"
+							StrokeEndLineCap="Triangle"
+							StrokeStartLineCap="Round"
+							StrokeThickness="20" />
+
+					</Border>
+
+					<Border
+						Width="{x:Bind testWidth.Value, Mode=TwoWay}"
+						Height="{x:Bind testHeight.Value, Mode=TwoWay}"
+						Background="#FF3333FF">
+
+						<primitives:RingShape
+							Width="{x:Bind testWidth.Value, Mode=TwoWay}"
+							Height="{x:Bind testHeight.Value, Mode=TwoWay}"
+							EndAngle="{x:Bind testAngle.Value, Mode=TwoWay}"
+							IsCircle="{x:Bind testCircle.IsOn, Mode=TwoWay}"
+							MaxAngle="360"
+							MinAngle="0"
+							RadiusHeight="{x:Bind testRadiusHeight.Value, Mode=TwoWay}"
+							RadiusWidth="{x:Bind testRadiusHeight.Value, Mode=TwoWay}"
+							StartAngle="0"
+							Stroke="Magenta"
+							StrokeEndLineCap="Triangle"
+							StrokeStartLineCap="Round"
+							StrokeThickness="20"
+							SweepDirection="Counterclockwise" />
+
+					</Border>
+				</StackPanel>
+
+			</StackPanel>
+		</ScrollViewer>
+	</Grid>
+
+</UserControl>
