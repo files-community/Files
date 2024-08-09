@@ -38,6 +38,11 @@ namespace Files.App.Controls.Primitives
 
 
 
+        /// <summary>
+        /// Function invoked as the StartAngleProperty is changed
+        /// </summary>
+        /// <param name="d">The DependencyObject which holds the DependencyProperty</param>
+        /// <param name="e">DependencyPropertyChangedEventArgs</param>
         private static void OnStartAngleChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
         {
             RingShape ringShape = (RingShape)d;
@@ -78,6 +83,11 @@ namespace Files.App.Controls.Primitives
 
 
 
+        /// <summary>
+        /// Function invoked as the EndAngleProperty is changed
+        /// </summary>
+        /// <param name="d">The DependencyObject which holds the DependencyProperty</param>
+        /// <param name="e">DependencyPropertyChangedEventArgs</param>
         private static void OnEndAngleChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
         {
             RingShape ringShape = (RingShape)d;
@@ -119,6 +129,11 @@ namespace Files.App.Controls.Primitives
 
 
 
+        /// <summary>
+        /// Function invoked as the SweepDirectionProperty is changed
+        /// </summary>
+        /// <param name="d">The DependencyObject which holds the DependencyProperty</param>
+        /// <param name="e">DependencyPropertyChangedEventArgs</param>
         private static void OnSweepDirectionChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
         {
             RingShape ringShape = (RingShape)d;
@@ -144,6 +159,7 @@ namespace Files.App.Controls.Primitives
             new PropertyMetadata(0.0, OnMinAngleChanged));
 
 
+
         /// <summary>
         /// Gets or sets the MinAngle
         /// </summary>
@@ -154,6 +170,12 @@ namespace Files.App.Controls.Primitives
         }
 
 
+
+        /// <summary>
+        /// Function invoked as the MinAngleProperty is changed
+        /// </summary>
+        /// <param name="d">The DependencyObject which holds the DependencyProperty</param>
+        /// <param name="e">DependencyPropertyChangedEventArgs</param>
         private static void OnMinAngleChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
         {
             RingShape ringShape = (RingShape)d;
@@ -179,6 +201,7 @@ namespace Files.App.Controls.Primitives
             new PropertyMetadata(360.0, OnMaxAngleChanged));
 
 
+
         /// <summary>
         /// Gets or sets the MaxAngle
         /// </summary>
@@ -189,6 +212,12 @@ namespace Files.App.Controls.Primitives
         }
 
 
+
+        /// <summary>
+        /// Function invoked as the MaxAngleProperty is changed
+        /// </summary>
+        /// <param name="d">The DependencyObject which holds the DependencyProperty</param>
+        /// <param name="e">DependencyPropertyChangedEventArgs</param>
         private static void OnMaxAngleChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
         {
             RingShape ringShape = (RingShape)d;
@@ -214,6 +243,7 @@ namespace Files.App.Controls.Primitives
             new PropertyMetadata(0.0, OnRadiusWidthChanged));
 
 
+
         /// <summary>
         /// Gets or sets the Radius along the Width of the shape
         /// </summary>
@@ -224,6 +254,12 @@ namespace Files.App.Controls.Primitives
         }
 
 
+
+        /// <summary>
+        /// Function invoked as the RadiusWidthProperty is changed
+        /// </summary>
+        /// <param name="d">The DependencyObject which holds the DependencyProperty</param>
+        /// <param name="e">DependencyPropertyChangedEventArgs</param>
         private static void OnRadiusWidthChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
         {
             RingShape ringShape = (RingShape)d;
@@ -249,6 +285,7 @@ namespace Files.App.Controls.Primitives
             new PropertyMetadata(0.0, OnRadiusHeightChanged));
 
 
+
         /// <summary>
         /// Gets or sets the Radius along the Height of the shape
         /// </summary>
@@ -259,6 +296,12 @@ namespace Files.App.Controls.Primitives
         }
 
 
+
+        /// <summary>
+        /// Function invoked as the RadiusHeightProperty is changed
+        /// </summary>
+        /// <param name="d">The DependencyObject which holds the DependencyProperty</param>
+        /// <param name="e">DependencyPropertyChangedEventArgs</param>
         private static void OnRadiusHeightChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
         {
             RingShape ringShape = (RingShape)d;
@@ -283,6 +326,7 @@ namespace Files.App.Controls.Primitives
             new PropertyMetadata(false, OnIsCircleChanged));
 
 
+
         /// <summary>
         /// Gets or sets a value indicating whether the shape should be constrained as a Circle.
         /// </summary>
@@ -293,6 +337,12 @@ namespace Files.App.Controls.Primitives
         }
 
 
+
+        /// <summary>
+        /// Function invoked as the IsCircleProperty is changed
+        /// </summary>
+        /// <param name="d">The DependencyObject which holds the DependencyProperty</param>
+        /// <param name="e">DependencyPropertyChangedEventArgs</param>
         private static void OnIsCircleChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
         {
             RingShape ringShape = (RingShape)d;
