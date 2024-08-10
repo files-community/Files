@@ -60,6 +60,7 @@
 		</Grid>
 
 		<NavigationView
+			x:Name="MainNavigationView"
 			Grid.Row="1"
 			IsBackButtonVisible="Collapsed"
 			IsSettingsVisible="False"
@@ -82,6 +83,28 @@
 					<Frame x:Name="MainFrame" />
 				</ScrollViewer>
 			</NavigationView.Content>
+
+			<NavigationView.PaneFooter>
+				<Grid
+					Margin="8,2"
+					Padding="12,8"
+					Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+					CornerRadius="4"
+					Visibility="{Binding MainNavigationView.IsPaneOpen, Mode=OneWay}">
+					<TextBlock VerticalAlignment="Center" Text="Theme mode:" />
+					<ComboBox
+						x:Name="ThemeModeSelectorCombBox"
+						HorizontalAlignment="Right"
+						SelectedIndex="0"
+						SelectionChanged="ThemeModeSelectorCombBox_SelectionChanged">
+						<ComboBox.Items>
+							<ComboBoxItem Content="Default" />
+							<ComboBoxItem Content="Light" />
+							<ComboBoxItem Content="Dark" />
+						</ComboBox.Items>
+					</ComboBox>
+				</Grid>
+			</NavigationView.PaneFooter>
 
 		</NavigationView>
 	</Grid>

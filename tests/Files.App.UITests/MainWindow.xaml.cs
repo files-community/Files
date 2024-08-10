@@ -9,9 +9,14 @@ namespace Files.App.UITests
 {
 	public sealed partial class MainWindow : Window
 	{
-		public MainWindow()
+		private static MainWindow? _Instance;
+		public static MainWindow Instance => _Instance ??= new();
+
+		private MainWindow()
 		{
 			InitializeComponent();
+
+			ExtendsContentIntoTitleBar = true;
 
 			MainFrame.Navigate(typeof(MainPage));
 		}
@@ -25,6 +30,26 @@ namespace Files.App.UITests
 			{
 				case "ThemedIconPage":
 					MainFrame.Navigate(typeof(ThemedIconPage));
+					break;
+			}
+		}
+
+		private void ThemeModeSelectorCombBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (sender is not ComboBox comboBox ||
+				Content is not FrameworkElement element)
+				return;
+
+			switch (comboBox.SelectedIndex)
+			{
+				case 0:
+					element.RequestedTheme = ElementTheme.Default;
+					break;
+				case 1:
+					element.RequestedTheme = ElementTheme.Light;
+					break;
+				case 2:
+					element.RequestedTheme = ElementTheme.Dark;
 					break;
 			}
 		}
