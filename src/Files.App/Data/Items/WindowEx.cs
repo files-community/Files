@@ -213,15 +213,14 @@ namespace Files.App.Data.Items
 			IPropertySet values;
 			oldDataExists = false;
 
-			// TODO: Remove this after a couple of months past
-			if (!useNewStore && _applicationDataContainer.Containers.TryGetValue("WinUIEx", out var oldDataContainer))
+			if (_applicationDataContainer.Containers.TryGetValue("Files", out var dataContainer))
+			{
+				values = dataContainer.Values;
+			}
+			else if (!useNewStore && _applicationDataContainer.Containers.TryGetValue("WinUIEx", out var oldDataContainer))
 			{
 				values = oldDataContainer.Values;
 				oldDataExists = true;
-			}
-			else if (_applicationDataContainer.Containers.TryGetValue("Files", out var dataContainer))
-			{
-				values = dataContainer.Values;
 			}
 			else
 			{
@@ -241,14 +240,11 @@ namespace Files.App.Data.Items
 				MONITORINFOEXW info = default;
 				info.monitorInfo.cbSize = (uint)Marshal.SizeOf<MONITORINFOEXW>();
 
-				//fixed (MONITORINFOEXW* pInfo = &info)
-				//{
-					PInvoke.GetMonitorInfo(monitor, (MONITORINFO*)&info);
+				PInvoke.GetMonitorInfo(monitor, (MONITORINFO*)&info);
 
-					monitors.Add(new(
-						info.szDevice.ToString(),
-						new(new Point(rect->left, rect->top), new Point(rect->right, rect->bottom))));
-				//}
+				monitors.Add(new(
+					info.szDevice.ToString(),
+					new(new Point(rect->left, rect->top), new Point(rect->right, rect->bottom))));
 
 				return true;
 			});
