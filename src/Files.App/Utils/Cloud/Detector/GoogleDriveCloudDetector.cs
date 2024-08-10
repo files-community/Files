@@ -17,13 +17,10 @@ namespace Files.App.Utils.Cloud
 	{
 		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 
-        private const string _googleDriveRegKeyName = @"Software\Google\DriveFS";
-
-        private const string _googleDriveRegValName = "PerAccountPreferences";
-
-        private const string _googleDriveRegValPropName = "value";
-
-        private const string _googleDriveRegValPropPropName = "mount_point_path";
+		private const string _googleDriveRegKeyName = @"Software\Google\DriveFS";
+		private const string _googleDriveRegValName = "PerAccountPreferences";
+		private const string _googleDriveRegValPropName = "value";
+		private const string _googleDriveRegValPropPropName = "mount_point_path";
 
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{
@@ -76,7 +73,7 @@ namespace Files.App.Utils.Cloud
 
 #if DEBUG
 				Debug.WriteLine("YIELD RETURNING from GoogleDriveCloudDetector#GetProviders (roots): ");
-				Debug.WriteLine("name=" + $"Google Drive ({title}); path=" + path);
+				Debug.WriteLine($"name=Google Drive ({title}); path={path}");
 #endif
 
 				yield return new CloudProvider(CloudProviders.GoogleDrive)
@@ -97,7 +94,7 @@ namespace Files.App.Utils.Cloud
 
 				if (!AddMyDriveToPathAndValidate(ref path))
 				{ 
-					_logger.LogWarning("Validation failed for " + path + " (media)");
+					_logger.LogWarning($"Validation failed for {path} (media)");
 					continue;
 				}
 
@@ -106,11 +103,11 @@ namespace Files.App.Utils.Cloud
 
 				App.AppModel.GoogleDrivePath = path;
 
-				StorageFile? iconFile = await GetGoogleDriveIconFileAsync();
+				var iconFile = await GetGoogleDriveIconFileAsync();
 
 #if DEBUG
 				Debug.WriteLine("YIELD RETURNING from GoogleDriveCloudDetector#GetProviders (media): ");
-				Debug.WriteLine("name=" + title + "; path=" + path);
+				Debug.WriteLine($"name={title}; path={path}");
 #endif
 
 				yield return new CloudProvider(CloudProviders.GoogleDrive)
@@ -124,8 +121,7 @@ namespace Files.App.Utils.Cloud
 #if DEBUG
 			await Inspect(database, "SELECT * FROM roots", "root_preferences db, roots table");
 			await Inspect(database, "SELECT * FROM media", "root_preferences db, media table");
-			await Inspect(database, "SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY 1",
-				"root_preferences db, all tables");
+			await Inspect(database, "SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY 1", "root_preferences db, all tables");
 #endif
 
 			await foreach (var provider in GetGoogleDriveProvidersFromRegistryAsync())
@@ -133,7 +129,7 @@ namespace Files.App.Utils.Cloud
 
 #if DEBUG
 				Debug.WriteLine("YIELD RETURNING from GoogleDriveCloudDetector#GetProviders (registry): ");
-				Debug.WriteLine("name=" + provider.Name + "; path=" + provider.SyncFolder);
+				Debug.WriteLine($"name={provider.Name}; path={provider.SyncFolder}");
 #endif
 
 				yield return provider;
@@ -142,81 +138,65 @@ namespace Files.App.Utils.Cloud
 
 		private async Task Inspect(SqliteConnection database, string sqlCommand, string contentsOf)
 		{
-			await using var cmdTablesAll =
-				new SqliteCommand(sqlCommand, database);
+			await using var cmdTablesAll = new SqliteCommand(sqlCommand, database);
 			var reader = await cmdTablesAll.ExecuteReaderAsync();
 			var colNamesList = Enumerable.Range(0, reader.FieldCount).Select(j => reader.GetName(j)).ToList();
-			var i = 0;
-			Debug.WriteLine("BEGIN LOGGING of " + contentsOf + " contents");
-			while (reader.Read())
+
+#if DEBUG
+			Debug.WriteLine($"BEGIN LOGGING of {contentsOf} contents");
+#endif
+
+			for (int index = 0; reader.Read() is not false; index++)
 			{
 				var colVals = new object[reader.FieldCount];
 				reader.GetValues(colVals);
-				colVals.Select((val, j) => $"row {i}: column {j}: {colNamesList[j]}: {val}").ToList()
-					.ForEach(s => Debug.WriteLine(s));
-				i++;
-			}
-			Debug.WriteLine("END LOGGING of " + contentsOf + " contents");
-		}
 
-		private ILogger GetAltLogger(string filename)
-		{
-			var altLogPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, filename);
-			File.Delete(altLogPath);
-			var factory = new LoggerFactory().AddFile(altLogPath);
-			return factory.CreateLogger<App>();
+				colVals.Select((val, j) => $"row {index}: column {j}: {colNamesList[j]}: {val}")
+					.ToList().ForEach(s => Debug.WriteLine(s));
+			}
+
+#if DEBUG
+			Debug.WriteLine($"END LOGGING of {contentsOf} contents");
+#endif
 		}
 
 		private JsonDocument? GetGoogleDriveRegValJson()
-        {
-            // This will be null if the key name is not found.
-            using var googleDriveRegKey = Registry.CurrentUser.OpenSubKey(_googleDriveRegKeyName);
+		{
+			// This will be null if the key name is not found.
+			using var googleDriveRegKey = Registry.CurrentUser.OpenSubKey(_googleDriveRegKeyName);
 
-            if (googleDriveRegKey is null)
-            {
-                _logger.LogWarning(
-                    "Google Drive registry key for key name `"
-                        + _googleDriveRegKeyName
-                        + "' not found."
-                );
-                return null;
-            }
+			if (googleDriveRegKey is null)
+			{
+				_logger.LogWarning($"Google Drive registry key for key name '{_googleDriveRegKeyName}' not found.");
+				return null;
+			}
 
-            var googleDriveRegVal = googleDriveRegKey.GetValue(_googleDriveRegValName);
+			var googleDriveRegVal = googleDriveRegKey.GetValue(_googleDriveRegValName);
 
-            if (googleDriveRegVal is null)
-            {
-                _logger.LogWarning(
-                    "Google Drive registry value for value name `"
-                        + _googleDriveRegValName
-                        + "' not found."
-                );
-                return null;
-            }
+			if (googleDriveRegVal is null)
+			{
+				_logger.LogWarning($"Google Drive registry value for value name '{_googleDriveRegValName}' not found.");
+				return null;
+			}
 
-            JsonDocument? googleDriveRegValueJson = null;
-            try
-            {
-                googleDriveRegValueJson = JsonDocument.Parse(googleDriveRegVal.ToString() ?? "");
-            }
-            catch (JsonException je)
-            {
-                _logger.LogWarning(
-                    je,
-                    "Google Drive registry value for value name `"
-                        + _googleDriveRegValName
-                        + "' could not be parsed as a JsonDocument."
-                );
-            }
+			JsonDocument? googleDriveRegValueJson = null;
+			try
+			{
+				googleDriveRegValueJson = JsonDocument.Parse(googleDriveRegVal.ToString() ?? "");
+			}
+			catch (JsonException je)
+			{
+				_logger.LogWarning(je, $"Google Drive registry value for value name '{_googleDriveRegValName}' could not be parsed as a JsonDocument.");
+			}
 
-            return googleDriveRegValueJson;
-        }
+			return googleDriveRegValueJson;
+		}
 
 		private async IAsyncEnumerable<ICloudProvider> GetGoogleDriveProvidersFromRegistryAsync()
 		{
-            var googleDriveRegValJson = GetGoogleDriveRegValJson();
+			var googleDriveRegValJson = GetGoogleDriveRegValJson();
 
-            if (googleDriveRegValJson is null)
+			if (googleDriveRegValJson is null)
 				yield break;
 
 			var googleDriveRegValJsonProperty = googleDriveRegValJson
@@ -227,11 +207,7 @@ namespace Files.App.Utils.Cloud
 			// error if you try to call EnumerateArray on its Value.
 			if (googleDriveRegValJsonProperty.Value.ValueKind == JsonValueKind.Undefined)
 			{
-				_logger.LogWarning(
-					"Root element of Google Drive registry value for value name `"
-						+ _googleDriveRegValName
-						+ "' was empty."
-				);
+				_logger.LogWarning($"Root element of Google Drive registry value for value name '{_googleDriveRegValName}' was empty.");
 				yield break;
 			}
 
@@ -245,8 +221,7 @@ namespace Files.App.Utils.Cloud
 				if (!item.TryGetProperty(_googleDriveRegValPropName, out var googleDriveRegValProp))
 					continue;
 
-				if (!googleDriveRegValProp.TryGetProperty(_googleDriveRegValPropPropName,
-					    out var googleDriveRegValPropProp))
+				if (!googleDriveRegValProp.TryGetProperty(_googleDriveRegValPropPropName, out var googleDriveRegValPropProp))
 					continue;
 
 				var path = googleDriveRegValPropProp.GetString();
@@ -255,7 +230,7 @@ namespace Files.App.Utils.Cloud
 
 				if (!AddMyDriveToPathAndValidate(ref path))
 				{
-					_logger.LogWarning("Validation failed for " + path + " (media)");
+					_logger.LogWarning($"Validation failed for {path} (media)");
 					continue;
 				}
 
@@ -298,7 +273,7 @@ namespace Files.App.Utils.Cloud
 				}
 				catch (ArgumentException e)
 				{
-					_logger.LogWarning(e, "Could not resolve drive letter `" + path + "' to a valid drive.");
+					_logger.LogWarning(e, $"Could not resolve drive letter '{path}' to a valid drive.");
 					return false;
 				}
 
@@ -310,11 +285,9 @@ namespace Files.App.Utils.Cloud
 			// TODO: Avoid to use Vanara (#15000)
 			using var shellFolderBase = ShellFolderExtensions.GetShellItemFromPathOrPIDL(path) as ShellFolder;
 			var shellFolderBaseFirst = Environment.ExpandEnvironmentVariables((
-				                                                                  shellFolderBase?.FirstOrDefault(si =>
-					                                                                  si.Name?.Equals("My Drive") ??
-					                                                                  false) as ShellLink)
-			                                                                  ?.TargetPath ??
-			                                                                  "");
+				shellFolderBase?.FirstOrDefault(si =>
+					si.Name?.Equals("My Drive") ?? false) as ShellLink)?.TargetPath
+			    ?? string.Empty);
 
 #if DEBUG
 			Debug.WriteLine("INVALID PATHS LOGGER");
@@ -330,7 +303,7 @@ namespace Files.App.Utils.Cloud
 			path = Path.Combine(path, "My Drive");
 			if (Directory.Exists(path))
 				return true;
-			_logger.LogWarning("Invalid Google Drive mount point path: " + path);
+			_logger.LogWarning($"Invalid Google Drive mount point path: {path}");
 			return false;
 		}
 	}
