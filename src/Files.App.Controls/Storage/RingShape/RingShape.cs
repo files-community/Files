@@ -9,9 +9,13 @@ using Windows.Foundation;
 
 namespace Files.App.Controls.Primitives
 {
+    /// <summary>
+    /// RingShape - Primitive Path shape for drawing a
+    /// circular or eliptical Ring.
+    /// </summary>
     public partial class RingShape : Path
     {
-        #region Private Variables
+        #region 1. Private Variables
 
         private bool				_isUpdating;				// Is True when path is updating
         private bool				_isCircle;					// When True, Width and Height are equalised
@@ -31,7 +35,7 @@ namespace Files.App.Controls.Primitives
 
 
 
-        #region Private Setters
+        #region 2. Private Setters
 
         /// <summary>
         /// Sets the private _isUpdating value
@@ -146,7 +150,7 @@ namespace Files.App.Controls.Primitives
 
 
 
-        #region Private Getters
+        #region 3. Private Getters
 
         /// <summary>
         /// Gets the private stored _isUpdating value
@@ -261,7 +265,7 @@ namespace Files.App.Controls.Primitives
 
 
 
-        #region Initialisation
+        #region 4. Initialisation
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RingShape" /> class.
@@ -278,7 +282,7 @@ namespace Files.App.Controls.Primitives
 
 
 
-        #region PropertyChanged Events
+        #region 5. PropertyChanged Events
 
         /// <summary>
         /// Invoked when the StartAngle property is changed
@@ -464,7 +468,7 @@ namespace Files.App.Controls.Primitives
 
 
 
-        #region Updates
+        #region 6. Updates
 
         /// <summary>
         /// Suspends path updates until EndUpdate is called
@@ -720,7 +724,7 @@ namespace Files.App.Controls.Primitives
 
 
 
-        #region Value Calculations
+        #region 7. Value Calculations
 
         /// <summary>
         /// Calculates the EqualSize taking the smaller of the given Size's

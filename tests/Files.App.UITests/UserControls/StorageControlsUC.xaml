@@ -94,6 +94,9 @@
 							SweepDirection="Counterclockwise" />
 
 					</Border>
+
+					<controls:StorageRing Width="160" Height="160" StartAngle="0" Value="75" Minimum="0" Maximum="100" MinAngle="0" MaxAngle="360"/>
+					<controls:StorageRing FlowDirection="RightToLeft" Width="160" Height="160" />
 				</StackPanel>
 
 			</StackPanel>
