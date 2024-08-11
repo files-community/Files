@@ -113,6 +113,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand OpenSettings => commands[CommandCodes.OpenSettings];
 		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
 		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
+		public IRichCommand OpenTerminalFromSidebar => commands[CommandCodes.OpenTerminalFromSidebar];
 		public IRichCommand OpenCommandPalette => commands[CommandCodes.OpenCommandPalette];
 		public IRichCommand EditInNotepad => commands[CommandCodes.EditInNotepad];
 		public IRichCommand LayoutDecreaseSize => commands[CommandCodes.LayoutDecreaseSize];
@@ -300,6 +301,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.OpenSettings] = new OpenSettingsAction(),
 			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
 			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
+			[CommandCodes.OpenTerminalFromSidebar] = new OpenTerminalFromSidebarAction(),
 			[CommandCodes.OpenCommandPalette] = new OpenCommandPaletteAction(),
 			[CommandCodes.EditInNotepad] = new EditInNotepadAction(),
 			[CommandCodes.LayoutDecreaseSize] = new LayoutDecreaseSizeAction(),

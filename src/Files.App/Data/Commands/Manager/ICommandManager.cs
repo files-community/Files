@@ -98,6 +98,7 @@ namespace Files.App.Data.Commands
 		IRichCommand OpenSettings { get; }
 		IRichCommand OpenTerminal { get; }
 		IRichCommand OpenTerminalAsAdmin { get; }
+		IRichCommand OpenTerminalFromSidebar { get; }
 		IRichCommand OpenCommandPalette { get; }
 		IRichCommand EditInNotepad { get; }
 

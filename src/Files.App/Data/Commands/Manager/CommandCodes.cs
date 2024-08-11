@@ -108,6 +108,7 @@ namespace Files.App.Data.Commands
 		OpenSettings,
 		OpenTerminal,
 		OpenTerminalAsAdmin,
+		OpenTerminalFromSidebar,
 		OpenCommandPalette,
 		EditInNotepad,
 
