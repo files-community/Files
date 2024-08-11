@@ -653,7 +653,11 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)d;
 
+            UpdateValues( storageRing , storageRing.Value , storageRing.GetOldValue() );
+
             UpdateVisualState( storageRing );
+
+            UpdateRings( storageRing );
         }
 
 
@@ -668,7 +672,11 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)d;
 
+            UpdateValues( storageRing , storageRing.Value , storageRing.GetOldValue() );
+
             UpdateVisualState( storageRing );
+
+            UpdateRings( storageRing );
         }
 
 
@@ -682,6 +690,10 @@ namespace Files.App.Controls
         private void StartAngleChanged(DependencyObject d , double newAngle)
         {
             StorageRing storageRing = (StorageRing)d;
+
+            UpdateValues( storageRing , storageRing.Value , storageRing.GetOldValue() );
+
+            CalculateAndSetNormalisedAngles( storageRing , storageRing.MinAngle , newAngle );
 
             ValidateStartAngle( storageRing , newAngle );
 
@@ -700,6 +712,8 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)d;
 
+            UpdateValues( storageRing , storageRing.Value , storageRing.GetOldValue() );
+
             CalculateAndSetNormalisedAngles( storageRing , newAngle , storageRing.MaxAngle );
 
             UpdateRings( storageRing );
@@ -716,6 +730,8 @@ namespace Files.App.Controls
         private void MaxAngleChanged(DependencyObject d , double newAngle)
         {
             StorageRing storageRing = (StorageRing)d;
+
+            UpdateValues( storageRing , storageRing.Value , storageRing.GetOldValue() );
 
             CalculateAndSetNormalisedAngles( storageRing , storageRing.MinAngle , newAngle );
 

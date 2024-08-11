@@ -21,6 +21,7 @@
 		<Setter Property="StartAngle" Value="0" />
 		<Setter Property="Minimum" Value="0" />
 		<Setter Property="Maximum" Value="100" />
+		<Setter Property="Value" Value="25" />
 		<Setter Property="Padding" Value="{ThemeResource StorageRingPadding}" />
 		<Setter Property="Margin" Value="{ThemeResource StorageRingMargin}" />
 		<Setter Property="LargeChange" Value="10" />
