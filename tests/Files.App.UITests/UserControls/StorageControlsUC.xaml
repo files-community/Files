@@ -19,11 +19,6 @@
 		<ScrollViewer HorizontalContentAlignment="Left" VerticalContentAlignment="Top">
 			<StackPanel Spacing="12">
 
-				<ToggleSwitch
-					x:Name="testCircle"
-					Header="IsCircle"
-					IsOn="True" />
-
 				<NumberBox
 					x:Name="testWidth"
 					Header="Width"
@@ -36,67 +31,141 @@
 					SpinButtonPlacementMode="Inline"
 					Value="120" />
 
-				<NumberBox
-					x:Name="testRadiusHeight"
-					Header="RadiusHeight"
-					SpinButtonPlacementMode="Inline"
-					Value="50" />
+				<Slider
+					x:Name="testSAngle"
+					Header="StartAngle ( -180 to 180 )"
+					Maximum="180"
+					Minimum="-180"
+					Value="-150" />
 
 				<Slider
-					x:Name="testAngle"
-					Header="EndAngle"
+					x:Name="testMAngle"
+					Header="MaxAngle ( -180 to 540 )"
 					Maximum="540"
 					Minimum="-180"
-					Value="270.0" />
+					Value="150" />
+
+				<Slider
+					x:Name="testValue"
+					Header="Value ( -10 to 110 )"
+					Maximum="110"
+					Minimum="-10"
+					SmallChange="{x:Bind ringTest1.SmallChange, Mode=TwoWay}"
+					Value="50" />
 
 				<StackPanel Orientation="Horizontal" Spacing="16">
-					<Border
-						Width="{x:Bind testWidth.Value, Mode=TwoWay}"
-						Height="{x:Bind testHeight.Value, Mode=TwoWay}"
-						Background="Red">
 
-						<primitives:RingShape
+					<Grid VerticalAlignment="Stretch">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+
+						<TextBlock
+							Grid.Row="0"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							Style="{ThemeResource CaptionTextBlockStyle}"
+							Text="" />
+
+						<TextBlock
+							Grid.Row="1"
+							VerticalAlignment="Center"
+							Text="LeftToRight (default)" />
+
+						<TextBlock
+							Grid.Row="2"
+							VerticalAlignment="Center"
+							Text="RightToLeft" />
+
+					</Grid>
+
+					<Grid VerticalAlignment="Stretch">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+
+						<TextBlock
+							Grid.Row="0"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							Style="{ThemeResource CaptionTextBlockStyle}"
+							Text="Default" />
+
+						<controls:StorageRing
+							x:Name="ringTest1"
+							Grid.Row="1"
+							Value="{x:Bind testValue.Value, Mode=TwoWay}" />
+
+						<controls:StorageRing
+							x:Name="ringTest1b"
+							Grid.Row="2"
+							FlowDirection="RightToLeft"
+							Value="{x:Bind testValue.Value, Mode=TwoWay}" />
+
+					</Grid>
+
+
+					<Grid VerticalAlignment="Stretch">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+
+						<TextBlock
+							Grid.Row="0"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							Style="{ThemeResource CaptionTextBlockStyle}"
+							Text="Customised" />
+
+						<controls:StorageRing
+							x:Name="ringTest2"
+							Grid.Row="1"
 							Width="{x:Bind testWidth.Value, Mode=TwoWay}"
 							Height="{x:Bind testHeight.Value, Mode=TwoWay}"
-							EndAngle="{x:Bind testAngle.Value, Mode=TwoWay}"
-							IsCircle="{x:Bind testCircle.IsOn, Mode=TwoWay}"
-							MaxAngle="360"
-							MinAngle="0"
-							RadiusHeight="{x:Bind testRadiusHeight.Value, Mode=TwoWay}"
-							RadiusWidth="{x:Bind testRadiusHeight.Value, Mode=TwoWay}"
-							StartAngle="0"
-							Stroke="Yellow"
-							StrokeEndLineCap="Triangle"
-							StrokeStartLineCap="Round"
-							StrokeThickness="20" />
+							Margin="12"
+							Padding="12"
+							BorderBrush="#33FFFF00"
+							BorderThickness="1"
+							Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+							Background="{ThemeResource DividerStrokeColorDefaultBrush}"
+							MaxAngle="{x:Bind testMAngle.Value, Mode=TwoWay}"
+							Maximum="100"
+							MinAngle="{x:Bind testSAngle.Value, Mode=TwoWay}"
+							Minimum="0"
+							StartAngle="{x:Bind testSAngle.Value, Mode=TwoWay}"
+							TrackRingThickness="5"
+							ValueRingThickness="10"
+							Value="{x:Bind testValue.Value, Mode=TwoWay}" />
 
-					</Border>
-
-					<Border
-						Width="{x:Bind testWidth.Value, Mode=TwoWay}"
-						Height="{x:Bind testHeight.Value, Mode=TwoWay}"
-						Background="#FF3333FF">
-
-						<primitives:RingShape
+						<controls:StorageRing
+							x:Name="ringTest2b"
+							Grid.Row="2"
 							Width="{x:Bind testWidth.Value, Mode=TwoWay}"
 							Height="{x:Bind testHeight.Value, Mode=TwoWay}"
-							EndAngle="{x:Bind testAngle.Value, Mode=TwoWay}"
-							IsCircle="{x:Bind testCircle.IsOn, Mode=TwoWay}"
-							MaxAngle="360"
-							MinAngle="0"
-							RadiusHeight="{x:Bind testRadiusHeight.Value, Mode=TwoWay}"
-							RadiusWidth="{x:Bind testRadiusHeight.Value, Mode=TwoWay}"
-							StartAngle="0"
-							Stroke="Magenta"
-							StrokeEndLineCap="Triangle"
-							StrokeStartLineCap="Round"
-							StrokeThickness="20"
-							SweepDirection="Counterclockwise" />
+							Margin="12"
+							Padding="12"
+							BorderBrush="#33FFFF00"
+							BorderThickness="1"
+							FlowDirection="RightToLeft"
+							Foreground="{ThemeResource SystemFillColorSuccessBrush}"
+							Background="{ThemeResource DividerStrokeColorDefaultBrush}"
+							MaxAngle="{x:Bind testMAngle.Value, Mode=TwoWay}"
+							Maximum="100"
+							MinAngle="{x:Bind testSAngle.Value, Mode=TwoWay}"
+							Minimum="0"
+							StartAngle="{x:Bind testSAngle.Value, Mode=TwoWay}"
+							TrackRingThickness="5"
+							ValueRingThickness="10"
+							Value="{x:Bind testValue.Value, Mode=TwoWay}" />
 
-					</Border>
+					</Grid>
 
-					<controls:StorageRing Width="160" Height="160" StartAngle="0" Value="75" Minimum="0" Maximum="100" MinAngle="0" MaxAngle="360"/>
-					<controls:StorageRing FlowDirection="RightToLeft" Width="160" Height="160" />
 				</StackPanel>
 
 			</StackPanel>

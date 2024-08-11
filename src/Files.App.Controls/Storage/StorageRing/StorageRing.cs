@@ -502,16 +502,14 @@ namespace Files.App.Controls
             SizeChanged      -= StorageRing_SizeChanged;
             Unloaded         -= StorageRing_Unloaded;
             IsEnabledChanged -= StorageRing_IsEnabledChanged;
+            Loaded           -= StorageRing_Loaded;
 
             DefaultStyleKey   = typeof( StorageRing );
 
             SizeChanged      += StorageRing_SizeChanged;
             Unloaded	     += StorageRing_Unloaded;
             IsEnabledChanged += StorageRing_IsEnabledChanged;
-
-            // We set initial values so the OnValueChanged event can fire
-            this.Minimum = 0;
-            this.Maximum = 100;
+            Loaded           += StorageRing_Loaded;
         }
 
 
@@ -520,18 +518,18 @@ namespace Files.App.Controls
         /// <inheritdoc/>
         protected override void OnApplyTemplate()
         {
-            base.OnApplyTemplate();
+            InitialiseParts();
 
-            InitializeValues();
+            base.OnApplyTemplate();
         }
 
 
 
 
         /// <summary>
-        /// Initializes the values and properties of a PercentageRing control.
+        /// Initialises the Parts and properties of a PercentageRing control.
         /// </summary>
-        private void InitializeValues()
+        private void InitialiseParts()
         {
             // Retrieve references to visual elements
             SetContainerGrid( GetTemplateChild( ContainerPartName ) as Grid );
@@ -539,11 +537,9 @@ namespace Files.App.Controls
             SetValueRingShape( GetTemplateChild( ValueRingShapePartName ) as RingShape );
             SetTrackRingShape( GetTemplateChild( TrackRingShapePartName ) as RingShape );
 
-            // Update protected dependency properties
-            this.ValueAngle  = DoubleToAngle( Value , Minimum , Maximum , MinAngle , MaxAngle );
-            this.Percent     = DoubleToPercentage( Value , Minimum , Maximum );
+            CalculateAndSetNormalisedAngles( this , this.MinAngle , this.MaxAngle );
 
-            UpdateRings( this );
+            UpdateValues( this , this.Value , 0.0);
         }
 
         #endregion
@@ -562,7 +558,9 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)sender;
 
-            // Handle SizeChanged event
+            UpdateContainerCenterAndSizes( storageRing , e.NewSize );
+            
+            UpdateRings( storageRing );
         }
 
 
@@ -584,6 +582,19 @@ namespace Files.App.Controls
 
 
         /// <summary>
+        /// Occurs when this object is loaded into the main object tree
+        /// </summary>
+        /// <param name="sender">The object that triggered the event.</param>
+        /// <param name="e">Provides data related to the Unloaded event.</param>
+        private void StorageRing_Loaded(object sender , RoutedEventArgs e)
+        {
+            StorageRing storageRing = (StorageRing)sender;
+        }
+
+
+
+
+        /// <summary>
         /// Occurs when the IsEnabled property changes.
         /// </summary>
         /// <param name="sender">The object that triggered the event.</param>
@@ -593,7 +604,7 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)sender;
 
-            // Handle IsEnabledChanged event
+            UpdateVisualState( storageRing );
         }
 
 
@@ -608,7 +619,9 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)d;
 
-            // Update ValueRing Thickness
+            UpdateRingThickness( storageRing , newValueRingThickness , false );
+
+            UpdateRings( storageRing );
         }
 
 
@@ -623,7 +636,9 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)d;
 
-            // Update TrackRing Thickness
+            UpdateRingThickness( storageRing , newTrackRingThickness, true );
+
+            UpdateRings( storageRing );
         }
 
 
@@ -638,7 +653,7 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)d;
 
-            // Update the PercentCaution
+            UpdateVisualState( storageRing );
         }
 
 
@@ -653,7 +668,58 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)d;
 
-            // Update the PercentCritical
+            UpdateVisualState( storageRing );
+        }
+
+
+
+
+        /// <summary>
+        /// Occurs when the StartAngle property value changes
+        /// </summary>
+        /// <param name="d">The DependencyObject which holds the DependencyProperty</param>
+        /// <param name="newAngle">The new StartAngle</param>
+        private void StartAngleChanged(DependencyObject d , double newAngle)
+        {
+            StorageRing storageRing = (StorageRing)d;
+
+            ValidateStartAngle( storageRing , newAngle );
+
+            UpdateRings( storageRing );
+        }
+
+
+
+
+        /// <summary>
+        /// Occurs when the MinAngle property value changes
+        /// </summary>
+        /// <param name="d">The DependencyObject which holds the DependencyProperty</param>
+        /// <param name="newAngle">The new MinAngle</param>
+        private void MinAngleChanged(DependencyObject d , double newAngle)
+        {
+            StorageRing storageRing = (StorageRing)d;
+
+            CalculateAndSetNormalisedAngles( storageRing , newAngle , storageRing.MaxAngle );
+
+            UpdateRings( storageRing );
+        }
+
+
+
+
+        /// <summary>
+        /// Occurs when the MaxAngle property value changes
+        /// </summary>
+        /// <param name="d">The DependencyObject which holds the DependencyProperty</param>
+        /// <param name="newAngle">The new MaxAngle</param>
+        private void MaxAngleChanged(DependencyObject d , double newAngle)
+        {
+            StorageRing storageRing = (StorageRing)d;
+
+            CalculateAndSetNormalisedAngles( storageRing , storageRing.MinAngle , newAngle );
+
+            UpdateRings( storageRing );
         }
 
         #endregion
@@ -661,14 +727,38 @@ namespace Files.App.Controls
 
 
 
-        #region 6. Update Values
+        #region 6. Update functions
+
+        private void UpdateValues(DependencyObject d , double newValue , double oldValue)
+        {
+            StorageRing storageRing = (StorageRing)d;
+
+            CalculateAndSetNormalisedAngles( storageRing , storageRing.MinAngle , storageRing.MaxAngle );
+
+            var normalisedMinAngle = storageRing.GetNormalisedMinAngle();
+            var normalisedMaxAngle = storageRing.GetNormalisedMaxAngle();
+
+            ValueAngle = DoubleToAngle( newValue , storageRing.Minimum , storageRing.Maximum , normalisedMinAngle , normalisedMaxAngle );
+            Percent = DoubleToPercentage( newValue , storageRing.Minimum , storageRing.Maximum );
+
+            SetOldValue( oldValue );
+            SetOldValueAngle( DoubleToAngle( oldValue , storageRing.Minimum , storageRing.Maximum , normalisedMinAngle , normalisedMaxAngle ) );
+        }
+
+
+
 
         private void UpdateContainerCenterAndSizes(DependencyObject d , Size newSize)
         {
             StorageRing storageRing = (StorageRing)d;
 
+            var borderThickness = storageRing.BorderThickness;
+
+            var borderWidth = borderThickness.Left + borderThickness.Right;
+            var borderHeight = borderThickness.Top + borderThickness.Bottom;
+
             // Set Container Size
-            SetContainerSize( storageRing.Width , storageRing.Height , storageRing.Padding );
+            SetContainerSize( storageRing.Width - borderWidth , storageRing.Height - borderHeight , storageRing.Padding );
             storageRing.AdjustedSize = GetContainerSize();
 
             // Set Container Center
@@ -676,7 +766,7 @@ namespace Files.App.Controls
 
             // Set Clipping Rectangle
             RectangleGeometry rectGeo = new RectangleGeometry();
-            rectGeo.Rect = new Rect( 0 , 0 , AdjustedSize , AdjustedSize );
+            rectGeo.Rect = new Rect( 0 , 0 , AdjustedSize + borderWidth , AdjustedSize + borderHeight );
             SetClippingRectGeo( rectGeo );
 
             // Get Container
@@ -742,6 +832,41 @@ namespace Files.App.Controls
 
 
 
+        private void UpdateRingThickness(DependencyObject d , double newThickness , bool isTrack)
+        {
+            StorageRing storageRing = (StorageRing)d;
+
+            if ( isTrack == false )
+            {
+                SetValueRingThickness( newThickness );
+            }
+            else
+            {
+                SetTrackRingThickness( newThickness );
+            }
+
+            SetThicknessCheck( GetValueRingThickness() , GetTrackRingThickness() );
+
+            if ( GetThicknessCheck() == ThicknessCheck.Main )
+            {
+                SetLargerThickness( GetValueRingThickness() );
+                SetSmallerThickness( GetTrackRingThickness() );
+            }
+            else if ( GetThicknessCheck() == ThicknessCheck.Track )
+            {
+                SetLargerThickness( GetTrackRingThickness() );
+                SetSmallerThickness( GetValueRingThickness() );
+            }
+            else // ThicknessCheck == Equal
+            {
+                SetLargerThickness( GetValueRingThickness() );
+                SetSmallerThickness( GetValueRingThickness() );
+            }
+        }
+
+
+
+
         private void UpdateGapAngle(DependencyObject d , double newRadius , bool isTrack)
         {
             StorageRing storageRing = (StorageRing)d;
@@ -766,16 +891,13 @@ namespace Files.App.Controls
             // Then the control is Enabled
             else
             {
-                double currentPercentage = storageRing.DoubleToPercentage(storageRing.Value, storageRing.Minimum, storageRing.Maximum);
-                // replace with storageRing.Percent
-
                 // Is the Percent value equal to or above the PercentCritical value
-                if ( currentPercentage >= storageRing.PercentCritical )
+                if ( storageRing.Percent >= storageRing.PercentCritical )
                 {
                     VisualStateManager.GoToState( this , CriticalStateName , true );
                 }
                 // Is the Percent value equal to or above the PercentCaution value
-                else if ( currentPercentage >= storageRing.PercentCaution )
+                else if ( storageRing.Percent >= storageRing.PercentCaution )
                 {
                     VisualStateManager.GoToState( this , CautionStateName , true );
                 }
@@ -798,66 +920,316 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)d;
 
+            var valueRingShape = GetValueRingShape();
+            var trackRingShape = GetTrackRingShape();
+
+            if ( valueRingShape == null || trackRingShape == null )
+            {
+                return;
+            }
+
             UpdateContainerCenterAndSizes( storageRing , DesiredSize );
+
+            CalculateAndSetNormalisedAngles( storageRing , storageRing.MinAngle , storageRing.MaxAngle );
+
+            UpdateRingSizes( d , valueRingShape , trackRingShape );
 
             UpdateRadii( d , storageRing.GetSharedRadius() , false );
             UpdateRadii( d , storageRing.GetSharedRadius() , true );
 
             UpdateGapAngle( d , storageRing.GetSharedRadius() , false );
 
-            UpdateRingLayouts( d );
+            UpdateRingLayouts( d , valueRingShape , trackRingShape );
 
-            UpdateRingAngles( d );
+            UpdateRingAngles( d , valueRingShape , trackRingShape );
+
+            UpdateRingStrokes( d , valueRingShape , trackRingShape );
+
             UpdateVisualState( d );
-            UpdateVisualState( d );
-            UpdateRingStrokes( d );
         }
 
 
 
 
-        private void UpdateRingAngles(DependencyObject d)
+        private void UpdateRingSizes(DependencyObject d , RingShape valueRingShape , RingShape trackRingShape)
         {
             StorageRing storageRing = (StorageRing)d;
+
+            if ( valueRingShape == null || trackRingShape == null )
+            {
+                return;
+            }
+
+            // Set sizes for the rings as needed
+            if ( storageRing.GetThicknessCheck() == ThicknessCheck.Main )
+            {
+                valueRingShape.Width = storageRing.GetContainerSize();
+                valueRingShape.Height = storageRing.GetContainerSize();
+
+                trackRingShape.Width = storageRing.GetContainerSize() - ( storageRing.GetLargerThickness() / 2 );
+                trackRingShape.Height = storageRing.GetContainerSize() - ( storageRing.GetLargerThickness() / 2 );
+            }
+            else if ( storageRing.GetThicknessCheck() == ThicknessCheck.Track )
+            {
+                valueRingShape.Width = storageRing.GetContainerSize() - ( storageRing.GetLargerThickness() / 2 );
+                valueRingShape.Height = storageRing.GetContainerSize() - ( storageRing.GetLargerThickness() / 2 );
+
+                trackRingShape.Width = storageRing.GetContainerSize();
+                trackRingShape.Height = storageRing.GetContainerSize();
+            }
+            else // ThicknessCheck == Equal
+            {
+                valueRingShape.Width = storageRing.GetContainerSize();
+                valueRingShape.Height = storageRing.GetContainerSize();
+
+                trackRingShape.Width = storageRing.GetContainerSize();
+                trackRingShape.Height = storageRing.GetContainerSize();
+            }
+
+            valueRingShape.UpdateLayout();
+            trackRingShape.UpdateLayout();
+        }
+
+
+
+
+        private void UpdateRingAngles(DependencyObject d , RingShape valueRingShape , RingShape trackRingShape)
+        {
+            StorageRing storageRing = (StorageRing)d;
+
+            if ( valueRingShape == null || trackRingShape == null )
+            {
+                return;
+            }
+
+            var normalisedMinAngle = GetNormalisedMinAngle();
+            var normalisedMaxAngle = GetNormalisedMaxAngle();
+
+            double gapAngle = storageRing.GetGapAngle();
+
+            double ValueStartAngle = normalisedMinAngle;
+            double ValueEndAngle;
+            double TrackStartAngle = normalisedMaxAngle;
+            double TrackEndAngle;
+
+            //
+            // Value is below or at its Minimum
+            if ( storageRing.Value <= storageRing.Minimum )
+            {
+                ValueEndAngle = normalisedMinAngle;
+
+                TrackStartAngle = normalisedMaxAngle - 0.01;
+                TrackEndAngle = normalisedMinAngle;
+            }
+            //
+            // Value is between it's Minimum and its Minimum + 0.75 (between 0 and 0.75)
+            else if ( storageRing.Value > storageRing.Minimum && storageRing.Value < storageRing.Minimum + 0.75 )
+            {
+                ValueEndAngle = storageRing.ValueAngle;
+
+                double interpolatedStartTo;
+                double interpolatedEndTo;
+
+                //
+                // We need to interpolate the track start and end angles between pRing.Minimum and pRing.Minimum + 0.75
+                interpolatedStartTo = storageRing.GetAdjustedAngle(  storageRing,
+                                                                            storageRing.Minimum ,
+                                                                            storageRing.Value ,
+                                                                            storageRing.Minimum + 0.75 ,
+                                                                            normalisedMinAngle ,
+                                                                            normalisedMinAngle + gapAngle,
+                                                                            storageRing.ValueAngle,
+                                                                            true);
+
+                if ( IsFullCircle( normalisedMinAngle , normalisedMaxAngle ) == true )
+                {
+                    interpolatedEndTo = storageRing.GetAdjustedAngle(   storageRing,
+                                                                        storageRing.Minimum ,
+                                                                        storageRing.Value ,
+                                                                        storageRing.Minimum + 0.75 ,
+                                                                        normalisedMaxAngle ,
+                                                                        normalisedMaxAngle - ( gapAngle + storageRing.ValueAngle ),
+                                                                        storageRing.ValueAngle ,
+                                                                        true);
+                }
+                else
+                {
+                    interpolatedEndTo = normalisedMaxAngle;
+                }
+
+                TrackStartAngle = interpolatedEndTo;
+                TrackEndAngle = interpolatedStartTo;
+            }
+            //
+            // Value is at or above its Maximum value
+            else if ( storageRing.Value >= storageRing.Maximum )
+            {
+                ValueEndAngle = normalisedMaxAngle;
+
+                TrackStartAngle = normalisedMaxAngle;
+                TrackEndAngle = normalisedMinAngle;
+            }
+            //
+            // Any value between the Minimum and the Maximum value
+            else
+            {
+                ValueEndAngle = storageRing.ValueAngle;
+
+                if ( IsFullCircle( MinAngle , MaxAngle ) == true )
+                {
+                    TrackStartAngle = normalisedMaxAngle - gapAngle;
+
+                    //
+                    // When the trackRing's EndAngle meets or exceeds its adjusted StartAngle
+                    if ( storageRing.ValueAngle > ( normalisedMaxAngle - ( gapAngle * 2 ) ) )
+                    {
+                        TrackEndAngle = normalisedMaxAngle - ( gapAngle - 0.0001 );
+                    }
+                    else
+                    {
+                        // We take the MaxAngle - the GapAngle, then minus the ValueAngle from it
+                        TrackEndAngle = ( normalisedMinAngle + gapAngle ) - ( normalisedMinAngle - storageRing.ValueAngle );
+                    }
+                }
+                else
+                {
+                    TrackStartAngle = normalisedMaxAngle;
+
+                    //
+                    // When the trackRing's EndAngle meets or exceeds its adjusted StartAngle
+                    if ( storageRing.ValueAngle > ( normalisedMaxAngle - ( gapAngle / 20 ) ) )
+                    {
+                        TrackEndAngle = ( normalisedMaxAngle - 0.0001 );
+                    }
+                    else
+                    {
+                        // We take the MaxAngle - the GapAngle, then minus the ValueAngle from it
+                        TrackEndAngle = ( normalisedMinAngle + ( gapAngle - ( normalisedMinAngle - storageRing.ValueAngle ) ) );
+                    }
+                }
+            }
+
+            valueRingShape.StartAngle = ValueStartAngle;
+            trackRingShape.StartAngle = TrackStartAngle;
+
+            valueRingShape.EndAngle = ValueEndAngle;
+            trackRingShape.EndAngle = TrackEndAngle;
         }
 
 
 
 
         //TODO Adjust Radius for smaller Ring
-        private void UpdateRingLayouts(DependencyObject d)
+        private void UpdateRingLayouts(DependencyObject d , RingShape valueRingShape , RingShape trackRingShape)
         {
             StorageRing storageRing = (StorageRing)d;
 
-            var valueRingShape = storageRing.GetValueRingShape();
-            var trackRingShape = storageRing.GetTrackRingShape();
+            if ( valueRingShape == null || trackRingShape == null )
+            {
+                return;
+            }
 
             double radius = storageRing.GetSharedRadius();
 
-            if ( valueRingShape != null || trackRingShape != null )
-            {
-                // Apply Radius values
-                valueRingShape.RadiusWidth = radius;
-                valueRingShape.RadiusHeight = radius;
+            valueRingShape.RadiusWidth = radius;
+            valueRingShape.RadiusHeight = radius;
 
-                trackRingShape.RadiusWidth = radius;
-                trackRingShape.RadiusHeight = radius;
+            trackRingShape.RadiusWidth = radius;
+            trackRingShape.RadiusHeight = radius;
 
-                // Apply Width and Heights
-                valueRingShape.Width = storageRing.AdjustedSize;
-                valueRingShape.Height = storageRing.AdjustedSize;
+            // Apply Width and Heights
+            valueRingShape.Width = storageRing.AdjustedSize;
+            valueRingShape.Height = storageRing.AdjustedSize;
 
-                trackRingShape.Width = storageRing.AdjustedSize;
-                trackRingShape.Height = storageRing.AdjustedSize;
-            }
+            trackRingShape.Width = storageRing.AdjustedSize;
+            trackRingShape.Height = storageRing.AdjustedSize;
         }
 
 
 
 
-        private void UpdateRingStrokes(DependencyObject d)
+        private void UpdateRingStrokes(DependencyObject d , RingShape valueRingShape , RingShape trackRingShape)
         {
             StorageRing storageRing = (StorageRing)d;
+
+            if ( valueRingShape == null || trackRingShape == null )
+            {
+                return;
+            }
+
+            var normalisedMinAngle = GetNormalisedMinAngle();
+            var normalisedMaxAngle = GetNormalisedMaxAngle();
+
+            //
+            // Value is below or at its Minimum
+            if ( storageRing.Value <= storageRing.Minimum )
+            {
+                valueRingShape.StrokeThickness = 0;
+                trackRingShape.StrokeThickness = storageRing.GetTrackRingThickness();
+            }
+            //
+            // Value is between it's Minimum and its Minimum + 2 (between 0 and 2)
+            else if ( storageRing.Value > storageRing.Minimum && storageRing.Value < storageRing.Minimum + 2 )
+            {
+                valueRingShape.StrokeThickness = storageRing.GetThicknessTransition( storageRing , 
+                                                                                     storageRing.Minimum , 
+                                                                                     storageRing.Value , 
+                                                                                     storageRing.Minimum + 2 , 
+                                                                                     0.0 , 
+                                                                                     storageRing.GetValueRingThickness() , 
+                                                                                     true );
+                trackRingShape.StrokeThickness = storageRing.GetTrackRingThickness();
+            }
+            //
+            // Value is at or above its Maximum value
+            else if ( storageRing.Value >= storageRing.Maximum )
+            {
+                valueRingShape.StrokeThickness = storageRing.GetValueRingThickness();
+                trackRingShape.StrokeThickness = 0;
+            }
+            //
+            // Any value between the Minimum + 1 and the Maximum value
+            else
+            {
+                valueRingShape.StrokeThickness = storageRing.ValueRingThickness;
+
+                if ( IsFullCircle( normalisedMinAngle , normalisedMaxAngle ) == true )
+                {
+                    if ( storageRing.ValueAngle > ( normalisedMaxAngle + 1.0 ) - ( storageRing.GetGapAngle() * 2 ) )
+                    {
+                        valueRingShape.StrokeThickness = storageRing.GetValueRingThickness();
+                        trackRingShape.StrokeThickness = storageRing.GetThicknessTransition( storageRing ,
+                                                                                            ( normalisedMaxAngle + 0.1 ) - ( storageRing.GetGapAngle() * 2 ) ,
+                                                                                              storageRing.ValueAngle , ( normalisedMaxAngle ) - ( storageRing.GetGapAngle() ) ,
+                                                                                              storageRing.GetTrackRingThickness() ,
+                                                                                              0.0 ,
+                                                                                              true );
+                    }
+                    else
+                    {
+                        valueRingShape.StrokeThickness = storageRing.GetValueRingThickness();
+                        trackRingShape.StrokeThickness = storageRing.GetTrackRingThickness();
+                    }
+                }
+                else
+                {
+                    if ( storageRing.ValueAngle > ( normalisedMaxAngle - ( storageRing.GetGapAngle() ) ) )
+                    {
+                        valueRingShape.StrokeThickness = storageRing.GetValueRingThickness();
+                        trackRingShape.StrokeThickness = storageRing.GetThicknessTransition( storageRing ,
+                                                                                             ( normalisedMaxAngle + 0.1) - ( storageRing.GetGapAngle() / 2 ) ,
+                                                                                             storageRing.ValueAngle , ( normalisedMaxAngle ) - ( storageRing.GetGapAngle() / 2 ) ,
+                                                                                             storageRing.GetTrackRingThickness() ,
+                                                                                             0.0 ,
+                                                                                             true );
+                    }
+                    else
+                    {
+                        valueRingShape.StrokeThickness = storageRing.GetValueRingThickness();
+                        trackRingShape.StrokeThickness = storageRing.GetTrackRingThickness();
+                    }
+                }
+            };
         }
 
         #endregion
@@ -877,7 +1249,9 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)d;
 
-            // Update the Value
+            UpdateValues( d , newValue , oldValue );
+
+            UpdateRings( d );
         }
 
 
@@ -892,7 +1266,7 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)d;
 
-            // Update the Minimum value
+            UpdateRings( d );
         }
 
 
@@ -907,7 +1281,7 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)d;
 
-            // Update the Maximum value
+            UpdateRings( d );
         }
 
         #endregion
@@ -983,7 +1357,7 @@ namespace Files.App.Controls
         /// <param name="startAngle">The StartAngle to validate</param>
         private void ValidateStartAngle(DependencyObject d , double startAngle)
         {
-            RingShape ringShape = (RingShape)d;
+            StorageRing storageRing = (StorageRing)d;
 
             if ( startAngle >= GetNormalisedMaxAngle() )
             {
@@ -1026,7 +1400,8 @@ namespace Files.App.Controls
             if ( useEasing )
             {
                 // Apply an easing function (e.g., quadratic ease-in-out)
-                var easedT = EaseInOutFunction(t);
+                //var easedT = EaseInOutFunction(t);
+                var easedT = EaseOutCubic(t);
 
                 // Interpolate the thickness
                 interpolatedThickness = startThickness + easedT * ( endThickness - startThickness );
@@ -1068,7 +1443,8 @@ namespace Files.App.Controls
             if ( useEasing )
             {
                 // Apply an easing function
-                var easedT = EaseInOutFunction(t);
+                //var easedT = EaseInOutFunction(t);
+                var easedT = EaseOutCubic(t);
 
                 // Interpolate the angle
                 interpolatedAngle = startAngle + easedT * ( endAngle - startAngle );
@@ -1108,8 +1484,16 @@ namespace Files.App.Controls
                 return maxAngle;
             }
 
-            // Calculate the interpolated angle
-            return ( ( value - minValue ) / ( maxValue - minValue ) * ( maxAngle - minAngle ) );
+            // Calculate the normalized value
+            double normalizedValue = (value - minValue) / (maxValue - minValue);
+
+            // Determine the angle range
+            double angleRange = MaxAngle - MinAngle;
+
+            // Calculate the actual angle
+            double angle = MinAngle + (normalizedValue * angleRange);
+
+            return angle;
         }
 
 
@@ -1173,27 +1557,6 @@ namespace Files.App.Controls
 
 
         /// <summary>
-        /// Calculates the modulus of a number with respect to a divider.
-        /// The result is always positive or zero, regardless of the input values.
-        /// </summary>
-        /// <param name="number">The input number.</param>
-        /// <param name="divider">The divider (non-zero).</param>
-        /// <returns>The positive modulus result.</returns>
-        private double Modulus(double number , double divider)
-        {
-            // Calculate the modulus
-            var result = number % divider;
-
-            // Ensure the result is positive or zero
-            result = result < 0 ? result + divider : result;
-
-            return result;
-        }
-
-
-
-
-        /// <summary>
         /// Calculates an adjusted angle using linear interpolation (lerp) between the start and end angles.
         /// </summary>
         /// <param name="startAngle">The initial angle.</param>
@@ -1226,6 +1589,24 @@ namespace Files.App.Controls
         static double EaseOutCubic(double t)
         {
             return 1.0 - Math.Pow( 1.0 - t , 3.0 );
+        }
+
+
+
+
+        /// <summary>
+        /// Checks True if the Angle range is a Full Circle
+        /// </summary>
+        /// <param name="MinAngle"></param>
+        /// <param name="MaxAngle"></param>
+        /// <returns></returns>
+        public static bool IsFullCircle(double MinAngle , double MaxAngle)
+        {
+            // Calculate the absolute difference between angles
+            double angleDifference = Math.Abs(MaxAngle - MinAngle);
+
+            // Check if the angle difference is equal to 360 degrees
+            return angleDifference == 360;
         }
 
         #endregion

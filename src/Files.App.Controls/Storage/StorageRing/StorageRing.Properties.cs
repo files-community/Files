@@ -24,7 +24,7 @@ namespace Files.App.Controls
 				nameof(ValueRingThickness),
 				typeof(double),
 				typeof(StorageRing),
-				new PropertyMetadata(4.0, OnValueRingThicknessChanged));
+				new PropertyMetadata(0.0, OnValueRingThicknessChanged));
 
 
 
@@ -69,7 +69,7 @@ namespace Files.App.Controls
 				nameof(TrackRingThickness),
 				typeof(double),
 				typeof(StorageRing),
-				new PropertyMetadata(2.0, OnTrackRingThicknessChanged));
+				new PropertyMetadata(0.0, OnTrackRingThicknessChanged));
 
 
 
@@ -138,7 +138,7 @@ namespace Files.App.Controls
 		{
 			StorageRing storageRing = (StorageRing)d;
 
-			// update MinAngle
+			storageRing.MinAngleChanged( d , (double)e.NewValue );
 		}
 
 		#endregion
@@ -180,7 +180,7 @@ namespace Files.App.Controls
 		{
 			StorageRing storageRing = (StorageRing)d;
 
-			// Update MaxAngle
+			storageRing.MaxAngleChanged( d , (double)e.NewValue );
 		}
 
 		#endregion
@@ -198,7 +198,7 @@ namespace Files.App.Controls
 			nameof(StartAngle),
 			typeof(double),
 			typeof(StorageRing),
-			new PropertyMetadata(360.0, OnStartAngleChanged));
+			new PropertyMetadata(0.0, OnStartAngleChanged));
 
 
 
@@ -222,7 +222,7 @@ namespace Files.App.Controls
 		{
 			StorageRing storageRing = (StorageRing)d;
 
-			// Update StartAngle
+			storageRing.StartAngleChanged( d , (double)e.NewValue );
 		}
 
 		#endregion
@@ -262,10 +262,7 @@ namespace Files.App.Controls
 		{
 			StorageRing storageRing = (StorageRing)d;
 
-			if ( e.OldValue != e.NewValue )
-			{
-				storageRing.PercentCautionChanged( d , (double)e.NewValue );
-			}
+			storageRing.PercentCautionChanged( d , (double)e.NewValue );
 		}
 
 		#endregion
@@ -305,10 +302,7 @@ namespace Files.App.Controls
 		{
 			StorageRing storageRing = (StorageRing)d;
 
-			if ( e.OldValue != e.NewValue )
-			{
-				storageRing.PercentCriticalChanged( d , (double)e.NewValue );
-			}
+			storageRing.PercentCriticalChanged( d , (double)e.NewValue );
 		}
 
 		#endregion
@@ -323,10 +317,7 @@ namespace Files.App.Controls
 		{
 			base.OnValueChanged(oldValue , newValue );
 
-			if ( oldValue != newValue )
-			{
-				StorageRing_ValueChanged( this , newValue , oldValue);
-			}
+			StorageRing_ValueChanged( this , newValue , oldValue);
 		}
 
 
@@ -337,10 +328,7 @@ namespace Files.App.Controls
 		{
 			base.OnMinimumChanged( oldMinimum , newMinimum );
 
-			if ( oldMinimum != newMinimum )
-			{
-				StorageRing_MinimumChanged( this , newMinimum );
-			}
+			StorageRing_MinimumChanged( this , newMinimum );
 		}
 
 
@@ -351,10 +339,7 @@ namespace Files.App.Controls
 		{
 			base.OnMaximumChanged( oldMaximum , newMaximum );
 
-			if ( oldMaximum != newMaximum )
-			{
-				StorageRing_MaximumChanged( this , newMaximum );
-			}
+			StorageRing_MaximumChanged( this , newMaximum );
 		}
 
 		#endregion
@@ -388,6 +373,7 @@ namespace Files.App.Controls
 
 
 
+
 		#region Protected AdjustedSize (double)
 
 		/// <summary>
@@ -414,6 +400,7 @@ namespace Files.App.Controls
 
 
 
+
 		#region Protected Percent (double)
 
 		/// <summary>
@@ -424,7 +411,7 @@ namespace Files.App.Controls
 				nameof(Percent),
 				typeof(double),
 				typeof(StorageRing),
-				new PropertyMetadata(string.Empty));
+				new PropertyMetadata(null));
 
 
 		/// <summary>

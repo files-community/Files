@@ -65,7 +65,7 @@ namespace Files.App.Controls.Primitives
                 nameof(EndAngle),
                 typeof(double),
                 typeof(RingShape),
-                new PropertyMetadata(90, OnEndAngleChanged));
+                new PropertyMetadata(90.0, OnEndAngleChanged));
 
 
 
