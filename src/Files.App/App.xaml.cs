@@ -18,7 +18,7 @@ namespace Files.App
 	/// </summary>
 	public partial class App : Application
 	{
-		private static SystemTrayIcon? SystemTrayIcon { get; set; }
+		public static SystemTrayIcon? SystemTrayIcon { get; private set; }
 
 		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
 		public static string? OutputPath { get; set; }
@@ -132,14 +132,18 @@ namespace Files.App
 					SplashScreenLoadingTCS = null;
 
 					// Create a system tray icon
-					SystemTrayIcon = new SystemTrayIcon().Show();
+					SystemTrayIcon = new SystemTrayIcon();
+					if (userSettingsService.GeneralSettingsService.ShowSystemTrayIcon)
+						SystemTrayIcon.Show();
 
 					_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
 				}
 				else
 				{
 					// Create a system tray icon
-					SystemTrayIcon = new SystemTrayIcon().Show();
+					SystemTrayIcon = new SystemTrayIcon();
+					if (userSettingsService.GeneralSettingsService.ShowSystemTrayIcon)
+						SystemTrayIcon.Show();
 
 					// Sleep current instance
 					Program.Pool = new(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");

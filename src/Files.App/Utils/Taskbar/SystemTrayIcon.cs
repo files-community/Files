@@ -1,15 +1,15 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Runtime.InteropServices;
 using System.Drawing;
+using System.Runtime.InteropServices;
+using Windows.ApplicationModel;
 using Windows.Foundation;
+using Windows.System;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
-using Windows.ApplicationModel;
-using Windows.System;
 
 namespace Files.App.Utils.Taskbar
 {
