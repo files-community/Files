@@ -540,6 +540,22 @@ namespace Files.App.Data.Factories
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
+					Text = "Flatten".GetLocalizedResource(),
+					ShowInSearchPage = true,
+					ThemedIconModel = new ThemedIconModel()
+					{
+						ThemedIconStyle = "App.ThemedIcons.Folder",
+					},
+					Items =
+					[
+						new ContextMenuFlyoutItemViewModelBuilder(Commands.FlattenSingle).Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(Commands.FlattenRecursive).Build(),
+					],
+					IsHidden = selectedItems.Count != 1 || !selectedItems.Any(item => item?.PrimaryItemAttribute is StorageItemTypes.Folder) || !itemsSelected,
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowFlattenOptions
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendTo",
 					CollapseLabel = true,
