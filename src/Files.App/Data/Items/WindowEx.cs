@@ -95,6 +95,8 @@ namespace Files.App.Data.Items
 			WindowHandle = WinRT.Interop.WindowNative.GetWindowHandle(this);
 			MinWidth = minWidth;
 			MinHeight = minHeight;
+			IsMaximizable = true;
+   			IsMinimizable = true;
 
 			RestoreWindowPlacementData();
 
