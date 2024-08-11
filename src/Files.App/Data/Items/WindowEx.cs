@@ -30,14 +30,14 @@ namespace Files.App.Data.Items
 		public nint WindowHandle { get; }
 
 		/// <summary>
-		/// Gets or sets min width of this <see cref="Window"/>.
+		/// Gets min width of this <see cref="Window"/>.
 		/// </summary>
-		public int MinWidth { get; set; }
+		public int MinWidth { get; }
 
 		/// <summary>
-		/// Gets or sets min height of this <see cref="Window"/>.
+		/// Gets min height of this <see cref="Window"/>.
 		/// </summary>
-		public int MinHeight { get; set; }
+		public int MinHeight { get; }
 
 		private bool _IsMaximizable = true;
 		/// <summary>
