@@ -16,7 +16,8 @@ namespace Files.App.Actions
 		public override bool IsExecutable =>
 			SidebarContext.IsItemRightClicked &&
 			SidebarContext.RightClickedItem is not null &&
-			SidebarContext.RightClickedItem.MenuOptions.ShowShellItems;
+			SidebarContext.RightClickedItem.MenuOptions.ShowShellItems &&
+			!SidebarContext.RightClickedItem.MenuOptions.ShowEmptyRecycleBin;
 
 		public override bool IsAccessibleGlobally
 			=> false;
