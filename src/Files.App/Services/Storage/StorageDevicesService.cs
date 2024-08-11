@@ -22,8 +22,20 @@ namespace Files.App.Services
 			var googleDrivePath = App.AppModel.GoogleDrivePath;
 			var pCloudDrivePath = App.AppModel.PCloudDrivePath;
 
+#if DEBUG
+			Debug.WriteLine($"In RDS.GDA: googleDrivePath: {googleDrivePath}");
+#endif
+
 			foreach (var drive in list)
 			{
+				var shouldSkip = false;
+				await foreach (var cloudProvider in GoogleDriveCloudDetector.GetGoogleDriveProvidersFromRegistryAsync(false))
+				{
+					if (cloudProvider.SyncFolder.Equals(drive.Name))
+						shouldSkip = true;
+				}
+				if (shouldSkip)
+					continue;
 				var res = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Name).AsTask());
 				if (res.ErrorCode is FileSystemStatusCode.Unauthorized)
 				{
@@ -43,6 +55,9 @@ namespace Files.App.Services
 				var label = DriveHelpers.GetExtendedDriveLabel(drive);
 				var driveItem = await DriveItem.CreateFromPropertiesAsync(res.Result, drive.Name.TrimEnd('\\'), label, type, thumbnail);
 
+#if DEBUG
+				Debug.WriteLine($"In RDS.GDA: drive.Name: {drive.Name}");
+#endif
 				// Don't add here because Google Drive is already displayed under cloud drives
 				if (drive.Name == googleDrivePath || drive.Name == pCloudDrivePath)
 					continue;
