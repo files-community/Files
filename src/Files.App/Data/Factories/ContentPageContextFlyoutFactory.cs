@@ -584,7 +584,8 @@ namespace Files.App.Data.Factories
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					ShowItem = !itemsSelected && Commands.OpenTerminal.IsExecutable || areAllItemsFolders && Commands.OpenTerminal.IsExecutable
 				},
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenTerminal){
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenTerminal)
+				{
 					IsVisible = !itemsSelected && Commands.OpenTerminal.IsExecutable || areAllItemsFolders && Commands.OpenTerminal.IsExecutable
 				}.Build(),
 				// Shell extensions are not available on the FTP server or in the archive,
