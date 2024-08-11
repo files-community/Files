@@ -28,23 +28,22 @@ namespace Files.App.Services
 
 			foreach (var drive in list)
 			{
-				var sw = Stopwatch.StartNew();
 				var shouldSkip = false;
+				var sw = Stopwatch.StartNew();
 				await foreach (var cloudProvider in GoogleDriveCloudDetector.GetGoogleDriveProvidersFromRegistryAsync(false))
 				{
 					if (cloudProvider.SyncFolder.Equals(drive.Name))
 						shouldSkip = true;
 				}
+				sw.Stop();
+
+#if DEBUG
+				Debug.WriteLine($"In RDS.GDA in await foreach: drive.Name: {drive.Name}");
+				Debug.WriteLine($"In RDS.GDA in await foreach: Time elapsed for filter: {sw.Elapsed}");
+#endif
 
 				if (shouldSkip)
-				{
-					sw.Stop();
-#if DEBUG
-					Debug.WriteLine($"In RDS.GDA in await foreach: drive.Name: {drive.Name}");
-					Debug.WriteLine($"In RDS.GDA in await foreach: Time elapsed for filter: {sw.Elapsed}");
-#endif
 					continue;
-				}
 
 				var res = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Name).AsTask());
 				if (res.ErrorCode is FileSystemStatusCode.Unauthorized)
