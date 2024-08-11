@@ -91,7 +91,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowSendToMenu
-				},              
+				},
 				new()
 				{
 					Text = "Properties".GetLocalizedResource(),
