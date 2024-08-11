@@ -2027,6 +2027,18 @@
   <data name="Compress" xml:space="preserve">
     <value>Komprimering</value>
   </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Flatten</value>
+  </data>
+  <data name="FlattenDescription" xml:space="preserve">
+    <value>Flatten a folder contents into the current path.</value>
+  </data>
+  <data name="FlattenSingle" xml:space="preserve">
+    <value>Flatten Single</value>
+  </data>
+  <data name="FlattenRecursive" xml:space="preserve">
+    <value>Flatten Recursive</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Vælg filer og mapper, når der svæves over dem</value>
   </data>
