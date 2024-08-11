@@ -103,14 +103,12 @@ namespace Files.App.Utils.Storage
 
 			if (!WindowCache.TryTake(out var propertiesWindow))
 			{
-				propertiesWindow = new();
+				propertiesWindow = new(460, 550);
 				propertiesWindow.Closed += PropertiesWindow_Closed;
 			}
 
 			propertiesWindow.IsMinimizable = false;
 			propertiesWindow.IsMaximizable = false;
-			propertiesWindow.MinWidth = 460;
-			propertiesWindow.MinHeight = 550;
 			propertiesWindow.AppWindow.Resize(new(800, 550));
 			propertiesWindow.Content = frame;
 			propertiesWindow.SystemBackdrop = new AppSystemBackdrop(true);
