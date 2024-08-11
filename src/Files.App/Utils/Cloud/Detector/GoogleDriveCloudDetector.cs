@@ -232,7 +232,7 @@ namespace Files.App.Utils.Cloud
 
 				if (!AddMyDriveToPathAndValidate(ref path, addMyDriveToPath))
 				{
-					_logger.LogWarning($"Validation failed for {path} (media)");
+					_logger.LogWarning($"Validation failed for {path} (registry)");
 					continue;
 				}
 

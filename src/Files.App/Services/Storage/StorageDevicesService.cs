@@ -38,8 +38,8 @@ namespace Files.App.Services
 				sw.Stop();
 
 #if DEBUG
-				Debug.WriteLine($"In RDS.GDA in await foreach: drive.Name: {drive.Name}");
-				Debug.WriteLine($"In RDS.GDA in await foreach: Time elapsed for filter: {sw.Elapsed}");
+				Debug.WriteLine($"In RDS.GDA after registry check: Time elapsed for filter: {sw.Elapsed}");
+				Debug.WriteLine($"In RDS.GDA: drive.Name: {drive.Name}");
 #endif
 
 				if (shouldSkip)
@@ -64,9 +64,6 @@ namespace Files.App.Services
 				var label = DriveHelpers.GetExtendedDriveLabel(drive);
 				var driveItem = await DriveItem.CreateFromPropertiesAsync(res.Result, drive.Name.TrimEnd('\\'), label, type, thumbnail);
 
-#if DEBUG
-				Debug.WriteLine($"In RDS.GDA: drive.Name: {drive.Name}");
-#endif
 				// Don't add here because Google Drive is already displayed under cloud drives
 				if (drive.Name == googleDrivePath || drive.Name == pCloudDrivePath)
 					continue;
