@@ -6,12 +6,17 @@ namespace Files.App.Controls.Primitives
     /// <summary>
     /// Defines BarShape for <see cref="StorageBar"/>.
     /// </summary>
-    public enum BarShape
+    public enum BarShapes
     {
         /// <summary>
-        /// The BarShape for Rounded StorageBars. Default state.
+        /// The BarShape for Round StorageBars. Default state.
         /// </summary>
         Round,
+
+        /// <summary>
+        /// The BarShape for Soft StorageBars.
+        /// </summary>
+        Soft,
 
         /// <summary>
         /// The BarShape for Flat StorageBars.

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Controls.Primitives;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -36,7 +37,10 @@ namespace Files.App.Controls
 		Border?                 _valueBarBorder;        // Reference to the Value Bar Border
 		Border?                 _trackBarBorder;        // Reference to the Track Bar Border
 
+		BarShapes               _barShape;				// Reference to the BarShape
+
 		double                  _gapWidth;              // Stores the Gap between Value and Track Bars
+		double                  _smallerHeight;         // Stores the smaller between Value and Track Bars
 
 		#endregion
 
@@ -153,11 +157,29 @@ namespace Files.App.Controls
 
 
 		/// <summary>
+		/// Sets the private BarShape reference
+		/// </summary>
+		void SetBarShape(BarShapes barShape)
+		{
+			_barShape = barShape;
+		}
+
+
+		/// <summary>
 		/// Sets the private Gap Width value
 		/// </summary>
 		void SetGapWidth(double value)
 		{
 			_gapWidth = value;
+		}
+
+
+		/// <summary>
+		/// Sets the private Smaller Height value
+		/// </summary>
+		void SetSmallerHeight(double value)
+		{
+			_smallerHeight = value;
 		}
 
 		#endregion
@@ -275,11 +297,29 @@ namespace Files.App.Controls
 
 
 		/// <summary>
+		/// Gets the BarShape reference
+		/// </summary>
+		BarShapes GetBarShape()
+		{
+			return _barShape;
+		}
+
+
+		/// <summary>
 		/// Gets the Gap Width
 		/// </summary>
 		double GetGapWidth()
 		{
 			return _gapWidth;
+		}
+
+
+		/// <summary>
+		/// Gets the Smaller Height
+		/// </summary>
+		double GetSmallerHeight()
+		{
+			return _smallerHeight;
 		}
 
 		#endregion
@@ -332,6 +372,7 @@ namespace Files.App.Controls
 
 
 
+
 		/// <summary>
 		/// Handles the Value Bar Height's double value Changed event
 		/// </summary>
@@ -345,6 +386,7 @@ namespace Files.App.Controls
 
 			UpdateControl( storageBar );
 		}
+
 
 
 
@@ -364,17 +406,36 @@ namespace Files.App.Controls
 
 
 
+
+		/// <summary>
+		/// Handles the BarShape's enum value Changed event
+		/// </summary>
+		/// <param name="d"></param>
+		/// <param name="newBarShape">The new BarShape</param>
+		private static void BarShapeChanged(DependencyObject d , BarShapes newBarShape)
+		{
+			var storageBar = d as StorageBar;
+
+			storageBar.SetBarShape( newBarShape );
+
+			UpdateControl( storageBar );
+		}
+
+
+
+
 		/// <summary>
 		/// Handles the PrecentCaution double value Changed event
 		/// </summary>
 		/// <param name="d"></param>
-		/// <param name="newPercentValue"></param>
-		private static void PercentCautionChanged(DependencyObject d , double newPercentValue)
+		/// <param name="newPercentValue">The new PercentCaution value</param>
+		private static void PercentCautionChanged(DependencyObject d , double newPercentCautionValue)
 		{
 			var storageBar = d as StorageBar;
 
 			UpdateControl( storageBar );
 		}
+
 
 
 
@@ -382,13 +443,14 @@ namespace Files.App.Controls
 		/// Handles the PrecentCritical double value Changed event
 		/// </summary>
 		/// <param name="d"></param>
-		/// <param name="newPercentValue"></param>
-		private static void PercentCriticalChanged(DependencyObject d , double newPercentValue)
+		/// <param name="newPercentValue">The new PercentCritical value</param>
+		private static void PercentCriticalChanged(DependencyObject d , double newPercentCriticalValue)
 		{
 			var storageBar = d as StorageBar;
 
 			UpdateControl( storageBar );
 		}
+
 
 
 
@@ -403,6 +465,7 @@ namespace Files.App.Controls
 
 			UpdateControl( storageBar );
 		}
+
 
 
 
@@ -422,6 +485,7 @@ namespace Files.App.Controls
 
 
 
+
 		/// <summary>
 		/// Handles the SizeChanged event
 		/// </summary>
@@ -438,6 +502,7 @@ namespace Files.App.Controls
 
 
 
+
 		private void OnValueChanged(DependencyObject d)
 		{
 			var storageBar = (StorageBar)d;
@@ -446,6 +511,7 @@ namespace Files.App.Controls
 		}
 
 		#endregion
+
 
 
 
@@ -468,9 +534,12 @@ namespace Files.App.Controls
 			storageBar.SetValueBarBorder( storageBar.GetTemplateChild( ValueBorderPartName ) as Border );
 			storageBar.SetTrackBarBorder( storageBar.GetTemplateChild( TrackBorderPartName ) as Border );
 
+			storageBar.SetBarShape( storageBar.BarShape );
+
 			storageBar.SetValueBarHeight( storageBar.ValueBarHeight );
 			storageBar.SetTrackBarHeight( storageBar.TrackBarHeight );
 		}
+
 
 
 
@@ -483,7 +552,7 @@ namespace Files.App.Controls
 			var storageBar = (StorageBar)d;
 
 			// 1. Update the Bar Heights
-			UpdateBarHeights( storageBar , storageBar.GetValueBarHeight() , storageBar.GetTrackBarHeight() );
+			UpdateContainerHeightsAndCorners( storageBar , storageBar.GetValueBarHeight() , storageBar.GetTrackBarHeight() );
 
 			// 2. Set the 3 Column Widths
 			UpdateColumnWidths( storageBar , storageBar.Value , storageBar.Minimum , storageBar.Maximum );
@@ -491,6 +560,7 @@ namespace Files.App.Controls
 			// 3. Update the control's VisualState
 			UpdateVisualState( storageBar );
 		}
+
 
 
 
@@ -507,7 +577,8 @@ namespace Files.App.Controls
 
 
 
-		private static void UpdateBarHeights(DependencyObject d , double valueBarHeight , double trackBarHeight)
+
+		private static void UpdateContainerHeightsAndCorners(DependencyObject d , double valueBarHeight , double trackBarHeight)
 		{
 			var storageBar = (StorageBar)d;
 
@@ -515,26 +586,44 @@ namespace Files.App.Controls
 			Border trackBorder = storageBar.GetTrackBarBorder();
 
 			Grid containerGrid = storageBar.GetContainerGrid();
+			BarShapes barShape = storageBar.GetBarShape();
 
 			// Finds the larger of the two height values
-			double calculatedHighest = Math.Max(valueBarHeight, trackBarHeight);
+			double calculatedLargerHeight = Math.Max(valueBarHeight, trackBarHeight);
+			double calculatedSmallerHeight = Math.Min(valueBarHeight, trackBarHeight);
+
 
 			if ( valueBorder != null || trackBorder != null || containerGrid != null )
 			{
 				valueBorder.Height = valueBarHeight;
 				trackBorder.Height = trackBarHeight;
 
-				// If barshape is Rounded
-				{ }
-				valueBorder.CornerRadius = new CornerRadius( valueBarHeight / 2 );
-				trackBorder.CornerRadius = new CornerRadius( trackBarHeight / 2 );
+				if ( barShape == BarShapes.Round) 
+				{
 
-				containerGrid.Height = calculatedHighest;
+					valueBorder.CornerRadius = new CornerRadius( valueBarHeight / 2 );
+					trackBorder.CornerRadius = new CornerRadius( trackBarHeight / 2 );
+				}
+				else if ( barShape == BarShapes.Soft )
+				{
+
+					valueBorder.CornerRadius = new CornerRadius( valueBarHeight / 4 );
+					trackBorder.CornerRadius = new CornerRadius( trackBarHeight / 4 );
+				}
+				else
+				{
+					valueBorder.CornerRadius = new CornerRadius( 0 );
+					trackBorder.CornerRadius = new CornerRadius( 0 );
+				}
+
+				containerGrid.Height = calculatedLargerHeight;
 			}			
 
-			storageBar.SetGapWidth( calculatedHighest );
+			storageBar.SetGapWidth( calculatedLargerHeight );
+			storageBar.SetSmallerHeight( calculatedSmallerHeight );
 			
 		}
+
 
 
 
@@ -590,44 +679,183 @@ namespace Files.App.Controls
 					}
 					else
 					{
-						if ( valuePercent > minPercent && valuePercent <= minPercent + 1.0 )		// Between 0% and 1%
-						{ 
-							// Increase the ValueColumn width and ValueBar size
-							// from 0.0 to the set bar height - between values.
-						}
-						else if ( valuePercent >= maxPercent - 1.0 && valuePercent < maxPercent )	// Between 99% and 100%
-						{
-							// Decrease the TrackColumn width and TrackBar size
-							// from the set bar heights to 0.0 - between values.
-						}
-						else                                                                        // Between 1% and 99%
-						{
-							// Move the general column resizing code into here
-							// so it only runs between values.
-						}
-
 						Grid.SetColumnSpan( valueBorder , 1 );
 						Grid.SetColumn( valueBorder , 0 );
 
 						Grid.SetColumnSpan( trackBorder , 1 );
 						Grid.SetColumn( trackBorder , 2 );
 
+
 						valueBorder.Visibility = Visibility.Visible;
 						trackBorder.Visibility = Visibility.Visible;
 
 
-						gapColumn.Width = new GridLength( storageBar.GetGapWidth() );
+						var valueBarHeight = storageBar.GetValueBarHeight();
+						var trackBarHeight = storageBar.GetTrackBarHeight();
+						var gapWidth = storageBar.GetGapWidth();
 
-						valueColumn.MaxWidth = containerSize.Width - ( storageBar.GetValueBarHeight() + storageBar.GetTrackBarHeight() );
-						trackColumn.MaxWidth = containerSize.Width - ( storageBar.GetValueBarHeight() + storageBar.GetTrackBarHeight() );
+						valueColumn.MaxWidth = containerSize.Width;
+						trackColumn.MaxWidth = containerSize.Width;
 
-						valueColumn.MinWidth = storageBar.GetValueBarHeight();
-						trackColumn.MinWidth = storageBar.GetTrackBarHeight();
+						bool valueLarger;
 
-						double calculatedValueWidth = (valueColumn.MaxWidth / 100) * valuePercent;
+						if ( valueBarHeight > trackBarHeight )
+						{ 
+							valueLarger = true;
+						}
+						else
+						{
+							valueLarger = false;
+						}
 
-						valueColumn.Width = new GridLength( calculatedValueWidth );
-						trackColumn.Width = new GridLength( 1 , GridUnitType.Star );
+
+						if ( valuePercent > minPercent && valuePercent <= minPercent + 2.0 )		// Between 0% and 2%
+						{
+							var interpolatedValueBarHeight  = storageBar.CalculateInterpolatedValue(    storageBar ,
+																										minPercent ,
+																										storageBar.Percent ,
+																										minPercent + 2.0 ,
+																										0.0 ,
+																										valueBarHeight ,
+																										true);
+
+							var interpolatedTrackBarHeight  = storageBar.CalculateInterpolatedValue(    storageBar ,
+																										minPercent ,
+																										storageBar.Percent ,
+																										minPercent + 2.0 ,
+																										0.0 ,
+																										trackBarHeight ,
+																										true);
+
+							var interpolatedGapWidth = gapWidth;
+
+							if ( valueLarger == true )
+							{
+								interpolatedGapWidth        = storageBar.CalculateInterpolatedValue(    storageBar ,
+																										minPercent ,
+																										storageBar.Percent ,
+																										minPercent + 2.0 ,
+																										0.0 ,
+																										gapWidth ,
+																										true);
+							}							
+							else
+							{
+								interpolatedGapWidth        = storageBar.CalculateInterpolatedValue(    storageBar ,
+																										minPercent ,
+																										storageBar.Percent ,
+																										minPercent + 2.0 ,
+																										0.0 ,
+																										storageBar.GetSmallerHeight() ,
+																										true);
+							}
+
+							valueColumn.MinWidth = interpolatedValueBarHeight;
+							trackColumn.MinWidth = interpolatedTrackBarHeight;
+
+							valueBorder.Height = interpolatedValueBarHeight;
+							trackBorder.Height = trackBarHeight;
+
+							double calculatedValueWidth = (valueColumn.MaxWidth / 100) * valuePercent;
+
+							valueColumn.Width = new GridLength( calculatedValueWidth );
+							gapColumn.Width = new GridLength( interpolatedGapWidth );
+							trackColumn.Width = new GridLength( 1 , GridUnitType.Star );
+						}
+						else if ( valuePercent >= maxPercent - 1.0 && valuePercent < maxPercent )   // Between 98% and 100%
+						{
+							var interpolatedValueBarHeight	= storageBar.CalculateInterpolatedValue(	storageBar ,
+																										maxPercent - 2.0 ,
+																										storageBar.Percent ,
+																										maxPercent ,
+																										valueBarHeight ,
+																										0.0 ,
+																										true);
+
+							var interpolatedTrackBarHeight  = storageBar.CalculateInterpolatedValue(    storageBar ,
+																										maxPercent - 2.0 ,
+																										storageBar.Percent ,
+																										maxPercent ,
+																										trackBarHeight ,
+																										0.0 ,
+																										true);
+
+							var interpolatedGapWidth = gapWidth;
+
+							if ( valueLarger == true )
+							{
+								interpolatedGapWidth = storageBar.CalculateInterpolatedValue(   storageBar ,
+																								maxPercent - 2.0 ,
+																								storageBar.Percent ,
+																								maxPercent ,
+																								0.0 ,
+																								storageBar.GetSmallerHeight() ,
+																								true );
+							}
+							else
+							{
+								interpolatedGapWidth = storageBar.CalculateInterpolatedValue(   storageBar ,
+																								maxPercent - 2.0 ,
+																								storageBar.Percent ,
+																								maxPercent ,
+																								0.0 ,
+																								gapWidth ,
+																								true );
+							}
+
+							valueColumn.MinWidth = interpolatedValueBarHeight;
+							trackColumn.MinWidth = interpolatedTrackBarHeight;
+
+							double calculatedValueWidth = (valueColumn.MaxWidth / 100) * valuePercent;
+
+							valueColumn.Width = new GridLength( calculatedValueWidth );
+							trackColumn.Width = new GridLength( 1 , GridUnitType.Star );
+							gapColumn.Width = new GridLength( interpolatedGapWidth );
+
+							valueBorder.Height = valueBarHeight;
+							trackBorder.Height = interpolatedTrackBarHeight;
+						}
+						else                                                                        // Between 2% and 98%
+						{
+							valueColumn.MinWidth = valueBarHeight;
+							trackColumn.MinWidth = trackBarHeight;
+
+							double calculatedValueWidth = (valueColumn.MaxWidth / 100) * valuePercent;
+
+							valueColumn.Width = new GridLength( calculatedValueWidth );
+							trackColumn.Width = new GridLength( 1 , GridUnitType.Star );
+
+							var interpolatedGapWidth = gapWidth;
+
+							if ( valueLarger == true )
+							{
+								interpolatedGapWidth = storageBar.CalculateInterpolatedValue( storageBar ,
+																										minPercent + 2.0 ,
+																										storageBar.Percent ,
+																										maxPercent - 2.0 ,
+																										gapWidth ,
+																										storageBar.GetSmallerHeight() ,
+																										true );
+							}
+							else
+							{
+								interpolatedGapWidth = storageBar.CalculateInterpolatedValue( storageBar ,
+																										minPercent + 2.0 ,
+																										storageBar.Percent ,
+																										maxPercent - 2.0 ,
+																										storageBar.GetSmallerHeight() ,
+																										gapWidth ,
+																										true );
+							}
+
+							gapColumn.Width = new GridLength( interpolatedGapWidth );
+
+							valueBorder.Height = valueBarHeight;
+							trackBorder.Height = trackBarHeight;
+						}
+
+
+						
 					}
 				}
 			}
@@ -644,6 +872,7 @@ namespace Files.App.Controls
 
 			storageBar.SetContainerSize( new Size( containerWidth , containerHeight ) );
 		}
+
 
 
 
@@ -716,23 +945,18 @@ namespace Files.App.Controls
 
 
 
-
-
-
-
-		// TODO - adjust this code to handle the interpolated height/width for column and bar sizing
 		/// <summary>
-		/// Calculates an interpolated thickness value based on the provided parameters.
+		/// Calculates an interpolated value based on the provided parameters.
 		/// </summary>
 		/// <param name="d">The DependencyObject representing the control.</param>
 		/// <param name="startValue">The starting value for interpolation.</param>
 		/// <param name="value">The current value to interpolate.</param>
 		/// <param name="endValue">The ending value for interpolation.</param>
-		/// <param name="startThickness">The starting thickness value.</param>
-		/// <param name="endThickness">The ending thickness value.</param>
+		/// <param name="startOutput">The starting Output value.</param>
+		/// <param name="endOutput">The ending Output value.</param>
 		/// <param name="useEasing">Indicates whether to apply an easing function.</param>
 		/// <returns>The interpolated thickness value.</returns>
-		private double GetThicknessTransition(DependencyObject d , double startValue , double value , double endValue , double startThickness , double endThickness , bool useEasing)
+		private double CalculateInterpolatedValue(DependencyObject d , double startValue , double value , double endValue , double startOutput , double endOutput , bool useEasing)
 		{
 			// Ensure that value is within the range [startValue, endValue]
 			value = Math.Max( startValue , Math.Min( endValue , value ) );
@@ -740,7 +964,7 @@ namespace Files.App.Controls
 			// Calculate the interpolation factor (t) between 0 and 1
 			var t = (value - startValue) / (endValue - startValue);
 
-			double interpolatedThickness;
+			double interpolatedOutput;
 
 			if ( useEasing )
 			{
@@ -749,16 +973,17 @@ namespace Files.App.Controls
 				var easedT = EaseOutCubic(t);
 
 				// Interpolate the thickness
-				interpolatedThickness = startThickness + easedT * ( endThickness - startThickness );
+				interpolatedOutput = startOutput + easedT * ( endOutput - startOutput );
 			}
 			else
 			{
 				// Interpolate the thickness
-				interpolatedThickness = startThickness + t * ( endThickness - startThickness );
+				interpolatedOutput = startOutput + t * ( endOutput - startOutput );
 			}
 
-			return interpolatedThickness;
+			return interpolatedOutput;
 		}
+
 
 
 
@@ -769,6 +994,7 @@ namespace Files.App.Controls
 		{
 			return t < 0.5 ? 2 * t * t : 1 - Math.Pow( -2 * t + 2 , 2 ) / 2;
 		}
+
 
 
 

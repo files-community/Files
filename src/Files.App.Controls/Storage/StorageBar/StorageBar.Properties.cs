@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Controls.Primitives;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls.Primitives;
 
@@ -70,7 +71,6 @@ namespace Files.App.Controls
 			set { SetValue( TrackBarHeightProperty , value ); }
 		}
 
-		///
 
 		/// <summary>
 		/// Handles the change in TrackBar Height property.
@@ -82,6 +82,46 @@ namespace Files.App.Controls
 			if ( e.OldValue != e.NewValue )
 			{
 				TrackBarHeightChanged( d , (double)e.NewValue );
+			}
+		}
+
+		#endregion
+
+
+
+		#region BarShape (enum BarShape)
+
+		/// <summary>
+		/// Identifies the BarShape dependency property.
+		/// </summary>
+		public static readonly DependencyProperty BarShapeProperty =
+			DependencyProperty.Register(
+				nameof(BarShape),
+				typeof(BarShapes),
+				typeof(StorageBar),
+				new PropertyMetadata(BarShapes.Round, OnBarShapeChanged));
+
+
+		/// <summary>
+		/// Gets or sets an Enum value to choose from our two BarShapes. (Round, Flat)
+		/// </summary>
+		public BarShapes BarShape
+		{
+			get => (BarShapes)GetValue( BarShapeProperty );
+			set => SetValue( BarShapeProperty , value );
+		}
+
+
+		/// <summary>
+		/// Handles the change in BarShape property.
+		/// </summary>
+		/// <param name="d">The DependencyObject representing the control.</param>
+		/// <param name="e">The event arguments containing the old and new values.</param>
+		private static void OnBarShapeChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
+		{
+			if ( e.OldValue != e.NewValue )
+			{
+				BarShapeChanged( d , (BarShapes)e.NewValue );
 			}
 		}
 
