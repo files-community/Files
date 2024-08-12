@@ -91,6 +91,8 @@
 		<!--#region StorageControls-->
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Storage/StorageRing/StorageRing.ThemeResources.xaml" />
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Storage/StorageRing/StorageRing.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Storage/StorageBar/StorageBar.ThemeResources.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Storage/StorageBar/StorageBar.xaml" />
 		<!--#endregion-->
 
 

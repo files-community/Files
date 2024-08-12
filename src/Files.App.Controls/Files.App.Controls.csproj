@@ -21,4 +21,23 @@
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
   </ItemGroup>
 
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Storage\StorageBar\StorageBar.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Storage\StorageBar\StorageBar.ThemeResources.xaml" />
+    <None Remove="Storage\StorageBar\StorageBar.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Remove="Storage\StorageBar\StorageBar.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Storage\StorageBar\StorageBar.ThemeResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
 </Project>

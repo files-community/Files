@@ -1,17 +1,13 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.Foundation;
 using Files.App.Controls.Primitives;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
+using System;
+using Windows.Foundation;
 
 namespace Files.App.Controls
 {
@@ -157,13 +153,13 @@ namespace Files.App.Controls
         /// <summary>
         /// Sets the private ThicknessCheck enum value
         /// </summary>
-        private void SetThicknessCheck(double mainThickness , double trackThickness)
+        private void SetThicknessCheck(double valueThickness , double trackThickness)
         {
-            if ( mainThickness > trackThickness )
+            if ( valueThickness > trackThickness )
             {
-                _thicknessCheck = ThicknessCheck.Main;
+                _thicknessCheck = ThicknessCheck.Value;
             }
-            else if ( mainThickness < trackThickness )
+            else if ( valueThickness < trackThickness )
             {
                 _thicknessCheck = ThicknessCheck.Track;
             }
@@ -567,7 +563,7 @@ namespace Files.App.Controls
 
 
         /// <summary>
-        /// Occurs when this object is no longer connected to the main object tree.
+        /// Occurs when this object is no longer connected to the value object tree.
         /// </summary>
         /// <param name="sender">The object that triggered the event.</param>
         /// <param name="e">Provides data related to the Unloaded event.</param>
@@ -582,7 +578,7 @@ namespace Files.App.Controls
 
 
         /// <summary>
-        /// Occurs when this object is loaded into the main object tree
+        /// Occurs when this object is loaded into the value object tree
         /// </summary>
         /// <param name="sender">The object that triggered the event.</param>
         /// <param name="e">Provides data related to the Unloaded event.</param>
@@ -863,7 +859,7 @@ namespace Files.App.Controls
 
             SetThicknessCheck( GetValueRingThickness() , GetTrackRingThickness() );
 
-            if ( GetThicknessCheck() == ThicknessCheck.Main )
+            if ( GetThicknessCheck() == ThicknessCheck.Value )
             {
                 SetLargerThickness( GetValueRingThickness() );
                 SetSmallerThickness( GetTrackRingThickness() );
@@ -977,7 +973,7 @@ namespace Files.App.Controls
             }
 
             // Set sizes for the rings as needed
-            if ( storageRing.GetThicknessCheck() == ThicknessCheck.Main )
+            if ( storageRing.GetThicknessCheck() == ThicknessCheck.Value )
             {
                 valueRingShape.Width = storageRing.GetContainerSize();
                 valueRingShape.Height = storageRing.GetContainerSize();
