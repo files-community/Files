@@ -29,22 +29,22 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync(object? parameter = null)
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage?.ShellViewModel is null)
-				return;
+				return Task.CompletedTask;
 
 			var items = context.SelectedItems;
 
 			if (items is null || !items.Any() || items.Any(item => !item.IsFolder))
-				return;
+				return Task.CompletedTask;
 
 			foreach (var item in items)
 			{
 				var folderPath = item.ItemPath;
 
-				var containedFolders = await Task.Run(() => Directory.GetDirectories(folderPath));
-				var containedFiles = await Task.Run(() => Directory.GetFiles(folderPath));
+				var containedFolders = Directory.GetDirectories(folderPath);
+				var containedFiles = Directory.GetFiles(folderPath);
 
 				foreach (var containedFolder in containedFolders)
 				{
@@ -94,6 +94,8 @@ namespace Files.App.Actions
 					}
 				}
 			}
+
+			return Task.CompletedTask;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
