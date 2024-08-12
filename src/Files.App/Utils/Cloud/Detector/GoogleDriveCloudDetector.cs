@@ -11,7 +11,7 @@ using Vanara.Windows.Shell;
 namespace Files.App.Utils.Cloud
 {
 	/// <summary>
-	/// Provides an utility for Google Drive Cloud detection.
+	/// Provides a utility for Google Drive Cloud detection.
 	/// </summary>
 	public sealed class GoogleDriveCloudDetector : AbstractCloudDetector
 	{
@@ -55,9 +55,6 @@ namespace Files.App.Utils.Cloud
 					continue;
 				}
 
-				if ((long)reader["is_my_drive"] == 1)
-					continue;
-
 				// By default, the path will be prefixed with "\\?\" (unless another app has explicitly changed it).
 				// \\?\ indicates to Win32 that the filename may be longer than MAX_PATH (see MSDN).
 				// Parts of .NET (e.g. the File class) don't handle this very well, so remove this prefix.
@@ -69,12 +66,9 @@ namespace Files.App.Utils.Cloud
 				var folder = await StorageFolder.GetFolderFromPathAsync(path);
 				string title = reader["title"]?.ToString() ?? folder.Name;
 
-				App.AppModel.GoogleDrivePath = path;
-
 #if DEBUG
-				Debug.WriteLine($"In GDCD in roots table: App.AppModel.GoogleDrivePath being set to: {path}");
-				Debug.WriteLine("YIELD RETURNING from GoogleDriveCloudDetector#GetProviders (roots): ");
-				Debug.WriteLine($"name=Google Drive ({title}); path={path}");
+				Debug.WriteLine("YIELD RETURNING from `GoogleDriveCloudDetector.GetProviders()` (roots): ");
+				Debug.WriteLine($"Name: Google Drive ({title}); SyncFolder: {path}");
 #endif
 
 				yield return new CloudProvider(CloudProviders.GoogleDrive)
@@ -84,6 +78,7 @@ namespace Files.App.Utils.Cloud
 				};
 			}
 
+			var iconFile = await GetGoogleDriveIconFileAsync();
 			// Google virtual drive
 			reader = cmdMedia.ExecuteReader();
 
@@ -94,22 +89,14 @@ namespace Files.App.Utils.Cloud
 					continue;
 
 				if (!AddMyDriveToPathAndValidate(ref path))
-				{ 
-					_logger.LogWarning($"Validation failed for {path} (media)");
 					continue;
-				}
 
 				var folder = await StorageFolder.GetFolderFromPathAsync(path);
 				string title = reader["name"]?.ToString() ?? folder.Name;
 
-				App.AppModel.GoogleDrivePath = path;
-
-				var iconFile = await GetGoogleDriveIconFileAsync();
-
 #if DEBUG
-				Debug.WriteLine($"In GDCD in media table: App.AppModel.GoogleDrivePath being set to: {path}");
-				Debug.WriteLine("YIELD RETURNING from GoogleDriveCloudDetector#GetProviders (media): ");
-				Debug.WriteLine($"name={title}; path={path}");
+				Debug.WriteLine("YIELD RETURNING from `GoogleDriveCloudDetector.GetProviders` (media): ");
+				Debug.WriteLine($"Name: {title}; SyncFolder: {path}");
 #endif
 
 				yield return new CloudProvider(CloudProviders.GoogleDrive)
@@ -126,26 +113,25 @@ namespace Files.App.Utils.Cloud
 			await Inspect(database, "SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY 1", "root_preferences db, all tables");
 #endif
 
-			await foreach (var provider in GetGoogleDriveProvidersFromRegistryAsync())
+			var registryPath = App.AppModel.GoogleDrivePath;
+			if (!AddMyDriveToPathAndValidate(ref registryPath))
+				yield break;
+			yield return new CloudProvider(CloudProviders.GoogleDrive)
 			{
-
-#if DEBUG
-				Debug.WriteLine("YIELD RETURNING from GoogleDriveCloudDetector#GetProviders (registry): ");
-				Debug.WriteLine($"name={provider.Name}; path={provider.SyncFolder}");
-#endif
-
-				yield return provider;
-			}
+				Name = "Google Drive",
+				SyncFolder = registryPath,
+				IconData = iconFile is not null ? await iconFile.ToByteArrayAsync() : null
+			};
 		}
 
-		private async Task Inspect(SqliteConnection database, string sqlCommand, string contentsOf)
+		private static async Task Inspect(SqliteConnection database, string sqlCommand, string targetDescription)
 		{
 			await using var cmdTablesAll = new SqliteCommand(sqlCommand, database);
 			var reader = await cmdTablesAll.ExecuteReaderAsync();
-			var colNamesList = Enumerable.Range(0, reader.FieldCount).Select(j => reader.GetName(j)).ToList();
+			var colNamesList = Enumerable.Range(0, reader.FieldCount).Select(reader.GetName).ToList();
 
 #if DEBUG
-			Debug.WriteLine($"BEGIN LOGGING of {contentsOf} contents");
+			Debug.WriteLine($"BEGIN LOGGING of {targetDescription}");
 #endif
 
 			for (int index = 0; reader.Read() is not false; index++)
@@ -153,12 +139,12 @@ namespace Files.App.Utils.Cloud
 				var colVals = new object[reader.FieldCount];
 				reader.GetValues(colVals);
 
-				colVals.Select((val, j) => $"row {index}: column {j}: {colNamesList[j]}: {val}")
+				colVals.Select((val, i) => $"row {index}: column {i}: {colNamesList[i]}: {val}")
 					.ToList().ForEach(s => Debug.WriteLine(s));
 			}
 
 #if DEBUG
-			Debug.WriteLine($"END LOGGING of {contentsOf} contents");
+			Debug.WriteLine($"END LOGGING of {targetDescription} contents");
 #endif
 		}
 
@@ -194,12 +180,12 @@ namespace Files.App.Utils.Cloud
 			return googleDriveRegValueJson;
 		}
 
-		public static async IAsyncEnumerable<ICloudProvider> GetGoogleDriveProvidersFromRegistryAsync(bool addMyDriveToPath = true)
+		public static string? GetRegistryBasePath()
 		{
 			var googleDriveRegValJson = GetGoogleDriveRegValJson();
 
 			if (googleDriveRegValJson is null)
-				yield break;
+				return null;
 
 			var googleDriveRegValJsonProperty = googleDriveRegValJson
 				.RootElement.EnumerateObject()
@@ -210,7 +196,7 @@ namespace Files.App.Utils.Cloud
 			if (googleDriveRegValJsonProperty.Value.ValueKind == JsonValueKind.Undefined)
 			{
 				_logger.LogWarning($"Root element of Google Drive registry value for value name '{_googleDriveRegValName}' was empty.");
-				yield break;
+				return null;
 			}
 
 #if DEBUG
@@ -218,38 +204,64 @@ namespace Files.App.Utils.Cloud
 			Debug.WriteLine(googleDriveRegValJsonProperty.ToString());
 #endif
 
-			foreach (var item in googleDriveRegValJsonProperty.Value.EnumerateArray())
+			var item = googleDriveRegValJsonProperty.Value.EnumerateArray().FirstOrDefault();
+			if (item.ValueKind == JsonValueKind.Undefined)
 			{
-				if (!item.TryGetProperty(_googleDriveRegValPropName, out var googleDriveRegValProp))
-					continue;
-
-				if (!googleDriveRegValProp.TryGetProperty(_googleDriveRegValPropPropName, out var googleDriveRegValPropProp))
-					continue;
-
-				var path = googleDriveRegValPropProp.GetString();
-				if (path is null)
-					continue;
-
-				if (!AddMyDriveToPathAndValidate(ref path, addMyDriveToPath))
-				{
-					_logger.LogWarning($"Validation failed for {path} (registry)");
-					continue;
-				}
-
-				App.AppModel.GoogleDrivePath = path;
-#if DEBUG
-				Debug.WriteLine($"In GDCD in registry: App.AppModel.GoogleDrivePath being set to: {path}");
-#endif
-
-				var iconFile = await GetGoogleDriveIconFileAsync();
-
-				yield return new CloudProvider(CloudProviders.GoogleDrive)
-				{
-					Name = "Google Drive",
-					SyncFolder = path,
-					IconData = iconFile is not null ? await iconFile.ToByteArrayAsync() : null,
-				};
+				_logger.LogWarning($"Array in the root element of Google Drive registry value for value name '{_googleDriveRegValName}' was empty.");
+				return null;
 			}
+
+			if (!item.TryGetProperty(_googleDriveRegValPropName, out var googleDriveRegValProp))
+			{
+				_logger.LogWarning($"First element in the Google Drive Registry Root Array did not have property named {_googleDriveRegValPropName}");
+				return null;
+			}
+
+			if (!googleDriveRegValProp.TryGetProperty(_googleDriveRegValPropPropName, out var googleDriveRegValPropProp))
+			{
+				_logger.LogWarning($"Value from {_googleDriveRegValPropName} did not have property named {_googleDriveRegValPropPropName}");
+				return null;
+			}
+
+			var path = googleDriveRegValPropProp.GetString();
+			if (path is not null) 
+				return ConvertDriveLetterToPathAndValidate(ref path) ? path : null;
+
+			_logger.LogWarning($"Could not get string from value from {_googleDriveRegValPropPropName}");
+			return null;
+		}
+
+		/// <summary>
+		/// If Google Drive is mounted as a drive, then the path found in the registry will be
+		/// *just* the drive letter (e.g. just "G" as opposed to "G:\"), and therefore must be
+		/// reformatted as a valid path.
+		/// </summary>
+		private static bool ConvertDriveLetterToPathAndValidate(ref string path)
+		{
+			if (path.Length > 1) 
+				return ValidatePath(path);
+
+			DriveInfo driveInfo;
+			try
+			{
+				driveInfo = new DriveInfo(path);
+			}
+			catch (ArgumentException e)
+			{
+				_logger.LogWarning(e, $"Could not resolve drive letter '{path}' to a valid drive.");
+				return false;
+			}
+
+			path = driveInfo.RootDirectory.Name;
+			return true;
+		}
+
+		private static bool ValidatePath(string path)
+		{ 
+			if (Directory.Exists(path))
+				return true;
+			_logger.LogWarning($"Invalid path: {path}");
+			return false;
 		}
 
 		private static async Task<StorageFile?> GetGoogleDriveIconFileAsync()
@@ -264,56 +276,30 @@ namespace Files.App.Utils.Cloud
 			return await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
 		}
 
-		private static bool AddMyDriveToPathAndValidate(ref string path, bool addMyDrive = true)
-		{
-			// If Google Drive is mounted as a drive, then the path found in the registry will be
-			// *just* the drive letter (e.g. just "G" as opposed to "G:\"), and therefore must be
-			// reformatted as a valid path.
-			if (path.Length == 1)
-			{
-				DriveInfo temp;
-				try
-				{
-					temp = new DriveInfo(path);
-				}
-				catch (ArgumentException e)
-				{
-					_logger.LogWarning(e, $"Could not resolve drive letter '{path}' to a valid drive.");
-					return false;
-				}
-
-				path = temp.RootDirectory.Name;
-			}
-
-			if (addMyDrive)
-			{
-				// If `path` contains a shortcut named "My Drive", store its target in `shellFolderBaseFirst`.
-				// This happens when "My Drive syncing options" is set to "Mirror files".
-				// TODO: Avoid to use Vanara (#15000)
-				using var shellFolderBase = ShellFolderExtensions.GetShellItemFromPathOrPIDL(path) as ShellFolder;
-				var shellFolderBaseFirst = Environment.ExpandEnvironmentVariables((
-						shellFolderBase?.FirstOrDefault(si =>
-							si.Name?.Equals("My Drive") ?? false) as ShellLink)?.TargetPath
-					?? string.Empty);
+		private static bool AddMyDriveToPathAndValidate(ref string path)
+		{ 
+			// If `path` contains a shortcut named "My Drive", store its target in `shellFolderBaseFirst`.
+			// This happens when "My Drive syncing options" is set to "Mirror files".
+			// TODO: Avoid to use Vanara (#15000)
+			using var rootFolder = ShellFolderExtensions.GetShellItemFromPathOrPIDL(path) as ShellFolder;
+			var myDriveFolder = Environment.ExpandEnvironmentVariables((
+					rootFolder?.FirstOrDefault(si =>
+						si.Name?.Equals("My Drive") ?? false) as ShellLink)?.TargetPath
+				?? string.Empty);
 
 #if DEBUG
-				Debug.WriteLine("INVALID PATHS LOGGER");
-				shellFolderBase?.ForEach(si => Debug.WriteLine(si.Name));
+			Debug.WriteLine("SHELL FOLDER LOGGING");
+			rootFolder?.ForEach(si => Debug.WriteLine(si.Name));
 #endif
 
-				if (!string.IsNullOrEmpty(shellFolderBaseFirst))
-				{
-					path = shellFolderBaseFirst;
-					return true;
-				}
-
-				path = Path.Combine(path, "My Drive");
+			if (!string.IsNullOrEmpty(myDriveFolder))
+			{
+				path = myDriveFolder;
+				return true;
 			}
 
-			if (Directory.Exists(path))
-				return true;
-			_logger.LogWarning($"Invalid Google Drive mount point path: {path}");
-			return false;
+			path = Path.Combine(path, "My Drive");
+			return ValidatePath(path);
 		}
 	}
 }

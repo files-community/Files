@@ -19,30 +19,20 @@ namespace Files.App.Services
 		public async IAsyncEnumerable<ILocatableFolder> GetDrivesAsync()
 		{
 			var list = DriveInfo.GetDrives();
-			var googleDrivePath = App.AppModel.GoogleDrivePath;
 			var pCloudDrivePath = App.AppModel.PCloudDrivePath;
 
+			var sw = Stopwatch.StartNew();
+			var googleDrivePath = GoogleDriveCloudDetector.GetRegistryBasePath();
+			sw.Stop();
 #if DEBUG
-			Debug.WriteLine($"In RDS.GDA: googleDrivePath: {googleDrivePath}");
+			Debug.WriteLine($"In RemovableDrivesService: Time elapsed for registry check: {sw.Elapsed}");
 #endif
+			App.AppModel.GoogleDrivePath = googleDrivePath ?? string.Empty;
 
 			foreach (var drive in list)
 			{
-				var shouldSkip = false;
-				var sw = Stopwatch.StartNew();
-				await foreach (var cloudProvider in GoogleDriveCloudDetector.GetGoogleDriveProvidersFromRegistryAsync(false))
-				{
-					if (cloudProvider.SyncFolder.Equals(drive.Name))
-						shouldSkip = true;
-				}
-				sw.Stop();
-
-#if DEBUG
-				Debug.WriteLine($"In RDS.GDA after registry check: Time elapsed for filter: {sw.Elapsed}");
-				Debug.WriteLine($"In RDS.GDA: drive.Name: {drive.Name}");
-#endif
-
-				if (shouldSkip)
+				// We don't want cloud drives to appear in a plain "Drives" section.
+				if (drive.Name.Equals(googleDrivePath) || drive.Name.Equals(pCloudDrivePath))
 					continue;
 
 				var res = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Name).AsTask());
@@ -63,10 +53,6 @@ namespace Files.App.Services
 				var type = DriveHelpers.GetDriveType(drive);
 				var label = DriveHelpers.GetExtendedDriveLabel(drive);
 				var driveItem = await DriveItem.CreateFromPropertiesAsync(res.Result, drive.Name.TrimEnd('\\'), label, type, thumbnail);
-
-				// Don't add here because Google Drive is already displayed under cloud drives
-				if (drive.Name == googleDrivePath || drive.Name == pCloudDrivePath)
-					continue;
 
 				App.Logger.LogInformation($"Drive added: {driveItem.Path}, {driveItem.Type}");
 
