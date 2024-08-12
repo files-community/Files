@@ -2027,18 +2027,6 @@
   <data name="Compress" xml:space="preserve">
     <value>압축</value>
   </data>
-  <data name="Flatten" xml:space="preserve">
-    <value>Flatten</value>
-  </data>
-  <data name="FlattenDescription" xml:space="preserve">
-    <value>Flatten a folder contents into the current path.</value>
-  </data>
-  <data name="FlattenSingle" xml:space="preserve">
-    <value>Flatten Single</value>
-  </data>
-  <data name="FlattenRecursive" xml:space="preserve">
-    <value>Flatten Recursive</value>
-  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>파일과 폴더에 마우스를 올려 선택하기</value>
   </data>
