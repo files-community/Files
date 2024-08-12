@@ -98,6 +98,15 @@ namespace Files.App.Data.Factories
 
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.CloseActivePane)
+				{
+					IsVisible = !itemsSelected && Commands.CloseActivePane.IsExecutable,
+				}.Build(),
+				new ContextMenuFlyoutItemViewModel()
+				{
+					ItemType = ContextMenuFlyoutItemType.Separator,
+					ShowItem = !itemsSelected && Commands.CloseActivePane.IsExecutable
+				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Layout".GetLocalizedResource(),
