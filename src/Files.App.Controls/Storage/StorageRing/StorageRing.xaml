@@ -26,6 +26,7 @@
 		<Setter Property="Margin" Value="{ThemeResource StorageRingMargin}" />
 		<Setter Property="LargeChange" Value="10" />
 		<Setter Property="SmallChange" Value="0.1" />
+		<Setter Property="UseLayoutRounding" Value="True" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:StorageRing">
@@ -53,7 +54,8 @@
 								StrokeEndLineCap="{ThemeResource StorageRingTrackEndCap}"
 								StrokeStartLineCap="{ThemeResource StorageRingTrackStartCap}"
 								StrokeThickness="{TemplateBinding TrackRingThickness}"
-								SweepDirection="Clockwise" />
+								SweepDirection="Clockwise"
+								UseLayoutRounding="True" />
 
 							<primitives:RingShape
 								x:Name="PART_ValueRingShape"
@@ -64,7 +66,8 @@
 								StrokeEndLineCap="{ThemeResource StorageRingValueEndCap}"
 								StrokeStartLineCap="{ThemeResource StorageRingValueStartCap}"
 								StrokeThickness="{TemplateBinding ValueRingThickness}"
-								SweepDirection="Clockwise" />
+								SweepDirection="Clockwise"
+								UseLayoutRounding="True" />
 
 						</Grid>
 

@@ -770,7 +770,7 @@ namespace Files.App.Controls
             var borderHeight = borderThickness.Top + borderThickness.Bottom;
 
             // Set Container Size
-            SetContainerSize( storageRing.Width - borderWidth , storageRing.Height - borderHeight , storageRing.Padding );
+            SetContainerSize( storageRing.Width - ( borderWidth * 2) , storageRing.Height - (borderHeight * 2) , storageRing.Padding );
             storageRing.AdjustedSize = GetContainerSize();
 
             // Set Container Center
@@ -778,7 +778,7 @@ namespace Files.App.Controls
 
             // Set Clipping Rectangle
             RectangleGeometry rectGeo = new RectangleGeometry();
-            rectGeo.Rect = new Rect( 0 , 0 , AdjustedSize + borderWidth , AdjustedSize + borderHeight );
+            rectGeo.Rect = new Rect( 0 - borderWidth , 0 - borderHeight , AdjustedSize + borderWidth , AdjustedSize + borderHeight);
             SetClippingRectGeo( rectGeo );
 
             // Get Container
@@ -1025,8 +1025,14 @@ namespace Files.App.Controls
             double TrackEndAngle;
 
             //
-            // Value is below or at its Minimum
-            if ( storageRing.Value <= storageRing.Minimum )
+            // We get percentage values to use for manipulating how we draw the rings.
+            var minPercent = storageRing.DoubleToPercentage(storageRing.Minimum, storageRing.Minimum, storageRing.Maximum);
+            var maxPercent = storageRing.DoubleToPercentage(storageRing.Maximum, storageRing.Minimum, storageRing.Maximum);
+            var percent = storageRing.Percent;
+
+            //
+            // Percent is below or at its Minimum
+            if ( percent <= minPercent )
             {
                 ValueEndAngle = normalisedMinAngle;
 
@@ -1034,8 +1040,8 @@ namespace Files.App.Controls
                 TrackEndAngle = normalisedMinAngle;
             }
             //
-            // Value is between it's Minimum and its Minimum + 0.75 (between 0 and 0.75)
-            else if ( storageRing.Value > storageRing.Minimum && storageRing.Value < storageRing.Minimum + 0.75 )
+            // Percent is between it's Minimum and its Minimum + 2 (between 0% and 2%)
+            else if ( percent > minPercent && percent < minPercent + 2.0 )
             {
                 ValueEndAngle = storageRing.ValueAngle;
 
@@ -1044,21 +1050,21 @@ namespace Files.App.Controls
 
                 //
                 // We need to interpolate the track start and end angles between pRing.Minimum and pRing.Minimum + 0.75
-                interpolatedStartTo = storageRing.GetAdjustedAngle(  storageRing,
-                                                                            storageRing.Minimum ,
-                                                                            storageRing.Value ,
-                                                                            storageRing.Minimum + 0.75 ,
-                                                                            normalisedMinAngle ,
-                                                                            normalisedMinAngle + gapAngle,
-                                                                            storageRing.ValueAngle,
-                                                                            true);
+                interpolatedStartTo = storageRing.GetAdjustedAngle( storageRing,
+                                                                    minPercent ,
+                                                                    percent ,
+                                                                    minPercent + 2.0 ,
+                                                                    normalisedMinAngle ,
+                                                                    normalisedMinAngle + gapAngle,
+                                                                    storageRing.ValueAngle,
+                                                                    true);
 
                 if ( IsFullCircle( normalisedMinAngle , normalisedMaxAngle ) == true )
                 {
                     interpolatedEndTo = storageRing.GetAdjustedAngle(   storageRing,
-                                                                        storageRing.Minimum ,
-                                                                        storageRing.Value ,
-                                                                        storageRing.Minimum + 0.75 ,
+                                                                        minPercent ,
+                                                                        percent ,
+                                                                        minPercent + 2.0 ,
                                                                         normalisedMaxAngle ,
                                                                         normalisedMaxAngle - ( gapAngle + storageRing.ValueAngle ),
                                                                         storageRing.ValueAngle ,
@@ -1073,8 +1079,8 @@ namespace Files.App.Controls
                 TrackEndAngle = interpolatedStartTo;
             }
             //
-            // Value is at or above its Maximum value
-            else if ( storageRing.Value >= storageRing.Maximum )
+            // Percent is at or above its Maximum value
+            else if ( percent >= maxPercent )
             {
                 ValueEndAngle = normalisedMaxAngle;
 
@@ -1173,34 +1179,40 @@ namespace Files.App.Controls
             var normalisedMaxAngle = GetNormalisedMaxAngle();
 
             //
-            // Value is below or at its Minimum
-            if ( storageRing.Value <= storageRing.Minimum )
+            // We get percentage values to use for manipulating how we draw the rings.
+            var minPercent = storageRing.DoubleToPercentage(storageRing.Minimum, storageRing.Minimum, storageRing.Maximum);
+            var maxPercent = storageRing.DoubleToPercentage(storageRing.Maximum, storageRing.Minimum, storageRing.Maximum);
+            var percent = storageRing.Percent;
+
+            //
+            // Percent is below or at its Minimum
+            if ( percent <= minPercent )
             {
                 valueRingShape.StrokeThickness = 0;
                 trackRingShape.StrokeThickness = storageRing.GetTrackRingThickness();
             }
             //
-            // Value is between it's Minimum and its Minimum + 2 (between 0 and 2)
-            else if ( storageRing.Value > storageRing.Minimum && storageRing.Value < storageRing.Minimum + 2 )
+            // Percent is between it's Minimum and its Minimum + 2.0 (between 0% and 2%)
+            else if ( percent > minPercent && percent < minPercent + 2.0 )
             {
                 valueRingShape.StrokeThickness = storageRing.GetThicknessTransition( storageRing , 
-                                                                                     storageRing.Minimum , 
-                                                                                     storageRing.Value , 
-                                                                                     storageRing.Minimum + 2 , 
+                                                                                     minPercent , 
+                                                                                     percent , 
+                                                                                     minPercent + 2.0 , 
                                                                                      0.0 , 
                                                                                      storageRing.GetValueRingThickness() , 
                                                                                      true );
                 trackRingShape.StrokeThickness = storageRing.GetTrackRingThickness();
             }
             //
-            // Value is at or above its Maximum value
-            else if ( storageRing.Value >= storageRing.Maximum )
+            // Percent is at or above its Maximum value
+            else if ( percent >= maxPercent )
             {
                 valueRingShape.StrokeThickness = storageRing.GetValueRingThickness();
                 trackRingShape.StrokeThickness = 0;
             }
             //
-            // Any value between the Minimum + 1 and the Maximum value
+            // Any percent value between the Minimum + 2 and the Maximum value
             else
             {
                 valueRingShape.StrokeThickness = storageRing.ValueRingThickness;
