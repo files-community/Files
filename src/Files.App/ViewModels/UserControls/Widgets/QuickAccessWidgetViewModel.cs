@@ -91,7 +91,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Text = "SendTo".GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowSendToMenu
-				},              
+				},
 				new()
 				{
 					Text = "Properties".GetLocalizedResource(),
@@ -99,6 +99,12 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
 				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					ItemType = ContextMenuFlyoutItemType.Separator,
+					ShowItem = CommandManager.OpenTerminalFromHome.IsExecutable
+				},
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenTerminalFromHome).Build(),
 				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,

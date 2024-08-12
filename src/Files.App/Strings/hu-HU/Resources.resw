@@ -3857,7 +3857,7 @@
     <value>Állapot:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Show Toolbar</value>
+    <value>Eszköztár megjelenítése</value>
     <comment>Setting that controls if the Toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
@@ -3900,9 +3900,12 @@
     <value>Default pane arrangement</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
-    <value>Horizontal</value>
+    <value>Vízszintes</value>
   </data>
   <data name="Vertical" xml:space="preserve">
-    <value>Vertical</value>
+    <value>Függőleges</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>Show Files icon in the System Tray</value>
   </data>
 </root>

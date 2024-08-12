@@ -1067,6 +1067,12 @@ namespace Files.App.ViewModels.UserControls
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
+					ShowItem = Commands.OpenTerminalFromSidebar.IsExecutable
+				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenTerminalFromSidebar).Build(),
+				new ContextMenuFlyoutItemViewModel()
+				{
+					ItemType = ContextMenuFlyoutItemType.Separator,
 					Tag = "OverflowSeparator",
 					IsHidden = !options.ShowShellItems,
 				},

@@ -424,7 +424,7 @@
     <value>现在</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
-    <value>不支持请求的操作</value>
+    <value>不支持该操作</value>
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} 可用，共 {1}</value>
@@ -618,7 +618,7 @@
     <value>若要应用这些设置，需要重新启动应用程序。是否立即重启？</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>在 GitHub 上赞助我们</value>
+    <value>在 GitHub 上白嫖我们</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>无法创建此项</value>
@@ -1989,7 +1989,7 @@
     <value>评价 Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>给个好评呗</value>
+    <value>看官老爷们，给个好评呗</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>设置为背景</value>
@@ -2911,7 +2911,7 @@
     <value>无效位置</value>
   </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
-    <value>确定要复制这些文件而不同时复制其属性吗？</value>
+    <value>确定要复制这些文件而不复制其属性吗？</value>
   </data>
   <data name="FilePropertiesCannotBeCopied" xml:space="preserve">
     <value>这些文件的某些属性不能复制到新位置</value>
@@ -2920,7 +2920,7 @@
     <value>这些文件的某些属性不能移动到新位置</value>
   </data>
   <data name="MoveFileWithoutProperties" xml:space="preserve">
-    <value>确定要移动这些文件而不同时移动其属性吗？</value>
+    <value>确定要移动这些文件而不移动其属性吗？</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>选择项目时显示复选框</value>
@@ -3116,7 +3116,7 @@
     <value>提交 SHA</value>
   </data>
   <data name="Git" xml:space="preserve">
-    <value>Git</value>
+    <value>Github</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
     <value>Acrylic</value>
@@ -3128,7 +3128,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>背景材质</value>
+    <value>UI模糊类型</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>实心</value>
@@ -3284,7 +3284,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BrickRed" xml:space="preserve">
-    <value>砖红色</value>
+    <value>玄色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Camouflage" xml:space="preserve">
@@ -3292,7 +3292,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="CoolBlueBright" xml:space="preserve">
-    <value>亮酷蓝色</value>
+    <value>浅蓝色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Gray" xml:space="preserve">
@@ -3300,7 +3300,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="GrayDark" xml:space="preserve">
-    <value>暗灰色</value>
+    <value>深灰色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Green" xml:space="preserve">
@@ -3312,15 +3312,15 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="MintLight" xml:space="preserve">
-    <value>浅薄荷色</value>
+    <value>天青色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ModRed" xml:space="preserve">
-    <value>现代红色</value>
+    <value>鸢红色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="OrangeBright" xml:space="preserve">
-    <value>亮橙色</value>
+    <value>浅橙色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Overcast" xml:space="preserve">
@@ -3332,19 +3332,19 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="RoseBright" xml:space="preserve">
-    <value>亮玫红色</value>
+    <value>玫瑰色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Seafoam" xml:space="preserve">
-    <value>海泡石</value>
+    <value>白青色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Storm" xml:space="preserve">
-    <value>风暴</value>
+    <value>暖灰色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="VioletRedLight" xml:space="preserve">
-    <value>浅紫红色</value>
+    <value>菖蒲色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="YellowGold" xml:space="preserve">
@@ -3655,7 +3655,7 @@
     <value>Files 仍在后台运行，这可以使其更快启动。</value>
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
-    <value>Files 到哪里去了？</value>
+    <value>？？？Files咋没了？</value>
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>问题和讨论</value>
@@ -3664,7 +3664,7 @@
     <value>平铺视图尚未支持更多项目尺寸。</value>
   </data>
   <data name="Compact" xml:space="preserve">
-    <value>紧凑</value>
+    <value>极小</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Small" xml:space="preserve">
@@ -3904,5 +3904,8 @@
   </data>
   <data name="Vertical" xml:space="preserve">
     <value>垂直</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>在系统托盘中显示 Files 图标</value>
   </data>
 </root>

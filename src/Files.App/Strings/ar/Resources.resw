@@ -3906,4 +3906,7 @@
   <data name="Vertical" xml:space="preserve">
     <value>عمودي</value>
   </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>إظهار أيقونة الملفات في قائمة أيقونات النظام المخفية</value>
+  </data>
 </root>
