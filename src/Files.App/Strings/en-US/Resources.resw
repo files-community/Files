@@ -2039,6 +2039,9 @@
   <data name="FlattenRecursive" xml:space="preserve">
     <value>Flatten Recursive</value>
   </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Show flatten options</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Select files and folders when hovering over them</value>
   </data>
