@@ -3905,4 +3905,7 @@
   <data name="Vertical" xml:space="preserve">
     <value>수직</value>
   </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>Show Files icon in the System Tray</value>
+  </data>
 </root>

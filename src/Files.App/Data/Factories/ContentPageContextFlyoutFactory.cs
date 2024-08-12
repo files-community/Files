@@ -98,6 +98,15 @@ namespace Files.App.Data.Factories
 
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.CloseActivePane)
+				{
+					IsVisible = !itemsSelected && Commands.CloseActivePane.IsExecutable,
+				}.Build(),
+				new ContextMenuFlyoutItemViewModel()
+				{
+					ItemType = ContextMenuFlyoutItemType.Separator,
+					ShowItem = !itemsSelected && Commands.CloseActivePane.IsExecutable
+				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Layout".GetLocalizedResource(),
@@ -594,6 +603,16 @@ namespace Files.App.Data.Factories
 					ShowItem = isDriveRoot,
 					IsEnabled = false
 				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.EditInNotepad).Build(),				
+				new ContextMenuFlyoutItemViewModel()
+				{
+					ItemType = ContextMenuFlyoutItemType.Separator,
+					ShowItem = !itemsSelected && Commands.OpenTerminal.IsExecutable || areAllItemsFolders && Commands.OpenTerminal.IsExecutable
+				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenTerminal)
+				{
+					IsVisible = !itemsSelected && Commands.OpenTerminal.IsExecutable || areAllItemsFolders && Commands.OpenTerminal.IsExecutable
+				}.Build(),
 				// Shell extensions are not available on the FTP server or in the archive,
 				// but following items are intentionally added because icons in the context menu will not appear
 				// unless there is at least one menu item with an icon that is not an ThemedIconModel. (#12943)
@@ -606,7 +625,6 @@ namespace Files.App.Data.Factories
 					ShowInRecycleBin = true,
 					ShowInSearchPage = true,
 				},
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.EditInNotepad).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Loading".GetLocalizedResource(),

@@ -3905,4 +3905,7 @@
   <data name="Vertical" xml:space="preserve">
     <value>Pionowo</value>
   </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>Pokaż ikonę Files w zasobniku systemowym</value>
+  </data>
 </root>

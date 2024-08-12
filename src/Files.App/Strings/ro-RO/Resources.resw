@@ -618,7 +618,7 @@
     <value>Aplicația trebuie să repornească pentru a aplica aceste setări, doriți să reporniți aplicația?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Sponsorizaţi-ne pe GitHub</value>
+    <value>Sponsorizați-ne pe GitHub</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Nu am putut crea acest element</value>
@@ -627,7 +627,7 @@
     <value>Acces Respins</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
-    <value>Setaţi ca</value>
+    <value>Setați ca</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Anulare</value>
@@ -714,7 +714,7 @@
     <value>Rezoluție verticală</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
-    <value>Spaţiu de culoare</value>
+    <value>Spațiu de culoare</value>
   </data>
   <data name="PropertyColorSpace_Value0" xml:space="preserve">
     <value>sRGB</value>
@@ -1113,7 +1113,7 @@
     <value>Disponibil când sunteți online</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>Documentaţie</value>
+    <value>Documentație</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>Disponibil Offline</value>
@@ -1197,10 +1197,10 @@
     <value>Număr de obiecte</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
-    <value>Această acţiune necesită drepturi de administrator</value>
+    <value>Această acțiune necesită drepturi de administrator</value>
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
-    <value>Doriţi să continuaţi ca administrator?</value>
+    <value>Doriți să continuați ca administrator?</value>
   </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
     <value>Coloane (Ctrl + Shift+6)</value>
@@ -1287,7 +1287,7 @@
     <value>Generează un nume nou</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Creare folder cu selecţie</value>
+    <value>Creare folder cu selecție</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Tip:</value>
@@ -1413,7 +1413,7 @@
     <value>Permitere</value>
   </data>
   <data name="Deny" xml:space="preserve">
-    <value>Refuzaţi</value>
+    <value>Refuzați</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
     <value>Control total</value>
@@ -1731,7 +1731,7 @@
     <value>Caracteristici experimentale</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>Asistenţă şi suport</value>
+    <value>Asistență şi suport</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
     <value>Trimiteți o cerere de funcție</value>
@@ -1929,7 +1929,7 @@
     <value>Închide filele din dreapta</value>
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
-    <value>Închideţi celelalte file</value>
+    <value>Închideți celelalte file</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>Muzică</value>
@@ -2130,7 +2130,7 @@
     <value>Sincronizați coloana de status</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Grupaţi după</value>
+    <value>Grupați după</value>
   </data>
   <data name="SortBy" xml:space="preserve">
     <value>Sortare după</value>
@@ -2262,7 +2262,7 @@
     <value>Redați tot</value>
   </data>
   <data name="Height" xml:space="preserve">
-    <value>Înălţime</value>
+    <value>Înălțime</value>
   </data>
   <data name="Width" xml:space="preserve">
     <value>Lățime</value>
@@ -2358,7 +2358,7 @@
     <value>Comută dacă se afișează elementele ascunse</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Toggle whether to show dot files</value>
+    <value>Comută dacă se afișează fișierele cu puncte</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Comută dacă se afișează extensiile fișierelor</value>
@@ -2394,7 +2394,7 @@
     <value>Crează un folder nou</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Creaţi comenzi rapide noi la articolul/ele selectat/e</value>
+    <value>Creați comenzi rapide noi la articolul/ele selectat/e</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>Creați o comandă rapidă către orice element</value>
@@ -2708,7 +2708,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
-    <value>Spaţiu</value>
+    <value>Spațiu</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Escape" xml:space="preserve">
@@ -2911,7 +2911,7 @@
     <value>Locație nevalidă</value>
   </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
-    <value>Sunteţi sigur că doriţi să copiaţi aceste fişiere fără proprietăţile lor?</value>
+    <value>Sunteți sigur că doriți să copiați aceste fișiere fără proprietățile lor?</value>
   </data>
   <data name="FilePropertiesCannotBeCopied" xml:space="preserve">
     <value>Aceste fișiere au proprietăți care nu pot fi copiate la noua locație</value>
@@ -3070,7 +3070,7 @@
     <value>Locale</value>
   </data>
   <data name="Remotes" xml:space="preserve">
-    <value>La distanţă</value>
+    <value>La distanță</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
     <value>Traduceți pe Crowdin</value>
@@ -3904,5 +3904,8 @@
   </data>
   <data name="Vertical" xml:space="preserve">
     <value>Vertical</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>Arată pictograma Files în System Tray</value>
   </data>
 </root>

@@ -3905,4 +3905,7 @@
   <data name="Vertical" xml:space="preserve">
     <value>縦</value>
   </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>システム トレイに Files のアイコンを表示する</value>
+  </data>
 </root>
