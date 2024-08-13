@@ -451,9 +451,9 @@
 								<TextBlock
 									Grid.Row="0"
 									Grid.Column="0"
+									Margin="24"
 									Style="{StaticResource TextExampleCaptionStyle}"
-									Text="LeftToRight" 
-									Margin="24" />
+									Text="LeftToRight" />
 
 
 
@@ -477,9 +477,9 @@
 								<TextBlock
 									Grid.Row="1"
 									Grid.Column="0"
+									Margin="24"
 									Style="{StaticResource TextExampleCaptionStyle}"
-									Text="RightToLeft" 
-									Margin="24"/>
+									Text="RightToLeft" />
 
 							</Grid>
 
