@@ -128,18 +128,18 @@ namespace Files.App.Utils.Cloud
 		{
 			await using var cmdTablesAll = new SqliteCommand(sqlCommand, database);
 			var reader = await cmdTablesAll.ExecuteReaderAsync();
-			var colNamesList = Enumerable.Range(0, reader.FieldCount).Select(reader.GetName).ToList();
+			var colNamesList = Enumerable.Range(0, reader.FieldCount).Select(i => reader.GetName(i)).ToList();
 
 #if DEBUG
 			Debug.WriteLine($"BEGIN LOGGING of {targetDescription}");
 #endif
 
-			for (int index = 0; reader.Read() is not false; index++)
+			for (int rowIdx = 0; reader.Read() is not false; rowIdx++)
 			{
 				var colVals = new object[reader.FieldCount];
 				reader.GetValues(colVals);
 
-				colVals.Select((val, i) => $"row {index}: column {i}: {colNamesList[i]}: {val}")
+				colVals.Select((val, colIdx) => $"row {rowIdx}: column {colIdx}: {colNamesList[colIdx]}: {val}")
 					.ToList().ForEach(s => Debug.WriteLine(s));
 			}
 
