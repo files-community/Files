@@ -366,13 +366,14 @@
 
 									<TextBlock
 										Grid.Column="0"
+										Margin="24"
 										Style="{StaticResource TextExampleCaptionStyle}"
 										Text="LeftToRight" />
 
 
 									<controls:StorageBar
 										Grid.Column="1"
-										VerticalAlignment="Bottom"
+										VerticalAlignment="Center"
 										FlowDirection="LeftToRight"
 										IsEnabled="{x:Bind barTestIsEnabled.IsOn, Mode=TwoWay}"
 										Value="{x:Bind barTestValue.Value, Mode=TwoWay}" />
@@ -387,6 +388,7 @@
 
 									<TextBlock
 										Grid.Column="0"
+										Margin="24"
 										Style="{StaticResource TextExampleCaptionStyle}"
 										Text="RightToLeft" />
 
@@ -394,7 +396,7 @@
 
 									<controls:StorageBar
 										Grid.Column="1"
-										VerticalAlignment="Bottom"
+										VerticalAlignment="Center"
 										FlowDirection="RightToLeft"
 										IsEnabled="{x:Bind barTestIsEnabled.IsOn, Mode=TwoWay}"
 										Value="{x:Bind barTestValue.Value, Mode=TwoWay}" />
@@ -422,17 +424,19 @@
 
 							<Grid Grid.Row="1" HorizontalAlignment="Stretch">
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition Width="*" />
 								</Grid.ColumnDefinitions>
 								<Grid.RowDefinitions>
 									<RowDefinition Height="*" />
-									<RowDefinition Height="Auto" />
+									<RowDefinition Height="*" />
 								</Grid.RowDefinitions>
 
 								<controls:StorageBar
 									Grid.Row="0"
-									Grid.Column="0"
+									Grid.Column="1"
+									Width="Auto"
+									HorizontalAlignment="Stretch"
 									Background="#FF005500"
 									BarShape="Soft"
 									BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
@@ -445,7 +449,7 @@
 									Value="{x:Bind barTestValue.Value, Mode=TwoWay}" />
 
 								<TextBlock
-									Grid.Row="1"
+									Grid.Row="0"
 									Grid.Column="0"
 									Style="{StaticResource TextExampleCaptionStyle}"
 									Text="LeftToRight" />
@@ -454,8 +458,10 @@
 
 								<controls:StorageBar
 									x:Name="BarCustom01"
-									Grid.Row="0"
+									Grid.Row="1"
 									Grid.Column="1"
+									Width="Auto"
+									HorizontalAlignment="Stretch"
 									Background="#FF005500"
 									BarShape="Flat"
 									BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
@@ -469,7 +475,7 @@
 
 								<TextBlock
 									Grid.Row="1"
-									Grid.Column="1"
+									Grid.Column="0"
 									Style="{StaticResource TextExampleCaptionStyle}"
 									Text="RightToLeft" />
 
