@@ -551,10 +551,7 @@ namespace Files.App.Data.Factories
 				{
 					Text = "Flatten".GetLocalizedResource(),
 					ShowInSearchPage = true,
-					ThemedIconModel = new ThemedIconModel()
-					{
-						ThemedIconStyle = "App.ThemedIcons.Folder",
-					},
+					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.Folder" },
 					Items =
 					[
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.FlattenSingle).Build(),
