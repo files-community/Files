@@ -452,7 +452,8 @@
 									Grid.Row="0"
 									Grid.Column="0"
 									Style="{StaticResource TextExampleCaptionStyle}"
-									Text="LeftToRight" />
+									Text="LeftToRight" 
+									Margin="24" />
 
 
 
@@ -477,7 +478,8 @@
 									Grid.Row="1"
 									Grid.Column="0"
 									Style="{StaticResource TextExampleCaptionStyle}"
-									Text="RightToLeft" />
+									Text="RightToLeft" 
+									Margin="24"/>
 
 							</Grid>
 
