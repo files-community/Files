@@ -41,13 +41,12 @@
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
   <ItemGroup>
-    <CustomAdditionalCompileInputs Remove="UserControls\ToolbarUC.xaml" />
+    <None Remove="Views\ToolbarPage.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="UserControls\ToolbarUC.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Remove="UserControls\ToolbarUC.xaml" />
+    <Page Update="Views\ToolbarPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
 </Project>

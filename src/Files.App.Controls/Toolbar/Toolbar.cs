@@ -477,7 +477,7 @@ namespace Files.App.Controls
 
 				case ToolbarItemTypes.ToggleButton:
 					// Add ToolbarToggleButton
-					return CreateToolbarToggleButton( item.Label , item.ThemedIcon , GetCurrentMinWidth() , GetCurrentMinHeight() , item.IconSize );
+					return CreateToolbarToggleButton( item.Label , item.ThemedIcon , GetCurrentMinWidth() , GetCurrentMinHeight() , item.IconSize , item.IsChecked );
 
 				case ToolbarItemTypes.Separator:
 					// Add ToolbarToggleButton
@@ -704,7 +704,7 @@ namespace Files.App.Controls
 
 
 
-		private ToolbarToggleButton CreateToolbarToggleButton(string label , Style iconStyle , double minWidth , double minHeight , double iconSize)
+		private ToolbarToggleButton CreateToolbarToggleButton(string label , Style iconStyle , double minWidth , double minHeight , double iconSize , bool isChecked)
 		{
 			ToolbarToggleButton createdToggleButton = new ToolbarToggleButton
 			{
@@ -713,6 +713,7 @@ namespace Files.App.Controls
 				MinWidth = minWidth ,
 				MinHeight = minHeight ,
 				IconSize = iconSize ,
+				IsChecked = isChecked ,
 			};
 
 			return createdToggleButton;

@@ -155,7 +155,7 @@ namespace Files.App.Controls
 
 
 
-		#region Content
+		#region Content (object)
 
 		/// <summary>
 		/// The backing <see cref="DependencyProperty"/> for the <see cref="Content"/> property.
@@ -256,6 +256,43 @@ namespace Files.App.Controls
 			if ( newValue != oldValue )
 			{
 				IconSizeChanged( newValue );
+			}
+		}
+
+		#endregion
+
+
+
+		#region IsChecked (bool)
+
+		/// <summary>
+		/// The backing <see cref="DependencyProperty"/> for the <see cref="IsChecked"/> property.
+		/// </summary>
+		public static readonly DependencyProperty IsCheckedProperty =
+			DependencyProperty.Register(
+				nameof(IsChecked),
+				typeof(bool),
+				typeof(ToolbarItem),
+				new PropertyMetadata(false, (d, e) => ((ToolbarItem)d).OnIsCheckedPropertyChanged((bool)e.OldValue, (bool)e.NewValue)));
+
+
+
+		/// <summary>
+		/// Gets or sets the IsChecked as a bool
+		/// </summary>
+		public bool IsChecked
+		{
+			get => (bool)GetValue( IsCheckedProperty );
+			set => SetValue( IsCheckedProperty , value );
+		}
+
+
+
+		protected virtual void OnIsCheckedPropertyChanged(bool oldValue , bool newValue)
+		{
+			if ( newValue != oldValue )
+			{
+				IsCheckedChanged( newValue );
 			}
 		}
 
