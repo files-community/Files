@@ -286,7 +286,16 @@ namespace Files.App
 					// Bring to foreground (#14730)
 					Win32Helper.BringToForegroundEx(new(WindowHandle));
 
-					await NavigationHelpers.AddNewTabByParamAsync(typeof(ShellPanesPage), paneNavigationArgs);
+					// Check if there is an existing tab with this path
+					var existingTab = MainPageViewModel.AppInstances
+						.Select((tabItem, idx) => new { tabItem, idx })
+						.FirstOrDefault(x => x.tabItem.ToolTipText == paneNavigationArgs.LeftPaneNavPathParam ||
+						 x.tabItem.ToolTipText == paneNavigationArgs.RightPaneNavPathParam)?.idx ?? -1;
+
+					if (existingTab >= 0)
+						App.AppModel.TabStripSelectedIndex = existingTab;
+					else
+						await NavigationHelpers.AddNewTabByParamAsync(typeof(ShellPanesPage), paneNavigationArgs);
 				}
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());
