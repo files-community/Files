@@ -93,6 +93,8 @@ namespace Files.App.Helpers
 
 				return Task.CompletedTask;
 			}
+
+			generalSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
 		}
 
 		/// <summary>
@@ -250,94 +252,99 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static void HandleAppUnhandledException(Exception? ex, bool showToastNotification)
 		{
-			var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
-
-			StringBuilder formattedException = new()
+			SafetyExtensions.IgnoreExceptions(() =>
 			{
-				Capacity = 200
-			};
+				var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
-			formattedException.AppendLine("--------- UNHANDLED EXCEPTION ---------");
-
-			if (ex is not null)
-			{
-				ex.Data[Mechanism.HandledKey] = false;
-				ex.Data[Mechanism.MechanismKey] = "Application.UnhandledException";
-
-				SentrySdk.CaptureException(ex, scope =>
+				StringBuilder formattedException = new()
 				{
-					scope.User.Id = generalSettingsService?.UserId;
-					scope.Level = SentryLevel.Fatal;
-				});
+					Capacity = 200
+				};
 
-				formattedException.AppendLine($">>>> HRESULT: {ex.HResult}");
+				formattedException.AppendLine("--------- UNHANDLED EXCEPTION ---------");
 
-				if (ex.Message is not null)
+				if (ex is not null)
 				{
-					formattedException.AppendLine("--- MESSAGE ---");
-					formattedException.AppendLine(ex.Message);
+					ex.Data[Mechanism.HandledKey] = false;
+					ex.Data[Mechanism.MechanismKey] = "Application.UnhandledException";
+
+					SentrySdk.CaptureException(ex, scope =>
+					{
+						scope.User.Id = generalSettingsService?.UserId;
+						scope.Level = SentryLevel.Fatal;
+					});
+
+					formattedException.AppendLine($">>>> HRESULT: {ex.HResult}");
+
+					if (ex.Message is not null)
+					{
+						formattedException.AppendLine("--- MESSAGE ---");
+						formattedException.AppendLine(ex.Message);
+					}
+					if (ex.StackTrace is not null)
+					{
+						formattedException.AppendLine("--- STACKTRACE ---");
+						formattedException.AppendLine(ex.StackTrace);
+					}
+					if (ex.Source is not null)
+					{
+						formattedException.AppendLine("--- SOURCE ---");
+						formattedException.AppendLine(ex.Source);
+					}
+					if (ex.InnerException is not null)
+					{
+						formattedException.AppendLine("--- INNER ---");
+						formattedException.AppendLine(ex.InnerException.ToString());
+					}
 				}
-				if (ex.StackTrace is not null)
+				else
 				{
-					formattedException.AppendLine("--- STACKTRACE ---");
-					formattedException.AppendLine(ex.StackTrace);
+					formattedException.AppendLine("Exception data is not available.");
 				}
-				if (ex.Source is not null)
-				{
-					formattedException.AppendLine("--- SOURCE ---");
-					formattedException.AppendLine(ex.Source);
-				}
-				if (ex.InnerException is not null)
-				{
-					formattedException.AppendLine("--- INNER ---");
-					formattedException.AppendLine(ex.InnerException.ToString());
-				}
-			}
-			else
-			{
-				formattedException.AppendLine("Exception data is not available.");
-			}
 
-			formattedException.AppendLine("---------------------------------------");
+				formattedException.AppendLine("---------------------------------------");
 
-			Debug.WriteLine(formattedException.ToString());
+				Debug.WriteLine(formattedException.ToString());
 
-			// Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
-			Debugger.Break();
+				// Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
+				Debugger.Break();
+
+				App.Logger?.LogError(ex, ex?.Message ?? "An unhandled error occurred.");
+			});
 
 			// Save the current tab list in case it was overwriten by another instance
-			SaveSessionTabs();
-			App.Logger?.LogError(ex, ex?.Message ?? "An unhandled error occurred.");
+			SafetyExtensions.IgnoreExceptions(SaveSessionTabs);
 
 			if (!showToastNotification)
 				return;
 
+			SafetyExtensions.IgnoreExceptions(AppToastNotificationHelper.ShowUnhandledExceptionToast);
+
 			SafetyExtensions.IgnoreExceptions(() =>
 			{
-				AppToastNotificationHelper.ShowUnhandledExceptionToast();
+				// Restart the app
+				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+				var lastSessionTabList = userSettingsService.GeneralSettingsService.LastSessionTabList;
+
+				if (userSettingsService.GeneralSettingsService.LastCrashedTabList?.SequenceEqual(lastSessionTabList) ?? false)
+				{
+					// Avoid infinite restart loop
+					userSettingsService.GeneralSettingsService.LastSessionTabList = null;
+				}
+				else
+				{
+					userSettingsService.AppSettingsService.RestoreTabsOnStartup = true;
+					userSettingsService.GeneralSettingsService.LastCrashedTabList = lastSessionTabList;
+
+					// Try to re-launch and start over
+					MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+					{
+						await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
+					})
+					.Wait(100);
+				}
 			});
 
-			// Restart the app
-			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			var lastSessionTabList = userSettingsService.GeneralSettingsService.LastSessionTabList;
-
-			if (userSettingsService.GeneralSettingsService.LastCrashedTabList?.SequenceEqual(lastSessionTabList) ?? false)
-			{
-				// Avoid infinite restart loop
-				userSettingsService.GeneralSettingsService.LastSessionTabList = null;
-			}
-			else
-			{
-				userSettingsService.AppSettingsService.RestoreTabsOnStartup = true;
-				userSettingsService.GeneralSettingsService.LastCrashedTabList = lastSessionTabList;
-
-				// Try to re-launch and start over
-				MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-				{
-					await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
-				})
-				.Wait(100);
-			}
 			Process.GetCurrentProcess().Kill();
 		}
 
@@ -355,6 +362,23 @@ namespace Files.App.Helpers
 
 			// The least significant bit of the 9th byte controls the auto-hide setting																		
 			return value != null && ((value[8] & 0x01) == 1);
+		}
+
+		/// <summary>
+		/// Updates the visibility of the system tray icon
+		/// </summary>
+		private static void GeneralSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (sender is not IGeneralSettingsService generalSettingsService)
+				return;
+
+			if (e.PropertyName == nameof(IGeneralSettingsService.ShowSystemTrayIcon))
+			{
+				if (generalSettingsService.ShowSystemTrayIcon)
+					App.SystemTrayIcon?.Show();
+				else
+					App.SystemTrayIcon?.Hide();
+			}
 		}
 	}
 }

@@ -2358,7 +2358,7 @@
     <value>Mostrar/ocultar itens ocultos</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Mostrar/ocultar ficheiros que começam com um ponto</value>
+    <value>Mostrar/ocultar ficheiros iniciados com um ponto</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Ativar/desativar exibição das extensões dos ficheiros</value>
@@ -3904,5 +3904,8 @@
   </data>
   <data name="Vertical" xml:space="preserve">
     <value>Vertical</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>Mostrar ícone na bandeja do sistema</value>
   </data>
 </root>

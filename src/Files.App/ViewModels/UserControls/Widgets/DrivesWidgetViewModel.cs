@@ -146,6 +146,12 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Tag = "ManageBitLockerPlaceholder",
 					IsEnabled = false
 				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					ItemType = ContextMenuFlyoutItemType.Separator,
+					ShowItem = CommandManager.OpenTerminalFromHome.IsExecutable
+				},
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenTerminalFromHome).Build(),
 				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,

@@ -1617,7 +1617,7 @@
     <value>Hämtar objektet från molnet och laddar förhandsgranskningen</value>
   </data>
   <data name="DetailsArchiveItems" xml:space="preserve">
-    <value>{0, plural, one {# item} other {# items}} ({1, plural, one {# file} other {# files}}, {2, plural, one {# folder} other {# folders}})</value>
+    <value>{0, plural, one {# objekt} other {# objekt}} ({1, plural, one {# fil} other {# filer}}, {2, plural, one {# mapp} other {# mappar}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Okomprimerad storlek</value>
@@ -3904,5 +3904,8 @@
   </data>
   <data name="Vertical" xml:space="preserve">
     <value>Vertical</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>Show Files icon in the System Tray</value>
   </data>
 </root>
