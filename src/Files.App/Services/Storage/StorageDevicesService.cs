@@ -24,9 +24,7 @@ namespace Files.App.Services
 			var sw = Stopwatch.StartNew();
 			var googleDrivePath = GoogleDriveCloudDetector.GetRegistryBasePath();
 			sw.Stop();
-#if DEBUG
 			Debug.WriteLine($"In RemovableDrivesService: Time elapsed for registry check: {sw.Elapsed}");
-#endif
 			App.AppModel.GoogleDrivePath = googleDrivePath ?? string.Empty;
 
 			foreach (var drive in list)

@@ -66,10 +66,8 @@ namespace Files.App.Utils.Cloud
 				var folder = await StorageFolder.GetFolderFromPathAsync(path);
 				string title = reader["title"]?.ToString() ?? folder.Name;
 
-#if DEBUG
 				Debug.WriteLine("YIELD RETURNING from `GoogleDriveCloudDetector.GetProviders()` (roots): ");
 				Debug.WriteLine($"Name: Google Drive ({title}); SyncFolder: {path}");
-#endif
 
 				yield return new CloudProvider(CloudProviders.GoogleDrive)
 				{
@@ -94,10 +92,8 @@ namespace Files.App.Utils.Cloud
 				var folder = await StorageFolder.GetFolderFromPathAsync(path);
 				string title = reader["name"]?.ToString() ?? folder.Name;
 
-#if DEBUG
 				Debug.WriteLine("YIELD RETURNING from `GoogleDriveCloudDetector.GetProviders` (media): ");
 				Debug.WriteLine($"Name: {title}; SyncFolder: {path}");
-#endif
 
 				yield return new CloudProvider(CloudProviders.GoogleDrive)
 				{
@@ -107,11 +103,9 @@ namespace Files.App.Utils.Cloud
 				};
 			}
 
-#if DEBUG
 			await Inspect(database, "SELECT * FROM roots", "root_preferences db, roots table");
 			await Inspect(database, "SELECT * FROM media", "root_preferences db, media table");
 			await Inspect(database, "SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY 1", "root_preferences db, all tables");
-#endif
 
 			var registryPath = App.AppModel.GoogleDrivePath;
 			if (!AddMyDriveToPathAndValidate(ref registryPath))
@@ -130,9 +124,7 @@ namespace Files.App.Utils.Cloud
 			var reader = await cmdTablesAll.ExecuteReaderAsync();
 			var colNamesList = Enumerable.Range(0, reader.FieldCount).Select(i => reader.GetName(i)).ToList();
 
-#if DEBUG
 			Debug.WriteLine($"BEGIN LOGGING of {targetDescription}");
-#endif
 
 			for (int rowIdx = 0; reader.Read() is not false; rowIdx++)
 			{
@@ -143,9 +135,7 @@ namespace Files.App.Utils.Cloud
 					.ToList().ForEach(s => Debug.WriteLine(s));
 			}
 
-#if DEBUG
 			Debug.WriteLine($"END LOGGING of {targetDescription} contents");
-#endif
 		}
 
 		private static JsonDocument? GetGoogleDriveRegValJson()
@@ -199,10 +189,8 @@ namespace Files.App.Utils.Cloud
 				return null;
 			}
 
-#if DEBUG
 			Debug.WriteLine("REGISTRY LOGGING");
 			Debug.WriteLine(googleDriveRegValJsonProperty.ToString());
-#endif
 
 			var item = googleDriveRegValJsonProperty.Value.EnumerateArray().FirstOrDefault();
 			if (item.ValueKind == JsonValueKind.Undefined)
@@ -287,10 +275,8 @@ namespace Files.App.Utils.Cloud
 						si.Name?.Equals("My Drive") ?? false) as ShellLink)?.TargetPath
 				?? string.Empty);
 
-#if DEBUG
 			Debug.WriteLine("SHELL FOLDER LOGGING");
 			rootFolder?.ForEach(si => Debug.WriteLine(si.Name));
-#endif
 
 			if (!string.IsNullOrEmpty(myDriveFolder))
 			{
