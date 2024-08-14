@@ -224,6 +224,46 @@ namespace Files.App.Controls
 
 
 
+		#region Percent (double)
+
+		/// <summary>
+		/// Identifies the Percent dependency property.
+		/// </summary>
+		public static readonly DependencyProperty PercentProperty =
+			DependencyProperty.Register(
+				nameof(Percent),
+				typeof(double),
+				typeof(StorageRing),
+				new PropertyMetadata(null, OnPercentChanged));
+
+
+		/// <summary>
+		/// Gets or sets the current value as a Percentage between 0.0 and 100.0.
+		/// </summary>
+		public double Percent
+		{
+			get { return (double)GetValue( PercentProperty ); }
+			set { SetValue( PercentProperty , value ); }
+		}
+
+
+		/// <summary>
+		/// Handles the change in the Percent property, and ensures the range is between 0.0 and 100.0.
+		/// </summary>
+		/// <param name="d">The DependencyObject which holds the DependencyProperty</param>
+		/// <param name="e">DependencyPropertyChangedEventArgs</param>
+		private static void OnPercentChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
+		{
+			StorageRing storageRing = (StorageRing)d;
+
+			storageRing.DoubleToPercentage( storageRing.Value , storageRing.Minimum , storageRing.Maximum );
+		}
+
+		#endregion
+
+
+
+
 		#region PercentCaution (double)
 
 		/// <summary>
@@ -388,33 +428,6 @@ namespace Files.App.Controls
 		{
 			get { return (double)GetValue( AdjustedSizeProperty ); }
 			set { SetValue( AdjustedSizeProperty , value ); }
-		}
-
-		#endregion
-
-
-
-
-		#region Protected Percent (double)
-
-		/// <summary>
-		/// Identifies the Percent dependency property.
-		/// </summary>
-		protected static readonly DependencyProperty PercentProperty =
-			DependencyProperty.Register(
-				nameof(Percent),
-				typeof(double),
-				typeof(StorageRing),
-				new PropertyMetadata(null));
-
-
-		/// <summary>
-		/// Gets or sets the current value converted to Percentage as a string.
-		/// </summary>
-		protected double Percent
-		{
-			get { return (double)GetValue( PercentProperty ); }
-			set { SetValue( PercentProperty , value ); }
 		}
 
 		#endregion

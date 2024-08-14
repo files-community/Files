@@ -129,6 +129,46 @@ namespace Files.App.Controls
 
 
 
+
+		#region Percent (double)
+
+		/// <summary>
+		/// Identifies the Percent dependency property.
+		/// </summary>
+		public static readonly DependencyProperty PercentProperty =
+			DependencyProperty.Register(
+				nameof(Percent),
+				typeof(double),
+				typeof(StorageBar),
+				new PropertyMetadata(0.0, OnPercentChanged));
+
+
+		/// <summary>
+		/// Gets or sets the current value as a Percentage between 0.0 and 100.0.
+		/// </summary>
+		public double Percent
+		{
+			get { return (double)GetValue( PercentProperty ); }
+			set { SetValue( PercentProperty , value ); }
+		}
+
+
+		/// <summary>
+		/// Handles the change in the Percent property, and ensures the range is between 0.0 and 100.0.
+		/// </summary>
+		/// <param name="d">The DependencyObject which holds the DependencyProperty</param>
+		/// <param name="e">DependencyPropertyChangedEventArgs</param>
+		private static void OnPercentChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
+		{
+			StorageBar storageBar = (StorageBar)d;
+
+			storageBar.DoubleToPercentage( storageBar.Value , storageBar.Minimum , storageBar.Maximum );
+		}
+
+		#endregion
+
+
+
 		#region PercentWarning (double)
 
 		/// <summary>
@@ -209,32 +249,6 @@ namespace Files.App.Controls
 
 
 
-		#region Protected Percent (double)
-
-		/// <summary>
-		/// Identifies the Percent dependency property.
-		/// </summary>
-		protected static readonly DependencyProperty PercentProperty =
-			DependencyProperty.Register(
-				nameof(Percent),
-				typeof(double),
-				typeof(StorageBar),
-				new PropertyMetadata(0.0));
-
-
-		/// <summary>
-		/// Gets or sets the current value converted to Percentage.
-		/// </summary>
-		protected double Percent
-		{
-			get { return (double)GetValue( PercentProperty ); }
-			set { SetValue( PercentProperty , value ); }
-		}
-
-		#endregion
-
-
-
 		#region Derived RangeBase Events
 
 		/// <inheritdoc/>
@@ -253,7 +267,7 @@ namespace Files.App.Controls
 		protected override void OnMaximumChanged(double oldValue , double newValue)
 		{
 			base.OnMaximumChanged( oldValue , newValue );
-			UpdateValue( this , oldValue , newValue );
+			UpdateValue( this , oldValue , newValue, false, -1.0 );
 		}
 
 
@@ -262,7 +276,7 @@ namespace Files.App.Controls
 		protected override void OnMinimumChanged(double oldValue , double newValue)
 		{
 			base.OnMinimumChanged( oldValue , newValue );
-			UpdateValue( this , oldValue , newValue );
+			UpdateValue( this , oldValue , newValue , false , -1.0 );
 		}
 
 		#endregion

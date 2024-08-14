@@ -254,6 +254,12 @@
 							SmallChange="{x:Bind ringCustom1.SmallChange, Mode=TwoWay}"
 							Value="50" />
 
+						<TextBlock LineHeight="16">
+							<Run Text="Percent:" />
+							<LineBreak />
+							<Run FontWeight="SemiBold" Text="{x:Bind ringCustom1.Percent.ToString(), Mode=OneWay}" />
+						</TextBlock>
+
 						<ToggleSwitch
 							x:Name="testIsEnabled"
 							Header="IsEnabled"
@@ -433,6 +439,7 @@
 								</Grid.RowDefinitions>
 
 								<controls:StorageBar
+									x:Name="BarCustom01"
 									Grid.Row="0"
 									Grid.Column="1"
 									Width="Auto"
@@ -458,7 +465,7 @@
 
 
 								<controls:StorageBar
-									x:Name="BarCustom01"
+									x:Name="BarCustom02"
 									Grid.Row="1"
 									Grid.Column="1"
 									Width="Auto"
@@ -503,6 +510,12 @@
 							Minimum="-10"
 							SmallChange="{x:Bind BarCustom01.SmallChange, Mode=TwoWay}"
 							Value="50" />
+
+						<TextBlock LineHeight="16">
+							<Run Text="Percent:" />
+							<LineBreak />
+							<Run FontWeight="SemiBold" Text="{x:Bind BarCustom01.Percent.ToString(), Mode=OneWay}" />
+						</TextBlock>
 
 						<ToggleSwitch
 							x:Name="barTestIsEnabled"

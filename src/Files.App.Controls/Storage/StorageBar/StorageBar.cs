@@ -425,6 +425,21 @@ namespace Files.App.Controls
 
 
 		/// <summary>
+		/// Handles the Precent double value Changed event
+		/// </summary>
+		/// <param name="d"></param>
+		/// <param name="newPercent">The new Percent value</param>
+		private static void PercentChanged(DependencyObject d , double newPercent)
+		{
+			var storageBar = d as StorageBar;
+
+			UpdateControl( storageBar );
+		}
+
+
+
+
+		/// <summary>
 		/// Handles the PrecentCaution double value Changed event
 		/// </summary>
 		/// <param name="d"></param>
@@ -507,7 +522,7 @@ namespace Files.App.Controls
 		{
 			var storageBar = (StorageBar)d;
 
-			UpdateValue( storageBar , storageBar.Value , storageBar.GetOldValue() );
+			UpdateValue( storageBar , storageBar.Value , storageBar.GetOldValue() , false, -1.0 );
 		}
 
 		#endregion
@@ -564,13 +579,24 @@ namespace Files.App.Controls
 
 
 
-		private static void UpdateValue(DependencyObject d , double newValue , double oldValue)
+		private static void UpdateValue(DependencyObject d , double newValue , double oldValue, bool isPercent, double newPercent)
 		{
 			var storageBar = (StorageBar)d;
 
 			storageBar.SetOldValue( oldValue );
 
-			storageBar.Percent = storageBar.DoubleToPercentage( newValue , storageBar.Minimum , storageBar.Maximum );
+			double adjustedValue;
+
+			if ( isPercent )
+			{
+				adjustedValue = storageBar.PercentageToValue( newPercent, storageBar.Minimum, storageBar.Maximum );
+			}
+			else
+			{
+				adjustedValue = newValue;
+			}
+
+			storageBar.Percent = storageBar.DoubleToPercentage( adjustedValue , storageBar.Minimum , storageBar.Maximum );
 
 			UpdateControl( storageBar );
 		}
@@ -938,8 +964,37 @@ namespace Files.App.Controls
 				// Convert to percentage
 				var percentage = normalizedValue * 100.0;
 
-				return percentage;
+				double roundedPercentage = Math.Round(percentage , 2, MidpointRounding.ToEven);
+
+				return roundedPercentage;
 			}
+		}
+
+
+
+
+		/// <summary>
+		/// Converts a percentage within a specified range to a value.
+		/// </summary>
+		/// <param name="percentage">The percentage to convert.</param>
+		/// <param name="minValue">The minimum value of the input range.</param>
+		/// <param name="maxValue">The maximum value of the input range.</param>
+		/// <returns>The percentage value (between 0 and 100).</returns>
+		private double PercentageToValue(double percentage , double minValue , double maxValue)
+		{
+			double convertedValue = percentage * (maxValue - minValue) / 100.0;
+
+			// Ensure the converted value stays within the specified range
+			if ( convertedValue < minValue )
+			{
+				convertedValue = minValue;
+			}
+			else if ( convertedValue > maxValue )
+			{
+				convertedValue = maxValue;
+			}
+
+			return convertedValue;
 		}
 
 

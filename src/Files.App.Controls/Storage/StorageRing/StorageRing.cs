@@ -535,7 +535,7 @@ namespace Files.App.Controls
 
             CalculateAndSetNormalisedAngles( this , this.MinAngle , this.MaxAngle );
 
-            UpdateValues( this , this.Value , 0.0);
+            UpdateValues( this , this.Value , 0.0, false, -1.0);
         }
 
         #endregion
@@ -641,6 +641,40 @@ namespace Files.App.Controls
 
 
         /// <summary>
+        /// Occurs when the Percent property value changes.
+        /// </summary>
+        /// <param name="d">The DependencyObject which holds the DependencyProperty</param>
+        /// <param name="newPercent">New Percent value</param>
+        private void PercentChanged(DependencyObject d , double newPercent)
+        {
+            StorageRing storageRing = (StorageRing)d;
+
+            double adjustedPercentage;
+
+            if ( newPercent <= 0.0 )
+            {
+                adjustedPercentage = 0.0;
+            }
+            else if ( newPercent <= 100.0 )
+            {
+                adjustedPercentage = 100.0;
+            }
+            else
+            {
+                adjustedPercentage = newPercent;
+            }
+
+            UpdateValues( storageRing , storageRing.Value , storageRing.GetOldValue(), true, adjustedPercentage );
+
+            UpdateVisualState( storageRing );
+
+            UpdateRings( storageRing );
+        }
+
+
+
+
+        /// <summary>
         /// Occurs when the PercentCaution property value changes.
         /// </summary>
         /// <param name="d">The DependencyObject which holds the DependencyProperty</param>
@@ -649,7 +683,7 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)d;
 
-            UpdateValues( storageRing , storageRing.Value , storageRing.GetOldValue() );
+            UpdateValues( storageRing , storageRing.Value , storageRing.GetOldValue(), false, -1.0 );
 
             UpdateVisualState( storageRing );
 
@@ -668,7 +702,7 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)d;
 
-            UpdateValues( storageRing , storageRing.Value , storageRing.GetOldValue() );
+            UpdateValues( storageRing , storageRing.Value , storageRing.GetOldValue() , false , -1.0 );
 
             UpdateVisualState( storageRing );
 
@@ -687,7 +721,7 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)d;
 
-            UpdateValues( storageRing , storageRing.Value , storageRing.GetOldValue() );
+            UpdateValues( storageRing , storageRing.Value , storageRing.GetOldValue() , false , -1.0 );
 
             CalculateAndSetNormalisedAngles( storageRing , storageRing.MinAngle , newAngle );
 
@@ -708,7 +742,7 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)d;
 
-            UpdateValues( storageRing , storageRing.Value , storageRing.GetOldValue() );
+            UpdateValues( storageRing , storageRing.Value , storageRing.GetOldValue() , false , -1.0 );
 
             CalculateAndSetNormalisedAngles( storageRing , newAngle , storageRing.MaxAngle );
 
@@ -727,7 +761,7 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)d;
 
-            UpdateValues( storageRing , storageRing.Value , storageRing.GetOldValue() );
+            UpdateValues( storageRing , storageRing.Value , storageRing.GetOldValue() , false , -1.0 );
 
             CalculateAndSetNormalisedAngles( storageRing , storageRing.MinAngle , newAngle );
 
@@ -741,7 +775,7 @@ namespace Files.App.Controls
 
         #region 6. Update functions
 
-        private void UpdateValues(DependencyObject d , double newValue , double oldValue)
+        private void UpdateValues(DependencyObject d , double newValue , double oldValue, bool percentChanged, double newPercent)
         {
             StorageRing storageRing = (StorageRing)d;
 
@@ -750,8 +784,23 @@ namespace Files.App.Controls
             var normalisedMinAngle = storageRing.GetNormalisedMinAngle();
             var normalisedMaxAngle = storageRing.GetNormalisedMaxAngle();
 
-            ValueAngle = DoubleToAngle( newValue , storageRing.Minimum , storageRing.Maximum , normalisedMinAngle , normalisedMaxAngle );
-            Percent = DoubleToPercentage( newValue , storageRing.Minimum , storageRing.Maximum );
+            double adjustedValue;
+
+            if ( percentChanged )
+            {
+                double percentToValue;
+
+                percentToValue = PercentageToValue(newPercent, storageRing.Minimum, storageRing.Maximum);
+                
+                adjustedValue = percentToValue;
+            }
+            else
+            {
+                adjustedValue = newValue;
+            }
+
+            ValueAngle = DoubleToAngle( adjustedValue , storageRing.Minimum , storageRing.Maximum , normalisedMinAngle , normalisedMaxAngle );
+            Percent = DoubleToPercentage( adjustedValue , storageRing.Minimum , storageRing.Maximum );
 
             SetOldValue( oldValue );
             SetOldValueAngle( DoubleToAngle( oldValue , storageRing.Minimum , storageRing.Maximum , normalisedMinAngle , normalisedMaxAngle ) );
@@ -1273,7 +1322,7 @@ namespace Files.App.Controls
         {
             StorageRing storageRing = (StorageRing)d;
 
-            UpdateValues( d , newValue , oldValue );
+            UpdateValues(d , newValue , oldValue , false , -1.0 );
 
             UpdateRings( d );
         }
@@ -1549,8 +1598,37 @@ namespace Files.App.Controls
                 // Convert to percentage
                 var percentage = normalizedValue * 100.0;
 
-                return percentage;
+                double roundedPercentage = Math.Round(percentage , 2, MidpointRounding.ToEven);
+
+                return roundedPercentage;
             }
+        }
+
+
+
+
+        /// <summary>
+        /// Converts a percentage within a specified range to a value.
+        /// </summary>
+        /// <param name="percentage">The percentage to convert.</param>
+        /// <param name="minValue">The minimum value of the input range.</param>
+        /// <param name="maxValue">The maximum value of the input range.</param>
+        /// <returns>The percentage value (between 0 and 100).</returns>
+        private double PercentageToValue(double percentage , double minValue , double maxValue)
+        {
+            double convertedValue = percentage * (maxValue - minValue) / 100.0;
+
+            // Ensure the converted value stays within the specified range
+            if ( convertedValue < minValue )
+            {
+                convertedValue = minValue;
+            }
+            else if ( convertedValue > maxValue )
+            {
+                convertedValue = maxValue;
+            }
+
+            return convertedValue;
         }
 
 
