@@ -8,20 +8,20 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 namespace Files.App.Controls
 {
 	// TemplateParts
-	[TemplatePart( Name = ContainerPartName , Type = typeof( Grid ) )]
+	[TemplatePart( Name = ContainerPartName		, Type = typeof( Grid ) )]
 
-	[TemplatePart( Name = ValueColumnPartName , Type = typeof( ColumnDefinition ) )]
-	[TemplatePart( Name = GapColumnPartName , Type = typeof( ColumnDefinition ) )]
-	[TemplatePart( Name = TrackColumnPartName , Type = typeof( ColumnDefinition ) )]
+	[TemplatePart( Name = ValueColumnPartName	, Type = typeof( ColumnDefinition ) )]
+	[TemplatePart( Name = GapColumnPartName		, Type = typeof( ColumnDefinition ) )]
+	[TemplatePart( Name = TrackColumnPartName	, Type = typeof( ColumnDefinition ) )]
 
-	[TemplatePart( Name = ValueBorderPartName , Type = typeof( Border ) )]
-	[TemplatePart( Name = TrackBorderPartName , Type = typeof( Border ) )]
+	[TemplatePart( Name = ValueBorderPartName	, Type = typeof( Border ) )]
+	[TemplatePart( Name = TrackBorderPartName	, Type = typeof( Border ) )]
 
 	// VisualStates
-	[TemplateVisualState( Name = SafeStateName , GroupName = ControlStateGroupName )]
-	[TemplateVisualState( Name = CautionStateName , GroupName = ControlStateGroupName )]
-	[TemplateVisualState( Name = CriticalStateName , GroupName = ControlStateGroupName )]
-	[TemplateVisualState( Name = DisabledStateName , GroupName = ControlStateGroupName )]
+	[TemplateVisualState( Name = SafeStateName		, GroupName = ControlStateGroupName )]
+	[TemplateVisualState( Name = CautionStateName	, GroupName = ControlStateGroupName )]
+	[TemplateVisualState( Name = CriticalStateName	, GroupName = ControlStateGroupName )]
+	[TemplateVisualState( Name = DisabledStateName	, GroupName = ControlStateGroupName )]
 
 
 

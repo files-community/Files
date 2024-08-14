@@ -49,6 +49,7 @@ namespace Files.App.Controls
 
 
 
+
 		#region Track Bar Height (double)
 
 		/// <summary>
@@ -86,6 +87,7 @@ namespace Files.App.Controls
 		}
 
 		#endregion
+
 
 
 
@@ -169,6 +171,7 @@ namespace Files.App.Controls
 
 
 
+
 		#region PercentWarning (double)
 
 		/// <summary>
@@ -209,6 +212,7 @@ namespace Files.App.Controls
 
 
 
+
 		#region PercentCritical (double)
 
 		/// <summary>
@@ -246,6 +250,7 @@ namespace Files.App.Controls
 		}
 
 		#endregion
+
 
 
 

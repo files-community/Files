@@ -46,6 +46,7 @@ namespace Files.App.Controls
 
 
 
+
 		#region 2. Private variable setters
 
 		/// <summary>
@@ -183,6 +184,7 @@ namespace Files.App.Controls
 		}
 
 		#endregion
+
 
 
 
@@ -326,9 +328,12 @@ namespace Files.App.Controls
 
 
 
+
 		#region 4. Initialisation
 
-		/// <inheritdoc/>
+		/// <summary>
+		/// Applies an implicit Style of a matching TargetType
+		/// </summary>
 		public StorageBar()
 		{
 			SizeChanged -= StorageBar_SizeChanged;
@@ -353,6 +358,7 @@ namespace Files.App.Controls
 		}
 
 		#endregion
+
 
 
 
@@ -518,6 +524,10 @@ namespace Files.App.Controls
 
 
 
+		/// <summary>
+		/// Handles the RangeBase's ValueChanged event
+		/// </summary>
+		/// <param name="d"></param>
 		private void OnValueChanged(DependencyObject d)
 		{
 			var storageBar = (StorageBar)d;
@@ -535,6 +545,7 @@ namespace Files.App.Controls
 		/// <summary>
 		/// Updates the initial layout of the StorageBar control
 		/// </summary>
+		/// <param name="d">The DependencyObject representing the control.</param>
 		private void UpdateInitialLayout(DependencyObject d)
 		{
 			var storageBar = d as StorageBar;
@@ -579,6 +590,14 @@ namespace Files.App.Controls
 
 
 
+		/// <summary>
+		/// Updates the StorageBar Values.
+		/// </summary>
+		/// <param name="d">The DependencyObject representing the control.</param>
+		/// <param name="newValue">The new Value</param>
+		/// <param name="oldValue">The old Value</param>
+		/// <param name="isPercent">Checks if the Percent value is being changed</param>
+		/// <param name="newPercent">The new Percent value</param>
 		private static void UpdateValue(DependencyObject d , double newValue , double oldValue, bool isPercent, double newPercent)
 		{
 			var storageBar = (StorageBar)d;
@@ -604,6 +623,12 @@ namespace Files.App.Controls
 
 
 
+		/// <summary>
+		/// Updates Container Heights and Bar Corner Radii
+		/// </summary>
+		/// <param name="d">The DependencyObject representing the control.</param>
+		/// <param name="valueBarHeight">The ValueBar Height</param>
+		/// <param name="trackBarHeight">The TrackBar Height</param>
 		private static void UpdateContainerHeightsAndCorners(DependencyObject d , double valueBarHeight , double trackBarHeight)
 		{
 			var storageBar = (StorageBar)d;
@@ -653,6 +678,13 @@ namespace Files.App.Controls
 
 
 
+		/// <summary>
+		/// Updates Column Widths and Bar Column assignments
+		/// </summary>
+		/// <param name="d">The DependencyObject representing the control.</param>
+		/// <param name="value">The Value</param>
+		/// <param name="minValue">The Minimum value</param>
+		/// <param name="maxValue">The Maximum value</param>
 		private static void UpdateColumnWidths(DependencyObject d , double value , double minValue , double maxValue)
 		{
 			var storageBar = (StorageBar)d;
@@ -889,6 +921,12 @@ namespace Files.App.Controls
 
 
 
+
+		/// <summary>
+		/// Updates the ContainerSize taking in control Padding
+		/// </summary>
+		/// <param name="d">The DependencyObject representing the control.</param>
+		/// <param name="newSize">The new Size</param>
 		private static void UpdateContainer(DependencyObject d , Size newSize)
 		{
 			var storageBar = (StorageBar)d;
@@ -902,6 +940,10 @@ namespace Files.App.Controls
 
 
 
+		/// <summary>
+		/// Update the control's VisualState
+		/// </summary>
+		/// <param name="d">The DependencyObject representing the control.</param>
 		private static void UpdateVisualState(DependencyObject d)
 		{
 			StorageBar storageBar = (StorageBar)d;
@@ -933,6 +975,7 @@ namespace Files.App.Controls
 		}
 
 		#endregion
+
 
 
 

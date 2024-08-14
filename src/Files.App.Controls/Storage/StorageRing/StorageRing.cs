@@ -775,6 +775,14 @@ namespace Files.App.Controls
 
         #region 6. Update functions
 
+        /// <summary>
+        /// Updates Values used by the control
+        /// </summary>
+        /// <param name="d">The DependencyObject representing the control.</param>
+        /// <param name="newValue">The new Value</param>
+        /// <param name="oldValue">The old Value</param>
+        /// <param name="percentChanged">Checks if Percent value is being changed</param>
+        /// <param name="newPercent">The new Percent value</param>
         private void UpdateValues(DependencyObject d , double newValue , double oldValue, bool percentChanged, double newPercent)
         {
             StorageRing storageRing = (StorageRing)d;
@@ -809,6 +817,11 @@ namespace Files.App.Controls
 
 
 
+        /// <summary>
+        /// Updates Container Center point and Sizes
+        /// </summary>
+        /// <param name="d">The DependencyObject representing the control.</param>
+        /// <param name="newSize">The new Size</param>
         private void UpdateContainerCenterAndSizes(DependencyObject d , Size newSize)
         {
             StorageRing storageRing = (StorageRing)d;
@@ -846,6 +859,12 @@ namespace Files.App.Controls
 
 
 
+        /// <summary>
+        /// Updates the Radii of both Rings
+        /// </summary>
+        /// <param name="d">The DependencyObject representing the control.</param>
+        /// <param name="newRadius">The new Radius</param>
+        /// <param name="isTrack">Checks if the Track is currently being updated</param>
         private void UpdateRadii(DependencyObject d , double newRadius , bool isTrack)
         {
             StorageRing storageRing = (StorageRing)d;
@@ -893,6 +912,12 @@ namespace Files.App.Controls
 
 
 
+        /// <summary>
+        /// Updates the Thickness for both Rings
+        /// </summary>
+        /// <param name="d">The DependencyObject representing the control.</param>
+        /// <param name="newThickness">The new Thickness</param>
+        /// <param name="isTrack">Checks if the TrackRing Thickness is being updated</param>
         private void UpdateRingThickness(DependencyObject d , double newThickness , bool isTrack)
         {
             StorageRing storageRing = (StorageRing)d;
@@ -928,6 +953,12 @@ namespace Files.App.Controls
 
 
 
+        /// <summary>
+        /// Updates the GapAngle separating both Rings.
+        /// </summary>
+        /// <param name="d">The DependencyObject representing the control.</param>
+        /// <param name="newRadius">The new Radius</param>
+        /// <param name="isTrack">Checks if the TrackRing is being updated</param>
         private void UpdateGapAngle(DependencyObject d , double newRadius , bool isTrack)
         {
             StorageRing storageRing = (StorageRing)d;
@@ -940,6 +971,10 @@ namespace Files.App.Controls
 
 
 
+        /// <summary>
+        /// Updates the control's VisualState
+        /// </summary>
+        /// <param name="d">The DependencyObject representing the control.</param>
         private void UpdateVisualState(DependencyObject d)
         {
             StorageRing storageRing = (StorageRing)d;
@@ -977,6 +1012,10 @@ namespace Files.App.Controls
 
         #region 7. Update Rings
 
+        /// <summary>
+        /// Updates both Rings
+        /// </summary>
+        /// <param name="d">The DependencyObject representing the control.</param>
         private void UpdateRings(DependencyObject d)
         {
             StorageRing storageRing = (StorageRing)d;
@@ -1012,6 +1051,12 @@ namespace Files.App.Controls
 
 
 
+        /// <summary>
+        /// Updates the Ring Sizes
+        /// </summary>
+        /// <param name="d">The DependencyObject representing the control.</param>
+        /// <param name="valueRingShape">The reference to the ValueRing RingShape TemplatePart</param>
+        /// <param name="trackRingShape">The reference to the TrackRing RingShape TemplatePart</param>
         private void UpdateRingSizes(DependencyObject d , RingShape valueRingShape , RingShape trackRingShape)
         {
             StorageRing storageRing = (StorageRing)d;
@@ -1054,6 +1099,12 @@ namespace Files.App.Controls
 
 
 
+        /// <summary>
+        /// Updates the Start and End Angles for both Rings
+        /// </summary>
+        /// <param name="d">The DependencyObject representing the control.</param>
+        /// <param name="valueRingShape">The reference to the ValueRing RingShape TemplatePart</param>
+        /// <param name="trackRingShape">The reference to the TrackRing RingShape TemplatePart</param>
         private void UpdateRingAngles(DependencyObject d , RingShape valueRingShape , RingShape trackRingShape)
         {
             StorageRing storageRing = (StorageRing)d;
@@ -1186,7 +1237,12 @@ namespace Files.App.Controls
 
 
 
-        //TODO Adjust Radius for smaller Ring
+        /// <summary>
+        /// Updates the Layout for both Rings
+        /// </summary>
+        /// <param name="d">The DependencyObject representing the control.</param>
+        /// <param name="valueRingShape">The reference to the ValueRing RingShape TemplatePart</param>
+        /// <param name="trackRingShape">The reference to the TrackRing RingShape TemplatePart</param>
         private void UpdateRingLayouts(DependencyObject d , RingShape valueRingShape , RingShape trackRingShape)
         {
             StorageRing storageRing = (StorageRing)d;
@@ -1215,6 +1271,12 @@ namespace Files.App.Controls
 
 
 
+        /// <summary>
+        /// Updates the Strokes for both Rings
+        /// </summary>
+        /// <param name="d">The DependencyObject representing the control.</param>
+        /// <param name="valueRingShape">The reference to the ValueRing RingShape TemplatePart</param>
+        /// <param name="trackRingShape">The reference to the TrackRing RingShape TemplatePart</param>
         private void UpdateRingStrokes(DependencyObject d , RingShape valueRingShape , RingShape trackRingShape)
         {
             StorageRing storageRing = (StorageRing)d;
