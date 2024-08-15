@@ -1,13 +1,12 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Controls.Primitives;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Files.App.Controls
 {
-	public partial class StorageBar : RangeBase
+	public partial class StorageBar
 	{
 		#region Value Bar Height (double)
 
@@ -21,28 +20,24 @@ namespace Files.App.Controls
 				typeof(StorageBar),
 				new PropertyMetadata(4.0, OnValueBarHeightChanged));
 
-
 		/// <summary>
 		/// Gets or sets the height of the Value Bar.
 		/// </summary>
 		public double ValueBarHeight
 		{
-			get { return (double)GetValue( ValueBarHeightProperty ); }
-			set { SetValue( ValueBarHeightProperty , value ); }
+			get => (double)GetValue(ValueBarHeightProperty);
+			set => SetValue(ValueBarHeightProperty, value);
 		}
-
 
 		/// <summary>
 		/// Handles the change in ValueBar Height property.
 		/// </summary>
 		/// <param name="d">The DependencyObject representing the control.</param>
 		/// <param name="e">The event arguments containing the old and new values.</param>
-		private static void OnValueBarHeightChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
+		private static void OnValueBarHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			if ( e.OldValue != e.NewValue )
-			{
-				ValueBarHeightChanged( d , (double)e.NewValue );
-			}
+			if (e.OldValue != e.NewValue)
+				ValueBarHeightChanged(d, (double)e.NewValue);
 		}
 
 		#endregion
@@ -59,28 +54,24 @@ namespace Files.App.Controls
 				typeof(StorageBar),
 				new PropertyMetadata(2.0, OnTrackBarHeightChanged));
 
-
 		/// <summary>
 		/// Gets or sets the height of the Track Bar.
 		/// </summary>
 		public double TrackBarHeight
 		{
-			get { return (double)GetValue( TrackBarHeightProperty ); }
-			set { SetValue( TrackBarHeightProperty , value ); }
+			get => (double)GetValue(TrackBarHeightProperty);
+			set => SetValue(TrackBarHeightProperty, value);
 		}
-
 
 		/// <summary>
 		/// Handles the change in TrackBar Height property.
 		/// </summary>
 		/// <param name="d">The DependencyObject representing the control.</param>
 		/// <param name="e">The event arguments containing the old and new values.</param>
-		private static void OnTrackBarHeightChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
+		private static void OnTrackBarHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			if ( e.OldValue != e.NewValue )
-			{
-				TrackBarHeightChanged( d , (double)e.NewValue );
-			}
+			if (e.OldValue != e.NewValue)
+				TrackBarHeightChanged(d, (double)e.NewValue);
 		}
 
 		#endregion
@@ -97,28 +88,24 @@ namespace Files.App.Controls
 				typeof(StorageBar),
 				new PropertyMetadata(BarShapes.Round, OnBarShapeChanged));
 
-
 		/// <summary>
 		/// Gets or sets an Enum value to choose from our two BarShapes. (Round, Flat)
 		/// </summary>
 		public BarShapes BarShape
 		{
-			get => (BarShapes)GetValue( BarShapeProperty );
-			set => SetValue( BarShapeProperty , value );
+			get => (BarShapes)GetValue(BarShapeProperty);
+			set => SetValue(BarShapeProperty, value);
 		}
-
 
 		/// <summary>
 		/// Handles the change in BarShape property.
 		/// </summary>
 		/// <param name="d">The DependencyObject representing the control.</param>
 		/// <param name="e">The event arguments containing the old and new values.</param>
-		private static void OnBarShapeChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
+		private static void OnBarShapeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			if ( e.OldValue != e.NewValue )
-			{
-				BarShapeChanged( d , (BarShapes)e.NewValue );
-			}
+			if (e.OldValue != e.NewValue)
+				BarShapeChanged(d, (BarShapes)e.NewValue);
 		}
 
 		#endregion
@@ -135,27 +122,25 @@ namespace Files.App.Controls
 				typeof(StorageBar),
 				new PropertyMetadata(0.0, OnPercentChanged));
 
-
 		/// <summary>
 		/// Gets or sets the current value as a Percentage between 0.0 and 100.0.
 		/// </summary>
 		public double Percent
 		{
-			get { return (double)GetValue( PercentProperty ); }
-			set { SetValue( PercentProperty , value ); }
+			get => (double)GetValue(PercentProperty);
+			set => SetValue(PercentProperty, value);
 		}
-
 
 		/// <summary>
 		/// Handles the change in the Percent property, and ensures the range is between 0.0 and 100.0.
 		/// </summary>
 		/// <param name="d">The DependencyObject which holds the DependencyProperty</param>
 		/// <param name="e">DependencyPropertyChangedEventArgs</param>
-		private static void OnPercentChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
+		private static void OnPercentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
 			StorageBar storageBar = (StorageBar)d;
 
-			storageBar.DoubleToPercentage( storageBar.Value , storageBar.Minimum , storageBar.Maximum );
+			storageBar.DoubleToPercentage(storageBar.Value, storageBar.Minimum, storageBar.Maximum);
 		}
 
 		#endregion
@@ -172,28 +157,24 @@ namespace Files.App.Controls
 				typeof(StorageBar),
 				new PropertyMetadata(75.1, OnPercentCautionChanged));
 
-
 		/// <summary>
 		/// Gets or sets the PercentCaution double value.
 		/// </summary>
 		public double PercentCaution
 		{
-			get { return (double)GetValue( PercentCautionProperty ); }
-			set { SetValue( PercentCautionProperty , value ); }
+			get => (double)GetValue(PercentCautionProperty);
+			set => SetValue(PercentCautionProperty, value);
 		}
-
 
 		/// <summary>
 		/// Handles the change in the PercentCaution property.
 		/// </summary>
 		/// <param name="d">The DependencyObject representing the control.</param>
 		/// <param name="e">The event arguments containing the old and new values.</param>
-		private static void OnPercentCautionChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
+		private static void OnPercentCautionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			if ( e.OldValue != e.NewValue )
-			{
-				PercentCautionChanged( d , (double)e.NewValue );
-			}
+			if (e.OldValue != e.NewValue)
+				PercentCautionChanged(d, (double)e.NewValue);
 		}
 
 		#endregion
@@ -210,28 +191,24 @@ namespace Files.App.Controls
 				typeof(StorageBar),
 				new PropertyMetadata(89.9, OnPercentCriticalChanged));
 
-
 		/// <summary>
 		/// Gets or sets the PercentCritical double value.
 		/// </summary>
 		public double PercentCritical
 		{
-			get { return (double)GetValue( PercentCriticalProperty ); }
-			set { SetValue( PercentCriticalProperty , value ); }
+			get => (double)GetValue(PercentCriticalProperty);
+			set => SetValue(PercentCriticalProperty, value);
 		}
-
 
 		/// <summary>
 		/// Handles the change in the PercentCritical property.
 		/// </summary>
 		/// <param name="d">The DependencyObject representing the control.</param>
 		/// <param name="e">The event arguments containing the old and new values.</param>
-		private static void OnPercentCriticalChanged(DependencyObject d , DependencyPropertyChangedEventArgs e)
+		private static void OnPercentCriticalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			if ( e.OldValue != e.NewValue )
-			{
-				PercentCriticalChanged( d , (double)e.NewValue );
-			}
+			if (e.OldValue != e.NewValue)
+				PercentCriticalChanged(d, (double)e.NewValue);
 		}
 
 		#endregion
@@ -239,31 +216,27 @@ namespace Files.App.Controls
 		#region Derived RangeBase Events
 
 		/// <inheritdoc/>
-		protected override void OnValueChanged(double oldValue , double newValue)
+		protected override void OnValueChanged(double oldValue, double newValue)
 		{
-			SetOldValue( oldValue );
+			SetOldValue(oldValue);
 
-			base.OnValueChanged( oldValue , newValue );
+			base.OnValueChanged(oldValue, newValue);
 
-			OnValueChanged( this );
+			OnValueChanged(this);
 		}
 
-
-
 		/// <inheritdoc/>
-		protected override void OnMaximumChanged(double oldValue , double newValue)
+		protected override void OnMaximumChanged(double oldValue, double newValue)
 		{
-			base.OnMaximumChanged( oldValue , newValue );
-			UpdateValue( this , oldValue , newValue, false, -1.0 );
+			base.OnMaximumChanged(oldValue, newValue);
+			UpdateValue(this, oldValue, newValue, false, -1.0);
 		}
 
-
-
 		/// <inheritdoc/>
-		protected override void OnMinimumChanged(double oldValue , double newValue)
+		protected override void OnMinimumChanged(double oldValue, double newValue)
 		{
-			base.OnMinimumChanged( oldValue , newValue );
-			UpdateValue( this , oldValue , newValue , false , -1.0 );
+			base.OnMinimumChanged(oldValue, newValue);
+			UpdateValue(this, oldValue, newValue, false, -1.0);
 		}
 
 		#endregion

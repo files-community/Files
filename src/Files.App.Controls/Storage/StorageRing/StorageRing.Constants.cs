@@ -18,7 +18,7 @@ namespace Files.App.Controls
 	[TemplateVisualState(Name = CautionStateName, GroupName = ControlStateGroupName)]
 	[TemplateVisualState(Name = CriticalStateName, GroupName = ControlStateGroupName)]
 	[TemplateVisualState(Name = DisabledStateName, GroupName = ControlStateGroupName)]
-	public partial class StorageRing : RangeBase
+	public partial class StorageRing
 	{
 		internal const string ContainerPartName = "PART_Container";
 		internal const string ValueRingShapePartName = "PART_ValueRingShape";
