@@ -29,7 +29,7 @@ namespace Files.App.Services
 						typeof(FileOpenDialog).GUID,
 						null,
 						CLSCTX.CLSCTX_INPROC_SERVER,
-						out IFileOpenDialog dialog)
+						out IFileOpenDialog* pDialog)
 					.ThrowOnFailure();
 
 					if (filters.Length is not 0 && filters.Length % 2 is 0)
@@ -48,7 +48,7 @@ namespace Files.App.Services
 						}
 
 						// Set the file type using the extension list
-						dialog.SetFileTypes(extensions.ToArray());
+						pDialog->SetFileTypes(extensions.ToArray());
 					}
 
 					// Get the default shell folder (My Computer)
@@ -62,19 +62,20 @@ namespace Files.App.Services
 					// Folder picker
 					if (pickFoldersOnly)
 					{
-						dialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
+						pDialog->SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
 					}
 
 					// Set the default folder to open in the dialog
-					dialog.SetFolder((IShellItem)directoryShellItem);
-					dialog.SetDefaultFolder((IShellItem)directoryShellItem);
+					pDialog->SetFolder((IShellItem*)directoryShellItem);
+					pDialog->SetDefaultFolder((IShellItem*)directoryShellItem);
 
 					// Show the dialog
-					dialog.Show(new HWND(hWnd));
+					pDialog->Show(new HWND(hWnd));
 
 					// Get the file that user chose
-					dialog.GetResult(out var resultShellItem);
-					resultShellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
+					IShellItem* resultShellItem = default;
+					pDialog->GetResult(&resultShellItem);
+					resultShellItem->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
 					filePath = lpFilePath.ToString();
 
 					return true;
@@ -102,7 +103,7 @@ namespace Files.App.Services
 						typeof(FileSaveDialog).GUID,
 						null,
 						CLSCTX.CLSCTX_INPROC_SERVER,
-						out IFileSaveDialog dialog)
+						out IFileSaveDialog* pDialog)
 					.ThrowOnFailure();
 
 					if (filters.Length is not 0 && filters.Length % 2 is 0)
@@ -121,7 +122,7 @@ namespace Files.App.Services
 						}
 
 						// Set the file type using the extension list
-						dialog.SetFileTypes(extensions.ToArray());
+						pDialog->SetFileTypes(extensions.ToArray());
 					}
 
 					// Get the default shell folder (My Computer)
@@ -134,18 +135,19 @@ namespace Files.App.Services
 
 					// Folder picker
 					if (pickFoldersOnly)
-						dialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
+						pDialog->SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
 
 					// Set the default folder to open in the dialog
-					dialog.SetFolder((IShellItem)directoryShellItem);
-					dialog.SetDefaultFolder((IShellItem)directoryShellItem);
+					pDialog->SetFolder((IShellItem*)directoryShellItem);
+					pDialog->SetDefaultFolder((IShellItem*)directoryShellItem);
 
 					// Show the dialog
-					dialog.Show(new HWND(hWnd));
+					pDialog->Show(new HWND(hWnd));
 
 					// Get the file that user chose
-					dialog.GetResult(out var resultShellItem);
-					resultShellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
+					IShellItem* resultShellItem = default;
+					pDialog->GetResult(&resultShellItem);
+					resultShellItem->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
 					filePath = lpFilePath.ToString();
 
 					return true;
