@@ -144,7 +144,23 @@ namespace Files.App.Controls
 		/// <param name="e">Provides data related to the SizeChanged event.</param>
 		private void StorageRing_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			UpdateContainerCenterAndSizes(this, e.NewSize);
+			Size minSize;
+
+			if ( DesiredSize.Width < MinWidth || DesiredSize.Height < MinHeight ||
+				e.NewSize.Width < MinWidth || e.NewSize.Height < MinHeight)
+			{
+				Width = MinWidth;
+				Height = MinHeight;
+
+				minSize = new Size( MinWidth , MinHeight );
+			}
+			else
+			{
+				minSize = e.NewSize;
+			}
+
+			UpdateContainerCenterAndSizes( this , minSize );
+			
 			UpdateRings(this);
 		}
 
