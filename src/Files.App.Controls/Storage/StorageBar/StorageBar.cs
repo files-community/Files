@@ -34,8 +34,8 @@ namespace Files.App.Controls
 
 		BarShapes _barShape;             // Reference to the BarShape
 
-		double _gapWidth;               // Stores the Gap between Value and Track Bars
-		double _smallerHeight;          // Stores the smaller between Value and Track Bars
+		double _gapWidth;                // Stores the Gap between Value and Track Bars
+		double _smallerHeight;           // Stores the smaller between Value and Track Bars
 
 		// Constructor
 

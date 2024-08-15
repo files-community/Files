@@ -133,7 +133,7 @@ namespace Files.App.Controls
 				nameof(PercentCaution),
 				typeof(double),
 				typeof(StorageBar),
-				new PropertyMetadata(75.1, (d, e) => ((StorageBar)d).OnValueBarHeightChanged((double)e.OldValue, (double)e.NewValue)));
+				new PropertyMetadata(75.1, (d, e) => ((StorageBar)d).OnPercentCautionChanged((double)e.OldValue, (double)e.NewValue)));
 
 		/// <summary>
 		/// Gets or sets the PercentCaution double value.
@@ -161,7 +161,7 @@ namespace Files.App.Controls
 				nameof(PercentCritical),
 				typeof(double),
 				typeof(StorageBar),
-				new PropertyMetadata(89.9, (d, e) => ((StorageBar)d).OnValueBarHeightChanged((double)e.OldValue, (double)e.NewValue)));
+				new PropertyMetadata(89.9, (d, e) => ((StorageBar)d).OnPercentCriticalChanged((double)e.OldValue, (double)e.NewValue)));
 
 		/// <summary>
 		/// Gets or sets the PercentCritical double value.
