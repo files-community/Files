@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Controls.Primitives
+namespace Files.App.Controls
 {
     /// <summary>
     /// Defines BarShape for <see cref="StorageBar"/>.
