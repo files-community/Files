@@ -50,9 +50,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
-
 		#region TrackRingThickness (double)
 
 		/// <summary>
@@ -95,9 +92,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
-
 		#region MinAngle (double)
 
 		/// <summary>
@@ -136,9 +130,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
-
 
 		#region MaxAngle (double)
 
@@ -179,9 +170,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
-
 		#region StartAngle (double)
 
 		/// <summary>
@@ -221,9 +209,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
-
 		#region Percent (double)
 
 		/// <summary>
@@ -260,9 +245,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
-
 
 		#region PercentCaution (double)
 
@@ -301,9 +283,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
-
 		#region PercentCritical (double)
 
 		/// <summary>
@@ -341,9 +320,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
-
 		#region RangeBase Methods
 
 		/// <inheritdoc/>
@@ -378,9 +354,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
-
 		#region Protected ValueAngle (double)
 
 		/// <summary>
@@ -404,9 +377,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
-
 
 		#region Protected AdjustedSize (double)
 

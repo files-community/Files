@@ -47,9 +47,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
-
 		#region Track Bar Height (double)
 
 		/// <summary>
@@ -87,9 +84,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
-
 
 		#region BarShape (enum BarShape)
 
@@ -129,9 +123,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
-
 		#region Percent (double)
 
 		/// <summary>
@@ -168,9 +159,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
-
 
 		#region PercentWarning (double)
 
@@ -210,9 +198,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
-
 		#region PercentCritical (double)
 
 		/// <summary>
@@ -250,9 +235,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
-
 
 		#region Derived RangeBase Events
 
