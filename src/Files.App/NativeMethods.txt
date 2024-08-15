@@ -98,3 +98,16 @@ FindWindow
 SendMessage
 IsWindowVisible
 COPYDATASTRUCT
+SetWindowLongPtr
+GetDpiForWindow
+CallWindowProc
+MINMAXINFO
+SUBCLASSPROC
+SetWindowPlacement
+GetWindowPlacement
+WINDOWPLACEMENT
+GetSystemMetrics
+MONITORENUMPROC
+EnumDisplayMonitors
+MONITORINFOEXW
+GetMonitorInfo
