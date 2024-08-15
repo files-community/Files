@@ -4,14 +4,11 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="using:Files.App.Controls">
 
-
 	<ResourceDictionary.MergedDictionaries>
 		<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 	</ResourceDictionary.MergedDictionaries>
 
-
 	<ResourceDictionary.ThemeDictionaries>
-
 		<ResourceDictionary x:Key="Default">
 			<StaticResource x:Key="StorageBarCornerRadius" ResourceKey="OverlayCornerRadius" />
 
@@ -32,7 +29,6 @@
 			<StaticResource x:Key="StorageBarTrackCriticalBrush" ResourceKey="ControlStrongStrokeColorDefaultBrush" />
 			<StaticResource x:Key="StorageBarTrackDisabledBrush" ResourceKey="ControlStrongStrokeColorDisabledBrush" />
 		</ResourceDictionary>
-
 
 		<ResourceDictionary x:Key="HighContrast">
 			<StaticResource x:Key="StorageBarCornerRadius" ResourceKey="OverlayCornerRadius" />
@@ -55,7 +51,6 @@
 			<StaticResource x:Key="StorageBarTrackDisabledBrush" ResourceKey="SystemColorGrayTextBrush" />
 		</ResourceDictionary>
 
-
 		<ResourceDictionary x:Key="Light">
 			<StaticResource x:Key="StorageBarCornerRadius" ResourceKey="OverlayCornerRadius" />
 
@@ -76,7 +71,6 @@
 			<StaticResource x:Key="StorageBarTrackCriticalBrush" ResourceKey="ControlStrongStrokeColorDefaultBrush" />
 			<StaticResource x:Key="StorageBarTrackDisabledBrush" ResourceKey="ControlStrongStrokeColorDisabledBrush" />
 		</ResourceDictionary>
-
 	</ResourceDictionary.ThemeDictionaries>
 
 </ResourceDictionary>
