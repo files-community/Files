@@ -25,7 +25,10 @@ namespace Files.App.Services
 			{
 				var theme = UserSettingsService.AppearanceSettingsService.AppThemeMode;
 
-				return EnumExtensions.GetEnum<ElementTheme>(theme);
+				return
+					Enum.TryParse<ElementTheme>(theme, out var elementTheme)
+						? elementTheme
+						: ElementTheme.Default;
 			}
 			set
 			{
