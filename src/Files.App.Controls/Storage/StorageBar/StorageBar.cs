@@ -44,9 +44,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
-
 		#region 2. Private variable setters
 
 		/// <summary>
@@ -184,9 +181,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
-
 
 		#region 3. Private variable getters
 
@@ -326,9 +320,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
-
 		#region 4. Initialisation
 
 		/// <summary>
@@ -358,9 +349,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
-
 
 		#region 5. Handle Property Changes
 
@@ -536,9 +524,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
-
 
 		#region 6. Update functions
 
@@ -975,9 +960,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
-
 
 		#region 7. Conversion return functions
 
