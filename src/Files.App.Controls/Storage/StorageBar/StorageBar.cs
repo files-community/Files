@@ -93,7 +93,22 @@ namespace Files.App.Controls
 		/// <param name="e"></param>
 		private void StorageBar_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			UpdateContainer(this, e.NewSize);
+			Size minSize;
+
+			if ( DesiredSize.Width < MinWidth || DesiredSize.Height < MinHeight ||
+				e.NewSize.Width < MinWidth || e.NewSize.Height < MinHeight )
+			{
+				Width = MinWidth;
+				Height = MinHeight;
+
+				minSize = new Size( MinWidth , MinHeight );
+			}
+			else
+			{
+				minSize = e.NewSize;
+			}
+
+			UpdateContainer(this, minSize );
 			UpdateControl(this);
 		}
 

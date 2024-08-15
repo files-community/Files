@@ -27,6 +27,8 @@
 		<Setter Property="LargeChange" Value="10" />
 		<Setter Property="SmallChange" Value="0.1" />
 		<Setter Property="UseLayoutRounding" Value="True" />
+		<Setter Property="MinWidth" Value="12" />
+		<Setter Property="MinHeight" Value="12" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:StorageRing">
@@ -35,6 +37,8 @@
 						x:Name="GridRoot"
 						Width="{TemplateBinding Width}"
 						Height="{TemplateBinding Height}"
+						MinWidth="{TemplateBinding MinWidth}"
+						MinHeight="{TemplateBinding MinHeight}"
 						Padding="{TemplateBinding Padding}"
 						BorderBrush="{TemplateBinding BorderBrush}"
 						BorderThickness="{TemplateBinding BorderThickness}">
