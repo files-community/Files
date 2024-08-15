@@ -5,8 +5,6 @@
 	xmlns:local="using:Files.App.Controls"
 	xmlns:primitives="using:Files.App.Controls.Primitives">
 
-
-
 	<Style BasedOn="{StaticResource DefaultToolbarStyle}" TargetType="local:Toolbar" />
 
 	<Style x:Key="DefaultToolbarStyle" TargetType="local:Toolbar">

@@ -4,9 +4,20 @@
 namespace Files.App.Controls.Primitives
 {
 	public enum OverflowBehaviors
-	{ 
-		Auto,		// Item will move to the overflow menu if space available is too small
-		Always,		// Item will always appear in the overflow menu
-		Never,		// Item will never move to the overflow menu
+	{
+		/// <summary>
+		/// Item will move to the overflow menu if space available is too small
+		/// </summary>
+		Auto,
+
+		/// <summary>
+		/// Item will always appear in the overflow menu
+		/// </summary>
+		Always,
+
+		/// <summary>
+		/// Item will never move to the overflow menu
+		/// </summary>
+		Never,
 	}
 }

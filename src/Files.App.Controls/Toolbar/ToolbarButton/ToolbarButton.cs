@@ -1,45 +1,27 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using CommunityToolkit.WinUI.UI;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.UI.Xaml.Media;
-
 namespace Files.App.Controls
 {
 	public partial class ToolbarButton : Button, IToolbarItemSet
 	{
-
-		private bool _hasContent = false;        // True when a button has its Content property assigned
-
-
+		// True when a button has its Content property assigned
+		private bool _hasContent = false;
 
 		public ToolbarButton()
 		{
-			this.DefaultStyleKey = typeof( ToolbarButton );
+			DefaultStyleKey = typeof( ToolbarButton );
 		}
-
-
 
 		/// <inheritdoc/>
 		protected override void OnApplyTemplate()
-		{			
+		{
 			RegisterPropertyChangedCallback( ContentProperty , OnContentChanged );
 
 			base.OnApplyTemplate();
 
 			UpdateContentStates( CheckHasContent() );
 		}
-
-
 
 		#region Private Getters
 
@@ -50,8 +32,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
 		#region Private Setters
 
 		private void SetHasContent(bool newValue)
@@ -60,8 +40,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
 
 		#region Update functions
 
@@ -142,8 +120,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
 		#region Property Changed Events
 
 		/// <summary>
@@ -178,8 +154,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
 		#region ButtonBase Events
 
 		/// <summary>
@@ -202,6 +176,5 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
 	}
 }

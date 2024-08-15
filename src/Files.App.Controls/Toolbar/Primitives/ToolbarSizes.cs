@@ -5,8 +5,19 @@ namespace Files.App.Controls.Primitives
 {
 	public enum ToolbarSizes
 	{
-		Small,		// Buttons set to 32 x 32 size
-		Medium,		// Buttons set to 40 x 32 size - Default
-		Large,		// Buttons set to 40 x 40 size
+		/// <summary>
+		/// Buttons set to 32 x 32 size
+		/// </summary>
+		Small,
+
+		/// <summary>
+		/// Buttons set to 32 x 32 size
+		/// </summary>
+		Medium,
+
+		/// <summary>
+		/// Buttons set to 40 x 40 size
+		/// </summary>
+		Large,
 	}
 }

@@ -9,7 +9,6 @@
 		<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 	</ResourceDictionary.MergedDictionaries>
 
-
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Default">
 			<StaticResource x:Key="ToolbarBackgroundBrush" ResourceKey="CardBackgroundFillColorDefaultBrush" />
@@ -39,7 +38,6 @@
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
-
 	<!--#region Toolbar Button Sizes-->
 	<x:Double x:Key="ToolbarButtonSmallMinWidth">32</x:Double>
 	<x:Double x:Key="ToolbarButtonSmallMinHeight">32</x:Double>
@@ -50,6 +48,5 @@
 	<x:Double x:Key="ToolbarButtonLargeMinWidth">40</x:Double>
 	<x:Double x:Key="ToolbarButtonLargeMinHeight">40</x:Double>
 	<!--#endregion-->
-
 
 </ResourceDictionary>

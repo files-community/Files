@@ -65,8 +65,6 @@
 			<StaticResource x:Key="ToolbarToggleInnerBorderBrush" ResourceKey="FocusStrokeColorInnerBrush" />
 		</ResourceDictionary>
 
-
-
 		<ResourceDictionary x:Key="HighContrast">
 			<Thickness x:Key="ToolbarToggleButtonBorderThemeThickness">1</Thickness>
 			<Thickness x:Key="ToolbarToggleButtonCheckedBorderThemeThickness">2</Thickness>
@@ -121,8 +119,6 @@
 
 			<StaticResource x:Key="ToolbarToggleInnerBorderBrush" ResourceKey="SystemColorButtonTextColor" />
 		</ResourceDictionary>
-
-
 
 		<ResourceDictionary x:Key="Light">
 			<Thickness x:Key="ToolbarToggleButtonBorderThemeThickness">1</Thickness>
@@ -179,7 +175,6 @@
 			<StaticResource x:Key="ToolbarToggleInnerBorderBrush" ResourceKey="FocusStrokeColorInnerBrush" />
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
-
 
 	<Thickness x:Key="ToolbarToggleButtonPadding">4</Thickness>
 	<CornerRadius x:Key="ToolbarToggleButtonInnerBorderCornerRadius">3</CornerRadius>

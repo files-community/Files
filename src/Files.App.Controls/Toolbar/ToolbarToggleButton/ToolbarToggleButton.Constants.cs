@@ -1,18 +1,8 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Files.App.Controls
 {
-
 	// TemplateParts
 	[TemplatePart( Name = ThemedIconPartName		, Type = typeof( ThemedIcon ) )]
 	[TemplatePart( Name = ContentPresenterPartName	, Type = typeof( ContentPresenter ) )]
@@ -35,12 +25,8 @@ namespace Files.App.Controls
 
 	[TemplateVisualState( Name = HasContentStateName				, GroupName = ContentStatesGroupName )]
 	[TemplateVisualState( Name = HasNoContentStateName				, GroupName = ContentStatesGroupName )]
-
-
-
 	public partial class ToolbarToggleButton : ToggleButton, IToolbarItemSet
 	{
-
 		// TemplatePart Names
 		internal const string ThemedIconPartName					= "PART_ThemedIcon";
 		internal const string ContentPresenterPartName				= "PART_ContentPresenter";
@@ -60,13 +46,12 @@ namespace Files.App.Controls
 		internal const string CheckedPressedStateName				= "CheckedPressed";
 		internal const string CheckedDisabledStateName				= "CheckedDisabled";
 
-		internal const string IndeterminateStateName                = "Indeterminate";
-		internal const string IndeterminatePointerOverStateName     = "IndeterminatePointerOver";
-		internal const string IndeterminatePressedStateName         = "IndeterminatePressed";
-		internal const string IndeterminateDisabledStateName        = "IndeterminateDisabled";
+		internal const string IndeterminateStateName				= "Indeterminate";
+		internal const string IndeterminatePointerOverStateName		= "IndeterminatePointerOver";
+		internal const string IndeterminatePressedStateName			= "IndeterminatePressed";
+		internal const string IndeterminateDisabledStateName		= "IndeterminateDisabled";
 
 		internal const string HasContentStateName					= "HasContent";
 		internal const string HasNoContentStateName					= "HasNoContent";
-
 	}
 }

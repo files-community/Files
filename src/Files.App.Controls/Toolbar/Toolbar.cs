@@ -1,56 +1,37 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Controls.Primitives;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Documents;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-
 namespace Files.App.Controls
 {
 	public partial class Toolbar : Control
 	{
-
-		private double _availableSize;	  						// A reference to the current available size for ToolbarItems
+		// A reference to the current available size for ToolbarItems
+		private double _availableSize;
 
 		private ItemsRepeater?				_itemsRepeater;
 		private ToolbarItemList?			_toolbarItemsList;
-		private ToolbarItemOverflowList?    _toolbarItemsOverflowList;
+		private ToolbarItemOverflowList?	_toolbarItemsOverflowList;
 
-		private ToolbarItemList             _tempToolbarItemsList;
-		private ToolbarItemOverflowList     _tempToolbarItemsOverflowList;
+		private ToolbarItemList				_tempToolbarItemsList;
+		private ToolbarItemOverflowList		_tempToolbarItemsOverflowList;
 
 
-		private double				_smallMinWidth    = 24;     // I have set default values, but we pull from resources
-		private double				_mediumMinWidth   = 32;     // if they are available.
+		private double				_smallMinWidth    = 24; // I have set default values, but we pull from resources
+		private double				_mediumMinWidth   = 32; // if they are available.
 		private double				_largeMinWidth    = 32;
 		 
 		private double				_smallMinHeight   = 24;
 		private double				_mediumMinHeight  = 24;
 		private double				_largeMinHeight   = 32;
 
-		private double              _currentMinWidth;
-		private double              _currentMinHeight;
-
-
+		private double				_currentMinWidth;
+		private double				_currentMinHeight;
 
 		public Toolbar()
 		{
-			this.DefaultStyleKey = typeof( Toolbar );
+			DefaultStyleKey = typeof( Toolbar );
 		}
 
-
-
-		/// <inheritdoc/>
 		protected override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
@@ -73,8 +54,6 @@ namespace Files.App.Controls
 				itemsRepeater.ItemsSource = GetToolbarItemsList();
 			}
 		}
-
-
 
 		#region Private Getters
 
@@ -140,8 +119,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
 		#region Private Setters
 
 		private void SetAvailableSize(double newValue)
@@ -205,8 +182,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
 
 		#region Update Properties
 
@@ -345,8 +320,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
 		#region Property Changed Events
 
 		/// <summary>
@@ -403,8 +376,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
 
 		#region Sorting
 
@@ -532,8 +503,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
 
 		#region Dealing with Overflow and StackPanel Part sizing
 
@@ -684,8 +653,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
 		#region Create Elements
 
 		private ToolbarButton CreateToolbarButton(string label , Style iconStyle , double minWidth , double minHeight , double iconSize)
@@ -730,8 +697,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
 		#region Add ToolbarItems to Lists
 
 		/// <summary>
@@ -764,8 +729,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
 		#region Remove ToolbarItem from Lists
 
 		/// <summary>
@@ -789,6 +752,5 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
 	}
 }

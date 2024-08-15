@@ -1,18 +1,13 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Files.App.Controls.Primitives;
-using System.Collections.Generic;
-using Microsoft.UI.Xaml.Markup;
 
 namespace Files.App.Controls
 {
 	public partial class ToolbarItem : DependencyObject
 	{
-
 		#region ItemType (enum ToolbarItemTypes)
 
 		/// <summary>
@@ -47,8 +42,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
 
 		#region OverflowBehavior (enum OverflowBehavior)
 
@@ -85,8 +78,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
 		#region Label (string)
 
 		/// <summary>
@@ -122,8 +113,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
 		#region SubItems (IList<ToolbarItem>)
 
 		public static readonly DependencyProperty SubItemsProperty =
@@ -152,8 +141,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
 
 		#region Content (object)
 
@@ -190,8 +177,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
 		#region ThemedIcon (style)
 
 		/// <summary>
@@ -227,8 +212,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
 		#region IconSize (double)
 
 		public static readonly DependencyProperty IconSizeProperty =
@@ -260,8 +243,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
 
 		#region IsChecked (bool)
 
@@ -298,8 +279,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
 		#region KeyboardAcceleratorTextOverride (string)
 
 		/// <summary>
@@ -334,8 +313,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
 
 		#region GroupName (string)
 
@@ -372,8 +349,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
 		#region Command (Command)
 
 		/// <summary>
@@ -409,8 +384,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
 		#region CommandParameter (CommandParameter)
 
 		/// <summary>
@@ -445,6 +418,5 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
 	}
 }

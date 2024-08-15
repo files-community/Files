@@ -1,19 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Controls
 {
 	public enum ToolbarItemTypes
-	{		
+	{
+		/// <summary>
+		/// 
+		/// </summary>
 		Button,
-		Content,				// Default type
+
+		/// <summary>
+		/// Default type
+		/// </summary>
+		Content,
+
+		/// <summary>
+		/// 
+		/// </summary>
 		FlyoutButton,
-		RadioButton,			// Possibly add support for Radio Buttons using the GroupName
+
+		/// <summary>
+		/// Possibly add support for Radio Buttons using the GroupName
+		/// </summary>
+		RadioButton,
+
+		/// <summary>
+		/// 
+		/// </summary>
 		Separator,
+
+		/// <summary>
+		/// 
+		/// </summary>
 		SplitButton,
+
+		/// <summary>
+		/// 
+		/// </summary>
 		ToggleButton,
 	}
 }

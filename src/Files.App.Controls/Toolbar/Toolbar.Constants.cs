@@ -1,10 +1,5 @@
-﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Controls
 {
@@ -14,23 +9,17 @@ namespace Files.App.Controls
 	// VisualStates
 	[TemplateVisualState( Name = OverflowOnStateName		, GroupName = CommonStatesGroupName )]
 	[TemplateVisualState( Name = OverflowOffStateName		, GroupName = CommonStatesGroupName )]
-
-
-
 	public partial class Toolbar : Control
 	{
 		// TemplatePart Names
 		internal const string ToolbarItemsRepeaterPartName	= "PART_ItemsRepeater";
 
 		// VisualState Group Names
-		internal const string CommonStatesGroupName         = "OverflowStates";
+		internal const string CommonStatesGroupName			= "OverflowStates";
 
 		// VisualState Names
-		internal const string OverflowOnStateName           = "OverflowOn";
-		internal const string OverflowOffStateName          = "OverflowOff";
-
-
-
+		internal const string OverflowOnStateName			= "OverflowOn";
+		internal const string OverflowOffStateName			= "OverflowOff";
 		// ResourceDictionary Keys
 		internal const string SmallMinWidthResourceKey		= "ToolbarButtonSmallMinWidth";
 		internal const string SmallMinHeightResourceKey		= "ToolbarButtonSmallMinHeight";

@@ -1,18 +1,10 @@
-﻿using Files.App.Controls.Primitives;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Controls
 {
 	public partial class Toolbar : Control
 	{
-
 		#region ToolbarSize (enum ToolbarSizes)
 
 		/// <summary>
@@ -52,8 +44,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
 		#region Items (IList<ToolbarItem>)
 
 		public static readonly DependencyProperty ItemsProperty =
@@ -82,8 +72,6 @@ namespace Files.App.Controls
 		}
 
 		#endregion
-
-
 
 		#region ItemTemplate (DataTemplate)
 
@@ -124,8 +112,6 @@ namespace Files.App.Controls
 
 		#endregion
 
-
-
 		#region Private ToolbarItemList
 
 		/// <summary>
@@ -159,8 +145,6 @@ namespace Files.App.Controls
 			}
 		}
 		#endregion
-
-
 
 		#region Private ToolbarItemOverflowList
 
