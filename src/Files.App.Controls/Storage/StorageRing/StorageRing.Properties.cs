@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Files.App.Controls
 {
@@ -18,7 +17,7 @@ namespace Files.App.Controls
 				nameof(ValueRingThickness),
 				typeof(double),
 				typeof(StorageRing),
-				new PropertyMetadata(0.0, OnValueRingThicknessChanged));
+				new PropertyMetadata(0.0, (d, e) => ((StorageRing)d).OnValueRingThicknessChanged((double)e.OldValue, (double)e.NewValue)));
 
 		/// <summary>
 		/// Gets or sets the Track ring Thickness.
@@ -32,16 +31,10 @@ namespace Files.App.Controls
 			set => SetValue(ValueRingThicknessProperty, value);
 		}
 
-		/// <summary>
-		/// Function invoked as the ValueRingThicknessProperty is changed
-		/// </summary>
-		/// <param name="d">The DependencyObject which holds the DependencyProperty</param>
-		/// <param name="e">DependencyPropertyChangedEventArgs</param>
-		private static void OnValueRingThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		private void OnValueRingThicknessChanged(double oldValue, double newValue)
 		{
-			StorageRing storageRing = (StorageRing)d;
-
-			storageRing.ValueRingThicknessChanged(d, (double)e.NewValue);
+			UpdateRingThickness(this, newValue, false);
+			UpdateRings(this);
 		}
 
 		#endregion
@@ -56,7 +49,7 @@ namespace Files.App.Controls
 				nameof(TrackRingThickness),
 				typeof(double),
 				typeof(StorageRing),
-				new PropertyMetadata(0.0, OnTrackRingThicknessChanged));
+				new PropertyMetadata(0.0, (d, e) => ((StorageRing)d).OnTrackRingThicknessChanged((double)e.OldValue, (double)e.NewValue)));
 
 		/// <summary>
 		/// Gets or sets the Track ring Thickness.
@@ -70,16 +63,10 @@ namespace Files.App.Controls
 			set => SetValue(TrackRingThicknessProperty, value);
 		}
 
-		/// <summary>
-		/// Function invoked as the TrackRingThicknessProperty is changed
-		/// </summary>
-		/// <param name="d">The DependencyObject which holds the DependencyProperty</param>
-		/// <param name="e">DependencyPropertyChangedEventArgs</param>
-		private static void OnTrackRingThicknessChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		private void OnTrackRingThicknessChanged(double oldValue, double newValue)
 		{
-			StorageRing storageRing = (StorageRing)d;
-
-			storageRing.TrackRingThicknessChanged(d, (double)e.NewValue);
+			UpdateRingThickness(this, newValue, true);
+			UpdateRings(this);
 		}
 
 		#endregion
@@ -94,7 +81,7 @@ namespace Files.App.Controls
 			nameof(MinAngle),
 			typeof(double),
 			typeof(StorageRing),
-			new PropertyMetadata(0.0, OnMinAngleChanged));
+			new PropertyMetadata(0.0, (d, e) => ((StorageRing)d).OnMinAngleChanged((double)e.OldValue, (double)e.NewValue)));
 
 		/// <summary>
 		/// Gets or sets the MinAngle
@@ -105,16 +92,11 @@ namespace Files.App.Controls
 			set => SetValue(MinAngleProperty, value);
 		}
 
-		/// <summary>
-		/// Function invoked as the MinAngleProperty is changed
-		/// </summary>
-		/// <param name="d">The DependencyObject which holds the DependencyProperty</param>
-		/// <param name="e">DependencyPropertyChangedEventArgs</param>
-		private static void OnMinAngleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		private void OnMinAngleChanged(double oldValue, double newValue)
 		{
-			StorageRing storageRing = (StorageRing)d;
-
-			storageRing.MinAngleChanged(d, (double)e.NewValue);
+			UpdateValues(this, Value, _oldValue, false, -1.0);
+			CalculateAndSetNormalizedAngles(this, newValue, MaxAngle);
+			UpdateRings(this);
 		}
 
 		#endregion
@@ -129,7 +111,7 @@ namespace Files.App.Controls
 			nameof(MaxAngle),
 			typeof(double),
 			typeof(StorageRing),
-			new PropertyMetadata(360.0, OnMaxAngleChanged));
+			new PropertyMetadata(360.0, (d, e) => ((StorageRing)d).OnMaxAngleChanged((double)e.OldValue, (double)e.NewValue)));
 
 		/// <summary>
 		/// Gets or sets the MaxAngle
@@ -140,16 +122,11 @@ namespace Files.App.Controls
 			set => SetValue(MaxAngleProperty, value);
 		}
 
-		/// <summary>
-		/// Function invoked as the MaxAngleProperty is changed
-		/// </summary>
-		/// <param name="d">The DependencyObject which holds the DependencyProperty</param>
-		/// <param name="e">DependencyPropertyChangedEventArgs</param>
-		private static void OnMaxAngleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		private void OnMaxAngleChanged(double oldValue, double newValue)
 		{
-			StorageRing storageRing = (StorageRing)d;
-
-			storageRing.MaxAngleChanged(d, (double)e.NewValue);
+			UpdateValues(this, Value, _oldValue, false, -1.0);
+			CalculateAndSetNormalizedAngles(this, MinAngle, newValue);
+			UpdateRings(this);
 		}
 
 		#endregion
@@ -164,7 +141,7 @@ namespace Files.App.Controls
 			nameof(StartAngle),
 			typeof(double),
 			typeof(StorageRing),
-			new PropertyMetadata(0.0, OnStartAngleChanged));
+			new PropertyMetadata(0.0, (d, e) => ((StorageRing)d).OnStartAngleChanged((double)e.OldValue, (double)e.NewValue)));
 
 		/// <summary>
 		/// Gets or sets the StartAngle
@@ -175,16 +152,12 @@ namespace Files.App.Controls
 			set => SetValue(StartAngleProperty, value);
 		}
 
-		/// <summary>
-		/// Function invoked as the StartAngleProperty is changed
-		/// </summary>
-		/// <param name="d">The DependencyObject which holds the DependencyProperty</param>
-		/// <param name="e">DependencyPropertyChangedEventArgs</param>
-		private static void OnStartAngleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		private void OnStartAngleChanged(double oldValue, double newValue)
 		{
-			StorageRing storageRing = (StorageRing)d;
-
-			storageRing.StartAngleChanged(d, (double)e.NewValue);
+			UpdateValues(this, Value, _oldValue, false, -1.0);
+			CalculateAndSetNormalizedAngles(this, MinAngle, newValue);
+			ValidateStartAngle(this, newValue);
+			UpdateRings(this);
 		}
 
 		#endregion
@@ -199,7 +172,7 @@ namespace Files.App.Controls
 				nameof(Percent),
 				typeof(double),
 				typeof(StorageRing),
-				new PropertyMetadata(null, OnPercentChanged));
+				new PropertyMetadata(null, (d, e) => ((StorageRing)d).OnPercentChanged((double)e.OldValue, (double)e.NewValue)));
 
 		/// <summary>
 		/// Gets or sets the current value as a Percentage between 0.0 and 100.0.
@@ -210,16 +183,25 @@ namespace Files.App.Controls
 			set => SetValue(PercentProperty, value);
 		}
 
-		/// <summary>
-		/// Handles the change in the Percent property, and ensures the range is between 0.0 and 100.0.
-		/// </summary>
-		/// <param name="d">The DependencyObject which holds the DependencyProperty</param>
-		/// <param name="e">DependencyPropertyChangedEventArgs</param>
-		private static void OnPercentChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		private void OnPercentChanged(double oldValue, double newValue)
 		{
-			StorageRing storageRing = (StorageRing)d;
+			return; //Read-only
 
-			storageRing.DoubleToPercentage(storageRing.Value, storageRing.Minimum, storageRing.Maximum);
+			DoubleToPercentage(Value, Minimum, Maximum);
+
+			double adjustedPercentage;
+
+			if (newValue <= 0.0)
+				adjustedPercentage = 0.0;
+			else if (newValue <= 100.0)
+				adjustedPercentage = 100.0;
+			else
+				adjustedPercentage = newValue;
+
+			UpdateValues(this, Value, _oldValue, true, adjustedPercentage);
+			UpdateVisualState(this);
+			UpdateRings(this);
+
 		}
 
 		#endregion
@@ -234,7 +216,7 @@ namespace Files.App.Controls
 				nameof(PercentCaution),
 				typeof(double),
 				typeof(StorageRing),
-				new PropertyMetadata(75.01, OnPercentCautionChanged));
+				new PropertyMetadata(75.01, (d, e) => ((StorageRing)d).OnPercentCautionChanged((double)e.OldValue, (double)e.NewValue)));
 
 		/// <summary>
 		/// Gets or sets the PercentCaution double value
@@ -245,16 +227,11 @@ namespace Files.App.Controls
 			set => SetValue(PercentCautionProperty, value);
 		}
 
-		/// <summary>
-		/// Handles the change in the PercentCaution property
-		/// </summary>
-		/// <param name="d">The DependencyObject which holds the DependencyProperty</param>
-		/// <param name="e">DependencyPropertyChangedEventArgs</param>
-		private static void OnPercentCautionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		private void OnPercentCautionChanged(double oldValue, double newValue)
 		{
-			StorageRing storageRing = (StorageRing)d;
-
-			storageRing.PercentCautionChanged(d, (double)e.NewValue);
+			UpdateValues(this, Value, _oldValue, false, -1.0);
+			UpdateVisualState(this);
+			UpdateRings(this);
 		}
 
 		#endregion
@@ -269,7 +246,7 @@ namespace Files.App.Controls
 				nameof(PercentCritical),
 				typeof(double),
 				typeof(StorageRing),
-				new PropertyMetadata(90.01, OnPercentCriticalChanged));
+				new PropertyMetadata(90.01, (d, e) => ((StorageRing)d).OnPercentCriticalChanged((double)e.OldValue, (double)e.NewValue)));
 
 		/// <summary>
 		/// Gets or sets the PercentCritical double value
@@ -280,16 +257,11 @@ namespace Files.App.Controls
 			set => SetValue(PercentCriticalProperty, value);
 		}
 
-		/// <summary>
-		/// Handles the change in the PercentCritical property
-		/// </summary>
-		/// <param name="d">The DependencyObject which holds the DependencyProperty</param>
-		/// <param name="e">DependencyPropertyChangedEventArgs</param>
-		private static void OnPercentCriticalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+		private void OnPercentCriticalChanged(double oldValue, double newValue)
 		{
-			StorageRing storageRing = (StorageRing)d;
-
-			storageRing.PercentCriticalChanged(d, (double)e.NewValue);
+			UpdateValues(this, Value, _oldValue, false, -1.0);
+			UpdateVisualState(this);
+			UpdateRings(this);
 		}
 
 		#endregion
@@ -300,7 +272,6 @@ namespace Files.App.Controls
 		protected override void OnValueChanged(double oldValue, double newValue)
 		{
 			base.OnValueChanged(oldValue, newValue);
-
 			StorageRing_ValueChanged(this, newValue, oldValue);
 		}
 
@@ -308,7 +279,6 @@ namespace Files.App.Controls
 		protected override void OnMinimumChanged(double oldMinimum, double newMinimum)
 		{
 			base.OnMinimumChanged(oldMinimum, newMinimum);
-
 			StorageRing_MinimumChanged(this, newMinimum);
 		}
 
@@ -316,7 +286,6 @@ namespace Files.App.Controls
 		protected override void OnMaximumChanged(double oldMaximum, double newMaximum)
 		{
 			base.OnMaximumChanged(oldMaximum, newMaximum);
-
 			StorageRing_MaximumChanged(this, newMaximum);
 		}
 

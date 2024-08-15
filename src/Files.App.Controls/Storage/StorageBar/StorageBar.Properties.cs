@@ -114,6 +114,8 @@ namespace Files.App.Controls
 
 		private void OnPercentChanged(double oldValue, double newValue)
 		{
+			return; //Read-only
+
 			DoubleToPercentage(Value, Minimum, Maximum);
 
 			UpdateControl(this);
@@ -184,7 +186,7 @@ namespace Files.App.Controls
 		{
 			_oldValue = oldValue;
 			base.OnValueChanged(oldValue, newValue);
-			OnValueChanged(this);
+			UpdateValue(this, Value, _oldValue, false, -1.0);
 		}
 
 		/// <inheritdoc/>

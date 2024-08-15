@@ -62,7 +62,7 @@ namespace Files.App.Controls
 			UpdateInitialLayout(this);
 		}
 
-		#region 5. Handle Property Changes
+		#region Handle Property Changes
 
 		/// <summary>
 		/// Handles the IsEnabledChanged event
@@ -97,18 +97,9 @@ namespace Files.App.Controls
 			UpdateControl(this);
 		}
 
-		/// <summary>
-		/// Handles the RangeBase's ValueChanged event
-		/// </summary>
-		/// <param name="d"></param>
-		private void OnValueChanged(DependencyObject d)
-		{
-			UpdateValue(this, Value, _oldValue, false, -1.0);
-		}
-
 		#endregion
 
-		#region 6. Update functions
+		#region Update functions
 
 		/// <summary>
 		/// Updates the initial layout of the StorageBar control
@@ -479,7 +470,7 @@ namespace Files.App.Controls
 
 		#endregion
 
-		#region 7. Conversion return functions
+		#region Conversion return functions
 
 		/// <summary>
 		/// Converts a value within a specified range to a percentage.
