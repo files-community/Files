@@ -11,7 +11,7 @@ namespace Files.App.ViewModels.Settings
 	public sealed class AppearanceViewModel : ObservableObject
 	{
 		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
-		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
+		private IWindowsDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<IWindowsDialogService>();
 		private readonly IUserSettingsService UserSettingsService;
 		private readonly IResourcesService ResourcesService;
 

@@ -10,7 +10,7 @@ namespace Files.App.Data.Models
 	public sealed class PinnedFoldersManager
 	{
 		private IUserSettingsService userSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		private IWindowsQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IWindowsQuickAccessService>();
 
 		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 

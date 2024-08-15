@@ -13,7 +13,7 @@ using WinRT.Interop;
 
 namespace Files.App.Services
 {
-	internal sealed class StoreUpdateService : ObservableObject, IUpdateService
+	internal sealed class AppUpdateStoreService : ObservableObject, IAppUpdateService
 	{
 		private StoreContext? _storeContext;
 		private List<StorePackageUpdate>? _updatePackages;
@@ -46,7 +46,7 @@ namespace Files.App.Services
 			get => SystemInformation.Instance.IsAppUpdated;
 		}
 
-		public StoreUpdateService()
+		public AppUpdateStoreService()
 		{
 			_updatePackages = [];
 		}

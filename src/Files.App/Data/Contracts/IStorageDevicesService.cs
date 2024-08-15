@@ -8,7 +8,7 @@ namespace Files.App.Data.Contracts
 	/// <summary>
 	/// Represents a service to enumerate drives and create a storage device watcher
 	/// </summary>
-	public interface IRemovableDrivesService
+	public interface IStorageDevicesService
 	{
 		/// <summary>
 		/// Gets the primary system drive. This item is typically excluded when enumerating removable drives

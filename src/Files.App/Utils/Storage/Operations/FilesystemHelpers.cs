@@ -127,7 +127,7 @@ namespace Files.App.Utils.Storage
 					incomingItems,
 					[]);
 
-				var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+				var dialogService = Ioc.Default.GetRequiredService<IAppDialogService>();
 
 				// Return if the result isn't delete
 				if (await dialogService.ShowDialogAsync(dialogViewModel) != DialogResult.Primary)
@@ -682,7 +682,7 @@ namespace Files.App.Utils.Storage
 			var mustResolveConflicts = !conflictingItems.IsEmpty();
 			if (mustResolveConflicts || forceDialog)
 			{
-				var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+				var dialogService = Ioc.Default.GetRequiredService<IAppDialogService>();
 
 				var dialogViewModel = FileSystemDialogViewModel.GetDialogViewModel(
 					new() { ConflictsExist = mustResolveConflicts },

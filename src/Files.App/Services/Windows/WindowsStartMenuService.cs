@@ -1,10 +1,12 @@
-﻿using Files.Core.Storage;
+﻿// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using Windows.UI.StartScreen;
 
 namespace Files.App.Services
 {
-	/// <inheritdoc cref="IStartMenuService"/>
-	internal sealed class StartMenuService : IStartMenuService
+	/// <inheritdoc cref="IWindowsStartMenuService"/>
+	internal sealed class WindowsStartMenuService : IWindowsStartMenuService
 	{
 		[Obsolete("See IStartMenuService for further information.")]
 		public bool IsPinned(string itemPath)

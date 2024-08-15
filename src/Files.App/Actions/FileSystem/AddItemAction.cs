@@ -7,7 +7,7 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context;
 
-		private readonly IDialogService dialogService;
+		private readonly IAppDialogService dialogService;
 
 		private readonly AddItemDialogViewModel viewModel = new();
 
@@ -29,7 +29,7 @@ namespace Files.App.Actions
 		public AddItemAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
-			dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+			dialogService = Ioc.Default.GetRequiredService<IAppDialogService>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 		}

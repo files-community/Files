@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Contracts
 {
-	public interface INetworkService
+	public interface IStorageNetworkService
 	{
 		/// <summary>
 		/// Gets enumerated network computers.

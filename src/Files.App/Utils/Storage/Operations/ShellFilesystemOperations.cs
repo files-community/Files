@@ -178,7 +178,7 @@ namespace Files.App.Utils.Storage
 						.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.FileTooLarge)
 						.Select(item => item.Source);
 
-					await Ioc.Default.GetRequiredService<IDialogService>().ShowDialogAsync(new FileTooLargeDialogViewModel(failingItems));
+					await Ioc.Default.GetRequiredService<IAppDialogService>().ShowDialogAsync(new FileTooLargeDialogViewModel(failingItems));
 				}
 				// ADS
 				else if (copyResult.Items.All(x => x.HResult == -1))
@@ -825,7 +825,7 @@ namespace Files.App.Utils.Storage
 
 		private async Task<bool> RequestAdminOperation()
 		{
-			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+			var dialogService = Ioc.Default.GetRequiredService<IAppDialogService>();
 			return await dialogService.ShowDialogAsync(new ElevateConfirmDialogViewModel()) == DialogResult.Primary;
 		}
 
@@ -867,7 +867,7 @@ namespace Files.App.Utils.Storage
 			var dialogViewModel = FileSystemDialogViewModel.GetDialogViewModel(
 				incomingItems, titleText, descriptionText, primaryButtonText, secondaryButtonText);
 
-			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+			var dialogService = Ioc.Default.GetRequiredService<IAppDialogService>();
 
 			return await dialogService.ShowDialogAsync(dialogViewModel);
 		}

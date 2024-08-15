@@ -9,7 +9,7 @@ namespace Files.App.Data.Contracts
 	/// <summary>
 	/// A service to manage dialogs.
 	/// </summary>
-	public interface IDialogService
+	public interface IAppDialogService
 	{
 		/// <summary>
 		/// Gets appropriate dialog with associated <paramref name="viewModel"/>.

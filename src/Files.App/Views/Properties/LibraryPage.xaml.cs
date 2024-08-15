@@ -10,7 +10,7 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class LibraryPage : BasePropertiesPage, INotifyPropertyChanged
 	{
-		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
+		private IWindowsDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<IWindowsDialogService>();
 
 		public event PropertyChangedEventHandler PropertyChanged;
 

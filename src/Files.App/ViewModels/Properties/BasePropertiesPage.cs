@@ -12,7 +12,7 @@ namespace Files.App.ViewModels.Properties
 {
 	public abstract class BasePropertiesPage : Page, IDisposable
 	{
-		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
+		private IWindowsDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<IWindowsDialogService>();
 
 		public IShellPage AppInstance = null;
 

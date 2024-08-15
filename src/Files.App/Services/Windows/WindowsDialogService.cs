@@ -14,8 +14,8 @@ using Windows.Win32.UI.Shell.Common;
 
 namespace Files.App.Services
 {
-	/// <inheritdoc cref="ICommonDialogService"/>
-	public sealed class CommonDialogService : ICommonDialogService
+	/// <inheritdoc cref="IWindowsDialogService"/>
+	public sealed class WindowsDialogService : IWindowsDialogService
 	{
 		/// <inheritdoc/>
 		public bool Open_FileOpenDialog(nint hWnd, bool pickFoldersOnly, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)

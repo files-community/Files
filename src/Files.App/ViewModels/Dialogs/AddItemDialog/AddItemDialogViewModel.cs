@@ -33,8 +33,8 @@ namespace Files.App.ViewModels.Dialogs.AddItemDialog
 
 			AddItemsList.Add(new()
 			{
-				Header = "Folder".ToLocalized(),
-				SubHeader = "AddDialogListFolderSubHeader".ToLocalized(),
+				Header = "Folder".GetLocalizedResource(),
+				SubHeader = "AddDialogListFolderSubHeader".GetLocalizedResource(),
 				Glyph = "\xE838",
 				IsItemEnabled = true,
 				ItemResult = new()
@@ -45,8 +45,8 @@ namespace Files.App.ViewModels.Dialogs.AddItemDialog
 
 			AddItemsList.Add(new()
 			{
-				Header = "File".ToLocalized(),
-				SubHeader = "AddDialogListFileSubHeader".ToLocalized(),
+				Header = "File".GetLocalizedResource(),
+				SubHeader = "AddDialogListFileSubHeader".GetLocalizedResource(),
 				Glyph = "\xE8A5",
 				IsItemEnabled = true,
 				ItemResult = new()
@@ -58,8 +58,8 @@ namespace Files.App.ViewModels.Dialogs.AddItemDialog
 
 			AddItemsList.Add(new()
 			{
-				Header = "Shortcut".ToLocalized(),
-				SubHeader = "AddDialogListShortcutSubHeader".ToLocalized(),
+				Header = "Shortcut".GetLocalizedResource(),
+				SubHeader = "AddDialogListShortcutSubHeader".GetLocalizedResource(),
 				Glyph = "\uE71B",
 				IsItemEnabled = true,
 				ItemResult = new()

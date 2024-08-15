@@ -63,7 +63,7 @@ namespace Files.App.Helpers
 		public static async Task InitializeAppComponentsAsync()
 		{
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+			var addItemService = Ioc.Default.GetRequiredService<IWindowsShellService>();
 			var generalSettingsService = userSettingsService.GeneralSettingsService;
 			var jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
 
@@ -102,7 +102,7 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static async Task CheckAppUpdate()
 		{
-			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
+			var updateService = Ioc.Default.GetRequiredService<IAppUpdateService>();
 
 			await updateService.CheckForUpdatesAsync();
 			await updateService.DownloadMandatoryUpdatesAsync();
@@ -170,35 +170,34 @@ namespace Files.App.Helpers
 					.AddSingleton<IWindowsWallpaperService, WindowsWallpaperService>()
 					.AddSingleton<IWindowsSecurityService, WindowsSecurityService>()
 					.AddSingleton<IAppThemeModeService, AppThemeModeService>()
-					.AddSingleton<IDialogService, DialogService>()
-					.AddSingleton<ICommonDialogService, CommonDialogService>()
+					.AddSingleton<IAppDialogService, AppDialogService>()
+					.AddSingleton<IWindowsDialogService, WindowsDialogService>()
 					.AddSingleton<IImageService, ImagingService>()
 					.AddSingleton<IThreadingService, ThreadingService>()
-					.AddSingleton<ILocalizationService, LocalizationService>()
 					.AddSingleton<ICloudDetector, CloudDetector>()
 					.AddSingleton<IFileTagsService, FileTagsService>()
 					.AddSingleton<ICommandManager, CommandManager>()
 					.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
 					.AddSingleton<IStorageService, NativeStorageService>()
 					.AddSingleton<IFtpStorageService, FtpStorageService>()
-					.AddSingleton<IAddItemService, AddItemService>()
+					.AddSingleton<IWindowsShellService, WindowsShellService>()
 #if STABLE || PREVIEW
 					.AddSingleton<IUpdateService, SideloadUpdateService>()
 #elif STORE
 					.AddSingleton<IUpdateService, StoreUpdateService>()
 #else
-					.AddSingleton<IUpdateService, DummyUpdateService>()
+					.AddSingleton<IAppUpdateService, AppUpdateNoneService>()
 #endif
 					.AddSingleton<IPreviewPopupService, PreviewPopupService>()
 					.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
 					.AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
 					.AddSingleton<ISizeProvider, UserSizeProvider>()
-					.AddSingleton<IQuickAccessService, QuickAccessService>()
+					.AddSingleton<IWindowsQuickAccessService, WindowsQuickAccessService>()
 					.AddSingleton<IResourcesService, ResourcesService>()
 					.AddSingleton<IWindowsJumpListService, WindowsJumpListService>()
-					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
-					.AddSingleton<INetworkService, NetworkService>()
-					.AddSingleton<IStartMenuService, StartMenuService>()
+					.AddSingleton<IStorageDevicesService, StorageDevicesService>()
+					.AddSingleton<IStorageNetworkService, StorageNetworkService>()
+					.AddSingleton<IWindowsStartMenuService, WindowsStartMenuService>()
 					.AddSingleton<IStorageCacheService, StorageCacheService>()
 					.AddSingleton<IStorageArchiveService, StorageArchiveService>()
 					.AddSingleton<IStorageSecurityService, StorageSecurityService>()

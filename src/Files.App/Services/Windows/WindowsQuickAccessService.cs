@@ -1,12 +1,9 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
-using Files.App.UserControls.Widgets;
-
 namespace Files.App.Services
 {
-	internal sealed class QuickAccessService : IQuickAccessService
+	internal sealed class WindowsQuickAccessService : IWindowsQuickAccessService
 	{
 		// Quick access shell folder (::{679f85cb-0220-4080-b29b-5540cc05aab6}) contains recent files
 		// which are unnecessary for getting pinned folders, so we use frequent places shell folder instead.

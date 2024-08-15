@@ -9,7 +9,7 @@ namespace Files.App.ViewModels.Properties
 {
 	public sealed class CustomizationViewModel : ObservableObject
 	{
-		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
+		private IWindowsDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<IWindowsDialogService>();
 
 		private static string DefaultIconDllFilePath
 			=> Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "SHELL32.dll");

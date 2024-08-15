@@ -20,7 +20,7 @@ namespace Files.App.ViewModels
 		// Dependency injections
 
 		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
-		private INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
+		private IStorageNetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<IStorageNetworkService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IResourcesService ResourcesService { get; } = Ioc.Default.GetRequiredService<IResourcesService>();
 		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();

@@ -21,7 +21,7 @@ namespace Files.App.UserControls
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		public IModifiableCommandManager ModifiableCommands { get; } = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
 
-		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+		private readonly IWindowsShellService addItemService = Ioc.Default.GetRequiredService<IWindowsShellService>();
 
 		public AppModel AppModel => App.AppModel;
 

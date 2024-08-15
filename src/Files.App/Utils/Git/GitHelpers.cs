@@ -27,7 +27,7 @@ namespace Files.App.Utils.Git
 
 		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 
-		private static readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+		private static readonly IAppDialogService _dialogService = Ioc.Default.GetRequiredService<IAppDialogService>();
 
 		private static readonly FetchOptions _fetchOptions = new()
 		{

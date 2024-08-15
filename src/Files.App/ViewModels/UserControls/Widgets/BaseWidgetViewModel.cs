@@ -18,13 +18,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		// Dependency injections
 
 		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		protected IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		protected IWindowsQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IWindowsQuickAccessService>();
 		protected IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 		protected IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 		protected IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		protected IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
 		protected DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		protected INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
+		protected IStorageNetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<IStorageNetworkService>();
 		protected ICommandManager CommandManager { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		// Fields

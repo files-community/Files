@@ -2,14 +2,13 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Storage.Storables;
-using Files.Core.Storage.Storables;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.Storage;
 
 namespace Files.App.Services
 {
-	public sealed class RemovableDrivesService : IRemovableDrivesService
+	public sealed class StorageDevicesService : IStorageDevicesService
 	{
 		public IStorageDeviceWatcher CreateWatcher()
 		{

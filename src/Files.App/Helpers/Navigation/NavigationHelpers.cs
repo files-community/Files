@@ -15,7 +15,7 @@ namespace Files.App.Helpers
 	{
 		private static MainPageViewModel MainPageViewModel { get; } = Ioc.Default.GetRequiredService<MainPageViewModel>();
 		private static DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		private static INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
+		private static IStorageNetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<IStorageNetworkService>();
 
 		public static Task OpenPathInNewTab(string? path, bool focusNewTab)
 		{

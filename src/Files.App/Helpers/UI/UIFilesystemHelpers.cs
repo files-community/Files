@@ -192,7 +192,7 @@ namespace Files.App.Helpers
 			}
 
 			var viewModel = new CreateShortcutDialogViewModel(currentPath);
-			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+			var dialogService = Ioc.Default.GetRequiredService<IAppDialogService>();
 			var result = await dialogService.ShowDialogAsync(viewModel);
 
 			if (result != DialogResult.Primary || viewModel.ShortcutCreatedSuccessfully)
@@ -207,10 +207,10 @@ namespace Files.App.Helpers
 		{
 			var result = await DialogDisplayHelper.ShowDialogAsync
 			(
-				"CannotCreateShortcutDialogTitle".ToLocalized(),
-				"CannotCreateShortcutDialogMessage".ToLocalized(),
-				"Create".ToLocalized(),
-				"Cancel".ToLocalized()
+				"CannotCreateShortcutDialogTitle".GetLocalizedResource(),
+				"CannotCreateShortcutDialogMessage".GetLocalizedResource(),
+				"Create".GetLocalizedResource(),
+				"Cancel".GetLocalizedResource()
 			);
 			if (!result)
 				return false;
@@ -242,7 +242,7 @@ namespace Files.App.Helpers
 			var isFtp = FtpHelpers.IsFtpPath(path);
 
 			var credentialDialogViewModel = new CredentialDialogViewModel() { CanBeAnonymous = isFtp, PasswordOnly = !isFtp };
-			IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+			IAppDialogService dialogService = Ioc.Default.GetRequiredService<IAppDialogService>();
 			var dialogResult = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				dialogService.ShowDialogAsync(credentialDialogViewModel));
 

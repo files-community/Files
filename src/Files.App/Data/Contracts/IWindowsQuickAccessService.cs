@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Contracts
 {
-	public interface IQuickAccessService
+	public interface IWindowsQuickAccessService
 	{
 		/// <summary>
 		/// Gets the list of quick access items

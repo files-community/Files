@@ -15,7 +15,7 @@ namespace Files.App.ViewModels.Settings
 	public sealed class GeneralViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
+		private IWindowsDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<IWindowsDialogService>();
 
 		private bool disposed;
 

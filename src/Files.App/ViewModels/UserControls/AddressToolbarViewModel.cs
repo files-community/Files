@@ -22,11 +22,11 @@ namespace Files.App.ViewModels.UserControls
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		private readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+		private readonly IAppDialogService _dialogService = Ioc.Default.GetRequiredService<IAppDialogService>();
 
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
-		public IUpdateService UpdateService { get; } = Ioc.Default.GetService<IUpdateService>()!;
+		public IAppUpdateService UpdateService { get; } = Ioc.Default.GetService<IAppUpdateService>()!;
 
 		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 

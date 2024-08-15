@@ -7,7 +7,7 @@ namespace Files.App.Actions
 	{
 		private IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
 
-		private IStartMenuService StartMenuService { get; } = Ioc.Default.GetRequiredService<IStartMenuService>();
+		private IWindowsStartMenuService StartMenuService { get; } = Ioc.Default.GetRequiredService<IWindowsStartMenuService>();
 
 		public IContentPageContext context;
 

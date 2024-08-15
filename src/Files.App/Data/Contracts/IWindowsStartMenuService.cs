@@ -5,7 +5,7 @@ namespace Files.App.Data.Contracts
 	/// <summary>
 	/// A service that manages actions associated with system Start Menu.
 	/// </summary>
-	public interface IStartMenuService
+	public interface IWindowsStartMenuService
 	{
 		// TODO(s)
 		[Obsolete("Use IsPinnedAsync instead. This method is used for a workaround in ListedItem class to avoid major refactoring.")]

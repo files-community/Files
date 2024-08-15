@@ -6,7 +6,7 @@ namespace Files.App.Data.Contracts
 	/// <summary>
 	/// A service to retrieve available item types
 	/// </summary>
-	public interface IAddItemService
+	public interface IWindowsShellService
 	{
 		/// <summary>
 		/// Initialize the service

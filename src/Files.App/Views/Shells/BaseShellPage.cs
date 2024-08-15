@@ -39,11 +39,11 @@ namespace Files.App.Views.Shells
 
 		protected readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
-		protected readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+		protected readonly IAppDialogService dialogService = Ioc.Default.GetRequiredService<IAppDialogService>();
 
 		protected readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
-		protected readonly IUpdateService updateSettingsService = Ioc.Default.GetRequiredService<IUpdateService>();
+		protected readonly IAppUpdateService updateSettingsService = Ioc.Default.GetRequiredService<IAppUpdateService>();
 
 		protected readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
 

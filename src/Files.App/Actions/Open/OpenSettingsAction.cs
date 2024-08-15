@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal sealed class OpenSettingsAction : BaseUIAction, IAction
 	{
-		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+		private readonly IAppDialogService dialogService = Ioc.Default.GetRequiredService<IAppDialogService>();
 
 		private readonly SettingsDialogViewModel viewModel = new();
 

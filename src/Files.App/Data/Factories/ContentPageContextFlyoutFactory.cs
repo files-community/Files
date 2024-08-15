@@ -20,7 +20,7 @@ namespace Files.App.Data.Factories
 
 		private static readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private static readonly IModifiableCommandManager ModifiableCommands = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
-		private static readonly IAddItemService AddItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+		private static readonly IWindowsShellService AddItemService = Ioc.Default.GetRequiredService<IWindowsShellService>();
 		private static readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		private static IStorageArchiveService StorageArchiveService { get; } = Ioc.Default.GetRequiredService<IStorageArchiveService>();
 

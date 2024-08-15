@@ -3,23 +3,18 @@
 
 using System.Collections.Frozen;
 using Files.App.Dialogs;
-using Files.App.ViewModels.Dialogs;
-using Files.App.Services;
-using Files.App.ViewModels.Dialogs;
-using Files.App.ViewModels.Dialogs.AddItemDialog;
-using Files.App.ViewModels.Dialogs.FileSystemDialog;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation.Metadata;
 
 namespace Files.App.Services
 {
-	/// <inheritdoc cref="IDialogService"/>
-	internal sealed class DialogService : IDialogService
+	/// <inheritdoc cref="IAppDialogService"/>
+	internal sealed class AppDialogService : IAppDialogService
 	{
 		private readonly FrozenDictionary<Type, Func<ContentDialog>> _dialogs;
 
-		public DialogService()
+		public AppDialogService()
 		{
 			_dialogs = new Dictionary<Type, Func<ContentDialog>>()
 			{

@@ -3,8 +3,8 @@
 
 namespace Files.App.Services
 {
-	/// <inheritdoc cref="IAddItemService"/>
-	internal sealed class AddItemService : IAddItemService
+	/// <inheritdoc cref="IWindowsShellService"/>
+	internal sealed class WindowsShellService : IWindowsShellService
 	{
 		private List<ShellNewEntry> _cached;
 

@@ -9,13 +9,13 @@ namespace Files.App.Data.Models
 	{
 		private static readonly FrozenDictionary<string, string> units = new Dictionary<string, string>
 		{
-			[ByteSizeLib.ByteSize.BitSymbol] = "ByteSymbol".ToLocalized(),
-			[ByteSizeLib.ByteSize.ByteSymbol] = "ByteSymbol".ToLocalized(),
-			[ByteSizeLib.ByteSize.KibiByteSymbol] = "KiloByteSymbol".ToLocalized(),
-			[ByteSizeLib.ByteSize.MebiByteSymbol] = "MegaByteSymbol".ToLocalized(),
-			[ByteSizeLib.ByteSize.GibiByteSymbol] = "GigaByteSymbol".ToLocalized(),
-			[ByteSizeLib.ByteSize.TebiByteSymbol] = "TeraByteSymbol".ToLocalized(),
-			[ByteSizeLib.ByteSize.PebiByteSymbol] = "PetaByteSymbol".ToLocalized(),
+			[ByteSizeLib.ByteSize.BitSymbol] = "ByteSymbol".GetLocalizedResource(),
+			[ByteSizeLib.ByteSize.ByteSymbol] = "ByteSymbol".GetLocalizedResource(),
+			[ByteSizeLib.ByteSize.KibiByteSymbol] = "KiloByteSymbol".GetLocalizedResource(),
+			[ByteSizeLib.ByteSize.MebiByteSymbol] = "MegaByteSymbol".GetLocalizedResource(),
+			[ByteSizeLib.ByteSize.GibiByteSymbol] = "GigaByteSymbol".GetLocalizedResource(),
+			[ByteSizeLib.ByteSize.TebiByteSymbol] = "TeraByteSymbol".GetLocalizedResource(),
+			[ByteSizeLib.ByteSize.PebiByteSymbol] = "PetaByteSymbol".GetLocalizedResource(),
 		}.ToFrozenDictionary();
 
 		private readonly ByteSizeLib.ByteSize size;

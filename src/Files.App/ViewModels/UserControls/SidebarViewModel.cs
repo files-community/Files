@@ -24,7 +24,7 @@ namespace Files.App.ViewModels.UserControls
 {
 	public sealed class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
 	{
-		private INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
+		private IStorageNetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<IStorageNetworkService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
@@ -48,7 +48,7 @@ namespace Files.App.ViewModels.UserControls
 		public object SidebarItems => sidebarItems;
 		public BulkConcurrentObservableCollection<INavigationControlItem> sidebarItems { get; init; }
 		public PinnedFoldersManager SidebarPinnedModel => App.QuickAccessManager.Model;
-		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
+		public IWindowsQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IWindowsQuickAccessService>();
 
 		private SidebarDisplayMode sidebarDisplayMode;
 		public SidebarDisplayMode SidebarDisplayMode
@@ -913,7 +913,7 @@ namespace Files.App.ViewModels.UserControls
 		private async Task ReorderItemsAsync()
 		{
 			var dialog = new ReorderSidebarItemsDialogViewModel();
-			var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+			var dialogService = Ioc.Default.GetRequiredService<IAppDialogService>();
 			var result = await dialogService.ShowDialogAsync(dialog);
 		}
 

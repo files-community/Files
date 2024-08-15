@@ -155,8 +155,8 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 					? "ConflictingItemsDialogSubtitleConflictsNonConflicts".GetLocalizedFormatResource(conflictingItems.Count, nonConflictingItems.Count)
 					: "ConflictingItemsDialogSubtitleConflicts".GetLocalizedFormatResource(conflictingItems.Count);
 
-				primaryButtonText = "ConflictingItemsDialogPrimaryButtonText".ToLocalized();
-				secondaryButtonText = "Cancel".ToLocalized();
+				primaryButtonText = "ConflictingItemsDialogPrimaryButtonText".GetLocalizedResource();
+				secondaryButtonText = "Cancel".GetLocalizedResource();
 			}
 			else
 			{
@@ -167,8 +167,8 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 							titleText = "CopyItemsDialogTitle".GetLocalizedFormatResource(totalCount);
 
 							descriptionText = "CopyItemsDialogSubtitle".GetLocalizedFormatResource(totalCount);
-							primaryButtonText = "Copy".ToLocalized();
-							secondaryButtonText = "Cancel".ToLocalized();
+							primaryButtonText = "Copy".GetLocalizedResource();
+							secondaryButtonText = "Cancel".GetLocalizedResource();
 
 							break;
 						}
@@ -178,8 +178,8 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 							titleText = "MoveItemsDialogTitle".GetLocalizedFormatResource(totalCount);
 
 							descriptionText = "MoveItemsDialogSubtitle".GetLocalizedFormatResource(totalCount);
-							primaryButtonText = "MoveItemsDialogPrimaryButtonText".ToLocalized();
-							secondaryButtonText = "Cancel".ToLocalized();
+							primaryButtonText = "MoveItemsDialogPrimaryButtonText".GetLocalizedResource();
+							secondaryButtonText = "Cancel".GetLocalizedResource();
 
 							break;
 						}
@@ -189,8 +189,8 @@ namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 							titleText = "DeleteItemsDialogTitle".GetLocalizedFormatResource(totalCount);
 
 							descriptionText = "DeleteItemsDialogSubtitle".GetLocalizedFormatResource(totalCount);
-							primaryButtonText = "Delete".ToLocalized();
-							secondaryButtonText = "Cancel".ToLocalized();
+							primaryButtonText = "Delete".GetLocalizedResource();
+							secondaryButtonText = "Cancel".GetLocalizedResource();
 
 							isInDeleteMode = true;
 

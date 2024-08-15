@@ -6,7 +6,7 @@ namespace Files.App.Data.Contracts
 	/// <summary>
 	/// Provides service to launch common dialog through Win32API.
 	/// </summary>
-	public interface ICommonDialogService
+	public interface IWindowsDialogService
 	{
 		/// <summary>
 		/// Opens a common dialog called FileOpenDialog through native Win32API.

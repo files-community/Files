@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Contracts
 {
-	public interface IUpdateService : INotifyPropertyChanged
+	public interface IAppUpdateService : INotifyPropertyChanged
 	{
 		/// <summary>
 		/// Gets a value indicating whether updates are available.

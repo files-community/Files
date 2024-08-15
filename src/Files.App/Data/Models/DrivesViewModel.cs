@@ -24,12 +24,12 @@ namespace Files.App.Data.Models
 
 		private bool showUserConsentOnInit;
 		private ObservableCollection<ILocatableFolder> drives;
-		private readonly IRemovableDrivesService removableDrivesService;
+		private readonly IStorageDevicesService removableDrivesService;
 		private readonly ISizeProvider folderSizeProvider;
 		private readonly IStorageDeviceWatcher watcher;
 		private readonly ILogger<App> logger;
 
-		public DrivesViewModel(IRemovableDrivesService removableDrivesService, ISizeProvider folderSizeProvider, ILogger<App> logger)
+		public DrivesViewModel(IStorageDevicesService removableDrivesService, ISizeProvider folderSizeProvider, ILogger<App> logger)
 		{
 			this.removableDrivesService = removableDrivesService;
 			this.folderSizeProvider = folderSizeProvider;

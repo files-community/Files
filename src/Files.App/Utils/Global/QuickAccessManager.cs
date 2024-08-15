@@ -14,12 +14,12 @@ namespace Files.App.Utils
 
 		public EventHandler<ModifyQuickAccessEventArgs>? UpdateQuickAccessWidget;
 
-		public IQuickAccessService QuickAccessService;
+		public IWindowsQuickAccessService QuickAccessService;
 
 		public PinnedFoldersManager Model;
 		public QuickAccessManager()
 		{
-			QuickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
+			QuickAccessService = Ioc.Default.GetRequiredService<IWindowsQuickAccessService>();
 			Model = new();
 			Initialize();
 		}

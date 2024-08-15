@@ -9,7 +9,7 @@ namespace Files.App.ViewModels.Dialogs
 {
 	public sealed class DecompressArchiveDialogViewModel : ObservableObject
 	{
-		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
+		private IWindowsDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<IWindowsDialogService>();
 
 		private readonly IStorageFile archive;
 

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
 
 namespace Files.App.Services
 {
-	internal sealed class DummyUpdateService : IUpdateService
+	internal sealed class AppUpdateNoneService : IAppUpdateService
 	{
 		public bool IsUpdateAvailable => false;
 

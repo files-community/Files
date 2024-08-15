@@ -1,7 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Runtime.InteropServices;
 using System.Text;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
@@ -12,12 +11,11 @@ using Windows.Win32.Security.Credentials;
 
 namespace Files.App.Services
 {
-	public sealed class NetworkService : ObservableObject, INetworkService
+	public sealed class StorageNetworkService : ObservableObject, IStorageNetworkService
 	{
-		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
+		private IWindowsDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<IWindowsDialogService>();
 
 		private readonly static string guid = "::{f02c1a0d-be21-4350-88b0-7367fc96ef3c}";
-
 
 		private ObservableCollection<ILocatableFolder> _Computers = [];
 		/// <inheritdoc/>
@@ -36,9 +34,9 @@ namespace Files.App.Services
 		}
 
 		/// <summary>
-		/// Initializes an instance of <see cref="NetworkService"/>.
+		/// Initializes an instance of <see cref="StorageNetworkService"/>.
 		/// </summary>
-		public NetworkService()
+		public StorageNetworkService()
 		{
 			var networkItem = new DriveItem()
 			{
