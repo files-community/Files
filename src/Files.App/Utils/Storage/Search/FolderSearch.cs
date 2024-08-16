@@ -14,8 +14,9 @@ namespace Files.App.Utils.Storage
 	public sealed class FolderSearch
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
+		private readonly IRemovableDrivesService StorageDevicesService = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
+
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		private const uint defaultStepSize = 500;
@@ -100,7 +101,7 @@ namespace Files.App.Utils.Storage
 			}
 			else
 			{
-				foreach (var drive in drivesViewModel.Drives.ToList().Cast<DriveItem>().Where(x => !x.IsNetwork))
+				foreach (var drive in StorageDevicesService.Drives.ToList().Cast<DriveItem>().Where(x => !x.IsNetwork))
 				{
 					await AddItemsAsync(drive.Path, results, token);
 				}

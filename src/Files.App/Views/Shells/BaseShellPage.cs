@@ -37,7 +37,7 @@ namespace Files.App.Views.Shells
 
 		protected readonly CancellationTokenSource cancellationTokenSource;
 
-		protected readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		protected readonly IRemovableDrivesService StorageDevicesService = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
 
 		protected readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
@@ -199,7 +199,7 @@ namespace Files.App.Views.Shells
 
 			PointerPressed += CoreWindow_PointerPressed;
 
-			drivesViewModel.PropertyChanged += DrivesManager_PropertyChanged;
+			StorageDevicesService.PropertyChanged += DrivesManager_PropertyChanged;
 
 			PreviewKeyDown += ShellPage_PreviewKeyDown;
 
@@ -736,9 +736,9 @@ namespace Files.App.Views.Shells
 
 		protected async Task DisplayFilesystemConsentDialogAsync()
 		{
-			if (drivesViewModel?.ShowUserConsentOnInit ?? false)
+			if (StorageDevicesService?.ShowUserConsentOnInit ?? false)
 			{
-				drivesViewModel.ShowUserConsentOnInit = false;
+				StorageDevicesService.ShowUserConsentOnInit = false;
 				await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					var dialog = DynamicDialogFactory.GetFor_ConsentDialog();
@@ -819,7 +819,7 @@ namespace Files.App.Views.Shells
 		{
 			PreviewKeyDown -= ShellPage_PreviewKeyDown;
 			PointerPressed -= CoreWindow_PointerPressed;
-			drivesViewModel.PropertyChanged -= DrivesManager_PropertyChanged;
+			StorageDevicesService.PropertyChanged -= DrivesManager_PropertyChanged;
 
 			ToolbarViewModel.ToolbarPathItemInvoked -= ShellPage_NavigationRequested;
 			ToolbarViewModel.ToolbarFlyoutOpened -= ShellPage_ToolbarFlyoutOpened;

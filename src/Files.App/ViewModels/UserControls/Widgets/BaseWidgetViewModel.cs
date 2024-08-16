@@ -23,7 +23,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		protected IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 		protected IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		protected IFileTagsService FileTagsService { get; } = Ioc.Default.GetRequiredService<IFileTagsService>();
-		protected DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		protected IRemovableDrivesService StorageDevicesService { get; } = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
 		protected INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
 		protected ICommandManager CommandManager { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 

@@ -53,7 +53,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			Drives_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Shortcuts_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
-			DrivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
+			StorageDevicesService.Drives.CollectionChanged += Drives_CollectionChanged;
 			NetworkService.Shortcuts.CollectionChanged += Shortcuts_CollectionChanged;
 
 			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteOpenInNewTabCommand);
@@ -273,7 +273,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 				foreach (WidgetDriveCardItem driveCard in Items.ToList())
 				{
-					if (!DrivesViewModel.Drives.Contains(driveCard.Item) && !NetworkService.Shortcuts.Contains(driveCard.Item))
+					if (!StorageDevicesService.Drives.Contains(driveCard.Item) && !NetworkService.Shortcuts.Contains(driveCard.Item))
 						Items.Remove(driveCard);
 				}
 
@@ -285,7 +285,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
-			await UpdateItems(DrivesViewModel.Drives);
+			await UpdateItems(StorageDevicesService.Drives);
 		}
 
 		private async void Shortcuts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)

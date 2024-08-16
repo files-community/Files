@@ -211,7 +211,6 @@ namespace Files.App.Helpers
 					.AddSingleton<MainPageViewModel>()
 					.AddSingleton<InfoPaneViewModel>()
 					.AddSingleton<SidebarViewModel>()
-					.AddSingleton<DrivesViewModel>()
 					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
 					.AddTransient<HomeViewModel>()

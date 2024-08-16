@@ -3,7 +3,7 @@
 
 namespace Files.Core.Storage.Contracts
 {
-	internal interface IDeviceWatcher
+	public interface IDeviceWatcher : IWatcher
 	{
 		/// <summary>
 		/// Gets the value that indicates whether the watcher can be started.
@@ -13,27 +13,27 @@ namespace Files.Core.Storage.Contracts
 		/// <summary>
 		/// Gets invoked when an item addition is detected by the watcher
 		/// </summary>
-		event EventHandler<DeviceEventArgs>? ItemAdded;
-
-		/// <summary>
-		/// Gets invoked when an item removal is detected by the watcher
-		/// </summary>
-		event EventHandler<DeviceEventArgs>? ItemDeleted;
+		event EventHandler<DeviceEventArgs>? DeviceAdded;
 
 		/// <summary>
 		/// Gets invoked when an item changing is detected by the watcher
 		/// </summary>
-		event EventHandler<DeviceEventArgs>? ItemChanged;
+		event EventHandler<DeviceEventArgs>? DeviceChanged;
+
+		/// <summary>
+		/// Gets invoked when an item removal is detected by the watcher
+		/// </summary>
+		event EventHandler<DeviceEventArgs>? DeviceDeleted;
 
 		/// <summary>
 		/// Gets invoked when an item inserting is detected by the watcher
 		/// </summary>
-		event EventHandler<DeviceEventArgs>? ItemInserted;
+		event EventHandler<DeviceEventArgs>? DeviceInserted;
 
 		/// <summary>
 		/// Gets invoked when an item ejection is detected by the watcher
 		/// </summary>
-		event EventHandler<DeviceEventArgs>? ItemEjected;
+		event EventHandler<DeviceEventArgs>? DeviceEjected;
 
 		/// <summary>
 		/// Gets invoked when item enumeration completed.

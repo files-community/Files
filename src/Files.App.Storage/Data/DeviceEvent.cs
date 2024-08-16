@@ -1,9 +1,9 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-namespace Files.App.Data.Items
+namespace Files.App.Storage
 {
-	public enum DeviceEvent
+	internal enum DeviceEvent
 	{
 		Added,
 
