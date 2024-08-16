@@ -288,7 +288,8 @@ namespace Files.App
 
 					var existingTabIndex = MainPageViewModel.AppInstances
 						.Select((tabItem, idx) => new { tabItem, idx })
-						.FirstOrDefault(x => x.tabItem.NavigationParameter.NavigationParameter is PaneNavigationArguments paneArgs &&
+						.FirstOrDefault(x =>
+							x.tabItem.NavigationParameter.NavigationParameter is PaneNavigationArguments paneArgs &&
 							(paneNavigationArgs.LeftPaneNavPathParam == paneArgs.LeftPaneNavPathParam || 
 							paneNavigationArgs.LeftPaneNavPathParam == paneArgs.RightPaneNavPathParam))?.idx ?? -1;
 
