@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Files.Core.SourceGenerator.Utilities
+namespace Files.Core.SourceGenerator
 {
 	internal sealed class UsingCollector : CSharpSyntaxWalker
 	{
