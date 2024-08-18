@@ -148,7 +148,7 @@ namespace Files.App.Services.Settings
 		/// <inheritdoc/>
 		public bool UseCompactSpacing
 		{
-			get => Get(false);
+			get => Get(true);
 			set => Set(value);
 		}
 
