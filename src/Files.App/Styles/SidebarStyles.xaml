@@ -73,7 +73,7 @@
 						<Border
 							x:Name="ElementBorder"
 							Grid.Row="0"
-							Height="32"
+							Height="{ThemeResource App.Theme.Sidebar.ItemHeight}"
 							Background="Transparent">
 							<Grid
 								x:Name="ElementGrid"

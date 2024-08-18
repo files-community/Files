@@ -63,6 +63,14 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
+		public void SetAppThemeSpacing(bool useCompactSpacing)
+		{
+			// Sidebar items
+			var sidebarItemHeight = useCompactSpacing ? 32 : 40;
+			Application.Current.Resources["App.Theme.Sidebar.ItemHeight"] = sidebarItemHeight;
+		}
+
+		/// <inheritdoc/>
 		public void ApplyResources()
 		{
 			AppThemeModeService.ApplyResources();

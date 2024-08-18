@@ -23,6 +23,7 @@ namespace Files.App.Helpers
 			var appThemeFileAreaSecondaryBackgroundColor = appearance.AppThemeFileAreaSecondaryBackgroundColor;
 			var appThemeInfoPaneBackgroundColor = appearance.AppThemeInfoPaneBackgroundColor;
 			var appThemeFontFamily = appearance.AppThemeFontFamily;
+			var useCompactSpacing = appearance.UseCompactSpacing;
 
 			try
 			{
@@ -108,6 +109,9 @@ namespace Files.App.Helpers
 
 			if (appThemeFontFamily != Constants.Appearance.StandardFont)
 				service.SetAppThemeFontFamily(appThemeFontFamily);
+
+			if (useCompactSpacing)
+				service.SetAppThemeSpacing(true);
 
 			service.ApplyResources();
 		}

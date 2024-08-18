@@ -62,5 +62,11 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		/// <param name="contentControlThemeFontFamily"></param>
 		void SetAppThemeFontFamily(string contentControlThemeFontFamily);
+
+		/// <summary>
+		/// Overrides the XAML resources controling the app density
+		/// </summary>
+		/// <param name="useCompactSpacing"></param>
+		void SetAppThemeSpacing(bool useCompactSpacing);
 	}
 }

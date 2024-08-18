@@ -265,6 +265,17 @@
 					IsOn="{x:Bind ViewModel.ShowToolbar, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
+
+			<!--  Compact Spacing  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=UseCompactSpacing}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE62B;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=UseCompactSpacing}"
+					IsOn="{x:Bind ViewModel.UseCompactSpacing, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
 		</StackPanel>
 	</Grid>
 </Page>

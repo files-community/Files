@@ -301,5 +301,23 @@ namespace Files.App.ViewModels.Settings
 				}
 			}
 		}
+
+		public bool UseCompactSpacing
+		{
+			get => UserSettingsService.AppearanceSettingsService.UseCompactSpacing;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.UseCompactSpacing)
+				{
+					UserSettingsService.AppearanceSettingsService.UseCompactSpacing = value;
+
+					// Apply the updated compact spacing resource
+					ResourcesService.SetAppThemeSpacing(UseCompactSpacing);
+					ResourcesService.ApplyResources();
+
+					OnPropertyChanged();
+				}
+			}
+		}
 	}
 }
