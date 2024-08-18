@@ -6,15 +6,15 @@ using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Controls
 {
-	[DependencyProperty<string>("FilledIconData", nameof(OnFilledIconPropertyChanged), DefaultValue = "string.Empty")]
-	[DependencyProperty<string>("OutlineIconData", nameof(OnOutlineIconPropertyChanged), DefaultValue = "string.Empty")]
+	[DependencyProperty<string>("FilledIconData", nameof(OnFilledIconPropertyChanged))]
+	[DependencyProperty<string>("OutlineIconData", nameof(OnOutlineIconPropertyChanged))]
 	[DependencyProperty<Brush>("Color", nameof(OnColorPropertyChanged))]
-	[DependencyProperty<ThemedIconTypes>("IconType", nameof(OnIconTypePropertyChanged), DefaultValue = "ThemedIconTypes.Layered")]
-	[DependencyProperty<ThemedIconColorType>("IconColorType", nameof(OnIconColorTypePropertyChanged), DefaultValue = "ThemedIconColorType.None")]
-	[DependencyProperty<double>("IconSize", nameof(OnIconSizePropertyChanged), DefaultValue = "(double)16")]
-	[DependencyProperty<bool>("IsToggled", nameof(OnIsToggledPropertyChanged), DefaultValue = "false")]
-	[DependencyProperty<bool>("IsFilled", nameof(OnIsFilledPropertyChanged), DefaultValue = "false")]
-	[DependencyProperty<bool>("IsHighContrast", nameof(OnIsHighContrastPropertyChanged), DefaultValue = "false")]
+	[DependencyProperty<ThemedIconTypes>("IconType", nameof(OnIconTypePropertyChanged), DefaultValue = ThemedIconTypes.Layered)]
+	[DependencyProperty<ThemedIconColorType>("IconColorType", nameof(OnIconColorTypePropertyChanged), DefaultValue = ThemedIconColorType.None)]
+	[DependencyProperty<double>("IconSize", nameof(OnIconSizePropertyChanged), DefaultValue = (double)16)]
+	[DependencyProperty<bool>("IsToggled", nameof(OnIsToggledPropertyChanged), DefaultValue = false)]
+	[DependencyProperty<bool>("IsFilled", nameof(OnIsFilledPropertyChanged), DefaultValue = false)]
+	[DependencyProperty<bool>("IsHighContrast", nameof(OnIsHighContrastPropertyChanged), DefaultValue = false)]
 	[DependencyProperty<object>("Layers", nameof(OnLayersPropertyChanged))]
 	public partial class ThemedIcon : Control
 	{

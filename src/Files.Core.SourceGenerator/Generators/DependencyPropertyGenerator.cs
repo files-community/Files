@@ -7,7 +7,6 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Data.SqlTypes;
 using System.Text;
 
 namespace Files.Core.SourceGenerator
@@ -15,7 +14,7 @@ namespace Files.Core.SourceGenerator
 	/// <summary>
 	/// Generates a set of dependency property and its backing field.
 	/// </summary>
-	[Generator]
+	[Generator(LanguageNames.CSharp)]
 	public sealed class DependencyPropertyGenerator : IIncrementalGenerator
 	{
 		/// <inheritdoc/>
@@ -65,30 +64,43 @@ namespace Files.Core.SourceGenerator
 				var fieldName = $"{propertyName}Property";
 				var isSetterPrivate = false;
 				var defaultValue = "global::Microsoft.UI.Xaml.DependencyProperty.UnsetValue";
+				ExpressionSyntax? defaultValueExpression = null;
 				var isNullable = false;
 
 				// Get values from the attribute properties
+				int index = 0;
 				foreach (var namedArgument in attribute.NamedArguments)
 				{
 					if (namedArgument.Value.Value is { } value)
 					{
 						switch (namedArgument.Key)
 						{
-							case "IsSetterPrivate": isSetterPrivate = (bool)value; break;
-							case "DefaultValue": defaultValue = (string)value; break;
-							case "IsNullable": isNullable = (bool)value; break;
+							case "IsSetterPrivate":
+								isSetterPrivate = (bool)value;
+								break;
+							case "DefaultValue":
+								defaultValueExpression = ((AttributeSyntax)attribute.ApplicationSyntaxReference!.GetSyntax()).ArgumentList!.Arguments[index].Expression;
+								break;
+							case "IsNullable":
+								isNullable = (bool)value;
+								break;
 						}
 					}
+
+					index++;
 				}
 
-				// Emit "new PropertyMetadata(...)"
-				var dpPropertyMetadata = EmitPMObjectCreationExpression(SyntaxFactory.ParseExpression(defaultValue));
+				defaultValueExpression ??= SyntaxFactory.ParseExpression(defaultValue);
 
-				// Append callback method to PropertyMetadata
+				// Emit "new PropertyMetadata(...)" expression
+				var dpPropertyMetadata = EmitPMObjectCreationExpression(defaultValueExpression);
+
+				// Append callback to PropertyMetadata
 				if (!string.IsNullOrEmpty(callbackMethodName))
-					dpPropertyMetadata = EmitDPCallbackParenthesizedLambdaExpression(dpPropertyMetadata, callbackMethodName, type, isNullable, typeSymbol);
+					dpPropertyMetadata = dpPropertyMetadata.AddArgumentListArguments(
+						SyntaxFactory.Argument(EmitDPCallbackParenthesizedLambdaExpression(callbackMethodName, type, isNullable, typeSymbol)));
 
-				// Emit "DependencyProperty.Register(...)" invocation expression
+				// Emit "DependencyProperty.Register(...)" expression
 				var dpRegisteringExpression = EmitDPRegisterInvocationExpression(propertyName, type, typeSymbol, dpPropertyMetadata);
 
 				// Emit the backing DependencyProperty field with attributes
@@ -111,53 +123,50 @@ namespace Files.Core.SourceGenerator
 			if (members.Count is 0)
 				return string.Empty;
 
-			// Generate class lock
+			// Generate class block
 			var generatedClass = SourceGeneratorHelper.GetClassDeclaration(typeSymbol, members);
 
 			// Generate namespace block
 			var generatedNamespace = SourceGeneratorHelper.GetFileScopedNamespaceDeclaration(typeSymbol, generatedClass);
 
-			// Generate file block (complication uint)
+			// Generate complication uint
 			var compilationUnit = SourceGeneratorHelper.GetCompilationUnit(generatedNamespace);
 
 			// Get full syntax tree and return as UTF8 string
 			return SyntaxFactory.SyntaxTree(compilationUnit, encoding: Encoding.UTF8).GetText().ToString();
 		}
 
-		private ObjectCreationExpressionSyntax EmitDPCallbackParenthesizedLambdaExpression(ObjectCreationExpressionSyntax expression, string callbackName, ITypeSymbol type, bool isNullable, ITypeSymbol classSymbol)
+		private ParenthesizedLambdaExpressionSyntax EmitDPCallbackParenthesizedLambdaExpression(string callbackName, ITypeSymbol type, bool isNullable, ITypeSymbol classSymbol)
 		{
 			// (d, e) => ((class)d).callbackName((type)e.OldValue, (type)e.NewValue)
-			return expression.AddArgumentListArguments(
-				SyntaxFactory.Argument(
-					SyntaxFactory.ParenthesizedLambdaExpression()
-						.AddParameterListParameters(
-							SyntaxFactory.Parameter(SyntaxFactory.Identifier("d")),
-							SyntaxFactory.Parameter(SyntaxFactory.Identifier("e")))
-						.WithExpressionBody(
-							SyntaxFactory.InvocationExpression(
-								SyntaxFactory.MemberAccessExpression(
-									SyntaxKind.SimpleMemberAccessExpression,
-									SyntaxFactory.ParenthesizedExpression(
-										SyntaxFactory.CastExpression(
-											classSymbol.GetTypeSyntax(false),
-											SyntaxFactory.IdentifierName("d"))),
-									SyntaxFactory.IdentifierName(callbackName)))
-								.AddArgumentListArguments(
-									SyntaxFactory.Argument(
-										SyntaxFactory.CastExpression(
-											type.GetTypeSyntax(isNullable),
-											SyntaxFactory.MemberAccessExpression(
-												SyntaxKind.SimpleMemberAccessExpression,
-												SyntaxFactory.IdentifierName("e"),
-												SyntaxFactory.IdentifierName("OldValue")))),
-									SyntaxFactory.Argument(
-										SyntaxFactory.CastExpression(
-											type.GetTypeSyntax(isNullable),
-											SyntaxFactory.MemberAccessExpression(
-												SyntaxKind.SimpleMemberAccessExpression,
-												SyntaxFactory.IdentifierName("e"),
-												SyntaxFactory.IdentifierName("NewValue"))))
-								))));
+			return SyntaxFactory.ParenthesizedLambdaExpression()
+				.AddParameterListParameters(
+					SyntaxFactory.Parameter(SyntaxFactory.Identifier("d")),
+					SyntaxFactory.Parameter(SyntaxFactory.Identifier("e")))
+				.WithExpressionBody(
+					SyntaxFactory.InvocationExpression(
+						SyntaxFactory.MemberAccessExpression(
+							SyntaxKind.SimpleMemberAccessExpression,
+							SyntaxFactory.ParenthesizedExpression(
+								SyntaxFactory.CastExpression(
+									classSymbol.GetTypeSyntax(false),
+									SyntaxFactory.IdentifierName("d"))),
+							SyntaxFactory.IdentifierName(callbackName)))
+						.AddArgumentListArguments(
+							SyntaxFactory.Argument(
+								SyntaxFactory.CastExpression(
+									type.GetTypeSyntax(isNullable),
+									SyntaxFactory.MemberAccessExpression(
+										SyntaxKind.SimpleMemberAccessExpression,
+										SyntaxFactory.IdentifierName("e"),
+										SyntaxFactory.IdentifierName("OldValue")))),
+							SyntaxFactory.Argument(
+								SyntaxFactory.CastExpression(
+									type.GetTypeSyntax(isNullable),
+									SyntaxFactory.MemberAccessExpression(
+										SyntaxKind.SimpleMemberAccessExpression,
+										SyntaxFactory.IdentifierName("e"),
+										SyntaxFactory.IdentifierName("NewValue"))))));
 		}
 
 		private ObjectCreationExpressionSyntax EmitPMObjectCreationExpression(ExpressionSyntax defaultValueExpression)

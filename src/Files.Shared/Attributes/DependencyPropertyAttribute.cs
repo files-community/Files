@@ -22,5 +22,5 @@ public sealed class DependencyPropertyAttribute<T> : Attribute where T : notnull
 
 	public bool IsNullable { get; init; }
 
-	public string DefaultValue { get; init; } = "DependencyProperty.UnsetValue";
+	public object? DefaultValue { get; init; }
 }
