@@ -43,10 +43,7 @@
 					</i:Interaction.Behaviors>
 
 					<!--  Header  -->
-					<TextBlock
-						FontSize="12"
-						FontWeight="Medium"
-						Text="{x:Bind Title, Mode=OneWay}" />
+					<TextBlock FontSize="12" Text="{x:Bind Title, Mode=OneWay}" />
 
 				</StackPanel>
 			</DataTemplate>
