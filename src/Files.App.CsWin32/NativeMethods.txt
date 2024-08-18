@@ -111,3 +111,13 @@ MONITORENUMPROC
 EnumDisplayMonitors
 MONITORINFOEXW
 GetMonitorInfo
+CLASS_E_CLASSNOTAVAILABLE
+E_INVALIDARG
+RoInitialize
+RoRegisterActivationFactories
+RoRevokeActivationFactories
+WindowsCreateString
+WindowsDeleteString
+IPreviewHandler
+AssocQueryString
+GetModuleHandle
