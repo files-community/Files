@@ -3063,8 +3063,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Open properties</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Open File Explorer properties</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Open properties window</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Open File Explorer properties window</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Locals</value>

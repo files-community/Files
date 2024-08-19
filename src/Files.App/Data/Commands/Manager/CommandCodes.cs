@@ -105,6 +105,7 @@ namespace Files.App.Data.Commands
 		OpenInVSCode,
 		OpenRepoInVSCode,
 		OpenProperties,
+		OpenClassicProperties,
 		OpenSettings,
 		OpenTerminal,
 		OpenTerminalAsAdmin,
