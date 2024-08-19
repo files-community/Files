@@ -54,6 +54,8 @@ namespace Files.App.Actions
 		{
 			SHELLEXECUTEINFOW info = default;
 			info.cbSize = (uint)Marshal.SizeOf(info);
+			info.nShow = 5; // SW_SHOW
+			info.fMask = 0x0000000C;
 
 			var verb = "properties";
 			fixed (char* cVerb = verb)
@@ -61,9 +63,6 @@ namespace Files.App.Actions
 
 			fixed (char* lpFile = itemPath)
 				info.lpFile = lpFile;
-
-			info.nShow = 5; // SW_SHOW
-			info.fMask = 0x0000000C;
 
 			PInvoke.ShellExecuteEx(ref info);
 		}
