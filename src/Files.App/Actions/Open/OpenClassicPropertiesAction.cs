@@ -40,9 +40,7 @@ namespace Files.App.Actions
 			if (context.HasSelection && context.SelectedItems is not null)
 			{
 				foreach (var item in context.SelectedItems)
-				{
 					ExecuteShellCommand(item.ItemPath);
-				}
 			}
 			else if (context?.Folder?.ItemPath is not null)
 			{
@@ -59,14 +57,10 @@ namespace Files.App.Actions
 
 			var verb = "properties";
 			fixed (char* cVerb = verb)
-			{
 				info.lpVerb = cVerb;
-			}
 
 			fixed (char* lpFile = itemPath)
-			{
 				info.lpFile = lpFile;
-			}
 
 			info.nShow = 5; // SW_SHOW
 			info.fMask = 0x0000000C;
