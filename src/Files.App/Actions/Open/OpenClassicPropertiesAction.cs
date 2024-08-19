@@ -1,6 +1,9 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Runtime.InteropServices;
+using static Files.App.Helpers.Win32PInvoke;
+
 namespace Files.App.Actions
 {
 	internal sealed class OpenClassicPropertiesAction : ObservableObject, IAction
@@ -11,7 +14,7 @@ namespace Files.App.Actions
 			=> "OpenClassicProperties".GetLocalizedResource();
 
 		public string Description
-			=> "OpenClasicPropertiesDescription".GetLocalizedResource();
+			=> "OpenClassicPropertiesDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Properties");
@@ -33,12 +36,30 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.SelectedItems is not null)
+			if (context.HasSelection && context.SelectedItems is not null)
 			{
 				foreach (var item in context.SelectedItems)
 				{
-					Process.Start("explorer.exe", $"/select,\"{item.ItemPath}\"");
+					SHELLEXECUTEINFO info = new SHELLEXECUTEINFO();
+					info.cbSize = Marshal.SizeOf(info);
+					info.lpVerb = "properties";
+					info.lpFile = item.ItemPath;
+					info.nShow = 5; // SW_SHOW
+					info.fMask = 0x0000000C;
+
+					ShellExecuteEx(ref info);
 				}
+			}
+			else if (context?.Folder?.ItemPath is not null)
+			{
+				SHELLEXECUTEINFO info = new SHELLEXECUTEINFO();
+				info.cbSize = Marshal.SizeOf(info);
+				info.lpVerb = "properties";
+				info.lpFile = context.Folder.ItemPath;
+				info.nShow = 5; // SW_SHOW
+				info.fMask = 0x0000000C;
+
+				ShellExecuteEx(ref info);
 			}
 
 			return Task.CompletedTask;
