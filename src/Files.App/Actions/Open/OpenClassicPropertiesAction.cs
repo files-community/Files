@@ -35,56 +35,43 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public unsafe Task ExecuteAsync(object? parameter = null)
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.HasSelection && context.SelectedItems is not null)
 			{
 				foreach (var item in context.SelectedItems)
 				{
-					SHELLEXECUTEINFOW info = default;
-					info.cbSize = (uint)Marshal.SizeOf(info);
-
-					var verb = "properties";
-					fixed (char* cVerb = verb)
-					{
-						info.lpVerb = cVerb;
-					}
-
-
-					fixed (char* lpFile = item.ItemPath)
-					{
-						info.lpFile = lpFile;
-					}
-
-					info.nShow = 5; // SW_SHOW
-					info.fMask = 0x0000000C;
-
-					PInvoke.ShellExecuteEx(ref info);
+					ExecuteShellCommand(item.ItemPath);
 				}
 			}
 			else if (context?.Folder?.ItemPath is not null)
 			{
-				SHELLEXECUTEINFOW info = default;
-				info.cbSize = (uint)Marshal.SizeOf(info);
-
-				var verb = "properties";
-				fixed (char* cVerb = verb)
-				{
-					info.lpVerb = cVerb;
-				}
-
-				fixed (char* lpFile = context.Folder.ItemPath)
-				{
-					info.lpFile = lpFile;
-				}
-
-				info.nShow = 5; // SW_SHOW
-				info.fMask = 0x0000000C;
-
-				PInvoke.ShellExecuteEx(ref info);
+				ExecuteShellCommand(context.Folder.ItemPath);
 			}
 
 			return Task.CompletedTask;
+		}
+
+		private unsafe void ExecuteShellCommand(string itemPath)
+		{
+			SHELLEXECUTEINFOW info = default;
+			info.cbSize = (uint)Marshal.SizeOf(info);
+
+			var verb = "properties";
+			fixed (char* cVerb = verb)
+			{
+				info.lpVerb = cVerb;
+			}
+
+			fixed (char* lpFile = itemPath)
+			{
+				info.lpFile = lpFile;
+			}
+
+			info.nShow = 5; // SW_SHOW
+			info.fMask = 0x0000000C;
+
+			PInvoke.ShellExecuteEx(ref info);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
