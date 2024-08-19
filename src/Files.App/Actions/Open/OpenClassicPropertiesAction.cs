@@ -2,7 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Runtime.InteropServices;
-using static Files.App.Helpers.Win32PInvoke;
+using Windows.Win32;
+using Windows.Win32.UI.Shell;
 
 namespace Files.App.Actions
 {
@@ -24,7 +25,7 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			context.PageType is not ContentPageTypes.Home &&
-			!(context.PageType is ContentPageTypes.SearchResults && 
+			!(context.PageType is ContentPageTypes.SearchResults &&
 			!context.HasSelection);
 
 		public OpenClassicPropertiesAction()
@@ -34,32 +35,53 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync(object? parameter = null)
+		public unsafe Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.HasSelection && context.SelectedItems is not null)
 			{
 				foreach (var item in context.SelectedItems)
 				{
-					SHELLEXECUTEINFO info = new SHELLEXECUTEINFO();
-					info.cbSize = Marshal.SizeOf(info);
-					info.lpVerb = "properties";
-					info.lpFile = item.ItemPath;
+					SHELLEXECUTEINFOW info = default;
+					info.cbSize = (uint)Marshal.SizeOf(info);
+
+					var verb = "properties";
+					fixed (char* cVerb = verb)
+					{
+						info.lpVerb = cVerb;
+					}
+
+
+					fixed (char* lpFile = item.ItemPath)
+					{
+						info.lpFile = lpFile;
+					}
+
 					info.nShow = 5; // SW_SHOW
 					info.fMask = 0x0000000C;
 
-					ShellExecuteEx(ref info);
+					PInvoke.ShellExecuteEx(ref info);
 				}
 			}
 			else if (context?.Folder?.ItemPath is not null)
 			{
-				SHELLEXECUTEINFO info = new SHELLEXECUTEINFO();
-				info.cbSize = Marshal.SizeOf(info);
-				info.lpVerb = "properties";
-				info.lpFile = context.Folder.ItemPath;
+				SHELLEXECUTEINFOW info = default;
+				info.cbSize = (uint)Marshal.SizeOf(info);
+
+				var verb = "properties";
+				fixed (char* cVerb = verb)
+				{
+					info.lpVerb = cVerb;
+				}
+
+				fixed (char* lpFile = context.Folder.ItemPath)
+				{
+					info.lpFile = lpFile;
+				}
+
 				info.nShow = 5; // SW_SHOW
 				info.fMask = 0x0000000C;
 
-				ShellExecuteEx(ref info);
+				PInvoke.ShellExecuteEx(ref info);
 			}
 
 			return Task.CompletedTask;

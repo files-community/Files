@@ -120,4 +120,4 @@ WindowsCreateString
 WindowsDeleteString
 IPreviewHandler
 AssocQueryString
-GetModuleHandle
+ShellExecuteEx
