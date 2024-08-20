@@ -20,7 +20,11 @@ namespace Files.Shared.Extensions
 			{
 				if (exceptionToIgnore is null || exceptionToIgnore.IsAssignableFrom(ex.GetType()))
 				{
-					logger?.LogInformation(ex, ex.Message);
+					try
+					{
+						logger?.LogInformation(ex, ex.Message);
+					}
+					catch { }
 
 					return false;
 				}
@@ -41,7 +45,11 @@ namespace Files.Shared.Extensions
 			{
 				if (exceptionToIgnore is null || exceptionToIgnore.IsAssignableFrom(ex.GetType()))
 				{
-					logger?.LogInformation(ex, ex.Message);
+					try
+					{
+						logger?.LogInformation(ex, ex.Message);
+					}
+					catch { }
 
 					return false;
 				}
@@ -60,7 +68,11 @@ namespace Files.Shared.Extensions
 			{
 				if (exceptionToIgnore is null || exceptionToIgnore.IsAssignableFrom(ex.GetType()))
 				{
-					logger?.LogInformation(ex, ex.Message);
+					try
+					{
+						logger?.LogInformation(ex, ex.Message);
+					}
+					catch { }
 
 					return default;
 				}
@@ -79,7 +91,11 @@ namespace Files.Shared.Extensions
 			{
 				if (exceptionToIgnore is null || exceptionToIgnore.IsAssignableFrom(ex.GetType()))
 				{
-					logger?.LogInformation(ex, ex.Message);
+					try
+					{
+						logger?.LogInformation(ex, ex.Message);
+					}
+					catch { }
 
 					return default;
 				}
