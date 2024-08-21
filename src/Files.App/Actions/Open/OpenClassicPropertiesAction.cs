@@ -1,6 +1,10 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Runtime.InteropServices;
+using Windows.Win32;
+using Windows.Win32.UI.Shell;
+
 namespace Files.App.Actions
 {
 	internal sealed class OpenClassicPropertiesAction : ObservableObject, IAction
@@ -31,12 +35,36 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync(object? parameter = null)
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.HasSelection && context.SelectedItems is not null)
-				await ContextMenu.InvokeVerb("properties", context.SelectedItems.Select(x => x.ItemPath).ToArray());
+			{
+				foreach (var item in context.SelectedItems)
+					ExecuteShellCommand(item.ItemPath);
+			}
 			else if (context?.Folder?.ItemPath is not null)
-				await ContextMenu.InvokeVerb("properties", context.Folder.ItemPath);
+			{
+				ExecuteShellCommand(context.Folder.ItemPath);
+			}
+
+			return Task.CompletedTask;
+		}
+
+		private unsafe void ExecuteShellCommand(string itemPath)
+		{
+			SHELLEXECUTEINFOW info = default;
+			info.cbSize = (uint)Marshal.SizeOf(info);
+			info.nShow = 5; // SW_SHOW
+			info.fMask = 0x0000000C;
+
+			var verb = "properties";
+			fixed (char* cVerb = verb)
+				info.lpVerb = cVerb;
+
+			fixed (char* lpFile = itemPath)
+				info.lpFile = lpFile;
+
+			PInvoke.ShellExecuteEx(ref info);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
