@@ -339,7 +339,12 @@ namespace Files.App.ViewModels.UserControls
 
 			await signal.WaitAsync();
 
-			deferral.Complete();
+			try
+			{
+				deferral.Complete();
+			}
+			catch { }
+
 			await Task.Yield();
 
 			lockFlag = false;
