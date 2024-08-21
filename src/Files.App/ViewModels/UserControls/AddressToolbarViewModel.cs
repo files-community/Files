@@ -329,21 +329,20 @@ namespace Files.App.ViewModels.UserControls
 
 			var signal = new AsyncManualResetEvent();
 
-			PathBoxItemDropped?.Invoke(this, new PathBoxItemDroppedEventArgs()
+			if (PathBoxItemDropped is not null && pathBoxItem.Path is not null)
 			{
-				AcceptedOperation = e.AcceptedOperation,
-				Package = e.DataView,
-				Path = pathBoxItem.Path,
-				SignalEvent = signal
-			});
+				await Task.Run(() => PathBoxItemDropped.Invoke(this, new PathBoxItemDroppedEventArgs()
+				{
+					AcceptedOperation = e.AcceptedOperation,
+					Package = e.DataView,
+					Path = pathBoxItem.Path,
+					SignalEvent = signal
+				}));
+			}
 
 			await signal.WaitAsync();
 
-			try
-			{
-				deferral.Complete();
-			}
-			catch { }
+			deferral.Complete();
 
 			await Task.Yield();
 
@@ -952,7 +951,8 @@ namespace Files.App.ViewModels.UserControls
 					return true;
 				}))
 				{
-					SafetyExtensions.IgnoreExceptions(() => {
+					SafetyExtensions.IgnoreExceptions(() =>
+					{
 						NavigationBarSuggestions.Clear();
 						NavigationBarSuggestions.Add(new NavigationBarSuggestionItem()
 						{
