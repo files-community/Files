@@ -184,7 +184,7 @@ namespace Files.App
 				AppWindow.Show();
 				Activate();
 
-				// Bring to foreground (#14730) in case Activate() didn't
+				// Bring to foreground (#14730) in case Activate() doesn't
 				Win32Helper.BringToForegroundEx(new(WindowHandle));
 			}
 
