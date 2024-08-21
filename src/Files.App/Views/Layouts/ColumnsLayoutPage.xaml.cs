@@ -6,8 +6,10 @@ using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.ViewModels.Layouts;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Storage;
+using Windows.UI.Core;
 using static Files.App.Helpers.PathNormalization;
 
 namespace Files.App.Views.Layouts
@@ -25,11 +27,69 @@ namespace Files.App.Views.Layouts
 
 		public int FocusIndex { get; private set; }
 
+		private double initialBladeWidth;
+
 		// Constructor
 
 		public ColumnsLayoutPage() : base()
 		{
 			InitializeComponent();
+		}
+
+		private void ResizeHandle_PointerMoved(object sender, PointerRoutedEventArgs e)
+		{
+			var handle = sender as Border;
+			var bladeItem = handle.Parent as BladeItem;
+			var bladeGrid = bladeItem.Content as Grid;
+			var position = e.GetCurrentPoint(handle).Position;
+
+			if (bladeGrid.ActualWidth - position.X < 10)
+			{
+				Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+				handle.BorderThickness = new Thickness(0, 0, 8, 0);
+				(bladeGrid.Children[0] as Frame).Padding = new Thickness(0, 0, 0, 0);
+			}
+			else
+			{
+				Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+				handle.BorderThickness = new Thickness(0, 0, 1, 0);
+				(bladeGrid.Children[0] as Frame).Padding = new Thickness(0, 0, 7, 0);
+			}
+		}
+
+		private void ResizeHandle_PointerExited(object sender, PointerRoutedEventArgs e)
+		{
+			var handle = sender as Border;
+			var bladeItem = handle.Parent as BladeItem;
+			var bladeGrid = bladeItem.Content as Grid;
+
+			if (bladeGrid != null)
+			{
+				Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.Arrow, 0);
+				handle.BorderThickness = new Thickness(0, 0, 1, 0);
+				(bladeGrid.Children[0] as Frame).Padding = new Thickness(0, 0, 7, 0);
+			}
+		}
+
+		private void ResizeHandle_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+		{
+			var handle = sender as Border;
+			var bladeItem = handle.Parent as BladeItem;
+			var bladeGrid = bladeItem.Content as Grid;
+			initialBladeWidth = bladeGrid.ActualWidth;
+		}
+
+		private void ResizeHandle_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+		{
+			var handle = sender as Border;
+			var bladeItem = handle.Parent as BladeItem;
+			var bladeGrid = bladeItem.Content as Grid;
+
+			double newWidth = initialBladeWidth + e.Cumulative.Translation.X;
+			newWidth = Math.Max(100, newWidth);
+			newWidth = Math.Min(600, newWidth);
+
+			bladeGrid.Width = newWidth;
 		}
 
 		// Methods
@@ -84,6 +144,23 @@ namespace Files.App.Views.Layouts
 		private void ContentChanged(IShellPage p)
 		{
 			(ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabBarItemParameter);
+		}
+
+		private void AttachHandlersToBlade(Border resizeHandle)
+		{
+			resizeHandle.ManipulationMode = ManipulationModes.TranslateX;
+			resizeHandle.ManipulationStarted += ResizeHandle_ManipulationStarted;
+			resizeHandle.ManipulationDelta += ResizeHandle_ManipulationDelta;
+			resizeHandle.PointerMoved += ResizeHandle_PointerMoved;
+			resizeHandle.PointerExited += ResizeHandle_PointerExited;
+		}
+
+		private void DetachHandlersFromBlade(Border resizeHandle)
+		{
+			resizeHandle.ManipulationStarted -= ResizeHandle_ManipulationStarted;
+			resizeHandle.ManipulationDelta -= ResizeHandle_ManipulationDelta;
+			resizeHandle.PointerMoved -= ResizeHandle_PointerMoved;
+			resizeHandle.PointerExited -= ResizeHandle_PointerExited;
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -206,6 +283,8 @@ namespace Files.App.Views.Layouts
 							columnLayout.ItemTapped -= ColumnViewBase_ItemTapped;
 							columnLayout.KeyUp -= ColumnViewBase_KeyUp;
 						}
+						var oldBladeGrid = (frame.Parent as BladeItem).Content as Grid;
+						DetachHandlersFromBlade(oldBladeGrid.Children[1] as Border);
 
 						(frame?.Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus;
 						(frame?.Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged;
@@ -497,13 +576,16 @@ namespace Files.App.Views.Layouts
 		{
 			var frame = new Frame();
 			frame.Navigated += Frame_Navigated;
-			var newblade = new BladeItem()
+			frame.Padding = new Thickness(0, 0, 8, 0);
+			var newBlade = new BladeItem()
 			{
 				Content = frame
 			};
 
-			ColumnHost.Items.Add(newblade);
-			return (frame, newblade);
+			var newBladeGrid = (newBlade.Content as Grid);
+			AttachHandlersToBlade(newBladeGrid.Children[1] as Border);
+			ColumnHost.Items.Add(newBlade);
+			return (frame, newBlade);
 		}
 	}
 }

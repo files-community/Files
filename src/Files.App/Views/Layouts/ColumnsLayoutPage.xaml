@@ -35,7 +35,23 @@
 		</controls:BladeView.ItemContainerTransitions>
 
 		<controls:BladeItem>
-			<Frame x:Name="MainPageFrame" />
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+
+				<Frame x:Name="MainPageFrame" Grid.Column="0" Padding="0,0,0,0" />
+
+				<Border x:Name="ResizeHandle" 
+				Grid.Column="1"
+				Width="8" 
+				Background="Transparent" 
+				ManipulationDelta="ResizeHandle_ManipulationDelta"
+				ManipulationMode="TranslateX"
+				PointerMoved="ResizeHandle_PointerMoved"
+				PointerExited="ResizeHandle_PointerExited" />
+			</Grid>
 		</controls:BladeItem>
 	</controls:BladeView>
 
