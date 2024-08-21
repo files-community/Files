@@ -183,6 +183,9 @@ namespace Files.App
 				// When resuming the cached instance
 				AppWindow.Show();
 				Activate();
+
+				// Bring to foreground (#14730) in case Activate() didn't
+				Win32Helper.BringToForegroundEx(new(WindowHandle));
 			}
 
 			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)) &&
