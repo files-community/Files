@@ -217,7 +217,7 @@
     <value>Appearance</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Background colour</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Advanced</value>
@@ -1818,7 +1818,7 @@
     <value>Run in 640 x 480 screen resolution</value>
   </data>
   <data name="CompatibilityOverrideHighDPIBehavior" xml:space="preserve">
-    <value>Override high DPI scaling behavior</value>
+    <value>Override high DPI scaling behaviour</value>
   </data>
   <data name="CompatibilityReducedColorMode" xml:space="preserve">
     <value>Reduced color mode</value>
@@ -3759,7 +3759,7 @@
     <comment>Image alignment type</comment>
   </data>
   <data name="Center" xml:space="preserve">
-    <value>Center</value>
+    <value>Centre</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Fill" xml:space="preserve">
