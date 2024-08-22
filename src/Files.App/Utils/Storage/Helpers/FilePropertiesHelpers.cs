@@ -107,9 +107,10 @@ namespace Files.App.Utils.Storage
 				propertiesWindow.Closed += PropertiesWindow_Closed;
 			}
 
-			propertiesWindow.IsMinimizable = false;
-			propertiesWindow.IsMaximizable = false;
-			propertiesWindow.AppWindow.Resize(new(800, 550));
+			var width = Convert.ToInt32(800 * App.AppModel.AppWindowDPI);
+			var height = Convert.ToInt32(500 * App.AppModel.AppWindowDPI);
+
+			propertiesWindow.AppWindow.Resize(new (width, height));
 			propertiesWindow.Content = frame;
 			propertiesWindow.SystemBackdrop = new AppSystemBackdrop(true);
 
