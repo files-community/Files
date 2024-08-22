@@ -3906,6 +3906,6 @@
     <value>Vertikálně</value>
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
-    <value>Show Files icon in the System Tray</value>
+    <value>Zobrazit ikonu Files v systémové liště</value>
   </data>
 </root>
