@@ -1,9 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Runtime.InteropServices;
-using Windows.Win32;
-using Windows.Win32.UI.Shell;
+using Vanara.PInvoke;
 
 namespace Files.App.Actions
 {
@@ -35,36 +33,14 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync(object? parameter = null)
+		public async Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.HasSelection && context.SelectedItems is not null)
-			{
-				foreach (var item in context.SelectedItems)
-					ExecuteShellCommand(item.ItemPath);
-			}
-			else if (context?.Folder?.ItemPath is not null)
-			{
-				ExecuteShellCommand(context.Folder.ItemPath);
-			}
+			var itemPaths = context.HasSelection && context.SelectedItems is not null
+				? context.SelectedItems.Select(x => x.ItemPath).ToArray()
+				: new[] { context.Folder!.ItemPath };
 
-			return Task.CompletedTask;
-		}
-
-		private unsafe void ExecuteShellCommand(string itemPath)
-		{
-			SHELLEXECUTEINFOW info = default;
-			info.cbSize = (uint)Marshal.SizeOf(info);
-			info.nShow = 5; // SW_SHOW
-			info.fMask = 0x0000000C;
-
-			var verb = "properties";
-			fixed (char* cVerb = verb)
-				info.lpVerb = cVerb;
-
-			fixed (char* lpFile = itemPath)
-				info.lpFile = lpFile;
-
-			PInvoke.ShellExecuteEx(ref info);
+			if (itemPaths.Length > 0)
+				await ContextMenu.InvokeVerb("properties", itemPaths);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
