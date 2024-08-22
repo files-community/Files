@@ -2358,7 +2358,7 @@
     <value>숨겨진 항목 표시 여부를 전환합니다</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Toggle whether to show dot files</value>
+    <value>점(.)으로 시작하는 항목의 표시 여부를 전환합니다</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>파일 확장자 표시 여부를 전환합니다</value>
@@ -3906,6 +3906,6 @@
     <value>수직</value>
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
-    <value>Show Files icon in the System Tray</value>
+    <value>Files 아이콘을 시스템 트레이에 표시</value>
   </data>
 </root>
