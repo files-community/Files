@@ -38,7 +38,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.HasSelection && context?.SelectedItem?.ItemPath is not null)
-					ExecuteShellCommand(context.SelectedItem.ItemPath);
+				ExecuteShellCommand(context.SelectedItem.ItemPath);
 			else if (context?.Folder?.ItemPath is not null)
 				ExecuteShellCommand(context.Folder.ItemPath);
 
