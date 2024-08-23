@@ -163,7 +163,8 @@ namespace Files.App.Utils.Storage
 				App.HistoryWrapper.AddHistory(history);
 
 			// Execute removal tasks concurrently in background
-			_ = Task.WhenAll(source.Select(x => jumpListService.RemoveFolderAsync(x.Path)));
+			var sourcePaths = source.Select(x => x.Path);
+			_ = Task.WhenAll(sourcePaths.Select(jumpListService.RemoveFolderAsync));
 
 			var itemsCount = banner.TotalItemsCount;
 
@@ -475,7 +476,8 @@ namespace Files.App.Utils.Storage
 			}
 
 			// Execute removal tasks concurrently in background
-			_ = Task.WhenAll(source.Select(x => jumpListService.RemoveFolderAsync(x.Path)));
+			var sourcePaths = source.Select(x => x.Path);
+			_ = Task.WhenAll(sourcePaths.Select(jumpListService.RemoveFolderAsync));
 
 			var itemsCount = banner.TotalItemsCount;
 
