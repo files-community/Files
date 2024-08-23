@@ -13,7 +13,7 @@ namespace Files.App.Utils.FileTags
 	public sealed class FileTagsDatabase
 	{
 		private static string? _FileTagsKey;
-		private string? FileTagsKey => _FileTagsKey ??= SafetyExtensions.IgnoreExceptions(() => @$"Software\Files Community\{Package.Current.Id.FullName}\v1\FileTags");
+		private string? FileTagsKey => _FileTagsKey ??= SafetyExtensions.IgnoreExceptions(() => @$"Software\Files Community\{Package.Current.Id.Name}\v1\FileTags");
 
 		public void SetTags(string filePath, ulong? frn, string[] tags)
 		{
