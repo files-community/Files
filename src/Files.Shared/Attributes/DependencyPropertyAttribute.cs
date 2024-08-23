@@ -22,5 +22,6 @@ public sealed class DependencyPropertyAttribute<T> : Attribute where T : notnull
 
 	public bool IsNullable { get; init; }
 
-	public object? DefaultValue { get; init; }
+	// TODO: This should be able to be removed after stable .NET 9 released
+	public string? DefaultValue { get; init; }
 }

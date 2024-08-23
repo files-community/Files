@@ -64,11 +64,9 @@ namespace Files.Core.SourceGenerator
 				var fieldName = $"{propertyName}Property";
 				var isSetterPrivate = false;
 				var defaultValue = "global::Microsoft.UI.Xaml.DependencyProperty.UnsetValue";
-				ExpressionSyntax? defaultValueExpression = null;
 				var isNullable = false;
 
 				// Get values from the attribute properties
-				int index = 0;
 				foreach (var namedArgument in attribute.NamedArguments)
 				{
 					if (namedArgument.Value.Value is { } value)
@@ -79,21 +77,17 @@ namespace Files.Core.SourceGenerator
 								isSetterPrivate = (bool)value;
 								break;
 							case "DefaultValue":
-								defaultValueExpression = ((AttributeSyntax)attribute.ApplicationSyntaxReference!.GetSyntax()).ArgumentList!.Arguments[index].Expression;
+								defaultValue = (string)value;
 								break;
 							case "IsNullable":
 								isNullable = (bool)value;
 								break;
 						}
 					}
-
-					index++;
 				}
 
-				defaultValueExpression ??= SyntaxFactory.ParseExpression(defaultValue);
-
 				// Emit "new PropertyMetadata(...)" expression
-				var dpPropertyMetadata = EmitPMObjectCreationExpression(defaultValueExpression);
+				var dpPropertyMetadata = EmitPMObjectCreationExpression(SyntaxFactory.ParseExpression(defaultValue));
 
 				// Append callback to PropertyMetadata
 				if (!string.IsNullOrEmpty(callbackMethodName))
