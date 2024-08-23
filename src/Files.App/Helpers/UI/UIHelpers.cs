@@ -92,15 +92,14 @@ namespace Files.App.Helpers
 
 		public static void CloseAllDialogs()
 		{
-			var openedDialogs = VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot);
-
-			foreach (var item in openedDialogs)
+			SafetyExtensions.IgnoreExceptions(() =>
 			{
-				if (item.Child is ContentDialog dialog)
-				{
-					dialog.Hide();
-				}
-			}
+				var openedDialogs = VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot);
+
+				foreach (var item in openedDialogs)
+					if (item.Child is ContentDialog dialog)
+						dialog.Hide();
+			});
 		}
 
 		private static IEnumerable<IconFileInfo> SidebarIconResources = LoadSidebarIconResources();
