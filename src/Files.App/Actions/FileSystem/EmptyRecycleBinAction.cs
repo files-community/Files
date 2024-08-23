@@ -8,7 +8,7 @@ namespace Files.App.Actions
 {
 	internal sealed class EmptyRecycleBinAction : BaseUIAction, IAction
 	{
-		private readonly IWindowsRecycleBinService WindowsRecycleBinService = Ioc.Default.GetRequiredService<IWindowsRecycleBinService>();
+		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 		private readonly StatusCenterViewModel StatusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 		private readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly IContentPageContext context;
@@ -25,7 +25,7 @@ namespace Files.App.Actions
 		public override bool IsExecutable =>
 			UIHelpers.CanShowDialog &&
 			((context.PageType == ContentPageTypes.RecycleBin && context.HasItem) ||
-			WindowsRecycleBinService.HasItems());
+			StorageTrashBinService.HasItems());
 
 		public EmptyRecycleBinAction()
 		{
@@ -54,7 +54,7 @@ namespace Files.App.Actions
 			{
 				var banner = StatusCenterHelper.AddCard_EmptyRecycleBin(ReturnResult.InProgress);
 
-				bool result = await Task.Run(WindowsRecycleBinService.DeleteAllAsync);
+				bool result = await Task.Run(StorageTrashBinService.EmptyTrashBin);
 
 				StatusCenterViewModel.RemoveItem(banner);
 

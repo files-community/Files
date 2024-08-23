@@ -124,13 +124,13 @@ namespace Files.App.Data.Items
 
 	public sealed class RecycleBinLocationItem : LocationItem
 	{
-		private readonly IWindowsRecycleBinService WindowsRecycleBinService = Ioc.Default.GetRequiredService<IWindowsRecycleBinService>();
+		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 
 		public async void RefreshSpaceUsed(object? sender, FileSystemEventArgs e)
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
-				SpaceUsed = WindowsRecycleBinService.GetSize();
+				SpaceUsed = StorageTrashBinService.GetSize();
 			});
 		}
 
@@ -152,10 +152,10 @@ namespace Files.App.Data.Items
 
 		public RecycleBinLocationItem()
 		{
-			SpaceUsed = WindowsRecycleBinService.GetSize();
+			SpaceUsed = StorageTrashBinService.GetSize();
 
-			WindowsRecycleBinService.Watcher.ItemAdded += RefreshSpaceUsed;
-			WindowsRecycleBinService.Watcher.ItemDeleted += RefreshSpaceUsed;
+			StorageTrashBinService.Watcher.ItemAdded += RefreshSpaceUsed;
+			StorageTrashBinService.Watcher.ItemDeleted += RefreshSpaceUsed;
 		}
 	}
 }

@@ -9,8 +9,8 @@ using Windows.Win32.UI.Shell;
 
 namespace Files.App.Services
 {
-	/// <inheritdoc cref="IWindowsRecycleBinService"/>
-	public class WindowsRecycleBinService : IWindowsRecycleBinService
+	/// <inheritdoc cref="IStorageTrashBinService"/>
+	public class StorageTrashBinService : IStorageTrashBinService
 	{
 		/// <inheritdoc/>
 		public RecycleBinWatcher Watcher { get; private set; } = new();
@@ -46,7 +46,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public bool IsRecycled(string? path)
+		public bool IsUnderTrashBin(string? path)
 		{
 			return
 				!string.IsNullOrWhiteSpace(path) &&
@@ -54,7 +54,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task<bool> IsRecyclableAsync(string? path)
+		public async Task<bool> CanGoTrashBin(string? path)
 		{
 			if (string.IsNullOrEmpty(path) ||
 				path.StartsWith(@"\\?\", StringComparison.Ordinal))
@@ -68,7 +68,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public bool DeleteAllAsync()
+		public bool EmptyTrashBin()
 		{
 			var fRes = PInvoke.SHEmptyRecycleBin(
 				new(),
@@ -80,7 +80,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public unsafe bool RestoreAllAsync()
+		public unsafe bool RestoreAllTrashes()
 		{
 			IShellItem* recycleBinFolderShellItem = default;
 			IEnumShellItems* enumShellItems = default;

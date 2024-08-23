@@ -16,11 +16,6 @@ namespace Files.Core.Storage.Contracts
 		event EventHandler<SystemIO.FileSystemEventArgs>? ItemDeleted;
 
 		/// <summary>
-		/// Gets invoked when an item changing is detected by the watcher
-		/// </summary>
-		event EventHandler<SystemIO.FileSystemEventArgs>? ItemChanged;
-
-		/// <summary>
 		/// Gets invoked when an item renaming is detected by the watcher
 		/// </summary>
 		event EventHandler<SystemIO.FileSystemEventArgs>? ItemRenamed;

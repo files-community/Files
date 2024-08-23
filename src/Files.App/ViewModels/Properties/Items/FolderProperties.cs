@@ -10,7 +10,7 @@ namespace Files.App.ViewModels.Properties
 {
 	internal sealed class FolderProperties : BaseProperties
 	{
-		private readonly IWindowsRecycleBinService WindowsRecycleBinService = Ioc.Default.GetRequiredService<IWindowsRecycleBinService>();
+		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 
 		public ListedItem Item { get; }
 
@@ -125,7 +125,7 @@ namespace Files.App.ViewModels.Properties
 			}
 			else if (Item.ItemPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
-				var recycleBinQuery = WindowsRecycleBinService.QueryRecycleBin();
+				var recycleBinQuery = StorageTrashBinService.QueryRecycleBin();
 				if (recycleBinQuery.BinSize is long binSize)
 				{
 					ViewModel.ItemSizeBytes = binSize;

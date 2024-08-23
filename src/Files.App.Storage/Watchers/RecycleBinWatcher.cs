@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Shared.Extensions;
 using System.Security.Principal;
 
 namespace Files.App.Storage.Watchers
@@ -14,9 +15,6 @@ namespace Files.App.Storage.Watchers
 
 		/// <inheritdoc/>
 		public event EventHandler<SystemIO.FileSystemEventArgs>? ItemDeleted;
-
-		/// <inheritdoc/>
-		public event EventHandler<SystemIO.FileSystemEventArgs>? ItemChanged;
 
 		/// <inheritdoc/>
 		public event EventHandler<SystemIO.FileSystemEventArgs>? ItemRenamed;
@@ -35,16 +33,13 @@ namespace Files.App.Storage.Watchers
 		/// <inheritdoc/>
 		public void StartWatcher()
 		{
-			// NOTE:
-			//  SHChangeNotifyRegister only works if recycle bin is open in File Explorer.
-			//  Create file system watcher to monitor recycle bin folder(s) instead.
+			// NOTE: SHChangeNotifyRegister only works if recycle bin is open in File Explorer.
 
 			// Listen changes only on the Recycle Bin that the current logon user has
 			var sid = WindowsIdentity.GetCurrent().User?.ToString() ?? string.Empty;
 			if (string.IsNullOrEmpty(sid))
 				return;
 
-			// TODO: Use IStorageDevicesService to enumerate drives
 			foreach (var drive in SystemIO.DriveInfo.GetDrives())
 			{
 				var recyclePath = SystemIO.Path.Combine(drive.Name, "$RECYCLE.BIN", sid);
@@ -53,18 +48,22 @@ namespace Files.App.Storage.Watchers
 					!SystemIO.Directory.Exists(recyclePath))
 					continue;
 
-				SystemIO.FileSystemWatcher watcher = new()
+				// NOTE: Suppressed NullReferenceException caused by EnableRaisingEvents in #15808
+				SafetyExtensions.IgnoreExceptions(() =>
 				{
-					Path = recyclePath,
-					Filter = "*.*",
-					NotifyFilter = SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName | SystemIO.NotifyFilters.DirectoryName
-				};
+					SystemIO.FileSystemWatcher watcher = new()
+					{
+						Path = recyclePath,
+						Filter = "*.*",
+						NotifyFilter = SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName | SystemIO.NotifyFilters.DirectoryName
+					};
 
-				watcher.Created += Watcher_Changed;
-				watcher.Deleted += Watcher_Changed;
-				watcher.EnableRaisingEvents = true;
+					watcher.Created += Watcher_Changed;
+					watcher.Deleted += Watcher_Changed;
+					watcher.EnableRaisingEvents = true;
 
-				_watchers.Add(watcher);
+					_watchers.Add(watcher);
+				});
 			}
 		}
 

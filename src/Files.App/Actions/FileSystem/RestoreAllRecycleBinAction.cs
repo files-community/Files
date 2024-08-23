@@ -8,7 +8,7 @@ namespace Files.App.Actions
 {
 	internal sealed class RestoreAllRecycleBinAction : BaseUIAction, IAction
 	{
-		private readonly IWindowsRecycleBinService WindowsRecycleBinService = Ioc.Default.GetRequiredService<IWindowsRecycleBinService>();
+		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 
 		public string Label
 			=> "RestoreAllItems".GetLocalizedResource();
@@ -21,7 +21,7 @@ namespace Files.App.Actions
 
 		public override bool IsExecutable =>
 			UIHelpers.CanShowDialog &&
-			WindowsRecycleBinService.HasItems();
+			StorageTrashBinService.HasItems();
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
@@ -41,7 +41,7 @@ namespace Files.App.Actions
 			if (await confirmationDialog.TryShowAsync() is not ContentDialogResult.Primary)
 				return;
 
-			bool result = await Task.Run(WindowsRecycleBinService.RestoreAllAsync);
+			bool result = await Task.Run(StorageTrashBinService.RestoreAllTrashes);
 
 			// Show error dialog when failed
 			if (!result)

@@ -6,7 +6,7 @@ namespace Files.App.Data.Contracts
 	/// <summary>
 	/// Provides service for Recycle Bin on Windows.
 	/// </summary>
-	public interface IWindowsRecycleBinService
+	public interface IStorageTrashBinService
 	{
 		/// <summary>
 		/// Gets the watcher of Recycle Bin folder.
@@ -43,25 +43,25 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		/// <param name="path">The path that indicates to a file or folder.</param>
 		/// <returns>True if the file or path is recycled; otherwise, false.</returns>
-		bool IsRecycled(string? path);
+		bool IsUnderTrashBin(string? path);
 
 		/// <summary>
 		/// Gets the file or folder specified can be moved to Recycle Bin.
 		/// </summary>
 		/// <param name="path"></param>
 		/// <returns></returns>
-		Task<bool> IsRecyclableAsync(string? path);
+		Task<bool> CanGoTrashBin(string? path);
 
 		/// <summary>
 		/// Deletes files and folders in Recycle Bin permanently.
 		/// </summary>
 		/// <returns>True if succeeded; otherwise, false</returns>
-		bool DeleteAllAsync();
+		bool EmptyTrashBin();
 
 		/// <summary>
 		/// Restores files and folders in Recycle Bin to original paths.
 		/// </summary>
 		/// <returns>True if succeeded; otherwise, false</returns>
-		bool RestoreAllAsync();
+		bool RestoreAllTrashes();
 	}
 }
