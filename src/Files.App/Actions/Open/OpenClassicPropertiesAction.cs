@@ -25,7 +25,7 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			context.PageType is not ContentPageTypes.Home &&
-			!(context.PageType is ContentPageTypes.SearchResults &&
+			(context.HasSelection && context.SelectedItems.Count == 1 ||
 			!context.HasSelection);
 
 		public OpenClassicPropertiesAction()
@@ -37,15 +37,10 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.HasSelection && context.SelectedItems is not null)
-			{
-				foreach (var item in context.SelectedItems)
-					ExecuteShellCommand(item.ItemPath);
-			}
+			if (context.HasSelection && context?.SelectedItem?.ItemPath is not null)
+					ExecuteShellCommand(context.SelectedItem.ItemPath);
 			else if (context?.Folder?.ItemPath is not null)
-			{
 				ExecuteShellCommand(context.Folder.ItemPath);
-			}
 
 			return Task.CompletedTask;
 		}
