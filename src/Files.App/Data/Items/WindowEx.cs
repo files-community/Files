@@ -17,7 +17,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents base <see cref="Window"/> class to extend its features.
 	/// </summary>
-	public unsafe class WindowEx : Window
+	public unsafe class WindowEx : Window, IDisposable
 	{
 		private readonly WNDPROC _oldWndProc;
 		private readonly WNDPROC _newWndProc;
@@ -105,7 +105,7 @@ namespace Files.App.Data.Items
 			var pOldWndProc = PInvoke.SetWindowLongPtr(new(WindowHandle), WINDOW_LONG_PTR_INDEX.GWL_WNDPROC, pNewWndProc);
 			_oldWndProc = Marshal.GetDelegateForFunctionPointer<WNDPROC>(pOldWndProc);
 
-			Closed += (s, e) => { StoreWindowPlacementData(); };
+			Closed += Window_Closed;
 		}
 
 		private unsafe void StoreWindowPlacementData()
@@ -284,6 +284,16 @@ namespace Files.App.Data.Items
 			var pfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)pWindProc;
 
 			return PInvoke.CallWindowProc(pfnWndProc, param0, param1, param2, param3);
+		}
+
+		private void Window_Closed(object sender, WindowEventArgs args)
+		{
+			StoreWindowPlacementData();
+		}
+
+		public void Dispose()
+		{
+			Closed -= Window_Closed;
 		}
 	}
 }
