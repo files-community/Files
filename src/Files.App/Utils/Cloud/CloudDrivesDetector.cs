@@ -108,6 +108,7 @@ namespace Files.App.Utils.Cloud
 						"Creative Cloud Files" => CloudProviders.AdobeCreativeCloud,
 						"ownCloud" => CloudProviders.ownCloud,
 						"ProtonDrive" => CloudProviders.ProtonDrive,
+						"kDrive" => CloudProviders.kDrive,
 						_ => null,
 					};
 					if (driveID is null)
@@ -134,6 +135,7 @@ namespace Files.App.Utils.Cloud
 							CloudProviders.AdobeCreativeCloud => $"Creative Cloud Files",
 							CloudProviders.ownCloud => !string.IsNullOrEmpty(ownCloudValue) ? ownCloudValue : "ownCloud",
 							CloudProviders.ProtonDrive => $"Proton Drive",
+							CloudProviders.kDrive => "kDrive",
 							_ => null
 						},
 						SyncFolder = syncedFolder,
