@@ -26,7 +26,7 @@ namespace Files.App.Actions
 		public bool IsExecutable =>
 			context.PageType is not ContentPageTypes.Home &&
 			(context.HasSelection && context.SelectedItems.Count == 1 ||
-			!context.HasSelection);
+			!context.HasSelection && context.PageType is not ContentPageTypes.SearchResults);
 
 		public OpenClassicPropertiesAction()
 		{
