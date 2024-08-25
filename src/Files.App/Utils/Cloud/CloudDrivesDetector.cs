@@ -41,7 +41,7 @@ namespace Files.App.Utils.Cloud
 			var results = new List<ICloudProvider>();
 			using var yandexKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Yandex\Yandex.Disk.2");
 
-			var syncedFolder = (string)yandexKey?.GetValue("RootFolder");
+			var syncedFolder = (string?)yandexKey?.GetValue("RootFolder");
 			if (syncedFolder is not null)
 			{
 				results.Add(new CloudProvider(CloudProviders.Yandex)
@@ -63,54 +63,23 @@ namespace Files.App.Utils.Cloud
 
 			foreach (var subKeyName in namespaceKey?.GetSubKeyNames() ?? [])
 			{
-				using var clsidSubKey = SafetyExtensions.IgnoreExceptions(() => clsidKey.OpenSubKey(subKeyName));
+				using var clsidSubKey = SafetyExtensions.IgnoreExceptions(() => clsidKey?.OpenSubKey(subKeyName));
 				if (clsidSubKey is not null && (int?)clsidSubKey.GetValue("System.IsPinnedToNameSpaceTree") is 1)
 				{
-					using var namespaceSubKey = namespaceKey.OpenSubKey(subKeyName);
-					var driveType = (string)namespaceSubKey?.GetValue(string.Empty);
-					if (driveType is null)
-					{
+					using var namespaceSubKey = namespaceKey?.OpenSubKey(subKeyName);
+					var driveIdentifier = (string?)namespaceSubKey?.GetValue(string.Empty);
+					if (driveIdentifier is null)
 						continue;
-					}
 
-					var appNameFromNamespace = (string)namespaceSubKey?.GetValue("ApplicationName");
-					var appNameFromSyncRoot = (string)syncRootManagerKey?.OpenSubKey(driveType)?.GetValue(string.Empty);
-
-					// Nextcloud specific
-					if (!string.IsNullOrEmpty(appNameFromNamespace) && appNameFromNamespace == "Nextcloud")
-					{
-						driveType = appNameFromNamespace;
-					}
-
-					// kDrive specific
-					if (!string.IsNullOrEmpty(appNameFromNamespace) || appNameFromNamespace == "kDrive")
-					{
-						driveType = appNameFromNamespace;
-					}
-					else if (!string.IsNullOrEmpty(appNameFromSyncRoot) && appNameFromSyncRoot == "kDrive")
-					{
-						driveType = appNameFromSyncRoot;
-					}
-
-					// Drive specific
-					if (driveType.StartsWith("iCloudDrive"))
-						driveType = "iCloudDrive";
-					if (driveType.StartsWith("iCloudPhotos"))
-						driveType = "iCloudPhotos";
-					if (driveType.StartsWith("ownCloud"))
-						driveType = "ownCloud";
-					if (driveType.StartsWith("ProtonDrive"))
-						driveType = "ProtonDrive";
+					var driveType = GetDriveType(driveIdentifier, namespaceSubKey, syncRootManagerKey);
 
 					using var bagKey = clsidSubKey.OpenSubKey(@"Instance\InitPropertyBag");
-					var syncedFolder = (string)bagKey?.GetValue("TargetFolderPath");
+					var syncedFolder = (string?)bagKey?.GetValue("TargetFolderPath");
 					if (syncedFolder is null)
-					{
 						continue;
-					}
 
 					// Also works for OneDrive, Box, Dropbox
-					CloudProviders? driveID = driveType switch
+					CloudProviders? cloudProvider = driveType switch
 					{
 						"MEGA" => CloudProviders.Mega,
 						"Amazon Drive" => CloudProviders.AmazonDrive,
@@ -124,21 +93,20 @@ namespace Files.App.Utils.Cloud
 						"kDrive" => CloudProviders.kDrive,
 						_ => null,
 					};
-					if (driveID is null)
-					{
+
+					if (cloudProvider is null)
 						continue;
-					}
 
-					string nextCloudValue = (string)namespaceSubKey?.GetValue(string.Empty);
-					string ownCloudValue = (string)clsidSubKey?.GetValue(string.Empty);
-					string kDriveValue = (string)clsidSubKey?.GetValue(string.Empty);
+					var nextCloudValue = (string?)namespaceSubKey?.GetValue(string.Empty);
+					var ownCloudValue = (string?)clsidSubKey?.GetValue(string.Empty);
+					var kDriveValue = (string?)clsidSubKey?.GetValue(string.Empty);
 
-					using var defaultIconKey = clsidSubKey.OpenSubKey(@"DefaultIcon");
-					string iconPath = (string)defaultIconKey?.GetValue(string.Empty);
+					using var defaultIconKey = clsidSubKey?.OpenSubKey(@"DefaultIcon");
+					var iconPath = (string?)defaultIconKey?.GetValue(string.Empty);
 
-					results.Add(new CloudProvider(driveID.Value)
+					results.Add(new CloudProvider(cloudProvider.Value)
 					{
-						Name = driveID switch
+						Name = cloudProvider switch
 						{
 							CloudProviders.Mega => $"MEGA ({Path.GetFileName(syncedFolder.TrimEnd('\\'))})",
 							CloudProviders.AmazonDrive => $"Amazon Drive",
@@ -153,7 +121,7 @@ namespace Files.App.Utils.Cloud
 							_ => null
 						},
 						SyncFolder = syncedFolder,
-						IconData = driveID switch
+						IconData = cloudProvider switch
 						{
 							CloudProviders.ProtonDrive => Win32Helper.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }).FirstOrDefault()?.IconData,
 							_ => null
@@ -177,8 +145,8 @@ namespace Files.App.Utils.Cloud
 			foreach (var account in oneDriveAccountsKey.GetSubKeyNames())
 			{
 				var accountKeyName = @$"{oneDriveAccountsKey.Name}\{account}";
-				var displayName = (string)Registry.GetValue(accountKeyName, "DisplayName", null);
-				var userFolder = (string)Registry.GetValue(accountKeyName, "UserFolder", null);
+				var displayName = (string?)Registry.GetValue(accountKeyName, "DisplayName", null);
+				var userFolder = (string?)Registry.GetValue(accountKeyName, "UserFolder", null);
 				var accountName = string.IsNullOrWhiteSpace(displayName) ? "OneDrive" : $"OneDrive - {displayName}";
 
 				if (!string.IsNullOrWhiteSpace(userFolder) && !oneDriveAccounts.Any(x => x.Name == accountName))
@@ -257,7 +225,7 @@ namespace Files.App.Utils.Cloud
 			var results = new List<ICloudProvider>();
 			using var pCloudDriveKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\pCloud");
 
-			var syncedFolder = (string)pCloudDriveKey?.GetValue("SyncDrive");
+			var syncedFolder = (string?)pCloudDriveKey?.GetValue("SyncDrive");
 			if (syncedFolder is not null)
 			{
 				string iconPath = Path.Combine(programFilesFolder, "pCloud Drive", "pCloud.exe");
@@ -317,7 +285,7 @@ namespace Files.App.Utils.Cloud
 			var results = new List<ICloudProvider>();
 			using var SeadriveKey = Registry.CurrentUser.OpenSubKey(@"Software\SeaDrive\Seafile Drive Client\Settings");
 
-			var syncFolder = (string)SeadriveKey?.GetValue("seadriveRoot");
+			var syncFolder = (string?)SeadriveKey?.GetValue("seadriveRoot");
 			if (SeadriveKey is not null)
 			{
 				string iconPath = Path.Combine(programFilesFolder, "SeaDrive", "bin", "seadrive.exe");
@@ -360,6 +328,34 @@ namespace Files.App.Utils.Cloud
 			}
 
 			return Task.FromResult<IEnumerable<ICloudProvider>>(results);
+		}
+
+		private static string GetDriveType(string driveIdentifier, RegistryKey? namespaceSubKey, RegistryKey? syncRootManagerKey)
+		{
+			var appNameFromNamespace = (string?)namespaceSubKey?.GetValue("ApplicationName");
+
+			// Drive specific
+			if (driveIdentifier.StartsWith("iCloudDrive"))
+				return "iCloudDrive";
+			if (driveIdentifier.StartsWith("iCloudPhotos"))
+				return "iCloudPhotos";
+			if (driveIdentifier.StartsWith("ownCloud"))
+				return "ownCloud";
+			if (driveIdentifier.StartsWith("ProtonDrive"))
+				return "ProtonDrive";
+
+			// Nextcloud specific
+			if (!string.IsNullOrEmpty(appNameFromNamespace) && appNameFromNamespace == "Nextcloud")
+				return appNameFromNamespace;
+
+			// kDrive specific
+			var appNameFromSyncRoot = (string?)syncRootManagerKey?.OpenSubKey(driveIdentifier)?.GetValue(string.Empty);
+			if (!string.IsNullOrEmpty(appNameFromNamespace) && appNameFromNamespace == "kDrive")
+				return appNameFromNamespace;
+			if (!string.IsNullOrEmpty(appNameFromSyncRoot) && appNameFromSyncRoot == "kDrive")
+				return appNameFromSyncRoot;
+
+			return driveIdentifier;
 		}
 	}
 }
