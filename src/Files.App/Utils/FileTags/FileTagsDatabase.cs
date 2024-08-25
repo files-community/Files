@@ -7,6 +7,7 @@ using Windows.ApplicationModel;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 using static Files.App.Helpers.RegistryHelpers;
 using static Files.App.Utils.FileTags.TaggedFileRegistry;
+using System.Security;
 
 namespace Files.App.Utils.FileTags
 {
@@ -210,29 +211,33 @@ namespace Files.App.Utils.FileTags
 
 		private void IterateKeys(List<TaggedFile> list, string path, int depth)
 		{
-			using var key = Registry.CurrentUser.OpenSubKey(path);
-			if (key is null)
+			try
 			{
-				return;
-			}
+				using var key = Registry.CurrentUser.OpenSubKey(path);
+				if (key is null)
+					return;
 
-			if (key.ValueCount > 0)
-			{
-				var tag = new TaggedFile();
-				BindValues(key, tag);
-				list.Add(tag);
-			}
-
-			foreach (var subKey in key.GetSubKeyNames())
-			{
-				if (depth == 0 && subKey == "FRN")
+				if (key.ValueCount > 0)
 				{
-					// Skip FRN key
-					continue;
+					var tag = new TaggedFile();
+					BindValues(key, tag);
+					list.Add(tag);
 				}
 
-				IterateKeys(list, CombineKeys(path, subKey), depth + 1);
+				foreach (var subKey in key.GetSubKeyNames())
+				{
+					// Skip FRN key
+					if (depth == 0 && subKey == "FRN")
+						continue;
+
+					IterateKeys(list, CombineKeys(path, subKey), depth + 1);
+				}
 			}
+			catch (SecurityException)
+			{
+				// Handle edge case where OpenSubKey results in SecurityException
+				return;
+			}			
 		}
 	}
 }
