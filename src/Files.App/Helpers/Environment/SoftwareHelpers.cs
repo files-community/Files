@@ -16,9 +16,17 @@ namespace Files.App.Helpers
 
 		public static bool IsVSCodeInstalled()
 		{
-			return
-				ContainsName(Registry.CurrentUser.OpenSubKey(UninstallRegistryKey), VsCodeName) ||
-				ContainsName(Registry.LocalMachine.OpenSubKey(UninstallRegistryKey), VsCodeName);
+			try
+			{
+				return
+					ContainsName(Registry.CurrentUser.OpenSubKey(UninstallRegistryKey), VsCodeName) ||
+					ContainsName(Registry.LocalMachine.OpenSubKey(UninstallRegistryKey), VsCodeName);
+			}
+			catch (SecurityException)
+			{
+				// Handle edge case where OpenSubKey results in SecurityException
+				return false;
+			}
 		}
 
 		public static bool IsVSInstalled()
