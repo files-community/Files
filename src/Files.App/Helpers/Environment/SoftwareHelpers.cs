@@ -53,20 +53,28 @@ namespace Files.App.Helpers
 			if (key is null)
 				return false;
 
-			foreach (var subKey in key.GetSubKeyNames().Select(key.OpenSubKey))
+			try
 			{
-				var displayName = subKey?.GetValue("DisplayName") as string;
-				if (!string.IsNullOrWhiteSpace(displayName) && displayName.StartsWith(find))
+				foreach (var subKey in key.GetSubKeyNames().Select(key.OpenSubKey))
 				{
-					key.Close();
+					var displayName = subKey?.GetValue("DisplayName") as string;
+					if (!string.IsNullOrWhiteSpace(displayName) && displayName.StartsWith(find))
+					{
+						key.Close();
 
-					return true;
+						return true;
+					}
 				}
+
+				key.Close();
+
+				return false;
 			}
-
-			key.Close();
-
-			return false;
+			catch (SecurityException)
+			{
+				// Handle edge case where OpenSubKey results in SecurityException
+				return false;
+			}
 		}
 	}
 }
