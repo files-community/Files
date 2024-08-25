@@ -59,6 +59,7 @@ namespace Files.App.Utils.Cloud
 			var results = new List<ICloudProvider>();
 			using var clsidKey = Registry.ClassesRoot.OpenSubKey(@"CLSID");
 			using var namespaceKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace");
+			using var syncRootManagerKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\SyncRootManager");
 
 			foreach (var subKeyName in namespaceKey?.GetSubKeyNames() ?? [])
 			{
@@ -72,11 +73,23 @@ namespace Files.App.Utils.Cloud
 						continue;
 					}
 
-					//Nextcloud specific
-					var appName = (string)namespaceSubKey?.GetValue("ApplicationName");
-					if (!string.IsNullOrEmpty(appName) && appName == "Nextcloud")
+					var appNameFromNamespace = (string)namespaceSubKey?.GetValue("ApplicationName");
+					var appNameFromSyncRoot = (string)syncRootManagerKey?.OpenSubKey(driveType)?.GetValue(string.Empty);
+
+					// Nextcloud specific
+					if (!string.IsNullOrEmpty(appNameFromNamespace) && appNameFromNamespace == "Nextcloud")
 					{
-						driveType = appName;
+						driveType = appNameFromNamespace;
+					}
+
+					// kDrive specific
+					if (!string.IsNullOrEmpty(appNameFromNamespace) || appNameFromNamespace == "kDrive")
+					{
+						driveType = appNameFromNamespace;
+					}
+					else if (!string.IsNullOrEmpty(appNameFromSyncRoot) && appNameFromSyncRoot == "kDrive")
+					{
+						driveType = appNameFromSyncRoot;
 					}
 
 					// Drive specific
@@ -118,6 +131,7 @@ namespace Files.App.Utils.Cloud
 
 					string nextCloudValue = (string)namespaceSubKey?.GetValue(string.Empty);
 					string ownCloudValue = (string)clsidSubKey?.GetValue(string.Empty);
+					string kDriveValue = (string)clsidSubKey?.GetValue(string.Empty);
 
 					using var defaultIconKey = clsidSubKey.OpenSubKey(@"DefaultIcon");
 					string iconPath = (string)defaultIconKey?.GetValue(string.Empty);
@@ -135,7 +149,7 @@ namespace Files.App.Utils.Cloud
 							CloudProviders.AdobeCreativeCloud => $"Creative Cloud Files",
 							CloudProviders.ownCloud => !string.IsNullOrEmpty(ownCloudValue) ? ownCloudValue : "ownCloud",
 							CloudProviders.ProtonDrive => $"Proton Drive",
-							CloudProviders.kDrive => "kDrive",
+							CloudProviders.kDrive => !string.IsNullOrEmpty(kDriveValue) ? kDriveValue : "kDrive",
 							_ => null
 						},
 						SyncFolder = syncedFolder,
