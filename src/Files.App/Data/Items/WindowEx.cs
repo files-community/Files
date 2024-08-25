@@ -266,7 +266,7 @@ namespace Files.App.Data.Items
 		{
 			switch (param1)
 			{
-				case 0x0018 /*WM_SHOWWINDOW*/ when param2 == (WPARA)1 && !_isInitialized:
+				case 0x0018 /*WM_SHOWWINDOW*/ when param2 == (WPARAM)1 && !_isInitialized:
 					{
 						_isInitialized = true;
 						RestoreWindowPlacementData();
