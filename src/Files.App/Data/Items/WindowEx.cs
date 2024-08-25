@@ -19,6 +19,7 @@ namespace Files.App.Data.Items
 	/// </summary>
 	public unsafe class WindowEx : Window
 	{
+		private bool _isInitialized;
 		private readonly WNDPROC _oldWndProc;
 		private readonly WNDPROC _newWndProc;
 
@@ -97,8 +98,6 @@ namespace Files.App.Data.Items
 			MinHeight = minHeight;
 			IsMaximizable = true;
 			IsMinimizable = true;
-
-			RestoreWindowPlacementData();
 
 			_newWndProc = new(NewWindowProc);
 			var pNewWndProc = Marshal.GetFunctionPointerForDelegate(_newWndProc);
@@ -267,6 +266,12 @@ namespace Files.App.Data.Items
 		{
 			switch (param1)
 			{
+				case 0x0018 /*WM_SHOWWINDOW*/ when param2 == (WPARA)1 && !_isInitialized:
+					{
+						_isInitialized = true;
+						RestoreWindowPlacementData();
+						break;
+					}
 				case 0x0024: /*WM_GETMINMAXINFO*/
 					{
 						var dpi = PInvoke.GetDpiForWindow(new(param0));
