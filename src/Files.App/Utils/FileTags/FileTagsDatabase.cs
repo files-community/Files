@@ -3,11 +3,11 @@
 
 using Microsoft.Win32;
 using System.Runtime.CompilerServices;
+using System.Security;
 using Windows.ApplicationModel;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 using static Files.App.Helpers.RegistryHelpers;
 using static Files.App.Utils.FileTags.TaggedFileRegistry;
-using System.Security;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Files.App.Utils.FileTags
 {
@@ -237,7 +237,7 @@ namespace Files.App.Utils.FileTags
 			{
 				// Handle edge case where OpenSubKey results in SecurityException
 				return;
-			}			
+			}
 		}
 	}
 }
