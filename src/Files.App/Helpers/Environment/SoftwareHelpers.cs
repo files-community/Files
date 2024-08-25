@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Win32;
-using System.IO;
+using System.Security;
 
 namespace Files.App.Helpers
 {
@@ -10,7 +10,7 @@ namespace Files.App.Helpers
 	{
 		private const string UninstallRegistryKey = @"Software\Microsoft\Windows\CurrentVersion\Uninstall";
 		private const string VsRegistryKey = @"SOFTWARE\Microsoft\VisualStudio";
-		
+
 		private const string VsCodeName = "Microsoft Visual Studio Code";
 
 
@@ -23,13 +23,21 @@ namespace Files.App.Helpers
 
 		public static bool IsVSInstalled()
 		{
-			var key = Registry.LocalMachine.OpenSubKey(VsRegistryKey);
-			if (key is null)
+			try
+			{
+				var key = Registry.LocalMachine.OpenSubKey(VsRegistryKey);
+				if (key is null)
+					return false;
+
+				key.Close();
+
+				return true;
+			}
+			catch (SecurityException)
+			{
+				// Handle edge case where OpenSubKey results in SecurityException
 				return false;
-
-			key.Close();
-
-			return true;
+			}
 		}
 
 		private static bool ContainsName(RegistryKey? key, string find)
