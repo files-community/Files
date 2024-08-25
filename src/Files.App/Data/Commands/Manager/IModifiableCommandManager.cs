@@ -11,5 +11,6 @@ namespace Files.App.Data.Commands
 
 		IRichCommand PasteItem { get; }
 		IRichCommand DeleteItem { get; }
+		IRichCommand OpenProperties { get; }
 	}
 }
