@@ -76,7 +76,7 @@ namespace Files.App
 					MainWindow.Instance.Activate();
 
 					// Wait for the Window to initialize
-					await Task.Delay(40);
+					await Task.Delay(10);
 
 					SplashScreenLoadingTCS = new TaskCompletionSource();
 					MainWindow.Instance.ShowSplashScreen();
@@ -104,7 +104,7 @@ namespace Files.App
 					MainWindow.Instance.Activate();
 
 					// Wait for the Window to initialize
-					await Task.Delay(40);
+					await Task.Delay(10);
 
 					SplashScreenLoadingTCS = new TaskCompletionSource();
 					MainWindow.Instance.ShowSplashScreen();

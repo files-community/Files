@@ -185,7 +185,7 @@ namespace Files.App
 				Activate();
 
 				// Bring to foreground (#14730) in case Activate() doesn't
-				Win32Helper.BringToForegroundEx(new(WindowHandle));
+				//Win32Helper.BringToForegroundEx(new(WindowHandle));
 			}
 
 			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)) &&
