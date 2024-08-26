@@ -1,10 +1,10 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Collections.Frozen;
-using System.Collections.Immutable;
 using Files.App.Actions;
 using Microsoft.Extensions.Logging;
+using System.Collections.Frozen;
+using System.Collections.Immutable;
 
 namespace Files.App.Data.Commands
 {
@@ -294,7 +294,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.DecompressArchiveHereSmart] = new DecompressArchiveHereSmart(),
 			[CommandCodes.DecompressArchiveToChildFolder] = new DecompressArchiveToChildFolderAction(),
 			[CommandCodes.FlattenToRoot] = new FlattenToRootAction(),
-			[CommandCodes.Flatten = new FlattenAction(),
+			[CommandCodes.Flatten] = new FlattenAction(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
 			[CommandCodes.RotateRight] = new RotateRightAction(),
 			[CommandCodes.OpenItem] = new OpenItemAction(),
