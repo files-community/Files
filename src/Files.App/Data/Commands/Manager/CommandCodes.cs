@@ -97,7 +97,7 @@ namespace Files.App.Data.Commands
 		DecompressArchiveHereSmart,
 		DecompressArchiveToChildFolder,
 
-		// Folder		
+		// Folders
 		FlattenToRoot,
 		Flatten,
 
