@@ -31,6 +31,10 @@ namespace Files.App.UITests
 				case "ThemedIconPage":
 					MainFrame.Navigate(typeof(ThemedIconPage));
 					break;
+
+				case "ToolbarPage":
+					MainFrame.Navigate( typeof( ToolbarPage ) );
+					break;
 			}
 		}
 
