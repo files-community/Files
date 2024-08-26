@@ -76,10 +76,10 @@ namespace Files.App.ViewModels.Layouts
 
 				// Mouse wheel down
 				if (delta < 0)
-					Commands.LayoutIncreaseSize.ExecuteAsync();
+					Commands.LayoutDecreaseSize.ExecuteAsync();
 				// Mouse wheel up
 				else if (delta > 0)
-					Commands.LayoutDecreaseSize.ExecuteAsync();
+					Commands.LayoutIncreaseSize.ExecuteAsync();
 
 				e.Handled = true;
 			}

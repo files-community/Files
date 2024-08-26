@@ -333,6 +333,20 @@ namespace Files.App.ViewModels.Settings
 				}
 			}
 		}
+		
+		public bool ShowSystemTrayIcon
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowSystemTrayIcon;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowSystemTrayIcon)
+				{
+					UserSettingsService.GeneralSettingsService.ShowSystemTrayIcon = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
 
 		public async Task OpenFilesOnWindowsStartupAsync()
 		{

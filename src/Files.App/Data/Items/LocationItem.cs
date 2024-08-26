@@ -124,9 +124,9 @@ namespace Files.App.Data.Items
 
 	public sealed class RecycleBinLocationItem : LocationItem
 	{
-		public void RefreshSpaceUsed(object sender, FileSystemEventArgs e)
+		public async void RefreshSpaceUsed(object sender, FileSystemEventArgs e)
 		{
-			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				SpaceUsed = RecycleBinHelpers.GetSize();
 			});

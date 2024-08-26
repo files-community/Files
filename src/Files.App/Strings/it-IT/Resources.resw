@@ -2357,6 +2357,9 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Attiva o disattiva la visualizzazione degli elementi nascosti</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>Toggle whether to show dot files</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Attiva o disattiva la visualizzazione delle estensioni dei file</value>
   </data>
@@ -3901,5 +3904,8 @@
   </data>
   <data name="Vertical" xml:space="preserve">
     <value>Verticale</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>Mostra l'icona di Files nella barra delle applicazioni</value>
   </data>
 </root>

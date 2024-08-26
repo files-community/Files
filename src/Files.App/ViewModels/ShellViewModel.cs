@@ -1833,11 +1833,19 @@ namespace Files.App.ViewModels
 			}
 			else
 			{
-				FolderBackgroundImageSource = new BitmapImage
+				try
 				{
-					UriSource = new Uri(backgroundImage, UriKind.RelativeOrAbsolute),
-					CreateOptions = BitmapCreateOptions.IgnoreImageCache
-				};
+					FolderBackgroundImageSource = new BitmapImage
+					{
+						UriSource = new Uri(backgroundImage, UriKind.RelativeOrAbsolute),
+						CreateOptions = BitmapCreateOptions.IgnoreImageCache
+					};
+				}
+				catch (Exception ex)
+				{
+					// Handle errors with setting the URI
+					App.Logger.LogWarning(ex, ex.Message);
+				}
 			}
 
 			// Opacity

@@ -2357,6 +2357,9 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Gizli öğelerin gösterilip gösterilmeyeceğini değiştirin</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>Toggle whether to show dot files</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Dosya uzantılarının gösterilip gösterilmeyeceğini değiştirin</value>
   </data>
@@ -3901,5 +3904,8 @@
   </data>
   <data name="Vertical" xml:space="preserve">
     <value>Dikey</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>Show Files icon in the System Tray</value>
   </data>
 </root>

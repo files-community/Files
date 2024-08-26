@@ -7,7 +7,6 @@ using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Sentry;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.UserControls
@@ -321,12 +320,9 @@ namespace Files.App.ViewModels.UserControls
 				return new CodePreview(model);
 			}
 
-			if
-			(
-				ShellPreviewViewModel.FindPreviewHandlerFor(item.FileExtension, 0) is not null &&
+			if (ShellPreviewViewModel.FindPreviewHandlerFor(item.FileExtension, 0) is not null &&
 				!FileExtensionHelpers.IsFontFile(item.FileExtension) &&
-				!FileExtensionHelpers.IsExecutableFile(item.FileExtension)
-			)
+				!FileExtensionHelpers.IsExecutableFile(item.FileExtension))
 			{
 				var model = new ShellPreviewViewModel(item);
 				await model.LoadAsync();

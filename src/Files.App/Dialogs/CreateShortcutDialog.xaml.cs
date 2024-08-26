@@ -27,7 +27,7 @@ namespace Files.App.Dialogs
 
 			InvalidPathWarning.SetBinding(TeachingTip.TargetProperty, new Binding()
 			{
-				Source = DestinationItemPath
+				Source = ShortcutTarget
 			});
 		}
 

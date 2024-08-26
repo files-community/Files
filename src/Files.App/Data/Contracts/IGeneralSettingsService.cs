@@ -234,6 +234,11 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating whether or not to leave app running in the background.
 		/// </summary>
 		bool LeaveAppRunning { get; set; }
+		
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show Files in the system tray.
+		/// </summary>
+		bool ShowSystemTrayIcon { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating the default option to resolve conflicts.

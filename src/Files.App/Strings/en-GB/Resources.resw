@@ -217,7 +217,7 @@
     <value>Appearance</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Background colour</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Advanced</value>
@@ -274,7 +274,7 @@
     <value>Delete</value>
   </data>
   <data name="PinFolderToSidebar" xml:space="preserve">
-    <value/>
+    <value>Pin to Sidebar</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Welcome to Files!</value>
@@ -1818,7 +1818,7 @@
     <value>Run in 640 x 480 screen resolution</value>
   </data>
   <data name="CompatibilityOverrideHighDPIBehavior" xml:space="preserve">
-    <value>Override high DPI scaling behavior</value>
+    <value>Override high DPI scaling behaviour</value>
   </data>
   <data name="CompatibilityReducedColorMode" xml:space="preserve">
     <value>Reduced color mode</value>
@@ -2356,6 +2356,9 @@
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Toggle whether to show hidden items</value>
+  </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>Toggle whether to show dot files</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Toggle whether to show file extensions</value>
@@ -3756,7 +3759,7 @@
     <comment>Image alignment type</comment>
   </data>
   <data name="Center" xml:space="preserve">
-    <value>Center</value>
+    <value>Centre</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Fill" xml:space="preserve">
@@ -3901,5 +3904,8 @@
   </data>
   <data name="Vertical" xml:space="preserve">
     <value>Vertical</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>Show Files icon in the System Tray</value>
   </data>
 </root>

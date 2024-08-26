@@ -659,18 +659,13 @@ namespace Files.App.ViewModels.UserControls
 
 			foreach (var childFolder in childFolders)
 			{
-				var isPathItemFocused = childFolder.Item.Name == nextPathItemTitle;
+				var imageSource = await NavigationHelpers.GetIconForPathAsync(childFolder.Path);
 
 				var flyoutItem = new MenuFlyoutItem
 				{
-					Icon = new FontIcon
-					{
-						Glyph = "\uED25",
-						FontWeight = isPathItemFocused ? boldFontWeight : normalFontWeight
-					},
+					Icon = new ImageIcon() { Source = imageSource },
 					Text = childFolder.Item.Name,
 					FontSize = 12,
-					FontWeight = isPathItemFocused ? boldFontWeight : normalFontWeight
 				};
 
 				if (workingPath != childFolder.Path)

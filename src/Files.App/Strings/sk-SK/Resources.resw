@@ -2359,6 +2359,9 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Prepnite, či chcete zobraziť skryté súbory</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>Toggle whether to show dot files</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Prepnite, či chcete zobraziť prípony súborov</value>
   </data>
@@ -3903,5 +3906,8 @@
   </data>
   <data name="Vertical" xml:space="preserve">
     <value>Vertical</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>Show Files icon in the System Tray</value>
   </data>
 </root>

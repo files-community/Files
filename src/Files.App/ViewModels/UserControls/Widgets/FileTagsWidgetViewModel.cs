@@ -121,6 +121,12 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					CommandParameter = item,
 					ShowItem = isFolder
 				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					ItemType = ContextMenuFlyoutItemType.Separator,
+					ShowItem = CommandManager.OpenTerminalFromHome.IsExecutable
+				},
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenTerminalFromHome).Build(),
 				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,

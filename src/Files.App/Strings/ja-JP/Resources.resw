@@ -2357,6 +2357,9 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>隠しファイルを表示するかどうかを切り替える</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>ドット ファイルを表示するかどうかを切り替える</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>ファイル名拡張子を表示するかどうかを切り替える</value>
   </data>
@@ -3901,5 +3904,8 @@
   </data>
   <data name="Vertical" xml:space="preserve">
     <value>縦</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>システム トレイに Files のアイコンを表示する</value>
   </data>
 </root>

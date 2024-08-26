@@ -4,33 +4,46 @@
 using Microsoft.Win32;
 using System.IO;
 using System.Runtime.InteropServices;
-using Vanara.PInvoke;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.System.DataExchange;
 
 namespace Files.App.Services.PreviewPopupProviders
 {
-	public struct COPYDATASTRUCT
-	{
-		public IntPtr dwData;
-		public int cbData;
-		public IntPtr lpData;
-	}
-
 	public sealed class SeerProProvider : IPreviewPopupProvider
 	{
 		public static SeerProProvider Instance { get; } = new();
 
 		private string? CurrentPath;
 
-		public async Task TogglePreviewPopupAsync(string path)
+		private bool? _IsTrackSelectionSettingEnabledCache;
+		private bool IsTrackSelectionSettingEnabled
 		{
-			HWND Window = User32.FindWindow("SeerWindowClass", null);
-			COPYDATASTRUCT data = new COPYDATASTRUCT();
-			data.dwData = 5000;
-			data.cbData = (path.Length + 1) * 2;
-			data.lpData = Marshal.StringToHGlobalUni(path);
-			User32.SendMessage(Window, (uint)User32.WindowMessage.WM_COPYDATA, 0, ref data);
+			get
+			{
+				_IsTrackSelectionSettingEnabledCache ??= DetectTrackSelectionSetting().Result;
 
-			CurrentPath = User32.IsWindowVisible(Window) ? path : null;
+				return _IsTrackSelectionSettingEnabledCache.Value;
+			}
+		}
+
+		public unsafe async Task TogglePreviewPopupAsync(string path)
+		{
+			COPYDATASTRUCT data = default;
+			data.dwData = 5000u;
+			data.cbData = (uint)(path.Length + 1) * 2;
+			data.lpData = (void*)Marshal.StringToHGlobalUni(path);
+
+			var pData = Marshal.AllocHGlobal(Marshal.SizeOf(data));
+			Marshal.StructureToPtr(data, pData, false);
+
+			HWND hWnd = PInvoke.FindWindow("SeerWindowClass", null);
+			var result = PInvoke.SendMessage(hWnd, 0x004A /*WM_COPYDATA*/, 0, pData);
+
+			CurrentPath = PInvoke.IsWindowVisible(hWnd) ? path : null;
+
+			Marshal.FreeHGlobal((nint)data.lpData);
+			Marshal.FreeHGlobal(pData);
 		}
 
 		public async Task SwitchPreviewAsync(string path)
@@ -49,20 +62,8 @@ namespace Files.App.Services.PreviewPopupProviders
 
 		public async Task<bool> DetectAvailability()
 		{
-			var handle = User32.FindWindow("SeerWindowClass", null).DangerousGetHandle();
-			return handle != IntPtr.Zero && handle.ToInt64() != -1;
-		}
-
-		private bool? _IsTrackSelectionSettingEnabledCache;
-		private bool IsTrackSelectionSettingEnabled
-		{
-			get
-			{
-				if (_IsTrackSelectionSettingEnabledCache is null)
-					_IsTrackSelectionSettingEnabledCache = DetectTrackSelectionSetting().Result;
-
-				return _IsTrackSelectionSettingEnabledCache.Value;
-			}
+			var hWnd = PInvoke.FindWindow("SeerWindowClass", null).Value;
+			return hWnd != nint.Zero && hWnd.ToInt64() != -1;
 		}
 
 		private Task<bool> DetectTrackSelectionSetting()

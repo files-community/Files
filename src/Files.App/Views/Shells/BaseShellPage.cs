@@ -5,7 +5,6 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
@@ -62,11 +61,15 @@ namespace Files.App.Views.Shells
 
 		protected abstract Frame ItemDisplay { get; }
 
-		public abstract bool CanNavigateForward { get; }
+		public virtual bool CanNavigateForward => ItemDisplay.CanGoForward;
 
-		public abstract bool CanNavigateBackward { get; }
+		public virtual bool CanNavigateBackward => ItemDisplay.CanGoBack;
 
 		public bool IsColumnView => SlimContentPage is ColumnsLayoutPage;
+
+		public virtual IList<PageStackEntry> ForwardStack => ItemDisplay.ForwardStack;
+
+		public virtual IList<PageStackEntry> BackwardStack => ItemDisplay.BackStack;
 
 		public ShellViewModel ShellViewModel { get; protected set; }
 

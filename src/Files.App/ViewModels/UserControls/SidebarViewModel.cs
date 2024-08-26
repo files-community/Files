@@ -247,9 +247,9 @@ namespace Files.App.ViewModels.UserControls
 
 			App.QuickAccessManager.Model.DataChanged += Manager_DataChanged;
 			App.LibraryManager.DataChanged += Manager_DataChanged;
-			drivesViewModel.Drives.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Drives, args);
+			drivesViewModel.Drives.CollectionChanged += Manager_DataChangedForDrives;
 			CloudDrivesManager.DataChanged += Manager_DataChanged;
-			NetworkService.Computers.CollectionChanged += (x, args) => Manager_DataChanged(SectionType.Network, args);
+			NetworkService.Computers.CollectionChanged += Manager_DataChangedForNetworkComputers;
 			WSLDistroManager.DataChanged += Manager_DataChanged;
 			App.FileTagsManager.DataChanged += Manager_DataChanged;
 			SidebarDisplayMode = UserSettingsService.AppearanceSettingsService.IsSidebarOpen ? SidebarDisplayMode.Expanded : SidebarDisplayMode.Compact;
@@ -291,6 +291,10 @@ namespace Files.App.ViewModels.UserControls
 				await SyncSidebarItemsAsync(section, getElements, e);
 			});
 		}
+
+		private void Manager_DataChangedForDrives(object? sender, NotifyCollectionChangedEventArgs e) => Manager_DataChanged(SectionType.Drives, e);
+
+		private void Manager_DataChangedForNetworkComputers(object? sender, NotifyCollectionChangedEventArgs e) => Manager_DataChanged(SectionType.Network, e);
 
 		private async Task SyncSidebarItemsAsync(LocationItem section, Func<IReadOnlyList<INavigationControlItem>> getElements, NotifyCollectionChangedEventArgs e)
 		{
@@ -671,9 +675,9 @@ namespace Files.App.ViewModels.UserControls
 
 			App.QuickAccessManager.Model.DataChanged -= Manager_DataChanged;
 			App.LibraryManager.DataChanged -= Manager_DataChanged;
-			drivesViewModel.Drives.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Drives, args);
+			drivesViewModel.Drives.CollectionChanged -= Manager_DataChangedForDrives;
 			CloudDrivesManager.DataChanged -= Manager_DataChanged;
-			NetworkService.Computers.CollectionChanged -= (x, args) => Manager_DataChanged(SectionType.Network, args);
+			NetworkService.Computers.CollectionChanged -= Manager_DataChangedForNetworkComputers;
 			WSLDistroManager.DataChanged -= Manager_DataChanged;
 			App.FileTagsManager.DataChanged -= Manager_DataChanged;
 		}
@@ -1060,6 +1064,12 @@ namespace Files.App.ViewModels.UserControls
 					CommandParameter = menu,
 					ShowItem = options.ShowProperties
 				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					ItemType = ContextMenuFlyoutItemType.Separator,
+					ShowItem = Commands.OpenTerminalFromSidebar.IsExecutable
+				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenTerminalFromSidebar).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
