@@ -42,9 +42,7 @@ namespace Files.App.Actions
 				return Task.CompletedTask;
 
 			foreach (var item in items)
-			{
 				FlattenFolderAsync(item.ItemPath);
-			}
 
 			return Task.CompletedTask;
 		}
