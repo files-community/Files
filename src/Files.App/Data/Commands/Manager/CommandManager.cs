@@ -102,8 +102,8 @@ namespace Files.App.Data.Commands
 		public IRichCommand DecompressArchiveHere => commands[CommandCodes.DecompressArchiveHere];
 		public IRichCommand DecompressArchiveHereSmart => commands[CommandCodes.DecompressArchiveHereSmart];
 		public IRichCommand DecompressArchiveToChildFolder => commands[CommandCodes.DecompressArchiveToChildFolder];
-		public IRichCommand FlattenSingle => commands[CommandCodes.FlattenSingle];
-		public IRichCommand FlattenRecursive => commands[CommandCodes.FlattenRecursive];
+		public IRichCommand FlattenToRoot => commands[CommandCodes.FlattenToRoot];
+		public IRichCommand Flatten => commands[CommandCodes.Flatten];
 		public IRichCommand RotateLeft => commands[CommandCodes.RotateLeft];
 		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
 		public IRichCommand OpenItem => commands[CommandCodes.OpenItem];
@@ -293,8 +293,8 @@ namespace Files.App.Data.Commands
 			[CommandCodes.DecompressArchiveHere] = new DecompressArchiveHere(),
 			[CommandCodes.DecompressArchiveHereSmart] = new DecompressArchiveHereSmart(),
 			[CommandCodes.DecompressArchiveToChildFolder] = new DecompressArchiveToChildFolderAction(),
-			[CommandCodes.FlattenSingle] = new FlattenSingleAction(),
-			[CommandCodes.FlattenRecursive] = new FlattenRecursiveAction(),
+			[CommandCodes.FlattenToRoot] = new FlattenToRootAction(),
+			[CommandCodes.Flatten = new FlattenAction(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
 			[CommandCodes.RotateRight] = new RotateRightAction(),
 			[CommandCodes.OpenItem] = new OpenItemAction(),

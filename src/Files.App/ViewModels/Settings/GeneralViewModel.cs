@@ -454,18 +454,19 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public bool ShowFlattenOptions
-		{
-			get => UserSettingsService.GeneralSettingsService.ShowFlattenOptions;
-			set
-			{
-				if (value == UserSettingsService.GeneralSettingsService.ShowFlattenOptions)
-					return;
+		// TODO uncomment code when feature is marked as stable
+		//public bool ShowFlattenOptions
+		//{
+		//	get => UserSettingsService.GeneralSettingsService.ShowFlattenOptions;
+		//	set
+		//	{
+		//		if (value == UserSettingsService.GeneralSettingsService.ShowFlattenOptions)
+		//			return;
 
-				UserSettingsService.GeneralSettingsService.ShowFlattenOptions = value;
-				OnPropertyChanged();
-			}
-		}
+		//		UserSettingsService.GeneralSettingsService.ShowFlattenOptions = value;
+		//		OnPropertyChanged();
+		//	}
+		//}
 
 		public bool ShowSendToMenu
 		{

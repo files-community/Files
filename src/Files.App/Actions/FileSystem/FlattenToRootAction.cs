@@ -1,28 +1,30 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.Storage;
-using Microsoft.Extensions.Logging;
 
 namespace Files.App.Actions
 {
-	internal sealed class FlattenRecursiveAction : ObservableObject, IAction
+	internal sealed class FlattenToRootAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
+		private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
 		public string Label
-			=> "FlattenRecursive".GetLocalizedResource();
+			=> "FlattenToRoot".GetLocalizedResource();
 
 		public string Description
-			=> "FlattenDescription".GetLocalizedResource();
+			=> "FlattenToRootDescription".GetLocalizedResource();
 
 		public bool IsExecutable =>
+			GeneralSettingsService.ShowFlattenOptions &&
 			context.ShellPage is not null &&
 			context.HasSelection &&
 			context.SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder;
 
-		public FlattenRecursiveAction()
+		public FlattenToRootAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -57,7 +59,7 @@ namespace Files.App.Actions
 				FlattenFolderAsync(containedFolder);
 
 				var folderName = Path.GetFileName(containedFolder);
-				var destinationPath = Path.Combine(context.ShellPage?.ShellViewModel?.CurrentFolder?.ItemPath ?? string.Empty, folderName);
+				var destinationPath = Path.Combine(context?.SelectedItem?.ItemPath ?? string.Empty, folderName);
 
 				if (Directory.Exists(destinationPath))
 					continue;
@@ -75,7 +77,7 @@ namespace Files.App.Actions
 			foreach (var containedFile in containedFiles)
 			{
 				var fileName = Path.GetFileName(containedFile);
-				var destinationPath = Path.Combine(context.ShellPage?.ShellViewModel?.CurrentFolder?.ItemPath ?? string.Empty, fileName);
+				var destinationPath = Path.Combine(context?.SelectedItem?.ItemPath ?? string.Empty, fileName);
 
 				if (File.Exists(destinationPath))
 					continue;

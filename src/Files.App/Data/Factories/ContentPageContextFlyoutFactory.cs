@@ -554,8 +554,8 @@ namespace Files.App.Data.Factories
 					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.Folder" },
 					Items =
 					[
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.FlattenSingle).Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.FlattenRecursive).Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(Commands.FlattenToRoot).Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(Commands.Flatten).Build(),
 					],
 					IsHidden = selectedItems.Count != 1 || !selectedItems.Any(item => item?.PrimaryItemAttribute is StorageItemTypes.Folder) || !itemsSelected,
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowFlattenOptions
