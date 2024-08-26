@@ -1,7 +1,4 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
-
-using Files.App.ViewModels.Properties;
+﻿using Files.App.ViewModels.Properties;
 using Microsoft.UI.Content;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
@@ -9,22 +6,28 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Vanara.PInvoke;
 using Windows.Win32;
-using Windows.Win32.System.Com;
 using Windows.Win32.Graphics.Direct3D;
 using Windows.Win32.Graphics.Direct3D11;
-using Windows.Win32.Graphics.DirectComposition;
-using Windows.Win32.Graphics.Dwm;
 using Windows.Win32.Graphics.Dxgi;
+using Windows.Win32.Graphics.DirectComposition;
 using WinRT;
+using Windows.Win32;
+using Windows.Win32.Graphics.Dwm;
 using static Vanara.PInvoke.ShlwApi;
 using static Vanara.PInvoke.User32;
-
-#pragma warning disable CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
 
 namespace Files.App.ViewModels.Previews
 {
 	public sealed class ShellPreviewViewModel : BasePreviewModel
 	{
+		public ShellPreviewViewModel(ListedItem item)
+			: base(item)
+		{
+		}
+
+		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
+			=> [];
+
 		private const string IPreviewHandlerIid = "{8895b1c6-b41f-4c1c-a562-0d564250836f}";
 		private static readonly Guid QueryAssociationsClsid = new Guid(0xa07034fd, 0x6caa, 0x4954, 0xac, 0x3f, 0x97, 0xa2, 0x72, 0x16, 0xf9, 0x8a);
 		private static readonly Guid IQueryAssociationsIid = Guid.ParseExact("c46ca590-3c3f-11d2-bee6-0000f805ca57", "d");
@@ -35,34 +38,21 @@ namespace Files.App.ViewModels.Previews
 		HWND hwnd = HWND.NULL;
 		bool isOfficePreview = false;
 
-		public ShellPreviewViewModel(ListedItem item) : base(item)
-		{
-		}
-
-		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
-			=> [];
-
-		public static Guid? FindPreviewHandlerFor(string extension, nint hwnd)
+		public static Guid? FindPreviewHandlerFor(string extension, IntPtr hwnd)
 		{
 			if (string.IsNullOrEmpty(extension))
 				return null;
-
 			var hr = AssocCreate(QueryAssociationsClsid, IQueryAssociationsIid, out var queryAssoc);
 			if (!hr.Succeeded)
 				return null;
-
 			try
 			{
 				if (queryAssoc == null)
 					return null;
-
-				queryAssoc.Init(ASSOCF.ASSOCF_INIT_DEFAULTTOSTAR, extension, nint.Zero, hwnd);
-
+				queryAssoc.Init(ASSOCF.ASSOCF_INIT_DEFAULTTOSTAR, extension, IntPtr.Zero, hwnd);
 				var sb = new StringBuilder(128);
 				uint cch = 64;
-
 				queryAssoc.GetString(ASSOCF.ASSOCF_NOTRUNCATE, ASSOCSTR.ASSOCSTR_SHELLEXTENSION, IPreviewHandlerIid, sb, ref cch);
-
 				Debug.WriteLine($"Preview handler for {extension}: {sb}");
 				return Guid.Parse(sb.ToString());
 			}
@@ -80,33 +70,28 @@ namespace Files.App.ViewModels.Previews
 		{
 			if (hwnd != HWND.NULL)
 				SetWindowPos(hwnd, HWND.HWND_TOP, size.Left, size.Top, size.Width, size.Height, SetWindowPosFlags.SWP_NOACTIVATE);
-
-			currentHandler?.ResetBounds(new(0, 0, size.Width, size.Height));
-
+			if (currentHandler != null)
+				currentHandler.ResetBounds(new(0, 0, size.Width, size.Height));
 			if (outputLink is not null)
 				outputLink.PlacementVisual.Size = new(size.Width, size.Height);
 		}
 
-		private nint WndProc(HWND hwnd, uint msg, nint wParam, nint lParam)
+		private IntPtr WndProc(HWND hwnd, uint msg, IntPtr wParam, IntPtr lParam)
 		{
 			if (msg == (uint)WindowMessage.WM_CREATE)
 			{
 				var clsid = FindPreviewHandlerFor(Item.FileExtension, hwnd.DangerousGetHandle());
-
-				isOfficePreview = new Guid?[]
-				{
-					Guid.Parse("84F66100-FF7C-4fb4-B0C0-02CD7FB668FE"), // preview handler for Word files
-					Guid.Parse("65235197-874B-4A07-BDC5-E65EA825B718"), // preview handler for PowerPoint files
-					Guid.Parse("00020827-0000-0000-C000-000000000046")  // preview handler for Excel files
-				}.Contains(clsid);
-
+				isOfficePreview = new Guid?[] {
+					Guid.Parse("84F66100-FF7C-4fb4-B0C0-02CD7FB668FE"),
+					Guid.Parse("65235197-874B-4A07-BDC5-E65EA825B718"),
+					Guid.Parse("00020827-0000-0000-C000-000000000046") }.Contains(clsid);
 				try
 				{
 					currentHandler = new PreviewHandler(clsid.Value, hwnd.DangerousGetHandle());
 					currentHandler.InitWithFileWithEveryWay(Item.ItemPath);
 					currentHandler.DoPreview();
 				}
-				catch
+				catch (Exception ex)
 				{
 					UnloadPreview();
 				}
@@ -119,7 +104,6 @@ namespace Files.App.ViewModels.Previews
 					currentHandler = null;
 				}
 			}
-
 			return DefWindowProc(hwnd, msg, wParam, lParam);
 		}
 
@@ -128,22 +112,13 @@ namespace Files.App.ViewModels.Previews
 			var parent = MainWindow.Instance.WindowHandle;
 
 			HINSTANCE hInst = Kernel32.GetModuleHandle();
-
 			wCls = new WindowClass($"{GetType().Name}{Guid.NewGuid()}", hInst, WndProc);
-
-			hwnd = CreateWindowEx(
-				WindowStylesEx.WS_EX_LAYERED | WindowStylesEx.WS_EX_COMPOSITED,
-				wCls.ClassName,
-				"Preview",
-				WindowStyles.WS_CHILD | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_VISIBLE,
-				0, 0, 0, 0,
-				hWndParent: parent,
-				hInstance: hInst);
+			hwnd = CreateWindowEx(WindowStylesEx.WS_EX_LAYERED | WindowStylesEx.WS_EX_COMPOSITED, wCls.ClassName, "Preview", WindowStyles.WS_CHILD | WindowStyles.WS_CLIPSIBLINGS | WindowStyles.WS_VISIBLE, 0, 0, 0, 0, hWndParent: parent, hInstance: hInst);
 
 			_ = ChildWindowToXaml(parent, presenter);
 		}
 
-		private unsafe bool ChildWindowToXaml(nint parent, UIElement presenter)
+		private unsafe bool ChildWindowToXaml(IntPtr parent, UIElement presenter)
 		{
 			D3D_DRIVER_TYPE[] driverTypes =
 			[
@@ -151,119 +126,118 @@ namespace Files.App.ViewModels.Previews
 				D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_WARP,
 			];
 
-			ID3D11Device* pD3D11Device = default;
-			ID3D11DeviceContext* pD3D11DeviceContext = default;
+			ID3D11Device? d3d11Device = null;
+			ID3D11DeviceContext? d3d11DeviceContext = null;
 
 			foreach (var driveType in driverTypes)
 			{
 				var hr = PInvoke.D3D11CreateDevice(
 					null,
 					driveType,
-					new(nint.Zero),
+					new(IntPtr.Zero),
 					D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_BGRA_SUPPORT,
 					null,
 					0,
 					7,
-					&pD3D11Device,
+					out d3d11Device,
 					null,
-					&pD3D11DeviceContext);
+					out d3d11DeviceContext);
 
 				if (hr.Succeeded)
 					break;
 			}
 
-			if (pD3D11Device is null)
+			if (d3d11Device is null)
 				return false;
-
-			IDXGIDevice* pDXGIDevice = (IDXGIDevice*)pD3D11Device;
-			if (PInvoke.DCompositionCreateDevice(pDXGIDevice, typeof(IDCompositionDevice).GUID, out var compositionDevicePtr).Failed)
+			IDXGIDevice dxgiDevice = (IDXGIDevice)d3d11Device;
+			if (PInvoke.DCompositionCreateDevice(dxgiDevice, typeof(IDCompositionDevice).GUID, out var compDevicePtr).Failed)
 				return false;
+			IDCompositionDevice compDevice = (IDCompositionDevice)compDevicePtr;
 
-			var pDCompositionDevice = (IDCompositionDevice*)compositionDevicePtr;
-			IDCompositionVisual* pChildVisual = default;
-			IUnknown* pControlSurface = default;
-
-			pDCompositionDevice->CreateVisual(&pChildVisual);
-			pDCompositionDevice->CreateSurfaceFromHwnd(new(hwnd.DangerousGetHandle()), &pControlSurface);
-			pChildVisual->SetContent(pControlSurface);
-			if (pChildVisual is null || pControlSurface is null)
+			compDevice.CreateVisual(out var childVisual);
+			compDevice.CreateSurfaceFromHwnd(new(hwnd.DangerousGetHandle()), out var controlSurface);
+			childVisual.SetContent(controlSurface);
+			if (childVisual is null || controlSurface is null)
 				return false;
 
 			var compositor = ElementCompositionPreview.GetElementVisual(presenter).Compositor;
 			outputLink = ContentExternalOutputLink.Create(compositor);
-
-			var target = outputLink.As<IDCompositionTarget.Interface>();
-			target.SetRoot(pChildVisual);
+			IDCompositionTarget target = outputLink.As<IDCompositionTarget>();
+			target.SetRoot(childVisual);
 
 			outputLink.PlacementVisual.Size = new(0, 0);
 			outputLink.PlacementVisual.Scale = new(1/(float)presenter.XamlRoot.RasterizationScale);
 			ElementCompositionPreview.SetElementChildVisual(presenter, outputLink.PlacementVisual);
 
-			pDCompositionDevice->Commit();
+			compDevice.Commit();
 
 			Marshal.ReleaseComObject(target);
-			pChildVisual->Release();
-			pControlSurface->Release();
-			pDCompositionDevice->Release();
-			pDXGIDevice->Release();
-			pD3D11Device->Release();
-			pD3D11DeviceContext->Release();
+			Marshal.ReleaseComObject(childVisual);
+			Marshal.ReleaseComObject(controlSurface);
+			Marshal.ReleaseComObject(compDevice);
+			Marshal.ReleaseComObject(compDevicePtr);
+			Marshal.ReleaseComObject(dxgiDevice);
+			Marshal.ReleaseComObject(d3d11Device);
+			Marshal.ReleaseComObject(d3d11DeviceContext);
 
-			var dwAttrib = Convert.ToUInt32(true);
+			unsafe
+			{
+				var dwAttrib = Convert.ToUInt32(true);
 
-			return
-				PInvoke.DwmSetWindowAttribute(
-					new((nint)hwnd),
-					DWMWINDOWATTRIBUTE.DWMWA_CLOAK,
-					&dwAttrib,
-					(uint)Marshal.SizeOf(dwAttrib))
-				.Succeeded;
+				return
+					PInvoke.DwmSetWindowAttribute(
+						new((nint)hwnd),
+						DWMWINDOWATTRIBUTE.DWMWA_CLOAK,
+						&dwAttrib,
+						(uint)Marshal.SizeOf(dwAttrib))
+					.Succeeded;
+			}
 		}
 
 		public void UnloadPreview()
 		{
 			if (hwnd != HWND.NULL)
 				DestroyWindow(hwnd);
-
-			//outputLink?.Dispose();
-			outputLink = null;
-
+			if (outputLink is not null)
+				outputLink.Dispose();
 			if (wCls is not null)
 				UnregisterClass(wCls.ClassName, Kernel32.GetModuleHandle());
 		}
 
-		public unsafe void PointerEntered(bool onPreview)
+		public void PointerEntered(bool onPreview)
 		{
 			if (onPreview)
 			{
-				var dwAttrib = Convert.ToUInt32(false);
+				unsafe
+				{
+					var dwAttrib = Convert.ToUInt32(false);
 
-				PInvoke.DwmSetWindowAttribute(
-					new((nint)hwnd),
-					DWMWINDOWATTRIBUTE.DWMWA_CLOAK,
-					&dwAttrib,
-					(uint)Marshal.SizeOf(dwAttrib));
+					PInvoke.DwmSetWindowAttribute(
+						new((nint)hwnd),
+						DWMWINDOWATTRIBUTE.DWMWA_CLOAK,
+						&dwAttrib,
+						(uint)Marshal.SizeOf(dwAttrib));
+				}
 
 				if (isOfficePreview)
 					Win32Helper.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE, 0);
 			}
 			else
 			{
-				Win32Helper.SetWindowLong(
-					hwnd,
-					WindowLongFlags.GWL_EXSTYLE,
+				Win32Helper.SetWindowLong(hwnd, WindowLongFlags.GWL_EXSTYLE,
 					(nint)(WindowStylesEx.WS_EX_LAYERED | WindowStylesEx.WS_EX_COMPOSITED));
 
-				var dwAttrib = Convert.ToUInt32(true);
+				unsafe
+				{
+					var dwAttrib = Convert.ToUInt32(true);
 
-				PInvoke.DwmSetWindowAttribute(
-					new((nint)hwnd),
-					DWMWINDOWATTRIBUTE.DWMWA_CLOAK,
-					&dwAttrib,
-					(uint)Marshal.SizeOf(dwAttrib));
+					PInvoke.DwmSetWindowAttribute(
+						new((nint)hwnd),
+						DWMWINDOWATTRIBUTE.DWMWA_CLOAK,
+						&dwAttrib,
+						(uint)Marshal.SizeOf(dwAttrib));
+				}
 			}
 		}
 	}
 }
-
-#pragma warning restore CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.

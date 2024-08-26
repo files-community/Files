@@ -18,13 +18,13 @@ namespace Files.App.Services
 		public unsafe void SetDesktopWallpaper(string szPath)
 		{
 			PInvoke.CoCreateInstance(
-				typeof(DesktopWallpaper).GUID,
+				new Guid("{C2CF3110-460E-4fc1-B9D0-8A1C0C9CC4BD}"),
 				null,
 				CLSCTX.CLSCTX_LOCAL_SERVER,
-				out IDesktopWallpaper* pDesktopWallpaper)
+				out IDesktopWallpaper desktopWallpaper)
 			.ThrowOnFailure();
 
-			pDesktopWallpaper->GetMonitorDevicePathCount(out var dwMonitorCount);
+			desktopWallpaper.GetMonitorDevicePathCount(out var dwMonitorCount);
 
 			fixed (char* pszPath = szPath)
 			{
@@ -32,8 +32,8 @@ namespace Files.App.Services
 
 				for (uint dwIndex = 0; dwIndex < dwMonitorCount; dwIndex++)
 				{
-					pDesktopWallpaper->GetMonitorDevicePathAt(dwIndex, out var pMonitorID);
-					pDesktopWallpaper->SetWallpaper(pMonitorID, pwszPath);
+					desktopWallpaper.GetMonitorDevicePathAt(dwIndex, out var pMonitorID);
+					desktopWallpaper.SetWallpaper(pMonitorID, pwszPath);
 				}
 			}
 		}
@@ -42,10 +42,10 @@ namespace Files.App.Services
 		public unsafe void SetDesktopSlideshow(string[] aszPaths)
 		{
 			PInvoke.CoCreateInstance(
-				typeof(DesktopWallpaper).GUID,
+				new Guid("{C2CF3110-460E-4fc1-B9D0-8A1C0C9CC4BD}"),
 				null,
 				CLSCTX.CLSCTX_LOCAL_SERVER,
-				out IDesktopWallpaper* pDesktopWallpaper)
+				out IDesktopWallpaper desktopWallpaper)
 			.ThrowOnFailure();
 
 			var dwCount = (uint)aszPaths.Length;
@@ -58,16 +58,15 @@ namespace Files.App.Services
 					idList[dwIndex] = id;
 				}
 
-				IShellItemArray* pShellItemArray = default;
 				// Get shell item array from images to use for slideshow
-				PInvoke.SHCreateShellItemArrayFromIDLists(dwCount, idList, &pShellItemArray);
+				PInvoke.SHCreateShellItemArrayFromIDLists(dwCount, idList, out var shellItemArray);
 
 				// Set slideshow
-				pDesktopWallpaper->SetSlideshow(pShellItemArray);
+				desktopWallpaper.SetSlideshow(shellItemArray);
 			}
 
 			// Set wallpaper to fill desktop.
-			pDesktopWallpaper->SetPosition(DESKTOP_WALLPAPER_POSITION.DWPOS_FILL);
+			desktopWallpaper.SetPosition(DESKTOP_WALLPAPER_POSITION.DWPOS_FILL);
 		}
 
 		/// <inheritdoc/>
