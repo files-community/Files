@@ -59,6 +59,12 @@ namespace Files.App.Helpers
 			});
 
 		/// <summary>
+		/// Gets or sets a value that indicates whether the application is ready to be interacted.
+		/// This is primarily used for DI container initialization check.
+		/// </summary>
+		public static bool IsLaunchInitialized { get; set; }
+
+		/// <summary>
 		/// Initializes the app components.
 		/// </summary>
 		public static async Task InitializeAppComponentsAsync()
