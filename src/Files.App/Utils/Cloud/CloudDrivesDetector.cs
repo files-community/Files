@@ -332,8 +332,6 @@ namespace Files.App.Utils.Cloud
 
 		private static string GetDriveType(string driveIdentifier, RegistryKey? namespaceSubKey, RegistryKey? syncRootManagerKey)
 		{
-			var appNameFromNamespace = (string?)namespaceSubKey?.GetValue("ApplicationName");
-
 			// Drive specific
 			if (driveIdentifier.StartsWith("iCloudDrive"))
 				return "iCloudDrive";
@@ -345,6 +343,7 @@ namespace Files.App.Utils.Cloud
 				return "ProtonDrive";
 
 			// Nextcloud specific
+			var appNameFromNamespace = (string?)namespaceSubKey?.GetValue("ApplicationName");
 			if (!string.IsNullOrEmpty(appNameFromNamespace) && appNameFromNamespace == "Nextcloud")
 				return appNameFromNamespace;
 
