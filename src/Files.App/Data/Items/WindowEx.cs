@@ -20,15 +20,11 @@ namespace Files.App.Data.Items
 	/// </summary>
 	public unsafe class WindowEx : Window, IDisposable
 	{
-		private readonly ApplicationDataContainer _applicationDataContainer = ApplicationData.Current.LocalSettings;
-
-		private static nint _dispatcherQueueController = nint.Zero;
-
 		private bool _isInitialized;
 		private readonly WNDPROC _oldWndProc;
 		private readonly WNDPROC _newWndProc;
-		private SystemBackdropConfiguration? _backdropConfiguration;
-		private ISystemBackdropController? _currentController;
+
+		private readonly ApplicationDataContainer _applicationDataContainer = ApplicationData.Current.LocalSettings;
 
 		/// <summary>
 		/// Gets hWnd of this <see cref="Window"/>.
