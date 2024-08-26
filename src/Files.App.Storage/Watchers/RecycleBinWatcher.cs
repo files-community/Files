@@ -17,6 +17,9 @@ namespace Files.App.Storage.Watchers
 		public event EventHandler<SystemIO.FileSystemEventArgs>? ItemDeleted;
 
 		/// <inheritdoc/>
+		public event EventHandler<SystemIO.FileSystemEventArgs>? ItemChanged;
+
+		/// <inheritdoc/>
 		public event EventHandler<SystemIO.FileSystemEventArgs>? ItemRenamed;
 
 		/// <inheritdoc/>
