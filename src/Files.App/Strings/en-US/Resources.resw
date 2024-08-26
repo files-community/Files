@@ -2033,7 +2033,10 @@
   <data name="Flatten" xml:space="preserve">
     <value>Flatten</value>
   </data>
-  <data name="FlattenDescription" xml:space="preserve">
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Flatten folder</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
     <value>Combine all files and sub files into a single folder</value>
   </data>
   <data name="FlattenToRoot" xml:space="preserve">

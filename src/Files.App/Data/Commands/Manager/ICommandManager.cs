@@ -90,7 +90,7 @@ namespace Files.App.Data.Commands
 		IRichCommand DecompressArchiveToChildFolder { get; }
 
 		IRichCommand FlattenToRoot { get; }
-		IRichCommand Flatten { get; }
+		IRichCommand FlattenFolder { get; }
 
 		IRichCommand RotateLeft { get; }
 		IRichCommand RotateRight { get; }

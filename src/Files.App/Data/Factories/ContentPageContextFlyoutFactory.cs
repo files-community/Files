@@ -555,7 +555,7 @@ namespace Files.App.Data.Factories
 					Items =
 					[
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.FlattenToRoot).Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.Flatten).Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(Commands.FlattenFolder).Build(),
 					],
 					IsHidden = selectedItems.Count != 1 || !selectedItems.Any(item => item?.PrimaryItemAttribute is StorageItemTypes.Folder) || !itemsSelected,
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowFlattenOptions

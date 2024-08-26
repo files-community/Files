@@ -7,16 +7,16 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal sealed class FlattenAction : ObservableObject, IAction
+	internal sealed class FlattenFolderAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 		private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
 		public string Label
-			=> "Flatten".GetLocalizedResource();
+			=> "FlattenFolder".GetLocalizedResource();
 
 		public string Description
-			=> "FlattenDescription".GetLocalizedResource();
+			=> "FlattenFolderDescription".GetLocalizedResource();
 
 		public bool IsExecutable =>
 			GeneralSettingsService.ShowFlattenOptions &&
@@ -24,7 +24,7 @@ namespace Files.App.Actions
 			context.HasSelection &&
 			context.SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder;
 
-		public FlattenAction()
+		public FlattenFolderAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
