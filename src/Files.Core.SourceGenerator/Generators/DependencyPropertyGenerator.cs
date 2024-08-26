@@ -70,11 +70,7 @@ namespace Files.Core.SourceGenerator.Generators
 				var generatedClass = GetClassDeclaration(typeSymbol, members);
 				var generatedNamespace = GetFileScopedNamespaceDeclaration(typeSymbol, generatedClass);
 				var compilationUnit = GetCompilationUnit(generatedNamespace);
-				return new StringBuilder()
-					.AppendFullHeader()
-					.AppendLine()
-					.AppendLine(SyntaxTree(compilationUnit, encoding: Encoding.UTF8).GetText().ToString())
-					.ToString();
+				return SyntaxTree(compilationUnit, encoding: Encoding.UTF8).GetText().ToString();
 			}
 
 			return null;
