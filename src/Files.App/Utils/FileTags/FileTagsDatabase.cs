@@ -159,7 +159,16 @@ namespace Files.App.Utils.FileTags
 			var list = new List<TaggedFile>();
 
 			if (FileTagsKey is not null)
-				IterateKeys(list, FileTagsKey, 0);
+			{
+				try
+				{
+					IterateKeys(list, FileTagsKey, 0);
+				}
+				catch (SecurityException)
+				{
+					// Handle edge case where IterateKeys results in SecurityException
+				}
+			}
 
 			return list;
 		}
@@ -170,7 +179,16 @@ namespace Files.App.Utils.FileTags
 			var list = new List<TaggedFile>();
 
 			if (FileTagsKey is not null)
-				IterateKeys(list, CombineKeys(FileTagsKey, folderPath), 0);
+			{
+				try
+				{
+					IterateKeys(list, CombineKeys(FileTagsKey, folderPath), 0);
+				}
+				catch (SecurityException)
+				{
+					// Handle edge case where IterateKeys results in SecurityException
+				}
+			}
 
 			return list;
 		}
@@ -211,32 +229,24 @@ namespace Files.App.Utils.FileTags
 
 		private void IterateKeys(List<TaggedFile> list, string path, int depth)
 		{
-			try
-			{
-				using var key = Registry.CurrentUser.OpenSubKey(path);
-				if (key is null)
-					return;
-
-				if (key.ValueCount > 0)
-				{
-					var tag = new TaggedFile();
-					BindValues(key, tag);
-					list.Add(tag);
-				}
-
-				foreach (var subKey in key.GetSubKeyNames())
-				{
-					// Skip FRN key
-					if (depth == 0 && subKey == "FRN")
-						continue;
-
-					IterateKeys(list, CombineKeys(path, subKey), depth + 1);
-				}
-			}
-			catch (SecurityException)
-			{
-				// Handle edge case where OpenSubKey results in SecurityException
+			using var key = Registry.CurrentUser.OpenSubKey(path);
+			if (key is null)
 				return;
+
+			if (key.ValueCount > 0)
+			{
+				var tag = new TaggedFile();
+				BindValues(key, tag);
+				list.Add(tag);
+			}
+
+			foreach (var subKey in key.GetSubKeyNames())
+			{
+				// Skip FRN key
+				if (depth == 0 && subKey == "FRN")
+					continue;
+
+				IterateKeys(list, CombineKeys(path, subKey), depth + 1);
 			}
 		}
 	}
