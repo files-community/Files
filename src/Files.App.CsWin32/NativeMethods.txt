@@ -132,3 +132,4 @@ FileOperation
 IFileOperation
 IShellItem2
 PSGetPropertyKeyFromName
+ShellExecuteEx

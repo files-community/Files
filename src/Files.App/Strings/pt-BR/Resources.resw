@@ -2064,7 +2064,7 @@
     <value>Caminho</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>Classificação e grupo</value>
+    <value>Classificar e Agrupar</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Criar arquivo</value>
@@ -2325,7 +2325,7 @@
     <value>Nome inválido</value>
   </data>
   <data name="TagNameRules" xml:space="preserve">
-    <value>O nome não pode ser vazio, começar, ou terminar com um período.</value>
+    <value>O nome não pode estar em branco nem começar ou terminar com um ponto final.</value>
   </data>
   <data name="Videos" xml:space="preserve">
     <value>Vídeos</value>
@@ -2337,7 +2337,7 @@
     <value>Alternar janela para sobreposição compacta</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Abrir a página de ajuda online no navegador</value>
+    <value>Abrir página de ajuda online no navegador</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
     <value>Alternar para o modo tela cheia</value>
@@ -2352,19 +2352,19 @@
     <value>Alternar janela para sobreposição compacta</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Ir para o campo de pesquisa</value>
+    <value>Ir para a caixa de pesquisa</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Alternar se deseja mostrar itens ocultos</value>
+    <value>Mostrar/Ocultar Pastas e arquivos ocultos</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Alternar se deseja mostrar arquivos dot</value>
+    <value>Mostrar/Ocultar Arquivos ocultos (iniciados com ponto)</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Alternar entre mostrar extensões de arquivos</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Alternar o painel de pré-visualização para visualizar os arquivos</value>
+    <value>Mostrar ou ocultar o painel de visualização</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Alternar se deseja mostrar a barra lateral</value>

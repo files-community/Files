@@ -3906,6 +3906,6 @@
     <value>Vertical</value>
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
-    <value>Show Files icon in the System Tray</value>
+    <value>Mostrar icono de Files en la bandeja del sistema</value>
   </data>
 </root>

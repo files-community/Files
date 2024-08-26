@@ -3128,7 +3128,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>UI模糊类型</value>
+    <value>背景材质</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>实心</value>
@@ -3284,7 +3284,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BrickRed" xml:space="preserve">
-    <value>玄色</value>
+    <value>砖红色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Camouflage" xml:space="preserve">
@@ -3300,7 +3300,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="GrayDark" xml:space="preserve">
-    <value>深灰色</value>
+    <value>暗灰色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Green" xml:space="preserve">
@@ -3336,11 +3336,11 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Seafoam" xml:space="preserve">
-    <value>白青色</value>
+    <value>海泡石</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Storm" xml:space="preserve">
-    <value>暖灰色</value>
+    <value>风暴</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="VioletRedLight" xml:space="preserve">

@@ -3655,7 +3655,7 @@
     <value>Файлы все еще работают в фоновом режиме для повышения производительности запуска.</value>
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
-    <value>Где были файлы?</value>
+    <value>Где же Files?</value>
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Вопросы и обсуждение</value>

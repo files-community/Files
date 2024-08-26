@@ -490,10 +490,10 @@ namespace Files.App.Data.Factories
 					IsVisible = itemsSelected,
 					IsPrimary = true,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenProperties)
+				new ContextMenuFlyoutItemViewModelBuilder(ModifiableCommands.OpenProperties)
 				{
 					IsPrimary = true,
-					IsVisible = Commands.OpenProperties.IsExecutable
+					IsVisible = ModifiableCommands.OpenProperties.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenParentFolder).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.PinFolderToSidebar)

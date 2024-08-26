@@ -43,7 +43,7 @@ namespace Files.App.Helpers
 
 		private static Layouts GetPathLayout()
 		{
-			var desktopIni = ContentPageContext.ShellPage?.ShellViewModel.DesktopIni;
+			var desktopIni = ContentPageContext.ShellPage?.ShellViewModel?.DesktopIni;
 			if (desktopIni is null)
 				return Layouts.None;
 
