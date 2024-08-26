@@ -3,10 +3,11 @@
 
 using Microsoft.Win32;
 using System.Runtime.CompilerServices;
+using System.Security;
 using Windows.ApplicationModel;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 using static Files.App.Helpers.RegistryHelpers;
 using static Files.App.Utils.FileTags.TaggedFileRegistry;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Files.App.Utils.FileTags
 {
@@ -158,7 +159,16 @@ namespace Files.App.Utils.FileTags
 			var list = new List<TaggedFile>();
 
 			if (FileTagsKey is not null)
-				IterateKeys(list, FileTagsKey, 0);
+			{
+				try
+				{
+					IterateKeys(list, FileTagsKey, 0);
+				}
+				catch (SecurityException)
+				{
+					// Handle edge case where IterateKeys results in SecurityException
+				}
+			}
 
 			return list;
 		}
@@ -169,7 +179,16 @@ namespace Files.App.Utils.FileTags
 			var list = new List<TaggedFile>();
 
 			if (FileTagsKey is not null)
-				IterateKeys(list, CombineKeys(FileTagsKey, folderPath), 0);
+			{
+				try
+				{
+					IterateKeys(list, CombineKeys(FileTagsKey, folderPath), 0);
+				}
+				catch (SecurityException)
+				{
+					// Handle edge case where IterateKeys results in SecurityException
+				}
+			}
 
 			return list;
 		}
@@ -212,9 +231,7 @@ namespace Files.App.Utils.FileTags
 		{
 			using var key = Registry.CurrentUser.OpenSubKey(path);
 			if (key is null)
-			{
 				return;
-			}
 
 			if (key.ValueCount > 0)
 			{
@@ -225,11 +242,9 @@ namespace Files.App.Utils.FileTags
 
 			foreach (var subKey in key.GetSubKeyNames())
 			{
+				// Skip FRN key
 				if (depth == 0 && subKey == "FRN")
-				{
-					// Skip FRN key
 					continue;
-				}
 
 				IterateKeys(list, CombineKeys(path, subKey), depth + 1);
 			}
