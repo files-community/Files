@@ -246,14 +246,24 @@ namespace Files.App.Views
 
 			// Set default values
 			ActivePane = GetPane(0);
-			_WindowIsCompact = MainWindow.Instance.Bounds.Width <= Constants.UI.MultiplePaneWidthThreshold;
+
+			try
+			{
+				_WindowIsCompact = MainWindow.Instance.Bounds.Width <= Constants.UI.MultiplePaneWidthThreshold;
+				MainWindow.Instance.SizeChanged += MainWindow_SizeChanged;
+			}
+			catch (Exception)
+			{
+				// Handle exception in case WinUI Windows is closed
+				// (see https://github.com/files-community/Files/issues/15599)
+
+				_WindowIsCompact = false;
+			}
 
 			// Open the secondary pane
 			if (IsMultiPaneAvailable &&
 				GeneralSettingsService.AlwaysOpenDualPaneInNewTab)
 				AddPane();
-
-			MainWindow.Instance.SizeChanged += MainWindow_SizeChanged;
 		}
 
 		// Public methods

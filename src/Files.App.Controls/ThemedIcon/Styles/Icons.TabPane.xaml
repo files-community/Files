@@ -18,8 +18,14 @@
 		<Setter Property="Layers">
 			<Setter.Value>
 				<local:ThemedIconLayers>
-					<local:ThemedIconLayer LayerType="Alt" PathData="m.5,3C.5,1.62,1.62.5,3,.5h9c1.38,0,2.5,1.12,2.5,2.5v9c0,1.38-1.12,2.5-2.5,2.5H3c-1.38,0-2.5-1.12-2.5-2.5V3Z" />
-					<local:ThemedIconLayer LayerType="Base" PathData="m3,0C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3H3ZM1,3c0-1.1.9-2,2-2h4v13H3c-1.1,0-2-.9-2-2V3Zm7,11h4c1.1,0,2-.9,2-2V3c0-1.1-.9-2-2-2h-4v13Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Alt"
+						PathData="m.5,3C.5,1.62,1.62.5,3,.5h9c1.38,0,2.5,1.12,2.5,2.5v9c0,1.38-1.12,2.5-2.5,2.5H3c-1.38,0-2.5-1.12-2.5-2.5V3Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m3,0C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3H3ZM1,3c0-1.1.9-2,2-2h4v13H3c-1.1,0-2-.9-2-2V3Zm7,11h4c1.1,0,2-.9,2-2V3c0-1.1-.9-2-2-2h-4v13Z" />
 				</local:ThemedIconLayers>
 			</Setter.Value>
 		</Setter>
@@ -39,8 +45,14 @@
 		<Setter Property="Layers">
 			<Setter.Value>
 				<local:ThemedIconLayers>
-					<local:ThemedIconLayer LayerType="Alt" PathData="m.5,3C.5,1.62,1.62.5,3,.5h9c1.38,0,2.5,1.12,2.5,2.5v9c0,1.38-1.12,2.5-2.5,2.5H3c-1.38,0-2.5-1.12-2.5-2.5V3Z" />
-					<local:ThemedIconLayer LayerType="Base" PathData="m3,0C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3H3ZM1,3c0-1.1.9-2,2-2h9c1.1,0,2,.9,2,2v1H5.5c-.83,0-1.5.67-1.5,1.5v8.5h-1c-1.1,0-2-.9-2-2V3Zm4,11h7c1.1,0,2-.9,2-2v-7H5.5c-.28,0-.5.22-.5.5v8.5Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Alt"
+						PathData="m.5,3C.5,1.62,1.62.5,3,.5h9c1.38,0,2.5,1.12,2.5,2.5v9c0,1.38-1.12,2.5-2.5,2.5H3c-1.38,0-2.5-1.12-2.5-2.5V3Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m3,0C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3H3ZM1,3c0-1.1.9-2,2-2h9c1.1,0,2,.9,2,2v1H5.5c-.83,0-1.5.67-1.5,1.5v8.5h-1c-1.1,0-2-.9-2-2V3Zm4,11h7c1.1,0,2-.9,2-2v-7H5.5c-.28,0-.5.22-.5.5v8.5Z" />
 				</local:ThemedIconLayers>
 			</Setter.Value>
 		</Setter>
@@ -60,8 +72,14 @@
 		<Setter Property="Layers">
 			<Setter.Value>
 				<local:ThemedIconLayers>
-					<local:ThemedIconLayer LayerType="Alt" PathData="m.5,3C.5,1.62,1.62.5,3,.5h9c1.38,0,2.5,1.12,2.5,2.5v9c0,1.38-1.12,2.5-2.5,2.5H3c-1.38,0-2.5-1.12-2.5-2.5V3Z" />
-					<local:ThemedIconLayer LayerType="Base" PathData="m3,0C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3H3ZM1,3c0-1.1.9-2,2-2h9c1.1,0,2,.9,2,2v4H1V3Zm0,5v4c0,1.1.9,2,2,2h9c1.1,0,2-.9,2-2v-4H1Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Alt"
+						PathData="m.5,3C.5,1.62,1.62.5,3,.5h9c1.38,0,2.5,1.12,2.5,2.5v9c0,1.38-1.12,2.5-2.5,2.5H3c-1.38,0-2.5-1.12-2.5-2.5V3Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m3,0C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3H3ZM1,3c0-1.1.9-2,2-2h9c1.1,0,2,.9,2,2v4H1V3Zm0,5v4c0,1.1.9,2,2,2h9c1.1,0,2-.9,2-2v-4H1Z" />
 				</local:ThemedIconLayers>
 			</Setter.Value>
 		</Setter>
@@ -82,9 +100,18 @@
 		<Setter Property="Layers">
 			<Setter.Value>
 				<local:ThemedIconLayers>
-					<local:ThemedIconLayer LayerType="Alt" PathData="m7.5.5h4.5c1.38,0,2.5,1.12,2.5,2.5v9c0,1.38-1.12,2.5-2.5,2.5h-4.5V.5Z" />
-					<local:ThemedIconLayer LayerType="Accent" PathData="m7.5,14.5V.5H3C1.62.5.5,1.62.5,3v9c0,1.38,1.12,2.5,2.5,2.5h4.5Z" />
-					<local:ThemedIconLayer LayerType="Base" PathData="m3,0C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3H3ZM1,3c0-1.1.9-2,2-2h4v13H3c-1.1,0-2-.9-2-2V3Zm7,11h4c1.1,0,2-.9,2-2V3c0-1.1-.9-2-2-2h-4v13Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Alt"
+						PathData="m7.5.5h4.5c1.38,0,2.5,1.12,2.5,2.5v9c0,1.38-1.12,2.5-2.5,2.5h-4.5V.5Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Accent"
+						PathData="m7.5,14.5V.5H3C1.62.5.5,1.62.5,3v9c0,1.38,1.12,2.5,2.5,2.5h4.5Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m3,0C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3H3ZM1,3c0-1.1.9-2,2-2h4v13H3c-1.1,0-2-.9-2-2V3Zm7,11h4c1.1,0,2-.9,2-2V3c0-1.1-.9-2-2-2h-4v13Z" />
 				</local:ThemedIconLayers>
 			</Setter.Value>
 		</Setter>
@@ -105,9 +132,18 @@
 		<Setter Property="Layers">
 			<Setter.Value>
 				<local:ThemedIconLayers>
-					<local:ThemedIconLayer LayerType="Alt" PathData="m7.5,14.5H3c-1.38,0-2.5-1.12-2.5-2.5V3c0-1.38,1.12-2.5,2.5-2.5h4.5v14Z" />
-					<local:ThemedIconLayer LayerType="Accent" PathData="m12,14.5c1.38,0,2.5-1.12,2.5-2.5V3c0-1.38-1.12-2.5-2.5-2.5h-4.5s0,14,0,14h4.5Z" />
-					<local:ThemedIconLayer LayerType="Base" PathData="m3,0C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3C15,1.34,13.66,0,12,0H3Zm11,12c0,1.1-.9,2-2,2h-4V1h4c1.1,0,2,.9,2,2v9ZM7,1H3c-1.1,0-2,.9-2,2v9c0,1.1.9,2,2,2h4s0-13,0-13Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Alt"
+						PathData="m7.5,14.5H3c-1.38,0-2.5-1.12-2.5-2.5V3c0-1.38,1.12-2.5,2.5-2.5h4.5v14Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Accent"
+						PathData="m12,14.5c1.38,0,2.5-1.12,2.5-2.5V3c0-1.38-1.12-2.5-2.5-2.5h-4.5s0,14,0,14h4.5Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m3,0C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3C15,1.34,13.66,0,12,0H3Zm11,12c0,1.1-.9,2-2,2h-4V1h4c1.1,0,2,.9,2,2v9ZM7,1H3c-1.1,0-2,.9-2,2v9c0,1.1.9,2,2,2h4s0-13,0-13Z" />
 				</local:ThemedIconLayers>
 			</Setter.Value>
 		</Setter>
@@ -128,9 +164,18 @@
 		<Setter Property="Layers">
 			<Setter.Value>
 				<local:ThemedIconLayers>
-					<local:ThemedIconLayer LayerType="Alt" PathData="m.5,7.5V3c0-1.38,1.12-2.5,2.5-2.5h9c1.38,0,2.5,1.12,2.5,2.5v4.5H.5Z" />
-					<local:ThemedIconLayer LayerType="Accent" PathData="m.5,12c0,1.38,1.12,2.5,2.5,2.5h9c1.38,0,2.5-1.12,2.5-2.5v-4.5s-14,0-14,0v4.5Z" />
-					<local:ThemedIconLayer LayerType="Base" PathData="m15,3C15,1.34,13.66,0,12,0H3C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3ZM3,14c-1.1,0-2-.9-2-2v-4h13v4c0,1.1-.9,2-2,2H3Zm11-7V3c0-1.1-.9-2-2-2H3c-1.1,0-2,.9-2,2v4s13,0,13,0Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Alt"
+						PathData="m.5,7.5V3c0-1.38,1.12-2.5,2.5-2.5h9c1.38,0,2.5,1.12,2.5,2.5v4.5H.5Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Accent"
+						PathData="m.5,12c0,1.38,1.12,2.5,2.5,2.5h9c1.38,0,2.5-1.12,2.5-2.5v-4.5s-14,0-14,0v4.5Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m15,3C15,1.34,13.66,0,12,0H3C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3ZM3,14c-1.1,0-2-.9-2-2v-4h13v4c0,1.1-.9,2-2,2H3Zm11-7V3c0-1.1-.9-2-2-2H3c-1.1,0-2,.9-2,2v4s13,0,13,0Z" />
 				</local:ThemedIconLayers>
 			</Setter.Value>
 		</Setter>
@@ -151,9 +196,18 @@
 		<Setter Property="Layers">
 			<Setter.Value>
 				<local:ThemedIconLayers>
-					<local:ThemedIconLayer LayerType="Alt" PathData="m14.5,7.5v4.5c0,1.38-1.12,2.5-2.5,2.5H3c-1.38,0-2.5-1.12-2.5-2.5v-4.5h14Z" />
-					<local:ThemedIconLayer LayerType="Accent" PathData="m14.5,3c0-1.38-1.12-2.5-2.5-2.5H3c-1.38,0-2.5,1.12-2.5,2.5v4.5s14,0,14,0V3Z" />
-					<local:ThemedIconLayer LayerType="Base" PathData="m0,12c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3C15,1.34,13.66,0,12,0H3C1.34,0,0,1.34,0,3v9ZM12,1c1.1,0,2,.9,2,2v4H1V3c0-1.1.9-2,2-2h9ZM1,8v4c0,1.1.9,2,2,2h9c1.1,0,2-.9,2-2v-4s-13,0-13,0Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Alt"
+						PathData="m14.5,7.5v4.5c0,1.38-1.12,2.5-2.5,2.5H3c-1.38,0-2.5-1.12-2.5-2.5v-4.5h14Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Accent"
+						PathData="m14.5,3c0-1.38-1.12-2.5-2.5-2.5H3c-1.38,0-2.5,1.12-2.5,2.5v4.5s14,0,14,0V3Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m0,12c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3C15,1.34,13.66,0,12,0H3C1.34,0,0,1.34,0,3v9ZM12,1c1.1,0,2,.9,2,2v4H1V3c0-1.1.9-2,2-2h9ZM1,8v4c0,1.1.9,2,2,2h9c1.1,0,2-.9,2-2v-4s-13,0-13,0Z" />
 				</local:ThemedIconLayers>
 			</Setter.Value>
 		</Setter>

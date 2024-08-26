@@ -1,15 +1,15 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Runtime.InteropServices;
 using System.Drawing;
+using System.Runtime.InteropServices;
+using Windows.ApplicationModel;
 using Windows.Foundation;
+using Windows.System;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
-using Windows.ApplicationModel;
-using Windows.System;
 
 namespace Files.App.Utils.Taskbar
 {
@@ -279,7 +279,10 @@ namespace Files.App.Utils.Taskbar
 		{
 			Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
 
-			Program.Pool.Release();
+			var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance", out var isNew);
+			if (!isNew)
+				pool.Release();
+
 			Environment.Exit(0);
 		}
 
@@ -288,8 +291,10 @@ namespace Files.App.Utils.Taskbar
 			Hide();
 
 			App.AppModel.ForceProcessTermination = true;
-			if (Program.Pool is not null)
-				Program.Pool.Release();
+
+			var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance", out var isNew);
+			if (!isNew)
+				pool.Release();
 			else
 				App.Current.Exit();
 		}

@@ -64,18 +64,18 @@ namespace Files.App.UserControls.Sidebar
 		{
 			HookupOwners();
 
-			if (GetTemplateChild("ElementGrid") is Grid grid)
+			if (GetTemplateChild("ElementBorder") is Border border)
 			{
-				grid.PointerEntered += ItemGrid_PointerEntered;
-				grid.PointerExited += ItemGrid_PointerExited;
-				grid.PointerCanceled += ItemGrid_PointerCanceled;
-				grid.PointerPressed += ItemGrid_PointerPressed;
-				grid.ContextRequested += ItemGrid_ContextRequested;
-				grid.DragLeave += ItemGrid_DragLeave;
-				grid.DragOver += ItemGrid_DragOver;
-				grid.Drop += ItemGrid_Drop;
-				grid.AllowDrop = true;
-				grid.IsTabStop = true;
+				border.PointerEntered += ItemBorder_PointerEntered;
+				border.PointerExited += ItemBorder_PointerExited;
+				border.PointerCanceled += ItemBorder_PointerCanceled;
+				border.PointerPressed += ItemBorder_PointerPressed;
+				border.ContextRequested += ItemBorder_ContextRequested;
+				border.DragLeave += ItemBorder_DragLeave;
+				border.DragOver += ItemBorder_DragOver;
+				border.Drop += ItemBorder_Drop;
+				border.AllowDrop = true;
+				border.IsTabStop = true;
 			}
 
 			if (GetTemplateChild("ChildrenPresenter") is ItemsRepeater repeater)
@@ -345,26 +345,26 @@ namespace Files.App.UserControls.Sidebar
 			UpdateSelectionState();
 		}
 
-		private void ItemGrid_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+		private void ItemBorder_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
 			isPointerOver = true;
 			UpdatePointerState();
 		}
 
-		private void ItemGrid_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+		private void ItemBorder_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
 			isPointerOver = false;
 			isClicking = false;
 			UpdatePointerState();
 		}
 
-		private void ItemGrid_PointerCanceled(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+		private void ItemBorder_PointerCanceled(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
 			isClicking = false;
 			UpdatePointerState();
 		}
 
-		private void ItemGrid_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
+		private void ItemBorder_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
 		{
 			isClicking = true;
 			UpdatePointerState(true);
@@ -389,7 +389,7 @@ namespace Files.App.UserControls.Sidebar
 			}
 		}
 
-		private async void ItemGrid_DragOver(object sender, DragEventArgs e)
+		private async void ItemBorder_DragOver(object sender, DragEventArgs e)
 		{
 			if (HasChildren)
 			{
@@ -418,18 +418,18 @@ namespace Files.App.UserControls.Sidebar
 			}
 		}
 
-		private void ItemGrid_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
+		private void ItemBorder_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
 		{
 			Owner?.RaiseContextRequested(this, args.TryGetPosition(this, out var point) ? point : default);
 			args.Handled = true;
 		}
 
-		private void ItemGrid_DragLeave(object sender, DragEventArgs e)
+		private void ItemBorder_DragLeave(object sender, DragEventArgs e)
 		{
 			UpdatePointerState();
 		}
 
-		private async void ItemGrid_Drop(object sender, DragEventArgs e)
+		private async void ItemBorder_Drop(object sender, DragEventArgs e)
 		{
 			UpdatePointerState();
 			if (Owner is not null)

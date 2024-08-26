@@ -283,7 +283,7 @@
     <value>Cấp quyền</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Để bắt đầu, bạn sẽ cần cho phép chúng tôi hiển thị các tệp của bạn. Hành động này sẽ mở trang Cài đặt để bạn có thể cấp quyền truy cập cho chúng tôi. Bạn sẽ cần khởi động lại ứng dụng sau khi hoàn thành bước này. </value>
+    <value>Để bắt đầu, ứng dụng sẽ cần được cho phép hiển thị các tệp của bạn. Một cửa sổ Cài đặt sẽ xuất hiện để bạn thực hiện cấp quyền truy cập này. Sau khi hoàn tất, bạn sẽ cần khởi động lại ứng dụng. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Hiển thị</value>
@@ -2357,6 +2357,9 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Chuyển đổi ẩn/hiện khoản mục bị ẩn</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>Chuyển đổi ẩn/hiện tệp có tên bắt đầu bằng dấu chấm</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Chuyển đổi ẩn/hiện phần mở rộng tệp</value>
   </data>
@@ -3901,5 +3904,8 @@
   </data>
   <data name="Vertical" xml:space="preserve">
     <value>Dọc</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>Hiện biểu tượng Files trong khay hệ thống</value>
   </data>
 </root>

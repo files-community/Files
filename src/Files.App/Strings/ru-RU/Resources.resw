@@ -2357,6 +2357,9 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Вкл/Выкл отображение скрытых элементов</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>Отображать файлы начинающиеся с точки</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Вкл/Выкл отображение скрытых элементов</value>
   </data>
@@ -3652,7 +3655,7 @@
     <value>Файлы все еще работают в фоновом режиме для повышения производительности запуска.</value>
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
-    <value>Где были файлы?</value>
+    <value>Где же Files?</value>
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Вопросы и обсуждение</value>
@@ -3901,5 +3904,8 @@
   </data>
   <data name="Vertical" xml:space="preserve">
     <value>Вертикальный</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>Показывать иконку Files в системном трее</value>
   </data>
 </root>

@@ -72,8 +72,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				return;
 			}
 
-			ContentPageContext.ShellPage!.NavigateWithArguments(
-				ContentPageContext.ShellPage!.InstanceViewModel.FolderSettings.GetLayoutType(path),
+			if (ContentPageContext.ShellPage is not IShellPage shellPage)
+				return;
+
+			shellPage.NavigateWithArguments(
+				shellPage.InstanceViewModel.FolderSettings.GetLayoutType(path),
 				new() { NavPathParam = path });
 		}
 
@@ -143,6 +146,12 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Tag = "ManageBitLockerPlaceholder",
 					IsEnabled = false
 				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					ItemType = ContextMenuFlyoutItemType.Separator,
+					ShowItem = CommandManager.OpenTerminalFromHome.IsExecutable
+				},
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenTerminalFromHome).Build(),
 				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,

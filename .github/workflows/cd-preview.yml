@@ -54,7 +54,7 @@ jobs:
     - name: Configure the package manifest, logo, and secrets
       shell: pwsh
       run: |
-        . './scripts/Configure-AppxManifest.ps1' `
+        . './.github/scripts/Configure-AppxManifest.ps1' `
           -Branch "$env:CONFIGURATION" `
           -PackageManifestPath "$env:PACKAGE_MANIFEST_PATH" `
           -Publisher "$env:SIDELOAD_PUBLISHER_SECRET" `

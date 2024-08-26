@@ -3,8 +3,6 @@
 
 using Microsoft.Extensions.Logging;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
-using Vanara.Extensions;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.NetworkManagement.WNet;
@@ -31,7 +29,7 @@ namespace Files.App.Services
 						typeof(FileOpenDialog).GUID,
 						null,
 						CLSCTX.CLSCTX_INPROC_SERVER,
-						out IFileOpenDialog dialog)
+						out IFileOpenDialog* pDialog)
 					.ThrowOnFailure();
 
 					if (filters.Length is not 0 && filters.Length % 2 is 0)
@@ -50,7 +48,7 @@ namespace Files.App.Services
 						}
 
 						// Set the file type using the extension list
-						dialog.SetFileTypes(extensions.ToArray());
+						pDialog->SetFileTypes(extensions.ToArray());
 					}
 
 					// Get the default shell folder (My Computer)
@@ -64,19 +62,20 @@ namespace Files.App.Services
 					// Folder picker
 					if (pickFoldersOnly)
 					{
-						dialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
+						pDialog->SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
 					}
 
 					// Set the default folder to open in the dialog
-					dialog.SetFolder((IShellItem)directoryShellItem);
-					dialog.SetDefaultFolder((IShellItem)directoryShellItem);
+					pDialog->SetFolder((IShellItem*)directoryShellItem);
+					pDialog->SetDefaultFolder((IShellItem*)directoryShellItem);
 
 					// Show the dialog
-					dialog.Show(new HWND(hWnd));
+					pDialog->Show(new HWND(hWnd));
 
 					// Get the file that user chose
-					dialog.GetResult(out var resultShellItem);
-					resultShellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
+					IShellItem* resultShellItem = default;
+					pDialog->GetResult(&resultShellItem);
+					resultShellItem->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
 					filePath = lpFilePath.ToString();
 
 					return true;
@@ -104,7 +103,7 @@ namespace Files.App.Services
 						typeof(FileSaveDialog).GUID,
 						null,
 						CLSCTX.CLSCTX_INPROC_SERVER,
-						out IFileSaveDialog dialog)
+						out IFileSaveDialog* pDialog)
 					.ThrowOnFailure();
 
 					if (filters.Length is not 0 && filters.Length % 2 is 0)
@@ -123,7 +122,7 @@ namespace Files.App.Services
 						}
 
 						// Set the file type using the extension list
-						dialog.SetFileTypes(extensions.ToArray());
+						pDialog->SetFileTypes(extensions.ToArray());
 					}
 
 					// Get the default shell folder (My Computer)
@@ -136,18 +135,19 @@ namespace Files.App.Services
 
 					// Folder picker
 					if (pickFoldersOnly)
-						dialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
+						pDialog->SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
 
 					// Set the default folder to open in the dialog
-					dialog.SetFolder((IShellItem)directoryShellItem);
-					dialog.SetDefaultFolder((IShellItem)directoryShellItem);
+					pDialog->SetFolder((IShellItem*)directoryShellItem);
+					pDialog->SetDefaultFolder((IShellItem*)directoryShellItem);
 
 					// Show the dialog
-					dialog.Show(new HWND(hWnd));
+					pDialog->Show(new HWND(hWnd));
 
 					// Get the file that user chose
-					dialog.GetResult(out var resultShellItem);
-					resultShellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
+					IShellItem* resultShellItem = default;
+					pDialog->GetResult(&resultShellItem);
+					resultShellItem->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
 					filePath = lpFilePath.ToString();
 
 					return true;
@@ -162,139 +162,59 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public bool Open_NetworkConnectionDialog(nint hWind, bool hideRestoreConnectionCheckBox = false, bool persistConnectionAtLogon = false, bool readOnlyPath = false, string? remoteNetworkName = null, bool useMostRecentPath = false)
+		public unsafe bool Open_NetworkConnectionDialog(nint hWind, bool hideRestoreConnectionCheckBox = false, bool persistConnectionAtLogon = false, bool readOnlyPath = false, string? remoteNetworkName = null, bool useMostRecentPath = false)
 		{
-			using var dialog = new NetworkConnectionDialog()
+			NETRESOURCEW netRes = default;
+			CONNECTDLGSTRUCTW dialogOptions = default;
+
+			dialogOptions.cbStructure = (uint)Marshal.SizeOf(typeof(CONNECTDLGSTRUCTW));
+			netRes.dwType = NET_RESOURCE_TYPE.RESOURCETYPE_DISK;
+
+			if (hideRestoreConnectionCheckBox)
+				dialogOptions.dwFlags |= CONNECTDLGSTRUCT_FLAGS.CONNDLG_HIDE_BOX;
+			else
+				dialogOptions.dwFlags &= ~CONNECTDLGSTRUCT_FLAGS.CONNDLG_HIDE_BOX;
+
+			if (persistConnectionAtLogon)
 			{
-				HideRestoreConnectionCheckBox = hideRestoreConnectionCheckBox,
-				PersistConnectionAtLogon = persistConnectionAtLogon,
-				ReadOnlyPath = readOnlyPath,
-				RemoteNetworkName = remoteNetworkName!,
-				UseMostRecentPath = useMostRecentPath,
-			};
-
-			var window = Win32Helper.Win32Window.FromLong(hWind.ToInt64());
-
-			return dialog.ShowDialog(window) == System.Windows.Forms.DialogResult.OK;
-		}
-
-		private sealed class NetworkConnectionDialog : CommonDialog
-		{
-			private NETRESOURCEW netRes = new();
-			private CONNECTDLGSTRUCTW dialogOptions;
-
-			/// <summary>Initializes a new instance of the <see cref="NetworkConnectionDialog"/> class.</summary>
-			public NetworkConnectionDialog()
+				dialogOptions.dwFlags |= CONNECTDLGSTRUCT_FLAGS.CONNDLG_PERSIST;
+				dialogOptions.dwFlags |= CONNECTDLGSTRUCT_FLAGS.CONNDLG_NOT_PERSIST;
+			}
+			else
 			{
-				dialogOptions.cbStructure = (uint)Marshal.SizeOf(typeof(CONNECTDLGSTRUCTW));
-				netRes.dwType = NET_RESOURCE_TYPE.RESOURCETYPE_DISK;
+				dialogOptions.dwFlags &= ~CONNECTDLGSTRUCT_FLAGS.CONNDLG_PERSIST;
+				dialogOptions.dwFlags &= ~CONNECTDLGSTRUCT_FLAGS.CONNDLG_NOT_PERSIST;
 			}
 
-			/// <summary>Gets the connected device number. This value is only valid after successfully running the dialog.</summary>
-			/// <value>The connected device number. The value is 1 for A:, 2 for B:, 3 for C:, and so on. If the user made a deviceless connection, the value is –1.</value>
-			[Browsable(false)]
-			public int ConnectedDeviceNumber => (int)dialogOptions.dwDevNum;
+			fixed (char* lpcRemoteName = remoteNetworkName)
+				netRes.lpRemoteName = lpcRemoteName;
 
-			/// <summary>Gets or sets a value indicating whether to hide the check box allowing the user to restore the connection at logon.</summary>
-			/// <value><c>true</c> if hiding restore connection check box; otherwise, <c>false</c>.</value>
-			[DefaultValue(false), Category("Appearance"), Description("Hide the check box allowing the user to restore the connection at logon.")]
-			public bool HideRestoreConnectionCheckBox
-			{
-				get => dialogOptions.dwFlags.HasFlag(CONNECTDLGSTRUCT_FLAGS.CONNDLG_HIDE_BOX);
-				set
-				{
-					if (value)
-						dialogOptions.dwFlags |= CONNECTDLGSTRUCT_FLAGS.CONNDLG_HIDE_BOX;
-					else
-						dialogOptions.dwFlags &= ~CONNECTDLGSTRUCT_FLAGS.CONNDLG_HIDE_BOX;
-				}
-			}
+			if (useMostRecentPath && !string.IsNullOrEmpty(remoteNetworkName))
+				throw new InvalidOperationException($"{nameof(useMostRecentPath)} cannot be set to true if {nameof(remoteNetworkName)} has a value.");
 
-			/// <summary>Gets or sets a value indicating whether restore the connection at logon.</summary>
-			/// <value><c>true</c> to restore connection at logon; otherwise, <c>false</c>.</value>
-			[DefaultValue(false), Category("Behavior"), Description("Restore the connection at logon.")]
-			public bool PersistConnectionAtLogon
-			{
-				get => dialogOptions.dwFlags.IsFlagSet(CONNECTDLGSTRUCT_FLAGS.CONNDLG_PERSIST);
-				set
-				{
-					dialogOptions.dwFlags = dialogOptions.dwFlags.SetFlags(CONNECTDLGSTRUCT_FLAGS.CONNDLG_PERSIST, value);
-					dialogOptions.dwFlags = dialogOptions.dwFlags.SetFlags(CONNECTDLGSTRUCT_FLAGS.CONNDLG_NOT_PERSIST, !value);
-				}
-			}
+			if (useMostRecentPath)
+				dialogOptions.dwFlags |= CONNECTDLGSTRUCT_FLAGS.CONNDLG_USE_MRU;
+			else
+				dialogOptions.dwFlags &= ~CONNECTDLGSTRUCT_FLAGS.CONNDLG_USE_MRU;
 
-			/// <summary>
-			/// Gets or sets a value indicating whether to display a read-only path instead of allowing the user to type in a path. This is only
-			/// valid if <see cref="RemoteNetworkName"/> is not <see langword="null"/>.
-			/// </summary>
-			/// <value><c>true</c> to display a read only path; otherwise, <c>false</c>.</value>
-			[DefaultValue(false), Category("Appearance"), Description("Display a read-only path instead of allowing the user to type in a path.")]
-			public bool ReadOnlyPath { get; set; }
+			dialogOptions.hwndOwner = new(hWind);
 
-			/// <summary>Gets or sets the name of the remote network.</summary>
-			/// <value>The name of the remote network.</value>
-			[DefaultValue(null), Category("Behavior"), Description("The value displayed in the path field.")]
-			public string RemoteNetworkName
-			{
-				get => netRes.lpRemoteName.ToString();
-				set
-				{
-					unsafe
-					{
-						fixed (char* lpcRemoteName = value)
-							netRes.lpRemoteName = lpcRemoteName;
-					}
-				}
-			}
+			dialogOptions.lpConnRes = &netRes;
 
-			/// <summary>Gets or sets a value indicating whether to enter the most recently used paths into the combination box.</summary>
-			/// <value><c>true</c> to use MRU path; otherwise, <c>false</c>.</value>
-			/// <exception cref="InvalidOperationException">UseMostRecentPath</exception>
-			[DefaultValue(false), Category("Behavior"), Description("Enter the most recently used paths into the combination box.")]
-			public bool UseMostRecentPath
-			{
-				get => dialogOptions.dwFlags.IsFlagSet(CONNECTDLGSTRUCT_FLAGS.CONNDLG_USE_MRU);
-				set
-				{
-					if (value && !string.IsNullOrEmpty(RemoteNetworkName))
-						throw new InvalidOperationException($"{nameof(UseMostRecentPath)} cannot be set to true if {nameof(RemoteNetworkName)} has a value.");
+			if (readOnlyPath && !string.IsNullOrEmpty(netRes.lpRemoteName.ToString()))
+				dialogOptions.dwFlags |= CONNECTDLGSTRUCT_FLAGS.CONNDLG_RO_PATH;
 
-					dialogOptions.dwFlags = dialogOptions.dwFlags.SetFlags(CONNECTDLGSTRUCT_FLAGS.CONNDLG_USE_MRU, value);
-				}
-			}
+			var result = PInvoke.WNetConnectionDialog1W(ref dialogOptions);
 
-			/// <inheritdoc/>
-			public unsafe override void Reset()
-			{
-				dialogOptions.dwDevNum = unchecked((uint)-1);
-				dialogOptions.dwFlags = 0;
-				dialogOptions.lpConnRes = null;
-				ReadOnlyPath = false;
-			}
+			dialogOptions.lpConnRes = null;
 
-			/// <inheritdoc/>
-			protected unsafe override bool RunDialog(IntPtr hwndOwner)
-			{
-				dialogOptions.hwndOwner = new(hwndOwner);
+			if ((uint)result == unchecked((uint)-1))
+				return false;
 
-				fixed (NETRESOURCEW* lpConnRes = &netRes)
-					dialogOptions.lpConnRes = lpConnRes;
+			if (result == 0)
+				throw new Win32Exception("Cannot display dialog");
 
-				if (ReadOnlyPath && !string.IsNullOrEmpty(netRes.lpRemoteName.ToString()))
-					dialogOptions.dwFlags |= CONNECTDLGSTRUCT_FLAGS.CONNDLG_RO_PATH;
-
-				var result = PInvoke.WNetConnectionDialog1W(ref dialogOptions);
-
-				dialogOptions.lpConnRes = null;
-
-				if ((uint)result == unchecked((uint)-1))
-					return false;
-
-				if (result == 0)
-					throw new Win32Exception("Cannot display dialog");
-
-				return true;
-			}
+			return true;
 		}
 	}
 }

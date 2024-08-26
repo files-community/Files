@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Input;
 using Windows.Storage.Pickers;
+using Files.Shared.Helpers;
 
 namespace Files.App.ViewModels.Dialogs
 {
@@ -20,45 +21,151 @@ namespace Files.App.ViewModels.Dialogs
 		// Tells whether destination path exists
 		public bool DestinationPathExists { get; set; }
 
-		// Tells wheteher the shortcut has been created
+		// Tells whether the shortcut has been created
 		public bool ShortcutCreatedSuccessfully { get; private set; }
 
 		// Shortcut name with extension
 		public string ShortcutCompleteName { get; private set; } = string.Empty;
 
-		// Destination of the shortcut chosen by the user (can be a path or a URL)
-		private string _destinationItemPath;
-		public string DestinationItemPath
+		// Full path of the destination item
+		public string FullPath { get; private set; }
+
+		// Arguments to be passed to the destination item if it's an executable
+		public string Arguments { get; private set; }
+
+		// Previous path of the destination item
+		private string _previousShortcutTargetPath;
+
+		// Destination of the shortcut chosen by the user (can be a path, a command or a URL)
+		private string _shortcutTarget;
+		public string ShortcutTarget
 		{
-			get => _destinationItemPath;
+			get => _shortcutTarget;
 			set
 			{
-				if (!SetProperty(ref _destinationItemPath, value))
+				if (!SetProperty(ref _shortcutTarget, value))
 					return;
 
 				OnPropertyChanged(nameof(ShowWarningTip));
-				if (string.IsNullOrWhiteSpace(DestinationItemPath))
+				if (string.IsNullOrWhiteSpace(ShortcutTarget))
 				{
+					DestinationPathExists = false;
 					IsLocationValid = false;
+					_previousShortcutTargetPath = string.Empty;
 					return;
 				}
-
 				try
 				{
-					DestinationPathExists = Path.Exists(DestinationItemPath) && DestinationItemPath != Path.GetPathRoot(DestinationItemPath);
-					if (DestinationPathExists)
+					var trimmed = ShortcutTarget.Trim();
+					// If the text starts with '"', try to parse the quoted part as path, and the rest as arguments
+					if (trimmed.StartsWith('"'))
 					{
-						IsLocationValid = true;
+						var endQuoteIndex = trimmed.IndexOf('"', 1);
+						if (endQuoteIndex == -1)
+						{
+							DestinationPathExists = false;
+							IsLocationValid = false;
+							_previousShortcutTargetPath = string.Empty;
+							return;
+						}
+
+						var quoted = trimmed[1..endQuoteIndex];
+
+						if (quoted == _previousShortcutTargetPath)
+						{
+							Arguments = !Directory.Exists(FullPath) ? trimmed[(endQuoteIndex + 1)..] : string.Empty;
+							return;
+						}
+
+						if (IsValidAbsolutePath(quoted))
+						{
+							DestinationPathExists = true;
+							IsLocationValid = true;
+							FullPath = Path.GetFullPath(quoted);
+							Arguments = !Directory.Exists(FullPath) ? trimmed[(endQuoteIndex + 1)..] : string.Empty;
+							_previousShortcutTargetPath = quoted;
+							return;
+						}
+
+						// If the quoted part is a valid filename, try to find it in the PATH
+						if (quoted == Path.GetFileName(quoted)
+							&& quoted.IndexOfAny(Path.GetInvalidFileNameChars()) == -1
+							&& PathHelpers.TryGetFullPath(quoted, out var fullPath))
+						{
+							DestinationPathExists = true;
+							IsLocationValid = true;
+							FullPath = fullPath;
+							Arguments = trimmed[(endQuoteIndex + 1)..];
+							_previousShortcutTargetPath = quoted;
+							return;
+						}
+
+						var uri = new Uri(quoted);
+						DestinationPathExists = false;
+						IsLocationValid = uri.IsWellFormedOriginalString();
+						FullPath = quoted;
+						Arguments = string.Empty;
+						_previousShortcutTargetPath = string.Empty;
 					}
 					else
 					{
-						var uri = new Uri(DestinationItemPath);
+						var filePath = trimmed.Split(' ')[0];
+
+						if (filePath == _previousShortcutTargetPath)
+						{
+							Arguments = !Directory.Exists(FullPath) ? trimmed.Split(' ')[1..].Aggregate(string.Empty, (current, arg) => current + arg + " ") : string.Empty;
+							return;
+						}
+
+						if (IsValidAbsolutePath(filePath))
+						{
+							DestinationPathExists = true;
+							IsLocationValid = true;
+							FullPath = Path.GetFullPath(filePath);
+							Arguments = !Directory.Exists(FullPath) ? trimmed.Split(' ')[1..].Aggregate(string.Empty, (current, arg) => current + arg + " ") : string.Empty;
+							_previousShortcutTargetPath = filePath;
+							return;
+						}
+
+						// Try to parse the whole text as path
+						if (IsValidAbsolutePath(trimmed))
+						{
+							DestinationPathExists = true;
+							IsLocationValid = true;
+							FullPath = Path.GetFullPath(trimmed);
+							Arguments = string.Empty;
+							_previousShortcutTargetPath = string.Empty;
+							return;
+						}
+
+						if (filePath == Path.GetFileName(filePath)
+							&& filePath.IndexOfAny(Path.GetInvalidFileNameChars()) == -1
+							&& PathHelpers.TryGetFullPath(filePath, out var fullPath))
+						{
+							DestinationPathExists = true;
+							IsLocationValid = true;
+							FullPath = fullPath;
+							Arguments = trimmed.Split(' ')[1..].Aggregate(string.Empty, (current, arg) => current + arg + " ");
+							_previousShortcutTargetPath = filePath;
+							return;
+						}
+
+						var uri = new Uri(trimmed);
+						DestinationPathExists = false;
 						IsLocationValid = uri.IsWellFormedOriginalString();
+						FullPath = trimmed;
+						Arguments = string.Empty;
+						_previousShortcutTargetPath = string.Empty;
 					}
+
 				}
 				catch (Exception)
 				{
+					DestinationPathExists = false;
 					IsLocationValid = false;
+					FullPath = string.Empty;
+					Arguments = string.Empty;
+					_previousShortcutTargetPath = string.Empty;
 				}
 			}
 		}
@@ -75,7 +182,7 @@ namespace Files.App.ViewModels.Dialogs
 			}
 		}
 
-		public bool ShowWarningTip => !string.IsNullOrEmpty(DestinationItemPath) && !_isLocationValid;
+		public bool ShowWarningTip => !string.IsNullOrEmpty(ShortcutTarget) && !_isLocationValid;
 
 		// Command invoked when the user clicks the 'Browse' button
 		public ICommand SelectDestinationCommand { get; private set; }
@@ -86,10 +193,15 @@ namespace Files.App.ViewModels.Dialogs
 		public CreateShortcutDialogViewModel(string workingDirectory)
 		{
 			WorkingDirectory = workingDirectory;
-			_destinationItemPath = string.Empty;
+			_shortcutTarget = string.Empty;
 
 			SelectDestinationCommand = new AsyncRelayCommand(SelectDestination);
 			PrimaryButtonCommand = new AsyncRelayCommand(CreateShortcutAsync);
+		}
+
+		private bool IsValidAbsolutePath(string path)
+		{
+			return Path.Exists(path) && Path.IsPathFullyQualified(path) && path != Path.GetPathRoot(path);
 		}
 
 		private Task SelectDestination()
@@ -103,7 +215,7 @@ namespace Files.App.ViewModels.Dialogs
 				StringBuilder path = new StringBuilder(260);
 				if (Win32PInvoke.SHGetPathFromIDList(pidl, path))
 				{
-					DestinationItemPath = path.ToString();
+					ShortcutTarget = path.ToString();
 				}
 				Marshal.FreeCoTaskMem(pidl);
 			}
@@ -118,10 +230,12 @@ namespace Files.App.ViewModels.Dialogs
 
 			if (DestinationPathExists)
 			{
-				destinationName = Path.GetFileName(DestinationItemPath);
-				if (string.IsNullOrEmpty(destinationName))
+				destinationName = Path.GetFileName(FullPath);
+
+				if(string.IsNullOrEmpty(FullPath))
 				{
-					var destinationPath = DestinationItemPath.Replace('/', '\\');
+					
+					var destinationPath = FullPath.Replace('/', '\\');
 
 					if (destinationPath.EndsWith('\\'))
 						destinationPath = destinationPath.Substring(0, destinationPath.Length - 1);
@@ -131,7 +245,7 @@ namespace Files.App.ViewModels.Dialogs
 			}
 			else
 			{
-				var uri = new Uri(DestinationItemPath);
+				var uri = new Uri(FullPath);
 				destinationName = uri.Host;
 			}
 
@@ -146,7 +260,7 @@ namespace Files.App.ViewModels.Dialogs
 				filePath = Path.Combine(WorkingDirectory, ShortcutCompleteName);
 			}
 
-			ShortcutCreatedSuccessfully = await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, DestinationItemPath);
+			ShortcutCreatedSuccessfully = await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, FullPath, Arguments);
 		}
 	}
 }

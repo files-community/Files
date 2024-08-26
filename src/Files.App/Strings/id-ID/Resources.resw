@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NewWindow" xml:space="preserve">
-    <value>Window baru</value>
+    <value>Jendela baru</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>Salin jalur</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>Salin path dengan kutipan</value>
+    <value>Salin jalur dengan tanda kutip</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Jelajahi</value>
@@ -142,7 +142,7 @@
     <value>Ukuran:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Ukuran pada disk:</value>
+    <value>Ukuran di cakram:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
     <value>Ukuran tidak terkompresi:</value>
@@ -163,7 +163,7 @@
     <value>Pilih Semua</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Balikkan seleksi</value>
+    <value>Balikkan pilihan</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
     <value>Hapus pilihan</value>
@@ -184,7 +184,7 @@
     <value>Cari</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>File yang sebelumnya Anda akses akan muncul di sini</value>
+    <value>Berkas yang sebelumnya Anda akses akan muncul di sini</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Hapus item ini</value>
@@ -211,13 +211,13 @@
     <value>Tampilkan file dan folder tersembunyi</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Tampilkan dot files</value>
+    <value>Tampilkan berkas dot</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Tampilan</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Warna Latar Belakang</value>
+    <value>Warna latar belakang</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Lanjutan</value>
@@ -274,7 +274,7 @@
     <value>Hapus</value>
   </data>
   <data name="PinFolderToSidebar" xml:space="preserve">
-    <value>Pin ke Sidebar</value>
+    <value>Sematkan ke Bilah Sisi</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Selamat datang di Files!</value>
@@ -286,7 +286,7 @@
     <value>Untuk memulai, Anda harus memberi kami izin untuk menampilkan file Anda. Ini akan membuka halaman Pengaturan di mana Anda dapat memberi kami izin ini. Anda harus membuka kembali aplikasi setelah menyelesaikan langkah ini. </value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Menampilkan</value>
+    <value>Tampilan</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Masukkan nama item</value>
@@ -322,7 +322,7 @@
     <value>Maju</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>Naik (Alt+Panah Atas)</value>
+    <value>Naik</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Segarkan</value>
@@ -340,49 +340,49 @@
     <value>Tetapkan sebagai latar belakang layar kunci</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Atur sebagai latar belakang app</value>
+    <value>Atur sebagai latar belakang aplikasi</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Kami tidak dapat menghapus item ini</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
-    <value>Silakan masukkan drive yang diperlukan untuk mengakses item ini.</value>
+    <value>Silakan masukkan cakram yang diperlukan untuk mengakses item ini.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
     <value>Penyimpanan dilepas</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>File yang Anda coba akses mungkin telah dipindah atau dihapus.</value>
+    <value>Berkas yang Anda coba akses mungkin telah dipindahkan atau dihapus.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
-    <value>Tidak dapat membuka propeti file ini</value>
+    <value>Tidak dapat membuka propeti berkas ini</value>
   </data>
   <data name="CannotAccessPropertiesContent" xml:space="preserve">
-    <value>File yang Anda coba akses mungkin telah dipindah atau dihapus.</value>
+    <value>Berkas yang Anda coba akses mungkin telah dipindahkan atau dihapus.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
-    <value>File Tidak Ditemukan</value>
+    <value>Berkas Tidak Ditemukan</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>Folder yang Anda coba akses mungkin telah dipindah atau dihapus.</value>
+    <value>Folder yang Anda coba akses mungkin telah dipindahkan atau dihapus.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Apakah Anda menghapus folder ini?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>File yang Anda coba akses saat ini sedang digunakan oleh {0}</value>
+    <value>Berkas yang Anda coba akses sedang digunakan oleh {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>File yang Anda coba akses saat ini sedang digunakan oleh aplikasi lain</value>
+    <value>Berkas yang Anda coba akses sedang digunakan oleh aplikasi lain</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File sedang digunakan</value>
+    <value>Berkas sedang digunakan</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Tata letak</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
-    <value>Baca-saja</value>
+    <value>Baca saja</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>{0, plural, one {# day ago} other {# days ago}}</value>
@@ -534,7 +534,7 @@
     <value>Buat pintasan</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
-    <value>Buka lokasi file</value>
+    <value>Buka lokasi berkas</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
     <value>Argumen:</value>
@@ -2357,6 +2357,9 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Pilih untuk menunjukkan atau menyembunyikan item</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>Toggle whether to show dot files</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Pilih untuk menunjukkan ekstensi berkas</value>
   </data>
@@ -3901,5 +3904,8 @@
   </data>
   <data name="Vertical" xml:space="preserve">
     <value>Vertikal</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>Show Files icon in the System Tray</value>
   </data>
 </root>
