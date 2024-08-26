@@ -97,7 +97,7 @@ namespace Files.App.Data.Items
 			MinWidth = minWidth;
 			MinHeight = minHeight;
 			IsMaximizable = true;
-			IsMinimizable = true;
+   			IsMinimizable = true;
 
 			_newWndProc = new(NewWindowProc);
 			var pNewWndProc = Marshal.GetFunctionPointerForDelegate(_newWndProc);
@@ -236,8 +236,7 @@ namespace Files.App.Data.Items
 		private unsafe List<Tuple<string, Rect>> GetAllMonitorInfo()
 		{
 			List<Tuple<string, Rect>> monitors = [];
-
-			MONITORENUMPROC monitorEnumProc = new((HMONITOR monitor, HDC deviceContext, RECT* rect, LPARAM data) =>
+			MONITORENUMPROC callback = new((HMONITOR monitor, HDC deviceContext, RECT* rect, LPARAM data) =>
 			{
 				MONITORINFOEXW info = default;
 				info.monitorInfo.cbSize = (uint)Marshal.SizeOf<MONITORINFOEXW>();
@@ -251,12 +250,9 @@ namespace Files.App.Data.Items
 				return true;
 			});
 
-			var pMonitorEnumProc = Marshal.GetFunctionPointerForDelegate(monitorEnumProc);
-			var pfnMonitorEnumProc = (delegate* unmanaged[Stdcall]<HMONITOR, HDC, RECT*, LPARAM, BOOL>)pMonitorEnumProc;
-
 			LPARAM lParam = default;
-			BOOL fRes = PInvoke.EnumDisplayMonitors(new(nint.Zero), (RECT*)null, pfnMonitorEnumProc, lParam);
-			if (!fRes)
+			bool ok = PInvoke.EnumDisplayMonitors(new(nint.Zero), (RECT*)null, callback, lParam);
+			if (!ok)
 				Marshal.ThrowExceptionForHR(Marshal.GetLastWin32Error());
 
 			return monitors;
@@ -285,10 +281,7 @@ namespace Files.App.Data.Items
 					}
 			}
 
-			var pWindProc = Marshal.GetFunctionPointerForDelegate(_oldWndProc);
-			var pfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)pWindProc;
-
-			return PInvoke.CallWindowProc(pfnWndProc, param0, param1, param2, param3);
+			return PInvoke.CallWindowProc(_oldWndProc, param0, param1, param2, param3);
 		}
 	}
 }
