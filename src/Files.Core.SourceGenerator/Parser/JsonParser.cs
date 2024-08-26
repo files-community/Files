@@ -1,7 +1,8 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using LightJson;
+using System.Text.Json;
+using static Files.Core.SourceGenerator.Constants.StringsPropertyGenerator;
 
 namespace Files.Core.SourceGenerator.Parser
 {
@@ -18,57 +19,99 @@ namespace Files.Core.SourceGenerator.Parser
 		internal static IEnumerable<ParserItem> GetKeys(AdditionalText file)
 		{
 			var jsonText = new SystemIO.StreamReader(file.Path).ReadToEnd();
-			var json = JsonValue.Parse(jsonText);
+			var jsonDocument = JsonDocument.Parse(jsonText);
 			var result = new List<ParserItem>();
-			ProcessJsonObject(json, string.Empty, result);
+			ProcessJsonObject(jsonDocument.RootElement, string.Empty, result);
 			return result.OrderBy(item => item.Key);
 		}
 
-		private static void ProcessJsonObject(JsonValue json, string prefix, List<ParserItem> result)
+		private static void ProcessJsonObject(JsonElement jsonElement, string prefix, List<ParserItem> result)
 		{
-			if (json.Type is not JsonValueType.Object)
-				return;
-
-			var obj = json.AsJsonObject;
-
-			if (obj.ContainsKey("text") && obj.ContainsKey("crowdinContext"))
+			if (jsonElement.ValueKind == JsonValueKind.Object)
 			{
-				if (string.IsNullOrEmpty(prefix))
-					return;
-
-				result.Add(new()
+				foreach (var property in jsonElement.EnumerateObject())
 				{
-					Key = prefix,
-					Value = obj["text"],
-					Comment = obj["crowdinContext"].AsString
-				});
+					var key = string.IsNullOrEmpty(prefix) ? property.Name : $"{prefix}{ConstantSeparator}{property.Name}";
 
-				return;
-			}
-
-			foreach (var kvp in obj)
-			{
-				var key = string.IsNullOrEmpty(prefix) ? kvp.Key : $"{prefix}.{kvp.Key}";
-
-				switch (kvp.Value.Type)
-				{
-					case JsonValueType.Boolean:
-					case JsonValueType.Number:
-					case JsonValueType.String:
-						result.Add(new()
+					if (property.Value.ValueKind == JsonValueKind.Object)
+					{
+						var obj = property.Value;
+						if (obj.TryGetProperty("text", out var textElement) && obj.TryGetProperty("crowdinContext", out var crowdinContextElement))
 						{
-							Key = key,
-							Value = kvp.Value.ToString()
-						});
-						break;
-
-					case JsonValueType.Object:
-						ProcessJsonObject(kvp.Value, key, result);
-						break;
-
-					default:
-						break;
+							// Add an entry for the "text" field and its corresponding context
+							result.Add(new ParserItem
+							{
+								Key = key,
+								Value = textElement.GetString() ?? string.Empty,
+								Comment = crowdinContextElement.GetString()
+							});
+						}
+						else
+						{
+							// Recursively process the object
+							ProcessJsonObject(obj, key, result);
+						}
+					}
+					else
+					{
+						// Handle other value kinds directly
+						ProcessJsonElement(property.Value, key, result);
+					}
 				}
+			}
+			else
+			{
+				// If the root element is not an object, process it directly
+				ProcessJsonElement(jsonElement, prefix, result);
+			}
+		}
+
+		private static void ProcessJsonElement(JsonElement element, string key, List<ParserItem> result)
+		{
+			switch (element.ValueKind)
+			{
+				case JsonValueKind.String:
+					result.Add(new ParserItem
+					{
+						Key = key,
+						Value = element.GetString() ?? string.Empty
+					});
+					break;
+
+				case JsonValueKind.Number:
+					result.Add(new ParserItem
+					{
+						Key = key,
+						Value = element.GetRawText()
+					});
+					break;
+
+				case JsonValueKind.True:
+				case JsonValueKind.False:
+					result.Add(new ParserItem
+					{
+						Key = key,
+						Value = element.GetBoolean().ToString()
+					});
+					break;
+
+				case JsonValueKind.Array:
+					var index = 0;
+					foreach (var item in element.EnumerateArray())
+					{
+						ProcessJsonElement(item, $"{key}[{index}]", result);
+						index++;
+					}
+
+					break;
+
+				default:
+					result.Add(new ParserItem
+					{
+						Key = key,
+						Value = element.GetRawText()
+					});
+					break;
 			}
 		}
 	}

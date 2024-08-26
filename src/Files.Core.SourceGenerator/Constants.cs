@@ -92,6 +92,11 @@ namespace Files.Core.SourceGenerator
 			/// The title of the code fix provider that suggests replacing string literals with constants from the Strings class.
 			/// </summary>
 			internal const string CodeFixProviderTitle = $"Replace with constant from {StringsClassName}";
+
+			/// <summary>
+			/// Represents a character used as a separator in constant names.
+			/// </summary>
+			internal const char ConstantSeparator = '/';
 		}
 	}
 }

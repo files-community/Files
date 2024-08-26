@@ -138,7 +138,7 @@ namespace Files.Core.SourceGenerator.Generators
 				resultSpan[i] = keySpan[i] switch
 				{
 					'+' => 'P',
-					' ' or '.' => '_',
+					' ' or '.' or ConstantSeparator => '_',
 					_ => keySpan[i],
 				};
 			}

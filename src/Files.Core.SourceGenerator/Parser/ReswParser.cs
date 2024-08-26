@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Xml.Linq;
+using static Files.Core.SourceGenerator.Constants.StringsPropertyGenerator;
 
 namespace Files.Core.SourceGenerator.Parser
 {
@@ -21,7 +22,7 @@ namespace Files.Core.SourceGenerator.Parser
 			var keys = document
 				.Descendants("data")
 				.Select(element => new ParserItem {
-					Key = element.Attribute("name")?.Value!,
+					Key = element.Attribute("name")?.Value.Replace('.', ConstantSeparator)!,
 					Value = element.Element("value")?.Value ?? string.Empty,
 					Comment = element.Element("comment")?.Value })
 				.Where(item => !string.IsNullOrEmpty(item.Key));
