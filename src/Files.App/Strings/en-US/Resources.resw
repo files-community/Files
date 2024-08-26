@@ -2046,7 +2046,7 @@
     <value>Flatten folder</value>
   </data>
   <data name="FlattenFolderDialogContent" xml:space="preserve">
-    <value>No additional options are available yet. We're still working on this feature, so please check back later!.</value>
+    <value>Additional options are not yet available. We're still working on this feature, so please check back later!.</value>
   </data>
   <data name="ShowFlattenOptions" xml:space="preserve">
     <value>Show flatten options</value>
