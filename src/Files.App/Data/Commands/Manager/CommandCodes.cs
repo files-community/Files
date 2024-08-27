@@ -98,7 +98,7 @@ namespace Files.App.Data.Commands
 		DecompressArchiveToChildFolder,
 
 		// Folders
-		FlattenToRoot,
+		FlattenFolder,
 
 		// Image Manipulation
 		RotateLeft,

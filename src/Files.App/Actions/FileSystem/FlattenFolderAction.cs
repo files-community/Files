@@ -10,16 +10,16 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
-	internal sealed class FlattenToRootAction : ObservableObject, IAction
+	internal sealed class FlattenFolderAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 		private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
 		public string Label
-			=> "FlattenToRoot".GetLocalizedResource();
+			=> "FlattenFolder".GetLocalizedResource();
 
 		public string Description
-			=> "FlattenToRootDescription".GetLocalizedResource();
+			=> "FlattenFolderDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Folder");
@@ -32,7 +32,7 @@ namespace Files.App.Actions
 			context.SelectedItem is not null &&
 			context.SelectedItem.PrimaryItemAttribute is StorageItemTypes.Folder;
 
-		public FlattenToRootAction()
+		public FlattenFolderAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -47,7 +47,7 @@ namespace Files.App.Actions
 
 			var optionsDialog = new ContentDialog()
 			{
-				Title = "FlattenFolderDialogTitle".GetLocalizedResource(),
+				Title = "FlattenFolder".GetLocalizedResource(),
 				Content = "FlattenFolderDialogContent".GetLocalizedResource(),
 				PrimaryButtonText = "Flatten".GetLocalizedResource(),
 				SecondaryButtonText = "Cancel".GetLocalizedResource(),

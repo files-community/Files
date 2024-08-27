@@ -2030,16 +2030,10 @@
   <data name="Compress" xml:space="preserve">
     <value>Compress</value>
   </data>
-  <data name="Flatten" xml:space="preserve">
-    <value>Flatten</value>
-  </data>
-  <data name="FlattenToRoot" xml:space="preserve">
-    <value>Flatten to root</value>
-  </data>
-  <data name="FlattenToRootDescription" xml:space="preserve">
+  <data name="FlattenFolderDescription" xml:space="preserve">
     <value>Move all contents from subfolders into the selected location</value>
   </data>
-  <data name="FlattenFolderDialogTitle" xml:space="preserve">
+  <data name="FlattenFolder" xml:space="preserve">
     <value>Flatten folder</value>
   </data>
   <data name="FlattenFolderDialogContent" xml:space="preserve">

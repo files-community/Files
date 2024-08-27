@@ -547,7 +547,7 @@ namespace Files.App.Data.Factories
 					],
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && StorageArchiveService.CanDecompress(selectedItems)
 				},
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.FlattenToRoot).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.FlattenFolder).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SendTo".GetLocalizedResource(),
