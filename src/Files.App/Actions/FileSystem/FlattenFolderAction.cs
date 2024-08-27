@@ -2,11 +2,10 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Extensions.Logging;
-using System.IO;
-using Windows.Storage;
 using Microsoft.UI.Xaml.Controls;
+using System.IO;
 using Windows.Foundation.Metadata;
-using Files.Shared.Helpers;
+using Windows.Storage;
 
 namespace Files.App.Actions
 {
