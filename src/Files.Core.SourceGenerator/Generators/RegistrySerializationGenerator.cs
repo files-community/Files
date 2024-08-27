@@ -17,7 +17,8 @@ namespace Files.Core.SourceGenerator.Generators
 		/// <param name="context">The context for initializing the incremental generator.</param>
 		public void Initialize(IncrementalGeneratorInitializationContext context)
 		{
-			var valueProvider = context.SyntaxProvider.ForAttributeWithMetadataName("Files.Shared.RegistrySerializableAttribute",
+			var valueProvider = context.SyntaxProvider.ForAttributeWithMetadataName(
+				"Files.Shared.Attributes.RegistrySerializableAttribute",
 				(node, _) => node.IsKind(SyntaxKind.ClassDeclaration),
 				(ctx, _) => (ITypeSymbol)ctx.TargetSymbol);
 

@@ -97,6 +97,9 @@ namespace Files.App.Data.Commands
 		DecompressArchiveHereSmart,
 		DecompressArchiveToChildFolder,
 
+		// Folders
+		FlattenFolder,
+
 		// Image Manipulation
 		RotateLeft,
 		RotateRight,

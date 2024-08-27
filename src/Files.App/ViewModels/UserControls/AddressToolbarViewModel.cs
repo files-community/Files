@@ -537,6 +537,17 @@ namespace Files.App.ViewModels.UserControls
 			});
 		}
 
+		public void PathBoxItem_KeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			if (e.Key == Windows.System.VirtualKey.Down)
+			{
+				var item = e.OriginalSource as ListViewItem;
+				var button = item?.FindDescendant<Button>();
+				button?.Flyout.ShowAt(button);
+				e.Handled = true;
+			}
+		}
+
 		public void OpenCommandPalette()
 		{
 			PathText = ">";
