@@ -29,6 +29,7 @@ namespace Files.App.Actions
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 			context.PropertyChanged += Context_PropertyChanged;
+			GeneralSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
 		}
 
 		public Task ExecuteAsync(object? parameter = null)
@@ -49,7 +50,18 @@ namespace Files.App.Actions
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IContentPageContext.HasSelection))
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.HasSelection):
+				case nameof(IContentPageContext.SelectedItem):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
+		}
+
+		private void GeneralSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(IGeneralSettingsService.ShowFlattenOptions))
 				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}
