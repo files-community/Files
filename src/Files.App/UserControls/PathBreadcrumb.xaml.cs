@@ -49,5 +49,10 @@ namespace Files.App.UserControls
 		{
 			ViewModel.PathBoxItem_PointerPressed(sender, e);
 		}
+
+		private void PathBoxItem_KeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			ViewModel.PathBoxItem_KeyDown(sender, e);
+		}
 	}
 }
