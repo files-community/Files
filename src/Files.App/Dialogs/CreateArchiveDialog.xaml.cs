@@ -51,6 +51,12 @@ namespace Files.App.Dialogs
 			get => ViewModel.SplittingSize.Key;
 			set => ViewModel.SplittingSize = ViewModel.SplittingSizes.First(size => size.Key == value);
 		}
+		
+		public int CPUThreads
+		{
+			get => ViewModel.CPUThreads;
+			set => ViewModel.CPUThreads = value;
+		}
 
 		private DialogViewModel ViewModel { get; } = new();
 
@@ -144,6 +150,13 @@ namespace Files.App.Dialogs
 			{
 				get => splittingSize;
 				set => SetProperty(ref splittingSize, value);
+			}
+			
+			private int cpuThreads = Environment.ProcessorCount;
+			public int CPUThreads
+			{
+				get => cpuThreads;
+				set => SetProperty(ref cpuThreads, value);
 			}
 
 			private bool useEncryption = false;
