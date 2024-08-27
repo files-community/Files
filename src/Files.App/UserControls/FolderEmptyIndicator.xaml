@@ -39,7 +39,7 @@
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="EmptyText.Visibility" Value="Visible" />
-						<Setter Target="EmptyText.Text" Value="{x:Bind GetTranslated('NoSearchResultsFound')}" />
+						<Setter Target="EmptyText.Text" Value="{helpers:ResourceString Name=NoSearchResultsFound}" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
