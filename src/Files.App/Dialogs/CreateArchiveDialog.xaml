@@ -145,7 +145,7 @@
 				Grid.Row="3"
 				Grid.Column="0"
 				VerticalAlignment="Center"
-				Text="CPU threads" />
+				Text="{helpers:ResourceString Name=CPUThreads}" />
 			<NumberBox
 				Grid.Row="3"
 				Grid.Column="1"
