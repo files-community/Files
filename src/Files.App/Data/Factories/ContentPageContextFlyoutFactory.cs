@@ -547,19 +547,7 @@ namespace Files.App.Data.Factories
 					],
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && StorageArchiveService.CanDecompress(selectedItems)
 				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = "Flatten".GetLocalizedResource(),
-					ShowInSearchPage = true,
-					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.Folder" },
-					Items =
-					[
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.FlattenToRoot).Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.FlattenFolder).Build(),
-					],
-					IsHidden = selectedItems.Count != 1 || !selectedItems.Any(item => item?.PrimaryItemAttribute is StorageItemTypes.Folder) || !itemsSelected,
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowFlattenOptions
-				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.FlattenToRoot).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SendTo".GetLocalizedResource(),
@@ -600,7 +588,7 @@ namespace Files.App.Data.Factories
 					ShowItem = isDriveRoot,
 					IsEnabled = false
 				},
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.EditInNotepad).Build(),				
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.EditInNotepad).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,

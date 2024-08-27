@@ -103,7 +103,6 @@ namespace Files.App.Data.Commands
 		public IRichCommand DecompressArchiveHereSmart => commands[CommandCodes.DecompressArchiveHereSmart];
 		public IRichCommand DecompressArchiveToChildFolder => commands[CommandCodes.DecompressArchiveToChildFolder];
 		public IRichCommand FlattenToRoot => commands[CommandCodes.FlattenToRoot];
-		public IRichCommand FlattenFolder => commands[CommandCodes.FlattenFolder];
 		public IRichCommand RotateLeft => commands[CommandCodes.RotateLeft];
 		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
 		public IRichCommand OpenItem => commands[CommandCodes.OpenItem];
@@ -294,7 +293,6 @@ namespace Files.App.Data.Commands
 			[CommandCodes.DecompressArchiveHereSmart] = new DecompressArchiveHereSmart(),
 			[CommandCodes.DecompressArchiveToChildFolder] = new DecompressArchiveToChildFolderAction(),
 			[CommandCodes.FlattenToRoot] = new FlattenToRootAction(),
-			[CommandCodes.FlattenFolder] = new FlattenFolderAction(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
 			[CommandCodes.RotateRight] = new RotateRightAction(),
 			[CommandCodes.OpenItem] = new OpenItemAction(),

@@ -99,7 +99,6 @@ namespace Files.App.Data.Commands
 
 		// Folders
 		FlattenToRoot,
-		FlattenFolder,
 
 		// Image Manipulation
 		RotateLeft,

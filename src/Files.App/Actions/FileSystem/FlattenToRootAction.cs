@@ -4,6 +4,9 @@
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.Storage;
+using Microsoft.UI.Xaml.Controls;
+using Windows.Foundation.Metadata;
+using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
@@ -18,11 +21,14 @@ namespace Files.App.Actions
 		public string Description
 			=> "FlattenToRootDescription".GetLocalizedResource();
 
+		public RichGlyph Glyph
+			=> new(themedIconStyle: "App.ThemedIcons.Folder");
+
 		public bool IsExecutable =>
 			GeneralSettingsService.ShowFlattenOptions &&
 			context.ShellPage is not null &&
 			context.HasSelection &&
-			context.SelectedItem?.PrimaryItemAttribute is StorageItemTypes.Folder;
+			context.SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder);
 
 		public FlattenToRootAction()
 		{
@@ -32,20 +38,28 @@ namespace Files.App.Actions
 			GeneralSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
 		}
 
-		public Task ExecuteAsync(object? parameter = null)
+		public async Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.ShellPage?.ShellViewModel is null)
-				return Task.CompletedTask;
+			if (context.SelectedItems is null)
+				return;
 
-			var items = context.SelectedItems;
+			var optionsDialog = new ContentDialog()
+			{
+				Title = "FlattenFolderDialogTitle".GetLocalizedResource(),
+				Content = "FlattenFolderDialogContent".GetLocalizedResource(),
+				PrimaryButtonText = "Flatten".GetLocalizedResource(),
+				SecondaryButtonText = "Cancel".GetLocalizedResource(),
+				DefaultButton = ContentDialogButton.Primary
+			};
 
-			if (items is null || !items.Any() || items.Any(item => !item.IsFolder))
-				return Task.CompletedTask;
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				optionsDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
-			foreach (var item in items)
-				FlattenFolderAsync(item.ItemPath);
+			var result = await optionsDialog.TryShowAsync();
+			if (result != ContentDialogResult.Primary)
+				return;
 
-			return Task.CompletedTask;
+			await Task.WhenAll(context.SelectedItems.Select(item => FlattenFolderAsync(item.ItemPath)));
 		}
 
 		private Task FlattenFolderAsync(string folderPath)
