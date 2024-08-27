@@ -1,10 +1,10 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Collections.Frozen;
-using System.Collections.Immutable;
 using Files.App.Actions;
 using Microsoft.Extensions.Logging;
+using System.Collections.Frozen;
+using System.Collections.Immutable;
 
 namespace Files.App.Data.Commands
 {
@@ -102,6 +102,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand DecompressArchiveHere => commands[CommandCodes.DecompressArchiveHere];
 		public IRichCommand DecompressArchiveHereSmart => commands[CommandCodes.DecompressArchiveHereSmart];
 		public IRichCommand DecompressArchiveToChildFolder => commands[CommandCodes.DecompressArchiveToChildFolder];
+		public IRichCommand FlattenFolder => commands[CommandCodes.FlattenFolder];
 		public IRichCommand RotateLeft => commands[CommandCodes.RotateLeft];
 		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
 		public IRichCommand OpenItem => commands[CommandCodes.OpenItem];
@@ -292,6 +293,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.DecompressArchiveHere] = new DecompressArchiveHere(),
 			[CommandCodes.DecompressArchiveHereSmart] = new DecompressArchiveHereSmart(),
 			[CommandCodes.DecompressArchiveToChildFolder] = new DecompressArchiveToChildFolderAction(),
+			[CommandCodes.FlattenFolder] = new FlattenFolderAction(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
 			[CommandCodes.RotateRight] = new RotateRightAction(),
 			[CommandCodes.OpenItem] = new OpenItemAction(),

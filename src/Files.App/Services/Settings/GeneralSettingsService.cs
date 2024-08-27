@@ -239,6 +239,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool ShowFlattenOptions
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
 		public bool ShowSendToMenu
 		{
 			get => Get(true);

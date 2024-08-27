@@ -325,6 +325,15 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
+						<!--  Flatten options  -->
+						<!--  TODO uncomment code when feature is marked as stable  -->
+						<!--<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowFlattenOptions}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowFlattenOptions}"
+								IsOn="{x:Bind ViewModel.ShowFlattenOptions, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>-->
+
 						<!--  Send To  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowSendToMenu}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
