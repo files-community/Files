@@ -59,17 +59,18 @@ namespace Files.App.Actions
 			if (result != ContentDialogResult.Primary)
 				return;
 
-			await Task.WhenAll(context.SelectedItems.Select(item => FlattenFolderAsync(item.ItemPath)));
+			foreach (var item in context.SelectedItems)
+				FlattenFolder(item.ItemPath);
 		}
 
-		private Task FlattenFolderAsync(string folderPath)
+		private void FlattenFolder(string path)
 		{
-			var containedFolders = Directory.GetDirectories(folderPath);
-			var containedFiles = Directory.GetFiles(folderPath);
+			var containedFolders = Directory.GetDirectories(path);
+			var containedFiles = Directory.GetFiles(path);
 
 			foreach (var containedFolder in containedFolders)
 			{
-				FlattenFolderAsync(containedFolder);
+				FlattenFolder(containedFolder);
 
 				var folderName = Path.GetFileName(containedFolder);
 				var destinationPath = Path.Combine(context?.SelectedItem?.ItemPath ?? string.Empty, folderName);
@@ -105,19 +106,17 @@ namespace Files.App.Actions
 				}
 			}
 
-			if (Directory.GetFiles(folderPath).Length == 0 && Directory.GetDirectories(folderPath).Length == 0)
+			if (Directory.GetFiles(path).Length == 0 && Directory.GetDirectories(path).Length == 0)
 			{
 				try
 				{
-					Directory.Delete(folderPath);
+					Directory.Delete(path);
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogWarning(ex.Message, $"Failed to delete folder '{folderPath}'.");
+					App.Logger.LogWarning(ex.Message, $"Failed to delete folder '{path}'.");
 				}
 			}
-
-			return Task.CompletedTask;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
