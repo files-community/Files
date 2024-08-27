@@ -28,7 +28,9 @@ namespace Files.App.Actions
 			GeneralSettingsService.ShowFlattenOptions &&
 			context.ShellPage is not null &&
 			context.HasSelection &&
-			context.SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.Folder);
+			context.SelectedItems.Count is 1 &&
+			context.SelectedItem is not null &&
+			context.SelectedItem.PrimaryItemAttribute is StorageItemTypes.Folder;
 
 		public FlattenToRootAction()
 		{
@@ -40,7 +42,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.SelectedItems is null)
+			if (context.SelectedItem is null)
 				return;
 
 			var optionsDialog = new ContentDialog()
@@ -59,8 +61,7 @@ namespace Files.App.Actions
 			if (result != ContentDialogResult.Primary)
 				return;
 
-			foreach (var item in context.SelectedItems)
-				FlattenFolder(item.ItemPath);
+			FlattenFolder(context.SelectedItem.ItemPath);
 		}
 
 		private void FlattenFolder(string path)
