@@ -77,6 +77,14 @@ namespace Files.App.ViewModels.Properties
 			else
 				ViewModel.IsHidden = null;
 
+			var fileAttributesCompressed = List.Select(x => Win32Helper.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.Compressed));
+			if (fileAttributesCompressed.All(x => x))
+				ViewModel.IsContentCompressed = true;
+			else if (!fileAttributesCompressed.Any(x => x))
+				ViewModel.IsContentCompressed = false;
+			else
+				ViewModel.IsContentCompressed = null;
+
 			ViewModel.LastSeparatorVisibility = false;
 			ViewModel.ItemSizeVisibility = true;
 
@@ -165,6 +173,25 @@ namespace Files.App.ViewModels.Properties
 							{
 								List.ForEach(x => Win32Helper.UnsetFileAttribute(
 									x.ItemPath, System.IO.FileAttributes.Hidden));
+							}
+						}
+
+					}
+					break;
+
+				case "IsContentCompressed":
+					{
+						if (ViewModel.IsContentCompressed is not null)
+						{
+							if ((bool)ViewModel.IsContentCompressed)
+							{
+								List.ForEach(x => Win32Helper.SetFileAttribute(
+									x.ItemPath, System.IO.FileAttributes.Compressed));
+							}
+							else
+							{
+								List.ForEach(x => Win32Helper.UnsetFileAttribute(
+									x.ItemPath, System.IO.FileAttributes.Compressed));
 							}
 						}
 

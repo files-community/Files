@@ -73,6 +73,9 @@ namespace Files.App.ViewModels.Properties
 		{
 			ViewModel.IsHidden = Win32Helper.HasFileAttribute(
 				Item.ItemPath, System.IO.FileAttributes.Hidden);
+			
+			ViewModel.IsContentCompressed = Win32Helper.HasFileAttribute(
+				Item.ItemPath, System.IO.FileAttributes.Compressed);
 
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Item.ItemPath,
@@ -206,6 +209,16 @@ namespace Files.App.ViewModels.Properties
 							Win32Helper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
 						else
 							Win32Helper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+					}
+					break;
+				
+				case "IsContentCompressed":
+					if (ViewModel.IsContentCompressed is not null)
+					{
+						if ((bool)ViewModel.IsContentCompressed)
+							Win32Helper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Compressed);
+						else
+							Win32Helper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Compressed);
 					}
 					break;
 

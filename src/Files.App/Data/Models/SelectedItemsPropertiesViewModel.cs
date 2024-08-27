@@ -718,6 +718,24 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref isHiddenEditedValue, value);
 		}
 
+		private bool? isContentCompressed;
+		public bool? IsContentCompressed
+		{
+			get => isContentCompressed;
+			set
+			{
+				SetProperty(ref isContentCompressed, value);
+				IsContentCompressedEditedValue = value;
+			}
+		}
+
+		private bool? isContentCompressedEditedValue;
+		public bool? IsContentCompressedEditedValue
+		{
+			get => isContentCompressedEditedValue;
+			set => SetProperty(ref isContentCompressedEditedValue, value);
+		}
+
 		private bool runAsAdmin;
 		public bool RunAsAdmin
 		{
