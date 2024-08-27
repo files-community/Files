@@ -150,6 +150,7 @@
 				Grid.Row="3"
 				Grid.Column="1"
 				HorizontalAlignment="Right"
+				AutomationProperties.Name="{helpers:ResourceString Name=CPUThreads}"
 				Maximum="{x:Bind ViewModel.CPUThreads, Mode=OneTime}"
 				Minimum="1"
 				SpinButtonPlacementMode="Inline"
