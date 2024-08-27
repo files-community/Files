@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-
 // Files
 global using global::Files.Core.SourceGenerator.Analyzers;
 global using global::Files.Core.SourceGenerator.CodeFixProviders;

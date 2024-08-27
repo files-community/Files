@@ -81,7 +81,6 @@ namespace Files.Core.SourceGenerator.Analyzers
 					.ToFrozenDictionary();
 			}
 
-
 			// Check if the literal value matches any of the constants
 			var match = StringsConstants.FirstOrDefault(pair => pair.Value == literalValue);
 

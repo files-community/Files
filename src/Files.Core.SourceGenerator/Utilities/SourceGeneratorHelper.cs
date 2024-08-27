@@ -142,6 +142,13 @@ namespace Files.Core.SourceGenerator.Utilities
 				.AddAccessorListAccessors(getter, setter);
 		}
 
+		/// <summary>
+		/// This method generates an array of attribute lists for a field.
+		/// The generated attributes include a <see cref="global::System.CodeDom.Compiler.GeneratedCode"/> attribute,
+		/// specifying the generator name and version.
+		/// </summary>
+		/// <param name="generatorName">The name of the code generator.</param>
+		/// <returns>An array containing a single attribute list with the generated attributes.</returns>
 		internal static AttributeListSyntax[] GetAttributeForField(string generatorName)
 		{
 			return
@@ -154,6 +161,14 @@ namespace Files.Core.SourceGenerator.Utilities
 			];
 		}
 
+		/// <summary>
+		/// This method generates an array of attribute lists for an event.
+		/// The generated attributes include a <see cref="global::System.CodeDom.Compiler.GeneratedCode"/> attribute,
+		/// specifying the generator name and version, and a <see cref="global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage"/>
+		/// attribute to exclude the event from code coverage reports.
+		/// </summary>
+		/// <param name="generatorName">The name of the code generator.</param>
+		/// <returns>An array containing two attribute lists with the generated attributes.</returns>
 		internal static AttributeListSyntax[] GetAttributeForEvent(string generatorName)
 		{
 			return
@@ -167,6 +182,14 @@ namespace Files.Core.SourceGenerator.Utilities
 			];
 		}
 
+		/// <summary>
+		/// This method generates an array of attribute lists for a method.
+		/// The generated attributes include a <see cref="global::System.CodeDom.Compiler.GeneratedCode"/> attribute,
+		/// specifying the generator name and version, a <see cref="global::System.Diagnostics.DebuggerNonUserCode"/> attribute,
+		/// and a <see cref="global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage"/> attribute to exclude the method from code coverage reports.
+		/// </summary>
+		/// <param name="generatorName">The name of the code generator.</param>
+		/// <returns>An array containing three attribute lists with the generated attributes.</returns>
 		internal static AttributeListSyntax[] GetAttributeForMethod(string generatorName)
 		{
 			return
