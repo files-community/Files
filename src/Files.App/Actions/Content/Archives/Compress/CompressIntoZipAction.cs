@@ -26,6 +26,7 @@ namespace Files.App.Actions
 				sources,
 				directory,
 				fileName,
+				Environment.ProcessorCount,
 				fileFormat: ArchiveFormats.Zip);
 
 			return StorageArchiveService.CompressAsync(compressionModel);
