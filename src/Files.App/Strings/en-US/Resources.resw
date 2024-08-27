@@ -2036,6 +2036,9 @@
   <data name="FlattenFolder" xml:space="preserve">
     <value>Flatten folder</value>
   </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Flatten</value>
+  </data>
   <data name="FlattenFolderDialogContent" xml:space="preserve">
     <value>Flattening a folder will move all contents from its subfolders to the selected location. This operation is permanent and cannot be undone. By using this experimental feature, you acknowledge the risk and agree not to hold the Files team responsible for any data loss.</value>
   </data>
