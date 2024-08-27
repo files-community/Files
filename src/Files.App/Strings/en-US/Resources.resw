@@ -2037,7 +2037,7 @@
     <value>Flatten to root</value>
   </data>
   <data name="FlattenToRootDescription" xml:space="preserve">
-    <value>Move all files and sub files into the selected folder</value>
+    <value>Move all contents from subfolders into the selected location</value>
   </data>
   <data name="FlattenFolderDialogTitle" xml:space="preserve">
     <value>Flatten folder</value>
