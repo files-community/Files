@@ -121,3 +121,4 @@ WindowsDeleteString
 IPreviewHandler
 AssocQueryString
 ShellExecuteEx
+GetFileAttributes
