@@ -13,6 +13,7 @@ using System.Text;
 using System.Windows.Forms;
 using Vanara.PInvoke;
 using Windows.System;
+using Windows.Win32.Storage.FileSystem;
 
 namespace Files.App.Helpers
 {
@@ -917,22 +918,58 @@ namespace Files.App.Helpers
 
 		public static bool SetFileAttribute(string lpFileName, FileAttributes dwAttrs)
 		{
-			if (!Win32PInvoke.GetFileAttributesExFromApp(
-				lpFileName, Win32PInvoke.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
+			var attributes = Windows.Win32.PInvoke.GetFileAttributes(lpFileName);
+			if (attributes == unchecked((uint)-1) /* INVALID_FILE_ATTRIBUTES */)
+				return false;
+			
+			if (((FILE_FLAGS_AND_ATTRIBUTES)dwAttrs & FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_COMPRESSED) == FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_COMPRESSED)
 			{
+				ushort format = 1 /* COMPRESSION_FORMAT_DEFAULT */; // Or COMPRESSION_FORMAT_LZNT1 (2)?
+
+				//return Windows.Win32.PInvoke.DeviceIoControl(
+				//	hFile
+				//	0x0009C040 /* FSCTL_SET_COMPRESSION */,
+				//	format,
+				//	Marshal.Sizeof(format),
+				//	null,
+				//	0,
+				//	lpBytesReturned,
+				//	null);
+
 				return false;
 			}
-			return Win32PInvoke.SetFileAttributesFromApp(lpFileName, lpFileInfo.dwFileAttributes | dwAttrs);
+			else
+			{
+				return Windows.Win32.PInvoke.SetFileAttributes(lpFileName, (FILE_FLAGS_AND_ATTRIBUTES)(attributes | (uint)dwAttrs));
+			}
 		}
 
 		public static bool UnsetFileAttribute(string lpFileName, FileAttributes dwAttrs)
 		{
-			if (!Win32PInvoke.GetFileAttributesExFromApp(
-				lpFileName, Win32PInvoke.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
+			var attributes = Windows.Win32.PInvoke.GetFileAttributes(lpFileName);
+			if (attributes == unchecked((uint)-1) /* INVALID_FILE_ATTRIBUTES */)
+				return false;
+
+			if (((FILE_FLAGS_AND_ATTRIBUTES)dwAttrs & FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_COMPRESSED) == FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_COMPRESSED)
 			{
+				ushort format = 0 /* COMPRESSION_FORMAT_NONE */;
+
+				//return Windows.Win32.PInvoke.DeviceIoControl(
+				//	hFile
+				//	0x0009C040 /* FSCTL_SET_COMPRESSION */,
+				//	&format,
+				//	Marshal.Sizeof(format),
+				//	null,
+				//	0,
+				//	lpBytesReturned,
+				//	null);
+
 				return false;
 			}
-			return Win32PInvoke.SetFileAttributesFromApp(lpFileName, lpFileInfo.dwFileAttributes & ~dwAttrs);
+			else
+			{
+				return Windows.Win32.PInvoke.SetFileAttributes(lpFileName, (FILE_FLAGS_AND_ATTRIBUTES)(attributes & ~(uint)dwAttrs));
+			}
 		}
 
 		public static string ReadStringFromFile(string filePath)

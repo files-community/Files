@@ -122,3 +122,5 @@ IPreviewHandler
 AssocQueryString
 ShellExecuteEx
 GetFileAttributes
+SetFileAttributes
+DeviceIoControl
