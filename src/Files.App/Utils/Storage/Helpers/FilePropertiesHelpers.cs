@@ -36,7 +36,7 @@ namespace Files.App.Utils.Storage
 			=> WinRT.Interop.WindowNative.GetWindowHandle(w);
 
 		private static TaskCompletionSource? PropertiesWindowsClosingTCS;
-		private static readonly BlockingCollection<WindowEx> WindowCache = [];
+		private static readonly BlockingCollection<WinUIEx.WindowEx> WindowCache = [];
 
 		/// <summary>
 		/// Open properties window
@@ -103,13 +103,15 @@ namespace Files.App.Utils.Storage
 
 			if (!WindowCache.TryTake(out var propertiesWindow))
 			{
-				propertiesWindow = new(460, 550);
+				propertiesWindow = new();
 				propertiesWindow.Closed += PropertiesWindow_Closed;
 			}
 
 			var width = Convert.ToInt32(800 * App.AppModel.AppWindowDPI);
 			var height = Convert.ToInt32(500 * App.AppModel.AppWindowDPI);
 
+			propertiesWindow.MinHeight = 550;
+			propertiesWindow.MinWidth = 460;
 			propertiesWindow.AppWindow.Resize(new (width, height));
 			propertiesWindow.IsMinimizable = false;
 			propertiesWindow.IsMaximizable = false;
@@ -158,7 +160,7 @@ namespace Files.App.Utils.Storage
 		// So instead of destroying the Window object, cache it and reuse it as a workaround.
 		private static void PropertiesWindow_Closed(object sender, WindowEventArgs args)
 		{
-			if (!App.AppModel.IsMainWindowClosed && sender is WindowEx window)
+			if (!App.AppModel.IsMainWindowClosed && sender is WinUIEx.WindowEx window)
 			{
 				args.Handled = true;
 
