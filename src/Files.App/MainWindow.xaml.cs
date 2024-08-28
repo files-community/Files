@@ -13,7 +13,7 @@ using IO = System.IO;
 
 namespace Files.App
 {
-	public sealed partial class MainWindow : WindowEx
+	public sealed partial class MainWindow : WinUIEx.WindowEx
 	{
 		private static MainWindow? _Instance;
 		public static MainWindow Instance => _Instance ??= new();
