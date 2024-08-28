@@ -1,4 +1,7 @@
-﻿using Microsoft.CodeAnalysis;
+﻿// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -12,7 +15,8 @@ namespace Files.Core.SourceGenerator
 	{
 		public void Initialize(IncrementalGeneratorInitializationContext context)
 		{
-			var valueProvider = context.SyntaxProvider.ForAttributeWithMetadataName("Files.Shared.RegistrySerializableAttribute",
+			var valueProvider = context.SyntaxProvider.ForAttributeWithMetadataName(
+				"Files.Shared.Attributes.RegistrySerializableAttribute",
 				(node, _) => node.IsKind(SyntaxKind.ClassDeclaration),
 				(ctx, _) => (ITypeSymbol)ctx.TargetSymbol);
 

@@ -36,12 +36,12 @@
 			<Style BasedOn="{StaticResource DefaultMenuFlyoutItemStyle}" TargetType="MenuFlyoutItem">
 				<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 			</Style>
-			
+
 			<!--  Workaround for https://github.com/files-community/Files/issues/12026  -->
 			<Style BasedOn="{StaticResource DefaultToggleMenuFlyoutItemStyle}" TargetType="ToggleMenuFlyoutItem">
 				<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 			</Style>
-			
+
 			<!--  Workaround for https://github.com/files-community/Files/issues/12026  -->
 			<Style BasedOn="{StaticResource DefaultMenuFlyoutSubItemStyle}" TargetType="MenuFlyoutSubItem">
 				<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
