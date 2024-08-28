@@ -80,7 +80,7 @@ namespace Files.App.Services
 			try
 			{
 				window ??= MainWindow.Instance;
-				titleBar ??= MainWindow.Instance.AppWindow.TitleBar;
+				titleBar ??= MainWindow.Instance.AppWindow?.TitleBar;
 				rootTheme ??= AppThemeMode;
 
 				if (window.Content is FrameworkElement rootElement)
