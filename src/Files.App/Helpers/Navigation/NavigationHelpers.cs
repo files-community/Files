@@ -658,10 +658,8 @@ namespace Files.App.Helpers
 								}
 
 								// Now launch file with options.
-								var storageItem = (StorageFile)await FilesystemTasks.Wrap(() => childFile.Item.ToStorageFileAsync().AsTask());
-
-								if (storageItem is not null)
-									launchSuccess = await Launcher.LaunchFileAsync(storageItem, options);
+								if (childFile.Item is not null)
+									launchSuccess = await Launcher.LaunchFileAsync(childFile.Item, options);
 							}
 
 							if (!launchSuccess)
