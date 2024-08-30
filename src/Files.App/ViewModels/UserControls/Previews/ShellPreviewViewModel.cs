@@ -13,13 +13,10 @@ using Windows.Win32.Graphics.Direct3D11;
 using Windows.Win32.Graphics.DirectComposition;
 using Windows.Win32.Graphics.Dwm;
 using Windows.Win32.Graphics.Dxgi;
+using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
 using WinRT;
-
-// Description: Feature is for evaluation purposes only and is subject to change or removal in future updates.
-// Justification: We have to use ContentExternalOutputLink for shell previews.
-#pragma warning disable CS8305
 
 #pragma warning disable CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
 
@@ -103,8 +100,8 @@ namespace Files.App.ViewModels.Previews
 
 				try
 				{
-					_currentPreviewHandler = new PreviewHandler(clsid.Value, hwnd.Value);
-					_currentPreviewHandler.InitWithFileWithEveryWay(Item.ItemPath);
+					_currentPreviewHandler = new PreviewHandler(clsid.Value, hwnd);
+					_currentPreviewHandler.Initialize(Item.ItemPath);
 					_currentPreviewHandler.DoPreview();
 				}
 				catch
@@ -204,14 +201,16 @@ namespace Files.App.ViewModels.Previews
 			if (pD3D11Device is null)
 				return false;
 
-			IDXGIDevice dxgiDevice = (IDXGIDevice)d3d11Device;
-			if (PInvoke.DCompositionCreateDevice(dxgiDevice, typeof(IDCompositionDevice).GUID, out var compDevicePtr).Failed)
+			IDXGIDevice* pDXGIDevice = (IDXGIDevice*)pD3D11Device;
+			if (PInvoke.DCompositionCreateDevice(pDXGIDevice, typeof(IDCompositionDevice).GUID, out var compositionDevicePtr).Failed)
 				return false;
 
-			IDCompositionDevice compDevice = (IDCompositionDevice)compDevicePtr;
+			var pDCompositionDevice = (IDCompositionDevice*)compositionDevicePtr;
+			IDCompositionVisual* pChildVisual = default;
+			IUnknown* pControlSurface = default;
 
 			pDCompositionDevice->CreateVisual(&pChildVisual);
-			pDCompositionDevice->CreateSurfaceFromHwnd(_hWnd, &pControlSurface);
+			pDCompositionDevice->CreateSurfaceFromHwnd(new(_hWnd), &pControlSurface);
 			pChildVisual->SetContent(pControlSurface);
 			if (pChildVisual is null || pControlSurface is null)
 				return false;
@@ -223,7 +222,7 @@ namespace Files.App.ViewModels.Previews
 			target.SetRoot(pChildVisual);
 
 			_contentExternalOutputLink.PlacementVisual.Size = new(0, 0);
-			_contentExternalOutputLink.PlacementVisual.Scale = new(1/(float)presenter.XamlRoot.RasterizationScale);
+			_contentExternalOutputLink.PlacementVisual.Scale = new(1 / (float)presenter.XamlRoot.RasterizationScale);
 			ElementCompositionPreview.SetElementChildVisual(presenter, _contentExternalOutputLink.PlacementVisual);
 
 			pDCompositionDevice->Commit();
@@ -286,8 +285,16 @@ namespace Files.App.ViewModels.Previews
 			if (_hWnd != HWND.Null)
 				PInvoke.DestroyWindow(_hWnd);
 
-			//outputLink?.Dispose();
-			_contentExternalOutputLink = null;
+			try
+			{
+				var target = _contentExternalOutputLink.As<IDCompositionTarget.Interface>();
+				Marshal.ReleaseComObject(target);
+				_contentExternalOutputLink?.Dispose();
+			}
+			finally
+			{
+				_contentExternalOutputLink = null;
+			}
 
 			PInvoke.UnregisterClass(_windowClass.lpszClassName, PInvoke.GetModuleHandle(default(PWSTR)));
 		}

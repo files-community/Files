@@ -1,414 +1,150 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using LibGit2Sharp;
 using System.Runtime.InteropServices;
 using Windows.UI;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.System.Com;
+using Windows.Win32.System.Ole;
+using Windows.Win32.UI.Shell;
+using Windows.Win32.UI.Shell.PropertiesSystem;
 using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Utils.Shell
 {
 	/// <summary>
-	/// Credits: https://github.com/GeeLaw/PreviewHost/
+	/// Provides a set of functionalities to interact with Windows preview handlers.
 	/// </summary>
-	public sealed class PreviewHandler : IDisposable
+	/// <remarks>
+	/// Credit: <a href="https://github.com/GeeLaw/PreviewHost"/>
+	/// </remarks>
+	public unsafe sealed class PreviewHandler : IDisposable
 	{
 		// Fields
 
-		private static readonly Guid IPreviewHandlerIid = Guid.ParseExact("8895b1c6-b41f-4c1c-a562-0d564250836f", "d");
-
-		#region IPreviewHandlerFrame support
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct PreviewHandlerFrameInfo
-		{
-			public nint AcceleratorTableHandle;
-			public uint AcceleratorEntryCount;
-		}
-
-		[ComImport, Guid("fec87aaf-35f9-447a-adb7-20234491401a"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-		public interface IPreviewHandlerFrame
-		{
-			[PreserveSig]
-			HRESULT GetWindowContext(out PreviewHandlerFrameInfo pinfo);
-			[PreserveSig]
-			HRESULT TranslateAccelerator(ref MSG pmsg);
-		}
-
-		public sealed class PreviewHandlerFrame : IPreviewHandlerFrame, IDisposable
-		{
-			bool disposed;
-			nint hwnd;
-
-			public PreviewHandlerFrame(nint frame)
-			{
-				disposed = true;
-				disposed = false;
-				hwnd = frame;
-			}
-
-			public void Dispose()
-			{
-				disposed = true;
-			}
-
-			public HRESULT GetWindowContext(out PreviewHandlerFrameInfo pinfo)
-			{
-				pinfo.AcceleratorTableHandle = nint.Zero;
-				pinfo.AcceleratorEntryCount = 0;
-				if (disposed)
-					return HRESULT.E_FAIL;
-				return HRESULT.S_OK;
-			}
-
-			public HRESULT TranslateAccelerator(ref MSG pmsg)
-			{
-				if (disposed)
-					return HRESULT.E_FAIL;
-				return HRESULT.S_FALSE;
-			}
-		}
-
-		#endregion IPreviewHandlerFrame support
-
-		#region IPreviewHandler major interfaces
-
-		[ComImport, Guid("8895b1c6-b41f-4c1c-a562-0d564250836f"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-		interface IPreviewHandler
-		{
-			[PreserveSig]
-			HRESULT SetWindow(nint hwnd, ref RECT prc);
-			[PreserveSig]
-			HRESULT SetRect(ref RECT prc);
-			[PreserveSig]
-			HRESULT DoPreview();
-			[PreserveSig]
-			HRESULT Unload();
-			[PreserveSig]
-			HRESULT SetFocus();
-			[PreserveSig]
-			HRESULT QueryFocus(out nint phwnd);
-			// TranslateAccelerator is not used here.
-		}
-
-		[ComImport, Guid("196bf9a5-b346-4ef0-aa1e-5dcdb76768b1"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-		interface IPreviewHandlerVisuals
-		{
-			[PreserveSig]
-			HRESULT SetBackgroundColor(uint color);
-			[PreserveSig]
-			HRESULT SetFont(ref LOGFONTW plf);
-			[PreserveSig]
-			HRESULT SetTextColor(uint color);
-		}
-
-		static uint ColorRefFromColor(Color color)
-		{
-			return (((uint)color.B) << 16) | (((uint)color.G) << 8) | ((uint)color.R);
-		}
-
-		[ComImport, Guid("fc4801a3-2ba9-11cf-a229-00aa003d7352"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-		interface IObjectWithSite
-		{
-			[PreserveSig]
-			HRESULT SetSite([In, MarshalAs(UnmanagedType.IUnknown)] object pUnkSite);
-			// GetSite is not used.
-		}
-
-		#endregion IPreviewHandler major interfaces
-
-		bool disposed;
-		bool init;
-		bool shown;
-		PreviewHandlerFrame comSite;
-		nint hwnd;
-		IPreviewHandler previewHandler;
-		IPreviewHandlerVisuals visuals;
-		nint pPreviewHandler;
+		private readonly IPreviewHandlerFrame.Interface _previewHandlerFrame;
+		private readonly IPreviewHandler* _pPreviewHandler;
+		private readonly IPreviewHandlerVisuals* _previewHandlerVisuals;
+		private readonly HWND _hWnd;
+		private bool _disposed;
+		private bool _initialized;
+		private bool _shown;
 
 		// Initializer
 
-		public PreviewHandler(Guid clsid, nint frame)
+		/// <summary>
+		/// Initializes an instance of <see cref="PreviewHandler"/> class.
+		/// </summary>
+		/// <param name="clsid"></param>
+		/// <param name="frame"></param>
+		public PreviewHandler(Guid clsid, HWND frame)
 		{
-			disposed = true;
-			init = false;
-			shown = false;
-			comSite = new PreviewHandlerFrame(frame);
-			hwnd = frame;
+			_disposed = true;
+			_initialized = false;
+			_shown = false;
+			_hWnd = frame;
+
+			// Initialize preview handler's frame
+			_previewHandlerFrame = new CPreviewHandlerFrame(frame);
 
 			try
 			{
-				SetupHandler(clsid);
-				disposed = false;
+				HRESULT hr = PInvoke.CoCreateInstance(clsid, null, CLSCTX.CLSCTX_LOCAL_SERVER, out IPreviewHandler* pPreviewHandler);
+				if (hr.Value < 0)
+					throw new COMException("Cannot create class " + clsid.ToString() + " as IPreviewHandler.", hr.Value);
+				else if (pPreviewHandler is null)
+					throw new COMException("Cannot create class " + clsid.ToString() + " as IPreviewHandler.");
+
+				_pPreviewHandler = pPreviewHandler;
+
+				Debug.WriteLine($"IPreviewHandler was successfully initialized from {clsid:B}.");
+
+				// Get IObjectWithSite
+				ComPtr<IObjectWithSite> pObjectWithSite = default;
+				_pPreviewHandler->QueryInterface(typeof(IObjectWithSite).GUID, out *(void**)pObjectWithSite.GetAddressOf());
+				if (pObjectWithSite.IsNull)
+					throw new COMException("Cannot cast class " + clsid.ToString() + " as IObjectWithSite.");
+
+				// Set site
+				var pPreviewHandlerFrame = Marshal.GetIUnknownForObject(_previewHandlerFrame);
+				hr = pObjectWithSite.Get()->SetSite((IUnknown*)pPreviewHandlerFrame);
+				if (hr.Value < 0)
+					throw new COMException("Cannot set site to the preview handler object.", hr.Value);
+
+				Debug.WriteLine($"Site IPreviewHandlerFrame was successfully set to IPreviewHandler.");
+
+				// Get IPreviewHandlerVisuals
+				IPreviewHandlerVisuals* previewHandlerVisuals = default;
+				_pPreviewHandler->QueryInterface(typeof(IPreviewHandlerVisuals).GUID, out *(void**)&previewHandlerVisuals);
+				if (previewHandlerVisuals == null)
+					throw new COMException("Cannot cast class " + clsid.ToString() + " as IPreviewHandlerVisuals.");
+
+				_previewHandlerVisuals = previewHandlerVisuals;
+
+				Debug.WriteLine($"IPreviewHandlerVisuals was successfully queried from IPreviewHandler.");
+
+				_disposed = false;
 			}
 			catch
 			{
-				if (previewHandler != null)
-					Marshal.ReleaseComObject(previewHandler);
-				previewHandler = null;
-				if (pPreviewHandler != nint.Zero)
-					Marshal.Release(pPreviewHandler);
-				pPreviewHandler = nint.Zero;
-				comSite.Dispose();
-				comSite = null;
+				if (_pPreviewHandler is not null)
+				{
+					_pPreviewHandler->Release();
+					_pPreviewHandler = null;
+				}
+
 				throw;
 			}
 		}
 
 		// Methods
 
-		unsafe void SetupHandler(Guid clsid)
-		{
-			nint pph;
-			var iid = IPreviewHandlerIid;
-			var cannotCreate = "Cannot create class " + clsid.ToString() + " as IPreviewHandler.";
-			var cannotCast = "Cannot cast class " + clsid.ToString() + " as IObjectWithSite.";
-			var cannotSetSite = "Cannot set site to the preview handler object.";
-
-			// Important: manually calling CoCreateInstance is necessary.
-			// If we use Activator.CreateInstance(Type.GetTypeFromCLSID(...)),
-			// CLR will allow in-process server, which defeats isolation and
-			// creates strange bugs.
-			HRESULT hr = PInvoke.CoCreateInstance(
-				clsid,
-				null,
-				CLSCTX.CLSCTX_LOCAL_SERVER,
-				ref iid,
-				out void* previewHandlerPtr);
-
-			object previewHandlerObject = *(IPreviewHandler*)previewHandlerPtr;
-
-			// See https://blogs.msdn.microsoft.com/adioltean/2005/06/24/when-cocreateinstance-returns-0x80080005-co_e_server_exec_failure/
-			// CO_E_SERVER_EXEC_FAILURE also tends to happen when debugging in Visual Studio.
-			// Moreover, to create the instance in a server at low integrity level, we need
-			// to use another thread with low mandatory label. We keep it simple by creating
-			// a same-integrity object.
-			//if (hr == HRESULT.CO_E_SERVER_EXEC_FAILURE)
-			//	hr = CoCreateInstance(ref clsid, nint.Zero, ClassContext.LocalServer, ref iid, out pph);
-			if ((int)hr < 0)
-				throw new COMException(cannotCreate, (int)hr);
-
-			pPreviewHandler = new(previewHandlerPtr);
-			previewHandler = (IPreviewHandler)previewHandlerObject;
-			if (previewHandler == null)
-			{
-				Marshal.ReleaseComObject(previewHandlerObject);
-				throw new COMException(cannotCreate);
-			}
-
-			var objectWithSite = previewHandlerObject as IObjectWithSite;
-			if (objectWithSite == null)
-				throw new COMException(cannotCast);
-
-			hr = objectWithSite.SetSite(comSite);
-			if ((int)hr < 0)
-				throw new COMException(cannotSetSite, (int)hr);
-
-			visuals = previewHandlerObject as IPreviewHandlerVisuals;
-		}
-
-		#region Initialization interfaces
-
-		[ComImport, Guid("b824b49d-22ac-4161-ac8a-9916e8fa3f7f"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-		interface IInitializeWithStream
-		{
-			[PreserveSig]
-			HRESULT Initialize(IStream psi, STGM grfMode);
-		}
-
-		[ComImport, Guid("b824b49d-22ac-4161-ac8a-9916e8fa3f7f"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-		interface IInitializeWithStreamNative
-		{
-			[PreserveSig]
-			HRESULT Initialize(nint psi, STGM grfMode);
-		}
-
-		static readonly Guid IInitializeWithStreamIid = Guid.ParseExact("b824b49d-22ac-4161-ac8a-9916e8fa3f7f", "d");
-
-		[ComImport, Guid("b7d14566-0509-4cce-a71f-0a554233bd9b"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-		interface IInitializeWithFile
-		{
-			[PreserveSig]
-			HRESULT Initialize([MarshalAs(UnmanagedType.LPWStr)] string pszFilePath, STGM grfMode);
-		}
-
-		static readonly Guid IInitializeWithFileIid = Guid.ParseExact("b7d14566-0509-4cce-a71f-0a554233bd9b", "d");
-
-		[ComImport, Guid("7f73be3f-fb79-493c-a6c7-7ee14e245841"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-		interface IInitializeWithItem
-		{
-			[PreserveSig]
-			HRESULT Initialize(nint psi, STGM grfMode);
-		}
-
-		static readonly Guid IInitializeWithItemIid = Guid.ParseExact("7f73be3f-fb79-493c-a6c7-7ee14e245841", "d");
-
-		#endregion
-
 		/// <summary>
-		/// Tries to initialize the preview handler with an IStream.
+		/// Initializes the preview handler with file.
 		/// </summary>
-		/// <exception cref="COMException">This exception is thrown if IInitializeWithStream.Initialize fails for reason other than E_NOTIMPL.</exception>
-		/// <exception cref="ArgumentOutOfRangeException">Thrown if mode is neither Read nor ReadWrite.</exception>
-		/// <param name="stream">The IStream interface used to initialize the preview handler.</param>
-		/// <param name="mode">The storage mode, must be Read or ReadWrite.</param>
-		/// <returns>If the handler supports initialization with IStream, true; otherwise, false.</returns>
-		public bool InitWithStream(IStream stream, STGM mode)
+		/// <param name="path">The file name to use to initialize the preview handler.</param>
+		/// <returns>True If succeeded, otherwise, false.</returns>
+		public bool Initialize(string path)
 		{
-			if (mode != STGM.STGM_READ && mode != STGM.STGM_READWRITE)
-				throw new ArgumentOutOfRangeException("mode", mode, "The argument mode must be Read or ReadWrite.");
+			List<Exception> exceptions = [];
 
-			var iws = previewHandler as IInitializeWithStream;
-			if (iws == null)
-				return false;
-
-			var hr = iws.Initialize(stream, mode);
-			if (hr == HRESULT.E_NOTIMPL)
-				return false;
-			if ((int)hr < 0)
-				throw new COMException("IInitializeWithStream.Initialize failed.", (int)hr);
-
-			init = true;
-
-			return true;
-		}
-
-		/// <summary>
-		/// Same as InitWithStream(IStream, STGM).
-		/// </summary>
-		/// <exception cref="COMException">See InitWithStream(IStream, STGM).</exception>
-		/// <exception cref="ArgumentOutOfRangeException">See InitWithStream(IStream, STGM).</exception>
-		/// <param name="pStream">The native pointer to the IStream interface.</param>
-		/// <param name="mode">The storage mode.</param>
-		/// <returns>True or false, see InitWithStream(IStream, STGM).</returns>
-		public bool InitWithStream(nint pStream, STGM mode)
-		{
-			EnsureNotDisposed();
-			EnsureNotInitialized();
-
-			if (mode != STGM.STGM_READ && mode != STGM.STGM_READWRITE)
-				throw new ArgumentOutOfRangeException("mode", mode, "The argument mode must be Read or ReadWrite.");
-
-			var iws = previewHandler as IInitializeWithStreamNative;
-			if (iws == null)
-				return false;
-
-			var hr = iws.Initialize(pStream, mode);
-			if (hr == HRESULT.E_NOTIMPL)
-				return false;
-			if ((int)hr < 0)
-				throw new COMException("IInitializeWithStream.Initialize failed.", (int)hr);
-
-			init = true;
-
-			return true;
-		}
-
-		/// <summary>
-		/// Same as InitWithStream(IStream, STGM).
-		/// </summary>
-		/// <exception cref="COMException">See InitWithStream(IStream, STGM).</exception>
-		/// <exception cref="ArgumentOutOfRangeException">See InitWithStream(IStream, STGM).</exception>
-		/// <param name="psi">The native pointer to the IShellItem interface.</param>
-		/// <param name="mode">The storage mode.</param>
-		/// <returns>True or false, see InitWithStream(IStream, STGM).</returns>
-		public bool InitWithItem(nint psi, STGM mode)
-		{
-			EnsureNotDisposed();
-			EnsureNotInitialized();
-
-			if (mode != STGM.STGM_READ && mode != STGM.STGM_READWRITE)
-				throw new ArgumentOutOfRangeException("mode", mode, "The argument mode must be Read or ReadWrite.");
-
-			var iwi = previewHandler as IInitializeWithItem;
-			if (iwi == null)
-				return false;
-
-			var hr = iwi.Initialize(psi, mode);
-			if (hr == HRESULT.E_NOTIMPL)
-				return false;
-			if ((int)hr < 0)
-				throw new COMException("IInitializeWithItem.Initialize failed.", (int)hr);
-
-			init = true;
-
-			return true;
-		}
-
-		/// <summary>
-		/// Same as InitWithStream(IStream, STGM).
-		/// </summary>
-		/// <exception cref="COMException">See InitWithStream(IStream, STGM).</exception>
-		/// <exception cref="ArgumentOutOfRangeException">See InitWithStream(IStream, STGM).</exception>
-		/// <param name="path">The path to the file.</param>
-		/// <param name="mode">The storage mode.</param>
-		/// <returns>True or false, see InitWithStream(IStream, STGM).</returns>
-		public bool InitWithFile(string path, STGM mode)
-		{
-			EnsureNotDisposed();
-			EnsureNotInitialized();
-
-			if (mode != STGM.STGM_READ && mode != STGM.STGM_READWRITE)
-				throw new ArgumentOutOfRangeException("mode", mode, "The argument mode must be Read or ReadWrite.");
-
-			var iwf = previewHandler as IInitializeWithFile;
-			if (iwf == null)
-				return false;
-
-			var hr = iwf.Initialize(path, mode);
-			if (hr == HRESULT.E_NOTIMPL)
-				return false;
-			if ((int)hr < 0)
-				throw new COMException("IInitializeWithFile.Initialize failed.", (int)hr);
-
-			init = true;
-
-			return true;
-		}
-
-		/// <summary>
-		/// Tries each way to initialize the object with a file.
-		/// </summary>
-		/// <param name="path">The file name.</param>
-		/// <returns>If initialization was successful, true; otherwise, an exception is thrown.</returns>
-		public bool InitWithFileWithEveryWay(string path)
-		{
-			var exceptions = new List<Exception>();
-			var pobj = nint.Zero;
-
-			// Why should we try IStream first?
-			// Because that gives us the best security.
-			// If we initialize with string or IShellItem,
-			// we have no control over how the preview handler
-			// opens the file, which might decide to open the
-			// file for read/write exclusively.
+			// We try IStream first because this gives us the best security.
+			// If we initialize with string or IShellItem, we have no control over
+			// how the preview handler opens the file, which might decide to open the file for read/write exclusively.
 			try
 			{
-				pobj = ItemStreamHelper.IStreamFromPath(path);
-				if (pobj != nint.Zero
-					&& InitWithStream(pobj, STGM.STGM_READ))
-					return true;
-			}
-			catch (Exception ex)
-			{
-				exceptions.Add(ex);
-			}
-			finally
-			{
-				if (pobj != nint.Zero)
-					ItemStreamHelper.ReleaseObject(pobj);
+				using ComPtr<IStream> pStream = default;
+				HRESULT hr = PInvoke.SHCreateStreamOnFileEx(path, (uint)(STGM.STGM_READ | STGM.STGM_FAILIFTHERE | STGM.STGM_SHARE_DENY_NONE), 0, false, null, pStream.GetAddressOf());
+				if (hr.Value < 0)
+					throw new InvalidComObjectException($"SHCreateItemFromParsingName failed to get IShellItem for preview handling with the error {hr.Value:X}.");
 
-				pobj = nint.Zero;
-			}
+				if (!pStream.IsNull)
+				{
+					ObjectDisposedException.ThrowIf(_disposed, this);
 
-			// Next try file because that could save us some P/Invokes.
-			try
-			{
-				if (InitWithFile(path, STGM.STGM_READ))
+					if (_initialized)
+						throw new InvalidOperationException("Preview handler is already initialized and cannot be initialized again.");
+
+					using ComPtr<IInitializeWithStream> pInitializeWithStream = default;
+					_pPreviewHandler->QueryInterface(typeof(IInitializeWithStream).GUID, out *(void**)pInitializeWithStream.GetAddressOf());
+					if (pInitializeWithStream.IsNull)
+						throw new COMException($"{nameof(IInitializeWithStream)} could not queried from IPreviewHandler.");
+
+					hr = pInitializeWithStream.Get()->Initialize(pStream.Get(), (uint)STGM.STGM_READ);
+					if (hr == HRESULT.E_NOTIMPL)
+						throw new NotImplementedException($"{nameof(IInitializeWithStream)}.Initialize() is not implemented.");
+					else if ((int)hr < 0)
+						throw new COMException($"{nameof(IInitializeWithStream)}.Initialize() failed.", (int)hr);
+
+					_initialized = true;
+
+					Debug.WriteLine($"Preview handler was successfully initialized with {nameof(IInitializeWithStream)}.");
+
 					return true;
+				}
 			}
 			catch (Exception ex)
 			{
@@ -417,27 +153,109 @@ namespace Files.App.Utils.Shell
 
 			try
 			{
-				pobj = ItemStreamHelper.IShellItemFromPath(path);
-				if (pobj != nint.Zero
-					&& InitWithItem(pobj, STGM.STGM_READ))
-					return true;
+				ObjectDisposedException.ThrowIf(_disposed, this);
 
-				if (exceptions.Count == 0)
-					throw new NotSupportedException("The object cannot be initialized at all.");
+				if (_initialized)
+					throw new InvalidOperationException("Preview handler is already initialized and cannot be initialized again.");
+
+				using ComPtr<IInitializeWithFile> pInitializeWithFile = default;
+				_pPreviewHandler->QueryInterface(typeof(IInitializeWithFile).GUID, out *(void**)pInitializeWithFile.GetAddressOf());
+				if (pInitializeWithFile.IsNull)
+					throw new COMException($"{nameof(IInitializeWithFile)} could not queried from IPreviewHandler.");
+
+				HRESULT hr = pInitializeWithFile.Get()->Initialize(path, (uint)STGM.STGM_READ);
+				if (hr == HRESULT.E_NOTIMPL)
+					throw new NotImplementedException($"{nameof(IInitializeWithFile)}.Initialize() is not implemented.");
+				else if ((int)hr < 0)
+					throw new COMException($"{nameof(IInitializeWithFile)}.Initialize() failed.", (int)hr);
+
+				_initialized = true;
+
+				Debug.WriteLine($"Preview handler was successfully initialized with {nameof(IInitializeWithFile)}.");
+
+				return true;
 			}
 			catch (Exception ex)
 			{
 				exceptions.Add(ex);
 			}
-			finally
-			{
-				if (pobj != nint.Zero)
-					ItemStreamHelper.ReleaseObject(pobj);
 
-				pobj = nint.Zero;
+			try
+			{
+				using ComPtr<IShellItem> pShellItem = default;
+				HRESULT hr = PInvoke.SHCreateItemFromParsingName(path, null, typeof(IShellItem).GUID, out *(void**)&pShellItem);
+				if (hr.Value < 0)
+					throw new InvalidComObjectException($"SHCreateItemFromParsingName failed to get IShellItem for preview handling with the error {hr.Value:X}.");
+
+				if (!pShellItem.IsNull)
+				{
+					ObjectDisposedException.ThrowIf(_disposed, this);
+
+					if (_initialized)
+						throw new InvalidOperationException("Preview handler is already initialized and cannot be initialized again.");
+
+					using ComPtr<IInitializeWithItem> pInitializeWithItem = default;
+					_pPreviewHandler->QueryInterface(typeof(IInitializeWithItem).GUID, out *(void**)pInitializeWithItem.GetAddressOf());
+					if (pInitializeWithItem.IsNull)
+						throw new COMException($"{nameof(IInitializeWithItem)} could not queried from IPreviewHandler.");
+
+					hr = pInitializeWithItem.Get()->Initialize(pShellItem.Get(), (uint)STGM.STGM_READ);
+					if (hr == HRESULT.E_NOTIMPL)
+						throw new NotImplementedException($"{nameof(IInitializeWithItem)}.Initialize() is not implemented.");
+					else if ((int)hr < 0)
+						throw new COMException($"{nameof(IInitializeWithItem)}.Initialize() failed.", (int)hr);
+
+					_initialized = true;
+
+					Debug.WriteLine($"Preview handler was successfully initialized with {nameof(IInitializeWithItem)}.");
+
+					return true;
+				}
+
+				if (exceptions.Count is 0)
+					throw new NotSupportedException("Preview handler could not be initialized at all.");
 			}
+			catch (Exception ex)
+			{
+				exceptions.Add(ex);
+			}
+
+			Debug.WriteLine($"Preview handler could not be initialized at all.");
 
 			throw new AggregateException(exceptions);
+		}
+
+		/// <summary>
+		/// Loads the preview data and renders the preview.
+		/// </summary>
+		public void DoPreview()
+		{
+			ObjectDisposedException.ThrowIf(_disposed, this);
+
+			if (!_initialized)
+			//	throw new InvalidOperationException("Object must be initialized before calling this method.");
+				return;
+
+			if (_shown)
+				throw new InvalidOperationException("The preview handler must not be shown to call this method.");
+
+			bool res = ResetWindow();
+
+			Debug.WriteLine($"Window of the preview handler" + (res ? "was successfully reset." : "failed to be reset."));
+
+			_pPreviewHandler->DoPreview();
+
+			_shown = true;
+
+			Debug.WriteLine($"IPreviewHandler.DoPreview was successfully done.");
+		}
+
+		/// <summary>
+		/// Unloads the preview handler and disposes this instance.
+		/// </summary>
+		public void UnloadPreview()
+		{
+			Dispose(true);
 		}
 
 		/// <summary>
@@ -445,15 +263,14 @@ namespace Files.App.Utils.Shell
 		/// </summary>
 		public bool ResetWindow()
 		{
-			EnsureNotDisposed();
+			ObjectDisposedException.ThrowIf(_disposed, this);
 
-			//EnsureInitialized();
-
-			if (!init)
+			if (!_initialized)
+			//	throw new InvalidOperationException("Object must be initialized before calling this method.");
 				return false;
 
-			var hr = previewHandler.SetWindow(hwnd, new());
-			return (int)hr >= 0;
+			HRESULT hr = _pPreviewHandler->SetWindow(_hWnd, new RECT());
+			return hr.Value >= 0;
 		}
 
 		/// <summary>
@@ -461,14 +278,15 @@ namespace Files.App.Utils.Shell
 		/// </summary>
 		public bool ResetBounds(RECT previewerBounds)
 		{
-			EnsureNotDisposed();
+			ObjectDisposedException.ThrowIf(_disposed, this);
 
-			//EnsureInitialized();
+			//if (!_initialized)
+			//	throw new InvalidOperationException("Object must be initialized before calling this method.");
 
-			if (!init)
+			if (!_initialized)
 				return false;
 
-			var hr = previewHandler.SetRect(previewerBounds);
+			HRESULT hr = _pPreviewHandler->SetRect(previewerBounds);
 			return (int)hr >= 0;
 		}
 
@@ -479,8 +297,8 @@ namespace Files.App.Utils.Shell
 		/// <returns>Whether the call succeeds.</returns>
 		public bool SetBackground(Color color)
 		{
-			var hr = visuals?.SetBackgroundColor(ColorRefFromColor(color));
-			return hr.HasValue && (int)hr.Value >= 0;
+			HRESULT hr = _previewHandlerVisuals->SetBackgroundColor(new(ConvertColorToColorRef(color)));
+			return hr.Value >= 0;
 		}
 
 		/// <summary>
@@ -490,8 +308,8 @@ namespace Files.App.Utils.Shell
 		/// <returns>Whether the call succeeds.</returns>
 		public bool SetForeground(Color color)
 		{
-			var hr = visuals?.SetTextColor(ColorRefFromColor(color));
-			return hr.HasValue && (int)hr.Value >= 0;
+			HRESULT hr = _previewHandlerVisuals->SetTextColor(new(ConvertColorToColorRef(color)));
+			return hr.Value >= 0;
 		}
 
 		/// <summary>
@@ -501,29 +319,8 @@ namespace Files.App.Utils.Shell
 		/// <returns>Whether the call succeeds.</returns>
 		public bool SetFont(ref LOGFONTW font)
 		{
-			var hr = visuals?.SetFont(ref font);
-			return hr.HasValue && (int)hr.Value >= 0;
-		}
-
-		/// <summary>
-		/// Shows the preview if the object has been successfully initialized.
-		/// </summary>
-		public void DoPreview()
-		{
-			EnsureNotDisposed();
-
-			//EnsureInitialized();
-
-			if (!init)
-				return;
-
-			EnsureNotShown();
-
-			ResetWindow();
-
-			previewHandler.DoPreview();
-
-			shown = true;
+			HRESULT hr = _previewHandlerVisuals->SetFont(font);
+			return hr.Value >= 0;
 		}
 
 		/// <summary>
@@ -531,15 +328,16 @@ namespace Files.App.Utils.Shell
 		/// </summary>
 		public void Focus()
 		{
-			EnsureNotDisposed();
+			ObjectDisposedException.ThrowIf(_disposed, this);
 
-			//EnsureInitialized();
-
-			if (!init)
+			if (!_initialized)
+			//	throw new InvalidOperationException("Object must be initialized before calling this method.");
 				return;
 
-			EnsureShown();
-			previewHandler.SetFocus();
+			if (!_shown)
+				throw new InvalidOperationException("The preview handler must be shown to call this method.");
+
+			_pPreviewHandler->SetFocus();
 		}
 
 		/// <summary>
@@ -548,89 +346,28 @@ namespace Files.App.Utils.Shell
 		/// <returns>The focused window.</returns>
 		public nint QueryFocus()
 		{
-			EnsureNotDisposed();
+			ObjectDisposedException.ThrowIf(_disposed, this);
 
-			//EnsureInitialized();
-
-			if (!init)
+			if (!_initialized)
+			//	throw new InvalidOperationException("Object must be initialized before calling this method.");
 				return nint.Zero;
 
-			EnsureShown();
-
-			nint result;
-
-			var hr = previewHandler.QueryFocus(out result);
-			if ((int)hr < 0)
-				return nint.Zero;
-
-			return result;
-		}
-
-		/// <summary>
-		/// Unloads the preview and disposes the object. This method is idempotent.
-		/// </summary>
-		public void UnloadPreview()
-		{
-			Dispose(true);
-		}
-
-		void EnsureNotDisposed()
-		{
-			if (disposed)
-				throw new ObjectDisposedException("PreviewHandler");
-		}
-
-		void EnsureInitialized()
-		{
-			if (!init)
-				throw new InvalidOperationException("Object must be initialized before calling this method.");
-		}
-
-		void EnsureNotInitialized()
-		{
-			if (init)
-				throw new InvalidOperationException("Object is already initialized and cannot be initialized again.");
-		}
-
-		void EnsureShown()
-		{
-			if (!shown)
+			if (!_shown)
 				throw new InvalidOperationException("The preview handler must be shown to call this method.");
+
+			HRESULT hr = _pPreviewHandler->QueryFocus(out HWND hWnd);
+			if (hr.Value < 0)
+				return nint.Zero;
+
+			return hWnd.Value;
 		}
 
-		void EnsureNotShown()
+		private uint ConvertColorToColorRef(Color color)
 		{
-			if (shown)
-				throw new InvalidOperationException("The preview handler must not be shown to call this method.");
+			return (((uint)color.B) << 16) | (((uint)color.G) << 8) | ((uint)color.R);
 		}
 
-		// Dispose
-
-		void Dispose(bool disposing)
-		{
-			if (disposed)
-				return;
-			disposed = true;
-			init = false;
-			if (disposing)
-			{
-				previewHandler.Unload();
-				comSite.Dispose();
-				Marshal.ReleaseComObject(previewHandler);
-			}
-			else
-			{
-				// We're in the finalizer.
-				// Field previewHandler might have been finalized at this point.
-				// Get a new RCW.
-				var phObject = Marshal.GetUniqueObjectForIUnknown(pPreviewHandler);
-				var ph = phObject as IPreviewHandler;
-				if (ph != null)
-					ph.Unload();
-				Marshal.ReleaseComObject(phObject);
-			}
-			Marshal.Release(pPreviewHandler);
-		}
+		// Disposers
 
 		~PreviewHandler()
 		{
@@ -641,6 +378,75 @@ namespace Files.App.Utils.Shell
 		{
 			Dispose(true);
 			GC.SuppressFinalize(this);
+		}
+
+		void Dispose(bool disposing)
+		{
+			if (_disposed)
+				return;
+
+			_disposed = true;
+			_initialized = false;
+
+			if (disposing)
+			{
+				_pPreviewHandler->Unload();
+				_pPreviewHandler->Release();
+			}
+			else
+			{
+				// We're in the finalizer.
+				// Field previewHandler might have been finalized at this point.
+				// Get a new RCW.
+
+				//var phObject = Marshal.GetUniqueObjectForIUnknown(_pPreviewHandler);
+				//var ph = phObject as IPreviewHandler;
+				//if (ph != null)
+				//	ph.Unload();
+
+				//Marshal.ReleaseComObject(phObject);
+			}
+
+			_pPreviewHandler->Release();
+
+			Debug.WriteLine($"Preview handler was successfully disposed.");
+		}
+
+		// Private class
+
+		private unsafe class CPreviewHandlerFrame : IPreviewHandlerFrame.Interface
+		{
+			private bool _disposed = false;
+			private readonly HWND _hWnd = default;
+
+			public CPreviewHandlerFrame(HWND frame)
+			{
+				_hWnd = frame;
+			}
+
+			public void Dispose()
+			{
+				_disposed = true;
+			}
+
+			public HRESULT GetWindowContext(PREVIEWHANDLERFRAMEINFO* pInfo)
+			{
+				pInfo->haccel = HACCEL.Null;
+				pInfo->cAccelEntries = 0u;
+
+				if (_disposed)
+					return HRESULT.E_FAIL; // Disposed already
+
+				return HRESULT.S_OK;
+			}
+
+			public HRESULT TranslateAccelerator(MSG* pMsg)
+			{
+				if (_disposed)
+					return HRESULT.E_FAIL; // Disposed already
+
+				return HRESULT.S_FALSE;
+			}
 		}
 	}
 }

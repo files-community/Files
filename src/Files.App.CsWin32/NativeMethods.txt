@@ -147,3 +147,11 @@ GetModuleHandle
 RegisterClassEx
 CREATESTRUCTW
 AssocQueryString
+IPreviewHandlerFrame
+IPreviewHandlerVisuals
+IObjectWithSite
+IInitializeWithStream
+IInitializeWithStreamNative
+IInitializeWithFile
+IInitializeWithItem
+SHCreateStreamOnFileEx
