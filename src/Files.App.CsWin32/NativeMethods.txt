@@ -124,3 +124,6 @@ ShellExecuteEx
 GetFileAttributes
 SetFileAttributes
 DeviceIoControl
+COMPRESSION_FORMAT
+CreateFile
+FILE_ACCESS_RIGHTS

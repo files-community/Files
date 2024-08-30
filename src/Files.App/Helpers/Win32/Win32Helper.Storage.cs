@@ -908,15 +908,14 @@ namespace Files.App.Helpers
 
 		public static bool HasFileAttribute(string lpFileName, FileAttributes dwAttrs)
 		{
-			if (Win32PInvoke.GetFileAttributesExFromApp(
-				lpFileName, Win32PInvoke.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
-			{
-				return (lpFileInfo.dwFileAttributes & dwAttrs) == dwAttrs;
-			}
-			return false;
+			var attributes = Windows.Win32.PInvoke.GetFileAttributes(lpFileName);
+			if (attributes == unchecked((uint)-1) /* INVALID_FILE_ATTRIBUTES */)
+				return false;
+
+			return (attributes & (uint)dwAttrs) == (uint)dwAttrs;
 		}
 
-		public static bool SetFileAttribute(string lpFileName, FileAttributes dwAttrs)
+		public unsafe static bool SetFileAttribute(string lpFileName, FileAttributes dwAttrs)
 		{
 			var attributes = Windows.Win32.PInvoke.GetFileAttributes(lpFileName);
 			if (attributes == unchecked((uint)-1) /* INVALID_FILE_ATTRIBUTES */)
@@ -924,19 +923,31 @@ namespace Files.App.Helpers
 			
 			if (((FILE_FLAGS_AND_ATTRIBUTES)dwAttrs & FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_COMPRESSED) == FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_COMPRESSED)
 			{
-				ushort format = 1 /* COMPRESSION_FORMAT_DEFAULT */; // Or COMPRESSION_FORMAT_LZNT1 (2)?
+				COMPRESSION_FORMAT format = COMPRESSION_FORMAT.COMPRESSION_FORMAT_DEFAULT;
 
-				//return Windows.Win32.PInvoke.DeviceIoControl(
-				//	hFile
-				//	0x0009C040 /* FSCTL_SET_COMPRESSION */,
-				//	format,
-				//	Marshal.Sizeof(format),
-				//	null,
-				//	0,
-				//	lpBytesReturned,
-				//	null);
+				Windows.Win32.Foundation.HANDLE hFile = default;
 
-				return false;
+				fixed (char* cFileName = lpFileName)
+				{
+					hFile = Windows.Win32.PInvoke.CreateFile(
+						new Windows.Win32.Foundation.PCWSTR(cFileName),
+						(uint)FILE_ACCESS_RIGHTS.FILE_WRITE_ATTRIBUTES,
+						FILE_SHARE_MODE.FILE_SHARE_DELETE,
+						null,
+						FILE_CREATION_DISPOSITION.OPEN_EXISTING,
+						FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL,
+						Windows.Win32.Foundation.HANDLE.Null);
+				}
+
+				return Windows.Win32.PInvoke.DeviceIoControl(
+					hFile,
+					0x0009C040, // FSCTL_SET_COMPRESSION
+					(void*)&format,
+					(uint)Marshal.SizeOf<ushort>(),
+					null,
+					0,
+					null,
+					null);
 			}
 			else
 			{
@@ -944,7 +955,7 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static bool UnsetFileAttribute(string lpFileName, FileAttributes dwAttrs)
+		public unsafe static bool UnsetFileAttribute(string lpFileName, FileAttributes dwAttrs)
 		{
 			var attributes = Windows.Win32.PInvoke.GetFileAttributes(lpFileName);
 			if (attributes == unchecked((uint)-1) /* INVALID_FILE_ATTRIBUTES */)
@@ -952,19 +963,31 @@ namespace Files.App.Helpers
 
 			if (((FILE_FLAGS_AND_ATTRIBUTES)dwAttrs & FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_COMPRESSED) == FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_COMPRESSED)
 			{
-				ushort format = 0 /* COMPRESSION_FORMAT_NONE */;
+				COMPRESSION_FORMAT format = COMPRESSION_FORMAT.COMPRESSION_FORMAT_NONE;
 
-				//return Windows.Win32.PInvoke.DeviceIoControl(
-				//	hFile
-				//	0x0009C040 /* FSCTL_SET_COMPRESSION */,
-				//	&format,
-				//	Marshal.Sizeof(format),
-				//	null,
-				//	0,
-				//	lpBytesReturned,
-				//	null);
+				Windows.Win32.Foundation.HANDLE hFile = default;
 
-				return false;
+				fixed (char* cFileName = lpFileName)
+				{
+					hFile = Windows.Win32.PInvoke.CreateFile(
+						new Windows.Win32.Foundation.PCWSTR(cFileName),
+						(uint)FILE_ACCESS_RIGHTS.FILE_WRITE_ATTRIBUTES,
+						FILE_SHARE_MODE.FILE_SHARE_DELETE,
+						null,
+						FILE_CREATION_DISPOSITION.OPEN_EXISTING,
+						FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL,
+						Windows.Win32.Foundation.HANDLE.Null);
+				}
+
+				return Windows.Win32.PInvoke.DeviceIoControl(
+					hFile,
+					0x0009C040, // FSCTL_SET_COMPRESSION
+					(void*)&format,
+					(uint)Marshal.SizeOf<ushort>(),
+					null,
+					0,
+					null,
+					null);
 			}
 			else
 			{
