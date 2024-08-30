@@ -924,6 +924,7 @@ namespace Files.App.Helpers
 			if (((FILE_FLAGS_AND_ATTRIBUTES)dwAttrs & FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_COMPRESSED) == FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_COMPRESSED)
 			{
 				COMPRESSION_FORMAT format = COMPRESSION_FORMAT.COMPRESSION_FORMAT_DEFAULT;
+				uint dwBytesReturned = 0;
 
 				Windows.Win32.Foundation.HANDLE hFile = default;
 
@@ -931,13 +932,16 @@ namespace Files.App.Helpers
 				{
 					hFile = Windows.Win32.PInvoke.CreateFile(
 						new Windows.Win32.Foundation.PCWSTR(cFileName),
-						(uint)FILE_ACCESS_RIGHTS.FILE_WRITE_ATTRIBUTES,
-						FILE_SHARE_MODE.FILE_SHARE_DELETE,
+						(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE,
+						FILE_SHARE_MODE.FILE_SHARE_NONE,
 						null,
 						FILE_CREATION_DISPOSITION.OPEN_EXISTING,
 						FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL,
 						Windows.Win32.Foundation.HANDLE.Null);
 				}
+
+				if (hFile == Windows.Win32.Foundation.HANDLE.Null)
+					return false;
 
 				bool fRes = Windows.Win32.PInvoke.DeviceIoControl(
 					hFile,
@@ -946,8 +950,10 @@ namespace Files.App.Helpers
 					(uint)Marshal.SizeOf<ushort>(),
 					null,
 					0,
-					null,
+					&dwBytesReturned,
 					null);
+
+				var a = Marshal.GetLastPInvokeError();
 
 				Windows.Win32.PInvoke.CloseHandle(hFile);
 
@@ -968,6 +974,7 @@ namespace Files.App.Helpers
 			if (((FILE_FLAGS_AND_ATTRIBUTES)dwAttrs & FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_COMPRESSED) == FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_COMPRESSED)
 			{
 				COMPRESSION_FORMAT format = COMPRESSION_FORMAT.COMPRESSION_FORMAT_NONE;
+				uint dwBytesReturned = 0;
 
 				Windows.Win32.Foundation.HANDLE hFile = default;
 
@@ -975,13 +982,16 @@ namespace Files.App.Helpers
 				{
 					hFile = Windows.Win32.PInvoke.CreateFile(
 						new Windows.Win32.Foundation.PCWSTR(cFileName),
-						(uint)FILE_ACCESS_RIGHTS.FILE_WRITE_ATTRIBUTES,
-						FILE_SHARE_MODE.FILE_SHARE_DELETE,
+						(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE,
+						FILE_SHARE_MODE.FILE_SHARE_NONE,
 						null,
 						FILE_CREATION_DISPOSITION.OPEN_EXISTING,
 						FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL,
 						Windows.Win32.Foundation.HANDLE.Null);
 				}
+
+				if (hFile == Windows.Win32.Foundation.HANDLE.Null)
+					return false;
 
 				bool fRes = Windows.Win32.PInvoke.DeviceIoControl(
 					hFile,
@@ -990,8 +1000,10 @@ namespace Files.App.Helpers
 					(uint)Marshal.SizeOf<ushort>(),
 					null,
 					0,
-					null,
+					&dwBytesReturned,
 					null);
+
+				var a = Marshal.GetLastPInvokeError();
 
 				Windows.Win32.PInvoke.CloseHandle(hFile);
 
