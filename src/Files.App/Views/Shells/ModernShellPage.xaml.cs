@@ -312,15 +312,6 @@ namespace Files.App.Views.Shells
 				if (string.IsNullOrEmpty(navigationPath))
 					return;
 
-				NavigationTransitionInfo transition = new SuppressNavigationTransitionInfo();
-
-				if (sourcePageType == typeof(HomePage) ||
-					ItemDisplayFrame.Content.GetType() == typeof(HomePage) &&
-					(sourcePageType == typeof(DetailsLayoutPage) || sourcePageType == typeof(GridLayoutPage)))
-				{
-					transition = new SuppressNavigationTransitionInfo();
-				}
-
 				ItemDisplayFrame.Navigate(
 					sourcePageType,
 					new NavigationArguments()
@@ -328,7 +319,7 @@ namespace Files.App.Views.Shells
 						NavPathParam = navigationPath,
 						AssociatedTabInstance = this
 					},
-					transition);
+					new SuppressNavigationTransitionInfo());
 			}
 
 			ToolbarViewModel.PathControlDisplayText = ShellViewModel.WorkingDirectory;
