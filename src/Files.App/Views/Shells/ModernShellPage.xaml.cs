@@ -91,7 +91,7 @@ namespace Files.App.Views.Shells
 			}
 			catch (Exception ex)
 			{
-				App.Logger.LogWarning(ex, "Failed to navigate");
+				App.Logger.LogWarning(ex, "Failed to navigate #1");
 			}
 		}
 
@@ -304,7 +304,7 @@ namespace Files.App.Views.Shells
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogWarning(ex, "Failed to navigate #1");
+					App.Logger.LogWarning(ex, "Failed to navigate #2");
 				}
 			}
 			else
@@ -341,7 +341,7 @@ namespace Files.App.Views.Shells
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogWarning(ex, "Failed to navigate #2");
+					App.Logger.LogWarning(ex, "Failed to navigate #3");
 				}
 			}
 
