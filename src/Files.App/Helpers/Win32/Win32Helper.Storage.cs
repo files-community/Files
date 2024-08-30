@@ -939,15 +939,19 @@ namespace Files.App.Helpers
 						Windows.Win32.Foundation.HANDLE.Null);
 				}
 
-				return Windows.Win32.PInvoke.DeviceIoControl(
+				bool fRes = Windows.Win32.PInvoke.DeviceIoControl(
 					hFile,
 					0x0009C040, // FSCTL_SET_COMPRESSION
-					(void*)&format,
+					&format,
 					(uint)Marshal.SizeOf<ushort>(),
 					null,
 					0,
 					null,
 					null);
+
+				Windows.Win32.PInvoke.CloseHandle(hFile);
+
+				return fRes;
 			}
 			else
 			{
@@ -979,15 +983,19 @@ namespace Files.App.Helpers
 						Windows.Win32.Foundation.HANDLE.Null);
 				}
 
-				return Windows.Win32.PInvoke.DeviceIoControl(
+				bool fRes = Windows.Win32.PInvoke.DeviceIoControl(
 					hFile,
 					0x0009C040, // FSCTL_SET_COMPRESSION
-					(void*)&format,
+					&format,
 					(uint)Marshal.SizeOf<ushort>(),
 					null,
 					0,
 					null,
 					null);
+
+				Windows.Win32.PInvoke.CloseHandle(hFile);
+
+				return fRes;
 			}
 			else
 			{

@@ -282,12 +282,6 @@ namespace Files.App.Helpers
 			GET_FILEEX_INFO_LEVELS fInfoLevelId,
 			out WIN32_FILE_ATTRIBUTE_DATA lpFileInformation);
 
-		[DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Auto)]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool SetFileAttributesFromApp(
-			string lpFileName,
-			FileAttributes dwFileAttributes);
-
 		[DllImport("api-ms-win-core-file-l1-2-1.dll", ExactSpelling = true, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public static extern uint SetFilePointer(
 			IntPtr hFile,
