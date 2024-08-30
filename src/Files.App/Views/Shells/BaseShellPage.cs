@@ -1,11 +1,11 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -570,8 +570,15 @@ namespace Files.App.Views.Shells
 			var previousPageContent = ItemDisplay.BackStack[ItemDisplay.BackStack.Count - 1];
 			HandleBackForwardRequest(previousPageContent);
 
-			if (ItemDisplay.CanGoBack)
-				ItemDisplay.GoBack();
+			try
+			{
+				if (ItemDisplay.CanGoBack)
+					ItemDisplay.GoBack();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Failed to navigate");
+			}
 		}
 
 		public virtual void Forward_Click()
@@ -579,8 +586,15 @@ namespace Files.App.Views.Shells
 			var incomingPageContent = ItemDisplay.ForwardStack[ItemDisplay.ForwardStack.Count - 1];
 			HandleBackForwardRequest(incomingPageContent);
 
-			if (ItemDisplay.CanGoForward)
-				ItemDisplay.GoForward();
+			try
+			{
+				if (ItemDisplay.CanGoForward)
+					ItemDisplay.GoForward();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Failed to navigate");
+			}
 		}
 
 		public void ResetNavigationStackLayoutMode()

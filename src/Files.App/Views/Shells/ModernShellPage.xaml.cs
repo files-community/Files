@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -80,11 +81,18 @@ namespace Files.App.Views.Shells
 
 		protected override void ShellPage_NavigationRequested(object sender, PathNavigationEventArgs e)
 		{
-			ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+			try
 			{
-				NavPathParam = e.ItemPath,
-				AssociatedTabInstance = this
-			});
+				ItemDisplayFrame.Navigate(InstanceViewModel.FolderSettings.GetLayoutType(e.ItemPath), new NavigationArguments()
+				{
+					NavPathParam = e.ItemPath,
+					AssociatedTabInstance = this
+				});
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Failed to navigate");
+			}
 		}
 
 		protected override void OnNavigationParamsChanged()
@@ -287,10 +295,17 @@ namespace Files.App.Views.Shells
 
 			if (navArgs is not null && navArgs.AssociatedTabInstance is not null)
 			{
-				ItemDisplayFrame.Navigate(
+				try
+				{
+					ItemDisplayFrame.Navigate(
 					sourcePageType,
 					navArgs,
 					new SuppressNavigationTransitionInfo());
+				}
+				catch (Exception ex)
+				{
+					App.Logger.LogWarning(ex, "Failed to navigate");
+				}
 			}
 			else
 			{
@@ -312,14 +327,22 @@ namespace Files.App.Views.Shells
 				if (string.IsNullOrEmpty(navigationPath))
 					return;
 
-				ItemDisplayFrame.Navigate(
-					sourcePageType,
-					new NavigationArguments()
-					{
-						NavPathParam = navigationPath,
-						AssociatedTabInstance = this
-					},
-					new SuppressNavigationTransitionInfo());
+				try
+				{
+
+					ItemDisplayFrame.Navigate(
+						sourcePageType,
+						new NavigationArguments()
+						{
+							NavPathParam = navigationPath,
+							AssociatedTabInstance = this
+						},
+						new SuppressNavigationTransitionInfo());
+				}
+				catch (Exception ex)
+				{
+					App.Logger.LogWarning(ex, "Failed to navigate");
+				}
 			}
 
 			ToolbarViewModel.PathControlDisplayText = ShellViewModel.WorkingDirectory;
