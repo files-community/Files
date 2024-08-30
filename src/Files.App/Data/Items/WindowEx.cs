@@ -1,6 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using System.Runtime.InteropServices;
@@ -17,7 +18,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents base <see cref="Window"/> class to extend its features.
 	/// </summary>
-	public unsafe class WindowEx : Window
+	public unsafe class WindowEx : Window, IDisposable
 	{
 		private bool _isInitialized;
 		private readonly WNDPROC _oldWndProc;
@@ -104,7 +105,8 @@ namespace Files.App.Data.Items
 			var pOldWndProc = PInvoke.SetWindowLongPtr(new(WindowHandle), WINDOW_LONG_PTR_INDEX.GWL_WNDPROC, pNewWndProc);
 			_oldWndProc = Marshal.GetDelegateForFunctionPointer<WNDPROC>(pOldWndProc);
 
-			Closed += (s, e) => { StoreWindowPlacementData(); };
+			Closed += WindowEx_Closed;
+			Activated += WindowEx_Activated; ;
 		}
 
 		private unsafe void StoreWindowPlacementData()
@@ -289,6 +291,23 @@ namespace Files.App.Data.Items
 			var pfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)pWindProc;
 
 			return PInvoke.CallWindowProc(pfnWndProc, param0, param1, param2, param3);
+		}
+
+		private void WindowEx_Closed(object sender, WindowEventArgs args)
+		{
+			StoreWindowPlacementData();
+		}
+
+		private void WindowEx_Activated(object sender, WindowActivatedEventArgs args)
+		{
+			if (AppLifecycleHelper.IsLaunchInitialized && SystemBackdrop is AppSystemBackdrop appSystemBackdrop)
+				appSystemBackdrop.SystemBackdropConfiguration.IsInputActive = args.WindowActivationState is not WindowActivationState.Deactivated;
+		}
+
+		public void Dispose()
+		{
+			Closed -= WindowEx_Closed;
+			Activated -= WindowEx_Activated;
 		}
 	}
 }
