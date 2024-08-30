@@ -294,7 +294,7 @@ namespace Files.App.Views.Shells
 				sourcePageType = InstanceViewModel.FolderSettings.GetLayoutType(navigationPath);
 
 			if (navArgs is not null && navArgs.AssociatedTabInstance is not null)
-			{
+			{ 
 				try
 				{
 					ItemDisplayFrame.Navigate(
@@ -304,7 +304,7 @@ namespace Files.App.Views.Shells
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogWarning(ex, "Failed to navigate");
+					App.Logger.LogWarning(ex, "Failed to navigate #1");
 				}
 			}
 			else
@@ -341,7 +341,7 @@ namespace Files.App.Views.Shells
 				}
 				catch (Exception ex)
 				{
-					App.Logger.LogWarning(ex, "Failed to navigate");
+					App.Logger.LogWarning(ex, "Failed to navigate #2");
 				}
 			}
 

@@ -577,7 +577,7 @@ namespace Files.App.Views.Shells
 			}
 			catch (Exception ex)
 			{
-				App.Logger.LogWarning(ex, "Failed to navigate");
+				App.Logger.LogWarning(ex, "Failed to navigate back");
 			}
 		}
 
@@ -593,7 +593,7 @@ namespace Files.App.Views.Shells
 			}
 			catch (Exception ex)
 			{
-				App.Logger.LogWarning(ex, "Failed to navigate");
+				App.Logger.LogWarning(ex, "Failed to navigate forward");
 			}
 		}
 
