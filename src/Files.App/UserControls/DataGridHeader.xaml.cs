@@ -8,7 +8,7 @@ using System.Windows.Input;
 namespace Files.App.UserControls
 {
 	[DependencyProperty<string>("Header")]
-	[DependencyProperty<bool>("CanBeSorted")]
+	[DependencyProperty<bool>("CanBeSorted", DefaultValue = "true")]
 	[DependencyProperty<SortDirection>("ColumnSortOption", "OnColumnSortOptionChanged", IsNullable = true)]
 	public sealed partial class DataGridHeader : UserControl
 	{
