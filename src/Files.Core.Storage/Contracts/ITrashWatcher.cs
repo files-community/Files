@@ -1,9 +1,9 @@
-﻿// Copyright (c) 2023 Files Community
+// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 namespace Files.Core.Storage.Contracts
 {
-	public interface ITrashWatcher
+	public interface ITrashWatcher : IWatcher
 	{
 		/// <summary>
 		/// Gets invoked when an item addition is detected by the watcher
