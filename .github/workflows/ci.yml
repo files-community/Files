@@ -60,7 +60,11 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 2
-    
+    - name: Setup .NET 8
+      uses: actions/setup-dotnet@v4
+      with:
+        global-json-file: global.json
+
     - name: Install XamlStyler console
       run: 'dotnet tool install --global XamlStyler.Console'
 
@@ -205,6 +209,10 @@ jobs:
 
     - name: Checkout the repository
       uses: actions/checkout@v4
+    - name: Setup .NET 8
+      uses: actions/setup-dotnet@v4
+      with:
+        global-json-file: global.json
 
     - name: Download the packages from the Artifacts
       uses: actions/download-artifact@v4
