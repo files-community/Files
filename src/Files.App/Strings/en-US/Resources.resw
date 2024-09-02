@@ -3935,4 +3935,7 @@
   <data name="CPUThreads" xml:space="preserve">
     <value>CPU threads</value>
   </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Navigate to the home page</value>
+  </data>
 </root>

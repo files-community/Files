@@ -175,6 +175,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand NavigateBack => commands[CommandCodes.NavigateBack];
 		public IRichCommand NavigateForward => commands[CommandCodes.NavigateForward];
 		public IRichCommand NavigateUp => commands[CommandCodes.NavigateUp];
+		public IRichCommand NavigateHome => commands[CommandCodes.NavigateHome];
 		public IRichCommand DuplicateCurrentTab => commands[CommandCodes.DuplicateCurrentTab];
 		public IRichCommand DuplicateSelectedTab => commands[CommandCodes.DuplicateSelectedTab];
 		public IRichCommand CloseTabsToTheLeftCurrent => commands[CommandCodes.CloseTabsToTheLeftCurrent];
@@ -366,6 +367,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.NavigateBack] = new NavigateBackAction(),
 			[CommandCodes.NavigateForward] = new NavigateForwardAction(),
 			[CommandCodes.NavigateUp] = new NavigateUpAction(),
+			[CommandCodes.NavigateHome] = new NavigateHomeAction(),
 			[CommandCodes.DuplicateCurrentTab] = new DuplicateCurrentTabAction(),
 			[CommandCodes.DuplicateSelectedTab] = new DuplicateSelectedTabAction(),
 			[CommandCodes.CloseTabsToTheLeftCurrent] = new CloseTabsToTheLeftCurrentAction(),

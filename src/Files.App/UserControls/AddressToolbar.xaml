@@ -349,6 +349,19 @@
 					ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey, Mode=OneWay}">
 					<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
 				</Button>
+
+				<Button
+					x:Name="HomeButton"
+					x:FieldModifier="public"
+					AccessKey="H"
+					AccessKeyInvoked="Button_AccessKeyInvoked"
+					AutomationProperties.Name="{x:Bind Commands.NavigateHome.Label}"
+					Command="{x:Bind Commands.NavigateHome, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.NavigateHome.IsExecutable, Mode=OneWay}"
+					Style="{StaticResource AddressToolbarButtonStyle}"
+					ToolTipService.ToolTip="{x:Bind Commands.NavigateHome.LabelWithHotKey, Mode=OneWay}">
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateHome.Glyph.BaseGlyph}" />
+				</Button>
 			</StackPanel>
 
 			<!--  Path Box  -->

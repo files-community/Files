@@ -179,6 +179,7 @@ namespace Files.App.Data.Commands
 		NavigateBack,
 		NavigateForward,
 		NavigateUp,
+		NavigateHome,
 
 		// Other
 		DuplicateCurrentTab,
