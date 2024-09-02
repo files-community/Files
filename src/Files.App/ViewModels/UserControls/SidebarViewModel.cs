@@ -955,7 +955,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private async Task EjectDeviceAsync()
 		{
-			await DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
+			DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
 		}
 
 		private void FormatDrive()

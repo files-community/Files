@@ -754,7 +754,7 @@ namespace Files.App.ViewModels.UserControls
 						{
 							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
 							if (ejectButton)
-								await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+								DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
 							return;
 						}
 						var pathToNavigate = resFolder.Result?.Path ?? normalizedInput;

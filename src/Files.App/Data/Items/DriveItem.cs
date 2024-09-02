@@ -218,7 +218,7 @@ namespace Files.App.Data.Items
 
 		private async void ItemDecorator_Click(object sender, RoutedEventArgs e)
 		{
-			await DriveHelpers.EjectDeviceAsync(Path);
+			DriveHelpers.EjectDeviceAsync(Path);
 		}
 
 		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, IRandomAccessStream imageStream = null)

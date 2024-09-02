@@ -46,7 +46,7 @@ namespace Files.App.Utils.Storage
 				"InsertDiscDialog/OpenDriveButton".GetLocalizedResource(),
 				"Close".GetLocalizedResource());
 			if (ejectButton)
-				await EjectDeviceAsync(matchingDrive.Path);
+				EjectDeviceAsync(matchingDrive.Path);
 			return true;
 		}
 
