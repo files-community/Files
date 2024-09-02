@@ -45,6 +45,7 @@ namespace Files.App.Dialogs
 
 		private void MainSettingsNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
 		{
+			SettingsContentScrollViewer.ChangeView(null, 0, null, true);
 			var selectedItem = (NavigationViewItem)args.SelectedItem;
 
 			_ = Enum.Parse<SettingsPageKind>(selectedItem.Tag.ToString()) switch
