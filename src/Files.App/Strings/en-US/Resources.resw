@@ -3938,4 +3938,7 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Navigate to the home page</value>
   </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Show home button in the toolbar</value>
+  </data>
 </root>

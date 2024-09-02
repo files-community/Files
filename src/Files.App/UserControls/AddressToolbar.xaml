@@ -353,6 +353,7 @@
 				<Button
 					x:Name="HomeButton"
 					x:FieldModifier="public"
+					x:Load="{x:Bind ViewModel.ShowHomeButton, Mode=OneWay}"
 					AccessKey="H"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
 					AutomationProperties.Name="{x:Bind Commands.NavigateHome.Label}"
