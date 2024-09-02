@@ -176,8 +176,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (item is null)
 				return;
 
-			var result = await DriveHelpers.EjectDeviceAsync(item.Item.Path);
-			await UIHelpers.ShowDeviceEjectResultAsync(item.Item.Type, result);
+			await DriveHelpers.EjectDeviceAsync(item.Item.Path);
 		}
 
 		private async Task ExecuteOpenInNewPaneCommand(WidgetDriveCardItem? item)

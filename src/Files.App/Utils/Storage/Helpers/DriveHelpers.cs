@@ -13,10 +13,9 @@ namespace Files.App.Utils.Storage
 {
 	public static class DriveHelpers
 	{
-		public static Task<bool> EjectDeviceAsync(string path)
+		public static async void EjectDeviceAsync(string path)
 		{
-			var removableDevice = new RemovableDevice(path);
-			return removableDevice.EjectAsync();
+			await ContextMenu.InvokeVerb("eject", path);
 		}
 
 		public static string GetVolumeId(string driveName)
@@ -47,10 +46,7 @@ namespace Files.App.Utils.Storage
 				"InsertDiscDialog/OpenDriveButton".GetLocalizedResource(),
 				"Close".GetLocalizedResource());
 			if (ejectButton)
-			{
-				var result = await EjectDeviceAsync(matchingDrive.Path);
-				await UIHelpers.ShowDeviceEjectResultAsync(matchingDrive.Type, result);
-			}
+				await EjectDeviceAsync(matchingDrive.Path);
 			return true;
 		}
 
