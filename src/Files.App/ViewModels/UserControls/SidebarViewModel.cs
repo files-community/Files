@@ -260,7 +260,7 @@ namespace Files.App.ViewModels.UserControls
 			OpenInNewTabCommand = new AsyncRelayCommand(OpenInNewTabAsync);
 			OpenInNewWindowCommand = new AsyncRelayCommand(OpenInNewWindowAsync);
 			OpenInNewPaneCommand = new AsyncRelayCommand(OpenInNewPaneAsync);
-			EjectDeviceCommand = new AsyncRelayCommand(EjectDeviceAsync);
+			EjectDeviceCommand = new RelayCommand(EjectDevice);
 			FormatDriveCommand = new RelayCommand(FormatDrive);
 			OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
 			ReorderItemsCommand = new AsyncRelayCommand(ReorderItemsAsync);
@@ -953,7 +953,7 @@ namespace Files.App.ViewModels.UserControls
 			menu.Closed += flyoutClosed;
 		}
 
-		private async Task EjectDeviceAsync()
+		private void EjectDevice()
 		{
 			DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
 		}

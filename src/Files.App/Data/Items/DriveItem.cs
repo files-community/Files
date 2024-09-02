@@ -216,7 +216,7 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		private async void ItemDecorator_Click(object sender, RoutedEventArgs e)
+		private void ItemDecorator_Click(object sender, RoutedEventArgs e)
 		{
 			DriveHelpers.EjectDeviceAsync(Path);
 		}

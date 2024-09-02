@@ -61,7 +61,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			PinToSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(ExecutePinToSidebarCommand);
 			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteUnpinFromSidebarCommand);
 			FormatDriveCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteFormatDriveCommand);
-			EjectDeviceCommand = new AsyncRelayCommand<WidgetDriveCardItem>(ExecuteEjectDeviceCommand);
+			EjectDeviceCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteEjectDeviceCommand);
 			OpenInNewPaneCommand = new AsyncRelayCommand<WidgetDriveCardItem>(ExecuteOpenInNewPaneCommand);
 			OpenPropertiesCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteOpenPropertiesCommand);
 			DisconnectNetworkDriveCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteDisconnectNetworkDriveCommand);
@@ -203,7 +203,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Command methods
 
-		private async Task ExecuteEjectDeviceCommand(WidgetDriveCardItem? item)
+		private void ExecuteEjectDeviceCommand(WidgetDriveCardItem? item)
 		{
 			if (item is null)
 				return;
