@@ -4,7 +4,7 @@
 	"public": true,
 	"comInterop": {
 		"preserveSigMethods": [
-			"IEnumShellItems.Next"
+			"*"
 		]
 	}
 }
