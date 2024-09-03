@@ -754,10 +754,7 @@ namespace Files.App.ViewModels.UserControls
 						{
 							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
 							if (ejectButton)
-							{
-								var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
-								await UIHelpers.ShowDeviceEjectResultAsync(matchingDrive.Type, result);
-							}
+								DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
 							return;
 						}
 						var pathToNavigate = resFolder.Result?.Path ?? normalizedInput;
@@ -958,7 +955,8 @@ namespace Files.App.ViewModels.UserControls
 					return true;
 				}))
 				{
-					SafetyExtensions.IgnoreExceptions(() => {
+					SafetyExtensions.IgnoreExceptions(() =>
+					{
 						NavigationBarSuggestions.Clear();
 						NavigationBarSuggestions.Add(new NavigationBarSuggestionItem()
 						{
