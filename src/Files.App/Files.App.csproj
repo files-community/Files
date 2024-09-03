@@ -133,5 +133,9 @@
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
     </ItemGroup>
+
+	<ItemGroup>
+		<AdditionalFiles Include="Strings\en-US\Resources.resw" />
+	</ItemGroup>
   
 </Project>

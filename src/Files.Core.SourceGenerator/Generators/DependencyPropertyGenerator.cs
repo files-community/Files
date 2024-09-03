@@ -1,15 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Text;
-
-namespace Files.Core.SourceGenerator
+namespace Files.Core.SourceGenerator.Generators
 {
 	/// <summary>
 	/// Generates a set of dependency property and its backing field.

@@ -1,19 +1,18 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace Files.Core.SourceGenerator
+namespace Files.Core.SourceGenerator.Utilities
 {
+	/// <summary>
+	/// Helper methods and constants for source code generation tasks.
+	/// </summary>
 	internal static class SourceGeneratorHelper
 	{
+		internal const string AttributeNamespace = $"{nameof(Files)}.Shared.Attributes.";
+		internal const string HelperNamespace = $"{nameof(Files)}.App.Helpers.";
+		internal const string DisableSourceGeneratorAttribute = AttributeNamespace + "DisableSourceGeneratorAttribute";
 		internal const string AssemblyName = $"{nameof(Files)}.{nameof(SourceGenerator)}.";
 		internal const string AssemblyVersion = "1.1.1";
 
@@ -143,6 +142,13 @@ namespace Files.Core.SourceGenerator
 				.AddAccessorListAccessors(getter, setter);
 		}
 
+		/// <summary>
+		/// This method generates an array of attribute lists for a field.
+		/// The generated attributes include a <see cref="global::System.CodeDom.Compiler.GeneratedCode"/> attribute,
+		/// specifying the generator name and version.
+		/// </summary>
+		/// <param name="generatorName">The name of the code generator.</param>
+		/// <returns>An array containing a single attribute list with the generated attributes.</returns>
 		internal static AttributeListSyntax[] GetAttributeForField(string generatorName)
 		{
 			return
@@ -155,6 +161,14 @@ namespace Files.Core.SourceGenerator
 			];
 		}
 
+		/// <summary>
+		/// This method generates an array of attribute lists for an event.
+		/// The generated attributes include a <see cref="global::System.CodeDom.Compiler.GeneratedCode"/> attribute,
+		/// specifying the generator name and version, and a <see cref="global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage"/>
+		/// attribute to exclude the event from code coverage reports.
+		/// </summary>
+		/// <param name="generatorName">The name of the code generator.</param>
+		/// <returns>An array containing two attribute lists with the generated attributes.</returns>
 		internal static AttributeListSyntax[] GetAttributeForEvent(string generatorName)
 		{
 			return
@@ -168,6 +182,14 @@ namespace Files.Core.SourceGenerator
 			];
 		}
 
+		/// <summary>
+		/// This method generates an array of attribute lists for a method.
+		/// The generated attributes include a <see cref="global::System.CodeDom.Compiler.GeneratedCode"/> attribute,
+		/// specifying the generator name and version, a <see cref="global::System.Diagnostics.DebuggerNonUserCode"/> attribute,
+		/// and a <see cref="global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage"/> attribute to exclude the method from code coverage reports.
+		/// </summary>
+		/// <param name="generatorName">The name of the code generator.</param>
+		/// <returns>An array containing three attribute lists with the generated attributes.</returns>
 		internal static AttributeListSyntax[] GetAttributeForMethod(string generatorName)
 		{
 			return
@@ -288,12 +310,22 @@ namespace Files.Core.SourceGenerator
 		/// <returns>4n*space</returns>
 		internal static string Spacing(int n)
 		{
-			var temp = "";
-			for (var i = 0; i < n; ++i)
-				temp += "    ";
-			return temp;
+			Span<char> spaces = stackalloc char[n * 4];
+			spaces.Fill(' ');
+
+			var sb = new StringBuilder(n * 4);
+			foreach (var c in spaces)
+				_ = sb.Append(c);
+
+			return sb.ToString();
 		}
 
+		/// <summary>
+		/// Retrieves properties of a specified type symbol that do not have an attribute indicating they should be ignored.
+		/// </summary>
+		/// <param name="typeSymbol">The type symbol whose properties are examined.</param>
+		/// <param name="attribute">The attribute symbol that indicates properties to ignore.</param>
+		/// <returns>An enumerable collection of property symbols.</returns>
 		internal static IEnumerable<IPropertySymbol> GetProperties(this ITypeSymbol typeSymbol, INamedTypeSymbol attribute)
 		{
 			foreach (var member in typeSymbol.GetMembers())
