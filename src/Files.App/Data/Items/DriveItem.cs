@@ -2,10 +2,10 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Controls;
-using Files.App.Storage.Storables;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Vanara.PInvoke;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using ByteSize = ByteSizeLib.ByteSize;
@@ -42,9 +42,7 @@ namespace Files.App.Data.Items
 
 		public Visibility ItemVisibility { get; set; } = Visibility.Visible;
 
-		public bool IsRemovable
-			=> Type == DriveType.Removable || Type == DriveType.CDRom;
-
+		public bool IsRemovable { get; set; }
 		public bool IsNetwork
 			=> Type == DriveType.Network;
 
@@ -228,6 +226,8 @@ namespace Files.App.Data.Items
 			if (imageStream is not null)
 				item.IconData = await imageStream.ToByteArrayAsync();
 
+			item.IsRemovable = await IsRemovable();
+
 			item.Text = type switch
 			{
 				DriveType.CDRom when !string.IsNullOrEmpty(label) => root.DisplayName.Replace(label.Left(32), label),
@@ -247,6 +247,19 @@ namespace Files.App.Data.Items
 			item.Root = root;
 
 			_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(item.UpdatePropertiesAsync);
+
+			async Task<bool> IsRemovable()
+			{
+				if (type == DriveType.Network)
+					return false;
+
+				using var menuItems = await ContextMenu.GetContextMenuForFiles(new string[] { root.Path }, Shell32.CMF.CMF_OPTIMIZEFORINVOKE);
+
+				if (menuItems?.Items?.Any(item => item?.CommandString?.Equals("eject", StringComparison.Ordinal) == true) == true)
+					return true;
+
+				return false;
+			}
 
 			return item;
 		}
