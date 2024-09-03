@@ -250,6 +250,18 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
+			<!--  Show home button  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowHomeButton}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE80F;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.AutomationControlType="Custom"
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowHomeButton}"
+					IsOn="{x:Bind ViewModel.ShowHomeButton, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
+
 			<!--  Show toolbar  -->
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowToolbar}" HorizontalAlignment="Stretch">
 				<local:SettingsBlockControl.Icon>

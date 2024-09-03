@@ -21,6 +21,7 @@ namespace Files.App.ViewModels.UserControls
 		private const int MAX_SUGGESTIONS = 10;
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
 
 		private readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
@@ -169,6 +170,9 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		public bool ShowHomeButton
+			=> AppearanceSettingsService.ShowHomeButton;
+
 		public ObservableCollection<NavigationBarSuggestionItem> NavigationBarSuggestions = [];
 
 		private CurrentInstanceViewModel instanceViewModel;
@@ -213,6 +217,16 @@ namespace Files.App.ViewModels.UserControls
 			SearchBox.Escaped += SearchRegion_Escaped;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
+
+			AppearanceSettingsService.PropertyChanged += (s, e) =>
+			{
+				switch (e.PropertyName)
+				{
+					case nameof(AppearanceSettingsService.ShowHomeButton):
+						OnPropertyChanged(nameof(ShowHomeButton));
+						break;
+				}
+			};
 		}
 
 		private async void UpdateService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -164,6 +164,7 @@ namespace Files.App.Data.Commands
 		IRichCommand NavigateBack { get; }
 		IRichCommand NavigateForward { get; }
 		IRichCommand NavigateUp { get; }
+		IRichCommand NavigateHome { get; }
 
 		IRichCommand DuplicateCurrentTab { get; }
 		IRichCommand DuplicateSelectedTab { get; }
