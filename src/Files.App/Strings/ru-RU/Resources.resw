@@ -1853,6 +1853,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Этот параметр изменяет реестр Windows и может иметь неожиданные побочные эффекты на вашем устройстве. Продолжайте на свой страх и риск.</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>Операции с выравниванием структуры являются постоянными и не рекомендуются. Продолжайте на свой страх и риск.</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Создать Библиотеку</value>
   </data>
@@ -2026,6 +2029,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Сжать</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Переместить все содержимое из подпапок в выбранное место</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Выровнять структуру папки</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Выровнять структуру</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>При выравнивании структуры папки всё содержимое подпапок будет перенесено в выбранное место. Эта операция постоянна и не может быть повторена. Используя эту экспериментальную функцию, вы соглашаетесь с данным риском и не имеете претензий к команде Files, не несущую ответственность за потерю данных.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Показывать опции выравнивания структуры</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Выделение файлов и папок при наведении на них курсора мыши</value>
@@ -3063,8 +3081,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Открыть свойства</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Открыть свойства Проводника Windows</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Открыть окно свойств</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Открыть окно свойств Проводника Windows</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Локальные</value>
@@ -3907,5 +3931,14 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>Показывать иконку Files в системном трее</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>Потоки процессора</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Navigate to the home page</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Show home button in the toolbar</value>
   </data>
 </root>

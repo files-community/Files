@@ -21,6 +21,7 @@ namespace Files.App.ViewModels.UserControls
 		private const int MAX_SUGGESTIONS = 10;
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
 
 		private readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
@@ -169,6 +170,9 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		public bool ShowHomeButton
+			=> AppearanceSettingsService.ShowHomeButton;
+
 		public ObservableCollection<NavigationBarSuggestionItem> NavigationBarSuggestions = [];
 
 		private CurrentInstanceViewModel instanceViewModel;
@@ -213,6 +217,16 @@ namespace Files.App.ViewModels.UserControls
 			SearchBox.Escaped += SearchRegion_Escaped;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
+
+			AppearanceSettingsService.PropertyChanged += (s, e) =>
+			{
+				switch (e.PropertyName)
+				{
+					case nameof(AppearanceSettingsService.ShowHomeButton):
+						OnPropertyChanged(nameof(ShowHomeButton));
+						break;
+				}
+			};
 		}
 
 		private async void UpdateService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -754,10 +768,7 @@ namespace Files.App.ViewModels.UserControls
 						{
 							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
 							if (ejectButton)
-							{
-								var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
-								await UIHelpers.ShowDeviceEjectResultAsync(matchingDrive.Type, result);
-							}
+								DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
 							return;
 						}
 						var pathToNavigate = resFolder.Result?.Path ?? normalizedInput;
@@ -958,7 +969,8 @@ namespace Files.App.ViewModels.UserControls
 					return true;
 				}))
 				{
-					SafetyExtensions.IgnoreExceptions(() => {
+					SafetyExtensions.IgnoreExceptions(() =>
+					{
 						NavigationBarSuggestions.Clear();
 						NavigationBarSuggestions.Add(new NavigationBarSuggestionItem()
 						{
@@ -1032,7 +1044,7 @@ namespace Files.App.ViewModels.UserControls
 		public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
 		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
 		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
-		public bool IsArchiveOpened => FileExtensionHelpers.IsZipFile(Path.GetExtension(pathControlDisplayText));
+		public bool IsArchiveOpened => InstanceViewModel.IsPageTypeZipFolder;
 		public bool IsSelectionArchivesOnly => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsMultipleArchivesSelected => IsSelectionArchivesOnly && SelectedItems.Count > 1;
 		public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;

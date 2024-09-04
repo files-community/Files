@@ -59,6 +59,12 @@ namespace Files.App.Helpers
 			});
 
 		/// <summary>
+		/// Gets or sets a value that indicates whether the application is ready to be interacted with.
+		/// This is primarily used for DI container initialization check.
+		/// </summary>
+		public static bool IsLaunchInitialized { get; set; }
+
+		/// <summary>
 		/// Initializes the app components.
 		/// </summary>
 		public static async Task InitializeAppComponentsAsync()
@@ -197,6 +203,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IQuickAccessService, QuickAccessService>()
 					.AddSingleton<IResourcesService, ResourcesService>()
 					.AddSingleton<IWindowsJumpListService, WindowsJumpListService>()
+					.AddSingleton<IStorageTrashBinService, StorageTrashBinService>()
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
 					.AddSingleton<INetworkService, NetworkService>()
 					.AddSingleton<IStartMenuService, StartMenuService>()

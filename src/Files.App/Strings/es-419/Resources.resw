@@ -1853,6 +1853,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Esta configuración modifica los archivos del sistema y puede tener efectos secundarios inesperados en su dispositivo. Los desarrolladores no asumen ninguna responsabilidad en caso de que se produzca un problema como resultado. Continuar con esta opción es un reconocimiento de los riesgos que implica esta acción.</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>Las operaciones de aplanado (flatten) son permanentes y no se recomiendan. Continúe bajo su propia responsabilidad.</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Crear biblioteca</value>
   </data>
@@ -2026,6 +2029,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Comprimir</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Mueve todo el contenido de las subcarpetas a la ubicación seleccionada</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Aplanar carpeta</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Aplanar</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>Al aplanar una carpeta se moverá todo el contenido de sus subcarpetas a la ubicación seleccionada. Esta operación es permanente y no puede deshacerse. Al utilizar esta función experimental, usted reconoce el riesgo y acepta no responsabilizar al equipo de Files de ninguna pérdida de datos.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Mostrar opciones de aplanado</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Seleccionar archivos y carpetas al pasar el cursor sobre ellos</value>
@@ -3063,8 +3081,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Abrir propiedades</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Abrir las propiedades del Explorador de archivos</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Abrir ventana de propiedades</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Abrir la ventana de propiedades del Explorador de archivos</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Locales</value>
@@ -3907,5 +3931,14 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>Mostrar icono de Files en la bandeja del sistema</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>Hilos de la CPU</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Ir a la página de inicio</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Mostrar botón de inicio en la barra de herramientas</value>
   </data>
 </root>

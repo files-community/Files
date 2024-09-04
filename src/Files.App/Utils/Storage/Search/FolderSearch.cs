@@ -6,7 +6,6 @@ using System.IO;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
-using static Files.App.Helpers.Win32Helper;
 using FileAttributes = System.IO.FileAttributes;
 using WIN32_FIND_DATA = Files.App.Helpers.Win32PInvoke.WIN32_FIND_DATA;
 
@@ -16,7 +15,7 @@ namespace Files.App.Utils.Storage
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-
+		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		private const uint defaultStepSize = 500;
@@ -198,7 +197,7 @@ namespace Files.App.Utils.Storage
 			var matches = dbInstance.GetAllUnderPath(folder)
 				.Where(x => tags.All(x.Tags.Contains));
 			if (string.IsNullOrEmpty(folder))
-				matches = matches.Where(x => !RecycleBinHelpers.IsPathUnderRecycleBin(x.FilePath));
+				matches = matches.Where(x => !StorageTrashBinService.IsUnderTrashBin(x.FilePath));
 
 			foreach (var match in matches)
 			{
