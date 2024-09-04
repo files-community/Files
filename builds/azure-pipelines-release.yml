@@ -121,7 +121,7 @@ jobs:
   - task: UseDotNet@2
     inputs:
       packageType: sdk
-      version: 8.0.x
+      version: 8.0.303
       includePreviewVersions: false
 
   - task: CmdLine@2
