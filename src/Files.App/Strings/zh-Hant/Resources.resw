@@ -292,7 +292,7 @@
     <value>輸入名稱</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>設置名稱</value>
+    <value>設定名稱</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>亮色</value>
@@ -316,13 +316,13 @@
     <value>該資料夾是空的。</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>返回（Alt + 向左键）</value>
+    <value>返回/上一頁</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>下一頁（Alt + 向右鍵）</value>
+    <value>前進/下一頁</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>上移（Alt + 向上鍵）</value>
+    <value>返回上層</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>重新整理</value>
@@ -1026,13 +1026,13 @@
     <value>移除</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>在分割畫面中開啟索引標籤</value>
+    <value>在開啟索引標籤時打開分割畫面</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>顯示在分割畫面開啟資料夾選項</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
-    <value>顯示“複製路徑”的選項</value>
+    <value>顯示「複製路徑」的選項</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
     <value>顯示用選取的檔案建立資料夾選項</value>
@@ -1068,7 +1068,7 @@
     <value>您想要的名稱</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>開啟/關閉預覽畫面（Ctrl + P）</value>
+    <value>開啟/關閉預覽畫面</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
     <value>切換詳細資料預覽畫面</value>
@@ -1092,7 +1092,7 @@
     <value>檔案名稱</value>
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
-    <value>從側邊欄取消固定</value>
+    <value>從側邊欄取消釘選</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>網路</value>
@@ -1853,6 +1853,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>此項設定會修改您的系統檔案並有可能會有未預期的副作用。我們對於可能會發生的問題並不負責。請您僅在認知到這個動作可能帶來的問題的情況下才繼續進行。</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>展平操作為永久性的，不建議使用。繼續操作將自行承擔風險。</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>建立媒體庫</value>
   </data>
@@ -2019,13 +2022,28 @@
     <value>鎖定畫面</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>在格狀檢視模式下，點一下即可開啟資料夾</value>
+    <value>在欄檢視模式下，點一下即可開啟資料夾</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>開啟項目</value>
   </data>
   <data name="Compress" xml:space="preserve">
     <value>壓縮</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>將子資料夾中的所有內容移動到選定的位置</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>展平資料夾</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>展平</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>展平資料夾將會把其子資料夾中的所有內容移動到選定的位置。此操作是永久性的，無法復原。使用此實驗性功能即表示您承擔風險並同意不對 Files 團隊因任何資料遺失負責。</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>顯示展平選項</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>當游標停留於檔案與資料夾上時，選取它們</value>
@@ -2637,7 +2655,7 @@
     <value>在檢索歷史前進下一步</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
-    <value>上級目錄</value>
+    <value>上層目錄</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
     <value>複製目前的索引標籤</value>
@@ -3063,8 +3081,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>打開屬性</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>開啟檔案總管屬性</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>打開屬性視窗</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>開啟 Windows 檔案總管的屬性視窗</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>本地</value>
@@ -3362,7 +3386,7 @@
     <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
   </data>
   <data name="ItemsLower" xml:space="preserve">
-    <value>項目</value>
+    <value>個項目</value>
   </data>
   <data name="CannotInitializeGitRepo" xml:space="preserve">
     <value>Files 無法將此目錄初始化為 Git 儲存庫</value>
@@ -3731,7 +3755,7 @@
     <value>新增指令</value>
   </data>
   <data name="RestoreDefaults" xml:space="preserve">
-    <value>重置為預設</value>
+    <value>恢復預設值</value>
   </data>
   <data name="ChooseAnAction" xml:space="preserve">
     <value>請選擇要執行的指令</value>
@@ -3752,14 +3776,14 @@
     <value>當偏好設定的同步功能開啟時，無法使用自動排序模式，預設佈局模式已變更為詳細資料模式</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
-    <value>背景</value>
+    <value>背景圖片</value>
   </data>
   <data name="Bottom" xml:space="preserve">
     <value>底端對齊</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Center" xml:space="preserve">
-    <value>中間對齊</value>
+    <value>置中</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Fill" xml:space="preserve">
@@ -3773,14 +3797,14 @@
     <value>圖片調整</value>
   </data>
   <data name="Left" xml:space="preserve">
-    <value>左對齊</value>
+    <value>靠左對齊</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Opacity" xml:space="preserve">
     <value>透明度</value>
   </data>
   <data name="Right" xml:space="preserve">
-    <value>右對齊</value>
+    <value>靠右對齊</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Top" xml:space="preserve">
@@ -3803,17 +3827,17 @@
     <comment>This is a type of backdrop for the application background</comment>
   </data>
   <data name="AllLocations" xml:space="preserve">
-    <value>在所有資料夾顯示</value>
+    <value>在所有地方顯示</value>
     <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
   </data>
   <data name="DevTools" xml:space="preserve">
     <value>開發者工具</value>
   </data>
   <data name="DisplayOpenIDE" xml:space="preserve">
-    <value>何時顯示「在IDE開啟」的選項</value>
+    <value>在狀態欄顯示「在IDE開啟」的選項</value>
   </data>
   <data name="GitRepos" xml:space="preserve">
-    <value>僅在 Git 儲存庫顯示</value>
+    <value>僅在 Git Repository 時顯示</value>
     <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
   </data>
   <data name="ApplicationExtension" xml:space="preserve">
@@ -3907,5 +3931,14 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>在系統匣顯示 Files 圖示</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>CPU 執行緒</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>前往首頁</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>在工具欄顯示首頁鍵</value>
   </data>
 </root>
