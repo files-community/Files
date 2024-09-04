@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -1853,6 +1853,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>此选项会修改系统注册表，并可能对你的设备产生意想不到的副作用。 继续即代表您自行承担风险。</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>合并操作是永久性的，不建议使用。请自行承担风险。</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>创建库</value>
   </data>
@@ -2026,6 +2029,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>压缩</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>将子文件夹中的所有内容移至选定位置</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>合并文件夹</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>合并</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>合并文件夹会将其子文件夹中的所有内容移动到所选位置。此操作是永久性的，无法撤销。使用此试验性功能，即表示您承认风险，并同意不要求文件团队对任何数据丢失负责。</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>显示合并选项</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>鼠标悬停在项目上时自动选择</value>
@@ -2689,187 +2707,187 @@
   </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Alt</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Control" xml:space="preserve">
     <value>Ctrl</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Shift" xml:space="preserve">
     <value>Shift</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Windows" xml:space="preserve">
     <value>Win</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
     <value>Enter</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
     <value>空格</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Escape" xml:space="preserve">
     <value>Esc</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Back" xml:space="preserve">
     <value>Backspace</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Tab" xml:space="preserve">
     <value>Tab</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Insert" xml:space="preserve">
     <value>Ins</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Delete" xml:space="preserve">
     <value>Del</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Left" xml:space="preserve">
     <value>左方向键</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Right" xml:space="preserve">
     <value>右方向键</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Down" xml:space="preserve">
     <value>下方向键</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
     <value>上方向键</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Home" xml:space="preserve">
     <value>主页</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.End" xml:space="preserve">
     <value>End</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.PageDown" xml:space="preserve">
     <value>PageDown</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.PageUp" xml:space="preserve">
     <value>PageUp</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Separator" xml:space="preserve">
     <value>竖分隔符 (|)</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Pause" xml:space="preserve">
     <value>Pause</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Sleep" xml:space="preserve">
     <value>睡眠键</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Clear" xml:space="preserve">
     <value>清除</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Print" xml:space="preserve">
     <value>打印键</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Help" xml:space="preserve">
     <value>帮助</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Mouse4" xml:space="preserve">
     <value>鼠标按键4</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Mouse5" xml:space="preserve">
     <value>鼠标按键5</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Application" xml:space="preserve">
     <value>应用程序</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Application1" xml:space="preserve">
     <value>应用程序 1</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Application2" xml:space="preserve">
     <value>应用程序 2</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.Mail" xml:space="preserve">
     <value>邮件键</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.BrowserGoHome" xml:space="preserve">
     <value>主页</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.BrowserGoBack" xml:space="preserve">
     <value>后退</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.BrowserGoForward" xml:space="preserve">
     <value>前进</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.BrowserRefresh" xml:space="preserve">
     <value>刷新</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.BrowserStop" xml:space="preserve">
     <value>停止加载</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
     <value>搜索</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.BrowserFavorites" xml:space="preserve">
     <value>收藏夹</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.MediaPlayPause" xml:space="preserve">
     <value>播放/暂停</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.MediaStop" xml:space="preserve">
     <value>停止播放</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.MediaPreviousTrack" xml:space="preserve">
     <value>上一曲目</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.MediaNextTrack" xml:space="preserve">
     <value>下一曲目</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.MediaSelect" xml:space="preserve">
     <value>媒体选择</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.MediaMute" xml:space="preserve">
     <value>静音</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.MediaVolumeDown" xml:space="preserve">
     <value>音量减小</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Key.MediaVolumeUp" xml:space="preserve">
     <value>音量增大</value>
-    <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
+    <comment>菜单中快捷键的键名。尽可能使用缩写。</comment>
   </data>
   <data name="Change" xml:space="preserve">
     <value>更改</value>
@@ -3063,8 +3081,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>查看属性</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>打开文件资源管理器属性</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>打开属性窗口</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>打开文件资源管理器属性窗口</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>本地</value>
@@ -3119,13 +3143,13 @@
     <value>Github</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
-    <value>Acrylic</value>
+    <value>亚克力</value>
   </data>
   <data name="Mica" xml:space="preserve">
-    <value>Mica</value>
+    <value>云母</value>
   </data>
   <data name="MicaAlt" xml:space="preserve">
-    <value>Mica Alt</value>
+    <value>云母 Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
     <value>背景材质</value>
@@ -3907,5 +3931,14 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>在系统托盘中显示 Files 图标</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>CPU 线程</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>导航至主页</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>在工具栏中显示主页按钮</value>
   </data>
 </root>
