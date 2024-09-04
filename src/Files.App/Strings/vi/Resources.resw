@@ -1853,6 +1853,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Tùy chọn này sửa đổi các khóa registry của hệ thống và có thể gây ra vấn đề trên thiết bị của bạn. Vui lòng cân nhắc trước khi bật tùy chọn.</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>Thao tác làm phẳng có hiệu lực vĩnh viễn và không thể hoàn tác, không được khuyến khích sử dụng. Vui lòng cân nhắc trước khi thực hiện.</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Tạo thư viện</value>
   </data>
@@ -2026,6 +2029,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Nén</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Di chuyển tất cả nội dung từ thư mục con đến vị trí đã chọn</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Làm phẳng thư mục</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Làm phẳng</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>Làm phẳng thư mục sẽ di chuyển tất cả nội dung từ thư mục con đến vị trí đã chọn. Thao tác có hiệu lực vĩnh viễn và không thể hoàn tác. Đây là tính năng thử nghiệm và bằng việc sử dụng, bạn đã hiểu các rủi ro và đồng ý miễn trừ trách nhiệm của đội ngũ Files khi xảy ra mất mát dữ liệu.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Hiện tùy chọn làm phẳng</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Chọn tệp và thư mục khi di chuột lên</value>
@@ -3028,7 +3046,7 @@
     <value>Đưa các thay đổi của tôi vào '{0}'</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
-    <value>Bạn có những thay đổi chưa được phê duyệt ở nhánh này. Bạn muốn làm gì với chúng?</value>
+    <value>Bạn có các thay đổi chưa commit ở nhánh này. Bạn muốn làm gì với các thay đổi này?</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Chuyển nhánh</value>
@@ -3063,8 +3081,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Thuộc tính</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Mở bảng thuộc tính gốc</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Mở cửa sổ thuộc tính</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Mở cửa sổ thuộc tính gốc của File Explorer</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Cục bộ</value>
@@ -3107,13 +3131,13 @@
     <value>Tác giả</value>
   </data>
   <data name="DateCommitted" xml:space="preserve">
-    <value>Ngày phê duyệt</value>
+    <value>Ngày commit</value>
   </data>
   <data name="CommitMessage" xml:space="preserve">
-    <value>Ghi chú phê duyệt</value>
+    <value>Mô tả commit</value>
   </data>
   <data name="CommitSha" xml:space="preserve">
-    <value>SHA phê duyệt</value>
+    <value>SHA commit</value>
   </data>
   <data name="Git" xml:space="preserve">
     <value>Git</value>
@@ -3146,10 +3170,10 @@
     <value>Đồng bộ</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
-    <value>Chạy git pull sau đó là git push</value>
+    <value>Chạy git pull sau đó chạy git push</value>
   </data>
   <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
-    <value>{0} phê duyệt ra / {1} phê duyệt tới</value>
+    <value>{0} outgoing commit / {1} incoming commit</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
     <value>Kết nối với GitHub</value>
@@ -3907,5 +3931,14 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>Hiện biểu tượng Files trong khay hệ thống</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>Luồng CPU</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Điều hướng về trang chủ</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Hiện nút trang chủ trên thanh công cụ</value>
   </data>
 </root>

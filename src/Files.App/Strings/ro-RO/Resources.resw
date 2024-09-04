@@ -214,7 +214,7 @@
     <value>Afișează fișierele care încep cu punct</value>
   </data>
   <data name="Appearance" xml:space="preserve">
-    <value>Aspect</value>
+    <value>Aspect vizual</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
     <value>Culoare de fundal</value>
@@ -1853,6 +1853,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Această opțiune modifică registrul sistemului și poate avea efecte secundare neașteptate pe dispozitiv. Continuați pe propriul risc.</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>Operațiunile de aplatizare sunt permanente și nu sunt recomandate. Continuați pe propriul risc.</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Creați o bibliotecă</value>
   </data>
@@ -2026,6 +2029,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Comprimare</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Mută tot conținutul din subfoldere în locația selectată</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Aplatizare folder</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Aplatizare</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>Aplatizarea unui folder mută tot conținutul din subfolderele sale în locația selectată. Această operațiune este permanentă și nu poate fii anulată. Prin utilizarea acestei caracteristici experimentale, vă asumați riscul și sunteți de acord să nu trageți la răspundere echipa Files pentru orice pierdere de date.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Afișare opțiuni de aplatizare</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Selectați fișiere și foldere când treceți cu mouse-ul peste ele</value>
@@ -3063,8 +3081,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Deschidere proprietăți</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Deschideți proprietăți Explorer</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Deschideți fereastra proprietăți</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Deschideți fereastra proprietăți Explorer</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Locale</value>
@@ -3907,5 +3931,14 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>Arată pictograma Files în System Tray</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>Fire CPU</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Navigate to the home page</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Show home button in the toolbar</value>
   </data>
 </root>

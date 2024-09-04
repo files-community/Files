@@ -1853,6 +1853,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Tato možnost upravuje systémový registr a může mít neočekávané vedlejší efekty na vaše zařízení. Pokračujte na vlastní nebezpečí.</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>Operace sjednocení jsou trvalé a nedoporučují se. Pokračujte na vlastní riziko.</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Vytvořit Knihovnu</value>
   </data>
@@ -2026,6 +2029,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Komprimovat</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Přesune veškerý obsah z podsložek do vybraného umístění</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Sjednotit složku</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Sjednocení</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>Sjednocení složky přesune veškerý obsah z podsložek do vybraného umístění. Tato operace je trvalá a nelze ji vrátit zpět. Používáním této experimentální funkce potvrzujete riziko a souhlasíte s tím, že tým Files není odpovědný za ztrátu dat.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Zobrazit možnost sjednocení složek</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Vyberte soubory a složky při najetí na ně</value>
@@ -3063,8 +3081,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Otevřít vlastnosti</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Otevřít vlastnosti Průzkumníka souborů</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Otevřít okno s vlastnostmi</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Otevřít okno vlastností Průzkumníka souborů</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Místní</value>
@@ -3907,5 +3931,14 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>Zobrazit ikonu Files v systémové liště</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>CPU vlákna</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Přejít na domovskou stránku</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Zobrazit tlačítko Domů v panelu nástrojů</value>
   </data>
 </root>

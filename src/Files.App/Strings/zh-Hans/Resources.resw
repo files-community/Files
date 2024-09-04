@@ -615,7 +615,7 @@
     <value>显示更多选项</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>若要应用这些设置，需要重新启动应用程序。是否立即重启？</value>
+    <value>一些设置需要重新启动 Files 才会应用，是否立即重启？</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>在 GitHub 上白嫖我们</value>
@@ -1853,6 +1853,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>此选项会修改系统注册表，并可能对你的设备产生意想不到的副作用。 继续即代表您自行承担风险。</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>合并操作是永久性的，不推荐使用。请自行承担使用风险。</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>创建库</value>
   </data>
@@ -2026,6 +2029,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>压缩</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>将所有项目从子文件夹移动到选定位置</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>合并文件夹</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>合并</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>合并文件夹将把所有项目从子文件夹移动到选定位置。此操作是永久性的，不可撤消。 使用此实验性功能表示您知晓风险且Files团队不对任何数据丢失负责。</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>显示更多选项</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>鼠标悬停在项目上时自动选择</value>
@@ -3063,8 +3081,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>查看属性</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>打开文件资源管理器属性</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>打开属性窗口</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>打开文件资源管理器属性窗口</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>本地</value>
@@ -3119,13 +3143,13 @@
     <value>Github</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
-    <value>Acrylic</value>
+    <value>亚克力</value>
   </data>
   <data name="Mica" xml:space="preserve">
-    <value>Mica</value>
+    <value>云母</value>
   </data>
   <data name="MicaAlt" xml:space="preserve">
-    <value>Mica Alt</value>
+    <value>云母 Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
     <value>背景材质</value>
@@ -3799,7 +3823,7 @@
     <value>垂直对齐方式</value>
   </data>
   <data name="ThinAcrylic" xml:space="preserve">
-    <value>薄 Acrylic</value>
+    <value>薄亚克力</value>
     <comment>This is a type of backdrop for the application background</comment>
   </data>
   <data name="AllLocations" xml:space="preserve">
@@ -3907,5 +3931,14 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>在系统托盘中显示 Files 图标</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>CPU 线程</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>返回主页</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>在工具栏中显示主页按钮</value>
   </data>
 </root>
