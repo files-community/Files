@@ -9,6 +9,7 @@
         <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
         <AppxDefaultResourceQualifiers>Language=en-US;af;ar;be-BY;bg;ca;cs-CZ;da;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;id-ID;it-IT;ja-JP;ka;km-KH;ko-KR;lt-LT;lv-LV;ms-MY;nb-NO;nl-NL;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sq-AL;sr-Cyrl;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
         <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+        <WindowsSdkPackageVersion>10.0.22621.38</WindowsSdkPackageVersion>
         <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
         <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
         <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
@@ -79,7 +80,7 @@
         <PackageReference Include="Sentry" Version="4.10.2" />
         <PackageReference Include="SevenZipSharp" Version="1.0.2" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.8" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.240829007" />
         <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.2.0" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
         <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
@@ -134,8 +135,8 @@
         <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
     </ItemGroup>
 
-	<ItemGroup>
-		<AdditionalFiles Include="Strings\en-US\Resources.resw" />
-	</ItemGroup>
+    <ItemGroup>
+        <AdditionalFiles Include="Strings\en-US\Resources.resw" />
+    </ItemGroup>
   
 </Project>
