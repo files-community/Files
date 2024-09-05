@@ -3,13 +3,11 @@
 
 using Files.App.Dialogs;
 using LibGit2Sharp;
-using Sentry;
 using Microsoft.Extensions.Logging;
+using Sentry;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Net.Sockets;
 using System.Text;
-using System.Text.Json;
 
 namespace Files.App.Utils.Git
 {
@@ -146,8 +144,19 @@ namespace Files.App.Utils.Git
 
 		public static async Task<BranchItem?> GetRepositoryHead(string? path)
 		{
-			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
+			if (string.IsNullOrWhiteSpace(path))
 				return null;
+
+			// Workaround for https://github.com/libgit2/libgit2sharp/issues/1851
+			try
+			{
+				if (!Repository.IsValid(path))
+					return null;
+			}
+			catch (Exception)
+			{
+				return null;
+			}
 
 			var (_, returnValue) = await DoGitOperationAsync<(GitOperationResult, BranchItem?)>(() =>
 			{
