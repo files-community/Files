@@ -159,8 +159,6 @@ namespace Files.App
 				}
 
 				await AppLifecycleHelper.InitializeAppComponentsAsync();
-
-				AppLifecycleHelper.IsLaunchInitialized = true;
 			}
 		}
 

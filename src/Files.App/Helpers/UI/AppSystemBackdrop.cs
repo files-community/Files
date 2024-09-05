@@ -16,8 +16,6 @@ namespace Files.App.Helpers
 		private XamlRoot root;
 		private SystemBackdropTheme? prevTheme = null;
 
-		public SystemBackdropConfiguration SystemBackdropConfiguration { get; set; }
-
 		public AppSystemBackdrop(bool isSecondaryWindow = false)
 		{
 			this.isSecondaryWindow = isSecondaryWindow;
@@ -34,21 +32,21 @@ namespace Files.App.Helpers
 			base.OnTargetConnected(connectedTarget, xamlRoot);
 			this.target = connectedTarget;
 			this.root = xamlRoot;
-			SystemBackdropConfiguration = GetDefaultSystemBackdropConfiguration(connectedTarget, xamlRoot);
-			controller = GetSystemBackdropController(userSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial, SystemBackdropConfiguration.Theme);
-			controller?.SetSystemBackdropConfiguration(SystemBackdropConfiguration);
+			var configuration = GetDefaultSystemBackdropConfiguration(connectedTarget, xamlRoot);
+			controller = GetSystemBackdropController(userSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial, configuration.Theme);
+			controller?.SetSystemBackdropConfiguration(configuration);
 			controller?.AddSystemBackdropTarget(connectedTarget);
 		}
 
 		protected override void OnDefaultSystemBackdropConfigurationChanged(ICompositionSupportsSystemBackdrop target, XamlRoot xamlRoot)
 		{
 			base.OnDefaultSystemBackdropConfigurationChanged(target, xamlRoot);
-			SystemBackdropConfiguration = GetDefaultSystemBackdropConfiguration(target, xamlRoot);
-			if (controller is not DesktopAcrylicController acrylicController || acrylicController.Kind != DesktopAcrylicKind.Thin || SystemBackdropConfiguration.Theme == prevTheme)
+			var configuration = GetDefaultSystemBackdropConfiguration(target, xamlRoot);
+			if (controller is not DesktopAcrylicController acrylicController || acrylicController.Kind != DesktopAcrylicKind.Thin || configuration.Theme == prevTheme)
 				return;
 
-			prevTheme = SystemBackdropConfiguration.Theme;
-			SetThinAcrylicBackdropProperties(acrylicController, SystemBackdropConfiguration.Theme);
+			prevTheme = configuration.Theme;
+			SetThinAcrylicBackdropProperties(acrylicController, configuration.Theme);
 		}
 
 		protected override void OnTargetDisconnected(ICompositionSupportsSystemBackdrop disconnectedTarget)
@@ -81,9 +79,9 @@ namespace Files.App.Helpers
 				case nameof(IAppearanceSettingsService.AppThemeBackdropMaterial):
 					controller?.RemoveAllSystemBackdropTargets();
 					controller?.Dispose();
-					SystemBackdropConfiguration = GetDefaultSystemBackdropConfiguration(target, root);
-					var newController = GetSystemBackdropController((BackdropMaterialType)e.NewValue!, SystemBackdropConfiguration.Theme);
-					newController?.SetSystemBackdropConfiguration(SystemBackdropConfiguration);
+					var configuration = GetDefaultSystemBackdropConfiguration(target, root);
+					var newController = GetSystemBackdropController((BackdropMaterialType)e.NewValue!, configuration.Theme);
+					newController?.SetSystemBackdropConfiguration(configuration);
 					newController?.AddSystemBackdropTarget(target);
 					controller = newController;
 					break;
