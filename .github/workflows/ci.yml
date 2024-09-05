@@ -63,7 +63,7 @@ jobs:
     - name: Setup .NET 8
       uses: actions/setup-dotnet@v4
       with:
-        global-json-file: global.json
+        dotnet-version: '8.0.x'
 
     - name: Install XamlStyler console
       run: 'dotnet tool install --global XamlStyler.Console'
@@ -111,7 +111,7 @@ jobs:
     - name: Setup .NET 8
       uses: actions/setup-dotnet@v4
       with:
-        global-json-file: global.json
+        dotnet-version: '8.0.x'
 
     - name: Restore NuGet
       shell: pwsh
@@ -212,7 +212,7 @@ jobs:
     - name: Setup .NET 8
       uses: actions/setup-dotnet@v4
       with:
-        global-json-file: global.json
+        dotnet-version: '8.0.x'
 
     - name: Download the packages from the Artifacts
       uses: actions/download-artifact@v4

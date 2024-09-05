@@ -49,7 +49,7 @@ jobs:
       - name: Setup .NET 8
         uses: actions/setup-dotnet@v4
         with:
-          global-json-file: global.json
+          dotnet-version: '8.0.x'
 
       - name: Set git identity
         if: env.CAN_RUN == 1
