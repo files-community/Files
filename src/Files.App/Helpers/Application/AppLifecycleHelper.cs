@@ -4,7 +4,6 @@
 using CommunityToolkit.WinUI.Helpers;
 using Files.App.Helpers.Application;
 using Files.App.Services.SizeProvider;
-using Files.App.Storage.Storables;
 using Files.App.Utils.Logger;
 using Files.App.ViewModels.Settings;
 using Microsoft.Extensions.DependencyInjection;
@@ -57,12 +56,6 @@ namespace Files.App.Helpers
 				AppEnvironment.Preview => Constants.AssetPaths.PreviewLogo,
 				_ => Constants.AssetPaths.StableLogo
 			});
-
-		/// <summary>
-		/// Gets or sets a value that indicates whether the application is ready to be interacted with.
-		/// This is primarily used for DI container initialization check.
-		/// </summary>
-		public static bool IsLaunchInitialized { get; set; }
 
 		/// <summary>
 		/// Initializes the app components.
