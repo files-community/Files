@@ -22,11 +22,9 @@ namespace Files.App.Actions
 		public HotKey HotKey
 			=> new(Keys.Enter);
 
-		private const int MaxOpenCount = 10;
 
 		public bool IsExecutable =>
 			context.HasSelection &&
-			context.SelectedItems.Count <= MaxOpenCount &&
 			!(context.ShellPage is ColumnShellPage &&
 			context.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder);
 
