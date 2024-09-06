@@ -327,7 +327,7 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrWhiteSpace(repositoryPath) ||
 				string.IsNullOrWhiteSpace(activeBranch) ||
 				string.IsNullOrWhiteSpace(branchToDelete) ||
-				activeBranch.Equals(branchToDelete, StringComparison.OrdinalIgnoreCase)
+				activeBranch.Equals(branchToDelete, StringComparison.OrdinalIgnoreCase))
 			{
 				return;
 			}
