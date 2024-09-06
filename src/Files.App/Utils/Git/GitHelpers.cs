@@ -97,8 +97,19 @@ namespace Files.App.Utils.Git
 
 		public static string GetOriginRepositoryName(string? path)
 		{
-			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
+			if (string.IsNullOrWhiteSpace(path))
 				return string.Empty;
+
+			// Workaround for https://github.com/libgit2/libgit2sharp/issues/1851
+			try
+			{
+				if (!Repository.IsValid(path))
+					return string.Empty;
+			}
+			catch (Exception)
+			{
+				return string.Empty;
+			}
 
 			using var repository = new Repository(path);
 			var repositoryUrl = repository.Network.Remotes.FirstOrDefault()?.Url;
@@ -112,8 +123,19 @@ namespace Files.App.Utils.Git
 
 		public static async Task<BranchItem[]> GetBranchesNames(string? path)
 		{
-			if (string.IsNullOrWhiteSpace(path) || !Repository.IsValid(path))
+			if (string.IsNullOrWhiteSpace(path))
 				return [];
+
+			// Workaround for https://github.com/libgit2/libgit2sharp/issues/1851
+			try
+			{
+				if (!Repository.IsValid(path))
+					return [];
+			}
+			catch (Exception)
+			{
+				return [];
+			}
 
 			var (result, returnValue) = await DoGitOperationAsync<(GitOperationResult, BranchItem[])>(() =>
 			{
@@ -189,8 +211,19 @@ namespace Files.App.Utils.Git
 		{
 			SentrySdk.Metrics.Increment("Triggered git checkout");
 
-			if (string.IsNullOrWhiteSpace(repositoryPath) || !Repository.IsValid(repositoryPath))
+			if (string.IsNullOrWhiteSpace(repositoryPath))
 				return false;
+
+			// Workaround for https://github.com/libgit2/libgit2sharp/issues/1851
+			try
+			{
+				if (!Repository.IsValid(repositoryPath))
+					return false;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
 
 			using var repository = new Repository(repositoryPath);
 			var checkoutBranch = repository.Branches[branch];
@@ -294,8 +327,18 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrWhiteSpace(repositoryPath) ||
 				string.IsNullOrWhiteSpace(activeBranch) ||
 				string.IsNullOrWhiteSpace(branchToDelete) ||
-				activeBranch.Equals(branchToDelete, StringComparison.OrdinalIgnoreCase) ||
-				!Repository.IsValid(repositoryPath))
+				activeBranch.Equals(branchToDelete, StringComparison.OrdinalIgnoreCase)
+			{
+				return;
+			}
+
+			// Workaround for https://github.com/libgit2/libgit2sharp/issues/1851
+			try
+			{
+				if (!Repository.IsValid(repositoryPath))
+					return;
+			}
+			catch (Exception)
 			{
 				return;
 			}
@@ -328,8 +371,19 @@ namespace Files.App.Utils.Git
 
 		public static bool ValidateBranchNameForRepository(string branchName, string repositoryPath)
 		{
-			if (string.IsNullOrEmpty(branchName) || !Repository.IsValid(repositoryPath))
+			if (string.IsNullOrEmpty(branchName))
 				return false;
+
+			// Workaround for https://github.com/libgit2/libgit2sharp/issues/1851
+			try
+			{
+				if (!Repository.IsValid(repositoryPath))
+					return false;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
 
 			var nameValidator = RegexHelpers.GitBranchName();
 			if (!nameValidator.IsMatch(branchName))
@@ -655,11 +709,17 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrEmpty(repositoryRootPath))
 				return false;
 
-			if (Repository.IsValid(repositoryRootPath))
+			// Workaround for https://github.com/libgit2/libgit2sharp/issues/1851
+
+			try
 			{
-				repoRootPath = repositoryRootPath;
-				return true;
+				if (Repository.IsValid(repositoryRootPath))
+				{
+					repoRootPath = repositoryRootPath;
+					return true;
+				}
 			}
+			catch { };
 
 			return false;
 		}
