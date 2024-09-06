@@ -76,7 +76,7 @@ namespace Files.App.Utils.Git
 
 			try
 			{
-				if (Repository.IsValid(path))
+				if (SafetyExtensions.IgnoreExceptions(() => Repository.IsValid(path)))
 					return path;
 				else
 				{
@@ -97,19 +97,8 @@ namespace Files.App.Utils.Git
 
 		public static string GetOriginRepositoryName(string? path)
 		{
-			if (string.IsNullOrWhiteSpace(path))
+			if (string.IsNullOrWhiteSpace(path) || SafetyExtensions.IgnoreExceptions(() => !Repository.IsValid(path)))
 				return string.Empty;
-
-			// Workaround for https://github.com/libgit2/libgit2sharp/issues/1851
-			try
-			{
-				if (!Repository.IsValid(path))
-					return string.Empty;
-			}
-			catch (Exception)
-			{
-				return string.Empty;
-			}
 
 			using var repository = new Repository(path);
 			var repositoryUrl = repository.Network.Remotes.FirstOrDefault()?.Url;
@@ -123,19 +112,8 @@ namespace Files.App.Utils.Git
 
 		public static async Task<BranchItem[]> GetBranchesNames(string? path)
 		{
-			if (string.IsNullOrWhiteSpace(path))
+			if (string.IsNullOrWhiteSpace(path) || SafetyExtensions.IgnoreExceptions(() => !Repository.IsValid(path)))
 				return [];
-
-			// Workaround for https://github.com/libgit2/libgit2sharp/issues/1851
-			try
-			{
-				if (!Repository.IsValid(path))
-					return [];
-			}
-			catch (Exception)
-			{
-				return [];
-			}
 
 			var (result, returnValue) = await DoGitOperationAsync<(GitOperationResult, BranchItem[])>(() =>
 			{
@@ -166,19 +144,8 @@ namespace Files.App.Utils.Git
 
 		public static async Task<BranchItem?> GetRepositoryHead(string? path)
 		{
-			if (string.IsNullOrWhiteSpace(path))
+			if (string.IsNullOrWhiteSpace(path) || SafetyExtensions.IgnoreExceptions(() => !Repository.IsValid(path)))
 				return null;
-
-			// Workaround for https://github.com/libgit2/libgit2sharp/issues/1851
-			try
-			{
-				if (!Repository.IsValid(path))
-					return null;
-			}
-			catch (Exception)
-			{
-				return null;
-			}
 
 			var (_, returnValue) = await DoGitOperationAsync<(GitOperationResult, BranchItem?)>(() =>
 			{
@@ -211,19 +178,8 @@ namespace Files.App.Utils.Git
 		{
 			SentrySdk.Metrics.Increment("Triggered git checkout");
 
-			if (string.IsNullOrWhiteSpace(repositoryPath))
+			if (string.IsNullOrWhiteSpace(repositoryPath) || SafetyExtensions.IgnoreExceptions(() => !Repository.IsValid(repositoryPath)))
 				return false;
-
-			// Workaround for https://github.com/libgit2/libgit2sharp/issues/1851
-			try
-			{
-				if (!Repository.IsValid(repositoryPath))
-					return false;
-			}
-			catch (Exception)
-			{
-				return false;
-			}
 
 			using var repository = new Repository(repositoryPath);
 			var checkoutBranch = repository.Branches[branch];
@@ -327,18 +283,8 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrWhiteSpace(repositoryPath) ||
 				string.IsNullOrWhiteSpace(activeBranch) ||
 				string.IsNullOrWhiteSpace(branchToDelete) ||
-				activeBranch.Equals(branchToDelete, StringComparison.OrdinalIgnoreCase))
-			{
-				return;
-			}
-
-			// Workaround for https://github.com/libgit2/libgit2sharp/issues/1851
-			try
-			{
-				if (!Repository.IsValid(repositoryPath))
-					return;
-			}
-			catch (Exception)
+				activeBranch.Equals(branchToDelete, StringComparison.OrdinalIgnoreCase) ||
+				SafetyExtensions.IgnoreExceptions(() => !Repository.IsValid(repositoryPath)))
 			{
 				return;
 			}
@@ -371,19 +317,8 @@ namespace Files.App.Utils.Git
 
 		public static bool ValidateBranchNameForRepository(string branchName, string repositoryPath)
 		{
-			if (string.IsNullOrEmpty(branchName))
+			if (string.IsNullOrEmpty(branchName) || SafetyExtensions.IgnoreExceptions(() => !Repository.IsValid(repositoryPath)))
 				return false;
-
-			// Workaround for https://github.com/libgit2/libgit2sharp/issues/1851
-			try
-			{
-				if (!Repository.IsValid(repositoryPath))
-					return false;
-			}
-			catch (Exception)
-			{
-				return false;
-			}
 
 			var nameValidator = RegexHelpers.GitBranchName();
 			if (!nameValidator.IsMatch(branchName))
@@ -709,17 +644,11 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrEmpty(repositoryRootPath))
 				return false;
 
-			// Workaround for https://github.com/libgit2/libgit2sharp/issues/1851
-
-			try
+			if (SafetyExtensions.IgnoreExceptions(() => !Repository.IsValid(repositoryRootPath)))
 			{
-				if (Repository.IsValid(repositoryRootPath))
-				{
-					repoRootPath = repositoryRootPath;
-					return true;
-				}
+				repoRootPath = repositoryRootPath;
+				return true;
 			}
-			catch { };
 
 			return false;
 		}
