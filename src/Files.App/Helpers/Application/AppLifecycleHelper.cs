@@ -147,6 +147,9 @@ namespace Files.App.Helpers
 			return Host.CreateDefaultBuilder()
 				.UseEnvironment(AppLifecycleHelper.AppEnvironment.ToString())
 				.ConfigureLogging(builder => builder
+					.ClearProviders()
+					.AddConsole()
+					.AddDebug()
 					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
 					.AddProvider(new SentryLoggerProvider())
 					.SetMinimumLevel(LogLevel.Information))
