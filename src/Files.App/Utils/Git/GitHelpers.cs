@@ -76,7 +76,7 @@ namespace Files.App.Utils.Git
 
 			try
 			{
-				if (SafetyExtensions.IgnoreExceptions(() => Repository.IsValid(path)))
+				if (IsRepoValid(path))
 					return path;
 				else
 				{
@@ -97,7 +97,7 @@ namespace Files.App.Utils.Git
 
 		public static string GetOriginRepositoryName(string? path)
 		{
-			if (string.IsNullOrWhiteSpace(path) || SafetyExtensions.IgnoreExceptions(() => !Repository.IsValid(path)))
+			if (string.IsNullOrWhiteSpace(path) || !IsRepoValid(path))
 				return string.Empty;
 
 			using var repository = new Repository(path);
@@ -112,7 +112,7 @@ namespace Files.App.Utils.Git
 
 		public static async Task<BranchItem[]> GetBranchesNames(string? path)
 		{
-			if (string.IsNullOrWhiteSpace(path) || SafetyExtensions.IgnoreExceptions(() => !Repository.IsValid(path)))
+			if (string.IsNullOrWhiteSpace(path) || !IsRepoValid(path))
 				return [];
 
 			var (result, returnValue) = await DoGitOperationAsync<(GitOperationResult, BranchItem[])>(() =>
@@ -144,7 +144,7 @@ namespace Files.App.Utils.Git
 
 		public static async Task<BranchItem?> GetRepositoryHead(string? path)
 		{
-			if (string.IsNullOrWhiteSpace(path) || SafetyExtensions.IgnoreExceptions(() => !Repository.IsValid(path)))
+			if (string.IsNullOrWhiteSpace(path) || !IsRepoValid(path))
 				return null;
 
 			var (_, returnValue) = await DoGitOperationAsync<(GitOperationResult, BranchItem?)>(() =>
@@ -178,7 +178,7 @@ namespace Files.App.Utils.Git
 		{
 			SentrySdk.Metrics.Increment("Triggered git checkout");
 
-			if (string.IsNullOrWhiteSpace(repositoryPath) || SafetyExtensions.IgnoreExceptions(() => !Repository.IsValid(repositoryPath)))
+			if (string.IsNullOrWhiteSpace(repositoryPath) || !IsRepoValid(repositoryPath))
 				return false;
 
 			using var repository = new Repository(repositoryPath);
@@ -284,7 +284,7 @@ namespace Files.App.Utils.Git
 				string.IsNullOrWhiteSpace(activeBranch) ||
 				string.IsNullOrWhiteSpace(branchToDelete) ||
 				activeBranch.Equals(branchToDelete, StringComparison.OrdinalIgnoreCase) ||
-				SafetyExtensions.IgnoreExceptions(() => !Repository.IsValid(repositoryPath)))
+				!IsRepoValid(repositoryPath))
 			{
 				return;
 			}
@@ -317,7 +317,7 @@ namespace Files.App.Utils.Git
 
 		public static bool ValidateBranchNameForRepository(string branchName, string repositoryPath)
 		{
-			if (string.IsNullOrEmpty(branchName) || SafetyExtensions.IgnoreExceptions(() => !Repository.IsValid(repositoryPath)))
+			if (string.IsNullOrEmpty(branchName) || !IsRepoValid(repositoryPath))
 				return false;
 
 			var nameValidator = RegexHelpers.GitBranchName();
@@ -644,7 +644,7 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrEmpty(repositoryRootPath))
 				return false;
 
-			if (SafetyExtensions.IgnoreExceptions(() => !Repository.IsValid(repositoryRootPath)))
+			if (!IsRepoValid(repositoryRootPath))
 			{
 				repoRootPath = repositoryRootPath;
 				return true;
@@ -730,6 +730,11 @@ namespace Files.App.Utils.Git
 				_logger.LogWarning(ex.Message);
 				await DynamicDialogFactory.GetFor_GitCannotInitializeqRepositoryHere().TryShowAsync();
 			}
+		}
+
+		private static bool IsRepoValid(string path)
+		{
+			return SafetyExtensions.IgnoreExceptions(() => Repository.IsValid(path));
 		}
 
 		private static IEnumerable<Branch> GetValidBranches(BranchCollection branches)
