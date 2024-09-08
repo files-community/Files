@@ -9,7 +9,7 @@ using Windows.Win32.System.Com;
 namespace Windows.Win32
 {
 	/// <summary>
-	/// A struct that works with COM pointers safely and securely.
+	/// Contains a COM pointer and a set of methods to work with the pointer safely.
 	/// </summary>
 	public unsafe struct ComPtr<T> : IDisposable where T : unmanaged
 	{
@@ -18,12 +18,12 @@ namespace Windows.Win32
 		public bool IsNull
 			=> _ptr == default;
 
-		public ComPtr(T* other)
+		public ComPtr(T* ptr)
 		{
-			_ptr = other;
+			_ptr = ptr;
 
-			if (other is not null)
-				((IUnknown*)other)->AddRef();
+			if (ptr is not null)
+				((IUnknown*)ptr)->AddRef();
 		}
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -33,7 +33,7 @@ namespace Windows.Win32
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public readonly T** GetAddress()
+        public readonly T** GetAddressOf()
         {
             return (T**)Unsafe.AsPointer(ref Unsafe.AsRef(in this));
         }
@@ -41,9 +41,8 @@ namespace Windows.Win32
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public void Dispose()
 		{
-			T* pointer = _ptr;
-
-			if (pointer is not null)
+			T* ptr = _ptr;
+			if (ptr is not null)
 			{
 				_ptr = null;
 				((IUnknown*)pointer)->Release();
