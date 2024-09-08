@@ -1029,16 +1029,16 @@
     <value>在開啟索引標籤時打開分割畫面</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>顯示在分割畫面開啟資料夾選項</value>
+    <value>顯示「在分割畫面開啟資料夾」選項</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
-    <value>顯示「複製路徑」的選項</value>
+    <value>顯示「複製路徑」選項</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
-    <value>顯示用選取的檔案建立資料夾選項</value>
+    <value>顯示「為選取的項目建立資料夾」選項</value>
   </data>
   <data name="ShowCreateShortcut" xml:space="preserve">
-    <value>顯示建立捷徑選項</value>
+    <value>顯示「建立捷徑」選項</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>新增畫面</value>
@@ -1854,7 +1854,7 @@
     <value>此項設定會修改您的系統檔案並有可能會有未預期的副作用。我們對於可能會發生的問題並不負責。請您僅在認知到這個動作可能帶來的問題的情況下才繼續進行。</value>
   </data>
   <data name="ShowFlattenOptionsDescription" xml:space="preserve">
-    <value>展平操作為永久性的，不建議使用。繼續操作將自行承擔風險。</value>
+    <value>展平 (Flatten) 操作為永久性的，不建議使用。啟用功能代表您將自行承擔風險。</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>建立媒體庫</value>
@@ -2199,19 +2199,19 @@
     <value>檢視更多</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>顯示編輯標籤選單</value>
+    <value>顯示「編輯檔案標籤」選單</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
-    <value>顯示壓縮選項</value>
+    <value>顯示「壓縮」選項</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>顯示發送到選項</value>
+    <value>顯示「發送到」選項</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>顯示在新索引標籤開啟資料夾選項</value>
+    <value>顯示「在新索引標籤開啟資料夾」選項</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>顯示在新視窗開啟資料夾選項</value>
+    <value>顯示「在新視窗開啟資料夾」選項</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>快速存取</value>

@@ -618,7 +618,7 @@
     <value>一些设置需要重新启动 Files 才会应用，是否立即重启？</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>在 GitHub 上白嫖我们</value>
+    <value>在 GitHub 上赞助我们</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>无法创建此项</value>
@@ -3679,7 +3679,7 @@
     <value>Files 仍在后台运行，这可以使其更快启动。</value>
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
-    <value>？？？Files咋没了？</value>
+    <value>Files 到哪里去了？</value>
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>问题和讨论</value>
