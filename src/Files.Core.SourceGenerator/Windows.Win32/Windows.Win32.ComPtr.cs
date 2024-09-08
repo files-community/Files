@@ -45,7 +45,7 @@ namespace Windows.Win32
 			if (ptr is not null)
 			{
 				_ptr = null;
-				((IUnknown*)pointer)->Release();
+				((IUnknown*)ptr)->Release();
 			}
 		}
 	}
