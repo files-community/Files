@@ -17,6 +17,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	{
 		// Dependency injections
 
+		protected IWindowsRecentItemsService WindowsRecentItemsService { get; } = Ioc.Default.GetRequiredService<IWindowsRecentItemsService>();
 		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		protected IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 		protected IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();
