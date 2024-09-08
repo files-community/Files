@@ -1854,7 +1854,7 @@
     <value>この設定はシステムのレジストリを変更し、デバイスに思わぬ結果をもたらす可能性があります。問題が発生しても開発者は責任を負いません。</value>
   </data>
   <data name="ShowFlattenOptionsDescription" xml:space="preserve">
-    <value>フラット化の操作は恒久的で推奨されません。ご自身の責任で続行してください。</value>
+    <value>フラット化の操作は恒久的で推奨されません。問題が発生しても開発者は責任を負いません。</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>ライブラリを作成</value>
