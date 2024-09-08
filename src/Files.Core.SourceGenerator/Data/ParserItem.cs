@@ -14,7 +14,7 @@ namespace Files.Core.SourceGenerator.Data
 		/// <remarks>
 		/// This property is required and cannot be null or empty.
 		/// </remarks>
-		internal required string Key { get; set; } = default!;
+		internal string Key { get; set; } = null!;
 
 		/// <summary>
 		/// Gets or sets the value of the item.
