@@ -3906,7 +3906,7 @@
     <value>Uspořádání panelů vertikálně</value>
   </data>
   <data name="ArrangePanesHorizontally" xml:space="preserve">
-    <value>Uspořádání panelů vodorovně</value>
+    <value>Uspořádat vodorovně</value>
   </data>
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
     <value>Uspořádání panelů vodorovně</value>
