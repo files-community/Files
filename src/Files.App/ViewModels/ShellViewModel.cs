@@ -1943,7 +1943,11 @@ namespace Files.App.ViewModels
 
 		private void WatchForWin32FolderChanges(string? folderPath)
 		{
-			if (Directory.Exists(folderPath))
+			if (!Directory.Exists(folderPath))
+				return;
+
+			// NOTE: Suppressed NullReferenceException caused by EnableRaisingEvents
+			SafetyExtensions.IgnoreExceptions(() =>
 			{
 				watcher = new FileSystemWatcher
 				{
@@ -1956,7 +1960,7 @@ namespace Files.App.ViewModels
 				watcher.Deleted += DirectoryWatcher_Changed;
 				watcher.Renamed += DirectoryWatcher_Changed;
 				watcher.EnableRaisingEvents = true;
-			}
+			}, App.Logger);
 		}
 
 		private async void DirectoryWatcher_Changed(object sender, FileSystemEventArgs e)
