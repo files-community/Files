@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.IO;
 using System.IO.Pipes;
 using System.Security.Principal;
+using System.Text;
 
 namespace Files.App.Services.PreviewPopupProviders
 {
@@ -16,6 +17,7 @@ namespace Files.App.Services.PreviewPopupProviders
 		private static string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
 		private static string pipeMessageSwitch = "QuickLook.App.PipeMessages.Switch";
 		private static string pipeMessageToggle = "QuickLook.App.PipeMessages.Toggle";
+		private static Encoding encoding = Encoding.GetEncoding("UTF-8", new EncoderReplacementFallback("?"), new DecoderExceptionFallback());
 
 		public async Task TogglePreviewPopupAsync(string path)
 		{
@@ -36,7 +38,7 @@ namespace Files.App.Services.PreviewPopupProviders
 			{
 				await client.ConnectAsync(TIMEOUT);
 
-				await using var writer = new StreamWriter(client);
+				await using var writer = new StreamWriter(client, encoding);
 				await writer.WriteLineAsync($"{message}|{path}");
 				await writer.FlushAsync();
 			}
