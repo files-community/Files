@@ -3939,7 +3939,7 @@
     <value>Navigate to the home page</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Show home button in the toolbar</value>
+    <value>Show home button</value>
   </data>
   <data name="AddressToolbar" xml:space="preserve">
     <value>Address toolbar</value>
