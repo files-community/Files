@@ -3939,9 +3939,9 @@
     <value>Navigate to the home page</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Show home button</value>
+    <value>Show Home in address bar</value>
   </data>
-  <data name="AddressToolbar" xml:space="preserve">
-    <value>Address toolbar</value>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Toolbars</value>
   </data>
 </root>
