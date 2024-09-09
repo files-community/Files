@@ -17,7 +17,6 @@ namespace Files.App.Services.PreviewPopupProviders
 		private static string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
 		private static string pipeMessageSwitch = "QuickLook.App.PipeMessages.Switch";
 		private static string pipeMessageToggle = "QuickLook.App.PipeMessages.Toggle";
-		private static Encoding encoding = Encoding.GetEncoding("UTF-8", new EncoderReplacementFallback("?"), new DecoderExceptionFallback());
 
 		public async Task TogglePreviewPopupAsync(string path)
 		{
@@ -32,6 +31,7 @@ namespace Files.App.Services.PreviewPopupProviders
 		private async Task DoPreviewAsync(string path, string message)
 		{
 			string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
+			var encoding = Encoding.GetEncoding("UTF-8", new EncoderReplacementFallback("?"), new DecoderExceptionFallback());
 
 			await using var client = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
 			try
