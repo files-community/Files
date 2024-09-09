@@ -15,20 +15,28 @@ namespace Files.App.Controls.Primitives
 	/// </summary>
 	public partial class RingShape : Path
 	{
+		#region Fields and Constructors
+
 		// Fields
 
-		private bool _isUpdating;               // Is True when path is updating
-		private bool _isCircle;                 // When True, Width and Height are equalized
-		private Size _equalSize;                // Calculated where Width and Height are equal
-		private double _equalRadius;            // Calculated where RadiusWidth and RadiusHeight are equal
-		private Point _centerPoint;             // Center Point within Width and Height bounds
-		private double _normalizedMinAngle;     // Normalized MinAngle between -180 and 540
-		private double _normalizedMaxAngle;     // Normalized MaxAngle between 0 and 360
-		private double _validStartAngle;        // The validated StartAngle
-		private double _validEndAngle;          // The validated EndAngle
-		private double _radiusWidth;            // The radius Width
-		private double _radiusHeight;           // The radius Height
-		private SweepDirection _sweepDirection; // The SweepDirection
+		private bool			_isUpdating;             // Is True when path is updating
+		private bool			_isCircle;               // When True, Width and Height are equalized
+		private Size			_equalSize;              // Calculated where Width and Height are equal
+		private double			_equalRadius;            // Calculated where RadiusWidth and RadiusHeight are equal
+		private Point			_centerPoint;            // Center Point within Width and Height bounds
+		private double			_normalizedMinAngle;     // Normalized MinAngle between -180 and 540
+		private double			_normalizedMaxAngle;     // Normalized MaxAngle between 0 and 360
+		private double			_validStartAngle;        // The validated StartAngle
+		private double			_validEndAngle;          // The validated EndAngle
+		private double			_radiusWidth;            // The radius Width
+		private double			_radiusHeight;           // The radius Height
+		private SweepDirection	_sweepDirection;         // The SweepDirection
+
+
+		// Constants
+
+		private const double DegreesToRadians = Math.PI / 180;
+
 
 		// Constructor
 
@@ -42,7 +50,9 @@ namespace Files.App.Controls.Primitives
 			RegisterPropertyChangedCallback(StrokeThicknessProperty, OnStrokeThicknessChanged);
 		}
 
-		// PropertyChanged Events
+		#endregion
+
+		#region PropertyChanged Events
 
 		private void StartAngleChanged(DependencyObject d, double newStartAngle)
 		{
@@ -146,7 +156,9 @@ namespace Files.App.Controls.Primitives
 			ringShape.EndUpdate();
 		}
 
-		// Updates
+		#endregion
+
+		#region RingShape Path Updates
 
 		/// <summary>
 		/// Suspends path updates until EndUpdate is called
@@ -164,29 +176,6 @@ namespace Files.App.Controls.Primitives
 			_isUpdating = false;
 
 			UpdatePath();
-		}
-
-		/// <summary>
-		/// Updates sizes, center point and radii
-		/// </summary>
-		/// <param name="d">The DependencyObject calling the function</param>
-		public void UpdateSizeAndStroke(DependencyObject d)
-		{
-			RingShape ringShape = (RingShape)d;
-
-			AdjustRadiusWidth(ringShape, ringShape.RadiusWidth, ringShape.StrokeThickness);
-			AdjustRadiusHeight(ringShape, ringShape.RadiusHeight, ringShape.StrokeThickness);
-
-			_equalSize = CalculateEqualSize(new Size(ringShape.Width, ringShape.Height), ringShape.StrokeThickness);
-			_equalRadius = CalculateEqualRadius(ringShape, ringShape.RadiusWidth, ringShape.RadiusHeight, ringShape.StrokeThickness);
-
-			_centerPoint = new Point(ringShape.Width / 2, ringShape.Height / 2);
-			ringShape.Center = _centerPoint;
-
-			CalculateAndSetNormalizedAngles(ringShape, ringShape.MinAngle, ringShape.MaxAngle);
-
-			ValidateAngle(ringShape, ringShape.StartAngle, true);
-			ValidateAngle(ringShape, ringShape.EndAngle, false);
 		}
 
 		/// <summary>
@@ -209,185 +198,230 @@ namespace Files.App.Controls.Primitives
 			// If the ring is closed and complete
 			if (endAngle >= startAngle + 360)
 			{
-				EllipseGeometry eg;
-
-				if (_isCircle)
-				{
-					eg = new EllipseGeometry
-					{
-						Center = _centerPoint,
-						RadiusX = _equalRadius,
-						RadiusY = _equalRadius,
-					};
-				}
-				else
-				{
-					eg = new EllipseGeometry
-					{
-						Center = _centerPoint,
-						RadiusX = _radiusWidth,
-						RadiusY = _radiusHeight,
-					};
-				}
-
-				Data = eg;
+				Data = DrawEllipse(_isCircle, _centerPoint, _equalRadius, _radiusWidth, _radiusHeight);
 			}
 			else
 			{
-				var pathGeometry = new PathGeometry();
-				var pathFigure = new PathFigure();
-				pathFigure.IsClosed = false;
-				pathFigure.IsFilled = false;
-
-				var center = _centerPoint;
-
-				// Arc
-				var ArcSegment = new ArcSegment();
-
-				if (_isCircle == true)
-				{
-					var radius = _equalRadius;
-
-					this.ActualRadiusWidth = radius;
-					this.ActualRadiusHeight = radius;
-
-					// Start Point
-					// Counterclockwise
-					if (this.SweepDirection == SweepDirection.Counterclockwise)
-					{
-						pathFigure.StartPoint =
-						new Point(
-							center.X - Math.Sin(startAngle * Math.PI / 180) * radius,
-							center.Y - Math.Cos(startAngle * Math.PI / 180) * radius);
-					}
-					// Clockwise
-					else
-					{
-						pathFigure.StartPoint =
-							new Point(
-								center.X + Math.Sin(startAngle * Math.PI / 180) * radius,
-								center.Y - Math.Cos(startAngle * Math.PI / 180) * radius);
-					}
-
-
-					// End Point
-					// Counterclockwise
-					if (this.SweepDirection == SweepDirection.Counterclockwise)
-					{
-						ArcSegment.Point =
-							new Point(
-								center.X - Math.Sin(endAngle * Math.PI / 180) * radius,
-								center.Y - Math.Cos(endAngle * Math.PI / 180) * radius);
-
-						if (endAngle < startAngle)
-						{
-							ArcSegment.IsLargeArc = (endAngle - startAngle) <= -180.0;
-							ArcSegment.SweepDirection = SweepDirection.Clockwise;
-						}
-						else
-						{
-							ArcSegment.IsLargeArc = (endAngle - startAngle) >= 180.0;
-							ArcSegment.SweepDirection = SweepDirection.Counterclockwise;
-						}
-					}
-					// Clockwise
-					else
-					{
-						ArcSegment.Point =
-							new Point(
-								center.X + Math.Sin(endAngle * Math.PI / 180) * radius,
-								center.Y - Math.Cos(endAngle * Math.PI / 180) * radius);
-						//ArcSegment.IsLargeArc = ( endAngle - startAngle ) >= 180.0;
-						if (endAngle < startAngle)
-						{
-							ArcSegment.IsLargeArc = (endAngle - startAngle) <= -180.0;
-							ArcSegment.SweepDirection = SweepDirection.Counterclockwise;
-						}
-						else
-						{
-							ArcSegment.IsLargeArc = (endAngle - startAngle) >= 180.0;
-							ArcSegment.SweepDirection = SweepDirection.Clockwise;
-						}
-					}
-					ArcSegment.Size = new Size(radius, radius);
-				}
-				else
-				{
-					var radiusWidth = _radiusWidth;
-					var radiusHeight = _radiusHeight;
-
-					this.ActualRadiusWidth = radiusWidth;
-					this.ActualRadiusHeight = radiusHeight;
-
-					// Start Point
-					// Counterclockwise
-					if (this.SweepDirection == SweepDirection.Counterclockwise)
-					{
-						pathFigure.StartPoint =
-						new Point(
-							center.X - Math.Sin(startAngle * Math.PI / 180) * radiusWidth,
-							center.Y - Math.Cos(startAngle * Math.PI / 180) * radiusHeight);
-					}
-					// Clockwise
-					else
-					{
-						pathFigure.StartPoint =
-						new Point(
-							center.X + Math.Sin(startAngle * Math.PI / 180) * radiusWidth,
-							center.Y - Math.Cos(startAngle * Math.PI / 180) * radiusHeight);
-					}
-
-
-					// EndPoint
-					// Counterclockwise
-					if (this.SweepDirection == SweepDirection.Counterclockwise)
-					{
-						ArcSegment.Point =
-							new Point(
-								center.X - Math.Sin(endAngle * Math.PI / 180) * radiusWidth,
-								center.Y - Math.Cos(endAngle * Math.PI / 180) * radiusHeight);
-						//ArcSegment.IsLargeArc = ( endAngle - startAngle ) >= 180.0;
-						if (endAngle < startAngle)
-						{
-							ArcSegment.IsLargeArc = (endAngle - startAngle) >= 180.0;
-							ArcSegment.SweepDirection = SweepDirection.Clockwise;
-						}
-						else
-						{
-							ArcSegment.IsLargeArc = (endAngle - startAngle) >= 180.0;
-							ArcSegment.SweepDirection = SweepDirection.Counterclockwise;
-						}
-					}
-					// Clockwise
-					else
-					{
-						ArcSegment.Point =
-							new Point(
-								center.X + Math.Sin(endAngle * Math.PI / 180) * radiusWidth,
-								center.Y - Math.Cos(endAngle * Math.PI / 180) * radiusHeight);
-						//ArcSegment.IsLargeArc = ( endAngle - startAngle ) >= 180.0;
-						if (endAngle < startAngle)
-						{
-							ArcSegment.IsLargeArc = (endAngle - startAngle) >= 180.0;
-							ArcSegment.SweepDirection = SweepDirection.Counterclockwise;
-						}
-						else
-						{
-							ArcSegment.IsLargeArc = (endAngle - startAngle) >= 180.0;
-							ArcSegment.SweepDirection = SweepDirection.Clockwise;
-						}
-					}
-					ArcSegment.Size = new Size(radiusWidth, radiusHeight);
-				}
-
-				pathFigure.Segments.Add(ArcSegment);
-				pathGeometry.Figures.Add(pathFigure);
 				this.InvalidateArrange();
-				this.Data = pathGeometry;
+				this.Data = DrawArc(this, _sweepDirection, _isCircle, _centerPoint, startAngle, endAngle, _equalRadius, _radiusWidth, _radiusHeight);
 			}
 		}
 
-		// Value Calculations
+		#endregion
+
+		#region Drawing Updates
+
+		/// <summary>
+		/// Updates sizes, center point and radii
+		/// </summary>
+		/// <param name="d">The DependencyObject calling the function</param>
+		public void UpdateSizeAndStroke(DependencyObject d)
+		{
+			RingShape ringShape = (RingShape)d;
+
+			AdjustRadiusWidth( ringShape , ringShape.RadiusWidth , ringShape.StrokeThickness );
+			AdjustRadiusHeight( ringShape , ringShape.RadiusHeight , ringShape.StrokeThickness );
+
+			_equalSize = CalculateEqualSize( new Size( ringShape.Width , ringShape.Height ) , ringShape.StrokeThickness );
+			_equalRadius = CalculateEqualRadius( ringShape , ringShape.RadiusWidth , ringShape.RadiusHeight , ringShape.StrokeThickness );
+
+			_centerPoint = new Point( ringShape.Width / 2 , ringShape.Height / 2 );
+			ringShape.Center = _centerPoint;
+
+			CalculateAndSetNormalizedAngles( ringShape , ringShape.MinAngle , ringShape.MaxAngle );
+
+			ValidateAngle( ringShape , ringShape.StartAngle , true );
+			ValidateAngle( ringShape , ringShape.EndAngle , false );
+		}
+
+		/// <summary>
+		/// Draws an EllipseGeometry Ring
+		/// </summary>
+		/// <param name="IsCircle"></param>
+		/// <param name="Center"></param>
+		/// <param name="EqualRadius"></param>
+		/// <param name="RadiusWidth"></param>
+		/// <param name="RadiusHeight"></param>
+		/// <returns>EllipseGeometry</returns>
+		private static EllipseGeometry DrawEllipse(bool IsCircle, Point Center, double EqualRadius, double RadiusWidth, double RadiusHeight)
+		{
+			EllipseGeometry eg;
+
+			if ( IsCircle == true )
+			{
+				eg = new EllipseGeometry
+				{
+					Center = Center ,
+					RadiusX = EqualRadius ,
+					RadiusY = EqualRadius ,
+				};
+			}
+			else
+			{
+				eg = new EllipseGeometry
+				{
+					Center = Center ,
+					RadiusX = RadiusWidth ,
+					RadiusY = RadiusHeight ,
+				};
+			}
+
+			return eg;
+		}
+
+		/// <summary>
+		/// Draws the Arc as PathGeometry
+		/// </summary>
+		/// <param name="RingShape">The RingShape calling this method</param>
+		/// <param name="SweepDirection">The SweepDirection for the Arc</param>
+		/// <param name="IsCircle">True if the Path is to be a Circle</param>
+		/// <param name="Center">The Center Point</param>
+		/// <param name="StartAngle">The Start Angle</param>
+		/// <param name="EndAngle">The End Angle</param>
+		/// <param name="EqualRadius">The equalised Radius (for circles)</param>
+		/// <param name="RadiusWidth">The Radius Width</param>
+		/// <param name="RadiusHeight">The Radius Height</param>
+		/// <returns>Path Geometry</returns>
+		private static PathGeometry DrawArc(RingShape RingShape, SweepDirection SweepDirection, bool IsCircle, Point Center, double StartAngle, double EndAngle, double EqualRadius, double RadiusWidth, double RadiusHeight)
+		{
+			var pathGeometry = new PathGeometry();
+			var pathFigure = new PathFigure();
+			pathFigure.IsClosed = false;
+			pathFigure.IsFilled = false;
+
+			var newCenter = Center;
+
+			var arcSegment = new ArcSegment();
+
+			if ( IsCircle == true )
+			{
+				var radius = EqualRadius;
+
+				RingShape.ActualRadiusWidth = radius;
+				RingShape.ActualRadiusHeight = radius;
+
+				// Start Point
+				pathFigure.StartPoint = ArcStartPoint( SweepDirection , newCenter, StartAngle, radius, radius);
+
+
+				// Arc Segment and End Point
+				arcSegment = CreateArcSegment( SweepDirection , newCenter , StartAngle , EndAngle , radius , radius );
+			}
+			else
+			{
+				var radiusWidth = RadiusWidth;
+				var radiusHeight = RadiusHeight;
+
+				RingShape.ActualRadiusWidth = radiusWidth;
+				RingShape.ActualRadiusHeight = radiusHeight;
+
+				// Start Point
+				pathFigure.StartPoint = ArcStartPoint( SweepDirection , newCenter , StartAngle , radiusWidth , radiusHeight );
+
+
+				// Arc Segment and End Point
+				arcSegment = CreateArcSegment( SweepDirection , newCenter , StartAngle , EndAngle , radiusWidth , radiusHeight );
+			}
+
+			pathFigure.Segments.Add( arcSegment );
+			pathGeometry.Figures.Add( pathFigure );
+
+			return pathGeometry;
+		}
+
+		/// <summary>
+		/// Calculates the StartPoint for the Arc
+		/// </summary>
+		/// <param name="SweepDirection">SweepDirection for the Arc</param>
+		/// <param name="Center">Center point for the Arc</param>
+		/// <param name="StartAngle">Start Angle for the Arc</param>
+		/// <param name="RadiusWidth">Radius Width for the Arc</param>
+		/// <param name="RadiusHeight">Radius Height for the Arc</param>
+		/// <returns>Start Point for the Arc</returns>
+		private static Point ArcStartPoint(SweepDirection SweepDirection , Point Center, double StartAngle , double RadiusWidth, double RadiusHeight)
+		{
+			var finalPoint = new Point();
+
+			// Counterclockwise
+			if ( SweepDirection == SweepDirection.Counterclockwise )
+			{
+				finalPoint =
+				new Point(
+					Center.X - Math.Sin( StartAngle * DegreesToRadians ) * RadiusWidth ,
+					Center.Y - Math.Cos( StartAngle * DegreesToRadians ) * RadiusHeight );
+			}
+			// Clockwise
+			else
+			{
+				finalPoint =
+				new Point(
+					Center.X + Math.Sin( StartAngle * DegreesToRadians ) * RadiusWidth ,
+					Center.Y - Math.Cos( StartAngle * DegreesToRadians ) * RadiusHeight );
+			}
+
+			return finalPoint;
+		}
+
+		/// <summary>
+		/// Generates an ArcSegment for the RingShape Path Data
+		/// </summary>
+		/// <param name="SweepDirection">SweepDirection for the Arc</param>
+		/// <param name="Center">Center point for the Arc</param>
+		/// <param name="StartAngle">Start Angle for the Arc</param>
+		/// <param name="EndAngle">End Angle for the Arc</param>
+		/// <param name="RadiusWidth">Radius Width for the Arc</param>
+		/// <param name="RadiusHeight">Radius Height for the Arc</param>
+		/// <returns>ArcSegment for the RingShape Path Data</returns>
+		private static ArcSegment CreateArcSegment(SweepDirection SweepDirection , Point Center , double StartAngle, double EndAngle , double RadiusWidth , double RadiusHeight)
+		{ 
+			var finalArcSegment = new ArcSegment();
+
+			// Counterclockwise
+			if ( SweepDirection == SweepDirection.Counterclockwise )
+			{
+				finalArcSegment.Point =
+					new Point(
+						Center.X - Math.Sin( EndAngle * DegreesToRadians ) * RadiusWidth ,
+						Center.Y - Math.Cos( EndAngle * DegreesToRadians ) * RadiusHeight );
+
+				if ( EndAngle < StartAngle )
+				{
+					finalArcSegment.IsLargeArc = ( EndAngle - StartAngle ) <= -180.0;
+					finalArcSegment.SweepDirection = SweepDirection.Clockwise;
+				}
+				else
+				{
+					finalArcSegment.IsLargeArc = ( EndAngle - StartAngle ) >= 180.0;
+					finalArcSegment.SweepDirection = SweepDirection.Counterclockwise;
+				}
+			}
+			// Clockwise
+			else
+			{
+				finalArcSegment.Point =
+					new Point(
+						Center.X + Math.Sin( EndAngle * DegreesToRadians ) * RadiusWidth ,
+						Center.Y - Math.Cos( EndAngle * DegreesToRadians ) * RadiusHeight );
+				//ArcSegment.IsLargeArc = ( EndAngle - StartAngle ) >= 180.0;
+				if ( EndAngle < StartAngle )
+				{
+					finalArcSegment.IsLargeArc = ( EndAngle - StartAngle ) <= -180.0;
+					finalArcSegment.SweepDirection = SweepDirection.Counterclockwise;
+				}
+				else
+				{
+					finalArcSegment.IsLargeArc = ( EndAngle - StartAngle ) >= 180.0;
+					finalArcSegment.SweepDirection = SweepDirection.Clockwise;
+				}
+			}
+			finalArcSegment.Size = new Size( RadiusWidth , RadiusHeight );
+
+			return finalArcSegment;
+		}
+
+		#endregion
+
+		#region Value Calculations
 
 		/// <summary>
 		/// Calculates the EqualSize taking the smaller of the given Size's
@@ -609,5 +643,7 @@ namespace Files.App.Controls.Primitives
 				ringShape._radiusHeight = threshold;
 			}
 		}
+
+		#endregion
 	}
 }

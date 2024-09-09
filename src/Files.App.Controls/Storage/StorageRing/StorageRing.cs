@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media;
 using System;
 using Windows.Foundation;
+using WinRT;
 
 namespace Files.App.Controls
 {
@@ -54,7 +55,6 @@ namespace Files.App.Controls
 			double correctedHeight = controlHeight - (padding.Top + padding.Bottom);
 
 			double check = Math.Min(correctedWidth, correctedHeight);
-			double minSize = 8;
 
 			_containerSize = check < minSize ? minSize : check;
 		}
@@ -101,11 +101,6 @@ namespace Files.App.Controls
 		public StorageRing()
 		{
 			DefaultStyleKey = typeof(StorageRing);
-
-			SizeChanged -= StorageRing_SizeChanged;
-			Unloaded -= StorageRing_Unloaded;
-			IsEnabledChanged -= StorageRing_IsEnabledChanged;
-			Loaded -= StorageRing_Loaded;
 
 			SizeChanged += StorageRing_SizeChanged;
 			Unloaded += StorageRing_Unloaded;
@@ -817,7 +812,6 @@ namespace Files.App.Controls
 			if (useEasing)
 			{
 				// Apply an easing function (e.g., quadratic ease-in-out)
-				//var easedT = EaseInOutFunction(t);
 				var easedT = EaseOutCubic(t);
 
 				// Interpolate the thickness
@@ -857,7 +851,6 @@ namespace Files.App.Controls
 			if (useEasing)
 			{
 				// Apply an easing function
-				//var easedT = EaseInOutFunction(t);
 				var easedT = EaseOutCubic(t);
 
 				// Interpolate the angle
@@ -1017,7 +1010,10 @@ namespace Files.App.Controls
 			double angleDifference = Math.Abs(MaxAngle - MinAngle);
 
 			// Check if the angle difference is equal to 360 degrees
-			return angleDifference == 360;
+			//return angleDifference == 360;
+
+			// Changed to this as suggested by Marcel
+			return Math.Abs( angleDifference - 360 ) < Double.Epsilon;
 		}
 
 		#endregion
