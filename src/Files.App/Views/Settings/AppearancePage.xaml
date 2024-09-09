@@ -256,7 +256,7 @@
 				HorizontalAlignment="Stretch"
 				IsExpanded="False">
 				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE91B;" />
+					<PathIcon Data="{StaticResource App.Theme.PathIcon.WebAsset}" />
 				</local:SettingsBlockControl.Icon>
 
 				<local:SettingsBlockControl.ExpandableContent>
