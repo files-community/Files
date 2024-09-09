@@ -15,7 +15,12 @@ namespace Files.App.Controls
 	/// A control for a State and Color aware Icon
 	/// </summary>
 	public partial class ThemedIcon : Control
-	{
+	{		
+		private Viewbox?  _filledViewBox;
+		private Viewbox?  _outlineViewBox;
+		private Viewbox?  _layeredViewBox;
+		private Canvas?   _layeredCanvas;
+
 		public ThemedIcon()
 		{
 			DefaultStyleKey = typeof(ThemedIcon);
@@ -23,13 +28,13 @@ namespace Files.App.Controls
 
 		protected override void OnApplyTemplate()
 		{
-			IsEnabledChanged -= OnIsEnabledChanged;
-
 			base.OnApplyTemplate();
 
 			IsEnabledChanged += OnIsEnabledChanged;
 
 			_isOwnerEnabled = IsEnabled;
+
+			GetTemplateParts();
 
 			FindOwnerControlStates();
 			OnFilledIconChanged();
@@ -40,39 +45,49 @@ namespace Files.App.Controls
 			OnIconColorTypeChanged();
 		}
 
+		private void GetTemplateParts()
+		{
+			// Gets the template parts and sets the private fields
+			_outlineViewBox = GetTemplateChild( OutlinePathIconViewBox ) as Viewbox;
+			_filledViewBox  = GetTemplateChild( FilledPathIconViewBox ) as Viewbox;
+			_layeredViewBox = GetTemplateChild( LayeredPathIconViewBox ) as Viewbox;
+
+			_layeredCanvas = GetTemplateChild( LayeredPathCanvas ) as Canvas;
+		}
+
 		// Updates paths and layers
 
 		private void OnFilledIconChanged()
 		{
 			// Updates Filled Icon from Path Data
-			if (GetTemplateChild(FilledPathIconViewBox) is not Viewbox filledViewBox)
+			if (_filledViewBox == null)
 				return;
 
-			SetPathData(FilledIconPath, FilledIconData ?? string.Empty, filledViewBox);
+			SetPathData(FilledIconPath, FilledIconData ?? string.Empty, _filledViewBox );
 		}
 
 		private void OnOutlineIconChanged()
 		{
 			// Updates Outline Icon from Path Data
-			if (GetTemplateChild(OutlinePathIconViewBox) is not Viewbox outlineViewBox)
+			if (_outlineViewBox == null)
 				return;
 
-			SetPathData(OutlineIconPath, OutlineIconData ?? string.Empty, outlineViewBox);
+			SetPathData(OutlineIconPath, OutlineIconData ?? string.Empty, _outlineViewBox );
 		}
 
 		private void OnLayeredIconChanged()
 		{
 			// Updates Layered Icon from it's Layers
-			if (GetTemplateChild(LayeredPathIconViewBox) is not Viewbox layeredViewBox ||
-				GetTemplateChild(LayeredPathCanvas) is not Canvas canvas ||
-				Layers is not ICollection<ThemedIconLayer> layers)
-				return;
+			if ( _layeredViewBox == null ||
+				 _layeredCanvas == null ||
+				 Layers is not ICollection<ThemedIconLayer> layers)
+				 return;
 
-			canvas.Children.Clear();
+			_layeredCanvas.Children.Clear();
 
 			foreach (var layer in layers)
 			{
-				canvas.Children.Add(
+				_layeredCanvas.Children.Add(
 					new ThemedIconLayer()
 					{
 						LayerType = layer.LayerType,
@@ -180,8 +195,8 @@ namespace Files.App.Controls
 				}
 
 				// Update layered icon color
-				if (GetTemplateChild(LayeredPathCanvas) is Canvas canvas)
-					foreach (var layer in canvas.Children.Cast<ThemedIconLayer>())
+				if (_layeredCanvas != null)
+					foreach (var layer in _layeredCanvas.Children.Cast<ThemedIconLayer>())
 						layer.IconColorType = IconColorType;
 			}
 			else

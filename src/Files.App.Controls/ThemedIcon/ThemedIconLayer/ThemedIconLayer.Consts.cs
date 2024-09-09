@@ -32,8 +32,6 @@ namespace Files.App.Controls
     [TemplateVisualState(Name = CustomColorBGStateName, GroupName = IconLayerColorStateGroupName)]
 
 
-
-
     /// <summary>
     /// Displays a layer of <see cref="ThemedIcon"/> for <see cref="ThemedIconTypes.Layered"/> icon type.
     /// </summary>

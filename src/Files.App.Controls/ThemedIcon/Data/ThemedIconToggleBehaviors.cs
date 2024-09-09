@@ -9,17 +9,17 @@ namespace Files.App.Controls
 	public enum ToggleBehaviors
 	{
 		/// <summary>
-		/// Toggle Behavior type of <see cref="ThemedIcon"/> is Auto.
+		/// Auto enables the ThemedIcon to listen to owner control states.
 		/// </summary>
 		Auto,
 
 		/// <summary>
-		/// Toggle Behavior type of <see cref="ThemedIcon"/> is On.
+		/// On will always use the ThemedIcon's Toggle state
 		/// </summary>
 		On,
 
 		/// <summary>
-		/// Toggle Behavior type of <see cref="ThemedIcon"/> is Off.
+		/// Off will not use the ThemedIcon's Toggle state
 		/// </summary>
 		Off,
 	}
