@@ -1960,7 +1960,7 @@ namespace Files.App.ViewModels
 				watcher.Deleted += DirectoryWatcher_Changed;
 				watcher.Renamed += DirectoryWatcher_Changed;
 				watcher.EnableRaisingEvents = true;
-			});
+			}, App.Logger);
 		}
 
 		private async void DirectoryWatcher_Changed(object sender, FileSystemEventArgs e)
