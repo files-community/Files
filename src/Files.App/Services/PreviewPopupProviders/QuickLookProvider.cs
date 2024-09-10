@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.IO;
 using System.IO.Pipes;
 using System.Security.Principal;
+using System.Text;
 
 namespace Files.App.Services.PreviewPopupProviders
 {
@@ -30,13 +31,14 @@ namespace Files.App.Services.PreviewPopupProviders
 		private async Task DoPreviewAsync(string path, string message)
 		{
 			string pipeName = $"QuickLook.App.Pipe.{WindowsIdentity.GetCurrent().User?.Value}";
+			var encoding = Encoding.GetEncoding("UTF-8", new EncoderReplacementFallback("?"), new DecoderExceptionFallback());
 
 			await using var client = new NamedPipeClientStream(".", pipeName, PipeDirection.Out);
 			try
 			{
 				await client.ConnectAsync(TIMEOUT);
 
-				await using var writer = new StreamWriter(client);
+				await using var writer = new StreamWriter(client, encoding);
 				await writer.WriteLineAsync($"{message}|{path}");
 				await writer.FlushAsync();
 			}
