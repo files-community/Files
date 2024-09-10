@@ -183,8 +183,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref isUncompressedItemSizeVisibile, value);
 		}
 
-		private long itemSizeBytes;
-		public long ItemSizeBytes
+		private double itemSizeBytes;
+		public double ItemSizeBytes
 		{
 			get => itemSizeBytes;
 			set => SetProperty(ref itemSizeBytes, value);
