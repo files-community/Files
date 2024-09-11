@@ -214,6 +214,10 @@ namespace Files.App.Services
 			{
 				Logger?.LogInformation(ex, ex.Message);
 			}
+			catch (IOException ex)
+			{
+				Logger?.LogInformation(ex, ex.Message);
+			}
 			catch (Exception ex)
 			{
 				Logger?.LogError(ex, ex.Message);
