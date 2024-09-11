@@ -483,7 +483,7 @@ namespace Files.App.Data.Commands
 					.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
 					.ToImmutableDictionary(item => item.HotKey, item => item.Command);
 
-				App.Logger.LogWarning(ex, "The app found some keys in different commands are duplicated and are using default key bindings for those commands.");
+				App.Logger.LogInformation(ex, "The app found some keys in different commands are duplicated and are using default key bindings for those commands.");
 			}
 			catch (Exception ex)
 			{
