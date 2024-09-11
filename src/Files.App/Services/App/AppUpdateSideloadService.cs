@@ -202,13 +202,17 @@ namespace Files.App.Services
 				timer.Stop();
 				var timespan = timer.Elapsed;
 
-				Logger?.LogInformation($"Download time taken: {timespan.Hours:00}:{timespan.Minutes:00}:{timespan.Seconds:00}");
+				App.Logger.LogInformation($"Download time taken: {timespan.Hours:00}:{timespan.Minutes:00}:{timespan.Seconds:00}");
 
 				IsUpdateAvailable = true;
 			}
-			catch (Exception e)
+			catch (HttpIOException ex)
 			{
-				Logger?.LogError(e, e.Message);
+				App.Logger.LogInformation(ex, ex.Message);
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogError(ex, ex.Message);
 			}
 		}
 
