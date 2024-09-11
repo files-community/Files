@@ -647,7 +647,7 @@ namespace Files.App.Utils.Git
 			if (string.IsNullOrEmpty(repositoryRootPath))
 				return false;
 
-			if (!IsRepoValid(repositoryRootPath))
+			if (IsRepoValid(repositoryRootPath))
 			{
 				repoRootPath = repositoryRootPath;
 				return true;
