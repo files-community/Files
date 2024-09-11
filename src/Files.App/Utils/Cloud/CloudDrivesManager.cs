@@ -55,6 +55,10 @@ namespace Files.App.Utils.Cloud
 				{
 					_logger?.LogInformation(ex, "Cloud provider local folder couldn't be found");
 				}
+				catch (UnauthorizedAccessException ex)
+				{
+					_logger?.LogInformation(ex, " Cannot access the  cloud location");
+				}
 				catch (Exception ex)
 				{
 					_logger?.LogWarning(ex, "Cloud provider local folder couldn't be found");
