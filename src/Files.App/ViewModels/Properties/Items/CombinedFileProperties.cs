@@ -28,8 +28,8 @@ namespace Files.App.ViewModels.Properties
 
 				var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
 
-				var latitude = list.Find(x => x.Property == "System.GPS.LatitudeDecimal")?.Value as double;
-				var longitude = list.Find(x => x.Property == "System.GPS.LongitudeDecimal")?.Value as double;
+				var latitude = list.Find(x => x.Property == "System.GPS.LatitudeDecimal")?.Value as double?;
+				var longitude = list.Find(x => x.Property == "System.GPS.LongitudeDecimal")?.Value as double?;
 				var addressItem = list.Find(x => x.ID == "address");
 
 				if (latitude.HasValue && longitude.HasValue && addressItem != null)
