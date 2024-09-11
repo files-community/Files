@@ -759,6 +759,11 @@ namespace Files.App.Utils.Storage
 					});
 				}
 			}
+			catch (UnauthorizedAccessException ex)
+			{
+				// Could not create shortcut
+				App.Logger.LogInformation(ex, ex.Message);
+			}
 			catch (Exception ex)
 			{
 				// Could not create shortcut
