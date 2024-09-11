@@ -703,7 +703,7 @@ namespace Files.App.Views.Layouts
 			if (isSizeKnown)
 			{
 				decimal size = items.Sum(item => item.FileSizeBytes);
-				SelectedItemsPropertiesViewModel.ItemSizeBytes = (double)size;
+				SelectedItemsPropertiesViewModel.ItemSizeBytes = size;
 				SelectedItemsPropertiesViewModel.ItemSize = size.ToSizeString();
 			}
 			else
