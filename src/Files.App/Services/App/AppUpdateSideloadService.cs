@@ -138,9 +138,13 @@ namespace Files.App.Services
 					Logger?.LogWarning("SIDELOAD: Update not found.");
 				}
 			}
-			catch (Exception e)
+			catch (HttpRequestException ex)
 			{
-				Logger?.LogError(e, e.Message);
+				Logger?.LogInformation(ex, ex.Message);
+			}
+			catch (Exception ex)
+			{
+				Logger?.LogError(ex, ex.Message);
 			}
 		}
 
@@ -171,7 +175,7 @@ namespace Files.App.Services
 					await srcExeFile.CopyAsync(destFolder, "Files.App.Launcher.exe", NameCollisionOption.ReplaceExisting);
 					await srcHashFile.CopyAsync(destFolder, "Files.App.Launcher.exe.sha256", NameCollisionOption.ReplaceExisting);
 
-					App.Logger.LogInformation("Files.App.Launcher updated.");
+					Logger?.LogInformation("Files.App.Launcher updated.");
 				}
 			}
 
@@ -202,17 +206,17 @@ namespace Files.App.Services
 				timer.Stop();
 				var timespan = timer.Elapsed;
 
-				App.Logger.LogInformation($"Download time taken: {timespan.Hours:00}:{timespan.Minutes:00}:{timespan.Seconds:00}");
+				Logger?.LogInformation($"Download time taken: {timespan.Hours:00}:{timespan.Minutes:00}:{timespan.Seconds:00}");
 
 				IsUpdateAvailable = true;
 			}
 			catch (HttpIOException ex)
 			{
-				App.Logger.LogInformation(ex, ex.Message);
+				Logger?.LogInformation(ex, ex.Message);
 			}
 			catch (Exception ex)
 			{
-				App.Logger.LogError(ex, ex.Message);
+				Logger?.LogError(ex, ex.Message);
 			}
 		}
 
