@@ -3152,7 +3152,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Material Fundal</value>
+    <value>Fundal</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Solid</value>
@@ -3881,8 +3881,8 @@
     <value>Statut:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Arătați Bara cu Instrumente</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <value>Afișați bara de instrumente</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Meniu acțiuni filă</value>
@@ -3936,9 +3936,12 @@
     <value>Fire CPU</value>
   </data>
   <data name="NavigateHomeDescription" xml:space="preserve">
-    <value>Navigate to the home page</value>
+    <value>Navigați spre pagina principală</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Show home button in the toolbar</value>
+    <value>Afișați Pagina Principală în bara de adresă</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Bare de Instrumente</value>
   </data>
 </root>
