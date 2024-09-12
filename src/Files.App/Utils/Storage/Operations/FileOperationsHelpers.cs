@@ -762,7 +762,7 @@ namespace Files.App.Utils.Storage
 			catch (UnauthorizedAccessException ex)
 			{
 				// Could not create shortcut
-				App.Logger.LogInformation(ex, ex.Message);
+				App.Logger.LogInformation(ex, "Failed to create shortcut");
 			}
 			catch (Exception ex)
 			{

@@ -53,11 +53,11 @@ namespace Files.App.Utils.Cloud
 				}
 				catch (FileNotFoundException ex)
 				{
-					_logger?.LogInformation(ex, "Cloud provider local folder couldn't be found");
+					_logger?.LogInformation(ex, "Failed to find the local folder");
 				}
 				catch (UnauthorizedAccessException ex)
 				{
-					_logger?.LogInformation(ex, " Cannot access the  cloud location");
+					_logger?.LogInformation(ex, " Failed to access the cloud location");
 				}
 				catch (Exception ex)
 				{
