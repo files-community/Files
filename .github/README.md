@@ -30,7 +30,7 @@ You can also use the preview version alongside the stable release to get early a
   </picture></a>
   &ensp;
   <!-- Classic Installer Badge -->
-  <a style="text-decoration:none" href="https://cdn.files.community/files/download/Files.Stable.exe">
+  <a style="text-decoration:none" href="https://files.community/appinstallers/Files.stable.appinstaller">
     <picture>
       <source media="(prefers-color-scheme: light)" srcset="./assets/ClassicInstallerBadge-dark.png" width="220" />
       <img src="./assets/ClassicInstallerBadge-light.png" width="220" />
