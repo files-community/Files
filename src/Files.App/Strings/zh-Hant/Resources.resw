@@ -340,7 +340,7 @@
     <value>設為鎖定畫面背景</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>設置為應用程式背景</value>
+    <value>設定為應用程式背景</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>無法刪除此檔案</value>
@@ -421,7 +421,7 @@
     <value>{0} 秒前</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>立刻</value>
+    <value>剛剛</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>尚不支援此操作</value>
@@ -1071,10 +1071,10 @@
     <value>開啟/關閉預覽畫面</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>切換詳細資料預覽畫面</value>
+    <value>開啟/關閉詳細資料預覽畫面</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>切換到詳細資料視窗以查看檔案的基本內容</value>
+    <value>開啟/關閉詳細資料視窗以查看檔案的基本內容</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
     <value>切換詳細資料視窗</value>
@@ -1371,7 +1371,7 @@
     <value>去年</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>年 {0}</value>
+    <value>{0} 年</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} 個項目</value>
@@ -2172,13 +2172,13 @@
     <value>建立捷徑</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>“最近使用的檔案”已在 Windows 檔案總管中停用。</value>
+    <value>「最近使用的檔案」已在 Windows 檔案總管中停用。</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
     <value>編輯設定檔</value>
   </data>
   <data name="WhatsNew" xml:space="preserve">
-    <value>什麼是新的</value>
+    <value>有什麼新消息？</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>在此位置建立捷徑需要系統管理員權限</value>
@@ -2265,7 +2265,7 @@
     <value>顯示隱藏項目</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>格式...</value>
+    <value>格式化...</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>幫助</value>
@@ -2304,13 +2304,13 @@
     <value>重新排列側邊欄項目</value>
   </data>
   <data name="Hashes" xml:space="preserve">
-    <value>哈希值</value>
+    <value>雜湊值</value>
   </data>
   <data name="CalculationError" xml:space="preserve">
     <value>在計算時發生錯誤</value>
   </data>
   <data name="CalculationErrorFileIsOpen" xml:space="preserve">
-    <value>計算哈希值失敗，請關閉該檔案並重試。</value>
+    <value>計算雜湊值失敗，請關閉該檔案並重試。</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>無法檢視線上檔案的雜湊值</value>
@@ -2319,7 +2319,7 @@
     <value>演算法</value>
   </data>
   <data name="HashValue" xml:space="preserve">
-    <value>哈希值</value>
+    <value>雜湊值</value>
   </data>
   <data name="SelectHashesToShow" xml:space="preserve">
     <value>選擇要顯示的雜湊值</value>
@@ -2328,7 +2328,7 @@
     <value>計算中…</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
-    <value>固定項目</value>
+    <value>釘選項目</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
     <value>縮小</value>
@@ -2382,7 +2382,7 @@
     <value>切換是否顯示檔案副檔名</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>切換預覽視窗以查看文件預覽</value>
+    <value>開啟/關閉預覽視窗以查看文件預覽</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>切換是否顯示側邊攔</value>
@@ -2400,7 +2400,7 @@
     <value>剪下項目到剪貼簿</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>從剪貼簿貼上項目到目前資料夾</value>
+    <value>從剪貼簿貼上項目到所在資料夾</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>從剪貼簿貼上項目到所選資料夾</value>
@@ -2421,7 +2421,7 @@
     <value>清理資源回收筒</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>開啟 "格式化磁碟" 選項於選擇項目</value>
+    <value>開啟「格式化磁碟」選單於所選項目</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
     <value>從資源回收桶還原選擇項目</value>
@@ -2454,7 +2454,7 @@
     <value>清除選取</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>切換選取</value>
+    <value>選取/取消選取所選定的項目</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
     <value>分享選取的項目</value>
@@ -2475,7 +2475,7 @@
     <value>設成桌面背景</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
-    <value>將選取的圖面設定為桌面幻燈片秀</value>
+    <value>將選取的圖片設定為桌面幻燈片秀</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>設成鎖定畫面背景</value>
@@ -2493,34 +2493,34 @@
     <value>安裝選取的憑證</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>以系統管理員身分執行選擇的應用程式</value>
+    <value>以系統管理員身分執行選取的應用程式</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>以不同的使用者身分執行選擇的應用程式</value>
+    <value>以不同的使用者身分執行選取的應用程式</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
-    <value>執行PowerShell腳本</value>
+    <value>執行選取的 PowerShell 腳本</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
     <value>在跳出視窗中開啟預覽</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>使用所選的項目建立檔案</value>
+    <value>使用選取的項目建立壓縮檔案</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>使用所選的項目建立7z壓縮檔</value>
+    <value>使用選取的項目建立 7z 壓縮檔案</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>使用所選的項目建立zip壓縮檔</value>
+    <value>使用選取的項目建立 zip 壓縮檔案</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>將所選的壓縮文件解壓至文件夾</value>
+    <value>將選取的壓縮檔案解壓至任意資料夾</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>將所選的壓縮文件解壓至當前文件夾</value>
+    <value>將選取的壓縮檔案解壓至當前資料夾</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>將所選的壓縮文件解壓至新建文件夾</value>
+    <value>將選取的壓縮檔案解壓至新建資料夾</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>向左旋轉所選圖像</value>
@@ -2893,7 +2893,7 @@
     <value>變更</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>切換選擇</value>
+    <value>選取/取消選取</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>修改副檔名時顯示警告</value>
@@ -3152,7 +3152,7 @@
     <value>Mica 替代</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>背景材質</value>
+    <value>Backdrop</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>純色</value>
@@ -3613,7 +3613,7 @@
     <value>登入</value>
   </data>
   <data name="ErrorApplyingTagContent" xml:space="preserve">
-    <value>標籤目前只相容 NTFS格式的磁碟機。</value>
+    <value>標籤目前只相容 NTFS 格式的磁碟機。</value>
   </data>
   <data name="ErrorApplyingTagTitle" xml:space="preserve">
     <value>套用此標籤時發生錯誤</value>
@@ -3882,7 +3882,7 @@
   </data>
   <data name="ShowToolbar" xml:space="preserve">
     <value>顯示工具欄</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>索引標籤功能表</value>
@@ -3939,6 +3939,9 @@
     <value>前往首頁</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>在工具欄顯示首頁鍵</value>
+    <value>在路徑欄顯示首頁鍵</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>工具欄</value>
   </data>
 </root>
