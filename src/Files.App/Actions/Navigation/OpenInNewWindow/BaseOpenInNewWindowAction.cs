@@ -50,7 +50,7 @@ namespace Files.App.Actions
 			foreach (ListedItem listedItem in items)
 			{
 				var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
-				var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
+				var folderUri = new Uri($"files-dev:?folder={@selectedItemPath}");
 
 				await Launcher.LaunchUriAsync(folderUri);
 			}
