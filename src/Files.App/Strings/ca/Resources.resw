@@ -3152,7 +3152,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Material de fons</value>
+    <value>Teló de fons</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Sòlid</value>
@@ -3882,7 +3882,7 @@
   </data>
   <data name="ShowToolbar" xml:space="preserve">
     <value>Mostra la barra d'eines</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Menú d'accions de la pestanya</value>
@@ -3939,6 +3939,9 @@
     <value>Aneu a la pàgina d'inici</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Mostra el botó d'inici a la barra d'eines</value>
+    <value>Mostra l'Inici a la barra d'adreces</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Barra d'eines</value>
   </data>
 </root>

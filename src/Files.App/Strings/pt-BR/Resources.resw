@@ -3152,7 +3152,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Material de Background</value>
+    <value>Fundo</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Sólido</value>
@@ -3881,8 +3881,8 @@
     <value>Status:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Mostrar Barra de Ferramentas</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <value>Mostrar barra de ferramentas</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Menu de ações de aba</value>
@@ -3939,6 +3939,9 @@
     <value>Navegar para a página inicial</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Mostrar botão de início na barra de ferramentas</value>
+    <value>Mostrar tela inicial na barra de endereços</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Barras de ferramentas</value>
   </data>
 </root>

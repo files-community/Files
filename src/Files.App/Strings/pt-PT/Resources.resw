@@ -1854,7 +1854,7 @@
     <value>Esta opção modifica o registo do sistema e pode ter efeitos inesperados no seu dispositivo. Continue por sua conta e risco.</value>
   </data>
   <data name="ShowFlattenOptionsDescription" xml:space="preserve">
-    <value>The flatten operations are permanent and not recommended. Continue at your own risk.</value>
+    <value>Estas operações são permanentes e não recomendamos a sua utilização. Continue por sua conta e risco.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Criar biblioteca</value>
@@ -2031,7 +2031,7 @@
     <value>Comprimir</value>
   </data>
   <data name="FlattenFolderDescription" xml:space="preserve">
-    <value>Move all contents from subfolders into the selected location</value>
+    <value>Mover todo o conteúdo das sub-pastas para a localização especificada</value>
   </data>
   <data name="FlattenFolder" xml:space="preserve">
     <value>Flatten folder</value>
@@ -3152,7 +3152,7 @@
     <value>Mica alternativo</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Backdrop Material</value>
+    <value>Tema de fundo</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Sólido</value>
@@ -3882,7 +3882,7 @@
   </data>
   <data name="ShowToolbar" xml:space="preserve">
     <value>Mostrar barra de ferramentas</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Menu de ações em separadores</value>
@@ -3939,6 +3939,9 @@
     <value>Ir para a página inicial</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Mostrar botão "Início" na barra de ferramentas</value>
+    <value>Mostrar botão Início na barra de endereços</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Barras de ferramentas</value>
   </data>
 </root>

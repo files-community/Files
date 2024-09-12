@@ -3152,7 +3152,7 @@
     <value>Alt. Mica</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Materiál pozadí</value>
+    <value>Backdrop</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Plná barva</value>
@@ -3881,8 +3881,8 @@
     <value>Stav:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Zobrazit panel nástrojů</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <value>Show toolbar</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Nabídka akcí</value>
@@ -3939,6 +3939,9 @@
     <value>Přejít na domovskou stránku</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Zobrazit tlačítko Domů v panelu nástrojů</value>
+    <value>Show Home in address bar</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Toolbars</value>
   </data>
 </root>
