@@ -3152,7 +3152,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Achtergrond materiaal</value>
+    <value>Backdrop</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Effen</value>
@@ -3881,8 +3881,8 @@
     <value>Status:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Werkbalk weergeven</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <value>Show toolbar</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Tabblad acties-menu</value>
@@ -3939,6 +3939,9 @@
     <value>Navigate to the home page</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Show home button in the toolbar</value>
+    <value>Show Home in address bar</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Toolbars</value>
   </data>
 </root>
