@@ -140,7 +140,7 @@ namespace Files.App.Services
 			}
 			catch (HttpRequestException ex)
 			{
-				Logger?.LogInformation(ex, ex.Message);
+				Logger?.LogDebug(ex, ex.Message);
 			}
 			catch (Exception ex)
 			{
@@ -212,11 +212,11 @@ namespace Files.App.Services
 			}
 			catch (HttpIOException ex)
 			{
-				Logger?.LogInformation(ex, ex.Message);
+				Logger?.LogDebug(ex, ex.Message);
 			}
 			catch (IOException ex)
 			{
-				Logger?.LogInformation(ex, ex.Message);
+				Logger?.LogDebug(ex, ex.Message);
 			}
 			catch (Exception ex)
 			{
