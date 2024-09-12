@@ -3152,7 +3152,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Материал фона</value>
+    <value>Фон</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Сплошной</value>
@@ -3881,8 +3881,8 @@
     <value>Статус:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Показывать панель инструментов</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <value>Показать панель инструментов</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Меню действий вкладки</value>
@@ -3936,9 +3936,12 @@
     <value>Потоки процессора</value>
   </data>
   <data name="NavigateHomeDescription" xml:space="preserve">
-    <value>Navigate to the home page</value>
+    <value>Перейти на главную страницу</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Show home button in the toolbar</value>
+    <value>Показывать Главную в адресной строке</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Панели инструментов</value>
   </data>
 </root>
