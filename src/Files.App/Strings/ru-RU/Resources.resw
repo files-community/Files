@@ -1854,7 +1854,7 @@
     <value>Этот параметр изменяет реестр Windows и может иметь неожиданные побочные эффекты на вашем устройстве. Продолжайте на свой страх и риск.</value>
   </data>
   <data name="ShowFlattenOptionsDescription" xml:space="preserve">
-    <value>Операции с выравниванием структуры являются постоянными и не рекомендуются. Продолжайте на свой страх и риск.</value>
+    <value>Операции с выравниванием структуры являются постоянными и не рекомендуются. Активируйте на свой страх и риск.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Создать Библиотеку</value>
@@ -2199,7 +2199,7 @@
     <value>Показать ещё</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Показывать опцию редактирования меток</value>
+    <value>Показать опцию редактирования меток</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
     <value>Показать опции сжатия</value>
@@ -2208,10 +2208,10 @@
     <value>Показать опцию отправить</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Показывать опцию открытия папок в новой вкладке</value>
+    <value>Показать опцию открытия папок в новой вкладке</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Показывать опцию открытия папок в новом окне</value>
+    <value>Показать опцию открытия папок в новом окне</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>Быстрый доступ</value>
@@ -3939,7 +3939,7 @@
     <value>Перейти на главную страницу</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Показывать Главную в адресной строке</value>
+    <value>Показать кнопку Главной в адресной строке</value>
   </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Панели инструментов</value>
