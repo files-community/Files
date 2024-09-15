@@ -63,6 +63,7 @@ namespace Files.App.UserControls.Menus
 			// go through each tag and find the common one for all files
 			var commonFileTags = SelectedItems
 				.Select(x => x?.FileTags ?? Enumerable.Empty<string>())
+				.DefaultIfEmpty(Enumerable.Empty<string>())
 				.Aggregate((x, y) => x.Intersect(y))
 				.Select(x => Items.FirstOrDefault(y => x == ((TagViewModel)y.Tag)?.Uid));
 
