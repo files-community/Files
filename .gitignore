@@ -7,9 +7,6 @@
 Files.App.OpenDialog*.dll
 Files.App.SaveDialog*.dll
 Files.App.Launcher.exe
-CustomOpenDialog*.dll
-CustomSaveDialog*.dll
-FilesLauncher.exe
 Files.Extensions/nul
 
 # User-specific files
