@@ -3152,7 +3152,7 @@
     <value>Mica 替代</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Backdrop</value>
+    <value>背景質感</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>純色</value>
@@ -3888,28 +3888,28 @@
     <value>索引標籤功能表</value>
   </data>
   <data name="AddVerticalPane" xml:space="preserve">
-    <value>新增垂直分割畫面</value>
+    <value>新增上下分割畫面</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>將畫面垂直分割出一個視窗</value>
+    <value>將畫面分割成上、下視窗</value>
   </data>
   <data name="AddHorizontalPane" xml:space="preserve">
-    <value>新增水平分割畫面</value>
+    <value>新增左右分割畫面</value>
   </data>
   <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>將畫面水平分割出一個視窗</value>
+    <value>將畫面分割成左、右視窗</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
-    <value>調整為垂直模式</value>
+    <value>調整為上下分割模式</value>
   </data>
   <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
-    <value>垂直分割畫面</value>
+    <value>上下分割畫面</value>
   </data>
   <data name="ArrangePanesHorizontally" xml:space="preserve">
-    <value>調整為水平模式</value>
+    <value>調整為左右分割模式</value>
   </data>
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
-    <value>水平分割畫面</value>
+    <value>左右分割畫面</value>
   </data>
   <data name="AddPane" xml:space="preserve">
     <value>開啟分割畫面</value>
@@ -3924,10 +3924,10 @@
     <value>預設分割畫面排列方式</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
-    <value>水平</value>
+    <value>左右排列</value>
   </data>
   <data name="Vertical" xml:space="preserve">
-    <value>垂直</value>
+    <value>上下分割</value>
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>在系統匣顯示 Files 圖示</value>
