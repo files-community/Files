@@ -210,10 +210,6 @@ namespace Files.App.Services
 
 				IsUpdateAvailable = true;
 			}
-			catch (HttpIOException ex)
-			{
-				Logger?.LogDebug(ex, ex.Message);
-			}
 			catch (IOException ex)
 			{
 				Logger?.LogDebug(ex, ex.Message);
