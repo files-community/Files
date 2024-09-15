@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) 2018-2024 Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Windowing;
@@ -106,7 +106,6 @@ namespace Files.App.Data.Items
 			_oldWndProc = Marshal.GetDelegateForFunctionPointer<WNDPROC>(pOldWndProc);
 
 			Closed += WindowEx_Closed;
-			Activated += WindowEx_Activated; ;
 		}
 
 		private unsafe void StoreWindowPlacementData()
@@ -298,16 +297,9 @@ namespace Files.App.Data.Items
 			StoreWindowPlacementData();
 		}
 
-		private void WindowEx_Activated(object sender, WindowActivatedEventArgs args)
-		{
-			if (AppLifecycleHelper.IsLaunchInitialized && SystemBackdrop is AppSystemBackdrop appSystemBackdrop)
-				appSystemBackdrop.SystemBackdropConfiguration.IsInputActive = args.WindowActivationState is not WindowActivationState.Deactivated;
-		}
-
 		public void Dispose()
 		{
 			Closed -= WindowEx_Closed;
-			Activated -= WindowEx_Activated;
 		}
 	}
 }

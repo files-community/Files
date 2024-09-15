@@ -3152,7 +3152,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Kết cấu nền</value>
+    <value>Nền</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Màu đơn</value>
@@ -3882,7 +3882,7 @@
   </data>
   <data name="ShowToolbar" xml:space="preserve">
     <value>Hiện thanh công cụ</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Menu tác vụ</value>
@@ -3939,6 +3939,9 @@
     <value>Điều hướng về trang chủ</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Hiện nút trang chủ trên thanh công cụ</value>
+    <value>Hiện nút trang chủ trên thanh địa chỉ</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Thanh công cụ</value>
   </data>
 </root>

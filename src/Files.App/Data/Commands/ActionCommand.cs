@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) 2018-2024 Files Community
+// Licensed under the MIT License.
 
 using Sentry;
 using Files.App.Actions;
@@ -145,7 +145,8 @@ namespace Files.App.Data.Commands
 		{
 			if (IsExecutable)
 			{
-				SentrySdk.Metrics.Increment("actions", tags: new Dictionary<string, string> { { "command", Code.ToString() } });
+				// Re-enable when Metris feature is available again
+				// SentrySdk.Metrics.Increment("actions", tags: new Dictionary<string, string> { { "command", Code.ToString() } });
 				return Action.ExecuteAsync(parameter);
 			}
 

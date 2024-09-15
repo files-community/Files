@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) 2018-2024 Files Community
+// Licensed under the MIT License.
 
 using Files.App.Services.SizeProvider;
 using Files.Shared.Helpers;
@@ -1943,7 +1943,11 @@ namespace Files.App.ViewModels
 
 		private void WatchForWin32FolderChanges(string? folderPath)
 		{
-			if (Directory.Exists(folderPath))
+			if (!Directory.Exists(folderPath))
+				return;
+
+			// NOTE: Suppressed NullReferenceException caused by EnableRaisingEvents
+			SafetyExtensions.IgnoreExceptions(() =>
 			{
 				watcher = new FileSystemWatcher
 				{
@@ -1956,7 +1960,7 @@ namespace Files.App.ViewModels
 				watcher.Deleted += DirectoryWatcher_Changed;
 				watcher.Renamed += DirectoryWatcher_Changed;
 				watcher.EnableRaisingEvents = true;
-			}
+			}, App.Logger);
 		}
 
 		private async void DirectoryWatcher_Changed(object sender, FileSystemEventArgs e)

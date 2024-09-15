@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) 2018-2024 Files Community
+// Licensed under the MIT License.
 
 using Files.App.ViewModels.Properties;
 using Files.Shared.Helpers;
@@ -183,8 +183,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref isUncompressedItemSizeVisibile, value);
 		}
 
-		private long itemSizeBytes;
-		public long ItemSizeBytes
+		private decimal itemSizeBytes;
+		public decimal ItemSizeBytes
 		{
 			get => itemSizeBytes;
 			set => SetProperty(ref itemSizeBytes, value);

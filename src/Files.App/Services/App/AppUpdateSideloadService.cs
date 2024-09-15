@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) 2018-2024 Files Community
+// Licensed under the MIT License.
 
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.Logging;
@@ -140,8 +140,7 @@ namespace Files.App.Services
 			}
 			catch (Exception e)
 			{
-				// It seems that the logger may throw an exception, so we need to ignore it. (#15688)
-				SafetyExtensions.IgnoreExceptions(() => Logger?.LogError(e, e.Message));
+				Logger?.LogError(e, e.Message);
 			}
 		}
 

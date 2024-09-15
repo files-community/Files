@@ -1,5 +1,5 @@
-﻿// Copyright(c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright(c) Copyright (c) 2018-2024 Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Dispatching;
 
@@ -17,7 +17,8 @@ namespace Files.App.ViewModels.Properties
 
 		public async Task GetSystemFilePropertiesAsync()
 		{
-			var queries = await Task.WhenAll(List.AsParallel().Select(async item => {
+			var queries = await Task.WhenAll(List.AsParallel().Select(async item =>
+			{
 				BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath));
 				if (file is null)
 				{
@@ -27,10 +28,13 @@ namespace Files.App.ViewModels.Properties
 
 				var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
 
-				list.Find(x => x.ID == "address").Value =
-					await LocationHelpers.GetAddressFromCoordinatesAsync((double?)list.Find(
-						x => x.Property == "System.GPS.LatitudeDecimal").Value,
-						(double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+				var latitude = list.Find(x => x.Property == "System.GPS.LatitudeDecimal")?.Value as double?;
+				var longitude = list.Find(x => x.Property == "System.GPS.LongitudeDecimal")?.Value as double?;
+				var addressItem = list.Find(x => x.ID == "address");
+
+				if (latitude.HasValue && longitude.HasValue && addressItem != null)
+					addressItem.Value = await LocationHelpers.GetAddressFromCoordinatesAsync(latitude.Value, longitude.Value);
+
 
 				return list
 					.Where(fileProp => !(fileProp.Value is null && fileProp.IsReadOnly))

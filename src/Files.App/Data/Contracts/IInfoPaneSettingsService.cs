@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) 2018-2024 Files Community
+// Licensed under the MIT License.
 
 using System.ComponentModel;
 
@@ -10,7 +10,7 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// Gets or sets a value indicating if the preview pane is enabled.
 		/// </summary>
-		bool IsEnabled { get; set; }
+		bool IsInfoPaneEnabled { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating the height of the pane in a horizontal layout.

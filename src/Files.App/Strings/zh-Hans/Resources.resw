@@ -618,7 +618,7 @@
     <value>一些设置需要重新启动 Files 才会应用，是否立即重启？</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>在 GitHub 上白嫖我们</value>
+    <value>在 GitHub 上赞助我们</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>无法创建此项</value>
@@ -1854,7 +1854,7 @@
     <value>此选项会修改系统注册表，并可能对你的设备产生意想不到的副作用。 继续即代表您自行承担风险。</value>
   </data>
   <data name="ShowFlattenOptionsDescription" xml:space="preserve">
-    <value>合并操作是永久性的，不推荐使用。请自行承担使用风险。</value>
+    <value>展平 (Flatten) 操作是永久性的，不推荐使用。请自行承担使用风险。</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>创建库</value>
@@ -2031,19 +2031,19 @@
     <value>压缩</value>
   </data>
   <data name="FlattenFolderDescription" xml:space="preserve">
-    <value>将所有项目从子文件夹移动到选定位置</value>
+    <value>将子文件夹中的全部项目移动到选定位置</value>
   </data>
   <data name="FlattenFolder" xml:space="preserve">
-    <value>合并文件夹</value>
+    <value>展平文件夹</value>
   </data>
   <data name="Flatten" xml:space="preserve">
-    <value>合并</value>
+    <value>展平</value>
   </data>
   <data name="FlattenFolderDialogContent" xml:space="preserve">
-    <value>合并文件夹将把所有项目从子文件夹移动到选定位置。此操作是永久性的，不可撤消。 使用此实验性功能表示您知晓风险且Files团队不对任何数据丢失负责。</value>
+    <value>展平 (Flatten) 文件夹将把该文件夹的子文件夹中的所有项目统一放置到选定目录下。此操作是永久性的，不可撤消。 使用此实验性功能，即表示您知晓风险且 Files 团队不对任何数据丢失负责。</value>
   </data>
   <data name="ShowFlattenOptions" xml:space="preserve">
-    <value>显示更多选项</value>
+    <value>显示展平选项</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>鼠标悬停在项目上时自动选择</value>
@@ -3679,7 +3679,7 @@
     <value>Files 仍在后台运行，这可以使其更快启动。</value>
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
-    <value>？？？Files咋没了？</value>
+    <value>Files 到哪里去了？</value>
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>问题和讨论</value>
@@ -3882,7 +3882,7 @@
   </data>
   <data name="ShowToolbar" xml:space="preserve">
     <value>显示工具栏</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>标签操作菜单</value>
@@ -3939,6 +3939,9 @@
     <value>返回主页</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>在工具栏中显示主页按钮</value>
+    <value>在地址栏中显示“主页”按钮</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>工具栏</value>
   </data>
 </root>

@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) 2018-2024 Files Community
+// Licensed under the MIT License.
 
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
@@ -144,18 +144,12 @@ namespace Files.App.Utils.Cloud
 			using var googleDriveRegKey = Registry.CurrentUser.OpenSubKey(_googleDriveRegKeyName);
 
 			if (googleDriveRegKey is null)
-			{
-				_logger.LogWarning($"Google Drive registry key for key name '{_googleDriveRegKeyName}' not found.");
 				return null;
-			}
 
 			var googleDriveRegVal = googleDriveRegKey.GetValue(_googleDriveRegValName);
 
 			if (googleDriveRegVal is null)
-			{
-				_logger.LogWarning($"Google Drive registry value for value name '{_googleDriveRegValName}' not found.");
 				return null;
-			}
 
 			JsonDocument? googleDriveRegValueJson = null;
 			try

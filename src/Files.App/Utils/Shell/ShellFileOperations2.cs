@@ -11,7 +11,7 @@ namespace Vanara.Windows.Shell;
 public class ShellFileOperations2 : IDisposable
 {
 	private const OperationFlags defaultOptions = OperationFlags.AllowUndo | OperationFlags.NoConfirmMkDir;
-	private bool disposedValue = false;
+	private int disposedValue = 0;
 	private IFileOperation op;
 	private OperationFlags opFlags = defaultOptions;
 	private HWND owner;
@@ -569,7 +569,7 @@ public class ShellFileOperations2 : IDisposable
 	/// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
 	protected virtual void Dispose(bool disposing)
 	{
-		if (!disposedValue)
+		if (Interlocked.CompareExchange(ref disposedValue, 1, 0) == 0)
 		{
 			if (disposing)
 			{
@@ -582,7 +582,6 @@ public class ShellFileOperations2 : IDisposable
 			}
 
 			op = null;
-			disposedValue = true;
 		}
 	}
 

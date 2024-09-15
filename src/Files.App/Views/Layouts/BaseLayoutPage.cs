@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) 2018-2024 Files Community
+// Licensed under the MIT License.
 
 using CommunityToolkit.WinUI.UI;
 using Files.App.Controls;
@@ -702,7 +702,7 @@ namespace Files.App.Views.Layouts
 			var isSizeKnown = !items.Any(item => string.IsNullOrEmpty(item.FileSize));
 			if (isSizeKnown)
 			{
-				long size = items.Sum(item => item.FileSizeBytes);
+				decimal size = items.Sum(item => item.FileSizeBytes);
 				SelectedItemsPropertiesViewModel.ItemSizeBytes = size;
 				SelectedItemsPropertiesViewModel.ItemSize = size.ToSizeString();
 			}

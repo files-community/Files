@@ -3152,7 +3152,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Material de fondo</value>
+    <value>Telón de fondo</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Sólido</value>
@@ -3882,7 +3882,7 @@
   </data>
   <data name="ShowToolbar" xml:space="preserve">
     <value>Mostrar barra de herramientas</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Menú de acciones de pestaña</value>
@@ -3915,7 +3915,7 @@
     <value>Agregar panel</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
-    <value>Mostrar botón de acciones de pestaña en la barra de títulos</value>
+    <value>Mostrar botón de acciones de pestaña en la barra de pestañas</value>
   </data>
   <data name="ArrangePanes" xml:space="preserve">
     <value>Organizar paneles</value>
@@ -3939,6 +3939,9 @@
     <value>Ir a la página de inicio</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Mostrar botón de inicio en la barra de herramientas</value>
+    <value>Mostrar Inicio en la barra de direcciones</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Barra de herramientas</value>
   </data>
 </root>

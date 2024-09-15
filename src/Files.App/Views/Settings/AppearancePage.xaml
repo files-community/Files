@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) 2018-2024 Files Community. Licensed under the MIT License.  -->
 <Page
 	x:Class="Files.App.Views.Settings.AppearancePage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -250,27 +250,35 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
-			<!--  Show home button  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowHomeButton}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
-					<FontIcon Glyph="&#xE80F;" />
-				</local:SettingsBlockControl.Icon>
-				<ToggleSwitch
-					AutomationProperties.AutomationControlType="Custom"
-					AutomationProperties.Name="{helpers:ResourceString Name=ShowHomeButton}"
-					IsOn="{x:Bind ViewModel.ShowHomeButton, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</local:SettingsBlockControl>
-
-			<!--  Show toolbar  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowToolbar}" HorizontalAlignment="Stretch">
+			<!--  Toolbar  -->
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=Toolbars}"
+				HorizontalAlignment="Stretch"
+				IsExpanded="False">
 				<local:SettingsBlockControl.Icon>
 					<PathIcon Data="{StaticResource App.Theme.PathIcon.WebAsset}" />
 				</local:SettingsBlockControl.Icon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=ShowToolbar}"
-					IsOn="{x:Bind ViewModel.ShowToolbar, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+
+				<local:SettingsBlockControl.ExpandableContent>
+					<StackPanel>
+						<!--  Show home button  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowHomeButton}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.AutomationControlType="Custom"
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowHomeButton}"
+								IsOn="{x:Bind ViewModel.ShowHomeButton, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
+						<!--  Show toolbar  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowToolbar}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowToolbar}"
+								IsOn="{x:Bind ViewModel.ShowToolbar, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+					</StackPanel>
+				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 		</StackPanel>
 	</Grid>

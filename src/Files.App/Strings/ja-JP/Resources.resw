@@ -1854,7 +1854,7 @@
     <value>この設定はシステムのレジストリを変更し、デバイスに思わぬ結果をもたらす可能性があります。問題が発生しても開発者は責任を負いません。</value>
   </data>
   <data name="ShowFlattenOptionsDescription" xml:space="preserve">
-    <value>フラット化の操作は恒久的で推奨されません。ご自身の責任で続行してください。</value>
+    <value>フラット化の操作は恒久的で推奨されません。問題が発生しても開発者は責任を負いません。</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>ライブラリを作成</value>
@@ -3152,7 +3152,7 @@
     <value>マイカ Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>背景の素材</value>
+    <value>背景</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>ソリッド</value>
@@ -3882,7 +3882,7 @@
   </data>
   <data name="ShowToolbar" xml:space="preserve">
     <value>ツールバーを表示する</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>タブ操作メニュー</value>
@@ -3939,6 +3939,9 @@
     <value>ホーム ページに移動する</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>ツールバーにホーム ボタンを表示する</value>
+    <value>アドレス バーに [ホーム] ボタンを表示する</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>ツールバー</value>
   </data>
 </root>

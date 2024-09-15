@@ -1,5 +1,5 @@
-# Copyright (c) 2024 Files Community
-# Licensed under the MIT License. See the LICENSE.
+# Copyright (c) 2018-2024 Files Community
+# Licensed under the MIT License.
 
 # Abstract:
 #  Deploys Files Preview (Sideload).
@@ -114,13 +114,13 @@ jobs:
         $fileContent | Set-Content $localFilePath
 
     - name: Sign Files with Azure Trusted Signing
-      uses: azure/trusted-signing-action@v0.3.20
+      uses: azure/trusted-signing-action@v0.4.0
       with:
         azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
         azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
         endpoint: https://eus.codesigning.azure.net/
-        code-signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
+        trusted-signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
         certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
         files-folder: ${{ env.APPX_PACKAGE_DIR }}
         files-folder-filter: msixbundle

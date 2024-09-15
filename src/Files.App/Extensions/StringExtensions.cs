@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) 2018-2024 Files Community
+// Licensed under the MIT License.
 
 using ByteSizeLib;
 using Microsoft.Windows.ApplicationModel.Resources;
@@ -82,6 +82,7 @@ namespace Files.App.Extensions
 		public static string ToSizeString(this double size) => ByteSize.FromBytes(size).ToSizeString();
 		public static string ToSizeString(this long size) => ByteSize.FromBytes(size).ToSizeString();
 		public static string ToSizeString(this ulong size) => ByteSize.FromBytes(size).ToSizeString();
+		public static string ToSizeString(this decimal size) => ByteSize.FromBytes((double)size).ToSizeString();
 		public static string ToSizeString(this ByteSize size) => size.ToBinaryString().ConvertSizeAbbreviation();
 
 		public static string ToLongSizeString(this long size) => ByteSize.FromBytes(size).ToLongSizeString();
