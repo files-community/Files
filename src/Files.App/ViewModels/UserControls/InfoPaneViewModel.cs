@@ -28,7 +28,7 @@ namespace Files.App.ViewModels.UserControls
 			get => isEnabled;
 			set
 			{
-				infoPaneSettingsService.IsEnabled = value;
+				infoPaneSettingsService.IsInfoPaneEnabled = value;
 
 				SetProperty(ref isEnabled, value);
 			}
@@ -116,7 +116,7 @@ namespace Files.App.ViewModels.UserControls
 			infoPaneSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 			contentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
 
-			IsEnabled = infoPaneSettingsService.IsEnabled;
+			IsEnabled = infoPaneSettingsService.IsInfoPaneEnabled;
 		}
 
 		private async void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -429,9 +429,9 @@ namespace Files.App.ViewModels.UserControls
 				// The preview will need refreshing as the file details won't be accurate
 				await UpdateSelectedItemPreviewAsync();
 			}
-			else if (e.PropertyName is nameof(infoPaneSettingsService.IsEnabled))
+			else if (e.PropertyName is nameof(infoPaneSettingsService.IsInfoPaneEnabled))
 			{
-				var newEnablingStatus = infoPaneSettingsService.IsEnabled;
+				var newEnablingStatus = infoPaneSettingsService.IsInfoPaneEnabled;
 				if (isEnabled != newEnablingStatus)
 				{
 					isEnabled = newEnablingStatus;
