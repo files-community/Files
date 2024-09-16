@@ -5,7 +5,7 @@ namespace Files.App.Controls
 {
 	/// <summary>
 	/// Defines the IconColorTypes for <see cref="ThemedIcon"/> which sets the visual state
-	/// to use the correct brush values which match system signal colours.
+	/// to use the correct brush values which match system signal colors.
 	/// </summary>
 	public enum ThemedIconColorType
 	{
