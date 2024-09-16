@@ -62,6 +62,7 @@ jobs:
         $xmlDoc.Package.Identity.Publisher="CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7"
         $xmlDoc.Package.Properties.DisplayName="Files"
         $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
+        $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="Files"
         # Removes packageManagement from Store release
         $nsmgr = New-Object System.Xml.XmlNamespaceManager($xmlDoc.NameTable)
         $nsmgr.AddNamespace("pkg", "http://schemas.microsoft.com/appx/manifest/foundation/windows10")
