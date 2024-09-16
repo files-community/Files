@@ -8,7 +8,7 @@ namespace Files.App.Controls
 	[DependencyProperty<ThemedIconLayerType>("LayerType", nameof(OnLayerTypePropertyChanged), DefaultValue = "ThemedIconLayerType.Base")]
 	[DependencyProperty<string>("PathData", nameof(OnLayerPathDataPropertyChanged), DefaultValue = "string.Empty")]
 	[DependencyProperty<double>("LayerSize", nameof(OnLayerSizePropertyChanged), DefaultValue = "(double)16")]
-	[DependencyProperty<Brush>("LayerColor", nameof(OnIconColorTypePropertyChanged))]
+	[DependencyProperty<Brush>("LayerColor", nameof(OnColorPropertyChanged))]
 	[DependencyProperty<ThemedIconColorType>("IconColorType", nameof(OnIconColorTypePropertyChanged), DefaultValue = "ThemedIconColorType.Normal")]
 	public partial class ThemedIconLayer
 	{
@@ -27,12 +27,12 @@ namespace Files.App.Controls
 			LayerSizePropertyChanged(newValue);
 		}
 
-		protected virtual void OnIconColorTypePropertyChanged(ThemedIconColorType oldValue , ThemedIconColorType newValue)
+		protected virtual void OnColorPropertyChanged(Brush oldValue, Brush newValue)
 		{
 			IconColorTypeChanged();
 		}
 
-		protected virtual void OnColorPropertyChanged(Brush oldValue , Brush newValue)
+		protected virtual void OnIconColorTypePropertyChanged(ThemedIconColorType oldValue, ThemedIconColorType newValue)
 		{
 			IconColorTypeChanged();
 		}
