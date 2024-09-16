@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Files hero image" src="../assets/ReadmeHero.png" />
+  <img alt="Files hero image" src="./assets/ReadmeHero.png" />
 </p>
 
 <p align="center">
@@ -25,15 +25,15 @@ You can also use the preview version alongside the stable release to get early a
   <!-- Store Badge -->
   <a style="text-decoration:none" href="https://apps.microsoft.com/detail/9NGHP3DX8HDX?launch=true&mode=full">
     <picture>
-      <source media="(prefers-color-scheme: light)" srcset="../assets/StoreBadge-dark.png" width="220" />
-      <img src="../assets/StoreBadge-light.png" width="220" />
+      <source media="(prefers-color-scheme: light)" srcset="./assets/StoreBadge-dark.png" width="220" />
+      <img src="./assets/StoreBadge-light.png" width="220" />
   </picture></a>
   &ensp;
   <!-- Classic Installer Badge -->
-  <a style="text-decoration:none" href="https://cdn.files.community/files/download/Files.Stable.exe">
+  <a style="text-decoration:none" href="https://files.community/appinstallers/Files.stable.appinstaller">
     <picture>
-      <source media="(prefers-color-scheme: light)" srcset="../assets/ClassicInstallerBadge-dark.png" width="220" />
-      <img src="../assets/ClassicInstallerBadge-light.png" width="220" />
+      <source media="(prefers-color-scheme: light)" srcset="./assets/ClassicInstallerBadge-dark.png" width="220" />
+      <img src="./assets/ClassicInstallerBadge-light.png" width="220" />
     </picture></a>
 </p>
 
@@ -50,4 +50,4 @@ Looking for a place to start? Check out the [task board](https://github.com/orgs
 
 ## Screenshots
 
-![Files](../assets/FilesScreenshot.png)
+![Files](./assets/FilesScreenshot.png)

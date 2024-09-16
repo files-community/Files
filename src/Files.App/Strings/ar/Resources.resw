@@ -385,7 +385,7 @@
     <value>للقراءة فقط</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0, plural, zero {}one {#يوم مضت} two {# أيام مضت} few {# أيام مضت} many {# أيام مضت} other {# أيام مضت}}</value>
+    <value>{0, plural, zero {}one {# day ago} two {# days ago} few {# days ago} many {# days ago} other {# days ago}}</value>
   </data>
   <data name="DaysAgo_Singular" xml:space="preserve">
     <value>منذ يوم</value>
@@ -1854,6 +1854,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>هذا الخيار يعدل سجل النظام ويمكن أن تكون له تأثيرات جانبية غير متوقعة على جهازك. تابع على مسؤوليتك الخاصة.</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>العمليات المسطحة دائمة وغير موصى بها. استمر على مسؤوليتك الخاصة.</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>إنشاء مكتبة</value>
   </data>
@@ -2027,6 +2030,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>ضغط</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>نقل جميع المحتويات من المجلدات الفرعية إلى الموقع المحدد</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>مجلد مسطح</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>مسطحة</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>تسطيح مجلد سينقل كل المحتويات من مجلداته الفرعية إلى الموقع المحدد. هذه العملية دائمة ولا يمكن التراجع عنها. باستخدام هذه الميزة التجريبية، فإنك تعترف بالمخاطر وتوافق على عدم تحميل فريق الملفات المسؤولية عن أي فقدان للبيانات.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>إظهار الخيارات المسطحة</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>حدد الملفات والمجلدات عند التنقل فوقها</value>
@@ -3064,8 +3082,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>فتح الخصائص</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>فتح خصائص مستكشف الملفات</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>فتح نافذة الخصائص</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>الترجمة الالية  العربية</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>المحلية</value>
@@ -3129,7 +3153,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>مادة الخلفية</value>
+    <value>Backdrop</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>صلب</value>
@@ -3858,8 +3882,8 @@
     <value>الحالة:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>عرض شريط الأدوات</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <value>Show toolbar</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>قائمة إجراءات علامة التبويب</value>
@@ -3908,5 +3932,17 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>إظهار أيقونة الملفات في قائمة أيقونات النظام المخفية</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>خيوط المعالج المركزي</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Navigate to the home page</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Show Home in address bar</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Toolbars</value>
   </data>
 </root>

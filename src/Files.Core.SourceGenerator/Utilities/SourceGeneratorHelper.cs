@@ -1,25 +1,20 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Files.Core.SourceGenerator.Utilities
 {
+	/// <summary>
+	/// Helper methods and constants for source code generation tasks.
+	/// </summary>
 	internal static class SourceGeneratorHelper
 	{
-		internal const string AttributeNamespace = $"{nameof(Files)}.App.Data.Attributes.";
+		internal const string AttributeNamespace = $"{nameof(Files)}.Shared.Attributes.";
+		internal const string HelperNamespace = $"{nameof(Files)}.App.Helpers.";
 		internal const string DisableSourceGeneratorAttribute = AttributeNamespace + "DisableSourceGeneratorAttribute";
 		internal const string AssemblyName = $"{nameof(Files)}.{nameof(SourceGenerator)}.";
 		internal const string AssemblyVersion = "1.1.1";
-
-		#region Abstract Syntax Tree Generate
 
 		/// <summary>
 		/// Generate the following code
@@ -71,54 +66,14 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// <summary>
 		/// Generate the following code
 		/// <code>
-		/// new PropertyMetadata(<paramref name="defaultValueExpression" />);
-		/// </code>
-		/// </summary>
-		/// <returns>ObjectCreationExpression</returns>
-		internal static ObjectCreationExpressionSyntax GetObjectCreationExpression(ExpressionSyntax defaultValueExpression) => ObjectCreationExpression(IdentifierName("global::Microsoft.UI.Xaml.PropertyMetadata"))
-			.AddArgumentListArguments(Argument(defaultValueExpression));
-
-		/// <summary>
-		/// Generate the following code
-		/// <code>
-		/// new PropertyMetadata(<paramref name="metadataCreation" />, <paramref name="partialMethodName" />)
-		/// </code>
-		/// </summary>
-		/// <returns>MetadataCreation</returns>
-		internal static ObjectCreationExpressionSyntax GetMetadataCreation(ObjectCreationExpressionSyntax metadataCreation, string partialMethodName) => metadataCreation.AddArgumentListArguments(Argument(IdentifierName(partialMethodName)));
-
-		/// <summary>
-		/// Generate the following code
-		/// <code>
-		/// DependencyProperty.Register(nameof(<paramref name="propertyName" />), typeof(<paramref name="type" />), typeof(<paramref name="specificClass" />), <paramref name="metadataCreation" />);
-		/// </code>
-		/// </summary>
-		/// <returns>Registration</returns>
-		internal static InvocationExpressionSyntax GetRegistration(string propertyName, ITypeSymbol type, ITypeSymbol specificClass, ExpressionSyntax metadataCreation) => InvocationExpression(MemberAccessExpression(
-				SyntaxKind.SimpleMemberAccessExpression, IdentifierName("global::Microsoft.UI.Xaml.DependencyProperty"), IdentifierName("Register")))
-			.AddArgumentListArguments(
-				Argument(NameOfExpression(propertyName)),
-				Argument(TypeOfExpression(type.GetTypeSyntax(false))),
-				Argument(TypeOfExpression(specificClass.GetTypeSyntax(false))),
-				Argument(metadataCreation));
-
-		/// <summary>
-		/// Generate the following code
-		/// <code>
-		/// nameof(<paramref name="name" />)
-		/// </code>
-		/// </summary>
-		/// <returns>NameOfExpression</returns>
-		internal static InvocationExpressionSyntax NameOfExpression(string name) => NameOfExpression(IdentifierName(name));
-
-		/// <summary>
-		/// Generate the following code
-		/// <code>
 		/// nameof(<paramref name="expressionSyntax" />)
 		/// </code>
 		/// </summary>
 		/// <returns>NameOfExpression</returns>
-		internal static InvocationExpressionSyntax NameOfExpression(ExpressionSyntax expressionSyntax) => InvocationExpression(IdentifierName("nameof"), ArgumentList().AddArguments(Argument(expressionSyntax)));
+		internal static InvocationExpressionSyntax NameOfExpression(ExpressionSyntax expressionSyntax)
+		{
+			return InvocationExpression(IdentifierName("nameof"), ArgumentList().AddArguments(Argument(expressionSyntax)));
+		}
 
 		/// <summary>
 		/// Generate the following code
@@ -127,9 +82,13 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </code>
 		/// </summary>
 		/// <returns>StaticFieldDeclaration</returns>
-		internal static FieldDeclarationSyntax GetStaticFieldDeclaration(string fieldName, ExpressionSyntax registration) => FieldDeclaration(VariableDeclaration(IdentifierName("global::Microsoft.UI.Xaml.DependencyProperty")))
-			.AddModifiers(Token(SyntaxKind.PublicKeyword), Token(SyntaxKind.StaticKeyword), Token(SyntaxKind.ReadOnlyKeyword))
-			.AddDeclarationVariables(VariableDeclarator(fieldName).WithInitializer(EqualsValueClause(registration)));
+		internal static FieldDeclarationSyntax GetStaticFieldDeclaration(string fieldName, ExpressionSyntax registration)
+		{
+			return FieldDeclaration(VariableDeclaration(
+				IdentifierName("global::Microsoft.UI.Xaml.DependencyProperty")))
+					.AddModifiers(Token(SyntaxKind.PublicKeyword), Token(SyntaxKind.StaticKeyword), Token(SyntaxKind.ReadOnlyKeyword))
+					.AddDeclarationVariables(VariableDeclarator(fieldName).WithInitializer(EqualsValueClause(registration)));
+		}
 
 		/// <summary>
 		/// Generate the following code
@@ -161,9 +120,11 @@ namespace Files.Core.SourceGenerator.Utilities
 		{
 			ExpressionSyntax setProperty = InvocationExpression(GetThisMemberAccessExpression("SetValue"))
 				.AddArgumentListArguments(Argument(IdentifierName(fieldName)), Argument(IdentifierName("value")));
+
 			var setter = AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
 				.WithExpressionBody(ArrowExpressionClause(setProperty))
 				.WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
+
 			return isSetterPrivate ? setter.AddModifiers(Token(SyntaxKind.PrivateKeyword)) : setter;
 		}
 
@@ -175,20 +136,42 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </summary>
 		/// <returns>PropertyDeclaration</returns>
 		internal static PropertyDeclarationSyntax GetPropertyDeclaration(string propertyName, bool isNullable, ITypeSymbol type, AccessorDeclarationSyntax getter, AccessorDeclarationSyntax setter)
-			=> PropertyDeclaration(type.GetTypeSyntax(isNullable), propertyName)
+		{
+			return PropertyDeclaration(type.GetTypeSyntax(isNullable), propertyName)
 				.AddModifiers(Token(SyntaxKind.PublicKeyword))
 				.AddAccessorListAccessors(getter, setter);
+		}
 
-		internal static AttributeListSyntax[] GetAttributeForField(string generatorName) =>
+		/// <summary>
+		/// This method generates an array of attribute lists for a field.
+		/// The generated attributes include a <see cref="global::System.CodeDom.Compiler.GeneratedCode"/> attribute,
+		/// specifying the generator name and version.
+		/// </summary>
+		/// <param name="generatorName">The name of the code generator.</param>
+		/// <returns>An array containing a single attribute list with the generated attributes.</returns>
+		internal static AttributeListSyntax[] GetAttributeForField(string generatorName)
+		{
+			return
 			[
 				AttributeList().AddAttributes(Attribute(IdentifierName("global::System.CodeDom.Compiler.GeneratedCode"))
-					.AddArgumentListArguments(
-						AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(AssemblyName + generatorName))),
-						AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(AssemblyVersion)))
-					))
+				.AddArgumentListArguments(
+					AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(AssemblyName + generatorName))),
+					AttributeArgument(LiteralExpression(SyntaxKind.StringLiteralExpression, Literal(AssemblyVersion)))
+				))
 			];
+		}
 
-		internal static AttributeListSyntax[] GetAttributeForEvent(string generatorName) =>
+		/// <summary>
+		/// This method generates an array of attribute lists for an event.
+		/// The generated attributes include a <see cref="global::System.CodeDom.Compiler.GeneratedCode"/> attribute,
+		/// specifying the generator name and version, and a <see cref="global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage"/>
+		/// attribute to exclude the event from code coverage reports.
+		/// </summary>
+		/// <param name="generatorName">The name of the code generator.</param>
+		/// <returns>An array containing two attribute lists with the generated attributes.</returns>
+		internal static AttributeListSyntax[] GetAttributeForEvent(string generatorName)
+		{
+			return
 			[
 				AttributeList().AddAttributes(
 					Attribute(IdentifierName("global::System.CodeDom.Compiler.GeneratedCode")).AddArgumentListArguments(
@@ -197,8 +180,19 @@ namespace Files.Core.SourceGenerator.Utilities
 				AttributeList().AddAttributes(
 					Attribute(IdentifierName("global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage")))
 			];
+		}
 
-		internal static AttributeListSyntax[] GetAttributeForMethod(string generatorName) =>
+		/// <summary>
+		/// This method generates an array of attribute lists for a method.
+		/// The generated attributes include a <see cref="global::System.CodeDom.Compiler.GeneratedCode"/> attribute,
+		/// specifying the generator name and version, a <see cref="global::System.Diagnostics.DebuggerNonUserCode"/> attribute,
+		/// and a <see cref="global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage"/> attribute to exclude the method from code coverage reports.
+		/// </summary>
+		/// <param name="generatorName">The name of the code generator.</param>
+		/// <returns>An array containing three attribute lists with the generated attributes.</returns>
+		internal static AttributeListSyntax[] GetAttributeForMethod(string generatorName)
+		{
+			return
 			[
 				AttributeList().AddAttributes(Attribute(IdentifierName("global::System.CodeDom.Compiler.GeneratedCode"))
 					.AddArgumentListArguments(
@@ -208,6 +202,7 @@ namespace Files.Core.SourceGenerator.Utilities
 				AttributeList().AddAttributes(Attribute(IdentifierName("global::System.Diagnostics.DebuggerNonUserCode"))),
 				AttributeList().AddAttributes(Attribute(IdentifierName("global::System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage")))
 			];
+		}
 
 		/// <summary>
 		/// Generate the following code
@@ -239,10 +234,12 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </summary>
 		/// <returns>FileScopedNamespaceDeclaration</returns>
 		internal static FileScopedNamespaceDeclarationSyntax GetFileScopedNamespaceDeclaration(ISymbol specificClass, MemberDeclarationSyntax generatedClass)
-			=> FileScopedNamespaceDeclaration(ParseName(specificClass.ContainingNamespace.ToDisplayString()))
+		{
+			return FileScopedNamespaceDeclaration(ParseName(specificClass.ContainingNamespace.ToDisplayString()))
 				.AddMembers(generatedClass)
 				.WithNamespaceKeyword(Token(SyntaxKind.NamespaceKeyword)
 					.WithLeadingTrivia(Trivia(NullableDirectiveTrivia(Token(SyntaxKind.EnableKeyword), true))));
+		}
 
 		/// <summary>
 		/// Generate the following code
@@ -254,10 +251,12 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </summary>
 		/// <returns>CompilationUnit</returns>
 		internal static CompilationUnitSyntax GetCompilationUnitWithUsings(MemberDeclarationSyntax generatedNamespace, IEnumerable<string> namespaces)
-			=> CompilationUnit()
+		{
+			return CompilationUnit()
 				.AddMembers(generatedNamespace)
 				.AddUsings(namespaces.Select(ns => UsingDirective(ParseName(ns))).ToArray())
 				.NormalizeWhitespace();
+		}
 
 		/// <summary>
 		/// Generate the following code
@@ -269,9 +268,11 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </summary>
 		/// <returns>CompilationUnit</returns>
 		internal static CompilationUnitSyntax GetCompilationUnit(MemberDeclarationSyntax generatedNamespace)
-			=> CompilationUnit()
+		{
+			return CompilationUnit()
 				.AddMembers(generatedNamespace)
 				.NormalizeWhitespace();
+		}
 
 		/// <summary>
 		/// Generate the following code
@@ -280,7 +281,7 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// </code>
 		/// </summary>
 		/// <returns>CompilationUnit</returns>
-		private static TypeSyntax GetTypeSyntax(this ITypeSymbol typeSymbol, bool isNullable)
+		public static TypeSyntax GetTypeSyntax(this ITypeSymbol typeSymbol, bool isNullable)
 		{
 			var typeName = ParseTypeName(typeSymbol.ToDisplayString());
 			return isNullable ? NullableType(typeName) : typeName;
@@ -302,8 +303,6 @@ namespace Files.Core.SourceGenerator.Utilities
 				IdentifierName(name));
 		}
 
-		#endregion
-
 		/// <summary>
 		/// intent
 		/// </summary>
@@ -311,12 +310,22 @@ namespace Files.Core.SourceGenerator.Utilities
 		/// <returns>4n*space</returns>
 		internal static string Spacing(int n)
 		{
-			var temp = "";
-			for (var i = 0; i < n; ++i)
-				temp += "    ";
-			return temp;
+			Span<char> spaces = stackalloc char[n * 4];
+			spaces.Fill(' ');
+
+			var sb = new StringBuilder(n * 4);
+			foreach (var c in spaces)
+				_ = sb.Append(c);
+
+			return sb.ToString();
 		}
 
+		/// <summary>
+		/// Retrieves properties of a specified type symbol that do not have an attribute indicating they should be ignored.
+		/// </summary>
+		/// <param name="typeSymbol">The type symbol whose properties are examined.</param>
+		/// <param name="attribute">The attribute symbol that indicates properties to ignore.</param>
+		/// <returns>An enumerable collection of property symbols.</returns>
 		internal static IEnumerable<IPropertySymbol> GetProperties(this ITypeSymbol typeSymbol, INamedTypeSymbol attribute)
 		{
 			foreach (var member in typeSymbol.GetMembers())
@@ -324,28 +333,8 @@ namespace Files.Core.SourceGenerator.Utilities
 				if (member is not IPropertySymbol { Name: not "EqualityContract" } property)
 					continue;
 
-				if (IgnoreAttribute(property, attribute))
-					continue;
-
 				yield return property;
 			}
-		}
-
-		internal static bool IgnoreAttribute(ISymbol symbol, INamedTypeSymbol attribute)
-		{
-			attribute = attribute is { IsGenericType: true, IsUnboundGenericType: false } ? attribute.ConstructUnboundGenericType() : attribute;
-			if (symbol.GetAttributes()
-				    .FirstOrDefault(propertyAttribute => propertyAttribute.AttributeClass!.ToDisplayString() is AttributeNamespace + "AttributeIgnoreAttribute")
-			    is { ConstructorArguments: [{ Kind: TypedConstantKind.Array }] args })
-				if (args[0].Values.Any(t =>
-				    {
-					    if (t.Value is not INamedTypeSymbol type)
-						    return false;
-					    type = type is { IsGenericType: true, IsUnboundGenericType: false } ? type.ConstructUnboundGenericType() : type;
-					    return SymbolEqualityComparer.Default.Equals(type, attribute);
-				    }))
-					return true;
-			return false;
 		}
 
 		/// <summary>

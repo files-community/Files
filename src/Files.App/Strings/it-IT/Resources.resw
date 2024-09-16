@@ -443,7 +443,7 @@
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>{0, plural, one {item} other {items}}</value>
+    <value>{0, plural, one {elemento} other {elementi}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
@@ -1242,37 +1242,37 @@
     <value>Copia</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Copia {0, plural, one {item} other {items}}</value>
+    <value>Copia {0, plural, one {elemento} other {elementi}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Elimina {0, plural, one {item} other {items}}</value>
+    <value>Elimina {0, plural, one {elemento} other {elementi}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Sposta</value>
   </data>
   <data name="MoveItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {Un oggetto sarà spostato} other {# elementi saranno spostati}}</value>
+    <value>{0, plural, one {Un elemento sarà spostato} other {# elementi saranno spostati}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Muovi {0, plural, one {item} other {items}}</value>
+    <value>Muovi {0, plural, one {elemento} other {elementi}}</value>
   </data>
   <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {Un oggetto sarà eliminato} other {# elementi saranno eliminati}}</value>
+    <value>{0, plural, one {Un elemento sarà eliminato} other {# elementi saranno eliminati}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Continua</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
-    <value>{0, plural, one {C'è un nome file in conflitto} other {Ci sono # nomi file in conflitto}}</value>
+    <value>{0, plural, one {C'è un nome di file in conflitto} other {Ci sono # nomi di file in conflitto}}</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
-    <value>{0, plural, one {C'è un nome file in conflitto} other {Ci sono # nomi file in conflitto}}, e {1, plural, one {un elemento in uscita} other {# elementi in uscita}}</value>
+    <value>{0, plural, one {C'è un nome di file in conflitto} other {Ci sono # nomi di file in conflitto}}, e {1, plural, one {un elemento in uscita} other {# elementi in uscita}}</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
     <value>Conflitto {0, plural, one {nome del file} other {nomi dei file}}</value>
   </data>
   <data name="CopyItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {Un oggetto verrà copiato} other {# elementi verranno copiati}}</value>
+    <value>{0, plural, one {Un elemento verrà copiato} other {# elementi verranno copiati}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Elimina definitivamente</value>
@@ -1853,6 +1853,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Questa impostazione modifica il registro di sistema e può causare effetti indesiderati sul tuo dispositivo. Continuando con questa opzione si accettano i rischi legati ad essa.</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>Le operazioni di appiattimento sono permanenti e non consigliate. Continua a tuo rischio e pericolo.</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Crea Raccolta</value>
   </data>
@@ -2026,6 +2029,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Comprimi</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Muovi tutti i contenuti delle sottocartelle nella posizione selezionata</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Appiattisci cartella</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Appiattisci</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>Appiattendo una cartella, tutti i contenuti delle sue sottocartelle verranno spostati nella posizione selezionata. Questa operazione è permanente e non reversibile. Usando questa funzionalità sperimentale, accetti il rischio che ne consegue e accetti di non ritenere il team di Files responsabile per qualunque perdita di dati.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Mostra le opzioni di appiattimento</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Seleziona i file e le cartelle quando si passa con il mouse</value>
@@ -2358,7 +2376,7 @@
     <value>Attiva o disattiva la visualizzazione degli elementi nascosti</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Toggle whether to show dot files</value>
+    <value>Attiva o disattiva la visualizzazione dei file nascosti</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Attiva o disattiva la visualizzazione delle estensioni dei file</value>
@@ -3063,8 +3081,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Apri le proprietà</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Apri proprietà di Esplora file</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Apri la finestra delle proprietà</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Apri la finestra delle proprietà di Esplora File</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Locali</value>
@@ -3128,7 +3152,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Materiale Di Sfondo</value>
+    <value>Sfondo</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Pieno</value>
@@ -3270,7 +3294,7 @@
     <value>Files è in esecuzione come amministratore</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>A causa di una limitazione con Windows e WinAppSdk, il drag and drop non è disponibile quando si esegue FIles come amministratore. Se si desidera utilizzare il drag and drop, è possibile aggirare questa limitazione aprendo UAC (User Account Control) dal menu Start, selezionando il terzo livello e riavviando Windows. In caso contrario, è possibile continuare a utilizzare i file senza drag and drop.</value>
+    <value>A causa di una limitazione di Windows e WinAppSdk, il drag and drop non è disponibile quando si esegue FIles come amministratore. Se si desidera utilizzare il drag and drop, è possibile aggirare questa limitazione aprendo UAC (User Account Control) dal menu Start, selezionando il terzo livello e riavviando Windows. Altrimenti, è possibile continuare a usare Files senza drag and drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Lasciare l'app in esecuzione in background quando la finestra è chiusa</value>
@@ -3858,7 +3882,7 @@
   </data>
   <data name="ShowToolbar" xml:space="preserve">
     <value>Mostra barra degli strumenti</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Menu azioni scheda</value>
@@ -3907,5 +3931,17 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>Mostra l'icona di Files nella barra delle applicazioni</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>Thread CPU</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Vai alla pagina iniziale</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Mostra Home nella barra degli indirizzi</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Barre degli strumenti</value>
   </data>
 </root>

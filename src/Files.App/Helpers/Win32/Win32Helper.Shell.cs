@@ -79,24 +79,5 @@ namespace Files.App.Helpers
 				return (folder, flc);
 			});
 		}
-
-		public static (bool HasRecycleBin, long NumItems, long BinSize) QueryRecycleBin(string drive = "")
-		{
-			Win32PInvoke.SHQUERYRBINFO queryBinInfo = new Win32PInvoke.SHQUERYRBINFO();
-			queryBinInfo.cbSize = Marshal.SizeOf(queryBinInfo);
-
-			var res = Win32PInvoke.SHQueryRecycleBin(drive, ref queryBinInfo);
-			if (res == HRESULT.S_OK)
-			{
-				var numItems = queryBinInfo.i64NumItems;
-				var binSize = queryBinInfo.i64Size;
-
-				return (true, numItems, binSize);
-			}
-			else
-			{
-				return (false, 0, 0);
-			}
-		}
 	}
 }

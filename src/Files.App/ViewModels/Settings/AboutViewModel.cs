@@ -69,7 +69,6 @@ namespace Files.App.ViewModels.Settings
 				new ("https://github.com/CommunityToolkit/WindowsCommunityToolkit", "Windows Community Toolkit 7.x"),
 				new ("https://github.com/mono/taglib-sharp", "TagLibSharp"),
 				new ("https://github.com/Tulpep/Active-Directory-Object-Picker", "ActiveDirectoryObjectPicker"),
-				new ("https://github.com/dotMorten/WinUIEx", "WinUIEx"),
 				new ("https://github.com/PowerShell/MMI", "MMI"),
 				new ("https://github.com/microsoft/CsWin32", "CsWin32"),
 				new ("https://github.com/microsoft/CsWinRT", "CsWinRT"),

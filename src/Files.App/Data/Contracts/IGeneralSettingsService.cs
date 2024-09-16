@@ -226,6 +226,11 @@ namespace Files.App.Data.Contracts
 		bool ShowCompressionOptions { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the flatten options e.g. single, recursive.
+		/// </summary>
+		bool ShowFlattenOptions { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not to show the Send To menu.
 		/// </summary>
 		bool ShowSendToMenu { get; set; }

@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.IO;
 using System.IO.Pipes;
 using System.Security.Principal;
+using System.Text;
 
 namespace Files.App.Services.PreviewPopupProviders
 {
@@ -40,7 +41,7 @@ namespace Files.App.Services.PreviewPopupProviders
 				await writer.WriteLineAsync($"{message}|{path}");
 				await writer.FlushAsync();
 			}
-			catch (Exception ex) when (ex is TimeoutException or IOException)
+			catch (Exception ex) when (ex is TimeoutException or IOException or EncoderFallbackException)
 			{
 				// ignore
 			}

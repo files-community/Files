@@ -16,7 +16,7 @@
     <Identity
         Name="FilesDev"
         Publisher="CN=Files"
-        Version="3.6.1.0" />
+        Version="3.7.7.0" />
 
     <Properties>
         <DisplayName>Files - Dev</DisplayName>
@@ -57,13 +57,11 @@
         <Resource Language="ka" />
         <Resource Language="km-KH" />
         <Resource Language="ko-KR" />
-        <Resource Language="ku-Arab" />
         <Resource Language="lt-LT" />
         <Resource Language="lv-LV" />        
         <Resource Language="ms-MY" />
         <Resource Language="nb-NO" />
         <Resource Language="nl-NL" />
-        <Resource Language="or-IN" />
         <Resource Language="pl-PL" />
         <Resource Language="pt-BR" />
         <Resource Language="pt-PT" />

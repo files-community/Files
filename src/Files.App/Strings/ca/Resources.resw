@@ -1853,6 +1853,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Aquesta opció modifica el registre del sistema i pot tenir efectes secundaris inesperats al vostre dispositiu. Continueu sota el vostre propi risc.</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>Les operacions d'aplanament són permanents i no recomanables. Continueu sota el vostre propi risc.</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Creació de la biblioteca</value>
   </data>
@@ -2026,6 +2029,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Comprimeix</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Mou tot el contingut de les subcarpetes a la ubicació seleccionada</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Aplana la carpeta</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Aplana</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>Aplanar una carpeta mourà tot el contingut de les seves subcarpetes a la ubicació seleccionada. Aquesta operació és permanent i no es pot desfer. En utilitzar aquesta funció experimental, reconeixeu el risc i accepteu no fer responsable a l'equip del Files de cap pèrdua de dades.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Mostra les opcions d'aplanament</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Selecciona fitxers i carpetes quan passeu el cursor per sobre d'ells</value>
@@ -3063,8 +3081,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Obre les propietats</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Obre les propietats de l'Explorador de fitxers</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Obre la finestra de propietats</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Obre la finestra de propietats de l'Explorador de fitxers</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Locals</value>
@@ -3128,7 +3152,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Material de fons</value>
+    <value>Teló de fons</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Sòlid</value>
@@ -3858,7 +3882,7 @@
   </data>
   <data name="ShowToolbar" xml:space="preserve">
     <value>Mostra la barra d'eines</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Menú d'accions de la pestanya</value>
@@ -3907,5 +3931,17 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>Mostra la icona del Files a la safata del sistema</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>Fils de la CPU</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Aneu a la pàgina d'inici</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Mostra l'Inici a la barra d'adreces</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Barra d'eines</value>
   </data>
 </root>

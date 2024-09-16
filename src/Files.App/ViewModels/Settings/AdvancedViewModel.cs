@@ -348,6 +348,20 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		// TODO remove when feature is marked as stable
+		public bool ShowFlattenOptions
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowFlattenOptions;
+			set
+			{
+				if (value == UserSettingsService.GeneralSettingsService.ShowFlattenOptions)
+					return;
+
+				UserSettingsService.GeneralSettingsService.ShowFlattenOptions = value;
+				OnPropertyChanged();
+			}
+		}
+
 		public async Task OpenFilesOnWindowsStartupAsync()
 		{
 			var stateMode = await ReadState();

@@ -16,6 +16,8 @@ namespace Files.App.Utils.Storage
 	/// </summary>
 	public sealed class FilesystemOperations : IFilesystemOperations
 	{
+		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
+
 		private IShellPage _associatedInstance;
 
 		public FilesystemOperations(IShellPage associatedInstance)
@@ -498,7 +500,7 @@ namespace Files.App.Utils.Storage
 
 			fsProgress.Report();
 
-			bool deleteFromRecycleBin = RecycleBinHelpers.IsPathUnderRecycleBin(source.Path);
+			bool deleteFromRecycleBin = StorageTrashBinService.IsUnderTrashBin(source.Path);
 
 			FilesystemResult fsResult = FileSystemStatusCode.InProgress;
 
@@ -549,7 +551,7 @@ namespace Files.App.Utils.Storage
 				if (!permanently)
 				{
 					// Enumerate Recycle Bin
-					IEnumerable<ShellFileItem> nameMatchItems, items = await RecycleBinHelpers.EnumerateRecycleBin();
+					IEnumerable<ShellFileItem> nameMatchItems, items = await StorageTrashBinService.GetAllRecycleBinFoldersAsync();
 
 					// Get name matching files
 					if (FileExtensionHelpers.IsShortcutOrUrlFile(source.Path)) // We need to check if it is a shortcut file
@@ -934,7 +936,7 @@ namespace Files.App.Utils.Storage
 				if (token.IsCancellationRequested)
 					break;
 
-				permanently = RecycleBinHelpers.IsPathUnderRecycleBin(source[i].Path) || originalPermanently;
+				permanently = StorageTrashBinService.IsUnderTrashBin(source[i].Path) || originalPermanently;
 
 				rawStorageHistory.Add(await DeleteAsync(source[i], null, permanently, token));
 				fsProgress.AddProcessedItemsCount(1);

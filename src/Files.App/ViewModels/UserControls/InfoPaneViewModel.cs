@@ -7,7 +7,6 @@ using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Sentry;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.UserControls
@@ -29,7 +28,7 @@ namespace Files.App.ViewModels.UserControls
 			get => isEnabled;
 			set
 			{
-				infoPaneSettingsService.IsEnabled = value;
+				infoPaneSettingsService.IsInfoPaneEnabled = value;
 
 				SetProperty(ref isEnabled, value);
 			}
@@ -117,7 +116,7 @@ namespace Files.App.ViewModels.UserControls
 			infoPaneSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 			contentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
 
-			IsEnabled = infoPaneSettingsService.IsEnabled;
+			IsEnabled = infoPaneSettingsService.IsInfoPaneEnabled;
 		}
 
 		private async void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -321,12 +320,9 @@ namespace Files.App.ViewModels.UserControls
 				return new CodePreview(model);
 			}
 
-			if
-			(
-				ShellPreviewViewModel.FindPreviewHandlerFor(item.FileExtension, 0) is not null &&
+			if (ShellPreviewViewModel.FindPreviewHandlerFor(item.FileExtension, 0) is not null &&
 				!FileExtensionHelpers.IsFontFile(item.FileExtension) &&
-				!FileExtensionHelpers.IsExecutableFile(item.FileExtension)
-			)
+				!FileExtensionHelpers.IsExecutableFile(item.FileExtension))
 			{
 				var model = new ShellPreviewViewModel(item);
 				await model.LoadAsync();
@@ -433,9 +429,9 @@ namespace Files.App.ViewModels.UserControls
 				// The preview will need refreshing as the file details won't be accurate
 				await UpdateSelectedItemPreviewAsync();
 			}
-			else if (e.PropertyName is nameof(infoPaneSettingsService.IsEnabled))
+			else if (e.PropertyName is nameof(infoPaneSettingsService.IsInfoPaneEnabled))
 			{
-				var newEnablingStatus = infoPaneSettingsService.IsEnabled;
+				var newEnablingStatus = infoPaneSettingsService.IsInfoPaneEnabled;
 				if (isEnabled != newEnablingStatus)
 				{
 					isEnabled = newEnablingStatus;

@@ -6,11 +6,9 @@ using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
-using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.InteropServices;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using WinUIEx;
 using IO = System.IO;
 
 namespace Files.App
@@ -20,39 +18,17 @@ namespace Files.App
 		private static MainWindow? _Instance;
 		public static MainWindow Instance => _Instance ??= new();
 
-		public IntPtr WindowHandle { get; }
-
-		private MainWindow()
+		public MainWindow() : base(minWidth: 516, minHeight: 416)
 		{
-			WindowHandle = this.GetWindowHandle();
-
 			InitializeComponent();
 
-			EnsureEarlyWindow();
-		}
-
-		private void EnsureEarlyWindow()
-		{
-			// Set PersistenceId
-			PersistenceId = "FilesMainWindow";
-
-			// Set minimum sizes
-			MinHeight = 416;
-			MinWidth = 516;
-
-			AppWindow.Title = "Files";
-			AppWindow.SetIcon(AppLifecycleHelper.AppIconPath);
-			AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+			ExtendsContentIntoTitleBar = true;
+			Title = "Files";
 			AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-
-			// Workaround for full screen window messing up the taskbar
-			// https://github.com/microsoft/microsoft-ui-xaml/issues/8431
-			// This property should only be set if the "Automatically hide the taskbar" in Windows 11,
-			// or "Automatically hide the taskbar in desktop mode" in Windows 10 is enabled.
-			// Setting this property when the setting is disabled will result in the taskbar overlapping the application
-			if (AppLifecycleHelper.IsAutoHideTaskbarEnabled()) 
-				Win32PInvoke.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
+			AppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.Transparent;
+			AppWindow.TitleBar.ButtonHoverBackgroundColor = Colors.Transparent;
+			AppWindow.SetIcon(AppLifecycleHelper.AppIconPath);
 		}
 
 		public void ShowSplashScreen()
@@ -207,10 +183,14 @@ namespace Files.App
 				// When resuming the cached instance
 				AppWindow.Show();
 				Activate();
+
+				// Bring to foreground (#14730) in case Activate() doesn't
+				Win32Helper.BringToForegroundEx(new(WindowHandle));
 			}
 
-			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)))
-				Instance.Restore(); // Restore window if minimized
+			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)) &&
+				AppWindow.Presenter is OverlappedPresenter presenter)
+				presenter.Restore(); // Restore window if minimized
 		}
 
 		private Frame? EnsureWindowIsInitialized()
@@ -224,7 +204,10 @@ namespace Files.App
 				{
 					// Create a Frame to act as the navigation context and navigate to the first page
 					rootFrame = new() { CacheSize = 1 };
-					rootFrame.NavigationFailed += OnNavigationFailed;
+					rootFrame.NavigationFailed += (s, e) =>
+					{
+						throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+					};
 
 					// Place the frame in the current Window
 					Instance.Content = rootFrame;
@@ -237,14 +220,6 @@ namespace Files.App
 				return null;
 			}
 		}
-
-		/// <summary>
-		/// Invoked when Navigation to a certain page fails
-		/// </summary>
-		/// <param name="sender">The Frame which failed navigation</param>
-		/// <param name="e">Details about the navigation failure</param>
-		private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-			=> throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
 
 		private async Task InitializeFromCmdLineArgsAsync(Frame rootFrame, ParsedCommands parsedCommands, string activationPath = "")
 		{
@@ -286,7 +261,17 @@ namespace Files.App
 					// Bring to foreground (#14730)
 					Win32Helper.BringToForegroundEx(new(WindowHandle));
 
-					await NavigationHelpers.AddNewTabByParamAsync(typeof(ShellPanesPage), paneNavigationArgs);
+					var existingTabIndex = MainPageViewModel.AppInstances
+						.Select((tabItem, idx) => new { tabItem, idx })
+						.FirstOrDefault(x =>
+							x.tabItem.NavigationParameter.NavigationParameter is PaneNavigationArguments paneArgs &&
+							(paneNavigationArgs.LeftPaneNavPathParam == paneArgs.LeftPaneNavPathParam || 
+							paneNavigationArgs.LeftPaneNavPathParam == paneArgs.RightPaneNavPathParam))?.idx ?? -1;
+
+					if (existingTabIndex >= 0)
+						App.AppModel.TabStripSelectedIndex = existingTabIndex;
+					else
+						await NavigationHelpers.AddNewTabByParamAsync(typeof(ShellPanesPage), paneNavigationArgs);
 				}
 				else
 					rootFrame.Navigate(typeof(MainPage), paneNavigationArgs, new SuppressNavigationTransitionInfo());

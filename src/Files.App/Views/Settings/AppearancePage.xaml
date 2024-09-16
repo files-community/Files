@@ -91,11 +91,6 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Spacing="4">
-			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<EntranceThemeTransition />
-				</TransitionCollection>
-			</StackPanel.ChildrenTransitions>
 
 			<!--  Title  -->
 			<TextBlock
@@ -255,15 +250,35 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
-			<!--  Show toolbar  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowToolbar}" HorizontalAlignment="Stretch">
+			<!--  Toolbar  -->
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=Toolbars}"
+				HorizontalAlignment="Stretch"
+				IsExpanded="False">
 				<local:SettingsBlockControl.Icon>
 					<PathIcon Data="{StaticResource App.Theme.PathIcon.WebAsset}" />
 				</local:SettingsBlockControl.Icon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=ShowToolbar}"
-					IsOn="{x:Bind ViewModel.ShowToolbar, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+
+				<local:SettingsBlockControl.ExpandableContent>
+					<StackPanel>
+						<!--  Show home button  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowHomeButton}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.AutomationControlType="Custom"
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowHomeButton}"
+								IsOn="{x:Bind ViewModel.ShowHomeButton, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
+						<!--  Show toolbar  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowToolbar}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowToolbar}"
+								IsOn="{x:Bind ViewModel.ShowToolbar, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+					</StackPanel>
+				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 		</StackPanel>
 	</Grid>

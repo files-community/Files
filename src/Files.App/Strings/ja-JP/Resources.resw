@@ -1853,6 +1853,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>この設定はシステムのレジストリを変更し、デバイスに思わぬ結果をもたらす可能性があります。問題が発生しても開発者は責任を負いません。</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>フラット化の操作は恒久的で推奨されません。問題が発生しても開発者は責任を負いません。</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>ライブラリを作成</value>
   </data>
@@ -2026,6 +2029,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>圧縮</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>すべての項目をサブフォルダーから選択した場所に移動する</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>フォルダーをフラット化</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>フラット化</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>フォルダーをフラット化すると、そのサブフォルダーから選択した場所にすべての項目を移動します。この操作は恒久的で、元に戻すことはできません。この実験的機能を使用する場合は、リスクを認識し、Files 開発チームはあらゆるデータ損失に対する責任を負わないことに同意してください。</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>フラット化のオプションを表示</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>カーソルを合わせたファイルとフォルダーを選択する</value>
@@ -3063,8 +3081,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>プロパティを開く</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>エクスプローラーのプロパティを開く</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>プロパティ ウィンドウを開く</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>エクスプローラーのプロパティ ウィンドウを開く</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>ローカル</value>
@@ -3128,7 +3152,7 @@
     <value>マイカ Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>背景の素材</value>
+    <value>背景</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>ソリッド</value>
@@ -3858,7 +3882,7 @@
   </data>
   <data name="ShowToolbar" xml:space="preserve">
     <value>ツールバーを表示する</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>タブ操作メニュー</value>
@@ -3907,5 +3931,17 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>システム トレイに Files のアイコンを表示する</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>CPU スレッド数</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>ホーム ページに移動する</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>アドレス バーに [ホーム] ボタンを表示する</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>ツールバー</value>
   </data>
 </root>

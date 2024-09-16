@@ -41,6 +41,7 @@ namespace Files.App.Views.Layouts
 		protected ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		public InfoPaneViewModel InfoPaneViewModel { get; } = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 		protected readonly IWindowContext WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
+		protected readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 
 		// ViewModels
 
@@ -701,7 +702,7 @@ namespace Files.App.Views.Layouts
 			var isSizeKnown = !items.Any(item => string.IsNullOrEmpty(item.FileSize));
 			if (isSizeKnown)
 			{
-				long size = items.Sum(item => item.FileSizeBytes);
+				decimal size = items.Sum(item => item.FileSizeBytes);
 				SelectedItemsPropertiesViewModel.ItemSizeBytes = size;
 				SelectedItemsPropertiesViewModel.ItemSize = size.ToSizeString();
 			}
@@ -1291,7 +1292,7 @@ namespace Files.App.Views.Layouts
 				return;
 
 			UninitializeDrag(container);
-			if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !RecycleBinHelpers.IsPathUnderRecycleBin(item.ItemPath))
+			if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !StorageTrashBinService.IsUnderTrashBin(item.ItemPath))
 				|| item.IsExecutable
 				|| item.IsScriptFile)
 			{

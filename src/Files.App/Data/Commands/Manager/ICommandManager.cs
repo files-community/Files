@@ -89,12 +89,15 @@ namespace Files.App.Data.Commands
 		IRichCommand DecompressArchiveHereSmart { get; }
 		IRichCommand DecompressArchiveToChildFolder { get; }
 
+		IRichCommand FlattenFolder { get; }
+
 		IRichCommand RotateLeft { get; }
 		IRichCommand RotateRight { get; }
 
 		IRichCommand OpenInVSCode { get; }
 		IRichCommand OpenRepoInVSCode { get; }
 		IRichCommand OpenProperties { get; }
+		IRichCommand OpenClassicProperties { get; }
 		IRichCommand OpenSettings { get; }
 		IRichCommand OpenTerminal { get; }
 		IRichCommand OpenTerminalAsAdmin { get; }
@@ -161,6 +164,7 @@ namespace Files.App.Data.Commands
 		IRichCommand NavigateBack { get; }
 		IRichCommand NavigateForward { get; }
 		IRichCommand NavigateUp { get; }
+		IRichCommand NavigateHome { get; }
 
 		IRichCommand DuplicateCurrentTab { get; }
 		IRichCommand DuplicateSelectedTab { get; }

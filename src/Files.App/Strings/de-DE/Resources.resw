@@ -1853,6 +1853,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Diese Option verändert die Systemregistrierung und kann unerwartete Nebenwirkungen auf dein Gerät haben. Die Fortsetzung erfolgt auf eigene Gefahr.</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>Die Operationen zum Vereinfachen der Ordnerstruktur sind unwiderruflich und nicht empfohlen. Nutzung auf eigene Gefahr.</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Bibliothek erstellen</value>
   </data>
@@ -2026,6 +2029,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Komprimieren</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Alle Inhalte aus Unterordnern an den ausgewählten Ort verschieben</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Ordnerstruktur vereinfachen</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Vereinfachen</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>Die Vereinfachung der Struktur eines Ordners bedeutet, dass alle Elemente der Unterordner an den ausgewählten Ort verschoben und die Unterordner anschließend gelöscht werden. Diese Operation ist unwiderruflich und kann nicht rückgängig gemacht werden. Durch die Nutzung dieses experimentellen Features nimmst du das Risiko in Kauf und erklärst dich damit einverstanden, das Files-Team nicht für eventuelle Datenverluste verantwortlich zu machen.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Optionen zur Vereinfachung der Ordnerstruktur anzeigen</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Dateien und Ordner beim Überfahren auswählen</value>
@@ -3063,8 +3081,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Eigenschaften öffnen</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Explorer-Eigenschaften öffnen</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Eigenschaften-Fenster öffnen</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Explorer-Eigenschaftsfenster öffnen</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Lokale</value>
@@ -3128,7 +3152,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Hintergrundmaterial</value>
+    <value>Backdrop</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Solide</value>
@@ -3857,8 +3881,8 @@
     <value>Status:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Symbolleiste anzeigen</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <value>Show toolbar</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Tab-Aktionen-Menü</value>
@@ -3907,5 +3931,17 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>Files-Icon im System-Tray anzeigen</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>CPU-Threads</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Zur Startseite navigieren</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Show Home in address bar</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Toolbars</value>
   </data>
 </root>
