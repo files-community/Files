@@ -104,6 +104,19 @@ namespace Files.App.Helpers
 			IntPtr dwNewLong
 		);
 
+		[DllImport("user32.dll", SetLastError = true)]
+		public static extern IntPtr SetWindowLongPtr(
+			HWND hWnd,
+			int nIndex,
+			IntPtr dwNewLong
+		);
+
+		[DllImport("user32.dll", SetLastError = true)]
+		public static extern IntPtr GetWindowLongPtr(
+			HWND hWnd,
+			int nIndex
+		);
+
 		[DllImport("shell32.dll")]
 		public static extern IntPtr SHBrowseForFolder(
 			ref BROWSEINFO lpbi

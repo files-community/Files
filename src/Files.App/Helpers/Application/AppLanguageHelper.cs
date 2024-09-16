@@ -1,8 +1,11 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using Windows.Globalization;
+using WinRT.Interop;
 
 namespace Files.App.Helpers
 {
@@ -48,10 +51,10 @@ namespace Files.App.Helpers
 
 			// Set the system default language as the first item in the Languages collection
 			var systemLanguage = new AppLanguageItem(CultureInfo.InstalledUICulture.Name, systemDefault: true);
-			if (appLanguages.Select(lang => lang.Name.Contains(systemLanguage.Name)).Any())
-				appLanguages[0] = systemLanguage;
-			else
-				appLanguages[0] = new("en-US", systemDefault: true);
+
+			appLanguages[0] = appLanguages.Select(lang => lang.Name.Contains(systemLanguage.Name)).Any()
+				? systemLanguage
+				: new("en-US", systemDefault: true);
 
 			// Initialize the list
 			SupportedLanguages = new(appLanguages);
@@ -102,6 +105,33 @@ namespace Files.App.Helpers
 
 			// Update the primary language override
 			ApplicationLanguages.PrimaryLanguageOverride = index == 0 ? _defaultCode : PreferredLanguage.Code;
+			return true;
+		}
+
+		/// <summary>
+		/// Updates the title bar layout of the specified window based on the current culture.
+		/// </summary>
+		/// <param name="window">The window to be updated.</param>
+		/// <returns>True if the update was successful; otherwise, false.</returns>
+		public static bool UpdateTitleBar(Window window)
+		{
+			try
+			{
+				var hwnd = WindowNative.GetWindowHandle(window);
+				var exStyle = Win32PInvoke.GetWindowLongPtr(hwnd, Win32PInvoke.GWL_EXSTYLE);
+
+				exStyle = new CultureInfo(PreferredLanguage.Code).TextInfo.IsRightToLeft
+					? new IntPtr(exStyle.ToInt64() | Win32PInvoke.WS_EX_LAYOUTRTL) // Set RTL layout
+					: new IntPtr(exStyle.ToInt64() & ~Win32PInvoke.WS_EX_LAYOUTRTL); // Set LTR layout
+
+				if (Win32PInvoke.SetWindowLongPtr(hwnd, Win32PInvoke.GWL_EXSTYLE, exStyle) == 0)
+					return false;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+
 			return true;
 		}
 	}
