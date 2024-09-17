@@ -82,7 +82,7 @@ namespace Files.App.ViewModels.Settings
 
 			CopyAppVersionCommand = new RelayCommand(CopyAppVersion);
 			CopyWindowsVersionCommand = new RelayCommand(CopyWindowsVersion);
-			CopyUserIdCommand = new RelayCommand(CopyUserId);
+			CopyUserIDCommand = new RelayCommand(CopyUserID);
 			SupportUsCommand = new AsyncRelayCommand(SupportUs);
 			OpenDocumentationCommand = new AsyncRelayCommand(DoOpenDocumentation);
 			OpenDiscordCommand = new AsyncRelayCommand(DoOpenDiscord);
