@@ -38,7 +38,7 @@ namespace Files.App.ViewModels.Settings
 
 		public ICommand CopyAppVersionCommand { get; }
 		public ICommand CopyWindowsVersionCommand { get; }
-		public ICommand CopyUserIdCommand { get; }
+		public ICommand CopyUserIDCommand { get; }
 		public ICommand SupportUsCommand { get; }
 		public ICommand OpenLogLocationCommand { get; }
 		public ICommand OpenDocumentationCommand { get; }
