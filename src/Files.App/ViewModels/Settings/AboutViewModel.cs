@@ -175,7 +175,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				DataPackage dataPackage = new DataPackage();
 				dataPackage.RequestedOperation = DataPackageOperation.Copy;
-				dataPackage.SetText(GetUserId());
+				dataPackage.SetText(GetUserID());
 				Clipboard.SetContent(dataPackage);
 			});
 		}
