@@ -195,9 +195,9 @@ namespace Files.App.ViewModels.Settings
 			return SystemInformation.Instance.OperatingSystemVersion.ToString();
 		}
 		
-		public string GetUserId()
+		public string GetUserID()
 		{
-			return GeneralSettingsService.UserId;
+			return GeneralSettingsService.UserID;
 		}
 
 		public string GetVersionsQueryString()
