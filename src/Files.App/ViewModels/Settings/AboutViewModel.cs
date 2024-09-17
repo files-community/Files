@@ -197,7 +197,7 @@ namespace Files.App.ViewModels.Settings
 		
 		public string GetUserID()
 		{
-			return GeneralSettingsService.UserID;
+			return GeneralSettingsService.UserId;
 		}
 
 		public string GetVersionsQueryString()
