@@ -205,7 +205,7 @@ namespace Files.App.ViewModels.Settings
 			var query = System.Web.HttpUtility.ParseQueryString(string.Empty);
 			query["files_version"] = GetAppVersion();
 			query["windows_version"] = GetWindowsVersion();
-			query["user_id"] = GetUserId();
+			query["user_id"] = GetUserID();
 			return query.ToString() ?? string.Empty;
 		}
 	}
