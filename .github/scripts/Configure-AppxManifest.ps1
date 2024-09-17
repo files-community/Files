@@ -48,7 +48,7 @@ elseif ($Branch -eq "Store")
 {
     # Set identities
     $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
-    $xmlDoc.Package.Properties.DisplayName="Files"
+    $xmlDoc.Package.Properties.DisplayName="Files App"
     $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
     $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="Files"
 
