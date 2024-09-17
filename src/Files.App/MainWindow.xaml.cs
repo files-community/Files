@@ -36,6 +36,8 @@ namespace Files.App
 			var rootFrame = EnsureWindowIsInitialized();
 
 			rootFrame?.Navigate(typeof(SplashScreenPage));
+
+			AppLanguageHelper.UpdateTitleBar(Instance);
 		}
 
 		public async Task InitializeApplicationAsync(object activatedEventArgs)
@@ -191,6 +193,8 @@ namespace Files.App
 			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)) &&
 				AppWindow.Presenter is OverlappedPresenter presenter)
 				presenter.Restore(); // Restore window if minimized
+
+			AppLanguageHelper.UpdateContextLayout(rootFrame);
 		}
 
 		private Frame? EnsureWindowIsInitialized()

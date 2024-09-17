@@ -30,6 +30,8 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static AppLanguageItem PreferredLanguage { get; private set; }
 
+		public static CultureInfo PreferredCulture => new(PreferredLanguage.Code);
+
 		/// <summary>
 		/// Initializes the <see cref="AppLanguageHelper"/> class.
 		/// </summary>
@@ -120,7 +122,7 @@ namespace Files.App.Helpers
 				var hwnd = WindowNative.GetWindowHandle(window);
 				var exStyle = Win32PInvoke.GetWindowLongPtr(hwnd, Win32PInvoke.GWL_EXSTYLE);
 
-				exStyle = new CultureInfo(PreferredLanguage.Code).TextInfo.IsRightToLeft
+				exStyle = PreferredCulture.TextInfo.IsRightToLeft
 					? new IntPtr(exStyle.ToInt64() | Win32PInvoke.WS_EX_LAYOUTRTL) // Set RTL layout
 					: new IntPtr(exStyle.ToInt64() & ~Win32PInvoke.WS_EX_LAYOUTRTL); // Set LTR layout
 
@@ -133,6 +135,21 @@ namespace Files.App.Helpers
 			}
 
 			return true;
+		}
+
+		public static void UpdateContextLayout(FrameworkElement element)
+		{
+			element.FlowDirection = PreferredCulture.TextInfo.IsRightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+		}
+
+		public static bool SetCultureLayout(Window window)
+		{
+			var res = UpdateTitleBar(window);
+			if (!res)
+				return res;
+			if (window.Content is FrameworkElement element)
+				UpdateContextLayout(element);
+			return res;
 		}
 	}
 }

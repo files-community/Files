@@ -70,8 +70,6 @@ namespace Files.App
 				var appActivationArguments = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
 				var isStartupTask = appActivationArguments.Data is Windows.ApplicationModel.Activation.IStartupTaskActivatedEventArgs;
 
-				AppLanguageHelper.UpdateTitleBar(MainWindow.Instance);
-
 				if (!isStartupTask)
 				{
 					// Initialize and activate MainWindow
