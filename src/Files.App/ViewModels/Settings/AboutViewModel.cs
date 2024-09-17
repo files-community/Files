@@ -169,7 +169,7 @@ namespace Files.App.ViewModels.Settings
 			});
 		}
 		
-		public void CopyUserId()
+		public void CopyUserID()
 		{
 			SafetyExtensions.IgnoreExceptions(() =>
 			{
