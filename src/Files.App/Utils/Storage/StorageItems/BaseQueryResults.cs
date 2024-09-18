@@ -50,7 +50,7 @@ namespace Files.App.Utils.Storage
 						}
 						else
 						{
-							items = items.Where(x => Regex.IsMatch(x.Name, Regex.Escape(split.Replace("\"", "", StringComparison.Ordinal)).Replace("\\*", ".*?"), RegexOptions.IgnoreCase)).ToList();
+							items = items.Where(x => Regex.IsMatch(x.Name, Regex.Escape(split.Replace("\"", "", StringComparison.Ordinal)).Replace("\\*", ".*").Replace("\\?", "."), RegexOptions.IgnoreCase)).ToList();
 						}
 					}
 				}
