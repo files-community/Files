@@ -45,7 +45,7 @@ namespace Files.App.Utils.Storage
 						{
 							if (colonSplit[0] == "System.FileName" || colonSplit[0] == "fileName" || colonSplit[0] == "name")
 							{
-								items = items.Where(x => Regex.IsMatch(x.Name, Regex.Escape(colonSplit[1].Replace("\"", "", StringComparison.Ordinal)).Replace("\\*", ".*?"), RegexOptions.IgnoreCase)).ToList();
+								items = items.Where(x => Regex.IsMatch(x.Name, Regex.Escape(colonSplit[1].Replace("\"", "", StringComparison.Ordinal)).Replace("\\*", ".*").Replace("\\?", "."), RegexOptions.IgnoreCase)).ToList();
 							}
 						}
 						else
