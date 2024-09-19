@@ -12,19 +12,18 @@ namespace Files.App.ViewModels.Dialogs
 		// Properties
 
 		public bool IsNameValid =>
-			FilesystemHelpers.IsValidForFilename(fileName) && !fileName.Contains(".");
+			FilesystemHelpers.IsValidForFilename(_FileName) && !_FileName.Contains(".");
 
 		public bool ShowNameWarning =>
-			!string.IsNullOrEmpty(fileName) && !IsNameValid;
+			!string.IsNullOrEmpty(_FileName) && !IsNameValid;
 
-
-		private string fileName = string.Empty;
+		private string _FileName = string.Empty;
 		public string FileName
 		{
-			get => fileName;
+			get => _FileName;
 			set
 			{
-				if (SetProperty(ref fileName, value))
+				if (SetProperty(ref _FileName, value))
 				{
 					OnPropertyChanged(nameof(IsNameValid));
 					OnPropertyChanged(nameof(ShowNameWarning));
@@ -50,13 +49,12 @@ namespace Files.App.ViewModels.Dialogs
 				var itemType = item.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
 				return context.ShellPage.FilesystemHelpers.RenameAsync(
 					StorageHelpers.FromPathAndType(item.ItemPath, itemType),
-					fileName + item.FileExtension,
+					FileName + item.FileExtension,
 					NameCollisionOption.GenerateUniqueName,
 					true,
 					false
 				);
 			}));
-
 		}
 	}
 }
