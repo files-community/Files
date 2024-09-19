@@ -10,6 +10,12 @@ namespace Files.App.Dialogs
 		private FrameworkElement RootAppElement
 			=> (FrameworkElement)MainWindow.Instance.Content;
 
+		public BulkRenameDialogViewModel ViewModel
+		{
+			get => (BulkRenameDialogViewModel)DataContext;
+			set => DataContext = value;
+		}
+
 		public BulkRenameDialog()
 		{
 			InitializeComponent();
