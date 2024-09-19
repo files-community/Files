@@ -12,6 +12,29 @@ namespace Files.App.ViewModels.Dialogs
 {
 	public sealed class BulkRenameDialogViewModel : ObservableObject
 	{
+		// Properties
+
+		public bool IsNameValid =>
+			FilesystemHelpers.IsValidForFilename(fileName);
+		
+		public bool ShowNameWarning =>
+			!string.IsNullOrEmpty(fileName) && !IsNameValid;
+
+		
+		private string fileName = string.Empty;
+		public string FileName
+		{
+			get => fileName;
+			set
+			{
+				if (SetProperty(ref fileName, value))
+				{
+					OnPropertyChanged(nameof(IsNameValid));
+					OnPropertyChanged(nameof(ShowNameWarning));
+				}
+			}
+		}
+
 		public BulkRenameDialogViewModel()
 		{
 			
