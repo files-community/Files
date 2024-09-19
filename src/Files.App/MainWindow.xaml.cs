@@ -34,9 +34,6 @@ namespace Files.App
 			AppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonHoverBackgroundColor = Colors.Transparent;
 			AppWindow.SetIcon(AppLifecycleHelper.AppIconPath);
-
-			if (AppLifecycleHelper.IsAutoHideTaskbarEnabled())
-				Win32PInvoke.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
 		}
 
 		public void ShowSplashScreen()
