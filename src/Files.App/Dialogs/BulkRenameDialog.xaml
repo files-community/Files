@@ -10,6 +10,8 @@
 	Title="{helpers:ResourceString Name=BulkRename}"
 	DefaultButton="Primary"
 	HighContrastAdjustment="None"
+	IsPrimaryButtonEnabled="{x:Bind ViewModel.IsNameValid, Mode=OneWay}"
+	PrimaryButtonCommand="{x:Bind ViewModel.CommitRenameCommand, Mode=OneWay}"
 	PrimaryButtonText="{helpers:ResourceString Name=Rename}"
 	RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
 	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
