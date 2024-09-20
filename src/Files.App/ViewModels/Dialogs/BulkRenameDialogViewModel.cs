@@ -32,6 +32,7 @@ namespace Files.App.ViewModels.Dialogs
 		}
 
 		// Commands
+
 		public IAsyncRelayCommand CommitRenameCommand { get; private set; }
 
 		public BulkRenameDialogViewModel()
