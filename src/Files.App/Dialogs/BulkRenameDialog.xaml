@@ -1,4 +1,3 @@
-﻿
 <!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
 <ContentDialog
 	x:Class="Files.App.Dialogs.BulkRenameDialog"
