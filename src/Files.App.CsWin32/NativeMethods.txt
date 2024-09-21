@@ -133,3 +133,9 @@ IFileOperation
 IShellItem2
 PSGetPropertyKeyFromName
 ShellExecuteEx
+FindFirstFileEx
+FindNextFile
+CreateFile
+GetFileSizeEx
+WIN32_FIND_DATAW
+FILE_ACCESS_RIGHTS

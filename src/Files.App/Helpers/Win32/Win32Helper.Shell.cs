@@ -79,5 +79,14 @@ namespace Files.App.Helpers
 				return (folder, flc);
 			});
 		}
+
+		public static string GetFolderFromKnownFolderGUID(Guid guid)
+		{
+			IntPtr pPath;
+			Win32PInvoke.SHGetKnownFolderPath(guid, 0, IntPtr.Zero, out pPath);
+			string path = Marshal.PtrToStringUni(pPath);
+			Marshal.FreeCoTaskMem(pPath);
+			return path;
+		}
 	}
 }
