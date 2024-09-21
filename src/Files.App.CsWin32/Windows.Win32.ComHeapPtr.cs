@@ -9,7 +9,7 @@ using Windows.Win32.System.Com;
 namespace Windows.Win32
 {
 	/// <summary>
-	/// Contains a COM heap-allocated pointer and a set of methods to work with the pointer safely.
+	/// Contains a heap pointer allocated via CoTaskMemAlloc and a set of methods to work with the pointer safely.
 	/// </summary>
 	public unsafe struct ComHeapPtr<T> : IDisposable where T : unmanaged
 	{
