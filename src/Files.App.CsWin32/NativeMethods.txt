@@ -133,3 +133,8 @@ IFileOperation
 IShellItem2
 PSGetPropertyKeyFromName
 ShellExecuteEx
+BHID_EnumItems
+CoTaskMemFree
+FOLDERID_NetHood
+IShellLinkW
+SLGP_FLAGS

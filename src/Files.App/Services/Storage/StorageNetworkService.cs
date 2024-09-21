@@ -1,23 +1,19 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.Runtime.InteropServices;
 using System.Text;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.NetworkManagement.WNet;
 using Windows.Win32.Security.Credentials;
+using Windows.Win32.System.SystemServices;
+using Windows.Win32.UI.Shell;
 
 namespace Files.App.Services
 {
 	public sealed class NetworkService : ObservableObject, INetworkService
 	{
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
-
-		private readonly static string guid = "::{f02c1a0d-be21-4350-88b0-7367fc96ef3c}";
-
 
 		private ObservableCollection<ILocatableFolder> _Computers = [];
 		/// <inheritdoc/>
@@ -40,102 +36,180 @@ namespace Files.App.Services
 		/// </summary>
 		public NetworkService()
 		{
-			var networkItem = new DriveItem()
+			var item = new DriveItem()
 			{
 				DeviceID = "network-folder",
 				Text = "Network".GetLocalizedResource(),
 				Path = Constants.UserEnvironmentPaths.NetworkFolderPath,
 				Type = DriveType.Network,
 				ItemType = NavigationControlItemType.Drive,
+				MenuOptions = new ContextMenuOptions()
+				{
+					IsLocationItem = true,
+					ShowShellItems = true,
+					ShowProperties = true,
+				},
 			};
 
-			networkItem.MenuOptions = new ContextMenuOptions()
-			{
-				IsLocationItem = true,
-				ShowEjectDevice = networkItem.IsRemovable,
-				ShowShellItems = true,
-				ShowProperties = true,
-			};
+			item.MenuOptions.ShowEjectDevice = item.IsRemovable;
+
 			lock (_Computers)
-				_Computers.Add(networkItem);
+				_Computers.Add(item);
 		}
 
 		/// <inheritdoc/>
 		public async Task<IEnumerable<ILocatableFolder>> GetComputersAsync()
 		{
-			var result = await Win32Helper.GetShellFolderAsync(guid, false, true, 0, int.MaxValue);
+			return await Task.Run(GetComputers);
 
-			return result.Enumerate.Where(item => item.IsFolder).Select(item =>
+			unsafe IEnumerable<ILocatableFolder> GetComputers()
 			{
-				var networkItem = new DriveItem()
-				{
-					Text = item.FileName,
-					Path = item.FilePath,
-					DeviceID = item.FilePath,
-					Type = DriveType.Network,
-					ItemType = NavigationControlItemType.Drive,
-				};
+				HRESULT hr = default;
 
-				networkItem.MenuOptions = new ContextMenuOptions()
-				{
-					IsLocationItem = true,
-					ShowEjectDevice = networkItem.IsRemovable,
-					ShowShellItems = true,
-					ShowProperties = true,
-				};
+				// Get IShellItem of the shell folder
+				var shellItemIid = typeof(IShellItem).GUID;
+				using ComPtr<IShellItem> pFolderShellItem = default;
+				fixed (char* pszFolderShellPath = "Shell:::{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}")
+					hr = PInvoke.SHCreateItemFromParsingName(pszFolderShellPath, null, &shellItemIid, (void**)pFolderShellItem.GetAddressOf());
 
-				return networkItem;
-			});
+				// Get IEnumShellItems of the shell folder
+				var enumItemsBHID = PInvoke.BHID_EnumItems;
+				Guid enumShellItemIid = typeof(IEnumShellItems).GUID;
+				using ComPtr<IEnumShellItems> pEnumShellItems = default;
+				hr = pFolderShellItem.Get()->BindToHandler(null, &enumItemsBHID, &enumShellItemIid, (void**)pEnumShellItems.GetAddressOf());
+
+				// Enumerate items and populate the list
+				List<ILocatableFolder> items = [];
+				using ComPtr<IShellItem> pShellItem = default;
+				while (pEnumShellItems.Get()->Next(1, pShellItem.GetAddressOf()) == HRESULT.S_OK)
+				{
+					// Get only folders
+					if (pShellItem.Get()->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var attribute) == HRESULT.S_OK &&
+						(attribute & SFGAO_FLAGS.SFGAO_FOLDER) is not SFGAO_FLAGS.SFGAO_FOLDER)
+						continue;
+
+					// Get the display name
+					pShellItem.Get()->GetDisplayName(SIGDN.SIGDN_NORMALDISPLAY, out var szDisplayName);
+					var fileName = szDisplayName.ToString();
+					PInvoke.CoTaskMemFree(szDisplayName.Value);
+
+					// Get the file system path on disk
+					pShellItem.Get()->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out szDisplayName);
+					var filePath = szDisplayName.ToString();
+					PInvoke.CoTaskMemFree(szDisplayName.Value);
+
+					var item = new DriveItem()
+					{
+						Text = fileName,
+						Path = filePath,
+						DeviceID = filePath,
+						Type = DriveType.Network,
+						ItemType = NavigationControlItemType.Drive,
+						MenuOptions = new()
+						{
+							IsLocationItem = true,
+							ShowShellItems = true,
+							ShowProperties = true,
+						},
+					};
+
+					item.MenuOptions.ShowEjectDevice = item.IsRemovable;
+
+					items.Add(item);
+				}
+
+				return items;
+			}
 		}
 
 		/// <inheritdoc/>
 		public async Task<IEnumerable<ILocatableFolder>> GetShortcutsAsync()
 		{
-			var networkLocations = await Win32Helper.StartSTATask(() =>
+			return await Task.Run(GetShortcuts);
+
+			unsafe IEnumerable<ILocatableFolder> GetShortcuts()
 			{
-				var locations = new List<ShellLinkItem>();
-				using (var netHood = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_NetHood))
+				// Get IShellItem of the known folder
+				using ComPtr<IShellItem> pShellFolder = default;
+				var folderId = PInvoke.FOLDERID_NetHood;
+				var shellItemIid = typeof(IShellItem).GUID;
+				HRESULT hr = PInvoke.SHGetKnownFolderItem(&folderId, KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, HANDLE.Null, &shellItemIid, (void**)pShellFolder.GetAddressOf());
+
+				// Get IEnumShellItems for Recycle Bin folder
+				using ComPtr<IEnumShellItems> pEnumShellItems = default;
+				Guid enumShellItemGuid = typeof(IEnumShellItems).GUID;
+				var enumItemsBHID = BHID.BHID_EnumItems;
+				hr = pShellFolder.Get()->BindToHandler(null, &enumItemsBHID, &enumShellItemGuid, (void**)pEnumShellItems.GetAddressOf());
+
+				List<ILocatableFolder> items = [];
+				using ComPtr<IShellItem> pShellItem = default;
+				while (pEnumShellItems.Get()->Next(1, pShellItem.GetAddressOf()) == HRESULT.S_OK)
 				{
-					foreach (var item in netHood)
+					// Get the target path
+					using ComPtr<IShellLinkW> pShellLink = default;
+					var shellLinkIid = typeof(IShellLinkW).GUID;
+					pShellItem.Get()->QueryInterface(&shellLinkIid, (void**)pShellLink.GetAddressOf());
+					string targetPath = string.Empty;
+					if (pShellLink.IsNull)
 					{
-						if (item is ShellLink link)
+						using ComPtr<IShellItem2> pShellItem2 = default;
+						var shellItem2Iid = typeof(IShellItem2).GUID;
+						pShellItem.Get()->QueryInterface(&shellItem2Iid, (void**)pShellItem2.GetAddressOf());
+						PInvoke.PSGetPropertyKeyFromName("System.Link.TargetParsingPath", out var propertyKey);
+						pShellItem2.Get()->GetString(propertyKey, out var pszTargetPath);
+						targetPath = Environment.ExpandEnvironmentVariables(pszTargetPath.ToString());
+
+						// Test 1
+						pShellItem.Get()->GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING, out var szDisplayNameTest);
+						var filePathTest = szDisplayNameTest.ToString();
+						PInvoke.CoTaskMemFree(szDisplayNameTest.Value); // break here
+
+						// Test 2
+						pShellItem.Get()->GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEPARSING, out szDisplayNameTest);
+						filePathTest = szDisplayNameTest.ToString();
+						PInvoke.CoTaskMemFree(szDisplayNameTest.Value); // break here
+					}
+					else
+					{
+						fixed (char* pszTargetPath = new char[1024])
 						{
-							locations.Add(ShellFolderExtensions.GetShellLinkItem(link));
-						}
-						else
-						{
-							var linkPath = (string?)item?.Properties["System.Link.TargetParsingPath"];
-							if (linkPath is not null)
-							{
-								var linkItem = ShellFolderExtensions.GetShellFileItem(item);
-								locations.Add(new(linkItem) { TargetPath = linkPath });
-							}
+							hr = pShellLink.Get()->GetPath(pszTargetPath, 1024, null, (uint)SLGP_FLAGS.SLGP_RAWPATH);
+							targetPath = Environment.ExpandEnvironmentVariables(new PWSTR(pszTargetPath).ToString());
 						}
 					}
+
+					// Get the display name
+					pShellItem.Get()->GetDisplayName(SIGDN.SIGDN_NORMALDISPLAY, out var szDisplayName);
+					var fileName = szDisplayName.ToString();
+					PInvoke.CoTaskMemFree(szDisplayName.Value);
+
+					// Get the file system path on disk
+					pShellItem.Get()->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out szDisplayName);
+					var filePath = szDisplayName.ToString();
+					PInvoke.CoTaskMemFree(szDisplayName.Value);
+
+					var item = new DriveItem()
+					{
+						Text = fileName,
+						Path = targetPath,
+						DeviceID = filePath,
+						Type = DriveType.Network,
+						ItemType = NavigationControlItemType.Drive,
+						MenuOptions = new()
+						{
+							IsLocationItem = true,
+							ShowShellItems = true,
+							ShowProperties = true,
+						},
+					};
+
+					item.MenuOptions.ShowEjectDevice = item.IsRemovable;
+
+					items.Add(item);
 				}
-				return locations;
-			});
 
-			return (networkLocations ?? Enumerable.Empty<ShellLinkItem>()).Select(item =>
-			{
-				var networkItem = new DriveItem()
-				{
-					Text = item.FileName,
-					Path = item.TargetPath,
-					DeviceID = item.FilePath,
-					Type = DriveType.Network,
-					ItemType = NavigationControlItemType.Drive,
-				};
-
-				networkItem.MenuOptions = new ContextMenuOptions()
-				{
-					IsLocationItem = true,
-					ShowEjectDevice = networkItem.IsRemovable,
-					ShowShellItems = true,
-					ShowProperties = true,
-				};
-				return networkItem;
-			});
+				return items;
+			}
 		}
 
 		/// <inheritdoc/>
