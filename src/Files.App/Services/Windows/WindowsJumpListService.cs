@@ -135,10 +135,10 @@ namespace Files.App.Services
 
 				if (path.EndsWith('\\'))
 				{
-					var storageDevicesService = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
+					var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 					// Jumplist item argument can't end with a slash so append a character that can't exist in a directory name to support listing drives.
-					var drive = storageDevicesService.Drives.FirstOrDefault(drive => drive.Path == path);
+					var drive = drivesViewModel.Drives.FirstOrDefault(drive => drive.Path == path);
 					if (drive is null)
 						return;
 

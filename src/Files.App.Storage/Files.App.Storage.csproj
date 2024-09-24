@@ -13,8 +13,6 @@
 
     <ItemGroup>
         <PackageReference Include="FluentFTP" Version="43.0.1" />
-        <PackageReference Include="Microsoft.Management.Infrastructure" Version="3.0.0" />
-        <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="3.0.0" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

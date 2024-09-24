@@ -1,14 +1,13 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using DiscUtils.Udf;
 using Microsoft.Management.Infrastructure;
+using System.IO;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using Windows.Win32;
-using Windows.Win32.Foundation;
+using DiscUtils.Udf;
 
 namespace Files.App.Utils.Storage
 {
@@ -35,10 +34,9 @@ namespace Files.App.Utils.Storage
 		{
 			if (string.IsNullOrWhiteSpace(drivePath))
 				return false;
+			var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
-			var storageDevicesService = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
-
-			var matchingDrive = storageDevicesService.Drives.Cast<DriveItem>().FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
+			var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => drivePath.StartsWith(x.Path, StringComparison.Ordinal));
 			if (matchingDrive is null || matchingDrive.Type != Data.Items.DriveType.CDRom || matchingDrive.MaxSpace != ByteSizeLib.ByteSize.FromBytes(0))
 				return false;
 
@@ -54,16 +52,16 @@ namespace Files.App.Utils.Storage
 
 		public static async Task<StorageFolderWithPath> GetRootFromPathAsync(string devicePath)
 		{
-			if (!SystemIO.Path.IsPathRooted(devicePath))
+			if (!Path.IsPathRooted(devicePath))
 				return null;
 
-			var storageDevicesService = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
+			var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
-			var rootPath = SystemIO.Path.GetPathRoot(devicePath);
+			var rootPath = Path.GetPathRoot(devicePath);
 			if (devicePath.StartsWith(@"\\?\", StringComparison.Ordinal)) // USB device
 			{
 				// Check among already discovered drives
-				StorageFolder matchingDrive = storageDevicesService.Drives.Cast<DriveItem>().FirstOrDefault(x =>
+				StorageFolder matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
 					Helpers.PathNormalization.NormalizePath(x.Path) == Helpers.PathNormalization.NormalizePath(rootPath))?.Root;
 				if (matchingDrive is null)
 				{
@@ -104,64 +102,43 @@ namespace Files.App.Utils.Storage
 			return null;
 		}
 
-		public static DriveType GetDriveType(SystemIO.DriveInfo drive)
+		public static Data.Items.DriveType GetDriveType(System.IO.DriveInfo drive)
 		{
-			if (drive.DriveType is SystemIO.DriveType.Unknown)
+			if (drive.DriveType is System.IO.DriveType.Unknown)
 			{
 				string path = PathNormalization.NormalizePath(drive.Name);
 
 				if (path is "A:" or "B:")
-					return DriveType.FloppyDisk;
+					return Data.Items.DriveType.FloppyDisk;
 			}
 
 			return drive.DriveType switch
 			{
-				SystemIO.DriveType.CDRom => DriveType.CDRom,
-				SystemIO.DriveType.Fixed => DriveType.Fixed,
-				SystemIO.DriveType.Network => DriveType.Network,
-				SystemIO.DriveType.NoRootDirectory => DriveType.NoRootDirectory,
-				SystemIO.DriveType.Ram => DriveType.Ram,
-				SystemIO.DriveType.Removable => DriveType.Removable,
-				_ => DriveType.Unknown,
+				System.IO.DriveType.CDRom => Data.Items.DriveType.CDRom,
+				System.IO.DriveType.Fixed => Data.Items.DriveType.Fixed,
+				System.IO.DriveType.Network => Data.Items.DriveType.Network,
+				System.IO.DriveType.NoRootDirectory => Data.Items.DriveType.NoRootDirectory,
+				System.IO.DriveType.Ram => Data.Items.DriveType.Ram,
+				System.IO.DriveType.Removable => Data.Items.DriveType.Removable,
+				_ => Data.Items.DriveType.Unknown,
 			};
 		}
 
-		public static unsafe string GetExtendedDriveLabel(SystemIO.DriveInfo drive)
+		public static string GetExtendedDriveLabel(DriveInfo drive)
 		{
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
-				if (drive.DriveType is not SystemIO.DriveType.CDRom || drive.DriveFormat is not "UDF")
+				if (drive.DriveType is not System.IO.DriveType.CDRom || drive.DriveFormat is not "UDF")
 					return drive.VolumeLabel;
-
 				return SafetyExtensions.IgnoreExceptions(() =>
 				{
-					string dosDevicePath = "";
-
-					fixed (char* cDeviceName = drive.Name)
-					{
-						var cch = PInvoke.QueryDosDevice(cDeviceName, null, 0u);
-
-						fixed (char* cTargetPath = new char[cch])
-						{
-							PWSTR pszTargetPath = new(cTargetPath);
-							PInvoke.QueryDosDevice(cDeviceName, pszTargetPath, 0u);
-							dosDevicePath = pszTargetPath.ToString();
-						}
-					}
-
+					var dosDevicePath = Vanara.PInvoke.Kernel32.QueryDosDevice(drive.Name).FirstOrDefault();
 					if (string.IsNullOrEmpty(dosDevicePath))
 						return drive.VolumeLabel;
-
-					using var driveStream = new SystemIO.FileStream(
-						dosDevicePath.Replace(@"\Device\", @"\\.\"),
-						SystemIO.FileMode.Open,
-						SystemIO.FileAccess.Read);
-
+					using var driveStream = new FileStream(dosDevicePath.Replace(@"\Device\", @"\\.\"), FileMode.Open, FileAccess.Read);
 					using var udf = new UdfReader(driveStream);
-
 					return udf.VolumeLabel;
 				}) ?? drive.VolumeLabel;
-
 			}) ?? "";
 		}
 

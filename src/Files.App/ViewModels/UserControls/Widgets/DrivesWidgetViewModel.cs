@@ -39,7 +39,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			Drives_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 
-			StorageDevicesService.Drives.CollectionChanged += Drives_CollectionChanged;
+			DrivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
 
 			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteOpenInNewTabCommand);
 			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteOpenInNewWindowCommand);
@@ -223,7 +223,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				foreach (DriveItem drive in StorageDevicesService.Drives.ToList().Cast<DriveItem>())
+				foreach (DriveItem drive in DrivesViewModel.Drives.ToList().Cast<DriveItem>())
 				{
 					if (!Items.Any(x => x.Item == drive) && drive.Type is not DriveType.VirtualDrive and not DriveType.Network)
 					{
@@ -236,7 +236,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 				foreach (WidgetDriveCardItem driveCard in Items.ToList())
 				{
-					if (!StorageDevicesService.Drives.Contains(driveCard.Item))
+					if (!DrivesViewModel.Drives.Contains(driveCard.Item))
 						Items.Remove(driveCard);
 				}
 			});

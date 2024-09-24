@@ -1,27 +1,38 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Core.Storage.Storables;
+
 namespace Files.App.Data.Contracts
 {
 	/// <summary>
-	/// Represents a service to enumerate and update drives.
+	/// Represents a service to enumerate drives and create a storage device watcher
 	/// </summary>
-	public interface IRemovableDrivesService : INotifyPropertyChanged
+	public interface IRemovableDrivesService
 	{
 		/// <summary>
-		/// Gets drives.
+		/// Gets the primary system drive. This item is typically excluded when enumerating removable drives
 		/// </summary>
-		ObservableCollection<ILocatableFolder> Drives { get; }
+		/// <returns>The location of the drive which the operating system is installed to.</returns>
+		Task<ILocatableFolder> GetPrimaryDriveAsync();
 
 		/// <summary>
-		/// Gets or sets a value that indicates whether the application should show consent dialog when the primary drive isn't accessible.
+		/// Creates a watcher for storage devices
 		/// </summary>
-		bool ShowUserConsentOnInit { get; set; }
+		/// <returns>The created storage device watcher</returns>
+		IStorageDeviceWatcher CreateWatcher();
 
 		/// <summary>
-		/// Updates all connected devices.
+		/// Enumerates all removable drives
 		/// </summary>
+		/// <returns>A collection of removable storage devices</returns>
+		IAsyncEnumerable<ILocatableFolder> GetDrivesAsync();
+
+		/// <summary>
+		/// Refreshes the properties of a drive
+		/// </summary>
+		/// <param name="drive"></param>
 		/// <returns></returns>
-		Task UpdateDrivesAsync();
+		Task UpdateDrivePropertiesAsync(ILocatableFolder drive);
 	}
 }

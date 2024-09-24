@@ -1,13 +1,15 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Utils.Shell;
+
 namespace Files.App.Actions
 {
 	internal sealed class FormatDriveAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
-		private readonly IRemovableDrivesService StorageDevicesService = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
+		private readonly DrivesViewModel drivesViewModel;
 
 		public string Label
 			=> "FormatDriveText".GetLocalizedResource();
@@ -18,12 +20,13 @@ namespace Files.App.Actions
 		public bool IsExecutable =>
 			context.HasItem &&
 			!context.HasSelection &&
-			(StorageDevicesService.Drives.Cast<DriveItem>().FirstOrDefault(x =>
+			(drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x =>
 				string.Equals(x.Path, context.Folder?.ItemPath))?.MenuOptions.ShowFormatDrive ?? false);
 
 		public FormatDriveAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 		}

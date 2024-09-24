@@ -69,8 +69,8 @@ namespace Files.App.Utils.Storage
 
 				item = folder;
 
-				var storageDevicesService = Ioc.Default.GetRequiredService<IRemovableDrivesService>();
-				var drives = storageDevicesService.Drives;
+				var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
+				var drives = drivesViewModel.Drives;
 				foreach (var drive in drives)
 				{
 					// Current folder is drive
