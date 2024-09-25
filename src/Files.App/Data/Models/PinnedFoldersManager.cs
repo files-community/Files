@@ -39,9 +39,15 @@ namespace Files.App.Data.Models
 
 			try
 			{
+				var formerPinnedFolders = PinnedFolders.ToList();
+
 				PinnedFolders = (await QuickAccessService.GetPinnedFoldersAsync())
 					.Where(link => (bool?)link.Properties["System.Home.IsPinned"] ?? false)
 					.Select(link => link.FilePath).ToList();
+
+				if (formerPinnedFolders.SequenceEqual(PinnedFolders))
+					return;
+
 				RemoveStaleSidebarItems();
 				await AddAllItemsToSidebarAsync();
 			}
