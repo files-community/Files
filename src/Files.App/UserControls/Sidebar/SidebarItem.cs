@@ -433,11 +433,7 @@ namespace Files.App.UserControls.Sidebar
 		{
 			UpdatePointerState();
 			if (Owner is not null)
-			{
-				var deferral = e.GetDeferral();
 				await Owner.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
-				deferral.Complete();
-			}
 		}
 
 		private SidebarItemDropPosition DetermineDropTargetPosition(DragEventArgs args)
