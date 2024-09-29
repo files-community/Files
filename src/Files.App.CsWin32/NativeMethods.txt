@@ -133,3 +133,4 @@ IFileOperation
 IShellItem2
 PSGetPropertyKeyFromName
 ShellExecuteEx
+QueryDosDevice
