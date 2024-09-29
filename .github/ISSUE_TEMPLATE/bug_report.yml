@@ -1,5 +1,5 @@
 name: Bug Report
-description: Create a bug report to help improve Files
+description: Create a bug report to help improve Files.
 labels: [bug]
 body:
 
@@ -38,7 +38,7 @@ body:
     id: files_version
     attributes:
       label: Files Version
-      description: Which version of Files are you using? To copy your Files version, access it from Settings -> About -> Copy -> Files version
+      description: Which version of Files are you using? To copy your Files version, access it from Settings -> About -> Copy -> Files version.
       placeholder: "e.g. 2.0.34.0"
     validations:
       required: true
@@ -48,10 +48,20 @@ body:
     id: windows_version
     attributes:
       label: Windows Version
-      description: Which version of Windows are you using? To copy your Windows version, access it from Settings -> About -> Copy -> Windows version
+      description: Which version of Windows are you using? To copy your Windows version, access it from Settings -> About -> Copy -> Windows version.
       placeholder: "e.g. 10.0.22621.1848"
     validations:
       required: true
+
+    # User ID
+  - type: input
+    id: user_id
+    attributes:
+      label: User ID
+      description: Your User ID is a GUID that can be matched up with bug reports in Sentry. To copy your User ID, access it from Settings -> About -> Copy -> User ID.
+      placeholder: "74750836-5885-4eeb-964f-8177cb4babf6"
+    validations:
+      required: false
 
   # Log File
   - type: textarea

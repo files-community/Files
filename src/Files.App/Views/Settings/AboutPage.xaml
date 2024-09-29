@@ -42,6 +42,7 @@
 						<MenuFlyout>
 							<MenuFlyoutItem Command="{x:Bind ViewModel.CopyAppVersionCommand}" Text="{helpers:ResourceString Name=AppVersion}" />
 							<MenuFlyoutItem Command="{x:Bind ViewModel.CopyWindowsVersionCommand}" Text="{helpers:ResourceString Name=WindowsVersion}" />
+							<MenuFlyoutItem Command="{x:Bind ViewModel.CopyUserIDCommand}" Text="{helpers:ResourceString Name=UserID}" />
 						</MenuFlyout>
 					</Button.Flyout>
 				</Button>

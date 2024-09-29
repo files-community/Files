@@ -1243,18 +1243,20 @@ namespace Files.App.ViewModels.UserControls
 
 			args.RawEvent.Handled = true;
 
-			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
+			// Comment out the code for dropping to Tags section as it is currently not supported.
 
-			if (!storageItems.Any())
-			{
-				args.RawEvent.AcceptedOperation = DataPackageOperation.None;
-			}
-			else
-			{
-				args.RawEvent.DragUIOverride.IsCaptionVisible = true;
-				args.RawEvent.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), tagItem.Text);
-				args.RawEvent.AcceptedOperation = DataPackageOperation.Link;
-			}
+			//var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
+
+			//if (!storageItems.Any())
+			//{
+			args.RawEvent.AcceptedOperation = DataPackageOperation.None;
+			//}
+			//else
+			//{
+			//	args.RawEvent.DragUIOverride.IsCaptionVisible = true;
+			//	args.RawEvent.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), tagItem.Text);
+			//	args.RawEvent.AcceptedOperation = DataPackageOperation.Link;
+			//}
 		}
 
 
@@ -1264,8 +1266,11 @@ namespace Files.App.ViewModels.UserControls
 				await HandleLocationItemDroppedAsync(locationItem, args);
 			else if (args.DropTarget is DriveItem driveItem)
 				await HandleDriveItemDroppedAsync(driveItem, args);
-			else if (args.DropTarget is FileTagItem fileTagItem)
-				await HandleTagItemDroppedAsync(fileTagItem, args);
+
+			// Comment out the code for dropping to Tags section as it is currently not supported.
+
+			//else if (args.DropTarget is FileTagItem fileTagItem)
+			//	await HandleTagItemDroppedAsync(fileTagItem, args);
 		}
 
 		private async Task HandleLocationItemDroppedAsync(LocationItem locationItem, ItemDroppedEventArgs args)
@@ -1293,6 +1298,7 @@ namespace Files.App.ViewModels.UserControls
 			return FilesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.RawEvent.DataView, driveItem.Path, false, true);
 		}
 
+		// TODO: This method effectively does nothing. We need to implement the functionality for dropping to Tags section.
 		private async Task HandleTagItemDroppedAsync(FileTagItem fileTagItem, ItemDroppedEventArgs args)
 		{
 			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);

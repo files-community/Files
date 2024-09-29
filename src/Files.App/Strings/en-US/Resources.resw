@@ -3944,4 +3944,7 @@
   <data name="Toolbars" xml:space="preserve">
     <value>Toolbars</value>
   </data>
+  <data name="UserID" xml:space="preserve">
+    <value>User ID</value>
+  </data>
 </root>

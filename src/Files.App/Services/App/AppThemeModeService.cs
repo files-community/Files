@@ -6,7 +6,7 @@ using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using Windows.Storage;
+using System.Runtime.InteropServices;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 
@@ -110,6 +110,10 @@ namespace Files.App.Services
 
 				if (callThemeModeChangedEvent)
 					AppThemeModeChanged?.Invoke(null, EventArgs.Empty);
+			}
+			catch (COMException ex)
+			{
+				App.Logger.LogInformation(ex, "Failed to change theme mode of the app.");
 			}
 			catch (Exception ex)
 			{

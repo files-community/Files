@@ -148,3 +148,4 @@ IApplicationDestinations
 ApplicationDestinations
 IApplicationDocumentLists
 ApplicationDocumentLists
+QueryDosDevice

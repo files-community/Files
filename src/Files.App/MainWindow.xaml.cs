@@ -13,15 +13,20 @@ using IO = System.IO;
 
 namespace Files.App
 {
-	public sealed partial class MainWindow : WindowEx
+	public sealed partial class MainWindow : WinUIEx.WindowEx
 	{
 		private static MainWindow? _Instance;
 		public static MainWindow Instance => _Instance ??= new();
 
-		public MainWindow() : base(minWidth: 516, minHeight: 416)
+		public nint WindowHandle { get; }
+
+		public MainWindow()
 		{
 			InitializeComponent();
 
+			WindowHandle = WinUIEx.WindowExtensions.GetWindowHandle(this);
+			MinHeight = 416;
+			MinWidth = 516;
 			ExtendsContentIntoTitleBar = true;
 			Title = "Files";
 			AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
@@ -188,9 +193,8 @@ namespace Files.App
 				Win32Helper.BringToForegroundEx(new(WindowHandle));
 			}
 
-			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)) &&
-				AppWindow.Presenter is OverlappedPresenter presenter)
-				presenter.Restore(); // Restore window if minimized
+			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)))
+				WinUIEx.WindowExtensions.Restore(Instance); // Restore window if minimized
 		}
 
 		private Frame? EnsureWindowIsInitialized()
