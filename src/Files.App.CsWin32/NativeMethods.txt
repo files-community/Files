@@ -134,3 +134,4 @@ IShellItem2
 PSGetPropertyKeyFromName
 ShellExecuteEx
 CoTaskMemFree
+QueryDosDevice
