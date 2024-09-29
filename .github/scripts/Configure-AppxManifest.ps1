@@ -33,10 +33,10 @@ if ($Branch -eq "Preview")
     $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="Files - Preview"
 
     # Update app protocol and execution alias
-    $ap = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pkg:Extensions/uap:Extension[@Category='windows.protocol']", $nsmgr)
-    $ap.Attributes["Name"]="files-pre";
-    $aea = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pkg:Extensions/uap:Extension[@Category='windows.appExecutionAlias']/uap5:AppExecutionAlias", $nsmgr)
-    $aea.Attributes["Alias"]="files-pre.exe";
+    $ap = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pkg:Extensions/uap:Extension[@Category='windows.protocol']/uap:Protocol", $nsmgr)
+    $aea = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pkg:Extensions/uap5:Extension[@Category='windows.appExecutionAlias']/uap5:AppExecutionAlias/uap5:ExecutionAlias", $nsmgr)
+    $ap.SetAttribute("Name", "files-pre");
+    $aea.SetAttribute("Alias", "files-pre.exe");
 
     # Save modified Package.appxmanifest
     $xmlDoc.Save($PackageManifestPath)
@@ -62,10 +62,10 @@ elseif ($Branch -eq "Stable")
     $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="Files"
 
     # Update app protocol and execution alias
-    $ap = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pkg:Extensions/uap:Extension[@Category='windows.protocol']", $nsmgr)
-    $ap.Attributes["Name"]="files";
-    $aea = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pkg:Extensions/uap:Extension[@Category='windows.appExecutionAlias']/uap5:AppExecutionAlias", $nsmgr)
-    $aea.Attributes["Alias"]="files.exe";
+    $ap = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pkg:Extensions/uap:Extension[@Category='windows.protocol']/uap:Protocol", $nsmgr)
+    $aea = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pkg:Extensions/uap5:Extension[@Category='windows.appExecutionAlias']/uap5:AppExecutionAlias/uap5:ExecutionAlias", $nsmgr)
+    $ap.SetAttribute("Name", "files");
+    $aea.SetAttribute("Alias", "files.exe");
     
     # Save modified Package.appxmanifest
     $xmlDoc.Save($PackageManifestPath)
@@ -95,10 +95,10 @@ elseif ($Branch -eq "Store")
     $xmlDoc.Package.Capabilities.RemoveChild($pm)
 
     # Update app protocol and execution alias
-    $ap = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pkg:Extensions/uap:Extension[@Category='windows.protocol']", $nsmgr)
-    $ap.Attributes["Name"]="files";
-    $aea = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pkg:Extensions/uap:Extension[@Category='windows.appExecutionAlias']/uap5:AppExecutionAlias", $nsmgr)
-    $aea.Attributes["Alias"]="files.exe";
+    $ap = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pkg:Extensions/uap:Extension[@Category='windows.protocol']/uap:Protocol", $nsmgr)
+    $aea = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pkg:Extensions/uap5:Extension[@Category='windows.appExecutionAlias']/uap5:AppExecutionAlias/uap5:ExecutionAlias", $nsmgr)
+    $ap.SetAttribute("Name", "files");
+    $aea.SetAttribute("Alias", "files.exe");
 
     # Save modified Package.appxmanifest
     $xmlDoc.Save($PackageManifestPath)
