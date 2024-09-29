@@ -109,6 +109,10 @@ namespace Files.App.Services
 				if (callThemeModeChangedEvent)
 					AppThemeModeChanged?.Invoke(null, EventArgs.Empty);
 			}
+			catch (COMException ex)
+			{
+				App.Logger.LogInformation(ex, "Failed to change theme mode of the app.");
+			}
 			catch (Exception ex)
 			{
 				App.Logger.LogWarning(ex, "Failed to change theme mode of the app.");
