@@ -16,6 +16,11 @@ namespace Files.App.ViewModels.Settings
 	/// </summary>
 	public sealed class AboutViewModel : ObservableObject
 	{
+		// Dependency injections
+
+		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+
+
 		// Properties
 
 		public string Version
@@ -33,6 +38,7 @@ namespace Files.App.ViewModels.Settings
 
 		public ICommand CopyAppVersionCommand { get; }
 		public ICommand CopyWindowsVersionCommand { get; }
+		public ICommand CopyUserIDCommand { get; }
 		public ICommand SupportUsCommand { get; }
 		public ICommand OpenLogLocationCommand { get; }
 		public ICommand OpenDocumentationCommand { get; }
@@ -76,6 +82,7 @@ namespace Files.App.ViewModels.Settings
 
 			CopyAppVersionCommand = new RelayCommand(CopyAppVersion);
 			CopyWindowsVersionCommand = new RelayCommand(CopyWindowsVersion);
+			CopyUserIDCommand = new RelayCommand(CopyUserID);
 			SupportUsCommand = new AsyncRelayCommand(SupportUs);
 			OpenDocumentationCommand = new AsyncRelayCommand(DoOpenDocumentation);
 			OpenDiscordCommand = new AsyncRelayCommand(DoOpenDiscord);
@@ -161,6 +168,17 @@ namespace Files.App.ViewModels.Settings
 				Clipboard.SetContent(dataPackage);
 			});
 		}
+		
+		public void CopyUserID()
+		{
+			SafetyExtensions.IgnoreExceptions(() =>
+			{
+				DataPackage dataPackage = new DataPackage();
+				dataPackage.RequestedOperation = DataPackageOperation.Copy;
+				dataPackage.SetText(GetUserID());
+				Clipboard.SetContent(dataPackage);
+			});
+		}
 
 		public Task SupportUs()
 		{
@@ -176,12 +194,18 @@ namespace Files.App.ViewModels.Settings
 		{
 			return SystemInformation.Instance.OperatingSystemVersion.ToString();
 		}
+		
+		public string GetUserID()
+		{
+			return GeneralSettingsService.UserId;
+		}
 
 		public string GetVersionsQueryString()
 		{
 			var query = System.Web.HttpUtility.ParseQueryString(string.Empty);
 			query["files_version"] = GetAppVersion();
 			query["windows_version"] = GetWindowsVersion();
+			query["user_id"] = GetUserID();
 			return query.ToString() ?? string.Empty;
 		}
 	}
