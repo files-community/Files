@@ -26,7 +26,7 @@ namespace Files.App
 
 			WindowHandle = WinUIEx.WindowExtensions.GetWindowHandle(this);
 			MinHeight = 316;
-			MinWidth = 516;
+			MinWidth = 416;
 			ExtendsContentIntoTitleBar = true;
 			Title = "Files";
 			AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
