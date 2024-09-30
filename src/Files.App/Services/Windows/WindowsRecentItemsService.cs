@@ -238,9 +238,6 @@ namespace Files.App.Services
 				if (recentItems.Count is 0)
 					return false;
 
-				// Sort by the display name
-				var orderedRecentItems = recentItems.OrderBy(x => x.Name).ToList();
-
 				var snapshot = isFolder ? RecentFolders : RecentFiles;
 
 				if (isFolder)
