@@ -23,7 +23,7 @@ namespace Files.App.Actions
 			context.ShellPage is not null &&
 			IsPageTypeValid() &&
 			context.ShellPage.SlimContentPage is not null &&
-			IsSelectionValid();
+			context.HasSelection;
 
 		public RenameAction()
 		{
@@ -32,16 +32,18 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync(object? parameter = null)
+		public async Task ExecuteAsync(object? parameter = null)
 		{
-			context.ShellPage?.SlimContentPage?.ItemManipulationModel.StartRenameItem();
-
-			return Task.CompletedTask;
-		}
-
-		private bool IsSelectionValid()
-		{
-			return context.HasSelection && context.SelectedItems.Count == 1;
+			if (context.SelectedItems.Count > 1)
+			{
+				var viewModel = new BulkRenameDialogViewModel();
+				var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
+				var result = await dialogService.ShowDialogAsync(viewModel);
+			}
+			else
+			{
+				context.ShellPage?.SlimContentPage?.ItemManipulationModel.StartRenameItem();
+			}
 		}
 
 		private bool IsPageTypeValid()

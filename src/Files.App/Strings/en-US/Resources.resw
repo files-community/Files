@@ -3947,4 +3947,7 @@
   <data name="UserID" xml:space="preserve">
     <value>User ID</value>
   </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Bulk rename</value>
+  </data>
 </root>

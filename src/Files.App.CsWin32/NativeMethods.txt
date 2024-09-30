@@ -148,4 +148,5 @@ IApplicationDestinations
 ApplicationDestinations
 IApplicationDocumentLists
 ApplicationDocumentLists
+CoTaskMemFree
 QueryDosDevice
