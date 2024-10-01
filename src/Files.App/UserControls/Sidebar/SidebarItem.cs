@@ -75,7 +75,7 @@ namespace Files.App.UserControls.Sidebar
 				border.DragOver += ItemBorder_DragOver;
 				border.Drop += ItemBorder_Drop;
 				border.AllowDrop = true;
-				border.IsTabStop = true;
+				border.IsTabStop = false;
 			}
 
 			if (GetTemplateChild("ChildrenPresenter") is ItemsRepeater repeater)
