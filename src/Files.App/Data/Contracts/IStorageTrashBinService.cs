@@ -62,6 +62,6 @@ namespace Files.App.Data.Contracts
 		/// Restores files and folders in Recycle Bin to original paths.
 		/// </summary>
 		/// <returns>True if succeeded; otherwise, false</returns>
-		bool RestoreAllTrashes();
+		Task<bool> RestoreAllTrashesAsync();
 	}
 }

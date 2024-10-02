@@ -603,7 +603,7 @@ namespace Files.App.ViewModels
 			try
 			{
 				var matchingItem = filesAndFolders.ToList().FirstOrDefault(x => x.ItemPath == e.Path);
-				if (matchingItem is not null)
+				if (matchingItem is not null && (e.ValueState is not SizeChangedValueState.Intermediate || (long)e.NewSize > matchingItem.FileSizeBytes))
 				{
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
