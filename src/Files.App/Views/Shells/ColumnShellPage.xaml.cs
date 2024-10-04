@@ -62,6 +62,7 @@ namespace Files.App.Views.Shells
 		protected override void OnNavigationParamsChanged()
 		{
 			if (ColumnParams.NavPathParam is not null)
+				// This method call is required to load the sorting preferences.
 				InstanceViewModel.FolderSettings.GetLayoutType(ColumnParams.NavPathParam);
 
 			ItemDisplayFrame.Navigate(
