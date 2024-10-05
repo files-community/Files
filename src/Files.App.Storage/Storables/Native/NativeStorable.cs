@@ -12,7 +12,7 @@ namespace Files.App.Storage.Storables
 	/// <summary>
 	/// Represents a storable that is natively supported by Windows Shell API.
 	/// </summary>
-	public abstract class NativeStorable, INativeStorable
+	public abstract class NativeStorable : INativeStorable
 	{
 		/// <inheritdoc/>
 		/// <remarks>
