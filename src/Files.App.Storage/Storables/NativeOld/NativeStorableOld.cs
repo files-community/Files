@@ -6,7 +6,7 @@ using System.IO;
 namespace Files.App.Storage.Storables
 {
 	/// <inheritdoc cref="IStorable"/>
-	public abstract class NativeStorable<TStorage> : ILocatableStorable, INestedStorable
+	public abstract class NativeStorableOld<TStorage> : ILocatableStorable, INestedStorable
 		where TStorage : FileSystemInfo
 	{
 		protected readonly TStorage storage;
@@ -20,7 +20,7 @@ namespace Files.App.Storage.Storables
 		/// <inheritdoc/>
 		public virtual string Id { get; }
 
-		protected NativeStorable(TStorage storage, string? name = null)
+		protected NativeStorableOld(TStorage storage, string? name = null)
 		{
 			this.storage = storage;
 			Path = storage.FullName;
@@ -35,7 +35,7 @@ namespace Files.App.Storage.Storables
 			if (parent is null)
 				return Task.FromResult<IFolder?>(null);
 
-			return Task.FromResult<IFolder?>(new NativeFolder(parent));
+			return Task.FromResult<IFolder?>(new NativeFolderOld(parent));
 		}
 
 		/// <summary>

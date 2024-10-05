@@ -16,7 +16,7 @@ namespace Files.App.Storage.Storables
 			if (!File.Exists(id))
 				throw new FileNotFoundException();
 
-			return Task.FromResult<IFile>(new NativeFile(id));
+			return Task.FromResult<IFile>(new NativeFileOld(id));
 		}
 
 		/// <inheritdoc/>
@@ -29,10 +29,10 @@ namespace Files.App.Storage.Storables
 			if (PathHelpers.IsSpecialFolder(id))
 			{
 				var storageFolder = await TryGetStorageFolderAsync(id);
-				return new NativeFolder(id, storageFolder?.DisplayName);
+				return new NativeFolderOld(id, storageFolder?.DisplayName);
 			}
 
-			return new NativeFolder(id);
+			return new NativeFolderOld(id);
 
 			async Task<StorageFolder?> TryGetStorageFolderAsync(string path)
 			{

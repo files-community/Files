@@ -7,14 +7,14 @@ using System.Runtime.CompilerServices;
 namespace Files.App.Storage.Storables
 {
 	/// <inheritdoc cref="IFolder"/>
-	public class NativeFolder : NativeStorable<DirectoryInfo>, ILocatableFolder, IModifiableFolder, IMutableFolder, IFolderExtended, INestedFolder, IDirectCopy, IDirectMove
+	public class NativeFolderOld : NativeStorableOld<DirectoryInfo>, ILocatableFolder, IModifiableFolder, IMutableFolder, IFolderExtended, INestedFolder, IDirectCopy, IDirectMove
     {
-		public NativeFolder(DirectoryInfo directoryInfo, string? name = null)
+		public NativeFolderOld(DirectoryInfo directoryInfo, string? name = null)
 		    : base(directoryInfo, name)
 	    {
 	    }
 
-	    public NativeFolder(string path, string? name = null)
+	    public NativeFolderOld(string path, string? name = null)
 		    : this(new DirectoryInfo(path), name)
 	    {
 	    }
@@ -27,7 +27,7 @@ namespace Files.App.Storage.Storables
 		    if (!File.Exists(path))
 			    throw new FileNotFoundException();
 
-		    return Task.FromResult<INestedFile>(new NativeFile(path));
+		    return Task.FromResult<INestedFile>(new NativeFileOld(path));
 	    }
 
 	    /// <inheritdoc/>
@@ -46,21 +46,21 @@ namespace Files.App.Storage.Storables
 		    if (kind == StorableKind.Files)
 		    {
 			    foreach (var item in Directory.EnumerateFiles(Path))
-				    yield return new NativeFile(item);
+				    yield return new NativeFileOld(item);
 		    }
 		    else if (kind == StorableKind.Folders)
 		    {
 			    foreach (var item in Directory.EnumerateDirectories(Path))
-				    yield return new NativeFolder(item);
+				    yield return new NativeFolderOld(item);
 		    }
 		    else
 		    {
 			    foreach (var item in Directory.EnumerateFileSystemEntries(Path))
 			    {
 				    if (File.Exists(item))
-					    yield return new NativeFile(item);
+					    yield return new NativeFileOld(item);
 				    else
-					    yield return new NativeFolder(item);
+					    yield return new NativeFolderOld(item);
 			    }
 		    }
 
@@ -96,7 +96,7 @@ namespace Files.App.Storage.Storables
 					var newPath = System.IO.Path.Combine(Path, itemToCopy.Name);
 					File.Copy(sourceLocatableFile.Path, newPath, overwrite);
 
-					return new NativeFile(newPath);
+					return new NativeFileOld(newPath);
 				}
 
 				var copiedFile = await CreateFileAsync(itemToCopy.Name, overwrite, cancellationToken);
@@ -124,7 +124,7 @@ namespace Files.App.Storage.Storables
 					var newPath = System.IO.Path.Combine(Path, itemToMove.Name);
 					File.Move(sourceLocatableFile.Path, newPath, overwrite);
 
-					return new NativeFile(newPath);
+					return new NativeFileOld(newPath);
 				}
 				else
 				{
@@ -161,7 +161,7 @@ namespace Files.App.Storage.Storables
 				Directory.Delete(path, true);
 
 			_ = Directory.CreateDirectory(path);
-			return Task.FromResult<INestedFolder>(new NativeFolder(path));
+			return Task.FromResult<INestedFolder>(new NativeFolderOld(path));
 		}
 	}
 }
