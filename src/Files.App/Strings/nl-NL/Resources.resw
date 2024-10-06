@@ -3152,7 +3152,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Backdrop</value>
+    <value>Achtergrond</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Effen</value>
@@ -3881,7 +3881,7 @@
     <value>Status:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Show toolbar</value>
+    <value>Werkbalk weergeven</value>
     <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
@@ -3936,12 +3936,18 @@
     <value>CPU-threads</value>
   </data>
   <data name="NavigateHomeDescription" xml:space="preserve">
-    <value>Navigate to the home page</value>
+    <value>Ga naar de homepage</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Show Home in address bar</value>
+    <value>Home-knop weergeven in de adresbalk</value>
   </data>
   <data name="Toolbars" xml:space="preserve">
-    <value>Toolbars</value>
+    <value>Werkbalken</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>Gebruiker-ID</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Bulk rename</value>
   </data>
 </root>
