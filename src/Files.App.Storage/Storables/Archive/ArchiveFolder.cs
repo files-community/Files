@@ -4,9 +4,9 @@
 namespace Files.App.Storage.Storables
 {
 	/// <summary>
-	/// Represents a folder view that is natively supported by Windows Shell API.
+	/// Represents a folder that is powered by SevenZipSharp and 7zip.
 	/// </summary>
-	public class NativeFolderView : IFolderView
+	public class ArchiveFolder : ArchiveStorable/*, IFolder*/
     {
 	}
 }

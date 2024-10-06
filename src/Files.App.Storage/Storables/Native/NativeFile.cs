@@ -4,7 +4,7 @@
 namespace Files.App.Storage.Storables
 {
 	/// <summary>
-	/// Represents a file object that is natively supported by Windows Shell API.
+	/// Represents a file that is natively supported by Windows Shell API.
 	/// </summary>
 	public class NativeFile : NativeStorable/*, IFile*/
 	{

@@ -4,7 +4,7 @@
 namespace Files.App.Storage.Storables
 {
 	/// <summary>
-	/// Represents a folder object that is natively supported by Windows Shell API.
+	/// Represents a folder that is natively supported by Windows Shell API.
 	/// </summary>
 	public class NativeFolder : NativeStorable/*, IFolder*/
     {

@@ -35,7 +35,7 @@ namespace Files.App.Storage.Storables
 		/// Initializes an instance of <see cref="NativeStorable"/> class.
 		/// </summary>
 		/// <param name="path">Win32 file namespace, shell namespace, or UNC path.</param>
-		public unsafe NativeFile(string path)
+		public unsafe NativeStorable(string path)
 		{
 			HRESULT hr = PInvoke.SHCreateItemFromParsingName(
 				path,
@@ -53,7 +53,7 @@ namespace Files.App.Storage.Storables
 			HRESULT hr = default;
 
 			// For known folders
-			fixed (Guid* pFolderId = shellGuid)
+			fixed (Guid* pFolderId = &shellGuid)
 			{
 				hr = PInvoke.SHGetKnownFolderItem(
 					pFolderId,
@@ -96,12 +96,12 @@ namespace Files.App.Storage.Storables
 				id,
 				out var propertyKey);
 
-			using ComHeapPtr<LPWSTR> pPropertyValue;
-			hr = pShellItem2.Get()->GetString(
-				&propertyKey,
-				pPropertyValue.GetAddressOf());
+			using ComHeapPtr<LPWSTR> pszPropertyValue = default;
+			//hr = pShellItem2.Get()->GetString(
+			//	&propertyKey,
+			//	pszPropertyValue.GetAddressOf());
 
-			return szPropertyValue.Get()->ToString();
+			return pszPropertyValue.Get()->ToString();
 		}
 	}
 }

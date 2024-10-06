@@ -5,12 +5,5 @@ namespace Files.Core.Storage
 {
 	public interface IFolderView
 	{
-		int GetSpacing();
-
-		int GetThumbnailSize();
-
-		FolderViewMode GetViewMode();
-
-		uint GetItemsCount();
 	}
 }
