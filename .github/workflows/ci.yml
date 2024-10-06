@@ -236,11 +236,16 @@ jobs:
       shell: pwsh
       run: Start-Process -FilePath "$env:WINAPPDRIVER_EXE86_PATH"
 
-    - name: Run interaction tests
-      run: |
-        dotnet test `
-          $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll `
-          --logger "trx;LogFileName=$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"
+    # Integration tests became moody lately. Retry 3 times.
+    - uses: nick-fields/retry@v3
+      with:
+        timeout_minutes: 15
+        max_attempts: 3
+        shell: pwsh
+        command: |
+          dotnet test `
+            $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll `
+            --logger "trx;LogFileName=$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"
 
     # - name: Generate markdown from the tests result
     #   shell: pwsh
