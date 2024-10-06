@@ -3944,4 +3944,10 @@
   <data name="Toolbars" xml:space="preserve">
     <value>Barra d'eines</value>
   </data>
+  <data name="UserID" xml:space="preserve">
+    <value>ID d'usuari</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Canvi de nom en bloc</value>
+  </data>
 </root>

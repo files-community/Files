@@ -3944,4 +3944,10 @@
   <data name="Toolbars" xml:space="preserve">
     <value>工具栏</value>
   </data>
+  <data name="UserID" xml:space="preserve">
+    <value>用户 ID</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>批量重命名</value>
+  </data>
 </root>

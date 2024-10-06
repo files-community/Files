@@ -319,7 +319,7 @@
     <value>Wstecz</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>Dalej</value>
+    <value>Naprzód</value>
   </data>
   <data name="Up" xml:space="preserve">
     <value>W górę</value>
@@ -1794,7 +1794,7 @@
     <value>Brak</value>
   </data>
   <data name="CompatibilityOnWindowsLogin" xml:space="preserve">
-    <value>Przy zalogowaniu do systemu Windows</value>
+    <value>Przy logowaniu Windows</value>
   </data>
   <data name="CompatibilityOnProgramStart" xml:space="preserve">
     <value>Przy uruchomieniu programu</value>
@@ -1854,7 +1854,7 @@
     <value>To ustawienie modyfikuje pliki systemu i może wywołać niechciane efekty uboczne na Twoim urządzeniu. Kontynuujesz na własne ryzyko.</value>
   </data>
   <data name="ShowFlattenOptionsDescription" xml:space="preserve">
-    <value>The flatten operations are permanent and not recommended. Continue at your own risk.</value>
+    <value>Operacje płaskie są trwałe i nie są zalecane. Kontynuuj na własne ryzyko.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Utwórz bibliotekę</value>
@@ -2031,19 +2031,19 @@
     <value>Skompresuj</value>
   </data>
   <data name="FlattenFolderDescription" xml:space="preserve">
-    <value>Move all contents from subfolders into the selected location</value>
+    <value>Przenieś całą zawartość z podfolderów do wybranej lokalizacji</value>
   </data>
   <data name="FlattenFolder" xml:space="preserve">
-    <value>Flatten folder</value>
+    <value>Spłaszcz folder</value>
   </data>
   <data name="Flatten" xml:space="preserve">
-    <value>Flatten</value>
+    <value>Spłaszcz</value>
   </data>
   <data name="FlattenFolderDialogContent" xml:space="preserve">
-    <value>Flattening a folder will move all contents from its subfolders to the selected location. This operation is permanent and cannot be undone. By using this experimental feature, you acknowledge the risk and agree not to hold the Files team responsible for any data loss.</value>
+    <value>Spłaszczenie folderu przeniesie całą zawartość z jego podfolderów do wybranej lokalizacji. Ta operacja jest trwała i nie może zostać cofnięta. Korzystając z tej funkcji eksperymentalnej, potwierdzasz ryzyko i zgadzasz się nie ponosić odpowiedzialności zespołu Files za utratę danych.</value>
   </data>
   <data name="ShowFlattenOptions" xml:space="preserve">
-    <value>Show flatten options</value>
+    <value>Pokaż opcje spłaszczania</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Zaznacz pliki i foldery w trakcie trzymania kursora nad nimi</value>
@@ -2565,7 +2565,7 @@
     <value>Przełącz na widok kolumn</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Zmień widoki adaptacyjne</value>
+    <value>Zmień widoki adaptacyjnie</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
     <value>Sortuj według nazwy</value>
@@ -3082,13 +3082,13 @@
     <value>Otwórz właściwości</value>
   </data>
   <data name="OpenClassicProperties" xml:space="preserve">
-    <value>Open File Explorer properties</value>
+    <value>Otwórz właściwości Eksploratora Plików</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Otwórz okno właściwości</value>
   </data>
   <data name="OpenClassicPropertiesDescription" xml:space="preserve">
-    <value>Open File Explorer properties window</value>
+    <value>Otwórz właściwości okna Eksploratora Plików</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Lokalne</value>
@@ -3152,7 +3152,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Backdrop</value>
+    <value>Tło</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Jednolity</value>
@@ -3215,7 +3215,7 @@
     <value>Nie można wyświetlić obecnego właściciela.</value>
   </data>
   <data name="AuthorizationSucceded" xml:space="preserve">
-    <value>Świetnie! Teraz jesteś autoryzowany.</value>
+    <value>Świetnie! Jesteś teraz autoryzowany.</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
     <value>Inicjalizuj repozytorium</value>
@@ -3344,7 +3344,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="OrangeBright" xml:space="preserve">
-    <value>Jasny Pomarańczowy</value>
+    <value>Jasny pomarańczowy</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Overcast" xml:space="preserve">
@@ -3881,7 +3881,7 @@
     <value>Stan:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Show toolbar</value>
+    <value>Pokaż pasek narzędzi</value>
     <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
@@ -3933,15 +3933,21 @@
     <value>Pokaż ikonę Files w zasobniku systemowym</value>
   </data>
   <data name="CPUThreads" xml:space="preserve">
-    <value>CPU threads</value>
+    <value>Wątki CPU</value>
   </data>
   <data name="NavigateHomeDescription" xml:space="preserve">
-    <value>Navigate to the home page</value>
+    <value>Przejdź do strony głównej</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Show Home in address bar</value>
+    <value>Pokaż przycisk strony głównej na pasku adresu</value>
   </data>
   <data name="Toolbars" xml:space="preserve">
-    <value>Toolbars</value>
+    <value>Paski narzędzi</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>User ID</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Bulk rename</value>
   </data>
 </root>
