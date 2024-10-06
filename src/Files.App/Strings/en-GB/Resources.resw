@@ -388,10 +388,10 @@
     <value>{0, plural, one {# day ago} other {# days ago}}</value>
   </data>
   <data name="DaysAgo_Singular" xml:space="preserve">
-    <value/>
+    <value>1 day ago</value>
   </data>
   <data name="DaysAgo_Plural" xml:space="preserve">
-    <value/>
+    <value>{0} days ago</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
@@ -3943,5 +3943,11 @@
   </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Toolbars</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>User ID</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Bulk rename</value>
   </data>
 </root>
