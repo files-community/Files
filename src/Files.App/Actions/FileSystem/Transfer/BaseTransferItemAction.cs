@@ -25,7 +25,7 @@ namespace Files.App.Actions
 
 		public async Task ExecuteTransferAsync(DataPackageOperation type = DataPackageOperation.Copy)
 		{
-			if (ContentPageContext.ShellPage is null ||
+			if (ContentPageContext.ShellPage?.SlimContentPage is null ||
 				ContentPageContext.ShellPage.SlimContentPage.IsItemSelected is false)
 				return;
 
