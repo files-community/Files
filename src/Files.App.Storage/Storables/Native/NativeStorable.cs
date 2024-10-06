@@ -98,8 +98,8 @@ namespace Files.App.Storage.Storables
 
 			using ComHeapPtr<LPWSTR> pPropertyValue;
 			hr = pShellItem2.Get()->GetString(
-				propertyKey,
-				(void**)pPropertyValue.GetAddressOf());
+				&propertyKey,
+				pPropertyValue.GetAddressOf());
 
 			return szPropertyValue.Get()->ToString();
 		}

@@ -28,9 +28,9 @@ namespace Files.App.Storage.Storables
 						(Guid*)Unsafe.AsPointer(ref Unsafe.AsRef(in IEnumShellItems.Guid)),
 						(void**)pEnumShellItems.GetAddressOf());
 
-						ComPtr<IShellItem> pShellItem = default;
-						while (pEnumShellItems.Get()->Next(1, pShellItem.GetAddressOf()) == HRESULT.S_OK)
-							yield return NativeStorable(pShellItem);
+					ComPtr<IShellItem> pShellItem = default;
+					while (pEnumShellItems.Get()->Next(1, pShellItem.GetAddressOf()) == HRESULT.S_OK)
+						yield return NativeStorable(pShellItem);
 				}
 			}
 		}
