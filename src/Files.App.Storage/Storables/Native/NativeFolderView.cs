@@ -9,15 +9,23 @@ namespace Files.App.Storage.Storables
 	public class NativeFolderView : IFolderView
     {
 		public int GetSpacing()
-        {}
+        {
+            return 0;
+        }
 
 		public int GetThumbnailSize()
-        {}
+        {
+            return 0;
+        }
 
 		public FolderViewMode GetViewMode()
-        {}
+        {
+            return 0;
+        }
 
 		public uint GetItemsCount()
-        {}
+        {
+            return 0;
+        }
 	}
 }
