@@ -6,7 +6,18 @@ namespace Files.App.Storage.Storables
 	/// <summary>
 	/// Represents a folder object that is natively supported by Windows Shell API.
 	/// </summary>
-	public class NativeFolderView /*:IFolderView*/
+	public class NativeFolderView : IFolderView
     {
+		public int GetSpacing()
+        {}
+
+		public int GetThumbnailSize()
+        {}
+
+		public FolderViewMode GetViewMode()
+        {}
+
+		public uint GetItemsCount()
+        {}
 	}
 }
