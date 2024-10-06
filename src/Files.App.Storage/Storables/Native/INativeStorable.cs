@@ -6,7 +6,7 @@ namespace Files.App.Storage.Storables
 	/// <summary>
 	/// Represents a file object that is natively supported by Windows Shell API.
 	/// </summary>
-	public class INativeStorable
+	public interface INativeStorable
 	{
        public string GetPropertyAsync(string id);
 	}
