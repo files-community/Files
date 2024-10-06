@@ -3143,13 +3143,13 @@
     <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
-    <value>亞克力</value>
+    <value>壓克力</value>
   </data>
   <data name="Mica" xml:space="preserve">
     <value>Mica</value>
   </data>
   <data name="MicaAlt" xml:space="preserve">
-    <value>Mica 替代</value>
+    <value>更清晰的雲母</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
     <value>背景質感</value>
@@ -3943,5 +3943,11 @@
   </data>
   <data name="Toolbars" xml:space="preserve">
     <value>工具欄</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>使用者 ID</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>批次重新命名</value>
   </data>
 </root>
