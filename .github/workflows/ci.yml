@@ -236,7 +236,7 @@ jobs:
       shell: pwsh
       run: Start-Process -FilePath "$env:WINAPPDRIVER_EXE86_PATH"
 
-    # Retry integration tests if first attempt fails```
+    # Retry integration tests if first attempt fails
     - name: Run interaction tests
       uses: nick-fields/retry@v3
       with:
