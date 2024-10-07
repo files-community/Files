@@ -1,6 +1,6 @@
 name: Bug Report
 description: Create a bug report to help improve Files.
-labels: [bug]
+type: `Bug`
 body:
 
   # Description
