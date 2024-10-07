@@ -21,7 +21,7 @@ namespace Files.App.ViewModels.Properties
 
 		public readonly bool IsShortcut;
 
-		public ObservableCollection<IconFileInfo> DllIcons { get; }
+		public ObservableCollection<IconFileInfo> DllIcons { get; } = [];
 
 		private string _IconResourceItemPath;
 		public string IconResourceItemPath
@@ -70,8 +70,6 @@ namespace Files.App.ViewModels.Properties
 				item = folderProperties.Item;
 			else
 				return;
-
-			DllIcons = [];
 
 			_appInstance = appInstance;
 			_appWindow = appWindow;
