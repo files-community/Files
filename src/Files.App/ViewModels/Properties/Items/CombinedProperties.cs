@@ -170,6 +170,28 @@ namespace Files.App.ViewModels.Properties
 
 					}
 					break;
+
+				case "IsContentCompressed":
+					{
+						if (ViewModel.IsContentCompressed is not null)
+						{
+							if (ViewModel.IsContentCompressed ?? false)
+							{
+								List.ForEach(x =>
+								{
+									Win32Helper.SetCompressionAttributeIoctl(x.ItemPath, true);
+								});
+							}
+							else
+							{
+								List.ForEach(x =>
+								{
+									Win32Helper.SetCompressionAttributeIoctl(x.ItemPath, false);
+								});
+							}
+						}
+					}
+					break;
 			}
 		}
 	}

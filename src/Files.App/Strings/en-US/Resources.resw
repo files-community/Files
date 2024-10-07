@@ -3950,4 +3950,7 @@
   <data name="BulkRename" xml:space="preserve">
     <value>Bulk rename</value>
   </data>
+  <data name="CompressContents" xml:space="preserve">
+    <value>Compress contents</value>
+  </data>
 </root>
