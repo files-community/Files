@@ -1,6 +1,6 @@
 name: Code Quality Issue
 description: Create a code quality issue to help Files keep a clean codebase
-labels: [codebase quality]
+type: 'Code quality'
 body:
   - type: textarea
     attributes:
