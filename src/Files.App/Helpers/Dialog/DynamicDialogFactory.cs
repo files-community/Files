@@ -58,7 +58,7 @@ namespace Files.App.Helpers
 			return dialog;
 		}
 
-		public static DynamicDialog GetFor_RenameDialog()
+		public static DynamicDialog GetFor_RenameDialog(string itemType)
 		{
 			DynamicDialog? dialog = null;
 			TextBox inputText = new()
@@ -104,7 +104,7 @@ namespace Files.App.Helpers
 
 			dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
-				TitleText = "EnterAnItemName".GetLocalizedResource(),
+				TitleText = string.Format("CreateNewItemTitle".GetLocalizedResource(), itemType.ToLower()),
 				SubtitleText = null,
 				DisplayControl = new Grid()
 				{
@@ -118,7 +118,7 @@ namespace Files.App.Helpers
 				{
 					vm.HideDialog(); // Rename successful
 				},
-				PrimaryButtonText = "RenameDialog/PrimaryButtonText".GetLocalizedResource(),
+				PrimaryButtonText = "Create".GetLocalizedResource(),
 				CloseButtonText = "Cancel".GetLocalizedResource(),
 				DynamicButtonsEnabled = DynamicDialogButtons.Cancel,
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
