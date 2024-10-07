@@ -34,18 +34,18 @@ namespace Files.Shared
 			if (formatter is null)
 				return;
 
-			lock (syncRoot)
+			try
 			{
-				try
+				var message = exception?.ToString() ?? formatter(state, exception);
+				
+				lock (syncRoot)
 				{
-					var message = exception?.ToString() ?? formatter(state, exception);
-
 					File.AppendAllText(filePath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.ffff}|{logLevel}|{message}" + Environment.NewLine);
 				}
-				catch (Exception e)
-				{
-					Debug.WriteLine($"Writing to log file failed with the following exception:\n{e}");
-				}
+			}
+			catch (Exception e)
+			{
+				Debug.WriteLine($"Writing to log file failed with the following exception:\n{e}");
 			}
 		}
 
@@ -54,9 +54,9 @@ namespace Files.Shared
 			if (!File.Exists(filePath))
 				return;
 
-			lock (syncRoot)
+			try
 			{
-				try
+				lock (syncRoot)
 				{
 					var lines = File.ReadAllLines(filePath);
 					if (lines.Length > numberOfLinesKept)
@@ -65,10 +65,10 @@ namespace Files.Shared
 						File.WriteAllLines(filePath, lastLines);
 					}
 				}
-				catch (Exception e)
-				{
-					Debug.WriteLine($"Purging the log file failed with the following exception:\n{e}");
-				}
+			}
+			catch (Exception e)
+			{
+				Debug.WriteLine($"Purging the log file failed with the following exception:\n{e}");
 			}
 		}
 	}
