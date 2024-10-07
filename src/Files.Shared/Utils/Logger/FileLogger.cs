@@ -37,7 +37,7 @@ namespace Files.Shared
 			try
 			{
 				var message = exception?.ToString() ?? formatter(state, exception);
-				
+
 				lock (syncRoot)
 				{
 					File.AppendAllText(filePath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.ffff}|{logLevel}|{message}" + Environment.NewLine);
