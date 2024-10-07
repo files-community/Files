@@ -237,7 +237,8 @@ jobs:
       run: Start-Process -FilePath "$env:WINAPPDRIVER_EXE86_PATH"
 
     # Integration tests became moody lately. Retry 3 times.
-    - uses: nick-fields/retry@v3
+    - name: Run interaction tests
+      uses: nick-fields/retry@v3
       with:
         max_attempts: 2
         shell: pwsh
