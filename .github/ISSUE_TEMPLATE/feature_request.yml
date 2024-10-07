@@ -1,6 +1,7 @@
 name: Feature Request
 description: This project thrives from differentiation from competing apps. Suggest an idea for Files.
 type: 'Feature request'
+title: 'Feature: '
 body:
 
   # Description
