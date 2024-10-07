@@ -239,8 +239,7 @@ jobs:
     # Integration tests became moody lately. Retry 3 times.
     - uses: nick-fields/retry@v3
       with:
-        timeout_minutes: 15
-        max_attempts: 3
+        max_attempts: 2
         shell: pwsh
         command: |
           dotnet test `
