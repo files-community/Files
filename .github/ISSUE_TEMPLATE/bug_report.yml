@@ -1,6 +1,7 @@
 name: Bug Report
 description: Create a bug report to help improve Files.
 type: 'Bug'
+title: 'Bug: '
 body:
 
   # Description
