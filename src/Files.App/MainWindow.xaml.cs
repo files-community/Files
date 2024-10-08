@@ -29,6 +29,7 @@ namespace Files.App
 			MinWidth = 416;
 			ExtendsContentIntoTitleBar = true;
 			Title = "Files";
+			PersistenceId = "FilesMainWindow";
 			AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.Transparent;
