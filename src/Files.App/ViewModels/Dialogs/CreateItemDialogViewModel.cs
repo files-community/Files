@@ -3,7 +3,7 @@
 
 namespace Files.App.ViewModels.Dialogs
 {
-    class RenameDialogViewModel : ObservableObject
+    class CreateItemDialogViewModel : ObservableObject
     {
 		private bool isNameInvalid;
 		public bool IsNameInvalid

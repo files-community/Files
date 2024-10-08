@@ -58,7 +58,7 @@ namespace Files.App.Helpers
 			return dialog;
 		}
 
-		public static DynamicDialog GetFor_RenameDialog(string itemType)
+		public static DynamicDialog GetFor_CreateItemDialog(string itemType)
 		{
 			DynamicDialog? dialog = null;
 			TextBox inputText = new()
@@ -70,7 +70,7 @@ namespace Files.App.Helpers
 			{
 				Title = "InvalidFilename/Text".GetLocalizedResource(),
 				PreferredPlacement = TeachingTipPlacementMode.Bottom,
-				DataContext = new RenameDialogViewModel(),
+				DataContext = new CreateItemDialogViewModel(),
 			};
 
 			warning.SetBinding(TeachingTip.TargetProperty, new Binding()
@@ -88,7 +88,7 @@ namespace Files.App.Helpers
 			inputText.TextChanged += (textBox, args) =>
 			{
 				var isInputValid = FilesystemHelpers.IsValidForFilename(inputText.Text);
-				((RenameDialogViewModel)warning.DataContext).IsNameInvalid = !string.IsNullOrEmpty(inputText.Text) && !isInputValid;
+				((CreateItemDialogViewModel)warning.DataContext).IsNameInvalid = !string.IsNullOrEmpty(inputText.Text) && !isInputValid;
 				dialog!.ViewModel.DynamicButtonsEnabled = isInputValid
 														? DynamicDialogButtons.Primary | DynamicDialogButtons.Cancel
 														: DynamicDialogButtons.Cancel;

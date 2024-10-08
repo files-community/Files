@@ -87,7 +87,7 @@ namespace Files.App.Helpers
 			string? userInput = null;
 			if (itemType != AddItemDialogItemType.File || itemInfo?.Command is null)
 			{
-				DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog(itemType.ToString());
+				DynamicDialog dialog = DynamicDialogFactory.GetFor_CreateItemDialog(itemType.ToString());
 				await dialog.TryShowAsync(); // Show rename dialog
 
 				if (dialog.DynamicResult != DynamicDialogResult.Primary)
