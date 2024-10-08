@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2024 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Collections.Concurrent;
@@ -25,13 +25,16 @@ namespace Files.App.Utils.Storage.Operations
 
 		public async Task ComputeSizeAsync(CancellationToken cancellationToken = default)
 		{
-			await Parallel.ForEachAsync(_paths, cancellationToken, async (path, token) => await Task.Factory.StartNew(() =>
-			{
-				ComputeSizeRecursively(path, token);
-			},
-			token,
-			TaskCreationOptions.LongRunning,
-			TaskScheduler.Default));
+			await Parallel.ForEachAsync(
+				_paths,
+				cancellationToken,
+				async (path, token) => await Task.Factory.StartNew(() =>
+					{
+						ComputeSizeRecursively(path, token);
+					},
+					token,
+					TaskCreationOptions.LongRunning,
+					TaskScheduler.Default));
 
 			unsafe void ComputeSizeRecursively(string path, CancellationToken token)
 			{
