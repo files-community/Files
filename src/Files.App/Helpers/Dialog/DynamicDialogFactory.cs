@@ -104,7 +104,7 @@ namespace Files.App.Helpers
 
 			dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
-				TitleText = string.Format("CreateNewItemTitle".GetLocalizedResource(), itemType.ToLower()),
+				TitleText = string.Format("CreateNewItemTitle".GetLocalizedResource(), itemType),
 				SubtitleText = null,
 				DisplayControl = new Grid()
 				{
