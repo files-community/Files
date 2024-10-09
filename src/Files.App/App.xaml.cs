@@ -39,7 +39,6 @@ namespace Files.App
 		public static QuickAccessManager QuickAccessManager { get; private set; } = null!;
 		public static StorageHistoryWrapper HistoryWrapper { get; private set; } = null!;
 		public static FileTagsManager FileTagsManager { get; private set; } = null!;
-		public static RecentItems RecentItemsManager { get; private set; } = null!;
 		public static LibraryManager LibraryManager { get; private set; } = null!;
 		public static AppModel AppModel { get; private set; } = null!;
 		public static ILogger Logger { get; private set; } = null!;
@@ -114,7 +113,6 @@ namespace Files.App
 				QuickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
 				HistoryWrapper = Ioc.Default.GetRequiredService<StorageHistoryWrapper>();
 				FileTagsManager = Ioc.Default.GetRequiredService<FileTagsManager>();
-				RecentItemsManager = Ioc.Default.GetRequiredService<RecentItems>();
 				LibraryManager = Ioc.Default.GetRequiredService<LibraryManager>();
 				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 				AppModel = Ioc.Default.GetRequiredService<AppModel>();
