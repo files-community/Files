@@ -16,146 +16,162 @@ namespace Files.App.Services
 	public sealed class CommonDialogService : ICommonDialogService
 	{
 		/// <inheritdoc/>
-		public bool Open_FileOpenDialog(nint hWnd, bool pickFoldersOnly, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)
+		public unsafe bool Open_FileOpenDialog(nint hWnd, bool pickFoldersOnly, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)
 		{
 			filePath = string.Empty;
 
 			try
 			{
-				unsafe
+				using ComPtr<IFileOpenDialog> pDialog = default;
+				var dialogInstanceIid = typeof(FileOpenDialog).GUID;
+				var dialogIid = typeof(IFileOpenDialog).GUID;
+
+				// Get a new instance of the dialog
+				HRESULT hr = PInvoke.CoCreateInstance(
+					&dialogInstanceIid,
+					null,
+					CLSCTX.CLSCTX_INPROC_SERVER,
+					&dialogIid,
+					(void**)pDialog.GetAddressOf())
+				.ThrowOnFailure();
+
+				if (filters.Length is not 0 && filters.Length % 2 is 0)
 				{
-					// Get a new instance of the dialog
-					PInvoke.CoCreateInstance(
-						typeof(FileOpenDialog).GUID,
-						null,
-						CLSCTX.CLSCTX_INPROC_SERVER,
-						out IFileOpenDialog* pDialog)
-					.ThrowOnFailure();
+					List<COMDLG_FILTERSPEC> extensions = [];
 
-					if (filters.Length is not 0 && filters.Length % 2 is 0)
+					for (int i = 1; i < filters.Length; i += 2)
 					{
-						List<COMDLG_FILTERSPEC> extensions = [];
+						COMDLG_FILTERSPEC extension;
 
-						for (int i = 1; i < filters.Length; i += 2)
-						{
-							COMDLG_FILTERSPEC extension;
+						extension.pszSpec = (char*)Marshal.StringToHGlobalUni(filters[i]);
+						extension.pszName = (char*)Marshal.StringToHGlobalUni(filters[i - 1]);
 
-							extension.pszSpec = (char*)Marshal.StringToHGlobalUni(filters[i]);
-							extension.pszName = (char*)Marshal.StringToHGlobalUni(filters[i - 1]);
-
-							// Add to the exclusive extension list
-							extensions.Add(extension);
-						}
-
-						// Set the file type using the extension list
-						pDialog->SetFileTypes(extensions.ToArray());
+						// Add to the exclusive extension list
+						extensions.Add(extension);
 					}
 
-					// Get the default shell folder (My Computer)
-					PInvoke.SHCreateItemFromParsingName(
-						Environment.GetFolderPath(defaultFolder),
-						null,
-						typeof(IShellItem).GUID,
-						out var directoryShellItem)
-					.ThrowOnFailure();
-
-					// Folder picker
-					if (pickFoldersOnly)
-					{
-						pDialog->SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
-					}
-
-					// Set the default folder to open in the dialog
-					pDialog->SetFolder((IShellItem*)directoryShellItem);
-					pDialog->SetDefaultFolder((IShellItem*)directoryShellItem);
-
-					// Show the dialog
-					pDialog->Show(new HWND(hWnd));
-
-					// Get the file that user chose
-					IShellItem* resultShellItem = default;
-					pDialog->GetResult(&resultShellItem);
-					resultShellItem->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
-					filePath = lpFilePath.ToString();
-
-					return true;
+					// Set the file type using the extension list
+					pDialog.Get()->SetFileTypes(extensions.ToArray());
 				}
+
+				// Get the default shell folder (My Computer)
+				using ComPtr<IShellItem> pDefaultFolderShellItem = default;
+				var shellItemIid = typeof(IShellItem).GUID;
+				fixed (char* pszDefaultFolderPath = Environment.GetFolderPath(defaultFolder))
+				{
+					hr = PInvoke.SHCreateItemFromParsingName(
+						pszDefaultFolderPath,
+						null,
+						&shellItemIid,
+						(void**)pDefaultFolderShellItem.GetAddressOf())
+					.ThrowOnFailure();
+				}
+
+				// Folder picker
+				if (pickFoldersOnly)
+					pDialog.Get()->SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
+
+				// Set the default folder to open in the dialog
+				pDialog.Get()->SetFolder(pDefaultFolderShellItem.Get());
+				pDialog.Get()->SetDefaultFolder(pDefaultFolderShellItem.Get());
+
+				// Show the dialog
+				pDialog.Get()->Show(new HWND(hWnd));
+
+				// Get the file that user chose
+				using ComPtr<IShellItem> pResultShellItem = default;
+				pDialog.Get()->GetResult(pResultShellItem.GetAddressOf());
+				if (pResultShellItem.Get() == null)
+					throw new COMException("FileSaveDialog returned invalid shell item.");
+				pResultShellItem.Get()->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
+				filePath = lpFilePath.ToString();
+
+				return true;
 			}
 			catch (Exception ex)
 			{
-				App.Logger.LogError(ex, "Failed to open a common dialog called FileOpenDialog.");
+				App.Logger.LogError(ex, "Failed to open FileOpenDialog.");
 
 				return false;
 			}
 		}
 
 		/// <inheritdoc/>
-		public bool Open_FileSaveDialog(nint hWnd, bool pickFoldersOnly, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)
+		public unsafe bool Open_FileSaveDialog(nint hWnd, bool pickFoldersOnly, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)
 		{
 			filePath = string.Empty;
 
 			try
 			{
-				unsafe
+				using ComPtr<IFileSaveDialog> pDialog = default;
+				var dialogInstanceIid = typeof(FileSaveDialog).GUID;
+				var dialogIid = typeof(IFileSaveDialog).GUID;
+
+				// Get a new instance of the dialog
+				HRESULT hr = PInvoke.CoCreateInstance(
+					&dialogInstanceIid,
+					null,
+					CLSCTX.CLSCTX_INPROC_SERVER,
+					&dialogIid,
+					(void**)pDialog.GetAddressOf())
+				.ThrowOnFailure();
+
+				if (filters.Length is not 0 && filters.Length % 2 is 0)
 				{
-					// Get a new instance of the dialog
-					PInvoke.CoCreateInstance(
-						typeof(FileSaveDialog).GUID,
-						null,
-						CLSCTX.CLSCTX_INPROC_SERVER,
-						out IFileSaveDialog* pDialog)
-					.ThrowOnFailure();
+					List<COMDLG_FILTERSPEC> extensions = [];
 
-					if (filters.Length is not 0 && filters.Length % 2 is 0)
+					for (int i = 1; i < filters.Length; i += 2)
 					{
-						List<COMDLG_FILTERSPEC> extensions = [];
+						COMDLG_FILTERSPEC extension;
 
-						for (int i = 1; i < filters.Length; i += 2)
-						{
-							COMDLG_FILTERSPEC extension;
+						extension.pszSpec = (char*)Marshal.StringToHGlobalUni(filters[i]);
+						extension.pszName = (char*)Marshal.StringToHGlobalUni(filters[i - 1]);
 
-							extension.pszSpec = (char*)Marshal.StringToHGlobalUni(filters[i]);
-							extension.pszName = (char*)Marshal.StringToHGlobalUni(filters[i - 1]);
-
-							// Add to the exclusive extension list
-							extensions.Add(extension);
-						}
-
-						// Set the file type using the extension list
-						pDialog->SetFileTypes(extensions.ToArray());
+						// Add to the exclusive extension list
+						extensions.Add(extension);
 					}
 
-					// Get the default shell folder (My Computer)
-					PInvoke.SHCreateItemFromParsingName(
-						Environment.GetFolderPath(defaultFolder),
-						null,
-						typeof(IShellItem).GUID,
-						out var directoryShellItem)
-					.ThrowOnFailure();
-
-					// Folder picker
-					if (pickFoldersOnly)
-						pDialog->SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
-
-					// Set the default folder to open in the dialog
-					pDialog->SetFolder((IShellItem*)directoryShellItem);
-					pDialog->SetDefaultFolder((IShellItem*)directoryShellItem);
-
-					// Show the dialog
-					pDialog->Show(new HWND(hWnd));
-
-					// Get the file that user chose
-					IShellItem* resultShellItem = default;
-					pDialog->GetResult(&resultShellItem);
-					resultShellItem->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
-					filePath = lpFilePath.ToString();
-
-					return true;
+					// Set the file type using the extension list
+					pDialog.Get()->SetFileTypes(extensions.ToArray());
 				}
+
+				// Get the default shell folder (My Computer)
+				using ComPtr<IShellItem> pDefaultFolderShellItem = default;
+				var shellItemIid = typeof(IShellItem).GUID;
+				fixed (char* pszDefaultFolderPath = Environment.GetFolderPath(defaultFolder))
+				{
+					hr = PInvoke.SHCreateItemFromParsingName(
+						pszDefaultFolderPath,
+						null,
+						&shellItemIid,
+						(void**)pDefaultFolderShellItem.GetAddressOf())
+					.ThrowOnFailure();
+				}
+
+				// Folder picker
+				if (pickFoldersOnly)
+					pDialog.Get()->SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
+
+				// Set the default folder to open in the dialog
+				pDialog.Get()->SetFolder(pDefaultFolderShellItem.Get());
+				pDialog.Get()->SetDefaultFolder(pDefaultFolderShellItem.Get());
+
+				// Show the dialog
+				pDialog.Get()->Show(new HWND(hWnd));
+
+				// Get the file that user chose
+				using ComPtr<IShellItem> pResultShellItem = default;
+				pDialog.Get()->GetResult(pResultShellItem.GetAddressOf());
+				if (pResultShellItem.Get() == null)
+					throw new COMException("FileSaveDialog returned invalid shell item.");
+				pResultShellItem.Get()->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
+				filePath = lpFilePath.ToString();
+
+				return true;
 			}
 			catch (Exception ex)
 			{
-				App.Logger.LogError(ex, "Failed to open a common dialog called FileSaveDialog.");
+				App.Logger.LogError(ex, "Failed to open FileSaveDialog.");
 
 				return false;
 			}

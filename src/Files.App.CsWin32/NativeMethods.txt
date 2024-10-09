@@ -138,3 +138,5 @@ CoTaskMemFree
 FOLDERID_NetHood
 IShellLinkW
 SLGP_FLAGS
+CoTaskMemFree
+QueryDosDevice

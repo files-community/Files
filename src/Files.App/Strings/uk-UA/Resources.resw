@@ -1047,7 +1047,7 @@
     <value>Відкрити в новій панелі</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value>Файли та теки</value>
+    <value>Файли та папки</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Подробиці (Ctrl+Shift+1)</value>
@@ -3943,5 +3943,11 @@
   </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Панелі інструментів</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>Ідентифікатор користувача</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Bulk rename</value>
   </data>
 </root>

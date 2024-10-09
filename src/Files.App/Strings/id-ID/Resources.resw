@@ -3082,7 +3082,7 @@
     <value>Buka properti</value>
   </data>
   <data name="OpenClassicProperties" xml:space="preserve">
-    <value>Open File Explorer properties</value>
+    <value/>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Buka jendela properti</value>
@@ -3943,5 +3943,11 @@
   </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Toolbars</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>User ID</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Bulk rename</value>
   </data>
 </root>

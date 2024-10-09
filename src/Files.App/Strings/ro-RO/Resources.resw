@@ -3944,4 +3944,10 @@
   <data name="Toolbars" xml:space="preserve">
     <value>Bare de Instrumente</value>
   </data>
+  <data name="UserID" xml:space="preserve">
+    <value>ID utilizator</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Bulk rename</value>
+  </data>
 </root>

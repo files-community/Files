@@ -606,7 +606,7 @@
     <value>Tên khoản mục không hợp lệ</value>
   </data>
   <data name="RenameError.TooLong.Text" xml:space="preserve">
-    <value>Độ dài của tên khoản mục đã nhập vượt quá giới hạn tối đa. Vui lòng kiểm tra và thử lại.</value>
+    <value>Độ dài tên khoản mục đã nhập vượt quá giới hạn tối đa. Vui lòng kiểm tra và thử lại.</value>
   </data>
   <data name="RenameError.TooLong.Title" xml:space="preserve">
     <value>Tên khoản mục quá dài</value>
@@ -948,7 +948,7 @@
     <value>Chọn</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
-    <value>Mục thùng rác</value>
+    <value>Khoản mục thùng rác</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>Mục lối tắt</value>
@@ -1134,7 +1134,7 @@
     <value>Không xác định</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>Nếu bạn thay đổi phần mở rộng, tệp có thể không sử dụng được nữa. Bạn có chắc chắn muốn thay đổi phần mở rộng không?</value>
+    <value>Nếu bạn thay đổi phần mở rộng, tệp có thể không sử dụng được nữa. Bạn có chắc chắn muốn tiếp tục không?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>Ổ đĩa CD ROM</value>
@@ -2040,7 +2040,7 @@
     <value>Làm phẳng</value>
   </data>
   <data name="FlattenFolderDialogContent" xml:space="preserve">
-    <value>Làm phẳng thư mục sẽ di chuyển tất cả nội dung từ thư mục con đến vị trí đã chọn. Thao tác có hiệu lực vĩnh viễn và không thể hoàn tác. Đây là tính năng thử nghiệm và bằng việc sử dụng, bạn đã hiểu các rủi ro và đồng ý miễn trừ trách nhiệm của đội ngũ Files khi xảy ra mất mát dữ liệu.</value>
+    <value>Tùy chọn này sẽ di chuyển tất cả nội dung từ thư mục con đến vị trí đã chọn. Thao tác có hiệu lực vĩnh viễn và không thể hoàn tác. Đây là tính năng thử nghiệm và bằng việc sử dụng, bạn đã hiểu các rủi ro và đồng ý miễn trừ trách nhiệm của đội ngũ Files khi xảy ra mất mát dữ liệu.</value>
   </data>
   <data name="ShowFlattenOptions" xml:space="preserve">
     <value>Hiện tùy chọn làm phẳng</value>
@@ -2475,7 +2475,7 @@
     <value>Đặt hình ảnh đã chọn làm hình nền màn hình chính</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
-    <value>Đặt hình ảnh đã chọn để trình chiếu trên màn hình chính</value>
+    <value>Dùng hình ảnh đã chọn để trình chiếu trên màn hình chính</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Đặt hình ảnh đã chọn làm hình nền màn hình khóa</value>
@@ -3167,7 +3167,7 @@
     <value>Chạy git push</value>
   </data>
   <data name="GitSync" xml:space="preserve">
-    <value>Đồng bộ</value>
+    <value>Sync</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
     <value>Chạy git pull sau đó chạy git push</value>
@@ -3943,5 +3943,11 @@
   </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Thanh công cụ</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>ID người dùng</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Đổi tên hàng loạt</value>
   </data>
 </root>
