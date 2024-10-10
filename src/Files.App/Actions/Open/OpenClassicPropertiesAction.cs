@@ -50,16 +50,15 @@ namespace Files.App.Actions
 			SHELLEXECUTEINFOW info = default;
 			info.cbSize = (uint)Marshal.SizeOf(info);
 			info.nShow = 5; // SW_SHOW
-			info.fMask = 0x0000000C;
+			info.fMask = 0x0000000C; // SEE_MASK_INVOKEIDLIST
 
-			var verb = "properties";
-			fixed (char* cVerb = verb)
+			fixed (char* cVerb = "properties", lpFile = itemPath)
+			{
 				info.lpVerb = cVerb;
-
-			fixed (char* lpFile = itemPath)
 				info.lpFile = lpFile;
 
-			PInvoke.ShellExecuteEx(ref info);
+				PInvoke.ShellExecuteEx(ref info);
+			}
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
