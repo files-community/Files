@@ -45,7 +45,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.CustomIconSource = Item.CustomIconSource;
 			ViewModel.LoadFileIcon = Item.LoadFileIcon;
 			ViewModel.IsDownloadedFile = Win32Helper.ReadStringFromFile($"{Item.ItemPath}:Zone.Identifier") is not null;
-			ViewModel.IsEditAlbumCoverVisible = 
+			ViewModel.IsEditAlbumCoverVisible =
 				FileExtensionHelpers.IsVideoFile(Item.FileExtension) ||
 				FileExtensionHelpers.IsAudioFile(Item.FileExtension);
 
@@ -97,6 +97,8 @@ namespace Files.App.ViewModels.Properties
 				Item.ItemPath, System.IO.FileAttributes.ReadOnly);
 			ViewModel.IsHidden = Win32Helper.HasFileAttribute(
 				Item.ItemPath, System.IO.FileAttributes.Hidden);
+			ViewModel.IsContentCompressed = Win32Helper.HasFileAttribute(
+				Item.ItemPath, System.IO.FileAttributes.Compressed);
 
 			ViewModel.ItemSizeVisibility = true;
 			ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
@@ -279,11 +281,21 @@ namespace Files.App.ViewModels.Properties
 					if (ViewModel.IsHidden is not null)
 					{
 						if ((bool)ViewModel.IsHidden)
-							Win32Helper.SetFileAttribute(Item.ItemPath,	System.IO.FileAttributes.Hidden);
+							Win32Helper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
 						else
 							Win32Helper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
 					}
 
+					break;
+
+				case nameof(ViewModel.IsContentCompressed):
+					if (ViewModel.IsContentCompressed is not null)
+					{
+						if ((bool)ViewModel.IsContentCompressed)
+							Win32Helper.SetCompressionAttributeIoctl(Item.ItemPath, true);
+						else
+							Win32Helper.SetCompressionAttributeIoctl(Item.ItemPath, false);
+					}
 					break;
 
 				case nameof(ViewModel.RunAsAdmin):

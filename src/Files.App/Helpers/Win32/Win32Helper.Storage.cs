@@ -13,6 +13,8 @@ using System.Text;
 using System.Windows.Forms;
 using Vanara.PInvoke;
 using Windows.System;
+using Windows.Win32;
+using Windows.Win32.Storage.FileSystem;
 
 namespace Files.App.Helpers
 {
@@ -933,6 +935,40 @@ namespace Files.App.Helpers
 				return false;
 			}
 			return Win32PInvoke.SetFileAttributesFromApp(lpFileName, lpFileInfo.dwFileAttributes & ~dwAttrs);
+		}
+
+		public static unsafe bool SetCompressionAttributeIoctl(string lpFileName, bool isCompressed)
+		{
+			using var hFile = PInvoke.CreateFile(
+				lpFileName,
+				Win32PInvoke.GENERIC_READ | Win32PInvoke.GENERIC_WRITE,
+				FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE,
+				lpSecurityAttributes: null,
+				FILE_CREATION_DISPOSITION.OPEN_EXISTING,
+				FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL,
+				hTemplateFile: null);
+
+			if (hFile.IsInvalid)
+				return false;
+
+			var bytesReturned = 0u;
+			var compressionFormat = isCompressed
+				? Win32PInvoke.COMPRESSION_FORMAT_DEFAULT
+				: Win32PInvoke.COMPRESSION_FORMAT_NONE;
+
+			var result = PInvoke.DeviceIoControl(
+				new(hFile.DangerousGetHandle()),
+				Win32PInvoke.FSCTL_SET_COMPRESSION,
+				&compressionFormat,
+				sizeof(ushort),
+				(void*)IntPtr.Zero,
+				0u,
+				&bytesReturned);
+
+			if (result.Value == 0)
+				return false;
+
+			return true;
 		}
 
 		public static string ReadStringFromFile(string filePath)
