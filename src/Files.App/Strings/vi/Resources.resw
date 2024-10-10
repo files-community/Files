@@ -291,8 +291,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Nhập tên khoản mục</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Đặt tên</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>Tạo {0} mới</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Sáng</value>
