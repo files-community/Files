@@ -291,8 +291,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Ange ett namn för objektet</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Ange namn</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>Create new {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Ljust</value>
