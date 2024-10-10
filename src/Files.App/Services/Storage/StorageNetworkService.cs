@@ -158,16 +158,6 @@ namespace Files.App.Services
 						PInvoke.PSGetPropertyKeyFromName("System.Link.TargetParsingPath", out var propertyKey);
 						pShellItem2.Get()->GetString(propertyKey, out var pszTargetPath);
 						targetPath = Environment.ExpandEnvironmentVariables(pszTargetPath.ToString());
-
-						// Test 1
-						pShellItem.Get()->GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING, out var szDisplayNameTest);
-						var filePathTest = szDisplayNameTest.ToString();
-						PInvoke.CoTaskMemFree(szDisplayNameTest.Value); // break here
-
-						// Test 2
-						pShellItem.Get()->GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEPARSING, out szDisplayNameTest);
-						filePathTest = szDisplayNameTest.ToString();
-						PInvoke.CoTaskMemFree(szDisplayNameTest.Value); // break here
 					}
 					else
 					{
