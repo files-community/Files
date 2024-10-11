@@ -80,8 +80,22 @@
 
 	</ResourceDictionary.ThemeDictionaries>
 
+
+
+
 	<ResourceDictionary.MergedDictionaries>
+
 		<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+
+
+		<!--#region StorageControls-->
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Storage/StorageRing/StorageRing.ThemeResources.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Storage/StorageRing/StorageRing.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Storage/StorageBar/StorageBar.ThemeResources.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Storage/StorageBar/StorageBar.xaml" />
+		<!--#endregion-->
+
+
 		<!--#region ThemedIconStyles-->
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/ThemedIcon.xaml" />
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/ThemedIconLayer/ThemedIconLayer.xaml" />
@@ -102,6 +116,7 @@
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Settings.xaml" />
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.SizeLayout28.xaml" />
 		<!--#endregion-->
+
 	</ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
