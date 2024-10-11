@@ -119,12 +119,14 @@
                 </uap3:Extension>
 
                 <uap:Extension Category="windows.protocol">
-                    <uap:Protocol ReturnResults="none" Name="files-uwp" />
+                    <!--  This value changes based on the build branch (files, files-pre, files-dev).  -->
+                    <uap:Protocol ReturnResults="none" Name="files-dev" />
                 </uap:Extension>
 
                 <uap5:Extension Category="windows.appExecutionAlias">
                     <uap5:AppExecutionAlias>
-                        <uap5:ExecutionAlias Alias="files.exe" />
+                        <!--  This value changes based on the build branch (files, files-pre, files-dev).  -->
+                        <uap5:ExecutionAlias Alias="files-dev.exe" />
                     </uap5:AppExecutionAlias>
                 </uap5:Extension>
 
