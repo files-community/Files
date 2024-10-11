@@ -245,7 +245,7 @@ namespace Files.App.Services
 					lock (_RecentFolders)
 					{
 						_RecentFolders.Clear();
-						_RecentFolders.AddRange(orderedRecentItems);
+						_RecentFolders.AddRange(recentItems);
 					}
 				}
 				else
@@ -253,11 +253,11 @@ namespace Files.App.Services
 					lock (_RecentFiles)
 					{
 						_RecentFiles.Clear();
-						_RecentFiles.AddRange(orderedRecentItems);
+						_RecentFiles.AddRange(recentItems);
 					}
 				}
 
-				var eventArgs = GetChangedActionEventArgs(snapshot, orderedRecentItems);
+				var eventArgs = GetChangedActionEventArgs(snapshot, recentItems);
 
 				if (isFolder)
  					RecentFoldersChanged?.Invoke(this, eventArgs);
