@@ -133,7 +133,7 @@ namespace Files.App.Services
 				hr = pContextMenu.Get()->InvokeCommand(cmi);
 
 				// Remove recent files
-				fixed (byte* pVerb = Encoding.ASCII.GetBytes("remove"))
+				fixed (byte* pVerb = Encoding.ASCII.GetBytes("removefromhome"))
 					cmi.lpVerb = new(pVerb);
 				hr = pContextMenu.Get()->InvokeCommand(cmi);
 
@@ -280,13 +280,13 @@ namespace Files.App.Services
 
 		private NotifyCollectionChangedEventArgs GetChangedActionEventArgs(IReadOnlyList<RecentItem> oldItems, IList<RecentItem> newItems)
 		{
-			if (oldItems.Count - newItems.Count is 1)
+			if (newItems.Count - oldItems.Count is 1)
 			{
 				var differences = newItems.Except(oldItems);
 				if (differences.Take(2).Count() == 1)
 					return new(NotifyCollectionChangedAction.Add, newItems.First());
 			}
-			else if (newItems.Count - oldItems.Count is 1)
+			else if (oldItems.Count - newItems.Count is 1)
 			{
 				var differences = oldItems.Except(newItems);
 				if (differences.Take(2).Count() == 1)
@@ -298,7 +298,7 @@ namespace Files.App.Services
 					}
 				}
 			}
-			else if (newItems.Count - oldItems.Count is 0)
+			else if (newItems.Count == oldItems.Count)
 			{
 				var differences = oldItems.Except(newItems);
 				if (differences.Any())
