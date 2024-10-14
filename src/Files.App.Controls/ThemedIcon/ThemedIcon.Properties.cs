@@ -16,56 +16,62 @@ namespace Files.App.Controls
 	[DependencyProperty<bool>("IsFilled", nameof(OnIsFilledPropertyChanged), DefaultValue = "false")]
 	[DependencyProperty<bool>("IsHighContrast", nameof(OnIsHighContrastPropertyChanged), DefaultValue = "false")]
 	[DependencyProperty<object>("Layers", nameof(OnLayersPropertyChanged))]
+	[DependencyProperty<ToggleBehaviors>("ToggleBehavior", nameof(OnToggleBehaviorPropertyChanged), DefaultValue = "ToggleBehaviors.Auto")]
 	public partial class ThemedIcon : Control
 	{
 		protected virtual void OnFilledIconPropertyChanged(string oldValue, string newValue)
 		{
-			UpdateFilledIconPath();
+			OnFilledIconChanged();
 		}
 
 		protected virtual void OnOutlineIconPropertyChanged(string oldValue, string newValue)
 		{
-			UpdateOutlineIconPath();
+			OnOutlineIconChanged();
 		}
 
 		protected virtual void OnColorPropertyChanged(Brush oldValue, Brush newValue)
 		{
-			UpdateIconTypeStates();
+			OnIconTypeChanged();
 		}
 
 		protected virtual void OnIconTypePropertyChanged(ThemedIconTypes oldValue, ThemedIconTypes newValue)
 		{
-			UpdateIconTypeStates();
+			OnIconTypeChanged();
 		}
 
 		protected virtual void OnIconColorTypePropertyChanged(ThemedIconColorType oldValue, ThemedIconColorType newValue)
 		{
-			UpdateIconColorTypeStates();
+			OnIconColorTypeChanged();
 		}
 
 		protected virtual void OnIconSizePropertyChanged(double oldValue, double newValue)
 		{
-			IconSizePropertyChanged(newValue);
+			UpdateVisualStates();
 		}
 
 		protected virtual void OnIsToggledPropertyChanged(bool oldValue, bool newValue)
 		{
-			ToggleChanged(newValue);
+			UpdateVisualStates();
 		}
 
 		protected virtual void OnIsFilledPropertyChanged(bool oldValue, bool newValue)
 		{
-			FilledChanged(newValue);
+			UpdateVisualStates();
 		}
 
 		protected virtual void OnIsHighContrastPropertyChanged(bool oldValue, bool newValue)
 		{
-			HighContrastChanged(newValue);
+			UpdateVisualStates();
 		}
 
 		protected virtual void OnLayersPropertyChanged(object oldValue, object newValue)
 		{
-			UpdateLayeredIconContent();
+			UpdateVisualStates();
+		}
+
+		protected virtual void OnToggleBehaviorPropertyChanged(ToggleBehaviors oldValue, ToggleBehaviors newValue)
+		{
+			UpdateVisualStates();
 		}
 	}
 }
