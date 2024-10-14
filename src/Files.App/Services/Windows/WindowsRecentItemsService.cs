@@ -127,15 +127,32 @@ namespace Files.App.Services
 				cmi.cbSize = (uint)sizeof(CMINVOKECOMMANDINFO);
 				cmi.nShow = (int)SHOW_WINDOW_CMD.SW_HIDE;
 
-				// Try unpin first for pinned files
-				fixed (byte* pVerb = Encoding.ASCII.GetBytes("unpinfromhome"))
-					cmi.lpVerb = new(pVerb);
-				hr = pContextMenu.Get()->InvokeCommand(cmi);
+				// Unpin the item
+				fixed (byte* pVerb1 = Encoding.ASCII.GetBytes("remove"),
+					pVerb2 = Encoding.ASCII.GetBytes("unpinfromhome"),
+					pVerb3 = Encoding.ASCII.GetBytes("removefromhome"))
+				{
+					// Try unpin files
+					cmi.lpVerb = new(pVerb1);
+					hr = pContextMenu.Get()->InvokeCommand(cmi);
+					if (hr == HRESULT.S_OK)
+						return;
 
-				// Remove recent files
-				fixed (byte* pVerb = Encoding.ASCII.GetBytes("removefromhome"))
-					cmi.lpVerb = new(pVerb);
-				hr = pContextMenu.Get()->InvokeCommand(cmi);
+					// Try unpin folders
+					cmi.lpVerb = new(pVerb2);
+					hr = pContextMenu.Get()->InvokeCommand(cmi);
+					if (hr == HRESULT.S_OK)
+						return;
+
+					// NOTE:
+					//  There seems to be an issue with unpinfromhome where some shell folders
+					//  won't be removed via unpinfromhome verb.
+					// Try unpin folders again
+					cmi.lpVerb = new(pVerb3);
+					hr = pContextMenu.Get()->InvokeCommand(cmi);
+					if (hr == HRESULT.S_OK)
+						return;
+				}
 
 				return true;
 			}
