@@ -16,7 +16,7 @@ namespace Files.App.Controls
 	[DependencyProperty<bool>("IsFilled", nameof(OnIsFilledPropertyChanged), DefaultValue = "false")]
 	[DependencyProperty<bool>("IsHighContrast", nameof(OnIsHighContrastPropertyChanged), DefaultValue = "false")]
 	[DependencyProperty<object>("Layers", nameof(OnLayersPropertyChanged))]
-	[DependencyProperty<ToggleBehaviors>("ToggleBehavior", nameof(OnToggleBehaviorPropertyChanged))]
+	[DependencyProperty<ToggleBehaviors>("ToggleBehavior", nameof(OnToggleBehaviorPropertyChanged), DefaultValue = "ToggleBehaviors.Auto")]
 	public partial class ThemedIcon : Control
 	{
 		protected virtual void OnFilledIconPropertyChanged(string oldValue, string newValue)
