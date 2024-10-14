@@ -136,13 +136,13 @@ namespace Files.App.Services
 					cmi.lpVerb = new(pVerb1);
 					hr = pContextMenu.Get()->InvokeCommand(cmi);
 					if (hr == HRESULT.S_OK)
-						return;
+						return true;
 
 					// Try unpin folders
 					cmi.lpVerb = new(pVerb2);
 					hr = pContextMenu.Get()->InvokeCommand(cmi);
 					if (hr == HRESULT.S_OK)
-						return;
+						return true;
 
 					// NOTE:
 					//  There seems to be an issue with unpinfromhome where some shell folders
@@ -151,7 +151,7 @@ namespace Files.App.Services
 					cmi.lpVerb = new(pVerb3);
 					hr = pContextMenu.Get()->InvokeCommand(cmi);
 					if (hr == HRESULT.S_OK)
-						return;
+						return true;
 				}
 
 				return true;
