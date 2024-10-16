@@ -54,7 +54,7 @@ body:
     validations:
       required: true
 
-    # User ID
+  # User ID
   - type: input
     id: user_id
     attributes:
@@ -76,3 +76,9 @@ body:
         - Drag and drop the file to upload as an attachment 
     validations:
       required: true
+  # Remarks
+  - type: textarea
+    attributes:
+      label: Comments
+      description: Additional information, comments or screenshots about the bug.
+      
