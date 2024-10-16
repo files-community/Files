@@ -54,7 +54,7 @@ body:
     validations:
       required: true
 
-    # User ID
+  # User ID
   - type: input
     id: user_id
     attributes:
