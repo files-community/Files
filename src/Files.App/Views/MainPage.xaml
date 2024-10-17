@@ -30,11 +30,7 @@
 				<ResourceDictionary Source="ms-appx:///Styles/DefaultGridSplitterStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
-			<x:Boolean x:Key="True">True</x:Boolean>
-			<x:Boolean x:Key="False">False</x:Boolean>
-
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
-
 
 			<MenuFlyout x:Key="SidebarContextMenu">
 				<ToggleMenuFlyoutItem IsChecked="{x:Bind SidebarAdaptiveViewModel.ShowPinnedFoldersSection, Mode=TwoWay}" Text="{helpers:ResourceString Name=Pinned}" />
