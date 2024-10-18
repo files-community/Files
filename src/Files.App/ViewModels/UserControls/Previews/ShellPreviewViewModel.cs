@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
+using Microsoft.UI.Content;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 using System.Runtime.InteropServices;
