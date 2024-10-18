@@ -1,13 +1,8 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Extensions;
-using System;
 using System.Collections.Concurrent;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using static Files.App.Helpers.Win32Helper;
 
 namespace Files.App.Services.SizeProvider
 {

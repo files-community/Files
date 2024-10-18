@@ -50,7 +50,7 @@ namespace Files.App.UserControls.KeyboardShortcut
 					items.Add(new() { Text = ",", ItemType = KeyboardShortcutItemKind.TextOnly, Size = Size });
 				}
 
-				switch(item.Key, item.Modifier)
+				switch (item.Key, item.Modifier)
 				{
 					// No keys or modifiers specified
 					case (Keys.None, KeyModifiers.None):

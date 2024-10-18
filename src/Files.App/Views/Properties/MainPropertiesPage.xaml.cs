@@ -1,17 +1,15 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Windows.Graphics;
 using Files.App.ViewModels.Properties;
-using Microsoft.UI;
+using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using Windows.Graphics;
 using Windows.System;
-using Windows.UI;
-using Microsoft.UI.Input;
 
 namespace Files.App.Views.Properties
 {
@@ -33,7 +31,7 @@ namespace Files.App.Views.Properties
 				FlowDirection = FlowDirection.RightToLeft;
 		}
 
-		
+
 		// Navigates to specified properties page
 		public bool TryNavigateToPage(PropertiesNavigationViewItemType pageType)
 		{

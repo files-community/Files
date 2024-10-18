@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using static Files.App.Helpers.Win32Helper;
-
 namespace Files.App.Extensions
 {
 	public static class Win32FindDataExtensions

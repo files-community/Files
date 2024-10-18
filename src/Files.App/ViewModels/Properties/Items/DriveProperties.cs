@@ -1,11 +1,4 @@
-using Files.App.Data.Items;
-using Files.App.Extensions;
-using Files.App.Utils;
-using Files.App.Helpers;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Threading.Tasks;
-using Windows.Storage.FileProperties;
 
 namespace Files.App.ViewModels.Properties
 {

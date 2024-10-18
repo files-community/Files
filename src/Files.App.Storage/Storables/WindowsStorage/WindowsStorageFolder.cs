@@ -36,41 +36,41 @@ namespace Files.App.Storage.Storables
 			switch (kind)
 			{
 				case StorableKind.Files:
-				{
-					var files = await storage.GetFilesAsync().AsTask(cancellationToken);
-					foreach (var item in files)
 					{
-						yield return new WindowsStorageFile(item);
-					}
+						var files = await storage.GetFilesAsync().AsTask(cancellationToken);
+						foreach (var item in files)
+						{
+							yield return new WindowsStorageFile(item);
+						}
 
-					break;
-				}
+						break;
+					}
 
 				case StorableKind.Folders:
-				{
-					var folders = await storage.GetFoldersAsync().AsTask(cancellationToken);
-					foreach (var item in folders)
 					{
-						yield return new WindowsStorageFolder(item);
-					}
+						var folders = await storage.GetFoldersAsync().AsTask(cancellationToken);
+						foreach (var item in folders)
+						{
+							yield return new WindowsStorageFolder(item);
+						}
 
-					break;
-				}
+						break;
+					}
 
 				case StorableKind.All:
-				{
-					var items = await storage.GetItemsAsync().AsTask(cancellationToken);
-					foreach (var item in items)
 					{
-						if (item is StorageFile storageFile)
-							yield return new WindowsStorageFile(storageFile);
+						var items = await storage.GetItemsAsync().AsTask(cancellationToken);
+						foreach (var item in items)
+						{
+							if (item is StorageFile storageFile)
+								yield return new WindowsStorageFile(storageFile);
 
-						if (item is StorageFolder storageFolder)
-							yield return new WindowsStorageFolder(storageFolder);
+							if (item is StorageFolder storageFolder)
+								yield return new WindowsStorageFolder(storageFolder);
+						}
+
+						break;
 					}
-
-					break;
-				}
 
 				default:
 					yield break;

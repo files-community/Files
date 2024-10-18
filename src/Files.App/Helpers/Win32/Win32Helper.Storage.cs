@@ -324,7 +324,7 @@ namespace Files.App.Helpers
 				}
 
 				if (iconData is not null || iconOptions.HasFlag(IconOptions.ReturnThumbnailOnly))
-					return iconData;			
+					return iconData;
 				else
 				{
 					var shfi = new Shell32.SHFILEINFO();
@@ -333,7 +333,7 @@ namespace Files.App.Helpers
 					// Cannot access file, use file attributes
 					var useFileAttibutes = iconData is null;
 
-					var ret = Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags);					
+					var ret = Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags);
 					if (ret == IntPtr.Zero)
 						return iconData;
 

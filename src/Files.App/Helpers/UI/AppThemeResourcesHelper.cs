@@ -2,9 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
-using Files.App.Services;
-using Files.App.Services.Settings;
-using System;
 
 namespace Files.App.Helpers
 {

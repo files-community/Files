@@ -4,7 +4,6 @@
 using Files.App.Dialogs;
 using Microsoft.UI.Xaml.Controls;
 using SevenZip;
-using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Windows.Foundation.Metadata;
 using Windows.Storage;

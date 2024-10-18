@@ -1,10 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Enums;
-using Files.Shared.Extensions;
-using System.Text;
-
 namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 {
 	public sealed class FileSystemDialogViewModel : BaseDialogViewModel, IRecipient<FileSystemDialogOptionChangedMessage>

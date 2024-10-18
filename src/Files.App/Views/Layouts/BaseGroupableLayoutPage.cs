@@ -289,7 +289,7 @@ namespace Files.App.Views.Layouts
 			catch (COMException)
 			{
 
-			}			
+			}
 		}
 
 		// Methods

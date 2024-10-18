@@ -1,15 +1,7 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils;
-using Files.App.Helpers;
-using Files.App.Utils.Shell;
-using Files.Shared;
-using Files.Shared.Extensions;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Extensions

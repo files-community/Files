@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage.Extensions;
 using Files.Shared.Utils;
 using System.Windows.Input;
 

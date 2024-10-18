@@ -110,7 +110,7 @@ namespace Files.App.Utils.Storage
 			var width = Convert.ToInt32(800 * App.AppModel.AppWindowDPI);
 			var height = Convert.ToInt32(500 * App.AppModel.AppWindowDPI);
 
-			propertiesWindow.AppWindow.Resize(new (width, height));
+			propertiesWindow.AppWindow.Resize(new(width, height));
 			propertiesWindow.IsMinimizable = false;
 			propertiesWindow.IsMaximizable = false;
 			propertiesWindow.Content = frame;

@@ -66,7 +66,7 @@ namespace Files.App.Utils.Storage
 		public override void BeginBulkOperation()
 		{
 			base.BeginBulkOperation();
-			
+
 			Model.PausePropertyChangedNotifications();
 		}
 

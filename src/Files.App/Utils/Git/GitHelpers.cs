@@ -4,7 +4,6 @@
 using Files.App.Dialogs;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
-using Sentry;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;

@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Services.SizeProvider;
-using Files.Core.Storage.Storables;
 using Microsoft.Extensions.Logging;
 using System.IO;
 

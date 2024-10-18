@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.Storage.Storables;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Net;

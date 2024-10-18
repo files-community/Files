@@ -6,7 +6,6 @@ using System.Collections.Concurrent;
 using System.IO;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.System;
 
 namespace Files.App.Actions
 {

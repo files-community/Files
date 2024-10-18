@@ -1,9 +1,9 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Windows.Graphics;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
+using Windows.Graphics;
 
 namespace Files.App.Helpers
 {

@@ -11,7 +11,7 @@ namespace Files.App.Actions
 
 		public string Label
 			=> "Install".GetLocalizedResource();
-		
+
 		public string Description
 			=> "InstallInfDriverDescription".GetLocalizedResource();
 

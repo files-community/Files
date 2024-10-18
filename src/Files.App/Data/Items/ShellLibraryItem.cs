@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using System.IO;
-
 namespace Files.App.Data.Items
 {
 	public sealed class ShellLibraryItem

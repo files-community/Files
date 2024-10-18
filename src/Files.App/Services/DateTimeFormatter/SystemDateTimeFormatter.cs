@@ -1,9 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Extensions;
-using System;
-
 namespace Files.App.Services.DateTimeFormatter
 {
 	internal sealed class SystemDateTimeFormatter : AbstractDateTimeFormatter

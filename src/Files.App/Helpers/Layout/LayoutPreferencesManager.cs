@@ -1,9 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Enums;
-using System.Text.Json;
-using Windows.Storage;
 using Windows.Win32;
 
 namespace Files.App.Helpers
@@ -236,7 +233,7 @@ namespace Files.App.Helpers
 				_ when LayoutMode == FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.GridViewSize <= GridViewSizeKind.Small ||
 					   LayoutMode == FolderLayoutModes.TilesView
 					=> 96,
-				_ when  LayoutMode == FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.GridViewSize <= GridViewSizeKind.Large
+				_ when LayoutMode == FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.GridViewSize <= GridViewSizeKind.Large
 					=> 128,
 				_ => 256,
 			};
@@ -594,7 +591,7 @@ namespace Files.App.Helpers
 				}
 
 				dbInstance.SetPreferences(path, frn, preferencesItem);
-			});	
+			});
 		}
 
 		private bool SetProperty<TValue>(Func<LayoutPreferencesItem, TValue> prop, Action<LayoutPreferencesItem> update, string propertyName)

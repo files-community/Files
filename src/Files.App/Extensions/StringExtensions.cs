@@ -1,7 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using ByteSizeLib;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.Concurrent;
 using System.IO;

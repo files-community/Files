@@ -94,7 +94,7 @@ namespace Files.App.Data.Items
 
 			// Get account name and domain
 			bResult = PInvoke.LookupAccountSid(new PCWSTR(), lpSid, lpName, &cchName, lpDomain, &cchDomainName, &snu);
-			if(!bResult)
+			if (!bResult)
 				return;
 
 			PrincipalType = snu switch

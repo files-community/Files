@@ -54,7 +54,7 @@ namespace Files.Shared.Helpers
 		{
 			return HasExtension(fileExtensionToCheck, ".mp3", ".m4a", ".wav", ".wma", ".aac", ".adt", ".adts", ".cda", ".flac");
 		}
-		
+
 		/// <summary>
 		/// Check if the file extension is a video file.
 		/// </summary>
@@ -213,7 +213,7 @@ namespace Files.Shared.Helpers
 		{
 			return HasExtension(fileExtensionToCheck, ".vhd", ".vhdx");
 		}
-		
+
 		/// <summary>
 		/// Check if the file extension is a screen saver file.
 		/// </summary>

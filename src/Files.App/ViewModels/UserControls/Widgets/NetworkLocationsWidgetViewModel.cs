@@ -279,7 +279,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 				IsNoNetworkLocations = !Items.Any();
 			});
-		}	
+		}
 
 		// Event methods
 

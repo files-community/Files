@@ -85,7 +85,7 @@ namespace Files.App.UserControls
 				set => SetProperty(ref isHorizontal, value);
 			}
 		}
-		
+
 		private void TagItem_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			var tagName = ((sender as StackPanel)?.Children[1] as TextBlock)?.Text;

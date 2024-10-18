@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Files.App.Services
+﻿namespace Files.App.Services
 {
 	internal sealed class DummyUpdateService : IUpdateService
 	{

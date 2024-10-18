@@ -168,7 +168,7 @@ namespace Files.App.ViewModels.Settings
 				Clipboard.SetContent(dataPackage);
 			});
 		}
-		
+
 		public void CopyUserID()
 		{
 			SafetyExtensions.IgnoreExceptions(() =>
@@ -194,7 +194,7 @@ namespace Files.App.ViewModels.Settings
 		{
 			return SystemInformation.Instance.OperatingSystemVersion.ToString();
 		}
-		
+
 		public string GetUserID()
 		{
 			return GeneralSettingsService.UserId;

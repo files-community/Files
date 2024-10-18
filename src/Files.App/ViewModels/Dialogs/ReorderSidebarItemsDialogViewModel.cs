@@ -16,7 +16,7 @@ namespace Files.App.ViewModels.Dialogs
 			.Where(x => x is LocationItem loc && loc.Section is SectionType.Pinned && !loc.IsHeader)
 			.Cast<LocationItem>());
 
-		public ReorderSidebarItemsDialogViewModel() 
+		public ReorderSidebarItemsDialogViewModel()
 		{
 			//App.Logger.LogWarning(string.Join(", ", SidebarPinnedFolderItems.Select(x => x.Path)));
 			PrimaryButtonCommand = new RelayCommand(SaveChanges);

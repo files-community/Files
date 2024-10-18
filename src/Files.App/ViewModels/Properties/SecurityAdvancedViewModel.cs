@@ -69,7 +69,7 @@ namespace Files.App.ViewModels.Properties
 
 				if (SetProperty(ref _SelectedAccessControlEntry, value))
 				{
-					if(value is not null)
+					if (value is not null)
 						value.IsSelected = true;
 
 					OnPropertyChanged(nameof(IsDeleteAccessControlEntryButtonEnabled));
@@ -179,7 +179,7 @@ namespace Files.App.ViewModels.Properties
 
 				if (error is WIN32_ERROR.ERROR_ACCESS_DENIED)
 				{
-					ErrorMessage = 
+					ErrorMessage =
 						"SecurityRequireReadPermissions".GetLocalizedResource() +
 						"\r\n\r\n" +
 						"SecuritySuggestToTakeOwnership".GetLocalizedResource();

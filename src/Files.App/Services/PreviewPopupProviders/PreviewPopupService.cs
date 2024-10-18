@@ -1,8 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Services.PreviewPopupProviders;
-
 namespace Files.App.Services.PreviewPopupProviders
 {
 	/// <inheritdoc cref="IPreviewPopupService"/>

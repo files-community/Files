@@ -41,8 +41,8 @@ namespace Files.App.ViewModels.UserControls
 			get => _SelectedBranchIndex;
 			set
 			{
-				if (SetProperty(ref _SelectedBranchIndex, value) && 
-					value != -1 && 
+				if (SetProperty(ref _SelectedBranchIndex, value) &&
+					value != -1 &&
 					(value != ACTIVE_BRANCH_INDEX || !_ShowLocals) &&
 					value < Branches.Count)
 				{
@@ -90,8 +90,8 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public ObservableCollection<BranchItem> Branches => _ShowLocals 
-			? _localBranches 
+		public ObservableCollection<BranchItem> Branches => _ShowLocals
+			? _localBranches
 			: _remoteBranches;
 
 		public EventHandler<string>? CheckoutRequested;
@@ -125,7 +125,7 @@ namespace Files.App.ViewModels.UserControls
 					: null;
 
 			_gitRepositoryPath = repositoryPath;
-			
+
 			// Change ShowLocals value only if branches flyout is closed
 			if (!IsBranchesFlyoutExpanded)
 				ShowLocals = true;

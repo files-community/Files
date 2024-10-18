@@ -1,9 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Utils.Shell;
-using Files.App.UserControls.Widgets;
-
 namespace Files.App.Services
 {
 	internal sealed class QuickAccessService : IQuickAccessService
@@ -33,7 +30,7 @@ namespace Files.App.Services
 				App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, true));
 		}
 
-		public Task UnpinFromSidebarAsync(string folderPath) => UnpinFromSidebarAsync(new[] { folderPath }); 
+		public Task UnpinFromSidebarAsync(string folderPath) => UnpinFromSidebarAsync(new[] { folderPath });
 
 		public Task UnpinFromSidebarAsync(string[] folderPaths) => UnpinFromSidebarAsync(folderPaths, true);
 
@@ -55,7 +52,7 @@ namespace Files.App.Services
 					var folder = await ShellStorageFolder.FromPathAsync((string)fi.Path);
 					var path = folder?.Path;
 
-					if (path is not null && 
+					if (path is not null &&
 						(folderPaths.Contains(path) || (path.StartsWith(@"\\SHELL\") && folderPaths.Any(x => x.StartsWith(@"\\SHELL\"))))) // Fix for the Linux header
 					{
 						await SafetyExtensions.IgnoreExceptions(async () =>

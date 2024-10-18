@@ -47,7 +47,7 @@ namespace Files.App.UserControls.Sidebar
 		}
 		// Using 30 as a default in case something goes wrong
 		public static readonly DependencyProperty ChildrenPresenterHeightProperty =
-			DependencyProperty.Register(nameof(ChildrenPresenterHeight), typeof(double), typeof(SidebarItem), new PropertyMetadata(30d)); 
+			DependencyProperty.Register(nameof(ChildrenPresenterHeight), typeof(double), typeof(SidebarItem), new PropertyMetadata(30d));
 
 		public ISidebarItemModel? Item
 		{
@@ -115,7 +115,7 @@ namespace Files.App.UserControls.Sidebar
 			{
 				item.UpdateExpansionState();
 			}
-			else if(e.Property == ItemProperty)
+			else if (e.Property == ItemProperty)
 			{
 				item.HandleItemChange();
 			}

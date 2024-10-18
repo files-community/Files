@@ -1,12 +1,11 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.Shared.Helpers;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Input;
-using Windows.Storage.Pickers;
-using Files.Shared.Helpers;
 
 namespace Files.App.ViewModels.Dialogs
 {
@@ -232,9 +231,9 @@ namespace Files.App.ViewModels.Dialogs
 			{
 				destinationName = Path.GetFileName(FullPath);
 
-				if(string.IsNullOrEmpty(FullPath))
+				if (string.IsNullOrEmpty(FullPath))
 				{
-					
+
 					var destinationPath = FullPath.Replace('/', '\\');
 
 					if (destinationPath.EndsWith('\\'))

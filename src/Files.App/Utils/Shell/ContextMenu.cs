@@ -15,9 +15,9 @@ namespace Files.App.Utils.Shell
 	public class ContextMenu : Win32ContextMenu, IDisposable
 	{
 		private Shell32.IContextMenu _cMenu;
-		
+
 		private User32.SafeHMENU _hMenu;
-		
+
 		private readonly ThreadWithMessageQueue _owningThread;
 
 		private readonly Func<string, bool>? _itemFilter;

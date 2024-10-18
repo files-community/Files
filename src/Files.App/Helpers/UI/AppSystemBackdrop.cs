@@ -131,7 +131,7 @@ namespace Files.App.Helpers
 			// This sets all properties to work around other properties not updating when fallback color is changed
 			// This uses the Thin Acrylic recipe from the WinUI Figma toolkit
 
-			switch(theme)
+			switch (theme)
 			{
 				case SystemBackdropTheme.Light:
 					controller.TintColor = Color.FromArgb(0xff, 0xd3, 0xd3, 0xd3);

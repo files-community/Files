@@ -36,8 +36,8 @@ namespace Files.App.UserControls.FilePreviews
 			PlayerContext.Source = null;
 
 			PlayerContext.Loaded -= PlayerContext_Loaded;
-			Unloaded -= MediaPreview_Unloaded;		
-	}
+			Unloaded -= MediaPreview_Unloaded;
+		}
 
 		private void MediaPlayer_VolumeChanged(MediaPlayer sender, object args)
 		{

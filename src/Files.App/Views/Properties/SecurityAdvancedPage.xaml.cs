@@ -1,9 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Data.Items;
-using Files.App.Data.Parameters;
-using Files.App.Utils;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml.Navigation;
 

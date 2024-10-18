@@ -3,5 +3,5 @@
 
 namespace Files.App.Data.EventArguments
 {
-    public record SelectedTagChangedEventArgs(IEnumerable<(string path, bool isFolder)> Items);
+	public record SelectedTagChangedEventArgs(IEnumerable<(string path, bool isFolder)> Items);
 }

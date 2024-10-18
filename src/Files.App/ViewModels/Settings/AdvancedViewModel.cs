@@ -7,7 +7,6 @@ using SevenZip;
 using System.IO;
 using System.Text;
 using System.Windows.Input;
-using Vanara.PInvoke;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -206,7 +205,7 @@ namespace Files.App.ViewModels.Settings
 
 		private async Task ExportSettingsAsync()
 		{
-			string[] extensions = ["ZipFileCapitalized".GetLocalizedResource(), "*.zip" ];
+			string[] extensions = ["ZipFileCapitalized".GetLocalizedResource(), "*.zip"];
 			bool result = CommonDialogService.Open_FileSaveDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
 			if (!result)
 				return;
@@ -338,7 +337,7 @@ namespace Files.App.ViewModels.Settings
 				}
 			}
 		}
-		
+
 		public bool ShowSystemTrayIcon
 		{
 			get => UserSettingsService.GeneralSettingsService.ShowSystemTrayIcon;

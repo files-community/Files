@@ -5,11 +5,10 @@ using Files.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Windows.Storage.Search;
-using Microsoft.UI.Xaml.Media;
-using Windows.Storage;
-using Windows.System;
 using System.IO;
+using Windows.Storage;
+using Windows.Storage.Search;
+using Windows.System;
 
 namespace Files.App.Helpers
 {

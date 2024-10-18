@@ -1,11 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.UserControls.TabBar;
-using Files.App.ViewModels;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Files.App.Helpers
 {
 	public static class MultitaskingTabsHelpers

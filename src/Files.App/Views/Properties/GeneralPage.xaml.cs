@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Input;
 using System.IO;
 using Windows.Storage;
 using Windows.Win32;
-using Files.App.Helpers;
 
 namespace Files.App.Views.Properties
 {

@@ -3,8 +3,6 @@
 
 using FluentFTP;
 using SevenZip;
-using System;
-using Windows.Storage;
 
 namespace Files.App.Utils.Storage
 {

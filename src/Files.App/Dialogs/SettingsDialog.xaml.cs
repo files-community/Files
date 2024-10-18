@@ -2,12 +2,8 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Views.Settings;
-using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Threading.Tasks;
-using Files.App.Data.Enums;
 using Microsoft.UI.Xaml.Media.Animation;
 
 namespace Files.App.Dialogs

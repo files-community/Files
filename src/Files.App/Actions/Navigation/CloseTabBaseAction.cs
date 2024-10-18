@@ -10,13 +10,13 @@ namespace Files.App.Actions
 		public abstract string Label { get; }
 
 		public abstract string Description { get; }
-			
+
 		public bool IsExecutable
 			=> GetIsExecutable();
 
 		public virtual HotKey HotKey
 			=> HotKey.None;
-		
+
 		public virtual HotKey SecondHotKey
 			=> HotKey.None;
 

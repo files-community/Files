@@ -108,7 +108,7 @@ namespace Files.App.Data.Models
 
 		/// <inheritdoc/>
 		public CancellationToken CancellationToken { get; set; }
-		
+
 		/// <inheritdoc/>
 		public int CPUThreads { get; set; }
 

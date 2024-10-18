@@ -2,19 +2,18 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.ViewModels.Properties;
-using Microsoft.UI.Content;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
 using System.Runtime.InteropServices;
 using System.Text;
 using Vanara.PInvoke;
 using Windows.Win32;
-using Windows.Win32.System.Com;
 using Windows.Win32.Graphics.Direct3D;
 using Windows.Win32.Graphics.Direct3D11;
 using Windows.Win32.Graphics.DirectComposition;
 using Windows.Win32.Graphics.Dwm;
 using Windows.Win32.Graphics.Dxgi;
+using Windows.Win32.System.Com;
 using WinRT;
 using static Vanara.PInvoke.ShlwApi;
 using static Vanara.PInvoke.User32;
@@ -196,7 +195,7 @@ namespace Files.App.ViewModels.Previews
 			target.SetRoot(pChildVisual);
 
 			outputLink.PlacementVisual.Size = new(0, 0);
-			outputLink.PlacementVisual.Scale = new(1/(float)presenter.XamlRoot.RasterizationScale);
+			outputLink.PlacementVisual.Scale = new(1 / (float)presenter.XamlRoot.RasterizationScale);
 			ElementCompositionPreview.SetElementChildVisual(presenter, outputLink.PlacementVisual);
 
 			pDCompositionDevice->Commit();

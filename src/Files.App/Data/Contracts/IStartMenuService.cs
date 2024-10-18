@@ -1,6 +1,4 @@
-﻿using Files.Core.Storage;
-
-namespace Files.App.Data.Contracts
+﻿namespace Files.App.Data.Contracts
 {
 	/// <summary>
 	/// A service that manages actions associated with system Start Menu.

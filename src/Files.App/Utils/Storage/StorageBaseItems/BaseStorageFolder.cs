@@ -108,7 +108,7 @@ namespace Files.App.Utils.Storage
 		public abstract IAsyncOperation<BaseStorageFolder> GetFolderAsync(string name);
 
 		IAsyncOperation<StorageFolder> IStorageFolder.GetFolderAsync(string name)
-		{ 
+		{
 			return
 				AsyncInfo.Run(async (cancellationToken)
 					=> await (await GetFolderAsync(name)).ToStorageFolderAsync());

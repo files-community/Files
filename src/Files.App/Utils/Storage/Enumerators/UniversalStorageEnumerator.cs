@@ -82,7 +82,7 @@ namespace Files.App.Utils.Storage
 							{
 								if (defaultIconPairs?.ContainsKey(string.Empty) ?? false)
 									folder.FileImage = defaultIconPairs[string.Empty];
-								
+
 								tempList.Add(folder);
 							}
 						}
@@ -96,7 +96,7 @@ namespace Files.App.Utils.Storage
 									if (!string.IsNullOrEmpty(fileEntry.FileExtension))
 									{
 										var lowercaseExtension = fileEntry.FileExtension.ToLowerInvariant();
-		
+
 										if (defaultIconPairs.ContainsKey(lowercaseExtension))
 											fileEntry.FileImage = defaultIconPairs[lowercaseExtension];
 									}

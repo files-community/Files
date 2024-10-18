@@ -6,7 +6,6 @@ using Files.Shared.Helpers;
 using System.IO;
 using Vanara.PInvoke;
 using Windows.Storage;
-using static Files.App.Helpers.Win32Helper;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Utils.Storage

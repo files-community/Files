@@ -2,11 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Collections.Specialized;
-using System.Globalization;
-using Vanara.PInvoke;
-using Windows.Globalization;
 using Windows.Storage;
-using Windows.Storage.Pickers;
 using Windows.System;
 using static Files.App.Helpers.MenuFlyoutHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
