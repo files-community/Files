@@ -2,11 +2,31 @@
 // Licensed under the MIT License. See the LICENSE.
 
 // System
+global using global::System;
+global using global::System.Collections;
+global using global::System.Collections.Generic;
+global using global::System.Collections.ObjectModel;
+global using global::System.ComponentModel;
+global using global::System.Diagnostics;
+global using global::System.Linq;
+global using global::System.Text.Json;
+global using global::System.Text.Json.Serialization;
+global using global::System.Threading;
+global using global::System.Threading.Tasks;
+global using SystemIO = global::System.IO;
+
 // CommunityToolkit.Mvvm
 global using global::CommunityToolkit.Mvvm.ComponentModel;
 global using global::CommunityToolkit.Mvvm.DependencyInjection;
 global using global::CommunityToolkit.Mvvm.Input;
 global using global::CommunityToolkit.Mvvm.Messaging;
+
+// Files.App
+global using global::Files.App.Helpers;
+global using global::Files.App.Services;
+global using global::Files.App.Services.DateTimeFormatter;
+global using global::Files.App.Services.PreviewPopupProviders;
+global using global::Files.App.Services.Settings;
 global using global::Files.App.Data.Commands;
 global using global::Files.App.Data.Contexts;
 global using global::Files.App.Data.Contracts;
@@ -19,16 +39,6 @@ global using global::Files.App.Data.Messages;
 global using global::Files.App.Data.Models;
 global using global::Files.App.Data.Parameters;
 global using global::Files.App.Extensions;
-// Files.App
-global using global::Files.App.Helpers;
-global using global::Files.App.Services;
-global using global::Files.App.Services.DateTimeFormatter;
-global using global::Files.App.Services.PreviewPopupProviders;
-global using global::Files.App.Services.Settings;
-// Files.App.Storage
-
-global using global::Files.App.Storage.Storables;
-global using global::Files.App.Storage.Watchers;
 global using global::Files.App.UserControls;
 global using global::Files.App.UserControls.TabBar;
 global using global::Files.App.UserControls.Widgets;
@@ -53,6 +63,11 @@ global using global::Files.App.ViewModels.UserControls.Widgets;
 global using global::Files.App.Views;
 global using global::Files.App.Views.Layouts;
 global using global::Files.App.Views.Shells;
+
+// Files.App.Storage
+global using global::Files.App.Storage.Storables;
+global using global::Files.App.Storage.Watchers;
+
 // Files.Core.Storage
 
 global using global::Files.Core.Storage;
@@ -60,19 +75,8 @@ global using global::Files.Core.Storage.Enums;
 global using global::Files.Core.Storage.EventArguments;
 global using global::Files.Core.Storage.Extensions;
 global using global::Files.Core.Storage.Storables;
+
 // Files.Shared
 global using global::Files.Shared;
 global using global::Files.Shared.Attributes;
 global using global::Files.Shared.Extensions;
-global using global::System;
-global using global::System.Collections;
-global using global::System.Collections.Generic;
-global using global::System.Collections.ObjectModel;
-global using global::System.ComponentModel;
-global using global::System.Diagnostics;
-global using global::System.Linq;
-global using global::System.Text.Json;
-global using global::System.Text.Json.Serialization;
-global using global::System.Threading;
-global using global::System.Threading.Tasks;
-global using SystemIO = global::System.IO;
