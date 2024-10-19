@@ -12,17 +12,26 @@ on:
 jobs:
   build:
 
-    runs-on: windows-latest  # Change from ubuntu-latest to windows-latest
+    runs-on: windows-latest  # Set the environment to Windows
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 7.0.120
+        dotnet-version: '7.0.x'  # Use '7.0.x' to get the latest patch of .NET 7.0
+
     - name: Restore dependencies
       run: dotnet restore
+
     - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet build --configuration Release --no-restore  # Use Release configuration for builds
+
+    - name: Run Tests
+      run: dotnet test --configuration Release --no-build --verbosity normal  # Run tests with Release configuration
+
+    - name: Publish
+      run: dotnet publish --configuration Release --no-build -o ./output  # Optional: Publish the project
+
