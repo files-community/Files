@@ -56,7 +56,103 @@ namespace Files.App.Views
 			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
 			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
+
+private void LoadPaneChanged()
+{
+    try
+    {
+        // Check if there is an active pane holder
+        if (SidebarAdaptiveViewModel.PaneHolder != null)
+        {
+            // Determine if the current view is a home page or multi-pane
+            bool isHomePage = !(SidebarAdaptiveViewModel.PaneHolder.ActivePane.InstanceViewModel is not IShellPanesPage);
+            bool isMultiPane = SidebarAdaptiveViewModel.PaneHolder.IsMultiPaneActive;
+
+            // Check if the main window is sufficiently sized
+            bool isBigEnough = !App.AppModel.IsMainWindowClosed &&
+                (MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || 
+                 RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360);
+
+            // Determine if the preview pane should be displayed
+            ViewModel.ShouldPreviewPaneBeDisplayed = (!isHomePage || isMultiPane) && isBigEnough;
+            ViewModel.ShouldPreviewPaneBeActive = UserSettingsService.InfoPaneSettingsService.IsInfoPaneEnabled && ViewModel.ShouldPreviewPaneBeDisplayed;
+
+            // Update the status bar based on the active pane
+            UpdateStatusBarProperties();
+
+            // Update navigation toolbar properties
+            UpdateNavToolbarProperties();
+
+            // Adjust pane positioning
+            UpdatePositioning();
+        }
+    }
+    catch (Exception ex)
+    {
+        // Log any exceptions that occur during pane loading
+        App.Logger.LogWarning(ex, "Error while loading pane changes: {Message}", ex.Message);
+    }
+}
+
+   
 		}
+
+  private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+{
+    switch (e.PropertyName)
+    {
+        case nameof(ViewModel.ShouldPreviewPaneBeActive):
+            if (ViewModel.ShouldPreviewPaneBeActive)
+            {
+                // Load the preview pane with the selected item details
+                var infoPaneViewModel = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
+                infoPaneViewModel.UpdateSelectedItemPreviewAsync();
+            }
+            break;
+            
+        case nameof(ViewModel.ShouldViewControlBeDisplayed):
+            if (ViewModel.ShouldViewControlBeDisplayed)
+            {
+                // Show view control
+                ViewControl.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                // Hide view control
+                ViewControl.Visibility = Visibility.Collapsed;
+            }
+            break;
+            
+        case nameof(ViewModel.MultitaskingControl):
+            // Update the multitasking control UI
+            UpdateMultitaskingControl(ViewModel.MultitaskingControl);
+            break;
+
+        case nameof(ViewModel.SelectedTabIndex):
+            // Logic for when the selected tab index changes
+            UpdateTabSelection(ViewModel.SelectedTabIndex);
+            break;
+    }
+}
+
+
+
+private void UpdateMultitaskingControl(object multitaskingControl)
+{
+    // Logic to refresh the multitasking UI
+    if (multitaskingControl is TabBar tabBar)
+    {
+        // Update the tab bar with the new multitasking control
+        TabControl.ItemsSource = tabBar.Items;
+    }
+}
+
+private void UpdateTabSelection(int selectedIndex)
+{
+    // Logic to update UI based on selected tab
+    TabControl.SelectedIndex = selectedIndex;
+}
+
 
 		private async Task PromptForReviewAsync()
 		{
@@ -158,6 +254,9 @@ namespace Files.App.Views
 
 			// Save the updated tab list
 			AppLifecycleHelper.SaveSessionTabs();
+
+   // Call LoadPaneChanged to update the UI as needed
+    LoadPaneChanged();
 		}
 
 		public async void MultitaskingControl_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
