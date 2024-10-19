@@ -20,6 +20,7 @@ jobs:
         echo "C:\tools\mingw64\bin" >> $env:GITHUB_PATH
     - name: Build C++ Project
       run: |
-        g++ -o output.exe -Wall -Wextra -O2 ./src/*.cpp
+        $cppFiles = Get-ChildItem -Path ./src -Filter *.cpp | ForEach-Object { $_.FullName }
+        g++ -o output.exe -Wall -Wextra -O2 $cppFiles
     - name: Run Executable
       run: ./output.exe
