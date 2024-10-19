@@ -21,7 +21,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: '7.0.x'  # Use '7.0.x' to get the latest patch of .NET 7.0
+        dotnet-version: '8.0.403'  # Use '7.0.x' to get the latest patch of .NET 7.0
 
     - name: Restore dependencies
       run: dotnet restore
