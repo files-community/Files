@@ -1,7 +1,5 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
-name: .NET
+# This workflow will build a C++ project using g++
+name: C++ Build with g++
 
 on:
   push:
@@ -12,26 +10,16 @@ on:
 jobs:
   build:
 
-    runs-on: windows-latest  # Set the environment to Windows
+    runs-on: windows-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '8.0.403'  # Use '7.0.x' to get the latest patch of .NET 7.0
-
-    - name: Restore dependencies
-      run: dotnet restore
-
-    - name: Build
-      run: dotnet build --configuration Release --no-restore  # Use Release configuration for builds
-
-    - name: Run Tests
-      run: dotnet test --configuration Release --no-build --verbosity normal  # Run tests with Release configuration
-
-    - name: Publish
-      run: dotnet publish --configuration Release --no-build -o ./output  # Optional: Publish the project
-
+    - uses: actions/checkout@v4
+    - name: Install MinGW (for g++)
+      run: |
+        choco install mingw
+        echo "C:\tools\mingw64\bin" >> $env:GITHUB_PATH
+    - name: Build C++ Project
+      run: |
+        g++ -o output.exe -Wall -Wextra -O2 ./src/*.cpp
+    - name: Run Executable
+      run: ./output.exe
