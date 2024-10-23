@@ -951,7 +951,7 @@ namespace Files.App.Helpers
 			if (hFile.IsInvalid)
 				return false;
 
-			var bytesReturned = 0u;
+			uint bytesReturned = 0u;
 			var compressionFormat = isCompressed
 				? Win32PInvoke.COMPRESSION_FORMAT_DEFAULT
 				: Win32PInvoke.COMPRESSION_FORMAT_NONE;
