@@ -941,7 +941,7 @@ namespace Files.App.Helpers
 		{
 			using var hFile = PInvoke.CreateFile(
 				lpFileName,
-				Win32PInvoke.GENERIC_READ | Win32PInvoke.GENERIC_WRITE,
+				(uint)FILE_ACCESS_RIGHTS.FILE_WRITE_ATTRIBUES,
 				FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE,
 				lpSecurityAttributes: null,
 				FILE_CREATION_DISPOSITION.OPEN_EXISTING,
