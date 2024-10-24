@@ -43,7 +43,7 @@ namespace Windows.Win32
 		{
 			void* newRawPtr;
 			ComPtr<U> newPtr = default;
-			((IUnknown*)ptr_)->QueryInterface(&riid, &newRawPtr);
+			((IUnknown*)_ptr)->QueryInterface(&riid, &newRawPtr);
 			newPtr._ptr = (U*)newRawPtr;
 			return newPtr;
 		}
