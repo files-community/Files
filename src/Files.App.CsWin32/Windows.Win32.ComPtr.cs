@@ -39,6 +39,16 @@ namespace Windows.Win32
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public readonly ComPtr<U> As<U>(Guid riid)
+		{
+			void** newRawPtr;
+			ComPtr<U> newPtr = default;
+			((IUnknown*)ptr_)->QueryInterface(&riid, &newRawPtr);
+			newPtr._ptr = (U*)*newRawPtr;
+			return newPtr;
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public void Dispose()
 		{
 			T* ptr = _ptr;
