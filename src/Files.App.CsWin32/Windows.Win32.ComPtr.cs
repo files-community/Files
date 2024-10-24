@@ -39,7 +39,7 @@ namespace Windows.Win32
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public readonly ComPtr<U> As<U>(Guid riid)
+		public readonly ComPtr<U> As<U>(Guid riid) where U : unmanaged
 		{
 			void* newRawPtr;
 			ComPtr<U> newPtr = default;
