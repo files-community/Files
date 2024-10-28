@@ -32,9 +32,9 @@ jobs:
       WORKING_DIR:                '${{ github.workspace }}' # D:\a\Files\Files\
       ARTIFACTS_STAGING_DIR:      '${{ github.workspace }}\artifacts'
       APPX_PACKAGE_DIR:           '${{ github.workspace }}\artifacts\AppxPackages'
-      PACKAGE_PROJECT_DIR:        '${{ github.workspace }}src\Files.App (Package)'
-      PACKAGE_PROJECT_PATH:       '${{ github.workspace }}src\Files.App (Package)\Files.Package.wapproj'
-      PACKAGE_MANIFEST_PATH:      '${{ github.workspace }}src\Files.App (Package)\Package.appxmanifest'
+      PACKAGE_PROJECT_DIR:        '${{ github.workspace }}\src\Files.App (Package)'
+      PACKAGE_PROJECT_PATH:       '${{ github.workspace }}\src\Files.App (Package)\Files.Package.wapproj'
+      PACKAGE_MANIFEST_PATH:      '${{ github.workspace }}\src\Files.App (Package)\Package.appxmanifest'
 
     steps:
     - name: Checkout the repository
