@@ -15,7 +15,6 @@ using Vanara.PInvoke;
 using Windows.System;
 using Windows.Win32;
 using Windows.Win32.Storage.FileSystem;
-using Windows.Win32.System.Ioctl;
 
 namespace Files.App.Helpers
 {
@@ -942,7 +941,7 @@ namespace Files.App.Helpers
 		{
 			using var hFile = PInvoke.CreateFile(
 				lpFileName,
-				(uint)FILE_ACCESS_RIGHTS.FILE_WRITE_ATTRIBUES,
+				Win32PInvoke.FILE_WRITE_ATTRIBUTES,
 				FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE,
 				lpSecurityAttributes: null,
 				FILE_CREATION_DISPOSITION.OPEN_EXISTING,
@@ -952,24 +951,21 @@ namespace Files.App.Helpers
 			if (hFile.IsInvalid)
 				return false;
 
-			uint bytesReturned = 0u;
-			COMPRESSION_FORMAT compressionFormat = isCompressed
-				? COMPRESSION_FORMAT.COMPRESSION_FORMAT_DEFAULT
-				: COMPRESSION_FORMAT.COMPRESSION_FORMAT_NONE;
+			var bytesReturned = 0u;
+			var compressionFormat = isCompressed
+				? Win32PInvoke.COMPRESSION_FORMAT_DEFAULT
+				: Win32PInvoke.COMPRESSION_FORMAT_NONE;
 
 			var result = PInvoke.DeviceIoControl(
 				new(hFile.DangerousGetHandle()),
-				(uint)FSCTL_SET_COMPRESSION,
+				Win32PInvoke.FSCTL_SET_COMPRESSION,
 				&compressionFormat,
 				sizeof(ushort),
 				null,
 				0u,
 				&bytesReturned);
 
-			if (!result)
-				return false;
-
-			return true;
+			return result;
 		}
 
 		public static string ReadStringFromFile(string filePath)
