@@ -289,13 +289,7 @@ namespace Files.App.ViewModels.Properties
 					break;
 
 				case nameof(ViewModel.IsContentCompressed):
-					if (ViewModel.IsContentCompressed is not null)
-					{
-						if ((bool)ViewModel.IsContentCompressed)
-							Win32Helper.SetCompressionAttributeIoctl(Item.ItemPath, true);
-						else
-							Win32Helper.SetCompressionAttributeIoctl(Item.ItemPath, false);
-					}
+					Win32Helper.SetCompressionAttributeIoctl(Item.ItemPath, ViewModel.IsContentCompressed ?? false);
 					break;
 
 				case nameof(ViewModel.RunAsAdmin):
