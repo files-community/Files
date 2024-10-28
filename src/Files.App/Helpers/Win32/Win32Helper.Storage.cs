@@ -952,20 +952,20 @@ namespace Files.App.Helpers
 				return false;
 
 			uint bytesReturned = 0u;
-			var compressionFormat = isCompressed
-				? Win32PInvoke.COMPRESSION_FORMAT_DEFAULT
-				: Win32PInvoke.COMPRESSION_FORMAT_NONE;
+			COMPRESSION_FORMAT compressionFormat = isCompressed
+				? COMPRESSION_FORMAT.COMPRESSION_FORMAT_DEFAULT
+				: COMPRESSION_FORMAT.COMPRESSION_FORMAT_NONE;
 
 			var result = PInvoke.DeviceIoControl(
 				new(hFile.DangerousGetHandle()),
-				Win32PInvoke.FSCTL_SET_COMPRESSION,
+				(uint)FSCTL_SET_COMPRESSION,
 				&compressionFormat,
 				sizeof(ushort),
-				(void*)IntPtr.Zero,
+				null,
 				0u,
 				&bytesReturned);
 
-			if (result.Value == 0)
+			if (!result)
 				return false;
 
 			return true;

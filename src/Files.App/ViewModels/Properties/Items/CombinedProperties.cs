@@ -173,23 +173,10 @@ namespace Files.App.ViewModels.Properties
 
 				case "IsContentCompressed":
 					{
-						if (ViewModel.IsContentCompressed is not null)
+						List.ForEach(x =>
 						{
-							if (ViewModel.IsContentCompressed ?? false)
-							{
-								List.ForEach(x =>
-								{
-									Win32Helper.SetCompressionAttributeIoctl(x.ItemPath, true);
-								});
-							}
-							else
-							{
-								List.ForEach(x =>
-								{
-									Win32Helper.SetCompressionAttributeIoctl(x.ItemPath, false);
-								});
-							}
-						}
+							Win32Helper.SetCompressionAttributeIoctl(x.ItemPath, ViewModel.IsContentCompressed ?? false);
+						});
 					}
 					break;
 			}
