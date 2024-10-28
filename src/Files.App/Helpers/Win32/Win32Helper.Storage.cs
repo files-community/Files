@@ -15,6 +15,7 @@ using Vanara.PInvoke;
 using Windows.System;
 using Windows.Win32;
 using Windows.Win32.Storage.FileSystem;
+using Windows.Win32.System.Ioctl;
 
 namespace Files.App.Helpers
 {
