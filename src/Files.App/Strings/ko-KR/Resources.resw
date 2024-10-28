@@ -291,8 +291,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>항목 이름을 입력하세요</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>이름 설정</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>Create new {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>밝게</value>

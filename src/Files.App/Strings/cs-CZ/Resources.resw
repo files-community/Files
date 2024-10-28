@@ -291,8 +291,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Zadejte název položky</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Pojmenovat</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>Vytvořit nový {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Světlý</value>
