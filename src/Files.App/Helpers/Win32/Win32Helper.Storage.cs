@@ -939,13 +939,15 @@ namespace Files.App.Helpers
 
 		public static unsafe bool SetCompressionAttributeIoctl(string lpFileName, bool isCompressed)
 		{
+			// GENERIC_READ | GENERIC_WRITE flags are needed here
+			// FILE_FLAG_BACKUP_SEMANTICS is used to open directories
 			using var hFile = PInvoke.CreateFile(
 				lpFileName,
-				Win32PInvoke.FILE_WRITE_ATTRIBUTES,
+				Win32PInvoke.GENERIC_READ | Win32PInvoke.GENERIC_WRITE | Win32PInvoke.FILE_WRITE_ATTRIBUTES,
 				FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE,
 				lpSecurityAttributes: null,
 				FILE_CREATION_DISPOSITION.OPEN_EXISTING,
-				FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL,
+				FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL | FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS,
 				hTemplateFile: null);
 
 			if (hFile.IsInvalid)
