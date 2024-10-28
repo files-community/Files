@@ -49,10 +49,7 @@ jobs:
 
     if: github.repository_owner == 'files-community'
 
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: pwsh
+    runs-on: windows-latest
 
     steps:
 
@@ -62,10 +59,8 @@ jobs:
         fetch-depth: 2
     - name: Setup .NET 8
       uses: actions/setup-dotnet@v4
-      with:
-        global-json-file: global.json
 
-    - name: Install XamlStyler console
+    - name: Install XamlStyler.Console
       run: 'dotnet tool install --global XamlStyler.Console'
 
     - name: Check XAML formatting
