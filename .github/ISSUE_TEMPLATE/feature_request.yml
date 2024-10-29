@@ -3,6 +3,7 @@ description: This project thrives from differentiation from competing apps. Sugg
 type: 'Feature request'
 title: 'Feature: '
 body:
+
   # Tip to warn of checking for existing issues
   - type: markdown
     attributes:
