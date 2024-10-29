@@ -3,6 +3,13 @@ description: Create a code quality issue to help Files keep a clean codebase
 type: 'Code quality'
 title: 'Code Quality: '
 body:
+  # Tip to warn of checking for existing issues
+  - type: markdown
+    attributes:
+      value: |
+        > [!TIP]
+        > Have you checked for similar code quality issues? There's a possibility that your issue has already been reported, make sure to do a thorough search before reporting an issue with the codebase quality here.
+
   # Issue body
   - type: textarea
     attributes:
