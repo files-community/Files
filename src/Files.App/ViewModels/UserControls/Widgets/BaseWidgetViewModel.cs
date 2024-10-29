@@ -65,7 +65,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			// Create a new Flyout
 			var itemContextMenuFlyout = new CommandBarFlyout()
 			{
-				Placement = FlyoutPlacementMode.Full
+				Placement = FlyoutPlacementMode.Right
 			};
 
 			// Hook events
