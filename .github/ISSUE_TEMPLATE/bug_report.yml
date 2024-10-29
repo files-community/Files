@@ -3,6 +3,13 @@ description: Create a bug report to help improve Files.
 type: 'Bug'
 title: 'Bug: '
 body:
+  # Tip to warn of checking for existing issues
+  - type: markdown
+    attributes:
+      value: |
+        > [!TIP]
+        > Have you checked for similar issues? There's a possibility that your issue has already been reported, make sure to do a thorough search before reporting an issue here.
+
   # Description
   - type: textarea
     attributes:
@@ -52,6 +59,15 @@ body:
       placeholder: "74750836-5885-4eeb-964f-8177cb4babf6"
     validations:
       required: false
+
+  # Note that the user should always upload the report rather than pasting it.
+  - type: markdown
+    attributes:
+      value: |
+        > [!IMPORTANT]
+        > Please **upload** the log rather than pasting it here as it clutters up the issue body.
+        >
+        > Feel free to remove sensitive information such as your username if you wouldn't like it to be included.
 
   # Log File
   - type: textarea
