@@ -3,6 +3,12 @@ description: This project thrives from differentiation from competing apps. Sugg
 type: 'Feature request'
 title: 'Feature: '
 body:
+  # Tip to warn of checking for existing issues
+  - type: markdown
+    attributes:
+      value: |
+        > [!TIP]
+        > Have you checked for similar feature request? There's a possibility that your idea has already been requested, make sure to do a thorough search before reporting an issue here.
 
   # Description
   - type: textarea
