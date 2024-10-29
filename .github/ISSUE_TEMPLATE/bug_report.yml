@@ -80,4 +80,4 @@ body:
         - Select the `debug.log` file from `%localappdata%\Packages\49306atecsolution.FilesUWP_et10x9a9vyk8t\LocalState`
         - Drag and drop the file to upload as an attachment 
     validations:
-      required: true    
+      required: true
