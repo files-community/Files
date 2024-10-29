@@ -10,7 +10,7 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "CopyItemPath".GetLocalizedResource();
+			=> "CopyPath".GetLocalizedResource();
 
 		public string Description
 			=> "CopyItemPathDescription".GetLocalizedResource();

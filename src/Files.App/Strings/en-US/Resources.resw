@@ -123,9 +123,6 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Copy path</value>
   </data>
-  <data name="CopyItemPath" xml:space="preserve">
-    <value>Copy selected item path</value>
-  </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Copy path with quotes</value>
   </data>
