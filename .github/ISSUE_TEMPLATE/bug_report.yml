@@ -3,7 +3,6 @@ description: Create a bug report to help improve Files.
 type: 'Bug'
 title: 'Bug: '
 body:
-
   # Description
   - type: textarea
     attributes:
@@ -75,10 +74,4 @@ body:
         - Select the `debug.log` file from `%localappdata%\Packages\49306atecsolution.FilesUWP_et10x9a9vyk8t\LocalState`
         - Drag and drop the file to upload as an attachment 
     validations:
-      required: true
-  # Remarks
-  - type: textarea
-    attributes:
-      label: Comments
-      description: Additional information, comments or screenshots about the bug.
-      
+      required: true    
