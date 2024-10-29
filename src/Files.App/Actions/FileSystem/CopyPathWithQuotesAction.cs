@@ -10,19 +10,16 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "CopyPathWithQuotes".GetLocalizedResource();
+			=> Strings.CopyPathWithQuotes.GetLocalizedResource();
 
 		public string Description
-			=> "CopyPathWithQuotesDescription".GetLocalizedResource();
+			=> Strings.CopyPathWithQuotesDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new RichGlyph(themedIconStyle: "App.ThemedIcons.CopyAsPath");
 
-		public HotKey HotKey
-			=> new(Keys.C, KeyModifiers.CtrlAlt);
-
 		public bool IsExecutable
-			=> context.HasSelection;
+			=> context.PageType != ContentPageTypes.Home && context.PageType != ContentPageTypes.RecycleBin;
 
 		public CopyPathWithQuotesAction()
 		{
@@ -33,10 +30,7 @@ namespace Files.App.Actions
 		{
 			if (context.ShellPage?.SlimContentPage is not null)
 			{
-				var selectedItems = context.ShellPage.SlimContentPage.SelectedItems;
-				var path = selectedItems is not null
-					? string.Join("\n", selectedItems.Select(item => $"\"{item.ItemPath}\""))
-					: context.ShellPage.ShellViewModel.WorkingDirectory;
+				var path = "\"" + context.ShellPage.ShellViewModel.WorkingDirectory + "\"";
 
 				if (FtpHelpers.IsFtpPath(path))
 					path = path.Replace("\\", "/", StringComparison.Ordinal);

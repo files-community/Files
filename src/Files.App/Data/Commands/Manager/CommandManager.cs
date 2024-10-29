@@ -81,7 +81,9 @@ namespace Files.App.Data.Commands
 		public IRichCommand SetAsLockscreenBackground => commands[CommandCodes.SetAsLockscreenBackground];
 		public IRichCommand SetAsAppBackground => commands[CommandCodes.SetAsAppBackground];
 		public IRichCommand CopyItem => commands[CommandCodes.CopyItem];
+		public IRichCommand CopyItemPath => commands[CommandCodes.CopyItemPath];
 		public IRichCommand CopyPath => commands[CommandCodes.CopyPath];
+		public IRichCommand CopyItemPathWithQuotes => commands[CommandCodes.CopyItemPathWithQuotes];
 		public IRichCommand CopyPathWithQuotes => commands[CommandCodes.CopyPathWithQuotes];
 		public IRichCommand CutItem => commands[CommandCodes.CutItem];
 		public IRichCommand PasteItem => commands[CommandCodes.PasteItem];
@@ -273,7 +275,9 @@ namespace Files.App.Data.Commands
 			[CommandCodes.SetAsLockscreenBackground] = new SetAsLockscreenBackgroundAction(),
 			[CommandCodes.SetAsAppBackground] = new SetAsAppBackgroundAction(),
 			[CommandCodes.CopyItem] = new CopyItemAction(),
+			[CommandCodes.CopyItemPath] = new CopyItemPathAction(),
 			[CommandCodes.CopyPath] = new CopyPathAction(),
+			[CommandCodes.CopyItemPathWithQuotes] = new CopyItemPathWithQuotesAction(),
 			[CommandCodes.CopyPathWithQuotes] = new CopyPathWithQuotesAction(),
 			[CommandCodes.CutItem] = new CutItemAction(),
 			[CommandCodes.PasteItem] = new PasteItemAction(),

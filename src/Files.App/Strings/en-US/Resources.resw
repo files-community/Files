@@ -123,8 +123,14 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Copy path</value>
   </data>
+  <data name="Copy item Path" xml:space="preserve">
+    <value>Copy selected item path</value>
+  </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Copy path with quotes</value>
+  </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>Copy selected item path with quotes</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Browse</value>
@@ -2391,10 +2397,16 @@
     <value>Copy item(s) to clipboard</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
+    <value>Copy path of the current directory to the clipboard</value>
+  </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
     <value>Copy path of selected items to the clipboard</value>
   </data>
-  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
     <value>Copy path of selected items with quotes to the clipboard</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Copy path of the current directory with quotes to the clipboard</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Cut item(s) to clipboard</value>

@@ -29,7 +29,9 @@ namespace Files.App.Data.Commands
 
 		// File System
 		CopyItem,
+		CopyItemPath,
 		CopyPath,
+		CopyItemPathWithQuotes,
 		CopyPathWithQuotes,
 		CutItem,
 		PasteItem,

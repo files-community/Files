@@ -5,23 +5,26 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions
 {
-	internal sealed class CopyPathAction : IAction
+	internal sealed class CopyItemPathAction : IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> Strings.CopyPath.GetLocalizedResource();
+			=> "CopyItemPath".GetLocalizedResource();
 
 		public string Description
-			=> Strings.CopyPathDescription.GetLocalizedResource();
+			=> "CopyItemPathDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new RichGlyph(themedIconStyle: "App.ThemedIcons.CopyAsPath");
 
-		public bool IsExecutable
-			=> context.PageType != ContentPageTypes.Home && context.PageType != ContentPageTypes.RecycleBin;
+		public HotKey HotKey
+			=> new(Keys.C, KeyModifiers.CtrlShift);
 
-		public CopyPathAction()
+		public bool IsExecutable
+			=> context.HasSelection;
+
+		public CopyItemPathAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
@@ -30,7 +33,9 @@ namespace Files.App.Actions
 		{
 			if (context.ShellPage?.SlimContentPage is not null)
 			{
-				var path = context.ShellPage.ShellViewModel.WorkingDirectory;
+				var path = context.ShellPage.SlimContentPage.SelectedItems is not null
+				? context.ShellPage.SlimContentPage.SelectedItems.Select(x => x.ItemPath).Aggregate((accum, current) => accum + "\n" + current)
+				: context.ShellPage.ShellViewModel.WorkingDirectory;
 
 				if (FtpHelpers.IsFtpPath(path))
 					path = path.Replace("\\", "/", StringComparison.Ordinal);
