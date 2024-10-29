@@ -10,10 +10,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "CopyPath".GetLocalizedResource();
+			=> Strings.CopyPath.GetLocalizedResource();
 
 		public string Description
-			=> "CopyItemPathDescription".GetLocalizedResource();
+			=> Strings.CopyItemPathDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new RichGlyph(themedIconStyle: "App.ThemedIcons.CopyAsPath");
