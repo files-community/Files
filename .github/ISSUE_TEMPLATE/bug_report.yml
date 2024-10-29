@@ -3,6 +3,7 @@ description: Create a bug report to help improve Files.
 type: 'Bug'
 title: 'Bug: '
 body:
+
   # Tip to warn of checking for existing issues
   - type: markdown
     attributes:
