@@ -108,6 +108,7 @@ namespace Files.App.Dialogs
 		private sealed class DialogViewModel : ObservableObject
 		{
 			private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+
 			public bool IsNameValid => FilesystemHelpers.IsValidForFilename(fileName);
 
 			public bool ShowNameWarning => !string.IsNullOrEmpty(fileName) && !IsNameValid;
