@@ -39,6 +39,7 @@ namespace Files.App.Data.Commands
 		IRichCommand CopyPathWithQuotes { get; }
 		IRichCommand CutItem { get; }
 		IRichCommand PasteItem { get; }
+		IRichCommand PasteItemAsShortcut { get; }
 		IRichCommand PasteItemToSelection { get; }
 		IRichCommand DeleteItem { get; }
 		IRichCommand DeleteItemPermanently { get; }

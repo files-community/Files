@@ -26,6 +26,26 @@ namespace Files.App.Helpers
 			}
 		}
 
+		public static async Task PasteItemAsShortcutAsync(string destinationPath, IShellPage associatedInstance)
+		{
+			FilesystemResult<DataPackageView> packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
+			if (packageView.Result.Contains(StandardDataFormats.StorageItems))
+			{
+				var items = await packageView.Result.GetStorageItemsAsync();
+				foreach (IStorageItem item in items)
+				{
+					var fileName = FilesystemHelpers.GetShortcutNamingPreference(item.Name);
+					var filePath = Path.Combine(destinationPath ?? string.Empty, fileName);
+
+					if (!await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, item.Path))
+						await HandleShortcutCannotBeCreated(fileName, item.Path);
+				}
+			}
+
+			if (associatedInstance is not null)
+				await associatedInstance.RefreshIfNoWatcherExistsAsync();
+		}
+
 		public static async Task<bool> RenameFileItemAsync(ListedItem item, string newName, IShellPage associatedInstance, bool showExtensionDialog = true)
 		{
 			if (item is AlternateStreamItem ads) // For alternate streams Name is not a substring ItemNameRaw
