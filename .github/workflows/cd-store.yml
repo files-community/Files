@@ -65,17 +65,10 @@ jobs:
         SECRET_SENTRY: ${{ secrets.SENTRY_SECRET }}
         SECRET_GITHUB_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
   
-    - name: Use Windows SDK Preview
-      shell: cmd
-      run: |
-        for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
-
     - name: Restore NuGet
-      shell: pwsh
       run: 'nuget restore $env:SOLUTION_NAME'
 
     - name: Restore Files
-      shell: pwsh
       run: |
         msbuild $env:SOLUTION_NAME `
         -t:Restore `
@@ -84,7 +77,6 @@ jobs:
         -p:PublishReadyToRun=true
 
     - name: Build & package Files
-      shell: pwsh
       run: |
         msbuild "$env:PACKAGE_PROJECT_PATH" `
         -t:Build `
