@@ -67,20 +67,15 @@ elseif ($Branch -eq "Store")
     }
 }
 
+# Replace the placeholders with the actual values
 Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
 { `
     (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "bingmapskey.secret", "$SecretBingMapsKey" }) | `
     Set-Content $_ -NoNewline `
-}
 
-Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
-{
     (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "sentry.secret", "$SecretSentry" }) | `
     Set-Content $_ -NoNewline `
-}
 
-Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
-{ `
     (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "githubclientid.secret", "$SecretGitHubOAuthClientId" }) | `
     Set-Content $_ -NoNewline `
 }
