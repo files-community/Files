@@ -33,10 +33,9 @@ jobs:
       WORKING_DIR:                '${{ github.workspace }}' # D:\a\Files\Files\
       ARTIFACTS_STAGING_DIR:      '${{ github.workspace }}\artifacts'
       APPX_PACKAGE_DIR:           '${{ github.workspace }}\artifacts\AppxPackages'
-      PACKAGE_PROJECT_DIR:        'src\Files.App (Package)'
-      PACKAGE_PROJECT_PATH:       'src\Files.App (Package)\Files.Package.wapproj'
-      PACKAGE_MANIFEST_PATH:      'src\Files.App (Package)\Package.appxmanifest'
-      TEST_PROJECT_PATH:          'tests\Files.InteractionTests\Files.InteractionTests.csproj'
+      PACKAGE_PROJECT_DIR:        '${{ github.workspace }}src\Files.App (Package)'
+      PACKAGE_PROJECT_PATH:       '${{ github.workspace }}src\Files.App (Package)\Files.Package.wapproj'
+      PACKAGE_MANIFEST_PATH:      '${{ github.workspace }}src\Files.App (Package)\Package.appxmanifest'
       APP_INSTALLER_SIDELOAD_URL: 'https://cdn.files.community/files/stable/'
 
     steps:
@@ -68,17 +67,10 @@ jobs:
         SECRET_SENTRY: ${{ secrets.SENTRY_SECRET }}
         SECRET_GITHUB_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
   
-    - name: Use Windows SDK Preview
-      shell: cmd
-      run: |
-        for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
-
     - name: Restore NuGet
-      shell: pwsh
       run: 'nuget restore $env:SOLUTION_NAME'
 
     - name: Restore Files
-      shell: pwsh
       run: |
         msbuild $env:SOLUTION_NAME `
         -t:Restore `
@@ -87,7 +79,6 @@ jobs:
         -p:PublishReadyToRun=true
 
     - name: Build & package Files
-      shell: pwsh
       run: |
         msbuild "$env:PACKAGE_PROJECT_PATH" `
         -t:Build `
@@ -135,15 +126,10 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Upload to Azure blob storage
-      uses: azure/powershell@v2
-      with:
-        inlineScript: |
-          az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "stable" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
-        azPSVersion: "latest"
-
-    - name: Logout from Azure
-      run: 'az logout'
+    - name: Upload to Azure blob storage & logout from Azure
+      run: |
+        az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "stable" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
+        az logout
           
     - name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v4
