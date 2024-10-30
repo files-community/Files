@@ -33,7 +33,9 @@ namespace Files.App.Data.Commands
 		IRichCommand ToggleToolbar { get; }
 
 		IRichCommand CopyItem { get; }
+		IRichCommand CopyItemPath { get; }
 		IRichCommand CopyPath { get; }
+		IRichCommand CopyItemPathWithQuotes { get; }
 		IRichCommand CopyPathWithQuotes { get; }
 		IRichCommand CutItem { get; }
 		IRichCommand PasteItem { get; }

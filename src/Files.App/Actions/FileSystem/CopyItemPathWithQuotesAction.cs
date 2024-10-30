@@ -5,23 +5,26 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions
 {
-	internal sealed class CopyPathAction : IAction
+	internal sealed class CopyItemPathWithQuotesAction : IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> Strings.CopyPath.GetLocalizedResource();
+			=> Strings.CopyItemPathWithQuotes.GetLocalizedResource();
 
 		public string Description
-			=> Strings.CopyPathDescription.GetLocalizedResource();
+			=> Strings.CopyItemPathWithQuotesDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new RichGlyph(themedIconStyle: "App.ThemedIcons.CopyAsPath");
 
-		public bool IsExecutable
-			=> context.PageType != ContentPageTypes.Home && context.PageType != ContentPageTypes.RecycleBin;
+		public HotKey HotKey
+			=> new(Keys.C, KeyModifiers.CtrlAlt);
 
-		public CopyPathAction()
+		public bool IsExecutable
+			=> context.HasSelection;
+
+		public CopyItemPathWithQuotesAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
@@ -30,7 +33,10 @@ namespace Files.App.Actions
 		{
 			if (context.ShellPage?.SlimContentPage is not null)
 			{
-				var path = context.ShellPage.ShellViewModel.WorkingDirectory;
+				var selectedItems = context.ShellPage.SlimContentPage.SelectedItems;
+				var path = selectedItems is not null
+					? string.Join("\n", selectedItems.Select(item => $"\"{item.ItemPath}\""))
+					: context.ShellPage.ShellViewModel.WorkingDirectory;
 
 				if (FtpHelpers.IsFtpPath(path))
 					path = path.Replace("\\", "/", StringComparison.Ordinal);
