@@ -29,19 +29,19 @@ run-name: ${{ github.event_name == 'pull_request' && 'Files PR Validation' || 'F
 
 env:
   WORKING_DIR: ${{ github.workspace }} # Default: 'D:\a\Files\Files'
-  SOLUTION_PATH: '${{ github.workspace }}\Files.sln'
-  PACKAGE_PROJECT_DIR: '${{ github.workspace }}\src\Files.App (Package)'
-  PACKAGE_PROJECT_PATH: '${{ github.workspace }}\src\Files.App (Package)\Files.Package.wapproj'
-  AUTOMATED_TESTS_ARCHITECTURE: 'x64'
+  SOLUTION_PATH:                 '${{ github.workspace }}\Files.sln'
+  PACKAGE_PROJECT_DIR:           '${{ github.workspace }}\src\Files.App (Package)'
+  PACKAGE_PROJECT_PATH:          '${{ github.workspace }}\src\Files.App (Package)\Files.Package.wapproj'
+  AUTOMATED_TESTS_ARCHITECTURE:  'x64'
   AUTOMATED_TESTS_CONFIGURATION: 'Release'
-  AUTOMATED_TESTS_PROJECT_DIR: '${{ github.workspace }}\tests\Files.InteractionTests'
-  AUTOMATED_TESTS_PROJECT_PATH: '${{ github.workspace }}\tests\Files.InteractionTests\Files.InteractionTests.csproj'
-  AUTOMATED_TESTS_ASSEMBLY_DIR: '${{ github.workspace }}\artifacts\TestsAssembly'
-  ARTIFACTS_STAGING_DIR:  '${{ github.workspace }}\artifacts'
-  APPX_PACKAGE_DIR: '${{ github.workspace }}\artifacts\AppxPackages'
-  APPX_SELFSIGNED_CERT_PATH: '${{ github.workspace }}\.github\workflows\FilesApp_SelfSigned.pfx'
-  WINAPPDRIVER_EXE86_PATH: 'C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe'
-  WINAPPDRIVER_EXE64_PATH: 'C:\Program Files\Windows Application Driver\WinAppDriver.exe'
+  AUTOMATED_TESTS_PROJECT_DIR:   '${{ github.workspace }}\tests\Files.InteractionTests'
+  AUTOMATED_TESTS_PROJECT_PATH:  '${{ github.workspace }}\tests\Files.InteractionTests\Files.InteractionTests.csproj'
+  AUTOMATED_TESTS_ASSEMBLY_DIR:  '${{ github.workspace }}\artifacts\TestsAssembly'
+  ARTIFACTS_STAGING_DIR:         '${{ github.workspace }}\artifacts'
+  APPX_PACKAGE_DIR:              '${{ github.workspace }}\artifacts\AppxPackages'
+  APPX_SELFSIGNED_CERT_PATH:     '${{ github.workspace }}\.github\workflows\FilesApp_SelfSigned.pfx'
+  WINAPPDRIVER_EXE86_PATH:       'C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe'
+  WINAPPDRIVER_EXE64_PATH:       'C:\Program Files\Windows Application Driver\WinAppDriver.exe'
 
 jobs:
 
@@ -109,11 +109,9 @@ jobs:
         global-json-file: global.json
 
     - name: Restore NuGet
-      shell: pwsh
       run: 'nuget restore $env:SOLUTION_PATH'
 
     - name: Restore Files
-      shell: pwsh
       run: |
         msbuild $env:SOLUTION_PATH `
           -t:Restore `
@@ -166,7 +164,6 @@ jobs:
 
     - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
       name: Copy tests bin to the artifacts dir
-      shell: pwsh
       run: |
         Copy-Item `
           -Path "$env:AUTOMATED_TESTS_PROJECT_DIR\bin" `
@@ -228,7 +225,6 @@ jobs:
       run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
 
     - name: Start WinAppDriver process
-      shell: pwsh
       run: Start-Process -FilePath "$env:WINAPPDRIVER_EXE86_PATH"
 
     # Retry integration tests if first attempt fails
