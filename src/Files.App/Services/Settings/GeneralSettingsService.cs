@@ -309,6 +309,24 @@ namespace Files.App.Services.Settings
 			set => Set((long)value);
 		}
 
+		public ArchiveFormats ArchiveFormatsOption
+		{
+			get => (ArchiveFormats)Get((long)ArchiveFormats.Zip);
+			set => Set((long)value);
+		}
+
+		public ArchiveCompressionLevels ArchiveCompressionLevelsOption
+		{
+			get => (ArchiveCompressionLevels)Get((long)ArchiveCompressionLevels.Normal);
+			set => Set((long)value);
+		}
+
+		public ArchiveSplittingSizes ArchiveSplittingSizesOption
+		{
+			get => (ArchiveSplittingSizes)Get((long)ArchiveSplittingSizes.None);
+			set => Set((long)value);
+		}
+
 		public Dictionary<string, bool> ShowHashesDictionary
 		{
 			get => Get<Dictionary<string, bool>>(null);

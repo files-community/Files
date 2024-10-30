@@ -251,6 +251,21 @@ namespace Files.App.Data.Contracts
 		FileNameConflictResolveOptionType ConflictsResolveOption { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating the default archive format.
+		/// </summary>
+		ArchiveFormats ArchiveFormatsOption { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default archive compression level.
+		/// </summary>
+		ArchiveCompressionLevels ArchiveCompressionLevelsOption { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default archive splitting size.
+		/// </summary>
+		ArchiveSplittingSizes ArchiveSplittingSizesOption { get; set; }
+
+		/// <summary>
 		/// A dictionary to determine which hashes should be shown.
 		/// </summary>
 		Dictionary<string, bool> ShowHashesDictionary { get; set; }
