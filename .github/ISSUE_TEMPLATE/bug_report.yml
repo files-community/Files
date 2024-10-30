@@ -9,7 +9,7 @@ body:
     attributes:
       value: |
         > [!TIP]
-        > Have you checked for similar issues? There's a possibility that your issue has already been reported, make sure to do a thorough search before reporting an issue here.
+        > Have you checked for similar issues? There's a possibility your suggestion is already being tracked. Please do a thorough search before creating a new issue.
 
   # Description
   - type: textarea
