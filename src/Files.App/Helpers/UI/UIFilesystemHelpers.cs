@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.Storage.Storables;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Net;
@@ -32,14 +31,14 @@ namespace Files.App.Helpers
 			if (packageView.Result.Contains(StandardDataFormats.StorageItems))
 			{
 				var items = await packageView.Result.GetStorageItemsAsync();
-				foreach (IStorageItem item in items)
+				await Task.WhenAll(items.Select(async item =>
 				{
 					var fileName = FilesystemHelpers.GetShortcutNamingPreference(item.Name);
 					var filePath = Path.Combine(destinationPath ?? string.Empty, fileName);
 
 					if (!await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, item.Path))
 						await HandleShortcutCannotBeCreated(fileName, item.Path);
-				}
+				}));
 			}
 
 			if (associatedInstance is not null)
