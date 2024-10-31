@@ -27,13 +27,13 @@ namespace Files.App.Actions
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync(object? parameter = null)
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage is null)
-				return;
+				return Task.CompletedTask;
 
 			string path = context.ShellPage.ShellViewModel.WorkingDirectory;
-			await UIFilesystemHelpers.PasteItemAsShortcutAsync(path, context.ShellPage);
+			return UIFilesystemHelpers.PasteItemAsShortcutAsync(path, context.ShellPage);
 		}
 
 		public bool GetIsExecutable()
