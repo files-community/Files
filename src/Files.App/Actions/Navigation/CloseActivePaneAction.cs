@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "CloseActivePaneDescription".GetLocalizedResource();
 
 		public HotKey HotKey
-			=> new(Keys.W, KeyModifiers.CtrlShift);
+			=> new(Keys.W, KeyModifiers.CtrlAlt);
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.PanelLeftClose");

@@ -197,6 +197,7 @@ namespace Files.App.Data.Commands
 		PreviousTab,
 		NextTab,
 		CloseSelectedTab,
+		CloseAllTabs,
 
 		// Shell Panes
 		CloseActivePane,

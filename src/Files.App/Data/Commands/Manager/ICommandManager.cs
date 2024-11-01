@@ -181,6 +181,7 @@ namespace Files.App.Data.Commands
 		IRichCommand PreviousTab { get; }
 		IRichCommand NextTab { get; }
 		IRichCommand CloseSelectedTab { get; }
+		IRichCommand CloseAllTabs { get; }
 
 		IRichCommand CloseActivePane { get; }
 		IRichCommand FocusOtherPane { get; }
