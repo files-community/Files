@@ -14,11 +14,16 @@ namespace Files.App.Actions
 		public override HotKey HotKey
 			=> new(Keys.W, KeyModifiers.CtrlShift);
 
-		public override bool IsExecutable
-			=> context.Control is not null;
-
 		public CloseAllTabsAction()
 		{
+		}
+
+		protected override bool GetIsExecutable()
+		{
+			return
+				context.Control is not null &&
+				context.TabCount > 0 &&
+				context.CurrentTabItem is not null;
 		}
 
 		public override Task ExecuteAsync(object? parameter = null)

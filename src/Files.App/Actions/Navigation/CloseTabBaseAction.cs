@@ -11,7 +11,7 @@ namespace Files.App.Actions
 
 		public abstract string Description { get; }
 			
-		public virtual bool IsExecutable
+		public bool IsExecutable
 			=> GetIsExecutable();
 
 		public virtual HotKey HotKey
