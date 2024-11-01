@@ -187,6 +187,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand CloseTabsToTheRightSelected => commands[CommandCodes.CloseTabsToTheRightSelected];
 		public IRichCommand CloseOtherTabsCurrent => commands[CommandCodes.CloseOtherTabsCurrent];
 		public IRichCommand CloseOtherTabsSelected => commands[CommandCodes.CloseOtherTabsSelected];
+		public IRichCommand CloseAllTabs => commands[CommandCodes.CloseAllTabs];
 		public IRichCommand OpenInNewPaneAction => commands[CommandCodes.OpenInNewPane];
 		public IRichCommand OpenInNewPaneFromHomeAction => commands[CommandCodes.OpenInNewPaneFromHome];
 		public IRichCommand OpenInNewPaneFromSidebarAction => commands[CommandCodes.OpenInNewPaneFromSidebar];
@@ -382,6 +383,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.CloseTabsToTheRightSelected] = new CloseTabsToTheRightSelectedAction(),
 			[CommandCodes.CloseOtherTabsCurrent] = new CloseOtherTabsCurrentAction(),
 			[CommandCodes.CloseOtherTabsSelected] = new CloseOtherTabsSelectedAction(),
+			[CommandCodes.CloseAllTabs] = new CloseAllTabsAction(),
 			[CommandCodes.OpenInNewPane] = new OpenInNewPaneAction(),
 			[CommandCodes.OpenInNewPaneFromHome] = new OpenInNewPaneFromHomeAction(),
 			[CommandCodes.OpenInNewPaneFromSidebar] = new OpenInNewPaneFromSidebarAction(),
