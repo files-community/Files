@@ -11,7 +11,7 @@ namespace Files.App.Actions
 			=> "ToggleSidebar".GetLocalizedResource();
 
 		public string Description
-			=> "ToggleSidebar".GetLocalizedResource();
+			=> "ToggleSidebarDescription".GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.S, KeyModifiers.CtrlAlt);
