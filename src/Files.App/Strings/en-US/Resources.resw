@@ -1091,6 +1091,9 @@
   <data name="ToggleToolbar" xml:space="preserve">
     <value>Toggle the Toolbar</value>
   </data>
+  <data name="ToggleSidebar" xml:space="preserve">
+    <value>Toggle the Sidebar</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>No preview available</value>
   </data>
