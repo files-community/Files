@@ -5,7 +5,7 @@ namespace Files.App.Actions
 {
 	internal sealed class ToggleSidebarAction : IToggleAction
 	{
-		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
+		private readonly IAppearanceSettingsService AppearanceSettingsService = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
 
 		public string Label
 			=> "ToggleSidebar".GetLocalizedResource();
