@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class ToggleSidebarAction : IToggleAction
+	internal sealed class ToggleSidebarAction : ObservableObject, IToggleAction
 	{
 		private readonly IAppearanceSettingsService AppearanceSettingsService = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
 
