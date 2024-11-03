@@ -95,7 +95,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <CsWinRTInputs Include="nupkgs\Microsoft.UI.winmd" />
+        <CsWinRTInputs Include="Assets\Libraries\Microsoft.UI.winmd" />
         <CsWinRTInputs Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\Files.App.Server.winmd" />
         <None Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\Files.App.Server.winmd">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
