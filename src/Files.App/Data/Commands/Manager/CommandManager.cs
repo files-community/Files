@@ -81,10 +81,13 @@ namespace Files.App.Data.Commands
 		public IRichCommand SetAsLockscreenBackground => commands[CommandCodes.SetAsLockscreenBackground];
 		public IRichCommand SetAsAppBackground => commands[CommandCodes.SetAsAppBackground];
 		public IRichCommand CopyItem => commands[CommandCodes.CopyItem];
+		public IRichCommand CopyItemPath => commands[CommandCodes.CopyItemPath];
 		public IRichCommand CopyPath => commands[CommandCodes.CopyPath];
+		public IRichCommand CopyItemPathWithQuotes => commands[CommandCodes.CopyItemPathWithQuotes];
 		public IRichCommand CopyPathWithQuotes => commands[CommandCodes.CopyPathWithQuotes];
 		public IRichCommand CutItem => commands[CommandCodes.CutItem];
 		public IRichCommand PasteItem => commands[CommandCodes.PasteItem];
+		public IRichCommand PasteItemAsShortcut => commands[CommandCodes.PasteItemAsShortcut];
 		public IRichCommand PasteItemToSelection => commands[CommandCodes.PasteItemToSelection];
 		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
 		public IRichCommand DeleteItemPermanently => commands[CommandCodes.DeleteItemPermanently];
@@ -184,6 +187,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand CloseTabsToTheRightSelected => commands[CommandCodes.CloseTabsToTheRightSelected];
 		public IRichCommand CloseOtherTabsCurrent => commands[CommandCodes.CloseOtherTabsCurrent];
 		public IRichCommand CloseOtherTabsSelected => commands[CommandCodes.CloseOtherTabsSelected];
+		public IRichCommand CloseAllTabs => commands[CommandCodes.CloseAllTabs];
 		public IRichCommand OpenInNewPaneAction => commands[CommandCodes.OpenInNewPane];
 		public IRichCommand OpenInNewPaneFromHomeAction => commands[CommandCodes.OpenInNewPaneFromHome];
 		public IRichCommand OpenInNewPaneFromSidebarAction => commands[CommandCodes.OpenInNewPaneFromSidebar];
@@ -273,10 +277,13 @@ namespace Files.App.Data.Commands
 			[CommandCodes.SetAsLockscreenBackground] = new SetAsLockscreenBackgroundAction(),
 			[CommandCodes.SetAsAppBackground] = new SetAsAppBackgroundAction(),
 			[CommandCodes.CopyItem] = new CopyItemAction(),
+			[CommandCodes.CopyItemPath] = new CopyItemPathAction(),
 			[CommandCodes.CopyPath] = new CopyPathAction(),
+			[CommandCodes.CopyItemPathWithQuotes] = new CopyItemPathWithQuotesAction(),
 			[CommandCodes.CopyPathWithQuotes] = new CopyPathWithQuotesAction(),
 			[CommandCodes.CutItem] = new CutItemAction(),
 			[CommandCodes.PasteItem] = new PasteItemAction(),
+			[CommandCodes.PasteItemAsShortcut] = new PasteItemAsShortcutAction(),
 			[CommandCodes.PasteItemToSelection] = new PasteItemToSelectionAction(),
 			[CommandCodes.DeleteItem] = new DeleteItemAction(),
 			[CommandCodes.DeleteItemPermanently] = new DeleteItemPermanentlyAction(),
@@ -376,6 +383,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.CloseTabsToTheRightSelected] = new CloseTabsToTheRightSelectedAction(),
 			[CommandCodes.CloseOtherTabsCurrent] = new CloseOtherTabsCurrentAction(),
 			[CommandCodes.CloseOtherTabsSelected] = new CloseOtherTabsSelectedAction(),
+			[CommandCodes.CloseAllTabs] = new CloseAllTabsAction(),
 			[CommandCodes.OpenInNewPane] = new OpenInNewPaneAction(),
 			[CommandCodes.OpenInNewPaneFromHome] = new OpenInNewPaneFromHomeAction(),
 			[CommandCodes.OpenInNewPaneFromSidebar] = new OpenInNewPaneFromSidebarAction(),

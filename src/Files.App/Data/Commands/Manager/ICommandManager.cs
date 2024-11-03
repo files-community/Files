@@ -33,10 +33,13 @@ namespace Files.App.Data.Commands
 		IRichCommand ToggleToolbar { get; }
 
 		IRichCommand CopyItem { get; }
+		IRichCommand CopyItemPath { get; }
 		IRichCommand CopyPath { get; }
+		IRichCommand CopyItemPathWithQuotes { get; }
 		IRichCommand CopyPathWithQuotes { get; }
 		IRichCommand CutItem { get; }
 		IRichCommand PasteItem { get; }
+		IRichCommand PasteItemAsShortcut { get; }
 		IRichCommand PasteItemToSelection { get; }
 		IRichCommand DeleteItem { get; }
 		IRichCommand DeleteItemPermanently { get; }
@@ -178,6 +181,7 @@ namespace Files.App.Data.Commands
 		IRichCommand PreviousTab { get; }
 		IRichCommand NextTab { get; }
 		IRichCommand CloseSelectedTab { get; }
+		IRichCommand CloseAllTabs { get; }
 
 		IRichCommand CloseActivePane { get; }
 		IRichCommand FocusOtherPane { get; }

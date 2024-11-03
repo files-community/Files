@@ -40,6 +40,15 @@ namespace Files.App.Helpers
 				tabs.Where((t) => t != clickedTab).ToList().ForEach(tab => multitaskingControl.CloseTab(tab));
 			}
 		}
+		
+		public static void CloseAllTabs(ITabBar multitaskingControl)
+		{
+			if (multitaskingControl is not null)
+			{
+				var tabs = MainPageViewModel.AppInstances;
+				tabs.ToList().ForEach(tab => multitaskingControl.CloseTab(tab));
+			}
+		}
 
 		public static Task MoveTabToNewWindow(TabBarItem tab, ITabBar multitaskingControl)
 		{

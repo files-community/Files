@@ -156,7 +156,7 @@
         </Application>
     </Applications>
 
-    <!-- To Host The Background Task Component, This Activatable Class Entry Must Be Added. -->
+    <!-- To host The background task component, this activatable class entry must be added. -->
     <Extensions>
         <Extension Category="windows.activatableClass.inProcessServer">
             <InProcessServer>
