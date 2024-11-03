@@ -6,6 +6,7 @@ namespace Files.App.Actions
 	internal sealed class ToggleSidebarAction : ObservableObject, IToggleAction
 	{
 		private readonly IAppearanceSettingsService AppearanceSettingsService = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
+		private readonly SidebarViewModel SidebarViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
 
 		public string Label
 			=> "ToggleSidebar".GetLocalizedResource();
@@ -27,7 +28,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			AppearanceSettingsService.IsSidebarOpen = !IsOn;
-
+			SidebarViewModel.UpdateTabControlMargin();
 			return Task.CompletedTask;
 		}
 
