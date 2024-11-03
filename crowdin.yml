@@ -1,4 +1,4 @@
-commit_message: 'fix: new translations in %original_file_name% (%original_file_name%) from Crowdin'
+commit_message: 'Translated resources in `%original_file_name%` via Crowdin'
 append_commit_message: 
 files:
   - source: /src/Files.App/Strings/en-US/*.resw
