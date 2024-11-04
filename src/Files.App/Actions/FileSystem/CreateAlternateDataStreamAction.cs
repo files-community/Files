@@ -74,6 +74,9 @@ namespace Files.App.Actions
 				if (isDateOk)
 					Win32Helper.SetFileDateModified(selectedItem.ItemPath, dateModified);
 			}));
+
+			if (context.ShellPage is not null)
+				await context.ShellPage.Refresh_Click();
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
