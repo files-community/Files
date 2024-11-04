@@ -6,7 +6,7 @@ namespace Files.App.Actions
 	internal sealed class ToggleSidebarAction : ObservableObject, IToggleAction
 	{
 		private readonly IAppearanceSettingsService AppearanceSettingsService = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
-		private readonly ISidebarViewModel SidebarViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
+		private readonly ISidebarViewModel SidebarViewModel = Ioc.Default.GetRequiredService<ISidebarViewModel>();
 
 		public string Label
 			=> "ToggleSidebar".GetLocalizedResource();
