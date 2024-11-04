@@ -30,7 +30,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			SidebarViewModel.SidebarDisplayMode = IsOn
+			SidebarViewModel.SidebarDisplayMode = !IsOn
 				? SidebarDisplayMode.Expanded
 				: SidebarDisplayMode.Compact;
 			return Task.CompletedTask;
