@@ -336,7 +336,7 @@ namespace Files.App.Helpers
 			DynamicDialog? dialog = null;
 			TextBox inputText = new()
 			{
-				PlaceholderText = Strings.EnterAnItemName.GetLocalizedResource()
+				PlaceholderText = Strings.EnterDataStreamName.GetLocalizedResource()
 			};
 
 			TeachingTip warning = new()
