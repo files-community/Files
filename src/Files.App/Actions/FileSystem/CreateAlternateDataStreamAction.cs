@@ -1,10 +1,8 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Dialogs;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
-using TagLib.Ape;
 using Windows.Foundation.Metadata;
 
 namespace Files.App.Actions

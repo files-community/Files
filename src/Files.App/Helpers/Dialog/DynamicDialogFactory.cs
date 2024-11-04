@@ -2,15 +2,11 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.ViewModels.Dialogs;
 using Microsoft.UI;
-using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media;
-using TagLib.Ape;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 
 namespace Files.App.Helpers
