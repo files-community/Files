@@ -5,8 +5,7 @@ namespace Files.App.Actions
 {
 	internal sealed class ToggleSidebarAction : ObservableObject, IToggleAction
 	{
-		private readonly IAppearanceSettingsService AppearanceSettingsService = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
-		private readonly ISidebarViewModel SidebarViewModel = Ioc.Default.GetRequiredService<ISidebarViewModel>();
+		private readonly ISidebarViewModel SidebarViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
 
 		public string Label
 			=> "ToggleSidebar".GetLocalizedResource();
@@ -17,24 +16,27 @@ namespace Files.App.Actions
 		public HotKey HotKey
 			=> new(Keys.S, KeyModifiers.CtrlAlt);
 
-		public bool IsOn
-			=> AppearanceSettingsService.IsSidebarOpen;
+		public bool IsOn =>
+			SidebarViewModel.SidebarDisplayMode is SidebarDisplayMode.Expanded
+				? true
+				: false;
 
 		public ToggleSidebarAction()
 		{
-			AppearanceSettingsService.PropertyChanged += ViewModel_PropertyChanged;
+			SidebarViewModel.PropertyChanged += ViewModel_PropertyChanged;
 		}
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			AppearanceSettingsService.IsSidebarOpen = !IsOn;
-			SidebarViewModel.UpdateTabControlMargin();
+			SidebarViewModel.SidebarDisplayMode = IsOn
+				? SidebarDisplayMode.Expanded
+				: SidebarDisplayMode.Compact;
 			return Task.CompletedTask;
 		}
 
 		private void ViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(AppearanceSettingsService.IsSidebarOpen))
+			if (e.PropertyName is nameof(SidebarViewModel.SidebarDisplayMode))
 				OnPropertyChanged(nameof(IsOn));
 		}
 	}
