@@ -68,7 +68,7 @@ body:
         > [!IMPORTANT]
         > Please **upload** the log rather than pasting it here as it clutters up the issue body.
         >
-        > Feel free to remove sensitive information such as your username if you wouldn't like it to be included.
+        > Feel free to remove sensitive information such as your usernames or drive names.
 
   # Log File
   - type: textarea
