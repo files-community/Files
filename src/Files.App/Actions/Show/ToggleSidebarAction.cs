@@ -3,9 +3,9 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class ToggleSidebarAction : IToggleAction
+	internal sealed class ToggleSidebarAction : ObservableObject, IToggleAction
 	{
-		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
+		// private readonly IAppearanceSettingsService AppearanceSettingsService = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
 
 		public string Label
 			=> "ToggleSidebar".GetLocalizedResource();
@@ -26,8 +26,9 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			AppearanceSettingsService.IsSidebarOpen = !IsOn;
-
+			// AppearanceSettingsService.IsSidebarOpen = !IsOn;
+			Files.App.ViewModels.UserControls.IsSidebarOpen.set(!IsOn);
+			// Let's try this with as few abstractions as possible.
 			return Task.CompletedTask;
 		}
 
