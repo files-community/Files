@@ -3987,6 +3987,6 @@
     <value>There was an error creating the alternate data stream</value>
   </data>
   <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
-    <value>Please note that alternate data streams only work on drives formatted with NTFS. To resolve this issue, ensure that the drive or partition you are working on is formatted with NTFS.</value>
+    <value>Please note that alternate data streams only work on drives formatted for NTFS.</value>
   </data>
 </root>

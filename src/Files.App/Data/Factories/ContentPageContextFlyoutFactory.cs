@@ -479,10 +479,8 @@ namespace Files.App.Data.Factories
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.CreateAlternateDataStream)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowCreateAlternateDataStream
-						&& itemsSelected
-						&& !currentInstanceViewModel.IsPageTypeRecycleBin
-						&& !isDriveRoot,
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowCreateAlternateDataStream &&
+						Commands.CreateAlternateDataStream.IsExecutable,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.Rename)
 				{
