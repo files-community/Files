@@ -11,6 +11,8 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context;
 
+		private static readonly IFoldersSettingsService FoldersSettingsService = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+
 		public string Label
 			=> "CreateAlternateDataStream".GetLocalizedResource();
 
@@ -72,8 +74,31 @@ namespace Files.App.Actions
 					Win32Helper.SetFileDateModified(selectedItem.ItemPath, dateModified);
 			}));
 
-			if (context.ShellPage is not null)
+			if (context.ShellPage is null)
+				return;
+
+			if (FoldersSettingsService.AreAlternateStreamsVisible)
 				await context.ShellPage.Refresh_Click();
+			else
+			{
+				var dialog = new ContentDialog
+				{
+					Title = Strings.DataStreamsAreHiddenTitle.GetLocalizedResource(),
+					Content = Strings.DataStreamsAreHiddenDescription.GetLocalizedResource(),
+					PrimaryButtonText = Strings.Yes.GetLocalizedResource(),
+					SecondaryButtonText = Strings.No.GetLocalizedResource()
+				};
+
+				if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+					dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
+				var result = await dialog.TryShowAsync();
+				if (result == ContentDialogResult.Primary)
+				{
+					FoldersSettingsService.AreAlternateStreamsVisible = true;
+					await context.ShellPage.Refresh_Click();
+				}
+			}
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
