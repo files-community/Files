@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Controls;
-using System.IO;
 using Windows.Foundation.Metadata;
 
 namespace Files.App.Actions
@@ -12,12 +11,13 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		private static readonly IFoldersSettingsService FoldersSettingsService = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+		private static readonly IApplicationSettingsService ApplicationSettingsService = Ioc.Default.GetRequiredService<IApplicationSettingsService>();
 
 		public string Label
-			=> "CreateAlternateDataStream".GetLocalizedResource();
+			=> Strings.CreateAlternateDataStream.GetLocalizedResource();
 
 		public string Description
-			=> "CreateAlternateDataStreamDescription".GetLocalizedResource();
+			=> Strings.CreateAlternateDataStreamDescription.GetLocalizedResource();
 
 		public override bool IsExecutable =>
 			context.HasSelection &&
@@ -78,14 +78,14 @@ namespace Files.App.Actions
 
 			if (FoldersSettingsService.AreAlternateStreamsVisible)
 				await context.ShellPage.Refresh_Click();
-			else
+			else if (ApplicationSettingsService.ShowDataStreamsAreHiddenPrompt)
 			{
 				var dialog = new ContentDialog
 				{
 					Title = Strings.DataStreamsAreHiddenTitle.GetLocalizedResource(),
 					Content = Strings.DataStreamsAreHiddenDescription.GetLocalizedResource(),
 					PrimaryButtonText = Strings.Yes.GetLocalizedResource(),
-					SecondaryButtonText = Strings.No.GetLocalizedResource()
+					SecondaryButtonText = Strings.DontShowAgain.GetLocalizedResource()
 				};
 
 				if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
@@ -97,6 +97,8 @@ namespace Files.App.Actions
 					FoldersSettingsService.AreAlternateStreamsVisible = true;
 					await context.ShellPage.Refresh_Click();
 				}
+				else
+					ApplicationSettingsService.ShowDataStreamsAreHiddenPrompt = false;
 			}
 		}
 
