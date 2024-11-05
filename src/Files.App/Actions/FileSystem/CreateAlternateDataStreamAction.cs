@@ -22,7 +22,6 @@ namespace Files.App.Actions
 		public override bool IsExecutable =>
 			context.HasSelection &&
 			context.CanCreateItem &&
-			(context.ShellPage?.ShellViewModel.WorkingDirectory != Path.GetPathRoot(context.ShellPage?.ShellViewModel.WorkingDirectory)) &&
 			UIHelpers.CanShowDialog;
 
 		public CreateAlternateDataStreamAction()
