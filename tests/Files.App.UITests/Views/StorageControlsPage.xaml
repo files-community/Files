@@ -20,7 +20,6 @@
 			<Setter Property="Spacing" Value="24" />
 		</Style>
 
-
 		<Style x:Key="GridExampleControlStyle" TargetType="Grid">
 			<Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
 			<Setter Property="BorderBrush" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
@@ -99,6 +98,7 @@
 								Margin="0,0,24,0"
 								Orientation="Horizontal"
 								Spacing="24">
+
 								<Grid VerticalAlignment="Stretch">
 									<Grid.RowDefinitions>
 										<RowDefinition Height="*" />
@@ -139,11 +139,9 @@
 
 								</Grid>
 							</StackPanel>
-
 						</Grid>
 
 						<AppBarSeparator Grid.Column="1" />
-
 
 						<!--  Custom Example Controls  -->
 						<Grid Grid.Column="2" HorizontalAlignment="Stretch">
@@ -156,7 +154,7 @@
 								Grid.Row="0"
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center"
-								Text="Customised" />
+								Text="Customized" />
 
 							<Grid Grid.Row="1" HorizontalAlignment="Stretch">
 								<Grid.ColumnDefinitions>
@@ -193,7 +191,6 @@
 									Style="{StaticResource TextExampleCaptionStyle}"
 									Text="LeftToRight" />
 
-
 								<controls:StorageRing
 									x:Name="ringCustom2"
 									Grid.Row="0"
@@ -220,13 +217,8 @@
 									Text="RightToLeft" />
 
 							</Grid>
-
 						</Grid>
-
-
-
 					</Grid>
-
 
 					<!--  Customisation Controls  -->
 					<StackPanel
@@ -304,16 +296,9 @@
 								SpinButtonPlacementMode="Compact"
 								Value="4" />
 						</Grid>
-
-
 					</StackPanel>
-
 				</Grid>
-
 			</StackPanel>
-
-
-
 
 			<!--  Storage Bar  -->
 			<StackPanel Spacing="8">
@@ -363,7 +348,6 @@
 									<RowDefinition Height="*" />
 								</Grid.RowDefinitions>
 
-
 								<Grid Grid.Row="0" VerticalAlignment="Stretch">
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="*" />
@@ -375,7 +359,6 @@
 										Margin="24"
 										Style="{StaticResource TextExampleCaptionStyle}"
 										Text="LeftToRight" />
-
 
 									<controls:StorageBar
 										Grid.Column="1"
@@ -398,8 +381,6 @@
 										Style="{StaticResource TextExampleCaptionStyle}"
 										Text="RightToLeft" />
 
-
-
 									<controls:StorageBar
 										Grid.Column="1"
 										VerticalAlignment="Center"
@@ -409,11 +390,9 @@
 
 								</Grid>
 							</Grid>
-
 						</Grid>
 
 						<AppBarSeparator Grid.Column="1" />
-
 
 						<!--  Custom Example Controls  -->
 						<Grid Grid.Column="2" HorizontalAlignment="Stretch">
@@ -426,7 +405,7 @@
 								Grid.Row="0"
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center"
-								Text="Customised" />
+								Text="Customized" />
 
 							<Grid Grid.Row="1" HorizontalAlignment="Stretch">
 								<Grid.ColumnDefinitions>
@@ -462,8 +441,6 @@
 									Style="{StaticResource TextExampleCaptionStyle}"
 									Text="LeftToRight" />
 
-
-
 								<controls:StorageBar
 									x:Name="BarCustom02"
 									Grid.Row="1"
@@ -489,13 +466,8 @@
 									Text="RightToLeft" />
 
 							</Grid>
-
 						</Grid>
-
-
-
 					</Grid>
-
 
 					<!--  Customisation Controls  -->
 					<StackPanel
@@ -529,6 +501,7 @@
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="*" />
 							</Grid.ColumnDefinitions>
+
 							<NumberBox
 								x:Name="barTestValueThickness"
 								Grid.Column="0"
@@ -546,16 +519,12 @@
 								Minimum="2"
 								SpinButtonPlacementMode="Compact"
 								Value="4" />
+
 						</Grid>
-
 					</StackPanel>
-
 				</Grid>
-
 			</StackPanel>
-
 		</StackPanel>
-
 	</Grid>
 
 </Page>

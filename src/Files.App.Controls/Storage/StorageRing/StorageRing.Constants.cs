@@ -12,15 +12,11 @@ namespace Files.App.Controls
 	[TemplatePart(Name = ContainerPartName,		 Type = typeof(Grid))]
 	[TemplatePart(Name = ValueRingShapePartName, Type = typeof(RingShape))]
 	[TemplatePart(Name = TrackRingShapePartName, Type = typeof(RingShape))]
-
-
 	// VisualStates
 	[TemplateVisualState(Name = SafeStateName,	   GroupName = ControlStateGroupName)]
 	[TemplateVisualState(Name = CautionStateName,  GroupName = ControlStateGroupName)]
 	[TemplateVisualState(Name = CriticalStateName, GroupName = ControlStateGroupName)]
 	[TemplateVisualState(Name = DisabledStateName, GroupName = ControlStateGroupName)]
-
-
 	public partial class StorageRing
 	{
 		internal const string ContainerPartName		 = "PART_Container";

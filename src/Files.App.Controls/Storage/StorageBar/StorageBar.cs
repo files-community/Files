@@ -10,8 +10,7 @@ using Windows.Foundation;
 namespace Files.App.Controls
 {
 	/// <summary>
-	/// StorageBar - Takes a set of values, converts them to a percentage
-	/// and displays it across a Bar.
+	/// Represents percentage ring islands.
 	/// </summary>
 	public partial class StorageBar : RangeBase
 	{

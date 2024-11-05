@@ -5,9 +5,6 @@
 	xmlns:local="using:Files.App.Controls">
 
 
-
-
-
 	<ResourceDictionary.MergedDictionaries>
 
 		<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />

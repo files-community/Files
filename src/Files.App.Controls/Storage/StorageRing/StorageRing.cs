@@ -13,8 +13,7 @@ using WinRT;
 namespace Files.App.Controls
 {
 	/// <summary>
-	/// StorageRing - Takes a set of values, converts them to a percentage
-	/// and displays it on a ring.
+	/// Represents percentage bar islands.
 	/// </summary>
 	public partial class StorageRing : RangeBase
 	{

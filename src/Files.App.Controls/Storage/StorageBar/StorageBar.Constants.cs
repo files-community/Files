@@ -9,14 +9,11 @@ namespace Files.App.Controls
 {
 	// TemplateParts
 	[TemplatePart(Name = ContainerPartName, Type = typeof(Grid))]
-
 	[TemplatePart(Name = ValueColumnPartName, Type = typeof(ColumnDefinition))]
 	[TemplatePart(Name = GapColumnPartName, Type = typeof(ColumnDefinition))]
 	[TemplatePart(Name = TrackColumnPartName, Type = typeof(ColumnDefinition))]
-
 	[TemplatePart(Name = ValueBorderPartName, Type = typeof(Border))]
 	[TemplatePart(Name = TrackBorderPartName, Type = typeof(Border))]
-
 	// VisualStates
 	[TemplateVisualState(Name = SafeStateName, GroupName = ControlStateGroupName)]
 	[TemplateVisualState(Name = CautionStateName, GroupName = ControlStateGroupName)]

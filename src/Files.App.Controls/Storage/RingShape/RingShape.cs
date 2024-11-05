@@ -10,8 +10,7 @@ using Windows.Foundation;
 namespace Files.App.Controls.Primitives
 {
 	/// <summary>
-	/// RingShape - Primitive Path shape for drawing a
-	/// circular or elliptical Ring.
+	/// Represents primitive Path shape for drawing a circular or elliptical ring.
 	/// </summary>
 	public partial class RingShape : Path
 	{
@@ -32,11 +31,9 @@ namespace Files.App.Controls.Primitives
 		private double			_radiusHeight;           // The radius Height
 		private SweepDirection	_sweepDirection;         // The SweepDirection
 
-
 		// Constants
 
 		private const double DegreesToRadians = Math.PI / 180;
-
 
 		// Constructor
 
@@ -46,7 +43,6 @@ namespace Files.App.Controls.Primitives
 		public RingShape()
 		{
 			SizeChanged += RingShape_SizeChanged;
-
 			RegisterPropertyChangedCallback(StrokeThicknessProperty, OnStrokeThicknessChanged);
 		}
 
@@ -54,106 +50,65 @@ namespace Files.App.Controls.Primitives
 
 		#region PropertyChanged Events
 
-		private void StartAngleChanged(DependencyObject d, double newStartAngle)
+		private void StartAngleChanged()
 		{
-			RingShape ringShape = (RingShape)d;
-
-			ringShape.BeginUpdate();
-
-			ValidateAngle(ringShape, newStartAngle, true);
-
-			ringShape.EndUpdate();
+			BeginUpdate();
+			ValidateAngle(this, StartAngle, true);
+			EndUpdate();
 		}
 
-		private void EndAngleChanged(DependencyObject d, double newEndAngle)
+		private void EndAngleChanged()
 		{
-			RingShape ringShape = (RingShape)d;
-
-			ringShape.BeginUpdate();
-
-			ValidateAngle(ringShape, newEndAngle, false);
-
-			ringShape.EndUpdate();
+			BeginUpdate();
+			ValidateAngle(this, EndAngle, false);
+			EndUpdate();
 		}
 
-		private void IsCircleChanged(DependencyObject d, bool isCircle)
+		private void IsCircleChanged()
 		{
-			RingShape ringShape = (RingShape)d;
-
-			ringShape.BeginUpdate();
-
-			_isCircle = isCircle;
-
-			ringShape.EndUpdate();
+			BeginUpdate();
+			_isCircle = IsCircle;
+			EndUpdate();
 		}
 
-		private void RadiusWidthChanged(DependencyObject d, double radiusWidth)
+		private void RadiusWidthChanged()
 		{
-			RingShape ringShape = (RingShape)d;
-
-			ringShape.BeginUpdate();
-
-			AdjustRadiusWidth(ringShape, radiusWidth, ringShape.StrokeThickness);
-
-			ringShape.EndUpdate();
+			BeginUpdate();
+			AdjustRadiusWidth(this, RadiusWidth, StrokeThickness);
+			EndUpdate();
 		}
 
-		private void RadiusHeightChanged(DependencyObject d, double radiusHeight)
+		private void RadiusHeightChanged()
 		{
-			RingShape ringShape = (RingShape)d;
-
-			ringShape.BeginUpdate();
-
-			AdjustRadiusHeight(ringShape, radiusHeight, ringShape.StrokeThickness);
-
-			ringShape.EndUpdate();
+			BeginUpdate();
+			AdjustRadiusHeight(this, RadiusHeight, StrokeThickness);
+			EndUpdate();
 		}
 
 		private void RingShape_SizeChanged(object obj, SizeChangedEventArgs e)
 		{
-			RingShape ringShape = (RingShape)obj;
-
-			ringShape.BeginUpdate();
-
-			ringShape.EndUpdate();
+			BeginUpdate();
+			EndUpdate();
 		}
 
 		private void OnStrokeThicknessChanged(DependencyObject d, DependencyProperty dp)
 		{
-			RingShape ringShape = (RingShape)d;
-
-			ringShape.BeginUpdate();
-
-			ringShape.EndUpdate();
+			BeginUpdate();
+			EndUpdate();
 		}
 
-		private void MinMaxAngleChanged(DependencyObject d, double newAngle, bool isMax)
+		private void MinMaxAngleChanged(bool isMax)
 		{
-			RingShape ringShape = (RingShape)d;
-
-			ringShape.BeginUpdate();
-
-			if (isMax)
-			{
-				CalculateAndSetNormalizedAngles(ringShape, ringShape.MinAngle, newAngle);
-			}
-			else
-			{
-				CalculateAndSetNormalizedAngles(ringShape, newAngle, ringShape.MaxAngle);
-			}
-
-			ringShape.EndUpdate();
+			BeginUpdate();
+			CalculateAndSetNormalizedAngles(this, MinAngle, MaxAngle);
+			EndUpdate();
 		}
 
-		private void SweepDirectionChanged(DependencyObject d, SweepDirection newSweepDirection)
+		private void SweepDirectionChanged()
 		{
-			RingShape ringShape = (RingShape)d;
-
-			ringShape.BeginUpdate();
-
-			_sweepDirection = newSweepDirection;
-
-			ringShape.EndUpdate();
+			BeginUpdate();
+			_sweepDirection = SweepDirection;
+			EndUpdate();
 		}
 
 		#endregion
@@ -174,21 +129,15 @@ namespace Files.App.Controls.Primitives
 		public void EndUpdate()
 		{
 			_isUpdating = false;
-
 			UpdatePath();
 		}
 
-		/// <summary>
-		/// Updates the RingShape path
-		/// </summary>
 		private void UpdatePath()
 		{
 			if (_isUpdating ||
 				ActualWidth <= 0 || ActualHeight <= 0 ||
 				_radiusWidth <= 0 || _radiusHeight <= 0)
-			{
 				return;
-			}
 
 			UpdateSizeAndStroke(this);
 
@@ -234,15 +183,6 @@ namespace Files.App.Controls.Primitives
 			ValidateAngle( ringShape , ringShape.EndAngle , false );
 		}
 
-		/// <summary>
-		/// Draws an EllipseGeometry Ring
-		/// </summary>
-		/// <param name="IsCircle"></param>
-		/// <param name="Center"></param>
-		/// <param name="EqualRadius"></param>
-		/// <param name="RadiusWidth"></param>
-		/// <param name="RadiusHeight"></param>
-		/// <returns>EllipseGeometry</returns>
 		private static EllipseGeometry DrawEllipse(bool IsCircle, Point Center, double EqualRadius, double RadiusWidth, double RadiusHeight)
 		{
 			EllipseGeometry eg;
@@ -269,19 +209,6 @@ namespace Files.App.Controls.Primitives
 			return eg;
 		}
 
-		/// <summary>
-		/// Draws the Arc as PathGeometry
-		/// </summary>
-		/// <param name="RingShape">The RingShape calling this method</param>
-		/// <param name="SweepDirection">The SweepDirection for the Arc</param>
-		/// <param name="IsCircle">True if the Path is to be a Circle</param>
-		/// <param name="Center">The Center Point</param>
-		/// <param name="StartAngle">The Start Angle</param>
-		/// <param name="EndAngle">The End Angle</param>
-		/// <param name="EqualRadius">The equalised Radius (for circles)</param>
-		/// <param name="RadiusWidth">The Radius Width</param>
-		/// <param name="RadiusHeight">The Radius Height</param>
-		/// <returns>Path Geometry</returns>
 		private static PathGeometry DrawArc(RingShape RingShape, SweepDirection SweepDirection, bool IsCircle, Point Center, double StartAngle, double EndAngle, double EqualRadius, double RadiusWidth, double RadiusHeight)
 		{
 			var pathGeometry = new PathGeometry();
@@ -329,15 +256,6 @@ namespace Files.App.Controls.Primitives
 			return pathGeometry;
 		}
 
-		/// <summary>
-		/// Calculates the StartPoint for the Arc
-		/// </summary>
-		/// <param name="SweepDirection">SweepDirection for the Arc</param>
-		/// <param name="Center">Center point for the Arc</param>
-		/// <param name="StartAngle">Start Angle for the Arc</param>
-		/// <param name="RadiusWidth">Radius Width for the Arc</param>
-		/// <param name="RadiusHeight">Radius Height for the Arc</param>
-		/// <returns>Start Point for the Arc</returns>
 		private static Point ArcStartPoint(SweepDirection SweepDirection , Point Center, double StartAngle , double RadiusWidth, double RadiusHeight)
 		{
 			var finalPoint = new Point();
@@ -362,16 +280,6 @@ namespace Files.App.Controls.Primitives
 			return finalPoint;
 		}
 
-		/// <summary>
-		/// Generates an ArcSegment for the RingShape Path Data
-		/// </summary>
-		/// <param name="SweepDirection">SweepDirection for the Arc</param>
-		/// <param name="Center">Center point for the Arc</param>
-		/// <param name="StartAngle">Start Angle for the Arc</param>
-		/// <param name="EndAngle">End Angle for the Arc</param>
-		/// <param name="RadiusWidth">Radius Width for the Arc</param>
-		/// <param name="RadiusHeight">Radius Height for the Arc</param>
-		/// <returns>ArcSegment for the RingShape Path Data</returns>
 		private static ArcSegment CreateArcSegment(SweepDirection SweepDirection , Point Center , double StartAngle, double EndAngle , double RadiusWidth , double RadiusHeight)
 		{ 
 			var finalArcSegment = new ArcSegment();
@@ -423,13 +331,6 @@ namespace Files.App.Controls.Primitives
 
 		#region Value Calculations
 
-		/// <summary>
-		/// Calculates the EqualSize taking the smaller of the given Size's
-		/// Width and Height
-		/// </summary>
-		/// <param name="size">The Size we want to use for calculating</param>
-		/// <param name="strokeThickness">The StrokeThickness value</param>
-		/// <returns>The calculated EqualizedSize</returns>
 		private static Size CalculateEqualSize(Size size, double strokeThickness)
 		{
 			double adjWidth = size.Width;
@@ -447,15 +348,6 @@ namespace Files.App.Controls.Primitives
 			}
 		}
 
-		/// <summary>
-		/// Calculates the smaller of the RadiusWidth and RadiusHeight when both
-		/// should be the same value.
-		/// </summary>
-		/// <param name="d">The DependencyObject calling the function</param>
-		/// <param name="radiusWidth">The RadiusWidth value</param>
-		/// <param name="radiusHeight">The RadiusHeight value</param>
-		/// <param name="strokeThickness">The StrokeThickness value</param>
-		/// <returns>The calculated EqualRadius</returns>
 		private static double CalculateEqualRadius(DependencyObject d, double radiusWidth, double radiusHeight, double strokeThickness)
 		{
 			RingShape ringShape = (RingShape)d;
@@ -479,12 +371,6 @@ namespace Files.App.Controls.Primitives
 			}
 		}
 
-		/// <summary>
-		/// Calculates the center point based on half the Width and Height
-		/// </summary>
-		/// <param name="Width">The Width value</param>
-		/// <param name="Height">The Height value</param>
-		/// <returns>The calculated Center Point</returns>
 		private static Point CalculateCenter(double Width, double Height)
 		{
 			Point calculatedCenter = new Point((Width / 2.0), (Height / 2.0));
@@ -492,12 +378,6 @@ namespace Files.App.Controls.Primitives
 			return calculatedCenter;
 		}
 
-		/// <summary>
-		/// Calculates and Sets the normalized Min and Max Angles
-		/// </summary>
-		/// <param name="d">The DependencyObject calling the function</param>
-		/// <param name="minAngle">MinAngle in the range from -180 to 180.</param>
-		/// <param name="maxAngle">MaxAngle, in the range from -180 to 540.</param>
 		private static void CalculateAndSetNormalizedAngles(DependencyObject d, double minAngle, double maxAngle)
 		{
 			RingShape ringShape = (RingShape)d;
@@ -505,35 +385,22 @@ namespace Files.App.Controls.Primitives
 			var result = CalculateModulus(minAngle, 360);
 
 			if (result >= 180)
-			{
 				result = result - 360;
-			}
 
 			ringShape._normalizedMinAngle = result;
 
 			result = CalculateModulus(maxAngle, 360);
 
 			if (result < 180)
-			{
 				result = result + 360;
-			}
 
 			if (result > ringShape._normalizedMinAngle + 360)
-			{
 				result = result - 360;
-			}
 
 
 			ringShape._normalizedMaxAngle = result;
 		}
 
-		/// <summary>
-		/// Calculates the modulus of a number with respect to a divider.
-		/// The result is always positive or zero, regardless of the input values.
-		/// </summary>
-		/// <param name="number">The input number.</param>
-		/// <param name="divider">The divider (non-zero).</param>
-		/// <returns>The positive modulus result.</returns>
 		private static double CalculateModulus(double number, double divider)
 		{
 			// Calculate the modulus
@@ -545,12 +412,6 @@ namespace Files.App.Controls.Primitives
 			return result;
 		}
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="d">The DependencyObject calling the function</param>
-		/// <param name="angle">The Angle to validate</param>
-		/// <param name="isStart">Bool to check if we are validating Start or End angle</param>
 		private void ValidateAngle(DependencyObject d, double angle, bool isStart)
 		{
 			RingShape ringShape = (RingShape)d;
@@ -590,12 +451,6 @@ namespace Files.App.Controls.Primitives
 			}
 		}
 
-		/// <summary>
-		/// Adjust the RadiusWidth to fit within the bounds
-		/// </summary>
-		/// <param name="d">The DependencyObject calling the function</param>
-		/// <param name="radiusWidth">The RadiusWidth to adjust</param>
-		/// <param name="strokeThickness">The Stroke Thickness</param>
 		private void AdjustRadiusWidth(DependencyObject d, double radiusWidth, double strokeThickness)
 		{
 			RingShape ringShape = (RingShape)d;
@@ -617,12 +472,6 @@ namespace Files.App.Controls.Primitives
 			}
 		}
 
-		/// <summary>
-		/// Adjust the RadiusHeight to fit within the bounds
-		/// </summary>
-		/// <param name="d">The DependencyObject calling the function</param>
-		/// <param name="radiusHeight">The RadiusHeight to adjust</param>
-		/// <param name="strokeThickness">The Stroke Thickness</param>
 		private void AdjustRadiusHeight(DependencyObject d, double radiusHeight, double strokeThickness)
 		{
 			RingShape ringShape = (RingShape)d;
