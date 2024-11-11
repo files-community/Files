@@ -32,7 +32,7 @@ namespace Files.App.Utils
 				const string WslRegistryPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Lxss\MSI";
 				using (var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(WslRegistryPath))
 				{
-					if (key != null && key.GetSubKeyNames().Length == 0)
+					if (key == null || key.GetSubKeyNames().Length == 0)
 						return;
 				}
 
