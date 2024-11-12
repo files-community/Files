@@ -85,22 +85,7 @@ namespace Files.App.Services
 		{
 			return await Win32Helper.StartSTATask(() =>
 			{
-				// Get IShellItem for Recycle Bin
-				var recycleBinFolderId = PInvoke.FOLDERID_RecycleBinFolder;
-				var shellItemGuid = typeof(IShellItem).GUID;
-				PInvoke.SHGetKnownFolderItem(&recycleBinFolderId, KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, HANDLE.Null, &shellItemGuid, (void**)&recycleBinFolderShellItem);
-
-				// Get IEnumShellItems for Recycle Bin
-				Guid enumShellItemGuid = typeof(IEnumShellItems).GUID;
-				var enumItemsBHID = PInvoke.BHID_EnumItems;
-				recycleBinFolderShellItem->BindToHandler(null, &enumItemsBHID, &enumShellItemGuid, (void**)&enumShellItems);
-
-				// Initialize how to perform the operation
-				PInvoke.CoCreateInstance(typeof(FileOperation).GUID, null, CLSCTX.CLSCTX_LOCAL_SERVER, out pFileOperation);
-				pFileOperation->SetOperationFlags(FILEOPERATION_FLAGS.FOF_NO_UI);
-				pFileOperation->SetOwnerWindow(new(MainWindow.Instance.WindowHandle));
-
-				while (enumShellItems->Next(1, &pShellItem) == HRESULT.S_OK)
+				try
 				{
 					RestoreAllTrashesInternal();
 
@@ -117,14 +102,14 @@ namespace Files.App.Services
 		{
 			// Get IShellItem for Recycle Bin folder
 			using ComPtr<IShellItem> pRecycleBinFolderShellItem = default;
-			var recycleBinFolderId = FOLDERID.FOLDERID_RecycleBinFolder;
+			var recycleBinFolderId = PInvoke.FOLDERID_RecycleBinFolder;
 			var shellItemGuid = typeof(IShellItem).GUID;
 			HRESULT hr = PInvoke.SHGetKnownFolderItem(&recycleBinFolderId, KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, HANDLE.Null, &shellItemGuid, (void**)pRecycleBinFolderShellItem.GetAddressOf());
 
 			// Get IEnumShellItems for Recycle Bin folder
 			using ComPtr<IEnumShellItems> pEnumShellItems = default;
 			Guid enumShellItemGuid = typeof(IEnumShellItems).GUID;
-			var enumItemsBHID = BHID.BHID_EnumItems;
+			var enumItemsBHID = PInvoke.BHID_EnumItems;
 			hr = pRecycleBinFolderShellItem.Get()->BindToHandler(null, &enumItemsBHID, &enumShellItemGuid, (void**)pEnumShellItems.GetAddressOf());
 
 			// Initialize how to perform the operation
