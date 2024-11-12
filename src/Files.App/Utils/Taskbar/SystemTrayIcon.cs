@@ -29,15 +29,15 @@ namespace Files.App.Utils.Taskbar
 
 		private readonly static Guid _trayIconGuid = new(
 #if DEBUG
-			"e6fc16c1-e6e2-40a2-9c4e-1bf3b54684ad"
+			"684F2832-AC2B-4630-98C2-73D6AEBD4001"
 #elif PREVIEW
-			"8bd7e317-ee80-405e-8c90-f4d9866ff9bc"
+			"684F2832-AC2B-4630-98C2-73D6AEBD4002"
 #elif STABLE
-			"96b3455b-16bf-454e-ada5-191ba32f2f8e"
+			"684F2832-AC2B-4630-98C2-73D6AEBD4003"
 #elif STORE
-			"01966f57-00cf-471f-b2d5-55f227e0dfe6"
+			"684F2832-AC2B-4630-98C2-73D6AEBD4004"
 #else
-			"e77abbd8-8721-4d50-a4d2-743d28cdc37b"
+			"684F2832-AC2B-4630-98C2-73D6AEBD4005"
 #endif
 		);
 
