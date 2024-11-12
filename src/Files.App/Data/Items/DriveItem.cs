@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Controls;
-using Files.App.Storage.Storables;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -14,6 +13,8 @@ namespace Files.App.Data.Items
 {
 	public sealed class DriveItem : ObservableObject, INavigationControlItem, ILocatableFolder
 	{
+		private readonly IQuickAccessService QuickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
+
 		private BitmapImage icon;
 		public BitmapImage Icon
 		{
@@ -49,7 +50,7 @@ namespace Files.App.Data.Items
 			=> Type == DriveType.Network;
 
 		public bool IsPinned
-			=> App.QuickAccessManager.Model.PinnedFolders.Contains(path);
+			=> QuickAccessService.PinnedFolders.ToList().FirstOrDefault(x => x.Path == path) is not null;
 
 		public string MaxSpaceText
 			=> MaxSpace.ToSizeString();

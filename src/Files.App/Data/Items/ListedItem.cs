@@ -25,6 +25,8 @@ namespace Files.App.Utils
 
 		protected static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
 
+		protected readonly IQuickAccessService QuickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
+
 		public bool IsHiddenItem { get; set; } = false;
 
 		public StorageItemTypes PrimaryItemAttribute { get; set; }
@@ -414,7 +416,7 @@ namespace Files.App.Utils
 		public bool IsGitItem => this is GitItem;
 		public virtual bool IsExecutable => !IsFolder && FileExtensionHelpers.IsExecutableFile(ItemPath);
 		public virtual bool IsScriptFile => FileExtensionHelpers.IsScriptFile(ItemPath);
-		public bool IsPinned => App.QuickAccessManager.Model.PinnedFolders.Contains(itemPath);
+		public bool IsPinned => QuickAccessService.PinnedFolders.ToList().FirstOrDefault(x => x.Path == itemPath) is not null;
 		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
 		public bool IsElevationRequired { get; set; }
 

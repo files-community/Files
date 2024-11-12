@@ -36,7 +36,6 @@ namespace Files.App
 		}
 
 		// TODO: Replace with DI
-		public static QuickAccessManager QuickAccessManager { get; private set; } = null!;
 		public static StorageHistoryWrapper HistoryWrapper { get; private set; } = null!;
 		public static FileTagsManager FileTagsManager { get; private set; } = null!;
 		public static LibraryManager LibraryManager { get; private set; } = null!;
@@ -110,7 +109,6 @@ namespace Files.App
 				}
 
 				// TODO: Replace with DI
-				QuickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
 				HistoryWrapper = Ioc.Default.GetRequiredService<StorageHistoryWrapper>();
 				FileTagsManager = Ioc.Default.GetRequiredService<FileTagsManager>();
 				LibraryManager = Ioc.Default.GetRequiredService<LibraryManager>();

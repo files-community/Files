@@ -1,56 +1,22 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Collections.Specialized;
+
 namespace Files.App.Data.Contracts
 {
 	public interface IQuickAccessService
 	{
-		/// <summary>
-		/// Gets the list of quick access items
-		/// </summary>
-		/// <returns></returns>
-		Task<IEnumerable<ShellFileItem>> GetPinnedFoldersAsync();
+		IReadOnlyList<INavigationControlItem> PinnedFolders { get; }
 
-		/// <summary>
-		/// Pins a folder to the quick access list
-		/// </summary>
-		/// <param name="folderPath">The folder to pin</param>
-		/// <returns></returns>
-		Task PinToSidebarAsync(string folderPath);
+		event EventHandler<NotifyCollectionChangedEventArgs>? PinnedFoldersChanged;
 
-		/// <summary>
-		/// Pins folders to the quick access list
-		/// </summary>
-		/// <param name="folderPaths">The array of folders to pin</param>
-		/// <returns></returns>
-		Task PinToSidebarAsync(string[] folderPaths);
+		Task InitializeAsync();
 
-		/// <summary>
-		/// Unpins a folder from the quick access list
-		/// </summary>
-		/// <param name="folderPath">The folder to unpin</param>
-		/// <returns></returns>
-		Task UnpinFromSidebarAsync(string folderPath);
+		Task<bool> UpdatePinnedFoldersAsync();
 
-		/// <summary>
-		/// Unpins folders from the quick access list
-		/// </summary>
-		/// <param name="folderPaths">The array of folders to unpin</param>
-		/// <returns></returns>
-		Task UnpinFromSidebarAsync(string[] folderPaths);
+		Task<bool> PinFolderAsync(string[] paths);
 
-		/// <summary>
-		/// Checks if a folder is pinned to the quick access list
-		/// </summary>
-		/// <param name="folderPath">The path of the folder</param>
-		/// <returns>true if the item is pinned</returns>
-		bool IsItemPinned(string folderPath);
-
-		/// <summary>
-		/// Saves a state of pinned folder items in the sidebar
-		/// </summary>
-		/// <param name="items">The array of items to save</param>
-		/// <returns></returns>
-		Task SaveAsync(string[] items);
+		Task<bool> UnpinFolderAsync(string[] paths);
 	}
 }

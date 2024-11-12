@@ -156,3 +156,7 @@ IApplicationDestinations
 ApplicationDestinations
 IApplicationDocumentLists
 ApplicationDocumentLists
+BHID_EnumItems
+BHID_SFUIObject
+IContextMenu
+CMF_OPTIMIZEFORINVOKE

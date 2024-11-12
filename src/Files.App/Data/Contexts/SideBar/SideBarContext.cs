@@ -6,12 +6,7 @@ namespace Files.App.Data.Contexts
 	/// <inheritdoc cref="ISidebarContext"/>
 	internal sealed class SidebarContext : ObservableObject, ISidebarContext
 	{
-		private readonly PinnedFoldersManager favoriteModel = App.QuickAccessManager.Model;
-
-		private int PinnedFolderItemIndex =>
-			IsItemRightClicked
-				? favoriteModel.IndexOfItem(_RightClickedItem!)
-				: -1;
+		private readonly IQuickAccessService WindowsQuickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		private INavigationControlItem? _RightClickedItem = null;
 		public INavigationControlItem? RightClickedItem => _RightClickedItem;
@@ -22,7 +17,7 @@ namespace Files.App.Data.Contexts
 		public bool IsPinnedFolderItem =>
 			IsItemRightClicked &&
 			_RightClickedItem!.Section is SectionType.Pinned &&
-			PinnedFolderItemIndex is not -1;
+			WindowsQuickAccessService.PinnedFolders.ToList().Contains(_RightClickedItem);
 
 		public DriveItem? OpenDriveItem
 			=> _RightClickedItem as DriveItem;
@@ -37,7 +32,6 @@ namespace Files.App.Data.Contexts
 			if (SetProperty(ref _RightClickedItem, e, nameof(RightClickedItem)))
 			{
 				OnPropertyChanged(nameof(IsItemRightClicked));
-				OnPropertyChanged(nameof(PinnedFolderItemIndex));
 				OnPropertyChanged(nameof(IsPinnedFolderItem));
 				OnPropertyChanged(nameof(OpenDriveItem));
 			}

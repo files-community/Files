@@ -2,14 +2,16 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Extensions.Logging;
+using System.Collections.Specialized;
 using System.IO;
-using Windows.Storage;
 using Windows.UI.StartScreen;
 
 namespace Files.App.Services
 {
 	public sealed class WindowsJumpListService : IWindowsJumpListService
 	{
+		private readonly IQuickAccessService WindowsQuickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
+
 		private const string JumpListRecentGroupHeader = "ms-resource:///Resources/JumpListRecentGroupHeader";
 		private const string JumpListPinnedGroupHeader = "ms-resource:///Resources/JumpListPinnedGroupHeader";
 
@@ -17,8 +19,8 @@ namespace Files.App.Services
 		{
 			try
 			{
-				App.QuickAccessManager.UpdateQuickAccessWidget -= UpdateQuickAccessWidget_Invoked;
-				App.QuickAccessManager.UpdateQuickAccessWidget += UpdateQuickAccessWidget_Invoked;
+				WindowsQuickAccessService.PinnedFoldersChanged -= QuickAccessService_CollectionChanged;
+				WindowsQuickAccessService.PinnedFoldersChanged += QuickAccessService_CollectionChanged;
 
 				await RefreshPinnedFoldersAsync();
 			}
@@ -35,10 +37,11 @@ namespace Files.App.Services
 				if (JumpList.IsSupported())
 				{
 					var instance = await JumpList.LoadCurrentAsync();
-					// Disable automatic jumplist. It doesn't work.
+
+					// Disable automatic jump-list. It doesn't work.
 					instance.SystemGroupKind = JumpListSystemGroupKind.None;
 
-					// Saving to jumplist may fail randomly with error: ERROR_UNABLE_TO_REMOVE_REPLACED
+					// Saving to jump-list may fail randomly with error: ERROR_UNABLE_TO_REMOVE_REPLACED
 					// In that case app should just catch the error and proceed as usual
 					if (instance is not null)
 					{
@@ -60,7 +63,8 @@ namespace Files.App.Services
 				try
 				{
 					var instance = await JumpList.LoadCurrentAsync();
-					// Disable automatic jumplist. It doesn't work.
+
+					// Disable automatic jump-list. It doesn't work.
 					instance.SystemGroupKind = JumpListSystemGroupKind.None;
 
 					return instance.Items.Select(item => item.Arguments).ToList();
@@ -80,12 +84,11 @@ namespace Files.App.Services
 		{
 			try
 			{
-				App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
-
 				if (JumpList.IsSupported())
 				{
 					var instance = await JumpList.LoadCurrentAsync();
-					// Disable automatic jumplist. It doesn't work with Files UWP.
+
+					// Disable automatic jump-list. It doesn't work with Files UWP.
 					instance.SystemGroupKind = JumpListSystemGroupKind.None;
 
 					if (instance is null)
@@ -93,17 +96,12 @@ namespace Files.App.Services
 
 					var itemsToRemove = instance.Items.Where(x => string.Equals(x.GroupName, JumpListPinnedGroupHeader, StringComparison.OrdinalIgnoreCase)).ToList();
 					itemsToRemove.ForEach(x => instance.Items.Remove(x));
-					App.QuickAccessManager.Model.PinnedFolders.ForEach(x => AddFolder(x, JumpListPinnedGroupHeader, instance));
+					WindowsQuickAccessService.PinnedFolders.ForEach(x => AddFolder(x.Path, JumpListPinnedGroupHeader, instance));
+
 					await instance.SaveAsync();
 				}
 			}
-			catch
-			{
-			}
-			finally
-			{
-				SafetyExtensions.IgnoreExceptions(() => App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true);
-			}
+			catch { }
 		}
 
 		public async Task RemoveFolderAsync(string path)
@@ -113,7 +111,8 @@ namespace Files.App.Services
 				try
 				{
 					var instance = await JumpList.LoadCurrentAsync();
-					// Disable automatic jumplist. It doesn't work.
+
+					// Disable automatic jump-list. It doesn't work.
 					instance.SystemGroupKind = JumpListSystemGroupKind.None;
 
 					var itemToRemove = instance.Items.Where(x => x.Arguments == path).Select(x => x).FirstOrDefault();
@@ -137,7 +136,7 @@ namespace Files.App.Services
 				{
 					var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
-					// Jumplist item argument can't end with a slash so append a character that can't exist in a directory name to support listing drives.
+					// Jump-list item argument can't end with a slash so append a character that can't exist in a directory name to support listing drives.
 					var drive = drivesViewModel.Drives.FirstOrDefault(drive => drive.Path == path);
 					if (drive is null)
 						return;
@@ -190,7 +189,7 @@ namespace Files.App.Services
 			}
 		}
 
-		private async void UpdateQuickAccessWidget_Invoked(object? sender, ModifyQuickAccessEventArgs e)
+		private async void QuickAccessService_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			await RefreshPinnedFoldersAsync();
 		}

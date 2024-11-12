@@ -24,6 +24,7 @@ namespace Files.App.ViewModels
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IResourcesService ResourcesService { get; } = Ioc.Default.GetRequiredService<IResourcesService>();
 		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		private IQuickAccessService WindowsQuickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		// Properties
 
@@ -244,7 +245,8 @@ namespace Files.App.ViewModels
 			await Task.WhenAll(
 				DrivesViewModel.UpdateDrivesAsync(),
 				NetworkService.UpdateComputersAsync(),
-				NetworkService.UpdateShortcutsAsync());
+				NetworkService.UpdateShortcutsAsync(),
+				WindowsQuickAccessService.UpdatePinnedFoldersAsync());
 		}
 
 		// Command methods
