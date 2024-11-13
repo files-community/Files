@@ -90,7 +90,7 @@ elseif ($Branch -eq "Store")
     $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
     $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="Files"
 
-    # Remove an capability that is used for the sideload
+    # Remove capability that is only used for the sideload package
     $pm = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Capabilities/rescap:Capability[@Name='packageManagement']", $nsmgr)
     $xmlDoc.Package.Capabilities.RemoveChild($pm)
 
