@@ -3,7 +3,6 @@
 
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.Sidebar;
-using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -12,13 +11,11 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 using System.IO;
 using System.Windows.Input;
-using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using Files.Core.Storage;
-using Files.Core.Storage.Extensions;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -1047,13 +1044,6 @@ namespace Files.App.ViewModels.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "FormatDriveText".GetLocalizedResource(),
-					Command = FormatDriveCommand,
-					CommandParameter = item,
-					ShowItem = options.ShowFormatDrive
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
 					Text = "Properties".GetLocalizedResource(),
 					ThemedIconModel = new ThemedIconModel()
 					{
@@ -1066,9 +1056,19 @@ namespace Files.App.ViewModels.UserControls
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
-					ShowItem = Commands.OpenTerminalFromSidebar.IsExecutable
+					ShowItem = Commands.OpenTerminalFromSidebar.IsExecutable ||
+						Commands.OpenStorageSenseFromSidebar.IsExecutable ||
+						options.ShowFormatDrive
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenTerminalFromSidebar).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenStorageSenseFromSidebar).Build(),
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = Strings.FormatDriveText.GetLocalizedResource(),
+					Command = FormatDriveCommand,
+					CommandParameter = item,
+					ShowItem = options.ShowFormatDrive
+				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,

@@ -116,6 +116,9 @@ namespace Files.App.Data.Commands
 		public IRichCommand OpenRepoInVSCode => commands[CommandCodes.OpenRepoInVSCode];
 		public IRichCommand OpenProperties => commands[CommandCodes.OpenProperties];
 		public IRichCommand OpenClassicProperties => commands[CommandCodes.OpenClassicProperties];
+		public IRichCommand OpenStorageSense => commands[CommandCodes.OpenStorageSense];
+		public IRichCommand OpenStorageSenseFromHome => commands[CommandCodes.OpenStorageSenseFromHome];
+		public IRichCommand OpenStorageSenseFromSidebar => commands[CommandCodes.OpenStorageSenseFromSidebar];
 		public IRichCommand OpenSettings => commands[CommandCodes.OpenSettings];
 		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
 		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
@@ -313,6 +316,9 @@ namespace Files.App.Data.Commands
 			[CommandCodes.OpenRepoInVSCode] = new OpenRepoInVSCodeAction(),
 			[CommandCodes.OpenProperties] = new OpenPropertiesAction(),
 			[CommandCodes.OpenClassicProperties] = new OpenClassicPropertiesAction(),
+			[CommandCodes.OpenStorageSense] = new OpenStorageSenseAction(),
+			[CommandCodes.OpenStorageSenseFromHome] = new OpenStorageSenseFromHomeAction(),
+			[CommandCodes.OpenStorageSenseFromSidebar] = new OpenStorageSenseFromSidebarAction(),
 			[CommandCodes.OpenSettings] = new OpenSettingsAction(),
 			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
 			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
