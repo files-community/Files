@@ -179,6 +179,8 @@ namespace Files.App.Data.Commands
 		public IRichCommand NewWindow => commands[CommandCodes.NewWindow];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
 		public IRichCommand FormatDrive => commands[CommandCodes.FormatDrive];
+		public IRichCommand FormatDriveFromHome => commands[CommandCodes.FormatDriveFromHome];
+		public IRichCommand FormatDriveFromSidebar => commands[CommandCodes.FormatDriveFromSidebar];
 		public IRichCommand NavigateBack => commands[CommandCodes.NavigateBack];
 		public IRichCommand NavigateForward => commands[CommandCodes.NavigateForward];
 		public IRichCommand NavigateUp => commands[CommandCodes.NavigateUp];
@@ -379,6 +381,8 @@ namespace Files.App.Data.Commands
 			[CommandCodes.NewWindow] = new NewWindowAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
 			[CommandCodes.FormatDrive] = new FormatDriveAction(),
+			[CommandCodes.FormatDriveFromHome] = new FormatDriveFromHomeAction(),
+			[CommandCodes.FormatDriveFromSidebar] = new FormatDriveFromSidebarAction(),
 			[CommandCodes.NavigateBack] = new NavigateBackAction(),
 			[CommandCodes.NavigateForward] = new NavigateForwardAction(),
 			[CommandCodes.NavigateUp] = new NavigateUpAction(),

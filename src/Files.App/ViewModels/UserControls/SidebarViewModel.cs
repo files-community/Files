@@ -258,7 +258,6 @@ namespace Files.App.ViewModels.UserControls
 			OpenInNewWindowCommand = new AsyncRelayCommand(OpenInNewWindowAsync);
 			OpenInNewPaneCommand = new AsyncRelayCommand(OpenInNewPaneAsync);
 			EjectDeviceCommand = new RelayCommand(EjectDevice);
-			FormatDriveCommand = new RelayCommand(FormatDrive);
 			OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
 			ReorderItemsCommand = new AsyncRelayCommand(ReorderItemsAsync);
 		}
@@ -839,8 +838,6 @@ namespace Files.App.ViewModels.UserControls
 
 		private ICommand EjectDeviceCommand { get; }
 
-		private ICommand FormatDriveCommand { get; }
-
 		private ICommand OpenPropertiesCommand { get; }
 
 		private ICommand ReorderItemsCommand { get; }
@@ -955,11 +952,6 @@ namespace Files.App.ViewModels.UserControls
 			DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
 		}
 
-		private void FormatDrive()
-		{
-			Win32Helper.OpenFormatDriveDialog(rightClickedItem.Path);
-		}
-
 		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)
 		{
 			var options = item.MenuOptions;
@@ -1058,17 +1050,11 @@ namespace Files.App.ViewModels.UserControls
 					ItemType = ContextMenuFlyoutItemType.Separator,
 					ShowItem = Commands.OpenTerminalFromSidebar.IsExecutable ||
 						Commands.OpenStorageSenseFromSidebar.IsExecutable ||
-						options.ShowFormatDrive
+						Commands.FormatDriveFromSidebar.IsExecutable
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenTerminalFromSidebar).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenStorageSenseFromSidebar).Build(),
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = Strings.FormatDriveText.GetLocalizedResource(),
-					Command = FormatDriveCommand,
-					CommandParameter = item,
-					ShowItem = options.ShowFormatDrive
-				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.FormatDriveFromSidebar).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
