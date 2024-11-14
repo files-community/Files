@@ -49,14 +49,14 @@ namespace Files.App.Utils.Storage.Operations
 
 					while (queue.TryDequeue(out var directory))
 					{
-						WIN32_FIND_DATAW* findData = default;
+						WIN32_FIND_DATAW findData = default;
 
 						fixed (char* pszFilePath = directory + "\\*.*")
 						{
 							var hFile = PInvoke.FindFirstFileEx(
 								pszFilePath,
 								FINDEX_INFO_LEVELS.FindExInfoBasic,
-								findData,
+								&findData,
 								FINDEX_SEARCH_OPS.FindExSearchNameMatch,
 								null,
 								FIND_FIRST_EX_FLAGS.FIND_FIRST_EX_LARGE_FETCH);
@@ -65,19 +65,19 @@ namespace Files.App.Utils.Storage.Operations
 							{
 								do
 								{
-									FILE_FLAGS_AND_ATTRIBUTES attributes = (FILE_FLAGS_AND_ATTRIBUTES)findData->dwFileAttributes;
+									FILE_FLAGS_AND_ATTRIBUTES attributes = (FILE_FLAGS_AND_ATTRIBUTES)findData.dwFileAttributes;
 
 									if (attributes.HasFlag(FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_REPARSE_POINT))
 										// Skip symbolic links and junctions
 										continue;
 
-									var itemPath = Path.Combine(directory, findData->cFileName.ToString());
+									var itemPath = Path.Combine(directory, findData.cFileName.ToString());
 
 									if (attributes.HasFlag(FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_DIRECTORY))
 									{
 										ComputeFileSize(itemPath);
 									}
-									else if (findData->cFileName.ToString() is string fileName &&
+									else if (findData.cFileName.ToString() is string fileName &&
 										fileName.Equals(".", StringComparison.OrdinalIgnoreCase) &&
 										fileName.Equals("..", StringComparison.OrdinalIgnoreCase))
 									{
@@ -87,7 +87,7 @@ namespace Files.App.Utils.Storage.Operations
 									if (token.IsCancellationRequested)
 										break;
 								}
-								while (PInvoke.FindNextFile(hFile, findData));
+								while (PInvoke.FindNextFile(hFile, &findData));
 							}
 
 							PInvoke.CloseHandle(hFile);
