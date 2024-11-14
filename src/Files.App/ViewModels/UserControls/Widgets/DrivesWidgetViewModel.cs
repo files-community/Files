@@ -122,13 +122,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
-					Text = "FormatDriveText".GetLocalizedResource(),
-					Command = FormatDriveCommand,
-					CommandParameter = item,
-					ShowItem = options?.ShowFormatDrive ?? false
-				},
-				new()
-				{
 					Text = "Properties".GetLocalizedResource(),
 					ThemedIconModel = new ThemedIconModel() { ThemedIconStyle = "App.ThemedIcons.Properties" },
 					Command = OpenPropertiesCommand,
@@ -149,9 +142,19 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
-					ShowItem = CommandManager.OpenTerminalFromHome.IsExecutable
+					ShowItem = CommandManager.OpenTerminalFromHome.IsExecutable ||
+						CommandManager.OpenStorageSenseFromHome.IsExecutable ||
+						(options?.ShowFormatDrive ?? false)
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenTerminalFromHome).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenStorageSenseFromHome).Build(),
+				new()
+				{
+					Text = "FormatDriveText".GetLocalizedResource(),
+					Command = FormatDriveCommand,
+					CommandParameter = item,
+					ShowItem = options?.ShowFormatDrive ?? false
+				},
 				new()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,

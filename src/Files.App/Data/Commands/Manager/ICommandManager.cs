@@ -102,6 +102,9 @@ namespace Files.App.Data.Commands
 		IRichCommand OpenRepoInVSCode { get; }
 		IRichCommand OpenProperties { get; }
 		IRichCommand OpenClassicProperties { get; }
+		IRichCommand OpenStorageSense { get; }
+		IRichCommand OpenStorageSenseFromHome { get; }
+		IRichCommand OpenStorageSenseFromSidebar { get; }
 		IRichCommand OpenSettings { get; }
 		IRichCommand OpenTerminal { get; }
 		IRichCommand OpenTerminalAsAdmin { get; }
