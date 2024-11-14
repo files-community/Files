@@ -4,10 +4,8 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using System.Reflection;
-using Vanara.PInvoke;
 using Windows.Win32;
 using Windows.Win32.UI.WindowsAndMessaging;
-using static Vanara.PInvoke.User32;
 
 namespace Files.App.Helpers
 {
@@ -59,21 +57,6 @@ namespace Files.App.Helpers
 				uiElement,
 				[cursor]
 			);
-		}
-
-		/// <summary>
-		/// Changes an attribute of the specified window.
-		/// </summary>
-		/// <param name="hWnd">A handle to the window and, indirectly, the class to which the window belongs.</param>
-		/// <param name="nIndex">The zero-based offset to the value to be set.</param>
-		/// <param name="dwNewLong">The replacement value.</param>
-		/// <returns>If the function succeeds, the return value is the previous value of the specified offset.</returns>
-		public static IntPtr SetWindowLong(HWND hWnd, WindowLongFlags nIndex, IntPtr dwNewLong)
-		{
-			return
-				IntPtr.Size == 4
-					? Win32PInvoke.SetWindowLongPtr32(hWnd, nIndex, dwNewLong)
-					: Win32PInvoke.SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
 		}
 	}
 }
