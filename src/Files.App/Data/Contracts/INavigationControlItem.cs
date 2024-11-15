@@ -42,6 +42,8 @@ namespace Files.App.Data.Contracts
 	{
 		public bool IsLibrariesHeader { get; set; }
 
+		public bool IsTagsHeader { get; set; }
+
 		public bool ShowHideSection { get; set; }
 
 		public bool IsLocationItem { get; set; }

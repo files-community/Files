@@ -4001,4 +4001,7 @@
   <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
     <value>Would you like to display alternate data streams? You can modify this setting anytime from the files and folders settings page.</value>
   </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Manage tags</value>
+  </data>
 </root>
