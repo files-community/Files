@@ -90,33 +90,6 @@ namespace Files.App.Helpers
 			out uint dwIndex
 		);
 
-		[DllImport("user32.dll", SetLastError = true, EntryPoint = "SetWindowLong")]
-		public static extern int SetWindowLongPtr32(
-			HWND hWnd,
-			WindowLongFlags nIndex,
-			IntPtr dwNewLong
-		);
-
-		[DllImport("user32.dll", SetLastError = true, EntryPoint = "SetWindowLongPtr")]
-		public static extern IntPtr SetWindowLongPtr64(
-			HWND hWnd,
-			WindowLongFlags nIndex,
-			IntPtr dwNewLong
-		);
-
-		[DllImport("user32.dll", SetLastError = true)]
-		public static extern IntPtr SetWindowLongPtr(
-			HWND hWnd,
-			int nIndex,
-			IntPtr dwNewLong
-		);
-
-		[DllImport("user32.dll", SetLastError = true)]
-		public static extern IntPtr GetWindowLongPtr(
-			HWND hWnd,
-			int nIndex
-		);
-
 		[DllImport("shell32.dll")]
 		public static extern IntPtr SHBrowseForFolder(
 			ref BROWSEINFO lpbi

@@ -156,3 +156,5 @@ IApplicationDestinations
 ApplicationDestinations
 IApplicationDocumentLists
 ApplicationDocumentLists
+SetWindowLongPtr
+GetWindowLongPtr

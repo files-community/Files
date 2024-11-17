@@ -6,6 +6,9 @@ using System.Globalization;
 using System.Text.RegularExpressions;
 using Windows.Globalization;
 using WinRT.Interop;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Helpers
 {
@@ -119,14 +122,14 @@ namespace Files.App.Helpers
 		{
 			try
 			{
-				var hwnd = WindowNative.GetWindowHandle(window);
-				var exStyle = Win32PInvoke.GetWindowLongPtr(hwnd, Win32PInvoke.GWL_EXSTYLE);
+				var hwnd = new HWND(WindowNative.GetWindowHandle(window));
+				var exStyle = PInvoke.GetWindowLongPtr(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE);
 
 				exStyle = PreferredCulture.TextInfo.IsRightToLeft
-					? new IntPtr(exStyle.ToInt64() | Win32PInvoke.WS_EX_LAYOUTRTL) // Set RTL layout
-					: new IntPtr(exStyle.ToInt64() & ~Win32PInvoke.WS_EX_LAYOUTRTL); // Set LTR layout
+					? new IntPtr((uint)exStyle | (uint)WINDOW_EX_STYLE.WS_EX_LAYOUTRTL) // Set RTL layout
+					: new IntPtr((uint)exStyle.ToInt64() & ~(uint)WINDOW_EX_STYLE.WS_EX_LAYOUTRTL); // Set LTR layout
 
-				if (Win32PInvoke.SetWindowLongPtr(hwnd, Win32PInvoke.GWL_EXSTYLE, exStyle) == 0)
+				if (PInvoke.SetWindowLongPtr(hwnd, WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, exStyle) == 0)
 					return false;
 			}
 			catch (Exception)
