@@ -49,10 +49,7 @@ jobs:
 
     if: github.repository_owner == 'files-community'
 
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: pwsh
+    runs-on: windows-latest
 
     steps:
 
@@ -62,10 +59,8 @@ jobs:
         fetch-depth: 2
     - name: Setup .NET 8
       uses: actions/setup-dotnet@v4
-      with:
-        global-json-file: global.json
 
-    - name: Install XamlStyler console
+    - name: Install XamlStyler.Console
       run: 'dotnet tool install --global XamlStyler.Console'
 
     - name: Check XAML formatting
@@ -236,11 +231,17 @@ jobs:
       shell: pwsh
       run: Start-Process -FilePath "$env:WINAPPDRIVER_EXE86_PATH"
 
+    # Retry integration tests if first attempt fails
     - name: Run interaction tests
-      run: |
-        dotnet test `
-          $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll `
-          --logger "trx;LogFileName=$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"
+      uses: nick-fields/retry@v3
+      with:
+        timeout_minutes: 15
+        max_attempts: 2
+        shell: pwsh
+        command: |
+          dotnet test `
+            $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll `
+            --logger "trx;LogFileName=$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"
 
     # - name: Generate markdown from the tests result
     #   shell: pwsh

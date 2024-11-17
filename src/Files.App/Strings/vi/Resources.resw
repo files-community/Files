@@ -126,6 +126,9 @@
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Sao chép đường dẫn kèm dấu ngoặc kép</value>
   </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>Sao chép đường dẫn khoản mục đã chọn kèm dấu ngoặc kép</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Duyệt tìm</value>
   </data>
@@ -249,6 +252,9 @@
   <data name="Paste" xml:space="preserve">
     <value>Dán</value>
   </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>Dán dưới dạng lối tắt</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Mới</value>
   </data>
@@ -291,8 +297,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Nhập tên khoản mục</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Đặt tên</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>Tạo {0} mới</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Sáng</value>
@@ -606,7 +612,7 @@
     <value>Tên khoản mục không hợp lệ</value>
   </data>
   <data name="RenameError.TooLong.Text" xml:space="preserve">
-    <value>Độ dài của tên khoản mục đã nhập vượt quá giới hạn tối đa. Vui lòng kiểm tra và thử lại.</value>
+    <value>Độ dài tên khoản mục đã nhập vượt quá giới hạn tối đa. Vui lòng kiểm tra và thử lại.</value>
   </data>
   <data name="RenameError.TooLong.Title" xml:space="preserve">
     <value>Tên khoản mục quá dài</value>
@@ -948,7 +954,7 @@
     <value>Chọn</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
-    <value>Mục thùng rác</value>
+    <value>Khoản mục thùng rác</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>Mục lối tắt</value>
@@ -1134,7 +1140,7 @@
     <value>Không xác định</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>Nếu bạn thay đổi phần mở rộng, tệp có thể không sử dụng được nữa. Bạn có chắc chắn muốn thay đổi phần mở rộng không?</value>
+    <value>Nếu bạn thay đổi phần mở rộng, tệp có thể không sử dụng được nữa. Bạn có chắc chắn muốn tiếp tục không?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>Ổ đĩa CD ROM</value>
@@ -1934,6 +1940,9 @@
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Đóng các thẻ khác</value>
   </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>Đóng tất cả các thẻ</value>
+  </data>
   <data name="Music" xml:space="preserve">
     <value>Nhạc</value>
   </data>
@@ -2040,7 +2049,7 @@
     <value>Làm phẳng</value>
   </data>
   <data name="FlattenFolderDialogContent" xml:space="preserve">
-    <value>Làm phẳng thư mục sẽ di chuyển tất cả nội dung từ thư mục con đến vị trí đã chọn. Thao tác có hiệu lực vĩnh viễn và không thể hoàn tác. Đây là tính năng thử nghiệm và bằng việc sử dụng, bạn đã hiểu các rủi ro và đồng ý miễn trừ trách nhiệm của đội ngũ Files khi xảy ra mất mát dữ liệu.</value>
+    <value>Tùy chọn này sẽ di chuyển tất cả nội dung từ thư mục con đến vị trí đã chọn. Thao tác có hiệu lực vĩnh viễn và không thể hoàn tác. Đây là tính năng thử nghiệm và bằng việc sử dụng, bạn đã hiểu các rủi ro và đồng ý miễn trừ trách nhiệm của đội ngũ Files khi xảy ra mất mát dữ liệu.</value>
   </data>
   <data name="ShowFlattenOptions" xml:space="preserve">
     <value>Hiện tùy chọn làm phẳng</value>
@@ -2393,6 +2402,12 @@
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Sao chép đường dẫn khoản mục đã chọn vào bộ nhớ tạm</value>
   </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
+    <value>Sao chép đường dẫn khoản mục đã chọn vào bộ nhớ tạm</value>
+  </data>
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
+    <value>Sao chép đường dẫn khoản mục đã chọn kèm dấu ngoặc kép vào bộ nhớ tạm</value>
+  </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
     <value>Sao chép đường dẫn khoản mục đã chọn kèm dấu ngoặc kép vào bộ nhớ tạm</value>
   </data>
@@ -2401,6 +2416,9 @@
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Dán khoản mục từ bộ nhớ tạm vào thư mục hiện tại</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>Dán khoản mục từ bộ nhớ tạm vào thư mục hiện tại dưới dạng lối tắt</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>Dán khoản mục từ bộ nhớ tạm vào thư mục đã chọn</value>
@@ -2475,7 +2493,7 @@
     <value>Đặt hình ảnh đã chọn làm hình nền màn hình chính</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
-    <value>Đặt hình ảnh đã chọn để trình chiếu trên màn hình chính</value>
+    <value>Dùng hình ảnh đã chọn để trình chiếu trên màn hình chính</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Đặt hình ảnh đã chọn làm hình nền màn hình khóa</value>
@@ -2680,6 +2698,9 @@
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Đóng các thẻ khác ngoài thẻ đã chọn</value>
+  </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>Đóng tất cả các thẻ bao gồm thẻ hiện tại</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Mở lại thẻ đã đóng</value>
@@ -3167,7 +3188,7 @@
     <value>Chạy git push</value>
   </data>
   <data name="GitSync" xml:space="preserve">
-    <value>Đồng bộ</value>
+    <value>Sync</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
     <value>Chạy git pull sau đó chạy git push</value>
@@ -3943,5 +3964,11 @@
   </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Thanh công cụ</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>ID người dùng</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Đổi tên hàng loạt</value>
   </data>
 </root>

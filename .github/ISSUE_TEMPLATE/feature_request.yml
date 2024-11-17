@@ -1,7 +1,15 @@
 name: Feature Request
-description: This project thrives from differentiation from competing apps. Suggest an idea for Files
-labels: [feature request]
+description: This project thrives from differentiation from competing apps. Suggest an idea for Files.
+type: 'Feature request'
+title: 'Feature: '
 body:
+
+  # Tip to warn of checking for existing issues
+  - type: markdown
+    attributes:
+      value: |
+        > [!TIP]
+        >Have you checked for similar feature requests? There's a possibility your suggestion is already being tracked. Please do a thorough search before creating a new issue.
 
   # Description
   - type: textarea
@@ -23,7 +31,7 @@ body:
   - type: textarea
     attributes:
       label: Requirements
-      description: Describe all the requirements to make your idea happen
+      description: Describe all the requirements to make your idea happen.
       value: |
         - This proposal will accomplish X
         - This proposal will accomplish Y
@@ -36,7 +44,7 @@ body:
     id: files_version
     attributes:
       label: Files Version
-      description: Which version of Files are you using? To copy your Files version, access it from Settings -> About -> Copy -> Files version
+      description: Which version of Files are you using? To copy your Files version, access it from Settings -> About -> Copy -> Files version.
       placeholder: 'e.g. 2.0.36.0'
     validations:
       required: true
@@ -46,7 +54,7 @@ body:
     id: windows_version
     attributes:
       label: Windows Version
-      description: Which version of Windows are you using? To copy your Windows version, access it from Settings -> About -> Copy -> Windows version
+      description: Which version of Windows are you using? To copy your Windows version, access it from Settings -> About -> Copy -> Windows version.
       placeholder: "e.g. 10.0.22621.1848"
     validations:
       required: true

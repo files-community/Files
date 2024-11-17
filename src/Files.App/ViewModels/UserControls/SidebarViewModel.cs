@@ -3,7 +3,6 @@
 
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.Sidebar;
-using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -12,13 +11,11 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 using System.IO;
 using System.Windows.Input;
-using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using Files.Core.Storage;
-using Files.Core.Storage.Extensions;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -261,7 +258,6 @@ namespace Files.App.ViewModels.UserControls
 			OpenInNewWindowCommand = new AsyncRelayCommand(OpenInNewWindowAsync);
 			OpenInNewPaneCommand = new AsyncRelayCommand(OpenInNewPaneAsync);
 			EjectDeviceCommand = new RelayCommand(EjectDevice);
-			FormatDriveCommand = new RelayCommand(FormatDrive);
 			OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
 			ReorderItemsCommand = new AsyncRelayCommand(ReorderItemsAsync);
 		}
@@ -842,8 +838,6 @@ namespace Files.App.ViewModels.UserControls
 
 		private ICommand EjectDeviceCommand { get; }
 
-		private ICommand FormatDriveCommand { get; }
-
 		private ICommand OpenPropertiesCommand { get; }
 
 		private ICommand ReorderItemsCommand { get; }
@@ -958,11 +952,6 @@ namespace Files.App.ViewModels.UserControls
 			DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
 		}
 
-		private void FormatDrive()
-		{
-			Win32Helper.OpenFormatDriveDialog(rightClickedItem.Path);
-		}
-
 		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)
 		{
 			var options = item.MenuOptions;
@@ -1047,13 +1036,6 @@ namespace Files.App.ViewModels.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "FormatDriveText".GetLocalizedResource(),
-					Command = FormatDriveCommand,
-					CommandParameter = item,
-					ShowItem = options.ShowFormatDrive
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
 					Text = "Properties".GetLocalizedResource(),
 					ThemedIconModel = new ThemedIconModel()
 					{
@@ -1066,9 +1048,13 @@ namespace Files.App.ViewModels.UserControls
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
-					ShowItem = Commands.OpenTerminalFromSidebar.IsExecutable
+					ShowItem = Commands.OpenTerminalFromSidebar.IsExecutable ||
+						Commands.OpenStorageSenseFromSidebar.IsExecutable ||
+						Commands.FormatDriveFromSidebar.IsExecutable
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenTerminalFromSidebar).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenStorageSenseFromSidebar).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.FormatDriveFromSidebar).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
@@ -1243,18 +1229,20 @@ namespace Files.App.ViewModels.UserControls
 
 			args.RawEvent.Handled = true;
 
-			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
+			// Comment out the code for dropping to Tags section as it is currently not supported.
 
-			if (!storageItems.Any())
-			{
-				args.RawEvent.AcceptedOperation = DataPackageOperation.None;
-			}
-			else
-			{
-				args.RawEvent.DragUIOverride.IsCaptionVisible = true;
-				args.RawEvent.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), tagItem.Text);
-				args.RawEvent.AcceptedOperation = DataPackageOperation.Link;
-			}
+			//var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
+
+			//if (!storageItems.Any())
+			//{
+			args.RawEvent.AcceptedOperation = DataPackageOperation.None;
+			//}
+			//else
+			//{
+			//	args.RawEvent.DragUIOverride.IsCaptionVisible = true;
+			//	args.RawEvent.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), tagItem.Text);
+			//	args.RawEvent.AcceptedOperation = DataPackageOperation.Link;
+			//}
 		}
 
 
@@ -1264,8 +1252,11 @@ namespace Files.App.ViewModels.UserControls
 				await HandleLocationItemDroppedAsync(locationItem, args);
 			else if (args.DropTarget is DriveItem driveItem)
 				await HandleDriveItemDroppedAsync(driveItem, args);
-			else if (args.DropTarget is FileTagItem fileTagItem)
-				await HandleTagItemDroppedAsync(fileTagItem, args);
+
+			// Comment out the code for dropping to Tags section as it is currently not supported.
+
+			//else if (args.DropTarget is FileTagItem fileTagItem)
+			//	await HandleTagItemDroppedAsync(fileTagItem, args);
 		}
 
 		private async Task HandleLocationItemDroppedAsync(LocationItem locationItem, ItemDroppedEventArgs args)
@@ -1293,6 +1284,7 @@ namespace Files.App.ViewModels.UserControls
 			return FilesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.RawEvent.DataView, driveItem.Path, false, true);
 		}
 
+		// TODO: This method effectively does nothing. We need to implement the functionality for dropping to Tags section.
 		private async Task HandleTagItemDroppedAsync(FileTagItem fileTagItem, ItemDroppedEventArgs args)
 		{
 			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);

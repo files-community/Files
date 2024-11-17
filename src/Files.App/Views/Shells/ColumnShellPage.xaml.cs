@@ -61,6 +61,10 @@ namespace Files.App.Views.Shells
 
 		protected override void OnNavigationParamsChanged()
 		{
+			if (ColumnParams.NavPathParam is not null)
+				// This method call is required to load the sorting preferences.
+				InstanceViewModel.FolderSettings.GetLayoutType(ColumnParams.NavPathParam);
+
 			ItemDisplayFrame.Navigate(
 				typeof(ColumnLayoutPage),
 				new NavigationArguments()
@@ -183,25 +187,5 @@ namespace Files.App.Views.Shells
 
 		public override Task WhenIsCurrent()
 			=> Task.WhenAll(_IsCurrentInstanceTCS.Task, this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.WhenIsCurrent() ?? Task.CompletedTask);
-
-		public void RemoveLastPageFromBackStack()
-		{
-			ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
-		}
-
-		public void SubmitSearch(string query)
-		{
-			ShellViewModel.CancelSearch();
-			InstanceViewModel.CurrentSearchQuery = query;
-			ItemDisplayFrame.Navigate(typeof(ColumnLayoutPage), new NavigationArguments()
-			{
-				AssociatedTabInstance = this,
-				IsSearchResultPage = true,
-				SearchPathParam = ShellViewModel.WorkingDirectory,
-				SearchQuery = query,
-			});
-
-			//this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(null, typeof(ColumnViewBase), navArgs);
-		}
 	}
 }

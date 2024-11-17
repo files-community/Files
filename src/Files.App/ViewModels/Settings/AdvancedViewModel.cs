@@ -7,6 +7,7 @@ using SevenZip;
 using System.IO;
 using System.Text;
 using System.Windows.Input;
+using Vanara.PInvoke;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -160,7 +161,9 @@ namespace Files.App.ViewModels.Settings
 		private async Task ImportSettingsAsync()
 		{
 			string[] extensions = ["ZipFileCapitalized".GetLocalizedResource(), "*.zip"];
-			CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
+			bool result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
+			if (!result)
+				return;
 
 			try
 			{
@@ -204,7 +207,9 @@ namespace Files.App.ViewModels.Settings
 		private async Task ExportSettingsAsync()
 		{
 			string[] extensions = ["ZipFileCapitalized".GetLocalizedResource(), "*.zip" ];
-			CommonDialogService.Open_FileSaveDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
+			bool result = CommonDialogService.Open_FileSaveDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
+			if (!result)
+				return;
 
 			if (!filePath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
 				filePath += ".zip";

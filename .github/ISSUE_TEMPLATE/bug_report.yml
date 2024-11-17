@@ -1,7 +1,15 @@
 name: Bug Report
-description: Create a bug report to help improve Files
-labels: [bug]
+description: Create a bug report to help improve Files.
+type: 'Bug'
+title: 'Bug: '
 body:
+
+  # Tip to warn of checking for existing issues
+  - type: markdown
+    attributes:
+      value: |
+        > [!TIP]
+        > Have you checked for similar issues? There's a possibility the bug you are experiencing has already been reported. Please do a thorough search before creating a new issue.
 
   # Description
   - type: textarea
@@ -23,22 +31,12 @@ body:
     validations:
       required: true
 
-  # Requirements
-  - type: textarea
-    attributes:
-      label: Requirements
-      description: describe the expected behavior (eg. Fix crash that occurs when...). If left blank, the issue will likely be closed without discussion.
-      value: |
-        - e.g. Fix crash that occurs when...
-    validations:
-      required: true
-
   # Files Version
   - type: input
     id: files_version
     attributes:
       label: Files Version
-      description: Which version of Files are you using? To copy your Files version, access it from Settings -> About -> Copy -> Files version
+      description: Which version of Files are you using? To copy your Files version, access it from Settings -> About -> Copy -> Files version.
       placeholder: "e.g. 2.0.34.0"
     validations:
       required: true
@@ -48,10 +46,29 @@ body:
     id: windows_version
     attributes:
       label: Windows Version
-      description: Which version of Windows are you using? To copy your Windows version, access it from Settings -> About -> Copy -> Windows version
+      description: Which version of Windows are you using? To copy your Windows version, access it from Settings -> About -> Copy -> Windows version.
       placeholder: "e.g. 10.0.22621.1848"
     validations:
       required: true
+
+  # User ID
+  - type: input
+    id: user_id
+    attributes:
+      label: User ID
+      description: Your User ID is a GUID that can be matched up with bug reports in Sentry. To copy your User ID, access it from Settings -> About -> Copy -> User ID.
+      placeholder: "74750836-5885-4eeb-964f-8177cb4babf6"
+    validations:
+      required: false
+
+  # Note that the user should always upload the report rather than pasting it.
+  - type: markdown
+    attributes:
+      value: |
+        > [!IMPORTANT]
+        > Please **upload** the log file by clicking "Attach files".
+        >
+        > Feel free to remove sensitive information such as your usernames or drive names.
 
   # Log File
   - type: textarea

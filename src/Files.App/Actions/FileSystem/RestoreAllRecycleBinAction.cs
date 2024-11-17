@@ -41,7 +41,7 @@ namespace Files.App.Actions
 			if (await confirmationDialog.TryShowAsync() is not ContentDialogResult.Primary)
 				return;
 
-			bool result = await Task.Run(StorageTrashBinService.RestoreAllTrashes);
+			bool result = await StorageTrashBinService.RestoreAllTrashesAsync();
 
 			// Show error dialog when failed
 			if (!result)

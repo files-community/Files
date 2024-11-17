@@ -138,9 +138,13 @@ namespace Files.App.Services
 					Logger?.LogWarning("SIDELOAD: Update not found.");
 				}
 			}
-			catch (Exception e)
+			catch (HttpRequestException ex)
 			{
-				Logger?.LogError(e, e.Message);
+				Logger?.LogDebug(ex, ex.Message);
+			}
+			catch (Exception ex)
+			{
+				Logger?.LogError(ex, ex.Message);
 			}
 		}
 
@@ -171,7 +175,7 @@ namespace Files.App.Services
 					await srcExeFile.CopyAsync(destFolder, "Files.App.Launcher.exe", NameCollisionOption.ReplaceExisting);
 					await srcHashFile.CopyAsync(destFolder, "Files.App.Launcher.exe.sha256", NameCollisionOption.ReplaceExisting);
 
-					App.Logger.LogInformation("Files.App.Launcher updated.");
+					Logger?.LogInformation("Files.App.Launcher updated.");
 				}
 			}
 
@@ -206,9 +210,13 @@ namespace Files.App.Services
 
 				IsUpdateAvailable = true;
 			}
-			catch (Exception e)
+			catch (IOException ex)
 			{
-				Logger?.LogError(e, e.Message);
+				Logger?.LogDebug(ex, ex.Message);
+			}
+			catch (Exception ex)
+			{
+				Logger?.LogError(ex, ex.Message);
 			}
 		}
 

@@ -3,6 +3,7 @@
 
 using System.Collections.Specialized;
 using System.Globalization;
+using Vanara.PInvoke;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -278,6 +279,20 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool ShowCreateAlternateDataStream
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowCreateAlternateDataStream;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowCreateAlternateDataStream)
+				{
+					UserSettingsService.GeneralSettingsService.ShowCreateAlternateDataStream = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public bool ShowCreateShortcut
 		{
 			get => UserSettingsService.GeneralSettingsService.ShowCreateShortcut;
@@ -322,7 +337,9 @@ namespace Files.App.ViewModels.Settings
 		{
 			if (string.IsNullOrWhiteSpace(path))
 			{
-				CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);
+				bool result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);
+				if (!result)
+					return;
 
 				path = filePath;
 			}

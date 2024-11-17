@@ -368,7 +368,6 @@ namespace Files.App.Data.Factories
 					ShowItem = !itemsSelected,
 					ShowInFtpPage = true
 				},
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.FormatDrive).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.EmptyRecycleBin)
 				{
 					IsVisible = currentInstanceViewModel.IsPageTypeRecycleBin && !itemsSelected,
@@ -459,7 +458,8 @@ namespace Files.App.Data.Factories
 					IsPrimary = true,
 					IsVisible = true,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.CopyPath)
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.PasteItemAsShortcut).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.CopyItemPath)
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowCopyPath
 						&& itemsSelected
@@ -475,6 +475,11 @@ namespace Files.App.Data.Factories
 						&& itemsSelected
 						&& (!selectedItems.FirstOrDefault()?.IsShortcut ?? false)
 						&& !currentInstanceViewModel.IsPageTypeRecycleBin,
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.CreateAlternateDataStream)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowCreateAlternateDataStream &&
+						Commands.CreateAlternateDataStream.IsExecutable,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.Rename)
 				{
@@ -592,12 +597,17 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
-					ShowItem = !itemsSelected && Commands.OpenTerminal.IsExecutable || areAllItemsFolders && Commands.OpenTerminal.IsExecutable
+					ShowItem = (!itemsSelected && Commands.OpenTerminal.IsExecutable) ||
+						(areAllItemsFolders && Commands.OpenTerminal.IsExecutable) ||
+						Commands.OpenStorageSense.IsExecutable ||
+						Commands.FormatDrive.IsExecutable
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenTerminal)
 				{
-					IsVisible = !itemsSelected && Commands.OpenTerminal.IsExecutable || areAllItemsFolders && Commands.OpenTerminal.IsExecutable
+					IsVisible = (!itemsSelected && Commands.OpenTerminal.IsExecutable) || (areAllItemsFolders && Commands.OpenTerminal.IsExecutable)
 				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenStorageSense).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.FormatDrive).Build(),
 				// Shell extensions are not available on the FTP server or in the archive,
 				// but following items are intentionally added because icons in the context menu will not appear
 				// unless there is at least one menu item with an icon that is not an ThemedIconModel. (#12943)

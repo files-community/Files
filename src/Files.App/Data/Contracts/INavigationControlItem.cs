@@ -54,8 +54,6 @@ namespace Files.App.Data.Contracts
 
 		public bool ShowEjectDevice { get; set; }
 
-		public bool ShowFormatDrive { get; set; }
-
 		public bool ShowShellItems { get; set; }
 	}
 }

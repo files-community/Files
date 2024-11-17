@@ -1,12 +1,12 @@
-﻿// Copyright (c) 2024 Files Community
+// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
-using Vanara.PInvoke;
-using static Vanara.PInvoke.User32;
+using Windows.Win32.Foundation;
+using Windows.Win32.System.Com;
 
 namespace Files.App.Helpers
 {
@@ -511,7 +511,7 @@ namespace Files.App.Helpers
 		);
 
 		[DllImport("shell32.dll")]
-		static extern int SHGetKnownFolderPath(
+		public static extern int SHGetKnownFolderPath(
 			[MarshalAs(UnmanagedType.LPStruct)] Guid rfid,
 			uint dwFlags,
 			IntPtr hToken,
@@ -520,14 +520,5 @@ namespace Files.App.Helpers
 
 		[DllImport("shell32.dll", EntryPoint = "SHUpdateRecycleBinIcon", CharSet = CharSet.Unicode, SetLastError = true)]
 		public static extern void SHUpdateRecycleBinIcon();
-
-		public static string GetFolderFromKnownFolderGUID(Guid guid)
-		{
-			IntPtr pPath;
-			SHGetKnownFolderPath(guid, 0, IntPtr.Zero, out pPath);
-			string path = Marshal.PtrToStringUni(pPath);
-			System.Runtime.InteropServices.Marshal.FreeCoTaskMem(pPath);
-			return path;
-		}
 	}
 }

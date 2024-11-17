@@ -75,7 +75,7 @@ namespace Files.App.UserControls.Sidebar
 				border.DragOver += ItemBorder_DragOver;
 				border.Drop += ItemBorder_Drop;
 				border.AllowDrop = true;
-				border.IsTabStop = true;
+				border.IsTabStop = false;
 			}
 
 			if (GetTemplateChild("ChildrenPresenter") is ItemsRepeater repeater)
@@ -433,11 +433,7 @@ namespace Files.App.UserControls.Sidebar
 		{
 			UpdatePointerState();
 			if (Owner is not null)
-			{
-				var deferral = e.GetDeferral();
 				await Owner.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
-				deferral.Complete();
-			}
 		}
 
 		private SidebarItemDropPosition DetermineDropTargetPosition(DragEventArgs args)

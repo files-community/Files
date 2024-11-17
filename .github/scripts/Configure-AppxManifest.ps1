@@ -20,6 +20,7 @@ if ($Branch -eq "Preview")
     $xmlDoc.Package.Identity.Name="FilesPreview"
     $xmlDoc.Package.Properties.DisplayName="Files - Preview"
     $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files - Preview"
+    $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="Files - Preview"
     $xmlDoc.Save($PackageManifestPath)
 
     Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach-Object -Process `
@@ -34,6 +35,7 @@ elseif ($Branch -eq "Stable")
     $xmlDoc.Package.Identity.Name="Files"
     $xmlDoc.Package.Properties.DisplayName="Files"
     $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
+    $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="Files"
     $xmlDoc.Save($PackageManifestPath)
 
     Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach-Object -Process `
@@ -46,8 +48,9 @@ elseif ($Branch -eq "Store")
 {
     # Set identities
     $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
-    $xmlDoc.Package.Properties.DisplayName="Files"
+    $xmlDoc.Package.Properties.DisplayName="Files App"
     $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files"
+    $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="Files"
 
     # Remove an capability that is used for the sideload
     $nsmgr = New-Object System.Xml.XmlNamespaceManager($xmlDoc.NameTable)

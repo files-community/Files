@@ -81,10 +81,7 @@
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
 
-				<TextBox
-					x:Name="PickedDllFilePathTextBox"
-					IsReadOnly="True"
-					Text="{x:Bind CustomizationViewModel.IconResourceItemPath, Mode=OneWay}" />
+				<TextBox x:Name="PickedDllFilePathTextBox" Text="{x:Bind CustomizationViewModel.IconResourceItemPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
 				<Button
 					x:Name="PickDllFileButton"

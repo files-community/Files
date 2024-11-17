@@ -12,18 +12,5 @@ namespace Files.App.UITests.Views
 		{
 			InitializeComponent();
 		}
-
-		void ButtonTestEnabledStates_Click(object sender, RoutedEventArgs e)
-		{
-			if (AppBarButtonDisable.IsEnabled)
-				AppBarButtonDisable.IsEnabled = false;
-			else if (!AppBarButtonDisable.IsEnabled)
-				AppBarButtonDisable.IsEnabled = true;
-
-			if (AppBarButtonDisable2.IsEnabled)
-				AppBarButtonDisable2.IsEnabled = false;
-			else if (!AppBarButtonDisable2.IsEnabled)
-				AppBarButtonDisable2.IsEnabled = true;
-		}
 	}
 }

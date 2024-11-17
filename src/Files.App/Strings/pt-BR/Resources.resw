@@ -126,6 +126,9 @@
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Copiar caminho entre aspas</value>
   </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>Copiar caminho do item selecionado com aspas</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Navegar</value>
   </data>
@@ -249,6 +252,9 @@
   <data name="Paste" xml:space="preserve">
     <value>Colar</value>
   </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>Colar atalho</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Novo</value>
   </data>
@@ -291,8 +297,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Insira o nome do item</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Defina um nome</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>Criar novo {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Claro</value>
@@ -1934,6 +1940,9 @@
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Fechar demais guias</value>
   </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>Fechar todas as abas</value>
+  </data>
   <data name="Music" xml:space="preserve">
     <value>Música</value>
   </data>
@@ -2393,6 +2402,12 @@
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Copiar o caminho dos itens selecionados para a área de transferência</value>
   </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
+    <value>Copiar caminho dos itens selecionados para a área de transferência</value>
+  </data>
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
+    <value>Copiar caminho dos itens selecionados com aspas para a área de transferência</value>
+  </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
     <value>Copiar o caminho dos itens selecionados com cotas para a área de transferência</value>
   </data>
@@ -2401,6 +2416,9 @@
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Colar item(s) da área de transferência para a pasta atual</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>Colar itens da área de transferência na pasta atual como atalhos</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>Colar item(s) da área de transferência para a pasta selecionada</value>
@@ -2680,6 +2698,9 @@
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Fechar abas diferentes da aba selecionada</value>
+  </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>Fechar todas as abas, incluindo a aba atual</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Reabrir última aba fechada</value>
@@ -3943,5 +3964,11 @@
   </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Barras de ferramentas</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>ID do usuário</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Renomear em massa</value>
   </data>
 </root>
