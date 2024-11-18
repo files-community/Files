@@ -12,6 +12,7 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Helpers
 {
+	// TODO: Replaced by RealTime Resources in the future
 	/// <summary>
 	/// Provides static helper to manage supported languages in the application.
 	/// </summary>
@@ -113,6 +114,7 @@ namespace Files.App.Helpers
 			return true;
 		}
 
+		// TODO: Replaced by RealTime Resources in the future
 		/// <summary>
 		/// Updates the title bar layout of the specified window based on the current culture.
 		/// </summary>
@@ -140,11 +142,13 @@ namespace Files.App.Helpers
 			return true;
 		}
 
+		// TODO: Replaced by RealTime Resources in the future
 		public static void UpdateContextLayout(FrameworkElement element)
 		{
 			element.FlowDirection = PreferredCulture.TextInfo.IsRightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
 		}
 
+		// TODO: Replaced by RealTime Resources in the future
 		public static bool SetCultureLayout(Window window)
 		{
 			var res = UpdateTitleBar(window);
