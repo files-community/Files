@@ -551,7 +551,7 @@ namespace Files.App.ViewModels.UserControls
 						{
 							break;
 						}
-						section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsTagsHeader = true, ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FileTagsIcon));
 						section.IsHeader = true;
 						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsFileTagsSectionExpanded;
@@ -1070,6 +1070,14 @@ namespace Files.App.ViewModels.UserControls
 					Tag = "ItemOverflow",
 					IsEnabled = false,
 					IsHidden = !options.ShowShellItems,
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "ManageTags".GetLocalizedResource(),
+					Glyph = "\uE8EC",
+					Command = Commands.OpenSettings,
+					CommandParameter = new SettingsNavigationParams() { PageKind = SettingsPageKind.TagsPage },
+					ShowItem = options.IsTagsHeader
 				}
 			}.Where(x => x.ShowItem).ToList();
 		}
