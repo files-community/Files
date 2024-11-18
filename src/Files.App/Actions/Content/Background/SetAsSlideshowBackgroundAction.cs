@@ -1,6 +1,8 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.Extensions.Logging;
+
 namespace Files.App.Actions
 {
 	internal sealed class SetAsSlideshowBackgroundAction : BaseSetAsAction
@@ -18,11 +20,14 @@ namespace Files.App.Actions
 
 		public override bool IsExecutable =>
 			base.IsExecutable &&
-			context.SelectedItems.Count > 1;
+			ContentPageContext.SelectedItems.Count > 1;
 
 		public override Task ExecuteAsync(object? parameter = null)
 		{
-			var paths = context.SelectedItems.Select(item => item.ItemPath).ToArray();
+			if (ContentPageContext.SelectedItems.Count <= 1)
+				return Task.CompletedTask;
+
+			var paths = ContentPageContext.SelectedItems.Select(item => item.ItemPath).ToArray();
 
 			try
 			{
@@ -31,6 +36,7 @@ namespace Files.App.Actions
 			catch (Exception ex)
 			{
 				ShowErrorDialog(ex.Message);
+				App.Logger.LogWarning(ex, ex.Message);
 			}
 
 			return Task.CompletedTask;
