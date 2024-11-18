@@ -130,7 +130,8 @@ namespace Files.App.UserControls.Sidebar
 
 		private void SidebarResizer_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
 		{
-			var newWidth = preManipulationSidebarWidth + e.Cumulative.Translation.X;
+			var rePos = AppLanguageHelper.FlowDirection == FlowDirection.LeftToRight ? 1 : -1;
+			var newWidth = preManipulationSidebarWidth + (e.Cumulative.Translation.X * rePos);
 			UpdateDisplayModeForPaneWidth(newWidth);
 			e.Handled = true;
 		}
@@ -159,11 +160,13 @@ namespace Files.App.UserControls.Sidebar
 				var ctrl = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control);
 				var increment = ctrl.HasFlag(CoreVirtualKeyStates.Down) ? 5 : 1;
 
+				var rePos = AppLanguageHelper.FlowDirection == FlowDirection.LeftToRight ? 1 : -1;
+
 				// Left makes the pane smaller so we invert the increment
 				if (e.Key == VirtualKey.Left)
 					increment = -increment;
 
-				var newWidth = OpenPaneLength + increment;
+				var newWidth = OpenPaneLength + (increment * rePos);
 				UpdateDisplayModeForPaneWidth(newWidth);
 				e.Handled = true;
 				return;
