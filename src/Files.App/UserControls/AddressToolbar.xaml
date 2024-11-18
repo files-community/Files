@@ -263,63 +263,68 @@
 					</AnimatedIcon>
 				</ToggleButton>
 
-				<Button
-					x:Name="Back"
-					AccessKey="B"
-					AccessKeyInvoked="Button_AccessKeyInvoked"
-					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateBack.Description, Mode=OneWay}"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateBack.Label, Mode=OneWay}"
-					Command="{x:Bind ViewModel.Commands.NavigateBack, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.Commands.NavigateBack.IsExecutable, Mode=OneWay}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
-					<Button.ContextFlyout>
-						<MenuFlyout
-							x:Name="BackHistoryFlyout"
-							Opening="BackHistoryFlyout_Opening"
-							Placement="BottomEdgeAlignedLeft"
-							ScrollViewer.VerticalScrollBarVisibility="Auto"
-							ScrollViewer.VerticalScrollMode="Auto">
-							<MenuFlyout.MenuFlyoutPresenterStyle>
-								<Style TargetType="MenuFlyoutPresenter">
-									<Setter Property="MaxHeight" Value="400" />
-									<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
-									<Setter Target="HighContrastAdjustment" Value="None" />
-								</Style>
-							</MenuFlyout.MenuFlyoutPresenterStyle>
-						</MenuFlyout>
-					</Button.ContextFlyout>
-				</Button>
+				<StackPanel
+					Orientation="Horizontal"
+					x:Name="NavigationButtons"
+					FlowDirection="{Binding Path=FlowDirection, ElementName=Root}">
+					<Button
+						x:Name="Back"
+						AccessKey="B"
+						AccessKeyInvoked="Button_AccessKeyInvoked"
+						AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateBack.Description, Mode=OneWay}"
+						AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateBack.Label, Mode=OneWay}"
+						Command="{x:Bind ViewModel.Commands.NavigateBack, Mode=OneWay}"
+						IsEnabled="{x:Bind ViewModel.Commands.NavigateBack.IsExecutable, Mode=OneWay}"
+						Style="{StaticResource AddressToolbarButtonStyle}"
+						ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
+						<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
+						<Button.ContextFlyout>
+							<MenuFlyout
+								x:Name="BackHistoryFlyout"
+								Opening="BackHistoryFlyout_Opening"
+								Placement="BottomEdgeAlignedLeft"
+								ScrollViewer.VerticalScrollBarVisibility="Auto"
+								ScrollViewer.VerticalScrollMode="Auto">
+								<MenuFlyout.MenuFlyoutPresenterStyle>
+									<Style TargetType="MenuFlyoutPresenter">
+										<Setter Property="MaxHeight" Value="400" />
+										<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
+										<Setter Target="HighContrastAdjustment" Value="None" />
+									</Style>
+								</MenuFlyout.MenuFlyoutPresenterStyle>
+							</MenuFlyout>
+						</Button.ContextFlyout>
+					</Button>
 
-				<Button
-					x:Name="Forward"
-					AccessKey="F"
-					AccessKeyInvoked="Button_AccessKeyInvoked"
-					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateForward.Description, Mode=OneWay}"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateForward.Label, Mode=OneWay}"
-					Command="{x:Bind ViewModel.Commands.NavigateForward, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.Commands.NavigateForward.IsExecutable, Mode=OneWay}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
-					<Button.ContextFlyout>
-						<MenuFlyout
-							x:Name="ForwardHistoryFlyout"
-							Opening="ForwardHistoryFlyout_Opening"
-							Placement="BottomEdgeAlignedLeft"
-							ScrollViewer.VerticalScrollBarVisibility="Auto"
-							ScrollViewer.VerticalScrollMode="Auto">
-							<MenuFlyout.MenuFlyoutPresenterStyle>
-								<Style TargetType="MenuFlyoutPresenter">
-									<Setter Property="MaxHeight" Value="400" />
-									<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
-									<Setter Target="HighContrastAdjustment" Value="None" />
-								</Style>
-							</MenuFlyout.MenuFlyoutPresenterStyle>
-						</MenuFlyout>
-					</Button.ContextFlyout>
-				</Button>
+					<Button
+						x:Name="Forward"
+						AccessKey="F"
+						AccessKeyInvoked="Button_AccessKeyInvoked"
+						AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateForward.Description, Mode=OneWay}"
+						AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateForward.Label, Mode=OneWay}"
+						Command="{x:Bind ViewModel.Commands.NavigateForward, Mode=OneWay}"
+						IsEnabled="{x:Bind ViewModel.Commands.NavigateForward.IsExecutable, Mode=OneWay}"
+						Style="{StaticResource AddressToolbarButtonStyle}"
+						ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
+						<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
+						<Button.ContextFlyout>
+							<MenuFlyout
+								x:Name="ForwardHistoryFlyout"
+								Opening="ForwardHistoryFlyout_Opening"
+								Placement="BottomEdgeAlignedLeft"
+								ScrollViewer.VerticalScrollBarVisibility="Auto"
+								ScrollViewer.VerticalScrollMode="Auto">
+								<MenuFlyout.MenuFlyoutPresenterStyle>
+									<Style TargetType="MenuFlyoutPresenter">
+										<Setter Property="MaxHeight" Value="400" />
+										<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
+										<Setter Target="HighContrastAdjustment" Value="None" />
+									</Style>
+								</MenuFlyout.MenuFlyoutPresenterStyle>
+							</MenuFlyout>
+						</Button.ContextFlyout>
+					</Button>
+				</StackPanel>
 
 				<Button
 					x:Name="Up"
@@ -689,6 +694,20 @@
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="StatusInfoBadge.Style" Value="{StaticResource CriticalIconInfoBadgeStyle}" />
+					</VisualState.Setters>
+				</VisualState>
+				<!-- FlowDirection LeftToRight -->
+				<VisualState x:Name="LTR">
+					<VisualState.Setters>
+						<Setter Target="NavigationButtons.Children[0]" Value="Back" />
+						<Setter Target="NavigationButtons.Children[1]" Value="Forward" />
+					</VisualState.Setters>
+				</VisualState>
+				<!-- FlowDirection RightToLeft -->
+				<VisualState x:Name="RTL">
+					<VisualState.Setters>
+						<Setter Target="NavigationButtons.Children[0]" Value="Forward" />
+						<Setter Target="NavigationButtons.Children[1]" Value="Back" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
