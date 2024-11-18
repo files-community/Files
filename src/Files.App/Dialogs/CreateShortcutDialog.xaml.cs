@@ -29,6 +29,7 @@ namespace Files.App.Dialogs
 			{
 				Source = ShortcutTarget
 			});
+			AppLanguageHelper.UpdateContextLayout(this);
 		}
 
 		private void CreateShortcutDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)

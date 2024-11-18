@@ -23,6 +23,7 @@ namespace Files.App.Dialogs
 			InitializeComponent();
 
 			MainWindow.Instance.SizeChanged += Current_SizeChanged;
+			AppLanguageHelper.UpdateContextLayout(this);
 			UpdateDialogLayout();
 		}
 

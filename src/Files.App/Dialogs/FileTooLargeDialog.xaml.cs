@@ -20,6 +20,7 @@ namespace Files.App.Dialogs
 		public FileTooLargeDialog()
 		{
 			InitializeComponent();
+			AppLanguageHelper.UpdateContextLayout(this);
 		}
 
 		public new async Task<DialogResult> ShowAsync()

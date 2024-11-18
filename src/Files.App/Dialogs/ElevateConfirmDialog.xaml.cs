@@ -23,6 +23,7 @@ namespace Files.App.Dialogs
 		public ElevateConfirmDialog()
 		{
 			InitializeComponent();
+			AppLanguageHelper.UpdateContextLayout(this);
 		}
 
 		public new async Task<DialogResult> ShowAsync()

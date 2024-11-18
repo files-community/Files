@@ -19,6 +19,7 @@ namespace Files.App.Dialogs
 		public BulkRenameDialog()
 		{
 			InitializeComponent();
+			AppLanguageHelper.UpdateContextLayout(this);
 		}
 
 		public new async Task<DialogResult> ShowAsync()

@@ -29,6 +29,7 @@ namespace Files.App.Dialogs
 		public ReorderSidebarItemsDialog()
 		{
 			InitializeComponent();
+			AppLanguageHelper.UpdateContextLayout(this);
 		}
 
 		private async void MoveItemAsync(object sender, PointerRoutedEventArgs e)

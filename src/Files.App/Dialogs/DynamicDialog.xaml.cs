@@ -34,6 +34,7 @@ namespace Files.App.Dialogs
 
 			dynamicDialogViewModel.HideDialog = Hide;
 			ViewModel = dynamicDialogViewModel;
+			AppLanguageHelper.UpdateContextLayout(this);
 		}
 
 		private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

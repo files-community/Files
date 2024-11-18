@@ -65,6 +65,8 @@ namespace Files.App.Views.Properties
 			UpdatePageLayout();
 			Window.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 			Window.AppWindow.Changed += AppWindow_Changed;
+
+			AppLanguageHelper.SetCultureLayout(Window);
 		}
 
 		private int SetTitleBarDragRegion(InputNonClientPointerSource source, SizeInt32 size, double scaleFactor, Func<UIElement, RectInt32?, RectInt32> getScaledRect)

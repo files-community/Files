@@ -22,6 +22,7 @@ namespace Files.App.Dialogs
 		public DecompressArchiveDialog()
 		{
 			InitializeComponent();
+			AppLanguageHelper.UpdateContextLayout(this);
 		}
 
 		private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

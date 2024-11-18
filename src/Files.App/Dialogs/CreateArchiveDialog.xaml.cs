@@ -65,6 +65,7 @@ namespace Files.App.Dialogs
 			InitializeComponent();
 
 			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+			AppLanguageHelper.UpdateContextLayout(this);
 		}
 
 		public new Task<ContentDialogResult> ShowAsync()

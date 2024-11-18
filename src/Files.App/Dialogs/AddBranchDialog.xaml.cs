@@ -21,6 +21,7 @@ namespace Files.App.Dialogs
 		public AddBranchDialog()
 		{
 			InitializeComponent();
+			AppLanguageHelper.UpdateContextLayout(this);
 		}
 
 		public new async Task<DialogResult> ShowAsync() => (DialogResult)await base.ShowAsync();

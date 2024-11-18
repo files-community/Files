@@ -24,6 +24,7 @@ namespace Files.App.Dialogs
 		public AddItemDialog()
 		{
 			InitializeComponent();
+			AppLanguageHelper.UpdateContextLayout(this);
 		}
 
 		public new async Task<DialogResult> ShowAsync()
