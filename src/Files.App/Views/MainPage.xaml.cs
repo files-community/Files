@@ -139,7 +139,7 @@ namespace Files.App.Views
 		{
 			var height = (int)TabControl.ActualHeight;
 
-			var x = AppLanguageHelper.FlowDirection == FlowDirection.LeftToRight ? 0 : (int)TabControl.DragArea.ActualWidth;
+			var x = AppLanguageHelper.FlowDirection == FlowDirection.LeftToRight ? 0 : (int)TabControl.ActualWidth;
 			var width = (int)(TabControl.ActualWidth + TabControl.Margin.Left - TabControl.DragArea.ActualWidth);
 
 			source.SetRegionRects(NonClientRegionKind.Passthrough, [getScaledRect(this, new RectInt32(x, 0, width, height))]);
