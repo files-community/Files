@@ -1076,7 +1076,7 @@ namespace Files.App.ViewModels.UserControls
 					Text = "ManageTags".GetLocalizedResource(),
 					Glyph = "\uE8EC",
 					Command = Commands.OpenSettings,
-					CommandParameter = new SettingsDialogNavigationParams() { PageKind = SettingsPageKind.TagsPage },
+					CommandParameter = new SettingsNavigationParams() { PageKind = SettingsPageKind.TagsPage },
 					ShowItem = options.IsTagsHeader
 				}
 			}.Where(x => x.ShowItem).ToList();

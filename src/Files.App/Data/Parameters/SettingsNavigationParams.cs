@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Parameters
 {
-	public sealed class SettingsDialogNavigationParams
+	public sealed class SettingsNavigationParams
 	{
 		public SettingsPageKind PageKind { get; set; }
 	}

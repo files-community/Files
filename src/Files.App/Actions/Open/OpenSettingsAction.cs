@@ -23,7 +23,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			var dialog = dialogService.GetDialog(viewModel);
-			if (parameter is not null && parameter is SettingsDialogNavigationParams navParams)
+			if (parameter is not null && parameter is SettingsNavigationParams navParams)
 				((SettingsDialog)dialog).NavigateTo(navParams);
 
 			return dialog.TryShowAsync();

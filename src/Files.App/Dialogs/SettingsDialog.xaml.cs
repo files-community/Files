@@ -28,7 +28,7 @@ namespace Files.App.Dialogs
 			return (DialogResult)await base.ShowAsync();
 		}
 
-		public void NavigateTo(SettingsDialogNavigationParams navParams)
+		public void NavigateTo(SettingsNavigationParams navParams)
 		{
 			var defaultTag = SettingsPageKind.AppearancePage.ToString();
 			var oldSelection = MainSettingsNavigationView.MenuItems.FirstOrDefault(item => ((NavigationViewItem)item).IsSelected) as NavigationViewItem;
