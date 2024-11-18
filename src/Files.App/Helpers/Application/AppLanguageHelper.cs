@@ -36,6 +36,8 @@ namespace Files.App.Helpers
 
 		public static CultureInfo PreferredCulture => new(PreferredLanguage.Code);
 
+		public static FlowDirection FlowDirection => PreferredCulture.TextInfo.IsRightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+
 		/// <summary>
 		/// Initializes the <see cref="AppLanguageHelper"/> class.
 		/// </summary>
@@ -145,7 +147,7 @@ namespace Files.App.Helpers
 		// TODO: Replaced by RealTime Resources in the future
 		public static void UpdateContextLayout(FrameworkElement element)
 		{
-			element.FlowDirection = PreferredCulture.TextInfo.IsRightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+			element.FlowDirection = FlowDirection;
 		}
 
 		// TODO: Replaced by RealTime Resources in the future

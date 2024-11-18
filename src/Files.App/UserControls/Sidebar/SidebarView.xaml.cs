@@ -130,7 +130,8 @@ namespace Files.App.UserControls.Sidebar
 
 		private void SidebarResizer_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
 		{
-			var newWidth = preManipulationSidebarWidth + e.Cumulative.Translation.X;
+			var rePos = AppLanguageHelper.FlowDirection == FlowDirection.LeftToRight ? 1 : -1;
+			var newWidth = preManipulationSidebarWidth + (e.Cumulative.Translation.X * rePos);
 			UpdateDisplayModeForPaneWidth(newWidth);
 			e.Handled = true;
 		}
