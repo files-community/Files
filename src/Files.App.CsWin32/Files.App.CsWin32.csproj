@@ -6,6 +6,7 @@
         <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
         <Nullable>enable</Nullable>
         <IsTrimmable>true</IsTrimmable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <LangVersion>13.0</LangVersion>
         <Configurations>Debug;Release;Stable;Preview;Store</Configurations>
         <Platforms>x86;x64;arm64</Platforms>
