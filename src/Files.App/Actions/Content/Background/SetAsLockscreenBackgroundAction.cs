@@ -24,9 +24,6 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync(object? parameter = null)
 		{
-			if (ContentPageContext.SelectedItem is null)
-				return Task.CompletedTask;
-
 			try
 			{
 				return WindowsWallpaperService.SetLockScreenWallpaper(ContentPageContext.SelectedItem.ItemPath);

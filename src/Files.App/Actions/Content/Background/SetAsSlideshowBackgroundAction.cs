@@ -24,13 +24,9 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync(object? parameter = null)
 		{
-			if (ContentPageContext.SelectedItems.Count <= 1)
-				return Task.CompletedTask;
-
-			var paths = ContentPageContext.SelectedItems.Select(item => item.ItemPath).ToArray();
-
 			try
 			{
+				var paths = ContentPageContext.SelectedItems.Select(item => item.ItemPath).ToArray();
 				WindowsWallpaperService.SetDesktopSlideshow(paths);
 			}
 			catch (Exception ex)

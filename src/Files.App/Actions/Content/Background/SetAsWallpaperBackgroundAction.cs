@@ -22,9 +22,6 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync(object? parameter = null)
 		{
-			if (ContentPageContext.SelectedItem is null)
-				return Task.CompletedTask;
-
 			try
 			{
 				WindowsWallpaperService.SetDesktopWallpaper(ContentPageContext.SelectedItem.ItemPath);
