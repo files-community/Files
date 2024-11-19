@@ -63,11 +63,10 @@ namespace Files.App.Services
 				(void**)pDesktopWallpaper.GetAddressOf())
 			.ThrowOnFailure();
 
-			uint dwCount = (uint)aszPaths.Length;
-			ITEMIDLIST** ppItemIdList = stackalloc ITEMIDLIST*[dwCount];
+			ITEMIDLIST** ppItemIdList = stackalloc ITEMIDLIST*[aszPaths.Length];
 
 			// Get array of PIDL from the selected image files
-			for (uint dwIndex = 0u; dwIndex < dwCount; dwIndex++)
+			for (uint dwIndex = 0u; dwIndex < (uint)aszPaths.Length; dwIndex++)
 				ppItemIdList[dwIndex] = PInvoke.ILCreateFromPath(aszPaths[dwIndex]);
 
 			// Get a shell array of the array of the PIDL
@@ -78,8 +77,8 @@ namespace Files.App.Services
 			hr = pDesktopWallpaper.Get()->SetSlideshow(pShellItemArray.Get()).ThrowOnFailure();
 
 			// Free the allocated PIDL
-			for (uint dwIndex = 0u; dwIndex < dwCount; dwIndex++)
-				ILFree(ppItemIdList[dwIndex]);
+			for (uint dwIndex = 0u; dwIndex < (uint)aszPaths.Length; dwIndex++)
+				PInvoke.ILFree(ppItemIdList[dwIndex]);
 
 			// Set wallpaper position to fill the monitor.
 			hr = pDesktopWallpaper.Get()->SetPosition(DESKTOP_WALLPAPER_POSITION.DWPOS_FILL).ThrowOnFailure();
