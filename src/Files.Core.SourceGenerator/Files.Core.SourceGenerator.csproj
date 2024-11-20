@@ -23,7 +23,7 @@
         <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
         <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.11.0" PrivateAssets="all" />
         <PackageReference Include="PolySharp" Version="1.14.1" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
-        <PackageReference Include="System.Text.Json" Version="8.0.5" PrivateAssets="all" />
+        <PackageReference Include="System.Text.Json" Version="9.0.0" PrivateAssets="all" />
     </ItemGroup>
 
 </Project>
