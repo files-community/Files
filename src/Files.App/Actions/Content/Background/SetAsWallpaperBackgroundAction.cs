@@ -23,7 +23,7 @@ namespace Files.App.Actions
 		public override Task ExecuteAsync(object? parameter = null)
 		{
 			if (!IsExecutable || ContentPageContext.SelectedItem is not ListedItem selectedItem)
-				return false;
+				return Task.CompletedTask;
 
 			try
 			{
