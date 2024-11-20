@@ -24,6 +24,9 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync(object? parameter = null)
 		{
+			if (!IsExecutable)
+				return false;
+
 			try
 			{
 				var paths = ContentPageContext.SelectedItems.Select(item => item.ItemPath).ToArray();
@@ -32,7 +35,6 @@ namespace Files.App.Actions
 			catch (Exception ex)
 			{
 				ShowErrorDialog(ex.Message);
-				App.Logger.LogWarning(ex, ex.Message);
 			}
 
 			return Task.CompletedTask;

@@ -24,14 +24,16 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync(object? parameter = null)
 		{
+			if (!IsExecutable || ContentPageContext.SelectedItem is not ListedItem selectedItem)
+				return false;
+
 			try
 			{
-				return WindowsWallpaperService.SetLockScreenWallpaper(ContentPageContext.SelectedItem.ItemPath);
+				return WindowsWallpaperService.SetLockScreenWallpaper(selectedItem.ItemPath);
 			}
 			catch (Exception ex)
 			{
 				ShowErrorDialog(ex.Message);
-				App.Logger.LogWarning(ex, ex.Message);
 
 				return Task.CompletedTask;
 			}

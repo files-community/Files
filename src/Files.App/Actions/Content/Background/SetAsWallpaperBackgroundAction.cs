@@ -22,14 +22,16 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync(object? parameter = null)
 		{
+			if (!IsExecutable || ContentPageContext.SelectedItem is not ListedItem selectedItem)
+				return false;
+
 			try
 			{
-				WindowsWallpaperService.SetDesktopWallpaper(ContentPageContext.SelectedItem.ItemPath);
+				WindowsWallpaperService.SetDesktopWallpaper(selectedItem.ItemPath);
 			}
 			catch (Exception ex)
 			{
 				ShowErrorDialog(ex.Message);
-				App.Logger.LogWarning(ex, ex.Message);
 			}
 
 			return Task.CompletedTask;
