@@ -31,7 +31,7 @@
         },
         "allowTargetFutureDeviceFamilies": {
             "Xbox": false,
-            "Team": false,    // Surface Hub
+            "Team": false,
             "Holographic": false,
             "Desktop": false,
             "Mobile": false
