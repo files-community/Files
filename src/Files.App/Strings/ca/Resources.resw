@@ -4002,6 +4002,6 @@
     <value>Voleu mostrar fluxos de dades alternatius? Podeu modificar aquesta configuració en qualsevol moment des de la pàgina de configuració de fitxers i carpetes.</value>
   </data>
   <data name="ManageTags" xml:space="preserve">
-    <value>Manage tags</value>
+    <value>Gestiona les etiquetes</value>
   </data>
 </root>
