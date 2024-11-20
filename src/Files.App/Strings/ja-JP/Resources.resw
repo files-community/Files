@@ -4002,6 +4002,6 @@
     <value>代替データ ストリームを表示しますか? ファイルとフォルダーの設定ページからいつでもこの設定を変更できます。</value>
   </data>
   <data name="ManageTags" xml:space="preserve">
-    <value>Manage tags</value>
+    <value>タグの管理</value>
   </data>
 </root>

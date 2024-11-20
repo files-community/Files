@@ -4002,6 +4002,6 @@
     <value>Você gostaria de exibir fluxos de dados alternativos? Você pode modificar essa configuração a qualquer momento a partir das configurações de pastas e arquivos.</value>
   </data>
   <data name="ManageTags" xml:space="preserve">
-    <value>Manage tags</value>
+    <value>Gerenciar tags</value>
   </data>
 </root>
