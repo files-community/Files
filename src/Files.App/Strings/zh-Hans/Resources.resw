@@ -1245,10 +1245,10 @@
     <value>打开存储感知</value>
   </data>
   <data name="OpenStorageSenseDescription" xml:space="preserve">
-    <value>Open the Storage Sense page in Windows Settings</value>
+    <value>打开 Windows 设置中的“存储感知”页面</value>
   </data>
   <data name="Cleanup" xml:space="preserve">
-    <value>Cleanup</value>
+    <value>清理</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>复制</value>
@@ -2280,7 +2280,7 @@
     <value>显示隐藏的项目</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>格式</value>
+    <value>格式化</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>帮助</value>
@@ -4002,6 +4002,6 @@
     <value>是否显示备用数据流 (Alternate Data Stream)？可随时从文件和文件夹设置页面修改此设置。</value>
   </data>
   <data name="ManageTags" xml:space="preserve">
-    <value>Manage tags</value>
+    <value>管理标签</value>
   </data>
 </root>
