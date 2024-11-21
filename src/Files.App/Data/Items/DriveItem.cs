@@ -50,7 +50,7 @@ namespace Files.App.Data.Items
 			=> Type == DriveType.Network;
 
 		public bool IsPinned
-			=> QuickAccessService.PinnedFolders.ToList().FirstOrDefault(x => x.Path == path) is not null;
+			=> QuickAccessService.IsPinned(path);
 
 		public string MaxSpaceText
 			=> MaxSpace.ToSizeString();

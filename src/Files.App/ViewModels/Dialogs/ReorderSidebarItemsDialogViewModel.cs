@@ -18,7 +18,7 @@ namespace Files.App.ViewModels.Dialogs
 		{
 			PrimaryButtonCommand = new RelayCommand(SaveChanges);
 
-			SidebarPinnedFolderItems = new(QuickAccessService.PinnedFolders
+			SidebarPinnedFolderItems = new(QuickAccessService.QuickAccessFolders
 				.Where(x => x is LocationItem loc && loc.Section is SectionType.Pinned && !loc.IsHeader)
 				.Cast<LocationItem>());
 		}

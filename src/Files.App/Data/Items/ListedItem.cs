@@ -416,7 +416,7 @@ namespace Files.App.Utils
 		public bool IsGitItem => this is GitItem;
 		public virtual bool IsExecutable => !IsFolder && FileExtensionHelpers.IsExecutableFile(ItemPath);
 		public virtual bool IsScriptFile => FileExtensionHelpers.IsScriptFile(ItemPath);
-		public bool IsPinned => QuickAccessService.PinnedFolders.ToList().FirstOrDefault(x => x.Path == itemPath) is not null;
+		public bool IsPinned => QuickAccessService.IsPinned(itemPath);
 		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
 		public bool IsElevationRequired { get; set; }
 

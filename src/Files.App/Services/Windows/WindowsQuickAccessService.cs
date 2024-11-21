@@ -18,14 +18,14 @@ namespace Files.App.Services
 
 		// Properties
 
-		private readonly List<INavigationControlItem> _PinnedFolders = [];
+		private readonly List<INavigationControlItem> _QuickAccessFolders = [];
 		/// <inheritdoc/>
-		public IReadOnlyList<INavigationControlItem> PinnedFolders
+		public IReadOnlyList<INavigationControlItem> QuickAccessFolders
 		{
 			get
 			{
-				lock (_PinnedFolders)
-					return _PinnedFolders.ToList().AsReadOnly();
+				lock (_QuickAccessFolders)
+					return _QuickAccessFolders.ToList().AsReadOnly();
 			}
 		}
 
@@ -65,12 +65,12 @@ namespace Files.App.Services
 					if (items.Count is 0)
 						return false;
 
-					var snapshot = PinnedFolders;
+					var snapshot = QuickAccessFolders;
 
-					lock (_PinnedFolders)
+					lock (_QuickAccessFolders)
 					{
-						_PinnedFolders.Clear();
-						_PinnedFolders.AddRange(items);
+						_QuickAccessFolders.Clear();
+						_QuickAccessFolders.AddRange(items);
 					}
 
 					var eventArgs = GetChangedActionEventArgs(snapshot, items);
@@ -223,6 +223,11 @@ namespace Files.App.Services
 
 				return new(NotifyCollectionChangedAction.Reset);
 			}
+		}
+
+		public bool IsPinned(string path)
+		{
+			return QuickAccessFolders.Cast<LocationItem>().ToList().Where(x => x.Path == path).Count() > 0;
 		}
 
 		public async Task<bool> PinFolderAsync(string[] paths)

@@ -96,7 +96,7 @@ namespace Files.App.Services
 
 					var itemsToRemove = instance.Items.Where(x => string.Equals(x.GroupName, JumpListPinnedGroupHeader, StringComparison.OrdinalIgnoreCase)).ToList();
 					itemsToRemove.ForEach(x => instance.Items.Remove(x));
-					WindowsQuickAccessService.PinnedFolders.ForEach(x => AddFolder(x.Path, JumpListPinnedGroupHeader, instance));
+					WindowsQuickAccessService.QuickAccessFolders.ForEach(x => AddFolder(x.Path, JumpListPinnedGroupHeader, instance));
 
 					await instance.SaveAsync();
 				}

@@ -42,7 +42,7 @@ namespace Files.App.Actions
 
 		private bool GetIsExecutable()
 		{
-			string[] pinnedFolders = [.. service.PinnedFolders.Select(x => x.Path)];
+			string[] pinnedFolders = [.. service.QuickAccessFolders.Select(x => x.Path)];
 
 			return context.HasSelection
 				? context.SelectedItems.All(IsPinned)

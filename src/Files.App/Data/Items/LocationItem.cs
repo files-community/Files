@@ -82,7 +82,7 @@ namespace Files.App.Data.Items
 
 		public bool IsInvalid { get; set; } = false;
 
-		public bool IsPinned => QuickAccessService.PinnedFolders.ToList().FirstOrDefault(x => x.Path == path) is not null;
+		public bool IsPinned => QuickAccessService.IsPinned(path);
 
 		public SectionType Section { get; set; }
 

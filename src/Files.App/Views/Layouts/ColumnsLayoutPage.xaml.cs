@@ -97,7 +97,7 @@ namespace Files.App.Views.Layouts
 			if (!string.IsNullOrEmpty(pathRoot))
 			{
 				var service = Ioc.Default.GetRequiredService<IQuickAccessService>();
-				var rootPathList = service.PinnedFolders.Select(x => NormalizePath(x.Path))
+				var rootPathList = service.QuickAccessFolders.Select(x => NormalizePath(x.Path))
 					.Concat(CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList()
 					.Concat(App.LibraryManager.Libraries.Select(x => NormalizePath(x.Path))).ToList();
 				rootPathList.Add(NormalizePath(pathRoot));

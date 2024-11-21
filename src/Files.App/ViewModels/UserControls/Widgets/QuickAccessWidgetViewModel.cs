@@ -176,7 +176,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					default:
 						{
 							Items.Clear();
-							foreach (var item in QuickAccessService.PinnedFolders.ToList())
+							foreach (var item in QuickAccessService.QuickAccessFolders.ToList())
 							{
 								if (item is not LocationItem locationItem)
 									continue;

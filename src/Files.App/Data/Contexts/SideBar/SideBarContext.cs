@@ -17,7 +17,7 @@ namespace Files.App.Data.Contexts
 		public bool IsPinnedFolderItem =>
 			IsItemRightClicked &&
 			_RightClickedItem!.Section is SectionType.Pinned &&
-			WindowsQuickAccessService.PinnedFolders.ToList().Contains(_RightClickedItem);
+			WindowsQuickAccessService.IsPinned(_RightClickedItem.Path);
 
 		public DriveItem? OpenDriveItem
 			=> _RightClickedItem as DriveItem;

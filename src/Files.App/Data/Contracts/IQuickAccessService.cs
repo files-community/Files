@@ -7,13 +7,15 @@ namespace Files.App.Data.Contracts
 {
 	public interface IQuickAccessService
 	{
-		IReadOnlyList<INavigationControlItem> PinnedFolders { get; }
+		IReadOnlyList<INavigationControlItem> QuickAccessFolders { get; }
 
 		event EventHandler<NotifyCollectionChangedEventArgs>? PinnedFoldersChanged;
 
 		Task InitializeAsync();
 
 		Task<bool> UpdatePinnedFoldersAsync();
+
+		bool IsPinned(string path);
 
 		Task<bool> PinFolderAsync(string[] paths);
 
