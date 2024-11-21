@@ -81,7 +81,6 @@
 				Grid.Row="4"
 				Grid.ColumnSpan="2"
 				HorizontalAlignment="Stretch"
-				IsEnabled="{x:Bind ViewModel.IsLocationValid, Mode=OneWay}"
 				Text="{x:Bind ViewModel.ShortcutName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 				<TextBox.Resources>
 					<TeachingTip
