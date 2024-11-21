@@ -110,7 +110,7 @@ namespace Files.App.Services
 					using ComPtr<IShellItem2> pShellItem2 = pShellItem.As<IShellItem2>();
 					hr = PInvoke.PSGetPropertyKeyFromName("System.Home.IsPinned", out var propertyKey);
 					hr = pShellItem2.Get()->GetString(propertyKey, out var szPropertyValue);
-					if (bool.TryParse(szPropertyValue.ToString(), out var isPinned) && !isPinned)
+					if (!bool.TryParse(szPropertyValue.ToString(), out var isPinned) || !isPinned)
 						continue;
 
 					// Get the full path
