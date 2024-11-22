@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.UI.WindowsAndMessaging;
-using static Vanara.PInvoke.User32;
 
 namespace Files.App.Helpers
 {
@@ -68,7 +67,7 @@ namespace Files.App.Helpers
 		public static void ForceWindowPosition(nint lParam)
 		{
 			var windowPos = Marshal.PtrToStructure<WINDOWPOS>(lParam);
-			windowPos.flags |= SetWindowPosFlags.SWP_NOZORDER;
+			windowPos.flags |= SET_WINDOW_POS_FLAGS.SWP_NOZORDER;
 			Marshal.StructureToPtr(windowPos, lParam, false);
 		}
 	}
