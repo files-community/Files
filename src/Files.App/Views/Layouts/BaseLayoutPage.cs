@@ -1027,6 +1027,7 @@ namespace Files.App.Views.Layouts
 		{
 			itemDragging = false;
 			MainWindow.Instance.SetCanWindowToFront(true);
+			// No need to bring the window to the front
 		}
 
 		private void Item_DragLeave(object sender, DragEventArgs e)
@@ -1158,8 +1159,9 @@ namespace Files.App.Views.Layouts
 			RefreshContainer(args.ItemContainer, args.InRecycleQueue);
 			RefreshItem(args.ItemContainer, args.Item, args.InRecycleQueue, args);
 
-			MainWindow.Instance.SetCanWindowToFront(true);
 			itemDragging = false;
+			MainWindow.Instance.SetCanWindowToFront(true);
+			// No need to bring the window to the front
 		}
 
 		private void RefreshContainer(SelectorItem container, bool inRecycleQueue)
@@ -1215,7 +1217,13 @@ namespace Files.App.Views.Layouts
 		protected internal void FileListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			if (!itemDragging)
-				MainWindow.Instance.SetCanWindowToFront(true);
+			{
+				// No need to bring the window to the front again
+				if (MainWindow.Instance.SetCanWindowToFront(true))
+				{
+					Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
+				}
+			}
 
 			if (sender is not SelectorItem selectorItem)
 				return;
@@ -1243,9 +1251,7 @@ namespace Files.App.Views.Layouts
 		protected internal void FileListItem_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			if (sender is SelectorItem selectorItem && selectorItem.IsSelected)
-			{
 				MainWindow.Instance.SetCanWindowToFront(false);
-			}
 
 			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;
@@ -1295,6 +1301,7 @@ namespace Files.App.Views.Layouts
 		{
 			if (!itemDragging)
 				MainWindow.Instance.SetCanWindowToFront(true);
+				// No need to bring the window to the front
 
 			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;
@@ -1331,9 +1338,11 @@ namespace Files.App.Views.Layouts
 		{
 			if (!itemDragging)
 			{
-				MainWindow.Instance.SetCanWindowToFront(true);
-				// Bring the window to the front agin
-				Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
+				// No need to bring the window to the front again
+				if (MainWindow.Instance.SetCanWindowToFront(true))
+				{
+					Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
+				}
 			}
 
 			var rightClickedItem = GetItemFromElement(sender);
