@@ -36,8 +36,6 @@ namespace Files.App
 			AppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonHoverBackgroundColor = Colors.Transparent;
 			AppWindow.SetIcon(AppLifecycleHelper.AppIconPath);
-
-			WinUIEx.WindowManager.Get(this).WindowMessageReceived += WindowManager_WindowMessageReceived;
 		}
 
 		public void ShowSplashScreen()
@@ -356,6 +354,16 @@ namespace Files.App
 		public void BringToFrontEx()
 		{
 			Win32Helper.BringToForegroundEx(new(WindowHandle));
+		}
+
+		public void HookWindowMessageReceivedEvent()
+		{
+			WinUIEx.WindowManager.Get(this).WindowMessageReceived += WindowManager_WindowMessageReceived;
+		}
+
+		public void UnhookWindowMessageReceivedEvent()
+		{
+			WinUIEx.WindowManager.Get(this).WindowMessageReceived -= WindowManager_WindowMessageReceived;
 		}
 
 		private const int WM_WINDOWPOSCHANGING = 0x0046;
