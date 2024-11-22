@@ -4,8 +4,10 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.UI.WindowsAndMessaging;
+using static Vanara.PInvoke.User32;
 
 namespace Files.App.Helpers
 {
@@ -57,6 +59,17 @@ namespace Files.App.Helpers
 				uiElement,
 				[cursor]
 			);
+		}
+
+		/// <summary>
+		/// Force window to stay at bottom of other upper windows.
+		/// </summary>
+		/// <param name="lParam">The lParam of the message.</param>
+		public static void ForceWindowPosition(nint lParam)
+		{
+			var windowPos = Marshal.PtrToStructure<WINDOWPOS>(lParam);
+			windowPos.flags |= SetWindowPosFlags.SWP_NOZORDER;
+			Marshal.StructureToPtr(windowPos, lParam, false);
 		}
 	}
 }
