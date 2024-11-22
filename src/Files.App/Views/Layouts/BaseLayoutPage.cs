@@ -1216,14 +1216,9 @@ namespace Files.App.Views.Layouts
 
 		protected internal void FileListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
-			if (!itemDragging)
-			{
-				// No need to bring the window to the front again
-				if (MainWindow.Instance.SetCanWindowToFront(true))
-				{
-					Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
-				}
-			}
+			// Set can window to front and bring the window to the front if necessary
+			if ((!itemDragging) && MainWindow.Instance.SetCanWindowToFront(true))
+				Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
 
 			if (sender is not SelectorItem selectorItem)
 				return;
@@ -1250,6 +1245,7 @@ namespace Files.App.Views.Layouts
 
 		protected internal void FileListItem_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
+			// Set can window to front before the item is dragged
 			if (sender is SelectorItem selectorItem && selectorItem.IsSelected)
 				MainWindow.Instance.SetCanWindowToFront(false);
 
@@ -1299,9 +1295,9 @@ namespace Files.App.Views.Layouts
 
 		protected internal void FileListItem_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
+			// Set can window to front
 			if (!itemDragging)
 				MainWindow.Instance.SetCanWindowToFront(true);
-				// No need to bring the window to the front
 
 			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;
@@ -1312,38 +1308,23 @@ namespace Files.App.Views.Layouts
 
 		protected void FileListItem_Tapped(object sender, TappedRoutedEventArgs e)
 		{
-			if (!itemDragging)
-			{
-				// No need to bring the window to the front again
-				if (MainWindow.Instance.SetCanWindowToFront(true))
-				{
-					Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
-				}
-			}
+			// Set can window to front and bring the window to the front if necessary
+			if ((!itemDragging) && MainWindow.Instance.SetCanWindowToFront(true))
+				Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
 		}
 
 		protected void FileListItem_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
-			if (!itemDragging)
-			{
-				// No need to bring the window to the front again
-				if (MainWindow.Instance.SetCanWindowToFront(true))
-				{
-					Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
-				}
-			}
+			// Set can window to front and bring the window to the front if necessary
+			if ((!itemDragging) && MainWindow.Instance.SetCanWindowToFront(true))
+				Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
 		}
 
 		protected void FileListItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
-			if (!itemDragging)
-			{
-				// No need to bring the window to the front again
-				if (MainWindow.Instance.SetCanWindowToFront(true))
-				{
-					Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
-				}
-			}
+			// Set can window to front and bring the window to the front if necessary
+			if ((!itemDragging) && MainWindow.Instance.SetCanWindowToFront(true))
+				Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
 
 			var rightClickedItem = GetItemFromElement(sender);
 
