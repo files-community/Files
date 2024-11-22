@@ -183,7 +183,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IFileTagsService, FileTagsService>()
 					.AddSingleton<ICommandManager, CommandManager>()
 					.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
-					.AddSingleton<IStorageService, NativeStorageService>()
+					.AddSingleton<IStorageService, NativeStorageLegacyService>()
 					.AddSingleton<IFtpStorageService, FtpStorageService>()
 					.AddSingleton<IAddItemService, AddItemService>()
 #if STABLE || PREVIEW

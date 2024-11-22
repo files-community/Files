@@ -6,14 +6,14 @@ using System.IO;
 namespace Files.App.Storage.Storables
 {
 	/// <inheritdoc cref="IFile"/>
-	public class NativeFile : NativeStorable<FileInfo>, ILocatableFile, IModifiableFile, IFileExtended, INestedFile
+	public class NativeFileLegacy : NativeStorableLegacy<FileInfo>, ILocatableFile, IModifiableFile, IFileExtended, INestedFile
 	{
-		public NativeFile(FileInfo fileInfo, string? name = null)
+		public NativeFileLegacy(FileInfo fileInfo, string? name = null)
 			: base(fileInfo, name)
 		{
 		}
 
-		public NativeFile(string path, string? name = null)
+		public NativeFileLegacy(string path, string? name = null)
 			: this(new FileInfo(path), name)
 		{
 		}

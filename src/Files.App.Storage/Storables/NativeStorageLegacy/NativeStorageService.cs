@@ -8,7 +8,7 @@ using Windows.Storage;
 namespace Files.App.Storage.Storables
 {
 	/// <inheritdoc cref="IStorageService"/>
-	public sealed class NativeStorageService : IStorageService
+	public sealed class NativeStorageLegacyService : IStorageService
 	{
 		/// <inheritdoc/>
 		public Task<IFile> GetFileAsync(string id, CancellationToken cancellationToken = default)
@@ -16,7 +16,7 @@ namespace Files.App.Storage.Storables
 			if (!File.Exists(id))
 				throw new FileNotFoundException();
 
-			return Task.FromResult<IFile>(new NativeFile(id));
+			return Task.FromResult<IFile>(new NativeFileLegacy(id));
 		}
 
 		/// <inheritdoc/>
@@ -29,10 +29,10 @@ namespace Files.App.Storage.Storables
 			if (PathHelpers.IsSpecialFolder(id))
 			{
 				var storageFolder = await TryGetStorageFolderAsync(id);
-				return new NativeFolder(id, storageFolder?.DisplayName);
+				return new NativeFolderLegacy(id, storageFolder?.DisplayName);
 			}
 
-			return new NativeFolder(id);
+			return new NativeFolderLegacy(id);
 
 			async Task<StorageFolder?> TryGetStorageFolderAsync(string path)
 			{

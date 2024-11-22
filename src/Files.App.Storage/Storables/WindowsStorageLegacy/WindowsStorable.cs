@@ -7,7 +7,7 @@ using Windows.Storage;
 namespace Files.App.Storage.Storables
 {
 	/// <inheritdoc cref="IStorable"/>
-	public abstract class WindowsStorable<TStorage> : ILocatableStorable, INestedStorable
+	public abstract class WindowsStorableLegacy<TStorage> : ILocatableStorable, INestedStorable
 		where TStorage : class, IStorageItem
 	{
 		private string? _computedId;
@@ -22,7 +22,7 @@ namespace Files.App.Storage.Storables
 		/// <inheritdoc/>
 		public virtual string Id => _computedId ??= ChecksumHelpers.CalculateChecksumForPath(Path);
 
-		protected internal WindowsStorable(TStorage storage)
+		protected internal WindowsStorableLegacy(TStorage storage)
 		{
 			this.storage = storage;
 			Path = storage.Path;
