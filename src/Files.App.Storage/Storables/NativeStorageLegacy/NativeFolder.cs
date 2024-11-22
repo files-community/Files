@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 namespace Files.App.Storage.Storables
 {
 	/// <inheritdoc cref="IFolder"/>
+	[Obsolete("Use the new WindowsStorable")]
 	public class NativeFolderLegacy : NativeStorableLegacy<DirectoryInfo>, ILocatableFolder, IModifiableFolder, IMutableFolder, IFolderExtended, INestedFolder, IDirectCopy, IDirectMove
     {
 		public NativeFolderLegacy(DirectoryInfo directoryInfo, string? name = null)

@@ -8,6 +8,7 @@ using Windows.Storage;
 namespace Files.App.Storage.Storables
 {
 	/// <inheritdoc cref="IStorageService"/>
+	[Obsolete("Use the new WindowsStorable")]
 	public sealed class NativeStorageLegacyService : IStorageService
 	{
 		/// <inheritdoc/>

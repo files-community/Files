@@ -7,6 +7,7 @@ using Windows.Storage;
 namespace Files.App.Storage.Storables
 {
 	/// <inheritdoc cref="IFolder"/>
+	[Obsolete("Use the new WindowsStorable")]
 	public sealed class WindowsStorageFolderLegacy : WindowsStorableLegacy<StorageFolder>, ILocatableFolder, IFolderExtended, INestedFolder, IDirectCopy, IDirectMove
 	{
 		// TODO: Implement IMutableFolder
