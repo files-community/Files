@@ -1310,7 +1310,7 @@ namespace Files.App.Views.Layouts
 				// No need to bring the window to the front again
 				if (MainWindow.Instance.SetCanWindowToFront(true))
 				{
-					MainWindow.Instance.BringToFrontEx();
+					Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
 				}
 			}
 		}
@@ -1322,7 +1322,7 @@ namespace Files.App.Views.Layouts
 				// No need to bring the window to the front again
 				if (MainWindow.Instance.SetCanWindowToFront(true))
 				{
-					MainWindow.Instance.BringToFrontEx();
+					Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
 				}
 			}
 		}
@@ -1332,7 +1332,8 @@ namespace Files.App.Views.Layouts
 			if (!itemDragging)
 			{
 				MainWindow.Instance.SetCanWindowToFront(true);
-				MainWindow.Instance.BringToFrontEx();
+				// Bring the window to the front agin
+				Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
 			}
 
 			var rightClickedItem = GetItemFromElement(sender);

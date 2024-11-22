@@ -351,11 +351,6 @@ namespace Files.App
 			return false;
 		}
 
-		public void BringToFrontEx()
-		{
-			Win32Helper.BringToForegroundEx(new(WindowHandle));
-		}
-
 		public void HookWindowMessageReceivedEvent()
 		{
 			WinUIEx.WindowManager.Get(this).WindowMessageReceived += WindowManager_WindowMessageReceived;
