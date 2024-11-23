@@ -583,6 +583,7 @@ namespace Files.App.Helpers
 			if (string.IsNullOrEmpty(path))
 				return false;
 
+			preferencesItem.IsDefault = false;
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
 				var dbInstance = GetDatabaseManagerInstance();
