@@ -77,6 +77,10 @@ namespace Files.App.ViewModels.Settings
 				{
 					selectedAppLanguageIndex = value;
 					OnPropertyChanged(nameof(SelectedAppLanguageIndex));
+
+					var RTLayoutService = Ioc.Default.GetRequiredService<IRealTimeLayoutService>();
+					RTLayoutService.UpdateCulture(new(AppLanguageHelper.PreferredLanguage.Code));
+
 					ShowRestartControl = true;
 				}
 			}
