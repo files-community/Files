@@ -98,5 +98,19 @@ namespace Files.Core.SourceGenerator
 			/// </summary>
 			internal const char ConstantSeparator = '/';
 		}
+
+		internal class RealTimeLayoutGenerator
+		{
+			internal const string SpecificationWindowName = "IRealTimeWindow";
+
+			internal const string SpecificationControlName = "IRealTimeControl";
+
+			internal enum SpecificationType
+			{
+				None = 0,
+				Window,
+				Control
+			}
+		}
 	}
 }
