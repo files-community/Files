@@ -29,9 +29,6 @@ namespace Files.App.Views.Properties
 		{
 			InitializeComponent();
 			InitializeContentLayout();
-
-			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
-				FlowDirection = FlowDirection.RightToLeft;
 		}
 
 		
