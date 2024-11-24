@@ -16,6 +16,7 @@ namespace Files.App.Services.Content
 		{
 			FlowDirection tmp = FlowDirection;
 
+			CultureInfo.DefaultThreadCurrentUICulture = culture;
 			CultureInfo.CurrentUICulture = culture;
 
 			if (tmp != FlowDirection)
