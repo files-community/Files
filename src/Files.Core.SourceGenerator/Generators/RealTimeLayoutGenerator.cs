@@ -24,7 +24,7 @@ namespace Files.Core.SourceGenerator.Generators
 				var namespaceName = GetNamespace(classDeclaration);
 
 				var source = GenerateClass(namespaceName, className, type);
-				context.AddSource($"{className}.g.cs", SourceText.From(source, Encoding.UTF8));
+				context.AddSource($"{className}.{Guid.NewGuid()}.g.cs", SourceText.From(source, Encoding.UTF8));
 			});
 		}
 
