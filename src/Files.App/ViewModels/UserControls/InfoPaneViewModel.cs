@@ -463,7 +463,7 @@ namespace Files.App.ViewModels.UserControls
 				await basicModel.LoadAsync();
 
 				PreviewPaneContent = new BasicPreview(basicModel);
-				PreviewPaneState = SelectedItem.IsDriveRoot ? PreviewPaneStates.DrivePreviewAndDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
+				PreviewPaneState = SelectedItem.IsDriveRoot ? PreviewPaneStates.DriveStorageDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
 			}
 			catch (Exception ex)
 			{
