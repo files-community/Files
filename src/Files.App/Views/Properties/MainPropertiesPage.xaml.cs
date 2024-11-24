@@ -15,7 +15,7 @@ using Microsoft.UI.Input;
 
 namespace Files.App.Views.Properties
 {
-	public sealed partial class MainPropertiesPage : BasePropertiesPage
+	public sealed partial class MainPropertiesPage : BasePropertiesPage, IRealTimeControl
 	{
 		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 
@@ -28,6 +28,7 @@ namespace Files.App.Views.Properties
 		public MainPropertiesPage()
 		{
 			InitializeComponent();
+			InitializeContentLayout();
 
 			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
 				FlowDirection = FlowDirection.RightToLeft;

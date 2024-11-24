@@ -21,6 +21,8 @@ namespace Files.App.Utils.Storage
 	{
 		private static IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 
+		private static IRealTimeLayoutService RealTimeLayoutService { get; } = Ioc.Default.GetRequiredService<IRealTimeLayoutService>();
+
 		/// <summary>
 		/// Whether LayoutDirection (FlowDirection) is set to right-to-left (RTL)
 		/// </summary>
@@ -121,6 +123,7 @@ namespace Files.App.Utils.Storage
 			appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 			appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+			RealTimeLayoutService.UpdateTitleBar(propertiesWindow);
 
 			appWindow.SetIcon(AppLifecycleHelper.AppIconPath);
 
@@ -136,11 +139,12 @@ namespace Files.App.Utils.Storage
 
 			// WINUI3: Move window to cursor position
 			PInvoke.GetCursorPos(out var pointerPosition);
+			var rePos = RealTimeLayoutService.FlowDirection is FlowDirection.LeftToRight ? 1 : -1;
 			var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);
 			var appWindowPos = new PointInt32
 			{
 				X = displayArea.WorkArea.X
-					+ Math.Max(0, Math.Min(displayArea.WorkArea.Width - appWindow.Size.Width, pointerPosition.X - displayArea.WorkArea.X)),
+					+ Math.Max(0, Math.Min(displayArea.WorkArea.Width - appWindow.Size.Width,( pointerPosition.X * rePos) - displayArea.WorkArea.X)),
 				Y = displayArea.WorkArea.Y
 					+ Math.Max(0, Math.Min(displayArea.WorkArea.Height - appWindow.Size.Height, pointerPosition.Y - displayArea.WorkArea.Y)),
 			};
