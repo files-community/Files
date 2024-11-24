@@ -2,17 +2,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
+        <TargetFramework>net9.0-windows10.0.22621.0</TargetFramework>
+        <WindowsSdkPackageVersion>10.0.22621.0</WindowsSdkPackageVersion>
         <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
         <UseWinUI>true</UseWinUI>
-        <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
-        <Nullable>enable</Nullable>
-        <Configurations>Debug;Release;Stable;Preview;Store</Configurations>
-        <Platforms>x86;x64;arm64</Platforms>
-        <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-        <DefineConstants Condition="'$(Configuration)' == 'Debug'">TRACE;DEBUG;NETFX_CORE</DefineConstants>
-        <DefineConstants Condition="'$(Configuration)' != 'Debug'">TRACE;RELEASE;NETFX_CORE</DefineConstants>
-        <Optimize Condition="'$(Configuration)' != 'Debug'">true</Optimize>
     </PropertyGroup>
 
     <ItemGroup>
