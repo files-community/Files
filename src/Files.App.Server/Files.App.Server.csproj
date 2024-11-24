@@ -5,6 +5,7 @@
         <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
         <OutputType>WinExe</OutputType>
         <DefaultLanguage>en-US</DefaultLanguage>
+        <SelfContained>true</SelfContained>
         <RuntimeIdentifier Condition="'$(Platform)' == 'x86'">win-x86</RuntimeIdentifier>
         <RuntimeIdentifier Condition="'$(Platform)' == 'x64'">win-x64</RuntimeIdentifier>
         <RuntimeIdentifier Condition="'$(Platform)' == 'arm64'">win-arm64</RuntimeIdentifier>
