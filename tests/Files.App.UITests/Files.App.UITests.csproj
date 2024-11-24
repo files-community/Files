@@ -28,8 +28,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <FrameworkReference Condition="'$(IncludeWindowsSDKRefFrameworkReferences)' == 'true'" Include="Microsoft.Windows.SDK.NET.Ref" IsImplicitlyDefined="true" Pack="false" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.241107002" />
+    <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
