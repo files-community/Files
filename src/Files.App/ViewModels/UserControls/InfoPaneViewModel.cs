@@ -191,7 +191,7 @@ namespace Files.App.ViewModels.UserControls
 			if (control is not null)
 			{
 				PreviewPaneContent = control;
-				PreviewPaneState = SelectedItem.IsDriveRoot ? PreviewPaneStates.DrivePreviewAndDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
+				PreviewPaneState = SelectedItem.IsDriveRoot ? PreviewPaneStates.DriveStorageDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
 				return;
 			}
 
@@ -204,7 +204,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 
 			PreviewPaneContent = control;
-			PreviewPaneState = SelectedItem.IsDriveRoot ? PreviewPaneStates.DrivePreviewAndDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
+			PreviewPaneState = SelectedItem.IsDriveRoot ? PreviewPaneStates.DriveStorageDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
 		}
 
 		private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item, bool downloadItem)

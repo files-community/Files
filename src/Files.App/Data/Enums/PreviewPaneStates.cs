@@ -36,6 +36,6 @@ namespace Files.App.Data.Enums
 		/// <summary>
 		/// Drive preview and details available status.
 		/// </summary>
-		DrivePreviewAndDetailsAvailable,
+		DriveStorageDetailsAvailable,
 	}
 }

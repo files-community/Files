@@ -302,7 +302,7 @@
 					</Grid.ColumnDefinitions>
 
 					<TextBlock
-						x:Name="AvailableSpaceTextBox"
+						x:Name="AvailableSpaceTextBlock"
 						FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 						FontSize="14"
 						FontWeight="Bold"
@@ -573,7 +573,7 @@
 						<Setter Target="PreviewLoadingIndicator.Visibility" Value="Visible" />
 					</VisualState.Setters>
 				</VisualState>
-				<VisualState x:Name="DrivePreviewAndDetailsAvailable">
+				<VisualState x:Name="DriveStorageDetailsAvailable">
 					<VisualState.StateTriggers>
 						<triggers:IsEqualStateTrigger Value="{x:Bind ViewModel.PreviewPaneState, Mode=OneWay}" To="5" />
 					</VisualState.StateTriggers>

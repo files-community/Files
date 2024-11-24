@@ -36,6 +36,9 @@ namespace Files.App.ViewModels.Previews
 			if (result is not null)
 				Thumbnail = await result.ToBitmapAsync();
 
+			// If the selected item is the root of a drive (e.g. "C:\")
+			// we do not need to load the properties below, since they will not be shown.
+			// Drive properties will be obtained through the DrivesViewModel service.
 			if (Item.IsDriveRoot)
 				return;
 
