@@ -67,6 +67,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <FrameworkReference Condition=" '$(IncludeWindowsSDKRefFrameworkReferences)' == 'true' " Include="Microsoft.Windows.SDK.NET.Ref" IsImplicitlyDefined="true" Pack="false" PrivateAssets="All" />
         <PackageReference Include="ByteSize" Version="2.1.2" />
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
         <PackageReference Include="DiscUtils.Udf" Version="0.16.13" />
