@@ -45,8 +45,6 @@ jobs:
       uses: NuGet/setup-nuget@v2
     - name: Setup .NET 8
       uses: actions/setup-dotnet@v4
-      with:
-        global-json-file: global.json
 
     - name: Configure the package manifest, logo, and secrets
       shell: pwsh

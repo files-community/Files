@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <IsPackable>false</IsPackable>
         <Configurations>Debug;Release;Stable;Preview;Store</Configurations>
         <Platforms>x86;x64;arm64</Platforms>
