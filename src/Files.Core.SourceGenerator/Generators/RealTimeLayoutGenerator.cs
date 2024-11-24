@@ -5,9 +5,17 @@ using static Files.Core.SourceGenerator.Constants.RealTimeLayoutGenerator;
 
 namespace Files.Core.SourceGenerator.Generators
 {
+	/// <summary>
+	/// Generates additional source code for classes based on their inheritance from specific types 
+	/// (e.g., IRealTimeWindow or IRealTimeControl).
+	/// </summary>
 	[Generator]
 	public class RealTimeLayoutGenerator : IIncrementalGenerator
 	{
+		/// <summary>
+		/// Initializes the incremental source generator with context-specific configuration.
+		/// </summary>
+		/// <param name="context">The incremental generator initialization context.</param>
 		public void Initialize(IncrementalGeneratorInitializationContext context)
 		{
 			var candidateClasses = context.SyntaxProvider
@@ -28,6 +36,11 @@ namespace Files.Core.SourceGenerator.Generators
 			});
 		}
 
+		/// <summary>
+		/// Determines if the syntax node is a valid candidate for generation.
+		/// </summary>
+		/// <param name="syntaxNode">The syntax node to evaluate.</param>
+		/// <returns>True if the node is a valid class candidate; otherwise, false.</returns>
 		private static bool IsValidCandidate(SyntaxNode syntaxNode)
 		{
 			if (syntaxNode is ClassDeclarationSyntax classDeclaration)
@@ -38,6 +51,11 @@ namespace Files.Core.SourceGenerator.Generators
 			return false;
 		}
 
+		/// <summary>
+		/// Retrieves a class declaration and its specification type if it matches the criteria.
+		/// </summary>
+		/// <param name="context">The syntax context for the generator.</param>
+		/// <returns>A tuple containing the class declaration and its specification type, or null if no match.</returns>
 		private static (ClassDeclarationSyntax Class, SpecificationType Type)? GetCandidateClass(GeneratorSyntaxContext context)
 		{
 			var classDeclaration = (ClassDeclarationSyntax)context.Node;
@@ -60,6 +78,13 @@ namespace Files.Core.SourceGenerator.Generators
 			return null;
 		}
 
+		/// <summary>
+		/// Generates the source code for a class based on the provided namespace, class name, and type.
+		/// </summary>
+		/// <param name="namespaceName">The namespace of the class.</param>
+		/// <param name="className">The name of the class.</param>
+		/// <param name="type">The type of the specification (Window or Control).</param>
+		/// <returns>The generated source code as a string.</returns>
 		private static string GenerateClass(string namespaceName, string className, SpecificationType type)
 		{
 			// Namespace
@@ -111,6 +136,11 @@ namespace Files.Core.SourceGenerator.Generators
 			return compilationUnit.ToFullString();
 		}
 
+		/// <summary>
+		/// Creates the body statements for the InitializeContentLayout method.
+		/// </summary>
+		/// <param name="type">The type of the specification (Window or Control).</param>
+		/// <returns>A collection of statements for the method body.</returns>
 		private static IEnumerable<StatementSyntax> CreateInitializeContentLayoutBody(SpecificationType type)
 		{
 			var statements = new List<StatementSyntax>
@@ -128,6 +158,11 @@ namespace Files.Core.SourceGenerator.Generators
 			return statements;
 		}
 
+		/// <summary>
+		/// Creates the body statements for the UpdateContentLayout method.
+		/// </summary>
+		/// <param name="type">The type of the specification (Window or Control).</param>
+		/// <returns>A collection of statements for the method body.</returns>
 		private static IEnumerable<StatementSyntax> CreateUpdateContentLayoutBody(SpecificationType type)
 		{
 			var statements = new List<StatementSyntax>();
@@ -140,6 +175,11 @@ namespace Files.Core.SourceGenerator.Generators
 			return statements;
 		}
 
+		/// <summary>
+		/// Retrieves the namespace of a given syntax node.
+		/// </summary>
+		/// <param name="node">The syntax node to evaluate.</param>
+		/// <returns>The namespace name as a string.</returns>
 		private static string GetNamespace(SyntaxNode node)
 		{
 			while (node != null)
