@@ -10,7 +10,7 @@ namespace Files.App.Services.Content
 	internal sealed class RealTimeLayoutService : IRealTimeLayoutService
 	{
 		private readonly List<(WeakReference<object> Reference, Action Callback)> _callbacks = [];
-		private static FlowDirection FlowDirection => CultureInfo.CurrentUICulture.TextInfo.IsRightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+		public static FlowDirection FlowDirection => CultureInfo.CurrentUICulture.TextInfo.IsRightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
 
 		public void UpdateCulture(CultureInfo culture)
 		{
