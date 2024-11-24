@@ -5,6 +5,8 @@ namespace Files.App.Data.Contracts
 {
 	public interface IRealTimeLayoutService
 	{
+
+		FlowDirection FlowDirection { get; }
 		void AddCallback(object target, Action callback);
 
 		void UpdateContent(FrameworkElement frameworkElement);
