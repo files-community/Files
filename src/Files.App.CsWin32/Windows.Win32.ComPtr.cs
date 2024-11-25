@@ -52,7 +52,7 @@ namespace Windows.Win32
 		public readonly HRESULT CoCreateInstance<U>(CLSCTX dwClsContext = CLSCTX.CLSCTX_LOCAL_SERVER) where U : unmanaged
 		{
 			Guid clsid = typeof(U).GUID, iid = typeof(T).GUID;
-			return PInvoke.CoCreateInstance(&clsid, null, dwClsContext, &iid, (void**)&_ptr);
+			return PInvoke.CoCreateInstance(&clsid, null, dwClsContext, &iid, (void**)this.GetAddressOf());
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
