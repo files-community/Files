@@ -209,8 +209,8 @@ namespace Files.App.Views.Layouts
 			else
 			{
 				var settings = sender as ILayoutSettingsService;
-				if (settings is not null && 
-					(settings.SyncFolderPreferencesAcrossDirectories || (FolderSettings?.LayoutPreferencesItem.IsDefault ?? false)))
+				var isDefaultPath = FolderSettings?.IsPathUsingDefaultLayout(ParentShellPageInstance?.ShellViewModel.CurrentFolder?.ItemPath);
+				if (settings is not null && (isDefaultPath ?? true))
 				{
 					switch (e.PropertyName)
 					{

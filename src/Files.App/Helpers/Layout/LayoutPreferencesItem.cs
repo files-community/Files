@@ -16,8 +16,6 @@ namespace Files.App.Helpers
 
 		public ColumnsViewModel ColumnsViewModel { get; set; }
 
-		public bool IsDefault { get; set; } = true;
-
 		public bool SortDirectoriesAlongsideFiles { get; set; }
 		public bool SortFilesFirst { get; set; }
 		public bool IsAdaptiveLayoutOverridden { get; set; }
