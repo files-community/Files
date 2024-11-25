@@ -41,12 +41,13 @@ namespace Windows.Win32
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public readonly ComPtr<U> As<U>() where U : unmanaged
 		{
-			ComPtr<U> pNewPtr = default;
+			ComPtr<U> ptr = default;
 			Guid iid = typeof(U).GUID;
-			((IUnknown*)_ptr)->QueryInterface(&riid, (void**)pNewPtr.GetAddressOf());
-			return pNewPtr;
+			((IUnknown*)_ptr)->QueryInterface(&iid, (void**)ptr.GetAddressOf());
+			return ptr;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public readonly HRESULT CoCreateInstance<U>(CLSCTX dwClsContext = CLSCTX.CLSCTX_LOCAL_SERVER) where U : unmanaged
 		{
 			Guid clsid = typeof(U).GUID, iid = typeof(T).GUID;
