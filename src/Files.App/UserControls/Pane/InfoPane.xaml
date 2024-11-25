@@ -267,10 +267,11 @@
 					TextAlignment="Center"
 					TextWrapping="Wrap"
 					Visibility="Collapsed" />
-				<ProgressBar
+				<controls:StorageBar
 					x:Name="DriveSpaceProgressBar"
-					Margin="12,12,12,8"
+					Margin="8,8,8,8"
 					HorizontalAlignment="Stretch"
+					TrackBarHeight="6"
 					Visibility="Collapsed"
 					Value="{x:Bind ViewModel.SelectedDriveItem.PercentageUsed, Mode=OneWay}" />
 				<Grid

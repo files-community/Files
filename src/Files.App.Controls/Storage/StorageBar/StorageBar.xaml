@@ -16,7 +16,6 @@
 		<Setter Property="TrackBarHeight" Value="{ThemeResource StorageBarTrackHeight}" />
 		<Setter Property="CornerRadius" Value="{ThemeResource StorageBarCornerRadius}" />
 		<Setter Property="VerticalAlignment" Value="Center" />
-		<Setter Property="Width" Value="240" />
 		<Setter Property="Minimum" Value="0" />
 		<Setter Property="Maximum" Value="100" />
 		<Setter Property="MinWidth" Value="32" />
