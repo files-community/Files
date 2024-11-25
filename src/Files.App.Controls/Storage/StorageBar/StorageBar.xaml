@@ -19,8 +19,8 @@
 		<Setter Property="Width" Value="240" />
 		<Setter Property="Minimum" Value="0" />
 		<Setter Property="Maximum" Value="100" />
-		<Setter Property="MinWidth" Value="32"/>
-		<Setter Property="MinHeight" Value="8"/>
+		<Setter Property="MinWidth" Value="32" />
+		<Setter Property="MinHeight" Value="8" />
 		<Setter Property="Value" Value="25" />
 		<Setter Property="SmallChange" Value="0.1" />
 		<Setter Property="LargeChange" Value="10" />
