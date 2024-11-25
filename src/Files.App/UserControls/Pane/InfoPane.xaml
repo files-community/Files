@@ -256,7 +256,7 @@
 				</TextBlock>
 
 				<TextBlock
-					x:Name="UsedSpaceTextBox"
+					x:Name="UsedSpaceTextBlock"
 					HorizontalAlignment="Center"
 					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 					FontSize="20"
@@ -298,7 +298,7 @@
 						TextAlignment="Left"
 						TextWrapping="Wrap" />
 					<TextBlock
-						x:Name="TotalDriveSpaceTextBox"
+						x:Name="TotalDriveSpaceTextBlock"
 						Grid.Column="2"
 						FontSize="14"
 						FontWeight="Bold"
