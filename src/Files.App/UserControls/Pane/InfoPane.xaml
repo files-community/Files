@@ -251,7 +251,6 @@
 					TextWrapping="Wrap"
 					Visibility="Collapsed">
 					<Run Text="{x:Bind ViewModel.SelectedDriveItem.Filesystem, Mode=OneWay}" />
-					<Run Text=" " />
 					<Run Foreground="{ThemeResource TextFillColorTertiaryBrush}" Text="{x:Bind ViewModel.SelectedDriveItem.TypeText, Mode=OneWay}" />
 				</TextBlock>
 
@@ -271,7 +270,7 @@
 					x:Name="DriveSpaceProgressBar"
 					Margin="8,8,8,8"
 					HorizontalAlignment="Stretch"
-					TrackBarHeight="6"
+					TrackBarHeight="4"
 					Visibility="Collapsed"
 					Value="{x:Bind ViewModel.SelectedDriveItem.PercentageUsed, Mode=OneWay}" />
 				<Grid
