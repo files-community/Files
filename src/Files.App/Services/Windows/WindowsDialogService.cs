@@ -23,17 +23,7 @@ namespace Files.App.Services
 			try
 			{
 				using ComPtr<IFileOpenDialog> pDialog = default;
-				var dialogInstanceIid = typeof(FileOpenDialog).GUID;
-				var dialogIid = typeof(IFileOpenDialog).GUID;
-
-				// Get a new instance of the dialog
-				HRESULT hr = PInvoke.CoCreateInstance(
-					&dialogInstanceIid,
-					null,
-					CLSCTX.CLSCTX_INPROC_SERVER,
-					&dialogIid,
-					(void**)pDialog.GetAddressOf())
-				.ThrowOnFailure();
+				pDialog.CoCreateInstance<FileOpenDialog>(CLSCTX.CLSCTX_INPROC_SERVER).ThrowOnFailure();
 
 				if (filters.Length is not 0 && filters.Length % 2 is 0)
 				{
@@ -104,17 +94,7 @@ namespace Files.App.Services
 			try
 			{
 				using ComPtr<IFileSaveDialog> pDialog = default;
-				var dialogInstanceIid = typeof(FileSaveDialog).GUID;
-				var dialogIid = typeof(IFileSaveDialog).GUID;
-
-				// Get a new instance of the dialog
-				HRESULT hr = PInvoke.CoCreateInstance(
-					&dialogInstanceIid,
-					null,
-					CLSCTX.CLSCTX_INPROC_SERVER,
-					&dialogIid,
-					(void**)pDialog.GetAddressOf())
-				.ThrowOnFailure();
+				pDialog.CoCreateInstance<FileSaveDialog>(CLSCTX.CLSCTX_INPROC_SERVER).ThrowOnFailure();
 
 				if (filters.Length is not 0 && filters.Length % 2 is 0)
 				{
