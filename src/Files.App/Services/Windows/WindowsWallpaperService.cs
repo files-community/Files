@@ -18,16 +18,7 @@ namespace Files.App.Services
 		public unsafe void SetDesktopWallpaper(string szPath)
 		{
 			using ComPtr<IDesktopWallpaper> pDesktopWallpaper = default;
-			var desktopWallpaperIid = typeof(IDesktopWallpaper).GUID;
-			var desktopWallpaperInstanceIid = typeof(DesktopWallpaper).GUID;
-
-			PInvoke.CoCreateInstance(
-				&desktopWallpaperInstanceIid,
-				null,
-				CLSCTX.CLSCTX_LOCAL_SERVER,
-				&desktopWallpaperIid,
-				(void**)pDesktopWallpaper.GetAddressOf())
-			.ThrowOnFailure();
+			pDesktopWallpaper.CoCreateInstance<DesktopWallpaper>().ThrowOnFailure();
 
 			pDesktopWallpaper.Get()->GetMonitorDevicePathCount(out var dwMonitorCount);
 
@@ -48,16 +39,7 @@ namespace Files.App.Services
 		public unsafe void SetDesktopSlideshow(string[] aszPaths)
 		{
 			using ComPtr<IDesktopWallpaper> pDesktopWallpaper = default;
-			var desktopWallpaperIid = typeof(IDesktopWallpaper).GUID;
-			var desktopWallpaperInstanceIid = typeof(DesktopWallpaper).GUID;
-
-			PInvoke.CoCreateInstance(
-				&desktopWallpaperInstanceIid,
-				null,
-				CLSCTX.CLSCTX_LOCAL_SERVER,
-				&desktopWallpaperIid,
-				(void**)pDesktopWallpaper.GetAddressOf())
-			.ThrowOnFailure();
+			pDesktopWallpaper.CoCreateInstance<DesktopWallpaper>().ThrowOnFailure();
 
 			var dwCount = (uint)aszPaths.Length;
 
