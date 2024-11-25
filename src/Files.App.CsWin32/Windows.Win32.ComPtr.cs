@@ -39,11 +39,18 @@ namespace Windows.Win32
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public readonly ComPtr<U> As<U>(Guid riid) where U : unmanaged
+		public readonly ComPtr<U> As<U>() where U : unmanaged
 		{
 			ComPtr<U> pNewPtr = default;
+			Guid iid = typeof(U).GUID;
 			((IUnknown*)_ptr)->QueryInterface(&riid, (void**)pNewPtr.GetAddressOf());
 			return pNewPtr;
+		}
+
+		public readonly HRESULT CoCreateInstance<U>(CLSCTX dwClsContext = CLSCTX.CLSCTX_LOCAL_SERVER) where U : unmanaged
+		{
+			Guid clsid = typeof(U).GUID, iid = typeof(T).GUID;
+			return PInvoke.CoCreateInstance(&clsid, null, dwClsContext, &iid, (void**)&_ptr);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
