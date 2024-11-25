@@ -572,7 +572,7 @@
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Visible" />
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
 						<Setter Target="DriveFormatAndTypeTextBlock.Visibility" Value="Visible" />
-						<Setter Target="UsedSpaceTextBox.Visibility" Value="Visible" />
+						<Setter Target="UsedSpaceTextBlock.Visibility" Value="Visible" />
 						<Setter Target="DriveSpaceProgressBar.Visibility" Value="Visible" />
 						<Setter Target="DriveSpaceGrid.Visibility" Value="Visible" />
 					</VisualState.Setters>
