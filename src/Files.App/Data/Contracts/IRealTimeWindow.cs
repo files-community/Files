@@ -8,6 +8,9 @@ namespace Files.App.Data.Contracts
 	/// </summary>
 	internal interface IRealTimeWindow
 	{
+		/// <summary>
+		/// Gets the service for managing real-time layout updates.
+		/// </summary>
 		IRealTimeLayoutService RealTimeLayoutService { get; }
 
 		/// <summary>
