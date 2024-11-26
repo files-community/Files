@@ -263,7 +263,7 @@
 					</AnimatedIcon>
 				</ToggleButton>
 
-				<StackPanel FlowDirection="{Binding Path=FlowDirection, ElementName=Root}" Orientation="Horizontal">
+				<StackPanel FlowDirection="LeftToRight" Orientation="Horizontal">
 					<Button
 						x:Name="Back"
 						AccessKey="B"
