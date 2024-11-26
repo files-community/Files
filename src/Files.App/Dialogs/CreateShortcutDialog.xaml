@@ -73,6 +73,7 @@
 			<TextBlock
 				Grid.Row="3"
 				Grid.ColumnSpan="2"
+				Margin="0,12,0,0"
 				Text="{helpers:ResourceString Name=EnterAnItemName}" />
 
 			<!--  Name Box  -->
