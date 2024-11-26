@@ -244,9 +244,8 @@
 					x:Name="DriveFormatAndTypeTextBlock"
 					Margin="12,12,12,24"
 					HorizontalAlignment="Center"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
-					FontSize="14"
 					IsTextSelectionEnabled="True"
+					Style="{ThemeResource BodyTextBlockStyle}"
 					TextAlignment="Center"
 					TextWrapping="Wrap"
 					Visibility="Collapsed">
@@ -257,11 +256,9 @@
 				<TextBlock
 					x:Name="UsedSpaceTextBlock"
 					HorizontalAlignment="Center"
-					FontFamily="{ThemeResource ContentControlThemeFontFamily}"
-					FontSize="20"
-					FontWeight="Bold"
 					Foreground="{ThemeResource SystemAccentColor}"
 					IsTextSelectionEnabled="True"
+					Style="{ThemeResource SubtitleTextBlockStyle}"
 					Text="{x:Bind ViewModel.SelectedDriveItem.UsedSpaceText, Mode=OneWay}"
 					TextAlignment="Center"
 					TextWrapping="Wrap"
@@ -293,18 +290,17 @@
 						x:Name="AvailableSpaceTextBlock"
 						FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 						FontSize="14"
-						FontWeight="Bold"
 						IsTextSelectionEnabled="True"
+						Style="{ThemeResource BodyStrongTextBlockStyle}"
 						Text="{x:Bind ViewModel.SelectedDriveItem.FreeSpaceText, Mode=OneWay}"
 						TextAlignment="Left"
 						TextWrapping="Wrap" />
 					<TextBlock
 						x:Name="TotalDriveSpaceTextBlock"
 						Grid.Column="2"
-						FontSize="14"
-						FontWeight="Bold"
+						Foreground="{ThemeResource TextFillColorTertiaryBrush}"
 						IsTextSelectionEnabled="True"
-						Style="{StaticResource Local.FileDetailsHeaderTextBlockStyle}"
+						Style="{ThemeResource BodyStrongTextBlockStyle}"
 						Text="{x:Bind ViewModel.SelectedDriveItem.MaxSpaceText, Mode=OneWay}"
 						TextAlignment="Right"
 						TextWrapping="Wrap" />
@@ -312,10 +308,9 @@
 						x:Name="AvailableSpaceLabel"
 						Grid.Row="1"
 						HorizontalAlignment="Left"
-						FontFamily="{ThemeResource ContentControlThemeFontFamily}"
-						FontSize="14"
 						IsTextSelectionEnabled="True"
-						Text="Available"
+						Style="{ThemeResource BodyTextBlockStyle}"
+						Text="{helpers:ResourceString Name=Available}"
 						TextAlignment="Left"
 						TextWrapping="Wrap" />
 					<TextBlock
@@ -323,11 +318,10 @@
 						Grid.Row="1"
 						Grid.Column="2"
 						HorizontalAlignment="Right"
-						FontFamily="{ThemeResource ContentControlThemeFontFamily}"
-						FontSize="14"
 						Foreground="{ThemeResource TextFillColorTertiaryBrush}"
 						IsTextSelectionEnabled="True"
-						Text="Total"
+						Style="{ThemeResource BodyTextBlockStyle}"
+						Text="{helpers:ResourceString Name=Total}"
 						TextAlignment="Right"
 						TextWrapping="Wrap" />
 				</Grid>
