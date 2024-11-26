@@ -7,6 +7,7 @@ using Vanara.InteropServices;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.Win32;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Utils.Shell
 {
@@ -178,7 +179,7 @@ namespace Files.App.Utils.Shell
 			using var cMenu = await GetContextMenuForFiles(new string[] { $@"{Constants.UserEnvironmentPaths.SystemDrivePath}\" }, PInvoke.CMF_NORMAL);
 		}
 
-		private void EnumMenuItems(HMENU hMenu, List<Win32ContextMenuItem> menuItemsResult, bool loadSubenus = false)
+		private void EnumMenuItems(Vanara.PInvoke.HMENU hMenu, List<Win32ContextMenuItem> menuItemsResult, bool loadSubenus = false)
 		{
 			var itemCount = User32.GetMenuItemCount(hMenu);
 
@@ -212,12 +213,12 @@ namespace Files.App.Utils.Shell
 					continue;
 				}
 
-				menuItem.Type = (MenuItemType)menuItemInfo.fType;
+				menuItem.Type = (MENU_ITEM_TYPE)menuItemInfo.fType;
 
 				// wID - idCmdFirst
 				menuItem.ID = (int)(menuItemInfo.wID - 1);
 
-				if (menuItem.Type == MenuItemType.MFT_STRING)
+				if (menuItem.Type == MENU_ITEM_TYPE.MFT_STRING)
 				{
 					Debug.WriteLine("Item {0} ({1}): {2}", index, menuItemInfo.wID, menuItemInfo.dwTypeData);
 
@@ -245,7 +246,7 @@ namespace Files.App.Utils.Shell
 						}
 					}
 
-					if (menuItemInfo.hSubMenu != HMENU.NULL)
+					if (menuItemInfo.hSubMenu != Vanara.PInvoke.HMENU.NULL)
 					{
 						Debug.WriteLine("Item {0}: has submenu", index);
 						var subItems = new List<Win32ContextMenuItem>();

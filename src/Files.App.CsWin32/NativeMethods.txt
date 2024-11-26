@@ -159,3 +159,4 @@ ApplicationDestinations
 IApplicationDocumentLists
 ApplicationDocumentLists
 IApplicationActivationManager
+MENU_ITEM_TYPE
