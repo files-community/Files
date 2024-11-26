@@ -121,6 +121,8 @@ namespace Files.Core.SourceGenerator.Generators
 			// Class declaration
 			var classDeclaration = SyntaxFactory.ClassDeclaration(className)
 				.AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword), SyntaxFactory.Token(SyntaxKind.PartialKeyword))
+				.AddBaseListTypes(SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName(
+					type is SpecificationType.Window ? SpecificationWindowName : SpecificationControlName)))
 				.AddMembers(fieldDeclaration, initializeContentLayoutMethod, updateContentLayoutMethod)
 				.AddAttributeLists(SourceGeneratorHelper.GetAttributeForField(nameof(RealTimeLayoutGenerator)));
 
