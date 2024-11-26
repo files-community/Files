@@ -38,10 +38,10 @@ namespace Files.App.UserControls.FilePreviews
 			var physicalPos = source.TransformPoint(new Point(0, 0));
 			var scale = XamlRoot.RasterizationScale;
 			var result = new Rect();
-			result.X = (int)(physicalPos.X * scale + 0.5);
-			result.Y = (int)(physicalPos.Y * scale + 0.5);
-			result.Width = (int)(physicalSize.Width * scale + 0.5);
-			result.Height = (int)(physicalSize.Height * scale + 0.5);
+			result.X = physicalPos.X * scale + 0.5;
+			result.Y = physicalPos.Y * scale + 0.5;
+			result.Width = physicalSize.Width * scale + 0.5;
+			result.Height = physicalSize.Height * scale + 0.5;
 			return result;
 		}
 
