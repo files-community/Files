@@ -14,6 +14,7 @@
 	xmlns:keyboard="using:Files.App.UserControls.KeyboardShortcut"
 	xmlns:local="using:Files.App.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:s="using:Files.App.UserControls.Symbols"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:ucs="using:Files.App.UserControls.StatusCenter"
@@ -263,36 +264,36 @@
 					</AnimatedIcon>
 				</ToggleButton>
 
-				<StackPanel FlowDirection="LeftToRight" Orientation="Horizontal">
-					<Button
-						x:Name="Back"
-						AccessKey="B"
-						AccessKeyInvoked="Button_AccessKeyInvoked"
-						AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateBack.Description, Mode=OneWay}"
-						AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateBack.Label, Mode=OneWay}"
-						Command="{x:Bind ViewModel.Commands.NavigateBack, Mode=OneWay}"
-						IsEnabled="{x:Bind ViewModel.Commands.NavigateBack.IsExecutable, Mode=OneWay}"
-						Style="{StaticResource AddressToolbarButtonStyle}"
-						ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
-						<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
-						<Button.ContextFlyout>
-							<MenuFlyout
-								x:Name="BackHistoryFlyout"
-								Opening="BackHistoryFlyout_Opening"
-								Placement="BottomEdgeAlignedLeft"
-								ScrollViewer.VerticalScrollBarVisibility="Auto"
-								ScrollViewer.VerticalScrollMode="Auto">
-								<MenuFlyout.MenuFlyoutPresenterStyle>
-									<Style TargetType="MenuFlyoutPresenter">
-										<Setter Property="MaxHeight" Value="400" />
-										<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
-										<Setter Target="HighContrastAdjustment" Value="None" />
-									</Style>
-								</MenuFlyout.MenuFlyoutPresenterStyle>
-							</MenuFlyout>
-						</Button.ContextFlyout>
-					</Button>
+				<Button
+					x:Name="Back"
+					AccessKey="B"
+					AccessKeyInvoked="Button_AccessKeyInvoked"
+					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateBack.Description, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateBack.Label, Mode=OneWay}"
+					Command="{x:Bind ViewModel.Commands.NavigateBack, Mode=OneWay}"
+					IsEnabled="{x:Bind ViewModel.Commands.NavigateBack.IsExecutable, Mode=OneWay}"
+					Style="{StaticResource AddressToolbarButtonStyle}"
+					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
+					<s:ArrowGlyph Arrow="Back" FontSize="14" />
+					<Button.ContextFlyout>
+						<MenuFlyout
+							x:Name="BackHistoryFlyout"
+							Opening="BackHistoryFlyout_Opening"
+							Placement="BottomEdgeAlignedLeft"
+							ScrollViewer.VerticalScrollBarVisibility="Auto"
+							ScrollViewer.VerticalScrollMode="Auto">
+							<MenuFlyout.MenuFlyoutPresenterStyle>
+								<Style TargetType="MenuFlyoutPresenter">
+									<Setter Property="MaxHeight" Value="400" />
+									<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
+									<Setter Target="HighContrastAdjustment" Value="None" />
+								</Style>
+							</MenuFlyout.MenuFlyoutPresenterStyle>
+						</MenuFlyout>
+					</Button.ContextFlyout>
+				</Button>
 
+				<StackPanel FlowDirection="LeftToRight">
 					<Button
 						x:Name="Forward"
 						AccessKey="F"
@@ -303,7 +304,7 @@
 						IsEnabled="{x:Bind ViewModel.Commands.NavigateForward.IsExecutable, Mode=OneWay}"
 						Style="{StaticResource AddressToolbarButtonStyle}"
 						ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
-						<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
+						<s:ArrowGlyph Arrow="Forward" FontSize="14" />
 						<Button.ContextFlyout>
 							<MenuFlyout
 								x:Name="ForwardHistoryFlyout"
