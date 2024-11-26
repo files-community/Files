@@ -92,14 +92,12 @@ namespace Files.Core.SourceGenerator.Generators
 			// Usings
 			var usings = Array.Empty<UsingDirectiveSyntax>();
 
-			// Field declaration: private IRealTimeLayoutService RTLayoutService;
+			// Field declaration: private IRealTimeLayoutService;
 			var fieldDeclaration = SyntaxFactory.FieldDeclaration(
 				SyntaxFactory.VariableDeclaration(
 					SyntaxFactory.IdentifierName(ServiceInterfaceName))
-				.AddVariables(SyntaxFactory.VariableDeclarator(ServiceVariableName)
-					.WithInitializer(SyntaxFactory.EqualsValueClause(
-						SyntaxFactory.ParseExpression($"Ioc.Default.GetRequiredService<{ServiceInterfaceName}>()")))))
-				.AddModifiers(SyntaxFactory.Token(SyntaxKind.PrivateKeyword), SyntaxFactory.Token(SyntaxKind.ReadOnlyKeyword))
+				.AddVariables(SyntaxFactory.VariableDeclarator(ServiceVariableName)))
+				.AddModifiers(SyntaxFactory.Token(SyntaxKind.PrivateKeyword))
 				.AddAttributeLists(SourceGeneratorHelper.GetAttributeForField(nameof(RealTimeLayoutGenerator)));
 
 			// Method: InitializeContentLayout
@@ -148,6 +146,29 @@ namespace Files.Core.SourceGenerator.Generators
 		private static IEnumerable<StatementSyntax> CreateContentLayoutBody(SpecificationType type, bool isInitialize = false)
 		{
 			var statements = new List<StatementSyntax>();
+
+			if (isInitialize)
+			{
+
+				statements.Add(
+					SyntaxFactory.ExpressionStatement(
+				SyntaxFactory.AssignmentExpression(
+					SyntaxKind.SimpleAssignmentExpression,
+					SyntaxFactory.IdentifierName(ServiceVariableName),
+					SyntaxFactory.InvocationExpression(
+						SyntaxFactory.MemberAccessExpression(
+							SyntaxKind.SimpleMemberAccessExpression,
+							SyntaxFactory.MemberAccessExpression(
+								SyntaxKind.SimpleMemberAccessExpression,
+								SyntaxFactory.IdentifierName("Ioc"),
+								SyntaxFactory.IdentifierName("Default")),
+							SyntaxFactory.GenericName(
+								SyntaxFactory.Identifier("GetRequiredService"))
+							.WithTypeArgumentList(
+								SyntaxFactory.TypeArgumentList(
+									SyntaxFactory.SingletonSeparatedList<TypeSyntax>(
+										SyntaxFactory.IdentifierName(ServiceInterfaceName)))))))));
+			}
 
 			if (type == SpecificationType.Window)
 			{
