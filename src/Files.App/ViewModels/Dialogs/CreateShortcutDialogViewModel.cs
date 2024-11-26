@@ -182,7 +182,7 @@ namespace Files.App.ViewModels.Dialogs
 				}
 				finally
 				{
-					SetDefaultName();
+					AutoFillName();
 				}
 			}
 		}
@@ -265,7 +265,7 @@ namespace Files.App.ViewModels.Dialogs
 			ShortcutCreatedSuccessfully = await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, FullPath, Arguments);
 		}
 
-		private void SetDefaultName()
+		private void AutoFillName()
 		{
 			if (DestinationPathExists)
 			{
@@ -287,7 +287,7 @@ namespace Files.App.ViewModels.Dialogs
 				}
 				ShortcutName = destinationName;
 			}
-			else
+			else if (!string.IsNullOrEmpty(FullPath))
 			{
 				var uri = new Uri(FullPath);
 				ShortcutName = uri.Host;

@@ -78,17 +78,18 @@
 
 			<!--  Name Box  -->
 			<TextBox
-				x:Name="ShortcutName"
+				x:Name="ShortcutNameTextBox"
 				Grid.Row="4"
 				Grid.ColumnSpan="2"
 				HorizontalAlignment="Stretch"
 				Text="{x:Bind ViewModel.ShortcutName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 				<TextBox.Resources>
 					<TeachingTip
-						x:Name="InvalidNameWarning"
+						x:Name="InvalidNameTeachingTip"
 						Title="{helpers:ResourceString Name=InvalidFilename/Text}"
 						IsOpen="{x:Bind ViewModel.ShowNameWarningTip, Mode=OneWay}"
-						PreferredPlacement="Bottom" />
+						PreferredPlacement="Bottom"
+						Target="{x:Bind ShortcutNameTextBox}" />
 				</TextBox.Resources>
 			</TextBox>
 		</Grid>
