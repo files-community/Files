@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System.IO;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
+using Windows.Win32;
 using Windows.Win32.UI.Shell;
 
 namespace Files.App.Utils.Shell
@@ -161,7 +162,7 @@ namespace Files.App.Utils.Shell
 									if (!group.Any())
 										continue;
 
-									using var cMenu = await ContextMenu.GetContextMenuForFiles(group.ToArray(), CMF.CMF_DEFAULTONLY);
+									using var cMenu = await ContextMenu.GetContextMenuForFiles(group.ToArray(), PInvoke.CMF_DEFAULTONLY);
 
 									if (cMenu is not null)
 										await cMenu.InvokeVerb(Shell32.CMDSTR_OPEN);
@@ -177,7 +178,7 @@ namespace Files.App.Utils.Shell
 							{
 								opened = await Win32Helper.StartSTATask(async () =>
 								{
-									using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { application }, CMF.CMF_DEFAULTONLY);
+									using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { application }, PInvoke.CMF_DEFAULTONLY);
 
 									if (cMenu is not null)
 										await cMenu.InvokeItem(cMenu.Items.FirstOrDefault()?.ID ?? -1);

@@ -11,6 +11,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.Win32;
 
 namespace Files.App.Helpers
 {
@@ -53,7 +54,7 @@ namespace Files.App.Helpers
 			}
 
 			var contextMenu = await ContextMenu.GetContextMenuForFiles(filePaths,
-				shiftPressed ? CMF.CMF_EXTENDEDVERBS : CMF.CMF_NORMAL, FilterMenuItems(showOpenMenu));
+				shiftPressed ? PInvoke.CMF_EXTENDEDVERBS : PInvoke.CMF_NORMAL, FilterMenuItems(showOpenMenu));
 
 			if (contextMenu is not null)
 				LoadMenuFlyoutItem(menuItemsList, contextMenu, contextMenu.Items, cancellationToken, true);

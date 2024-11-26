@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using Vanara.InteropServices;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
+using Windows.Win32;
 
 namespace Files.App.Utils.Shell
 {
@@ -43,7 +44,7 @@ namespace Files.App.Utils.Shell
 
 		public async static Task<bool> InvokeVerb(string verb, params string[] filePaths)
 		{
-			using var cMenu = await GetContextMenuForFiles(filePaths, CMF.CMF_DEFAULTONLY);
+			using var cMenu = await GetContextMenuForFiles(filePaths, PInvoke.CMF_DEFAULTONLY);
 
 			return cMenu is not null && await cMenu.InvokeVerb(verb);
 		}
@@ -112,7 +113,7 @@ namespace Files.App.Utils.Shell
 			return false;
 		}
 
-		public async static Task<ContextMenu?> GetContextMenuForFiles(string[] filePathList, CMF flags, Func<string, bool>? itemFilter = null)
+		public async static Task<ContextMenu?> GetContextMenuForFiles(string[] filePathList, uint flags, Func<string, bool>? itemFilter = null)
 		{
 			var owningThread = new ThreadWithMessageQueue();
 
@@ -140,14 +141,14 @@ namespace Files.App.Utils.Shell
 			});
 		}
 
-		public async static Task<ContextMenu?> GetContextMenuForFiles(ShellItem[] shellItems, CMF flags, Func<string, bool>? itemFilter = null)
+		public async static Task<ContextMenu?> GetContextMenuForFiles(ShellItem[] shellItems, uint flags, Func<string, bool>? itemFilter = null)
 		{
 			var owningThread = new ThreadWithMessageQueue();
 
 			return await owningThread.PostMethod<ContextMenu>(() => GetContextMenuForFiles(shellItems, flags, owningThread, itemFilter));
 		}
 
-		private static ContextMenu? GetContextMenuForFiles(ShellItem[] shellItems, CMF flags, ThreadWithMessageQueue owningThread, Func<string, bool>? itemFilter = null)
+		private static ContextMenu? GetContextMenuForFiles(ShellItem[] shellItems, uint flags, ThreadWithMessageQueue owningThread, Func<string, bool>? itemFilter = null)
 		{
 			if (!shellItems.Any())
 				return null;
@@ -174,7 +175,7 @@ namespace Files.App.Utils.Shell
 
 		public static async Task WarmUpQueryContextMenuAsync()
 		{
-			using var cMenu = await GetContextMenuForFiles(new string[] { $@"{Constants.UserEnvironmentPaths.SystemDrivePath}\" }, CMF.CMF_NORMAL);
+			using var cMenu = await GetContextMenuForFiles(new string[] { $@"{Constants.UserEnvironmentPaths.SystemDrivePath}\" }, PInvoke.CMF_NORMAL);
 		}
 
 		private void EnumMenuItems(HMENU hMenu, List<Win32ContextMenuItem> menuItemsResult, bool loadSubenus = false)
