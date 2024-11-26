@@ -100,7 +100,9 @@ namespace Files.App
 				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 				var isLeaveAppRunning = userSettingsService.GeneralSettingsService.LeaveAppRunning;
 
-				Ioc.Default.GetRequiredService<IRealTimeLayoutService>().UpdateCulture(new(AppLanguageHelper.PreferredLanguage.Code));
+				var realTimeLayoutService = Ioc.Default.GetRequiredService<IRealTimeLayoutService>();
+				realTimeLayoutService.UpdateCulture(new(AppLanguageHelper.PreferredLanguage.Code));
+
 				MainWindow.Instance.InitializeContentLayout();
 
 				if (isStartupTask && !isLeaveAppRunning)

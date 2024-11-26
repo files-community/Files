@@ -21,7 +21,9 @@ namespace Files.App.Utils.Storage
 	{
 		private static IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 
-		private static IRealTimeLayoutService RealTimeLayoutService { get; } = Ioc.Default.GetRequiredService<IRealTimeLayoutService>();
+		private static readonly IRealTimeLayoutService RealTimeLayoutService = Ioc.Default.GetRequiredService<IRealTimeLayoutService>();
+
+		private static readonly int RePos = RealTimeLayoutService.FlowDirection == FlowDirection.LeftToRight ? 1 : -1;
 
 		/// <summary>
 		/// Get window handle (hWnd) of the given properties window instance
@@ -133,12 +135,11 @@ namespace Files.App.Utils.Storage
 
 			// WINUI3: Move window to cursor position
 			PInvoke.GetCursorPos(out var pointerPosition);
-			var rePos = RealTimeLayoutService.FlowDirection is FlowDirection.LeftToRight ? 1 : -1;
 			var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);
 			var appWindowPos = new PointInt32
 			{
 				X = displayArea.WorkArea.X
-					+ Math.Max(0, Math.Min(displayArea.WorkArea.Width - appWindow.Size.Width,( pointerPosition.X * rePos) - displayArea.WorkArea.X)),
+					+ Math.Max(0, Math.Min(displayArea.WorkArea.Width - appWindow.Size.Width,( pointerPosition.X * RePos) - displayArea.WorkArea.X)),
 				Y = displayArea.WorkArea.Y
 					+ Math.Max(0, Math.Min(displayArea.WorkArea.Height - appWindow.Size.Height, pointerPosition.Y - displayArea.WorkArea.Y)),
 			};

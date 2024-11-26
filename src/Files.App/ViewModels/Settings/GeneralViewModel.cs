@@ -18,6 +18,8 @@ namespace Files.App.ViewModels.Settings
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 
+		private static readonly IRealTimeLayoutService RealTimeLayoutService = Ioc.Default.GetRequiredService<IRealTimeLayoutService>();
+
 		private bool disposed;
 
 		private ReadOnlyCollection<IMenuFlyoutItemViewModel> addFlyoutItemsSource;
@@ -78,8 +80,7 @@ namespace Files.App.ViewModels.Settings
 					selectedAppLanguageIndex = value;
 					OnPropertyChanged(nameof(SelectedAppLanguageIndex));
 
-					var RTLayoutService = Ioc.Default.GetRequiredService<IRealTimeLayoutService>();
-					RTLayoutService.UpdateCulture(new(AppLanguageHelper.PreferredLanguage.Code));
+					RealTimeLayoutService.UpdateCulture(new(AppLanguageHelper.PreferredLanguage.Code));
 
 					ShowRestartControl = true;
 				}

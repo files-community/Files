@@ -15,6 +15,10 @@ namespace Files.App.UserControls.Sidebar
 	[ContentProperty(Name = "InnerContent")]
 	public sealed partial class SidebarView : UserControl, INotifyPropertyChanged
 	{
+		private static readonly IRealTimeLayoutService RealTimeLayoutService = Ioc.Default.GetRequiredService<IRealTimeLayoutService>();
+
+		private static readonly int RePos = RealTimeLayoutService.FlowDirection == FlowDirection.LeftToRight ? 1 : -1;
+
 		private const double COMPACT_MAX_WIDTH = 200;
 
 		public event EventHandler<object>? ItemInvoked;
@@ -130,10 +134,7 @@ namespace Files.App.UserControls.Sidebar
 
 		private void SidebarResizer_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
 		{
-			var rtls = Ioc.Default.GetRequiredService<IRealTimeLayoutService>();
-			var rePos = rtls.FlowDirection == FlowDirection.LeftToRight ? 1 : -1;
-			var newWidth = preManipulationSidebarWidth + (e.Cumulative.Translation.X * rePos);
-
+			var newWidth = preManipulationSidebarWidth + (e.Cumulative.Translation.X * RePos);
 			UpdateDisplayModeForPaneWidth(newWidth);
 			e.Handled = true;
 		}

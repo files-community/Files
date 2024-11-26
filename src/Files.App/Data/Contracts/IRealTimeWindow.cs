@@ -11,11 +11,11 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// Initializes the content layout for the window.
 		/// </summary>
-		void InitializeContentLayout() { }
+		void InitializeContentLayout();
 
 		/// <summary>
 		/// Updates the content layout of the window.
 		/// </summary>
-		void UpdateContentLayout() { }
+		void UpdateContentLayout();
 	}
 }
