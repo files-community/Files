@@ -105,6 +105,16 @@ namespace Files.Core.SourceGenerator
 		internal class RealTimeLayoutGenerator
 		{
 			/// <summary>
+			/// The name of the real-time service interface.
+			/// </summary>
+			internal const string ServiceInterfaceName = "IRealTimeLayoutService";
+
+			/// <summary>
+			/// The name of the real-time service generated variable.
+			/// </summary>
+			internal const string ServiceVariableName = "__rtls__";
+
+			/// <summary>
 			/// The name of the real-time specification window.
 			/// </summary>
 			internal const string SpecificationWindowName = "IRealTimeWindow";

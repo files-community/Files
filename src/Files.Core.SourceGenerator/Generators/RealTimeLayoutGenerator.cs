@@ -47,7 +47,7 @@ namespace Files.Core.SourceGenerator.Generators
 			{
 				return classDeclaration.BaseList?.Types.Any(baseType => baseType.Type is IdentifierNameSyntax identifier &&
 					(identifier.Identifier.Text == SpecificationWindowName || identifier.Identifier.Text == SpecificationControlName)) == true;
-			}
+		}
 			return false;
 		}
 
@@ -72,10 +72,7 @@ namespace Files.Core.SourceGenerator.Generators
 				}
 			}
 
-			if (type != SpecificationType.None)
-				return (classDeclaration, type);
-
-			return null;
+			return type != SpecificationType.None ? (classDeclaration, type) : null;
 		}
 
 		/// <summary>
@@ -89,41 +86,43 @@ namespace Files.Core.SourceGenerator.Generators
 		{
 			// Namespace
 			var namespaceDeclaration = SyntaxFactory.NamespaceDeclaration(SyntaxFactory.ParseName(namespaceName))
+				.WithLeadingTrivia(SourceGeneratorHelper.GetLicenceHeader())
 				.NormalizeWhitespace();
 
 			// Usings
-			var usings = new[]
-			{
-				SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("System.Windows")),
-				SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("Microsoft.UI.Xaml")),
-				SyntaxFactory.UsingDirective(SyntaxFactory.ParseName("Microsoft.UI.Xaml.Controls"))
-			};
+			var usings = Array.Empty<UsingDirectiveSyntax>();
 
 			// Field declaration: private IRealTimeLayoutService RTLayoutService;
 			var fieldDeclaration = SyntaxFactory.FieldDeclaration(
 				SyntaxFactory.VariableDeclaration(
-					SyntaxFactory.IdentifierName("IRealTimeLayoutService"))
-				.AddVariables(SyntaxFactory.VariableDeclarator("RTLayoutService")))
-				.AddModifiers(SyntaxFactory.Token(SyntaxKind.PrivateKeyword));
+					SyntaxFactory.IdentifierName(ServiceInterfaceName))
+				.AddVariables(SyntaxFactory.VariableDeclarator(ServiceVariableName)
+					.WithInitializer(SyntaxFactory.EqualsValueClause(
+						SyntaxFactory.ParseExpression($"Ioc.Default.GetRequiredService<{ServiceInterfaceName}>()")))))
+				.AddModifiers(SyntaxFactory.Token(SyntaxKind.PrivateKeyword), SyntaxFactory.Token(SyntaxKind.ReadOnlyKeyword))
+				.AddAttributeLists(SourceGeneratorHelper.GetAttributeForField(nameof(RealTimeLayoutGenerator)));
 
 			// Method: InitializeContentLayout
 			var initializeContentLayoutMethod = SyntaxFactory.MethodDeclaration(
 					SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.VoidKeyword)),
 					"InitializeContentLayout")
 				.AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
-				.WithBody(SyntaxFactory.Block(CreateInitializeContentLayoutBody(type)));
+				.WithBody(SyntaxFactory.Block(CreateContentLayoutBody(type, isInitialize: true)))
+				.AddAttributeLists(SourceGeneratorHelper.GetAttributeForMethod(nameof(RealTimeLayoutGenerator)));
 
 			// Method: UpdateContentLayout
 			var updateContentLayoutMethod = SyntaxFactory.MethodDeclaration(
 					SyntaxFactory.PredefinedType(SyntaxFactory.Token(SyntaxKind.VoidKeyword)),
 					"UpdateContentLayout")
 				.AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
-				.WithBody(SyntaxFactory.Block(CreateUpdateContentLayoutBody(type)));
+				.WithBody(SyntaxFactory.Block(CreateContentLayoutBody(type)))
+				.AddAttributeLists(SourceGeneratorHelper.GetAttributeForMethod(nameof(RealTimeLayoutGenerator)));
 
 			// Class declaration
 			var classDeclaration = SyntaxFactory.ClassDeclaration(className)
 				.AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword), SyntaxFactory.Token(SyntaxKind.PartialKeyword))
-				.AddMembers(fieldDeclaration, initializeContentLayoutMethod, updateContentLayoutMethod);
+				.AddMembers(fieldDeclaration, initializeContentLayoutMethod, updateContentLayoutMethod)
+				.AddAttributeLists(SourceGeneratorHelper.GetAttributeForField(nameof(RealTimeLayoutGenerator)));
 
 			// Add class to namespace
 			namespaceDeclaration = namespaceDeclaration.AddMembers(classDeclaration);
@@ -133,44 +132,66 @@ namespace Files.Core.SourceGenerator.Generators
 				.AddMembers(namespaceDeclaration)
 				.NormalizeWhitespace();
 
-			return compilationUnit.ToFullString();
+			return SyntaxFactory.SyntaxTree(compilationUnit, encoding: Encoding.UTF8).GetText().ToString();
 		}
 
 		/// <summary>
-		/// Creates the body statements for the InitializeContentLayout method.
+		/// Creates a collection of statements for updating the content layout body.
+		/// Depending on the specification type, it will update the title bar and content layout.
+		/// If the <paramref name="isInitialize"/> flag is set to true, a callback is added for updating the content layout.
 		/// </summary>
-		/// <param name="type">The type of the specification (Window or Control).</param>
-		/// <returns>A collection of statements for the method body.</returns>
-		private static IEnumerable<StatementSyntax> CreateInitializeContentLayoutBody(SpecificationType type)
-		{
-			var statements = new List<StatementSyntax>
-			{
-
-				SyntaxFactory.ParseStatement("RTLayoutService = Ioc.Default.GetRequiredService<IRealTimeLayoutService>();")
-			};
-
-			if (type == SpecificationType.Window)
-				statements.Add(SyntaxFactory.ParseStatement("RTLayoutService.UpdateTitleBar(this);"));
-
-			statements.Add(SyntaxFactory.ParseStatement("RTLayoutService.UpdateContent(this);"));
-			statements.Add(SyntaxFactory.ParseStatement("RTLayoutService.AddCallback(this, UpdateContentLayout);"));
-
-			return statements;
-		}
-
-		/// <summary>
-		/// Creates the body statements for the UpdateContentLayout method.
-		/// </summary>
-		/// <param name="type">The type of the specification (Window or Control).</param>
-		/// <returns>A collection of statements for the method body.</returns>
-		private static IEnumerable<StatementSyntax> CreateUpdateContentLayoutBody(SpecificationType type)
+		/// <param name="type">The specification type, used to determine if the title bar should be updated.</param>
+		/// <param name="isInitialize">A flag indicating whether to add a callback for content layout initialization.</param>
+		/// <returns>An IEnumerable of <see cref="StatementSyntax"/> representing the generated statements.</returns>
+		private static IEnumerable<StatementSyntax> CreateContentLayoutBody(SpecificationType type, bool isInitialize = false)
 		{
 			var statements = new List<StatementSyntax>();
 
 			if (type == SpecificationType.Window)
-				statements.Add(SyntaxFactory.ParseStatement("RTLayoutService.UpdateTitleBar(this);"));
+			{
+				statements.Add(
+					SyntaxFactory.ExpressionStatement(
+						SyntaxFactory.InvocationExpression(
+							SyntaxFactory.MemberAccessExpression(
+								SyntaxKind.SimpleMemberAccessExpression,
+								SyntaxFactory.IdentifierName(ServiceVariableName),
+								SyntaxFactory.IdentifierName("UpdateTitleBar")))
+						.WithArgumentList(
+							SyntaxFactory.ArgumentList(
+								SyntaxFactory.SingletonSeparatedList(
+									SyntaxFactory.Argument(SyntaxFactory.ThisExpression()))))));
+			}
 
-			statements.Add(SyntaxFactory.ParseStatement("RTLayoutService.UpdateContent(this);"));
+			statements.Add(
+				SyntaxFactory.ExpressionStatement(
+					SyntaxFactory.InvocationExpression(
+						SyntaxFactory.MemberAccessExpression(
+							SyntaxKind.SimpleMemberAccessExpression,
+							SyntaxFactory.IdentifierName(ServiceVariableName),
+							SyntaxFactory.IdentifierName("UpdateContent")))
+					.WithArgumentList(
+						SyntaxFactory.ArgumentList(
+							SyntaxFactory.SingletonSeparatedList(
+								SyntaxFactory.Argument(SyntaxFactory.ThisExpression()))))));
+
+			if (isInitialize)
+			{
+				statements.Add(
+				SyntaxFactory.ExpressionStatement(
+					SyntaxFactory.InvocationExpression(
+						SyntaxFactory.MemberAccessExpression(
+							SyntaxKind.SimpleMemberAccessExpression,
+							SyntaxFactory.IdentifierName(ServiceVariableName),
+							SyntaxFactory.IdentifierName("AddCallback")))
+					.WithArgumentList(
+						SyntaxFactory.ArgumentList(
+							SyntaxFactory.SeparatedList(
+								new[]
+								{
+							SyntaxFactory.Argument(SyntaxFactory.ThisExpression()),
+							SyntaxFactory.Argument(SyntaxFactory.IdentifierName("UpdateContentLayout"))
+								})))));
+			}
 
 			return statements;
 		}
@@ -188,6 +209,7 @@ namespace Files.Core.SourceGenerator.Generators
 					return namespaceDeclaration.Name.ToString();
 				node = node.Parent!;
 			}
+
 			return "GlobalNamespace";
 		}
 	}
