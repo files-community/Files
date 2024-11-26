@@ -77,15 +77,18 @@ namespace Files.App.ViewModels.Previews
 			}
 		}
 
-		public void SizeChanged(RECT size)
+		public void SizeChanged(Windows.Foundation.Rect size)
 		{
-			if (hwnd != HWND.NULL)
-				SetWindowPos(hwnd, HWND.HWND_TOP, size.Left, size.Top, size.Width, size.Height, SetWindowPosFlags.SWP_NOACTIVATE);
+			var width = (int)size.Width;
+			var height = (int)size.Height;
 
-			currentHandler?.ResetBounds(new(0, 0, size.Width, size.Height));
+			if (hwnd != HWND.NULL)
+				SetWindowPos(hwnd, HWND.HWND_TOP, (int)size.Left, (int)size.Top, width, height, SetWindowPosFlags.SWP_NOACTIVATE);
+
+			currentHandler?.ResetBounds(new(0, 0, width, height));
 
 			if (outputLink is not null)
-				outputLink.PlacementVisual.Size = new(size.Width, size.Height);
+				outputLink.PlacementVisual.Size = new(width, height);
 		}
 
 		private nint WndProc(HWND hwnd, uint msg, nint wParam, nint lParam)

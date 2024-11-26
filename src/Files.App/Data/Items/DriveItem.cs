@@ -341,25 +341,25 @@ namespace Files.App.Data.Items
 
 		public Task<INestedFile> GetFileAsync(string fileName, CancellationToken cancellationToken = default)
 		{
-			var folder = new WindowsStorageFolder(Root);
+			var folder = new WindowsStorageFolderLegacy(Root);
 			return folder.GetFileAsync(fileName, cancellationToken);
 		}
 
 		public Task<INestedFolder> GetFolderAsync(string folderName, CancellationToken cancellationToken = default)
 		{
-			var folder = new WindowsStorageFolder(Root);
+			var folder = new WindowsStorageFolderLegacy(Root);
 			return folder.GetFolderAsync(folderName, cancellationToken);
 		}
 
 		public IAsyncEnumerable<INestedStorable> GetItemsAsync(StorableKind kind = StorableKind.All, CancellationToken cancellationToken = default)
 		{
-			var folder = new WindowsStorageFolder(Root);
+			var folder = new WindowsStorageFolderLegacy(Root);
 			return folder.GetItemsAsync(kind, cancellationToken);
 		}
 
 		public Task<IFolder?> GetParentAsync(CancellationToken cancellationToken = default)
 		{
-			var folder = new WindowsStorageFolder(Root);
+			var folder = new WindowsStorageFolderLegacy(Root);
 			return folder.GetParentAsync(cancellationToken);
 		}
 	}

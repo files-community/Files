@@ -71,13 +71,13 @@
         <PackageReference Include="DiscUtils.Udf" Version="0.16.13" />
         <PackageReference Include="FluentFTP" Version="43.0.1" />
         <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
-        <PackageReference Include="MessageFormat" Version="7.1.0" />
+        <PackageReference Include="MessageFormat" Version="7.1.2" />
         <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.8" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
-        <PackageReference Include="Sentry" Version="4.10.2" />
+        <PackageReference Include="Sentry" Version="4.13.0" />
         <PackageReference Include="SevenZipSharp" Version="1.0.2" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.8" />
         <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.241107002" />

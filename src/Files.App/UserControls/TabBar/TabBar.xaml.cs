@@ -205,7 +205,7 @@ namespace Files.App.UserControls.TabBar
 			{
 				var item = tabStrip.ContainerFromIndex(i) as TabViewItem;
 
-				if (e.GetPosition(item).Y - item.ActualHeight < 0)
+				if (e.GetPosition(item).X - item.ActualWidth < 0)
 				{
 					index = i;
 					break;

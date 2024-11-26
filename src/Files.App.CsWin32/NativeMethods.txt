@@ -152,9 +152,13 @@ BHID_SFUIObject
 IContextMenu
 CMF_NORMAL
 CMF_OPTIMIZEFORINVOKE
+CMF_EXTENDEDVERBS
+CMF_DEFAULTONLY
 IApplicationDestinations
 ApplicationDestinations
 IApplicationDocumentLists
 ApplicationDocumentLists
+IApplicationActivationManager
+MENU_ITEM_TYPE
 SetWindowLongPtr
 GetWindowLongPtr
