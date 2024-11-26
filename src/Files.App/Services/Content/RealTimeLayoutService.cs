@@ -41,7 +41,9 @@ namespace Files.App.Services.Content
 		{
 			var weakReference = new WeakReference<object>(target);
 			_callbacks.Add((weakReference, callback));
-			target.Closed += (sender, args) => RemoveCallback(target);
+
+			if (!IsExistTarget(target))
+				target.Closed += (sender, args) => RemoveCallback(target);
 		}
 
 		/// <inheritdoc/>
@@ -49,7 +51,9 @@ namespace Files.App.Services.Content
 		{
 			var weakReference = new WeakReference<object>(target);
 			_callbacks.Add((weakReference, callback));
-			target.Unloaded += (sender, args) => RemoveCallback(target);
+
+			if (!IsExistTarget(target))
+				target.Unloaded += (sender, args) => RemoveCallback(target);
 		}
 
 		/// <inheritdoc/>
@@ -87,6 +91,9 @@ namespace Files.App.Services.Content
 		{
 			frameworkElement.FlowDirection = FlowDirection;
 		}
+
+		private bool IsExistTarget(object target)
+			=> _callbacks.FindIndex(item => item.Reference.TryGetTarget(out var targetObject) && targetObject == target) >= 0;
 
 		/// <summary>
 		/// Removes the callback associated with the specified target.

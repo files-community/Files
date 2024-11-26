@@ -112,7 +112,7 @@ namespace Files.Core.SourceGenerator
 			/// <summary>
 			/// The name of the real-time service generated variable.
 			/// </summary>
-			internal const string ServiceVariableName = "__rtls__";
+			internal const string ServiceVariableName = "RealTimeLayoutService";
 
 			/// <summary>
 			/// The name of the real-time specification window.

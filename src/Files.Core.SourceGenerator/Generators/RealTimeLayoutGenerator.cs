@@ -92,12 +92,17 @@ namespace Files.Core.SourceGenerator.Generators
 			// Usings
 			var usings = Array.Empty<UsingDirectiveSyntax>();
 
-			// Field declaration: private IRealTimeLayoutService;
-			var fieldDeclaration = SyntaxFactory.FieldDeclaration(
-				SyntaxFactory.VariableDeclaration(
-					SyntaxFactory.IdentifierName(ServiceInterfaceName))
-				.AddVariables(SyntaxFactory.VariableDeclarator(ServiceVariableName)))
-				.AddModifiers(SyntaxFactory.Token(SyntaxKind.PrivateKeyword))
+			// Property: IRealTimeLayoutService RealTimeLayoutService;
+			var propertyDeclaration = SyntaxFactory.PropertyDeclaration(
+					SyntaxFactory.IdentifierName(ServiceInterfaceName),
+					SyntaxFactory.Identifier(ServiceVariableName))
+				.AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword))
+				.AddAccessorListAccessors(
+					SyntaxFactory.AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)
+						.WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)),
+					SyntaxFactory.AccessorDeclaration(SyntaxKind.SetAccessorDeclaration)
+						.AddModifiers(SyntaxFactory.Token(SyntaxKind.PrivateKeyword))
+						.WithSemicolonToken(SyntaxFactory.Token(SyntaxKind.SemicolonToken)))
 				.AddAttributeLists(SourceGeneratorHelper.GetAttributeForField(nameof(RealTimeLayoutGenerator)));
 
 			// Method: InitializeContentLayout
@@ -121,7 +126,7 @@ namespace Files.Core.SourceGenerator.Generators
 				.AddModifiers(SyntaxFactory.Token(SyntaxKind.PublicKeyword), SyntaxFactory.Token(SyntaxKind.PartialKeyword))
 				.AddBaseListTypes(SyntaxFactory.SimpleBaseType(SyntaxFactory.ParseTypeName(
 					type is SpecificationType.Window ? SpecificationWindowName : SpecificationControlName)))
-				.AddMembers(fieldDeclaration, initializeContentLayoutMethod, updateContentLayoutMethod)
+				.AddMembers(propertyDeclaration, initializeContentLayoutMethod, updateContentLayoutMethod)
 				.AddAttributeLists(SourceGeneratorHelper.GetAttributeForField(nameof(RealTimeLayoutGenerator)));
 
 			// Add class to namespace

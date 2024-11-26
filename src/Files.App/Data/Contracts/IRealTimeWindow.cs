@@ -8,6 +8,8 @@ namespace Files.App.Data.Contracts
 	/// </summary>
 	internal interface IRealTimeWindow
 	{
+		IRealTimeLayoutService RealTimeLayoutService { get; }
+
 		/// <summary>
 		/// Initializes the content layout for the window.
 		/// </summary>
