@@ -271,6 +271,7 @@
 					Margin="8,8,8,8"
 					HorizontalAlignment="Stretch"
 					TrackBarHeight="4"
+					ValueBarHeight="8"
 					Visibility="Collapsed"
 					Value="{x:Bind ViewModel.SelectedDriveItem.PercentageUsed, Mode=OneWay}" />
 				<Grid
