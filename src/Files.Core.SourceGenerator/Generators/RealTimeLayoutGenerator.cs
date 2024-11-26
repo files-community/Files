@@ -47,7 +47,7 @@ namespace Files.Core.SourceGenerator.Generators
 			{
 				return classDeclaration.BaseList?.Types.Any(baseType => baseType.Type is IdentifierNameSyntax identifier &&
 					(identifier.Identifier.Text == SpecificationWindowName || identifier.Identifier.Text == SpecificationControlName)) == true;
-		}
+			}
 			return false;
 		}
 
@@ -186,10 +186,9 @@ namespace Files.Core.SourceGenerator.Generators
 					.WithArgumentList(
 						SyntaxFactory.ArgumentList(
 							SyntaxFactory.SeparatedList(
-								new[]
-								{
-							SyntaxFactory.Argument(SyntaxFactory.ThisExpression()),
-							SyntaxFactory.Argument(SyntaxFactory.IdentifierName("UpdateContentLayout"))
+								new[]{
+									SyntaxFactory.Argument(SyntaxFactory.ThisExpression()),
+									SyntaxFactory.Argument(SyntaxFactory.IdentifierName("UpdateContentLayout"))
 								})))));
 			}
 
