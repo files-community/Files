@@ -263,10 +263,7 @@
 					</AnimatedIcon>
 				</ToggleButton>
 
-				<StackPanel
-					x:Name="NavigationButtons"
-					FlowDirection="{Binding Path=FlowDirection, ElementName=Root}"
-					Orientation="Horizontal">
+				<StackPanel FlowDirection="{Binding Path=FlowDirection, ElementName=Root}" Orientation="Horizontal">
 					<Button
 						x:Name="Back"
 						AccessKey="B"
@@ -694,20 +691,6 @@
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="StatusInfoBadge.Style" Value="{StaticResource CriticalIconInfoBadgeStyle}" />
-					</VisualState.Setters>
-				</VisualState>
-				<!--  FlowDirection LeftToRight  -->
-				<VisualState x:Name="LTR">
-					<VisualState.Setters>
-						<Setter Target="NavigationButtons.Children[0]" Value="Back" />
-						<Setter Target="NavigationButtons.Children[1]" Value="Forward" />
-					</VisualState.Setters>
-				</VisualState>
-				<!--  FlowDirection RightToLeft  -->
-				<VisualState x:Name="RTL">
-					<VisualState.Setters>
-						<Setter Target="NavigationButtons.Children[0]" Value="Forward" />
-						<Setter Target="NavigationButtons.Children[1]" Value="Back" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
