@@ -156,3 +156,4 @@ IApplicationDestinations
 ApplicationDestinations
 IApplicationDocumentLists
 ApplicationDocumentLists
+IApplicationActivationManager

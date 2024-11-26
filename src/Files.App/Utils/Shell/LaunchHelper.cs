@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System.IO;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
+using Windows.Win32.UI.Shell;
 
 namespace Files.App.Utils.Shell
 {
@@ -16,12 +17,12 @@ namespace Files.App.Utils.Shell
 	{
 		public static void LaunchSettings(string page)
 		{
-			var appActiveManager = new Shell32.IApplicationActivationManager();
+			var appActiveManager = new IApplicationActivationManager();
 
 			appActiveManager.ActivateApplication(
 				"windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel",
 				page,
-				Shell32.ACTIVATEOPTIONS.AO_NONE,
+				ACTIVATEOPTIONS.AO_NONE,
 				out _);
 		}
 
