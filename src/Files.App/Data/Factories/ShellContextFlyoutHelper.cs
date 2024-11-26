@@ -9,10 +9,8 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
-using Vanara.PInvoke;
 using Windows.System;
 using Windows.UI.Core;
-using static Vanara.PInvoke.Kernel32;
 
 namespace Files.App.Helpers
 {
@@ -55,7 +53,7 @@ namespace Files.App.Helpers
 			}
 
 			var contextMenu = await ContextMenu.GetContextMenuForFiles(filePaths,
-				shiftPressed ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL, FilterMenuItems(showOpenMenu));
+				shiftPressed ? CMF.CMF_EXTENDEDVERBS : CMF.CMF_NORMAL, FilterMenuItems(showOpenMenu));
 
 			if (contextMenu is not null)
 				LoadMenuFlyoutItem(menuItemsList, contextMenu, contextMenu.Items, cancellationToken, true);
