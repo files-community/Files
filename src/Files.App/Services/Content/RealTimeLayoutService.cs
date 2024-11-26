@@ -21,15 +21,10 @@ namespace Files.App.Services.Content
 		/// </summary>
 		private readonly List<(WeakReference<object> Reference, Action Callback)> _callbacks = [];
 
-		/// <summary>
-		/// Gets the current flow direction based on the current UI culture (RightToLeft or LeftToRight).
-		/// </summary>
+		/// <inheritdoc/>
 		public FlowDirection FlowDirection => CultureInfo.CurrentUICulture.TextInfo.IsRightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
 
-		/// <summary>
-		/// Updates the culture for the layout service and invokes the necessary callbacks if the flow direction changes.
-		/// </summary>
-		/// <param name="culture">The new culture information to apply.</param>
+		/// /// <inheritdoc/>
 		public void UpdateCulture(CultureInfo culture)
 		{
 			FlowDirection tmp = FlowDirection;
@@ -41,28 +36,23 @@ namespace Files.App.Services.Content
 				InvokeCallbacks();
 		}
 
-		/// <summary>
-		/// Registers a callback to be invoked when the layout needs to be updated for the specified target.
-		/// </summary>
-		/// <param name="target">The target object to associate with the callback.</param>
-		/// <param name="callback">The callback to invoke when the layout is updated.</param>
-		public void AddCallback(object target, Action callback)
+		/// <inheritdoc/>
+		public void AddCallback(Window target, Action callback)
 		{
 			var weakReference = new WeakReference<object>(target);
 			_callbacks.Add((weakReference, callback));
-
-			if (target is Window window)
-				window.Closed += (sender, args) => RemoveCallback(target);
-
-			if (target is FrameworkElement element)
-				element.Unloaded += (sender, args) => RemoveCallback(target);
+			target.Closed += (sender, args) => RemoveCallback(target);
 		}
 
-		/// <summary>
-		/// Updates the title bar layout of the specified window based on the current flow direction.
-		/// </summary>
-		/// <param name="window">The window whose title bar layout needs updating.</param>
-		/// <returns>True if the title bar layout was successfully updated; otherwise, false.</returns>
+		/// <inheritdoc/>
+		public void AddCallback(FrameworkElement target, Action callback)
+		{
+			var weakReference = new WeakReference<object>(target);
+			_callbacks.Add((weakReference, callback));
+			target.Unloaded += (sender, args) => RemoveCallback(target);
+		}
+
+		/// <inheritdoc/>
 		public bool UpdateTitleBar(Window window)
 		{
 			try
@@ -85,20 +75,14 @@ namespace Files.App.Services.Content
 			return true;
 		}
 
-		/// <summary>
-		/// Updates the content layout of the specified window to match the current flow direction.
-		/// </summary>
-		/// <param name="window">The window whose content layout needs updating.</param>
+		/// <inheritdoc/>
 		public void UpdateContent(Window window)
 		{
 			if (window.Content is FrameworkElement frameworkElement)
 				frameworkElement.FlowDirection = FlowDirection;
 		}
 
-		/// <summary>
-		/// Updates the content layout of the specified framework element to match the current flow direction.
-		/// </summary>
-		/// <param name="frameworkElement">The framework element whose content layout needs updating.</param>
+		/// <inheritdoc/>
 		public void UpdateContent(FrameworkElement frameworkElement)
 		{
 			frameworkElement.FlowDirection = FlowDirection;
