@@ -9,7 +9,15 @@ namespace Files.App.Helpers
 		{
 			return new NaturalComparer(StringComparison.CurrentCulture);
 		}
-		
+
+		/// <summary>
+		/// Provides functionality to compare and sort strings in a natural (human-readable) order.
+		/// </summary>
+		/// <remarks>
+		/// This class implements string comparison that respects the natural numeric order in strings,
+		/// such as "file10" being ordered after "file2".
+		/// It is designed to handle cases where alphanumeric sorting is required.
+		/// </remarks>
 		private sealed class NaturalComparer : IComparer<object?>, IComparer<string?>, IComparer<ReadOnlyMemory<char>>
 		{
 		    private readonly StringComparison stringComparison;
