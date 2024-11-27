@@ -407,9 +407,18 @@ namespace Files.App.Data.Factories
 					ShowItem = itemsSelected && showOpenItemWith
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenFileLocation).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewTabAction).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewWindowAction).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewPaneAction).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewTabAction)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewWindowAction)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewPaneAction)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutSetAs/Text".GetLocalizedResource(),

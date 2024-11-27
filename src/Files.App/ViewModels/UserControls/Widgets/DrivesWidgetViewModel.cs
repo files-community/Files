@@ -29,7 +29,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		// Commands
 
 		private ICommand EjectDeviceCommand { get; } = null!;
-		private ICommand OpenInNewPaneCommand { get; } = null!;
 		private ICommand DisconnectNetworkDriveCommand { get; } = null!;
 
 		// Constructor
@@ -40,12 +39,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			DrivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
 
-			OpenInNewTabCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteOpenInNewTabCommand);
-			OpenInNewWindowCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteOpenInNewWindowCommand);
 			PinToSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(ExecutePinToSidebarCommand);
 			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteUnpinFromSidebarCommand);
 			EjectDeviceCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteEjectDeviceCommand);
-			OpenInNewPaneCommand = new AsyncRelayCommand<WidgetDriveCardItem>(ExecuteOpenInNewPaneCommand);
 			OpenPropertiesCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteOpenPropertiesCommand);
 			DisconnectNetworkDriveCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteDisconnectNetworkDriveCommand);
 		}
@@ -92,9 +88,18 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
-				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewTabFromHomeAction).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewWindowFromHomeAction).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewPaneFromHomeAction).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewTabFromHomeAction)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewWindowFromHomeAction)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewPaneFromHomeAction)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
+				}.Build(),
 				new()
 				{
 					Text = Strings.PinFolderToSidebar.GetLocalizedResource(),
@@ -172,14 +177,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				return;
 
 			DriveHelpers.EjectDeviceAsync(item.Item.Path);
-		}
-
-		private async Task ExecuteOpenInNewPaneCommand(WidgetDriveCardItem? item)
-		{
-			if (item is null || await DriveHelpers.CheckEmptyDrive(item.Item.Path))
-				return;
-
-			ContentPageContext.ShellPage!.PaneHolder?.OpenSecondaryPane(item.Item.Path);
 		}
 
 		private void ExecuteOpenPropertiesCommand(WidgetDriveCardItem? item)

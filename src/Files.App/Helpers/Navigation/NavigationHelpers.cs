@@ -253,17 +253,10 @@ namespace Files.App.Helpers
 						windowTitle = $"{leftTabInfo.tabLocationHeader} | {rightTabInfo.tabLocationHeader}";
 					}
 					else
-					{
 						(windowTitle, _, _) = await GetSelectedTabInfoAsync(paneArgs.LeftPaneNavPathParam);
-					}
 				}
 				else if (navigationArg is string pathArgs)
-				{
 					(windowTitle, _, _) = await GetSelectedTabInfoAsync(pathArgs);
-				}
-
-				if (MainPageViewModel.AppInstances.Count > 1)
-					windowTitle = $"{windowTitle} ({MainPageViewModel.AppInstances.Count})";
 
 				if (navigationArg == MainPageViewModel.SelectedTabItem?.NavigationParameter?.NavigationParameter)
 					MainWindow.Instance.AppWindow.Title = $"{windowTitle} - Files";

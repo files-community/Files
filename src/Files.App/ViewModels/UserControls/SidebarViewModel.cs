@@ -254,9 +254,6 @@ namespace Files.App.ViewModels.UserControls
 			HideSectionCommand = new RelayCommand(HideSection);
 			UnpinItemCommand = new RelayCommand(UnpinItem);
 			PinItemCommand = new RelayCommand(PinItem);
-			OpenInNewTabCommand = new AsyncRelayCommand(OpenInNewTabAsync);
-			OpenInNewWindowCommand = new AsyncRelayCommand(OpenInNewWindowAsync);
-			OpenInNewPaneCommand = new AsyncRelayCommand(OpenInNewPaneAsync);
 			EjectDeviceCommand = new RelayCommand(EjectDevice);
 			OpenPropertiesCommand = new RelayCommand<CommandBarFlyout>(OpenProperties);
 			ReorderItemsCommand = new AsyncRelayCommand(ReorderItemsAsync);
@@ -551,7 +548,7 @@ namespace Files.App.ViewModels.UserControls
 						{
 							break;
 						}
-						section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsTagsHeader = true, ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FileTagsIcon));
 						section.IsHeader = true;
 						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsFileTagsSectionExpanded;
@@ -830,40 +827,11 @@ namespace Files.App.ViewModels.UserControls
 
 		private ICommand UnpinItemCommand { get; }
 
-		private ICommand OpenInNewTabCommand { get; }
-
-		private ICommand OpenInNewWindowCommand { get; }
-
-		private ICommand OpenInNewPaneCommand { get; }
-
 		private ICommand EjectDeviceCommand { get; }
 
 		private ICommand OpenPropertiesCommand { get; }
 
 		private ICommand ReorderItemsCommand { get; }
-
-		private async Task OpenInNewPaneAsync()
-		{
-			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
-				return;
-			PaneHolder.OpenSecondaryPane(rightClickedItem.Path);
-		}
-
-		private async Task OpenInNewTabAsync()
-		{
-			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
-				return;
-
-			await NavigationHelpers.OpenPathInNewTab(rightClickedItem.Path, false);
-		}
-
-		private async Task OpenInNewWindowAsync()
-		{
-			if (await DriveHelpers.CheckEmptyDrive(rightClickedItem.Path))
-				return;
-
-			await NavigationHelpers.OpenPathInNewWindowAsync(rightClickedItem.Path);
-		}
 
 		private void PinItem()
 		{
@@ -971,14 +939,14 @@ namespace Files.App.ViewModels.UserControls
 			{
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarCreateNewLibrary/Text".GetLocalizedResource(),
+					Text = Strings.SideBarCreateNewLibrary_Text.GetLocalizedResource(),
 					Glyph = "\uE710",
 					Command = CreateLibraryCommand,
 					ShowItem = options.IsLibrariesHeader
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SideBarRestoreLibraries/Text".GetLocalizedResource(),
+					Text = Strings.SideBarRestoreLibraries_Text.GetLocalizedResource(),
 					Glyph = "\uE10E",
 					Command = RestoreLibrariesCommand,
 					ShowItem = options.IsLibrariesHeader
@@ -991,9 +959,18 @@ namespace Files.App.ViewModels.UserControls
 				{
 					IsVisible = options.ShowEmptyRecycleBin,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewTabFromSidebarAction).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewWindowFromSidebarAction).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewPaneFromSidebarAction).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewTabFromSidebarAction)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewWindowFromSidebarAction)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewPaneFromSidebarAction)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "PinFolderToSidebar".GetLocalizedResource(),
@@ -1070,6 +1047,14 @@ namespace Files.App.ViewModels.UserControls
 					Tag = "ItemOverflow",
 					IsEnabled = false,
 					IsHidden = !options.ShowShellItems,
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
+					Text = "ManageTags".GetLocalizedResource(),
+					Glyph = "\uE8EC",
+					Command = Commands.OpenSettings,
+					CommandParameter = new SettingsNavigationParams() { PageKind = SettingsPageKind.TagsPage },
+					ShowItem = options.IsTagsHeader
 				}
 			}.Where(x => x.ShowItem).ToList();
 		}
