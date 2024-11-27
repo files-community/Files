@@ -17,17 +17,9 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public unsafe void SetDesktopWallpaper(string szPath)
 		{
+			// Instantiate IDesktopWallpaper
 			using ComPtr<IDesktopWallpaper> pDesktopWallpaper = default;
-			var CLSID_DesktopWallpaper = typeof(DesktopWallpaper).GUID;
-			var IID_DesktopWallpaper = typeof(IDesktopWallpaper).GUID;
-
-			HRESULT hr = PInvoke.CoCreateInstance(
-				&CLSID_DesktopWallpaper,
-				null,
-				CLSCTX.CLSCTX_LOCAL_SERVER,
-				&IID_DesktopWallpaper,
-				(void**)pDesktopWallpaper.GetAddressOf())
-			.ThrowOnFailure();
+			HRESULT hr = pDesktopWallpaper.CoCreateInstance<DesktopWallpaper>().ThrowOnFailure();
 
 			// Get total count of all available monitors
 			hr = pDesktopWallpaper.Get()->GetMonitorDevicePathCount(out var dwMonitorCount).ThrowOnFailure();
@@ -51,37 +43,27 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public unsafe void SetDesktopSlideshow(string[] aszPaths)
 		{
+			// Instantiate IDesktopWallpaper
 			using ComPtr<IDesktopWallpaper> pDesktopWallpaper = default;
-			var CLSID_DesktopWallpaper = typeof(DesktopWallpaper).GUID;
-			var IID_DesktopWallpaper = typeof(IDesktopWallpaper).GUID;
-
-			HRESULT hr = PInvoke.CoCreateInstance(
-				&CLSID_DesktopWallpaper,
-				null,
-				CLSCTX.CLSCTX_LOCAL_SERVER,
-				&IID_DesktopWallpaper,
-				(void**)pDesktopWallpaper.GetAddressOf())
-			.ThrowOnFailure();
+			HRESULT hr = pDesktopWallpaper.CoCreateInstance<DesktopWallpaper>().ThrowOnFailure();
 
 			uint dwCount = (uint)aszPaths.Length;
 			ITEMIDLIST** ppItemIdList = stackalloc ITEMIDLIST*[aszPaths.Length];
 
-			// Get array of PIDL from the selected image files
+			// Get an array of PIDL from the selected image files
 			for (uint dwIndex = 0u; dwIndex < dwCount; dwIndex++)
 				ppItemIdList[dwIndex] = PInvoke.ILCreateFromPath(aszPaths[dwIndex]);
 
-			// Get a shell array of the array of the PIDL
+			// Get an IShellItemArray from the array of the PIDL
 			using ComPtr<IShellItemArray> pShellItemArray = default;
 			hr = PInvoke.SHCreateShellItemArrayFromIDLists(dwCount, ppItemIdList, pShellItemArray.GetAddressOf()).ThrowOnFailure();
 
-			// Set the slideshow
-			hr = pDesktopWallpaper.Get()->SetSlideshow(pShellItemArray.Get()).ThrowOnFailure();
-
-			// Free the allocated PIDL
+			// Release the allocated PIDL
 			for (uint dwIndex = 0u; dwIndex < dwCount; dwIndex++)
-				PInvoke.ILFree(ppItemIdList[dwIndex]);
+				PInvoke.CoTaskMemFree((void*)ppItemIdList[dwIndex]);
 
-			// Set wallpaper position to fill the monitor.
+			// Set the slideshow and its position
+			hr = pDesktopWallpaper.Get()->SetSlideshow(pShellItemArray.Get()).ThrowOnFailure();
 			hr = pDesktopWallpaper.Get()->SetPosition(DESKTOP_WALLPAPER_POSITION.DWPOS_FILL).ThrowOnFailure();
 		}
 
