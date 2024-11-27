@@ -345,7 +345,7 @@
 											x:Load="{x:Bind IsFolder}"
 											Arrow="ChevronRight"
 											FontSize="12"
-											Color="{ThemeResource TextFillColorSecondaryBrush}" />
+											Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
 
 									</StackPanel>
 								</Grid>
