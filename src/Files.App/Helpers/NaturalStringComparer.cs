@@ -109,7 +109,7 @@ namespace Files.App.Helpers
 
 		        if (numValue2.Length == numValue1.Length) return compareResult;
 
-		        return numValue2.Length < numValue1.Length ? -1 : 1; // "033" < "33" === true
+		        return numValue2.Length < numValue1.Length ? -1 : 1; // "033" < "33" == true
 		    }
 		}
 	}
