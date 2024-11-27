@@ -237,7 +237,6 @@
 						Grid.Column="0"
 						Width="30"
 						Height="30"
-						Margin="0,0,6,0"
 						Padding="8"
 						HorizontalAlignment="Left"
 						VerticalAlignment="Center"

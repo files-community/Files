@@ -29,6 +29,8 @@ namespace Files.App.UserControls.TabBar
 
 		private bool _lockDropOperation = false;
 
+		private static int _gap = 6;
+
 		// Starting position when dragging a tab
 		private System.Drawing.Point dragStartPoint;
 
@@ -52,7 +54,13 @@ namespace Files.App.UserControls.TabBar
 		public Rectangle DragArea
 			=> DragAreaRectangle;
 
-		public GridLength PaddingColumnWidth { get; set; }
+		private GridLength _paddingColumnWidth;
+
+		public GridLength PaddingColumnWidth
+		{
+			get => _paddingColumnWidth;
+			set => _paddingColumnWidth = new(value.Value + _gap);
+		}
 
 		// Events
 
