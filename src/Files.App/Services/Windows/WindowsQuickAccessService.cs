@@ -97,7 +97,7 @@ namespace Files.App.Services
 					hr = PInvoke.SHCreateItemFromParsingName(pszFolderShellPath, null, &IID_IShellItem, (void**)pFolderShellItem.GetAddressOf());
 
 				// Get IEnumShellItems of the quick access shell folder
-				var BHID_EnumItems = PInvoke.BHID_EnumItems, IID_IEnumShellItems = typeof(IEnumShellItems).GUID;
+				Guid BHID_EnumItems = PInvoke.BHID_EnumItems, IID_IEnumShellItems = typeof(IEnumShellItems).GUID;
 				using ComPtr<IEnumShellItems> pEnumShellItems = default;
 				hr = pFolderShellItem.Get()->BindToHandler(null, &BHID_EnumItems, &IID_IEnumShellItems, (void**)pEnumShellItems.GetAddressOf());
 
@@ -220,7 +220,7 @@ namespace Files.App.Services
 			}
 		}
 
-		public bool IsPinned(string path)
+		public unsafe bool IsPinned(string path)
 		{
 			HRESULT hr = default;
 			var IID_IShellItem = typeof(IShellItem).GUID;
@@ -234,7 +234,7 @@ namespace Files.App.Services
 			hr = pShellItem2.Get()->GetPropertyStore(GETPROPERTYSTOREFLAGS.GPS_DEFAULT, &IID_IPropertyStore, (void**)pPropertyStore.GetAddressOf());
 			hr = PInvoke.PSGetPropertyKeyFromName("System.Home.IsPinned", out var propertyKey);
 			hr = pPropertyStore.Get()->GetValue(propertyKey, out var propertyValue);
-			return (bool)propertyValue.Anonymous.boolVal;
+			return (bool)propertyValue.Anonymous.Anonymous.Anonymous.boolVal;
 		}
 
 		public async Task<bool> PinFolderAsync(string[] paths)
