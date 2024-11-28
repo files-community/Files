@@ -152,6 +152,8 @@ BHID_SFUIObject
 IContextMenu
 CMF_NORMAL
 CMF_OPTIMIZEFORINVOKE
+CMF_EXTENDEDVERBS
+CMF_DEFAULTONLY
 IApplicationDestinations
 ApplicationDestinations
 IApplicationDocumentLists
@@ -161,3 +163,5 @@ BHID_SFUIObject
 IContextMenu
 CMF_OPTIMIZEFORINVOKE
 IPropertyStore
+IApplicationActivationManager
+MENU_ITEM_TYPE

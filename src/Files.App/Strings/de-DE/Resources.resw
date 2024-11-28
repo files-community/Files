@@ -4002,6 +4002,6 @@
     <value>Möchtest Du alternative Datenströme anzeigen? Du kannst diese Einstellung jederzeit in den Dateien- und Ordner-Einstellungen ändern.</value>
   </data>
   <data name="ManageTags" xml:space="preserve">
-    <value>Manage tags</value>
+    <value>Tags verwalten</value>
   </data>
 </root>
