@@ -5,7 +5,9 @@ using System.Collections.Specialized;
 using System.Text;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.System.Com.StructuredStorage;
 using Windows.Win32.UI.Shell;
+using Windows.Win32.UI.Shell.PropertiesSystem;
 using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Services
@@ -89,16 +91,15 @@ namespace Files.App.Services
 				HRESULT hr = default;
 
 				// Get IShellItem of the shell folder
-				var shellItemIid = typeof(IShellItem).GUID;
+				var IID_IShellItem = typeof(IShellItem).GUID;
 				using ComPtr<IShellItem> pFolderShellItem = default;
 				fixed (char* pszFolderShellPath = "Shell:::{3936E9E4-D92C-4EEE-A85A-BC16D5EA0819}")
-					hr = PInvoke.SHCreateItemFromParsingName(pszFolderShellPath, null, &shellItemIid, (void**)pFolderShellItem.GetAddressOf());
+					hr = PInvoke.SHCreateItemFromParsingName(pszFolderShellPath, null, &IID_IShellItem, (void**)pFolderShellItem.GetAddressOf());
 
 				// Get IEnumShellItems of the quick access shell folder
-				var enumItemsBHID = PInvoke.BHID_EnumItems;
-				Guid enumShellItemIid = typeof(IEnumShellItems).GUID;
+				var BHID_EnumItems = PInvoke.BHID_EnumItems, IID_IEnumShellItems = typeof(IEnumShellItems).GUID;
 				using ComPtr<IEnumShellItems> pEnumShellItems = default;
-				hr = pFolderShellItem.Get()->BindToHandler(null, &enumItemsBHID, &enumShellItemIid, (void**)pEnumShellItems.GetAddressOf());
+				hr = pFolderShellItem.Get()->BindToHandler(null, &BHID_EnumItems, &IID_IEnumShellItems, (void**)pEnumShellItems.GetAddressOf());
 
 				// Enumerate pinned folders
 				int index = 0;
@@ -106,13 +107,6 @@ namespace Files.App.Services
 				using ComPtr<IShellItem> pShellItem = default;
 				while (pEnumShellItems.Get()->Next(1, pShellItem.GetAddressOf()) == HRESULT.S_OK)
 				{
-					// Get whether the item is pined or not
-					using ComPtr<IShellItem2> pShellItem2 = pShellItem.As<IShellItem2>();
-					hr = PInvoke.PSGetPropertyKeyFromName("System.Home.IsPinned", out var propertyKey);
-					hr = pShellItem2.Get()->GetString(propertyKey, out var szPropertyValue);
-					if (!bool.TryParse(szPropertyValue.ToString(), out var isPinned) || !isPinned)
-						continue;
-
 					// Get the full path
 					pShellItem.Get()->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var szDisplayName);
 					var path = szDisplayName.ToString();
@@ -147,6 +141,7 @@ namespace Files.App.Services
 				}
 
 				locationItem.Path = path;
+				locationItem.IsPinned = IsPinned(path);
 				locationItem.Section = SectionType.Pinned;
 				locationItem.MenuOptions = new()
 				{
@@ -227,7 +222,19 @@ namespace Files.App.Services
 
 		public bool IsPinned(string path)
 		{
-			return QuickAccessFolders.Cast<LocationItem>().ToList().Where(x => x.Path == path).Count() > 0;
+			HRESULT hr = default;
+			var IID_IShellItem = typeof(IShellItem).GUID;
+			using ComPtr<IShellItem> pShellItem = default;
+			fixed (char* pszPath = path)
+				hr = PInvoke.SHCreateItemFromParsingName(pszPath, null, &IID_IShellItem, (void**)pShellItem.GetAddressOf());
+
+			using ComPtr<IShellItem2> pShellItem2 = pShellItem.As<IShellItem2>();
+			var IID_IPropertyStore = typeof(IPropertyStore).GUID;
+			using ComPtr<IPropertyStore> pPropertyStore = default;
+			hr = pShellItem2.Get()->GetPropertyStore(GETPROPERTYSTOREFLAGS.GPS_DEFAULT, &IID_IPropertyStore, (void**)pPropertyStore.GetAddressOf());
+			hr = PInvoke.PSGetPropertyKeyFromName("System.Home.IsPinned", out var propertyKey);
+			hr = pPropertyStore.Get()->GetValue(propertyKey, out var propertyValue);
+			return (bool)propertyValue.Anonymous.boolVal;
 		}
 
 		public async Task<bool> PinFolderAsync(string[] paths)

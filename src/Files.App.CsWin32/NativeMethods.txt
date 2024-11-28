@@ -160,3 +160,4 @@ BHID_EnumItems
 BHID_SFUIObject
 IContextMenu
 CMF_OPTIMIZEFORINVOKE
+IPropertyStore
