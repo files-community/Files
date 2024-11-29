@@ -31,29 +31,37 @@ namespace Files.App.Services.Content
 
 			CultureInfo.DefaultThreadCurrentUICulture = culture;
 			CultureInfo.CurrentUICulture = culture;
-
+// TODO: Remove this after work RealTime string resources change work
+#if DEBUG
 			if (tmp != FlowDirection)
 				InvokeCallbacks();
+#endif
 		}
 
 		/// <inheritdoc/>
 		public void AddCallback(Window target, Action callback)
 		{
+// TODO: Remove this after work RealTime string resources change work
+#if DEBUG
 			var weakReference = new WeakReference<object>(target);
 			_callbacks.Add((weakReference, callback));
 
 			if (!IsExistTarget(target))
 				target.Closed += (sender, args) => RemoveCallback(target);
+#endif
 		}
 
 		/// <inheritdoc/>
 		public void AddCallback(FrameworkElement target, Action callback)
 		{
+// TODO: Remove this after work RealTime string resources change work
+#if DEBUG
 			var weakReference = new WeakReference<object>(target);
 			_callbacks.Add((weakReference, callback));
 
 			if (!IsExistTarget(target))
 				target.Unloaded += (sender, args) => RemoveCallback(target);
+#endif
 		}
 
 		/// <inheritdoc/>
