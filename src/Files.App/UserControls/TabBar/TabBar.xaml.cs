@@ -376,6 +376,10 @@ namespace Files.App.UserControls.TabBar
 		}
 
 		private void DragAreaRectangle_Loaded(object sender, RoutedEventArgs e)
-			=> HorizontalTabView.Measure(new(HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - TitleBarWidth.Value, HorizontalTabView.ActualHeight));
+		{
+			var width = HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - TitleBarWidth.Value;
+			var height = HorizontalTabView.ActualHeight;
+			HorizontalTabView.Measure(new(width >= 0 ? width : 0, height >= 0 ? height : 0));
+		}
 	}
 }
