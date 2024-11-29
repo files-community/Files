@@ -243,7 +243,8 @@ jobs:
             $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll `
             --logger "trx;LogFileName=$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"
 
-    - uses: geekyeggo/delete-artifact@v5
+    - if: github.event_name == 'pull_request'
+      uses: geekyeggo/delete-artifact@v5
       with:
           name: '*'
 
