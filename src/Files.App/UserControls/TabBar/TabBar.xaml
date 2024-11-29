@@ -228,7 +228,7 @@
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition Width="*" />
-						<ColumnDefinition x:Name="RightPaddingColumn" Width="0" />
+						<ColumnDefinition x:Name="RightPaddingColumn" Width="{x:Bind TitleBarWidth, Mode=OneWay}" />
 					</Grid.ColumnDefinitions>
 
 					<!--  Height is not divisble by four in order to properly align the button  -->
@@ -260,7 +260,8 @@
 						Grid.ColumnSpan="2"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
-						Fill="Transparent" />
+						Fill="Transparent"
+						Loaded="DragAreaRectangle_Loaded" />
 
 				</Grid>
 			</TabView.TabStripFooter>

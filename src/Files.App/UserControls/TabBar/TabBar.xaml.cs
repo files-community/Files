@@ -28,6 +28,8 @@ namespace Files.App.UserControls.TabBar
 
 		private bool _lockDropOperation = false;
 
+		private static int _gap = 6;
+
 		// Starting position when dragging a tab
 		private System.Drawing.Point dragStartPoint;
 
@@ -51,6 +53,14 @@ namespace Files.App.UserControls.TabBar
 		public Rectangle DragArea
 			=> DragAreaRectangle;
 
+		private GridLength _titleBarWidth;
+
+		public GridLength TitleBarWidth
+		{
+			get => _titleBarWidth;
+			set => _titleBarWidth = new(value.Value + _gap);
+		}
+
 		// Events
 
 		public static event EventHandler<TabBarItem?>? SelectedTabItemChanged;
@@ -66,12 +76,10 @@ namespace Files.App.UserControls.TabBar
 
 			var appWindow = MainWindow.Instance.AppWindow;
 
-			double rightPaddingColumnWidth =
-				FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
+			TitleBarWidth =
+				new(FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
 					? appWindow.TitleBar.LeftInset
-					: appWindow.TitleBar.RightInset;
-
-			RightPaddingColumn.Width = new(rightPaddingColumnWidth >= 0 ? rightPaddingColumnWidth : 0);
+					: appWindow.TitleBar.RightInset);
 
 			AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
@@ -366,5 +374,8 @@ namespace Files.App.UserControls.TabBar
 				});
 			}
 		}
+
+		private void DragAreaRectangle_Loaded(object sender, RoutedEventArgs e)
+			=> HorizontalTabView.Measure(new(HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - TitleBarWidth.Value, HorizontalTabView.ActualHeight));
 	}
 }
