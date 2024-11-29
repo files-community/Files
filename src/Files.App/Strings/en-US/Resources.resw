@@ -4004,4 +4004,10 @@
   <data name="ManageTags" xml:space="preserve">
     <value>Manage tags</value>
   </data>
+  <data name="Available" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
 </root>

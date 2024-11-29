@@ -73,7 +73,7 @@
         <PackageReference Include="DiscUtils.Udf" Version="0.16.13" />
         <PackageReference Include="FluentFTP" Version="43.0.1" />
         <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
-        <PackageReference Include="MessageFormat" Version="7.1.0" />
+        <PackageReference Include="MessageFormat" Version="7.1.2" />
         <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="9.0.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.0" />
