@@ -149,7 +149,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 							if (e.NewItems is not null)
 							{
 								var item = e.NewItems.Cast<LocationItem>().Single();
-								var cardItem = new WidgetFolderCardItem(item, SystemIO.Path.GetFileName(item.Text), true) { Path = item.Path };
+								var cardItem = new WidgetFolderCardItem(item, SystemIO.Path.GetFileName(item.Text), item.IsPinned) { Path = item.Path };
 								AddItemToCollection(cardItem);
 							}
 						}
@@ -161,7 +161,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 								Items.RemoveAt(e.OldStartingIndex);
 
 								var item = e.NewItems.Cast<LocationItem>().Single();
-								var cardItem = new WidgetFolderCardItem(item, SystemIO.Path.GetFileName(item.Text), true) { Path = item.Path };
+								var cardItem = new WidgetFolderCardItem(item, SystemIO.Path.GetFileName(item.Text), item.IsPinned) { Path = item.Path };
 								AddItemToCollection(cardItem);
 							}
 						}
@@ -181,7 +181,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 								if (item is not LocationItem locationItem)
 									continue;
 
-								var cardItem = new WidgetFolderCardItem(locationItem, SystemIO.Path.GetFileName(locationItem.Text), true) { Path = locationItem.Path };
+								var cardItem = new WidgetFolderCardItem(locationItem, SystemIO.Path.GetFileName(locationItem.Text), locationItem.IsPinned) { Path = locationItem.Path };
 								AddItemToCollection(cardItem);
 							}
 						}
