@@ -126,13 +126,7 @@ namespace Files.App.Views
 
 		private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
 		{
-			TabControl.SizeChanged += TabControlArea_SizeChanged;
-			TabControl.DragArea.SizeChanged += TabControlArea_SizeChanged;
-		}
-
-		private void TabControlArea_SizeChanged(object sender, SizeChangedEventArgs e)
-		{
-			MainWindow.Instance.RaiseSetTitleBarDragRegion(TabControl.SetTitleBarDragRegion);
+			TabControl.DragArea.SizeChanged += (_, _) => MainWindow.Instance.RaiseSetTitleBarDragRegion(TabControl.SetTitleBarDragRegion);
 			if (ViewModel.MultitaskingControl is not TabBar)
 			{
 				ViewModel.MultitaskingControl = TabControl;
