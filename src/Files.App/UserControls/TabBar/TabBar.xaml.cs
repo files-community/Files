@@ -2,11 +2,13 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Graphics;
 using Windows.Storage;
 using Windows.Win32;
 
@@ -65,6 +67,8 @@ namespace Files.App.UserControls.TabBar
 
 		public static event EventHandler<TabBarItem?>? SelectedTabItemChanged;
 
+		public event EventHandler<SizeChangedEventArgs>? TabControlAreaSizeChanged;
+
 		// Constructor
 
 		public TabBar()
@@ -91,6 +95,9 @@ namespace Files.App.UserControls.TabBar
 				}
 			};
 		}
+
+		private void BaseTabBar_Loaded(object sender, RoutedEventArgs e)
+			=> MainWindow.Instance.AppWindow.Changed += (_, _) => MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 
 		private void TabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
 		{
@@ -380,6 +387,19 @@ namespace Files.App.UserControls.TabBar
 			var width = HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - TitleBarWidth.Value;
 			var height = HorizontalTabView.ActualHeight;
 			HorizontalTabView.Measure(new(width >= 0 ? width : 0, height >= 0 ? height : 0));
+
+			MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
+			SizeChanged += (s, e) => TabControlAreaSizeChanged?.Invoke(s, e);
+			DragArea.SizeChanged += (s, e) => TabControlAreaSizeChanged?.Invoke(s, e);
+		}
+
+		private int SetTitleBarDragRegion(InputNonClientPointerSource source, SizeInt32 size, double scaleFactor, Func<UIElement, RectInt32?, RectInt32> getScaledRect)
+		{
+			var height = (int)ActualHeight;
+			var width = (int)(ActualWidth - DragArea.ActualWidth);
+
+			source.SetRegionRects(NonClientRegionKind.Passthrough, [getScaledRect(this, new RectInt32(0, 0, width, height))]);
+			return height;
 		}
 	}
 }

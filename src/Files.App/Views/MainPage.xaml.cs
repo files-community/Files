@@ -125,29 +125,16 @@ namespace Files.App.Views
 		}
 
 		private void HorizontalMultitaskingControl_Loaded(object sender, RoutedEventArgs e)
-		{
-			TabControl.SizeChanged += TabControlArea_SizeChanged;
-			TabControl.DragArea.SizeChanged += TabControlArea_SizeChanged;
-		}
+			=> TabControl.TabControlAreaSizeChanged += TabControlArea_SizeChanged;
 
 		private void TabControlArea_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 			if (ViewModel.MultitaskingControl is not TabBar)
 			{
 				ViewModel.MultitaskingControl = TabControl;
 				ViewModel.MultitaskingControls.Add(TabControl);
 				ViewModel.MultitaskingControl.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
 			}
-		}
-
-		private int SetTitleBarDragRegion(InputNonClientPointerSource source, SizeInt32 size, double scaleFactor, Func<UIElement, RectInt32?, RectInt32> getScaledRect)
-		{
-			var height = (int)TabControl.ActualHeight;
-			var width = (int)(TabControl.ActualWidth - TabControl.DragArea.ActualWidth);
-
-			source.SetRegionRects(NonClientRegionKind.Passthrough, [getScaledRect(this, new RectInt32(0, 0, width, height))]);
-			return height;
 		}
 
 		public async void TabItemContent_ContentChanged(object? sender, TabBarItemParameter e)
@@ -287,8 +274,6 @@ namespace Files.App.Views
 
 		private void Page_Loaded(object sender, RoutedEventArgs e)
 		{
-			MainWindow.Instance.AppWindow.Changed += (_, _) => MainWindow.Instance.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
-
 			// Defers the status bar loading until after the page has loaded to improve startup perf
 			FindName(nameof(StatusBar));
 			FindName(nameof(InnerNavigationToolbar));
