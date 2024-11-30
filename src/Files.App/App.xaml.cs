@@ -157,8 +157,6 @@ namespace Files.App
 				}
 
 				await AppLifecycleHelper.InitializeAppComponentsAsync();
-
-				MainWindow.Instance.HookWindowMessageReceivedEvent();
 			}
 		}
 
@@ -198,9 +196,6 @@ namespace Files.App
 		/// </remarks>
 		private async void Window_Closed(object sender, WindowEventArgs args)
 		{
-			// Unhook events for the window
-			MainWindow.Instance.UnhookWindowMessageReceivedEvent();
-
 			// Save application state and stop any background activity
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			StatusCenterViewModel statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
