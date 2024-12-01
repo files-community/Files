@@ -22,6 +22,9 @@ namespace Files.App.Services.Content
 		private readonly List<(WeakReference<object> Reference, Action Callback)> _callbacks = [];
 
 		/// <inheritdoc/>
+		public event EventHandler<FlowDirection>? FlowDirectionChanged;
+
+		/// <inheritdoc/>
 		public FlowDirection FlowDirection => CultureInfo.CurrentUICulture.TextInfo.IsRightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
 
 		/// /// <inheritdoc/>
@@ -122,6 +125,8 @@ namespace Files.App.Services.Content
 				item.Reference.TryGetTarget(out var targetObject) && targetObject != null)
 				.Select(item => item.Callback).ForEach(callback => callback());
 			_callbacks.RemoveAll(item => !item.Reference.TryGetTarget(out _));
+
+			FlowDirectionChanged?.Invoke(this, FlowDirection);
 		}
 	}
 }

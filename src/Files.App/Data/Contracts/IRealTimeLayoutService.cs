@@ -12,6 +12,11 @@ namespace Files.App.Data.Contracts
 	public interface IRealTimeLayoutService
 	{
 		/// <summary>
+		/// Occurs when the flow direction of the layout changes.
+		/// </summary>
+		public event EventHandler<FlowDirection>? FlowDirectionChanged;
+
+		/// <summary>
 		/// Gets the current flow direction for layout (e.g., LeftToRight or RightToLeft).
 		/// </summary>
 		FlowDirection FlowDirection { get; }
