@@ -29,8 +29,6 @@ namespace Files.App.UserControls.TabBar
 
 		private bool _lockDropOperation = false;
 
-		private static int _gap = 6;
-
 		// Starting position when dragging a tab
 		private System.Drawing.Point dragStartPoint;
 
@@ -54,14 +52,6 @@ namespace Files.App.UserControls.TabBar
 		public Rectangle DragArea
 			=> DragAreaRectangle;
 
-		private GridLength _paddingColumnWidth;
-
-		public GridLength PaddingColumnWidth
-		{
-			get => _paddingColumnWidth;
-			set => _paddingColumnWidth = new(value.Value + _gap);
-		}
-
 		// Events
 
 		public static event EventHandler<TabBarItem?>? SelectedTabItemChanged;
@@ -77,10 +67,12 @@ namespace Files.App.UserControls.TabBar
 
 			var appWindow = MainWindow.Instance.AppWindow;
 
-			PaddingColumnWidth =
-				new(RealTimeLayoutService.FlowDirection is FlowDirection.RightToLeft
+			double rightPaddingColumnWidth =
+				RealTimeLayoutService.FlowDirection is FlowDirection.RightToLeft
 					? appWindow.TitleBar.LeftInset
-					: appWindow.TitleBar.RightInset);
+					: appWindow.TitleBar.RightInset;
+
+			RightPaddingColumn.Width = new(rightPaddingColumnWidth >= 0 ? rightPaddingColumnWidth : 0);
 
 			AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
