@@ -197,6 +197,7 @@ namespace Files.App.Helpers
 			_tracker.Dispose();
 			_source.Dispose();
 			_props.Dispose();
+			RealTimeLayoutService.FlowDirectionChanged -= RealTimeLayoutService_FlowDirectionChanged;
 
 			GC.SuppressFinalize(this);
 		}
