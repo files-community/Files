@@ -52,8 +52,6 @@ namespace Files.App.UserControls.TabBar
 		public Rectangle DragArea
 			=> DragAreaRectangle;
 
-		public GridLength PaddingColumnWidth { get; set; }
-
 		// Events
 
 		public static event EventHandler<TabBarItem?>? SelectedTabItemChanged;
@@ -69,10 +67,12 @@ namespace Files.App.UserControls.TabBar
 
 			var appWindow = MainWindow.Instance.AppWindow;
 
-			PaddingColumnWidth =
-				new(RealTimeLayoutService.FlowDirection is FlowDirection.RightToLeft
+			double rightPaddingColumnWidth =
+				RealTimeLayoutService.FlowDirection is FlowDirection.RightToLeft
 					? appWindow.TitleBar.LeftInset
-					: appWindow.TitleBar.RightInset);
+					: appWindow.TitleBar.RightInset;
+
+			RightPaddingColumn.Width = new(rightPaddingColumnWidth >= 0 ? rightPaddingColumnWidth : 0);
 
 			AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
