@@ -32,8 +32,7 @@ namespace Files.App.Actions
 			ContentPageContext.ShellPage.SlimContentPage is not null &&
 			ContentPageContext.SelectedItems.Count is not 0 &&
 			ContentPageContext.SelectedItems.Count <= 5 &&
-			ContentPageContext.SelectedItems.Count(x => x.IsFolder) == ContentPageContext.SelectedItems.Count &&
-			UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow;
+			ContentPageContext.SelectedItems.Count(x => x.IsFolder) == ContentPageContext.SelectedItems.Count;
 
 		public BaseOpenInNewWindowAction()
 		{

@@ -3,7 +3,6 @@
 
 using System.Collections.Specialized;
 using System.Globalization;
-using Vanara.PInvoke;
 using Windows.Globalization;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -273,6 +272,20 @@ namespace Files.App.ViewModels.Settings
 				if (value != UserSettingsService.GeneralSettingsService.ShowCopyPath)
 				{
 					UserSettingsService.GeneralSettingsService.ShowCopyPath = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowCreateAlternateDataStream
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowCreateAlternateDataStream;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowCreateAlternateDataStream)
+				{
+					UserSettingsService.GeneralSettingsService.ShowCreateAlternateDataStream = value;
 
 					OnPropertyChanged();
 				}

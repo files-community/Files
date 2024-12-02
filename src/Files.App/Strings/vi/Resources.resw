@@ -126,6 +126,9 @@
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Sao chép đường dẫn kèm dấu ngoặc kép</value>
   </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>Sao chép đường dẫn khoản mục đã chọn kèm dấu ngoặc kép</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Duyệt tìm</value>
   </data>
@@ -249,6 +252,9 @@
   <data name="Paste" xml:space="preserve">
     <value>Dán</value>
   </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>Dán dưới dạng lối tắt</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Mới</value>
   </data>
@@ -283,7 +289,7 @@
     <value>Cấp quyền</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Để bắt đầu, ứng dụng sẽ cần được cho phép hiển thị các tệp của bạn. Một cửa sổ Cài đặt sẽ xuất hiện để bạn thực hiện cấp quyền truy cập này. Sau khi hoàn tất, bạn sẽ cần khởi động lại ứng dụng. </value>
+    <value>Trước khi bắt đầu, ứng dụng phải được cấp quyền hiển thị các tệp. Ứng dụng sẽ tự động mở cửa số Cài đặt để bạn thực hiện cấp quyền này. Sau khi hoàn tất, bạn sẽ cần khởi động lại ứng dụng. </value>
   </data>
   <data name="Display" xml:space="preserve">
     <value>Hiển thị</value>
@@ -1238,6 +1244,12 @@
   <data name="OpenStorageSense" xml:space="preserve">
     <value>Mở Storage Sense</value>
   </data>
+  <data name="OpenStorageSenseDescription" xml:space="preserve">
+    <value>Mở trang Storage Sense trong Cài đặt Windows</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>Dọn dẹp</value>
+  </data>
   <data name="Copy" xml:space="preserve">
     <value>Sao chép</value>
   </data>
@@ -1764,7 +1776,7 @@
     <value>Không thể nhập các cài đặt. Tệp cài đặt đã bị hỏng.</value>
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
-    <value>Xảy ra lỗi khi nhập các cài đặt</value>
+    <value>Đã xảy ra lỗi khi nhập các cài đặt</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
     <value>Dọn sạch thùng rác</value>
@@ -1934,6 +1946,9 @@
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Đóng các thẻ khác</value>
   </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>Đóng tất cả các thẻ</value>
+  </data>
   <data name="Music" xml:space="preserve">
     <value>Nhạc</value>
   </data>
@@ -1983,7 +1998,7 @@
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>Hiện dòng dữ liệu rẽ nhánh</value>
+    <value>Hiện luồng dữ liệu phụ</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
     <value>Hành vi</value>
@@ -2265,7 +2280,7 @@
     <value>Hiện khoản mục bị ẩn</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Định dạng...</value>
+    <value>Định dạng</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Trợ giúp</value>
@@ -2393,6 +2408,12 @@
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Sao chép đường dẫn khoản mục đã chọn vào bộ nhớ tạm</value>
   </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
+    <value>Sao chép đường dẫn khoản mục đã chọn vào bộ nhớ tạm</value>
+  </data>
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
+    <value>Sao chép đường dẫn khoản mục đã chọn kèm dấu ngoặc kép vào bộ nhớ tạm</value>
+  </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
     <value>Sao chép đường dẫn khoản mục đã chọn kèm dấu ngoặc kép vào bộ nhớ tạm</value>
   </data>
@@ -2401,6 +2422,9 @@
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Dán khoản mục từ bộ nhớ tạm vào thư mục hiện tại</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>Dán khoản mục từ bộ nhớ tạm vào thư mục hiện tại dưới dạng lối tắt</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>Dán khoản mục từ bộ nhớ tạm vào thư mục đã chọn</value>
@@ -2680,6 +2704,9 @@
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Đóng các thẻ khác ngoài thẻ đã chọn</value>
+  </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>Đóng tất cả các thẻ bao gồm thẻ hiện tại</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Mở lại thẻ đã đóng</value>
@@ -3420,7 +3447,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Xảy ra lỗi khi nén {0} mục đến "{1}"</value>
+    <value>Đã xảy ra lỗi khi nén {0} mục đến "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
@@ -3452,7 +3479,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Xảy ra lỗi khi sao chép {0} mục đến "{1}"</value>
+    <value>Đã xảy ra lỗi khi sao chép {0} mục đến "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
@@ -3484,7 +3511,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
-    <value>Xảy ra lỗi khi giải nén "{0}" vào "{1}"</value>
+    <value>Đã xảy ra lỗi khi giải nén "{0}" vào "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
@@ -3508,7 +3535,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Xảy ra lỗi khi xóa {0} mục khỏi "{1}"</value>
+    <value>Đã xảy ra lỗi khi xóa {0} mục khỏi "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
@@ -3544,7 +3571,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Xảy ra lỗi khi di chuyển {0} mục đến "{1}"</value>
+    <value>Đã xảy ra lỗi khi di chuyển {0} mục đến "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
@@ -3564,7 +3591,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
-    <value>Xảy ra lỗi khi dọn sạch thùng rác</value>
+    <value>Đã xảy ra lỗi khi dọn sạch thùng rác</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
@@ -3949,5 +3976,32 @@
   </data>
   <data name="BulkRename" xml:space="preserve">
     <value>Đổi tên hàng loạt</value>
+  </data>
+  <data name="ShowCreateAlternateDataStream" xml:space="preserve">
+    <value>Hiện tuỳ chọn tạo luồng dữ liệu phụ</value>
+  </data>
+  <data name="CreateAlternateDataStream" xml:space="preserve">
+    <value>Tạo luồng dữ liệu phụ</value>
+  </data>
+  <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
+    <value>Tạo luồng dữ liệu phụ cho khoản mục đã chọn</value>
+  </data>
+  <data name="EnterDataStreamName" xml:space="preserve">
+    <value>Nhập tên luồng dữ liệu</value>
+  </data>
+  <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
+    <value>Đã xảy ra lỗi khi tạo luồng dữ liệu phụ</value>
+  </data>
+  <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
+    <value>Lưu ý rằng luồng dữ liệu phụ chỉ có thể hoạt động trên ổ lưu trữ ở định dạng NTFS.</value>
+  </data>
+  <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
+    <value>Luồng dữ liệu phụ hiện đang ẩn</value>
+  </data>
+  <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
+    <value>Bạn có muốn hiển thị luồng dữ liệu phụ không? Để sửa đổi cài đặt này, hãy mở phần Tệp &amp; thư mục trong Cài đặt ứng dụng.</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Quản lý nhãn</value>
   </data>
 </root>

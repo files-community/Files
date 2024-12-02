@@ -7,7 +7,6 @@ using SevenZip;
 using System.IO;
 using System.Text;
 using System.Windows.Input;
-using Vanara.PInvoke;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;

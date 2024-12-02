@@ -51,7 +51,7 @@ namespace Files.App.Dialogs
 			get => ViewModel.SplittingSize.Key;
 			set => ViewModel.SplittingSize = ViewModel.SplittingSizes.First(size => size.Key == value);
 		}
-		
+
 		public int CPUThreads
 		{
 			get => ViewModel.CPUThreads;
@@ -107,6 +107,8 @@ namespace Files.App.Dialogs
 
 		private sealed class DialogViewModel : ObservableObject
 		{
+			private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+
 			public bool IsNameValid => FilesystemHelpers.IsValidForFilename(fileName);
 
 			public bool ShowNameWarning => !string.IsNullOrEmpty(fileName) && !IsNameValid;
@@ -125,33 +127,41 @@ namespace Files.App.Dialogs
 				}
 			}
 
-			private FileFormatItem fileFormat;
 			public FileFormatItem FileFormat
 			{
-				get => fileFormat;
+				get => FileFormats.First(format => format.Key == GeneralSettingsService.ArchiveFormatsOption);
 				set
 				{
-					if (SetProperty(ref fileFormat, value))
+					if (value.Key != GeneralSettingsService.ArchiveFormatsOption)
+					{
+						GeneralSettingsService.ArchiveFormatsOption = value.Key;
 						OnPropertyChanged(nameof(CanSplit));
+					}
 				}
 			}
 
-			private CompressionLevelItem compressionLevel;
 			public CompressionLevelItem CompressionLevel
 			{
-				get => compressionLevel;
-				set => SetProperty(ref compressionLevel, value);
+				get => CompressionLevels.First(level => level.Key == GeneralSettingsService.ArchiveCompressionLevelsOption);
+				set
+				{
+					if (value.Key != GeneralSettingsService.ArchiveCompressionLevelsOption)
+						GeneralSettingsService.ArchiveCompressionLevelsOption = value.Key;
+				}
 			}
 
 			public bool CanSplit => FileFormat.Key is ArchiveFormats.SevenZip;
 
-			private SplittingSizeItem splittingSize;
 			public SplittingSizeItem SplittingSize
 			{
-				get => splittingSize;
-				set => SetProperty(ref splittingSize, value);
+				get => SplittingSizes.First(size => size.Key == GeneralSettingsService.ArchiveSplittingSizesOption);
+				set
+				{
+					if (value.Key != GeneralSettingsService.ArchiveSplittingSizesOption)
+						GeneralSettingsService.ArchiveSplittingSizesOption = value.Key;
+				}
 			}
-			
+
 			private int cpuThreads = Environment.ProcessorCount;
 			public int CPUThreads
 			{
@@ -215,9 +225,7 @@ namespace Files.App.Dialogs
 
 			public DialogViewModel()
 			{
-				fileFormat = FileFormats.First(format => format.Key is ArchiveFormats.Zip);
-				compressionLevel = CompressionLevels.First(level => level.Key is ArchiveCompressionLevels.Normal);
-				splittingSize = SplittingSizes.First(size => size.Key is ArchiveSplittingSizes.None);
+
 			}
 
 			private static string ToSizeText(ulong megaBytes) => ByteSize.FromMebiBytes(megaBytes).ShortString;

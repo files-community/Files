@@ -16,7 +16,7 @@
     <Identity
         Name="FilesDev"
         Publisher="CN=Files"
-        Version="3.7.11.0" />
+        Version="3.8.0.0" />
 
     <Properties>
         <DisplayName>Files - Dev</DisplayName>
@@ -146,6 +146,7 @@
                             <uap:FileType>.tar</uap:FileType>
                             <uap:FileType>.jar</uap:FileType>
                             <uap:FileType>.mrpack</uap:FileType>
+                            <uap:FileType>.gz</uap:FileType>
                         </uap:SupportedFileTypes>
                         <uap:Logo>assets\archives\ExtensionIcon.png</uap:Logo>
                     </uap:FileTypeAssociation>
@@ -156,7 +157,7 @@
         </Application>
     </Applications>
 
-    <!-- To Host The Background Task Component, This Activatable Class Entry Must Be Added. -->
+    <!-- To host The background task component, this activatable class entry must be added. -->
     <Extensions>
         <Extension Category="windows.activatableClass.inProcessServer">
             <InProcessServer>

@@ -499,6 +499,11 @@ namespace Files.App.ViewModels.UserControls
 			ToolbarFlyoutOpened?.Invoke(this, new ToolbarFlyoutOpenedEventArgs() { OpenedFlyout = (MenuFlyout)sender });
 		}
 
+		public void PathBoxItemFlyout_Closed(object sender, object e)
+		{
+			((MenuFlyout)sender).Items.Clear();
+		}
+
 		public void CurrentPathSetTextBox_TextChanged(object sender, TextChangedEventArgs args)
 		{
 			if (sender is TextBox textBox)

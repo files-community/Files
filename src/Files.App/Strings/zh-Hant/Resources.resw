@@ -126,6 +126,9 @@
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>複製帶引號的路徑</value>
   </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>複製選取項目的帶引號路徑</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>瀏覽</value>
   </data>
@@ -249,6 +252,9 @@
   <data name="Paste" xml:space="preserve">
     <value>貼上</value>
   </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>貼上捷徑</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>新增</value>
   </data>
@@ -292,7 +298,7 @@
     <value>輸入名稱</value>
   </data>
   <data name="CreateNewItemTitle" xml:space="preserve">
-    <value>Create new {0}</value>
+    <value>新增{0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>亮色</value>
@@ -379,7 +385,7 @@
     <value>檔案正在被使用</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>布局</value>
+    <value>版面配置</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>唯讀</value>
@@ -1008,7 +1014,7 @@
     <value>顯示受保護的系統檔案</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>在不同路徑之間使用相同的布局和排序設定</value>
+    <value>在不同路徑之間同步佈局和排序設定</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>自訂右鍵選單</value>
@@ -1237,6 +1243,12 @@
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
     <value>開啟儲存空間感知器</value>
+  </data>
+  <data name="OpenStorageSenseDescription" xml:space="preserve">
+    <value>Open the Storage Sense page in Windows Settings</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>Cleanup</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>複製</value>
@@ -1797,7 +1809,7 @@
     <value>登入 Windows 時</value>
   </data>
   <data name="CompatibilityOnProgramStart" xml:space="preserve">
-    <value>開啟該應用程式時</value>
+    <value>此應用程式啟動時</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>系統</value>
@@ -1934,6 +1946,9 @@
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>關閉其他索引標籤</value>
   </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>關閉所有分頁</value>
+  </data>
   <data name="Music" xml:space="preserve">
     <value>音樂</value>
   </data>
@@ -1974,10 +1989,10 @@
     <value>調整欄位至合適寬度</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>自動選擇</value>
+    <value>調適性</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>自動調整（Ctrl + Shift + 7）</value>
+    <value>調適性配置 (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl + Shift + 7</value>
@@ -2022,7 +2037,7 @@
     <value>鎖定畫面</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>在欄檢視模式下，點一下即可開啟資料夾</value>
+    <value>在欄配置下，點一下開啟資料夾</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>開啟項目</value>
@@ -2040,7 +2055,7 @@
     <value>展平</value>
   </data>
   <data name="FlattenFolderDialogContent" xml:space="preserve">
-    <value>展平資料夾將會把其子資料夾中的所有內容移動到選定的位置。此操作是永久性的，無法復原。使用此實驗性功能即表示您承擔風險並同意不對 Files 團隊因任何資料遺失負責。</value>
+    <value>展平資料夾將會把其子資料夾中的所有內容移動到選定的位置。此操作是永久性的，無法復原。使用此實驗性功能即表示您承擔風險並同意不對 Files 團隊因任何資料遺失究責。</value>
   </data>
   <data name="ShowFlattenOptions" xml:space="preserve">
     <value>顯示展平選項</value>
@@ -2076,7 +2091,7 @@
     <value>您沒有權限存取此資料夾。</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>封存檔案密碼</value>
+    <value>壓縮檔案密碼</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>路徑</value>
@@ -2085,7 +2100,7 @@
     <value>排序與分組</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
-    <value>建立封存檔案</value>
+    <value>建立壓縮檔案</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>新增</value>
@@ -2265,7 +2280,7 @@
     <value>顯示隱藏項目</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>格式化...</value>
+    <value>格式</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>幫助</value>
@@ -2391,16 +2406,25 @@
     <value>將項目複製到剪貼簿</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>將選取的項目路徑複製到剪貼簿</value>
+    <value>將目前目錄的路徑複製到剪貼簿</value>
+  </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
+    <value>將選取項目的路徑複製到剪貼簿</value>
+  </data>
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
+    <value>將選取項目的帶引號路徑複製到剪貼簿</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>將選取的引號項目路徑複製到剪貼簿</value>
+    <value>將目前目錄的帶引號路徑複製到剪貼簿</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>剪下項目到剪貼簿</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>從剪貼簿貼上項目到所在資料夾</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>以捷徑的形式，貼上剪貼簿中的檔案和資料夾到目前的資料夾</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>從剪貼簿貼上項目到所選資料夾</value>
@@ -2538,10 +2562,10 @@
     <value>以系統管理員身分在終端機開啟資料夾</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>在目前視圖中縮小</value>
+    <value>在目前檢視中縮小項目大小</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>在目前視圖中放大</value>
+    <value>在目前檢視中放大項目大小</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>切換至詳細資訊檢視</value>
@@ -2565,7 +2589,7 @@
     <value>切換至欄檢視</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>自動選擇檢視模式</value>
+    <value>自動切換檢視</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
     <value>按名稱排序</value>
@@ -2680,6 +2704,9 @@
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>除了所選分頁，關閉所有分頁</value>
+  </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>關閉所有分頁，也包含目前的分頁</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>恢復先前關閉的分頁</value>
@@ -2947,7 +2974,7 @@
     <value>移動焦點至路徑欄</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>建立新項目</value>
+    <value>新增項目</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>沒有群組或使用者擁有全縣存取此檔案，但是，該檔案的擁有者可以授予權限。</value>
@@ -3176,13 +3203,13 @@
     <value>{0} 個已發送的 commit / {1} 個已接收的 commit</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
-    <value>連線至 Github</value>
+    <value>登入 GitHub</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
-    <value>在下面的網址欄輸入輸入以下驗證碼，即可開始使用 Github 儲存庫。</value>
+    <value>在下面的網址欄輸入輸入以下驗證碼，即可開始使用 GitHub 儲存庫。</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
-    <value>Files 目前無法連線至 Github。</value>
+    <value>Files 目前無法連線至 GitHub。</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
     <value>在 VS Code 中開啟檔案</value>
@@ -3576,7 +3603,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>已處理 {0} 個，共 {1} 個</value>
+    <value>已處理 {0}/{1} 個項目</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3598,7 +3625,7 @@
     <value>刪除 Git 分支</value>
   </data>
   <data name="GitDeleteBranchSubtitle" xml:space="preserve">
-    <value>確定要永久刪除 {0} 個分支嗎?</value>
+    <value>確定要永久刪除分支 "{0}" 嗎?</value>
   </data>
   <data name="ConnectedToGitHub" xml:space="preserve">
     <value>已成功連接至 GitHub</value>
@@ -3607,7 +3634,7 @@
     <value>登出</value>
   </data>
   <data name="ConnectToGitHub" xml:space="preserve">
-    <value>登入 Github</value>
+    <value>登入 GitHub</value>
   </data>
   <data name="Login" xml:space="preserve">
     <value>登入</value>
@@ -3700,23 +3727,23 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+" xml:space="preserve">
-    <value>中等+</value>
+    <value>中 +</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++" xml:space="preserve">
-    <value>中等 ++</value>
+    <value>中 ++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++" xml:space="preserve">
-    <value>中等 +++</value>
+    <value>中 +++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++++" xml:space="preserve">
-    <value>中等 +++++</value>
+    <value>中 ++++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++++" xml:space="preserve">
-    <value>中等 ++++++</value>
+    <value>中 +++++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large" xml:space="preserve">
@@ -3773,7 +3800,7 @@
     <value>自訂</value>
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
-    <value>當偏好設定的同步功能開啟時，無法使用自動排序模式，預設佈局模式已變更為詳細資料模式</value>
+    <value>當偏好設定同步時，調適性配置無法使用，預設配置類型已變更為詳細資料。</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
     <value>背景圖片</value>
@@ -3949,5 +3976,32 @@
   </data>
   <data name="BulkRename" xml:space="preserve">
     <value>批次重新命名</value>
+  </data>
+  <data name="ShowCreateAlternateDataStream" xml:space="preserve">
+    <value>顯示「建立 Alternate Data Stream」的選項</value>
+  </data>
+  <data name="CreateAlternateDataStream" xml:space="preserve">
+    <value>建立 Alternate Data Stream</value>
+  </data>
+  <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
+    <value>為選取的項目建立 Alternate Data Stream</value>
+  </data>
+  <data name="EnterDataStreamName" xml:space="preserve">
+    <value>輸入 Data Stream 名稱</value>
+  </data>
+  <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
+    <value>建立 Alternate Data Stream 時發生錯誤</value>
+  </data>
+  <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
+    <value>請注意，Alternate Data Stream只適用於NTFS系統</value>
+  </data>
+  <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
+    <value>目前 Alternate Data Stream 為隱藏狀態</value>
+  </data>
+  <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
+    <value>是否要顯示 Alternate Data Stream? 您隨時可以在「設定 &gt; 檔案與資料夾」中更改設定</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Manage tags</value>
   </data>
 </root>
