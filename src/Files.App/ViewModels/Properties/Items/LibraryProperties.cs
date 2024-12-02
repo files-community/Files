@@ -48,7 +48,7 @@ namespace Files.App.ViewModels.Properties
 		{
 			ViewModel.IsReadOnly = Win32Helper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
 			ViewModel.IsHidden = Win32Helper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
-			ViewModel.IsContentCompressed = Win32Helper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.Compressed);
+			ViewModel.CanCompressContent = false;
 
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Library.ItemPath,

@@ -759,7 +759,8 @@
 							HorizontalAlignment="Right"
 							VerticalAlignment="Center"
 							AutomationProperties.Name="{helpers:ResourceString Name=CompressContents}"
-							IsChecked="{x:Bind ViewModel.IsContentCompressedEditedValue, Mode=TwoWay}" />
+							IsChecked="{x:Bind ViewModel.IsContentCompressedEditedValue, Mode=TwoWay}"
+							IsEnabled="{x:Bind ViewModel.CanCompressContent, Mode=OneWay}" />
 
 					</Grid>
 				</Expander.Content>

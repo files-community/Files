@@ -736,6 +736,13 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref isContentCompressedEditedValue, value);
 		}
 
+		private bool? canCompressContent;
+		public bool? CanCompressContent
+		{
+			get => canCompressContent;
+			set => SetProperty(ref canCompressContent, value);
+		}
+
 		private bool runAsAdmin;
 		public bool RunAsAdmin
 		{

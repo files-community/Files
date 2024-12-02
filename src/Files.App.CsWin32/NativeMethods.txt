@@ -139,3 +139,5 @@ DeviceIoControl
 GetLastError
 CreateFile
 GetVolumeInformation
+COMPRESSION_FORMAT
+FILE_ACCESS_RIGHTS

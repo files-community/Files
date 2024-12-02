@@ -22,8 +22,6 @@ namespace Files.App.Helpers
 		public const int FILE_NOTIFY_CHANGE_SECURITY = 256;
 
 		public const int INVALID_HANDLE_VALUE = -1;
-		public const uint GENERIC_READ = 0x80000000;
-		public const uint GENERIC_WRITE = 0x40000000;
 		public const int FILE_SHARE_READ = 0x00000001;
 		public const int FILE_SHARE_WRITE = 0x00000002;
 		public const uint FILE_SHARE_DELETE = 0x00000004;
@@ -32,7 +30,6 @@ namespace Files.App.Helpers
 		public const int IOCTL_STORAGE_MEDIA_REMOVAL = 0x002D4804;
 
 		public const uint FILE_APPEND_DATA = 0x0004;
-		public const uint FILE_WRITE_ATTRIBUTES = 0x100;
 
 
 		public const uint FILE_BEGIN = 0;

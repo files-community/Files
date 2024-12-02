@@ -93,12 +93,10 @@ namespace Files.App.ViewModels.Properties
 
 		public override async Task GetSpecialPropertiesAsync()
 		{
-			ViewModel.IsReadOnly = Win32Helper.HasFileAttribute(
-				Item.ItemPath, System.IO.FileAttributes.ReadOnly);
-			ViewModel.IsHidden = Win32Helper.HasFileAttribute(
-				Item.ItemPath, System.IO.FileAttributes.Hidden);
-			ViewModel.IsContentCompressed = Win32Helper.HasFileAttribute(
-				Item.ItemPath, System.IO.FileAttributes.Compressed);
+			ViewModel.IsReadOnly = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+			ViewModel.IsHidden = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+			ViewModel.CanCompressContent = Win32Helper.CanCompressContent(Item.ItemPath);
+			ViewModel.IsContentCompressed = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Compressed);
 
 			ViewModel.ItemSizeVisibility = true;
 			ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();

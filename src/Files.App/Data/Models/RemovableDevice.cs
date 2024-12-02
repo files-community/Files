@@ -4,6 +4,7 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.Win32.Storage.FileSystem;
 using static Files.App.Helpers.Win32PInvoke;
 
 namespace Files.App.Data.Models
@@ -20,7 +21,7 @@ namespace Files.App.Data.Models
 			string filename = @"\\.\" + driveLetter + ":";
 
 			handle = CreateFileFromAppW(filename,
-				GENERIC_READ | GENERIC_WRITE,
+				(uint)(FILE_ACCESS_RIGHTS.FILE_GENERIC_READ | FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE),
 				FILE_SHARE_READ | FILE_SHARE_WRITE,
 				nint.Zero, OPEN_EXISTING, 0, nint.Zero);
 		}

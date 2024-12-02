@@ -11,10 +11,16 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Windows.Forms;
+using Vanara;
 using Vanara.PInvoke;
 using Windows.System;
 using Windows.Win32;
+using Windows.Win32.Foundation;
 using Windows.Win32.Storage.FileSystem;
+using static Files.App.Constants.Widgets;
+using static Vanara.PInvoke.Kernel32;
+using HRESULT = Vanara.PInvoke.HRESULT;
+using HWND = Vanara.PInvoke.HWND;
 
 namespace Files.App.Helpers
 {
@@ -886,24 +892,24 @@ namespace Files.App.Helpers
 		public static SafeFileHandle CreateFileForWrite(string filePath, bool overwrite = true)
 		{
 			return new SafeFileHandle(Win32PInvoke.CreateFileFromApp(filePath,
-				Win32PInvoke.GENERIC_WRITE, 0, IntPtr.Zero, overwrite ? Win32PInvoke.CREATE_ALWAYS : Win32PInvoke.OPEN_ALWAYS, (uint)Win32PInvoke.File_Attributes.BackupSemantics, IntPtr.Zero), true);
+				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE, 0, IntPtr.Zero, overwrite ? Win32PInvoke.CREATE_ALWAYS : Win32PInvoke.OPEN_ALWAYS, (uint)Win32PInvoke.File_Attributes.BackupSemantics, IntPtr.Zero), true);
 		}
 
 		public static SafeFileHandle OpenFileForRead(string filePath, bool readWrite = false, uint flags = 0)
 		{
 			return new SafeFileHandle(Win32PInvoke.CreateFileFromApp(filePath,
-				Win32PInvoke.GENERIC_READ | (readWrite ? Win32PInvoke.GENERIC_WRITE : 0), (uint)(Win32PInvoke.FILE_SHARE_READ | (readWrite ? 0 : Win32PInvoke.FILE_SHARE_WRITE)), IntPtr.Zero, Win32PInvoke.OPEN_EXISTING, (uint)Win32PInvoke.File_Attributes.BackupSemantics | flags, IntPtr.Zero), true);
+				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ | (uint)(readWrite ? FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE : 0u), (uint)(Win32PInvoke.FILE_SHARE_READ | (readWrite ? 0 : Win32PInvoke.FILE_SHARE_WRITE)), IntPtr.Zero, Win32PInvoke.OPEN_EXISTING, (uint)Win32PInvoke.File_Attributes.BackupSemantics | flags, IntPtr.Zero), true);
 		}
 
 		public static bool GetFileDateModified(string filePath, out FILETIME dateModified)
 		{
-			using var hFile = new SafeFileHandle(Win32PInvoke.CreateFileFromApp(filePath, Win32PInvoke.GENERIC_READ, Win32PInvoke.FILE_SHARE_READ, IntPtr.Zero, Win32PInvoke.OPEN_EXISTING, (uint)Win32PInvoke.File_Attributes.BackupSemantics, IntPtr.Zero), true);
+			using var hFile = new SafeFileHandle(Win32PInvoke.CreateFileFromApp(filePath, (uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ, Win32PInvoke.FILE_SHARE_READ, IntPtr.Zero, Win32PInvoke.OPEN_EXISTING, (uint)Win32PInvoke.File_Attributes.BackupSemantics, IntPtr.Zero), true);
 			return Win32PInvoke.GetFileTime(hFile.DangerousGetHandle(), out _, out _, out dateModified);
 		}
 
 		public static bool SetFileDateModified(string filePath, FILETIME dateModified)
 		{
-			using var hFile = new SafeFileHandle(Win32PInvoke.CreateFileFromApp(filePath, Win32PInvoke.FILE_WRITE_ATTRIBUTES, 0, IntPtr.Zero, Win32PInvoke.OPEN_EXISTING, (uint)Win32PInvoke.File_Attributes.BackupSemantics, IntPtr.Zero), true);
+			using var hFile = new SafeFileHandle(Win32PInvoke.CreateFileFromApp(filePath, (uint)FILE_ACCESS_RIGHTS.FILE_WRITE_ATTRIBUTES, 0, IntPtr.Zero, Win32PInvoke.OPEN_EXISTING, (uint)Win32PInvoke.File_Attributes.BackupSemantics, IntPtr.Zero), true);
 			return Win32PInvoke.SetFileTime(hFile.DangerousGetHandle(), new(), new(), dateModified);
 		}
 
@@ -937,13 +943,42 @@ namespace Files.App.Helpers
 			return Win32PInvoke.SetFileAttributesFromApp(lpFileName, lpFileInfo.dwFileAttributes & ~dwAttrs);
 		}
 
+		public static unsafe bool CanCompressContent(string path)
+		{
+			path = Path.GetPathRoot(path) ?? string.Empty;
+
+			// MAX_PATH = 260 + 1 (null termination)
+			var volumeName = new PWSTR();
+			var fileSystemName = new PWSTR();
+
+			uint serialNumber = 0;
+			uint maxComponentLength = 0;
+			uint fileSystemFlags = 0;
+
+			var success = PInvoke.GetVolumeInformation(
+				path,
+				volumeName,
+				261u,
+				&serialNumber,
+				&maxComponentLength,
+				&fileSystemFlags,
+				fileSystemName,
+				261u);
+
+			if (!success)
+				return false;
+
+			// 0x00000010 FILE_FILE_COMPRESSION
+			return (fileSystemFlags & 0x00000010) != 0;
+		}
+
 		public static unsafe bool SetCompressionAttributeIoctl(string lpFileName, bool isCompressed)
 		{
 			// GENERIC_READ | GENERIC_WRITE flags are needed here
 			// FILE_FLAG_BACKUP_SEMANTICS is used to open directories
 			using var hFile = PInvoke.CreateFile(
 				lpFileName,
-				Win32PInvoke.GENERIC_READ | Win32PInvoke.GENERIC_WRITE | Win32PInvoke.FILE_WRITE_ATTRIBUTES,
+				(uint)(FILE_ACCESS_RIGHTS.FILE_GENERIC_READ | FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE | FILE_ACCESS_RIGHTS.FILE_WRITE_ATTRIBUTES),
 				FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE,
 				lpSecurityAttributes: null,
 				FILE_CREATION_DISPOSITION.OPEN_EXISTING,
@@ -973,7 +1008,7 @@ namespace Files.App.Helpers
 		public static string ReadStringFromFile(string filePath)
 		{
 			IntPtr hFile = Win32PInvoke.CreateFileFromApp(filePath,
-				Win32PInvoke.GENERIC_READ,
+				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ,
 				Win32PInvoke.FILE_SHARE_READ,
 				IntPtr.Zero,
 				Win32PInvoke.OPEN_EXISTING,
@@ -1022,7 +1057,7 @@ namespace Files.App.Helpers
 		public static bool WriteStringToFile(string filePath, string str, Win32PInvoke.File_Attributes flags = 0)
 		{
 			IntPtr hStream = Win32PInvoke.CreateFileFromApp(filePath,
-				Win32PInvoke.GENERIC_WRITE, 0, IntPtr.Zero, Win32PInvoke.CREATE_ALWAYS, (uint)(Win32PInvoke.File_Attributes.BackupSemantics | flags), IntPtr.Zero);
+				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE, 0, IntPtr.Zero, Win32PInvoke.CREATE_ALWAYS, (uint)(Win32PInvoke.File_Attributes.BackupSemantics | flags), IntPtr.Zero);
 			if (hStream.ToInt64() == -1)
 			{
 				return false;
