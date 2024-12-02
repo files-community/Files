@@ -30,7 +30,7 @@ namespace Files.App.UserControls.TabBar
 
 		private bool _lockDropOperation = false;
 
-		private static int _gap = 6;
+		private static int _gap = 40;
 
 		// Starting position when dragging a tab
 		private System.Drawing.Point dragStartPoint;
