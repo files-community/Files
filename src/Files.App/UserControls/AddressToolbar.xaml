@@ -510,6 +510,7 @@
 							VerticalAlignment="Center"
 							x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Mode=OneWay}"
 							Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+							FlowDirection="LeftToRight"
 							IsIndeterminate="False"
 							Value="{x:Bind OngoingTasksViewModel.AverageOperationProgressValue, Mode=OneWay}" />
 
@@ -573,6 +574,7 @@
 							Width="20"
 							Height="20"
 							x:Load="{x:Bind ViewModel.IsUpdating, Mode=OneWay}"
+							FlowDirection="LeftToRight"
 							IsIndeterminate="True" />
 					</Grid>
 				</Button>
