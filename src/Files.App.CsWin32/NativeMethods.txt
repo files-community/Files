@@ -160,5 +160,3 @@ IApplicationDocumentLists
 ApplicationDocumentLists
 IApplicationActivationManager
 MENU_ITEM_TYPE
-GetDpiForMonitor
-MonitorFromWindow

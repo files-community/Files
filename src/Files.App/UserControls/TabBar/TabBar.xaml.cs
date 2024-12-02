@@ -60,7 +60,7 @@ namespace Files.App.UserControls.TabBar
 		public GridLength TitleBarWidth
 		{
 			get => _titleBarWidth;
-			set => _titleBarWidth = new((value.Value / MainWindow.Instance.GetDpiScale()) + _gap);
+			set => _titleBarWidth = new((value.Value / App.AppModel.AppWindowDPI) + _gap);
 		}
 
 		// Events

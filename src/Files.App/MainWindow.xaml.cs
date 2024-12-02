@@ -9,9 +9,6 @@ using Microsoft.UI.Xaml.Media.Animation;
 using System.Runtime.InteropServices;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using Windows.Win32;
-using Windows.Win32.Graphics.Gdi;
-using Windows.Win32.UI.HiDpi;
 using IO = System.IO;
 
 namespace Files.App
@@ -341,16 +338,6 @@ namespace Files.App
 						break;
 				}
 			}
-		}
-
-		public double GetDpiScale()
-		{
-			var hMonitor = PInvoke.MonitorFromWindow(
-				new(WinRT.Interop.WindowNative.GetWindowHandle(this)),
-				MONITOR_FROM_FLAGS.MONITOR_DEFAULTTONEAREST);
-
-			var res = PInvoke.GetDpiForMonitor(hMonitor, MONITOR_DPI_TYPE.MDT_EFFECTIVE_DPI, out var dpiX, out var _);
-			return res == 0 ? ((float)dpiX / Win32PInvoke.USER_DEFAULT_SCREEN_DPI) : 1;
 		}
 	}
 }

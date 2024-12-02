@@ -67,7 +67,5 @@ namespace Files.App.Helpers
 		public const string LOCALE_NAME_USER_DEFAULT = null;
 		public const string LOCALE_NAME_INVARIANT = "";
 		public const string LOCALE_NAME_SYSTEM_DEFAULT = "!sys-default-locale";
-
-		public const int USER_DEFAULT_SCREEN_DPI = 96;
 	}
 }
