@@ -3979,6 +3979,7 @@
   </data>
   <data name="CompressContents" xml:space="preserve">
     <value>Compress contents</value>
+  </data>
   <data name="ShowCreateAlternateDataStream" xml:space="preserve">
     <value>Show option to create alternate data stream</value>
   </data>
