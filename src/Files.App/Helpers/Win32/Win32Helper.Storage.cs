@@ -947,7 +947,7 @@ namespace Files.App.Helpers
 		{
 			path = Path.GetPathRoot(path) ?? string.Empty;
 
-			// MAX_PATH = 260 + 1 (null termination)
+			// MAX_PATH = 260 (includes null termination char)
 			var volumeName = new PWSTR();
 			var fileSystemName = new PWSTR();
 
