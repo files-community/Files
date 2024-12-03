@@ -19,6 +19,7 @@ using Windows.Win32.Foundation;
 using Windows.Win32.Storage.FileSystem;
 using static Files.App.Constants.Widgets;
 using static Vanara.PInvoke.Kernel32;
+using COMPRESSION_FORMAT = Windows.Win32.Storage.FileSystem.COMPRESSION_FORMAT;
 using HRESULT = Vanara.PInvoke.HRESULT;
 using HWND = Vanara.PInvoke.HWND;
 
@@ -990,8 +991,8 @@ namespace Files.App.Helpers
 
 			var bytesReturned = 0u;
 			var compressionFormat = isCompressed
-				? Win32PInvoke.COMPRESSION_FORMAT_DEFAULT
-				: Win32PInvoke.COMPRESSION_FORMAT_NONE;
+				? COMPRESSION_FORMAT.COMPRESSION_FORMAT_DEFAULT
+				: COMPRESSION_FORMAT.COMPRESSION_FORMAT_NONE;
 
 			var result = PInvoke.DeviceIoControl(
 				new(hFile.DangerousGetHandle()),

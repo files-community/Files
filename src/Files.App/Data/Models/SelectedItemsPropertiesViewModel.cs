@@ -719,6 +719,9 @@ namespace Files.App.Data.Models
 		}
 
 		private bool? isContentCompressed;
+		/// <remarks>
+		/// Applies to NTFS item compression.
+		/// </remarks>
 		public bool? IsContentCompressed
 		{
 			get => isContentCompressed;
@@ -730,6 +733,9 @@ namespace Files.App.Data.Models
 		}
 
 		private bool? isContentCompressedEditedValue;
+		/// <remarks>
+		/// Applies to NTFS item compression.
+		/// </remarks>
 		public bool? IsContentCompressedEditedValue
 		{
 			get => isContentCompressedEditedValue;
@@ -737,6 +743,9 @@ namespace Files.App.Data.Models
 		}
 
 		private bool canCompressContent;
+		/// <remarks>
+		/// Applies to NTFS item compression.
+		/// </remarks>
 		public bool CanCompressContent
 		{
 			get => canCompressContent;

@@ -166,3 +166,4 @@ IApplicationDocumentLists
 ApplicationDocumentLists
 IApplicationActivationManager
 MENU_ITEM_TYPE
+COMPRESSION_FORMAT
