@@ -407,7 +407,15 @@ namespace Files.App.UserControls.TabBar
 		}
 
 		private void DragAreaRectangle_Loaded(object sender, RoutedEventArgs e)
-			=> HorizontalTabView.Measure(new(HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - TitleBarWidth.Value, HorizontalTabView.ActualHeight));
+		{
+			if (HorizontalTabView.ActualWidth > 0 && TabBarAddNewTabButton.Width > 0 && TitleBarWidth.Value > 0)
+			{
+				HorizontalTabView.Measure(new(HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - TitleBarWidth.Value, HorizontalTabView.ActualHeight));
+				return;
+			}
+
+			DispatcherQueue.TryEnqueue(() => DragAreaRectangle_Loaded(sender, e));
+		}
 
 		public int SetTitleBarDragRegion(InputNonClientPointerSource source, SizeInt32 size, double scaleFactor, Func<UIElement, RectInt32?, RectInt32> getScaledRect)
 		{
