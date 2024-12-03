@@ -76,7 +76,10 @@ namespace Files.App.UserControls.TabBar
 			tabHoverTimer.Interval = TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToOpenTimespan);
 			tabHoverTimer.Tick += TabHoverSelected;
 
-			InitializeTitleBarAsync();
+			var appWindow = MainWindow.Instance.AppWindow;
+			TitleBarWidth = new(FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
+				? appWindow!.TitleBar.LeftInset
+				: appWindow!.TitleBar.RightInset);
 
 			AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
@@ -87,40 +90,6 @@ namespace Files.App.UserControls.TabBar
 						break;
 				}
 			};
-		}
-
-		/// <summary>
-		/// Initializes the title bar asynchronously. This method attempts to get the title bar's left and right insets.
-		/// If the values are properly initialized, it sets the <see cref="TitleBarWidth"/> property. If the initialization fails,
-		/// it falls back to a default width.
-		/// </summary>
-		private async void InitializeTitleBarAsync()
-		{
-			const int maxAttempts = 10; // Maximum number of attempts (1 second total wait)
-			const int delayInterval = 100; // Delay interval in milliseconds
-			const double defaultWidth = 138; // Default width if initialization fails
-
-			var appWindow = MainWindow.Instance.AppWindow;
-
-			for (int attempt = 0; attempt < maxAttempts; attempt++)
-			{
-				// If TitleBar values are properly initialized, set TitleBarWidth
-				if (appWindow?.TitleBar.LeftInset != appWindow?.TitleBar.RightInset)
-				{
-					TitleBarWidth = new GridLength(
-						FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
-						? appWindow!.TitleBar.LeftInset
-						: appWindow!.TitleBar.RightInset
-					);
-					return;
-				}
-
-				// Wait for the next attempt
-				await Task.Delay(delayInterval);
-			}
-
-			// Fallback to default width if initialization fails
-			TitleBarWidth = new GridLength(defaultWidth);
 		}
 
 		private void TabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
