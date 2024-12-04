@@ -42,14 +42,6 @@ namespace Files.App.Helpers
 
 		// FSCTL
 		public const int FSCTL_GET_REPARSE_POINT = 0x000900A8;
-		public const int FSCTL_LOCK_VOLUME = 0x00090018;
-		public const int FSCTL_DISMOUNT_VOLUME = 0x00090020;
-		public const uint FSCTL_SET_COMPRESSION = 0x9C040u;
-
-		// Compression
-		public const ushort COMPRESSION_FORMAT_NONE = 0x0000;
-		public const ushort COMPRESSION_FORMAT_DEFAULT = 0x0001;
-
 
 		public const int MAXIMUM_REPARSE_DATA_BUFFER_SIZE = 16 * 1024;
 		public const uint IO_REPARSE_TAG_MOUNT_POINT = 0xA0000003;

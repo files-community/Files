@@ -11,15 +11,11 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Windows.Forms;
-using Vanara;
 using Vanara.PInvoke;
 using Windows.System;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Storage.FileSystem;
-using static Files.App.Constants.Widgets;
-using static Vanara.PInvoke.Kernel32;
-using COMPRESSION_FORMAT = Windows.Win32.Storage.FileSystem.COMPRESSION_FORMAT;
 using HRESULT = Vanara.PInvoke.HRESULT;
 using HWND = Vanara.PInvoke.HWND;
 
@@ -333,7 +329,7 @@ namespace Files.App.Helpers
 				}
 
 				if (iconData is not null || iconOptions.HasFlag(IconOptions.ReturnThumbnailOnly))
-					return iconData;			
+					return iconData;
 				else
 				{
 					var shfi = new Shell32.SHFILEINFO();
@@ -342,7 +338,7 @@ namespace Files.App.Helpers
 					// Cannot access file, use file attributes
 					var useFileAttibutes = iconData is null;
 
-					var ret = Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags);					
+					var ret = Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags);
 					if (ret == IntPtr.Zero)
 						return iconData;
 
@@ -970,7 +966,7 @@ namespace Files.App.Helpers
 				return false;
 
 			// 0x00000010 FILE_FILE_COMPRESSION
-			return (fileSystemFlags & 0x00000010) != 0;
+			return (fileSystemFlags & PInvoke.FILE_FILE_COMPRESSION) != 0;
 		}
 
 		public static unsafe bool SetCompressionAttributeIoctl(string lpFileName, bool isCompressed)
@@ -996,7 +992,7 @@ namespace Files.App.Helpers
 
 			var result = PInvoke.DeviceIoControl(
 				new(hFile.DangerousGetHandle()),
-				Win32PInvoke.FSCTL_SET_COMPRESSION,
+				PInvoke.FSCTL_SET_COMPRESSION,
 				&compressionFormat,
 				sizeof(ushort),
 				null,
