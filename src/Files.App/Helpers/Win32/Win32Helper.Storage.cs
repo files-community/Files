@@ -16,6 +16,8 @@ using Windows.System;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Storage.FileSystem;
+using static Vanara.PInvoke.Kernel32;
+using COMPRESSION_FORMAT = Windows.Win32.Storage.FileSystem.COMPRESSION_FORMAT;
 using HRESULT = Vanara.PInvoke.HRESULT;
 using HWND = Vanara.PInvoke.HWND;
 
@@ -943,29 +945,22 @@ namespace Files.App.Helpers
 		public static unsafe bool CanCompressContent(string path)
 		{
 			path = Path.GetPathRoot(path) ?? string.Empty;
-
-			// MAX_PATH = 260 (includes null termination char)
-			var volumeName = new PWSTR();
-			var fileSystemName = new PWSTR();
-
-			uint serialNumber = 0;
-			uint maxComponentLength = 0;
-			uint fileSystemFlags = 0;
+			uint dwFileSystemFlags = 0;
 
 			var success = PInvoke.GetVolumeInformation(
 				path,
-				volumeName,
-				261u,
-				&serialNumber,
-				&maxComponentLength,
-				&fileSystemFlags,
-				fileSystemName,
-				261u);
+				null,
+				0u,
+				null,
+				null,
+				&dwFileSystemFlags,
+				null,
+				0u);
 
 			if (!success)
 				return false;
 
-			return (fileSystemFlags & PInvoke.FILE_FILE_COMPRESSION) != 0;
+			return (dwFileSystemFlags & PInvoke.FILE_FILE_COMPRESSION) != 0;
 		}
 
 		public static unsafe bool SetCompressionAttributeIoctl(string lpFileName, bool isCompressed)
