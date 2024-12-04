@@ -19,6 +19,8 @@ namespace Files.App
 		public static MainWindow Instance => _Instance ??= new();
 
 		public nint WindowHandle { get; }
+		private bool CanWindowToFront { get; set; } = true;
+		private readonly object _canWindowToFrontLock = new();
 
 		public MainWindow()
 		{
@@ -35,6 +37,8 @@ namespace Files.App
 			AppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonHoverBackgroundColor = Colors.Transparent;
 			AppWindow.SetIcon(AppLifecycleHelper.AppIconPath);
+
+			WinUIEx.WindowManager.Get(this).WindowMessageReceived += WindowManager_WindowMessageReceived;
 		}
 
 		public void ShowSplashScreen()
@@ -337,6 +341,28 @@ namespace Files.App
 						App.OutputPath = command.Payload;
 						break;
 				}
+			}
+		}
+
+		public bool SetCanWindowToFront(bool canWindowToFront)
+		{
+			lock (_canWindowToFrontLock)
+			{
+				if (CanWindowToFront != canWindowToFront)
+				{
+					CanWindowToFront = canWindowToFront;
+					return true;
+				}
+				return false;
+			}
+		}
+
+		private void WindowManager_WindowMessageReceived(object? sender, WinUIEx.Messaging.WindowMessageEventArgs e)
+		{
+			if ((!CanWindowToFront) && e.Message.MessageId == Windows.Win32.PInvoke.WM_WINDOWPOSCHANGING)
+			{
+				Win32Helper.ForceWindowPosition(e.Message.LParam);
+				e.Handled = true;
 			}
 		}
 	}
