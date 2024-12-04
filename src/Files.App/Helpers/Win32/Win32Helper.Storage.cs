@@ -965,7 +965,6 @@ namespace Files.App.Helpers
 			if (!success)
 				return false;
 
-			// 0x00000010 FILE_FILE_COMPRESSION
 			return (fileSystemFlags & PInvoke.FILE_FILE_COMPRESSION) != 0;
 		}
 
