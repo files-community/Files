@@ -357,10 +357,9 @@ namespace Files.App
 			}
 		}
 
-		private const int WM_WINDOWPOSCHANGING = 0x0046;
 		private void WindowManager_WindowMessageReceived(object? sender, WinUIEx.Messaging.WindowMessageEventArgs e)
 		{
-			if ((!CanWindowToFront) && e.Message.MessageId == WM_WINDOWPOSCHANGING)
+			if ((!CanWindowToFront) && e.Message.MessageId == Windows.Win32.PInvoke.WM_WINDOWPOSCHANGING)
 			{
 				Win32Helper.ForceWindowPosition(e.Message.LParam);
 				e.Handled = true;

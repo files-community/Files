@@ -160,3 +160,5 @@ IApplicationDocumentLists
 ApplicationDocumentLists
 IApplicationActivationManager
 MENU_ITEM_TYPE
+WM_WINDOWPOSCHANGING
+WINDOWPOS
