@@ -39,10 +39,11 @@ namespace Windows.Win32
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public readonly ComPtr<U> As<U>(Guid riid) where U : unmanaged
+		public readonly ComPtr<U> As<U>() where U : unmanaged
 		{
 			ComPtr<U> pNewPtr = default;
-			((IUnknown*)_ptr)->QueryInterface(&riid, (void**)pNewPtr.GetAddressOf());
+			Guid uuid = typeof(U).GUID;
+			((IUnknown*)_ptr)->QueryInterface(&uuid, (void**)pNewPtr.GetAddressOf());
 			return pNewPtr;
 		}
 

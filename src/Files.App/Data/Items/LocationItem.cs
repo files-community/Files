@@ -80,7 +80,7 @@ namespace Files.App.Data.Items
 
 		public bool IsInvalid { get; set; } = false;
 
-		public bool IsPinned => App.QuickAccessManager.Model.PinnedFolders.Contains(path);
+		public bool IsPinned { get; set; }
 
 		public SectionType Section { get; set; }
 
