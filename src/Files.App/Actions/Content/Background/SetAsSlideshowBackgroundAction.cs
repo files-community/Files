@@ -24,12 +24,11 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync(object? parameter = null)
 		{
-			if (!IsExecutable)
+			if (!IsExecutable || ContentPageContext.SelectedItems.Select(item => item.ItemPath).ToArray() is string[] paths || paths.Length is not 0)
 				return Task.CompletedTask;
 
 			try
 			{
-				var paths = ContentPageContext.SelectedItems.Select(item => item.ItemPath).ToArray();
 				WindowsWallpaperService.SetDesktopSlideshow(paths);
 			}
 			catch (Exception ex)
