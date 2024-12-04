@@ -36,8 +36,8 @@ if ($Branch -eq "Preview")
     $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="Files - Preview"
 
     # Update app protocol and execution alias
-    $ap.SetAttribute("Name", "files-pre");
-    $ea.SetAttribute("Alias", "files-pre.exe");
+    $ap.SetAttribute("Name", "files-preview");
+    $ea.SetAttribute("Alias", "files-preview.exe");
 
     # Save modified Package.appxmanifest
     $xmlDoc.Save($PackageManifestPath)
@@ -50,7 +50,7 @@ if ($Branch -eq "Preview")
 
     Get-ChildItem $WorkingDir -Include *.cs, *.cpp -recurse | ForEach-Object -Process `
     { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-pre" }) | `
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-preview" }) | `
         Set-Content $_ -NoNewline `
     }
 }
@@ -63,8 +63,8 @@ elseif ($Branch -eq "Stable")
     $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="Files"
 
     # Update app protocol and execution alias
-    $ap.SetAttribute("Name", "files");
-    $aea.RemoveChild(aea.FirstChild); # Avoid duplication
+    $ap.SetAttribute("Name", "files-stable");
+    $ea.SetAttribute("Alias", "files-stable.exe");
     
     # Save modified Package.appxmanifest
     $xmlDoc.Save($PackageManifestPath)
@@ -77,7 +77,7 @@ elseif ($Branch -eq "Stable")
 
     Get-ChildItem $WorkingDir -Include *.cs, *.cpp -recurse | ForEach-Object -Process `
     { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files" }) | `
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-stable" }) | `
         Set-Content $_ -NoNewline `
     }
 }
