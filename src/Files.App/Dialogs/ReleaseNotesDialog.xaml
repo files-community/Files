@@ -67,6 +67,7 @@
 			Grid.Row="1"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
+			CoreWebView2Initialized="BlogPostWebView_CoreWebView2Initialized"
 			Source="{x:Bind ViewModel.BlogPostUrl, Mode=OneWay}" />
 
 		<!--  Footer  -->
