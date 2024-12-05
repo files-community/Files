@@ -24,7 +24,7 @@ namespace Files.App.Actions
 
 		public override Task ExecuteAsync(object? parameter = null)
 		{
-			if (!IsExecutable || ContentPageContext.SelectedItems.Select(item => item.ItemPath).ToArray() is not string[] paths || paths.Length is not 0)
+			if (!IsExecutable || ContentPageContext.SelectedItems.Select(item => item.ItemPath).ToArray() is not string[] paths || paths.Length is 0)
 				return Task.CompletedTask;
 
 			try
