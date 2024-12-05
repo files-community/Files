@@ -186,7 +186,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IStorageService, NativeStorageLegacyService>()
 					.AddSingleton<IFtpStorageService, FtpStorageService>()
 					.AddSingleton<IAddItemService, AddItemService>()
-#if STABLE || PREVIEW || DEBUG
+#if STABLE || PREVIEW
 					.AddSingleton<IUpdateService, SideloadUpdateService>()
 #elif STORE
 					.AddSingleton<IUpdateService, StoreUpdateService>()
