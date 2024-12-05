@@ -1,14 +1,25 @@
-﻿namespace Files.App.Services
+﻿using CommunityToolkit.WinUI.Helpers;
+using System.Net.Http;
+
+namespace Files.App.Services
 {
-	internal sealed class DummyUpdateService : IUpdateService
+	internal sealed class DummyUpdateService : ObservableObject, IUpdateService
 	{
 		public bool IsUpdateAvailable => false;
 
 		public bool IsUpdating => false;
 
-		public bool IsAppUpdated => false;
+		public bool IsAppUpdated
+		{
+			get => SystemInformation.Instance.IsAppUpdated;
+		}
 
-		public bool AreReleaseNotesAvailable => false;
+		private bool _areReleaseNotesAvailable = false;
+		public bool AreReleaseNotesAvailable
+		{
+			get => _areReleaseNotesAvailable;
+			private set => SetProperty(ref _areReleaseNotesAvailable, value);
+		}
 
 		public event PropertyChangedEventHandler? PropertyChanged { add { } remove { } }
 
@@ -21,10 +32,20 @@
 		{
 			return Task.CompletedTask;
 		}
-		
-		public Task CheckForReleaseNotesAsync()
+
+		public async Task CheckForReleaseNotesAsync()
 		{
-			return Task.CompletedTask;
+			using var client = new HttpClient();
+
+			try
+			{
+				var response = await client.GetAsync(Constants.ExternalUrl.ReleaseNotesUrl);
+				AreReleaseNotesAvailable = response.IsSuccessStatusCode;
+			}
+			catch
+			{
+				AreReleaseNotesAvailable = false;
+			}
 		}
 
 		public Task DownloadMandatoryUpdatesAsync()

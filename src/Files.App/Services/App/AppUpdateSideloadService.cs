@@ -166,14 +166,11 @@ namespace Files.App.Services
 
 		public async Task CheckForReleaseNotesAsync()
 		{
-			var applicationVersion = $"v{SystemInformation.Instance.ApplicationVersion.Major}-{SystemInformation.Instance.ApplicationVersion.Minor}-{SystemInformation.Instance.ApplicationVersion.Build}";
-			var releaseNotesLocation = $"https://5ee883e8.files-website-cml.pages.dev/blog/posts/{applicationVersion}";
-
 			using var client = new HttpClient();
 
 			try
 			{
-				var response = await client.GetAsync(releaseNotesLocation);
+				var response = await client.GetAsync(Constants.ExternalUrl.ReleaseNotesUrl);
 				AreReleaseNotesAvailable = response.IsSuccessStatusCode;
 			}
 			catch

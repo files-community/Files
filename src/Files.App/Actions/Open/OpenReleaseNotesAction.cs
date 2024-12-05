@@ -25,10 +25,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			var applicationVersion = $"v{SystemInformation.Instance.ApplicationVersion.Major}-{SystemInformation.Instance.ApplicationVersion.Minor}-{SystemInformation.Instance.ApplicationVersion.Build}";
-			var releaseNotesLocation = $"https://5ee883e8.files-website-cml.pages.dev/blog/posts/{applicationVersion}?minimal";
-
-			var viewModel = new ReleaseNotesDialogViewModel(releaseNotesLocation);
+			var viewModel = new ReleaseNotesDialogViewModel(Constants.ExternalUrl.ReleaseNotesUrl);
 			var dialog = DialogService.GetDialog(viewModel);
 
 			return dialog.TryShowAsync();
