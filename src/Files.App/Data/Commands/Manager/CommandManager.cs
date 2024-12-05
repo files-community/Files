@@ -115,6 +115,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand OpenInVSCode => commands[CommandCodes.OpenInVSCode];
 		public IRichCommand OpenRepoInVSCode => commands[CommandCodes.OpenRepoInVSCode];
 		public IRichCommand OpenProperties => commands[CommandCodes.OpenProperties];
+		public IRichCommand OpenReleaseNotes => commands[CommandCodes.OpenReleaseNotes];
 		public IRichCommand OpenClassicProperties => commands[CommandCodes.OpenClassicProperties];
 		public IRichCommand OpenStorageSense => commands[CommandCodes.OpenStorageSense];
 		public IRichCommand OpenStorageSenseFromHome => commands[CommandCodes.OpenStorageSenseFromHome];
@@ -317,6 +318,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.OpenInVSCode] = new OpenInVSCodeAction(),
 			[CommandCodes.OpenRepoInVSCode] = new OpenRepoInVSCodeAction(),
 			[CommandCodes.OpenProperties] = new OpenPropertiesAction(),
+			[CommandCodes.OpenReleaseNotes] = new OpenReleaseNotesAction(),
 			[CommandCodes.OpenClassicProperties] = new OpenClassicPropertiesAction(),
 			[CommandCodes.OpenStorageSense] = new OpenStorageSenseAction(),
 			[CommandCodes.OpenStorageSenseFromHome] = new OpenStorageSenseFromHomeAction(),
