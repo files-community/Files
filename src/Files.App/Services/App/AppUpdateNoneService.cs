@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Files.App.Services
+﻿namespace Files.App.Services
 {
 	internal sealed class DummyUpdateService : IUpdateService
 	{
@@ -12,9 +6,9 @@ namespace Files.App.Services
 
 		public bool IsUpdating => false;
 
-		public bool IsAppUpdated => true;
+		public bool IsAppUpdated => false;
 
-		public bool IsReleaseNotesAvailable => true;
+		public bool AreReleaseNotesAvailable => false;
 
 		public event PropertyChangedEventHandler? PropertyChanged { add { } remove { } }
 
@@ -27,8 +21,8 @@ namespace Files.App.Services
 		{
 			return Task.CompletedTask;
 		}
-
-		public Task CheckLatestReleaseNotesAsync(CancellationToken cancellationToken = default)
+		
+		public Task CheckForReleaseNotesAsync()
 		{
 			return Task.CompletedTask;
 		}
@@ -41,12 +35,6 @@ namespace Files.App.Services
 		public Task DownloadUpdatesAsync()
 		{
 			return Task.CompletedTask;
-		}
-
-		public Task<string?> GetLatestReleaseNotesAsync(CancellationToken cancellationToken = default)
-		{
-			// No localization for dev-only string
-			return Task.FromResult((string?)"No release notes available for Dev build.");
 		}
 	}
 }

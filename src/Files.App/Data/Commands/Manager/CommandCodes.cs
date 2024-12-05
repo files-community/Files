@@ -114,6 +114,7 @@ namespace Files.App.Data.Commands
 		OpenInVSCode,
 		OpenRepoInVSCode,
 		OpenProperties,
+		OpenReleaseNotes,
 		OpenClassicProperties,
 		OpenSettings,
 		OpenStorageSense,

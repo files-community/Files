@@ -3,7 +3,6 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Windows.System;
 
 namespace Files.App.Dialogs
 {
@@ -28,7 +27,10 @@ namespace Files.App.Dialogs
 
 		private void UpdateDialogLayout()
 		{
-			ContainerGrid.MaxHeight = MainWindow.Instance.Bounds.Height - 70;
+			var maxHeight = MainWindow.Instance.Bounds.Height - 70;
+			var maxWidth = MainWindow.Instance.Bounds.Width;
+			ContainerGrid.Height = maxHeight > 700 ? 700 : maxHeight;
+			ContainerGrid.Width = maxWidth > 700 ? 700 : maxWidth;
 		}
 
 		private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
@@ -58,12 +60,6 @@ namespace Files.App.Dialogs
 				contentDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 			return contentDialog;
-		}
-
-		private async void ReleaseNotesMarkdownTextBlock_LinkClicked(object sender, CommunityToolkit.WinUI.UI.Controls.LinkClickedEventArgs e)
-		{
-			if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri? link))
-				await Launcher.LaunchUriAsync(link);
 		}
 	}
 }

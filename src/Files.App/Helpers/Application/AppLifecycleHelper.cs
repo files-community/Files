@@ -107,7 +107,7 @@ namespace Files.App.Helpers
 			await updateService.CheckForUpdatesAsync();
 			await updateService.DownloadMandatoryUpdatesAsync();
 			await updateService.CheckAndUpdateFilesLauncherAsync();
-			await updateService.CheckLatestReleaseNotesAsync();
+			await updateService.CheckForReleaseNotesAsync();
 		}
 
 		/// <summary>
@@ -186,7 +186,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IStorageService, NativeStorageLegacyService>()
 					.AddSingleton<IFtpStorageService, FtpStorageService>()
 					.AddSingleton<IAddItemService, AddItemService>()
-#if STABLE || PREVIEW
+#if STABLE || PREVIEW || DEBUG
 					.AddSingleton<IUpdateService, SideloadUpdateService>()
 #elif STORE
 					.AddSingleton<IUpdateService, StoreUpdateService>()
