@@ -33,8 +33,6 @@ namespace Files.App.Helpers
 			Enum.TryParse("cd_app_env_placeholder", true, out AppEnvironment appEnvironment))
 				? appEnvironment;
 				: AppEnvironment.Dev;
-			}
-		}
 
 		/// <summary>
 		/// Gets application package version.
