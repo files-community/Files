@@ -27,7 +27,19 @@ namespace Files.App.Utils.Taskbar
 
 		// Fields
 
-		private readonly static Guid _trayIconGuid = new("684F2832-AC2B-4630-98C2-73D6AEBD46B7");
+		private readonly static Guid _trayIconGuid = new(
+#if DEBUG
+			"684F2832-AC2B-4630-98C2-73D6AEBD4001"
+#elif PREVIEW
+			"684F2832-AC2B-4630-98C2-73D6AEBD4002"
+#elif STABLE
+			"684F2832-AC2B-4630-98C2-73D6AEBD4003"
+#elif STORE
+			"684F2832-AC2B-4630-98C2-73D6AEBD4004"
+#else
+			"684F2832-AC2B-4630-98C2-73D6AEBD4005"
+#endif
+		);
 
 		private readonly SystemTrayIconWindow _IconWindow;
 
@@ -264,7 +276,7 @@ namespace Files.App.Utils.Taskbar
 			{
 				_lastLaunchDate = DateTime.Now;
 
-				_ = Launcher.LaunchUriAsync(new Uri("files-uwp:"));
+				_ = Launcher.LaunchUriAsync(new Uri("files-dev:"));
 			}
 			else
 				MainWindow.Instance.Activate();
