@@ -52,12 +52,4 @@ Looking for a place to start? Check out the [task board](https://github.com/orgs
 
 ![Files](./assets/FilesScreenshot.png)
 struct UnreadIndicatorView: View {
-    var isUnread: Bool
-
-    var body: some View {
-        Circle()
-            .foregroundStyle(.blue)
-            .accessibilityLabel("Unread")
-            .opacity(isUnread ? 1 : 0)
-    }
-}
+    var Boll
