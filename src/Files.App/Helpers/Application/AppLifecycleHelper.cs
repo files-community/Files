@@ -33,7 +33,7 @@ namespace Files.App.Helpers
 #if DEBUG
 		AppEnvironment.Dev;
 #else
-		AppEnvironment.cd_app_env_placeholder;
+		AppEnvironment.cd_app_env_placeholder; // This is replaced to an appropriate enum value by a CD pipeline
 #endif
 
 		/// <summary>
@@ -49,8 +49,7 @@ namespace Files.App.Helpers
 			SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, AppEnvironment switch
 			{
 				AppEnvironment.Dev => Constants.AssetPaths.DevLogo,
-				AppEnvironment.SideloadPreview => Constants.AssetPaths.PreviewLogo,
-				AppEnvironment.StorePreview => Constants.AssetPaths.PreviewLogo,
+				AppEnvironment.SideloadPreview or AppEnvironment.StorePreview => Constants.AssetPaths.PreviewLogo,
 				_ => Constants.AssetPaths.StableLogo
 			});
 
@@ -134,7 +133,7 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static IHost ConfigureHost()
 		{
-			return Host.CreateDefaultBuilder()
+			var builder = Host.CreateDefaultBuilder()
 				.UseEnvironment(AppLifecycleHelper.AppEnvironment.ToString())
 				.ConfigureLogging(builder => builder
 					.ClearProviders()
@@ -183,13 +182,6 @@ namespace Files.App.Helpers
 					.AddSingleton<IStorageService, NativeStorageLegacyService>()
 					.AddSingleton<IFtpStorageService, FtpStorageService>()
 					.AddSingleton<IAddItemService, AddItemService>()
-#if SIDELOAD_STABLE || SIDELOAD_PREVIEW
-					.AddSingleton<IUpdateService, SideloadUpdateService>()
-#elif STORE_STABLE || STORE_PREVIEW
-					.AddSingleton<IUpdateService, StoreUpdateService>()
-#else
-					.AddSingleton<IUpdateService, DummyUpdateService>()
-#endif
 					.AddSingleton<IPreviewPopupService, PreviewPopupService>()
 					.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
 					.AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
@@ -224,7 +216,17 @@ namespace Files.App.Helpers
 					.AddSingleton<FileTagsManager>()
 					.AddSingleton<LibraryManager>()
 					.AddSingleton<AppModel>()
-				).Build();
+				);
+
+			// Conditional DI
+			if (AppEnvironment is AppEnvironment.SideloadPreview or AppEnvironment.SideloadStable)
+				builder.AddSingleton<IUpdateService, SideloadUpdateService>();
+			else if (AppEnvironment is AppEnvironment.StorePreview or AppEnvironment.StoreStable)
+				builder.AddSingleton<IUpdateService, StoreUpdateService>();
+			else
+				builder.AddSingleton<IUpdateService, DummyUpdateService>();
+
+			return builder.Build();
 		}
 
 		/// <summary>
