@@ -30,14 +30,10 @@ namespace Files.App.Helpers
 		/// Gets the value that provides application environment or branch name.
 		/// </summary>
 		public static AppEnvironment AppEnvironment { get; } =
-#if STORE
-			AppEnvironment.Store;
-#elif PREVIEW
-			AppEnvironment.Preview;
-#elif STABLE
-			AppEnvironment.Stable;
+#if DEBUG
+		AppEnvironment.Dev;
 #else
-			AppEnvironment.Dev;
+		AppEnvironment.cd_app_env_placeholder;
 #endif
 
 		/// <summary>
@@ -53,7 +49,8 @@ namespace Files.App.Helpers
 			SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, AppEnvironment switch
 			{
 				AppEnvironment.Dev => Constants.AssetPaths.DevLogo,
-				AppEnvironment.Preview => Constants.AssetPaths.PreviewLogo,
+				AppEnvironment.SideloadPreview => Constants.AssetPaths.PreviewLogo,
+				AppEnvironment.StorePreview => Constants.AssetPaths.PreviewLogo,
 				_ => Constants.AssetPaths.StableLogo
 			});
 
@@ -122,7 +119,7 @@ namespace Files.App.Helpers
 				options.Release = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
 				options.TracesSampleRate = 0.80;
 				options.ProfilesSampleRate = 0.40;
-				options.Environment = AppEnvironment == AppEnvironment.Preview ? "preview" : "production";
+				options.Environment = AppEnvironment == AppEnvironment.StorePreview || AppEnvironment == AppEnvironment.SideloadPreview ? "preview" : "production";
 				options.ExperimentalMetrics = new ExperimentalMetricsOptions
 				{
 					EnableCodeLocations = true
@@ -186,9 +183,9 @@ namespace Files.App.Helpers
 					.AddSingleton<IStorageService, NativeStorageLegacyService>()
 					.AddSingleton<IFtpStorageService, FtpStorageService>()
 					.AddSingleton<IAddItemService, AddItemService>()
-#if STABLE || PREVIEW
+#if SIDELOAD_STABLE || SIDELOAD_PREVIEW
 					.AddSingleton<IUpdateService, SideloadUpdateService>()
-#elif STORE
+#elif STORE_STABLE || STORE_PREVIEW
 					.AddSingleton<IUpdateService, StoreUpdateService>()
 #else
 					.AddSingleton<IUpdateService, DummyUpdateService>()
