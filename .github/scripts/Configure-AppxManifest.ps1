@@ -122,7 +122,7 @@ elseif ($Branch -eq "StoreStable")
 
     # Update app protocol and execution alias
     $ap.SetAttribute("Name", "files");
-    $aea.RemoveChild(aea.FirstChild); # Avoid duplication
+    $aea.RemoveChild($aea.FirstChild); # Avoid duplication
 
     # Save modified Package.appxmanifest
     $xmlDoc.Save($PackageManifestPath)
