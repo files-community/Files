@@ -171,7 +171,6 @@ namespace Files.App.Views
 			{
 				SidebarAdaptiveViewModel.PaneHolder = currentInstance;
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
-				// Issue doesn't update the secondary pane in general
 				currentInstance.UpdatePanesLayout();
 			}
 			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments)?.LeftPaneNavPathParam);
