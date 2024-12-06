@@ -2,7 +2,7 @@
 # Licensed under the MIT License. See the LICENSE.
 
 param(
-    [string]$Branch = "",
+    [string]$Branch = "", # This has to correspond with one of the AppEnvironment enum values
     [string]$PackageManifestPath = "",
     [string]$Publisher = "",
     [string]$WorkingDir = "",
@@ -28,10 +28,26 @@ if ($Branch -eq "SideloadPreview")
         (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Preview" }) | `
         Set-Content $_ -NoNewline `
     }
+}
+elseif ($Branch -eq "StorePreview")
+{
+    # Set identities
+    $xmlDoc.Package.Identity.Name="49306atecsolution.FilesPreview"
+    $xmlDoc.Package.Properties.DisplayName="Files - Preview"
+    $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files - Preview"
+    $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="49306atecsolution.FilesPreview"
 
-    Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
+    # Remove an capability that is used for the sideload
+    $nsmgr = New-Object System.Xml.XmlNamespaceManager($xmlDoc.NameTable)
+    $nsmgr.AddNamespace("pkg", "http://schemas.microsoft.com/appx/manifest/foundation/windows10")
+    $nsmgr.AddNamespace("rescap", "http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities")
+    $pm = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Capabilities/rescap:Capability[@Name='packageManagement']", $nsmgr)
+    $xmlDoc.Package.Capabilities.RemoveChild($pm)
+    $xmlDoc.Save($PackageManifestPath)
+
+    Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach-Object -Process `
     { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "cd_app_env_placeholder", "SideloadPreview" }) | `
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Preview" }) | `
         Set-Content $_ -NoNewline `
     }
 }
@@ -47,12 +63,6 @@ elseif ($Branch -eq "SideloadStable")
     Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach-Object -Process `
     { `
         (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release" }) | `
-        Set-Content $_ -NoNewline `
-    }
-
-    Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
-    { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "cd_app_env_placeholder", "SideloadStable" }) | `
         Set-Content $_ -NoNewline `
     }
 }
@@ -77,40 +87,12 @@ elseif ($Branch -eq "StoreStable")
         (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release" }) | `
         Set-Content $_ -NoNewline `
     }
-
-    Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
-    { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "cd_app_env_placeholder", "StoreStable" }) | `
-        Set-Content $_ -NoNewline `
-    }
 }
-elseif ($Branch -eq "StorePreview")
-{
-    # Set identities
-    $xmlDoc.Package.Identity.Name="49306atecsolution.FilesPreview"
-    $xmlDoc.Package.Properties.DisplayName="Files - Preview"
-    $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files - Preview"
-    $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="49306atecsolution.FilesPreview"
 
-    # Remove an capability that is used for the sideload
-    $nsmgr = New-Object System.Xml.XmlNamespaceManager($xmlDoc.NameTable)
-    $nsmgr.AddNamespace("pkg", "http://schemas.microsoft.com/appx/manifest/foundation/windows10")
-    $nsmgr.AddNamespace("rescap", "http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities")
-    $pm = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Capabilities/rescap:Capability[@Name='packageManagement']", $nsmgr)
-    $xmlDoc.Package.Capabilities.RemoveChild($pm)
-    $xmlDoc.Save($PackageManifestPath)
-
-    Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach-Object -Process `
-    { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Preview" }) | `
-        Set-Content $_ -NoNewline `
-    }
-
-    Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
-    { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "cd_app_env_placeholder", "StorePreview" }) | `
-        Set-Content $_ -NoNewline `
-    }
+Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
+{ `
+    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "cd_app_env_placeholder", $Branch }) | `
+    Set-Content $_ -NoNewline `
 }
 
 Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
