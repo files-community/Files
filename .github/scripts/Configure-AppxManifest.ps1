@@ -2,7 +2,7 @@
 # Licensed under the MIT License. See the LICENSE.
 
 param(
-    [string]$Branch = "",
+    [string]$Branch = "", # This has to correspond with one of the AppEnvironment enum values
     [string]$PackageManifestPath = "",
     [string]$Publisher = "",
     [string]$WorkingDir = "",
@@ -27,7 +27,7 @@ $ea = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pk
 # Update the publisher
 $xmlDoc.Package.Identity.Publisher = $Publisher
 
-if ($Branch -eq "Preview")
+if ($Branch -eq "SideloadPreview")
 {
     # Set identities
     $xmlDoc.Package.Identity.Name="FilesPreview"
@@ -54,7 +54,34 @@ if ($Branch -eq "Preview")
         Set-Content $_ -NoNewline `
     }
 }
-elseif ($Branch -eq "Stable")
+elseif ($Branch -eq "StorePreview")
+{
+    # Set identities
+    $xmlDoc.Package.Identity.Name="49306atecsolution.FilesPreview"
+    $xmlDoc.Package.Properties.DisplayName="Files - Preview"
+    $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files - Preview"
+    $xmlDoc.Package.Applications.Application.VisualElements.DefaultTile.ShortName="49306atecsolution.FilesPreview"
+
+    # Remove capability that is only used for the sideload package
+    $nsmgr = New-Object System.Xml.XmlNamespaceManager($xmlDoc.NameTable)
+    $nsmgr.AddNamespace("pkg", "http://schemas.microsoft.com/appx/manifest/foundation/windows10")
+    $nsmgr.AddNamespace("rescap", "http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities")
+    $pm = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Capabilities/rescap:Capability[@Name='packageManagement']", $nsmgr)
+    $xmlDoc.Package.Capabilities.RemoveChild($pm)
+
+    # Update app protocol and execution alias
+    $ap.SetAttribute("Name", "files-preview");
+    $ea.SetAttribute("Alias", "files-preview.exe");
+    
+    $xmlDoc.Save($PackageManifestPath)
+
+    Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach-Object -Process `
+    { `
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Preview" }) | `
+        Set-Content $_ -NoNewline `
+    }
+}
+elseif ($Branch -eq "SideloadStable")
 {
     # Set identities
     $xmlDoc.Package.Identity.Name="Files"
@@ -81,7 +108,7 @@ elseif ($Branch -eq "Stable")
         Set-Content $_ -NoNewline `
     }
 }
-elseif ($Branch -eq "Store")
+elseif ($Branch -eq "StoreStable")
 {
     # Set identities
     $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
@@ -111,6 +138,12 @@ elseif ($Branch -eq "Store")
         (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files" }) | `
         Set-Content $_ -NoNewline `
     }
+}
+
+Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
+{ `
+    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "cd_app_env_placeholder", $Branch }) | `
+    Set-Content $_ -NoNewline `
 }
 
 Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `

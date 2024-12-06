@@ -27,19 +27,16 @@ namespace Files.App.Utils.Taskbar
 
 		// Fields
 
-		private readonly static Guid _trayIconGuid = new(
-#if DEBUG
-			"684F2832-AC2B-4630-98C2-73D6AEBD4001"
-#elif PREVIEW
-			"684F2832-AC2B-4630-98C2-73D6AEBD4002"
-#elif STABLE
-			"684F2832-AC2B-4630-98C2-73D6AEBD4003"
-#elif STORE
-			"684F2832-AC2B-4630-98C2-73D6AEBD4004"
-#else
-			"684F2832-AC2B-4630-98C2-73D6AEBD4005"
-#endif
-		);
+		private readonly static Guid _trayIconGuid = AppLifecycleHelper.AppEnvironment switch
+		{
+			AppEnvironment.Dev => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4001"),
+			AppEnvironment.SideloadPreview => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4002"),
+			AppEnvironment.StorePreview => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4003"),
+			AppEnvironment.SideloadStable => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4004"),
+			AppEnvironment.StoreStable => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4005"),
+			_ => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4001")
+		};
+
 
 		private readonly SystemTrayIconWindow _IconWindow;
 
