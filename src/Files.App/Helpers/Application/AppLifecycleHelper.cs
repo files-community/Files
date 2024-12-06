@@ -29,12 +29,12 @@ namespace Files.App.Helpers
 		/// <summary>
 		/// Gets the value that provides application environment or branch name.
 		/// </summary>
-		public static AppEnvironment AppEnvironment { get; } =
-#if DEBUG
-		AppEnvironment.Dev;
-#else
-		AppEnvironment.cd_app_env_placeholder; // This is replaced to an appropriate enum value by a CD pipeline
-#endif
+		public static AppEnvironment AppEnvironment =>
+			Enum.TryParse("cd_app_env_placeholder", true, out AppEnvironment appEnvironment))
+				? appEnvironment;
+				: AppEnvironment.Dev;
+			}
+		}
 
 		/// <summary>
 		/// Gets application package version.
