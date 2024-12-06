@@ -15,8 +15,7 @@ namespace Files.App.Views
 			AppLifecycleHelper.AppEnvironment switch
 			{
 				AppEnvironment.Dev => "Dev",
-				AppEnvironment.StorePreview => "Preview",
-				AppEnvironment.SideloadPreview => "Preview",
+				AppEnvironment.SideloadPreview or AppEnvironment.StorePreview => "Preview",
 				_ => string.Empty,
 			};
 
