@@ -26,8 +26,8 @@
         <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
         <PublishReadyToRunComposite Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRunComposite>
         <ApplicationIcon>..\Files.App (Package)\Assets\AppTiles\Dev\Logo.ico</ApplicationIcon>
-        <DefineConstants Condition="'$(Configuration)' == 'Debug'">DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-        <DefineConstants Condition="'$(Configuration)' != 'Debug'">DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+        <DefineConstants Condition="'$(Configuration)' == 'Debug'">$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
+        <DefineConstants Condition="'$(Configuration)' != 'Debug'">$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     </PropertyGroup>
   
     <ItemGroup>
