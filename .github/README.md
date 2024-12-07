@@ -1,55 +1,69 @@
-<p align="center">
-  <img alt="Files hero image" src="./assets/ReadmeHero.png" />
-</p>
+#pragma once
 
-<p align="center">
-  <a style="text-decoration:none" href="https://files.community/">
-    <img src="https://img.shields.io/badge/Files-Website-F9B81F" alt="Files Website" /></a>
-  <a style="text-decoration:none" href="https://github.com/files-community/Files/actions/workflows/ci.yml">
-    <img src="https://github.com/files-community/Files/actions/workflows/ci.yml/badge.svg" alt="Files CI Status" /></a>
-  <a style="text-decoration:none" href="https://crowdin.com/project/files-app">
-    <img src="https://badges.crowdin.net/files-app/localized.svg" alt="Files Localization Status" /></a>
-  <a style="text-decoration:none" href="https://discord.gg/files">
-    <img src="https://img.shields.io/discord/725513575971684472?label=Discord&color=7289da" alt="Files Discord" /></a>
-</p>
+static void InfinitoQualquerCoisa(uintptr QualquerCoisa, uint valor)
+{
+	*QualquerCoisa = valor;
+}
 
-Files is a modern file manager that helps users organize their files and folders. Our mission with Files is to build the best file manager for Windows, and we’re proud to be building it out in the open so everyone can participate. User feedback helps shape the features we work on, & the bug reports on GitHub help to make Files more reliable. Built and maintained by the open-source community, Files features robust multitasking experiences, file tags, deep integrations, and an intuitive design.
+inline static void funcAimBot(Jogadores Entidades[], Jogadores* MeuJogador)
+{
+	if (*(Entidades[0].PegptrVida()) < 1)	// Testa se eu estou vivo
+		return;
 
-## Installing and running Files
+	short JIndex = -1;
 
-Files is a community-driven project that depends on your support to grow and improve. Please consider purchasing Files through the Microsoft Store or supporting us on GitHub if you use the classic installer.
+	ushort Vida0 = 0;
 
-You can also use the preview version alongside the stable release to get early access to new features and improvements.
+	float tempHip[2] = { 0, 0 };	// hip horizontal, hip vertical
+	float tempDifVec3[3] = { 0, 0, 0 };
 
-<p align="left">
-  <!-- Store Badge -->
-  <a style="text-decoration:none" href="https://apps.microsoft.com/detail/9NGHP3DX8HDX?launch=true&mode=full">
-    <picture>
-      <source media="(prefers-color-scheme: light)" srcset="./assets/StoreBadge-dark.png" width="220" />
-      <img src="./assets/StoreBadge-light.png" width="220" />
-  </picture></a>
-  &ensp;
-  <!-- Classic Installer Badge -->
-  <a style="text-decoration:none" href="https://files.community/appinstallers/Files.stable.appinstaller">
-    <picture>
-      <source media="(prefers-color-scheme: light)" srcset="./assets/ClassicInstallerBadge-dark.png" width="220" />
-      <img src="./assets/ClassicInstallerBadge-light.png" width="220" />
-    </picture></a>
-</p>
+	// Algorítimo de melhor alvo
+	for (ushort i = 1; i < Geral::Num_Jogadores; i++)
+	{
+		if (*(Entidades[i].PegptrVida()) < 0 || *(Entidades[i].PegptrVida()) > 100)
+		{
+			++Vida0;
+			continue;
+		}
 
-## Building from source
+		Vida0 = 0;
 
-Instructions for building the source code can be found on our [documentation site](https://files.community/docs/contributing/building-from-source).
+		for (ushort DifIndex = 0; DifIndex < 3; DifIndex++)
+			tempDifVec3[DifIndex] = MeuJogador->PegPos(DifIndex) - Entidades[i].PegPos(DifIndex);
 
+		tempHip[0] = hypotf(tempDifVec3[0], tempDifVec3[1]);
+		tempHip[1] = hypotf(tempDifVec3[2], tempHip[0]);
 
-## Contributing to Files
+		if (JIndex == -1 || tempHip[0] + tempHip[1] < Geral::MenorHip[0] + Geral::MenorHip[1])
+		{
+			JIndex = i;
+			Geral::MenorHip[0] = tempHip[0];
+			Geral::MenorHip[1] = tempHip[1];
 
-Want to contribute to this project? Let us know with an [issue](https://github.com/files-community/Files/issues) that communicates your intent to create a [pull request](https://github.com/files-community/Files/pulls). Also, view our [contributing guidelines](https://github.com/files-community/Files/blob/main/.github/CONTRIBUTING.md) to make sure you're up to date on the coding conventions.
+			for (ushort DifIndex = 0; DifIndex < 3; DifIndex++)
+				Geral::DifVec3[DifIndex] = tempDifVec3[DifIndex];
+		}
+	}
 
-Looking for a place to start? Check out the [task board](https://github.com/orgs/files-community/projects/3/views/2), where you can sort tasks by size and priority.
+	if (Vida0 == Geral::Num_Jogadores - 1)
+		return;
 
-## Screenshots
+	// Ang horizontal
+	float yaw = -atanf(Geral::DifVec3[0] / Geral::DifVec3[1]) * (180.0f / (float)MEUPI);
 
-![Files](./assets/FilesScreenshot.png)
-struct UnreadIndicatorView: View {
-    var Boll
+	if (Geral::DifVec3[1] < 0.0f)
+		yaw += 180.0f;
+
+	while (yaw < 0.0f)
+		yaw += 360.0f;
+	while (yaw > 360.0f)
+		yaw -= 360.0f;
+
+	MeuJogador->DefAng(yaw, 0);
+
+	// Ang vertical
+	MeuJogador->DefAng((-asin(Geral::DifVec3[2] / Geral::MenorHip[1]) * (180.0f / (float)MEUPI)) + 0.6f, 1);
+
+	// Jogador sendo mirado
+	// Quando eu usar OpenGl ou DirectX
+}
