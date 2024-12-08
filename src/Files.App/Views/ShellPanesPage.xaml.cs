@@ -185,7 +185,10 @@ namespace Files.App.Views
 						secondShellPage.IsCurrentInstance = false;
 
 					if (ActivePane is not null)
+					{
 						ActivePane.IsCurrentInstance = IsCurrentInstance;
+						UpdatePaneLayout(ActivePane);
+					}
 
 					NotifyPropertyChanged(nameof(ActivePane));
 					NotifyPropertyChanged(nameof(IsLeftPaneActive));
@@ -354,6 +357,17 @@ namespace Files.App.Views
 				GetPane(1)?.Focus(FocusState.Programmatic);
 			else
 				GetPane(0)?.Focus(FocusState.Programmatic);
+		}
+
+		/// <inheritdoc/>
+		public void UpdatePanesLayout()
+		{
+			if (GetPane(0) is IShellPage leftPane)
+				UpdatePaneLayout(leftPane);
+
+
+			if (GetPane(1) is IShellPage rightPane)
+				UpdatePaneLayout(rightPane);
 		}
 
 		// Private methods
@@ -601,6 +615,13 @@ namespace Files.App.Views
 					ShellPaneArrangement = ShellPaneArrangement,
 				}
 			};
+		}
+
+		private void UpdatePaneLayout(IShellPage pane)
+		{
+			var page = pane.SlimContentPage as BaseLayoutPage;
+			var path = pane.ShellViewModel.CurrentFolder?.ItemPath;
+			page?.FolderSettings?.UpdateGroupAndSortOptions(path);
 		}
 
 		// Event methods
