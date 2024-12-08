@@ -25,16 +25,21 @@ namespace Files.App.Data.Commands
 		IRichCommand Undo { get; }
 
 		IRichCommand ToggleShowHiddenItems { get; }
+		IRichCommand ToggleDotFilesSetting { get; }
 		IRichCommand ToggleShowFileExtensions { get; }
 		IRichCommand TogglePreviewPane { get; }
 		IRichCommand ToggleDetailsPane { get; }
 		IRichCommand ToggleInfoPane { get; }
+		IRichCommand ToggleToolbar { get; }
 
 		IRichCommand CopyItem { get; }
+		IRichCommand CopyItemPath { get; }
 		IRichCommand CopyPath { get; }
+		IRichCommand CopyItemPathWithQuotes { get; }
 		IRichCommand CopyPathWithQuotes { get; }
 		IRichCommand CutItem { get; }
 		IRichCommand PasteItem { get; }
+		IRichCommand PasteItemAsShortcut { get; }
 		IRichCommand PasteItemToSelection { get; }
 		IRichCommand DeleteItem { get; }
 		IRichCommand DeleteItemPermanently { get; }
@@ -46,12 +51,15 @@ namespace Files.App.Data.Commands
 		IRichCommand CreateFolder { get; }
 		IRichCommand CreateFolderWithSelection { get; }
 		IRichCommand AddItem { get; }
+		IRichCommand CreateAlternateDataStream { get; }
 		IRichCommand CreateShortcut { get; }
 		IRichCommand CreateShortcutFromDialog { get; }
 		IRichCommand EmptyRecycleBin { get; }
 		IRichCommand RestoreRecycleBin { get; }
 		IRichCommand RestoreAllRecycleBin { get; }
 		IRichCommand FormatDrive { get; }
+		IRichCommand FormatDriveFromHome { get; }
+		IRichCommand FormatDriveFromSidebar { get; }
 		IRichCommand OpenItem { get; }
 		IRichCommand OpenItemWithApplicationPicker { get; }
 		IRichCommand OpenParentFolder { get; }
@@ -67,6 +75,7 @@ namespace Files.App.Data.Commands
 		IRichCommand SetAsWallpaperBackground { get; }
 		IRichCommand SetAsSlideshowBackground { get; }
 		IRichCommand SetAsLockscreenBackground { get; }
+		IRichCommand SetAsAppBackground { get; }
 
 		IRichCommand InstallFont { get; }
 		IRichCommand InstallInfDriver { get; }
@@ -86,16 +95,26 @@ namespace Files.App.Data.Commands
 		IRichCommand DecompressArchiveHereSmart { get; }
 		IRichCommand DecompressArchiveToChildFolder { get; }
 
+		IRichCommand FlattenFolder { get; }
+
 		IRichCommand RotateLeft { get; }
 		IRichCommand RotateRight { get; }
 
 		IRichCommand OpenInVSCode { get; }
 		IRichCommand OpenRepoInVSCode { get; }
 		IRichCommand OpenProperties { get; }
+		IRichCommand OpenReleaseNotes { get; }
+		IRichCommand OpenClassicProperties { get; }
+		IRichCommand OpenStorageSense { get; }
+		IRichCommand OpenStorageSenseFromHome { get; }
+		IRichCommand OpenStorageSenseFromSidebar { get; }
 		IRichCommand OpenSettings { get; }
 		IRichCommand OpenTerminal { get; }
 		IRichCommand OpenTerminalAsAdmin { get; }
+		IRichCommand OpenTerminalFromSidebar { get; }
+		IRichCommand OpenTerminalFromHome { get; }
 		IRichCommand OpenCommandPalette { get; }
+		IRichCommand EditInNotepad { get; }
 
 		IRichCommand LayoutDecreaseSize { get; }
 		IRichCommand LayoutIncreaseSize { get; }
@@ -155,6 +174,7 @@ namespace Files.App.Data.Commands
 		IRichCommand NavigateBack { get; }
 		IRichCommand NavigateForward { get; }
 		IRichCommand NavigateUp { get; }
+		IRichCommand NavigateHome { get; }
 
 		IRichCommand DuplicateCurrentTab { get; }
 		IRichCommand DuplicateSelectedTab { get; }
@@ -164,16 +184,29 @@ namespace Files.App.Data.Commands
 		IRichCommand CloseTabsToTheRightSelected { get; }
 		IRichCommand CloseOtherTabsCurrent { get; }
 		IRichCommand CloseOtherTabsSelected { get; }
-		IRichCommand OpenDirectoryInNewPaneAction { get; }
-		IRichCommand OpenDirectoryInNewTabAction { get; }
-		IRichCommand OpenInNewWindowItemAction { get; }
 		IRichCommand ReopenClosedTab { get; }
 		IRichCommand PreviousTab { get; }
 		IRichCommand NextTab { get; }
 		IRichCommand CloseSelectedTab { get; }
-		IRichCommand OpenNewPane { get; }
-		IRichCommand ClosePane { get; }
-    
+		IRichCommand CloseAllTabs { get; }
+
+		IRichCommand CloseActivePane { get; }
+		IRichCommand FocusOtherPane { get; }
+		IRichCommand AddVerticalPane { get; }
+		IRichCommand AddHorizontalPane { get; }
+		IRichCommand ArrangePanesVertically { get; }
+		IRichCommand ArrangePanesHorizontally { get; }
+
+		IRichCommand OpenInNewPaneAction { get; }
+		IRichCommand OpenInNewPaneFromHomeAction { get; }
+		IRichCommand OpenInNewPaneFromSidebarAction { get; }
+		IRichCommand OpenInNewTabAction { get; }
+		IRichCommand OpenInNewTabFromHomeAction { get; }
+		IRichCommand OpenInNewTabFromSidebarAction { get; }
+		IRichCommand OpenInNewWindowAction { get; }
+		IRichCommand OpenInNewWindowFromHomeAction { get; }
+		IRichCommand OpenInNewWindowFromSidebarAction { get; }
+
 		IRichCommand PlayAll { get; }
 
 		IRichCommand GitFetch { get; }

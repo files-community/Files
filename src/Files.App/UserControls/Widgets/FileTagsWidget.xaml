@@ -1,15 +1,15 @@
 ﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
-<local:BaseWidgetViewModel
+<UserControl
 	x:Class="Files.App.UserControls.Widgets.FileTagsWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+	xmlns:controls="using:Files.App.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App.UserControls.Widgets"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:wctcontrols="using:CommunityToolkit.WinUI.UI.Controls"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
@@ -19,7 +19,7 @@
 	</UserControl.Resources>
 
 	<!--  Collection of containers  -->
-	<ItemsRepeater ItemsSource="{x:Bind ViewModel.Containers}">
+	<ItemsRepeater ItemsSource="{x:Bind ViewModel.Containers, Mode=OneWay}">
 
 		<ItemsRepeater.Layout>
 			<UniformGridLayout
@@ -44,9 +44,7 @@
 					BorderThickness="1"
 					CornerRadius="{StaticResource ControlCornerRadius}">
 					<Grid.RowDefinitions>
-						<!--  Title  -->
 						<RowDefinition Height="Auto" />
-						<!--  Contents  -->
 						<RowDefinition Height="*" />
 					</Grid.RowDefinitions>
 
@@ -69,7 +67,14 @@
 							ToolTipService.ToolTip="{helpers:ResourceString Name=ViewMore}">
 							<StackPanel Orientation="Horizontal" Spacing="8">
 								<!--  Tag Color  -->
-								<PathIcon Data="{StaticResource ColorIconFilledTag}" Foreground="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
+								<controls:ThemedIcon
+									Width="16"
+									Height="16"
+									VerticalAlignment="Center"
+									IconColorType="Custom"
+									IsFilled="True"
+									Style="{StaticResource App.ThemedIcons.Tag}"
+									Color="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
 
 								<!--  Tag Name  -->
 								<TextBlock
@@ -112,7 +117,7 @@
 
 					<!--  Contents  -->
 					<!--  The vertical scroll bar must be hidden because it may cause a crash inside the ScrollViewer (#12370)  -->
-					<controls:AdaptiveGridView
+					<wctcontrols:AdaptiveGridView
 						Grid.Row="1"
 						Padding="4"
 						HorizontalAlignment="Stretch"
@@ -124,13 +129,14 @@
 						ScrollViewer.VerticalScrollBarVisibility="Hidden"
 						SelectionMode="None"
 						StretchContentForSingleRow="False">
-						<controls:AdaptiveGridView.ItemContainerStyle>
+
+						<wctcontrols:AdaptiveGridView.ItemContainerStyle>
 							<Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
 								<Setter Property="Padding" Value="8,0" />
 							</Style>
-						</controls:AdaptiveGridView.ItemContainerStyle>
+						</wctcontrols:AdaptiveGridView.ItemContainerStyle>
 
-						<controls:AdaptiveGridView.ItemTemplate>
+						<wctcontrols:AdaptiveGridView.ItemTemplate>
 							<DataTemplate x:DataType="dataitems:WidgetFileTagCardItem">
 								<Grid
 									ColumnSpacing="8"
@@ -157,11 +163,11 @@
 										TextTrimming="CharacterEllipsis" />
 								</Grid>
 							</DataTemplate>
-						</controls:AdaptiveGridView.ItemTemplate>
-					</controls:AdaptiveGridView>
+						</wctcontrols:AdaptiveGridView.ItemTemplate>
+					</wctcontrols:AdaptiveGridView>
 				</Grid>
 			</DataTemplate>
 		</ItemsRepeater.ItemTemplate>
 
 	</ItemsRepeater>
-</local:BaseWidgetViewModel>
+</UserControl>

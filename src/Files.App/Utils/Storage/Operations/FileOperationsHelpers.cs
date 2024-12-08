@@ -4,7 +4,6 @@
 using Files.App.Utils.Storage.Operations;
 using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
-using Microsoft.Win32;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -128,7 +127,7 @@ namespace Files.App.Utils.Storage
 					{
 						using var shi = new ShellItem(fileToDeletePath[i]);
 						using var file = SafetyExtensions.IgnoreExceptions(() => GetFirstFile(shi)) ?? shi;
-						if (file.Properties.GetProperty<uint>(PKEY_FilePlaceholderStatus) == PS_CLOUDFILE_PLACEHOLDER)
+						if ((uint?)file.Properties.GetValueOrDefault(PKEY_FilePlaceholderStatus) == PS_CLOUDFILE_PLACEHOLDER)
 						{
 							// Online only files cannot be tried for deletion, so they are treated as to be permanently deleted.
 							shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -276,7 +275,7 @@ namespace Files.App.Utils.Storage
 					if (!permanently && !e.Flags.HasFlag(ShellFileOperations.TransferFlags.DeleteRecycleIfPossible))
 						throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND);
 
-					sizeCalculator.ForceComputeFileSize(e.SourceItem.FileSystemPath);
+					sizeCalculator.ForceComputeFileSize(e.SourceItem.GetParsingPath());
 					fsProgress.FileName = e.SourceItem.Name;
 					fsProgress.Report();
 				};
@@ -286,7 +285,7 @@ namespace Files.App.Utils.Storage
 				{
 					if (!e.SourceItem.IsFolder)
 					{
-						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.FileSystemPath, out _))
+						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.GetParsingPath(), out _))
 							fsProgress.AddProcessedItemsCount(1);
 					}
 
@@ -472,7 +471,7 @@ namespace Files.App.Utils.Storage
 
 				op.PreMoveItem += (s, e) =>
 				{
-					sizeCalculator.ForceComputeFileSize(e.SourceItem.FileSystemPath);
+					sizeCalculator.ForceComputeFileSize(e.SourceItem.GetParsingPath());
 					fsProgress.FileName = e.SourceItem.Name;
 					fsProgress.Report();
 				};
@@ -481,7 +480,7 @@ namespace Files.App.Utils.Storage
 				{
 					if (!e.SourceItem.IsFolder)
 					{
-						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.FileSystemPath, out _))
+						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.GetParsingPath(), out _))
 							fsProgress.AddProcessedItemsCount(1);
 					}
 
@@ -492,7 +491,7 @@ namespace Files.App.Utils.Storage
 						Destination = e.DestFolder.GetParsingPath() is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.GetParsingPath(), e.Name) : null,
 						HResult = (int)e.Result
 					});
-					
+
 					UpdateFileTagsDb(e, "move");
 				};
 
@@ -581,8 +580,9 @@ namespace Files.App.Utils.Storage
 						using ShellItem shi = new(fileToCopyPath[i]);
 						using ShellFolder shd = new(Path.GetDirectoryName(copyDestination[i]));
 
-						// Performa copy operation
-						op.QueueCopyOperation(shi, shd, Path.GetFileName(copyDestination[i]));
+						var fileName = GetIncrementalName(overwriteOnCopy, copyDestination[i], fileToCopyPath[i]);
+						// Perform a copy operation
+						op.QueueCopyOperation(shi, shd, fileName);
 					}))
 					{
 						shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -602,7 +602,7 @@ namespace Files.App.Utils.Storage
 
 				op.PreCopyItem += (s, e) =>
 				{
-					sizeCalculator.ForceComputeFileSize(e.SourceItem.FileSystemPath);
+					sizeCalculator.ForceComputeFileSize(e.SourceItem.GetParsingPath());
 					fsProgress.FileName = e.SourceItem.Name;
 					fsProgress.Report();
 				};
@@ -611,7 +611,7 @@ namespace Files.App.Utils.Storage
 				{
 					if (!e.SourceItem.IsFolder)
 					{
-						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.FileSystemPath, out _))
+						if (sizeCalculator.TryGetComputedFileSize(e.SourceItem.GetParsingPath(), out _))
 							fsProgress.AddProcessedItemsCount(1);
 					}
 
@@ -622,7 +622,7 @@ namespace Files.App.Utils.Storage
 						Destination = e.DestFolder.GetParsingPath() is not null && !string.IsNullOrEmpty(e.Name) ? Path.Combine(e.DestFolder.GetParsingPath(), e.Name) : null,
 						HResult = (int)e.Result
 					});
-					
+
 					UpdateFileTagsDb(e, "copy");
 				};
 
@@ -740,7 +740,11 @@ namespace Files.App.Utils.Storage
 				if (FileExtensionHelpers.IsShortcutFile(linkSavePath))
 				{
 					using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
-					newLink.RunAsAdministrator = runAsAdmin;
+
+					// Check if the target is a file
+					if (File.Exists(targetPath))
+						newLink.RunAsAdministrator = runAsAdmin;
+
 					newLink.SaveAs(linkSavePath); // Overwrite if exists
 					return Task.FromResult(true);
 				}
@@ -754,6 +758,11 @@ namespace Files.App.Utils.Storage
 						return true;
 					});
 				}
+			}
+			catch (UnauthorizedAccessException ex)
+			{
+				// Could not create shortcut
+				App.Logger.LogInformation(ex, "Failed to create shortcut");
 			}
 			catch (Exception ex)
 			{
@@ -771,6 +780,38 @@ namespace Files.App.Utils.Storage
 				using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
 				link.IconLocation = new IconLocation(iconFile, iconIndex);
 				link.SaveAs(filePath); // Overwrite if exists
+				return true;
+			}
+			catch (UnauthorizedAccessException)
+			{
+				string psScript = $@"
+					$FilePath = '{filePath}'
+					$IconFile = '{iconFile}'
+					$IconIndex = '{iconIndex}'
+
+					$Shell = New-Object -ComObject WScript.Shell
+					$Shortcut = $Shell.CreateShortcut($FilePath)
+					$Shortcut.IconLocation = ""$IconFile, $IconIndex""
+					$Shortcut.Save()
+				";
+
+				var base64EncodedScript = Convert.ToBase64String(System.Text.Encoding.Unicode.GetBytes(psScript));
+
+				ProcessStartInfo startInfo = new ProcessStartInfo()
+				{
+					FileName = "powershell.exe",
+					Arguments = $"-NoProfile -EncodedCommand {base64EncodedScript}",
+					Verb = "runas",
+					CreateNoWindow = true,
+					WindowStyle = ProcessWindowStyle.Hidden,
+					UseShellExecute = true
+				};
+
+				// Start the process
+				Process process = new Process() { StartInfo = startInfo };
+				process.Start();
+				process.WaitForExit();
+
 				return true;
 			}
 			catch (Exception ex)
@@ -1017,6 +1058,27 @@ namespace Files.App.Utils.Storage
 						Marshal.ReleaseComObject(taskbar);
 				}
 			}
+		}
+
+		private static string GetIncrementalName(bool overWriteOnCopy, string? filePathToCheck, string? filePathToCopy)
+		{
+			if (filePathToCheck == null)
+				return null;
+
+			if ((!Path.Exists(filePathToCheck)) || overWriteOnCopy || filePathToCheck == filePathToCopy)
+				return Path.GetFileName(filePathToCheck);
+
+			var index = 2;
+			var filePath = filePathToCheck;
+			if (Path.HasExtension(filePathToCheck))
+				filePath = filePathToCheck.Substring(0, filePathToCheck.LastIndexOf("."));
+
+			Func<int, string> genFilePath = x => string.Concat([filePath, " (", x.ToString(), ")", Path.GetExtension(filePathToCheck)]);
+
+			while (Path.Exists(genFilePath(index)))
+				index++;
+
+			return Path.GetFileName(genFilePath(index));
 		}
 	}
 }

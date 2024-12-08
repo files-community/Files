@@ -39,9 +39,15 @@ namespace Files.App.Data.Models
 
 			try
 			{
+				var formerPinnedFolders = PinnedFolders.ToList();
+
 				PinnedFolders = (await QuickAccessService.GetPinnedFoldersAsync())
 					.Where(link => (bool?)link.Properties["System.Home.IsPinned"] ?? false)
 					.Select(link => link.FilePath).ToList();
+
+				if (formerPinnedFolders.SequenceEqual(PinnedFolders))
+					return;
+
 				RemoveStaleSidebarItems();
 				await AddAllItemsToSidebarAsync();
 			}
@@ -93,12 +99,12 @@ namespace Files.App.Data.Models
 				ShowEmptyRecycleBin = string.Equals(path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase)
 			};
 			locationItem.IsDefaultLocation = false;
-			locationItem.Text = res.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'));
+			locationItem.Text = res?.Result?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\'));
 
 			if (res)
 			{
 				locationItem.IsInvalid = false;
-				if (res && res.Result is not null)
+				if (res.Result is not null)
 				{
 					var result = await FileThumbnailHelper.GetIconAsync(
 						res.Result.Path,
@@ -117,7 +123,7 @@ namespace Files.App.Data.Models
 			{
 				locationItem.Icon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => UIHelpers.GetSidebarIconResource(Constants.ImageRes.Folder));
 				locationItem.IsInvalid = true;
-				Debug.WriteLine($"Pinned item was invalid {res.ErrorCode}, item: {path}");
+				Debug.WriteLine($"Pinned item was invalid {res?.ErrorCode}, item: {path}");
 			}
 
 			return locationItem;
@@ -189,13 +195,11 @@ namespace Files.App.Data.Models
 
 		public async void LoadAsync(object? sender, FileSystemEventArgs e)
 		{
-			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
 			await LoadAsync();
 			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(null, new ModifyQuickAccessEventArgs((await QuickAccessService.GetPinnedFoldersAsync()).ToArray(), true)
 			{
 				Reset = true
 			});
-			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
 		}
 
 		public async Task LoadAsync()

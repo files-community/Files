@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
+using Windows.UI;
 
 namespace Files.App.Data.Contracts
 {
@@ -17,6 +18,11 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets application theme mode.
 		/// </summary>
 		public ElementTheme AppThemeMode { get; set; }
+
+		/// <summary>
+		/// Gets the default accent fill color for the current theme mode.
+		/// </summary>
+		public Color DefaultAccentColor { get; }
 
 		/// <summary>
 		/// Refreshes the application theme mode only for the main window.

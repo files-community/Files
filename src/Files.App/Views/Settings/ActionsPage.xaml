@@ -11,12 +11,13 @@
 	xmlns:keyboard="using:Files.App.UserControls.KeyboardShortcut"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	x:Name="PageRoot"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>
 		<icore:EventTriggerBehavior EventName="Loaded">
-			<icore:InvokeCommandAction Command="{x:Bind ViewModel.LoadCommandsCommand, Mode=OneWay}" />
+			<icore:InvokeCommandAction Command="{x:Bind ViewModel.LoadAllActionsCommand, Mode=OneWay}" />
 		</icore:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
@@ -35,7 +36,7 @@
 			</ResourceDictionary.ThemeDictionaries>
 
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/ToggleSwitchStyles.xaml" />
 				<ResourceDictionary Source="ms-appx:///UserControls/KeyboardShortcut/KeyboardShortcut.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
@@ -61,11 +62,6 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Spacing="4">
-			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<EntranceThemeTransition />
-				</TransitionCollection>
-			</StackPanel.ChildrenTransitions>
 
 			<!--  Title  -->
 			<TextBlock
@@ -93,9 +89,9 @@
 				<Button
 					x:Name="ShowAddNewGridButton"
 					Grid.Column="1"
-					Command="{x:Bind ViewModel.ShowAddNewHotKeySectionCommand, Mode=OneWay}"
+					Command="{x:Bind ViewModel.ShowAddNewKeyBindingBlockCommand, Mode=OneWay}"
 					Content="{helpers:ResourceString Name=AddCommand}"
-					IsEnabled="{x:Bind ViewModel.SelectedNewShortcutItem, Converter={StaticResource NullToNegateBooleanConverter}, Mode=OneWay}" />
+					IsEnabled="{x:Bind ViewModel.ShowAddNewKeyBindingBlock, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 
 				<!--  Restore Defaults Button  -->
 				<Button
@@ -105,13 +101,13 @@
 					Content="{helpers:ResourceString Name=RestoreDefaults}" />
 			</Grid>
 
-			<!--  Add New  -->
+			<!--  New Key Binding Block  -->
 			<Grid
-				x:Name="CreateNewHotKeySection"
+				x:Name="NewKeyBingingBlock"
 				Height="60"
 				Margin="0,4,0,0"
 				Padding="16,12"
-				x:Load="{x:Bind ViewModel.ShowAddNewHotKeySection, Mode=OneWay}"
+				x:Load="{x:Bind ViewModel.ShowAddNewKeyBindingBlock, Mode=OneWay}"
 				Background="{ThemeResource ExpanderHeaderBackground}"
 				BorderBrush="{ThemeResource ExpanderHeaderBorderBrush}"
 				BorderThickness="1"
@@ -126,19 +122,21 @@
 
 				<!--  New Command Selector  -->
 				<ComboBox
-					x:Name="NewHotKeyItemPickerComboBox"
+					x:Name="NewKeyBindingItemPickerComboBox"
 					Padding="0"
-					ItemsSource="{x:Bind ViewModel.AllKeyboardShortcuts, Mode=OneWay}"
+					DropDownClosed="NewKeyBindingItemPickerComboBox_DropDownClosed"
+					ItemsSource="{x:Bind ViewModel.AllActionItems, Mode=OneWay}"
 					PlaceholderText="{helpers:ResourceString Name=ChooseAnAction}"
-					SelectedItem="{x:Bind ViewModel.SelectedNewShortcutItem, Mode=TwoWay}">
+					SelectedIndex="{x:Bind ViewModel.SelectedActionItemIndex, Mode=TwoWay}"
+					SelectedItem="{x:Bind ViewModel.SelectedActionItem, Mode=TwoWay}">
 					<ComboBox.ItemTemplate>
-						<DataTemplate x:DataType="dataitems:ModifiableCommandHotKeyItem">
+						<DataTemplate x:DataType="dataitems:ModifiableActionItem">
 							<StackPanel Width="240" HorizontalAlignment="Left">
-								<TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind Label}" />
+								<TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind CommandLabel}" />
 								<TextBlock
 									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 									Style="{StaticResource CaptionTextBlockStyle}"
-									Text="{x:Bind Description}"
+									Text="{x:Bind CommandDescription}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap" />
 							</StackPanel>
@@ -159,17 +157,16 @@
 
 				<!--  Editor (Using PreviewKeyDown to prevent Ctrl+A)  -->
 				<TextBox
-					x:Name="KeyboardShortcutEditorTextBox"
+					x:Name="KeyBindingEditorTextBox"
 					Grid.Column="1"
 					Width="144"
 					VerticalAlignment="Center"
-					IsEnabled="{x:Bind ViewModel.SelectedNewShortcutItem, Converter={StaticResource NullToBooleanConverter}, Mode=OneWay}"
-					IsEnabledChanged="KeyboardShortcutEditorTextBox_IsEnabledChanged"
+					IsEnabled="{x:Bind ViewModel.SelectedActionItem, Converter={StaticResource NullToBooleanConverter}, Mode=OneWay}"
 					IsReadOnly="True"
 					IsSpellCheckEnabled="False"
 					IsTabStop="True"
-					PreviewKeyDown="EditorTextBox_PreviewKeyDown"
-					Text="{x:Bind ViewModel.SelectedNewShortcutItem.HotKeyText, Mode=TwoWay}"
+					PreviewKeyDown="KeyBindingEditorTextBox_PreviewKeyDown"
+					Text="{x:Bind ViewModel.SelectedActionItem.LocalizedKeyBindingLabel, Mode=TwoWay}"
 					TextAlignment="Right" />
 
 				<!--  Add Button  -->
@@ -180,8 +177,8 @@
 					Height="32"
 					Padding="0"
 					AutomationProperties.Name="{helpers:ResourceString Name=Add}"
-					Command="{x:Bind ViewModel.AddNewHotKeyCommand, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.SelectedNewShortcutItem, Converter={StaticResource NullToBooleanConverter}, Mode=OneWay}"
+					Command="{x:Bind ViewModel.AddNewKeyBindingCommand, Mode=OneWay}"
+					IsEnabled="{x:Bind ViewModel.EnableAddNewKeyBindingButton, Mode=OneWay}"
 					Style="{StaticResource AccentButtonStyle}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Add}">
 					<FontIcon FontSize="14" Glyph="&#xE73E;" />
@@ -195,7 +192,7 @@
 					Height="32"
 					Padding="0"
 					AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
-					Command="{x:Bind ViewModel.HideAddNewHotKeySectionCommand, Mode=OneWay}"
+					Command="{x:Bind ViewModel.HideAddNewKeyBindingBlockCommand, Mode=OneWay}"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}">
 					<FontIcon FontSize="14" Glyph="&#xE711;" />
 				</Button>
@@ -204,23 +201,23 @@
 
 			<!--  (Divider)  -->
 			<Border
-				x:Name="NewHotKeySectionDividerBorder"
+				x:Name="NewKeyBindingBlockDividerBorder"
 				Height="1"
 				Margin="0,4"
-				x:Load="{x:Bind ViewModel.ShowAddNewHotKeySection, Mode=OneWay}"
+				x:Load="{x:Bind ViewModel.ShowAddNewKeyBindingBlock, Mode=OneWay}"
 				Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
-			<!--  List Of Available HotKeys  -->
+			<!--  List Of Available Key Bindings  -->
 			<ListView
-				x:Name="ValidKeyboardShortcutsListView"
-				ItemsSource="{x:Bind ViewModel.ValidKeyboardShortcuts, Mode=OneWay}"
+				x:Name="ValidKeyBindingsListView"
+				ItemsSource="{x:Bind ViewModel.ValidActionItems, Mode=OneWay}"
 				ScrollViewer.HorizontalScrollBarVisibility="Hidden"
 				ScrollViewer.HorizontalScrollMode="Disabled"
 				ScrollViewer.VerticalScrollBarVisibility="Hidden"
 				ScrollViewer.VerticalScrollMode="Disabled"
 				SelectionMode="None">
 				<ListView.ItemTemplate>
-					<DataTemplate x:DataType="dataitems:ModifiableCommandHotKeyItem">
+					<DataTemplate x:DataType="dataitems:ModifiableActionItem">
 						<UserControl PointerEntered="RootGrid_PointerEntered" PointerExited="RootGrid_PointerExited">
 							<Grid
 								x:Name="RootGrid"
@@ -243,7 +240,7 @@
 									<StackPanel Orientation="Horizontal" Spacing="8">
 										<TextBlock
 											Style="{StaticResource BodyTextBlockStyle}"
-											Text="{x:Bind Label}"
+											Text="{x:Bind CommandLabel}"
 											TextTrimming="CharacterEllipsis"
 											TextWrapping="NoWrap" />
 
@@ -252,7 +249,7 @@
 											x:Name="CustomizedIndicatorCircleBorder"
 											Width="8"
 											Height="8"
-											x:Load="{x:Bind IsDefaultKey, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+											x:Load="{x:Bind IsDefinedByDefault, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 											Background="{ThemeResource SystemAccentColor}"
 											CornerRadius="{StaticResource ControlCornerRadius}"
 											ToolTipService.ToolTip="{helpers:ResourceString Name=Customized}"
@@ -261,33 +258,33 @@
 									<TextBlock
 										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 										Style="{StaticResource CaptionTextBlockStyle}"
-										Text="{x:Bind Description}"
+										Text="{x:Bind CommandDescription}"
 										TextTrimming="CharacterEllipsis"
-										TextWrapping="NoWrap" />
+										TextWrapping="WrapWholeWords" />
 								</StackPanel>
 
-								<!--  Keyboard Shortcut Control  -->
+								<!--  Key Binding Control  -->
 								<keyboard:KeyboardShortcut
-									x:Name="RightAlignedKeyboardShortcut"
+									x:Name="KeyboardShortcutControl"
 									Grid.Column="1"
 									HorizontalAlignment="Right"
 									VerticalAlignment="Center"
-									HotKeys="{x:Bind HotKeys, Mode=OneWay}"
-									Visibility="{x:Bind IsEditMode, Converter={StaticResource NegationBoolToVisibilityConverter}, Mode=OneWay}" />
+									HotKeys="{x:Bind KeyBindings, Mode=OneWay}"
+									Visibility="{x:Bind IsInEditMode, Converter={StaticResource NegationBoolToVisibilityConverter}, Mode=OneWay}" />
 
 								<!--  Editor (Using PreviewKeyDown to prevent Ctrl+A)  -->
 								<TextBox
-									x:Name="KeyboardShortcutEditorTextBox"
+									x:Name="KeyBindingEditorTextBox"
 									Grid.Column="1"
 									Width="144"
 									VerticalAlignment="Center"
-									x:Load="{x:Bind IsEditMode, Mode=OneWay}"
+									x:Load="{x:Bind IsInEditMode, Mode=OneWay}"
 									IsReadOnly="True"
 									IsSpellCheckEnabled="False"
 									IsTabStop="True"
-									Loaded="KeyboardShortcutEditorTextBox_Loaded"
-									PreviewKeyDown="EditorTextBox_PreviewKeyDown"
-									Text="{x:Bind HotKeyText, Mode=TwoWay}"
+									Loaded="KeyBindingEditorTextBox_Loaded"
+									PreviewKeyDown="KeyBindingEditorTextBox_PreviewKeyDown"
+									Text="{x:Bind LocalizedKeyBindingLabel, Mode=TwoWay}"
 									TextAlignment="Right" />
 
 								<!--  Edit Button  -->
@@ -297,9 +294,10 @@
 									Width="32"
 									Height="32"
 									Padding="0"
-									x:Load="{x:Bind IsEditMode, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+									x:Load="{x:Bind IsInEditMode, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 									AutomationProperties.Name="{helpers:ResourceString Name=Edit}"
-									Click="EditButton_Click"
+									Command="{Binding ElementName=PageRoot, Path=DataContext.EditCommand, Mode=OneWay}"
+									CommandParameter="{x:Bind}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=Edit}"
 									Visibility="Collapsed">
 									<FontIcon FontSize="14" Glyph="&#xE70F;" />
@@ -312,9 +310,11 @@
 									Width="32"
 									Height="32"
 									Padding="0"
-									x:Load="{x:Bind IsEditMode, Mode=OneWay}"
+									x:Load="{x:Bind IsInEditMode, Mode=OneWay}"
 									AutomationProperties.Name="{helpers:ResourceString Name=Save}"
-									Click="SaveButton_Click"
+									Command="{Binding ElementName=PageRoot, Path=DataContext.SaveCommand, Mode=OneWay}"
+									CommandParameter="{x:Bind}"
+									IsEnabled="{x:Bind IsValidKeyBinding, Mode=OneWay}"
 									Style="{StaticResource AccentButtonStyle}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=Save}">
 									<FontIcon FontSize="14" Glyph="&#xE73E;" />
@@ -327,10 +327,11 @@
 									Width="32"
 									Height="32"
 									Padding="0"
-									x:Load="{x:Bind IsEditMode, Mode=OneWay}"
+									x:Load="{x:Bind IsInEditMode, Mode=OneWay}"
 									AutomationProperties.Name="{helpers:ResourceString Name=Cancel}"
-									Click="CancelButton_Click"
-									IsEnabled="{x:Bind IsEditMode, Mode=OneWay}"
+									Command="{Binding ElementName=PageRoot, Path=DataContext.CancelCommand, Mode=OneWay}"
+									CommandParameter="{x:Bind}"
+									IsEnabled="{x:Bind IsInEditMode, Mode=OneWay}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}">
 									<FontIcon FontSize="14" Glyph="&#xE711;" />
 								</Button>
@@ -342,10 +343,11 @@
 									Width="32"
 									Height="32"
 									Padding="0"
-									x:Load="{x:Bind IsEditMode, Mode=OneWay}"
+									x:Load="{x:Bind IsInEditMode, Mode=OneWay}"
 									AutomationProperties.Name="{helpers:ResourceString Name=Delete}"
-									Click="DeleteButton_Click"
-									IsEnabled="{x:Bind IsEditMode, Mode=OneWay}"
+									Command="{Binding ElementName=PageRoot, Path=DataContext.DeleteCommand, Mode=OneWay}"
+									CommandParameter="{x:Bind}"
+									IsEnabled="{x:Bind IsInEditMode, Mode=OneWay}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=Delete}">
 									<FontIcon FontSize="14" Glyph="&#xE74D;" />
 								</Button>
@@ -377,6 +379,10 @@
 					</Style>
 				</ListView.ItemContainerStyle>
 
+				<!--  Remove All Transitions  -->
+				<ListView.ItemContainerTransitions>
+					<TransitionCollection />
+				</ListView.ItemContainerTransitions>
 			</ListView>
 
 		</StackPanel>
@@ -403,6 +409,14 @@
 			PlacementMargin="20"
 			PreferredPlacement="Auto"
 			Subtitle="{helpers:ResourceString Name=KeybindingAlreadyUsedNotification}" />
+
+		<!--  Invalid Key TeachingTip  -->
+		<TeachingTip
+			x:Name="InvalidKeyTeachingTip"
+			IsLightDismissEnabled="True"
+			IsOpen="{x:Bind ViewModel.IsInvalidKeyTeachingTipOpened, Mode=TwoWay}"
+			PreferredPlacement="Bottom"
+			Subtitle="{helpers:ResourceString Name=KeybindingInvalidKeyNotification}" />
 
 	</Grid>
 </Page>

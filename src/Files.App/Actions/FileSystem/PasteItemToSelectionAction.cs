@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "PasteItemToSelectionDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconPaste");
+			=> new(themedIconStyle: "App.ThemedIcons.Paste");
 
 		public HotKey HotKey
 			=> new(Keys.V, KeyModifiers.CtrlShift);
@@ -30,14 +30,14 @@ namespace Files.App.Actions
 			App.AppModel.PropertyChanged += AppModel_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public async Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage is null)
 				return;
 
 			string path = context.SelectedItem is ListedItem selectedItem
 				? selectedItem.ItemPath
-				: context.ShellPage.FilesystemViewModel.WorkingDirectory;
+				: context.ShellPage.ShellViewModel.WorkingDirectory;
 
 			await UIFilesystemHelpers.PasteItemAsync(path, context.ShellPage);
 		}

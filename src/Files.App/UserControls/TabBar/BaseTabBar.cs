@@ -3,26 +3,27 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using System.Runtime.CompilerServices;
 
 namespace Files.App.UserControls.TabBar
 {
 	/// <summary>
 	/// Represents base class for <see cref="TabBar"/>.
 	/// </summary>
-	public abstract class BaseTabBar : UserControl, ITabBar
+	public abstract class BaseTabBar : UserControl, ITabBar, INotifyPropertyChanged
 	{
 		protected ITabBarItemContent CurrentSelectedAppInstance;
 
 		public static event EventHandler<ITabBar>? OnLoaded;
-
 		public static event PropertyChangedEventHandler? StaticPropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
 
 		public const string TabPathIdentifier = "FilesTabViewItemPath";
 
 		// RecentlyClosedTabs is shared between all multitasking controls
-		public static Stack<CustomTabViewItemParameter[]> RecentlyClosedTabs { get; private set; } = new();
+		public static Stack<TabBarItemParameter[]> RecentlyClosedTabs { get; private set; } = new();
 
 		public ObservableCollection<TabBarItem> Items
 			=> MainPageViewModel.AppInstances;
@@ -88,6 +89,11 @@ namespace Files.App.UserControls.TabBar
 			CurrentInstanceChanged?.Invoke(this, args);
 		}
 
+		protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+
 		public void TabView_Loaded(object sender, RoutedEventArgs e)
 		{
 			CurrentInstanceChanged += TabView_CurrentInstanceChanged;
@@ -104,7 +110,7 @@ namespace Files.App.UserControls.TabBar
 			TabView_SelectionChanged(null, null);
 		}
 
-		public static void PushRecentTab(CustomTabViewItemParameter[] tab)
+		public static void PushRecentTab(TabBarItemParameter[] tab)
 		{
 			RecentlyClosedTabs.Push(tab);
 			StaticPropertyChanged?.Invoke(null, new PropertyChangedEventArgs(nameof(RecentlyClosedTabs)));

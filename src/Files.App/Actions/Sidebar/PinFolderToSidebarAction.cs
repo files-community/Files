@@ -17,7 +17,7 @@ namespace Files.App.Actions
 			=> "PinFolderToSidebarDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "Icons.Pin.16x16");
+			=> new(themedIconStyle: "App.ThemedIcons.FavoritePin");
 
 		public bool IsExecutable
 			=> GetIsExecutable();
@@ -31,7 +31,7 @@ namespace Files.App.Actions
 			App.QuickAccessManager.UpdateQuickAccessWidget += QuickAccessManager_DataChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public async Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.HasSelection)
 			{

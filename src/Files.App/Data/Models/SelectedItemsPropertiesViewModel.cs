@@ -183,8 +183,8 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref isUncompressedItemSizeVisibile, value);
 		}
 
-		private long itemSizeBytes;
-		public long ItemSizeBytes
+		private decimal itemSizeBytes;
+		public decimal ItemSizeBytes
 		{
 			get => itemSizeBytes;
 			set => SetProperty(ref itemSizeBytes, value);
@@ -461,6 +461,13 @@ namespace Files.App.Data.Models
 			get => DriveCapacityValue > 0 ? DriveUsedSpaceValue / (double)DriveCapacityValue * 100 : 0;
 		}
 
+		private bool cleanupVisibility = false;
+		public bool CleanupVisibility
+		{
+			get => cleanupVisibility;
+			set => SetProperty(ref cleanupVisibility, value);
+		}
+
 		private ICommand cleanupDriveCommand;
 		public ICommand CleanupDriveCommand
 		{
@@ -523,7 +530,7 @@ namespace Files.App.Data.Models
 		}
 
 		private bool isSelectedItemImage = false;
-		public bool IsSelectedItemImage
+		public bool IsCompatibleToSetAsWindowsWallpaper
 		{
 			get => isSelectedItemImage;
 			set => SetProperty(ref isSelectedItemImage, value);
@@ -539,7 +546,7 @@ namespace Files.App.Data.Models
 		public void CheckAllFileExtensions(List<string> itemExtensions)
 		{
 			// Checks if all the item extensions are image extensions of some kind.
-			IsSelectedItemImage = itemExtensions.TrueForAll(itemExtension => FileExtensionHelpers.IsImageFile(itemExtension));
+			IsCompatibleToSetAsWindowsWallpaper = itemExtensions.TrueForAll(FileExtensionHelpers.IsCompatibleToSetAsWindowsWallpaper);
 			// Checks if there is only one selected item and if it's a shortcut.
 			IsSelectedItemShortcut = (itemExtensions.Count == 1) && (itemExtensions.TrueForAll(itemExtension => FileExtensionHelpers.IsShortcutFile(itemExtension)));
 		}
@@ -709,6 +716,40 @@ namespace Files.App.Data.Models
 		{
 			get => isHiddenEditedValue;
 			set => SetProperty(ref isHiddenEditedValue, value);
+		}
+
+		private bool? isContentCompressed;
+		/// <remarks>
+		/// Applies to NTFS item compression.
+		/// </remarks>
+		public bool? IsContentCompressed
+		{
+			get => isContentCompressed;
+			set
+			{
+				SetProperty(ref isContentCompressed, value);
+				IsContentCompressedEditedValue = value;
+			}
+		}
+
+		private bool? isContentCompressedEditedValue;
+		/// <remarks>
+		/// Applies to NTFS item compression.
+		/// </remarks>
+		public bool? IsContentCompressedEditedValue
+		{
+			get => isContentCompressedEditedValue;
+			set => SetProperty(ref isContentCompressedEditedValue, value);
+		}
+
+		private bool canCompressContent;
+		/// <remarks>
+		/// Applies to NTFS item compression.
+		/// </remarks>
+		public bool CanCompressContent
+		{
+			get => canCompressContent;
+			set => SetProperty(ref canCompressContent, value);
 		}
 
 		private bool runAsAdmin;

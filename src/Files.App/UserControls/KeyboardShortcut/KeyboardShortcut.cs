@@ -1,13 +1,7 @@
 ﻿// Copyright (c) 2023 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI.UI;
-using Microsoft.UI.Input;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Automation;
-using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Files.App.UserControls.KeyboardShortcut
 {
@@ -28,10 +22,24 @@ namespace Files.App.UserControls.KeyboardShortcut
 		{
 		}
 
-		private void OnHotKeysChanged()
+		private async void OnHotKeysChanged()
 		{
-			if (HotKeys.IsEmpty)
+			var keyboardShortcutItemsControl = GetTemplateChild(KeyboardShortcutItemsControl) as ItemsControl;
+			for (int i = 0; i < 100 && keyboardShortcutItemsControl is null; i++)
+			{
+				// Wait for KeyboardShortcutItemsControl to be loaded
+				await Task.Delay(10);
+				keyboardShortcutItemsControl = GetTemplateChild(KeyboardShortcutItemsControl) as ItemsControl;
+			}
+
+			if (keyboardShortcutItemsControl is null)
 				return;
+
+			if (HotKeys.IsEmpty)
+			{
+				keyboardShortcutItemsControl.ItemsSource = null;
+				return;
+			}
 
 			List<KeyboardShortcutItem> items = [];
 
@@ -94,10 +102,7 @@ namespace Files.App.UserControls.KeyboardShortcut
 			}
 
 			// Set value
-			if (GetTemplateChild(KeyboardShortcutItemsControl) is ItemsControl keyboardShortcutItemsControl)
-			{
-				keyboardShortcutItemsControl.ItemsSource = items;
-			}
+			keyboardShortcutItemsControl.ItemsSource = items;
 		}
 	}
 }

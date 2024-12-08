@@ -5,6 +5,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -20,11 +21,6 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Spacing="4">
-			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<EntranceThemeTransition />
-				</TransitionCollection>
-			</StackPanel.ChildrenTransitions>
 
 			<!--  Title  -->
 			<TextBlock
@@ -46,6 +42,7 @@
 						<MenuFlyout>
 							<MenuFlyoutItem Command="{x:Bind ViewModel.CopyAppVersionCommand}" Text="{helpers:ResourceString Name=AppVersion}" />
 							<MenuFlyoutItem Command="{x:Bind ViewModel.CopyWindowsVersionCommand}" Text="{helpers:ResourceString Name=WindowsVersion}" />
+							<MenuFlyoutItem Command="{x:Bind ViewModel.CopyUserIDCommand}" Text="{helpers:ResourceString Name=UserID}" />
 						</MenuFlyout>
 					</Button.Flyout>
 				</Button>
@@ -181,21 +178,31 @@
 			</local:SettingsBlockControl>
 
 			<!--  Third Party Licenses  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=ThirdPartyLicenses}"
-				HorizontalAlignment="Stretch"
-				Click="ThirdPartyLicenses_Click">
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ThirdPartyLibraries}">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE90F;" />
 				</local:SettingsBlockControl.Icon>
 				<local:SettingsBlockControl.ExpandableContent>
-					<ScrollViewer Height="400">
-						<controls:MarkdownTextBlock
-							Margin="10"
-							Background="Transparent"
-							LinkClicked="MarkdownTextBlock_LinkClicked"
-							Text="{x:Bind ViewModel.ThirdPartyNotices, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-					</ScrollViewer>
+					<ItemsRepeater Margin="54,12,12,12" ItemsSource="{x:Bind ViewModel.OpenSourceLibraries, Mode=OneWay}">
+						<ItemsRepeater.ItemTemplate>
+							<DataTemplate x:DataType="dataitems:OpenSourceLibraryItem">
+								<TextBlock Margin="4,0" VerticalAlignment="Center">
+									<Hyperlink NavigateUri="{x:Bind Url}" UnderlineStyle="None">
+										<Run Text="{x:Bind Name}" />
+									</Hyperlink>
+								</TextBlock>
+							</DataTemplate>
+						</ItemsRepeater.ItemTemplate>
+						<ItemsRepeater.Layout>
+							<UniformGridLayout
+								ItemsStretch="Fill"
+								MaximumRowsOrColumns="6"
+								MinColumnSpacing="8"
+								MinItemWidth="200"
+								MinRowSpacing="8"
+								Orientation="Horizontal" />
+						</ItemsRepeater.Layout>
+					</ItemsRepeater>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 

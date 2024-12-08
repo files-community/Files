@@ -3,28 +3,24 @@
 
 using Files.App.ViewModels.Previews;
 using Files.Shared.Helpers;
-using IniParser.Model;
 using Windows.Storage;
 using static Files.App.Constants.AdaptiveLayout;
-using IO = System.IO;
 
 namespace Files.App.Helpers
 {
 	public static class AdaptiveLayoutHelpers
 	{
-		private static IFoldersSettingsService FoldersSettingsService { get; } = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 		private static ILayoutSettingsService LayoutSettingsService { get; } = Ioc.Default.GetRequiredService<ILayoutSettingsService>();
+		private static IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-		public static void ApplyAdaptativeLayout(LayoutPreferencesManager folderSettings, string path, IList<ListedItem> filesAndFolders)
+		public static void ApplyAdaptativeLayout(LayoutPreferencesManager folderSettings, IList<ListedItem> filesAndFolders)
 		{
 			if (LayoutSettingsService.SyncFolderPreferencesAcrossDirectories)
-				return;
-			if (string.IsNullOrWhiteSpace(path))
 				return;
 			if (folderSettings.IsLayoutModeFixed || !folderSettings.IsAdaptiveLayoutEnabled)
 				return;
 
-			var layout = GetAdaptiveLayout(path, filesAndFolders);
+			var layout = GetAdaptiveLayout(filesAndFolders);
 			switch (layout)
 			{
 				case Layouts.Detail:
@@ -36,49 +32,33 @@ namespace Files.App.Helpers
 			}
 		}
 
-		private static Layouts GetAdaptiveLayout(string path, IList<ListedItem> filesAndFolders)
+		private static Layouts GetAdaptiveLayout(IList<ListedItem> filesAndFolders)
 		{
-			var pathLayout = GetPathLayout(path);
+			var pathLayout = GetPathLayout();
 			if (pathLayout is not Layouts.None)
 				return pathLayout;
 
 			return GetContentLayout(filesAndFolders);
 		}
 
-		private static Layouts GetPathLayout(string path)
+		private static Layouts GetPathLayout()
 		{
-			var iniPath = IO.Path.Combine(path, "desktop.ini");
-
-			var iniContents = NativeFileOperationsHelper.ReadStringFromFile(iniPath)?.Trim();
-			if (string.IsNullOrEmpty(iniContents))
+			var desktopIni = ContentPageContext.ShellPage?.ShellViewModel?.DesktopIni;
+			if (desktopIni is null)
 				return Layouts.None;
 
-			var parser = new IniParser.Parser.IniDataParser();
-			parser.Configuration.ThrowExceptionsOnError = false;
-			var data = parser.Parse(iniContents);
-			if (data is null)
+			var viewStateSection = desktopIni.FirstOrDefault(x => x.SectionName == "ViewState");
+			if (viewStateSection is null)
 				return Layouts.None;
 
-			var viewModeSection = data.Sections.FirstOrDefault(IsViewState);
-			if (viewModeSection is null)
-				return Layouts.None;
+			var viewMode = viewStateSection.Parameters.FirstOrDefault(x => x.Key == "Mode").Value;
 
-			var folderTypeKey = viewModeSection.Keys.FirstOrDefault(IsFolderType);
-			if (folderTypeKey is null)
-				return Layouts.None;
-
-			return folderTypeKey.Value switch
+			return viewMode switch
 			{
 				"Pictures" => Layouts.Grid,
 				"Videos" => Layouts.Grid,
 				_ => Layouts.Detail,
 			};
-
-			static bool IsViewState(SectionData data)
-				=> "ViewState".Equals(data.SectionName, StringComparison.OrdinalIgnoreCase);
-
-			static bool IsFolderType(KeyData data)
-				=> "FolderType".Equals(data.KeyName, StringComparison.OrdinalIgnoreCase);
 		}
 
 		private static Layouts GetContentLayout(IList<ListedItem> filesAndFolders)

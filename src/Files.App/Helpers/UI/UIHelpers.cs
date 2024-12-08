@@ -1,12 +1,11 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI.Notifications;
+using Files.App.Helpers.Application;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
-using Windows.UI.Notifications;
 
 namespace Files.App.Helpers
 {
@@ -42,37 +41,7 @@ namespace Files.App.Helpers
 
 				SafetyExtensions.IgnoreExceptions(() =>
 				{
-					var toastContent = new ToastContent()
-					{
-						Visual = new ToastVisual()
-						{
-							BindingGeneric = new ToastBindingGeneric()
-							{
-								Children =
-							{
-								new AdaptiveText()
-								{
-									Text = "EjectNotificationHeader".GetLocalizedResource()
-								},
-								new AdaptiveText()
-								{
-									Text = "EjectNotificationBody".GetLocalizedResource()
-								}
-							},
-								Attribution = new ToastGenericAttributionText()
-								{
-									Text = "SettingsAboutAppName".GetLocalizedResource()
-								}
-							}
-						},
-						ActivationType = ToastActivationType.Protocol
-					};
-
-					// Create the toast notification
-					var toastNotif = new ToastNotification(toastContent.GetXml());
-
-					// And send the notification
-					ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+					AppToastNotificationHelper.ShowDriveEjectToast();
 				});
 			}
 			else if (!result)
@@ -123,15 +92,14 @@ namespace Files.App.Helpers
 
 		public static void CloseAllDialogs()
 		{
+			if (MainWindow.Instance?.Content?.XamlRoot == null)
+				return;
+
 			var openedDialogs = VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot);
 
 			foreach (var item in openedDialogs)
-			{
 				if (item.Child is ContentDialog dialog)
-				{
 					dialog.Hide();
-				}
-			}
 		}
 
 		private static IEnumerable<IconFileInfo> SidebarIconResources = LoadSidebarIconResources();
@@ -165,7 +133,7 @@ namespace Files.App.Helpers
 			string imageres = Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
 			var imageResList = Win32Helper.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
 					Constants.ImageRes.RecycleBin,
-					Constants.ImageRes.NetworkDrives,
+					Constants.ImageRes.Network,
 					Constants.ImageRes.Libraries,
 					Constants.ImageRes.ThisPC,
 					Constants.ImageRes.CloudDrives,
@@ -183,7 +151,7 @@ namespace Files.App.Helpers
 					Constants.ImageRes.ShieldIcon
 				}, 16);
 
-			return imageResList.First();
+			return imageResList.FirstOrDefault();
 		}
 	}
 }

@@ -22,7 +22,7 @@ namespace Files.App.Utils.CommandLine
 		/// Gets first argument item.
 		/// </summary>
 		public string Payload
-			=> Args.First();
+			=> Args.FirstOrDefault(string.Empty);
 
 		/// <summary>
 		/// Initialize a parsed command class.

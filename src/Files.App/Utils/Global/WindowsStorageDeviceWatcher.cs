@@ -3,10 +3,11 @@
 
 using Files.App.Data.Items;
 using Files.App.Helpers;
-using Files.Core.Storage.LocatableStorage;
+using Files.Core.Storage.Storables;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
@@ -88,7 +89,7 @@ namespace Files.App.Utils
 			{
 				root = StorageDevice.FromId(deviceId);
 			}
-			catch (Exception ex) when (ex is ArgumentException or UnauthorizedAccessException)
+			catch (Exception ex) when (ex is ArgumentException or UnauthorizedAccessException or COMException)
 			{
 				App.Logger.LogWarning($"{ex.GetType()}: Attempting to add the device, {args.Name},"
 					+ $" failed at the StorageFolder initialization step. This device will be ignored. Device ID: {deviceId}");

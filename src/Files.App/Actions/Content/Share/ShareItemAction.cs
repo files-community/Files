@@ -16,7 +16,7 @@ namespace Files.App.Actions
 			=> "ShareItemDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconShare");
+			=> new(themedIconStyle: "App.ThemedIcons.Share");
 
 		public bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&
@@ -31,7 +31,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			return ShareItemHelpers.ShareItemsAsync(context.SelectedItems);
 		}

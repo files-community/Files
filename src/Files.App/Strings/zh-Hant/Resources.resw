@@ -126,6 +126,9 @@
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>複製帶引號的路徑</value>
   </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>複製選取項目的帶引號路徑</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>瀏覽</value>
   </data>
@@ -145,7 +148,7 @@
     <value>在磁碟上的大小：</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>壓縮前的大小:</value>
+    <value>壓縮前的大小：</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>無法完成該操作</value>
@@ -216,8 +219,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>外觀</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>背景</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>背景顏色</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>進階設定</value>
@@ -248,6 +251,9 @@
   </data>
   <data name="Paste" xml:space="preserve">
     <value>貼上</value>
+  </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>貼上捷徑</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>新增</value>
@@ -291,8 +297,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>輸入名稱</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>設置名稱</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>新增{0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>亮色</value>
@@ -316,13 +322,13 @@
     <value>該資料夾是空的。</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>返回（Alt + 向左键）</value>
+    <value>返回/上一頁</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>下一頁（Alt + 向右鍵）</value>
+    <value>前進/下一頁</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>上移（Alt + 向上鍵）</value>
+    <value>返回上層</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>重新整理</value>
@@ -338,6 +344,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>設為鎖定畫面背景</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>設定為應用程式背景</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>無法刪除此檔案</value>
@@ -376,37 +385,49 @@
     <value>檔案正在被使用</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>布局</value>
+    <value>版面配置</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
     <value>唯讀</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0} 天前</value>
+    <value>{0, plural, other {# 天前}}</value>
   </data>
-  <data name="DayAgo" xml:space="preserve">
+  <data name="DaysAgo_Singular" xml:space="preserve">
+    <value>1 天前</value>
+  </data>
+  <data name="DaysAgo_Plural" xml:space="preserve">
     <value>{0} 天前</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0} 小時前</value>
+    <value>{0, plural, other {# 小時前}}</value>
   </data>
-  <data name="HourAgo" xml:space="preserve">
+  <data name="HoursAgo_Singular" xml:space="preserve">
+    <value>1 小時前</value>
+  </data>
+  <data name="HoursAgo_Plural" xml:space="preserve">
     <value>{0} 小時前</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>{0} 分鐘前</value>
+    <value>{0, plural, other {# 分鐘前}}</value>
   </data>
-  <data name="MinuteAgo" xml:space="preserve">
+  <data name="MinutesAgo_Singular" xml:space="preserve">
+    <value>1 分鐘前</value>
+  </data>
+  <data name="MinutesAgo_Plural" xml:space="preserve">
     <value>{0} 分鐘前</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>{0} 秒前</value>
+    <value>{0, plural, other {# 秒前}}</value>
   </data>
-  <data name="OneSecondAgo" xml:space="preserve">
+  <data name="SecondsAgo_Singular" xml:space="preserve">
     <value>1 秒前</value>
   </data>
+  <data name="SecondsAgo_Plural" xml:space="preserve">
+    <value>{0} 秒前</value>
+  </data>
   <data name="Now" xml:space="preserve">
-    <value>立刻</value>
+    <value>剛剛</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>尚不支援此操作</value>
@@ -423,17 +444,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>指定的項目名稱無效</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>已選取的項目</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, other {已選取 # 個項目}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>已選取的項目</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>項目</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>項目</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, other {項目}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>確定</value>
@@ -466,10 +483,10 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} 個檔案，{1:#,##0} 個資料夾</value>
+    <value>{0, number} 個{0, plural, other {檔案}}，{1, number} 個{1, plural, other {資料夾}}</value>
   </data>
-  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} 個檔案、{1:#,##0} 個資料夾 - 來自 {2:#,##0} 個位置</value>
+  <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
+    <value>{0, number} 個{0, plural, other {檔案}}，{1, number} 個{1, plural,  other {資料夾}}，從 {2, number} 個{2, plural, other {位置}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>以另一名使用者之身分執行</value>
@@ -501,7 +518,7 @@
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>將索引標籤移至此處</value>
   </data>
-  <data name="syncStatusColumn.Header" xml:space="preserve">
+  <data name="Status" xml:space="preserve">
     <value>狀態</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
@@ -882,6 +899,12 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>編碼位元速率</value>
   </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>音頻編碼位元速率</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>影像編碼位元速率</value>
+  </data>
   <data name="Compression" xml:space="preserve">
     <value>壓縮</value>
   </data>
@@ -991,7 +1014,7 @@
     <value>顯示受保護的系統檔案</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>在不同路徑之間使用相同的布局和排序設定</value>
+    <value>在不同路徑之間同步佈局和排序設定</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>自訂右鍵選單</value>
@@ -1009,25 +1032,25 @@
     <value>移除</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>在分割畫面中開啟索引標籤</value>
+    <value>在開啟索引標籤時打開分割畫面</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>顯示在新畫面開啟資料夾選項</value>
+    <value>顯示「在分割畫面開啟資料夾」選項</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
-    <value>顯示“複製路徑”的選項</value>
+    <value>顯示「複製路徑」選項</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
-    <value>顯示用選取的檔案建立資料夾選項</value>
+    <value>顯示「為選取的項目建立資料夾」選項</value>
   </data>
   <data name="ShowCreateShortcut" xml:space="preserve">
-    <value>顯示建立捷徑選項</value>
+    <value>顯示「建立捷徑」選項</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>新增畫面</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
-    <value>在新增畫面中開啟</value>
+    <value>在分割畫面中開啟</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
     <value>檔案與資料夾</value>
@@ -1051,19 +1074,22 @@
     <value>您想要的名稱</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>開啟/關閉預覽畫面（Ctrl + P）</value>
+    <value>開啟/關閉預覽畫面</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>切換詳細資料預覽畫面</value>
+    <value>開啟/關閉詳細資料預覽畫面</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>切換到詳細資料視窗以查看檔案的基本內容</value>
+    <value>開啟/關閉詳細資料視窗以查看檔案的基本內容</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
     <value>切換詳細資料視窗</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>開啟資料視窗以查看詳細資料/預覽視窗</value>
+  </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>開啟/關閉工具欄</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>無法預覽</value>
@@ -1072,10 +1098,7 @@
     <value>檔案名稱</value>
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
-    <value>從側邊欄取消固定</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>網路磁碟機</value>
+    <value>從側邊欄取消釘選</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>網路</value>
@@ -1221,50 +1244,47 @@
   <data name="OpenStorageSense" xml:space="preserve">
     <value>開啟儲存空間感知器</value>
   </data>
+  <data name="OpenStorageSenseDescription" xml:space="preserve">
+    <value>Open the Storage Sense page in Windows Settings</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>Cleanup</value>
+  </data>
   <data name="Copy" xml:space="preserve">
     <value>複製</value>
   </data>
-  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>即將複製 {0} 個項目</value>
-  </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>複製檔案</value>
+    <value>複製{0, plural, other {項目}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>刪除檔案</value>
+    <value>刪除{0, plural, other {項目}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>移動</value>
   </data>
-  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>即將移動 {0} 個項目</value>
+  <data name="MoveItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, other {即將移動 # 個檔案}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>移動項目</value>
+    <value>移動{0, plural, other {項目}}</value>
   </data>
-  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>即將刪除 {0} 個項目</value>
+  <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural,other {即將刪除 # 個檔案}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>繼續</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>有 {0} 個同名檔案已存在，且尚有 {1} 個項目等待操作。</value>
+  <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
+    <value>{0, plural, other {存在 # 個衝突的檔案名稱}}</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
+    <value>{0, plural, other {存在 # 個衝突的檔案名稱}}，{1, plural, other {即將傳送 # 個項目}}</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>檔案已存在</value>
+    <value>{0, plural, other {檔案名稱衝突}}</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>有一個同名檔案已存在，且尚有 {0} 個項目等待操作。</value>
-  </data>
-  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>將複製一個項目</value>
-  </data>
-  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>將刪除一個項目</value>
-  </data>
-  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>將移動一個項目</value>
+  <data name="CopyItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, other {即將複製 # 個項目}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>永久刪除</value>
@@ -1277,12 +1297,6 @@
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>自動重新命名</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>有 {0} 個同名檔案已存在。</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>有一個同名檔案已存在。</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>為選取的項目建立資料夾</value>
@@ -1369,7 +1383,7 @@
     <value>去年</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>年 {0}</value>
+    <value>{0} 年</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
     <value>{0} 個項目</value>
@@ -1584,8 +1598,8 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>覆蓋所有子物件的權限為此父物件的可繼承權限</value>
   </data>
-  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>關閉畫面</value>
+  <data name="CloseActivePane" xml:space="preserve">
+    <value>關閉目前聚焦的分割畫面</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>進入精簡懸浮模式</value>
@@ -1614,8 +1628,8 @@
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>從雲端下載檔案並載入預覽</value>
   </data>
-  <data name="DetailsArchiveItemCount" xml:space="preserve">
-    <value>{0} 個項目（{1} 個檔案，{2} 個資料夾）</value>
+  <data name="DetailsArchiveItems" xml:space="preserve">
+    <value>{0, plural, other {# 項目}} ({1, plural, other {# 個檔案}}，{2, plural, other {# 個資料夾}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>壓縮前的大小</value>
@@ -1697,12 +1711,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>使用者名稱</value>
-  </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>磁碟機小工具</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>最近的文件小工具</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>找不到任何符合搜尋條件的檔案</value>
@@ -1801,7 +1809,7 @@
     <value>登入 Windows 時</value>
   </data>
   <data name="CompatibilityOnProgramStart" xml:space="preserve">
-    <value>開啟該應用程式時</value>
+    <value>此應用程式啟動時</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>系統</value>
@@ -1851,11 +1859,14 @@
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
     <value>不使用色彩簡化</value>
   </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>第三方授權條款</value>
+  <data name="ThirdPartyLibraries" xml:space="preserve">
+    <value>第三方函式庫</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>此項設定會修改您的系統檔案並有可能會有未預期的副作用。我們對於可能會發生的問題並不負責。請您僅在認知到這個動作可能帶來的問題的情況下才繼續進行。</value>
+  </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>展平 (Flatten) 操作為永久性的，不建議使用。啟用功能代表您將自行承擔風險。</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>建立媒體庫</value>
@@ -1935,6 +1946,9 @@
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>關閉其他索引標籤</value>
   </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>關閉所有分頁</value>
+  </data>
   <data name="Music" xml:space="preserve">
     <value>音樂</value>
   </data>
@@ -1975,10 +1989,10 @@
     <value>調整欄位至合適寬度</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Automatically choose the best layout</value>
+    <value>調適性</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>自動調整（Ctrl + Shift + 7）</value>
+    <value>調適性配置 (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl + Shift + 7</value>
@@ -2005,31 +2019,46 @@
     <value>設為預設值</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>日期欄</value>
+    <value>日期</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
     <value>建立日期</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>“大小”列</value>
+    <value>檔案大小</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>“標籤”列</value>
+    <value>標籤</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>“類型”列</value>
+    <value>類型</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>鎖定畫面</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>在格狀檢視模式下，點一下即可開啟資料夾</value>
+    <value>在欄配置下，點一下開啟資料夾</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>開啟項目</value>
   </data>
   <data name="Compress" xml:space="preserve">
     <value>壓縮</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>將子資料夾中的所有內容移動到選定的位置</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>展平資料夾</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>展平</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>展平資料夾將會把其子資料夾中的所有內容移動到選定的位置。此操作是永久性的，無法復原。使用此實驗性功能即表示您承擔風險並同意不對 Files 團隊因任何資料遺失究責。</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>顯示展平選項</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>當游標停留於檔案與資料夾上時，選取它們</value>
@@ -2062,7 +2091,7 @@
     <value>您沒有權限存取此資料夾。</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>封存檔案密碼</value>
+    <value>壓縮檔案密碼</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>路徑</value>
@@ -2071,7 +2100,7 @@
     <value>排序與分組</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
-    <value>建立封存檔案</value>
+    <value>建立壓縮檔案</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>新增</value>
@@ -2158,13 +2187,13 @@
     <value>建立捷徑</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>“最近使用的檔案”已在 Windows 檔案總管中停用。</value>
+    <value>「最近使用的檔案」已在 Windows 檔案總管中停用。</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
     <value>編輯設定檔</value>
   </data>
   <data name="WhatsNew" xml:space="preserve">
-    <value>什麼是新的</value>
+    <value>有什麼新消息？</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>在此位置建立捷徑需要系統管理員權限</value>
@@ -2185,25 +2214,25 @@
     <value>檢視更多</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>顯示編輯標籤選單</value>
+    <value>顯示「編輯檔案標籤」選單</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
-    <value>顯示壓縮選項</value>
+    <value>顯示「壓縮」選項</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>顯示發送到選項</value>
+    <value>顯示「發送到」選項</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>顯示在新索引標籤開啟資料夾選項</value>
+    <value>顯示「在新索引標籤開啟資料夾」選項</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>顯示在新視窗開啟資料夾選項</value>
+    <value>顯示「在新視窗開啟資料夾」選項</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>快速存取</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
-    <value>輸入您連線至: {0} 的憑證</value>
+    <value>輸入您連線至：{0} 的憑證</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
     <value>輸入網路憑證</value>
@@ -2251,7 +2280,7 @@
     <value>顯示隱藏項目</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>格式...</value>
+    <value>格式</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>幫助</value>
@@ -2290,13 +2319,13 @@
     <value>重新排列側邊欄項目</value>
   </data>
   <data name="Hashes" xml:space="preserve">
-    <value>哈希值</value>
+    <value>雜湊值</value>
   </data>
   <data name="CalculationError" xml:space="preserve">
     <value>在計算時發生錯誤</value>
   </data>
   <data name="CalculationErrorFileIsOpen" xml:space="preserve">
-    <value>計算哈希值失敗，請關閉該檔案並重試。</value>
+    <value>計算雜湊值失敗，請關閉該檔案並重試。</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>無法檢視線上檔案的雜湊值</value>
@@ -2305,7 +2334,7 @@
     <value>演算法</value>
   </data>
   <data name="HashValue" xml:space="preserve">
-    <value>哈希值</value>
+    <value>雜湊值</value>
   </data>
   <data name="SelectHashesToShow" xml:space="preserve">
     <value>選擇要顯示的雜湊值</value>
@@ -2314,13 +2343,13 @@
     <value>計算中…</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
-    <value>固定項目</value>
+    <value>釘選項目</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>減少大小</value>
+    <value>縮小</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
-    <value>增加大小</value>
+    <value>放大</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>切換排序方向</value>
@@ -2361,11 +2390,14 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>切換是否顯示隱藏項目</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>切換是否顯示帶有點 (.) 的檔案</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>切換是否顯示檔案副檔名</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>切換預覽視窗以查看文件預覽</value>
+    <value>開啟/關閉預覽視窗以查看文件預覽</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>切換是否顯示側邊攔</value>
@@ -2374,16 +2406,25 @@
     <value>將項目複製到剪貼簿</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>將選取的項目路徑複製到剪貼簿</value>
+    <value>將目前目錄的路徑複製到剪貼簿</value>
+  </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
+    <value>將選取項目的路徑複製到剪貼簿</value>
+  </data>
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
+    <value>將選取項目的帶引號路徑複製到剪貼簿</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>將選取的引號項目路徑複製到剪貼簿</value>
+    <value>將目前目錄的帶引號路徑複製到剪貼簿</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>剪下項目到剪貼簿</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>從剪貼簿貼上項目到目前資料夾</value>
+    <value>從剪貼簿貼上項目到所在資料夾</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>以捷徑的形式，貼上剪貼簿中的檔案和資料夾到目前的資料夾</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>從剪貼簿貼上項目到所選資料夾</value>
@@ -2404,7 +2445,7 @@
     <value>清理資源回收筒</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
-    <value>開啟 "格式化磁碟" 選項於選擇項目</value>
+    <value>開啟「格式化磁碟」選單於所選項目</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
     <value>從資源回收桶還原選擇項目</value>
@@ -2437,7 +2478,7 @@
     <value>清除選取</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>切換選取</value>
+    <value>選取/取消選取所選定的項目</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
     <value>分享選取的項目</value>
@@ -2449,19 +2490,22 @@
     <value>從開始功能表取消釘選</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>將資料夾 (s) 固定到側邊欄</value>
+    <value>將資料夾固定到側邊欄</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
-    <value>取消將資料夾 (s) 固定到側邊欄</value>
+    <value>取消將資料夾固定到側邊欄</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>設成桌面背景</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
-    <value>將選取的圖面設定為桌面幻燈片秀</value>
+    <value>將選取的圖片設定為桌面幻燈片秀</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>設成鎖定畫面背景</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>設成此應用程式背景</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>安裝選取的字型</value>
@@ -2473,40 +2517,40 @@
     <value>安裝選取的憑證</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>以系統管理員身分執行選擇的應用程式</value>
+    <value>以系統管理員身分執行選取的應用程式</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>以不同的使用者身分執行選擇的應用程式</value>
+    <value>以不同的使用者身分執行選取的應用程式</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
-    <value>執行PowerShell腳本</value>
+    <value>執行選取的 PowerShell 腳本</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
     <value>在跳出視窗中開啟預覽</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>使用所選的項目 (s) 建立檔案</value>
+    <value>使用選取的項目建立壓縮檔案</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>使用所選的項目 (s) 建立7z壓縮檔</value>
+    <value>使用選取的項目建立 7z 壓縮檔案</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>使用所選的項目 (s) 建立zip壓縮檔</value>
+    <value>使用選取的項目建立 zip 壓縮檔案</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to any folder</value>
+    <value>將選取的壓縮檔案解壓至任意資料夾</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to current folder</value>
+    <value>將選取的壓縮檔案解壓至當前資料夾</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to new folder</value>
+    <value>將選取的壓縮檔案解壓至新建資料夾</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the left</value>
+    <value>向左旋轉所選圖像</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected image(s) to the right</value>
+    <value>向右旋轉所選圖像</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>開啟設定頁面</value>
@@ -2518,43 +2562,43 @@
     <value>以系統管理員身分在終端機開啟資料夾</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease item size in the current view</value>
+    <value>在目前檢視中縮小項目大小</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase item size in the current view</value>
+    <value>在目前檢視中放大項目大小</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
-    <value>Switch to details view</value>
+    <value>切換至詳細資訊檢視</value>
   </data>
   <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Switch to tiles view</value>
+    <value>切換至磁磚檢視</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
-    <value>Switch to list view</value>
+    <value>切換至列表檢視</value>
   </data>
   <data name="List" xml:space="preserve">
-    <value>List</value>
+    <value>列表</value>
   </data>
   <data name="Grid" xml:space="preserve">
-    <value>Grid</value>
+    <value>圖示</value>
   </data>
   <data name="LayoutGridDescription" xml:space="preserve">
-    <value>Switch to grid view</value>
+    <value>切換至圖示檢視</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Switch to columns view</value>
+    <value>切換至欄檢視</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch views adaptively</value>
+    <value>自動切換檢視</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
     <value>按名稱排序</value>
   </data>
   <data name="SortByDateModifiedDescription" xml:space="preserve">
-    <value>Sort items by date modified</value>
+    <value>依修改日期將項目排序</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>Sort items by date created</value>
+    <value>依建立日期將項目排序</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
     <value>按大小排序</value>
@@ -2575,16 +2619,16 @@
     <value>按刪除日期排序</value>
   </data>
   <data name="SortAscendingDescription" xml:space="preserve">
-    <value>Sort items in ascending order</value>
+    <value>依升序將項目排序</value>
   </data>
   <data name="SortDescendingDescription" xml:space="preserve">
-    <value>Sort items in descending order</value>
+    <value>依降序將項目排序</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
-    <value>Toggle item sort direction</value>
+    <value>切換項目的排序方向</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
-    <value>List items without grouping</value>
+    <value>列出項目，不進行分組</value>
   </data>
   <data name="GroupByNameDescription" xml:space="preserve">
     <value>按名稱對項目分組</value>
@@ -2629,13 +2673,13 @@
     <value>開啟新索引標籤</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward in navigation history</value>
+    <value>在檢索歷史返回上一步</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward in navigation history</value>
+    <value>在檢索歷史前進下一步</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
-    <value>Navigate up one directory</value>
+    <value>上層目錄</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
     <value>複製目前的索引標籤</value>
@@ -2644,40 +2688,46 @@
     <value>複製選定的索引標籤</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the left of current tab</value>
+    <value>關閉目前分頁的左邊分頁</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
-    <value>Close tabs to the left of selected tab</value>
+    <value>關閉所選分頁的左邊分頁</value>
   </data>
   <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the right of current tab</value>
+    <value>關閉目前分頁的右邊分頁</value>
   </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
-    <value>Close tabs to the right of selected tab</value>
+    <value>關閉所選分頁的右邊分頁</value>
   </data>
   <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Close tabs other than current tab</value>
+    <value>除了目前分頁，關閉所有分頁</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
-    <value>Close tabs other than selected tab</value>
+    <value>除了所選分頁，關閉所有分頁</value>
+  </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>關閉所有分頁，也包含目前的分頁</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>恢復先前關閉的分頁</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
-    <value>Move to the previous tab</value>
+    <value>移至上一個索引標籤</value>
   </data>
   <data name="NextTabDescription" xml:space="preserve">
-    <value>Move to the next tab</value>
+    <value>移至下一個索引標籤</value>
   </data>
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>關閉目前分頁</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>開啟新畫面</value>
+  <data name="CloseActivePaneDescription" xml:space="preserve">
+    <value>關閉目前聚焦的分割畫面</value>
   </data>
-  <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Close right pane</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>切換焦點到另一個分割畫面</value>
+  </data>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>切換焦點到未作用中的分割畫面</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>開啟/關閉側邊欄</value>
@@ -2727,19 +2777,19 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Left" xml:space="preserve">
-    <value>Left</value>
+    <value>向左鍵</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Right" xml:space="preserve">
-    <value>Right</value>
+    <value>向右鍵</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Down" xml:space="preserve">
-    <value>Down</value>
+    <value>向下鍵</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
-    <value>上移（Alt + 向上鍵）</value>
+    <value>向上鍵</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Home" xml:space="preserve">
@@ -2759,7 +2809,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Separator" xml:space="preserve">
-    <value>Sep</value>
+    <value>豎線（|）</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Pause" xml:space="preserve">
@@ -2767,7 +2817,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Sleep" xml:space="preserve">
-    <value>Sleep</value>
+    <value>睡眠鍵</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Clear" xml:space="preserve">
@@ -2783,11 +2833,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Mouse4" xml:space="preserve">
-    <value>Mouse4</value>
+    <value>滑鼠第 4 鍵</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Mouse5" xml:space="preserve">
-    <value>Mouse5</value>
+    <value>滑鼠第 5 鍵</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application" xml:space="preserve">
@@ -2795,15 +2845,15 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application1" xml:space="preserve">
-    <value>App1</value>
+    <value>應用程式 1</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application2" xml:space="preserve">
-    <value>App2</value>
+    <value>應用程式 2</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Mail" xml:space="preserve">
-    <value>Mail</value>
+    <value>郵件</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoHome" xml:space="preserve">
@@ -2811,11 +2861,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoBack" xml:space="preserve">
-    <value>GoBack</value>
+    <value>回退</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoForward" xml:space="preserve">
-    <value>GoForward</value>
+    <value>前進</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserRefresh" xml:space="preserve">
@@ -2870,7 +2920,7 @@
     <value>變更</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>切換選擇</value>
+    <value>選取/取消選取</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>修改副檔名時顯示警告</value>
@@ -2924,7 +2974,7 @@
     <value>移動焦點至路徑欄</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>建立新項目</value>
+    <value>新增項目</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>沒有群組或使用者擁有全縣存取此檔案，但是，該檔案的擁有者可以授予權限。</value>
@@ -2948,7 +2998,7 @@
     <value>重做上次檔案的動作</value>
   </data>
   <data name="Location" xml:space="preserve">
-    <value>位置:</value>
+    <value>位置：</value>
   </data>
   <data name="GroupByMonthDescription" xml:space="preserve">
     <value>按月對項目分組</value>
@@ -2972,10 +3022,10 @@
     <value>年份</value>
   </data>
   <data name="GroupByDateUnit" xml:space="preserve">
-    <value>Group by date unit</value>
+    <value>按日期分組</value>
   </data>
   <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
-    <value>Group items by day of date created</value>
+    <value>按建立日期將項目分組</value>
   </data>
   <data name="GroupByDateCreatedMonthDescription" xml:space="preserve">
     <value>按建立日期之月對項目分組</value>
@@ -2984,7 +3034,7 @@
     <value>按建立日期之年對項目分組</value>
   </data>
   <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
-    <value>Group items by day of date deleted</value>
+    <value>按刪除日期將項目分組</value>
   </data>
   <data name="GroupByDateDeletedMonthDescription" xml:space="preserve">
     <value>按刪除日期之月對項目分組</value>
@@ -2993,7 +3043,7 @@
     <value>按刪除日期之年對項目分組</value>
   </data>
   <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
-    <value>Group items by day of date modified</value>
+    <value>按修改日期的天數分組</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
     <value>按修改日期之月對項目分組</value>
@@ -3002,31 +3052,31 @@
     <value>按修改日期之年對項目分組</value>
   </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
-    <value>Click 'Advanced permissions' to continue.</value>
+    <value>點擊「進階權限」來繼續</value>
   </data>
   <data name="SecurityRequireReadPermissions" xml:space="preserve">
-    <value>You must have Read permissions to view the properties of this item.</value>
+    <value>您必須擁有讀取權限才能查看此項目的屬性。</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
-    <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
+    <value>要嘗試取得此項目的擁有權（包括查看其屬性的權限），請點擊上方的「變更」。</value>
   </data>
   <data name="SecurityUnableToDisplayPermissions" xml:space="preserve">
     <value>無法顯示權限</value>
   </data>
   <data name="StashChanges" xml:space="preserve">
-    <value>Leave my changes on '{0}'</value>
+    <value>將我的變更保留在「{0}」</value>
   </data>
   <data name="DiscardChanges" xml:space="preserve">
     <value>放棄變更</value>
   </data>
   <data name="BringChanges" xml:space="preserve">
-    <value>Bring my changes to '{0}'</value>
+    <value>將我的變更帶入「{0}」</value>
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
     <value>您在此分支上有未提交的變更，您要如何處理它們？</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
-    <value>Switch branch</value>
+    <value>切換分支</value>
   </data>
   <data name="Branches" xml:space="preserve">
     <value>分支</value>
@@ -3050,22 +3100,28 @@
     <value>基於</value>
   </data>
   <data name="SwitchToNewBranch" xml:space="preserve">
-    <value>Switch to new branch</value>
+    <value>切換至新分支</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Create a folder with the currently selected item(s)</value>
+    <value>使用目前選擇的項目建立資料夾</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>打開屬性</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>開啟檔案總管屬性</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>打開屬性視窗</value>
   </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>開啟 Windows 檔案總管的屬性視窗</value>
+  </data>
   <data name="Locals" xml:space="preserve">
-    <value>Locals</value>
+    <value>本地</value>
   </data>
   <data name="Remotes" xml:space="preserve">
-    <value>Remotes</value>
+    <value>遠端</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
     <value>在 Crowdin 上進行翻譯</value>
@@ -3077,16 +3133,16 @@
     <value>Pull</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
-    <value>Run git fetch</value>
+    <value>執行 git fetch 以從遠端儲存庫取得最新的變更</value>
   </data>
   <data name="GitPullDescription" xml:space="preserve">
-    <value>Run git pull</value>
+    <value>執行 git pull 以從遠端儲存庫取得並合併最新的變更</value>
   </data>
   <data name="Preview" xml:space="preserve">
     <value>預覽</value>
   </data>
   <data name="GitStatus" xml:space="preserve">
-    <value>Git status</value>
+    <value>Git 狀態</value>
   </data>
   <data name="GitError" xml:space="preserve">
     <value>Git 錯誤</value>
@@ -3095,17 +3151,17 @@
     <value>由於逾時錯誤，git pull 失敗</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
-    <value>(multiple values)</value>
+    <value>（多個值）</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
   <data name="Author" xml:space="preserve">
     <value>作者</value>
   </data>
   <data name="DateCommitted" xml:space="preserve">
-    <value>Date committed</value>
+    <value>Commit 日期</value>
   </data>
   <data name="CommitMessage" xml:space="preserve">
-    <value>Commit message</value>
+    <value>Commit 訊息</value>
   </data>
   <data name="CommitSha" xml:space="preserve">
     <value>Commit SHA</value>
@@ -3114,46 +3170,46 @@
     <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
-    <value>Acrylic</value>
+    <value>壓克力</value>
   </data>
   <data name="Mica" xml:space="preserve">
     <value>Mica</value>
   </data>
   <data name="MicaAlt" xml:space="preserve">
-    <value>Mica Alt</value>
+    <value>更清晰的雲母</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>背景材質</value>
+    <value>背景質感</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>純色</value>
   </data>
   <data name="ManageBranches" xml:space="preserve">
-    <value>Manage branches</value>
+    <value>管理分支</value>
   </data>
   <data name="Push" xml:space="preserve">
     <value>Push</value>
   </data>
   <data name="GitPushDescription" xml:space="preserve">
-    <value>執行 git push</value>
+    <value>執行 git push 以將本地變更推送到遠端儲存庫</value>
   </data>
   <data name="GitSync" xml:space="preserve">
     <value>同步</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
-    <value>執行git pull 然後執行git push</value>
+    <value>執行 git pull 然後執行 git push</value>
   </data>
   <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
-    <value>{0} outgoing / {1} incoming commits</value>
+    <value>{0} 個已發送的 commit / {1} 個已接收的 commit</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
-    <value>連線至 Github</value>
+    <value>登入 GitHub</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
-    <value>在下面的網址欄輸入輸入以下驗證碼，即可開始使用 Github 儲存庫。</value>
+    <value>在下面的網址欄輸入輸入以下驗證碼，即可開始使用 GitHub 儲存庫。</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
-    <value>Files 目前無法連線至 Github。</value>
+    <value>Files 目前無法連線至 GitHub。</value>
   </data>
   <data name="OpenInVSCode" xml:space="preserve">
     <value>在 VS Code 中開啟檔案</value>
@@ -3165,55 +3221,55 @@
     <value>在 VS Code 中開啟儲存庫</value>
   </data>
   <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Open the root of the Git repo in Visual Studio Code</value>
+    <value>在 Visual Studio Code 中打開 Git 儲存庫的根目錄</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>複製代碼</value>
   </data>
   <data name="Added" xml:space="preserve">
-    <value>Added</value>
+    <value>已增加</value>
   </data>
   <data name="Deleted" xml:space="preserve">
-    <value>Deleted</value>
+    <value>已刪除</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value>Modified</value>
+    <value>已修改</value>
   </data>
   <data name="Untracked" xml:space="preserve">
-    <value>Untracked</value>
+    <value>未追蹤</value>
   </data>
   <data name="UnableToDisplayOwner" xml:space="preserve">
-    <value>Unable to display current owner.</value>
+    <value>無法顯示目前擁有者。</value>
   </data>
   <data name="AuthorizationSucceded" xml:space="preserve">
-    <value>Great! You are now authorized.</value>
+    <value>水啦！你的驗證已通過</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
-    <value>Initialize repo</value>
+    <value>初始化 Git 儲存庫</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Initialize a Git repository</value>
+    <value>初始化 Git 儲存庫</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
-    <value>Remote Repository Name</value>
+    <value>遠端儲存庫名稱</value>
   </data>
   <data name="GitCurrentBranch" xml:space="preserve">
-    <value>Current Branch</value>
+    <value>目前分支</value>
   </data>
   <data name="PathColumn" xml:space="preserve">
-    <value>Path column</value>
+    <value>路徑欄</value>
   </data>
   <data name="SortByPathDescription" xml:space="preserve">
-    <value>Sort items by path</value>
+    <value>按路徑排序</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Open directory in new pane</value>
+    <value>在分割畫面中開啟目錄</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Open directory in new tab</value>
+    <value>在新分頁中開啟目錄</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open directory in new window</value>
+    <value>在新視窗中開啟目錄</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
     <value>開啟所有</value>
@@ -3222,20 +3278,20 @@
     <value>開啟所有附有標籤的項目</value>
   </data>
   <data name="DriveWithLetter" xml:space="preserve">
-    <value>Drive ({0})</value>
+    <value>磁碟 ({0})</value>
     <comment>{0} is the drive letter.</comment>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
-    <value>Invalid command</value>
+    <value>無效的指令</value>
   </data>
   <data name="InvalidCommandContent" xml:space="preserve">
-    <value>'{0}' is not recognized as a command.</value>
+    <value>無法辨認指令 "{0}"</value>
   </data>
   <data name="CommandNotExecutable" xml:space="preserve">
-    <value>Command not executable</value>
+    <value>指令無法執行</value>
   </data>
   <data name="CommandNotExecutableContent" xml:space="preserve">
-    <value>The '{0}' command is not ready to be executed.</value>
+    <value>指令 "{0}" 目前還無法執行</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
     <value>指令面板</value>
@@ -3244,7 +3300,7 @@
     <value>開啟指令面板</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
-    <value>開始於:</value>
+    <value>開始於：</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
     <value>開啟 BitLocker</value>
@@ -3265,7 +3321,7 @@
     <value>正以系統管理員身分執行 Files</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>基於系統限制，以系統管理員身分執行 Files 時無法使用拖放功能</value>
+    <value>由於 Windows 和 WinAppSdk 的限制，以管理員模式執行 Files 時無法使用拖放功能（drag and drop）。如果您希望使用拖放功能，可以透過在「開始」選單中開啟 UAC（使用者帳戶控制），選擇「第三級」（僅在應用程式嘗試變更電腦時通知我 (不會降低桌面亮度)），然後重新啟動 Windows 來解決這個限制。否則，您可以繼續使用 Files，但無法使用拖放功能。</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>關閉視窗後在背景繼續執行</value>
@@ -3303,7 +3359,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="IrisPastel" xml:space="preserve">
-    <value>Iris Pastel</value>
+    <value>淡紫羅蘭</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="MintLight" xml:space="preserve">
@@ -3350,14 +3406,14 @@
     <value>清除完成</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
-    <value>名稱:</value>
+    <value>名稱：</value>
   </data>
   <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
-    <value>{0} of {1} processed</value>
+    <value>已處理 {0} 個，共 {1} 個</value>
     <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
   </data>
   <data name="ItemsLower" xml:space="preserve">
-    <value>項目</value>
+    <value>個項目</value>
   </data>
   <data name="CannotInitializeGitRepo" xml:space="preserve">
     <value>Files 無法將此目錄初始化為 Git 儲存庫</value>
@@ -3375,51 +3431,51 @@
     <value>速度：</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
-    <value>Canceled compressing {0} items to "{1}"</value>
+    <value>已取消將 {0} 個項目壓縮到「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled compressing {0} items from "{1}" to "{2}"</value>
+    <value>已取消將 {0} 個項目從「{1}」壓縮到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>Compressed {0} item(s) to "{1}"</value>
+    <value>已成功將 {0} 個項目壓縮到「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
-    <value>Compressed {0} item(s) from "{1}" to "{2}"</value>
+    <value>已成功將 {0} 個項目從「{1}」壓縮到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>將一個項目"{0}"壓縮到"{1}"時發生錯誤</value>
+    <value>壓縮 {0} 個項目到「{1}」時發生錯誤</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>Failed to compress {0} item(s) from "{1}" to "{2}"</value>
+    <value>無法將 {0} 個項目從「{1}」壓縮到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>Compressing {0} item(s) to "{1}"</value>
+    <value>正在將 {0} 個項目壓縮到「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
-    <value>Compressing {0} item(s) from "{1}" to "{2}"</value>
+    <value>正在將 {0} 個項目從「{1}」壓縮到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Canceled copying {0} item(s) to "{1}"</value>
+    <value>已取消將 {0} 個項目複製到「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled copying {0} item(s) from "{1}" to "{2}"</value>
+    <value>已取消將 {0} 個項目從「{1}」複製到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Copied {0} item(s) to "{1}"</value>
+    <value>已成功將 {0} 個項目複製到「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>Copied {0} item(s) from "{1}" to "{2}"</value>
+    <value>已成功將 {0} 個項目從「{1}」複製到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
@@ -3427,91 +3483,91 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>Failed to copy {0} item(s) from "{1}" to "{2}"</value>
+    <value>無法將 {0} 個項目從「{1}」複製到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
-    <value>Copying {0} item(s) to "{1}"</value>
+    <value>正在將 {0} 個項目複製到「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>Copying {0} item(s) from "{1}" to "{2}"</value>
+    <value>正在將 {0} 個項目從「{1}」複製到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
-    <value>Canceled extracting "{0}" to "{1}"</value>
+    <value>已取消將「{0}」解壓縮到「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled extracting "{0}" from "{1}" to "{2}"</value>
+    <value>已取消將「{0}」從「{1}」解壓縮到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_Header" xml:space="preserve">
-    <value>Extracted "{0}" to "{1}"</value>
+    <value>已成功將「{0}」解壓縮到「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressComplete_SubHeader" xml:space="preserve">
-    <value>Extracted "{0}" from "{1}" to "{2}"</value>
+    <value>已成功將「{0}」從「{1}」解壓縮到 「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
-    <value>將“{0}”解壓縮到“{1}”時發生錯誤</value>
+    <value>將「{0}」解壓縮到「{1}」時發生錯誤</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
-    <value>Failed to extract "{0}" from "{1}" to "{2}"</value>
+    <value>無法將「{0}」從「{1}」解壓縮到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
-    <value>Extracting "{0}" to "{1}"</value>
+    <value>正在將「{0}」解壓縮到「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
-    <value>Extracting "{0}" from "{1}" to "{2}"</value>
+    <value>正在將「{0}」從「{1}」解壓縮到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled deleting {0} item(s) from "{1}"</value>
+    <value>已取消將 {0} 個項目從「{1}」刪除</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Deleted {0} item(s) from "{1}"</value>
+    <value>已成功將 {0} 個項目從「{1}」刪除</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>從“{1}”中刪除 {0} 個項目時發生錯誤</value>
+    <value>從「{1}」中刪除 {0} 個項目時發生錯誤</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Failed to delete {0} item(s) from "{1}"</value>
+    <value>無法將 {0} 個項目從「{1}」刪除</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Deleting {0} item(s) from "{1}"</value>
+    <value>正在將 {0} 個項目從「{1}」刪除</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>Canceled moving {0} item(s) to "{1}"</value>
+    <value>已取消將 {0} 個項目移動到「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled moving {0} item(s) from "{1}" to "{2}"</value>
+    <value>已取消將 {0} 個項目從「{1}」移動到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Moved {0} item(s) to "{1}"</value>
+    <value>已成功將 {0} 個項目移動到「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
-    <value>Moved {0} item(s) from "{1}" to "{2}"</value>
+    <value>已成功將 {0} 個項目從「{1}」移動到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
-    <value>Moving {0} item(s) to "{1}"</value>
+    <value>正在將 {0} 個項目移動到「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
-    <value>Moving {0} item(s) from "{1}" to "{2}"</value>
+    <value>正在將 {0} 個項目從「{1}」移動到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
@@ -3523,15 +3579,15 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
-    <value>Canceled emptying Recycle Bin</value>
+    <value>已取消清空資源回收桶</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinComplete_Header" xml:space="preserve">
-    <value>Emptied Recycle Bin</value>
+    <value>已清空資源回收桶</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinInProgress_Header" xml:space="preserve">
-    <value>Emptying Recycle Bin</value>
+    <value>正在清空資源回收桶</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
@@ -3543,78 +3599,78 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_Prepare_Header" xml:space="preserve">
-    <value>Preparing the operation...</value>
+    <value>正在準備檔案操作...</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} item(s) processed</value>
+    <value>已處理 {0}/{1} 個項目</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
-    <value>Unblock downloaded file</value>
+    <value>解除封鎖已下載的檔案</value>
   </data>
   <data name="NoFileOperations" xml:space="preserve">
-    <value>No ongoing file operations</value>
+    <value>目前沒有正在進行的檔案操作</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
+    <value>由於系統設定或群組原則，無法啟用在 Windows 啟動時開啟 Files 的選項。要重新啟用此選項，請在工作管理員中開啟「啟動」頁面。</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
-    <value>Failed to restore items from Recycle Bin</value>
+    <value>無法將項目從資源回收桶中復原</value>
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
-    <value>Failed to set the background wallpaper</value>
+    <value>無法設定背景桌布</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
-    <value>Delete Git branch</value>
+    <value>刪除 Git 分支</value>
   </data>
   <data name="GitDeleteBranchSubtitle" xml:space="preserve">
-    <value>Are you sure you want to permanently delete "{0}" branch?</value>
+    <value>確定要永久刪除分支 "{0}" 嗎?</value>
   </data>
   <data name="ConnectedToGitHub" xml:space="preserve">
-    <value>Connected to GitHub</value>
+    <value>已成功連接至 GitHub</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
+    <value>登出</value>
   </data>
   <data name="ConnectToGitHub" xml:space="preserve">
-    <value>連線至 Github</value>
+    <value>登入 GitHub</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Login</value>
+    <value>登入</value>
   </data>
   <data name="ErrorApplyingTagContent" xml:space="preserve">
-    <value>標籤目前只相容 NTFS格式的磁碟機。</value>
+    <value>標籤目前只相容 NTFS 格式的磁碟機。</value>
   </data>
   <data name="ErrorApplyingTagTitle" xml:space="preserve">
     <value>套用此標籤時發生錯誤</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to current folder for single-item archive, or to new folder for multi-item archive</value>
+    <value>如果壓縮檔內只有單一文件，將所選的壓縮檔解壓至目前文件夾，否則解壓縮至子資料夾。</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
-    <value>Extract here (Smart)</value>
+    <value>解壓縮至此（智慧）</value>
   </data>
   <data name="SortFilesAndFoldersTogether" xml:space="preserve">
-    <value>Sort files and folders together</value>
+    <value>同時排序檔案和資料夾</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>Sort files and folders together</value>
+    <value>同時排序檔案和資料夾</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
-    <value>Sort files first</value>
+    <value>優先排序檔案</value>
   </data>
   <data name="SortFilesFirstDescription" xml:space="preserve">
-    <value>Sort files first then folders</value>
+    <value>先排序檔案，再排序資料夾</value>
   </data>
   <data name="SortFoldersFirst" xml:space="preserve">
-    <value>Sort folders first</value>
+    <value>優先排序資料夾</value>
   </data>
   <data name="SortFoldersFirstDescription" xml:space="preserve">
-    <value>Sort folders first then files</value>
+    <value>先排序資料夾，再排序檔案</value>
   </data>
   <data name="SortPriority" xml:space="preserve">
-    <value>Sort priority</value>
+    <value>排序優先順序</value>
   </data>
   <data name="FailedToRotateImage" xml:space="preserve">
     <value>旋轉圖片失敗</value>
@@ -3656,7 +3712,7 @@
     <value>問題與討論</value>
   </data>
   <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Additional sizes are not yet available for the Tiles View.</value>
+    <value>磁磚（並排）模式下無法調整大小</value>
   </data>
   <data name="Compact" xml:space="preserve">
     <value>緊湊</value>
@@ -3671,23 +3727,23 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+" xml:space="preserve">
-    <value>中等+</value>
+    <value>中 +</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++" xml:space="preserve">
-    <value>中等 ++</value>
+    <value>中 ++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++" xml:space="preserve">
-    <value>中等 +++</value>
+    <value>中 +++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++++" xml:space="preserve">
-    <value>中等 +++++</value>
+    <value>中 ++++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++++" xml:space="preserve">
-    <value>中等 ++++++</value>
+    <value>中 +++++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large" xml:space="preserve">
@@ -3715,5 +3771,237 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>佈局類型</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>指令</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>新增指令</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>恢復預設值</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>請選擇要執行的指令</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>是否確定要重置回預設的按鍵設定? 此操作無法復原</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>此按鍵組合已被使用，請使用其他按鍵組合</value>
+  </data>
+  <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
+    <value>此按鍵組合無法使用，請使用其他按鍵組合</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>自訂</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>當偏好設定同步時，調適性配置無法使用，預設配置類型已變更為詳細資料。</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>背景圖片</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>底端對齊</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>置中</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>填滿</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>水平對齊</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>圖片調整</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>靠左對齊</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>透明度</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>靠右對齊</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>頂部對齊</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>等比例</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>等比例填滿</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>垂直對齊</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>薄亞克力</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>在所有地方顯示</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>開發者工具</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>在狀態欄顯示「在IDE開啟」的選項</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>僅在 Git Repository 時顯示</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>應用程式擴充</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>ICO 檔案</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Zip 檔案</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>點陣圖檔</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>數字鍵盤</value>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>網路位置</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>目前沒有網路位置。如果您不使用網路位置，您可以停用這個小工具。</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>停用</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>在記事本中編輯</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>在記事本中編輯所選檔案</value>
+  </data>
+  <data name="PropertyDimensionsColon" xml:space="preserve">
+    <value>尺寸：</value>
+  </data>
+  <data name="StatusWithColon" xml:space="preserve">
+    <value>狀態：</value>
+  </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>顯示工具欄</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>索引標籤功能表</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>新增上下分割畫面</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>將畫面分割成上、下視窗</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>新增左右分割畫面</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>將畫面分割成左、右視窗</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>調整為上下分割模式</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>上下分割畫面</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>調整為左右分割模式</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>左右分割畫面</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>開啟分割畫面</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>在標題欄顯示索引標籤功能表</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>調整分割畫面</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>預設分割畫面排列方式</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>左右排列</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>上下分割</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>在系統匣顯示 Files 圖示</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>CPU 執行緒</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>前往首頁</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>在路徑欄顯示首頁鍵</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>工具欄</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>使用者 ID</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>批次重新命名</value>
+  </data>
+  <data name="ShowCreateAlternateDataStream" xml:space="preserve">
+    <value>顯示「建立 Alternate Data Stream」的選項</value>
+  </data>
+  <data name="CreateAlternateDataStream" xml:space="preserve">
+    <value>建立 Alternate Data Stream</value>
+  </data>
+  <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
+    <value>為選取的項目建立 Alternate Data Stream</value>
+  </data>
+  <data name="EnterDataStreamName" xml:space="preserve">
+    <value>輸入 Data Stream 名稱</value>
+  </data>
+  <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
+    <value>建立 Alternate Data Stream 時發生錯誤</value>
+  </data>
+  <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
+    <value>請注意，Alternate Data Stream只適用於NTFS系統</value>
+  </data>
+  <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
+    <value>目前 Alternate Data Stream 為隱藏狀態</value>
+  </data>
+  <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
+    <value>是否要顯示 Alternate Data Stream? 您隨時可以在「設定 &gt; 檔案與資料夾」中更改設定</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Manage tags</value>
   </data>
 </root>

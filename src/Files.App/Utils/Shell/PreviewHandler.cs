@@ -147,15 +147,6 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		[Flags]
-		enum ClassContext : uint
-		{
-			LocalServer = 0x4
-		}
-
-		[DllImport("ole32.dll", CallingConvention = CallingConvention.StdCall)]
-		static extern HRESULT CoCreateInstance(ref Guid rclsid, IntPtr pUnkOuter, ClassContext dwClsContext, ref Guid riid, out IntPtr ppv);
-
 		static readonly Guid IPreviewHandlerIid = Guid.ParseExact("8895b1c6-b41f-4c1c-a562-0d564250836f", "d");
 
 		void SetupHandler(Guid clsid)
@@ -169,7 +160,8 @@ namespace Files.App.Utils.Shell
 			// If we use Activator.CreateInstance(Type.GetTypeFromCLSID(...)),
 			// CLR will allow in-process server, which defeats isolation and
 			// creates strange bugs.
-			HRESULT hr = CoCreateInstance(ref clsid, IntPtr.Zero, ClassContext.LocalServer, ref iid, out pph);
+			Windows.Win32.Foundation.HRESULT hr2 = Win32PInvoke.CoCreateInstance(ref clsid, IntPtr.Zero, Win32PInvoke.ClassContext.LocalServer, ref iid, out pph);
+			HRESULT hr = new(hr2.Value);
 			// See https://blogs.msdn.microsoft.com/adioltean/2005/06/24/when-cocreateinstance-returns-0x80080005-co_e_server_exec_failure/
 			// CO_E_SERVER_EXEC_FAILURE also tends to happen when debugging in Visual Studio.
 			// Moreover, to create the instance in a server at low integrity level, we need

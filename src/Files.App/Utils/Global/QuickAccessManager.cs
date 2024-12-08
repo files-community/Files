@@ -30,8 +30,7 @@ namespace Files.App.Utils
 			{
 				Path = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations"),
 				Filter = "f01b4d95cf55d32a.automaticDestinations-ms",
-				NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName,
-				EnableRaisingEvents = true
+				NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName
 			};
 
 			PinnedItemsWatcher.Changed += PinnedItemsWatcher_Changed;

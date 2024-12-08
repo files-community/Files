@@ -17,8 +17,12 @@ namespace Files.App.Data.Items
 
 		// Properties
 
+		public IWidgetViewModel _WidgetItemModel;
 		public IWidgetViewModel WidgetItemModel
-			=> WidgetControl as IWidgetViewModel;
+		{
+			get => _WidgetItemModel;
+			set => SetProperty(ref _WidgetItemModel, value);
+		}
 
 		public string WidgetAutomationProperties
 			=> WidgetItemModel.AutomationProperties;
@@ -48,11 +52,12 @@ namespace Files.App.Data.Items
 
 		// Constructor
 
-		public WidgetContainerItem(object widgetControl, Action<bool> expanderValueChangedCallback, Func<bool> expanderValueRequestedCallback)
+		public WidgetContainerItem(object widgetControl, IWidgetViewModel widgetItemModel, Action<bool> expanderValueChangedCallback, Func<bool> expanderValueRequestedCallback)
 		{
 			_expanderValueChangedCallback = expanderValueChangedCallback;
 			_expanderValueRequestedCallback = expanderValueRequestedCallback;
 
+			WidgetItemModel = widgetItemModel;
 			WidgetControl = widgetControl;
 		}
 

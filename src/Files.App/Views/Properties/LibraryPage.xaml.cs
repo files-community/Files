@@ -1,26 +1,17 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Files.App.Utils;
-using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.Storage.Pickers;
 
 namespace Files.App.Views.Properties
 {
 	public sealed partial class LibraryPage : BasePropertiesPage, INotifyPropertyChanged
 	{
+		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
+
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -100,10 +91,11 @@ namespace Files.App.Views.Properties
 
 		private async Task AddLocationAsync()
 		{
-			var folderPicker = InitializeWithWindow(new FolderPicker());
-			folderPicker.FileTypeFilter.Add("*");
+			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);
+			if (!result)
+				return;
 
-			var folder = await folderPicker.PickSingleFolderAsync();
+			var folder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(filePath);
 			if (folder is not null && !Folders.Any((f) => string.Equals(folder.Path, f.Path, StringComparison.OrdinalIgnoreCase)))
 			{
 				bool isDefault = Folders.Count == 0;
@@ -113,13 +105,6 @@ namespace Files.App.Views.Properties
 					NotifyPropertyChanged(nameof(IsLibraryEmpty));
 				}
 			}
-		}
-
-		// WINUI3
-		private FolderPicker InitializeWithWindow(FolderPicker obj)
-		{
-			WinRT.Interop.InitializeWithWindow.Initialize(obj, MainWindow.Instance.WindowHandle);
-			return obj;
 		}
 
 		private void SetDefaultLocation()

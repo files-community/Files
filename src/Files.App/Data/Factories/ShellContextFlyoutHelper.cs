@@ -9,10 +9,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
-using Vanara.PInvoke;
 using Windows.System;
 using Windows.UI.Core;
-using static Vanara.PInvoke.Kernel32;
+using Windows.Win32;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Helpers
 {
@@ -45,6 +45,7 @@ namespace Files.App.Helpers
 					Win32Helper.ExtractStringFromDLL("shell32.dll", 5385), // Unpin from Start
 					Win32Helper.ExtractStringFromDLL("shell32.dll", 5386), // Pin to taskbar
 					Win32Helper.ExtractStringFromDLL("shell32.dll", 5387), // Unpin from taskbar
+					"{9F156763-7844-4DC4-B2B1-901F640F5155}", // Open in Terminal
 				};
 
 				bool filterMenuItemsImpl(string menuItem) => !string.IsNullOrEmpty(menuItem)
@@ -54,7 +55,7 @@ namespace Files.App.Helpers
 			}
 
 			var contextMenu = await ContextMenu.GetContextMenuForFiles(filePaths,
-				shiftPressed ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL, FilterMenuItems(showOpenMenu));
+				shiftPressed ? PInvoke.CMF_EXTENDEDVERBS : PInvoke.CMF_NORMAL, FilterMenuItems(showOpenMenu));
 
 			if (contextMenu is not null)
 				LoadMenuFlyoutItem(menuItemsList, contextMenu, contextMenu.Items, cancellationToken, true);
@@ -77,10 +78,10 @@ namespace Files.App.Helpers
 				return;
 
 			var itemsCount = 0; // Separators do not count for reaching the overflow threshold
-			var menuItems = menuFlyoutItems.TakeWhile(x => x.Type == MenuItemType.MFT_SEPARATOR || ++itemsCount <= itemsBeforeOverflow).ToList();
+			var menuItems = menuFlyoutItems.TakeWhile(x => x.Type == MENU_ITEM_TYPE.MFT_SEPARATOR || ++itemsCount <= itemsBeforeOverflow).ToList();
 			var overflowItems = menuFlyoutItems.Except(menuItems).ToList();
 
-			if (overflowItems.Any(x => x.Type != MenuItemType.MFT_SEPARATOR))
+			if (overflowItems.Any(x => x.Type != MENU_ITEM_TYPE.MFT_SEPARATOR))
 			{
 				var moreItem = menuItemsListLocal.FirstOrDefault(x => x.ID == "ItemOverflow");
 				if (moreItem is null)
@@ -100,15 +101,15 @@ namespace Files.App.Helpers
 			}
 
 			foreach (var menuFlyoutItem in menuItems
-				.SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR) // Remove leading separators
+				.SkipWhile(x => x.Type == MENU_ITEM_TYPE.MFT_SEPARATOR) // Remove leading separators
 				.Reverse()
-				.SkipWhile(x => x.Type == MenuItemType.MFT_SEPARATOR)) // Remove trailing separators
+				.SkipWhile(x => x.Type == MENU_ITEM_TYPE.MFT_SEPARATOR)) // Remove trailing separators
 			{
 				if (cancellationToken.IsCancellationRequested)
 					break;
 
 				// Avoid duplicate separators
-				if ((menuFlyoutItem.Type == MenuItemType.MFT_SEPARATOR) && (menuItemsListLocal.FirstOrDefault()?.ItemType == ContextMenuFlyoutItemType.Separator))
+				if ((menuFlyoutItem.Type == MENU_ITEM_TYPE.MFT_SEPARATOR) && (menuItemsListLocal.FirstOrDefault()?.ItemType == ContextMenuFlyoutItemType.Separator))
 					continue;
 
 				BitmapImage? image = null;
@@ -119,7 +120,7 @@ namespace Files.App.Helpers
 					image.SetSourceAsync(ms.AsRandomAccessStream()).AsTask().Wait(10);
 				}
 
-				if (menuFlyoutItem.Type is MenuItemType.MFT_SEPARATOR)
+				if (menuFlyoutItem.Type is MENU_ITEM_TYPE.MFT_SEPARATOR)
 				{
 					var menuLayoutItem = new ContextMenuFlyoutItemViewModel()
 					{
@@ -336,15 +337,19 @@ namespace Files.App.Helpers
 				{
 					await openWithItem.LoadSubMenuAction();
 
-					openWithItem.OpacityIcon = new OpacityIconModel()
+					openWithItem.ThemedIconModel = new ThemedIconModel()
 					{
-						OpacityIconStyle = "ColorIconOpenWith",
+						ThemedIconStyle = "App.ThemedIcons.OpenWith",
 					};
 					var (_, openWithItems) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel([openWithItem]);
+					var index = 0;
 					var placeholder = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => Equals((x as AppBarButton)?.Tag, "OpenWithPlaceholder")) as AppBarButton;
 					if (placeholder is not null)
+					{
 						placeholder.Visibility = Visibility.Collapsed;
-					itemContextMenuFlyout.SecondaryCommands.Insert(0, openWithItems.FirstOrDefault());
+						index = itemContextMenuFlyout.SecondaryCommands.IndexOf(placeholder);
+					}
+					itemContextMenuFlyout.SecondaryCommands.Insert(index, openWithItems.FirstOrDefault());
 				}
 
 				// Add items to sendto dropdown
@@ -353,10 +358,14 @@ namespace Files.App.Helpers
 					await sendToItem.LoadSubMenuAction();
 
 					var (_, sendToItems) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel([sendToItem]);
+					var index = 1;
 					var placeholder = itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => Equals((x as AppBarButton)?.Tag, "SendToPlaceholder")) as AppBarButton;
 					if (placeholder is not null)
+					{
 						placeholder.Visibility = Visibility.Collapsed;
-					itemContextMenuFlyout.SecondaryCommands.Insert(1, sendToItems.FirstOrDefault());
+						index = itemContextMenuFlyout.SecondaryCommands.IndexOf(placeholder);
+					}
+					itemContextMenuFlyout.SecondaryCommands.Insert(index, sendToItems.FirstOrDefault());
 				}
 
 				// Add items to shell submenu

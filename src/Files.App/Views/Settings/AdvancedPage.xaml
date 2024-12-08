@@ -16,7 +16,7 @@
 	<Page.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+				<ResourceDictionary Source="/Styles/ToggleSwitchStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -32,11 +32,6 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Spacing="4">
-			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<EntranceThemeTransition />
-				</TransitionCollection>
-			</StackPanel.ChildrenTransitions>
 
 			<!--  Title  -->
 			<TextBlock
@@ -129,6 +124,17 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
+			<!--  System Tray Icon  -->
+			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowSystemTrayIcon}" HorizontalAlignment="Stretch">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE75B;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowSystemTrayIcon}"
+					IsOn="{x:Bind ViewModel.ShowSystemTrayIcon, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</local:SettingsBlockControl>
+
 			<!--  Experimental Settings  -->
 			<TextBlock
 				Padding="0,16,0,4"
@@ -177,6 +183,20 @@
 						</icore:EventTriggerBehavior>
 					</i:Interaction.Behaviors>
 				</ToggleSwitch>
+			</local:SettingsBlockControl>
+
+			<!--  Flatten options  -->
+			<local:SettingsBlockControl
+				Title="{helpers:ResourceString Name=ShowFlattenOptions}"
+				HorizontalAlignment="Stretch"
+				Description="{helpers:ResourceString Name=ShowFlattenOptionsDescription}">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE8B7;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowFlattenOptions}"
+					IsOn="{x:Bind ViewModel.ShowFlattenOptions, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 		</StackPanel>
 	</Grid>

@@ -126,6 +126,9 @@
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>引用符付きでパスのコピー</value>
   </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>選択した項目のパスを引用符付きでコピー</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>参照</value>
   </data>
@@ -216,8 +219,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>外観</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>背景</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>背景の色</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>高度な設定</value>
@@ -248,6 +251,9 @@
   </data>
   <data name="Paste" xml:space="preserve">
     <value>貼り付け</value>
+  </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>ショートカットを貼り付け</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>新規作成</value>
@@ -291,8 +297,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>名前を入力</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>名前を設定</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>新しい{0}を作成</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>ライト</value>
@@ -339,6 +345,9 @@
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>ロック画面の背景に設定</value>
   </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>アプリの背景に設定</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>この項目を削除できませんでした</value>
   </data>
@@ -382,28 +391,40 @@
     <value>読み取り専用</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0} 日前</value>
+    <value>{0, plural, other {# 日前}}</value>
   </data>
-  <data name="DayAgo" xml:space="preserve">
+  <data name="DaysAgo_Singular" xml:space="preserve">
+    <value>1 日前</value>
+  </data>
+  <data name="DaysAgo_Plural" xml:space="preserve">
     <value>{0} 日前</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0} 時間前</value>
+    <value>{0, plural, other {# 時間前}}</value>
   </data>
-  <data name="HourAgo" xml:space="preserve">
+  <data name="HoursAgo_Singular" xml:space="preserve">
+    <value>1 時間前</value>
+  </data>
+  <data name="HoursAgo_Plural" xml:space="preserve">
     <value>{0} 時間前</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>{0} 分前</value>
+    <value>{0, plural, other {# 分前}}</value>
   </data>
-  <data name="MinuteAgo" xml:space="preserve">
+  <data name="MinutesAgo_Singular" xml:space="preserve">
+    <value>1 分前</value>
+  </data>
+  <data name="MinutesAgo_Plural" xml:space="preserve">
     <value>{0} 分前</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>{0} 秒前</value>
+    <value>{0, plural, other {# 秒前}}</value>
   </data>
-  <data name="OneSecondAgo" xml:space="preserve">
+  <data name="SecondsAgo_Singular" xml:space="preserve">
     <value>1 秒前</value>
+  </data>
+  <data name="SecondsAgo_Plural" xml:space="preserve">
+    <value>{0} 秒前</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>今</value>
@@ -423,17 +444,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>指定された項目名は無効です</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>個の項目を選択</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, other {# 個の項目を選択}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>個の項目を選択</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>個の項目</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>個の項目</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, other {個の項目}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>はい</value>
@@ -466,10 +483,10 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} ファイル, {1:#,##0} フォルダー</value>
+    <value>{0, number} {0, plural, other {ファイル}}、{1, number} {1, plural, other {フォルダー}}</value>
   </data>
-  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{2:#,##0} か所からの {0:#,##0} ファイル, {1:#,##0} フォルダー</value>
+  <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
+    <value>{2, number} {2, plural, other {か所}}からの {0, number} {0, plural, other {ファイル}}、{1, number} {1, plural, other {フォルダー}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>別のユーザーとして実行</value>
@@ -501,7 +518,7 @@
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>ここにタブを移動</value>
   </data>
-  <data name="syncStatusColumn.Header" xml:space="preserve">
+  <data name="Status" xml:space="preserve">
     <value>状態</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
@@ -622,7 +639,7 @@
     <value>キャンセル</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>新しいファイルの作成</value>
+    <value>新しい項目を作成</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
     <value>以下から新しい項目の種類を選択してください</value>
@@ -882,6 +899,12 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>エンコード ビットレート</value>
   </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>音声エンコード ビットレート</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>動画エンコード ビットレート</value>
+  </data>
   <data name="Compression" xml:space="preserve">
     <value>圧縮</value>
   </data>
@@ -1065,6 +1088,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>詳細およびプレビューのための情報ウィンドウを表示するかどうかを切り替える</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>ツールバーの表示を切り替える</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>プレビューを利用できません</value>
   </data>
@@ -1073,9 +1099,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>サイドバーからピン留めを外す</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>ネットワーク ドライブ</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>ネットワーク</value>
@@ -1221,50 +1244,47 @@
   <data name="OpenStorageSense" xml:space="preserve">
     <value>ストレージ センサーを開く</value>
   </data>
+  <data name="OpenStorageSenseDescription" xml:space="preserve">
+    <value>Windows 設定のストレージ センサー ページを開く</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>クリーンアップ</value>
+  </data>
   <data name="Copy" xml:space="preserve">
     <value>コピー</value>
   </data>
-  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} 個の項目がコピーされます</value>
-  </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>項目をコピー</value>
+    <value>{0, plural, other {項目}}をコピー</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>項目を削除</value>
+    <value>{0, plural, other {項目}}を削除</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>移動</value>
   </data>
-  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} 個の項目が移動されます</value>
+  <data name="MoveItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, other {# 個の項目が移動されます}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>項目を移動</value>
+    <value>{0, plural, other {項目}}を移動</value>
   </data>
-  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} 個の項目が削除されます</value>
+  <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, other {# 個の項目が削除されます}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>続行</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>{0} 個の競合するファイル名と、{1} 個の競合しない項目があります</value>
+  <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
+    <value>{0, plural, other {# 個の競合するファイル名}}があります</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
+    <value>{0, plural, other {# 個の競合するファイル名}}と、{1, plural, other {# 個の競合しない項目}}があります</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>ファイル名が競合しています</value>
+    <value>{0, plural, other {ファイル名}}が競合しています</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>1 個の競合するファイル名と、{0} 個の競合しない項目があります</value>
-  </data>
-  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>1 個の項目がコピーされます</value>
-  </data>
-  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>1 個の項目が削除されます</value>
-  </data>
-  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>1 個の項目が移動されます</value>
+  <data name="CopyItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, other {# 個の項目がコピーされます}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>完全に削除</value>
@@ -1277,12 +1297,6 @@
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>名前を変更</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>{0} 個の競合するファイル名があります</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>1 個の競合するファイル名があります</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>選択した項目でフォルダーを作成</value>
@@ -1372,10 +1386,10 @@
     <value>{0}年</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
-    <value>{0} 項目</value>
+    <value>{0} 個の項目</value>
   </data>
   <data name="GroupItemsCount_Plural" xml:space="preserve">
-    <value>{0} 項目</value>
+    <value>{0} 個の項目</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
     <value>閉じたタブを再度開く</value>
@@ -1459,7 +1473,7 @@
     <value>{0} へ展開</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
-    <value>新しいライブラリの作成</value>
+    <value>新しいライブラリを作成</value>
   </data>
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
     <value>既定のライブラリを復元</value>
@@ -1584,8 +1598,8 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>すべての子オブジェクトのアクセス許可エントリを、このオブジェクトから継承可能なアクセス許可エントリに置き換えます</value>
   </data>
-  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>ペインを閉じる</value>
+  <data name="CloseActivePane" xml:space="preserve">
+    <value>現在のペインを閉じる</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>コンパクト オーバーレイを開始</value>
@@ -1614,8 +1628,8 @@
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>クラウドから項目をダウンロードし、プレビューを表示する</value>
   </data>
-  <data name="DetailsArchiveItemCount" xml:space="preserve">
-    <value>{0} 項目 ({1} ファイル、{2} フォルダー)</value>
+  <data name="DetailsArchiveItems" xml:space="preserve">
+    <value>{0, plural, other {# 項目}} ({1, plural, other {# ファイル}}、{2, plural, other {# フォルダー}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>圧縮前のサイズ</value>
@@ -1697,12 +1711,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>ユーザー名</value>
-  </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>ドライブ ウィジェット</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>最近のファイル ウィジェット</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>項目は見つかりませんでした</value>
@@ -1851,11 +1859,14 @@
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
     <value>カラーを制限しない</value>
   </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>サード パーティ ライセンス</value>
+  <data name="ThirdPartyLibraries" xml:space="preserve">
+    <value>サード パーティ ライブラリ</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>この設定はシステムのレジストリを変更し、デバイスに思わぬ結果をもたらす可能性があります。問題が発生しても開発者は責任を負いません。</value>
+  </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>フラット化の操作は恒久的で推奨されません。問題が発生しても開発者は責任を負いません。</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>ライブラリを作成</value>
@@ -1934,6 +1945,9 @@
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>他のタブを閉じる</value>
+  </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>すべてのタブを閉じる</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>ミュージック</value>
@@ -2030,6 +2044,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>圧縮</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>すべての項目をサブフォルダーから選択した場所に移動する</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>フォルダーをフラット化</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>フラット化</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>フォルダーをフラット化すると、そのサブフォルダーから選択した場所にすべての項目を移動します。この操作は恒久的で、元に戻すことはできません。この実験的機能を使用する場合は、リスクを認識し、Files 開発チームはあらゆるデータ損失に対する責任を負わないことに同意してください。</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>フラット化のオプションを表示</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>カーソルを合わせたファイルとフォルダーを選択する</value>
@@ -2251,7 +2280,7 @@
     <value>隠しファイルを表示</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>フォーマット…</value>
+    <value>フォーマット</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>ヘルプ</value>
@@ -2361,6 +2390,9 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>隠しファイルを表示するかどうかを切り替える</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>ドット ファイルを表示するかどうかを切り替える</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>ファイル名拡張子を表示するかどうかを切り替える</value>
   </data>
@@ -2374,16 +2406,25 @@
     <value>項目をクリップボードにコピーする</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
+    <value>現在のディレクトリのパスをクリップボードにコピーする</value>
+  </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
     <value>選択した項目のパスをクリップボードにコピーする</value>
   </data>
-  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
     <value>選択した項目のパスを引用符付きでクリップボードにコピーする</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>現在のディレクトリのパスを引用符付きでクリップボードにコピーする</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>項目をクリップボードに切り取る</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>項目をクリップボードから現在のフォルダーに貼り付ける</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>項目をクリップボードから現在のフォルダーにショートカットとして貼り付ける</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>項目をクリップボードから選択したフォルダーに貼り付ける</value>
@@ -2462,6 +2503,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>選択した画像をロック画面の背景に設定する</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>選択した画像をアプリの背景に設定する</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>選択したフォントをインストールする</value>
@@ -2661,6 +2705,9 @@
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>選択したタブ以外のタブを閉じる</value>
   </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>現在のタブを含むすべてのタブを閉じる</value>
+  </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>最後に閉じたタブを再度開く</value>
   </data>
@@ -2673,11 +2720,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>現在のタブを閉じる</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>新しいペインを開く</value>
+  <data name="CloseActivePaneDescription" xml:space="preserve">
+    <value>現在のペインを閉じる</value>
   </data>
-  <data name="ClosePaneDescription" xml:space="preserve">
-    <value>右ペインを閉じる</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>別のペインに移動</value>
+  </data>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>現在のペインでないペインに移動する</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>サイドバーの表示を切り替える</value>
@@ -3058,8 +3108,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>プロパティを開く</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>エクスプローラーのプロパティを開く</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>プロパティ ウィンドウを開く</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>エクスプローラーのプロパティ ウィンドウを開く</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>ローカル</value>
@@ -3123,7 +3179,7 @@
     <value>マイカ Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>背景の素材</value>
+    <value>背景</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>ソリッド</value>
@@ -3265,7 +3321,7 @@
     <value>Files は管理者として実行されています</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>プラットフォームの制約により、Files を管理者として実行している場合はドラッグ アンド ドロップを使用できません。</value>
+    <value>Windows および WinAppSdk の制限により、Files を管理者として実行している場合はドラッグ アンド ドロップを使用できません。ドラッグ アンド ドロップを使用したい場合は、スタート メニューから UAC (ユーザー アカウント制御) を開き、3番目のレベルを選択して Windows を再起動することでこの制限を回避できます。そうでない場合は、ドラッグ アンド ドロップなしで Files を使い続けることもできます。</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>ウィンドウを閉じたときにアプリをバックグラウンドで実行したままにする</value>
@@ -3715,5 +3771,237 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>レイアウトの種類</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>コマンド</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>コマンドを追加</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>初期設定に戻す</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>操作を選択</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>キーの割り当てを初期設定に戻しますか? この操作は取り消すことができません。</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>このキーの割り当ては既に使用されています。別のキーを割り当ててください。</value>
+  </data>
+  <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
+    <value>選択したキーの割り当ては使用できません。異なるキーの割り当てを使用して再度試してください。</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>カスタマイズされています</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>レイアウトの自動選択は設定を同期している場合は使用できません。レイアウトの種類は [詳細] に変更されています。</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>背景画像</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>下</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>中央</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>拡大して表示</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>水平方向の配置</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>画像の調整</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>左</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>不透明度</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>右</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>上</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>ウィンドウのサイズに合わせる</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>ページ幅に合わせる</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>垂直方向の配置</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>薄いアクリル</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>すべての場所で表示</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>開発者向けツール</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>ステータス バーの [IDE で開く] ボタンを設定する</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Git リポジトリで表示</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>アプリケーション拡張</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>ICO ファイル</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Zip ファイル</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>ビットマップ ファイル</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>Num</value>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>ネットワークの場所</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>ネットワークの場所がありません。ネットワークの場所を使用しない場合は、ウィジェットを無効にすることができます。</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>無効にする</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>メモ帳で編集</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>選択したファイルをメモ帳で編集する</value>
+  </data>
+  <data name="PropertyDimensionsColon" xml:space="preserve">
+    <value>サイズ:</value>
+  </data>
+  <data name="StatusWithColon" xml:space="preserve">
+    <value>状態:</value>
+  </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>ツールバーを表示する</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>タブ操作メニュー</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>縦にペインを追加</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>縦にペインを追加する</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>横にペインを追加</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>横にペインを追加する</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>縦に配置</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>ペインを縦に配置する</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>横に配置</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>ペインを横に配置する</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>ペインを追加</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>タイトル バーにタブ操作ボタンを表示する</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>ペインの配置</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>デフォルトのペイン配置</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>横</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>縦</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>システム トレイに Files のアイコンを表示する</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>CPU スレッド数</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>ホーム ページに移動する</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>アドレス バーに [ホーム] ボタンを表示する</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>ツールバー</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>ユーザー ID</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>名前を一括して変更</value>
+  </data>
+  <data name="ShowCreateAlternateDataStream" xml:space="preserve">
+    <value>[代替データ ストリームの作成] オプションを表示する</value>
+  </data>
+  <data name="CreateAlternateDataStream" xml:space="preserve">
+    <value>代替データ ストリームの作成</value>
+  </data>
+  <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
+    <value>選択した項目の代替データ ストリームを作成する</value>
+  </data>
+  <data name="EnterDataStreamName" xml:space="preserve">
+    <value>データ ストリーム名を入力</value>
+  </data>
+  <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
+    <value>代替データ ストリームの作成中にエラーが発生しました</value>
+  </data>
+  <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
+    <value>代替データ ストリームはNTFSでフォーマットされたドライブでのみ動作することに注意してください。</value>
+  </data>
+  <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
+    <value>代替データ ストリームは現在表示されていません</value>
+  </data>
+  <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
+    <value>代替データ ストリームを表示しますか? ファイルとフォルダーの設定ページからいつでもこの設定を変更できます。</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>タグの管理</value>
   </data>
 </root>

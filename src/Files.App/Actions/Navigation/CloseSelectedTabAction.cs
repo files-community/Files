@@ -24,7 +24,7 @@ namespace Files.App.Actions
 		{
 		}
 
-		public override Task ExecuteAsync()
+		public override Task ExecuteAsync(object? parameter = null)
 		{
 			context.Control!.CloseTab(context.CurrentTabItem);
 

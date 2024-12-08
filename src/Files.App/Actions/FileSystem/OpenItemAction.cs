@@ -17,16 +17,14 @@ namespace Files.App.Actions
 			=> "OpenItemDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconOpenFile");
+			=> new(themedIconStyle: "App.ThemedIcons.OpenFile");
 
 		public HotKey HotKey
 			=> new(Keys.Enter);
 
-		private const int MaxOpenCount = 10;
 
 		public bool IsExecutable =>
 			context.HasSelection &&
-			context.SelectedItems.Count <= MaxOpenCount &&
 			!(context.ShellPage is ColumnShellPage &&
 			context.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder);
 
@@ -37,7 +35,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage is not null)
 				return NavigationHelpers.OpenSelectedItemsAsync(context.ShellPage);
@@ -63,7 +61,7 @@ namespace Files.App.Actions
 			=> "OpenItemWithApplicationPickerDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconOpenWith");
+			=> new(themedIconStyle: "App.ThemedIcons.OpenWith");
 
 		public bool IsExecutable =>
 			context.HasSelection &&
@@ -78,7 +76,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage is null)
 				return Task.CompletedTask;
@@ -118,7 +116,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public async Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage is null)
 				return;

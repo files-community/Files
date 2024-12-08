@@ -1,27 +1,42 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.UI.Windowing;
 
 namespace Files.App.Data.Contexts
 {
+	/// <inheritdoc cref="IWindowContext"/>
 	internal sealed class WindowContext : ObservableObject, IWindowContext
 	{
+		private IWindowsSecurityService WindowsSecurityService = Ioc.Default.GetRequiredService<IWindowsSecurityService>();
+
 		private bool isCompactOverlay;
+		/// <inheritdoc/>
 		public bool IsCompactOverlay => isCompactOverlay;
+
+		/// <inheritdoc/>
+		public bool IsRunningAsAdmin { get; private set; }
+
+		/// <inheritdoc/>
+		public bool CanDragAndDrop { get; private set; }
 
 		public WindowContext()
 		{
-			MainWindow.Instance.PresenterChanged += Window_PresenterChanged;
+			IsRunningAsAdmin = WindowsSecurityService.IsAppElevated();
+			CanDragAndDrop = WindowsSecurityService.CanDragAndDrop();
+
+			MainWindow.Instance.AppWindow.Changed += AppWindow_Changed;
 		}
 
-		private void Window_PresenterChanged(object? sender, AppWindowPresenter e)
+		private void AppWindow_Changed(AppWindow sender, AppWindowChangedEventArgs args)
 		{
-			SetProperty(
-				ref isCompactOverlay,
-				e.Kind is AppWindowPresenterKind.CompactOverlay,
-				nameof(IsCompactOverlay));
+			if (args.DidPresenterChange)
+			{
+				SetProperty(
+					ref isCompactOverlay,
+					sender.Presenter.Kind is AppWindowPresenterKind.CompactOverlay,
+					nameof(IsCompactOverlay));
+			}
 		}
 	}
 }

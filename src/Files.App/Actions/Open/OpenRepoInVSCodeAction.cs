@@ -31,9 +31,9 @@ namespace Files.App.Actions
 				_context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
-			return Win32Helper.RunPowershellCommandAsync($"code \'{_context.ShellPage!.InstanceViewModel.GitRepositoryPath}\'", false);
+			return Win32Helper.RunPowershellCommandAsync($"code \'{_context.ShellPage!.InstanceViewModel.GitRepositoryPath}\'", PowerShellExecutionOptions.Hidden);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

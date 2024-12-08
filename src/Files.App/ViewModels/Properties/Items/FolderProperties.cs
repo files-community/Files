@@ -10,6 +10,8 @@ namespace Files.App.ViewModels.Properties
 {
 	internal sealed class FolderProperties : BaseProperties
 	{
+		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
+
 		public ListedItem Item { get; }
 
 		public FolderProperties(
@@ -71,8 +73,9 @@ namespace Files.App.ViewModels.Properties
 
 		public async override Task GetSpecialPropertiesAsync()
 		{
-			ViewModel.IsHidden = NativeFileOperationsHelper.HasFileAttribute(
-				Item.ItemPath, System.IO.FileAttributes.Hidden);
+			ViewModel.IsHidden = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+			ViewModel.CanCompressContent = Win32Helper.CanCompressContent(Item.ItemPath);
+			ViewModel.IsContentCompressed = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Compressed);
 
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Item.ItemPath,
@@ -94,7 +97,7 @@ namespace Files.App.ViewModels.Properties
 
 				// Only load the size for items on the device
 				if (Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
-					ViewModel.ItemSizeOnDisk = NativeFileOperationsHelper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
+					ViewModel.ItemSizeOnDisk = Win32Helper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
 					   string.Empty;
 
 				ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
@@ -107,7 +110,7 @@ namespace Files.App.ViewModels.Properties
 			}
 
 			string folderPath = (Item as ShortcutItem)?.TargetPath ?? Item.ItemPath;
-			BaseStorageFolder storageFolder = await AppInstance.FilesystemViewModel.GetFolderFromPathAsync(folderPath);
+			BaseStorageFolder storageFolder = await AppInstance.ShellViewModel.GetFolderFromPathAsync(folderPath);
 
 			if (storageFolder is not null)
 			{
@@ -123,7 +126,7 @@ namespace Files.App.ViewModels.Properties
 			}
 			else if (Item.ItemPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
-				var recycleBinQuery = Win32Helper.QueryRecycleBin();
+				var recycleBinQuery = StorageTrashBinService.QueryRecycleBin();
 				if (recycleBinQuery.BinSize is long binSize)
 				{
 					ViewModel.ItemSizeBytes = binSize;
@@ -203,10 +206,14 @@ namespace Files.App.ViewModels.Properties
 					if (ViewModel.IsHidden is not null)
 					{
 						if ((bool)ViewModel.IsHidden)
-							NativeFileOperationsHelper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+							Win32Helper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
 						else
-							NativeFileOperationsHelper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+							Win32Helper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
 					}
+					break;
+
+				case "IsContentCompressed":
+					Win32Helper.SetCompressionAttributeIoctl(Item.ItemPath, ViewModel.IsContentCompressed ?? false);
 					break;
 
 				case "ShortcutItemPath":

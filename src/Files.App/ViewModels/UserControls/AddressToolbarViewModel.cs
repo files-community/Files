@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Server.Data.Enums;
 using Files.Shared.Helpers;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
@@ -22,6 +21,7 @@ namespace Files.App.ViewModels.UserControls
 		private const int MAX_SUGGESTIONS = 10;
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
 
 		private readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
@@ -82,20 +82,6 @@ namespace Files.App.ViewModels.UserControls
 		{
 			get => isUpdateAvailable;
 			set => SetProperty(ref isUpdateAvailable, value);
-		}
-
-		private string? releaseNotes;
-		public string? ReleaseNotes
-		{
-			get => releaseNotes;
-			set => SetProperty(ref releaseNotes, value);
-		}
-
-		private bool isReleaseNotesVisible;
-		public bool IsReleaseNotesVisible
-		{
-			get => isReleaseNotesVisible;
-			set => SetProperty(ref isReleaseNotesVisible, value);
 		}
 
 		private bool canCopyPathInPage;
@@ -170,6 +156,12 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		public bool IsAppUpdated =>
+			UpdateService.IsAppUpdated;
+
+		public bool ShowHomeButton
+			=> AppearanceSettingsService.ShowHomeButton;
+
 		public ObservableCollection<NavigationBarSuggestionItem> NavigationBarSuggestions = [];
 
 		private CurrentInstanceViewModel instanceViewModel;
@@ -189,13 +181,13 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		private Style _LayoutOpacityIcon;
-		public Style LayoutOpacityIcon
+		private Style _LayoutThemedIcon;
+		public Style LayoutThemedIcon
 		{
-			get => _LayoutOpacityIcon;
+			get => _LayoutThemedIcon;
 			set
 			{
-				if (SetProperty(ref _LayoutOpacityIcon, value))
+				if (SetProperty(ref _LayoutThemedIcon, value))
 				{
 				}
 			}
@@ -206,7 +198,6 @@ namespace Files.App.ViewModels.UserControls
 		public AddressToolbarViewModel()
 		{
 			RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
-			ViewReleaseNotesAsyncCommand = new AsyncRelayCommand(ViewReleaseNotesAsync);
 
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 			dragOverTimer = dispatcherQueue.CreateTimer();
@@ -214,37 +205,22 @@ namespace Files.App.ViewModels.UserControls
 			SearchBox.Escaped += SearchRegion_Escaped;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
+
+			AppearanceSettingsService.PropertyChanged += (s, e) =>
+			{
+				switch (e.PropertyName)
+				{
+					case nameof(AppearanceSettingsService.ShowHomeButton):
+						OnPropertyChanged(nameof(ShowHomeButton));
+						break;
+				}
+			};
 		}
 
 		private async void UpdateService_OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			IsUpdateAvailable = UpdateService.IsUpdateAvailable;
 			IsUpdating = UpdateService.IsUpdating;
-
-			// TODO: Bad code, result is called twice when checking for release notes
-			if (UpdateService.IsReleaseNotesAvailable)
-				await CheckForReleaseNotesAsync();
-		}
-
-		private async Task ViewReleaseNotesAsync()
-		{
-			if (ReleaseNotes is null)
-				return;
-
-			var viewModel = new ReleaseNotesDialogViewModel(ReleaseNotes);
-			var dialog = _dialogService.GetDialog(viewModel);
-
-			await dialog.TryShowAsync();
-		}
-
-		public async Task CheckForReleaseNotesAsync()
-		{
-			var result = await UpdateService.GetLatestReleaseNotesAsync();
-			if (result is null)
-				return;
-
-			ReleaseNotes = result;
-			IsReleaseNotesVisible = true;
 		}
 
 		public void RefreshWidgets()
@@ -259,6 +235,7 @@ namespace Files.App.ViewModels.UserControls
 				// TODO: Move this to the widget page, it doesn't belong here.
 				case nameof(UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget):
 				case nameof(UserSettingsService.GeneralSettingsService.ShowDrivesWidget):
+				case nameof(UserSettingsService.GeneralSettingsService.ShowNetworkLocationsWidget):
 				case nameof(UserSettingsService.GeneralSettingsService.ShowFileTagsWidget):
 				case nameof(UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget):
 					RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
@@ -373,7 +350,7 @@ namespace Files.App.ViewModels.UserControls
 							dragOverPath = null;
 						}
 					},
-					TimeSpan.FromMilliseconds(1000), false);
+					TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToOpenTimespan), false);
 				}
 			}
 
@@ -465,7 +442,6 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		public ICommand RefreshClickCommand { get; }
-		public ICommand ViewReleaseNotesAsyncCommand { get; }
 
 		public void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 		{
@@ -483,6 +459,11 @@ namespace Files.App.ViewModels.UserControls
 		public void PathboxItemFlyout_Opened(object sender, object e)
 		{
 			ToolbarFlyoutOpened?.Invoke(this, new ToolbarFlyoutOpenedEventArgs() { OpenedFlyout = (MenuFlyout)sender });
+		}
+
+		public void PathBoxItemFlyout_Closed(object sender, object e)
+		{
+			((MenuFlyout)sender).Items.Clear();
 		}
 
 		public void CurrentPathSetTextBox_TextChanged(object sender, TextChangedEventArgs args)
@@ -523,7 +504,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), itemTappedPath, true);
+					await NavigationHelpers.AddNewTabByPathAsync(typeof(ShellPanesPage), itemTappedPath, true);
 				}, DispatcherQueuePriority.Low);
 				e.Handled = true;
 				pointerRoutedEventArgs = null;
@@ -535,6 +516,17 @@ namespace Files.App.ViewModels.UserControls
 			{
 				ItemPath = itemTappedPath
 			});
+		}
+
+		public void PathBoxItem_KeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			if (e.Key == Windows.System.VirtualKey.Down)
+			{
+				var item = e.OriginalSource as ListViewItem;
+				var button = item?.FindDescendant<Button>();
+				button?.Flyout.ShowAt(button);
+				e.Handled = true;
+			}
 		}
 
 		public void OpenCommandPalette()
@@ -630,7 +622,7 @@ namespace Files.App.ViewModels.UserControls
 			var nextPathItemTitle = PathComponents[PathComponents.IndexOf(pathItem) + 1].Title;
 			IList<StorageFolderWithPath>? childFolders = null;
 
-			StorageFolderWithPath folder = await shellPage.FilesystemViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
+			StorageFolderWithPath folder = await shellPage.ShellViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
 			if (folder is not null)
 				childFolders = (await FilesystemTasks.Wrap(() => folder.GetFoldersWithPathAsync(string.Empty))).Result;
 
@@ -659,18 +651,13 @@ namespace Files.App.ViewModels.UserControls
 
 			foreach (var childFolder in childFolders)
 			{
-				var isPathItemFocused = childFolder.Item.Name == nextPathItemTitle;
+				var imageSource = await NavigationHelpers.GetIconForPathAsync(childFolder.Path);
 
 				var flyoutItem = new MenuFlyoutItem
 				{
-					Icon = new FontIcon
-					{
-						Glyph = "\uED25",
-						FontWeight = isPathItemFocused ? boldFontWeight : normalFontWeight
-					},
+					Icon = new ImageIcon() { Source = imageSource },
 					Text = childFolder.Item.Name,
 					FontSize = 12,
-					FontWeight = isPathItemFocused ? boldFontWeight : normalFontWeight
 				};
 
 				if (workingPath != childFolder.Path)
@@ -720,52 +707,49 @@ namespace Files.App.ViewModels.UserControls
 
 			var isFtp = FtpHelpers.IsFtpPath(currentInput);
 
-			currentInput = NormalizePathInput(currentInput, isFtp);
+			var normalizedInput = NormalizePathInput(currentInput, isFtp);
 
-			if (currentSelectedPath == currentInput || string.IsNullOrWhiteSpace(currentInput))
+			if (currentSelectedPath == normalizedInput || string.IsNullOrWhiteSpace(normalizedInput))
 				return;
 
-			if (currentInput != shellPage.FilesystemViewModel.WorkingDirectory || shellPage.CurrentPageType == typeof(HomePage))
+			if (normalizedInput != shellPage.ShellViewModel.WorkingDirectory || shellPage.CurrentPageType == typeof(HomePage))
 			{
-				if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || currentInput.Equals("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+				if (normalizedInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || normalizedInput.Equals("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 				{
 					SavePathToHistory("Home");
 					shellPage.NavigateHome();
 				}
 				else
 				{
-					currentInput = StorageFileExtensions.GetResolvedPath(currentInput, isFtp);
-					if (currentSelectedPath == currentInput)
+					normalizedInput = StorageFileExtensions.GetResolvedPath(normalizedInput, isFtp);
+					if (currentSelectedPath == normalizedInput)
 						return;
 
-					var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(currentInput));
+					var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(normalizedInput));
 
-					var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(currentInput, item));
-					if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(currentInput))
+					var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(normalizedInput, item));
+					if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(normalizedInput))
 					{
-						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(currentInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
+						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(normalizedInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
 						if (matchingDrive is not null && matchingDrive.Type == Data.Items.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 						{
 							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
 							if (ejectButton)
-							{
-								var result = await DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
-								await UIHelpers.ShowDeviceEjectResultAsync(matchingDrive.Type, result);
-							}
+								DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
 							return;
 						}
-						var pathToNavigate = resFolder.Result?.Path ?? currentInput;
+						var pathToNavigate = resFolder.Result?.Path ?? normalizedInput;
 						SavePathToHistory(pathToNavigate);
 						shellPage.NavigateToPath(pathToNavigate);
 					}
 					else if (isFtp)
 					{
-						SavePathToHistory(currentInput);
-						shellPage.NavigateToPath(currentInput);
+						SavePathToHistory(normalizedInput);
+						shellPage.NavigateToPath(normalizedInput);
 					}
 					else // Not a folder or inaccessible
 					{
-						var resFile = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(currentInput, item));
+						var resFile = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(normalizedInput, item));
 						if (resFile)
 						{
 							var pathToInvoke = resFile.Result.Path;
@@ -774,10 +758,10 @@ namespace Files.App.ViewModels.UserControls
 						else // Not a file or not accessible
 						{
 							var workingDir =
-								string.IsNullOrEmpty(shellPage.FilesystemViewModel.WorkingDirectory) ||
+								string.IsNullOrEmpty(shellPage.ShellViewModel.WorkingDirectory) ||
 								shellPage.CurrentPageType == typeof(HomePage) ?
 									Constants.UserEnvironmentPaths.HomePath :
-									shellPage.FilesystemViewModel.WorkingDirectory;
+									shellPage.ShellViewModel.WorkingDirectory;
 
 							if (await LaunchApplicationFromPath(currentInput, workingDir))
 								return;
@@ -797,7 +781,7 @@ namespace Files.App.ViewModels.UserControls
 					}
 				}
 
-				PathControlDisplayText = shellPage.FilesystemViewModel.WorkingDirectory;
+				PathControlDisplayText = shellPage.ShellViewModel.WorkingDirectory;
 			}
 		}
 
@@ -815,22 +799,15 @@ namespace Files.App.ViewModels.UserControls
 
 		private static async Task<bool> LaunchApplicationFromPath(string currentInput, string workingDir)
 		{
-			var trimmedInput = currentInput.Trim();
-			var fileName = trimmedInput;
-			var arguments = string.Empty;
-			if (trimmedInput.Contains(' '))
-			{
-				var positionOfBlank = trimmedInput.IndexOf(' ');
-				fileName = trimmedInput.Substring(0, positionOfBlank);
-				arguments = currentInput.Substring(currentInput.IndexOf(' '));
-			}
-
-			return await LaunchHelper.LaunchAppAsync(fileName, arguments, workingDir);
+			var args = CommandLineParser.SplitArguments(currentInput);
+			return await LaunchHelper.LaunchAppAsync(
+				args.FirstOrDefault("").Trim('"'), string.Join(' ', args.Skip(1)), workingDir
+			);
 		}
 
 		public async Task SetAddressBarSuggestionsAsync(AutoSuggestBox sender, IShellPage shellpage)
 		{
-			if (sender.Text is not null && shellpage.FilesystemViewModel is not null)
+			if (sender.Text is not null && shellpage.ShellViewModel is not null)
 			{
 				if (!await SafetyExtensions.IgnoreExceptions(async () =>
 				{
@@ -842,6 +819,7 @@ namespace Files.App.ViewModels.UserControls
 						var searchText = sender.Text.Substring(1).Trim();
 						suggestions = Commands.Where(command =>
 							command.IsExecutable &&
+							command.IsAccessibleGlobally &&
 							(command.Description.Contains(searchText, StringComparison.OrdinalIgnoreCase) ||
 							command.Code.ToString().Contains(searchText, StringComparison.OrdinalIgnoreCase)))
 						.Select(command => new NavigationBarSuggestionItem()
@@ -876,7 +854,7 @@ namespace Files.App.ViewModels.UserControls
 							currentInput = NormalizePathInput(currentInput, isFtp);
 							var expandedPath = StorageFileExtensions.GetResolvedPath(currentInput, isFtp);
 							var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
-							StorageFolderWithPath folder = await shellpage.FilesystemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+							StorageFolderWithPath folder = await shellpage.ShellViewModel.GetFolderWithPathFromPathAsync(folderPath);
 
 							if (folder is null)
 								return false;
@@ -910,7 +888,7 @@ namespace Files.App.ViewModels.UserControls
 					if (suggestions is null || suggestions.Count == 0)
 					{
 						suggestions = new List<NavigationBarSuggestionItem>() { new NavigationBarSuggestionItem() {
-						Text = shellpage.FilesystemViewModel.WorkingDirectory,
+						Text = shellpage.ShellViewModel.WorkingDirectory,
 						PrimaryDisplay = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource() } };
 					}
 
@@ -925,9 +903,8 @@ namespace Files.App.ViewModels.UserControls
 							{
 								NavigationBarSuggestions[index].Text = suggestions[index].Text;
 								NavigationBarSuggestions[index].PrimaryDisplay = suggestions[index].PrimaryDisplay;
-								NavigationBarSuggestions[index].SecondaryDisplay = suggestions[index].SecondaryDisplay;
-								NavigationBarSuggestions[index].SupplementaryDisplay = suggestions[index].SupplementaryDisplay;
 								NavigationBarSuggestions[index].SearchText = suggestions[index].SearchText;
+								NavigationBarSuggestions[index].HotKeys = suggestions[index].HotKeys;
 							}
 							else
 							{
@@ -947,7 +924,10 @@ namespace Files.App.ViewModels.UserControls
 						for (int index = 0; index < suggestions.Count; index++)
 						{
 							if (NavigationBarSuggestions.Count > index && NavigationBarSuggestions[index].PrimaryDisplay == suggestions[index].PrimaryDisplay)
+							{
 								NavigationBarSuggestions[index].SearchText = suggestions[index].SearchText;
+								NavigationBarSuggestions[index].HotKeys = suggestions[index].HotKeys;
+							}
 							else
 								NavigationBarSuggestions.Insert(index, suggestions[index]);
 						}
@@ -956,11 +936,12 @@ namespace Files.App.ViewModels.UserControls
 					return true;
 				}))
 				{
-					SafetyExtensions.IgnoreExceptions(() => {
+					SafetyExtensions.IgnoreExceptions(() =>
+					{
 						NavigationBarSuggestions.Clear();
 						NavigationBarSuggestions.Add(new NavigationBarSuggestionItem()
 						{
-							Text = shellpage.FilesystemViewModel.WorkingDirectory,
+							Text = shellpage.ShellViewModel.WorkingDirectory,
 							PrimaryDisplay = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource()
 						});
 					});
@@ -973,13 +954,13 @@ namespace Files.App.ViewModels.UserControls
 			switch (e.PropertyName)
 			{
 				case nameof(LayoutPreferencesManager.LayoutMode):
-					LayoutOpacityIcon = instanceViewModel.FolderSettings.LayoutMode switch
+					LayoutThemedIcon = instanceViewModel.FolderSettings.LayoutMode switch
 					{
-						FolderLayoutModes.ListView => Commands.LayoutList.OpacityStyle!,
-						FolderLayoutModes.TilesView => Commands.LayoutTiles.OpacityStyle!,
-						FolderLayoutModes.ColumnView => Commands.LayoutColumns.OpacityStyle!,
-						FolderLayoutModes.GridView => Commands.LayoutGrid.OpacityStyle!,
-						_ => Commands.LayoutDetails.OpacityStyle!
+						FolderLayoutModes.ListView => Commands.LayoutList.ThemedIconStyle!,
+						FolderLayoutModes.TilesView => Commands.LayoutTiles.ThemedIconStyle!,
+						FolderLayoutModes.ColumnView => Commands.LayoutColumns.ThemedIconStyle!,
+						FolderLayoutModes.GridView => Commands.LayoutGrid.ThemedIconStyle!,
+						_ => Commands.LayoutDetails.ThemedIconStyle!
 					};
 					OnPropertyChanged(nameof(IsTilesLayout));
 					OnPropertyChanged(nameof(IsListLayout));
@@ -1030,7 +1011,7 @@ namespace Files.App.ViewModels.UserControls
 		public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
 		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
 		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
-		public bool IsArchiveOpened => FileExtensionHelpers.IsZipFile(Path.GetExtension(pathControlDisplayText));
+		public bool IsArchiveOpened => InstanceViewModel.IsPageTypeZipFolder;
 		public bool IsSelectionArchivesOnly => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsMultipleArchivesSelected => IsSelectionArchivesOnly && SelectedItems.Count > 1;
 		public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;

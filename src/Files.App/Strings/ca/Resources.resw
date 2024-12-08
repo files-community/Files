@@ -126,6 +126,9 @@
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Copia la ruta amb cometes</value>
   </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>Copia el camí de l'element seleccionat amb cometes</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Navega</value>
   </data>
@@ -216,8 +219,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>Aparença</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Fons</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Color de fons</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Avançat</value>
@@ -248,6 +251,9 @@
   </data>
   <data name="Paste" xml:space="preserve">
     <value>Enganxa</value>
+  </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>Enganxa drecera</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nou</value>
@@ -291,8 +297,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Escriu el nom d'un element</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Estableix el nom</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>Crea un {0} nou</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Clar</value>
@@ -339,6 +345,9 @@
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Estableix com a fons de pantalla de bloqueig</value>
   </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Estableix com a fons de l'aplicació</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>No hem pogut suprimir aquest element</value>
   </data>
@@ -382,28 +391,40 @@
     <value>Només lectura</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
+    <value>{0, plural, one {fa # dia} other {fa # dies}}</value>
+  </data>
+  <data name="DaysAgo_Singular" xml:space="preserve">
+    <value>Fa 1 dia</value>
+  </data>
+  <data name="DaysAgo_Plural" xml:space="preserve">
     <value>Fa {0} dies</value>
   </data>
-  <data name="DayAgo" xml:space="preserve">
-    <value>Fa {0} dia</value>
-  </data>
   <data name="HoursAgo" xml:space="preserve">
+    <value>{0, plural, one {fa # hora} other {fa # hores}}</value>
+  </data>
+  <data name="HoursAgo_Singular" xml:space="preserve">
+    <value>Fa 1 hora</value>
+  </data>
+  <data name="HoursAgo_Plural" xml:space="preserve">
     <value>Fa {0} hores</value>
   </data>
-  <data name="HourAgo" xml:space="preserve">
-    <value>Fa {0} hora</value>
-  </data>
   <data name="MinutesAgo" xml:space="preserve">
+    <value>{0, plural, one {fa # minut} other {fa # minuts}}</value>
+  </data>
+  <data name="MinutesAgo_Singular" xml:space="preserve">
+    <value>Fa 1 minut</value>
+  </data>
+  <data name="MinutesAgo_Plural" xml:space="preserve">
     <value>Fa {0} minuts</value>
   </data>
-  <data name="MinuteAgo" xml:space="preserve">
-    <value>Fa {0} minut</value>
-  </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>Fa {0} segons</value>
+    <value>{0, plural, one {fa # segon} other {fa # segons}}</value>
   </data>
-  <data name="OneSecondAgo" xml:space="preserve">
+  <data name="SecondsAgo_Singular" xml:space="preserve">
     <value>Fa 1 segon</value>
+  </data>
+  <data name="SecondsAgo_Plural" xml:space="preserve">
+    <value>Fa {0} segons</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Ara</value>
@@ -423,17 +444,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>El nom de l'element especificat no és vàlid</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>element seleccionat</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# element seleccionat} other {# elements seleccionats}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>elements seleccionats</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>element</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>elements</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {element} other {elements}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Sí</value>
@@ -466,10 +483,10 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} fitxers, {1:#,##0} carpetes</value>
+    <value>{0, number} {0, plural, one {fitxer} other {fitxers}}, {1, number} {1, plural, one {carpeta} other {carpetes}}</value>
   </data>
-  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} fitxers, {1:#,##0} carpetes de {2:#,##0} ubicacions</value>
+  <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
+    <value>{0, number} {0, plural, one {fitxer} other {fitxers}}, {1, number} {1, plural, one {carpeta} other {carpetes}} de {2, number} {2, plural, one {ubicació} other {ubicacions}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Executa com un altre usuari</value>
@@ -501,7 +518,7 @@
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Mou la pestanya aquí</value>
   </data>
-  <data name="syncStatusColumn.Header" xml:space="preserve">
+  <data name="Status" xml:space="preserve">
     <value>Estat</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
@@ -882,6 +899,12 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Taxa de bits de la codificació</value>
   </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Taxa de bits de codificació d'àudio</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Taxa de bits de codificació de vídeo</value>
+  </data>
   <data name="Compression" xml:space="preserve">
     <value>Compressió</value>
   </data>
@@ -1065,6 +1088,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Canvia el panell d'informació per veure els panells de detalls/vista prèvia</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Commuta la barra d'eines</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Cap visualització prèvia disponible</value>
   </data>
@@ -1073,9 +1099,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Treure de la barra lateral</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Unitats de xarxa</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Xarxa</value>
@@ -1221,50 +1244,47 @@
   <data name="OpenStorageSense" xml:space="preserve">
     <value>Obre el sensor d'emmagatzematge</value>
   </data>
+  <data name="OpenStorageSenseDescription" xml:space="preserve">
+    <value>Obre la pàgina Sensor d'emmagatzematge a la configuració del Windows</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>Neteja</value>
+  </data>
   <data name="Copy" xml:space="preserve">
     <value>Copia</value>
   </data>
-  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Es copiaran {0} elements</value>
-  </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Copia el/els element(s)</value>
+    <value>Copia {0, plural, one {element} other {elements}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Elimina el/els element(s)</value>
+    <value>Suprimeix {0, plural, one {element} other {elements}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Mou</value>
   </data>
-  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Es mouran {0} elements</value>
+  <data name="MoveItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {Es mourà un element} other {Es mouran # elements}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Mou el/els element(s)</value>
+    <value>Mou {0, plural, one {element} other {elements}}</value>
   </data>
-  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Se suprimiran {0} elements.</value>
+  <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {Se suprimirà un element} other {Se suprimiran # elements}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Continua</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>Hi ha {0} nom(s) de fitxer(s) en conflicte i {1} element(s) sortint(s).</value>
+  <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
+    <value>{0, plural, one {Hi ha un nom de fitxer en conflicte} other {Hi ha # noms de fitxers en conflicte}}</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
+    <value>{0, plural, one {Hi ha un fitxer en conflicte} other {Hi ha # fitxers en conflicte}}, i {1, plural, one {un element sortint} other {# elements sortint}}</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Nom(s) de fitxer(s) en conflicte</value>
+    <value>En conflicte {0, plural, one {nom del fitxer} other {noms de fitxers}}</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>Hi ha un nom de fitxer en conflicte i {0} element(s) sortint(s).</value>
-  </data>
-  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Es copiarà un element</value>
-  </data>
-  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Se suprimirà un element</value>
-  </data>
-  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Es mourà un element</value>
+  <data name="CopyItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {Es copiarà un element} other {Es copiaran # elements}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Suprimeix-ho permanentment</value>
@@ -1277,12 +1297,6 @@
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Genera un nom nou</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>Hi ha {0} nom(s) de fitxer(s) en conflicte.</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>Hi ha un nom de fitxer en conflicte.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Crea una carpeta amb selecció</value>
@@ -1584,8 +1598,8 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>Substitueix totes les entrades de permisos dels objectes secundaris per entrades de permisos heretables d'aquest objecte</value>
   </data>
-  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>Tanca el panell</value>
+  <data name="CloseActivePane" xml:space="preserve">
+    <value>Tanca el panell actiu</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Mode superposició compacta</value>
@@ -1614,8 +1628,8 @@
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Baixa l'element del núvol i carrega la vista prèvia</value>
   </data>
-  <data name="DetailsArchiveItemCount" xml:space="preserve">
-    <value>{0} elements ({1} fitxers, {2} carpetes)</value>
+  <data name="DetailsArchiveItems" xml:space="preserve">
+    <value>{0, plural, one {# element} other {# elements}} ({1, plural, one {# fitxer} other {# fitxers}}, {2, plural, one {# carpeta} other {# carpetes}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Mida sense comprimir</value>
@@ -1697,12 +1711,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nom d'usuari</value>
-  </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Giny d'unitats</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Giny de fitxers recents</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>No s'ha trobat cap element</value>
@@ -1851,11 +1859,14 @@
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
     <value>No color reduït</value>
   </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Llicències de tercers</value>
+  <data name="ThirdPartyLibraries" xml:space="preserve">
+    <value>Llibreries de tercers</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Aquesta opció modifica el registre del sistema i pot tenir efectes secundaris inesperats al vostre dispositiu. Continueu sota el vostre propi risc.</value>
+  </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>Les operacions d'aplanament són permanents i no recomanables. Continueu sota el vostre propi risc.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Creació de la biblioteca</value>
@@ -1933,7 +1944,10 @@
     <value>Tanca les pestanyes a la dreta</value>
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
-    <value>Tanca altres pestanyes</value>
+    <value>Tanca les altres pestanyes</value>
+  </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>Tanca totes les pestanyes</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>Música</value>
@@ -2030,6 +2044,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Comprimeix</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Mou tot el contingut de les subcarpetes a la ubicació seleccionada</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Aplana la carpeta</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Aplana</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>Aplanar una carpeta mourà tot el contingut de les seves subcarpetes a la ubicació seleccionada. Aquesta operació és permanent i no es pot desfer. En utilitzar aquesta funció experimental, reconeixeu el risc i accepteu no fer responsable a l'equip del Files de cap pèrdua de dades.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Mostra les opcions d'aplanament</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Selecciona fitxers i carpetes quan passeu el cursor per sobre d'ells</value>
@@ -2251,7 +2280,7 @@
     <value>Mostra elements ocults</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Formata...</value>
+    <value>Format</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Ajuda</value>
@@ -2361,6 +2390,9 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Mostra/amaga elements ocults</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>Mostra o amaga fitxers que comencen amb un punt</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Canvia si voleu mostrar les extensions de fitxer</value>
   </data>
@@ -2374,16 +2406,25 @@
     <value>Copia els elements al porta-retalls</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copia la ruta dels elements seleccionats al porta-retalls</value>
+    <value>Copia el camí del directori actual al porta-retalls</value>
+  </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
+    <value>Copia el camí dels elements seleccionats al porta-retalls</value>
+  </data>
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
+    <value>Copia el camí dels elements seleccionats amb cometes al porta-retalls</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copia la ruta dels elements seleccionats amb cometes al porta-retalls</value>
+    <value>Copia el camí del directori actual amb cometes al porta-retalls</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Retalla els elements al porta-retalls</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Enganxa els elements del porta-retalls a la carpeta actual</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>Enganxa els elements del porta-retalls a la carpeta actual com a dreceres</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>Enganxa els elements del porta-retalls a la carpeta seleccionada</value>
@@ -2462,6 +2503,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Estableix la imatge seleccionada com a fons de pantalla de bloqueig</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Estableix la imatge seleccionada com a fons de l'aplicació</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Instal·la les fonts seleccionades</value>
@@ -2661,6 +2705,9 @@
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Tanca les pestanyes que no siguin la pestanya seleccionada</value>
   </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>Tanca totes les pestanyes, inclosa l'actual</value>
+  </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Torna a obrir l'última pestanya tancada</value>
   </data>
@@ -2673,11 +2720,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>Tanca la pestanya actual</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Obre un panell nou</value>
+  <data name="CloseActivePaneDescription" xml:space="preserve">
+    <value>Tanca el panell actiu</value>
   </data>
-  <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Tanca el panell de la dreta</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>Enfoca un altre panell</value>
+  </data>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>Canvia el focus al panell no actiu</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Canvia la barra lateral</value>
@@ -3058,8 +3108,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Obre les propietats</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Obre les propietats de l'Explorador de fitxers</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Obre la finestra de propietats</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Obre la finestra de propietats de l'Explorador de fitxers</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Locals</value>
@@ -3123,7 +3179,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Material de fons</value>
+    <value>Teló de fons</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Sòlid</value>
@@ -3265,7 +3321,7 @@
     <value>El Files s'executa com a administrador</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>A causa de les limitacions de la plataforma, arrossegar i deixar anar no està disponible quan s'executa Files com a administrador.</value>
+    <value>A causa d'una limitació amb Windows i WinAppSdk, arrossegar i deixar anar no està disponible quan s'executa el Files com a administrador. Si voleu utilitzar arrossegar i deixar anar, podeu evitar aquesta limitació obrint l'UAC (control del compte d'usuari) des del menú Inici, seleccionanar el tercer nivell i reiniciar el Windows. En cas contrari, podeu seguir utilitzant el Files sense arrossegar i deixar anar.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Permet que l'aplicació s'executi en segon pla en tancar la finestra</value>
@@ -3715,5 +3771,237 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Tipus de disseny</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Accions</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Ordres</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Afegeix una ordre</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Restaura els valors per defecte</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Trieu una acció</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Esteu segur que voleu restaurar les vinculacions de les tecles per defecte? Aquesta acció no es pot desfer.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>Aquesta vinculació de tecles ja s'està utilitzant, trieu una vinculació de tecles diferent per continuar.</value>
+  </data>
+  <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
+    <value>La combinació de tecles escollida no es pot utilitzar. Torneu-ho a provar amb una combinació de tecles diferent.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Personalitzat</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>El disseny adaptatiu no està disponible quan les preferències estan sincronitzades, el disseny per defecte s'ha canviat a Detalls.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Imatge de fons</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Inferior</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Centre</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Omple</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Alineació horitzontal</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Ajusta la imatge</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Esquerra</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Opacitat</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Dreta</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Superior</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Uniforme</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Omple uniformement</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Alineació vertical</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Acrílic prim</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Mostra per a totes les ubicacions</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Eines per a desenvolupadors</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Configureu el botó «Obre l'IDE» a la barra d'estat</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Mostra per als repositoris Git</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Extensió de l'aplicació</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>Fitxer ICO</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Fitxer Zip</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Fitxers de mapa de bits</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>Núm.</value>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Ubicacions de xarxa</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>No hi ha ubicacions de xarxa. Si no utilitzeu ubicacions de xarxa, podeu desactivar el giny.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Deshabilita</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Edita al Bloc de notes</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Editeu el fitxer seleccionat al Bloc de notes</value>
+  </data>
+  <data name="PropertyDimensionsColon" xml:space="preserve">
+    <value>Dimensions:</value>
+  </data>
+  <data name="StatusWithColon" xml:space="preserve">
+    <value>Estat:</value>
+  </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>Mostra la barra d'eines</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>Menú d'accions de la pestanya</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>Afegeix panell vertical</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>Afegeix un panell vertical</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>Afegeix panell horitzontal</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>Afegeix un panell horitzontal</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>Organitza verticalment</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>Organitza els panells verticalment</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>Organitza horitzontalment</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>Organitza els panells horitzontalment</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>Afegeix panell</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>Mostra el botó d'accions de la pestanya a la barra de títol</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>Organitza els panells</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>Organització per defecte dels panells</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>Horitzontal</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Vertical</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>Mostra la icona del Files a la safata del sistema</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>Fils de la CPU</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Aneu a la pàgina d'inici</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Mostra l'Inici a la barra d'adreces</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Barra d'eines</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>ID d'usuari</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Canvi de nom en bloc</value>
+  </data>
+  <data name="ShowCreateAlternateDataStream" xml:space="preserve">
+    <value>Mostra l'opció per crear un flux de dades alternatiu</value>
+  </data>
+  <data name="CreateAlternateDataStream" xml:space="preserve">
+    <value>Crea un flux de dades alternatiu</value>
+  </data>
+  <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
+    <value>Crea un flux de dades alternatiu per als elements seleccionats</value>
+  </data>
+  <data name="EnterDataStreamName" xml:space="preserve">
+    <value>Introduïu el nom del flux de dades</value>
+  </data>
+  <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
+    <value>S'ha produït un error en crear el flux de dades alternatiu</value>
+  </data>
+  <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
+    <value>Tingueu en compte que els fluxos de dades alternatius només funcionen en unitats formatades com a NTFS.</value>
+  </data>
+  <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
+    <value>Actualment, els fluxos de dades alternatius estan ocults</value>
+  </data>
+  <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
+    <value>Voleu mostrar fluxos de dades alternatius? Podeu modificar aquesta configuració en qualsevol moment des de la pàgina de configuració de fitxers i carpetes.</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Gestiona les etiquetes</value>
   </data>
 </root>

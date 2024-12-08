@@ -118,13 +118,16 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NewWindow" xml:space="preserve">
-    <value>Window baru</value>
+    <value>Jendela baru</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>Salin jalur</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>Salin path dengan kutipan</value>
+    <value>Salin jalur dengan tanda kutip</value>
+  </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>Copy selected item path with quotes</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Jelajahi</value>
@@ -163,7 +166,7 @@
     <value>Pilih Semua</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Balikkan seleksi</value>
+    <value>Balikkan pilihan</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
     <value>Hapus pilihan</value>
@@ -184,7 +187,7 @@
     <value>Cari</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>File yang sebelumnya Anda akses akan muncul di sini</value>
+    <value>Berkas yang sebelumnya Anda akses akan muncul di sini</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Hapus item ini</value>
@@ -211,13 +214,13 @@
     <value>Tampilkan file dan folder tersembunyi</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Tampilkan dot files</value>
+    <value>Tampilkan berkas dot</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Tampilan</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Latar belakang</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Warna latar belakang</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Lanjutan</value>
@@ -249,6 +252,9 @@
   <data name="Paste" xml:space="preserve">
     <value>Tempel</value>
   </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>Paste shortcut</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Baru</value>
   </data>
@@ -274,7 +280,7 @@
     <value>Hapus</value>
   </data>
   <data name="PinFolderToSidebar" xml:space="preserve">
-    <value>Pin ke Sidebar</value>
+    <value>Sematkan ke Bilah Sisi</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Selamat datang di Files!</value>
@@ -286,13 +292,13 @@
     <value>Untuk memulai, Anda harus memberi kami izin untuk menampilkan file Anda. Ini akan membuka halaman Pengaturan di mana Anda dapat memberi kami izin ini. Anda harus membuka kembali aplikasi setelah menyelesaikan langkah ini. </value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Menampilkan</value>
+    <value>Tampilan</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Masukkan nama item</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Tentukan nama</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>Create new {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Terang</value>
@@ -322,7 +328,7 @@
     <value>Maju</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>Naik (Alt+Panah Atas)</value>
+    <value>Naik</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Segarkan</value>
@@ -339,71 +345,86 @@
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Tetapkan sebagai latar belakang layar kunci</value>
   </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Atur sebagai latar belakang aplikasi</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Kami tidak dapat menghapus item ini</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
-    <value>Silakan masukkan drive yang diperlukan untuk mengakses item ini.</value>
+    <value>Silakan masukkan cakram yang diperlukan untuk mengakses item ini.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
     <value>Penyimpanan dilepas</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>File yang Anda coba akses mungkin telah dipindah atau dihapus.</value>
+    <value>Berkas yang Anda coba akses mungkin telah dipindahkan atau dihapus.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
-    <value>Tidak dapat membuka propeti file ini</value>
+    <value>Tidak dapat membuka propeti berkas ini</value>
   </data>
   <data name="CannotAccessPropertiesContent" xml:space="preserve">
-    <value>File yang Anda coba akses mungkin telah dipindah atau dihapus.</value>
+    <value>Berkas yang Anda coba akses mungkin telah dipindahkan atau dihapus.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
-    <value>File Tidak Ditemukan</value>
+    <value>Berkas Tidak Ditemukan</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>Folder yang Anda coba akses mungkin telah dipindah atau dihapus.</value>
+    <value>Folder yang Anda coba akses mungkin telah dipindahkan atau dihapus.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Apakah Anda menghapus folder ini?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>File yang Anda coba akses saat ini sedang digunakan oleh {0}</value>
+    <value>Berkas yang Anda coba akses sedang digunakan oleh {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>File yang Anda coba akses saat ini sedang digunakan oleh aplikasi lain</value>
+    <value>Berkas yang Anda coba akses sedang digunakan oleh aplikasi lain</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File sedang digunakan</value>
+    <value>Berkas sedang digunakan</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Tata letak</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
-    <value>Baca-saja</value>
+    <value>Baca saja</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0} hari yang lalu</value>
+    <value>{0, plural, one {# day ago} other {# days ago}}</value>
   </data>
-  <data name="DayAgo" xml:space="preserve">
+  <data name="DaysAgo_Singular" xml:space="preserve">
+    <value>1 hari yang lalu</value>
+  </data>
+  <data name="DaysAgo_Plural" xml:space="preserve">
     <value>{0} hari yang lalu</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0} jam yang lalu</value>
+    <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
   </data>
-  <data name="HourAgo" xml:space="preserve">
+  <data name="HoursAgo_Singular" xml:space="preserve">
+    <value>1 jam yang lalu</value>
+  </data>
+  <data name="HoursAgo_Plural" xml:space="preserve">
     <value>{0} jam yang lalu</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>{0} menit yang lalu</value>
+    <value>{0, plural, one {# minute ago} other {# minutes ago}}</value>
   </data>
-  <data name="MinuteAgo" xml:space="preserve">
+  <data name="MinutesAgo_Singular" xml:space="preserve">
+    <value>1 menit yang lalu</value>
+  </data>
+  <data name="MinutesAgo_Plural" xml:space="preserve">
     <value>{0} menit yang lalu</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>{0} detik yang lalu</value>
+    <value>{0, plural, one {# second ago} other {# seconds ago}}</value>
   </data>
-  <data name="OneSecondAgo" xml:space="preserve">
+  <data name="SecondsAgo_Singular" xml:space="preserve">
     <value>1 detik yang lalu</value>
+  </data>
+  <data name="SecondsAgo_Plural" xml:space="preserve">
+    <value>{0} detik yang lalu</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Sekarang</value>
@@ -423,17 +444,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>Nama item yang ditentukan tidak valid</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>item dipilih</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, other {# items selected}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>item dipilih</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>item</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>item</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, other {items}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Ya</value>
@@ -466,10 +483,10 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} file, {1:#,##0} folder</value>
+    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}}</value>
   </data>
-  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} file, {1:#,##0} folder dari {2:#,##0} lokasi</value>
+  <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
+    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}} from {2, number} {2, plural, one {location} other {locations}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Jalankan sebagai pengguna lain</value>
@@ -501,7 +518,7 @@
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Pindah tab ke sini</value>
   </data>
-  <data name="syncStatusColumn.Header" xml:space="preserve">
+  <data name="Status" xml:space="preserve">
     <value>Status</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
@@ -523,7 +540,7 @@
     <value>Buat pintasan</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
-    <value>Buka lokasi file</value>
+    <value>Buka lokasi berkas</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
     <value>Argumen:</value>
@@ -882,6 +899,12 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Encoding Bitrate</value>
   </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Enkoding Audio Bitrate</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Enkoding Video Bitrate</value>
+  </data>
   <data name="Compression" xml:space="preserve">
     <value>Kompresi</value>
   </data>
@@ -1065,6 +1088,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Aktifkan panel info untuk melihat detail/pratinjau panel</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Aktifkan Toolbar</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Pratinjau tidak tersedia</value>
   </data>
@@ -1073,9 +1099,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Unpin dari Sidebar</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Drive Jaringan</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Jaringan</value>
@@ -1221,50 +1244,47 @@
   <data name="OpenStorageSense" xml:space="preserve">
     <value>Buka Sensor Penyimpanan</value>
   </data>
+  <data name="OpenStorageSenseDescription" xml:space="preserve">
+    <value>Open the Storage Sense page in Windows Settings</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>Cleanup</value>
+  </data>
   <data name="Copy" xml:space="preserve">
     <value>Salin</value>
   </data>
-  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} item akan disalin</value>
-  </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Salin item</value>
+    <value>Copy {0, plural, one {item} other {items}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Hapus item</value>
+    <value>Delete {0, plural, one {item} other {items}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Pindah</value>
   </data>
-  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} item akan dipindah</value>
+  <data name="MoveItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {One item will be moved} other {# items will be moved}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Pindah item</value>
+    <value>Move {0, plural, one {item} other {items}}</value>
   </data>
-  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} item akan dihapus</value>
+  <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {One item will be deleted} other {# items will be deleted}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Lanjutkan</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>Ada {0} nama file yang bentrok, dan {1} item keluar.</value>
+  <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
+    <value>{0, plural, one {There is one conflicting file name} other {There are # conflicting file names}}</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
+    <value>{0, plural, one {There is one conflicting file name} other {There are # conflicting file names}}, and {1, plural, one {one outgoing item} other {# outgoing items}}</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Nama file yang bentrok</value>
+    <value>Conflicting {0, plural, one {file name} other {file names}}</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>Ada satu nama file yang bentrok, dan {0} item keluar.</value>
-  </data>
-  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Satu item akan disalin</value>
-  </data>
-  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Satu item akan dihapus</value>
-  </data>
-  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Satu item akan dipindah</value>
+  <data name="CopyItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {One item will be copied} other {# items will be copied}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Hapus secara permanen</value>
@@ -1277,12 +1297,6 @@
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Buat nama baru</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>Ada {0} nama file yang bertentangan.</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>Ada satu nama file yang bertentangan.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Buat folder dari yang dipilih</value>
@@ -1584,8 +1598,8 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ganti semua entri izin objek bawahan dengan entri izin yang dapat diwariskan dari objek ini</value>
   </data>
-  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>Tutup panel</value>
+  <data name="CloseActivePane" xml:space="preserve">
+    <value>Tutup panel aktif</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Masuk ke tampilan fleksibel</value>
@@ -1614,8 +1628,8 @@
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Unduh item dari cloud dan buka pratinjau</value>
   </data>
-  <data name="DetailsArchiveItemCount" xml:space="preserve">
-    <value>{0} item ({1} file, {2} folder)</value>
+  <data name="DetailsArchiveItems" xml:space="preserve">
+    <value>{0, plural, one {# item} other {# items}} ({1, plural, one {# file} other {# files}}, {2, plural, one {# folder} other {# folders}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Ukuran tidak terkompresi</value>
@@ -1697,12 +1711,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nama pengguna</value>
-  </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget penyimpanan</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget file terbaru</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>Tidak ada item yang ditemukan</value>
@@ -1851,11 +1859,14 @@
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
     <value>Tidak ada pengurangan warna</value>
   </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Lisensi pihak ketiga</value>
+  <data name="ThirdPartyLibraries" xml:space="preserve">
+    <value>Aplikasi pihak ketiga</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Opsi ini mengubah registri sistem dan dapat memiliki efek samping yang tidak terduga pada perangkat Anda. Lanjutkan dengan risiko Anda sendiri.</value>
+  </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>The flatten operations are permanent and not recommended. Continue at your own risk.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Buat Pustaka</value>
@@ -1934,6 +1945,9 @@
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Tutup tab lain</value>
+  </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>Close all tabs</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>Musik</value>
@@ -2030,6 +2044,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Kompres</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Move all contents from subfolders into the selected location</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Flatten folder</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Flatten</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>Flattening a folder will move all contents from its subfolders to the selected location. This operation is permanent and cannot be undone. By using this experimental feature, you acknowledge the risk and agree not to hold the Files team responsible for any data loss.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Show flatten options</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Pilih file dan folder saat mengarahkan kursor ke atasnya</value>
@@ -2251,7 +2280,7 @@
     <value>Tampilkan item tersembunyi</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Format...</value>
+    <value>Format</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Bantuan</value>
@@ -2361,6 +2390,9 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Pilih untuk menunjukkan atau menyembunyikan item</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>Pilih untuk menujukkan berkas</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Pilih untuk menunjukkan ekstensi berkas</value>
   </data>
@@ -2376,6 +2408,12 @@
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Salin path dari item yang dipilih ke clipboard</value>
   </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
+    <value>Copy path of selected items to the clipboard</value>
+  </data>
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
+    <value>Copy path of selected items with quotes to the clipboard</value>
+  </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
     <value>Salin path dari item yang dipilih dengan kutipan ke clipboard</value>
   </data>
@@ -2384,6 +2422,9 @@
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Tempel item(s) dari clipboard ke folder yang sekarang</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>Paste item(s) from clipboard to current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>Tempel item(s) dari clipboard ke folder yang dipilih</value>
@@ -2462,6 +2503,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Gunakan gambar yang dipilih sebagai lockscreen background</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Gunakan gambar terpilih sebagai latar belakang aplikasi</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Instal font yang dipilih</value>
@@ -2661,6 +2705,9 @@
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Tutup tab selain tab yang dipilih</value>
   </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>Close all tabs including the current tab</value>
+  </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Buka kembali halaman yang terakhir ditutup</value>
   </data>
@@ -2673,11 +2720,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>Tutup tab saat ini</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Buka panel baru</value>
+  <data name="CloseActivePaneDescription" xml:space="preserve">
+    <value>Tutup panel aktif</value>
   </data>
-  <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Tutup panel kanan</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>Fokus panel lainnya</value>
+  </data>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>Ubah fokus ke panel yang tidak aktif</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Aktifkan sidebar</value>
@@ -3058,8 +3108,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Buka properti</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value/>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Buka jendela properti</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Open File Explorer properties window</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Lokal</value>
@@ -3123,7 +3179,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Backdrop Material</value>
+    <value>Backdrop</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Solid</value>
@@ -3265,7 +3321,7 @@
     <value>Files sedang berjalan sebagai admin</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Karena keterbatasan platform, drag and drop tidak tersedia saat menjalankan File sebagai admin.</value>
+    <value>Dikarenakan limitasi WIndows dan WinAppSDK, fitur drag and drop tidak tersedia saat menjalankan Files sebagai admin. Jika ingin memakai fitur drag and drop sementara bisa dengan membuka UAC (User Account Control) dari Start Menu dan pilih level ketiga, dan muat ulang Windows, sementara itu kamu dapat memakai Files tanpa fitur drag and drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Biarkan app berjalan di latar belakang ketika window di tutup</value>
@@ -3715,5 +3771,237 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Tipe layout</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Tindakan</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Perintah</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Tambah perintah</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Kembalikan ke awal</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Pilih tindakan</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>Apakah ingin mereset pengaturan tombol keyboard? Tindakan ini tidak dapat dibatalkan.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>Tombol keyboard ini sudah dipakai, gunakan tombol keyboard lainya untuk melanjutkan.</value>
+  </data>
+  <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
+    <value>Tombol tidak bisa dipakai, coba lagi dengan tombol lain.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Sesuaikan</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>Tata letak adaptif tidak tersedia ketika preferensi disinkronkan, tata letak default telah diubah menjadi Detail.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Wallpaper</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Bawah</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Tengah</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Penuh</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Letak horizontal</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Sesuaikan</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Kiri</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Transparasi</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Kanan</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Atas</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Seragam</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Seragam untuk diisi</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Letak vertikal</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Thin Acrylic</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Tampilkan semua lokasi</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Alat pengembangan</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Konfigurasi tombol "Open IDE" di status bar</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Tampilkan Git repo</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Ekstensi aplikasi</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>Berkas ICO</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Berkas Zip</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Berkas Bitmap</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>Num</value>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Lokasi jaringan</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>Tidak ada lokasi jaringan. Jika tidak menggunakan lokasi jaringan, widget bisa dinonaktifkan.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Nonaktifkan</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Edit di Notepad</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Edit file yang dipilih di Notepad</value>
+  </data>
+  <data name="PropertyDimensionsColon" xml:space="preserve">
+    <value>Dimensi:</value>
+  </data>
+  <data name="StatusWithColon" xml:space="preserve">
+    <value>Status:</value>
+  </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>Show toolbar</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>Aksi tab menu</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>Tambah panel vertikal</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>Tambahkan panel vertikal</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>Tambahkan panel horizontal</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>Tambahkan panel horizontal</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>Susun secara vertikal</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>Susun panel secara vertikal</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>Susun secara horizontal</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>Susun panel secara horizontal</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>Tambahkan panel</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>Tampilkan tombol aksi tab di title bar</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>Susun panel</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>Susunan panel default</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Vertikal</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>Tampilkan ikon Files di Baki Sistem</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>CPU threads</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Navigate to the home page</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Show Home in address bar</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Toolbars</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>User ID</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Bulk rename</value>
+  </data>
+  <data name="ShowCreateAlternateDataStream" xml:space="preserve">
+    <value>Show option to create alternate data stream</value>
+  </data>
+  <data name="CreateAlternateDataStream" xml:space="preserve">
+    <value>Create alternate data stream</value>
+  </data>
+  <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
+    <value>Create alternate data stream for the selected item(s)</value>
+  </data>
+  <data name="EnterDataStreamName" xml:space="preserve">
+    <value>Enter data stream name</value>
+  </data>
+  <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
+    <value>There was an error creating the alternate data stream</value>
+  </data>
+  <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
+    <value>Please note that alternate data streams only work on drives formatted as NTFS.</value>
+  </data>
+  <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
+    <value>Alternate data streams are currently hidden</value>
+  </data>
+  <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
+    <value>Would you like to display alternate data streams? You can modify this setting anytime from the files and folders settings page.</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Manage tags</value>
   </data>
 </root>

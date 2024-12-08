@@ -25,7 +25,7 @@ namespace Files.App.Actions
 			}
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			var appWindow = MainWindow.Instance.AppWindow;
 			var newKind = appWindow.Presenter.Kind is AppWindowPresenterKind.FullScreen

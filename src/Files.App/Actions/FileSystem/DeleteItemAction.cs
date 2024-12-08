@@ -12,7 +12,7 @@ namespace Files.App.Actions
 			=> "DeleteItemDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new RichGlyph(opacityStyle: "ColorIconDelete");
+			=> new RichGlyph(themedIconStyle: "App.ThemedIcons.Delete");
 
 		public HotKey HotKey
 			=> new(Keys.Delete);
@@ -20,7 +20,7 @@ namespace Files.App.Actions
 		public HotKey SecondHotKey
 			=> new(Keys.D, KeyModifiers.Ctrl);
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			return DeleteItemsAsync(false);
 		}

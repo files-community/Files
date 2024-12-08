@@ -5,7 +5,6 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
-	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -13,9 +12,12 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:items="using:Files.App.Data.Items"
 	xmlns:keyboard="using:Files.App.UserControls.KeyboardShortcut"
+	xmlns:local="using:Files.App.UserControls"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:uc="using:Files.App.UserControls"
+	xmlns:ucs="using:Files.App.UserControls.StatusCenter"
+	xmlns:vm="using:Files.App.ViewModels.UserControls"
 	x:Name="NavToolbar"
 	Height="50"
 	d:DesignHeight="50"
@@ -34,6 +36,7 @@
 				<ResourceDictionary>
 					<SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
 					<SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
+					<SolidColorBrush x:Key="AppBarButtonBackgroundPointerOver" Color="{ThemeResource ButtonBackgroundPointerOver}" />
 
 					<Style
 						x:Key="AddressToolbarButtonStyle"
@@ -44,6 +47,7 @@
 						<Setter Property="BorderBrush" Value="Transparent" />
 						<Setter Property="Width" Value="36" />
 						<Setter Property="Height" Value="32" />
+						<Setter Property="Foreground" Value="{ThemeResource App.Theme.IconBaseBrush}" />
 					</Style>
 
 					<Style x:Key="DefaultInfoBadgeStyle" TargetType="InfoBadge">
@@ -234,12 +238,33 @@
 
 			<!--  Page Navigation Actions  -->
 			<StackPanel
-				Grid.Row="1"
+				Grid.Column="0"
 				Orientation="Horizontal"
 				Spacing="4">
+
+				<ToggleButton
+					x:Name="SidebarPaneToggleButton"
+					Width="36"
+					Height="32"
+					Padding="0"
+					x:Load="{x:Bind IsSidebarPaneOpenToggleButtonVisible, Mode=OneWay}"
+					AutomationProperties.Name="ToggleSidebarPane"
+					Background="Transparent"
+					BorderBrush="Transparent"
+					IsChecked="{x:Bind MainPageViewModel.IsSidebarPaneOpen, Mode=TwoWay}"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=ToggleSidebar}">
+					<AnimatedIcon Width="14">
+						<AnimatedIcon.Source>
+							<animatedvisuals:AnimatedGlobalNavigationButtonVisualSource />
+						</AnimatedIcon.Source>
+						<AnimatedIcon.FallbackIconSource>
+							<SymbolIconSource Symbol="GlobalNavigationButton" />
+						</AnimatedIcon.FallbackIconSource>
+					</AnimatedIcon>
+				</ToggleButton>
+
 				<Button
 					x:Name="Back"
-					x:FieldModifier="public"
 					AccessKey="B"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
 					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateBack.Description, Mode=OneWay}"
@@ -249,11 +274,26 @@
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
+					<Button.ContextFlyout>
+						<MenuFlyout
+							x:Name="BackHistoryFlyout"
+							Opening="BackHistoryFlyout_Opening"
+							Placement="BottomEdgeAlignedLeft"
+							ScrollViewer.VerticalScrollBarVisibility="Auto"
+							ScrollViewer.VerticalScrollMode="Auto">
+							<MenuFlyout.MenuFlyoutPresenterStyle>
+								<Style TargetType="MenuFlyoutPresenter">
+									<Setter Property="MaxHeight" Value="400" />
+									<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
+									<Setter Target="HighContrastAdjustment" Value="None" />
+								</Style>
+							</MenuFlyout.MenuFlyoutPresenterStyle>
+						</MenuFlyout>
+					</Button.ContextFlyout>
 				</Button>
 
 				<Button
 					x:Name="Forward"
-					x:FieldModifier="public"
 					AccessKey="F"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
 					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateForward.Description, Mode=OneWay}"
@@ -263,11 +303,26 @@
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
+					<Button.ContextFlyout>
+						<MenuFlyout
+							x:Name="ForwardHistoryFlyout"
+							Opening="ForwardHistoryFlyout_Opening"
+							Placement="BottomEdgeAlignedLeft"
+							ScrollViewer.VerticalScrollBarVisibility="Auto"
+							ScrollViewer.VerticalScrollMode="Auto">
+							<MenuFlyout.MenuFlyoutPresenterStyle>
+								<Style TargetType="MenuFlyoutPresenter">
+									<Setter Property="MaxHeight" Value="400" />
+									<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
+									<Setter Target="HighContrastAdjustment" Value="None" />
+								</Style>
+							</MenuFlyout.MenuFlyoutPresenterStyle>
+						</MenuFlyout>
+					</Button.ContextFlyout>
 				</Button>
 
 				<Button
 					x:Name="Up"
-					x:FieldModifier="public"
 					AccessKey="U"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
 					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateUp.Description, Mode=OneWay}"
@@ -281,7 +336,6 @@
 
 				<Button
 					x:Name="Refresh"
-					x:FieldModifier="public"
 					AccessKey="R"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
 					AutomationProperties.Name="{x:Bind Commands.RefreshItems.Label}"
@@ -290,6 +344,19 @@
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey, Mode=OneWay}">
 					<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
+				</Button>
+
+				<Button
+					x:Name="HomeButton"
+					x:Load="{x:Bind ViewModel.ShowHomeButton, Mode=OneWay}"
+					AccessKey="H"
+					AccessKeyInvoked="Button_AccessKeyInvoked"
+					AutomationProperties.Name="{x:Bind Commands.NavigateHome.Label}"
+					Command="{x:Bind Commands.NavigateHome, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.NavigateHome.IsExecutable, Mode=OneWay}"
+					Style="{StaticResource AddressToolbarButtonStyle}"
+					ToolTipService.ToolTip="{x:Bind Commands.NavigateHome.LabelWithHotKey, Mode=OneWay}">
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateHome.Glyph.BaseGlyph}" />
 				</Button>
 			</StackPanel>
 
@@ -337,21 +404,11 @@
 									<Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPreMatched, Mode=OneWay}" /><Run FontWeight="Bold" Text="{x:Bind PrimaryDisplayMatched, Mode=OneWay}" /><Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPostMatched, Mode=OneWay}" />
 								</TextBlock>
 
-								<!--  Secondary Title  -->
-								<TextBlock
-									x:Name="SecondaryDisplayBlock"
-									Grid.Column="0"
-									x:Load="{x:Bind SecondaryDisplay, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
-									FontWeight="Normal"
-									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-									Text="{x:Bind SecondaryDisplay, Mode=OneWay}" />
-
 								<!--  Keyboard Shortcuts  -->
 								<keyboard:KeyboardShortcut
 									x:Name="RightAlignedKeyboardShortcut"
 									Grid.Column="1"
 									HotKeys="{x:Bind HotKeys, Mode=OneWay}" />
-
 							</Grid>
 						</StackPanel>
 					</DataTemplate>
@@ -387,6 +444,7 @@
 					Grid.Column="1"
 					Margin="12"
 					FontSize="16"
+					Foreground="{ThemeResource App.Theme.IconBaseBrush}"
 					Glyph="&#xE70D;" />
 			</Grid>
 
@@ -438,12 +496,12 @@
 					<Grid Margin="-16">
 
 						<!-- Enable icon again if we add option to always display on the toolbar
-						<uc:OpacityIcon
+						<ThemedIcon
 							x:Name="StatusCenterIcon"
 							Width="16"
 							Height="16"
 							x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-							Style="{StaticResource ColorIconStatusCenter}" />-->
+							Style="{StaticResource App.ThemedIcons.StatusCenter}" />-->
 
 						<ProgressRing
 							x:Name="MedianOperationProgressRing"
@@ -474,7 +532,7 @@
 								</Style>
 							</Flyout.FlyoutPresenterStyle>
 
-							<uc:StatusCenter
+							<ucs:StatusCenter
 								x:Name="OngoingTasksControl"
 								Width="400"
 								MinHeight="300"
@@ -518,25 +576,26 @@
 					</Grid>
 				</Button>
 
-				<!--  Show The Latest Version Release Note  -->
+				<!--  Open the Release Notes dialog  -->
 				<Button
-					x:Name="ShowReleaseNotesButton"
+					x:Name="OpenReleaseNotesButton"
 					HorizontalContentAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
-					x:Load="{x:Bind ViewModel.IsReleaseNotesVisible, Mode=OneWay}"
+					x:Load="{x:Bind ViewModel.IsAppUpdated, Mode=OneWay}"
 					AccessKey="2"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
-					AutomationProperties.Name="{helpers:ResourceString Name=WhatsNew}"
-					Command="{x:Bind ViewModel.ViewReleaseNotesAsyncCommand, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind ViewModel.Commands.OpenReleaseNotes.Label}"
+					Command="{x:Bind ViewModel.Commands.OpenReleaseNotes, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=WhatsNew}">
+					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.OpenReleaseNotes.LabelWithHotKey}"
+					Visibility="{x:Bind ViewModel.Commands.OpenReleaseNotes.IsExecutable, Mode=OneWay}">
 					<FontIcon
 						FontSize="14"
 						Foreground="{ThemeResource SystemAccentColor}"
 						Glyph="&#xF133;" />
 				</Button>
 
-				<!--  Show The Files App Settings Dialog  -->
+				<!--  Open the Settings dialog  -->
 				<Button
 					x:Name="SettingsButton"
 					AccessKey="I"

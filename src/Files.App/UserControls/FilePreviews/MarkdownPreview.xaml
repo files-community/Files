@@ -7,21 +7,23 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.UserControls.FilePreviews"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/ResourceDictionaries/TransparentMarkdownTextBlock.xaml" />
+				<ResourceDictionary Source="/Styles/TransparentMarkdownTextBlock.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<Border>
-		<ScrollViewer>
+	<ScrollViewer>
 
-			<controls:MarkdownTextBlock Text="{x:Bind ViewModel.TextValue, Mode=OneWay}" />
+		<controls:MarkdownTextBlock
+			x:Name="PreviewMarkdownTextBlock"
+			LinkClicked="PreviewMarkdownTextBlock_LinkClicked"
+			Text="{x:Bind ViewModel.TextValue, Mode=OneWay}" />
 
-		</ScrollViewer>
-	</Border>
+	</ScrollViewer>
 </UserControl>

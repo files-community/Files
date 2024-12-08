@@ -126,6 +126,9 @@
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Copiar ruta con comillas</value>
   </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>Copiar entre comillas la ruta del elemento seleccionado</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Examinar</value>
   </data>
@@ -216,8 +219,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>Apariencia</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>Fondo</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>Color de fondo</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Avanzado</value>
@@ -248,6 +251,9 @@
   </data>
   <data name="Paste" xml:space="preserve">
     <value>Pegar</value>
+  </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>Atajo para pegar</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nuevo</value>
@@ -291,8 +297,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Introducir nombre del elemento</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Establecer nombre</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>Crear nuevo {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Claro</value>
@@ -339,6 +345,9 @@
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>Establecer como fondo de pantalla de bloqueo</value>
   </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>Establecer como fondo de aplicación</value>
+  </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>No pudimos eliminar este elemento</value>
   </data>
@@ -382,28 +391,40 @@
     <value>Solo lectura</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
+    <value>{0, plural, one {hace # día} other {hace # días}}</value>
+  </data>
+  <data name="DaysAgo_Singular" xml:space="preserve">
+    <value>Hace 1 día</value>
+  </data>
+  <data name="DaysAgo_Plural" xml:space="preserve">
     <value>Hace {0} días</value>
   </data>
-  <data name="DayAgo" xml:space="preserve">
-    <value>Hace {0} día</value>
-  </data>
   <data name="HoursAgo" xml:space="preserve">
+    <value>{0, plural, one {hace # hora} other {hace # horas}}</value>
+  </data>
+  <data name="HoursAgo_Singular" xml:space="preserve">
+    <value>Hace 1 hora</value>
+  </data>
+  <data name="HoursAgo_Plural" xml:space="preserve">
     <value>Hace {0} horas</value>
   </data>
-  <data name="HourAgo" xml:space="preserve">
-    <value>Hace {0} hora</value>
-  </data>
   <data name="MinutesAgo" xml:space="preserve">
+    <value>{0, plural, one {hace # minuto} other {hace # minutos}}</value>
+  </data>
+  <data name="MinutesAgo_Singular" xml:space="preserve">
+    <value>Hace 1 minuto</value>
+  </data>
+  <data name="MinutesAgo_Plural" xml:space="preserve">
     <value>Hace {0} minutos</value>
   </data>
-  <data name="MinuteAgo" xml:space="preserve">
-    <value>Hace {0} minuto</value>
-  </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>Hace {0} segundos</value>
+    <value>{0, plural, one {hace # segundo} other {hace # segundos}}</value>
   </data>
-  <data name="OneSecondAgo" xml:space="preserve">
+  <data name="SecondsAgo_Singular" xml:space="preserve">
     <value>Hace 1 segundo</value>
+  </data>
+  <data name="SecondsAgo_Plural" xml:space="preserve">
+    <value>Hace {0} segundos</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>Ahora</value>
@@ -423,17 +444,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>El nombre del elemento especificado no es válido</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>elemento seleccionado</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, one {# elemento seleccionado} other {# elementos seleccionados}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>elementos seleccionados</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>elemento</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>elementos</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, one {item} other {items}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>Sí</value>
@@ -466,10 +483,10 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} Archivos, {1:#,##0} Carpetas</value>
+    <value>{0, number} {0, plural, one {archivo} other {archivos}}, {1, number} {1, plural, one {carpeta} other {carpetas}}</value>
   </data>
-  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} archivos, {1:#,##0} carpetas de {2:#,##0} ubicaciones</value>
+  <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
+    <value>{0, number} {0, plural, one {archivo} other {archivos}}, {1, number} {1, plural, one {carpeta} other {carpetas}} desde {2, number} {2, plural, one {ubicación} other {ubicaciones}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Ejecutar como otro usuario</value>
@@ -501,7 +518,7 @@
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Mover la pestaña aquí</value>
   </data>
-  <data name="syncStatusColumn.Header" xml:space="preserve">
+  <data name="Status" xml:space="preserve">
     <value>Estado</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
@@ -882,6 +899,12 @@
   <data name="PropertyEncodingBitrate" xml:space="preserve">
     <value>Velocidad de bits</value>
   </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>Tasa de bits de codificación de audio</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>Tasa de bits de codificación de vídeo</value>
+  </data>
   <data name="Compression" xml:space="preserve">
     <value>Compresión</value>
   </data>
@@ -1015,13 +1038,13 @@
     <value>Mostrar opción para abrir carpetas en un nuevo panel</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
-    <value>Mostrar opción para copiar ruta</value>
+    <value>Mostrar opción para copiar la ruta</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
     <value>Mostrar opción para crear una carpeta con la selección</value>
   </data>
   <data name="ShowCreateShortcut" xml:space="preserve">
-    <value>Mostrar opción para crear acceso directo</value>
+    <value>Mostrar opción para crear un acceso directo</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Nuevo panel</value>
@@ -1065,6 +1088,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>Mostrar/Ocultar panel de información con paneles de vista previa y detalles</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>Mostrar/Ocultar barra de herramientas</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>No hay vista previa disponible</value>
   </data>
@@ -1073,9 +1099,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Desanclar de la barra lateral</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>Unidades de red</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Red</value>
@@ -1221,50 +1244,47 @@
   <data name="OpenStorageSense" xml:space="preserve">
     <value>Abrir sensor de almacenamiento</value>
   </data>
+  <data name="OpenStorageSenseDescription" xml:space="preserve">
+    <value>Abrir la página Sensor de almacenamiento en la Configuración de Windows</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>Limpiar</value>
+  </data>
   <data name="Copy" xml:space="preserve">
     <value>Copiar</value>
   </data>
-  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Se copiarán {0} elementos</value>
-  </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>Copiar elemento(s)</value>
+    <value>Copia {0, plural, one {elemento} other {elementos}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>Eliminar elemento(s)</value>
+    <value>Elimina {0, plural, one {elemento} other {elementos}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Mover</value>
   </data>
-  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Se moverán {0} elementos</value>
+  <data name="MoveItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {Un elemento será movido} other {# elementos serán movidos}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>Mover elementos(s)</value>
+    <value>Mueve {0, plural, one {elemento} other {elementos}}</value>
   </data>
-  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>Se eliminarán {0} elementos</value>
+  <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {Un elemento será eliminado} other {# elementos serán eliminados}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>Continuar</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>Hay {0} nombres de archivos en conflicto y {1} elemento(s) saliente(s).</value>
+  <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
+    <value>{0, plural, one {Hay un nombre de archivo en conflicto} other {Hay # nombres de archivo en conflicto}}</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
+    <value>{0, plural, one {Hay un nombre de archivo en conflicto} other {Hay # nombres de archivo en conflicto}}, y {1, plural, one {un elemento saliente} other {# elementos salientes}}</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>Nombre de archivo(s) en conflicto</value>
+    <value>Conflicto {0, plural, one {elemento} other {elementos}}</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>Hay un nombre de archivo en conflicto y {0} elementos salientes.</value>
-  </data>
-  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Se copiará 1 elemento</value>
-  </data>
-  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Se eliminará 1 elemento</value>
-  </data>
-  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>Se moverá 1 elemento</value>
+  <data name="CopyItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, one {Un elemento será copiado} other {# elementos serán copiados}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Eliminar permanentemente</value>
@@ -1277,12 +1297,6 @@
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>Generar nuevo nombre</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>Hay {0} nombres de archivo en conflicto.</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>Hay un nombre de archivo en conflicto.</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Crear carpeta con la selección</value>
@@ -1584,8 +1598,8 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>Reemplazar todos los permisos de objetos secundarios por permisos heredables de este objeto</value>
   </data>
-  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>Cerrar panel</value>
+  <data name="CloseActivePane" xml:space="preserve">
+    <value>Cerrar panel activo</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Cambiar a modo superposición compacta</value>
@@ -1614,8 +1628,8 @@
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Descarga el elemento de la nube y carga la vista previa.</value>
   </data>
-  <data name="DetailsArchiveItemCount" xml:space="preserve">
-    <value>{0} elementos ({1} archivos, {2} carpetas)</value>
+  <data name="DetailsArchiveItems" xml:space="preserve">
+    <value>{0, plural, one {# elemento} other {# elementos}} ({1, plural, one {# archivo} other {# archivos}}, {2, plural, one {# carpeta} other {# carpetas}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Tamaño sin comprimir</value>
@@ -1697,12 +1711,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>Nombre de usuario</value>
-  </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget de Unidades</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>Widget de Archivos Recientes</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>No se encontraron elementos</value>
@@ -1851,11 +1859,14 @@
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
     <value>Color sin reducción</value>
   </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>Licencias de terceros</value>
+  <data name="ThirdPartyLibraries" xml:space="preserve">
+    <value>Bibliotecas de terceros</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Esta configuración modifica los archivos del sistema y puede tener efectos secundarios inesperados en su dispositivo. Los desarrolladores no asumen ninguna responsabilidad en caso de que se produzca un problema como resultado. Continuar con esta opción es un reconocimiento de los riesgos que implica esta acción.</value>
+  </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>Las operaciones de aplanado (flatten) son permanentes y no se recomiendan. Continúe bajo su propia responsabilidad.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Crear biblioteca</value>
@@ -1934,6 +1945,9 @@
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Cerrar otras pestañas</value>
+  </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>Cerrar todas las pestañas</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>Música</value>
@@ -2030,6 +2044,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Comprimir</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Mueve todo el contenido de las subcarpetas a la ubicación seleccionada</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Aplanar carpeta</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Aplanar</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>Al aplanar una carpeta se moverá todo el contenido de sus subcarpetas a la ubicación seleccionada. Esta operación es permanente y no puede deshacerse. Al utilizar esta función experimental, usted reconoce el riesgo y acepta no responsabilizar al equipo de Files de ninguna pérdida de datos.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Mostrar opciones de aplanado</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Seleccionar archivos y carpetas al pasar el cursor sobre ellos</value>
@@ -2251,7 +2280,7 @@
     <value>Mostrar elementos ocultos</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Formatear...</value>
+    <value>Formato</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Ayuda</value>
@@ -2361,6 +2390,9 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Mostrar o no los elementos ocultos</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>Mostrar/Ocultar archivos de puntos</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Mostrar o no las extensiones de los archivos</value>
   </data>
@@ -2376,6 +2408,12 @@
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Copiar la ruta de los elementos seleccionados al portapapeles</value>
   </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
+    <value>Copiar la ruta de los elementos seleccionados al portapapeles</value>
+  </data>
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
+    <value>Copiar entre comillas la ruta de los elementos seleccionados al portapapeles</value>
+  </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
     <value>Copiar entre comillas la ruta de los elementos seleccionados al portapapeles</value>
   </data>
@@ -2384,6 +2422,9 @@
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Pegar elemento(s) del portapapeles en la carpeta actual</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>Pegar elemento(s) del portapapeles a la carpeta actual como atajos</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>Pegar elemento(s) del portapapeles en la carpeta seleccionada</value>
@@ -2462,6 +2503,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Establecer imagen seleccionada como fondo de pantalla de bloqueo</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>Establecer la imagen seleccionada como fondo de la aplicación</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Instalar fuente(s) seleccionada(s)</value>
@@ -2661,6 +2705,9 @@
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Cerrar pestañas distintas de la seleccionada</value>
   </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>Cerrar todas las pestañas incluyendo la actual</value>
+  </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Reabrir última pestaña cerrada</value>
   </data>
@@ -2673,11 +2720,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>Cerrar pestaña actual</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>Abrir nuevo panel</value>
+  <data name="CloseActivePaneDescription" xml:space="preserve">
+    <value>Cierra el panel activo</value>
   </data>
-  <data name="ClosePaneDescription" xml:space="preserve">
-    <value>Cerrar panel derecho</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>Enfocar otro panel</value>
+  </data>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>Cambiar el enfoque al panel no activo</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Ocultar/mostrar barra lateral</value>
@@ -3058,8 +3108,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Abrir propiedades</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Abrir las propiedades del Explorador de archivos</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Abrir ventana de propiedades</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Abrir la ventana de propiedades del Explorador de archivos</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Locales</value>
@@ -3123,7 +3179,7 @@
     <value>Mica alternativa</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Material de fondo</value>
+    <value>Fondo</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Sólido</value>
@@ -3265,7 +3321,7 @@
     <value>Files se está ejecutando como administrador</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Debido a limitaciones de la plataforma, arrastrar y soltar no está disponible cuando se ejecuta Files como administrador.</value>
+    <value>Debido a una limitación con Windows y WinAppSdk, arrastrar y soltar no está disponible cuando se ejecuta Archivos como administrador. Si desea usar arrastrar y soltar, puede solucionar esta limitación abriendo UAC (Control de cuentas de usuario) desde el Menú Inicio y seleccionando el tercer nivel, y reiniciando Windows. De lo contrario, puede seguir usando Archivos sin arrastrar y soltar.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Permitir que la aplicación se ejecute en segundo plano al cerrar la ventana</value>
@@ -3656,7 +3712,7 @@
     <value>Preguntas y discusiones</value>
   </data>
   <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Aún no se dispone de tamaños adicionales para la vista Mosaicos.</value>
+    <value>Todavía no hay tamaños disponibles para la vista en Mosaicos.</value>
   </data>
   <data name="Compact" xml:space="preserve">
     <value>Compacto</value>
@@ -3715,5 +3771,237 @@
   </data>
   <data name="LayoutType" xml:space="preserve">
     <value>Tipo de disposición</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Acciones</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>Comandos</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>Añadir comando</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>Restaurar valores predeterminados</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>Seleccionar una acción</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>¿Está seguro de que desea restaurar las combinaciones de teclas predeterminadas? Esta acción no se puede deshacer.</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>Esta combinación de teclas ya está siendo utilizada, por favor elija una combinación de teclas diferente para continuar.</value>
+  </data>
+  <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
+    <value>La combinación de teclas elegida no se puede utilizar, por favor, inténtelo de nuevo con otra combinación de teclas.</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>Personalizado</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>El diseño adaptable no está disponible cuando las preferencias están sincronizadas, el diseño predeterminado se ha cambiado a Detalles.</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>Imagen de fondo</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>Pie</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>Centro</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>Rellenar</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>Alineación horizontal</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>Ajuste de Imagen</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Izquierda</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Opacidad</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Derecha</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>Superior</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>Uniforme</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>Uniforme para Rellenar</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>Alineación vertical</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>Acrílico delgado</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>Mostrar para todas las ubicaciones</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>Herramientas de desarrollador</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>Configure el botón "Abrir IDE" en la barra de estado</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>Mostrar para repos de Git</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>Extensión de la aplicación</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>Archivo ICO</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Archivo Zip</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>Archivos de Bitmap</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>Núm</value>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>Ubicaciones de red</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>No hay ubicaciones de red. Si no utiliza ubicaciones de red, puede desactivar el widget.</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>Desactivar</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>Editar en Bloc de notas</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>Editar el archivo seleccionado en el Bloc de notas</value>
+  </data>
+  <data name="PropertyDimensionsColon" xml:space="preserve">
+    <value>Dimensiones:</value>
+  </data>
+  <data name="StatusWithColon" xml:space="preserve">
+    <value>Estado:</value>
+  </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>Mostrar barra de herramientas</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>Menú de acciones de pestaña</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>Añadir panel vertical</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>Añadir un panel vertical</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>Añadir panel horizontal</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>Agregar un panel horizontal</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>Organizar verticalmente</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>Organizar los paneles verticalmente</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>Organizar horizontalmente</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>Organizar paneles horizontalmente</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>Añadir panel</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>Mostrar el botón de acciones de pestañas en la barra de título</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>Organizar paneles</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>Disposición predeterminada de paneles</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>Vertical</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>Mostrar icono de Files en la bandeja del sistema</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>Hilos de la CPU</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Ir a la página de inicio</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Mostrar al inicio en la barra de direcciones</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Barras de herramientas</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>ID de usuario</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Renombrar en masa</value>
+  </data>
+  <data name="ShowCreateAlternateDataStream" xml:space="preserve">
+    <value>Mostrar opción para crear flujo de datos alternativos</value>
+  </data>
+  <data name="CreateAlternateDataStream" xml:space="preserve">
+    <value>Crear flujo de datos alternativos</value>
+  </data>
+  <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
+    <value>Crear flujo de datos alternativos para elemento(s) seleccionado(s)</value>
+  </data>
+  <data name="EnterDataStreamName" xml:space="preserve">
+    <value>Introducir nombre de flujo de datos</value>
+  </data>
+  <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
+    <value>Se ha producido un error al crear el flujo de datos alternativos</value>
+  </data>
+  <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
+    <value>Tenga en cuenta que los flujos de datos alternativos solo funcionan en unidades formateadas como NTFS.</value>
+  </data>
+  <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
+    <value>Los flujos de datos alternativos están actualmente ocultos</value>
+  </data>
+  <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
+    <value>¿Le gustaría mostrar flujos de datos alternativos? Puede modificar esta configuración en cualquier momento desde la página de configuración de archivos y carpetas.</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Manage tags</value>
   </data>
 </root>

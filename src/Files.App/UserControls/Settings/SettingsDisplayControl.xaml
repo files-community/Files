@@ -45,7 +45,8 @@
 			x:Name="SettingsIconElement"
 			Margin="2,20,20,20"
 			x:Load="{x:Bind Icon, Mode=OneWay, Converter={StaticResource NullToFalseConverter}}"
-			Content="{x:Bind Icon, Mode=OneWay}" />
+			Content="{x:Bind Icon, Mode=OneWay}"
+			Foreground="{ThemeResource App.Theme.IconBaseBrush}" />
 
 		<Grid
 			x:Name="DescriptionPanel"

@@ -1,11 +1,7 @@
-﻿using Files.Core.Storage.Enums;
-using Files.Core.Storage.ExtendableStorage;
-using Files.Core.Storage.ModifiableStorage;
-using System;
-using System.Collections.Generic;
+﻿// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
 using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Files.Core.Storage.Extensions
 {

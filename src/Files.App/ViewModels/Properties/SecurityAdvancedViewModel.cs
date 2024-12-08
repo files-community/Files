@@ -2,13 +2,15 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml;
-using Vanara.PInvoke;
 using Windows.Storage;
+using Windows.Win32.Foundation;
 
 namespace Files.App.ViewModels.Properties
 {
 	public sealed class SecurityAdvancedViewModel : ObservableObject
 	{
+		private readonly IStorageSecurityService StorageSecurityService = Ioc.Default.GetRequiredService<IStorageSecurityService>();
+
 		private readonly PropertiesPageNavigationParameter _navigationParameter;
 
 		private readonly Window _window;
@@ -166,14 +168,16 @@ namespace Files.App.ViewModels.Properties
 
 		private void LoadAccessControlEntry()
 		{
-			var error = FileSecurityHelpers.GetAccessControlList(_path, _isFolder, out _AccessControlList);
+			var error = StorageSecurityService.GetAcl(_path, _isFolder, out _AccessControlList);
+			OnPropertyChanged(nameof(AccessControlList));
+
 			SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 
 			if (!AccessControlList.IsValid)
 			{
 				DisplayElements = false;
 
-				if (error == Win32Error.ERROR_ACCESS_DENIED)
+				if (error is WIN32_ERROR.ERROR_ACCESS_DENIED)
 				{
 					ErrorMessage = 
 						"SecurityRequireReadPermissions".GetLocalizedResource() +
@@ -185,7 +189,7 @@ namespace Files.App.ViewModels.Properties
 					ErrorMessage =
 						"SecurityUnableToDisplayPermissions".GetLocalizedResource() +
 						"\r\n\r\n" +
-						error.FormatMessage();
+						error.ToString();
 				}
 			}
 			else
@@ -204,7 +208,7 @@ namespace Files.App.ViewModels.Properties
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				// Set owner
-				FileSecurityHelpers.SetOwner(_path, sid);
+				StorageSecurityService.SetOwner(_path, sid);
 
 				// Reload
 				LoadAccessControlEntry();
@@ -221,10 +225,10 @@ namespace Files.App.ViewModels.Properties
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				// Run Win32API
-				var win32Result = FileSecurityHelpers.AddAccessControlEntry(_path, sid);
+				var win32Result = StorageSecurityService.AddAce(_path, _isFolder, sid);
 
 				// Add a new ACE to the ACL
-				var ace = FileSecurityHelpers.InitializeDefaultAccessControlEntry(_isFolder, sid);
+				var ace = AccessControlEntry.GetDefault(_isFolder, sid);
 				AccessControlList.AccessControlEntries.Insert(0, ace);
 			});
 		}
@@ -240,7 +244,7 @@ namespace Files.App.ViewModels.Properties
 				var index = AccessControlList.AccessControlEntries.IndexOf(SelectedAccessControlEntry);
 
 				// Run Win32API
-				var win32Result = FileSecurityHelpers.RemoveAccessControlEntry(_path, (uint)index);
+				var win32Result = StorageSecurityService.DeleteAce(_path, (uint)index);
 
 				// Remove the ACE
 				AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);

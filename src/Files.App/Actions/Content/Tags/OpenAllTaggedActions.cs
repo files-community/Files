@@ -31,7 +31,7 @@ namespace Files.App.Actions
 			_tagsContext.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public async Task ExecuteAsync(object? parameter = null)
 		{
 			var filePaths = _tagsContext.TaggedItems
 				.Where(item => !item.isFolder)

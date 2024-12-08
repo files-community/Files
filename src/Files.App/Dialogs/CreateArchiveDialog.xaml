@@ -77,6 +77,7 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
 			<!--  Archive Format  -->
@@ -138,6 +139,22 @@
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
+
+			<!--  CPU Threads  -->
+			<TextBlock
+				Grid.Row="3"
+				Grid.Column="0"
+				VerticalAlignment="Center"
+				Text="{helpers:ResourceString Name=CPUThreads}" />
+			<NumberBox
+				Grid.Row="3"
+				Grid.Column="1"
+				HorizontalAlignment="Right"
+				AutomationProperties.Name="{helpers:ResourceString Name=CPUThreads}"
+				Maximum="{x:Bind ViewModel.CPUThreads, Mode=OneTime}"
+				Minimum="1"
+				SpinButtonPlacementMode="Inline"
+				Value="{x:Bind ViewModel.CPUThreads, Mode=TwoWay}" />
 		</Grid>
 
 		<!--  Encryption Options  -->

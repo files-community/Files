@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Server.Data.Enums;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -90,6 +89,14 @@ namespace Files.App.Views.Layouts
 			FileList.ScrollIntoView(e);
 		}
 
+		protected override void ItemManipulationModel_ScrollToTopInvoked(object? sender, EventArgs e)
+		{
+			if (FolderSettings?.LayoutMode is FolderLayoutModes.ListView)
+				ContentScroller?.ChangeView(0, null, null, true);
+			else
+				ContentScroller?.ChangeView(null, 0, null, true);
+		}
+
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
 			if (SelectedItems.Any())
@@ -122,8 +129,6 @@ namespace Files.App.Views.Layouts
 
 			currentIconSize = FolderSettings.GetRoundedIconSize();
 
-			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
-			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
@@ -131,7 +136,7 @@ namespace Files.App.Views.Layouts
 			// Set ItemTemplate
 			SetItemTemplate();
 			SetItemContainerStyle();
-			FileList.ItemsSource ??= ParentShellPageInstance.FilesystemViewModel.FilesAndFolders;
+			FileList.ItemsSource ??= ParentShellPageInstance.ShellViewModel.FilesAndFolders;
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
@@ -501,21 +506,21 @@ namespace Files.App.Views.Layouts
 			if (ParentShellPageInstance is null)
 				return;
 
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			var filesAndFolders = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList();
+			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
+			var filesAndFolders = ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList();
 			foreach (ListedItem listedItem in filesAndFolders)
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
-					await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem);
+					await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
 			}
 
-			if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None)
+			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None)
 			{
 				await Task.WhenAll(filesAndFolders.Select(item =>
 				{
 					if (item is GitItem gitItem)
-						return ParentShellPageInstance.FilesystemViewModel.LoadGitPropertiesAsync(gitItem);
+						return ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
 
 					return Task.CompletedTask;
 				}));
@@ -580,10 +585,9 @@ namespace Files.App.Views.Layouts
 		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item &&
-				!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 				await Commands.OpenItem.ExecuteAsync();
-			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
+			else if ((e.OriginalSource as FrameworkElement)?.DataContext is not ListedItem && UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 				await Commands.NavigateUp.ExecuteAsync();
 
 			ResetRenameDoubleClick();
@@ -692,7 +696,7 @@ namespace Files.App.Views.Layouts
 		// To avoid crashes, disable scrolling when drag-and-drop if grouped. (#14484)
 		private bool ShouldDisableScrollingWhenDragAndDrop =>
 			FolderSettings?.LayoutMode is FolderLayoutModes.GridView or FolderLayoutModes.TilesView &&
-			(ParentShellPageInstance?.FilesystemViewModel.FilesAndFolders.IsGrouped ?? false);
+			(ParentShellPageInstance?.ShellViewModel.FilesAndFolders.IsGrouped ?? false);
 
 		protected override void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{

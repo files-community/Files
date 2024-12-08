@@ -22,8 +22,9 @@ namespace Files.App.Data.Factories
 		private static readonly IModifiableCommandManager ModifiableCommands = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
 		private static readonly IAddItemService AddItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 		private static readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+		private static IStorageArchiveService StorageArchiveService { get; } = Ioc.Default.GetRequiredService<IStorageArchiveService>();
 
-		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ItemViewModel? itemViewModel = null)
+		public static List<ContextMenuFlyoutItemViewModel> GetItemContextCommandsWithoutShellItems(CurrentInstanceViewModel currentInstanceViewModel, List<ListedItem> selectedItems, BaseLayoutViewModel commandsViewModel, bool shiftPressed, SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel, ShellViewModel? itemViewModel = null)
 		{
 			var menuItemsList = GetBaseItemMenuItems(commandsViewModel: commandsViewModel, selectedItems: selectedItems, selectedItemsPropertiesViewModel: selectedItemsPropertiesViewModel, currentInstanceViewModel: currentInstanceViewModel, itemViewModel: itemViewModel);
 			menuItemsList = Filter(items: menuItemsList, shiftPressed: shiftPressed, currentInstanceViewModel: currentInstanceViewModel, selectedItems: selectedItems, removeOverflowMenu: false);
@@ -79,7 +80,7 @@ namespace Files.App.Data.Factories
 			SelectedItemsPropertiesViewModel? selectedItemsPropertiesViewModel,
 			List<ListedItem> selectedItems,
 			CurrentInstanceViewModel currentInstanceViewModel,
-			ItemViewModel? itemViewModel = null)
+			ShellViewModel? itemViewModel = null)
 		{
 			bool itemsSelected = itemViewModel is null;
 			bool canDecompress = selectedItems.Any() && selectedItems.All(x => x.IsArchive)
@@ -97,6 +98,15 @@ namespace Files.App.Data.Factories
 
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.CloseActivePane)
+				{
+					IsVisible = !itemsSelected && Commands.CloseActivePane.IsExecutable,
+				}.Build(),
+				new ContextMenuFlyoutItemViewModel()
+				{
+					ItemType = ContextMenuFlyoutItemType.Separator,
+					ShowItem = !itemsSelected && Commands.CloseActivePane.IsExecutable
+				},
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "Layout".GetLocalizedResource(),
@@ -137,9 +147,9 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SortBy".GetLocalizedResource(),
-					OpacityIcon = new OpacityIconModel()
+					ThemedIconModel = new ThemedIconModel()
 					{
-						OpacityIconStyle = "ColorIconSort",
+						ThemedIconStyle = "App.ThemedIcons.Sorting",
 					},
 					ShowItem = !itemsSelected,
 					ShowInRecycleBin = true,
@@ -349,16 +359,15 @@ namespace Files.App.Data.Factories
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					OpacityIcon = new OpacityIconModel()
+					ThemedIconModel = new ThemedIconModel()
 					{
-						OpacityIconStyle = Commands.AddItem.Glyph.OpacityStyle
+						ThemedIconStyle = Commands.AddItem.Glyph.ThemedIconStyle
 					},
 					Text = Commands.AddItem.Label,
 					Items = GetNewItemItems(commandsViewModel, currentInstanceViewModel.CanCreateFileInPage),
 					ShowItem = !itemsSelected,
 					ShowInFtpPage = true
 				},
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.FormatDrive).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.EmptyRecycleBin)
 				{
 					IsVisible = currentInstanceViewModel.IsPageTypeRecycleBin && !itemsSelected,
@@ -380,9 +389,9 @@ namespace Files.App.Data.Factories
 				{
 					// TODO add back text and icon when https://github.com/microsoft/microsoft-ui-xaml/issues/9409 is resolved
 					//Text = "OpenWith".GetLocalizedResource(),
-					//OpacityIcon = new OpacityIconModel()
+					//ThemedIconModel = new ThemedIconModel()
 					//{
-					//	OpacityIconStyle = "ColorIconOpenWith"
+					//	ThemedIconStyle = "ColorIconOpenWith"
 					//},
 					Tag = "OpenWithOverflow",
 					IsHidden = true,
@@ -398,32 +407,42 @@ namespace Files.App.Data.Factories
 					ShowItem = itemsSelected && showOpenItemWith
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenFileLocation).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenDirectoryInNewTabAction).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewWindowItemAction).Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenDirectoryInNewPaneAction).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewTabAction)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewWindowAction)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewPaneAction)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
+				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "BaseLayoutItemContextFlyoutSetAs/Text".GetLocalizedResource(),
-					ShowItem = itemsSelected && (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false),
+					ShowItem = itemsSelected && (selectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false),
 					ShowInSearchPage = true,
 					Items =
 					[
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.SetAsWallpaperBackground).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.SetAsLockscreenBackground).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.SetAsSlideshowBackground).Build(),
+						new ContextMenuFlyoutItemViewModelBuilder(Commands.SetAsAppBackground).Build(),
 					]
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.RotateLeft)
 				{
 					IsVisible = !currentInstanceViewModel.IsPageTypeRecycleBin
 								&& !currentInstanceViewModel.IsPageTypeZipFolder
-								&& (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false)
+								&& (selectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false)
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.RotateRight)
 				{
 					IsVisible = !currentInstanceViewModel.IsPageTypeRecycleBin
 								&& !currentInstanceViewModel.IsPageTypeZipFolder
-								&& (selectedItemsPropertiesViewModel?.IsSelectedItemImage ?? false)
+								&& (selectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false)
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.RunAsAdmin).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.RunAsAnotherUser).Build(),
@@ -448,7 +467,8 @@ namespace Files.App.Data.Factories
 					IsPrimary = true,
 					IsVisible = true,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.CopyPath)
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.PasteItemAsShortcut).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.CopyItemPath)
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowCopyPath
 						&& itemsSelected
@@ -465,6 +485,11 @@ namespace Files.App.Data.Factories
 						&& (!selectedItems.FirstOrDefault()?.IsShortcut ?? false)
 						&& !currentInstanceViewModel.IsPageTypeRecycleBin,
 				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.CreateAlternateDataStream)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowCreateAlternateDataStream &&
+						Commands.CreateAlternateDataStream.IsExecutable,
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.Rename)
 				{
 					IsPrimary = true,
@@ -479,10 +504,10 @@ namespace Files.App.Data.Factories
 					IsVisible = itemsSelected,
 					IsPrimary = true,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenProperties)
+				new ContextMenuFlyoutItemViewModelBuilder(ModifiableCommands.OpenProperties)
 				{
 					IsPrimary = true,
-					IsVisible = Commands.OpenProperties.IsExecutable
+					IsVisible = ModifiableCommands.OpenProperties.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenParentFolder).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.PinFolderToSidebar)
@@ -507,9 +532,9 @@ namespace Files.App.Data.Factories
 				{
 					Text = "Compress".GetLocalizedResource(),
 					ShowInSearchPage = true,
-					OpacityIcon = new OpacityIconModel()
+					ThemedIconModel = new ThemedIconModel()
 					{
-						OpacityIconStyle = "ColorIconZip",
+						ThemedIconStyle = "App.ThemedIcons.Zip",
 					},
 					Items =
 					[
@@ -517,15 +542,15 @@ namespace Files.App.Data.Factories
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.CompressIntoZip).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.CompressIntoSevenZip).Build(),
 					],
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && itemsSelected && CompressHelper.CanCompress(selectedItems)
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && itemsSelected && StorageArchiveService.CanCompress(selectedItems)
 				},
 				new ContextMenuFlyoutItemViewModel
 				{
 					Text = "Extract".GetLocalizedResource(),
 					ShowInSearchPage = true,
-					OpacityIcon = new OpacityIconModel()
+					ThemedIconModel = new ThemedIconModel()
 					{
-						OpacityIconStyle = "ColorIconZip",
+						ThemedIconStyle = "App.ThemedIcons.Zip",
 					},
 					Items =
 					[
@@ -534,8 +559,9 @@ namespace Files.App.Data.Factories
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.DecompressArchiveHere).Build(),
 						new ContextMenuFlyoutItemViewModelBuilder(Commands.DecompressArchiveToChildFolder).Build(),
 					],
-					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && CompressHelper.CanDecompress(selectedItems)
+					ShowItem = UserSettingsService.GeneralSettingsService.ShowCompressionOptions && StorageArchiveService.CanDecompress(selectedItems)
 				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.FlattenFolder).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
 					Text = "SendTo".GetLocalizedResource(),
@@ -576,9 +602,24 @@ namespace Files.App.Data.Factories
 					ShowItem = isDriveRoot,
 					IsEnabled = false
 				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.EditInNotepad).Build(),
+				new ContextMenuFlyoutItemViewModel()
+				{
+					ItemType = ContextMenuFlyoutItemType.Separator,
+					ShowItem = (!itemsSelected && Commands.OpenTerminal.IsExecutable) ||
+						(areAllItemsFolders && Commands.OpenTerminal.IsExecutable) ||
+						Commands.OpenStorageSense.IsExecutable ||
+						Commands.FormatDrive.IsExecutable
+				},
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenTerminal)
+				{
+					IsVisible = (!itemsSelected && Commands.OpenTerminal.IsExecutable) || (areAllItemsFolders && Commands.OpenTerminal.IsExecutable)
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenStorageSense).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.FormatDrive).Build(),
 				// Shell extensions are not available on the FTP server or in the archive,
 				// but following items are intentionally added because icons in the context menu will not appear
-				// unless there is at least one menu item with an icon that is not an OpacityIcon. (#12943)
+				// unless there is at least one menu item with an icon that is not an ThemedIconModel. (#12943)
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,

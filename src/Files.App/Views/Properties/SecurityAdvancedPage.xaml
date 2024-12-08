@@ -5,11 +5,11 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:behaviors="using:Files.App.Data.Behaviors"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:extensions="using:Files.App.Extensions"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:security="using:Files.App.Utils.Storage"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
@@ -21,8 +21,8 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/DefaultGridSplitterStyle.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/PropertiesStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/DefaultGridSplitterStyle.xaml" />
 
 				<ResourceDictionary>
 
@@ -347,7 +347,7 @@
 				</ListView.Header>
 
 				<ListView.ItemTemplate>
-					<DataTemplate x:DataType="security:AccessControlEntry">
+					<DataTemplate x:DataType="dataitems:AccessControlEntry">
 						<Grid ColumnSpacing="13">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="20" />
@@ -507,7 +507,7 @@
 												</GridView.ItemsPanel>
 
 												<GridView.ItemTemplate>
-													<DataTemplate x:DataType="security:AccessMaskItem">
+													<DataTemplate x:DataType="dataitems:AccessMaskItem">
 														<CheckBox IsChecked="{x:Bind IsEnabled, Mode=TwoWay}" IsEnabled="{x:Bind IsEditable}">
 															<TextBlock
 																Text="{x:Bind AccessMaskName}"

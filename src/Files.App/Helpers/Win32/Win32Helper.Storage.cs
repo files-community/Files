@@ -2,15 +2,24 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Win32.SafeHandles;
 using System.Collections.Concurrent;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Windows.Forms;
 using Vanara.PInvoke;
 using Windows.System;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.Storage.FileSystem;
+using static Vanara.PInvoke.Kernel32;
+using COMPRESSION_FORMAT = Windows.Win32.Storage.FileSystem.COMPRESSION_FORMAT;
+using HRESULT = Vanara.PInvoke.HRESULT;
+using HWND = Vanara.PInvoke.HWND;
 
 namespace Files.App.Helpers
 {
@@ -322,7 +331,7 @@ namespace Files.App.Helpers
 				}
 
 				if (iconData is not null || iconOptions.HasFlag(IconOptions.ReturnThumbnailOnly))
-					return iconData;			
+					return iconData;
 				else
 				{
 					var shfi = new Shell32.SHFILEINFO();
@@ -331,7 +340,7 @@ namespace Files.App.Helpers
 					// Cannot access file, use file attributes
 					var useFileAttibutes = iconData is null;
 
-					var ret = Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags);					
+					var ret = Shell32.SHGetFileInfo(path, isFolder ? FileAttributes.Directory : 0, ref shfi, Shell32.SHFILEINFO.Size, flags);
 					if (ret == IntPtr.Zero)
 						return iconData;
 
@@ -396,9 +405,9 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static async Task<bool> RunPowershellCommandAsync(string command, bool runAsAdmin)
+		public static async Task<bool> RunPowershellCommandAsync(string command, PowerShellExecutionOptions options)
 		{
-			using Process process = CreatePowershellProcess(command, runAsAdmin);
+			using Process process = CreatePowershellProcess(command, options);
 			using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(30 * 1000));
 
 			try
@@ -423,11 +432,11 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static bool RunPowershellCommand(string command, bool runAsAdmin)
+		public static bool RunPowershellCommand(string command, PowerShellExecutionOptions options)
 		{
 			try
 			{
-				using Process process = CreatePowershellProcess(command, runAsAdmin);
+				using Process process = CreatePowershellProcess(command, options);
 
 				process.Start();
 
@@ -542,24 +551,24 @@ namespace Files.App.Helpers
 		{
 			// Format requires elevation
 			int driveIndex = drive.ToUpperInvariant()[0] - 'A';
-			return RunPowershellCommandAsync($"-command \"$Signature = '[DllImport(\\\"shell32.dll\\\", SetLastError = false)]public static extern uint SHFormatDrive(IntPtr hwnd, uint drive, uint fmtID, uint options);'; $SHFormatDrive = Add-Type -MemberDefinition $Signature -Name \"Win32SHFormatDrive\" -Namespace Win32Functions -PassThru; $SHFormatDrive::SHFormatDrive(0, {driveIndex}, 0xFFFF, 0x0001)\"", true);
+			return RunPowershellCommandAsync($"-command \"$Signature = '[DllImport(\\\"shell32.dll\\\", SetLastError = false)]public static extern uint SHFormatDrive(IntPtr hwnd, uint drive, uint fmtID, uint options);'; $SHFormatDrive = Add-Type -MemberDefinition $Signature -Name \"Win32SHFormatDrive\" -Namespace Win32Functions -PassThru; $SHFormatDrive::SHFormatDrive(0, {driveIndex}, 0xFFFF, 0x0001)\"", PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
 		}
 
 		public static void SetVolumeLabel(string drivePath, string newLabel)
 		{
 			// Rename requires elevation
-			RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel('{drivePath}', '{newLabel}')\"", true);
+			RunPowershellCommand($"-command \"$Signature = '[DllImport(\\\"kernel32.dll\\\", SetLastError = false)]public static extern bool SetVolumeLabel(string lpRootPathName, string lpVolumeName);'; $SetVolumeLabel = Add-Type -MemberDefinition $Signature -Name \"Win32SetVolumeLabel\" -Namespace Win32Functions -PassThru; $SetVolumeLabel::SetVolumeLabel('{drivePath}', '{newLabel}')\"", PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
 		}
 
 		public static void SetNetworkDriveLabel(string driveName, string newLabel)
 		{
-			RunPowershellCommand($"-command \"(New-Object -ComObject Shell.Application).NameSpace('{driveName}').Self.Name='{newLabel}'\"", false);
+			RunPowershellCommand($"-command \"(New-Object -ComObject Shell.Application).NameSpace('{driveName}').Self.Name='{newLabel}'\"", PowerShellExecutionOptions.Hidden);
 		}
 
 		public static Task<bool> MountVhdDisk(string vhdPath)
 		{
 			// Mounting requires elevation
-			return RunPowershellCommandAsync($"-command \"Mount-DiskImage -ImagePath '{vhdPath}'\"", true);
+			return RunPowershellCommandAsync($"-command \"Mount-DiskImage -ImagePath '{vhdPath}'\"", PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
 		}
 
 		public static Bitmap? GetBitmapFromHBitmap(HBITMAP hBitmap)
@@ -636,20 +645,6 @@ namespace Files.App.Helpers
 			}
 
 			return false;
-		}
-
-		// There is usually no need to define Win32 COM interfaces/P-Invoke methods here.
-		// The Vanara library contains the definitions for all members of Shell32.dll, User32.dll and more
-		// The ones below are due to bugs in the current version of the library and can be removed once fixed
-		// Structure used by SHQueryRecycleBin.
-		[StructLayout(LayoutKind.Sequential, Pack = 0)]
-		public struct SHQUERYRBINFO
-		{
-			public int cbSize;
-
-			public long i64Size;
-
-			public long i64NumItems;
 		}
 
 		public static IEnumerable<HWND> GetDesktopWindows()
@@ -818,10 +813,6 @@ namespace Files.App.Helpers
 			}
 		}
 
-		// Get information from recycle bin.
-		[DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Unicode)]
-		public static extern int SHQueryRecycleBin(string pszRootPath, ref SHQUERYRBINFO pSHQueryRBInfo);
-
 		public static async Task<bool> InstallInf(string filePath)
 		{
 			try
@@ -866,32 +857,358 @@ namespace Files.App.Helpers
 				if (psCommand.Length + appendCommand.Length > 32766)
 				{
 					// The command is too long to run at once, so run the command once up to this point.
-					await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), true);
+					await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
 					psCommand.Clear().Append("-command \"");
 				}
 
 				psCommand.Append(appendCommand);
 			}
 
-			await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), true);
+			await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
 		}
 
-		private static Process CreatePowershellProcess(string command, bool runAsAdmin)
+		private static Process CreatePowershellProcess(string command, PowerShellExecutionOptions options)
 		{
 			Process process = new();
 
-			if (runAsAdmin)
+			process.StartInfo.FileName = "powershell.exe";
+			if (options.HasFlag(PowerShellExecutionOptions.Elevated))
 			{
 				process.StartInfo.UseShellExecute = true;
 				process.StartInfo.Verb = "runas";
 			}
 
-			process.StartInfo.FileName = "powershell.exe";
-			process.StartInfo.CreateNoWindow = true;
-			process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+			if (options.HasFlag(PowerShellExecutionOptions.Hidden))
+			{
+				process.StartInfo.CreateNoWindow = true;
+				process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+			}
 			process.StartInfo.Arguments = command;
 
 			return process;
+		}
+
+		public static SafeFileHandle CreateFileForWrite(string filePath, bool overwrite = true)
+		{
+			return new SafeFileHandle(Win32PInvoke.CreateFileFromApp(filePath,
+				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE, 0, IntPtr.Zero, overwrite ? Win32PInvoke.CREATE_ALWAYS : Win32PInvoke.OPEN_ALWAYS, (uint)Win32PInvoke.File_Attributes.BackupSemantics, IntPtr.Zero), true);
+		}
+
+		public static SafeFileHandle OpenFileForRead(string filePath, bool readWrite = false, uint flags = 0)
+		{
+			return new SafeFileHandle(Win32PInvoke.CreateFileFromApp(filePath,
+				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ | (uint)(readWrite ? FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE : 0u), (uint)(Win32PInvoke.FILE_SHARE_READ | (readWrite ? 0 : Win32PInvoke.FILE_SHARE_WRITE)), IntPtr.Zero, Win32PInvoke.OPEN_EXISTING, (uint)Win32PInvoke.File_Attributes.BackupSemantics | flags, IntPtr.Zero), true);
+		}
+
+		public static bool GetFileDateModified(string filePath, out FILETIME dateModified)
+		{
+			using var hFile = new SafeFileHandle(Win32PInvoke.CreateFileFromApp(filePath, (uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ, Win32PInvoke.FILE_SHARE_READ, IntPtr.Zero, Win32PInvoke.OPEN_EXISTING, (uint)Win32PInvoke.File_Attributes.BackupSemantics, IntPtr.Zero), true);
+			return Win32PInvoke.GetFileTime(hFile.DangerousGetHandle(), out _, out _, out dateModified);
+		}
+
+		public static bool SetFileDateModified(string filePath, FILETIME dateModified)
+		{
+			using var hFile = new SafeFileHandle(Win32PInvoke.CreateFileFromApp(filePath, (uint)FILE_ACCESS_RIGHTS.FILE_WRITE_ATTRIBUTES, 0, IntPtr.Zero, Win32PInvoke.OPEN_EXISTING, (uint)Win32PInvoke.File_Attributes.BackupSemantics, IntPtr.Zero), true);
+			return Win32PInvoke.SetFileTime(hFile.DangerousGetHandle(), new(), new(), dateModified);
+		}
+
+		public static bool HasFileAttribute(string lpFileName, FileAttributes dwAttrs)
+		{
+			if (Win32PInvoke.GetFileAttributesExFromApp(
+				lpFileName, Win32PInvoke.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
+			{
+				return (lpFileInfo.dwFileAttributes & dwAttrs) == dwAttrs;
+			}
+			return false;
+		}
+
+		public static bool SetFileAttribute(string lpFileName, FileAttributes dwAttrs)
+		{
+			if (!Win32PInvoke.GetFileAttributesExFromApp(
+				lpFileName, Win32PInvoke.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
+			{
+				return false;
+			}
+			return Win32PInvoke.SetFileAttributesFromApp(lpFileName, lpFileInfo.dwFileAttributes | dwAttrs);
+		}
+
+		public static bool UnsetFileAttribute(string lpFileName, FileAttributes dwAttrs)
+		{
+			if (!Win32PInvoke.GetFileAttributesExFromApp(
+				lpFileName, Win32PInvoke.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
+			{
+				return false;
+			}
+			return Win32PInvoke.SetFileAttributesFromApp(lpFileName, lpFileInfo.dwFileAttributes & ~dwAttrs);
+		}
+
+		public static unsafe bool CanCompressContent(string path)
+		{
+			path = Path.GetPathRoot(path) ?? string.Empty;
+			uint dwFileSystemFlags = 0;
+
+			var success = PInvoke.GetVolumeInformation(
+				path,
+				null,
+				0u,
+				null,
+				null,
+				&dwFileSystemFlags,
+				null,
+				0u);
+
+			if (!success)
+				return false;
+
+			return (dwFileSystemFlags & PInvoke.FILE_FILE_COMPRESSION) != 0;
+		}
+
+		public static unsafe bool SetCompressionAttributeIoctl(string lpFileName, bool isCompressed)
+		{
+			// GENERIC_READ | GENERIC_WRITE flags are needed here
+			// FILE_FLAG_BACKUP_SEMANTICS is used to open directories
+			using var hFile = PInvoke.CreateFile(
+				lpFileName,
+				(uint)(FILE_ACCESS_RIGHTS.FILE_GENERIC_READ | FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE | FILE_ACCESS_RIGHTS.FILE_WRITE_ATTRIBUTES),
+				FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE,
+				lpSecurityAttributes: null,
+				FILE_CREATION_DISPOSITION.OPEN_EXISTING,
+				FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL | FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS,
+				hTemplateFile: null);
+
+			if (hFile.IsInvalid)
+				return false;
+
+			var bytesReturned = 0u;
+			var compressionFormat = isCompressed
+				? COMPRESSION_FORMAT.COMPRESSION_FORMAT_DEFAULT
+				: COMPRESSION_FORMAT.COMPRESSION_FORMAT_NONE;
+
+			var result = PInvoke.DeviceIoControl(
+				new(hFile.DangerousGetHandle()),
+				PInvoke.FSCTL_SET_COMPRESSION,
+				&compressionFormat,
+				sizeof(ushort),
+				null,
+				0u,
+				&bytesReturned);
+
+			return result;
+		}
+
+		public static string ReadStringFromFile(string filePath)
+		{
+			IntPtr hFile = Win32PInvoke.CreateFileFromApp(filePath,
+				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ,
+				Win32PInvoke.FILE_SHARE_READ,
+				IntPtr.Zero,
+				Win32PInvoke.OPEN_EXISTING,
+				(uint)Win32PInvoke.File_Attributes.BackupSemantics,
+				IntPtr.Zero);
+
+			if (hFile.ToInt64() == -1)
+			{
+				return null;
+			}
+
+			const int BUFFER_LENGTH = 4096;
+			byte[] buffer = new byte[BUFFER_LENGTH];
+			int dwBytesRead;
+			string szRead = string.Empty;
+
+			unsafe
+			{
+				using (MemoryStream ms = new MemoryStream())
+				using (StreamReader reader = new StreamReader(ms, true))
+				{
+					while (true)
+					{
+						fixed (byte* pBuffer = buffer)
+						{
+							if (Win32PInvoke.ReadFile(hFile, pBuffer, BUFFER_LENGTH - 1, &dwBytesRead, IntPtr.Zero) && dwBytesRead > 0)
+							{
+								ms.Write(buffer, 0, dwBytesRead);
+							}
+							else
+							{
+								break;
+							}
+						}
+					}
+					ms.Position = 0;
+					szRead = reader.ReadToEnd();
+				}
+			}
+
+			Win32PInvoke.CloseHandle(hFile);
+
+			return szRead;
+		}
+
+		public static bool WriteStringToFile(string filePath, string str, Win32PInvoke.File_Attributes flags = 0)
+		{
+			IntPtr hStream = Win32PInvoke.CreateFileFromApp(filePath,
+				(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE, 0, IntPtr.Zero, Win32PInvoke.CREATE_ALWAYS, (uint)(Win32PInvoke.File_Attributes.BackupSemantics | flags), IntPtr.Zero);
+			if (hStream.ToInt64() == -1)
+			{
+				return false;
+			}
+			byte[] buff = Encoding.UTF8.GetBytes(str);
+			int dwBytesWritten;
+			unsafe
+			{
+				fixed (byte* pBuff = buff)
+				{
+					Win32PInvoke.WriteFile(hStream, pBuff, buff.Length, &dwBytesWritten, IntPtr.Zero);
+				}
+			}
+			Win32PInvoke.CloseHandle(hStream);
+			return true;
+		}
+
+		public static bool WriteBufferToFileWithProgress(string filePath, byte[] buffer, Win32PInvoke.LPOVERLAPPED_COMPLETION_ROUTINE callback)
+		{
+			using var hFile = CreateFileForWrite(filePath);
+
+			if (hFile.IsInvalid)
+			{
+				return false;
+			}
+
+			NativeOverlapped nativeOverlapped = new NativeOverlapped();
+			bool result = Win32PInvoke.WriteFileEx(hFile.DangerousGetHandle(), buffer, (uint)buffer.LongLength, ref nativeOverlapped, callback);
+
+			if (!result)
+			{
+				System.Diagnostics.Debug.WriteLine(Marshal.GetLastWin32Error());
+			}
+
+			return result;
+		}
+
+		// https://www.pinvoke.net/default.aspx/kernel32/GetFileInformationByHandleEx.html
+		public static ulong? GetFolderFRN(string folderPath)
+		{
+			using var handle = OpenFileForRead(folderPath);
+			if (!handle.IsInvalid)
+			{
+				var fileStruct = new Win32PInvoke.FILE_ID_BOTH_DIR_INFO();
+				if (Win32PInvoke.GetFileInformationByHandleEx(handle.DangerousGetHandle(), Win32PInvoke.FILE_INFO_BY_HANDLE_CLASS.FileIdBothDirectoryInfo, out fileStruct, (uint)Marshal.SizeOf(fileStruct)))
+				{
+					return (ulong)fileStruct.FileId;
+				}
+			}
+			return null;
+		}
+
+		public static ulong? GetFileFRN(string filePath)
+		{
+			using var handle = OpenFileForRead(filePath);
+			if (!handle.IsInvalid)
+			{
+				try
+				{
+					var fileID = Kernel32.GetFileInformationByHandleEx<Kernel32.FILE_ID_INFO>(handle, Kernel32.FILE_INFO_BY_HANDLE_CLASS.FileIdInfo);
+					return BitConverter.ToUInt64(fileID.FileId.Identifier, 0);
+				}
+				catch { }
+			}
+			return null;
+		}
+
+		public static long? GetFileSizeOnDisk(string filePath)
+		{
+			using var handle = OpenFileForRead(filePath);
+			if (!handle.IsInvalid)
+			{
+				try
+				{
+					var fileAllocationInfo = Kernel32.GetFileInformationByHandleEx<Kernel32.FILE_STANDARD_INFO>(handle, Kernel32.FILE_INFO_BY_HANDLE_CLASS.FileStandardInfo);
+					return fileAllocationInfo.AllocationSize;
+				}
+				catch { }
+			}
+			return null;
+		}
+
+		// https://github.com/rad1oactive/BetterExplorer/blob/master/Windows%20API%20Code%20Pack%201.1/source/WindowsAPICodePack/Shell/ReparsePoint.cs
+		public static string ParseSymLink(string path)
+		{
+			using var handle = OpenFileForRead(path, false, 0x00200000);
+			if (!handle.IsInvalid)
+			{
+				if (Win32PInvoke.DeviceIoControl(handle.DangerousGetHandle(), Win32PInvoke.FSCTL_GET_REPARSE_POINT, IntPtr.Zero, 0, out Win32PInvoke.REPARSE_DATA_BUFFER buffer, Win32PInvoke.MAXIMUM_REPARSE_DATA_BUFFER_SIZE, out _, IntPtr.Zero))
+				{
+					var subsString = new string(buffer.PathBuffer, ((buffer.SubsNameOffset / 2) + 2), buffer.SubsNameLength / 2);
+					var printString = new string(buffer.PathBuffer, ((buffer.PrintNameOffset / 2) + 2), buffer.PrintNameLength / 2);
+					var normalisedTarget = printString ?? subsString;
+					if (string.IsNullOrEmpty(normalisedTarget))
+					{
+						normalisedTarget = subsString;
+						if (normalisedTarget.StartsWith(@"\??\", StringComparison.Ordinal))
+						{
+							normalisedTarget = normalisedTarget.Substring(4);
+						}
+					}
+					if (buffer.ReparseTag == Win32PInvoke.IO_REPARSE_TAG_SYMLINK && (normalisedTarget.Length < 2 || normalisedTarget[1] != ':'))
+					{
+						// Target is relative, get the absolute path
+						normalisedTarget = normalisedTarget.TrimStart(Path.DirectorySeparatorChar);
+						path = path.TrimEnd(Path.DirectorySeparatorChar);
+						normalisedTarget = Path.GetFullPath(Path.Combine(path.Substring(0, path.LastIndexOf(Path.DirectorySeparatorChar)), normalisedTarget));
+					}
+					return normalisedTarget;
+				}
+			}
+			return null;
+		}
+
+		// https://stackoverflow.com/a/7988352
+		public static IEnumerable<(string Name, long Size)> GetAlternateStreams(string path)
+		{
+			Win32PInvoke.WIN32_FIND_STREAM_DATA findStreamData = new Win32PInvoke.WIN32_FIND_STREAM_DATA();
+			IntPtr hFile = Win32PInvoke.FindFirstStreamW(path, Win32PInvoke.StreamInfoLevels.FindStreamInfoStandard, findStreamData, 0);
+
+			if (hFile.ToInt64() != -1)
+			{
+				do
+				{
+					// The documentation for FindFirstStreamW says that it is always a ::$DATA
+					// stream type, but FindNextStreamW doesn't guarantee that for subsequent
+					// streams so we check to make sure
+					if (findStreamData.cStreamName.EndsWith(":$DATA") && findStreamData.cStreamName != "::$DATA")
+					{
+						yield return (findStreamData.cStreamName, findStreamData.StreamSize);
+					}
+				}
+				while (Win32PInvoke.FindNextStreamW(hFile, findStreamData));
+
+				Win32PInvoke.FindClose(hFile);
+			}
+		}
+
+		public static bool GetWin32FindDataForPath(string targetPath, out Win32PInvoke.WIN32_FIND_DATA findData)
+		{
+			Win32PInvoke.FINDEX_INFO_LEVELS findInfoLevel = Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic;
+
+			int additionalFlags = Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH;
+
+			IntPtr hFile = Win32PInvoke.FindFirstFileExFromApp(
+				targetPath,
+				findInfoLevel,
+				out findData,
+				Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+				IntPtr.Zero,
+				additionalFlags);
+
+			if (hFile.ToInt64() != -1)
+			{
+				Win32PInvoke.FindClose(hFile);
+
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

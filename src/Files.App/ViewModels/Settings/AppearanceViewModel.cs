@@ -3,19 +3,31 @@
 
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
+using System.Windows.Input;
 
 namespace Files.App.ViewModels.Settings
 {
 	public sealed class AppearanceViewModel : ObservableObject
 	{
 		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 		private readonly IUserSettingsService UserSettingsService;
 		private readonly IResourcesService ResourcesService;
 
 		public List<string> Themes { get; private set; }
 		public Dictionary<BackdropMaterialType, string> BackdropMaterialTypes { get; private set; } = [];
 
+		public Dictionary<Stretch, string> ImageStretchTypes { get; private set; } = [];
+
+		public Dictionary<VerticalAlignment, string> ImageVerticalAlignmentTypes { get; private set; } = [];
+
+		public Dictionary<HorizontalAlignment, string> ImageHorizontalAlignmentTypes { get; private set; } = [];
+
 		public ObservableCollection<AppThemeResourceItem> AppThemeResources { get; }
+
+		public ICommand SelectImageCommand { get; }
+		public ICommand RemoveImageCommand { get; }
 
 		public AppearanceViewModel(IUserSettingsService userSettingsService, IResourcesService resourcesService)
 		{
@@ -30,19 +42,71 @@ namespace Files.App.ViewModels.Settings
 				"DarkTheme".GetLocalizedResource()
 			];
 
-			// TODO: Re-add Solid and regular Mica when theming is revamped
-			//BackdropMaterialTypes.Add(BackdropMaterialType.Solid, "Solid".GetLocalizedResource());
-
+			BackdropMaterialTypes.Add(BackdropMaterialType.Solid, "None".GetLocalizedResource());
 			BackdropMaterialTypes.Add(BackdropMaterialType.Acrylic, "Acrylic".GetLocalizedResource());
-
-			//BackdropMaterialTypes.Add(BackdropMaterialType.Mica, "Mica".GetLocalizedResource());
+			BackdropMaterialTypes.Add(BackdropMaterialType.ThinAcrylic, "ThinAcrylic".GetLocalizedResource());
+			BackdropMaterialTypes.Add(BackdropMaterialType.Mica, "Mica".GetLocalizedResource());
 			BackdropMaterialTypes.Add(BackdropMaterialType.MicaAlt, "MicaAlt".GetLocalizedResource());
 
 			selectedBackdropMaterial = BackdropMaterialTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial];
 
 			AppThemeResources = AppThemeResourceFactory.AppThemeResources;
 
+
+			// Background image fit options
+			ImageStretchTypes.Add(Stretch.None, "None".GetLocalizedResource());
+			ImageStretchTypes.Add(Stretch.Fill, "Fill".GetLocalizedResource());
+			ImageStretchTypes.Add(Stretch.Uniform, "Uniform".GetLocalizedResource());
+			ImageStretchTypes.Add(Stretch.UniformToFill, "UniformToFill".GetLocalizedResource());
+			SelectedImageStretchType = ImageStretchTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageFit];
+
+			// Background image allignment options
+
+			// VerticalAlignment
+			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Top, "Top".GetLocalizedResource());
+			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Center, "Center".GetLocalizedResource());
+			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Bottom, "Bottom".GetLocalizedResource());
+			SelectedImageVerticalAlignmentType = ImageVerticalAlignmentTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageVerticalAlignment];
+
+			// HorizontalAlignment
+			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Left, "Left".GetLocalizedResource());
+			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Center, "Center".GetLocalizedResource());
+			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Right, "Right".GetLocalizedResource());
+			SelectedImageHorizontalAlignmentType = ImageHorizontalAlignmentTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment];
+
 			UpdateSelectedResource();
+
+			SelectImageCommand = new RelayCommand(SelectBackgroundImage);
+			RemoveImageCommand = new RelayCommand(RemoveBackgroundImage);
+		}
+
+		/// <summary>
+		/// Opens a file picker to select a background image
+		/// </summary>
+		private void SelectBackgroundImage()
+		{
+			string[] extensions =
+			[
+				"BitmapFiles".GetLocalizedResource(), "*.bmp;*.dib",
+				"JPEG", "*.jpg;*.jpeg;*.jpe;*.jfif",
+				"GIF", "*.gif",
+				"TIFF", "*.tif;*.tiff",
+				"PNG", "*.png",
+				"HEIC", "*.heic;*.hif",
+				"WEBP", "*.webp",
+			];
+
+			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.MyPictures, out var filePath);
+			if (result)
+				AppThemeBackgroundImageSource = filePath;
+		}
+
+		/// <summary>
+		/// Clears the current background image
+		/// </summary>
+		private void RemoveBackgroundImage()
+		{
+			AppThemeBackgroundImageSource = string.Empty;
 		}
 
 		/// <summary>
@@ -56,13 +120,13 @@ namespace Files.App.ViewModels.Settings
 			if (!AppThemeResources.Any(p => p.BackgroundColor == themeBackgroundColor))
 			{
 				// Remove current value before adding a new one
-				if (AppThemeResources.Last().Name == "Custom")
+				if (AppThemeResources.Last().Name == "Custom".GetLocalizedResource())
 					AppThemeResources.Remove(AppThemeResources.Last());
 
 				var appThemeBackgroundColor = new AppThemeResourceItem
 				{
 					BackgroundColor = themeBackgroundColor,
-					Name = "Custom"
+					Name = "Custom".GetLocalizedResource(),
 				};
 
 				AppThemeResources.Add(appThemeBackgroundColor);
@@ -143,5 +207,113 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public string AppThemeBackgroundImageSource
+		{
+			get => UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageSource;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageSource)
+				{
+					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageSource = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private string selectedImageStretchType;
+		public string SelectedImageStretchType
+		{
+			get => selectedImageStretchType;
+			set
+			{
+				if (SetProperty(ref selectedImageStretchType, value))
+				{
+					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageFit = ImageStretchTypes.First(e => e.Value == value).Key;
+				}
+			}
+		}
+
+		public float AppThemeBackgroundImageOpacity
+		{
+			get => UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageOpacity;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageOpacity)
+				{
+					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageOpacity = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private string selectedImageVerticalAlignmentType;
+		public string SelectedImageVerticalAlignmentType
+		{
+			get => selectedImageVerticalAlignmentType;
+			set
+			{
+				if (SetProperty(ref selectedImageVerticalAlignmentType, value))
+				{
+					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageVerticalAlignment = ImageVerticalAlignmentTypes.First(e => e.Value == value).Key;
+				}
+			}
+		}
+
+		private string selectedImageHorizontalAlignmentType;
+		public string SelectedImageHorizontalAlignmentType
+		{
+			get => selectedImageHorizontalAlignmentType;
+			set
+			{
+				if (SetProperty(ref selectedImageHorizontalAlignmentType, value))
+				{
+					UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment = ImageHorizontalAlignmentTypes.First(e => e.Value == value).Key;
+				}
+			}
+		}
+
+		public bool ShowToolbar
+		{
+			get => UserSettingsService.AppearanceSettingsService.ShowToolbar;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.ShowToolbar)
+				{
+					UserSettingsService.AppearanceSettingsService.ShowToolbar = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowTabActions
+		{
+			get => UserSettingsService.AppearanceSettingsService.ShowTabActions;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.ShowTabActions)
+				{
+					UserSettingsService.AppearanceSettingsService.ShowTabActions = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowHomeButton
+		{
+			get => UserSettingsService.AppearanceSettingsService.ShowHomeButton;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.ShowHomeButton)
+				{
+					UserSettingsService.AppearanceSettingsService.ShowHomeButton = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
 	}
 }

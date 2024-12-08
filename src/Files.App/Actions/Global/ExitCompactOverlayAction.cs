@@ -13,7 +13,7 @@ namespace Files.App.Actions
 			=> "ExitCompactOverlay".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconExitCompactOverlay");
+			=> new(themedIconStyle: "App.ThemedIcons.CompactOverlayExit");
 
 		public HotKey HotKey
 			=> new(Keys.Down, KeyModifiers.CtrlAlt);
@@ -31,7 +31,7 @@ namespace Files.App.Actions
 			windowContext.PropertyChanged += WindowContext_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			var appWindow = MainWindow.Instance.AppWindow;
 			appWindow.SetPresenter(AppWindowPresenterKind.Overlapped);

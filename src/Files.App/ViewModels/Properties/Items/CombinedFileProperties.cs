@@ -17,7 +17,8 @@ namespace Files.App.ViewModels.Properties
 
 		public async Task GetSystemFilePropertiesAsync()
 		{
-			var queries = await Task.WhenAll(List.AsParallel().Select(async item => {
+			var queries = await Task.WhenAll(List.AsParallel().Select(async item =>
+			{
 				BaseStorageFile file = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileFromPathAsync(item.ItemPath));
 				if (file is null)
 				{
@@ -27,24 +28,13 @@ namespace Files.App.ViewModels.Properties
 
 				var list = await FileProperty.RetrieveAndInitializePropertiesAsync(file);
 
-				list.Find(x => x.ID == "address").Value =
-					await LocationHelpers.GetAddressFromCoordinatesAsync((double?)list.Find(
-						x => x.Property == "System.GPS.LatitudeDecimal").Value,
-						(double?)list.Find(x => x.Property == "System.GPS.LongitudeDecimal").Value);
+				var latitude = list.Find(x => x.Property == "System.GPS.LatitudeDecimal")?.Value as double?;
+				var longitude = list.Find(x => x.Property == "System.GPS.LongitudeDecimal")?.Value as double?;
+				var addressItem = list.Find(x => x.ID == "address");
 
-				// Find Encoding Bitrate property and convert it to kbps
-				var encodingBitrate = list.Find(x => x.Property == "System.Audio.EncodingBitrate");
+				if (latitude.HasValue && longitude.HasValue && addressItem != null)
+					addressItem.Value = await LocationHelpers.GetAddressFromCoordinatesAsync(latitude.Value, longitude.Value);
 
-				if (encodingBitrate?.Value is null)
-					encodingBitrate = list.Find(x => x.Property == "System.Video.EncodingBitrate");
-
-				if (encodingBitrate?.Value is not null)
-				{
-					var sizes = new string[] { "Bps", "KBps", "MBps", "GBps" };
-					var order = (int)Math.Floor(Math.Log((uint)encodingBitrate.Value, 1024));
-					var readableSpeed = (uint)encodingBitrate.Value / Math.Pow(1024, order);
-					encodingBitrate.Value = $"{readableSpeed:0.##} {sizes[order]}";
-				}
 
 				return list
 					.Where(fileProp => !(fileProp.Value is null && fileProp.IsReadOnly))
@@ -65,7 +55,13 @@ namespace Files.App.ViewModels.Properties
 				var props = queries.SelectMany(query => query!.First(section => section.Key == group.Key));
 				foreach (FileProperty prop in group)
 				{
-					if (props.Where(x => x.Property == prop.Property).Any(x => !Equals(x.Value, prop.Value)))
+					if (prop.Property == "System.Media.Duration")
+					{
+						ulong totalDuration = 0;
+						props.Where(x => x.Property == prop.Property).ForEach(x => totalDuration += (ulong)x.Value);
+						prop.Value = totalDuration;
+					}
+					else if (props.Where(x => x.Property == prop.Property).Any(x => !Equals(x.Value, prop.Value)))
 					{
 						// Has multiple values
 						prop.Value = prop.IsReadOnly ? "MultipleValues".GetLocalizedResource() : null;

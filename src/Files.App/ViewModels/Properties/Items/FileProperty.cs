@@ -4,7 +4,7 @@
 using Files.App.Converters;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
-using System.Text.Json;
+using System.Collections.Concurrent;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.Properties
@@ -231,7 +231,7 @@ namespace Files.App.ViewModels.Properties
 			{
 				try
 				{
-					return EnumeratedList.TryGetValue(Convert.ToInt32(Value), out var value) ? 
+					return EnumeratedList.TryGetValue(Convert.ToInt32(Value), out var value) ?
 						value.GetLocalizedResource() : null;
 				}
 				catch
@@ -275,7 +275,7 @@ namespace Files.App.ViewModels.Properties
 			return value;
 		}
 
-		private static Dictionary<string, string> cachedPropertiesListFiles = [];
+		private static ConcurrentDictionary<string, string> cachedPropertiesListFiles = [];
 
 		/// <summary>
 		/// This function retrieves the list of properties to display from the PropertiesInformation.json
@@ -363,9 +363,22 @@ namespace Files.App.ViewModels.Properties
 			{ "AddISO" , input => $"ISO-{(UInt16)input}"},
 			{ "RoundDouble" , input => $"{Math.Round((double)input)}"},
 			{ "UnitMM" , input => $"{(double)input} mm"},
+			{ "FormatEncodingBitrate", FormatEncodingBitrate }
 		};
 
 		private static string TimeSpanToString(TimeSpan t)
 			=> t.Days > 0 ? (t.Days * 24 + t.Hours) + t.ToString("':'mm':'ss") : t.ToString("hh':'mm':'ss");
+
+		private static string FormatEncodingBitrate(object input)
+		{
+			// For cases when multiple files are selected and it has a string value
+			if (input.GetType() != typeof(uint))
+				return input?.ToString() ?? string.Empty;
+
+			var sizes = new string[] { "bps", "kbps", "Mbps", "Gbps" };
+			var order = (int)Math.Floor(Math.Log((uint)input, 1000));
+			var readableSpeed = (uint)input / Math.Pow(1000, order);
+			return $"{readableSpeed:0.##} {sizes[order]}";
+		}
 	}
 }

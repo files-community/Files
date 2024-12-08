@@ -6,6 +6,7 @@ using Files.Shared.Helpers;
 using FluentFTP;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System.Drawing;
 using System.IO;
 using System.Text;
 using Windows.Storage;
@@ -45,8 +46,10 @@ namespace Files.App.Utils
 				tooltipBuilder.Append($"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}");
 				if (!string.IsNullOrWhiteSpace(FileSize))
 					tooltipBuilder.Append($"{Environment.NewLine}{"SizeLabel".GetLocalizedResource()} {FileSize}");
+				if (SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline && !string.IsNullOrWhiteSpace(DimensionsDisplay))
+					tooltipBuilder.Append($"{Environment.NewLine}{"PropertyDimensionsColon".GetLocalizedResource()} {DimensionsDisplay}");
 				if (SyncStatusUI.LoadSyncStatus)
-					tooltipBuilder.Append($"{Environment.NewLine}{"syncStatusColumn/Header".GetLocalizedResource()}: {syncStatusUI.SyncStatusString}");
+					tooltipBuilder.Append($"{Environment.NewLine}{"StatusWithColon".GetLocalizedResource()} {syncStatusUI.SyncStatusString}");
 
 				return tooltipBuilder.ToString();
 			}
@@ -326,6 +329,41 @@ namespace Files.App.Utils
 			set => SetProperty(ref itemProperties, value);
 		}
 
+		public string DimensionsDisplay
+		{
+			get
+			{
+				int imageHeight = 0;
+				int imageWidth = 0;
+
+				var isImageFile = FileExtensionHelpers.IsImageFile(FileExtension);
+				if (isImageFile)
+				{
+					try
+					{
+						// TODO: Consider to use 'System.Kind' instead.
+						using FileStream fileStream = new(ItemPath, FileMode.Open, FileAccess.Read, FileShare.Read);
+						using Image image = Image.FromStream(fileStream, false, false);
+
+						if (image is not null)
+						{
+							imageHeight = image.Height;
+							imageWidth = image.Width;
+						}
+					}
+					catch { }
+				}
+
+
+				return
+					isImageFile &&
+					imageWidth > 0 &&
+					imageHeight > 0
+						? $"{imageWidth} \u00D7 {imageHeight}"
+						: string.Empty;
+			}
+		}
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ListedItem" /> class.
 		/// </summary>
@@ -374,7 +412,7 @@ namespace Files.App.Utils
 		public bool IsArchive => this is ZipItem;
 		public bool IsAlternateStream => this is AlternateStreamItem;
 		public bool IsGitItem => this is GitItem;
-		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
+		public virtual bool IsExecutable => !IsFolder && FileExtensionHelpers.IsExecutableFile(ItemPath);
 		public virtual bool IsScriptFile => FileExtensionHelpers.IsScriptFile(ItemPath);
 		public bool IsPinned => App.QuickAccessManager.Model.PinnedFolders.Contains(itemPath);
 		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
@@ -463,8 +501,8 @@ namespace Files.App.Utils
 
 		public async Task<IStorageItem> ToStorageItem() => PrimaryItemAttribute switch
 		{
-			StorageItemTypes.File => await new FtpStorageFile(ItemPath, ItemNameRaw, ItemDateCreatedReal).ToStorageFileAsync(),
-			StorageItemTypes.Folder => new FtpStorageFolder(ItemPath, ItemNameRaw, ItemDateCreatedReal),
+			StorageItemTypes.File => await new Utils.Storage.FtpStorageFile(ItemPath, ItemNameRaw, ItemDateCreatedReal).ToStorageFileAsync(),
+			StorageItemTypes.Folder => new Utils.Storage.FtpStorageFolder(ItemPath, ItemNameRaw, ItemDateCreatedReal),
 			_ => throw new InvalidDataException(),
 		};
 	}

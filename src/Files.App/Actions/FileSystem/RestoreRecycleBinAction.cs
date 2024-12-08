@@ -1,6 +1,10 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.UI.Xaml.Controls;
+using Windows.Foundation.Metadata;
+using Windows.Storage;
+
 namespace Files.App.Actions
 {
 	internal sealed class RestoreRecycleBinAction : BaseUIAction, IAction
@@ -14,7 +18,7 @@ namespace Files.App.Actions
 			=> "RestoreRecycleBinDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconRestoreItem");
+			=> new(themedIconStyle: "App.ThemedIcons.RestoreDeleted");
 
 		public override bool IsExecutable =>
 			context.PageType is ContentPageTypes.RecycleBin &&
@@ -28,10 +32,34 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public async Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.ShellPage is not null)
-				await RecycleBinHelpers.RestoreSelectionRecycleBinAsync(context.ShellPage);
+			var confirmationDialog = new ContentDialog()
+			{
+				Title = "ConfirmRestoreSelectionBinDialogTitle".GetLocalizedResource(),
+				Content = string.Format("ConfirmRestoreSelectionBinDialogContent".GetLocalizedResource(), context.SelectedItems.Count),
+				PrimaryButtonText = "Yes".GetLocalizedResource(),
+				SecondaryButtonText = "Cancel".GetLocalizedResource(),
+				DefaultButton = ContentDialogButton.Primary
+			};
+
+			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+				confirmationDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+
+			ContentDialogResult result = await confirmationDialog.TryShowAsync();
+
+			if (result is not ContentDialogResult.Primary)
+				return;
+
+			var items = context.SelectedItems.ToList().Where(x => x is RecycleBinItem).Select((item) => new
+			{
+				Source = StorageHelpers.FromPathAndType(
+					item.ItemPath,
+					item.PrimaryItemAttribute == StorageItemTypes.File ? FilesystemItemType.File : FilesystemItemType.Directory),
+				Dest = ((RecycleBinItem)item).ItemOriginalPath
+			});
+
+			await context.ShellPage!.FilesystemHelpers.RestoreItemsFromTrashAsync(items.Select(x => x.Source), items.Select(x => x.Dest), true);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

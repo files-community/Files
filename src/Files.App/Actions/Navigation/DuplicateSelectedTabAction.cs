@@ -25,13 +25,13 @@ namespace Files.App.Actions
 			context.PropertyChanged += MultitaskingContext_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public async Task ExecuteAsync(object? parameter = null)
 		{
 			var arguments = context.SelectedTabItem.NavigationParameter;
 
 			if (arguments is null)
 			{
-				await NavigationHelpers.AddNewTabByPathAsync(typeof(PaneHolderPage), "Home", true);
+				await NavigationHelpers.AddNewTabByPathAsync(typeof(ShellPanesPage), "Home", true);
 			}
 			else
 			{

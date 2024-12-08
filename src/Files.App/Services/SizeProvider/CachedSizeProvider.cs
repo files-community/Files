@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using static Files.App.Helpers.NativeFindStorageItemHelper;
+using static Files.App.Helpers.Win32Helper;
 
 namespace Files.App.Services.SizeProvider
 {
@@ -37,6 +37,7 @@ namespace Files.App.Services.SizeProvider
 				RaiseSizeChanged(path, 0, SizeChangedValueState.None);
 			}
 
+			var stopwatch = Stopwatch.StartNew();
 			ulong size = await Calculate(path);
 
 			sizes[path] = size;
@@ -49,8 +50,8 @@ namespace Files.App.Services.SizeProvider
 					return 0;
 				}
 
-				IntPtr hFile = FindFirstFileExFromApp($"{path}{Path.DirectorySeparatorChar}*.*", FINDEX_INFO_LEVELS.FindExInfoBasic,
-					out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, FIND_FIRST_EX_LARGE_FETCH);
+				IntPtr hFile = Win32PInvoke.FindFirstFileExFromApp($"{path}{Path.DirectorySeparatorChar}*.*", Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic,
+					out Win32PInvoke.WIN32_FIND_DATA findData, Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero, Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH);
 
 				ulong size = 0;
 				ulong localSize = 0;
@@ -81,8 +82,10 @@ namespace Files.App.Services.SizeProvider
 							await Task.Yield();
 							sizes[localPath] = localSize;
 						}
-						if (level is 0)
+						if (level is 0 && stopwatch.ElapsedMilliseconds > 500)
 						{
+							// Limit updates to every 0.5 seconds to prevent crashes due to frequent updates
+							stopwatch.Restart();
 							RaiseSizeChanged(path, size, SizeChangedValueState.Intermediate);
 						}
 
@@ -90,8 +93,8 @@ namespace Files.App.Services.SizeProvider
 						{
 							break;
 						}
-					} while (FindNextFile(hFile, out findData));
-					FindClose(hFile);
+					} while (Win32PInvoke.FindNextFile(hFile, out findData));
+					Win32PInvoke.FindClose(hFile);
 				}
 				return size;
 			}

@@ -1,23 +1,22 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using CommunityToolkit.WinUI.Notifications;
-using Files.App.Services.DateTimeFormatter;
-using Files.App.Services.Settings;
-using Files.App.Storage.FtpStorage;
-using Files.App.Storage.NativeStorage;
-using Files.App.ViewModels.Settings;
+using CommunityToolkit.WinUI.Helpers;
+using Files.App.Helpers.Application;
 using Files.App.Services.SizeProvider;
-using Files.Core.Storage;
+using Files.App.Utils.Logger;
+using Files.App.ViewModels.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Sentry;
+using Sentry.Protocol;
 using System.IO;
+using System.Security;
 using System.Text;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
-using Windows.UI.Notifications;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Files.App.Helpers
@@ -30,16 +29,11 @@ namespace Files.App.Helpers
 		/// <summary>
 		/// Gets the value that provides application environment or branch name.
 		/// </summary>
-		public static AppEnvironment AppEnvironment { get; } =
-#if STORE
-			AppEnvironment.Store;
-#elif PREVIEW
-			AppEnvironment.Preview;
-#elif STABLE
-			AppEnvironment.Stable;
-#else
-			AppEnvironment.Dev;
-#endif
+		public static AppEnvironment AppEnvironment =>
+			Enum.TryParse("cd_app_env_placeholder", true, out AppEnvironment appEnvironment)
+				? appEnvironment
+				: AppEnvironment.Dev;
+
 
 		/// <summary>
 		/// Gets application package version.
@@ -54,7 +48,7 @@ namespace Files.App.Helpers
 			SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, AppEnvironment switch
 			{
 				AppEnvironment.Dev => Constants.AssetPaths.DevLogo,
-				AppEnvironment.Preview => Constants.AssetPaths.PreviewLogo,
+				AppEnvironment.SideloadPreview or AppEnvironment.StorePreview => Constants.AssetPaths.PreviewLogo,
 				_ => Constants.AssetPaths.StableLogo
 			});
 
@@ -94,6 +88,8 @@ namespace Files.App.Helpers
 
 				return Task.CompletedTask;
 			}
+
+			generalSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
 		}
 
 		/// <summary>
@@ -106,28 +102,29 @@ namespace Files.App.Helpers
 			await updateService.CheckForUpdatesAsync();
 			await updateService.DownloadMandatoryUpdatesAsync();
 			await updateService.CheckAndUpdateFilesLauncherAsync();
-			await updateService.CheckLatestReleaseNotesAsync();
+			await updateService.CheckForReleaseNotesAsync();
 		}
 
 		/// <summary>
-		/// Configures AppCenter service, such as Analytics and Crash Report.
+		/// Configures Sentry service, such as Analytics and Crash Report.
 		/// </summary>
-		public static void ConfigureAppCenter()
+		public static void ConfigureSentry()
 		{
-			try
+			SentrySdk.Init(options =>
 			{
-				if (!Microsoft.AppCenter.AppCenter.Configured)
+				options.Dsn = Constants.AutomatedWorkflowInjectionKeys.SentrySecret;
+				options.AutoSessionTracking = true;
+				options.Release = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
+				options.TracesSampleRate = 0.80;
+				options.ProfilesSampleRate = 0.40;
+				options.Environment = AppEnvironment == AppEnvironment.StorePreview || AppEnvironment == AppEnvironment.SideloadPreview ? "preview" : "production";
+				options.ExperimentalMetrics = new ExperimentalMetricsOptions
 				{
-					Microsoft.AppCenter.AppCenter.Start(
-						Constants.AutomatedWorkflowInjectionKeys.AppCenterSecret,
-						typeof(Microsoft.AppCenter.Analytics.Analytics),
-						typeof(Microsoft.AppCenter.Crashes.Crashes));
-				}
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogWarning(ex, "Failed to start AppCenter service.");
-			}
+					EnableCodeLocations = true
+				};
+
+				options.DisableWinUiUnhandledExceptionIntegration();
+			});
 		}
 
 		/// <summary>
@@ -135,10 +132,14 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static IHost ConfigureHost()
 		{
-			return Host.CreateDefaultBuilder()
+			var builder = Host.CreateDefaultBuilder()
 				.UseEnvironment(AppLifecycleHelper.AppEnvironment.ToString())
 				.ConfigureLogging(builder => builder
+					.ClearProviders()
+					.AddConsole()
+					.AddDebug()
 					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
+					.AddProvider(new SentryLoggerProvider())
 					.SetMinimumLevel(LogLevel.Information))
 				.ConfigureServices(services => services
 					// Settings services
@@ -146,22 +147,30 @@ namespace Files.App.Helpers
 					.AddSingleton<IAppearanceSettingsService, AppearanceSettingsService>(sp => new AppearanceSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<IGeneralSettingsService, GeneralSettingsService>(sp => new GeneralSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<IFoldersSettingsService, FoldersSettingsService>(sp => new FoldersSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
+					.AddSingleton<IDevToolsSettingsService, DevToolsSettingsService>(sp => new DevToolsSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<IApplicationSettingsService, ApplicationSettingsService>(sp => new ApplicationSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<IInfoPaneSettingsService, InfoPaneSettingsService>(sp => new InfoPaneSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<ILayoutSettingsService, LayoutSettingsService>(sp => new LayoutSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<IAppSettingsService, AppSettingsService>(sp => new AppSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
+					.AddSingleton<IActionsSettingsService, ActionsSettingsService>(sp => new ActionsSettingsService(((UserSettingsService)sp.GetRequiredService<IUserSettingsService>()).GetSharingContext()))
 					.AddSingleton<IFileTagsSettingsService, FileTagsSettingsService>()
 					// Contexts
-					.AddSingleton<IPageContext, PageContext>()
+					.AddSingleton<IMultiPanesContext, MultiPanesContext>()
 					.AddSingleton<IContentPageContext, ContentPageContext>()
 					.AddSingleton<IDisplayPageContext, DisplayPageContext>()
 					.AddSingleton<IHomePageContext, HomePageContext>()
 					.AddSingleton<IWindowContext, WindowContext>()
 					.AddSingleton<IMultitaskingContext, MultitaskingContext>()
 					.AddSingleton<ITagsContext, TagsContext>()
+					.AddSingleton<ISidebarContext, SidebarContext>()
 					// Services
+					.AddSingleton<IWindowsRecentItemsService, WindowsRecentItemsService>()
+					.AddSingleton<IWindowsIniService, WindowsIniService>()
+					.AddSingleton<IWindowsWallpaperService, WindowsWallpaperService>()
+					.AddSingleton<IWindowsSecurityService, WindowsSecurityService>()
 					.AddSingleton<IAppThemeModeService, AppThemeModeService>()
 					.AddSingleton<IDialogService, DialogService>()
+					.AddSingleton<ICommonDialogService, CommonDialogService>()
 					.AddSingleton<IImageService, ImagingService>()
 					.AddSingleton<IThreadingService, ThreadingService>()
 					.AddSingleton<ILocalizationService, LocalizationService>()
@@ -169,44 +178,54 @@ namespace Files.App.Helpers
 					.AddSingleton<IFileTagsService, FileTagsService>()
 					.AddSingleton<ICommandManager, CommandManager>()
 					.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
-					.AddSingleton<IStorageService, NativeStorageService>()
+					.AddSingleton<IStorageService, NativeStorageLegacyService>()
 					.AddSingleton<IFtpStorageService, FtpStorageService>()
 					.AddSingleton<IAddItemService, AddItemService>()
-#if STABLE || PREVIEW
-					.AddSingleton<IUpdateService, SideloadUpdateService>()
-#else
-					.AddSingleton<IUpdateService, UpdateService>()
-#endif
 					.AddSingleton<IPreviewPopupService, PreviewPopupService>()
 					.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
 					.AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
-					.AddSingleton<IVolumeInfoFactory, VolumeInfoFactory>()
 					.AddSingleton<ISizeProvider, UserSizeProvider>()
 					.AddSingleton<IQuickAccessService, QuickAccessService>()
 					.AddSingleton<IResourcesService, ResourcesService>()
 					.AddSingleton<IWindowsJumpListService, WindowsJumpListService>()
+					.AddSingleton<IStorageTrashBinService, StorageTrashBinService>()
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
-					.AddSingleton<INetworkDrivesService, NetworkDrivesService>()
+					.AddSingleton<INetworkService, NetworkService>()
 					.AddSingleton<IStartMenuService, StartMenuService>()
 					.AddSingleton<IStorageCacheService, StorageCacheService>()
+					.AddSingleton<IStorageArchiveService, StorageArchiveService>()
+					.AddSingleton<IStorageSecurityService, StorageSecurityService>()
 					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()
 					.AddSingleton<InfoPaneViewModel>()
 					.AddSingleton<SidebarViewModel>()
-					.AddSingleton<SettingsViewModel>()
 					.AddSingleton<DrivesViewModel>()
 					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
 					.AddTransient<HomeViewModel>()
+					.AddSingleton<QuickAccessWidgetViewModel>()
+					.AddSingleton<DrivesWidgetViewModel>()
+					.AddSingleton<NetworkLocationsWidgetViewModel>()
+					.AddSingleton<FileTagsWidgetViewModel>()
+					.AddSingleton<RecentFilesWidgetViewModel>()
 					// Utilities
 					.AddSingleton<QuickAccessManager>()
 					.AddSingleton<StorageHistoryWrapper>()
 					.AddSingleton<FileTagsManager>()
-					.AddSingleton<RecentItems>()
 					.AddSingleton<LibraryManager>()
 					.AddSingleton<AppModel>()
-				).Build();
+				);
+
+			// Conditional DI
+			if (AppEnvironment is AppEnvironment.SideloadPreview or AppEnvironment.SideloadStable)
+				builder.ConfigureServices(s => s.AddSingleton<IUpdateService, SideloadUpdateService>());
+			else if (AppEnvironment is AppEnvironment.StorePreview or AppEnvironment.StoreStable)
+				builder.ConfigureServices(s => s.AddSingleton<IUpdateService, StoreUpdateService>());
+			else
+				builder.ConfigureServices(s => s.AddSingleton<IUpdateService, DummyUpdateService>());
+
+			return builder.Build();
 		}
 
 		/// <summary>
@@ -224,13 +243,7 @@ namespace Files.App.Helpers
 				}
 				else
 				{
-					var defaultArg = new CustomTabViewItemParameter()
-					{
-						InitialPageType = typeof(PaneHolderPage),
-						NavigationParameter = "Home"
-					};
-
-					return defaultArg.Serialize();
+					return "";
 				}
 			})
 			.ToList();
@@ -241,6 +254,8 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static void HandleAppUnhandledException(Exception? ex, bool showToastNotification)
 		{
+			var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+
 			StringBuilder formattedException = new()
 			{
 				Capacity = 200
@@ -250,6 +265,15 @@ namespace Files.App.Helpers
 
 			if (ex is not null)
 			{
+				ex.Data[Mechanism.HandledKey] = false;
+				ex.Data[Mechanism.MechanismKey] = "Application.UnhandledException";
+
+				SentrySdk.CaptureException(ex, scope =>
+				{
+					scope.User.Id = generalSettingsService?.UserId;
+					scope.Level = SentryLevel.Fatal;
+				});
+
 				formattedException.AppendLine($">>>> HRESULT: {ex.HResult}");
 
 				if (ex.Message is not null)
@@ -287,54 +311,14 @@ namespace Files.App.Helpers
 
 			// Save the current tab list in case it was overwriten by another instance
 			SaveSessionTabs();
-			App.Logger.LogError(ex, ex?.Message ?? "An unhandled error occurred.");
+			App.Logger?.LogError(ex, ex?.Message ?? "An unhandled error occurred.");
 
 			if (!showToastNotification)
 				return;
 
 			SafetyExtensions.IgnoreExceptions(() =>
 			{
-				var toastContent = new ToastContent()
-				{
-					Visual = new()
-					{
-						BindingGeneric = new ToastBindingGeneric()
-						{
-							Children =
-						{
-							new AdaptiveText()
-							{
-								Text = "ExceptionNotificationHeader".GetLocalizedResource()
-							},
-							new AdaptiveText()
-							{
-								Text = "ExceptionNotificationBody".GetLocalizedResource()
-							}
-						},
-							AppLogoOverride = new()
-							{
-								Source = "ms-appx:///Assets/error.png"
-							}
-						}
-					},
-					Actions = new ToastActionsCustom()
-					{
-						Buttons =
-					{
-						new ToastButton("ExceptionNotificationReportButton".GetLocalizedResource(), Constants.ExternalUrl.BugReportUrl)
-						{
-							ActivationType = ToastActivationType.Protocol
-						}
-					}
-					},
-					ActivationType = ToastActivationType.Protocol
-				};
-
-				// Create the toast notification
-				var toastNotification = new ToastNotification(toastContent.GetXml());
-
-				// And send the notification
-				ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
+				AppToastNotificationHelper.ShowUnhandledExceptionToast();
 			});
 
 			// Restart the app
@@ -354,7 +338,7 @@ namespace Files.App.Helpers
 				// Try to re-launch and start over
 				MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
+					await Launcher.LaunchUriAsync(new Uri("files-dev:"));
 				})
 				.Wait(100);
 			}
@@ -366,15 +350,40 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static bool IsAutoHideTaskbarEnabled()
 		{
-			const string registryKey = @"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3";
-			const string valueName = "Settings";
+			try
+			{
+				const string registryKey = @"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3";
+				const string valueName = "Settings";
 
-			using var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(registryKey);
+				using var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(registryKey);
 
-			var value = key?.GetValue(valueName) as byte[];
+				var value = key?.GetValue(valueName) as byte[];
 
-			// The least significant bit of the 9th byte controls the auto-hide setting																		
-			return value != null && ((value[8] & 0x01) == 1);
+				// The least significant bit of the 9th byte controls the auto-hide setting																		
+				return value != null && ((value[8] & 0x01) == 1);
+			}
+			catch (SecurityException)
+			{
+				// Handle edge case where OpenSubKey results in SecurityException
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// Updates the visibility of the system tray icon
+		/// </summary>
+		private static void GeneralSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (sender is not IGeneralSettingsService generalSettingsService)
+				return;
+
+			if (e.PropertyName == nameof(IGeneralSettingsService.ShowSystemTrayIcon))
+			{
+				if (generalSettingsService.ShowSystemTrayIcon)
+					App.SystemTrayIcon?.Show();
+				else
+					App.SystemTrayIcon?.Hide();
+			}
 		}
 	}
 }

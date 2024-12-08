@@ -2,7 +2,8 @@
 <Application
 	x:Class="Files.App.App"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:uc="using:Files.App.UserControls">
 
 	<Application.Resources>
 		<ResourceDictionary>
@@ -30,22 +31,44 @@
 				<Setter Target="HighContrastAdjustment" Value="None" />
 			</Style>
 
+
+			<!--  Workaround for https://github.com/files-community/Files/issues/12026  -->
+			<Style BasedOn="{StaticResource DefaultMenuFlyoutItemStyle}" TargetType="MenuFlyoutItem">
+				<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+			</Style>
+
+			<!--  Workaround for https://github.com/files-community/Files/issues/12026  -->
+			<Style BasedOn="{StaticResource DefaultToggleMenuFlyoutItemStyle}" TargetType="ToggleMenuFlyoutItem">
+				<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+			</Style>
+
+			<!--  Workaround for https://github.com/files-community/Files/issues/12026  -->
+			<Style BasedOn="{StaticResource DefaultMenuFlyoutSubItemStyle}" TargetType="MenuFlyoutSubItem">
+				<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+			</Style>
+
+			<Style BasedOn="{StaticResource DefaultComboBoxStyle}" TargetType="uc:ComboBoxEx" />
+
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+				<ResourceDictionary Source="ms-appx:///Files.App.Controls/Themes/Generic.xaml" />
 
 				<!--  Styles for the custom icons  -->
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PathIcons.xaml" />
-				<ResourceDictionary Source="ms-appx:///UserControls/SideBar/SideBarControls.xaml" />
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/App.Theme.TextBlockStyles.xaml" />
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/ShimmerStyles.xaml" />
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/MenuFlyoutSubItemWithImageStyle.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/PathIcons.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/SideBarStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/TextBlockStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/ShimmerStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/MenuFlyoutSubItemWithImageStyle.xaml" />
 				<ResourceDictionary>
 					<ResourceDictionary.ThemeDictionaries>
 						<ResourceDictionary x:Key="Light">
 							<SolidColorBrush x:Key="App.Theme.BackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="App.Theme.AddressBar.BackgroundBrush" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
+							<SolidColorBrush x:Key="App.Theme.Toolbar.BackgroundBrush" Color="{StaticResource CardBackgroundFillColorSecondary}" />
 							<SolidColorBrush x:Key="App.Theme.Sidebar.BackgroundBrush" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
 							<SolidColorBrush x:Key="App.Theme.FileArea.BackgroundBrush" Color="#C0FCFCFC" />
+							<SolidColorBrush x:Key="App.Theme.FileArea.SecondaryBackgroundBrush" Color="{StaticResource CardBackgroundFillColorSecondary}" />
+							<SolidColorBrush x:Key="App.Theme.InfoPane.BackgroundBrush" Color="{StaticResource CardBackgroundFillColorSecondary}" />
 
 							<SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SubtleFillColorTransparent}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
@@ -58,8 +81,11 @@
 						<ResourceDictionary x:Key="Dark">
 							<SolidColorBrush x:Key="App.Theme.BackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="App.Theme.AddressBar.BackgroundBrush" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
+							<SolidColorBrush x:Key="App.Theme.Toolbar.BackgroundBrush" Color="{StaticResource CardBackgroundFillColorSecondary}" />
 							<SolidColorBrush x:Key="App.Theme.Sidebar.BackgroundBrush" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
-							<SolidColorBrush x:Key="App.Theme.FileArea.BackgroundBrush" Color="#10f9f9f9" />
+							<SolidColorBrush x:Key="App.Theme.FileArea.BackgroundBrush" Color="{StaticResource CardBackgroundFillColorDefault}" />
+							<SolidColorBrush x:Key="App.Theme.FileArea.SecondaryBackgroundBrush" Color="{StaticResource CardBackgroundFillColorSecondary}" />
+							<SolidColorBrush x:Key="App.Theme.InfoPane.BackgroundBrush" Color="{StaticResource CardBackgroundFillColorSecondary}" />
 
 							<SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SubtleFillColorTransparent}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
@@ -72,8 +98,11 @@
 						<ResourceDictionary x:Key="HighContrast">
 							<SolidColorBrush x:Key="App.Theme.BackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="App.Theme.AddressBar.BackgroundBrush" Color="Transparent" />
+							<SolidColorBrush x:Key="App.Theme.Toolbar.BackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="App.Theme.Sidebar.BackgroundBrush" Color="Transparent" />
 							<SolidColorBrush x:Key="App.Theme.FileArea.BackgroundBrush" Color="Transparent" />
+							<SolidColorBrush x:Key="App.Theme.FileArea.SecondaryBackgroundBrush" Color="Transparent" />
+							<SolidColorBrush x:Key="App.Theme.InfoPane.BackgroundBrush" Color="Transparent" />
 
 							<SolidColorBrush x:Key="TabViewItemHeaderBackground" Color="{StaticResource SystemColorWindowColor}" />
 							<SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource SystemColorHighlightColor}" />

@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.UI.Xaml.Controls;
+using System.Runtime.InteropServices;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Data.Models
@@ -35,11 +36,18 @@ namespace Files.App.Data.Models
 			{
 				SetProperty(ref _TabStripSelectedIndex, value);
 
-				if (value >= 0 && value < MainPageViewModel.AppInstances.Count)
+				try
 				{
-					Frame rootFrame = (Frame)MainWindow.Instance.Content;
-					var mainView = (MainPage)rootFrame.Content;
-					mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
+					if (value >= 0 && value < MainPageViewModel.AppInstances.Count)
+					{
+						var rootFrame = (Frame)MainWindow.Instance.Content;
+						var mainView = (MainPage)rootFrame.Content;
+						mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
+					}
+				}
+				catch (COMException)
+				{
+
 				}
 			}
 		}

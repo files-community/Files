@@ -14,10 +14,12 @@ namespace Files.App.Actions
 			=> "CreateFolderWithSelectionDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconNewFolder");
+			=> new(themedIconStyle: "App.ThemedIcons.New.Folder");
 
 		public bool IsExecutable =>
 			context.ShellPage is not null &&
+			context.PageType != ContentPageTypes.RecycleBin &&
+			context.PageType != ContentPageTypes.ZipFolder &&
 			context.HasSelection;
 
 		public CreateFolderWithSelectionAction()
@@ -27,7 +29,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			return UIFilesystemHelpers.CreateFolderWithSelectionAsync(context.ShellPage!);
 		}

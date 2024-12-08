@@ -27,7 +27,7 @@ namespace Files.App.Data.Contexts
 
 		bool CanCreateItem { get; }
 
-		bool IsMultiPaneEnabled { get; }
+		bool IsMultiPaneAvailable { get; }
 		bool IsMultiPaneActive { get; }
 
 		bool IsGitRepository { get; }

@@ -22,8 +22,11 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new("\uE756");
 
-		public bool IsExecutable
+		public virtual bool IsExecutable
 			=> GetIsExecutable();
+
+		public virtual bool IsAccessibleGlobally
+			=> true;
 
 		public OpenTerminalAction()
 		{
@@ -32,7 +35,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			var terminalStartInfo = GetProcessStartInfo();
 			if (terminalStartInfo is not null)
@@ -74,7 +77,7 @@ namespace Files.App.Actions
 			};
 		}
 
-		protected string[] GetPaths()
+		protected virtual string[] GetPaths()
 		{
 			if (context.HasSelection)
 			{

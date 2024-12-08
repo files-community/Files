@@ -1,10 +1,7 @@
-using CommunityToolkit.Mvvm.DependencyInjection;
 using Files.App.ViewModels.Previews;
-using Files.App.Services.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using System;
 using Windows.Media.Playback;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
@@ -20,6 +17,7 @@ namespace Files.App.UserControls.FilePreviews
 			ViewModel = model;
 			InitializeComponent();
 			PlayerContext.Loaded += PlayerContext_Loaded;
+			Unloaded += MediaPreview_Unloaded;
 		}
 
 		public MediaPreviewViewModel ViewModel { get; set; }
@@ -30,6 +28,16 @@ namespace Files.App.UserControls.FilePreviews
 			PlayerContext.MediaPlayer.VolumeChanged += MediaPlayer_VolumeChanged;
 			ViewModel.TogglePlaybackRequested += TogglePlaybackRequestInvoked;
 		}
+
+		private void MediaPreview_Unloaded(object sender, RoutedEventArgs e)
+		{
+			// The MediaPlayerElement isn't properly disposed by Windows so we set the source to null
+			// to avoid issues the next time the control is used.
+			PlayerContext.Source = null;
+
+			PlayerContext.Loaded -= PlayerContext_Loaded;
+			Unloaded -= MediaPreview_Unloaded;		
+	}
 
 		private void MediaPlayer_VolumeChanged(MediaPlayer sender, object args)
 		{
