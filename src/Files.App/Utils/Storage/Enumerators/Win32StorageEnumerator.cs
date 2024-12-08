@@ -276,7 +276,7 @@ namespace Files.App.Utils.Storage
 
 			if (isSymlink)
 			{
-				var targetPath = NativeFileOperationsHelper.ParseSymLink(itemPath);
+				var targetPath = Win32Helper.ParseSymLink(itemPath);
 
 				return new ShortcutItem(null)
 				{
