@@ -30,8 +30,6 @@ namespace Files.App.UserControls.TabBar
 
 		private bool _lockDropOperation = false;
 
-		private static int _gap = 40;
-
 		// Starting position when dragging a tab
 		private System.Drawing.Point dragStartPoint;
 
@@ -55,14 +53,6 @@ namespace Files.App.UserControls.TabBar
 		public Rectangle DragArea
 			=> DragAreaRectangle;
 
-		private GridLength _titleBarWidth;
-
-		public GridLength TitleBarWidth
-		{
-			get => _titleBarWidth;
-			set => _titleBarWidth = new((value.Value / App.AppModel.AppWindowDPI) + _gap);
-		}
-
 		// Events
 
 		public static event EventHandler<TabBarItem?>? SelectedTabItemChanged;
@@ -75,11 +65,6 @@ namespace Files.App.UserControls.TabBar
 
 			tabHoverTimer.Interval = TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToOpenTimespan);
 			tabHoverTimer.Tick += TabHoverSelected;
-
-			var appWindow = MainWindow.Instance.AppWindow;
-			TitleBarWidth = new(FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
-				? appWindow!.TitleBar.LeftInset
-				: appWindow!.TitleBar.RightInset);
 
 			AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
@@ -377,10 +362,24 @@ namespace Files.App.UserControls.TabBar
 
 		private void DragAreaRectangle_Loaded(object sender, RoutedEventArgs e)
 		{
-			if (HorizontalTabView.ActualWidth > 0 && TabBarAddNewTabButton.Width > 0 && TitleBarWidth.Value > 0)
+			if (HorizontalTabView.ActualWidth > 0 && TabBarAddNewTabButton.Width > 0)
 			{
-				HorizontalTabView.Measure(new(HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - TitleBarWidth.Value, HorizontalTabView.ActualHeight));
-				return;
+				var appWindow = MainWindow.Instance.AppWindow;
+				var titleBarInset = (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
+					? appWindow.TitleBar.LeftInset
+					: appWindow.TitleBar.RightInset) / DragAreaRectangle.XamlRoot.RasterizationScale;
+
+				if (titleBarInset > 0)
+				{
+					titleBarInset += 40; // Add 40px gap
+					RightPaddingColumn.Width = new(titleBarInset);
+
+					HorizontalTabView.Measure(new(
+						HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset,
+						HorizontalTabView.ActualHeight));
+
+					return;
+				}
 			}
 
 			DispatcherQueue.TryEnqueue(() => DragAreaRectangle_Loaded(sender, e));

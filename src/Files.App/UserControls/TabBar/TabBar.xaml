@@ -228,7 +228,7 @@
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition Width="*" />
-						<ColumnDefinition x:Name="RightPaddingColumn" Width="{x:Bind TitleBarWidth, Mode=OneWay}" />
+						<ColumnDefinition x:Name="RightPaddingColumn" Width="0" />
 					</Grid.ColumnDefinitions>
 
 					<!--  Height is not divisble by four in order to properly align the button  -->
