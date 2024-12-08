@@ -2,11 +2,13 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Graphics;
 using Windows.Storage;
 using Windows.Win32;
 
@@ -63,15 +65,6 @@ namespace Files.App.UserControls.TabBar
 
 			tabHoverTimer.Interval = TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToOpenTimespan);
 			tabHoverTimer.Tick += TabHoverSelected;
-
-			var appWindow = MainWindow.Instance.AppWindow;
-
-			double rightPaddingColumnWidth =
-				FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
-					? appWindow.TitleBar.LeftInset
-					: appWindow.TitleBar.RightInset;
-
-			RightPaddingColumn.Width = new(rightPaddingColumnWidth >= 0 ? rightPaddingColumnWidth : 0);
 
 			AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
@@ -365,6 +358,40 @@ namespace Files.App.UserControls.TabBar
 						iconControl.Content = (tabViewItem.IconSource as ImageIconSource)?.CreateIconElement();
 				});
 			}
+		}
+
+		private void DragAreaRectangle_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (HorizontalTabView.ActualWidth > 0 && TabBarAddNewTabButton.Width > 0)
+			{
+				var appWindow = MainWindow.Instance.AppWindow;
+				var titleBarInset = (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
+					? appWindow.TitleBar.LeftInset
+					: appWindow.TitleBar.RightInset) / DragAreaRectangle.XamlRoot.RasterizationScale;
+
+				if (titleBarInset > 0)
+				{
+					titleBarInset += 40; // Add 40px gap
+					RightPaddingColumn.Width = new(titleBarInset);
+
+					HorizontalTabView.Measure(new(
+						HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset,
+						HorizontalTabView.ActualHeight));
+
+					return;
+				}
+			}
+
+			DispatcherQueue.TryEnqueue(() => DragAreaRectangle_Loaded(sender, e));
+		}
+
+		public int SetTitleBarDragRegion(InputNonClientPointerSource source, SizeInt32 size, double scaleFactor, Func<UIElement, RectInt32?, RectInt32> getScaledRect)
+		{
+			var height = (int)ActualHeight;
+			var width = (int)(ActualWidth - DragArea.ActualWidth);
+
+			source.SetRegionRects(NonClientRegionKind.Passthrough, [getScaledRect(this, new RectInt32(0, 0, width, height))]);
+			return height;
 		}
 	}
 }
