@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Server.Data.Enums;
-
 namespace Files.App.Actions
 {
 	internal sealed class GroupByNoneAction : GroupByAction
@@ -176,7 +174,7 @@ namespace Files.App.Actions
 			DisplayContext.PropertyChanged += DisplayContext_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			DisplayContext.GroupOption = GroupOption;
 
@@ -375,7 +373,7 @@ namespace Files.App.Actions
 			DisplayContext.PropertyChanged += DisplayContext_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			DisplayContext.GroupOption = GroupOption;
 			DisplayContext.GroupByDateUnit = GroupByDateUnit;
@@ -424,7 +422,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupDirection = SortDirection.Ascending;
 
@@ -468,7 +466,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupDirection = SortDirection.Descending;
 
@@ -504,7 +502,7 @@ namespace Files.App.Actions
 			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupDirection = context.SortDirection is SortDirection.Descending ? SortDirection.Ascending : SortDirection.Descending;
 
@@ -535,7 +533,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupByDateUnit = GroupByDateUnit.Year;
 
@@ -579,7 +577,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupByDateUnit = GroupByDateUnit.Month;
 
@@ -615,7 +613,7 @@ namespace Files.App.Actions
 			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupByDateUnit = context.GroupByDateUnit switch
 			{

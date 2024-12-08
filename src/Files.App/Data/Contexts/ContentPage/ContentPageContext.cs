@@ -10,18 +10,18 @@ namespace Files.App.Data.Contexts
 	{
 		private static readonly IReadOnlyList<ListedItem> emptyItems = Enumerable.Empty<ListedItem>().ToImmutableList();
 
-		private readonly IPageContext context = Ioc.Default.GetRequiredService<IPageContext>();
+		private readonly IMultiPanesContext context = Ioc.Default.GetRequiredService<IMultiPanesContext>();
 
-		private ItemViewModel? filesystemViewModel;
+		private ShellViewModel? filesystemViewModel;
 
-		public IShellPage? ShellPage => context?.PaneOrColumn;
+		public IShellPage? ShellPage => context?.ActivePaneOrColumn;
 
 		public Type PageLayoutType => ShellPage?.CurrentPageType ?? typeof(DetailsLayoutPage);
 
 		private ContentPageTypes pageType = ContentPageTypes.None;
 		public ContentPageTypes PageType => pageType;
 
-		public ListedItem? Folder => ShellPage?.FilesystemViewModel?.CurrentFolder;
+		public ListedItem? Folder => ShellPage?.ShellViewModel?.CurrentFolder;
 
 		public bool HasItem => ShellPage?.ToolbarViewModel?.HasItem ?? false;
 
@@ -43,7 +43,7 @@ namespace Files.App.Data.Contexts
 
 		public bool CanCreateItem => GetCanCreateItem();
 
-		public bool IsMultiPaneEnabled => ShellPage is not null && ShellPage.PaneHolder is not null && ShellPage.PaneHolder.IsMultiPaneEnabled;
+		public bool IsMultiPaneAvailable => ShellPage is not null && ShellPage.PaneHolder is not null && ShellPage.PaneHolder.IsMultiPaneAvailable;
 
 		public bool IsMultiPaneActive => ShellPage is not null && ShellPage.PaneHolder is not null && ShellPage.PaneHolder.IsMultiPaneActive;
 
@@ -51,12 +51,12 @@ namespace Files.App.Data.Contexts
 
 		public bool CanExecuteGitAction => IsGitRepository && !GitHelpers.IsExecutingGitAction;
 
-		public string? SolutionFilePath => ShellPage?.FilesystemViewModel?.SolutionFilePath;
+		public string? SolutionFilePath => ShellPage?.ShellViewModel?.SolutionFilePath;
 
 		public ContentPageContext()
 		{
-			context.Changing += Context_Changing;
-			context.Changed += Context_Changed;
+			context.ActivePaneChanging += Context_Changing;
+			context.ActivePaneChanged += Context_Changed;
 			GitHelpers.IsExecutingGitActionChanged += GitHelpers_IsExecutingGitActionChanged;
 
 			Update();
@@ -99,7 +99,7 @@ namespace Files.App.Data.Contexts
 					page.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 			}
 
-			filesystemViewModel = ShellPage?.FilesystemViewModel;
+			filesystemViewModel = ShellPage?.ShellViewModel;
 			if (filesystemViewModel is not null)
 				filesystemViewModel.PropertyChanged += FilesystemViewModel_PropertyChanged;
 
@@ -116,20 +116,20 @@ namespace Files.App.Data.Contexts
 					OnPropertyChanged(nameof(PageLayoutType));
 					break;
 				case nameof(ShellPage.PaneHolder):
-					OnPropertyChanged(nameof(IsMultiPaneEnabled));
+					OnPropertyChanged(nameof(IsMultiPaneAvailable));
 					OnPropertyChanged(nameof(IsMultiPaneActive));
 					break;
 			}
 		}
 
-		private void Page_ContentChanged(object? sender, CustomTabViewItemParameter e) => Update();
+		private void Page_ContentChanged(object? sender, TabBarItemParameter e) => Update();
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(IPaneHolder.IsMultiPaneEnabled):
-				case nameof(IPaneHolder.IsMultiPaneActive):
+				case nameof(IShellPanesPage.IsMultiPaneAvailable):
+				case nameof(IShellPanesPage.IsMultiPaneActive):
 					OnPropertyChanged(e.PropertyName);
 					break;
 			}
@@ -178,10 +178,10 @@ namespace Files.App.Data.Contexts
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(ItemViewModel.CurrentFolder):
+				case nameof(ShellViewModel.CurrentFolder):
 					OnPropertyChanged(nameof(Folder));
 					break;
-				case nameof(ItemViewModel.SolutionFilePath):
+				case nameof(ShellViewModel.SolutionFilePath):
 					OnPropertyChanged(nameof(SolutionFilePath));
 					break;
 			}
@@ -198,7 +198,7 @@ namespace Files.App.Data.Contexts
 			OnPropertyChanged(nameof(CanNavigateToParent));
 			OnPropertyChanged(nameof(CanRefresh));
 			OnPropertyChanged(nameof(CanCreateItem));
-			OnPropertyChanged(nameof(IsMultiPaneEnabled));
+			OnPropertyChanged(nameof(IsMultiPaneAvailable));
 			OnPropertyChanged(nameof(IsMultiPaneActive));
 			OnPropertyChanged(nameof(IsGitRepository));
 			OnPropertyChanged(nameof(CanExecuteGitAction));

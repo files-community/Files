@@ -3,7 +3,7 @@
 	x:Class="Files.App.UserControls.InfoPane"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+	xmlns:controls="using:Files.App.Controls"
 	xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
@@ -11,14 +11,11 @@
 	xmlns:local="using:Files.App.Converters"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:properties="using:Files.App.ViewModels.Properties"
+	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:triggers="using:CommunityToolkit.WinUI.UI.Triggers"
 	xmlns:usercontrols="using:Files.App.UserControls"
 	x:Name="Root"
 	MinWidth="90"
-	HorizontalAlignment="Stretch"
-	VerticalAlignment="Stretch"
-	d:DesignHeight="300"
-	d:DesignWidth="400"
 	AutomationProperties.Name="{helpers:ResourceString Name=SelectedFilePreviewPane/AutomationProperties/Name}"
 	SizeChanged="Root_SizeChanged"
 	Unloaded="Root_Unloaded"
@@ -27,7 +24,7 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/PropertiesStyles.xaml" />
 
 				<ResourceDictionary>
 					<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -138,9 +135,11 @@
 	</UserControl.Resources>
 
 	<Grid
-		HorizontalAlignment="Stretch"
-		BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
-		BorderThickness="0,0,0,1">
+		Background="{ThemeResource App.Theme.InfoPane.BackgroundBrush}"
+		BackgroundSizing="InnerBorderEdge"
+		BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+		BorderThickness="1"
+		CornerRadius="8">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="2*" />
@@ -239,6 +238,92 @@
 					TextAlignment="Center"
 					TextWrapping="Wrap"
 					Visibility="Collapsed" />
+
+				<!--  Drive Details  -->
+				<TextBlock
+					x:Name="DriveFormatAndTypeTextBlock"
+					Margin="12,12,12,24"
+					HorizontalAlignment="Center"
+					IsTextSelectionEnabled="True"
+					Style="{ThemeResource BodyTextBlockStyle}"
+					TextAlignment="Center"
+					TextWrapping="Wrap"
+					Visibility="Collapsed">
+					<Run Text="{x:Bind ViewModel.SelectedDriveItem.Filesystem, Mode=OneWay}" />
+					<Run Foreground="{ThemeResource TextFillColorTertiaryBrush}" Text="{x:Bind ViewModel.SelectedDriveItem.TypeText, Mode=OneWay}" />
+				</TextBlock>
+
+				<TextBlock
+					x:Name="UsedSpaceTextBlock"
+					HorizontalAlignment="Center"
+					Foreground="{ThemeResource AccentTextFillColorPrimaryBrush}"
+					IsTextSelectionEnabled="True"
+					Style="{ThemeResource SubtitleTextBlockStyle}"
+					Text="{x:Bind ViewModel.SelectedDriveItem.UsedSpaceText, Mode=OneWay}"
+					TextAlignment="Center"
+					TextWrapping="Wrap"
+					Visibility="Collapsed" />
+				<controls:StorageBar
+					x:Name="DriveSpaceProgressBar"
+					Margin="8,8,8,8"
+					HorizontalAlignment="Stretch"
+					TrackBarHeight="4"
+					ValueBarHeight="8"
+					Visibility="Collapsed"
+					Value="{x:Bind ViewModel.SelectedDriveItem.PercentageUsed, Mode=OneWay}" />
+				<Grid
+					x:Name="DriveSpaceGrid"
+					Margin="12,0,12,24"
+					Visibility="Collapsed">
+					<Grid.RowDefinitions>
+						<RowDefinition />
+						<RowDefinition />
+					</Grid.RowDefinitions>
+
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+
+					<TextBlock
+						x:Name="AvailableSpaceTextBlock"
+						FontFamily="{ThemeResource ContentControlThemeFontFamily}"
+						FontSize="14"
+						IsTextSelectionEnabled="True"
+						Style="{ThemeResource BodyStrongTextBlockStyle}"
+						Text="{x:Bind ViewModel.SelectedDriveItem.FreeSpaceText, Mode=OneWay}"
+						TextAlignment="Left"
+						TextWrapping="Wrap" />
+					<TextBlock
+						x:Name="TotalDriveSpaceTextBlock"
+						Grid.Column="2"
+						Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+						IsTextSelectionEnabled="True"
+						Style="{ThemeResource BodyStrongTextBlockStyle}"
+						Text="{x:Bind ViewModel.SelectedDriveItem.MaxSpaceText, Mode=OneWay}"
+						TextAlignment="Right"
+						TextWrapping="Wrap" />
+					<TextBlock
+						x:Name="AvailableSpaceLabel"
+						Grid.Row="1"
+						HorizontalAlignment="Left"
+						Style="{ThemeResource BodyTextBlockStyle}"
+						Text="{helpers:ResourceString Name=Available}"
+						TextAlignment="Left"
+						TextWrapping="Wrap" />
+					<TextBlock
+						x:Name="TotalDriveSpaceLabel"
+						Grid.Row="1"
+						Grid.Column="2"
+						HorizontalAlignment="Right"
+						Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+						Style="{ThemeResource BodyTextBlockStyle}"
+						Text="{helpers:ResourceString Name=Total}"
+						TextAlignment="Right"
+						TextWrapping="Wrap" />
+				</Grid>
+
 				<ItemsControl
 					x:Name="FileDetailsRepeater"
 					Margin="12,12,12,0"
@@ -292,7 +377,7 @@
 						SelectionMode="None">
 						<GridView.ItemsPanel>
 							<ItemsPanelTemplate>
-								<controls:WrapPanel Orientation="Horizontal" VerticalSpacing="-8" />
+								<toolkit:WrapPanel Orientation="Horizontal" VerticalSpacing="-8" />
 							</ItemsPanelTemplate>
 						</GridView.ItemsPanel>
 
@@ -318,10 +403,13 @@
 											Tapped="TagItem_Tapped"
 											ToolTipService.ToolTip="{x:Bind AsTag.Tag.Name, Mode=OneWay}">
 											<!--  Tag icon  -->
-											<PathIcon
-												VerticalAlignment="Center"
-												Data="{StaticResource ColorIconFilledTag}"
-												Foreground="{x:Bind AsTag.Tag.Color, Mode=OneWay}" />
+											<controls:ThemedIcon
+												Width="16"
+												Height="16"
+												IconColorType="Custom"
+												IsFilled="True"
+												Style="{StaticResource App.ThemedIcons.Tag}"
+												Color="{x:Bind AsTag.Tag.Color, Mode=OneWay}" />
 											<!--  Tag name  -->
 											<TextBlock
 												HorizontalAlignment="Stretch"
@@ -352,11 +440,11 @@
 													Orientation="Horizontal"
 													Spacing="8">
 													<!--  Icon  -->
-													<usercontrols:OpacityIcon
+													<controls:ThemedIcon
 														Width="16"
 														Height="16"
 														VerticalAlignment="Center"
-														Style="{StaticResource ColorIconEditTag}" />
+														Style="{StaticResource App.ThemedIcons.TagEdit}" />
 													<!--  Text  -->
 													<TextBlock
 														HorizontalAlignment="Stretch"
@@ -372,7 +460,7 @@
 												<VisualState x:Name="Normal" />
 												<VisualState x:Name="PointerOver">
 													<VisualState.Setters>
-														<Setter Target="TagPill.Background" Value="{ThemeResource SubtleFillColorSecondary}" />
+														<Setter Target="TagPill.Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
 													</VisualState.Setters>
 												</VisualState>
 											</VisualStateGroup>
@@ -395,7 +483,7 @@
 					Visibility="Collapsed">
 					<Button.Content>
 						<StackPanel Orientation="Horizontal" Spacing="8">
-							<usercontrols:OpacityIcon Style="{x:Bind Commands.OpenProperties.OpacityStyle}" />
+							<controls:ThemedIcon Style="{x:Bind Commands.OpenProperties.ThemedIconStyle}" />
 							<TextBlock Text="{helpers:ResourceString Name=Properties}" />
 						</StackPanel>
 					</Button.Content>
@@ -463,6 +551,23 @@
 						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
 						<Setter Target="PreviewControlPresenter.Visibility" Value="Collapsed" />
 						<Setter Target="PreviewLoadingIndicator.Visibility" Value="Visible" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="DriveStorageDetailsAvailable">
+					<VisualState.StateTriggers>
+						<triggers:IsEqualStateTrigger Value="{x:Bind ViewModel.PreviewPaneState, Mode=OneWay}" To="5" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="PreviewErrorText.Visibility" Value="Collapsed" />
+						<Setter Target="FileDetailsRepeater.Visibility" Value="Collapsed" />
+						<Setter Target="DetailsTagsList.Visibility" Value="Collapsed" />
+						<Setter Target="DetailsOpenProperties.Visibility" Value="Visible" />
+						<Setter Target="PreviewControlPresenter.Visibility" Value="Visible" />
+						<Setter Target="DetailsListHeader.Visibility" Value="Visible" />
+						<Setter Target="DriveFormatAndTypeTextBlock.Visibility" Value="Visible" />
+						<Setter Target="UsedSpaceTextBlock.Visibility" Value="Visible" />
+						<Setter Target="DriveSpaceProgressBar.Visibility" Value="Visible" />
+						<Setter Target="DriveSpaceGrid.Visibility" Value="Visible" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>

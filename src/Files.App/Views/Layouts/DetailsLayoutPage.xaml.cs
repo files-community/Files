@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Server.Data.Enums;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -14,7 +13,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using SortDirection = Files.App.Server.Data.Enums.SortDirection;
+using SortDirection = Files.App.Data.Enums.SortDirection;
 
 namespace Files.App.Views.Layouts
 {
@@ -98,6 +97,11 @@ namespace Files.App.Views.Layouts
 			ContentScroller?.ChangeView(null, FileList.Items.IndexOf(e) * RowHeight, null, true); // Scroll to index * item height
 		}
 
+		protected override void ItemManipulationModel_ScrollToTopInvoked(object? sender, EventArgs e)
+		{
+			ContentScroller?.ChangeView(null, 0, null, true);
+		}
+
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
 			if (SelectedItems?.Any() ?? false)
@@ -152,13 +156,12 @@ namespace Files.App.Views.Layouts
 				ColumnsViewModel.GitLastCommitShaColumn = FolderSettings.ColumnsViewModel.GitLastCommitShaColumn;
 			}
 
-			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
+			ParentShellPageInstance.ShellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 			FolderSettings.SortDirectionPreferenceUpdated += FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated += FolderSettings_SortOptionPreferenceUpdated;
-			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+			ParentShellPageInstance.ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
@@ -182,10 +185,9 @@ namespace Files.App.Views.Layouts
 		{
 			base.OnNavigatingFrom(e);
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
-			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
 			FolderSettings.SortDirectionPreferenceUpdated -= FolderSettings_SortDirectionPreferenceUpdated;
 			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
-			ParentShellPageInstance.FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+			ParentShellPageInstance.ShellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
 		}
 
@@ -203,6 +205,32 @@ namespace Files.App.Views.Layouts
 
 				// Restore correct scroll position
 				ContentScroller?.ChangeView(null, previousOffset, null);
+			}
+			else
+			{
+				var settings = sender as ILayoutSettingsService;
+				var isDefaultPath = FolderSettings?.IsPathUsingDefaultLayout(ParentShellPageInstance?.ShellViewModel.CurrentFolder?.ItemPath);
+				if (settings is not null && (isDefaultPath ?? true))
+				{
+					switch (e.PropertyName)
+					{
+						case nameof(ILayoutSettingsService.ShowFileTagColumn):
+							ColumnsViewModel.TagColumn.UserCollapsed = !settings.ShowFileTagColumn;
+							break;
+						case nameof(ILayoutSettingsService.ShowSizeColumn):
+							ColumnsViewModel.SizeColumn.UserCollapsed = !settings.ShowSizeColumn;
+							break;
+						case nameof(ILayoutSettingsService.ShowTypeColumn):
+							ColumnsViewModel.ItemTypeColumn.UserCollapsed = !settings.ShowTypeColumn;
+							break;
+						case nameof(ILayoutSettingsService.ShowDateCreatedColumn):
+							ColumnsViewModel.DateCreatedColumn.UserCollapsed = !settings.ShowDateCreatedColumn;
+							break;
+						case nameof(ILayoutSettingsService.ShowDateColumn):
+							ColumnsViewModel.DateModifiedColumn.UserCollapsed = !settings.ShowDateColumn;
+							break;
+					}
+				}
 			}
 		}
 
@@ -465,24 +493,24 @@ namespace Files.App.Views.Layouts
 			if (ParentShellPageInstance is null)
 				return;
 
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
-			var filesAndFolders = ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList();
+			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
+			var filesAndFolders = ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList();
 
 			await Task.WhenAll(filesAndFolders.Select(listedItem =>
 			{
 				listedItem.ItemPropertiesInitialized = false;
 				if (FileList.ContainerFromItem(listedItem) is not null)
-					return ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(listedItem);
+					return ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
 				else
 					return Task.CompletedTask;
 			}));
 
-			if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None)
+			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None)
 			{
 				await Task.WhenAll(filesAndFolders.Select(item =>
 				{
 					if (item is GitItem gitItem)
-						return ParentShellPageInstance.FilesystemViewModel.LoadGitPropertiesAsync(gitItem);
+						return ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
 
 					return Task.CompletedTask;
 				}));
@@ -550,15 +578,11 @@ namespace Files.App.Views.Layouts
 		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
-			{
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 				await Commands.OpenItem.ExecuteAsync();
-			}
-			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-			{
+			else if ((e.OriginalSource as FrameworkElement)?.DataContext is not ListedItem && UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 				await Commands.NavigateUp.ExecuteAsync();
-			}
+
 			ResetRenameDoubleClick();
 		}
 
@@ -595,25 +619,25 @@ namespace Files.App.Views.Layouts
 
 		private void UpdateColumnLayout()
 		{
-			ColumnsViewModel.IconColumn.UserLength = new GridLength(Column2.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.NameColumn.UserLength = new GridLength(Column3.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.IconColumn.UserLength = Column2.Width;
+			ColumnsViewModel.NameColumn.UserLength = Column3.Width;
 
 			// Git
-			ColumnsViewModel.GitStatusColumn.UserLength = new GridLength(GitStatusColumnDefinition.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.GitLastCommitDateColumn.UserLength = new GridLength(GitLastCommitDateColumnDefinition.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.GitLastCommitMessageColumn.UserLength = new GridLength(GitLastCommitMessageColumnDefinition.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.GitCommitAuthorColumn.UserLength = new GridLength(GitCommitAuthorColumnDefinition.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.GitLastCommitShaColumn.UserLength = new GridLength(GitLastCommitShaColumnDefinition.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.GitStatusColumn.UserLength = GitStatusColumnDefinition.Width;
+			ColumnsViewModel.GitLastCommitDateColumn.UserLength = GitLastCommitDateColumnDefinition.Width;
+			ColumnsViewModel.GitLastCommitMessageColumn.UserLength = GitLastCommitMessageColumnDefinition.Width;
+			ColumnsViewModel.GitCommitAuthorColumn.UserLength = GitCommitAuthorColumnDefinition.Width;
+			ColumnsViewModel.GitLastCommitShaColumn.UserLength = GitLastCommitShaColumnDefinition.Width;
 
-			ColumnsViewModel.TagColumn.UserLength = new GridLength(Column4.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.PathColumn.UserLength = new GridLength(Column5.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.OriginalPathColumn.UserLength = new GridLength(Column6.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.DateDeletedColumn.UserLength = new GridLength(Column7.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.DateModifiedColumn.UserLength = new GridLength(Column8.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.DateCreatedColumn.UserLength = new GridLength(Column9.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.ItemTypeColumn.UserLength = new GridLength(Column10.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.SizeColumn.UserLength = new GridLength(Column11.ActualWidth, GridUnitType.Pixel);
-			ColumnsViewModel.StatusColumn.UserLength = new GridLength(Column12.ActualWidth, GridUnitType.Pixel);
+			ColumnsViewModel.TagColumn.UserLength = Column4.Width;
+			ColumnsViewModel.PathColumn.UserLength = Column5.Width;
+			ColumnsViewModel.OriginalPathColumn.UserLength = Column6.Width;
+			ColumnsViewModel.DateDeletedColumn.UserLength = Column7.Width;
+			ColumnsViewModel.DateModifiedColumn.UserLength = Column8.Width;
+			ColumnsViewModel.DateCreatedColumn.UserLength = Column9.Width;
+			ColumnsViewModel.ItemTypeColumn.UserLength = Column10.Width;
+			ColumnsViewModel.SizeColumn.UserLength = Column11.Width;
+			ColumnsViewModel.StatusColumn.UserLength = Column12.Width;
 		}
 
 		private void RootGrid_SizeChanged(object? sender, SizeChangedEventArgs? e)
@@ -640,7 +664,7 @@ namespace Files.App.Views.Layouts
 		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
 		{
 			FolderSettings.ColumnsViewModel = ColumnsViewModel;
-			ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
+			ParentShellPageInstance.ShellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
 		}
 
 		private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)

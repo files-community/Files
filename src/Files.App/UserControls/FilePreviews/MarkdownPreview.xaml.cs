@@ -1,19 +1,27 @@
+// Copyright (c) 2024 Files Community
+// Licensed under the MIT License. See the LICENSE.
+
+using CommunityToolkit.WinUI.UI.Controls;
 using Files.App.ViewModels.Previews;
 using Microsoft.UI.Xaml.Controls;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using Windows.System;
 
 namespace Files.App.UserControls.FilePreviews
 {
 	public sealed partial class MarkdownPreview : UserControl
 	{
+		private MarkdownPreviewViewModel ViewModel { get; set; }
+
 		public MarkdownPreview(MarkdownPreviewViewModel model)
 		{
 			ViewModel = model;
 			InitializeComponent();
 		}
 
-		private MarkdownPreviewViewModel ViewModel { get; set; }
+		private async void PreviewMarkdownTextBlock_LinkClicked(object sender, LinkClickedEventArgs e)
+		{
+			if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri? link))
+				await Launcher.LaunchUriAsync(link);
+		}
 	}
 }

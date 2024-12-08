@@ -124,7 +124,10 @@
     <value>复制路径</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>复制带引号的路径</value>
+    <value>复制路径（带引号）</value>
+  </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>复制选中项的路径（带引号）</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>浏览</value>
@@ -190,7 +193,7 @@
     <value>移除此项</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub 仓库</value>
+    <value>GitHub 存储库</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>关于</value>
@@ -216,8 +219,8 @@
   <data name="Appearance" xml:space="preserve">
     <value>外观</value>
   </data>
-  <data name="Background" xml:space="preserve">
-    <value>主题色</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>背景颜色</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>高级选项</value>
@@ -248,6 +251,9 @@
   </data>
   <data name="Paste" xml:space="preserve">
     <value>粘贴</value>
+  </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>粘贴为快捷方式</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>新建</value>
@@ -291,8 +297,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>输入项目名称</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>命名</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>创建新 {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>浅色</value>
@@ -301,10 +307,10 @@
     <value>深色</value>
   </data>
   <data name="Application" xml:space="preserve">
-    <value>应用的时间格式</value>
+    <value>应用</value>
   </data>
   <data name="SystemTimeStyle" xml:space="preserve">
-    <value>系统的时间格式</value>
+    <value>系统</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>新建文件夹</value>
@@ -338,6 +344,9 @@
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
     <value>设为锁屏背景</value>
+  </data>
+  <data name="SetAsAppBackground" xml:space="preserve">
+    <value>设置为应用程序背景</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>该项目无法删除</value>
@@ -382,34 +391,46 @@
     <value>只读</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0} 天前</value>
+    <value>{0, plural, other {# 天前}}</value>
   </data>
-  <data name="DayAgo" xml:space="preserve">
+  <data name="DaysAgo_Singular" xml:space="preserve">
+    <value>1 天前</value>
+  </data>
+  <data name="DaysAgo_Plural" xml:space="preserve">
     <value>{0} 天前</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0} 小时前</value>
+    <value>{0, plural, other {# 小时前}}</value>
   </data>
-  <data name="HourAgo" xml:space="preserve">
+  <data name="HoursAgo_Singular" xml:space="preserve">
+    <value>1 小时前</value>
+  </data>
+  <data name="HoursAgo_Plural" xml:space="preserve">
     <value>{0} 小时前</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>{0} 分钟前</value>
+    <value>{0, plural, other {# 分钟前}}</value>
   </data>
-  <data name="MinuteAgo" xml:space="preserve">
+  <data name="MinutesAgo_Singular" xml:space="preserve">
+    <value>1 分钟前</value>
+  </data>
+  <data name="MinutesAgo_Plural" xml:space="preserve">
     <value>{0} 分钟前</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>{0} 秒前</value>
+    <value>{0, plural, other {# 秒前}}</value>
   </data>
-  <data name="OneSecondAgo" xml:space="preserve">
+  <data name="SecondsAgo_Singular" xml:space="preserve">
     <value>1 秒前</value>
+  </data>
+  <data name="SecondsAgo_Plural" xml:space="preserve">
+    <value>{0} 秒前</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>现在</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
-    <value>不支持请求的操作</value>
+    <value>不支持该操作</value>
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} 可用，共 {1}</value>
@@ -423,17 +444,13 @@
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>指定的项目名称无效</value>
   </data>
-  <data name="ItemSelected.Text" xml:space="preserve">
-    <value>个项目已选择</value>
+  <data name="SelectedItems" xml:space="preserve">
+    <value>{0, plural, other {选中 # 个项目}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
-  <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>个项目已选择</value>
-  </data>
-  <data name="ItemCount.Text" xml:space="preserve">
-    <value>个项目</value>
-  </data>
-  <data name="ItemsCount.Text" xml:space="preserve">
-    <value>个项目</value>
+  <data name="Items" xml:space="preserve">
+    <value>{0, plural, other {个项目}}</value>
+    <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
     <value>是</value>
@@ -466,10 +483,10 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0:#,##0} 个文件, {1:#,##0} 个文件夹</value>
+    <value>{0, number} {0, plural, other {个文件}}, {1, number} {1, plural, other {个文件夹}}</value>
   </data>
-  <data name="PropertiesFilesFoldersAndLocationsCountString" xml:space="preserve">
-    <value>{0:#,##0} 个文件，{1:#,##0} 个文件夹，来自 {2:#,##0} 个位置 </value>
+  <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
+    <value>{0, number} {0, plural, other {个文件}}, {1, number} {1, plural, other {个文件夹}}, 来自 {2, number} {2, plural, other {个位置}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>以其他用户身份运行</value>
@@ -501,7 +518,7 @@
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>移动标签页到此处</value>
   </data>
-  <data name="syncStatusColumn.Header" xml:space="preserve">
+  <data name="Status" xml:space="preserve">
     <value>状态</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
@@ -538,7 +555,7 @@
     <value>Web 链接</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value>常规</value>
+    <value>通用</value>
   </data>
   <data name="Shortcut" xml:space="preserve">
     <value>快捷方式</value>
@@ -604,7 +621,7 @@
     <value>显示更多选项</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>若要应用这些设置，需要重新启动应用程序。是否立即重启？</value>
+    <value>一些设置需要重新启动 Files 才会应用，是否立即重启？</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>在 GitHub 上赞助我们</value>
@@ -880,7 +897,13 @@
     <value>帧速率</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
-    <value>编码速率</value>
+    <value>编码比特率</value>
+  </data>
+  <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
+    <value>音频编码比特率</value>
+  </data>
+  <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
+    <value>视频编码比特率</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>压缩</value>
@@ -1030,7 +1053,7 @@
     <value>在新面板中打开</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value>Files &amp; folders</value>
+    <value>文件和文件夹</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>详细信息 (Ctrl+Shift+1)</value>
@@ -1054,7 +1077,7 @@
     <value>显示/隐藏预览窗格</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>显示/隐藏详细信息窗格</value>
+    <value>显示/隐藏详细信息面板</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
     <value>切换到详细信息窗格以查看文件的基本属性</value>
@@ -1065,6 +1088,9 @@
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
     <value>打开信息窗格以查看详细信息/预览窗格</value>
   </data>
+  <data name="ToggleToolbar" xml:space="preserve">
+    <value>打开/关闭工具栏</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>没有预览</value>
   </data>
@@ -1073,9 +1099,6 @@
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>从侧边栏取消固定</value>
-  </data>
-  <data name="SidebarNetworkDrives" xml:space="preserve">
-    <value>网络驱动器</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>网络</value>
@@ -1221,50 +1244,47 @@
   <data name="OpenStorageSense" xml:space="preserve">
     <value>打开存储感知</value>
   </data>
+  <data name="OpenStorageSenseDescription" xml:space="preserve">
+    <value>打开 Windows 设置中的“存储感知”页面</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>清理</value>
+  </data>
   <data name="Copy" xml:space="preserve">
     <value>复制</value>
   </data>
-  <data name="CopyItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>{0} 项将被复制</value>
-  </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
-    <value>复制项目</value>
+    <value>复制{0, plural, other {项目}}</value>
   </data>
   <data name="DeleteItemsDialogTitle" xml:space="preserve">
-    <value>删除项目</value>
+    <value>删除{0, plural, other {项目}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>移动</value>
   </data>
-  <data name="MoveItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>将移动 {0} 个项目</value>
+  <data name="MoveItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, other {将移动 # 个项目}}</value>
   </data>
   <data name="MoveItemsDialogTitle" xml:space="preserve">
-    <value>移动项目</value>
+    <value>移动{0, plural, other {项目}}</value>
   </data>
-  <data name="DeleteItemsDialogSubtitleMultiple" xml:space="preserve">
-    <value>将删除 {0} 个项目</value>
+  <data name="DeleteItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, other {将删除 # 个项目}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
     <value>继续</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsMultipleNonConflicts" xml:space="preserve">
-    <value>有 {0} 个冲突的文件名，已完成 {1} 项。</value>
+  <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
+    <value>{0, plural, other {有 # 个文件名冲突}}</value>
+  </data>
+  <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
+    <value>{0, plural, other {有 # 个文件名冲突}}和 {1, plural, other {# 个无冲突的项目}}</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
-    <value>文件名有冲突</value>
+    <value>{0, plural, other {文件名冲突}}</value>
   </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictMultipleNonConflicts" xml:space="preserve">
-    <value>有一个冲突的文件名，已完成 {0} 项。</value>
-  </data>
-  <data name="CopyItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>将复制一项</value>
-  </data>
-  <data name="DeleteItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>将删除 1 个项目</value>
-  </data>
-  <data name="MoveItemsDialogSubtitleSingle" xml:space="preserve">
-    <value>将移动一项</value>
+  <data name="CopyItemsDialogSubtitle" xml:space="preserve">
+    <value>{0, plural, other {将复制 # 个项目}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>永久删除</value>
@@ -1277,12 +1297,6 @@
   </data>
   <data name="GenerateNewName" xml:space="preserve">
     <value>生成新名称</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleMultipleConflictsNoNonConflicts" xml:space="preserve">
-    <value>有 {0} 个冲突的文件名。</value>
-  </data>
-  <data name="ConflictingItemsDialogSubtitleSingleConflictNoNonConflicts" xml:space="preserve">
-    <value>有一个冲突的文件名。</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>用选中的项目创建文件夹</value>
@@ -1584,8 +1598,8 @@
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
     <value>用来自该对象的可继承权限条目替换所有子对象权限条目</value>
   </data>
-  <data name="NavigationToolbarClosePane.Label" xml:space="preserve">
-    <value>关闭面板</value>
+  <data name="CloseActivePane" xml:space="preserve">
+    <value>关闭活动窗格</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>进入精简模式</value>
@@ -1614,8 +1628,8 @@
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>从云端下载该项并加载预览</value>
   </data>
-  <data name="DetailsArchiveItemCount" xml:space="preserve">
-    <value>{0} 个项（{1} 个文件，{2} 个文件夹）</value>
+  <data name="DetailsArchiveItems" xml:space="preserve">
+    <value>{0, plural, other {# 个项目}} ({1, plural, other {# 个文件}}, {2, plural, other {# 个文件夹}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>解压缩大小</value>
@@ -1697,12 +1711,6 @@
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
     <value>用户名</value>
-  </data>
-  <data name="DrivesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>驱动器 组件</value>
-  </data>
-  <data name="RecentFilesWidgetAutomationProperties.Name" xml:space="preserve">
-    <value>最近使用的文件 组件</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
     <value>没有与搜索条件匹配的项</value>
@@ -1851,11 +1859,14 @@
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
     <value>不使用简化的颜色</value>
   </data>
-  <data name="ThirdPartyLicenses" xml:space="preserve">
-    <value>第三方许可</value>
+  <data name="ThirdPartyLibraries" xml:space="preserve">
+    <value>第三方库</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>此选项会修改系统注册表，并可能对你的设备产生意想不到的副作用。 继续即代表您自行承担风险。</value>
+  </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>展平 (Flatten) 操作是永久性的，不推荐使用。请自行承担使用风险。</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>创建库</value>
@@ -1935,6 +1946,9 @@
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>关闭其他选项卡</value>
   </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>关闭所有标签页</value>
+  </data>
   <data name="Music" xml:space="preserve">
     <value>音乐</value>
   </data>
@@ -1975,7 +1989,7 @@
     <value>自动调整所有列宽</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>自动选择最佳布局</value>
+    <value>自适应布局</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>自适应 (Ctrl+Shift+7)</value>
@@ -1993,7 +2007,7 @@
     <value>评价 Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>您想要评价 Files 吗？</value>
+    <value>看官老爷们，给个好评呗</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>设置为背景</value>
@@ -2031,11 +2045,26 @@
   <data name="Compress" xml:space="preserve">
     <value>压缩</value>
   </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>将子文件夹中的全部项目移动到选定位置</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>展平文件夹</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>展平</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>展平 (Flatten) 文件夹将把该文件夹的子文件夹中的所有项目统一放置到选定目录下。此操作是永久性的，不可撤消。 使用此实验性功能，即表示您知晓风险且 Files 团队不对任何数据丢失负责。</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>显示展平选项</value>
+  </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>鼠标悬停时自动选择文件(夹)</value>
+    <value>鼠标悬停在项目上时自动选择</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
-    <value>是否确实要还原回收站中的所有项目？</value>
+    <value>确定要还原回收站中的所有项目吗？</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
     <value>还原所有项目</value>
@@ -2164,13 +2193,13 @@
     <value>编辑设置文件</value>
   </data>
   <data name="WhatsNew" xml:space="preserve">
-    <value>新变化</value>
+    <value>新功能</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>在此位置创建快捷方式需要管理员权限</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
-    <value>要改为在桌面上创建快捷方式吗？</value>
+    <value>您要在桌面上创建快捷方式吗？</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
     <value>指定的项目名称无效</value>
@@ -2251,7 +2280,7 @@
     <value>显示隐藏的项目</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>格式化...</value>
+    <value>格式化</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>帮助</value>
@@ -2361,6 +2390,9 @@
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>切换隐藏项目显示</value>
   </data>
+  <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
+    <value>切换是否显示以英文句点 (.) 开头的项目</value>
+  </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>切换文件扩展名显示</value>
   </data>
@@ -2374,16 +2406,25 @@
     <value>复制项目到剪贴板</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
+    <value>复制当前目录的路径到剪贴板</value>
+  </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
     <value>复制选中项的路径到剪贴板</value>
   </data>
-  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
     <value>复制选中项的路径（带引号）到剪贴板</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>复制当前目录的路径（带引号）到剪贴板</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>剪切项目到剪贴板</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>将剪贴板中的项目粘贴到当前文件夹</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>将剪贴板中的项目以快捷方式的形式粘贴到当前文件夹</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>将剪贴板中的项目粘贴到所选文件夹</value>
@@ -2446,10 +2487,10 @@
     <value>固定项目到开始菜单</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>从开始菜单取消固定项目</value>
+    <value>从开始菜单取消固定</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>固定文件夹至侧边栏</value>
+    <value>固定文件夹到侧边栏</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
     <value>从侧边栏取消固定文件夹</value>
@@ -2462,6 +2503,9 @@
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>设置所选图片为锁屏背景</value>
+  </data>
+  <data name="SetAsAppBackgroundDescription" xml:space="preserve">
+    <value>设置所选图片为此应用程序的背景</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>安装所选字体</value>
@@ -2661,6 +2705,9 @@
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>关闭除所选标签页以外的标签页</value>
   </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>关闭所有标签页（包括当前标签页）</value>
+  </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>打开上一个关闭的标签页</value>
   </data>
@@ -2673,11 +2720,14 @@
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>关闭当前标签页</value>
   </data>
-  <data name="OpenNewPaneDescription" xml:space="preserve">
-    <value>打开新面板</value>
+  <data name="CloseActivePaneDescription" xml:space="preserve">
+    <value>关闭活动窗格</value>
   </data>
-  <data name="ClosePaneDescription" xml:space="preserve">
-    <value>关闭右侧标签页</value>
+  <data name="FocusOtherPane" xml:space="preserve">
+    <value>切换焦点到其他窗格</value>
+  </data>
+  <data name="FocusOtherPaneDescription" xml:space="preserve">
+    <value>切换焦点到非活动窗格</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>打开/关闭侧边栏</value>
@@ -2906,7 +2956,7 @@
     <value>无效位置</value>
   </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
-    <value>确定要复制这些文件而不同时复制其属性吗？</value>
+    <value>确定要复制这些文件而不复制其属性吗？</value>
   </data>
   <data name="FilePropertiesCannotBeCopied" xml:space="preserve">
     <value>这些文件的某些属性不能复制到新位置</value>
@@ -2915,7 +2965,7 @@
     <value>这些文件的某些属性不能移动到新位置</value>
   </data>
   <data name="MoveFileWithoutProperties" xml:space="preserve">
-    <value>确定要移动这些文件而不同时移动其属性吗？</value>
+    <value>确定要移动这些文件而不移动其属性吗？</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
     <value>选择项目时显示复选框</value>
@@ -3058,8 +3108,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>查看属性</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>打开文件资源管理器属性</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>打开属性窗口</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>打开文件资源管理器属性窗口</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>本地</value>
@@ -3111,16 +3167,16 @@
     <value>提交 SHA</value>
   </data>
   <data name="Git" xml:space="preserve">
-    <value>Git</value>
+    <value>Github</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
-    <value>Acrylic</value>
+    <value>亚克力</value>
   </data>
   <data name="Mica" xml:space="preserve">
-    <value>Mica</value>
+    <value>云母</value>
   </data>
   <data name="MicaAlt" xml:space="preserve">
-    <value>Mica 变体</value>
+    <value>云母 Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
     <value>背景材质</value>
@@ -3183,10 +3239,10 @@
     <value>未跟踪</value>
   </data>
   <data name="UnableToDisplayOwner" xml:space="preserve">
-    <value>无法显示当前的所有者。</value>
+    <value>无法显示当前所有者。</value>
   </data>
   <data name="AuthorizationSucceded" xml:space="preserve">
-    <value>很好！你现在已获得授权。</value>
+    <value>针不戳！你现在已获得授权。</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
     <value>初始化存储库</value>
@@ -3265,7 +3321,7 @@
     <value>Files 正在以管理员身份运行</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>由于平台限制，在以管理员身份运行 Files 时，拖放将无法使用。</value>
+    <value>由于 Windows 和 WinAppSdk 的限制，当以管理员身份运行 Files 时，拖动和拖放不可用。 若要启用拖放， 你可以从开始菜单中打开 UAC（用户帐户控制）设置，选择第三个保护等级并重启 Windows，以解除这一限制。 否则，你可以继续使用 Files，但无法使用拖放。</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>当窗口关闭后保持应用程序后台运行</value>
@@ -3287,7 +3343,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="CoolBlueBright" xml:space="preserve">
-    <value>亮酷蓝色</value>
+    <value>浅蓝色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Gray" xml:space="preserve">
@@ -3303,19 +3359,19 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="IrisPastel" xml:space="preserve">
-    <value>粉彩鸢尾花色</value>
+    <value>粉鸢尾花色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="MintLight" xml:space="preserve">
-    <value>浅薄荷色</value>
+    <value>天青色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ModRed" xml:space="preserve">
-    <value>现代红色</value>
+    <value>鸢红色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="OrangeBright" xml:space="preserve">
-    <value>亮橙色</value>
+    <value>浅橙色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Overcast" xml:space="preserve">
@@ -3327,7 +3383,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="RoseBright" xml:space="preserve">
-    <value>亮玫红色</value>
+    <value>玫瑰色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Seafoam" xml:space="preserve">
@@ -3339,7 +3395,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="VioletRedLight" xml:space="preserve">
-    <value>浅紫红色</value>
+    <value>菖蒲色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="YellowGold" xml:space="preserve">
@@ -3629,7 +3685,7 @@
     <value>共享项目失败</value>
   </data>
   <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
-    <value>向上导航时滚动至前一个文件夹</value>
+    <value>向上导航时滚动至上一目录</value>
   </data>
   <data name="NewWindowDescription" xml:space="preserve">
     <value>打开新窗口</value>
@@ -3659,7 +3715,7 @@
     <value>平铺视图尚未支持更多项目尺寸。</value>
   </data>
   <data name="Compact" xml:space="preserve">
-    <value>紧凑</value>
+    <value>极小</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Small" xml:space="preserve">
@@ -3711,9 +3767,241 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="DetailsView" xml:space="preserve">
-    <value>Details view</value>
+    <value>详细信息视图</value>
   </data>
   <data name="LayoutType" xml:space="preserve">
-    <value>Layout type</value>
+    <value>布局类型</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="Commands" xml:space="preserve">
+    <value>命令</value>
+  </data>
+  <data name="AddCommand" xml:space="preserve">
+    <value>添加命令</value>
+  </data>
+  <data name="RestoreDefaults" xml:space="preserve">
+    <value>恢复默认</value>
+  </data>
+  <data name="ChooseAnAction" xml:space="preserve">
+    <value>选择一个操作</value>
+  </data>
+  <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
+    <value>确定要恢复为默认按键绑定吗？此操作无法撤消。</value>
+  </data>
+  <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
+    <value>此按键绑定已被使用，请选择一个不同的按键绑定以继续。</value>
+  </data>
+  <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
+    <value>所选的按键绑定无法使用，请用其他按键绑定重试。</value>
+  </data>
+  <data name="Customized" xml:space="preserve">
+    <value>自定义</value>
+  </data>
+  <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>当选项“在不同目录之间使用相同的布局和排序设置”启用时，自适应布局不可用。默认布局已更改为“详细信息”。</value>
+  </data>
+  <data name="BackgroundImage" xml:space="preserve">
+    <value>背景图片</value>
+  </data>
+  <data name="Bottom" xml:space="preserve">
+    <value>底端对齐</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Center" xml:space="preserve">
+    <value>居中</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Fill" xml:space="preserve">
+    <value>填充</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="HorizontalAlignment" xml:space="preserve">
+    <value>水平对齐方式</value>
+  </data>
+  <data name="ImageFit" xml:space="preserve">
+    <value>图片契合方式</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>左对齐</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>不透明度</value>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>右对齐</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Top" xml:space="preserve">
+    <value>顶端对齐</value>
+    <comment>Image alignment type</comment>
+  </data>
+  <data name="Uniform" xml:space="preserve">
+    <value>均匀</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="UniformToFill" xml:space="preserve">
+    <value>均匀填充</value>
+    <comment>Image stretch type</comment>
+  </data>
+  <data name="VerticalAlignment" xml:space="preserve">
+    <value>垂直对齐方式</value>
+  </data>
+  <data name="ThinAcrylic" xml:space="preserve">
+    <value>薄亚克力</value>
+    <comment>This is a type of backdrop for the application background</comment>
+  </data>
+  <data name="AllLocations" xml:space="preserve">
+    <value>在所有位置中显示</value>
+    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+  </data>
+  <data name="DevTools" xml:space="preserve">
+    <value>开发者工具</value>
+  </data>
+  <data name="DisplayOpenIDE" xml:space="preserve">
+    <value>配置状态栏上的“打开 IDE”按钮</value>
+  </data>
+  <data name="GitRepos" xml:space="preserve">
+    <value>在 Git 存储库中显示</value>
+    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+  </data>
+  <data name="ApplicationExtension" xml:space="preserve">
+    <value>应用程序扩展</value>
+    <comment>This is the friendly name for DLL files.</comment>
+  </data>
+  <data name="IcoFileCapitalized" xml:space="preserve">
+    <value>ICO 图标文件</value>
+    <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="ZipFileCapitalized" xml:space="preserve">
+    <value>Zip 压缩文件</value>
+    <comment>This is the friendly name for ZIP files.</comment>
+  </data>
+  <data name="BitmapFiles" xml:space="preserve">
+    <value>位图文件</value>
+    <comment>This is the friendly name for bitmap files.</comment>
+  </data>
+  <data name="NumPadTypeName" xml:space="preserve">
+    <value>小键盘</value>
+  </data>
+  <data name="NetworkLocations" xml:space="preserve">
+    <value>网络位置</value>
+  </data>
+  <data name="NoNetworkLocationsInfo" xml:space="preserve">
+    <value>没有网络位置。如果你不使用网络位置，可以禁用该小组件。</value>
+  </data>
+  <data name="Disable" xml:space="preserve">
+    <value>禁用</value>
+  </data>
+  <data name="EditInNotepad" xml:space="preserve">
+    <value>在记事本中编辑</value>
+  </data>
+  <data name="EditInNotepadDescription" xml:space="preserve">
+    <value>在记事本中编辑选中的文件</value>
+  </data>
+  <data name="PropertyDimensionsColon" xml:space="preserve">
+    <value>分辨率:</value>
+  </data>
+  <data name="StatusWithColon" xml:space="preserve">
+    <value>状态:</value>
+  </data>
+  <data name="ShowToolbar" xml:space="preserve">
+    <value>显示工具栏</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
+  </data>
+  <data name="TabActions" xml:space="preserve">
+    <value>标签操作菜单</value>
+  </data>
+  <data name="AddVerticalPane" xml:space="preserve">
+    <value>添加垂直窗格</value>
+  </data>
+  <data name="AddVerticalPaneDescription" xml:space="preserve">
+    <value>添加一个垂直窗格</value>
+  </data>
+  <data name="AddHorizontalPane" xml:space="preserve">
+    <value>添加水平窗格</value>
+  </data>
+  <data name="AddHorizontalPaneDescription" xml:space="preserve">
+    <value>添加一个水平窗格</value>
+  </data>
+  <data name="ArrangePanesVertically" xml:space="preserve">
+    <value>垂直排列</value>
+  </data>
+  <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
+    <value>垂直排列窗格</value>
+  </data>
+  <data name="ArrangePanesHorizontally" xml:space="preserve">
+    <value>水平排列</value>
+  </data>
+  <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
+    <value>水平排列窗格</value>
+  </data>
+  <data name="AddPane" xml:space="preserve">
+    <value>添加窗格</value>
+  </data>
+  <data name="ShowTabActions" xml:space="preserve">
+    <value>在标题栏中显示标签操作按钮</value>
+  </data>
+  <data name="ArrangePanes" xml:space="preserve">
+    <value>排列面板</value>
+  </data>
+  <data name="DefaultPaneArrangement" xml:space="preserve">
+    <value>默认窗格排列方式</value>
+  </data>
+  <data name="Horizontal" xml:space="preserve">
+    <value>水平</value>
+  </data>
+  <data name="Vertical" xml:space="preserve">
+    <value>垂直</value>
+  </data>
+  <data name="ShowSystemTrayIcon" xml:space="preserve">
+    <value>在系统托盘中显示 Files 图标</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>CPU 线程</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>返回主页</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>在地址栏中显示“主页”按钮</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>工具栏</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>用户 ID</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>批量重命名</value>
+  </data>
+  <data name="ShowCreateAlternateDataStream" xml:space="preserve">
+    <value>显示创建备用数据流 (Alternate Data Stream) 的选项</value>
+  </data>
+  <data name="CreateAlternateDataStream" xml:space="preserve">
+    <value>创建备用数据流</value>
+  </data>
+  <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
+    <value>为选中项创建备用数据流 (Alternate Data Stream)</value>
+  </data>
+  <data name="EnterDataStreamName" xml:space="preserve">
+    <value>输入数据流名称</value>
+  </data>
+  <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
+    <value>创建备用数据流时出错</value>
+  </data>
+  <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
+    <value>请注意：备用数据流 (Alternate Data Streams) 只适用于 NTFS 格式的驱动器。</value>
+  </data>
+  <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
+    <value>已隐藏备用数据流</value>
+  </data>
+  <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
+    <value>是否显示备用数据流 (Alternate Data Stream)？可随时从文件和文件夹设置页面修改此设置。</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>管理标签</value>
   </data>
 </root>

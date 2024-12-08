@@ -2,13 +2,13 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Server.Data.Enums;
 using Files.App.ViewModels.Layouts;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using System.Runtime.InteropServices;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.Win32;
@@ -47,6 +47,7 @@ namespace Files.App.Views.Layouts
 		protected abstract void ItemManipulationModel_RemoveSelectedItemInvoked(object? sender, ListedItem e);
 		protected abstract void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e);
 		protected abstract void ItemManipulationModel_ScrollIntoViewInvoked(object? sender, ListedItem e);
+		protected abstract void ItemManipulationModel_ScrollToTopInvoked(object? sender, EventArgs e);
 		protected abstract void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e);
 		protected abstract void EndRename(TextBox textBox);
 
@@ -70,6 +71,7 @@ namespace Files.App.Views.Layouts
 			ItemManipulationModel.FocusSelectedItemsInvoked += ItemManipulationModel_FocusSelectedItemsInvoked;
 			ItemManipulationModel.StartRenameItemInvoked += ItemManipulationModel_StartRenameItemInvoked;
 			ItemManipulationModel.ScrollIntoViewInvoked += ItemManipulationModel_ScrollIntoViewInvoked;
+			ItemManipulationModel.ScrollToTopInvoked += ItemManipulationModel_ScrollToTopInvoked;
 			ItemManipulationModel.RefreshItemThumbnailInvoked += ItemManipulationModel_RefreshItemThumbnail;
 			ItemManipulationModel.RefreshItemsThumbnailInvoked += ItemManipulationModel_RefreshItemsThumbnail;
 		}
@@ -88,6 +90,7 @@ namespace Files.App.Views.Layouts
 			ItemManipulationModel.FocusSelectedItemsInvoked -= ItemManipulationModel_FocusSelectedItemsInvoked;
 			ItemManipulationModel.StartRenameItemInvoked -= ItemManipulationModel_StartRenameItemInvoked;
 			ItemManipulationModel.ScrollIntoViewInvoked -= ItemManipulationModel_ScrollIntoViewInvoked;
+			ItemManipulationModel.ScrollToTopInvoked -= ItemManipulationModel_ScrollToTopInvoked;
 			ItemManipulationModel.RefreshItemThumbnailInvoked -= ItemManipulationModel_RefreshItemThumbnail;
 			ItemManipulationModel.RefreshItemsThumbnailInvoked -= ItemManipulationModel_RefreshItemsThumbnail;
 		}
@@ -129,15 +132,15 @@ namespace Files.App.Views.Layouts
 			if (ParentShellPageInstance?.SlimContentPage?.SelectedItem is null)
 				return;
 
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
 			ParentShellPageInstance.SlimContentPage.SelectedItem.ItemPropertiesInitialized = false;
 
-			await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(ParentShellPageInstance.SlimContentPage.SelectedItem);
+			await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(ParentShellPageInstance.SlimContentPage.SelectedItem);
 
-			if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None &&
+			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None &&
 				ParentShellPageInstance.SlimContentPage.SelectedItem is GitItem gitItem)
 			{
-				await ParentShellPageInstance.FilesystemViewModel.LoadGitPropertiesAsync(gitItem);
+				await ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
 			}
 		}
 
@@ -146,20 +149,20 @@ namespace Files.App.Views.Layouts
 			if (ParentShellPageInstance?.SlimContentPage?.SelectedItems is null)
 				return;
 
-			ParentShellPageInstance.FilesystemViewModel.CancelExtendedPropertiesLoading();
+			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
 
 			foreach (var selectedItem in ParentShellPageInstance.SlimContentPage.SelectedItems)
 			{
 				selectedItem.ItemPropertiesInitialized = false;
-				await ParentShellPageInstance.FilesystemViewModel.LoadExtendedItemPropertiesAsync(selectedItem);
+				await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(selectedItem);
 			}
 
-			if (ParentShellPageInstance.FilesystemViewModel.EnabledGitProperties is not GitProperties.None)
+			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None)
 			{
 				await Task.WhenAll(ParentShellPageInstance.SlimContentPage.SelectedItems.Select(item =>
 				{
 					if (item is GitItem gitItem)
-						return ParentShellPageInstance.FilesystemViewModel.LoadGitPropertiesAsync(gitItem);
+						return ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
 
 					return Task.CompletedTask;
 				}));
@@ -207,10 +210,9 @@ namespace Files.App.Views.Layouts
 			StartRenameItem();
 		}
 
-		protected virtual void ZoomIn(object? sender, GroupOption option)
+		protected override void ZoomIn()
 		{
-			if (option == GroupOption.None)
-				RootZoom.IsZoomedInViewActive = true;
+			RootZoom.IsZoomedInViewActive = true;
 		}
 
 		protected virtual void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -275,12 +277,19 @@ namespace Files.App.Views.Layouts
 
 		protected virtual async void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
 		{
-			// This check allows the user to use the text box context menu without ending the rename
-			if (!(FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot) is AppBarButton or Popup))
+			try
 			{
-				TextBox textBox = (TextBox)e.OriginalSource;
-				await CommitRenameAsync(textBox);
+				// This check allows the user to use the text box context menu without ending the rename
+				if (!(FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot) is AppBarButton or Popup))
+				{
+					TextBox textBox = (TextBox)e.OriginalSource;
+					await CommitRenameAsync(textBox);
+				}
 			}
+			catch (COMException)
+			{
+
+			}			
 		}
 
 		// Methods

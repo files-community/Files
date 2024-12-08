@@ -5,10 +5,10 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:coredataitems="using:Files.App.Data.Items"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:extensions="using:Files.App.Extensions"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
-	xmlns:extensions="using:Files.App.Extensions"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	DataContext="{x:Bind CustomizationViewModel, Mode=OneWay}"
 	Tag="Customization"
@@ -17,7 +17,7 @@
 	<vm:BasePropertiesPage.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/PropertiesStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<toolkitconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
@@ -81,10 +81,7 @@
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
 
-				<TextBox
-					x:Name="PickedDllFilePathTextBox"
-					IsReadOnly="True"
-					Text="{x:Bind CustomizationViewModel.IconResourceItemPath, Mode=OneWay}" />
+				<TextBox x:Name="PickedDllFilePathTextBox" Text="{x:Bind CustomizationViewModel.IconResourceItemPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
 				<Button
 					x:Name="PickDllFileButton"

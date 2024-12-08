@@ -4,12 +4,12 @@
         <OutputType>WinExe</OutputType>
         <DefaultLanguage>en-US</DefaultLanguage>
         <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-        <AppxDefaultResourceQualifiers>Language=en-US;af;ar;bg;ca;cs-CZ;da;da-DK;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hu-HU;id-ID;it-IT;ja-JP;ka;ko-KR;lt;lv-LV;nb-NO;nl-NL;or-IN;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
+        <AppxDefaultResourceQualifiers>Language=en-US;af;ar;be-BY;bg;ca;cs-CZ;da;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;id-ID;it-IT;ja-JP;ka;km-KH;ko-KR;lt-LT;lv-LV;ms-MY;nb-NO;nl-NL;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sq-AL;sr-Cyrl;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
         <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
         <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <Configurations>Debug;Release;Stable;Preview;Store</Configurations>
+        <Configurations>Debug;Release</Configurations>
         <Platforms>x86;x64;arm64</Platforms>
         <SelfContained>true</SelfContained>
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
@@ -39,9 +39,7 @@
     <ItemGroup>
         <Manifest Include="app.manifest" />
         <TrimmerRootAssembly Include="Files.App.Server" />
-        <PackageReference Include="LiteDB" Version="5.0.19" />
         <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
-        <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.647-beta" PrivateAssets="all" />
     </ItemGroup>
 
     <ItemGroup>
@@ -53,6 +51,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Files.App.CsWin32\Files.App.CsWin32.csproj" />
         <ProjectReference Include="..\Files.Core.SourceGenerator\Files.Core.SourceGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="False" />
         <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
     </ItemGroup>

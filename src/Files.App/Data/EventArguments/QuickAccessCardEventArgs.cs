@@ -3,16 +3,6 @@
 
 namespace Files.App.Data.EventArguments
 {
-	public sealed class QuickAccessCardEventArgs : EventArgs
-	{
-		public LocationItem? Item { get; set; }
-	}
-
-	public sealed class QuickAccessCardInvokedEventArgs : EventArgs
-	{
-		public string? Path { get; set; }
-	}
-
 	public sealed class ModifyQuickAccessEventArgs : EventArgs
 	{
 		public string[]? Paths { get; set; }

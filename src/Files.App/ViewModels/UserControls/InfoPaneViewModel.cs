@@ -4,6 +4,7 @@
 using Files.App.UserControls.FilePreviews;
 using Files.App.ViewModels.Previews;
 using Files.Shared.Helpers;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Storage;
@@ -14,6 +15,7 @@ namespace Files.App.ViewModels.UserControls
 	{
 		private IInfoPaneSettingsService infoPaneSettingsService { get; } = Ioc.Default.GetRequiredService<IInfoPaneSettingsService>();
 		private IContentPageContext contentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private DrivesViewModel drivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		private CancellationTokenSource loadCancellationTokenSource;
 
@@ -26,7 +28,7 @@ namespace Files.App.ViewModels.UserControls
 			get => isEnabled;
 			set
 			{
-				infoPaneSettingsService.IsEnabled = value;
+				infoPaneSettingsService.IsInfoPaneEnabled = value;
 
 				SetProperty(ref isEnabled, value);
 			}
@@ -48,11 +50,25 @@ namespace Files.App.ViewModels.UserControls
 				if (SetProperty(ref selectedItem, value))
 				{
 					UpdateTagsItems();
+					SetDriveItem();
 					OnPropertyChanged(nameof(LoadTagsList));
 
 					if (value is not null)
 						value.PropertyChanged += SelectedItem_PropertyChanged;
 				}
+			}
+		}
+
+		/// <summary>
+		/// Current selected drive if any.
+		/// </summary>
+		private DriveItem? selectedDriveItem;
+		public DriveItem? SelectedDriveItem
+		{
+			get => selectedDriveItem;
+			set
+			{
+				SetProperty(ref selectedDriveItem, value);
 			}
 		}
 
@@ -114,7 +130,7 @@ namespace Files.App.ViewModels.UserControls
 			infoPaneSettingsService.PropertyChanged += PreviewSettingsService_OnPropertyChangedEvent;
 			contentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
 
-			IsEnabled = infoPaneSettingsService.IsEnabled;
+			IsEnabled = infoPaneSettingsService.IsInfoPaneEnabled;
 		}
 
 		private async void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -136,12 +152,23 @@ namespace Files.App.ViewModels.UserControls
 
 					SelectedItem = tempSelectedItem;
 
-					if (!App.AppModel.IsMainWindowClosed)
+					try
 					{
-						var shouldUpdatePreview = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ViewModel.ShouldPreviewPaneBeActive;
-						if (shouldUpdatePreview == true)
-							_ = UpdateSelectedItemPreviewAsync();
+						if (!App.AppModel.IsMainWindowClosed)
+						{
+							var shouldUpdatePreview = ((MainWindow.Instance.Content as Frame)?.Content as MainPage)?.ViewModel.ShouldPreviewPaneBeActive;
+							if (shouldUpdatePreview == true)
+								_ = UpdateSelectedItemPreviewAsync();
+						}
 					}
+					catch (Exception ex)
+					{
+						// Handle exception in case WinUI Windows is closed
+						// (see https://github.com/files-community/Files/issues/15599)
+
+						App.Logger.LogWarning(ex, ex.Message);
+					}
+
 					break;
 			}
 		}
@@ -164,7 +191,7 @@ namespace Files.App.ViewModels.UserControls
 			if (control is not null)
 			{
 				PreviewPaneContent = control;
-				PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
+				PreviewPaneState = SelectedItem.IsDriveRoot ? PreviewPaneStates.DriveStorageDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
 				return;
 			}
 
@@ -177,7 +204,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 
 			PreviewPaneContent = control;
-			PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
+			PreviewPaneState = SelectedItem.IsDriveRoot ? PreviewPaneStates.DriveStorageDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
 		}
 
 		private async Task<UserControl> GetBuiltInPreviewControlAsync(ListedItem item, bool downloadItem)
@@ -307,12 +334,9 @@ namespace Files.App.ViewModels.UserControls
 				return new CodePreview(model);
 			}
 
-			if
-			(
-				ShellPreviewViewModel.FindPreviewHandlerFor(item.FileExtension, 0) is not null &&
+			if (ShellPreviewViewModel.FindPreviewHandlerFor(item.FileExtension, 0) is not null &&
 				!FileExtensionHelpers.IsFontFile(item.FileExtension) &&
-				!FileExtensionHelpers.IsExecutableFile(item.FileExtension)
-			)
+				!FileExtensionHelpers.IsExecutableFile(item.FileExtension))
 			{
 				var model = new ShellPreviewViewModel(item);
 				await model.LoadAsync();
@@ -419,9 +443,9 @@ namespace Files.App.ViewModels.UserControls
 				// The preview will need refreshing as the file details won't be accurate
 				await UpdateSelectedItemPreviewAsync();
 			}
-			else if (e.PropertyName is nameof(infoPaneSettingsService.IsEnabled))
+			else if (e.PropertyName is nameof(infoPaneSettingsService.IsInfoPaneEnabled))
 			{
-				var newEnablingStatus = infoPaneSettingsService.IsEnabled;
+				var newEnablingStatus = infoPaneSettingsService.IsInfoPaneEnabled;
 				if (isEnabled != newEnablingStatus)
 				{
 					isEnabled = newEnablingStatus;
@@ -439,7 +463,7 @@ namespace Files.App.ViewModels.UserControls
 				await basicModel.LoadAsync();
 
 				PreviewPaneContent = new BasicPreview(basicModel);
-				PreviewPaneState = PreviewPaneStates.PreviewAndDetailsAvailable;
+				PreviewPaneState = SelectedItem.IsDriveRoot ? PreviewPaneStates.DriveStorageDetailsAvailable : PreviewPaneStates.PreviewAndDetailsAvailable;
 			}
 			catch (Exception ex)
 			{
@@ -462,6 +486,17 @@ namespace Files.App.ViewModels.UserControls
 			SelectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
 
 			Items.Add(new FlyoutItem(new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem })));
+		}
+
+		private void SetDriveItem()
+		{
+			if (!(selectedItem?.IsDriveRoot ?? false))
+			{
+				selectedDriveItem = null;
+				return;
+			}
+
+			SelectedDriveItem = drivesViewModel.Drives.FirstOrDefault(drive => drive.Path == selectedItem.ItemPath) as DriveItem;
 		}
 
 		public void Dispose()

@@ -1,8 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.ViewModels.FileTags;
-using Files.Core.Storage.LocatableStorage;
+using Files.Core.Storage.Storables;
 
 namespace Files.App.Data.Contracts
 {

@@ -1,7 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -13,12 +12,6 @@ namespace Files.App.Views.Shells
 {
 	public sealed partial class ModernShellPage : BaseShellPage
 	{
-		public override bool CanNavigateBackward
-			=> ItemDisplayFrame.CanGoBack;
-
-		public override bool CanNavigateForward
-			=> ItemDisplayFrame.CanGoForward;
-
 		protected override Frame ItemDisplay
 			=> ItemDisplayFrame;
 
@@ -40,30 +33,17 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		public Thickness CurrentInstanceBorderThickness
-		{
-			get => (Thickness)GetValue(CurrentInstanceBorderThicknessProperty);
-			set => SetValue(CurrentInstanceBorderThicknessProperty, value);
-		}
-
-		public static readonly DependencyProperty CurrentInstanceBorderThicknessProperty =
-			DependencyProperty.Register(
-				nameof(CurrentInstanceBorderThickness),
-				typeof(Thickness),
-				typeof(ModernShellPage),
-				new PropertyMetadata(null));
-
 		public ModernShellPage() : base(new CurrentInstanceViewModel())
 		{
 			InitializeComponent();
 
-			FilesystemViewModel = new ItemViewModel(InstanceViewModel.FolderSettings);
-			FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
-			FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
-			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
-			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
-			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
-			FilesystemViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
+			ShellViewModel = new ShellViewModel(InstanceViewModel.FolderSettings);
+			ShellViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
+			ShellViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
+			ShellViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
+			ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+			ShellViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
+			ShellViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
 
 			ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
 			ToolbarViewModel.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
@@ -75,17 +55,7 @@ namespace Files.App.Views.Shells
 		private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
 		{
 			if (ItemDisplayFrame?.Content is HomePage currentPage)
-				currentPage.RefreshWidgetList();
-		}
-
-		protected override void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
-		{
-			if (FilesystemViewModel is null)
-				return;
-
-			LayoutPreferencesManager.SetLayoutPreferencesForPath(FilesystemViewModel.WorkingDirectory, e.LayoutPreference);
-			if (e.IsAdaptiveLayoutUpdateRequired)
-				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(InstanceViewModel.FolderSettings, FilesystemViewModel.WorkingDirectory, FilesystemViewModel.FilesAndFolders.ToList());
+				currentPage.ViewModel.RefreshWidgetList();
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -167,7 +137,7 @@ namespace Files.App.Views.Shells
 
 			var parameters = e.Parameter as NavigationArguments;
 			var isTagSearch = parameters.NavPathParam is not null && parameters.NavPathParam.StartsWith("tag:");
-			TabItemParameter = new()
+			TabBarItemParameter = new()
 			{
 				InitialPageType = typeof(ModernShellPage),
 				NavigationParameter = parameters.IsSearchResultPage && !isTagSearch ? parameters.SearchPathParam : parameters.NavPathParam
@@ -195,7 +165,7 @@ namespace Files.App.Views.Shells
 				// Ctrl + V, Paste
 				case (true, false, false, true, VirtualKey.V):
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !ToolbarViewModel.SearchHasFocus)
-						await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
+						await UIFilesystemHelpers.PasteItemAsync(ShellViewModel.WorkingDirectory, this);
 					break;
 			}
 		}
@@ -238,10 +208,10 @@ namespace Files.App.Views.Shells
 				return;
 
 			ToolbarViewModel.CanNavigateToParent = false;
-			if (string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory))
+			if (string.IsNullOrEmpty(ShellViewModel?.WorkingDirectory))
 				return;
 
-			bool isPathRooted = string.Equals(FilesystemViewModel.WorkingDirectory, PathNormalization.GetPathRoot(FilesystemViewModel.WorkingDirectory), StringComparison.OrdinalIgnoreCase);
+			bool isPathRooted = string.Equals(ShellViewModel.WorkingDirectory, PathNormalization.GetPathRoot(ShellViewModel.WorkingDirectory), StringComparison.OrdinalIgnoreCase);
 			if (isPathRooted)
 			{
 				ItemDisplayFrame.Navigate(
@@ -255,13 +225,13 @@ namespace Files.App.Views.Shells
 			}
 			else
 			{
-				string parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.TrimEnd('\\', '/');
+				string parentDirectoryOfPath = ShellViewModel.WorkingDirectory.TrimEnd('\\', '/');
 
 				var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\", StringComparison.Ordinal);
 				if (lastSlashIndex == -1)
 					lastSlashIndex = parentDirectoryOfPath.LastIndexOf("/", StringComparison.Ordinal);
 				if (lastSlashIndex != -1)
-					parentDirectoryOfPath = FilesystemViewModel.WorkingDirectory.Remove(lastSlashIndex);
+					parentDirectoryOfPath = ShellViewModel.WorkingDirectory.Remove(lastSlashIndex);
 				if (parentDirectoryOfPath.EndsWith(':'))
 					parentDirectoryOfPath += '\\';
 
@@ -300,7 +270,7 @@ namespace Files.App.Views.Shells
 
 		public override void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null)
 		{
-			FilesystemViewModel.FilesAndFoldersFilter = null;
+			ShellViewModel.FilesAndFoldersFilter = null;
 
 			if (sourcePageType is null && !string.IsNullOrEmpty(navigationPath))
 				sourcePageType = InstanceViewModel.FolderSettings.GetLayoutType(navigationPath);
@@ -315,11 +285,11 @@ namespace Files.App.Views.Shells
 			else
 			{
 				if ((string.IsNullOrEmpty(navigationPath) ||
-					string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory) ||
+					string.IsNullOrEmpty(ShellViewModel?.WorkingDirectory) ||
 					navigationPath.TrimEnd(Path.DirectorySeparatorChar).Equals(
-						FilesystemViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
+						ShellViewModel.WorkingDirectory.TrimEnd(Path.DirectorySeparatorChar),
 						StringComparison.OrdinalIgnoreCase)) &&
-					(TabItemParameter?.NavigationParameter is not string navArg ||
+					(TabBarItemParameter?.NavigationParameter is not string navArg ||
 					string.IsNullOrEmpty(navArg) ||
 					!navArg.StartsWith("tag:"))) // Return if already selected
 				{
@@ -332,15 +302,6 @@ namespace Files.App.Views.Shells
 				if (string.IsNullOrEmpty(navigationPath))
 					return;
 
-				NavigationTransitionInfo transition = new SuppressNavigationTransitionInfo();
-
-				if (sourcePageType == typeof(HomePage) ||
-					ItemDisplayFrame.Content.GetType() == typeof(HomePage) &&
-					(sourcePageType == typeof(DetailsLayoutPage) || sourcePageType == typeof(GridLayoutPage)))
-				{
-					transition = new SuppressNavigationTransitionInfo();
-				}
-
 				ItemDisplayFrame.Navigate(
 					sourcePageType,
 					new NavigationArguments()
@@ -348,10 +309,10 @@ namespace Files.App.Views.Shells
 						NavPathParam = navigationPath,
 						AssociatedTabInstance = this
 					},
-					transition);
+					new SuppressNavigationTransitionInfo());
 			}
 
-			ToolbarViewModel.PathControlDisplayText = FilesystemViewModel.WorkingDirectory;
+			ToolbarViewModel.PathControlDisplayText = ShellViewModel.WorkingDirectory;
 		}
 	}
 }

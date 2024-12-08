@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Server.Data.Enums;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
@@ -109,6 +108,11 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		protected override void ItemManipulationModel_ScrollToTopInvoked(object? sender, EventArgs e)
+		{
+			ContentScroller?.ChangeView(null, 0, null, true);
+		}
+
 		protected override void ItemManipulationModel_FocusSelectedItemsInvoked(object? sender, EventArgs e)
 		{
 			if (SelectedItems?.Any() ?? false)
@@ -145,8 +149,6 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
-			FolderSettings.GroupOptionPreferenceUpdated -= ZoomIn;
-			FolderSettings.GroupOptionPreferenceUpdated += ZoomIn;
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
 
 			SetItemContainerStyle();
@@ -303,7 +305,7 @@ namespace Files.App.Views.Layouts
 			else if (SelectedItems?.Count > 1
 				|| SelectedItem?.PrimaryItemAttribute is StorageItemTypes.File
 				|| openedFolderPresenter != null && ParentShellPageInstance != null
-				&& !ParentShellPageInstance.FilesystemViewModel.FilesAndFolders.ToList().Contains(FileList.ItemFromContainer(openedFolderPresenter))
+				&& !ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList().Contains(FileList.ItemFromContainer(openedFolderPresenter))
 				&& !isDraggingSelectionRectangle) // Skip closing if dragging since nothing should be open 
 			{
 				CloseFolder();
@@ -483,18 +485,7 @@ namespace Files.App.Views.Layouts
 					await CommitRenameAsync(textBox);
 				}
 
-				if (isItemFolder && UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
-				{
-					ItemInvoked?.Invoke(
-						new ColumnParam
-						{
-							Source = this,
-							NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item!.ItemPath),
-							ListView = FileList
-						},
-						EventArgs.Empty);
-				}
-				else if (!IsRenamingItem && isItemFile)
+				if (!IsRenamingItem && isItemFile)
 				{
 					CheckDoubleClick(item!);
 				}

@@ -6,6 +6,7 @@
 	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:datamodels="using:Files.App.Data.Models"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -37,11 +38,6 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Spacing="4">
-			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<EntranceThemeTransition />
-				</TransitionCollection>
-			</StackPanel.ChildrenTransitions>
 
 			<!--  Title  -->
 			<TextBlock
@@ -176,7 +172,7 @@
 							ReorderMode="Enabled"
 							SelectionMode="None">
 							<ListView.ItemTemplate>
-								<DataTemplate xmlns:vm="using:Files.App.ViewModels.FileTags" x:DataType="vm:ListedTagViewModel">
+								<DataTemplate x:DataType="datamodels:ListedTagViewModel">
 									<Grid ColumnSpacing="16">
 										<Grid.KeyboardAccelerators>
 											<KeyboardAccelerator Key="Escape" Invoked="KeyboardAccelerator_Invoked" />
@@ -195,7 +191,7 @@
 											ToolTipService.ToolTip="{x:Bind Tag.Name}">
 											<PathIcon
 												VerticalAlignment="Center"
-												Data="{StaticResource ColorIconFilledTag}"
+												Data="{StaticResource App.Theme.PathIcon.FilledTag}"
 												Foreground="{x:Bind NewColor, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
 											<TextBlock
 												x:Name="TagName"

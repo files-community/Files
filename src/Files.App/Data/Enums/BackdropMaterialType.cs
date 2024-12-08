@@ -26,6 +26,11 @@ namespace Files.App.Data.Enums
 		/// <summary>
 		/// Arcylic backdrop.
 		/// </summary>
-		Acrylic
+		Acrylic,
+
+		/// <summary>
+		/// Thin Acrylic backdrop.
+		/// </summary>
+		ThinAcrylic
 	}
 }

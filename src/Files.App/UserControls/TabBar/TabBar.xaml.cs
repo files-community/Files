@@ -9,73 +9,59 @@ using Microsoft.UI.Xaml.Shapes;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Win32;
-using Windows.Win32.Foundation;
 
 namespace Files.App.UserControls.TabBar
 {
-	public sealed partial class TabBar : BaseTabBar
+	public sealed partial class TabBar : BaseTabBar, INotifyPropertyChanged
 	{
-		public static event EventHandler<TabBarItem?>? SelectedTabItemChanged;
+		// Dependency injections
 
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+		private readonly IAppearanceSettingsService AppearanceSettingsService = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
+		private readonly IWindowContext WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
+
+		// Fields
 
 		private readonly DispatcherTimer tabHoverTimer = new();
 
 		private TabViewItem? hoveredTabViewItem;
 
-		public static readonly DependencyProperty FooterElementProperty =
-			DependencyProperty.Register(
-				nameof(FooterElement),
-				typeof(UIElement),
-				typeof(TabBar),
-				new PropertyMetadata(null));
+		private bool _lockDropOperation = false;
 
-		public UIElement FooterElement
-		{
-			get => (UIElement)GetValue(FooterElementProperty);
-			set => SetValue(FooterElementProperty, value);
-		}
+		// Starting position when dragging a tab
+		private System.Drawing.Point dragStartPoint;
 
-		public static readonly DependencyProperty TabStripVisibilityProperty =
-			DependencyProperty.Register(
-				nameof(TabStripVisibility),
-				typeof(Visibility),
-				typeof(TabBar),
-				new PropertyMetadata(Visibility.Visible));
+		// Starting time when dragging a tab
+		private DateTimeOffset dragStartTime;
 
-		public Visibility TabStripVisibility
-		{
-			get => (Visibility)GetValue(TabStripVisibilityProperty);
-			set => SetValue(TabStripVisibilityProperty, value);
-		}
+		// Indicates if drag operation should be canceled.
+		// This value gets reset at the start of the drag operation
+		private bool isCancelingDragOperation;
 
-		// Dragging makes the app crash when run as admin.
-		// For more information:
-		// - https://github.com/files-community/Files/issues/12390
-		// - https://github.com/microsoft/terminal/issues/12017#issuecomment-1004129669
+		//private string[] _droppableArchiveTypes = { "zip", "rar", "7z", "tar" };
+
+		// Properties
+
+		public bool ShowTabActionsButton
+			=> AppearanceSettingsService.ShowTabActions;
+
 		public bool AllowTabsDrag
-			=> !ElevationHelpers.IsAppRunAsAdmin();
+			=> WindowContext.CanDragAndDrop;
 
 		public Rectangle DragArea
 			=> DragAreaRectangle;
 
-		/// <summary> Starting position when dragging a tab.</summary>
-		private POINT dragStartPoint;
+		// Events
 
-		/// <summary> Starting time when dragging a tab. </summary>
-		private DateTimeOffset dragStartTime;
+		public static event EventHandler<TabBarItem?>? SelectedTabItemChanged;
 
-		/// <summary>
-		/// Indicates if drag operation should be canceled.
-		/// This value gets reset at the start of the drag operation
-		/// </summary>
-		private bool isCancelingDragOperation;
+		// Constructor
 
 		public TabBar()
 		{
 			InitializeComponent();
 
-			tabHoverTimer.Interval = TimeSpan.FromMilliseconds(500);
+			tabHoverTimer.Interval = TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToOpenTimespan);
 			tabHoverTimer.Tick += TabHoverSelected;
 
 			var appWindow = MainWindow.Instance.AppWindow;
@@ -86,6 +72,16 @@ namespace Files.App.UserControls.TabBar
 					: appWindow.TitleBar.RightInset;
 
 			RightPaddingColumn.Width = new(rightPaddingColumnWidth >= 0 ? rightPaddingColumnWidth : 0);
+
+			AppearanceSettingsService.PropertyChanged += (s, e) =>
+			{
+				switch (e.PropertyName)
+				{
+					case nameof(AppearanceSettingsService.ShowTabActions):
+						NotifyPropertyChanged(nameof(ShowTabActionsButton));
+						break;
+				}
+			};
 		}
 
 		private void TabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
@@ -173,7 +169,7 @@ namespace Files.App.UserControls.TabBar
 		{
 			if (e.DataView.Properties.ContainsKey(TabPathIdentifier))
 			{
-				HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
+				HorizontalTabView.CanReorderTabs = WindowContext.CanDragAndDrop;
 
 				e.AcceptedOperation = DataPackageOperation.Move;
 				e.DragUIOverride.Caption = "TabStripDragAndDropUIOverrideCaption".GetLocalizedResource();
@@ -188,12 +184,12 @@ namespace Files.App.UserControls.TabBar
 
 		private void TabView_DragLeave(object sender, DragEventArgs e)
 		{
-			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
+			HorizontalTabView.CanReorderTabs = WindowContext.CanDragAndDrop;
 		}
 
 		private async void TabView_TabStripDrop(object sender, DragEventArgs e)
 		{
-			HorizontalTabView.CanReorderTabs = true && !ElevationHelpers.IsAppRunAsAdmin();
+			HorizontalTabView.CanReorderTabs = WindowContext.CanDragAndDrop;
 
 			if (!(sender is TabView tabStrip))
 				return;
@@ -208,14 +204,14 @@ namespace Files.App.UserControls.TabBar
 			{
 				var item = tabStrip.ContainerFromIndex(i) as TabViewItem;
 
-				if (e.GetPosition(item).Y - item.ActualHeight < 0)
+				if (e.GetPosition(item).X - item.ActualWidth < 0)
 				{
 					index = i;
 					break;
 				}
 			}
 
-			var tabViewItemArgs = CustomTabViewItemParameter.Deserialize(tabViewItemString);
+			var tabViewItemArgs = TabBarItemParameter.Deserialize(tabViewItemString);
 			ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
 			await NavigationHelpers.AddNewTabByParamAsync(tabViewItemArgs.InitialPageType, tabViewItemArgs.NavigationParameter, index);
 		}
@@ -246,7 +242,7 @@ namespace Files.App.UserControls.TabBar
 			PInvoke.GetCursorPos(out var droppedPoint);
 			var droppedTime = DateTimeOffset.UtcNow;
 			var dragTime = droppedTime - dragStartTime;
-			var dragDistance = Math.Sqrt(Math.Pow(dragStartPoint.x - droppedPoint.x, 2) + Math.Pow(dragStartPoint.y - droppedPoint.y, 2));
+			var dragDistance = Math.Sqrt(Math.Pow(dragStartPoint.X - droppedPoint.X, 2) + Math.Pow(dragStartPoint.Y - droppedPoint.Y, 2));
 
 			if (sender.TabItems.Count == 1 ||
 				(dragTime.TotalSeconds < 1 &&
@@ -297,6 +293,60 @@ namespace Files.App.UserControls.TabBar
 		private void TabItemContextMenu_Closing(object sender, object e)
 		{
 			SelectedTabItemChanged?.Invoke(null, null);
+		}
+
+		private async void TabBarAddNewTabButton_Drop(object sender, DragEventArgs e)
+		{
+			if (_lockDropOperation || !FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+				return;
+
+			_lockDropOperation = true;
+
+			//|| _droppableArchiveTypes.Contains(x.Name.Split('.').Last().ToLower())
+			var items = (await FilesystemHelpers.GetDraggedStorageItems(e.DataView))
+				.Where(x => x.ItemType is FilesystemItemType.Directory);
+
+			var deferral = e.GetDeferral();
+			try
+			{
+				foreach (var item in items)
+					await NavigationHelpers.OpenPathInNewTab(item.Path, true);
+
+				deferral.Complete();
+			}
+			catch { }
+
+			_lockDropOperation = false;
+		}
+
+		private async void TabBarAddNewTabButton_DragOver(object sender, DragEventArgs e)
+		{
+			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				return;
+			}
+
+			//|| _droppableArchiveTypes.Contains(x.Name.Split('.').Last().ToLower())
+			bool hasValidDraggedItems =
+				(await FilesystemHelpers.GetDraggedStorageItems(e.DataView)).Any(x => x.ItemType is FilesystemItemType.Directory);
+
+			if (!hasValidDraggedItems)
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				return;
+			}
+
+			try
+			{
+				e.Handled = true;
+				var deferral = e.GetDeferral();
+				e.DragUIOverride.IsCaptionVisible = true;
+				e.DragUIOverride.Caption = string.Format("OpenInNewTab".GetLocalizedResource());
+				e.AcceptedOperation = DataPackageOperation.Link;
+				deferral.Complete();
+			}
+			catch { }
 		}
 
 		public override DependencyObject ContainerFromItem(ITabBarItem item)

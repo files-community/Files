@@ -17,8 +17,8 @@
 	<vm:BasePropertiesPage.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///ResourceDictionaries/PropertiesStyles.xaml" />
-				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+				<ResourceDictionary Source="ms-appx:///Styles/PropertiesStyles.xaml" />
+				<ResourceDictionary Source="/Styles/ToggleSwitchStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<converters:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />

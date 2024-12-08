@@ -61,6 +61,7 @@ namespace Files.App.Views.Properties
 			AppThemeModeService.AppThemeModeChanged += AppThemeModeService_AppThemeModeChanged;
 			Window.Closed += Window_Closed;
 
+			AppThemeModeService.ApplyResources();
 			UpdatePageLayout();
 			Window.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 			Window.AppWindow.Changed += AppWindow_Changed;

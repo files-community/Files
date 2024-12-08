@@ -28,6 +28,14 @@ namespace Files.App.Utils
 		{
 			try
 			{
+				// Check if WSL is installed
+				const string WslRegistryPath = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Lxss\MSI";
+				using (var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(WslRegistryPath))
+				{
+					if (key is null || key.GetValue("InstallLocation") is null)
+						return;
+				}
+
 				var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
 				foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
 				{

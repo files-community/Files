@@ -10,32 +10,27 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "CopyPath".GetLocalizedResource();
+			=> Strings.CopyPath.GetLocalizedResource();
 
 		public string Description
-			=> "CopyPathDescription".GetLocalizedResource();
+			=> Strings.CopyPathDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new RichGlyph(opacityStyle: "ColorIconCopyPath");
-
-		public HotKey HotKey
-			=> new(Keys.C, KeyModifiers.CtrlShift);
+			=> new RichGlyph(themedIconStyle: "App.ThemedIcons.CopyAsPath");
 
 		public bool IsExecutable
-			=> context.HasSelection;
+			=> context.PageType != ContentPageTypes.Home && context.PageType != ContentPageTypes.RecycleBin;
 
 		public CopyPathAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage?.SlimContentPage is not null)
 			{
-				var path = context.ShellPage.SlimContentPage.SelectedItems is not null
-					? context.ShellPage.SlimContentPage.SelectedItems.Select(x => x.ItemPath).Aggregate((accum, current) => accum + "\n" + current)
-					: context.ShellPage.FilesystemViewModel.WorkingDirectory;
+				var path = context.ShellPage.ShellViewModel.WorkingDirectory;
 
 				if (FtpHelpers.IsFtpPath(path))
 					path = path.Replace("\\", "/", StringComparison.Ordinal);

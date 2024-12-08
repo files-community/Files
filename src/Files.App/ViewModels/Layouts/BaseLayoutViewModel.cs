@@ -1,9 +1,11 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
@@ -18,6 +20,7 @@ namespace Files.App.ViewModels.Layouts
 	public sealed class BaseLayoutViewModel : IDisposable
 	{
 		protected ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		private ILogger? Logger { get; } = Ioc.Default.GetRequiredService<ILogger<App>>();
 
 		private readonly IShellPage _associatedInstance;
 
@@ -76,10 +79,10 @@ namespace Files.App.ViewModels.Layouts
 
 				// Mouse wheel down
 				if (delta < 0)
-					Commands.LayoutIncreaseSize.ExecuteAsync();
+					Commands.LayoutDecreaseSize.ExecuteAsync();
 				// Mouse wheel up
 				else if (delta > 0)
-					Commands.LayoutDecreaseSize.ExecuteAsync();
+					Commands.LayoutIncreaseSize.ExecuteAsync();
 
 				e.Handled = true;
 			}
@@ -97,19 +100,17 @@ namespace Files.App.ViewModels.Layouts
 				return;
 			}
 
-			_itemManipulationModel.ClearSelection();
-
 			if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 			{
 				e.Handled = true;
 
 				var draggedItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
-				var pwd = _associatedInstance.FilesystemViewModel.WorkingDirectory.TrimPath();
+				var pwd = _associatedInstance.ShellViewModel.WorkingDirectory.TrimPath();
 				var folderName = Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
 
 				// As long as one file doesn't already belong to this folder
-				if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(_associatedInstance.FilesystemViewModel.WorkingDirectory))
+				if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(_associatedInstance.ShellViewModel.WorkingDirectory))
 				{
 					e.AcceptedOperation = DataPackageOperation.None;
 				}
@@ -119,47 +120,56 @@ namespace Files.App.ViewModels.Layouts
 				}
 				else
 				{
-					e.DragUIOverride.IsCaptionVisible = true;
-					if (pwd.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
+					try
 					{
-						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
-						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
-						e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
+						e.DragUIOverride.IsCaptionVisible = true;
+						if (pwd.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
+						{
+							e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
+							// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+							e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
+						}
+						else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
+						{
+							e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), folderName);
+							e.AcceptedOperation = DataPackageOperation.Link;
+						}
+						else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
+						{
+							e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
+							e.AcceptedOperation = DataPackageOperation.Copy;
+						}
+						else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
+						{
+							e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
+							// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+							e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
+						}
+						else if (draggedItems.Any(x =>
+							x.Item is ZipStorageFile ||
+							x.Item is ZipStorageFolder) ||
+							ZipStorageFolder.IsZipPath(pwd))
+						{
+							e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
+							e.AcceptedOperation = DataPackageOperation.Copy;
+						}
+						else if (draggedItems.AreItemsInSameDrive(_associatedInstance.ShellViewModel.WorkingDirectory))
+						{
+							e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
+							// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
+							e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
+						}
+						else
+						{
+							e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
+							e.AcceptedOperation = DataPackageOperation.Copy;
+						}
+
+						_itemManipulationModel.ClearSelection();
 					}
-					else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
+					catch (COMException ex) when (ex.Message.Contains("RPC server is unavailable"))
 					{
-						e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), folderName);
-						e.AcceptedOperation = DataPackageOperation.Link;
-					}
-					else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
-					{
-						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
-						e.AcceptedOperation = DataPackageOperation.Copy;
-					}
-					else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
-					{
-						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
-						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
-						e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
-					}
-					else if (draggedItems.Any(x =>
-						x.Item is ZipStorageFile ||
-						x.Item is ZipStorageFolder) ||
-						ZipStorageFolder.IsZipPath(pwd))
-					{
-						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
-						e.AcceptedOperation = DataPackageOperation.Copy;
-					}
-					else if (draggedItems.AreItemsInSameDrive(_associatedInstance.FilesystemViewModel.WorkingDirectory))
-					{
-						e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
-						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
-						e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
-					}
-					else
-					{
-						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
-						e.AcceptedOperation = DataPackageOperation.Copy;
+						Logger?.LogDebug(ex, ex.Message);
 					}
 				}
 			}
@@ -177,7 +187,7 @@ namespace Files.App.ViewModels.Layouts
 
 				try
 				{
-					await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.FilesystemViewModel.WorkingDirectory, false, true);
+					await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true);
 					await _associatedInstance.RefreshIfNoWatcherExistsAsync();
 				}
 				finally

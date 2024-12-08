@@ -20,6 +20,7 @@ namespace Files.App.Utils.Storage
 {
 	public sealed class FilesystemHelpers : IFilesystemHelpers
 	{
+		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		private IShellPage associatedInstance;
@@ -90,8 +91,8 @@ namespace Files.App.Utils.Storage
 
 			var returnStatus = ReturnResult.InProgress;
 
-			var deleteFromRecycleBin = source.Select(item => item.Path).Any(path => RecycleBinHelpers.IsPathUnderRecycleBin(path));
-			var canBeSentToBin = !deleteFromRecycleBin && await RecycleBinHelpers.HasRecycleBin(source.FirstOrDefault()?.Path);
+			var deleteFromRecycleBin = source.Select(item => item.Path).Any(StorageTrashBinService.IsUnderTrashBin);
+			var canBeSentToBin = !deleteFromRecycleBin && await StorageTrashBinService.CanGoTrashBin(source.FirstOrDefault()?.Path);
 
 			if (showDialog is DeleteConfirmationPolicies.Always ||
 				showDialog is DeleteConfirmationPolicies.PermanentOnly &&
@@ -102,9 +103,9 @@ namespace Files.App.Utils.Storage
 
 				foreach (var src in source)
 				{
-					if (RecycleBinHelpers.IsPathUnderRecycleBin(src.Path))
+					if (StorageTrashBinService.IsUnderTrashBin(src.Path))
 					{
-						binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
+						binItems ??= await StorageTrashBinService.GetAllRecycleBinFoldersAsync();
 
 						// Might still be null because we're deserializing the list from Json
 						if (!binItems.IsEmpty())
@@ -161,9 +162,10 @@ namespace Files.App.Utils.Storage
 
 			if (!permanently && registerHistory)
 				App.HistoryWrapper.AddHistory(history);
-			
+
 			// Execute removal tasks concurrently in background
-			_ = Task.WhenAll(source.Select(x => jumpListService.RemoveFolderAsync(x.Path)));
+			var sourcePaths = source.Select(x => x.Path);
+			_ = Task.WhenAll(sourcePaths.Select(jumpListService.RemoveFolderAsync));
 
 			var itemsCount = banner.TotalItemsCount;
 
@@ -257,7 +259,7 @@ namespace Files.App.Utils.Storage
 					if (isTargetExecutable || isTargetScriptFile)
 					{
 						var items = await GetDraggedStorageItems(packageView);
-						NavigationHelpers.OpenItemsWithExecutableAsync(associatedInstance, items, destination);
+						await NavigationHelpers.OpenItemsWithExecutableAsync(associatedInstance, items, destination);
 						return ReturnResult.Success;
 					}
 					else
@@ -317,15 +319,13 @@ namespace Files.App.Utils.Storage
 
 			banner.Progress.ReportStatus(FileSystemStatusCode.Success);
 
-			await Task.Yield();
-
 			if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
 			{
 				foreach (var item in history.Source.Zip(history.Destination, (k, v) => new { Key = k, Value = v }).ToDictionary(k => k.Key, v => v.Value))
 				{
 					foreach (var item2 in itemsResult)
 					{
-						if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path)
+						if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path && Path.GetFileName(item2.SourcePath) != item2.CustomName)
 						{
 							var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ProgressEventSource, token);
 							history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
@@ -334,6 +334,8 @@ namespace Files.App.Utils.Storage
 				}
 				App.HistoryWrapper.AddHistory(history);
 			}
+
+			await Task.Yield();
 
 			var itemsCount = banner.TotalItemsCount;
 
@@ -363,9 +365,9 @@ namespace Files.App.Utils.Storage
 				List<ShellFileItem>? binItems = null;
 				foreach (var item in source)
 				{
-					if (RecycleBinHelpers.IsPathUnderRecycleBin(item.Path))
+					if (StorageTrashBinService.IsUnderTrashBin(item.Path))
 					{
-						binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
+						binItems ??= await StorageTrashBinService.GetAllRecycleBinFoldersAsync();
 						if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
 						{
 							var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
@@ -475,7 +477,8 @@ namespace Files.App.Utils.Storage
 			}
 
 			// Execute removal tasks concurrently in background
-			_ = Task.WhenAll(source.Select(x => jumpListService.RemoveFolderAsync(x.Path)));
+			var sourcePaths = source.Select(x => x.Path);
+			_ = Task.WhenAll(sourcePaths.Select(jumpListService.RemoveFolderAsync));
 
 			var itemsCount = banner.TotalItemsCount;
 
@@ -511,9 +514,9 @@ namespace Files.App.Utils.Storage
 			List<ShellFileItem>? binItems = null;
 			foreach (var item in source)
 			{
-				if (RecycleBinHelpers.IsPathUnderRecycleBin(item.Path))
+				if (StorageTrashBinService.IsUnderTrashBin(item.Path))
 				{
-					binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
+					binItems ??= await StorageTrashBinService.GetAllRecycleBinFoldersAsync();
 					if (!binItems.IsEmpty()) // Might still be null because we're deserializing the list from Json
 					{
 						var matchingItem = binItems.FirstOrDefault(x => x.RecyclePath == item.Path); // Get original file name
@@ -636,7 +639,7 @@ namespace Files.App.Utils.Storage
 			var source = await GetDraggedStorageItems(packageView);
 			ReturnResult returnStatus = ReturnResult.InProgress;
 
-			source = source.Where(x => !RecycleBinHelpers.IsPathUnderRecycleBin(x.Path)); // Can't recycle items already in recyclebin
+			source = source.Where(x => !StorageTrashBinService.IsUnderTrashBin(x.Path)); // Can't recycle items already in recyclebin
 			returnStatus = await DeleteItemsAsync(source, showDialog, false, registerHistory);
 
 			return returnStatus;
@@ -821,7 +824,7 @@ namespace Files.App.Utils.Storage
 
 							foreach (var path in itemPaths)
 							{
-								var isDirectory = NativeFileOperationsHelper.HasFileAttribute(path, FileAttributes.Directory);
+								var isDirectory = Win32Helper.HasFileAttribute(path, FileAttributes.Directory);
 								itemsList.Add(StorageHelpers.FromPathAndType(path, isDirectory ? FilesystemItemType.Directory : FilesystemItemType.File));
 							}
 						}

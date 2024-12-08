@@ -1,0 +1,109 @@
+<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Files.App.Controls">
+
+	<Style x:Key="DefaultThemedIconLayerStyle" TargetType="local:ThemedIconLayer">
+		<Setter Property="Foreground" Value="{ThemeResource ThemedIconAccentContrastBrush}" />
+		<Setter Property="IsTabStop" Value="False" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:ThemedIconLayer">
+					<Canvas
+						x:Name="PART_LayerCanvas"
+						Width="{TemplateBinding LayerSize}"
+						Height="{TemplateBinding LayerSize}"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch">
+						<Path
+							x:Name="PART_LayerPath"
+							Width="{TemplateBinding LayerSize}"
+							Height="{TemplateBinding LayerSize}" />
+
+						<VisualStateManager.VisualStateGroups>
+
+							<VisualStateGroup x:Name="IconLayerColorStates">
+								<VisualState x:Name="Base">
+									<VisualState.Setters>
+										<Setter Target="PART_LayerPath.Fill" Value="{ThemeResource ThemedIconBaseBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Alt">
+									<VisualState.Setters>
+										<Setter Target="PART_LayerPath.Fill" Value="{ThemeResource ThemedIconAltBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Accent">
+									<VisualState.Setters>
+										<Setter Target="PART_LayerPath.Fill" Value="{ThemeResource ThemedIconAccentBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="AccentContrast">
+									<VisualState.Setters>
+										<Setter Target="PART_LayerPath.Fill" Value="{ThemeResource ThemedIconAccentContrastBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Critical">
+									<VisualState.Setters>
+										<Setter Target="PART_LayerPath.Fill" Value="{ThemeResource ThemedIconCriticalBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="CriticalBG">
+									<VisualState.Setters>
+										<Setter Target="PART_LayerPath.Fill" Value="{ThemeResource ThemedIconCriticalBackgroundBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Caution">
+									<VisualState.Setters>
+										<Setter Target="PART_LayerPath.Fill" Value="{ThemeResource ThemedIconCautionBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="CautionBG">
+									<VisualState.Setters>
+										<Setter Target="PART_LayerPath.Fill" Value="{ThemeResource ThemedIconCautionBackgroundBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Success">
+									<VisualState.Setters>
+										<Setter Target="PART_LayerPath.Fill" Value="{ThemeResource ThemedIconSuccessBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="SuccessBG">
+									<VisualState.Setters>
+										<Setter Target="PART_LayerPath.Fill" Value="{ThemeResource ThemedIconSuccessBackgroundBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Neutral">
+									<VisualState.Setters>
+										<Setter Target="PART_LayerPath.Fill" Value="{ThemeResource ThemedIconNeutralBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="NeutralBG">
+									<VisualState.Setters>
+										<Setter Target="PART_LayerPath.Fill" Value="{ThemeResource ThemedIconNeutralBackgroundBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Custom">
+									<VisualState.Setters>
+										<Setter Target="PART_LayerPath.Fill" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=LayerColor}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="CustomBG">
+									<VisualState.Setters>
+										<Setter Target="PART_LayerPath.Fill" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Foreground}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+						</VisualStateManager.VisualStateGroups>
+					</Canvas>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+
+	</Style>
+
+	<Style BasedOn="{StaticResource DefaultThemedIconLayerStyle}" TargetType="local:ThemedIconLayer" />
+
+</ResourceDictionary>

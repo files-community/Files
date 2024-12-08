@@ -7,6 +7,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
+	xmlns:items="using:Files.App.Data.Items"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
@@ -14,7 +15,7 @@
 	mc:Ignorable="d">
 
 	<Page.Resources>
-		<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+		<ResourceDictionary Source="/Styles/ToggleSwitchStyles.xaml" />
 	</Page.Resources>
 
 	<Page.DataContext>
@@ -26,11 +27,6 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Spacing="4">
-			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<EntranceThemeTransition />
-				</TransitionCollection>
-			</StackPanel.ChildrenTransitions>
 
 			<!--  Title  -->
 			<TextBlock
@@ -44,18 +40,18 @@
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xF2B7;" />
 				</local:SettingsBlockControl.Icon>
-				<ComboBox
+				<uc:ComboBoxEx
 					x:Name="AppLanguagesComboBox"
 					HorizontalAlignment="Left"
 					AutomationProperties.Name="{helpers:ResourceString Name=Language}"
 					ItemsSource="{x:Bind ViewModel.AppLanguages}"
 					SelectedIndex="{x:Bind ViewModel.SelectedAppLanguageIndex, Mode=TwoWay}">
-					<ComboBox.ItemTemplate>
-						<DataTemplate x:DataType="vm:AppLanguageItem">
-							<TextBlock Text="{x:Bind LanguageName}" />
+					<uc:ComboBoxEx.ItemTemplate>
+						<DataTemplate x:DataType="items:AppLanguageItem">
+							<TextBlock Text="{x:Bind Name}" />
 						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
+					</uc:ComboBoxEx.ItemTemplate>
+				</uc:ComboBoxEx>
 			</local:SettingsBlockControl>
 
 			<!--  Date settings  -->
@@ -66,13 +62,13 @@
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xEC92;" />
 				</local:SettingsBlockControl.Icon>
-				<ComboBox
+				<uc:ComboBoxEx
 					x:Name="DateFormatChooser"
 					Grid.Column="1"
 					AutomationProperties.Name="{helpers:ResourceString Name=DateFormat}"
 					ItemsSource="{x:Bind ViewModel.DateFormats}"
 					SelectedIndex="{x:Bind ViewModel.SelectedDateTimeFormatIndex, Mode=TwoWay}">
-					<ComboBox.ItemTemplate>
+					<uc:ComboBoxEx.ItemTemplate>
 						<DataTemplate x:DataType="vm:DateTimeFormatItem">
 							<StackPanel Orientation="Vertical">
 								<TextBlock Text="{x:Bind Label}" />
@@ -88,8 +84,8 @@
 									Visibility="{Binding IsDropDownOpen, ElementName=DateFormatChooser}" />
 							</StackPanel>
 						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
+					</uc:ComboBoxEx.ItemTemplate>
+				</uc:ComboBoxEx>
 			</local:SettingsBlockControl>
 
 			<!--  Startup settings  -->
@@ -97,7 +93,7 @@
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE7E8;" />
 				</local:SettingsBlockControl.Icon>
-				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=StartupSettings}" SelectedIndex="{x:Bind ViewModel.SelectedStartupSettingIndex, Mode=OneWay}">
+				<uc:ComboBoxEx AutomationProperties.Name="{helpers:ResourceString Name=StartupSettings}" SelectedIndex="{x:Bind ViewModel.SelectedStartupSettingIndex, Mode=OneWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=SettingsOnStartupOpenANewTab/Content}" IsSelected="{x:Bind ViewModel.OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
 					<ComboBoxItem Content="{helpers:ResourceString Name=SettingsOnStartupContinueWhereYouLeftOff/Content}" IsSelected="{x:Bind ViewModel.ContinueLastSessionOnStartUp, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -106,7 +102,7 @@
 						x:Name="OpenSpecificPage"
 						Content="{helpers:ResourceString Name=SettingsOnStartupOpenASpecificPage/Content}"
 						IsSelected="{x:Bind ViewModel.OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-				</ComboBox>
+				</uc:ComboBoxEx>
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
 						<Grid
@@ -197,6 +193,16 @@
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}"
 					IsOn="{x:Bind ViewModel.AlwaysOpenDualPaneInNewTab, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<local:SettingsBlockControl.ExpandableContent>
+					<StackPanel>
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DefaultPaneArrangement}" HorizontalAlignment="Stretch">
+							<uc:ComboBoxEx
+								AutomationProperties.Name="{helpers:ResourceString Name=DefaultPaneArrangement}"
+								ItemsSource="{x:Bind ViewModel.ShellPaneArrangementTypes.Values}"
+								SelectedItem="{x:Bind ViewModel.SelectedShellPaneArrangementType, Mode=TwoWay}" />
+						</local:SettingsBlockControl>
+					</StackPanel>
+				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
 			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Widgets}" HorizontalAlignment="Stretch">
@@ -216,6 +222,13 @@
 							<ToggleSwitch
 								AutomationProperties.Name="{helpers:ResourceString Name=Drives}"
 								IsOn="{x:Bind ViewModel.ShowDrivesWidget, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=NetworkLocations}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=NetworkLocations}"
+								IsOn="{x:Bind ViewModel.ShowNetworkLocationsWidget, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
@@ -291,6 +304,14 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
+						<!--  Create alternate data stream  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowCreateAlternateDataStream}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowCreateAlternateDataStream}"
+								IsOn="{x:Bind ViewModel.ShowCreateAlternateDataStream, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
 						<!--  Create shortcut  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowCreateShortcut}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
@@ -306,6 +327,15 @@
 								IsOn="{x:Bind ViewModel.ShowCompressionOptions, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
+
+						<!--  Flatten options  -->
+						<!--  TODO uncomment code when feature is marked as stable  -->
+						<!--<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowFlattenOptions}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowFlattenOptions}"
+								IsOn="{x:Bind ViewModel.ShowFlattenOptions, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>-->
 
 						<!--  Send To  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowSendToMenu}" HorizontalAlignment="Stretch">

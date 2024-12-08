@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Files.App.Server.Data.Enums;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -62,6 +61,10 @@ namespace Files.App.Views.Shells
 
 		protected override void OnNavigationParamsChanged()
 		{
+			if (ColumnParams.NavPathParam is not null)
+				// This method call is required to load the sorting preferences.
+				InstanceViewModel.FolderSettings.GetLayoutType(ColumnParams.NavPathParam);
+
 			ItemDisplayFrame.Navigate(
 				typeof(ColumnLayoutPage),
 				new NavigationArguments()
@@ -77,19 +80,19 @@ namespace Files.App.Views.Shells
 
 		protected override void Page_Loaded(object sender, RoutedEventArgs e)
 		{
-			FilesystemViewModel = new ItemViewModel(InstanceViewModel?.FolderSettings);
-			FilesystemViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
-			FilesystemViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
-			FilesystemViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
-			FilesystemViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
-			FilesystemViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
-			FilesystemViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
+			ShellViewModel = new ShellViewModel(InstanceViewModel?.FolderSettings);
+			ShellViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
+			ShellViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
+			ShellViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
+			ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+			ShellViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
+			ShellViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
 
 			PaneHolder = this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.PaneHolder;
 
 			base.Page_Loaded(sender, e);
 
-			NotifyPropertyChanged(nameof(FilesystemViewModel));
+			NotifyPropertyChanged(nameof(ShellViewModel));
 		}
 
 		protected override async void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
@@ -116,7 +119,7 @@ namespace Files.App.Views.Shells
 			}
 
 			var parameters = e.Parameter as NavigationArguments;
-			TabItemParameter = new CustomTabViewItemParameter()
+			TabBarItemParameter = new TabBarItemParameter()
 			{
 				InitialPageType = typeof(ColumnShellPage),
 				NavigationParameter = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
@@ -141,7 +144,7 @@ namespace Files.App.Views.Shells
 				// Ctrl + V, Paste
 				case (true, false, false, true, VirtualKey.V):
 					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !ToolbarViewModel.SearchHasFocus)
-						await UIFilesystemHelpers.PasteItemAsync(FilesystemViewModel.WorkingDirectory, this);
+						await UIFilesystemHelpers.PasteItemAsync(ShellViewModel.WorkingDirectory, this);
 					break;
 			}
 		}
@@ -184,25 +187,5 @@ namespace Files.App.Views.Shells
 
 		public override Task WhenIsCurrent()
 			=> Task.WhenAll(_IsCurrentInstanceTCS.Task, this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.WhenIsCurrent() ?? Task.CompletedTask);
-
-		public void RemoveLastPageFromBackStack()
-		{
-			ItemDisplayFrame.BackStack.Remove(ItemDisplayFrame.BackStack.Last());
-		}
-
-		public void SubmitSearch(string query)
-		{
-			FilesystemViewModel.CancelSearch();
-			InstanceViewModel.CurrentSearchQuery = query;
-			ItemDisplayFrame.Navigate(typeof(ColumnLayoutPage), new NavigationArguments()
-			{
-				AssociatedTabInstance = this,
-				IsSearchResultPage = true,
-				SearchPathParam = FilesystemViewModel.WorkingDirectory,
-				SearchQuery = query,
-			});
-
-			//this.FindAscendant<ColumnViewBrowser>().SetSelectedPathOrNavigate(null, typeof(ColumnViewBase), navArgs);
-		}
 	}
 }

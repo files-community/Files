@@ -13,6 +13,8 @@ namespace Files.App.Data.EventArguments
 
 		public string? RightPaneSelectItemParam { get; set; }
 
+		public ShellPaneArrangement ShellPaneArrangement { get; set; }
+
 		public static bool operator ==(PaneNavigationArguments? a1, PaneNavigationArguments? a2)
 		{
 			if (a1 is null && a2 is null)
@@ -24,7 +26,8 @@ namespace Files.App.Data.EventArguments
 			return a1.LeftPaneNavPathParam == a2.LeftPaneNavPathParam &&
 				a1.LeftPaneSelectItemParam == a2.LeftPaneSelectItemParam &&
 				a1.RightPaneNavPathParam == a2.RightPaneNavPathParam &&
-				a1.RightPaneSelectItemParam == a2.RightPaneSelectItemParam;
+				a1.RightPaneSelectItemParam == a2.RightPaneSelectItemParam &&
+				a1.ShellPaneArrangement == a2.ShellPaneArrangement;
 		}
 
 		public static bool operator !=(PaneNavigationArguments? a1, PaneNavigationArguments? a2)

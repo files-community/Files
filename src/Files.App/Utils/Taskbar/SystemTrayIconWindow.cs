@@ -26,16 +26,19 @@ namespace Files.App.Utils.Taskbar
 		public unsafe SystemTrayIconWindow(SystemTrayIcon icon)
 		{
 			_windowProcedure = WindowProc;
-			this._trayIcon = icon;
-			string text = "FilesTrayIcon_" + this._trayIcon.Id;
+			_trayIcon = icon;
+			string text = "FilesTrayIcon_" + _trayIcon.Id;
 
 			fixed (char* ptr = text)
 			{
+				var pWindProc = Marshal.GetFunctionPointerForDelegate(_windowProcedure);
+				var pfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)pWindProc;
+
 				WNDCLASSEXW param = new()
 				{
 					cbSize = (uint)Marshal.SizeOf(typeof(WNDCLASSEXW)),
 					style = WNDCLASS_STYLES.CS_DBLCLKS,
-					lpfnWndProc = _windowProcedure,
+					lpfnWndProc = pfnWndProc,
 					cbClsExtra = 0,
 					cbWndExtra = 0,
 					hInstance = PInvoke.GetModuleHandle(default(PCWSTR)),

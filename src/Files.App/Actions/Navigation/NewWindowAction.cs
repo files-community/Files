@@ -15,13 +15,13 @@ namespace Files.App.Actions
 			=> new(Keys.N, KeyModifiers.Ctrl);
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconOpenNewWindow");
+			=> new(themedIconStyle: "App.ThemedIcons.New.Window");
 
 		public NewWindowAction()
 		{
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			return NavigationHelpers.LaunchNewWindowAsync();
 		}

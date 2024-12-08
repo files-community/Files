@@ -15,7 +15,7 @@ namespace Files.App.Actions
 			=> "ToggleDetailsPaneDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconRightPane");
+			=> new(themedIconStyle: "App.ThemedIcons.PanelRight");
 
 		public HotKey HotKey
 			=> new(Keys.D, KeyModifiers.CtrlAlt);
@@ -29,7 +29,7 @@ namespace Files.App.Actions
 			viewModel.PropertyChanged += ViewModel_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			viewModel.IsEnabled = true;
 			infoPaneSettingsService.SelectedTab = InfoPaneTabs.Details;

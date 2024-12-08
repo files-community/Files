@@ -1,10 +1,14 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Microsoft.Extensions.Logging;
+
 namespace Files.App.Actions
 {
 	internal sealed class SetAsSlideshowBackgroundAction : BaseSetAsAction
 	{
+		private readonly IWindowsWallpaperService WindowsWallpaperService = Ioc.Default.GetRequiredService<IWindowsWallpaperService>();
+
 		public override string Label
 			=> "SetAsSlideshow".GetLocalizedResource();
 
@@ -16,12 +20,21 @@ namespace Files.App.Actions
 
 		public override bool IsExecutable =>
 			base.IsExecutable &&
-			context.SelectedItems.Count > 1;
+			ContentPageContext.SelectedItems.Count > 1;
 
-		public override Task ExecuteAsync()
+		public override Task ExecuteAsync(object? parameter = null)
 		{
-			var paths = context.SelectedItems.Select(item => item.ItemPath).ToArray();
-			WallpaperHelpers.SetSlideshow(paths);
+			if (!IsExecutable || ContentPageContext.SelectedItems.Select(item => item.ItemPath).ToArray() is not string[] paths || paths.Length is 0)
+				return Task.CompletedTask;
+
+			try
+			{
+				WindowsWallpaperService.SetDesktopSlideshow(paths);
+			}
+			catch (Exception ex)
+			{
+				ShowErrorDialog(ex.Message);
+			}
 
 			return Task.CompletedTask;
 		}

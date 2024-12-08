@@ -9,7 +9,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.Concurrent;
-using Windows.ApplicationModel;
 using Windows.Graphics;
 using Windows.Win32;
 
@@ -37,7 +36,7 @@ namespace Files.App.Utils.Storage
 			=> WinRT.Interop.WindowNative.GetWindowHandle(w);
 
 		private static TaskCompletionSource? PropertiesWindowsClosingTCS;
-		private static BlockingCollection<WinUIEx.WindowEx> WindowCache = [];
+		private static readonly BlockingCollection<WindowEx> WindowCache = [];
 
 		/// <summary>
 		/// Open properties window
@@ -64,7 +63,7 @@ namespace Files.App.Utils.Storage
 			else
 			{
 				// Instance's current folder
-				var folder = associatedInstance.FilesystemViewModel?.CurrentFolder;
+				var folder = associatedInstance.ShellViewModel?.CurrentFolder;
 				if (folder is null)
 					return;
 
@@ -99,22 +98,21 @@ namespace Files.App.Utils.Storage
 
 			var frame = new Frame
 			{
-				RequestedTheme = (ElementTheme)AppThemeModeService.AppThemeMode
+				RequestedTheme = AppThemeModeService.AppThemeMode
 			};
 
-			WinUIEx.WindowEx propertiesWindow;
-			if (!WindowCache.TryTake(out propertiesWindow!))
+			if (!WindowCache.TryTake(out var propertiesWindow))
 			{
-				propertiesWindow = new();
+				propertiesWindow = new(460, 550);
 				propertiesWindow.Closed += PropertiesWindow_Closed;
 			}
 
+			var width = Convert.ToInt32(800 * App.AppModel.AppWindowDPI);
+			var height = Convert.ToInt32(500 * App.AppModel.AppWindowDPI);
+
+			propertiesWindow.AppWindow.Resize(new (width, height));
 			propertiesWindow.IsMinimizable = false;
 			propertiesWindow.IsMaximizable = false;
-			propertiesWindow.MinWidth = 460;
-			propertiesWindow.MinHeight = 550;
-			propertiesWindow.Width = 800;
-			propertiesWindow.Height = 550;
 			propertiesWindow.Content = frame;
 			propertiesWindow.SystemBackdrop = new AppSystemBackdrop(true);
 
@@ -127,7 +125,7 @@ namespace Files.App.Utils.Storage
 			appWindow.SetIcon(AppLifecycleHelper.AppIconPath);
 
 			frame.Navigate(
-				typeof(Views.Properties.MainPropertiesPage),
+				typeof(MainPropertiesPage),
 				new PropertiesPageNavigationParameter
 				{
 					Parameter = item,
@@ -138,13 +136,13 @@ namespace Files.App.Utils.Storage
 
 			// WINUI3: Move window to cursor position
 			PInvoke.GetCursorPos(out var pointerPosition);
-			var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.x, pointerPosition.y), DisplayAreaFallback.Nearest);
+			var displayArea = DisplayArea.GetFromPoint(new PointInt32(pointerPosition.X, pointerPosition.Y), DisplayAreaFallback.Nearest);
 			var appWindowPos = new PointInt32
 			{
 				X = displayArea.WorkArea.X
-					+ Math.Max(0, Math.Min(displayArea.WorkArea.Width - appWindow.Size.Width, pointerPosition.x - displayArea.WorkArea.X)),
+					+ Math.Max(0, Math.Min(displayArea.WorkArea.Width - appWindow.Size.Width, pointerPosition.X - displayArea.WorkArea.X)),
 				Y = displayArea.WorkArea.Y
-					+ Math.Max(0, Math.Min(displayArea.WorkArea.Height - appWindow.Size.Height, pointerPosition.y - displayArea.WorkArea.Y)),
+					+ Math.Max(0, Math.Min(displayArea.WorkArea.Height - appWindow.Size.Height, pointerPosition.Y - displayArea.WorkArea.Y)),
 			};
 
 			if (App.AppModel.IncrementPropertiesWindowCount() == 1)
@@ -160,7 +158,7 @@ namespace Files.App.Utils.Storage
 		// So instead of destroying the Window object, cache it and reuse it as a workaround.
 		private static void PropertiesWindow_Closed(object sender, WindowEventArgs args)
 		{
-			if (!App.AppModel.IsMainWindowClosed && sender is WinUIEx.WindowEx window)
+			if (!App.AppModel.IsMainWindowClosed && sender is WindowEx window)
 			{
 				args.Handled = true;
 
@@ -184,8 +182,11 @@ namespace Files.App.Utils.Storage
 		/// <returns></returns>
 		public static void DestroyCachedWindows()
 		{
-			while (WindowCache.TryTake(out var window))
+			while (WindowCache?.TryTake(out var window) ?? false)
 			{
+				if (window is null)
+					continue;
+
 				window.Closed -= PropertiesWindow_Closed;
 				window.Close();
 			}

@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "EnterCompactOverlay".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconEnterCompactOverlay");
+			=> new(themedIconStyle: "App.ThemedIcons.CompactOverlay");
 
 		public HotKey HotKey
 			=> new(Keys.Up, KeyModifiers.CtrlAlt);
@@ -32,7 +32,7 @@ namespace Files.App.Actions
 			windowContext.PropertyChanged += WindowContext_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			var appWindow = MainWindow.Instance.AppWindow;
 			appWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);

@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Core.Storage;
-using Files.Core.Storage.LocatableStorage;
+using Files.Core.Storage.Storables;
 using Files.Shared.Utils;
 using Windows.Storage.FileProperties;
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.Helpers;
-using CommunityToolkit.WinUI.Notifications;
+using Files.App.Helpers.Application;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -10,7 +10,6 @@ using Microsoft.Windows.AppLifecycle;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.UI.Notifications;
 
 namespace Files.App
 {
@@ -19,7 +18,7 @@ namespace Files.App
 	/// </summary>
 	public partial class App : Application
 	{
-		private static SystemTrayIcon? SystemTrayIcon { get; set; }
+		public static SystemTrayIcon? SystemTrayIcon { get; private set; }
 
 		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }
 		public static string? OutputPath { get; set; }
@@ -40,7 +39,6 @@ namespace Files.App
 		public static QuickAccessManager QuickAccessManager { get; private set; } = null!;
 		public static StorageHistoryWrapper HistoryWrapper { get; private set; } = null!;
 		public static FileTagsManager FileTagsManager { get; private set; } = null!;
-		public static RecentItems RecentItemsManager { get; private set; } = null!;
 		public static LibraryManager LibraryManager { get; private set; } = null!;
 		public static AppModel AppModel { get; private set; } = null!;
 		public static ILogger Logger { get; private set; } = null!;
@@ -91,10 +89,9 @@ namespace Files.App
 				var host = AppLifecycleHelper.ConfigureHost();
 				Ioc.Default.ConfigureServices(host.Services);
 
-#if STORE || STABLE || PREVIEW
-				// Configure AppCenter
-				AppLifecycleHelper.ConfigureAppCenter();
-#endif
+				// Configure Sentry
+				if (AppLifecycleHelper.AppEnvironment is not AppEnvironment.Dev)
+					AppLifecycleHelper.ConfigureSentry();
 
 				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 				var isLeaveAppRunning = userSettingsService.GeneralSettingsService.LeaveAppRunning;
@@ -115,7 +112,6 @@ namespace Files.App
 				QuickAccessManager = Ioc.Default.GetRequiredService<QuickAccessManager>();
 				HistoryWrapper = Ioc.Default.GetRequiredService<StorageHistoryWrapper>();
 				FileTagsManager = Ioc.Default.GetRequiredService<FileTagsManager>();
-				RecentItemsManager = Ioc.Default.GetRequiredService<RecentItems>();
 				LibraryManager = Ioc.Default.GetRequiredService<LibraryManager>();
 				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 				AppModel = Ioc.Default.GetRequiredService<AppModel>();
@@ -133,14 +129,18 @@ namespace Files.App
 					SplashScreenLoadingTCS = null;
 
 					// Create a system tray icon
-					SystemTrayIcon = new SystemTrayIcon().Show();
+					SystemTrayIcon = new SystemTrayIcon();
+					if (userSettingsService.GeneralSettingsService.ShowSystemTrayIcon)
+						SystemTrayIcon.Show();
 
 					_ = MainWindow.Instance.InitializeApplicationAsync(appActivationArguments.Data);
 				}
 				else
 				{
 					// Create a system tray icon
-					SystemTrayIcon = new SystemTrayIcon().Show();
+					SystemTrayIcon = new SystemTrayIcon();
+					if (userSettingsService.GeneralSettingsService.ShowSystemTrayIcon)
+						SystemTrayIcon.Show();
 
 					// Sleep current instance
 					Program.Pool = new(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance");
@@ -217,7 +217,7 @@ namespace Files.App
 				if (instance is null)
 					return;
 
-				var items = (instance.TabItemContent as PaneHolderPage)?.ActivePane?.SlimContentPage?.SelectedItems;
+				var items = (instance.TabItemContent as ShellPanesPage)?.ActivePane?.SlimContentPage?.SelectedItems;
 				if (items is null)
 					return;
 
@@ -260,33 +260,7 @@ namespace Files.App
 				{
 					SafetyExtensions.IgnoreExceptions(() =>
 					{
-						var toastContent = new ToastContent()
-						{
-							Visual = new()
-							{
-								BindingGeneric = new ToastBindingGeneric()
-								{
-									Children =
-								{
-									new AdaptiveText()
-									{
-										Text = "BackgroundRunningNotificationHeader".GetLocalizedResource()
-									},
-									new AdaptiveText()
-									{
-										Text = "BackgroundRunningNotificationBody".GetLocalizedResource()
-									}
-								},
-								}
-							},
-							ActivationType = ToastActivationType.Protocol
-						};
-
-						// Create the toast notification
-						var toastNotification = new ToastNotification(toastContent.GetXml());
-
-						// And send the notification
-						ToastNotificationManager.CreateToastNotifier().Show(toastNotification);
+						AppToastNotificationHelper.ShowBackgroundRunningToast();
 
 						userSettingsService.AppSettingsService.ShowBackgroundRunningNotification = false;
 					});

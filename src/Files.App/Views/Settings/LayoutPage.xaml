@@ -8,6 +8,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	mc:Ignorable="d">
 
@@ -16,7 +17,7 @@
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/ResourceDictionaries/RightAlignedToggleSwitchStyle.xaml" />
+				<ResourceDictionary Source="/Styles/ToggleSwitchStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Page.Resources>
@@ -30,11 +31,6 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Spacing="4">
-			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<EntranceThemeTransition />
-				</TransitionCollection>
-			</StackPanel.ChildrenTransitions>
 
 			<!--  Title  -->
 			<TextBlock
@@ -65,14 +61,14 @@
 					<FontIcon Glyph="&#xE8BA;" />
 				</local:SettingsBlockControl.Icon>
 
-				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=LayoutType}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
+				<uc:ComboBoxEx AutomationProperties.Name="{helpers:ResourceString Name=LayoutType}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Details}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=List}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Tiles}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Columns}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Grid}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Adaptive}" IsEnabled="{x:Bind ViewModel.SyncFolderPreferencesAcrossDirectories, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
-				</ComboBox>
+				</uc:ComboBoxEx>
 			</local:SettingsBlockControl>
 
 			<!--  Sorting & grouping  -->
@@ -88,14 +84,14 @@
 					<FontIcon Glyph="&#xE8CB;" />
 				</local:SettingsBlockControl.Icon>
 
-				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=SortBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortingIndex, Mode=TwoWay}">
+				<uc:ComboBoxEx AutomationProperties.Name="{helpers:ResourceString Name=SortBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortingIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=DateModifiedLowerCase}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=DateCreated}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Size}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Type}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Tag}" />
-				</ComboBox>
+				</uc:ComboBoxEx>
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
 						<!--  Sort in Descending order  -->
@@ -108,11 +104,11 @@
 
 						<!--  Sort Priority  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SortPriority}" HorizontalAlignment="Stretch">
-							<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=SortPriority}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortPriorityIndex, Mode=TwoWay}">
+							<uc:ComboBoxEx AutomationProperties.Name="{helpers:ResourceString Name=SortPriority}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortPriorityIndex, Mode=TwoWay}">
 								<ComboBoxItem Content="{helpers:ResourceString Name=SortFoldersFirst}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=SortFilesFirst}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=SortFilesAndFoldersTogether}" />
-							</ComboBox>
+							</uc:ComboBoxEx>
 						</local:SettingsBlockControl>
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
@@ -124,7 +120,7 @@
 					<FontIcon Glyph="&#xF168;" />
 				</local:SettingsBlockControl.Icon>
 
-				<ComboBox AutomationProperties.Name="{helpers:ResourceString Name=GroupBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupingIndex, Mode=TwoWay}">
+				<uc:ComboBoxEx AutomationProperties.Name="{helpers:ResourceString Name=GroupBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupingIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=None}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=DateModifiedLowerCase}" />
@@ -132,7 +128,7 @@
 					<ComboBoxItem Content="{helpers:ResourceString Name=Size}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Type}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Tag}" />
-				</ComboBox>
+				</uc:ComboBoxEx>
 				<local:SettingsBlockControl.ExpandableContent>
 					<StackPanel>
 						<!--  Group in Descending order  -->
@@ -146,14 +142,14 @@
 
 						<!--  Group by date unit  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupByDateUnit}" HorizontalAlignment="Stretch">
-							<ComboBox
+							<uc:ComboBoxEx
 								AutomationProperties.Name="{helpers:ResourceString Name=GroupByDateUnit}"
 								IsEnabled="{x:Bind ViewModel.IsGroupByDate, Mode=OneWay}"
 								SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupByDateUnitIndex, Mode=TwoWay}">
 								<ComboBoxItem Content="{helpers:ResourceString Name=Year}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=Month}" />
 								<ComboBoxItem Content="{helpers:ResourceString Name=Day}" />
-							</ComboBox>
+							</uc:ComboBoxEx>
 						</local:SettingsBlockControl>
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>

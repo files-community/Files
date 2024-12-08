@@ -3,11 +3,12 @@
 
 using System.Windows.Input;
 
-namespace Files.App.Data.Models
+namespace Files.App.ViewModels.UserControls
 {
-	public sealed class DirectoryPropertiesViewModel : ObservableObject
+	public sealed class StatusBarViewModel : ObservableObject
 	{
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private IDevToolsSettingsService DevToolsSettingsService = Ioc.Default.GetRequiredService<IDevToolsSettingsService>();
 
 		// The first branch will always be the active one.
 		public const int ACTIVE_BRANCH_INDEX = 0;
@@ -18,7 +19,7 @@ namespace Files.App.Data.Models
 
 		private readonly ObservableCollection<BranchItem> _remoteBranches = [];
 
-		public bool IsBranchesFlyoutExpaned { get; set; } = false;
+		public bool IsBranchesFlyoutExpanded { get; set; } = false;
 
 		private string? _DirectoryItemCount;
 		public string? DirectoryItemCount
@@ -80,6 +81,15 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref _ExtendedStatusInfo, value);
 		}
 
+		public bool ShowOpenInIDEButton
+		{
+			get
+			{
+				return DevToolsSettingsService.OpenInIDEOption == OpenInIDEOption.AllLocations ||
+					   (DevToolsSettingsService.OpenInIDEOption == OpenInIDEOption.GitRepos && GitBranchDisplayName is not null);
+			}
+		}
+
 		public ObservableCollection<BranchItem> Branches => _ShowLocals 
 			? _localBranches 
 			: _remoteBranches;
@@ -88,24 +98,36 @@ namespace Files.App.Data.Models
 
 		public ICommand NewBranchCommand { get; }
 
-		public DirectoryPropertiesViewModel()
+		public StatusBarViewModel()
 		{
 			NewBranchCommand = new AsyncRelayCommand(()
 				=> GitHelpers.CreateNewBranchAsync(_gitRepositoryPath!, _localBranches[ACTIVE_BRANCH_INDEX].Name));
+
+			DevToolsSettingsService.PropertyChanged += (s, e) =>
+			{
+				switch (e.PropertyName)
+				{
+					case nameof(DevToolsSettingsService.OpenInIDEOption):
+						OnPropertyChanged(nameof(ShowOpenInIDEButton));
+						break;
+				}
+			};
 		}
 
 		public void UpdateGitInfo(bool isGitRepository, string? repositoryPath, BranchItem? head)
 		{
-			GitBranchDisplayName = isGitRepository &&
-								head is not null &&
-								!ContentPageContext.ShellPage!.InstanceViewModel.IsPageTypeSearchResults
-				? head.Name
-				: null;
+			GitBranchDisplayName =
+				isGitRepository &&
+				head is not null &&
+				ContentPageContext.ShellPage is not null &&
+				!ContentPageContext.ShellPage.InstanceViewModel.IsPageTypeSearchResults
+					? head.Name
+					: null;
 
 			_gitRepositoryPath = repositoryPath;
 			
 			// Change ShowLocals value only if branches flyout is closed
-			if (!IsBranchesFlyoutExpaned)
+			if (!IsBranchesFlyoutExpanded)
 				ShowLocals = true;
 
 			var behind = head is not null ? head.BehindBy ?? 0 : 0;
@@ -113,6 +135,8 @@ namespace Files.App.Data.Models
 
 			ExtendedStatusInfo = string.Format("GitSyncStatusExtendedInfo".GetLocalizedResource(), ahead, behind);
 			StatusInfo = $"{ahead} / {behind}";
+
+			OnPropertyChanged(nameof(ShowOpenInIDEButton));
 		}
 
 		public async Task LoadBranches()

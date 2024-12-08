@@ -89,7 +89,7 @@ namespace Files.App.Utils.Storage
 					if (!string.IsNullOrEmpty(destFolder.Path))
 					{
 						var destination = IO.Path.Combine(destFolder.Path, desiredNewName);
-						var hFile = NativeFileOperationsHelper.CreateFileForWrite(destination,
+						var hFile = Win32Helper.CreateFileForWrite(destination,
 							option == NameCollisionOption.ReplaceExisting);
 						if (!hFile.IsInvalid)
 						{

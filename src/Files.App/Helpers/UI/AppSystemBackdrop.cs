@@ -2,12 +2,7 @@
 using Microsoft.UI.Composition.SystemBackdrops;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI;
 
 namespace Files.App.Helpers
@@ -47,11 +42,11 @@ namespace Files.App.Helpers
 		{
 			base.OnDefaultSystemBackdropConfigurationChanged(target, xamlRoot);
 			var configuration = GetDefaultSystemBackdropConfiguration(target, xamlRoot);
-			if (controller is not DesktopAcrylicController acrylicController || configuration.Theme == prevTheme)
+			if (controller is not DesktopAcrylicController acrylicController || acrylicController.Kind != DesktopAcrylicKind.Thin || configuration.Theme == prevTheme)
 				return;
 
 			prevTheme = configuration.Theme;
-			SetAcrylicBackdropProperties(acrylicController, configuration.Theme);
+			SetThinAcrylicBackdropProperties(acrylicController, configuration.Theme);
 		}
 
 		protected override void OnTargetDisconnected(ICompositionSupportsSystemBackdrop disconnectedTarget)
@@ -59,7 +54,17 @@ namespace Files.App.Helpers
 			base.OnTargetDisconnected(disconnectedTarget);
 			this.target = null!;
 			this.root = null!;
-			controller?.RemoveSystemBackdropTarget(disconnectedTarget);
+
+
+			try
+			{
+				controller?.RemoveSystemBackdropTarget(disconnectedTarget);
+			}
+			catch (ObjectDisposedException)
+			{
+				// Ignore errors when the controller is already disposed
+			}
+
 			controller?.Dispose();
 			userSettingsService.OnSettingChangedEvent -= OnSettingChanged;
 		}
@@ -103,8 +108,17 @@ namespace Files.App.Helpers
 					};
 
 				case BackdropMaterialType.Acrylic:
-					var acrylicController = new DesktopAcrylicController();
-					SetAcrylicBackdropProperties(acrylicController, theme);
+					return new DesktopAcrylicController()
+					{
+						Kind = DesktopAcrylicKind.Base,
+					};
+
+				case BackdropMaterialType.ThinAcrylic:
+					var acrylicController = new DesktopAcrylicController()
+					{
+						Kind = DesktopAcrylicKind.Thin
+					};
+					SetThinAcrylicBackdropProperties(acrylicController, theme);
 					return acrylicController;
 
 				default:
@@ -112,9 +126,9 @@ namespace Files.App.Helpers
 			}
 		}
 
-		private void SetAcrylicBackdropProperties(DesktopAcrylicController controller, SystemBackdropTheme theme)
+		private void SetThinAcrylicBackdropProperties(DesktopAcrylicController controller, SystemBackdropTheme theme)
 		{
-			// This sets all properties to work around a bug where other properties stop updating when fallback color is changed
+			// This sets all properties to work around other properties not updating when fallback color is changed
 			// This uses the Thin Acrylic recipe from the WinUI Figma toolkit
 
 			switch(theme)

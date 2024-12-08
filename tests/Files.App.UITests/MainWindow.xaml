@@ -1,0 +1,113 @@
+<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<Window
+	x:Class="Files.App.UITests.MainWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:Files.App.UITests"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Title="Files.App.Controls.UITests"
+	mc:Ignorable="d">
+
+	<Window.SystemBackdrop>
+		<MicaBackdrop Kind="BaseAlt" />
+	</Window.SystemBackdrop>
+
+	<Grid Background="{ThemeResource PageBackground}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="40" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<!--  Title bar  -->
+		<Grid
+			x:Name="FauxTitleBar"
+			Grid.Row="0"
+			HorizontalAlignment="Stretch">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition x:Name="TitleIcon" Width="48" />
+				<ColumnDefinition x:Name="TitleText" Width="Auto" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<controls:ThemedIcon
+				Grid.Column="0"
+				Width="16"
+				Height="16"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				IconColorType="Custom"
+				IconSize="16"
+				IsFilled="True"
+				Style="{StaticResource App.ThemedIcons.Settings.General.FilesDefault}">
+				<controls:ThemedIcon.Color>
+					<LinearGradientBrush StartPoint="0.3,0.3" EndPoint="1,1">
+						<GradientStop Offset="0.0" Color="#9F75D3" />
+						<GradientStop Offset="1.0" Color="#8661C5" />
+					</LinearGradientBrush>
+				</controls:ThemedIcon.Color>
+			</controls:ThemedIcon>
+
+			<TextBlock
+				Grid.Column="1"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+				Style="{ThemeResource CaptionTextBlockStyle}"
+				Text="Files UI Tests" />
+
+		</Grid>
+
+		<NavigationView
+			x:Name="MainNavigationView"
+			Grid.Row="1"
+			IsBackButtonVisible="Collapsed"
+			IsSettingsVisible="False"
+			OpenPaneLength="256"
+			SelectionChanged="NavigationView_SelectionChanged">
+
+			<NavigationView.MenuItems>
+				<NavigationViewItem Content="Controls">
+					<NavigationViewItem.Icon>
+						<FontIcon Glyph="&#xE73A;" />
+					</NavigationViewItem.Icon>
+					<NavigationViewItem.MenuItems>
+						<NavigationViewItem Content="ThemedIcon" Tag="ThemedIconPage" />
+						<NavigationViewItem Content="Storage Controls" Tag="StorageControlsPage" />
+					</NavigationViewItem.MenuItems>
+				</NavigationViewItem>
+			</NavigationView.MenuItems>
+
+			<NavigationView.Content>
+				<ScrollViewer>
+					<Frame x:Name="MainFrame" />
+				</ScrollViewer>
+			</NavigationView.Content>
+
+			<NavigationView.PaneFooter>
+				<Grid
+					Margin="8,2"
+					Padding="12,8"
+					Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+					CornerRadius="4"
+					Visibility="{Binding MainNavigationView.IsPaneOpen, Mode=OneWay}">
+					<TextBlock VerticalAlignment="Center" Text="Theme mode:" />
+					<ComboBox
+						x:Name="ThemeModeSelectorCombBox"
+						HorizontalAlignment="Right"
+						SelectedIndex="0"
+						SelectionChanged="ThemeModeSelectorCombBox_SelectionChanged">
+						<ComboBox.Items>
+							<ComboBoxItem Content="Default" />
+							<ComboBoxItem Content="Light" />
+							<ComboBoxItem Content="Dark" />
+						</ComboBox.Items>
+					</ComboBox>
+				</Grid>
+			</NavigationView.PaneFooter>
+
+		</NavigationView>
+	</Grid>
+
+</Window>

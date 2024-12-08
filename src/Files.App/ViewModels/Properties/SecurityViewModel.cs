@@ -3,13 +3,15 @@
 
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml;
-using Vanara.PInvoke;
 using Windows.Storage;
+using Windows.Win32.Foundation;
 
 namespace Files.App.ViewModels.Properties
 {
 	public sealed class SecurityViewModel : ObservableObject
 	{
+		private readonly IStorageSecurityService StorageSecurityService = Ioc.Default.GetRequiredService<IStorageSecurityService>();
+
 		private readonly PropertiesPageNavigationParameter _navigationParameter;
 
 		private readonly Window _window;
@@ -89,13 +91,13 @@ namespace Files.App.ViewModels.Properties
 					break;
 			};
 
-			var error = FileSecurityHelpers.GetAccessControlList(_path, _isFolder, out _AccessControlList);
+			var error = StorageSecurityService.GetAcl(_path, _isFolder, out _AccessControlList);
 			_SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();
 
 			if (!AccessControlList.IsValid)
 			{
 				DisplayElements = false;
-				ErrorMessage = error == Win32Error.ERROR_ACCESS_DENIED
+				ErrorMessage = error is WIN32_ERROR.ERROR_ACCESS_DENIED
 					? "SecurityRequireReadPermissions".GetLocalizedResource() + "\r\n" + "SecurityClickAdvancedPermissions".GetLocalizedResource()
 					: "SecurityUnableToDisplayPermissions".GetLocalizedResource();
 			}
@@ -119,10 +121,10 @@ namespace Files.App.ViewModels.Properties
 			await MainWindow.Instance.DispatcherQueue.EnqueueAsync(() =>
 			{
 				// Run Win32API
-				var win32Result = FileSecurityHelpers.AddAccessControlEntry(_path, sid);
+				var win32Result = StorageSecurityService.AddAce(_path, _isFolder, sid);
 
 				// Add a new ACE to the ACL
-				var ace = FileSecurityHelpers.InitializeDefaultAccessControlEntry(_isFolder, sid);
+				var ace = AccessControlEntry.GetDefault(_isFolder, sid);
 				AccessControlList.AccessControlEntries.Insert(0, ace);
 			});
 		}
@@ -135,7 +137,7 @@ namespace Files.App.ViewModels.Properties
 				var index = AccessControlList.AccessControlEntries.IndexOf(SelectedAccessControlEntry);
 
 				// Run Win32API
-				var win32Result = FileSecurityHelpers.RemoveAccessControlEntry(_path, (uint)index);
+				var win32Result = StorageSecurityService.DeleteAce(_path, (uint)index);
 
 				// Remove the ACE
 				AccessControlList.AccessControlEntries.Remove(SelectedAccessControlEntry);

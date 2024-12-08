@@ -11,6 +11,8 @@ namespace Files.App.Utils.Storage
 	/// </summary>
 	public sealed class ShellFilesystemOperations : IFilesystemOperations
 	{
+		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
+
 		private IShellPage _associatedInstance;
 
 		private FilesystemOperations _filesystemOperations;
@@ -358,7 +360,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 
 			var deleteFilePaths = source.Select(s => s.Path).Distinct();
-			var deleteFromRecycleBin = source.Any() && RecycleBinHelpers.IsPathUnderRecycleBin(source.ElementAt(0).Path);
+			var deleteFromRecycleBin = source.Any() && StorageTrashBinService.IsUnderTrashBin(source.ElementAt(0).Path);
 
 			permanently |= deleteFromRecycleBin;
 
@@ -385,7 +387,7 @@ namespace Files.App.Utils.Storage
 
 				foreach (var item in deleteResult.Items)
 				{
-					await _associatedInstance.FilesystemViewModel.RemoveFileOrFolderAsync(item.Source);
+					await _associatedInstance.ShellViewModel.RemoveFileOrFolderAsync(item.Source);
 				}
 
 				var recycledSources = deleteResult.Items.Where(x => x.Succeeded && x.Destination is not null && x.Source != x.Destination);
@@ -845,9 +847,9 @@ namespace Files.App.Utils.Storage
 			List<ShellFileItem> binItems = null;
 			foreach (var src in source)
 			{
-				if (RecycleBinHelpers.IsPathUnderRecycleBin(src))
+				if (StorageTrashBinService.IsUnderTrashBin(src))
 				{
-					binItems ??= await RecycleBinHelpers.EnumerateRecycleBin();
+					binItems ??= await StorageTrashBinService.GetAllRecycleBinFoldersAsync();
 
 					// Might still be null because we're deserializing the list from Json
 					if (!binItems.IsEmpty())

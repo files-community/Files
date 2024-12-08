@@ -295,7 +295,7 @@ namespace Files.App.Utils.Storage
 			}
 			else if (component.StartsWith(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.Ordinal))
 			{
-				title = "SidebarNetworkDrives".GetLocalizedResource();
+				title = "Network".GetLocalizedResource();
 			}
 			else if (component.EndsWith(':'))
 			{
@@ -416,7 +416,7 @@ namespace Files.App.Utils.Storage
 			var subPath = path.ToString().Substring(substringIndex);
 
 			path.Clear();
-			path.Append(context.ShellPage?.FilesystemViewModel.WorkingDirectory);
+			path.Append(context.ShellPage?.ShellViewModel.WorkingDirectory);
 			path.Append(separator);
 			path.Append(subPath);
 			i = -1;

@@ -20,27 +20,35 @@ namespace Files.App.Data.Commands
 
 		// Show
 		ToggleShowHiddenItems,
+		ToggleDotFilesSetting,
 		ToggleShowFileExtensions,
 		TogglePreviewPane,
 		ToggleDetailsPane,
 		ToggleInfoPane,
+		ToggleToolbar,
 
 		// File System
 		CopyItem,
+		CopyItemPath,
 		CopyPath,
+		CopyItemPathWithQuotes,
 		CopyPathWithQuotes,
 		CutItem,
 		PasteItem,
+		PasteItemAsShortcut,
 		PasteItemToSelection,
 		DeleteItem,
 		DeleteItemPermanently,
 		CreateFolder,
 		CreateFolderWithSelection,
 		AddItem,
+		CreateAlternateDataStream,
 		CreateShortcut,
 		CreateShortcutFromDialog,
 		EmptyRecycleBin,
 		FormatDrive,
+		FormatDriveFromHome,
+		FormatDriveFromSidebar,
 		RestoreRecycleBin,
 		RestoreAllRecycleBin,
 		OpenItem,
@@ -71,6 +79,7 @@ namespace Files.App.Data.Commands
 		SetAsWallpaperBackground,
 		SetAsSlideshowBackground,
 		SetAsLockscreenBackground,
+		SetAsAppBackground,
 
 		// Install
 		InstallFont,
@@ -94,6 +103,9 @@ namespace Files.App.Data.Commands
 		DecompressArchiveHereSmart,
 		DecompressArchiveToChildFolder,
 
+		// Folders
+		FlattenFolder,
+
 		// Image Manipulation
 		RotateLeft,
 		RotateRight,
@@ -102,10 +114,18 @@ namespace Files.App.Data.Commands
 		OpenInVSCode,
 		OpenRepoInVSCode,
 		OpenProperties,
+		OpenReleaseNotes,
+		OpenClassicProperties,
 		OpenSettings,
+		OpenStorageSense,
+		OpenStorageSenseFromHome,
+		OpenStorageSenseFromSidebar,
 		OpenTerminal,
 		OpenTerminalAsAdmin,
+		OpenTerminalFromSidebar,
+		OpenTerminalFromHome,
 		OpenCommandPalette,
+		EditInNotepad,
 
 		// Layout
 		LayoutDecreaseSize,
@@ -169,6 +189,7 @@ namespace Files.App.Data.Commands
 		NavigateBack,
 		NavigateForward,
 		NavigateUp,
+		NavigateHome,
 
 		// Other
 		DuplicateCurrentTab,
@@ -179,15 +200,30 @@ namespace Files.App.Data.Commands
 		CloseTabsToTheRightSelected,
 		CloseOtherTabsCurrent,
 		CloseOtherTabsSelected,
-		OpenDirectoryInNewPane,
-		OpenDirectoryInNewTab,
-		OpenInNewWindowItem,
 		ReopenClosedTab,
 		PreviousTab,
 		NextTab,
 		CloseSelectedTab,
-		OpenNewPane,
-		ClosePane,
+		CloseAllTabs,
+
+		// Shell Panes
+		CloseActivePane,
+		FocusOtherPane,
+		AddVerticalPane,
+		AddHorizontalPane,
+		ArrangePanesVertically,
+		ArrangePanesHorizontally,
+
+		// OpenInNew
+		OpenInNewPane,
+		OpenInNewPaneFromHome,
+		OpenInNewPaneFromSidebar,
+		OpenInNewTab,
+		OpenInNewTabFromHome,
+		OpenInNewTabFromSidebar,
+		OpenInNewWindow,
+		OpenInNewWindowFromHome,
+		OpenInNewWindowFromSidebar,
 
 		// Play
 		PlayAll,

@@ -18,7 +18,7 @@ namespace Files.App.Actions
 			=> "AddItemDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "ColorIconNew");
+			=> new(themedIconStyle: "App.ThemedIcons.New.Item");
 
 		public HotKey HotKey
 			=> new(Keys.I, KeyModifiers.CtrlShift);
@@ -34,7 +34,7 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync()
+		public async Task ExecuteAsync(object? parameter = null)
 		{
 			await dialogService.ShowDialogAsync(viewModel);
 

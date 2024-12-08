@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "SelectAllDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new("\uE8B3");
+			=> new(themedIconStyle: "App.ThemedIcons.SelectAll");
 
 		public HotKey HotKey
 			=> new(Keys.A, KeyModifiers.Ctrl);
@@ -30,7 +30,7 @@ namespace Files.App.Actions
 				if (page is null)
 					return false;
 
-				int itemCount = page.FilesystemViewModel.FilesAndFolders.Count;
+				int itemCount = page.ShellViewModel.FilesAndFolders.Count;
 				int selectedItemCount = context.SelectedItems.Count;
 				if (itemCount == selectedItemCount)
 					return false;
@@ -48,7 +48,7 @@ namespace Files.App.Actions
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.SelectAllItems();
 

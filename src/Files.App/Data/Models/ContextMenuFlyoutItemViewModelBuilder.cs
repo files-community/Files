@@ -67,11 +67,11 @@ namespace Files.App.Data.Models
 			};
 
 			var glyph = command.Glyph;
-			if (!string.IsNullOrEmpty(glyph.OpacityStyle))
+			if (!string.IsNullOrEmpty(glyph.ThemedIconStyle))
 			{
-				viewModel.OpacityIcon = new OpacityIconModel
+				viewModel.ThemedIconModel = new ThemedIconModel
 				{
-					OpacityIconStyle = glyph.OpacityStyle,
+					ThemedIconStyle = glyph.ThemedIconStyle,
 				};
 			}
 			else

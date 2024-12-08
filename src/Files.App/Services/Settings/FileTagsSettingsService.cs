@@ -7,7 +7,6 @@ using Files.App.Helpers;
 using Files.App.Utils.Serialization;
 using Files.App.Utils.Serialization.Implementation;
 using Files.App.Services.Settings;
-using Files.App.ViewModels.FileTags;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.Storage;
@@ -31,11 +30,12 @@ namespace Files.App.Services.Settings
 		public FileTagsSettingsService()
 		{
 			SettingsSerializer = new DefaultSettingsSerializer();
-			JsonSettingsSerializer = new DefaultJsonSettingsSerializer();
-			JsonSettingsDatabase = new CachingJsonSettingsDatabase(SettingsSerializer, JsonSettingsSerializer);
 
 			Initialize(Path.Combine(ApplicationData.Current.LocalFolder.Path,
 				Constants.LocalSettings.SettingsFolderName, Constants.LocalSettings.FileTagSettingsFileName));
+
+			JsonSettingsSerializer = new DefaultJsonSettingsSerializer();
+			JsonSettingsDatabase = new CachingJsonSettingsDatabase(SettingsSerializer, JsonSettingsSerializer);
 		}
 
 		public IList<TagViewModel> FileTagList

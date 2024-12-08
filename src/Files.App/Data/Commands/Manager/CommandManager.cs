@@ -1,13 +1,10 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Files.App.Actions;
+using Microsoft.Extensions.Logging;
 using System.Collections.Frozen;
 using System.Collections.Immutable;
-using Files.App.Actions;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.Data.Commands
 {
@@ -15,12 +12,12 @@ namespace Files.App.Data.Commands
 	{
 		// Dependency injections
 
-		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+		private IActionsSettingsService ActionsSettingsService { get; } = Ioc.Default.GetRequiredService<IActionsSettingsService>();
 
 		// Fields
 
 		private readonly FrozenDictionary<CommandCodes, IRichCommand> commands;
-		private ImmutableDictionary<HotKey, IRichCommand> hotKeys = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
+		private ImmutableDictionary<HotKey, IRichCommand> _allKeyBindings = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
 
 		public IRichCommand this[CommandCodes code] => commands.TryGetValue(code, out var command) ? command : None;
 		public IRichCommand this[string code]
@@ -38,10 +35,11 @@ namespace Files.App.Data.Commands
 			}
 		}
 		public IRichCommand this[HotKey hotKey]
-			=> hotKeys.TryGetValue(hotKey with { IsVisible = true }, out var command) ? command
-			: hotKeys.TryGetValue(hotKey with { IsVisible = false }, out command) ? command
+			=> _allKeyBindings.TryGetValue(hotKey with { IsVisible = true }, out var command) ? command
+			: _allKeyBindings.TryGetValue(hotKey with { IsVisible = false }, out command) ? command
 			: None;
 
+		#region Commands
 		public IRichCommand None => commands[CommandCodes.None];
 		public IRichCommand OpenHelp => commands[CommandCodes.OpenHelp];
 		public IRichCommand ToggleFullScreen => commands[CommandCodes.ToggleFullScreen];
@@ -53,10 +51,12 @@ namespace Files.App.Data.Commands
 		public IRichCommand Redo => commands[CommandCodes.Redo];
 		public IRichCommand Undo => commands[CommandCodes.Undo];
 		public IRichCommand ToggleShowHiddenItems => commands[CommandCodes.ToggleShowHiddenItems];
+		public IRichCommand ToggleDotFilesSetting => commands[CommandCodes.ToggleDotFilesSetting];
 		public IRichCommand ToggleShowFileExtensions => commands[CommandCodes.ToggleShowFileExtensions];
 		public IRichCommand TogglePreviewPane => commands[CommandCodes.TogglePreviewPane];
 		public IRichCommand ToggleDetailsPane => commands[CommandCodes.ToggleDetailsPane];
 		public IRichCommand ToggleInfoPane => commands[CommandCodes.ToggleInfoPane];
+		public IRichCommand ToggleToolbar => commands[CommandCodes.ToggleToolbar];
 		public IRichCommand SelectAll => commands[CommandCodes.SelectAll];
 		public IRichCommand InvertSelection => commands[CommandCodes.InvertSelection];
 		public IRichCommand ClearSelection => commands[CommandCodes.ClearSelection];
@@ -67,6 +67,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand RestoreAllRecycleBin => commands[CommandCodes.RestoreAllRecycleBin];
 		public IRichCommand RefreshItems => commands[CommandCodes.RefreshItems];
 		public IRichCommand Rename => commands[CommandCodes.Rename];
+		public IRichCommand CreateAlternateDataStream => commands[CommandCodes.CreateAlternateDataStream];
 		public IRichCommand CreateShortcut => commands[CommandCodes.CreateShortcut];
 		public IRichCommand CreateShortcutFromDialog => commands[CommandCodes.CreateShortcutFromDialog];
 		public IRichCommand CreateFolder => commands[CommandCodes.CreateFolder];
@@ -79,11 +80,15 @@ namespace Files.App.Data.Commands
 		public IRichCommand SetAsWallpaperBackground => commands[CommandCodes.SetAsWallpaperBackground];
 		public IRichCommand SetAsSlideshowBackground => commands[CommandCodes.SetAsSlideshowBackground];
 		public IRichCommand SetAsLockscreenBackground => commands[CommandCodes.SetAsLockscreenBackground];
+		public IRichCommand SetAsAppBackground => commands[CommandCodes.SetAsAppBackground];
 		public IRichCommand CopyItem => commands[CommandCodes.CopyItem];
+		public IRichCommand CopyItemPath => commands[CommandCodes.CopyItemPath];
 		public IRichCommand CopyPath => commands[CommandCodes.CopyPath];
+		public IRichCommand CopyItemPathWithQuotes => commands[CommandCodes.CopyItemPathWithQuotes];
 		public IRichCommand CopyPathWithQuotes => commands[CommandCodes.CopyPathWithQuotes];
 		public IRichCommand CutItem => commands[CommandCodes.CutItem];
 		public IRichCommand PasteItem => commands[CommandCodes.PasteItem];
+		public IRichCommand PasteItemAsShortcut => commands[CommandCodes.PasteItemAsShortcut];
 		public IRichCommand PasteItemToSelection => commands[CommandCodes.PasteItemToSelection];
 		public IRichCommand DeleteItem => commands[CommandCodes.DeleteItem];
 		public IRichCommand DeleteItemPermanently => commands[CommandCodes.DeleteItemPermanently];
@@ -101,6 +106,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand DecompressArchiveHere => commands[CommandCodes.DecompressArchiveHere];
 		public IRichCommand DecompressArchiveHereSmart => commands[CommandCodes.DecompressArchiveHereSmart];
 		public IRichCommand DecompressArchiveToChildFolder => commands[CommandCodes.DecompressArchiveToChildFolder];
+		public IRichCommand FlattenFolder => commands[CommandCodes.FlattenFolder];
 		public IRichCommand RotateLeft => commands[CommandCodes.RotateLeft];
 		public IRichCommand RotateRight => commands[CommandCodes.RotateRight];
 		public IRichCommand OpenItem => commands[CommandCodes.OpenItem];
@@ -109,10 +115,18 @@ namespace Files.App.Data.Commands
 		public IRichCommand OpenInVSCode => commands[CommandCodes.OpenInVSCode];
 		public IRichCommand OpenRepoInVSCode => commands[CommandCodes.OpenRepoInVSCode];
 		public IRichCommand OpenProperties => commands[CommandCodes.OpenProperties];
+		public IRichCommand OpenReleaseNotes => commands[CommandCodes.OpenReleaseNotes];
+		public IRichCommand OpenClassicProperties => commands[CommandCodes.OpenClassicProperties];
+		public IRichCommand OpenStorageSense => commands[CommandCodes.OpenStorageSense];
+		public IRichCommand OpenStorageSenseFromHome => commands[CommandCodes.OpenStorageSenseFromHome];
+		public IRichCommand OpenStorageSenseFromSidebar => commands[CommandCodes.OpenStorageSenseFromSidebar];
 		public IRichCommand OpenSettings => commands[CommandCodes.OpenSettings];
 		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
 		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
+		public IRichCommand OpenTerminalFromSidebar => commands[CommandCodes.OpenTerminalFromSidebar];
+		public IRichCommand OpenTerminalFromHome => commands[CommandCodes.OpenTerminalFromHome];
 		public IRichCommand OpenCommandPalette => commands[CommandCodes.OpenCommandPalette];
+		public IRichCommand EditInNotepad => commands[CommandCodes.EditInNotepad];
 		public IRichCommand LayoutDecreaseSize => commands[CommandCodes.LayoutDecreaseSize];
 		public IRichCommand LayoutIncreaseSize => commands[CommandCodes.LayoutIncreaseSize];
 		public IRichCommand LayoutDetails => commands[CommandCodes.LayoutDetails];
@@ -166,9 +180,12 @@ namespace Files.App.Data.Commands
 		public IRichCommand NewWindow => commands[CommandCodes.NewWindow];
 		public IRichCommand NewTab => commands[CommandCodes.NewTab];
 		public IRichCommand FormatDrive => commands[CommandCodes.FormatDrive];
+		public IRichCommand FormatDriveFromHome => commands[CommandCodes.FormatDriveFromHome];
+		public IRichCommand FormatDriveFromSidebar => commands[CommandCodes.FormatDriveFromSidebar];
 		public IRichCommand NavigateBack => commands[CommandCodes.NavigateBack];
 		public IRichCommand NavigateForward => commands[CommandCodes.NavigateForward];
 		public IRichCommand NavigateUp => commands[CommandCodes.NavigateUp];
+		public IRichCommand NavigateHome => commands[CommandCodes.NavigateHome];
 		public IRichCommand DuplicateCurrentTab => commands[CommandCodes.DuplicateCurrentTab];
 		public IRichCommand DuplicateSelectedTab => commands[CommandCodes.DuplicateSelectedTab];
 		public IRichCommand CloseTabsToTheLeftCurrent => commands[CommandCodes.CloseTabsToTheLeftCurrent];
@@ -177,15 +194,26 @@ namespace Files.App.Data.Commands
 		public IRichCommand CloseTabsToTheRightSelected => commands[CommandCodes.CloseTabsToTheRightSelected];
 		public IRichCommand CloseOtherTabsCurrent => commands[CommandCodes.CloseOtherTabsCurrent];
 		public IRichCommand CloseOtherTabsSelected => commands[CommandCodes.CloseOtherTabsSelected];
-		public IRichCommand OpenDirectoryInNewPaneAction => commands[CommandCodes.OpenDirectoryInNewPane];
-		public IRichCommand OpenDirectoryInNewTabAction => commands[CommandCodes.OpenDirectoryInNewTab];
-		public IRichCommand OpenInNewWindowItemAction => commands[CommandCodes.OpenInNewWindowItem];
+		public IRichCommand CloseAllTabs => commands[CommandCodes.CloseAllTabs];
+		public IRichCommand OpenInNewPaneAction => commands[CommandCodes.OpenInNewPane];
+		public IRichCommand OpenInNewPaneFromHomeAction => commands[CommandCodes.OpenInNewPaneFromHome];
+		public IRichCommand OpenInNewPaneFromSidebarAction => commands[CommandCodes.OpenInNewPaneFromSidebar];
+		public IRichCommand OpenInNewTabAction => commands[CommandCodes.OpenInNewTab];
+		public IRichCommand OpenInNewTabFromHomeAction => commands[CommandCodes.OpenInNewTabFromHome];
+		public IRichCommand OpenInNewTabFromSidebarAction => commands[CommandCodes.OpenInNewTabFromSidebar];
+		public IRichCommand OpenInNewWindowAction => commands[CommandCodes.OpenInNewWindow];
+		public IRichCommand OpenInNewWindowFromHomeAction => commands[CommandCodes.OpenInNewWindowFromHome];
+		public IRichCommand OpenInNewWindowFromSidebarAction => commands[CommandCodes.OpenInNewWindowFromSidebar];
 		public IRichCommand ReopenClosedTab => commands[CommandCodes.ReopenClosedTab];
 		public IRichCommand PreviousTab => commands[CommandCodes.PreviousTab];
 		public IRichCommand NextTab => commands[CommandCodes.NextTab];
 		public IRichCommand CloseSelectedTab => commands[CommandCodes.CloseSelectedTab];
-		public IRichCommand OpenNewPane => commands[CommandCodes.OpenNewPane];
-		public IRichCommand ClosePane => commands[CommandCodes.ClosePane];
+		public IRichCommand CloseActivePane => commands[CommandCodes.CloseActivePane];
+		public IRichCommand FocusOtherPane => commands[CommandCodes.FocusOtherPane];
+		public IRichCommand AddVerticalPane => commands[CommandCodes.AddVerticalPane];
+		public IRichCommand AddHorizontalPane => commands[CommandCodes.AddHorizontalPane];
+		public IRichCommand ArrangePanesVertically => commands[CommandCodes.ArrangePanesVertically];
+		public IRichCommand ArrangePanesHorizontally => commands[CommandCodes.ArrangePanesHorizontally];
 		public IRichCommand OpenFileLocation => commands[CommandCodes.OpenFileLocation];
 		public IRichCommand PlayAll => commands[CommandCodes.PlayAll];
 		public IRichCommand GitFetch => commands[CommandCodes.GitFetch];
@@ -194,6 +222,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand GitPush => commands[CommandCodes.GitPush];
 		public IRichCommand GitSync => commands[CommandCodes.GitSync];
 		public IRichCommand OpenAllTaggedItems => commands[CommandCodes.OpenAllTaggedItems];
+		#endregion
 
 		public CommandManager()
 		{
@@ -203,8 +232,9 @@ namespace Files.App.Data.Commands
 				.Append(new NoneCommand())
 				.ToFrozenDictionary(command => command.Code);
 
-			GeneralSettingsService.PropertyChanged += Settings_PropertyChanged;
-			UpdateHotKeys();
+			ActionsSettingsService.PropertyChanged += (s, e) => { OverwriteKeyBindings(); };
+
+			OverwriteKeyBindings();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -212,7 +242,7 @@ namespace Files.App.Data.Commands
 		public IEnumerator<IRichCommand> GetEnumerator() =>
 			(commands.Values as IEnumerable<IRichCommand>).GetEnumerator();
 
-		private static Dictionary<CommandCodes, IAction> CreateActions() => new Dictionary<CommandCodes, IAction>
+		private static Dictionary<CommandCodes, IAction> CreateActions() => new()
 		{
 			[CommandCodes.OpenHelp] = new OpenHelpAction(),
 			[CommandCodes.ToggleFullScreen] = new ToggleFullScreenAction(),
@@ -224,10 +254,12 @@ namespace Files.App.Data.Commands
 			[CommandCodes.Redo] = new RedoAction(),
 			[CommandCodes.Undo] = new UndoAction(),
 			[CommandCodes.ToggleShowHiddenItems] = new ToggleShowHiddenItemsAction(),
+			[CommandCodes.ToggleDotFilesSetting] = new ToggleDotFilesSettingAction(),
 			[CommandCodes.ToggleShowFileExtensions] = new ToggleShowFileExtensionsAction(),
 			[CommandCodes.TogglePreviewPane] = new TogglePreviewPaneAction(),
 			[CommandCodes.ToggleDetailsPane] = new ToggleDetailsPaneAction(),
 			[CommandCodes.ToggleInfoPane] = new ToggleInfoPaneAction(),
+			[CommandCodes.ToggleToolbar] = new ToggleToolbarAction(),
 			[CommandCodes.SelectAll] = new SelectAllAction(),
 			[CommandCodes.InvertSelection] = new InvertSelectionAction(),
 			[CommandCodes.ClearSelection] = new ClearSelectionAction(),
@@ -238,6 +270,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.RestoreAllRecycleBin] = new RestoreAllRecycleBinAction(),
 			[CommandCodes.RefreshItems] = new RefreshItemsAction(),
 			[CommandCodes.Rename] = new RenameAction(),
+			[CommandCodes.CreateAlternateDataStream] = new CreateAlternateDataStreamAction(),
 			[CommandCodes.CreateShortcut] = new CreateShortcutAction(),
 			[CommandCodes.CreateShortcutFromDialog] = new CreateShortcutFromDialogAction(),
 			[CommandCodes.CreateFolder] = new CreateFolderAction(),
@@ -250,11 +283,15 @@ namespace Files.App.Data.Commands
 			[CommandCodes.SetAsWallpaperBackground] = new SetAsWallpaperBackgroundAction(),
 			[CommandCodes.SetAsSlideshowBackground] = new SetAsSlideshowBackgroundAction(),
 			[CommandCodes.SetAsLockscreenBackground] = new SetAsLockscreenBackgroundAction(),
+			[CommandCodes.SetAsAppBackground] = new SetAsAppBackgroundAction(),
 			[CommandCodes.CopyItem] = new CopyItemAction(),
+			[CommandCodes.CopyItemPath] = new CopyItemPathAction(),
 			[CommandCodes.CopyPath] = new CopyPathAction(),
+			[CommandCodes.CopyItemPathWithQuotes] = new CopyItemPathWithQuotesAction(),
 			[CommandCodes.CopyPathWithQuotes] = new CopyPathWithQuotesAction(),
 			[CommandCodes.CutItem] = new CutItemAction(),
 			[CommandCodes.PasteItem] = new PasteItemAction(),
+			[CommandCodes.PasteItemAsShortcut] = new PasteItemAsShortcutAction(),
 			[CommandCodes.PasteItemToSelection] = new PasteItemToSelectionAction(),
 			[CommandCodes.DeleteItem] = new DeleteItemAction(),
 			[CommandCodes.DeleteItemPermanently] = new DeleteItemPermanentlyAction(),
@@ -272,6 +309,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.DecompressArchiveHere] = new DecompressArchiveHere(),
 			[CommandCodes.DecompressArchiveHereSmart] = new DecompressArchiveHereSmart(),
 			[CommandCodes.DecompressArchiveToChildFolder] = new DecompressArchiveToChildFolderAction(),
+			[CommandCodes.FlattenFolder] = new FlattenFolderAction(),
 			[CommandCodes.RotateLeft] = new RotateLeftAction(),
 			[CommandCodes.RotateRight] = new RotateRightAction(),
 			[CommandCodes.OpenItem] = new OpenItemAction(),
@@ -280,10 +318,18 @@ namespace Files.App.Data.Commands
 			[CommandCodes.OpenInVSCode] = new OpenInVSCodeAction(),
 			[CommandCodes.OpenRepoInVSCode] = new OpenRepoInVSCodeAction(),
 			[CommandCodes.OpenProperties] = new OpenPropertiesAction(),
+			[CommandCodes.OpenReleaseNotes] = new OpenReleaseNotesAction(),
+			[CommandCodes.OpenClassicProperties] = new OpenClassicPropertiesAction(),
+			[CommandCodes.OpenStorageSense] = new OpenStorageSenseAction(),
+			[CommandCodes.OpenStorageSenseFromHome] = new OpenStorageSenseFromHomeAction(),
+			[CommandCodes.OpenStorageSenseFromSidebar] = new OpenStorageSenseFromSidebarAction(),
 			[CommandCodes.OpenSettings] = new OpenSettingsAction(),
 			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
 			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
+			[CommandCodes.OpenTerminalFromSidebar] = new OpenTerminalFromSidebarAction(),
+			[CommandCodes.OpenTerminalFromHome] = new OpenTerminalFromHomeAction(),
 			[CommandCodes.OpenCommandPalette] = new OpenCommandPaletteAction(),
+			[CommandCodes.EditInNotepad] = new EditInNotepadAction(),
 			[CommandCodes.LayoutDecreaseSize] = new LayoutDecreaseSizeAction(),
 			[CommandCodes.LayoutIncreaseSize] = new LayoutIncreaseSizeAction(),
 			[CommandCodes.LayoutDetails] = new LayoutDetailsAction(),
@@ -337,9 +383,12 @@ namespace Files.App.Data.Commands
 			[CommandCodes.NewWindow] = new NewWindowAction(),
 			[CommandCodes.NewTab] = new NewTabAction(),
 			[CommandCodes.FormatDrive] = new FormatDriveAction(),
+			[CommandCodes.FormatDriveFromHome] = new FormatDriveFromHomeAction(),
+			[CommandCodes.FormatDriveFromSidebar] = new FormatDriveFromSidebarAction(),
 			[CommandCodes.NavigateBack] = new NavigateBackAction(),
 			[CommandCodes.NavigateForward] = new NavigateForwardAction(),
 			[CommandCodes.NavigateUp] = new NavigateUpAction(),
+			[CommandCodes.NavigateHome] = new NavigateHomeAction(),
 			[CommandCodes.DuplicateCurrentTab] = new DuplicateCurrentTabAction(),
 			[CommandCodes.DuplicateSelectedTab] = new DuplicateSelectedTabAction(),
 			[CommandCodes.CloseTabsToTheLeftCurrent] = new CloseTabsToTheLeftCurrentAction(),
@@ -348,15 +397,26 @@ namespace Files.App.Data.Commands
 			[CommandCodes.CloseTabsToTheRightSelected] = new CloseTabsToTheRightSelectedAction(),
 			[CommandCodes.CloseOtherTabsCurrent] = new CloseOtherTabsCurrentAction(),
 			[CommandCodes.CloseOtherTabsSelected] = new CloseOtherTabsSelectedAction(),
-			[CommandCodes.OpenDirectoryInNewPane] = new OpenDirectoryInNewPaneAction(),
-			[CommandCodes.OpenDirectoryInNewTab] = new OpenDirectoryInNewTabAction(),
-			[CommandCodes.OpenInNewWindowItem] = new OpenInNewWindowItemAction(),
+			[CommandCodes.CloseAllTabs] = new CloseAllTabsAction(),
+			[CommandCodes.OpenInNewPane] = new OpenInNewPaneAction(),
+			[CommandCodes.OpenInNewPaneFromHome] = new OpenInNewPaneFromHomeAction(),
+			[CommandCodes.OpenInNewPaneFromSidebar] = new OpenInNewPaneFromSidebarAction(),
+			[CommandCodes.OpenInNewTab] = new OpenInNewTabAction(),
+			[CommandCodes.OpenInNewTabFromHome] = new OpenInNewTabFromHomeAction(),
+			[CommandCodes.OpenInNewTabFromSidebar] = new OpenInNewTabFromSidebarAction(),
+			[CommandCodes.OpenInNewWindow] = new OpenInNewWindowAction(),
+			[CommandCodes.OpenInNewWindowFromHome] = new OpenInNewWindowFromHomeAction(),
+			[CommandCodes.OpenInNewWindowFromSidebar] = new OpenInNewWindowFromSidebarAction(),
 			[CommandCodes.ReopenClosedTab] = new ReopenClosedTabAction(),
 			[CommandCodes.PreviousTab] = new PreviousTabAction(),
 			[CommandCodes.NextTab] = new NextTabAction(),
 			[CommandCodes.CloseSelectedTab] = new CloseSelectedTabAction(),
-			[CommandCodes.OpenNewPane] = new OpenNewPaneAction(),
-			[CommandCodes.ClosePane] = new ClosePaneAction(),
+			[CommandCodes.CloseActivePane] = new CloseActivePaneAction(),
+			[CommandCodes.FocusOtherPane] = new FocusOtherPaneAction(),
+			[CommandCodes.AddVerticalPane] = new AddVerticalPaneAction(),
+			[CommandCodes.AddHorizontalPane] = new AddHorizontalPaneAction(),
+			[CommandCodes.ArrangePanesVertically] = new ArrangePanesVerticallyAction(),
+			[CommandCodes.ArrangePanesHorizontally] = new ArrangePanesHorizontallyAction(),
 			[CommandCodes.OpenFileLocation] = new OpenFileLocationAction(),
 			[CommandCodes.PlayAll] = new PlayAllAction(),
 			[CommandCodes.GitFetch] = new GitFetchAction(),
@@ -368,229 +428,101 @@ namespace Files.App.Data.Commands
 		};
 
 		/// <summary>
-		/// Replace default hotkey collection with customized one(s) if exists.
+		/// Replaces default key binding collection with customized one(s) if exists.
 		/// </summary>
-		private void UpdateHotKeys()
+		private void OverwriteKeyBindings()
 		{
-			if (GeneralSettingsService.Actions is null)
-				return;
+			var allCommands = commands.Values.OfType<ActionCommand>();
 
-			var useds = new HashSet<HotKey>();
-
-			var customs = new Dictionary<CommandCodes, HotKeyCollection>();
-
-			// Get custom hotkeys from the user settings
-			foreach (var custom in GeneralSettingsService.Actions)
+			if (ActionsSettingsService.ActionsV2 is null)
 			{
-				if (Enum.TryParse(custom.Key, true, out CommandCodes code))
+				allCommands.ForEach(x => x.RestoreKeyBindings());
+			}
+			else
+			{
+				foreach (var command in allCommands)
 				{
-					if (code is CommandCodes.None)
-						continue;
+					var customizedKeyBindings = ActionsSettingsService.ActionsV2.FindAll(x => x.CommandCode == command.Code.ToString());
 
-					// Parse and add the hotkeys
-					var hotKeys = new HotKeyCollection(HotKeyCollection.Parse(custom.Value, false).Except(useds));
-					customs.Add(code, new(hotKeys));
-
-					foreach (var hotKey in hotKeys)
+					if (customizedKeyBindings.IsEmpty())
 					{
-						useds.Add(hotKey with { IsVisible = true });
-						useds.Add(hotKey with { IsVisible = false });
+						// Could not find customized key bindings for the command
+						command.RestoreKeyBindings();
+					}
+					else if (customizedKeyBindings.Count == 1 && customizedKeyBindings[0].KeyBinding == string.Empty)
+					{
+						// Do not assign any key binding even though there're default keys pre-defined
+						command.OverwriteKeyBindings(HotKeyCollection.Empty);
+					}
+					else
+					{
+						var keyBindings = new HotKeyCollection(customizedKeyBindings.Select(x => HotKey.Parse(x.KeyBinding, false)));
+						command.OverwriteKeyBindings(keyBindings);
 					}
 				}
 			}
 
-			foreach (var command in commands.Values.OfType<ActionCommand>())
+			try
 			{
-				bool isCustom = customs.ContainsKey(command.Code);
-
-				var hotkeys = isCustom
-					? customs[command.Code]
-					: new HotKeyCollection(GetHotKeys(command.Action).Except(useds));
-
-				// Replace with custom hotkeys
-				command.UpdateHotKeys(isCustom, hotkeys);
+				// Set collection of a set of command code and key bindings to dictionary
+				_allKeyBindings = commands.Values
+					.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
+					.ToImmutableDictionary(item => item.HotKey, item => item.Command);
 			}
+			catch (ArgumentException ex)
+			{
+				// The keys are not necessarily all different because they can be set manually in text editor
+				// ISSUE: https://github.com/files-community/Files/issues/15331
 
-			hotKeys = commands.Values
-				.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
-				.ToImmutableDictionary(item => item.HotKey, item => item.Command);
+				var flat = commands.Values.SelectMany(x => x.HotKeys).Select(x => x.LocalizedLabel);
+				var duplicates = flat.GroupBy(x => x).Where(x => x.Count() > 1).Select(group => group.Key);
+
+				foreach (var item in duplicates)
+				{
+					if (!string.IsNullOrEmpty(item))
+					{
+						var occurrences = allCommands.Where(x => x.HotKeys.Select(x => x.LocalizedLabel).Contains(item));
+
+						// Restore the defaults for all occurrences in our cache
+						occurrences.ForEach(x => x.RestoreKeyBindings());
+
+						// Get all customized key bindings from user settings json
+						var actions =
+							ActionsSettingsService.ActionsV2 is not null
+								? new List<ActionWithParameterItem>(ActionsSettingsService.ActionsV2)
+								: [];
+
+						// Remove the duplicated key binding from user settings JSON file
+						actions.RemoveAll(x => x.KeyBinding.Contains(item));
+
+						// Reset
+						ActionsSettingsService.ActionsV2 = actions;
+					}
+				}
+
+				// Set collection of a set of command code and key bindings to dictionary
+				_allKeyBindings = commands.Values
+					.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
+					.ToImmutableDictionary(item => item.HotKey, item => item.Command);
+
+				App.Logger.LogInformation(ex, "The app found some keys in different commands are duplicated and are using default key bindings for those commands.");
+			}
+			catch (Exception ex)
+			{
+				allCommands.ForEach(x => x.RestoreKeyBindings());
+
+				// Set collection of a set of command code and key bindings to dictionary
+				_allKeyBindings = commands.Values
+					.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
+					.ToImmutableDictionary(item => item.HotKey, item => item.Command);
+
+				App.Logger.LogWarning(ex, "The app is temporarily using default key bindings for all because of a serious error of assigning custom keys.");
+			}
 		}
 
-		public static HotKeyCollection GetHotKeys(IAction action)
-			=> new(action.HotKey, action.SecondHotKey, action.ThirdHotKey, action.MediaHotKey);
-
-		private void Settings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		public static HotKeyCollection GetDefaultKeyBindings(IAction action)
 		{
-			if (e.PropertyName is nameof(IGeneralSettingsService.Actions))
-				UpdateHotKeys();
-		}
-
-		// TODO: Move to a new file
-		[DebuggerDisplay("Command {Code}")]
-		internal sealed class ActionCommand : ObservableObject, IRichCommand
-		{
-			private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
-
-			public event EventHandler? CanExecuteChanged;
-
-			private readonly CommandManager manager;
-
-			public IAction Action { get; }
-			public CommandCodes Code { get; }
-
-			public string Label => Action.Label;
-			public string LabelWithHotKey => HotKeyText is null ? Label : $"{Label} ({HotKeyText})";
-			public string AutomationName => Label;
-
-			public string Description => Action.Description;
-
-			public RichGlyph Glyph => Action.Glyph;
-			public object? Icon { get; }
-			public FontIcon? FontIcon { get; }
-			public Style? OpacityStyle { get; }
-
-			private bool isCustomHotKeys = false;
-			public bool IsCustomHotKeys => isCustomHotKeys;
-
-			public string? HotKeyText
-			{
-				get
-				{
-					string text = HotKeys.LocalizedLabel;
-					if (string.IsNullOrEmpty(text))
-						return null;
-					return text;
-				}
-			}
-
-			private HotKeyCollection hotKeys;
-			public HotKeyCollection HotKeys
-			{
-				get => hotKeys;
-				set
-				{
-					if (hotKeys == value)
-						return;
-
-					string code = Code.ToString();
-					var customs = new Dictionary<string, string>(GeneralSettingsService.Actions);
-
-					if (!customs.ContainsKey(code))
-						customs.Add(code, value.RawLabel);
-					else if (value != GetHotKeys(Action))
-						customs[code] = value.RawLabel;
-					else
-						customs.Remove(code);
-
-					GeneralSettingsService.Actions = customs;
-				}
-			}
-
-			public HotKeyCollection DefaultHotKeys { get; }
-
-			public bool IsToggle => Action is IToggleAction;
-
-			public bool IsOn
-			{
-				get => Action is IToggleAction toggleAction && toggleAction.IsOn;
-				set
-				{
-					if (Action is IToggleAction toggleAction && toggleAction.IsOn != value)
-						Execute(null);
-				}
-			}
-
-			public bool IsExecutable => Action.IsExecutable;
-
-			public ActionCommand(CommandManager manager, CommandCodes code, IAction action)
-			{
-				this.manager = manager;
-				Code = code;
-				Action = action;
-				Icon = action.Glyph.ToIcon();
-				FontIcon = action.Glyph.ToFontIcon();
-				OpacityStyle = action.Glyph.ToOpacityStyle();
-				hotKeys = CommandManager.GetHotKeys(action);
-				DefaultHotKeys = CommandManager.GetHotKeys(action);
-
-				if (action is INotifyPropertyChanging notifyPropertyChanging)
-					notifyPropertyChanging.PropertyChanging += Action_PropertyChanging;
-				if (action is INotifyPropertyChanged notifyPropertyChanged)
-					notifyPropertyChanged.PropertyChanged += Action_PropertyChanged;
-			}
-
-			public bool CanExecute(object? parameter) => Action.IsExecutable;
-			public async void Execute(object? parameter) => await ExecuteAsync();
-
-			public Task ExecuteAsync()
-			{
-				if (IsExecutable)
-				{
-					Analytics.TrackEvent($"Triggered {Code} action");
-					return Action.ExecuteAsync();
-				}
-
-				return Task.CompletedTask;
-			}
-
-			public async void ExecuteTapped(object sender, TappedRoutedEventArgs e) => await ExecuteAsync();
-
-			public void ResetHotKeys()
-			{
-				if (!IsCustomHotKeys)
-					return;
-
-				var customs = new Dictionary<string, string>(GeneralSettingsService.Actions);
-				customs.Remove(Code.ToString());
-				GeneralSettingsService.Actions = customs;
-			}
-
-			internal void UpdateHotKeys(bool isCustom, HotKeyCollection hotKeys)
-			{
-				SetProperty(ref isCustomHotKeys, isCustom, nameof(IsCustomHotKeys));
-
-				if (SetProperty(ref this.hotKeys, hotKeys, nameof(HotKeys)))
-				{
-					OnPropertyChanged(nameof(HotKeyText));
-					OnPropertyChanged(nameof(LabelWithHotKey));
-				}
-			}
-
-			private void Action_PropertyChanging(object? sender, PropertyChangingEventArgs e)
-			{
-				switch (e.PropertyName)
-				{
-					case nameof(IAction.Label):
-						OnPropertyChanging(nameof(Label));
-						OnPropertyChanging(nameof(LabelWithHotKey));
-						OnPropertyChanging(nameof(AutomationName));
-						break;
-					case nameof(IToggleAction.IsOn) when IsToggle:
-						OnPropertyChanging(nameof(IsOn));
-						break;
-					case nameof(IAction.IsExecutable):
-						OnPropertyChanging(nameof(IsExecutable));
-						break;
-				}
-			}
-			private void Action_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-			{
-				switch (e.PropertyName)
-				{
-					case nameof(IAction.Label):
-						OnPropertyChanged(nameof(Label));
-						OnPropertyChanged(nameof(LabelWithHotKey));
-						OnPropertyChanged(nameof(AutomationName));
-						break;
-					case nameof(IToggleAction.IsOn) when IsToggle:
-						OnPropertyChanged(nameof(IsOn));
-						break;
-					case nameof(IAction.IsExecutable):
-						OnPropertyChanged(nameof(IsExecutable));
-						CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-						break;
-				}
-			}
+			return new(action.HotKey, action.SecondHotKey, action.ThirdHotKey, action.MediaHotKey);
 		}
 	}
 }

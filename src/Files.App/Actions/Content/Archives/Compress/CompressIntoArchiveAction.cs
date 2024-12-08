@@ -19,17 +19,14 @@ namespace Files.App.Actions
 		{
 		}
 
-		public override async Task ExecuteAsync()
+		public override async Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage is null)
 				return;
 
-			var (sources, directory, fileName) = CompressHelper.GetCompressDestination(context.ShellPage);
+			GetDestination(out var sources, out var directory, out var fileName);
 
-			var dialog = new CreateArchiveDialog
-			{
-				FileName = fileName,
-			};
+			var dialog = new CreateArchiveDialog() { FileName = fileName };
 
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 				dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
@@ -39,16 +36,17 @@ namespace Files.App.Actions
 			if (!dialog.CanCreate || result != ContentDialogResult.Primary)
 				return;
 
-			ICompressArchiveModel creator = new CompressArchiveModel(
+			ICompressArchiveModel compressionModel = new CompressArchiveModel(
 				sources,
 				directory,
 				dialog.FileName,
+				dialog.CPUThreads,
 				dialog.Password,
 				dialog.FileFormat,
 				dialog.CompressionLevel,
 				dialog.SplittingSize);
 
-			await CompressHelper.CompressArchiveAsync(creator);
+			await StorageArchiveService.CompressAsync(compressionModel);
 		}
 	}
 }

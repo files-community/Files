@@ -15,7 +15,7 @@ namespace Files.App.Actions
 			=> "LayoutDetailsDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "Icons.DetailsLayout.16x16");
+			=> new(themedIconStyle: "App.ThemedIcons.IconLayout.Details");
 
 		public override HotKey HotKey
 			=> new(Keys.Number1, KeyModifiers.CtrlShift);
@@ -33,7 +33,7 @@ namespace Files.App.Actions
 			=> "LayoutListDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "Icons.ListLayout.16x16");
+			=> new(themedIconStyle: "App.ThemedIcons.IconLayout.List");
 
 		public override HotKey HotKey
 			=> new(Keys.Number2, KeyModifiers.CtrlShift);
@@ -51,7 +51,7 @@ namespace Files.App.Actions
 			=> "LayoutTilesDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "Icons.TilesLayout.16x16");
+			=> new(themedIconStyle: "App.ThemedIcons.IconLayout.Tiles");
 
 		public override HotKey HotKey
 			=> new(Keys.Number3, KeyModifiers.CtrlShift);
@@ -69,7 +69,7 @@ namespace Files.App.Actions
 			=> "LayoutGridDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "Icons.GridLayout.16x16");
+			=> new(themedIconStyle: "App.ThemedIcons.IconSize.Small");
 
 		public override HotKey HotKey
 			=> new(Keys.Number4, KeyModifiers.CtrlShift);
@@ -87,7 +87,7 @@ namespace Files.App.Actions
 			=> "LayoutColumnsDescription".GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new(opacityStyle: "Icons.ColumnsLayout.16x16");
+			=> new(themedIconStyle: "App.ThemedIcons.IconLayout.Columns");
 
 		public override HotKey HotKey
 			=> new(Keys.Number5, KeyModifiers.CtrlShift);
@@ -108,7 +108,7 @@ namespace Files.App.Actions
 			=> Context.IsLayoutAdaptiveEnabled;
 
 		public override RichGlyph Glyph
-			=> new("\uF576");
+			=> new(themedIconStyle: "App.ThemedIcons.IconLayout.Auto");
 
 		public override HotKey HotKey
 			=> new(Keys.Number6, KeyModifiers.CtrlShift);
@@ -147,7 +147,7 @@ namespace Files.App.Actions
 			Context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			Context.LayoutType = LayoutType;
 
@@ -171,7 +171,6 @@ namespace Files.App.Actions
 	internal sealed class LayoutDecreaseSizeAction : ObservableObject, IAction
 	{
 		private static readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private readonly IDisplayPageContext DisplayPageContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
@@ -188,15 +187,15 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			ContentPageContext.PageType is not ContentPageTypes.Home &&
-			((DisplayPageContext.LayoutType == LayoutTypes.Details && UserSettingsService.LayoutSettingsService.DetailsViewSize > DetailsViewSizeKind.Compact) ||
-			(DisplayPageContext.LayoutType == LayoutTypes.List && UserSettingsService.LayoutSettingsService.ListViewSize > ListViewSizeKind.Compact) ||
-			(DisplayPageContext.LayoutType == LayoutTypes.Grid && UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Small) ||
-			(DisplayPageContext.LayoutType == LayoutTypes.Columns && UserSettingsService.LayoutSettingsService.ColumnsViewSize > ColumnsViewSizeKind.Compact));
+			ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes layoutMode &&
+			((layoutMode is FolderLayoutModes.DetailsView && UserSettingsService.LayoutSettingsService.DetailsViewSize > DetailsViewSizeKind.Compact) ||
+			(layoutMode is FolderLayoutModes.ListView && UserSettingsService.LayoutSettingsService.ListViewSize > ListViewSizeKind.Compact) ||
+			(layoutMode is FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Small) ||
+			(layoutMode is FolderLayoutModes.ColumnView && UserSettingsService.LayoutSettingsService.ColumnsViewSize > ColumnsViewSizeKind.Compact));
 
 		public LayoutDecreaseSizeAction()
 		{
 			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
-			DisplayPageContext.PropertyChanged += DisplayPageContext_PropertyChanged;
 			UserSettingsService.LayoutSettingsService.PropertyChanged += UserSettingsService_PropertyChanged;
 		}
 
@@ -205,16 +204,6 @@ namespace Files.App.Actions
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.PageType):
-					OnPropertyChanged(nameof(IsExecutable));
-					break;
-			}
-		}
-
-		private void DisplayPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			switch (e.PropertyName)
-			{
-				case nameof(IDisplayPageContext.LayoutType):
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
@@ -233,27 +222,29 @@ namespace Files.App.Actions
 			}
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
-			switch (DisplayPageContext.LayoutType)
+			switch (ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings.LayoutMode)
 			{
-				case LayoutTypes.Details:
+				case FolderLayoutModes.DetailsView:
 					if (UserSettingsService.LayoutSettingsService.DetailsViewSize > DetailsViewSizeKind.Compact)
 						UserSettingsService.LayoutSettingsService.DetailsViewSize -= 1;
 					break;
-				case LayoutTypes.List:
+				case FolderLayoutModes.ListView:
 					if (UserSettingsService.LayoutSettingsService.ListViewSize > ListViewSizeKind.Compact)
 						UserSettingsService.LayoutSettingsService.ListViewSize -= 1;
 					break;
-				case LayoutTypes.Tiles:
+				case FolderLayoutModes.TilesView:
 					break;
-				case LayoutTypes.Grid:
+				case FolderLayoutModes.GridView:
 					if (UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Small)
 						UserSettingsService.LayoutSettingsService.GridViewSize -= 1;
 					break;
-				case LayoutTypes.Columns:
+				case FolderLayoutModes.ColumnView:
 					if (UserSettingsService.LayoutSettingsService.ColumnsViewSize > ColumnsViewSizeKind.Compact)
 						UserSettingsService.LayoutSettingsService.ColumnsViewSize -= 1;
+					break;
+				default:
 					break;
 			}
 
@@ -264,7 +255,6 @@ namespace Files.App.Actions
 	internal sealed class LayoutIncreaseSizeAction : ObservableObject, IAction
 	{
 		private static readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private readonly IDisplayPageContext DisplayPageContext = Ioc.Default.GetRequiredService<IDisplayPageContext>();
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
@@ -281,15 +271,15 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			ContentPageContext.PageType is not ContentPageTypes.Home &&
-			((DisplayPageContext.LayoutType == LayoutTypes.Details && UserSettingsService.LayoutSettingsService.DetailsViewSize < DetailsViewSizeKind.ExtraLarge) ||
-			(DisplayPageContext.LayoutType == LayoutTypes.List && UserSettingsService.LayoutSettingsService.ListViewSize < ListViewSizeKind.ExtraLarge) ||
-			(DisplayPageContext.LayoutType == LayoutTypes.Grid && UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.ExtraLarge) ||
-			(DisplayPageContext.LayoutType == LayoutTypes.Columns && UserSettingsService.LayoutSettingsService.ColumnsViewSize < ColumnsViewSizeKind.ExtraLarge));
+			ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes layoutMode && 
+			((layoutMode is FolderLayoutModes.DetailsView && UserSettingsService.LayoutSettingsService.DetailsViewSize < DetailsViewSizeKind.ExtraLarge) ||
+			(layoutMode is FolderLayoutModes.ListView && UserSettingsService.LayoutSettingsService.ListViewSize < ListViewSizeKind.ExtraLarge) ||
+			(layoutMode is FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.ExtraLarge) ||
+			(layoutMode is FolderLayoutModes.ColumnView && UserSettingsService.LayoutSettingsService.ColumnsViewSize < ColumnsViewSizeKind.ExtraLarge));
 
 		public LayoutIncreaseSizeAction()
 		{
 			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
-			DisplayPageContext.PropertyChanged += DisplayPageContext_PropertyChanged;
 			UserSettingsService.LayoutSettingsService.PropertyChanged += UserSettingsService_PropertyChanged;
 		}
 
@@ -298,16 +288,6 @@ namespace Files.App.Actions
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.PageType):
-					OnPropertyChanged(nameof(IsExecutable));
-					break;
-			}
-		}
-
-		private void DisplayPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			switch (e.PropertyName)
-			{
-				case nameof(IDisplayPageContext.LayoutType):
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
@@ -326,27 +306,29 @@ namespace Files.App.Actions
 			}
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
-			switch (DisplayPageContext.LayoutType)
+			switch (ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings.LayoutMode)
 			{
-				case LayoutTypes.Details:
+				case FolderLayoutModes.DetailsView:
 					if (UserSettingsService.LayoutSettingsService.DetailsViewSize < DetailsViewSizeKind.ExtraLarge)
 						UserSettingsService.LayoutSettingsService.DetailsViewSize += 1;
 					break;
-				case LayoutTypes.List:
+				case FolderLayoutModes.ListView:
 					if (UserSettingsService.LayoutSettingsService.ListViewSize < ListViewSizeKind.ExtraLarge)
 						UserSettingsService.LayoutSettingsService.ListViewSize += 1;
 					break;
-				case LayoutTypes.Tiles:
+				case FolderLayoutModes.TilesView:
 					break;
-				case LayoutTypes.Grid:
+				case FolderLayoutModes.GridView:
 					if (UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.ExtraLarge)
 						UserSettingsService.LayoutSettingsService.GridViewSize += 1;
 					break;
-				case LayoutTypes.Columns:
+				case FolderLayoutModes.ColumnView:
 					if (UserSettingsService.LayoutSettingsService.ColumnsViewSize < ColumnsViewSizeKind.ExtraLarge)
 						UserSettingsService.LayoutSettingsService.ColumnsViewSize += 1;
+					break;
+				default:
 					break;
 			}
 

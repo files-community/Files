@@ -7,6 +7,8 @@ namespace Files.App.Actions
 {
 	internal sealed class RunAsAdminAction : BaseRunAsAction
 	{
+		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 		public override string Label
 			=> "RunAsAdministrator".GetLocalizedResource();
 
@@ -15,6 +17,14 @@ namespace Files.App.Actions
 
 		public override RichGlyph Glyph
 			=> new("\uE7EF");
+
+		public override bool IsExecutable =>
+			ContentPageContext.SelectedItem is not null &&
+			ContentPageContext.PageType != ContentPageTypes.RecycleBin &&
+			ContentPageContext.PageType != ContentPageTypes.ZipFolder &&
+			(FileExtensionHelpers.IsExecutableFile(ContentPageContext.SelectedItem.FileExtension) ||
+			(ContentPageContext.SelectedItem is ShortcutItem shortcut &&
+			shortcut.IsExecutable));
 
 		public RunAsAdminAction() : base("runas")
 		{

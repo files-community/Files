@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> "ClearSelectionDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new("\uE8E6");
+			=> new(themedIconStyle: "App.ThemedIcons.SelectNone");
 
 		public bool IsExecutable
 		{
@@ -43,7 +43,7 @@ namespace Files.App.Actions
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
-		public Task ExecuteAsync()
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.ShellPage?.SlimContentPage?.ItemManipulationModel?.ClearSelection();
 

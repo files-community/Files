@@ -1,0 +1,554 @@
+<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Files.App.Controls">
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Added"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+
+		<Setter Property="IconSize" Value="16" />
+
+		<Setter Property="OutlineIconData" Value="m3,0C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3H3ZM1,3c0-1.1.9-2,2-2h9c1.1,0,2,.9,2,2v9c0,1.1-.9,2-2,2H3c-1.1,0-2-.9-2-2V3Zm7,.5c0-.28-.22-.5-.5-.5s-.5.22-.5.5v3.5h-3.5c-.28,0-.5.22-.5.5s.22.5.5.5h3.5v3.5c0,.28.22.5.5.5s.5-.22.5-.5v-3.5h3.5c.28,0,.5-.22.5-.5s-.22-.5-.5-.5h-3.5v-3.5Z" />
+		<Setter Property="FilledIconData" Value="m0,3C0,1.34,1.34,0,3,0h9c1.66,0,3,1.34,3,3v9c0,1.66-1.34,3-3,3H3c-1.66,0-3-1.34-3-3V3Zm7.5,0c.28,0,.5.22.5.5v3.5h3.5c.28,0,.5.22.5.5s-.22.5-.5.5h-3.5v3.5c0,.28-.22.5-.5.5s-.5-.22-.5-.5v-3.5h-3.5c-.28,0-.5-.22-.5-.5s.22-.5.5-.5h3.5v-3.5c0-.28.22-.5.5-.5Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m3,0C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3H3ZM1,3c0-1.1.9-2,2-2h9c1.1,0,2,.9,2,2v9c0,1.1-.9,2-2,2H3c-1.1,0-2-.9-2-2V3Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Accent"
+						PathData="m8,3.5c0-.28-.22-.5-.5-.5s-.5.22-.5.5v3.5h-3.5c-.28,0-.5.22-.5.5s.22.5.5.5h3.5v3.5c0,.28.22.5.5.5s.5-.22.5-.5v-3.5h3.5c.28,0,.5-.22.5-.5s-.22-.5-.5-.5h-3.5v-3.5Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Removed"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+
+		<Setter Property="IconSize" Value="16" />
+
+		<Setter Property="OutlineIconData" Value="m3,0C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3H3ZM1,3c0-1.1.9-2,2-2h9c1.1,0,2,.9,2,2v9c0,1.1-.9,2-2,2H3c-1.1,0-2-.9-2-2V3Zm2.5,4c-.28,0-.5.22-.5.5s.22.5.5.5h8c.28,0,.5-.22.5-.5s-.22-.5-.5-.5H3.5Z" />
+		<Setter Property="FilledIconData" Value="m0,3C0,1.34,1.34,0,3,0h9c1.66,0,3,1.34,3,3v9c0,1.66-1.34,3-3,3H3c-1.66,0-3-1.34-3-3V3Zm3,4.5c0-.28.22-.5.5-.5h8c.28,0,.5.22.5.5s-.22.5-.5.5H3.5c-.28,0-.5-.22-.5-.5Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m3,0C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3H3ZM1,3c0-1.1.9-2,2-2h9c1.1,0,2,.9,2,2v9c0,1.1-.9,2-2,2H3c-1.1,0-2-.9-2-2V3Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Accent"
+						PathData="m3.5,7c-.28,0-.5.22-.5.5s.22.5.5.5h8c.28,0,.5-.22.5-.5s-.22-.5-.5-.5H3.5Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Warning"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+
+		<Setter Property="IconSize" Value="16" />
+
+		<Setter Property="OutlineIconData" Value="m7.5,9c.28,0,.5-.22.5-.5V3.5c0-.28-.22-.5-.5-.5s-.5.22-.5.5v5c0,.28.22.5.5.5Zm0,1.5c-.41,0-.75.34-.75.75s.34.75.75.75.75-.34.75-.75-.34-.75-.75-.75ZM12,0H3C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3Zm2,12c0,1.1-.9,2-2,2H3c-1.1,0-2-.9-2-2V3c0-1.1.9-2,2-2h9c1.1,0,2,.9,2,2v9Z" />
+		<Setter Property="FilledIconData" Value="m0,3C0,1.34,1.34,0,3,0h9c1.66,0,3,1.34,3,3v9c0,1.66-1.34,3-3,3H3c-1.66,0-3-1.34-3-3V3Zm7.5,0c.28,0,.5.22.5.5v5c0,.28-.22.5-.5.5s-.5-.22-.5-.5V3.5c0-.28.22-.5.5-.5Zm0,9c.41,0,.75-.34.75-.75s-.34-.75-.75-.75-.75.34-.75.75.34.75.75.75Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m0,3C0,1.34,1.34,0,3,0h9c1.66,0,3,1.34,3,3v9c0,1.66-1.34,3-3,3H3c-1.66,0-3-1.34-3-3V3ZM3,1c-1.1,0-2,.9-2,2v9c0,1.1.9,2,2,2h9c1.1,0,2-.9,2-2V3c0-1.1-.9-2-2-2H3Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Accent"
+						PathData="m7.5,9c.28,0,.5-.22.5-.5V3.5c0-.28-.22-.5-.5-.5s-.5.22-.5.5v5c0,.28.22.5.5.5Zm0,1.5c-.41,0-.75.34-.75.75s.34.75.75.75.75-.34.75-.75-.34-.75-.75-.75Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Deleted"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+
+		<Setter Property="IconSize" Value="16" />
+
+		<Setter Property="OutlineIconData" Value="m10.85,4.15c-.2-.2-.51-.2-.71,0l-2.65,2.65-2.65-2.65c-.2-.2-.51-.2-.71,0-.2.2-.2.51,0,.71l2.65,2.65-2.65,2.65c-.2.2-.2.51,0,.71.2.2.51.2.71,0l2.65-2.65,2.65,2.65c.2.2.51.2.71,0s.2-.51,0-.71l-2.65-2.65,2.65-2.65c.2-.2.2-.51,0-.71Zm1.15-4.15H3C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3Zm2,12c0,1.1-.9,2-2,2H3c-1.1,0-2-.9-2-2V3c0-1.1.9-2,2-2h9c1.1,0,2,.9,2,2v9Z" />
+		<Setter Property="FilledIconData" Value="m3,0C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3H3Zm7.15,4.15c.2-.2.51-.2.71,0,.2.2.2.51,0,.71l-2.65,2.65,2.65,2.65c.2.2.2.51,0,.71-.2.2-.51.2-.71,0l-2.65-2.65-2.65,2.65c-.2.2-.51.2-.71,0-.2-.2-.2-.51,0-.71l2.65-2.65-2.65-2.65c-.2-.2-.2-.51,0-.71.2-.2.51-.2.71,0l2.65,2.65,2.65-2.65Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m0,3C0,1.34,1.34,0,3,0h9c1.66,0,3,1.34,3,3v9c0,1.66-1.34,3-3,3H3c-1.66,0-3-1.34-3-3V3ZM3,1c-1.1,0-2,.9-2,2v9c0,1.1.9,2,2,2h9c1.1,0,2-.9,2-2V3c0-1.1-.9-2-2-2H3Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Accent"
+						PathData="m10.85,4.15c-.2-.2-.51-.2-.71,0l-2.65,2.65-2.65-2.65c-.2-.2-.51-.2-.71,0-.2.2-.2.51,0,.71l2.65,2.65-2.65,2.65c-.2.2-.2.51,0,.71.2.2.51.2.71,0l2.65-2.65,2.65,2.65c.2.2.51.2.71,0,.2-.2.2-.51,0-.71l-2.65-2.65,2.65-2.65c.2-.2.2-.51,0-.71Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Renamed"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+
+		<Setter Property="IconSize" Value="16" />
+
+		<Setter Property="OutlineIconData" Value="m7.5,0c-.28,0-.5.22-.5.5s.22.5.5.5h1v13h-1c-.28,0-.5.22-.5.5s.22.5.5.5h3c.28,0,.5-.22.5-.5s-.22-.5-.5-.5h-1V1h1c.28,0,.5-.22.5-.5s-.22-.5-.5-.5h-3ZM2.5,2h5v1H2.5c-.83,0-1.5.67-1.5,1.5v6c0,.83.67,1.5,1.5,1.5h5v1H2.5c-1.38,0-2.5-1.12-2.5-2.5v-6c0-1.38,1.12-2.5,2.5-2.5Zm10,10h-2v1h2c1.38,0,2.5-1.12,2.5-2.5v-6c0-1.38-1.12-2.5-2.5-2.5h-2v1h2c.83,0,1.5.67,1.5,1.5v6c0,.83-.67,1.5-1.5,1.5Z" />
+		<Setter Property="FilledIconData" Value="m7.5,0c-.28,0-.5.22-.5.5s.22.5.5.5h1v13h-1c-.28,0-.5.22-.5.5s.22.5.5.5h3c.28,0,.5-.22.5-.5s-.22-.5-.5-.5h-1V1h1c.28,0,.5-.22.5-.5s-.22-.5-.5-.5h-3ZM2.5,2h5v11H2.5c-1.38,0-2.5-1.12-2.5-2.5v-6c0-1.38,1.12-2.5,2.5-2.5Zm10,11h-2V2h2c1.38,0,2.5,1.12,2.5,2.5v6c0,1.38-1.12,2.5-2.5,2.5Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m2.5,2h5v1H2.5c-.83,0-1.5.67-1.5,1.5v6c0,.83.67,1.5,1.5,1.5h5v1H2.5c-1.38,0-2.5-1.12-2.5-2.5v-6c0-1.38,1.12-2.5,2.5-2.5Zm10,10h-2v1h2c1.38,0,2.5-1.12,2.5-2.5v-6c0-1.38-1.12-2.5-2.5-2.5h-2v1h2c.83,0,1.5.67,1.5,1.5v6c0,.83-.67,1.5-1.5,1.5Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Accent"
+						PathData="m7.5,0c-.28,0-.5.22-.5.5s.22.5.5.5h1v13h-1c-.28,0-.5.22-.5.5s.22.5.5.5h3c.28,0,.5-.22.5-.5s-.22-.5-.5-.5h-1V1h1c.28,0,.5-.22.5-.5s-.22-.5-.5-.5h-3Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Modified"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+
+		<Setter Property="IconSize" Value="16" />
+
+		<Setter Property="OutlineIconData" Value="m12,0H3C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3Zm2,12c0,1.1-.9,2-2,2H3c-1.1,0-2-.9-2-2V3c0-1.1.9-2,2-2h9c1.1,0,2,.9,2,2v9Zm-6.5-7c-1.38,0-2.5,1.12-2.5,2.5s1.12,2.5,2.5,2.5,2.5-1.12,2.5-2.5-1.12-2.5-2.5-2.5Z" />
+		<Setter Property="FilledIconData" Value="m3,0C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3H3Zm4.5,10c1.38,0,2.5-1.12,2.5-2.5s-1.12-2.5-2.5-2.5-2.5,1.12-2.5,2.5,1.12,2.5,2.5,2.5Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m0,3C0,1.34,1.34,0,3,0h9c1.66,0,3,1.34,3,3v9c0,1.66-1.34,3-3,3H3c-1.66,0-3-1.34-3-3V3ZM3,1c-1.1,0-2,.9-2,2v9c0,1.1.9,2,2,2h9c1.1,0,2-.9,2-2V3c0-1.1-.9-2-2-2H3Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Accent"
+						PathData="m10,7.5c0,1.38-1.12,2.5-2.5,2.5s-2.5-1.12-2.5-2.5,1.12-2.5,2.5-2.5,2.5,1.12,2.5,2.5Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Protected"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+
+		<Setter Property="IconSize" Value="16" />
+
+		<Setter Property="OutlineIconData" Value="m11.99,4.5c0-.28-.22-.5-.5-.5-.02,0-2.3-.53-3.64-1.86-.19-.19-.52-.19-.71,0-1.32,1.33-3.64,1.86-3.64,1.86-.28,0-.5.22-.5.5v.7c-.03,2.45-.08,6.29,4.35,7.76.05.03.11.03.16.03h-.02c.06.01.11,0,.16-.02,4.44-1.49,4.38-5.34,4.34-7.79v-.68Zm-4.48,7.47c-3.59-1.28-3.54-4.42-3.5-6.77v-.22c.78-.07,2.3-.85,3.5-1.81,1.19.96,2.72,1.74,3.5,1.81v.22c.04,2.35.09,5.5-3.5,6.77ZM12,0H3C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3Zm2,12c0,1.1-.9,2-2,2H3c-1.1,0-2-.9-2-2V3c0-1.1.9-2,2-2h9c1.1,0,2,.9,2,2v9Z" />
+		<Setter Property="FilledIconData" Value="m0,3C0,1.34,1.34,0,3,0h9c1.66,0,3,1.34,3,3v9c0,1.66-1.34,3-3,3H3c-1.66,0-3-1.34-3-3V3Zm7.51,9.99c-.05,0-.11,0-.16-.03-4.43-1.47-4.38-5.31-4.35-7.76v-.02s0-.68,0-.68c0-.28.22-.5.5-.5,0,0,2.31-.53,3.64-1.86.19-.19.52-.19.71,0,1.33,1.33,3.62,1.86,3.64,1.86.28,0,.5.22.5.5v.68c.04,2.45.1,6.3-4.34,7.79-.05.02-.1.03-.16.03h.02Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m3,0C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3H3ZM1,3c0-1.1.9-2,2-2h9c1.1,0,2,.9,2,2v9c0,1.1-.9,2-2,2H3c-1.1,0-2-.9-2-2V3Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Accent"
+						PathData="m7.35,12.96c.05.03.11.03.16.03h-.02c.06.01.11,0,.16-.02,4.44-1.49,4.38-5.34,4.34-7.79v-.68c0-.28-.22-.5-.5-.5-.02,0-2.3-.53-3.64-1.86-.19-.19-.52-.19-.71,0-1.32,1.33-3.64,1.86-3.64,1.86-.28,0-.5.22-.5.5v.7c-.03,2.45-.08,6.29,4.35,7.76Zm-3.34-7.76v-.22c.78-.07,2.3-.85,3.5-1.81,1.19.96,2.72,1.74,3.5,1.81v.22c.04,2.35.09,5.5-3.5,6.77-3.59-1.28-3.54-4.42-3.5-6.77Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Locked"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+
+		<Setter Property="IconSize" Value="16" />
+
+		<Setter Property="OutlineIconData" Value="m7.5,7.5c-.55,0-1,.45-1,1s.45,1,1,1,1-.45,1-1-.45-1-1-1Zm3-2.5h-.5v-.5c0-1.38-1.12-2.5-2.5-2.5s-2.5,1.12-2.5,2.5v.5h-.5c-.83,0-1.5.67-1.5,1.5v4c0,.83.67,1.5,1.5,1.5h6c.83,0,1.5-.67,1.5-1.5v-4c0-.83-.67-1.5-1.5-1.5Zm-4.5-.5c0-.83.67-1.5,1.5-1.5s1.5.67,1.5,1.5v.5h-3v-.5Zm5,6c0,.28-.22.5-.5.5h-6c-.28,0-.5-.22-.5-.5v-4c0-.28.22-.5.5-.5h6c.28,0,.5.22.5.5v4ZM12,0H3C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3Zm2,12c0,1.1-.9,2-2,2H3c-1.1,0-2-.9-2-2V3c0-1.1.9-2,2-2h9c1.1,0,2,.9,2,2v9Z" />
+		<Setter Property="FilledIconData" Value="m7.5,3c-.83,0-1.5.67-1.5,1.5v.5h3v-.5c0-.83-.67-1.5-1.5-1.5Zm0,4.5c-.55,0-1,.45-1,1s.45,1,1,1,1-.45,1-1-.45-1-1-1ZM12,0H3C1.34,0,0,1.34,0,3v9c0,1.66,1.34,3,3,3h9c1.66,0,3-1.34,3-3V3c0-1.66-1.34-3-3-3Zm0,10.5c0,.83-.67,1.5-1.5,1.5h-6c-.83,0-1.5-.67-1.5-1.5v-4c0-.83.67-1.5,1.5-1.5h.5v-.5c0-1.38,1.12-2.5,2.5-2.5s2.5,1.12,2.5,2.5v.5h.5c.83,0,1.5.67,1.5,1.5v4Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m0,3C0,1.34,1.34,0,3,0h9c1.66,0,3,1.34,3,3v9c0,1.66-1.34,3-3,3H3c-1.66,0-3-1.34-3-3V3ZM3,1c-1.1,0-2,.9-2,2v9c0,1.1.9,2,2,2h9c1.1,0,2-.9,2-2V3c0-1.1-.9-2-2-2H3Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Accent"
+						PathData="m7.5,7.5c-.55,0-1,.45-1,1s.45,1,1,1,1-.45,1-1-.45-1-1-1Zm3-2.5h-.5v-.5c0-1.38-1.12-2.5-2.5-2.5s-2.5,1.12-2.5,2.5v.5h-.5c-.83,0-1.5.67-1.5,1.5v4c0,.83.67,1.5,1.5,1.5h6c.83,0,1.5-.67,1.5-1.5v-4c0-.83-.67-1.5-1.5-1.5Zm-4.5-.5c0-.83.67-1.5,1.5-1.5s1.5.67,1.5,1.5v.5h-3v-.5Zm5,6c0,.28-.22.5-.5.5h-6c-.28,0-.5-.22-.5-.5v-4c0-.28.22-.5.5-.5h6c.28,0,.5.22.5.5v4Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Hidden"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+
+		<Setter Property="IconSize" Value="16" />
+
+		<Setter Property="OutlineIconData" Value="m.85.15C.66-.05.34-.05.15.15-.05.34-.05.66.15.85l3.5,3.5C1.97,5.49.72,7.27.28,9.4c-.06.27.12.54.39.59.27.06.54-.12.59-.39.4-1.94,1.56-3.54,3.11-4.53l1.59,1.59c-.88.64-1.45,1.67-1.45,2.84,0,1.93,1.57,3.5,3.5,3.5,1.17,0,2.2-.57,2.84-1.45l4.31,4.31c.2.2.51.2.71,0,.2-.2.2-.51,0-.71L.85.15Zm9.27,10.68c-.44.7-1.23,1.17-2.12,1.17-1.38,0-2.5-1.12-2.5-2.5,0-.89.47-1.68,1.17-2.12l3.45,3.45Zm-2-4.82l3.37,3.37c-.06-1.83-1.54-3.31-3.37-3.37Zm-.12-2c-.57,0-1.13.07-1.67.21l-.8-.8c.78-.27,1.61-.41,2.47-.41,3.69,0,6.94,2.67,7.72,6.4.06.27-.12.54-.39.59-.27.06-.54-.12-.59-.39-.68-3.28-3.54-5.6-6.74-5.6Z" />
+		<Setter Property="FilledIconData" Value="m.85.15C.66-.05.34-.05.15.15-.05.34-.05.66.15.85l3.5,3.5C1.97,5.49.72,7.27.28,9.4c-.06.27.12.54.39.59.27.06.54-.12.59-.39.4-1.94,1.56-3.54,3.11-4.53l1.58,1.58c-.88.64-1.46,1.67-1.46,2.84,0,1.93,1.57,3.5,3.5,3.5,1.17,0,2.21-.58,2.84-1.46l4.31,4.31c.2.2.51.2.71,0,.2-.2.2-.51,0-.71L.85.15Zm7.27,5.86l3.36,3.36c-.07-1.83-1.54-3.29-3.36-3.36Zm-2.59-2.59l.8.8c.54-.14,1.1-.21,1.67-.21,3.21,0,6.06,2.33,6.74,5.6.06.27.32.44.59.39.27-.06.44-.32.39-.59-.78-3.72-4.03-6.4-7.72-6.4-.86,0-1.69.14-2.47.41Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						Opacity="0.4"
+						PathData="m4.08,4.08c-1.89,1.12-3.32,3.02-3.8,5.32-.06.27.12.54.39.59.27.06.54-.12.59-.39.44-2.12,1.79-3.84,3.56-4.79l-.73-.73Zm11.64,5.32c-.78-3.72-4.03-6.4-7.72-6.4-.85,0-1.68.14-2.47.41l.8.8c.54-.14,1.09-.21,1.66-.21,3.21,0,6.06,2.33,6.74,5.6.06.27.32.44.59.39.27-.06.44-.32.39-.59Zm-7.72,2.6c-1.38,0-2.5-1.12-2.5-2.5,0-1.08.69-2,1.65-2.35l-.76-.76c-1.12.58-1.89,1.76-1.89,3.11,0,1.93,1.57,3.5,3.5,3.5,1.35,0,2.53-.77,3.11-1.89l-.76-.76c-.35.96-1.27,1.65-2.35,1.65Zm.13-6l3.37,3.37c-.07-1.83-1.54-3.3-3.37-3.37Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m.15.15C.34-.05.66-.05.85.15l15,15c.2.2.2.51,0,.71-.2.2-.51.2-.71,0L.15.85C-.05.66-.05.34.15.15Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Syncing"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+
+		<Setter Property="IconSize" Value="16" />
+
+		<Setter Property="OutlineIconData" Value="m3.34,4.22c-.17.21-.14.53.07.7.21.17.53.14.7-.07.92-1.13,2.32-1.85,3.88-1.85,2.69,0,4.88,2.13,5,4.79l-.64-.64c-.2-.2-.51-.2-.71,0-.2.2-.2.51,0,.71l1.5,1.5c.09.09.22.15.35.15s.26-.05.35-.15l1.5-1.5c.2-.2.2-.51,0-.71-.2-.2-.51-.2-.71,0l-.65.65c-.11-3.22-2.75-5.8-6-5.8-1.88,0-3.56.87-4.66,2.22Zm-2.69,3.92c-.2.2-.2.51,0,.71.2.2.51.2.71,0l.65-.65c.11,3.22,2.75,5.8,6,5.8,1.88,0,3.56-.87,4.66-2.22.17-.21.14-.53-.07-.7-.21-.17-.53-.14-.7.07-.92,1.13-2.32,1.85-3.88,1.85-2.69,0-4.88-2.13-5-4.79l.64.64c.2.2.51.2.71,0,.2-.2.2-.51,0-.71l-1.5-1.5c-.2-.2-.51-.2-.71,0l-1.5,1.5Z" />
+		<Setter Property="FilledIconData" Value="m.47,9.03c-.29-.29-.29-.77,0-1.06l1.75-1.75c.29-.29.77-.29,1.06,0l1.75,1.75c.29.29.29.77,0,1.06-.29.29-.77.29-1.06,0l-.43-.43c.29,2.2,2.18,3.9,4.46,3.9,1.39,0,2.63-.63,3.46-1.62.27-.32.74-.36,1.06-.1.32.27.36.74.1,1.06-1.1,1.32-2.76,2.16-4.61,2.16-3.13,0-5.7-2.4-5.98-5.46l-.49.49c-.29.29-.77.29-1.06,0Zm3.02-3.82c-.32-.27-.36-.74-.1-1.06,1.1-1.32,2.76-2.16,4.61-2.16,3.13,0,5.7,2.4,5.98,5.46l.49-.49c.29-.29.77-.29,1.06,0,.29.29.29.77,0,1.06l-1.75,1.75c-.14.14-.33.22-.53.22s-.39-.08-.53-.22l-1.75-1.75c-.29-.29-.29-.77,0-1.06.29-.29.77-.29,1.06,0l.43.43c-.29-2.2-2.18-3.9-4.46-3.9-1.39,0-2.63.63-3.46,1.62-.27.32-.74.36-1.06.1Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Accent"
+						PathData="m3.34,4.22c-.17.21-.14.53.07.7.21.17.53.14.7-.07.92-1.13,2.32-1.85,3.88-1.85,2.69,0,4.88,2.13,5,4.79l-.64-.64c-.2-.2-.51-.2-.71,0-.2.2-.2.51,0,.71l1.5,1.5c.09.09.22.15.35.15s.26-.05.35-.15l1.5-1.5c.2-.2.2-.51,0-.71-.2-.2-.51-.2-.71,0l-.65.65c-.11-3.22-2.75-5.8-6-5.8-1.88,0-3.56.87-4.66,2.22Zm-2.69,3.92c-.2.2-.2.51,0,.71.2.2.51.2.71,0l.65-.65c.11,3.22,2.75,5.8,6,5.8,1.88,0,3.56-.87,4.66-2.22.17-.21.14-.53-.07-.7-.21-.17-.53-.14-.7.07-.92,1.13-2.32,1.85-3.88,1.85-2.69,0-4.88-2.13-5-4.79l.64.64c.2.2.51.2.71,0,.2-.2.2-.51,0-.71l-1.5-1.5c-.2-.2-.51-.2-.71,0l-1.5,1.5Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Cloud"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+
+		<Setter Property="IconSize" Value="16" />
+
+		<Setter Property="OutlineIconData" Value="m8,2.5c2.82,0,4.41,1.92,4.65,4.25h.07c1.81,0,3.28,1.51,3.28,3.38s-1.47,3.38-3.28,3.38H3.28c-1.81,0-3.28-1.51-3.28-3.38s1.37-3.28,3.1-3.37h.25c.23-2.34,1.83-4.25,4.65-4.25Zm0,1c-2.11,0-3.45,1.32-3.65,3.35-.05.51-.48.9-1,.9h-.07c-1.25,0-2.28,1.06-2.28,2.38s1.03,2.38,2.28,2.38h9.44c1.25,0,2.28-1.06,2.28-2.38s-1.03-2.38-2.28-2.38h-.07c-.51,0-.94-.39-1-.9-.2-2.02-1.54-3.35-3.65-3.35Z" />
+		<Setter Property="FilledIconData" Value="m8,2.5c2.82,0,4.41,1.92,4.65,4.25h.07c1.81,0,3.28,1.51,3.28,3.38s-1.47,3.38-3.28,3.38H3.28c-1.81,0-3.28-1.51-3.28-3.38s1.47-3.38,3.28-3.38h.07c.23-2.34,1.83-4.25,4.65-4.25Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Alt"
+						PathData="m8,3c-1.16,0-2.15.36-2.88,1.05-.73.68-1.15,1.64-1.27,2.75-.03.26-.24.45-.5.45h-.07c-1.55,0-2.78,1.3-2.78,2.88s1.23,2.88,2.78,2.88h9.44c1.55,0,2.78-1.3,2.78-2.88s-1.23-2.88-2.78-2.88h-.07c-.26,0-.47-.19-.5-.45-.11-1.11-.54-2.07-1.27-2.75-.73-.68-1.72-1.05-2.88-1.05Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m8,2.5c2.82,0,4.41,1.92,4.65,4.25h.07c1.81,0,3.28,1.51,3.28,3.38s-1.47,3.38-3.28,3.38H3.28c-1.81,0-3.28-1.51-3.28-3.38s1.37-3.28,3.1-3.37h.25c.23-2.34,1.83-4.25,4.65-4.25Zm0,1c-2.11,0-3.45,1.32-3.65,3.35-.05.51-.48.9-1,.9h-.07c-1.25,0-2.28,1.06-2.28,2.38s1.03,2.38,2.28,2.38h9.44c1.25,0,2.28-1.06,2.28-2.38s-1.03-2.38-2.28-2.38h-.07c-.51,0-.94-.39-1-.9-.2-2.02-1.54-3.35-3.65-3.35Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Unavailable"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+
+		<Setter Property="IconSize" Value="16" />
+
+		<Setter Property="OutlineIconData" Value="m8,3c-2.76,0-5,2.24-5,5,0,1.2.42,2.3,1.13,3.16l7.04-7.04c-.86-.71-1.96-1.13-3.16-1.13Zm3.87,1.84l-7.04,7.04c.86.71,1.96,1.13,3.16,1.13,2.76,0,5-2.24,5-5,0-1.2-.42-2.3-1.13-3.16ZM2,8c0-3.31,2.69-6,6-6s6,2.69,6,6-2.69,6-6,6S2,11.31,2,8Z" />
+		<Setter Property="FilledIconData" Value="m14,8c0,3.31-2.69,6-6,6S2,11.31,2,8,4.69,2,8,2s6,2.69,6,6Zm-1.5,0c0,2.49-2.01,4.5-4.5,4.5-.97,0-1.87-.31-2.61-.83l6.28-6.28c.52.74.83,1.64.83,2.61Zm-8.17,2.61l6.28-6.28c-.74-.52-1.64-.83-2.61-.83-2.49,0-4.5,2.01-4.5,4.5,0,.97.31,1.87.83,2.61Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Alt"
+						PathData="m13.5,8c0,3.04-2.46,5.5-5.5,5.5s-5.5-2.46-5.5-5.5S4.96,2.5,8,2.5s5.5,2.46,5.5,5.5Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m8,3c-2.76,0-5,2.24-5,5,0,1.2.42,2.3,1.13,3.16l7.04-7.04c-.86-.71-1.96-1.13-3.16-1.13Zm3.87,1.84l-7.04,7.04c.86.71,1.96,1.13,3.16,1.13,2.76,0,5-2.24,5-5,0-1.2-.42-2.3-1.13-3.16ZM2,8c0-3.31,2.69-6,6-6s6,2.69,6,6-2.69,6-6,6S2,11.31,2,8Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Available"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+
+		<Setter Property="IconSize" Value="16" />
+
+		<Setter Property="OutlineIconData" Value="m1.37,8.37c-.18-.21-.5-.22-.71-.04-.21.18-.22.5-.04.71l4,4.5c.19.22.52.22.73.02L15.85,3.05c.2-.2.2-.51,0-.71-.2-.2-.51-.2-.71,0L5.02,12.47l-3.65-4.1Z" />
+		<Setter Property="FilledIconData" Value="m4.78,12.16l-3.47-3.91c-.28-.31-.75-.34-1.06-.06-.31.28-.34.75-.06,1.06l4,4.5c.29.32.79.34,1.09.03L15.78,3.28c.29-.29.29-.77,0-1.06-.29-.29-.77-.29-1.06,0L4.78,12.16Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Accent"
+						PathData="m1.37,8.37c-.18-.21-.5-.22-.71-.04-.21.18-.22.5-.04.71l4,4.5c.19.22.52.22.73.02L15.85,3.05c.2-.2.2-.51,0-.71-.2-.2-.51-.2-.71,0L5.02,12.47l-3.65-4.1Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Ignored"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+
+		<Setter Property="IconSize" Value="16" />
+
+		<Setter Property="OutlineIconData" Value="m10.5,7h-6c-.28,0-.5.22-.5.5s.22.5.5.5h6c.28,0,.5-.22.5-.5s-.22-.5-.5-.5ZM7.5,1C3.91,1,1,3.91,1,7.5s2.91,6.5,6.5,6.5,6.5-2.91,6.5-6.5S11.09,1,7.5,1Zm0,12c-3.04,0-5.5-2.46-5.5-5.5S4.46,2,7.5,2s5.5,2.46,5.5,5.5-2.46,5.5-5.5,5.5Z" />
+		<Setter Property="FilledIconData" Value="m14,7.5c0,3.59-2.91,6.5-6.5,6.5S1,11.09,1,7.5,3.91,1,7.5,1s6.5,2.91,6.5,6.5Zm-10,0c0-.28.22-.5.5-.5h6c.28,0,.5.22.5.5s-.22.5-.5.5h-6c-.28,0-.5-.22-.5-.5Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Alt"
+						PathData="m13.5,7.5c0,3.31-2.69,6-6,6S1.5,10.81,1.5,7.5,4.19,1.5,7.5,1.5s6,2.69,6,6Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m10.5,7h-6c-.28,0-.5.22-.5.5s.22.5.5.5h6c.28,0,.5-.22.5-.5s-.22-.5-.5-.5ZM7.5,1C3.91,1,1,3.91,1,7.5s2.91,6.5,6.5,6.5,6.5-2.91,6.5-6.5S11.09,1,7.5,1Zm0,12c-3.04,0-5.5-2.46-5.5-5.5S4.46,2,7.5,2s5.5,2.46,5.5,5.5-2.46,5.5-5.5,5.5Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Tag_Partial.12"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+		<Setter Property="Width" Value="12" />
+		<Setter Property="Height" Value="12" />
+
+		<Setter Property="OutlineIconData" Value="m9.99,0h-3.25c-.53.02-1.04.23-1.41.6l-.08.08c.15.36.23.75.25,1.16l.54-.54c.19-.19.44-.29.7-.29h3.25c.56-.02,1.01.44,1.01.99l-.02,3.36c0,.26-.11.51-.29.7l-4.67,4.65c-.39.39-1.03.39-1.42,0l-1.52-1.51-.71.71,1.52,1.51c.78.78,2.05.78,2.84,0l4.67-4.65c.37-.37.58-.87.59-1.4l.02-3.36C12.01.9,11.1,0,9.99,0Zm.01,3c0-.55-.45-1-1-1s-1,.45-1,1,.45,1,1,1,1-.45,1-1Z" />
+		<Setter Property="FilledIconData" Value="m5.24.68c.17.41.26.87.26,1.34l-.02,3.36c0,.92-.38,1.8-1.03,2.45l-2.08,2.07,1.52,1.51c.78.78,2.05.78,2.84,0l4.67-4.65c.37-.37.58-.87.59-1.4l.02-3.36C12.01.9,11.1,0,9.99,0h-3.25c-.53.02-1.04.23-1.41.6l-.08.08Zm2.76,2.32c0,.55.45,1,1,1s1-.45,1-1-.45-1-1-1-1,.45-1,1Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="12"
+						LayerType="Alt"
+						PathData="m5.41,1.22c.06.26.09.53.09.8l-.02,3.36c0,.92-.38,1.8-1.03,2.45l-1.73,1.72,1.52,1.51c.59.59,1.54.59,2.13,0l4.67-4.65c.28-.28.44-.65.44-1.05l.02-3.36c0-.83-.67-1.51-1.51-1.51h-3.25c-.4.02-.78.17-1.06.45l-.27.27Z" />
+					<local:ThemedIconLayer
+						LayerSize="12"
+						LayerType="Base"
+						PathData="m9.99,0h-3.25c-.53.02-1.04.23-1.41.6l-.08.08c.15.36.23.75.25,1.16l.54-.54c.19-.19.44-.29.7-.29h3.25c.56-.02,1.01.44,1.01.99l-.02,3.36c0,.26-.11.51-.29.7l-4.67,4.65c-.39.39-1.03.39-1.42,0l-1.52-1.51-.71.71,1.52,1.51c.78.78,2.05.78,2.84,0l4.67-4.65c.37-.37.58-.87.59-1.4l.02-3.36C12.01.9,11.1,0,9.99,0Zm.01,3c0-.55-.45-1-1-1s-1,.45-1,1,.45,1,1,1,1-.45,1-1Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Tag.12"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+		<Setter Property="Width" Value="12" />
+		<Setter Property="Height" Value="12" />
+
+		<Setter Property="OutlineIconData" Value="m9,4c-.55,0-1-.45-1-1s.45-1,1-1,1,.45,1,1-.45,1-1,1ZM.59,8.14c-.78-.78-.78-2.04,0-2.82L5.33.6C5.7.23,6.21.02,6.74.01h3.25c1.12-.02,2.02.89,2.01,2l-.02,3.36c0,.52-.21,1.03-.59,1.4l-4.67,4.65c-.78.78-2.05.78-2.84,0l-3.3-3.28Zm.71-2.12c-.39.39-.39,1.02,0,1.41l3.3,3.28c.39.39,1.03.39,1.42,0l4.67-4.65c.19-.19.29-.44.29-.7l.02-3.36c0-.56-.45-1.01-1.01-1h-3.25c-.26.01-.52.12-.7.31L1.3,6.02Z" />
+		<Setter Property="FilledIconData" Value="m.59,5.31c-.78.78-.78,2.04,0,2.82l3.3,3.28c.78.78,2.05.78,2.84,0l4.67-4.65c.37-.37.58-.87.59-1.4l.02-3.36C12.01.9,11.1,0,9.99,0h-3.25c-.53.02-1.04.23-1.41.6L.59,5.31Zm8.41-1.31c-.55,0-1-.45-1-1s.45-1,1-1,1,.45,1,1-.45,1-1,1Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="12"
+						LayerType="Alt"
+						PathData="m11.5,2.01c0-.84-.67-1.51-1.51-1.51h-3.25c-.4.02-.77.17-1.06.45L.94,5.67c-.59.59-.59,1.53,0,2.12l3.3,3.28c.59.58,1.54.58,2.12,0l4.67-4.65c.28-.28.44-.65.44-1.05l.02-3.36Z" />
+					<local:ThemedIconLayer
+						LayerSize="12"
+						LayerType="Base"
+						PathData="m9,4c-.55,0-1-.45-1-1s.45-1,1-1,1,.45,1,1-.45,1-1,1ZM.59,8.14c-.78-.78-.78-2.04,0-2.82L5.33.6C5.7.23,6.21.02,6.74.01h3.25c1.12-.02,2.02.89,2.01,2l-.02,3.36c0,.52-.21,1.03-.59,1.4l-4.67,4.65c-.78.78-2.05.78-2.84,0l-3.3-3.28Zm.71-2.12c-.39.39-.39,1.02,0,1.41l3.3,3.28c.39.39,1.03.39,1.42,0l4.67-4.65c.19-.19.29-.44.29-.7l.02-3.36c0-.56-.45-1.01-1.01-1h-3.25c-.26.01-.52.12-.7.31L1.3,6.02Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="App.ThemedIcons.Status.KeepOffline"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+
+		<Setter Property="IconSize" Value="16" />
+
+		<Setter Property="OutlineIconData" Value="m13.5,11c-.28,0-.5.22-.5.5v1.5H3v-1.5c0-.28-.22-.5-.5-.5s-.5.22-.5.5v2c0,.28.22.5.5.5h11c.28,0,.5-.22.5-.5v-2c0-.28-.22-.5-.5-.5Zm-8.43-.18c.23.23.6.24.84.02l7.93-7.47c.2-.19.21-.51.02-.71-.19-.2-.51-.21-.71-.02l-7.65,7.21-2.41-2.44c-.19-.2-.51-.2-.71,0-.2.19-.2.51,0,.71l2.68,2.72Z" />
+		<Setter Property="FilledIconData" Value="m14.05,2.49c-.28-.3-.76-.32-1.06-.03l-7.47,7.04-2.23-2.27c-.29-.3-.77-.3-1.06,0s-.3.77,0,1.06l2.68,2.72c.32.33.85.34,1.19.02l7.93-7.47c.3-.28.32-.76.03-1.06Zm-.8,8.51c-.41,0-.75.34-.75.75v1.25H3.5v-1.25c0-.41-.34-.75-.75-.75s-.75.34-.75.75v2c0,.41.34.75.75.75h10.5c.41,0,.75-.34.75-.75v-2c0-.41-.34-.75-.75-.75Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m2,11.5c0-.28.22-.5.5-.5s.5.22.5.5v1.5h10v-1.5c0-.28.22-.5.5-.5s.5.22.5.5v2c0,.28-.22.5-.5.5H2.5c-.28,0-.5-.22-.5-.5v-2Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Accent"
+						PathData="m13.84,3.36c.2-.19.21-.51.02-.71-.19-.2-.51-.21-.71-.02l-7.65,7.21-2.41-2.44c-.19-.2-.51-.2-.71,0-.2.19-.2.51,0,.71l2.68,2.72c.23.23.6.24.84.02l7.93-7.47Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Tag_Partial.16"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+
+		<Setter Property="IconSize" Value="16" />
+
+		<Setter Property="OutlineIconData" Value="m15.99,2.03c0-1.1-.89-1.99-1.99-2L9.12,0c-.09,0-.18,0-.26.02.21.3.38.63.49.99l4.66.03c.55,0,.99.45.99,1v4.95c0,.27-.1.52-.29.71l-6.63,6.63c-.39.39-1.02.39-1.41,0l-1.52-1.52-.71.71,1.52,1.52c.78.78,2.05.78,2.83,0l6.63-6.63c.38-.38.59-.89.59-1.42V2.03Zm-3.01,1.97c0-.55-.45-1-1-1s-1,.45-1,1,.45,1,1,1,1-.45,1-1Z" />
+		<Setter Property="FilledIconData" Value="m4.43,13.5l4.05-4.05c.66-.66,1.03-1.55,1.03-2.48V2.03c0-.75-.24-1.44-.65-2.01.09-.01.17-.02.26-.02l4.89.03c1.1,0,1.99.9,1.99,2v4.95c0,.53-.2,1.04-.58,1.42l-6.63,6.63c-.78.78-2.05.78-2.83,0l-1.53-1.53ZM10.99,4c0,.55.45,1,1,1s1-.45,1-1-.45-1-1-1-1,.45-1,1Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Alt"
+						PathData="m4.79,13.15l3.69-3.69c.66-.66,1.03-1.55,1.03-2.48V2.03c0-.55-.14-1.07-.36-1.53l4.86.03c.82,0,1.49.67,1.49,1.5v4.95c0,.4-.15.78-.43,1.06l-6.63,6.63c-.59.59-1.54.59-2.12,0l-1.52-1.52Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m15.99,2.03c0-1.1-.89-1.99-1.99-2L9.12,0c-.09,0-.18,0-.26.02.21.3.38.63.49.99l4.66.03c.55,0,.99.45.99,1v4.95c0,.27-.1.52-.29.71l-6.63,6.63c-.39.39-1.02.39-1.41,0l-1.52-1.52-.71.71,1.52,1.52c.78.78,2.05.78,2.83,0l6.63-6.63c.38-.38.59-.89.59-1.42V2.03Zm-3.01,1.97c0-.55-.45-1-1-1s-1,.45-1,1,.45,1,1,1,1-.45,1-1Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Tag.16"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+
+		<Setter Property="IconSize" Value="16" />
+
+		<Setter Property="OutlineIconData" Value="m11.99,5c.55,0,1-.45,1-1s-.45-1-1-1-1,.45-1,1,.45,1,1,1ZM9.12,0c-.53,0-1.05.21-1.43.58L1.01,7.25c-.78.78-.78,2.05,0,2.83l4.95,4.95c.78.78,2.05.78,2.83,0l6.63-6.63c.38-.38.59-.89.59-1.42V2.03c0-1.1-.9-1.99-1.99-2L9.12,0Zm-.72,1.29c.19-.19.45-.29.71-.29l4.89.03c.55,0,.99.45.99,1v4.95c0,.27-.1.52-.29.71l-6.63,6.63c-.39.39-1.02.39-1.41,0L1.71,9.37c-.39-.39-.39-1.02,0-1.42L8.4,1.29Z" />
+		<Setter Property="FilledIconData" Value="m15.99,2.03c0-1.1-.89-1.99-1.99-2L9.12,0c-.53,0-1.05.21-1.43.58L1.01,7.25c-.78.78-.78,2.05,0,2.83l4.95,4.95c.78.78,2.05.78,2.83,0l6.63-6.63c.38-.38.59-.89.59-1.42V2.03Zm-4.01,2.97c-.55,0-1-.45-1-1s.45-1,1-1,1,.45,1,1-.45,1-1,1Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Alt"
+						PathData="m9.11.5c-.4,0-.79.16-1.07.44L1.36,7.6c-.59.59-.59,1.54,0,2.12l4.95,4.95c.59.59,1.54.59,2.12,0l6.63-6.63c.28-.28.44-.66.44-1.06V2.03c0-.82-.67-1.49-1.5-1.5l-4.89-.03Z" />
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="m11.99,5c.55,0,1-.45,1-1s-.45-1-1-1-1,.45-1,1,.45,1,1,1ZM9.12,0c-.53,0-1.05.21-1.43.58L1.01,7.25c-.78.78-.78,2.05,0,2.83l4.95,4.95c.78.78,2.05.78,2.83,0l6.63-6.63c.38-.38.59-.89.59-1.42V2.03c0-1.1-.9-1.99-1.99-2L9.12,0Zm-.72,1.29c.19-.19.45-.29.71-.29l4.89.03c.55,0,.99.45.99,1v4.95c0,.27-.1.52-.29.71l-6.63,6.63c-.39.39-1.02.39-1.41,0L1.71,9.37c-.39-.39-.39-1.02,0-1.42L8.4,1.29Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+
+	<Style
+		x:Key="App.ThemedIcons.Status.Spacer"
+		BasedOn="{StaticResource DefaultThemedIconStyle}"
+		TargetType="local:ThemedIcon">
+
+
+		<Setter Property="IconSize" Value="16" />
+
+		<Setter Property="OutlineIconData" Value="M9 8C9 8.55228 8.55228 9 8 9C7.44772 9 7 8.55228 7 8C7 7.44772 7.44772 7 8 7C8.55228 7 9 7.44772 9 8Z" />
+		<Setter Property="FilledIconData" Value="M9.5 8C9.5 8.82843 8.82843 9.5 8 9.5C7.17157 9.5 6.5 8.82843 6.5 8C6.5 7.17157 7.17157 6.5 8 6.5C8.82843 6.5 9.5 7.17157 9.5 8Z" />
+
+		<Setter Property="Layers">
+			<Setter.Value>
+				<local:ThemedIconLayers>
+					<local:ThemedIconLayer
+						LayerSize="16"
+						LayerType="Base"
+						PathData="M9 8C9 8.55228 8.55228 9 8 9C7.44772 9 7 8.55228 7 8C7 7.44772 7.44772 7 8 7C8.55228 7 9 7.44772 9 8Z" />
+				</local:ThemedIconLayers>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>

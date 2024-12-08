@@ -89,10 +89,12 @@
 						Background="Transparent"
 						BorderBrush="Transparent"
 						CornerRadius="0,4,4,0"
-						DataContextChanged="PathItemSeparator_DataContextChanged">
+						DataContextChanged="PathItemSeparator_DataContextChanged"
+						IsTabStop="False">
 						<Button.Flyout>
 							<MenuFlyout
 								x:Name="ExpandMenuFlyout"
+								Closed="PathBoxItemFlyout_Closed"
 								Opened="PathBoxItemFlyout_Opened"
 								Placement="BottomEdgeAlignedLeft"
 								ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -133,6 +135,7 @@
 		IsItemClickEnabled="True"
 		ItemTemplateSelector="{StaticResource PathBreadcrumbItemSelector}"
 		ItemsSource="{x:Bind ViewModel.PathComponents, Mode=OneWay}"
+		KeyDown="PathBoxItem_KeyDown"
 		ScrollViewer.HorizontalScrollBarVisibility="Hidden"
 		ScrollViewer.HorizontalScrollMode="Enabled"
 		ScrollViewer.VerticalScrollBarVisibility="Disabled"

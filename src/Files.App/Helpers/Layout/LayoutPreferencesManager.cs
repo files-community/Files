@@ -1,12 +1,12 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Server.Data.Enums;
+using Files.App.Data.Enums;
 using System.Text.Json;
 using Windows.Storage;
 using Windows.Win32;
 
-namespace Files.App.Data.Models
+namespace Files.App.Helpers
 {
 	/// <summary>
 	/// Represents manager for layout preferences settings.
@@ -236,7 +236,7 @@ namespace Files.App.Data.Models
 				_ when LayoutMode == FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.GridViewSize <= GridViewSizeKind.Small ||
 					   LayoutMode == FolderLayoutModes.TilesView
 					=> 96,
-				_ when  LayoutMode == FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.GridViewSize <= GridViewSizeKind.Large
+				_ when LayoutMode == FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.GridViewSize <= GridViewSizeKind.Large
 					=> 128,
 				_ => 256,
 			};
@@ -263,6 +263,13 @@ namespace Files.App.Data.Models
 				FolderLayoutModes.ColumnView => typeof(ColumnsLayoutPage),
 				_ => typeof(DetailsLayoutPage)
 			};
+		}
+
+		public bool IsPathUsingDefaultLayout(string? path)
+		{
+			return UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories ||
+				string.IsNullOrEmpty(path) ||
+				GetLayoutPreferencesFromDatabase(path, Win32Helper.GetFolderFRN(path)) is null;
 		}
 
 		public void ToggleLayoutModeColumnView(bool manuallySet)
@@ -392,7 +399,7 @@ namespace Files.App.Data.Models
 		{
 			if (!UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories)
 			{
-				var folderFRN = NativeFileOperationsHelper.GetFolderFRN(path);
+				var folderFRN = Win32Helper.GetFolderFRN(path);
 				var trimmedFolderPath = path.TrimPath();
 				if (trimmedFolderPath is not null)
 					SetLayoutPreferencesToDatabase(trimmedFolderPath, folderFRN, preferencesItem);
@@ -505,13 +512,16 @@ namespace Files.App.Data.Models
 			{
 				path = path.TrimPath() ?? string.Empty;
 
-				if (path.StartsWith("tag:", StringComparison.Ordinal))
-					return GetLayoutPreferencesFromDatabase("Home", null);
+				return SafetyExtensions.IgnoreExceptions(() =>
+				{
+					if (path.StartsWith("tag:", StringComparison.Ordinal))
+						return GetLayoutPreferencesFromDatabase("Home", null);
 
-				var folderFRN = NativeFileOperationsHelper.GetFolderFRN(path);
+					var folderFRN = Win32Helper.GetFolderFRN(path);
 
-				return GetLayoutPreferencesFromDatabase(path, folderFRN)
-					?? GetLayoutPreferencesFromAds(path, folderFRN)
+					return GetLayoutPreferencesFromDatabase(path, folderFRN)
+						?? GetLayoutPreferencesFromAds(path, folderFRN);
+				}, App.Logger)
 					?? GetDefaultLayoutPreferences(path);
 			}
 
@@ -520,7 +530,7 @@ namespace Files.App.Data.Models
 
 		private static LayoutPreferencesItem? GetLayoutPreferencesFromAds(string path, ulong? frn)
 		{
-			var str = NativeFileOperationsHelper.ReadStringFromFile($"{path}:files_layoutmode");
+			var str = Win32Helper.ReadStringFromFile($"{path}:files_layoutmode");
 
 			var layoutPreferences = SafetyExtensions.IgnoreExceptions(() =>
 				string.IsNullOrEmpty(str) ? null : JsonSerializer.Deserialize<LayoutPreferencesItem>(str));
@@ -529,8 +539,8 @@ namespace Files.App.Data.Models
 				return null;
 
 			// Port settings to the database, delete the ADS
-			SetLayoutPreferencesToDatabase(path, frn, layoutPreferences);
-			PInvoke.DeleteFileFromApp($"{path}:files_layoutmode");
+			if (SetLayoutPreferencesToDatabase(path, frn, layoutPreferences))
+				PInvoke.DeleteFileFromApp($"{path}:files_layoutmode");
 
 			return layoutPreferences;
 		}
@@ -575,20 +585,23 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private static void SetLayoutPreferencesToDatabase(string path, ulong? frn, LayoutPreferencesItem preferencesItem)
+		private static bool SetLayoutPreferencesToDatabase(string path, ulong? frn, LayoutPreferencesItem preferencesItem)
 		{
 			if (string.IsNullOrEmpty(path))
-				return;
+				return false;
 
-			var dbInstance = GetDatabaseManagerInstance();
-			if (dbInstance.GetPreferences(path, frn) is null &&
-				new LayoutPreferencesItem().Equals(preferencesItem))
+			return SafetyExtensions.IgnoreExceptions(() =>
 			{
-				// Do not create setting if it's default
-				return;
-			}
+				var dbInstance = GetDatabaseManagerInstance();
+				if (dbInstance.GetPreferences(path, frn) is null &&
+					new LayoutPreferencesItem().Equals(preferencesItem))
+				{
+					// Do not create setting if it's default
+					return;
+				}
 
-			dbInstance.SetPreferences(path, frn, preferencesItem);
+				dbInstance.SetPreferences(path, frn, preferencesItem);
+			});
 		}
 
 		private bool SetProperty<TValue>(Func<LayoutPreferencesItem, TValue> prop, Action<LayoutPreferencesItem> update, string propertyName)

@@ -1,15 +1,14 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Server.Data.Enums;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.Core;
@@ -62,13 +61,17 @@ namespace Files.App.Views.Shells
 
 		protected abstract Frame ItemDisplay { get; }
 
-		public abstract bool CanNavigateForward { get; }
+		public virtual bool CanNavigateForward => ItemDisplay.CanGoForward;
 
-		public abstract bool CanNavigateBackward { get; }
+		public virtual bool CanNavigateBackward => ItemDisplay.CanGoBack;
 
 		public bool IsColumnView => SlimContentPage is ColumnsLayoutPage;
 
-		public ItemViewModel FilesystemViewModel { get; protected set; }
+		public virtual IList<PageStackEntry> ForwardStack => ItemDisplay.ForwardStack;
+
+		public virtual IList<PageStackEntry> BackwardStack => ItemDisplay.BackStack;
+
+		public ShellViewModel ShellViewModel { get; protected set; }
 
 		public CurrentInstanceViewModel InstanceViewModel { get; }
 
@@ -81,20 +84,20 @@ namespace Files.App.Views.Shells
 				if (value != _ContentPage)
 				{
 					if (_ContentPage is not null)
-						_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested -= GitCheckout_Required;
+						_ContentPage.StatusBarViewModel.CheckoutRequested -= GitCheckout_Required;
 
 					_ContentPage = value;
 
 					NotifyPropertyChanged(nameof(ContentPage));
 					NotifyPropertyChanged(nameof(SlimContentPage));
 					if (value is not null)
-						_ContentPage.DirectoryPropertiesViewModel.CheckoutRequested += GitCheckout_Required;
+						_ContentPage.StatusBarViewModel.CheckoutRequested += GitCheckout_Required;
 				}
 			}
 		}
 
-		protected IPaneHolder _PaneHolder;
-		public IPaneHolder PaneHolder
+		protected IShellPanesPage _PaneHolder;
+		public IShellPanesPage PaneHolder
 		{
 			get => _PaneHolder;
 			set
@@ -108,8 +111,8 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected CustomTabViewItemParameter _TabItemArguments;
-		public CustomTabViewItemParameter TabItemParameter
+		protected TabBarItemParameter _TabItemArguments;
+		public TabBarItemParameter TabBarItemParameter
 		{
 			get => _TabItemArguments;
 			set
@@ -143,6 +146,10 @@ namespace Files.App.Views.Shells
 						_IsCurrentInstanceTCS = new();
 
 					NotifyPropertyChanged(nameof(IsCurrentInstance));
+
+					// Update background to show off the focused shell page
+					if (!IsColumnView)
+						VisualStateManager.GoToState(this, value ? "ShellBackgroundFocusOnState" : "ShellBackgroundFocusOffState", true);
 				}
 			}
 		}
@@ -151,22 +158,9 @@ namespace Files.App.Views.Shells
 
 		public virtual Task WhenIsCurrent() => _IsCurrentInstanceTCS.Task;
 
-		public SolidColorBrush CurrentInstanceBorderBrush
-		{
-			get => (SolidColorBrush)GetValue(CurrentInstanceBorderBrushProperty);
-			set => SetValue(CurrentInstanceBorderBrushProperty, value);
-		}
-
-		public static readonly DependencyProperty CurrentInstanceBorderBrushProperty =
-		   DependencyProperty.Register(
-			nameof(CurrentInstanceBorderBrush),
-			typeof(SolidColorBrush),
-			typeof(ModernShellPage),
-			new PropertyMetadata(null));
-
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public event EventHandler<CustomTabViewItemParameter> ContentChanged;
+		public event EventHandler<TabBarItemParameter> ContentChanged;
 
 		public BaseShellPage(CurrentInstanceViewModel instanceViewModel)
 		{
@@ -240,18 +234,16 @@ namespace Files.App.Views.Shells
 			if (ContentPage is null)
 				return;
 
-			var directoryItemCountLocalization = (FilesystemViewModel.FilesAndFolders.Count == 1)
-				? "ItemCount/Text".GetLocalizedResource()
-				: "ItemsCount/Text".GetLocalizedResource();
+			var directoryItemCountLocalization = "Items".GetLocalizedFormatResource(ShellViewModel.FilesAndFolders.Count);
 
 			BranchItem? headBranch = headBranch = InstanceViewModel.IsGitRepository
 					? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
 					: null;
 
-			if (InstanceViewModel.GitRepositoryPath != FilesystemViewModel.GitDirectory)
+			if (InstanceViewModel.GitRepositoryPath != ShellViewModel.GitDirectory)
 			{
-				InstanceViewModel.GitRepositoryPath = FilesystemViewModel.GitDirectory;
-				InstanceViewModel.IsGitRepository = FilesystemViewModel.IsValidGitDirectory;
+				InstanceViewModel.GitRepositoryPath = ShellViewModel.GitDirectory;
+				InstanceViewModel.IsGitRepository = ShellViewModel.IsValidGitDirectory;
 
 				InstanceViewModel.GitBranchName = headBranch is not null
 					? headBranch.Name
@@ -277,13 +269,13 @@ namespace Files.App.Views.Shells
 
 			if (!GitHelpers.IsExecutingGitAction)
 			{
-				contentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+				contentPage.StatusBarViewModel.UpdateGitInfo(
 					InstanceViewModel.IsGitRepository,
 					InstanceViewModel.GitRepositoryPath,
 					headBranch);
 			}
 
-			contentPage.DirectoryPropertiesViewModel.DirectoryItemCount = $"{FilesystemViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
+			contentPage.StatusBarViewModel.DirectoryItemCount = $"{ShellViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
 			contentPage.UpdateSelectionSize();
 		}
 
@@ -300,7 +292,7 @@ namespace Files.App.Views.Shells
 				? head.Name
 				: string.Empty;
 
-			ContentPage?.DirectoryPropertiesViewModel.UpdateGitInfo(
+			ContentPage?.StatusBarViewModel.UpdateGitInfo(
 				InstanceViewModel.IsGitRepository,
 				InstanceViewModel.GitRepositoryPath,
 				head);
@@ -308,14 +300,14 @@ namespace Files.App.Views.Shells
 
 		protected async void GitCheckout_Required(object? sender, string branchName)
 		{
-			if (!await GitHelpers.Checkout(FilesystemViewModel.GitDirectory, branchName))
+			if (!await GitHelpers.Checkout(ShellViewModel.GitDirectory, branchName))
 			{
-				_ContentPage.DirectoryPropertiesViewModel.ShowLocals = true;
-				_ContentPage.DirectoryPropertiesViewModel.SelectedBranchIndex = DirectoryPropertiesViewModel.ACTIVE_BRANCH_INDEX;
+				_ContentPage.StatusBarViewModel.ShowLocals = true;
+				_ContentPage.StatusBarViewModel.SelectedBranchIndex = StatusBarViewModel.ACTIVE_BRANCH_INDEX;
 			}
 			else
 			{
-				ContentPage.DirectoryPropertiesViewModel.UpdateGitInfo(
+				ContentPage.StatusBarViewModel.UpdateGitInfo(
 					InstanceViewModel.IsGitRepository,
 					InstanceViewModel.GitRepositoryPath,
 					await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath));
@@ -364,18 +356,18 @@ namespace Files.App.Views.Shells
 
 		protected async void ShellPage_TextChanged(ISearchBoxViewModel sender, SearchBoxTextChangedEventArgs e)
 		{
-			FilesystemViewModel.FilesAndFoldersFilter = sender.Query;
-			await FilesystemViewModel.ApplyFilesAndFoldersChangesAsync();
-
 			if (e.Reason != SearchBoxTextChangeReason.UserInput)
 				return;
+
+			ShellViewModel.FilesAndFoldersFilter = sender.Query;
+			await ShellViewModel.ApplyFilesAndFoldersChangesAsync();
 
 			if (!string.IsNullOrWhiteSpace(sender.Query))
 			{
 				var search = new FolderSearch
 				{
 					Query = sender.Query,
-					Folder = FilesystemViewModel.WorkingDirectory,
+					Folder = ShellViewModel.WorkingDirectory,
 					MaxItemCount = 10,
 				};
 
@@ -394,22 +386,22 @@ namespace Files.App.Views.Shells
 
 		protected void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
 		{
-			FilesystemViewModel?.UpdateSortDirectionStatusAsync();
+			ShellViewModel?.UpdateSortDirectionStatusAsync();
 		}
 
 		protected void AppSettings_SortOptionPreferenceUpdated(object sender, SortOption e)
 		{
-			FilesystemViewModel?.UpdateSortOptionStatusAsync();
+			ShellViewModel?.UpdateSortOptionStatusAsync();
 		}
 
 		protected void AppSettings_SortDirectoriesAlongsideFilesPreferenceUpdated(object sender, bool e)
 		{
-			FilesystemViewModel?.UpdateSortDirectoriesAlongsideFilesAsync();
+			ShellViewModel?.UpdateSortDirectoriesAlongsideFilesAsync();
 		}
 
 		protected void AppSettings_SortFilesFirstPreferenceUpdated(object sender, bool e)
 		{
-			FilesystemViewModel?.UpdateSortFilesFirstAsync();
+			ShellViewModel?.UpdateSortFilesFirstAsync();
 		}
 
 		protected void CoreWindow_PointerPressed(object sender, PointerRoutedEventArgs args)
@@ -456,9 +448,9 @@ namespace Files.App.Views.Shells
 		{
 			ToolbarViewModel.ManualEntryBoxLoaded = true;
 			ToolbarViewModel.ClickablePathLoaded = false;
-			ToolbarViewModel.PathText = string.IsNullOrEmpty(FilesystemViewModel?.WorkingDirectory)
+			ToolbarViewModel.PathText = string.IsNullOrEmpty(ShellViewModel?.WorkingDirectory)
 				? Constants.UserEnvironmentPaths.HomePath
-				: FilesystemViewModel.WorkingDirectory;
+				: ShellViewModel.WorkingDirectory;
 		}
 
 		protected async void DrivesManager_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -501,23 +493,23 @@ namespace Files.App.Views.Shells
 
 		public void SubmitSearch(string query)
 		{
-			FilesystemViewModel.CancelSearch();
+			ShellViewModel.CancelSearch();
 			InstanceViewModel.CurrentSearchQuery = query;
 
 			var args = new NavigationArguments()
 			{
 				AssociatedTabInstance = this,
 				IsSearchResultPage = true,
-				SearchPathParam = FilesystemViewModel.WorkingDirectory,
+				SearchPathParam = ShellViewModel.WorkingDirectory,
 				SearchQuery = query,
 			};
 
-			var layout = InstanceViewModel.FolderSettings.GetLayoutType(FilesystemViewModel.WorkingDirectory);
+			var layout = InstanceViewModel.FolderSettings.GetLayoutType(ShellViewModel.WorkingDirectory);
 
 			if (layout == typeof(ColumnsLayoutPage))
-				NavigateToPath(FilesystemViewModel.WorkingDirectory, typeof(DetailsLayoutPage), args);
+				NavigateToPath(ShellViewModel.WorkingDirectory, typeof(DetailsLayoutPage), args);
 			else
-				NavigateToPath(FilesystemViewModel.WorkingDirectory, layout, args);
+				NavigateToPath(ShellViewModel.WorkingDirectory, layout, args);
 		}
 
 		public void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs)
@@ -548,7 +540,7 @@ namespace Files.App.Views.Shells
 
 		public async Task RefreshIfNoWatcherExistsAsync()
 		{
-			if (FilesystemViewModel.HasNoWatcher)
+			if (ShellViewModel.HasNoWatcher)
 				await Refresh_Click();
 		}
 
@@ -559,17 +551,17 @@ namespace Files.App.Views.Shells
 				ToolbarViewModel.CanRefresh = false;
 				var searchInstance = new FolderSearch
 				{
-					Query = InstanceViewModel.CurrentSearchQuery ?? (string)TabItemParameter.NavigationParameter,
-					Folder = FilesystemViewModel.WorkingDirectory,
+					Query = InstanceViewModel.CurrentSearchQuery ?? (string)TabBarItemParameter.NavigationParameter,
+					Folder = ShellViewModel.WorkingDirectory,
 					ThumbnailSize = InstanceViewModel.FolderSettings.GetRoundedIconSize(),
 				};
 
-				await FilesystemViewModel.SearchAsync(searchInstance);
+				await ShellViewModel.SearchAsync(searchInstance);
 			}
 			else if (CurrentPageType != typeof(HomePage))
 			{
 				ToolbarViewModel.CanRefresh = false;
-				FilesystemViewModel?.RefreshItems(null);
+				ShellViewModel?.RefreshItems(null);
 			}
 		}
 
@@ -578,9 +570,7 @@ namespace Files.App.Views.Shells
 			var previousPageContent = ItemDisplay.BackStack[ItemDisplay.BackStack.Count - 1];
 			HandleBackForwardRequest(previousPageContent);
 
-			if (previousPageContent.SourcePageType == typeof(HomePage))
-				ItemDisplay.GoBack(new EntranceNavigationTransitionInfo());
-			else
+			if (ItemDisplay.CanGoBack)
 				ItemDisplay.GoBack();
 		}
 
@@ -589,7 +579,8 @@ namespace Files.App.Views.Shells
 			var incomingPageContent = ItemDisplay.ForwardStack[ItemDisplay.ForwardStack.Count - 1];
 			HandleBackForwardRequest(incomingPageContent);
 
-			ItemDisplay.GoForward();
+			if (ItemDisplay.CanGoForward)
+				ItemDisplay.GoForward();
 		}
 
 		public void ResetNavigationStackLayoutMode()
@@ -632,7 +623,7 @@ namespace Files.App.Views.Shells
 			ItemDisplay.BackStack.Remove(ItemDisplay.BackStack.LastOrDefault());
 		}
 
-		public void RaiseContentChanged(IShellPage instance, CustomTabViewItemParameter args)
+		public void RaiseContentChanged(IShellPage instance, TabBarItemParameter args)
 		{
 			ContentChanged?.Invoke(instance, args);
 		}
@@ -659,6 +650,10 @@ namespace Files.App.Views.Shells
 					break;
 				case ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete:
 					SetLoadingIndicatorForTabs(false);
+
+					if (ContentPage is not null)
+						ContentPage.ItemManipulationModel.ScrollToTop();
+
 					ToolbarViewModel.CanRefresh = true;
 					// Select previous directory
 					if (!string.IsNullOrWhiteSpace(e.PreviousDirectory) &&
@@ -692,23 +687,26 @@ namespace Files.App.Views.Shells
 						if (folderToSelect.EndsWith(separator))
 							folderToSelect = folderToSelect.Remove(folderToSelect.Length - 1, 1);
 
-						var itemToSelect = FilesystemViewModel.FilesAndFolders.ToList().FirstOrDefault((item) => item.ItemPath == folderToSelect);
+						var itemToSelect = ShellViewModel.FilesAndFolders.ToList().FirstOrDefault((item) => item.ItemPath == folderToSelect);
 
-						if (itemToSelect is not null && ContentPage is not null)
+						if (itemToSelect is not null && ContentPage is not null && userSettingsService.FoldersSettingsService.ScrollToPreviousFolderWhenNavigatingUp)
 						{
-							if (userSettingsService.FoldersSettingsService.ScrollToPreviousFolderWhenNavigatingUp)
-							{
-								ContentPage.ItemManipulationModel.SetSelectedItem(itemToSelect);
-								ContentPage.ItemManipulationModel.ScrollIntoView(itemToSelect);
-							}
+							ContentPage.ItemManipulationModel.SetSelectedItem(itemToSelect);
+							ContentPage.ItemManipulationModel.ScrollIntoView(itemToSelect);
 						}
 					}
 					break;
 			}
 		}
 
-		protected virtual void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
+		private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
 		{
+			if (ShellViewModel is null)
+				return;
+
+			LayoutPreferencesManager.SetLayoutPreferencesForPath(ShellViewModel.WorkingDirectory, e.LayoutPreference);
+			if (e.IsAdaptiveLayoutUpdateRequired)
+				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(InstanceViewModel.FolderSettings, ShellViewModel.FilesAndFolders.ToList());
 		}
 
 		protected virtual void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
@@ -767,10 +765,17 @@ namespace Files.App.Views.Shells
 
 		protected void SetLoadingIndicatorForTabs(bool isLoading)
 		{
-			var multitaskingControls = ((MainWindow.Instance.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
+			try
+			{
+				var multitaskingControls = ((MainWindow.Instance.Content as Frame).Content as MainPage).ViewModel.MultitaskingControls;
 
-			foreach (var x in multitaskingControls)
-				x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.TabItemContent == PaneHolder), isLoading);
+				foreach (var x in multitaskingControls)
+					x.SetLoadingIndicatorStatus(x.Items.FirstOrDefault(x => x.TabItemContent == PaneHolder), isLoading);
+			}
+			catch (COMException)
+			{
+
+			}
 		}
 
 		// WINUI3
@@ -808,11 +813,11 @@ namespace Files.App.Views.Shells
 			if (userSettingsService.GeneralSettingsService.DateTimeFormat != _lastDateTimeFormats)
 			{
 				_lastDateTimeFormats = userSettingsService.GeneralSettingsService.DateTimeFormat;
-				FilesystemViewModel?.UpdateDateDisplay(true);
+				ShellViewModel?.UpdateDateDisplay(true);
 			}
 			else if (userSettingsService.GeneralSettingsService.DateTimeFormat == DateTimeFormats.Application)
 			{
-				FilesystemViewModel?.UpdateDateDisplay(false);
+				ShellViewModel?.UpdateDateDisplay(false);
 			}
 		}
 
@@ -840,15 +845,15 @@ namespace Files.App.Views.Shells
 			InstanceViewModel.FolderSettings.SortFilesFirstPreferenceUpdated -= AppSettings_SortFilesFirstPreferenceUpdated;
 
 			// Prevent weird case of this being null when many tabs are opened/closed quickly
-			if (FilesystemViewModel is not null)
+			if (ShellViewModel is not null)
 			{
-				FilesystemViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
-				FilesystemViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
-				FilesystemViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
-				FilesystemViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
-				FilesystemViewModel.OnSelectionRequestedEvent -= FilesystemViewModel_OnSelectionRequestedEvent;
-				FilesystemViewModel.GitDirectoryUpdated -= FilesystemViewModel_GitDirectoryUpdated;
-				FilesystemViewModel.Dispose();
+				ShellViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
+				ShellViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
+				ShellViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
+				ShellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+				ShellViewModel.OnSelectionRequestedEvent -= FilesystemViewModel_OnSelectionRequestedEvent;
+				ShellViewModel.GitDirectoryUpdated -= FilesystemViewModel_GitDirectoryUpdated;
+				ShellViewModel.Dispose();
 			}
 
 			if (ItemDisplay.Content is IDisposable disposableContent)

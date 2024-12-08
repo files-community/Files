@@ -1,9 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.App.Server.Data.Enums;
-using Microsoft.AppCenter.Analytics;
-
 namespace Files.App.Services.Settings
 {
 	internal sealed class FoldersSettingsService : BaseObservableJsonSettings, IFoldersSettingsService
@@ -112,28 +109,6 @@ namespace Files.App.Services.Settings
 
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
-			switch (e.SettingName)
-			{
-				case nameof(ShowHiddenItems):
-				case nameof(ShowProtectedSystemFiles):
-				case nameof(AreAlternateStreamsVisible):
-				case nameof(ShowDotFiles):
-				case nameof(OpenItemsWithOneClick):
-				case nameof(ColumnLayoutOpenFoldersWithOneClick):
-				case nameof(OpenFoldersInNewTab):
-				case nameof(ScrollToPreviousFolderWhenNavigatingUp):
-				case nameof(CalculateFolderSizes):
-				case nameof(ShowFileExtensions):
-				case nameof(ShowThumbnails):
-				case nameof(DeleteConfirmationPolicy):
-				case nameof(SelectFilesOnHover):
-				case nameof(DoubleClickToGoUp):
-				case nameof(ShowFileExtensionWarning):
-				case nameof(ShowCheckboxesWhenSelectingItems):
-					Analytics.TrackEvent($"Set {e.SettingName} to {e.NewValue}");
-					break;
-			}
-
 			base.RaiseOnSettingChangedEvent(sender, e);
 		}
 	}

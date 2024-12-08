@@ -1,8 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Files.Core.Storage;
-
 namespace Files.App.Actions
 {
 	internal sealed class UnpinFromStartAction : IAction
@@ -20,33 +18,39 @@ namespace Files.App.Actions
 			=> "UnpinFromStartDescription".GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new(opacityStyle: "Icons.Unpin.16x16");
+			=> new(themedIconStyle: "App.ThemedIcons.FavoritePinRemove");
 
 		public UnpinFromStartAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
-		public async Task ExecuteAsync()
+		public async Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.SelectedItems.Count > 0)
 			{
 				foreach (ListedItem listedItem in context.ShellPage?.SlimContentPage.SelectedItems)
 				{
-					IStorable storable = listedItem.IsFolder switch
+					await SafetyExtensions.IgnoreExceptions(async () =>
 					{
-						true => await StorageService.GetFolderAsync(listedItem.ItemPath),
-						_ => await StorageService.GetFileAsync((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath)
-					};
-					await StartMenuService.UnpinAsync(storable);
+						IStorable storable = listedItem.IsFolder switch
+						{
+							true => await StorageService.GetFolderAsync(listedItem.ItemPath),
+							_ => await StorageService.GetFileAsync((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath)
+						};
+						await StartMenuService.UnpinAsync(storable);
+					});
 				}
 			}
 			else
 			{
-				var currentFolder = context.ShellPage.FilesystemViewModel.CurrentFolder;
-				var folder = await StorageService.GetFolderAsync(currentFolder.ItemPath);
+				await SafetyExtensions.IgnoreExceptions(async () =>
+				{
+					var currentFolder = context.ShellPage.ShellViewModel.CurrentFolder;
+					var folder = await StorageService.GetFolderAsync(currentFolder.ItemPath);
 
-				await StartMenuService.UnpinAsync(folder);
+					await StartMenuService.UnpinAsync(folder);
+				});
 			}
 		}
 	}

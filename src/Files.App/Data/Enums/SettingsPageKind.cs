@@ -11,7 +11,7 @@ namespace Files.App.Data.Enums
 		FoldersPage,
 		ActionsPage,
 		TagsPage,
-		GitPage,
+		DevToolsPage,
 		AdvancedPage,
 		AboutPage,
 	}
