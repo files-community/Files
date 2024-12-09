@@ -2,13 +2,11 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using CommunityToolkit.WinUI.UI;
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Graphics;
 using Windows.Storage;
 using Windows.Win32;
 
@@ -363,24 +361,12 @@ namespace Files.App.UserControls.TabBar
 		private void DragAreaRectangle_Loaded(object sender, RoutedEventArgs e)
 		{
 			double scaleAdjustment = DragAreaRectangle.XamlRoot.RasterizationScale;
-    		double titleBarInset = ((FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
-        		? MainWindow.Instance.AppWindow.TitleBar.LeftInset
-        		: MainWindow.Instance.AppWindow.TitleBar.RightInset) / scaleAdjustment) + 40;
+			double titleBarInset = ((FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
+				? MainWindow.Instance.AppWindow.TitleBar.LeftInset
+				: MainWindow.Instance.AppWindow.TitleBar.RightInset) / scaleAdjustment) + 40;
 
-   			HorizontalTabView.Measure(new(HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset, HorizontalTabView.ActualHeight));
-    		RightPaddingColumn.Width = new(titleBarInset >= 0 ? titleBarInset : 0);
-		}
-
-			DispatcherQueue.TryEnqueue(() => DragAreaRectangle_Loaded(sender, e));
-		}
-
-		public int SetTitleBarDragRegion(InputNonClientPointerSource source, SizeInt32 size, double scaleFactor, Func<UIElement, RectInt32?, RectInt32> getScaledRect)
-		{
-			var height = (int)ActualHeight;
-			var width = (int)(ActualWidth - DragArea.ActualWidth);
-
-			source.SetRegionRects(NonClientRegionKind.Passthrough, [getScaledRect(this, new RectInt32(0, 0, width, height))]);
-			return height;
+			HorizontalTabView.Measure(new(HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset, HorizontalTabView.ActualHeight));
+			RightPaddingColumn.Width = new(titleBarInset >= 0 ? titleBarInset : 0);
 		}
 	}
 }
