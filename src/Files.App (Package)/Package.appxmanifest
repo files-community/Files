@@ -16,7 +16,7 @@
     <Identity
         Name="FilesDev"
         Publisher="CN=Files"
-        Version="3.8.1.0" />
+        Version="3.3.4.0" />
 
     <Properties>
         <DisplayName>Files - Dev</DisplayName>
@@ -33,11 +33,11 @@
         <Resource Language="en-US" />
         <Resource Language="af" />
         <Resource Language="ar" />
-        <Resource Language="be-BY" />
         <Resource Language="bg" />
         <Resource Language="ca" />
         <Resource Language="cs-CZ" />
         <Resource Language="da" />
+        <Resource Language="da-DK" />
         <Resource Language="de-DE" />
         <Resource Language="el" />
         <Resource Language="en-GB" />
@@ -55,21 +55,18 @@
         <Resource Language="it-IT" />
         <Resource Language="ja-JP" />
         <Resource Language="ka" />
-        <Resource Language="km-KH" />
         <Resource Language="ko-KR" />
-        <Resource Language="lt-LT" />
-        <Resource Language="lv-LV" />        
-        <Resource Language="ms-MY" />
+        <Resource Language="lt" />
+        <Resource Language="lv-LV" />
         <Resource Language="nb-NO" />
         <Resource Language="nl-NL" />
+        <Resource Language="or-IN" />
         <Resource Language="pl-PL" />
         <Resource Language="pt-BR" />
         <Resource Language="pt-PT" />
         <Resource Language="ro-RO" />
         <Resource Language="ru-RU" />
-        <Resource Language="sk-SK" />
-        <Resource Language="sq-AL" />
-        <Resource Language="sr-Cyrl" />
+        <Resource Language="sk-SK" />             
         <Resource Language="sv-SE" />
         <Resource Language="ta" />
         <Resource Language="th-TH" />
@@ -98,7 +95,7 @@
                     Wide310x150Logo="Assets\AppTiles\Dev\Wide310x150Logo.png"
                     Square71x71Logo="Assets\AppTiles\Dev\Small71x71Logo.png"
                     Square310x310Logo="Assets\AppTiles\Dev\Large310x310Logo.png"
-                    ShortName="Files - Dev">
+                    ShortName="Files">
                     <uap:ShowNameOnTiles>
                         <uap:ShowOn Tile="square150x150Logo" />
                         <uap:ShowOn Tile="wide310x150Logo" />
@@ -119,26 +116,12 @@
                 </uap3:Extension>
 
                 <uap:Extension Category="windows.protocol">
-                    <!--  This is kept for backward compatibility.  -->
                     <uap:Protocol ReturnResults="none" Name="files-uwp" />
-                </uap:Extension>
-
-                <uap:Extension Category="windows.protocol">
-                    <!--  This is kept for backward compatibility.  -->
-                    <uap:Protocol ReturnResults="none" Name="files" />
-                </uap:Extension>
-
-                <uap:Extension Category="windows.protocol">
-                    <!--  This value changes based on the build branch by CI (files-stable, files-preview, files-dev).  -->
-                    <uap:Protocol ReturnResults="none" Name="files-dev" />
                 </uap:Extension>
 
                 <uap5:Extension Category="windows.appExecutionAlias">
                     <uap5:AppExecutionAlias>
-                        <!--  This is kept for backward compatibility.  -->
                         <uap5:ExecutionAlias Alias="files.exe" />
-                        <!--  This value changes based on the build branch by CI (files-stable, files-preview, files-dev).  -->
-                        <uap5:ExecutionAlias Alias="files-dev.exe" />
                     </uap5:AppExecutionAlias>
                 </uap5:Extension>
 
@@ -160,7 +143,6 @@
                             <uap:FileType>.tar</uap:FileType>
                             <uap:FileType>.jar</uap:FileType>
                             <uap:FileType>.mrpack</uap:FileType>
-                            <uap:FileType>.gz</uap:FileType>
                         </uap:SupportedFileTypes>
                         <uap:Logo>assets\archives\ExtensionIcon.png</uap:Logo>
                     </uap:FileTypeAssociation>
@@ -171,7 +153,7 @@
         </Application>
     </Applications>
 
-    <!-- To host The background task component, this activatable class entry must be added. -->
+    <!-- To Host The Background Task Component, This Activatable Class Entry Must Be Added. -->
     <Extensions>
         <Extension Category="windows.activatableClass.inProcessServer">
             <InProcessServer>
@@ -184,6 +166,13 @@
                 <Path>Files.App.Server\Files.App.Server.exe</Path>
                 <Instancing>singleInstance</Instancing>
                 <ActivatableClass ActivatableClassId="Files.App.Server.AppInstanceMonitor" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.Database.FileTagsDatabase" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.Database.LayoutPreferencesDatabase" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.Data.ColumnPreferences" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.Data.ColumnPreferencesItem" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.Data.TaggedFile" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.Data.LayoutPreferences" />
+                <ActivatableClass ActivatableClassId="Files.App.Server.Data.LayoutPreferencesItem" />
             </OutOfProcessServer>
         </Extension>
     </Extensions>
