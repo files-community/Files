@@ -360,13 +360,27 @@ namespace Files.App.UserControls.TabBar
 
 		private void DragAreaRectangle_Loaded(object sender, RoutedEventArgs e)
 		{
-			var scaleAdjustment = DragAreaRectangle.XamlRoot.RasterizationScale;
-			var titleBarInset = ((FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
-				? MainWindow.Instance.AppWindow.TitleBar.LeftInset
-				: MainWindow.Instance.AppWindow.TitleBar.RightInset) / scaleAdjustment) + 40;
+			if (HorizontalTabView.ActualWidth > 0 && TabBarAddNewTabButton.Width > 0)
+			{
+				var appWindow = MainWindow.Instance.AppWindow;
+				var titleBarInset = (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
+					? appWindow.TitleBar.LeftInset
+					: appWindow.TitleBar.RightInset) / DragAreaRectangle.XamlRoot.RasterizationScale;
 
-			HorizontalTabView.Measure(new(HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset, HorizontalTabView.ActualHeight));
-			RightPaddingColumn.Width = new(titleBarInset);
+				if (titleBarInset > 0)
+				{
+					titleBarInset += 40; // Add 40px gap
+					RightPaddingColumn.Width = new(titleBarInset);
+
+					HorizontalTabView.Measure(new(
+						HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset,
+						HorizontalTabView.ActualHeight));
+
+					return;
+				}
+			}
+
+			DispatcherQueue.TryEnqueue(() => DragAreaRectangle_Loaded(sender, e));
 		}
 	}
 }
