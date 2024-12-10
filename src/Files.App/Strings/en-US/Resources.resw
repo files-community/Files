@@ -2195,6 +2195,9 @@
   <data name="WhatsNew" xml:space="preserve">
     <value>What's new</value>
   </data>
+  <data name="WhatsNewDescription" xml:space="preserve">
+    <value>Open Release Notes</value>
+  </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Creating a shortcut in this location requires administrator privileges</value>
   </data>
@@ -3976,6 +3979,9 @@
   </data>
   <data name="BulkRename" xml:space="preserve">
     <value>Bulk rename</value>
+  </data>
+  <data name="CompressContents" xml:space="preserve">
+    <value>Compress contents</value>
   </data>
   <data name="ShowCreateAlternateDataStream" xml:space="preserve">
     <value>Show option to create alternate data stream</value>
