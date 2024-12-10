@@ -64,15 +64,6 @@ namespace Files.App.UserControls.TabBar
 			tabHoverTimer.Interval = TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToOpenTimespan);
 			tabHoverTimer.Tick += TabHoverSelected;
 
-			var appWindow = MainWindow.Instance.AppWindow;
-
-			double rightPaddingColumnWidth =
-				FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
-					? appWindow.TitleBar.LeftInset
-					: appWindow.TitleBar.RightInset;
-
-			RightPaddingColumn.Width = new(rightPaddingColumnWidth >= 0 ? rightPaddingColumnWidth : 0);
-
 			AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
 				switch (e.PropertyName)
@@ -365,6 +356,17 @@ namespace Files.App.UserControls.TabBar
 						iconControl.Content = (tabViewItem.IconSource as ImageIconSource)?.CreateIconElement();
 				});
 			}
+		}
+
+		private void DragAreaRectangle_Loaded(object sender, RoutedEventArgs e)
+		{
+			double scaleAdjustment = DragAreaRectangle.XamlRoot.RasterizationScale;
+			double titleBarInset = ((FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
+				? MainWindow.Instance.AppWindow.TitleBar.LeftInset
+				: MainWindow.Instance.AppWindow.TitleBar.RightInset) / scaleAdjustment) + 40;
+
+			HorizontalTabView.Measure(new(HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset, HorizontalTabView.ActualHeight));
+			RightPaddingColumn.Width = new(titleBarInset >= 0 ? titleBarInset : 0);
 		}
 	}
 }
