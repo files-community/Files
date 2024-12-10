@@ -272,7 +272,7 @@ namespace Files.App.Utils.Storage
 			bool isReparsePoint = ((FileAttributes)findData.dwFileAttributes & FileAttributes.ReparsePoint) == FileAttributes.ReparsePoint;
 			bool isSymlink = isReparsePoint && findData.dwReserved0 == Win32PInvoke.IO_REPARSE_TAG_SYMLINK;
 
-			if (isSymlink)
+			if (isSymlink && !isGitRepo)
 			{
 				var targetPath = Win32Helper.ParseSymLink(itemPath);
 
@@ -294,6 +294,30 @@ namespace Files.App.Utils.Storage
 					FileSizeBytes = itemSizeBytes,
 					TargetPath = targetPath,
 					IsSymLink = true
+				};
+			}
+			else if (isSymlink && isGitRepo)
+			{
+				var targetPath = Win32Helper.ParseSymLink(itemPath);
+
+				return new GitShortcutItem()
+				{
+					PrimaryItemAttribute = StorageItemTypes.File,
+					FileExtension = itemFileExtension,
+					IsHiddenItem = isHidden,
+					Opacity = opacity,
+					FileImage = null,
+					LoadFileIcon = itemThumbnailImgVis,
+					ItemNameRaw = itemName,
+					ItemDateModifiedReal = itemModifiedDate,
+					ItemDateAccessedReal = itemLastAccessDate,
+					ItemDateCreatedReal = itemCreatedDate,
+					ItemType = "Shortcut".GetLocalizedResource(),
+					ItemPath = itemPath,
+					FileSize = itemSize,
+					FileSizeBytes = itemSizeBytes,
+					TargetPath = targetPath,
+					IsSymLink = true,
 				};
 			}
 			else if (FileExtensionHelpers.IsShortcutOrUrlFile(findData.cFileName))
