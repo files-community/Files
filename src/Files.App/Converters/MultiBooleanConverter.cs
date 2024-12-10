@@ -23,7 +23,7 @@ namespace Files.App.Converters
 			=> (a || b) ? Visibility.Visible : Visibility.Collapsed;
 
 		public static Visibility AndConvertToVisibility(bool a, bool b)
-		=> (a && b) ? Visibility.Visible : Visibility.Collapsed;
+			=> (a && b) ? Visibility.Visible : Visibility.Collapsed;
 
 		public static Visibility NorConvertToVisibility(bool a, bool b)
 			=> !(a || b) ? Visibility.Visible : Visibility.Collapsed;
