@@ -42,6 +42,7 @@
     </PropertyGroup>
   
     <ItemGroup>
+        <Manifest Include="$(ApplicationManifest)" />
         <Content Update="Assets\Resources\**">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
