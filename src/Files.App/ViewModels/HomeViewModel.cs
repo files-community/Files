@@ -11,7 +11,6 @@ namespace Files.App.ViewModels
 		// Dependency injections
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
 
 		// Properties
 
@@ -180,7 +179,6 @@ namespace Files.App.ViewModels
 		private void ExecuteHomePageLoadedCommand(RoutedEventArgs? e)
 		{
 			ReloadWidgets();
-			AppearanceSettingsService.ShowToolbar = false;
 		}
 
 		// Disposer
@@ -191,7 +189,6 @@ namespace Files.App.ViewModels
 				WidgetItems[i].Dispose();
 
 			WidgetItems.Clear();
-			AppearanceSettingsService.ShowToolbar = true;
 		}
 	}
 }
