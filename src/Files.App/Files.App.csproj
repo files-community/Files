@@ -15,7 +15,7 @@
         <GenerateTestArtifacts>False</GenerateTestArtifacts>
         <AppxBundle>Always</AppxBundle>
         <DisableXbfLineInfo>False</DisableXbfLineInfo>
-        <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
+        <AppxBundlePlatforms>x64|arm64</AppxBundlePlatforms>
         <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
         <Nullable>Enable</Nullable>
         <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -42,7 +42,6 @@
     </PropertyGroup>
   
     <ItemGroup>
-        <Manifest Include="app.manifest" />
         <Content Update="Assets\Resources\**">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
