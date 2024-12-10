@@ -358,7 +358,7 @@ namespace Files.App.UserControls.TabBar
 			}
 		}
 
-		private void DragAreaRectangle_Loaded(object sender, RoutedEventArgs e)
+		private void DragAreaRectangle_Loaded(object? sender, RoutedEventArgs e)
 		{
 			if (HorizontalTabView.ActualWidth > 0 && TabBarAddNewTabButton.Width > 0)
 			{
@@ -380,7 +380,8 @@ namespace Files.App.UserControls.TabBar
 				}
 			}
 
-			DispatcherQueue.TryEnqueue(() => DragAreaRectangle_Loaded(sender, e));
+			if (sender is not null)
+				DispatcherQueue.TryEnqueue(() => DragAreaRectangle_Loaded(null, e));
 		}
 	}
 }
