@@ -35,6 +35,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Manifest Include="app.manifest" />
         <TrimmerRootAssembly Include="Files.App.Server" />
         <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
     </ItemGroup>
