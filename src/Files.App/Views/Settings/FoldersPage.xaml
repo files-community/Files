@@ -226,16 +226,14 @@
 					AutomationProperties.Name="{helpers:ResourceString Name=CalculateFolderSizes}"
 					IsOn="{x:Bind ViewModel.CalculateFolderSizes, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-				<local:SettingsBlockControl.ExpandableContent>
-					<InfoBar
-						CornerRadius="0,0,2,2"
-						IsClosable="False"
-						IsIconVisible="True"
-						IsOpen="True"
-						Message="{helpers:ResourceString Name=ShowFolderSizesWarning}"
-						Severity="Warning" />
-				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
+			<InfoBar
+				CornerRadius="0,0,2,2"
+				IsClosable="False"
+				IsIconVisible="True"
+				IsOpen="True"
+				Message="{helpers:ResourceString Name=ShowFolderSizesWarning}"
+				Severity="Warning" />
 		</StackPanel>
 	</Grid>
 </Page>
