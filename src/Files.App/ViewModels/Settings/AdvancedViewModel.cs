@@ -11,6 +11,7 @@ using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
+using Windows.Win32.Storage.FileSystem;
 
 namespace Files.App.ViewModels.Settings
 {
@@ -217,7 +218,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				var handle = Win32PInvoke.CreateFileFromAppW(
 					filePath,
-					Win32PInvoke.GENERIC_READ | Win32PInvoke.GENERIC_WRITE,
+					(uint)(FILE_ACCESS_RIGHTS.FILE_GENERIC_READ | FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE),
 					Win32PInvoke.FILE_SHARE_READ | Win32PInvoke.FILE_SHARE_WRITE,
 					nint.Zero,
 					Win32PInvoke.CREATE_NEW,

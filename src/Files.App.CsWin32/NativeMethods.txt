@@ -135,6 +135,12 @@ PSGetPropertyKeyFromName
 ShellExecuteEx
 CoTaskMemFree
 QueryDosDevice
+DeviceIoControl
+GetLastError
+CreateFile
+GetVolumeInformation
+COMPRESSION_FORMAT
+FILE_ACCESS_RIGHTS
 FindFirstFileEx
 FindNextFile
 CreateFile
@@ -165,3 +171,10 @@ CMF_OPTIMIZEFORINVOKE
 IPropertyStore
 IApplicationActivationManager
 MENU_ITEM_TYPE
+COMPRESSION_FORMAT
+FSCTL_SET_COMPRESSION
+FSCTL_DISMOUNT_VOLUME
+FSCTL_LOCK_VOLUME
+FILE_FILE_COMPRESSION
+WM_WINDOWPOSCHANGING
+WINDOWPOS
