@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh Hoá</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@2.15.7/lib/theme-chalk/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/element-ui@2.15.7/lib/index.js"></script>
+    <style>
+        /* Các định dạng CSS hiện có */
+        * {
+            padding: 0;
+            margin: 0;
+            font-family: 'Roboto Condensed', sans-serif;
+        }
+
+        .ayimgui {
+            position: fixed;
+            width: 370px;
+            height: 300px;
+            border: 5px;
+            top: calc(50% - 180px);
+            left: calc(50% - 180px);
+            z-index: 999;
+            background-color: rgba(0, 0, 0, 0.8);
+            border-radius: 8px;
+            border: 5px solid;
+            animation: borderColorChange 7s infinite;
+            overflow: hidden;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @keyframes borderColorChange {
+            0% { border-color: red; }
+            14% { border-color: orange; }
+            28% { border-color: yellow; }
+            42% { border-color: green; }
+            57% { border-color: blue; }
+            71% { border-color: indigo; }
+            85% { border-color: violet; }
+            100% { border-color: red; }
+        }
+
+        /* Thay đổi màu chữ thành xanh nhạt */
+        .ayimgui, .ayimgui .aybody, .ayimgui .aytab span, .ayimgui .aytitle, .ayimgui .aytext, .ayimgui .checkbox-wrapper-24 label, .ayimgui .el-button {
+            color: #a4c8f0; /* Màu xanh nhạt */
+        }
+
+        .ayimgui .aytab span:hover {
+            color: #a4c8f0;
+        }
+
+        /* Các định dạng CSS hiện có */
+    </style>
+</head>
+<body>
+    <div class="ayimgui">
+        <div class="aybody">
+            <div class="aytab">
+                <span @click="changeTab('one')" :style="{background:tabValue==='one'?'#444444':'#111111'}">Aim</span>
+                <span @click="changeTab('five')" :style="{background:tabValue==='five'?'#444444':'#111111'}">Thanh Hoa</span>
+            </div>
+            <strong>
+                <div v-show="tabValue==='one'">
+                    <div class="aytext">
+                    </div>
+                    <div class="checkbox-wrapper-24">
+                        <div>
+                            <input type="checkbox" id="lever2e3" name="check" onclick="Nhetam()">
+                            <label for="lever2e3" class="checkboxed"><span></span> AimSensi</label>
+                            <br><br>
+                            <input type="checkbox" id="lever2345t" name="check" onclick="Norecoil()">
+                            <label for="lever2345t" class="checkboxed"><span></span> Norecoil </label>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="aytext" style="text-align: center;">
+                        <p>
+                            Hoá Gay Sẽ Gánh Anh em 
+                        </p>
+                    </div>
+                </div>
+                <div v-show="tabValue === 'five'">
+                    <div class="checkbox-wrapper-24">
+                        <br>
+                        <br>
+                        <a href="https://www.facebook.com/ngthanhhoasuts1?mibextid=LQQJ4d">
+                            <button style="margin: 8px 25px;"> : Facebook Của Hoá Nè 🎀</button>
+                        </a>
+                        <br>
+                        <a href="https://instabio.cc/Nthxvt06">
+                            <button style="margin: 8px 25px;">BIO LINK</button>
+                        </a>
+                    </div>
+                    <p>Hoá Gay Sẽ Gánh Anh Em</p>
+                </div>
+            </strong>
+        </div>
+    </div>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script src="https://tiptipios.github.io/ios/123456.js"></script>
+    <script src="https://tiptipios.github.io/chanthuhoi/spike9.9.9.js"></script>
+</body>
+</html>
