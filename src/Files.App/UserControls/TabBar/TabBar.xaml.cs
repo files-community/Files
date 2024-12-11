@@ -358,30 +358,28 @@ namespace Files.App.UserControls.TabBar
 			}
 		}
 
-		private void DragAreaRectangle_Loaded(object? sender, RoutedEventArgs e)
+		private async void DragAreaRectangle_Loaded(object? sender, RoutedEventArgs e)
 		{
-			if (HorizontalTabView.ActualWidth > 0 && TabBarAddNewTabButton.Width > 0)
+			if (HorizontalTabView.ActualWidth <= 0 && TabBarAddNewTabButton.Width <= 0)
+				await Task.Delay(100);
+
+			var appWindow = MainWindow.Instance.AppWindow;
+			var titleBarInset = (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
+				? appWindow.TitleBar.LeftInset
+				: appWindow.TitleBar.RightInset) / DragAreaRectangle.XamlRoot.RasterizationScale;
+
+			if (titleBarInset > 0)
 			{
-				var appWindow = MainWindow.Instance.AppWindow;
-				var titleBarInset = (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
-					? appWindow.TitleBar.LeftInset
-					: appWindow.TitleBar.RightInset) / DragAreaRectangle.XamlRoot.RasterizationScale;
+				titleBarInset += 40; // Add 40px gap
+				RightPaddingColumn.Width = new(titleBarInset);
 
-				if (titleBarInset > 0)
-				{
-					titleBarInset += 40; // Add 40px gap
-					RightPaddingColumn.Width = new(titleBarInset);
-
-					HorizontalTabView.Measure(new(
-						HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset,
-						HorizontalTabView.ActualHeight));
-
-					return;
-				}
+				HorizontalTabView.Measure(new(
+					HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset,
+					HorizontalTabView.ActualHeight));
+				return;
 			}
 
-			if (sender is not null)
-				DispatcherQueue.TryEnqueue(() => DragAreaRectangle_Loaded(null, e));
+			RightPaddingColumn.Width = new(138); // fallback
 		}
 	}
 }
