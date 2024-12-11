@@ -3,8 +3,6 @@
 
 using Microsoft.Extensions.Logging;
 using System.Runtime.InteropServices;
-using System.Windows.Forms;
-using Vanara.Extensions;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.NetworkManagement.WNet;
@@ -18,283 +16,207 @@ namespace Files.App.Services
 	public sealed class CommonDialogService : ICommonDialogService
 	{
 		/// <inheritdoc/>
-		public bool Open_FileOpenDialog(nint hWnd, bool pickFoldersOnly, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)
+		public unsafe bool Open_FileOpenDialog(nint hWnd, bool pickFoldersOnly, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)
 		{
 			filePath = string.Empty;
 
 			try
 			{
-				unsafe
+				using ComPtr<IFileOpenDialog> pDialog = default;
+				var dialogInstanceIid = typeof(FileOpenDialog).GUID;
+				var dialogIid = typeof(IFileOpenDialog).GUID;
+
+				// Get a new instance of the dialog
+				HRESULT hr = PInvoke.CoCreateInstance(
+					&dialogInstanceIid,
+					null,
+					CLSCTX.CLSCTX_INPROC_SERVER,
+					&dialogIid,
+					(void**)pDialog.GetAddressOf())
+				.ThrowOnFailure();
+
+				if (filters.Length is not 0 && filters.Length % 2 is 0)
 				{
-					// Get a new instance of the dialog
-					PInvoke.CoCreateInstance(
-						typeof(FileOpenDialog).GUID,
-						null,
-						CLSCTX.CLSCTX_INPROC_SERVER,
-						out IFileOpenDialog dialog)
-					.ThrowOnFailure();
+					List<COMDLG_FILTERSPEC> extensions = [];
 
-					if (filters.Length is not 0 && filters.Length % 2 is 0)
+					for (int i = 1; i < filters.Length; i += 2)
 					{
-						List<COMDLG_FILTERSPEC> extensions = [];
+						COMDLG_FILTERSPEC extension;
 
-						for (int i = 1; i < filters.Length; i += 2)
-						{
-							COMDLG_FILTERSPEC extension;
+						extension.pszSpec = (char*)Marshal.StringToHGlobalUni(filters[i]);
+						extension.pszName = (char*)Marshal.StringToHGlobalUni(filters[i - 1]);
 
-							extension.pszSpec = (char*)Marshal.StringToHGlobalUni(filters[i]);
-							extension.pszName = (char*)Marshal.StringToHGlobalUni(filters[i - 1]);
-
-							// Add to the exclusive extension list
-							extensions.Add(extension);
-						}
-
-						// Set the file type using the extension list
-						dialog.SetFileTypes(extensions.ToArray());
+						// Add to the exclusive extension list
+						extensions.Add(extension);
 					}
 
-					// Get the default shell folder (My Computer)
-					PInvoke.SHCreateItemFromParsingName(
-						Environment.GetFolderPath(defaultFolder),
+					// Set the file type using the extension list
+					pDialog.Get()->SetFileTypes(extensions.ToArray());
+				}
+
+				// Get the default shell folder (My Computer)
+				using ComPtr<IShellItem> pDefaultFolderShellItem = default;
+				var shellItemIid = typeof(IShellItem).GUID;
+				fixed (char* pszDefaultFolderPath = Environment.GetFolderPath(defaultFolder))
+				{
+					hr = PInvoke.SHCreateItemFromParsingName(
+						pszDefaultFolderPath,
 						null,
-						typeof(IShellItem).GUID,
-						out var directoryShellItem)
+						&shellItemIid,
+						(void**)pDefaultFolderShellItem.GetAddressOf())
 					.ThrowOnFailure();
-
-					// Folder picker
-					if (pickFoldersOnly)
-					{
-						dialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
-					}
-
-					// Set the default folder to open in the dialog
-					dialog.SetFolder((IShellItem)directoryShellItem);
-					dialog.SetDefaultFolder((IShellItem)directoryShellItem);
-
-					// Show the dialog
-					dialog.Show(new HWND(hWnd));
-
-					// Get the file that user chose
-					dialog.GetResult(out var resultShellItem);
-					resultShellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
-					filePath = lpFilePath.ToString();
-
-					return true;
 				}
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogError(ex, "Failed to open a common dialog called FileOpenDialog.");
 
-				return false;
-			}
-		}
+				// Folder picker
+				if (pickFoldersOnly)
+					pDialog.Get()->SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
 
-		/// <inheritdoc/>
-		public bool Open_FileSaveDialog(nint hWnd, bool pickFoldersOnly, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)
-		{
-			filePath = string.Empty;
+				// Set the default folder to open in the dialog
+				pDialog.Get()->SetFolder(pDefaultFolderShellItem.Get());
+				pDialog.Get()->SetDefaultFolder(pDefaultFolderShellItem.Get());
 
-			try
-			{
-				unsafe
-				{
-					// Get a new instance of the dialog
-					PInvoke.CoCreateInstance(
-						typeof(FileSaveDialog).GUID,
-						null,
-						CLSCTX.CLSCTX_INPROC_SERVER,
-						out IFileSaveDialog dialog)
-					.ThrowOnFailure();
+				// Show the dialog
+				pDialog.Get()->Show(new HWND(hWnd));
 
-					if (filters.Length is not 0 && filters.Length % 2 is 0)
-					{
-						List<COMDLG_FILTERSPEC> extensions = [];
-
-						for (int i = 1; i < filters.Length; i += 2)
-						{
-							COMDLG_FILTERSPEC extension;
-
-							extension.pszSpec = (char*)Marshal.StringToHGlobalUni(filters[i]);
-							extension.pszName = (char*)Marshal.StringToHGlobalUni(filters[i - 1]);
-
-							// Add to the exclusive extension list
-							extensions.Add(extension);
-						}
-
-						// Set the file type using the extension list
-						dialog.SetFileTypes(extensions.ToArray());
-					}
-
-					// Get the default shell folder (My Computer)
-					PInvoke.SHCreateItemFromParsingName(
-						Environment.GetFolderPath(defaultFolder),
-						null,
-						typeof(IShellItem).GUID,
-						out var directoryShellItem)
-					.ThrowOnFailure();
-
-					// Folder picker
-					if (pickFoldersOnly)
-						dialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
-
-					// Set the default folder to open in the dialog
-					dialog.SetFolder((IShellItem)directoryShellItem);
-					dialog.SetDefaultFolder((IShellItem)directoryShellItem);
-
-					// Show the dialog
-					dialog.Show(new HWND(hWnd));
-
-					// Get the file that user chose
-					dialog.GetResult(out var resultShellItem);
-					resultShellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
-					filePath = lpFilePath.ToString();
-
-					return true;
-				}
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogError(ex, "Failed to open a common dialog called FileSaveDialog.");
-
-				return false;
-			}
-		}
-
-		/// <inheritdoc/>
-		public bool Open_NetworkConnectionDialog(nint hWind, bool hideRestoreConnectionCheckBox = false, bool persistConnectionAtLogon = false, bool readOnlyPath = false, string? remoteNetworkName = null, bool useMostRecentPath = false)
-		{
-			using var dialog = new NetworkConnectionDialog()
-			{
-				HideRestoreConnectionCheckBox = hideRestoreConnectionCheckBox,
-				PersistConnectionAtLogon = persistConnectionAtLogon,
-				ReadOnlyPath = readOnlyPath,
-				RemoteNetworkName = remoteNetworkName!,
-				UseMostRecentPath = useMostRecentPath,
-			};
-
-			var window = Win32Helper.Win32Window.FromLong(hWind.ToInt64());
-
-			return dialog.ShowDialog(window) == System.Windows.Forms.DialogResult.OK;
-		}
-
-		private sealed class NetworkConnectionDialog : CommonDialog
-		{
-			private NETRESOURCEW netRes = new();
-			private CONNECTDLGSTRUCTW dialogOptions;
-
-			/// <summary>Initializes a new instance of the <see cref="NetworkConnectionDialog"/> class.</summary>
-			public NetworkConnectionDialog()
-			{
-				dialogOptions.cbStructure = (uint)Marshal.SizeOf(typeof(CONNECTDLGSTRUCTW));
-				netRes.dwType = NET_RESOURCE_TYPE.RESOURCETYPE_DISK;
-			}
-
-			/// <summary>Gets the connected device number. This value is only valid after successfully running the dialog.</summary>
-			/// <value>The connected device number. The value is 1 for A:, 2 for B:, 3 for C:, and so on. If the user made a deviceless connection, the value is –1.</value>
-			[Browsable(false)]
-			public int ConnectedDeviceNumber => (int)dialogOptions.dwDevNum;
-
-			/// <summary>Gets or sets a value indicating whether to hide the check box allowing the user to restore the connection at logon.</summary>
-			/// <value><c>true</c> if hiding restore connection check box; otherwise, <c>false</c>.</value>
-			[DefaultValue(false), Category("Appearance"), Description("Hide the check box allowing the user to restore the connection at logon.")]
-			public bool HideRestoreConnectionCheckBox
-			{
-				get => dialogOptions.dwFlags.HasFlag(CONNECTDLGSTRUCT_FLAGS.CONNDLG_HIDE_BOX);
-				set
-				{
-					if (value)
-						dialogOptions.dwFlags |= CONNECTDLGSTRUCT_FLAGS.CONNDLG_HIDE_BOX;
-					else
-						dialogOptions.dwFlags &= ~CONNECTDLGSTRUCT_FLAGS.CONNDLG_HIDE_BOX;
-				}
-			}
-
-			/// <summary>Gets or sets a value indicating whether restore the connection at logon.</summary>
-			/// <value><c>true</c> to restore connection at logon; otherwise, <c>false</c>.</value>
-			[DefaultValue(false), Category("Behavior"), Description("Restore the connection at logon.")]
-			public bool PersistConnectionAtLogon
-			{
-				get => dialogOptions.dwFlags.IsFlagSet(CONNECTDLGSTRUCT_FLAGS.CONNDLG_PERSIST);
-				set
-				{
-					dialogOptions.dwFlags = dialogOptions.dwFlags.SetFlags(CONNECTDLGSTRUCT_FLAGS.CONNDLG_PERSIST, value);
-					dialogOptions.dwFlags = dialogOptions.dwFlags.SetFlags(CONNECTDLGSTRUCT_FLAGS.CONNDLG_NOT_PERSIST, !value);
-				}
-			}
-
-			/// <summary>
-			/// Gets or sets a value indicating whether to display a read-only path instead of allowing the user to type in a path. This is only
-			/// valid if <see cref="RemoteNetworkName"/> is not <see langword="null"/>.
-			/// </summary>
-			/// <value><c>true</c> to display a read only path; otherwise, <c>false</c>.</value>
-			[DefaultValue(false), Category("Appearance"), Description("Display a read-only path instead of allowing the user to type in a path.")]
-			public bool ReadOnlyPath { get; set; }
-
-			/// <summary>Gets or sets the name of the remote network.</summary>
-			/// <value>The name of the remote network.</value>
-			[DefaultValue(null), Category("Behavior"), Description("The value displayed in the path field.")]
-			public string RemoteNetworkName
-			{
-				get => netRes.lpRemoteName.ToString();
-				set
-				{
-					unsafe
-					{
-						fixed (char* lpcRemoteName = value)
-							netRes.lpRemoteName = lpcRemoteName;
-					}
-				}
-			}
-
-			/// <summary>Gets or sets a value indicating whether to enter the most recently used paths into the combination box.</summary>
-			/// <value><c>true</c> to use MRU path; otherwise, <c>false</c>.</value>
-			/// <exception cref="InvalidOperationException">UseMostRecentPath</exception>
-			[DefaultValue(false), Category("Behavior"), Description("Enter the most recently used paths into the combination box.")]
-			public bool UseMostRecentPath
-			{
-				get => dialogOptions.dwFlags.IsFlagSet(CONNECTDLGSTRUCT_FLAGS.CONNDLG_USE_MRU);
-				set
-				{
-					if (value && !string.IsNullOrEmpty(RemoteNetworkName))
-						throw new InvalidOperationException($"{nameof(UseMostRecentPath)} cannot be set to true if {nameof(RemoteNetworkName)} has a value.");
-
-					dialogOptions.dwFlags = dialogOptions.dwFlags.SetFlags(CONNECTDLGSTRUCT_FLAGS.CONNDLG_USE_MRU, value);
-				}
-			}
-
-			/// <inheritdoc/>
-			public unsafe override void Reset()
-			{
-				dialogOptions.dwDevNum = unchecked((uint)-1);
-				dialogOptions.dwFlags = 0;
-				dialogOptions.lpConnRes = null;
-				ReadOnlyPath = false;
-			}
-
-			/// <inheritdoc/>
-			protected unsafe override bool RunDialog(IntPtr hwndOwner)
-			{
-				dialogOptions.hwndOwner = new(hwndOwner);
-
-				fixed (NETRESOURCEW* lpConnRes = &netRes)
-					dialogOptions.lpConnRes = lpConnRes;
-
-				if (ReadOnlyPath && !string.IsNullOrEmpty(netRes.lpRemoteName.ToString()))
-					dialogOptions.dwFlags |= CONNECTDLGSTRUCT_FLAGS.CONNDLG_RO_PATH;
-
-				var result = PInvoke.WNetConnectionDialog1W(ref dialogOptions);
-
-				dialogOptions.lpConnRes = null;
-
-				if ((uint)result == unchecked((uint)-1))
-					return false;
-
-				if (result == 0)
-					throw new Win32Exception("Cannot display dialog");
+				// Get the file that user chose
+				using ComPtr<IShellItem> pResultShellItem = default;
+				pDialog.Get()->GetResult(pResultShellItem.GetAddressOf());
+				if (pResultShellItem.Get() == null)
+					throw new COMException("FileSaveDialog returned invalid shell item.");
+				pResultShellItem.Get()->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
+				filePath = lpFilePath.ToString();
 
 				return true;
 			}
+			catch (Exception ex)
+			{
+				App.Logger.LogError(ex, "Failed to open FileOpenDialog.");
+
+				return false;
+			}
+		}
+
+		/// <inheritdoc/>
+		public unsafe bool Open_FileSaveDialog(nint hWnd, bool pickFoldersOnly, string[] filters, Environment.SpecialFolder defaultFolder, out string filePath)
+		{
+			filePath = string.Empty;
+
+			try
+			{
+				using ComPtr<IFileSaveDialog> pDialog = default;
+				var dialogInstanceIid = typeof(FileSaveDialog).GUID;
+				var dialogIid = typeof(IFileSaveDialog).GUID;
+
+				// Get a new instance of the dialog
+				HRESULT hr = PInvoke.CoCreateInstance(
+					&dialogInstanceIid,
+					null,
+					CLSCTX.CLSCTX_INPROC_SERVER,
+					&dialogIid,
+					(void**)pDialog.GetAddressOf())
+				.ThrowOnFailure();
+
+				if (filters.Length is not 0 && filters.Length % 2 is 0)
+				{
+					List<COMDLG_FILTERSPEC> extensions = [];
+
+					for (int i = 1; i < filters.Length; i += 2)
+					{
+						COMDLG_FILTERSPEC extension;
+
+						extension.pszSpec = (char*)Marshal.StringToHGlobalUni(filters[i]);
+						extension.pszName = (char*)Marshal.StringToHGlobalUni(filters[i - 1]);
+
+						// Add to the exclusive extension list
+						extensions.Add(extension);
+					}
+
+					// Set the file type using the extension list
+					pDialog.Get()->SetFileTypes(extensions.ToArray());
+				}
+
+				// Get the default shell folder (My Computer)
+				using ComPtr<IShellItem> pDefaultFolderShellItem = default;
+				var shellItemIid = typeof(IShellItem).GUID;
+				fixed (char* pszDefaultFolderPath = Environment.GetFolderPath(defaultFolder))
+				{
+					hr = PInvoke.SHCreateItemFromParsingName(
+						pszDefaultFolderPath,
+						null,
+						&shellItemIid,
+						(void**)pDefaultFolderShellItem.GetAddressOf())
+					.ThrowOnFailure();
+				}
+
+				// Folder picker
+				if (pickFoldersOnly)
+					pDialog.Get()->SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
+
+				// Set the default folder to open in the dialog
+				pDialog.Get()->SetFolder(pDefaultFolderShellItem.Get());
+				pDialog.Get()->SetDefaultFolder(pDefaultFolderShellItem.Get());
+
+				// Show the dialog
+				pDialog.Get()->Show(new HWND(hWnd));
+
+				// Get the file that user chose
+				using ComPtr<IShellItem> pResultShellItem = default;
+				pDialog.Get()->GetResult(pResultShellItem.GetAddressOf());
+				if (pResultShellItem.Get() == null)
+					throw new COMException("FileSaveDialog returned invalid shell item.");
+				pResultShellItem.Get()->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
+				filePath = lpFilePath.ToString();
+
+				return true;
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogError(ex, "Failed to open FileSaveDialog.");
+
+				return false;
+			}
+		}
+
+		/// <inheritdoc/>
+		public unsafe bool Open_NetworkConnectionDialog(nint hWnd, bool hideRestoreConnectionCheckBox = false, bool persistConnectionAtLogon = false, bool readOnlyPath = false, string? remoteNetworkName = null, bool useMostRecentPath = false)
+		{
+			if (useMostRecentPath && !string.IsNullOrEmpty(remoteNetworkName))
+				throw new ArgumentException($"{nameof(useMostRecentPath)} cannot be set to true if {nameof(remoteNetworkName)} has a value.");
+
+			NETRESOURCEW netResource = default;
+			CONNECTDLGSTRUCTW connectDlgOptions = default;
+			WIN32_ERROR res = default;
+
+			if (hideRestoreConnectionCheckBox)
+				connectDlgOptions.dwFlags |= CONNECTDLGSTRUCT_FLAGS.CONNDLG_HIDE_BOX;
+			if (persistConnectionAtLogon)
+				connectDlgOptions.dwFlags |= (CONNECTDLGSTRUCT_FLAGS.CONNDLG_PERSIST & CONNECTDLGSTRUCT_FLAGS.CONNDLG_NOT_PERSIST);
+			if (useMostRecentPath)
+				connectDlgOptions.dwFlags |= CONNECTDLGSTRUCT_FLAGS.CONNDLG_USE_MRU;
+			if (readOnlyPath && !string.IsNullOrEmpty(remoteNetworkName))
+				connectDlgOptions.dwFlags |= CONNECTDLGSTRUCT_FLAGS.CONNDLG_RO_PATH;
+
+			fixed (char* pszRemoteName = remoteNetworkName)
+			{
+				netResource.dwType = NET_RESOURCE_TYPE.RESOURCETYPE_DISK;
+				netResource.lpRemoteName = pszRemoteName;
+
+				connectDlgOptions.cbStructure = (uint)sizeof(CONNECTDLGSTRUCTW);
+				connectDlgOptions.hwndOwner = new(hWnd);
+				connectDlgOptions.lpConnRes = &netResource;
+
+				res = PInvoke.WNetConnectionDialog1W(ref connectDlgOptions);
+			}
+
+			// User canceled
+			if ((uint)res == unchecked((uint)-1))
+				return false;
+
+			// Unexpected error happened
+			if (res is not WIN32_ERROR.NO_ERROR)
+				throw new Win32Exception("Failed to process the network connection dialog successfully.");
+
+			return true;
 		}
 	}
 }

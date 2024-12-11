@@ -9,7 +9,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.Concurrent;
-using Windows.ApplicationModel;
 using Windows.Graphics;
 using Windows.Win32;
 
@@ -37,7 +36,7 @@ namespace Files.App.Utils.Storage
 			=> WinRT.Interop.WindowNative.GetWindowHandle(w);
 
 		private static TaskCompletionSource? PropertiesWindowsClosingTCS;
-		private static readonly BlockingCollection<WinUIEx.WindowEx> WindowCache = [];
+		private static readonly BlockingCollection<WindowEx> WindowCache = [];
 
 		/// <summary>
 		/// Open properties window
@@ -99,22 +98,21 @@ namespace Files.App.Utils.Storage
 
 			var frame = new Frame
 			{
-				RequestedTheme = (ElementTheme)AppThemeModeService.AppThemeMode
+				RequestedTheme = AppThemeModeService.AppThemeMode
 			};
 
-			WinUIEx.WindowEx propertiesWindow;
-			if (!WindowCache.TryTake(out propertiesWindow!))
+			if (!WindowCache.TryTake(out var propertiesWindow))
 			{
-				propertiesWindow = new();
+				propertiesWindow = new(460, 550);
 				propertiesWindow.Closed += PropertiesWindow_Closed;
 			}
 
+			var width = Convert.ToInt32(800 * App.AppModel.AppWindowDPI);
+			var height = Convert.ToInt32(500 * App.AppModel.AppWindowDPI);
+
+			propertiesWindow.AppWindow.Resize(new (width, height));
 			propertiesWindow.IsMinimizable = false;
 			propertiesWindow.IsMaximizable = false;
-			propertiesWindow.MinWidth = 460;
-			propertiesWindow.MinHeight = 550;
-			propertiesWindow.Width = 800;
-			propertiesWindow.Height = 550;
 			propertiesWindow.Content = frame;
 			propertiesWindow.SystemBackdrop = new AppSystemBackdrop(true);
 
@@ -127,7 +125,7 @@ namespace Files.App.Utils.Storage
 			appWindow.SetIcon(AppLifecycleHelper.AppIconPath);
 
 			frame.Navigate(
-				typeof(Views.Properties.MainPropertiesPage),
+				typeof(MainPropertiesPage),
 				new PropertiesPageNavigationParameter
 				{
 					Parameter = item,
@@ -160,7 +158,7 @@ namespace Files.App.Utils.Storage
 		// So instead of destroying the Window object, cache it and reuse it as a workaround.
 		private static void PropertiesWindow_Closed(object sender, WindowEventArgs args)
 		{
-			if (!App.AppModel.IsMainWindowClosed && sender is WinUIEx.WindowEx window)
+			if (!App.AppModel.IsMainWindowClosed && sender is WindowEx window)
 			{
 				args.Handled = true;
 

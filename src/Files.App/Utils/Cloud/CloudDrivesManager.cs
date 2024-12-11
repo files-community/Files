@@ -3,6 +3,7 @@
 
 using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
+using System.IO;
 using Windows.Storage;
 
 namespace Files.App.Utils.Cloud
@@ -41,7 +42,7 @@ namespace Files.App.Utils.Cloud
 				{
 					Text = provider.Name,
 					Path = provider.SyncFolder,
-					Type = DriveType.CloudDrive,
+					Type = Data.Items.DriveType.CloudDrive,
 				};
 
 				try
@@ -49,6 +50,14 @@ namespace Files.App.Utils.Cloud
 					cloudProviderItem.Root = await StorageFolder.GetFolderFromPathAsync(cloudProviderItem.Path);
 
 					_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => cloudProviderItem.UpdatePropertiesAsync());
+				}
+				catch (FileNotFoundException ex)
+				{
+					_logger?.LogInformation(ex, "Failed to find the cloud folder");
+				}
+				catch (UnauthorizedAccessException ex)
+				{
+					_logger?.LogInformation(ex, " Failed to access the cloud folder");
 				}
 				catch (Exception ex)
 				{

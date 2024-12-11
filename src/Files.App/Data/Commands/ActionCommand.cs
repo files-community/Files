@@ -145,7 +145,8 @@ namespace Files.App.Data.Commands
 		{
 			if (IsExecutable)
 			{
-				SentrySdk.Metrics.Increment("actions", tags: new Dictionary<string, string> { { "command", Code.ToString() } });
+				// Re-enable when Metris feature is available again
+				// SentrySdk.Metrics.Increment("actions", tags: new Dictionary<string, string> { { "command", Code.ToString() } });
 				return Action.ExecuteAsync(parameter);
 			}
 

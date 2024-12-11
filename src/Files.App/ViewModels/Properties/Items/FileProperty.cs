@@ -231,7 +231,7 @@ namespace Files.App.ViewModels.Properties
 			{
 				try
 				{
-					return EnumeratedList.TryGetValue(Convert.ToInt32(Value), out var value) ? 
+					return EnumeratedList.TryGetValue(Convert.ToInt32(Value), out var value) ?
 						value.GetLocalizedResource() : null;
 				}
 				catch

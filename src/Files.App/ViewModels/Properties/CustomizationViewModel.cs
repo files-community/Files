@@ -1,8 +1,5 @@
-﻿using CommunityToolkit.WinUI;
-using Files.App.Utils.Shell;
+﻿using Microsoft.UI.Windowing;
 using System.IO;
-using Windows.Storage.Pickers;
-using Microsoft.UI.Windowing;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Properties
@@ -24,13 +21,29 @@ namespace Files.App.ViewModels.Properties
 
 		public readonly bool IsShortcut;
 
-		public ObservableCollection<IconFileInfo> DllIcons { get; }
+		public ObservableCollection<IconFileInfo> DllIcons { get; } = [];
 
 		private string _IconResourceItemPath;
 		public string IconResourceItemPath
 		{
 			get => _IconResourceItemPath;
-			set => SetProperty(ref _IconResourceItemPath, value);
+			set
+			{
+				if (SetProperty(ref _IconResourceItemPath, value))
+				{
+					DllIcons.Clear();
+
+					if (Path.Exists(_IconResourceItemPath))
+					{
+						var icons = Win32Helper.ExtractIconsFromDLL(_IconResourceItemPath);
+						if (icons?.Count is null or 0)
+							return;
+
+						foreach (var item in icons)
+							DllIcons.Add(item);
+					}
+				}
+			}
 		}
 
 		private IconFileInfo? _SelectedDllIcon;
@@ -64,10 +77,6 @@ namespace Files.App.ViewModels.Properties
 			IsShortcut = item.IsShortcut;
 			_selectedItemPath = item.ItemPath;
 
-			DllIcons = [];
-
-			// Get default
-			LoadIconsForPath(IconResourceItemPath);
 
 			RestoreDefaultIconCommand = new RelayCommand(ExecuteRestoreDefaultIconCommand);
 			OpenFilePickerCommand = new RelayCommand(ExecuteOpenFilePickerCommand);
@@ -93,7 +102,7 @@ namespace Files.App.ViewModels.Properties
 
 			var result = CommonDialogService.Open_FileOpenDialog(hWnd, false, extensions, Environment.SpecialFolder.MyComputer, out var filePath);
 			if (result)
-				LoadIconsForPath(filePath);
+				IconResourceItemPath = filePath;
 		}
 
 		public async Task<bool> UpdateIcon()
@@ -125,19 +134,6 @@ namespace Files.App.ViewModels.Properties
 			});
 
 			return true;
-		}
-
-		private void LoadIconsForPath(string path)
-		{
-			IconResourceItemPath = path;
-			DllIcons.Clear();
-
-			var icons = Win32Helper.ExtractIconsFromDLL(path);
-			if (icons?.Count is null or 0)
-				return;
-
-			foreach(var item in icons)
-				DllIcons.Add(item);
 		}
 	}
 }

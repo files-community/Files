@@ -126,6 +126,9 @@
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Salin laluan dengan petikan</value>
   </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>Copy selected item path with quotes</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Semak imbas</value>
   </data>
@@ -249,6 +252,9 @@
   <data name="Paste" xml:space="preserve">
     <value>Tampal</value>
   </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>Paste shortcut</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Baru</value>
   </data>
@@ -291,8 +297,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Masukkan nama item</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Tetapkan satu nama</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>Create new {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Cerah</value>
@@ -894,10 +900,10 @@
     <value>Encoding Bitrate</value>
   </data>
   <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
-    <value>Audio Encoding Bitrate</value>
+    <value>Kadar Bit Pengekodan Audio</value>
   </data>
   <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
-    <value>Video Encoding Bitrate</value>
+    <value>Kadar Bit Pengekodan Video</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Compression</value>
@@ -981,7 +987,7 @@
     <value>Move tab to new window</value>
   </data>
   <data name="NewTab" xml:space="preserve">
-    <value>New tab</value>
+    <value>Tab baharu</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Some properties may contain personal information.</value>
@@ -999,7 +1005,7 @@
     <value>Search results in {1} for {0}</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value>Details</value>
+    <value>Butiran</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
@@ -1050,7 +1056,7 @@
     <value>Fail &amp; Folder</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Details (Ctrl+Shift+1)</value>
+    <value>Butiran (Ctrl+Shift+1)</value>
   </data>
   <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tiles (Ctrl+Shift+2)</value>
@@ -1098,7 +1104,7 @@
     <value>Network</value>
   </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>File details</value>
+    <value>Butiran fail</value>
   </data>
   <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
     <value>File preview</value>
@@ -1134,7 +1140,7 @@
     <value>Unknown</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
+    <value>Jika anda menukar sambungan fail, fail mungkin tidak boleh digunakan. Adakah anda pasti mahu menukarnya?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD ROM Drive</value>
@@ -1230,13 +1236,19 @@
     <value>The name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ErrorNameInputRestricted" xml:space="preserve">
-    <value>Using this name is not allowed!</value>
+    <value>Penggunaan nama ini tidak dibenarkan!</value>
   </data>
   <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
     <value>Library with the same name already exists!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
     <value>Open Storage Sense</value>
+  </data>
+  <data name="OpenStorageSenseDescription" xml:space="preserve">
+    <value>Open the Storage Sense page in Windows Settings</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>Cleanup</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Copy</value>
@@ -1332,13 +1344,13 @@
     <value>Very large</value>
   </data>
   <data name="ItemSizeText_Large" xml:space="preserve">
-    <value>Large</value>
+    <value>Besar</value>
   </data>
   <data name="ItemSizeText_Medium" xml:space="preserve">
-    <value>Medium</value>
+    <value>Sederhana</value>
   </data>
   <data name="ItemSizeText_Small" xml:space="preserve">
-    <value>Small</value>
+    <value>Kecil</value>
   </data>
   <data name="ItemSizeText_Tiny" xml:space="preserve">
     <value>Tiny</value>
@@ -1380,10 +1392,10 @@
     <value>{0} items</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>Reopen closed tab</value>
+    <value>Buka semula tab yang ditutup</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>Rename</value>
+    <value>Namakan semula</value>
   </data>
   <data name="Privacy" xml:space="preserve">
     <value>Privacy</value>
@@ -1407,37 +1419,37 @@
     <value>Security</value>
   </data>
   <data name="AdvancedPermissions" xml:space="preserve">
-    <value>Advanced permissions</value>
+    <value>Kebenaran lanjutan</value>
   </data>
   <data name="Allow" xml:space="preserve">
-    <value>Allow</value>
+    <value>Benarkan</value>
   </data>
   <data name="Deny" xml:space="preserve">
     <value>Deny</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
-    <value>Full control</value>
+    <value>Kawalan penuh</value>
   </data>
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
     <value>List directory contents</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>Modify</value>
+    <value>Ubah suai</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
     <value>Permissions for {0}</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
-    <value>Read and execute</value>
+    <value>Baca dan laksanakan</value>
   </data>
   <data name="SecurityReadLabel.Text" xml:space="preserve">
-    <value>Read</value>
+    <value>Baca</value>
   </data>
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
     <value>Group or user names</value>
   </data>
   <data name="Write" xml:space="preserve">
-    <value>Write</value>
+    <value>Tulis</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">
     <value>Unknown account</value>
@@ -1458,7 +1470,7 @@
     <value>Open destination folder when complete</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
-    <value>Extract to {0}\</value>
+    <value>Ekstrak ke {0}\</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
     <value>Create new library</value>
@@ -1626,7 +1638,7 @@
     <value>WSL</value>
   </data>
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
-    <value>Hide {0} section</value>
+    <value>Sembunyikan bahagian {0}</value>
   </data>
   <data name="AddFile" xml:space="preserve">
     <value>Add file</value>
@@ -1710,13 +1722,13 @@
     <value>Create link in {0}</value>
   </data>
   <data name="Columns" xml:space="preserve">
-    <value>Columns</value>
+    <value>Kolum</value>
   </data>
   <data name="Tiles" xml:space="preserve">
     <value>Tiles</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Open folders in new tab</value>
+    <value>Buka folder dalam tab baharu</value>
   </data>
   <data name="StatusCenter" xml:space="preserve">
     <value>Status center</value>
@@ -1728,7 +1740,7 @@
     <value>Item size column</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
-    <value>Experimental feature flags</value>
+    <value>Ciri eksperimental</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
     <value>Help and support</value>
@@ -1740,7 +1752,7 @@
     <value>Submit bug report</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Set Files as the default file manager</value>
+    <value>Tetapkan Files sebagai tetapan lalai untuk pengurusan fail</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Use Files as Open File Dialog</value>
@@ -1749,16 +1761,16 @@
     <value>Tag</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>Buka item dengan satu klik</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Folder path</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Export settings</value>
+    <value>Eksport tetapan</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Import settings</value>
+    <value>Import tetapan</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
     <value>Couldn't import settings. The settings file is corrupted.</value>
@@ -1794,10 +1806,10 @@
     <value>Tiada</value>
   </data>
   <data name="CompatibilityOnWindowsLogin" xml:space="preserve">
-    <value>On Windows login</value>
+    <value>Semasa log masuk Windows</value>
   </data>
   <data name="CompatibilityOnProgramStart" xml:space="preserve">
-    <value>On this program start</value>
+    <value>Semasa program ini dimulakan</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>Sistem</value>
@@ -1818,7 +1830,7 @@
     <value>Run in 640 x 480 screen resolution</value>
   </data>
   <data name="CompatibilityOverrideHighDPIBehavior" xml:space="preserve">
-    <value>Override high DPI scaling behavior</value>
+    <value>Gantikan tingkah laku penskalaan DPI</value>
   </data>
   <data name="CompatibilityReducedColorMode" xml:space="preserve">
     <value>Reduced color mode</value>
@@ -1833,10 +1845,10 @@
     <value>Run compatibility troubleshooter</value>
   </data>
   <data name="CompatibilityUseDPISettings" xml:space="preserve">
-    <value>Use DPI settings of the main monitor</value>
+    <value>Gunakan tetapan DPI monitor utama</value>
   </data>
   <data name="CompatibilityDoNotAdjustDPI" xml:space="preserve">
-    <value>Do not adjust DPI</value>
+    <value>Jangan laraskan DPI</value>
   </data>
   <data name="CompatibilityDoNotOverrideDPI" xml:space="preserve">
     <value>Do not override DPI</value>
@@ -1851,7 +1863,10 @@
     <value>Third party libraries</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</value>
+    <value>Pilihan ini mengubah suai pendaftaran sistem dan boleh mempunyai kesan sampingan yang tidak dijangka pada peranti anda. Teruskan atas risiko anda sendiri.</value>
+  </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>The flatten operations are permanent and not recommended. Continue at your own risk.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Create Library</value>
@@ -1866,7 +1881,7 @@
     <value>Fail terkini</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Open Files on Windows startup</value>
+    <value>Buka Files semasa Windows bermula</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>Attributes</value>
@@ -1893,10 +1908,10 @@
     <value>Extract</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>Extract files</value>
+    <value>Ekstrak fail</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>Extract here</value>
+    <value>Ekstrak di sini</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
@@ -1908,7 +1923,7 @@
     <value>Run script</value>
   </data>
   <data name="RunWithPowerShell" xml:space="preserve">
-    <value>Run with PowerShell</value>
+    <value>Jalankan dengan PowerShell</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
@@ -1929,7 +1944,10 @@
     <value>Close tabs to the right</value>
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
-    <value>Close other tabs</value>
+    <value>Tutup tab lain</value>
+  </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>Close all tabs</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>Muzik</value>
@@ -1965,7 +1983,7 @@
     <value>Custom</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Set as desktop slideshow</value>
+    <value>Tetapkan sebagai tayangan slaid desktop</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Size all columns to fit</value>
@@ -2001,31 +2019,46 @@
     <value>Set as default</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>Date column</value>
+    <value>Tarikh kolum</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Date created column</value>
+    <value>Tarikh kolum dibuat</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Size column</value>
+    <value>Saiz Kolum</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Tag column</value>
+    <value>Kolum Tag</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Type column</value>
+    <value>Kolum Taip</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Buka folder dengan satu klik dalam susun atur kolum</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>Opening items</value>
+    <value>Membuka item</value>
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Compress</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Move all contents from subfolders into the selected location</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Flatten folder</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Flatten</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>Flattening a folder will move all contents from its subfolders to the selected location. This operation is permanent and cannot be undone. By using this experimental feature, you acknowledge the risk and agree not to hold the Files team responsible for any data loss.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Show flatten options</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Select files and folders when hovering over them</value>
@@ -2157,7 +2190,7 @@
     <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit settings file</value>
+    <value>Edit fail tetapan</value>
   </data>
   <data name="WhatsNew" xml:space="preserve">
     <value>What's new</value>
@@ -2247,7 +2280,7 @@
     <value>Show hidden items</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Format...</value>
+    <value>Format</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Help</value>
@@ -2328,7 +2361,7 @@
     <value>Name must not be empty or start or end with a period.</value>
   </data>
   <data name="Videos" xml:space="preserve">
-    <value>Videos</value>
+    <value>Video</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
     <value>Launch preview popup</value>
@@ -2375,6 +2408,12 @@
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Copy path of selected items to the clipboard</value>
   </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
+    <value>Copy path of selected items to the clipboard</value>
+  </data>
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
+    <value>Copy path of selected items with quotes to the clipboard</value>
+  </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
     <value>Copy path of selected items with quotes to the clipboard</value>
   </data>
@@ -2383,6 +2422,9 @@
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Paste item(s) from clipboard to current folder</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>Paste item(s) from clipboard to current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>Paste item(s) from clipboard to selected folder</value>
@@ -2535,7 +2577,7 @@
     <value>Switch to list view</value>
   </data>
   <data name="List" xml:space="preserve">
-    <value>List</value>
+    <value>Senarai</value>
   </data>
   <data name="Grid" xml:space="preserve">
     <value>Grid</value>
@@ -2628,7 +2670,7 @@
     <value>Toggle group sort direction</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
-    <value>Open new tab</value>
+    <value>Buka tab baharu</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
     <value>Navigate backward in navigation history</value>
@@ -2662,6 +2704,9 @@
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Close tabs other than selected tab</value>
+  </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>Close all tabs including the current tab</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Reopen last closed tab</value>
@@ -3063,8 +3108,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Open properties</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Open File Explorer properties</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Open properties window</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Open File Explorer properties window</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Locals</value>
@@ -3128,7 +3179,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Material Latar Belakang</value>
+    <value>Backdrop</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Solid</value>
@@ -3167,7 +3218,7 @@
     <value>Open the current directory in Visual Studio Code</value>
   </data>
   <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Open repo in VS Code</value>
+    <value>Buka repo dalam VS Code</value>
   </data>
   <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
     <value>Open the root of the Git repo in Visual Studio Code</value>
@@ -3273,7 +3324,7 @@
     <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
-    <value>Leave app running in the background when the window is closed</value>
+    <value>Biarkan aplikasi berjalan di latar belakang apabila tertingkap ditutup</value>
   </data>
   <data name="Blue" xml:space="preserve">
     <value>Biru</value>
@@ -3559,7 +3610,7 @@
     <value>Unblock downloaded file</value>
   </data>
   <data name="NoFileOperations" xml:space="preserve">
-    <value>No ongoing file operations</value>
+    <value>Tiada operasi fail yang sedang berjalan</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
@@ -3598,28 +3649,28 @@
     <value>Extract items from selected archive(s) to current folder for single-item archive, or to new folder for multi-item archive</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
-    <value>Extract here (Smart)</value>
+    <value>Ekstrak di sini (Pintar)</value>
   </data>
   <data name="SortFilesAndFoldersTogether" xml:space="preserve">
-    <value>Sort files and folders together</value>
+    <value>Susun fail dan folder bersama</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>Sort files and folders together</value>
+    <value>Susun fail dan folder bersama</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
-    <value>Sort files first</value>
+    <value>Susun fail dahulu</value>
   </data>
   <data name="SortFilesFirstDescription" xml:space="preserve">
     <value>Sort files first then folders</value>
   </data>
   <data name="SortFoldersFirst" xml:space="preserve">
-    <value>Sort folders first</value>
+    <value>Susun folder dahulu</value>
   </data>
   <data name="SortFoldersFirstDescription" xml:space="preserve">
     <value>Sort folders first then files</value>
   </data>
   <data name="SortPriority" xml:space="preserve">
-    <value>Sort priority</value>
+    <value>Keutamaan susunan</value>
   </data>
   <data name="FailedToRotateImage" xml:space="preserve">
     <value>Failed to rotate the image</value>
@@ -3664,55 +3715,55 @@
     <value>Additional sizes are not yet available for the Tiles View.</value>
   </data>
   <data name="Compact" xml:space="preserve">
-    <value>Compact</value>
+    <value>Padat</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Small" xml:space="preserve">
-    <value>Small</value>
+    <value>Kecil</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium" xml:space="preserve">
-    <value>Medium</value>
+    <value>Sederhana</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+" xml:space="preserve">
-    <value>Medium +</value>
+    <value>Sederhana +</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++" xml:space="preserve">
-    <value>Medium ++</value>
+    <value>Sederhana ++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++" xml:space="preserve">
-    <value>Medium +++</value>
+    <value>Sederhana +++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++++" xml:space="preserve">
-    <value>Medium ++++</value>
+    <value>Sederhana ++++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++++" xml:space="preserve">
-    <value>Medium +++++</value>
+    <value>Sederhana +++++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large" xml:space="preserve">
-    <value>Large</value>
+    <value>Besar</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large+" xml:space="preserve">
-    <value>Large +</value>
+    <value>Besar +</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large++" xml:space="preserve">
-    <value>Large ++</value>
+    <value>Besar ++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large+++" xml:space="preserve">
-    <value>Large +++</value>
+    <value>Besar +++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="ExtraLarge" xml:space="preserve">
-    <value>Extra large</value>
+    <value>Sangat besar</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="DetailsView" xml:space="preserve">
@@ -3734,7 +3785,7 @@
     <value>Restore defaults</value>
   </data>
   <data name="ChooseAnAction" xml:space="preserve">
-    <value>Choose an action</value>
+    <value>Pilih tindakan</value>
   </data>
   <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
     <value>Are you sure you want to restore the default key bindings? This action cannot be undone.</value>
@@ -3857,8 +3908,8 @@
     <value>Status:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Show Toolbar</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <value>Show toolbar</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Tab actions menu</value>
@@ -3907,5 +3958,50 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>Show Files icon in the System Tray</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>CPU threads</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Navigate to the home page</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Show Home in address bar</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Toolbars</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>User ID</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Bulk rename</value>
+  </data>
+  <data name="ShowCreateAlternateDataStream" xml:space="preserve">
+    <value>Show option to create alternate data stream</value>
+  </data>
+  <data name="CreateAlternateDataStream" xml:space="preserve">
+    <value>Create alternate data stream</value>
+  </data>
+  <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
+    <value>Create alternate data stream for the selected item(s)</value>
+  </data>
+  <data name="EnterDataStreamName" xml:space="preserve">
+    <value>Enter data stream name</value>
+  </data>
+  <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
+    <value>There was an error creating the alternate data stream</value>
+  </data>
+  <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
+    <value>Please note that alternate data streams only work on drives formatted as NTFS.</value>
+  </data>
+  <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
+    <value>Alternate data streams are currently hidden</value>
+  </data>
+  <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
+    <value>Would you like to display alternate data streams? You can modify this setting anytime from the files and folders settings page.</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Manage tags</value>
   </data>
 </root>

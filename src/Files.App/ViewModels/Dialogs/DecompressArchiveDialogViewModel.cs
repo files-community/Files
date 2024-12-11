@@ -61,7 +61,9 @@ namespace Files.App.ViewModels.Dialogs
 
 		private async Task SelectDestinationAsync()
 		{
-			CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);
+			bool result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);
+			if (!result)
+				return;
 
 			DestinationFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(filePath);
 			DestinationFolderPath = (DestinationFolder is not null) ? DestinationFolder.Path : DefaultDestinationFolderPath();

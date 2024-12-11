@@ -2,12 +2,9 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Views.Settings;
-using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Threading.Tasks;
-using Files.App.Data.Enums;
+using Microsoft.UI.Xaml.Media.Animation;
 
 namespace Files.App.Dialogs
 {
@@ -31,6 +28,19 @@ namespace Files.App.Dialogs
 			return (DialogResult)await base.ShowAsync();
 		}
 
+		public void NavigateTo(SettingsNavigationParams navParams)
+		{
+			var defaultTag = SettingsPageKind.AppearancePage.ToString();
+			var oldSelection = MainSettingsNavigationView.MenuItems.FirstOrDefault(item => ((NavigationViewItem)item).IsSelected) as NavigationViewItem;
+			var targetSection = MainSettingsNavigationView.MenuItems.FirstOrDefault(
+				item => Enum.Parse<SettingsPageKind>(((NavigationViewItem)item).Tag.ToString() ?? defaultTag) == navParams.PageKind
+			);
+			if (oldSelection is not null)
+				oldSelection.IsSelected = false;
+			
+			MainSettingsNavigationView.SelectedItem = targetSection;
+		}
+
 		private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
 		{
 			UpdateDialogLayout();
@@ -45,20 +55,21 @@ namespace Files.App.Dialogs
 
 		private void MainSettingsNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
 		{
+			SettingsContentScrollViewer.ChangeView(null, 0, null, true);
 			var selectedItem = (NavigationViewItem)args.SelectedItem;
 
 			_ = Enum.Parse<SettingsPageKind>(selectedItem.Tag.ToString()) switch
 			{
-				SettingsPageKind.GeneralPage => SettingsContentFrame.Navigate(typeof(GeneralPage)),
-				SettingsPageKind.AppearancePage => SettingsContentFrame.Navigate(typeof(AppearancePage)),
-				SettingsPageKind.LayoutPage => SettingsContentFrame.Navigate(typeof(LayoutPage)),
-				SettingsPageKind.FoldersPage => SettingsContentFrame.Navigate(typeof(FoldersPage)),
-				SettingsPageKind.ActionsPage => SettingsContentFrame.Navigate(typeof(ActionsPage)),
-				SettingsPageKind.TagsPage => SettingsContentFrame.Navigate(typeof(TagsPage)),
-				SettingsPageKind.DevToolsPage => SettingsContentFrame.Navigate(typeof(DevToolsPage)),
-				SettingsPageKind.AdvancedPage => SettingsContentFrame.Navigate(typeof(AdvancedPage)),
-				SettingsPageKind.AboutPage => SettingsContentFrame.Navigate(typeof(AboutPage)),
-				_ => SettingsContentFrame.Navigate(typeof(AppearancePage))
+				SettingsPageKind.GeneralPage => SettingsContentFrame.Navigate(typeof(GeneralPage), null, new SuppressNavigationTransitionInfo()),
+				SettingsPageKind.AppearancePage => SettingsContentFrame.Navigate(typeof(AppearancePage), null, new SuppressNavigationTransitionInfo()),
+				SettingsPageKind.LayoutPage => SettingsContentFrame.Navigate(typeof(LayoutPage), null, new SuppressNavigationTransitionInfo()),
+				SettingsPageKind.FoldersPage => SettingsContentFrame.Navigate(typeof(FoldersPage), null, new SuppressNavigationTransitionInfo()),
+				SettingsPageKind.ActionsPage => SettingsContentFrame.Navigate(typeof(ActionsPage), null, new SuppressNavigationTransitionInfo()),
+				SettingsPageKind.TagsPage => SettingsContentFrame.Navigate(typeof(TagsPage), null, new SuppressNavigationTransitionInfo()),
+				SettingsPageKind.DevToolsPage => SettingsContentFrame.Navigate(typeof(DevToolsPage), null, new SuppressNavigationTransitionInfo()),
+				SettingsPageKind.AdvancedPage => SettingsContentFrame.Navigate(typeof(AdvancedPage), null, new SuppressNavigationTransitionInfo()),
+				SettingsPageKind.AboutPage => SettingsContentFrame.Navigate(typeof(AboutPage), null, new SuppressNavigationTransitionInfo()),
+				_ => SettingsContentFrame.Navigate(typeof(AppearancePage), null, new SuppressNavigationTransitionInfo())
 			};
 		}
 

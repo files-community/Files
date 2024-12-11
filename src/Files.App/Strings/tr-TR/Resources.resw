@@ -126,6 +126,9 @@
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Tırnak işaretleriyle yolu kopyala</value>
   </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>Copy selected item path with quotes</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Göz at</value>
   </data>
@@ -249,6 +252,9 @@
   <data name="Paste" xml:space="preserve">
     <value>Yapıştır</value>
   </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>Paste shortcut</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Yeni</value>
   </data>
@@ -291,8 +297,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Bir öge adı yazın</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>İsim ayarla</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>Yeni {0} oluştur</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Açık</value>
@@ -1238,6 +1244,12 @@
   <data name="OpenStorageSense" xml:space="preserve">
     <value>Akıllı Depolama'yı aç</value>
   </data>
+  <data name="OpenStorageSenseDescription" xml:space="preserve">
+    <value>Open the Storage Sense page in Windows Settings</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>Cleanup</value>
+  </data>
   <data name="Copy" xml:space="preserve">
     <value>Kopyala</value>
   </data>
@@ -1853,6 +1865,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Bu seçenek sistem kayıt defterini değiştirir ve aygıtınızda beklenmeyen yan etkilere neden olabilir. Kendi sorumluluğunuzda devam edin.</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>The flatten operations are permanent and not recommended. Continue at your own risk.</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Kütüphane oluştur</value>
   </data>
@@ -1930,6 +1945,9 @@
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Diğer Sekmeleri Kapat</value>
+  </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>Close all tabs</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>Müzik</value>
@@ -2026,6 +2044,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Sıkıştır</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Move all contents from subfolders into the selected location</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Flatten folder</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Flatten</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>Flattening a folder will move all contents from its subfolders to the selected location. This operation is permanent and cannot be undone. By using this experimental feature, you acknowledge the risk and agree not to hold the Files team responsible for any data loss.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Show flatten options</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Üzerine getirildiğinde dosyaları ve dizinleri seç</value>
@@ -2247,7 +2280,7 @@
     <value>Gizli dosyaları göster</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Biçimlendir...</value>
+    <value>Biçim</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Yardım</value>
@@ -2375,6 +2408,12 @@
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Seçilen öğelerin yolunu panoya kopyala</value>
   </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
+    <value>Copy path of selected items to the clipboard</value>
+  </data>
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
+    <value>Copy path of selected items with quotes to the clipboard</value>
+  </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
     <value>Seçilen öğelerin yolunu tırnak işaretleri ile panoya kopyala</value>
   </data>
@@ -2383,6 +2422,9 @@
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Panodaki öge(ler)i mevcut klasöre yapıştır</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>Paste item(s) from clipboard to current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>Panodaki öge(ler)i seçilen klasöre yapıştır</value>
@@ -2663,6 +2705,9 @@
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Seçilen sekme dışındaki sekmeleri kapat</value>
   </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>Close all tabs including the current tab</value>
+  </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Son kapatılan sekmeyi yeniden aç</value>
   </data>
@@ -2941,7 +2986,7 @@
     <value>Kalıcı olarak sil</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Öğeleri kalıcı olarak sil</value>
+    <value>Ögeleri kalıcı olarak sil</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>Seçilen medya dosyalarını oynatın</value>
@@ -3063,8 +3108,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Özellikleri aç</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Open File Explorer properties</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Özellikler penceresini aç</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Open File Explorer properties window</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Yerel</value>
@@ -3128,7 +3179,7 @@
     <value>Mika Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Zemin Malzemesi</value>
+    <value>Backdrop</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Katı</value>
@@ -3857,8 +3908,8 @@
     <value>Durum:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Araç Çubuğunu Göster</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <value>Show toolbar</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Sekme aksiyonları menüsü</value>
@@ -3907,5 +3958,50 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>Show Files icon in the System Tray</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>CPU threads</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Navigate to the home page</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Show Home in address bar</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Toolbars</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>User ID</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Bulk rename</value>
+  </data>
+  <data name="ShowCreateAlternateDataStream" xml:space="preserve">
+    <value>Show option to create alternate data stream</value>
+  </data>
+  <data name="CreateAlternateDataStream" xml:space="preserve">
+    <value>Create alternate data stream</value>
+  </data>
+  <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
+    <value>Create alternate data stream for the selected item(s)</value>
+  </data>
+  <data name="EnterDataStreamName" xml:space="preserve">
+    <value>Enter data stream name</value>
+  </data>
+  <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
+    <value>There was an error creating the alternate data stream</value>
+  </data>
+  <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
+    <value>Please note that alternate data streams only work on drives formatted as NTFS.</value>
+  </data>
+  <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
+    <value>Alternate data streams are currently hidden</value>
+  </data>
+  <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
+    <value>Would you like to display alternate data streams? You can modify this setting anytime from the files and folders settings page.</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Manage tags</value>
   </data>
 </root>

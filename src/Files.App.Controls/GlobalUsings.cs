@@ -22,3 +22,8 @@ global using global::Microsoft.UI.Xaml.Controls.Primitives;
 
 // Files.App.Controls
 global using global::Files.App.Controls.Primitives;
+
+// Files.Shared
+global using global::Files.Shared;
+global using global::Files.Shared.Attributes;
+global using global::Files.Shared.Extensions;

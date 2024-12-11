@@ -126,6 +126,9 @@
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Copier le chemin entre guillemets</value>
   </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>Copier le chemin de l'élément sélectionné entre guillemets</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Parcourir</value>
   </data>
@@ -249,6 +252,9 @@
   <data name="Paste" xml:space="preserve">
     <value>Coller</value>
   </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>Coller le raccourci</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nouveau</value>
   </data>
@@ -291,8 +297,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Entrez un nom d'élément</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Définir le nom</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>Créer un nouveau {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Clair</value>
@@ -346,10 +352,10 @@
     <value>Impossible de supprimer cet élément</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
-    <value>Veuillez insérer le disque nécessaire pour accéder à cet élément.</value>
+    <value>Veuillez insérer le lecteur nécessaire pour accéder à cet élément.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Disque déconnecté</value>
+    <value>Lecteur débranché</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>Le fichier auquel vous tentez d'accéder a peut-être été déplacé ou supprimé.</value>
@@ -954,7 +960,7 @@
     <value>Raccourci</value>
   </data>
   <data name="Drives" xml:space="preserve">
-    <value>Disques</value>
+    <value>Lecteurs</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>Déplacer ici</value>
@@ -1059,7 +1065,7 @@
     <value>Date de suppression</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
-    <value>Disques Cloud</value>
+    <value>Lecteurs cloud</value>
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>Confirmer</value>
@@ -1068,19 +1074,19 @@
     <value>Nom désiré</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>Afficher le volet d'aperçu</value>
+    <value>Afficher/Masquer le volet d'aperçu</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Afficher le volet des détails</value>
+    <value>Afficher/Masquer le volet des détails</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Activer le volet des détails pour afficher les propriétés de base du fichier</value>
+    <value>Afficher/Masquer le volet des détails pour afficher les propriétés de base du fichier</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Afficher le volet d'informations</value>
+    <value>Afficher/Masquer le volet d'informations</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Afficher le volet d'informations pour afficher les volets de détails/aperçu</value>
+    <value>Afficher/Masquer le volet d'informations pour afficher les volets de détails/aperçu</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
     <value>Afficher/Masquer la barre d'outils</value>
@@ -1137,22 +1143,22 @@
     <value>Si vous changez l'extension du fichier, celui-ci peut devenir inutilisable. Êtes-vous sûr de vouloir la changer ?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
-    <value>Lecteur CD</value>
+    <value>Lecteur CD-ROM</value>
   </data>
   <data name="DriveTypeCloudDrive" xml:space="preserve">
-    <value>Disque Cloud</value>
+    <value>Lecteur cloud</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
     <value>Disque local</value>
   </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
-    <value>Lecteur de disquette</value>
+    <value>Lecteur de disquettes</value>
   </data>
   <data name="DriveTypeNetwork" xml:space="preserve">
-    <value>Disque réseau</value>
+    <value>Lecteur réseau</value>
   </data>
   <data name="DriveTypeNoRootDirectory" xml:space="preserve">
-    <value>Disque démonté</value>
+    <value>Lecteur non monté</value>
   </data>
   <data name="DriveTypeRam" xml:space="preserve">
     <value>Lecteur de disque RAM</value>
@@ -1164,7 +1170,7 @@
     <value>Inconnu</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
-    <value>Disque virtuel</value>
+    <value>Lecteur virtuel</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
     <value>Date de création</value>
@@ -1237,6 +1243,12 @@
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
     <value>Ouvrir l'Assistant Stockage</value>
+  </data>
+  <data name="OpenStorageSenseDescription" xml:space="preserve">
+    <value>Ouvrez la page Assistant Stockage dans les paramètres Windows</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>Nettoyer</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Copier</value>
@@ -1677,7 +1689,7 @@
     <value>Partie de l'ensemble</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>Ouvrir le disque</value>
+    <value>Ouvrir le lecteur</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
     <value>Veuillez insérer un disque dans le lecteur {0}</value>
@@ -1853,6 +1865,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Cette option modifie le registre du système et peut avoir des effets secondaires inattendus sur votre appareil. Continuez à vos risques et périls.</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>Les opérations d'aplatissement sont permanentes et non recommandées. Continuez à vos risques et périls.</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Créer une bibliothèque</value>
   </data>
@@ -1881,7 +1896,7 @@
     <value>Lecture seule</value>
   </data>
   <data name="CleanupDrive" xml:space="preserve">
-    <value>Nettoyer le contenu du disque</value>
+    <value>Nettoyer le contenu de votre lecteur</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Type</value>
@@ -1930,6 +1945,9 @@
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Fermer les autres onglets</value>
+  </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>Fermer tous les onglets</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>Musique</value>
@@ -2026,6 +2044,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Compresser</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Déplacer tout le contenu des sous-dossiers vers l'emplacement sélectionné</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Aplatir le dossier</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Aplatir</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>L'aplatissement d'un dossier déplacera tout le contenu de ses sous-dossiers vers l'emplacement sélectionné. Cette opération est permanente et ne peut pas être annulée. En utilisant cette fonctionnalité expérimentale, vous reconnaissez les risques et acceptez de ne pas tenir l'équipe de Files responsable de toute perte de données.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Afficher les options d'aplatissement</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Sélectionner les fichiers et dossiers lorsqu'ils sont survolés</value>
@@ -2247,7 +2280,7 @@
     <value>Afficher les éléments masqués</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Formater...</value>
+    <value>Formater</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Aide</value>
@@ -2319,7 +2352,7 @@
     <value>Augmenter la taille</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Activer/désactiver la direction de tri</value>
+    <value>Activer/Désactiver la direction de tri</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>Nom invalide</value>
@@ -2334,7 +2367,7 @@
     <value>Lancer la fenêtre d'aperçu</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
-    <value>Activer/désactiver le mode compact</value>
+    <value>Activer/Désactiver le mode compact</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
     <value>Ouvrir la page d'aide en ligne dans votre navigateur</value>
@@ -2349,7 +2382,7 @@
     <value>Quitter le mode compact</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Activer/désactiver le mode compact</value>
+    <value>Activer/Désactiver le mode compact</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>Accéder à la zone de recherche</value>
@@ -2364,7 +2397,7 @@
     <value>Afficher/Masquer les extensions de fichiers</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Activer le volet d’aperçu pour afficher les aperçus des fichiers</value>
+    <value>Afficher/Masquer le volet d’aperçu pour afficher les aperçus des fichiers</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Afficher/Masquer la barre latérale</value>
@@ -2373,16 +2406,25 @@
     <value>Copier le(s) élément(s) vers le presse-papiers</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
+    <value>Copier le chemin du dossier actuel dans le presse-papiers</value>
+  </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
     <value>Copier le chemin des éléments sélectionnés dans le presse-papiers</value>
   </data>
-  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
     <value>Copier le chemin des éléments sélectionnés entre guillemets dans le presse-papiers</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Copier le chemin du dossier actuel entre guillemets dans le presse-papiers</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Couper le(s) élément(s) dans le presse-papiers</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Coller le(s) élément(s) du presse-papiers dans le dossier actuel</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>Coller le(s) élément(s) du presse-papiers vers le dossier actuel en tant que raccourcis</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>Coller le(s) élément(s) du presse-papiers vers le dossier sélectionné</value>
@@ -2436,7 +2478,7 @@
     <value>Effacer la sélection d'éléments</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Activer/désactiver la sélection d'éléments</value>
+    <value>Activer/Désactiver la sélection d'éléments</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
     <value>Partager le(s) fichier(s) sélectionné(s) avec d'autres personnes</value>
@@ -2583,7 +2625,7 @@
     <value>Trier les éléments par ordre décroissant</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
-    <value>Activer/désactiver la direction de tri des éléments</value>
+    <value>Activer/Désactiver la direction de tri des éléments</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Lister les éléments sans regroupement</value>
@@ -2625,16 +2667,16 @@
     <value>Trier les groupes en ordre décroissant</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
-    <value>Activer/désactiver la direction de tri des groupes</value>
+    <value>Activer/Désactiver la direction de tri des groupes</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
     <value>Ouvrir nouvel onglet</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Naviguer en arrière dans l'historique de navigation</value>
+    <value>Reculer dans l'historique de navigation</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Naviguer en avant dans l'historique de navigation</value>
+    <value>Avancer dans l'historique de navigation</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Revenir au dossier précédent</value>
@@ -2663,6 +2705,9 @@
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Fermer les onglets autres que l'onglet sélectionné</value>
   </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>Fermer tous les onglets, y compris l'onglet actuel</value>
+  </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Restaurer le dernier onglet fermé</value>
   </data>
@@ -2685,7 +2730,7 @@
     <value>Basculer le focus vers le volet inactif</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
-    <value>Afficher la barre latérale</value>
+    <value>Afficher/Masquer la barre latérale</value>
   </data>
   <data name="Key.Menu" xml:space="preserve">
     <value>Alt</value>
@@ -2875,7 +2920,7 @@
     <value>Modifier</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Basculer la sélection</value>
+    <value>Activer/Désactiver la sélection</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Afficher un avertissement lors du changement d'extensions de fichier</value>
@@ -2968,10 +3013,10 @@
     <value>Jour</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
-    <value>Activer/désactiver l'unité de regroupement par date</value>
+    <value>Activer/Désactiver l'unité de regroupement par date</value>
   </data>
   <data name="ToggleGroupingUnit" xml:space="preserve">
-    <value>Activer/désactiver l'unité de regroupement</value>
+    <value>Activer/Désactiver l'unité de regroupement</value>
   </data>
   <data name="Year" xml:space="preserve">
     <value>Année</value>
@@ -3063,8 +3108,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Ouvrir les propriétés</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Ouvrir les propriétés de l'Explorateur de fichiers</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Ouvrir la fenêtre des propriétés</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Ouvrir la fenêtre des propriétés de l’Explorateur de fichiers</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Locaux</value>
@@ -3128,7 +3179,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Matériau de fond</value>
+    <value>Arrière-plan</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Solide</value>
@@ -3258,7 +3309,7 @@
     <value>Gérer BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
-    <value>Les éléments suivants sont trop volumineux pour être copiés sur ce disque dur</value>
+    <value>Les éléments suivants sont trop volumineux pour être copiés dans ce lecteur</value>
   </data>
   <data name="FormatDrive" xml:space="preserve">
     <value>Formater le lecteur</value>
@@ -3589,7 +3640,7 @@
     <value>Connexion</value>
   </data>
   <data name="ErrorApplyingTagContent" xml:space="preserve">
-    <value>Les étiquettes sont actuellement uniquement compatibles sur les lecteurs formatés en NTFS.</value>
+    <value>Les étiquettes sont actuellement compatibles uniquement avec les lecteurs formatés en NTFS.</value>
   </data>
   <data name="ErrorApplyingTagTitle" xml:space="preserve">
     <value>Une erreur s'est produite lors de l'application de cette étiquette</value>
@@ -3858,7 +3909,7 @@
   </data>
   <data name="ShowToolbar" xml:space="preserve">
     <value>Afficher la barre d'outils</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Menu des actions de l'onglet</value>
@@ -3907,5 +3958,50 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>Afficher l'icône de Files dans la zone de notification</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>Threads du CPU</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Aller à la page d'accueil</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Afficher l'accueil dans la barre d'adresse</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Barre d'outils</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>ID utilisateur</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Renommer en masse</value>
+  </data>
+  <data name="ShowCreateAlternateDataStream" xml:space="preserve">
+    <value>Afficher l'option pour créer un flux de données alternatif</value>
+  </data>
+  <data name="CreateAlternateDataStream" xml:space="preserve">
+    <value>Créer un flux de données alternatif</value>
+  </data>
+  <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
+    <value>Créer un flux de données alternatif pour le(s) élément(s) sélectionné(s)</value>
+  </data>
+  <data name="EnterDataStreamName" xml:space="preserve">
+    <value>Entrez le nom du flux de données</value>
+  </data>
+  <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
+    <value>Une erreur s’est produite lors de la création du flux de données alternatif</value>
+  </data>
+  <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
+    <value>Veuillez noter que les flux de données alternatifs ne fonctionnent que sur les lecteurs formatés en NTFS.</value>
+  </data>
+  <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
+    <value>Les flux de données alternatifs sont actuellement masqués</value>
+  </data>
+  <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
+    <value>Souhaitez-vous afficher les flux de données alternatifs ? Vous pouvez modifier ce paramètre à tout moment depuis la page des paramètres de fichiers et dossiers.</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Manage tags</value>
   </data>
 </root>

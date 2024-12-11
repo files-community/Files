@@ -211,6 +211,11 @@ namespace Files.App.Data.Contracts
 		bool ShowCopyPath { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to create alternate data stream.
+		/// </summary>
+		bool ShowCreateAlternateDataStream { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not to show the option to create a shortcut.
 		/// </summary>
 		bool ShowCreateShortcut { get; set; }
@@ -224,6 +229,11 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating whether or not to show the compression options e.g. create archive, extract files.
 		/// </summary>
 		bool ShowCompressionOptions { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the flatten options e.g. single, recursive.
+		/// </summary>
+		bool ShowFlattenOptions { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to show the Send To menu.
@@ -244,6 +254,21 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating the default option to resolve conflicts.
 		/// </summary>
 		FileNameConflictResolveOptionType ConflictsResolveOption { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default archive format.
+		/// </summary>
+		ArchiveFormats ArchiveFormatsOption { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default archive compression level.
+		/// </summary>
+		ArchiveCompressionLevels ArchiveCompressionLevelsOption { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default archive splitting size.
+		/// </summary>
+		ArchiveSplittingSizes ArchiveSplittingSizesOption { get; set; }
 
 		/// <summary>
 		/// A dictionary to determine which hashes should be shown.

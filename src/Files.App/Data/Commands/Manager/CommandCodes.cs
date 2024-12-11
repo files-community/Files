@@ -29,20 +29,26 @@ namespace Files.App.Data.Commands
 
 		// File System
 		CopyItem,
+		CopyItemPath,
 		CopyPath,
+		CopyItemPathWithQuotes,
 		CopyPathWithQuotes,
 		CutItem,
 		PasteItem,
+		PasteItemAsShortcut,
 		PasteItemToSelection,
 		DeleteItem,
 		DeleteItemPermanently,
 		CreateFolder,
 		CreateFolderWithSelection,
 		AddItem,
+		CreateAlternateDataStream,
 		CreateShortcut,
 		CreateShortcutFromDialog,
 		EmptyRecycleBin,
 		FormatDrive,
+		FormatDriveFromHome,
+		FormatDriveFromSidebar,
 		RestoreRecycleBin,
 		RestoreAllRecycleBin,
 		OpenItem,
@@ -97,6 +103,9 @@ namespace Files.App.Data.Commands
 		DecompressArchiveHereSmart,
 		DecompressArchiveToChildFolder,
 
+		// Folders
+		FlattenFolder,
+
 		// Image Manipulation
 		RotateLeft,
 		RotateRight,
@@ -105,7 +114,12 @@ namespace Files.App.Data.Commands
 		OpenInVSCode,
 		OpenRepoInVSCode,
 		OpenProperties,
+		OpenReleaseNotes,
+		OpenClassicProperties,
 		OpenSettings,
+		OpenStorageSense,
+		OpenStorageSenseFromHome,
+		OpenStorageSenseFromSidebar,
 		OpenTerminal,
 		OpenTerminalAsAdmin,
 		OpenTerminalFromSidebar,
@@ -175,6 +189,7 @@ namespace Files.App.Data.Commands
 		NavigateBack,
 		NavigateForward,
 		NavigateUp,
+		NavigateHome,
 
 		// Other
 		DuplicateCurrentTab,
@@ -189,6 +204,7 @@ namespace Files.App.Data.Commands
 		PreviousTab,
 		NextTab,
 		CloseSelectedTab,
+		CloseAllTabs,
 
 		// Shell Panes
 		CloseActivePane,

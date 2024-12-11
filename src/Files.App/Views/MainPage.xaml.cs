@@ -118,7 +118,7 @@ namespace Files.App.Views
 		{
 			switch (e.SettingName)
 			{
-				case nameof(IInfoPaneSettingsService.IsEnabled):
+				case nameof(IInfoPaneSettingsService.IsInfoPaneEnabled):
 					LoadPaneChanged();
 					break;
 			}
@@ -305,7 +305,7 @@ namespace Files.App.Views
 				return;
 
 			var totalLaunchCount = SystemInformation.Instance.TotalLaunchCount;
-			if (totalLaunchCount is 15 or 30 or 60)
+			if (totalLaunchCount is 50 or 200)
 			{
 				// Prompt user to review app in the Store
 				DispatcherQueue.TryEnqueue(async () => await PromptForReviewAsync());
@@ -438,7 +438,7 @@ namespace Files.App.Views
 					(MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360);
 
 				ViewModel.ShouldPreviewPaneBeDisplayed = (!isHomePage || isMultiPane) && isBigEnough;
-				ViewModel.ShouldPreviewPaneBeActive = UserSettingsService.InfoPaneSettingsService.IsEnabled && ViewModel.ShouldPreviewPaneBeDisplayed;
+				ViewModel.ShouldPreviewPaneBeActive = UserSettingsService.InfoPaneSettingsService.IsInfoPaneEnabled && ViewModel.ShouldPreviewPaneBeDisplayed;
 				ViewModel.ShouldViewControlBeDisplayed = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
 
 				UpdatePositioning();

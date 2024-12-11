@@ -412,7 +412,7 @@ namespace Files.App.Utils
 		public bool IsArchive => this is ZipItem;
 		public bool IsAlternateStream => this is AlternateStreamItem;
 		public bool IsGitItem => this is GitItem;
-		public virtual bool IsExecutable => FileExtensionHelpers.IsExecutableFile(ItemPath);
+		public virtual bool IsExecutable => !IsFolder && FileExtensionHelpers.IsExecutableFile(ItemPath);
 		public virtual bool IsScriptFile => FileExtensionHelpers.IsScriptFile(ItemPath);
 		public bool IsPinned => App.QuickAccessManager.Model.PinnedFolders.Contains(itemPath);
 		public bool IsDriveRoot => ItemPath == PathNormalization.GetPathRoot(ItemPath);
@@ -501,8 +501,8 @@ namespace Files.App.Utils
 
 		public async Task<IStorageItem> ToStorageItem() => PrimaryItemAttribute switch
 		{
-			StorageItemTypes.File => await new FtpStorageFile(ItemPath, ItemNameRaw, ItemDateCreatedReal).ToStorageFileAsync(),
-			StorageItemTypes.Folder => new FtpStorageFolder(ItemPath, ItemNameRaw, ItemDateCreatedReal),
+			StorageItemTypes.File => await new Utils.Storage.FtpStorageFile(ItemPath, ItemNameRaw, ItemDateCreatedReal).ToStorageFileAsync(),
+			StorageItemTypes.Folder => new Utils.Storage.FtpStorageFolder(ItemPath, ItemNameRaw, ItemDateCreatedReal),
 			_ => throw new InvalidDataException(),
 		};
 	}

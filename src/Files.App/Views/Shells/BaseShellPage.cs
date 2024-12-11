@@ -699,8 +699,14 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected virtual void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
+		private void FolderSettings_LayoutPreferencesUpdateRequired(object sender, LayoutPreferenceEventArgs e)
 		{
+			if (ShellViewModel is null)
+				return;
+
+			LayoutPreferencesManager.SetLayoutPreferencesForPath(ShellViewModel.WorkingDirectory, e.LayoutPreference);
+			if (e.IsAdaptiveLayoutUpdateRequired)
+				AdaptiveLayoutHelpers.ApplyAdaptativeLayout(InstanceViewModel.FolderSettings, ShellViewModel.FilesAndFolders.ToList());
 		}
 
 		protected virtual void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)

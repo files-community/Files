@@ -126,6 +126,9 @@
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Копирај путању са наводницима</value>
   </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>Copy selected item path with quotes</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Потражи</value>
   </data>
@@ -217,7 +220,7 @@
     <value>Изглед</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Позадинска боја</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Напредна подешавања</value>
@@ -248,6 +251,9 @@
   </data>
   <data name="Paste" xml:space="preserve">
     <value>Налепи</value>
+  </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>Paste shortcut</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Нов</value>
@@ -291,8 +297,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Унеси нови назив</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Подеси назив</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>Create new {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Светла тема</value>
@@ -340,7 +346,7 @@
     <value>Постави као позадина закључаног екрана</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>Постави као позадина апликације</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Нисмо могли да обришемо ову датотеку</value>
@@ -355,7 +361,7 @@
     <value>Датотека којој покушавате да приступите је можда премештена или обрисана.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
-    <value>Cannot open properties for this file</value>
+    <value>Није могуће приказати својства за ову датотеку</value>
   </data>
   <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>Датотека којој покушавате да приступите је можда премештена или обрисана.</value>
@@ -373,7 +379,7 @@
     <value>Датотеку којој покушавате да приступите тренутно користи програм {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>Датотека којој покушавате да приступите се тренутно користи од стране друге апликације</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Датотека је у употреби</value>
@@ -388,40 +394,40 @@
     <value>{0, plural, one {# day ago} other {# days ago}}</value>
   </data>
   <data name="DaysAgo_Singular" xml:space="preserve">
-    <value>1 day ago</value>
+    <value>Пре једног дана</value>
   </data>
   <data name="DaysAgo_Plural" xml:space="preserve">
-    <value>{0} days ago</value>
+    <value>Пре {0} дана</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
   </data>
   <data name="HoursAgo_Singular" xml:space="preserve">
-    <value>1 hour ago</value>
+    <value>Пре сат времена</value>
   </data>
   <data name="HoursAgo_Plural" xml:space="preserve">
-    <value>{0} hours ago</value>
+    <value>Пре {0} сата</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0, plural, one {# minute ago} other {# minutes ago}}</value>
   </data>
   <data name="MinutesAgo_Singular" xml:space="preserve">
-    <value>1 minute ago</value>
+    <value>Пре једног минута</value>
   </data>
   <data name="MinutesAgo_Plural" xml:space="preserve">
-    <value>{0} minutes ago</value>
+    <value>Пре {0} минута</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
     <value>{0, plural, one {# second ago} other {# seconds ago}}</value>
   </data>
   <data name="SecondsAgo_Singular" xml:space="preserve">
-    <value>1 second ago</value>
+    <value>Пре једне секунде</value>
   </data>
   <data name="SecondsAgo_Plural" xml:space="preserve">
-    <value>{0} seconds ago</value>
+    <value>Пре {0} секунди</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Now</value>
+    <value>Сада</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>Затражена радња није подржана</value>
@@ -430,13 +436,13 @@
     <value>{0} слободно од {1}</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>Send to</value>
+    <value>Пошаљи</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Име ставке не сме да садржи следеће карактере: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>The item name specified is invalid</value>
+    <value>Дато име ставке није валидно</value>
   </data>
   <data name="SelectedItems" xml:space="preserve">
     <value>{0, plural, one {# item selected} few {# items selected} other {# items selected}}</value>
@@ -483,28 +489,28 @@
     <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}} from {2, number} {2, plural, one {location} other {locations}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
-    <value>Run as another user</value>
+    <value>Покрени као други корисник</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>All type of {0}</value>
   </data>
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
-    <value>Different types</value>
+    <value>Друге врсте</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>All in {0}</value>
+    <value>Све у {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
-    <value>Used space:</value>
+    <value>Искоришћени простор:</value>
   </data>
   <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
-    <value>Free space:</value>
+    <value>Слободни простор:</value>
   </data>
   <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
-    <value>Capacity:</value>
+    <value>Капацитет:</value>
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
-    <value>File system:</value>
+    <value>Систем датотека:</value>
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Recent</value>
@@ -513,7 +519,7 @@
     <value>Move tab here</value>
   </data>
   <data name="Status" xml:space="preserve">
-    <value>Status</value>
+    <value>Стање</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Језик Windows окружења</value>
@@ -564,16 +570,16 @@
     <value>Files ran into a problem that the developers didn't prepare for yet.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
-    <value>Something went wrong!</value>
+    <value>Нешто је пошло по злу!</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
-    <value>Report this issue</value>
+    <value>Пријави овај проблем</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
-    <value>Invalid item</value>
+    <value>Неважећа ставка</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Version:</value>
@@ -858,7 +864,7 @@
     <value>Број ревизије</value>
   </data>
   <data name="PropertyVersion" xml:space="preserve">
-    <value>Version</value>
+    <value>Верзија</value>
   </data>
   <data name="PropertyDateCreated" xml:space="preserve">
     <value>Датум прављења</value>
@@ -1237,6 +1243,12 @@
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
     <value>Отвори подешавања Storage Sense</value>
+  </data>
+  <data name="OpenStorageSenseDescription" xml:space="preserve">
+    <value>Open the Storage Sense page in Windows Settings</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>Cleanup</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Копирај</value>
@@ -1853,6 +1865,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>This option modifies the system registry and can have unexpected side effects on your device. Continue at your own risk.</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>The flatten operations are permanent and not recommended. Continue at your own risk.</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Create Library</value>
   </data>
@@ -1930,6 +1945,9 @@
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Close other tabs</value>
+  </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>Close all tabs</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>Музика</value>
@@ -2026,6 +2044,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Compress</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Move all contents from subfolders into the selected location</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Flatten folder</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Flatten</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>Flattening a folder will move all contents from its subfolders to the selected location. This operation is permanent and cannot be undone. By using this experimental feature, you acknowledge the risk and agree not to hold the Files team responsible for any data loss.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Show flatten options</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Селектуј датотеке и фасцикле преласком миша</value>
@@ -2247,7 +2280,7 @@
     <value>Show hidden items</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Format...</value>
+    <value>Формат</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Help</value>
@@ -2375,6 +2408,12 @@
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Copy path of selected items to the clipboard</value>
   </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
+    <value>Copy path of selected items to the clipboard</value>
+  </data>
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
+    <value>Copy path of selected items with quotes to the clipboard</value>
+  </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
     <value>Copy path of selected items with quotes to the clipboard</value>
   </data>
@@ -2383,6 +2422,9 @@
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Paste item(s) from clipboard to current folder</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>Paste item(s) from clipboard to current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>Paste item(s) from clipboard to selected folder</value>
@@ -2662,6 +2704,9 @@
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Close tabs other than selected tab</value>
+  </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>Close all tabs including the current tab</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Reopen last closed tab</value>
@@ -3063,8 +3108,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Open properties</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Open File Explorer properties</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Open properties window</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Open File Explorer properties window</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Locals</value>
@@ -3128,7 +3179,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Backdrop Material</value>
+    <value>Backdrop</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Solid</value>
@@ -3857,8 +3908,8 @@
     <value>Status:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Show Toolbar</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <value>Show toolbar</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Tab actions menu</value>
@@ -3907,5 +3958,50 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>Show Files icon in the System Tray</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>CPU threads</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Navigate to the home page</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Show Home in address bar</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Toolbars</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>User ID</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Bulk rename</value>
+  </data>
+  <data name="ShowCreateAlternateDataStream" xml:space="preserve">
+    <value>Show option to create alternate data stream</value>
+  </data>
+  <data name="CreateAlternateDataStream" xml:space="preserve">
+    <value>Create alternate data stream</value>
+  </data>
+  <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
+    <value>Create alternate data stream for the selected item(s)</value>
+  </data>
+  <data name="EnterDataStreamName" xml:space="preserve">
+    <value>Enter data stream name</value>
+  </data>
+  <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
+    <value>There was an error creating the alternate data stream</value>
+  </data>
+  <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
+    <value>Please note that alternate data streams only work on drives formatted as NTFS.</value>
+  </data>
+  <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
+    <value>Alternate data streams are currently hidden</value>
+  </data>
+  <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
+    <value>Would you like to display alternate data streams? You can modify this setting anytime from the files and folders settings page.</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Manage tags</value>
   </data>
 </root>

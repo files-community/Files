@@ -14,63 +14,30 @@ using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 
 namespace Files.App.UserControls
 {
+	[DependencyProperty<bool>("IsSidebarPaneOpenToggleButtonVisible")]
+	[DependencyProperty<bool>("ShowOngoingTasks")]
+	[DependencyProperty<bool>("ShowSettingsButton")]
+	[DependencyProperty<bool>("ShowSearchBox")]
+	[DependencyProperty<AddressToolbarViewModel>("ViewModel")]
 	public sealed partial class AddressToolbar : UserControl
 	{
+		// Dependency properties
+
 		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private readonly ICommand historyItemClickedCommand;
 		private readonly MainPageViewModel MainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-    
-		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
-
-		public static readonly DependencyProperty IsSidebarPaneOpenToggleButtonVisibleProperty =
-			DependencyProperty.Register(nameof(IsSidebarPaneOpenToggleButtonVisible), typeof(bool), typeof(AddressToolbar), new(false));
-		public bool IsSidebarPaneOpenToggleButtonVisible
-		{
-			get => (bool)GetValue(IsSidebarPaneOpenToggleButtonVisibleProperty);
-			set => SetValue(IsSidebarPaneOpenToggleButtonVisibleProperty, value);
-		}
-
-		// Using a DependencyProperty as the backing store for ShowOngoingTasks.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty ShowOngoingTasksProperty =
-			DependencyProperty.Register(nameof(ShowOngoingTasks), typeof(bool), typeof(AddressToolbar), new(null));
-		public bool ShowOngoingTasks
-		{
-			get => (bool)GetValue(ShowOngoingTasksProperty);
-			set => SetValue(ShowOngoingTasksProperty, value);
-		}
-
-		// Using a DependencyProperty as the backing store for ShowSettingsButton.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty ShowSettingsButtonProperty =
-			DependencyProperty.Register(nameof(ShowSettingsButton), typeof(bool), typeof(AddressToolbar), new(null));
-		public bool ShowSettingsButton
-		{
-			get => (bool)GetValue(dp: ShowSettingsButtonProperty);
-			set => SetValue(ShowSettingsButtonProperty, value);
-		}
-
-		// Using a DependencyProperty as the backing store for CollapseSearchBox.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty ShowSearchBoxProperty =
-			DependencyProperty.Register(nameof(ShowSearchBox), typeof(bool), typeof(AddressToolbar), new(null));
-		public bool ShowSearchBox
-		{
-			get { return (bool)GetValue(ShowSearchBoxProperty); }
-			set { SetValue(ShowSearchBoxProperty, value); }
-		}
-
-		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(nameof(ViewModel), typeof(AddressToolbarViewModel), typeof(AddressToolbar), new PropertyMetadata(null));
-		public AddressToolbarViewModel? ViewModel
-		{
-			get => (AddressToolbarViewModel)GetValue(ViewModelProperty);
-			set => SetValue(ViewModelProperty, value);
-		}
-
+		public ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		public StatusCenterViewModel? OngoingTasksViewModel { get; set; }
+
+		// Commands
+
+		private readonly ICommand historyItemClickedCommand;
+
+		// Constructor
 
 		public AddressToolbar()
 		{
 			InitializeComponent();
+
 			historyItemClickedCommand = new RelayCommand<ToolbarHistoryItemModel?>(HistoryItemClicked);
 		}
 

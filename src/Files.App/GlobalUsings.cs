@@ -29,14 +29,11 @@ global using global::Files.App.Utils.Cloud;
 global using global::Files.App.Utils.FileTags;
 global using global::Files.App.Utils.Git;
 global using global::Files.App.Utils.Library;
-global using global::Files.App.Utils.RecentItem;
-global using global::Files.App.Utils.RecycleBin;
 global using global::Files.App.Utils.Serialization;
 global using global::Files.App.Utils.Shell;
 global using global::Files.App.Utils.StatusCenter;
 global using global::Files.App.Utils.Storage;
 global using global::Files.App.Utils.Taskbar;
-global using global::Files.App.Data.Attributes;
 global using global::Files.App.Data.Behaviors;
 global using global::Files.App.Data.Commands;
 global using global::Files.App.Data.Contexts;
@@ -79,6 +76,12 @@ global using global::Files.Core.Storage.EventArguments;
 global using global::Files.Core.Storage.Extensions;
 global using global::Files.Core.Storage.StorageEnumeration;
 
+// Files.App.Storage
+
+global using global::Files.App.Storage.Storables;
+global using global::Files.App.Storage.Watchers;
+
 // Files.Shared
 global using global::Files.Shared;
+global using global::Files.Shared.Attributes;
 global using global::Files.Shared.Extensions;

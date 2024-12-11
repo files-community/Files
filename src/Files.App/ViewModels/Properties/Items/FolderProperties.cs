@@ -10,6 +10,8 @@ namespace Files.App.ViewModels.Properties
 {
 	internal sealed class FolderProperties : BaseProperties
 	{
+		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
+
 		public ListedItem Item { get; }
 
 		public FolderProperties(
@@ -71,8 +73,9 @@ namespace Files.App.ViewModels.Properties
 
 		public async override Task GetSpecialPropertiesAsync()
 		{
-			ViewModel.IsHidden = Win32Helper.HasFileAttribute(
-				Item.ItemPath, System.IO.FileAttributes.Hidden);
+			ViewModel.IsHidden = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+			ViewModel.CanCompressContent = Win32Helper.CanCompressContent(Item.ItemPath);
+			ViewModel.IsContentCompressed = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Compressed);
 
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Item.ItemPath,
@@ -123,7 +126,7 @@ namespace Files.App.ViewModels.Properties
 			}
 			else if (Item.ItemPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 			{
-				var recycleBinQuery = Win32Helper.QueryRecycleBin();
+				var recycleBinQuery = StorageTrashBinService.QueryRecycleBin();
 				if (recycleBinQuery.BinSize is long binSize)
 				{
 					ViewModel.ItemSizeBytes = binSize;
@@ -207,6 +210,10 @@ namespace Files.App.ViewModels.Properties
 						else
 							Win32Helper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
 					}
+					break;
+
+				case "IsContentCompressed":
+					Win32Helper.SetCompressionAttributeIoctl(Item.ItemPath, ViewModel.IsContentCompressed ?? false);
 					break;
 
 				case "ShortcutItemPath":

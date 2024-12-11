@@ -126,6 +126,9 @@
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Kopieer pad met aanhalings</value>
   </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>Copy selected item path with quotes</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Blaai</value>
   </data>
@@ -249,6 +252,9 @@
   <data name="Paste" xml:space="preserve">
     <value>Plak</value>
   </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>Paste shortcut</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nuwe</value>
   </data>
@@ -291,8 +297,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Voer 'n itemnaam in</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Stel naam op</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>Create new {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Lig</value>
@@ -1239,6 +1245,12 @@
   <data name="OpenStorageSense" xml:space="preserve">
     <value>Maak Storage Sense Oop</value>
   </data>
+  <data name="OpenStorageSenseDescription" xml:space="preserve">
+    <value>Open the Storage Sense page in Windows Settings</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>Cleanup</value>
+  </data>
   <data name="Copy" xml:space="preserve">
     <value>Kopieer</value>
   </data>
@@ -1854,6 +1866,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Hierdie instelling verander stelsellêers en kan onverwagte newe-effekte op jou toestel hê. Die ontwikkelaars neem geen verantwoordelikheid in die geval dat 'n probleem as gevolg daarvan plaasvind nie. Om voort te gaan met hierdie opsie is 'n erkenning van die risiko's wat by hierdie aksie betrokke is.</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>The flatten operations are permanent and not recommended. Continue at your own risk.</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Skep biblioteek</value>
   </data>
@@ -1931,6 +1946,9 @@
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Sluit ander duimgidse</value>
+  </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>Close all tabs</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>Musiek</value>
@@ -2027,6 +2045,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Compress</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Move all contents from subfolders into the selected location</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Flatten folder</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Flatten</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>Flattening a folder will move all contents from its subfolders to the selected location. This operation is permanent and cannot be undone. By using this experimental feature, you acknowledge the risk and agree not to hold the Files team responsible for any data loss.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Show flatten options</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Select files and folders when hovering over them</value>
@@ -2248,7 +2281,7 @@
     <value>Show hidden items</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Format...</value>
+    <value>Formaat</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Help</value>
@@ -2376,6 +2409,12 @@
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Copy path of selected items to the clipboard</value>
   </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
+    <value>Copy path of selected items to the clipboard</value>
+  </data>
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
+    <value>Copy path of selected items with quotes to the clipboard</value>
+  </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
     <value>Copy path of selected items with quotes to the clipboard</value>
   </data>
@@ -2384,6 +2423,9 @@
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Paste item(s) from clipboard to current folder</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>Paste item(s) from clipboard to current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>Paste item(s) from clipboard to selected folder</value>
@@ -2663,6 +2705,9 @@
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Close tabs other than selected tab</value>
+  </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>Close all tabs including the current tab</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Reopen last closed tab</value>
@@ -3064,8 +3109,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Open properties</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Open File Explorer properties</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Open properties window</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Open File Explorer properties window</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Locals</value>
@@ -3129,7 +3180,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Backdrop Material</value>
+    <value>Backdrop</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Solid</value>
@@ -3858,8 +3909,8 @@
     <value>Status:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Show Toolbar</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <value>Show toolbar</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Tab actions menu</value>
@@ -3908,5 +3959,50 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>Show Files icon in the System Tray</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>CPU threads</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Navigate to the home page</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Show Home in address bar</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Toolbars</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>User ID</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Bulk rename</value>
+  </data>
+  <data name="ShowCreateAlternateDataStream" xml:space="preserve">
+    <value>Show option to create alternate data stream</value>
+  </data>
+  <data name="CreateAlternateDataStream" xml:space="preserve">
+    <value>Create alternate data stream</value>
+  </data>
+  <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
+    <value>Create alternate data stream for the selected item(s)</value>
+  </data>
+  <data name="EnterDataStreamName" xml:space="preserve">
+    <value>Enter data stream name</value>
+  </data>
+  <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
+    <value>There was an error creating the alternate data stream</value>
+  </data>
+  <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
+    <value>Please note that alternate data streams only work on drives formatted as NTFS.</value>
+  </data>
+  <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
+    <value>Alternate data streams are currently hidden</value>
+  </data>
+  <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
+    <value>Would you like to display alternate data streams? You can modify this setting anytime from the files and folders settings page.</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Manage tags</value>
   </data>
 </root>

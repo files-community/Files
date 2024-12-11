@@ -126,7 +126,7 @@ namespace Files.App.ViewModels.Settings
 			AppLifecycleHelper.SaveSessionTabs();
 
 			// Launches a new instance of Files
-			await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
+			await Launcher.LaunchUriAsync(new Uri("files-dev:"));
 
 			// Closes the current instance
 			Process.GetCurrentProcess().Kill();
@@ -278,6 +278,20 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool ShowCreateAlternateDataStream
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowCreateAlternateDataStream;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowCreateAlternateDataStream)
+				{
+					UserSettingsService.GeneralSettingsService.ShowCreateAlternateDataStream = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public bool ShowCreateShortcut
 		{
 			get => UserSettingsService.GeneralSettingsService.ShowCreateShortcut;
@@ -322,7 +336,9 @@ namespace Files.App.ViewModels.Settings
 		{
 			if (string.IsNullOrWhiteSpace(path))
 			{
-				CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);
+				bool result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);
+				if (!result)
+					return;
 
 				path = filePath;
 			}
@@ -453,6 +469,20 @@ namespace Files.App.ViewModels.Settings
 				OnPropertyChanged();
 			}
 		}
+
+		// TODO uncomment code when feature is marked as stable
+		//public bool ShowFlattenOptions
+		//{
+		//	get => UserSettingsService.GeneralSettingsService.ShowFlattenOptions;
+		//	set
+		//	{
+		//		if (value == UserSettingsService.GeneralSettingsService.ShowFlattenOptions)
+		//			return;
+
+		//		UserSettingsService.GeneralSettingsService.ShowFlattenOptions = value;
+		//		OnPropertyChanged();
+		//	}
+		//}
 
 		public bool ShowSendToMenu
 		{

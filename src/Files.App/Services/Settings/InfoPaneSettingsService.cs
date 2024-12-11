@@ -5,7 +5,7 @@ namespace Files.App.Services.Settings
 {
 	internal sealed class InfoPaneSettingsService : BaseObservableJsonSettings, IInfoPaneSettingsService
 	{
-		public bool IsEnabled
+		public bool IsInfoPaneEnabled
 		{
 			get => Get(false);
 			set => Set(value);

@@ -514,6 +514,10 @@
 				</Style>
 			</ListView.ItemContainerStyle>
 
+			<!--  Remove All Transitions  -->
+			<ListView.ItemContainerTransitions>
+				<TransitionCollection />
+			</ListView.ItemContainerTransitions>
 		</ListView>
 	</ScrollViewer>
 

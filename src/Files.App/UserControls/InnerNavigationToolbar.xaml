@@ -66,17 +66,6 @@
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 
-		<!--  Home page header  -->
-		<TextBlock
-			x:Name="HomePageHeaderTextBlock"
-			Grid.Column="0"
-			Margin="18,0,0,0"
-			HorizontalAlignment="Left"
-			VerticalAlignment="Center"
-			x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-			Style="{StaticResource App.Theme.SubtitleTextBlockStyle}"
-			Text="{helpers:ResourceString Name=Home}" />
-
 		<!--  Context Commands  -->
 		<CommandBar
 			x:Name="ContextCommandBar"
@@ -243,13 +232,13 @@
 					AccessKey="O"
 					AccessKeyInvoked="AppBarButton_AccessKeyInvoked"
 					AutomationProperties.AutomationId="InnerNavigationToolbarPropertiesButton"
-					Command="{x:Bind Commands.OpenProperties, Mode=OneWay}"
-					IsEnabled="{x:Bind Commands.OpenProperties.IsExecutable, Mode=OneWay}"
-					KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenProperties.HotKeyText, Mode=OneWay}"
-					Label="{x:Bind Commands.OpenProperties.Label}"
+					Command="{x:Bind ModifiableCommands.OpenProperties, Mode=OneWay}"
+					IsEnabled="{x:Bind ModifiableCommands.OpenProperties.IsExecutable, Mode=OneWay}"
+					KeyboardAcceleratorTextOverride="{x:Bind ModifiableCommands.OpenProperties.HotKeyText, Mode=OneWay}"
+					Label="{x:Bind ModifiableCommands.OpenProperties.Label}"
 					LabelPosition="Collapsed"
-					ToolTipService.ToolTip="{x:Bind Commands.OpenProperties.LabelWithHotKey, Mode=OneWay}">
-					<controls:ThemedIcon Style="{x:Bind Commands.OpenProperties.ThemedIconStyle, Mode=OneTime}" />
+					ToolTipService.ToolTip="{x:Bind ModifiableCommands.OpenProperties.LabelWithHotKey, Mode=OneWay}">
+					<controls:ThemedIcon Style="{x:Bind ModifiableCommands.OpenProperties.ThemedIconStyle, Mode=OneTime}" />
 				</AppBarButton>
 
 				<!--  (Divider)  -->

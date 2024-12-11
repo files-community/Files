@@ -19,8 +19,6 @@ namespace Files.App.Utils.Cloud
 
 		AppleCloudPhotos,
 
-		AmazonDrive,
-
 		Nextcloud,
 
 		Yandex,
@@ -45,6 +43,8 @@ namespace Files.App.Utils.Cloud
 
 		ProtonDrive,
 
-		LucidLink
+		LucidLink,
+
+		kDrive
 	}
 }

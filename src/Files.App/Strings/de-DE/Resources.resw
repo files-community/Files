@@ -126,6 +126,9 @@
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Pfad mit Anführungszeichen kopieren</value>
   </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>Ausgewählten Elementpfad mit Anführungszeichen kopieren</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Durchsuchen</value>
   </data>
@@ -249,6 +252,9 @@
   <data name="Paste" xml:space="preserve">
     <value>Einfügen</value>
   </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>Verknüpfung einfügen</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Neu</value>
   </data>
@@ -291,8 +297,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Elementname eingeben</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Name festlegen</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>{0} erstellen</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Hell</value>
@@ -723,13 +729,13 @@
     <value>Nicht angegeben</value>
   </data>
   <data name="PropertyLongitudeDecimal" xml:space="preserve">
-    <value>Longitude Dezimal</value>
+    <value>Längengrad Dezimal</value>
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
-    <value>Latitude Dezimal</value>
+    <value>Breitengrad Dezimal</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
-    <value>Flughöhe</value>
+    <value>Höhe</value>
   </data>
   <data name="PropertyDateTaken" xml:space="preserve">
     <value>Aufnahmedatum</value>
@@ -762,7 +768,7 @@
     <value>Datenrate</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
-    <value>Albuminterpret</value>
+    <value>Albumkünstler</value>
   </data>
   <data name="PropertyAlbumTitle" xml:space="preserve">
     <value>Albumtitel</value>
@@ -780,7 +786,7 @@
     <value>Dirigent</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
-    <value>CD-Nummer</value>
+    <value>Scheibennummer</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
     <value>Genre</value>
@@ -792,7 +798,7 @@
     <value>Dauer</value>
   </data>
   <data name="PropertyFrameCount" xml:space="preserve">
-    <value>Einzelbildanzahl</value>
+    <value>Frame-zahl</value>
   </data>
   <data name="PropertyProtectionType" xml:space="preserve">
     <value>Schutztyp</value>
@@ -801,7 +807,7 @@
     <value>Autoren-Url</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
-    <value>Herausgeber</value>
+    <value>Inhaltsverteiler</value>
   </data>
   <data name="PropertyDateReleased" xml:space="preserve">
     <value>Veröffentlichungsdatum</value>
@@ -891,22 +897,22 @@
     <value>Bildrate</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
-    <value>Enkodierungsbitrate</value>
+    <value>Kodierungsbitrate</value>
   </data>
   <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
-    <value>Audioenkodierungsbitrate</value>
+    <value>Audiokodierungsbitrate</value>
   </data>
   <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
-    <value>Videoenkodierungsbitrate</value>
+    <value>Videokodierungsbitrate</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Komprimierung</value>
   </data>
   <data name="PropertyFrameWidth" xml:space="preserve">
-    <value>Rahmenbreite</value>
+    <value>Bildbreite</value>
   </data>
   <data name="PropertyFrameHeight" xml:space="preserve">
-    <value>Rahmenhöhe</value>
+    <value>Bildhöhe</value>
   </data>
   <data name="PropertyOrientation" xml:space="preserve">
     <value>Ausrichtung</value>
@@ -927,7 +933,7 @@
     <value>Medien</value>
   </data>
   <data name="PropertySectionAudio" xml:space="preserve">
-    <value>Audiodatei</value>
+    <value>Audio</value>
   </data>
   <data name="PropertySectionMusic" xml:space="preserve">
     <value>Musik</value>
@@ -948,7 +954,7 @@
     <value>Auswählen</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
-    <value>Papierkorb</value>
+    <value>Papierkorbobjekt</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
     <value>Verknüpfung</value>
@@ -957,13 +963,13 @@
     <value>Laufwerke</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
-    <value>Hierher verschieben</value>
+    <value>Hierhin verschieben</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
-    <value>Hardware sicher entfernen</value>
+    <value>Hardware sicher entfernbar</value>
   </data>
   <data name="EjectNotificationBody" xml:space="preserve">
-    <value>Das Gerät kann jetzt sicher vom PC entfernt werden.</value>
+    <value>Das Gerät kann jetzt sicher von dem Computer entfernt werden.</value>
   </data>
   <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
     <value>Problem beim Auswerfen des Gerätes</value>
@@ -1011,7 +1017,7 @@
     <value>Layout- und Sortierungseinstellungen zwischen Verzeichnissen synchronisieren</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
-    <value>Kontextmenü anpassen</value>
+    <value>Rechtsklick Kontextmenü anpassen</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
     <value>Ursprünglicher Pfad</value>
@@ -1035,7 +1041,7 @@
     <value>Option anzeigen, um den Pfad zu kopieren</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
-    <value>Option anzeigen, um einen Ordner mit Auswahl zu erstellen</value>
+    <value>Option anzeigen, um einen Ordner mit der Auswahl zu erstellen</value>
   </data>
   <data name="ShowCreateShortcut" xml:space="preserve">
     <value>Option anzeigen, um Verknüpfung zu erstellen</value>
@@ -1140,7 +1146,7 @@
     <value>CD-ROM-Laufwerk</value>
   </data>
   <data name="DriveTypeCloudDrive" xml:space="preserve">
-    <value>Cloudlaufwerk</value>
+    <value>Cloud-Laufwerk</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
     <value>Festplattenlaufwerk</value>
@@ -1237,6 +1243,12 @@
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
     <value>Speicheroptimierung öffnen</value>
+  </data>
+  <data name="OpenStorageSenseDescription" xml:space="preserve">
+    <value>Öffnet die Seite Speicheroptimierung in den Windows-Einstellungen</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>Bereinigung</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Kopieren</value>
@@ -1853,6 +1865,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Diese Option verändert die Systemregistrierung und kann unerwartete Nebenwirkungen auf dein Gerät haben. Die Fortsetzung erfolgt auf eigene Gefahr.</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>Die Operationen zum Vereinfachen der Ordnerstruktur sind unwiderruflich und nicht empfohlen. Nutzung auf eigene Gefahr.</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Bibliothek erstellen</value>
   </data>
@@ -1930,6 +1945,9 @@
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Andere Tabs schließen</value>
+  </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>Alle Tabs schließen</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>Musik</value>
@@ -2026,6 +2044,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Komprimieren</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Alle Inhalte aus Unterordnern an den ausgewählten Ort verschieben</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Ordnerstruktur vereinfachen</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Vereinfachen</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>Die Vereinfachung der Struktur eines Ordners bedeutet, dass alle Elemente der Unterordner an den ausgewählten Ort verschoben und die Unterordner anschließend gelöscht werden. Diese Operation ist unwiderruflich und kann nicht rückgängig gemacht werden. Durch die Nutzung dieses experimentellen Features nimmst du das Risiko in Kauf und erklärst dich damit einverstanden, das Files-Team nicht für eventuelle Datenverluste verantwortlich zu machen.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Optionen zur Vereinfachung der Ordnerstruktur anzeigen</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Dateien und Ordner beim Überfahren auswählen</value>
@@ -2247,7 +2280,7 @@
     <value>Versteckte Elemente anzeigen</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Formatieren...</value>
+    <value>Formattieren</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Hilfe</value>
@@ -2375,6 +2408,12 @@
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Pfad der ausgewählten Elemente in die Zwischenablage kopieren</value>
   </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
+    <value>Pfad der ausgewählten Elemente in die Zwischenablage kopieren</value>
+  </data>
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
+    <value>Pfad der ausgewählten Elemente mit Anführungszeichen in die Zwischenablage kopieren</value>
+  </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
     <value>Pfad der ausgewählten Elemente mit Anführungszeichen in die Zwischenablage kopieren</value>
   </data>
@@ -2383,6 +2422,9 @@
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Element(e) aus der Zwischenablage in aktuellen Ordner einfügen</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>Element(e) aus der Zwischenablage als Verknüpfung(en) in den aktuellen Ordner einfügen</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>Element(e) aus der Zwischenablage in ausgewählten Ordner einfügen</value>
@@ -2662,6 +2704,9 @@
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Alle Tabs außer ausgewähltem Tab schließen</value>
+  </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>Alle Tabs inklusive des aktuellen Tabs schließen</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Zuletzt geschlossenen Tab erneut öffnen</value>
@@ -3063,8 +3108,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Eigenschaften öffnen</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Explorer-Eigenschaften öffnen</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Eigenschaften-Fenster öffnen</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Explorer-Eigenschaftsfenster öffnen</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Lokale</value>
@@ -3119,7 +3170,7 @@
     <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
-    <value>Acrylic</value>
+    <value>Acryl</value>
   </data>
   <data name="Mica" xml:space="preserve">
     <value>Mica</value>
@@ -3799,7 +3850,7 @@
     <value>Vertikale Ausrichtung</value>
   </data>
   <data name="ThinAcrylic" xml:space="preserve">
-    <value>Dünn Acrylisch</value>
+    <value>Dünnes Acryl</value>
     <comment>This is a type of backdrop for the application background</comment>
   </data>
   <data name="AllLocations" xml:space="preserve">
@@ -3857,8 +3908,8 @@
     <value>Status:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Symbolleiste anzeigen</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <value>Werkzeugleiste anzeigen</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Tab-Aktionen-Menü</value>
@@ -3907,5 +3958,50 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>Files-Icon im System-Tray anzeigen</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>CPU-Threads</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Zur Startseite navigieren</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Startseite in Adressleiste anzeigen</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Werkzeugleisten</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>Benutzer ID</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Massenhafte Umbenennung</value>
+  </data>
+  <data name="ShowCreateAlternateDataStream" xml:space="preserve">
+    <value>Option zum Erstellen alternativer Datenströme anzeigen</value>
+  </data>
+  <data name="CreateAlternateDataStream" xml:space="preserve">
+    <value>Alternativen Datenstrom erstellen</value>
+  </data>
+  <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
+    <value>Alternativen Datenstrom für das/die ausgewählte(n) Element(e) erstellen</value>
+  </data>
+  <data name="EnterDataStreamName" xml:space="preserve">
+    <value>Datenstromnamen eingeben</value>
+  </data>
+  <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
+    <value>Fehler beim Erstellen des alternativen Datenstroms</value>
+  </data>
+  <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
+    <value>Bitte beachte, dass alternative Datenströme nur auf Laufwerken funktionieren, die als NTFS formatiert sind.</value>
+  </data>
+  <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
+    <value>Alternative Datenströme sind derzeit versteckt</value>
+  </data>
+  <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
+    <value>Möchtest Du alternative Datenströme anzeigen? Du kannst diese Einstellung jederzeit in den Dateien- und Ordner-Einstellungen ändern.</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Tags verwalten</value>
   </data>
 </root>

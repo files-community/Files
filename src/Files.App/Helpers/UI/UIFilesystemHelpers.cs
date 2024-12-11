@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.App.Dialogs;
-using Files.App.Storage.Storables;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Net;
@@ -24,6 +23,26 @@ namespace Files.App.Helpers
 				associatedInstance.SlimContentPage?.ItemManipulationModel?.RefreshItemsOpacity();
 				await associatedInstance.RefreshIfNoWatcherExistsAsync();
 			}
+		}
+
+		public static async Task PasteItemAsShortcutAsync(string destinationPath, IShellPage associatedInstance)
+		{
+			FilesystemResult<DataPackageView> packageView = await FilesystemTasks.Wrap(() => Task.FromResult(Clipboard.GetContent()));
+			if (packageView.Result.Contains(StandardDataFormats.StorageItems))
+			{
+				var items = await packageView.Result.GetStorageItemsAsync();
+				await Task.WhenAll(items.Select(async item =>
+				{
+					var fileName = FilesystemHelpers.GetShortcutNamingPreference(item.Name);
+					var filePath = Path.Combine(destinationPath ?? string.Empty, fileName);
+
+					if (!await FileOperationsHelpers.CreateOrUpdateLinkAsync(filePath, item.Path))
+						await HandleShortcutCannotBeCreated(fileName, item.Path);
+				}));
+			}
+
+			if (associatedInstance is not null)
+				await associatedInstance.RefreshIfNoWatcherExistsAsync();
 		}
 
 		public static async Task<bool> RenameFileItemAsync(ListedItem item, string newName, IShellPage associatedInstance, bool showExtensionDialog = true)
@@ -87,7 +106,7 @@ namespace Files.App.Helpers
 			string? userInput = null;
 			if (itemType != AddItemDialogItemType.File || itemInfo?.Command is null)
 			{
-				DynamicDialog dialog = DynamicDialogFactory.GetFor_RenameDialog();
+				DynamicDialog dialog = DynamicDialogFactory.GetFor_CreateItemDialog(itemType.ToString().GetLocalizedResource().ToLower());
 				await dialog.TryShowAsync(); // Show rename dialog
 
 				if (dialog.DynamicResult != DynamicDialogResult.Primary)
@@ -117,7 +136,10 @@ namespace Files.App.Helpers
 
 			// Add newly created item to recent files list
 			if (created.Status == ReturnResult.Success && created.Item?.Path is not null)
-				App.RecentItemsManager.AddToRecentItems(created.Item.Path);
+			{
+				IWindowsRecentItemsService windowsRecentItemsService = Ioc.Default.GetRequiredService<IWindowsRecentItemsService>();
+				windowsRecentItemsService.Add(created.Item.Path);
+			}
 			else if (created.Status == ReturnResult.AccessUnauthorized)
 			{
 				await DialogDisplayHelper.ShowDialogAsync

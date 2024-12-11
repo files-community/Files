@@ -4,7 +4,6 @@
 using CommunityToolkit.WinUI.Helpers;
 using Files.App.Helpers.Application;
 using Files.App.Services.SizeProvider;
-using Files.App.Storage.Storables;
 using Files.App.Utils.Logger;
 using Files.App.ViewModels.Settings;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Sentry;
 using Sentry.Protocol;
 using System.IO;
+using System.Security;
 using System.Text;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -29,16 +29,11 @@ namespace Files.App.Helpers
 		/// <summary>
 		/// Gets the value that provides application environment or branch name.
 		/// </summary>
-		public static AppEnvironment AppEnvironment { get; } =
-#if STORE
-			AppEnvironment.Store;
-#elif PREVIEW
-			AppEnvironment.Preview;
-#elif STABLE
-			AppEnvironment.Stable;
-#else
-			AppEnvironment.Dev;
-#endif
+		public static AppEnvironment AppEnvironment =>
+			Enum.TryParse("cd_app_env_placeholder", true, out AppEnvironment appEnvironment)
+				? appEnvironment
+				: AppEnvironment.Dev;
+
 
 		/// <summary>
 		/// Gets application package version.
@@ -53,7 +48,7 @@ namespace Files.App.Helpers
 			SystemIO.Path.Combine(Package.Current.InstalledLocation.Path, AppEnvironment switch
 			{
 				AppEnvironment.Dev => Constants.AssetPaths.DevLogo,
-				AppEnvironment.Preview => Constants.AssetPaths.PreviewLogo,
+				AppEnvironment.SideloadPreview or AppEnvironment.StorePreview => Constants.AssetPaths.PreviewLogo,
 				_ => Constants.AssetPaths.StableLogo
 			});
 
@@ -107,7 +102,7 @@ namespace Files.App.Helpers
 			await updateService.CheckForUpdatesAsync();
 			await updateService.DownloadMandatoryUpdatesAsync();
 			await updateService.CheckAndUpdateFilesLauncherAsync();
-			await updateService.CheckLatestReleaseNotesAsync();
+			await updateService.CheckForReleaseNotesAsync();
 		}
 
 		/// <summary>
@@ -122,7 +117,7 @@ namespace Files.App.Helpers
 				options.Release = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
 				options.TracesSampleRate = 0.80;
 				options.ProfilesSampleRate = 0.40;
-				options.Environment = AppEnvironment == AppEnvironment.Preview ? "preview" : "production";
+				options.Environment = AppEnvironment == AppEnvironment.StorePreview || AppEnvironment == AppEnvironment.SideloadPreview ? "preview" : "production";
 				options.ExperimentalMetrics = new ExperimentalMetricsOptions
 				{
 					EnableCodeLocations = true
@@ -137,9 +132,12 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static IHost ConfigureHost()
 		{
-			return Host.CreateDefaultBuilder()
+			var builder = Host.CreateDefaultBuilder()
 				.UseEnvironment(AppLifecycleHelper.AppEnvironment.ToString())
 				.ConfigureLogging(builder => builder
+					.ClearProviders()
+					.AddConsole()
+					.AddDebug()
 					.AddProvider(new FileLoggerProvider(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug.log")))
 					.AddProvider(new SentryLoggerProvider())
 					.SetMinimumLevel(LogLevel.Information))
@@ -166,6 +164,7 @@ namespace Files.App.Helpers
 					.AddSingleton<ITagsContext, TagsContext>()
 					.AddSingleton<ISidebarContext, SidebarContext>()
 					// Services
+					.AddSingleton<IWindowsRecentItemsService, WindowsRecentItemsService>()
 					.AddSingleton<IWindowsIniService, WindowsIniService>()
 					.AddSingleton<IWindowsWallpaperService, WindowsWallpaperService>()
 					.AddSingleton<IWindowsSecurityService, WindowsSecurityService>()
@@ -179,16 +178,9 @@ namespace Files.App.Helpers
 					.AddSingleton<IFileTagsService, FileTagsService>()
 					.AddSingleton<ICommandManager, CommandManager>()
 					.AddSingleton<IModifiableCommandManager, ModifiableCommandManager>()
-					.AddSingleton<IStorageService, NativeStorageService>()
+					.AddSingleton<IStorageService, NativeStorageLegacyService>()
 					.AddSingleton<IFtpStorageService, FtpStorageService>()
 					.AddSingleton<IAddItemService, AddItemService>()
-#if STABLE || PREVIEW
-					.AddSingleton<IUpdateService, SideloadUpdateService>()
-#elif STORE
-					.AddSingleton<IUpdateService, StoreUpdateService>()
-#else
-					.AddSingleton<IUpdateService, DummyUpdateService>()
-#endif
 					.AddSingleton<IPreviewPopupService, PreviewPopupService>()
 					.AddSingleton<IDateTimeFormatterFactory, DateTimeFormatterFactory>()
 					.AddSingleton<IDateTimeFormatter, UserDateTimeFormatter>()
@@ -196,6 +188,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IQuickAccessService, QuickAccessService>()
 					.AddSingleton<IResourcesService, ResourcesService>()
 					.AddSingleton<IWindowsJumpListService, WindowsJumpListService>()
+					.AddSingleton<IStorageTrashBinService, StorageTrashBinService>()
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
 					.AddSingleton<INetworkService, NetworkService>()
 					.AddSingleton<IStartMenuService, StartMenuService>()
@@ -220,10 +213,19 @@ namespace Files.App.Helpers
 					.AddSingleton<QuickAccessManager>()
 					.AddSingleton<StorageHistoryWrapper>()
 					.AddSingleton<FileTagsManager>()
-					.AddSingleton<RecentItems>()
 					.AddSingleton<LibraryManager>()
 					.AddSingleton<AppModel>()
-				).Build();
+				);
+
+			// Conditional DI
+			if (AppEnvironment is AppEnvironment.SideloadPreview or AppEnvironment.SideloadStable)
+				builder.ConfigureServices(s => s.AddSingleton<IUpdateService, SideloadUpdateService>());
+			else if (AppEnvironment is AppEnvironment.StorePreview or AppEnvironment.StoreStable)
+				builder.ConfigureServices(s => s.AddSingleton<IUpdateService, StoreUpdateService>());
+			else
+				builder.ConfigureServices(s => s.AddSingleton<IUpdateService, DummyUpdateService>());
+
+			return builder.Build();
 		}
 
 		/// <summary>
@@ -252,99 +254,94 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static void HandleAppUnhandledException(Exception? ex, bool showToastNotification)
 		{
-			SafetyExtensions.IgnoreExceptions(() =>
+			var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+
+			StringBuilder formattedException = new()
 			{
-				var generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+				Capacity = 200
+			};
 
-				StringBuilder formattedException = new()
+			formattedException.AppendLine("--------- UNHANDLED EXCEPTION ---------");
+
+			if (ex is not null)
+			{
+				ex.Data[Mechanism.HandledKey] = false;
+				ex.Data[Mechanism.MechanismKey] = "Application.UnhandledException";
+
+				SentrySdk.CaptureException(ex, scope =>
 				{
-					Capacity = 200
-				};
+					scope.User.Id = generalSettingsService?.UserId;
+					scope.Level = SentryLevel.Fatal;
+				});
 
-				formattedException.AppendLine("--------- UNHANDLED EXCEPTION ---------");
+				formattedException.AppendLine($">>>> HRESULT: {ex.HResult}");
 
-				if (ex is not null)
+				if (ex.Message is not null)
 				{
-					ex.Data[Mechanism.HandledKey] = false;
-					ex.Data[Mechanism.MechanismKey] = "Application.UnhandledException";
-
-					SentrySdk.CaptureException(ex, scope =>
-					{
-						scope.User.Id = generalSettingsService?.UserId;
-						scope.Level = SentryLevel.Fatal;
-					});
-
-					formattedException.AppendLine($">>>> HRESULT: {ex.HResult}");
-
-					if (ex.Message is not null)
-					{
-						formattedException.AppendLine("--- MESSAGE ---");
-						formattedException.AppendLine(ex.Message);
-					}
-					if (ex.StackTrace is not null)
-					{
-						formattedException.AppendLine("--- STACKTRACE ---");
-						formattedException.AppendLine(ex.StackTrace);
-					}
-					if (ex.Source is not null)
-					{
-						formattedException.AppendLine("--- SOURCE ---");
-						formattedException.AppendLine(ex.Source);
-					}
-					if (ex.InnerException is not null)
-					{
-						formattedException.AppendLine("--- INNER ---");
-						formattedException.AppendLine(ex.InnerException.ToString());
-					}
+					formattedException.AppendLine("--- MESSAGE ---");
+					formattedException.AppendLine(ex.Message);
 				}
-				else
+				if (ex.StackTrace is not null)
 				{
-					formattedException.AppendLine("Exception data is not available.");
+					formattedException.AppendLine("--- STACKTRACE ---");
+					formattedException.AppendLine(ex.StackTrace);
 				}
+				if (ex.Source is not null)
+				{
+					formattedException.AppendLine("--- SOURCE ---");
+					formattedException.AppendLine(ex.Source);
+				}
+				if (ex.InnerException is not null)
+				{
+					formattedException.AppendLine("--- INNER ---");
+					formattedException.AppendLine(ex.InnerException.ToString());
+				}
+			}
+			else
+			{
+				formattedException.AppendLine("Exception data is not available.");
+			}
 
-				formattedException.AppendLine("---------------------------------------");
+			formattedException.AppendLine("---------------------------------------");
 
-				Debug.WriteLine(formattedException.ToString());
+			Debug.WriteLine(formattedException.ToString());
 
-				// Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
-				Debugger.Break();
-
-				App.Logger?.LogError(ex, ex?.Message ?? "An unhandled error occurred.");
-			});
+			// Please check "Output Window" for exception details (View -> Output Window) (CTRL + ALT + O)
+			Debugger.Break();
 
 			// Save the current tab list in case it was overwriten by another instance
-			SafetyExtensions.IgnoreExceptions(SaveSessionTabs);
+			SaveSessionTabs();
+			App.Logger?.LogError(ex, ex?.Message ?? "An unhandled error occurred.");
 
 			if (!showToastNotification)
 				return;
 
-			SafetyExtensions.IgnoreExceptions(AppToastNotificationHelper.ShowUnhandledExceptionToast);
-
 			SafetyExtensions.IgnoreExceptions(() =>
 			{
-				// Restart the app
-				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
-				var lastSessionTabList = userSettingsService.GeneralSettingsService.LastSessionTabList;
-
-				if (userSettingsService.GeneralSettingsService.LastCrashedTabList?.SequenceEqual(lastSessionTabList) ?? false)
-				{
-					// Avoid infinite restart loop
-					userSettingsService.GeneralSettingsService.LastSessionTabList = null;
-				}
-				else
-				{
-					userSettingsService.AppSettingsService.RestoreTabsOnStartup = true;
-					userSettingsService.GeneralSettingsService.LastCrashedTabList = lastSessionTabList;
-
-					// Try to re-launch and start over
-					MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-					{
-						await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
-					})
-					.Wait(100);
-				}
+				AppToastNotificationHelper.ShowUnhandledExceptionToast();
 			});
 
+			// Restart the app
+			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+			var lastSessionTabList = userSettingsService.GeneralSettingsService.LastSessionTabList;
+
+			if (userSettingsService.GeneralSettingsService.LastCrashedTabList?.SequenceEqual(lastSessionTabList) ?? false)
+			{
+				// Avoid infinite restart loop
+				userSettingsService.GeneralSettingsService.LastSessionTabList = null;
+			}
+			else
+			{
+				userSettingsService.AppSettingsService.RestoreTabsOnStartup = true;
+				userSettingsService.GeneralSettingsService.LastCrashedTabList = lastSessionTabList;
+
+				// Try to re-launch and start over
+				MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				{
+					await Launcher.LaunchUriAsync(new Uri("files-dev:"));
+				})
+				.Wait(100);
+			}
 			Process.GetCurrentProcess().Kill();
 		}
 
@@ -353,15 +350,23 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static bool IsAutoHideTaskbarEnabled()
 		{
-			const string registryKey = @"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3";
-			const string valueName = "Settings";
+			try
+			{
+				const string registryKey = @"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3";
+				const string valueName = "Settings";
 
-			using var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(registryKey);
+				using var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(registryKey);
 
-			var value = key?.GetValue(valueName) as byte[];
+				var value = key?.GetValue(valueName) as byte[];
 
-			// The least significant bit of the 9th byte controls the auto-hide setting																		
-			return value != null && ((value[8] & 0x01) == 1);
+				// The least significant bit of the 9th byte controls the auto-hide setting																		
+				return value != null && ((value[8] & 0x01) == 1);
+			}
+			catch (SecurityException)
+			{
+				// Handle edge case where OpenSubKey results in SecurityException
+				return false;
+			}
 		}
 
 		/// <summary>

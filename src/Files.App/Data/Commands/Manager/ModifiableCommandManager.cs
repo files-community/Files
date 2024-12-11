@@ -2,7 +2,6 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using System.Collections.Frozen;
-using System.Collections.Immutable;
 
 namespace Files.App.Data.Commands
 {
@@ -17,6 +16,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand None => ModifiableCommands[CommandCodes.None];
 		public IRichCommand PasteItem => ModifiableCommands[CommandCodes.PasteItem];
 		public IRichCommand DeleteItem => ModifiableCommands[CommandCodes.DeleteItem];
+		public IRichCommand OpenProperties => ModifiableCommands[CommandCodes.OpenProperties];
 
 		public ModifiableCommandManager()
 		{
@@ -34,6 +34,9 @@ namespace Files.App.Data.Commands
 			}),
 			[CommandCodes.DeleteItem] = new ModifiableCommand(Commands.DeleteItem, new() {
 				{ KeyModifiers.Shift,  Commands.DeleteItemPermanently }
+			}),
+			[CommandCodes.OpenProperties] = new ModifiableCommand(Commands.OpenProperties, new() {
+				{ KeyModifiers.Shift,  Commands.OpenClassicProperties }
 			}),
 		}.ToFrozenDictionary();
 	}

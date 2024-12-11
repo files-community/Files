@@ -27,11 +27,6 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Spacing="4">
-			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<EntranceThemeTransition />
-				</TransitionCollection>
-			</StackPanel.ChildrenTransitions>
 
 			<!--  Title  -->
 			<TextBlock
@@ -309,6 +304,14 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
+						<!--  Create alternate data stream  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowCreateAlternateDataStream}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowCreateAlternateDataStream}"
+								IsOn="{x:Bind ViewModel.ShowCreateAlternateDataStream, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
 						<!--  Create shortcut  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowCreateShortcut}" HorizontalAlignment="Stretch">
 							<ToggleSwitch
@@ -324,6 +327,15 @@
 								IsOn="{x:Bind ViewModel.ShowCompressionOptions, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
+
+						<!--  Flatten options  -->
+						<!--  TODO uncomment code when feature is marked as stable  -->
+						<!--<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowFlattenOptions}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowFlattenOptions}"
+								IsOn="{x:Bind ViewModel.ShowFlattenOptions, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>-->
 
 						<!--  Send To  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowSendToMenu}" HorizontalAlignment="Stretch">

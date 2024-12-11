@@ -56,6 +56,7 @@ namespace Files.App.ViewModels
 		private readonly ISizeProvider folderSizeProvider = Ioc.Default.GetRequiredService<ISizeProvider>();
 		private readonly IStorageCacheService fileListCache = Ioc.Default.GetRequiredService<IStorageCacheService>();
 		private readonly IWindowsSecurityService WindowsSecurityService = Ioc.Default.GetRequiredService<IWindowsSecurityService>();
+		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -536,9 +537,9 @@ namespace Files.App.ViewModels
 			fileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnSettingUpdated;
 			folderSizeProvider.SizeChanged += FolderSizeProvider_SizeChanged;
 			folderSettings.LayoutModeChangeRequested += LayoutModeChangeRequested;
-			RecycleBinManager.Default.RecycleBinItemCreated += RecycleBinItemCreatedAsync;
-			RecycleBinManager.Default.RecycleBinItemDeleted += RecycleBinItemDeletedAsync;
-			RecycleBinManager.Default.RecycleBinRefreshRequested += RecycleBinRefreshRequestedAsync;
+			StorageTrashBinService.Watcher.ItemAdded += RecycleBinItemCreatedAsync;
+			StorageTrashBinService.Watcher.ItemDeleted += RecycleBinItemDeletedAsync;
+			StorageTrashBinService.Watcher.RefreshRequested += RecycleBinRefreshRequestedAsync;
 		}
 
 		private async void LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
@@ -602,7 +603,7 @@ namespace Files.App.ViewModels
 			try
 			{
 				var matchingItem = filesAndFolders.ToList().FirstOrDefault(x => x.ItemPath == e.Path);
-				if (matchingItem is not null)
+				if (matchingItem is not null && (e.ValueState is not SizeChangedValueState.Intermediate || (long)e.NewSize > matchingItem.FileSizeBytes))
 				{
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
@@ -1942,7 +1943,11 @@ namespace Files.App.ViewModels
 
 		private void WatchForWin32FolderChanges(string? folderPath)
 		{
-			if (Directory.Exists(folderPath))
+			if (!Directory.Exists(folderPath))
+				return;
+
+			// NOTE: Suppressed NullReferenceException caused by EnableRaisingEvents
+			SafetyExtensions.IgnoreExceptions(() =>
 			{
 				watcher = new FileSystemWatcher
 				{
@@ -1955,7 +1960,7 @@ namespace Files.App.ViewModels
 				watcher.Deleted += DirectoryWatcher_Changed;
 				watcher.Renamed += DirectoryWatcher_Changed;
 				watcher.EnableRaisingEvents = true;
-			}
+			}, App.Logger);
 		}
 
 		private async void DirectoryWatcher_Changed(object sender, FileSystemEventArgs e)
@@ -2590,9 +2595,9 @@ namespace Files.App.ViewModels
 		public void Dispose()
 		{
 			CancelLoadAndClearFiles();
-			RecycleBinManager.Default.RecycleBinItemCreated -= RecycleBinItemCreatedAsync;
-			RecycleBinManager.Default.RecycleBinItemDeleted -= RecycleBinItemDeletedAsync;
-			RecycleBinManager.Default.RecycleBinRefreshRequested -= RecycleBinRefreshRequestedAsync;
+			StorageTrashBinService.Watcher.ItemAdded -= RecycleBinItemCreatedAsync;
+			StorageTrashBinService.Watcher.ItemDeleted -= RecycleBinItemDeletedAsync;
+			StorageTrashBinService.Watcher.RefreshRequested -= RecycleBinRefreshRequestedAsync;
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 			fileTagsSettingsService.OnSettingImportedEvent -= FileTagsSettingsService_OnSettingUpdated;
 			fileTagsSettingsService.OnTagsUpdated -= FileTagsSettingsService_OnSettingUpdated;

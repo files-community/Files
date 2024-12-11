@@ -40,6 +40,7 @@ namespace Files.App.Actions
 				sources,
 				directory,
 				dialog.FileName,
+				dialog.CPUThreads,
 				dialog.Password,
 				dialog.FileFormat,
 				dialog.CompressionLevel,

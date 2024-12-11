@@ -45,6 +45,7 @@
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Settings.xaml" />
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.SizeLayout28.xaml" />
 		<!--#endregion-->
+
 	</ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

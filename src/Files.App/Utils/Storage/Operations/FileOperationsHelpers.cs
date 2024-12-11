@@ -740,7 +740,11 @@ namespace Files.App.Utils.Storage
 				if (FileExtensionHelpers.IsShortcutFile(linkSavePath))
 				{
 					using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
-					newLink.RunAsAdministrator = runAsAdmin;
+
+					// Check if the target is a file
+					if (File.Exists(targetPath))
+						newLink.RunAsAdministrator = runAsAdmin;
+
 					newLink.SaveAs(linkSavePath); // Overwrite if exists
 					return Task.FromResult(true);
 				}
@@ -754,6 +758,11 @@ namespace Files.App.Utils.Storage
 						return true;
 					});
 				}
+			}
+			catch (UnauthorizedAccessException ex)
+			{
+				// Could not create shortcut
+				App.Logger.LogInformation(ex, "Failed to create shortcut");
 			}
 			catch (Exception ex)
 			{

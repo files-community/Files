@@ -80,23 +80,14 @@ namespace Files.App.Helpers
 			});
 		}
 
-		public static (bool HasRecycleBin, long NumItems, long BinSize) QueryRecycleBin(string drive = "")
+		public static string GetFolderFromKnownFolderGUID(Guid guid)
 		{
-			Win32PInvoke.SHQUERYRBINFO queryBinInfo = new Win32PInvoke.SHQUERYRBINFO();
-			queryBinInfo.cbSize = Marshal.SizeOf(queryBinInfo);
+			nint pszPath;
+			Win32PInvoke.SHGetKnownFolderPath(guid, 0, nint.Zero, out pszPath);
+			string path = Marshal.PtrToStringUni(pszPath);
+			Marshal.FreeCoTaskMem(pszPath);
 
-			var res = Win32PInvoke.SHQueryRecycleBin(drive, ref queryBinInfo);
-			if (res == HRESULT.S_OK)
-			{
-				var numItems = queryBinInfo.i64NumItems;
-				var binSize = queryBinInfo.i64Size;
-
-				return (true, numItems, binSize);
-			}
-			else
-			{
-				return (false, 0, 0);
-			}
+			return path;
 		}
 	}
 }

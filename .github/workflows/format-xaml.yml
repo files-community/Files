@@ -6,11 +6,8 @@ on:
 jobs:
   format-xaml:
     if: github.event.issue.pull_request && github.event.comment.body == '/format'
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     environment: Pull Requests
-    defaults:
-      run:
-        shell: pwsh
     permissions: 
       contents: write
 
@@ -46,6 +43,9 @@ jobs:
       - uses: actions/checkout@v4
         if: env.CAN_RUN == 1
 
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+
       - name: Set git identity
         if: env.CAN_RUN == 1
         run: |
@@ -74,7 +74,7 @@ jobs:
             "CAN_RUN=0" | Out-File -FilePath $env:GITHUB_ENV -Append
           }
   
-      - name: Install Xaml Styler
+      - name: Install XamlStyler.Console
         if: env.CAN_RUN == 1
         run: dotnet tool install --global XamlStyler.Console
   

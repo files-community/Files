@@ -126,6 +126,9 @@
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Kopírovat cestu s uvozovkami</value>
   </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>Kopírovat vybranou cestu k položce včetně uvozovek</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Procházet</value>
   </data>
@@ -249,6 +252,9 @@
   <data name="Paste" xml:space="preserve">
     <value>Vložit</value>
   </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>Vložit zástupce</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nový</value>
   </data>
@@ -291,8 +297,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Zadejte název položky</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Pojmenovat</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>Vytvořit nový {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Světlý</value>
@@ -1238,6 +1244,12 @@
   <data name="OpenStorageSense" xml:space="preserve">
     <value>Otevřít úložiště</value>
   </data>
+  <data name="OpenStorageSenseDescription" xml:space="preserve">
+    <value>Otevřít stránku Inteligentního uložiště v nastavení Windows</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>Vyčistit</value>
+  </data>
   <data name="Copy" xml:space="preserve">
     <value>Kopírovat</value>
   </data>
@@ -1853,6 +1865,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Tato možnost upravuje systémový registr a může mít neočekávané vedlejší efekty na vaše zařízení. Pokračujte na vlastní nebezpečí.</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>Operace sjednocení jsou trvalé a nedoporučují se. Pokračujte na vlastní riziko.</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Vytvořit Knihovnu</value>
   </data>
@@ -1930,6 +1945,9 @@
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Zavřít ostatní karty</value>
+  </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>Zavřít všechny karty</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>Hudba</value>
@@ -2026,6 +2044,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Komprimovat</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Přesune veškerý obsah z podsložek do vybraného umístění</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Sjednotit složku</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Sjednocení</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>Sjednocení složky přesune veškerý obsah z podsložek do vybraného umístění. Tato operace je trvalá a nelze ji vrátit zpět. Používáním této experimentální funkce potvrzujete riziko a souhlasíte s tím, že tým Files není odpovědný za ztrátu dat.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Zobrazit možnost sjednocení složek</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Vyberte soubory a složky při najetí na ně</value>
@@ -2247,7 +2280,7 @@
     <value>Zobrazit skryté položky</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Formátování...</value>
+    <value>Formát</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Nápověda</value>
@@ -2373,16 +2406,25 @@
     <value>Kopírovat do schránky</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
+    <value>Kopírovat cestu aktuální složky do schránky</value>
+  </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
     <value>Kopírovat cestu vybraných položek do schránky</value>
   </data>
-  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
     <value>Kopírovat cestu vybraných položek do schránky včetně uvozovek</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>Kopírovat cestu aktuální složky do schránky včetně uvozovek</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Vyjmout do schránky</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Vložte položku(y) že schránky do aktuální složky</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>Vložit položku(y) ze schránky do aktuální složky jako zástupce</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>Vložte položku(y) ze schránky do vybrané složky</value>
@@ -2662,6 +2704,9 @@
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Zavřít všechny ostatní karty</value>
+  </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>Zavřít všechny karty včetně aktuální</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Vrátit naposledy uzavřenou kartu</value>
@@ -3063,8 +3108,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Otevřít vlastnosti</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Otevřít vlastnosti Průzkumníka souborů</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Otevřít okno s vlastnostmi</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Otevřít okno vlastností Průzkumníka souborů</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Místní</value>
@@ -3128,7 +3179,7 @@
     <value>Alt. Mica</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Materiál pozadí</value>
+    <value>Pozadí</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Plná barva</value>
@@ -3858,7 +3909,7 @@
   </data>
   <data name="ShowToolbar" xml:space="preserve">
     <value>Zobrazit panel nástrojů</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Nabídka akcí</value>
@@ -3882,7 +3933,7 @@
     <value>Uspořádání panelů vertikálně</value>
   </data>
   <data name="ArrangePanesHorizontally" xml:space="preserve">
-    <value>Uspořádání panelů vodorovně</value>
+    <value>Uspořádat vodorovně</value>
   </data>
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
     <value>Uspořádání panelů vodorovně</value>
@@ -3906,6 +3957,51 @@
     <value>Vertikálně</value>
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
-    <value>Show Files icon in the System Tray</value>
+    <value>Zobrazit ikonu Files v systémové liště</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>CPU vlákna</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Přejít na domovskou stránku</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Zobrazit tlačítko Domů v adresním řádku</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Panel nástrojů</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>Uživatelské ID</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Hromadně přejmenovat</value>
+  </data>
+  <data name="ShowCreateAlternateDataStream" xml:space="preserve">
+    <value>Zobrazit možnost vytvoření alternativního datového toku</value>
+  </data>
+  <data name="CreateAlternateDataStream" xml:space="preserve">
+    <value>Vytvořit alternativní datový tok</value>
+  </data>
+  <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
+    <value>Vytvořit alternativní datový tok pro vybranou položku(y)</value>
+  </data>
+  <data name="EnterDataStreamName" xml:space="preserve">
+    <value>Zadejte název datového streamu</value>
+  </data>
+  <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
+    <value>Při vytváření alternativního datového toku, došlo k chybě</value>
+  </data>
+  <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
+    <value>Vezměte prosím na vědomí, že alternativní datové toky fungují pouze na discích formátovaných jako NTFS.</value>
+  </data>
+  <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
+    <value>Alternativní datové toky jsou nyní skryty</value>
+  </data>
+  <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
+    <value>Chcete zobrazit alternativní datové přenosy? Toto nastavení můžete kdykoliv změnit na stránce nastavení souborů a složek.</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Správa štítků</value>
   </data>
 </root>

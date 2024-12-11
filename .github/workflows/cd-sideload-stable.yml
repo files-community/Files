@@ -1,0 +1,152 @@
+# Copyright (c) 2024 Files Community
+# Licensed under the MIT License. See the LICENSE.
+
+# Abstract:
+#  Deploys Files (Sideload).
+#
+# Workflow:
+#  1. Configure manifest, logo and secrets
+#  2. Restore, build and package Files
+#  3. Publish the appinstaller to files.community
+#  4. Sign the package
+#  5. Publish the package to Azure
+
+name: Files CD (Sideload Stable)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    environment: Deployments
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration: [Release]
+        platform: [x64]
+    env:
+      SOLUTION_NAME:              'Files.sln'
+      CONFIGURATION:              '${{ matrix.configuration }}'
+      PLATFORM:                   '${{ matrix.platform }}'
+      APPX_BUNDLE_PLATFORMS:      'x64|arm64'
+      WORKING_DIR:                '${{ github.workspace }}' # D:\a\Files\Files\
+      ARTIFACTS_STAGING_DIR:      '${{ github.workspace }}\artifacts'
+      APPX_PACKAGE_DIR:           '${{ github.workspace }}\artifacts\AppxPackages'
+      PACKAGE_PROJECT_DIR:        'src\Files.App (Package)'
+      PACKAGE_PROJECT_PATH:       'src\Files.App (Package)\Files.Package.wapproj'
+      PACKAGE_MANIFEST_PATH:      'src\Files.App (Package)\Package.appxmanifest'
+      TEST_PROJECT_PATH:          'tests\Files.InteractionTests\Files.InteractionTests.csproj'
+      APP_INSTALLER_SIDELOAD_URL: 'https://cdn.files.community/files/stable/'
+
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v4
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v2
+    - name: Setup .NET 8
+      uses: actions/setup-dotnet@v4
+      with:
+        global-json-file: global.json
+
+    - name: Configure the package manifest, logo, and secrets
+      shell: pwsh
+      run: |
+        . './.github/scripts/Configure-AppxManifest.ps1' `
+          -Branch "SideloadStable" `
+          -PackageManifestPath "$env:PACKAGE_MANIFEST_PATH" `
+          -Publisher "$env:SIDELOAD_PUBLISHER_SECRET" `
+          -WorkingDir "$env:WORKING_DIR" `
+          -SecretBingMapsKey "$env:SECRET_BINGMAPS_KEY" `
+          -SecretSentry "$env:SECRET_SENTRY" `
+          -SecretGitHubOAuthClientId "$env:SECRET_GITHUB_OAUTH_CLIENT_ID"
+      env:
+        SIDELOAD_PUBLISHER_SECRET: ${{ secrets.SIDELOAD_PUBLISHER_SECRET }}
+        SECRET_BINGMAPS_KEY: ${{ secrets.BING_MAPS_SECRET }}
+        SECRET_SENTRY: ${{ secrets.SENTRY_SECRET }}
+        SECRET_GITHUB_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
+  
+    - name: Use Windows SDK Preview
+      shell: cmd
+      run: |
+        for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
+
+    - name: Restore NuGet
+      shell: pwsh
+      run: 'nuget restore $env:SOLUTION_NAME'
+
+    - name: Restore Files
+      shell: pwsh
+      run: |
+        msbuild $env:SOLUTION_NAME `
+        -t:Restore `
+        -p:Platform=$env:PLATFORM `
+        -p:Configuration=$env:CONFIGURATION `
+        -p:PublishReadyToRun=true
+
+    - name: Build & package Files
+      shell: pwsh
+      run: |
+        msbuild "$env:PACKAGE_PROJECT_PATH" `
+        -t:Build `
+        -t:_GenerateAppxPackage `
+        -p:Platform=$env:PLATFORM `
+        -p:Configuration=$env:CONFIGURATION `
+        -p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS `
+        -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
+        -p:AppxBundle=Always `
+        -p:UapAppxPackageBuildMode=Sideload `
+        -p:GenerateAppInstallerFile=True `
+        -p:AppInstallerUri=$env:APP_INSTALLER_SIDELOAD_URL
+
+    - name: Remove empty files from the packages
+      shell: bash
+      run: find $ARTIFACTS_STAGING_DIR -empty -delete
+
+    - name: Update appinstaller schema
+      run: |
+        $newSchema = "http://schemas.microsoft.com/appx/appinstaller/2018"
+        $localFilePath = "${{ env.APPX_PACKAGE_DIR }}/Files.Package.appinstaller"
+        $fileContent = Get-Content $localFilePath
+        $fileContent = $fileContent.Replace("http://schemas.microsoft.com/appx/appinstaller/2017/2", $newSchema)
+        $fileContent | Set-Content $localFilePath
+
+    - name: Sign Files with Azure Trusted Signing
+      uses: azure/trusted-signing-action@v0.4.0
+      with:
+        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+        endpoint: https://eus.codesigning.azure.net/
+        trusted-signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
+        certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
+        files-folder: ${{ env.APPX_PACKAGE_DIR }}
+        files-folder-filter: msixbundle
+        files-folder-recurse: true
+        files-folder-depth: 4
+        file-digest: SHA256
+        timestamp-rfc3161: http://timestamp.acs.microsoft.com
+        timestamp-digest: SHA256
+
+    - name: Login to Azure
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Upload to Azure blob storage
+      uses: azure/powershell@v2
+      with:
+        inlineScript: |
+          az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "stable" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
+        azPSVersion: "latest"
+
+    - name: Logout from Azure
+      run: 'az logout'
+          
+    - name: Upload the packages to GitHub Actions
+      uses: actions/upload-artifact@v4
+      with:
+        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
+        path: ${{ env.ARTIFACTS_STAGING_DIR }}

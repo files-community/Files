@@ -1,22 +1,22 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using DiscUtils.Udf;
 using Microsoft.Management.Infrastructure;
-using System.IO;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using DiscUtils.Udf;
+using Windows.Win32;
+using Windows.Win32.Foundation;
 
 namespace Files.App.Utils.Storage
 {
 	public static class DriveHelpers
 	{
-		public static Task<bool> EjectDeviceAsync(string path)
+		public static async void EjectDeviceAsync(string path)
 		{
-			var removableDevice = new RemovableDevice(path);
-			return removableDevice.EjectAsync();
+			await ContextMenu.InvokeVerb("eject", path);
 		}
 
 		public static string GetVolumeId(string driveName)
@@ -47,21 +47,18 @@ namespace Files.App.Utils.Storage
 				"InsertDiscDialog/OpenDriveButton".GetLocalizedResource(),
 				"Close".GetLocalizedResource());
 			if (ejectButton)
-			{
-				var result = await EjectDeviceAsync(matchingDrive.Path);
-				await UIHelpers.ShowDeviceEjectResultAsync(matchingDrive.Type, result);
-			}
+				EjectDeviceAsync(matchingDrive.Path);
 			return true;
 		}
 
 		public static async Task<StorageFolderWithPath> GetRootFromPathAsync(string devicePath)
 		{
-			if (!Path.IsPathRooted(devicePath))
+			if (!SystemIO.Path.IsPathRooted(devicePath))
 				return null;
 
 			var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
-			var rootPath = Path.GetPathRoot(devicePath);
+			var rootPath = SystemIO.Path.GetPathRoot(devicePath);
 			if (devicePath.StartsWith(@"\\?\", StringComparison.Ordinal)) // USB device
 			{
 				// Check among already discovered drives
@@ -118,31 +115,52 @@ namespace Files.App.Utils.Storage
 
 			return drive.DriveType switch
 			{
-				System.IO.DriveType.CDRom => Data.Items.DriveType.CDRom,
-				System.IO.DriveType.Fixed => Data.Items.DriveType.Fixed,
-				System.IO.DriveType.Network => Data.Items.DriveType.Network,
-				System.IO.DriveType.NoRootDirectory => Data.Items.DriveType.NoRootDirectory,
-				System.IO.DriveType.Ram => Data.Items.DriveType.Ram,
-				System.IO.DriveType.Removable => Data.Items.DriveType.Removable,
+				SystemIO.DriveType.CDRom => Data.Items.DriveType.CDRom,
+				SystemIO.DriveType.Fixed => Data.Items.DriveType.Fixed,
+				SystemIO.DriveType.Network => Data.Items.DriveType.Network,
+				SystemIO.DriveType.NoRootDirectory => Data.Items.DriveType.NoRootDirectory,
+				SystemIO.DriveType.Ram => Data.Items.DriveType.Ram,
+				SystemIO.DriveType.Removable => Data.Items.DriveType.Removable,
 				_ => Data.Items.DriveType.Unknown,
 			};
 		}
 
-		public static string GetExtendedDriveLabel(DriveInfo drive)
+		public static unsafe string GetExtendedDriveLabel(SystemIO.DriveInfo drive)
 		{
 			return SafetyExtensions.IgnoreExceptions(() =>
 			{
-				if (drive.DriveType is not System.IO.DriveType.CDRom || drive.DriveFormat is not "UDF")
+				if (drive.DriveType is not SystemIO.DriveType.CDRom || drive.DriveFormat is not "UDF")
 					return drive.VolumeLabel;
+
 				return SafetyExtensions.IgnoreExceptions(() =>
 				{
-					var dosDevicePath = Vanara.PInvoke.Kernel32.QueryDosDevice(drive.Name).FirstOrDefault();
+					string dosDevicePath = "";
+
+					fixed (char* cDeviceName = drive.Name)
+					{
+						var cch = PInvoke.QueryDosDevice(cDeviceName, null, 0u);
+
+						fixed (char* cTargetPath = new char[cch])
+						{
+							PWSTR pszTargetPath = new(cTargetPath);
+							PInvoke.QueryDosDevice(cDeviceName, pszTargetPath, 0u);
+							dosDevicePath = pszTargetPath.ToString();
+						}
+					}
+
 					if (string.IsNullOrEmpty(dosDevicePath))
 						return drive.VolumeLabel;
-					using var driveStream = new FileStream(dosDevicePath.Replace(@"\Device\", @"\\.\"), FileMode.Open, FileAccess.Read);
+
+					using var driveStream = new SystemIO.FileStream(
+						dosDevicePath.Replace(@"\Device\", @"\\.\"),
+						SystemIO.FileMode.Open,
+						SystemIO.FileAccess.Read);
+
 					using var udf = new UdfReader(driveStream);
+
 					return udf.VolumeLabel;
 				}) ?? drive.VolumeLabel;
+
 			}) ?? "";
 		}
 

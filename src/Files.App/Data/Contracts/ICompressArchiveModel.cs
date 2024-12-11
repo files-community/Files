@@ -47,6 +47,11 @@ namespace Files.App.Data.Contracts
 		/// 7zip archive splitting size.
 		/// </summary>
 		ArchiveSplittingSizes SplittingSize { get; }
+		
+		/// <summary>
+		/// Number of CPU Threads to use.
+		/// </summary>
+		int CPUThreads { get; }
 
 		/// <summary>
 		/// Archiving progress.

@@ -126,6 +126,9 @@
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>复制路径（带引号）</value>
   </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>复制选中项的路径（带引号）</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>浏览</value>
   </data>
@@ -249,6 +252,9 @@
   <data name="Paste" xml:space="preserve">
     <value>粘贴</value>
   </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>粘贴为快捷方式</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>新建</value>
   </data>
@@ -291,8 +297,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>输入项目名称</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>命名</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>创建新 {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>浅色</value>
@@ -615,10 +621,10 @@
     <value>显示更多选项</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>若要应用这些设置，需要重新启动应用程序。是否立即重启？</value>
+    <value>一些设置需要重新启动 Files 才会应用，是否立即重启？</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>在 GitHub 上白嫖我们</value>
+    <value>在 GitHub 上赞助我们</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>无法创建此项</value>
@@ -1238,6 +1244,12 @@
   <data name="OpenStorageSense" xml:space="preserve">
     <value>打开存储感知</value>
   </data>
+  <data name="OpenStorageSenseDescription" xml:space="preserve">
+    <value>打开 Windows 设置中的“存储感知”页面</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>清理</value>
+  </data>
   <data name="Copy" xml:space="preserve">
     <value>复制</value>
   </data>
@@ -1853,6 +1865,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>此选项会修改系统注册表，并可能对你的设备产生意想不到的副作用。 继续即代表您自行承担风险。</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>展平 (Flatten) 操作是永久性的，不推荐使用。请自行承担使用风险。</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>创建库</value>
   </data>
@@ -1930,6 +1945,9 @@
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>关闭其他选项卡</value>
+  </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>关闭所有标签页</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>音乐</value>
@@ -2026,6 +2044,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>压缩</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>将子文件夹中的全部项目移动到选定位置</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>展平文件夹</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>展平</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>展平 (Flatten) 文件夹将把该文件夹的子文件夹中的所有项目统一放置到选定目录下。此操作是永久性的，不可撤消。 使用此实验性功能，即表示您知晓风险且 Files 团队不对任何数据丢失负责。</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>显示展平选项</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>鼠标悬停在项目上时自动选择</value>
@@ -2247,7 +2280,7 @@
     <value>显示隐藏的项目</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>格式化...</value>
+    <value>格式化</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>帮助</value>
@@ -2373,16 +2406,25 @@
     <value>复制项目到剪贴板</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
+    <value>复制当前目录的路径到剪贴板</value>
+  </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
     <value>复制选中项的路径到剪贴板</value>
   </data>
-  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
     <value>复制选中项的路径（带引号）到剪贴板</value>
+  </data>
+  <data name="CopyPathWithQuotesDescription" xml:space="preserve">
+    <value>复制当前目录的路径（带引号）到剪贴板</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>剪切项目到剪贴板</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>将剪贴板中的项目粘贴到当前文件夹</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>将剪贴板中的项目以快捷方式的形式粘贴到当前文件夹</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>将剪贴板中的项目粘贴到所选文件夹</value>
@@ -2662,6 +2704,9 @@
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>关闭除所选标签页以外的标签页</value>
+  </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>关闭所有标签页（包括当前标签页）</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>打开上一个关闭的标签页</value>
@@ -3063,8 +3108,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>查看属性</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>打开文件资源管理器属性</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>打开属性窗口</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>打开文件资源管理器属性窗口</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>本地</value>
@@ -3119,16 +3170,16 @@
     <value>Github</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
-    <value>Acrylic</value>
+    <value>亚克力</value>
   </data>
   <data name="Mica" xml:space="preserve">
-    <value>Mica</value>
+    <value>云母</value>
   </data>
   <data name="MicaAlt" xml:space="preserve">
-    <value>Mica Alt</value>
+    <value>云母 Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>UI模糊类型</value>
+    <value>背景材质</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>实心</value>
@@ -3284,7 +3335,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BrickRed" xml:space="preserve">
-    <value>玄色</value>
+    <value>砖红色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Camouflage" xml:space="preserve">
@@ -3300,7 +3351,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="GrayDark" xml:space="preserve">
-    <value>深灰色</value>
+    <value>暗灰色</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Green" xml:space="preserve">
@@ -3336,11 +3387,11 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Seafoam" xml:space="preserve">
-    <value>白青色</value>
+    <value>海泡石</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Storm" xml:space="preserve">
-    <value>暖灰色</value>
+    <value>风暴</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="VioletRedLight" xml:space="preserve">
@@ -3655,7 +3706,7 @@
     <value>Files 仍在后台运行，这可以使其更快启动。</value>
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
-    <value>？？？Files咋没了？</value>
+    <value>Files 到哪里去了？</value>
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>问题和讨论</value>
@@ -3799,7 +3850,7 @@
     <value>垂直对齐方式</value>
   </data>
   <data name="ThinAcrylic" xml:space="preserve">
-    <value>薄 Acrylic</value>
+    <value>薄亚克力</value>
     <comment>This is a type of backdrop for the application background</comment>
   </data>
   <data name="AllLocations" xml:space="preserve">
@@ -3858,7 +3909,7 @@
   </data>
   <data name="ShowToolbar" xml:space="preserve">
     <value>显示工具栏</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>标签操作菜单</value>
@@ -3907,5 +3958,50 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>在系统托盘中显示 Files 图标</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>CPU 线程</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>返回主页</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>在地址栏中显示“主页”按钮</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>工具栏</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>用户 ID</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>批量重命名</value>
+  </data>
+  <data name="ShowCreateAlternateDataStream" xml:space="preserve">
+    <value>显示创建备用数据流 (Alternate Data Stream) 的选项</value>
+  </data>
+  <data name="CreateAlternateDataStream" xml:space="preserve">
+    <value>创建备用数据流</value>
+  </data>
+  <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
+    <value>为选中项创建备用数据流 (Alternate Data Stream)</value>
+  </data>
+  <data name="EnterDataStreamName" xml:space="preserve">
+    <value>输入数据流名称</value>
+  </data>
+  <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
+    <value>创建备用数据流时出错</value>
+  </data>
+  <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
+    <value>请注意：备用数据流 (Alternate Data Streams) 只适用于 NTFS 格式的驱动器。</value>
+  </data>
+  <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
+    <value>已隐藏备用数据流</value>
+  </data>
+  <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
+    <value>是否显示备用数据流 (Alternate Data Stream)？可随时从文件和文件夹设置页面修改此设置。</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>管理标签</value>
   </data>
 </root>

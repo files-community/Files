@@ -5,8 +5,8 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
-using Vanara.PInvoke;
-using static Vanara.PInvoke.User32;
+using Windows.Win32.Foundation;
+using Windows.Win32.System.Com;
 
 namespace Files.App.Helpers
 {
@@ -88,20 +88,6 @@ namespace Files.App.Helpers
 			ulong nHandles,
 			IntPtr[] pHandles,
 			out uint dwIndex
-		);
-
-		[DllImport("user32.dll", SetLastError = true, EntryPoint = "SetWindowLong")]
-		public static extern int SetWindowLongPtr32(
-			HWND hWnd,
-			WindowLongFlags nIndex,
-			IntPtr dwNewLong
-		);
-
-		[DllImport("user32.dll", SetLastError = true, EntryPoint = "SetWindowLongPtr")]
-		public static extern IntPtr SetWindowLongPtr64(
-			HWND hWnd,
-			WindowLongFlags nIndex,
-			IntPtr dwNewLong
 		);
 
 		[DllImport("shell32.dll")]
@@ -497,27 +483,15 @@ namespace Files.App.Helpers
 			int dwFlags
 		);
 
-		[DllImport(Lib.Shell32, SetLastError = false, CharSet = CharSet.Unicode)]
-		public static extern int SHQueryRecycleBin(
-			string pszRootPath,
-			ref SHQUERYRBINFO pSHQueryRBInfo
-		);
-
 		[DllImport("shell32.dll")]
-		static extern int SHGetKnownFolderPath(
+		public static extern int SHGetKnownFolderPath(
 			[MarshalAs(UnmanagedType.LPStruct)] Guid rfid,
 			uint dwFlags,
 			IntPtr hToken,
 			out IntPtr pszPath
 		);
 
-		public static string GetFolderFromKnownFolderGUID(Guid guid)
-		{
-			IntPtr pPath;
-			SHGetKnownFolderPath(guid, 0, IntPtr.Zero, out pPath);
-			string path = Marshal.PtrToStringUni(pPath);
-			System.Runtime.InteropServices.Marshal.FreeCoTaskMem(pPath);
-			return path;
-		}
+		[DllImport("shell32.dll", EntryPoint = "SHUpdateRecycleBinIcon", CharSet = CharSet.Unicode, SetLastError = true)]
+		public static extern void SHUpdateRecycleBinIcon();
 	}
 }

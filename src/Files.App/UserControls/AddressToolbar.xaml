@@ -265,7 +265,6 @@
 
 				<Button
 					x:Name="Back"
-					x:FieldModifier="public"
 					AccessKey="B"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
 					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateBack.Description, Mode=OneWay}"
@@ -295,7 +294,6 @@
 
 				<Button
 					x:Name="Forward"
-					x:FieldModifier="public"
 					AccessKey="F"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
 					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateForward.Description, Mode=OneWay}"
@@ -325,7 +323,6 @@
 
 				<Button
 					x:Name="Up"
-					x:FieldModifier="public"
 					AccessKey="U"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
 					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateUp.Description, Mode=OneWay}"
@@ -339,7 +336,6 @@
 
 				<Button
 					x:Name="Refresh"
-					x:FieldModifier="public"
 					AccessKey="R"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
 					AutomationProperties.Name="{x:Bind Commands.RefreshItems.Label}"
@@ -348,6 +344,19 @@
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey, Mode=OneWay}">
 					<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
+				</Button>
+
+				<Button
+					x:Name="HomeButton"
+					x:Load="{x:Bind ViewModel.ShowHomeButton, Mode=OneWay}"
+					AccessKey="H"
+					AccessKeyInvoked="Button_AccessKeyInvoked"
+					AutomationProperties.Name="{x:Bind Commands.NavigateHome.Label}"
+					Command="{x:Bind Commands.NavigateHome, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.NavigateHome.IsExecutable, Mode=OneWay}"
+					Style="{StaticResource AddressToolbarButtonStyle}"
+					ToolTipService.ToolTip="{x:Bind Commands.NavigateHome.LabelWithHotKey, Mode=OneWay}">
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateHome.Glyph.BaseGlyph}" />
 				</Button>
 			</StackPanel>
 
@@ -567,25 +576,26 @@
 					</Grid>
 				</Button>
 
-				<!--  Show The Latest Version Release Note  -->
+				<!--  Open the Release Notes dialog  -->
 				<Button
-					x:Name="ShowReleaseNotesButton"
+					x:Name="OpenReleaseNotesButton"
 					HorizontalContentAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
-					x:Load="{x:Bind ViewModel.IsReleaseNotesVisible, Mode=OneWay}"
+					x:Load="{x:Bind ViewModel.IsAppUpdated, Mode=OneWay}"
 					AccessKey="2"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
-					AutomationProperties.Name="{helpers:ResourceString Name=WhatsNew}"
-					Command="{x:Bind ViewModel.ViewReleaseNotesAsyncCommand, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind ViewModel.Commands.OpenReleaseNotes.Label}"
+					Command="{x:Bind ViewModel.Commands.OpenReleaseNotes, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=WhatsNew}">
+					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.OpenReleaseNotes.LabelWithHotKey}"
+					Visibility="{x:Bind ViewModel.Commands.OpenReleaseNotes.IsExecutable, Mode=OneWay}">
 					<FontIcon
 						FontSize="14"
 						Foreground="{ThemeResource SystemAccentColor}"
 						Glyph="&#xF133;" />
 				</Button>
 
-				<!--  Show The Files App Settings Dialog  -->
+				<!--  Open the Settings dialog  -->
 				<Button
 					x:Name="SettingsButton"
 					AccessKey="I"

@@ -206,6 +206,32 @@ namespace Files.App.Views.Layouts
 				// Restore correct scroll position
 				ContentScroller?.ChangeView(null, previousOffset, null);
 			}
+			else
+			{
+				var settings = sender as ILayoutSettingsService;
+				var isDefaultPath = FolderSettings?.IsPathUsingDefaultLayout(ParentShellPageInstance?.ShellViewModel.CurrentFolder?.ItemPath);
+				if (settings is not null && (isDefaultPath ?? true))
+				{
+					switch (e.PropertyName)
+					{
+						case nameof(ILayoutSettingsService.ShowFileTagColumn):
+							ColumnsViewModel.TagColumn.UserCollapsed = !settings.ShowFileTagColumn;
+							break;
+						case nameof(ILayoutSettingsService.ShowSizeColumn):
+							ColumnsViewModel.SizeColumn.UserCollapsed = !settings.ShowSizeColumn;
+							break;
+						case nameof(ILayoutSettingsService.ShowTypeColumn):
+							ColumnsViewModel.ItemTypeColumn.UserCollapsed = !settings.ShowTypeColumn;
+							break;
+						case nameof(ILayoutSettingsService.ShowDateCreatedColumn):
+							ColumnsViewModel.DateCreatedColumn.UserCollapsed = !settings.ShowDateCreatedColumn;
+							break;
+						case nameof(ILayoutSettingsService.ShowDateColumn):
+							ColumnsViewModel.DateModifiedColumn.UserCollapsed = !settings.ShowDateColumn;
+							break;
+					}
+				}
+			}
 		}
 
 		/// <summary>
@@ -552,15 +578,11 @@ namespace Files.App.Views.Layouts
 		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item
-				 && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
-			{
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 				await Commands.OpenItem.ExecuteAsync();
-			}
-			else if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
-			{
+			else if ((e.OriginalSource as FrameworkElement)?.DataContext is not ListedItem && UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 				await Commands.NavigateUp.ExecuteAsync();
-			}
+
 			ResetRenameDoubleClick();
 		}
 

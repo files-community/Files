@@ -62,11 +62,6 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Spacing="4">
-			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<EntranceThemeTransition />
-				</TransitionCollection>
-			</StackPanel.ChildrenTransitions>
 
 			<!--  Title  -->
 			<TextBlock
@@ -384,6 +379,10 @@
 					</Style>
 				</ListView.ItemContainerStyle>
 
+				<!--  Remove All Transitions  -->
+				<ListView.ItemContainerTransitions>
+					<TransitionCollection />
+				</ListView.ItemContainerTransitions>
 			</ListView>
 
 		</StackPanel>

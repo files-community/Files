@@ -126,6 +126,9 @@
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Copiar caminho com aspas</value>
   </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>Copiar, com aspas, o caminho do item selecionado</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Explorar</value>
   </data>
@@ -249,6 +252,9 @@
   <data name="Paste" xml:space="preserve">
     <value>Colar</value>
   </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>Colar atalho</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Novo</value>
   </data>
@@ -291,8 +297,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Introduza o nome do item</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Definir nome</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>Criar {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Claro</value>
@@ -1238,6 +1244,12 @@
   <data name="OpenStorageSense" xml:space="preserve">
     <value>Abrir sensor de armanezamento</value>
   </data>
+  <data name="OpenStorageSenseDescription" xml:space="preserve">
+    <value>Abrir Sensor de armazenamento nas definições Windows</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>Limpeza</value>
+  </data>
   <data name="Copy" xml:space="preserve">
     <value>Copiar</value>
   </data>
@@ -1853,6 +1865,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Esta opção modifica o registo do sistema e pode ter efeitos inesperados no seu dispositivo. Continue por sua conta e risco.</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>Estas operações são permanentes e não recomendamos a sua utilização. Continue por sua conta e risco.</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Criar biblioteca</value>
   </data>
@@ -1930,6 +1945,9 @@
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Fechar outros separadores</value>
+  </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>Fechar todos os separadores</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>Música</value>
@@ -2026,6 +2044,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Comprimir</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Mover todo o conteúdo das sub-pastas para a localização especificada</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Nivelar pasta</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Nivelar</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>Nivelar uma pasta moverá todo o conteúdo das subpastas para o local selecionado. Esta operação é permanente e não pode ser revertida. Ao utilizar esta funcionalidade, reconhece o risco e concorda em não responsabilizar a equipa de Files por qualquer perda de dados.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Mostrar opções de nivelamento</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Selecionar ficheiros e pastas ao passar com o rato por cima</value>
@@ -2247,7 +2280,7 @@
     <value>Mostrar itens ocultos</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Formatar...</value>
+    <value>Formatar</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Ajuda</value>
@@ -2373,16 +2406,25 @@
     <value>Copiar itens para a área de transferência</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
+    <value>Copiar caminho do diretório atual para a área de transferência</value>
+  </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
     <value>Copiar caminho dos itens selecionados para a área de transferência</value>
   </data>
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
+    <value>Copiar, com aspas, o caminho dos itens selecionados para a área de transferência</value>
+  </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copiar caminho dos itens selecionados, com aspas, para a área de transferência</value>
+    <value>Copiar, com aspas, o caminho do diretório atual para a área de transferência</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Cortar itens para a área de transferência</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Colar itens na pasta atual (da área de transferência)</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>Colar itens da área de transferência na pasta atual (como atalho)</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>Colar itens na pasta selecionada (da área de transferência)</value>
@@ -2662,6 +2704,9 @@
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Fechar todos os separadores à exceção do selecionado</value>
+  </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>Fechar todos os separadores, incluindo o atual</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Reabrir último separador fechado</value>
@@ -3063,8 +3108,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Mostrar propriedades</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Abrir propriedades do Explorador de ficheiros</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Abrir janela de propriedades</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Abrir janela de propriedades do Explorador de ficheiros</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Locais</value>
@@ -3128,7 +3179,7 @@
     <value>Mica alternativo</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Backdrop Material</value>
+    <value>Tema de fundo</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Sólido</value>
@@ -3858,7 +3909,7 @@
   </data>
   <data name="ShowToolbar" xml:space="preserve">
     <value>Mostrar barra de ferramentas</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Menu de ações em separadores</value>
@@ -3907,5 +3958,50 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>Mostrar ícone na bandeja do sistema</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>Processos do CPU</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Ir para a página inicial</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Mostrar botão Início na barra de endereços</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Barras de ferramentas</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>ID do utilizador</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Mudar nome em lote</value>
+  </data>
+  <data name="ShowCreateAlternateDataStream" xml:space="preserve">
+    <value>Mostrar opção para criar fluxo de dados alternativo</value>
+  </data>
+  <data name="CreateAlternateDataStream" xml:space="preserve">
+    <value>Criar fluxo de dados alternativo</value>
+  </data>
+  <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
+    <value>Criar fluxo de dados alternativo para os itens selecionado(s)</value>
+  </data>
+  <data name="EnterDataStreamName" xml:space="preserve">
+    <value>Introduza o nome do fluxo</value>
+  </data>
+  <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
+    <value>Ocorreu um erro ao criar o fluxo de dados alternativo</value>
+  </data>
+  <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
+    <value>Tenha em atenção de que os fluxos de dados alternativos apenas funcionam em unidades NTFS.</value>
+  </data>
+  <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
+    <value>Atualmente, os fluxos de dados alternativos estão ocultos</value>
+  </data>
+  <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
+    <value>Gostaria de mostrar os fluxos de dados alternativos? Pode alterar esta opção nas definições de ficheiros e pastas.</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Gerir etiquetas</value>
   </data>
 </root>

@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Files.Shared;
+namespace Files.Shared.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
 public sealed class RegistrySerializableAttribute : Attribute { }

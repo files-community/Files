@@ -33,11 +33,6 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			Spacing="4">
-			<StackPanel.ChildrenTransitions>
-				<TransitionCollection>
-					<EntranceThemeTransition />
-				</TransitionCollection>
-			</StackPanel.ChildrenTransitions>
 
 			<!--  Title  -->
 			<TextBlock

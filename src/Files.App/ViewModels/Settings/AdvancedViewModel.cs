@@ -11,6 +11,7 @@ using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.System;
+using Windows.Win32.Storage.FileSystem;
 
 namespace Files.App.ViewModels.Settings
 {
@@ -160,7 +161,9 @@ namespace Files.App.ViewModels.Settings
 		private async Task ImportSettingsAsync()
 		{
 			string[] extensions = ["ZipFileCapitalized".GetLocalizedResource(), "*.zip"];
-			CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
+			bool result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
+			if (!result)
+				return;
 
 			try
 			{
@@ -204,7 +207,9 @@ namespace Files.App.ViewModels.Settings
 		private async Task ExportSettingsAsync()
 		{
 			string[] extensions = ["ZipFileCapitalized".GetLocalizedResource(), "*.zip" ];
-			CommonDialogService.Open_FileSaveDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
+			bool result = CommonDialogService.Open_FileSaveDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
+			if (!result)
+				return;
 
 			if (!filePath.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
 				filePath += ".zip";
@@ -213,7 +218,7 @@ namespace Files.App.ViewModels.Settings
 			{
 				var handle = Win32PInvoke.CreateFileFromAppW(
 					filePath,
-					Win32PInvoke.GENERIC_READ | Win32PInvoke.GENERIC_WRITE,
+					(uint)(FILE_ACCESS_RIGHTS.FILE_GENERIC_READ | FILE_ACCESS_RIGHTS.FILE_GENERIC_WRITE),
 					Win32PInvoke.FILE_SHARE_READ | Win32PInvoke.FILE_SHARE_WRITE,
 					nint.Zero,
 					Win32PInvoke.CREATE_NEW,
@@ -345,6 +350,20 @@ namespace Files.App.ViewModels.Settings
 
 					OnPropertyChanged();
 				}
+			}
+		}
+
+		// TODO remove when feature is marked as stable
+		public bool ShowFlattenOptions
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowFlattenOptions;
+			set
+			{
+				if (value == UserSettingsService.GeneralSettingsService.ShowFlattenOptions)
+					return;
+
+				UserSettingsService.GeneralSettingsService.ShowFlattenOptions = value;
+				OnPropertyChanged();
 			}
 		}
 

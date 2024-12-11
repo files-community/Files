@@ -126,6 +126,9 @@
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Копировать путь с кавычками</value>
   </data>
+  <data name="CopyItemPathWithQuotes" xml:space="preserve">
+    <value>Копировать путь выделенного элемента с кавычками</value>
+  </data>
   <data name="Browse" xml:space="preserve">
     <value>Обзор</value>
   </data>
@@ -249,6 +252,9 @@
   <data name="Paste" xml:space="preserve">
     <value>Вставить</value>
   </data>
+  <data name="PasteShortcut" xml:space="preserve">
+    <value>Вставить ярлык</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Создать</value>
   </data>
@@ -291,8 +297,8 @@
   <data name="EnterAnItemName" xml:space="preserve">
     <value>Введите название элемента</value>
   </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Введите имя</value>
+  <data name="CreateNewItemTitle" xml:space="preserve">
+    <value>Создать: {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Светлая</value>
@@ -1029,7 +1035,7 @@
     <value>Открывать вкладки в двухпанельном режиме</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Показывать опцию открытия папок в новой панели</value>
+    <value>Показать опцию открытия папок в новой панели</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
     <value>Показать опцию копирования пути</value>
@@ -1236,7 +1242,13 @@
     <value>Библиотека с таким названием уже существует!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>Открыть менеджер памяти</value>
+    <value>Открыть Контроль памяти</value>
+  </data>
+  <data name="OpenStorageSenseDescription" xml:space="preserve">
+    <value>Открыть страницу Контроля памяти в настройках Windows</value>
+  </data>
+  <data name="Cleanup" xml:space="preserve">
+    <value>Очистка</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Копировать</value>
@@ -1853,6 +1865,9 @@
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
     <value>Этот параметр изменяет реестр Windows и может иметь неожиданные побочные эффекты на вашем устройстве. Продолжайте на свой страх и риск.</value>
   </data>
+  <data name="ShowFlattenOptionsDescription" xml:space="preserve">
+    <value>Операции с выравниванием структуры являются постоянными и не рекомендуются. Активируйте на свой страх и риск.</value>
+  </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Создать Библиотеку</value>
   </data>
@@ -1930,6 +1945,9 @@
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Закрыть другие вкладки</value>
+  </data>
+  <data name="CloseAllTabs" xml:space="preserve">
+    <value>Закрыть все вкладки</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>Музыка</value>
@@ -2026,6 +2044,21 @@
   </data>
   <data name="Compress" xml:space="preserve">
     <value>Сжать</value>
+  </data>
+  <data name="FlattenFolderDescription" xml:space="preserve">
+    <value>Переместить все содержимое из подпапок в выбранное место</value>
+  </data>
+  <data name="FlattenFolder" xml:space="preserve">
+    <value>Выровнять структуру папки</value>
+  </data>
+  <data name="Flatten" xml:space="preserve">
+    <value>Выровнять структуру</value>
+  </data>
+  <data name="FlattenFolderDialogContent" xml:space="preserve">
+    <value>При выравнивании структуры папки всё содержимое подпапок будет перенесено в выбранное место. Эта операция постоянна и не может быть повторена. Используя эту экспериментальную функцию, вы соглашаетесь с данным риском и не имеете претензий к команде Files, не несущую ответственность за потерю данных.</value>
+  </data>
+  <data name="ShowFlattenOptions" xml:space="preserve">
+    <value>Показывать опции выравнивания структуры</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Выделение файлов и папок при наведении на них курсора мыши</value>
@@ -2181,7 +2214,7 @@
     <value>Показать ещё</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Показывать опцию редактирования меток</value>
+    <value>Показать опцию редактирования меток</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
     <value>Показать опции сжатия</value>
@@ -2190,10 +2223,10 @@
     <value>Показать опцию отправить</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Показывать опцию открытия папок в новой вкладке</value>
+    <value>Показать опцию открытия папок в новой вкладке</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Показывать опцию открытия папок в новом окне</value>
+    <value>Показать опцию открытия папок в новом окне</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>Быстрый доступ</value>
@@ -2247,7 +2280,7 @@
     <value>Показывать скрытые элементы</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Форматировать...</value>
+    <value>Форматировать</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Помощь</value>
@@ -2375,6 +2408,12 @@
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Копировать путь выбранных элементов в буфер обмена</value>
   </data>
+  <data name="CopyItemPathDescription" xml:space="preserve">
+    <value>Копировать путь выбранных элементов в буфер обмена</value>
+  </data>
+  <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
+    <value>Копировать путь выбранных элементов с кавычками в буфер обмена</value>
+  </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
     <value>Копировать путь выбранных элементов с кавычками в буфер обмена</value>
   </data>
@@ -2383,6 +2422,9 @@
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Вставить элемент(ы) из буфера в текущую папку</value>
+  </data>
+  <data name="PasteShortcutDescription" xml:space="preserve">
+    <value>Вставить элемент(ы) из буфера обмена в текущую папку как ярлыки</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>Вставить элемент(ы) из буфера обмена в выбранную папку</value>
@@ -2662,6 +2704,9 @@
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Закрыть все вкладки кроме выбранной</value>
+  </data>
+  <data name="CloseAllTabsDescription" xml:space="preserve">
+    <value>Закрыть все вкладки включая текущую вкладку</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Восстановить последнюю закрытую вкладку</value>
@@ -3063,8 +3108,14 @@
   <data name="OpenProperties" xml:space="preserve">
     <value>Открыть свойства</value>
   </data>
+  <data name="OpenClassicProperties" xml:space="preserve">
+    <value>Открыть свойства Проводника Windows</value>
+  </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Открыть окно свойств</value>
+  </data>
+  <data name="OpenClassicPropertiesDescription" xml:space="preserve">
+    <value>Открыть окно свойств Проводника Windows</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Локальные</value>
@@ -3128,7 +3179,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Материал фона</value>
+    <value>Фон</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Сплошной</value>
@@ -3655,7 +3706,7 @@
     <value>Файлы все еще работают в фоновом режиме для повышения производительности запуска.</value>
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
-    <value>Где были файлы?</value>
+    <value>Где же Files?</value>
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Вопросы и обсуждение</value>
@@ -3857,8 +3908,8 @@
     <value>Статус:</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
-    <value>Показывать панель инструментов</value>
-    <comment>Setting that controls if the Toolbar is shown in the main view</comment>
+    <value>Показать панель инструментов</value>
+    <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
     <value>Меню действий вкладки</value>
@@ -3907,5 +3958,50 @@
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>Показывать иконку Files в системном трее</value>
+  </data>
+  <data name="CPUThreads" xml:space="preserve">
+    <value>Потоки процессора</value>
+  </data>
+  <data name="NavigateHomeDescription" xml:space="preserve">
+    <value>Перейти на главную страницу</value>
+  </data>
+  <data name="ShowHomeButton" xml:space="preserve">
+    <value>Показать кнопку Главной в адресной строке</value>
+  </data>
+  <data name="Toolbars" xml:space="preserve">
+    <value>Панели инструментов</value>
+  </data>
+  <data name="UserID" xml:space="preserve">
+    <value>ID пользователя</value>
+  </data>
+  <data name="BulkRename" xml:space="preserve">
+    <value>Массовое переименование</value>
+  </data>
+  <data name="ShowCreateAlternateDataStream" xml:space="preserve">
+    <value>Показать опцию создания альтернативного потока данных</value>
+  </data>
+  <data name="CreateAlternateDataStream" xml:space="preserve">
+    <value>Создать альтернативный поток данных</value>
+  </data>
+  <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
+    <value>Создать альтернативный поток данных для выбранного элемента(ов)</value>
+  </data>
+  <data name="EnterDataStreamName" xml:space="preserve">
+    <value>Введите название потока данных</value>
+  </data>
+  <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
+    <value>Произошла ошибка при создании альтернативного потока данных</value>
+  </data>
+  <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
+    <value>Обратите внимание, что альтернативные потоки данных работают только на дисках, отформатированных под NTFS.</value>
+  </data>
+  <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
+    <value>Альтернативные потоки данных в данный момент скрыты</value>
+  </data>
+  <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
+    <value>Вы хотите отобразить альтернативные потоки данных? Вы можете изменить этот параметр в любое время из настроек файлов и папок.</value>
+  </data>
+  <data name="ManageTags" xml:space="preserve">
+    <value>Управление метками</value>
   </data>
 </root>

@@ -106,5 +106,10 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value whether the tab actions button should be displayed.
 		/// </summary>
 		bool ShowTabActions { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value whether the home button should be displayed.
+		/// </summary>
+		bool ShowHomeButton { get; set; }
 	}
 }
