@@ -7,7 +7,7 @@ namespace Files.App.Data.Contracts
 {
 	public interface IQuickAccessService
 	{
-		IReadOnlyList<INavigationControlItem> QuickAccessFolders { get; }
+		IReadOnlyList<INavigationControlItem> Folders { get; }
 
 		event EventHandler<NotifyCollectionChangedEventArgs>? PinnedFoldersChanged;
 

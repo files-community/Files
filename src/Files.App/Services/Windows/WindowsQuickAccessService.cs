@@ -22,7 +22,7 @@ namespace Files.App.Services
 
 		private readonly List<INavigationControlItem> _QuickAccessFolders = [];
 		/// <inheritdoc/>
-		public IReadOnlyList<INavigationControlItem> QuickAccessFolders
+		public IReadOnlyList<INavigationControlItem> Folders
 		{
 			get
 			{
@@ -67,7 +67,7 @@ namespace Files.App.Services
 					if (items.Count is 0)
 						return false;
 
-					var snapshot = QuickAccessFolders;
+					var snapshot = Folders;
 
 					lock (_QuickAccessFolders)
 					{

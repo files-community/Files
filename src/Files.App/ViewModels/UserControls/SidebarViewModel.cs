@@ -271,7 +271,7 @@ namespace Files.App.ViewModels.UserControls
 				var section = await GetOrCreateSectionAsync(sectionType);
 				Func<IReadOnlyList<INavigationControlItem>> getElements = () => sectionType switch
 				{
-					SectionType.Pinned => WindowsQuickAccessService.QuickAccessFolders,
+					SectionType.Pinned => WindowsQuickAccessService.Folders,
 					SectionType.CloudDrives => CloudDrivesManager.Drives,
 					SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
 					SectionType.Network => NetworkService.Computers.Cast<DriveItem>().ToList().AsReadOnly(),
@@ -923,7 +923,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			var options = item.MenuOptions;
 
-			var pinnedFolders = WindowsQuickAccessService.QuickAccessFolders.ToList();
+			var pinnedFolders = WindowsQuickAccessService.Folders.ToList();
 			var pinnedFolderIndex = pinnedFolders.IndexOf(item);
 			var pinnedFolderCount = pinnedFolders.Count;
 
@@ -1082,7 +1082,7 @@ namespace Files.App.ViewModels.UserControls
 
 				if (isPathNull && hasStorageItems && SectionType.Pinned.Equals(locationItem.Section))
 				{
-					var haveFoldersToPin = storageItems.Any(item => item.ItemType == FilesystemItemType.Directory && WindowsQuickAccessService.QuickAccessFolders.FirstOrDefault(x => x.Path == item.Path) is null);
+					var haveFoldersToPin = storageItems.Any(item => item.ItemType == FilesystemItemType.Directory && WindowsQuickAccessService.Folders.FirstOrDefault(x => x.Path == item.Path) is null);
 
 					if (!haveFoldersToPin)
 					{
@@ -1252,7 +1252,7 @@ namespace Files.App.ViewModels.UserControls
 					var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
 					foreach (var item in storageItems)
 					{
-						if (item.ItemType == FilesystemItemType.Directory && WindowsQuickAccessService.QuickAccessFolders.FirstOrDefault(x => x.Path == item.Path) is null)
+						if (item.ItemType == FilesystemItemType.Directory && WindowsQuickAccessService.Folders.FirstOrDefault(x => x.Path == item.Path) is null)
 							await WindowsQuickAccessService.PinFolderAsync([item.Path]);
 					}
 				}
