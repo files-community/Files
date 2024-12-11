@@ -16,7 +16,16 @@ namespace Files.App.Utils.Cloud
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{
 			string jsonPath = Path.Combine(Constants.UserEnvironmentPaths.HomePath, ".lucid", "app.json");
-			string volumePath = Path.Combine(Constants.UserEnvironmentPaths.SystemDrivePath, "Volumes");
+
+			// Lucid Link v3 and above
+			if (!File.Exists(jsonPath))
+			{
+				string volumePath = Path.Combine(Constants.UserEnvironmentPaths.SystemDrivePath, "Volumes");
+				await foreach (var provider in GetLucidLinkV3Providers(volumePath))
+				{
+					yield return provider;
+				}
+			}
 
 			var configFile = await StorageFile.GetFileFromPathAsync(jsonPath);
 			using var jsonFile = JsonDocument.Parse(await FileIO.ReadTextAsync(configFile));
@@ -41,12 +50,6 @@ namespace Files.App.Utils.Cloud
 						IconData = iconFile is not null ? await iconFile.ToByteArrayAsync() : null,
 					};
 				}
-			}
-
-			// Lucid Link v3 and above
-			await foreach (var provider in GetLucidLinkV3Providers(volumePath))
-			{
-				yield return provider;
 			}
 		}
 
