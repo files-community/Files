@@ -228,7 +228,6 @@
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 			<InfoBar
-				CornerRadius="0,0,2,2"
 				IsClosable="False"
 				IsIconVisible="True"
 				IsOpen="True"
