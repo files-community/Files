@@ -364,22 +364,14 @@ namespace Files.App.UserControls.TabBar
 				await Task.Delay(100);
 
 			var appWindow = MainWindow.Instance.AppWindow;
-			var titleBarInset = (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
+			var titleBarInset = ((FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
 				? appWindow.TitleBar.LeftInset
-				: appWindow.TitleBar.RightInset) / DragAreaRectangle.XamlRoot.RasterizationScale;
+				: appWindow.TitleBar.RightInset) / DragAreaRectangle.XamlRoot.RasterizationScale) + 40;
 
-			if (titleBarInset > 0)
-			{
-				titleBarInset += 40; // Add 40px gap
-				RightPaddingColumn.Width = new(titleBarInset);
-
-				HorizontalTabView.Measure(new(
-					HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset,
-					HorizontalTabView.ActualHeight));
-				return;
-			}
-
-			RightPaddingColumn.Width = new(138); // fallback
+			RightPaddingColumn.Width = new(titleBarInset >= 40 ? titleBarInset : 138);
+			HorizontalTabView.Measure(new(
+				HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset,
+				HorizontalTabView.ActualHeight));
 		}
 	}
 }
