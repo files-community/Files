@@ -358,7 +358,7 @@ namespace Files.App.UserControls.TabBar
 			}
 		}
 
-		private async void DragAreaRectangle_Loaded(object? sender, RoutedEventArgs e)
+		private async void DragAreaRectangle_Loaded(object sender, RoutedEventArgs e)
 		{
 			if (HorizontalTabView.ActualWidth <= 0 && TabBarAddNewTabButton.Width <= 0)
 				await Task.Delay(100);
