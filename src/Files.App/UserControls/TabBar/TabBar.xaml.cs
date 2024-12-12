@@ -363,12 +363,11 @@ namespace Files.App.UserControls.TabBar
 			if (HorizontalTabView.ActualWidth <= 0 && TabBarAddNewTabButton.Width <= 0)
 				await Task.Delay(100);
 
-			var appWindow = MainWindow.Instance.AppWindow;
 			var titleBarInset = ((FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
-				? appWindow.TitleBar.LeftInset
-				: appWindow.TitleBar.RightInset) / DragAreaRectangle.XamlRoot.RasterizationScale) + 40;
+				? MainWindow.Instance.AppWindow.TitleBar.LeftInset
+				: MainWindow.Instance.AppWindow.TitleBar.RightInset) / DragAreaRectangle.XamlRoot.RasterizationScale) + 40;
 
-			RightPaddingColumn.Width = new(titleBarInset >= 40 ? titleBarInset : 138);
+			RightPaddingColumn.Width = new(titleBarInset > 40 ? titleBarInset : 138);
 			HorizontalTabView.Measure(new(
 				HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset,
 				HorizontalTabView.ActualHeight));
