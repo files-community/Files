@@ -187,7 +187,6 @@ namespace Files.App.Views
 					if (ActivePane is not null)
 					{
 						ActivePane.IsCurrentInstance = IsCurrentInstance;
-						UpdatePaneLayout(ActivePane);
 					}
 
 					NotifyPropertyChanged(nameof(ActivePane));
@@ -360,13 +359,12 @@ namespace Files.App.Views
 		}
 
 		/// <inheritdoc/>
-		public void UpdatePanesLayout()
+		public void UpdatePanesLayout(bool inlcudeActive = true)
 		{
-			if (GetPane(0) is IShellPage leftPane)
+			if (GetPane(0) is IShellPage leftPane && (inlcudeActive || leftPane != ActivePane))
 				UpdatePaneLayout(leftPane);
 
-
-			if (GetPane(1) is IShellPage rightPane)
+			if (GetPane(1) is IShellPage rightPane && (inlcudeActive || rightPane != ActivePane))
 				UpdatePaneLayout(rightPane);
 		}
 
