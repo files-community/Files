@@ -150,8 +150,8 @@
 								</VisualState>
 								<VisualState x:Name="Custom">
 									<VisualState.Setters>
-										<Setter Target="PART_OutlinePath.Fill" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Color}" />
-										<Setter Target="PART_FilledPath.Fill" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Color}" />
+										<Setter Target="PART_OutlinePath.Fill" Value="{Binding Color, Mode=OneTime}" />
+										<Setter Target="PART_FilledPath.Fill" Value="{Binding Color, Mode=OneTime}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Toggle">

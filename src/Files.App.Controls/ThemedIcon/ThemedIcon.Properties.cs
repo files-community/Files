@@ -32,6 +32,7 @@ namespace Files.App.Controls
 		protected virtual void OnColorPropertyChanged(Brush oldValue, Brush newValue)
 		{
 			OnIconTypeChanged();
+			UpdateColor(newValue);
 		}
 
 		protected virtual void OnIconTypePropertyChanged(ThemedIconTypes oldValue, ThemedIconTypes newValue)
