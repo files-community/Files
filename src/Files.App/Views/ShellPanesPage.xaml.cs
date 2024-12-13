@@ -185,9 +185,7 @@ namespace Files.App.Views
 						secondShellPage.IsCurrentInstance = false;
 
 					if (ActivePane is not null)
-					{
 						ActivePane.IsCurrentInstance = IsCurrentInstance;
-					}
 
 					NotifyPropertyChanged(nameof(ActivePane));
 					NotifyPropertyChanged(nameof(IsLeftPaneActive));
