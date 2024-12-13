@@ -62,6 +62,6 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// Updates the layout of open panes.
 		/// </summary>
-		public void UpdatePanesLayout();
+		public void UpdatePanesLayout(bool inlcudeActive = true);
 	}
 }
