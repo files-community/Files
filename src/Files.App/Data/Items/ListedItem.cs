@@ -428,7 +428,7 @@ namespace Files.App.Utils
 		// This is a hack used because x:Bind casting did not work properly
 		public RecycleBinItem AsRecycleBinItem => this as RecycleBinItem;
 
-		public IGitItem AsGitItem => this as IGitItem;
+		public GitItem AsGitItem => this as GitItem;
 
 		public string Key { get; set; }
 
@@ -602,7 +602,7 @@ namespace Files.App.Utils
 		}
 	}
 
-	public sealed class GitItem : ListedItem, IGitItem
+	public class GitItem : ListedItem, IGitItem
 	{
 		private volatile int statusPropertiesInitialized = 0;
 		public bool StatusPropertiesInitialized
@@ -678,7 +678,7 @@ namespace Files.App.Utils
 			set => SetProperty(ref _GitLastCommitFullSha, value);
 		}
 	}
-	public sealed class GitShortcutItem : ListedItem, IGitItem,IShortcutItem
+	public sealed class GitShortcutItem : GitItem,IShortcutItem
 	{
 		private volatile int statusPropertiesInitialized = 0;
 		public bool StatusPropertiesInitialized
