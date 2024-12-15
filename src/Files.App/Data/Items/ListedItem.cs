@@ -407,7 +407,7 @@ namespace Files.App.Utils
 		public bool IsRecycleBinItem => this is RecycleBinItem;
 		public bool IsShortcut => this is IShortcutItem;
 		public bool IsLibrary => this is LibraryItem;
-		public bool IsLinkItem => IsShortcut && ((IShortcutItem)this).IsUrl;
+		public bool IsLinkItem => IsShortcut && ((ShortcutItem)this).IsUrl;
 		public bool IsFtpItem => this is FtpItem;
 		public bool IsArchive => this is ZipItem;
 		public bool IsAlternateStream => this is AlternateStreamItem;
