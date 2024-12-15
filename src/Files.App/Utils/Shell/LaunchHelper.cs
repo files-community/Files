@@ -16,11 +16,12 @@ namespace Files.App.Utils.Shell
 	/// </summary>
 	public static class LaunchHelper
 	{
-		public static void LaunchSettings(string page)
+		public unsafe static void LaunchSettings(string page)
 		{
-			var appActiveManager = new IApplicationActivationManager();
+			using ComPtr<IApplicationActivationManager> pApplicationActivationManager = default;
+			pApplicationActivationManager.CoCreateInstance<Shell32.ApplicationActivationManager>();
 
-			appActiveManager.ActivateApplication(
+			pApplicationActivationManager.Get()->ActivateApplication(
 				"windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel",
 				page,
 				ACTIVATEOPTIONS.AO_NONE,
