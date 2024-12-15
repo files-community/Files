@@ -796,11 +796,15 @@ namespace Files.App.Utils
 	public interface IShortcutItem
 	{
 		public string TargetPath { get; set; }
+		public string Name { get; }
 		public string Arguments { get; set; }
 		public string WorkingDirectory { get; set; }
 		public bool RunAsAdmin { get; set; }
 		public bool IsUrl { get; set; }
 		public bool IsSymLink { get; set; }
-	
+
+		public bool IsExecutable { get; }
+
+
 	}
 }

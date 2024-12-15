@@ -81,7 +81,7 @@ namespace Files.App.ViewModels.Properties
 
 		public CompatibilityViewModel(ListedItem item)
 		{
-			ItemPath = item is ShortcutItem shortcutItem ? shortcutItem.TargetPath : item.ItemPath;
+			ItemPath = item is IShortcutItem shortcutItem ? shortcutItem.TargetPath : item.ItemPath;
 
 			CompatibilityOptions = WindowsCompatibilityService.GetCompatibilityOptionsForPath(ItemPath);
 
