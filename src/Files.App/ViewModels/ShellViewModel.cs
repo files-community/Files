@@ -1270,7 +1270,7 @@ namespace Files.App.ViewModels
 			if (item.SyncStatusUI.LoadSyncStatus)
 				return false;
 
-			return WindowsSecurityService.IsElevationRequired(item.IsShortcut ? ((IShortcutItem)item).TargetPath : item.ItemPath);
+			return WindowsSecurityService.IsElevationRequired(item.IsShortcut ? ((ShortcutItem)item).TargetPath : item.ItemPath);
 		}
 
 		public async Task LoadGitPropertiesAsync(IGitItem gitItem)
