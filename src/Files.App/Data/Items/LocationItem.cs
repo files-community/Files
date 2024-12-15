@@ -128,7 +128,12 @@ namespace Files.App.Data.Items
 
 		public async void RefreshSpaceUsed(object? sender, FileSystemEventArgs e)
 		{
-			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+			await RefreshSpaceUsedAsync();
+		}
+
+		private Task RefreshSpaceUsedAsync()
+		{
+			return MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
 				SpaceUsed = await Task.Run(() => StorageTrashBinService.GetSize());
 			});
@@ -155,7 +160,7 @@ namespace Files.App.Data.Items
 			StorageTrashBinService.Watcher.ItemAdded += RefreshSpaceUsed;
 			StorageTrashBinService.Watcher.ItemDeleted += RefreshSpaceUsed;
 
-			RefreshSpaceUsed(null, new(WatcherChangeTypes.Changed, "", null));
+			_ = RefreshSpaceUsedAsync();
 		}
 	}
 }
