@@ -5,7 +5,6 @@
         <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
         <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
         <IsTrimmable>true</IsTrimmable>
-        <DefineConstants Condition="'$(Platform)' == 'x86'">X86</DefineConstants>
     </PropertyGroup>
 
     <ItemGroup>
