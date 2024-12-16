@@ -241,7 +241,7 @@ namespace Files.App.Controls
 			UpdateVisualStates();
 		}
 
-		private void UpdateColor(Brush newColor)
+		private void OnIconColorChanged(Brush newColor)
 		{
 			if (GetTemplateChild(OutlineIconPath) is Path outlinePath)
 				outlinePath.Fill = newColor;
