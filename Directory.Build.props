@@ -7,8 +7,8 @@
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <Nullable>enable</Nullable>
-        <DefineConstants Condition="'$(Configuration)' == 'Debug'">$(DefineConstants);$(Platform);TRACE;DEBUG;NETFX_CORE</DefineConstants>
-        <DefineConstants Condition="'$(Configuration)' != 'Debug'">$(DefineConstants);$(Platform);TRACE;RELEASE;NETFX_CORE</DefineConstants>
+        <DefineConstants Condition="'$(Configuration)' == 'Debug'">$(DefineConstants);$(Platform);DEBUG</DefineConstants>
+        <DefineConstants Condition="'$(Configuration)' != 'Debug'">$(DefineConstants);$(Platform);RELEASE</DefineConstants>
         <Optimize Condition="'$(Configuration)' != 'Debug'">true</Optimize>
     </PropertyGroup>
 
