@@ -22,7 +22,7 @@ namespace Windows.Win32
 	{
 		public static nint SetWindowLongPlat(HWND hWnd, UI.WindowsAndMessaging.WINDOW_LONG_PTR_INDEX nIndex, nint dwNewLong)
 		{
-#if X86
+#if x86
 			return SetWindowLong(hWnd, nIndex, (int)dwNewLong);
 #else
 			return SetWindowLongPtr(hWnd, nIndex, dwNewLong);
