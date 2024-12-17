@@ -241,13 +241,13 @@ namespace Files.App.Controls
 			UpdateVisualStates();
 		}
 
-		private void OnIconColorChanged(Brush newColor)
+		private void OnIconColorChanged()
 		{
 			if (GetTemplateChild(OutlineIconPath) is Path outlinePath)
-				outlinePath.Fill = newColor;
+				outlinePath.Fill = (Brush)this.GetValue(ColorProperty);
 
 			if (GetTemplateChild(FilledIconPath) is Path fillPath)
-				fillPath.Fill = newColor;
+				fillPath.Fill = (Brush)this.GetValue(ColorProperty);
 		}
 	}
 }
