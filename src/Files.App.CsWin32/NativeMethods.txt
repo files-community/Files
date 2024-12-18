@@ -164,6 +164,11 @@ IApplicationDestinations
 ApplicationDestinations
 IApplicationDocumentLists
 ApplicationDocumentLists
+BHID_EnumItems
+BHID_SFUIObject
+IContextMenu
+CMF_OPTIMIZEFORINVOKE
+IPropertyStore
 IApplicationActivationManager
 MENU_ITEM_TYPE
 COMPRESSION_FORMAT
