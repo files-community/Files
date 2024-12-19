@@ -250,7 +250,7 @@ namespace Files.App.Helpers
 		/// <param name="arguments"></param>
 		/// <param name="workingDir"></param>
 		/// <param name="runAsAdmin"></param>
-		public static void UpdateShortcutItemProperties(ShortcutItem item, string targetPath, string arguments, string workingDir, bool runAsAdmin)
+		public static void UpdateShortcutItemProperties(IShortcutItem item, string targetPath, string arguments, string workingDir, bool runAsAdmin)
 		{
 			item.TargetPath = Environment.ExpandEnvironmentVariables(targetPath);
 			item.Arguments = arguments;
