@@ -17,6 +17,10 @@ namespace Files.App.Views.Layouts
 	/// </summary>
 	public sealed partial class ColumnsLayoutPage : BaseLayoutPage
 	{
+		// IOC
+
+		private readonly IQuickAccessService WindowsQuickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
+
 		// Properties
 
 		protected override ItemsControl ItemsControl => ColumnHost;
@@ -96,7 +100,7 @@ namespace Files.App.Views.Layouts
 
 			if (!string.IsNullOrEmpty(pathRoot))
 			{
-				var rootPathList = App.QuickAccessManager.Model.PinnedFolders.Select(NormalizePath)
+				var rootPathList = WindowsQuickAccessService.Folders.Select(x => NormalizePath(x.Path))
 					.Concat(CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList()
 					.Concat(App.LibraryManager.Libraries.Select(x => NormalizePath(x.Path))).ToList();
 				rootPathList.Add(NormalizePath(pathRoot));
