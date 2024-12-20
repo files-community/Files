@@ -127,8 +127,8 @@ elseif ($Branch -eq "StoreStable")
     $xmlDoc.Package.Capabilities.RemoveChild($pm)
 
     # Update app protocol and execution alias
-    $ap.SetAttribute("Name", "files");
-    $aea.RemoveChild($aea.FirstChild); # Avoid duplication
+    $ap.SetAttribute("Name", "files-stable");
+    $ea.SetAttribute("Alias", "files-stable.exe");
 
     # Save modified Package.appxmanifest
     $xmlDoc.Save($PackageManifestPath)
@@ -141,7 +141,7 @@ elseif ($Branch -eq "StoreStable")
 
     Get-ChildItem $WorkingDir -Include *.cs, *.cpp -recurse | ForEach-Object -Process `
     { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files" }) | `
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-stable" }) | `
         Set-Content $_ -NoNewline `
     }
 }
