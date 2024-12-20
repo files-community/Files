@@ -35,8 +35,8 @@ jobs:
       APPX_PACKAGE_DIR:           '${{ github.workspace }}\artifacts\AppxPackages'
       PACKAGE_PROJECT_DIR:        'src\Files.App (Package)'
       PACKAGE_PROJECT_PATH:       'src\Files.App (Package)\Files.Package.wapproj'
-      LAUNCHER_PROJECT_PATH:              'src\Files.App.Launcher\Files.App.Launcher.vcxproj'
       PACKAGE_MANIFEST_PATH:      'src\Files.App (Package)\Package.appxmanifest'
+      LAUNCHER_PROJECT_PATH:      'src\Files.App.Launcher\Files.App.Launcher.vcxproj'
       TEST_PROJECT_PATH:          'tests\Files.InteractionTests\Files.InteractionTests.csproj'
       APP_INSTALLER_SIDELOAD_URL: 'https://cdn.files.community/files/preview/'
 
