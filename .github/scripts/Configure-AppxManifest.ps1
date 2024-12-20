@@ -80,6 +80,12 @@ elseif ($Branch -eq "StorePreview")
         (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Preview" }) | `
         Set-Content $_ -NoNewline `
     }
+
+    Get-ChildItem $WorkingDir -Include *.cs, *.cpp -recurse | ForEach-Object -Process `
+    { `
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-preview" }) | `
+        Set-Content $_ -NoNewline `
+    }
 }
 elseif ($Branch -eq "SideloadStable")
 {
