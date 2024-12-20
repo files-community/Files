@@ -87,7 +87,7 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
 
-    - Build launcher project
+    - name: Build launcher project
       shell: pwsh
       run: |
         msbuild "$env:LAUNCHER_PROJECT_PATH" `
