@@ -73,10 +73,18 @@ namespace Files.App.UserControls
 			ViewModel.IsEditModeEnabled = true;
 		}
 
-		private void VisiblePath_KeyDown(object _, KeyRoutedEventArgs e)
+		private async void VisiblePath_KeyDown(object _, KeyRoutedEventArgs e)
 		{
 			if (e.Key is VirtualKey.Escape)
 				ViewModel.IsEditModeEnabled = false;
+
+			if (e.Key is VirtualKey.Tab)
+			{
+				ViewModel.IsEditModeEnabled = false;
+				// Delay to ensure clickable path is ready to be focused
+				await Task.Delay(10);
+				ClickablePath.Focus(FocusState.Keyboard);
+			}
 		}
 		private void VisiblePath_LostFocus(object _, RoutedEventArgs e)
 		{
@@ -215,6 +223,16 @@ namespace Files.App.UserControls
 				// Navigate forward
 				shellPage.Forward_Click();
 			}
+		}
+
+		private void ClickablePath_GettingFocus(UIElement sender, GettingFocusEventArgs args)
+		{
+			if (args.InputDevice != FocusInputDeviceKind.Keyboard)
+				return;
+
+			var previousControl = args.OldFocusedElement as FrameworkElement;
+			if (previousControl?.Name == "HomeButton" || previousControl?.Name == "Refresh")
+				ViewModel.IsEditModeEnabled = true;
 		}
 	}
 }
