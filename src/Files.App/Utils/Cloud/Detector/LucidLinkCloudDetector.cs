@@ -33,7 +33,7 @@ namespace Files.App.Utils.Cloud
 		{
 			foreach (string subDirectory in Directory.GetDirectories(directory))
 			{
-				if (IsSymlink(subDirectory))
+				if (Win32Helper.HasFileAttribute(subDirectory, System.IO.FileAttributes.ReparsePoint))
 				{
 					string[] orgNameFilespaceName = subDirectory.Split("\\");
 					string path = Path.Combine($@"{Constants.UserEnvironmentPaths.SystemDrivePath}\Volumes", orgNameFilespaceName[^2], orgNameFilespaceName[^1]);
