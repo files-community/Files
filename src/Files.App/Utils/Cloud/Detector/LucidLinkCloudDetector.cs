@@ -16,14 +16,7 @@ namespace Files.App.Utils.Cloud
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{
 			string volumePath = Path.Combine(Constants.UserEnvironmentPaths.SystemDrivePath, "Volumes");
-			await foreach (var provider in GetLucidLinkV3Providers(volumePath))
-			{
-				yield return provider;
-			}
-		}
 
-		private async IAsyncEnumerable<ICloudProvider> GetLucidLinkV3Providers(string volumePath)
-		{
 			if (Directory.Exists(volumePath))
 			{
 				foreach (string directory in Directory.GetDirectories(volumePath))
