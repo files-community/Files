@@ -36,8 +36,8 @@ namespace Files.App.Utils.Cloud
 				if (IsSymlink(subDirectory))
 				{
 					string[] orgNameFilespaceName = subDirectory.Split("\\");
-					string path = Path.Combine($@"{Constants.UserEnvironmentPaths.SystemDrivePath}\Volumes", orgNameFilespaceName[orgNameFilespaceName.Length - 1], orgNameFilespaceName[orgNameFilespaceName.Length - 2]);
-					string filespaceName = orgNameFilespaceName[orgNameFilespaceName.Length - 2];
+					string path = Path.Combine($@"{Constants.UserEnvironmentPaths.SystemDrivePath}\Volumes", orgNameFilespaceName[^1], orgNameFilespaceName[^2]);
+					string filespaceName = orgNameFilespaceName[^2];
 
 					StorageFile iconFile = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
 
