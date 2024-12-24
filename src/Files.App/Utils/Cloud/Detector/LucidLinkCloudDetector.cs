@@ -15,41 +15,10 @@ namespace Files.App.Utils.Cloud
 
 		protected override async IAsyncEnumerable<ICloudProvider> GetProviders()
 		{
-			string jsonPath = Path.Combine(Constants.UserEnvironmentPaths.HomePath, ".lucid", "app.json");
-
-			// Lucid Link v3 and above
-			if (!File.Exists(jsonPath))
+			string volumePath = Path.Combine(Constants.UserEnvironmentPaths.SystemDrivePath, "Volumes");
+			await foreach (var provider in GetLucidLinkV3Providers(volumePath))
 			{
-				string volumePath = Path.Combine(Constants.UserEnvironmentPaths.SystemDrivePath, "Volumes");
-				await foreach (var provider in GetLucidLinkV3Providers(volumePath))
-				{
-					yield return provider;
-				}
-			}
-
-			var configFile = await StorageFile.GetFileFromPathAsync(jsonPath);
-			using var jsonFile = JsonDocument.Parse(await FileIO.ReadTextAsync(configFile));
-			var jsonElem = jsonFile.RootElement;
-
-			if (jsonElem.TryGetProperty("filespaces", out JsonElement filespaces))
-			{
-				foreach (JsonElement inner in filespaces.EnumerateArray())
-				{
-					string syncFolder = inner.GetProperty("filespaceName").GetString();
-
-					string[] orgNameFilespaceName = syncFolder.Split(".");
-					string path = Path.Combine($@"{Constants.UserEnvironmentPaths.SystemDrivePath}\Volumes", orgNameFilespaceName[1], orgNameFilespaceName[0]);
-					string filespaceName = orgNameFilespaceName[0];
-
-					StorageFile iconFile = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
-
-					yield return new CloudProvider(CloudProviders.LucidLink)
-					{
-						Name = $"Lucid Link ({filespaceName})",
-						SyncFolder = path,
-						IconData = iconFile is not null ? await iconFile.ToByteArrayAsync() : null,
-					};
-				}
+				yield return provider;
 			}
 		}
 
