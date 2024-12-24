@@ -57,11 +57,5 @@ namespace Files.App.Utils.Cloud
 				}
 			}
 		}
-
-		private static bool IsSymlink(string path)
-		{
-			var fileInfo = new FileInfo(path);
-			return fileInfo.Attributes.HasFlag(System.IO.FileAttributes.ReparsePoint);
-		}
 	}
 }
