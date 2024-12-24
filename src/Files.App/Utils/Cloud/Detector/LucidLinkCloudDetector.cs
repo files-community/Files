@@ -28,20 +28,38 @@ namespace Files.App.Utils.Cloud
 			{
 				foreach (string directory in Directory.GetDirectories(volumePath))
 				{
-					if (IsSymlink(directory))
+					await foreach (var provider in GetProvidersFromDirectory(directory))
 					{
-						string[] orgNameFilespaceName = directory.Split("\\");
-						string path = Path.Combine($@"{Constants.UserEnvironmentPaths.SystemDrivePath}\Volumes", orgNameFilespaceName[orgNameFilespaceName.Length - 1], orgNameFilespaceName[orgNameFilespaceName.Length - 2]);
-						string filespaceName = orgNameFilespaceName[orgNameFilespaceName.Length - 2];
+						yield return provider;
+					}
+				}
+			}
+		}
 
-						StorageFile iconFile = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
+		private async IAsyncEnumerable<ICloudProvider> GetProvidersFromDirectory(string directory)
+		{
+			foreach (string subDirectory in Directory.GetDirectories(directory))
+			{
+				if (IsSymlink(subDirectory))
+				{
+					string[] orgNameFilespaceName = subDirectory.Split("\\");
+					string path = Path.Combine($@"{Constants.UserEnvironmentPaths.SystemDrivePath}\Volumes", orgNameFilespaceName[orgNameFilespaceName.Length - 1], orgNameFilespaceName[orgNameFilespaceName.Length - 2]);
+					string filespaceName = orgNameFilespaceName[orgNameFilespaceName.Length - 2];
 
-						yield return new CloudProvider(CloudProviders.LucidLink)
-						{
-							Name = $"Lucid Link ({filespaceName})",
-							SyncFolder = path,
-							IconData = iconFile is not null ? await iconFile.ToByteArrayAsync() : null,
-						};
+					StorageFile iconFile = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
+
+					yield return new CloudProvider(CloudProviders.LucidLink)
+					{
+						Name = $"Lucid Link ({filespaceName})",
+						SyncFolder = path,
+						IconData = iconFile is not null ? await iconFile.ToByteArrayAsync() : null,
+					};
+				}
+				else
+				{
+					await foreach (var provider in GetProvidersFromDirectory(subDirectory))
+					{
+						yield return provider;
 					}
 				}
 			}
