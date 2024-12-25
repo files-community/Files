@@ -13,6 +13,8 @@ namespace Files.App.Data.Items
 {
 	public sealed class DriveItem : ObservableObject, INavigationControlItem, ILocatableFolder
 	{
+		private readonly IQuickAccessService QuickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
+
 		private BitmapImage icon;
 		public BitmapImage Icon
 		{
@@ -48,7 +50,7 @@ namespace Files.App.Data.Items
 			=> Type == DriveType.Network;
 
 		public bool IsPinned
-			=> App.QuickAccessManager.Model.PinnedFolders.Contains(path);
+			=> QuickAccessService.IsPinned(path);
 
 		public string MaxSpaceText
 			=> MaxSpace.ToSizeString();
