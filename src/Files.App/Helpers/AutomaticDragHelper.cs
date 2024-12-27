@@ -13,6 +13,7 @@ using Windows.Win32;
 
 namespace Files.App.Helpers
 {
+	// https://github.com/microsoft/microsoft-ui-xaml/blob/winui3/release/1.6.3/src/dxaml/xcp/dxaml/lib/AutomaticDragHelper.cpp
 	public class AutomaticDragHelper : DependencyObject
 	{
 		public static AutomaticDragHelper GetDragHelper(DependencyObject obj)
@@ -125,10 +126,6 @@ namespace Files.App.Helpers
 		{
 			if (m_shouldAddInputHandlers)
 			{
-				PointerEventHandler spDragDropPointerMovedHandler;
-				PointerEventHandler spDragDropPointerReleasedHandler;
-				PointerEventHandler spDragDropPointerCaptureLostHandler;
-
 				// Hookup pointer events so we can catch and handle it for drag and drop.
 				if (!m_dragDropPointerMovedToken)
 				{

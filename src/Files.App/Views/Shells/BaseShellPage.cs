@@ -9,9 +9,11 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Vanara.PInvoke;
 using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.Core;
+using WinRT;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.Views.Shells
@@ -417,7 +419,20 @@ namespace Files.App.Views.Shells
 
 		protected async void ShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
 		{
-			await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, false, true);
+			if ((bool)e.Package.Properties.GetValueOrDefault("dragRightButton", false))
+			{
+				Windows.Win32.PInvoke.GetCursorPos(out var dropPoint);
+				using var sf = new Vanara.Windows.Shell.ShellFolder(e.Path);
+				var dataObjectProvider = e.Package.As<Shell32.IDataObjectProvider>();
+				var iddo = dataObjectProvider.GetDataObject();
+				var dropTarget = sf.GetViewObject<Ole32.IDropTarget>(HWND.NULL);
+				dropTarget.DragEnter(iddo, MouseButtonState.MK_RBUTTON, new() { X=dropPoint.X, Y=dropPoint.Y }, (Ole32.DROPEFFECT)e.AcceptedOperation);
+				dropTarget.Drop(iddo, MouseButtonState.MK_RBUTTON, new() { X=dropPoint.X, Y=dropPoint.Y }, (Ole32.DROPEFFECT)e.AcceptedOperation);
+			}
+			else
+			{
+				await FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.Package, e.Path, false, true);
+			}
 			e.SignalEvent?.Set();
 		}
 
