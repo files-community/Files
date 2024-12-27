@@ -7,10 +7,12 @@ using Microsoft.UI.Xaml.Input;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Input;
+using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
 using Windows.System;
+using WinRT;
 
 namespace Files.App.ViewModels.Layouts
 {
@@ -187,7 +189,20 @@ namespace Files.App.ViewModels.Layouts
 
 				try
 				{
-					await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true);
+					if ((bool)e.DataView.Properties.GetValueOrDefault("dragRightButton", false))
+					{
+						Windows.Win32.PInvoke.GetCursorPos(out var dropPoint);
+						using var sf = new Vanara.Windows.Shell.ShellFolder(_associatedInstance.ShellViewModel.WorkingDirectory);
+						var dataObjectProvider = e.DataView.As<Shell32.IDataObjectProvider>();
+						var iddo = dataObjectProvider.GetDataObject();
+						var dropTarget = sf.GetViewObject<Ole32.IDropTarget>(HWND.NULL);
+						dropTarget.DragEnter(iddo, Vanara.PInvoke.MouseButtonState.MK_RBUTTON, new() { X=dropPoint.X, Y=dropPoint.Y }, (Ole32.DROPEFFECT)e.AcceptedOperation);
+						dropTarget.Drop(iddo, Vanara.PInvoke.MouseButtonState.MK_RBUTTON, new() { X=dropPoint.X, Y=dropPoint.Y }, (Ole32.DROPEFFECT)e.AcceptedOperation);
+					}
+					else
+					{
+						await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true);
+					}
 					await _associatedInstance.RefreshIfNoWatcherExistsAsync();
 				}
 				finally

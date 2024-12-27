@@ -6,6 +6,7 @@ using Files.App.Controls;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.Menus;
 using Files.App.ViewModels.Layouts;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -22,6 +23,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Core;
 using WinRT;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
@@ -921,7 +923,7 @@ namespace Files.App.Views.Layouts
 
 			// Filter mainShellMenuItems that have a non-null LoadSubMenuAction
 			var mainItemsWithSubMenu = mainShellMenuItems.Where(x => x.LoadSubMenuAction is not null);
-			
+
 			var mainSubMenuTasks = mainItemsWithSubMenu.Select(async item =>
 			{
 				await item.LoadSubMenuAction();
@@ -936,7 +938,7 @@ namespace Files.App.Views.Layouts
 				await item.LoadSubMenuAction();
 				ShellContextFlyoutFactory.AddItemsToOverflowMenu(overflowItem, item);
 			});
-			
+
 			itemsControl?.Items.OfType<FrameworkElement>().ForEach(item =>
 			{
 				// Enable CharacterEllipsis text trimming for menu items
@@ -962,7 +964,7 @@ namespace Files.App.Views.Layouts
 					clickAction(flyout.Items);
 				}
 			});
-			
+
 			await Task.WhenAll(mainSubMenuTasks.Concat(overflowSubMenuTasks));
 		}
 
@@ -987,10 +989,24 @@ namespace Files.App.Views.Layouts
 		}
 
 		protected virtual void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+			=> e.Cancel = DragItemsStarting(sender, e.Data, e.Items);
+
+		private void Item_DragStarting(UIElement sender, DragStartingEventArgs args)
+		{
+			if (GetItemFromElement(sender) is not ListedItem item)
+				return;
+
+			var selectedItems = SelectedItems?.ToList<object>() ?? new();
+			selectedItems.AddIfNotPresent(item);
+			args.Data.Properties["dragRightButton"] = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.RightButton).HasFlag(CoreVirtualKeyStates.Down);
+			args.Cancel = DragItemsStarting(ItemsControl, args.Data, selectedItems);
+		}
+
+		protected bool DragItemsStarting(object sender, DataPackage data, IList<object> items)
 		{
 			try
 			{
-				var itemList = e.Items.OfType<ListedItem>().ToList();
+				var itemList = items.OfType<ListedItem>().ToList();
 				var firstItem = itemList.FirstOrDefault();
 				var sortedItems = SortingHelper.OrderFileList(itemList, FolderSettings.DirectorySortOption, FolderSettings.DirectorySortDirection, FolderSettings.SortDirectoriesAlongsideFiles, FolderSettings.SortFilesFirst).ToList();
 				var orderedItems = sortedItems.SkipWhile(x => x != firstItem).Concat(sortedItems.TakeWhile(x => x != firstItem)).ToList();
@@ -1000,14 +1016,14 @@ namespace Files.App.Views.Layouts
 				{
 					var iddo = shellItemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
 					shellItemList.ForEach(x => x.Dispose());
-					var dataObjectProvider = e.Data.As<Shell32.IDataObjectProvider>();
+					var dataObjectProvider = data.As<Shell32.IDataObjectProvider>();
 					dataObjectProvider.SetDataObject(iddo);
 				}
 				else
 				{
 					// Only support IStorageItem capable paths
 					var storageItemList = orderedItems.Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x));
-					e.Data.SetStorageItems(storageItemList, false);
+					data.SetStorageItems(storageItemList, false);
 				}
 
 				// Set can window to front (#13255)
@@ -1016,8 +1032,9 @@ namespace Files.App.Views.Layouts
 			}
 			catch (Exception)
 			{
-				e.Cancel = true;
+				return true;
 			}
+			return false;
 		}
 
 		protected virtual void FileList_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)
@@ -1146,8 +1163,22 @@ namespace Files.App.Views.Layouts
 
 			var item = GetItemFromElement(sender);
 			if (item is not null)
-				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as ShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable, item.IsScriptFile);
-
+			{
+				if ((bool)e.DataView.Properties.GetValueOrDefault("dragRightButton", false) && item.IsFolder)
+				{
+					Windows.Win32.PInvoke.GetCursorPos(out var dropPoint);
+					using var sf = new Vanara.Windows.Shell.ShellFolder(item.ItemPath);
+					var dataObjectProvider = e.DataView.As<Shell32.IDataObjectProvider>();
+					var iddo = dataObjectProvider.GetDataObject();
+					var dropTarget = sf.GetViewObject<Ole32.IDropTarget>(HWND.NULL);
+					dropTarget.DragEnter(iddo, MouseButtonState.MK_RBUTTON, new() { X=dropPoint.X, Y=dropPoint.Y }, (Ole32.DROPEFFECT)e.AcceptedOperation);
+					dropTarget.Drop(iddo, MouseButtonState.MK_RBUTTON, new() { X=dropPoint.X, Y=dropPoint.Y }, (Ole32.DROPEFFECT)e.AcceptedOperation);
+				}
+				else
+				{
+					await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as ShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable, item.IsScriptFile);
+				}
+			}
 			deferral.Complete();
 		}
 
@@ -1344,6 +1375,11 @@ namespace Files.App.Views.Layouts
 				container.DragLeave += Item_DragLeave;
 				container.Drop += Item_Drop;
 			}
+
+			var dragHelper = new AutomaticDragHelper(container, true);
+			dragHelper.StartDetectingDrag();
+			AutomaticDragHelper.SetDragHelper(container, dragHelper);
+			container.DragStarting += Item_DragStarting;
 		}
 
 		protected void UninitializeDrag(UIElement element)
@@ -1352,6 +1388,9 @@ namespace Files.App.Views.Layouts
 			element.RemoveHandler(UIElement.DragOverEvent, Item_DragOverEventHandler);
 			element.DragLeave -= Item_DragLeave;
 			element.Drop -= Item_Drop;
+
+			AutomaticDragHelper.SetDragHelper(element, null!);
+			element.DragStarting -= Item_DragStarting;
 		}
 
 		public virtual void Dispose()
