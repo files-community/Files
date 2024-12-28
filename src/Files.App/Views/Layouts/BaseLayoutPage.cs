@@ -1164,15 +1164,9 @@ namespace Files.App.Views.Layouts
 			var item = GetItemFromElement(sender);
 			if (item is not null)
 			{
-				if ((bool)e.DataView.Properties.GetValueOrDefault("dragRightButton", false) && item.IsFolder)
+				if ((bool)e.DataView.Properties.GetValueOrDefault("dragRightButton", false))
 				{
-					Windows.Win32.PInvoke.GetCursorPos(out var dropPoint);
-					using var sf = new Vanara.Windows.Shell.ShellFolder(item.ItemPath);
-					var dataObjectProvider = e.DataView.As<Shell32.IDataObjectProvider>();
-					var iddo = dataObjectProvider.GetDataObject();
-					var dropTarget = sf.GetViewObject<Ole32.IDropTarget>(HWND.NULL);
-					dropTarget.DragEnter(iddo, MouseButtonState.MK_RBUTTON, new() { X=dropPoint.X, Y=dropPoint.Y }, (Ole32.DROPEFFECT)e.AcceptedOperation);
-					dropTarget.Drop(iddo, MouseButtonState.MK_RBUTTON, new() { X=dropPoint.X, Y=dropPoint.Y }, (Ole32.DROPEFFECT)e.AcceptedOperation);
+					SafetyExtensions.IgnoreExceptions(() => ShellContextFlyoutFactory.InvokeRightButtonDropMenu(item.ItemPath, e.DataView, e.AcceptedOperation));
 				}
 				else
 				{

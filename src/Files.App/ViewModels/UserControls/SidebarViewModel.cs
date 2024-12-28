@@ -11,13 +11,11 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 using System.IO;
 using System.Windows.Input;
-using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using WinRT;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -1255,13 +1253,7 @@ namespace Files.App.ViewModels.UserControls
 				}
 				else if ((bool)args.DroppedItem.Properties.GetValueOrDefault("dragRightButton", false))
 				{
-					Windows.Win32.PInvoke.GetCursorPos(out var dropPoint);
-					using var sf = new Vanara.Windows.Shell.ShellFolder(locationItem.Path);
-					var dataObjectProvider = args.DroppedItem.As<Shell32.IDataObjectProvider>();
-					var iddo = dataObjectProvider.GetDataObject();
-					var dropTarget = sf.GetViewObject<Ole32.IDropTarget>(HWND.NULL);
-					dropTarget.DragEnter(iddo, Vanara.PInvoke.MouseButtonState.MK_RBUTTON, new() { X=dropPoint.X, Y=dropPoint.Y }, (Ole32.DROPEFFECT)args.RawEvent.AcceptedOperation);
-					dropTarget.Drop(iddo, Vanara.PInvoke.MouseButtonState.MK_RBUTTON, new() { X=dropPoint.X, Y=dropPoint.Y }, (Ole32.DROPEFFECT)args.RawEvent.AcceptedOperation);
+					SafetyExtensions.IgnoreExceptions(() => ShellContextFlyoutFactory.InvokeRightButtonDropMenu(locationItem.Path, args.DroppedItem, args.RawEvent.AcceptedOperation));
 				}
 				else
 				{
@@ -1274,13 +1266,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			if ((bool)args.DroppedItem.Properties.GetValueOrDefault("dragRightButton", false))
 			{
-				Windows.Win32.PInvoke.GetCursorPos(out var dropPoint);
-				using var sf = new Vanara.Windows.Shell.ShellFolder(driveItem.Path);
-				var dataObjectProvider = args.DroppedItem.As<Shell32.IDataObjectProvider>();
-				var iddo = dataObjectProvider.GetDataObject();
-				var dropTarget = sf.GetViewObject<Ole32.IDropTarget>(HWND.NULL);
-				dropTarget.DragEnter(iddo, Vanara.PInvoke.MouseButtonState.MK_RBUTTON, new() { X=dropPoint.X, Y=dropPoint.Y }, (Ole32.DROPEFFECT)args.RawEvent.AcceptedOperation);
-				dropTarget.Drop(iddo, Vanara.PInvoke.MouseButtonState.MK_RBUTTON, new() { X=dropPoint.X, Y=dropPoint.Y }, (Ole32.DROPEFFECT)args.RawEvent.AcceptedOperation);
+				SafetyExtensions.IgnoreExceptions(() => ShellContextFlyoutFactory.InvokeRightButtonDropMenu(driveItem.Path, args.DroppedItem, args.RawEvent.AcceptedOperation));
 				return Task.FromResult(ReturnResult.Success);
 			}
 			else
