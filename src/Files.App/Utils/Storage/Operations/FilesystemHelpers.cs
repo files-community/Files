@@ -9,11 +9,11 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
 using Vanara.PInvoke;
-using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using WinRT;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Utils.Storage
@@ -758,12 +758,14 @@ namespace Files.App.Utils.Storage
 			{
 				if (hasVirtualItems && packageView.Contains("FileContents"))
 				{
-					var descriptor = NativeClipboard.CurrentDataObject.GetData<Shell32.FILEGROUPDESCRIPTOR>("FileGroupDescriptorW");
+					var dataObjectProvider = packageView.As<Shell32.IDataObjectProvider>();
+					var iddo = dataObjectProvider.GetDataObject();
+					var descriptor = iddo.GetData<Shell32.FILEGROUPDESCRIPTOR>("FileGroupDescriptorW");
 					for (var ii = 0; ii < descriptor.cItems; ii++)
 					{
 						if (descriptor.fgd[ii].dwFileAttributes.HasFlag(FileFlagsAndAttributes.FILE_ATTRIBUTE_DIRECTORY))
 							itemsList.Add(new VirtualStorageFolder(descriptor.fgd[ii].cFileName).FromStorageItem());
-						else if (NativeClipboard.CurrentDataObject.GetData("FileContents", DVASPECT.DVASPECT_CONTENT, ii) is IStream stream)
+						else if (iddo.GetData("FileContents", DVASPECT.DVASPECT_CONTENT, ii) is IStream stream)
 						{
 							var streamContent = new ComStreamWrapper(stream);
 							itemsList.Add(new VirtualStorageFile(streamContent, descriptor.fgd[ii].cFileName).FromStorageItem());
