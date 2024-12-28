@@ -1,12 +1,6 @@
 ﻿using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Win32;
@@ -16,6 +10,7 @@ namespace Files.App.Helpers
 	// https://github.com/microsoft/microsoft-ui-xaml/blob/winui3/release/1.6.3/src/dxaml/xcp/dxaml/lib/AutomaticDragHelper.cpp
 	public class AutomaticDragHelper : DependencyObject
 	{
+		// Added attached dependency property to unregister event handlers
 		public static AutomaticDragHelper GetDragHelper(DependencyObject obj)
 		{
 			return (AutomaticDragHelper)obj.GetValue(DragHelperProperty);
@@ -44,10 +39,11 @@ namespace Files.App.Helpers
 		private readonly bool m_shouldAddInputHandlers;
 		private bool m_isCheckingForMouseDrag;
 		private Point m_lastMouseRightButtonDownPosition;
-		private bool m_dragDropPointerPressedToken, m_dragDropPointerMovedToken, m_dragDropPointerReleasedToken, m_dragDropPointerCaptureLostToken, m_dragDropHoldingToken;
-		private PointerPoint m_spPointerPoint;
-		private Pointer m_spPointer;
-		private bool m_isHoldingCompleted, m_isRightButtonPressed;
+		private bool m_dragDropPointerPressedToken, m_dragDropPointerMovedToken, m_dragDropPointerReleasedToken, m_dragDropPointerCaptureLostToken/*, m_dragDropHoldingToken*/;
+		//private PointerPoint m_spPointerPoint;
+		//private Pointer m_spPointer;
+		//private bool m_isHoldingCompleted;
+		private bool m_isRightButtonPressed;
 
 		public AutomaticDragHelper(UIElement pUIElement, bool shouldAddInputHandlers)
 		{
@@ -59,7 +55,6 @@ namespace Files.App.Helpers
 		// moves a certain distance away from m_lastMouseRightButtonDownPosition.
 		public void BeginCheckingForMouseDrag(Pointer pPointer)
 		{
-
 			bool captured = m_pOwnerNoRef.CapturePointer(pPointer);
 
 			m_isCheckingForMouseDrag = !!captured;
@@ -84,13 +79,11 @@ namespace Files.App.Helpers
 			return m_isCheckingForMouseDrag && IsOutsideDragRectangle(newMousePosition, m_lastMouseRightButtonDownPosition);
 		}
 
-
 		// Returns true if testPoint is outside of the rectangle
 		// defined by the SM_CXDRAG and SM_CYDRAG system metrics and
 		// dragRectangleCenter.
 		bool IsOutsideDragRectangle(Point testPoint, Point dragRectangleCenter)
 		{
-
 			double dx = Math.Abs(testPoint.X - dragRectangleCenter.X);
 			double dy = Math.Abs(testPoint.Y - dragRectangleCenter.Y);
 
@@ -153,8 +146,8 @@ namespace Files.App.Helpers
 			PointerDeviceType pointerDeviceType = PointerDeviceType.Touch;
 			PointerPoint spPointerPoint;
 
-			m_spPointerPoint = null;
-			m_spPointer = null;
+			//m_spPointerPoint = null;
+			//m_spPointer = null;
 			//m_isHoldingCompleted = false;
 
 			spPointer = pArgs.Pointer;
@@ -172,7 +165,7 @@ namespace Files.App.Helpers
 				spPointerProperties = spPointerPoint.Properties;
 				isRightButtonPressed = spPointerProperties.IsRightButtonPressed;
 
-				// If the left mouse button was the one pressed...
+				// If the right mouse button was the one pressed...
 				if (!m_isRightButtonPressed && isRightButtonPressed)
 				{
 					m_isRightButtonPressed = true;
@@ -227,7 +220,6 @@ namespace Files.App.Helpers
 			}
 		}
 
-
 		public void HandlePointerReleasedEventArgs(object sender, PointerRoutedEventArgs pArgs)
 		{
 			Pointer spPointer;
@@ -247,7 +239,7 @@ namespace Files.App.Helpers
 				spPointerProperties = spPointerPoint.Properties;
 				isRightButtonPressed = spPointerProperties.IsRightButtonPressed;
 
-				// if the mouse left button was the one released...
+				// if the mouse right button was the one released...
 				if (m_isRightButtonPressed && !isRightButtonPressed)
 				{
 					m_isRightButtonPressed = false;
