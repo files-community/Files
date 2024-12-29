@@ -1167,7 +1167,7 @@ namespace Files.App.Views.Layouts
 			var item = GetItemFromElement(sender);
 			if (item is not null)
 			{
-				var isRightButtonDrag = e.DataView.As<Shell32.IDataObjectProvider>().GetDataObject().GetData<bool>("dragRightButton");
+				e.DataView.As<Shell32.IDataObjectProvider>().GetDataObject().TryGetData<bool>(User32.RegisterClipboardFormat("dragRightButton"), out var isRightButtonDrag);
 
 				if (isRightButtonDrag)
 				{

@@ -419,7 +419,7 @@ namespace Files.App.Views.Shells
 
 		protected async void ShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
 		{
-			var isRightButtonDrag = e.Package.As<Shell32.IDataObjectProvider>().GetDataObject().GetData<bool>("dragRightButton");
+			e.Package.As<Shell32.IDataObjectProvider>().GetDataObject().TryGetData<bool>(User32.RegisterClipboardFormat("dragRightButton"), out var isRightButtonDrag);
 
 			if (isRightButtonDrag)
 			{

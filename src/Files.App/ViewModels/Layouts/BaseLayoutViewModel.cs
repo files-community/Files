@@ -193,7 +193,7 @@ namespace Files.App.ViewModels.Layouts
 
 				try
 				{
-					var isRightButtonDrag = e.DataView.As<Shell32.IDataObjectProvider>().GetDataObject().GetData<bool>("dragRightButton");
+					e.DataView.As<Shell32.IDataObjectProvider>().GetDataObject().TryGetData<bool>(User32.RegisterClipboardFormat("dragRightButton"), out var isRightButtonDrag);
 
 					if (isRightButtonDrag)
 					{

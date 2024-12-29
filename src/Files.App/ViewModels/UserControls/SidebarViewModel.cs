@@ -1263,7 +1263,7 @@ namespace Files.App.ViewModels.UserControls
 				}
 				else
 				{
-					var isRightButtonDrag = args.DroppedItem.As<Shell32.IDataObjectProvider>().GetDataObject().GetData<bool>("dragRightButton");
+					args.DroppedItem.As<Shell32.IDataObjectProvider>().GetDataObject().TryGetData<bool>(User32.RegisterClipboardFormat("dragRightButton"), out var isRightButtonDrag);
 
 					if (isRightButtonDrag)
 					{
@@ -1279,7 +1279,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private Task<ReturnResult> HandleDriveItemDroppedAsync(DriveItem driveItem, ItemDroppedEventArgs args)
 		{
-			var isRightButtonDrag = args.DroppedItem.As<Shell32.IDataObjectProvider>().GetDataObject().GetData<bool>("dragRightButton");
+			args.DroppedItem.As<Shell32.IDataObjectProvider>().GetDataObject().TryGetData<bool>(User32.RegisterClipboardFormat("dragRightButton"), out var isRightButtonDrag);
 
 			if (isRightButtonDrag)
 			{
