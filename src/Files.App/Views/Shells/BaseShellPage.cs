@@ -9,9 +9,11 @@ using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Vanara.PInvoke;
 using Windows.Foundation.Metadata;
 using Windows.System;
 using Windows.UI.Core;
+using WinRT;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
 namespace Files.App.Views.Shells
@@ -417,7 +419,9 @@ namespace Files.App.Views.Shells
 
 		protected async void ShellPage_PathBoxItemDropped(object sender, PathBoxItemDroppedEventArgs e)
 		{
-			if ((bool)e.Package.Properties.GetValueOrDefault("dragRightButton", false))
+			var isRightButtonDrag = e.Package.As<Shell32.IDataObjectProvider>().GetDataObject().GetData<bool>("dragRightButton");
+
+			if (isRightButtonDrag)
 			{
 				SafetyExtensions.IgnoreExceptions(() => ShellContextFlyoutFactory.InvokeRightButtonDropMenu(e.Path, e.Package, e.AcceptedOperation));
 			}

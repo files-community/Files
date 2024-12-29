@@ -998,7 +998,6 @@ namespace Files.App.Views.Layouts
 
 			var selectedItems = SelectedItems?.ToList<object>() ?? new();
 			selectedItems.AddIfNotPresent(item);
-			args.Data.Properties["dragRightButton"] = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.RightButton).HasFlag(CoreVirtualKeyStates.Down);
 			args.Cancel = DragItemsStarting(ItemsControl, args.Data, selectedItems);
 		}
 
@@ -1060,6 +1059,10 @@ namespace Files.App.Views.Layouts
 				return;
 
 			DragOperationDeferral? deferral = null;
+
+			// Check if this is a right-button drag operation and store into the dataobject
+			if (e.Modifiers.HasFlag(DragDropModifiers.RightButton))
+				e.DataView.As<Shell32.IDataObjectProvider>().GetDataObject().SetData<bool>("dragRightButton", true);
 
 			try
 			{
@@ -1164,7 +1167,9 @@ namespace Files.App.Views.Layouts
 			var item = GetItemFromElement(sender);
 			if (item is not null)
 			{
-				if ((bool)e.DataView.Properties.GetValueOrDefault("dragRightButton", false))
+				var isRightButtonDrag = e.DataView.As<Shell32.IDataObjectProvider>().GetDataObject().GetData<bool>("dragRightButton");
+
+				if (isRightButtonDrag)
 				{
 					SafetyExtensions.IgnoreExceptions(() => ShellContextFlyoutFactory.InvokeRightButtonDropMenu(item.ItemPath, e.DataView, e.AcceptedOperation));
 				}

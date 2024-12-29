@@ -11,11 +11,13 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 using System.IO;
 using System.Windows.Input;
+using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
+using WinRT;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -1073,6 +1075,10 @@ namespace Files.App.ViewModels.UserControls
 		{
 			var rawEvent = args.RawEvent;
 
+			// Check if this is a right-button drag operation and store into the dataobject
+			if (args.RawEvent.Modifiers.HasFlag(DragDropModifiers.RightButton))
+				args.DroppedItem.As<Shell32.IDataObjectProvider>().GetDataObject().SetData<bool>("dragRightButton", true);
+
 			if (Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(args.DroppedItem))
 			{
 				args.RawEvent.Handled = true;
@@ -1157,6 +1163,10 @@ namespace Files.App.ViewModels.UserControls
 		{
 			if (!Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(args.DroppedItem))
 				return;
+
+			// Check if this is a right-button drag operation and store into the dataobject
+			if (args.RawEvent.Modifiers.HasFlag(DragDropModifiers.RightButton))
+				args.DroppedItem.As<Shell32.IDataObjectProvider>().GetDataObject().SetData<bool>("dragRightButton", true);
 
 			args.RawEvent.Handled = true;
 
@@ -1251,20 +1261,27 @@ namespace Files.App.ViewModels.UserControls
 							await QuickAccessService.PinToSidebarAsync(item.Path);
 					}
 				}
-				else if ((bool)args.DroppedItem.Properties.GetValueOrDefault("dragRightButton", false))
-				{
-					SafetyExtensions.IgnoreExceptions(() => ShellContextFlyoutFactory.InvokeRightButtonDropMenu(locationItem.Path, args.DroppedItem, args.RawEvent.AcceptedOperation));
-				}
 				else
 				{
-					await FilesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.DroppedItem, locationItem.Path, false, true);
+					var isRightButtonDrag = args.DroppedItem.As<Shell32.IDataObjectProvider>().GetDataObject().GetData<bool>("dragRightButton");
+
+					if (isRightButtonDrag)
+					{
+						SafetyExtensions.IgnoreExceptions(() => ShellContextFlyoutFactory.InvokeRightButtonDropMenu(locationItem.Path, args.DroppedItem, args.RawEvent.AcceptedOperation));
+					}
+					else
+					{
+						await FilesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.DroppedItem, locationItem.Path, false, true);
+					}
 				}
 			}
 		}
 
 		private Task<ReturnResult> HandleDriveItemDroppedAsync(DriveItem driveItem, ItemDroppedEventArgs args)
 		{
-			if ((bool)args.DroppedItem.Properties.GetValueOrDefault("dragRightButton", false))
+			var isRightButtonDrag = args.DroppedItem.As<Shell32.IDataObjectProvider>().GetDataObject().GetData<bool>("dragRightButton");
+
+			if (isRightButtonDrag)
 			{
 				SafetyExtensions.IgnoreExceptions(() => ShellContextFlyoutFactory.InvokeRightButtonDropMenu(driveItem.Path, args.DroppedItem, args.RawEvent.AcceptedOperation));
 				return Task.FromResult(ReturnResult.Success);
