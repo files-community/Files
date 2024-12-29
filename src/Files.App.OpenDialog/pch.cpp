@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) 2018-2025 Files Community
+// Licensed under the MIT License.
 
 // Abstract:
 //  Source file pch.h corresponding to pch.h precompiled header.

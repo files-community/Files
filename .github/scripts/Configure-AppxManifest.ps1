@@ -1,5 +1,5 @@
-# Copyright (c) 2024 Files Community
-# Licensed under the MIT License. See the LICENSE.
+# Copyright (c) 2018-2025 Files Community
+# Licensed under the MIT License.
 
 param(
     [string]$Branch = "", # This has to correspond with one of the AppEnvironment enum values

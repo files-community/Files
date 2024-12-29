@@ -1,5 +1,5 @@
 ﻿// Copyright(c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Licensed under the MIT License.
 
 using Microsoft.UI.Dispatching;
 
