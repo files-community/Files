@@ -33,7 +33,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
-		public delegate void ToolbarFlyoutOpenedEventHandler(object sender, ToolbarFlyoutOpenedEventArgs e);
+		public delegate void ToolbarFlyoutOpeningEventHandler(object sender, ToolbarFlyoutOpeningEventArgs e);
 
 		public delegate void ToolbarPathItemLoadedEventHandler(object sender, ToolbarPathItemLoadedEventArgs e);
 
@@ -43,7 +43,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public event ToolbarPathItemInvokedEventHandler? ToolbarPathItemInvoked;
 
-		public event ToolbarFlyoutOpenedEventHandler? ToolbarFlyoutOpened;
+		public event ToolbarFlyoutOpeningEventHandler? ToolbarFlyoutOpening;
 
 		public event ToolbarPathItemLoadedEventHandler? ToolbarPathItemLoaded;
 
@@ -456,9 +456,9 @@ namespace Files.App.ViewModels.UserControls
 			});
 		}
 
-		public void PathboxItemFlyout_Opened(object sender, object e)
+		public void PathboxItemFlyout_Opening(object sender, object e)
 		{
-			ToolbarFlyoutOpened?.Invoke(this, new ToolbarFlyoutOpenedEventArgs() { OpenedFlyout = (MenuFlyout)sender });
+			ToolbarFlyoutOpening?.Invoke(this, new ToolbarFlyoutOpeningEventArgs() { OpeningFlyout = (MenuFlyout)sender });
 		}
 
 		public void PathBoxItemFlyout_Closed(object sender, object e)
@@ -651,11 +651,9 @@ namespace Files.App.ViewModels.UserControls
 
 			foreach (var childFolder in childFolders)
 			{
-				var imageSource = await NavigationHelpers.GetIconForPathAsync(childFolder.Path);
-
 				var flyoutItem = new MenuFlyoutItem
 				{
-					Icon = new ImageIcon() { Source = imageSource },
+					Icon = new FontIcon { Glyph = "\uE8B7" },
 					Text = childFolder.Item.Name,
 					FontSize = 12,
 				};
@@ -670,8 +668,27 @@ namespace Files.App.ViewModels.UserControls
 				}
 
 				flyout.Items?.Add(flyoutItem);
+
+				// Start loading the thumbnail in the background
+				_ = LoadFlyoutItemIconAsync(flyoutItem, childFolder.Path);
 			}
 		}
+
+		private async Task LoadFlyoutItemIconAsync(MenuFlyoutItem flyoutItem, string path)
+		{
+			var result = await FileThumbnailHelper.GetIconAsync(
+				path,
+				Constants.ShellIconSizes.Small,
+				true,
+				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+
+			if (result is not null)
+			{
+				var imageSource = await result.ToBitmapAsync();
+				flyoutItem.Icon = new ImageIcon { Source = imageSource };
+			}
+		}
+
 
 		private static string NormalizePathInput(string currentInput, bool isFtp)
 		{
