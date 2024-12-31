@@ -183,7 +183,7 @@ namespace Files.App.UserControls
 
 				var flyoutItem = new MenuFlyoutItem
 				{
-					Icon = new FontIcon { Glyph = "\uE8B7" },
+					Icon = new FontIcon { Glyph = "\uE8B7" }, // Use font icon as placeholder
 					Text = fileName,
 					Command = historyItemClickedCommand,
 					CommandParameter = new ToolbarHistoryItemModel(item, isBackMode)

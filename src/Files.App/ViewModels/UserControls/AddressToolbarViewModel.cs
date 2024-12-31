@@ -653,7 +653,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				var flyoutItem = new MenuFlyoutItem
 				{
-					Icon = new FontIcon { Glyph = "\uE8B7" },
+					Icon = new FontIcon { Glyph = "\uE8B7" }, // Use font icon as placeholder
 					Text = childFolder.Item.Name,
 					FontSize = 12,
 				};
