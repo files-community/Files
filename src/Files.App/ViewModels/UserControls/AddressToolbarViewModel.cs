@@ -676,17 +676,10 @@ namespace Files.App.ViewModels.UserControls
 
 		private async Task LoadFlyoutItemIconAsync(MenuFlyoutItem flyoutItem, string path)
 		{
-			var result = await FileThumbnailHelper.GetIconAsync(
-				path,
-				Constants.ShellIconSizes.Small,
-				true,
-				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+			var imageSource = await NavigationHelpers.GetIconForPathAsync(path);
 
-			if (result is not null)
-			{
-				var imageSource = await result.ToBitmapAsync();
+			if (imageSource is not null)
 				flyoutItem.Icon = new ImageIcon { Source = imageSource };
-			}
 		}
 
 
