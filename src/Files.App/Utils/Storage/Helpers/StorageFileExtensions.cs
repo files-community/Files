@@ -17,6 +17,9 @@ namespace Files.App.Utils.Storage
 		public static readonly ImmutableHashSet<string> _ftpPaths =
 			new HashSet<string>() { "ftp:/", "ftps:/", "ftpes:/" }.ToImmutableHashSet();
 
+		public static readonly ImmutableHashSet<string> _sftpPaths =
+			new HashSet<string>() { "sftp:/" }.ToImmutableHashSet();
+
 		public static BaseStorageFile? AsBaseStorageFile(this IStorageItem item)
 		{
 			if (item is null || !item.IsOfType(StorageItemTypes.File))
@@ -122,7 +125,7 @@ namespace Files.App.Utils.Storage
 
 					var component = value.Substring(lastIndex, i - lastIndex);
 					var path = value.Substring(0, i + 1);
-					if (!_ftpPaths.Contains(path, StringComparer.OrdinalIgnoreCase))
+					if (!_ftpPaths.Contains(path, StringComparer.OrdinalIgnoreCase) && !_sftpPaths.Contains(path, StringComparer.OrdinalIgnoreCase))
 						pathBoxItems.Add(GetPathItem(component, path));
 
 					lastIndex = i + 1;
@@ -197,7 +200,7 @@ namespace Files.App.Utils.Storage
 				}
 			}
 
-			var fullPath = (parentFolder is not null && !FtpHelpers.IsFtpPath(value) && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value)) // "::{" not a valid root
+			var fullPath = (parentFolder is not null && !FtpHelpers.IsFtpPath(value) && !SftpHelpers.IsSftpPath(value) && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value)) // "::{" not a valid root
 				? Path.GetFullPath(Path.Combine(parentFolder.Path, value)) // Relative path
 				: value;
 			var item = await BaseStorageFile.GetFileFromPathAsync(fullPath);
@@ -251,7 +254,7 @@ namespace Files.App.Utils.Storage
 				}
 			}
 
-			var fullPath = (parentFolder is not null && !FtpHelpers.IsFtpPath(value) && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value)) // "::{" not a valid root
+			var fullPath = (parentFolder is not null && !FtpHelpers.IsFtpPath(value) && !SftpHelpers.IsSftpPath(value) && !Path.IsPathRooted(value) && !ShellStorageFolder.IsShellPath(value)) // "::{" not a valid root
 				? Path.GetFullPath(Path.Combine(parentFolder.Path, value)) // Relative path
 				: value;
 			var item = await BaseStorageFolder.GetFolderFromPathAsync(fullPath);
