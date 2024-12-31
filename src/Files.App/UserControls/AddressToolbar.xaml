@@ -428,6 +428,7 @@
 				BorderBrush="{ThemeResource ControlElevationBorderBrush}"
 				BorderThickness="1"
 				CornerRadius="{StaticResource ControlCornerRadius}"
+				GettingFocus="ClickablePath_GettingFocus"
 				PointerPressed="ManualPathEntryItem_Click"
 				Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
 				<Grid.ColumnDefinitions>
