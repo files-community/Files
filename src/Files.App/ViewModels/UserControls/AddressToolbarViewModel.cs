@@ -458,7 +458,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public void PathboxItemFlyout_Opening(object sender, object e)
 		{
-			ToolbarFlyoutOpening?.Invoke(this, new ToolbarFlyoutOpeningEventArgs() { OpeningFlyout = (MenuFlyout)sender });
+			ToolbarFlyoutOpening?.Invoke(this, new ToolbarFlyoutOpeningEventArgs((MenuFlyout)sender));
 		}
 
 		public void PathBoxItemFlyout_Closed(object sender, object e)
