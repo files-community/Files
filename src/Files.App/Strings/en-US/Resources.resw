@@ -4019,4 +4019,7 @@
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
     <value>Always switch focus to newly created tab</value>
   </data>
+  <data name="ShowShelfPane" xml:space="preserve">
+    <value>Show Shelf Pane</value>
+  </data>
 </root>

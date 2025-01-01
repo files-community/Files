@@ -289,5 +289,10 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating the default arrangement for Dual Pane.
 		/// </summary>
 		ShellPaneArrangement ShellPaneArrangementOption { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the shelf pane.
+		/// </summary>
+		bool ShowShelfPane { get; set; }
 	}
 }
