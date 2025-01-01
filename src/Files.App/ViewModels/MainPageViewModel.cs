@@ -77,7 +77,7 @@ namespace Files.App.ViewModels
 		}
 
 		public bool ShowShelfPane
-			=> GeneralSettingsService.ShowShelfPane;
+			=> GeneralSettingsService.ShowShelfPane && AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
 
 		public Stretch AppThemeBackgroundImageFit
 			=> AppearanceSettingsService.AppThemeBackgroundImageFit;
