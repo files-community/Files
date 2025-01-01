@@ -7,6 +7,6 @@ namespace Files.App.Data.EventArguments
 {
 	public sealed class ToolbarFlyoutOpeningEventArgs
 	{
-		public MenuFlyout OpeningFlyout { get; set; }
+		public MenuFlyout OpeningFlyout { get; }
 	}
 }
