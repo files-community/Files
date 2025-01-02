@@ -357,6 +357,12 @@ namespace Files.App.Services.Settings
 			set => Set((long)value);
 		}
 
+		public bool ShowShelfPane
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			base.RaiseOnSettingChangedEvent(sender, e);

@@ -169,7 +169,7 @@
 				x:Name="ReplaceOpenFileDialogSetting"
 				Title="{helpers:ResourceString Name=SettingsSetAsOpenDialog}"
 				HorizontalAlignment="Stretch"
-				x:Load="{x:Bind ViewModel.CanShowSetAsOpenFileDialog}">
+				x:Load="{x:Bind ViewModel.IsAppEnvironmentDev}">
 				<local:SettingsBlockControl.Icon>
 					<FontIcon Glyph="&#xE8E5;" />
 				</local:SettingsBlockControl.Icon>
@@ -183,6 +183,21 @@
 						</icore:EventTriggerBehavior>
 					</i:Interaction.Behaviors>
 				</ToggleSwitch>
+			</local:SettingsBlockControl>
+
+			<!--  Show Shelf Pane  -->
+			<local:SettingsBlockControl
+				x:Name="ShowShelfPane"
+				Title="{helpers:ResourceString Name=ShowShelfPane}"
+				HorizontalAlignment="Stretch"
+				x:Load="{x:Bind ViewModel.IsAppEnvironmentDev}">
+				<local:SettingsBlockControl.Icon>
+					<FontIcon Glyph="&#xE90D;" />
+				</local:SettingsBlockControl.Icon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowShelfPane}"
+					IsOn="{x:Bind ViewModel.ShowShelfPane, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 			</local:SettingsBlockControl>
 
 			<!--  Flatten options  -->

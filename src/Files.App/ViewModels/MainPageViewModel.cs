@@ -20,6 +20,7 @@ namespace Files.App.ViewModels
 		// Dependency injections
 
 		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
+		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 		private INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IResourcesService ResourcesService { get; } = Ioc.Default.GetRequiredService<IResourcesService>();
@@ -75,6 +76,9 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref shouldPreviewPaneBeDisplayed, value);
 		}
 
+		public bool ShowShelfPane
+			=> GeneralSettingsService.ShowShelfPane && AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
+
 		public Stretch AppThemeBackgroundImageFit
 			=> AppearanceSettingsService.AppThemeBackgroundImageFit;
 
@@ -127,6 +131,16 @@ namespace Files.App.ViewModels
 						break;
 					case nameof(AppearanceSettingsService.ShowToolbar):
 						OnPropertyChanged(nameof(ShowToolbar));
+						break;
+				}
+			};
+
+			GeneralSettingsService.PropertyChanged += (s, e) =>
+			{
+				switch (e.PropertyName)
+				{
+					case nameof(GeneralSettingsService.ShowShelfPane):
+						OnPropertyChanged(nameof(ShowShelfPane));
 						break;
 				}
 			};
