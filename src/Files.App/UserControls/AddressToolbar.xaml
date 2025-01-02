@@ -277,6 +277,7 @@
 					<Button.ContextFlyout>
 						<MenuFlyout
 							x:Name="BackHistoryFlyout"
+							AreOpenCloseAnimationsEnabled="False"
 							Opening="BackHistoryFlyout_Opening"
 							Placement="BottomEdgeAlignedLeft"
 							ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -306,6 +307,7 @@
 					<Button.ContextFlyout>
 						<MenuFlyout
 							x:Name="ForwardHistoryFlyout"
+							AreOpenCloseAnimationsEnabled="False"
 							Opening="ForwardHistoryFlyout_Opening"
 							Placement="BottomEdgeAlignedLeft"
 							ScrollViewer.VerticalScrollBarVisibility="Auto"

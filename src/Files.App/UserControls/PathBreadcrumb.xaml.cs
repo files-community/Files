@@ -20,9 +20,9 @@ namespace Files.App.UserControls
 			ViewModel.PathItemSeparator_DataContextChanged(sender, args);
 		}
 
-		private void PathBoxItemFlyout_Opened(object sender, object e)
+		private void PathBoxItemFlyout_Opening(object sender, object e)
 		{
-			ViewModel.PathboxItemFlyout_Opened(sender, e);
+			ViewModel.PathboxItemFlyout_Opening(sender, e);
 		}
 
 		private void PathBoxItemFlyout_Closed(object sender, object e)

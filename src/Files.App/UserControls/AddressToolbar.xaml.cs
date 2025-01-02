@@ -1,15 +1,15 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Windows.Input;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using Windows.System;
 using Microsoft.UI.Xaml.Navigation;
+using System.Windows.Input;
+using Windows.System;
 using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 
 namespace Files.App.UserControls
@@ -161,7 +161,7 @@ namespace Files.App.UserControls
 			await AddHistoryItemsAsync(shellPage.ForwardStack, ForwardHistoryFlyout.Items, false);
 		}
 
-		private async Task AddHistoryItemsAsync(IEnumerable<PageStackEntry> items, IList<MenuFlyoutItemBase> destination, bool isBackMode)
+		private async Task AddHistoryItemsAsync(IEnumerable<PageStackEntry> items, IList<MenuFlyoutItemBase> flyoutItems, bool isBackMode)
 		{
 			// This may not seem performant, however it's the most viable trade-off to make.
 			// Instead of constantly keeping track of back/forward stack and performing lookups
@@ -169,27 +169,39 @@ namespace Files.App.UserControls
 			// There's also a high chance the user might not use the feature at all in which case
 			// the former approach would just waste extra performance gain
 
-			destination.Clear();
+			flyoutItems.Clear();
 			foreach (var item in items.Reverse())
 			{
 				if (item.Parameter is not NavigationArguments args || args.NavPathParam is null)
 					continue;
 
-				var imageSource = await NavigationHelpers.GetIconForPathAsync(args.NavPathParam);
 				var fileName = SystemIO.Path.GetFileName(args.NavPathParam);
 
 				// The fileName is empty if the path is (root) drive path
 				if (string.IsNullOrEmpty(fileName))
 					fileName = args.NavPathParam;
 
-				destination.Add(new MenuFlyoutItem()
+				var flyoutItem = new MenuFlyoutItem
 				{
-					Icon = new ImageIcon() { Source = imageSource },
+					Icon = new FontIcon { Glyph = "\uE8B7" }, // Use font icon as placeholder
 					Text = fileName,
 					Command = historyItemClickedCommand,
 					CommandParameter = new ToolbarHistoryItemModel(item, isBackMode)
-				});
+				};
+
+				flyoutItems?.Add(flyoutItem);
+
+				// Start loading the thumbnail in the background
+				_ = LoadFlyoutItemIconAsync(flyoutItem, args.NavPathParam);
 			}
+		}
+
+		private async Task LoadFlyoutItemIconAsync(MenuFlyoutItem flyoutItem, string path)
+		{
+			var imageSource = await NavigationHelpers.GetIconForPathAsync(path);
+
+			if (imageSource is not null)
+				flyoutItem.Icon = new ImageIcon { Source = imageSource };
 		}
 
 		private void HistoryItemClicked(ToolbarHistoryItemModel? itemModel)
