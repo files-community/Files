@@ -315,5 +315,19 @@ namespace Files.App.ViewModels.Settings
 				}
 			}
 		}
+
+		public bool ShowFileExtensions
+		{
+			get => UserSettingsService.AppearanceSettingsService.ShowFileExtensionsOnlyWhileEditing;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.ShowFileExtensionsOnlyWhileEditing)
+				{
+					UserSettingsService.AppearanceSettingsService.ShowFileExtensionsOnlyWhileEditing = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
 	}
 }

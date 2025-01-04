@@ -148,7 +148,14 @@ namespace Files.App.Services.Settings
 		/// <inheritdoc/>
 		public bool ShowHomeButton
 		{
-			get => Get(false);
+			get => Get(true);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public bool ShowFileExtensionsOnlyWhileEditing
+		{
+			get => Get<bool>(true);
 			set => Set(value);
 		}
 

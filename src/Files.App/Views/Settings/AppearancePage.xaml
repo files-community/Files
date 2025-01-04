@@ -277,6 +277,15 @@
 								IsOn="{x:Bind ViewModel.ShowToolbar, Mode=TwoWay}"
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
+
+						<!--  Show file extensions  -->
+						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowFileExtensions}" HorizontalAlignment="Stretch">
+							<ToggleSwitch
+								AutomationProperties.AutomationControlType="Custom"
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowFileExtensions}"
+								IsOn="{x:Bind ViewModel.ShowFileExtensions, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
 					</StackPanel>
 				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
