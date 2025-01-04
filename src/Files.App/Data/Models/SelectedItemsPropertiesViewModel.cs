@@ -5,6 +5,7 @@ using Files.App.ViewModels.Properties;
 using Files.Shared.Helpers;
 using System.Windows.Input;
 using TagLib;
+using Vanara.PInvoke;
 
 namespace Files.App.Data.Models
 {
@@ -526,7 +527,6 @@ namespace Files.App.Data.Models
 
 		public SelectedItemsPropertiesViewModel()
 		{
-
 		}
 
 		private bool isSelectedItemImage = false;
@@ -780,6 +780,42 @@ namespace Files.App.Data.Models
 		{
 			get => runAsAdminEnabled;
 			set => SetProperty(ref runAsAdminEnabled, value);
+		}
+
+		private static readonly IReadOnlyDictionary<ShowWindowCommand, string> showWindowCommandTypes = new Dictionary<ShowWindowCommand, string>()
+		{
+			{ ShowWindowCommand.SW_NORMAL, Strings.NormalWindow.GetLocalizedResource() },
+			{ ShowWindowCommand.SW_SHOWMINNOACTIVE, Strings.Minimized.GetLocalizedResource() },
+			{ ShowWindowCommand.SW_MAXIMIZE, Strings.Maximized.GetLocalizedResource() }
+		}.AsReadOnly();
+		public IReadOnlyDictionary<ShowWindowCommand, string> ShowWindowCommandTypes { get => showWindowCommandTypes; }
+
+		public string SelectedShowWindowCommand
+		{
+			get => ShowWindowCommandTypes.GetValueOrDefault(ShowWindowCommandEditedValue)!;
+			set => ShowWindowCommandEditedValue = ShowWindowCommandTypes.First(e => e.Value == value).Key;
+		}
+
+		private ShowWindowCommand showWindowCommand;
+		public ShowWindowCommand ShowWindowCommand
+		{
+			get => showWindowCommand;
+			set
+			{
+				if (SetProperty(ref showWindowCommand, value))
+					ShowWindowCommandEditedValue = value;
+			}
+		}
+
+		private ShowWindowCommand showWindowCommandEditedValue;
+		public ShowWindowCommand ShowWindowCommandEditedValue
+		{
+			get => showWindowCommandEditedValue;
+			set
+			{
+				if (SetProperty(ref showWindowCommandEditedValue, value))
+					OnPropertyChanged(nameof(SelectedShowWindowCommand));
+			}
 		}
 
 		private bool isPropertiesLoaded;

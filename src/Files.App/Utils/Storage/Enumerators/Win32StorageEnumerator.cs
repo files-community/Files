@@ -324,6 +324,7 @@ namespace Files.App.Utils.Storage
 					Arguments = shInfo.Arguments,
 					WorkingDirectory = shInfo.WorkingDirectory,
 					RunAsAdmin = shInfo.RunAsAdmin,
+					ShowWindowCommand = shInfo.ShowWindowCommand,
 					IsUrl = isUrl,
 				};
 			}

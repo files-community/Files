@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using Vanara.PInvoke;
 using Windows.Storage;
 
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -526,6 +527,7 @@ namespace Files.App.Utils
 		public string Arguments { get; set; }
 		public string WorkingDirectory { get; set; }
 		public bool RunAsAdmin { get; set; }
+		public ShowWindowCommand ShowWindowCommand { get; set; }
 		public bool IsUrl { get; set; }
 		public bool IsSymLink { get; set; }
 		public override bool IsExecutable => FileExtensionHelpers.IsExecutableFile(TargetPath, true);

@@ -1838,6 +1838,18 @@
   <data name="CompatibilityRegisterThisProgramForRestart" xml:space="preserve">
     <value>Register this program for restart</value>
   </data>
+  <data name="Run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="NormalWindow" xml:space="preserve">
+    <value>Normal window</value>
+  </data>
+  <data name="Minimized" xml:space="preserve">
+    <value>Minimized</value>
+  </data>
+  <data name="Maximized" xml:space="preserve">
+    <value>Maximized</value>
+  </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Run as administrator</value>
   </data>

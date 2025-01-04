@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Runtime.InteropServices.WindowsRuntime;
+using Vanara.PInvoke;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -16,6 +17,7 @@ namespace Files.App.Utils.Storage
 		public string Arguments { get; }
 		public string WorkingDirectory { get; }
 		public bool RunAsAdmin { get; }
+		public ShowWindowCommand ShowWindowCommand { get; set; }
 
 		public ShortcutStorageFile(ShellLinkItem item) : base(item)
 		{
@@ -23,6 +25,7 @@ namespace Files.App.Utils.Storage
 			Arguments = item.Arguments;
 			WorkingDirectory = item.WorkingDirectory;
 			RunAsAdmin = item.RunAsAdmin;
+			ShowWindowCommand = item.ShowWindowCommand;
 		}
 	}
 

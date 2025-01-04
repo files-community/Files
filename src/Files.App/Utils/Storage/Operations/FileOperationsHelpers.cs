@@ -733,7 +733,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		public static Task<bool> CreateOrUpdateLinkAsync(string linkSavePath, string targetPath, string arguments = "", string workingDirectory = "", bool runAsAdmin = false)
+		public static Task<bool> CreateOrUpdateLinkAsync(string linkSavePath, string targetPath, string arguments = "", string workingDirectory = "", bool runAsAdmin = false, ShowWindowCommand showWindowCommand = ShowWindowCommand.SW_NORMAL)
 		{
 			try
 			{
@@ -746,6 +746,10 @@ namespace Files.App.Utils.Storage
 						newLink.RunAsAdministrator = runAsAdmin;
 
 					newLink.SaveAs(linkSavePath); // Overwrite if exists
+
+					// ShowState has to be set after SaveAs has been called, otherwise an UnauthorizedAccessException gets thrown in some cases
+					newLink.ShowState = showWindowCommand;
+
 					return Task.FromResult(true);
 				}
 				else if (FileExtensionHelpers.IsWebLinkFile(linkSavePath))

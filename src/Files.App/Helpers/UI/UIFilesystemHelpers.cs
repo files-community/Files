@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Net;
 using System.Text;
+using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
@@ -245,17 +246,13 @@ namespace Files.App.Helpers
 		/// <summary>
 		/// Updates ListedItem properties for a shortcut
 		/// </summary>
-		/// <param name="item"></param>
-		/// <param name="targetPath"></param>
-		/// <param name="arguments"></param>
-		/// <param name="workingDir"></param>
-		/// <param name="runAsAdmin"></param>
-		public static void UpdateShortcutItemProperties(ShortcutItem item, string targetPath, string arguments, string workingDir, bool runAsAdmin)
+		public static void UpdateShortcutItemProperties(ShortcutItem item, string targetPath, string arguments, string workingDir, bool runAsAdmin, ShowWindowCommand showWindowCommand)
 		{
 			item.TargetPath = Environment.ExpandEnvironmentVariables(targetPath);
 			item.Arguments = arguments;
 			item.WorkingDirectory = workingDir;
 			item.RunAsAdmin = runAsAdmin;
+			item.ShowWindowCommand = showWindowCommand;
 		}
 
 		public async static Task<StorageCredential> RequestPassword(IPasswordProtectedItem sender)
