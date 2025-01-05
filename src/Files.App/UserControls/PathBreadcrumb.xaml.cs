@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -20,9 +20,9 @@ namespace Files.App.UserControls
 			ViewModel.PathItemSeparator_DataContextChanged(sender, args);
 		}
 
-		private void PathBoxItemFlyout_Opened(object sender, object e)
+		private void PathBoxItemFlyout_Opening(object sender, object e)
 		{
-			ViewModel.PathboxItemFlyout_Opened(sender, e);
+			ViewModel.PathboxItemFlyout_Opening(sender, e);
 		}
 
 		private void PathBoxItemFlyout_Closed(object sender, object e)

@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <UserControl
 	x:Class="Files.App.UserControls.AddressToolbar"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -277,6 +277,7 @@
 					<Button.ContextFlyout>
 						<MenuFlyout
 							x:Name="BackHistoryFlyout"
+							AreOpenCloseAnimationsEnabled="False"
 							Opening="BackHistoryFlyout_Opening"
 							Placement="BottomEdgeAlignedLeft"
 							ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -306,6 +307,7 @@
 					<Button.ContextFlyout>
 						<MenuFlyout
 							x:Name="ForwardHistoryFlyout"
+							AreOpenCloseAnimationsEnabled="False"
 							Opening="ForwardHistoryFlyout_Opening"
 							Placement="BottomEdgeAlignedLeft"
 							ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -428,6 +430,7 @@
 				BorderBrush="{ThemeResource ControlElevationBorderBrush}"
 				BorderThickness="1"
 				CornerRadius="{StaticResource ControlCornerRadius}"
+				GettingFocus="ClickablePath_GettingFocus"
 				PointerPressed="ManualPathEntryItem_Click"
 				Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
 				<Grid.ColumnDefinitions>
