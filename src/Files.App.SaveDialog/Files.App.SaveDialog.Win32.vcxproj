@@ -5,17 +5,17 @@
       <Configuration>Debug</Configuration>
       <Platform>arm64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|Win32">
+    <ProjectConfiguration Include="Debug|x86">
       <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
+      <Platform>x86</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Preview|arm64">
       <Configuration>Preview</Configuration>
       <Platform>arm64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Preview|Win32">
+    <ProjectConfiguration Include="Preview|x86">
       <Configuration>Preview</Configuration>
-      <Platform>Win32</Platform>
+      <Platform>x86</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Preview|x64">
       <Configuration>Preview</Configuration>
@@ -25,9 +25,9 @@
       <Configuration>Release</Configuration>
       <Platform>arm64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
+    <ProjectConfiguration Include="Release|x86">
       <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
+      <Platform>x86</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -41,9 +41,9 @@
       <Configuration>Sideload</Configuration>
       <Platform>arm64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Sideload|Win32">
+    <ProjectConfiguration Include="Sideload|x86">
       <Configuration>Sideload</Configuration>
-      <Platform>Win32</Platform>
+      <Platform>x86</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Sideload|x64">
       <Configuration>Sideload</Configuration>
@@ -53,9 +53,9 @@
       <Configuration>Stable</Configuration>
       <Platform>arm64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Stable|Win32">
+    <ProjectConfiguration Include="Stable|x86">
       <Configuration>Stable</Configuration>
-      <Platform>Win32</Platform>
+      <Platform>x86</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Stable|x64">
       <Configuration>Stable</Configuration>
@@ -65,9 +65,9 @@
       <Configuration>Store</Configuration>
       <Platform>arm64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Store|Win32">
+    <ProjectConfiguration Include="Store|x86">
       <Configuration>Store</Configuration>
-      <Platform>Win32</Platform>
+      <Platform>x86</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Store|x64">
       <Configuration>Store</Configuration>
@@ -139,13 +139,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
 
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Midl>
-      <TargetEnvironment>Win32</TargetEnvironment>
+      <TargetEnvironment>x86</TargetEnvironment>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </Midl>
     <ResourceCompile>
@@ -179,13 +179,13 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
 
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Midl>
-      <TargetEnvironment>Win32</TargetEnvironment>
+      <TargetEnvironment>x86</TargetEnvironment>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </Midl>
     <ResourceCompile>
@@ -197,13 +197,13 @@
     </Link>
   </ItemDefinitionGroup>
 
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Sideload|x86'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Midl>
-      <TargetEnvironment>Win32</TargetEnvironment>
+      <TargetEnvironment>x86</TargetEnvironment>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </Midl>
     <ResourceCompile>
@@ -215,13 +215,13 @@
     </Link>
   </ItemDefinitionGroup>
 
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Store|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Store|x86'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Midl>
-      <TargetEnvironment>Win32</TargetEnvironment>
+      <TargetEnvironment>x86</TargetEnvironment>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </Midl>
     <ResourceCompile>
@@ -233,13 +233,13 @@
     </Link>
   </ItemDefinitionGroup>
 
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Preview|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Preview|x86'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Midl>
-      <TargetEnvironment>Win32</TargetEnvironment>
+      <TargetEnvironment>x86</TargetEnvironment>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </Midl>
     <ResourceCompile>
@@ -251,13 +251,13 @@
     </Link>
   </ItemDefinitionGroup>
 
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Stable|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Stable|x86'">
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Midl>
-      <TargetEnvironment>Win32</TargetEnvironment>
+      <TargetEnvironment>x86</TargetEnvironment>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </Midl>
     <ResourceCompile>
