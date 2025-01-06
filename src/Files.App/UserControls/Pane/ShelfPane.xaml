@@ -6,6 +6,7 @@
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:data="using:Files.App.Data.Items"
+	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
 
@@ -41,7 +42,7 @@
 			<TextBlock
 				HorizontalAlignment="Center"
 				Opacity="0.8"
-				Text="Your Shelf" />
+				Text="{helpers:ResourceString Name=Shelf}" />
 		</Border>
 
 		<!--  Items List  -->
@@ -70,7 +71,7 @@
 				HorizontalAlignment="Center"
 				VerticalAlignment="Center"
 				Command="{x:Bind ClearCommand, Mode=OneWay}"
-				Content="Clear Items" />
+				Content="{helpers:ResourceString Name=ClearItems}" />
 		</StackPanel>
 	</Grid>
 </UserControl>

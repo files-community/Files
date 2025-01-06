@@ -4022,4 +4022,11 @@
   <data name="ShowShelfPane" xml:space="preserve">
     <value>Show Shelf Pane</value>
   </data>
+  <data name="Shelf" xml:space="preserve">
+    <value>Shelf</value>
+    <comment>'Shelf' refers to the Shelf Pane feature, where users can conveniently drag and drop files for quick access and perform bulk actions with ease.</comment>
+  </data>
+  <data name="ClearItems" xml:space="preserve">
+    <value>Clear items</value>
+  </data>
 </root>
