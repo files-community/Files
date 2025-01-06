@@ -4019,8 +4019,11 @@
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
     <value>Always switch focus to newly created tab</value>
   </data>
-  <data name="ShowShelfPane" xml:space="preserve">
-    <value>Show Shelf Pane</value>
+  <data name="ToggleShelfPane" xml:space="preserve">
+    <value>Toggle the shelf pane</value>
+  </data>
+  <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
+    <value>Show shelf pane toggle in address bar</value>
   </data>
   <data name="Shelf" xml:space="preserve">
     <value>Shelf</value>
@@ -4033,7 +4036,7 @@
     <value>Remove from shelf</value>
   </data>
   <data name="AddToShelf" xml:space="preserve">
-    <value>Add to Shelf</value>
+    <value>Add to shelf</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
   </data>
 </root>

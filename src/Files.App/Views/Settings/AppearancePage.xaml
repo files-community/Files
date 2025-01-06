@@ -270,6 +270,18 @@
 								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
 						</local:SettingsBlockControl>
 
+						<!--  Show shelf pane toggle button  -->
+						<local:SettingsBlockControl
+							x:Name="ShowShelfPaneSetting"
+							Title="{helpers:ResourceString Name=ShowShelfPaneButtonInAddressBar}"
+							HorizontalAlignment="Stretch"
+							x:Load="{x:Bind ViewModel.IsAppEnvironmentDev}">
+							<ToggleSwitch
+								AutomationProperties.Name="{helpers:ResourceString Name=ShowShelfPaneButtonInAddressBar}"
+								IsOn="{x:Bind ViewModel.ShowShelfPaneToggleButton, Mode=TwoWay}"
+								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						</local:SettingsBlockControl>
+
 						<!--  Show toolbar  -->
 						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowToolbar}" HorizontalAlignment="Stretch">
 							<ToggleSwitch

@@ -5,6 +5,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:contract8Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,8)"
+	xmlns:controls="using:Files.App.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:converters1="using:CommunityToolkit.WinUI.UI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -469,7 +470,10 @@
 				Visibility="{x:Bind converters:MultiBooleanConverter.OrConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}" />
 
 			<!--  Right Side Action Buttons  -->
-			<StackPanel Grid.Column="3" Orientation="Horizontal">
+			<StackPanel
+				Grid.Column="3"
+				Orientation="Horizontal"
+				Spacing="4">
 
 				<!--  Mini Search Button  -->
 				<Button
@@ -484,6 +488,27 @@
 					Visibility="Collapsed">
 					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
 				</Button>
+
+				<!--  Shelf Pane  -->
+				<ToggleButton
+					x:Name="OpenShelfPaneButton"
+					Width="36"
+					Height="32"
+					Padding="0"
+					x:Load="{x:Bind ViewModel.ShowShelfPaneToggleButton, Mode=OneWay}"
+					AccessKeyInvoked="Button_AccessKeyInvoked"
+					AutomationProperties.Name="{helpers:ResourceString Name=ToggleShelfPane}"
+					Background="Transparent"
+					BorderBrush="Transparent"
+					IsChecked="{x:Bind ViewModel.ShowShelfPane, Mode=TwoWay}"
+					ToolTipService.ToolTip="{helpers:ResourceString Name=ToggleShelfPane}">
+					<controls:ThemedIcon
+						Width="20"
+						Height="20"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						Style="{StaticResource App.ThemedIcons.Shelf}" />
+				</ToggleButton>
 
 				<!--  Status Center  -->
 				<Button
