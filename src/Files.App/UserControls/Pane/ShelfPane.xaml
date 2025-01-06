@@ -16,7 +16,6 @@
 
 	<Grid
 		Width="240"
-		Padding="16,0"
 		AllowDrop="True"
 		Background="{ThemeResource App.Theme.InfoPane.BackgroundBrush}"
 		BackgroundSizing="InnerBorderEdge"
@@ -28,45 +27,49 @@
 		RowSpacing="8">
 
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition />
+			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<!--  Title  -->
-		<Border
+		<StackPanel
 			Grid.Row="0"
 			Padding="12"
-			BorderBrush="{ThemeResource ControlStrokeColorSecondaryBrush}"
-			BorderThickness="0,0,0,1">
+			Spacing="8">
+			<!--  Title  -->
 			<TextBlock
 				HorizontalAlignment="Center"
-				Opacity="0.8"
+				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+				Style="{StaticResource App.Theme.BodyStrongTextBlockStyle}"
 				Text="{helpers:ResourceString Name=Shelf}" />
-		</Border>
 
-		<!--  Items List  -->
-		<ListView
-			Grid.Row="1"
-			DragItemsStarting="ListView_DragItemsStarting"
-			ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
-			SelectionMode="Extended">
-			<ListView.ItemTemplate>
-				<DataTemplate x:DataType="data:ShelfItem">
-					<StackPanel Orientation="Horizontal" Spacing="8">
-						<Image Height="20" Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
-						<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-					</StackPanel>
-				</DataTemplate>
-			</ListView.ItemTemplate>
-		</ListView>
+			<!--  (Divider)  -->
+			<Border Height="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
-		<!--  Bottom Actions  -->
+			<!--  Items List  -->
+			<ListView
+				DragItemsStarting="ListView_DragItemsStarting"
+				ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
+				SelectionMode="Extended">
+				<ListView.ItemTemplate>
+					<DataTemplate x:DataType="data:ShelfItem">
+						<StackPanel Orientation="Horizontal" Spacing="8">
+							<Image Height="20" Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
+							<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+						</StackPanel>
+					</DataTemplate>
+				</ListView.ItemTemplate>
+			</ListView>
+		</StackPanel>
+
+
 		<StackPanel
-			Grid.Row="2"
-			Padding="8"
-			BorderBrush="{ThemeResource ControlStrokeColorSecondaryBrush}"
-			BorderThickness="0,1,0,0">
+			Grid.Row="1"
+			Padding="12,8,12,8"
+			Spacing="4">
+			<!--  (Divider)  -->
+			<Border Height="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+			<!--  Bottom Actions  -->
 			<HyperlinkButton
 				HorizontalAlignment="Center"
 				VerticalAlignment="Center"
