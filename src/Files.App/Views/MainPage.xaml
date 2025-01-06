@@ -254,7 +254,7 @@
 						Grid.Row="0"
 						Grid.RowSpan="5"
 						Grid.Column="3"
-						Margin="4,0,0,4"
+						Margin="4,0,0,8"
 						x:Load="{x:Bind ViewModel.ShowShelfPane, Mode=OneWay}" />
 				</Grid>
 			</sidebar:SidebarView.InnerContent>
