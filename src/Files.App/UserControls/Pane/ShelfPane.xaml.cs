@@ -27,6 +27,7 @@ namespace Files.App.UserControls
 				return;
 
 			e.Handled = true;
+			e.DragUIOverride.Caption = Strings.AddToShelf.GetLocalizedResource();
 			e.AcceptedOperation = DataPackageOperation.Link;
 		}
 

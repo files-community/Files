@@ -4032,4 +4032,8 @@
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>Remove from shelf</value>
   </data>
+  <data name="AddToShelf" xml:space="preserve">
+    <value>Add to Shelf</value>
+    <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
 </root>
