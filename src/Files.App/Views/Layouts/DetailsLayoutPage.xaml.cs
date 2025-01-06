@@ -362,6 +362,11 @@ namespace Files.App.Views.Layouts
 				return;
 
 			Grid.SetColumnSpan(textBox.FindParent<Grid>(), 8);
+
+			if (RenamingItem is ListedItem item)
+			{
+				textBox.Text = SystemIO.Path.GetFileName(item.ItemPath);
+			}
 		}
 
 		private void ItemNameTextBox_BeforeTextChanging(TextBox textBox, TextBoxBeforeTextChangingEventArgs args)
