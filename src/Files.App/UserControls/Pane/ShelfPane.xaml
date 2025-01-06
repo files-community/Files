@@ -59,7 +59,7 @@
 
 							<StackPanel.ContextFlyout>
 								<MenuFlyout>
-									<MenuFlyoutItem Command="{x:Bind RemoveCommand}" Text="Remove">
+									<MenuFlyoutItem Command="{x:Bind RemoveCommand}" Text="{helpers:ResourceString Name=Remove}">
 										<MenuFlyoutItem.Icon>
 											<FontIcon Glyph="&#xE738;" />
 										</MenuFlyoutItem.Icon>
