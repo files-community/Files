@@ -6,6 +6,7 @@ namespace Files.App.Data.Items
 	public sealed partial class ShelfItem : ObservableObject, IWrapper<IStorable>, IAsyncInitialize
 	{
 		private readonly IImageService _imageService;
+		private readonly ICollection<ShelfItem> _sourceCollection;
 
 		[ObservableProperty] private IImage? _Icon;
 		[ObservableProperty] private string? _Name;
@@ -14,9 +15,10 @@ namespace Files.App.Data.Items
 		/// <inheritdoc/>
 		public IStorable Inner { get; }
 
-		public ShelfItem(IStorable storable, IImage? icon = null)
+		public ShelfItem(IStorable storable, ICollection<ShelfItem> sourceCollection, IImage? icon = null)
 		{
 			_imageService = Ioc.Default.GetRequiredService<IImageService>();
+			_sourceCollection = sourceCollection;
 			Inner = storable;
 			Icon = icon;
 			Name = storable.Name;
@@ -27,6 +29,12 @@ namespace Files.App.Data.Items
 		public async Task InitAsync(CancellationToken cancellationToken = default)
 		{
 			Icon = await _imageService.GetIconAsync(Inner, cancellationToken);
+		}
+
+		[RelayCommand]
+		private void Remove()
+		{
+			_sourceCollection.Remove(this);
 		}
 	}
 }

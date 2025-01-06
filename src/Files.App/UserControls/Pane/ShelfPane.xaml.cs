@@ -52,7 +52,7 @@ namespace Files.App.UserControls
 				if (storable is null)
 					continue;
 
-				var shelfItem = new ShelfItem(storable);
+				var shelfItem = new ShelfItem(storable, ItemsSource);
 				_ = shelfItem.InitAsync();
 
 				ItemsSource.Add(shelfItem);
