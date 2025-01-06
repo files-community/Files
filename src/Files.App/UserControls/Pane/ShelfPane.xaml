@@ -57,17 +57,24 @@
 			SelectionMode="Extended">
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="data:ShelfItem">
-					<StackPanel Orientation="Horizontal" Spacing="8">
+					<Grid ColumnSpacing="8">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
 						<Image
+							Grid.Column="0"
 							Width="16"
 							Height="16"
 							Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
 						<TextBlock
+							Grid.Column="1"
 							Text="{x:Bind Name, Mode=OneWay}"
 							TextTrimming="CharacterEllipsis"
+							TextWrapping="NoWrap"
 							ToolTipService.ToolTip="{x:Bind Path, Mode=OneWay}" />
 
-						<StackPanel.ContextFlyout>
+						<Grid.ContextFlyout>
 							<MenuFlyout>
 								<MenuFlyoutItem Command="{x:Bind RemoveCommand}" Text="{helpers:ResourceString Name=RemoveFromShelf}">
 									<MenuFlyoutItem.Icon>
@@ -75,8 +82,8 @@
 									</MenuFlyoutItem.Icon>
 								</MenuFlyoutItem>
 							</MenuFlyout>
-						</StackPanel.ContextFlyout>
-					</StackPanel>
+						</Grid.ContextFlyout>
+					</Grid>
 				</DataTemplate>
 			</ListView.ItemTemplate>
 
