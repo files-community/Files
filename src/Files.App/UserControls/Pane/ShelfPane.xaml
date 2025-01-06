@@ -62,7 +62,10 @@
 							Width="16"
 							Height="16"
 							Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
-						<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+						<TextBlock
+							Text="{x:Bind Name, Mode=OneWay}"
+							TextTrimming="CharacterEllipsis"
+							ToolTipService.ToolTip="{x:Bind Path, Mode=OneWay}" />
 
 						<StackPanel.ContextFlyout>
 							<MenuFlyout>
