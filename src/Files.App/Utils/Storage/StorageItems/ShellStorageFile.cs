@@ -7,6 +7,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
+using Windows.Win32.UI.WindowsAndMessaging;
 using IO = System.IO;
 
 namespace Files.App.Utils.Storage
@@ -17,7 +18,7 @@ namespace Files.App.Utils.Storage
 		public string Arguments { get; }
 		public string WorkingDirectory { get; }
 		public bool RunAsAdmin { get; }
-		public ShowWindowCommand ShowWindowCommand { get; set; }
+		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
 
 		public ShortcutStorageFile(ShellLinkItem item) : base(item)
 		{

@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 using System.Runtime.InteropServices.WindowsRuntime;
-using Vanara.PInvoke;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Utils.Storage
 {
@@ -16,7 +16,7 @@ namespace Files.App.Utils.Storage
 		public string Arguments { get; }
 		public string WorkingDirectory { get; }
 		public bool RunAsAdmin { get; }
-		public ShowWindowCommand ShowWindowCommand { get; set; }
+		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
 
 		public ShortcutStorageFolder(ShellLinkItem item) : base(item)
 		{

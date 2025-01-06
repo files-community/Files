@@ -5,7 +5,7 @@ using Files.App.ViewModels.Properties;
 using Files.Shared.Helpers;
 using System.Windows.Input;
 using TagLib;
-using Vanara.PInvoke;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Data.Models
 {
@@ -782,13 +782,13 @@ namespace Files.App.Data.Models
 			set => SetProperty(ref runAsAdminEnabled, value);
 		}
 
-		private static readonly IReadOnlyDictionary<ShowWindowCommand, string> showWindowCommandTypes = new Dictionary<ShowWindowCommand, string>()
+		private static readonly IReadOnlyDictionary<SHOW_WINDOW_CMD, string> showWindowCommandTypes = new Dictionary<SHOW_WINDOW_CMD, string>
 		{
-			{ ShowWindowCommand.SW_NORMAL, Strings.NormalWindow.GetLocalizedResource() },
-			{ ShowWindowCommand.SW_SHOWMINNOACTIVE, Strings.Minimized.GetLocalizedResource() },
-			{ ShowWindowCommand.SW_MAXIMIZE, Strings.Maximized.GetLocalizedResource() }
+			{ SHOW_WINDOW_CMD.SW_NORMAL, Strings.NormalWindow.GetLocalizedResource() },
+			{ SHOW_WINDOW_CMD.SW_SHOWMINNOACTIVE, Strings.Minimized.GetLocalizedResource() },
+			{ SHOW_WINDOW_CMD.SW_MAXIMIZE, Strings.Maximized.GetLocalizedResource() }
 		}.AsReadOnly();
-		public IReadOnlyDictionary<ShowWindowCommand, string> ShowWindowCommandTypes { get => showWindowCommandTypes; }
+		public IReadOnlyDictionary<SHOW_WINDOW_CMD, string> ShowWindowCommandTypes { get => showWindowCommandTypes; }
 
 		public string SelectedShowWindowCommand
 		{
@@ -796,8 +796,8 @@ namespace Files.App.Data.Models
 			set => ShowWindowCommandEditedValue = ShowWindowCommandTypes.First(e => e.Value == value).Key;
 		}
 
-		private ShowWindowCommand showWindowCommand;
-		public ShowWindowCommand ShowWindowCommand
+		private SHOW_WINDOW_CMD showWindowCommand;
+		public SHOW_WINDOW_CMD ShowWindowCommand
 		{
 			get => showWindowCommand;
 			set
@@ -807,8 +807,8 @@ namespace Files.App.Data.Models
 			}
 		}
 
-		private ShowWindowCommand showWindowCommandEditedValue;
-		public ShowWindowCommand ShowWindowCommandEditedValue
+		private SHOW_WINDOW_CMD showWindowCommandEditedValue;
+		public SHOW_WINDOW_CMD ShowWindowCommandEditedValue
 		{
 			get => showWindowCommandEditedValue;
 			set
