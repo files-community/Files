@@ -4029,4 +4029,7 @@
   <data name="ClearItems" xml:space="preserve">
     <value>Clear items</value>
   </data>
+  <data name="RemoveFromShelf" xml:space="preserve">
+    <value>Remove from shelf</value>
+  </data>
 </root>

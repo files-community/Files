@@ -16,6 +16,7 @@
 
 	<Grid
 		Width="240"
+		Padding="12"
 		AllowDrop="True"
 		Background="{ThemeResource App.Theme.InfoPane.BackgroundBrush}"
 		BackgroundSizing="InnerBorderEdge"
@@ -27,56 +28,62 @@
 		RowSpacing="8">
 
 		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<StackPanel
-			Grid.Row="0"
-			Padding="12"
-			Spacing="8">
+		<StackPanel Grid.Row="0" Spacing="8">
 
 			<!--  Title  -->
 			<TextBlock
 				HorizontalAlignment="Center"
-				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-				Style="{StaticResource App.Theme.BodyStrongTextBlockStyle}"
+				Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+				Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 				Text="{helpers:ResourceString Name=Shelf}" />
 
 			<!--  (Divider)  -->
 			<Border Height="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
-			<!--  Items List  -->
-			<ListView
-				DragItemsStarting="ListView_DragItemsStarting"
-				ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
-				SelectionMode="Extended">
-				<ListView.ItemTemplate>
-					<DataTemplate x:DataType="data:ShelfItem">
-						<StackPanel Orientation="Horizontal" Spacing="8">
-							<Image Height="20" Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
-							<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
-
-							<StackPanel.ContextFlyout>
-								<MenuFlyout>
-									<MenuFlyoutItem Command="{x:Bind RemoveCommand}" Text="{helpers:ResourceString Name=Remove}">
-										<MenuFlyoutItem.Icon>
-											<FontIcon Glyph="&#xE738;" />
-										</MenuFlyoutItem.Icon>
-									</MenuFlyoutItem>
-								</MenuFlyout>
-							</StackPanel.ContextFlyout>
-						</StackPanel>
-					</DataTemplate>
-				</ListView.ItemTemplate>
-			</ListView>
 		</StackPanel>
 
-
-		<StackPanel
+		<!--  Items List  -->
+		<ListView
 			Grid.Row="1"
-			Padding="12,8,12,8"
-			Spacing="4">
+			DragItemsStarting="ListView_DragItemsStarting"
+			ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
+			ScrollViewer.VerticalScrollBarVisibility="Auto"
+			ScrollViewer.VerticalScrollMode="Auto"
+			SelectionMode="Extended">
+			<ListView.ItemTemplate>
+				<DataTemplate x:DataType="data:ShelfItem">
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<Image Height="20" Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
+						<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+
+						<StackPanel.ContextFlyout>
+							<MenuFlyout>
+								<MenuFlyoutItem Command="{x:Bind RemoveCommand}" Text="{helpers:ResourceString Name=RemoveFromShelf}">
+									<MenuFlyoutItem.Icon>
+										<FontIcon Glyph="&#xE738;" />
+									</MenuFlyoutItem.Icon>
+								</MenuFlyoutItem>
+							</MenuFlyout>
+						</StackPanel.ContextFlyout>
+					</StackPanel>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+
+			<ListView.ItemContainerStyle>
+				<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+					<Setter Property="Margin" Value="-4,0,-4,0" />
+					<Setter Property="MinHeight" Value="36" />
+				</Style>
+			</ListView.ItemContainerStyle>
+		</ListView>
+
+
+		<StackPanel Grid.Row="2" Spacing="4">
 
 			<!--  (Divider)  -->
 			<Border Height="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
@@ -87,6 +94,7 @@
 				VerticalAlignment="Center"
 				Command="{x:Bind ClearCommand, Mode=OneWay}"
 				Content="{helpers:ResourceString Name=ClearItems}" />
+
 		</StackPanel>
 	</Grid>
 </UserControl>
