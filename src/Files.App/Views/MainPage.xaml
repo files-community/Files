@@ -248,6 +248,7 @@
 						ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
 						Visibility="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
 
+					<!--  Shelf Pane  -->
 					<uc:ShelfPane
 						x:Name="ShelfPane"
 						Grid.Row="0"

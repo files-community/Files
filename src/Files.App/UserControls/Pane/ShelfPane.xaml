@@ -3,20 +3,74 @@
 	x:Class="Files.App.UserControls.ShelfPane"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:controls="using:Files.App.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:data="using:Files.App.Data.Items"
-	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:usercontrols="using:Files.App.UserControls"
 	mc:Ignorable="d">
+
+	<UserControl.Resources>
+		<converters:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
+	</UserControl.Resources>
 
 	<Grid
 		Width="240"
+		Padding="16,0"
+		AllowDrop="True"
 		Background="{ThemeResource App.Theme.InfoPane.BackgroundBrush}"
 		BackgroundSizing="InnerBorderEdge"
 		BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 		BorderThickness="1"
-		CornerRadius="8" />
+		CornerRadius="8"
+		DragOver="Shelf_DragOver"
+		Drop="Shelf_Drop"
+		RowSpacing="8">
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<!--  Title  -->
+		<Border
+			Grid.Row="0"
+			Padding="12"
+			BorderBrush="{ThemeResource ControlStrokeColorSecondaryBrush}"
+			BorderThickness="0,0,0,1">
+			<TextBlock
+				HorizontalAlignment="Center"
+				Opacity="0.8"
+				Text="Your Shelf" />
+		</Border>
+
+		<!--  Items List  -->
+		<ListView
+			Grid.Row="1"
+			DragItemsStarting="ListView_DragItemsStarting"
+			ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
+			SelectionMode="Extended">
+			<ListView.ItemTemplate>
+				<DataTemplate x:DataType="data:ShelfItem">
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<Image Height="20" Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
+						<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
+					</StackPanel>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+
+		<!--  Bottom Actions  -->
+		<StackPanel
+			Grid.Row="2"
+			Padding="8"
+			BorderBrush="{ThemeResource ControlStrokeColorSecondaryBrush}"
+			BorderThickness="0,1,0,0">
+			<HyperlinkButton
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				Command="{x:Bind ClearCommand, Mode=OneWay}"
+				Content="Clear Items" />
+		</StackPanel>
+	</Grid>
 </UserControl>

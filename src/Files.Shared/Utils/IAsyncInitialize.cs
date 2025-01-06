@@ -1,7 +1,4 @@
-﻿// Copyright (c) Files Community
-// Licensed under the MIT License.
-
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace Files.Shared.Utils
