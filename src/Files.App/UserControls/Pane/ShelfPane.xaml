@@ -16,7 +16,6 @@
 
 	<Grid
 		Width="240"
-		Padding="12"
 		AllowDrop="True"
 		Background="{ThemeResource App.Theme.InfoPane.BackgroundBrush}"
 		BackgroundSizing="InnerBorderEdge"
@@ -24,8 +23,7 @@
 		BorderThickness="1"
 		CornerRadius="8"
 		DragOver="Shelf_DragOver"
-		Drop="Shelf_Drop"
-		RowSpacing="8">
+		Drop="Shelf_Drop">
 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -33,7 +31,10 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<StackPanel Grid.Row="0" Spacing="8">
+		<StackPanel
+			Grid.Row="0"
+			Padding="12,12,12,4"
+			Spacing="8">
 
 			<!--  Title  -->
 			<TextBlock
@@ -50,7 +51,9 @@
 		<!--  Items List  -->
 		<ListView
 			Grid.Row="1"
+			Padding="8,4,8,4"
 			DragItemsStarting="ListView_DragItemsStarting"
+			ItemContainerTransitions="{x:Null}"
 			ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
 			ScrollViewer.VerticalScrollBarVisibility="Auto"
 			ScrollViewer.VerticalScrollMode="Auto"
@@ -96,7 +99,10 @@
 		</ListView>
 
 
-		<StackPanel Grid.Row="2" Spacing="4">
+		<StackPanel
+			Grid.Row="2"
+			Padding="12,12,12,4"
+			Spacing="4">
 
 			<!--  (Divider)  -->
 			<Border Height="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
