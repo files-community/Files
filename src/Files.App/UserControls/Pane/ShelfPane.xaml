@@ -58,7 +58,10 @@
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="data:ShelfItem">
 					<StackPanel Orientation="Horizontal" Spacing="8">
-						<Image Height="20" Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
+						<Image
+							Width="16"
+							Height="16"
+							Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
 						<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
 
 						<StackPanel.ContextFlyout>
