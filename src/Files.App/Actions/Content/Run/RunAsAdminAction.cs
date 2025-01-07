@@ -23,7 +23,7 @@ namespace Files.App.Actions
 			ContentPageContext.PageType != ContentPageTypes.RecycleBin &&
 			ContentPageContext.PageType != ContentPageTypes.ZipFolder &&
 			(FileExtensionHelpers.IsExecutableFile(ContentPageContext.SelectedItem.FileExtension) ||
-			(ContentPageContext.SelectedItem is ShortcutItem shortcut &&
+			(ContentPageContext.SelectedItem is IShortcutItem shortcut &&
 			shortcut.IsExecutable));
 
 		public RunAsAdminAction() : base("runas")

@@ -21,7 +21,7 @@ namespace Files.App.Actions
 		public bool IsExecutable =>
 			context.ShellPage is not null &&
 			context.HasSelection &&
-			context.SelectedItem is ShortcutItem;
+			context.SelectedItem is IShortcutItem;
 
 		public OpenFileLocationAction()
 		{

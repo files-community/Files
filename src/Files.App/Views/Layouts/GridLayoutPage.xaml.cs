@@ -519,7 +519,7 @@ namespace Files.App.Views.Layouts
 			{
 				await Task.WhenAll(filesAndFolders.Select(item =>
 				{
-					if (item is GitItem gitItem)
+					if (item is IGitItem gitItem)
 						return ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
 
 					return Task.CompletedTask;
