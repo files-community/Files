@@ -345,10 +345,14 @@ namespace Files.App.Utils.Storage
 			ListedItem listedItem = null;
 			var isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden;
 			var isFolder = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory;
+			Win32PInvoke.FileTimeToSystemTime(ref findData.ftLastWriteTime, out Win32PInvoke.SYSTEMTIME systemModifiedTimeOutput);
+			Win32PInvoke.FileTimeToSystemTime(ref findData.ftCreationTime, out Win32PInvoke.SYSTEMTIME systemCreatedTimeOutput);
+
 			if (!isFolder)
 			{
 				string itemFileExtension = null;
 				string itemType = null;
+				long fileSize = Win32FindDataExtensions.GetSize(findData);
 				if (findData.cFileName.Contains('.', StringComparison.Ordinal))
 				{
 					itemFileExtension = Path.GetExtension(itemPath);
@@ -360,11 +364,15 @@ namespace Files.App.Utils.Storage
 					PrimaryItemAttribute = StorageItemTypes.File,
 					ItemNameRaw = findData.cFileName,
 					ItemPath = itemPath,
+					ItemDateModifiedReal = systemModifiedTimeOutput.ToDateTime(),
+					ItemDateCreatedReal = systemCreatedTimeOutput.ToDateTime(),
 					IsHiddenItem = isHidden,
 					LoadFileIcon = false,
 					FileExtension = itemFileExtension,
 					ItemType = itemType,
-					Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
+					Opacity = isHidden ? Constants.UI.DimItemOpacity : 1,
+					FileSize = fileSize.ToSizeString(),
+					FileSizeBytes = fileSize,
 				};
 			}
 			else
@@ -376,6 +384,8 @@ namespace Files.App.Utils.Storage
 						PrimaryItemAttribute = StorageItemTypes.Folder,
 						ItemNameRaw = findData.cFileName,
 						ItemPath = itemPath,
+						ItemDateModifiedReal = systemModifiedTimeOutput.ToDateTime(),
+						ItemDateCreatedReal = systemCreatedTimeOutput.ToDateTime(),
 						IsHiddenItem = isHidden,
 						LoadFileIcon = false,
 						Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
