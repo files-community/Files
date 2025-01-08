@@ -65,6 +65,7 @@
 					<FontIcon
 						x:Name="EmptyIconGlyph"
 						x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
+						FontSize="14"
 						Glyph="{x:Bind IsRecentSearch, Mode=OneTime, Converter={StaticResource SearchSuggestionGlyphConverter}}" />
 				</Grid>
 				<TextBlock VerticalAlignment="Center" Text="{x:Bind Name}" />
