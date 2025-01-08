@@ -21,10 +21,10 @@ namespace Files.App.Utils.Storage
 		private const uint defaultStepSize = 500;
 
 		public string? Query { get; set; }
+
 		public string? Folder { get; set; }
 
 		public uint MaxItemCount { get; set; } = 0; // 0: no limit
-		public uint ThumbnailSize { get; set; } = 24;
 
 		private uint UsedMaxItemCount => MaxItemCount > 0 ? MaxItemCount : uint.MaxValue;
 
@@ -392,20 +392,28 @@ namespace Files.App.Utils.Storage
 					};
 				}
 			}
+
 			if (listedItem is not null && MaxItemCount > 0) // Only load icon for searchbox suggestions
 			{
-				_ = FileThumbnailHelper.LoadIconFromPathAsync(listedItem.ItemPath, ThumbnailSize, ThumbnailMode.ListView, ThumbnailOptions.ResizeThumbnail, isFolder)
+				_ = FileThumbnailHelper.GetIconAsync(
+					listedItem.ItemPath,
+					Constants.ShellIconSizes.Small,
+					isFolder,
+					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale)
 					.ContinueWith((t) =>
 					{
 						if (t.IsCompletedSuccessfully && t.Result is not null)
 						{
 							_ = FilesystemTasks.Wrap(() => MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 							{
-								listedItem.FileImage = await t.Result.ToBitmapAsync();
+								var bitmapImage = await t.Result.ToBitmapAsync();
+								if (bitmapImage is not null)
+									listedItem.FileImage = bitmapImage;
 							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low));
 						}
 					});
 			}
+
 			return listedItem;
 		}
 
