@@ -48,8 +48,8 @@
 				Spacing="8"
 				Tag="{x:Bind ItemPath}">
 				<Grid
-					Width="24"
-					Height="24"
+					Width="16"
+					Height="16"
 					Tag="ItemImage">
 					<Border
 						x:Name="Picture"
@@ -57,8 +57,8 @@
 						VerticalAlignment="Stretch"
 						x:Load="{x:Bind LoadFileIcon, Mode=OneWay}">
 						<Image
-							Width="24"
-							Height="24"
+							Width="16"
+							Height="16"
 							Source="{x:Bind FileImage, Mode=OneWay}"
 							Stretch="Uniform" />
 					</Border>
@@ -98,6 +98,12 @@
 		<AutoSuggestBox.KeyboardAccelerators>
 			<KeyboardAccelerator Key="Escape" Invoked="SearchRegion_Escaped" />
 		</AutoSuggestBox.KeyboardAccelerators>
+
+		<AutoSuggestBox.ItemContainerStyle>
+			<Style BasedOn="{StaticResource DefaultListViewItemStyle}" TargetType="ListViewItem">
+				<Setter Property="MinHeight" Value="36" />
+			</Style>
+		</AutoSuggestBox.ItemContainerStyle>
 	</AutoSuggestBox>
 
 </UserControl>
