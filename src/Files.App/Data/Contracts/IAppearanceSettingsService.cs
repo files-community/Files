@@ -111,5 +111,10 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value whether the home button should be displayed.
 		/// </summary>
 		bool ShowHomeButton { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value whether the file extension should be displayed always or only during the editing.
+		/// </summary>
+		bool ShowFileExtensionsOnlyWhileEditing { get; set; }
 	}
 }

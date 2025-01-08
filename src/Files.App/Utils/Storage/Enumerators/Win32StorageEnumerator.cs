@@ -227,7 +227,10 @@ namespace Files.App.Utils.Storage
 		)
 		{
 			var itemPath = Path.Combine(pathRoot, findData.cFileName);
-			var itemName = findData.cFileName;
+
+			var itemName = await fileListCache.GetDisplayName(itemPath, cancellationToken);
+			if (string.IsNullOrEmpty(itemName))
+				itemName = findData.cFileName;
 
 			DateTime itemModifiedDate, itemCreatedDate, itemLastAccessDate;
 

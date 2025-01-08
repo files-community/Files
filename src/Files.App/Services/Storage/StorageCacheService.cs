@@ -10,13 +10,28 @@ namespace Files.App.Utils.Storage
 	{
 		private readonly ConcurrentDictionary<string, string> cachedDictionary = new();
 
+		private readonly IUserSettingsService _userSettingsService;
+
+		public StorageCacheService(IUserSettingsService userSettingsService)
+		{
+			_userSettingsService = userSettingsService;
+		}
+
 		/// <inheritdoc/>
 		public ValueTask<string> GetDisplayName(string path, CancellationToken cancellationToken)
 		{
-			return
-				cachedDictionary.TryGetValue(path, out var displayName)
+			if (_userSettingsService.AppearanceSettingsService.ShowFileExtensionsOnlyWhileEditing)
+			{
+				return cachedDictionary.TryGetValue(path, out var displayName)
 					? ValueTask.FromResult(displayName)
-					: ValueTask.FromResult(string.Empty);
+					: ValueTask.FromResult(SystemIO.Path.GetFileName(path));
+			}
+			else
+			{
+				return cachedDictionary.TryGetValue(path, out var displayName)
+					? ValueTask.FromResult(SystemIO.Path.GetFileNameWithoutExtension(displayName))
+					: ValueTask.FromResult(SystemIO.Path.GetFileNameWithoutExtension(path));
+			}
 		}
 
 		/// <inheritdoc/>
