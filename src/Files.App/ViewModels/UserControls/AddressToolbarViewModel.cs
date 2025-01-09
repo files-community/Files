@@ -527,23 +527,30 @@ namespace Files.App.ViewModels.UserControls
 
 		public void PathBoxItem_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (e.Key is Windows.System.VirtualKey.Down)
+			switch (e.Key)
 			{
-				var item = e.OriginalSource as ListViewItem;
-				var button = item?.FindDescendant<Button>();
-				button?.Flyout.ShowAt(button);
-				e.Handled = true;
-			} else if (e.Key is Windows.System.VirtualKey.Space or Windows.System.VirtualKey.Enter)
-			{
-				var item = e.OriginalSource as ListViewItem;
-				var path = (item?.Content as PathBoxItem)?.Path;
-				if (path == null || path == PathControlDisplayText)
-					return;
-				ToolbarPathItemInvoked?.Invoke(this, new PathNavigationEventArgs()
+				case Windows.System.VirtualKey.Down:
 				{
-					ItemPath = path
-				});
-				e.Handled = true;
+					var item = e.OriginalSource as ListViewItem;
+					var button = item?.FindDescendant<Button>();
+					button?.Flyout.ShowAt(button);
+					e.Handled = true;
+					break;
+				}
+				case Windows.System.VirtualKey.Space: 
+				case Windows.System.VirtualKey.Enter:
+				{
+					var item = e.OriginalSource as ListViewItem;
+					var path = (item?.Content as PathBoxItem)?.Path;
+					if (path == PathControlDisplayText)
+						return;
+					ToolbarPathItemInvoked?.Invoke(this, new PathNavigationEventArgs()
+					{
+						ItemPath = path
+					});
+					e.Handled = true;
+					break;
+				}
 			}
 		}
 

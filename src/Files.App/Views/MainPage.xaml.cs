@@ -235,19 +235,18 @@ namespace Files.App.Views
 				default:
 					var currentModifiers = HotKeyHelpers.GetCurrentKeyModifiers();
 					HotKey hotKey = new((Keys)e.Key, currentModifiers);
-					var source = (DependencyObject)e.OriginalSource;
+					var source = e.OriginalSource as DependencyObject;
 
 					// A textbox takes precedence over certain hotkeys.
-					if (source.FindAscendantOrSelf<TextBox>() is not null)
+					if (source?.FindAscendantOrSelf<TextBox>() is not null)
 						break;
 
 					// Execute command for hotkey
 					var command = Commands[hotKey];
 
-					if (command.Code is CommandCodes.OpenItem && source.FindAscendantOrSelf<PathBreadcrumb>() is not null)
-					{
+					if (command.Code is CommandCodes.OpenItem && source?.FindAscendantOrSelf<PathBreadcrumb>() is not null)
 						break;
-					}
+					
 
 					if (command.Code is not CommandCodes.None && keyReleased)
 					{
