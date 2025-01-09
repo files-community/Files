@@ -1,4 +1,7 @@
-﻿using Files.Shared.Utils;
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
+
+using Files.Shared.Utils;
 
 namespace Files.App.Data.Items
 {

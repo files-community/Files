@@ -1,4 +1,7 @@
-﻿namespace Files.Shared.Utils
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
+
+namespace Files.Shared.Utils
 {
 	/// <summary>
 	/// Wraps and exposes <typeparamref name="T"/> implementation for access.

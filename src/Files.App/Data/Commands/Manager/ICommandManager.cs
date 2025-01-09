@@ -31,6 +31,7 @@ namespace Files.App.Data.Commands
 		IRichCommand ToggleDetailsPane { get; }
 		IRichCommand ToggleInfoPane { get; }
 		IRichCommand ToggleToolbar { get; }
+		IRichCommand ToggleShelfPane { get; }
 
 		IRichCommand CopyItem { get; }
 		IRichCommand CopyItemPath { get; }
