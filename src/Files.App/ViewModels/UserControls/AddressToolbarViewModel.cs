@@ -525,13 +525,24 @@ namespace Files.App.ViewModels.UserControls
 			});
 		}
 
-		public void PathBoxItem_KeyDown(object sender, KeyRoutedEventArgs e)
+		public void PathBoxItem_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key == Windows.System.VirtualKey.Down)
 			{
 				var item = e.OriginalSource as ListViewItem;
 				var button = item?.FindDescendant<Button>();
 				button?.Flyout.ShowAt(button);
+				e.Handled = true;
+			} else if (e.Key == Windows.System.VirtualKey.Space || e.Key == Windows.System.VirtualKey.Enter)
+			{
+				var item = e.OriginalSource as ListViewItem;
+				var path = (item?.Content as PathBoxItem)?.Path;
+				if (path == null || path == PathControlDisplayText)
+					return;
+				ToolbarPathItemInvoked?.Invoke(this, new PathNavigationEventArgs()
+				{
+					ItemPath = path
+				});
 				e.Handled = true;
 			}
 		}
