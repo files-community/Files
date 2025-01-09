@@ -20,6 +20,7 @@ namespace Files.App.Actions
 		public bool IsAccessibleGlobally
 			=> AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
 
+		// TODO Remove IsExecutable when feature is ready
 		public bool IsExecutable
 			=> AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
 		
