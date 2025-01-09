@@ -4022,6 +4022,9 @@
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>Toggle the shelf pane</value>
   </data>
+  <data name="ToggleShelfPaneDescription" xml:space="preserve">
+    <value>Toggle the shelf pane visibility</value>
+  </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
     <value>Show shelf pane toggle in address bar</value>
   </data>

@@ -166,20 +166,6 @@ namespace Files.App.ViewModels.UserControls
 		public bool ShowShelfPaneToggleButton
 			=> AppearanceSettingsService.ShowShelfPaneToggleButton && AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
 
-		
-		// TODO replace with action when feature is marked as stable
-		public bool ShowShelfPane
-		{
-			get => GeneralSettingsService.ShowShelfPane;
-			set
-			{
-				if (value == GeneralSettingsService.ShowShelfPane)
-					return;
-
-				GeneralSettingsService.ShowShelfPane = value;
-			}
-		}
-
 		public ObservableCollection<NavigationBarSuggestionItem> NavigationBarSuggestions = [];
 
 		private CurrentInstanceViewModel instanceViewModel;
@@ -233,16 +219,6 @@ namespace Files.App.ViewModels.UserControls
 						break;
 					case nameof(AppearanceSettingsService.ShowShelfPaneToggleButton):
 						OnPropertyChanged(nameof(ShowShelfPaneToggleButton));
-						break;
-				}
-			};
-			
-			GeneralSettingsService.PropertyChanged += (s, e) =>
-			{
-				switch (e.PropertyName)
-				{
-					case nameof(GeneralSettingsService.ShowShelfPane):
-						OnPropertyChanged(nameof(ShowShelfPane));
 						break;
 				}
 			};

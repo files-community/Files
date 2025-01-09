@@ -491,17 +491,17 @@
 
 				<!--  Shelf Pane  -->
 				<ToggleButton
-					x:Name="OpenShelfPaneButton"
+					x:Name="ShelfPaneToggleButton"
 					Width="36"
 					Height="32"
 					Padding="0"
 					x:Load="{x:Bind ViewModel.ShowShelfPaneToggleButton, Mode=OneWay}"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
-					AutomationProperties.Name="{helpers:ResourceString Name=ToggleShelfPane}"
+					AutomationProperties.Name="{x:Bind ViewModel.Commands.ToggleShelfPane.Label}"
 					Background="Transparent"
 					BorderBrush="Transparent"
-					IsChecked="{x:Bind ViewModel.ShowShelfPane, Mode=TwoWay}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=ToggleShelfPane}">
+					IsChecked="{x:Bind Commands.ToggleShelfPane.IsOn, Mode=TwoWay}"
+					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.ToggleShelfPane.LabelWithHotKey, Mode=OneWay}">
 					<controls:ThemedIcon
 						Width="20"
 						Height="20"
