@@ -18,7 +18,7 @@ namespace Files.App.Actions
 
 		// TODO Remove IsAccessibleGlobally when feature is ready
 		public bool IsAccessibleGlobally
-			=> AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;;
+			=> AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
 
 		public bool IsExecutable
 			=> AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
