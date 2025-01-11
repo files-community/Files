@@ -1838,8 +1838,8 @@
   <data name="CompatibilityRegisterThisProgramForRestart" xml:space="preserve">
     <value>Register this program for restart</value>
   </data>
-  <data name="Run" xml:space="preserve">
-    <value>Run</value>
+  <data name="StartWindow" xml:space="preserve">
+    <value>Start window</value>
   </data>
   <data name="NormalWindow" xml:space="preserve">
     <value>Normal window</value>

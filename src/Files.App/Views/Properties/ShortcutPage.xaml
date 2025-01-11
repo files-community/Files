@@ -137,7 +137,7 @@
 					Text="{x:Bind ViewModel.ShortcutItemWorkingDirEditedValue, Mode=TwoWay}" />
 			</Grid>
 
-			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=Run}" HorizontalAlignment="Stretch">
+			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=StartWindow}" HorizontalAlignment="Stretch">
 				<ComboBox ItemsSource="{x:Bind ViewModel.ShowWindowCommandTypes.Values, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedShowWindowCommand, Mode=TwoWay}" />
 			</settingsuc:SettingsBlockControl>
 

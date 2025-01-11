@@ -788,8 +788,16 @@ namespace Files.App.Data.Models
 			{ SHOW_WINDOW_CMD.SW_SHOWMINNOACTIVE, Strings.Minimized.GetLocalizedResource() },
 			{ SHOW_WINDOW_CMD.SW_MAXIMIZE, Strings.Maximized.GetLocalizedResource() }
 		}.AsReadOnly();
+
+		/// <summary>
+		/// The available show window command types.
+		/// </summary>
 		public IReadOnlyDictionary<SHOW_WINDOW_CMD, string> ShowWindowCommandTypes { get => showWindowCommandTypes; }
 
+		/// <summary>
+		/// The localized string of the currently selected ShowWindowCommand.
+		/// This value can be used for display in the UI.
+		/// </summary>
 		public string SelectedShowWindowCommand
 		{
 			get => ShowWindowCommandTypes.GetValueOrDefault(ShowWindowCommandEditedValue)!;
@@ -797,6 +805,9 @@ namespace Files.App.Data.Models
 		}
 
 		private SHOW_WINDOW_CMD showWindowCommand;
+		/// <summary>
+		/// The current <see cref="SHOW_WINDOW_CMD"/> property of the item.
+		/// </summary>
 		public SHOW_WINDOW_CMD ShowWindowCommand
 		{
 			get => showWindowCommand;
@@ -808,6 +819,9 @@ namespace Files.App.Data.Models
 		}
 
 		private SHOW_WINDOW_CMD showWindowCommandEditedValue;
+		/// <summary>
+		/// The edited <see cref="SHOW_WINDOW_CMD"/> property of the item.
+		/// </summary>
 		public SHOW_WINDOW_CMD ShowWindowCommandEditedValue
 		{
 			get => showWindowCommandEditedValue;
