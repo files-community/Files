@@ -503,10 +503,8 @@
 					IsChecked="{x:Bind Commands.ToggleShelfPane.IsOn, Mode=TwoWay}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.ToggleShelfPane.LabelWithHotKey, Mode=OneWay}">
 					<controls:ThemedIcon
-						Width="20"
-						Height="20"
-						HorizontalAlignment="Center"
-						VerticalAlignment="Center"
+						Width="16"
+						Height="16"
 						Style="{StaticResource App.ThemedIcons.Shelf}" />
 				</ToggleButton>
 
