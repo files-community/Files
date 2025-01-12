@@ -49,16 +49,6 @@ body:
     validations:
       required: true
 
-  # Windows Version
-  - type: input
-    id: windows_version
-    attributes:
-      label: Windows Version
-      description: Which version of Windows are you using? To copy your Windows version, access it from Settings -> About -> Copy -> Windows version.
-      placeholder: "e.g. 10.0.22621.1848"
-    validations:
-      required: true
-
   # Additional Comments
   - type: textarea
     attributes:
