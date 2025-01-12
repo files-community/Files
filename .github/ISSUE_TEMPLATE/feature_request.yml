@@ -25,7 +25,7 @@ body:
       value: |
         ---
 
-        Please include a list changes required to make this improvement. A good rule of thumb is to start your proposal with no more than 7 high-level requirements.
+        What will need to change in order for this feature to be implemented? A good rule of thumb is to start your proposal with no more than 7 high-level requirements.
 
   # Requirements
   - type: textarea
