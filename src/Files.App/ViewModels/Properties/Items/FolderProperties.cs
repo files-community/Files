@@ -55,6 +55,7 @@ namespace Files.App.ViewModels.Properties
 					ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
 					ViewModel.IsShortcutItemPathReadOnly = false;
 					ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
+					ViewModel.ShowWindowCommand = shortcutItem.ShowWindowCommand;
 					ViewModel.ShortcutItemWorkingDirVisibility = false;
 					ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
 					ViewModel.ShortcutItemArgumentsVisibility = false;
@@ -202,7 +203,7 @@ namespace Files.App.ViewModels.Properties
 		{
 			switch (e.PropertyName)
 			{
-				case "IsHidden":
+				case nameof(ViewModel.IsHidden):
 					if (ViewModel.IsHidden is not null)
 					{
 						if ((bool)ViewModel.IsHidden)
@@ -212,19 +213,20 @@ namespace Files.App.ViewModels.Properties
 					}
 					break;
 
-				case "IsContentCompressed":
+				case nameof(ViewModel.IsContentCompressed):
 					Win32Helper.SetCompressionAttributeIoctl(Item.ItemPath, ViewModel.IsContentCompressed ?? false);
 					break;
 
-				case "ShortcutItemPath":
-				case "ShortcutItemWorkingDir":
-				case "ShortcutItemArguments":
+				case nameof(ViewModel.ShortcutItemPath):
+				case nameof(ViewModel.ShortcutItemWorkingDir):
+				case nameof(ViewModel.ShowWindowCommand):
+				case nameof(ViewModel.ShortcutItemArguments):
 					var tmpItem = (ShortcutItem)Item;
 
 					if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
 						return;
 
-					await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, tmpItem.RunAsAdmin);
+					await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, tmpItem.RunAsAdmin, ViewModel.ShowWindowCommand);
 					break;
 			}
 		}

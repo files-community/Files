@@ -319,7 +319,6 @@ namespace Files.App.Utils.Storage
 						IsSymLink = true
 					};
 				}
-				
 			}
 			else if (FileExtensionHelpers.IsShortcutOrUrlFile(findData.cFileName))
 			{
@@ -351,6 +350,7 @@ namespace Files.App.Utils.Storage
 						Arguments = shInfo.Arguments,
 						WorkingDirectory = shInfo.WorkingDirectory,
 						RunAsAdmin = shInfo.RunAsAdmin,
+						ShowWindowCommand = shInfo.ShowWindowCommand,
 						IsUrl = isUrl,
 					};
 				}
@@ -376,6 +376,7 @@ namespace Files.App.Utils.Storage
 						Arguments = shInfo.Arguments,
 						WorkingDirectory = shInfo.WorkingDirectory,
 						RunAsAdmin = shInfo.RunAsAdmin,
+						ShowWindowCommand = shInfo.ShowWindowCommand,
 						IsUrl = isUrl,
 					};
 				}
