@@ -587,12 +587,12 @@
 					ToolTipService.ToolTip="{helpers:ResourceString Name=UpdateFiles}">
 					<Grid>
 						<!--  Icon  -->
-						<FontIcon
+						<controls:ThemedIcon
 							x:Name="UpdateIcon"
+							Width="16"
+							Height="16"
 							x:Load="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-							FontSize="14"
-							Foreground="{ThemeResource SystemAccentColor}"
-							Glyph="&#xE896;" />
+							Style="{StaticResource App.ThemedIcons.AppUpdateAvailable}" />
 
 						<!--  Progress  -->
 						<ProgressRing
@@ -617,10 +617,10 @@
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.OpenReleaseNotes.LabelWithHotKey}"
 					Visibility="{x:Bind ViewModel.Commands.OpenReleaseNotes.IsExecutable, Mode=OneWay}">
-					<FontIcon
-						FontSize="14"
-						Foreground="{ThemeResource SystemAccentColor}"
-						Glyph="&#xF133;" />
+					<controls:ThemedIcon
+						Width="16"
+						Height="16"
+						Style="{StaticResource App.ThemedIcons.AppUpdatedBox}" />
 				</Button>
 
 				<!--  Open the Settings dialog  -->
