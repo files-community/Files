@@ -1122,9 +1122,9 @@
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
 								<Grid.RowDefinitions>
-									<RowDefinition MinHeight="30" />
-									<RowDefinition MinHeight="30" />
-									<RowDefinition MinHeight="30" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
 								</Grid.RowDefinitions>
 
 								<!--  Show Hidden Files  -->
@@ -1167,7 +1167,8 @@
 									Grid.Row="2"
 									Grid.Column="0"
 									VerticalAlignment="Center"
-									Text="{x:Bind Commands.LayoutAdaptive.Label}" />
+									Text="{x:Bind Commands.LayoutAdaptive.Label}"
+									Visibility="{x:Bind Commands.LayoutAdaptive.IsExecutable, Mode=OneWay}" />
 
 								<ToggleSwitch
 									Grid.Row="2"
@@ -1178,8 +1179,8 @@
 									IsOn="{x:Bind Commands.LayoutAdaptive.IsOn, Mode=TwoWay}"
 									Rotation="1"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}"
-									ToolTipService.ToolTip="{x:Bind Commands.LayoutAdaptive.LabelWithHotKey, Mode=OneWay}" />
-
+									ToolTipService.ToolTip="{x:Bind Commands.LayoutAdaptive.LabelWithHotKey, Mode=OneWay}"
+									Visibility="{x:Bind Commands.LayoutAdaptive.IsExecutable, Mode=OneWay}" />
 							</Grid>
 
 						</StackPanel>
