@@ -15,6 +15,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.WhatsNewDescription.GetLocalizedResource();
 
+		public RichGlyph Glyph
+			=> new(themedIconStyle: "App.ThemedIcons.AppUpdatedBox");
+
 		public bool IsExecutable
 			=> UpdateService.AreReleaseNotesAvailable;
 
