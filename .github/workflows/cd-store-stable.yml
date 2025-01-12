@@ -17,12 +17,13 @@ on:
 
 jobs:
   build:
-    name: Deploy (Store Stable)
+    name: Deploy
     runs-on: windows-latest
     environment: Deployments
     strategy:
       fail-fast: false
       matrix:
+        environment: [Store Stable]
         configuration: [Release]
         platform: [x64]
     env:

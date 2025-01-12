@@ -24,6 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        environment: [Sideload Preview]
         configuration: [Release]
         platform: [x64]
     env:

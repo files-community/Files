@@ -18,12 +18,13 @@ on:
 
 jobs:
   build:
-    name: Deploy (Sideload Stable)
+    name: Deploy
     runs-on: windows-latest
     environment: Deployments
     strategy:
       fail-fast: false
       matrix:
+        environment: [Sideload Stable]
         configuration: [Release]
         platform: [x64]
     env:
