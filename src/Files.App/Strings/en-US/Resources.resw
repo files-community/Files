@@ -4044,5 +4044,6 @@
   </data>
   <data name="ConciseAdaptiveLayoutDisabledNotification" xml:space="preserve">
     <value>Sync layout across directories must be disabled.</value>
+    <comment>This text appears as part of an info bar when the adaptive layout button is disabled. The localized text must be short as it will cause display issues otherwise.</comment>
   </data>
 </root>
