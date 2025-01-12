@@ -127,6 +127,7 @@ namespace Files.App.Utils.Shell
 			{
 				IsFolder = !string.IsNullOrEmpty(linkItem.TargetPath) && linkItem.Target.IsFolder,
 				RunAsAdmin = linkItem.RunAsAdministrator,
+				ShowWindowCommand = (Windows.Win32.UI.WindowsAndMessaging.SHOW_WINDOW_CMD)linkItem.ShowState,
 				Arguments = linkItem.Arguments,
 				WorkingDirectory = Environment.ExpandEnvironmentVariables(linkItem.WorkingDirectory),
 				TargetPath = Environment.ExpandEnvironmentVariables(linkItem.TargetPath)

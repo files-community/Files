@@ -10,6 +10,7 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using Windows.Storage;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
@@ -526,6 +527,7 @@ namespace Files.App.Utils
 		public string Arguments { get; set; }
 		public string WorkingDirectory { get; set; }
 		public bool RunAsAdmin { get; set; }
+		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
 		public bool IsUrl { get; set; }
 		public bool IsSymLink { get; set; }
 		public override bool IsExecutable => FileExtensionHelpers.IsExecutableFile(TargetPath, true);
@@ -678,7 +680,7 @@ namespace Files.App.Utils
 			set => SetProperty(ref _GitLastCommitFullSha, value);
 		}
 	}
-	public sealed class GitShortcutItem : GitItem,IShortcutItem
+	public sealed class GitShortcutItem : GitItem, IShortcutItem
 	{
 		private volatile int statusPropertiesInitialized = 0;
 		public bool StatusPropertiesInitialized
@@ -762,6 +764,7 @@ namespace Files.App.Utils
 		public string Arguments { get; set; }
 		public string WorkingDirectory { get; set; }
 		public bool RunAsAdmin { get; set; }
+		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
 		public bool IsUrl { get; set; }
 		public bool IsSymLink { get; set; }
 		public override bool IsExecutable => FileExtensionHelpers.IsExecutableFile(TargetPath, true);
@@ -800,11 +803,9 @@ namespace Files.App.Utils
 		public string Arguments { get; set; }
 		public string WorkingDirectory { get; set; }
 		public bool RunAsAdmin { get; set; }
+		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
 		public bool IsUrl { get; set; }
 		public bool IsSymLink { get; set; }
-
 		public bool IsExecutable { get; }
-
-
 	}
 }

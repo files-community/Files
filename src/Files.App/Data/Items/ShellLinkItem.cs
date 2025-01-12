@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Windows.Win32.UI.WindowsAndMessaging;
+
 namespace Files.App.Data.Items
 {
 	public sealed class ShellLinkItem : ShellFileItem
@@ -14,6 +16,8 @@ namespace Files.App.Data.Items
 		public bool RunAsAdmin { get; set; }
 
 		public bool InvalidTarget { get; set; }
+
+		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
 
 		public ShellLinkItem()
 		{
