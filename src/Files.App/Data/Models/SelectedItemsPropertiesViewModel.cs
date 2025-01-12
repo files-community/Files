@@ -635,6 +635,13 @@ namespace Files.App.Data.Models
 			get => shortcutItemArgumentsVisibility;
 			set => SetProperty(ref shortcutItemArgumentsVisibility, value);
 		}
+		
+		private bool shortcutItemWindowArgsVisibility = false;
+		public bool ShortcutItemWindowArgsVisibility
+		{
+			get => shortcutItemWindowArgsVisibility;
+			set => SetProperty(ref shortcutItemWindowArgsVisibility, value);
+		}
 
 		private RelayCommand shortcutItemOpenLinkCommand;
 		public RelayCommand ShortcutItemOpenLinkCommand

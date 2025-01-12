@@ -59,6 +59,7 @@ namespace Files.App.ViewModels.Properties
 					ViewModel.ShortcutItemWorkingDirVisibility = false;
 					ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
 					ViewModel.ShortcutItemArgumentsVisibility = false;
+					ViewModel.ShortcutItemWindowArgsVisibility = false;
 					ViewModel.ShortcutItemOpenLinkCommand = new RelayCommand(async () =>
 					{
 						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(

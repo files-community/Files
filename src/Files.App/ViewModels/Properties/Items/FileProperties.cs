@@ -67,6 +67,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
 			ViewModel.ShowWindowCommand = shortcutItem.ShowWindowCommand;
 			ViewModel.ShortcutItemArgumentsVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
+			ViewModel.ShortcutItemWindowArgsVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
 
 			if (isApplication)
 				ViewModel.RunAsAdmin = shortcutItem.RunAsAdmin;
