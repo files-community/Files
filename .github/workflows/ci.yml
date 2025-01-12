@@ -46,7 +46,7 @@ env:
 jobs:
 
   check-formatting:
-
+    name: Check formatting
     if: github.repository_owner == 'files-community'
 
     runs-on: windows-latest
@@ -82,7 +82,7 @@ jobs:
       run: exit 1
 
   build:
-
+    name: Build
     if: github.repository_owner == 'files-community'
 
     runs-on: windows-latest
@@ -180,7 +180,7 @@ jobs:
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
   test:
-
+    name: Test
     if: github.repository_owner == 'files-community' && always()
 
     needs: [build]

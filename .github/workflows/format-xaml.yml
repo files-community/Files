@@ -5,6 +5,7 @@ on:
 
 jobs:
   format-xaml:
+    name: Format XAML
     if: github.event.issue.pull_request && github.event.comment.body == '/format'
     runs-on: windows-latest
     environment: Pull Requests

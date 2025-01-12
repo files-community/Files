@@ -10,13 +10,14 @@
 #  3. Generate a msixupload file
 #  4. Publish the msixupload to GitHub Actions
 
-name: Files CD (Store Stable)
+name: Files CD
 
 on:
   workflow_dispatch:
 
 jobs:
   build:
+    name: Deploy (Store Stable)
     runs-on: windows-latest
     environment: Deployments
     strategy:
