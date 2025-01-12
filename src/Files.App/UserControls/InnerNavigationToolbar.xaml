@@ -1182,11 +1182,6 @@
 
 							</Grid>
 
-							<InfoBar
-								IsClosable="False"
-								IsOpen="{x:Bind Commands.LayoutAdaptive.IsExecutable.Equals(x:False), Mode=OneWay}"
-								Message="{helpers:ResourceString Name=ConciseAdaptiveLayoutDisabledNotification}"
-								Severity="Informational" />
 						</StackPanel>
 					</Flyout>
 				</AppBarButton.Flyout>
