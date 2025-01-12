@@ -246,7 +246,7 @@ namespace Files.App.Helpers
 		/// <summary>
 		/// Updates ListedItem properties for a shortcut
 		/// </summary>
-		public static void UpdateShortcutItemProperties(ShortcutItem item, string targetPath, string arguments, string workingDir, bool runAsAdmin, SHOW_WINDOW_CMD showWindowCommand)
+		public static void UpdateShortcutItemProperties(IShortcutItem item, string targetPath, string arguments, string workingDir, bool runAsAdmin, SHOW_WINDOW_CMD showWindowCommand)
 		{
 			item.TargetPath = Environment.ExpandEnvironmentVariables(targetPath);
 			item.Arguments = arguments;

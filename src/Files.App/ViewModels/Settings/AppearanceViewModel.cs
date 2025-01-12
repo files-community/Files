@@ -315,5 +315,24 @@ namespace Files.App.ViewModels.Settings
 				}
 			}
 		}
+
+		public bool ShowShelfPaneToggleButton
+		{
+			get => UserSettingsService.AppearanceSettingsService.ShowShelfPaneToggleButton;
+			set
+			{
+				if (value != UserSettingsService.AppearanceSettingsService.ShowShelfPaneToggleButton)
+				{
+					UserSettingsService.AppearanceSettingsService.ShowShelfPaneToggleButton = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool IsAppEnvironmentDev
+		{
+			get => AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
+		}
 	}
 }

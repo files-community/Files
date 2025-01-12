@@ -248,12 +248,13 @@
 						ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
 						Visibility="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
 
+					<!--  Shelf Pane  -->
 					<uc:ShelfPane
 						x:Name="ShelfPane"
 						Grid.Row="0"
-						Grid.RowSpan="2"
+						Grid.RowSpan="5"
 						Grid.Column="3"
-						Margin="4,0,0,0"
+						Margin="4,0,0,8"
 						x:Load="{x:Bind ViewModel.ShowShelfPane, Mode=OneWay}" />
 				</Grid>
 			</sidebar:SidebarView.InnerContent>

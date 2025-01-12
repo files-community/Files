@@ -136,7 +136,7 @@
 		IsItemClickEnabled="True"
 		ItemTemplateSelector="{StaticResource PathBreadcrumbItemSelector}"
 		ItemsSource="{x:Bind ViewModel.PathComponents, Mode=OneWay}"
-		KeyDown="PathBoxItem_KeyDown"
+		PreviewKeyDown="PathBoxItem_PreviewKeyDown"
 		ScrollViewer.HorizontalScrollBarVisibility="Hidden"
 		ScrollViewer.HorizontalScrollMode="Enabled"
 		ScrollViewer.VerticalScrollBarVisibility="Disabled"

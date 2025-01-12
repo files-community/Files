@@ -366,20 +366,6 @@ namespace Files.App.ViewModels.Settings
 				OnPropertyChanged();
 			}
 		}
-		
-		// TODO remove when feature is marked as stable
-		public bool ShowShelfPane
-		{
-			get => UserSettingsService.GeneralSettingsService.ShowShelfPane;
-			set
-			{
-				if (value == UserSettingsService.GeneralSettingsService.ShowShelfPane)
-					return;
-
-				UserSettingsService.GeneralSettingsService.ShowShelfPane = value;
-				OnPropertyChanged();
-			}
-		}
 
 		public async Task OpenFilesOnWindowsStartupAsync()
 		{

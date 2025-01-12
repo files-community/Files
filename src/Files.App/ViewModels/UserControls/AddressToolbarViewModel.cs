@@ -22,6 +22,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
+		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
 		private readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
@@ -162,6 +163,9 @@ namespace Files.App.ViewModels.UserControls
 		public bool ShowHomeButton
 			=> AppearanceSettingsService.ShowHomeButton;
 
+		public bool ShowShelfPaneToggleButton
+			=> AppearanceSettingsService.ShowShelfPaneToggleButton && AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
+
 		public ObservableCollection<NavigationBarSuggestionItem> NavigationBarSuggestions = [];
 
 		private CurrentInstanceViewModel instanceViewModel;
@@ -212,6 +216,9 @@ namespace Files.App.ViewModels.UserControls
 				{
 					case nameof(AppearanceSettingsService.ShowHomeButton):
 						OnPropertyChanged(nameof(ShowHomeButton));
+						break;
+					case nameof(AppearanceSettingsService.ShowShelfPaneToggleButton):
+						OnPropertyChanged(nameof(ShowShelfPaneToggleButton));
 						break;
 				}
 			};
@@ -518,14 +525,32 @@ namespace Files.App.ViewModels.UserControls
 			});
 		}
 
-		public void PathBoxItem_KeyDown(object sender, KeyRoutedEventArgs e)
+		public void PathBoxItem_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (e.Key == Windows.System.VirtualKey.Down)
+			switch (e.Key)
 			{
-				var item = e.OriginalSource as ListViewItem;
-				var button = item?.FindDescendant<Button>();
-				button?.Flyout.ShowAt(button);
-				e.Handled = true;
+				case Windows.System.VirtualKey.Down:
+				{
+					var item = e.OriginalSource as ListViewItem;
+					var button = item?.FindDescendant<Button>();
+					button?.Flyout.ShowAt(button);
+					e.Handled = true;
+					break;
+				}
+				case Windows.System.VirtualKey.Space: 
+				case Windows.System.VirtualKey.Enter:
+				{
+					var item = e.OriginalSource as ListViewItem;
+					var path = (item?.Content as PathBoxItem)?.Path;
+					if (path == PathControlDisplayText)
+						return;
+					ToolbarPathItemInvoked?.Invoke(this, new PathNavigationEventArgs()
+					{
+						ItemPath = path
+					});
+					e.Handled = true;
+					break;
+				}
 			}
 		}
 
