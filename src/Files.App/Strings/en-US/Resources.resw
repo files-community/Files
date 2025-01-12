@@ -4042,4 +4042,7 @@
     <value>Add to shelf</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
   </data>
+  <data name="ConciseAdaptiveLayoutDisabledNotification" xml:space="preserve">
+    <value>Sync layout across directories must be disabled.</value>
+  </data>
 </root>
