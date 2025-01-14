@@ -1164,23 +1164,25 @@
 
 								<!--  Adaptive Layout  -->
 								<TextBlock
+									x:Name="AdaptiveLayoutTextBlock"
 									Grid.Row="2"
 									Grid.Column="0"
 									VerticalAlignment="Center"
-									Text="{x:Bind Commands.LayoutAdaptive.Label}"
-									Visibility="{x:Bind Commands.LayoutAdaptive.IsExecutable, Mode=OneWay}" />
+									x:Load="{x:Bind Commands.LayoutAdaptive.IsExecutable, Mode=OneWay}"
+									Text="{x:Bind Commands.LayoutAdaptive.Label}" />
 
 								<ToggleSwitch
+									x:Name="AdaptiveLayoutToggleSwitch"
 									Grid.Row="2"
 									Grid.Column="1"
 									HorizontalAlignment="Right"
+									x:Load="{x:Bind Commands.LayoutAdaptive.IsExecutable, Mode=OneWay}"
 									AutomationProperties.Name="{x:Bind Commands.LayoutAdaptive.AutomationName}"
 									IsEnabled="{x:Bind Commands.LayoutAdaptive.IsExecutable, Mode=OneWay}"
 									IsOn="{x:Bind Commands.LayoutAdaptive.IsOn, Mode=TwoWay}"
 									Rotation="1"
 									Style="{StaticResource RightAlignedToggleSwitchStyle}"
-									ToolTipService.ToolTip="{x:Bind Commands.LayoutAdaptive.LabelWithHotKey, Mode=OneWay}"
-									Visibility="{x:Bind Commands.LayoutAdaptive.IsExecutable, Mode=OneWay}" />
+									ToolTipService.ToolTip="{x:Bind Commands.LayoutAdaptive.LabelWithHotKey, Mode=OneWay}" />
 							</Grid>
 
 						</StackPanel>
