@@ -204,7 +204,8 @@ namespace Files.App.Views.Layouts
 				if (requestedIconSize != currentIconSize)
 				{
 					currentIconSize = requestedIconSize;
-					_ = ReloadItemIconsAsync();
+					// Don't change this await https://github.com/files-community/Files/pull/16708#discussion_r1916402106
+					await ReloadItemIconsAsync();
 				}
 			}
 		}
