@@ -227,7 +227,13 @@ namespace Files.App.Helpers
 		{
 			return LayoutMode switch
 			{
-				FolderLayoutModes.DetailsView
+				_ when LayoutMode == FolderLayoutModes.DetailsView && UserSettingsService.LayoutSettingsService.DetailsViewSize <= DetailsViewSizeKind.Small
+					=> Constants.ShellIconSizes.Small,
+				_ when LayoutMode == FolderLayoutModes.DetailsView && UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Medium
+					=> 20,
+				_ when LayoutMode == FolderLayoutModes.DetailsView && UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Large
+					=> 24,
+				_ when LayoutMode == FolderLayoutModes.DetailsView && UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.ExtraLarge
 					=> Constants.ShellIconSizes.Large,
 				FolderLayoutModes.ListView
 					=> Constants.ShellIconSizes.Large,

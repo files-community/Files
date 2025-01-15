@@ -140,7 +140,7 @@ namespace Files.App.Views.Layouts
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
-				ReloadItemIconsAsync();
+				_ = ReloadItemIconsAsync();
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -204,7 +204,7 @@ namespace Files.App.Views.Layouts
 				if (requestedIconSize != currentIconSize)
 				{
 					currentIconSize = requestedIconSize;
-					await ReloadItemIconsAsync();
+					_ = ReloadItemIconsAsync();
 				}
 			}
 		}
@@ -497,7 +497,7 @@ namespace Files.App.Views.Layouts
 			{
 				// Update icon size before refreshing
 				currentIconSize = requestedIconSize;
-				await ReloadItemIconsAsync();
+				_ = ReloadItemIconsAsync();
 			}
 		}
 

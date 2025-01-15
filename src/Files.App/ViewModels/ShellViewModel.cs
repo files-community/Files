@@ -975,6 +975,7 @@ namespace Files.App.ViewModels
 			var loadNonCachedThumbnail = false;
 			var thumbnailSize = folderSettings.GetRoundedIconSize();
 			var returnIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
+			var useCurrentScale = folderSettings.LayoutMode == FolderLayoutModes.DetailsView;
 
 			byte[]? result = null;
 
@@ -988,7 +989,7 @@ namespace Files.App.ViewModels
 							item.ItemPath,
 							thumbnailSize,
 							item.IsFolder,
-							IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached);
+							IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached | (useCurrentScale ? IconOptions.UseCurrentScale : 0));
 
 					cancellationToken.ThrowIfCancellationRequested();
 					loadNonCachedThumbnail = true;
@@ -1001,7 +1002,7 @@ namespace Files.App.ViewModels
 							item.ItemPath,
 							thumbnailSize,
 							item.IsFolder,
-							IconOptions.ReturnIconOnly);
+							IconOptions.ReturnIconOnly | (useCurrentScale ? IconOptions.UseCurrentScale : 0));
 
 					cancellationToken.ThrowIfCancellationRequested();
 				}
@@ -1013,7 +1014,7 @@ namespace Files.App.ViewModels
 						item.ItemPath,
 						thumbnailSize,
 						item.IsFolder,
-						returnIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
+						returnIconOnly ? IconOptions.ReturnIconOnly | (useCurrentScale ? IconOptions.UseCurrentScale : 0) : (useCurrentScale ? IconOptions.UseCurrentScale : 0));
 
 				cancellationToken.ThrowIfCancellationRequested();
 			}
@@ -1059,7 +1060,7 @@ namespace Files.App.ViewModels
 								item.ItemPath,
 								thumbnailSize,
 								item.IsFolder,
-								IconOptions.ReturnThumbnailOnly);
+								IconOptions.ReturnThumbnailOnly | (useCurrentScale ? IconOptions.UseCurrentScale : 0));
 					}
 					finally
 					{

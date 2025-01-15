@@ -29,6 +29,7 @@ namespace Files.App.Views.Layouts
 		// Fields
 
 		private ListedItem? _nextItemToSelect;
+		private uint currentIconSize;
 
 		// Properties
 
@@ -136,6 +137,8 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
+			currentIconSize = FolderSettings.GetRoundedIconSize();
+
 			if (FolderSettings?.ColumnsViewModel is not null)
 			{
 				ColumnsViewModel.DateCreatedColumn = FolderSettings.ColumnsViewModel.DateCreatedColumn;
@@ -191,7 +194,7 @@ namespace Files.App.Views.Layouts
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
 		}
 
-		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private async void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == nameof(ILayoutSettingsService.DetailsViewSize))
 			{
@@ -205,6 +208,14 @@ namespace Files.App.Views.Layouts
 
 				// Restore correct scroll position
 				ContentScroller?.ChangeView(null, previousOffset, null);
+
+				// Reload icons with correct size but only if the size changed
+				var requestedIconSize = FolderSettings.GetRoundedIconSize();
+				if (requestedIconSize != currentIconSize)
+				{
+					currentIconSize = requestedIconSize;
+					_ = ReloadItemIconsAsync();
+				}
 			}
 			else
 			{
@@ -255,6 +266,19 @@ namespace Files.App.Views.Layouts
 				// Set correct style
 				FileList.ItemContainerStyle = RegularItemContainerStyle;
 			}
+
+			// Set icon column width
+			var iconColumnWidth = UserSettingsService.LayoutSettingsService.DetailsViewSize switch
+			{
+				DetailsViewSizeKind.Compact => new GridLength(20),
+				DetailsViewSizeKind.Small => new GridLength(20),
+				DetailsViewSizeKind.Medium => new GridLength(24),
+				DetailsViewSizeKind.Large => new GridLength(28),
+				DetailsViewSizeKind.ExtraLarge => new GridLength(36),
+				_ => new GridLength(20)
+			};
+
+			ColumnsViewModel.IconColumn.UserLength = iconColumnWidth;
 		}
 
 		private void FileList_LayoutUpdated(object? sender, object e)
