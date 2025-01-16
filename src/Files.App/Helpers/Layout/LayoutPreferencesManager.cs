@@ -1,9 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Enums;
-using System.Text.Json;
-using Windows.Storage;
 using Windows.Win32;
 
 namespace Files.App.Helpers
@@ -204,43 +201,6 @@ namespace Files.App.Helpers
 		}
 
 		// Methods
-
-		/// <summary>
-		/// This will round the current icon size to get the best result from the File Explorer thumbnail system.
-		/// 
-		/// Details View:
-		///		Always uses the Large icon size (32).
-		///		
-		/// List View:
-		///		Always uses the Large icon size (32).
-		///		
-		/// Columns View:
-		///		Always uses the Large icon size (32).
-		///		
-		/// Tiles View:
-		///		Always uses 96, 128, or 256 depending on the layout size.
-		///		
-		/// Grid View:
-		///		Always uses 96, 128, or 256 depending on the layout size.
-		/// </summary>
-		public uint GetRoundedIconSize()
-		{
-			return LayoutMode switch
-			{
-				FolderLayoutModes.DetailsView
-					=> Constants.ShellIconSizes.Large,
-				FolderLayoutModes.ListView
-					=> Constants.ShellIconSizes.Large,
-				FolderLayoutModes.ColumnView
-					=> Constants.ShellIconSizes.Large,
-				_ when LayoutMode == FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.GridViewSize <= GridViewSizeKind.Small ||
-					   LayoutMode == FolderLayoutModes.TilesView
-					=> 96,
-				_ when LayoutMode == FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.GridViewSize <= GridViewSizeKind.Large
-					=> 128,
-				_ => 256,
-			};
-		}
 
 		public Type GetLayoutType(string path, bool changeLayoutMode = true)
 		{

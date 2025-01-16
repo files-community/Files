@@ -30,6 +30,12 @@ namespace Files.App.Views.Layouts
 
 		private ListedItem? _nextItemToSelect;
 
+		/// <summary>
+		/// This reference is used to prevent unnecessary icon reloading by only reloading icons when their
+		/// size changes, even if the layout size changes (since some layout sizes share the same icon size).
+		/// </summary>
+		private uint currentIconSize;
+
 		// Properties
 
 		protected override ListViewBase ListViewBase => FileList;
@@ -136,6 +142,8 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
+			currentIconSize = LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.DetailsView);
+
 			if (FolderSettings?.ColumnsViewModel is not null)
 			{
 				ColumnsViewModel.DateCreatedColumn = FolderSettings.ColumnsViewModel.DateCreatedColumn;
@@ -205,6 +213,14 @@ namespace Files.App.Views.Layouts
 
 				// Restore correct scroll position
 				ContentScroller?.ChangeView(null, previousOffset, null);
+
+				// Check if icons need to be reloaded
+				var newIconSize = LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.DetailsView);
+				if (newIconSize != currentIconSize)
+				{
+					currentIconSize = newIconSize;
+					_ = ReloadItemIconsAsync();
+				}
 			}
 			else
 			{
@@ -255,6 +271,9 @@ namespace Files.App.Views.Layouts
 				// Set correct style
 				FileList.ItemContainerStyle = RegularItemContainerStyle;
 			}
+
+			// Set the width of the icon column. The value is increased by 4px to account for icon overlays.
+			ColumnsViewModel.IconColumn.UserLength = new GridLength(LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.DetailsView) + 4);
 		}
 
 		private void FileList_LayoutUpdated(object? sender, object e)

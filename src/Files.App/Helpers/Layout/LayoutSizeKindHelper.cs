@@ -94,6 +94,41 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
+		/// Gets the desired icon size for the requested layout
+		/// </summary>
+		/// <param name="folderLayoutMode"></param>
+		/// <returns></returns>
+		public static uint GetIconSize(FolderLayoutModes folderLayoutMode)
+		{
+			return folderLayoutMode switch
+			{
+				// Details
+				FolderLayoutModes.DetailsView when LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact => Constants.ShellIconSizes.Small,
+				FolderLayoutModes.DetailsView when LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Small => Constants.ShellIconSizes.Small,
+				FolderLayoutModes.DetailsView when LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Medium => 20,
+				FolderLayoutModes.DetailsView when LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Large => 24,
+				FolderLayoutModes.DetailsView when LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.ExtraLarge => Constants.ShellIconSizes.Large,
+
+				// List
+				FolderLayoutModes.ListView when LayoutSettingsService.ListViewSize == ListViewSizeKind.Compact => Constants.ShellIconSizes.Small,
+				FolderLayoutModes.ListView when LayoutSettingsService.ListViewSize == ListViewSizeKind.Small => Constants.ShellIconSizes.Small,
+				FolderLayoutModes.ListView when LayoutSettingsService.ListViewSize == ListViewSizeKind.Medium => 20,
+				FolderLayoutModes.ListView when LayoutSettingsService.ListViewSize == ListViewSizeKind.Large => 24,
+				FolderLayoutModes.ListView when LayoutSettingsService.ListViewSize == ListViewSizeKind.ExtraLarge => Constants.ShellIconSizes.Large,
+
+				// Columns
+				FolderLayoutModes.ColumnView => Constants.ShellIconSizes.Large,
+
+				// Grid and Tiles
+				FolderLayoutModes.GridView when LayoutSettingsService.GridViewSize <= GridViewSizeKind.Small => 96,
+				FolderLayoutModes.GridView when LayoutSettingsService.GridViewSize <= GridViewSizeKind.Large => 128,
+				FolderLayoutModes.TilesView => 96,
+
+				_ => 256,
+			};
+		}
+
+		/// <summary>
 		/// Gets the desired height for items in the Columns View
 		/// </summary>
 		/// <param name="columnsViewSizeKind"></param>

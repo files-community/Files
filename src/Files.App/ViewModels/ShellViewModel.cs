@@ -973,8 +973,11 @@ namespace Files.App.ViewModels
 		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken)
 		{
 			var loadNonCachedThumbnail = false;
-			var thumbnailSize = folderSettings.GetRoundedIconSize();
+			var thumbnailSize = LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
 			var returnIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
+
+			// TODO Remove this property when all the layouts can support different icon sizes
+			var useCurrentScale = folderSettings.LayoutMode == FolderLayoutModes.DetailsView || folderSettings.LayoutMode == FolderLayoutModes.ListView;
 
 			byte[]? result = null;
 
@@ -988,7 +991,7 @@ namespace Files.App.ViewModels
 							item.ItemPath,
 							thumbnailSize,
 							item.IsFolder,
-							IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached);
+							IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
 
 					cancellationToken.ThrowIfCancellationRequested();
 					loadNonCachedThumbnail = true;
@@ -1001,7 +1004,7 @@ namespace Files.App.ViewModels
 							item.ItemPath,
 							thumbnailSize,
 							item.IsFolder,
-							IconOptions.ReturnIconOnly);
+							IconOptions.ReturnIconOnly | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
 
 					cancellationToken.ThrowIfCancellationRequested();
 				}
@@ -1013,7 +1016,7 @@ namespace Files.App.ViewModels
 						item.ItemPath,
 						thumbnailSize,
 						item.IsFolder,
-						returnIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None);
+						(returnIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None) | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
 
 				cancellationToken.ThrowIfCancellationRequested();
 			}
@@ -1059,7 +1062,7 @@ namespace Files.App.ViewModels
 								item.ItemPath,
 								thumbnailSize,
 								item.IsFolder,
-								IconOptions.ReturnThumbnailOnly);
+								IconOptions.ReturnThumbnailOnly | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
 					}
 					finally
 					{

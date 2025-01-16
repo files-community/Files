@@ -903,13 +903,16 @@
 									Loaded="StackPanel_Loaded"
 									Orientation="Horizontal">
 									<!--  Item Thumbnail  -->
-									<Grid HorizontalAlignment="Left" VerticalAlignment="Stretch">
+									<Grid
+										Width="{Binding ColumnsViewModel.IconColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Stretch">
 
 										<!--  Thumbnail  -->
 										<Grid
 											x:Name="IconBox"
-											Width="24"
-											Height="24"
+											Width="{Binding ColumnsViewModel.IconColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
+											Height="{Binding ColumnsViewModel.IconColumn.Length.Value, ElementName=PageRoot, Mode=OneWay}"
 											HorizontalAlignment="Center"
 											VerticalAlignment="Center"
 											AutomationProperties.Name="{helpers:ResourceString Name=FileBrowserThumbnailIconColumnGrid/AutomationProperties/Name}"
@@ -918,8 +921,7 @@
 											Tag="ItemImage">
 											<ContentPresenter
 												x:Name="PicturePresenter"
-												Width="20"
-												Height="20"
+												Margin="2"
 												HorizontalAlignment="Center"
 												VerticalAlignment="Center"
 												x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"

@@ -23,7 +23,12 @@ namespace Files.App.Views.Layouts
 	{
 		// Fields
 
+		/// <summary>
+		/// This reference is used to prevent unnecessary icon reloading by only reloading icons when their
+		/// size changes, even if the layout size changes (since some layout sizes share the same icon size).
+		/// </summary>
 		private uint currentIconSize;
+
 		private volatile bool shouldSetVerticalScrollMode;
 
 		// Properties
@@ -40,6 +45,14 @@ namespace Files.App.Views.Layouts
 		public int RowHeightListView
 		{
 			get => LayoutSizeKindHelper.GetListViewRowHeight(UserSettingsService.LayoutSettingsService.ListViewSize);
+		}
+
+		/// <summary>
+		/// Icon Box size in the List View layout. The value is increased by 4px to account for icon overlays.
+		/// </summary>
+		public int IconBoxSizeListView
+		{
+			get => (int)(LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.ListView) + 4);
 		}
 
 		/// <summary>
@@ -127,7 +140,7 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
-			currentIconSize = FolderSettings.GetRoundedIconSize();
+			currentIconSize = LayoutSizeKindHelper.GetIconSize(FolderSettings.LayoutMode);
 
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
@@ -162,11 +175,11 @@ namespace Files.App.Views.Layouts
 			if (e.PropertyName == nameof(ILayoutSettingsService.ListViewSize))
 			{
 				NotifyPropertyChanged(nameof(RowHeightListView));
+				NotifyPropertyChanged(nameof(IconBoxSizeListView));
 
 				// Update the container style to match the item size
 				SetItemContainerStyle();
-
-				FolderSettings_IconHeightChanged();
+				FolderSettings_IconSizeChanged();
 			}
 			if (e.PropertyName == nameof(ILayoutSettingsService.TilesViewSize))
 			{
@@ -174,7 +187,7 @@ namespace Files.App.Views.Layouts
 
 				// Update the container style to match the item size
 				SetItemContainerStyle();
-				FolderSettings_IconHeightChanged();
+				FolderSettings_IconSizeChanged();
 			}
 			if (e.PropertyName == nameof(ILayoutSettingsService.GridViewSize))
 			{
@@ -182,15 +195,14 @@ namespace Files.App.Views.Layouts
 
 				// Update the container style to match the item size
 				SetItemContainerStyle();
-
-				FolderSettings_IconHeightChanged();
+				FolderSettings_IconSizeChanged();
 			}
 
 			// Restore correct scroll position
 			ContentScroller?.ChangeView(previousHorizontalOffset, previousVerticalOffset, null);
 		}
 
-		private async void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
+		private void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
 			if (FolderSettings.LayoutMode == FolderLayoutModes.ListView
 				|| FolderSettings.LayoutMode == FolderLayoutModes.TilesView
@@ -199,13 +211,7 @@ namespace Files.App.Views.Layouts
 				// Set ItemTemplate
 				SetItemTemplate();
 				SetItemContainerStyle();
-
-				var requestedIconSize = FolderSettings.GetRoundedIconSize();
-				if (requestedIconSize != currentIconSize)
-				{
-					currentIconSize = requestedIconSize;
-					await ReloadItemIconsAsync();
-				}
+				FolderSettings_IconSizeChanged();
 			}
 		}
 
@@ -487,17 +493,14 @@ namespace Files.App.Views.Layouts
 		protected override bool CanGetItemFromElement(object element)
 			=> element is GridViewItem;
 
-		private async void FolderSettings_IconHeightChanged()
+		private void FolderSettings_IconSizeChanged()
 		{
-			// Get new icon size
-			var requestedIconSize = FolderSettings.GetRoundedIconSize();
-
-			// Prevents reloading icons when the icon size hasn't changed
-			if (requestedIconSize != currentIconSize)
+			// Check if icons need to be reloaded
+			var newIconSize = LayoutSizeKindHelper.GetIconSize(FolderSettings.LayoutMode);
+			if (newIconSize != currentIconSize)
 			{
-				// Update icon size before refreshing
-				currentIconSize = requestedIconSize;
-				await ReloadItemIconsAsync();
+				currentIconSize = newIconSize;
+				_ = ReloadItemIconsAsync();
 			}
 		}
 
