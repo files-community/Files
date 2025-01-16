@@ -973,9 +973,9 @@ namespace Files.App.ViewModels
 		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken)
 		{
 			var loadNonCachedThumbnail = false;
-			var thumbnailSize = folderSettings.GetRoundedIconSize();
+			var thumbnailSize = LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
 			var returnIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
-			var useCurrentScale = folderSettings.LayoutMode == FolderLayoutModes.DetailsView;
+			var useCurrentScale = folderSettings.LayoutMode == FolderLayoutModes.DetailsView || folderSettings.LayoutMode == FolderLayoutModes.ListView;
 
 			byte[]? result = null;
 

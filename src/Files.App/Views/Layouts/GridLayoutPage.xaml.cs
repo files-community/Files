@@ -41,6 +41,14 @@ namespace Files.App.Views.Layouts
 		{
 			get => LayoutSizeKindHelper.GetListViewRowHeight(UserSettingsService.LayoutSettingsService.ListViewSize);
 		}
+		
+		/// <summary>
+		/// Icon Box size in the List View layout. The value is increased by 4px to account for icon overlays.
+		/// </summary>
+		public int IconBoxSizeListView
+		{
+			get => (int)(LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.ListView) + 4);
+		}
 
 		/// <summary>
 		/// Item width in the Tiles View layout
@@ -127,7 +135,7 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
-			currentIconSize = FolderSettings.GetRoundedIconSize();
+			currentIconSize = LayoutSizeKindHelper.GetIconSize(FolderSettings.LayoutMode);
 
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
@@ -162,10 +170,10 @@ namespace Files.App.Views.Layouts
 			if (e.PropertyName == nameof(ILayoutSettingsService.ListViewSize))
 			{
 				NotifyPropertyChanged(nameof(RowHeightListView));
+				NotifyPropertyChanged(nameof(IconBoxSizeListView));
 
 				// Update the container style to match the item size
 				SetItemContainerStyle();
-
 				FolderSettings_IconHeightChanged();
 			}
 			if (e.PropertyName == nameof(ILayoutSettingsService.TilesViewSize))
@@ -182,7 +190,6 @@ namespace Files.App.Views.Layouts
 
 				// Update the container style to match the item size
 				SetItemContainerStyle();
-
 				FolderSettings_IconHeightChanged();
 			}
 
@@ -200,7 +207,7 @@ namespace Files.App.Views.Layouts
 				SetItemTemplate();
 				SetItemContainerStyle();
 
-				var requestedIconSize = FolderSettings.GetRoundedIconSize();
+				var requestedIconSize = LayoutSizeKindHelper.GetIconSize(FolderSettings.LayoutMode);
 				if (requestedIconSize != currentIconSize)
 				{
 					currentIconSize = requestedIconSize;
@@ -491,7 +498,7 @@ namespace Files.App.Views.Layouts
 		private async void FolderSettings_IconHeightChanged()
 		{
 			// Get new icon size
-			var requestedIconSize = FolderSettings.GetRoundedIconSize();
+			var requestedIconSize = LayoutSizeKindHelper.GetIconSize(FolderSettings.LayoutMode);
 
 			// Prevents reloading icons when the icon size hasn't changed
 			if (requestedIconSize != currentIconSize)

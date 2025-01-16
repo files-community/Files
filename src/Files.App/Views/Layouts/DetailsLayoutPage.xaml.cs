@@ -137,7 +137,7 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
-			currentIconSize = FolderSettings.GetRoundedIconSize();
+			currentIconSize = LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.DetailsView);
 
 			if (FolderSettings?.ColumnsViewModel is not null)
 			{
@@ -210,7 +210,7 @@ namespace Files.App.Views.Layouts
 				ContentScroller?.ChangeView(null, previousOffset, null);
 
 				// Reload icons with correct size but only if the size changed
-				var requestedIconSize = FolderSettings.GetRoundedIconSize();
+				var requestedIconSize = LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.DetailsView);
 				if (requestedIconSize != currentIconSize)
 				{
 					currentIconSize = requestedIconSize;
@@ -268,17 +268,7 @@ namespace Files.App.Views.Layouts
 			}
 
 			// Set icon column width
-			var iconColumnWidth = UserSettingsService.LayoutSettingsService.DetailsViewSize switch
-			{
-				DetailsViewSizeKind.Compact => new GridLength(20),
-				DetailsViewSizeKind.Small => new GridLength(20),
-				DetailsViewSizeKind.Medium => new GridLength(24),
-				DetailsViewSizeKind.Large => new GridLength(28),
-				DetailsViewSizeKind.ExtraLarge => new GridLength(36),
-				_ => new GridLength(20)
-			};
-
-			ColumnsViewModel.IconColumn.UserLength = iconColumnWidth;
+			ColumnsViewModel.IconColumn.UserLength = new GridLength(LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.DetailsView) + 4);
 		}
 
 		private void FileList_LayoutUpdated(object? sender, object e)
