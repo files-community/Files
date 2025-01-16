@@ -121,8 +121,8 @@ namespace Files.App.Helpers
 
 				// Grid and Tiles
 				FolderLayoutModes.GridView when LayoutSettingsService.GridViewSize <= GridViewSizeKind.Small => 96,
-				FolderLayoutModes.TilesView => 96,
 				FolderLayoutModes.GridView when LayoutSettingsService.GridViewSize <= GridViewSizeKind.Large => 128,
+				FolderLayoutModes.TilesView => 96,
 
 				_ => 256,
 			};
