@@ -199,7 +199,7 @@ namespace Files.App.Views.Layouts
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
 		}
 
-		private async void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == nameof(ILayoutSettingsService.DetailsViewSize))
 			{
