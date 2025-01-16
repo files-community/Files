@@ -179,7 +179,7 @@ namespace Files.App.Views.Layouts
 
 				// Update the container style to match the item size
 				SetItemContainerStyle();
-				FolderSettings_IconHeightChanged();
+				FolderSettings_IconSizeChanged();
 			}
 			if (e.PropertyName == nameof(ILayoutSettingsService.TilesViewSize))
 			{
@@ -187,7 +187,7 @@ namespace Files.App.Views.Layouts
 
 				// Update the container style to match the item size
 				SetItemContainerStyle();
-				FolderSettings_IconHeightChanged();
+				FolderSettings_IconSizeChanged();
 			}
 			if (e.PropertyName == nameof(ILayoutSettingsService.GridViewSize))
 			{
@@ -195,14 +195,14 @@ namespace Files.App.Views.Layouts
 
 				// Update the container style to match the item size
 				SetItemContainerStyle();
-				FolderSettings_IconHeightChanged();
+				FolderSettings_IconSizeChanged();
 			}
 
 			// Restore correct scroll position
 			ContentScroller?.ChangeView(previousHorizontalOffset, previousVerticalOffset, null);
 		}
 
-		private async void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
+		private void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
 			if (FolderSettings.LayoutMode == FolderLayoutModes.ListView
 				|| FolderSettings.LayoutMode == FolderLayoutModes.TilesView
@@ -211,14 +211,7 @@ namespace Files.App.Views.Layouts
 				// Set ItemTemplate
 				SetItemTemplate();
 				SetItemContainerStyle();
-
-				var requestedIconSize = LayoutSizeKindHelper.GetIconSize(FolderSettings.LayoutMode);
-				if (requestedIconSize != currentIconSize)
-				{
-					currentIconSize = requestedIconSize;
-					// Don't change this await https://github.com/files-community/Files/pull/16708#discussion_r1916402106
-					await ReloadItemIconsAsync();
-				}
+				FolderSettings_IconSizeChanged();
 			}
 		}
 
@@ -500,16 +493,13 @@ namespace Files.App.Views.Layouts
 		protected override bool CanGetItemFromElement(object element)
 			=> element is GridViewItem;
 
-		private async void FolderSettings_IconHeightChanged()
+		private void FolderSettings_IconSizeChanged()
 		{
-			// Get new icon size
-			var requestedIconSize = LayoutSizeKindHelper.GetIconSize(FolderSettings.LayoutMode);
-
-			// Prevents reloading icons when the icon size hasn't changed
-			if (requestedIconSize != currentIconSize)
+			// Check if icons need to be reloaded
+			var newIconSize = LayoutSizeKindHelper.GetIconSize(FolderSettings.LayoutMode);
+			if (newIconSize != currentIconSize)
 			{
-				// Update icon size before refreshing
-				currentIconSize = requestedIconSize;
+				currentIconSize = newIconSize;
 				_ = ReloadItemIconsAsync();
 			}
 		}

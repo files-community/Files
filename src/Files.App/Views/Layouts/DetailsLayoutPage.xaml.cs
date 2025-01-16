@@ -214,11 +214,11 @@ namespace Files.App.Views.Layouts
 				// Restore correct scroll position
 				ContentScroller?.ChangeView(null, previousOffset, null);
 
-				// Reload icons with correct size but only if the size changed
-				var requestedIconSize = LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.DetailsView);
-				if (requestedIconSize != currentIconSize)
+				// Check if icons need to be reloaded
+				var newIconSize = LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.DetailsView);
+				if (newIconSize != currentIconSize)
 				{
-					currentIconSize = requestedIconSize;
+					currentIconSize = newIconSize;
 					_ = ReloadItemIconsAsync();
 				}
 			}
