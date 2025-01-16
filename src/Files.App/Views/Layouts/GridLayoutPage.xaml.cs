@@ -23,7 +23,12 @@ namespace Files.App.Views.Layouts
 	{
 		// Fields
 
+		/// <summary>
+		/// This reference is used to prevent unnecessary icon reloading by only reloading icons when their
+		/// size changes, even if the layout size changes (since some layout sizes share the same icon size).
+		/// </summary>
 		private uint currentIconSize;
+
 		private volatile bool shouldSetVerticalScrollMode;
 
 		// Properties
@@ -41,7 +46,7 @@ namespace Files.App.Views.Layouts
 		{
 			get => LayoutSizeKindHelper.GetListViewRowHeight(UserSettingsService.LayoutSettingsService.ListViewSize);
 		}
-		
+
 		/// <summary>
 		/// Icon Box size in the List View layout. The value is increased by 4px to account for icon overlays.
 		/// </summary>

@@ -29,6 +29,11 @@ namespace Files.App.Views.Layouts
 		// Fields
 
 		private ListedItem? _nextItemToSelect;
+
+		/// <summary>
+		/// This reference is used to prevent unnecessary icon reloading by only reloading icons when their
+		/// size changes, even if the layout size changes (since some layout sizes share the same icon size).
+		/// </summary>
 		private uint currentIconSize;
 
 		// Properties
