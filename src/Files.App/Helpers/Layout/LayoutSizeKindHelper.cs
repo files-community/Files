@@ -94,9 +94,9 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Gets the desired icon size for specified layout
+		/// Gets the desired icon size for the requested layout
 		/// </summary>
-		/// <param name="listViewSizeKind"></param>
+		/// <param name="folderLayoutMode"></param>
 		/// <returns></returns>
 		public static uint GetIconSize(FolderLayoutModes folderLayoutMode)
 		{
