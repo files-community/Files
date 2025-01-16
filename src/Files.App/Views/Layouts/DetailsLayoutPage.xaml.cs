@@ -272,7 +272,7 @@ namespace Files.App.Views.Layouts
 				FileList.ItemContainerStyle = RegularItemContainerStyle;
 			}
 
-			// Set icon column width
+			// Set the width of the icon column. The value is increased by 4px to account for icon overlays.
 			ColumnsViewModel.IconColumn.UserLength = new GridLength(LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.DetailsView) + 4);
 		}
 
