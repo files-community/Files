@@ -1004,7 +1004,7 @@ namespace Files.App.ViewModels
 							item.ItemPath,
 							thumbnailSize,
 							item.IsFolder,
-							IconOptions.ReturnIconOnly | (useCurrentScale ? IconOptions.UseCurrentScale : 0));
+							IconOptions.ReturnIconOnly | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
 
 					cancellationToken.ThrowIfCancellationRequested();
 				}
