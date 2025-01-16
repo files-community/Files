@@ -153,7 +153,7 @@ namespace Files.App.Views.Layouts
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
-				_ = ReloadItemIconsAsync();
+				FolderSettings_IconSizeChanged();
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
