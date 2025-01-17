@@ -216,7 +216,17 @@ namespace Files.App.Views.Layouts
 
 		private async Task ReloadItemIconsAsync()
 		{
-			//
+			if (ParentShellPageInstance is null)
+				return;
+
+			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
+			var filesAndFolders = ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList();
+			foreach (ListedItem listedItem in filesAndFolders)
+			{
+				listedItem.ItemPropertiesInitialized = false;
+				if (FileList.ContainerFromItem(listedItem) is not null)
+					await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
+			}
 		}
 
 		override public void StartRenameItem()
