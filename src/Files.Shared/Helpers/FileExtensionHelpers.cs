@@ -256,6 +256,16 @@ namespace Files.Shared.Helpers
 		{
 			return HasExtension(filePathToCheck, ".py", ".ahk");
 		}
+		
+		/// <summary>
+		/// Check if the file extension is a system file.
+		/// </summary>
+		/// <param name="filePathToCheck"></param>
+		/// <returns><c>true</c> if the filePathToCheck is a system file; otherwise, <c>false</c>.</returns>
+		public static bool IsSystemFile(string? filePathToCheck)
+		{
+			return HasExtension(filePathToCheck, ".dll", ".exe", ".sys", ".inf");
+		}
 
 	}
 }

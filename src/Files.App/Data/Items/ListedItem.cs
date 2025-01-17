@@ -6,7 +6,6 @@ using Files.Shared.Helpers;
 using FluentFTP;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System.Drawing;
 using System.IO;
 using System.Text;
 using Windows.Storage;
@@ -47,8 +46,8 @@ namespace Files.App.Utils
 				tooltipBuilder.Append($"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}");
 				if (!string.IsNullOrWhiteSpace(FileSize))
 					tooltipBuilder.Append($"{Environment.NewLine}{"SizeLabel".GetLocalizedResource()} {FileSize}");
-				if (SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline && !string.IsNullOrWhiteSpace(DimensionsDisplay))
-					tooltipBuilder.Append($"{Environment.NewLine}{"PropertyDimensionsColon".GetLocalizedResource()} {DimensionsDisplay}");
+				if (!string.IsNullOrWhiteSpace(ImageDimensions))
+					tooltipBuilder.Append($"{Environment.NewLine}{"PropertyDimensionsColon".GetLocalizedResource()} {ImageDimensions}");
 				if (SyncStatusUI.LoadSyncStatus)
 					tooltipBuilder.Append($"{Environment.NewLine}{"StatusWithColon".GetLocalizedResource()} {syncStatusUI.SyncStatusString}");
 
@@ -330,39 +329,35 @@ namespace Files.App.Utils
 			set => SetProperty(ref itemProperties, value);
 		}
 
-		public string DimensionsDisplay
+		private string imageDimensions;
+		public string ImageDimensions
 		{
-			get
-			{
-				int imageHeight = 0;
-				int imageWidth = 0;
+			get => imageDimensions;
+			set => SetProperty(ref imageDimensions, value);
+		}
 
-				var isImageFile = FileExtensionHelpers.IsImageFile(FileExtension);
-				if (isImageFile)
-				{
-					try
-					{
-						// TODO: Consider to use 'System.Kind' instead.
-						using FileStream fileStream = new(ItemPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-						using Image image = Image.FromStream(fileStream, false, false);
+		private string fileVersion;
+		public string FileVersion
+		{
+			get => fileVersion;
+			set => SetProperty(ref fileVersion, value);
+		}
 
-						if (image is not null)
-						{
-							imageHeight = image.Height;
-							imageWidth = image.Width;
-						}
-					}
-					catch { }
-				}
+		private string mediaDuration;
+		public string MediaDuration
+		{
+			get => mediaDuration;
+			set => SetProperty(ref mediaDuration, value);
+		}
 
-
-				return
-					isImageFile &&
-					imageWidth > 0 &&
-					imageHeight > 0
-						? $"{imageWidth} \u00D7 {imageHeight}"
-						: string.Empty;
-			}
+		/// <summary>
+		/// Contextual property that changes based on the item type.
+		/// </summary>
+		private string contextualProperty;
+		public string ContextualProperty
+		{
+			get => contextualProperty;
+			set => SetProperty(ref contextualProperty, value);
 		}
 
 		/// <summary>
@@ -771,24 +766,24 @@ namespace Files.App.Utils
 	}
 	public interface IGitItem
 	{
-		public bool StatusPropertiesInitialized { get ; set; }
+		public bool StatusPropertiesInitialized { get; set; }
 		public bool CommitPropertiesInitialized { get; set; }
 
-		public Style? UnmergedGitStatusIcon{ get; set; }
+		public Style? UnmergedGitStatusIcon { get; set; }
 
-		public string? UnmergedGitStatusName{ get; set; }
+		public string? UnmergedGitStatusName { get; set; }
 
-		public DateTimeOffset? GitLastCommitDate{ get; set; }
+		public DateTimeOffset? GitLastCommitDate { get; set; }
 
-		public string? GitLastCommitDateHumanized{ get; set; }
+		public string? GitLastCommitDateHumanized { get; set; }
 
-		public string? GitLastCommitMessage{ get; set; }
+		public string? GitLastCommitMessage { get; set; }
 
-		public string? GitLastCommitAuthor{ get; set; }
+		public string? GitLastCommitAuthor { get; set; }
 
-		public string? GitLastCommitSha{ get; set; }
+		public string? GitLastCommitSha { get; set; }
 
-		public string? GitLastCommitFullSha{ get; set; }
+		public string? GitLastCommitFullSha { get; set; }
 
 		public string ItemPath
 		{
