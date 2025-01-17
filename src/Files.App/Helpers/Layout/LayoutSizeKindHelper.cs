@@ -117,7 +117,11 @@ namespace Files.App.Helpers
 				FolderLayoutModes.ListView when LayoutSettingsService.ListViewSize == ListViewSizeKind.ExtraLarge => Constants.ShellIconSizes.Large,
 
 				// Columns
-				FolderLayoutModes.ColumnView => Constants.ShellIconSizes.Large,
+				FolderLayoutModes.ColumnView when LayoutSettingsService.ColumnsViewSize == ColumnsViewSizeKind.Compact => Constants.ShellIconSizes.Small,
+				FolderLayoutModes.ColumnView when LayoutSettingsService.ColumnsViewSize == ColumnsViewSizeKind.Small => Constants.ShellIconSizes.Small,
+				FolderLayoutModes.ColumnView when LayoutSettingsService.ColumnsViewSize == ColumnsViewSizeKind.Medium => 20,
+				FolderLayoutModes.ColumnView when LayoutSettingsService.ColumnsViewSize == ColumnsViewSizeKind.Large => 24,
+				FolderLayoutModes.ColumnView when LayoutSettingsService.ColumnsViewSize == ColumnsViewSizeKind.ExtraLarge => Constants.ShellIconSizes.Large,
 
 				// Grid and Tiles
 				FolderLayoutModes.GridView when LayoutSettingsService.GridViewSize <= GridViewSizeKind.Small => 96,

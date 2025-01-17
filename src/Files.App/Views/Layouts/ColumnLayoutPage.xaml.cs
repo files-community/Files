@@ -50,6 +50,20 @@ namespace Files.App.Views.Layouts
 			get => LayoutSizeKindHelper.GetColumnsViewRowHeight(UserSettingsService.LayoutSettingsService.ColumnsViewSize);
 		}
 
+		/// <summary>
+		/// Icon Box size layout. The value is increased by 4px to account for icon overlays.
+		/// </summary>
+		public int IconBoxSize
+		{
+			get => (int)(LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.ColumnView) + 4);
+		}
+
+		/// <summary>
+		/// This reference is used to prevent unnecessary icon reloading by only reloading icons when their
+		/// size changes, even if the layout size changes (since some layout sizes share the same icon size).
+		/// </summary>
+		private uint currentIconSize;
+
 		// Constructor
 
 		public ColumnLayoutPage() : base()
@@ -149,6 +163,8 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
+			currentIconSize = LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.ColumnView);
+
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
 
 			SetItemContainerStyle();
@@ -180,13 +196,27 @@ namespace Files.App.Views.Layouts
 				var previousOffset = ContentScroller?.VerticalOffset;
 
 				NotifyPropertyChanged(nameof(RowHeight));
+				NotifyPropertyChanged(nameof(IconBoxSize));
 
 				// Update the container style to match the item size
 				SetItemContainerStyle();
 
 				// Restore correct scroll position
 				ContentScroller?.ChangeView(null, previousOffset, null);
+
+				// Check if icons need to be reloaded
+				var newIconSize = LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.ColumnView);
+				if (newIconSize != currentIconSize)
+				{
+					currentIconSize = newIconSize;
+					_ = ReloadItemIconsAsync();
+				}
 			}
+		}
+
+		private async Task ReloadItemIconsAsync()
+		{
+			//
 		}
 
 		override public void StartRenameItem()

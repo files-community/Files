@@ -225,14 +225,13 @@
 								<!--  Thumbnail  -->
 								<Grid
 									Grid.Column="0"
-									Width="24"
-									Height="24"
+									Width="{Binding IconBoxSize, ElementName=PageRoot, Mode=OneWay}"
+									Height="{Binding IconBoxSize, ElementName=PageRoot, Mode=OneWay}"
 									Opacity="{x:Bind Opacity, Mode=OneWay}"
-									Tag="ItemImage">
+									Tag="IconBox">
 									<ContentPresenter
 										x:Name="PicturePresenter"
-										Width="20"
-										Height="20"
+										Margin="2"
 										HorizontalAlignment="Center"
 										VerticalAlignment="Center"
 										x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
