@@ -9,7 +9,7 @@ using Windows.Storage;
 namespace Files.App.UserControls.Widgets
 {
 	/// <summary>
-	/// Represents group of control displays a list of recent folders with <see cref="WidgetFolderCardItem"/>.
+	/// Represents a control that displays a list of recent folders with <see cref="WidgetFolderCardItem"/>.
 	/// </summary>
 	public sealed partial class RecentFilesWidget : UserControl
 	{
