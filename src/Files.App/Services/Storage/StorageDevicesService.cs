@@ -23,7 +23,7 @@ namespace Files.App.Services
 			foreach (var drive in list)
 			{
 				var driveLabel = DriveHelpers.GetExtendedDriveLabel(drive);
-				// Cloud Drive Filter If (CDFI)
+				// Filter out cloud drives
 				// We don't want cloud drives to appear in the plain "Drives" sections.
 				if (driveLabel.Equals("Google Drive") || drive.Name.Equals(pCloudDrivePath))
 					continue;
