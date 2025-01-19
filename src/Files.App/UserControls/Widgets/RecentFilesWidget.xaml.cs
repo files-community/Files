@@ -36,32 +36,30 @@ namespace Files.App.UserControls.Widgets
 		private async void RecentFilesListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
 			var items = e.Items.OfType<RecentItem>().ToList();
-			if (items.Count > 0)
+			var storageItems = new List<IStorageItem>();
+
+			foreach (var item in items)
 			{
-				var storageItems = new List<IStorageItem>();
-				foreach (var item in items)
+				try
 				{
-					try
-					{
-						var file = await StorageFile.GetFileFromPathAsync(item.Path);
-						if (file != null)
-							storageItems.Add(file);
-					}
-					catch
-					{
-						e.Cancel = true;
-					}
+					var file = await StorageFile.GetFileFromPathAsync(item.Path);
+					if (file != null)
+						storageItems.Add(file);
 				}
-
-				if (storageItems.Count > 0)
+				catch
 				{
-					// Create a new data package and set the storage items
-					DataPackage dataPackage = new DataPackage();
-					dataPackage.SetStorageItems(storageItems);
-					e.Data.SetDataProvider(StandardDataFormats.StorageItems, request => request.SetData(storageItems));
-
-					e.Data.RequestedOperation = DataPackageOperation.Move | DataPackageOperation.Copy | DataPackageOperation.Link;
+					e.Cancel = true;
 				}
+			}
+
+			if (storageItems.Count > 0)
+			{
+				// Create a new data package and set the storage items
+				DataPackage dataPackage = new DataPackage();
+				dataPackage.SetStorageItems(storageItems);
+				e.Data.SetDataProvider(StandardDataFormats.StorageItems, request => request.SetData(storageItems));
+
+				e.Data.RequestedOperation = DataPackageOperation.Move | DataPackageOperation.Copy | DataPackageOperation.Link;
 			}
 		}
 	}
