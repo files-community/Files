@@ -187,8 +187,8 @@ namespace Files.App.Utils.Cloud
 				.RootElement.EnumerateObject()
 				.FirstOrDefault();
 
-			// A default `JsonProperty` struct has an Undefined `Value.ValueKind` and throws an
-			// error if you try to call `EnumerateArray` on its `Value`.
+			// A default "JsonProperty" struct has an undefined "Value.ValueKind" and throws an
+			// error if you try to call "EnumerateArray" on its value.
 			if (googleDriveRegValJsonProperty.Value.ValueKind == JsonValueKind.Undefined)
 			{
 				_logger.LogWarning($"Root element of Google Drive registry value for value name '{_googleDriveRegValName}' was empty.");
