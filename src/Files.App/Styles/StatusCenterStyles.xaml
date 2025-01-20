@@ -64,7 +64,6 @@
 		SuccessfulForegroundBrush="{ThemeResource SystemFillColorSuccessBrush}" />
 
 	<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
-	<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 	<wctconverters:BoolToObjectConverter
 		x:Key="NegateBoolToVisibilityConverter"
 		FalseValue="Visible"

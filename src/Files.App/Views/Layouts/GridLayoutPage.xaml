@@ -80,10 +80,6 @@
 			x:Key="NegatedBoolToOpacityConverter"
 			FalseValue="1"
 			TrueValue="0" />
-		<wctconverters:BoolToVisibilityConverter
-			x:Key="BoolToVisibilityConverter"
-			FalseValue="Collapsed"
-			TrueValue="Visible" />
 		<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 
 		<!--  Override border on GridViewItem  -->
