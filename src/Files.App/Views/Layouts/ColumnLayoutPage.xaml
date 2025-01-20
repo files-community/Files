@@ -383,7 +383,7 @@
 												FontSize="14"
 												Style="{StaticResource SubheaderTextBlockStyle}"
 												Text="{x:Bind Model.Subtext, Mode=OneWay}"
-												Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+												Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay}" />
 
 										</StackPanel>
 
@@ -391,7 +391,7 @@
 											Margin="0,2,0,0"
 											Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 											Text="{x:Bind Model.CountText, Mode=OneWay}"
-											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay}" />
 
 									</StackPanel>
 								</DataTemplate>
@@ -460,7 +460,7 @@
 											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 											Style="{StaticResource SubheaderTextBlockStyle}"
 											Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
-											Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+											Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay}" />
 
 									</StackPanel>
 
@@ -468,7 +468,7 @@
 										Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 										Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 										Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-										Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+										Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay}" />
 
 								</StackPanel>
 

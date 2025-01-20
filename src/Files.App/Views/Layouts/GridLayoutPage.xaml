@@ -473,7 +473,7 @@
 							x:Phase="2"
 							Background="Transparent"
 							ToolTipService.ToolTip="{x:Bind SyncStatusUI.SyncStatusString, Mode=OneWay}"
-							Visibility="{Binding InstanceViewModel.IsPageTypeCloudDrive, ElementName=PageRoot, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+							Visibility="{Binding InstanceViewModel.IsPageTypeCloudDrive, ElementName=PageRoot, Mode=OneWay}">
 							<controls:ThemedIcon
 								Width="16"
 								Height="16"
@@ -847,14 +847,14 @@
 											FontSize="14"
 											Style="{StaticResource SubheaderTextBlockStyle}"
 											Text="{x:Bind Model.Subtext, Mode=OneWay}"
-											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay}" />
 
 										<TextBlock
 											Grid.Row="1"
 											Grid.ColumnSpan="3"
 											Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 											Text="{x:Bind Model.CountText, Mode=OneWay}"
-											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay}" />
 
 									</Grid>
 								</DataTemplate>
@@ -936,7 +936,7 @@
 									Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 									Style="{StaticResource SubheaderTextBlockStyle}"
 									Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
-									Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+									Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay}" />
 
 								<TextBlock
 									Grid.Row="1"
@@ -945,7 +945,7 @@
 									Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 									Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 									Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-									Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+									Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay}" />
 
 							</Grid>
 						</DataTemplate>
