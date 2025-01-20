@@ -35,21 +35,18 @@ namespace Files.App.UserControls.Widgets
 
 		private async void RecentFilesListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
-			var items = e.Items.OfType<RecentItem>().ToList();
+			var item = e.Items.OfType<RecentItem>().First();
 			var storageItems = new List<IStorageItem>();
 
-			foreach (var item in items)
+			try
 			{
-				try
-				{
-					var file = await StorageFile.GetFileFromPathAsync(item.Path);
-					if (file != null)
-						storageItems.Add(file);
-				}
-				catch
-				{
-					e.Cancel = true;
-				}
+				var file = await StorageFile.GetFileFromPathAsync(item.Path);
+				if (file != null)
+					storageItems.Add(file);
+			}
+			catch
+			{
+				e.Cancel = true;
 			}
 
 			if (storageItems.Count > 0)
