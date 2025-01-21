@@ -26,7 +26,7 @@ namespace Files.App.ViewModels.Previews
 
 		// TODO: Use existing helper mothods
 		public static bool ContainsExtension(string extension)
-			=> extension is ".png" or ".jpg" or ".jpeg" or ".bmp" or ".gif" or ".tiff" or ".ico" or ".webp";
+			=> extension is ".png" or ".jpg" or ".jpeg" or ".bmp" or ".gif" or ".tiff" or ".ico" or ".webp" or ".jxr";
 
 		public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
