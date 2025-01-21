@@ -436,6 +436,7 @@
 					Padding="0"
 					HorizontalAlignment="Left"
 					VerticalAlignment="Stretch"
+					Background="Transparent"
 					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 					BorderThickness="1"
 					CornerRadius="8"
