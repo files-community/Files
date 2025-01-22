@@ -177,7 +177,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			DisplayContext.GroupOption = GroupOption;
-			ContentContext.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}
@@ -378,6 +378,7 @@ namespace Files.App.Actions
 		{
 			DisplayContext.GroupOption = GroupOption;
 			DisplayContext.GroupByDateUnit = GroupByDateUnit;
+			LayoutHelpers.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}
@@ -403,7 +404,6 @@ namespace Files.App.Actions
 	internal sealed class GroupAscendingAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
-		private readonly IContentPageContext contentPageContext;
 
 		public string Label
 			=> "Ascending".GetLocalizedResource();
@@ -420,7 +420,6 @@ namespace Files.App.Actions
 		public GroupAscendingAction()
 		{
 			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
-			contentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 		}
@@ -428,7 +427,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupDirection = SortDirection.Ascending;
-			contentPageContext.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}
@@ -450,7 +449,6 @@ namespace Files.App.Actions
 	internal sealed class GroupDescendingAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
-		private readonly IContentPageContext contentPageContext;
 
 		public string Label
 			=> "Descending".GetLocalizedResource();
@@ -467,7 +465,6 @@ namespace Files.App.Actions
 		public GroupDescendingAction()
 		{
 			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
-			contentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 		}
@@ -475,7 +472,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupDirection = SortDirection.Descending;
-			contentPageContext.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}
@@ -497,7 +494,6 @@ namespace Files.App.Actions
 	internal sealed class ToggleGroupDirectionAction : IAction
 	{
 		private readonly IDisplayPageContext context;
-		private readonly IContentPageContext contentPageContext;
 
 		public string Label
 			=> "ToggleSortDirection".GetLocalizedResource();
@@ -508,13 +504,12 @@ namespace Files.App.Actions
 		public ToggleGroupDirectionAction()
 		{
 			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
-			contentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupDirection = context.SortDirection is SortDirection.Descending ? SortDirection.Ascending : SortDirection.Descending;
-			contentPageContext.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}
@@ -523,7 +518,6 @@ namespace Files.App.Actions
 	internal sealed class GroupByYearAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
-		private readonly IContentPageContext contentPageContext;
 
 		public string Label
 			=> "Year".GetLocalizedResource();
@@ -540,7 +534,6 @@ namespace Files.App.Actions
 		public GroupByYearAction()
 		{
 			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
-			contentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 		}
@@ -548,7 +541,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupByDateUnit = GroupByDateUnit.Year;
-			contentPageContext.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}
@@ -570,7 +563,6 @@ namespace Files.App.Actions
 	internal sealed class GroupByMonthAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
-		private readonly IContentPageContext contentPageContext;
 
 		public string Label
 			=> "Month".GetLocalizedResource();
@@ -587,7 +579,6 @@ namespace Files.App.Actions
 		public GroupByMonthAction()
 		{
 			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
-			contentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 		}
@@ -595,7 +586,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupByDateUnit = GroupByDateUnit.Month;
-			contentPageContext.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}
@@ -617,7 +608,6 @@ namespace Files.App.Actions
 	internal sealed class ToggleGroupByDateUnitAction : IAction
 	{
 		private readonly IDisplayPageContext context;
-		private readonly IContentPageContext contentPageContext;
 
 		public string Label
 			=> "ToggleGroupingUnit".GetLocalizedResource();
@@ -628,7 +618,6 @@ namespace Files.App.Actions
 		public ToggleGroupByDateUnitAction()
 		{
 			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
-			contentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
 		public Task ExecuteAsync(object? parameter = null)
@@ -639,7 +628,7 @@ namespace Files.App.Actions
 				GroupByDateUnit.Month => GroupByDateUnit.Day,
 				_ => GroupByDateUnit.Year
 			};
-			contentPageContext.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}

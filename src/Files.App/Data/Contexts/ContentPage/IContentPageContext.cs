@@ -34,7 +34,5 @@ namespace Files.App.Data.Contexts
 		bool CanExecuteGitAction { get; }
 
 		string? SolutionFilePath { get; }
-
-		void UpdateOpenTabsPreferences();
 	}
 }

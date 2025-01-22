@@ -165,7 +165,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			displayContext.SortOption = SortOption;
-			contentContext.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}
@@ -188,7 +188,6 @@ namespace Files.App.Actions
 	internal sealed class SortAscendingAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
-		private readonly IContentPageContext contentPageContext;
 
 		public string Label
 			=> "Ascending".GetLocalizedResource();
@@ -202,7 +201,6 @@ namespace Files.App.Actions
 		public SortAscendingAction()
 		{
 			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
-			contentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 		}
@@ -210,7 +208,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.SortDirection = SortDirection.Ascending;
-			contentPageContext.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}
@@ -225,7 +223,6 @@ namespace Files.App.Actions
 	internal sealed class SortDescendingAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
-		private readonly IContentPageContext contentPageContext;
 
 		public string Label
 			=> "Descending".GetLocalizedResource();
@@ -239,7 +236,6 @@ namespace Files.App.Actions
 		public SortDescendingAction()
 		{
 			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
-			contentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 		}
@@ -247,7 +243,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.SortDirection = SortDirection.Descending;
-			contentPageContext.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}
@@ -262,7 +258,6 @@ namespace Files.App.Actions
 	internal sealed class ToggleSortDirectionAction : IAction
 	{
 		private readonly IDisplayPageContext context;
-		private readonly IContentPageContext contentPageContext;
 
 		public string Label
 			=> "ToggleSortDirection".GetLocalizedResource();
@@ -273,7 +268,6 @@ namespace Files.App.Actions
 		public ToggleSortDirectionAction()
 		{
 			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
-			contentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 		}
 
 		public Task ExecuteAsync(object? parameter = null)
@@ -282,8 +276,8 @@ namespace Files.App.Actions
 				context.SortDirection is SortDirection.Descending
 					? SortDirection.Ascending
 					: SortDirection.Descending;
-			
-			contentPageContext.UpdateOpenTabsPreferences();
+
+			LayoutHelpers.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}
