@@ -613,6 +613,14 @@
 									TextWrapping="NoWrap"
 									Visibility="{Binding ElementName=PageRoot, Path=CardsViewShowContextualProperty, Mode=OneWay}" />
 
+								<!--  Drive Storage Information  -->
+								<ProgressBar
+									x:Name="DriveStorageProgressBar"
+									x:Load="{x:Bind ShowDriveStorageDetails, Mode=OneWay}"
+									AutomationProperties.AccessibilityView="Raw"
+									Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}"
+									Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />
+
 								<!--  Item Size  -->
 								<TextBlock
 									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
