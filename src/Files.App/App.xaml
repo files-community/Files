@@ -77,6 +77,7 @@
 
 							<Color x:Key="App.Theme.FillColorAttention">#0070CB</Color>
 							<SolidColorBrush x:Key="App.Theme.FillColorAttentionBrush" Color="{StaticResource App.Theme.FillColorAttention}" />
+							<SolidColorBrush x:Key="App.Theme.CardBackgroundFillColorTertiaryBrush" Color="#FFFFFFFF" />
 						</ResourceDictionary>
 						<ResourceDictionary x:Key="Dark">
 							<SolidColorBrush x:Key="App.Theme.BackgroundBrush" Color="Transparent" />
@@ -94,6 +95,7 @@
 
 							<Color x:Key="App.Theme.FillColorAttention">#50C0FF</Color>
 							<SolidColorBrush x:Key="App.Theme.FillColorAttentionBrush" Color="{StaticResource App.Theme.FillColorAttention}" />
+							<SolidColorBrush x:Key="App.Theme.CardBackgroundFillColorTertiaryBrush" Color="#12FFFFFF" />
 						</ResourceDictionary>
 						<ResourceDictionary x:Key="HighContrast">
 							<SolidColorBrush x:Key="App.Theme.BackgroundBrush" Color="Transparent" />
@@ -111,6 +113,7 @@
 
 							<Color x:Key="App.Theme.FillColorAttention">#50C0FF</Color>
 							<SolidColorBrush x:Key="App.Theme.FillColorAttentionBrush" Color="{StaticResource App.Theme.FillColorAttention}" />
+							<SolidColorBrush x:Key="App.Theme.CardBackgroundFillColorTertiaryBrush" Color="{StaticResource SystemColorWindowColor}" />
 						</ResourceDictionary>
 					</ResourceDictionary.ThemeDictionaries>
 				</ResourceDictionary>

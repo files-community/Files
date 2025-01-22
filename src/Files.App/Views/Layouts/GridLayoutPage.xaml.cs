@@ -39,50 +39,108 @@ namespace Files.App.Views.Layouts
 		protected override SemanticZoom RootZoom => RootGridZoom;
 
 
+		// List View properties
+
 		/// <summary>
 		/// Row height in the List View layout
 		/// </summary>
-		public int RowHeightListView
-		{
-			get => LayoutSizeKindHelper.GetListViewRowHeight(UserSettingsService.LayoutSettingsService.ListViewSize);
-		}
+		public int RowHeightListView =>
+			LayoutSizeKindHelper.GetListViewRowHeight(LayoutSettingsService.ListViewSize);
 
 		/// <summary>
 		/// Icon Box size in the List View layout. The value is increased by 4px to account for icon overlays.
 		/// </summary>
-		public int IconBoxSizeListView
-		{
-			get => (int)(LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.ListView) + 4);
-		}
+		public int IconBoxSizeListView =>
+			(int)(LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.ListView) + 4);
 
-		/// <summary>
-		/// Item width in the Tiles View layout
-		/// </summary>
-		public int ItemWidthTilesView
-		{
-			get => LayoutSizeKindHelper.GetTilesViewItemWidth(UserSettingsService.LayoutSettingsService.TilesViewSize);
-		}
+
+
+		// Grid View properties
 
 		/// <summary>
 		/// Item width in the Grid View layout
 		/// </summary>
-		public int ItemWidthGridView
-		{
-			get => LayoutSizeKindHelper.GetGridViewItemWidth(UserSettingsService.LayoutSettingsService.GridViewSize);
-		}
+		public int ItemWidthGridView =>
+			LayoutSizeKindHelper.GetGridViewItemWidth(LayoutSettingsService.GridViewSize);
 
-		public bool IsPointerOver
-		{
-			get => (bool)GetValue(IsPointerOverProperty);
-			set => SetValue(IsPointerOverProperty, value);
-		}
 
-		public static readonly DependencyProperty IsPointerOverProperty =
-			DependencyProperty.Register(
-				nameof(IsPointerOver),
-				typeof(bool),
-				typeof(GridLayoutPage),
-				new PropertyMetadata(false));
+
+		// Cards View properties
+
+		/// <summary>
+		/// Gets the details box width for the Cards View layout based on the card size.
+		/// </summary>
+		public int CardsViewDetailsBoxWidth => LayoutSettingsService.CardsViewSize switch
+		{
+			CardsViewSizeKind.Small => 196,
+			CardsViewSizeKind.Medium => 240,
+			CardsViewSizeKind.Large => 280,
+			CardsViewSizeKind.ExtraLarge => 320,
+			_ => 300
+		};
+
+		/// <summary>
+		/// Gets the details box height for the Cards View layout based on the card size.
+		/// </summary>
+		public int CardsViewDetailsBoxHeight => LayoutSettingsService.CardsViewSize switch
+		{
+			CardsViewSizeKind.Small => 104,
+			CardsViewSizeKind.Medium => 144,
+			CardsViewSizeKind.Large => 144,
+			CardsViewSizeKind.ExtraLarge => 128,
+			_ => 128
+		};
+
+		/// <summary>
+		/// Gets the icon box height for the Cards View layout based on the card size.
+		/// </summary>
+		public int CardsViewIconBoxHeight => LayoutSettingsService.CardsViewSize switch
+		{
+			CardsViewSizeKind.Small => 104,
+			CardsViewSizeKind.Medium => 96,
+			CardsViewSizeKind.Large => 128,
+			CardsViewSizeKind.ExtraLarge => 160,
+			_ => 128
+		};
+
+		/// <summary>
+		/// Gets the icon box width for the Cards View layout based on the card size.
+		/// </summary>
+		public int CardsViewIconBoxWidth => LayoutSettingsService.CardsViewSize switch
+		{
+			CardsViewSizeKind.Small => 104,
+			CardsViewSizeKind.Medium => 240,
+			CardsViewSizeKind.Large => 280,
+			CardsViewSizeKind.ExtraLarge => 320,
+			_ => 128
+		};
+
+		/// <summary>
+		/// Gets the orientation of cards in the Cards View layout.
+		/// </summary>
+		public Orientation CardsViewOrientation => UserSettingsService.LayoutSettingsService.CardsViewSize == CardsViewSizeKind.Small
+			? Orientation.Horizontal
+			: Orientation.Vertical;
+
+		/// <summary>
+		/// Gets the maximum lines for item names in the Cards View layout.
+		/// </summary>
+		public int CardsViewItemNameMaxLines =>
+			LayoutSettingsService.CardsViewSize == CardsViewSizeKind.ExtraLarge ? 1 : 2;
+
+		/// <summary>
+		/// Gets the visibility for the contextual property string in the Cards View layout.
+		/// </summary>
+		public bool CardsViewShowContextualProperty=>
+			LayoutSettingsService.CardsViewSize != CardsViewSizeKind.Small;
+
+		/// <summary>
+		/// Gets the icon size for item names in the Cards View layout.
+		/// </summary>
+		public int CardsViewIconSize =>
+			(int)LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.CardsView);
+
+
 
 		// Constructor
 
@@ -181,10 +239,8 @@ namespace Files.App.Views.Layouts
 				SetItemContainerStyle();
 				FolderSettings_IconSizeChanged();
 			}
-			if (e.PropertyName == nameof(ILayoutSettingsService.TilesViewSize))
+			if (e.PropertyName == nameof(ILayoutSettingsService.CardsViewSize))
 			{
-				NotifyPropertyChanged(nameof(ItemWidthTilesView));
-
 				// Update the container style to match the item size
 				SetItemContainerStyle();
 				FolderSettings_IconSizeChanged();
@@ -205,7 +261,7 @@ namespace Files.App.Views.Layouts
 		private void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
 			if (FolderSettings.LayoutMode == FolderLayoutModes.ListView
-				|| FolderSettings.LayoutMode == FolderLayoutModes.TilesView
+				|| FolderSettings.LayoutMode == FolderLayoutModes.CardsView
 				|| FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
 				// Set ItemTemplate
@@ -220,7 +276,7 @@ namespace Files.App.Views.Layouts
 			var newFileListStyle = FolderSettings.LayoutMode switch
 			{
 				FolderLayoutModes.ListView => (Style)Resources["VerticalLayoutGridView"],
-				FolderLayoutModes.TilesView => (Style)Resources["HorizontalLayoutGridView"],
+				FolderLayoutModes.CardsView => (Style)Resources["HorizontalLayoutGridView"],
 				_ => (Style)Resources["HorizontalLayoutGridView"]
 			};
 
@@ -239,8 +295,8 @@ namespace Files.App.Views.Layouts
 				case FolderLayoutModes.ListView:
 					FileList.ItemTemplate = ListViewBrowserTemplate;
 					break;
-				case FolderLayoutModes.TilesView:
-					FileList.ItemTemplate = TilesBrowserTemplate;
+				case FolderLayoutModes.CardsView:
+					FileList.ItemTemplate = CardsBrowserTemplate;
 					break;
 				default:
 					FileList.ItemTemplate = GridViewBrowserTemplate;
@@ -250,7 +306,15 @@ namespace Files.App.Views.Layouts
 
 		private void SetItemContainerStyle()
 		{
-			if (FolderSettings?.LayoutMode == FolderLayoutModes.ListView && UserSettingsService.LayoutSettingsService.ListViewSize == ListViewSizeKind.Compact)
+			if (FolderSettings?.LayoutMode == FolderLayoutModes.CardsView)
+			{
+				// Toggle style to force item size to update
+				FileList.ItemContainerStyle = DefaultItemContainerStyle;
+
+				// Set correct style
+				FileList.ItemContainerStyle = CardsItemContainerStyle;
+			}
+			else if (FolderSettings?.LayoutMode == FolderLayoutModes.ListView && UserSettingsService.LayoutSettingsService.ListViewSize == ListViewSizeKind.Compact)
 			{
 				// Toggle style to force item size to update
 				FileList.ItemContainerStyle = DefaultItemContainerStyle;
@@ -303,7 +367,7 @@ namespace Files.App.Views.Layouts
 
 			TextBox? textBox = null;
 
-			// Handle layout differences between tiles browser and photo album
+			// Grid View
 			if (FolderSettings.LayoutMode == FolderLayoutModes.GridView)
 			{
 				if (gridViewItem.FindDescendant("EditPopup") is not Popup popup)
@@ -318,6 +382,7 @@ namespace Files.App.Views.Layouts
 				popup.IsOpen = true;
 				OldItemName = textBlock.Text;
 			}
+			// List View
 			else if (FolderSettings.LayoutMode == FolderLayoutModes.ListView)
 			{
 				textBox = gridViewItem.FindDescendant("ListViewTextBoxItemName") as TextBox;
@@ -336,6 +401,7 @@ namespace Files.App.Views.Layouts
 					return;
 				}
 			}
+			// Cards View
 			else
 			{
 				textBox = gridViewItem.FindDescendant("TileViewTextBoxItemName") as TextBox;
@@ -344,12 +410,10 @@ namespace Files.App.Views.Layouts
 
 				textBox.Text = textBlock.Text;
 				OldItemName = textBlock.Text;
-				textBlock.Visibility = Visibility.Collapsed;
 				textBox.Visibility = Visibility.Visible;
 
 				if (textBox.FindParent<Grid>() is null)
 				{
-					textBlock.Visibility = Visibility.Visible;
 					textBox.Visibility = Visibility.Collapsed;
 					return;
 				}
@@ -398,7 +462,7 @@ namespace Files.App.Views.Layouts
 				if (textBlock is not null)
 					textBlock.Opacity = (textBlock.DataContext as ListedItem)!.Opacity;
 			}
-			else if (FolderSettings.LayoutMode == FolderLayoutModes.TilesView || FolderSettings.LayoutMode == FolderLayoutModes.ListView)
+			else if (FolderSettings.LayoutMode == FolderLayoutModes.CardsView || FolderSettings.LayoutMode == FolderLayoutModes.ListView)
 			{
 				TextBlock? textBlock = gridViewItem.FindDescendant("ItemName") as TextBlock;
 
@@ -698,7 +762,7 @@ namespace Files.App.Views.Layouts
 
 		// To avoid crashes, disable scrolling when drag-and-drop if grouped. (#14484)
 		private bool ShouldDisableScrollingWhenDragAndDrop =>
-			FolderSettings?.LayoutMode is FolderLayoutModes.GridView or FolderLayoutModes.TilesView &&
+			FolderSettings?.LayoutMode is FolderLayoutModes.GridView or FolderLayoutModes.CardsView &&
 			(ParentShellPageInstance?.ShellViewModel.FilesAndFolders.IsGrouped ?? false);
 
 		protected override void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)

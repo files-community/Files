@@ -109,7 +109,7 @@ namespace Files.App.Data.Factories
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "Layout".GetLocalizedResource(),
+					Text = Strings.Layout.GetLocalizedResource(),
 					Glyph = "\uE8A9",
 					ShowItem = !itemsSelected,
 					ShowInRecycleBin = true,
@@ -122,7 +122,7 @@ namespace Files.App.Data.Factories
 						{
 							IsToggle = true
 						}.Build(),
-						new ContextMenuFlyoutItemViewModelBuilder(Commands.LayoutTiles)
+						new ContextMenuFlyoutItemViewModelBuilder(Commands.LayoutCards)
 						{
 							IsToggle = true
 						}.Build(),
@@ -146,7 +146,7 @@ namespace Files.App.Data.Factories
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SortBy".GetLocalizedResource(),
+					Text = Strings.SortBy.GetLocalizedResource(),
 					ThemedIconModel = new ThemedIconModel()
 					{
 						ThemedIconStyle = "App.ThemedIcons.Sorting",
@@ -218,7 +218,7 @@ namespace Files.App.Data.Factories
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "GroupBy".GetLocalizedResource(),
+					Text = Strings.GroupBy.GetLocalizedResource(),
 					Glyph = "\uF168",
 					ShowItem = !itemsSelected,
 					ShowInRecycleBin = true,
@@ -237,7 +237,7 @@ namespace Files.App.Data.Factories
 						}.Build(),
 						new ContextMenuFlyoutItemViewModel()
 						{
-							Text = "DateModifiedLowerCase".GetLocalizedResource(),
+							Text = Strings.DateModifiedLowerCase.GetLocalizedResource(),
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
 							ShowInFtpPage = true,
@@ -260,7 +260,7 @@ namespace Files.App.Data.Factories
 						},
 						new ContextMenuFlyoutItemViewModel()
 						{
-							Text = "DateCreated".GetLocalizedResource(),
+							Text = Strings.DateCreated.GetLocalizedResource(),
 							ShowInRecycleBin = true,
 							ShowInSearchPage = true,
 							ShowInFtpPage = true,
@@ -303,7 +303,7 @@ namespace Files.App.Data.Factories
 						}.Build(),
 						new ContextMenuFlyoutItemViewModel()
 						{
-							Text = "DateDeleted".GetLocalizedResource(),
+							Text = Strings.DateDeleted.GetLocalizedResource(),
 							ShowInRecycleBin = true,
 							IsHidden = !currentInstanceViewModel.IsPageTypeRecycleBin,
 							Items =
@@ -421,7 +421,7 @@ namespace Files.App.Data.Factories
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "BaseLayoutItemContextFlyoutSetAs/Text".GetLocalizedResource(),
+					Text = Strings.BaseLayoutItemContextFlyoutSetAs_Text.GetLocalizedResource(),
 					ShowItem = itemsSelected && (selectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false),
 					ShowInSearchPage = true,
 					Items =
@@ -530,7 +530,7 @@ namespace Files.App.Data.Factories
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel
 				{
-					Text = "Compress".GetLocalizedResource(),
+					Text = Strings.Compress.GetLocalizedResource(),
 					ShowInSearchPage = true,
 					ThemedIconModel = new ThemedIconModel()
 					{
@@ -546,7 +546,7 @@ namespace Files.App.Data.Factories
 				},
 				new ContextMenuFlyoutItemViewModel
 				{
-					Text = "Extract".GetLocalizedResource(),
+					Text = Strings.Extract.GetLocalizedResource(),
 					ShowInSearchPage = true,
 					ThemedIconModel = new ThemedIconModel()
 					{
@@ -564,7 +564,7 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.FlattenFolder).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SendTo".GetLocalizedResource(),
+					Text = Strings.SendTo.GetLocalizedResource(),
 					Tag = "SendTo",
 					CollapseLabel = true,
 					ShowInSearchPage = true,
@@ -572,7 +572,7 @@ namespace Files.App.Data.Factories
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "SendTo".GetLocalizedResource(),
+					Text = Strings.SendTo.GetLocalizedResource(),
 					Tag = "SendToOverflow",
 					IsHidden = true,
 					CollapseLabel = true,
@@ -588,7 +588,7 @@ namespace Files.App.Data.Factories
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "TurnOnBitLocker".GetLocalizedResource(),
+					Text = Strings.TurnOnBitLocker.GetLocalizedResource(),
 					Tag = "TurnOnBitLockerPlaceholder",
 					CollapseLabel = true,
 					IsEnabled = false,
@@ -596,7 +596,7 @@ namespace Files.App.Data.Factories
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "ManageBitLocker".GetLocalizedResource(),
+					Text = Strings.ManageBitLocker.GetLocalizedResource(),
 					Tag = "ManageBitLockerPlaceholder",
 					CollapseLabel = true,
 					ShowItem = isDriveRoot,
@@ -631,7 +631,7 @@ namespace Files.App.Data.Factories
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "Loading".GetLocalizedResource(),
+					Text = Strings.Loading.GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = [],
 					ID = "ItemOverflow",
@@ -652,7 +652,7 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.CreateFolder).Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "File".GetLocalizedResource(),
+					Text = Strings.File.GetLocalizedResource(),
 					Glyph = "\uE7C3",
 					Command = commandsViewModel.CreateNewFileCommand,
 					ShowInFtpPage = true,
