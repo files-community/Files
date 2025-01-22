@@ -21,6 +21,7 @@ using Windows.Storage.Search;
 using static Files.App.Helpers.Win32PInvoke;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
+using ByteSize = ByteSizeLib.ByteSize;
 
 namespace Files.App.ViewModels
 {
@@ -1209,6 +1210,7 @@ namespace Files.App.ViewModels
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
 								var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
 								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFolder.DisplayType;
+								var extraProperties = await GetExtraProperties(matchingStorageFolder);
 
 								cts.Token.ThrowIfCancellationRequested();
 
@@ -1219,7 +1221,18 @@ namespace Files.App.ViewModels
 									item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 									item.FileFRN = fileFRN;
 									item.FileTags = fileTag;
-									item.ContextualProperty = $"{Strings.Modified.GetLocalizedResource()}: {item.ItemDateModified}";
+
+									if (item.ItemPath.StartsWith(@"\\?\", StringComparison.Ordinal) && extraProperties is not null && extraProperties.Result["System.Capacity"] is not null && extraProperties.Result["System.FreeSpace"] is not null)
+									{
+										var maxSpace = ByteSize.FromBytes((ulong)extraProperties.Result["System.Capacity"]);
+										var freeSpace = ByteSize.FromBytes((ulong)extraProperties.Result["System.FreeSpace"]);
+
+										item.MaxSpace = maxSpace;
+										item.SpaceUsed = maxSpace - freeSpace;
+										item.IsPortableDevice = true;
+									}
+									else
+										item.ContextualProperty = $"{Strings.Modified.GetLocalizedResource()}: {item.ItemDateModified}";
 								},
 								Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
@@ -1936,6 +1949,9 @@ namespace Files.App.ViewModels
 		{
 			if (matchingStorageItem is BaseStorageFile file && file.Properties != null)
 				return await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(["System.Image.Dimensions", "System.Media.Duration", "System.FileVersion"]).AsTask());
+
+			else if (matchingStorageItem is BaseStorageFolder folder && folder.Properties != null)
+				return await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(["System.FreeSpace", "System.Capacity"]).AsTask());
 
 			return null;
 		}
