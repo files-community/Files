@@ -1,13 +1,16 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.Runtime.InteropServices;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Input;
 using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
+using Vanara.Windows.Shell;
 using WinRT;
+using DragEventArgs = Microsoft.UI.Xaml.DragEventArgs;
 
 namespace Files.App.UserControls
 {
@@ -43,6 +46,10 @@ namespace Files.App.UserControls
 			// Add to list
 			foreach (var item in storageItems)
 			{
+				// Avoid adding duplicates
+				if (ItemsSource.Any(x => x.Inner.Id == item.Path))
+					continue;
+
 				var storable = item switch
 				{
 					StorageFileWithPath => (IStorable?)await storageService.TryGetFileAsync(item.Path),
@@ -60,28 +67,27 @@ namespace Files.App.UserControls
 			}
 		}
 
-		private void ListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
-		{
-			if (ItemsSource is null)
-				return;
+        private void ListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        {
+            var apidl = SafetyExtensions.IgnoreExceptions(() => e.Items
+                .Cast<ShelfItem>()
+                .Select(x => new ShellItem(x.Inner.Id).PIDL)
+                .ToArray());
 
-			var shellItemList = SafetyExtensions.IgnoreExceptions(() => ItemsSource.Select(x => new Vanara.Windows.Shell.ShellItem(x.Inner.Id)).ToArray());
-			if (shellItemList?[0].FileSystemPath is not null)
-			{
-				var iddo = shellItemList[0].Parent?.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
-				if (iddo is null)
-					return;
+            if (apidl is null)
+                return;
 
-				shellItemList.ForEach(x => x.Dispose());
-				var dataObjectProvider = e.Data.As<Shell32.IDataObjectProvider>();
-				dataObjectProvider.SetDataObject(iddo);
-			}
-			else
-			{
-				// Only support IStorageItem capable paths
-				var storageItems = ItemsSource.Select(x => VirtualStorageItem.FromPath(x.Inner.Id));
-				e.Data.SetStorageItems(storageItems, false);
-			}
+            if (!Shell32.SHCreateDataObject(null, apidl, null, out var ppDataObject).Succeeded)
+	            return;
+
+            e.Data.Properties["Files_ActionBinder"] = "Files_ShelfBinder";
+			ppDataObject.SetData(StandardDataFormats.StorageItems, apidl);
+			var dataObjectProvider = e.Data.As<Shell32.IDataObjectProvider>();
+			dataObjectProvider.SetDataObject(ppDataObject);
+
+
+            //var obj = new ShellDataObject();
+            //ppDataObject.SetData(StandardDataFormats.StorageItems, obj);
 		}
 
 		public IList<ShelfItem>? ItemsSource
