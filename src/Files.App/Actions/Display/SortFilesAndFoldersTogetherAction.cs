@@ -26,6 +26,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.SortDirectoriesAlongsideFiles = true;
+			context.UpdateAllTabsAndPanesLayout();
 
 			return Task.CompletedTask;
 		}

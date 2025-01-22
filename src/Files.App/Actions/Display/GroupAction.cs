@@ -177,6 +177,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			DisplayContext.GroupOption = GroupOption;
+			DisplayContext.UpdateAllTabsAndPanesLayout();
 
 			return Task.CompletedTask;
 		}
@@ -425,6 +426,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupDirection = SortDirection.Ascending;
+			context.UpdateAllTabsAndPanesLayout();
 
 			return Task.CompletedTask;
 		}
@@ -469,6 +471,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupDirection = SortDirection.Descending;
+			context.UpdateAllTabsAndPanesLayout();
 
 			return Task.CompletedTask;
 		}
@@ -505,6 +508,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupDirection = context.SortDirection is SortDirection.Descending ? SortDirection.Ascending : SortDirection.Descending;
+			context.UpdateAllTabsAndPanesLayout();
 
 			return Task.CompletedTask;
 		}
@@ -536,6 +540,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupByDateUnit = GroupByDateUnit.Year;
+			context.UpdateAllTabsAndPanesLayout();
 
 			return Task.CompletedTask;
 		}
@@ -580,6 +585,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupByDateUnit = GroupByDateUnit.Month;
+			context.UpdateAllTabsAndPanesLayout();
 
 			return Task.CompletedTask;
 		}
@@ -621,6 +627,7 @@ namespace Files.App.Actions
 				GroupByDateUnit.Month => GroupByDateUnit.Day,
 				_ => GroupByDateUnit.Year
 			};
+			context.UpdateAllTabsAndPanesLayout();
 
 			return Task.CompletedTask;
 		}

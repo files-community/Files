@@ -279,6 +279,8 @@ namespace Files.App.Helpers
 			DirectoryGroupOption = preferencesItem.DirectoryGroupOption;
 			DirectoryGroupByDateUnit = preferencesItem.DirectoryGroupByDateUnit;
 			DirectoryGroupDirection = preferencesItem.DirectoryGroupDirection;
+			SortDirectoriesAlongsideFiles = preferencesItem.SortDirectoriesAlongsideFiles;
+			SortFilesFirst = preferencesItem.SortFilesFirst;
 		}
 
 		public bool IsPathUsingDefaultLayout(string? path)

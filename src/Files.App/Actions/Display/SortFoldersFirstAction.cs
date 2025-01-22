@@ -27,6 +27,7 @@ namespace Files.App.Actions
 		{
 			context.SortFilesFirst = false;
 			context.SortDirectoriesAlongsideFiles = false;
+			context.UpdateAllTabsAndPanesLayout();
 
 			return Task.CompletedTask;
 		}

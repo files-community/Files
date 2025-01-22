@@ -62,6 +62,8 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// Updates the layout of open panes.
 		/// </summary>
-		public void UpdatePanesLayout();
+		/// <param name="targetPath">The path of panes to update</param>
+		/// <param name="includeActivePane">Whether the active pane should be updated or not</param>
+		public void UpdatePanesLayout(string targetPath, bool includeActivePane = false);
 	}
 }

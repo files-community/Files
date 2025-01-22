@@ -165,6 +165,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			displayContext.SortOption = SortOption;
+			displayContext.UpdateAllTabsAndPanesLayout();
 
 			return Task.CompletedTask;
 		}
@@ -207,6 +208,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.SortDirection = SortDirection.Ascending;
+			context.UpdateAllTabsAndPanesLayout();
 
 			return Task.CompletedTask;
 		}
@@ -241,6 +243,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.SortDirection = SortDirection.Descending;
+			context.UpdateAllTabsAndPanesLayout();
 
 			return Task.CompletedTask;
 		}
@@ -273,6 +276,8 @@ namespace Files.App.Actions
 				context.SortDirection is SortDirection.Descending
 					? SortDirection.Ascending
 					: SortDirection.Descending;
+			
+			context.UpdateAllTabsAndPanesLayout();
 
 			return Task.CompletedTask;
 		}

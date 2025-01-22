@@ -358,10 +358,20 @@ namespace Files.App.Views
 		}
 
 		/// <inheritdoc/>
-		public void UpdatePanesLayout()
+		public void UpdatePanesLayout(string targetPath, bool includeActivePane = false)
 		{
 			foreach (var pane in GetPanes())
-				UpdatePaneLayout(pane);
+			{
+				var path = pane.ShellViewModel.CurrentFolder?.ItemPath;
+				if ((includeActivePane || pane != ActivePane) &&
+					(LayoutSettingsService.SyncFolderPreferencesAcrossDirectories ||
+					path is not null &&
+					path.Equals(targetPath, StringComparison.OrdinalIgnoreCase)))
+				{
+					var page = pane.SlimContentPage as BaseLayoutPage;
+					page?.FolderSettings?.UpdateGroupAndSortOptions(path);
+				}
+			}
 		}
 
 		// Private methods
@@ -467,9 +477,6 @@ namespace Files.App.Views
 			// Focus
 			ActivePane = GetPane(GetPaneCount() - 1);
 
-			UnHookLayoutUpdateRequiredEvent();
-			HookLayoutUpdateRequiredEvent();
-
 			NotifyPropertyChanged(nameof(IsMultiPaneActive));
 		}
 
@@ -534,7 +541,6 @@ namespace Files.App.Views
 			}
 
 			Pane_ContentChanged(null, null!);
-			UnHookLayoutUpdateRequiredEvent();
 			NotifyPropertyChanged(nameof(IsMultiPaneActive));
 		}
 
@@ -562,18 +568,6 @@ namespace Files.App.Views
 
 				VisualStateManager.GoToState(GetPane(0), ShellBorderDualPaneOffState, true);
 			}
-		}
-
-		private void HookLayoutUpdateRequiredEvent()
-		{
-			foreach (var pane in GetPanes())
-				pane.FolderSettings.LayoutPreferencesUpdateRequired += FolderSettings_LayoutPreferencesUpdateRequired;
-		}
-
-		private void UnHookLayoutUpdateRequiredEvent()
-		{
-			foreach (var pane in GetPanes())
-				pane.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
 		}
 
 		// Override methods
@@ -625,13 +619,6 @@ namespace Files.App.Views
 					ShellPaneArrangement = ShellPaneArrangement,
 				}
 			};
-		}
-
-		private void UpdatePaneLayout(IShellPage pane)
-		{
-			var page = pane.SlimContentPage as BaseLayoutPage;
-			var path = pane.ShellViewModel.CurrentFolder?.ItemPath;
-			page?.FolderSettings?.UpdateGroupAndSortOptions(path);
 		}
 
 		// Event methods
@@ -755,24 +742,6 @@ namespace Files.App.Views
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
 		}
 
-		private void FolderSettings_LayoutPreferencesUpdateRequired(object? sender, LayoutPreferenceEventArgs e)
-		{
-			var currentPath = ActivePane?.TabBarItemParameter?.NavigationParameter as string;
-			if (string.IsNullOrEmpty(currentPath))
-				return;
-
-			foreach (var pane in GetPanes())
-			{
-				if (pane != ActivePane &&
-					(LayoutSettingsService.SyncFolderPreferencesAcrossDirectories ||
-					pane.TabBarItemParameter?.NavigationParameter is string path &&
-					path.Equals(currentPath, StringComparison.OrdinalIgnoreCase)))
-				{
-					UpdatePaneLayout(pane);
-				}
-			}
-		}
-
 		private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -792,7 +761,6 @@ namespace Files.App.Views
 				pane.GotFocus -= Pane_GotFocus;
 				pane.RightTapped -= Pane_RightTapped;
 				pane.PointerPressed -= Pane_PointerPressed;
-				pane.FolderSettings.LayoutPreferencesUpdateRequired -= FolderSettings_LayoutPreferencesUpdateRequired;
 				pane.Dispose();
 			}
 

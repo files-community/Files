@@ -131,6 +131,20 @@ namespace Files.App.Data.Contexts
 			layoutSettingsService.PropertyChanged += Settings_PropertyChanged;
 		}
 
+		public void UpdateAllTabsAndPanesLayout()
+		{
+			var multitaskingContext = Ioc.Default.GetRequiredService<IMultitaskingContext>();
+			var tabs = multitaskingContext.Control?.GetAllTabInstances();
+			var activePath = ((ShellPanesPage)multitaskingContext.CurrentTabItem.TabItemContent)?.ActivePane?.TabBarItemParameter?.NavigationParameter as string;
+			if (tabs is null || activePath is null)
+				return;
+
+			for (int i = 0; i < tabs.Count; i++)
+			{
+				((ShellPanesPage)tabs[i]).UpdatePanesLayout(activePath, i != multitaskingContext.CurrentTabIndex);
+			}
+		}
+
 		private void Context_Changing(object? sender, EventArgs e)
 		{
 			var viewModel = FolderSettings;

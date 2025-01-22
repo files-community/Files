@@ -17,5 +17,7 @@ namespace Files.App.Data.Contexts
 
 		bool SortDirectoriesAlongsideFiles { get; set; }
 		bool SortFilesFirst { get; set; }
+
+		void UpdateAllTabsAndPanesLayout();
 	}
 }
