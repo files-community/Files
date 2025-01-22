@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Data.Enums
 {
@@ -17,18 +17,23 @@ namespace Files.App.Data.Enums
 		Dev,
 
 		/// <summary>
-		/// Application distribution type is Stable.
+		/// Application distribution type is Sideload Stable.
 		/// </summary>
-		Stable,
+		SideloadStable,
 
 		/// <summary>
-		/// Application distribution type is Store.
+		/// Application distribution type is Store Stable.
 		/// </summary>
-		Store,
+		StoreStable,
 
 		/// <summary>
-		/// Application distribution type is Preview.
+		/// Application distribution type is Sideload Preview.
 		/// </summary>
-		Preview
+		SideloadPreview,
+
+		/// <summary>
+		/// Application distribution type is Store Preview.
+		/// </summary>
+		StorePreview
 	}
 }

@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.Win32;
 using System.IO;
@@ -82,7 +82,6 @@ namespace Files.App.Utils.Cloud
 					CloudProviders? cloudProvider = driveType switch
 					{
 						"MEGA" => CloudProviders.Mega,
-						"Amazon Drive" => CloudProviders.AmazonDrive,
 						"Nextcloud" => CloudProviders.Nextcloud,
 						"Jottacloud" => CloudProviders.Jottacloud,
 						"iCloudDrive" => CloudProviders.AppleCloudDrive,
@@ -109,7 +108,6 @@ namespace Files.App.Utils.Cloud
 						Name = cloudProvider switch
 						{
 							CloudProviders.Mega => $"MEGA ({Path.GetFileName(syncedFolder.TrimEnd('\\'))})",
-							CloudProviders.AmazonDrive => $"Amazon Drive",
 							CloudProviders.Nextcloud => !string.IsNullOrEmpty(nextCloudValue) ? nextCloudValue : "Nextcloud",
 							CloudProviders.Jottacloud => $"Jottacloud",
 							CloudProviders.AppleCloudDrive => $"iCloud Drive",

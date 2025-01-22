@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <UserControl
 	x:Class="Files.App.UserControls.InnerNavigationToolbar"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -65,17 +65,6 @@
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
-
-		<!--  Home page header  -->
-		<TextBlock
-			x:Name="HomePageHeaderTextBlock"
-			Grid.Column="0"
-			Margin="18,0,0,0"
-			HorizontalAlignment="Left"
-			VerticalAlignment="Center"
-			x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-			Style="{StaticResource App.Theme.SubtitleTextBlockStyle}"
-			Text="{helpers:ResourceString Name=Home}" />
 
 		<!--  Context Commands  -->
 		<CommandBar

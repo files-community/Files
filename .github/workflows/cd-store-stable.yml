@@ -1,5 +1,5 @@
-# Copyright (c) 2024 Files Community
-# Licensed under the MIT License. See the LICENSE.
+# Copyright (c) Files Community
+# Licensed under the MIT License.
 
 # Abstract:
 #  Deploys Files (Store).
@@ -10,7 +10,7 @@
 #  3. Generate a msixupload file
 #  4. Publish the msixupload to GitHub Actions
 
-name: Files CD (Store)
+name: Files CD (Store Stable)
 
 on:
   workflow_dispatch:
@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        configuration: [Store]
+        configuration: [Release]
         platform: [x64]
     env:
       SOLUTION_NAME:              'Files.sln'
@@ -35,6 +35,7 @@ jobs:
       PACKAGE_PROJECT_DIR:        '${{ github.workspace }}\src\Files.App (Package)'
       PACKAGE_PROJECT_PATH:       '${{ github.workspace }}\src\Files.App (Package)\Files.Package.wapproj'
       PACKAGE_MANIFEST_PATH:      '${{ github.workspace }}\src\Files.App (Package)\Package.appxmanifest'
+      LAUNCHER_PROJECT_PATH:      'src\Files.App.Launcher\Files.App.Launcher.vcxproj'
 
     steps:
     - name: Checkout the repository
@@ -52,7 +53,7 @@ jobs:
       shell: pwsh
       run: |
         . './.github/scripts/Configure-AppxManifest.ps1' `
-          -Branch "$env:CONFIGURATION" `
+          -Branch "StoreStable" `
           -PackageManifestPath "$env:PACKAGE_MANIFEST_PATH" `
           -Publisher "$env:STORE_PUBLISHER_SECRET" `
           -WorkingDir "$env:WORKING_DIR" `
@@ -82,6 +83,13 @@ jobs:
         -p:Platform=$env:PLATFORM `
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true
+
+    - name: Build launcher project
+      shell: pwsh
+      run: |
+        msbuild "$env:LAUNCHER_PROJECT_PATH" `
+        -p:Platform=$env:PLATFORM `
+        -p:Configuration=$env:CONFIGURATION
 
     - name: Build & package Files
       shell: pwsh

@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using CommunityToolkit.WinUI.UI;
 using Microsoft.UI.Xaml;
@@ -63,15 +63,6 @@ namespace Files.App.UserControls.TabBar
 
 			tabHoverTimer.Interval = TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToOpenTimespan);
 			tabHoverTimer.Tick += TabHoverSelected;
-
-			var appWindow = MainWindow.Instance.AppWindow;
-
-			double rightPaddingColumnWidth =
-				FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
-					? appWindow.TitleBar.LeftInset
-					: appWindow.TitleBar.RightInset;
-
-			RightPaddingColumn.Width = new(rightPaddingColumnWidth >= 0 ? rightPaddingColumnWidth : 0);
 
 			AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
@@ -365,6 +356,21 @@ namespace Files.App.UserControls.TabBar
 						iconControl.Content = (tabViewItem.IconSource as ImageIconSource)?.CreateIconElement();
 				});
 			}
+		}
+
+		private async void DragAreaRectangle_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (HorizontalTabView.ActualWidth <= 0 && TabBarAddNewTabButton.Width <= 0)
+				await Task.Delay(100);
+
+			var titleBarInset = ((FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
+				? MainWindow.Instance.AppWindow.TitleBar.LeftInset
+				: MainWindow.Instance.AppWindow.TitleBar.RightInset) / DragAreaRectangle.XamlRoot.RasterizationScale) + 40;
+
+			RightPaddingColumn.Width = new(titleBarInset > 40 ? titleBarInset : 138);
+			HorizontalTabView.Measure(new(
+				HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset,
+				HorizontalTabView.ActualHeight));
 		}
 	}
 }

@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
 using Microsoft.UI;
@@ -62,15 +62,15 @@ namespace Files.App
 			{
 				case ILaunchActivatedEventArgs launchArgs:
 					if (launchArgs.Arguments is not null &&
-						(CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"files.exe", StringComparison.OrdinalIgnoreCase)
-						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"files", StringComparison.OrdinalIgnoreCase)))
+						(CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"files-dev.exe", StringComparison.OrdinalIgnoreCase)
+						|| CommandLineParser.SplitArguments(launchArgs.Arguments, true)[0].EndsWith($"files-dev", StringComparison.OrdinalIgnoreCase)))
 					{
 						// WINUI3: When launching from commandline the argument is not ICommandLineActivatedEventArgs (#10370)
 						var ppm = CommandLineParser.ParseUntrustedCommands(launchArgs.Arguments);
 						if (ppm.IsEmpty())
 							rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 						else
-							await InitializeFromCmdLineArgsAsync(rootFrame, ppm);
+							await InitializeFromCmdLineArgsAsync(rootFrame, ppm, Environment.CurrentDirectory);
 					}
 					else if (rootFrame.Content is null || rootFrame.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
 					{
@@ -92,7 +92,7 @@ namespace Files.App
 					break;
 
 				case IProtocolActivatedEventArgs eventArgs:
-					if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
+					if (eventArgs.Uri.AbsoluteUri == "files-dev:")
 					{
 						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 
@@ -131,7 +131,7 @@ namespace Files.App
 								if (ppm.IsEmpty())
 									rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 								else
-									await InitializeFromCmdLineArgsAsync(rootFrame, ppm);
+									await InitializeFromCmdLineArgsAsync(rootFrame, ppm, Environment.CurrentDirectory);
 								break;
 							default:
 								rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
