@@ -76,6 +76,13 @@
 							Text="{helpers:ResourceString Name=DefaultIDE}"
 							TextTrimming="CharacterEllipsis" />
 
+						<TextBlock
+							Grid.Column="1"
+							VerticalAlignment="Center"
+							FontWeight="SemiBold"
+							Text="{x:Bind ViewModel.IDEFriendlyName, Mode=TwoWay}"
+							Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource InvertedBoolVisibilityConverter}, Mode=OneWay}" />
+
 						<StackPanel
 							Grid.Column="1"
 							Orientation="Horizontal"
@@ -85,8 +92,7 @@
 								x:Name="IDEFriendlyNameTextBox"
 								Width="200"
 								VerticalAlignment="Center"
-								Text="{x:Bind ViewModel.IDEFriendlyName, Mode=TwoWay}"
-								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
+								Text="{x:Bind ViewModel.IDEFriendlyName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 								<TextBox.Resources>
 									<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
 								</TextBox.Resources>
@@ -96,7 +102,6 @@
 								x:Name="PickIDEExe"
 								Grid.Column="1"
 								Command="{x:Bind ViewModel.OpenFilePickerForIDECommand, Mode=OneWay}"
-								CommandParameter="{x:Bind XamlRoot, Mode=OneWay}"
 								Content="{helpers:ResourceString Name=Browse}" />
 						</StackPanel>
 
@@ -124,7 +129,7 @@
 								ColumnSpacing="8"
 								CornerRadius="4"
 								ToolTipService.ToolTip="{helpers:ResourceString Name=ErrorInputEmpty}"
-								Visibility="{x:Bind ViewModel.CanSaveIDEChanges, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
+								Visibility="{x:Bind ViewModel.IsFriendlyNameValid, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition Width="Auto" />

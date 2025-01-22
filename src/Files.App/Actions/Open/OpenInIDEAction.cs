@@ -48,7 +48,14 @@ namespace Files.App.Actions
 		private void DevSettings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == nameof(IDevToolsSettingsService.IDEPath))
+			{
 				OnPropertyChanged(nameof(IsExecutable));
+			}
+			else if (e.PropertyName == nameof(IDevToolsSettingsService.FriendlyIDEName))
+			{
+				OnPropertyChanged(nameof(Label));
+				OnPropertyChanged(nameof(Description));
+			}
 		}
 	}
 }
