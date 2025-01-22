@@ -9,6 +9,7 @@ namespace Files.App.ViewModels.Settings
 	{
 		protected readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 		protected readonly IDevToolsSettingsService DevToolsSettingsService = Ioc.Default.GetRequiredService<IDevToolsSettingsService>();
+		private readonly ICommonDialogService CommonDialogService = Ioc.Default.GetRequiredService<ICommonDialogService>();
 
 		public Dictionary<OpenInIDEOption, string> OpenInIDEOptions { get; private set; } = [];
 		public ICommand RemoveCredentialsCommand { get; }
@@ -37,21 +38,42 @@ namespace Files.App.ViewModels.Settings
 		public bool CanSaveIDEChanges
 		{
 			get => _CanSaveIDEChanges;
-			set => SetProperty(ref  _CanSaveIDEChanges, value);
+			set => SetProperty(ref _CanSaveIDEChanges, value);
+		}
+
+		private bool _IsFriendlyNameValid;
+		public bool IsFriendlyNameValid
+		{
+			get => _IsFriendlyNameValid;
+			set => SetProperty(ref _IsFriendlyNameValid, value);
 		}
 
 		private string _IDEPath;
 		public string IDEPath
 		{
 			get => _IDEPath;
-			set => SetProperty(ref _IDEPath, value);
+			set
+			{
+				if (SetProperty(ref _IDEPath, value))
+					CanSaveIDEChanges = IsFriendlyNameValid && !string.IsNullOrWhiteSpace(IDEPath);
+			}
 		}
 
 		private string _IDEFriendlyName;
 		public string IDEFriendlyName
 		{
 			get => _IDEFriendlyName;
-			set => SetProperty(ref _IDEFriendlyName, value);
+			set
+			{
+				if (SetProperty(ref _IDEFriendlyName, value))
+				{
+					IsFriendlyNameValid =
+						!string.IsNullOrEmpty(value) &&
+						!value.Contains('\"') &&
+						!value.Contains('\'');
+					CanSaveIDEChanges = IsFriendlyNameValid && !string.IsNullOrWhiteSpace(IDEPath);
+				}
+			}
 		}
 
 		public DevToolsViewModel()
@@ -63,6 +85,8 @@ namespace Files.App.ViewModels.Settings
 
 			IDEPath = DevToolsSettingsService.IDEPath;
 			IDEFriendlyName = DevToolsSettingsService.FriendlyIDEName;
+			IsFriendlyNameValid = true;
+			CanSaveIDEChanges = false;
 
 			IsLogoutEnabled = GitHelpers.GetSavedCredentials() != string.Empty;
 
@@ -112,6 +136,8 @@ namespace Files.App.ViewModels.Settings
 		private void DoSaveIDEChanges()
 		{
 			IsEditingIDEConfig = false;
+			IsFriendlyNameValid = true;
+			CanSaveIDEChanges = false;
 			DevToolsSettingsService.IDEPath = IDEPath;
 			DevToolsSettingsService.FriendlyIDEName = IDEFriendlyName;
 		}
@@ -123,7 +149,15 @@ namespace Files.App.ViewModels.Settings
 
 		private void DoOpenFilePickerForIDE()
 		{
+			var result = CommonDialogService.Open_FileOpenDialog(
+				MainWindow.Instance.WindowHandle,
+				false,
+				[ "*.exe;*.bat;*.cmd;*.ahk" ],
+				Environment.SpecialFolder.ProgramFiles,
+				out var filePath
+			);
 
+			IDEPath = filePath;
 		}
 	}
 }
