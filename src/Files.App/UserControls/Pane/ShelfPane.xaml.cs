@@ -81,7 +81,10 @@ namespace Files.App.UserControls
 	            return;
 
             e.Data.Properties["Files_ActionBinder"] = "Files_ShelfBinder";
+
+			// TODO: Format is set correctly, but no items are present
 			ppDataObject.SetData(StandardDataFormats.StorageItems, apidl);
+
 			var dataObjectProvider = e.Data.As<Shell32.IDataObjectProvider>();
 			dataObjectProvider.SetDataObject(ppDataObject);
 
