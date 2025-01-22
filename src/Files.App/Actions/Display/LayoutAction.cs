@@ -9,10 +9,10 @@ namespace Files.App.Actions
 			=> LayoutTypes.Details;
 
 		public override string Label
-			=> "Details".GetLocalizedResource();
+			=> Strings.Details.GetLocalizedResource();
 
 		public override string Description
-			=> "LayoutDetailsDescription".GetLocalizedResource();
+			=> Strings.LayoutDetailsDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.IconLayout.Details");
@@ -27,10 +27,10 @@ namespace Files.App.Actions
 			=> LayoutTypes.List;
 
 		public override string Label
-			=> "List".GetLocalizedResource();
+			=> Strings.List.GetLocalizedResource();
 
 		public override string Description
-			=> "LayoutListDescription".GetLocalizedResource();
+			=> Strings.LayoutListDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.IconLayout.List");
@@ -63,10 +63,10 @@ namespace Files.App.Actions
 			=> LayoutTypes.Grid;
 
 		public override string Label
-			=> "Grid".GetLocalizedResource();
+			=> Strings.Grid.GetLocalizedResource();
 
 		public override string Description
-			=> "LayoutGridDescription".GetLocalizedResource();
+			=> Strings.LayoutGridDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.IconSize.Small");
@@ -81,10 +81,10 @@ namespace Files.App.Actions
 			=> LayoutTypes.Columns;
 
 		public override string Label
-			=> "Columns".GetLocalizedResource();
+			=> Strings.Columns.GetLocalizedResource();
 
 		public override string Description
-			=> "LayoutColumnsDescription".GetLocalizedResource();
+			=> Strings.LayoutColumnsDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.IconLayout.Columns");
@@ -99,10 +99,10 @@ namespace Files.App.Actions
 			=> LayoutTypes.Adaptive;
 
 		public override string Label
-			=> "Adaptive".GetLocalizedResource();
+			=> Strings.Adaptive.GetLocalizedResource();
 
 		public override string Description
-			=> "LayoutAdaptiveDescription".GetLocalizedResource();
+			=> Strings.LayoutAdaptiveDescription.GetLocalizedResource();
 
 		public override bool IsExecutable
 			=> Context.IsLayoutAdaptiveEnabled;
@@ -174,10 +174,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
-			=> "DecreaseSize".GetLocalizedResource();
+			=> Strings.DecreaseSize.GetLocalizedResource();
 
 		public string Description
-			=> "LayoutDecreaseSizeDescription".GetLocalizedResource();
+			=> Strings.LayoutDecreaseSizeDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Subtract, KeyModifiers.Ctrl);
@@ -262,10 +262,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
-			=> "IncreaseSize".GetLocalizedResource();
+			=> Strings.IncreaseSize.GetLocalizedResource();
 
 		public string Description
-			=> "LayoutIncreaseSizeDescription".GetLocalizedResource();
+			=> Strings.LayoutIncreaseSizeDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Add, KeyModifiers.Ctrl);

@@ -18,11 +18,11 @@ namespace Files.App.Data.Factories
 		{
 			if (DetailsViewSizeKinds.Count == 0)
 			{
-				DetailsViewSizeKinds.Add(DetailsViewSizeKind.Compact, "Compact".GetLocalizedResource());
-				DetailsViewSizeKinds.Add(DetailsViewSizeKind.Small, "Small".GetLocalizedResource());
-				DetailsViewSizeKinds.Add(DetailsViewSizeKind.Medium, "Medium".GetLocalizedResource());
-				DetailsViewSizeKinds.Add(DetailsViewSizeKind.Large, "Large".GetLocalizedResource());
-				DetailsViewSizeKinds.Add(DetailsViewSizeKind.ExtraLarge, "ExtraLarge".GetLocalizedResource());
+				DetailsViewSizeKinds.Add(DetailsViewSizeKind.Compact, Strings.Compact.GetLocalizedResource());
+				DetailsViewSizeKinds.Add(DetailsViewSizeKind.Small, Strings.Small.GetLocalizedResource());
+				DetailsViewSizeKinds.Add(DetailsViewSizeKind.Medium, Strings.Medium.GetLocalizedResource());
+				DetailsViewSizeKinds.Add(DetailsViewSizeKind.Large, Strings.Large.GetLocalizedResource());
+				DetailsViewSizeKinds.Add(DetailsViewSizeKind.ExtraLarge, Strings.ExtraLarge.GetLocalizedResource());
 			}
 
 			var stringValue = DetailsViewSizeKinds.GetValueOrDefault(value)!;
@@ -33,11 +33,11 @@ namespace Files.App.Data.Factories
 		{
 			if (ListViewSizeKinds.Count == 0)
 			{
-				ListViewSizeKinds.Add(ListViewSizeKind.Compact, "Compact".GetLocalizedResource());
-				ListViewSizeKinds.Add(ListViewSizeKind.Small, "Small".GetLocalizedResource());
-				ListViewSizeKinds.Add(ListViewSizeKind.Medium, "Medium".GetLocalizedResource());
-				ListViewSizeKinds.Add(ListViewSizeKind.Large, "Large".GetLocalizedResource());
-				ListViewSizeKinds.Add(ListViewSizeKind.ExtraLarge, "ExtraLarge".GetLocalizedResource());
+				ListViewSizeKinds.Add(ListViewSizeKind.Compact, Strings.Compact.GetLocalizedResource());
+				ListViewSizeKinds.Add(ListViewSizeKind.Small, Strings.Small.GetLocalizedResource());
+				ListViewSizeKinds.Add(ListViewSizeKind.Medium, Strings.Medium.GetLocalizedResource());
+				ListViewSizeKinds.Add(ListViewSizeKind.Large, Strings.Large.GetLocalizedResource());
+				ListViewSizeKinds.Add(ListViewSizeKind.ExtraLarge, Strings.ExtraLarge.GetLocalizedResource());
 			}
 
 			var stringValue = ListViewSizeKinds.GetValueOrDefault(value)!;
@@ -62,18 +62,18 @@ namespace Files.App.Data.Factories
 		{
 			if (GridViewSizeKinds.Count == 0)
 			{
-				GridViewSizeKinds.Add(GridViewSizeKind.Small, "Small".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.Medium, "Medium".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.Three, "Medium+".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.Four, "Medium++".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.Five, "Medium+++".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.Six, "Medium++++".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.Seven, "Medium+++++".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.Large, "Large".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.Nine, "Large+".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.Ten, "Large++".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.Eleven, "Large+++".GetLocalizedResource());
-				GridViewSizeKinds.Add(GridViewSizeKind.ExtraLarge, "ExtraLarge".GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Small, Strings.Small.GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Medium, Strings.Medium.GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Three, Strings.MediumP.GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Four, Strings.MediumPP.GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Five, Strings.MediumPPP.GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Six, Strings.MediumPPPP.GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Seven, Strings.MediumPPPPP.GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Large, Strings.Large.GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Nine, Strings.LargeP.GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Ten, Strings.LargePP.GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.Eleven, Strings.LargePPP.GetLocalizedResource());
+				GridViewSizeKinds.Add(GridViewSizeKind.ExtraLarge, Strings.ExtraLarge.GetLocalizedResource());
 			}
 
 			var stringValue = GridViewSizeKinds.GetValueOrDefault(value)!;
@@ -84,11 +84,11 @@ namespace Files.App.Data.Factories
 		{
 			if (ColumnsViewSizeKinds.Count == 0)
 			{
-				ColumnsViewSizeKinds.Add(ColumnsViewSizeKind.Compact, "Compact".GetLocalizedResource());
-				ColumnsViewSizeKinds.Add(ColumnsViewSizeKind.Small, "Small".GetLocalizedResource());
-				ColumnsViewSizeKinds.Add(ColumnsViewSizeKind.Medium, "Medium".GetLocalizedResource());
-				ColumnsViewSizeKinds.Add(ColumnsViewSizeKind.Large, "Large".GetLocalizedResource());
-				ColumnsViewSizeKinds.Add(ColumnsViewSizeKind.ExtraLarge, "ExtraLarge".GetLocalizedResource());
+				ColumnsViewSizeKinds.Add(ColumnsViewSizeKind.Compact, Strings.Compact.GetLocalizedResource());
+				ColumnsViewSizeKinds.Add(ColumnsViewSizeKind.Small, Strings.Small.GetLocalizedResource());
+				ColumnsViewSizeKinds.Add(ColumnsViewSizeKind.Medium, Strings.Medium.GetLocalizedResource());
+				ColumnsViewSizeKinds.Add(ColumnsViewSizeKind.Large, Strings.Large.GetLocalizedResource());
+				ColumnsViewSizeKinds.Add(ColumnsViewSizeKind.ExtraLarge, Strings.ExtraLarge.GetLocalizedResource());
 			}
 
 			var stringValue = ColumnsViewSizeKinds.GetValueOrDefault(value)!;

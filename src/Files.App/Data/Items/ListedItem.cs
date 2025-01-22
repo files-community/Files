@@ -41,15 +41,15 @@ namespace Files.App.Utils
 			get
 			{
 				var tooltipBuilder = new StringBuilder();
-				tooltipBuilder.AppendLine($"{"NameWithColon".GetLocalizedResource()} {Name}");
-				tooltipBuilder.AppendLine($"{"ItemType".GetLocalizedResource()} {itemType}");
-				tooltipBuilder.Append($"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}");
+				tooltipBuilder.AppendLine($"{Strings.NameWithColon.GetLocalizedResource()} {Name}");
+				tooltipBuilder.AppendLine($"{Strings.ItemType.GetLocalizedResource()} {itemType}");
+				tooltipBuilder.Append($"{Strings.ToolTipDescriptionDate.GetLocalizedResource()} {ItemDateModified}");
 				if (!string.IsNullOrWhiteSpace(FileSize))
-					tooltipBuilder.Append($"{Environment.NewLine}{"SizeLabel".GetLocalizedResource()} {FileSize}");
+					tooltipBuilder.Append($"{Environment.NewLine}{Strings.SizeLabel.GetLocalizedResource()} {FileSize}");
 				if (!string.IsNullOrWhiteSpace(ImageDimensions))
-					tooltipBuilder.Append($"{Environment.NewLine}{"PropertyDimensionsColon".GetLocalizedResource()} {ImageDimensions}");
+					tooltipBuilder.Append($"{Environment.NewLine}{Strings.PropertyDimensionsColon.GetLocalizedResource()} {ImageDimensions}");
 				if (SyncStatusUI.LoadSyncStatus)
-					tooltipBuilder.Append($"{Environment.NewLine}{"StatusWithColon".GetLocalizedResource()} {syncStatusUI.SyncStatusString}");
+					tooltipBuilder.Append($"{Environment.NewLine}{Strings.StatusWithColon.GetLocalizedResource()} {syncStatusUI.SyncStatusString}");
 
 				return tooltipBuilder.ToString();
 			}
@@ -166,7 +166,7 @@ namespace Files.App.Utils
 		// This is used to avoid passing a null value to AutomationProperties.Name, which causes a crash
 		public string SyncStatusString
 		{
-			get => string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString) ? "CloudDriveSyncStatus_Unknown".GetLocalizedResource() : SyncStatusUI.SyncStatusString;
+			get => string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString) ? Strings.CloudDriveSyncStatus_Unknown.GetLocalizedResource() : SyncStatusUI.SyncStatusString;
 		}
 
 		private BitmapImage fileImage;
@@ -276,7 +276,7 @@ namespace Files.App.Utils
 			}
 		}
 
-		public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalculated".GetLocalizedResource() : FileSize;
+		public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? Strings.ItemSizeNotCalculated.GetLocalizedResource() : FileSize;
 
 		public long FileSizeBytes { get; set; }
 
@@ -381,19 +381,19 @@ namespace Files.App.Utils
 			string suffix;
 			if (IsRecycleBinItem)
 			{
-				suffix = "RecycleBinItemAutomation".GetLocalizedResource();
+				suffix = Strings.RecycleBinItemAutomation.GetLocalizedResource();
 			}
 			else if (IsShortcut)
 			{
-				suffix = "ShortcutItemAutomation".GetLocalizedResource();
+				suffix = Strings.ShortcutItemAutomation.GetLocalizedResource();
 			}
 			else if (IsLibrary)
 			{
-				suffix = "Library".GetLocalizedResource();
+				suffix = Strings.Library.GetLocalizedResource();
 			}
 			else
 			{
-				suffix = PrimaryItemAttribute == StorageItemTypes.File ? "Folder".GetLocalizedResource() : "FolderItemAutomation".GetLocalizedResource();
+				suffix = PrimaryItemAttribute == StorageItemTypes.File ? Strings.Folder.GetLocalizedResource() : "FolderItemAutomation".GetLocalizedResource();
 			}
 
 			return $"{Name}, {suffix}";
@@ -480,7 +480,7 @@ namespace Files.App.Utils
 			PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
 			ItemPropertiesInitialized = false;
 
-			var itemType = isFile ? "File".GetLocalizedResource() : "Folder".GetLocalizedResource();
+			var itemType = isFile ? Strings.File.GetLocalizedResource() : Strings.Folder.GetLocalizedResource();
 			if (isFile && Name.Contains('.', StringComparison.Ordinal))
 			{
 				itemType = FileExtension.Trim('.') + " " + itemType;
@@ -559,7 +559,7 @@ namespace Files.App.Utils
 			ItemPath = library.Path;
 			ItemNameRaw = library.Text;
 			PrimaryItemAttribute = StorageItemTypes.Folder;
-			ItemType = "Library".GetLocalizedResource();
+			ItemType = Strings.Library.GetLocalizedResource();
 			LoadCustomIcon = true;
 			CustomIcon = library.Icon;
 			//CustomIconSource = library.IconSource;

@@ -390,13 +390,13 @@ namespace Files.App.ViewModels.UserControls
 					x.Item is ZipStorageFolder) ||
 					ZipStorageFolder.IsZipPath(pathBoxItem.Path))
 			{
-				e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), pathBoxItem.Title);
+				e.DragUIOverride.Caption = string.Format(Strings.CopyToFolderCaptionText.GetLocalizedResource(), pathBoxItem.Title);
 				e.AcceptedOperation = DataPackageOperation.Copy;
 			}
 			else
 			{
 				e.DragUIOverride.IsCaptionVisible = true;
-				e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), pathBoxItem.Title);
+				e.DragUIOverride.Caption = string.Format(Strings.MoveToFolderCaptionText.GetLocalizedResource(), pathBoxItem.Title);
 				// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
 				e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
 			}
@@ -659,7 +659,7 @@ namespace Files.App.ViewModels.UserControls
 				var flyoutItem = new MenuFlyoutItem
 				{
 					Icon = new FontIcon { Glyph = "\uE7BA" },
-					Text = "SubDirectoryAccessDenied".GetLocalizedResource(),
+					Text = Strings.SubDirectoryAccessDenied.GetLocalizedResource(),
 					//Foreground = (SolidColorBrush)Application.Current.Resources["SystemControlErrorTextForegroundBrush"],
 					FontSize = 12
 				};
@@ -730,11 +730,11 @@ namespace Files.App.ViewModels.UserControls
 				var command = Commands[code];
 
 				if (command == Commands.None)
-					await DialogDisplayHelper.ShowDialogAsync("InvalidCommand".GetLocalizedResource(),
-						string.Format("InvalidCommandContent".GetLocalizedResource(), code));
+					await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
+						string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), code));
 				else if (!command.IsExecutable)
-					await DialogDisplayHelper.ShowDialogAsync("CommandNotExecutable".GetLocalizedResource(),
-						string.Format("CommandNotExecutableContent".GetLocalizedResource(), command.Code));
+					await DialogDisplayHelper.ShowDialogAsync(Strings.CommandNotExecutable.GetLocalizedResource(),
+						string.Format(Strings.CommandNotExecutableContent.GetLocalizedResource(), command.Code));
 				else
 					await command.ExecuteAsync();
 
@@ -750,7 +750,7 @@ namespace Files.App.ViewModels.UserControls
 
 			if (normalizedInput != shellPage.ShellViewModel.WorkingDirectory || shellPage.CurrentPageType == typeof(HomePage))
 			{
-				if (normalizedInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || normalizedInput.Equals("Home".GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+				if (normalizedInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || normalizedInput.Equals(Strings.Home.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 				{
 					SavePathToHistory("Home");
 					shellPage.NavigateHome();
@@ -769,7 +769,7 @@ namespace Files.App.ViewModels.UserControls
 						var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(normalizedInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
 						if (matchingDrive is not null && matchingDrive.Type == Data.Items.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
 						{
-							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync("InsertDiscDialog/Title".GetLocalizedResource(), string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path), "InsertDiscDialog/OpenDriveButton".GetLocalizedResource(), "Close".GetLocalizedResource());
+							bool ejectButton = await DialogDisplayHelper.ShowDialogAsync(Strings.InsertDiscDialog_Title.GetLocalizedResource(), string.Format(Strings.InsertDiscDialog_Text.GetLocalizedResource(), matchingDrive.Path), Strings.InsertDiscDialog_OpenDriveButton.GetLocalizedResource(), Strings.Close.GetLocalizedResource());
 							if (ejectButton)
 								DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
 							return;
@@ -805,13 +805,13 @@ namespace Files.App.ViewModels.UserControls
 							try
 							{
 								if (!await Windows.System.Launcher.LaunchUriAsync(new Uri(currentInput)))
-									await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
-										string.Format("InvalidItemDialogContent".GetLocalizedResource(), Environment.NewLine, resFolder.ErrorCode.ToString()));
+									await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidItemDialogTitle.GetLocalizedResource(),
+										string.Format(Strings.InvalidItemDialogContent.GetLocalizedResource(), Environment.NewLine, resFolder.ErrorCode.ToString()));
 							}
 							catch (Exception ex) when (ex is UriFormatException || ex is ArgumentException)
 							{
-								await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
-									string.Format("InvalidItemDialogContent".GetLocalizedResource(), Environment.NewLine, resFolder.ErrorCode.ToString()));
+								await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidItemDialogTitle.GetLocalizedResource(),
+									string.Format(Strings.InvalidItemDialogContent.GetLocalizedResource(), Environment.NewLine, resFolder.ErrorCode.ToString()));
 							}
 						}
 					}
@@ -925,7 +925,7 @@ namespace Files.App.ViewModels.UserControls
 					{
 						suggestions = new List<NavigationBarSuggestionItem>() { new NavigationBarSuggestionItem() {
 						Text = shellpage.ShellViewModel.WorkingDirectory,
-						PrimaryDisplay = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource() } };
+						PrimaryDisplay = Strings.NavigationToolbarVisiblePathNoResults.GetLocalizedResource() } };
 					}
 
 					// NavigationBarSuggestions becoming empty causes flickering of the suggestion box
@@ -978,7 +978,7 @@ namespace Files.App.ViewModels.UserControls
 						NavigationBarSuggestions.Add(new NavigationBarSuggestionItem()
 						{
 							Text = shellpage.ShellViewModel.WorkingDirectory,
-							PrimaryDisplay = "NavigationToolbarVisiblePathNoResults".GetLocalizedResource()
+							PrimaryDisplay = Strings.NavigationToolbarVisiblePathNoResults.GetLocalizedResource()
 						});
 					});
 				}
@@ -1096,7 +1096,7 @@ namespace Files.App.ViewModels.UserControls
 			(IsGridLayout && UserSettingsService.LayoutSettingsService.GridViewSize == GridViewSizeKind.ExtraLarge);
 
 		public string ExtractToText
-			=> IsSelectionArchivesOnly ? SelectedItems.Count > 1 ? string.Format("ExtractToChildFolder".GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format("ExtractToChildFolder".GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name)) : "ExtractToChildFolder".GetLocalizedResource();
+			=> IsSelectionArchivesOnly ? SelectedItems.Count > 1 ? string.Format(Strings.ExtractToChildFolder.GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format(Strings.ExtractToChildFolder.GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(selectedItems.First().Name)) : Strings.ExtractToChildFolder.GetLocalizedResource();
 
 		public void Dispose()
 		{

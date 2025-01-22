@@ -40,7 +40,7 @@ namespace Files.App.ViewModels
 		private readonly AsyncManualResetEvent gitChangedEvent;
 		private readonly DispatcherQueue dispatcherQueue;
 		private readonly JsonElement defaultJson = JsonSerializer.SerializeToElement("{}");
-		private readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
+		private readonly string folderTypeTextLocalized = Strings.Folder.GetLocalizedResource();
 
 		private Task? aProcessQueueAction;
 		private Task? gitProcessQueueAction;
@@ -610,7 +610,7 @@ namespace Files.App.ViewModels
 						if (e.ValueState is SizeChangedValueState.None)
 						{
 							matchingItem.FileSizeBytes = 0;
-							matchingItem.FileSize = "ItemSizeNotCalculated".GetLocalizedResource();
+							matchingItem.FileSize = Strings.ItemSizeNotCalculated.GetLocalizedResource();
 						}
 						else if (e.ValueState is SizeChangedValueState.Final || (long)e.NewSize > matchingItem.FileSizeBytes)
 						{
@@ -1140,7 +1140,7 @@ namespace Files.App.ViewModels
 								var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
 								var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
-								var itemType = (item.ItemType == "Folder".GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
+								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
 								var extraProperties = await GetExtraProperties(matchingStorageFile);
 
 								cts.Token.ThrowIfCancellationRequested();
@@ -1208,7 +1208,7 @@ namespace Files.App.ViewModels
 								var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
 								var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
-								var itemType = (item.ItemType == "Folder".GetLocalizedResource()) ? item.ItemType : matchingStorageFolder.DisplayType;
+								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFolder.DisplayType;
 
 								cts.Token.ThrowIfCancellationRequested();
 
@@ -1612,23 +1612,23 @@ namespace Files.App.ViewModels
 				else if (res == FileSystemStatusCode.Unauthorized)
 				{
 					await DialogDisplayHelper.ShowDialogAsync(
-						"AccessDenied".GetLocalizedResource(),
-						"AccessDeniedToFolder".GetLocalizedResource());
+						Strings.AccessDenied.GetLocalizedResource(),
+						Strings.AccessDeniedToFolder.GetLocalizedResource());
 
 					return -1;
 				}
 				else if (res == FileSystemStatusCode.NotFound)
 				{
 					await DialogDisplayHelper.ShowDialogAsync(
-						"FolderNotFoundDialog/Title".GetLocalizedResource(),
-						"FolderNotFoundDialog/Text".GetLocalizedResource());
+						Strings.FolderNotFoundDialog_Title.GetLocalizedResource(),
+						Strings.FolderNotFoundDialog_Text.GetLocalizedResource());
 
 					return -1;
 				}
 				else
 				{
 					await DialogDisplayHelper.ShowDialogAsync(
-						"DriveUnpluggedDialog/Title".GetLocalizedResource(),
+						Strings.DriveUnpluggedDialog_Title.GetLocalizedResource(),
 						res.ErrorCode.ToString());
 
 					return -1;
@@ -1729,7 +1729,7 @@ namespace Files.App.ViewModels
 
 				if (hFile == IntPtr.Zero)
 				{
-					await DialogDisplayHelper.ShowDialogAsync("DriveUnpluggedDialog/Title".GetLocalizedResource(), "");
+					await DialogDisplayHelper.ShowDialogAsync(Strings.DriveUnpluggedDialog_Title.GetLocalizedResource(), "");
 
 					return -1;
 				}
@@ -1741,8 +1741,8 @@ namespace Files.App.ViewModels
 					if (filesAndFolders.Count == 0 && errorCode == 0x5)
 					{
 						await DialogDisplayHelper.ShowDialogAsync(
-							"AccessDenied".GetLocalizedResource(),
-							"AccessDeniedToFolder".GetLocalizedResource());
+							Strings.AccessDenied.GetLocalizedResource(),
+							Strings.AccessDeniedToFolder.GetLocalizedResource());
 
 						return -1;
 					}
