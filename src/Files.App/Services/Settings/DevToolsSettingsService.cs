@@ -18,6 +18,20 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		/// <inheritdoc/>
+		public string IDEPath
+		{
+			get => Get("") ?? "";
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public string FriendlyIDEName
+		{
+			get => Get("") ?? "";
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			base.RaiseOnSettingChangedEvent(sender, e);

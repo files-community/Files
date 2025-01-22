@@ -13,6 +13,10 @@ namespace Files.App.ViewModels.Settings
 		public Dictionary<OpenInIDEOption, string> OpenInIDEOptions { get; private set; } = [];
 		public ICommand RemoveCredentialsCommand { get; }
 		public ICommand ConnectToGitHubCommand { get; }
+		public ICommand StartEditingIDECommand { get; }
+		public ICommand CancelIDEChangesCommand { get; }
+		public ICommand SaveIDEChangesCommand { get; }
+		public ICommand OpenFilePickerForIDECommand { get; }
 
 		// Enabled when there are saved credentials
 		private bool _IsLogoutEnabled;
@@ -22,6 +26,34 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref _IsLogoutEnabled, value);
 		}
 
+		private bool _IsEditingIDEConfig;
+		public bool IsEditingIDEConfig
+		{
+			get => _IsEditingIDEConfig;
+			set => SetProperty(ref _IsEditingIDEConfig, value);
+		}
+
+		private bool _CanSaveIDEChanges;
+		public bool CanSaveIDEChanges
+		{
+			get => _CanSaveIDEChanges;
+			set => SetProperty(ref  _CanSaveIDEChanges, value);
+		}
+
+		private string _IDEPath;
+		public string IDEPath
+		{
+			get => _IDEPath;
+			set => SetProperty(ref _IDEPath, value);
+		}
+
+		private string _IDEFriendlyName;
+		public string IDEFriendlyName
+		{
+			get => _IDEFriendlyName;
+			set => SetProperty(ref _IDEFriendlyName, value);
+		}
+
 		public DevToolsViewModel()
 		{
 			// Open in IDE options
@@ -29,10 +61,17 @@ namespace Files.App.ViewModels.Settings
 			OpenInIDEOptions.Add(OpenInIDEOption.AllLocations, "AllLocations".GetLocalizedResource());
 			SelectedOpenInIDEOption = OpenInIDEOptions[DevToolsSettingsService.OpenInIDEOption];
 
+			IDEPath = DevToolsSettingsService.IDEPath;
+			IDEFriendlyName = DevToolsSettingsService.FriendlyIDEName;
+
 			IsLogoutEnabled = GitHelpers.GetSavedCredentials() != string.Empty;
 
 			RemoveCredentialsCommand = new RelayCommand(DoRemoveCredentials);
 			ConnectToGitHubCommand = new RelayCommand(DoConnectToGitHubAsync);
+			CancelIDEChangesCommand = new RelayCommand(DoCancelIDEChanges);
+			SaveIDEChangesCommand = new RelayCommand(DoSaveIDEChanges);
+			StartEditingIDECommand = new RelayCommand(DoStartEditingIDE);
+			OpenFilePickerForIDECommand = new RelayCommand(DoOpenFilePickerForIDE);
 		}
 
 		private string selectedOpenInIDEOption;
@@ -61,6 +100,30 @@ namespace Files.App.ViewModels.Settings
 			await Task.Delay(500);
 
 			await GitHelpers.RequireGitAuthenticationAsync();
+		}
+
+		private void DoCancelIDEChanges()
+		{
+			IsEditingIDEConfig = false;
+			IDEPath = DevToolsSettingsService.IDEPath;
+			IDEFriendlyName = DevToolsSettingsService.FriendlyIDEName;
+		}
+
+		private void DoSaveIDEChanges()
+		{
+			IsEditingIDEConfig = false;
+			DevToolsSettingsService.IDEPath = IDEPath;
+			DevToolsSettingsService.FriendlyIDEName = IDEFriendlyName;
+		}
+
+		private void DoStartEditingIDE()
+		{
+			IsEditingIDEConfig = true;
+		}
+
+		private void DoOpenFilePickerForIDE()
+		{
+
 		}
 	}
 }

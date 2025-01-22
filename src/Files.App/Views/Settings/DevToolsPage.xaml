@@ -11,6 +11,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
 	mc:Ignorable="d">
 
 	<Page.Resources>
@@ -20,6 +21,14 @@
 			</ResourceDictionary.MergedDictionaries>
 
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<wctconverters:BoolToVisibilityConverter
+				x:Key="BoolVisibilityConverter"
+				FalseValue="Collapsed"
+				TrueValue="Visible" />
+			<wctconverters:BoolToVisibilityConverter
+				x:Key="InvertedBoolVisibilityConverter"
+				FalseValue="Visible"
+				TrueValue="Collapsed" />
 		</ResourceDictionary>
 	</Page.Resources>
 
@@ -49,6 +58,108 @@
 					AutomationProperties.Name="{helpers:ResourceString Name=DisplayOpenIDE}"
 					ItemsSource="{x:Bind ViewModel.OpenInIDEOptions.Values}"
 					SelectedItem="{x:Bind ViewModel.SelectedOpenInIDEOption, Mode=TwoWay}" />
+				<local:SettingsBlockControl.ExpandableContent>
+					<Grid
+						x:Name="IDEConfigGrid"
+						Padding="32,12"
+						ColumnSpacing="16">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<TextBlock
+							x:Name="TagName"
+							MaxWidth="200"
+							VerticalAlignment="Center"
+							LineHeight="18"
+							Text="{helpers:ResourceString Name=DefaultIDE}"
+							TextTrimming="CharacterEllipsis" />
+
+						<StackPanel
+							Grid.Column="1"
+							Orientation="Horizontal"
+							Spacing="8"
+							Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
+							<TextBox
+								x:Name="IDEFriendlyNameTextBox"
+								Width="200"
+								VerticalAlignment="Center"
+								Text="{x:Bind ViewModel.IDEFriendlyName, Mode=TwoWay}"
+								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
+								<TextBox.Resources>
+									<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
+								</TextBox.Resources>
+							</TextBox>
+
+							<Button
+								x:Name="PickIDEExe"
+								Grid.Column="1"
+								Command="{x:Bind ViewModel.OpenFilePickerForIDECommand, Mode=OneWay}"
+								CommandParameter="{x:Bind XamlRoot, Mode=OneWay}"
+								Content="{helpers:ResourceString Name=Browse}" />
+						</StackPanel>
+
+						<Button
+							x:Name="EditIDEConfigButton"
+							Grid.Column="2"
+							Padding="8,4"
+							Background="Transparent"
+							BorderBrush="Transparent"
+							Command="{x:Bind ViewModel.StartEditingIDECommand, Mode=OneWay}"
+							Content="{helpers:ResourceString Name=Edit}"
+							Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource InvertedBoolVisibilityConverter}, Mode=OneWay}" />
+
+						<StackPanel
+							Grid.Column="2"
+							Orientation="Horizontal"
+							Spacing="12"
+							Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
+							<Grid
+								Padding="12,4"
+								VerticalAlignment="Stretch"
+								Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+								BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+								BorderThickness="1"
+								ColumnSpacing="8"
+								CornerRadius="4"
+								ToolTipService.ToolTip="{helpers:ResourceString Name=ErrorInputEmpty}"
+								Visibility="{x:Bind ViewModel.CanSaveIDEChanges, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+								<TextBlock
+									VerticalAlignment="Center"
+									AutomationProperties.AccessibilityView="Raw"
+									FontFamily="{ThemeResource SymbolThemeFontFamily}"
+									FontSize="{StaticResource InfoBarIconFontSize}"
+									Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
+									Text="{StaticResource InfoBarIconBackgroundGlyph}" />
+								<TextBlock
+									VerticalAlignment="Center"
+									FontFamily="{ThemeResource SymbolThemeFontFamily}"
+									FontSize="{StaticResource InfoBarIconFontSize}"
+									Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
+									Text="{StaticResource InfoBarErrorIconGlyph}" />
+								<TextBlock
+									Grid.Column="1"
+									VerticalAlignment="Center"
+									Text="{helpers:ResourceString Name=InvalidTagNameWarning}" />
+							</Grid>
+
+							<!--  Cancel  -->
+							<Button Command="{x:Bind ViewModel.CancelIDEChangesCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=Cancel}" />
+
+							<!--  Save Changes  -->
+							<Button
+								Command="{x:Bind ViewModel.SaveIDEChangesCommand, Mode=OneWay}"
+								Content="{helpers:ResourceString Name=Save}"
+								IsEnabled="{x:Bind ViewModel.CanSaveIDEChanges, Mode=OneWay}"
+								Style="{StaticResource AccentButtonStyle}" />
+						</StackPanel>
+					</Grid>
+				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
 			<!--  Connect to GitHub  -->
