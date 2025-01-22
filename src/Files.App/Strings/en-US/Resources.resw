@@ -4043,13 +4043,10 @@
     <value>Add to shelf</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
   </data>
-  <data name="DefaultIDE" xml:space="preserve">
-    <value>Default IDE</value>
+  <data name="FriendlyName" xml:space="preserve">
+    <value>Friendly name</value>
   </data>
-  <data name="IDEPathOrAlias" xml:space="preserve">
-    <value>IDE path or alias</value>
-  </data>
-  <data name="IDEPathExample" xml:space="preserve">
-    <value>e.g. "code" or "C:\...\code.exe"</value>	
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Path or alias</value>
   </data>
 </root>
