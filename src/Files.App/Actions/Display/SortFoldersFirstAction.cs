@@ -6,6 +6,7 @@ namespace Files.App.Actions
 	internal sealed class SortFoldersFirstAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
+		private readonly IContentPageContext contentPageContext;
 
 		public string Label
 			=> "SortFoldersFirst".GetLocalizedResource();
@@ -19,6 +20,7 @@ namespace Files.App.Actions
 		public SortFoldersFirstAction()
 		{
 			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+			contentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 		}
@@ -27,7 +29,7 @@ namespace Files.App.Actions
 		{
 			context.SortFilesFirst = false;
 			context.SortDirectoriesAlongsideFiles = false;
-			context.UpdateAllTabsAndPanesLayout();
+			contentPageContext.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}

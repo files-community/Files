@@ -6,6 +6,7 @@ namespace Files.App.Actions
 	internal sealed class SortFilesAndFoldersTogetherAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
+		private readonly IContentPageContext contentPageContext;
 
 		public string Label
 			=> "SortFilesAndFoldersTogether".GetLocalizedResource();
@@ -19,6 +20,7 @@ namespace Files.App.Actions
 		public SortFilesAndFoldersTogetherAction()
 		{
 			context = Ioc.Default.GetRequiredService<IDisplayPageContext>();
+			contentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 			context.PropertyChanged += Context_PropertyChanged;
 		}
@@ -26,7 +28,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.SortDirectoriesAlongsideFiles = true;
-			context.UpdateAllTabsAndPanesLayout();
+			contentPageContext.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}
