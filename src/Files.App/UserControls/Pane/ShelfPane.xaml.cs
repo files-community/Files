@@ -77,20 +77,18 @@ namespace Files.App.UserControls
             if (apidl is null)
                 return;
 
-            if (!Shell32.SHCreateDataObject(null, apidl, null, out var ppDataObject).Succeeded)
-	            return;
+            if (!Shell32.SHGetDesktopFolder(out var pDesktop).Succeeded)
+				return;
+
+            if (!Shell32.SHGetIDListFromObject(pDesktop, out var pDesktopPidl).Succeeded)
+				return;
 
             e.Data.Properties["Files_ActionBinder"] = "Files_ShelfBinder";
-
-			// TODO: Format is set correctly, but no items are present
-			ppDataObject.SetData(StandardDataFormats.StorageItems, apidl);
+			if (!Shell32.SHCreateDataObject(pDesktopPidl, apidl, null, out var ppDataObject).Succeeded)
+				return;
 
 			var dataObjectProvider = e.Data.As<Shell32.IDataObjectProvider>();
 			dataObjectProvider.SetDataObject(ppDataObject);
-
-
-            //var obj = new ShellDataObject();
-            //ppDataObject.SetData(StandardDataFormats.StorageItems, obj);
 		}
 
 		public IList<ShelfItem>? ItemsSource
