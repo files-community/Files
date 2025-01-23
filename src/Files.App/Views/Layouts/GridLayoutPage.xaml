@@ -615,8 +615,8 @@
 
 								<!--  Drive Storage Information  -->
 								<ProgressBar
-									x:Name="DriveSpaceProgressBar"
-									x:Load="{x:Bind IsPortableDevice, Mode=OneWay}"
+									x:Name="DriveStorageProgressBar"
+									x:Load="{x:Bind IsGenericHierarchicalDrive, Mode=OneWay}"
 									AutomationProperties.AccessibilityView="Raw"
 									Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}"
 									Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />

@@ -1221,15 +1221,15 @@ namespace Files.App.ViewModels
 									item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 									item.FileFRN = fileFRN;
 									item.FileTags = fileTag;
-
-									if (item.ItemPath.StartsWith(@"\\?\", StringComparison.Ordinal) && extraProperties is not null && extraProperties.Result["System.Capacity"] is not null && extraProperties.Result["System.FreeSpace"] is not null)
+									if (itemType.Equals("Generic hierarchical", StringComparison.Ordinal) && extraProperties is not null && extraProperties.Result["System.Capacity"] is not null && extraProperties.Result["System.FreeSpace"] is not null)
 									{
 										var maxSpace = ByteSize.FromBytes((ulong)extraProperties.Result["System.Capacity"]);
 										var freeSpace = ByteSize.FromBytes((ulong)extraProperties.Result["System.FreeSpace"]);
 
 										item.MaxSpace = maxSpace;
 										item.SpaceUsed = maxSpace - freeSpace;
-										item.IsPortableDevice = true;
+										item.FileSize = string.Format(Strings.DriveFreeSpaceAndCapacity.GetLocalizedResource(), freeSpace.ToSizeString(), maxSpace.ToSizeString());
+										item.IsGenericHierarchicalDrive = true;
 									}
 									else
 										item.ContextualProperty = $"{Strings.Modified.GetLocalizedResource()}: {item.ItemDateModified}";

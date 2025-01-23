@@ -330,11 +330,11 @@ namespace Files.App.Utils
 			set => SetProperty(ref itemProperties, value);
 		}
 
-		private bool isPortableDevice;
-		public bool IsPortableDevice
+		private bool isGenericHierarchicalDrive;
+		public bool IsGenericHierarchicalDrive
 		{
-			get => isPortableDevice;
-			set => SetProperty(ref isPortableDevice, value);
+			get => isGenericHierarchicalDrive;
+			set => SetProperty(ref isGenericHierarchicalDrive, value);
 		}
 
 		private ByteSize maxSpace;
@@ -352,7 +352,7 @@ namespace Files.App.Utils
 			set => SetProperty(ref spaceUsed, value);
 
 		}
-
+		
 		private string imageDimensions;
 		public string ImageDimensions
 		{
