@@ -358,7 +358,7 @@ namespace Files.App.Views
 		}
 
 		/// <inheritdoc/>
-		public void UpdatePanesLayout(string targetPath, string[] preferences, bool includeActivePane = false)
+		public void UpdatePanesLayout(string targetPath, bool includeActivePane = false)
 		{
 			foreach (var pane in GetPanes())
 			{
@@ -369,7 +369,7 @@ namespace Files.App.Views
 					path.Equals(targetPath, StringComparison.OrdinalIgnoreCase)))
 				{
 					var page = pane.SlimContentPage as BaseLayoutPage;
-					page?.FolderSettings?.UpdateGroupAndSortOptions(path, preferences);
+					page?.FolderSettings?.UpdateGroupAndSortOptions(path);
 				}
 			}
 		}

@@ -27,10 +27,7 @@ namespace Files.App.Actions
 		{
 			context.SortFilesFirst = false;
 			context.SortDirectoriesAlongsideFiles = false;
-			LayoutHelpers.UpdateOpenTabsPreferences([
-				nameof(LayoutPreferencesItem.SortFilesFirst),
-				nameof(LayoutPreferencesItem.SortDirectoriesAlongsideFiles)
-			]);
+			LayoutHelpers.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}

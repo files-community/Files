@@ -265,7 +265,7 @@ namespace Files.App.Helpers
 			};
 		}
 
-		public void UpdateGroupAndSortOptions(string? path, string[] properties)
+		public void UpdateGroupAndSortOptions(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path))
 				return;
@@ -274,33 +274,13 @@ namespace Files.App.Helpers
 			if (preferencesItem is null)
 				return;
 
-			foreach (var property in properties)
-			{
-				switch (property)
-				{
-					case nameof(preferencesItem.DirectorySortOption):
-						DirectorySortOption = preferencesItem.DirectorySortOption;
-						break;
-					case nameof(preferencesItem.DirectorySortDirection):
-						DirectorySortDirection = preferencesItem.DirectorySortDirection;
-						break;
-					case nameof(preferencesItem.DirectoryGroupOption):
-						DirectoryGroupOption = preferencesItem.DirectoryGroupOption;
-						break;
-					case nameof(preferencesItem.DirectoryGroupByDateUnit):
-						DirectoryGroupByDateUnit = preferencesItem.DirectoryGroupByDateUnit;
-						break;
-					case nameof(preferencesItem.DirectoryGroupDirection):
-						DirectoryGroupDirection = preferencesItem.DirectoryGroupDirection;
-						break;
-					case nameof(preferencesItem.SortDirectoriesAlongsideFiles):
-						SortDirectoriesAlongsideFiles = preferencesItem.SortDirectoriesAlongsideFiles;
-						break;
-					case nameof(preferencesItem.SortFilesFirst):
-						SortFilesFirst = preferencesItem.SortFilesFirst;
-						break;
-				}
-			}
+			DirectorySortOption = preferencesItem.DirectorySortOption;
+			DirectorySortDirection = preferencesItem.DirectorySortDirection;
+			DirectoryGroupOption = preferencesItem.DirectoryGroupOption;
+			DirectoryGroupByDateUnit = preferencesItem.DirectoryGroupByDateUnit;
+			DirectoryGroupDirection = preferencesItem.DirectoryGroupDirection;
+			SortDirectoriesAlongsideFiles = preferencesItem.SortDirectoriesAlongsideFiles;
+			SortFilesFirst = preferencesItem.SortFilesFirst;
 		}
 
 		public bool IsPathUsingDefaultLayout(string? path)

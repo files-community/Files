@@ -165,7 +165,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			displayContext.SortOption = SortOption;
-			LayoutHelpers.UpdateOpenTabsPreferences([nameof(LayoutPreferencesItem.DirectorySortOption)]);
+			LayoutHelpers.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}
@@ -208,7 +208,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.SortDirection = SortDirection.Ascending;
-			LayoutHelpers.UpdateOpenTabsPreferences([nameof(LayoutPreferencesItem.DirectorySortDirection)]);
+			LayoutHelpers.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}
@@ -243,7 +243,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.SortDirection = SortDirection.Descending;
-			LayoutHelpers.UpdateOpenTabsPreferences([nameof(LayoutPreferencesItem.DirectorySortDirection)]);
+			LayoutHelpers.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}
@@ -277,7 +277,7 @@ namespace Files.App.Actions
 					? SortDirection.Ascending
 					: SortDirection.Descending;
 
-			LayoutHelpers.UpdateOpenTabsPreferences([nameof(LayoutPreferencesItem.DirectorySortDirection)]);
+			LayoutHelpers.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}
