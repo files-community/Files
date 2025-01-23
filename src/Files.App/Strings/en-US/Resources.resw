@@ -4049,4 +4049,10 @@
   <data name="PathOrAlias" xml:space="preserve">
     <value>Path or alias</value>
   </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Invalid path</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
 </root>

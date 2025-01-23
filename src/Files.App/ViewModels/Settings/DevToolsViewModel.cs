@@ -18,6 +18,7 @@ namespace Files.App.ViewModels.Settings
 		public ICommand CancelIDEChangesCommand { get; }
 		public ICommand SaveIDEChangesCommand { get; }
 		public ICommand OpenFilePickerForIDECommand { get; }
+		public ICommand TestIDECommand { get; }
 
 		// Enabled when there are saved credentials
 		private bool _IsLogoutEnabled;
@@ -34,18 +35,21 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref _IsEditingIDEConfig, value);
 		}
 
-		private bool _CanSaveIDEChanges;
-		public bool CanSaveIDEChanges
+		public bool CanSaveIDEChanges =>
+			IsFriendlyNameValid && IsIDEPathValid && _IDEPathTested;
+
+		private bool _IsIDEPathValid;
+		public bool IsIDEPathValid
 		{
-			get => _CanSaveIDEChanges;
-			set => SetProperty(ref _CanSaveIDEChanges, value);
+			get => _IsIDEPathValid;
+			set => SetProperty(ref _IsIDEPathValid, value);
 		}
 
 		private bool _IsFriendlyNameValid;
 		public bool IsFriendlyNameValid
 		{
-			get => _IsFriendlyNameValid;
-			set => SetProperty(ref _IsFriendlyNameValid, value);
+			get => _IsIDEPathValid;
+			set => SetProperty(ref _IsIDEPathValid, value);
 		}
 
 		private string _IDEPath;
@@ -55,7 +59,13 @@ namespace Files.App.ViewModels.Settings
 			set
 			{
 				if (SetProperty(ref _IDEPath, value))
-					CanSaveIDEChanges = IsFriendlyNameValid && !string.IsNullOrWhiteSpace(IDEPath);
+				{
+					IsIDEPathValid =
+						!string.IsNullOrWhiteSpace(value) &&
+						!value.Contains('\"') &&
+						!value.Contains('\'');
+					IDEPathTested = false;
+				}
 			}
 		}
 
@@ -67,12 +77,20 @@ namespace Files.App.ViewModels.Settings
 			{
 				if (SetProperty(ref _IDEFriendlyName, value))
 				{
-					IsFriendlyNameValid =
-						!string.IsNullOrEmpty(value) &&
-						!value.Contains('\"') &&
-						!value.Contains('\'');
-					CanSaveIDEChanges = IsFriendlyNameValid && !string.IsNullOrWhiteSpace(IDEPath);
+					IsFriendlyNameValid = !string.IsNullOrEmpty(value);
+					OnPropertyChanged(nameof(CanSaveIDEChanges));
 				}
+			}
+		}
+
+		private bool _IDEPathTested = false;
+		public bool IDEPathTested
+		{
+			get => _IDEPathTested;
+			set
+			{
+				if (SetProperty(ref _IDEPathTested, value))
+					OnPropertyChanged(nameof(CanSaveIDEChanges));
 			}
 		}
 
@@ -85,8 +103,8 @@ namespace Files.App.ViewModels.Settings
 
 			IDEPath = DevToolsSettingsService.IDEPath;
 			IDEFriendlyName = DevToolsSettingsService.FriendlyIDEName;
+			IsIDEPathValid = true;
 			IsFriendlyNameValid = true;
-			CanSaveIDEChanges = false;
 
 			IsLogoutEnabled = GitHelpers.GetSavedCredentials() != string.Empty;
 
@@ -96,6 +114,7 @@ namespace Files.App.ViewModels.Settings
 			SaveIDEChangesCommand = new RelayCommand(DoSaveIDEChanges);
 			StartEditingIDECommand = new RelayCommand(DoStartEditingIDE);
 			OpenFilePickerForIDECommand = new RelayCommand(DoOpenFilePickerForIDE);
+			TestIDECommand = new RelayCommand(DoTestIDE);
 		}
 
 		private string selectedOpenInIDEOption;
@@ -131,13 +150,15 @@ namespace Files.App.ViewModels.Settings
 			IsEditingIDEConfig = false;
 			IDEPath = DevToolsSettingsService.IDEPath;
 			IDEFriendlyName = DevToolsSettingsService.FriendlyIDEName;
+			IsIDEPathValid = true;
+			IsFriendlyNameValid = true;
 		}
 
 		private void DoSaveIDEChanges()
 		{
 			IsEditingIDEConfig = false;
+			IsIDEPathValid = true;
 			IsFriendlyNameValid = true;
-			CanSaveIDEChanges = false;
 			DevToolsSettingsService.IDEPath = IDEPath;
 			DevToolsSettingsService.FriendlyIDEName = IDEFriendlyName;
 		}
@@ -149,15 +170,25 @@ namespace Files.App.ViewModels.Settings
 
 		private void DoOpenFilePickerForIDE()
 		{
-			var result = CommonDialogService.Open_FileOpenDialog(
+			CommonDialogService.Open_FileOpenDialog(
 				MainWindow.Instance.WindowHandle,
 				false,
-				[ "*.exe;*.bat;*.cmd;*.ahk" ],
+				["*.exe;*.bat;*.cmd;*.ahk"],
 				Environment.SpecialFolder.ProgramFiles,
 				out var filePath
 			);
 
 			IDEPath = filePath;
+		}
+
+		private async void DoTestIDE()
+		{
+			IDEPathTested = await Win32Helper.RunPowershellCommandAsync(
+				$"& \'{IDEPath}\'",
+				PowerShellExecutionOptions.None // PowerShellExecutionOptions.Hidden doesn't work with some IDEs if path is not provided
+			);
+
+			IsIDEPathValid = _IDEPathTested;
 		}
 	}
 }
