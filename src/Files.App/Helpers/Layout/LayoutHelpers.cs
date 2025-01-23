@@ -5,7 +5,7 @@ namespace Files.App.Helpers
 {
     static class LayoutHelpers
     {
-		public static void UpdateOpenTabsPreferences()
+		public static void UpdateOpenTabsPreferences(string[] preferences)
 		{
 			var multitaskingContext = Ioc.Default.GetRequiredService<IMultitaskingContext>();
 			var tabs = multitaskingContext.Control?.GetAllTabInstances();
@@ -15,7 +15,7 @@ namespace Files.App.Helpers
 
 			for (int i = 0; i < tabs.Count; i++)
 			{
-				((ShellPanesPage)tabs[i]).UpdatePanesLayout(activePath, i != multitaskingContext.CurrentTabIndex);
+				((ShellPanesPage)tabs[i]).UpdatePanesLayout(activePath, preferences, i != multitaskingContext.CurrentTabIndex);
 			}
 		}
 	}

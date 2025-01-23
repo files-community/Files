@@ -177,7 +177,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			DisplayContext.GroupOption = GroupOption;
-			LayoutHelpers.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences([nameof(LayoutPreferencesItem.DirectoryGroupOption)]);
 
 			return Task.CompletedTask;
 		}
@@ -378,7 +378,10 @@ namespace Files.App.Actions
 		{
 			DisplayContext.GroupOption = GroupOption;
 			DisplayContext.GroupByDateUnit = GroupByDateUnit;
-			LayoutHelpers.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences([
+				nameof(LayoutPreferencesItem.DirectoryGroupOption),
+				nameof(LayoutPreferencesItem.DirectoryGroupByDateUnit)
+			]);
 
 			return Task.CompletedTask;
 		}
@@ -427,7 +430,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupDirection = SortDirection.Ascending;
-			LayoutHelpers.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences([nameof(LayoutPreferencesItem.DirectoryGroupDirection)]);
 
 			return Task.CompletedTask;
 		}
@@ -472,7 +475,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupDirection = SortDirection.Descending;
-			LayoutHelpers.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences([nameof(LayoutPreferencesItem.DirectoryGroupDirection)]);
 
 			return Task.CompletedTask;
 		}
@@ -509,7 +512,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupDirection = context.SortDirection is SortDirection.Descending ? SortDirection.Ascending : SortDirection.Descending;
-			LayoutHelpers.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences([nameof(LayoutPreferencesItem.DirectoryGroupDirection)]);
 
 			return Task.CompletedTask;
 		}
@@ -541,7 +544,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupByDateUnit = GroupByDateUnit.Year;
-			LayoutHelpers.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences([nameof(LayoutPreferencesItem.DirectoryGroupByDateUnit)]);
 
 			return Task.CompletedTask;
 		}
@@ -586,7 +589,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.GroupByDateUnit = GroupByDateUnit.Month;
-			LayoutHelpers.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences([nameof(LayoutPreferencesItem.DirectoryGroupByDateUnit)]);
 
 			return Task.CompletedTask;
 		}
@@ -628,7 +631,7 @@ namespace Files.App.Actions
 				GroupByDateUnit.Month => GroupByDateUnit.Day,
 				_ => GroupByDateUnit.Year
 			};
-			LayoutHelpers.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences([nameof(LayoutPreferencesItem.DirectoryGroupByDateUnit)]);
 
 			return Task.CompletedTask;
 		}

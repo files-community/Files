@@ -26,7 +26,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			context.SortDirectoriesAlongsideFiles = true;
-			LayoutHelpers.UpdateOpenTabsPreferences();
+			LayoutHelpers.UpdateOpenTabsPreferences([nameof(LayoutPreferencesItem.SortDirectoriesAlongsideFiles)]);
 
 			return Task.CompletedTask;
 		}
