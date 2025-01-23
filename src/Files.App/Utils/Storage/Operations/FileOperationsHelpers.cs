@@ -271,10 +271,6 @@ namespace Files.App.Utils.Storage
 				// Right before deleting item
 				op.PreDeleteItem += (s, e) =>
 				{
-					// E_FAIL, stops operation
-					if (!permanently && !e.Flags.HasFlag(ShellFileOperations.TransferFlags.DeleteRecycleIfPossible))
-						throw new Win32Exception(HRESULT.COPYENGINE_E_RECYCLE_BIN_NOT_FOUND);
-
 					sizeCalculator.ForceComputeFileSize(e.SourceItem.GetParsingPath());
 					fsProgress.FileName = e.SourceItem.Name;
 					fsProgress.Report();
