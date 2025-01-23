@@ -378,7 +378,6 @@ namespace Files.App.Utils.Storage
 							compressor.SetFormatFromExistingArchive(archiveStream);
 							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, null } }, Credentials.Password, ms);
 						}
-
 						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 						{
 							ms.Position = 0;

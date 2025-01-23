@@ -319,7 +319,6 @@ namespace Files.App.Utils.Storage
 						var fileName = IO.Path.GetRelativePath(containerPath, zipDesiredName);
 						await compressor.CompressStreamDictionaryAsync(archiveStream, new Dictionary<string, Stream>() { { fileName, null } }, Credentials.Password, ms);
 					}
-
 					await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 					{
 						ms.Position = 0;
@@ -374,7 +373,6 @@ namespace Files.App.Utils.Storage
 								IO.Path.Combine(folderDes, IO.Path.GetRelativePath(folderKey, x.Key)))));
 							await compressor.ModifyArchiveAsync(archiveStream, entriesMap, Credentials.Password, ms);
 						}
-
 						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 						{
 							ms.Position = 0;
@@ -423,7 +421,6 @@ namespace Files.App.Utils.Storage
 							var entriesMap = new Dictionary<int, string>(index.Select(x => new KeyValuePair<int, string>(x.Index, null)));
 							await compressor.ModifyArchiveAsync(archiveStream, entriesMap, Credentials.Password, ms);
 						}
-
 						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 						{
 							ms.Position = 0;
@@ -634,7 +631,6 @@ namespace Files.App.Utils.Storage
 						var fileName = IO.Path.GetRelativePath(containerPath, zipDesiredName);
 						await compressor.CompressStreamDictionaryAsync(archiveStream, new Dictionary<string, Stream>() { { fileName, contents } }, Credentials.Password, ms);
 					}
-
 					await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 					{
 						ms.Position = 0;
