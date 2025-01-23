@@ -1221,6 +1221,7 @@ namespace Files.App.ViewModels
 									item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 									item.FileFRN = fileFRN;
 									item.FileTags = fileTag;
+									
 									if (itemType.Equals("Generic hierarchical", StringComparison.Ordinal) && extraProperties is not null && extraProperties.Result["System.Capacity"] is not null && extraProperties.Result["System.FreeSpace"] is not null)
 									{
 										var maxSpace = ByteSize.FromBytes((ulong)extraProperties.Result["System.Capacity"]);
