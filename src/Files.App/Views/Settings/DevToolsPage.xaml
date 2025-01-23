@@ -109,7 +109,48 @@
 									x:Name="PickIDEExe"
 									Command="{x:Bind ViewModel.OpenFilePickerForIDECommand, Mode=OneWay}"
 									Content="{helpers:ResourceString Name=Browse}" />
+								<Button
+									x:Name="TestIDE"
+									Command="{x:Bind ViewModel.TestIDECommand, Mode=OneWay}"
+									Content="{helpers:ResourceString Name=Test}"
+									IsEnabled="{x:Bind ViewModel.IDEPathTested, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
 							</StackPanel>
+
+							<Grid
+								x:Name="InvalidPathWarning"
+								Grid.Column="2"
+								Padding="12,4"
+								VerticalAlignment="Stretch"
+								x:Load="{x:Bind ViewModel.IsEditingIDEConfig, Mode=OneWay}"
+								Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+								BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+								BorderThickness="1"
+								ColumnSpacing="8"
+								CornerRadius="4"
+								ToolTipService.ToolTip="{helpers:ResourceString Name=InvalidLocation}"
+								Visibility="{x:Bind ViewModel.IsIDEPathValid, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+								<TextBlock
+									VerticalAlignment="Center"
+									AutomationProperties.AccessibilityView="Raw"
+									FontFamily="{ThemeResource SymbolThemeFontFamily}"
+									FontSize="{StaticResource InfoBarIconFontSize}"
+									Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
+									Text="{StaticResource InfoBarIconBackgroundGlyph}" />
+								<TextBlock
+									VerticalAlignment="Center"
+									FontFamily="{ThemeResource SymbolThemeFontFamily}"
+									FontSize="{StaticResource InfoBarIconFontSize}"
+									Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
+									Text="{StaticResource InfoBarErrorIconGlyph}" />
+								<TextBlock
+									Grid.Column="1"
+									VerticalAlignment="Center"
+									Text="{helpers:ResourceString Name=InvalidPath}" />
+							</Grid>
 
 							<TextBlock
 								x:Name="IDEFriendlyName"
