@@ -1058,9 +1058,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Widok szczegółów (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Widok kafelków (Ctrl+Shift+2)</value>
-  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Data usunięcia</value>
   </data>
@@ -1658,15 +1655,6 @@
   <data name="Home" xml:space="preserve">
     <value>Strona główna</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+1</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+6</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Wypakowywanie archiwum zakończone pomyślnie.</value>
   </data>
@@ -1724,8 +1712,8 @@
   <data name="Columns" xml:space="preserve">
     <value>Kolumny</value>
   </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Kafelki</value>
+  <data name="Cards" xml:space="preserve">
+    <value>Cards</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Otwieraj foldery w nowej karcie</value>
@@ -2585,8 +2573,8 @@
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Przełącz na widok szczegółowy</value>
   </data>
-  <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Przełącz na widok kafelek</value>
+  <data name="LayoutCardsDescription" xml:space="preserve">
+    <value>Switch to cards view</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Przełącz na widok listy</value>
@@ -3725,9 +3713,6 @@
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Pytania i dyskusja</value>
-  </data>
-  <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Dodatkowe rozmiary nie są jeszcze dostępne dla widoku kafelków.</value>
   </data>
   <data name="Compact" xml:space="preserve">
     <value>Kompaktowy</value>
