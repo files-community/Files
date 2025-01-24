@@ -60,10 +60,9 @@ namespace Files.App.Data.Contracts
 		public void FocusOtherPane();
 
 		/// <summary>
-		/// Updates the layout of open panes.
+		/// Gets open panes.
 		/// </summary>
-		/// <param name="targetPath">The path of panes to update</param>
-		/// <param name="includeActivePane">Whether the active pane should be updated or not</param>
-		public void UpdateOpenPanesPreferences(string targetPath, bool includeActivePane = false);
+		/// <returns>An enumerable containing open panes.</returns>
+		public IEnumerable<ModernShellPage> GetPanes();
 	}
 }

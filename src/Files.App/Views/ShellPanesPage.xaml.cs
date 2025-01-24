@@ -19,7 +19,6 @@ namespace Files.App.Views
 		// Dependency injections
 
 		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
-		private ILayoutSettingsService LayoutSettingsService { get; } = Ioc.Default.GetRequiredService<ILayoutSettingsService>();
 		private AppModel AppModel { get; } = Ioc.Default.GetRequiredService<AppModel>();
 
 		// Constants
@@ -358,20 +357,9 @@ namespace Files.App.Views
 		}
 
 		/// <inheritdoc/>
-		public void UpdateOpenPanesPreferences(string targetPath, bool includeActivePane = false)
+		public IEnumerable<ModernShellPage> GetPanes()
 		{
-			foreach (var pane in GetPanes())
-			{
-				var path = pane.ShellViewModel.CurrentFolder?.ItemPath;
-				if ((includeActivePane || pane != ActivePane) &&
-					(LayoutSettingsService.SyncFolderPreferencesAcrossDirectories ||
-					path is not null &&
-					path.Equals(targetPath, StringComparison.OrdinalIgnoreCase)))
-				{
-					var page = pane.SlimContentPage as BaseLayoutPage;
-					page?.FolderSettings?.ReloadGroupAndSortPreferences(path);
-				}
-			}
+			return RootGrid.Children.Where(x => RootGrid.Children.IndexOf(x) % 2 == 0).Cast<ModernShellPage>();
 		}
 
 		// Private methods
@@ -388,11 +376,6 @@ namespace Files.App.Views
 		private int GetPaneCount()
 		{
 			return (RootGrid.Children.Count + 1) / 2;
-		}
-
-		private IEnumerable<ModernShellPage> GetPanes()
-		{
-			return RootGrid.Children.Where(x => RootGrid.Children.IndexOf(x) % 2 == 0).Cast<ModernShellPage>();
 		}
 
 		private IEnumerable<GridSplitter> GetSizers()
