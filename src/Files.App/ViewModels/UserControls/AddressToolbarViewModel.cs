@@ -58,8 +58,6 @@ namespace Files.App.ViewModels.UserControls
 
 		public event PathBoxItemDroppedEventHandler? PathBoxItemDropped;
 
-		public event EventHandler? RefreshRequested;
-
 		public event EventHandler? RefreshWidgetsRequested;
 
 		public ObservableCollection<PathBoxItem> PathComponents { get; } = [];
@@ -201,8 +199,6 @@ namespace Files.App.ViewModels.UserControls
 
 		public AddressToolbarViewModel()
 		{
-			RefreshClickCommand = new RelayCommand<RoutedEventArgs>(e => RefreshRequested?.Invoke(this, EventArgs.Empty));
-
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 			dragOverTimer = dispatcherQueue.CreateTimer();
 
@@ -228,11 +224,6 @@ namespace Files.App.ViewModels.UserControls
 		{
 			IsUpdateAvailable = UpdateService.IsUpdateAvailable;
 			IsUpdating = UpdateService.IsUpdating;
-		}
-
-		public void RefreshWidgets()
-		{
-			RefreshWidgetsRequested?.Invoke(this, EventArgs.Empty);
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
@@ -448,8 +439,6 @@ namespace Files.App.ViewModels.UserControls
 			get => pathControlDisplayText;
 			set => SetProperty(ref pathControlDisplayText, value);
 		}
-
-		public ICommand RefreshClickCommand { get; }
 
 		public void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 		{

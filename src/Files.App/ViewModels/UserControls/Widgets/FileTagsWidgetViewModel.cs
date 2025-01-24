@@ -46,20 +46,39 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			await foreach (var item in FileTagsService.GetTagsAsync())
 			{
-				var container = new WidgetFileTagsContainerItem(item.Uid)
-				{
-					Name = item.Name,
-					Color = item.Color
-				};
-
-				Containers.Add(container);
-				_ = container.InitAsync();
+				CreateTagContainerItem(item);
 			}
 		}
 
-		public Task RefreshWidgetAsync()
+		public async Task RefreshWidgetAsync()
 		{
-			return Task.CompletedTask;
+			await foreach (var item in FileTagsService.GetTagsAsync())
+			{
+				var matchingItem = Containers.First(c => c.Uid == item.Uid);
+				if (matchingItem is null)
+				{
+					CreateTagContainerItem(item);
+				}
+				else
+				{
+					matchingItem.Name = item.Name;
+					matchingItem.Color = item.Color;
+					matchingItem.Tags.Clear();
+					_ = matchingItem.InitAsync();
+				}
+			}
+		}
+
+		private void CreateTagContainerItem(TagViewModel tag)
+		{
+			var container = new WidgetFileTagsContainerItem(tag.Uid)
+			{
+				Name = tag.Name,
+				Color = tag.Color
+			};
+
+			Containers.Add(container);
+			_ = container.InitAsync();
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)

@@ -47,9 +47,6 @@ namespace Files.App.Views
 			AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
 			AppInstance.ToolbarViewModel.CanNavigateToParent = false;
 
-			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
-			AppInstance.ToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequested;
-
 			// Set path of working directory empty
 			await AppInstance.ShellViewModel.SetWorkingDirectoryAsync("Home");
 			AppInstance.ShellViewModel.CheckForBackgroundImage();
@@ -82,20 +79,10 @@ namespace Files.App.Views
 			Dispose();
 		}
 
-		private async void ToolbarViewModel_RefreshRequested(object? sender, EventArgs e)
-		{
-			AppInstance.ToolbarViewModel.CanRefresh = false;
-
-			await Task.WhenAll(ViewModel.WidgetItems.Select(w => w.WidgetItemModel.RefreshWidgetAsync()));
-
-			AppInstance.ToolbarViewModel.CanRefresh = true;
-		}
-
 		// Disposer
 
 		public void Dispose()
 		{
-			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
 			ViewModel?.Dispose();
 		}
 	}
