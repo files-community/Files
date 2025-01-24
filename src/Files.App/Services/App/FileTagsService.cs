@@ -1,9 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Core.Storage;
-using Files.Core.Storage.Extensions;
-using Files.Core.Storage.Storables;
 using System.Runtime.CompilerServices;
 
 namespace Files.App.Services
@@ -16,6 +13,9 @@ namespace Files.App.Services
 		private readonly IStorageService StorageService = Ioc.Default.GetRequiredService<IStorageService>();
 
 		/// <inheritdoc/>
+		public event EventHandler<ItemTagsChangedEventArgs>? ItemTagsChanged;
+
+		/// <inheritdoc/>
 		public Task<bool> IsSupportedAsync()
 		{
 			return Task.FromResult(true);
@@ -25,6 +25,7 @@ namespace Files.App.Services
 		public Task<bool> SetFileTagAsync(ILocatableStorable storable, string[] tagUids, CancellationToken cancellationToken = default)
 		{
 			FileTagsHelper.WriteFileTag(storable.Path, tagUids);
+			ItemTagsChanged?.Invoke(this, new ItemTagsChangedEventArgs(tagUids));
 			return Task.FromResult(true);
 		}
 

@@ -37,6 +37,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			_ = InitializeWidget();
 
 			FileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnTagsUpdated;
+			FileTagsService.ItemTagsChanged += FileTagsService_ItemTagsChanged;
 
 			PinToSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(ExecutePinToSidebarCommand);
 			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteUnpinFromSidebarCommand);
@@ -222,10 +223,25 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			await RefreshWidgetAsync();
 		}
 
+		private void FileTagsService_ItemTagsChanged(object? sender, ItemTagsChangedEventArgs e)
+		{
+			foreach (var uid in e.TagUids)
+			{
+				var matchingItem = Containers.FirstOrDefault(c => c.Uid == uid);
+				if (matchingItem is not null)
+				{
+					matchingItem.Tags.Clear();
+					_ = matchingItem.InitAsync();
+				}
+			}
+		}
+
 		// Disposer
 
 		public void Dispose()
 		{
+			FileTagsSettingsService.OnTagsUpdated -= FileTagsSettingsService_OnTagsUpdated;
+			FileTagsService.ItemTagsChanged -= FileTagsService_ItemTagsChanged;
 		}
 	}
 }
