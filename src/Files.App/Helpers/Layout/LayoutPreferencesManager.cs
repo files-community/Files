@@ -265,7 +265,7 @@ namespace Files.App.Helpers
 			};
 		}
 
-		public void UpdateGroupAndSortOptions(string? path)
+		public void ReloadGroupAndSortPreferences(string? path)
 		{
 			if (string.IsNullOrWhiteSpace(path))
 				return;

@@ -15,7 +15,7 @@ namespace Files.App.Helpers
 
 			for (int i = 0; i < tabs.Count; i++)
 			{
-				((ShellPanesPage)tabs[i]).UpdatePanesLayout(activePath, i != multitaskingContext.CurrentTabIndex);
+				((ShellPanesPage)tabs[i]).UpdateOpenPanesPreferences(activePath, i != multitaskingContext.CurrentTabIndex);
 			}
 		}
 	}
