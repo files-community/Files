@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.Core.Storage;
+using Files.Core.Storage.Extensions;
+using Files.Core.Storage.Storables;
 using System.Runtime.CompilerServices;
 
 namespace Files.App.Services

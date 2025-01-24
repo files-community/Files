@@ -17,8 +17,6 @@ namespace Files.App.Utils.FileTags
 
 		public static FileTagsDatabase GetDbInstance() => dbInstance.Value;
 
-		public static event EventHandler? ItemTagsChanged;
-
 		public static string[] ReadFileTag(string filePath)
 		{
 			var tagString = Win32Helper.ReadStringFromFile($"{filePath}:files");
@@ -63,8 +61,6 @@ namespace Files.App.Utils.FileTags
 			{
 				Win32Helper.SetFileDateModified(filePath, dateModified); // Restore date modified
 			}
-
-			ItemTagsChanged?.Invoke(filePath, EventArgs.Empty);
 		}
 
 		public static void UpdateTagsDb()
