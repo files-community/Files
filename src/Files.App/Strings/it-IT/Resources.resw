@@ -1058,9 +1058,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Dettagli (Ctrl + Shift + 1)</value>
   </data>
-  <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Riquadri (Ctrl + Shift + 2)</value>
-  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Data di eliminazione</value>
   </data>
@@ -1658,15 +1655,6 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Maiusc+1</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Maiusc+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Maiusc+6</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Estrazione archivio completata con successo.</value>
   </data>
@@ -1724,8 +1712,8 @@
   <data name="Columns" xml:space="preserve">
     <value>Colonne</value>
   </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Riquadri</value>
+  <data name="Cards" xml:space="preserve">
+    <value>Schede</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Apri le cartelle in una nuova scheda</value>
@@ -1839,16 +1827,16 @@
     <value>Registra questo programma per il riavvio</value>
   </data>
   <data name="StartWindow" xml:space="preserve">
-    <value>Start window</value>
+    <value>Finestra iniziale</value>
   </data>
   <data name="NormalWindow" xml:space="preserve">
-    <value>Normal window</value>
+    <value>Finestra normale</value>
   </data>
   <data name="Minimized" xml:space="preserve">
-    <value>Minimized</value>
+    <value>Minimizzato</value>
   </data>
   <data name="Maximized" xml:space="preserve">
-    <value>Maximized</value>
+    <value>Massimizzato</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Esegui come amministratore</value>
@@ -2585,8 +2573,8 @@
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Passa alla visualizzazione dettagli</value>
   </data>
-  <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Passa alla visualizzazione riquadri</value>
+  <data name="LayoutCardsDescription" xml:space="preserve">
+    <value>Passa alla visualizzazione a schede</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Passa alla visualizzazione elenco</value>
@@ -3726,9 +3714,6 @@
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Domande e discussioni</value>
   </data>
-  <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Le dimensioni aggiuntive non sono ancora disponibili per la visualizzazione Riquadri.</value>
-  </data>
   <data name="Compact" xml:space="preserve">
     <value>Compatta</value>
     <comment>Used to describe layout sizes</comment>
@@ -4032,13 +4017,13 @@
     <value>Cambia sempre il focus alla nuova scheda creata</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
-    <value>Toggle the shelf pane</value>
+    <value>Attiva/disattiva il riquadro scaffale</value>
   </data>
   <data name="ToggleShelfPaneDescription" xml:space="preserve">
     <value>Attiva/disattiva la visibilità del riquadro scaffale</value>
   </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
-    <value>Show shelf pane toggle in address bar</value>
+    <value>Mostra Attiva/disattiva riquadro scaffale nella barra degli indirizzi</value>
   </data>
   <data name="Shelf" xml:space="preserve">
     <value>Scaffale</value>
@@ -4051,7 +4036,7 @@
     <value>Rimuovi dallo scaffale</value>
   </data>
   <data name="AddToShelf" xml:space="preserve">
-    <value>Add to shelf</value>
+    <value>Aggiungi allo scaffale</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
   </data>
 </root>

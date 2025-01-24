@@ -1058,9 +1058,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detaljer (Ctrl+Skift+1)</value>
   </data>
-  <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Fliser (Ctrl+Skift+2)</value>
-  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Dato slettet</value>
   </data>
@@ -1658,15 +1655,6 @@
   <data name="Home" xml:space="preserve">
     <value>Hjem</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Skift+1</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Skift+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Skift+6</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Utpakkinger av filer fra arkiv fullført.</value>
   </data>
@@ -1724,8 +1712,8 @@
   <data name="Columns" xml:space="preserve">
     <value>Kolonner</value>
   </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Fliser</value>
+  <data name="Cards" xml:space="preserve">
+    <value>Cards</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Åpne mapper i ny fane</value>
@@ -2585,8 +2573,8 @@
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Bytt til detaljvisning</value>
   </data>
-  <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Bytt til flisvisning</value>
+  <data name="LayoutCardsDescription" xml:space="preserve">
+    <value>Switch to cards view</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Bytt til listevisning</value>
@@ -3725,9 +3713,6 @@
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Spørsmål og diskusjoner</value>
-  </data>
-  <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Ytterligere størrelser er ennå ikke tilgjengelig for Flisvisning.</value>
   </data>
   <data name="Compact" xml:space="preserve">
     <value>Kompakt</value>
