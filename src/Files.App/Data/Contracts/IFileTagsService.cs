@@ -11,11 +11,6 @@ namespace Files.App.Data.Contracts
 	public interface IFileTagsService
 	{
 		/// <summary>
-		/// An event fired when an item's tags are changed
-		/// </summary>
-		public event EventHandler<ItemTagsChangedEventArgs>? ItemTagsChanged;
-
-		/// <summary>
 		/// Checks if file tags are supported by the platform.
 		/// </summary>
 		/// <returns>A <see cref="Task"/> that represents the asynchronous operation. Value is true if file tags are supported, otherwise false.</returns>
