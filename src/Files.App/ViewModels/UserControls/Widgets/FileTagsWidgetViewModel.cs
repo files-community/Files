@@ -12,6 +12,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// </summary>
 	public sealed partial class FileTagsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
+		private CancellationTokenSource _updateCTS;
+
 		// Properties
 
 		public ObservableCollection<WidgetFileTagsContainerItem> Containers { get; } = [];
@@ -34,6 +36,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			_ = InitializeWidget();
 
+			FileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnTagsUpdated;
+
 			PinToSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(ExecutePinToSidebarCommand);
 			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteUnpinFromSidebarCommand);
 			OpenFileLocationCommand = new RelayCommand<WidgetCardItem>(ExecuteOpenFileLocationCommand);
@@ -52,8 +56,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public async Task RefreshWidgetAsync()
 		{
+			_updateCTS?.Cancel();
+			_updateCTS = new CancellationTokenSource();
 			await foreach (var item in FileTagsService.GetTagsAsync())
 			{
+				if (_updateCTS.IsCancellationRequested)
+					break;
+
 				var matchingItem = Containers.First(c => c.Uid == item.Uid);
 				if (matchingItem is null)
 				{
@@ -64,7 +73,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					matchingItem.Name = item.Name;
 					matchingItem.Color = item.Color;
 					matchingItem.Tags.Clear();
-					_ = matchingItem.InitAsync();
+					_ = matchingItem.InitAsync(_updateCTS.Token);
 				}
 			}
 		}
@@ -206,6 +215,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					SelectItems = new[] { itemName },
 					AssociatedTabInstance = ContentPageContext.ShellPage!
 				});
+		}
+
+		private async void FileTagsSettingsService_OnTagsUpdated(object? sender, EventArgs e)
+		{
+			await RefreshWidgetAsync();
 		}
 
 		// Disposer
