@@ -22,6 +22,7 @@ using static Files.App.Helpers.Win32PInvoke;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
 using ByteSize = ByteSizeLib.ByteSize;
+using Windows.Win32.System.SystemServices;
 
 namespace Files.App.ViewModels
 {
@@ -1222,10 +1223,15 @@ namespace Files.App.ViewModels
 									item.FileFRN = fileFRN;
 									item.FileTags = fileTag;
 									
-									if (itemType.Equals("Generic hierarchical", StringComparison.Ordinal) && extraProperties is not null && extraProperties.Result["System.Capacity"] is not null && extraProperties.Result["System.FreeSpace"] is not null)
+									if (extraProperties is not null && 
+										extraProperties.Result["System.SFGAOFlags"] is uint attributesRaw && 
+										extraProperties.Result["System.Capacity"] is ulong capacityRaw && 
+										extraProperties.Result["System.FreeSpace"] is ulong freeSpaceRaw &&
+										((SFGAO_FLAGS)attributesRaw).HasFlag(SFGAO_FLAGS.SFGAO_REMOVABLE) &&
+										!((SFGAO_FLAGS)attributesRaw).HasFlag(SFGAO_FLAGS.SFGAO_FILESYSTEM))
 									{
-										var maxSpace = ByteSize.FromBytes((ulong)extraProperties.Result["System.Capacity"]);
-										var freeSpace = ByteSize.FromBytes((ulong)extraProperties.Result["System.FreeSpace"]);
+										var maxSpace = ByteSize.FromBytes(capacityRaw);
+										var freeSpace = ByteSize.FromBytes(freeSpaceRaw);
 
 										item.MaxSpace = maxSpace;
 										item.SpaceUsed = maxSpace - freeSpace;
@@ -1952,7 +1958,7 @@ namespace Files.App.ViewModels
 				return await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(["System.Image.Dimensions", "System.Media.Duration", "System.FileVersion"]).AsTask());
 
 			else if (matchingStorageItem is BaseStorageFolder folder && folder.Properties != null)
-				return await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(["System.FreeSpace", "System.Capacity"]).AsTask());
+				return await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(["System.FreeSpace", "System.Capacity", "System.SFGAOFlags"]).AsTask());
 
 			return null;
 		}
