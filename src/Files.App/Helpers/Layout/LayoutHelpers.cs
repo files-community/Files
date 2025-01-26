@@ -5,32 +5,45 @@ namespace Files.App.Helpers
 {
 	static class LayoutHelpers
 	{
-		public static void UpdateOpenTabsPreferences()
-		{
-			var multitaskingContext = Ioc.Default.GetRequiredService<IMultitaskingContext>();
-			var tabs = multitaskingContext.Control?.GetAllTabInstances();
-			var activePath = ((ShellPanesPage)multitaskingContext.CurrentTabItem.TabItemContent)?.ActivePane?.TabBarItemParameter?.NavigationParameter as string;
-			if (tabs is null || activePath is null)
-				return;
+public static void UpdateOpenTabsPreferences()
+{
+	// Services
+	var multitaskingContext = Ioc.Default.GetRequiredService<IMultitaskingContext>();
+	var layoutSettingsService = Ioc.Default.GetRequiredService<ILayoutSettingsService>();
 
-			var layoutSettingsService = Ioc.Default.GetRequiredService<ILayoutSettingsService>();
-			for (int i = 0; i < tabs.Count; i++)
+	// Get all tab instances and active path
+	var tabs = multitaskingContext.Control?.GetAllTabInstances();
+	var activePath = (multitaskingContext.CurrentTabItem?.TabItemContent as ShellPanesPage)?.ActivePane?.TabBarItemParameter?.NavigationParameter as string;
+
+	// Return if required data is missing
+	if (tabs is null || activePath is null)
+		return;
+
+	for (int i = 0; i < tabs.Count; i++)
+	{
+		var isNotCurrentTab = i != multitaskingContext.CurrentTabIndex;
+		var shPage = tabs[i] as ShellPanesPage;
+
+		if (shPage is not null)
+		{
+			foreach (var pane in shPage.GetPanes())
 			{
-				var isNotCurrentTab = i != multitaskingContext.CurrentTabIndex;
-				var shPage = (ShellPanesPage)tabs[i];
-				foreach (var pane in shPage.GetPanes())
-				{
-					var path = pane.ShellViewModel.CurrentFolder?.ItemPath;
-					if ((isNotCurrentTab || pane != shPage.ActivePane) &&
-						(layoutSettingsService.SyncFolderPreferencesAcrossDirectories ||
-						path is not null &&
-						path.Equals(activePath, StringComparison.OrdinalIgnoreCase)))
-					{
-						var page = pane.SlimContentPage as BaseLayoutPage;
-						page?.FolderSettings?.ReloadGroupAndSortPreferences(path);
-					}
-				}
+				var path = pane.ShellViewModel?.CurrentFolder?.ItemPath;
+
+				// Skip panes without a valid path
+				if (path is null)
+					continue;
+
+				// Check if we need to update preferences for this pane
+				if ((isNotCurrentTab || pane != shPage.ActivePane) &&
+					(layoutSettingsService.SyncFolderPreferencesAcrossDirectories ||
+					 path.Equals(activePath, StringComparison.OrdinalIgnoreCase)))
+					if (pane.SlimContentPage is BaseLayoutPage page)
+						page.FolderSettings?.ReloadGroupAndSortPreferences(path);
 			}
+		}
+	}
+}
 		}
 	}
 }
