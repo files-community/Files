@@ -494,7 +494,7 @@ namespace Files.App.ViewModels.UserControls
 			async void RequireTagGroupsUpdate(object? sender, EventArgs e)
 			{
 				if (contentPageContext.ShellPage is not null)
-					await contentPageContext.ShellPage.ShellViewModel.UpdateGroupTagGroupsIfNeeded();
+					await contentPageContext.ShellPage.ShellViewModel.RefreshTagGroups();
 			}
 
 			void HandleClosed(object? sender, object e)

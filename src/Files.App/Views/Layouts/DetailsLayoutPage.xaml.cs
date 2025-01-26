@@ -955,7 +955,7 @@ namespace Files.App.Views.Layouts
 					.ToArray();
 
 				if (ParentShellPageInstance is not null)
-					await ParentShellPageInstance.ShellViewModel.UpdateGroupTagGroupsIfNeeded();
+					await ParentShellPageInstance.ShellViewModel.RefreshTagGroups();
 			}
 
 			e.Handled = true;

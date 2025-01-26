@@ -1290,11 +1290,11 @@ namespace Files.App.ViewModels
 			finally
 			{
 				itemLoadQueue.TryRemove(item.ItemPath, out _);
-				await UpdateGroupTagGroupsIfNeeded();
+				await RefreshTagGroups();
 			}
 		}
 
-		public async Task UpdateGroupTagGroupsIfNeeded()
+		public async Task RefreshTagGroups()
 		{
 			if (FilesAndFolders.IsGrouped &&
 				folderSettings.DirectoryGroupOption is GroupOption.FileTag &&

@@ -14,6 +14,10 @@ namespace Files.App.UserControls.Menus
 		private IFileTagsSettingsService FileTagsSettingsService { get; } =
 			Ioc.Default.GetService<IFileTagsSettingsService>();
 
+		/// <summary>
+		/// Event fired when an item's tags are updated (added/removed).
+		/// Used to refresh groups in ShellViewModel.
+		/// </summary>
 		public event EventHandler? TagsChanged;
 
 		public IEnumerable<ListedItem> SelectedItems { get; }

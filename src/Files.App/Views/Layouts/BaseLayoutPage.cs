@@ -771,7 +771,7 @@ namespace Files.App.Views.Layouts
 			async void RequireTagGroupsUpdate(object? sender, EventArgs e)
 			{
 				if (ParentShellPageInstance is not null)
-					await ParentShellPageInstance.ShellViewModel.UpdateGroupTagGroupsIfNeeded();
+					await ParentShellPageInstance.ShellViewModel.RefreshTagGroups();
 			}
 
 			void HandleClosed(object? sender, object e)

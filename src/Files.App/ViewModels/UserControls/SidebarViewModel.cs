@@ -1284,7 +1284,7 @@ namespace Files.App.ViewModels.UserControls
 			if (paneHolder.ActivePane is not null)
 			{
 				await paneHolder.ActivePane.ShellViewModel.UpdateItemsTags(pathToTags);
-				await paneHolder.ActivePane.ShellViewModel.UpdateGroupTagGroupsIfNeeded();
+				await paneHolder.ActivePane.ShellViewModel.RefreshTagGroups();
 			}
 		}
 
