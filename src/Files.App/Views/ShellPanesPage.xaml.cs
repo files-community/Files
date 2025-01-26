@@ -356,6 +356,12 @@ namespace Files.App.Views
 				GetPane(0)?.Focus(FocusState.Programmatic);
 		}
 
+		/// <inheritdoc/>
+		public IEnumerable<ModernShellPage> GetPanes()
+		{
+			return RootGrid.Children.Where(x => RootGrid.Children.IndexOf(x) % 2 == 0).Cast<ModernShellPage>();
+		}
+
 		// Private methods
 
 		private ModernShellPage? GetPane(int index = -1)
@@ -370,11 +376,6 @@ namespace Files.App.Views
 		private int GetPaneCount()
 		{
 			return (RootGrid.Children.Count + 1) / 2;
-		}
-
-		private IEnumerable<ModernShellPage> GetPanes()
-		{
-			return RootGrid.Children.Where(x => RootGrid.Children.IndexOf(x) % 2 == 0).Cast<ModernShellPage>();
 		}
 
 		private IEnumerable<GridSplitter> GetSizers()
