@@ -128,8 +128,8 @@ namespace Files.App.Utils.Storage
 					using (var inStream = await this.OpenStreamForReadAsync())
 					using (var outStream = await destFile.OpenStreamForWriteAsync())
 					{
-						await inStream.CopyToAsync(outStream);
-						await outStream.FlushAsync();
+						await inStream.CopyToAsync(outStream, cancellationToken);
+						await outStream.FlushAsync(cancellationToken);
 					}
 					return destFile;
 				}
