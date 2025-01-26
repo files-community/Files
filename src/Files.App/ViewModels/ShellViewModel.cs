@@ -21,6 +21,8 @@ using Windows.Storage.Search;
 using static Files.App.Helpers.Win32PInvoke;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
+using ByteSize = ByteSizeLib.ByteSize;
+using Windows.Win32.System.SystemServices;
 
 namespace Files.App.ViewModels
 {
@@ -1209,6 +1211,7 @@ namespace Files.App.ViewModels
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFolder);
 								var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
 								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFolder.DisplayType;
+								var extraProperties = await GetExtraProperties(matchingStorageFolder);
 
 								cts.Token.ThrowIfCancellationRequested();
 
@@ -1219,7 +1222,30 @@ namespace Files.App.ViewModels
 									item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
 									item.FileFRN = fileFRN;
 									item.FileTags = fileTag;
-									item.ContextualProperty = $"{Strings.Modified.GetLocalizedResource()}: {item.ItemDateModified}";
+
+									if (extraProperties is not null)
+									{
+										// Drive Storage Details
+										if (extraProperties.Result["System.SFGAOFlags"] is uint attributesRaw &&
+											extraProperties.Result["System.Capacity"] is ulong capacityRaw &&
+											extraProperties.Result["System.FreeSpace"] is ulong freeSpaceRaw &&
+											((SFGAO_FLAGS)attributesRaw).HasFlag(SFGAO_FLAGS.SFGAO_REMOVABLE) &&
+											!((SFGAO_FLAGS)attributesRaw).HasFlag(SFGAO_FLAGS.SFGAO_FILESYSTEM))
+										{
+											var maxSpace = ByteSize.FromBytes(capacityRaw);
+											var freeSpace = ByteSize.FromBytes(freeSpaceRaw);
+
+											item.MaxSpace = maxSpace;
+											item.SpaceUsed = maxSpace - freeSpace;
+											item.FileSize = string.Format(Strings.DriveFreeSpaceAndCapacity.GetLocalizedResource(), freeSpace.ToSizeString(), maxSpace.ToSizeString());
+											item.ShowDriveStorageDetails = true;
+										}
+
+									}
+									else
+									{
+										item.ContextualProperty = $"{Strings.Modified.GetLocalizedResource()}: {item.ItemDateModified}";
+									}
 								},
 								Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
@@ -1936,6 +1962,9 @@ namespace Files.App.ViewModels
 		{
 			if (matchingStorageItem is BaseStorageFile file && file.Properties != null)
 				return await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(["System.Image.Dimensions", "System.Media.Duration", "System.FileVersion"]).AsTask());
+
+			else if (matchingStorageItem is BaseStorageFolder folder && folder.Properties != null)
+				return await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(["System.FreeSpace", "System.Capacity", "System.SFGAOFlags"]).AsTask());
 
 			return null;
 		}

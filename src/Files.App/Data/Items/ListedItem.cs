@@ -10,6 +10,7 @@ using System.IO;
 using System.Text;
 using Windows.Storage;
 using Windows.Win32.UI.WindowsAndMessaging;
+using ByteSize = ByteSizeLib.ByteSize;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
@@ -329,6 +330,29 @@ namespace Files.App.Utils
 			set => SetProperty(ref itemProperties, value);
 		}
 
+		private bool showDriveStorageDetails;
+		public bool ShowDriveStorageDetails
+		{
+			get => showDriveStorageDetails;
+			set => SetProperty(ref showDriveStorageDetails, value);
+		}
+
+		private ByteSize maxSpace;
+		public ByteSize MaxSpace
+		{
+			get => maxSpace;
+			set => SetProperty(ref maxSpace, value);
+
+		}
+
+		private ByteSize spaceUsed;
+		public ByteSize SpaceUsed
+		{
+			get => spaceUsed;
+			set => SetProperty(ref spaceUsed, value);
+
+		}
+		
 		private string imageDimensions;
 		public string ImageDimensions
 		{
