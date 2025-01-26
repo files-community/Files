@@ -764,6 +764,21 @@ namespace Files.App.Views.Layouts
 				},
 				Flyout = fileTagsContextMenu
 			});
+
+			fileTagsContextMenu.TagsChanged += RequireTagGroupsUpdate;
+			fileTagsContextMenu.Closed += HandleClosed;
+
+			async void RequireTagGroupsUpdate(object? sender, EventArgs e)
+			{
+				if (ParentShellPageInstance is not null)
+					await ParentShellPageInstance.ShellViewModel.UpdateGroupTagGroupsIfNeeded();
+			}
+
+			void HandleClosed(object? sender, object e)
+			{
+				fileTagsContextMenu.TagsChanged -= RequireTagGroupsUpdate;
+				fileTagsContextMenu.Closed -= HandleClosed;
+			}
 		}
 
 		private async Task AddShellMenuItemsAsync(List<ContextMenuFlyoutItemViewModel> shellMenuItems, CommandBarFlyout contextMenuFlyout, bool shiftPressed)

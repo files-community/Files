@@ -485,7 +485,23 @@ namespace Files.App.ViewModels.UserControls
 
 			SelectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
 
-			Items.Add(new FlyoutItem(new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem })));
+			var contextMenu = new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem });
+			contextMenu.Closed += HandleClosed;
+			contextMenu.TagsChanged += RequireTagGroupsUpdate;
+
+			Items.Add(new FlyoutItem(contextMenu));
+
+			async void RequireTagGroupsUpdate(object? sender, EventArgs e)
+			{
+				if (contentPageContext.ShellPage is not null)
+					await contentPageContext.ShellPage.ShellViewModel.UpdateGroupTagGroupsIfNeeded();
+			}
+
+			void HandleClosed(object? sender, object e)
+			{
+				contextMenu.TagsChanged -= RequireTagGroupsUpdate;
+				contextMenu.Closed -= HandleClosed;
+			}
 		}
 
 		private void SetDriveItem()

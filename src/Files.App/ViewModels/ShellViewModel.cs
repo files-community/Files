@@ -144,6 +144,7 @@ namespace Files.App.ViewModels
 		private CancellationTokenSource loadPropsCTS;
 		private CancellationTokenSource watcherCTS;
 		private CancellationTokenSource searchCTS;
+		private CancellationTokenSource updateTagGroupCTS;
 
 		public event EventHandler DirectoryInfoUpdated;
 
@@ -1289,7 +1290,39 @@ namespace Files.App.ViewModels
 			finally
 			{
 				itemLoadQueue.TryRemove(item.ItemPath, out _);
+				await UpdateGroupTagGroupsIfNeeded();
 			}
+		}
+
+		public async Task UpdateGroupTagGroupsIfNeeded()
+		{
+			if (FilesAndFolders.IsGrouped &&
+				folderSettings.DirectoryGroupOption is GroupOption.FileTag &&
+				itemLoadQueue.IsEmpty())
+			{
+				updateTagGroupCTS?.Cancel();
+				updateTagGroupCTS = new();
+
+				await GroupOptionsUpdatedAsync(updateTagGroupCTS.Token);
+			}
+		}
+
+		public Task UpdateItemsTags(Dictionary<string, string[]> newTags)
+		{
+			return dispatcherQueue.EnqueueOrInvokeAsync(() =>
+			{
+				int count = newTags.Count;
+				foreach(var item in FilesAndFolders)
+				{
+					if (newTags.TryGetValue(item.ItemPath, out var tags))
+					{
+						item.FileTags = tags;
+						if (--count == 0)
+							break;
+					}
+				}
+			},
+			Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 		}
 
 		private bool CheckElevationRights(ListedItem item)
@@ -2642,52 +2675,52 @@ namespace Files.App.ViewModels
 	}
 
 	public sealed class PageTypeUpdatedEventArgs
+{
+	public bool IsTypeCloudDrive { get; set; }
+
+	public bool IsTypeRecycleBin { get; set; }
+
+	public bool IsTypeGitRepository { get; set; }
+
+	public bool IsTypeSearchResults { get; set; }
+}
+
+public sealed class WorkingDirectoryModifiedEventArgs : EventArgs
+{
+	public string? Path { get; set; }
+
+	public string? Name { get; set; }
+
+	public bool IsLibrary { get; set; }
+}
+
+public sealed class ItemLoadStatusChangedEventArgs : EventArgs
+{
+	public enum ItemLoadStatus
 	{
-		public bool IsTypeCloudDrive { get; set; }
-
-		public bool IsTypeRecycleBin { get; set; }
-
-		public bool IsTypeGitRepository { get; set; }
-
-		public bool IsTypeSearchResults { get; set; }
+		Starting,
+		InProgress,
+		Complete
 	}
 
-	public sealed class WorkingDirectoryModifiedEventArgs : EventArgs
-	{
-		public string? Path { get; set; }
+	public ItemLoadStatus Status { get; set; }
 
-		public string? Name { get; set; }
+	/// <summary>
+	/// This property may not be provided consistently if Status is not Complete
+	/// </summary>
+	public string? PreviousDirectory { get; set; }
 
-		public bool IsLibrary { get; set; }
-	}
+	/// <summary>
+	/// This property may not be provided consistently if Status is not Complete
+	/// </summary>
+	public string? Path { get; set; }
+}
 
-	public sealed class ItemLoadStatusChangedEventArgs : EventArgs
-	{
-		public enum ItemLoadStatus
-		{
-			Starting,
-			InProgress,
-			Complete
-		}
-
-		public ItemLoadStatus Status { get; set; }
-
-		/// <summary>
-		/// This property may not be provided consistently if Status is not Complete
-		/// </summary>
-		public string? PreviousDirectory { get; set; }
-
-		/// <summary>
-		/// This property may not be provided consistently if Status is not Complete
-		/// </summary>
-		public string? Path { get; set; }
-	}
-
-	public enum GitProperties
-	{
-		None,
-		Status,
-		Commit,
-		All,
-	}
+public enum GitProperties
+{
+	None,
+	Status,
+	Commit,
+	All,
+}
 }

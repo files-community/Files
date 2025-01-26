@@ -1267,6 +1267,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
 			var dbInstance = FileTagsHelper.GetDbInstance();
+			var pathToTags = new Dictionary<string, string[]>();
 			foreach (var item in storageItems.Where(x => !string.IsNullOrEmpty(x.Path)))
 			{
 				var filesTags = FileTagsHelper.ReadFileTag(item.Path);
@@ -1276,7 +1277,14 @@ namespace Files.App.ViewModels.UserControls
 					var fileFRN = await FileTagsHelper.GetFileFRN(item.Item);
 					dbInstance.SetTags(item.Path, fileFRN, filesTags);
 					FileTagsHelper.WriteFileTag(item.Path, filesTags);
+					pathToTags[item.Path] = filesTags;
 				}
+			}
+
+			if (paneHolder.ActivePane is not null)
+			{
+				await paneHolder.ActivePane.ShellViewModel.UpdateItemsTags(pathToTags);
+				await paneHolder.ActivePane.ShellViewModel.UpdateGroupTagGroupsIfNeeded();
 			}
 		}
 
