@@ -2675,52 +2675,52 @@ namespace Files.App.ViewModels
 	}
 
 	public sealed class PageTypeUpdatedEventArgs
-{
-	public bool IsTypeCloudDrive { get; set; }
-
-	public bool IsTypeRecycleBin { get; set; }
-
-	public bool IsTypeGitRepository { get; set; }
-
-	public bool IsTypeSearchResults { get; set; }
-}
-
-public sealed class WorkingDirectoryModifiedEventArgs : EventArgs
-{
-	public string? Path { get; set; }
-
-	public string? Name { get; set; }
-
-	public bool IsLibrary { get; set; }
-}
-
-public sealed class ItemLoadStatusChangedEventArgs : EventArgs
-{
-	public enum ItemLoadStatus
 	{
-		Starting,
-		InProgress,
-		Complete
+		public bool IsTypeCloudDrive { get; set; }
+
+		public bool IsTypeRecycleBin { get; set; }
+
+		public bool IsTypeGitRepository { get; set; }
+
+		public bool IsTypeSearchResults { get; set; }
 	}
 
-	public ItemLoadStatus Status { get; set; }
+	public sealed class WorkingDirectoryModifiedEventArgs : EventArgs
+	{
+		public string? Path { get; set; }
 
-	/// <summary>
-	/// This property may not be provided consistently if Status is not Complete
-	/// </summary>
-	public string? PreviousDirectory { get; set; }
+		public string? Name { get; set; }
 
-	/// <summary>
-	/// This property may not be provided consistently if Status is not Complete
-	/// </summary>
-	public string? Path { get; set; }
-}
+		public bool IsLibrary { get; set; }
+	}
 
-public enum GitProperties
-{
-	None,
-	Status,
-	Commit,
-	All,
-}
+	public sealed class ItemLoadStatusChangedEventArgs : EventArgs
+	{
+		public enum ItemLoadStatus
+		{
+			Starting,
+			InProgress,
+			Complete
+		}
+
+		public ItemLoadStatus Status { get; set; }
+
+		/// <summary>
+		/// This property may not be provided consistently if Status is not Complete
+		/// </summary>
+		public string? PreviousDirectory { get; set; }
+
+		/// <summary>
+		/// This property may not be provided consistently if Status is not Complete
+		/// </summary>
+		public string? Path { get; set; }
+	}
+
+	public enum GitProperties
+	{
+		None,
+		Status,
+		Commit,
+		All,
+	}
 }
