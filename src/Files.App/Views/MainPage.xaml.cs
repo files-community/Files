@@ -488,7 +488,7 @@ namespace Files.App.Views
 
 		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
-			this.ChangeCursor(InputSystemCursor.Create(PaneSplitter.Cursor == InputSystemCursorShape.SizeWestEast ?
+			this.ChangeCursor(InputSystemCursor.Create(InfoPane.Position == PreviewPanePositions.Right ?
 				InputSystemCursorShape.SizeWestEast : InputSystemCursorShape.SizeNorthSouth));
 		}
 	}
