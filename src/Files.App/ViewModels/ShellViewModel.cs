@@ -1853,7 +1853,7 @@ namespace Files.App.ViewModels
 		private void CheckForSolutionFile()
 		{
 			SolutionFilePath = filesAndFolders.ToList().AsParallel()
-				.Where(item => FileExtensionHelpers.HasExtension(item.FileExtension, ".sln"))
+				.Where(item => FileExtensionHelpers.HasExtension(item.FileExtension, ".sln", ".slnx"))
 				.FirstOrDefault()?.ItemPath;
 		}
 
