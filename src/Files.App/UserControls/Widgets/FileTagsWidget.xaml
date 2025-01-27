@@ -9,7 +9,6 @@
 	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:wctcontrols="using:CommunityToolkit.WinUI.UI.Controls"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
@@ -122,7 +121,7 @@
 
 					<!--  Contents  -->
 					<!--  The vertical scroll bar must be hidden because it may cause a crash inside the ScrollViewer (#12370)  -->
-					<wctcontrols:AdaptiveGridView
+					<controls:AdaptiveGridView
 						Grid.Row="1"
 						Padding="4"
 						HorizontalAlignment="Stretch"
@@ -136,14 +135,14 @@
 						SelectionMode="None"
 						StretchContentForSingleRow="False">
 
-						<wctcontrols:AdaptiveGridView.ItemContainerStyle>
+						<controls:AdaptiveGridView.ItemContainerStyle>
 							<Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
 								<Setter Property="MinHeight" Value="32" />
 								<Setter Property="Padding" Value="8,0" />
 							</Style>
-						</wctcontrols:AdaptiveGridView.ItemContainerStyle>
+						</controls:AdaptiveGridView.ItemContainerStyle>
 
-						<wctcontrols:AdaptiveGridView.ItemTemplate>
+						<controls:AdaptiveGridView.ItemTemplate>
 							<DataTemplate x:DataType="dataitems:WidgetFileTagCardItem">
 								<Grid
 									ColumnSpacing="8"
@@ -170,8 +169,8 @@
 										TextTrimming="CharacterEllipsis" />
 								</Grid>
 							</DataTemplate>
-						</wctcontrols:AdaptiveGridView.ItemTemplate>
-					</wctcontrols:AdaptiveGridView>
+						</controls:AdaptiveGridView.ItemTemplate>
+					</controls:AdaptiveGridView>
 				</Grid>
 			</DataTemplate>
 		</ItemsRepeater.ItemTemplate>

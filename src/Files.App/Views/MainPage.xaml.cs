@@ -1,9 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
-using CommunityToolkit.WinUI.UI;
-using CommunityToolkit.WinUI.UI.Controls;
+using CommunityToolkit.WinUI.Controls;
 using Files.App.UserControls.Sidebar;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
@@ -311,7 +311,7 @@ namespace Files.App.Views
 			if (Package.Current.Id.Name != "49306atecsolution.FilesUWP" || UserSettingsService.ApplicationSettingsService.ClickedToReviewApp)
 				return;
 
-			var totalLaunchCount = SystemInformation.Instance.TotalLaunchCount;
+			var totalLaunchCount = App.TotalLaunchCount;
 			if (totalLaunchCount is 50 or 200)
 			{
 				// Prompt user to review app in the Store
@@ -391,7 +391,6 @@ namespace Files.App.Views
 						PaneSplitter.SetValue(Grid.ColumnProperty, 1);
 						PaneSplitter.Width = 2;
 						PaneSplitter.Height = RootGrid.ActualHeight;
-						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeWestEast;
 						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 						PaneColumn.MinWidth = InfoPane.MinWidth;
 						PaneColumn.MaxWidth = InfoPane.MaxWidth;
@@ -407,7 +406,6 @@ namespace Files.App.Views
 						PaneSplitter.SetValue(Grid.ColumnProperty, 0);
 						PaneSplitter.Height = 2;
 						PaneSplitter.Width = RootGrid.ActualWidth;
-						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeNorthSouth;
 						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeNorthSouth));
 						PaneColumn.MinWidth = 0;
 						PaneColumn.MaxWidth = double.MaxValue;
@@ -490,7 +488,7 @@ namespace Files.App.Views
 
 		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
-			this.ChangeCursor(InputSystemCursor.Create(PaneSplitter.GripperCursor == GridSplitter.GripperCursorType.SizeWestEast ?
+			this.ChangeCursor(InputSystemCursor.Create(PaneSplitter.Cursor == InputSystemCursorShape.SizeWestEast ?
 				InputSystemCursorShape.SizeWestEast : InputSystemCursorShape.SizeNorthSouth));
 		}
 	}

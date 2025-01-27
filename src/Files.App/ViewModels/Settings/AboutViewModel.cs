@@ -1,8 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Win32;
+using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -192,7 +192,7 @@ namespace Files.App.ViewModels.Settings
 
 		public string GetWindowsVersion()
 		{
-			return SystemInformation.Instance.OperatingSystemVersion.ToString();
+			return Environment.OSVersion.Version.ToString();
 		}
 		
 		public string GetUserID()

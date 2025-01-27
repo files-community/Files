@@ -275,7 +275,7 @@ namespace Files.App.Data.Items
 					}
 				case 0x0024: /*WM_GETMINMAXINFO*/
 					{
-						var dpi = PInvoke.GetDpiForWindow(new(param0));
+						var dpi = PInvoke.GetDpiForWindow(param0);
 						float scalingFactor = (float)dpi / 96;
 
 						var minMaxInfo = Marshal.PtrToStructure<MINMAXINFO>(param3);

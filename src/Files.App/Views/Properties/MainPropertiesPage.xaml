@@ -11,7 +11,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	DataContext="{x:Bind MainPropertiesViewModel, Mode=OneWay}"
 	HighContrastAdjustment="None"

@@ -60,9 +60,9 @@ namespace Files.App.Services.PreviewPopupProviders
 				await TogglePreviewPopupAsync(path);
 		}
 
-		public async Task<bool> DetectAvailability()
+		public async unsafe Task<bool> DetectAvailability()
 		{
-			var hWnd = PInvoke.FindWindow("SeerWindowClass", null).Value;
+			var hWnd = (nint)PInvoke.FindWindow("SeerWindowClass", null).Value;
 			return hWnd != nint.Zero && hWnd.ToInt64() != -1;
 		}
 

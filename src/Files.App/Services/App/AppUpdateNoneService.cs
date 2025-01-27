@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.WinUI.Helpers;
-using System.Net.Http;
+﻿using System.Net.Http;
 
 namespace Files.App.Services
 {
@@ -9,10 +8,7 @@ namespace Files.App.Services
 
 		public bool IsUpdating => false;
 
-		public bool IsAppUpdated
-		{
-			get => SystemInformation.Instance.IsAppUpdated;
-		}
+		public bool IsAppUpdated => App.IsAppUpdated;
 
 		private bool _areReleaseNotesAvailable = false;
 		public bool AreReleaseNotesAvailable
