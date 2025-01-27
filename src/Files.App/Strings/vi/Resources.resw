@@ -1058,9 +1058,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Chi tiết (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Lát (Ctrl+Shift+2)</value>
-  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Ngày xóa</value>
   </data>
@@ -1658,15 +1655,6 @@
   <data name="Home" xml:space="preserve">
     <value>Trang chủ</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+1</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+6</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Quá trình giải nén tệp đã hoàn tất.</value>
   </data>
@@ -1724,8 +1712,8 @@
   <data name="Columns" xml:space="preserve">
     <value>Cột</value>
   </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Lát</value>
+  <data name="Cards" xml:space="preserve">
+    <value>Thẻ</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Mở thư mục trong thẻ mới</value>
@@ -1839,16 +1827,16 @@
     <value>Gửi yêu cầu khởi động lại chương trình</value>
   </data>
   <data name="StartWindow" xml:space="preserve">
-    <value>Start window</value>
+    <value>Cửa sổ khởi động</value>
   </data>
   <data name="NormalWindow" xml:space="preserve">
-    <value>Normal window</value>
+    <value>Cửa sổ bình thường</value>
   </data>
   <data name="Minimized" xml:space="preserve">
-    <value>Minimized</value>
+    <value>Đã thu nhỏ</value>
   </data>
   <data name="Maximized" xml:space="preserve">
-    <value>Maximized</value>
+    <value>Đã mở rộng</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Chạy với quyền quản trị viên</value>
@@ -2585,8 +2573,8 @@
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Chuyển sang bố cục chi tiết</value>
   </data>
-  <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Chuyển sang bố cục lát</value>
+  <data name="LayoutCardsDescription" xml:space="preserve">
+    <value>Chuyển sang bố cục thẻ</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Chuyển sang bố cục danh sách</value>
@@ -3725,9 +3713,6 @@
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Câu hỏi &amp; thảo luận</value>
-  </data>
-  <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Các lựa chọn kích thước bổ sung hiện chưa khả dụng trong bố cục lát.</value>
   </data>
   <data name="Compact" xml:space="preserve">
     <value>Thu gọn</value>

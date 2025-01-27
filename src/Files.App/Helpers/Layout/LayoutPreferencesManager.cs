@@ -218,11 +218,29 @@ namespace Files.App.Helpers
 			{
 				FolderLayoutModes.DetailsView => typeof(DetailsLayoutPage),
 				FolderLayoutModes.ListView => typeof(GridLayoutPage),
-				FolderLayoutModes.TilesView => typeof(GridLayoutPage),
+				FolderLayoutModes.CardsView => typeof(GridLayoutPage),
 				FolderLayoutModes.GridView => typeof(GridLayoutPage),
 				FolderLayoutModes.ColumnView => typeof(ColumnsLayoutPage),
 				_ => typeof(DetailsLayoutPage)
 			};
+		}
+
+		public void ReloadGroupAndSortPreferences(string? path)
+		{
+			if (string.IsNullOrWhiteSpace(path))
+				return;
+
+			var preferencesItem = GetLayoutPreferencesForPath(path);
+			if (preferencesItem is null)
+				return;
+
+			DirectorySortOption = preferencesItem.DirectorySortOption;
+			DirectorySortDirection = preferencesItem.DirectorySortDirection;
+			DirectoryGroupOption = preferencesItem.DirectoryGroupOption;
+			DirectoryGroupByDateUnit = preferencesItem.DirectoryGroupByDateUnit;
+			DirectoryGroupDirection = preferencesItem.DirectoryGroupDirection;
+			SortDirectoriesAlongsideFiles = preferencesItem.SortDirectoriesAlongsideFiles;
+			SortFilesFirst = preferencesItem.SortFilesFirst;
 		}
 
 		public bool IsPathUsingDefaultLayout(string? path)
@@ -252,14 +270,14 @@ namespace Files.App.Helpers
 			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.GridView));
 		}
 
-		public void ToggleLayoutModeTiles(bool manuallySet)
+		public void ToggleLayoutModeCards(bool manuallySet)
 		{
 			IsAdaptiveLayoutEnabled &= !manuallySet;
 
-			// Tiles View
-			LayoutMode = FolderLayoutModes.TilesView;
+			// Cards View
+			LayoutMode = FolderLayoutModes.CardsView;
 
-			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.TilesView));
+			LayoutModeChangeRequested?.Invoke(this, new LayoutModeEventArgs(FolderLayoutModes.CardsView));
 		}
 
 		public void ToggleLayoutModeList(bool manuallySet)

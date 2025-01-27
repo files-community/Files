@@ -6,11 +6,11 @@ using Files.Shared.Helpers;
 using FluentFTP;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System.Drawing;
 using System.IO;
 using System.Text;
 using Windows.Storage;
 using Windows.Win32.UI.WindowsAndMessaging;
+using ByteSize = ByteSizeLib.ByteSize;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
@@ -42,15 +42,15 @@ namespace Files.App.Utils
 			get
 			{
 				var tooltipBuilder = new StringBuilder();
-				tooltipBuilder.AppendLine($"{"NameWithColon".GetLocalizedResource()} {Name}");
-				tooltipBuilder.AppendLine($"{"ItemType".GetLocalizedResource()} {itemType}");
-				tooltipBuilder.Append($"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}");
+				tooltipBuilder.AppendLine($"{Strings.NameWithColon.GetLocalizedResource()} {Name}");
+				tooltipBuilder.AppendLine($"{Strings.ItemType.GetLocalizedResource()} {itemType}");
+				tooltipBuilder.Append($"{Strings.ToolTipDescriptionDate.GetLocalizedResource()} {ItemDateModified}");
 				if (!string.IsNullOrWhiteSpace(FileSize))
-					tooltipBuilder.Append($"{Environment.NewLine}{"SizeLabel".GetLocalizedResource()} {FileSize}");
-				if (SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline && !string.IsNullOrWhiteSpace(DimensionsDisplay))
-					tooltipBuilder.Append($"{Environment.NewLine}{"PropertyDimensionsColon".GetLocalizedResource()} {DimensionsDisplay}");
+					tooltipBuilder.Append($"{Environment.NewLine}{Strings.SizeLabel.GetLocalizedResource()} {FileSize}");
+				if (!string.IsNullOrWhiteSpace(ImageDimensions))
+					tooltipBuilder.Append($"{Environment.NewLine}{Strings.PropertyDimensionsColon.GetLocalizedResource()} {ImageDimensions}");
 				if (SyncStatusUI.LoadSyncStatus)
-					tooltipBuilder.Append($"{Environment.NewLine}{"StatusWithColon".GetLocalizedResource()} {syncStatusUI.SyncStatusString}");
+					tooltipBuilder.Append($"{Environment.NewLine}{Strings.StatusWithColon.GetLocalizedResource()} {syncStatusUI.SyncStatusString}");
 
 				return tooltipBuilder.ToString();
 			}
@@ -167,7 +167,7 @@ namespace Files.App.Utils
 		// This is used to avoid passing a null value to AutomationProperties.Name, which causes a crash
 		public string SyncStatusString
 		{
-			get => string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString) ? "CloudDriveSyncStatus_Unknown".GetLocalizedResource() : SyncStatusUI.SyncStatusString;
+			get => string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString) ? Strings.CloudDriveSyncStatus_Unknown.GetLocalizedResource() : SyncStatusUI.SyncStatusString;
 		}
 
 		private BitmapImage fileImage;
@@ -277,7 +277,7 @@ namespace Files.App.Utils
 			}
 		}
 
-		public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalculated".GetLocalizedResource() : FileSize;
+		public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? Strings.ItemSizeNotCalculated.GetLocalizedResource() : FileSize;
 
 		public long FileSizeBytes { get; set; }
 
@@ -330,39 +330,58 @@ namespace Files.App.Utils
 			set => SetProperty(ref itemProperties, value);
 		}
 
-		public string DimensionsDisplay
+		private bool showDriveStorageDetails;
+		public bool ShowDriveStorageDetails
 		{
-			get
-			{
-				int imageHeight = 0;
-				int imageWidth = 0;
+			get => showDriveStorageDetails;
+			set => SetProperty(ref showDriveStorageDetails, value);
+		}
 
-				var isImageFile = FileExtensionHelpers.IsImageFile(FileExtension);
-				if (isImageFile)
-				{
-					try
-					{
-						// TODO: Consider to use 'System.Kind' instead.
-						using FileStream fileStream = new(ItemPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-						using Image image = Image.FromStream(fileStream, false, false);
+		private ByteSize maxSpace;
+		public ByteSize MaxSpace
+		{
+			get => maxSpace;
+			set => SetProperty(ref maxSpace, value);
 
-						if (image is not null)
-						{
-							imageHeight = image.Height;
-							imageWidth = image.Width;
-						}
-					}
-					catch { }
-				}
+		}
 
+		private ByteSize spaceUsed;
+		public ByteSize SpaceUsed
+		{
+			get => spaceUsed;
+			set => SetProperty(ref spaceUsed, value);
 
-				return
-					isImageFile &&
-					imageWidth > 0 &&
-					imageHeight > 0
-						? $"{imageWidth} \u00D7 {imageHeight}"
-						: string.Empty;
-			}
+		}
+		
+		private string imageDimensions;
+		public string ImageDimensions
+		{
+			get => imageDimensions;
+			set => SetProperty(ref imageDimensions, value);
+		}
+
+		private string fileVersion;
+		public string FileVersion
+		{
+			get => fileVersion;
+			set => SetProperty(ref fileVersion, value);
+		}
+
+		private string mediaDuration;
+		public string MediaDuration
+		{
+			get => mediaDuration;
+			set => SetProperty(ref mediaDuration, value);
+		}
+
+		/// <summary>
+		/// Contextual property that changes based on the item type.
+		/// </summary>
+		private string contextualProperty;
+		public string ContextualProperty
+		{
+			get => contextualProperty;
+			set => SetProperty(ref contextualProperty, value);
 		}
 
 		/// <summary>
@@ -386,19 +405,19 @@ namespace Files.App.Utils
 			string suffix;
 			if (IsRecycleBinItem)
 			{
-				suffix = "RecycleBinItemAutomation".GetLocalizedResource();
+				suffix = Strings.RecycleBinItemAutomation.GetLocalizedResource();
 			}
 			else if (IsShortcut)
 			{
-				suffix = "ShortcutItemAutomation".GetLocalizedResource();
+				suffix = Strings.ShortcutItemAutomation.GetLocalizedResource();
 			}
 			else if (IsLibrary)
 			{
-				suffix = "Library".GetLocalizedResource();
+				suffix = Strings.Library.GetLocalizedResource();
 			}
 			else
 			{
-				suffix = PrimaryItemAttribute == StorageItemTypes.File ? "Folder".GetLocalizedResource() : "FolderItemAutomation".GetLocalizedResource();
+				suffix = PrimaryItemAttribute == StorageItemTypes.File ? Strings.Folder.GetLocalizedResource() : "FolderItemAutomation".GetLocalizedResource();
 			}
 
 			return $"{Name}, {suffix}";
@@ -485,7 +504,7 @@ namespace Files.App.Utils
 			PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
 			ItemPropertiesInitialized = false;
 
-			var itemType = isFile ? "File".GetLocalizedResource() : "Folder".GetLocalizedResource();
+			var itemType = isFile ? Strings.File.GetLocalizedResource() : Strings.Folder.GetLocalizedResource();
 			if (isFile && Name.Contains('.', StringComparison.Ordinal))
 			{
 				itemType = FileExtension.Trim('.') + " " + itemType;
@@ -564,7 +583,7 @@ namespace Files.App.Utils
 			ItemPath = library.Path;
 			ItemNameRaw = library.Text;
 			PrimaryItemAttribute = StorageItemTypes.Folder;
-			ItemType = "Library".GetLocalizedResource();
+			ItemType = Strings.Library.GetLocalizedResource();
 			LoadCustomIcon = true;
 			CustomIcon = library.Icon;
 			//CustomIconSource = library.IconSource;
@@ -771,24 +790,24 @@ namespace Files.App.Utils
 	}
 	public interface IGitItem
 	{
-		public bool StatusPropertiesInitialized { get ; set; }
+		public bool StatusPropertiesInitialized { get; set; }
 		public bool CommitPropertiesInitialized { get; set; }
 
-		public Style? UnmergedGitStatusIcon{ get; set; }
+		public Style? UnmergedGitStatusIcon { get; set; }
 
-		public string? UnmergedGitStatusName{ get; set; }
+		public string? UnmergedGitStatusName { get; set; }
 
-		public DateTimeOffset? GitLastCommitDate{ get; set; }
+		public DateTimeOffset? GitLastCommitDate { get; set; }
 
-		public string? GitLastCommitDateHumanized{ get; set; }
+		public string? GitLastCommitDateHumanized { get; set; }
 
-		public string? GitLastCommitMessage{ get; set; }
+		public string? GitLastCommitMessage { get; set; }
 
-		public string? GitLastCommitAuthor{ get; set; }
+		public string? GitLastCommitAuthor { get; set; }
 
-		public string? GitLastCommitSha{ get; set; }
+		public string? GitLastCommitSha { get; set; }
 
-		public string? GitLastCommitFullSha{ get; set; }
+		public string? GitLastCommitFullSha { get; set; }
 
 		public string ItemPath
 		{

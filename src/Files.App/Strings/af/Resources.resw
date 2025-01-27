@@ -1059,9 +1059,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Besonderhede (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Teëls (Ctrl+Shift+2)</value>
-  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Datum geskrap</value>
   </data>
@@ -1659,15 +1656,6 @@
   <data name="Home" xml:space="preserve">
     <value>Tuis</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Wissel+1</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Wissel+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Wissel+6</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Die argiefontginning is suksesvol voltooi.</value>
   </data>
@@ -1725,8 +1713,8 @@
   <data name="Columns" xml:space="preserve">
     <value>Kolomme</value>
   </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Teëls</value>
+  <data name="Cards" xml:space="preserve">
+    <value>Cards</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Maak omslae in nuwe duimgids oop</value>
@@ -2586,8 +2574,8 @@
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Switch to details view</value>
   </data>
-  <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Switch to tiles view</value>
+  <data name="LayoutCardsDescription" xml:space="preserve">
+    <value>Switch to cards view</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Switch to list view</value>
@@ -3726,9 +3714,6 @@
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Questions &amp; discussions</value>
-  </data>
-  <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Additional sizes are not yet available for the Tiles View.</value>
   </data>
   <data name="Compact" xml:space="preserve">
     <value>Compact</value>

@@ -1058,9 +1058,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>詳細 (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>タイル (Ctrl+Shift+2)</value>
-  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>削除した日時</value>
   </data>
@@ -1658,15 +1655,6 @@
   <data name="Home" xml:space="preserve">
     <value>ホーム</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+1</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+6</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>アーカイブの展開が正常に完了しました。</value>
   </data>
@@ -1724,8 +1712,8 @@
   <data name="Columns" xml:space="preserve">
     <value>カラム</value>
   </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>タイル</value>
+  <data name="Cards" xml:space="preserve">
+    <value>カード</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>新しいタブでフォルダーを開く</value>
@@ -1839,16 +1827,16 @@
     <value>このプログラムを再起動するために登録する</value>
   </data>
   <data name="StartWindow" xml:space="preserve">
-    <value>Start window</value>
+    <value>実行時の大きさ</value>
   </data>
   <data name="NormalWindow" xml:space="preserve">
-    <value>Normal window</value>
+    <value>通常のウィンドウ</value>
   </data>
   <data name="Minimized" xml:space="preserve">
-    <value>Minimized</value>
+    <value>最小化</value>
   </data>
   <data name="Maximized" xml:space="preserve">
-    <value>Maximized</value>
+    <value>最大化</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>管理者として実行</value>
@@ -2585,8 +2573,8 @@
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>詳細ビューに切り替える</value>
   </data>
-  <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>タイル ビューに切り替える</value>
+  <data name="LayoutCardsDescription" xml:space="preserve">
+    <value>カード ビューに切り替える</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>一覧ビューに切り替える</value>
@@ -3725,9 +3713,6 @@
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>質問と議論</value>
-  </data>
-  <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>タイル ビューではサイズの変更はまだ利用できません。</value>
   </data>
   <data name="Compact" xml:space="preserve">
     <value>コンパクト</value>

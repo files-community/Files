@@ -58,5 +58,11 @@ namespace Files.App.Data.Contracts
 		/// Focuses the other pane.
 		/// </summary>
 		public void FocusOtherPane();
+
+		/// <summary>
+		/// Gets open panes.
+		/// </summary>
+		/// <returns>An enumerable containing open panes.</returns>
+		public IEnumerable<ModernShellPage> GetPanes();
 	}
 }
