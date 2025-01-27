@@ -71,10 +71,6 @@ jobs:
       run: |
         for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
 
-    - name: Restore NuGet
-      shell: pwsh
-      run: 'nuget restore $env:SOLUTION_NAME'
-
     - name: Restore Files
       shell: pwsh
       run: |
