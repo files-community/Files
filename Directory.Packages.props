@@ -19,7 +19,7 @@
     <PackageVersion Include="CommunityToolkit.WinUI.Triggers" Version="8.2.241112-preview1" />
     <PackageVersion Include="DiscUtils.Udf" Version="0.16.13" />
     <PackageVersion Include="FluentFTP" Version="52.0.0" />
-    <PackageVersion Include="LibGit2Sharp" Version="0.31.0" />
+    <PackageVersion Include="LibGit2Sharp" Version="0.30.0" />
     <PackageVersion Include="MessageFormat" Version="7.1.2" />
     <PackageVersion Include="Microsoft.Data.Sqlite.Core" Version="9.0.1" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.1" />
@@ -50,7 +50,7 @@
     <PackageVersion Include="Appium.WebDriver" Version="4.4.5" />
     <PackageVersion Include="Axe.Windows" Version="2.4.2" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
-    <PackageVersion Include="MSTest.TestAdapter" Version="3.7.2" />
-    <PackageVersion Include="MSTest.TestFramework" Version="3.7.2" />
+    <PackageVersion Include="MSTest.TestAdapter" Version="3.7.3" />
+    <PackageVersion Include="MSTest.TestFramework" Version="3.7.3" />
   </ItemGroup>
 </Project>

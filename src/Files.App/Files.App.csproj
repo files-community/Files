@@ -129,19 +129,6 @@
         <TrimmerRootAssembly Include="Files.Core" />
         <TrimmerRootAssembly Include="Files.Core.Storage" />
         <TrimmerRootAssembly Include="Files.Shared" />
-        <TrimmerRootAssembly Include="CommunityToolkit.Common" />
-        <TrimmerRootAssembly Include="CommunityToolkit.Mvvm" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.Notifications" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Animations" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Behaviors" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.Controls.Core" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.Controls.Input" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.Controls.Layout" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.Controls.Markdown" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.Controls.Media" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.Controls.Primitives" />
     </ItemGroup>
 
 	<ItemGroup>
