@@ -1,19 +1,16 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="using:Files.App.Controls">
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Files.App.Controls">
 
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Default">
-			<SolidColorBrush x:Key="SystemControlSplitterPointerOver"
-                             Color="{ThemeResource SystemBaseLowColor}" />
-			<SolidColorBrush x:Key="SystemControlSplitterPressed"
-                             Color="{ThemeResource SystemBaseHighColor}" />
+			<SolidColorBrush x:Key="SystemControlSplitterPointerOver" Color="{ThemeResource SystemBaseLowColor}" />
+			<SolidColorBrush x:Key="SystemControlSplitterPressed" Color="{ThemeResource SystemBaseHighColor}" />
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="HighContrast">
-			<SolidColorBrush x:Key="SystemControlSplitterPointerOver"
-                             Color="{ThemeResource SystemColorHighlightColor}" />
-			<SolidColorBrush x:Key="SystemControlSplitterPressed"
-                             Color="{ThemeResource SystemColorHighlightColor}" />
+			<SolidColorBrush x:Key="SystemControlSplitterPointerOver" Color="{ThemeResource SystemColorHighlightColor}" />
+			<SolidColorBrush x:Key="SystemControlSplitterPressed" Color="{ThemeResource SystemColorHighlightColor}" />
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
@@ -30,11 +27,11 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:GridSplitter">
-					<Grid x:Name="RootGrid"
-                          Background="{TemplateBinding Background}">
-						<ContentPresenter HorizontalContentAlignment="Stretch"
-                                          VerticalContentAlignment="Stretch"
-                                          Content="{TemplateBinding Element}" />
+					<Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+						<ContentPresenter
+							HorizontalContentAlignment="Stretch"
+							VerticalContentAlignment="Stretch"
+							Content="{TemplateBinding Element}" />
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="GridSplitterStates">
 								<VisualState x:Name="Normal" />
