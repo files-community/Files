@@ -18,6 +18,7 @@
         <PackageReference Include="CommunityToolkit.WinUI.Extensions" />
         <PackageReference Include="Microsoft.WindowsAppSDK" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
+        <PackageReference Include="Microsoft.Windows.CsWinRT" />
     </ItemGroup>
 
     <ItemGroup>
