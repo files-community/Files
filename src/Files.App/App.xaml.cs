@@ -22,7 +22,7 @@ namespace Files.App
 
 		public static bool IsAppUpdated { get; }
 		public static bool IsFirstRun { get; }
-		public static long TotalLaunchCount { get; set; }
+		public static long TotalLaunchCount { get; }
 
 		static App()
 		{
