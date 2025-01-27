@@ -29,7 +29,7 @@ run-name: ${{ github.event_name == 'pull_request' && 'Files PR Validation' || 'F
 
 env:
   WORKING_DIR: ${{ github.workspace }} # Default: 'D:\a\Files\Files'
-  SOLUTION_PATH: '${{ github.workspace }}\Files.sln'
+  SOLUTION_PATH: '${{ github.workspace }}\Files.slnx'
   PACKAGE_PROJECT_DIR: '${{ github.workspace }}\src\Files.App (Package)'
   PACKAGE_PROJECT_PATH: '${{ github.workspace }}\src\Files.App (Package)\Files.Package.wapproj'
   AUTOMATED_TESTS_ARCHITECTURE: 'x64'
