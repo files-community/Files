@@ -1,0 +1,86 @@
+<Solution>
+  <Configurations>
+    <Platform Name="arm64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/src/" />
+  <Folder Name="/src/core/" Id="8d626ea8-cb54-bc41-363a-217881beba6e">
+    <Project Path="src/Files.Core.SourceGenerator/Files.Core.SourceGenerator.csproj" />
+    <Project Path="src/Files.Core.Storage/Files.Core.Storage.csproj">
+      <Platform Solution="*|arm64" Project="arm64" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
+    <Project Path="src/Files.Shared/Files.Shared.csproj">
+      <Platform Solution="*|arm64" Project="arm64" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
+  </Folder>
+  <Folder Name="/src/platforms/" Id="82099983-647e-f067-e69a-cd800643a918">
+    <Project Path="src/Files.App (Package)/Files.Package.wapproj" Type="c7167f0d-bc9f-4e6e-afe1-012c56b48db5">
+      <Deploy />
+    </Project>
+    <Project Path="src/Files.App.BackgroundTasks/Files.App.BackgroundTasks.csproj">
+      <Platform Solution="*|arm64" Project="arm64" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
+    <Project Path="src/Files.App.Controls/Files.App.Controls.csproj">
+      <Platform Solution="*|arm64" Project="arm64" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
+    <Project Path="src/Files.App.CsWin32/Files.App.CsWin32.csproj">
+      <Platform Solution="*|arm64" Project="arm64" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
+    <Project Path="src/Files.App.Launcher/Files.App.Launcher.vcxproj" Id="25fd5045-6d4c-4dd0-b3ac-613ab59cbb07" />
+    <Project Path="src/Files.App.OpenDialog/Files.App.OpenDialog.vcxproj" Id="a2ff3f3b-8ebc-4108-b99d-1476b7876656" />
+    <Project Path="src/Files.App.OpenDialog/Files.App.OpenDialog.Win32.vcxproj" Id="b3fe3f3b-cecc-4918-b72b-5488c3774125">
+      <Platform Project="Win32" />
+    </Project>
+    <Project Path="src/Files.App.SaveDialog/Files.App.SaveDialog.vcxproj" Id="ebfa367f-cbdb-4cd0-b838-d6b95f61d1f6" />
+    <Project Path="src/Files.App.SaveDialog/Files.App.SaveDialog.Win32.vcxproj" Id="7756a1a4-17b5-4e6b-9b12-f19aa868a225">
+      <Platform Project="Win32" />
+    </Project>
+    <Project Path="src/Files.App.Server/Files.App.Server.csproj">
+      <Platform Solution="*|arm64" Project="arm64" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+      <Deploy />
+    </Project>
+    <Project Path="src/Files.App.Storage/Files.App.Storage.csproj">
+      <Platform Solution="*|arm64" Project="arm64" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
+    <Project Path="src/Files.App/Files.App.csproj">
+      <BuildDependency Project="src/Files.App.Launcher/Files.App.Launcher.vcxproj" />
+      <BuildDependency Project="src/Files.App.OpenDialog/Files.App.OpenDialog.vcxproj" />
+      <BuildDependency Project="src/Files.App.OpenDialog/Files.App.OpenDialog.Win32.vcxproj" />
+      <BuildDependency Project="src/Files.App.SaveDialog/Files.App.SaveDialog.vcxproj" />
+      <BuildDependency Project="src/Files.App.SaveDialog/Files.App.SaveDialog.Win32.vcxproj" />
+      <BuildDependency Project="src/Files.App.Server/Files.App.Server.csproj" />
+      <Platform Solution="*|arm64" Project="arm64" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+      <Deploy />
+    </Project>
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Files.App.UITests/Files.App.UITests.csproj">
+      <Platform Solution="*|arm64" Project="arm64" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+      <Deploy />
+    </Project>
+    <Project Path="tests/Files.InteractionTests/Files.InteractionTests.csproj">
+      <Platform Solution="*|arm64" Project="arm64" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+    </Project>
+  </Folder>
+</Solution>
