@@ -83,4 +83,12 @@
       <Platform Solution="*|x86" Project="x86" />
     </Project>
   </Folder>
+  <Folder Name="/workflows/" Id="c69ad28e-2788-4b14-8cf4-b1ff09976b06">
+    <File Path=".github/workflows/cd-sideload-preview.yml" />
+    <File Path=".github/workflows/cd-sideload-stable.yml" />
+    <File Path=".github/workflows/cd-store-preview.yml" />
+    <File Path=".github/workflows/cd-store-stable.yml" />
+    <File Path=".github/workflows/ci.yml" />
+    <File Path=".github/workflows/format-xaml.yml" />
+  </Folder>
 </Solution>
