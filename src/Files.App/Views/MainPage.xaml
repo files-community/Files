@@ -13,6 +13,7 @@
 	xmlns:tabbar="using:Files.App.UserControls.TabBar"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
 	xmlns:uc="using:Files.App.UserControls"
+	xmlns:controls="using:Files.App.Controls"
 	xmlns:viewmodels="using:Files.App.ViewModels"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	AllowDrop="True"
@@ -218,7 +219,7 @@
 						Content="{x:Bind ViewModel.SelectedTabItem.ContentFrame, Mode=OneWay}" />
 
 					<!--  Preview Pane Splitter  -->
-					<toolkit:GridSplitter
+					<controls:GridSplitter
 						x:Name="PaneSplitter"
 						Grid.Row="1"
 						Grid.Column="1"

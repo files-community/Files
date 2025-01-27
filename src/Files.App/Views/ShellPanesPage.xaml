@@ -5,7 +5,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
+	xmlns:controls="using:Files.App.Controls"
 	mc:Ignorable="d">
 
 	<Page.Resources>
@@ -13,7 +13,7 @@
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///Styles/DefaultGridSplitterStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
-			<Style BasedOn="{StaticResource DefaultGridSplitterStyle}" TargetType="toolkit:GridSplitter">
+			<Style BasedOn="{StaticResource DefaultGridSplitterStyle}" TargetType="controls:GridSplitter">
 				<Setter Target="Width" Value="4" />
 				<Setter Target="Background" Value="Transparent" />
 				<Setter Target="Opacity" Value="0" />

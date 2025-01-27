@@ -18,6 +18,7 @@ using Windows.Graphics;
 using Windows.Services.Store;
 using WinRT.Interop;
 using VirtualKey = Windows.System.VirtualKey;
+using GridSplitter = Files.App.Controls.GridSplitter;
 
 namespace Files.App.Views
 {
@@ -391,6 +392,7 @@ namespace Files.App.Views
 						PaneSplitter.SetValue(Grid.ColumnProperty, 1);
 						PaneSplitter.Width = 2;
 						PaneSplitter.Height = RootGrid.ActualHeight;
+						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeWestEast;
 						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 						PaneColumn.MinWidth = InfoPane.MinWidth;
 						PaneColumn.MaxWidth = InfoPane.MaxWidth;
@@ -406,6 +408,7 @@ namespace Files.App.Views
 						PaneSplitter.SetValue(Grid.ColumnProperty, 0);
 						PaneSplitter.Height = 2;
 						PaneSplitter.Width = RootGrid.ActualWidth;
+						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeNorthSouth;
 						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeNorthSouth));
 						PaneColumn.MinWidth = 0;
 						PaneColumn.MaxWidth = double.MaxValue;

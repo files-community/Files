@@ -54,7 +54,7 @@
 			<Style
 				x:Name="HeaderGridSplitterStyle"
 				BasedOn="{StaticResource DefaultGridSplitterStyle}"
-				TargetType="toolkit:GridSplitter">
+				TargetType="controls:GridSplitter">
 				<Setter Property="Background" Value="Transparent" />
 				<Setter Property="Width" Value="12" />
 				<Setter Property="Margin" Value="0" />
@@ -566,7 +566,7 @@
 								Header="{helpers:ResourceString Name=Name}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="3"
 								AutomationProperties.Name="NameColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -587,7 +587,7 @@
 								Visibility="{x:Bind ColumnsViewModel.GitStatusColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="5"
 								AutomationProperties.Name="GitStatusColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -609,7 +609,7 @@
 								Visibility="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="7"
 								AutomationProperties.Name="GitLastCommitDateHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -631,7 +631,7 @@
 								Visibility="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="9"
 								AutomationProperties.Name="GitLastCommitMessageHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -653,7 +653,7 @@
 								Visibility="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="11"
 								AutomationProperties.Name="GitCommitAuthorHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -675,7 +675,7 @@
 								Visibility="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="13"
 								AutomationProperties.Name="GitLastCommitShaHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -697,7 +697,7 @@
 								Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="15"
 								AutomationProperties.Name="TagColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -719,7 +719,7 @@
 								Visibility="{x:Bind ColumnsViewModel.PathColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="17"
 								AutomationProperties.Name="PathColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -741,7 +741,7 @@
 								Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="19"
 								AutomationProperties.Name="OriginalPathColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -763,7 +763,7 @@
 								Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="21"
 								AutomationProperties.Name="DateDeletedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -785,7 +785,7 @@
 								Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="23"
 								AutomationProperties.Name="DateModifiedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -807,7 +807,7 @@
 								Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="25"
 								AutomationProperties.Name="DateCreatedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -829,7 +829,7 @@
 								Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="27"
 								AutomationProperties.Name="ItemTypeColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -851,7 +851,7 @@
 								Visibility="{x:Bind ColumnsViewModel.SizeColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="29"
 								AutomationProperties.Name="SizeColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -875,7 +875,7 @@
 								Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="31"
 								AutomationProperties.Name="StatusColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
