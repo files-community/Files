@@ -2529,7 +2529,7 @@ namespace Files.App.ViewModels
 				else if (storageItem.IsOfType(StorageItemTypes.Folder))
 				{
 					var properties = await storageItem.AsBaseStorageFolder().GetBasicPropertiesAsync();
-					size = (long)properties.Size;
+					size = item.IsArchive ? (long)properties.Size : null;
 					modified = properties.DateModified;
 					created = properties.DateCreated;
 				}
