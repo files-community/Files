@@ -127,7 +127,7 @@
     <value>Pad kopiëren met aanhalingstekens</value>
   </data>
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
-    <value>Copy selected item path with quotes</value>
+    <value>Kopieer geselecteerde item pad inclusief aanhalingstekens</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Bladeren</value>
@@ -253,7 +253,7 @@
     <value>Plakken</value>
   </data>
   <data name="PasteShortcut" xml:space="preserve">
-    <value>Paste shortcut</value>
+    <value>Plak snelkoppeling</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nieuw</value>
@@ -298,7 +298,7 @@
     <value>Voer een itemnaam in</value>
   </data>
   <data name="CreateNewItemTitle" xml:space="preserve">
-    <value>Create new {0}</value>
+    <value>Nieuwe {0} aanmaken</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Licht</value>
@@ -1058,9 +1058,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Details (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tegels (Ctrl+Shift+2)</value>
-  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Datum verwijderd</value>
   </data>
@@ -1245,10 +1242,10 @@
     <value>Opslaginzicht openen</value>
   </data>
   <data name="OpenStorageSenseDescription" xml:space="preserve">
-    <value>Open the Storage Sense page in Windows Settings</value>
+    <value>Open de Storage Sense pagina in Windows-instellingen</value>
   </data>
   <data name="Cleanup" xml:space="preserve">
-    <value>Cleanup</value>
+    <value>Opruimen</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Kopiëren</value>
@@ -1658,15 +1655,6 @@
   <data name="Home" xml:space="preserve">
     <value>Start</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+1</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+6</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Het uitpakken van het archief is voltooid.</value>
   </data>
@@ -1724,8 +1712,8 @@
   <data name="Columns" xml:space="preserve">
     <value>Kolommen</value>
   </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Tegels</value>
+  <data name="Cards" xml:space="preserve">
+    <value>Cards</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Open mappen in nieuw tabblad</value>
@@ -1839,16 +1827,16 @@
     <value>Registreer dit programma voor herstart</value>
   </data>
   <data name="StartWindow" xml:space="preserve">
-    <value>Start window</value>
+    <value>Start scherm</value>
   </data>
   <data name="NormalWindow" xml:space="preserve">
-    <value>Normal window</value>
+    <value>Normaal scherm</value>
   </data>
   <data name="Minimized" xml:space="preserve">
-    <value>Minimized</value>
+    <value>Geminimaliseerd</value>
   </data>
   <data name="Maximized" xml:space="preserve">
-    <value>Maximized</value>
+    <value>Gemaximaliseerd</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Als administrator uitvoeren</value>
@@ -1959,7 +1947,7 @@
     <value>Andere tabbladen sluiten</value>
   </data>
   <data name="CloseAllTabs" xml:space="preserve">
-    <value>Close all tabs</value>
+    <value>Alle tabs sluiten</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>Muziek</value>
@@ -2208,7 +2196,7 @@
     <value>Wat is er nieuw</value>
   </data>
   <data name="WhatsNewDescription" xml:space="preserve">
-    <value>Open Release Notes</value>
+    <value>Uitgave opmerkingen openen</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Een snelkoppeling maken op deze locatie vereist beheerdersrechten</value>
@@ -2424,7 +2412,7 @@
     <value>Het pad van de geselecteerde items naar het klembord kopiëren</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Copy path of selected items to the clipboard</value>
+    <value>Het pad van de geselecteerde items naar het klembord kopiëren</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
     <value>Copy path of selected items with quotes to the clipboard</value>
@@ -2585,8 +2573,8 @@
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Overschakelen naar detailweergave</value>
   </data>
-  <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Overschakelen naar tegelweergave</value>
+  <data name="LayoutCardsDescription" xml:space="preserve">
+    <value>Switch to cards view</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Overschakelen naar lijstweergave</value>
@@ -3725,9 +3713,6 @@
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Vragen &amp; discussies</value>
-  </data>
-  <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Extra formaten zijn nog niet beschikbaar voor de tegelweergave.</value>
   </data>
   <data name="Compact" xml:space="preserve">
     <value>Compact</value>

@@ -1058,9 +1058,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Tiedot (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Laatat (Ctrl+Shift+2)</value>
-  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Poistopäivämäärä</value>
   </data>
@@ -1658,15 +1655,6 @@
   <data name="Home" xml:space="preserve">
     <value>Koti</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Vaihto+1</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Vaihto+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Vaihto+6</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Arkiston purkaminen onnistui.</value>
   </data>
@@ -1724,8 +1712,8 @@
   <data name="Columns" xml:space="preserve">
     <value>Sarakkeet</value>
   </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Laatat</value>
+  <data name="Cards" xml:space="preserve">
+    <value>Cards</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Avaa kansiot uudessa välilehdessä</value>
@@ -2585,8 +2573,8 @@
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Vaihda tietonäkymään</value>
   </data>
-  <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Vaihda laattanäkymään</value>
+  <data name="LayoutCardsDescription" xml:space="preserve">
+    <value>Switch to cards view</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Vaihda luettelonäkymään</value>
@@ -3725,9 +3713,6 @@
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Kysymykset ja keskustelut</value>
-  </data>
-  <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Lisäkokoja ei ole vielä saatavilla laatat View:lle.</value>
   </data>
   <data name="Compact" xml:space="preserve">
     <value>Kompakti</value>

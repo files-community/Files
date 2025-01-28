@@ -1058,9 +1058,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detalls (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Teules (Ctrl+Shift+2)</value>
-  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Data de supressió</value>
   </data>
@@ -1658,15 +1655,6 @@
   <data name="Home" xml:space="preserve">
     <value>Inici</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Maj+1</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Maj+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Maj+6</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>L'extracció del fitxer s'ha completat correctament.</value>
   </data>
@@ -1724,8 +1712,8 @@
   <data name="Columns" xml:space="preserve">
     <value>Columnes</value>
   </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Mosaic</value>
+  <data name="Cards" xml:space="preserve">
+    <value>Targetes</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Obre carpetes en una pestanya nova</value>
@@ -1839,16 +1827,16 @@
     <value>Registrar aquest programa per a reinici</value>
   </data>
   <data name="StartWindow" xml:space="preserve">
-    <value>Start window</value>
+    <value>Finestra d'inici</value>
   </data>
   <data name="NormalWindow" xml:space="preserve">
-    <value>Normal window</value>
+    <value>Finestra normal</value>
   </data>
   <data name="Minimized" xml:space="preserve">
-    <value>Minimized</value>
+    <value>Minimitzada</value>
   </data>
   <data name="Maximized" xml:space="preserve">
-    <value>Maximized</value>
+    <value>Maximitzada</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Executa com a administrador</value>
@@ -2585,8 +2573,8 @@
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Canvia a la vista de detalls</value>
   </data>
-  <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Canvia a la vista de mosaics</value>
+  <data name="LayoutCardsDescription" xml:space="preserve">
+    <value>Canvia a la vista de targetes</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Canvia a la vista de llista</value>
@@ -3725,9 +3713,6 @@
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Preguntes i discussions</value>
-  </data>
-  <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Mides addicionals encara no estan disponibles per a la Vista de Mosaics.</value>
   </data>
   <data name="Compact" xml:space="preserve">
     <value>Compacta</value>
