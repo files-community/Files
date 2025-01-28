@@ -1713,7 +1713,7 @@
     <value>Colonnes</value>
   </data>
   <data name="Cards" xml:space="preserve">
-    <value>Cards</value>
+    <value>Tuiles</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Ouvrir les dossiers dans un nouvel onglet</value>
@@ -2574,7 +2574,7 @@
     <value>Basculer en vue détaillée</value>
   </data>
   <data name="LayoutCardsDescription" xml:space="preserve">
-    <value>Switch to cards view</value>
+    <value>Basculer en vue tuiles</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Basculer en vue liste</value>

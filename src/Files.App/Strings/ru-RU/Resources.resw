@@ -2574,7 +2574,7 @@
     <value>Переключить на подробный вид</value>
   </data>
   <data name="LayoutCardsDescription" xml:space="preserve">
-    <value>Switch to cards view</value>
+    <value>Переключиться на просмотр в виде карточек</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Переключиться на вид списка</value>
