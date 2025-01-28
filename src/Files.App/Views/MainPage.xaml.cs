@@ -171,13 +171,6 @@ namespace Files.App.Views
 			{
 				SidebarAdaptiveViewModel.PaneHolder = currentInstance;
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
-
-				if (currentInstance.ActivePaneOrColumn is ModernShellPage msh &&
-					msh.ItemDisplayFrame.Content is HomePage homePage &&
-					homePage.ViewModel.RequiresUpdate)
-				{
-					await homePage.ViewModel.RefreshWidgetProperties();
-				}
 			}
 			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments)?.LeftPaneNavPathParam);
 

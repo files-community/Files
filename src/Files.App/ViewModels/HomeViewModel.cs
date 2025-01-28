@@ -16,8 +16,6 @@ namespace Files.App.ViewModels
 
 		public ObservableCollection<WidgetContainerItem> WidgetItems { get; } = [];
 
-		public bool RequiresUpdate { get; private set; } = false;
-
 		// Commands
 
 		public ICommand HomePageLoadedCommand { get; }
@@ -104,8 +102,6 @@ namespace Files.App.ViewModels
 						() => UserSettingsService.GeneralSettingsService.RecentFilesWidgetExpanded),
 					insertIndex++);
 			}
-
-			RequiresUpdate = true;
 		}
 
 		public void RefreshWidgetList()
