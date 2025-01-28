@@ -436,7 +436,7 @@
 					Padding="0"
 					HorizontalAlignment="Left"
 					VerticalAlignment="Stretch"
-					Background="Transparent"
+					Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 					BorderThickness="1"
 					CornerRadius="8"
@@ -553,7 +553,7 @@
 									x:Name="ItemName"
 									MaxLines="{Binding ElementName=PageRoot, Path=CardsViewItemNameMaxLines, Mode=OneWay}"
 									Opacity="{x:Bind Opacity, Mode=OneWay}"
-									Style="{ThemeResource BodyStrongTextBlockStyle}"
+									Style="{ThemeResource App.Theme.BodyStrongTextBlockStyle}"
 									Text="{x:Bind Name, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="Wrap" />
@@ -561,7 +561,7 @@
 								<!--  Item Type  -->
 								<TextBlock
 									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-									Style="{ThemeResource CaptionTextBlockStyle}"
+									Style="{ThemeResource App.Theme.CaptionTextBlockStyle}"
 									Text="{x:Bind ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap" />
@@ -781,8 +781,9 @@
 			</Setter>
 		</Style>
 
+		<!--  Regular List Container Style  -->
 		<Style
-			x:Name="DefaultItemContainerStyle"
+			x:Name="LocalListItemContainerStyle"
 			BasedOn="{StaticResource DefaultGridViewItemStyle}"
 			TargetType="GridViewItem">
 			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -849,8 +850,9 @@
 			</Setter>
 		</Style>
 
+		<!--  Compact List Container Style  -->
 		<Style
-			x:Name="CompactListItemContainerStyle"
+			x:Name="LocalCompactListItemContainerStyle"
 			BasedOn="{StaticResource DefaultGridViewItemStyle}"
 			TargetType="GridViewItem">
 			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -918,11 +920,12 @@
 			</Setter>
 		</Style>
 
+		<!--  Regular Container Style  -->
 		<Style
-			x:Name="CardsItemContainerStyle"
+			x:Name="LocalRegularItemContainerStyle"
 			BasedOn="{StaticResource DefaultGridViewItemStyle}"
 			TargetType="GridViewItem">
-			<Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+			<Setter Property="Background" Value="Transparent" />
 			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 			<Setter Property="HorizontalAlignment" Value="Stretch" />
 			<Setter Property="MinHeight" Value="1" />
