@@ -14,6 +14,12 @@ namespace Files.App.UserControls.Menus
 		private IFileTagsSettingsService FileTagsSettingsService { get; } =
 			Ioc.Default.GetService<IFileTagsSettingsService>();
 
+		/// <summary>
+		/// Event fired when an item's tags are updated (added/removed).
+		/// Used to refresh groups in ShellViewModel.
+		/// </summary>
+		public event EventHandler? TagsChanged;
+
 		public IEnumerable<ListedItem> SelectedItems { get; }
 
 		public FileTagsContextMenu(IEnumerable<ListedItem> selectedItems)
@@ -81,6 +87,7 @@ namespace Files.App.UserControls.Menus
 					selectedItem.FileTags = tagList;
 				}
 			}
+			TagsChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		private void AddFileTag(IEnumerable<ListedItem> selectedListedItems, TagViewModel added)
@@ -93,6 +100,7 @@ namespace Files.App.UserControls.Menus
 					selectedItem.FileTags = [.. existingTags, added.Uid];
 				}
 			}
+			TagsChanged?.Invoke(this, EventArgs.Empty);
 		}
 	}
 }
