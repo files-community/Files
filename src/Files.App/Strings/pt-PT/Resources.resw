@@ -1713,7 +1713,7 @@
     <value>Colunas</value>
   </data>
   <data name="Cards" xml:space="preserve">
-    <value>Cards</value>
+    <value>Cartões</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Abrir pastas em novo separador</value>
@@ -2574,7 +2574,7 @@
     <value>Trocar para a vista de detalhes</value>
   </data>
   <data name="LayoutCardsDescription" xml:space="preserve">
-    <value>Switch to cards view</value>
+    <value>Trocar para vista em cartões</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Trocar para vista de lista</value>
