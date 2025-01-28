@@ -204,7 +204,7 @@
 							Grid.Row="1"
 							Margin="0,8,0,8"
 							ColumnSpacing="4"
-							Visibility="{x:Bind IsInProgress, Mode=OneWay}">
+							Visibility="{x:Bind IsInProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
@@ -233,7 +233,7 @@
 								BorderBrush="{ThemeResource ControlStrongStrokeColorDefaultBrush}"
 								BorderThickness="1"
 								CornerRadius="4"
-								Visibility="{x:Bind IsExpanded, Mode=OneWay}">
+								Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 
 								<Grid Padding="-2,-2,-2,-2">
 									<local:SpeedGraph Points="{x:Bind SpeedGraphValues, Mode=OneWay}" />
@@ -284,7 +284,7 @@
 									Visibility="{x:Bind IsExpanded, Converter={StaticResource NegateBoolToVisibilityConverter}, Mode=OneWay}" />
 
 								<!--  Detailed Info (Displayed When Graph Expanded)  -->
-								<StackPanel Spacing="2" Visibility="{x:Bind IsExpanded, Mode=OneWay}">
+								<StackPanel Spacing="2" Visibility="{x:Bind IsExpanded, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 
 									<TextBlock
 										x:Name="StatusCenterItemCurrentProcessingItemNameTextBlock"
@@ -329,7 +329,7 @@
 									DataContext="{x:Bind}"
 									IsEnabled="{x:Bind IsCancelable, Mode=OneWay}"
 									ToolTipService.ToolTip="{helpers:ResourceString Name=Cancel}"
-									Visibility="{x:Bind IsInProgress, Mode=OneWay}">
+									Visibility="{x:Bind IsInProgress, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 									<Button.Content>
 										<FontIcon FontSize="16" Glyph="&#xE711;" />
 									</Button.Content>

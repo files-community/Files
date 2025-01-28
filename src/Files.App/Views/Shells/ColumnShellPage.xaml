@@ -14,6 +14,7 @@
 
 	<local:BaseShellPage.Resources>
 		<ResourceDictionary>
+			<wctconverters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		</ResourceDictionary>
 	</local:BaseShellPage.Resources>

@@ -81,6 +81,10 @@
 			x:Key="NegatedBoolToOpacityConverter"
 			FalseValue="1"
 			TrueValue="0" />
+		<wctconverters:BoolToVisibilityConverter
+			x:Key="BoolToVisibilityConverter"
+			FalseValue="Collapsed"
+			TrueValue="Visible" />
 		<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 
 		<!--  Grid View  -->
@@ -1075,14 +1079,14 @@
 											FontSize="14"
 											Style="{StaticResource SubheaderTextBlockStyle}"
 											Text="{x:Bind Model.Subtext, Mode=OneWay}"
-											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay}" />
+											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 										<TextBlock
 											Grid.Row="1"
 											Grid.ColumnSpan="3"
 											Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 											Text="{x:Bind Model.CountText, Mode=OneWay}"
-											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay}" />
+											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 									</Grid>
 								</DataTemplate>
@@ -1164,7 +1168,7 @@
 									Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 									Style="{StaticResource SubheaderTextBlockStyle}"
 									Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
-									Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay}" />
+									Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 								<TextBlock
 									Grid.Row="1"
@@ -1173,7 +1177,7 @@
 									Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 									Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 									Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-									Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay}" />
+									Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 							</Grid>
 						</DataTemplate>

@@ -59,6 +59,8 @@
 				</ResourceDictionary>
 			</ResourceDictionary.MergedDictionaries>
 
+			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
 		</ResourceDictionary>
 	</local:BaseTabBar.Resources>
 
@@ -104,7 +106,7 @@
 					Background="Transparent"
 					BorderThickness="0"
 					ToolTipService.ToolTip="{helpers:ResourceString Name=TabActions}"
-					Visibility="{x:Bind ShowTabActionsButton, Mode=OneWay}">
+					Visibility="{x:Bind ShowTabActionsButton, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
 
 					<controls:ThemedIcon
 						Width="16"
