@@ -9,7 +9,6 @@ namespace Files.App.Views
 	public sealed partial class HomePage : Page, IDisposable
 	{
 		// Dependency injections
-		private readonly IMultitaskingContext _multitaskingContext = Ioc.Default.GetRequiredService<IMultitaskingContext>();
 
 		public HomeViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<HomeViewModel>();
 
@@ -72,8 +71,7 @@ namespace Files.App.Views
 
 			AppInstance.ToolbarViewModel.PathComponents.Add(item);
 
-			if (_multitaskingContext.Control is not null)
-				_multitaskingContext.Control.CurrentInstanceChanged += MultitaskingControl_CurrentInstanceChanged;
+			await ViewModel.RefreshWidgetProperties();
 
 			base.OnNavigatedTo(e);
 		}
@@ -83,23 +81,10 @@ namespace Files.App.Views
 			Dispose();
 		}
 
-		private async void MultitaskingControl_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
-		{
-			if (e.CurrentInstance is IShellPanesPage currentInstance &&
-				currentInstance.ActivePaneOrColumn is ModernShellPage msh &&
-				msh.ItemDisplayFrame.Content is HomePage)
-			{
-				await ViewModel.RefreshWidgetProperties();
-			}
-		}
-
 		// Disposer
 
 		public void Dispose()
 		{
-			if (_multitaskingContext.Control is not null)
-				_multitaskingContext.Control.CurrentInstanceChanged -= MultitaskingControl_CurrentInstanceChanged;
-
 			ViewModel?.Dispose();
 		}
 	}
