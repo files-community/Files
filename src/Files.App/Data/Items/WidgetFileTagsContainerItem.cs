@@ -21,6 +21,8 @@ namespace Files.App.Data.Items
 
 		public ObservableCollection<WidgetFileTagCardItem> Tags { get; }
 
+		public string Uid => _tagUid;
+
 		private string? _Color;
 		public string? Color
 		{
