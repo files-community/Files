@@ -328,7 +328,7 @@ namespace Files.App.Views.Layouts
 					FileList.ItemContainerStyle = LocalCompactListItemContainerStyle;
 
 					// Set correct style
-					FileList.ItemContainerStyle = LocalRegularItemContainerStyle;
+					FileList.ItemContainerStyle = LocalListItemContainerStyle;
 				}
 			}
 		}
