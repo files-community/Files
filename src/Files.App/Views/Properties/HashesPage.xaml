@@ -109,7 +109,6 @@
 										Text="SHA1" />
 									<ToggleMenuFlyoutItem
 										Click="ToggleMenuFlyoutItem_Click"
-										Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
 										CommandParameter="SHA256"
 										IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA256']}"
 										Text="SHA256" />
@@ -201,5 +200,56 @@
 			</ListView>
 		</Grid>
 
+		<!--  Hash Comparison Section  -->
+		<Grid
+			x:Name="HashComparisonGrid"
+			Margin="12,0,12,12"
+			VerticalAlignment="Bottom"
+			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+			BorderThickness="1"
+			CornerRadius="4">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+
+			<!--  Algorithm Selection  -->
+			<ComboBox
+				x:Name="AlgorithmComboBox"
+				Grid.Row="0"
+				Grid.Column="0"
+				Margin="12"
+				DisplayMemberPath="Algorithm"
+				ItemsSource="{x:Bind HashesViewModel.Hashes}"
+				PlaceholderText="{helpers:ResourceString Name=SelectAlgorithm}"
+				SelectedValue="{x:Bind HashesViewModel.SelectedItem.Algorithm, Mode=TwoWay}"
+				SelectedValuePath="Algorithm"
+				SelectionChanged="AlgorithmComboBox_SelectionChanged" />
+
+			<!--  Hash Input  -->
+			<TextBox
+				x:Name="HashInputTextBox"
+				Grid.Row="0"
+				Grid.Column="1"
+				Margin="12"
+				PlaceholderText="{helpers:ResourceString Name=EnterHashToCompare}"
+				TextChanged="HashInputTextBox_TextChanged" />
+
+			<!--  Comparison Result  -->
+			<TextBlock
+				x:Name="ComparisonResultTextBlock"
+				Grid.Row="0"
+				Grid.Column="2"
+				Margin="12"
+				VerticalAlignment="Center"
+				Style="{StaticResource App.Theme.BodyTextBlockStyle}" />
+		</Grid>
 	</Grid>
 </vm:BasePropertiesPage>
+
