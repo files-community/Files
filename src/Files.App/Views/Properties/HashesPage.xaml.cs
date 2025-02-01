@@ -46,6 +46,24 @@ namespace Files.App.Views.Properties
 			_cancel = true;
 		}
 
+		private void HashInputTextBox_TextChanged(object sender, TextChangedEventArgs e)
+			=> CompareHashes();
+
+		private void AlgorithmComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+			=> CompareHashes();
+
+		private void CompareHashes()
+		{
+			var selectedAlgorithm = AlgorithmComboBox.SelectedValue as string;
+			var hashToCompare = HashInputTextBox.Text;
+
+			if (string.IsNullOrEmpty(selectedAlgorithm) || string.IsNullOrEmpty(hashToCompare))
+				return;
+
+			var result = HashesViewModel.CompareHash(selectedAlgorithm, hashToCompare);
+			ComparisonResultTextBlock.Text = result ? Strings.HashesMatch.GetLocalizedResource() : Strings.HashesDoNotMatch.GetLocalizedResource();
+		}
+
 		private void MenuFlyout_Closing(FlyoutBase sender, FlyoutBaseClosingEventArgs e)
 		{
 			e.Cancel = _cancel;

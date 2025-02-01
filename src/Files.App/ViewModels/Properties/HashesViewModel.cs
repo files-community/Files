@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.Shared.Helpers;
@@ -118,6 +118,17 @@ namespace Files.App.ViewModels.Properties
 					}
 				});
 			}
+		}
+
+		public bool CompareHash(string algorithm, string hashToCompare)
+		{
+			var hashInfoItem = Hashes.FirstOrDefault(x => x.Algorithm == algorithm);
+			if (hashInfoItem == null || hashInfoItem.HashValue == null)
+			{
+				return false;
+			}
+
+			return hashInfoItem.HashValue.Equals(hashToCompare, StringComparison.OrdinalIgnoreCase);
 		}
 
 		public void Dispose()
