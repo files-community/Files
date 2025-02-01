@@ -5,10 +5,12 @@ using Files.App.Data.Parameters;
 using Files.App.Utils;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Navigation;
 using System.Threading.Tasks;
+using Windows.UI;
 
 namespace Files.App.Views.Properties
 {
@@ -49,19 +51,32 @@ namespace Files.App.Views.Properties
 		private void HashInputTextBox_TextChanged(object sender, TextChangedEventArgs e)
 			=> CompareHashes();
 
-		private void AlgorithmComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-			=> CompareHashes();
-
 		private void CompareHashes()
 		{
-			var selectedAlgorithm = AlgorithmComboBox.SelectedValue as string;
 			var hashToCompare = HashInputTextBox.Text;
 
-			if (string.IsNullOrEmpty(selectedAlgorithm) || string.IsNullOrEmpty(hashToCompare))
+			if (string.IsNullOrEmpty(hashToCompare))
+			{
+				HashMatchIcon.Visibility = Visibility.Collapsed;
 				return;
+			}
 
-			var result = HashesViewModel.CompareHash(selectedAlgorithm, hashToCompare);
-			ComparisonResultTextBlock.Text = result ? Strings.HashesMatch.GetLocalizedResource() : Strings.HashesDoNotMatch.GetLocalizedResource();
+			foreach (var hashInfo in HashesViewModel.Hashes)
+			{
+				if (hashInfo.HashValue != null && hashInfo.HashValue.Equals(hashToCompare, StringComparison.OrdinalIgnoreCase))
+				{
+					HashMatchIcon.Glyph = "\uE73E"; // Check mark
+					//HashMatchIcon.Foreground = new SolidColorBrush(Colors.Green);
+					ToolTipService.SetToolTip(HashMatchIcon, string.Format(Strings.HashesMatch.GetLocalizedResource(), hashInfo.Algorithm));
+					HashMatchIcon.Visibility = Visibility.Visible;
+					return;
+				}
+			}
+
+			HashMatchIcon.Glyph = "\uE711"; // Cross mark
+			//HashMatchIcon.Foreground = new SolidColorBrush(Colors.Red);
+			ToolTipService.SetToolTip(HashMatchIcon, Strings.HashesDoNotMatch.GetLocalizedResource());
+			HashMatchIcon.Visibility = Visibility.Visible;
 		}
 
 		private void MenuFlyout_Closing(FlyoutBase sender, FlyoutBaseClosingEventArgs e)

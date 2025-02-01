@@ -211,45 +211,35 @@
 			CornerRadius="4">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 
-			<!--  Algorithm Selection  -->
-			<ComboBox
-				x:Name="AlgorithmComboBox"
+			<!--  Hash Input  -->
+			<Grid
 				Grid.Row="0"
 				Grid.Column="0"
-				Margin="12"
-				DisplayMemberPath="Algorithm"
-				ItemsSource="{x:Bind HashesViewModel.Hashes}"
-				PlaceholderText="{helpers:ResourceString Name=SelectAlgorithm}"
-				SelectedValue="{x:Bind HashesViewModel.SelectedItem.Algorithm, Mode=TwoWay}"
-				SelectedValuePath="Algorithm"
-				SelectionChanged="AlgorithmComboBox_SelectionChanged" />
+				Margin="12">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
 
-			<!--  Hash Input  -->
-			<TextBox
-				x:Name="HashInputTextBox"
-				Grid.Row="0"
-				Grid.Column="1"
-				Margin="12"
-				PlaceholderText="{helpers:ResourceString Name=EnterHashToCompare}"
-				TextChanged="HashInputTextBox_TextChanged" />
+				<TextBox
+					x:Name="HashInputTextBox"
+					Grid.Column="0"
+					PlaceholderText="{helpers:ResourceString Name=EnterHashToCompare}"
+					TextChanged="HashInputTextBox_TextChanged" />
 
-			<!--  Comparison Result  -->
-			<TextBlock
-				x:Name="ComparisonResultTextBlock"
-				Grid.Row="0"
-				Grid.Column="2"
-				Margin="12"
-				VerticalAlignment="Center"
-				Style="{StaticResource App.Theme.BodyTextBlockStyle}" />
+				<FontIcon
+					x:Name="HashMatchIcon"
+					Grid.Column="1"
+					Margin="8,0,0,0"
+					VerticalAlignment="Center"
+					Visibility="Collapsed" />
+			</Grid>
 		</Grid>
 	</Grid>
 </vm:BasePropertiesPage>
-
