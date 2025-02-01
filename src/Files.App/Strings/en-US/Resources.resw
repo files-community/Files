@@ -4113,6 +4113,22 @@
     <value>Add to shelf</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
   </data>
+  <data name="SelectAlgorithm" xml:space="preserve">
+    <value>Select algorithm</value>
+    <comment>Placeholder that displays in the hash properties combo box</comment>
+  </data>
+  <data name="EnterHashToCompare" xml:space="preserve">
+    <value>Enter a hash to compare</value>
+    <comment>Placeholder that appears in the compare hash text box</comment>
+  </data>
+  <data name="HashesMatch" xml:space="preserve">
+    <value>Hashes match!</value>
+    <comment>Appears when two compared hashes match</comment>
+  </data>
+  <data name="HashesDoNotMatch" xml:space="preserve">
+    <value>Hashes don't match</value>
+    <comment>Appears when two compared hashes don't match</comment>
+  </data>
   <data name="PathOrAlias" xml:space="preserve">
     <value>Path or alias</value>
   </data>
