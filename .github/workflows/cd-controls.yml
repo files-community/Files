@@ -79,4 +79,4 @@ jobs:
       run: dotnet pack ${{ env.PACKAGE_PROJECT_PATH }} --configuration Release --no-build -o ./output -p:Version=${{ steps.extract_version.outputs.version }}
 
     - name: Publish package to NuGet
-      run: dotnet nuget push ./output/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ./output/*.nupkg --api-key (SECRET GOES HERE) --source https://api.nuget.org/v3/index.json
