@@ -1,5 +1,4 @@
 > These controls are provided "as is", with no guaranteed support, but we hope they prove useful to the developer community.
- 
 # 📁 Files UI Controls
 
 ##### Elevate your WinUI applications with our collection of custom-built controls, crafted specifically to address our needs in Files.
