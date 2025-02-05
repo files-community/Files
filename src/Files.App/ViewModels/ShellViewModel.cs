@@ -1098,21 +1098,21 @@ namespace Files.App.ViewModels
 			var thumbnailMode = thumbnailSize < 96 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
 
 			// We use ReturnOnlyIfCached because otherwise folders thumbnails have a black background, this has the downside the folder previews don't work
-			using StorageItemThumbnail Thumbnail = matchingStorageItem switch
+			using StorageItemThumbnail thumbnail = matchingStorageItem switch
 			{
 				BaseStorageFile file => await FilesystemTasks.Wrap(() => file.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask()),
-				BaseStorageFolder folder => await FilesystemTasks.Wrap(() => folder.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached).AsTask()),
+				BaseStorageFolder folder => await FilesystemTasks.Wrap(() => folder.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached).AsTask()),
 				_ => new (null!, FileSystemStatusCode.Generic)
 			};
 
-			if (Thumbnail is not null && Thumbnail.Size != 0 && Thumbnail.OriginalHeight != 0 && Thumbnail.OriginalWidth != 0)
+			if (thumbnail is not null && thumbnail.Size != 0 && thumbnail.OriginalHeight != 0 && thumbnail.OriginalWidth != 0)
 			{
 				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
 					var img = new BitmapImage();
 					img.DecodePixelType = DecodePixelType.Logical;
 					img.DecodePixelWidth = (int)thumbnailSize;
-					await img.SetSourceAsync(Thumbnail);
+					await img.SetSourceAsync(thumbnail);
 					item.FileImage = img;
 				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
 
