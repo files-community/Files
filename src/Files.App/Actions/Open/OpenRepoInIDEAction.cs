@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.UI.Xaml.Controls;
+
 namespace Files.App.Actions
-{
+{	
 	internal sealed class OpenRepoInIDEAction : ObservableObject, IAction
 	{
 		private readonly IDevToolsSettingsService _devToolsSettingsService;
@@ -28,12 +30,15 @@ namespace Files.App.Actions
 			_devToolsSettingsService.PropertyChanged += DevSettings_PropertyChanged;
 		}
 
-		public Task ExecuteAsync(object? parameter = null)
+		public async Task ExecuteAsync(object? parameter = null)
 		{
-			return Win32Helper.RunPowershellCommandAsync(
+			var res = await Win32Helper.RunPowershellCommandAsync(
 				$"& \'{_devToolsSettingsService.IDEPath}\' \'{_context.ShellPage!.InstanceViewModel.GitRepositoryPath}\'",
 				PowerShellExecutionOptions.Hidden
 			);
+
+			if (!res)
+				await ShowErrorDialog();
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -52,6 +57,25 @@ namespace Files.App.Actions
 			{
 				OnPropertyChanged(nameof(Label));
 				OnPropertyChanged(nameof(Description));
+			}
+		}
+
+		private async Task ShowErrorDialog()
+		{
+			var commands = Ioc.Default.GetRequiredService<ICommandManager>();
+			var errorDialog = new ContentDialog()
+			{
+				Title = Strings.IDEError.GetLocalizedResource(),
+				Content = Strings.SelectedIDENotValid.GetLocalizedResource(),
+				PrimaryButtonText = Strings.OK.GetLocalizedResource(),
+				SecondaryButtonText = Strings.EditInSettings.GetLocalizedResource(),
+			};
+
+			if (await errorDialog.TryShowAsync() == ContentDialogResult.Secondary)
+			{
+				await commands.OpenSettings.ExecuteAsync(
+					new SettingsNavigationParams() { PageKind = SettingsPageKind.DevToolsPage }
+				);
 			}
 		}
 	}

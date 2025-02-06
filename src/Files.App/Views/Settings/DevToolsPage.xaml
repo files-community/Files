@@ -247,7 +247,7 @@
 							<Button
 								Command="{x:Bind ViewModel.SaveIDEChangesCommand, Mode=OneWay}"
 								Content="{helpers:ResourceString Name=Save}"
-								IsEnabled="{x:Bind ViewModel.CanSaveIDEChanges, Mode=OneWay}"
+								IsEnabled="{x:Bind ViewModel.CanSaveIDEChanges, Mode=OneWay, FallbackValue=False}"
 								Style="{StaticResource AccentButtonStyle}" />
 						</StackPanel>
 					</StackPanel>
