@@ -1095,25 +1095,28 @@ namespace Files.App.ViewModels
 			var thumbnailSize = LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
 			// SingleItem returns image thumbnails in the correct aspect ratio for the grid layouts
 			// ListView is used for the details and columns layout
-			var thumbnailMode = thumbnailSize < 96 ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
-
 			// We use ReturnOnlyIfCached because otherwise folders thumbnails have a black background, this has the downside the folder previews don't work
-			using StorageItemThumbnail thumbnail = matchingStorageItem switch
+			var (thumbnailMode, thumbnailOptions) = matchingStorageItem switch
 			{
-				BaseStorageFile file => await FilesystemTasks.Wrap(() => file.GetThumbnailAsync(thumbnailMode, thumbnailSize, ThumbnailOptions.ResizeThumbnail).AsTask()),
-				BaseStorageFolder folder => await FilesystemTasks.Wrap(() => folder.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached).AsTask()),
-				_ => new (null!, FileSystemStatusCode.Generic)
+				BaseStorageFolder => (ThumbnailMode.SingleItem, ThumbnailOptions.ReturnOnlyIfCached),
+				BaseStorageFile when thumbnailSize < 96 => (ThumbnailMode.ListView, ThumbnailOptions.ResizeThumbnail),
+				_ => (ThumbnailMode.SingleItem, ThumbnailOptions.ResizeThumbnail),
 			};
 
-			if (thumbnail is not null && thumbnail.Size != 0 && thumbnail.OriginalHeight != 0 && thumbnail.OriginalWidth != 0)
+			var result = await FileThumbnailHelper.GetIconAsync(
+						matchingStorageItem, 
+						thumbnailSize, 
+						thumbnailMode, 
+						thumbnailOptions);
+
+			if (result is not null)
 			{
 				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					var img = new BitmapImage();
-					img.DecodePixelType = DecodePixelType.Logical;
-					img.DecodePixelWidth = (int)thumbnailSize;
-					await img.SetSourceAsync(thumbnail);
-					item.FileImage = img;
+					// Assign FileImage property
+					var image = await result.ToBitmapAsync();
+					if (image is not null)
+						item.FileImage = image;
 				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
 
 				return true;
