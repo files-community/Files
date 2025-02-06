@@ -4055,4 +4055,16 @@
   <data name="Test" xml:space="preserve">
     <value>Test</value>
   </data>
+  <data name="SelectedIDENotValid" xml:space="preserve">
+    <value>Selected IDE is not valid</value>
+  </data>
+  <data name="IDEError" xml:space="preserve">
+    <value>IDE Error</value>
+  </data>
+  <data name="EditInSettings" xml:space="preserve">
+    <value>Edit in settings</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
 </root>
