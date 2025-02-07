@@ -312,7 +312,7 @@ namespace Files.App.Views
 			if (Package.Current.Id.Name != "49306atecsolution.FilesUWP" || UserSettingsService.ApplicationSettingsService.ClickedToReviewApp)
 				return;
 
-			var totalLaunchCount = App.TotalLaunchCount;
+			var totalLaunchCount = AppLifecycleHelper.TotalLaunchCount;
 			if (totalLaunchCount is 50 or 200)
 			{
 				// Prompt user to review app in the Store

@@ -5,7 +5,6 @@ using Files.App.Helpers.Application;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.Win32;
 using Microsoft.Windows.AppLifecycle;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -18,38 +17,6 @@ namespace Files.App
 	/// </summary>
 	public partial class App : Application
 	{
-		internal readonly static string AppInformationKey = @$"Software\Files Community\{Package.Current.Id.Name}\v1\AppInformation";
-
-		public static bool IsAppUpdated { get; }
-		public static bool IsFirstRun { get; }
-		public static long TotalLaunchCount { get; }
-
-		static App()
-		{
-			using var infoKey = Registry.CurrentUser.CreateSubKey(AppInformationKey);
-			var version = infoKey.GetValue("LastLaunchVersion");
-			var launchCount = infoKey.GetValue("TotalLaunchCount");
-			if (version is null)
-			{
-				IsAppUpdated = true;
-				IsFirstRun = true;
-			}
-			else
-			{
-				IsAppUpdated = version.ToString() != Package.Current.Id.Version.ToString();
-			}
-			if (launchCount is long l)
-			{
-				TotalLaunchCount = l + 1;
-			}
-			else
-			{
-				TotalLaunchCount = 1;
-			}
-			infoKey.SetValue("LastLaunchVersion", Package.Current.Id.Version.ToString()!);
-			infoKey.SetValue("TotalLaunchCount", TotalLaunchCount);
-		}
-
 		public static SystemTrayIcon? SystemTrayIcon { get; private set; }
 
 		public static TaskCompletionSource? SplashScreenLoadingTCS { get; private set; }

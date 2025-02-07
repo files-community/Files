@@ -9,6 +9,7 @@ using Files.App.ViewModels.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
 using Sentry;
 using Sentry.Protocol;
 using System.IO;
@@ -26,6 +27,42 @@ namespace Files.App.Helpers
 	/// </summary>
 	public static class AppLifecycleHelper
 	{
+		private readonly static string AppInformationKey = @$"Software\Files Community\{Package.Current.Id.Name}\v1\AppInformation";
+
+		/// <summary>
+		/// Gets the value that indicates whether the app is updated.
+		/// </summary>
+		public static bool IsAppUpdated { get; }
+
+		/// <summary>
+		/// Gets the value that indicates whether the app is running for the first time.
+		/// </summary>
+		public static bool IsFirstRun { get; }
+
+		/// <summary>
+		/// Gets the value that indicates the total launch count of the app.
+		/// </summary>
+		public static long TotalLaunchCount { get; }
+
+		static AppLifecycleHelper()
+		{
+			using var infoKey = Registry.CurrentUser.CreateSubKey(AppInformationKey);
+			var version = infoKey.GetValue("LastLaunchVersion");
+			var launchCount = infoKey.GetValue("TotalLaunchCount");
+			if (version is null)
+			{
+				IsAppUpdated = true;
+				IsFirstRun = true;
+			}
+			else
+			{
+				IsAppUpdated = version.ToString() != Package.Current.Id.Version.ToString();
+			}
+			TotalLaunchCount = launchCount is long l ? l + 1 : 1;
+			infoKey.SetValue("LastLaunchVersion", Package.Current.Id.Version.ToString()!);
+			infoKey.SetValue("TotalLaunchCount", TotalLaunchCount);
+		}
+
 		/// <summary>
 		/// Gets the value that provides application environment or branch name.
 		/// </summary>

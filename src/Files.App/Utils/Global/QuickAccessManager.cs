@@ -43,7 +43,7 @@ namespace Files.App.Utils
 		{
 			PinnedItemsModified += Model.LoadAsync;
 
-			if (!Model.PinnedFolders.Contains(Constants.UserEnvironmentPaths.RecycleBinPath) && App.IsFirstRun)
+			if (!Model.PinnedFolders.Contains(Constants.UserEnvironmentPaths.RecycleBinPath) && AppLifecycleHelper.IsFirstRun)
 				await QuickAccessService.PinToSidebarAsync(Constants.UserEnvironmentPaths.RecycleBinPath);
 
 			await Model.LoadAsync();

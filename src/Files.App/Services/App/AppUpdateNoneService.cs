@@ -8,7 +8,7 @@ namespace Files.App.Services
 
 		public bool IsUpdating => false;
 
-		public bool IsAppUpdated => App.IsAppUpdated;
+		public bool IsAppUpdated => AppLifecycleHelper.IsAppUpdated;
 
 		private bool _areReleaseNotesAvailable = false;
 		public bool AreReleaseNotesAvailable

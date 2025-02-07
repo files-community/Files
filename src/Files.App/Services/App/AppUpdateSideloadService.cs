@@ -55,7 +55,7 @@ namespace Files.App.Services
 
 		public bool IsAppUpdated
 		{
-			get => App.IsAppUpdated;
+			get => AppLifecycleHelper.IsAppUpdated;
 		}
 
 		private bool _areReleaseNotesAvailable = false;
