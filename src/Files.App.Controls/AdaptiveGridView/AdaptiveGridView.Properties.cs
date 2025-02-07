@@ -19,7 +19,8 @@ namespace Files.App.Controls
 	/// The number and the width of items are calculated based on the
 	/// screen resolution in order to fully leverage the available screen space. The property ItemsHeight define
 	/// the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a
-	/// new column.</remarks>
+	/// new column.
+	/// </remarks>
 	public partial class AdaptiveGridView
 	{
 		/// <summary>
