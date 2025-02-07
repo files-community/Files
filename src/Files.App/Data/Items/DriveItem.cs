@@ -6,15 +6,15 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
-using Windows.Storage.Streams;
+using Windows.Storage.FileProperties;
 using ByteSize = ByteSizeLib.ByteSize;
 
 namespace Files.App.Data.Items
 {
 	public sealed class DriveItem : ObservableObject, INavigationControlItem, ILocatableFolder
 	{
-		private BitmapImage icon;
-		public BitmapImage Icon
+		private BitmapImage? icon;
+		public BitmapImage? Icon
 		{
 			get => icon;
 			set
@@ -24,7 +24,7 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public byte[] IconData { get; set; }
+		public byte[]? IconData { get; set; }
 
 		private string path;
 		public string Path
@@ -232,12 +232,11 @@ namespace Files.App.Data.Items
 			DriveHelpers.EjectDeviceAsync(Path);
 		}
 
-		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, IRandomAccessStream imageStream = null)
+		public static async Task<DriveItem> CreateFromPropertiesAsync(StorageFolder root, string deviceId, string label, DriveType type, byte[]? imageData = null)
 		{
 			var item = new DriveItem();
 
-			if (imageStream is not null)
-				item.IconData = await imageStream.ToByteArrayAsync();
+			item.IconData = imageData;
 
 			item.Text = type switch
 			{
@@ -336,8 +335,7 @@ namespace Files.App.Data.Items
 
 			if (Root is not null)
 			{
-				using var thumbnail = await DriveHelpers.GetThumbnailAsync(Root);
-				IconData ??= thumbnail is not null ? await thumbnail.ToByteArrayAsync() : null;
+				IconData ??= await FileThumbnailHelper.GetIconAsync(Root, 40, ThumbnailMode.SingleItem, ThumbnailOptions.UseCurrentScale);
 			}
 
 			if (string.Equals(DeviceID, "network-folder"))

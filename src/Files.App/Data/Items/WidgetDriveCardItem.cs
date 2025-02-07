@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Storage.FileProperties;
 
 namespace Files.App.Data.Items
 {
@@ -34,8 +35,7 @@ namespace Files.App.Data.Items
 
 			if (result is null)
 			{
-				using var thumbnail = await DriveHelpers.GetThumbnailAsync(Item.Root);
-				result ??= await thumbnail.ToByteArrayAsync();
+				result ??= await FileThumbnailHelper.GetIconAsync(Item.Root, 40, ThumbnailMode.SingleItem, ThumbnailOptions.UseCurrentScale);
 			}
 
 			thumbnailData = result;
