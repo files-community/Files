@@ -1,4 +1,7 @@
-﻿using Microsoft.UI.Input;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Controls
@@ -205,7 +208,7 @@ namespace Files.App.Controls
 			var gridSplitter = (GridSplitter)d;
 
 			gridSplitter._hoverWrapper?.UpdateHoverElement(gridSplitter.CursorBehavior ==
-														   SplitterCursorBehavior.ChangeOnSplitterHover
+				SplitterCursorBehavior.ChangeOnSplitterHover
 				? gridSplitter
 				: gridSplitter.Element);
 		}
@@ -215,7 +218,7 @@ namespace Files.App.Controls
 			var gridSplitter = (GridSplitter)d;
 
 			gridSplitter._hoverWrapper?.UpdateHoverElement(gridSplitter.CursorBehavior ==
-														   SplitterCursorBehavior.ChangeOnSplitterHover
+				SplitterCursorBehavior.ChangeOnSplitterHover
 				? gridSplitter
 				: gridSplitter.Element);
 		}

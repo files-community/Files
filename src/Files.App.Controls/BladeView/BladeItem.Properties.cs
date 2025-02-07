@@ -10,9 +10,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Files.App.Controls
-{    /// <summary>
-	 /// The Blade is used as a child in the BladeView
-	 /// </summary>
+{
+	/// <summary>
+	/// The Blade is used as a child in the BladeView
+	/// </summary>
 	public partial class BladeItem
 	{
 		/// <summary>
