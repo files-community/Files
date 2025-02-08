@@ -115,7 +115,8 @@ jobs:
           -t:Restore `
           -p:Platform=$env:ARCHITECTURE `
           -p:Configuration=$env:CONFIGURATION `
-          -p:PublishReadyToRun=true
+          -p:PublishReadyToRun=true `
+          -v:quiet
 
     - if: env.CONFIGURATION != env.AUTOMATED_TESTS_CONFIGURATION || env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE 
       name: Build Files
@@ -123,10 +124,10 @@ jobs:
         msbuild `
           $env:PACKAGE_PROJECT_PATH `
           -t:Build `
-          -clp:ErrorsOnly `
           -p:Configuration=$env:CONFIGURATION `
           -p:Platform=$env:ARCHITECTURE `
-          -p:AppxBundle=Never
+          -p:AppxBundle=Never `
+          -v:quiet
 
     - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION && env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE
       name: Create self signed cert as a pfx file
@@ -139,7 +140,6 @@ jobs:
           $env:PACKAGE_PROJECT_PATH `
           -t:Build `
           -t:_GenerateAppxPackage `
-          -clp:ErrorsOnly `
           -p:Configuration=$env:CONFIGURATION `
           -p:Platform=$env:ARCHITECTURE `
           -p:AppxBundlePlatforms=$env:AUTOMATED_TESTS_ARCHITECTURE `
@@ -149,16 +149,17 @@ jobs:
           -p:AppxPackageSigningEnabled=true `
           -p:PackageCertificateKeyFile=$env:APPX_SELFSIGNED_CERT_PATH `
           -p:PackageCertificatePassword="" `
-          -p:PackageCertificateThumbprint=""
+          -p:PackageCertificateThumbprint="" `
+          -v:quiet
 
     - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
       name: Build interaction tests
       run: |
         msbuild $env:AUTOMATED_TESTS_PROJECT_PATH `
           -t:Build `
-          -clp:ErrorsOnly `
           -p:Configuration=$env:CONFIGURATION `
-          -p:Platform=$env:AUTOMATED_TESTS_ARCHITECTURE
+          -p:Platform=$env:AUTOMATED_TESTS_ARCHITECTURE `
+          -v:quiet
 
     - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
       name: Copy tests bin to the artifacts dir

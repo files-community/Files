@@ -81,14 +81,16 @@ jobs:
         -t:Restore `
         -p:Platform=$env:PLATFORM `
         -p:Configuration=$env:CONFIGURATION `
-        -p:PublishReadyToRun=true
+        -p:PublishReadyToRun=true `
+        -v:quiet
     
     - name: Build launcher project
       shell: pwsh
       run: |
         msbuild "$env:LAUNCHER_PROJECT_PATH" `
         -p:Platform=$env:PLATFORM `
-        -p:Configuration=$env:CONFIGURATION
+        -p:Configuration=$env:CONFIGURATION `
+        -v:quiet
 
     - name: Build & package Files
       shell: pwsh
@@ -103,7 +105,8 @@ jobs:
         -p:AppxBundle=Always `
         -p:UapAppxPackageBuildMode=Sideload `
         -p:GenerateAppInstallerFile=True `
-        -p:AppInstallerUri=$env:APP_INSTALLER_SIDELOAD_URL
+        -p:AppInstallerUri=$env:APP_INSTALLER_SIDELOAD_URL `
+        -v:quiet
 
     - name: Remove empty files from the packages
       shell: bash
