@@ -115,6 +115,11 @@ namespace Files.App.ViewModels
 			ReloadWidgets();
 		}
 
+		public Task RefreshWidgetProperties()
+		{
+			return Task.WhenAll(WidgetItems.Select(w => w.WidgetItemModel.RefreshWidgetAsync()));
+		}
+
 		private bool InsertWidget(WidgetContainerItem widgetModel, int atIndex)
 		{
 			// The widget must not be null and must implement IWidgetItemModel

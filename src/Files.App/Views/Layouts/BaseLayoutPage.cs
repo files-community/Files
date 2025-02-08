@@ -22,7 +22,6 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
-using WinRT;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.App.Data.Enums.SortDirection;
@@ -764,6 +763,21 @@ namespace Files.App.Views.Layouts
 				},
 				Flyout = fileTagsContextMenu
 			});
+
+			fileTagsContextMenu.TagsChanged += RequireTagGroupsUpdate;
+			fileTagsContextMenu.Closed += HandleClosed;
+
+			async void RequireTagGroupsUpdate(object? sender, EventArgs e)
+			{
+				if (ParentShellPageInstance is not null)
+					await ParentShellPageInstance.ShellViewModel.RefreshTagGroups();
+			}
+
+			void HandleClosed(object? sender, object e)
+			{
+				fileTagsContextMenu.TagsChanged -= RequireTagGroupsUpdate;
+				fileTagsContextMenu.Closed -= HandleClosed;
+			}
 		}
 
 		private async Task AddShellMenuItemsAsync(List<ContextMenuFlyoutItemViewModel> shellMenuItems, CommandBarFlyout contextMenuFlyout, bool shiftPressed)
@@ -1000,8 +1014,13 @@ namespace Files.App.Views.Layouts
 				{
 					var iddo = shellItemList[0].Parent.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
 					shellItemList.ForEach(x => x.Dispose());
-					var dataObjectProvider = e.Data.As<Shell32.IDataObjectProvider>();
-					dataObjectProvider.SetDataObject(iddo);
+
+					var format = System.Windows.Forms.DataFormats.GetFormat("Shell IDList Array");
+					if (iddo.TryGetData<byte[]>((uint)format.Id, out var data))
+					{
+						var mem = new MemoryStream(data).AsRandomAccessStream();
+						e.Data.SetData(format.Name, mem);
+					}
 				}
 				else
 				{

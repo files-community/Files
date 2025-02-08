@@ -1713,7 +1713,7 @@
     <value>欄</value>
   </data>
   <data name="Cards" xml:space="preserve">
-    <value>Cards</value>
+    <value>卡片</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>在新索引標籤開啟資料夾</value>
@@ -1827,7 +1827,7 @@
     <value>註冊此程式以重新啟動</value>
   </data>
   <data name="StartWindow" xml:space="preserve">
-    <value>啟動時視窗狀態</value>
+    <value>啟動視窗</value>
   </data>
   <data name="NormalWindow" xml:space="preserve">
     <value>一般視窗</value>
@@ -2574,7 +2574,7 @@
     <value>切換至詳細資訊檢視</value>
   </data>
   <data name="LayoutCardsDescription" xml:space="preserve">
-    <value>Switch to cards view</value>
+    <value>切換至卡片檢視</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>切換至清單檢視</value>
@@ -3821,7 +3821,7 @@
     <value>水平對齊</value>
   </data>
   <data name="ImageFit" xml:space="preserve">
-    <value>圖片調整</value>
+    <value>影像調整</value>
   </data>
   <data name="Left" xml:space="preserve">
     <value>靠左對齊</value>
@@ -3999,10 +3999,10 @@
     <value>請注意，替代資料流 (Alternate Data Stream) 只適用於NTFS系統</value>
   </data>
   <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
-    <value>目前的替代資料流為隱藏狀態</value>
+    <value>目前替代資料流已隱藏</value>
   </data>
   <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
-    <value>是否要顯示替代資料流 (Alternate Data Stream)? 您隨時可以在「設定 &gt; 檔案與資料夾」中更改設定</value>
+    <value>是否要顯示替代資料流 (Alternate Data Stream)? 您隨時可以在「檔案與資料夾」頁面中變更設定</value>
   </data>
   <data name="ManageTags" xml:space="preserve">
     <value>管理標籤</value>
@@ -4014,7 +4014,7 @@
     <value>總計</value>
   </data>
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
-    <value>一律切換焦點到新建立的分頁</value>
+    <value>一律將焦點切換至新的分頁</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
     <value>顯示/隱藏檔案置放區</value>
@@ -4030,7 +4030,7 @@
     <comment>'Shelf' refers to the Shelf Pane feature, where users can conveniently drag and drop files for quick access and perform bulk actions with ease.</comment>
   </data>
   <data name="ClearItems" xml:space="preserve">
-    <value>Clear items</value>
+    <value>清除項目</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>從檔案置放區移除</value>

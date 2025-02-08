@@ -938,7 +938,7 @@ namespace Files.App.Views.Layouts
 			VisualStateManager.GoToState((UserControl)sender, "Normal", true);
 		}
 
-		private void RemoveTagIcon_Tapped(object sender, TappedRoutedEventArgs e)
+		private async void RemoveTagIcon_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			var parent = (sender as FontIcon)?.Parent as StackPanel;
 			var tagName = (parent?.Children[TAG_TEXT_BLOCK] as TextBlock)?.Text;
@@ -953,6 +953,9 @@ namespace Files.App.Views.Layouts
 				item.FileTags = item.FileTags
 					.Except([tagId])
 					.ToArray();
+
+				if (ParentShellPageInstance is not null)
+					await ParentShellPageInstance.ShellViewModel.RefreshTagGroups();
 			}
 
 			e.Handled = true;

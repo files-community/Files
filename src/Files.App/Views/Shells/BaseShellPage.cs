@@ -185,7 +185,6 @@ namespace Files.App.Views.Shells
 			ToolbarViewModel.AddressBarTextEntered += ShellPage_AddressBarTextEntered;
 			ToolbarViewModel.PathBoxItemDropped += ShellPage_PathBoxItemDropped;
 
-			ToolbarViewModel.RefreshRequested += ShellPage_RefreshRequested;
 			ToolbarViewModel.EditModeEnabled += NavigationToolbar_EditModeEnabled;
 			ToolbarViewModel.ItemDraggedOverPathItem += ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
@@ -379,11 +378,6 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected async void ShellPage_RefreshRequested(object sender, EventArgs e)
-		{
-			await Refresh_Click();
-		}
-
 		protected void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
 		{
 			ShellViewModel?.UpdateSortDirectionStatusAsync();
@@ -561,6 +555,12 @@ namespace Files.App.Views.Shells
 			{
 				ToolbarViewModel.CanRefresh = false;
 				ShellViewModel?.RefreshItems(null);
+			}
+			else if (ItemDisplay.Content is HomePage homePage)
+			{
+				ToolbarViewModel.CanRefresh = false;
+				await homePage.ViewModel.RefreshWidgetProperties();
+				ToolbarViewModel.CanRefresh = true;
 			}
 		}
 
@@ -831,7 +831,6 @@ namespace Files.App.Views.Shells
 			ToolbarViewModel.ToolbarPathItemLoaded -= ShellPage_ToolbarPathItemLoaded;
 			ToolbarViewModel.AddressBarTextEntered -= ShellPage_AddressBarTextEntered;
 			ToolbarViewModel.PathBoxItemDropped -= ShellPage_PathBoxItemDropped;
-			ToolbarViewModel.RefreshRequested -= ShellPage_RefreshRequested;
 			ToolbarViewModel.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
 			ToolbarViewModel.ItemDraggedOverPathItem -= ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;

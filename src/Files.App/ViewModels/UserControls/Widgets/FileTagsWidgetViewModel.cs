@@ -12,6 +12,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// </summary>
 	public sealed partial class FileTagsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
+		private CancellationTokenSource _updateCTS;
+
 		// Properties
 
 		public ObservableCollection<WidgetFileTagsContainerItem> Containers { get; } = [];
@@ -34,6 +36,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			_ = InitializeWidget();
 
+			FileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnTagsUpdated;
+
 			PinToSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(ExecutePinToSidebarCommand);
 			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteUnpinFromSidebarCommand);
 			OpenFileLocationCommand = new RelayCommand<WidgetCardItem>(ExecuteOpenFileLocationCommand);
@@ -46,20 +50,44 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			await foreach (var item in FileTagsService.GetTagsAsync())
 			{
-				var container = new WidgetFileTagsContainerItem(item.Uid)
-				{
-					Name = item.Name,
-					Color = item.Color
-				};
-
-				Containers.Add(container);
-				_ = container.InitAsync();
+				CreateTagContainerItem(item);
 			}
 		}
 
-		public Task RefreshWidgetAsync()
+		public async Task RefreshWidgetAsync()
 		{
-			return Task.CompletedTask;
+			_updateCTS?.Cancel();
+			_updateCTS = new CancellationTokenSource();
+			await foreach (var item in FileTagsService.GetTagsAsync())
+			{
+				if (_updateCTS.IsCancellationRequested)
+					break;
+
+				var matchingItem = Containers.First(c => c.Uid == item.Uid);
+				if (matchingItem is null)
+				{
+					CreateTagContainerItem(item);
+				}
+				else
+				{
+					matchingItem.Name = item.Name;
+					matchingItem.Color = item.Color;
+					matchingItem.Tags.Clear();
+					_ = matchingItem.InitAsync(_updateCTS.Token);
+				}
+			}
+		}
+
+		private void CreateTagContainerItem(TagViewModel tag)
+		{
+			var container = new WidgetFileTagsContainerItem(tag.Uid)
+			{
+				Name = tag.Name,
+				Color = tag.Color
+			};
+
+			Containers.Add(container);
+			_ = container.InitAsync();
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
@@ -189,10 +217,16 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				});
 		}
 
+		private async void FileTagsSettingsService_OnTagsUpdated(object? sender, EventArgs e)
+		{
+			await RefreshWidgetAsync();
+		}
+
 		// Disposer
 
 		public void Dispose()
 		{
+			FileTagsSettingsService.OnTagsUpdated -= FileTagsSettingsService_OnTagsUpdated;
 		}
 	}
 }

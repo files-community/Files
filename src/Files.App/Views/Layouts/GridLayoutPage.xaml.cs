@@ -135,7 +135,7 @@ namespace Files.App.Views.Layouts
 			LayoutSettingsService.CardsViewSize != CardsViewSizeKind.Small;
 
 		/// <summary>
-		/// Gets the icon size for item names in the Cards View layout.
+		/// Gets the icon size for items in the Cards View layout.
 		/// </summary>
 		public int CardsViewIconSize =>
 			(int)LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.CardsView);
@@ -247,8 +247,6 @@ namespace Files.App.Views.Layouts
 			}
 			if (e.PropertyName == nameof(ILayoutSettingsService.GridViewSize))
 			{
-				NotifyPropertyChanged(nameof(ItemWidthGridView));
-
 				// Update the container style to match the item size
 				SetItemContainerStyle();
 				FolderSettings_IconSizeChanged();
@@ -306,29 +304,32 @@ namespace Files.App.Views.Layouts
 
 		private void SetItemContainerStyle()
 		{
-			if (FolderSettings?.LayoutMode == FolderLayoutModes.CardsView)
+			if (FolderSettings?.LayoutMode == FolderLayoutModes.CardsView || FolderSettings?.LayoutMode == FolderLayoutModes.GridView)
 			{
 				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = DefaultItemContainerStyle;
+				FileList.ItemContainerStyle = LocalListItemContainerStyle;
 
 				// Set correct style
-				FileList.ItemContainerStyle = CardsItemContainerStyle;
+				FileList.ItemContainerStyle = LocalRegularItemContainerStyle;
 			}
-			else if (FolderSettings?.LayoutMode == FolderLayoutModes.ListView && UserSettingsService.LayoutSettingsService.ListViewSize == ListViewSizeKind.Compact)
+			else if (FolderSettings?.LayoutMode == FolderLayoutModes.ListView)
 			{
-				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = DefaultItemContainerStyle;
+				if (UserSettingsService.LayoutSettingsService.ListViewSize == ListViewSizeKind.Compact)
+				{
+					// Toggle style to force item size to update
+					FileList.ItemContainerStyle = LocalRegularItemContainerStyle;
 
-				// Set correct style
-				FileList.ItemContainerStyle = CompactListItemContainerStyle;
-			}
-			else
-			{
-				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = CompactListItemContainerStyle;
+					// Set correct style
+					FileList.ItemContainerStyle = LocalCompactListItemContainerStyle;
+				}
+				else
+				{
+					// Toggle style to force item size to update
+					FileList.ItemContainerStyle = LocalCompactListItemContainerStyle;
 
-				// Set correct style
-				FileList.ItemContainerStyle = DefaultItemContainerStyle;
+					// Set correct style
+					FileList.ItemContainerStyle = LocalListItemContainerStyle;
+				}
 			}
 		}
 

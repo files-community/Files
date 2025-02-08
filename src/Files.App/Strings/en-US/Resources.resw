@@ -3875,6 +3875,10 @@
     <value>ICO File</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>ICL File</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Zip File</value>
     <comment>This is the friendly name for ZIP files.</comment>
