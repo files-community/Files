@@ -26,6 +26,7 @@
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.1" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
+    <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.0" />
     <PackageVersion Include="Sentry" Version="5.1.0" />
     <PackageVersion Include="SevenZipSharp" Version="1.0.2" />
     <PackageVersion Include="SQLitePCLRaw.bundle_green" Version="2.1.10" />

@@ -7,7 +7,6 @@
 	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
-	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:keyboard="using:Files.App.UserControls.KeyboardShortcut"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
@@ -16,9 +15,9 @@
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>
-		<icore:EventTriggerBehavior EventName="Loaded">
-			<icore:InvokeCommandAction Command="{x:Bind ViewModel.LoadAllActionsCommand, Mode=OneWay}" />
-		</icore:EventTriggerBehavior>
+		<i:EventTriggerBehavior EventName="Loaded">
+			<i:InvokeCommandAction Command="{x:Bind ViewModel.LoadAllActionsCommand, Mode=OneWay}" />
+		</i:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
 	<Page.Resources>

@@ -8,7 +8,6 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
-	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:sidebar="using:Files.App.UserControls.Sidebar"
 	xmlns:tabbar="using:Files.App.UserControls.TabBar"
@@ -56,65 +55,65 @@
 	<Page.KeyboardAccelerators>
 		<KeyboardAccelerator Key="Number1" Modifiers="Control">
 			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Invoked">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="Number2" Modifiers="Control">
 			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Invoked">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="Number3" Modifiers="Control">
 			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Invoked">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="Number4" Modifiers="Control">
 			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Invoked">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="Number5" Modifiers="Control">
 			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Invoked">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="Number6" Modifiers="Control">
 			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Invoked">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="Number7" Modifiers="Control">
 			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Invoked">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="Number8" Modifiers="Control">
 			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Invoked">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="Number9" Modifiers="Control">
 			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Invoked">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
 	</Page.KeyboardAccelerators>

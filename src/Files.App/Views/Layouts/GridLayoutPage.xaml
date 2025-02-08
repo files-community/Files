@@ -11,7 +11,6 @@
 	xmlns:filesystem="using:Files.App.Utils"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
-	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.Views.Layouts"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:storage="using:Files.App.Utils.Storage"
@@ -24,12 +23,12 @@
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>
-		<icore:EventTriggerBehavior EventName="PointerWheelChanged">
-			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
-		</icore:EventTriggerBehavior>
-		<icore:EventTriggerBehavior EventName="PointerPressed">
-			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
-		</icore:EventTriggerBehavior>
+		<i:EventTriggerBehavior EventName="PointerWheelChanged">
+			<i:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
+		</i:EventTriggerBehavior>
+		<i:EventTriggerBehavior EventName="PointerPressed">
+			<i:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
+		</i:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
 	<local:BaseGroupableLayoutPage.Resources>

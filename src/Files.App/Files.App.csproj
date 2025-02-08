@@ -83,6 +83,7 @@
         <PackageReference Include="Microsoft.Extensions.Hosting" />
         <PackageReference Include="Microsoft.Extensions.Logging" />
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
+        <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" />
         <PackageReference Include="Sentry" />
         <PackageReference Include="SevenZipSharp" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" />
