@@ -10,7 +10,7 @@ using System.Collections.Immutable;
 namespace Files.App.Data.Commands
 {
 	[DebuggerDisplay("Command {Code} (Modifiable)")]
-	internal sealed class ModifiableCommand : ObservableObject, IRichCommand
+	internal sealed partial class ModifiableCommand : ObservableObject, IRichCommand
 	{
 		public event EventHandler? CanExecuteChanged;
 

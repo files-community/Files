@@ -10,7 +10,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents a principal of an ACE or an owner of an ACL.
 	/// </summary>
-	public sealed class AccessControlPrincipal : ObservableObject
+	public sealed partial class AccessControlPrincipal : ObservableObject
 	{
 		/// <summary>
 		/// Account type.

@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class PasteItemAsShortcutAction : ObservableObject, IAction
+	internal sealed partial class PasteItemAsShortcutAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

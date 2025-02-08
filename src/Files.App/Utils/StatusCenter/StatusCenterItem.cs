@@ -12,7 +12,7 @@ namespace Files.App.Utils.StatusCenter
 	/// <br/>
 	/// Handles all operation's functionality and UI.
 	/// </summary>
-	public sealed class StatusCenterItem : ObservableObject
+	public sealed partial class StatusCenterItem : ObservableObject
 	{
 		private readonly StatusCenterViewModel _viewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 

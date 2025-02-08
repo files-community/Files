@@ -5,7 +5,7 @@ using Files.App.Utils.Shell;
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenRepoInVSCodeAction : ObservableObject, IAction
+	internal sealed partial class OpenRepoInVSCodeAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext _context;
 

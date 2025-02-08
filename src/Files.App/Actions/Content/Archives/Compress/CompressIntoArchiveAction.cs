@@ -7,7 +7,7 @@ using Windows.Foundation.Metadata;
 
 namespace Files.App.Actions
 {
-	internal sealed class CompressIntoArchiveAction : BaseCompressArchiveAction
+	internal sealed partial class CompressIntoArchiveAction : BaseCompressArchiveAction
 	{
 		public override string Label
 			=> "CreateArchive".GetLocalizedResource();

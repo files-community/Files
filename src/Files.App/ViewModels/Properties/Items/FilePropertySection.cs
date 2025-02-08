@@ -7,7 +7,7 @@ namespace Files.App.ViewModels.Properties
 	/// <summary>
 	/// This class is used for grouping file properties into sections so that it can be used as a grouped ListView data source
 	/// </summary>
-	public sealed class FilePropertySection : List<FileProperty>
+	public sealed partial class FilePropertySection : List<FileProperty>
 	{
 		public FilePropertySection(IEnumerable<FileProperty> items)
 			: base(items)

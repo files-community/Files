@@ -11,7 +11,7 @@ namespace Files.App.Utils.Shell
 	/// </summary>
 	/// <seealso cref="ShellItemArray"/>
 	/// <seealso cref="ICollection{ShellItem}"/>
-	public sealed class ShellLibraryFolders : ShellItemArray, ICollection<ShellItem>
+	public sealed partial class ShellLibraryFolders : ShellItemArray, ICollection<ShellItem>
 	{
 		private Shell32.IShellLibrary _lib;
 

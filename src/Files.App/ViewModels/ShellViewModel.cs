@@ -29,7 +29,7 @@ namespace Files.App.ViewModels
 	/// <summary>
 	/// Represents view model of <see cref="IShellPage"/>.
 	/// </summary>
-	public sealed class ShellViewModel : ObservableObject, IDisposable
+	public sealed partial class ShellViewModel : ObservableObject, IDisposable
 	{
 		private readonly SemaphoreSlim enumFolderSemaphore;
 		private readonly SemaphoreSlim getFileOrFolderSemaphore;

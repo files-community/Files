@@ -6,7 +6,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents an access control list (ACL).
 	/// </summary>
-	public sealed class AccessControlList : ObservableObject
+	public sealed partial class AccessControlList : ObservableObject
 	{
 		/// <summary>
 		/// Object path.

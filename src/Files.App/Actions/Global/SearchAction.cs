@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class SearchAction : ObservableObject, IAction
+	internal sealed partial class SearchAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

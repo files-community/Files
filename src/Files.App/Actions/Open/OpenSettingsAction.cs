@@ -5,7 +5,7 @@ using Files.App.Dialogs;
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenSettingsAction : BaseUIAction, IAction
+	internal sealed partial class OpenSettingsAction : BaseUIAction, IAction
 	{
 		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 

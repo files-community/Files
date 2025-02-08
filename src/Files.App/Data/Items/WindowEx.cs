@@ -18,7 +18,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents base <see cref="Window"/> class to extend its features.
 	/// </summary>
-	public unsafe class WindowEx : Window, IDisposable
+	public unsafe partial class WindowEx : Window, IDisposable
 	{
 		private bool _isInitialized;
 		private readonly WNDPROC _oldWndProc;

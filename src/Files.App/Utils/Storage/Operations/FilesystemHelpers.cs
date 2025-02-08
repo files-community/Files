@@ -19,7 +19,7 @@ using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class FilesystemHelpers : IFilesystemHelpers
+	public sealed partial class FilesystemHelpers : IFilesystemHelpers
 	{
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();

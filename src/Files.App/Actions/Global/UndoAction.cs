@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class UndoAction : ObservableObject, IAction
+	internal sealed partial class UndoAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

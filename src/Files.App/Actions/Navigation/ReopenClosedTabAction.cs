@@ -5,7 +5,7 @@ using Files.App.UserControls.TabBar;
 
 namespace Files.App.Actions
 {
-	internal sealed class ReopenClosedTabAction : ObservableObject, IAction
+	internal sealed partial class ReopenClosedTabAction : ObservableObject, IAction
 	{
 		private readonly IMultitaskingContext context;
 

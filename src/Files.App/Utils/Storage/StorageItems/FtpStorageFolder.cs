@@ -14,7 +14,7 @@ using Windows.Storage.Search;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class FtpStorageFolder : BaseStorageFolder, IPasswordProtectedItem
+	public sealed partial class FtpStorageFolder : BaseStorageFolder, IPasswordProtectedItem
 	{
 		public override string Path { get; }
 		public override string Name { get; }
@@ -362,7 +362,7 @@ namespace Files.App.Utils.Storage
 			return new(host, credentials, port);
 		}
 
-		private sealed class FtpFolderBasicProperties : BaseBasicProperties
+		private sealed partial class FtpFolderBasicProperties : BaseBasicProperties
 		{
 			public override ulong Size { get; }
 

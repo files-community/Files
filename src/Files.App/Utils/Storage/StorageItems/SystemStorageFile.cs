@@ -12,7 +12,7 @@ using IO = System.IO;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class SystemStorageFile : BaseStorageFile
+	public sealed partial class SystemStorageFile : BaseStorageFile
 	{
 		public StorageFile File { get; }
 
@@ -173,7 +173,7 @@ namespace Files.App.Utils.Storage
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
 			=> File.GetThumbnailAsync(mode, requestedSize, options);
 
-		private sealed class SystemFileBasicProperties : BaseBasicProperties
+		private sealed partial class SystemFileBasicProperties : BaseBasicProperties
 		{
 			private readonly IStorageItemExtraProperties basicProps;
 			private readonly DateTimeOffset? dateCreated;

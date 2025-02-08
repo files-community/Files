@@ -7,7 +7,7 @@ using Windows.Foundation;
 
 namespace Files.App.UserControls
 {
-	public class ComboBoxEx : ComboBox
+	public partial class ComboBoxEx : ComboBox
 	{
 		double _cachedWidth;
 

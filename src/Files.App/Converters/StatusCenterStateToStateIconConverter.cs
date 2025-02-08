@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Shapes;
 
 namespace Files.App.Converters
 {
-	class StatusCenterStateToStateIconConverter : IValueConverter
+	partial class StatusCenterStateToStateIconConverter : IValueConverter
 	{
 		public object? Convert(object value, Type targetType, object parameter, string language)
 		{

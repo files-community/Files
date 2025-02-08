@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Data.Items
 {
-	public sealed class WidgetDriveCardItem : WidgetCardItem, IWidgetCardItem<DriveItem>, IComparable<WidgetDriveCardItem>
+	public sealed partial class WidgetDriveCardItem : WidgetCardItem, IWidgetCardItem<DriveItem>, IComparable<WidgetDriveCardItem>
 	{
 		private byte[] thumbnailData;
 

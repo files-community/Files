@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Services.SizeProvider
 {
-	public sealed class NoSizeProvider : ISizeProvider
+	public sealed partial class NoSizeProvider : ISizeProvider
 	{
 		public event EventHandler<SizeChangedEventArgs>? SizeChanged;
 

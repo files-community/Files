@@ -7,7 +7,7 @@ using Windows.UI;
 
 namespace Files.App.Helpers
 {
-	internal sealed class AppSystemBackdrop : SystemBackdrop
+	internal sealed partial class AppSystemBackdrop : SystemBackdrop
 	{
 		private bool isSecondaryWindow;
 		private IUserSettingsService userSettingsService;

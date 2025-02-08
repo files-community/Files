@@ -3,7 +3,7 @@
 
 namespace Files.App.Utils.Storage
 {
-	public class BaseBasicProperties : BaseStorageItemExtraProperties
+	public partial class BaseBasicProperties : BaseStorageItemExtraProperties
 	{
 		public virtual ulong Size
 			=> 0;

@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class GitPullAction : ObservableObject, IAction
+	internal sealed partial class GitPullAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext _context;
 

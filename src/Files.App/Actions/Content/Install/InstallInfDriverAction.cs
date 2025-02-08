@@ -5,7 +5,7 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
-	internal sealed class InstallInfDriverAction : ObservableObject, IAction
+	internal sealed partial class InstallInfDriverAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

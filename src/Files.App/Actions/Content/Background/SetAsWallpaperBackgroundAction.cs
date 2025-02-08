@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Files.App.Actions
 {
-	internal sealed class SetAsWallpaperBackgroundAction : BaseSetAsAction
+	internal sealed partial class SetAsWallpaperBackgroundAction : BaseSetAsAction
 	{
 		public override string Label
 			=> "SetAsBackground".GetLocalizedResource();

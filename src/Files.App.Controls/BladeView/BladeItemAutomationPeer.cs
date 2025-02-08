@@ -15,7 +15,7 @@ namespace Files.App.Controls
 	/// <summary>
 	/// Defines a framework element automation peer for the <see cref="BladeItem"/>.
 	/// </summary>
-	public class BladeItemAutomationPeer : FrameworkElementAutomationPeer
+	public partial class BladeItemAutomationPeer : FrameworkElementAutomationPeer
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BladeItemAutomationPeer"/> class.

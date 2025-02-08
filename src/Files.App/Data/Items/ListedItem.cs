@@ -16,7 +16,7 @@ using ByteSize = ByteSizeLib.ByteSize;
 
 namespace Files.App.Utils
 {
-	public class ListedItem : ObservableObject, IGroupableItem
+	public partial class ListedItem : ObservableObject, IGroupableItem
 	{
 		protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -462,7 +462,7 @@ namespace Files.App.Utils
 		}
 	}
 
-	public sealed class RecycleBinItem : ListedItem
+	public sealed partial class RecycleBinItem : ListedItem
 	{
 		public RecycleBinItem(string folderRelativeId) : base(folderRelativeId)
 		{
@@ -491,7 +491,7 @@ namespace Files.App.Utils
 		public string ItemOriginalFolderName => Path.GetFileName(ItemOriginalFolder);
 	}
 
-	public sealed class FtpItem : ListedItem
+	public sealed partial class FtpItem : ListedItem
 	{
 		public FtpItem(FtpListItem item, string folder) : base(null)
 		{
@@ -527,7 +527,7 @@ namespace Files.App.Utils
 		};
 	}
 
-	public sealed class ShortcutItem : ListedItem, IShortcutItem
+	public sealed partial class ShortcutItem : ListedItem, IShortcutItem
 	{
 		public ShortcutItem(string folderRelativeId) : base(folderRelativeId)
 		{
@@ -552,7 +552,7 @@ namespace Files.App.Utils
 		public override bool IsExecutable => FileExtensionHelpers.IsExecutableFile(TargetPath, true);
 	}
 
-	public sealed class ZipItem : ListedItem
+	public sealed partial class ZipItem : ListedItem
 	{
 		public ZipItem(string folderRelativeId) : base(folderRelativeId)
 		{
@@ -576,7 +576,7 @@ namespace Files.App.Utils
 		{ }
 	}
 
-	public sealed class LibraryItem : ListedItem
+	public sealed partial class LibraryItem : ListedItem
 	{
 		public LibraryItem(LibraryLocationItem library) : base(null)
 		{
@@ -603,7 +603,7 @@ namespace Files.App.Utils
 		public ReadOnlyCollection<string> Folders { get; }
 	}
 
-	public sealed class AlternateStreamItem : ListedItem
+	public sealed partial class AlternateStreamItem : ListedItem
 	{
 		public string MainStreamPath => ItemPath.Substring(0, ItemPath.LastIndexOf(':'));
 		public string MainStreamName => Path.GetFileName(MainStreamPath);
@@ -623,7 +623,7 @@ namespace Files.App.Utils
 		}
 	}
 
-	public class GitItem : ListedItem, IGitItem
+	public partial class GitItem : ListedItem, IGitItem
 	{
 		private volatile int statusPropertiesInitialized = 0;
 		public bool StatusPropertiesInitialized
@@ -699,7 +699,7 @@ namespace Files.App.Utils
 			set => SetProperty(ref _GitLastCommitFullSha, value);
 		}
 	}
-	public sealed class GitShortcutItem : GitItem, IShortcutItem
+	public sealed partial class GitShortcutItem : GitItem, IShortcutItem
 	{
 		private volatile int statusPropertiesInitialized = 0;
 		public bool StatusPropertiesInitialized

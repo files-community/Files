@@ -217,7 +217,7 @@ namespace Files.App.Views.Properties
 
 	}
 
-	public sealed class LibraryFolder : ObservableObject
+	public sealed partial class LibraryFolder : ObservableObject
 	{
 		public string Path { get; set; }
 

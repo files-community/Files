@@ -18,7 +18,7 @@ namespace Files.App.Utils.Storage
 	/// Shortcuts and alternate data stream.
 	/// Uses *FromApp methods for file operations
 	/// </summary>
-	public sealed class NativeStorageFile : BaseStorageFile
+	public sealed partial class NativeStorageFile : BaseStorageFile
 	{
 		public override string Path { get; }
 		public override string Name { get; }

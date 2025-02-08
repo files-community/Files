@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Models
 {
-	public sealed class HashInfoItem : ObservableObject
+	public sealed partial class HashInfoItem : ObservableObject
 	{
 		private string _Algorithm;
 		public string Algorithm

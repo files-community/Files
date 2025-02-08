@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal class OpenStorageSenseAction : ObservableObject, IAction
+	internal partial class OpenStorageSenseAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();

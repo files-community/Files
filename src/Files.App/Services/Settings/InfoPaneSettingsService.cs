@@ -3,7 +3,7 @@
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class InfoPaneSettingsService : BaseObservableJsonSettings, IInfoPaneSettingsService
+	internal sealed partial class InfoPaneSettingsService : BaseObservableJsonSettings, IInfoPaneSettingsService
 	{
 		public bool IsInfoPaneEnabled
 		{

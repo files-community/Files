@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Controls
 {
-	internal class AdaptiveHeightValueConverter : IValueConverter
+	internal partial class AdaptiveHeightValueConverter : IValueConverter
 	{
 		private Thickness thickness = new Thickness(0, 0, 4, 4);
 

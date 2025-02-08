@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class AddVerticalPaneAction : ObservableObject, IAction
+	internal sealed partial class AddVerticalPaneAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();

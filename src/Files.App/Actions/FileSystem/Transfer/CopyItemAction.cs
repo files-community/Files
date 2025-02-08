@@ -5,7 +5,7 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions
 {
-	internal sealed class CopyItemAction : BaseTransferItemAction, IAction
+	internal sealed partial class CopyItemAction : BaseTransferItemAction, IAction
 	{
 		public string Label
 			=> "Copy".GetLocalizedResource();

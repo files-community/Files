@@ -12,7 +12,7 @@ namespace Files.App.ViewModels.Properties
 	/// <summary>
 	/// This class is represents a system file property from the Windows.Storage API
 	/// </summary>
-	public sealed class FileProperty : ObservableObject
+	public sealed partial class FileProperty : ObservableObject
 	{
 		/// <summary>
 		/// The name to display

@@ -6,7 +6,7 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenItemAction : ObservableObject, IAction
+	internal sealed partial class OpenItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
@@ -50,7 +50,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal sealed class OpenItemWithApplicationPickerAction : ObservableObject, IAction
+	internal sealed partial class OpenItemWithApplicationPickerAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
@@ -91,7 +91,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal sealed class OpenParentFolderAction : ObservableObject, IAction
+	internal sealed partial class OpenParentFolderAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

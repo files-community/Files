@@ -11,7 +11,7 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal sealed class DecompressArchive : BaseDecompressArchiveAction
+	internal sealed partial class DecompressArchive : BaseDecompressArchiveAction
 	{
 		public override string Label
 			=> "ExtractFiles".GetLocalizedResource();

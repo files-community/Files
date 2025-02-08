@@ -16,7 +16,7 @@ using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public sealed class AddressToolbarViewModel : ObservableObject, IAddressToolbarViewModel, IDisposable
+	public sealed partial class AddressToolbarViewModel : ObservableObject, IAddressToolbarViewModel, IDisposable
 	{
 		private const int MAX_SUGGESTIONS = 10;
 

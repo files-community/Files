@@ -2,7 +2,7 @@
 
 namespace Files.App.Services
 {
-	internal sealed class DummyUpdateService : ObservableObject, IUpdateService
+	internal sealed partial class DummyUpdateService : ObservableObject, IUpdateService
 	{
 		public bool IsUpdateAvailable => false;
 

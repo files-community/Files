@@ -1,6 +1,6 @@
 ﻿namespace Files.App.ViewModels.Dialogs
 {
-	public sealed class AddBranchDialogViewModel : ObservableObject
+	public sealed partial class AddBranchDialogViewModel : ObservableObject
 	{
 		private readonly string _repositoryPath;
 

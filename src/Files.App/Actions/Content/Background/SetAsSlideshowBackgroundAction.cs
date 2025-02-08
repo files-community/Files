@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Files.App.Actions
 {
-	internal sealed class SetAsSlideshowBackgroundAction : BaseSetAsAction
+	internal sealed partial class SetAsSlideshowBackgroundAction : BaseSetAsAction
 	{
 		private readonly IWindowsWallpaperService WindowsWallpaperService = Ioc.Default.GetRequiredService<IWindowsWallpaperService>();
 

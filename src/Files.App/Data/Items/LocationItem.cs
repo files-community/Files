@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Files.App.Data.Items
 {
-	public class LocationItem : ObservableObject, INavigationControlItem
+	public partial class LocationItem : ObservableObject, INavigationControlItem
 	{
 		public BitmapImage icon;
 		public BitmapImage Icon
@@ -122,7 +122,7 @@ namespace Files.App.Data.Items
 		}
 	}
 
-	public sealed class RecycleBinLocationItem : LocationItem
+	public sealed partial class RecycleBinLocationItem : LocationItem
 	{
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 

@@ -6,7 +6,7 @@ using Windows.Storage;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class StorageHistoryOperations : IStorageHistoryOperations
+	public sealed partial class StorageHistoryOperations : IStorageHistoryOperations
 	{
 		private IFilesystemHelpers helpers;
 		private ShellFilesystemOperations operations;

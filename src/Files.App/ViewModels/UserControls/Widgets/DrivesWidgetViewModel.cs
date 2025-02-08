@@ -13,7 +13,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// <summary>
 	/// Represents view model of <see cref="DrivesWidget"/>.
 	/// </summary>
-	public sealed class DrivesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
+	public sealed partial class DrivesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Properties
 

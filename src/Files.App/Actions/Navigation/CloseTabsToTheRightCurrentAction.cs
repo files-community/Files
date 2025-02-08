@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class CloseTabsToTheRightCurrentAction : CloseTabBaseAction
+	internal sealed partial class CloseTabsToTheRightCurrentAction : CloseTabBaseAction
 	{
 		public override string Label
 			=> "CloseTabsToTheRight".GetLocalizedResource();

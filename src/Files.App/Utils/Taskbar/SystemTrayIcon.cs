@@ -16,7 +16,7 @@ namespace Files.App.Utils.Taskbar
 	/// <summary>
 	/// Represents a tray icon of Notification Area so-called System Tray.
 	/// </summary>
-	public sealed class SystemTrayIcon : IDisposable
+	public sealed partial class SystemTrayIcon : IDisposable
 	{
 		// Constants
 

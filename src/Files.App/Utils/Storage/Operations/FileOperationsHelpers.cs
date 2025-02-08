@@ -16,7 +16,7 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class FileOperationsHelpers
+	public sealed partial class FileOperationsHelpers
 	{
 		private static readonly Ole32.PROPERTYKEY PKEY_FilePlaceholderStatus = new Ole32.PROPERTYKEY(new Guid("B2F9B9D6-FEC4-4DD5-94D7-8957488C807B"), 2);
 		private const uint PS_CLOUDFILE_PLACEHOLDER = 8;
@@ -962,7 +962,7 @@ namespace Files.App.Utils.Storage
 		public static void WaitForCompletion()
 			=> progressHandler?.WaitForCompletion();
 
-		private sealed class ProgressHandler : Disposable
+		private sealed partial class ProgressHandler : Disposable
 		{
 			private readonly ManualResetEvent operationsCompletedEvent;
 

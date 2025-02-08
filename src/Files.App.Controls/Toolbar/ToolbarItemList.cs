@@ -7,7 +7,7 @@ namespace Files.App.Controls
 	/// A collection of Toolbar Items,
 	/// that are included in the IToolbarItemSet interface
 	/// </summary>
-	internal class ToolbarItemList : List<IToolbarItemSet>
+	internal partial class ToolbarItemList : List<IToolbarItemSet>
 	{
 	}
 }

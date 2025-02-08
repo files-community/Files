@@ -15,7 +15,7 @@ using Windows.Win32.Storage.FileSystem;
 
 namespace Files.App.ViewModels.Settings
 {
-	public sealed class AdvancedViewModel : ObservableObject
+	public sealed partial class AdvancedViewModel : ObservableObject
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();

@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.Settings
 {
-	public sealed class AppearanceViewModel : ObservableObject
+	public sealed partial class AppearanceViewModel : ObservableObject
 	{
 		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();

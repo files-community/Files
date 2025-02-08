@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Automation.Provider;
 
 namespace Files.App.UserControls.Sidebar
 {
-	public sealed class SidebarItemAutomationPeer : FrameworkElementAutomationPeer, IInvokeProvider, IExpandCollapseProvider, ISelectionItemProvider
+	public sealed partial class SidebarItemAutomationPeer : FrameworkElementAutomationPeer, IInvokeProvider, IExpandCollapseProvider, ISelectionItemProvider
 	{
 		public ExpandCollapseState ExpandCollapseState
 		{

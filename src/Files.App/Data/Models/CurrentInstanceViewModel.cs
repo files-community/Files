@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Models
 {
-	public sealed class CurrentInstanceViewModel : ObservableObject
+	public sealed partial class CurrentInstanceViewModel : ObservableObject
 	{
 		// TODO:
 		//  In the future, we should consolidate these public variables into

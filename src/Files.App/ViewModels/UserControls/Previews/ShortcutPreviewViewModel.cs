@@ -5,7 +5,7 @@ using Files.App.ViewModels.Properties;
 
 namespace Files.App.ViewModels.Previews
 {
-	internal sealed class ShortcutPreviewViewModel : BasePreviewModel
+	internal sealed partial class ShortcutPreviewViewModel : BasePreviewModel
 	{
 		public ShortcutPreviewViewModel(ListedItem item) : base(item) { }
 

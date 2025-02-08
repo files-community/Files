@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class CloseSelectedTabAction : CloseTabBaseAction
+	internal sealed partial class CloseSelectedTabAction : CloseTabBaseAction
 	{
 		public override string Label
 			=> "CloseTab".GetLocalizedResource();

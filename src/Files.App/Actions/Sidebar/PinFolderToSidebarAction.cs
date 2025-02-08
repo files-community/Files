@@ -5,7 +5,7 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal sealed class PinFolderToSidebarAction : ObservableObject, IAction
+	internal sealed partial class PinFolderToSidebarAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 		private readonly IQuickAccessService service;

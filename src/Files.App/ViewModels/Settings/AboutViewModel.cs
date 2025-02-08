@@ -14,7 +14,7 @@ namespace Files.App.ViewModels.Settings
 	/// <summary>
 	/// Represents view model of <see cref="Views.Settings.AboutPage"/>.
 	/// </summary>
-	public sealed class AboutViewModel : ObservableObject
+	public sealed partial class AboutViewModel : ObservableObject
 	{
 		// Dependency injections
 

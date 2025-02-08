@@ -12,7 +12,7 @@ using IO = System.IO;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class ShortcutStorageFile : ShellStorageFile, IShortcutStorageItem
+	public sealed partial class ShortcutStorageFile : ShellStorageFile, IShortcutStorageItem
 	{
 		public string TargetPath { get; }
 		public string Arguments { get; }
@@ -30,7 +30,7 @@ namespace Files.App.Utils.Storage
 		}
 	}
 
-	public sealed class BinStorageFile : ShellStorageFile, IBinStorageItem
+	public sealed partial class BinStorageFile : ShellStorageFile, IBinStorageItem
 	{
 		public string OriginalPath { get; }
 		public DateTimeOffset DateDeleted { get; }
@@ -42,7 +42,7 @@ namespace Files.App.Utils.Storage
 		}
 	}
 
-	public class ShellStorageFile : BaseStorageFile
+	public partial class ShellStorageFile : BaseStorageFile
 	{
 		public override string Path { get; }
 		public override string Name { get; }
@@ -178,7 +178,7 @@ namespace Files.App.Utils.Storage
 			return Task.FromResult(new BaseBasicProperties());
 		}
 
-		private sealed class ShellFileBasicProperties : BaseBasicProperties
+		private sealed partial class ShellFileBasicProperties : BaseBasicProperties
 		{
 			private readonly ShellFileItem file;
 
