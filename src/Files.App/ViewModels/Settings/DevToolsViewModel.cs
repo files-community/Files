@@ -185,7 +185,7 @@ namespace Files.App.ViewModels.Settings
 		{
 			IDEPathTested = await Win32Helper.RunPowershellCommandAsync(
 				$"& \'{IDEPath}\'",
-				PowerShellExecutionOptions.None // PowerShellExecutionOptions.Hidden doesn't work with some IDEs if path is not provided
+				PowerShellExecutionOptions.Hidden
 			);
 
 			IsIDEPathValid = _IDEPathTested;
