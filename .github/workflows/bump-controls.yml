@@ -43,7 +43,20 @@ jobs:
           Write-Output "Bumped version to $newVersion"
           echo "::set-output name=new_version::$newVersion"
 
-      - uses: EndBug/add-and-commit@v9
+      - name: Get version for PR message
+        id: get_version
+        shell: pwsh
+        run: |
+          $xml = [xml](Get-Content $env:PROPS_PATH)
+          $microVersion = [int]$xml.Project.PropertyGroup.MicroVersion
+          $minorVersion = [int]$xml.Project.PropertyGroup.MinorVersion
+          $majorVersion = [int]$xml.Project.PropertyGroup.MajorVersion
+          $fullVersion = "$majorVersion.$minorVersion.$microVersion"
+          Write-Output "Found publish version, $fullVersion"
+          echo "::set-output name=full_version::$fullVersion"
+
+      - name: Add and commit changes
+        uses: EndBug/add-and-commit@v9
         with:
           # The arguments for the `git add` command
           # Default: '.'
@@ -66,11 +79,11 @@ jobs:
 
           # The message for the commit.
           # Default: 'Commit from GitHub Actions (name of the workflow)'
-          message: 'Bump Files UI controls micro version to ${{ steps.bump_version.outputs.new_version }}'
+          message: 'Bump Files UI controls version to ${{ steps.get_version.outputs.full_version }}'
       
           # If this input is set, the action will push the commit to a new branch with this name.
           # Default: ''
-          new_branch: 'files/ui-controls/micro${{ steps.bump_version.outputs.new_version }}'
+          new_branch: 'files/ui-controls/${{ steps.get_version.outputs.full_version }}'
       
           # The way the action should handle pathspec errors from the add and remove commands. Three options are available:
           # - ignore -> errors will be logged but the step won't fail
@@ -82,3 +95,8 @@ jobs:
           # Whether to push the commit and, if any, its tags to the repo. It can also be used to set the git push arguments (see the paragraph below for more info)
           # Default: true
           push: true
+      
+      - name: Create Pull Request
+        shell: pwsh
+        run: |
+          gh pr create --title "NuGet: Bumped Files UI controls version to `${{ steps.get_version.outputs.full_version }}`" --body "This PR bumps the Files UI controls micro version to `${{ steps.bump_version.outputs.new_version }}`, with publish version ${{ steps.get_version.outputs.full_version }}" --base main --head files/ui-controls/${{ steps.get_version.outputs.full_version }}
