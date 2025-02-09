@@ -99,4 +99,4 @@ jobs:
       - name: Create Pull Request
         shell: pwsh
         run: |
-          gh pr create --title "NuGet: Bumped Files UI controls version to `${{ steps.get_version.outputs.full_version }}`" --base main --head files/ui-controls/${{ steps.get_version.outputs.full_version }}
+          gh pr create --title 'NuGet: Bumped Files UI controls version to `${{ steps.get_version.outputs.full_version }}`' --base main --head files/ui-controls/${{ steps.get_version.outputs.full_version }}
