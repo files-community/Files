@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels
 {
-	public sealed class HomeViewModel : ObservableObject, IDisposable
+	public sealed partial class HomeViewModel : ObservableObject, IDisposable
 	{
 		// Dependency injections
 

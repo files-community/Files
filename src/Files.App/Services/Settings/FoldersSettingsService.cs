@@ -3,7 +3,7 @@
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class FoldersSettingsService : BaseObservableJsonSettings, IFoldersSettingsService
+	internal sealed partial class FoldersSettingsService : BaseObservableJsonSettings, IFoldersSettingsService
 	{
 		public FoldersSettingsService(ISettingsSharingContext settingsSharingContext)
 		{

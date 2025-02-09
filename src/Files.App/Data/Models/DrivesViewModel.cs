@@ -8,7 +8,7 @@ using System.IO;
 
 namespace Files.App.Data.Models
 {
-	public sealed class DrivesViewModel : ObservableObject, IDisposable
+	public sealed partial class DrivesViewModel : ObservableObject, IDisposable
 	{
 		public ObservableCollection<ILocatableFolder> Drives
 		{

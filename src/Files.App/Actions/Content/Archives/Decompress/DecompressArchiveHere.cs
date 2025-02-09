@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class DecompressArchiveHere : BaseDecompressArchiveAction
+	internal sealed partial class DecompressArchiveHere : BaseDecompressArchiveAction
 	{
 		public override string Label
 			=> "ExtractHere".GetLocalizedResource();

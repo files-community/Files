@@ -5,7 +5,7 @@ using Files.Shared.Utils;
 
 namespace Files.App.ViewModels.Dialogs.AddItemDialog
 {
-	public sealed class AddItemDialogListItemViewModel : ObservableObject
+	public sealed partial class AddItemDialogListItemViewModel : ObservableObject
 	{
 		public string? Header { get; set; }
 

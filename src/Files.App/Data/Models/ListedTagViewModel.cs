@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Models
 {
-	public sealed class ListedTagViewModel : ObservableObject
+	public sealed partial class ListedTagViewModel : ObservableObject
 	{
 		private TagViewModel _Tag;
 		public TagViewModel Tag

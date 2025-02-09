@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class DuplicateSelectedTabAction : ObservableObject, IAction
+	internal sealed partial class DuplicateSelectedTabAction : ObservableObject, IAction
 	{
 		private readonly IMultitaskingContext context;
 

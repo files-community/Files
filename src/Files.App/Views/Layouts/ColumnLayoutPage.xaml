@@ -13,8 +13,8 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:storage="using:Files.App.Utils.Storage"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:wct="using:CommunityToolkit.WinUI.UI"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:wct="using:CommunityToolkit.WinUI"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	x:Name="PageRoot"
 	HighContrastAdjustment="None"
 	mc:Ignorable="d">
@@ -177,7 +177,6 @@
 				<ListView
 					x:Name="FileList"
 					Padding="8,0,8,0"
-					wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					CanDragItems="{x:Bind AllowItemDrag, Mode=OneWay}"

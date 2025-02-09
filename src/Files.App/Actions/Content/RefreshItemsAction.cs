@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class RefreshItemsAction : ObservableObject, IAction
+	internal sealed partial class RefreshItemsAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

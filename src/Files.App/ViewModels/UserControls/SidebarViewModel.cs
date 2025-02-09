@@ -19,7 +19,7 @@ using Windows.UI.Core;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public sealed class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
+	public sealed partial class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
 	{
 		private INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();

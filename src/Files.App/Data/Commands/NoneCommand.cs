@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Input;
 namespace Files.App.Data.Commands
 {
 	[DebuggerDisplay("Command None")]
-	internal sealed class NoneCommand : IRichCommand
+	internal sealed partial class NoneCommand : IRichCommand
 	{
 		public event EventHandler? CanExecuteChanged { add { } remove { } }
 		public event PropertyChangingEventHandler? PropertyChanging { add { } remove { } }

@@ -1,9 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.UI;
-using CommunityToolkit.WinUI.UI.Animations.Expressions;
-using CommunityToolkit.WinUI.UI.Behaviors;
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.Animations.Expressions;
+using CommunityToolkit.WinUI.Behaviors;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

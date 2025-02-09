@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenTerminalFromSidebarAction : OpenTerminalAction
+	internal sealed partial class OpenTerminalFromSidebarAction : OpenTerminalAction
 	{
 		private ISidebarContext SidebarContext { get; } = Ioc.Default.GetRequiredService<ISidebarContext>();
 

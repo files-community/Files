@@ -3,7 +3,7 @@
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class LayoutSettingsService : BaseObservableJsonSettings, ILayoutSettingsService
+	internal sealed partial class LayoutSettingsService : BaseObservableJsonSettings, ILayoutSettingsService
 	{
 		public LayoutSettingsService(ISettingsSharingContext settingsSharingContext)
 		{

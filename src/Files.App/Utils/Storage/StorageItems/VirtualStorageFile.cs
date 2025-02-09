@@ -11,7 +11,7 @@ using IO = System.IO;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class VirtualStorageFile : BaseStorageFile
+	public sealed partial class VirtualStorageFile : BaseStorageFile
 	{
 		public override string Path { get; }
 		public override string Name { get; }

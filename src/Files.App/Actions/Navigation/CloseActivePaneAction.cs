@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class CloseActivePaneAction : ObservableObject, IAction
+	internal sealed partial class CloseActivePaneAction : ObservableObject, IAction
 	{
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 

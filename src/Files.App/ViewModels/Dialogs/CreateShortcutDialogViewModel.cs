@@ -9,7 +9,7 @@ using Files.Shared.Helpers;
 
 namespace Files.App.ViewModels.Dialogs
 {
-	public sealed class CreateShortcutDialogViewModel : ObservableObject
+	public sealed partial class CreateShortcutDialogViewModel : ObservableObject
 	{
 		// User's working directory
 		public readonly string WorkingDirectory;

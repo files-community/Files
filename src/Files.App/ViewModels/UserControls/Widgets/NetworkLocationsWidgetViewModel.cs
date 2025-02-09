@@ -13,7 +13,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// <summary>
 	/// Represents view model of <see cref="NetworkLocationsWidget"/>.
 	/// </summary>
-	public sealed class NetworkLocationsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
+	public sealed partial class NetworkLocationsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Properties
 

@@ -7,7 +7,7 @@ using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Converters
 {
-	public sealed class StatusCenterStateToBrushConverter : DependencyObject, IValueConverter
+	public sealed partial class StatusCenterStateToBrushConverter : DependencyObject, IValueConverter
 	{
 		public static readonly DependencyProperty InProgressBackgroundBrushProperty =
 			DependencyProperty.Register(nameof(InProgressBackgroundBrush), typeof(SolidColorBrush), typeof(StatusCenterStateToBrushConverter), new PropertyMetadata(null));

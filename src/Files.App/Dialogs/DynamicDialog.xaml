@@ -6,7 +6,6 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
-	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	Title="{x:Bind ViewModel.TitleText, Mode=OneWay}"
 	CloseButtonClick="ContentDialog_CloseButtonClick"
@@ -53,9 +52,9 @@
 			Content="{x:Bind ViewModel.DisplayControl, Mode=OneWay}">
 			<i:Interaction.Behaviors>
 				<!--  No need to specify CommandParameter - `e` is passed by default  -->
-				<icore:EventTriggerBehavior EventName="Loaded">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.DisplayControlOnLoadedCommand, Mode=OneWay}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Loaded">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.DisplayControlOnLoadedCommand, Mode=OneWay}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</ContentControl>
 

@@ -15,7 +15,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// <summary>
 	/// Represents view model of <see cref="QuickAccessWidget"/>.
 	/// </summary>
-	public sealed class QuickAccessWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
+	public sealed partial class QuickAccessWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Properties
 

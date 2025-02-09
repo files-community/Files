@@ -5,7 +5,7 @@ using Files.App.ViewModels.Properties;
 
 namespace Files.App.ViewModels.Previews
 {
-	public sealed class HtmlPreviewViewModel : BasePreviewModel
+	public sealed partial class HtmlPreviewViewModel : BasePreviewModel
 	{
 		public HtmlPreviewViewModel(ListedItem item)
 			: base(item)

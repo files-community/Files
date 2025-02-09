@@ -3,7 +3,7 @@
 
 namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 {
-	public sealed class FileSystemDialogDefaultItemViewModel : BaseFileSystemDialogItemViewModel
+	public sealed partial class FileSystemDialogDefaultItemViewModel : BaseFileSystemDialogItemViewModel
 	{
 	}
 }

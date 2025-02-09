@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 {
-	public sealed class FileSystemDialogConflictItemViewModel : BaseFileSystemDialogItemViewModel, IFileSystemDialogConflictItemViewModel
+	public sealed partial class FileSystemDialogConflictItemViewModel : BaseFileSystemDialogItemViewModel, IFileSystemDialogConflictItemViewModel
 	{
 		private string? _DestinationDisplayName;
 		public string? DestinationDisplayName

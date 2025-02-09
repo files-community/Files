@@ -5,7 +5,7 @@ using Files.Shared.Extensions;
 
 namespace Files.App.Data.Models
 {
-	public sealed class DisposableArray : FreeableStore<DisposableArray>
+	public sealed partial class DisposableArray : FreeableStore<DisposableArray>
 	{
 		public byte[] Bytes { get; }
 

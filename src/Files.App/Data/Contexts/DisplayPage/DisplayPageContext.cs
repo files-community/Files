@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Contexts
 {
-	internal sealed class DisplayPageContext : ObservableObject, IDisplayPageContext
+	internal sealed partial class DisplayPageContext : ObservableObject, IDisplayPageContext
 	{
 		private readonly IMultiPanesContext context = Ioc.Default.GetRequiredService<IMultiPanesContext>();
 		private readonly IFoldersSettingsService settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();

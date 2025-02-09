@@ -10,7 +10,7 @@ using Microsoft.UI.Xaml.Input;
 namespace Files.App.Data.Commands
 {
 	[DebuggerDisplay("Command {Code}")]
-	internal sealed class ActionCommand : ObservableObject, IRichCommand
+	internal sealed partial class ActionCommand : ObservableObject, IRichCommand
 	{
 		private IActionsSettingsService ActionsSettingsService { get; } = Ioc.Default.GetRequiredService<IActionsSettingsService>();
 

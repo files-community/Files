@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls.KeyboardShortcut
 {
-	public class KeyboardShortcutItemStyleSelector : StyleSelector
+	public partial class KeyboardShortcutItemStyleSelector : StyleSelector
 	{
 		public Style OutlinedItemStyle { get; set; } = null!;
 

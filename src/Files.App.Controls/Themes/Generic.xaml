@@ -46,6 +46,14 @@
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.SizeLayout28.xaml" />
 		<!--#endregion-->
 
+		<!--#region BladeView-->
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/BladeView/BladeView.xaml" />
+		<!--#endregion-->
+
+		<!--#region GridSplitter-->
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/GridSplitter/GridSplitter.xaml" />
+		<!--#endregion-->
+
 	</ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

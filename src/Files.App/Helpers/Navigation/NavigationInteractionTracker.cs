@@ -12,7 +12,7 @@ using System.Numerics;
 
 namespace Files.App.Helpers
 {
-	internal sealed class NavigationInteractionTracker : IDisposable
+	internal sealed partial class NavigationInteractionTracker : IDisposable
 	{
 		public bool CanNavigateForward
 		{
@@ -175,7 +175,7 @@ namespace Files.App.Helpers
 			GC.SuppressFinalize(this);
 		}
 
-		private sealed class InteractionTrackerOwner : IInteractionTrackerOwner
+		private sealed partial class InteractionTrackerOwner : IInteractionTrackerOwner
 		{
 			private NavigationInteractionTracker _parent;
 			private bool _shouldBounceBack;

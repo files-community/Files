@@ -5,7 +5,7 @@ using Windows.Graphics.Imaging;
 
 namespace Files.App.Actions
 {
-	internal sealed class RotateLeftAction : BaseRotateAction
+	internal sealed partial class RotateLeftAction : BaseRotateAction
 	{
 		public override string Label
 			=> "RotateLeft".GetLocalizedResource();

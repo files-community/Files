@@ -14,7 +14,7 @@ namespace Files.App.Utils.Shell
 	/// <summary>
 	/// Provides a helper for Win32 context menu.
 	/// </summary>
-	public class ContextMenu : Win32ContextMenu, IDisposable
+	public partial class ContextMenu : Win32ContextMenu, IDisposable
 	{
 		private Shell32.IContextMenu _cMenu;
 		

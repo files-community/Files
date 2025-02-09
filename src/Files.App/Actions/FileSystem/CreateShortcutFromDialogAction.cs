@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class CreateShortcutFromDialogAction : BaseUIAction, IAction
+	internal sealed partial class CreateShortcutFromDialogAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;
 

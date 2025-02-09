@@ -14,7 +14,7 @@ namespace Files.App.Utils.Storage
 	/// <summary>
 	/// Provides group of file system operation for given page instance.
 	/// </summary>
-	public sealed class FilesystemOperations : IFilesystemOperations
+	public sealed partial class FilesystemOperations : IFilesystemOperations
 	{
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 

@@ -8,7 +8,7 @@ namespace Files.App.UserControls.TabBar
 	/// <summary>
 	/// Represents item for <see cref="TabBar"/>.
 	/// </summary>
-	public sealed class TabBarItem : ObservableObject, ITabBarItem, IDisposable
+	public sealed partial class TabBarItem : ObservableObject, ITabBarItem, IDisposable
 	{
 		public Frame ContentFrame { get; private set; }
 

@@ -8,7 +8,7 @@ using Windows.Win32.Foundation;
 
 namespace Files.App.ViewModels.Properties
 {
-	public sealed class SecurityViewModel : ObservableObject
+	public sealed partial class SecurityViewModel : ObservableObject
 	{
 		private readonly IStorageSecurityService StorageSecurityService = Ioc.Default.GetRequiredService<IStorageSecurityService>();
 

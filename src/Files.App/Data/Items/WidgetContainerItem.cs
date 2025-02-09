@@ -8,7 +8,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents an item of Files widget container.
 	/// </summary>
-	public sealed class WidgetContainerItem : ObservableObject, IDisposable
+	public sealed partial class WidgetContainerItem : ObservableObject, IDisposable
 	{
 		// Fields
 

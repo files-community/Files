@@ -5,7 +5,7 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
-	internal sealed class InstallCertificateAction : ObservableObject, IAction
+	internal sealed partial class InstallCertificateAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

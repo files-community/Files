@@ -3,7 +3,7 @@
 
 namespace Files.App.Data.Items
 {
-	public sealed class LibraryLocationItem : LocationItem
+	public sealed partial class LibraryLocationItem : LocationItem
 	{
 		public string DefaultSaveFolder { get; }
 

@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenTerminalAsAdminAction : OpenTerminalAction
+	internal sealed partial class OpenTerminalAsAdminAction : OpenTerminalAction
 	{
 		public override string Label
 			=> "OpenTerminalAsAdmin".GetLocalizedResource();

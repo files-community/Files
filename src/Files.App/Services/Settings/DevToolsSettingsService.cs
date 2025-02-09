@@ -3,7 +3,7 @@
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class DevToolsSettingsService : BaseObservableJsonSettings, IDevToolsSettingsService
+	internal sealed partial class DevToolsSettingsService : BaseObservableJsonSettings, IDevToolsSettingsService
 	{
 		public DevToolsSettingsService(ISettingsSharingContext settingsSharingContext)
 		{

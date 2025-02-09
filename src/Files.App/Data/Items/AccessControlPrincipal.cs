@@ -10,7 +10,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents a principal of an ACE or an owner of an ACL.
 	/// </summary>
-	public sealed class AccessControlPrincipal : ObservableObject
+	public sealed partial class AccessControlPrincipal : ObservableObject
 	{
 		/// <summary>
 		/// Account type.
@@ -66,34 +66,27 @@ namespace Files.App.Data.Items
 		public string FullNameHumanizedWithBrackes
 			=> string.IsNullOrEmpty(Domain) ? string.Empty : $"({Domain}\\{Name})";
 
-		public unsafe AccessControlPrincipal(string sid)
+		public AccessControlPrincipal(string sid)
 		{
 			if (string.IsNullOrEmpty(sid))
 				return;
 
 			Sid = sid;
-			PSID lpSid = default;
-			SID_NAME_USE snu = default;
+			PInvoke.ConvertStringSidToSid(sid, out var lpSid);
 
-			fixed (char* cSid = sid)
-				PInvoke.ConvertStringSidToSid(new PCWSTR(cSid), &lpSid);
-
-			PWSTR lpName = default;
-			PWSTR lpDomain = default;
+			char[] lpName = [];
+			char[] lpDomain = [];
 			uint cchName = 0, cchDomainName = 0;
 
 			// Get size of account name and domain name
-			bool bResult = PInvoke.LookupAccountSid(new PCWSTR(), lpSid, lpName, &cchName, lpDomain, &cchDomainName, null);
+			bool bResult = PInvoke.LookupAccountSid(string.Empty, lpSid, lpName, ref cchName, lpDomain, ref cchDomainName, out _);
 
 			// Ensure requested capacity
-			fixed (char* cName = new char[cchName])
-				lpName = new(cName);
-
-			fixed (char* cDomain = new char[cchDomainName])
-				lpDomain = new(cDomain);
+			lpName = new char[cchName];
+			lpDomain = new char[cchDomainName];
 
 			// Get account name and domain
-			bResult = PInvoke.LookupAccountSid(new PCWSTR(), lpSid, lpName, &cchName, lpDomain, &cchDomainName, &snu);
+			bResult = PInvoke.LookupAccountSid(string.Empty, lpSid, lpName, ref cchName, lpDomain, ref cchDomainName, out var snu);
 			if(!bResult)
 				return;
 
@@ -118,16 +111,14 @@ namespace Files.App.Data.Items
 			if (snu == SID_NAME_USE.SidTypeUser || snu == SID_NAME_USE.SidTypeAlias)
 			{
 				uint size = 256;
-				fixed (char* cDomain = new char[size])
-					lpDomain = new(cDomain);
-
+				lpDomain = new char[size];
 				bResult = PInvoke.GetComputerName(lpDomain, ref size);
 				if (!bResult)
 					return;
 			}
 
-			Name = lpName.ToString();
-			Domain = lpDomain.ToString().ToLower();
+			Name = lpName.AsSpan().ToString();
+			Domain = lpDomain.AsSpan().ToString().ToLower();
 
 			IsValid = true;
 		}

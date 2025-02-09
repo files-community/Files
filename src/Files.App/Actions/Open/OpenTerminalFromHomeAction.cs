@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenTerminalFromHomeAction : OpenTerminalAction
+	internal sealed partial class OpenTerminalFromHomeAction : OpenTerminalAction
 	{
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 

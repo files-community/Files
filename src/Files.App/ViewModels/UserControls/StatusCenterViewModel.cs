@@ -3,7 +3,7 @@
 
 namespace Files.App.ViewModels.UserControls
 {
-	public sealed class StatusCenterViewModel : ObservableObject
+	public sealed partial class StatusCenterViewModel : ObservableObject
 	{
 		public ObservableCollection<StatusCenterItem> StatusCenterItems { get; } = [];
 

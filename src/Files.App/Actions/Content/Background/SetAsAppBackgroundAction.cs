@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class SetAsAppBackgroundAction : BaseSetAsAction
+	internal sealed partial class SetAsAppBackgroundAction : BaseSetAsAction
 	{
 		private readonly IAppearanceSettingsService AppearanceSettingsService = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
 

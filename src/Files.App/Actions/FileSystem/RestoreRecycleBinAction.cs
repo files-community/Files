@@ -7,7 +7,7 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal sealed class RestoreRecycleBinAction : BaseUIAction, IAction
+	internal sealed partial class RestoreRecycleBinAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;
 

@@ -3,7 +3,7 @@
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class StorageHistoryWrapper : IDisposable
+	public sealed partial class StorageHistoryWrapper : IDisposable
 	{
 		private int index = -1;
 

@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class CompressIntoZipAction : BaseCompressArchiveAction
+	internal sealed partial class CompressIntoZipAction : BaseCompressArchiveAction
 	{
 		public override string Label
 			=> string.Format("CreateNamedArchive".GetLocalizedResource(), $"{StorageArchiveService.GenerateArchiveNameFromItems(context.SelectedItems)}.zip");
