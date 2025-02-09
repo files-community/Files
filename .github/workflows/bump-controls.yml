@@ -39,10 +39,6 @@ jobs:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_PRIVATE_KEY }}
 
-      - name: Login to gh cli
-        run: |
-          "GH_TOKEN=${{ steps.generate.outputs.token }}"
-
       - name: Bump Version
         id: bump_version
         shell: pwsh
@@ -111,6 +107,6 @@ jobs:
       - name: Create Pull Request
         shell: pwsh
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.generate.outputs.token }}
         run: |
           gh pr create --title "NuGet: Bumped Files UI controls version to ${{ steps.get_version.outputs.full_version }}" --body "hello" --base main --head files/ui-controls/${{ steps.get_version.outputs.full_version }}
