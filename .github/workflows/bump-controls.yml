@@ -31,6 +31,18 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v4
 
+      - name: Generate GitHub Apps token
+        if: github.repository_owner == 'Lamparter'
+        id: generate
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+
+      - name: Login to gh cli
+        run: |
+          "GH_TOKEN=${{ steps.generate.outputs.token }}"
+
       - name: Bump Version
         id: bump_version
         shell: pwsh
