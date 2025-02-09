@@ -145,5 +145,16 @@ namespace Files.App.Data.Items
 
 			return hashCode;
 		}
+
+		public void Update(DetailsLayoutColumnItem other)
+		{
+			UserLengthPixels = other.UserLengthPixels;
+			NormalMaxLength = other.NormalMaxLength;
+			UserCollapsed = other.UserCollapsed;
+			IsResizable = other.IsResizable;
+			IsHidden = other.IsHidden;
+			NormalMinLength = other.NormalMinLength;
+			UserLength = other.UserLength;
+		}
 	}
 }
