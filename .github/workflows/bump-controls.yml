@@ -109,4 +109,4 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.generate.outputs.token }}
         run: |
-          gh pr create --title "NuGet: Bumped Files UI controls version to ${{ steps.get_version.outputs.full_version }}" --body "This is an automated PR that bumps the version of the Files UI controls project." --base main --head files/ui-controls/${{ steps.get_version.outputs.full_version }}
+          gh pr create --title "Controls: Bumped Controls version to ${{ steps.get_version.outputs.full_version }}" --body "This is an automated PR that bumps the version of the Files UI controls project." --base main --head files/ui-controls/${{ steps.get_version.outputs.full_version }}
