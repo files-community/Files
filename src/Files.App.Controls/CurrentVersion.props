@@ -1,15 +1,15 @@
 <!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
-<!--  This is an auto-generated file that is used to track the version of the Files UI Controls package online.
-      The version is automatically bumped by the 'Files CD (Bump UI controls version)' action online.  
-      You can bump the version here in a PR and when it is merged the controls project will be automatically
-      published to NuGet online. -->
+<!--  READ ME BEFORE MODIFYING THIS FILE:
+      This file is used to track the version of the Files UI Controls package online.
+      The version is automatically bumped by the 'Bump Files UI Controls' action online.  
+      You can bump the version here in a PR and when it is merged the controls project
+      will be automatically published to NuGet online. -->
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <MajorVersion>1</MajorVersion>
         <MinorVersion>0</MinorVersion>
         <!-- This version is bumped automatically by CI. -->
         <MicroVersion>0</MicroVersion>
-
         <Version>$(MajorVersion).$(MinorVersion).$(MicroVersion)</Version>
     </PropertyGroup>
 </Project>
