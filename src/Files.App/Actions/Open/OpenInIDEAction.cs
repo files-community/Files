@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenInIDEAction : ObservableObject, IAction
+	internal sealed partial class OpenInIDEAction : ObservableObject, IAction
 	{
 		private readonly IDevToolsSettingsService _devToolsSettingsService;
 
