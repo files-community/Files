@@ -50,15 +50,6 @@ jobs:
       run: |
         for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
 
-    - name: Extract Version from CurrentVersion.props
-      id: extract_version
-      shell: pwsh
-      run: |
-        $xml = [xml](Get-Content $env:PROJECT_DIR\CurrentVersion.props)
-        $version = $xml.Project.PropertyGroup.Version
-        Write-Output "Found publish version, $version"
-        echo "::set-output name=version::$version"
-
     - name: Restore NuGet
       shell: pwsh
       run: |
@@ -75,7 +66,7 @@ jobs:
         -p:Configuration=$env:CONFIGURATION
 
     - name: Package Files UI Controls
-      run: dotnet pack ${{ env.PACKAGE_PROJECT_PATH }} --configuration ${{ env.CONFIGURATION }} --no-build -o ./output -p:Version=${{ steps.extract_version.outputs.version }}
+      run: dotnet pack ${{ env.PACKAGE_PROJECT_PATH }} --configuration ${{ env.CONFIGURATION }} --no-build -o ./output
 
     - name: Publish package to NuGet
       run: dotnet nuget push ./output/*.nupkg --api-key (SECRET GOES HERE) --source https://api.nuget.org/v3/index.json
