@@ -108,8 +108,13 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.ItemSizeOnDisk = Win32Helper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
 				   string.Empty;
 
+			string filePath = (Item as ShortcutItem)?.TargetPath ?? Item.ItemPath;
+			BaseStorageFile? file = !string.IsNullOrWhiteSpace(filePath) ?
+				await AppInstance.ShellViewModel.GetFileFromPathAsync(filePath) : null!;
+
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Item.ItemPath,
+				file,
 				Constants.ShellIconSizes.ExtraLarge,
 				false,
 				IconOptions.UseCurrentScale);
@@ -132,9 +137,6 @@ namespace Files.App.ViewModels.Properties
 				}
 			}
 
-			string filePath = (Item as ShortcutItem)?.TargetPath ?? Item.ItemPath;
-			BaseStorageFile file = await AppInstance.ShellViewModel.GetFileFromPathAsync(filePath);
-
 			// Couldn't access the file and can't load any other properties
 			if (file is null)
 				return;
@@ -152,7 +154,7 @@ namespace Files.App.ViewModels.Properties
 						ViewModel.UncompressedItemSizeBytes = uncompressedSize;
 					}
 
-			if (file.Properties is not null)
+			if (file?.Properties is not null)
 				GetOtherPropertiesAsync(file.Properties);
 		}
 

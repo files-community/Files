@@ -1096,18 +1096,17 @@ namespace Files.App.ViewModels
 			// SingleItem returns image thumbnails in the correct aspect ratio for the grid layouts
 			// ListView is used for the details and columns layout
 			// We use ReturnOnlyIfCached because otherwise folders thumbnails have a black background, this has the downside the folder previews don't work
-			var (thumbnailMode, thumbnailOptions) = matchingStorageItem switch
+			var iconOptions = matchingStorageItem switch
 			{
-				BaseStorageFolder => (ThumbnailMode.SingleItem, ThumbnailOptions.ReturnOnlyIfCached),
-				BaseStorageFile when thumbnailSize < 96 => (ThumbnailMode.ListView, ThumbnailOptions.ResizeThumbnail),
-				_ => (ThumbnailMode.SingleItem, ThumbnailOptions.ResizeThumbnail),
+				BaseStorageFolder => IconOptions.SingleItem | IconOptions.ReturnOnlyIfCached,
+				BaseStorageFile when thumbnailSize < 96 => IconOptions.ListView | IconOptions.ResizeThumbnail,
+				_ => IconOptions.SingleItem | IconOptions.ResizeThumbnail,
 			};
 
 			var result = await FileThumbnailHelper.GetIconAsync(
 						matchingStorageItem, 
-						thumbnailSize, 
-						thumbnailMode, 
-						thumbnailOptions);
+						thumbnailSize,
+						iconOptions);
 
 			if (result is not null)
 			{
