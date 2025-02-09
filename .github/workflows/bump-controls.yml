@@ -1,0 +1,84 @@
+# Copyright (c) Files Community
+# Licensed under the MIT License.
+
+# Abstract:
+#  Bumps the version of the Files UI Controls library
+#
+# Workflow:
+#  1. Find the version of the Files UI Controls library
+#  2. Bump the version of the Files UI Controls library
+#  3. Commit the changes to a new branch in the repo
+#  4. Push the changes to the repo
+#  5. Create a pull request and request a review
+
+name: Bump Files UI Controls
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  bump:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+    env:
+      WORKING_DIR:                '${{ github.workspace }}' # D:\a\Files\Files\
+      PROPS_PATH:                 '${{ github.workspace }}\src\Files.App.Controls\CurrentVersion.props'
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - name: Bump Version
+        id: bump_version
+        shell: pwsh
+        run: |
+          $xml = [xml](Get-Content $env:PROPS_PATH)
+          $version = [int]$xml.Project.PropertyGroup.MicroVersion
+          $newVersion = $version + 1
+          $xml.Project.PropertyGroup.MicroVersion = $newVersion
+          $xml.Save($env:PROPS_PATH)
+          Write-Output "Bumped version to $newVersion"
+          echo "::set-output name=new_version::$newVersion"
+
+      - uses: EndBug/add-and-commit@v9
+        with:
+          # The arguments for the `git add` command
+          # Default: '.'
+          add: '${{ env.PROPS_PATH }}'
+      
+          # The name of the user that will be displayed as the author of the commit.
+          # Default: depends on the default_author input
+          author_name: files-community-bot[bot]
+      
+          # The email of the user that will be displayed as the author of the commit.
+          # Default: depends on the default_author input
+          author_email: 152337890+files-community-bot[bot]@users.noreply.github.com
+
+          # Determines the way the action fills missing author name and email. Three options are available:
+          # - github_actor -> UserName <UserName@users.noreply.github.com>
+          # - user_info -> Your Display Name <your-actual@email.com>
+          # - github_actions -> github-actions <email associated with the github logo>
+          # Default: github_actor
+          default_author: github_actor
+
+          # The message for the commit.
+          # Default: 'Commit from GitHub Actions (name of the workflow)'
+          message: 'Bump Files UI controls micro version to ${{ steps.bump_version.outputs.new_version }}'
+      
+          # If this input is set, the action will push the commit to a new branch with this name.
+          # Default: ''
+          new_branch: 'files/ui-controls/micro${{ steps.bump_version.outputs.new_version }}'
+      
+          # The way the action should handle pathspec errors from the add and remove commands. Three options are available:
+          # - ignore -> errors will be logged but the step won't fail
+          # - exitImmediately -> the action will stop right away, and the step will fail
+          # - exitAtEnd -> the action will go on, every pathspec error will be logged at the end, the step will fail.
+          # Default: ignore
+          pathspec_error_handling: ignore
+      
+          # Whether to push the commit and, if any, its tags to the repo. It can also be used to set the git push arguments (see the paragraph below for more info)
+          # Default: true
+          push: true
