@@ -56,7 +56,7 @@ jobs:
         msbuild $env:PACKAGE_PROJECT_PATH `
         -t:Restore `
         -p:Platform=$env:PLATFORM `
-        -p:Configuration=$env:CONFIGURATION `
+        -p:Configuration=$env:CONFIGURATION
 
     - name: Build Files UI Controls
       run: |
