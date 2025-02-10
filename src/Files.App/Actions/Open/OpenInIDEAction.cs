@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Microsoft.UI.Xaml.Controls;
-
 namespace Files.App.Actions
 {
 	internal sealed partial class OpenInIDEAction : ObservableObject, IAction
@@ -14,12 +12,12 @@ namespace Files.App.Actions
 		public string Label
 			=> string.Format(
 				"OpenInIDE".GetLocalizedResource(),
-				_devToolsSettingsService.FriendlyIDEName);
+				_devToolsSettingsService.IDEFriendlyName);
 
 		public string Description
 			=> string.Format(
 				"OpenInIDEDescription".GetLocalizedResource(),
-				_devToolsSettingsService.FriendlyIDEName);
+				_devToolsSettingsService.IDEFriendlyName);
 
 		public bool IsExecutable =>
 			_context.Folder is not null &&
@@ -41,7 +39,7 @@ namespace Files.App.Actions
 			);
 
 			if (!res)
-				await ShowErrorDialog();
+				await DynamicDialogFactory.ShowFor_IDEErrorDialog();
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -56,29 +54,10 @@ namespace Files.App.Actions
 			{
 				OnPropertyChanged(nameof(IsExecutable));
 			}
-			else if (e.PropertyName == nameof(IDevToolsSettingsService.FriendlyIDEName))
+			else if (e.PropertyName == nameof(IDevToolsSettingsService.IDEFriendlyName))
 			{
 				OnPropertyChanged(nameof(Label));
 				OnPropertyChanged(nameof(Description));
-			}
-		}
-
-		private async Task ShowErrorDialog()
-		{
-			var commands = Ioc.Default.GetRequiredService<ICommandManager>();
-			var errorDialog = new ContentDialog()
-			{
-				Title = Strings.IDEError.GetLocalizedResource(),
-				Content = Strings.SelectedIDENotValid.GetLocalizedResource(),
-				PrimaryButtonText = Strings.OK.GetLocalizedResource(),
-				SecondaryButtonText = Strings.EditInSettings.GetLocalizedResource(),
-			};
-
-			if (await errorDialog.TryShowAsync() == ContentDialogResult.Secondary)
-			{
-				await commands.OpenSettings.ExecuteAsync(
-					new SettingsNavigationParams() { PageKind = SettingsPageKind.DevToolsPage }
-				);
 			}
 		}
 	}

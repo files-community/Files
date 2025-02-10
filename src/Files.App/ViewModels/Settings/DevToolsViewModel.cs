@@ -102,7 +102,7 @@ namespace Files.App.ViewModels.Settings
 			SelectedOpenInIDEOption = OpenInIDEOptions[DevToolsSettingsService.OpenInIDEOption];
 
 			IDEPath = DevToolsSettingsService.IDEPath;
-			IDEFriendlyName = DevToolsSettingsService.FriendlyIDEName;
+			IDEFriendlyName = DevToolsSettingsService.IDEFriendlyName;
 			IsIDEPathValid = true;
 			IsFriendlyNameValid = true;
 
@@ -149,7 +149,7 @@ namespace Files.App.ViewModels.Settings
 		{
 			IsEditingIDEConfig = false;
 			IDEPath = DevToolsSettingsService.IDEPath;
-			IDEFriendlyName = DevToolsSettingsService.FriendlyIDEName;
+			IDEFriendlyName = DevToolsSettingsService.IDEFriendlyName;
 			IsIDEPathValid = true;
 			IsFriendlyNameValid = true;
 		}
@@ -160,7 +160,7 @@ namespace Files.App.ViewModels.Settings
 			IsIDEPathValid = true;
 			IsFriendlyNameValid = true;
 			DevToolsSettingsService.IDEPath = IDEPath;
-			DevToolsSettingsService.FriendlyIDEName = IDEFriendlyName;
+			DevToolsSettingsService.IDEFriendlyName = IDEFriendlyName;
 		}
 
 		private void DoStartEditingIDE()
