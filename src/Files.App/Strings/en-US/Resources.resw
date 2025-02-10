@@ -4055,19 +4055,19 @@
   <data name="Test" xml:space="preserve">
     <value>Test</value>
   </data>
-  <data name="SelectedIDENotValid" xml:space="preserve">
-    <value>Selected IDE is not valid</value>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>The configured IDE cannot be located. Please update the path and try again.</value>
   </data>
-  <data name="IDEError" xml:space="preserve">
-    <value>IDE Error</value>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>{0} could not be located</value>
   </data>
-  <data name="EditInSettings" xml:space="preserve">
-    <value>Edit in settings</value>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Open settings</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
   </data>
   <data name="IDEPathPlaceholder" xml:space="preserve">
-    <value>code</value>
+    <value>Enter a path or launch alias</value>
   </data>
 </root>
