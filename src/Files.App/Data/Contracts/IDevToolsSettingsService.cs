@@ -18,6 +18,6 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// Gets or sets the friendly name of the chosen IDE.
 		/// </summary>
-		string FriendlyIDEName { get; set; }
+		string IDEFriendlyName { get; set; }
 	}
 }

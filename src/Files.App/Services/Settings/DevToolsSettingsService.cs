@@ -5,8 +5,6 @@ namespace Files.App.Services.Settings
 {
 	internal sealed partial class DevToolsSettingsService : BaseObservableJsonSettings, IDevToolsSettingsService
 	{
-		private bool _isVSCodeInstalled = SoftwareHelpers.IsVSCodeInstalled();
-
 		public DevToolsSettingsService(ISettingsSharingContext settingsSharingContext)
 		{
 			// Register root
@@ -23,14 +21,14 @@ namespace Files.App.Services.Settings
 		/// <inheritdoc/>
 		public string IDEPath
 		{
-			get => Get(_isVSCodeInstalled ? "code" : string.Empty) ?? string.Empty;
+			get => Get(SoftwareHelpers.IsVSCodeInstalled() ? "code" : string.Empty) ?? string.Empty;
 			set => Set(value);
 		}
 
 		/// <inheritdoc/>
-		public string FriendlyIDEName
+		public string IDEFriendlyName
 		{
-			get => Get(_isVSCodeInstalled ? Strings.VisualStudioCode.GetLocalizedResource() : string.Empty) ?? string.Empty;
+			get => Get(SoftwareHelpers.IsVSCodeInstalled() ? Strings.VisualStudioCode.GetLocalizedResource() : string.Empty) ?? string.Empty;
 			set => Set(value);
 		}
 
