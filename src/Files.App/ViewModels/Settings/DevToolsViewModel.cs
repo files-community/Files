@@ -66,6 +66,8 @@ namespace Files.App.ViewModels.Settings
 						!value.Contains('\"') &&
 						!value.Contains('\'') &&
 						CheckPathExists();
+
+					OnPropertyChanged(nameof(CanSaveIDEChanges));
 				}
 			}
 		}

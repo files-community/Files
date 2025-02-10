@@ -36,7 +36,7 @@ namespace Files.App.Actions
 			);
 
 			if (!res)
-				await DynamicDialogFactory.ShowFor_IDEErrorDialog();
+				await DynamicDialogFactory.ShowFor_IDEErrorDialog(_devToolsSettingsService.IDEPath);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

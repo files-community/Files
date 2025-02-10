@@ -405,21 +405,21 @@ namespace Files.App.Helpers
 			return dialog;
 		}
 
-		public static async Task ShowFor_IDEErrorDialog()
+		public static async Task ShowFor_IDEErrorDialog(string path)
 		{
 			var commands = Ioc.Default.GetRequiredService<ICommandManager>();
 			var dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
-				TitleText = Strings.IDEError.GetLocalizedResource(),
-				SubtitleText = Strings.SelectedIDENotValid.GetLocalizedResource(),
-				PrimaryButtonText = Strings.OK.GetLocalizedResource(),
-				SecondaryButtonText = Strings.EditInSettings.GetLocalizedResource(),
+				TitleText = string.Format(Strings.IDENotLocatedTitle.GetLocalizedResource(), path),
+				SubtitleText = Strings.IDENotLocatedContent.GetLocalizedResource(),
+				PrimaryButtonText = Strings.OpenSettings.GetLocalizedResource(),
+				SecondaryButtonText = Strings.Close.GetLocalizedResource(),
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary,
 			});
 
 			await dialog.TryShowAsync();
 
-			if (dialog.DynamicResult is DynamicDialogResult.Secondary)
+			if (dialog.DynamicResult is DynamicDialogResult.Primary)
 				await commands.OpenSettings.ExecuteAsync(
 					new SettingsNavigationParams() { PageKind = SettingsPageKind.DevToolsPage }
 				);
