@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.IO;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Settings
@@ -63,7 +64,8 @@ namespace Files.App.ViewModels.Settings
 					IsIDEPathValid =
 						!string.IsNullOrWhiteSpace(value) &&
 						!value.Contains('\"') &&
-						!value.Contains('\'');
+						!value.Contains('\'') &&
+						CheckPathExists();
 				}
 			}
 		}
@@ -176,6 +178,21 @@ namespace Files.App.ViewModels.Settings
 				$"& \'{IDEPath}\'",
 				PowerShellExecutionOptions.Hidden
 			);
+		}
+
+		private bool CheckPathExists()
+		{
+			if (Path.Exists(IDEPath))
+				return true;
+
+			var paths = Environment.GetEnvironmentVariable("PATH")?.Split(';');
+			foreach (var path in paths ?? Array.Empty<string>())
+			{
+				if (Path.Exists(Path.Combine(path, IDEPath)))
+					return true;
+			}
+
+			return false;
 		}
 	}
 }
