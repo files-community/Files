@@ -4067,4 +4067,7 @@
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
   </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>code</value>
+  </data>
 </root>
