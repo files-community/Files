@@ -99,6 +99,7 @@
 									x:Name="IDEPathTextBox"
 									Width="300"
 									VerticalAlignment="Center"
+									PlaceholderText="{helpers:ResourceString Name=IDEPathPlaceholder}"
 									Text="{x:Bind ViewModel.IDEPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 									<TextBox.Resources>
 										<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
@@ -112,8 +113,7 @@
 								<Button
 									x:Name="TestIDE"
 									Command="{x:Bind ViewModel.TestIDECommand, Mode=OneWay}"
-									Content="{helpers:ResourceString Name=Test}"
-									IsEnabled="{x:Bind ViewModel.IDEPathTested, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+									Content="{helpers:ResourceString Name=Test}" />
 							</StackPanel>
 
 							<Grid

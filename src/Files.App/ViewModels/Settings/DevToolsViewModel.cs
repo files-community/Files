@@ -36,7 +36,7 @@ namespace Files.App.ViewModels.Settings
 		}
 
 		public bool CanSaveIDEChanges =>
-			IsFriendlyNameValid && IsIDEPathValid && _IDEPathTested;
+			IsFriendlyNameValid && IsIDEPathValid;
 
 		private bool _IsIDEPathValid;
 		public bool IsIDEPathValid
@@ -64,7 +64,6 @@ namespace Files.App.ViewModels.Settings
 						!string.IsNullOrWhiteSpace(value) &&
 						!value.Contains('\"') &&
 						!value.Contains('\'');
-					IDEPathTested = false;
 				}
 			}
 		}
@@ -80,17 +79,6 @@ namespace Files.App.ViewModels.Settings
 					IsFriendlyNameValid = !string.IsNullOrEmpty(value);
 					OnPropertyChanged(nameof(CanSaveIDEChanges));
 				}
-			}
-		}
-
-		private bool _IDEPathTested = false;
-		public bool IDEPathTested
-		{
-			get => _IDEPathTested;
-			set
-			{
-				if (SetProperty(ref _IDEPathTested, value))
-					OnPropertyChanged(nameof(CanSaveIDEChanges));
 			}
 		}
 
@@ -170,7 +158,7 @@ namespace Files.App.ViewModels.Settings
 
 		private void DoOpenFilePickerForIDE()
 		{
-			CommonDialogService.Open_FileOpenDialog(
+			var res = CommonDialogService.Open_FileOpenDialog(
 				MainWindow.Instance.WindowHandle,
 				false,
 				["*.exe;*.bat;*.cmd;*.ahk"],
@@ -178,17 +166,16 @@ namespace Files.App.ViewModels.Settings
 				out var filePath
 			);
 
-			IDEPath = filePath;
+			if (res)
+				IDEPath = filePath;
 		}
 
 		private async void DoTestIDE()
 		{
-			IDEPathTested = await Win32Helper.RunPowershellCommandAsync(
+			IsIDEPathValid = await Win32Helper.RunPowershellCommandAsync(
 				$"& \'{IDEPath}\'",
 				PowerShellExecutionOptions.Hidden
 			);
-
-			IsIDEPathValid = _IDEPathTested;
 		}
 	}
 }
