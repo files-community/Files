@@ -405,13 +405,13 @@ namespace Files.App.Helpers
 			return dialog;
 		}
 
-		public static async Task ShowFor_IDEErrorDialog(string path)
+		public static async Task ShowFor_IDEErrorDialog(string friendlyName)
 		{
 			var commands = Ioc.Default.GetRequiredService<ICommandManager>();
 			var dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
-				TitleText = string.Format(Strings.IDENotLocatedTitle.GetLocalizedResource(), path),
-				SubtitleText = Strings.IDENotLocatedContent.GetLocalizedResource(),
+				TitleText = Strings.IDENotLocatedTitle.GetLocalizedResource(),
+				SubtitleText = string.Format(Strings.IDENotLocatedContent.GetLocalizedResource(), friendlyName),
 				PrimaryButtonText = Strings.OpenSettings.GetLocalizedResource(),
 				SecondaryButtonText = Strings.Close.GetLocalizedResource(),
 				DynamicButtons = DynamicDialogButtons.Primary | DynamicDialogButtons.Secondary,
