@@ -4056,10 +4056,10 @@
     <value>Test</value>
   </data>
   <data name="IDENotLocatedContent" xml:space="preserve">
-    <value>The configured IDE cannot be located. Please update the path and try again.</value>
+    <value>{0} could not be located. Please check your settings and try again.</value>
   </data>
   <data name="IDENotLocatedTitle" xml:space="preserve">
-    <value>{0} could not be located</value>
+    <value>The configured IDE could not be located</value>
   </data>
   <data name="OpenSettings" xml:space="preserve">
     <value>Open settings</value>
