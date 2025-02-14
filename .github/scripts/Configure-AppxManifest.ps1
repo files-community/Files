@@ -2,12 +2,12 @@
 # Licensed under the MIT License.
 
 param(
-    [string]$Branch = "", # This has to correspond with one of the AppEnvironment enum values
-    [string]$PackageManifestPath = "",
-    [string]$Publisher = "",
-    [string]$WorkingDir = "",
-    [string]$SecretBingMapsKey = "",
-    [string]$SecretSentry = "",
+    [string]$ReleaseBranch =             "", # SideloadPreview, SideloadStable, StorePreview, or StoreStable
+    [string]$PackageManifestPath =       "",
+    [string]$Publisher =                 "",
+    [string]$WorkingDir =                "",
+    [string]$SecretBingMapsKey =         "",
+    [string]$SecretSentry =              "",
     [string]$SecretGitHubOAuthClientId = ""
 )
 
@@ -27,7 +27,7 @@ $ea = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pk
 # Update the publisher
 $xmlDoc.Package.Identity.Publisher = $Publisher
 
-if ($Branch -eq "SideloadPreview")
+if ($ReleaseBranch -eq "SideloadPreview")
 {
     # Set identities
     $xmlDoc.Package.Identity.Name="FilesPreview"
@@ -54,7 +54,7 @@ if ($Branch -eq "SideloadPreview")
         Set-Content $_ -NoNewline `
     }
 }
-elseif ($Branch -eq "StorePreview")
+elseif ($ReleaseBranch -eq "StorePreview")
 {
     # Set identities
     $xmlDoc.Package.Identity.Name="49306atecsolution.FilesPreview"
@@ -87,7 +87,7 @@ elseif ($Branch -eq "StorePreview")
         Set-Content $_ -NoNewline `
     }
 }
-elseif ($Branch -eq "SideloadStable")
+elseif ($ReleaseBranch -eq "SideloadStable")
 {
     # Set identities
     $xmlDoc.Package.Identity.Name="Files"
@@ -114,7 +114,7 @@ elseif ($Branch -eq "SideloadStable")
         Set-Content $_ -NoNewline `
     }
 }
-elseif ($Branch -eq "StoreStable")
+elseif ($ReleaseBranch -eq "StoreStable")
 {
     # Set identities
     $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
@@ -148,7 +148,7 @@ elseif ($Branch -eq "StoreStable")
 
 Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
 { `
-    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "cd_app_env_placeholder", $Branch }) | `
+    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "cd_app_env_placeholder", $ReleaseBranch }) | `
     Set-Content $_ -NoNewline `
 }
 
