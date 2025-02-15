@@ -1,14 +1,12 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Runtime.InteropServices;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Input;
 using Vanara.PInvoke;
-using Windows.ApplicationModel.DataTransfer;
 using Vanara.Windows.Shell;
+using Windows.ApplicationModel.DataTransfer;
 using WinRT;
 using DragEventArgs = Microsoft.UI.Xaml.DragEventArgs;
 
@@ -52,8 +50,8 @@ namespace Files.App.UserControls
 
 				var storable = item switch
 				{
-					StorageFileWithPath => (IStorable?)await storageService.TryGetFileAsync(item.Path),
-					StorageFolderWithPath => (IStorable?)await storageService.TryGetFolderAsync(item.Path),
+					StorageFileWithPath => (INestedStorable?)await storageService.TryGetFileAsync(item.Path),
+					StorageFolderWithPath => (INestedStorable?)await storageService.TryGetFolderAsync(item.Path),
 					_ => null
 				};
 
