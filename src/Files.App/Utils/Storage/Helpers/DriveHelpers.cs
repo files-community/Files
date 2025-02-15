@@ -93,10 +93,9 @@ namespace Files.App.Utils.Storage
 			}
 			// Network share
 			else if (
-						(  devicePath.StartsWith(@"\\", StringComparison.Ordinal) &&
+						  (  devicePath.StartsWith(@"\\", StringComparison.Ordinal) ||
+							 GetDriveType(new SystemIO.DriveInfo(devicePath)) is DriveType.Network  ) &&
 						  !devicePath.StartsWith(@"\\SHELL\", StringComparison.Ordinal)
-						) ||
-						GetDriveType(new SystemIO.DriveInfo(devicePath)) is DriveType.Network
 					)
 			{
 				int lastSepIndex = rootPath.LastIndexOf(@"\", StringComparison.Ordinal);
