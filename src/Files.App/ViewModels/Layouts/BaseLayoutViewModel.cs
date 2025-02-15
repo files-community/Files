@@ -116,7 +116,7 @@ namespace Files.App.ViewModels.Layouts
 			{
 				// As long as one file doesn't already belong to this folder
 				if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any() &&
-				    draggedItems.AreItemsAlreadyInFolder(_associatedInstance.ShellViewModel.WorkingDirectory))
+					draggedItems.AreItemsAlreadyInFolder(_associatedInstance.ShellViewModel.WorkingDirectory))
 				{
 					e.AcceptedOperation = DataPackageOperation.None;
 				}
@@ -157,9 +157,9 @@ namespace Files.App.ViewModels.Layouts
 						e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
 					}
 					else if (draggedItems.Any(x =>
-						         x.Item is ZipStorageFile ||
-						         x.Item is ZipStorageFolder) ||
-					         ZipStorageFolder.IsZipPath(pwd))
+								 x.Item is ZipStorageFile ||
+								 x.Item is ZipStorageFolder) ||
+							 ZipStorageFolder.IsZipPath(pwd))
 					{
 						e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
 						e.AcceptedOperation = DataPackageOperation.Copy;
