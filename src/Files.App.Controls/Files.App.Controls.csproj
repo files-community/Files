@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>$(TargetFrameworkVersion)-windows$(TargetWindowsVersion)</TargetFramework>
+        <TargetFramework>$(WindowsTargetFramework)</TargetFramework>
         <TargetPlatformMinVersion>$(MinimalWindowsVersion)</TargetPlatformMinVersion>
         <UseWinUI>true</UseWinUI>
         <Nullable>enable</Nullable>

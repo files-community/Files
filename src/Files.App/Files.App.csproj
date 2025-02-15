@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>$(TargetFrameworkVersion)-windows$(TargetWindowsVersion)</TargetFramework>
+        <TargetFramework>$(WindowsTargetFramework)</TargetFramework>
         <OutputType>WinExe</OutputType>
         <AssemblyName>Files</AssemblyName>
         <DefaultLanguage>en-US</DefaultLanguage>
