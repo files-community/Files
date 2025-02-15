@@ -92,8 +92,12 @@ namespace Files.App.Utils.Storage
 				}
 			}
 			// Network share
-			else if (devicePath.StartsWith(@"\\", StringComparison.Ordinal) &&
-				!devicePath.StartsWith(@"\\SHELL\", StringComparison.Ordinal))
+			else if (
+						(  devicePath.StartsWith(@"\\", StringComparison.Ordinal) &&
+						  !devicePath.StartsWith(@"\\SHELL\", StringComparison.Ordinal)
+						) ||
+						GetDriveType(new SystemIO.DriveInfo(devicePath)) is DriveType.Network
+					)
 			{
 				int lastSepIndex = rootPath.LastIndexOf(@"\", StringComparison.Ordinal);
 				rootPath = lastSepIndex > 1 ? rootPath.Substring(0, lastSepIndex) : rootPath; // Remove share name
