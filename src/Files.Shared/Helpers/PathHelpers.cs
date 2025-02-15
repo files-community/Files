@@ -22,7 +22,11 @@ namespace Files.Shared.Helpers
 			string fileName;
 			string rootPath = Path.GetPathRoot(path) ?? string.Empty;
 
-			if (rootPath == path && path.StartsWith(@"\\"))
+			if (rootPath == path && 
+					( path.StartsWith(@"\\") ||
+					  (new DriveInfo(path).DriveType == System.IO.DriveType.Network)
+					)
+			   )
 			{
 				// Network Share path
 				fileName = path.Substring(path.LastIndexOf(@"\", StringComparison.Ordinal) + 1);
