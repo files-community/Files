@@ -78,8 +78,8 @@ namespace Files.App.Utils.Storage
 						await using (var inStream = await this.OpenStreamForReadAsync())
 						await using (var outStream = await destFile.OpenStreamForWriteAsync())
 						{
-							await inStream.CopyToAsync(outStream);
-							await outStream.FlushAsync();
+							await inStream.CopyToAsync(outStream, cancellationToken);
+							await outStream.FlushAsync(cancellationToken);
 						}
 						return destFile;
 					}
@@ -96,8 +96,8 @@ namespace Files.App.Utils.Storage
 							await using (var inStream = await this.OpenStreamForReadAsync())
 							await using (var outStream = new FileStream(hFile, FileAccess.Write))
 							{
-								await inStream.CopyToAsync(outStream);
-								await outStream.FlushAsync();
+								await inStream.CopyToAsync(outStream, cancellationToken);
+								await outStream.FlushAsync(cancellationToken);
 							}
 							return new NativeStorageFile(destination, desiredNewName, DateTime.Now);
 						}
@@ -143,8 +143,8 @@ namespace Files.App.Utils.Storage
 				await using var inStream = await this.OpenStreamForReadAsync();
 				await using var outStream = await fileToReplace.OpenStreamForWriteAsync();
 
-				await inStream.CopyToAsync(outStream);
-				await outStream.FlushAsync();
+				await inStream.CopyToAsync(outStream, cancellationToken);
+				await outStream.FlushAsync(cancellationToken);
 			});
 		}
 		public override IAsyncAction MoveAndReplaceAsync(IStorageFile fileToReplace)
@@ -154,8 +154,8 @@ namespace Files.App.Utils.Storage
 				await using var inStream = await this.OpenStreamForReadAsync();
 				await using var outStream = await fileToReplace.OpenStreamForWriteAsync();
 
-				await inStream.CopyToAsync(outStream);
-				await outStream.FlushAsync();
+				await inStream.CopyToAsync(outStream, cancellationToken);
+				await outStream.FlushAsync(cancellationToken);
 				// Move unsupported, copy but do not delete original
 			});
 		}
