@@ -4086,4 +4086,8 @@
   <data name="InvalidIDENameError" xml:space="preserve">
     <value>Please enter a name for the IDE</value>
   </data>
+  <data name="CompareFile" xml:space="preserve">
+    <value>Compare a file</value>
+    <comment>Button that appears in file hash properties that allows the user to compare two files</comment>
+  </data>
 </root>
