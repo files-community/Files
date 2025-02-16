@@ -240,6 +240,15 @@
 					VerticalAlignment="Center"
 					Visibility="Collapsed" />
 			</Grid>
+
+			<!--  Compare File Button  -->
+			<Button
+				x:Name="CompareFileButton"
+				Grid.Row="0"
+				Grid.Column="1"
+				Margin="12"
+				Click="CompareFileButton_Click"
+				Content="{helpers:ResourceString Name=CompareFile}" />
 		</Grid>
 	</Grid>
 </vm:BasePropertiesPage>

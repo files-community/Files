@@ -4172,4 +4172,8 @@
     <value>Cannot clone repo</value>
     <comment>Cannot clone repo dialog title</comment>
   </data>
+  <data name="CompareFile" xml:space="preserve">
+    <value>Compare a file</value>
+    <comment>Button that appears in file hash properties that allows the user to compare two files</comment>
+  </data>
 </root>
