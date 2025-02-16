@@ -117,7 +117,7 @@ namespace Files.App.Utils.Storage
 
 			return AsyncInfo.Run<bool>(async (cancellationToken) =>
 			{
-				await stream.FlushAsync();
+				await stream.FlushAsync(cancellationToken);
 				return true;
 			});
 		}

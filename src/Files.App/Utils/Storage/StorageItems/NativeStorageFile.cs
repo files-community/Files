@@ -86,8 +86,8 @@ namespace Files.App.Utils.Storage
 					await using (var inStream = await this.OpenStreamForReadAsync())
 					await using (var outStream = await destFile.OpenStreamForWriteAsync())
 					{
-						await inStream.CopyToAsync(outStream);
-						await outStream.FlushAsync();
+						await inStream.CopyToAsync(outStream, cancellationToken);
+						await outStream.FlushAsync(cancellationToken);
 					}
 				}
 				return destFile;
@@ -251,8 +251,8 @@ namespace Files.App.Utils.Storage
 					await using (var inStream = await this.OpenStreamForReadAsync())
 					await using (var outStream = await destFile.OpenStreamForWriteAsync())
 					{
-						await inStream.CopyToAsync(outStream);
-						await outStream.FlushAsync();
+						await inStream.CopyToAsync(outStream, cancellationToken);
+						await outStream.FlushAsync(cancellationToken);
 					}
 					await DeleteAsync();
 				}

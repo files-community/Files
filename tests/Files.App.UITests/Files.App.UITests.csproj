@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>$(TargetFrameworkVersion)-windows$(TargetWindowsVersion)</TargetFramework>
+    <TargetFramework>$(WindowsTargetFramework)</TargetFramework>
     <TargetPlatformMinVersion>$(MinimalWindowsVersion)</TargetPlatformMinVersion>
     <PublishProfile>win-$(Platform).pubxml</PublishProfile>
     <UseWinUI>true</UseWinUI>

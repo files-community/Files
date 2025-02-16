@@ -336,7 +336,7 @@ namespace Files.App.Utils.Storage
 					} while (hasNextFile);
 
 					Win32PInvoke.FindClose(hFile);
-				});
+				}, token);
 			}
 		}
 
