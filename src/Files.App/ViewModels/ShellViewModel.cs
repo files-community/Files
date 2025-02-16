@@ -973,7 +973,7 @@ namespace Files.App.ViewModels
 			return shieldIcon;
 		}
 
-		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken)
+		private async Task<bool> LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken)
 		{
 			var loadNonCachedThumbnail = false;
 			var thumbnailSize = LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
@@ -1086,6 +1086,42 @@ namespace Files.App.ViewModels
 					}
 				}, cancellationToken);
 			}
+
+			return result is not null;
+		}
+
+		private async Task<bool> LoadThumbnailAsync(ListedItem item, IStorageItem matchingStorageItem, CancellationToken cancellationToken)
+		{
+			var thumbnailSize = LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
+			// SingleItem returns image thumbnails in the correct aspect ratio for the grid layouts
+			// ListView is used for the details and columns layout
+			// We use ReturnOnlyIfCached because otherwise folders thumbnails have a black background, this has the downside the folder previews don't work
+			var iconOptions = matchingStorageItem switch
+			{
+				BaseStorageFolder => IconOptions.SingleItem | IconOptions.ReturnOnlyIfCached,
+				BaseStorageFile when thumbnailSize < 96 => IconOptions.ListView | IconOptions.ResizeThumbnail,
+				_ => IconOptions.SingleItem | IconOptions.ResizeThumbnail,
+			};
+
+			var result = await FileThumbnailHelper.GetIconAsync(
+						matchingStorageItem, 
+						thumbnailSize,
+						iconOptions);
+
+			if (result is not null)
+			{
+				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				{
+					// Assign FileImage property
+					var image = await result.ToBitmapAsync();
+					if (image is not null)
+						item.FileImage = image;
+				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
+
+				return true;
+			}
+
+			return false;
 		}
 
 		private static void SetFileTag(ListedItem item)
@@ -1128,7 +1164,7 @@ namespace Files.App.ViewModels
 					}
 
 					cts.Token.ThrowIfCancellationRequested();
-					await LoadThumbnailAsync(item, cts.Token);
+					var wasThumbnailLoaded = await LoadThumbnailAsync(item, cts.Token);
 
 					cts.Token.ThrowIfCancellationRequested();
 					if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
@@ -1179,6 +1215,10 @@ namespace Files.App.ViewModels
 									}
 								},
 								Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+
+								// For MTP devices load thumbnail using Storage API (#15084)
+								if (!wasThumbnailLoaded)
+									await LoadThumbnailAsync(item, matchingStorageFile, cts.Token);
 
 								SetFileTag(item);
 								wasSyncStatusLoaded = true;
@@ -1249,6 +1289,10 @@ namespace Files.App.ViewModels
 									}
 								},
 								Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+
+								// For MTP devices load thumbnail using Storage API (#15084)
+								if (!wasThumbnailLoaded)
+									await LoadThumbnailAsync(item, matchingStorageFolder, cts.Token);
 
 								SetFileTag(item);
 								wasSyncStatusLoaded = true;

@@ -20,18 +20,33 @@ namespace Files.App.Data.Enums
 		UseCurrentScale = 1,
 
 		/// <summary>
+		/// Scale the thumbnail to the requested size.
+		/// </summary>
+		ResizeThumbnail = 2,
+
+		/// <summary>
 		/// Retrieve only the file icon, even a thumbnail is available. This has the best performance.
 		/// </summary>
-		ReturnIconOnly = 2,
+		ReturnIconOnly = 4,
 
 		/// <summary>
 		/// Retrieve only the thumbnail.
 		/// </summary>
-		ReturnThumbnailOnly = 4,
+		ReturnThumbnailOnly = 8,
 
 		/// <summary>
 		/// Retrieve a thumbnail only if it is cached or embedded in the file.
 		/// </summary>
-		ReturnOnlyIfCached = 8,
+		ReturnOnlyIfCached = 16,
+
+		/// <summary>
+		/// Default. Retrieve a thumbnail to display a preview of any single item (like a file, folder, or file group).
+		/// </summary>
+		SingleItem = 32,
+
+		/// <summary>
+		/// Retrieve a thumbnail to display previews of files (or other items) in a list.
+		/// </summary>
+		ListView = 64,
 	}
 }
