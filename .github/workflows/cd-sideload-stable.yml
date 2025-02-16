@@ -26,7 +26,7 @@ jobs:
         configuration: [Release]
         platform: [x64]
     env:
-      SOLUTION_NAME:              'Files.sln'
+      SOLUTION_NAME:              'Files.slnx'
       CONFIGURATION:              '${{ matrix.configuration }}'
       PLATFORM:                   '${{ matrix.platform }}'
       APPX_BUNDLE_PLATFORMS:      'x64|arm64'
