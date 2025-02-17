@@ -12,6 +12,7 @@
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
+	SizeChanged="Page_SizeChanged"
 	mc:Ignorable="d">
 
 	<Page.Resources>
@@ -70,14 +71,19 @@
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
+
 							<Grid.RowDefinitions>
 								<RowDefinition Height="*" />
 								<RowDefinition Height="*" />
+								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
+
+							<!--  IDE Path  -->
 							<TextBlock
 								x:Name="IDEPath"
 								MaxWidth="200"
 								VerticalAlignment="Center"
+								x:Load="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 								LineHeight="18"
 								Text="{helpers:ResourceString Name=PathOrAlias}"
 								TextTrimming="CharacterEllipsis" />
@@ -90,11 +96,24 @@
 								TextTrimming="CharacterEllipsis"
 								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource InvertedBoolVisibilityConverter}, Mode=OneWay}" />
 
-							<StackPanel
-								Grid.Column="1"
-								Orientation="Horizontal"
-								Spacing="8"
+							<Grid
+								x:Name="IDEPathGrid"
+								Grid.ColumnSpan="3"
+								Margin="0,0,0,8"
+								ColumnSpacing="8"
 								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="*" />
+								</Grid.ColumnDefinitions>
+
+								<Grid.RowDefinitions>
+									<RowDefinition Height="*" />
+									<RowDefinition Height="Auto" />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
+
 								<TextBox
 									x:Name="IDEPathTextBox"
 									Width="300"
@@ -106,57 +125,70 @@
 									</TextBox.Resources>
 								</TextBox>
 
-								<Button
-									x:Name="PickIDEExe"
-									Command="{x:Bind ViewModel.OpenFilePickerForIDECommand, Mode=OneWay}"
-									Content="{helpers:ResourceString Name=Browse}" />
-								<Button
-									x:Name="TestIDE"
-									Command="{x:Bind ViewModel.TestIDECommand, Mode=OneWay}"
-									Content="{helpers:ResourceString Name=Test}" />
-							</StackPanel>
-
-							<Grid
-								x:Name="InvalidPathWarning"
-								Grid.Column="2"
-								Padding="12,4"
-								VerticalAlignment="Stretch"
-								x:Load="{x:Bind ViewModel.IsEditingIDEConfig, Mode=OneWay}"
-								Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
-								BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-								BorderThickness="1"
-								ColumnSpacing="8"
-								CornerRadius="4"
-								ToolTipService.ToolTip="{helpers:ResourceString Name=InvalidLocation}"
-								Visibility="{x:Bind ViewModel.IsIDEPathValid, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
-								<TextBlock
-									VerticalAlignment="Center"
-									AutomationProperties.AccessibilityView="Raw"
-									FontFamily="{ThemeResource SymbolThemeFontFamily}"
-									FontSize="{StaticResource InfoBarIconFontSize}"
-									Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
-									Text="{StaticResource InfoBarIconBackgroundGlyph}" />
-								<TextBlock
-									VerticalAlignment="Center"
-									FontFamily="{ThemeResource SymbolThemeFontFamily}"
-									FontSize="{StaticResource InfoBarIconFontSize}"
-									Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
-									Text="{StaticResource InfoBarErrorIconGlyph}" />
-								<TextBlock
+								<StackPanel
+									x:Name="IDEPathButtons"
 									Grid.Column="1"
-									VerticalAlignment="Center"
-									Text="{helpers:ResourceString Name=InvalidPath}" />
+									VerticalAlignment="Bottom"
+									Orientation="Horizontal"
+									Spacing="16">
+									<Button
+										x:Name="PickIDEExe"
+										Command="{x:Bind ViewModel.OpenFilePickerForIDECommand, Mode=OneWay}"
+										Content="{helpers:ResourceString Name=Browse}" />
+
+									<Button
+										x:Name="TestIDE"
+										Command="{x:Bind ViewModel.TestIDECommand, Mode=OneWay}"
+										Content="{helpers:ResourceString Name=Test}" />
+								</StackPanel>
+
+								<Grid
+									x:Name="InvalidPathWarning"
+									Grid.Column="2"
+									Padding="12,4"
+									VerticalAlignment="Stretch"
+									x:Load="{x:Bind ViewModel.IsEditingIDEConfig, Mode=OneWay}"
+									Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
+									BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+									BorderThickness="1"
+									ColumnSpacing="8"
+									CornerRadius="4"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=InvalidLocation}"
+									Visibility="{x:Bind ViewModel.IsIDEPathValid, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="Auto" />
+										<ColumnDefinition Width="Auto" />
+									</Grid.ColumnDefinitions>
+
+									<TextBlock
+										VerticalAlignment="Center"
+										AutomationProperties.AccessibilityView="Raw"
+										FontFamily="{ThemeResource SymbolThemeFontFamily}"
+										FontSize="{StaticResource InfoBarIconFontSize}"
+										Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
+										Text="{StaticResource InfoBarIconBackgroundGlyph}" />
+
+									<TextBlock
+										VerticalAlignment="Center"
+										FontFamily="{ThemeResource SymbolThemeFontFamily}"
+										FontSize="{StaticResource InfoBarIconFontSize}"
+										Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
+										Text="{StaticResource InfoBarErrorIconGlyph}" />
+
+									<TextBlock
+										Grid.Column="1"
+										VerticalAlignment="Center"
+										Text="{helpers:ResourceString Name=InvalidPath}" />
+								</Grid>
 							</Grid>
 
+							<!--  IDE Friendly Name  -->
 							<TextBlock
 								x:Name="IDEFriendlyName"
 								Grid.Row="1"
 								MaxWidth="200"
 								VerticalAlignment="Center"
+								x:Load="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 								LineHeight="18"
 								Text="{helpers:ResourceString Name=FriendlyName}"
 								TextTrimming="CharacterEllipsis" />
@@ -172,10 +204,11 @@
 							<TextBox
 								x:Name="IDEFriendlyNameTextBox"
 								Grid.Row="1"
-								Grid.Column="1"
+								Grid.ColumnSpan="2"
 								Width="300"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center"
+								PlaceholderText="{helpers:ResourceString Name=FriendlyName}"
 								Text="{x:Bind ViewModel.IDEFriendlyName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
 								<TextBox.Resources>
@@ -201,6 +234,7 @@
 									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
+
 								<TextBlock
 									VerticalAlignment="Center"
 									AutomationProperties.AccessibilityView="Raw"
@@ -217,13 +251,13 @@
 								<TextBlock
 									Grid.Column="1"
 									VerticalAlignment="Center"
-									Text="{helpers:ResourceString Name=InvalidTagNameWarning}" />
+									Text="{helpers:ResourceString Name=InvalidFriendlyNameError}" />
 							</Grid>
 
 							<!--  Edit  -->
 							<Button
 								x:Name="EditIDEConfigButton"
-								Grid.RowSpan="2"
+								Grid.RowSpan="3"
 								Grid.Column="2"
 								Padding="8,4"
 								Background="Transparent"
@@ -279,5 +313,52 @@
 			</local:SettingsBlockControl>
 
 		</StackPanel>
+
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup>
+				<VisualState x:Name="DefaultState">
+					<VisualState.Setters>
+						<Setter Target="IDEPathTextBox.Width" Value="300" />
+						<Setter Target="IDEPathTextBox.HorizontalAlignment" Value="Left" />
+						<Setter Target="IDEPathTextBox.(Grid.Column)" Value="0" />
+						<Setter Target="IDEFriendlyNameTextBox.Width" Value="300" />
+						<Setter Target="IDEFriendlyNameTextBox.HorizontalAlignment" Value="Left" />
+						<Setter Target="IDEFriendlyNameTextBox.(Grid.ColumnSpan)" Value="2" />
+						<Setter Target="IDEPathButtons.(Grid.Column)" Value="1" />
+						<Setter Target="IDEPathButtons.(Grid.Row)" Value="0" />
+						<Setter Target="IDEPathButtons.Orientation" Value="Horizontal" />
+						<Setter Target="IDEPathButtons.Spacing" Value="16" />
+						<Setter Target="InvalidPathWarning.(Grid.Column)" Value="2" />
+						<Setter Target="InvalidPathWarning.(Grid.Row)" Value="0" />
+						<Setter Target="IDEPathGrid.RowSpacing" Value="0" />
+						<Setter Target="IDEPathGrid.ColumnSpacing" Value="8" />
+						<Setter Target="InvalidFriendlyNameWarning.(Grid.Column)" Value="2" />
+						<Setter Target="InvalidFriendlyNameWarning.(Grid.Row)" Value="1" />
+						<Setter Target="InvalidFriendlyNameWarning.(Grid.ColumnSpan)" Value="1" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="CompactState">
+					<VisualState.Setters>
+						<Setter Target="IDEPathTextBox.Width" Value="Auto" />
+						<Setter Target="IDEPathTextBox.HorizontalAlignment" Value="Stretch" />
+						<Setter Target="IDEPathTextBox.(Grid.Column)" Value="2" />
+						<Setter Target="IDEFriendlyNameTextBox.Width" Value="Auto" />
+						<Setter Target="IDEFriendlyNameTextBox.HorizontalAlignment" Value="Stretch" />
+						<Setter Target="IDEFriendlyNameTextBox.(Grid.ColumnSpan)" Value="3" />
+						<Setter Target="IDEPathButtons.(Grid.Column)" Value="2" />
+						<Setter Target="IDEPathButtons.(Grid.Row)" Value="1" />
+						<Setter Target="IDEPathButtons.Orientation" Value="Vertical" />
+						<Setter Target="IDEPathButtons.Spacing" Value="8" />
+						<Setter Target="InvalidPathWarning.(Grid.Column)" Value="2" />
+						<Setter Target="InvalidPathWarning.(Grid.Row)" Value="2" />
+						<Setter Target="IDEPathGrid.RowSpacing" Value="12" />
+						<Setter Target="IDEPathGrid.ColumnSpacing" Value="0" />
+						<Setter Target="InvalidFriendlyNameWarning.(Grid.Column)" Value="0" />
+						<Setter Target="InvalidFriendlyNameWarning.(Grid.Row)" Value="2" />
+						<Setter Target="InvalidFriendlyNameWarning.(Grid.ColumnSpan)" Value="3" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
 	</Grid>
 </Page>

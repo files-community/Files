@@ -4070,4 +4070,7 @@
   <data name="IDEPathPlaceholder" xml:space="preserve">
     <value>Enter a path or launch alias</value>
   </data>
+  <data name="InvalidFriendlyNameError" xml:space="preserve">
+    <value>Please, enter a name for the IDE</value>
+  </data>
 </root>
