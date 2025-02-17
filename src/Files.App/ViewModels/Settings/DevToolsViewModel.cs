@@ -49,8 +49,8 @@ namespace Files.App.ViewModels.Settings
 		private bool _IsFriendlyNameValid;
 		public bool IsFriendlyNameValid
 		{
-			get => _IsIDEPathValid;
-			set => SetProperty(ref _IsIDEPathValid, value);
+			get => _IsFriendlyNameValid;
+			set => SetProperty(ref _IsFriendlyNameValid, value);
 		}
 
 		private string _IDEPath;
