@@ -78,9 +78,51 @@
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
 
+
+							<!--  IDE Friendly Name  -->
+							<TextBlock
+								x:Name="IDEFriendlyName"
+								MaxWidth="200"
+								VerticalAlignment="Center"
+								x:Load="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+								LineHeight="18"
+								Text="{helpers:ResourceString Name=FriendlyName}"
+								TextTrimming="CharacterEllipsis" />
+
+							<TextBlock
+								Grid.Column="1"
+								VerticalAlignment="Center"
+								FontWeight="SemiBold"
+								Text="{x:Bind ViewModel.IDEFriendlyName, Mode=TwoWay}"
+								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource InvertedBoolVisibilityConverter}, Mode=OneWay}" />
+
+							<TextBox
+								x:Name="IDEFriendlyNameTextBox"
+								Grid.ColumnSpan="2"
+								Width="300"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center"
+								PlaceholderText="{helpers:ResourceString Name=FriendlyName}"
+								Text="{x:Bind ViewModel.IDEFriendlyName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
+								<TextBox.Resources>
+									<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
+									<TeachingTip
+										x:Name="InvalidFriendlyNameWarning"
+										Title="{helpers:ResourceString Name=InvalidFriendlyNameError}"
+										IsOpen="{x:Bind ViewModel.IsFriendlyNameValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+										PreferredPlacement="BottomRight"
+										Target="{x:Bind IDEFriendlyNameTextBox}" />
+								</TextBox.Resources>
+								<TextBox.Header>
+									<TextBlock Text="{helpers:ResourceString Name=FriendlyName}" TextTrimming="CharacterEllipsis" />
+								</TextBox.Header>
+							</TextBox>
+
 							<!--  IDE Path  -->
 							<TextBlock
 								x:Name="IDEPath"
+								Grid.Row="1"
 								MaxWidth="200"
 								VerticalAlignment="Center"
 								x:Load="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
@@ -89,6 +131,7 @@
 								TextTrimming="CharacterEllipsis" />
 
 							<TextBlock
+								Grid.Row="1"
 								Grid.Column="1"
 								VerticalAlignment="Center"
 								FontWeight="SemiBold"
@@ -98,8 +141,9 @@
 
 							<Grid
 								x:Name="IDEPathGrid"
+								Grid.Row="1"
 								Grid.ColumnSpan="3"
-								Margin="0,0,0,8"
+								Margin="0,8,0,0"
 								ColumnSpacing="8"
 								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
 								<Grid.ColumnDefinitions>
@@ -124,30 +168,24 @@
 									<TextBox.Resources>
 										<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
 									</TextBox.Resources>
+									<TextBox.Header>
+										<TextBlock Text="{helpers:ResourceString Name=PathOrAlias}" TextTrimming="CharacterEllipsis" />
+									</TextBox.Header>
 								</TextBox>
 
-								<StackPanel
-									x:Name="IDEPathButtons"
+								<Button
+									x:Name="PickIDEExe"
 									Grid.Column="1"
 									VerticalAlignment="Bottom"
-									Orientation="Horizontal"
-									Spacing="16">
-									<Button
-										x:Name="PickIDEExe"
-										Command="{x:Bind ViewModel.OpenFilePickerForIDECommand, Mode=OneWay}"
-										Content="{helpers:ResourceString Name=Browse}" />
-
-									<Button
-										x:Name="TestIDE"
-										Command="{x:Bind ViewModel.TestIDECommand, Mode=OneWay}"
-										Content="{helpers:ResourceString Name=Test}" />
-								</StackPanel>
+									Command="{x:Bind ViewModel.OpenFilePickerForIDECommand, Mode=OneWay}"
+									Content="{helpers:ResourceString Name=Browse}" />
 
 								<Grid
 									x:Name="InvalidPathWarning"
+									Grid.Row="1"
 									Grid.Column="2"
-									Padding="12,4"
-									VerticalAlignment="Stretch"
+									Padding="12,6"
+									VerticalAlignment="Bottom"
 									x:Load="{x:Bind ViewModel.IsEditingIDEConfig, Mode=OneWay}"
 									Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
 									BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -183,46 +221,6 @@
 								</Grid>
 							</Grid>
 
-							<!--  IDE Friendly Name  -->
-							<TextBlock
-								x:Name="IDEFriendlyName"
-								Grid.Row="1"
-								MaxWidth="200"
-								VerticalAlignment="Center"
-								x:Load="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-								LineHeight="18"
-								Text="{helpers:ResourceString Name=FriendlyName}"
-								TextTrimming="CharacterEllipsis" />
-
-							<TextBlock
-								Grid.Row="1"
-								Grid.Column="1"
-								VerticalAlignment="Center"
-								FontWeight="SemiBold"
-								Text="{x:Bind ViewModel.IDEFriendlyName, Mode=TwoWay}"
-								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource InvertedBoolVisibilityConverter}, Mode=OneWay}" />
-
-							<TextBox
-								x:Name="IDEFriendlyNameTextBox"
-								Grid.Row="1"
-								Grid.ColumnSpan="2"
-								Width="300"
-								HorizontalAlignment="Left"
-								VerticalAlignment="Center"
-								PlaceholderText="{helpers:ResourceString Name=FriendlyName}"
-								Text="{x:Bind ViewModel.IDEFriendlyName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
-								<TextBox.Resources>
-									<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
-									<TeachingTip
-										x:Name="InvalidFriendlyNameWarning"
-										Title="{helpers:ResourceString Name=InvalidFriendlyNameError}"
-										IsOpen="{x:Bind ViewModel.IsFriendlyNameValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-										PreferredPlacement="Bottom"
-										Target="{x:Bind IDEFriendlyNameTextBox}" />
-								</TextBox.Resources>
-							</TextBox>
-
 							<!--  Edit  -->
 							<Button
 								x:Name="EditIDEConfigButton"
@@ -242,9 +240,15 @@
 							HorizontalAlignment="Right"
 							x:Load="{x:Bind ViewModel.IsEditingIDEConfig, Mode=OneWay}"
 							Orientation="Horizontal"
-							Spacing="12">
+							Spacing="8">
 							<!--  Cancel  -->
 							<Button Command="{x:Bind ViewModel.CancelIDEChangesCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=Cancel}" />
+
+							<!--  Test Integration  -->
+							<Button
+								x:Name="TestIDE"
+								Command="{x:Bind ViewModel.TestIDECommand, Mode=OneWay}"
+								Content="{helpers:ResourceString Name=TestIntegration}" />
 
 							<!--  Save Changes  -->
 							<Button
@@ -293,14 +297,14 @@
 						<Setter Target="IDEFriendlyNameTextBox.Width" Value="300" />
 						<Setter Target="IDEFriendlyNameTextBox.HorizontalAlignment" Value="Left" />
 						<Setter Target="IDEFriendlyNameTextBox.(Grid.ColumnSpan)" Value="2" />
-						<Setter Target="IDEPathButtons.(Grid.Column)" Value="1" />
-						<Setter Target="IDEPathButtons.(Grid.Row)" Value="0" />
-						<Setter Target="IDEPathButtons.Orientation" Value="Horizontal" />
-						<Setter Target="IDEPathButtons.Spacing" Value="16" />
+						<Setter Target="PickIDEExe.(Grid.Column)" Value="1" />
+						<Setter Target="PickIDEExe.(Grid.Row)" Value="0" />
 						<Setter Target="InvalidPathWarning.(Grid.Column)" Value="2" />
 						<Setter Target="InvalidPathWarning.(Grid.Row)" Value="0" />
+						<Setter Target="InvalidPathWarning.VerticalAlignment" Value="Bottom" />
 						<Setter Target="IDEPathGrid.RowSpacing" Value="0" />
 						<Setter Target="IDEPathGrid.ColumnSpacing" Value="8" />
+						<Setter Target="InvalidFriendlyNameWarning.PreferredPlacement" Value="BottomRight" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="CompactState">
@@ -311,14 +315,14 @@
 						<Setter Target="IDEFriendlyNameTextBox.Width" Value="Auto" />
 						<Setter Target="IDEFriendlyNameTextBox.HorizontalAlignment" Value="Stretch" />
 						<Setter Target="IDEFriendlyNameTextBox.(Grid.ColumnSpan)" Value="3" />
-						<Setter Target="IDEPathButtons.(Grid.Column)" Value="3" />
-						<Setter Target="IDEPathButtons.(Grid.Row)" Value="1" />
-						<Setter Target="IDEPathButtons.Orientation" Value="Vertical" />
-						<Setter Target="IDEPathButtons.Spacing" Value="8" />
+						<Setter Target="PickIDEExe.(Grid.Column)" Value="3" />
+						<Setter Target="PickIDEExe.(Grid.Row)" Value="1" />
 						<Setter Target="InvalidPathWarning.(Grid.Column)" Value="3" />
 						<Setter Target="InvalidPathWarning.(Grid.Row)" Value="2" />
+						<Setter Target="InvalidPathWarning.VerticalAlignment" Value="Stretch" />
 						<Setter Target="IDEPathGrid.RowSpacing" Value="12" />
 						<Setter Target="IDEPathGrid.ColumnSpacing" Value="0" />
+						<Setter Target="InvalidFriendlyNameWarning.PreferredPlacement" Value="Bottom" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>

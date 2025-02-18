@@ -4052,8 +4052,8 @@
   <data name="InvalidPath" xml:space="preserve">
     <value>Invalid path</value>
   </data>
-  <data name="Test" xml:space="preserve">
-    <value>Test</value>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Test integration</value>
   </data>
   <data name="IDENotLocatedContent" xml:space="preserve">
     <value>{0} could not be located. Please check your settings and try again.</value>

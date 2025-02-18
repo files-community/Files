@@ -19,10 +19,9 @@ namespace Files.App.Views.Settings
 				return;
 
 			var defaultPathWidth = 300;
-			var testIDEWidth = TestIDE.ActualWidth == 0 ? 64 : TestIDE.ActualWidth;
 			var pickIDEWidth = PickIDEExe.ActualWidth == 0 ? 64 : PickIDEExe.ActualWidth;
 
-			var minWidth = defaultPathWidth + testIDEWidth + pickIDEWidth;
+			var minWidth = defaultPathWidth + pickIDEWidth;
 			var state = minWidth > e.NewSize.Width / 1.6 ? "CompactState" : "DefaultState";
 			VisualStateManager.GoToState(this, state, false);
 		}
