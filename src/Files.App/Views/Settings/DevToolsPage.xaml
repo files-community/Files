@@ -105,6 +105,7 @@
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition Width="*" />
 								</Grid.ColumnDefinitions>
 
@@ -213,46 +214,14 @@
 								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
 								<TextBox.Resources>
 									<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
+									<TeachingTip
+										x:Name="InvalidFriendlyNameWarning"
+										Title="{helpers:ResourceString Name=InvalidFriendlyNameError}"
+										IsOpen="{x:Bind ViewModel.IsFriendlyNameValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+										PreferredPlacement="Bottom"
+										Target="{x:Bind IDEFriendlyNameTextBox}" />
 								</TextBox.Resources>
 							</TextBox>
-
-							<Grid
-								x:Name="InvalidFriendlyNameWarning"
-								Grid.Row="1"
-								Grid.Column="2"
-								Padding="12,4"
-								VerticalAlignment="Stretch"
-								x:Load="{x:Bind ViewModel.IsEditingIDEConfig, Mode=OneWay}"
-								Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
-								BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-								BorderThickness="1"
-								ColumnSpacing="8"
-								CornerRadius="4"
-								ToolTipService.ToolTip="{helpers:ResourceString Name=ErrorInputEmpty}"
-								Visibility="{x:Bind ViewModel.IsFriendlyNameValid, Mode=OneWay, Converter={StaticResource InvertedBoolVisibilityConverter}}">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
-
-								<TextBlock
-									VerticalAlignment="Center"
-									AutomationProperties.AccessibilityView="Raw"
-									FontFamily="{ThemeResource SymbolThemeFontFamily}"
-									FontSize="{StaticResource InfoBarIconFontSize}"
-									Foreground="{ThemeResource InfoBarErrorSeverityIconBackground}"
-									Text="{StaticResource InfoBarIconBackgroundGlyph}" />
-								<TextBlock
-									VerticalAlignment="Center"
-									FontFamily="{ThemeResource SymbolThemeFontFamily}"
-									FontSize="{StaticResource InfoBarIconFontSize}"
-									Foreground="{ThemeResource InfoBarInformationalSeverityIconForeground}"
-									Text="{StaticResource InfoBarErrorIconGlyph}" />
-								<TextBlock
-									Grid.Column="1"
-									VerticalAlignment="Center"
-									Text="{helpers:ResourceString Name=InvalidFriendlyNameError}" />
-							</Grid>
 
 							<!--  Edit  -->
 							<Button
@@ -332,30 +301,24 @@
 						<Setter Target="InvalidPathWarning.(Grid.Row)" Value="0" />
 						<Setter Target="IDEPathGrid.RowSpacing" Value="0" />
 						<Setter Target="IDEPathGrid.ColumnSpacing" Value="8" />
-						<Setter Target="InvalidFriendlyNameWarning.(Grid.Column)" Value="2" />
-						<Setter Target="InvalidFriendlyNameWarning.(Grid.Row)" Value="1" />
-						<Setter Target="InvalidFriendlyNameWarning.(Grid.ColumnSpan)" Value="1" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="CompactState">
 					<VisualState.Setters>
 						<Setter Target="IDEPathTextBox.Width" Value="Auto" />
 						<Setter Target="IDEPathTextBox.HorizontalAlignment" Value="Stretch" />
-						<Setter Target="IDEPathTextBox.(Grid.Column)" Value="2" />
+						<Setter Target="IDEPathTextBox.(Grid.Column)" Value="3" />
 						<Setter Target="IDEFriendlyNameTextBox.Width" Value="Auto" />
 						<Setter Target="IDEFriendlyNameTextBox.HorizontalAlignment" Value="Stretch" />
 						<Setter Target="IDEFriendlyNameTextBox.(Grid.ColumnSpan)" Value="3" />
-						<Setter Target="IDEPathButtons.(Grid.Column)" Value="2" />
+						<Setter Target="IDEPathButtons.(Grid.Column)" Value="3" />
 						<Setter Target="IDEPathButtons.(Grid.Row)" Value="1" />
 						<Setter Target="IDEPathButtons.Orientation" Value="Vertical" />
 						<Setter Target="IDEPathButtons.Spacing" Value="8" />
-						<Setter Target="InvalidPathWarning.(Grid.Column)" Value="2" />
+						<Setter Target="InvalidPathWarning.(Grid.Column)" Value="3" />
 						<Setter Target="InvalidPathWarning.(Grid.Row)" Value="2" />
 						<Setter Target="IDEPathGrid.RowSpacing" Value="12" />
 						<Setter Target="IDEPathGrid.ColumnSpacing" Value="0" />
-						<Setter Target="InvalidFriendlyNameWarning.(Grid.Column)" Value="0" />
-						<Setter Target="InvalidFriendlyNameWarning.(Grid.Row)" Value="2" />
-						<Setter Target="InvalidFriendlyNameWarning.(Grid.ColumnSpan)" Value="3" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
