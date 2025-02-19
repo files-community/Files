@@ -51,7 +51,7 @@ namespace Files.App.ViewModels.Properties
 				if (Item.IsShortcut)
 				{
 					var shortcutItem = (ShortcutItem)Item;
-					ViewModel.ShortcutItemType = "Folder".GetLocalizedResource();
+					ViewModel.ShortcutItemType = Strings.Folder.GetLocalizedResource();
 					ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
 					ViewModel.IsShortcutItemPathReadOnly = false;
 					ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;

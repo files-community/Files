@@ -159,10 +159,10 @@ namespace Files.App.Services
 			//TODO: Use IDialogService in future.
 			ContentDialog dialog = new()
 			{
-				Title = "ConsentDialogTitle".GetLocalizedResource(),
-				Content = "ConsentDialogContent".GetLocalizedResource(),
-				CloseButtonText = "Close".GetLocalizedResource(),
-				PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalizedResource()
+				Title = Strings.ConsentDialogTitle.GetLocalizedResource(),
+				Content = Strings.ConsentDialogContent.GetLocalizedResource(),
+				CloseButtonText = Strings.Close.GetLocalizedResource(),
+				PrimaryButtonText = Strings.ConsentDialogPrimaryButtonText.GetLocalizedResource()
 			};
 
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))

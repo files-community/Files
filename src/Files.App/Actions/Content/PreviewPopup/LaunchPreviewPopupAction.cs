@@ -10,10 +10,10 @@ namespace Files.App.Actions
 		private readonly IPreviewPopupService previewPopupService;
 
 		public string Label
-			=> "LaunchPreviewPopup".GetLocalizedResource();
+			=> Strings.LaunchPreviewPopup.GetLocalizedResource();
 
 		public string Description
-			=> "LaunchPreviewPopupDescription".GetLocalizedResource();
+			=> Strings.LaunchPreviewPopupDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Space);

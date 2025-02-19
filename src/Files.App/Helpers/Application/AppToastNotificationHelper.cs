@@ -13,10 +13,10 @@ namespace Files.App.Helpers.Application
 		public static void ShowUnhandledExceptionToast()
 		{
 			var toastContent = new AppNotificationBuilder()
-					.AddText("ExceptionNotificationHeader".GetLocalizedResource())
-					.AddText("ExceptionNotificationBody".GetLocalizedResource())
+					.AddText(Strings.ExceptionNotificationHeader.GetLocalizedResource())
+					.AddText(Strings.ExceptionNotificationBody.GetLocalizedResource())
 					.SetAppLogoOverride(new Uri("ms-appx:///Assets/error.png"))
-					.AddButton(new AppNotificationButton("ExceptionNotificationReportButton".GetLocalizedResource())
+					.AddButton(new AppNotificationButton(Strings.ExceptionNotificationReportButton.GetLocalizedResource())
 						.SetInvokeUri(new Uri(Constants.ExternalUrl.BugReportUrl)))
 					.BuildNotification();
 			AppNotificationManager.Default.Show(toastContent);
@@ -25,8 +25,8 @@ namespace Files.App.Helpers.Application
 		public static void ShowBackgroundRunningToast()
 		{
 			var toastContent = new AppNotificationBuilder()
-				.AddText("BackgroundRunningNotificationHeader".GetLocalizedResource())
-				.AddText("BackgroundRunningNotificationBody".GetLocalizedResource())
+				.AddText(Strings.BackgroundRunningNotificationHeader.GetLocalizedResource())
+				.AddText(Strings.BackgroundRunningNotificationBody.GetLocalizedResource())
 				.BuildNotification();
 			AppNotificationManager.Default.Show(toastContent);
 		}
@@ -34,8 +34,8 @@ namespace Files.App.Helpers.Application
 		public static void ShowDriveEjectToast()
 		{
 			var toastContent = new AppNotificationBuilder()
-				.AddText("EjectNotificationHeader".GetLocalizedResource())
-				.AddText("EjectNotificationBody".GetLocalizedResource())
+				.AddText(Strings.EjectNotificationHeader.GetLocalizedResource())
+				.AddText(Strings.EjectNotificationBody.GetLocalizedResource())
 				.SetAttributionText("SettingsAboutAppName".GetLocalizedResource())
 				.BuildNotification();
 			AppNotificationManager.Default.Show(toastContent);

@@ -6,10 +6,10 @@ namespace Files.App.Actions
 	internal sealed class NewWindowAction : IAction
 	{
 		public string Label
-			=> "NewWindow".GetLocalizedResource();
+			=> Strings.NewWindow.GetLocalizedResource();
 
 		public string Description
-			=> "NewWindowDescription".GetLocalizedResource();
+			=> Strings.NewWindowDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.N, KeyModifiers.Ctrl);

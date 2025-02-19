@@ -9,10 +9,10 @@ namespace Files.App.Actions
 		private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
 		public string Label
-			=> "AddVerticalPane".GetLocalizedResource();
+			=> Strings.AddVerticalPane.GetLocalizedResource();
 
 		public string Description
-			=> "AddVerticalPaneDescription".GetLocalizedResource();
+			=> Strings.AddVerticalPaneDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.V, KeyModifiers.AltShift);

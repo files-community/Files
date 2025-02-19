@@ -12,10 +12,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "OpenClassicProperties".GetLocalizedResource();
+			=> Strings.OpenClassicProperties.GetLocalizedResource();
 
 		public string Description
-			=> "OpenClassicPropertiesDescription".GetLocalizedResource();
+			=> Strings.OpenClassicPropertiesDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Properties");

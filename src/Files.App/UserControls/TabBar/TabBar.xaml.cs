@@ -163,7 +163,7 @@ namespace Files.App.UserControls.TabBar
 				HorizontalTabView.CanReorderTabs = WindowContext.CanDragAndDrop;
 
 				e.AcceptedOperation = DataPackageOperation.Move;
-				e.DragUIOverride.Caption = "TabStripDragAndDropUIOverrideCaption".GetLocalizedResource();
+				e.DragUIOverride.Caption = Strings.TabStripDragAndDropUIOverrideCaption.GetLocalizedResource();
 				e.DragUIOverride.IsCaptionVisible = true;
 				e.DragUIOverride.IsGlyphVisible = false;
 			}
@@ -333,7 +333,7 @@ namespace Files.App.UserControls.TabBar
 				e.Handled = true;
 				var deferral = e.GetDeferral();
 				e.DragUIOverride.IsCaptionVisible = true;
-				e.DragUIOverride.Caption = string.Format("OpenInNewTab".GetLocalizedResource());
+				e.DragUIOverride.Caption = string.Format(Strings.OpenInNewTab.GetLocalizedResource());
 				e.AcceptedOperation = DataPackageOperation.Link;
 				deferral.Complete();
 			}

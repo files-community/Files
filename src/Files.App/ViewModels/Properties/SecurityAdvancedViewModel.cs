@@ -180,14 +180,14 @@ namespace Files.App.ViewModels.Properties
 				if (error is WIN32_ERROR.ERROR_ACCESS_DENIED)
 				{
 					ErrorMessage = 
-						"SecurityRequireReadPermissions".GetLocalizedResource() +
+						Strings.SecurityRequireReadPermissions.GetLocalizedResource() +
 						"\r\n\r\n" +
-						"SecuritySuggestToTakeOwnership".GetLocalizedResource();
+						Strings.SecuritySuggestToTakeOwnership.GetLocalizedResource();
 				}
 				else
 				{
 					ErrorMessage =
-						"SecurityUnableToDisplayPermissions".GetLocalizedResource() +
+						Strings.SecurityUnableToDisplayPermissions.GetLocalizedResource() +
 						"\r\n\r\n" +
 						error.ToString();
 				}

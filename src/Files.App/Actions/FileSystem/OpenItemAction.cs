@@ -11,10 +11,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Open".GetLocalizedResource();
+			=> Strings.Open.GetLocalizedResource();
 
 		public string Description
-			=> "OpenItemDescription".GetLocalizedResource();
+			=> Strings.OpenItemDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.OpenFile");
@@ -55,10 +55,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "OpenWith".GetLocalizedResource();
+			=> Strings.OpenWith.GetLocalizedResource();
 
 		public string Description
-			=> "OpenItemWithApplicationPickerDescription".GetLocalizedResource();
+			=> Strings.OpenItemWithApplicationPickerDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.OpenWith");
@@ -96,10 +96,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "BaseLayoutItemContextFlyoutOpenParentFolder/Text".GetLocalizedResource();
+			=> Strings.BaseLayoutItemContextFlyoutOpenParentFolder_Text.GetLocalizedResource();
 
 		public string Description
-			=> "OpenParentFolderDescription".GetLocalizedResource();
+			=> Strings.OpenParentFolderDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(baseGlyph: "\uE197");

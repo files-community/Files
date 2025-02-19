@@ -12,10 +12,10 @@ namespace Files.App.Actions
 		public IContentPageContext context;
 
 		public string Label
-			=> "UnpinItemFromStart/Text".GetLocalizedResource();
+			=> Strings.UnpinItemFromStart_Text.GetLocalizedResource();
 
 		public string Description
-			=> "UnpinFromStartDescription".GetLocalizedResource();
+			=> Strings.UnpinFromStartDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.FavoritePinRemove");

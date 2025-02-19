@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Refresh".GetLocalizedResource();
+			=> Strings.Refresh.GetLocalizedResource();
 
 		public string Description
-			=> "RefreshItemsDescription".GetLocalizedResource();
+			=> Strings.RefreshItemsDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new("\uE72C");

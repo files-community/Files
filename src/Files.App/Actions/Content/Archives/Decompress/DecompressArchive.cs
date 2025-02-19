@@ -14,10 +14,10 @@ namespace Files.App.Actions
 	internal sealed partial class DecompressArchive : BaseDecompressArchiveAction
 	{
 		public override string Label
-			=> "ExtractFiles".GetLocalizedResource();
+			=> Strings.ExtractFiles.GetLocalizedResource();
 
 		public override string Description
-			=> "DecompressArchiveDescription".GetLocalizedResource();
+			=> Strings.DecompressArchiveDescription.GetLocalizedResource();
 
 		public override HotKey HotKey
 			=> new(Keys.E, KeyModifiers.Ctrl);

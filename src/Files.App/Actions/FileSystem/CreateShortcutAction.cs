@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "CreateShortcut".GetLocalizedResource();
+			=> Strings.CreateShortcut.GetLocalizedResource();
 
 		public string Description
-			=> "CreateShortcutDescription".GetLocalizedResource();
+			=> Strings.CreateShortcutDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.URL");

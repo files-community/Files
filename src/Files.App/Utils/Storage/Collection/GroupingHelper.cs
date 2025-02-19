@@ -92,7 +92,7 @@ namespace Files.App.Utils.Storage
 				{
 					ListedItem first = x.FirstOrDefault();
 					x.Model.ShowCountTextBelow = true;
-					x.Model.Text = first.FileTagsUI?.FirstOrDefault()?.Name ?? "Untagged".GetLocalizedResource();
+					x.Model.Text = first.FileTagsUI?.FirstOrDefault()?.Name ?? Strings.Untagged.GetLocalizedResource();
 					//x.Model.Icon = first.FileTagsUI?.FirstOrDefault()?.Color;
 				}, null),
 
@@ -141,7 +141,7 @@ namespace Files.App.Utils.Storage
 				lastSizeStr = sizeGp.sizeText;
 			}
 
-			return ("0", "ItemSizeText_Tiny".GetLocalizedResource(), $"{"0 B".ConvertSizeAbbreviation()} - {lastSizeStr}", 0);
+			return ("0", Strings.ItemSizeText_Tiny.GetLocalizedResource(), $"{"0 B".ConvertSizeAbbreviation()} - {lastSizeStr}", 0);
 		}
 
 		public static string GetGroupSizeKey(long size)
@@ -159,11 +159,11 @@ namespace Files.App.Utils.Storage
 
 		private static readonly (long size, string text, string sizeText)[] sizeGroups =
 		[
-			(5000000000, "ItemSizeText_Huge".GetLocalizedResource(), "5 GiB".ConvertSizeAbbreviation()),
-			(1000000000, "ItemSizeText_VeryLarge".GetLocalizedResource(), "1 GiB".ConvertSizeAbbreviation()),
-			(128000000, "ItemSizeText_Large".GetLocalizedResource(), "128 MiB".ConvertSizeAbbreviation()),
-			(1000000, "ItemSizeText_Medium".GetLocalizedResource(), "1 MiB".ConvertSizeAbbreviation()),
-			(16000, "ItemSizeText_Small".GetLocalizedResource(), "16 KiB".ConvertSizeAbbreviation()),
+			(5000000000, Strings.ItemSizeText_Huge.GetLocalizedResource(), "5 GiB".ConvertSizeAbbreviation()),
+			(1000000000, Strings.ItemSizeText_VeryLarge.GetLocalizedResource(), "1 GiB".ConvertSizeAbbreviation()),
+			(128000000, Strings.ItemSizeText_Large.GetLocalizedResource(), "128 MiB".ConvertSizeAbbreviation()),
+			(1000000, Strings.ItemSizeText_Medium.GetLocalizedResource(), "1 MiB".ConvertSizeAbbreviation()),
+			(16000, Strings.ItemSizeText_Small.GetLocalizedResource(), "16 KiB".ConvertSizeAbbreviation()),
 		];
 
 		private static string GetFolderName(string path)

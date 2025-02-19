@@ -41,18 +41,18 @@ namespace Files.App.ViewModels.Properties
 
 				if (List.All(x => x.ItemType.Equals(List.First().ItemType)))
 				{
-					ViewModel.ItemType = string.Format("PropertiesDriveItemTypesEquals".GetLocalizedResource(), List.First().ItemType);
+					ViewModel.ItemType = string.Format(Strings.PropertiesDriveItemTypesEquals.GetLocalizedResource(), List.First().ItemType);
 				}
 				else
 				{
-					ViewModel.ItemType = "PropertiesDriveItemTypeDifferent".GetLocalizedResource();
+					ViewModel.ItemType = Strings.PropertiesDriveItemTypeDifferent.GetLocalizedResource();
 				}
 
 				var itemsPath = List.Select(Item => (Item as RecycleBinItem)?.ItemOriginalFolder ??
 					(Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath));
 
 				if (itemsPath.Distinct().Count() == 1)
-					ViewModel.ItemLocation = string.Format("PropertiesCombinedItemLocation".GetLocalizedResource(), itemsPath.First());
+					ViewModel.ItemLocation = string.Format(Strings.PropertiesCombinedItemLocation.GetLocalizedResource(), itemsPath.First());
 			}
 		}
 

@@ -9,10 +9,10 @@ namespace Files.App.Actions
 	internal sealed class ToggleSelectAction : IAction
 	{
 		public string Label
-			=> "ToggleSelect".GetLocalizedResource();
+			=> Strings.ToggleSelect.GetLocalizedResource();
 
 		public string Description
-			=> "ToggleSelectDescription".GetLocalizedResource();
+			=> Strings.ToggleSelectDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Space, KeyModifiers.Ctrl);

@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly InfoPaneViewModel viewModel;
 
 		public string Label
-			=> "ToggleInfoPane".GetLocalizedResource();
+			=> Strings.ToggleInfoPane.GetLocalizedResource();
 
 		public string Description
-			=> "ToggleInfoPaneDescription".GetLocalizedResource();
+			=> Strings.ToggleInfoPaneDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.PanelRight");

@@ -12,10 +12,10 @@ namespace Files.App.Actions
 		private readonly bool _isVSCodeInstalled;
 
 		public string Label
-			=> "OpenRepoInVSCode".GetLocalizedResource();
+			=> Strings.OpenRepoInVSCode.GetLocalizedResource();
 
 		public string Description
-			=> "OpenRepoInVSCodeDescription".GetLocalizedResource();
+			=> Strings.OpenRepoInVSCodeDescription.GetLocalizedResource();
 
 		public bool IsExecutable =>
 			_isVSCodeInstalled &&

@@ -365,7 +365,7 @@ namespace Files.App.Data.Commands
 
 		private static string GetLocalizedNumPadKey(string key)
 		{
-			return "NumPadTypeName".GetLocalizedResource() + " " + key;
+			return Strings.NumPadTypeName.GetLocalizedResource() + " " + key;
 		}
 
 		private static string GetKeyCharacter(Forms.Keys key)

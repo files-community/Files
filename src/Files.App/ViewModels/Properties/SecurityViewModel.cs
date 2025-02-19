@@ -36,8 +36,8 @@ namespace Files.App.ViewModels.Properties
 
 		public string SelectedItemHeaderText =>
 			SelectedAccessControlEntry is null
-				? "Permissions".GetLocalizedResource()
-				: string.Format("SecurityPermissionsHeaderText".GetLocalizedResource(), SelectedAccessControlEntry?.Principal.DisplayName);
+				? Strings.Permissions.GetLocalizedResource()
+				: string.Format(Strings.SecurityPermissionsHeaderText.GetLocalizedResource(), SelectedAccessControlEntry?.Principal.DisplayName);
 
 		private AccessControlList _AccessControlList;
 		public AccessControlList AccessControlList
@@ -98,8 +98,8 @@ namespace Files.App.ViewModels.Properties
 			{
 				DisplayElements = false;
 				ErrorMessage = error is WIN32_ERROR.ERROR_ACCESS_DENIED
-					? "SecurityRequireReadPermissions".GetLocalizedResource() + "\r\n" + "SecurityClickAdvancedPermissions".GetLocalizedResource()
-					: "SecurityUnableToDisplayPermissions".GetLocalizedResource();
+					? Strings.SecurityRequireReadPermissions.GetLocalizedResource() + "\r\n" + Strings.SecurityClickAdvancedPermissions.GetLocalizedResource()
+					: Strings.SecurityUnableToDisplayPermissions.GetLocalizedResource();
 			}
 			else
 			{

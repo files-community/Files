@@ -8,10 +8,10 @@ namespace Files.App.Actions
 	internal sealed partial class CutItemAction : BaseTransferItemAction, IAction
 	{
 		public string Label
-			=> "Cut".GetLocalizedResource();
+			=> Strings.Cut.GetLocalizedResource();
 
 		public string Description
-			=> "CutItemDescription".GetLocalizedResource();
+			=> Strings.CutItemDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Cut");
