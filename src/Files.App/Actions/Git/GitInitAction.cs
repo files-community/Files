@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext _context;
 
 		public string Label
-			=> "InitRepo".GetLocalizedResource();
+			=> Strings.InitRepo.GetLocalizedResource();
 
 		public string Description
-			=> "InitRepoDescription".GetLocalizedResource();
+			=> Strings.InitRepoDescription.GetLocalizedResource();
 
 		public bool IsExecutable => 
 			_context.Folder is not null &&

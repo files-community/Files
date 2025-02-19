@@ -10,10 +10,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public override string Label
-			=> "RunAsAdministrator".GetLocalizedResource();
+			=> Strings.RunAsAdministrator.GetLocalizedResource();
 
 		public override string Description
-			=> "RunAsAdminDescription".GetLocalizedResource();
+			=> Strings.RunAsAdminDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new("\uE7EF");

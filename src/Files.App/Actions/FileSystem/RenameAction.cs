@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Rename".GetLocalizedResource();
+			=> Strings.Rename.GetLocalizedResource();
 
 		public string Description
-			=> "RenameDescription".GetLocalizedResource();
+			=> Strings.RenameDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.F2);

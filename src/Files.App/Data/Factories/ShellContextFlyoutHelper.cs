@@ -88,7 +88,7 @@ namespace Files.App.Helpers
 				{
 					var menuLayoutSubItem = new ContextMenuFlyoutItemViewModel()
 					{
-						Text = "ShowMoreOptions".GetLocalizedResource(),
+						Text = Strings.ShowMoreOptions.GetLocalizedResource(),
 						Glyph = "\xE712",
 					};
 					LoadMenuFlyoutItem(menuLayoutSubItem.Items, contextMenu, overflowItems, cancellationToken, showIcons);
@@ -328,7 +328,7 @@ namespace Files.App.Helpers
 					overflowItem.Visibility = overflowItems?.Any() ?? false ? Visibility.Visible : Visibility.Collapsed;
 					overflowSeparator.Visibility = overflowItems?.Any() ?? false ? Visibility.Visible : Visibility.Collapsed;
 
-					overflowItem.Label = "ShowMoreOptions".GetLocalizedResource();
+					overflowItem.Label = Strings.ShowMoreOptions.GetLocalizedResource();
 					overflowItem.IsEnabled = true;
 				}
 

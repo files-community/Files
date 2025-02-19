@@ -442,9 +442,9 @@ namespace Files.App.Utils.Git
 			{
 				var viewModel = new DynamicDialogViewModel()
 				{
-					TitleText = "GitError".GetLocalizedResource(),
-					SubtitleText = "PullTimeoutError".GetLocalizedResource(),
-					CloseButtonText = "Close".GetLocalizedResource(),
+					TitleText = Strings.GitError.GetLocalizedResource(),
+					SubtitleText = Strings.PullTimeoutError.GetLocalizedResource(),
+					CloseButtonText = Strings.Close.GetLocalizedResource(),
 					DynamicButtons = DynamicDialogButtons.Cancel
 				};
 				var dialog = new DynamicDialog(viewModel);
@@ -570,7 +570,7 @@ namespace Files.App.Utils.Git
 			var expiresIn = codeJsonContent.RootElement.GetProperty("expires_in").GetInt32();
 
 			var loginCTS = new CancellationTokenSource();
-			var viewModel = new GitHubLoginDialogViewModel(userCode, "ConnectGitHubDescription".GetLocalizedResource(), loginCTS);
+			var viewModel = new GitHubLoginDialogViewModel(userCode, Strings.ConnectGitHubDescription.GetLocalizedResource(), loginCTS);
 
 			var dialog = _dialogService.GetDialog(viewModel);
 			var loginDialogTask = dialog.TryShowAsync();
@@ -621,7 +621,7 @@ namespace Files.App.Utils.Git
 						GIT_RESOURCE_USERNAME,
 						token);
 
-					viewModel.Subtitle = "AuthorizationSucceded".GetLocalizedResource();
+					viewModel.Subtitle = Strings.AuthorizationSucceded.GetLocalizedResource();
 					viewModel.LoginConfirmed = true;
 				}
 				catch (Exception ex)
@@ -687,10 +687,10 @@ namespace Files.App.Utils.Git
 				{
 					changeKindHumanized = changeKind switch
 					{
-						ChangeKind.Added => "Added".GetLocalizedResource(),
-						ChangeKind.Deleted => "Deleted".GetLocalizedResource(),
-						ChangeKind.Modified => "Modified".GetLocalizedResource(),
-						ChangeKind.Untracked => "Untracked".GetLocalizedResource(),
+						ChangeKind.Added => Strings.Added.GetLocalizedResource(),
+						ChangeKind.Deleted => Strings.Deleted.GetLocalizedResource(),
+						ChangeKind.Modified => Strings.Modified.GetLocalizedResource(),
+						ChangeKind.Untracked => Strings.Untracked.GetLocalizedResource(),
 						_ => null,
 					};
 				}

@@ -79,7 +79,7 @@ namespace Files.App.Dialogs
 			else
 			{
 				e.DragUIOverride.IsCaptionVisible = true;
-				e.DragUIOverride.Caption = "MoveItemsDialogPrimaryButtonText".GetLocalizedResource();
+				e.DragUIOverride.Caption = Strings.MoveItemsDialogPrimaryButtonText.GetLocalizedResource();
 				e.AcceptedOperation = DataPackageOperation.Move;
 			}
 		}

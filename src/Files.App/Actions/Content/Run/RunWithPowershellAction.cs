@@ -10,10 +10,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "RunWithPowerShell".GetLocalizedResource();
+			=> Strings.RunWithPowerShell.GetLocalizedResource();
 
 		public string Description
-			=> "RunWithPowershellDescription".GetLocalizedResource();
+			=> Strings.RunWithPowershellDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new("\uE756");

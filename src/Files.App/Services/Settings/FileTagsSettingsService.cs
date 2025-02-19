@@ -69,7 +69,7 @@ namespace Files.App.Services.Settings
 
 			if (!string.IsNullOrEmpty(uid) && tag is null)
 			{
-				tag = new TagViewModel("Unknown".GetLocalizedResource(), "#9ea3a1", uid);
+				tag = new TagViewModel(Strings.Unknown.GetLocalizedResource(), "#9ea3a1", uid);
 				FileTagList = FileTagList.Append(tag).ToList();
 			}
 

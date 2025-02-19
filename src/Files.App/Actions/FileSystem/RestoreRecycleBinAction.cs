@@ -12,10 +12,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Restore".GetLocalizedResource();
+			=> Strings.Restore.GetLocalizedResource();
 
 		public string Description
-			=> "RestoreRecycleBinDescription".GetLocalizedResource();
+			=> Strings.RestoreRecycleBinDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.RestoreDeleted");
@@ -36,10 +36,10 @@ namespace Files.App.Actions
 		{
 			var confirmationDialog = new ContentDialog()
 			{
-				Title = "ConfirmRestoreSelectionBinDialogTitle".GetLocalizedResource(),
-				Content = string.Format("ConfirmRestoreSelectionBinDialogContent".GetLocalizedResource(), context.SelectedItems.Count),
-				PrimaryButtonText = "Yes".GetLocalizedResource(),
-				SecondaryButtonText = "Cancel".GetLocalizedResource(),
+				Title = Strings.ConfirmRestoreSelectionBinDialogTitle.GetLocalizedResource(),
+				Content = string.Format(Strings.ConfirmRestoreSelectionBinDialogContent.GetLocalizedResource(), context.SelectedItems.Count),
+				PrimaryButtonText = Strings.Yes.GetLocalizedResource(),
+				SecondaryButtonText = Strings.Cancel.GetLocalizedResource(),
 				DefaultButton = ContentDialogButton.Primary
 			};
 

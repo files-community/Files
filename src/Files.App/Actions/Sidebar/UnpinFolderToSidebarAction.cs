@@ -9,10 +9,10 @@ namespace Files.App.Actions
 		private readonly IQuickAccessService service;
 
 		public string Label
-			=> "UnpinFolderFromSidebar".GetLocalizedResource();
+			=> Strings.UnpinFolderFromSidebar.GetLocalizedResource();
 
 		public string Description
-			=> "UnpinFolderFromSidebarDescription".GetLocalizedResource();
+			=> Strings.UnpinFolderFromSidebarDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.FavoritePinRemove");

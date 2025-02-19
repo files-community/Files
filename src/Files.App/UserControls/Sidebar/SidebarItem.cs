@@ -22,7 +22,7 @@ namespace Files.App.UserControls.Sidebar
 		public bool CollapseEnabled => DisplayMode != SidebarDisplayMode.Compact;
 
 		// TODO: Do not use localized text for comparison. This is a workaround to avoid major refactoring for now, it should be done any time soon
-		public bool IsHomeItem => Item?.Text == "Home".GetLocalizedResource() && Owner?.MenuItemsSource is IList enumerable && enumerable.IndexOf(Item) == 0;
+		public bool IsHomeItem => Item?.Text == Strings.Home.GetLocalizedResource() && Owner?.MenuItemsSource is IList enumerable && enumerable.IndexOf(Item) == 0;
 
 		private bool hasChildSelection => selectedChildItem != null;
 		private bool isPointerOver = false;

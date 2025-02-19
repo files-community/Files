@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "EditPath".GetLocalizedResource();
+			=> Strings.EditPath.GetLocalizedResource();
 
 		public string Description
-			=> "EditPathDescription".GetLocalizedResource();
+			=> Strings.EditPathDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.L, KeyModifiers.Ctrl);

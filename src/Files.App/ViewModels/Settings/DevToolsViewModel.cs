@@ -25,8 +25,8 @@ namespace Files.App.ViewModels.Settings
 		public DevToolsViewModel()
 		{
 			// Open in IDE options
-			OpenInIDEOptions.Add(OpenInIDEOption.GitRepos, "GitRepos".GetLocalizedResource());
-			OpenInIDEOptions.Add(OpenInIDEOption.AllLocations, "AllLocations".GetLocalizedResource());
+			OpenInIDEOptions.Add(OpenInIDEOption.GitRepos, Strings.GitRepos.GetLocalizedResource());
+			OpenInIDEOptions.Add(OpenInIDEOption.AllLocations, Strings.AllLocations.GetLocalizedResource());
 			SelectedOpenInIDEOption = OpenInIDEOptions[DevToolsSettingsService.OpenInIDEOption];
 
 			IsLogoutEnabled = GitHelpers.GetSavedCredentials() != string.Empty;

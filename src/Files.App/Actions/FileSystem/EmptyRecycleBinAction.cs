@@ -14,10 +14,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "EmptyRecycleBin".GetLocalizedResource();
+			=> Strings.EmptyRecycleBin.GetLocalizedResource();
 
 		public string Description
-			=> "EmptyRecycleBinDescription".GetLocalizedResource();
+			=> Strings.EmptyRecycleBinDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Delete");
@@ -36,13 +36,12 @@ namespace Files.App.Actions
 
 		public async Task ExecuteAsync(object? parameter = null)
 		{
-			// TODO: Use AppDialogService
 			var confirmationDialog = new ContentDialog()
 			{
-				Title = "ConfirmEmptyBinDialogTitle".GetLocalizedResource(),
-				Content = "ConfirmEmptyBinDialogContent".GetLocalizedResource(),
-				PrimaryButtonText = "Yes".GetLocalizedResource(),
-				SecondaryButtonText = "Cancel".GetLocalizedResource(),
+				Title = Strings.ConfirmEmptyBinDialogTitle.GetLocalizedResource(),
+				Content = Strings.ConfirmEmptyBinDialogContent.GetLocalizedResource(),
+				PrimaryButtonText = Strings.Yes.GetLocalizedResource(),
+				SecondaryButtonText = Strings.Cancel.GetLocalizedResource(),
 				DefaultButton = ContentDialogButton.Primary
 			};
 

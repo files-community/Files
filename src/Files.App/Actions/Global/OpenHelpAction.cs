@@ -8,10 +8,10 @@ namespace Files.App.Actions
 	internal sealed class OpenHelpAction : IAction
 	{
 		public string Label
-			=> "Help".GetLocalizedResource();
+			=> Strings.Help.GetLocalizedResource();
 
 		public string Description
-			=> "OpenHelpDescription".GetLocalizedResource();
+			=> Strings.OpenHelpDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.F1);

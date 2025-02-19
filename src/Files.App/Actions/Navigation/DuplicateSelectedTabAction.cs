@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IMultitaskingContext context;
 
 		public string Label
-			=> "DuplicateTab".GetLocalizedResource();
+			=> Strings.DuplicateTab.GetLocalizedResource();
 
 		public string Description
-			=> "DuplicateSelectedTabDescription".GetLocalizedResource();
+			=> Strings.DuplicateSelectedTabDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.K, KeyModifiers.CtrlShift);

@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Up".GetLocalizedResource();
+			=> Strings.Up.GetLocalizedResource();
 
 		public string Description
-			=> "NavigateUpDescription".GetLocalizedResource();
+			=> Strings.NavigateUpDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Up, KeyModifiers.Alt);

@@ -199,7 +199,7 @@ namespace Files.App.Utils.StatusCenter
 			AnimatedIconState = "NormalOff";
 			SpeedGraphValues = [];
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
-			Message = "ProcessingItems".GetLocalizedResource();
+			Message = Strings.ProcessingItems.GetLocalizedResource();
 			Source = source;
 			Destination = destination;
 
@@ -296,7 +296,7 @@ namespace Files.App.Utils.StatusCenter
 					{
 						Message =
 							$"{string.Format(
-								"StatusCenter_ProcessedItems_Header".GetLocalizedResource(),
+								Strings.StatusCenter_ProcessedItems_Header.GetLocalizedResource(),
 								value.ProcessedItemsCount,
 								value.ItemsCount)}";
 					}
@@ -304,7 +304,7 @@ namespace Files.App.Utils.StatusCenter
 					{
 						Message =
 							$"{string.Format(
-								"StatusCenter_ProcessedSize_Header".GetLocalizedResource(),
+								Strings.StatusCenter_ProcessedSize_Header.GetLocalizedResource(),
 								value.ProcessedSize.ToSizeString(),
 								value.TotalSize.ToSizeString())}";
 					}
@@ -393,7 +393,7 @@ namespace Files.App.Utils.StatusCenter
 				IsCancelable = false;
 				IsExpanded = false;
 				IsSpeedAndProgressAvailable = false;
-				Header = $"{"Canceling".GetLocalizedResource()} - {Header}";
+				Header = $"{Strings.Canceling.GetLocalizedResource()} - {Header}";
 			}
 		}
 	}
