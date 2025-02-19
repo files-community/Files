@@ -63,7 +63,7 @@
 					<StackPanel Orientation="Vertical">
 						<Grid
 							x:Name="IDEConfigGrid"
-							Padding="32,12"
+							Padding="60,12,16,12"
 							ColumnSpacing="16"
 							RowSpacing="12">
 							<Grid.ColumnDefinitions>
@@ -75,9 +75,7 @@
 							<Grid.RowDefinitions>
 								<RowDefinition Height="*" />
 								<RowDefinition Height="*" />
-								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
-
 
 							<!--  IDE Friendly Name  -->
 							<TextBlock
@@ -111,11 +109,11 @@
 										x:Name="InvalidFriendlyNameWarning"
 										Title="{helpers:ResourceString Name=InvalidFriendlyNameError}"
 										IsOpen="{x:Bind ViewModel.IsFriendlyNameValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-										PreferredPlacement="BottomRight"
+										PreferredPlacement="BottomLeft"
 										Target="{x:Bind IDEFriendlyNameTextBox}" />
 								</TextBox.Resources>
 								<TextBox.Header>
-									<TextBlock Text="{helpers:ResourceString Name=FriendlyName}" TextTrimming="CharacterEllipsis" />
+									<TextBlock Text="{helpers:ResourceString Name=FriendlyName}" />
 								</TextBox.Header>
 							</TextBox>
 
@@ -169,20 +167,30 @@
 										<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
 									</TextBox.Resources>
 									<TextBox.Header>
-										<TextBlock Text="{helpers:ResourceString Name=PathOrAlias}" TextTrimming="CharacterEllipsis" />
+										<TextBlock Text="{helpers:ResourceString Name=PathOrAlias}" />
 									</TextBox.Header>
 								</TextBox>
 
-								<Button
+								<SplitButton
 									x:Name="PickIDEExe"
 									Grid.Column="1"
 									VerticalAlignment="Bottom"
 									Command="{x:Bind ViewModel.OpenFilePickerForIDECommand, Mode=OneWay}"
-									Content="{helpers:ResourceString Name=Browse}" />
+									Content="{helpers:ResourceString Name=Browse}">
+									<SplitButton.Flyout>
+										<MenuFlyout Placement="Bottom">
+											<!--  Test Integration  -->
+											<MenuFlyoutItem
+												x:Name="TestIDE"
+												Command="{x:Bind ViewModel.TestIDECommand, Mode=OneWay}"
+												IsEnabled="{x:Bind ViewModel.IsIDEPathValid, Mode=OneWay}"
+												Text="{helpers:ResourceString Name=TestIntegration}" />
+										</MenuFlyout>
+									</SplitButton.Flyout>
+								</SplitButton>
 
 								<Grid
 									x:Name="InvalidPathWarning"
-									Grid.Row="1"
 									Grid.Column="2"
 									Padding="12,6"
 									VerticalAlignment="Bottom"
@@ -224,9 +232,10 @@
 							<!--  Edit  -->
 							<Button
 								x:Name="EditIDEConfigButton"
-								Grid.RowSpan="3"
+								Grid.RowSpan="2"
 								Grid.Column="2"
 								Padding="8,4"
+								VerticalAlignment="Center"
 								Background="Transparent"
 								BorderBrush="Transparent"
 								Command="{x:Bind ViewModel.StartEditingIDECommand, Mode=OneWay}"
@@ -236,19 +245,13 @@
 
 						<StackPanel
 							x:Name="SaveAndEditButtons"
-							Padding="32,0,32,12"
+							Padding="60,0,16,12"
 							HorizontalAlignment="Right"
 							x:Load="{x:Bind ViewModel.IsEditingIDEConfig, Mode=OneWay}"
 							Orientation="Horizontal"
 							Spacing="8">
 							<!--  Cancel  -->
 							<Button Command="{x:Bind ViewModel.CancelIDEChangesCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=Cancel}" />
-
-							<!--  Test Integration  -->
-							<Button
-								x:Name="TestIDE"
-								Command="{x:Bind ViewModel.TestIDECommand, Mode=OneWay}"
-								Content="{helpers:ResourceString Name=TestIntegration}" />
 
 							<!--  Save Changes  -->
 							<Button
@@ -304,7 +307,6 @@
 						<Setter Target="InvalidPathWarning.VerticalAlignment" Value="Bottom" />
 						<Setter Target="IDEPathGrid.RowSpacing" Value="0" />
 						<Setter Target="IDEPathGrid.ColumnSpacing" Value="8" />
-						<Setter Target="InvalidFriendlyNameWarning.PreferredPlacement" Value="BottomRight" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="CompactState">
@@ -322,7 +324,6 @@
 						<Setter Target="InvalidPathWarning.VerticalAlignment" Value="Stretch" />
 						<Setter Target="IDEPathGrid.RowSpacing" Value="12" />
 						<Setter Target="IDEPathGrid.ColumnSpacing" Value="0" />
-						<Setter Target="InvalidFriendlyNameWarning.PreferredPlacement" Value="Bottom" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
