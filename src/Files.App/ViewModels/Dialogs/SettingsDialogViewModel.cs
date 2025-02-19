@@ -3,7 +3,7 @@
 
 namespace Files.App.ViewModels.Dialogs
 {
-	public sealed class SettingsDialogViewModel : ObservableObject
+	public sealed partial class SettingsDialogViewModel : ObservableObject
 	{
 	}
 }

@@ -26,19 +26,19 @@ namespace Files.App.Helpers
 
 			try
 			{
-				service.SetAppThemeBackgroundColor(ColorHelper.ToColor(appThemeBackgroundColor).FromWindowsColor());
+				service.SetAppThemeBackgroundColor(appThemeBackgroundColor.ToColor());
 			}
 			catch
 			{
 				appearance.AppThemeBackgroundColor = "#00000000"; // reset to default
-				service.SetAppThemeBackgroundColor(ColorHelper.ToColor("#00000000").FromWindowsColor());
+				service.SetAppThemeBackgroundColor("#00000000".ToColor());
 			}
 
 			if (!string.IsNullOrWhiteSpace(appThemeAddressBarBackgroundColor))
 			{
 				try
 				{
-					service.SetAppThemeAddressBarBackgroundColor(ColorHelper.ToColor(appThemeAddressBarBackgroundColor).FromWindowsColor());
+					service.SetAppThemeAddressBarBackgroundColor(appThemeAddressBarBackgroundColor.ToColor());
 				}
 				catch
 				{
@@ -50,7 +50,7 @@ namespace Files.App.Helpers
 			{
 				try
 				{
-					service.SetAppThemeToolbarBackgroundColor(ColorHelper.ToColor(appThemeToolbarBackgroundColor).FromWindowsColor());
+					service.SetAppThemeToolbarBackgroundColor(appThemeToolbarBackgroundColor.ToColor());
 				}
 				catch
 				{
@@ -62,7 +62,7 @@ namespace Files.App.Helpers
 			{
 				try
 				{
-					service.SetAppThemeSidebarBackgroundColor(ColorHelper.ToColor(appThemeSidebarBackgroundColor).FromWindowsColor());
+					service.SetAppThemeSidebarBackgroundColor(appThemeSidebarBackgroundColor.ToColor());
 				}
 				catch
 				{
@@ -74,7 +74,7 @@ namespace Files.App.Helpers
 			{
 				try
 				{
-					service.SetAppThemeFileAreaBackgroundColor(ColorHelper.ToColor(appThemeFileAreaBackgroundColor).FromWindowsColor());
+					service.SetAppThemeFileAreaBackgroundColor(appThemeFileAreaBackgroundColor.ToColor());
 				}
 				catch
 				{
@@ -86,7 +86,7 @@ namespace Files.App.Helpers
 			{
 				try
 				{
-					service.SetAppThemeFileAreaSecondaryBackgroundColor(ColorHelper.ToColor(appThemeFileAreaSecondaryBackgroundColor).FromWindowsColor());
+					service.SetAppThemeFileAreaSecondaryBackgroundColor(appThemeFileAreaSecondaryBackgroundColor.ToColor());
 				}
 				catch
 				{
@@ -98,7 +98,7 @@ namespace Files.App.Helpers
 			{
 				try
 				{
-					service.SetAppThemeInfoPaneBackgroundColor(ColorHelper.ToColor(appThemeInfoPaneBackgroundColor).FromWindowsColor());
+					service.SetAppThemeInfoPaneBackgroundColor(appThemeInfoPaneBackgroundColor.ToColor());
 				}
 				catch
 				{

@@ -11,7 +11,7 @@ using static Files.App.Helpers.Win32Helper;
 
 namespace Files.App.Services.SizeProvider
 {
-	public sealed class CachedSizeProvider : ISizeProvider
+	public sealed partial class CachedSizeProvider : ISizeProvider
 	{
 		private readonly ConcurrentDictionary<string, ulong> sizes = new();
 

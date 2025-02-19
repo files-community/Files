@@ -10,7 +10,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:root="using:Files.App"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	mc:Ignorable="d">
 
 	<local:BaseTabBar.Resources>

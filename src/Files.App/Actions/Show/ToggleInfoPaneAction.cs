@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class ToggleInfoPaneAction : ObservableObject, IToggleAction
+	internal sealed partial class ToggleInfoPaneAction : ObservableObject, IToggleAction
 	{
 		private readonly InfoPaneViewModel viewModel;
 

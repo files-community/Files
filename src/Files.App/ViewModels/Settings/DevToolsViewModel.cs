@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.Settings
 {
-	public sealed class DevToolsViewModel : ObservableObject
+	public sealed partial class DevToolsViewModel : ObservableObject
 	{
 		protected readonly IFileTagsSettingsService FileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 		protected readonly IDevToolsSettingsService DevToolsSettingsService = Ioc.Default.GetRequiredService<IDevToolsSettingsService>();

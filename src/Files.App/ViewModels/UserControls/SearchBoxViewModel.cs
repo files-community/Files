@@ -9,7 +9,7 @@ using Windows.System;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public sealed class SearchBoxViewModel : ObservableObject, ISearchBoxViewModel
+	public sealed partial class SearchBoxViewModel : ObservableObject, ISearchBoxViewModel
 	{
 		private string query;
 		public string Query

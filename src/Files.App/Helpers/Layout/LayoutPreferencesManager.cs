@@ -8,7 +8,7 @@ namespace Files.App.Helpers
 	/// <summary>
 	/// Represents manager for layout preferences settings.
 	/// </summary>
-	public sealed class LayoutPreferencesManager : ObservableObject
+	public sealed partial class LayoutPreferencesManager : ObservableObject
 	{
 		// Dependency injections
 

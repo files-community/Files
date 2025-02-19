@@ -8,7 +8,7 @@ using System.IO;
 namespace Files.App.Data.AppModels
 {
 	/// <inheritdoc cref="BaseDatabaseModel{TDictionaryValue}"/>
-	public sealed class SingleFileDatabaseModel : BaseDatabaseModel<ISerializedModel>
+	public sealed partial class SingleFileDatabaseModel : BaseDatabaseModel<ISerializedModel>
 	{
 		private readonly string _fileName;
 		private readonly IModifiableFolder _settingsFolder;

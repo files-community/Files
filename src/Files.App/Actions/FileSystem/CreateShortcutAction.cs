@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class CreateShortcutAction : BaseUIAction, IAction
+	internal sealed partial class CreateShortcutAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;
 

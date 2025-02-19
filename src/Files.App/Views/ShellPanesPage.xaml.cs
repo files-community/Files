@@ -1,13 +1,14 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.UI.Controls;
+using CommunityToolkit.WinUI.Controls;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using System.Runtime.CompilerServices;
+using GridSplitter = Files.App.Controls.GridSplitter;
 
 namespace Files.App.Views
 {

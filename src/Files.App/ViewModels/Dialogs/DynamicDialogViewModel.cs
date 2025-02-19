@@ -9,7 +9,7 @@ using Windows.System;
 
 namespace Files.App.ViewModels.Dialogs
 {
-	public sealed class DynamicDialogViewModel : ObservableObject, IDisposable
+	public sealed partial class DynamicDialogViewModel : ObservableObject, IDisposable
 	{
 		#region Public Properties
 

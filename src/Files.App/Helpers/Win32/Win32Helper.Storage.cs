@@ -949,13 +949,11 @@ namespace Files.App.Helpers
 
 			var success = PInvoke.GetVolumeInformation(
 				path,
-				null,
-				0u,
+				[],
 				null,
 				null,
 				&dwFileSystemFlags,
-				null,
-				0u);
+				[]);
 
 			if (!success)
 				return false;

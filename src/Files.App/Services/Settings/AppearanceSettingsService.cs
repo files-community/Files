@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class AppearanceSettingsService : BaseObservableJsonSettings, IAppearanceSettingsService
+	internal sealed partial class AppearanceSettingsService : BaseObservableJsonSettings, IAppearanceSettingsService
 	{
 		public AppearanceSettingsService(ISettingsSharingContext settingsSharingContext)
 		{

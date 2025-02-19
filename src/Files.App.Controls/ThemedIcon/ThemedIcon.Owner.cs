@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;

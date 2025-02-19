@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public sealed class StatusBarViewModel : ObservableObject
+	public sealed partial class StatusBarViewModel : ObservableObject
 	{
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private IDevToolsSettingsService DevToolsSettingsService = Ioc.Default.GetRequiredService<IDevToolsSettingsService>();

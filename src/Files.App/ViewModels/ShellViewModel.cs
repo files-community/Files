@@ -29,7 +29,7 @@ namespace Files.App.ViewModels
 	/// <summary>
 	/// Represents view model of <see cref="IShellPage"/>.
 	/// </summary>
-	public sealed class ShellViewModel : ObservableObject, IDisposable
+	public sealed partial class ShellViewModel : ObservableObject, IDisposable
 	{
 		private readonly SemaphoreSlim enumFolderSemaphore;
 		private readonly SemaphoreSlim getFileOrFolderSemaphore;
@@ -146,6 +146,7 @@ namespace Files.App.ViewModels
 		private CancellationTokenSource loadPropsCTS;
 		private CancellationTokenSource watcherCTS;
 		private CancellationTokenSource searchCTS;
+		private CancellationTokenSource updateTagGroupCTS;
 
 		public event EventHandler DirectoryInfoUpdated;
 
@@ -1315,7 +1316,39 @@ namespace Files.App.ViewModels
 			finally
 			{
 				itemLoadQueue.TryRemove(item.ItemPath, out _);
+				await RefreshTagGroups();
 			}
+		}
+
+		public async Task RefreshTagGroups()
+		{
+			if (FilesAndFolders.IsGrouped &&
+				folderSettings.DirectoryGroupOption is GroupOption.FileTag &&
+				itemLoadQueue.IsEmpty())
+			{
+				updateTagGroupCTS?.Cancel();
+				updateTagGroupCTS = new();
+
+				await GroupOptionsUpdatedAsync(updateTagGroupCTS.Token);
+			}
+		}
+
+		public Task UpdateItemsTags(Dictionary<string, string[]> newTags)
+		{
+			return dispatcherQueue.EnqueueOrInvokeAsync(() =>
+			{
+				int count = newTags.Count;
+				foreach(var item in FilesAndFolders)
+				{
+					if (newTags.TryGetValue(item.ItemPath, out var tags))
+					{
+						item.FileTags = tags;
+						if (--count == 0)
+							break;
+					}
+				}
+			},
+			Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 		}
 
 		private bool CheckElevationRights(ListedItem item)
@@ -1853,7 +1886,7 @@ namespace Files.App.ViewModels
 		private void CheckForSolutionFile()
 		{
 			SolutionFilePath = filesAndFolders.ToList().AsParallel()
-				.Where(item => FileExtensionHelpers.HasExtension(item.FileExtension, ".sln"))
+				.Where(item => FileExtensionHelpers.HasExtension(item.FileExtension, ".sln", ".slnx"))
 				.FirstOrDefault()?.ItemPath;
 		}
 
@@ -2496,6 +2529,7 @@ namespace Files.App.ViewModels
 				else if (storageItem.IsOfType(StorageItemTypes.Folder))
 				{
 					var properties = await storageItem.AsBaseStorageFolder().GetBasicPropertiesAsync();
+					size = item.IsArchive ? (long)properties.Size : null;
 					modified = properties.DateModified;
 					created = properties.DateCreated;
 				}

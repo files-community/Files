@@ -1,8 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.UI;
-using CommunityToolkit.WinUI.UI.Controls;
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.Controls;
+using Files.App.Controls;
 using Files.App.ViewModels.Layouts;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

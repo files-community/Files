@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class CreateFolderWithSelectionAction : ObservableObject, IAction
+	internal sealed partial class CreateFolderWithSelectionAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

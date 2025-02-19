@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.Properties
 {
-	public sealed class CustomizationViewModel : ObservableObject
+	public sealed partial class CustomizationViewModel : ObservableObject
 	{
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 
@@ -95,9 +95,10 @@ namespace Files.App.ViewModels.Properties
 
 			string[] extensions =
 			[
-				"ApplicationExtension".GetLocalizedResource(), "*.dll",
-				"Application".GetLocalizedResource(), "*.exe",
-				"IcoFileCapitalized".GetLocalizedResource(), "*.ico",
+				Strings.ApplicationExtension.GetLocalizedResource(), "*.dll",
+				Strings.Application.GetLocalizedResource(), "*.exe",
+				Strings.IcoFileCapitalized.GetLocalizedResource(), "*.ico",
+				Strings.IclFileCapitalized.GetLocalizedResource(), "*.icl ",
 			];
 
 			var result = CommonDialogService.Open_FileOpenDialog(hWnd, false, extensions, Environment.SpecialFolder.MyComputer, out var filePath);

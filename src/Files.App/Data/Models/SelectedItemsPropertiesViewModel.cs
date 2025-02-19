@@ -9,7 +9,7 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Data.Models
 {
-	public sealed class SelectedItemsPropertiesViewModel : ObservableObject
+	public sealed partial class SelectedItemsPropertiesViewModel : ObservableObject
 	{
 		private static readonly IDateTimeFormatter dateTimeFormatter = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
 

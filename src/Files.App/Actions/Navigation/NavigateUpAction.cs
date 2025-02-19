@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class NavigateUpAction : ObservableObject, IAction
+	internal sealed partial class NavigateUpAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

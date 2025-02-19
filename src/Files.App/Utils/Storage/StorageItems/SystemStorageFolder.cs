@@ -12,7 +12,7 @@ using Windows.Storage.Search;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class SystemStorageFolder : BaseStorageFolder
+	public sealed partial class SystemStorageFolder : BaseStorageFolder
 	{
 		public StorageFolder Folder { get; }
 
@@ -151,7 +151,7 @@ namespace Files.App.Utils.Storage
 		public override IAsyncOperation<StorageItemThumbnail> GetThumbnailAsync(ThumbnailMode mode, uint requestedSize, ThumbnailOptions options)
 			=> Folder.GetThumbnailAsync(mode, requestedSize, options);
 
-		private sealed class SystemFolderBasicProperties : BaseBasicProperties
+		private sealed partial class SystemFolderBasicProperties : BaseBasicProperties
 		{
 			private readonly IStorageItemExtraProperties basicProps;
 			private readonly DateTimeOffset? dateCreated;

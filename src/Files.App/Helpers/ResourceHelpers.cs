@@ -7,7 +7,7 @@ using Windows.ApplicationModel.Resources;
 namespace Files.App.Helpers
 {
 	[MarkupExtensionReturnType(ReturnType = typeof(string))]
-	public sealed class ResourceString : MarkupExtension
+	public sealed partial class ResourceString : MarkupExtension
 	{
 		private static readonly ResourceLoader resourceLoader = new();
 

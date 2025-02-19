@@ -14,7 +14,7 @@ using Visibility = Microsoft.UI.Xaml.Visibility;
 
 namespace Files.App.Utils.Library
 {
-	public sealed class LibraryManager : IDisposable
+	public sealed partial class LibraryManager : IDisposable
 	{
 		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 

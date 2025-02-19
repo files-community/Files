@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class GroupByNoneAction : GroupByAction
+	internal sealed partial class GroupByNoneAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.None;
@@ -15,7 +15,7 @@ namespace Files.App.Actions
 			=> "GroupByNoneDescription".GetLocalizedResource();
 	}
 
-	internal sealed class GroupByNameAction : GroupByAction
+	internal sealed partial class GroupByNameAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.Name;
@@ -27,7 +27,7 @@ namespace Files.App.Actions
 			=> "GroupByNameDescription".GetLocalizedResource();
 	}
 
-	internal sealed class GroupByDateModifiedAction : GroupByAction
+	internal sealed partial class GroupByDateModifiedAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateModified;
@@ -39,7 +39,7 @@ namespace Files.App.Actions
 			=> "GroupByDateModifiedDescription".GetLocalizedResource();
 	}
 
-	internal sealed class GroupByDateCreatedAction : GroupByAction
+	internal sealed partial class GroupByDateCreatedAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateCreated;
@@ -51,7 +51,7 @@ namespace Files.App.Actions
 			=> "GroupByDateCreatedDescription".GetLocalizedResource();
 	}
 
-	internal sealed class GroupBySizeAction : GroupByAction
+	internal sealed partial class GroupBySizeAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.Size;
@@ -63,7 +63,7 @@ namespace Files.App.Actions
 			=> "GroupBySizeDescription".GetLocalizedResource();
 	}
 
-	internal sealed class GroupByTypeAction : GroupByAction
+	internal sealed partial class GroupByTypeAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.FileType;
@@ -75,7 +75,7 @@ namespace Files.App.Actions
 			=> "GroupByTypeDescription".GetLocalizedResource();
 	}
 
-	internal sealed class GroupBySyncStatusAction : GroupByAction
+	internal sealed partial class GroupBySyncStatusAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.SyncStatus;
@@ -90,7 +90,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.CloudDrive;
 	}
 
-	internal sealed class GroupByTagAction : GroupByAction
+	internal sealed partial class GroupByTagAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.FileTag;
@@ -102,7 +102,7 @@ namespace Files.App.Actions
 			=> "GroupByTagDescription".GetLocalizedResource();
 	}
 
-	internal sealed class GroupByOriginalFolderAction : GroupByAction
+	internal sealed partial class GroupByOriginalFolderAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.OriginalFolder;
@@ -117,7 +117,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
-	internal sealed class GroupByDateDeletedAction : GroupByAction
+	internal sealed partial class GroupByDateDeletedAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateDeleted;
@@ -132,7 +132,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
-	internal sealed class GroupByFolderPathAction : GroupByAction
+	internal sealed partial class GroupByFolderPathAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.FolderPath;
@@ -200,7 +200,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal sealed class GroupByDateModifiedYearAction : GroupByDateAction
+	internal sealed partial class GroupByDateModifiedYearAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateModified;
@@ -215,7 +215,7 @@ namespace Files.App.Actions
 			=> "GroupByDateModifiedYearDescription".GetLocalizedResource();
 	}
 
-	internal sealed class GroupByDateModifiedMonthAction : GroupByDateAction
+	internal sealed partial class GroupByDateModifiedMonthAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateModified;
@@ -230,7 +230,7 @@ namespace Files.App.Actions
 			=> "GroupByDateModifiedMonthDescription".GetLocalizedResource();
 	}
 
-	internal sealed class GroupByDateModifiedDayAction : GroupByDateAction
+	internal sealed partial class GroupByDateModifiedDayAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateModified;
@@ -245,7 +245,7 @@ namespace Files.App.Actions
 			=> "GroupByDateModifiedDayDescription".GetLocalizedResource();
 	}
 
-	internal sealed class GroupByDateCreatedYearAction : GroupByDateAction
+	internal sealed partial class GroupByDateCreatedYearAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateCreated;
@@ -260,7 +260,7 @@ namespace Files.App.Actions
 			=> "GroupByDateCreatedYearDescription".GetLocalizedResource();
 	}
 
-	internal sealed class GroupByDateCreatedMonthAction : GroupByDateAction
+	internal sealed partial class GroupByDateCreatedMonthAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateCreated;
@@ -275,7 +275,7 @@ namespace Files.App.Actions
 			=> "GroupByDateCreatedMonthDescription".GetLocalizedResource();
 	}
 
-	internal sealed class GroupByDateCreatedDayAction : GroupByDateAction
+	internal sealed partial class GroupByDateCreatedDayAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateCreated;
@@ -290,7 +290,7 @@ namespace Files.App.Actions
 			=> "GroupByDateCreatedDayDescription".GetLocalizedResource();
 	}
 
-	internal sealed class GroupByDateDeletedYearAction : GroupByDateAction
+	internal sealed partial class GroupByDateDeletedYearAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateDeleted;
@@ -308,7 +308,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
-	internal sealed class GroupByDateDeletedMonthAction : GroupByDateAction
+	internal sealed partial class GroupByDateDeletedMonthAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateDeleted;
@@ -326,7 +326,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
-	internal sealed class GroupByDateDeletedDayAction : GroupByDateAction
+	internal sealed partial class GroupByDateDeletedDayAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateDeleted;
@@ -401,7 +401,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal sealed class GroupAscendingAction : ObservableObject, IToggleAction
+	internal sealed partial class GroupAscendingAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 
@@ -446,7 +446,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal sealed class GroupDescendingAction : ObservableObject, IToggleAction
+	internal sealed partial class GroupDescendingAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 
@@ -515,7 +515,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal sealed class GroupByYearAction : ObservableObject, IToggleAction
+	internal sealed partial class GroupByYearAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 
@@ -560,7 +560,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal sealed class GroupByMonthAction : ObservableObject, IToggleAction
+	internal sealed partial class GroupByMonthAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 

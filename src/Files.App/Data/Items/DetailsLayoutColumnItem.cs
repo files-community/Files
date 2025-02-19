@@ -8,7 +8,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents item for a column shown in <see cref="DetailsLayoutPage"/>.
 	/// </summary>
-	public sealed class DetailsLayoutColumnItem : ObservableObject
+	public sealed partial class DetailsLayoutColumnItem : ObservableObject
 	{
 		private const int GRID_SPLITTER_WIDTH = 12;
 
@@ -144,6 +144,17 @@ namespace Files.App.Data.Items
 			hashCode = (hashCode * 397) ^ UserLength.Value.GetHashCode();
 
 			return hashCode;
+		}
+
+		public void Update(DetailsLayoutColumnItem other)
+		{
+			UserLengthPixels = other.UserLengthPixels;
+			NormalMaxLength = other.NormalMaxLength;
+			UserCollapsed = other.UserCollapsed;
+			IsResizable = other.IsResizable;
+			IsHidden = other.IsHidden;
+			NormalMinLength = other.NormalMinLength;
+			UserLength = other.UserLength;
 		}
 	}
 }

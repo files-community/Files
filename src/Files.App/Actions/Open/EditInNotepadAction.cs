@@ -5,7 +5,7 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
-	internal sealed class EditInNotepadAction : ObservableObject, IAction
+	internal sealed partial class EditInNotepadAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

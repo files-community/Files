@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class ToggleDotFilesSettingAction : ObservableObject, IToggleAction
+	internal sealed partial class ToggleDotFilesSettingAction : ObservableObject, IToggleAction
 	{
 		private readonly IFoldersSettingsService FoldersSettingsService;
 

@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class FormatDriveFromHomeAction : FormatDriveAction
+	internal sealed partial class FormatDriveFromHomeAction : FormatDriveAction
 	{
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 

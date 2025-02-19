@@ -5,7 +5,7 @@ using System.Collections.Concurrent;
 
 namespace Files.App.Utils.Shell
 {
-	public sealed class ThreadWithMessageQueue : Disposable
+	public sealed partial class ThreadWithMessageQueue : Disposable
 	{
 		private readonly BlockingCollection<Internal> messageQueue;
 

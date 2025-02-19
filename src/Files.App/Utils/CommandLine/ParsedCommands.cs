@@ -6,7 +6,7 @@ namespace Files.App.Utils.CommandLine
 	/// <summary>
 	/// Represents a collection of parsed command.
 	/// </summary>
-	public sealed class ParsedCommands : List<ParsedCommand>
+	public sealed partial class ParsedCommands : List<ParsedCommand>
 	{
 	}
 }

@@ -2,27 +2,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>$(TargetFrameworkVersion)</TargetFramework>
         <IsPackable>false</IsPackable>
         <Configurations>Debug;Release</Configurations>
         <Platforms>x86;x64;arm64</Platforms>
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-        <DefineConstants>TRACE;DEBUG;NETFX_CORE</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)' != 'Debug'">
-        <DefineConstants>TRACE;RELEASE;NETFX_CORE</DefineConstants>
-        <Optimize>true</Optimize>
-    </PropertyGroup>
-
     <ItemGroup>
-        <PackageReference Include="Appium.WebDriver" Version="4.4.5" />
-        <PackageReference Include="Axe.Windows" Version="2.4.0" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
-        <PackageReference Include="MSTest.TestAdapter" Version="3.5.2" />
-        <PackageReference Include="MSTest.TestFramework" Version="3.5.2" />
+        <PackageReference Include="Appium.WebDriver" />
+        <PackageReference Include="Axe.Windows" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" />
+        <PackageReference Include="MSTest.TestAdapter" />
+        <PackageReference Include="MSTest.TestFramework" />
     </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Files.App.ViewModels.Dialogs.FileSystemDialog
 {
-	public sealed class FileSystemDialogViewModel : BaseDialogViewModel, IRecipient<FileSystemDialogOptionChangedMessage>
+	public sealed partial class FileSystemDialogViewModel : BaseDialogViewModel, IRecipient<FileSystemDialogOptionChangedMessage>
 	{
 		private readonly IUserSettingsService _userSettingsService;
 

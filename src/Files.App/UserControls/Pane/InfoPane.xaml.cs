@@ -76,7 +76,7 @@ namespace Files.App.UserControls
 			VisualStateManager.GoToState((UserControl)sender, "Normal", true);
 		}
 
-		private sealed class ObservableContext : ObservableObject
+		private sealed partial class ObservableContext : ObservableObject
 		{
 			private bool isHorizontal = false;
 			public bool IsHorizontal

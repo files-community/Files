@@ -8,7 +8,7 @@ using Windows.Storage.FileProperties;
 
 namespace Files.App.ViewModels.Previews
 {
-	public abstract class BasePreviewModel : ObservableObject
+	public abstract partial class BasePreviewModel : ObservableObject
 	{
 		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -129,7 +129,7 @@ namespace Files.App.ViewModels.Previews
 			return list.Where(i => i.ValueText is not null).ToList();
 		}
 
-		private sealed class DetailsOnlyPreviewModel : BasePreviewModel
+		private sealed partial class DetailsOnlyPreviewModel : BasePreviewModel
 		{
 			public DetailsOnlyPreviewModel(ListedItem item) : base(item) { }
 

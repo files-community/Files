@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Files.App.Actions
 {
-	internal sealed class SetAsLockscreenBackgroundAction : BaseSetAsAction
+	internal sealed partial class SetAsLockscreenBackgroundAction : BaseSetAsAction
 	{
 		private readonly IWindowsWallpaperService WindowsWallpaperService = Ioc.Default.GetRequiredService<IWindowsWallpaperService>();
 

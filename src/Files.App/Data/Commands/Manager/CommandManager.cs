@@ -8,7 +8,7 @@ using System.Collections.Immutable;
 
 namespace Files.App.Data.Commands
 {
-	internal sealed class CommandManager : ICommandManager
+	internal sealed partial class CommandManager : ICommandManager
 	{
 		// Dependency injections
 

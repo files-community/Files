@@ -5,7 +5,7 @@ using Windows.Storage;
 
 namespace Files.App.ViewModels.Dialogs
 {
-	public sealed class BulkRenameDialogViewModel : ObservableObject
+	public sealed partial class BulkRenameDialogViewModel : ObservableObject
 	{
 		private IContentPageContext context { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 

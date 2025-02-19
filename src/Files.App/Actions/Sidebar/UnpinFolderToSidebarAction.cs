@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class UnpinFolderFromSidebarAction : ObservableObject, IAction
+	internal sealed partial class UnpinFolderFromSidebarAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 		private readonly IQuickAccessService service;

@@ -8,7 +8,7 @@ using Windows.Storage.FileProperties;
 
 namespace Files.App.Utils.Storage
 {
-	public class BaseStorageItemExtraProperties : IStorageItemExtraProperties
+	public partial class BaseStorageItemExtraProperties : IStorageItemExtraProperties
 	{
 		public virtual IAsyncOperation<IDictionary<string, object>> RetrievePropertiesAsync(IEnumerable<string> propertiesToRetrieve)
 		{

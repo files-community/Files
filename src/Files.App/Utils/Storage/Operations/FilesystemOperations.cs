@@ -14,7 +14,7 @@ namespace Files.App.Utils.Storage
 	/// <summary>
 	/// Provides group of file system operation for given page instance.
 	/// </summary>
-	public sealed class FilesystemOperations : IFilesystemOperations
+	public sealed partial class FilesystemOperations : IFilesystemOperations
 	{
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 
@@ -166,7 +166,7 @@ namespace Files.App.Utils.Storage
 				{
 					// CopyFileFromApp only works on file not directories
 					var fsSourceFolder = await source.ToStorageItemResult();
-					var fsDestinationFolder = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+					var fsDestinationFolder = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination), cancellationToken);
 					var fsResult = (FilesystemResult)(fsSourceFolder.ErrorCode | fsDestinationFolder.ErrorCode);
 
 					if (fsResult)
@@ -219,7 +219,7 @@ namespace Files.App.Utils.Storage
 				{
 					Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
-					FilesystemResult<BaseStorageFolder> destinationResult = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+					FilesystemResult<BaseStorageFolder> destinationResult = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination), cancellationToken);
 					var sourceResult = await source.ToStorageItemResult();
 					fsResult = sourceResult.ErrorCode | destinationResult.ErrorCode;
 
@@ -373,7 +373,7 @@ namespace Files.App.Utils.Storage
 						Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
 						var fsSourceFolder = await source.ToStorageItemResult();
-						var fsDestinationFolder = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+						var fsDestinationFolder = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination), cancellationToken);
 						fsResult = fsSourceFolder.ErrorCode | fsDestinationFolder.ErrorCode;
 
 						if (fsResult)
@@ -432,7 +432,7 @@ namespace Files.App.Utils.Storage
 				{
 					Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
-					FilesystemResult<BaseStorageFolder> destinationResult = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+					FilesystemResult<BaseStorageFolder> destinationResult = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination), cancellationToken);
 					var sourceResult = await source.ToStorageItemResult();
 					fsResult = sourceResult.ErrorCode | destinationResult.ErrorCode;
 
@@ -512,12 +512,12 @@ namespace Files.App.Utils.Storage
 			{
 				if (source.ItemType == FilesystemItemType.File)
 				{
-					fsResult = await _associatedInstance.ShellViewModel.GetFileFromPathAsync(source.Path)
+					fsResult = await _associatedInstance.ShellViewModel.GetFileFromPathAsync(source.Path, cancellationToken)
 						.OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
 				}
 				else if (source.ItemType == FilesystemItemType.Directory)
 				{
-					fsResult = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(source.Path)
+					fsResult = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(source.Path, cancellationToken)
 						.OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
 				}
 			}
@@ -539,7 +539,7 @@ namespace Files.App.Utils.Storage
 				// Recycle bin also stores a file starting with $I for each item
 				string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I", StringComparison.Ordinal));
 
-				await _associatedInstance.ShellViewModel.GetFileFromPathAsync(iFilePath)
+				await _associatedInstance.ShellViewModel.GetFileFromPathAsync(iFilePath, cancellationToken)
 					.OnSuccess(iFile => iFile.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
 			}
 			fsProgress.ReportStatus(fsResult);
@@ -738,8 +738,8 @@ namespace Files.App.Utils.Storage
 			{
 				if (source.ItemType == FilesystemItemType.Directory)
 				{
-					FilesystemResult<BaseStorageFolder> sourceFolder = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(source.Path);
-					FilesystemResult<BaseStorageFolder> destinationFolder = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+					FilesystemResult<BaseStorageFolder> sourceFolder = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(source.Path, cancellationToken);
+					FilesystemResult<BaseStorageFolder> destinationFolder = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination), cancellationToken);
 
 					fsResult = sourceFolder.ErrorCode | destinationFolder.ErrorCode;
 					fsProgress.ReportStatus(fsResult);
@@ -759,8 +759,8 @@ namespace Files.App.Utils.Storage
 				}
 				else
 				{
-					FilesystemResult<BaseStorageFile> sourceFile = await _associatedInstance.ShellViewModel.GetFileFromPathAsync(source.Path);
-					FilesystemResult<BaseStorageFolder> destinationFolder = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination));
+					FilesystemResult<BaseStorageFile> sourceFile = await _associatedInstance.ShellViewModel.GetFileFromPathAsync(source.Path, cancellationToken);
+					FilesystemResult<BaseStorageFolder> destinationFolder = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination), cancellationToken);
 
 					fsResult = sourceFile.ErrorCode | destinationFolder.ErrorCode;
 					fsProgress.ReportStatus(fsResult);
@@ -782,7 +782,7 @@ namespace Files.App.Utils.Storage
 				// Recycle bin also stores a file starting with $I for each item
 				string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I", StringComparison.Ordinal));
 
-				await _associatedInstance.ShellViewModel.GetFileFromPathAsync(iFilePath)
+				await _associatedInstance.ShellViewModel.GetFileFromPathAsync(iFilePath, cancellationToken)
 					.OnSuccess(iFile => iFile.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
 			}
 

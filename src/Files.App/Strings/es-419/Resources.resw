@@ -1713,7 +1713,7 @@
     <value>Columnas</value>
   </data>
   <data name="Cards" xml:space="preserve">
-    <value>Cards</value>
+    <value>Tarjetas</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Abrir carpetas en nueva pestaña</value>
@@ -1827,16 +1827,16 @@
     <value>Registrar este programa para reiniciar</value>
   </data>
   <data name="StartWindow" xml:space="preserve">
-    <value>Start window</value>
+    <value>Ventana de inicio</value>
   </data>
   <data name="NormalWindow" xml:space="preserve">
-    <value>Normal window</value>
+    <value>Ventana normal</value>
   </data>
   <data name="Minimized" xml:space="preserve">
-    <value>Minimized</value>
+    <value>Minimizado</value>
   </data>
   <data name="Maximized" xml:space="preserve">
-    <value>Maximized</value>
+    <value>Maximizado</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Ejecutar como administrador</value>
@@ -2574,7 +2574,7 @@
     <value>Cambiar a vista de detalles</value>
   </data>
   <data name="LayoutCardsDescription" xml:space="preserve">
-    <value>Switch to cards view</value>
+    <value>Cambiar a vista de tarjetas</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Cambiar a vista de lista</value>

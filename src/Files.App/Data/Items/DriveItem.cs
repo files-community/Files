@@ -11,7 +11,7 @@ using ByteSize = ByteSizeLib.ByteSize;
 
 namespace Files.App.Data.Items
 {
-	public sealed class DriveItem : ObservableObject, INavigationControlItem, ILocatableFolder
+	public sealed partial class DriveItem : ObservableObject, INavigationControlItem, ILocatableFolder
 	{
 		private BitmapImage icon;
 		public BitmapImage Icon

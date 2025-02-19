@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class PasteItemToSelectionAction : BaseUIAction, IAction
+	internal sealed partial class PasteItemToSelectionAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;
 

@@ -8,7 +8,7 @@ namespace Vanara.Windows.Shell;
 /// <summary>Queued and static file operations using the Shell.</summary>
 /// <seealso cref="IDisposable"/>
 /// https://github.com/dahall/Vanara/blob/master/Windows.Shell.Common/ShellFileOperations/ShellFileOperations.cs
-public class ShellFileOperations2 : IDisposable
+public partial class ShellFileOperations2 : IDisposable
 {
 	private const OperationFlags defaultOptions = OperationFlags.AllowUndo | OperationFlags.NoConfirmMkDir;
 	private int disposedValue = 0;

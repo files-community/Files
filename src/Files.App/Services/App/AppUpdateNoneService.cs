@@ -1,18 +1,14 @@
-﻿using CommunityToolkit.WinUI.Helpers;
-using System.Net.Http;
+﻿using System.Net.Http;
 
 namespace Files.App.Services
 {
-	internal sealed class DummyUpdateService : ObservableObject, IUpdateService
+	internal sealed partial class DummyUpdateService : ObservableObject, IUpdateService
 	{
 		public bool IsUpdateAvailable => false;
 
 		public bool IsUpdating => false;
 
-		public bool IsAppUpdated
-		{
-			get => SystemInformation.Instance.IsAppUpdated;
-		}
+		public bool IsAppUpdated => AppLifecycleHelper.IsAppUpdated;
 
 		private bool _areReleaseNotesAvailable = false;
 		public bool AreReleaseNotesAvailable

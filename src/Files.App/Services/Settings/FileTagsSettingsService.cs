@@ -10,6 +10,7 @@ using Files.App.Services.Settings;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.Storage;
+using CommunityToolkit.WinUI.Helpers;
 
 namespace Files.App.Services.Settings
 {

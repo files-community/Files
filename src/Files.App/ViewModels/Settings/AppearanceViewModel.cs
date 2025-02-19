@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.Settings
 {
-	public sealed class AppearanceViewModel : ObservableObject
+	public sealed partial class AppearanceViewModel : ObservableObject
 	{
 		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
@@ -181,11 +181,11 @@ namespace Files.App.ViewModels.Settings
 					// Apply the updated background resource
 					try
 					{
-						ResourcesService.SetAppThemeBackgroundColor(ColorHelper.ToColor(value).FromWindowsColor());
+						ResourcesService.SetAppThemeBackgroundColor(value.ToColor());
 					}
 					catch
 					{
-						ResourcesService.SetAppThemeBackgroundColor(ColorHelper.ToColor("#00000000").FromWindowsColor());
+						ResourcesService.SetAppThemeBackgroundColor("#00000000".ToColor());
 					}
 					ResourcesService.ApplyResources();
 

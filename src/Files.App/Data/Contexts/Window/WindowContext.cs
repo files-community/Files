@@ -6,7 +6,7 @@ using Microsoft.UI.Windowing;
 namespace Files.App.Data.Contexts
 {
 	/// <inheritdoc cref="IWindowContext"/>
-	internal sealed class WindowContext : ObservableObject, IWindowContext
+	internal sealed partial class WindowContext : ObservableObject, IWindowContext
 	{
 		private IWindowsSecurityService WindowsSecurityService = Ioc.Default.GetRequiredService<IWindowsSecurityService>();
 

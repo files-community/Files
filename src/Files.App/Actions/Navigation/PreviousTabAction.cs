@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Actions
 {
-	internal sealed class PreviousTabAction : ObservableObject, IAction
+	internal sealed partial class PreviousTabAction : ObservableObject, IAction
 	{
 		private readonly IMultitaskingContext multitaskingContext;
 

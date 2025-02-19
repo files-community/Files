@@ -1,0 +1,193 @@
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls">
+
+	<Style x:Key="HorizontalGridView" TargetType="GridView">
+		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+		<Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled" />
+		<Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
+		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+	</Style>
+
+	<Style TargetType="controls:BladeView">
+		<Setter Property="IsTabStop" Value="False" />
+		<Setter Property="TabNavigation" Value="Local" />
+		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+		<Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
+		<Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="False" />
+		<Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled" />
+		<Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="True" />
+		<Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
+		<Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
+		<Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
+		<Setter Property="UseSystemFocusVisuals" Value="True" />
+		<Setter Property="ItemContainerTransitions">
+			<Setter.Value>
+				<TransitionCollection>
+					<AddDeleteThemeTransition />
+					<ContentThemeTransition />
+					<ReorderThemeTransition />
+					<EntranceThemeTransition IsStaggeringEnabled="False" />
+				</TransitionCollection>
+			</Setter.Value>
+		</Setter>
+		<Setter Property="ItemsPanel">
+			<Setter.Value>
+				<ItemsPanelTemplate>
+					<ItemsStackPanel Orientation="Horizontal" />
+				</ItemsPanelTemplate>
+			</Setter.Value>
+		</Setter>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="controls:BladeView">
+					<Border
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}">
+						<ScrollViewer
+							x:Name="ScrollViewer"
+							AutomationProperties.AccessibilityView="Raw"
+							BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+							HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+							HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+							IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+							IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+							IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+							IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+							IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+							TabNavigation="{TemplateBinding TabNavigation}"
+							VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+							VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+							ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+							<ItemsPresenter Padding="{TemplateBinding Padding}" />
+						</ScrollViewer>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="BladeModeStates">
+								<VisualState x:Name="Normal" />
+
+								<VisualState x:Name="FullScreen">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ScrollViewer" Storyboard.TargetProperty="HorizontalSnapPointsType">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="Mandatory" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style TargetType="controls:BladeItem">
+		<Setter Property="VerticalContentAlignment" Value="Stretch" />
+		<Setter Property="CloseButtonForeground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+		<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+		<Setter Property="TitleBarBackground" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
+		<Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+		<Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+		<Setter Property="TabNavigation" Value="Local" />
+		<Setter Property="IsHoldingEnabled" Value="True" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="VerticalAlignment" Value="Stretch" />
+		<Setter Property="Margin" Value="0" />
+		<Setter Property="MinWidth" Value="{ThemeResource GridViewItemMinWidth}" />
+		<Setter Property="MinHeight" Value="{ThemeResource GridViewItemMinHeight}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="IsTabStop" Value="False" />
+		<Setter Property="IsExpanded" Value="True" />
+		<Setter Property="Width" Value="320" />
+		<Setter Property="HeaderTemplate">
+			<Setter.Value>
+				<DataTemplate>
+					<TextBlock
+						Margin="12,7,0,9"
+						VerticalAlignment="Center"
+						Text="{Binding}" />
+				</DataTemplate>
+			</Setter.Value>
+		</Setter>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="controls:BladeItem">
+					<Grid
+						Width="{TemplateBinding Width}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+
+						<Grid
+							Height="32"
+							Background="{TemplateBinding TitleBarBackground}"
+							Visibility="{TemplateBinding TitleBarVisibility}">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+
+							<ContentPresenter
+								x:Name="TitleBar"
+								Content="{TemplateBinding Header}"
+								ContentTemplate="{TemplateBinding HeaderTemplate}" />
+							<Button
+								Name="EnlargeButton"
+								Grid.Column="1"
+								HorizontalAlignment="Right"
+								VerticalAlignment="Stretch"
+								Background="{TemplateBinding CloseButtonBackground}"
+								BorderThickness="1"
+								Content="&#xE73F;"
+								FontFamily="Segoe MDL2 Assets"
+								FontSize="14"
+								Foreground="{TemplateBinding CloseButtonForeground}"
+								Style="{StaticResource ButtonRevealStyle}"
+								TabIndex="0" />
+							<Button
+								Name="CloseButton"
+								Grid.Column="2"
+								HorizontalAlignment="Right"
+								VerticalAlignment="Stretch"
+								Background="{TemplateBinding CloseButtonBackground}"
+								BorderThickness="1"
+								Content="&#xE711;"
+								FontFamily="Segoe MDL2 Assets"
+								FontSize="14"
+								Foreground="{TemplateBinding CloseButtonForeground}"
+								Style="{StaticResource ButtonRevealStyle}"
+								TabIndex="0" />
+						</Grid>
+
+						<ContentPresenter
+							x:Name="ContentPresenter"
+							Grid.Row="1"
+							VerticalAlignment="Stretch"
+							Background="{TemplateBinding Background}"
+							Visibility="{TemplateBinding IsOpen}" />
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="ExpandedStates">
+								<VisualState x:Name="Expanded" />
+								<VisualState x:Name="Collapsed">
+									<VisualState.Setters>
+										<Setter Target="ContentPresenter.Visibility" Value="Collapsed" />
+										<Setter Target="EnlargeButton.Content" Value="&#xE740;" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+</ResourceDictionary>

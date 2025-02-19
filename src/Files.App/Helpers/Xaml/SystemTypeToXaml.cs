@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Markup;
 
 namespace Files.App.Helpers
 {
-	public sealed class SystemTypeToXaml : MarkupExtension
+	public sealed partial class SystemTypeToXaml : MarkupExtension
 	{
 		#region Private Members
 

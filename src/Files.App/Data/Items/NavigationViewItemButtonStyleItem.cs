@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.Data.Items
 {
-	public sealed class NavigationViewItemButtonStyleItem : ObservableObject
+	public sealed partial class NavigationViewItemButtonStyleItem : ObservableObject
 	{
 		public string? Name;
 

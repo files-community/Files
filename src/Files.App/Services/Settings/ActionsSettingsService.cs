@@ -3,7 +3,7 @@
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class ActionsSettingsService : BaseObservableJsonSettings, IActionsSettingsService
+	internal sealed partial class ActionsSettingsService : BaseObservableJsonSettings, IActionsSettingsService
 	{
 		/// <inheritdoc/>
 		public List<ActionWithParameterItem>? ActionsV2

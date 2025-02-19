@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.Dialogs
 {
-	public sealed class GitHubLoginDialogViewModel : ObservableObject
+	public sealed partial class GitHubLoginDialogViewModel : ObservableObject
 	{
 		private const string URL = "https://github.com/login/device";
 

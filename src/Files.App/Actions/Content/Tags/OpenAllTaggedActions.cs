@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-    sealed class OpenAllTaggedActions: ObservableObject, IAction
+    sealed partial class OpenAllTaggedActions: ObservableObject, IAction
     {
 		private readonly IContentPageContext _pageContext;
 

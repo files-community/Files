@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Files.App.Utils.Logger
 {
-	public sealed class SentryLoggerProvider : ILoggerProvider
+	public sealed partial class SentryLoggerProvider : ILoggerProvider
 	{
 		public ILogger CreateLogger(string categoryName)
 		{

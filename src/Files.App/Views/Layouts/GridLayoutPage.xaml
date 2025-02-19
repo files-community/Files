@@ -11,25 +11,24 @@
 	xmlns:filesystem="using:Files.App.Utils"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
-	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.Views.Layouts"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:storage="using:Files.App.Utils.Storage"
-	xmlns:tui="using:CommunityToolkit.WinUI.UI"
+	xmlns:tui="using:CommunityToolkit.WinUI"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:wctanimations="using:CommunityToolkit.WinUI.UI.Animations"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:wctanimations="using:CommunityToolkit.WinUI.Animations"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	x:Name="PageRoot"
 	NavigationCacheMode="Enabled"
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>
-		<icore:EventTriggerBehavior EventName="PointerWheelChanged">
-			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
-		</icore:EventTriggerBehavior>
-		<icore:EventTriggerBehavior EventName="PointerPressed">
-			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
-		</icore:EventTriggerBehavior>
+		<i:EventTriggerBehavior EventName="PointerWheelChanged">
+			<i:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
+		</i:EventTriggerBehavior>
+		<i:EventTriggerBehavior EventName="PointerPressed">
+			<i:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
+		</i:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
 	<local:BaseGroupableLayoutPage.Resources>
@@ -436,7 +435,7 @@
 					Padding="0"
 					HorizontalAlignment="Left"
 					VerticalAlignment="Stretch"
-					Background="Transparent"
+					Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 					BorderThickness="1"
 					CornerRadius="8"
@@ -553,7 +552,7 @@
 									x:Name="ItemName"
 									MaxLines="{Binding ElementName=PageRoot, Path=CardsViewItemNameMaxLines, Mode=OneWay}"
 									Opacity="{x:Bind Opacity, Mode=OneWay}"
-									Style="{ThemeResource BodyStrongTextBlockStyle}"
+									Style="{ThemeResource App.Theme.BodyStrongTextBlockStyle}"
 									Text="{x:Bind Name, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="Wrap" />
@@ -561,7 +560,7 @@
 								<!--  Item Type  -->
 								<TextBlock
 									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-									Style="{ThemeResource CaptionTextBlockStyle}"
+									Style="{ThemeResource App.Theme.CaptionTextBlockStyle}"
 									Text="{x:Bind ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap" />
@@ -781,8 +780,9 @@
 			</Setter>
 		</Style>
 
+		<!--  Regular List Container Style  -->
 		<Style
-			x:Name="DefaultItemContainerStyle"
+			x:Name="LocalListItemContainerStyle"
 			BasedOn="{StaticResource DefaultGridViewItemStyle}"
 			TargetType="GridViewItem">
 			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -849,8 +849,9 @@
 			</Setter>
 		</Style>
 
+		<!--  Compact List Container Style  -->
 		<Style
-			x:Name="CompactListItemContainerStyle"
+			x:Name="LocalCompactListItemContainerStyle"
 			BasedOn="{StaticResource DefaultGridViewItemStyle}"
 			TargetType="GridViewItem">
 			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -918,11 +919,12 @@
 			</Setter>
 		</Style>
 
+		<!--  Regular Container Style  -->
 		<Style
-			x:Name="CardsItemContainerStyle"
+			x:Name="LocalRegularItemContainerStyle"
 			BasedOn="{StaticResource DefaultGridViewItemStyle}"
 			TargetType="GridViewItem">
-			<Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+			<Setter Property="Background" Value="Transparent" />
 			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 			<Setter Property="HorizontalAlignment" Value="Stretch" />
 			<Setter Property="MinHeight" Value="1" />
@@ -1007,7 +1009,6 @@
 					x:Name="FileList"
 					Padding="8"
 					VerticalContentAlignment="Stretch"
-					tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					wctanimations:ItemsReorderAnimation.Duration="0:0:0.350"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"

@@ -6,7 +6,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents an access control entry (ACE).
 	/// </summary>
-	public sealed class AccessControlEntry : ObservableObject
+	public sealed partial class AccessControlEntry : ObservableObject
 	{
 		/// <summary>
 		/// Whether the path indicates folder or not

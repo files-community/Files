@@ -5,7 +5,7 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions
 {
-	internal sealed class CutItemAction : BaseTransferItemAction, IAction
+	internal sealed partial class CutItemAction : BaseTransferItemAction, IAction
 	{
 		public string Label
 			=> "Cut".GetLocalizedResource();

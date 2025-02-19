@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal sealed class PasteItemAction : ObservableObject, IAction
+	internal sealed partial class PasteItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
