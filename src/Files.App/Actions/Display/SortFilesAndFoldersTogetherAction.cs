@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> "SortFilesAndFoldersTogether".GetLocalizedResource();
+			=> Strings.SortFilesAndFoldersTogether.GetLocalizedResource();
 
 		public string Description
-			=> "SortFilesAndFoldersTogetherDescription".GetLocalizedResource();
+			=> Strings.SortFilesAndFoldersTogetherDescription.GetLocalizedResource();
 
 		public bool IsOn
 			=> context.SortDirectoriesAlongsideFiles;
