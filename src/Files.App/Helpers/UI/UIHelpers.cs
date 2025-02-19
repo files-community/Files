@@ -49,8 +49,8 @@ namespace Files.App.Helpers
 				Debug.WriteLine("Can't eject device");
 
 				await DialogDisplayHelper.ShowDialogAsync(
-					"EjectNotificationErrorDialogHeader".GetLocalizedResource(),
-					"EjectNotificationErrorDialogBody".GetLocalizedResource());
+					Strings.EjectNotificationErrorDialogHeader.GetLocalizedResource(),
+					Strings.EjectNotificationErrorDialogBody.GetLocalizedResource());
 			}
 		}
 

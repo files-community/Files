@@ -11,10 +11,10 @@ namespace Files.App.Actions
 		private readonly IMultitaskingContext multitaskingContext;
 
 		public string Label
-			=> "NextTab".GetLocalizedResource();
+			=> Strings.NextTab.GetLocalizedResource();
 
 		public string Description
-			=> "NextTabDescription".GetLocalizedResource();
+			=> Strings.NextTabDescription.GetLocalizedResource();
 
 		public bool IsExecutable
 			=> multitaskingContext.TabCount > 1;

@@ -7,9 +7,9 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext _context;
 
-		public string Label { get; } = "Push".GetLocalizedResource();
+		public string Label { get; } = Strings.Push.GetLocalizedResource();
 
-		public string Description { get; } = "GitPushDescription".GetLocalizedResource();
+		public string Description { get; } = Strings.GitPushDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new("\uE74A");
 

@@ -10,10 +10,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Share".GetLocalizedResource();
+			=> Strings.Share.GetLocalizedResource();
 
 		public string Description
-			=> "ShareItemDescription".GetLocalizedResource();
+			=> Strings.ShareItemDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Share");

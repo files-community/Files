@@ -11,10 +11,10 @@ namespace Files.App.Actions
 		protected ISidebarContext SidebarContext { get; } = Ioc.Default.GetRequiredService<ISidebarContext>();
 
 		public string Label
-			=> "OpenInNewTab".GetLocalizedResource();
+			=> Strings.OpenInNewTab.GetLocalizedResource();
 
 		public string Description
-			=> "OpenDirectoryInNewTabDescription".GetLocalizedResource();
+			=> Strings.OpenDirectoryInNewTabDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.OpenInTab");

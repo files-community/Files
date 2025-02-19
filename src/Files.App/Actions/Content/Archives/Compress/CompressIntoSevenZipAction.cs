@@ -6,10 +6,10 @@ namespace Files.App.Actions
 	internal sealed partial class CompressIntoSevenZipAction : BaseCompressArchiveAction
 	{
 		public override string Label
-			=> string.Format("CreateNamedArchive".GetLocalizedResource(), $"{StorageArchiveService.GenerateArchiveNameFromItems(context.SelectedItems)}.7z");
+			=> string.Format(Strings.CreateNamedArchive.GetLocalizedResource(), $"{StorageArchiveService.GenerateArchiveNameFromItems(context.SelectedItems)}.7z");
 
 		public override string Description
-			=> "CompressIntoSevenZipDescription".GetLocalizedResource();
+			=> Strings.CompressIntoSevenZipDescription.GetLocalizedResource();
 
 		public CompressIntoSevenZipAction()
 		{

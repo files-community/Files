@@ -11,10 +11,10 @@ namespace Files.App.Actions
 		private readonly IQuickAccessService service;
 
 		public string Label
-			=> "PinFolderToSidebar".GetLocalizedResource();
+			=> Strings.PinFolderToSidebar.GetLocalizedResource();
 
 		public string Description
-			=> "PinFolderToSidebarDescription".GetLocalizedResource();
+			=> Strings.PinFolderToSidebarDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.FavoritePin");

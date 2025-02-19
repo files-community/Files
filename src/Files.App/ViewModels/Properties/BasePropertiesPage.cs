@@ -86,7 +86,7 @@ namespace Files.App.ViewModels.Properties
 
 				string[] extensions =
 				[
-					"BitmapFiles".GetLocalizedResource(), "*.bmp",
+					Strings.BitmapFiles.GetLocalizedResource(), "*.bmp",
 					"JPEG", "*.jpg;*.jpeg",
 					"PNG", "*.png",
 				];

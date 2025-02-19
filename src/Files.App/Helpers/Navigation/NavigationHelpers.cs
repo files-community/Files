@@ -189,19 +189,19 @@ namespace Files.App.Helpers
 
 			if (string.IsNullOrEmpty(currentPath) || currentPath == "Home")
 			{
-				tabLocationHeader = "Home".GetLocalizedResource();
+				tabLocationHeader = Strings.Home.GetLocalizedResource();
 				iconSource.ImageSource = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 			}
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
-				tabLocationHeader = "Desktop".GetLocalizedResource();
+				tabLocationHeader = Strings.Desktop.GetLocalizedResource();
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
-				tabLocationHeader = "Downloads".GetLocalizedResource();
+				tabLocationHeader = Strings.Downloads.GetLocalizedResource();
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-				tabLocationHeader = "RecycleBin".GetLocalizedResource();
+				tabLocationHeader = Strings.RecycleBin.GetLocalizedResource();
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
-				tabLocationHeader = "ThisPC".GetLocalizedResource();
+				tabLocationHeader = Strings.ThisPC.GetLocalizedResource();
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
-				tabLocationHeader = "Network".GetLocalizedResource();
+				tabLocationHeader = Strings.Network.GetLocalizedResource();
 			else if (App.LibraryManager.TryGetLibrary(currentPath, out LibraryLocationItem library))
 			{
 				var libName = System.IO.Path.GetFileNameWithoutExtension(library.Path).GetLocalizedResource();
@@ -477,7 +477,7 @@ namespace Files.App.Helpers
 
 			if (opened.ErrorCode == FileSystemStatusCode.NotFound && !openSilent)
 			{
-				await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
+				await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialog_Title.GetLocalizedResource(), Strings.FileNotFoundDialog_Text.GetLocalizedResource());
 				associatedInstance.ToolbarViewModel.CanRefresh = false;
 				associatedInstance.ShellViewModel?.RefreshItems(previousDir);
 			}

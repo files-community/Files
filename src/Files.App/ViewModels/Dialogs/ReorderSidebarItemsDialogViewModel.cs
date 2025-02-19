@@ -9,7 +9,7 @@ namespace Files.App.ViewModels.Dialogs
 	{
 		private readonly IQuickAccessService quickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
-		public string HeaderText = "ReorderSidebarItemsDialogText".GetLocalizedResource();
+		public string HeaderText = Strings.ReorderSidebarItemsDialogText.GetLocalizedResource();
 		public ICommand PrimaryButtonCommand { get; private set; }
 
 		public ObservableCollection<LocationItem> SidebarPinnedFolderItems = new(App.QuickAccessManager.Model._PinnedFolderItems

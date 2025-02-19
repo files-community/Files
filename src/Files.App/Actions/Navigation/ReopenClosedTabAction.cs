@@ -10,10 +10,10 @@ namespace Files.App.Actions
 		private readonly IMultitaskingContext context;
 
 		public string Label
-			=> "ReopenClosedTab".GetLocalizedResource();
+			=> Strings.ReopenClosedTab.GetLocalizedResource();
 
 		public string Description
-			=> "ReopenClosedTabDescription".GetLocalizedResource();
+			=> Strings.ReopenClosedTabDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.T, KeyModifiers.CtrlShift);

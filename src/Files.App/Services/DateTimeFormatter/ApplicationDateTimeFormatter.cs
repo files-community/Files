@@ -14,7 +14,7 @@ namespace Files.App.Services.DateTimeFormatter
 		/// Gets the name of the formatter.
 		/// </summary>
 		public override string Name
-			=> "Application".GetLocalizedResource();
+			=> Strings.Application.GetLocalizedResource();
 
 		/// <summary>
 		/// Converts the provided <see cref="DateTimeOffset"/> to a short label.
@@ -33,15 +33,15 @@ namespace Files.App.Services.DateTimeFormatter
 			return elapsed switch
 			{
 				{ TotalDays: >= 7 } => ToString(offset, "D"),
-				{ TotalDays: >= 2 } => string.Format("DaysAgo_Plural".GetLocalizedResource(), elapsed.Days),
-				{ TotalDays: >= 1 } => "DaysAgo_Singular".GetLocalizedResource(),
-				{ TotalHours: >= 2 } => string.Format("HoursAgo_Plural".GetLocalizedResource(), elapsed.Hours),
-				{ TotalHours: >= 1 } => "HoursAgo_Singular".GetLocalizedResource(),
-				{ TotalMinutes: >= 2 } => string.Format("MinutesAgo_Plural".GetLocalizedResource(), elapsed.Minutes),
-				{ TotalMinutes: >= 1 } => "MinutesAgo_Singular".GetLocalizedResource(),
-				{ TotalSeconds: >= 2 } => string.Format("SecondsAgo_Plural".GetLocalizedResource(), elapsed.Seconds),
-				{ TotalSeconds: >= 1 } => "SecondsAgo_Singular".GetLocalizedResource(),
-				{ TotalSeconds: >= 0 } => "Now".GetLocalizedResource(),
+				{ TotalDays: >= 2 } => string.Format(Strings.DaysAgo_Plural.GetLocalizedResource(), elapsed.Days),
+				{ TotalDays: >= 1 } => Strings.DaysAgo_Singular.GetLocalizedResource(),
+				{ TotalHours: >= 2 } => string.Format(Strings.HoursAgo_Plural.GetLocalizedResource(), elapsed.Hours),
+				{ TotalHours: >= 1 } => Strings.HoursAgo_Singular.GetLocalizedResource(),
+				{ TotalMinutes: >= 2 } => string.Format(Strings.MinutesAgo_Plural.GetLocalizedResource(), elapsed.Minutes),
+				{ TotalMinutes: >= 1 } => Strings.MinutesAgo_Singular.GetLocalizedResource(),
+				{ TotalSeconds: >= 2 } => string.Format(Strings.SecondsAgo_Plural.GetLocalizedResource(), elapsed.Seconds),
+				{ TotalSeconds: >= 1 } => Strings.SecondsAgo_Singular.GetLocalizedResource(),
+				{ TotalSeconds: >= 0 } => Strings.Now.GetLocalizedResource(),
 				_ => ToString(offset, "D"),
 			};
 		}

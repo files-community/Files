@@ -8,10 +8,10 @@ namespace Files.App.Actions
 	internal sealed partial class CopyItemAction : BaseTransferItemAction, IAction
 	{
 		public string Label
-			=> "Copy".GetLocalizedResource();
+			=> Strings.Copy.GetLocalizedResource();
 
 		public string Description
-			=> "CopyItemDescription".GetLocalizedResource();
+			=> Strings.CopyItemDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Copy");

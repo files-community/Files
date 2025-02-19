@@ -42,8 +42,8 @@ namespace Files.App.Utils.FileTags
 				{
 					ContentDialog dialog = new()
 					{
-						Title = "ErrorApplyingTagTitle".GetLocalizedResource(),
-						Content = "ErrorApplyingTagContent".GetLocalizedResource(),
+						Title = Strings.ErrorApplyingTagTitle.GetLocalizedResource(),
+						Content = Strings.ErrorApplyingTagContent.GetLocalizedResource(),
 						PrimaryButtonText = "Ok".GetLocalizedResource()
 					};
 

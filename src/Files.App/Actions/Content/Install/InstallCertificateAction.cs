@@ -10,10 +10,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Install".GetLocalizedResource();
+			=> Strings.Install.GetLocalizedResource();
 
 		public string Description
-			=> "InstallCertificateDescription".GetLocalizedResource();
+			=> Strings.InstallCertificateDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new("\uEB95");

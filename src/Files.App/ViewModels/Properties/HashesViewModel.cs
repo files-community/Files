@@ -71,7 +71,7 @@ namespace Files.App.ViewModels.Properties
 			// Don't calculate hashes for online files
 			if (_item.SyncStatusUI.SyncStatus is CloudDriveSyncStatus.FileOnline or CloudDriveSyncStatus.FolderOnline)
 			{
-				hashInfoItem.HashValue = "CalculationOnlineFileHashError".GetLocalizedResource();
+				hashInfoItem.HashValue = Strings.CalculationOnlineFileHashError.GetLocalizedResource();
 				return;
 			}
 
@@ -106,11 +106,11 @@ namespace Files.App.ViewModels.Properties
 					catch (IOException)
 					{
 						// File is currently open
-						hashInfoItem.HashValue = "CalculationErrorFileIsOpen".GetLocalizedResource();
+						hashInfoItem.HashValue = Strings.CalculationErrorFileIsOpen.GetLocalizedResource();
 					}
 					catch (Exception)
 					{
-						hashInfoItem.HashValue = "CalculationError".GetLocalizedResource();
+						hashInfoItem.HashValue = Strings.CalculationError.GetLocalizedResource();
 					}
 					finally
 					{
