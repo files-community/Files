@@ -33,9 +33,9 @@ namespace Files.App.Utils.Storage.Operations
 				{
 					ComputeSizeRecursively(path, token);
 				},
-					token,
-					TaskCreationOptions.LongRunning,
-					TaskScheduler.Default));
+				token,
+				TaskCreationOptions.LongRunning,
+				TaskScheduler.Default));
 
 			unsafe void ComputeSizeRecursively(string path, CancellationToken token)
 			{
@@ -64,47 +64,39 @@ namespace Files.App.Utils.Storage.Operations
 
 							if (!hFile.IsNull)
 							{
-								try
+								do
 								{
-									do
+									FILE_FLAGS_AND_ATTRIBUTES attributes = (FILE_FLAGS_AND_ATTRIBUTES)findData.dwFileAttributes;
+
+									if (attributes.HasFlag(FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_REPARSE_POINT))
+										// Skip symbolic links and junctions
+										continue;
+
+									var itemPath = Path.Combine(directory, findData.cFileName.ToString());
+
+									// Skip current and parent directory entries
+									var fileName = findData.cFileName.ToString();
+									if (fileName.Equals(".", StringComparison.OrdinalIgnoreCase) ||
+										fileName.Equals("..", StringComparison.OrdinalIgnoreCase))
 									{
-										FILE_FLAGS_AND_ATTRIBUTES attributes = (FILE_FLAGS_AND_ATTRIBUTES)findData.dwFileAttributes;
-
-										if (attributes.HasFlag(FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_REPARSE_POINT))
-											// Skip symbolic links and junctions
-											continue;
-
-										var itemPath = Path.Combine(directory, findData.cFileName.ToString());
-
-										// Skip current and parent directory entries
-										var fileName = findData.cFileName.ToString();
-										if (fileName.Equals(".", StringComparison.OrdinalIgnoreCase) ||
-											fileName.Equals("..", StringComparison.OrdinalIgnoreCase))
-										{
-											continue;
-										}
-
-										if (attributes.HasFlag(FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_DIRECTORY))
-										{
-											queue.Enqueue(itemPath);
-										}
-										else
-										{
-											ComputeFileSize(itemPath);
-										}
-
-										if (token.IsCancellationRequested)
-											break;
+										continue;
 									}
-									while (PInvoke.FindNextFile(hFile, &findData));
-								}
-								finally
-								{
-									if (!PInvoke.FindClose(hFile))
+
+									if (attributes.HasFlag(FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_DIRECTORY))
 									{
-										var error = Marshal.GetLastWin32Error();
+										queue.Enqueue(itemPath);
 									}
+									else
+									{
+										ComputeFileSize(itemPath);
+									}
+
+									if (token.IsCancellationRequested)
+										break;
 								}
+								while (PInvoke.FindNextFile(hFile, &findData));
+
+								PInvoke.FindClose(hFile);
 							}
 						}
 					}
