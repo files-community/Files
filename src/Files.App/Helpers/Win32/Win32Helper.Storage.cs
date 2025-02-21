@@ -405,9 +405,9 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static async Task<bool> RunPowershellCommandAsync(string command, PowerShellExecutionOptions options)
+		public static async Task<bool> RunPowershellCommandAsync(string command, PowerShellExecutionOptions options, string? workingDirectory = null)
 		{
-			using Process process = CreatePowershellProcess(command, options);
+			using Process process = CreatePowershellProcess(command, options, workingDirectory);
 			using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(30 * 1000));
 
 			try
@@ -432,11 +432,11 @@ namespace Files.App.Helpers
 			}
 		}
 
-		public static bool RunPowershellCommand(string command, PowerShellExecutionOptions options)
+		public static bool RunPowershellCommand(string command, PowerShellExecutionOptions options, string? workingDirectory = null)
 		{
 			try
 			{
-				using Process process = CreatePowershellProcess(command, options);
+				using Process process = CreatePowershellProcess(command, options, workingDirectory);
 
 				process.Start();
 
@@ -867,7 +867,7 @@ namespace Files.App.Helpers
 			await RunPowershellCommandAsync(psCommand.Append("\"").ToString(), PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
 		}
 
-		private static Process CreatePowershellProcess(string command, PowerShellExecutionOptions options)
+		private static Process CreatePowershellProcess(string command, PowerShellExecutionOptions options, string? workingDirectory = null)
 		{
 			Process process = new();
 
@@ -883,6 +883,10 @@ namespace Files.App.Helpers
 				process.StartInfo.CreateNoWindow = true;
 				process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 			}
+
+			if (workingDirectory is not null)
+				process.StartInfo.WorkingDirectory = workingDirectory;
+
 			process.StartInfo.Arguments = command;
 
 			return process;

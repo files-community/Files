@@ -199,6 +199,13 @@ namespace Files.App.Helpers
 						await Win32Helper.OpenFormatDriveDialog(drivePath);
 						break;
 
+					case "Windows.PowerShell.Run":
+						await contextMenu.InvokeItem(
+							menuId,
+							contextMenu.ItemsPath[0].EndsWith(".ps1") ? Path.GetDirectoryName(contextMenu.ItemsPath[0]) : null
+						);
+						break;
+
 					default:
 						await contextMenu.InvokeItem(menuId);
 						break;
