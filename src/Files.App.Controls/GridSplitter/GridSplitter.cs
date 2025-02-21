@@ -161,8 +161,7 @@ namespace Files.App.Controls
 		{
 			DefaultStyleKey = typeof(GridSplitter);
 			Loaded += GridSplitter_Loaded;
-			string automationName = CommunityToolkit.WinUI.StringExtensions.GetLocalized("WCT_GridSplitter_AutomationName", "CommunityToolkit.WinUI.UI.Controls.Layout/Resources");
-			AutomationProperties.SetName(this, automationName);
+			AutomationProperties.SetName(this, "Grid Splitter");
 		}
 
 		/// <inheritdoc />
