@@ -37,7 +37,6 @@ namespace Files.App.Controls
 		protected override void OnApplyTemplate()
 		{
 			_loaded = true;
-			base.OnApplyTemplate();
 
 			_closeButton = GetTemplateChild("CloseButton") as Button;
 			_enlargeButton = GetTemplateChild("EnlargeButton") as Button;
@@ -66,10 +65,9 @@ namespace Files.App.Controls
 			{
 				Width = _normalModeWidth;
 				VisualStateManager.GoToState(this, "Expanded", true);
-				var name = "WCT_BladeView_ExpandButton_Collapsed".GetLocalized("CommunityToolkit.WinUI.UI.Controls.Layout/Resources");
 				if (_enlargeButton != null)
 				{
-					AutomationProperties.SetName(_enlargeButton, name);
+					AutomationProperties.SetName(_enlargeButton, "Expand Blade Item");
 				}
 			}
 		}
@@ -80,11 +78,9 @@ namespace Files.App.Controls
 			if (_loaded)
 			{
 				Width = double.NaN;
-				VisualStateManager.GoToState(this, "Collapsed", true);
-				var name = "WCT_BladeView_ExpandButton_Expanded".GetLocalized("CommunityToolkit.WinUI.UI.Controls.Layout/Resources");
 				if (_enlargeButton != null)
 				{
-					AutomationProperties.SetName(_enlargeButton, name);
+					AutomationProperties.SetName(_enlargeButton, "Collapse Blade Item");
 				}
 			}
 		}
