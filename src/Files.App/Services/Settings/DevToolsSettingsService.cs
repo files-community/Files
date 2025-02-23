@@ -26,7 +26,7 @@ namespace Files.App.Services.Settings
 		}
 
 		/// <inheritdoc/>
-		public string IDEFriendlyName
+		public string IDEName
 		{
 			get => Get(SoftwareHelpers.IsVSCodeInstalled() ? Strings.VisualStudioCode.GetLocalizedResource() : string.Empty) ?? string.Empty;
 			set => Set(value);

@@ -77,44 +77,44 @@
 								<RowDefinition Height="*" />
 							</Grid.RowDefinitions>
 
-							<!--  IDE Friendly Name  -->
+							<!--  IDE Name  -->
 							<TextBlock
-								x:Name="IDEFriendlyName"
+								x:Name="IDEName"
 								MaxWidth="200"
 								VerticalAlignment="Center"
 								x:Load="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 								LineHeight="18"
-								Text="{helpers:ResourceString Name=FriendlyName}"
+								Text="{helpers:ResourceString Name=Name}"
 								TextTrimming="CharacterEllipsis" />
 
 							<TextBlock
 								Grid.Column="1"
 								VerticalAlignment="Center"
 								FontWeight="SemiBold"
-								Text="{x:Bind ViewModel.IDEFriendlyName, Mode=TwoWay}"
+								Text="{x:Bind ViewModel.IDEName, Mode=TwoWay}"
 								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource InvertedBoolVisibilityConverter}, Mode=OneWay}" />
 
 							<TextBox
-								x:Name="IDEFriendlyNameTextBox"
+								x:Name="IDENameTextBox"
 								Grid.ColumnSpan="2"
 								Width="300"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center"
-								PlaceholderText="{helpers:ResourceString Name=FriendlyName}"
-								Text="{x:Bind ViewModel.IDEFriendlyName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								PlaceholderText="{helpers:ResourceString Name=Name}"
+								Text="{x:Bind ViewModel.IDEName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
 								<TextBox.Resources>
 									<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
 									<TeachingTip
-										x:Name="InvalidFriendlyNameWarning"
-										Title="{helpers:ResourceString Name=InvalidFriendlyNameError}"
+										x:Name="InvalidIDENameWarning"
+										Title="{helpers:ResourceString Name=InvalidIDENameError}"
 										IsLightDismissEnabled="True"
-										IsOpen="{x:Bind ViewModel.IsFriendlyNameValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+										IsOpen="{x:Bind ViewModel.IsIDENameValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 										PreferredPlacement="Bottom"
-										Target="{x:Bind IDEFriendlyNameTextBox}" />
+										Target="{x:Bind IDENameTextBox}" />
 								</TextBox.Resources>
 								<TextBox.Header>
-									<TextBlock Text="{helpers:ResourceString Name=FriendlyName}" />
+									<TextBlock Text="{helpers:ResourceString Name=Name}" />
 								</TextBox.Header>
 							</TextBox>
 
@@ -254,9 +254,9 @@
 						<Setter Target="IDEPathTextBox.Width" Value="300" />
 						<Setter Target="IDEPathTextBox.HorizontalAlignment" Value="Left" />
 						<Setter Target="IDEPathTextBox.(Grid.Column)" Value="0" />
-						<Setter Target="IDEFriendlyNameTextBox.Width" Value="300" />
-						<Setter Target="IDEFriendlyNameTextBox.HorizontalAlignment" Value="Left" />
-						<Setter Target="IDEFriendlyNameTextBox.(Grid.ColumnSpan)" Value="2" />
+						<Setter Target="IDENameTextBox.Width" Value="300" />
+						<Setter Target="IDENameTextBox.HorizontalAlignment" Value="Left" />
+						<Setter Target="IDENameTextBox.(Grid.ColumnSpan)" Value="2" />
 						<Setter Target="PickIDEExe.(Grid.Column)" Value="1" />
 						<Setter Target="PickIDEExe.(Grid.Row)" Value="0" />
 						<Setter Target="IDEPathGrid.Spacing" Value="8" />
@@ -268,9 +268,9 @@
 						<Setter Target="IDEPathTextBox.Width" Value="Auto" />
 						<Setter Target="IDEPathTextBox.HorizontalAlignment" Value="Stretch" />
 						<Setter Target="IDEPathTextBox.(Grid.Column)" Value="3" />
-						<Setter Target="IDEFriendlyNameTextBox.Width" Value="Auto" />
-						<Setter Target="IDEFriendlyNameTextBox.HorizontalAlignment" Value="Stretch" />
-						<Setter Target="IDEFriendlyNameTextBox.(Grid.ColumnSpan)" Value="3" />
+						<Setter Target="IDENameTextBox.Width" Value="Auto" />
+						<Setter Target="IDENameTextBox.HorizontalAlignment" Value="Stretch" />
+						<Setter Target="IDENameTextBox.(Grid.ColumnSpan)" Value="3" />
 						<Setter Target="PickIDEExe.(Grid.Column)" Value="3" />
 						<Setter Target="PickIDEExe.(Grid.Row)" Value="1" />
 						<Setter Target="IDEPathGrid.Spacing" Value="12" />

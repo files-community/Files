@@ -4043,9 +4043,6 @@
     <value>Add to shelf</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
   </data>
-  <data name="FriendlyName" xml:space="preserve">
-    <value>Friendly name</value>
-  </data>
   <data name="PathOrAlias" xml:space="preserve">
     <value>Path or alias</value>
   </data>
@@ -4070,7 +4067,7 @@
   <data name="IDEPathPlaceholder" xml:space="preserve">
     <value>Enter a path or launch alias</value>
   </data>
-  <data name="InvalidFriendlyNameError" xml:space="preserve">
+  <data name="InvalidIDENameError" xml:space="preserve">
     <value>Please, enter a name for the IDE</value>
   </data>
 </root>

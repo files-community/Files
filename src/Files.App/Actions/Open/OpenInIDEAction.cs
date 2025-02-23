@@ -12,12 +12,12 @@ namespace Files.App.Actions
 		public string Label
 			=> string.Format(
 				"OpenInIDE".GetLocalizedResource(),
-				_devToolsSettingsService.IDEFriendlyName);
+				_devToolsSettingsService.IDEName);
 
 		public string Description
 			=> string.Format(
 				"OpenInIDEDescription".GetLocalizedResource(),
-				_devToolsSettingsService.IDEFriendlyName);
+				_devToolsSettingsService.IDEName);
 
 		public bool IsExecutable =>
 			_context.Folder is not null &&
@@ -39,7 +39,7 @@ namespace Files.App.Actions
 			);
 
 			if (!res)
-				await DynamicDialogFactory.ShowFor_IDEErrorDialog(_devToolsSettingsService.IDEFriendlyName);
+				await DynamicDialogFactory.ShowFor_IDEErrorDialog(_devToolsSettingsService.IDEName);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -54,7 +54,7 @@ namespace Files.App.Actions
 			{
 				OnPropertyChanged(nameof(IsExecutable));
 			}
-			else if (e.PropertyName == nameof(IDevToolsSettingsService.IDEFriendlyName))
+			else if (e.PropertyName == nameof(IDevToolsSettingsService.IDEName))
 			{
 				OnPropertyChanged(nameof(Label));
 				OnPropertyChanged(nameof(Description));

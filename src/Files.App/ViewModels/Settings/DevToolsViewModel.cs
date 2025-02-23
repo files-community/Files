@@ -37,7 +37,7 @@ namespace Files.App.ViewModels.Settings
 		}
 
 		public bool CanSaveIDEChanges =>
-			IsFriendlyNameValid && IsIDEPathValid;
+			IsIDENameValid && IsIDEPathValid;
 
 		private bool _IsIDEPathValid;
 		public bool IsIDEPathValid
@@ -46,11 +46,11 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref _IsIDEPathValid, value);
 		}
 
-		private bool _IsFriendlyNameValid;
-		public bool IsFriendlyNameValid
+		private bool _IsIDENameValid;
+		public bool IsIDENameValid
 		{
-			get => _IsFriendlyNameValid;
-			set => SetProperty(ref _IsFriendlyNameValid, value);
+			get => _IsIDENameValid;
+			set => SetProperty(ref _IsIDENameValid, value);
 		}
 
 		private string _IDEPath;
@@ -72,15 +72,15 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private string _IDEFriendlyName;
-		public string IDEFriendlyName
+		private string _IDEName;
+		public string IDEName
 		{
-			get => _IDEFriendlyName;
+			get => _IDEName;
 			set
 			{
-				if (SetProperty(ref _IDEFriendlyName, value))
+				if (SetProperty(ref _IDEName, value))
 				{
-					IsFriendlyNameValid = !string.IsNullOrEmpty(value);
+					IsIDENameValid = !string.IsNullOrEmpty(value);
 					OnPropertyChanged(nameof(CanSaveIDEChanges));
 				}
 			}
@@ -94,9 +94,9 @@ namespace Files.App.ViewModels.Settings
 			SelectedOpenInIDEOption = OpenInIDEOptions[DevToolsSettingsService.OpenInIDEOption];
 
 			IDEPath = DevToolsSettingsService.IDEPath;
-			IDEFriendlyName = DevToolsSettingsService.IDEFriendlyName;
+			IDEName = DevToolsSettingsService.IDEName;
 			IsIDEPathValid = true;
-			IsFriendlyNameValid = true;
+			IsIDENameValid = true;
 
 			IsLogoutEnabled = GitHelpers.GetSavedCredentials() != string.Empty;
 
@@ -141,18 +141,18 @@ namespace Files.App.ViewModels.Settings
 		{
 			IsEditingIDEConfig = false;
 			IDEPath = DevToolsSettingsService.IDEPath;
-			IDEFriendlyName = DevToolsSettingsService.IDEFriendlyName;
+			IDEName = DevToolsSettingsService.IDEName;
 			IsIDEPathValid = true;
-			IsFriendlyNameValid = true;
+			IsIDENameValid = true;
 		}
 
 		private void DoSaveIDEChanges()
 		{
 			IsEditingIDEConfig = false;
 			IsIDEPathValid = true;
-			IsFriendlyNameValid = true;
+			IsIDENameValid = true;
 			DevToolsSettingsService.IDEPath = IDEPath;
-			DevToolsSettingsService.IDEFriendlyName = IDEFriendlyName;
+			DevToolsSettingsService.IDEName = IDEName;
 		}
 
 		private void DoStartEditingIDE()

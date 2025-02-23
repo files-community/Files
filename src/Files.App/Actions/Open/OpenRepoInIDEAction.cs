@@ -10,10 +10,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext _context;
 
 		public string Label
-			=> string.Format("OpenRepoInIDE".GetLocalizedResource(), _devToolsSettingsService.IDEFriendlyName);
+			=> string.Format("OpenRepoInIDE".GetLocalizedResource(), _devToolsSettingsService.IDEName);
 
 		public string Description
-			=> string.Format("OpenRepoInIDEDescription".GetLocalizedResource(), _devToolsSettingsService.IDEFriendlyName);
+			=> string.Format("OpenRepoInIDEDescription".GetLocalizedResource(), _devToolsSettingsService.IDEName);
 
 		public bool IsExecutable =>
 			_context.Folder is not null &&
@@ -36,7 +36,7 @@ namespace Files.App.Actions
 			);
 
 			if (!res)
-				await DynamicDialogFactory.ShowFor_IDEErrorDialog(_devToolsSettingsService.IDEFriendlyName);
+				await DynamicDialogFactory.ShowFor_IDEErrorDialog(_devToolsSettingsService.IDEName);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -51,7 +51,7 @@ namespace Files.App.Actions
 			{
 				OnPropertyChanged(nameof(IsExecutable));
 			}
-			else if (e.PropertyName == nameof(IDevToolsSettingsService.IDEFriendlyName))
+			else if (e.PropertyName == nameof(IDevToolsSettingsService.IDEName))
 			{
 				OnPropertyChanged(nameof(Label));
 				OnPropertyChanged(nameof(Description));

@@ -16,8 +16,8 @@ namespace Files.App.Data.Contracts
 		string IDEPath { get; set; }
 
 		/// <summary>
-		/// Gets or sets the friendly name of the chosen IDE.
+		/// Gets or sets the name of the chosen IDE.
 		/// </summary>
-		string IDEFriendlyName { get; set; }
+		string IDEName { get; set; }
 	}
 }
