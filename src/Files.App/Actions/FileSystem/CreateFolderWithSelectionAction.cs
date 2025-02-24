@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "CreateFolderWithSelection".GetLocalizedResource();
+			=> Strings.CreateFolderWithSelection.GetLocalizedResource();
 
 		public string Description
-			=> "CreateFolderWithSelectionDescription".GetLocalizedResource();
+			=> Strings.CreateFolderWithSelectionDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.New.Folder");
