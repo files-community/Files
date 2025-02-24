@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Shortcut".GetLocalizedResource();
+			=> Strings.Shortcut.GetLocalizedResource();
 
 		public string Description
-			=> "CreateShortcutFromDialogDescription".GetLocalizedResource();
+			=> Strings.CreateShortcutFromDialogDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new("\uE71B");

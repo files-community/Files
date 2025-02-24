@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Folder".GetLocalizedResource();
+			=> Strings.Folder.GetLocalizedResource();
 
 		public string Description
-			=> "CreateFolderDescription".GetLocalizedResource();
+			=> Strings.CreateFolderDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.N, KeyModifiers.CtrlShift);
