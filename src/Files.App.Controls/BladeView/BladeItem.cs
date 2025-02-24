@@ -1,9 +1,7 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Automation.Peers;
-using Microsoft.UI.Xaml.Automation;
 
 namespace Files.App.Controls
 {
@@ -11,24 +9,15 @@ namespace Files.App.Controls
 	/// The Blade is used as a child in the BladeView
 	/// </summary>
 	[TemplatePart(Name = "CloseButton", Type = typeof(Button))]
-	[TemplatePart(Name = "EnlargeButton", Type = typeof(Button))]
-	public partial class BladeItem : Expander
+	public partial class BladeItem : ContentControl
 	{
 		private Button _closeButton;
-		private Button _enlargeButton;
-		private double _normalModeWidth;
-		private bool _loaded = false;
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BladeItem"/> class.
 		/// </summary>
 		public BladeItem()
 		{
 			DefaultStyleKey = typeof(BladeItem);
-
-			SizeChanged += OnSizeChanged;
-			Expanding += OnExpanding;
-			Collapsed += OnCollapsed;
 		}
 
 		/// <summary>
@@ -36,10 +25,9 @@ namespace Files.App.Controls
 		/// </summary>
 		protected override void OnApplyTemplate()
 		{
-			_loaded = true;
+			base.OnApplyTemplate();
 
 			_closeButton = GetTemplateChild("CloseButton") as Button;
-			_enlargeButton = GetTemplateChild("EnlargeButton") as Button;
 
 			if (_closeButton == null)
 			{
@@ -48,43 +36,7 @@ namespace Files.App.Controls
 
 			_closeButton.Click -= CloseButton_Click;
 			_closeButton.Click += CloseButton_Click;
-
-			if (_enlargeButton == null)
-			{
-				return;
-			}
-
-			_enlargeButton.Click -= EnlargeButton_Click;
-			_enlargeButton.Click += EnlargeButton_Click;
 		}
-
-		/// <inheritdoc/>
-		private void OnExpanding(Expander sender, ExpanderExpandingEventArgs args)
-		{
-			if (_loaded)
-			{
-				Width = _normalModeWidth;
-				VisualStateManager.GoToState(this, "Expanded", true);
-				if (_enlargeButton != null)
-				{
-					AutomationProperties.SetName(_enlargeButton, "Expand Blade Item");
-				}
-			}
-		}
-
-		/// <inheritdoc/>
-		private void OnCollapsed(Expander sender, ExpanderCollapsedEventArgs args)
-		{
-			if (_loaded)
-			{
-				Width = double.NaN;
-				if (_enlargeButton != null)
-				{
-					AutomationProperties.SetName(_enlargeButton, "Collapse Blade Item");
-				}
-			}
-		}
-
 		/// <summary>
 		/// Creates AutomationPeer (<see cref="UIElement.OnCreateAutomationPeer"/>)
 		/// </summary>
@@ -94,22 +46,9 @@ namespace Files.App.Controls
 			return new BladeItemAutomationPeer(this);
 		}
 
-		private void OnSizeChanged(object sender, SizeChangedEventArgs sizeChangedEventArgs)
-		{
-			if (IsExpanded)
-			{
-				_normalModeWidth = Width;
-			}
-		}
-
 		private void CloseButton_Click(object sender, RoutedEventArgs e)
 		{
 			IsOpen = false;
-		}
-
-		private void EnlargeButton_Click(object sender, RoutedEventArgs e)
-		{
-			IsExpanded = !IsExpanded;
 		}
 	}
 }

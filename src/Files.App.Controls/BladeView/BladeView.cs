@@ -105,19 +105,6 @@ namespace Files.App.Controls
 					}
 				}
 			}
-
-			// For now we skip this feature when blade mode is set to fullscreen
-			if (AutoCollapseCountThreshold > 0 && BladeMode != BladeMode.Fullscreen && ActiveBlades.Any())
-			{
-				var openBlades = ActiveBlades.Where(item => item.TitleBarVisibility == Visibility.Visible).ToList();
-				if (openBlades.Count > AutoCollapseCountThreshold)
-				{
-					for (int i = 0; i < openBlades.Count - 1; i++)
-					{
-						openBlades[i].IsExpanded = false;
-					}
-				}
-			}
 		}
 
 		private BladeItem GetBladeItem(object item)
@@ -161,12 +148,6 @@ namespace Files.App.Controls
 
 			BladeClosed?.Invoke(this, blade);
 			ActiveBlades.Remove(blade);
-
-			var lastBlade = ActiveBlades.LastOrDefault();
-			if (lastBlade != null && lastBlade.TitleBarVisibility == Visibility.Visible)
-			{
-				lastBlade.IsExpanded = true;
-			}
 		}
 
 		private ScrollViewer GetScrollViewer()

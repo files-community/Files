@@ -21,13 +21,13 @@
     <PackageVersion Include="FluentFTP" Version="52.0.0" />
     <PackageVersion Include="LibGit2Sharp" Version="0.30.0" />
     <PackageVersion Include="MessageFormat" Version="7.1.2" />
-    <PackageVersion Include="Microsoft.Data.Sqlite.Core" Version="9.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.1" />
+    <PackageVersion Include="Microsoft.Data.Sqlite.Core" Version="9.0.2" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.2" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.2" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.2" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.0" />
-    <PackageVersion Include="Sentry" Version="5.1.0" />
+    <PackageVersion Include="Sentry" Version="5.1.1" />
     <PackageVersion Include="SevenZipSharp" Version="1.0.2" />
     <PackageVersion Include="SQLitePCLRaw.bundle_green" Version="2.1.10" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.6.250205002" />
@@ -35,8 +35,8 @@
     <PackageVersion Include="TagLibSharp" Version="2.3.0" />
     <PackageVersion Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
     <PackageVersion Include="WinUIEx" Version="2.5.1" />
-    <PackageVersion Include="Vanara.Windows.Extensions" Version="4.0.4" />
-    <PackageVersion Include="Vanara.Windows.Shell" Version="4.0.4" />
+    <PackageVersion Include="Vanara.Windows.Extensions" Version="4.0.5" />
+    <PackageVersion Include="Vanara.Windows.Shell" Version="4.0.5" />
     <PackageVersion Include="Microsoft.Management.Infrastructure" Version="3.0.0" />
     <PackageVersion Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="3.0.0" />
     <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
@@ -45,13 +45,13 @@
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.12.0" />
     <PackageVersion Include="PolySharp" Version="1.15.0" />
-    <PackageVersion Include="System.Text.Json" Version="9.0.1" />
-    <PackageVersion Include="System.IO.Hashing" Version="9.0.1" />
-    <PackageVersion Include="System.Threading.Tasks.Dataflow" Version="9.0.1" />
+    <PackageVersion Include="System.Text.Json" Version="9.0.2" />
+    <PackageVersion Include="System.IO.Hashing" Version="9.0.2" />
+    <PackageVersion Include="System.Threading.Tasks.Dataflow" Version="9.0.2" />
     <PackageVersion Include="Appium.WebDriver" Version="4.4.5" />
     <PackageVersion Include="Axe.Windows" Version="2.4.2" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
-    <PackageVersion Include="MSTest.TestAdapter" Version="3.7.3" />
-    <PackageVersion Include="MSTest.TestFramework" Version="3.7.3" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+    <PackageVersion Include="MSTest.TestAdapter" Version="3.8.2" />
+    <PackageVersion Include="MSTest.TestFramework" Version="3.8.2" />
   </ItemGroup>
 </Project>

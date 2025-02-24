@@ -17,19 +17,14 @@ namespace Files.App.Controls
 	public partial class BladeItem
 	{
 		/// <summary>
-		/// Identifies the <see cref="TitleBarVisibility"/> dependency property.
-		/// </summary>
-		public static readonly DependencyProperty TitleBarVisibilityProperty = DependencyProperty.Register(nameof(TitleBarVisibility), typeof(Visibility), typeof(BladeItem), new PropertyMetadata(default(Visibility)));
-
-		/// <summary>
-		/// Identifies the <see cref="TitleBarBackground"/> dependency property.
-		/// </summary>
-		public static readonly DependencyProperty TitleBarBackgroundProperty = DependencyProperty.Register(nameof(TitleBarBackground), typeof(Brush), typeof(BladeItem), new PropertyMetadata(default(Brush)));
-
-		/// <summary>
 		/// Identifies the <see cref="CloseButtonBackground"/> dependency property.
 		/// </summary>
 		public static readonly DependencyProperty CloseButtonBackgroundProperty = DependencyProperty.Register(nameof(CloseButtonBackground), typeof(Brush), typeof(BladeItem), new PropertyMetadata(default(Brush)));
+
+		/// <summary>
+		/// Identifies the <see cref="CloseButtonVisibility"/> dependency property.
+		/// </summary>
+		public static readonly DependencyProperty CloseButtonVisibilityProperty = DependencyProperty.Register(nameof(CloseButtonVisibility), typeof(Visibility), typeof(BladeItem), new PropertyMetadata(default(Visibility)));
 
 		/// <summary>
 		/// Identifies the <see cref="IsOpen"/> dependency property.
@@ -53,21 +48,12 @@ namespace Files.App.Controls
 		}
 
 		/// <summary>
-		/// Gets or sets the visibility of the title bar for this blade
+		/// Gets or sets the visibility of the close button
 		/// </summary>
-		public Visibility TitleBarVisibility
+		public Visibility CloseButtonVisibility
 		{
-			get { return (Visibility)GetValue(TitleBarVisibilityProperty); }
-			set { SetValue(TitleBarVisibilityProperty, value); }
-		}
-
-		/// <summary>
-		/// Gets or sets the background color of the title bar
-		/// </summary>
-		public Brush TitleBarBackground
-		{
-			get { return (Brush)GetValue(TitleBarBackgroundProperty); }
-			set { SetValue(TitleBarBackgroundProperty, value); }
+			get { return (Visibility)GetValue(CloseButtonVisibilityProperty); }
+			set { SetValue(CloseButtonVisibilityProperty, value); }
 		}
 
 		/// <summary>
