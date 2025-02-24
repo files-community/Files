@@ -104,7 +104,6 @@
 								Text="{x:Bind ViewModel.IDEName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
 								<TextBox.Resources>
-									<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
 									<TeachingTip
 										x:Name="InvalidIDENameWarning"
 										Title="{helpers:ResourceString Name=InvalidIDENameError}"
@@ -153,7 +152,6 @@
 									PlaceholderText="{helpers:ResourceString Name=IDEPathPlaceholder}"
 									Text="{x:Bind ViewModel.IDEPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 									<TextBox.Resources>
-										<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
 										<TeachingTip
 											x:Name="InvalidPathWarning"
 											Title="{helpers:ResourceString Name=InvalidPath}"
@@ -257,8 +255,6 @@
 						<Setter Target="IDENameTextBox.Width" Value="300" />
 						<Setter Target="IDENameTextBox.HorizontalAlignment" Value="Left" />
 						<Setter Target="IDENameTextBox.(Grid.ColumnSpan)" Value="2" />
-						<Setter Target="PickIDEExe.(Grid.Column)" Value="1" />
-						<Setter Target="PickIDEExe.(Grid.Row)" Value="0" />
 						<Setter Target="IDEPathGrid.Spacing" Value="8" />
 						<Setter Target="IDEPathGrid.Orientation" Value="Horizontal" />
 					</VisualState.Setters>
@@ -271,8 +267,6 @@
 						<Setter Target="IDENameTextBox.Width" Value="Auto" />
 						<Setter Target="IDENameTextBox.HorizontalAlignment" Value="Stretch" />
 						<Setter Target="IDENameTextBox.(Grid.ColumnSpan)" Value="3" />
-						<Setter Target="PickIDEExe.(Grid.Column)" Value="3" />
-						<Setter Target="PickIDEExe.(Grid.Row)" Value="1" />
 						<Setter Target="IDEPathGrid.Spacing" Value="12" />
 						<Setter Target="IDEPathGrid.Orientation" Value="Vertical" />
 					</VisualState.Setters>
