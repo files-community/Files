@@ -75,12 +75,6 @@ namespace Files.App.Controls
 				return name;
 			}
 
-			name = this.OwnerBladeItem.Header?.ToString();
-			if (!string.IsNullOrEmpty(name))
-			{
-				return name;
-			}
-
 			TextBlock textBlock = this.OwnerBladeItem.FindDescendant<TextBlock>();
 			if (textBlock != null)
 			{

@@ -27,11 +27,6 @@ namespace Files.App.Controls
 		public static readonly DependencyProperty BladeModeProperty = DependencyProperty.RegisterAttached(nameof(BladeMode), typeof(BladeMode), typeof(BladeView), new PropertyMetadata(BladeMode.Normal, OnBladeModeChanged));
 
 		/// <summary>
-		///  Identifies the <see cref="AutoCollapseCountThreshold"/> attached property.
-		/// </summary>
-		public static readonly DependencyProperty AutoCollapseCountThresholdProperty = DependencyProperty.RegisterAttached(nameof(AutoCollapseCountThreshold), typeof(int), typeof(BladeView), new PropertyMetadata(int.MaxValue, OnOpenBladesChanged));
-
-		/// <summary>
 		/// Gets or sets a collection of visible blades
 		/// </summary>
 		public IList<BladeItem> ActiveBlades
@@ -47,24 +42,6 @@ namespace Files.App.Controls
 		{
 			get { return (BladeMode)GetValue(BladeModeProperty); }
 			set { SetValue(BladeModeProperty, value); }
-		}
-
-		/// <summary>
-		/// Gets or sets a value indicating what the overflow amount should be to start auto collapsing blade items
-		/// </summary>
-		/// <example>
-		/// For example we put AutoCollapseCountThreshold = 2
-		/// This means that each time a blade is added to the bladeview collection,
-		/// we will validate the amount of added blades that have a title bar visible.
-		/// If this number get's bigger than AutoCollapseCountThreshold, we will collapse all blades but the last one
-		/// </example>
-		/// <remarks>
-		/// We don't touch blade items that have no title bar
-		/// </remarks>
-		public int AutoCollapseCountThreshold
-		{
-			get { return (int)GetValue(AutoCollapseCountThresholdProperty); }
-			set { SetValue(AutoCollapseCountThresholdProperty, value); }
 		}
 
 		private static void OnBladeModeChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)

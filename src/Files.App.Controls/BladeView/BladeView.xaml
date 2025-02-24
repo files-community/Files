@@ -88,7 +88,6 @@
 		<Setter Property="CloseButtonForeground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
 		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 		<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-		<Setter Property="TitleBarBackground" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
 		<Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
 		<Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
 		<Setter Property="TabNavigation" Value="Local" />
@@ -102,18 +101,7 @@
 		<Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="IsTabStop" Value="False" />
-		<Setter Property="IsExpanded" Value="True" />
 		<Setter Property="Width" Value="320" />
-		<Setter Property="HeaderTemplate">
-			<Setter.Value>
-				<DataTemplate>
-					<TextBlock
-						Margin="12,7,0,9"
-						VerticalAlignment="Center"
-						Text="{Binding}" />
-				</DataTemplate>
-			</Setter.Value>
-		</Setter>
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="controls:BladeItem">
@@ -121,70 +109,24 @@
 						Width="{TemplateBinding Width}"
 						BorderBrush="{TemplateBinding BorderBrush}"
 						BorderThickness="{TemplateBinding BorderThickness}">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="*" />
-						</Grid.RowDefinitions>
-
-						<Grid
-							Height="32"
-							Background="{TemplateBinding TitleBarBackground}"
-							Visibility="{TemplateBinding TitleBarVisibility}">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="*" />
-								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="Auto" />
-							</Grid.ColumnDefinitions>
-
-							<ContentPresenter
-								x:Name="TitleBar"
-								Content="{TemplateBinding Header}"
-								ContentTemplate="{TemplateBinding HeaderTemplate}" />
-							<Button
-								Name="EnlargeButton"
-								Grid.Column="1"
-								HorizontalAlignment="Right"
-								VerticalAlignment="Stretch"
-								Background="{TemplateBinding CloseButtonBackground}"
-								BorderThickness="1"
-								Content="&#xE73F;"
-								FontFamily="Segoe MDL2 Assets"
-								FontSize="14"
-								Foreground="{TemplateBinding CloseButtonForeground}"
-								Style="{StaticResource ButtonRevealStyle}"
-								TabIndex="0" />
-							<Button
-								Name="CloseButton"
-								Grid.Column="2"
-								HorizontalAlignment="Right"
-								VerticalAlignment="Stretch"
-								Background="{TemplateBinding CloseButtonBackground}"
-								BorderThickness="1"
-								Content="&#xE711;"
-								FontFamily="Segoe MDL2 Assets"
-								FontSize="14"
-								Foreground="{TemplateBinding CloseButtonForeground}"
-								Style="{StaticResource ButtonRevealStyle}"
-								TabIndex="0" />
-						</Grid>
-
 						<ContentPresenter
 							x:Name="ContentPresenter"
-							Grid.Row="1"
 							VerticalAlignment="Stretch"
-							Background="{TemplateBinding Background}"
-							Visibility="{TemplateBinding IsOpen}" />
-						<VisualStateManager.VisualStateGroups>
-							<VisualStateGroup x:Name="ExpandedStates">
-								<VisualState x:Name="Expanded" />
-								<VisualState x:Name="Collapsed">
-									<VisualState.Setters>
-										<Setter Target="ContentPresenter.Visibility" Value="Collapsed" />
-										<Setter Target="EnlargeButton.Content" Value="&#xE740;" />
-									</VisualState.Setters>
-								</VisualState>
-							</VisualStateGroup>
-						</VisualStateManager.VisualStateGroups>
+							Background="{TemplateBinding Background}" />
+
+						<Button
+							Name="CloseButton"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Top"
+							Background="{TemplateBinding CloseButtonBackground}"
+							BorderThickness="1"
+							Content="&#xE711;"
+							FontFamily="Segoe MDL2 Assets"
+							FontSize="14"
+							Foreground="{TemplateBinding CloseButtonForeground}"
+							Style="{StaticResource ButtonRevealStyle}"
+							Visibility="{TemplateBinding CloseButtonVisibility}"
+							TabIndex="0" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
