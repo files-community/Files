@@ -38,15 +38,5 @@ namespace Files.App.Data.Enums
 		/// Retrieve a thumbnail only if it is cached or embedded in the file.
 		/// </summary>
 		ReturnOnlyIfCached = 16,
-
-		/// <summary>
-		/// Default. Retrieve a thumbnail to display a preview of any single item (like a file, folder, or file group).
-		/// </summary>
-		SingleItem = 32,
-
-		/// <summary>
-		/// Retrieve a thumbnail to display previews of files (or other items) in a list.
-		/// </summary>
-		ListView = 64,
 	}
 }

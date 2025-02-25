@@ -37,9 +37,7 @@ namespace Files.App.Utils.Storage
 								   (iconOptions.HasFlag(IconOptions.ReturnOnlyIfCached) ? ThumbnailOptions.ReturnOnlyIfCached : 0) |
 								   (iconOptions.HasFlag(IconOptions.ResizeThumbnail) ? ThumbnailOptions.ResizeThumbnail : 0);
 
-			var thumbnailMode = iconOptions.HasFlag(IconOptions.ListView) ? ThumbnailMode.ListView : ThumbnailMode.SingleItem;
-
-			return GetIconAsync(item, requestedSize, thumbnailMode, thumbnailOptions);
+			return GetIconAsync(item, requestedSize, ThumbnailMode.SingleItem, thumbnailOptions);
 		}
 
 		public static async Task<byte[]?> GetIconAsync(IStorageItem item, uint requestedSize, ThumbnailMode thumbnailMode, ThumbnailOptions thumbnailOptions)
