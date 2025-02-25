@@ -4068,6 +4068,6 @@
     <value>Enter a path or launch alias</value>
   </data>
   <data name="InvalidIDENameError" xml:space="preserve">
-    <value>Please, enter a name for the IDE</value>
+    <value>Please enter a name for the IDE</value>
   </data>
 </root>
