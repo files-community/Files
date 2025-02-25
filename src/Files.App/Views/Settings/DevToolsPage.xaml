@@ -100,6 +100,7 @@
 								Width="300"
 								HorizontalAlignment="Left"
 								VerticalAlignment="Center"
+								Header="{helpers:ResourceString Name=Name}"
 								PlaceholderText="{helpers:ResourceString Name=Name}"
 								Text="{x:Bind ViewModel.IDEName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
@@ -112,9 +113,6 @@
 										PreferredPlacement="Bottom"
 										Target="{x:Bind IDENameTextBox}" />
 								</TextBox.Resources>
-								<TextBox.Header>
-									<TextBlock Text="{helpers:ResourceString Name=Name}" />
-								</TextBox.Header>
 							</TextBox>
 
 							<!--  IDE Path  -->
@@ -149,6 +147,7 @@
 									x:Name="IDEPathTextBox"
 									Width="300"
 									VerticalAlignment="Center"
+									Header="{helpers:ResourceString Name=PathOrAlias}"
 									PlaceholderText="{helpers:ResourceString Name=IDEPathPlaceholder}"
 									Text="{x:Bind ViewModel.IDEPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 									<TextBox.Resources>
@@ -161,9 +160,6 @@
 											PreferredPlacement="Bottom"
 											Target="{x:Bind IDEPathTextBox}" />
 									</TextBox.Resources>
-									<TextBox.Header>
-										<TextBlock Text="{helpers:ResourceString Name=PathOrAlias}" />
-									</TextBox.Header>
 								</TextBox>
 
 								<SplitButton
