@@ -9,10 +9,8 @@ namespace Files.App.Helpers
 	internal static class SoftwareHelpers
 	{
 		private const string UninstallRegistryKey = @"Software\Microsoft\Windows\CurrentVersion\Uninstall";
-		private const string VsRegistryKey = @"SOFTWARE\Microsoft\VisualStudio";
 
 		private const string VsCodeName = "Microsoft Visual Studio Code";
-
 
 		public static bool IsVSCodeInstalled()
 		{
@@ -21,25 +19,6 @@ namespace Files.App.Helpers
 				return
 					ContainsName(Registry.CurrentUser.OpenSubKey(UninstallRegistryKey), VsCodeName) ||
 					ContainsName(Registry.LocalMachine.OpenSubKey(UninstallRegistryKey), VsCodeName);
-			}
-			catch (SecurityException)
-			{
-				// Handle edge case where OpenSubKey results in SecurityException
-				return false;
-			}
-		}
-
-		public static bool IsVSInstalled()
-		{
-			try
-			{
-				var key = Registry.LocalMachine.OpenSubKey(VsRegistryKey);
-				if (key is null)
-					return false;
-
-				key.Close();
-
-				return true;
 			}
 			catch (SecurityException)
 			{

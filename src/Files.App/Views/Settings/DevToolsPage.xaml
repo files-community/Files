@@ -11,6 +11,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	mc:Ignorable="d">
 
 	<Page.Resources>
@@ -20,6 +21,14 @@
 			</ResourceDictionary.MergedDictionaries>
 
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<wctconverters:BoolToVisibilityConverter
+				x:Key="BoolVisibilityConverter"
+				FalseValue="Collapsed"
+				TrueValue="Visible" />
+			<wctconverters:BoolToVisibilityConverter
+				x:Key="InvertedBoolVisibilityConverter"
+				FalseValue="Visible"
+				TrueValue="Collapsed" />
 		</ResourceDictionary>
 	</Page.Resources>
 
@@ -49,6 +58,160 @@
 					AutomationProperties.Name="{helpers:ResourceString Name=DisplayOpenIDE}"
 					ItemsSource="{x:Bind ViewModel.OpenInIDEOptions.Values}"
 					SelectedItem="{x:Bind ViewModel.SelectedOpenInIDEOption, Mode=TwoWay}" />
+				<local:SettingsBlockControl.ExpandableContent>
+					<StackPanel Orientation="Vertical">
+						<Grid
+							x:Name="IDEConfigGrid"
+							Padding="32,12"
+							ColumnSpacing="16"
+							RowSpacing="12">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*" />
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
+
+							<!--  IDE Name  -->
+							<TextBlock
+								x:Name="IDEName"
+								MaxWidth="200"
+								VerticalAlignment="Center"
+								x:Load="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+								LineHeight="18"
+								Text="{helpers:ResourceString Name=Name}"
+								TextTrimming="CharacterEllipsis" />
+
+							<TextBlock
+								Grid.Column="1"
+								VerticalAlignment="Center"
+								FontWeight="SemiBold"
+								Text="{x:Bind ViewModel.IDEName, Mode=TwoWay}"
+								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource InvertedBoolVisibilityConverter}, Mode=OneWay}" />
+
+							<TextBox
+								x:Name="IDENameTextBox"
+								Grid.ColumnSpan="3"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Center"
+								Header="{helpers:ResourceString Name=Name}"
+								PlaceholderText="{helpers:ResourceString Name=Name}"
+								Text="{x:Bind ViewModel.IDEName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
+								<TextBox.Resources>
+									<TeachingTip
+										x:Name="InvalidIDENameWarning"
+										Title="{helpers:ResourceString Name=InvalidIDENameError}"
+										IsLightDismissEnabled="True"
+										IsOpen="{x:Bind ViewModel.IsIDENameValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+										PreferredPlacement="Bottom"
+										Target="{x:Bind IDENameTextBox}" />
+								</TextBox.Resources>
+							</TextBox>
+
+							<!--  IDE Path  -->
+							<TextBlock
+								x:Name="IDEPath"
+								Grid.Row="1"
+								MaxWidth="200"
+								VerticalAlignment="Center"
+								x:Load="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+								LineHeight="18"
+								Text="{helpers:ResourceString Name=PathOrAlias}"
+								TextTrimming="CharacterEllipsis" />
+
+							<TextBlock
+								Grid.Row="1"
+								Grid.Column="1"
+								VerticalAlignment="Center"
+								FontWeight="SemiBold"
+								Text="{x:Bind ViewModel.IDEPath, Mode=TwoWay}"
+								TextTrimming="CharacterEllipsis"
+								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource InvertedBoolVisibilityConverter}, Mode=OneWay}" />
+
+							<StackPanel
+								x:Name="IDEPathGrid"
+								Grid.Row="1"
+								Grid.ColumnSpan="3"
+								Margin="0,8,0,0"
+								Orientation="Vertical"
+								Spacing="12"
+								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource BoolVisibilityConverter}, Mode=OneWay}">
+								<TextBox
+									x:Name="IDEPathTextBox"
+									HorizontalAlignment="Stretch"
+									VerticalAlignment="Center"
+									Header="{helpers:ResourceString Name=PathOrAlias}"
+									PlaceholderText="{helpers:ResourceString Name=IDEPathPlaceholder}"
+									Text="{x:Bind ViewModel.IDEPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+									<TextBox.Resources>
+										<TeachingTip
+											x:Name="InvalidPathWarning"
+											Title="{helpers:ResourceString Name=InvalidPath}"
+											IsLightDismissEnabled="True"
+											IsOpen="{x:Bind ViewModel.IsIDEPathValid, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+											KeyTipHorizontalOffset="-80"
+											PreferredPlacement="Bottom"
+											Target="{x:Bind IDEPathTextBox}" />
+									</TextBox.Resources>
+								</TextBox>
+
+								<SplitButton
+									x:Name="PickIDEExe"
+									Height="32"
+									VerticalAlignment="Bottom"
+									Command="{x:Bind ViewModel.OpenFilePickerForIDECommand, Mode=OneWay}"
+									Content="{helpers:ResourceString Name=Browse}">
+									<SplitButton.Flyout>
+										<MenuFlyout Placement="Bottom">
+											<!--  Test Integration  -->
+											<MenuFlyoutItem
+												x:Name="TestIDE"
+												Command="{x:Bind ViewModel.TestIDECommand, Mode=OneWay}"
+												IsEnabled="{x:Bind ViewModel.IsIDEPathValid, Mode=OneWay}"
+												Text="{helpers:ResourceString Name=TestIntegration}" />
+										</MenuFlyout>
+									</SplitButton.Flyout>
+								</SplitButton>
+							</StackPanel>
+
+							<!--  Edit  -->
+							<Button
+								x:Name="EditIDEConfigButton"
+								Grid.RowSpan="2"
+								Grid.Column="2"
+								Padding="8,4"
+								VerticalAlignment="Center"
+								Background="Transparent"
+								BorderBrush="Transparent"
+								Command="{x:Bind ViewModel.StartEditingIDECommand, Mode=OneWay}"
+								Content="{helpers:ResourceString Name=Edit}"
+								Visibility="{x:Bind ViewModel.IsEditingIDEConfig, Converter={StaticResource InvertedBoolVisibilityConverter}, Mode=OneWay}" />
+						</Grid>
+
+						<StackPanel
+							x:Name="SaveAndEditButtons"
+							Padding="32,0,32,12"
+							HorizontalAlignment="Right"
+							x:Load="{x:Bind ViewModel.IsEditingIDEConfig, Mode=OneWay}"
+							Orientation="Horizontal"
+							Spacing="8">
+							<!--  Cancel  -->
+							<Button Command="{x:Bind ViewModel.CancelIDEChangesCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=Cancel}" />
+
+							<!--  Save Changes  -->
+							<Button
+								Command="{x:Bind ViewModel.SaveIDEChangesCommand, Mode=OneWay}"
+								Content="{helpers:ResourceString Name=Save}"
+								IsEnabled="{x:Bind ViewModel.CanSaveIDEChanges, Mode=OneWay, FallbackValue=False}"
+								Style="{StaticResource AccentButtonStyle}" />
+						</StackPanel>
+					</StackPanel>
+				</local:SettingsBlockControl.ExpandableContent>
 			</local:SettingsBlockControl>
 
 			<!--  Connect to GitHub  -->
@@ -76,5 +239,38 @@
 			</local:SettingsBlockControl>
 
 		</StackPanel>
+
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup>
+				<VisualState x:Name="DefaultState">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="780" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="IDEPathTextBox.Width" Value="300" />
+						<Setter Target="IDEPathTextBox.HorizontalAlignment" Value="Left" />
+						<Setter Target="IDENameTextBox.Width" Value="300" />
+						<Setter Target="IDENameTextBox.HorizontalAlignment" Value="Left" />
+						<Setter Target="IDENameTextBox.(Grid.ColumnSpan)" Value="2" />
+						<Setter Target="IDEPathGrid.Spacing" Value="8" />
+						<Setter Target="IDEPathGrid.Orientation" Value="Horizontal" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="CompactState">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="0" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="IDEPathTextBox.Width" Value="Auto" />
+						<Setter Target="IDEPathTextBox.HorizontalAlignment" Value="Stretch" />
+						<Setter Target="IDENameTextBox.Width" Value="Auto" />
+						<Setter Target="IDENameTextBox.HorizontalAlignment" Value="Stretch" />
+						<Setter Target="IDENameTextBox.(Grid.ColumnSpan)" Value="3" />
+						<Setter Target="IDEPathGrid.Spacing" Value="12" />
+						<Setter Target="IDEPathGrid.Orientation" Value="Vertical" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
 	</Grid>
 </Page>

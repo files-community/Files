@@ -18,6 +18,20 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		/// <inheritdoc/>
+		public string IDEPath
+		{
+			get => Get(SoftwareHelpers.IsVSCodeInstalled() ? "code" : string.Empty) ?? string.Empty;
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public string IDEName
+		{
+			get => Get(SoftwareHelpers.IsVSCodeInstalled() ? Strings.VisualStudioCode.GetLocalizedResource() : string.Empty) ?? string.Empty;
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			base.RaiseOnSettingChangedEvent(sender, e);
