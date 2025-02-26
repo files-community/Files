@@ -253,6 +253,7 @@
 						<Setter Target="IDENameTextBox.(Grid.ColumnSpan)" Value="2" />
 						<Setter Target="IDEPathGrid.Spacing" Value="8" />
 						<Setter Target="IDEPathGrid.Orientation" Value="Horizontal" />
+						<Setter Target="PickIDEExe.Padding" Value="12,7,12,7" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="CompactState">
@@ -267,6 +268,7 @@
 						<Setter Target="IDENameTextBox.(Grid.ColumnSpan)" Value="3" />
 						<Setter Target="IDEPathGrid.Spacing" Value="12" />
 						<Setter Target="IDEPathGrid.Orientation" Value="Vertical" />
+						<Setter Target="PickIDEExe.Padding" Value="12,6,12,6" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
