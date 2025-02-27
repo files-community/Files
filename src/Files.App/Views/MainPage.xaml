@@ -9,7 +9,6 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:sidebar="using:Files.App.UserControls.Sidebar"
 	xmlns:tabbar="using:Files.App.UserControls.TabBar"
 	xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
 	xmlns:uc="using:Files.App.UserControls"
@@ -157,7 +156,7 @@
 			TabIndex="1" />
 
 		<!--  Content Area  -->
-		<sidebar:SidebarView
+		<controls:SidebarView
 			x:Name="SidebarControl"
 			Grid.Row="2"
 			HorizontalAlignment="Stretch"
@@ -171,7 +170,7 @@
 			ViewModel="{x:Bind SidebarAdaptiveViewModel}">
 
 			<!--  Inner Content  -->
-			<sidebar:SidebarView.InnerContent>
+			<controls:SidebarView.InnerContent>
 				<Grid
 					x:Name="RootGrid"
 					PreviewKeyDown="RootGrid_PreviewKeyDown"
@@ -257,8 +256,8 @@
 						Margin="4,0,0,8"
 						x:Load="{x:Bind ViewModel.ShowShelfPane, Mode=OneWay}" />
 				</Grid>
-			</sidebar:SidebarView.InnerContent>
-		</sidebar:SidebarView>
+			</controls:SidebarView.InnerContent>
+		</controls:SidebarView>
 
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup>

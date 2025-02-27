@@ -4,7 +4,6 @@
 using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
 using CommunityToolkit.WinUI.Controls;
-using Files.App.UserControls.Sidebar;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
@@ -19,6 +18,7 @@ using Windows.Services.Store;
 using WinRT.Interop;
 using VirtualKey = Windows.System.VirtualKey;
 using GridSplitter = Files.App.Controls.GridSplitter;
+using Files.App.Controls;
 
 namespace Files.App.Views
 {

@@ -1,10 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-
-namespace Files.App.UserControls.Sidebar
+namespace Files.App.Controls
 {
 	public interface ISidebarItemModel : INotifyPropertyChanged
 	{
@@ -38,5 +35,10 @@ namespace Files.App.UserControls.Sidebar
 		/// The tooltip used when hovering over this item in the sidebar
 		/// </summary>
 		object ToolTip { get; }
+
+		/// <summary>
+		/// Indicates whether the children should have be indentet or not.
+		bool PaddedItem { get; }
+		/// </summary>
 	}
 }
