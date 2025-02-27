@@ -71,8 +71,6 @@ namespace Files.App.Views
 
 			AppInstance.ToolbarViewModel.PathComponents.Add(item);
 
-			await ViewModel.RefreshWidgetProperties();
-
 			base.OnNavigatedTo(e);
 		}
 
