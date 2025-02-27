@@ -181,9 +181,10 @@ namespace Files.App.ViewModels
 
 		// Command methods
 
-		private void ExecuteHomePageLoadedCommand(RoutedEventArgs? e)
+		private async void ExecuteHomePageLoadedCommand(RoutedEventArgs? e)
 		{
 			ReloadWidgets();
+			await RefreshWidgetProperties();
 		}
 
 		// Disposer
