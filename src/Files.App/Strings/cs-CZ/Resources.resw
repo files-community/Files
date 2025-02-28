@@ -3214,17 +3214,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files nemá aktuálně přístup ke GitHubu.</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>Otevřít složku v aplikaci VS Code</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>Otevřít složku v {0}</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Otevřít aktuální adresář ve VS Code</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>Otevřít aktuální složku v {0}</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Otevřít repozitář v aplikaci VS Code</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>Otevřít repozitář v {0}</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Otevřít kořen repozitáře Gitu v aplikaci Visual Studio Code</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Otevřít kořen repozitáře Gitu v {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Zkopírovat kód</value>
@@ -3875,6 +3875,10 @@
     <value>Soubor ICO</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>Soubor ICL</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Soubor ZIP</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -4038,5 +4042,32 @@
   <data name="AddToShelf" xml:space="preserve">
     <value>Odložit na panel</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Cesta nebo alias</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Neplatná cesta</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Test integrace</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>{0} se podařilo nalézt. Zkontrolujte prosím vaše nastavení a zkuste to znovu.</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>Nakonfigurované IDE nelze nalézt</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Otevřít nastavení</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>Zadejte cestu nebo spusťte alias</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>Zadejte název IDE</value>
   </data>
 </root>
