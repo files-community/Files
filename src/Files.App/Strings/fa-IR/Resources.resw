@@ -3179,7 +3179,7 @@
     <value>میکا</value>
   </data>
   <data name="MicaAlt" xml:space="preserve">
-    <value>جایگزین میکا</value>
+    <value>میکا -گونه دیگر</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
     <value>Backdrop</value>
@@ -3214,17 +3214,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files cannot access GitHub right now.</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>باز کردن پوشه در VS Code</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>Open folder in {0}</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>پوشه فعلی را در برنامه ویژوال استودیو کد (Visual Studio Code) باز کن</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>Open the current directory in {0}</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>باز کردن ریپو در VS Code</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>Open repo in {0}</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>ریشه منبع Git را در برنامه ویژوال استودیو کد (Visual Studio Code) باز کن</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Open the root of the Git repo in {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>کپی کد</value>
@@ -3346,7 +3346,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="CoolBlueBright" xml:space="preserve">
-    <value>آبی خنک روشن</value>
+    <value>آبی سرد روشن</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Gray" xml:space="preserve">
@@ -3362,7 +3362,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="IrisPastel" xml:space="preserve">
-    <value>پاستل آیریس</value>
+    <value>پاستل سوسنی</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="MintLight" xml:space="preserve">
@@ -3370,7 +3370,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ModRed" xml:space="preserve">
-    <value>ماد قرمز</value>
+    <value>قرمز مدرن</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="OrangeBright" xml:space="preserve">
@@ -3386,11 +3386,11 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="RoseBright" xml:space="preserve">
-    <value>رز روشن</value>
+    <value>سرخ روشن</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Seafoam" xml:space="preserve">
-    <value>کف ساحلی</value>
+    <value>کف دریا</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Storm" xml:space="preserve">
@@ -3875,6 +3875,10 @@
     <value>ICO File</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>ICL File</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Zip File</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -4038,5 +4042,32 @@
   <data name="AddToShelf" xml:space="preserve">
     <value>Add to shelf</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Path or alias</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Invalid path</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Test integration</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>{0} could not be located. Please check your settings and try again.</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>The configured IDE could not be located</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Open settings</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>Enter a path or launch alias</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>Please enter a name for the IDE</value>
   </data>
 </root>
