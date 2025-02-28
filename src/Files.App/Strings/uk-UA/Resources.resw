@@ -3214,17 +3214,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Наразі Files не може отримати доступ до GitHub.</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>Відкрити папку у VS Code</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>Open folder in {0}</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Відкрити каталог у Visual Studio Code</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>Open the current directory in {0}</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Відкрити репозиторій у VS Code</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>Open repo in {0}</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Відкрийте корінь Git репозиторію за допомогою Visual Studio Code</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Open the root of the Git repo in {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Скопіювати код</value>
@@ -3875,6 +3875,10 @@
     <value>Файл ICO</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>ICL File</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>ZIP-файл</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -4038,5 +4042,32 @@
   <data name="AddToShelf" xml:space="preserve">
     <value>Add to shelf</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Path or alias</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Invalid path</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Test integration</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>{0} could not be located. Please check your settings and try again.</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>The configured IDE could not be located</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Open settings</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>Enter a path or launch alias</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>Please enter a name for the IDE</value>
   </data>
 </root>
