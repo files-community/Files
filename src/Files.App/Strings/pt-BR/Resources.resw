@@ -184,7 +184,7 @@
     <value>Digite um caminho para navegar ou digite "&gt;" para abrir a paleta de comandos</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Android</value>
+    <value>Procurar</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Os arquivos que você acessou anteriormente serão exibidos aqui</value>
@@ -298,7 +298,7 @@
     <value>Insira o nome do item</value>
   </data>
   <data name="CreateNewItemTitle" xml:space="preserve">
-    <value>Criar novo {0}</value>
+    <value>Criar  {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Claro</value>
@@ -322,13 +322,13 @@
     <value>Esta pasta está vazia.</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Voltar (Alt + Seta para a esquerda)</value>
+    <value>Voltar</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>Avançar (Alt + Seta para a direita)</value>
+    <value>Avançar</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>Em cima (Alt + Seta para cima)</value>
+    <value>Em cima</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Atualizar</value>
@@ -394,7 +394,7 @@
     <value>{0, plural, one {# dia atrás} other {# dias atrás}}</value>
   </data>
   <data name="DaysAgo_Singular" xml:space="preserve">
-    <value>1 dia atrás</value>
+    <value>Um dia atrás</value>
   </data>
   <data name="DaysAgo_Plural" xml:space="preserve">
     <value>{0} dias atrás</value>
@@ -3214,17 +3214,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files não pode acessar o GitHub neste momento.</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>Abrir pasta no VS Code</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>Abrir pasta no {0}</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Abra a pasta atual no Visual Studio Code</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>Abrir a pasta atual no {0}</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Abrir repositório no VS Code</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>Abrir repositório no {0}</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Abra a raiz do repositório Git no Visual Studio Code</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Abrir a raiz do repositório Git em {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Copiar código</value>
@@ -3875,6 +3875,10 @@
     <value>Arquivo ICO</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>Arquivo ICL</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Arquivo compactado</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -4038,5 +4042,32 @@
   <data name="AddToShelf" xml:space="preserve">
     <value>Adicionar à prateleira</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Caminho ou alias</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Caminho inválido</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Testar integração</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>{0} não pôde ser localizado. Por favor, verifique suas configurações e tente novamente.</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>O IDE configurado não pôde ser localizado</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Abrir configurações</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Código do Visual Studio</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>Insira um caminho ou inicie o alias</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>Por favor, insira um nome para o IDE</value>
   </data>
 </root>
