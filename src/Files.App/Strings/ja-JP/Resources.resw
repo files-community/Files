@@ -1881,7 +1881,7 @@
     <value>最近使用したファイル</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>WIndows 起動時に Files を開く</value>
+    <value>Windows 起動時に Files を開く</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>属性</value>
@@ -3214,17 +3214,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files は現在 GitHub にアクセスできません。</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>VS Code でフォルダーを開く</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>{0} でフォルダを開く</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>現在のフォルダーを Visual Studio Code で開く</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>現在のディレクトリを {0}で開く</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>VS Code でリポジトリを開く</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>{0} でリポジトリを開く</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Git リポジトリのルートを Visual Studio Code で開く</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Git リポジトリのルートを {0} で開く</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>コードをコピー</value>
@@ -3875,6 +3875,10 @@
     <value>ICO ファイル</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>ICL ファイル</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Zip ファイル</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -4038,5 +4042,32 @@
   <data name="AddToShelf" xml:space="preserve">
     <value>シェルフに追加</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>パスまたはエイリアス</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>無効なパスです</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>連携のテスト</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>{0} が見つかりませんでした。設定を確認して再度お試し下さい。</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>構成された IDE が見つかりません</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>設定を開く</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>パスまたはエイリアスを入力してください</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>IDE の名前を入力してください</value>
   </data>
 </root>
