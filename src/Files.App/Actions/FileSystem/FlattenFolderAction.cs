@@ -15,10 +15,10 @@ namespace Files.App.Actions
 		private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
 		public string Label
-			=> "FlattenFolder".GetLocalizedResource();
+			=> Strings.FlattenFolder.GetLocalizedResource();
 
 		public string Description
-			=> "FlattenFolderDescription".GetLocalizedResource();
+			=> Strings.FlattenFolderDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Folder");
@@ -46,10 +46,10 @@ namespace Files.App.Actions
 
 			var optionsDialog = new ContentDialog()
 			{
-				Title = "FlattenFolder".GetLocalizedResource(),
-				Content = "FlattenFolderDialogContent".GetLocalizedResource(),
-				PrimaryButtonText = "Flatten".GetLocalizedResource(),
-				SecondaryButtonText = "Cancel".GetLocalizedResource(),
+				Title = Strings.FlattenFolder.GetLocalizedResource(),
+				Content = Strings.FlattenFolderDialogContent.GetLocalizedResource(),
+				PrimaryButtonText = Strings.Flatten.GetLocalizedResource(),
+				SecondaryButtonText = Strings.Cancel.GetLocalizedResource(),
 				DefaultButton = ContentDialogButton.Primary
 			};
 
