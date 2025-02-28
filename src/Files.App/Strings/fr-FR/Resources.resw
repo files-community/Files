@@ -442,7 +442,7 @@
     <value>Le nom de l'élément ne doit pas contenir les caractères suivants : \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>Le nom de l'élément n'est pas valide</value>
+    <value>Le nom de l'élément spécifié est invalide</value>
   </data>
   <data name="SelectedItems" xml:space="preserve">
     <value>{0, plural, one {# élément sélectionné} other {# éléments sélectionnés}}</value>
@@ -3214,17 +3214,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files ne peut pas accéder à GitHub pour le moment.</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>Ouvrir le dossier dans VS Code</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>Ouvrir le dossier dans {0}</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Ouvrir le dossier actuel dans Visual Studio Code</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>Ouvrir le dossier actuel dans {0}</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Ouvrir le dépôt dans VS Code</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>Ouvrir le dépôt dans {0}</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Ouvrir la racine du dépôt Git dans Visual Studio Code</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Ouvrir la racine du dépôt Git dans {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Copier le code</value>
@@ -3875,6 +3875,10 @@
     <value>Fichier ICO</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>Fichier ICL</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Fichier Zip</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -4038,5 +4042,32 @@
   <data name="AddToShelf" xml:space="preserve">
     <value>Ajouter à l'étagère</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Chemin ou alias</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Chemin invalide</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Tester l'intégration</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>{0} n'a pas pu être localisé. Veuillez vérifier vos paramètres et réessayer.</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>L'IDE configuré n'a pas pu être localisé</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Ouvrir les paramètres</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>Entrez un chemin ou un alias de lancement</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>Veuillez entrer un nom pour l'IDE</value>
   </data>
 </root>
