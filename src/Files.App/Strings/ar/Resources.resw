@@ -298,7 +298,7 @@
     <value>ادخل اسم عنصر</value>
   </data>
   <data name="CreateNewItemTitle" xml:space="preserve">
-    <value>Create new {0}</value>
+    <value>إنشاء {0} جديد</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>فاتح</value>
@@ -2710,7 +2710,7 @@
     <value>إغلاق علامات التبويب غير علامة التبويب المحددة</value>
   </data>
   <data name="CloseAllTabsDescription" xml:space="preserve">
-    <value>Close all tabs including the current tab</value>
+    <value>إغلاق جميع علامات التبويب ومعها علامة التبويب الحالية</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>إعادة فتح آخر علامة تبويب مغلقة</value>
@@ -3119,7 +3119,7 @@
     <value>فتح نافذة الخصائص</value>
   </data>
   <data name="OpenClassicPropertiesDescription" xml:space="preserve">
-    <value>الترجمة الالية  العربية</value>
+    <value>فتح نافذة خصائص مُستكشف الملفات</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>المحلية</value>
@@ -3215,17 +3215,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>لا يمكن لـ Files الوصول إلى GitHub الآن.</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>فتح المجلد في VS Code</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>Open folder in {0}</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>فتح المجلد الحالي في Visual Studio Code</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>Open the current directory in {0}</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>فتح المستودع في VS Code</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>Open repo in {0}</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>فتح جذر مستودع Git في Visual Studio Code</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Open the root of the Git repo in {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>نسخ الكود</value>
@@ -3876,6 +3876,10 @@
     <value>ملف ICO</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>ICL File</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>ملف مضغوط</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -3964,7 +3968,7 @@
     <value>خيوط المعالج المركزي</value>
   </data>
   <data name="NavigateHomeDescription" xml:space="preserve">
-    <value>Navigate to the home page</value>
+    <value>انتقل إلى الصفحة الرئيسية</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
     <value>Show home button in address bar</value>
@@ -4039,5 +4043,32 @@
   <data name="AddToShelf" xml:space="preserve">
     <value>Add to shelf</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Path or alias</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Invalid path</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Test integration</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>{0} could not be located. Please check your settings and try again.</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>The configured IDE could not be located</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Open settings</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>Enter a path or launch alias</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>Please enter a name for the IDE</value>
   </data>
 </root>
