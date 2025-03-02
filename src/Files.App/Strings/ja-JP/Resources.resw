@@ -3218,7 +3218,7 @@
     <value>{0} でフォルダを開く</value>
   </data>
   <data name="OpenInIDEDescription" xml:space="preserve">
-    <value>現在のディレクトリを {0}で開く</value>
+    <value>現在のディレクトリを {0} で開く</value>
   </data>
   <data name="OpenRepoInIDE" xml:space="preserve">
     <value>{0} でリポジトリを開く</value>
@@ -4053,10 +4053,10 @@
     <value>連携のテスト</value>
   </data>
   <data name="IDENotLocatedContent" xml:space="preserve">
-    <value>{0} が見つかりませんでした。設定を確認して再度お試し下さい。</value>
+    <value>{0} が見つかりませんでした。設定を確認して、もう一度やり直してください。</value>
   </data>
   <data name="IDENotLocatedTitle" xml:space="preserve">
-    <value>構成された IDE が見つかりません</value>
+    <value>設定された IDE が見つかりません</value>
   </data>
   <data name="OpenSettings" xml:space="preserve">
     <value>設定を開く</value>
@@ -4065,7 +4065,7 @@
     <value>Visual Studio Code</value>
   </data>
   <data name="IDEPathPlaceholder" xml:space="preserve">
-    <value>パスまたはエイリアスを入力してください</value>
+    <value>パスまたはアプリ実行エイリアスを入力してください</value>
   </data>
   <data name="InvalidIDENameError" xml:space="preserve">
     <value>IDE の名前を入力してください</value>
