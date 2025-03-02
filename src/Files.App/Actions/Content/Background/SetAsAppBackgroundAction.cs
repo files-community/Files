@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IAppearanceSettingsService AppearanceSettingsService = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
 
 		public override string Label
-			=> "SetAsAppBackground".GetLocalizedResource();
+			=> Strings.SetAsAppBackground.GetLocalizedResource();
 
 		public override string Description
-			=> "SetAsAppBackgroundDescription".GetLocalizedResource();
+			=> Strings.SetAsAppBackgroundDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new("\uE91B");
