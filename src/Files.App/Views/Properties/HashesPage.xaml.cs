@@ -57,7 +57,7 @@ namespace Files.App.Views.Properties
 
 			if (string.IsNullOrEmpty(hashToCompare))
 			{
-				HashMatchIcon.Visibility = Visibility.Collapsed;
+				HashMatchInfoBar.Visibility = Visibility.Collapsed;
 				return;
 			}
 
@@ -65,18 +65,16 @@ namespace Files.App.Views.Properties
 			{
 				if (hashInfo.HashValue != null && hashInfo.HashValue.Equals(hashToCompare, StringComparison.OrdinalIgnoreCase))
 				{
-					HashMatchIcon.Glyph = "\uE73E"; // Check mark
-					//HashMatchIcon.Foreground = new SolidColorBrush(Colors.Green);
-					ToolTipService.SetToolTip(HashMatchIcon, string.Format(Strings.HashesMatch.GetLocalizedResource(), hashInfo.Algorithm));
-					HashMatchIcon.Visibility = Visibility.Visible;
+					HashMatchInfoBar.Severity = InfoBarSeverity.Success; // Set success
+					HashMatchInfoBar.Title = string.Format(Strings.HashesMatch.GetLocalizedResource(), hashInfo.Algorithm);
+					HashMatchInfoBar.Visibility = Visibility.Visible;
 					return;
 				}
 			}
 
-			HashMatchIcon.Glyph = "\uE711"; // Cross mark
-			//HashMatchIcon.Foreground = new SolidColorBrush(Colors.Red);
-			ToolTipService.SetToolTip(HashMatchIcon, Strings.HashesDoNotMatch.GetLocalizedResource());
-			HashMatchIcon.Visibility = Visibility.Visible;
+			HashMatchInfoBar.Severity = InfoBarSeverity.Error; // Set error
+			HashMatchInfoBar.Title = Strings.HashesDoNotMatch.GetLocalizedResource();
+			HashMatchInfoBar.Visibility = Visibility.Visible;
 		}
 
 		private async void CompareFileButton_Click(object sender, RoutedEventArgs e)
@@ -91,19 +89,19 @@ namespace Files.App.Views.Properties
 			{
 				var selectedFileHash = await CalculateSHA384HashAsync(file.Path);
 				var currentFileHash = HashesViewModel.Hashes.FirstOrDefault(h => h.Algorithm == "SHA384")?.HashValue;
-
+				HashInputTextBox.Text = selectedFileHash;
 				if (selectedFileHash == currentFileHash)
 				{
-					HashMatchIcon.Glyph = "\uE73E"; // Check mark
-					ToolTipService.SetToolTip(HashMatchIcon, Strings.HashesMatch.GetLocalizedResource());
+					HashMatchInfoBar.Severity = InfoBarSeverity.Success; // Check mark
+					HashMatchInfoBar.Title = Strings.HashesMatch.GetLocalizedResource();
 				}
 				else
 				{
-					HashMatchIcon.Glyph = "\uE711"; // Cross mark
-					ToolTipService.SetToolTip(HashMatchIcon, Strings.HashesMatch.GetLocalizedResource());
+					HashMatchInfoBar.Severity = InfoBarSeverity.Error; // Cross mark
+					HashMatchInfoBar.Title = Strings.HashesMatch.GetLocalizedResource();
 				}
 
-				HashMatchIcon.Visibility = Visibility.Visible;
+				HashMatchInfoBar.Visibility = Visibility.Visible;
 			}
 		}
 
