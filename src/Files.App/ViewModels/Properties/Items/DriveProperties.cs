@@ -78,7 +78,7 @@ namespace Files.App.ViewModels.Properties
 				return;
 			}
 
-			var syncRootStatus = await DriveHelpers.GetSyncRootQuotaAsync(Drive.Path);
+			var syncRootStatus = await SyncRootHelpers.GetSyncRootQuotaAsync(Drive.Path);
 			if (syncRootStatus.Success)
 			{
 				ViewModel.DriveCapacityValue = syncRootStatus.Capacity;
