@@ -26,7 +26,12 @@ namespace Files.App.Services
 		private async Task PinToSidebarAsync(string[] folderPaths, bool doUpdateQuickAccessWidget)
 		{
 			foreach (string folderPath in folderPaths)
-				await ContextMenu.InvokeVerb("pintohome", [folderPath]);
+			{
+				// make sure that the item has not yet been pinned
+				// the verb 'pintohome' is for both adding and removing
+				if (!IsItemPinned(folderPath))
+					await ContextMenu.InvokeVerb("pintohome", folderPath);
+			}
 
 			await App.QuickAccessManager.Model.LoadAsync();
 			if (doUpdateQuickAccessWidget)
