@@ -7,4 +7,9 @@
     <WindowsSdkPackageVersion>10.0.22621.57</WindowsSdkPackageVersion>
     <WindowsTargetFramework>$(TargetFrameworkVersion)-windows$(TargetWindowsVersion)</WindowsTargetFramework>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)\.editorconfig" />
+    <None Include="$(MSBuildThisFileDirectory)\Directory.Build.props" />
+    <None Include="$(MSBuildThisFileDirectory)\Directory.Packages.props" />
+  </ItemGroup>
 </Project>
