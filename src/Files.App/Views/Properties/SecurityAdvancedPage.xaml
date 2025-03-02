@@ -4,15 +4,16 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:behaviors="using:Files.App.Data.Behaviors"
+	xmlns:controls="using:Files.App.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:extensions="using:Files.App.Extensions"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
+	xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	DataContext="{x:Bind SecurityAdvancedViewModel, Mode=OneWay}"
 	Tag="Security"
 	mc:Ignorable="d">
@@ -29,7 +30,7 @@
 					<Style
 						x:Name="HeaderGridSplitterStyle"
 						BasedOn="{StaticResource DefaultGridSplitterStyle}"
-						TargetType="toolkit:GridSplitter">
+						TargetType="controls:GridSplitter">
 						<Setter Property="Background" Value="Transparent" />
 						<Setter Property="Width" Value="12" />
 						<Setter Property="Margin" Value="0,4" />
@@ -279,7 +280,7 @@
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
 
-						<toolkit:GridSplitter
+						<controls:GridSplitter
 							Grid.Column="2"
 							Margin="0,0,0,-4"
 							Style="{StaticResource HeaderGridSplitterStyle}" />
@@ -295,7 +296,7 @@
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
 
-						<toolkit:GridSplitter
+						<controls:GridSplitter
 							Grid.Column="4"
 							Margin="0,0,0,-4"
 							Style="{StaticResource HeaderGridSplitterStyle}" />
@@ -311,7 +312,7 @@
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
 
-						<toolkit:GridSplitter
+						<controls:GridSplitter
 							Grid.Column="6"
 							Margin="0,0,0,-4"
 							Style="{StaticResource HeaderGridSplitterStyle}" />
@@ -327,7 +328,7 @@
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap" />
 
-						<toolkit:GridSplitter
+						<controls:GridSplitter
 							Grid.Column="8"
 							Margin="0,0,0,-4"
 							Style="{StaticResource HeaderGridSplitterStyle}" />

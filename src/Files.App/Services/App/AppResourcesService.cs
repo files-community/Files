@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
-using System.Drawing;
+using Windows.UI;
 
 namespace Files.App.Services
 {
@@ -14,46 +14,46 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public void SetAppThemeBackgroundColor(Color appThemeBackgroundColor)
 		{
-			Application.Current.Resources["App.Theme.BackgroundBrush"] = appThemeBackgroundColor.ToWindowsColor();
+			Application.Current.Resources["App.Theme.BackgroundBrush"] = appThemeBackgroundColor;
 		}
 
 		/// <inheritdoc/>
 		public void SetAppThemeAddressBarBackgroundColor(Color appThemeAddressBarBackgroundColor)
 		{
-			Application.Current.Resources["App.Theme.AddressBar.BackgroundBrush"] = appThemeAddressBarBackgroundColor.ToWindowsColor();
+			Application.Current.Resources["App.Theme.AddressBar.BackgroundBrush"] = appThemeAddressBarBackgroundColor;
 
 			// Overrides the selected tab background to match the address bar
-			Application.Current.Resources["TabViewItemHeaderBackgroundSelected"] = appThemeAddressBarBackgroundColor.ToWindowsColor();
+			Application.Current.Resources["TabViewItemHeaderBackgroundSelected"] = appThemeAddressBarBackgroundColor;
 		}
 
 		/// <inheritdoc/>
 		public void SetAppThemeToolbarBackgroundColor(Color appThemeToolbarBackgroundColor)
 		{
-			Application.Current.Resources["App.Theme.Toolbar.BackgroundBrush"] = appThemeToolbarBackgroundColor.ToWindowsColor();
+			Application.Current.Resources["App.Theme.Toolbar.BackgroundBrush"] = appThemeToolbarBackgroundColor;
 		}
 		
 		/// <inheritdoc/>
 		public void SetAppThemeSidebarBackgroundColor(Color appThemeSidebarBackgroundColor)
 		{
-			Application.Current.Resources["App.Theme.Sidebar.BackgroundBrush"] = appThemeSidebarBackgroundColor.ToWindowsColor();
+			Application.Current.Resources["App.Theme.Sidebar.BackgroundBrush"] = appThemeSidebarBackgroundColor;
 		}
 
 		/// <inheritdoc/>
 		public void SetAppThemeFileAreaBackgroundColor(Color appThemeFileAreaBackgroundColor)
 		{
-			Application.Current.Resources["App.Theme.FileArea.BackgroundBrush"] = appThemeFileAreaBackgroundColor.ToWindowsColor();
+			Application.Current.Resources["App.Theme.FileArea.BackgroundBrush"] = appThemeFileAreaBackgroundColor;
 		}
 		
 		/// <inheritdoc/>
 		public void SetAppThemeFileAreaSecondaryBackgroundColor(Color appThemeFileAreaSecondaryBackgroundColor)
 		{
-			Application.Current.Resources["App.Theme.FileArea.SecondaryBackgroundBrush"] = appThemeFileAreaSecondaryBackgroundColor.ToWindowsColor();
+			Application.Current.Resources["App.Theme.FileArea.SecondaryBackgroundBrush"] = appThemeFileAreaSecondaryBackgroundColor;
 		}
 
 		/// <inheritdoc/>
 		public void SetAppThemeInfoPaneBackgroundColor(Color appThemeInfoPaneBackgroundColor)
 		{
-			Application.Current.Resources["App.Theme.InfoPane.BackgroundBrush"] = appThemeInfoPaneBackgroundColor.ToWindowsColor();
+			Application.Current.Resources["App.Theme.InfoPane.BackgroundBrush"] = appThemeInfoPaneBackgroundColor;
 		}
 
 		/// <inheritdoc/>

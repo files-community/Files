@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Data;
 
 namespace Files.App.Converters
 {
-	internal sealed class DoubleToStringConverter : IValueConverter
+	internal sealed partial class DoubleToStringConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{

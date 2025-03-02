@@ -3214,17 +3214,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>De momento, Files não se consegue ligar a GitHub.</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>Abrir pasta em VS Code</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>Abrir pasta em {0}</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Abrir pasta atual no Visual Studio Code</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>Abrir pasta atual em {0}</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Abrir repositório em VS Code</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>Abrir repositório em {0}</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Abrir repositório Git na aplicação Visual Studio Code</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Abrir 'root' do repositório Git em {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Copiar código</value>
@@ -3875,6 +3875,10 @@
     <value>Ficheiro ICO</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>Ficheiro ICL</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Ficheiro Zip</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -4038,5 +4042,32 @@
   <data name="AddToShelf" xml:space="preserve">
     <value>Adicionar à estante</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Caminho ou 'alias'</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Caminho inválido</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Testar integração</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>Não foi possível encontrar {0}. Verifique as definições e tente novamente.</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>Não foi possível encontrar o IDE configurado</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Abrir definições</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>Indique o caminho ou o 'alias'</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>Indique o nome do IDE</value>
   </data>
 </root>

@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI;
 using Files.App.Data.Items;
 using Files.App.Extensions;
 using Files.App.ViewModels.Dialogs;

@@ -15,7 +15,7 @@ namespace Files.App.ViewModels
 	/// <summary>
 	/// Represents ViewModel of <see cref="MainPage"/>.
 	/// </summary>
-	public sealed class MainPageViewModel : ObservableObject
+	public sealed partial class MainPageViewModel : ObservableObject
 	{
 		// Dependency injections
 

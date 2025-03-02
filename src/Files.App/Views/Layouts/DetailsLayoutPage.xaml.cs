@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -146,22 +146,26 @@ namespace Files.App.Views.Layouts
 
 			if (FolderSettings?.ColumnsViewModel is not null)
 			{
-				ColumnsViewModel.DateCreatedColumn = FolderSettings.ColumnsViewModel.DateCreatedColumn;
-				ColumnsViewModel.DateDeletedColumn = FolderSettings.ColumnsViewModel.DateDeletedColumn;
-				ColumnsViewModel.DateModifiedColumn = FolderSettings.ColumnsViewModel.DateModifiedColumn;
-				ColumnsViewModel.IconColumn = FolderSettings.ColumnsViewModel.IconColumn;
-				ColumnsViewModel.ItemTypeColumn = FolderSettings.ColumnsViewModel.ItemTypeColumn;
-				ColumnsViewModel.NameColumn = FolderSettings.ColumnsViewModel.NameColumn;
-				ColumnsViewModel.PathColumn = FolderSettings.ColumnsViewModel.PathColumn;
-				ColumnsViewModel.OriginalPathColumn = FolderSettings.ColumnsViewModel.OriginalPathColumn;
-				ColumnsViewModel.SizeColumn = FolderSettings.ColumnsViewModel.SizeColumn;
-				ColumnsViewModel.StatusColumn = FolderSettings.ColumnsViewModel.StatusColumn;
-				ColumnsViewModel.TagColumn = FolderSettings.ColumnsViewModel.TagColumn;
-				ColumnsViewModel.GitStatusColumn = FolderSettings.ColumnsViewModel.GitStatusColumn;
-				ColumnsViewModel.GitLastCommitDateColumn = FolderSettings.ColumnsViewModel.GitLastCommitDateColumn;
-				ColumnsViewModel.GitLastCommitMessageColumn = FolderSettings.ColumnsViewModel.GitLastCommitMessageColumn;
-				ColumnsViewModel.GitCommitAuthorColumn = FolderSettings.ColumnsViewModel.GitCommitAuthorColumn;
-				ColumnsViewModel.GitLastCommitShaColumn = FolderSettings.ColumnsViewModel.GitLastCommitShaColumn;
+				// Don't assign the columns view model directly, instead update each property individually using the Update method.
+				// This is done to workaround a bug where CsWinRT doesn't properly track the memory of the object so that
+				// an invalid memory access can occur when the object is moved.
+				// See https://github.com/microsoft/CsWinRT/issues/1834.
+				ColumnsViewModel.DateCreatedColumn.Update(FolderSettings.ColumnsViewModel.DateCreatedColumn);
+				ColumnsViewModel.DateDeletedColumn.Update(FolderSettings.ColumnsViewModel.DateDeletedColumn);
+				ColumnsViewModel.DateModifiedColumn.Update(FolderSettings.ColumnsViewModel.DateModifiedColumn);
+				ColumnsViewModel.IconColumn.Update(FolderSettings.ColumnsViewModel.IconColumn);
+				ColumnsViewModel.ItemTypeColumn.Update(FolderSettings.ColumnsViewModel.ItemTypeColumn);
+				ColumnsViewModel.NameColumn.Update(FolderSettings.ColumnsViewModel.NameColumn);
+				ColumnsViewModel.PathColumn.Update(FolderSettings.ColumnsViewModel.PathColumn);
+				ColumnsViewModel.OriginalPathColumn.Update(FolderSettings.ColumnsViewModel.OriginalPathColumn);
+				ColumnsViewModel.SizeColumn.Update(FolderSettings.ColumnsViewModel.SizeColumn);
+				ColumnsViewModel.StatusColumn.Update(FolderSettings.ColumnsViewModel.StatusColumn);
+				ColumnsViewModel.TagColumn.Update(FolderSettings.ColumnsViewModel.TagColumn);
+				ColumnsViewModel.GitStatusColumn.Update(FolderSettings.ColumnsViewModel.GitStatusColumn);
+				ColumnsViewModel.GitLastCommitDateColumn.Update(FolderSettings.ColumnsViewModel.GitLastCommitDateColumn);
+				ColumnsViewModel.GitLastCommitMessageColumn.Update(FolderSettings.ColumnsViewModel.GitLastCommitMessageColumn);
+				ColumnsViewModel.GitCommitAuthorColumn.Update(FolderSettings.ColumnsViewModel.GitCommitAuthorColumn);
+				ColumnsViewModel.GitLastCommitShaColumn.Update(FolderSettings.ColumnsViewModel.GitLastCommitShaColumn);
 			}
 
 			ParentShellPageInstance.ShellViewModel.EnabledGitProperties = GetEnabledGitProperties(ColumnsViewModel);
@@ -688,7 +692,7 @@ namespace Files.App.Views.Layouts
 
 		private void GridSplitter_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
-			var columnToResize = Grid.GetColumn(sender as CommunityToolkit.WinUI.UI.Controls.GridSplitter) / 2 + 1;
+			var columnToResize = Grid.GetColumn(sender as Files.App.Controls.GridSplitter) / 2 + 1;
 			ResizeColumnToFit(columnToResize);
 
 			e.Handled = true;

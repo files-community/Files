@@ -3,13 +3,13 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class DeleteItemAction : BaseDeleteAction, IAction
+	internal sealed partial class DeleteItemAction : BaseDeleteAction, IAction
 	{
 		public string Label
-			=> "Delete".GetLocalizedResource();
+			=> Strings.Delete.GetLocalizedResource();
 
 		public string Description
-			=> "DeleteItemDescription".GetLocalizedResource();
+			=> Strings.DeleteItemDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new RichGlyph(themedIconStyle: "App.ThemedIcons.Delete");

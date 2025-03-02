@@ -42,11 +42,10 @@ namespace Files.App.Utils
 		public async Task InitializeAsync()
 		{
 			PinnedItemsModified += Model.LoadAsync;
-
-			if (!Model.PinnedFolders.Contains(Constants.UserEnvironmentPaths.RecycleBinPath) && SystemInformation.Instance.IsFirstRun)
-				await QuickAccessService.PinToSidebarAsync(Constants.UserEnvironmentPaths.RecycleBinPath);
-
 			await Model.LoadAsync();
+
+			if (!Model.PinnedFolders.Contains(Constants.UserEnvironmentPaths.RecycleBinPath) && AppLifecycleHelper.IsFirstRun)
+				await QuickAccessService.PinToSidebarAsync(Constants.UserEnvironmentPaths.RecycleBinPath);
 		}
 	}
 }

@@ -9,7 +9,7 @@ using static Files.App.Helpers.MenuFlyoutHelper;
 
 namespace Files.App.UserControls.Menus
 {
-	public sealed class FileTagsContextMenu : MenuFlyout
+	public sealed partial class FileTagsContextMenu : MenuFlyout
 	{
 		private IFileTagsSettingsService FileTagsSettingsService { get; } =
 			Ioc.Default.GetService<IFileTagsSettingsService>();

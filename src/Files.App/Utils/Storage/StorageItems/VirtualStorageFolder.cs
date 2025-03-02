@@ -9,7 +9,7 @@ using Windows.Storage.Search;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class VirtualStorageFolder : BaseStorageFolder
+	public sealed partial class VirtualStorageFolder : BaseStorageFolder
 	{
 		public override string Path { get; }
 		public override string Name { get; }

@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class RenameAction : ObservableObject, IAction
+	internal sealed partial class RenameAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

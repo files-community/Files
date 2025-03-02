@@ -8,7 +8,7 @@ namespace Files.App.ViewModels.Properties
 	/// <summary>
 	/// Represents view model of <see cref="Views.Properties.CompatibilityPage"/>.
 	/// </summary>
-	public sealed class CompatibilityViewModel : ObservableObject
+	public sealed partial class CompatibilityViewModel : ObservableObject
 	{
 		// Dependency injections
 

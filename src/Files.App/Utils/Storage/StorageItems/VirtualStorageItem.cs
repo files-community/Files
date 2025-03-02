@@ -15,7 +15,7 @@ namespace Files.App.Utils.Storage
 	/// representing a standard filesystem item. As such, VirtualStorageItem does not support hidden,
 	/// shortcut, or link items.
 	/// </summary>
-	public sealed class VirtualStorageItem : IStorageItem
+	public sealed partial class VirtualStorageItem : IStorageItem
 	{
 		private static BasicProperties props;
 

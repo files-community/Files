@@ -8,7 +8,7 @@ using System.Collections.Immutable;
 
 namespace Files.App.Data.Commands
 {
-	internal sealed class CommandManager : ICommandManager
+	internal sealed partial class CommandManager : ICommandManager
 	{
 		// Dependency injections
 
@@ -113,8 +113,8 @@ namespace Files.App.Data.Commands
 		public IRichCommand OpenItem => commands[CommandCodes.OpenItem];
 		public IRichCommand OpenItemWithApplicationPicker => commands[CommandCodes.OpenItemWithApplicationPicker];
 		public IRichCommand OpenParentFolder => commands[CommandCodes.OpenParentFolder];
-		public IRichCommand OpenInVSCode => commands[CommandCodes.OpenInVSCode];
-		public IRichCommand OpenRepoInVSCode => commands[CommandCodes.OpenRepoInVSCode];
+		public IRichCommand OpenInVSCode => commands[CommandCodes.OpenInIDE];
+		public IRichCommand OpenRepoInVSCode => commands[CommandCodes.OpenRepoInIDE];
 		public IRichCommand OpenProperties => commands[CommandCodes.OpenProperties];
 		public IRichCommand OpenReleaseNotes => commands[CommandCodes.OpenReleaseNotes];
 		public IRichCommand OpenClassicProperties => commands[CommandCodes.OpenClassicProperties];
@@ -317,8 +317,8 @@ namespace Files.App.Data.Commands
 			[CommandCodes.OpenItem] = new OpenItemAction(),
 			[CommandCodes.OpenItemWithApplicationPicker] = new OpenItemWithApplicationPickerAction(),
 			[CommandCodes.OpenParentFolder] = new OpenParentFolderAction(),
-			[CommandCodes.OpenInVSCode] = new OpenInVSCodeAction(),
-			[CommandCodes.OpenRepoInVSCode] = new OpenRepoInVSCodeAction(),
+			[CommandCodes.OpenInIDE] = new OpenInIDEAction(),
+			[CommandCodes.OpenRepoInIDE] = new OpenRepoInIDEAction(),
 			[CommandCodes.OpenProperties] = new OpenPropertiesAction(),
 			[CommandCodes.OpenReleaseNotes] = new OpenReleaseNotesAction(),
 			[CommandCodes.OpenClassicProperties] = new OpenClassicPropertiesAction(),

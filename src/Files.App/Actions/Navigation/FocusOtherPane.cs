@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class FocusOtherPaneAction : ObservableObject, IAction
+	internal sealed partial class FocusOtherPaneAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

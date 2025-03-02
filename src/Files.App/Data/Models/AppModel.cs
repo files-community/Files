@@ -7,7 +7,7 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Data.Models
 {
-	public sealed class AppModel : ObservableObject
+	public sealed partial class AppModel : ObservableObject
 	{
 		public AppModel()
 		{

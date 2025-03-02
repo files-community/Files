@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenInNewTabFromSidebarAction : BaseOpenInNewTabAction
+	internal sealed partial class OpenInNewTabFromSidebarAction : BaseOpenInNewTabAction
 	{
 		public override bool IsExecutable =>
 			SidebarContext.IsItemRightClicked &&

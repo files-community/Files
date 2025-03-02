@@ -7,7 +7,7 @@ using Windows.Media.Core;
 
 namespace Files.App.ViewModels.Previews
 {
-	public sealed class MediaPreviewViewModel : BasePreviewModel
+	public sealed partial class MediaPreviewViewModel : BasePreviewModel
 	{
 		public event EventHandler TogglePlaybackRequested;
 

@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class SortFilesAndFoldersTogetherAction : ObservableObject, IToggleAction
+	internal sealed partial class SortFilesAndFoldersTogetherAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 

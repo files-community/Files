@@ -3,7 +3,7 @@
 
 namespace Files.App.ViewModels.Dialogs
 {
-	public sealed class FileTooLargeDialogViewModel: ObservableObject
+	public sealed partial class FileTooLargeDialogViewModel: ObservableObject
 	{
 		public IEnumerable<string> Paths { get; private set; }
 

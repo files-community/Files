@@ -105,7 +105,7 @@ namespace Files.App.Dialogs
 				PasswordBox.Focus(FocusState.Programmatic);
 		}
 
-		private sealed class DialogViewModel : ObservableObject
+		private sealed partial class DialogViewModel : ObservableObject
 		{
 			private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 

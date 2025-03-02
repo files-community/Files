@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class ToggleToolbarAction : ObservableObject, IToggleAction
+	internal sealed partial class ToggleToolbarAction : ObservableObject, IToggleAction
 	{
 		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
 

@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 
 namespace Files.App.Data.Contexts
 {
-	sealed class TagsContext : ITagsContext
+	sealed partial class TagsContext : ITagsContext
     {
 		private static readonly IReadOnlyList<(string path, bool isFolder)> _emptyTaggedItemsList
 			= Enumerable.Empty<(string path, bool isFolder)>().ToImmutableList();

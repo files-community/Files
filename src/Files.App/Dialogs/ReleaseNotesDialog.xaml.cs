@@ -53,6 +53,7 @@ namespace Files.App.Dialogs
 
 		private void CloseDialogButton_Click(object sender, RoutedEventArgs e)
 		{
+			BlogPostWebView.Close();
 			Hide();
 		}
 
@@ -97,7 +98,7 @@ namespace Files.App.Dialogs
 
 			// Navigate back to blog post
 			if (sender.CoreWebView2.CanGoBack)
-				sender.CoreWebView2.GoBack(); 
+				sender.CoreWebView2.GoBack();
 		}
 
 	}

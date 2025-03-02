@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class ToggleShowFileExtensionsAction : ObservableObject, IToggleAction
+	internal sealed partial class ToggleShowFileExtensionsAction : ObservableObject, IToggleAction
 	{
 		private readonly IFoldersSettingsService settings;
 

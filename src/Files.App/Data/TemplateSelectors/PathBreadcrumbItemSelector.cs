@@ -9,7 +9,7 @@ namespace Files.App.Data.TemplateSelectors
 	/// <summary>
 	/// Provides template selector for Path Breadcrumb template items.
 	/// </summary>
-	internal sealed class PathBreadcrumbItemSelector : DataTemplateSelector
+	internal sealed partial class PathBreadcrumbItemSelector : DataTemplateSelector
 	{
 		public DataTemplate? ParentItems { get; set; }
 

@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI;
 using Files.App.Helpers.ContextFlyouts;
 using Files.Shared.Helpers;
 using Microsoft.UI.Input;
@@ -197,6 +197,13 @@ namespace Files.App.Helpers
 					case "format":
 						var drivePath = contextMenu.ItemsPath[0];
 						await Win32Helper.OpenFormatDriveDialog(drivePath);
+						break;
+
+					case "Windows.PowerShell.Run":
+						await contextMenu.InvokeItem(
+							menuId,
+							contextMenu.ItemsPath[0].EndsWith(".ps1") ? Path.GetDirectoryName(contextMenu.ItemsPath[0]) : null
+						);
 						break;
 
 					default:

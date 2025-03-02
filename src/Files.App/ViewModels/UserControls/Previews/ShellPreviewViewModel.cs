@@ -19,12 +19,14 @@ using Windows.Win32.UI.WindowsAndMessaging;
 using WinRT;
 using static Vanara.PInvoke.ShlwApi;
 using static Vanara.PInvoke.User32;
+using System.Runtime.InteropServices.Marshalling;
+
 
 #pragma warning disable CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
 
 namespace Files.App.ViewModels.Previews
 {
-	public sealed class ShellPreviewViewModel : BasePreviewModel
+	public sealed partial class ShellPreviewViewModel : BasePreviewModel
 	{
 		private const string IPreviewHandlerIid = "{8895b1c6-b41f-4c1c-a562-0d564250836f}";
 		private static readonly Guid QueryAssociationsClsid = new Guid(0xa07034fd, 0x6caa, 0x4954, 0xac, 0x3f, 0x97, 0xa2, 0x72, 0x16, 0xf9, 0x8a);
@@ -35,6 +37,13 @@ namespace Files.App.ViewModels.Previews
 		WindowClass? wCls;
 		HWND hwnd = HWND.NULL;
 		bool isOfficePreview = false;
+
+		[GeneratedComInterface, Guid("EACDD04C-117E-4E17-88F4-D1B12B0E3D89"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+		public partial interface IDCompositionTarget
+		{
+			[PreserveSig]
+			int SetRoot(nint visual);
+		}
 
 		public ShellPreviewViewModel(ListedItem item) : base(item)
 		{
@@ -77,18 +86,15 @@ namespace Files.App.ViewModels.Previews
 			}
 		}
 
-		public void SizeChanged(Windows.Foundation.Rect size)
+		public void SizeChanged(RECT size)
 		{
-			var width = (int)size.Width;
-			var height = (int)size.Height;
-
 			if (hwnd != HWND.NULL)
-				SetWindowPos(hwnd, HWND.HWND_TOP, (int)size.Left, (int)size.Top, width, height, SetWindowPosFlags.SWP_NOACTIVATE);
+				SetWindowPos(hwnd, HWND.HWND_TOP, size.Left, size.Top, size.Width, size.Height, SetWindowPosFlags.SWP_NOACTIVATE);
 
-			currentHandler?.ResetBounds(new(0, 0, width, height));
+			currentHandler?.ResetBounds(new(0, 0, size.Width, size.Height));
 
 			if (outputLink is not null)
-				outputLink.PlacementVisual.Size = new(width, height);
+				outputLink.PlacementVisual.Size = new(size.Width, size.Height);
 		}
 
 		private nint WndProc(HWND hwnd, uint msg, nint wParam, nint lParam)
@@ -119,7 +125,7 @@ namespace Files.App.ViewModels.Previews
 			{
 				if (currentHandler is not null)
 				{
-					currentHandler.UnloadPreview();
+					currentHandler.Dispose();
 					currentHandler = null;
 				}
 			}
@@ -196,17 +202,15 @@ namespace Files.App.ViewModels.Previews
 			var compositor = ElementCompositionPreview.GetElementVisual(presenter).Compositor;
 			outputLink = ContentExternalOutputLink.Create(compositor);
 
-			var target = outputLink.As<IDCompositionTarget.Interface>();
-			target.SetRoot(pChildVisual);
+			var target = outputLink.As<IDCompositionTarget>();
+			target.SetRoot((nint)pChildVisual);
 
 			outputLink.PlacementVisual.Size = new(0, 0);
-			outputLink.PlacementVisual.Scale = new(1/(float)presenter.XamlRoot.RasterizationScale);
+			outputLink.PlacementVisual.Scale = new(1 / (float)presenter.XamlRoot.RasterizationScale);
 			ElementCompositionPreview.SetElementChildVisual(presenter, outputLink.PlacementVisual);
 
 			pDCompositionDevice->Commit();
 
-			Marshal.ReleaseComObject(target);
-			pChildVisual->Release();
 			pControlSurface->Release();
 			pDCompositionDevice->Release();
 			pDXGIDevice->Release();
@@ -229,7 +233,7 @@ namespace Files.App.ViewModels.Previews
 			if (hwnd != HWND.NULL)
 				DestroyWindow(hwnd);
 
-			//outputLink?.Dispose();
+			outputLink?.Dispose();
 			outputLink = null;
 
 			if (wCls is not null)
@@ -253,7 +257,10 @@ namespace Files.App.ViewModels.Previews
 			}
 			else
 			{
-				PInvoke.SetWindowLongPtr(new((nint)hwnd), WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE, (nint)(WINDOW_EX_STYLE.WS_EX_LAYERED | WINDOW_EX_STYLE.WS_EX_COMPOSITED));
+				PInvoke.SetWindowLongPtr(
+					new((nint)hwnd),
+					WINDOW_LONG_PTR_INDEX.GWL_EXSTYLE,
+					(nint)(WINDOW_EX_STYLE.WS_EX_LAYERED | WINDOW_EX_STYLE.WS_EX_COMPOSITED));
 
 				var dwAttrib = Convert.ToUInt32(true);
 

@@ -1,11 +1,9 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.Helpers;
-
 namespace Files.App.Actions
 {
-	internal sealed class OpenReleaseNotesAction : ObservableObject, IAction
+	internal sealed partial class OpenReleaseNotesAction : ObservableObject, IAction
 	{
 		private readonly IDialogService DialogService = Ioc.Default.GetRequiredService<IDialogService>();
 		private readonly IUpdateService UpdateService = Ioc.Default.GetRequiredService<IUpdateService>();

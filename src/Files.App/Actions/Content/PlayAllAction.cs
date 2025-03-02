@@ -5,7 +5,7 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
-	internal sealed class PlayAllAction : ObservableObject, IAction
+	internal sealed partial class PlayAllAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

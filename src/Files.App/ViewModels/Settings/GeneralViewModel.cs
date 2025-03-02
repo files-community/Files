@@ -9,7 +9,7 @@ using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
 namespace Files.App.ViewModels.Settings
 {
-	public sealed class GeneralViewModel : ObservableObject, IDisposable
+	public sealed partial class GeneralViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();

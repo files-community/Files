@@ -1,0 +1,56 @@
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Files.App.Controls">
+
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Default">
+			<SolidColorBrush x:Key="SystemControlSplitterPointerOver" Color="{ThemeResource SystemBaseLowColor}" />
+			<SolidColorBrush x:Key="SystemControlSplitterPressed" Color="{ThemeResource SystemBaseHighColor}" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="HighContrast">
+			<SolidColorBrush x:Key="SystemControlSplitterPointerOver" Color="{ThemeResource SystemColorHighlightColor}" />
+			<SolidColorBrush x:Key="SystemControlSplitterPressed" Color="{ThemeResource SystemColorHighlightColor}" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
+	<Style TargetType="local:GridSplitter">
+		<Setter Property="IsTabStop" Value="True" />
+		<Setter Property="UseSystemFocusVisuals" Value="True" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="VerticalAlignment" Value="Stretch" />
+		<Setter Property="IsFocusEngagementEnabled" Value="True" />
+		<Setter Property="MinWidth" Value="16" />
+		<Setter Property="MinHeight" Value="16" />
+		<Setter Property="Background" Value="{ThemeResource SystemControlHighlightChromeHighBrush}" />
+		<Setter Property="GripperForeground" Value="{ThemeResource SystemControlForegroundAltHighBrush}" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:GridSplitter">
+					<Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+						<ContentPresenter
+							HorizontalContentAlignment="Stretch"
+							VerticalContentAlignment="Stretch"
+							Content="{TemplateBinding Element}" />
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="GridSplitterStates">
+								<VisualState x:Name="Normal" />
+								<VisualState x:Name="PointerOver">
+									<VisualState.Setters>
+										<Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlSplitterPointerOver}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Pressed">
+									<VisualState.Setters>
+										<Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlSplitterPressed}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>

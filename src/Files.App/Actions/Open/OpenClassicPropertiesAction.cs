@@ -7,7 +7,7 @@ using Windows.Win32.UI.Shell;
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenClassicPropertiesAction : ObservableObject, IAction
+	internal sealed partial class OpenClassicPropertiesAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

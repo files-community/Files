@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.Utils.Cloud
 {
-	public sealed class CloudDriveSyncStatusUI : ObservableObject
+	public sealed partial class CloudDriveSyncStatusUI : ObservableObject
 	{
 		public string Glyph { get; }
 

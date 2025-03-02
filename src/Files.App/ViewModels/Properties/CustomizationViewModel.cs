@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.Properties
 {
-	public sealed class CustomizationViewModel : ObservableObject
+	public sealed partial class CustomizationViewModel : ObservableObject
 	{
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 

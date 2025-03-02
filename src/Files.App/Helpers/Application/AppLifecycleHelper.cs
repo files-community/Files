@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.Helpers;
+using CommunityToolkit.WinUI;
 using Files.App.Helpers.Application;
 using Files.App.Services.SizeProvider;
 using Files.App.Utils.Logger;
@@ -9,6 +9,7 @@ using Files.App.ViewModels.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
 using Sentry;
 using Sentry.Protocol;
 using System.IO;
@@ -26,6 +27,42 @@ namespace Files.App.Helpers
 	/// </summary>
 	public static class AppLifecycleHelper
 	{
+		private readonly static string AppInformationKey = @$"Software\Files Community\{Package.Current.Id.Name}\v1\AppInformation";
+
+		/// <summary>
+		/// Gets the value that indicates whether the app is updated.
+		/// </summary>
+		public static bool IsAppUpdated { get; }
+
+		/// <summary>
+		/// Gets the value that indicates whether the app is running for the first time.
+		/// </summary>
+		public static bool IsFirstRun { get; }
+
+		/// <summary>
+		/// Gets the value that indicates the total launch count of the app.
+		/// </summary>
+		public static long TotalLaunchCount { get; }
+
+		static AppLifecycleHelper()
+		{
+			using var infoKey = Registry.CurrentUser.CreateSubKey(AppInformationKey);
+			var version = infoKey.GetValue("LastLaunchVersion");
+			var launchCount = infoKey.GetValue("TotalLaunchCount");
+			if (version is null)
+			{
+				IsAppUpdated = true;
+				IsFirstRun = true;
+			}
+			else
+			{
+				IsAppUpdated = version.ToString() != Package.Current.Id.Version.ToString();
+			}
+			TotalLaunchCount = launchCount is long l ? l + 1 : 1;
+			infoKey.SetValue("LastLaunchVersion", Package.Current.Id.Version.ToString()!);
+			infoKey.SetValue("TotalLaunchCount", TotalLaunchCount);
+		}
+
 		/// <summary>
 		/// Gets the value that provides application environment or branch name.
 		/// </summary>
@@ -114,14 +151,11 @@ namespace Files.App.Helpers
 			{
 				options.Dsn = Constants.AutomatedWorkflowInjectionKeys.SentrySecret;
 				options.AutoSessionTracking = true;
-				options.Release = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
+				var packageVersion = Package.Current.Id.Version;
+				options.Release = $"{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
 				options.TracesSampleRate = 0.80;
 				options.ProfilesSampleRate = 0.40;
 				options.Environment = AppEnvironment == AppEnvironment.StorePreview || AppEnvironment == AppEnvironment.SideloadPreview ? "preview" : "production";
-				options.ExperimentalMetrics = new ExperimentalMetricsOptions
-				{
-					EnableCodeLocations = true
-				};
 
 				options.DisableWinUiUnhandledExceptionIntegration();
 			});
@@ -344,30 +378,6 @@ namespace Files.App.Helpers
 				.Wait(100);
 			}
 			Process.GetCurrentProcess().Kill();
-		}
-
-		/// <summary>
-		///	Checks if the taskbar is set to auto-hide.
-		/// </summary>
-		public static bool IsAutoHideTaskbarEnabled()
-		{
-			try
-			{
-				const string registryKey = @"Software\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3";
-				const string valueName = "Settings";
-
-				using var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(registryKey);
-
-				var value = key?.GetValue(valueName) as byte[];
-
-				// The least significant bit of the 9th byte controls the auto-hide setting																		
-				return value != null && ((value[8] & 0x01) == 1);
-			}
-			catch (SecurityException)
-			{
-				// Handle edge case where OpenSubKey results in SecurityException
-				return false;
-			}
 		}
 
 		/// <summary>

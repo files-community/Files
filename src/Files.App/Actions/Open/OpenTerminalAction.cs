@@ -6,7 +6,7 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal class OpenTerminalAction : ObservableObject, IAction
+	internal partial class OpenTerminalAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 

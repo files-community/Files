@@ -5,7 +5,7 @@ using Files.App.ViewModels.Properties;
 
 namespace Files.App.ViewModels.Previews
 {
-	public sealed class MarkdownPreviewViewModel : BasePreviewModel
+	public sealed partial class MarkdownPreviewViewModel : BasePreviewModel
 	{
 		private string textValue;
 		public string TextValue

@@ -5,7 +5,7 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
-	internal sealed class RunAsAnotherUserAction : BaseRunAsAction
+	internal sealed partial class RunAsAnotherUserAction : BaseRunAsAction
 	{
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 		public override string Label

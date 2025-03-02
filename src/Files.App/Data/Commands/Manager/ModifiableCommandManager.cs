@@ -5,7 +5,7 @@ using System.Collections.Frozen;
 
 namespace Files.App.Data.Commands
 {
-	internal sealed class ModifiableCommandManager : IModifiableCommandManager
+	internal sealed partial class ModifiableCommandManager : IModifiableCommandManager
 	{
 		private static readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 

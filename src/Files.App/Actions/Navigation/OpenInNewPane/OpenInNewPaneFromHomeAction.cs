@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenInNewPaneFromHomeAction : BaseOpenInNewPaneAction
+	internal sealed partial class OpenInNewPaneFromHomeAction : BaseOpenInNewPaneAction
 	{
 		public override bool IsExecutable =>
 			HomePageContext.IsAnyItemRightClicked &&

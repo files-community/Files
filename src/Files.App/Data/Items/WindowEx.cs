@@ -18,7 +18,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents base <see cref="Window"/> class to extend its features.
 	/// </summary>
-	public unsafe class WindowEx : Window, IDisposable
+	public unsafe partial class WindowEx : Window, IDisposable
 	{
 		private bool _isInitialized;
 		private readonly WNDPROC _oldWndProc;
@@ -54,20 +54,6 @@ namespace Files.App.Data.Items
 
 				if (AppWindow.Presenter is OverlappedPresenter overlapped)
 					overlapped.IsMaximizable = value;
-
-				if (value)
-				{
-					// WORKAROUND:
-					//  https://github.com/microsoft/microsoft-ui-xaml/issues/8431
-					// NOTE:
-					//  Indicates to the Shell that the window should not be treated as full-screen
-					//  not to mess up the taskbar when being full-screen mode.
-					//  This property should only be set if the "Automatically hide the taskbar" in Windows 11,
-					//  or "Automatically hide the taskbar in desktop mode" in Windows 10 is enabled.
-					//  Setting this property when the setting is disabled will result in the taskbar overlapping the application.
-					if (AppLifecycleHelper.IsAutoHideTaskbarEnabled())
-						Win32PInvoke.SetPropW(WindowHandle, "NonRudeHWND", new IntPtr(1));
-				}
 			}
 		}
 
@@ -275,7 +261,7 @@ namespace Files.App.Data.Items
 					}
 				case 0x0024: /*WM_GETMINMAXINFO*/
 					{
-						var dpi = PInvoke.GetDpiForWindow(new(param0));
+						var dpi = PInvoke.GetDpiForWindow(param0);
 						float scalingFactor = (float)dpi / 96;
 
 						var minMaxInfo = Marshal.PtrToStructure<MINMAXINFO>(param3);

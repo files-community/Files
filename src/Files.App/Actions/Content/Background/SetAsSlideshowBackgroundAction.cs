@@ -5,15 +5,15 @@ using Microsoft.Extensions.Logging;
 
 namespace Files.App.Actions
 {
-	internal sealed class SetAsSlideshowBackgroundAction : BaseSetAsAction
+	internal sealed partial class SetAsSlideshowBackgroundAction : BaseSetAsAction
 	{
 		private readonly IWindowsWallpaperService WindowsWallpaperService = Ioc.Default.GetRequiredService<IWindowsWallpaperService>();
 
 		public override string Label
-			=> "SetAsSlideshow".GetLocalizedResource();
+			=> Strings.SetAsSlideshow.GetLocalizedResource();
 
 		public override string Description
-			=> "SetAsSlideshowBackgroundDescription".GetLocalizedResource();
+			=> Strings.SetAsSlideshowBackgroundDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new("\uE91B");

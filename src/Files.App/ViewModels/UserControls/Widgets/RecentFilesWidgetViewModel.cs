@@ -13,7 +13,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// <summary>
 	/// Represents view model of <see cref="RecentFilesWidget"/>.
 	/// </summary>
-	public sealed class RecentFilesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
+	public sealed partial class RecentFilesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Fields
 

@@ -1,0 +1,10 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<Project>
+  <PropertyGroup>
+    <TargetFrameworkVersion>net9.0</TargetFrameworkVersion>
+    <TargetWindowsVersion>10.0.22621.0</TargetWindowsVersion>
+    <MinimalWindowsVersion>10.0.19041.0</MinimalWindowsVersion>
+    <WindowsSdkPackageVersion>10.0.22621.57</WindowsSdkPackageVersion>
+    <WindowsTargetFramework>$(TargetFrameworkVersion)-windows$(TargetWindowsVersion)</WindowsTargetFramework>
+  </PropertyGroup>
+</Project>

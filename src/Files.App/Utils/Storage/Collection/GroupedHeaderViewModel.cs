@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class GroupedHeaderViewModel : ObservableObject
+	public sealed partial class GroupedHeaderViewModel : ObservableObject
 	{
 		public string Key { get; set; }
 		public bool Initialized { get; set; }

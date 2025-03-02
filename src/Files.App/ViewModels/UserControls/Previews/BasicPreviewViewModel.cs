@@ -3,7 +3,7 @@
 
 namespace Files.App.ViewModels.Previews
 {
-	public sealed class BasicPreviewViewModel : BasePreviewModel
+	public sealed partial class BasicPreviewViewModel : BasePreviewModel
 	{
 		public BasicPreviewViewModel(ListedItem item) : base(item) { }
 	}

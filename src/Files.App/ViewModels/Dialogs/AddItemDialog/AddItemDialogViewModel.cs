@@ -6,7 +6,7 @@ using Files.Shared.Utils;
 
 namespace Files.App.ViewModels.Dialogs.AddItemDialog
 {
-	public sealed class AddItemDialogViewModel : ObservableObject
+	public sealed partial class AddItemDialogViewModel : ObservableObject
 	{
 		private readonly IImageService _imagingService;
 

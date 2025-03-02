@@ -2,13 +2,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
+        <TargetFramework>$(WindowsTargetFramework)</TargetFramework>
         <OutputType>WinExe</OutputType>
         <AssemblyName>Files</AssemblyName>
         <DefaultLanguage>en-US</DefaultLanguage>
         <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-        <AppxDefaultResourceQualifiers>Language=en-US;af;ar;be-BY;bg;ca;cs-CZ;da;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;id-ID;it-IT;ja-JP;ka;km-KH;ko-KR;lt-LT;lv-LV;ms-MY;nb-NO;nl-NL;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sq-AL;sr-Cyrl;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
-        <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+        <AppxDefaultResourceQualifiers>Language=en-US;af;ar;be-BY;bg;ca;cs-CZ;da;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;hy-AM;id-ID;it-IT;ja-JP;ka;km-KH;ko-KR;lt-LT;lv-LV;ms-MY;nb-NO;nl-NL;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sq-AL;sr-Cyrl;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
+        <TargetPlatformMinVersion>$(MinimalWindowsVersion)</TargetPlatformMinVersion>
         <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
         <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
         <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
@@ -33,12 +33,8 @@
         <ApplicationIcon>..\Files.App (Package)\Assets\AppTiles\Dev\Logo.ico</ApplicationIcon>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-        <DefineConstants>TRACE;DEBUG;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)' != 'Debug'">
-        <DefineConstants>TRACE;RELEASE;NETFX_CORE;DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-        <Optimize>true</Optimize>
+    <PropertyGroup>
+        <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     </PropertyGroup>
   
     <ItemGroup>
@@ -66,32 +62,41 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="ByteSize" Version="2.1.2" />
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-        <PackageReference Include="DiscUtils.Udf" Version="0.16.13" />
-        <PackageReference Include="FluentFTP" Version="43.0.1" />
-        <PackageReference Include="LibGit2Sharp" Version="0.30.0" />
-        <PackageReference Include="MessageFormat" Version="7.1.2" />
-        <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="8.0.8" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
-        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
-        <PackageReference Include="Sentry" Version="4.13.0" />
-        <PackageReference Include="SevenZipSharp" Version="1.0.2" />
-        <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.8" />
-        <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.250108004" />
-        <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.2.0" />
-        <PackageReference Include="CommunityToolkit.WinUI.UI.Behaviors" Version="7.1.2" />
-        <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
-        <PackageReference Include="TagLibSharp" Version="2.3.0" />
-        <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
-        <PackageReference Include="WinUIEx" Version="2.3.4" />
-        <PackageReference Include="Vanara.Windows.Extensions" Version="4.0.1" />
-        <PackageReference Include="Vanara.Windows.Shell" Version="4.0.1" />
-        <PackageReference Include="Microsoft.Management.Infrastructure" Version="3.0.0" />
-        <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="3.0.0" />
-        <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
+        <PackageReference Include="ByteSize" />
+        <PackageReference Include="ColorCode.WinUI" />
+        <PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock" />
+        <PackageReference Include="CommunityToolkit.Mvvm" />
+        <PackageReference Include="CommunityToolkit.WinUI.Behaviors" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.ColorPicker" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
+        <PackageReference Include="CommunityToolkit.WinUI.Converters" />
+        <PackageReference Include="CommunityToolkit.WinUI.Extensions" />
+        <PackageReference Include="CommunityToolkit.WinUI.Helpers" />
+        <PackageReference Include="CommunityToolkit.WinUI.Triggers" />
+        <PackageReference Include="DiscUtils.Udf" />
+        <PackageReference Include="FluentFTP" />
+        <PackageReference Include="LibGit2Sharp" />
+        <PackageReference Include="MessageFormat" />
+        <PackageReference Include="Microsoft.Data.Sqlite.Core" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" />
+        <PackageReference Include="Microsoft.Extensions.Logging" />
+        <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
+        <PackageReference Include="Microsoft.Xaml.Behaviors.WinUI.Managed" />
+        <PackageReference Include="Sentry" />
+        <PackageReference Include="SevenZipSharp" />
+        <PackageReference Include="SQLitePCLRaw.bundle_green" />
+        <PackageReference Include="Microsoft.WindowsAppSDK" />
+        <PackageReference Include="Microsoft.Graphics.Win2D" />
+        <PackageReference Include="TagLibSharp" />
+        <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" />
+        <PackageReference Include="WinUIEx" />
+        <PackageReference Include="Vanara.Windows.Extensions" />
+        <PackageReference Include="Vanara.Windows.Shell" />
+        <PackageReference Include="Microsoft.Management.Infrastructure" />
+        <PackageReference Include="Microsoft.Management.Infrastructure.Runtime.Win" />
+        <PackageReference Include="Microsoft.Windows.CsWinRT" />
     </ItemGroup>
 
     <ItemGroup>
@@ -121,19 +126,6 @@
         <TrimmerRootAssembly Include="Files.Core" />
         <TrimmerRootAssembly Include="Files.Core.Storage" />
         <TrimmerRootAssembly Include="Files.Shared" />
-        <TrimmerRootAssembly Include="CommunityToolkit.Common" />
-        <TrimmerRootAssembly Include="CommunityToolkit.Mvvm" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.Notifications" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Animations" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Behaviors" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Core" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Input" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Layout" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Markdown" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Media" />
-        <TrimmerRootAssembly Include="CommunityToolkit.WinUI.UI.Controls.Primitives" />
     </ItemGroup>
 
 	<ItemGroup>

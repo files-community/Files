@@ -3,7 +3,7 @@
 
 namespace Files.App.ViewModels.Settings
 {
-	public sealed class FoldersViewModel : ObservableObject
+	public sealed partial class FoldersViewModel : ObservableObject
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 

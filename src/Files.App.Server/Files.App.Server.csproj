@@ -1,13 +1,13 @@
-<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <DefaultLanguage>en-US</DefaultLanguage>
         <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-        <AppxDefaultResourceQualifiers>Language=en-US;af;ar;be-BY;bg;ca;cs-CZ;da;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;id-ID;it-IT;ja-JP;ka;km-KH;ko-KR;lt-LT;lv-LV;ms-MY;nb-NO;nl-NL;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sq-AL;sr-Cyrl;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
-        <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
-        <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
+        <AppxDefaultResourceQualifiers>Language=en-US;af;ar;be-BY;bg;ca;cs-CZ;da;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;hy-AM;id-ID;it-IT;ja-JP;ka;km-KH;ko-KR;lt-LT;lv-LV;ms-MY;nb-NO;nl-NL;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sq-AL;sr-Cyrl;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
+        <TargetFramework>$(WindowsTargetFramework)</TargetFramework>
+        <TargetPlatformMinVersion>$(MinimalWindowsVersion)</TargetPlatformMinVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <Configurations>Debug;Release</Configurations>
@@ -19,7 +19,7 @@
         <RuntimeIdentifier Condition="'$(Platform)' == 'arm64'">win-arm64</RuntimeIdentifier>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <CsWinRTComponent>true</CsWinRTComponent>
-        <CsWinRTWindowsMetadata>10.0.22621.0</CsWinRTWindowsMetadata>
+        <CsWinRTWindowsMetadata>$(TargetWindowsVersion)</CsWinRTWindowsMetadata>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
         <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
@@ -29,18 +29,10 @@
         <CsWinRTEnableLogging>true</CsWinRTEnableLogging>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-        <DefineConstants>TRACE;DEBUG;NETFX_CORE</DefineConstants>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Configuration)' != 'Debug'">
-        <DefineConstants>TRACE;RELEASE;NETFX_CORE</DefineConstants>
-        <Optimize>true</Optimize>
-    </PropertyGroup>
-
     <ItemGroup>
         <Manifest Include="app.manifest" />
         <TrimmerRootAssembly Include="Files.App.Server" />
-        <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.0.7" />
+        <PackageReference Include="Microsoft.Windows.CsWinRT" />
     </ItemGroup>
 
     <ItemGroup>

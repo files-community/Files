@@ -3,7 +3,7 @@
 
 namespace Files.App.ViewModels.Dialogs
 {
-	public sealed class ReleaseNotesDialogViewModel : ObservableObject
+	public sealed partial class ReleaseNotesDialogViewModel : ObservableObject
 	{
 		private string _BlogPostUrl = string.Empty;
 		public string BlogPostUrl

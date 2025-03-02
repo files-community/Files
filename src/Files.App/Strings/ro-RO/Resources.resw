@@ -133,7 +133,7 @@
     <value>Răsfoiește</value>
   </data>
   <data name="Size" xml:space="preserve">
-    <value>Mărime</value>
+    <value>Dimensiune</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Creat:</value>
@@ -142,13 +142,13 @@
     <value>Cale</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>Mărime:</value>
+    <value>Dimensiune:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Mărime pe disc:</value>
+    <value>Dimensiune pe disc:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Mărime necomprimat:</value>
+    <value>Dimensiune necomprimat:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Această acțiune nu poate fi efectuată</value>
@@ -295,7 +295,7 @@
     <value>Afișare</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Introdu un nume de element</value>
+    <value>Introduceți un nume</value>
   </data>
   <data name="CreateNewItemTitle" xml:space="preserve">
     <value>Creare {0} nou</value>
@@ -334,7 +334,7 @@
     <value>Reîmprospătare</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
-    <value>Un element cu acest nume există deja în acest dosar.</value>
+    <value>Un element cu acest nume exista deja în acest folder.</value>
   </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>Înlocuiește elementul existent</value>
@@ -445,11 +445,11 @@
     <value>Numele elementului specificat nu este valid</value>
   </data>
   <data name="SelectedItems" xml:space="preserve">
-    <value>{0, plural, one {# articol selectat} few {# articole selectate} other {# de articole selectate}}</value>
+    <value>{0, plural, one {# element selectat} few {# elemente selectate} other {# de elemente selectate}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>{0, plural, one {articol} few {articole} other {de articole}}</value>
+    <value>{0, plural, one {element} few {elemente} other {de elemente}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
@@ -465,22 +465,22 @@
     <value>octeți</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
-    <value>KO</value>
+    <value>KB</value>
   </data>
   <data name="MegaByteSymbol" xml:space="preserve">
-    <value>MO</value>
+    <value>MB</value>
   </data>
   <data name="GigaByteSymbol" xml:space="preserve">
-    <value>GO</value>
+    <value>GB</value>
   </data>
   <data name="TeraByteSymbol" xml:space="preserve">
-    <value>TO</value>
+    <value>TB</value>
   </data>
   <data name="PetaByteSymbol" xml:space="preserve">
-    <value>PO</value>
+    <value>PB</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>O</value>
+    <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0, number} {0, plural, one {fișier} few {fișiere} other {de fișiere}}, {1, number} {1, plural, one {dosar} few {dosare} other {de dosare}}</value>
@@ -537,7 +537,7 @@
     <value>Copiază în {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>Creează o scurtătură</value>
+    <value>Creați o comandă rapidă</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>Deschide locație fișier</value>
@@ -549,7 +549,7 @@
     <value>Destinație:</value>
   </data>
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
-    <value>Tip scurtătură:</value>
+    <value>Tip de comandă rapidă:</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Legătură web</value>
@@ -558,13 +558,13 @@
     <value>General</value>
   </data>
   <data name="Shortcut" xml:space="preserve">
-    <value>Scurtătură</value>
+    <value>Comandă rapidă</value>
   </data>
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
-    <value>Scurtătură internet</value>
+    <value>Comandă rapidă internet</value>
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
-    <value>{0} - scurtătură</value>
+    <value>{0} - comandă rapidă</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
     <value>Files a întâmpinat o problemă pentru care dezvoltatorii nu s-au pregătit încă.</value>
@@ -708,7 +708,7 @@
     <value>Dimensiuni</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
-    <value>Mărime orizontală</value>
+    <value>Dimensiune orizontală</value>
   </data>
   <data name="PropertyVerticalSize" xml:space="preserve">
     <value>Dimensiune verticală</value>
@@ -762,7 +762,7 @@
     <value>Numărul de canale</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
-    <value>Format</value>
+    <value>Formatare</value>
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
     <value>Rată de eșantionare</value>
@@ -957,7 +957,7 @@
     <value>Articol coș de reciclare</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
-    <value>Articol comandă rapidă</value>
+    <value>Element comandă rapidă</value>
   </data>
   <data name="Drives" xml:space="preserve">
     <value>Unități</value>
@@ -1629,7 +1629,7 @@
     <value>{0, plural, one {# element} other {# elemente}} ({1, plural, one {# fișier} other {# fișiere}}, {2, plural, one {# folder} other {# foldere}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
-    <value>Mărime necomprimată</value>
+    <value>Dimensiune necomprimată</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>SLW</value>
@@ -1875,7 +1875,7 @@
     <value>Introduceți numele Bibliotecii</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculează mărimea folderelor</value>
+    <value>Calculează dimensiunea folderelor</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Fișiere recente</value>
@@ -2157,7 +2157,7 @@
     <value>Parolă</value>
   </data>
   <data name="Format" xml:space="preserve">
-    <value>Format</value>
+    <value>Formatare</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
     <value>Sincronizați coloana de status</value>
@@ -2178,13 +2178,13 @@
     <value>Creați o comandă rapidă nouă</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Creați comenzi rapide la programele locale sau de rețea, fișiere, dosare, computere sau adrese de internet.</value>
+    <value>Creați comenzi rapide la programele locale sau de rețea, fișiere, foldere, computere sau adrese de internet.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
     <value>Introduceți locația elementului:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>Creați o comandă rapidă</value>
+    <value>Creează o comandă rapidă</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Fișierele utilizate recent sunt dezactivate în Windows File Explorer.</value>
@@ -2283,7 +2283,7 @@
     <value>Afișați elementele ascunse</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Format</value>
+    <value>Formatare</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Ajutor</value>
@@ -2439,7 +2439,7 @@
     <value>Crează un folder nou</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Creați comenzi rapide noi la articolul/ele selectat/e</value>
+    <value>Creați comenzi rapide noi la elemetul/ele selectat/e</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>Creați o comandă rapidă către orice element</value>
@@ -3214,17 +3214,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files nu poate accesa GitHub momentan.</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>Deschideți folderul în VS Code</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>Deschideți folderul în {0}</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Deschideți directorul curent în Visual Studio Code</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>Deschideți directorul curent în {0}</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Deschideți repozitoriul în VS Code</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>Deschideți repozitoriul în {0}</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Deschideți rădăcina repozitoriului Git în Visual Studio Code</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Deschideți rădăcina repozitoriului Git în {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Copiere cod</value>
@@ -3875,6 +3875,10 @@
     <value>Fișier ICO</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>Fișier ICL</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Fișier Zip</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -4038,5 +4042,32 @@
   <data name="AddToShelf" xml:space="preserve">
     <value>Adăugare la raft</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Cale sau alias</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Cale invalidă</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Integrare test</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>{0} nu a putut fi localizat. Vă rugăm să vă verificați setările și să încercați din nou.</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>IDE-ul configurat nu a putut fi localizat</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Deschideți setările</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>Introduceți o cale sau un alias de lansare</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>Vă rugăm să introduceți un nume pentru IDE</value>
   </data>
 </root>

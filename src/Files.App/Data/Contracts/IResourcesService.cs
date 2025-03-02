@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Drawing;
+using Windows.UI;
 
 namespace Files.App.Data.Contracts
 {

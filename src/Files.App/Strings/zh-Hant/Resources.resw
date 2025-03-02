@@ -148,7 +148,7 @@
     <value>在磁碟上的大小：</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>壓縮前的大小：</value>
+    <value>未壓縮大小：</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>無法完成該操作</value>
@@ -316,7 +316,7 @@
     <value>新增資料夾</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>建立檔案</value>
+    <value>新增檔案</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>該資料夾是空的。</value>
@@ -355,7 +355,7 @@
     <value>請插入所需的磁碟機以存取此項目。</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>已斷開與裝置的連接</value>
+    <value>已中斷與裝置的連接</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>目標檔案可能已被移動或刪除。</value>
@@ -765,7 +765,7 @@
     <value>格式</value>
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
-    <value>採樣速率</value>
+    <value>取樣速率</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>專輯演出者</value>
@@ -1230,7 +1230,7 @@
     <value>此欄位不可留白！</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
-    <value>檔案名稱不可以包含下列字元：　\ / : * ? " &lt; &gt; |</value>
+    <value>檔案名稱不可以包含下列字元：\ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ErrorNameInputRestricted" xml:space="preserve">
     <value>無法使用此名稱！</value>
@@ -2469,7 +2469,7 @@
     <value>重新整理頁面內容</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
-    <value>將選定的項目重新命名</value>
+    <value>將選取的項目重新命名</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
     <value>選擇所有項目</value>
@@ -3214,17 +3214,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files 目前無法連線至 GitHub。</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>在 VS Code 中開啟檔案</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>Open folder in {0}</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>在 Visual Studio Code 中開啟目前目錄</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>Open the current directory in {0}</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>在 VS Code 中開啟儲存庫</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>Open repo in {0}</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>在 Visual Studio Code 中開啟 Git 儲存庫的根目錄</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Open the root of the Git repo in {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>複製代碼</value>
@@ -3875,6 +3875,10 @@
     <value>ICO 檔案</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>Windows 圖示庫檔案</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Zip 檔案</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -4038,5 +4042,32 @@
   <data name="AddToShelf" xml:space="preserve">
     <value>加入檔案置放區</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Path or alias</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Invalid path</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Test integration</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>{0} could not be located. Please check your settings and try again.</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>The configured IDE could not be located</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Open settings</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>Enter a path or launch alias</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>Please enter a name for the IDE</value>
   </data>
 </root>

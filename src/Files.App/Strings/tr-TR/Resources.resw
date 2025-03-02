@@ -1653,7 +1653,7 @@
     <value>Güncelle</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>Ev</value>
+    <value>Ana sayfa</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Arşiv çıkarma işlemi başarıyla tamamlandı.</value>
@@ -1713,7 +1713,7 @@
     <value>Sütunlar</value>
   </data>
   <data name="Cards" xml:space="preserve">
-    <value>Cards</value>
+    <value>Kartlar</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Klasörleri yeni sekmede aç</value>
@@ -1827,16 +1827,16 @@
     <value>Yeniden başlatmak için bu programı kaydet</value>
   </data>
   <data name="StartWindow" xml:space="preserve">
-    <value>Start window</value>
+    <value>Başlangıç Penceresi</value>
   </data>
   <data name="NormalWindow" xml:space="preserve">
-    <value>Normal window</value>
+    <value>Normal pencere</value>
   </data>
   <data name="Minimized" xml:space="preserve">
-    <value>Minimized</value>
+    <value>Küçültülmüş</value>
   </data>
   <data name="Maximized" xml:space="preserve">
-    <value>Maximized</value>
+    <value>Tam ekran</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Yönetici olarak çalıştır</value>
@@ -2574,7 +2574,7 @@
     <value>Detaylar görünümüne geç</value>
   </data>
   <data name="LayoutCardsDescription" xml:space="preserve">
-    <value>Switch to cards view</value>
+    <value>Kart görünümüne geç</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Liste görünümüne geç</value>
@@ -3214,17 +3214,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files, GitHub'a şu anda erişemiyor.</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>Klasörü VS Code da aç</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>Open folder in {0}</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Mevcut dizini Visual Studio Code'da aç</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>Open the current directory in {0}</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Repoyu VS Code da aç</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>Open repo in {0}</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Git reposunun ana dizinini Visual Studio Code da aç</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Open the root of the Git repo in {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Kodu kopyala</value>
@@ -3875,6 +3875,10 @@
     <value>ICO Dosyası</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>ICL Dosyası</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Zip Dosyası</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -3966,7 +3970,7 @@
     <value>Ev sayfasına gidin</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Show home button in address bar</value>
+    <value>Adres çubuğunda ana sayfa düğmesini göster</value>
   </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Araç çubukları</value>
@@ -4014,29 +4018,56 @@
     <value>Toplam</value>
   </data>
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
-    <value>Always switch focus to newly created tab</value>
+    <value>Her zaman yeni oluşturulan sekmeye odaklan</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
-    <value>Toggle the shelf pane</value>
+    <value>Raf bölmesini değiştir</value>
   </data>
   <data name="ToggleShelfPaneDescription" xml:space="preserve">
-    <value>Toggle the shelf pane visibility</value>
+    <value>Raf bölmesinin görünürlüğünü değiştir</value>
   </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
-    <value>Show shelf pane toggle in address bar</value>
+    <value>Adres çubuğunda raf bölmesi ayarını göster</value>
   </data>
   <data name="Shelf" xml:space="preserve">
-    <value>Shelf</value>
+    <value>Raf</value>
     <comment>'Shelf' refers to the Shelf Pane feature, where users can conveniently drag and drop files for quick access and perform bulk actions with ease.</comment>
   </data>
   <data name="ClearItems" xml:space="preserve">
-    <value>Clear items</value>
+    <value>Öğeleri Sil</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
-    <value>Remove from shelf</value>
+    <value>Raftan kaldır</value>
   </data>
   <data name="AddToShelf" xml:space="preserve">
-    <value>Add to shelf</value>
+    <value>Rafa ekle</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Path or alias</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Invalid path</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Test integration</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>{0} could not be located. Please check your settings and try again.</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>The configured IDE could not be located</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Open settings</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>Enter a path or launch alias</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>Please enter a name for the IDE</value>
   </data>
 </root>
