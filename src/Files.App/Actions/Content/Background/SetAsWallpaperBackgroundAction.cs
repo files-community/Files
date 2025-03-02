@@ -8,10 +8,10 @@ namespace Files.App.Actions
 	internal sealed partial class SetAsWallpaperBackgroundAction : BaseSetAsAction
 	{
 		public override string Label
-			=> "SetAsBackground".GetLocalizedResource();
+			=> Strings.SetAsBackground.GetLocalizedResource();
 
 		public override string Description
-			=> "SetAsWallpaperBackgroundDescription".GetLocalizedResource();
+			=> Strings.SetAsWallpaperBackgroundDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new("\uE91B");

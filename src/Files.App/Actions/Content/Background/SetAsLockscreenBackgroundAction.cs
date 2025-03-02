@@ -10,10 +10,10 @@ namespace Files.App.Actions
 		private readonly IWindowsWallpaperService WindowsWallpaperService = Ioc.Default.GetRequiredService<IWindowsWallpaperService>();
 
 		public override string Label
-			=> "SetAsLockscreen".GetLocalizedResource();
+			=> Strings.SetAsLockscreen.GetLocalizedResource();
 
 		public override string Description
-			=> "SetAsLockscreenBackgroundDescription".GetLocalizedResource();
+			=> Strings.SetAsLockscreenBackgroundDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new("\uEE3F");
