@@ -2,18 +2,25 @@
 // Licensed under the MIT License.
 
 using DiscUtils.Udf;
+using Files.App.Services.SizeProvider;
 using Microsoft.Management.Infrastructure;
+using Microsoft.Win32;
+using System.Runtime.InteropServices;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.Storage.Provider;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using WinRT;
 
 namespace Files.App.Utils.Storage
 {
 	public static class DriveHelpers
 	{
+		private static readonly Guid IID_IStorageProviderStatusUISourceFactory = new Guid("12e46b74-4e5a-58d1-a62f-0376e8ee7dd8");
+
 		public static async void EjectDeviceAsync(string path)
 		{
 			await ContextMenu.InvokeVerb("eject", path);
@@ -168,5 +175,60 @@ namespace Files.App.Utils.Storage
 			=> (StorageItemThumbnail)await FilesystemTasks.Wrap(()
 				=> folder.GetThumbnailAsync(ThumbnailMode.SingleItem, 40, ThumbnailOptions.UseCurrentScale).AsTask()
 			);
+
+		public static async Task<(bool Success, ulong Capacity, ulong Used)> GetSyncRootQuotaAsync(string path)
+		{
+			Windows.Storage.StorageFolder folder = await Windows.Storage.StorageFolder.GetFolderFromPathAsync(path);
+			StorageProviderSyncRootInfo? syncRootInfo = null;
+
+			try
+			{
+				syncRootInfo = StorageProviderSyncRootManager.GetSyncRootInformationForFolder(folder);
+			}
+			catch
+			{
+				return (false, 0, 0);
+			}
+
+			RegistryKey? key;
+			if ((key = Registry.LocalMachine.OpenSubKey($"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\SyncRootManager\\{syncRootInfo.Id}")) is null)
+			{
+				return (false, 0, 0);
+			}
+
+			using (key)
+			{
+				if (key.GetValue("StorageProviderStatusUISourceFactory") is string statusUIclass)
+				{
+					StorageProviderStatusUI statusUI;
+
+					unsafe
+					{
+						if (PInvoke.CoCreateInstance(Guid.Parse(statusUIclass), null, Windows.Win32.System.Com.CLSCTX.CLSCTX_LOCAL_SERVER, IID_IStorageProviderStatusUISourceFactory, out void* statusUISourceFactoryAbi) != 0)
+						{
+							return (false, 0, 0);
+						}
+
+						// CsWinRT wrappers won't work.
+						// TODO: look to replace MarshalString with MarshalString.Pinnable?
+
+						nint statusUISourceAbi = 0;
+						nint syncRootIdHstring = MarshalString.FromManaged(syncRootInfo.Id);
+						nint statusUIAbi = 0;
+						ExceptionHelpers.ThrowExceptionForHR(((delegate* unmanaged[MemberFunction]<IntPtr, IntPtr, IntPtr*, int>)(*(IntPtr*)((nint)(*(IntPtr*)statusUISourceFactoryAbi) + (nint)6 * (nint)sizeof(delegate* unmanaged[Stdcall]<IntPtr, IntPtr, IntPtr*, int>))))((nint)statusUISourceFactoryAbi, syncRootIdHstring, &statusUISourceAbi));
+						ExceptionHelpers.ThrowExceptionForHR(((delegate* unmanaged[MemberFunction]<nint, nint*, int>)(*(IntPtr*)((nint)(*(IntPtr*)statusUISourceAbi) + (nint)6 * (nint)sizeof(delegate* unmanaged[Stdcall]<nint, nint*, int>))))(statusUISourceAbi, &statusUIAbi));
+						statusUI = StorageProviderStatusUI.FromAbi(statusUIAbi);
+						Marshal.Release(statusUISourceAbi);
+						Marshal.Release((nint)statusUISourceFactoryAbi);
+						MarshalString.DisposeAbi(statusUISourceAbi);
+					}
+					return (true, statusUI.QuotaUI.QuotaTotalInBytes, statusUI.QuotaUI.QuotaUsedInBytes);
+				}
+				else
+				{
+					return (false, 0, 0);
+				}
+			}
+		}
 	}
 }
