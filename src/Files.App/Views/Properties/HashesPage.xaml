@@ -26,10 +26,65 @@
 
 	<Grid x:Name="RootGrid">
 
+		<!--  Hash Comparison Section  -->
 		<Grid
-			x:Name="HashesListGrid"
+			x:Name="HashComparisonGrid"
 			Margin="12"
 			VerticalAlignment="Top"
+			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+			BorderThickness="1"
+			CornerRadius="4">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+
+			<!--  Hash Input  -->
+			<Grid
+				Grid.Row="0"
+				Grid.Column="0"
+				Margin="12">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+
+				<TextBox
+					x:Name="HashInputTextBox"
+					Grid.Column="0"
+					PlaceholderText="{helpers:ResourceString Name=EnterHashToCompare}"
+					TextChanged="HashInputTextBox_TextChanged" />
+			</Grid>
+
+			<!--  Compare File Button  -->
+			<Button
+				x:Name="CompareFileButton"
+				Grid.Row="0"
+				Grid.Column="1"
+				Margin="12"
+				Click="CompareFileButton_Click"
+				Content="{helpers:ResourceString Name=CompareFile}" />
+		</Grid>
+
+		<InfoBar
+			x:Name="HashMatchInfoBar"
+			Title="Title"
+			Grid.Row="1"
+			Grid.Column="0"
+			Margin="12,75,12,12"
+			IsClosable="False"
+			IsOpen="True"
+			Message="Message"
+			Severity="Informational" />
+
+		<Grid
+			x:Name="HashesListGrid"
+			Margin="12,130,12,12"
+			VerticalAlignment="Stretch"
 			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
@@ -109,7 +164,6 @@
 										Text="SHA1" />
 									<ToggleMenuFlyoutItem
 										Click="ToggleMenuFlyoutItem_Click"
-										Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
 										CommandParameter="SHA256"
 										IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA256']}"
 										Text="SHA256" />
