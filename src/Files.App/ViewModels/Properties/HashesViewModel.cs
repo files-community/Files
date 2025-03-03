@@ -1,8 +1,9 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.Shared.Helpers;
 using System.IO;
+using System.Security.Cryptography;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Properties
@@ -129,6 +130,34 @@ namespace Files.App.ViewModels.Properties
 			}
 
 			return hashInfoItem.HashValue.Equals(hashToCompare, StringComparison.OrdinalIgnoreCase);
+		}
+
+		public string FindMatchingAlgorithm(string hash)
+		{
+			if (string.IsNullOrEmpty(hash))
+				throw new ArgumentNullException($"Invalid hash '{hash}' provided.");
+
+			foreach (var hashInfo in Hashes)
+			{
+				if (hashInfo.HashValue != null && hashInfo.HashValue.Equals(hash, StringComparison.OrdinalIgnoreCase))
+				{
+					return hashInfo.Algorithm;
+				}
+			}
+
+			return string.Empty;
+		}
+
+		public async Task<string> CalculateSHA384HashAsync(string filePath)
+		{
+			using (var stream = File.OpenRead(filePath))
+			{
+				using (var sha384 = SHA384.Create())
+				{
+					var hash = await Task.Run(() => sha384.ComputeHash(stream));
+					return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+				}
+			}
 		}
 
 		public void Dispose()

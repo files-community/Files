@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.App.Data.Parameters;
@@ -49,33 +49,34 @@ namespace Files.App.Views.Properties
 		}
 
 		private void HashInputTextBox_TextChanged(object sender, TextChangedEventArgs e)
-			=> CompareHashes();
-
-		private void CompareHashes()
 		{
-			var hashToCompare = HashInputTextBox.Text;
+			string? matchingAlgorithm = null;
 
-			if (string.IsNullOrEmpty(hashToCompare))
+			try
 			{
-				HashMatchInfoBar.IsOpen = false;
+				matchingAlgorithm = HashesViewModel.FindMatchingAlgorithm(HashInputTextBox.Text);
+			}
+			catch (ArgumentNullException)
+			{
 				return;
 			}
 
-			foreach (var hashInfo in HashesViewModel.Hashes)
+			if (string.IsNullOrEmpty(matchingAlgorithm))
 			{
-				if (hashInfo.HashValue != null && hashInfo.HashValue.Equals(hashToCompare, StringComparison.OrdinalIgnoreCase))
-				{
-					HashMatchInfoBar.Severity = InfoBarSeverity.Success; // Set success
-					HashMatchInfoBar.Title = string.Format(Strings.HashesMatch.GetLocalizedResource(), hashInfo.Algorithm);
-					HashMatchInfoBar.IsOpen = true;
-					return;
-				}
+				HashMatchInfoBar.Severity = InfoBarSeverity.Error;
+				HashMatchInfoBar.Title = Strings.HashesDoNotMatch.GetLocalizedResource();
+				HashMatchInfoBar.IsOpen = true;
+				return;
 			}
-
-			HashMatchInfoBar.Severity = InfoBarSeverity.Error; // Set error
-			HashMatchInfoBar.Title = Strings.HashesDoNotMatch.GetLocalizedResource();
-			HashMatchInfoBar.IsOpen = true;
+			else
+			{
+				HashMatchInfoBar.Severity = InfoBarSeverity.Success;
+				HashMatchInfoBar.Title = string.Format(Strings.HashesMatch.GetLocalizedResource(), matchingAlgorithm);
+				HashMatchInfoBar.IsOpen = true;
+				return;
+			}
 		}
+
 
 		private async void CompareFileButton_Click(object sender, RoutedEventArgs e)
 		{
@@ -87,7 +88,7 @@ namespace Files.App.Views.Properties
 			var file = await picker.PickSingleFileAsync();
 			if (file != null)
 			{
-				var selectedFileHash = await CalculateSHA384HashAsync(file.Path);
+				var selectedFileHash = await HashesViewModel.CalculateSHA384HashAsync(file.Path);
 				var currentFileHash = HashesViewModel.Hashes.FirstOrDefault(h => h.Algorithm == "SHA384")?.HashValue;
 				HashInputTextBox.Text = selectedFileHash;
 				if (selectedFileHash == currentFileHash)
@@ -102,18 +103,6 @@ namespace Files.App.Views.Properties
 				}
 
 				HashMatchInfoBar.IsOpen = true;
-			}
-		}
-
-		private async Task<string> CalculateSHA384HashAsync(string filePath)
-		{
-			using (var stream = File.OpenRead(filePath))
-			{
-				using (var sha384 = SHA384.Create())
-				{
-					var hash = await Task.Run(() => sha384.ComputeHash(stream));
-					return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
-				}
 			}
 		}
 
