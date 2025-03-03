@@ -80,30 +80,20 @@ namespace Files.App.Views.Properties
 
 		private async void CompareFileButton_Click(object sender, RoutedEventArgs e)
 		{
-			var picker = new Windows.Storage.Pickers.FileOpenPicker();
-			picker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
-			picker.FileTypeFilter.Add("*");
-			WinRT.Interop.InitializeWithWindow.Initialize(picker, MainWindow.Instance.WindowHandle);
+			var result = await HashesViewModel.CompareFileAsync();
 
-			var file = await picker.PickSingleFileAsync();
-			if (file != null)
+			if (result)
 			{
-				var selectedFileHash = await HashesViewModel.CalculateSHA384HashAsync(file.Path);
-				var currentFileHash = HashesViewModel.Hashes.FirstOrDefault(h => h.Algorithm == "SHA384")?.HashValue;
-				HashInputTextBox.Text = selectedFileHash;
-				if (selectedFileHash == currentFileHash)
-				{
-					HashMatchInfoBar.Severity = InfoBarSeverity.Success; // Check mark
-					HashMatchInfoBar.Title = Strings.HashesMatch.GetLocalizedResource();
-				}
-				else
-				{
-					HashMatchInfoBar.Severity = InfoBarSeverity.Error; // Cross mark
-					HashMatchInfoBar.Title = Strings.HashesMatch.GetLocalizedResource();
-				}
-
-				HashMatchInfoBar.IsOpen = true;
+				HashMatchInfoBar.Severity = InfoBarSeverity.Success; // Check mark
+				HashMatchInfoBar.Title = Strings.HashesMatch.GetLocalizedResource();
 			}
+			else
+			{
+				HashMatchInfoBar.Severity = InfoBarSeverity.Error; // Cross mark
+				HashMatchInfoBar.Title = "no";
+			}
+
+			HashMatchInfoBar.IsOpen = true;
 		}
 
 		private void MenuFlyout_Closing(FlyoutBase sender, FlyoutBaseClosingEventArgs e)

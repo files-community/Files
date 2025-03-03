@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.Shared.Helpers;
@@ -10,6 +10,7 @@ namespace Files.App.ViewModels.Properties
 {
 	public sealed partial class HashesViewModel : ObservableObject, IDisposable
 	{
+		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 
 		private HashInfoItem _selectedItem;
@@ -130,6 +131,28 @@ namespace Files.App.ViewModels.Properties
 			}
 
 			return hashInfoItem.HashValue.Equals(hashToCompare, StringComparison.OrdinalIgnoreCase);
+		}
+
+		public async Task<bool> CompareFileAsync()
+		{
+			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, [], Environment.SpecialFolder.Desktop, out var toCompare);
+
+			if (!result)
+			{
+				return false;
+			}
+
+			var file = await StorageHelpers.ToStorageItem<BaseStorageFolder>(toCompare);
+
+			if (file is not null)
+			{
+				var selectedFileHash = await CalculateSHA384HashAsync(file.Path);
+				var compare = CompareHash("SHA384", selectedFileHash);
+
+				return compare;
+			}
+
+			return false;
 		}
 
 		public string FindMatchingAlgorithm(string hash)
