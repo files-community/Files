@@ -1,0 +1,124 @@
+# Top-most EditorConfig file
+root = true
+
+# All files
+[*]
+indent_style = tab
+indent_size = 4
+end_of_line = crlf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# C# files
+[*.cs]
+# Naming conventions
+dotnet_naming_rule.interface_should_be_begins_with_i.severity = error
+dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
+dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
+
+dotnet_naming_rule.class_should_be_pascal_case.severity = error
+dotnet_naming_rule.class_should_be_pascal_case.symbols = class
+dotnet_naming_rule.class_should_be_pascal_case.style = pascal_case
+
+dotnet_naming_rule.struct_should_be_pascal_case.severity = error
+dotnet_naming_rule.struct_should_be_pascal_case.symbols = struct
+dotnet_naming_rule.struct_should_be_pascal_case.style = pascal_case
+
+dotnet_naming_rule.method_should_be_pascal_case.severity = error
+dotnet_naming_rule.method_should_be_pascal_case.symbols = method
+dotnet_naming_rule.method_should_be_pascal_case.style = pascal_case
+
+dotnet_naming_rule.property_should_be_pascal_case.severity = error
+dotnet_naming_rule.property_should_be_pascal_case.symbols = property
+dotnet_naming_rule.property_should_be_pascal_case.style = pascal_case
+
+dotnet_naming_rule.private_field_should_be_camel_case_with_underscore.severity = error
+dotnet_naming_rule.private_field_should_be_camel_case_with_underscore.symbols = private_field
+dotnet_naming_rule.private_field_should_be_camel_case_with_underscore.style = camel_case_with_underscore
+
+dotnet_naming_rule.constant_should_be_upper_case.severity = error
+dotnet_naming_rule.constant_should_be_upper_case.symbols = constant_field
+dotnet_naming_rule.constant_should_be_upper_case.style = upper_case
+
+# Symbol specifications
+dotnet_naming_symbols.interface.applicable_kinds = interface
+dotnet_naming_symbols.interface.applicable_accessibilities = *
+
+dotnet_naming_symbols.class.applicable_kinds = class
+dotnet_naming_symbols.class.applicable_accessibilities = *
+
+dotnet_naming_symbols.struct.applicable_kinds = struct
+dotnet_naming_symbols.struct.applicable_accessibilities = *
+
+dotnet_naming_symbols.method.applicable_kinds = method
+dotnet_naming_symbols.method.applicable_accessibilities = *
+
+dotnet_naming_symbols.property.applicable_kinds = property
+dotnet_naming_symbols.property.applicable_accessibilities = *
+
+dotnet_naming_symbols.private_field.applicable_kinds = field
+dotnet_naming_symbols.private_field.applicable_accessibilities = private
+
+dotnet_naming_symbols.constant_field.applicable_kinds = field
+dotnet_naming_symbols.constant_field.required_modifiers = const
+
+# Naming styles
+dotnet_naming_style.begins_with_i.required_prefix = I
+dotnet_naming_style.begins_with_i.capitalization = pascal_case
+
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+dotnet_naming_style.camel_case_with_underscore.required_prefix = _
+dotnet_naming_style.camel_case_with_underscore.capitalization = camel_case
+
+dotnet_naming_style.upper_case.capitalization = all_upper
+dotnet_naming_style.upper_case.word_separator = _
+
+# Code style rules
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+
+# Prefer predefined type names
+dotnet_style_predefined_type_for_locals_parameters_members = true:error
+dotnet_style_predefined_type_for_member_access = true:error
+
+# Single-line control structures
+csharp_prefer_braces = false:warning
+csharp_preserve_single_line_statements = true
+csharp_preserve_single_line_blocks = true
+
+# Async suffix
+dotnet_naming_rule.async_methods_must_end_with_async.severity = error
+dotnet_naming_rule.async_methods_must_end_with_async.symbols = async_method
+dotnet_naming_rule.async_methods_must_end_with_async.style = end_with_async
+
+dotnet_naming_symbols.async_method.applicable_kinds = method
+dotnet_naming_symbols.async_method.required_modifiers = async
+
+dotnet_naming_style.end_with_async.required_suffix = Async
+dotnet_naming_style.end_with_async.capitalization = pascal_case
+
+# Spacing
+csharp_space_after_cast = false
+csharp_space_after_keywords_in_control_flow_statements = true
+csharp_space_between_method_declaration_parameter_list_parentheses = false
+csharp_space_between_method_call_parameter_list_parentheses = false
+
+# No regions
+csharp_style_region_directive = false:error
+
+# Class structure ordering
+csharp_preferred_modifier_order = public,private,protected,internal,static,readonly,abstract,sealed,override,virtual:error
+
+# Interfaces must be documented
+dotnet_diagnostic.CS1591.severity = error
+
+# Disposable pattern
+dotnet_diagnostic.CA1063.severity = error
+
+# No public fields
+dotnet_diagnostic.CA1051.severity = error
+
