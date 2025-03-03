@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <vm:BasePropertiesPage
 	x:Class="Files.App.Views.Properties.HashesPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -72,13 +72,12 @@
 
 		<InfoBar
 			x:Name="HashMatchInfoBar"
-			Title="Title"
 			Grid.Row="1"
 			Grid.Column="0"
 			Margin="12,75,12,12"
 			IsClosable="False"
-			IsOpen="True"
-			Message="Message"
+			IsOpen="False"
+			Message="No hashes match the provided hash."
 			Severity="Informational" />
 
 		<Grid

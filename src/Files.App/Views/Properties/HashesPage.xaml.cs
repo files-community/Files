@@ -57,7 +57,7 @@ namespace Files.App.Views.Properties
 
 			if (string.IsNullOrEmpty(hashToCompare))
 			{
-				HashMatchInfoBar.Visibility = Visibility.Collapsed;
+				HashMatchInfoBar.IsOpen = false;
 				return;
 			}
 
@@ -67,14 +67,14 @@ namespace Files.App.Views.Properties
 				{
 					HashMatchInfoBar.Severity = InfoBarSeverity.Success; // Set success
 					HashMatchInfoBar.Title = string.Format(Strings.HashesMatch.GetLocalizedResource(), hashInfo.Algorithm);
-					HashMatchInfoBar.Visibility = Visibility.Visible;
+					HashMatchInfoBar.IsOpen = true;
 					return;
 				}
 			}
 
 			HashMatchInfoBar.Severity = InfoBarSeverity.Error; // Set error
 			HashMatchInfoBar.Title = Strings.HashesDoNotMatch.GetLocalizedResource();
-			HashMatchInfoBar.Visibility = Visibility.Visible;
+			HashMatchInfoBar.IsOpen = true;
 		}
 
 		private async void CompareFileButton_Click(object sender, RoutedEventArgs e)
@@ -101,7 +101,7 @@ namespace Files.App.Views.Properties
 					HashMatchInfoBar.Title = Strings.HashesMatch.GetLocalizedResource();
 				}
 
-				HashMatchInfoBar.Visibility = Visibility.Visible;
+				HashMatchInfoBar.IsOpen = true;
 			}
 		}
 
