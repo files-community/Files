@@ -12,7 +12,7 @@ namespace Windows.Win32
 	/// <summary>
 	/// Contains a COM pointer and a set of methods to work with the pointer safely.
 	/// </summary>
-	public unsafe struct ComPtr<T> : IDisposable where T : unmanaged
+	public unsafe struct ComPtr<T> : IDisposable where T : unmanaged, IComIID
 	{
 		private T* _ptr;
 
@@ -40,11 +40,10 @@ namespace Windows.Win32
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public readonly ComPtr<U> As<U>() where U : unmanaged
+		public readonly ComPtr<U> As<U>() where U : unmanaged, IComIID
 		{
 			ComPtr<U> ptr = default;
-			Guid iid = typeof(U).GUID;
-			((IUnknown*)_ptr)->QueryInterface(&iid, (void**)ptr.GetAddressOf());
+			((IUnknown*)_ptr)->QueryInterface((Guid*)Unsafe.AsPointer(ref Unsafe.AsRef(in U.Guid)), (void**)ptr.GetAddressOf());
 			return ptr;
 		}
 

@@ -45,6 +45,7 @@ namespace Files.App.ViewModels.Properties
 		public async override Task GetSpecialPropertiesAsync()
 		{
 			ViewModel.ItemAttributesVisibility = false;
+
 			var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(Drive.Path));
 			BaseStorageFolder diskRoot = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(Drive.Path, item));
 
@@ -74,6 +75,15 @@ namespace Files.App.ViewModels.Properties
 			{
 				ViewModel.LastSeparatorVisibility = false;
 
+				return;
+			}
+
+			var syncRootStatus = await SyncRootHelpers.GetSyncRootQuotaAsync(Drive.Path);
+			if (syncRootStatus.Success)
+			{
+				ViewModel.DriveCapacityValue = syncRootStatus.Capacity;
+				ViewModel.DriveUsedSpaceValue = syncRootStatus.Used;
+				ViewModel.DriveFreeSpaceValue = syncRootStatus.Capacity - syncRootStatus.Used;
 				return;
 			}
 
