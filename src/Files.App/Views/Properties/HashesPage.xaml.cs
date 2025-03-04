@@ -65,14 +65,14 @@ namespace Files.App.Views.Properties
 			{
 				HashMatchInfoBar.Severity = InfoBarSeverity.Error;
 				HashMatchInfoBar.Title = Strings.HashesDoNotMatch.GetLocalizedResource();
-				HashMatchInfoBar.IsOpen = true;
+				HashesViewModel.InfoBarVisible = true;
 				return;
 			}
 			else
 			{
 				HashMatchInfoBar.Severity = InfoBarSeverity.Success;
 				HashMatchInfoBar.Title = string.Format(Strings.HashesMatch.GetLocalizedResource(), matchingAlgorithm);
-				HashMatchInfoBar.IsOpen = true;
+				HashesViewModel.InfoBarVisible = true;
 				return;
 			}
 		}
@@ -93,7 +93,7 @@ namespace Files.App.Views.Properties
 				HashMatchInfoBar.Title = "no";
 			}
 
-			HashMatchInfoBar.IsOpen = true;
+			HashesViewModel.InfoBarVisible = true;
 		}
 
 		private void MenuFlyout_Closing(FlyoutBase sender, FlyoutBaseClosingEventArgs e)
