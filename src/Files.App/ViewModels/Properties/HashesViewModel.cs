@@ -146,7 +146,7 @@ namespace Files.App.ViewModels.Properties
 
 			if (file is not null)
 			{
-				var selectedFileHash = await CalculateSHA384HashAsync(file.Path);
+				var selectedFileHash = await CalculateFileHashAsync(file.Path);
 				var compare = CompareHash("SHA384", selectedFileHash);
 
 				return compare;
@@ -171,13 +171,13 @@ namespace Files.App.ViewModels.Properties
 			return string.Empty;
 		}
 
-		public async Task<string> CalculateSHA384HashAsync(string filePath)
+		public async Task<string> CalculateFileHashAsync(string filePath)
 		{
 			using (var stream = File.OpenRead(filePath))
 			{
-				using (var sha384 = SHA384.Create())
+				using (var md5 = MD5.Create())
 				{
-					var hash = await Task.Run(() => sha384.ComputeHash(stream));
+					var hash = await Task.Run(() => md5.ComputeHash(stream));
 					return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
 				}
 			}
