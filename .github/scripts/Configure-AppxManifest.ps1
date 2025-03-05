@@ -2,7 +2,7 @@
 # Licensed under the MIT License.
 
 param(
-    [string]$ReleaseBranch =             "", # SideloadPreview, SideloadStable, StorePreview, or StoreStable
+    [string]$Branch =                    "", # SideloadPreview, SideloadStable, StorePreview, or StoreStable
     [string]$PackageManifestPath =       "",
     [string]$Publisher =                 "",
     [string]$WorkingDir =                "",
@@ -27,7 +27,7 @@ $ea = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pk
 # Update the publisher
 $xmlDoc.Package.Identity.Publisher = $Publisher
 
-if ($ReleaseBranch -eq "SideloadPreview")
+if ($Branch -eq "SideloadPreview")
 {
     # Set identities
     $xmlDoc.Package.Identity.Name="FilesPreview"
@@ -54,7 +54,7 @@ if ($ReleaseBranch -eq "SideloadPreview")
         Set-Content $_ -NoNewline `
     }
 }
-elseif ($ReleaseBranch -eq "StorePreview")
+elseif ($Branch -eq "StorePreview")
 {
     # Set identities
     $xmlDoc.Package.Identity.Name="49306atecsolution.FilesPreview"
@@ -87,7 +87,7 @@ elseif ($ReleaseBranch -eq "StorePreview")
         Set-Content $_ -NoNewline `
     }
 }
-elseif ($ReleaseBranch -eq "SideloadStable")
+elseif ($Branch -eq "SideloadStable")
 {
     # Set identities
     $xmlDoc.Package.Identity.Name="Files"
@@ -114,7 +114,7 @@ elseif ($ReleaseBranch -eq "SideloadStable")
         Set-Content $_ -NoNewline `
     }
 }
-elseif ($ReleaseBranch -eq "StoreStable")
+elseif ($Branch -eq "StoreStable")
 {
     # Set identities
     $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
@@ -148,7 +148,7 @@ elseif ($ReleaseBranch -eq "StoreStable")
 
 Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
 { `
-    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "cd_app_env_placeholder", $ReleaseBranch }) | `
+    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "cd_app_env_placeholder", $Branch }) | `
     Set-Content $_ -NoNewline `
 }
 
