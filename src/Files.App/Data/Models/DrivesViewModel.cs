@@ -5,12 +5,13 @@ using Files.App.Services.SizeProvider;
 using Files.Core.Storage.Storables;
 using Microsoft.Extensions.Logging;
 using System.IO;
+using OwlCore.Storage;
 
 namespace Files.App.Data.Models
 {
 	public sealed partial class DrivesViewModel : ObservableObject, IDisposable
 	{
-		public ObservableCollection<ILocatableFolder> Drives
+		public ObservableCollection<IFolder> Drives
 		{
 			get => drives;
 			private set => SetProperty(ref drives, value);
@@ -23,7 +24,7 @@ namespace Files.App.Data.Models
 		}
 
 		private bool showUserConsentOnInit;
-		private ObservableCollection<ILocatableFolder> drives;
+		private ObservableCollection<IFolder> drives;
 		private readonly IRemovableDrivesService removableDrivesService;
 		private readonly ISizeProvider folderSizeProvider;
 		private readonly IStorageDeviceWatcher watcher;
@@ -52,7 +53,7 @@ namespace Files.App.Data.Models
 
 		private async void Watcher_DeviceModified(object? sender, string e)
 		{
-			var matchingDriveEjected = Drives.FirstOrDefault(x => Path.GetFullPath(x.Path) == Path.GetFullPath(e));
+			var matchingDriveEjected = Drives.FirstOrDefault(x => Path.GetFullPath(x.Id) == Path.GetFullPath(e));
 			if (matchingDriveEjected != null)
 				await removableDrivesService.UpdateDrivePropertiesAsync(matchingDriveEjected);
 		}
@@ -71,22 +72,22 @@ namespace Files.App.Data.Models
 			Watcher_EnumerationCompleted(null, EventArgs.Empty);
 		}
 
-		private void Watcher_DeviceAdded(object? sender, ILocatableFolder e)
+		private void Watcher_DeviceAdded(object? sender, IFolder e)
 		{
 			lock (Drives)
 			{
 				// If drive already in list, remove it first.
 				var matchingDrive = Drives.FirstOrDefault(x =>
 					x.Id == e.Id ||
-					string.IsNullOrEmpty(e.Path)
-						? x.Path.Contains(e.Name, StringComparison.OrdinalIgnoreCase)
-						: Path.GetFullPath(x.Path) == Path.GetFullPath(e.Path)
+					string.IsNullOrEmpty(e.Id)
+						? x.Id.Contains(e.Name, StringComparison.OrdinalIgnoreCase)
+						: Path.GetFullPath(x.Id) == Path.GetFullPath(e.Id)
 				);
 
 				if (matchingDrive is not null)
 					Drives.Remove(matchingDrive);
 
-				logger.LogInformation($"Drive added: {e.Path}");
+				logger.LogInformation($"Drive added: {e.Id}");
 				Drives.Add(e);
 			}
 
@@ -96,7 +97,7 @@ namespace Files.App.Data.Models
 		public async Task UpdateDrivesAsync()
 		{
 			Drives.Clear();
-			await foreach (ILocatableFolder item in removableDrivesService.GetDrivesAsync())
+			await foreach (IFolder item in removableDrivesService.GetDrivesAsync())
 			{
 				Drives.AddIfNotPresent(item);
 			}
@@ -104,7 +105,7 @@ namespace Files.App.Data.Models
 			var osDrive = await removableDrivesService.GetPrimaryDriveAsync();
 
 			// Show consent dialog if the OS drive could not be accessed
-			if (!Drives.Any(x => Path.GetFullPath(x.Path) == Path.GetFullPath(osDrive.Path)))
+			if (!Drives.Any(x => Path.GetFullPath(x.Id) == Path.GetFullPath(osDrive.Id)))
 				ShowUserConsentOnInit = true;
 
 			if (watcher.CanBeStarted)

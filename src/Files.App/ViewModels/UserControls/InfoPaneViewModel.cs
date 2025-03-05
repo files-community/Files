@@ -512,7 +512,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 			}
 
-			SelectedDriveItem = drivesViewModel.Drives.FirstOrDefault(drive => drive.Path == selectedItem.ItemPath) as DriveItem;
+			SelectedDriveItem = drivesViewModel.Drives.FirstOrDefault(drive => drive.Id == selectedItem.ItemPath) as DriveItem;
 		}
 
 		public void Dispose()

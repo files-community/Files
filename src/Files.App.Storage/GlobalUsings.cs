@@ -23,7 +23,6 @@ global using global::Files.Core.Storage.Storables;
 global using global::Files.Core.Storage.Enums;
 global using global::Files.Core.Storage.EventArguments;
 global using global::Files.Core.Storage.Extensions;
-global using global::Files.Core.Storage.StorageEnumeration;
 
 // Files.App.Storage
 

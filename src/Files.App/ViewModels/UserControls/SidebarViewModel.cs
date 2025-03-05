@@ -16,6 +16,7 @@ using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
+using OwlCore.Storage;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -706,7 +707,7 @@ namespace Files.App.ViewModels.UserControls
 				await foreach (var taggedItem in fileTagsService.GetItemsForTagAsync(tagItem.FileTag.Uid, cts.Token))
 				{
 					items.Add((
-						taggedItem.Storable.TryGetPath() ?? string.Empty,
+						taggedItem.Storable.Id,
 						taggedItem.Storable is IFolder));
 				}
 

@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using OwlCore.Storage;
+
 namespace Files.Core.Storage.Storables
 {
 	/// <summary>
@@ -11,6 +13,6 @@ namespace Files.Core.Storage.Storables
         /// <summary>
         /// Creates a copy of the provided storable item in this folder.
         /// </summary>
-        Task<INestedStorable> CreateCopyOfAsync(INestedStorable itemToCopy, bool overwrite = default, CancellationToken cancellationToken = default);
+        Task<IStorableChild> CreateCopyOfAsync(IStorableChild itemToCopy, bool overwrite = default, CancellationToken cancellationToken = default);
     }
 }

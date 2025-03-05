@@ -7,6 +7,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Input;
 using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
+using OwlCore.Storage;
 using WinRT;
 
 namespace Files.App.UserControls

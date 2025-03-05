@@ -1,10 +1,8 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Core.Storage;
-using Files.Core.Storage.Extensions;
-using Files.Core.Storage.Storables;
 using System.Runtime.CompilerServices;
+using OwlCore.Storage;
 
 namespace Files.App.Services
 {
@@ -22,9 +20,9 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public Task<bool> SetFileTagAsync(ILocatableStorable storable, string[] tagUids, CancellationToken cancellationToken = default)
+		public Task<bool> SetFileTagAsync(IStorable storable, string[] tagUids, CancellationToken cancellationToken = default)
 		{
-			FileTagsHelper.WriteFileTag(storable.Path, tagUids);
+			FileTagsHelper.WriteFileTag(storable.Id, tagUids);
 			return Task.FromResult(true);
 		}
 
