@@ -230,6 +230,7 @@ namespace Files.App.Data.Commands
 		PlayAll,
 
 		// Git
+		GitClone,
 		GitFetch,
 		GitInit,
 		GitPull,
