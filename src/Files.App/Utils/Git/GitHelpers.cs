@@ -4,7 +4,6 @@
 using Files.App.Dialogs;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
-using Sentry;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
@@ -13,6 +12,8 @@ namespace Files.App.Utils.Git
 {
 	internal static class GitHelpers
 	{
+		private static readonly StatusCenterViewModel StatusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+
 		private const string GIT_RESOURCE_NAME = "Files:https://github.com";
 
 		private const string GIT_RESOURCE_USERNAME = "Personal Access Token";
@@ -844,6 +845,86 @@ namespace Files.App.Utils.Git
 				if (useSemaphore)
 					GitOperationSemaphore.Release();
 			}
+		}
+
+		/// <summary>
+		/// Gets repository information from a GitHub URL.
+		/// </summary>
+		/// <param name="url"></param>
+		/// <returns></returns>
+		public static (string RepoUrl, string RepoName) GetRepoInfo(string url)
+		{
+			// Remove protocol and normalize slashes
+			var normalizedUrl = url.ToLower().Replace("https://", "").Replace("http://", "").Replace("//", "");
+
+			string[] parts = normalizedUrl.Split('/');
+
+			// Check if the URL includes an organization or user name + repo (github.com/username/repo)
+			if (parts.Length >= 3 && parts[0] == "github.com")
+			{
+				// Construct the repo URL from the first three parts
+				string repoUrl = $"https://{parts[0]}/{parts[1]}/{parts[2]}";
+				return (repoUrl, parts[2]);
+			}
+
+			return (string.Empty, string.Empty);
+		}
+
+		/// <summary>
+		/// Checks if the provided URL is a valid GitHub URL.
+		/// </summary>
+		/// <param name="url">The URL to validate.</param>
+		/// <returns>True if the URL is a valid GitHub URL; otherwise, false.</returns>
+		public static bool IsValidRepoUrl(string url)
+		{
+			return !string.IsNullOrWhiteSpace(url) && url.Contains("github.com");
+		}
+
+		public static async Task CloneRepoAsync(string repoUrl, string repoName, string targetDirectory)
+		{
+			var banner = StatusCenterHelper.AddCard_GitClone(repoName.CreateEnumerable(), targetDirectory.CreateEnumerable(), ReturnResult.InProgress);
+			var fsProgress = new StatusCenterItemProgressModel(banner.ProgressEventSource, enumerationCompleted: true, FileSystemStatusCode.InProgress);
+
+			bool isSuccess = await Task.Run(() =>
+			{
+				try
+				{
+					var cloneOptions = new CloneOptions
+					{
+						FetchOptions =
+						{
+							OnTransferProgress = progress =>
+							{
+								banner.CancellationToken.ThrowIfCancellationRequested();
+								fsProgress.ItemsCount = progress.TotalObjects;
+								fsProgress.SetProcessedSize(progress.ReceivedBytes);
+								fsProgress.AddProcessedItemsCount(1);
+								fsProgress.Report((int)((progress.ReceivedObjects / (double)progress.TotalObjects) * 100));
+								return true;
+							},
+							OnProgress = _ => !banner.CancellationToken.IsCancellationRequested
+						},
+						OnCheckoutProgress = (path, completed, total) =>
+							banner.CancellationToken.ThrowIfCancellationRequested()
+					};
+
+					Repository.Clone(repoUrl, targetDirectory, cloneOptions);
+					return true;
+				}
+				catch
+				{
+					return false;
+				}
+			}, banner.CancellationToken);
+
+			StatusCenterViewModel.RemoveItem(banner);
+
+			StatusCenterHelper.AddCard_GitClone(
+				repoName.CreateEnumerable(),
+				targetDirectory.CreateEnumerable(),
+				isSuccess ? ReturnResult.Success :
+				banner.CancellationToken.IsCancellationRequested ? ReturnResult.Cancelled :
+				ReturnResult.Failed);
 		}
 	}
 }

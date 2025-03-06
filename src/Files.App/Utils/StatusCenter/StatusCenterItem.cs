@@ -229,6 +229,7 @@ namespace Files.App.Utils.StatusCenter
 							FileOperationType.Delete => StatusCenterItemIconKind.Delete,
 							FileOperationType.Recycle => StatusCenterItemIconKind.Recycle,
 							FileOperationType.Compressed => StatusCenterItemIconKind.Compress,
+							FileOperationType.GitClone => StatusCenterItemIconKind.Copy,
 							_ => StatusCenterItemIconKind.Delete,
 						};
 
@@ -261,6 +262,7 @@ namespace Files.App.Utils.StatusCenter
 							FileOperationType.Delete => StatusCenterItemIconKind.Delete,
 							FileOperationType.Recycle => StatusCenterItemIconKind.Recycle,
 							FileOperationType.Compressed => StatusCenterItemIconKind.Compress,
+							FileOperationType.GitClone => StatusCenterItemIconKind.Copy,
 							_ => StatusCenterItemIconKind.Delete,
 						};
 
