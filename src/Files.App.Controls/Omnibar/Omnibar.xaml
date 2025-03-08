@@ -1,0 +1,72 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Files.App.Controls">
+
+	<!--<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Default">
+			<SolidColorBrush x:Key="OmnibarModeDivisiderBrush" Color="{ThemeResource DividerStrokeColorDefaultBrush}" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="HighContrast">
+			<SolidColorBrush x:Key="OmnibarModeDivisiderBrush" Color="{ThemeResource DividerStrokeColorDefaultBrush}" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>-->
+
+	<x:Double x:Key="OmnibarDefaultHeight">36</x:Double>
+	<CornerRadius x:Key="OmnibarDefaultCornerRadius">18</CornerRadius>
+	<Thickness x:Key="OmnibarFocusedBorderThickness">2</Thickness>
+	<Thickness x:Key="OmnibarUnfocusedBorderThickness">1</Thickness>
+	<Thickness x:Key="OmnibarUnfocusedRootPadding">1</Thickness>
+
+	<x:Double x:Key="OmnibarModeDividerDefaultHeight">24</x:Double>
+	<SolidColorBrush x:Key="OmnibarModeDivisiderBrush" Color="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+	<Style BasedOn="{StaticResource DefaultOmnibarStyle}" TargetType="local:Omnibar" />
+
+	<Style x:Key="DefaultOmnibarStyle" TargetType="local:Omnibar">
+		<Setter Property="IsTabStop" Value="True" />
+		<Setter Property="Height" Value="{StaticResource OmnibarDefaultHeight}" />
+		<Setter Property="UseSystemFocusVisuals" Value="True" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="Background" Value="{ThemeResource ControlFillColorDefaultBrush}" />
+		<Setter Property="Padding" Value="{ThemeResource OmnibarUnfocusedRootPadding}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource CircleElevationBorderBrush}" />
+		<Setter Property="BorderThickness" Value="{StaticResource OmnibarUnfocusedBorderThickness}" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="CornerRadius" Value="{StaticResource OmnibarDefaultCornerRadius}" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="IsFocusEngagementEnabled" Value="True" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:Omnibar">
+					<Grid
+						x:Name="PART_RootGrid"
+						Padding="{TemplateBinding Padding}"
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						CornerRadius="{TemplateBinding CornerRadius}">
+						<Grid x:Name="PART_ModesHostGrid" />
+
+						<VisualStateManager.VisualStateGroups>
+
+							<VisualStateGroup x:Name="PointerStates">
+								<VisualState x:Name="Normal" />
+								<VisualState x:Name="Focused">
+									<VisualState.Setters>
+										<Setter Target="PART_RootGrid.BorderBrush" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+										<Setter Target="PART_RootGrid.BorderThickness" Value="{StaticResource OmnibarFocusedBorderThickness}" />
+										<Setter Target="PART_RootGrid.Margin" Value="-1" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>

@@ -5,11 +5,6 @@
 
     <application xmlns="urn:schemas-microsoft-com:asm.v3">
         <windowsSettings>
-            <!--
-        The combination of below two tags have the following effect:
-          1) Per-Monitor for >= Windows 10 Anniversary Update
-          2) System < Windows 10 Anniversary Update
-      -->
             <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true/PM</dpiAware>
             <dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">PerMonitorV2, PerMonitor</dpiAwareness>
         </windowsSettings>

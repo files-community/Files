@@ -1,0 +1,119 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<Page
+	x:Class="Files.App.UITests.Views.OmnibarPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:Files.App.UITests.Views"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d">
+
+	<Page.Resources>
+		<ResourceDictionary>
+
+			<Style x:Key="StackPanelControlTestingStyle" TargetType="StackPanel">
+				<Setter Property="Padding" Value="16,16,16,24" />
+				<Setter Property="Background" Value="{ThemeResource LayerFillColorDefaultBrush}" />
+				<Setter Property="BorderBrush" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
+				<Setter Property="BorderThickness" Value="1,0,0,0" />
+				<Setter Property="CornerRadius" Value="0,8,8,0" />
+				<Setter Property="Spacing" Value="24" />
+			</Style>
+
+			<Style x:Key="GridExampleControlStyle" TargetType="Grid">
+				<Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+				<Setter Property="BorderBrush" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
+				<Setter Property="BorderThickness" Value="1" />
+				<Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
+			</Style>
+
+			<Style
+				x:Key="TextExampleCaptionStyle"
+				BasedOn="{StaticResource CaptionTextBlockStyle}"
+				TargetType="TextBlock">
+				<Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+				<Setter Property="Margin" Value="24,24,24,0" />
+				<Setter Property="FontWeight" Value="Normal" />
+				<Setter Property="HorizontalAlignment" Value="Center" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="MaxLines" Value="1" />
+				<Setter Property="TextTrimming" Value="CharacterEllipsis" />
+				<Setter Property="TextWrapping" Value="NoWrap" />
+			</Style>
+
+		</ResourceDictionary>
+	</Page.Resources>
+
+	<Grid Padding="36" RowSpacing="24">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<StackPanel Spacing="8">
+			<TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Omnibar" />
+			<TextBlock
+				Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+				Style="{StaticResource CaptionTextBlockStyle}"
+				Text="Files.App.Controls" />
+		</StackPanel>
+
+		<Grid
+			Grid.Row="1"
+			Padding="24"
+			Style="{StaticResource GridExampleControlStyle}">
+			<controls:Omnibar HorizontalAlignment="Stretch" VerticalAlignment="Center">
+				<controls:OmnibarMode
+					HideContentOnInactive="True"
+					IsDefault="True"
+					Text="A">
+					<controls:OmnibarMode.IconOnActive>
+						<controls:ThemedIcon
+							Width="16"
+							Height="16"
+							IsFilled="True"
+							Style="{StaticResource App.ThemedIcons.Settings}" />
+					</controls:OmnibarMode.IconOnActive>
+					<controls:OmnibarMode.IconOnInactive>
+						<controls:ThemedIcon
+							Width="16"
+							Height="16"
+							Style="{StaticResource App.ThemedIcons.Settings}" />
+					</controls:OmnibarMode.IconOnInactive>
+				</controls:OmnibarMode>
+				<controls:OmnibarMode HideContentOnInactive="True" Text="B">
+					<controls:OmnibarMode.IconOnActive>
+						<controls:ThemedIcon
+							Width="16"
+							Height="16"
+							IsFilled="True"
+							Style="{StaticResource App.ThemedIcons.Settings}" />
+					</controls:OmnibarMode.IconOnActive>
+					<controls:OmnibarMode.IconOnInactive>
+						<controls:ThemedIcon
+							Width="16"
+							Height="16"
+							Style="{StaticResource App.ThemedIcons.Settings}" />
+					</controls:OmnibarMode.IconOnInactive>
+				</controls:OmnibarMode>
+				<controls:OmnibarMode Text="C">
+					<controls:OmnibarMode.IconOnActive>
+						<controls:ThemedIcon
+							Width="16"
+							Height="16"
+							IsFilled="True"
+							Style="{StaticResource App.ThemedIcons.Settings}" />
+					</controls:OmnibarMode.IconOnActive>
+					<controls:OmnibarMode.IconOnInactive>
+						<controls:ThemedIcon
+							Width="16"
+							Height="16"
+							Style="{StaticResource App.ThemedIcons.Settings}" />
+					</controls:OmnibarMode.IconOnInactive>
+				</controls:OmnibarMode>
+			</controls:Omnibar>
+		</Grid>
+
+	</Grid>
+</Page>

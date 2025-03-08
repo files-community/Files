@@ -16,17 +16,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Manifest Include="$(ApplicationManifest)" />
     <Content Include="Assets\*.png" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Files.App.Controls\Files.App.Controls.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
     <PackageReference Include="Microsoft.WindowsAppSDK" />
-    <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
   <!--  Allows the Single-project MSIX Packaging Tools extension to be activated for this project even if the Windows App SDK Nuget package has not yet been restored.  -->
@@ -37,13 +34,5 @@
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
-  <ItemGroup>
-    <None Remove="Views\ToolbarPage.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Views\ToolbarPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
 
 </Project>

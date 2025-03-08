@@ -125,8 +125,8 @@
 							FontSize="14"
 							Foreground="{TemplateBinding CloseButtonForeground}"
 							Style="{StaticResource ButtonRevealStyle}"
-							Visibility="{TemplateBinding CloseButtonVisibility}"
-							TabIndex="0" />
+							TabIndex="0"
+							Visibility="{TemplateBinding CloseButtonVisibility}" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
