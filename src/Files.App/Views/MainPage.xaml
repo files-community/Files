@@ -3,6 +3,7 @@
 	x:Class="Files.App.Views.MainPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:controls="using:Files.App.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -13,8 +14,7 @@
 	xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:viewmodels="using:Files.App.ViewModels"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters" 
-	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	AllowDrop="True"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
@@ -259,21 +259,23 @@
 			</controls:SidebarView.InnerContent>
 
 			<controls:SidebarView.Footer>
-				<StackPanel 
-					Padding="4" 
-					Spacing="4">
-					<Border HorizontalAlignment="Stretch" Height="1" BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}" BorderThickness="1"/>
+				<StackPanel Padding="4" Spacing="4">
+					<Border
+						Height="1"
+						HorizontalAlignment="Stretch"
+						BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+						BorderThickness="1" />
 					<!--  Open the Settings dialog  -->
 					<Button
 						x:Name="SettingsButton"
+						Height="32"
+						HorizontalAlignment="Stretch"
+						HorizontalContentAlignment="Stretch"
 						AccessKey="I"
 						AccessKeyInvoked="SettingsButton_AccessKeyInvoked"
 						AutomationProperties.AutomationId="SettingsButton"
 						AutomationProperties.Name="{x:Bind Commands.OpenSettings.Label, Mode=OneWay}"
 						Command="{x:Bind Commands.OpenSettings, Mode=OneWay}"
-						Height="32"
-						HorizontalAlignment="Stretch"
-						HorizontalContentAlignment="Stretch"
 						ToolTipService.Placement="Bottom"
 						ToolTipService.ToolTip="{x:Bind Commands.OpenSettings.LabelWithHotKey, Mode=OneWay}">
 						<Grid HorizontalAlignment="Stretch">
@@ -281,7 +283,10 @@
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="*" />
 							</Grid.ColumnDefinitions>
-							<AnimatedIcon x:Name="SettingAnimatedIcon" Height="16" Margin="4,0,0,0">
+							<AnimatedIcon
+								x:Name="SettingAnimatedIcon"
+								Height="16"
+								Margin="4,0,0,0">
 								<AnimatedIcon.Source>
 									<animatedvisuals:AnimatedSettingsVisualSource />
 								</AnimatedIcon.Source>
@@ -290,10 +295,10 @@
 								</AnimatedIcon.FallbackIconSource>
 							</AnimatedIcon>
 
-							<TextBlock 
-								Grid.Column="1" 
+							<TextBlock
+								Grid.Column="1"
 								Margin="16,0,0,0"
-								Text="{x:Bind Commands.OpenSettings.Label, Mode=OneWay}"/>
+								Text="{x:Bind Commands.OpenSettings.Label, Mode=OneWay}" />
 						</Grid>
 					</Button>
 				</StackPanel>
