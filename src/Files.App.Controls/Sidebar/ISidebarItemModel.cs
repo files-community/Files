@@ -38,7 +38,7 @@ namespace Files.App.Controls
 
 		/// <summary>
 		/// Indicates whether the children should have an indentation or not.
-		bool PaddedItem { get; }
 		/// </summary>
+		bool PaddedItem { get; }
 	}
 }
