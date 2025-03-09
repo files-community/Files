@@ -279,7 +279,7 @@ namespace Files.App.Controls
 
 		private void UpdateIcon()
 		{
-			Icon = Item?.IconSource?.CreateIconElement();
+			Icon = Item?.IconSource?.CreateIconElement(); 
 			if (Icon is not null)
 				AutomationProperties.SetAccessibilityView(Icon, AccessibilityView.Raw);
 		}
