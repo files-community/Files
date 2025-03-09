@@ -37,7 +37,7 @@ namespace Files.App.Controls
 		object ToolTip { get; }
 
 		/// <summary>
-		/// Indicates whether the children should have be indentet or not.
+		/// Indicates whether the children should have an indentation or not.
 		bool PaddedItem { get; }
 		/// </summary>
 	}
