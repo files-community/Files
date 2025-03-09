@@ -73,13 +73,13 @@
 							Width="16"
 							Height="16"
 							IsFilled="True"
-							Style="{StaticResource App.ThemedIcons.Settings}" />
+							Style="{StaticResource App.ThemedIcons.Omnibar.Path}" />
 					</controls:OmnibarMode.IconOnActive>
 					<controls:OmnibarMode.IconOnInactive>
 						<controls:ThemedIcon
 							Width="16"
 							Height="16"
-							Style="{StaticResource App.ThemedIcons.Settings}" />
+							Style="{StaticResource App.ThemedIcons.Omnibar.Path}" />
 					</controls:OmnibarMode.IconOnInactive>
 				</controls:OmnibarMode>
 				<controls:OmnibarMode HideContentOnInactive="True" Text="B">
@@ -88,13 +88,13 @@
 							Width="16"
 							Height="16"
 							IsFilled="True"
-							Style="{StaticResource App.ThemedIcons.Settings}" />
+							Style="{StaticResource App.ThemedIcons.Omnibar.Commands}" />
 					</controls:OmnibarMode.IconOnActive>
 					<controls:OmnibarMode.IconOnInactive>
 						<controls:ThemedIcon
 							Width="16"
 							Height="16"
-							Style="{StaticResource App.ThemedIcons.Settings}" />
+							Style="{StaticResource App.ThemedIcons.Omnibar.Commands}" />
 					</controls:OmnibarMode.IconOnInactive>
 				</controls:OmnibarMode>
 				<controls:OmnibarMode Text="C">
@@ -103,13 +103,13 @@
 							Width="16"
 							Height="16"
 							IsFilled="True"
-							Style="{StaticResource App.ThemedIcons.Settings}" />
+							Style="{StaticResource App.ThemedIcons.Omnibar.Search}" />
 					</controls:OmnibarMode.IconOnActive>
 					<controls:OmnibarMode.IconOnInactive>
 						<controls:ThemedIcon
 							Width="16"
 							Height="16"
-							Style="{StaticResource App.ThemedIcons.Settings}" />
+							Style="{StaticResource App.ThemedIcons.Omnibar.Search}" />
 					</controls:OmnibarMode.IconOnInactive>
 				</controls:OmnibarMode>
 			</controls:Omnibar>
