@@ -19,6 +19,7 @@ using WinRT.Interop;
 using VirtualKey = Windows.System.VirtualKey;
 using GridSplitter = Files.App.Controls.GridSplitter;
 using Files.App.Controls;
+using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Views
 {
@@ -493,6 +494,14 @@ namespace Files.App.Views
 		{
 			this.ChangeCursor(InputSystemCursor.Create(InfoPane.Position == PreviewPanePositions.Right ?
 				InputSystemCursorShape.SizeWestEast : InputSystemCursorShape.SizeNorthSouth));
+		}
+
+
+		private void SettingsButton_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
+		{
+			// Suppress access key invocation if any dialog is open
+			if (VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot).Any())
+				args.Handled = true;
 		}
 	}
 }

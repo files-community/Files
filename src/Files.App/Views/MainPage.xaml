@@ -13,7 +13,8 @@
 	xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:viewmodels="using:Files.App.ViewModels"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters" 
+	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	AllowDrop="True"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
@@ -152,7 +153,6 @@
 			OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
 			ShowOngoingTasks="True"
 			ShowSearchBox="True"
-			ShowSettingsButton="{x:Bind WindowContext.IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 			TabIndex="1" />
 
 		<!--  Content Area  -->
@@ -257,6 +257,47 @@
 						x:Load="{x:Bind ViewModel.ShowShelfPane, Mode=OneWay}" />
 				</Grid>
 			</controls:SidebarView.InnerContent>
+
+			<controls:SidebarView.Footer>
+				<StackPanel 
+					Padding="4" 
+					Spacing="4">
+					<Border HorizontalAlignment="Stretch" Height="1" BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}" BorderThickness="1"/>
+					<!--  Open the Settings dialog  -->
+					<Button
+						x:Name="SettingsButton"
+						AccessKey="I"
+						AccessKeyInvoked="SettingsButton_AccessKeyInvoked"
+						AutomationProperties.AutomationId="SettingsButton"
+						AutomationProperties.Name="{x:Bind Commands.OpenSettings.Label, Mode=OneWay}"
+						Command="{x:Bind Commands.OpenSettings, Mode=OneWay}"
+						Height="32"
+						HorizontalAlignment="Stretch"
+						HorizontalContentAlignment="Stretch"
+						ToolTipService.Placement="Bottom"
+						ToolTipService.ToolTip="{x:Bind Commands.OpenSettings.LabelWithHotKey, Mode=OneWay}">
+						<Grid HorizontalAlignment="Stretch">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<AnimatedIcon x:Name="SettingAnimatedIcon" Height="16" Margin="4,0,0,0">
+								<AnimatedIcon.Source>
+									<animatedvisuals:AnimatedSettingsVisualSource />
+								</AnimatedIcon.Source>
+								<AnimatedIcon.FallbackIconSource>
+									<SymbolIconSource Symbol="Setting" />
+								</AnimatedIcon.FallbackIconSource>
+							</AnimatedIcon>
+
+							<TextBlock 
+								Grid.Column="1" 
+								Margin="16,0,0,0"
+								Text="{x:Bind Commands.OpenSettings.Label, Mode=OneWay}"/>
+						</Grid>
+					</Button>
+				</StackPanel>
+			</controls:SidebarView.Footer>
 		</controls:SidebarView>
 
 		<VisualStateManager.VisualStateGroups>
