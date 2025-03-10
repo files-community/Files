@@ -18,7 +18,16 @@ namespace Files.App.Controls
 		public partial string? Text { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial bool HideContentOnInactive { get; set; }
+		public partial string? TextPlaceholder { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial string? ToolTip { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial bool UseDefaultInactiveMode { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial FrameworkElement? ContentOnInactive { get; set; }
 
 		[GeneratedDependencyProperty]
 		public partial FrameworkElement? IconOnActive { get; set; }
@@ -27,17 +36,15 @@ namespace Files.App.Controls
 		public partial FrameworkElement? IconOnInactive { get; set; }
 
 		[GeneratedDependencyProperty]
+		public partial object? SuggestionItemsSource { get; set; }
+
+		[GeneratedDependencyProperty]
 		public partial DataTemplate? SuggestionItemTemplate { get; set; }
 
 		[GeneratedDependencyProperty]
 		public partial bool IsDefault { get; set; }
 
 		[GeneratedDependencyProperty]
-		internal partial Grid? Host { get; set; }
-
-		partial void OnHostChanged(Grid? newValue)
-		{
-			UpdateVisualStates();
-		}
+		internal partial Omnibar? Host { get; set; }
 	}
 }

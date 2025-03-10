@@ -5,6 +5,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="using:Files.App.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:data="using:Files.App.UITests.Data"
 	xmlns:local="using:Files.App.UITests.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d">
@@ -64,54 +65,77 @@
 			Padding="24"
 			Style="{StaticResource GridExampleControlStyle}">
 			<controls:Omnibar HorizontalAlignment="Stretch" VerticalAlignment="Center">
+
+				<controls:Omnibar.DefaultInactiveMode>
+					<Grid>
+						<TextBlock Text="A" />
+					</Grid>
+				</controls:Omnibar.DefaultInactiveMode>
+
 				<controls:OmnibarMode
-					HideContentOnInactive="True"
 					IsDefault="True"
-					Text="A">
+					Text="Path..."
+					TextPlaceholder="Enter text..."
+					ToolTip="Path"
+					UseDefaultInactiveMode="True">
 					<controls:OmnibarMode.IconOnActive>
-						<controls:ThemedIcon
-							Width="16"
-							Height="16"
-							IsFilled="True"
-							Style="{StaticResource App.ThemedIcons.Omnibar.Path}" />
+						<controls:ThemedIcon IsFilled="True" Style="{StaticResource App.ThemedIcons.Omnibar.Path}" />
 					</controls:OmnibarMode.IconOnActive>
 					<controls:OmnibarMode.IconOnInactive>
-						<controls:ThemedIcon
-							Width="16"
-							Height="16"
-							Style="{StaticResource App.ThemedIcons.Omnibar.Path}" />
+						<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Omnibar.Path}" />
 					</controls:OmnibarMode.IconOnInactive>
 				</controls:OmnibarMode>
-				<controls:OmnibarMode HideContentOnInactive="True" Text="B">
+
+				<controls:OmnibarMode
+					SuggestionItemsSource="{x:Bind DummyItems1, Mode=OneWay}"
+					Text="Palette..."
+					TextPlaceholder="Enter a palette command..."
+					ToolTip="Palette"
+					UseDefaultInactiveMode="True">
 					<controls:OmnibarMode.IconOnActive>
-						<controls:ThemedIcon
-							Width="16"
-							Height="16"
-							IsFilled="True"
-							Style="{StaticResource App.ThemedIcons.Omnibar.Commands}" />
+						<controls:ThemedIcon IsFilled="True" Style="{StaticResource App.ThemedIcons.Omnibar.Commands}" />
 					</controls:OmnibarMode.IconOnActive>
 					<controls:OmnibarMode.IconOnInactive>
-						<controls:ThemedIcon
-							Width="16"
-							Height="16"
-							Style="{StaticResource App.ThemedIcons.Omnibar.Commands}" />
+						<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Omnibar.Commands}" />
 					</controls:OmnibarMode.IconOnInactive>
+					<controls:OmnibarMode.SuggestionItemTemplate>
+						<DataTemplate x:DataType="data:DummyItem1">
+							<Grid Height="48" ColumnSpacing="12">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+								<StackPanel VerticalAlignment="Center">
+									<controls:ThemedIcon IconSize="20" Style="{StaticResource App.ThemedIcons.Actions.Copying}" />
+								</StackPanel>
+								<StackPanel Grid.Column="1" VerticalAlignment="Center">
+									<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="{x:Bind Title}" />
+									<TextBlock
+										Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+										Style="{StaticResource CaptionTextBlockStyle}"
+										Text="{x:Bind Description}" />
+								</StackPanel>
+								<StackPanel Grid.Column="2" VerticalAlignment="Center">
+									<TextBlock Text="{x:Bind HotKeys}" />
+								</StackPanel>
+							</Grid>
+						</DataTemplate>
+					</controls:OmnibarMode.SuggestionItemTemplate>
 				</controls:OmnibarMode>
-				<controls:OmnibarMode Text="C">
+
+				<controls:OmnibarMode
+					Text="Search..."
+					TextPlaceholder="Enter a search query..."
+					ToolTip="Search">
 					<controls:OmnibarMode.IconOnActive>
-						<controls:ThemedIcon
-							Width="16"
-							Height="16"
-							IsFilled="True"
-							Style="{StaticResource App.ThemedIcons.Omnibar.Search}" />
+						<controls:ThemedIcon IsFilled="True" Style="{StaticResource App.ThemedIcons.Omnibar.Search}" />
 					</controls:OmnibarMode.IconOnActive>
 					<controls:OmnibarMode.IconOnInactive>
-						<controls:ThemedIcon
-							Width="16"
-							Height="16"
-							Style="{StaticResource App.ThemedIcons.Omnibar.Search}" />
+						<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Omnibar.Search}" />
 					</controls:OmnibarMode.IconOnInactive>
 				</controls:OmnibarMode>
+
 			</controls:Omnibar>
 		</Grid>
 

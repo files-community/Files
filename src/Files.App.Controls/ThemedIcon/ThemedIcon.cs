@@ -43,6 +43,7 @@ namespace Files.App.Controls
 
 			OnIconTypeChanged();
 			OnIconColorTypeChanged();
+			OnIconSizeChanged();
 		}
 
 		private void GetTemplateParts()
@@ -248,6 +249,11 @@ namespace Files.App.Controls
 
 			if (GetTemplateChild(FilledIconPath) is Path fillPath)
 				fillPath.Fill = (Brush)this.GetValue(ColorProperty);
+		}
+
+		private void OnIconSizeChanged()
+		{
+			Height = Width = IconSize;
 		}
 	}
 }

@@ -10,6 +10,19 @@ using Microsoft.UI.Xaml.Shapes;
 
 namespace Files.App.Controls
 {
+	// Template parts
+	[TemplatePart(Name = "PART_ModeClickBorder", Type = typeof(Border))]
+	[TemplatePart(Name = "PART_ModeIconPresenter", Type = typeof(ContentPresenter))]
+	[TemplatePart(Name = "PART_InputTextBox", Type = typeof(TextBox))]
+	// Visual states
+	[TemplateVisualState(GroupName = "CommonStates", Name = "PointerNormal")]
+	[TemplateVisualState(GroupName = "CommonStates", Name = "PointerOver")]
+	[TemplateVisualState(GroupName = "CommonStates", Name = "PointerPressed")]
+	[TemplateVisualState(GroupName = "CommonStates", Name = "Focused")]
+	[TemplateVisualState(GroupName = "InputVisibilityStates", Name = "Collapsed")]
+	[TemplateVisualState(GroupName = "InputVisibilityStates", Name = "Visible")]
+	[TemplateVisualState(GroupName = "IconStates", Name = "InactiveIcon")]
+	[TemplateVisualState(GroupName = "IconStates", Name = "ActiveIcon")]
 	public partial class OmnibarMode : Control
 	{
 		private const string ModeClickBorder = "PART_ModeClickBorder";
@@ -33,6 +46,9 @@ namespace Files.App.Controls
 			_inputTextBox = GetTemplateChild(InputTextBox) as TextBox
 				?? throw new MissingFieldException($"Could not find {InputTextBox} in the given {nameof(OmnibarMode)}'s style.");
 
+			if (IsDefault)
+				Host!.ChangeMode(this);
+
 			UpdateVisualStates();
 
 			_modeClickArea.PointerEntered += OmnibarMode_PointerEntered;
@@ -49,18 +65,15 @@ namespace Files.App.Controls
 				this,
 				_isPressed ? "PointerPressed" : _isHoveredOver ? "PointerOver" : "PointerNormal",
 				true);
-
-			if (IsDefault && Host is not null)
-			{
-				VisualStateManager.GoToState(this, "Visible",true);
-				Host.ColumnDefinitions[Host.Children.IndexOf(this)].Width = new(1, GridUnitType.Star);
-			}
 		}
 
 		// Events
 
 		private void OmnibarMode_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
+			if (Host!.CurrentActiveMode == this)
+				return;
+
 			_isHoveredOver = true;
 			_isPressed = false;
 			UpdateVisualStates();
@@ -68,6 +81,9 @@ namespace Files.App.Controls
 
 		private void OmnibarMode_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
+			if (Host!.CurrentActiveMode == this)
+				return;
+
 			_isHoveredOver = false;
 			_isPressed = true;
 			UpdateVisualStates();
@@ -75,13 +91,20 @@ namespace Files.App.Controls
 
 		private void OmnibarMode_PointerReleased(object sender, PointerRoutedEventArgs e)
 		{
+			if (Host!.CurrentActiveMode == this)
+				return;
+
 			_isHoveredOver = true;
 			_isPressed = false;
 			UpdateVisualStates();
+			Host.ChangeMode(this);
 		}
 
 		private void OmnibarMode_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
+			//if (Host!.CurrentActiveMode == this)
+			//	return;
+
 			_isHoveredOver = _isPressed = false;
 			UpdateVisualStates();
 		}

@@ -16,5 +16,23 @@ namespace Files.App.Controls
 	{
 		[GeneratedDependencyProperty]
 		public partial IList<OmnibarMode>? Modes { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial OmnibarMode? CurrentActiveMode { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial FrameworkElement? DefaultInactiveMode { get; set; }
+
+		partial void OnDefaultInactiveModeChanged(FrameworkElement? newValue)
+		{
+			if (Modes is null)
+				return;
+
+			foreach (var mode in Modes)
+			{
+				//if (mode.UseDefaultInactiveMode)
+				//	mode.ContentOnInactive = newValue;
+			}
+		}
 	}
 }

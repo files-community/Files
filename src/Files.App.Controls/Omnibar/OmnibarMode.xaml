@@ -19,6 +19,13 @@
 		<Setter Property="CornerRadius" Value="{StaticResource OmnibarDefaultCornerRadius}" />
 		<Setter Property="VerticalAlignment" Value="Stretch" />
 		<Setter Property="IsFocusEngagementEnabled" Value="True" />
+		<Setter Property="Transitions">
+			<Setter.Value>
+				<TransitionCollection>
+					<RepositionThemeTransition />
+				</TransitionCollection>
+			</Setter.Value>
+		</Setter>
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:OmnibarMode">
@@ -33,12 +40,17 @@
 							Width="{StaticResource OmnibarModeDefaultClickAreaWidth}"
 							Height="{TemplateBinding Height}"
 							Background="Transparent"
-							CornerRadius="{TemplateBinding CornerRadius}">
+							CornerRadius="{TemplateBinding CornerRadius}"
+							ToolTipService.ToolTip="{Binding ToolTip, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
 							<Border.BackgroundTransition>
 								<BrushTransition Duration="0:0:0.083" />
 							</Border.BackgroundTransition>
 
-							<ContentPresenter HorizontalAlignment="Center" Content="{TemplateBinding IconOnInactive}" />
+							<ContentPresenter
+								x:Name="PART_ModeIconPresenter"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								Content="{Binding IconOnInactive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 						</Border>
 
 						<TextBox
@@ -46,6 +58,8 @@
 							Grid.Column="1"
 							HorizontalAlignment="Stretch"
 							HorizontalContentAlignment="Stretch"
+							PlaceholderText="{TemplateBinding TextPlaceholder}"
+							Text="{Binding Path=Text, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
 							Visibility="Collapsed">
 							<TextBox.Resources>
 								<SolidColorBrush x:Key="TextControlBackground" Color="Transparent" />
@@ -62,9 +76,19 @@
 							</TextBox.Resources>
 						</TextBox>
 
+						<ContentPresenter
+							x:Name="PART_InactiveContent"
+							Grid.Column="0"
+							Grid.ColumnSpan="2"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Center"
+							HorizontalContentAlignment="Stretch"
+							Content="{Binding ContentOnInactive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+							Visibility="Collapsed" />
+
 						<VisualStateManager.VisualStateGroups>
 
-							<VisualStateGroup x:Name="CommonStates">
+							<VisualStateGroup x:Name="PointerStates">
 								<VisualState x:Name="PointerNormal" />
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
@@ -74,14 +98,21 @@
 								<VisualState x:Name="PointerPressed">
 									<VisualState.Setters>
 										<Setter Target="PART_ModeClickBorder.Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+										<Setter Target="PART_ModeIconPresenter.Content" Value="{Binding IconOnActive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
 
-							<VisualStateGroup x:Name="InputVisibilityStates">
-								<VisualState x:Name="Hidden" />
-								<VisualState x:Name="Visible">
+							<VisualStateGroup x:Name="FocusStates">
+								<VisualState x:Name="Unfocused" />
+								<VisualState x:Name="CurrentUnfocused">
 									<VisualState.Setters>
+										<Setter Target="PART_InputTextBox.Visibility" Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Focused">
+									<VisualState.Setters>
+										<Setter Target="PART_ModeIconPresenter.Content" Value="{Binding IconOnActive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 										<Setter Target="PART_InputTextBox.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
