@@ -297,7 +297,7 @@
 
 							<TextBlock
 								Grid.Column="1"
-								Margin="16,0,0,0"
+								Margin="12,0,0,0"
 								Text="{x:Bind Commands.OpenSettings.Label, Mode=OneWay}" />
 						</Grid>
 					</Button>
