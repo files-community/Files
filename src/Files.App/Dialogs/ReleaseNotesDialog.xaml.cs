@@ -68,6 +68,7 @@ namespace Files.App.Dialogs
 
 		private async void BlogPostWebView_CoreWebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
 		{
+			BlogPostWebView.CoreWebView2.Profile.PreferredColorScheme = (CoreWebView2PreferredColorScheme)RootAppElement.RequestedTheme;
 			BlogPostWebView.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
 			BlogPostWebView.CoreWebView2.Settings.AreDevToolsEnabled = false;
 			BlogPostWebView.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
