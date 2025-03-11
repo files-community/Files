@@ -9,10 +9,10 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 		public override string Label
-			=> "BaseLayoutContextFlyoutRunAsAnotherUser/Text".GetLocalizedResource();
+			=> Strings.BaseLayoutContextFlyoutRunAsAnotherUser_Text.GetLocalizedResource();
 
 		public override string Description
-			=> "RunAsAnotherUserDescription".GetLocalizedResource();
+			=> Strings.RunAsAnotherUserDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new("\uE7EE");
