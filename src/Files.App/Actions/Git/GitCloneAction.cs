@@ -15,6 +15,9 @@ namespace Files.App.Actions
 		public bool IsExecutable
 			=> pageContext.CanCreateItem;
 
+		public RichGlyph Glyph
+			=> new(themedIconStyle: "App.ThemedIcons.Git");
+
 		public GitCloneAction()
 		{
 			pageContext.PropertyChanged += Context_PropertyChanged;
