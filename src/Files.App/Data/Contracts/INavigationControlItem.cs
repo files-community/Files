@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.UserControls.Sidebar;
+using Files.App.Controls;
 
 namespace Files.App.Data.Contracts
 {

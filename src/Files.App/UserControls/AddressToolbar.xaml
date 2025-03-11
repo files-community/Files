@@ -620,28 +620,6 @@
 						Style="{StaticResource App.ThemedIcons.AppUpdatedBox}" />
 				</Button>
 
-				<!--  Open the Settings dialog  -->
-				<Button
-					x:Name="SettingsButton"
-					AccessKey="I"
-					AccessKeyInvoked="Button_AccessKeyInvoked"
-					AutomationProperties.AutomationId="SettingsButton"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.OpenSettings.Label, Mode=OneWay}"
-					Command="{x:Bind ViewModel.Commands.OpenSettings, Mode=OneWay}"
-					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.Placement="Bottom"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.OpenSettings.LabelWithHotKey, Mode=OneWay}"
-					Visibility="{x:Bind ShowSettingsButton, Mode=OneWay}">
-					<AnimatedIcon x:Name="SettingAnimatedIcon" Height="16">
-						<AnimatedIcon.Source>
-							<animatedvisuals:AnimatedSettingsVisualSource />
-						</AnimatedIcon.Source>
-						<AnimatedIcon.FallbackIconSource>
-							<SymbolIconSource Symbol="Setting" />
-						</AnimatedIcon.FallbackIconSource>
-					</AnimatedIcon>
-				</Button>
-
 			</StackPanel>
 
 			<!--  Status Center TeachingTip  -->

@@ -2,15 +2,13 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Input;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Markup;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
 
-namespace Files.App.UserControls.Sidebar
+namespace Files.App.Controls
 {
 	[ContentProperty(Name = "InnerContent")]
 	public sealed partial class SidebarView : UserControl, INotifyPropertyChanged

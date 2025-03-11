@@ -16,7 +16,6 @@ namespace Files.App.UserControls
 {
 	[DependencyProperty<bool>("IsSidebarPaneOpenToggleButtonVisible")]
 	[DependencyProperty<bool>("ShowOngoingTasks")]
-	[DependencyProperty<bool>("ShowSettingsButton")]
 	[DependencyProperty<bool>("ShowSearchBox")]
 	[DependencyProperty<AddressToolbarViewModel>("ViewModel")]
 	public sealed partial class AddressToolbar : UserControl

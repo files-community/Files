@@ -227,6 +227,8 @@ namespace Files.App.Data.Items
 			}
 		}
 
+		public bool PaddedItem => false;
+
 		private void ItemDecorator_Click(object sender, RoutedEventArgs e)
 		{
 			DriveHelpers.EjectDeviceAsync(Path);

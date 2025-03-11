@@ -76,6 +76,7 @@
 						<NavigationViewItem Content="ThemedIcon" Tag="ThemedIconPage" />
 						<NavigationViewItem Content="Toolbar" Tag="ToolbarPage" />
 						<NavigationViewItem Content="Storage Controls" Tag="StorageControlsPage" />
+						<NavigationViewItem Content="SidebarView" Tag="SidebarViewPage" />
 					</NavigationViewItem.MenuItems>
 				</NavigationViewItem>
 			</NavigationView.MenuItems>

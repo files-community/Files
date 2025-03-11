@@ -1,9 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Microsoft.UI.Xaml;
-
-namespace Files.App.UserControls.Sidebar
+namespace Files.App.Controls
 {
 	public sealed partial class SidebarView
 	{

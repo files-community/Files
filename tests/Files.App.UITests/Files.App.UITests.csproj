@@ -41,6 +41,11 @@
     <None Remove="Views\ToolbarPage.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Views\SidebarViewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Views\ToolbarPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

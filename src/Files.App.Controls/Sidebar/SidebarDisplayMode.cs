@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-namespace Files.App.UserControls.Sidebar
+namespace Files.App.Controls
 {
 	/// <summary>
 	/// The display mode of the <see cref="SidebarView"/>
