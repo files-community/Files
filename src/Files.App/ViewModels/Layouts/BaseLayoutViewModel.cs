@@ -19,7 +19,6 @@ namespace Files.App.ViewModels.Layouts
 	/// </summary>
 	public sealed partial class BaseLayoutViewModel : IDisposable
 	{
-		private readonly IDialogService DialogService = Ioc.Default.GetRequiredService<IDialogService>();
 		protected ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private ILogger? Logger { get; } = Ioc.Default.GetRequiredService<ILogger<App>>();
 
