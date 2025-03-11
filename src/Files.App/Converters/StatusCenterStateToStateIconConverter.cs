@@ -25,6 +25,7 @@ namespace Files.App.Converters
 					StatusCenterItemIconKind.Compress =>   Application.Current.Resources["App.Theme.PathIcon.ActionExtract"] as string,
 					StatusCenterItemIconKind.Successful => Application.Current.Resources["App.Theme.PathIcon.ActionSuccess"] as string,
 					StatusCenterItemIconKind.Error =>      Application.Current.Resources["App.Theme.PathIcon.ActionInfo"] as string,
+					StatusCenterItemIconKind.GitClone =>   Application.Current.Resources["App.Theme.PathIcon.ActionGitClone"] as string,
 					_ => ""
 				};
 
