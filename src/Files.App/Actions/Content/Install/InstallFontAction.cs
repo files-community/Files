@@ -10,10 +10,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Install".GetLocalizedResource();
+			=> Strings.Install.GetLocalizedResource();
 
 		public string Description
-			=> "InstallFontDescription".GetLocalizedResource();
+			=> Strings.InstallFontDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new("\uE8D2");
