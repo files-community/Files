@@ -1,49 +1,70 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml;
 
 namespace Files.App.Controls
 {
-	[DependencyProperty<double>("ValueRingThickness", nameof(OnValueRingThicknessChanged), DefaultValue = "(double)0.0")]
-	[DependencyProperty<double>("TrackRingThickness", nameof(OnTrackRingThicknessChanged), DefaultValue = "(double)0.0")]
-	[DependencyProperty<double>("MinAngle", nameof(OnMinAngleChanged), DefaultValue = "(double)0.0")]
-	[DependencyProperty<double>("MaxAngle", nameof(OnMaxAngleChanged), DefaultValue = "(double)360.0")]
-	[DependencyProperty<double>("StartAngle", nameof(OnStartAngleChanged), DefaultValue = "(double)0.0")]
-	[DependencyProperty<double>("Percent", nameof(OnPercentChanged))]
-	[DependencyProperty<double>("PercentCaution", nameof(OnPercentCautionChanged), DefaultValue = "(double)75.01")]
-	[DependencyProperty<double>("PercentCritical", nameof(OnPercentCriticalChanged), DefaultValue = "(double)90.01")]
-	[DependencyProperty<double>("ValueAngle")]
-	[DependencyProperty<double>("AdjustedSize", DefaultValue = "(double)16.0")]
 	public partial class StorageRing
 	{
-		private void OnValueRingThicknessChanged(double oldValue, double newValue)
+		[GeneratedDependencyProperty(DefaultValue = 0.0d)]
+		public partial double ValueRingThickness { get; set; }
+
+		[GeneratedDependencyProperty(DefaultValue = 0.0d)]
+		public partial double TrackRingThickness { get; set; }
+
+		[GeneratedDependencyProperty(DefaultValue = 0.0d)]
+		public partial double MinAngle { get; set; }
+
+		[GeneratedDependencyProperty(DefaultValue = 360.0d)]
+		public partial double MaxAngle { get; set; }
+
+		[GeneratedDependencyProperty(DefaultValue = 0.0d)]
+		public partial double StartAngle { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial double Percent { get; set; }
+
+		[GeneratedDependencyProperty(DefaultValue = 75.01d)]
+		public partial double PercentCaution { get; set; }
+
+		[GeneratedDependencyProperty(DefaultValue = 90.01d)]
+		public partial double PercentCritical { get; set; }
+
+		[GeneratedDependencyProperty(DefaultValue = 0.0d)]
+		public partial double ValueAngle { get; set; }
+
+		[GeneratedDependencyProperty(DefaultValue = 16.0d)]
+		public partial double AdjustedSize { get; set; }
+
+		partial void OnValueRingThicknessChanged(double newValue)
 		{
 			UpdateRingThickness(this, newValue, false);
 			UpdateRings(this);
 		}
 
-		private void OnTrackRingThicknessChanged(double oldValue, double newValue)
+		partial void OnTrackRingThicknessChanged(double newValue)
 		{
 			UpdateRingThickness(this, newValue, true);
 			UpdateRings(this);
 		}
 
-		private void OnMinAngleChanged(double oldValue, double newValue)
+		partial void OnMinAngleChanged(double newValue)
 		{
 			UpdateValues(this, Value, _oldValue, false, -1.0);
 			CalculateAndSetNormalizedAngles(this, newValue, MaxAngle);
 			UpdateRings(this);
 		}
 
-		private void OnMaxAngleChanged(double oldValue, double newValue)
+		partial void OnMaxAngleChanged(double newValue)
 		{
 			UpdateValues(this, Value, _oldValue, false, -1.0);
 			CalculateAndSetNormalizedAngles(this, MinAngle, newValue);
 			UpdateRings(this);
 		}
 
-		private void OnStartAngleChanged(double oldValue, double newValue)
+		partial void OnStartAngleChanged(double newValue)
 		{
 			UpdateValues(this, Value, _oldValue, false, -1.0);
 			CalculateAndSetNormalizedAngles(this, MinAngle, newValue);
@@ -51,7 +72,7 @@ namespace Files.App.Controls
 			UpdateRings(this);
 		}
 
-		private void OnPercentChanged(double oldValue, double newValue)
+		partial void OnPercentChanged(double newValue)
 		{
 			return; //Read-only
 
@@ -71,14 +92,14 @@ namespace Files.App.Controls
 			UpdateRings(this);
 		}
 
-		private void OnPercentCautionChanged(double oldValue, double newValue)
+		partial void OnPercentCautionChanged(double newValue)
 		{
 			UpdateValues(this, Value, _oldValue, false, -1.0);
 			UpdateVisualState(this);
 			UpdateRings(this);
 		}
 
-		private void OnPercentCriticalChanged(double oldValue, double newValue)
+		partial void OnPercentCriticalChanged(double newValue)
 		{
 			UpdateValues(this, Value, _oldValue, false, -1.0);
 			UpdateVisualState(this);

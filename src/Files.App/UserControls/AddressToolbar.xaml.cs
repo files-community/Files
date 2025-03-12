@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -14,19 +15,31 @@ using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 
 namespace Files.App.UserControls
 {
-	[DependencyProperty<bool>("IsSidebarPaneOpenToggleButtonVisible")]
-	[DependencyProperty<bool>("ShowOngoingTasks")]
-	[DependencyProperty<bool>("ShowSettingsButton")]
-	[DependencyProperty<bool>("ShowSearchBox")]
-	[DependencyProperty<AddressToolbarViewModel>("ViewModel")]
 	public sealed partial class AddressToolbar : UserControl
 	{
-		// Dependency properties
+		// Dependency injections
 
 		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly MainPageViewModel MainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 		public ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		public StatusCenterViewModel? OngoingTasksViewModel { get; set; }
+
+		// Properties
+
+		[GeneratedDependencyProperty]
+		public partial bool IsSidebarPaneOpenToggleButtonVisible { get; set; }
+		
+		[GeneratedDependencyProperty]
+		public partial bool ShowOngoingTasks {get;set;}
+		
+		[GeneratedDependencyProperty]
+		public partial bool ShowSettingsButton {get;set;}
+		
+		[GeneratedDependencyProperty]
+		public partial bool ShowSearchBox {get;set;}
+		
+		[GeneratedDependencyProperty]
+		public partial AddressToolbarViewModel ViewModel {get;set;}
 
 		// Commands
 

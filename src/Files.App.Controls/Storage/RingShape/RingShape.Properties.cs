@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
@@ -8,19 +9,41 @@ using Windows.Foundation;
 
 namespace Files.App.Controls.Primitives
 {
-	[DependencyProperty<double>("StartAngle", nameof(OnStartAngleChanged), DefaultValue = "(double)0.0")]
-	[DependencyProperty<double>("EndAngle", nameof(OnEndAngleChanged), DefaultValue = "(double)90.0")]
-	[DependencyProperty<SweepDirection>("SweepDirection", nameof(OnSweepDirectionChanged), DefaultValue = "global::Microsoft.UI.Xaml.Media.SweepDirection.Clockwise")]
-	[DependencyProperty<double>("MinAngle", nameof(OnMinAngleChanged), DefaultValue = "(double)0.0")]
-	[DependencyProperty<double>("MaxAngle", nameof(OnMaxAngleChanged), DefaultValue = "(double)360.0")]
-	[DependencyProperty<double>("RadiusWidth", nameof(OnRadiusWidthChanged), DefaultValue = "(double)0.0")]
-	[DependencyProperty<double>("RadiusHeight", nameof(OnRadiusHeightChanged), DefaultValue = "(double)0.0")]
-	[DependencyProperty<bool>("IsCircle", nameof(OnIsCircleChanged), DefaultValue = "(bool)false")]
-	[DependencyProperty<Point>("Center")]
-	[DependencyProperty<double>("ActualRadiusWidth")]
-	[DependencyProperty<double>("ActualRadiusHeight")]
 	public partial class RingShape : Path
 	{
+		[GeneratedDependencyProperty(DefaultValue = 0.0d)]
+		public partial double StartAngle { get; set; }
+
+		[GeneratedDependencyProperty(DefaultValue = 90.0d)]
+		public partial double EndAngle{get;set;}
+
+		[GeneratedDependencyProperty(DefaultValue = SweepDirection.Clockwise)]
+		public partial SweepDirection SweepDirection{get;set;}
+
+		[GeneratedDependencyProperty(DefaultValue = 0.0d)]
+		public partial double MinAngle{get;set;}
+
+		[GeneratedDependencyProperty(DefaultValue = 360.0d)]
+		public partial double MaxAngle{get;set;}
+
+		[GeneratedDependencyProperty(DefaultValue = 0.0d)]
+		public partial double RadiusWidth{get;set;}
+
+		[GeneratedDependencyProperty(DefaultValue = 0.0d)]
+		public partial double RadiusHeight{get;set;}
+
+		[GeneratedDependencyProperty]
+		public partial bool IsCircle{get;set;}
+
+		[GeneratedDependencyProperty]
+		public partial Point Center{get;set;}
+
+		[GeneratedDependencyProperty]
+		public partial double ActualRadiusWidth{get;set;}
+
+		[GeneratedDependencyProperty]
+		public partial double ActualRadiusHeight{get;set;}
+
 		protected virtual void OnStartAngleChanged(double oldValue, double newValue)
 		{
 			StartAngleChanged();
