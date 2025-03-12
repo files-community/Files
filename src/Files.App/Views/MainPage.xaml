@@ -275,6 +275,8 @@
 						AccessKeyInvoked="SettingsButton_AccessKeyInvoked"
 						AutomationProperties.AutomationId="SettingsButton"
 						AutomationProperties.Name="{x:Bind Commands.OpenSettings.Label, Mode=OneWay}"
+						Background="Transparent"
+						BorderThickness="0"
 						Command="{x:Bind Commands.OpenSettings, Mode=OneWay}"
 						ToolTipService.Placement="Bottom"
 						ToolTipService.ToolTip="{x:Bind Commands.OpenSettings.LabelWithHotKey, Mode=OneWay}">
