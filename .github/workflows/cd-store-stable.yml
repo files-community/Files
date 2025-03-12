@@ -108,6 +108,17 @@ jobs:
       shell: bash
       run: find $ARTIFACTS_STAGING_DIR -empty -delete
 
+    - name: Publish the packages to Microsoft Store
+      uses: isaacrlevin/windows-store-action@1
+      with:
+        app-id: '9NGHP3DX8HDX'
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+        package-path: '${{ env.APPX_PACKAGE_DIR }}/**/*.msixupload'
+        skip-polling: false
+        packages-keep: 5
+
     - name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v4
       with:
