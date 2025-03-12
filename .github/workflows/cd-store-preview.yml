@@ -111,7 +111,7 @@ jobs:
     - name: Publish the packages to Microsoft Store
       uses: isaacrlevin/windows-store-action@1
       with:
-        app-id: '9NGHP3DX8HDX'
+        app-id: '9NSQD9PKV3SS'
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
         client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
