@@ -15,71 +15,71 @@ namespace Files.App.Controls.Primitives
 		public partial double StartAngle { get; set; }
 
 		[GeneratedDependencyProperty(DefaultValue = 90.0d)]
-		public partial double EndAngle{get;set;}
+		public partial double EndAngle { get; set; }
 
 		[GeneratedDependencyProperty(DefaultValue = SweepDirection.Clockwise)]
-		public partial SweepDirection SweepDirection{get;set;}
+		public partial SweepDirection SweepDirection { get; set; }
 
 		[GeneratedDependencyProperty(DefaultValue = 0.0d)]
-		public partial double MinAngle{get;set;}
+		public partial double MinAngle { get; set; }
 
 		[GeneratedDependencyProperty(DefaultValue = 360.0d)]
-		public partial double MaxAngle{get;set;}
+		public partial double MaxAngle { get; set; }
 
 		[GeneratedDependencyProperty(DefaultValue = 0.0d)]
-		public partial double RadiusWidth{get;set;}
+		public partial double RadiusWidth { get; set; }
 
 		[GeneratedDependencyProperty(DefaultValue = 0.0d)]
-		public partial double RadiusHeight{get;set;}
+		public partial double RadiusHeight { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial bool IsCircle{get;set;}
+		public partial bool IsCircle { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial Point Center{get;set;}
+		public partial Point Center { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial double ActualRadiusWidth{get;set;}
+		public partial double ActualRadiusWidth { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial double ActualRadiusHeight{get;set;}
+		public partial double ActualRadiusHeight { get; set; }
 
-		protected virtual void OnStartAngleChanged(double oldValue, double newValue)
+		partial void OnStartAngleChanged(double newValue)
 		{
 			StartAngleChanged();
 		}
 
-		protected virtual void OnEndAngleChanged(double oldValue, double newValue)
+		partial void OnEndAngleChanged(double newValue)
 		{
 			EndAngleChanged();
 		}
 
-		protected virtual void OnSweepDirectionChanged(SweepDirection oldValue, SweepDirection newValue)
+		partial void OnSweepDirectionChanged(SweepDirection newValue)
 		{
 			SweepDirectionChanged();
 		}
 
-		protected virtual void OnMinAngleChanged(double oldValue, double newValue)
+		partial void OnMinAngleChanged(double newValue)
 		{
 			MinMaxAngleChanged(false);
 		}
 
-		protected virtual void OnMaxAngleChanged(double oldValue, double newValue)
+		partial void OnMaxAngleChanged(double newValue)
 		{
 			MinMaxAngleChanged(true);
 		}
 
-		protected virtual void OnRadiusWidthChanged(double oldValue, double newValue)
+		partial void OnRadiusWidthChanged(double newValue)
 		{
 			RadiusWidthChanged();
 		}
 
-		protected virtual void OnRadiusHeightChanged(double oldValue, double newValue)
+		partial void OnRadiusHeightChanged(double newValue)
 		{
 			RadiusHeightChanged();
 		}
 
-		protected virtual void OnIsCircleChanged(bool oldValue, bool newValue)
+		partial void OnIsCircleChanged(bool newValue)
 		{
 			IsCircleChanged();
 		}

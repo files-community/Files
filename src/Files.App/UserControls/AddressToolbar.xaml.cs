@@ -28,18 +28,18 @@ namespace Files.App.UserControls
 
 		[GeneratedDependencyProperty]
 		public partial bool IsSidebarPaneOpenToggleButtonVisible { get; set; }
-		
+
 		[GeneratedDependencyProperty]
-		public partial bool ShowOngoingTasks {get;set;}
-		
+		public partial bool ShowOngoingTasks { get; set; }
+
 		[GeneratedDependencyProperty]
-		public partial bool ShowSettingsButton {get;set;}
-		
+		public partial bool ShowSettingsButton { get; set; }
+
 		[GeneratedDependencyProperty]
-		public partial bool ShowSearchBox {get;set;}
-		
+		public partial bool ShowSearchBox { get; set; }
+
 		[GeneratedDependencyProperty]
-		public partial AddressToolbarViewModel ViewModel {get;set;}
+		public partial AddressToolbarViewModel ViewModel { get; set; }
 
 		// Commands
 

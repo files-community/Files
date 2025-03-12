@@ -32,7 +32,7 @@ namespace Files.App.Controls
 		[GeneratedDependencyProperty(DefaultValue = 90.01d)]
 		public partial double PercentCritical { get; set; }
 
-		[GeneratedDependencyProperty(DefaultValue = 0.0d)]
+		[GeneratedDependencyProperty]
 		public partial double ValueAngle { get; set; }
 
 		[GeneratedDependencyProperty(DefaultValue = 16.0d)]

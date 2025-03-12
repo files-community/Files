@@ -14,10 +14,10 @@ namespace Files.App.UserControls
 		public partial string Header { get; set; }
 
 		[GeneratedDependencyProperty(DefaultValue = true)]
-		public partial bool CanBeSorted {get;set;}
+		public partial bool CanBeSorted { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial SortDirection? ColumnSortOption {get;set;}
+		public partial SortDirection? ColumnSortOption { get; set; }
 
 		public ICommand Command { get; set; }
 		public object CommandParameter { get; set; }
