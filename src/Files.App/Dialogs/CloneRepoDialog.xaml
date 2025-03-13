@@ -23,7 +23,7 @@
 			<TextBox
 				Header="Repository URL"
 				PlaceholderText="https://github.com/files-community/Files"
-				Text="{x:Bind ViewModel.RepoUrl, Mode=TwoWay}" />
+				Text="{x:Bind ViewModel.RepoUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 		</StackPanel>
 	</Grid>
 
