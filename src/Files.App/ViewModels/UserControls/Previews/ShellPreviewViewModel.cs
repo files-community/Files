@@ -162,6 +162,7 @@ namespace Files.App.ViewModels.Previews
 			];
 
 			Windows.Win32.Foundation.HRESULT hr = default;
+			Guid IID_IDCompositionDevice = typeof(IDCompositionDevice).GUID;
 			using ComPtr<ID3D11Device> pD3D11Device = default;
 			using ComPtr<ID3D11DeviceContext> pD3D11DeviceContext = default;
 			using ComPtr<IDXGIDevice> pDXGIDevice = default;
@@ -185,8 +186,6 @@ namespace Files.App.ViewModels.Previews
 
 			if (pD3D11Device.IsNull)
 				return false;
-
-			Guid IID_IDCompositionDevice = typeof(IDCompositionDevice).GUID;
 
 			// Create the DComp device
 			pDXGIDevice.Attach((IDXGIDevice*)pD3D11Device.Get());
