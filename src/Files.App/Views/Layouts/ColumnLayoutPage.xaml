@@ -15,6 +15,7 @@
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:wct="using:CommunityToolkit.WinUI"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
+	xmlns:wctlabs="using:CommunityToolkit.Labs.WinUI"
 	x:Name="PageRoot"
 	HighContrastAdjustment="None"
 	mc:Ignorable="d">
@@ -242,7 +243,7 @@
 									</ContentPresenter>
 
 									<!--  Loading indicator  -->
-									<uc:Shimmer
+									<wctlabs:Shimmer
 										x:Name="TypeUnknownGlyph"
 										Margin="2"
 										x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />

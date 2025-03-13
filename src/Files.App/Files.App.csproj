@@ -66,6 +66,7 @@
         <PackageReference Include="ColorCode.WinUI" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.DependencyPropertyGenerator" />
+        <PackageReference Include="CommunityToolkit.Labs.WinUI.Shimmer" />
         <PackageReference Include="CommunityToolkit.Mvvm" />
         <PackageReference Include="CommunityToolkit.WinUI.Behaviors" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.ColorPicker" />

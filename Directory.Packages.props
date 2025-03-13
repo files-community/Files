@@ -8,6 +8,7 @@
     <PackageVersion Include="ColorCode.WinUI" Version="2.0.15" />
     <PackageVersion Include="CommunityToolkit.Labs.WinUI.Controls.MarkdownTextBlock" Version="0.1.250206-build.2040" />
     <PackageVersion Include="CommunityToolkit.Labs.WinUI.DependencyPropertyGenerator" Version="0.1.250206-build.2040" />
+    <PackageVersion Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.250206-build.2040" />
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageVersion Include="CommunityToolkit.WinUI.Behaviors" Version="8.2.250129-preview2" />
     <PackageVersion Include="CommunityToolkit.WinUI.Controls.ColorPicker" Version="8.2.250129-preview2" />
