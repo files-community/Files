@@ -210,6 +210,7 @@ namespace Files.App.Data.Commands
 
 		IRichCommand PlayAll { get; }
 
+		IRichCommand GitClone { get; }
 		IRichCommand GitFetch { get; }
 		IRichCommand GitInit { get; }
 		IRichCommand GitPull { get; }
