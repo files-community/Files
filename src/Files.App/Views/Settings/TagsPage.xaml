@@ -166,7 +166,7 @@
 							Padding="12"
 							HorizontalAlignment="Stretch"
 							AllowDrop="True"
-							CanReorderItems="{x:Bind AllowItemsDrag, Mode=OneWay}"
+							CanReorderItems="{x:Bind AllowItemsDrag, Mode=OneTime}"
 							IsItemClickEnabled="True"
 							ItemsSource="{x:Bind ViewModel.Tags, Mode=TwoWay}"
 							ReorderMode="Enabled"
