@@ -76,7 +76,7 @@
 	<AutoSuggestBox
 		x:Name="SearchRegion"
 		BorderBrush="{ThemeResource ControlElevationBorderBrush}"
-		GotFocus="{x:Bind SearchBoxViewModel.SearchRegion_GotFocus}"
+		GotFocus="SearchRegion_GotFocus"
 		ItemTemplate="{StaticResource SuggestionTemplate}"
 		ItemsSource="{x:Bind SearchBoxViewModel.Suggestions, Mode=OneWay}"
 		KeyDown="SearchRegion_KeyDown"
