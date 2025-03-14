@@ -23,7 +23,7 @@ namespace Files.App.Data.Contracts
 
 		IFilesystemHelpers FilesystemHelpers { get; }
 
-		AddressToolbarViewModel ToolbarViewModel { get; }
+		NavigationToolbarViewModel ToolbarViewModel { get; }
 
 		bool CanNavigateBackward { get; }
 
