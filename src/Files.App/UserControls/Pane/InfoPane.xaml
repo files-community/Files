@@ -205,7 +205,7 @@
 				x:Name="PreviewErrorText"
 				HorizontalAlignment="Center"
 				VerticalAlignment="Center"
-				Text="{x:Bind GetLocalizedResource('NoItemSelected')}"
+				Text="{helpers:ResourceString Name=NoItemSelected}"
 				TextWrapping="WrapWholeWords" />
 			<ContentPresenter
 				x:Name="PreviewControlPresenter"
@@ -505,7 +505,7 @@
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="PreviewErrorText.Visibility" Value="Visible" />
-						<Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedResource('DetailsPanePreviewNotAvaliableText')}" />
+						<Setter Target="PreviewErrorText.Text" Value="{helpers:ResourceString Name=DetailsPanePreviewNotAvaliableText}" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Visible" />
 						<Setter Target="DetailsTagsList.Visibility" Value="Visible" />
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Visible" />
@@ -519,7 +519,7 @@
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="PreviewErrorText.Visibility" Value="Visible" />
-						<Setter Target="PreviewErrorText.Text" Value="{x:Bind GetLocalizedResource('DetailsPanePreviewNotAvaliableText')}" />
+						<Setter Target="PreviewErrorText.Text" Value="{helpers:ResourceString Name=DetailsPanePreviewNotAvaliableText}" />
 						<Setter Target="FileDetailsRepeater.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsTagsList.Visibility" Value="Collapsed" />
 						<Setter Target="DetailsOpenProperties.Visibility" Value="Collapsed" />
