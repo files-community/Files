@@ -396,7 +396,7 @@
 											Height="28"
 											Padding="12,0,12,0"
 											VerticalAlignment="Center"
-											x:Load="{x:Bind IsTag, Mode=OneTime}"
+											x:Load="{x:Bind IsTag, Mode=OneWay}"
 											AutomationProperties.Name="{x:Bind AsTag.Tag.Name, Mode=OneWay}"
 											Orientation="Horizontal"
 											Spacing="8"
@@ -425,11 +425,11 @@
 											Height="28"
 											Padding="12,0,12,0"
 											VerticalAlignment="Center"
-											x:Load="{x:Bind IsFlyout, Mode=OneTime}"
+											x:Load="{x:Bind IsFlyout, Mode=OneWay}"
 											AutomationProperties.Name="{helpers:ResourceString Name=EditTags}"
 											Background="Transparent"
 											BorderThickness="0"
-											Flyout="{x:Bind AsFlyout.Flyout, Mode=OneTime}"
+											Flyout="{x:Bind AsFlyout.Flyout, Mode=OneWay}"
 											ToolTipService.ToolTip="{helpers:ResourceString Name=EditTags}">
 											<Button.Resources>
 												<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="Transparent" />
