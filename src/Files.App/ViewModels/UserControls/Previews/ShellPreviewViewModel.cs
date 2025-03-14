@@ -161,61 +161,61 @@ namespace Files.App.ViewModels.Previews
 				D3D_DRIVER_TYPE.D3D_DRIVER_TYPE_WARP,
 			];
 
-			ID3D11Device* pD3D11Device = default;
-			ID3D11DeviceContext* pD3D11DeviceContext = default;
+			Windows.Win32.Foundation.HRESULT hr = default;
+			Guid IID_IDCompositionDevice = typeof(IDCompositionDevice).GUID;
+			using ComPtr<ID3D11Device> pD3D11Device = default;
+			using ComPtr<ID3D11DeviceContext> pD3D11DeviceContext = default;
+			using ComPtr<IDXGIDevice> pDXGIDevice = default;
+			using ComPtr<IDCompositionDevice> pDCompositionDevice = default;
+			using ComPtr<IUnknown> pControlSurface = default;
+			ComPtr<IDCompositionVisual> pChildVisual = default; // Don't dispose this one, it's used by the compositor
 
-			foreach (var driveType in driverTypes)
+			// Create the D3D11 device
+			foreach (var driverType in driverTypes)
 			{
-				var hr = PInvoke.D3D11CreateDevice(
-					null,
-					driveType,
-					new(nint.Zero),
+				hr = PInvoke.D3D11CreateDevice(
+					null, driverType, new(nint.Zero),
 					D3D11_CREATE_DEVICE_FLAG.D3D11_CREATE_DEVICE_BGRA_SUPPORT,
-					null,
-					0,
-					7,
-					&pD3D11Device,
-					null,
-					&pD3D11DeviceContext);
+					null, /* FeatureLevels */ 0, /* SDKVersion */ 7,
+					pD3D11Device.GetAddressOf(), null,
+					pD3D11DeviceContext.GetAddressOf());
 
 				if (hr.Succeeded)
 					break;
 			}
 
-			if (pD3D11Device is null)
+			if (pD3D11Device.IsNull)
 				return false;
 
-			IDXGIDevice* pDXGIDevice = (IDXGIDevice*)pD3D11Device;
-			if (PInvoke.DCompositionCreateDevice(pDXGIDevice, typeof(IDCompositionDevice).GUID, out var compositionDevicePtr).Failed)
+			// Create the DComp device
+			pDXGIDevice.Attach((IDXGIDevice*)pD3D11Device.Get());
+			hr = PInvoke.DCompositionCreateDevice(
+				pDXGIDevice.Get(),
+				&IID_IDCompositionDevice,
+				(void**)pDCompositionDevice.GetAddressOf());
+			if (hr.Failed)
 				return false;
 
-			var pDCompositionDevice = (IDCompositionDevice*)compositionDevicePtr;
-			IDCompositionVisual* pChildVisual = default;
-			IUnknown* pControlSurface = default;
-
-			pDCompositionDevice->CreateVisual(&pChildVisual);
-			pDCompositionDevice->CreateSurfaceFromHwnd(new(hwnd.DangerousGetHandle()), &pControlSurface);
-			pChildVisual->SetContent(pControlSurface);
-			if (pChildVisual is null || pControlSurface is null)
+			// Create the visual
+			hr = pDCompositionDevice.Get()->CreateVisual(pChildVisual.GetAddressOf());
+			hr = pDCompositionDevice.Get()->CreateSurfaceFromHwnd(new(hwnd.DangerousGetHandle()), pControlSurface.GetAddressOf());
+			hr = pChildVisual.Get()->SetContent(pControlSurface.Get());
+			if (pChildVisual.IsNull || pControlSurface.IsNull)
 				return false;
 
+			// Get the compositor and set the visual on it
 			var compositor = ElementCompositionPreview.GetElementVisual(presenter).Compositor;
 			outputLink = ContentExternalOutputLink.Create(compositor);
 
 			var target = outputLink.As<IDCompositionTarget>();
-			target.SetRoot((nint)pChildVisual);
+			target.SetRoot((nint)pChildVisual.Get());
 
 			outputLink.PlacementVisual.Size = new(0, 0);
 			outputLink.PlacementVisual.Scale = new(1 / (float)presenter.XamlRoot.RasterizationScale);
 			ElementCompositionPreview.SetElementChildVisual(presenter, outputLink.PlacementVisual);
 
-			pDCompositionDevice->Commit();
-
-			pControlSurface->Release();
-			pDCompositionDevice->Release();
-			pDXGIDevice->Release();
-			pD3D11Device->Release();
-			pD3D11DeviceContext->Release();
+			// Commit the all pending DComp commands
+			pDCompositionDevice.Get()->Commit();
 
 			var dwAttrib = Convert.ToUInt32(true);
 
