@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -10,50 +11,27 @@ using System.IO;
 
 namespace Files.App.UserControls
 {
-	public sealed partial class InnerNavigationToolbar : UserControl
+	public sealed partial class Toolbar : UserControl
 	{
-		public InnerNavigationToolbar()
+		private readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+		private readonly IModifiableCommandManager ModifiableCommands = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
+		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+
+		[GeneratedDependencyProperty]
+		public partial NavigationToolbarViewModel? ViewModel { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial bool ShowViewControlButton { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial bool ShowPreviewPaneButton { get; set; }
+
+		public Toolbar()
 		{
 			InitializeComponent();
 		}
 
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
-		public IModifiableCommandManager ModifiableCommands { get; } = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
-
-		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
-
-		public AppModel AppModel => App.AppModel;
-
-		public AddressToolbarViewModel? ViewModel
-		{
-			get => (AddressToolbarViewModel)GetValue(ViewModelProperty);
-			set => SetValue(ViewModelProperty, value);
-		}
-
-		// Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(nameof(ViewModel), typeof(AddressToolbarViewModel), typeof(InnerNavigationToolbar), new PropertyMetadata(null));
-
-		public bool ShowViewControlButton
-		{
-			get { return (bool)GetValue(ShowViewControlButtonProperty); }
-			set { SetValue(ShowViewControlButtonProperty, value); }
-		}
-
-		// Using a DependencyProperty as the backing store for ShowViewControlButton.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty ShowViewControlButtonProperty =
-			DependencyProperty.Register("ShowViewControlButton", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
-
-		public bool ShowPreviewPaneButton
-		{
-			get { return (bool)GetValue(ShowPreviewPaneButtonProperty); }
-			set { SetValue(ShowPreviewPaneButtonProperty, value); }
-		}
-
-		// Using a DependencyProperty as the backing store for ShowPreviewPaneButton.  This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty ShowPreviewPaneButtonProperty =
-			DependencyProperty.Register("ShowPreviewPaneButton", typeof(bool), typeof(AddressToolbar), new PropertyMetadata(null));
 		private void NewEmptySpace_Opening(object sender, object e)
 		{
 			var shell = NewEmptySpace.Items.Where(x => (x.Tag as string) == "CreateNewFile").Reverse().ToList();
