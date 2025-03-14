@@ -3,12 +3,14 @@
 
 using Files.Shared.Helpers;
 using System.IO;
+using System.Security.Cryptography;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Properties
 {
 	public sealed partial class HashesViewModel : ObservableObject, IDisposable
 	{
+		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 
 		private HashInfoItem _selectedItem;
@@ -22,6 +24,8 @@ namespace Files.App.ViewModels.Properties
 
 		public Dictionary<string, bool> ShowHashes { get; private set; }
 
+		public bool InfoBarVisible { get; set;  }
+
 		public ICommand ToggleIsEnabledCommand { get; private set; }
 
 		private ListedItem _item;
@@ -31,6 +35,7 @@ namespace Files.App.ViewModels.Properties
 		public HashesViewModel(ListedItem item)
 		{
 			ToggleIsEnabledCommand = new RelayCommand<string>(ToggleIsEnabled);
+			InfoBarVisible = false;
 
 			_item = item;
 			_cancellationTokenSource = new();
@@ -117,6 +122,67 @@ namespace Files.App.ViewModels.Properties
 						hashInfoItem.IsCalculating = false;
 					}
 				});
+			}
+		}
+
+		public bool CompareHash(string algorithm, string hashToCompare)
+		{
+			var hashInfoItem = Hashes.FirstOrDefault(x => x.Algorithm == algorithm);
+			if (hashInfoItem == null || hashInfoItem.HashValue == null)
+			{
+				return false;
+			}
+
+			return hashInfoItem.HashValue.Equals(hashToCompare, StringComparison.OrdinalIgnoreCase);
+		}
+
+		public async Task<bool> CompareFileAsync()
+		{
+			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, [], Environment.SpecialFolder.Desktop, out var toCompare);
+
+			if (!result)
+			{
+				return false;
+			}
+
+			var file = await StorageHelpers.ToStorageItem<BaseStorageFolder>(toCompare);
+
+			if (file is not null)
+			{
+				var selectedFileHash = await CalculateFileHashAsync(file.Path);
+				var compare = CompareHash("SHA384", selectedFileHash);
+
+				return compare;
+			}
+
+			return false;
+		}
+
+		public string FindMatchingAlgorithm(string hash)
+		{
+			if (string.IsNullOrEmpty(hash))
+				throw new ArgumentNullException($"Invalid hash '{hash}' provided.");
+
+			foreach (var hashInfo in Hashes)
+			{
+				if (hashInfo.HashValue != null && hashInfo.HashValue.Equals(hash, StringComparison.OrdinalIgnoreCase))
+				{
+					return hashInfo.Algorithm;
+				}
+			}
+
+			return string.Empty;
+		}
+
+		public async Task<string> CalculateFileHashAsync(string filePath)
+		{
+			using (var stream = File.OpenRead(filePath))
+			{
+				using (var md5 = MD5.Create())
+				{
+					var hash = await Task.Run(() => md5.ComputeHash(stream));
+					return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+				}
 			}
 		}
 

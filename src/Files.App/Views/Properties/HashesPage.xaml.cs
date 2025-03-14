@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.App.Data.Parameters;
@@ -8,6 +8,8 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Navigation;
+using System.IO;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace Files.App.Views.Properties
@@ -44,6 +46,54 @@ namespace Files.App.Views.Properties
 		private void ToggleMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
 		{
 			_cancel = true;
+		}
+
+		private void HashInputTextBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			string? matchingAlgorithm = null;
+
+			try
+			{
+				matchingAlgorithm = HashesViewModel.FindMatchingAlgorithm(HashInputTextBox.Text);
+			}
+			catch (ArgumentNullException)
+			{
+				return;
+			}
+
+			if (string.IsNullOrEmpty(matchingAlgorithm))
+			{
+				HashesViewModel.InfoBarVisible = true;
+				HashMatchInfoBar.Severity = InfoBarSeverity.Error;
+				HashMatchInfoBar.Title = Strings.HashesDoNotMatch.GetLocalizedResource();
+				return;
+			}
+			else
+			{
+				HashesViewModel.InfoBarVisible = true;
+				HashMatchInfoBar.Severity = InfoBarSeverity.Success;
+				HashMatchInfoBar.Title = string.Format(Strings.HashesMatch.GetLocalizedResource(), matchingAlgorithm);
+				return;
+			}
+		}
+
+
+		private async void CompareFileButton_Click(object sender, RoutedEventArgs e)
+		{
+			var result = await HashesViewModel.CompareFileAsync();
+
+			HashesViewModel.InfoBarVisible = true;
+
+			if (result)
+			{
+				HashMatchInfoBar.Severity = InfoBarSeverity.Success; // Check mark
+				HashMatchInfoBar.Title = Strings.HashesMatch.GetLocalizedResource();
+			}
+			else
+			{
+				HashMatchInfoBar.Severity = InfoBarSeverity.Error; // Cross mark
+				HashMatchInfoBar.Title = "no";
+			}
 		}
 
 		private void MenuFlyout_Closing(FlyoutBase sender, FlyoutBaseClosingEventArgs e)
