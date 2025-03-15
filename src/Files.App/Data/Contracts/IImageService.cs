@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Core.Storage;
 using Files.Shared.Utils;
+using OwlCore.Storage;
 
 namespace Files.App.Data.Contracts
 {

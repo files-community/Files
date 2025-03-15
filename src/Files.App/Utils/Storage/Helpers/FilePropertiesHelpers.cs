@@ -74,7 +74,7 @@ namespace Files.App.Utils.Storage
 				foreach (var drive in drives)
 				{
 					// Current folder is drive
-					if (drive.Path.Equals(folder.ItemPath))
+					if (drive.Id.Equals(folder.ItemPath))
 					{
 						item = drive;
 						break;

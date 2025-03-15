@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Core;
+using OwlCore.Storage;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
@@ -223,7 +224,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			NetworkService.DisconnectNetworkDrive(item.Item);
 		}
 
-		private async Task UpdateItems(ObservableCollection<ILocatableFolder> source)
+		private async Task UpdateItems(ObservableCollection<IFolder> source)
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{

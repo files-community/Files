@@ -69,12 +69,9 @@ global using global::Files.App.Utils.CommandLine;
 // Files.Core.Storage
 
 global using global::Files.Core.Storage;
-global using global::Files.Core.Storage.Contracts;
-global using global::Files.Core.Storage.Storables;
 global using global::Files.Core.Storage.Enums;
 global using global::Files.Core.Storage.EventArguments;
 global using global::Files.Core.Storage.Extensions;
-global using global::Files.Core.Storage.StorageEnumeration;
 
 // Files.App.Storage
 

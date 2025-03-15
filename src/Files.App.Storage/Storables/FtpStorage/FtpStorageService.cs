@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using FluentFTP;
+using OwlCore.Storage;
 using System.IO;
 
 namespace Files.App.Storage.Storables

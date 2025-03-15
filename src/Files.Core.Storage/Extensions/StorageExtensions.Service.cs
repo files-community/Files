@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using OwlCore.Storage;
+
 namespace Files.Core.Storage.Extensions
 {
 	public static partial class StorageExtensions

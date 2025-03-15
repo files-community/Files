@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Core.Storage.Extensions;
 using Files.Shared.Utils;
 using System.Windows.Input;
+using OwlCore.Storage;
 
 namespace Files.App.Data.Items
 {
@@ -52,7 +52,7 @@ namespace Files.App.Data.Items
 			_associatedStorable = associatedStorable;
 			_Icon = icon;
 			_Name = associatedStorable.Name;
-			_Path = associatedStorable.TryGetPath();
+			_Path = associatedStorable.Id;
 			Item = this;
 
 			ClickCommand = new AsyncRelayCommand(ClickAsync);

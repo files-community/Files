@@ -4,6 +4,7 @@ using Files.Core.Storage.Storables;
 using Files.Shared.Extensions;
 using Files.Shared.Utils;
 using System.IO;
+using OwlCore.Storage;
 
 namespace Files.App.Data.AppModels
 {
