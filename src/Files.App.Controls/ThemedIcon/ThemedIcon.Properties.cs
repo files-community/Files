@@ -71,6 +71,7 @@ namespace Files.App.Controls
 		partial void OnIconSizeChanged(double newValue)
 		{
 			UpdateVisualStates();
+			OnIconSizeChanged();
 		}
 
 		partial void OnIsToggledChanged(bool newValue)
