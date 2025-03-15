@@ -103,9 +103,12 @@ namespace Files.App.Data.Models
 			}
 
 			var osDrive = await removableDrivesService.GetPrimaryDriveAsync();
+			var osDrivePath = osDrive.Id.EndsWith(Path.DirectorySeparatorChar)
+				? osDrive.Id
+				: $"{osDrive.Id}{Path.DirectorySeparatorChar}";
 
 			// Show consent dialog if the OS drive could not be accessed
-			if (!Drives.Any(x => Path.GetFullPath(x.Id) == Path.GetFullPath(osDrive.Id)))
+			if (Drives.All(x => Path.GetFullPath(x.Id) != osDrivePath))
 				ShowUserConsentOnInit = true;
 
 			if (watcher.CanBeStarted)
