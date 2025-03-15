@@ -10,6 +10,7 @@
 	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
+	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls"
 	mc:Ignorable="d">
 
 	<Page.DataContext>
@@ -17,226 +18,196 @@
 	</Page.DataContext>
 
 	<Grid>
-		<StackPanel
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			Spacing="4">
+		<StackPanel Spacing="4">
 
 			<!--  Title  -->
 			<TextBlock
 				Padding="0,0,0,12"
-				FontSize="24"
-				FontWeight="Medium"
+				Style="{StaticResource TitleTextBlockStyle}"
 				Text="{helpers:ResourceString Name=About}" />
 
 			<!--  App Info  -->
-			<local:SettingsBlockControl
-				Title="{x:Bind ViewModel.AppName}"
+			<wctcontrols:SettingsCard
 				HorizontalAlignment="Stretch"
-				Description="{x:Bind ViewModel.Version}">
-				<local:SettingsBlockControl.Icon>
+				Description="{x:Bind ViewModel.Version}"
+				Header="{x:Bind ViewModel.AppName}">
+				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE946;" />
-				</local:SettingsBlockControl.Icon>
-				<Button x:Name="CopyVersionInfo" Content="{helpers:ResourceString Name=Copy}">
-					<Button.Flyout>
-						<MenuFlyout>
-							<MenuFlyoutItem Command="{x:Bind ViewModel.CopyAppVersionCommand}" Text="{helpers:ResourceString Name=AppVersion}" />
-							<MenuFlyoutItem Command="{x:Bind ViewModel.CopyWindowsVersionCommand}" Text="{helpers:ResourceString Name=WindowsVersion}" />
-							<MenuFlyoutItem Command="{x:Bind ViewModel.CopyUserIDCommand}" Text="{helpers:ResourceString Name=UserID}" />
-						</MenuFlyout>
-					</Button.Flyout>
-				</Button>
-			</local:SettingsBlockControl>
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<wctcontrols:SettingsCard.Content>
+					<Button x:Name="CopyVersionInfo" Content="{helpers:ResourceString Name=Copy}">
+						<Button.Flyout>
+							<MenuFlyout>
+								<MenuFlyoutItem Command="{x:Bind ViewModel.CopyAppVersionCommand}" Text="{helpers:ResourceString Name=AppVersion}" />
+								<MenuFlyoutItem Command="{x:Bind ViewModel.CopyWindowsVersionCommand}" Text="{helpers:ResourceString Name=WindowsVersion}" />
+								<MenuFlyoutItem Command="{x:Bind ViewModel.CopyUserIDCommand}" Text="{helpers:ResourceString Name=UserID}" />
+							</MenuFlyout>
+						</Button.Flyout>
+					</Button>
+				</wctcontrols:SettingsCard.Content>
+			</wctcontrols:SettingsCard>
 
 			<!--  GitHub Sponsor  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=SponsorUsOnGitHub}"
-				ButtonCommand="{x:Bind ViewModel.SupportUsCommand}"
-				IsClickable="True">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsCard
+				Command="{x:Bind ViewModel.SupportUsCommand}"
+				Header="{helpers:ResourceString Name=SponsorUsOnGitHub}"
+				IsClickEnabled="True">
+				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xEB51;" />
-				</local:SettingsBlockControl.Icon>
-
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-			</local:SettingsBlockControl>
-
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<wctcontrols:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</wctcontrols:SettingsCard.ActionIcon>
+			</wctcontrols:SettingsCard>
 
 			<!--  Help and support  -->
 			<TextBlock
-				Padding="0,16,0,4"
-				FontSize="16"
-				FontWeight="Medium"
+				Padding="0,20,0,4"
+				Style="{StaticResource BodyStrongTextBlockStyle}"
 				Text="{helpers:ResourceString Name=HelpAndSupport}" />
 
 			<!--  Documentation  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=Documentation}"
-				HorizontalAlignment="Stretch"
-				ButtonCommand="{x:Bind ViewModel.OpenDocumentationCommand}"
-				IsClickable="True">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsCard
+				Command="{x:Bind ViewModel.OpenDocumentationCommand}"
+				Header="{helpers:ResourceString Name=Documentation}"
+				IsClickEnabled="True">
+				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE736;" />
-				</local:SettingsBlockControl.Icon>
-
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-			</local:SettingsBlockControl>
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<wctcontrols:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</wctcontrols:SettingsCard.ActionIcon>
+			</wctcontrols:SettingsCard>
 
 			<!--  Questions & discussions  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=QuestionsAndDiscussions}"
-				HorizontalAlignment="Stretch"
-				ButtonCommand="{x:Bind ViewModel.OpenDiscordCommand}"
-				IsClickable="True">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsCard
+				Command="{x:Bind ViewModel.OpenDiscordCommand}"
+				Header="{helpers:ResourceString Name=QuestionsAndDiscussions}"
+				IsClickEnabled="True">
+				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8F2;" />
-				</local:SettingsBlockControl.Icon>
-
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-			</local:SettingsBlockControl>
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<wctcontrols:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</wctcontrols:SettingsCard.ActionIcon>
+			</wctcontrols:SettingsCard>
 
 			<!--  Feedback  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Feedback}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=Feedback}">
+				<wctcontrols:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xED15;" />
-				</local:SettingsBlockControl.Icon>
-				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
-						<!--  Submit feature request  -->
-						<local:SettingsBlockControl
-							Title="{helpers:ResourceString Name=SubmitFeatureRequest}"
-							HorizontalAlignment="Stretch"
-							ButtonCommand="{x:Bind ViewModel.SubmitFeatureRequestCommand}"
-							IsClickable="True">
-							<FontIcon
-								FontSize="14"
-								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-								Glyph="&#xE8A7;" />
-						</local:SettingsBlockControl>
-
-						<!--  Submit bug report  -->
-						<local:SettingsBlockControl
-							Title="{helpers:ResourceString Name=SubmitBugReport}"
-							HorizontalAlignment="Stretch"
-							ButtonCommand="{x:Bind ViewModel.SubmitBugReportCommand}"
-							IsClickable="True">
-							<FontIcon
-								FontSize="14"
-								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-								Glyph="&#xE8A7;" />
-						</local:SettingsBlockControl>
-					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
+				</wctcontrols:SettingsExpander.HeaderIcon>
+				<wctcontrols:SettingsExpander.Items>
+					<!--  Submit feature request  -->
+					<wctcontrols:SettingsCard
+						Command="{x:Bind ViewModel.SubmitFeatureRequestCommand}"
+						Header="{helpers:ResourceString Name=SubmitFeatureRequest}"
+						IsClickEnabled="True">
+						<wctcontrols:SettingsCard.ActionIcon>
+							<FontIcon Glyph="&#xE8A7;" />
+						</wctcontrols:SettingsCard.ActionIcon>
+					</wctcontrols:SettingsCard>
+					<!--  Submit bug report  -->
+					<wctcontrols:SettingsCard
+						Command="{x:Bind ViewModel.SubmitBugReportCommand}"
+						Header="{helpers:ResourceString Name=SubmitBugReport}"
+						IsClickEnabled="True">
+						<wctcontrols:SettingsCard.ActionIcon>
+							<FontIcon Glyph="&#xE8A7;" />
+						</wctcontrols:SettingsCard.ActionIcon>
+					</wctcontrols:SettingsCard>
+				</wctcontrols:SettingsExpander.Items>
+			</wctcontrols:SettingsExpander>
 
 			<!--  Open Log File Location  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=OpenLogLocation}"
-				HorizontalAlignment="Stretch"
-				ButtonCommand="{x:Bind ViewModel.OpenLogLocationCommand}"
-				IsClickable="True">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsCard
+				Command="{x:Bind ViewModel.OpenLogLocationCommand}"
+				Header="{helpers:ResourceString Name=OpenLogLocation}"
+				IsClickEnabled="True">
+				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE838;" />
-				</local:SettingsBlockControl.Icon>
-
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-			</local:SettingsBlockControl>
-
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<wctcontrols:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</wctcontrols:SettingsCard.ActionIcon>
+			</wctcontrols:SettingsCard>
 
 			<!--  Open Source  -->
 			<TextBlock
-				Padding="0,16,0,4"
-				FontSize="16"
-				FontWeight="Medium"
+				Padding="0,20,0,4"
+				Style="{StaticResource BodyStrongTextBlockStyle}"
 				Text="{helpers:ResourceString Name=OpenSource}" />
 
 			<!--  Translate  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=ImproveTranslation}"
-				HorizontalAlignment="Stretch"
-				ButtonCommand="{x:Bind ViewModel.OpenCrowdinCommand}"
-				IsClickable="True">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsCard
+				Command="{x:Bind ViewModel.OpenCrowdinCommand}"
+				Header="{helpers:ResourceString Name=ImproveTranslation}"
+				IsClickEnabled="True">
+				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xF2B7;" />
-				</local:SettingsBlockControl.Icon>
-
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-			</local:SettingsBlockControl>
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<wctcontrols:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</wctcontrols:SettingsCard.ActionIcon>
+			</wctcontrols:SettingsCard>
 
 			<!--  Third Party Licenses  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ThirdPartyLibraries}">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=ThirdPartyLibraries}">
+				<wctcontrols:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE90F;" />
-				</local:SettingsBlockControl.Icon>
-				<local:SettingsBlockControl.ExpandableContent>
-					<ItemsRepeater Margin="54,12,12,12" ItemsSource="{x:Bind ViewModel.OpenSourceLibraries, Mode=OneWay}">
-						<ItemsRepeater.ItemTemplate>
-							<DataTemplate x:DataType="dataitems:OpenSourceLibraryItem">
-								<TextBlock Margin="4,0" VerticalAlignment="Center">
-									<Hyperlink NavigateUri="{x:Bind Url}" UnderlineStyle="None">
-										<Run Text="{x:Bind Name}" />
-									</Hyperlink>
-								</TextBlock>
-							</DataTemplate>
-						</ItemsRepeater.ItemTemplate>
-						<ItemsRepeater.Layout>
-							<UniformGridLayout
-								ItemsStretch="Fill"
-								MaximumRowsOrColumns="6"
-								MinColumnSpacing="8"
-								MinItemWidth="200"
-								MinRowSpacing="8"
-								Orientation="Horizontal" />
-						</ItemsRepeater.Layout>
-					</ItemsRepeater>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
+				</wctcontrols:SettingsExpander.HeaderIcon>
+				<wctcontrols:SettingsExpander.Items>
+					<wctcontrols:SettingsCard>
+						<ItemsRepeater Margin="0,12,0,12" ItemsSource="{x:Bind ViewModel.OpenSourceLibraries, Mode=OneWay}">
+							<ItemsRepeater.ItemTemplate>
+								<DataTemplate x:DataType="dataitems:OpenSourceLibraryItem">
+									<TextBlock Margin="4,0" VerticalAlignment="Center">
+										<Hyperlink NavigateUri="{x:Bind Url}" UnderlineStyle="None">
+											<Run Text="{x:Bind Name}" />
+										</Hyperlink>
+									</TextBlock>
+								</DataTemplate>
+							</ItemsRepeater.ItemTemplate>
+							<ItemsRepeater.Layout>
+								<UniformGridLayout
+									ItemsStretch="Fill"
+									MaximumRowsOrColumns="6"
+									MinColumnSpacing="8"
+									MinItemWidth="200"
+									MinRowSpacing="8"
+									Orientation="Horizontal" />
+							</ItemsRepeater.Layout>
+						</ItemsRepeater>
+					</wctcontrols:SettingsCard>
+				</wctcontrols:SettingsExpander.Items>
+			</wctcontrols:SettingsExpander>
 
 			<!--  Open GitHub repo  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=OpenGitHubRepo}"
-				HorizontalAlignment="Stretch"
-				ButtonCommand="{x:Bind ViewModel.OpenGitHubRepoCommand}"
-				IsClickable="True">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsCard
+				Command="{x:Bind ViewModel.OpenGitHubRepoCommand}"
+				Header="{helpers:ResourceString Name=OpenGitHubRepo}"
+				IsClickEnabled="True">
+				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE774;" />
-				</local:SettingsBlockControl.Icon>
-
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-			</local:SettingsBlockControl>
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<wctcontrols:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</wctcontrols:SettingsCard.ActionIcon>
+			</wctcontrols:SettingsCard>
 
 			<!--  Privacy  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=Privacy}"
-				HorizontalAlignment="Stretch"
-				ButtonCommand="{x:Bind ViewModel.OpenPrivacyPolicyCommand}"
-				IsClickable="True">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsCard
+				Command="{x:Bind ViewModel.OpenPrivacyPolicyCommand}"
+				Header="{helpers:ResourceString Name=Privacy}"
+				IsClickEnabled="True">
+				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE72E;" />
-				</local:SettingsBlockControl.Icon>
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<wctcontrols:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</wctcontrols:SettingsCard.ActionIcon>
+			</wctcontrols:SettingsCard>
 
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-			</local:SettingsBlockControl>
 		</StackPanel>
 	</Grid>
 </Page>
