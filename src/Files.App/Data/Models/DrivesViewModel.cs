@@ -63,7 +63,7 @@ namespace Files.App.Data.Models
 			logger.LogInformation($"Drive removed: {e}");
 			lock (Drives)
 			{
-				var drive = Drives.FirstOrDefault(x => x.Id == e);
+				var drive = Drives.FirstOrDefault(x => (x as DriveItem)?.DeviceID == e);
 				if (drive is not null)
 					Drives.Remove(drive);
 			}
@@ -78,7 +78,7 @@ namespace Files.App.Data.Models
 			{
 				// If drive already in list, remove it first.
 				var matchingDrive = Drives.FirstOrDefault(x =>
-					x.Id == e.Id ||
+					(x as DriveItem)?.DeviceID == (e as DriveItem)?.DeviceID ||
 					string.IsNullOrEmpty(e.Id)
 						? x.Id.Contains(e.Name, StringComparison.OrdinalIgnoreCase)
 						: Path.GetFullPath(x.Id) == Path.GetFullPath(e.Id)
