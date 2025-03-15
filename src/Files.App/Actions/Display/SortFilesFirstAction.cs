@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> "SortFilesFirst".GetLocalizedResource();
+			=> Strings.SortFilesFirst.GetLocalizedResource();
 
 		public string Description
-			=> "SortFilesFirstDescription".GetLocalizedResource();
+			=> Strings.SortFilesFirstDescription.GetLocalizedResource();
 
 		public bool IsOn
 			=> context.SortFilesFirst && !context.SortDirectoriesAlongsideFiles;
