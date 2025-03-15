@@ -9,10 +9,10 @@ namespace Files.App.Actions
 			=> GroupOption.None;
 
 		public override string Label
-			=> "None".GetLocalizedResource();
+			=> Strings.None.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByNoneDescription".GetLocalizedResource();
+			=> Strings.GroupByNoneDescription.GetLocalizedResource();
 	}
 
 	internal sealed partial class GroupByNameAction : GroupByAction
