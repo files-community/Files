@@ -5,7 +5,6 @@ namespace Files.App.Controls
 {
 	public static class Util
 	{
-
 		/// <summary>
 		/// Sets cursor when hovering on a specific element.
 		/// </summary>

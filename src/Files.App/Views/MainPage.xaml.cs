@@ -496,7 +496,6 @@ namespace Files.App.Views
 				InputSystemCursorShape.SizeWestEast : InputSystemCursorShape.SizeNorthSouth));
 		}
 
-
 		private void SettingsButton_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
 		{
 			// Suppress access key invocation if any dialog is open

@@ -53,7 +53,7 @@ namespace Files.App.UITests.Views
 
 		public SidebarViewPage()
 		{
-			this.InitializeComponent();
+			InitializeComponent();
 
 			sidebarModels.Add(new TestSidebarModel { Text = "Test 1" });
 			sidebarModels.Add(new TestSidebarModel { Text = "Test 2" });
