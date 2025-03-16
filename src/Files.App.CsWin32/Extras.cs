@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.WindowsAndMessaging;
 
@@ -35,6 +36,16 @@ namespace Windows.Win32
 			return sizeof(nint) is 4
 				? (nint)_SetWindowLong(hWnd, (int)nIndex, (int)dwNewLong)
 				: _SetWindowLongPtr(hWnd, (int)nIndex, dwNewLong);
+		}
+	}
+
+	namespace Extras
+	{
+		[GeneratedComInterface, Guid("EACDD04C-117E-4E17-88F4-D1B12B0E3D89"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+		public partial interface IDCompositionTarget
+		{
+			[PreserveSig]
+			int SetRoot(nint visual);
 		}
 	}
 }
