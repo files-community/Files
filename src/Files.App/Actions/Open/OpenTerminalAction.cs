@@ -11,10 +11,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public virtual string Label
-			=> "OpenTerminal".GetLocalizedResource();
+			=> Strings.OpenTerminal.GetLocalizedResource();
 
 		public virtual string Description
-			=> "OpenTerminalDescription".GetLocalizedResource();
+			=> Strings.OpenTerminalDescription.GetLocalizedResource();
 
 		public virtual HotKey HotKey
 			=> new(Keys.Oem3, KeyModifiers.Ctrl);

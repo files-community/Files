@@ -11,12 +11,12 @@ namespace Files.App.Actions
 
 		public string Label
 			=> string.Format(
-				"OpenInIDE".GetLocalizedResource(),
+				Strings.OpenInIDE.GetLocalizedResource(),
 				_devToolsSettingsService.IDEName);
 
 		public string Description
 			=> string.Format(
-				"OpenInIDEDescription".GetLocalizedResource(),
+				Strings.OpenInIDEDescription.GetLocalizedResource(),
 				_devToolsSettingsService.IDEName);
 
 		public bool IsExecutable =>
