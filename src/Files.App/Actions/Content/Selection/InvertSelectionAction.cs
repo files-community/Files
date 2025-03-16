@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "InvertSelection".GetLocalizedResource();
+			=> Strings.InvertSelection.GetLocalizedResource();
 
 		public string Description
-			=> "InvertSelectionDescription".GetLocalizedResource();
+			=> Strings.InvertSelectionDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.SelectInvert");

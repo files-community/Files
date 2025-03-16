@@ -118,283 +118,283 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NewWindow" xml:space="preserve">
-    <value>เปิดในหน้าต่างใหม่</value>
+    <value>Նոր պատուհան</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>คัดลอกเส้นทาง</value>
+    <value>Պատճենել ուղին</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>คัดลอกเส้นทางพร้อมกับอัญประกาศ</value>
+    <value>Պատճենել ուղին չակերտներով</value>
   </data>
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
     <value>Copy selected item path with quotes</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>เรียกดู</value>
+    <value>Զննել</value>
   </data>
   <data name="Size" xml:space="preserve">
-    <value>ขนาด</value>
+    <value>Չափ</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>สร้างเมื่อ:</value>
+    <value>Ստեղծված է.</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>แยกไปที่</value>
+    <value>Ուղի</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>ขนาด:</value>
+    <value>Չափ.</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>ขนาดบนดิสก์</value>
+    <value>Չափը սկառավարակում.</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>ขนาดที่ไม่บีบอัด:</value>
+    <value>Uncompressed size:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
-    <value>ไม่สามารถปฏิบัติตามที่สั่งไว้ได้</value>
+    <value>Այս գործողությունը չի կարող ավարտվել</value>
   </data>
   <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
-    <value>โฟลเดอร์ปลายทาง</value>
+    <value>The destination folder</value>
   </data>
   <data name="ErrorDialogIsASubfolder" xml:space="preserve">
-    <value>ตั้งอยู่ในโฟล์เดอร์ต้นทาง</value>
+    <value>is a subfolder of the source folder</value>
   </data>
   <data name="Skip" xml:space="preserve">
-    <value>ข้าม </value>
+    <value>Բաց թողնել</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>เลือกทั้งหมด</value>
+    <value>Ընտրել Բոլորը</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>สลับการเลือก</value>
+    <value>Invert selection</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>ล้างส่วนที่เลือก</value>
+    <value>Clear selection</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>วันที่ปรับเปลี่ยน:</value>
+    <value>Փոփոխված.</value>
   </data>
   <data name="Accessed" xml:space="preserve">
-    <value>เข้าถึงเมื่อ:</value>
+    <value>Մուտք գործած.</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>ล้างประวัติรายการ</value>
+    <value>Մաքրել բոլոր տարրերը</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>ป้อนเส้นทางเพื่อนำทาง หรือพิพม์ &gt; เพื่อเปิดแผงคำสั่ง</value>
+    <value>Գրեք ուղի նավարկելու համար կամ մուտքագրեք «&gt;»՝ հրամանների պնակը բացելու համար</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>ค้นหา</value>
+    <value>Որոնել</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>รายการไฟล์ที่เคยเข้าถึงจะแสดงในรายการนี้</value>
+    <value>Files you've previously accessed will show up here</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>ลบรายการนี้</value>
+    <value>Հեռացնել այս տարրը</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>คลังเก็บ GitHub</value>
+    <value>GitHub պահեստ</value>
   </data>
   <data name="About" xml:space="preserve">
-    <value>เกี่ยวกับ</value>
+    <value>Մասին</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>โอเพนซอร์ส</value>
+    <value>Բաց աղբյուրներ</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
-    <value>รูปแบบวันที่</value>
+    <value>Ամսաթվի ձեւաչափ</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>ชุดรูปแบบ</value>
+    <value>Ոճ</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>แสดงนามสกุลสำหรับชนิดไฟล์ที่รู้จัก</value>
+    <value>Ցույց տալ ընդլայնումները հայտնի նիշքերի տեսակների համար</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>แสดงไฟล์และโฟลเดอร์ที่ซ่อนไว้</value>
+    <value>Ցույց տալ թաքնված նիշքերը եւ պանակները</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>แสดงไฟล์ที่ใช้ชื่อจุด</value>
+    <value>Ցույց տալ կետով նիշքերը</value>
   </data>
   <data name="Appearance" xml:space="preserve">
-    <value>ตกแต่ง</value>
+    <value>Տեսք</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Խորքի գույն</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>ขั้นสูง</value>
+    <value>Ընդլայնված</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>เปิดแท็บที่ค้างจากครั้งก่อน</value>
+    <value>Շարունակել այնտեղ, որտեղ լքել եք</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
-    <value>เปิดแท็บใหม่</value>
+    <value>Բացել նոր ներդիր</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>เปิดหน้าอื่นที่ระบุไว้</value>
+    <value>Բացեք որոշակի էջ կամ էջեր</value>
   </data>
   <data name="Desktop" xml:space="preserve">
-    <value>เดสก์ท็อป</value>
+    <value>Սեղան</value>
   </data>
   <data name="Documents" xml:space="preserve">
-    <value>เอกสาร</value>
+    <value>Փաստաթղթեր</value>
   </data>
   <data name="Downloads" xml:space="preserve">
-    <value>ดาวน์โหลด</value>
+    <value>Ներբեռնումներ</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>ชื่อ</value>
+    <value>Անուն</value>
   </data>
   <data name="Ascending" xml:space="preserve">
-    <value>จากน้อยไปหามาก</value>
+    <value>Աճման կարգով</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>วาง</value>
+    <value>Կպցնել</value>
   </data>
   <data name="PasteShortcut" xml:space="preserve">
     <value>Paste shortcut</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
-    <value>สร้าง</value>
+    <value>Նոր</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>คุณสมบัติ</value>
+    <value>Հատկություններ</value>
   </data>
   <data name="Open" xml:space="preserve">
-    <value>เปิด</value>
+    <value>Բացել</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>เปิดในแท็บใหม่</value>
+    <value>Open in new tab</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>เปิดในหน้าต่างใหม่</value>
+    <value>Բացել նոր պատուհան</value>
   </data>
   <data name="Share" xml:space="preserve">
-    <value>ใช้ร่วมกัน</value>
+    <value>Կիսվել</value>
   </data>
   <data name="Cut" xml:space="preserve">
-    <value>ตัด</value>
+    <value>Կտրել</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>ลบ</value>
+    <value>Ջնջել</value>
   </data>
   <data name="PinFolderToSidebar" xml:space="preserve">
-    <value>ปักไว้ที่แถบด้านข้าง</value>
+    <value>Pin to Sidebar</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>ยินดีต้อนรับสู่โปรแกรมจัดการไฟล์!</value>
+    <value>Welcome to Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>อนุญาตสิทธิ์การเข้าถึง</value>
+    <value>Grant permission</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>ก่อนเริ่มต้นใช้งาน, เราต้องได้รับสิทธิ์การเข้าถึงไฟล์จากคุณก่อน. เราจะพาคุณไปยังหน้าการตั้งค่าสิทธิ์การเข้าถึงไฟล์เพื่อให้คุณอนุญาตโปรแกรมเราได้เข้าถึงสิทธิ์นั้น. เมื่อยกสิทธิ์การเข้าถึงแล้วปิดโปรแกรมแล้วเปิดใหม่อีกครั้งเพื่อให้การอนุญาตสิทธิ์เสร็จสมบูรณ์.</value>
+    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>การแสดงผล</value>
+    <value>Ցուցադրիչ</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>ระบุชื่อใหม่ของรายการ</value>
+    <value>Enter an item name</value>
   </data>
   <data name="CreateNewItemTitle" xml:space="preserve">
     <value>Create new {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>สว่าง</value>
+    <value>Լուսավոր</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>มืด</value>
+    <value>Մութ</value>
   </data>
   <data name="Application" xml:space="preserve">
-    <value>โปรแกรมประยุกต์</value>
+    <value>Հավելված</value>
   </data>
   <data name="SystemTimeStyle" xml:space="preserve">
-    <value>ตามระบบ</value>
+    <value>Համակարգ</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>โฟลเดอร์ใหม่</value>
+    <value>Նոր նիշք</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>ไฟล์ใหม่</value>
+    <value>Նոր նիշք</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
-    <value>โฟลเดอร์นี้ว่างเปล่า</value>
+    <value>Այս պանակը դատարկ է</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>ย้อนกลับ (Alt + ลูกศรซ้าย)</value>
+    <value>Հետ</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>ไปข้างหน้า (Alt + ลูกศรขวา)</value>
+    <value>Առաջ</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>ขึ้นไป (Alt + ลูกศรขึ้น)</value>
+    <value>Վերեւ</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>รีเฟรช</value>
+    <value>Թարմացնել</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
-    <value>ในโฟลเดอร์นี้มีรายการที่ใช้ชื่อนี้ไปแล้ว.</value>
+    <value>An item with this name already exists in this directory.</value>
   </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
-    <value>แทนที่รายการที่มีอยู่</value>
+    <value>Replace existing item</value>
   </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
-    <value>รายการนี้ซ้ำกับรายการที่มีอยู่แล้ว</value>
+    <value>Item already exists</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>ตั้งเป็นพื้นหลังหน้าจอล็อค</value>
+    <value>Կայել որպես կողպէկրանի սեղանի խորք</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>Կայել որպես հավելվածի խորք</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
-    <value>ไม่สามารถลบสิ่งของที่ระบุไว้ได้</value>
+    <value>We weren't able to delete this item</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
-    <value>กรุณาใส่อุปกรณ์นั้นกลับเข้ามาเพื่อเข้าถึงไฟล์นี้</value>
+    <value>Please insert the necessary drive to access this item.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>ไดร์ฟถูกถอดออก</value>
+    <value>Drive unplugged</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>ไฟล์ที่ต้องการเข้าถึงนั้นได้ถูกย้ายหรือลบไปแล้ว</value>
+    <value>The file you are attempting to access may have been moved or deleted.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
-    <value>ไม่สามารถเปิดดูคุณสมบัติของไฟล์นี้ได้</value>
+    <value>Cannot open properties for this file</value>
   </data>
   <data name="CannotAccessPropertiesContent" xml:space="preserve">
-    <value>ไฟล์ที่ต้องการเข้าถึงนั้นได้ถูกย้ายหรือลบไปแล้ว</value>
+    <value>The file you are attempting to access may have been moved or deleted.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
-    <value>ไม่พบไฟล์</value>
+    <value>File Not Found</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>โฟลเดอร์ที่พยายามเข้าถึงนี้ ได้ถูกย้ายหรือลบไปแล้ว</value>
+    <value>The folder you are attempting to access may have been moved or deleted.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>ลบไปแล้วเหรอ?</value>
+    <value>Did you delete this folder?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>ไฟล์ที่พยายามเข้าถึงถูกใช้งานอยู่โดย {0}</value>
+    <value>The file you are attempting to access is currently being used by {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>ไฟล์ที่พยายามเข้าถึงถูกใช้งานอยู่โดยแอปพลิเคชั่นอื่น</value>
+    <value>The file you are attempting to access is currently being used by another application</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>ไฟล์ถูกใช้งานอยู่</value>
+    <value>File is in use</value>
   </data>
   <data name="Layout" xml:space="preserve">
-    <value>เค้าโครง</value>
+    <value>Դիրք</value>
   </data>
   <data name="PropertiesDialogReadOnly.Text" xml:space="preserve">
-    <value>อ่านอย่างเดียว</value>
+    <value>Կարդալ-միայն</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>{0, plural, one {# day ago} other {# days ago}}</value>
   </data>
   <data name="DaysAgo_Singular" xml:space="preserve">
-    <value>1 day ago</value>
+    <value>1 օր առաջ</value>
   </data>
   <data name="DaysAgo_Plural" xml:space="preserve">
     <value>{0} days ago</value>
@@ -403,7 +403,7 @@
     <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
   </data>
   <data name="HoursAgo_Singular" xml:space="preserve">
-    <value>1 hour ago</value>
+    <value>1 ժամ առաջ</value>
   </data>
   <data name="HoursAgo_Plural" xml:space="preserve">
     <value>{0} hours ago</value>
@@ -427,828 +427,828 @@
     <value>{0} seconds ago</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>ขณะนี้</value>
+    <value>Հիմա</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
-    <value>ไม่สามารถทำได้อย่างไม่ทราบสาเหตุ</value>
+    <value>The requested operation is not supported</value>
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
-    <value>ว่าง {0} จากทั้งหมด {1}</value>
+    <value>{0} free of {1}</value>
   </data>
   <data name="SendTo" xml:space="preserve">
-    <value>ส่งไปยัง</value>
+    <value>Ուղարկել դեպի</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
-    <value>ชื่อไฟล์ไม่สามารถมีอักขระต่อไปนี้ได้: \ / : * ? " &lt; &gt; |</value>
+    <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>ชื่อรายการที่ระบุไม่ถูกต้อง</value>
+    <value>The item name specified is invalid</value>
   </data>
   <data name="SelectedItems" xml:space="preserve">
-    <value>{0, plural, other {# items selected}}</value>
+    <value>{0, plural, one {# item selected} other {# items selected}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>{0, plural, other {items}}</value>
+    <value>{0, plural, one {item} other {items}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>ใช่</value>
+    <value>Այո</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
-    <value>คุณแน่ใจเหรอว่าคุณต้องการลบรายการเหล่านี้อย่างถาวร?</value>
+    <value>Are you sure you want to permanently delete all these items?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
-    <value>ล้างข้อมูลในถังรีไซเคิล</value>
+    <value>Դատարկել աղբարկղը</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
-    <value>ไบต์</value>
+    <value>բայթ</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
-    <value>KB</value>
+    <value>ԿԲ</value>
   </data>
   <data name="MegaByteSymbol" xml:space="preserve">
-    <value>MB</value>
+    <value>ՄԲ</value>
   </data>
   <data name="GigaByteSymbol" xml:space="preserve">
-    <value>GB</value>
+    <value>ԳԲ</value>
   </data>
   <data name="TeraByteSymbol" xml:space="preserve">
-    <value>TB</value>
+    <value>ՏԲ</value>
   </data>
   <data name="PetaByteSymbol" xml:space="preserve">
-    <value>PB</value>
+    <value>ՊԲ</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>B</value>
+    <value>Բ</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}}</value>
   </data>
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
-    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}} from {2, number} {2, plural, one {location} other {locations}}</value>
+    <value>{0, number} {0, plural, one {նիշք} other {նիշք}}, {1, number} {1, plural, one {պանակը} other {պանակը}} {2, number} {2, plural, one {տեղադրությունից} other {տեղադրությունից}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
-    <value>เรียกใช้ในฐานะผู้ใช้อื่น</value>
+    <value>Run as another user</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
-    <value>ทุกขนิด {0}</value>
+    <value>All type of {0}</value>
   </data>
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
-    <value>หลาย ๆ ชนิด</value>
+    <value>Different types</value>
   </data>
   <data name="PropertiesCombinedItemLocation" xml:space="preserve">
-    <value>ทั้งหมดใน {0}</value>
+    <value>Բոլորը {0}-ում</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
-    <value>พื้นที่ใช้ไป:</value>
+    <value>Օգտագորված տարածք.</value>
   </data>
   <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
-    <value>พื้นที่ว่าง:</value>
+    <value>Ազատ տարածք.</value>
   </data>
   <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
-    <value>ความจุ:</value>
+    <value>Տարողություն.</value>
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
-    <value>ระบบแฟ้ม:</value>
+    <value>File system:</value>
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
-    <value>ใช้บ่อย</value>
+    <value>Վերջիններ</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
-    <value>ย้ายแท็บมาไว้ที่นี่</value>
+    <value>Move tab here</value>
   </data>
   <data name="Status" xml:space="preserve">
-    <value>Status</value>
+    <value>Վիճակ</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>ตามระบบ</value>
+    <value>Windows լռելյայն</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
-    <value>ไม่มีรายการนี้</value>
+    <value>Ոչ մի արդյունք</value>
   </data>
   <data name="SubDirectoryAccessDenied" xml:space="preserve">
-    <value>ไม่มีสิทธิ์เข้าถึงโฟลเดอร์นี้</value>
+    <value>Can't access any items to display</value>
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
-    <value>ย้ายไปที่ {0}</value>
+    <value>Տեղափոխել դեպի {0}</value>
   </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
-    <value>คัดลอกไปที่ {0}</value>
+    <value>Պատճենել դեպի {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>สร้างทางลัด</value>
+    <value>Create shortcut</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
-    <value>เปิดตำแหน่งที่ตั้งไฟล์</value>
+    <value>Բացել նիշքի տեղադրությունը</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
-    <value>ตัวเลือกการเริ่ม:</value>
+    <value>Arguments:</value>
   </data>
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
-    <value>เป้าหมาย:</value>
+    <value>Destination:</value>
   </data>
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
-    <value>ชนิดของทางลัด:</value>
+    <value>Shortcut type:</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
-    <value>ทางลัดอินเตอร์เน็ต</value>
+    <value>Վեպ հղում</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value>ทั่วไป</value>
+    <value>Ընդհանուր</value>
   </data>
   <data name="Shortcut" xml:space="preserve">
-    <value>ทางลัด</value>
+    <value>Կարճատ</value>
   </data>
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
-    <value>ทางลัดอินเตอร์เน็ต</value>
+    <value>Internet shortcut</value>
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
-    <value>{0} - ทางลัด</value>
+    <value>{0} - shortcut</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
-    <value>โปรแกรมจัดการไฟล์เจอปัญหาที่ไม่เคยเจอมาก่อน.</value>
+    <value>Files ran into a problem that the developers didn't prepare for yet.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
-    <value>เกิดบางอย่างผิดพลาดขึ้น!</value>
+    <value>Something went wrong!</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
-    <value>รายงานปัญหานี้</value>
+    <value>Report this issue</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>รายการที่ระบุนี้ไม่มีอยู่จริงหรือไม่สามารถเข้าถึงได้อีกต่อไป. {0}เกิดข้อผิดพลาด:{0}{1}</value>
+    <value>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
-    <value>รายการที่ไม่มีจริง</value>
+    <value>Invalid item</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
-    <value>เวอร์ชั่น:</value>
+    <value>Վարկած.</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
-    <value>ยังไม่มีอะไรจะแบ่งปัน ณ ตอนนี้...</value>
+    <value>There's nothing to share right now...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
-    <value>รายการเหล่านี้ที่คุณเลือกกำลังจะถูกแบ่งปัน</value>
+    <value>The items you've selected will be shared</value>
   </data>
   <data name="ShareDialogSingleItemDescription" xml:space="preserve">
-    <value>รายการที่คุณเลือกกำลังจะถูกแบ่งปัน</value>
+    <value>The selected item will be shared</value>
   </data>
   <data name="ShareDialogTitle" xml:space="preserve">
-    <value>แบ่งปัน {0}</value>
+    <value>Կիսվել «{0}»-ով</value>
   </data>
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
-    <value>แบ่งปัน {0} {1}</value>
+    <value>Sharing {0} {1}</value>
   </data>
   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>รายการที่คุณพยายามเปลี่ยนชื่อได้หายไป. กรุณาตรวจสอบให้ดีว่ารายการนั้นยังมีอยู่จริง.</value>
+    <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
-    <value>รายการนี้ไม่มีอยู่อีกแล้ว</value>
+    <value>Item no longer exists</value>
   </data>
   <data name="RenameError.NameInvalid.Text" xml:space="preserve">
-    <value>ชื่อที่ระบุเป็นชื่อที่ไม่ถูกต้อง. กรุณาเช็ครายการนั้นและลองอีกครั้ง.</value>
+    <value>The name specified was invalid. Please check the desired item name and try again.</value>
   </data>
   <data name="RenameError.NameInvalid.Title" xml:space="preserve">
-    <value>ชื่อรายการไม่ถูกต้อง</value>
+    <value>Invalid item name</value>
   </data>
   <data name="RenameError.TooLong.Text" xml:space="preserve">
-    <value>ความยาวของรายการนี้ยาวเกินกำหนด. กรุณาเช็ครายการนั้นแล้วลองใหม่อีกครั้ง.</value>
+    <value>The length of the item name specified exceeds the maximum limit. Please check the desired name and try again.</value>
   </data>
   <data name="RenameError.TooLong.Title" xml:space="preserve">
-    <value>ชื่อรายการนี้ยาวเกินไป</value>
+    <value>Item name was too long</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>แสดงตัวเลือกเพิ่มเติม</value>
+    <value>Ցույց տալ ավել ընտրանքներ</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>โปรแกรมต้องเริ่มใหม่เพื่อให้การตั้งค่านี้มีผล, คุณต้องการจะปิดโปรแกรมนี้เพื่อเริ่มใหม่และนำการตั้งค่านี้ไปใช้ ตอนนี้เลยหรือไม่?</value>
+    <value>Այս կայանքները կիրառելու համար հավելվածը պետք է վերագործարկվի, կցանկանա՞ք։</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>สนับสนุนเราบน GitHub</value>
+    <value>Sponsor us on GitHub</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
-    <value>ไม่สามารถสร้างสิ่งของที่ระบุไว้ได้</value>
+    <value>We weren't able to create this item</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
-    <value>การเข้าถึงถูกกีดกัน</value>
+    <value>Access Denied</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
-    <value>ตั้งเป็น</value>
+    <value>Կայել որպես</value>
   </data>
   <data name="Cancel" xml:space="preserve">
-    <value>ยกเลิก</value>
+    <value>Չեղարկել</value>
   </data>
   <data name="AddDialog.Title" xml:space="preserve">
-    <value>สร้างรายการใหม่</value>
+    <value>Create a new item</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>เลือกประเภทของรายการที่จะสร้างใหม่</value>
+    <value>Choose a type for this new item below</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value>ไฟล์</value>
+    <value>Նիշք</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
-    <value>สร้างไฟล์เปล่า</value>
+    <value>Creates an empty file</value>
   </data>
   <data name="Folder" xml:space="preserve">
-    <value>โฟลเดอร์</value>
+    <value>Պանակ</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
-    <value>สร้างโฟลเดอร์เปล่า</value>
+    <value>Creates an empty folder</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
-    <value>รีเฟรช</value>
+    <value>Refresh the directory</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>ภาษา</value>
+    <value>Լեզու</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>ย้ายส่วนขยายเชลล์ทั้งหมดไปที่เมนูย่อย</value>
+    <value>Կեղեւի ընդլայնումները տեղափոխել ենթացանկ</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>แสดงกล่องโต้ตอบการยืนยันลบเมื่อลบไฟล์หรือโฟล์เดอร์</value>
+    <value>Ցույցադրել ջնջման հաստատման երկխոսությունը տարրը ջնջելիս</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
-    <value>เกิดปัญหาผิดพลาดขณะพยายามบันทีกคุณสมบัติบางอย่าง.</value>
+    <value>There was an issue saving some properties.</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
-    <value>ผิดพลาด</value>
+    <value>Սխալ</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
-    <value>ละเลยและปิด</value>
+    <value>Close anyway</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
-    <value>การจัดอันดับ</value>
+    <value>Գնահատում</value>
   </data>
   <data name="PropertyParsingPath" xml:space="preserve">
-    <value>เส้นทางโฟลเดอร์</value>
+    <value>Տարրի Ուղին</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
-    <value>ชนิดรายการ</value>
+    <value>Տարրի Տեսակ</value>
   </data>
   <data name="PropertyTitle" xml:space="preserve">
-    <value>ชื่อเรื่อง</value>
+    <value>Վերնագիր</value>
   </data>
   <data name="PropertySubject" xml:space="preserve">
-    <value>หัวข้อ</value>
+    <value>Առարկա</value>
   </data>
   <data name="PropertyComment" xml:space="preserve">
-    <value>ข้อคิดเห็น</value>
+    <value>Մեկնաբանություն</value>
   </data>
   <data name="PropertyCopyright" xml:space="preserve">
-    <value>ลิขสิทธื์</value>
+    <value>Պատճենաշնորհ</value>
   </data>
   <data name="PropertyDateModified" xml:space="preserve">
-    <value>วันที่ปรับเปลี่ยน</value>
+    <value>Փոփոխման Ամսաթիվ</value>
   </data>
   <data name="PropertyBitDepth" xml:space="preserve">
-    <value>ความลึกของบิต</value>
+    <value>Bit Depth</value>
   </data>
   <data name="PropertyDimensions" xml:space="preserve">
-    <value>มิติ</value>
+    <value>Dimensions</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
-    <value>ขนาดแนวนอน</value>
+    <value>Horizontal Size</value>
   </data>
   <data name="PropertyVerticalSize" xml:space="preserve">
-    <value>ขนาดแนวตั้ง</value>
+    <value>Vertical Size</value>
   </data>
   <data name="PropertyHorizontalResolution" xml:space="preserve">
-    <value>ความละเอียดแนวนอน</value>
+    <value>Horizontal Resolution</value>
   </data>
   <data name="PropertyVerticalResolution" xml:space="preserve">
-    <value>ความละเอียดแนวตั้ง</value>
+    <value>Vertical Resolution</value>
   </data>
   <data name="PropertyColorSpace" xml:space="preserve">
-    <value>การแสดงสี</value>
+    <value>Գունային Տարածություն</value>
   </data>
   <data name="PropertyColorSpace_Value0" xml:space="preserve">
     <value>sRGB</value>
   </data>
   <data name="PropertyColorSpace_Value65535" xml:space="preserve">
-    <value>ไม่ระบุ</value>
+    <value>Նշված չէ</value>
   </data>
   <data name="PropertyLongitudeDecimal" xml:space="preserve">
-    <value>ละติจูต</value>
+    <value>Longitude Decimal</value>
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
-    <value>ลองจิจูต</value>
+    <value>Latitude Decimal</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
-    <value>ระดับความสูง</value>
+    <value>Altitude</value>
   </data>
   <data name="PropertyDateTaken" xml:space="preserve">
-    <value>วันที่ถ่าย</value>
+    <value>Date Taken</value>
   </data>
   <data name="PropertyCameraManufacturer" xml:space="preserve">
-    <value>ยี่ห้อกล้อง</value>
+    <value>Camera Manufacturer</value>
   </data>
   <data name="PropertyCameraModel" xml:space="preserve">
-    <value>รุ่นของกล้อง</value>
+    <value>Camera Model</value>
   </data>
   <data name="PropertyExposureTime" xml:space="preserve">
-    <value>การตั้งค่าการเปิดรับแสง</value>
+    <value>Exposure Time</value>
   </data>
   <data name="PropertyFocalLength" xml:space="preserve">
-    <value>ระยะโฟกัส</value>
+    <value>Focal Length</value>
   </data>
   <data name="PropertyAperture" xml:space="preserve">
-    <value>ช่อง</value>
+    <value>Aperture</value>
   </data>
   <data name="PropertyPeopleNames" xml:space="preserve">
-    <value>รายชื่อผู้คน</value>
+    <value>People Names</value>
   </data>
   <data name="PropertyChannelCount" xml:space="preserve">
-    <value>จำนวนช่อง</value>
+    <value>Channel Count</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
-    <value>รูปแบบ</value>
+    <value>Ձեւաչափ</value>
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
-    <value>อัตราการสุ่มตัวอย่าง</value>
+    <value>Sample Rate</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
-    <value>อัลบัมศิลปิน</value>
+    <value>Album Artist</value>
   </data>
   <data name="PropertyAlbumTitle" xml:space="preserve">
-    <value>ชื่ออัลบัม</value>
+    <value>Ալբոմի Վերնագիր</value>
   </data>
   <data name="Artist" xml:space="preserve">
-    <value>ศิลปิน</value>
+    <value>Արվեստող</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
-    <value>จังหวะต่อนาที</value>
+    <value>Beats Per Minute</value>
   </data>
   <data name="PropertyComposer" xml:space="preserve">
-    <value>ผู้ประพันธ์</value>
+    <value>Composer</value>
   </data>
   <data name="Conductor" xml:space="preserve">
-    <value>ผู้ควบคุมวง</value>
+    <value>Conductor</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
-    <value>แผ่นที่</value>
+    <value>Սկավառակի համար</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
-    <value>หมวด</value>
+    <value>Genre</value>
   </data>
   <data name="PropertyTrackNumber" xml:space="preserve">
-    <value>หมายเลขแทร็ก</value>
+    <value>Track Number</value>
   </data>
   <data name="PropertyDuration" xml:space="preserve">
-    <value>ความยาว</value>
+    <value>Տեւողություն</value>
   </data>
   <data name="PropertyFrameCount" xml:space="preserve">
-    <value>อัตราเฟรม</value>
+    <value>Frame Count</value>
   </data>
   <data name="PropertyProtectionType" xml:space="preserve">
-    <value>รูปแบบการป้องกัน</value>
+    <value>Protection Type</value>
   </data>
   <data name="PropertyAuthorUrl" xml:space="preserve">
-    <value>Url ผู้เขียน</value>
+    <value>Հեղինակի Url</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
-    <value>ผู้จัดจำหน่ายเนื้อหา</value>
+    <value>Content Distributor</value>
   </data>
   <data name="PropertyDateReleased" xml:space="preserve">
-    <value>วันที่จัดจำหน่าย</value>
+    <value>Date Released</value>
   </data>
   <data name="PropertySeriesName" xml:space="preserve">
-    <value>ชื่อชุด</value>
+    <value>Series Name</value>
   </data>
   <data name="PropertySeasonNumber" xml:space="preserve">
-    <value>ชุดที่</value>
+    <value>Season Number</value>
   </data>
   <data name="PropertyEpisodeNumber" xml:space="preserve">
-    <value>ตอนที่</value>
+    <value>Episode Number</value>
   </data>
   <data name="PropertyProducer" xml:space="preserve">
-    <value>ผู้ผลิต</value>
+    <value>Producer</value>
   </data>
   <data name="PropertyPromotionUrl" xml:space="preserve">
-    <value>Url สำหรับการโปรโมท</value>
+    <value>Promotion Url</value>
   </data>
   <data name="PropertyProviderStyle" xml:space="preserve">
-    <value>รูปแบบการจัดจำหน่าย</value>
+    <value>Provider Style</value>
   </data>
   <data name="PropertyPublisher" xml:space="preserve">
-    <value>ผู้จัดจำหน่าย</value>
+    <value>Հրապարակող</value>
   </data>
   <data name="PropertyThumbnailLargePath" xml:space="preserve">
-    <value>ตำแหน่งรูปย่อขนาดใหญ่</value>
+    <value>Thumbnail Large Path</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
-    <value>Uri รูปย่อขนาดใหญ่</value>
+    <value>Thumbnail Large Uri</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
-    <value>ตำแหน่งรูปย่อขนาดเล็ก</value>
+    <value>Thumbnail Small Path</value>
   </data>
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
-    <value>Uri รูปย่อขนาดเล็ก</value>
+    <value>Thumbnail Small Uri</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
-    <value>Url ผู้ใช้</value>
+    <value>User Web Url</value>
   </data>
   <data name="PropertyWriter" xml:space="preserve">
-    <value>ผู้เขียน</value>
+    <value>Գրող</value>
   </data>
   <data name="PropertyYear" xml:space="preserve">
-    <value>ปี</value>
+    <value>Տարի</value>
   </data>
   <data name="PropertyContributor" xml:space="preserve">
-    <value>ผู้สนับสนุน</value>
+    <value>Մասնակից</value>
   </data>
   <data name="PropertyLastAuthor" xml:space="preserve">
-    <value>ผู้เขียนสุดท้าย</value>
+    <value>Նախորդ Հեղինակ</value>
   </data>
   <data name="PropertyRevisionNumber" xml:space="preserve">
-    <value>พิมพ์ครั้งที่</value>
+    <value>Revision Number</value>
   </data>
   <data name="PropertyVersion" xml:space="preserve">
-    <value>เวอร์ชั่น</value>
+    <value>Վարկած</value>
   </data>
   <data name="PropertyDateCreated" xml:space="preserve">
-    <value>วันที่สร้าง</value>
+    <value>Ստեղծման Ամսաթիվ</value>
   </data>
   <data name="PropertyTotalEditingTime" xml:space="preserve">
-    <value>ระยะเวลาแก้ไข</value>
+    <value>Total Editing Time</value>
   </data>
   <data name="PropertyTemplate" xml:space="preserve">
-    <value>ต้นฉบับ</value>
+    <value>Ձեւանմուշ</value>
   </data>
   <data name="PropertyWordCount" xml:space="preserve">
-    <value>จำนวนคำ</value>
+    <value>Բառերի Քանակ</value>
   </data>
   <data name="PropertyCharacterCount" xml:space="preserve">
-    <value>จำนวนตัวอักษร</value>
+    <value>Character Count</value>
   </data>
   <data name="PropertyLineCount" xml:space="preserve">
-    <value>จำนวนบรรทัด</value>
+    <value>Տողերի Քանակ</value>
   </data>
   <data name="PropertyParagraphCount" xml:space="preserve">
-    <value>จำนวนย่อหน้า</value>
+    <value>Paragraph Count</value>
   </data>
   <data name="PropertyPageCount" xml:space="preserve">
-    <value>จำนวนหน้า</value>
+    <value>Էջերի Քանակ</value>
   </data>
   <data name="PropertySlideCount" xml:space="preserve">
-    <value>จำนวนสไลด์</value>
+    <value>Սահիկների Քանակ</value>
   </data>
   <data name="PropertyFrameRate" xml:space="preserve">
-    <value>อัตราเฟรม</value>
+    <value>Frame Rate</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
-    <value>อัตราบิตรวม</value>
+    <value>Encoding Bitrate</value>
   </data>
   <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
-    <value>Audio Encoding Bitrate</value>
+    <value>Ձայնանյութի կոդավորման բիթայնությունը</value>
   </data>
   <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
-    <value>Video Encoding Bitrate</value>
+    <value>Տեսանյութի կոդավորման բիթայնությունը</value>
   </data>
   <data name="Compression" xml:space="preserve">
-    <value>บีบอัด</value>
+    <value>Սեղմում</value>
   </data>
   <data name="PropertyFrameWidth" xml:space="preserve">
-    <value>ความกว้างของเฟรม</value>
+    <value>Frame Width</value>
   </data>
   <data name="PropertyFrameHeight" xml:space="preserve">
-    <value>ความสูงของเฟรม</value>
+    <value>Frame Height</value>
   </data>
   <data name="PropertyOrientation" xml:space="preserve">
-    <value>แนว</value>
+    <value>Կողմնորոշում</value>
   </data>
   <data name="PropertySectionCore" xml:space="preserve">
-    <value>พื้นฐาน</value>
+    <value>Միջուկ</value>
   </data>
   <data name="PropertySectionImage" xml:space="preserve">
-    <value>ภาพ</value>
+    <value>Պատկեր</value>
   </data>
   <data name="PropertySectionPhoto" xml:space="preserve">
-    <value>รูป</value>
+    <value>Լուսո</value>
   </data>
   <data name="PropertySectionGPS" xml:space="preserve">
-    <value>ตำแหน่ง</value>
+    <value>GPS</value>
   </data>
   <data name="PropertySectionMedia" xml:space="preserve">
-    <value>สื่อ</value>
+    <value>Մեդիա</value>
   </data>
   <data name="PropertySectionAudio" xml:space="preserve">
-    <value>เสียง</value>
+    <value>Ձայնո</value>
   </data>
   <data name="PropertySectionMusic" xml:space="preserve">
-    <value>เพลง</value>
+    <value>Երաժշտություն</value>
   </data>
   <data name="PropertySectionVideo" xml:space="preserve">
-    <value>วีดีโอ</value>
+    <value>Տեսո</value>
   </data>
   <data name="Document" xml:space="preserve">
-    <value>เอกสาร</value>
+    <value>Փաստաթուղթ</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value>ที่ตั้ง</value>
+    <value>Հասցե</value>
   </data>
   <data name="SelectionOptions" xml:space="preserve">
-    <value>การเลือก</value>
+    <value>Selection options</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
-    <value>เลือก</value>
+    <value>Նշել</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
-    <value>รายการที่ถูกรีไซเคิล</value>
+    <value>Recycle bin item</value>
   </data>
   <data name="ShortcutItemAutomation" xml:space="preserve">
-    <value>รายการทางลัด</value>
+    <value>Shortcut item</value>
   </data>
   <data name="Drives" xml:space="preserve">
-    <value>ไดร์ฟ</value>
+    <value>Սարքավարներ</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
-    <value>ย้ายมาที่นี่</value>
+    <value>Տեղափոխել այստեղ</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
-    <value>อุปกรณ์ถอดออกได้อย่างปลอดภัยแล้ว</value>
+    <value>Safe to remove hardware</value>
   </data>
   <data name="EjectNotificationBody" xml:space="preserve">
-    <value>อุปกรณ์สามารถถอดออกอย่างปลอดภัยได้แล้ว</value>
+    <value>The device can now be safely removed from the computer.</value>
   </data>
   <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
-    <value>ไม่สามารถถอดอุปกรณ์ออกได้</value>
+    <value>Problem Ejecting Device</value>
   </data>
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
-    <value>อุปกรณ์กำลังถูกใช้งานอยู่. กรุณาปิดทุกโปรแกรมที่กำลังใช้งานอุปกรณ์นี้อยู่.</value>
+    <value>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</value>
   </data>
   <data name="Eject" xml:space="preserve">
-    <value>ถอด</value>
+    <value>Հանել</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
-    <value>ทำซ้ำแท็บ</value>
+    <value>Կրկնօրինակել ներդիրը</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
-    <value>ย้ายแท็บไปหน้าต่างใหม่</value>
+    <value>Տեղափոխել ներդիրը նոր պատուհան</value>
   </data>
   <data name="NewTab" xml:space="preserve">
-    <value>แท็บใหม่</value>
+    <value>Նոր ներդիր</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
-    <value>รายละเอียดอาจมีข้อมูลที่เป็นส่วนบุคคล</value>
+    <value>Some properties may contain personal information.</value>
   </data>
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
-    <value>ล้างรายละเอียดทุกอย่าง</value>
+    <value>Clear All Properties</value>
   </data>
   <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
-    <value>เช็คสถานะของการถ่ายโอนไฟล์ที่นี่</value>
+    <value>Check the status of file operations here</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>ศูนย์รวมสถานะ</value>
+    <value>Status center</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>ผลการค้นหา {0} ใน {1}</value>
+    <value>Search results in {1} for {0}</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value>รายละเอียด</value>
+    <value>Մանրամասներ</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>ไม่</value>
+    <value>Ոչ</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>แสดงไฟล์ระบบที่ถูกปกป้องไว้</value>
+    <value>Ցույց տալ պաշտպանված համակարգի նիշքերը</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>ซิงค์ตั้งค่าเค้าโครงและการเรียงให้เหมือนกันในทุกไดเร็กทอรี</value>
+    <value>Համաժամել դիրքը եւ դասավորելու հատկություններ գրացուցակների միջեւ</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
-    <value>ปรับแต่งรายการคลิกขวา</value>
+    <value>Անհատականացրեք աջ կտտացման համաշարի ընտրացանկ</value>
   </data>
   <data name="OriginalPath" xml:space="preserve">
-    <value>ต้นทาง</value>
+    <value>Original path</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value>เพิ่ม</value>
+    <value>Հավելել</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>แก้ไข</value>
+    <value>Խմբագրել</value>
   </data>
   <data name="Remove" xml:space="preserve">
-    <value>ลบ</value>
+    <value>Հեռացնել</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>เปิดแท็บในโหมดบานหน้าต่างคู่</value>
+    <value>Բացել ներդիրները երկակի վահանակի կերպում</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>แสดงตัวเลือก เปิดโฟลเดอร์ในบางหน้าต่างใหม่</value>
+    <value>Ցույց տալ ընտրանք՝ պանակները նոր վահանակում բացելու համար</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
-    <value>แสดงตัวเลือก คัดคอกเส้นทาง</value>
+    <value>Ցույց տալ ուղին պատճենելու ընտրանքը</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
-    <value>แสดงตัวเลือก สร้างโฟลเดอร์จากส่วนที่เลือก</value>
+    <value>Ցույց տալ ընտրանք, ստեղծելու համար պանակ՝ ընտրվածով</value>
   </data>
   <data name="ShowCreateShortcut" xml:space="preserve">
-    <value>แสดงตัวเลือก สร้างทางลัด</value>
+    <value>Ցույց տալ ընտրանք՝ ստեղծելու կարճատ</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
-    <value>เพิ่มหน้าต่างแยก</value>
+    <value>Նոր վահանակ</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
-    <value>เปิดในบานหน้าต่างใหม่</value>
+    <value>Open in new pane</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value>ไฟล์และโฟลเดอร์</value>
+    <value>Նիշքեր և Պանակներ</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
-    <value>รายละเอียด (Ctrl+Shift+1)</value>
+    <value>Details (Ctrl+Shift+1)</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
-    <value>วันที่ลบ</value>
+    <value>Date deleted</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
-    <value>ไดร์ฟออนไลน์</value>
+    <value>Ամպային Սարքավարներ</value>
   </data>
   <data name="Confirm" xml:space="preserve">
-    <value>ยืนยัน</value>
+    <value>Հաստատել</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
-    <value>ชื่อที่ต้องการ</value>
+    <value>Desired name</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
-    <value>เปิดปิดบานหน้าต่างแสดงตัวอย่าง</value>
+    <value>Փոխարկել նախադիտման վահանակը</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Toggle the details pane</value>
+    <value>Փոխարկել մանրամասների վահանակի</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Toggle the details pane to view basic file properties</value>
+    <value>Փոխարկել մանրամասների վահանակը դեպի դիտելու հիմնական նիշքերի հատկությունները</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Toggle the info pane</value>
+    <value>Փոխարկել տեղեկի վահանակի</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle the info pane to view the detail/preview panes</value>
+    <value>Փոխարկեք տեղեկ վահանակը դեպի մանրամասների/նախադիտման վահանակները դիտելու համար</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
-    <value>Toggle the Toolbar</value>
+    <value>Փոքարկել Գործիքագոտին</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
-    <value>ไม่มีตัวอย่างให้ดู</value>
+    <value>No preview available</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
-    <value>ชื่อไอเทม</value>
+    <value>Տարրի Անուն</value>
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
-    <value>นำออกจากแถบด้านข้าง</value>
+    <value>Unpin from Sidebar</value>
   </data>
   <data name="Network" xml:space="preserve">
-    <value>เครือข่าย</value>
+    <value>Ցանց</value>
   </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
-    <value>รายละเอียดไฟล์</value>
+    <value>File details</value>
   </data>
   <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
-    <value>ตัวอย่างไฟล์</value>
+    <value>File preview</value>
   </data>
   <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
-    <value>บานหน้าต่างแสดงรายละเอียดไฟล์ที่เลือก</value>
+    <value>Ընտրված նիշքի նախադիտման վահանակ</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>ข้อเสนอแนะ</value>
+    <value>Հետադարձ Կապ</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
-    <value>พร้อมใช้งานขณะออนไลน์</value>
+    <value>Available when online</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>เอกสารประกอบ</value>
+    <value>Documentation</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
-    <value>พร้อมใช้งานแล้ว</value>
+    <value>Available offline</value>
   </data>
   <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
-    <value>พร้อมใช้งานเป็นบางส่วน</value>
+    <value>Partially available offline</value>
   </data>
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
-    <value>กำลังซิงค์</value>
+    <value>Համաժամեցում</value>
   </data>
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
-    <value>ถูกห้ามไม่ให้ซิงค์</value>
+    <value>Excluded from sync</value>
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
-    <value>ยังไม่ทราบ</value>
+    <value>Not calculated</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
-    <value>ไม่ทราบ</value>
+    <value>Անհայտ</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>เมื่อคุณเปลี่ยนนามสกุลไฟล์อาจทำให้ไฟล์ไม่สามารถใช้งานได้. คุณแน่ใจว่าต้องการทำต่อใช่หรือไม่?</value>
+    <value>If you change a file extension, the file might become unusable. Are you sure you want to change it?</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
-    <value>ไดร์ฟซีดีรอม</value>
+    <value>CD ROM Drive</value>
   </data>
   <data name="DriveTypeCloudDrive" xml:space="preserve">
-    <value>ไดร์ฟออนไลน์</value>
+    <value>Ամպի Սարքավար</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
-    <value>ไดร์ฟฝังเครื่อง</value>
+    <value>Fixed Disk Drive</value>
   </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
-    <value>ฟล็อปปี้ดิสก์</value>
+    <value>Floppy Disk Drive</value>
   </data>
   <data name="DriveTypeNetwork" xml:space="preserve">
-    <value>ไดร์ฟเครือข่าย</value>
+    <value>Network Drive</value>
   </data>
   <data name="DriveTypeNoRootDirectory" xml:space="preserve">
-    <value>ไดร์ฟที่ถอดไปแล้ว</value>
+    <value>Unmounted Drive</value>
   </data>
   <data name="DriveTypeRam" xml:space="preserve">
-    <value>ไดร์ฟบนแรม</value>
+    <value>RAM Disk Drive</value>
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
-    <value>ไดร์ฟพกพา</value>
+    <value>Removable Storage Device</value>
   </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
-    <value>ไม่ทราบ</value>
+    <value>Անհայտ</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
-    <value>ไดร์ฟจำลอง</value>
+    <value>Virtual Drive</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
-    <value>สร้างเมื่อ</value>
+    <value>Date created</value>
   </data>
   <data name="MoreOptions" xml:space="preserve">
-    <value>ตัวเลือกเพิ่มเติม...</value>
+    <value>More options...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
-    <value>เพิ่มตำแหน่งบนเครือข่าย</value>
+    <value>Map network drive</value>
   </data>
   <data name="Pinned" xml:space="preserve">
-    <value>ปักหมุดไว้</value>
+    <value>Մեխված</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
-    <value>คลัง</value>
+    <value>Դարաններ</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
-    <value>ไม่มีรายการที่เลือก</value>
+    <value>No item selected</value>
   </data>
   <data name="PropertyItemTarget" xml:space="preserve">
-    <value>เป้าหมาย</value>
+    <value>Թիրախ</value>
   </data>
   <data name="Arguments" xml:space="preserve">
-    <value>อากิวเม้นต์</value>
+    <value>Arguments</value>
   </data>
   <data name="Default" xml:space="preserve">
-    <value>ค่าเริ่มต้น</value>
+    <value>Լռելյայն</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
-    <value>จำนวนรายการ</value>
+    <value>Տարրերի քանակ</value>
   </data>
   <data name="ElevateConfirmDialog.Title" xml:space="preserve">
-    <value>การกระทำนี้ต้องการสิทธ์จากผู้ดูแล</value>
+    <value>Այս գործողությունը պահանջում է վարիչի իրավունքները</value>
   </data>
   <data name="ElevateConfirmDialog.Content" xml:space="preserve">
-    <value>คุณต้องการขอสิทธิ์ผู้ดูแลเลยไหม?</value>
+    <value>Կցանկանա՞ք շարունակել որպես վարիչ</value>
   </data>
   <data name="ColumnsShortcutTooltip" xml:space="preserve">
-    <value>แถวเรียง (Ctrl+Shift+6)</value>
+    <value>Columns (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
-    <value>ปักไว้ในเมนูเริ่ม</value>
+    <value>Pin to the Start Menu</value>
   </data>
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
-    <value>นำออกจากเมนูเริ่ม</value>
+    <value>Unpin from the Start Menu</value>
   </data>
   <data name="Library" xml:space="preserve">
-    <value>คลัง</value>
+    <value>Դարան</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
-    <value>ที่ตั้ง:</value>
+    <value>Տեղադրություններ.</value>
   </data>
   <data name="SetAsDefaultSavePath" xml:space="preserve">
-    <value>ตั้งเป็นจุดบันทึกไฟล์เริ่มต้น</value>
+    <value>Set as default save path</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
-    <value>ยังไม่ได้ระบุตำแหน่ง</value>
+    <value>No locations</value>
   </data>
   <data name="ErrorInputEmpty" xml:space="preserve">
-    <value>ชื่อกลุ่มไม่สามารถเว้นว่างได้</value>
+    <value>Input field cannot be empty!</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
-    <value>ไม่สามารถมีอักษรเหล่านี้ในชื่อได้: \ / : * ? " &lt; &gt; |</value>
+    <value>The name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ErrorNameInputRestricted" xml:space="preserve">
-    <value>ไม่สามารถใช้ชื่อนี้ได้!</value>
+    <value>Using this name is not allowed!</value>
   </data>
   <data name="CreateLibraryErrorAlreadyExists" xml:space="preserve">
-    <value>คลังอื่นใช้ชื่อนี้ไปแล้ว!</value>
+    <value>Library with the same name already exists!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>เปิดที่เก็บข้อมูลอัจฉรียะ</value>
+    <value>Open Storage Sense</value>
   </data>
   <data name="OpenStorageSenseDescription" xml:space="preserve">
     <value>Open the Storage Sense page in Windows Settings</value>
   </data>
   <data name="Cleanup" xml:space="preserve">
-    <value>Cleanup</value>
+    <value>Մաքրում</value>
   </data>
   <data name="Copy" xml:space="preserve">
-    <value>คัดลอก</value>
+    <value>Պատճենել</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
     <value>Copy {0, plural, one {item} other {items}}</value>
@@ -1257,7 +1257,7 @@
     <value>Delete {0, plural, one {item} other {items}}</value>
   </data>
   <data name="MoveItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>ย้าย</value>
+    <value>Շարժել</value>
   </data>
   <data name="MoveItemsDialogSubtitle" xml:space="preserve">
     <value>{0, plural, one {One item will be moved} other {# items will be moved}}</value>
@@ -1269,7 +1269,7 @@
     <value>{0, plural, one {One item will be deleted} other {# items will be deleted}}</value>
   </data>
   <data name="ConflictingItemsDialogPrimaryButtonText" xml:space="preserve">
-    <value>ทำต่อไป</value>
+    <value>Շարունակել</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
     <value>{0, plural, one {There is one conflicting file name} other {There are # conflicting file names}}</value>
@@ -1284,547 +1284,547 @@
     <value>{0, plural, one {One item will be copied} other {# items will be copied}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>ลบถาวร</value>
+    <value>Permanently delete</value>
   </data>
   <data name="PropertyISO" xml:space="preserve">
-    <value>ความเร็ว ISO</value>
+    <value>ISO-ի արագություն</value>
   </data>
   <data name="ReplaceExisting" xml:space="preserve">
-    <value>แทนที่ของเดิม</value>
+    <value>Փոխարինել առկան</value>
   </data>
   <data name="GenerateNewName" xml:space="preserve">
-    <value>สุ่มชื่อใหม่ขึ้นมา</value>
+    <value>Արտադրել նոր անուն</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>สร้างโฟลเดอร์จากส่วนที่เลือก</value>
+    <value>Create folder with selection</value>
   </data>
   <data name="ItemType" xml:space="preserve">
-    <value>ชนิดไฟล์:</value>
+    <value>Տեսակ.</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
-    <value>วันที่ปรับเปลี่ยน:</value>
+    <value>Date modified:</value>
   </data>
   <data name="OpenWith" xml:space="preserve">
-    <value>เปิดด้วย</value>
+    <value>Բացել հետեւյալով</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
-    <value>ไอคอมไฟล์</value>
+    <value>Նիշքի պատկերակ</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
-    <value>แถวเส้นทางต้นฉบับ</value>
+    <value>Original path column</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
-    <value>แถวประเภทแฟ้ม</value>
+    <value>Տարրի տեսակի սյունակ</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
-    <value>แถววันที่ปรับเปลี่ยน</value>
+    <value>Ամսաթվի փոփոխման սյունակ</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
-    <value>แถววันที่ถูกลบ</value>
+    <value>Date deleted column</value>
   </data>
   <data name="Sort" xml:space="preserve">
-    <value>เรียง</value>
+    <value>Դասավորել</value>
   </data>
   <data name="DateModifiedLowerCase" xml:space="preserve">
-    <value>วันที่ปรับเปลี่ยน</value>
+    <value>Date modified</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>โฟลเดอร์ต้นฉบับ</value>
+    <value>Original folder</value>
   </data>
   <data name="Descending" xml:space="preserve">
-    <value>จากมากไปน้อย</value>
+    <value>Նվազման կարգով</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
-    <value>ใหญ่มาก ๆ</value>
+    <value>Հսկայական</value>
   </data>
   <data name="ItemSizeText_VeryLarge" xml:space="preserve">
-    <value>ใหญ่มาก</value>
+    <value>Շատ մեծ</value>
   </data>
   <data name="ItemSizeText_Large" xml:space="preserve">
-    <value>ใหญ่</value>
+    <value>Սեծ</value>
   </data>
   <data name="ItemSizeText_Medium" xml:space="preserve">
-    <value>กลาง</value>
+    <value>Միջին</value>
   </data>
   <data name="ItemSizeText_Small" xml:space="preserve">
-    <value>เล็ก</value>
+    <value>Փոքր</value>
   </data>
   <data name="ItemSizeText_Tiny" xml:space="preserve">
-    <value>เล็กจิ๋ว</value>
+    <value>Փոքրիկ</value>
   </data>
   <data name="Future" xml:space="preserve">
-    <value>อนาคต</value>
+    <value>Ապագա</value>
   </data>
   <data name="Today" xml:space="preserve">
-    <value>วันนี้</value>
+    <value>Այսօր</value>
   </data>
   <data name="Yesterday" xml:space="preserve">
-    <value>เมื่อวาน</value>
+    <value>Երեկ</value>
   </data>
   <data name="EarlierThisWeek" xml:space="preserve">
-    <value>อาทิตย์นี้</value>
+    <value>Earlier this week</value>
   </data>
   <data name="LastWeek" xml:space="preserve">
-    <value>อาทิตย์ที่แล้ว</value>
+    <value>Նախորդ շաբաթ</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>ในเดือนนี้</value>
+    <value>Earlier this month</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
-    <value>เดือนก่อน</value>
+    <value>Last month</value>
   </data>
   <data name="EarlierThisYear" xml:space="preserve">
-    <value>ในปีนี้</value>
+    <value>Earlier this year</value>
   </data>
   <data name="LastYear" xml:space="preserve">
-    <value>ปีที่แล้ว</value>
+    <value>Անցյալ տարի</value>
   </data>
   <data name="YearN" xml:space="preserve">
-    <value>ปี {0}</value>
+    <value>{0} Տարի</value>
   </data>
   <data name="GroupItemsCount_Singular" xml:space="preserve">
-    <value>{0} รายการ</value>
+    <value>{0} տարր</value>
   </data>
   <data name="GroupItemsCount_Plural" xml:space="preserve">
-    <value>{0} รายการ</value>
+    <value>{0} items</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>เปิดแท็บที่ปิดขึ้นใหม่</value>
+    <value>Վերաբացել փակված ներդիրը</value>
   </data>
   <data name="Rename" xml:space="preserve">
-    <value>เปลี่ยนชื่อ</value>
+    <value>Վերանվանել</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>ความเป็นส่วนตัว</value>
+    <value>Գաղտնիություն</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
-    <value>รีไซเคิล</value>
+    <value>the Recycle Bin</value>
   </data>
   <data name="Canceling" xml:space="preserve">
-    <value>กำลังยกเลิก</value>
+    <value>Canceling</value>
   </data>
   <data name="Clear" xml:space="preserve">
-    <value>ล้าง</value>
+    <value>Մաքրել</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>วิตเจท</value>
+    <value>Զպրտիչներ</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
-    <value>สถานะการซิงค์</value>
+    <value>Համաժամման վիճակ</value>
   </data>
   <data name="Security" xml:space="preserve">
-    <value>ความปลอดภัย</value>
+    <value>Անվտանգություն</value>
   </data>
   <data name="AdvancedPermissions" xml:space="preserve">
-    <value>สิทธิ์ขั้นสูง</value>
+    <value>Ընդլայնված թույլտվություններ</value>
   </data>
   <data name="Allow" xml:space="preserve">
-    <value>อนุญาต</value>
+    <value>Թույլատրել</value>
   </data>
   <data name="Deny" xml:space="preserve">
-    <value>ปฏิเสธ</value>
+    <value>Արգելել</value>
   </data>
   <data name="SecurityFullControlLabel.Text" xml:space="preserve">
-    <value>ควบคุมทั้งหมด</value>
+    <value>Ամբողջ հսկում</value>
   </data>
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
-    <value>แสดงรายการเนื้อหาโฟลเดอร์</value>
+    <value>List directory contents</value>
   </data>
   <data name="Modify" xml:space="preserve">
-    <value>ปรับเปลี่ยน</value>
+    <value>Փոփոխել</value>
   </data>
   <data name="SecurityPermissionsHeaderText" xml:space="preserve">
-    <value>สิทธิสำหรับ {0}</value>
+    <value>Թույլատրություններ {0}-ի համար</value>
   </data>
   <data name="SecurityReadAndExecuteLabel.Text" xml:space="preserve">
-    <value>อ่านและดำเนินการ</value>
+    <value>Կարդալ եւ կատարել</value>
   </data>
   <data name="SecurityReadLabel.Text" xml:space="preserve">
-    <value>อ่าน</value>
+    <value>Կարդալ</value>
   </data>
   <data name="SecurityUsersGroupLabel.Text" xml:space="preserve">
-    <value>ชื่อกลุ่มหรือชื่อผู้ใช้</value>
+    <value>Group or user names</value>
   </data>
   <data name="Write" xml:space="preserve">
-    <value>เขียน</value>
+    <value>Գրել</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">
-    <value>นิรนาม</value>
+    <value>Unknown account</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>คุณต้องมีสิทธิ์ในการอ่านเพื่อดูคุณสมบัติของไฟล์นี้ คลิก "ขั้นสูง" เพื่อดำเนินการต่อ</value>
+    <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>เจ้าของ:</value>
+    <value>Տեր.</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
-    <value>เจ้าของไม่ทราบชื่อ</value>
+    <value>Unknown owner</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>การแยกไฟล์</value>
+    <value>Արտահանել պահոցը</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>เปิดโฟลเดอร์ปลายทางเมื่อแยกไฟล์เสร็จ</value>
+    <value>Ավարտելուց հետո բացեք նպատակակետի պանակը</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
-    <value>แยกไฟล์ไปที่ {0}\</value>
+    <value>Արտահանել դեպի {0}\</value>
   </data>
   <data name="SideBarCreateNewLibrary.Text" xml:space="preserve">
-    <value>สร้างคลังใหม่</value>
+    <value>Ստեղծել նոր դարան</value>
   </data>
   <data name="SideBarRestoreLibraries.Text" xml:space="preserve">
-    <value>เรียกคืนคลังเริ่มต้น</value>
+    <value>Վերականգնել լռելյային դարանները</value>
   </data>
   <data name="DialogRestoreLibrariesSubtitleText" xml:space="preserve">
-    <value>คุณแน่แล้วใช่หรือไม่ที่จะเรียกคืนคลังเป็นค่าเริ่มต้นตามเดิม? ไฟล์ในคลังจะไม่หายไปไหน.</value>
+    <value>Are you sure you want to restore the default libraries? All your files will remain on your storage.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
-    <value>คืนค่าคลัง</value>
+    <value>Restore Libraries</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
-    <value>เจ้าของ</value>
+    <value>Տեր</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
-    <value>พิเศษ</value>
+    <value>Հատուկ</value>
   </data>
   <data name="Access" xml:space="preserve">
-    <value>การเข้าถึง</value>
+    <value>Մուտք</value>
   </data>
   <data name="SecurityAdvancedAppliesTo" xml:space="preserve">
-    <value>นำไปใช้กับ</value>
+    <value>Applies to</value>
   </data>
   <data name="Principal" xml:space="preserve">
-    <value>รายการหลัก</value>
+    <value>Principal</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
-    <value>ไฟล์</value>
+    <value>նիշքեր</value>
   </data>
   <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
-    <value>โฟลเดอร์นี้</value>
+    <value>այս պանակը</value>
   </data>
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
-    <value>โฟลเดอร์ย่อย</value>
+    <value>subfolders</value>
   </data>
   <data name="Inherited" xml:space="preserve">
-    <value>สืบทอด</value>
+    <value>Inherited</value>
   </data>
   <data name="Permissions" xml:space="preserve">
-    <value>รายการสิทธิ</value>
+    <value>Թույլտվություններ</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>คุณไม่มีสิทธิ์เข้าถึงที่จะสามารถดูข้อมูลเกี่ยวกับเจ้าของและสิทธิ์ของไฟล์นี้. คุณสามารถเปลี่ยนเจ้าของเพื่อดูสิทธิ์ได้.</value>
+    <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
-    <value>โฟลเดอร์นี้และไฟล์ในโฟลเดอร์นี้</value>
+    <value>This folder and files</value>
   </data>
   <data name="SecurityAdvancedFolderSubfoldersFiles.Text" xml:space="preserve">
-    <value>โฟลเดอร์นี้, โฟลเดอร์ย่อย, และไฟล์ทุกอัน</value>
+    <value>This folder, subfolders and files</value>
   </data>
   <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
-    <value>ไฟล์เท่านั้น</value>
+    <value>Only files</value>
   </data>
   <data name="SecurityAdvancedOnlySubfolders.Text" xml:space="preserve">
-    <value>โฟลเดอร์ย่อยเท่านั้น</value>
+    <value>Only subfolders</value>
   </data>
   <data name="SecurityAdvancedOnlySubfoldersFiles.Text" xml:space="preserve">
-    <value>แค่โฟลเดอร์และไฟล์ข้างใน</value>
+    <value>Only subfolders and files</value>
   </data>
   <data name="SecurityAdvancedOnlyThisFolder.Text" xml:space="preserve">
-    <value>แค่โฟลเดอร์เท่านั้น</value>
+    <value>Only this folder</value>
   </data>
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
-    <value>โฟลเดอร์นี้และไฟล์ข้างใน</value>
+    <value>Այս պանակը եւ ենթապանակները</value>
   </data>
   <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
-    <value>เขียนข้อมูลต่อจากเดิม</value>
+    <value>Append data</value>
   </data>
   <data name="SecurityChangePermissionsLabel.Text" xml:space="preserve">
-    <value>เปลี่ยนการกำหนดสิทธิ์</value>
+    <value>Change permission</value>
   </data>
   <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
-    <value>สร้างโฟลเดอร์</value>
+    <value>Create folders</value>
   </data>
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
-    <value>สร้างไฟล์</value>
+    <value>Create files</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
-    <value>ลบโฟลเดอร์ย่อยและไฟล์</value>
+    <value>Delete subdirectories and files</value>
   </data>
   <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
-    <value>เปิดไฟล์ (ในฐานะโปรแกรม)</value>
+    <value>Execute files</value>
   </data>
   <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
-    <value>อ่านคุณสมบัติ</value>
+    <value>Read attributes</value>
   </data>
   <data name="SecurityReadDataLabel.Text" xml:space="preserve">
-    <value>อ่านข้อมูล</value>
+    <value>Read data</value>
   </data>
   <data name="SecurityReadExtendedAttributesLabel.Text" xml:space="preserve">
-    <value>อ่านคุณสมบัติเพิ่มเติม</value>
+    <value>Read extended attributes</value>
   </data>
   <data name="SecurityReadPermissionsLabel.Text" xml:space="preserve">
-    <value>อ่านสิทธิการเข้าถึง</value>
+    <value>Read permissions</value>
   </data>
   <data name="SecurityTakeOwnershipLabel.Text" xml:space="preserve">
-    <value>ยึดถือสิทธิเป็นเจ้าของ</value>
+    <value>Take ownership</value>
   </data>
   <data name="SecurityTraverseLabel.Text" xml:space="preserve">
-    <value>เข้าดูโฟลเดอร์</value>
+    <value>Visit folder</value>
   </data>
   <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
-    <value>เขียนคุณสมบัติไฟล์</value>
+    <value>Write attributes</value>
   </data>
   <data name="SecurityWriteDataLabel.Text" xml:space="preserve">
-    <value>เขียนข้อมูล</value>
+    <value>Write data</value>
   </data>
   <data name="SecurityWriteExtendedAttributesLabel.Text" xml:space="preserve">
-    <value>เขียนคุณสมบัติเพิ่มเติม</value>
+    <value>Write extended attributes</value>
   </data>
   <data name="SecurityAdvancedInheritedConvert.Text" xml:space="preserve">
-    <value>เปลี่ยนสิทธิการสืบทอดเป็นสิทธิระบุเอง</value>
+    <value>Convert inherited permissions into explicit permissions</value>
   </data>
   <data name="SecurityAdvancedInheritedEnable.Text" xml:space="preserve">
-    <value>เปิดสิทธิสืบทอด</value>
+    <value>Enable inheritance</value>
   </data>
   <data name="SecurityAdvancedInheritedRemove.Text" xml:space="preserve">
-    <value>ลบสิทธิสืบทอดทั้งหมด</value>
+    <value>Remove all inherited permissions</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions.Text" xml:space="preserve">
-    <value>รีเซทสิทธิผู้สืบทอด</value>
+    <value>Reset child permissions</value>
   </data>
   <data name="SecurityAdvancedReplaceChildPermissions2.ToolTipService.ToolTip" xml:space="preserve">
-    <value>แทนที่สิทธิผู้สืบทอดทั้งหมดด้วยการตั้งสิทธิ์สืบทอดจากสิ่งนี้</value>
+    <value>Replace all child object permissions entries with inheritable permission entries from this object</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
     <value>Close active pane</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
-    <value>เปิดใช้งานหน้าต่างย่อ</value>
+    <value>Մտնել սեղմ կերպ</value>
   </data>
   <data name="ExitCompactOverlay" xml:space="preserve">
-    <value>ออกจากหน้าต่างย่อ</value>
+    <value>Ելք սեղմ կերպից</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
-    <value>คำอธิบายไฟล์</value>
+    <value>File description</value>
   </data>
   <data name="PropertyCompany" xml:space="preserve">
-    <value>บริษัท</value>
+    <value>Ընկերություն</value>
   </data>
   <data name="PropertyLanguage" xml:space="preserve">
-    <value>ภาษา</value>
+    <value>Լեզու</value>
   </data>
   <data name="PropertyTrademarks" xml:space="preserve">
-    <value>เครื่องหมายการค้า</value>
+    <value>Trademarks</value>
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
-    <value>เวอร์ชั่นไฟล์</value>
+    <value>File version</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
-    <value>แสดงตัวอย่างแบบเต็ม</value>
+    <value>Load full preview</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>ดาวน์โหลดไฟล์จากออนไลน์และแสดงภาพตัวอย่างขนาดเล็ก</value>
+    <value>Downloads the item from the cloud and loads the preview</value>
   </data>
   <data name="DetailsArchiveItems" xml:space="preserve">
     <value>{0, plural, one {# item} other {# items}} ({1, plural, one {# file} other {# files}}, {2, plural, one {# folder} other {# folders}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
-    <value>ขนาดที่ไม่บีบอัด</value>
+    <value>Uncompressed size</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
   </data>
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
-    <value>ซ่อนกลุ่ม {0}</value>
+    <value>Թաքնված {0} ընտրություն</value>
   </data>
   <data name="AddFile" xml:space="preserve">
-    <value>เพิ่มไฟล์</value>
+    <value>Հավելել նիշք</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
-    <value>มีการอัพเดตใหม่</value>
+    <value>Updates available</value>
   </data>
   <data name="ConsentDialogContent" xml:space="preserve">
-    <value>อัพเดตพร้อมติดตั้งแล้ว</value>
+    <value>Updates are ready to install</value>
   </data>
   <data name="Close" xml:space="preserve">
-    <value>ปิด</value>
+    <value>Փակել</value>
   </data>
   <data name="ConsentDialogPrimaryButtonText" xml:space="preserve">
-    <value>อัพเดต</value>
+    <value>Արդիացնել</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>หน้าแรก</value>
+    <value>Տուն</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
-    <value>แยกไฟล์เสร็จสมบูรณ์</value>
+    <value>The archive extraction completed successfully.</value>
   </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
-    <value>กำลังแยกไฟล์</value>
+    <value>Extracting archive</value>
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
-    <value>แยกไฟล์เสร็จแล้ว</value>
+    <value>Extracting complete!</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>เปิดโฟลเดอร์หลัก</value>
+    <value>Open parent folder</value>
   </data>
   <data name="Unknown" xml:space="preserve">
-    <value>ไม่ทราบ</value>
+    <value>Անհայտ</value>
   </data>
   <data name="EditTags" xml:space="preserve">
-    <value>แก้ไขแท็ก</value>
+    <value>Խմբագրել պիտակները</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
-    <value>ส่วนของชุด</value>
+    <value>Part of set</value>
   </data>
   <data name="InsertDiscDialog.OpenDriveButton" xml:space="preserve">
-    <value>เปิดไดร์ฟ</value>
+    <value>Open drive</value>
   </data>
   <data name="InsertDiscDialog.Text" xml:space="preserve">
-    <value>กรุณาใส่แผ่นเข้าไปในไดร์ฟ {0}</value>
+    <value>Please insert a disc into drive {0}</value>
   </data>
   <data name="InsertDiscDialog.Title" xml:space="preserve">
-    <value>ใส่แผ่น</value>
+    <value>Insert a disc</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>ตกลง</value>
+    <value>ԼԱՎ</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
-    <value>ต้องการข้อมูลประจำตัว</value>
+    <value>Credential required</value>
   </data>
   <data name="CredentialDialogAnonymous.Content" xml:space="preserve">
-    <value>นิรนาม</value>
+    <value>Անանուն</value>
   </data>
   <data name="CredentialDialogDescription.Text" xml:space="preserve">
-    <value>กรอกข้อมูลเข้าสู่ระบบ:</value>
+    <value>Provide your credential:</value>
   </data>
   <data name="CredentialDialogUserName.PlaceholderText" xml:space="preserve">
-    <value>ชื่อผู้ใช้</value>
+    <value>ՕգտԱնուն</value>
   </data>
   <data name="NoSearchResultsFound" xml:space="preserve">
-    <value>ไม่มีรายการที่ค้น</value>
+    <value>No items found</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
-    <value>เปิดที่ตั้งไฟล์บันทึก</value>
+    <value>Open log location</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
-    <value>สร้างทางลัดไว้ใน {0}</value>
+    <value>Create link in {0}</value>
   </data>
   <data name="Columns" xml:space="preserve">
-    <value>คอลัมน์</value>
+    <value>Սյունակներ</value>
   </data>
   <data name="Cards" xml:space="preserve">
-    <value>Cards</value>
+    <value>Քարտեր</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>เปิดโฟลเดอร์ในแท็บใหม่</value>
+    <value>Բացել պանակները նոր ներդիրում</value>
   </data>
   <data name="StatusCenter" xml:space="preserve">
-    <value>ศูนย์รวมสถานะ</value>
+    <value>Վիճակի կենտրոն</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
-    <value>แถววันที่สร้าง</value>
+    <value>Ստեղծման ամսաթիվի սյունակ</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
-    <value>แถวขนาดแฟ้ม</value>
+    <value>Տարրի չափի սյունակ</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
-    <value>คุณลักษณะทดลอง</value>
+    <value>Փորձնական հատկությունների դրոշակներ</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>ความช่วยเหลือและการสนับสนุน</value>
+    <value>Help and support</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
-    <value>ส่งคำร้องขอคุณสมบัติ</value>
+    <value>Submit feature request</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
-    <value>ส่งรายงานข้อผิดพลาด</value>
+    <value>Submit bug report</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>ตั้งโปรแกรมนี้เป็นโปรแกรมจัดการไฟล์เริ่มต้น</value>
+    <value>Կայել Files-ը որպես լռելյալին նիշքի կառավարիչ</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
-    <value>ใช้โปรแกรมนี้เป็นโปรแกรมระบุหาไฟล์</value>
+    <value>Use Files as Open File Dialog</value>
   </data>
   <data name="Tag" xml:space="preserve">
-    <value>แท็ก</value>
+    <value>Պիտակ</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>คลิกครั้งเดียวเพื่อเปิดรายการ</value>
+    <value>Բացել տարրերը մեկ կտտոցով</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
-    <value>เส้นทางโฟลเดอร์</value>
+    <value>Folder path</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>ส่งออกการตั้งค่า</value>
+    <value>Արտածելու կայանքներ</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>นำเข้าการตั้งค่า</value>
+    <value>Ներածման կայանքներ</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
-    <value>ไม่สามารถนำเข้าตั้งค่า. ไฟล์ตั้งค่าเสียหาย</value>
+    <value>Couldn't import settings. The settings file is corrupted.</value>
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
-    <value>ไม่สามารถนำเข้าตั้งค่าได้</value>
+    <value>Error importing settings</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
-    <value>ล้างข้อมูลในถังรีไซเคิล</value>
+    <value>Empty Recycle Bin</value>
   </data>
   <data name="Sidebar" xml:space="preserve">
-    <value>แถบด้านข้าง</value>
+    <value>Կողագոտի</value>
   </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
-    <value>เลือกไอคอนใหม่สำหรับโฟลเดอร์</value>
+    <value>Choose a custom folder icon</value>
   </data>
   <data name="Customization" xml:space="preserve">
-    <value>ปรับแต่ง</value>
+    <value>Customization</value>
   </data>
   <data name="RestoreDefault" xml:space="preserve">
-    <value>คืนค่าเริ่มต้น</value>
+    <value>Restore default</value>
   </data>
   <data name="OpenTabInExistingInstance" xml:space="preserve">
-    <value>Open tab in existing instance when opening Files from another app</value>
+    <value>Բացել ներդիրը գոյություն ունեցող օրինակում՝ այլ հավելվածից Files բացելիս</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
-    <value>การตั้งค่าเมื่อเริ่มต้น</value>
+    <value>Մեկնարկի կայանքներ</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
-    <value>ความเข้ากันได้</value>
+    <value>Համատեղելիություն</value>
   </data>
   <data name="None" xml:space="preserve">
-    <value>ไม่มี</value>
+    <value>Ոչ մի</value>
   </data>
   <data name="CompatibilityOnWindowsLogin" xml:space="preserve">
-    <value>เมื่อเข้าสู่ระบบ</value>
+    <value>Windows մտնելիս</value>
   </data>
   <data name="CompatibilityOnProgramStart" xml:space="preserve">
-    <value>เมื่อโปรแกรมนี้เริ่มทำงาน</value>
+    <value>Այս ծրագիրը մեկնարկելիս</value>
   </data>
   <data name="System" xml:space="preserve">
-    <value>ระบบ</value>
+    <value>Համակարգ</value>
   </data>
   <data name="CompatibilitySystemEnhanced" xml:space="preserve">
-    <value>ระบบ (ขั้นสูง)</value>
+    <value>Համակարգ (Ընդլայնված)</value>
   </data>
   <data name="CompatibilityReducedColorModeColor16bit" xml:space="preserve">
-    <value>16 บิต (65536) สี</value>
+    <value>16-bit (65536) color</value>
   </data>
   <data name="CompatibilityReducedColorModeColor8bit" xml:space="preserve">
-    <value>8 บิต (256) สี</value>
+    <value>8-bit (256) color</value>
   </data>
   <data name="CompatibilityDisableFullscreenOptimizations" xml:space="preserve">
-    <value>ปิดใช้งานการปรับการทำงานเต็มจอให้เหมาะสมที่สุด</value>
+    <value>Անջատել լիէկրանի լավարկում</value>
   </data>
   <data name="CompatibilityRunIn640x480Resolution" xml:space="preserve">
-    <value>ทำงานในความละเอียดหน้าจอ 640 x 480</value>
+    <value>Աշխատում է 640 x 480 էկրանի լուծաչափով</value>
   </data>
   <data name="CompatibilityOverrideHighDPIBehavior" xml:space="preserve">
-    <value>เปลี่ยนรูปแบบพฤติกรรมการปรับเปลี่ยนขนาดตาม DPI</value>
+    <value>Անտեսել բարձր DPI-ի մասշտաբային վարքը</value>
   </data>
   <data name="CompatibilityReducedColorMode" xml:space="preserve">
-    <value>โหมดลดปริมาณสี</value>
+    <value>Նվազեցված գույնի կերպ</value>
   </data>
   <data name="CompatibilityRegisterThisProgramForRestart" xml:space="preserve">
-    <value>ลงทะเบียนโปรแกรมนี้สำหรับการเริ่มต้นใหม่</value>
+    <value>Գրանցել այս ծրագիրը վերագործարկման համար</value>
   </data>
   <data name="StartWindow" xml:space="preserve">
     <value>Start window</value>
@@ -1839,211 +1839,211 @@
     <value>Maximized</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
-    <value>เรียกใช้ในฐานะผู้ดูแล</value>
+    <value>Քշել որպես վարիչ</value>
   </data>
   <data name="CompatibilityRunTroubleshooter" xml:space="preserve">
-    <value>เรียกใช้ตัวแก้ปัญหาความเข้ากันได้</value>
+    <value>Քշել համատեղելիության անսարքությունները</value>
   </data>
   <data name="CompatibilityUseDPISettings" xml:space="preserve">
-    <value>ใช้การตั้งค่า DPI เดียวกับจอแสดงผลหลัก</value>
+    <value>Օգտագործել հիմնական ցուցադրիչի DPI-ի կայանքները</value>
   </data>
   <data name="CompatibilityDoNotAdjustDPI" xml:space="preserve">
-    <value>ไม่ต้องปรับ DPI</value>
+    <value>Չկարգավորել DPI-ը</value>
   </data>
   <data name="CompatibilityDoNotOverrideDPI" xml:space="preserve">
-    <value>ไม่ต้องแทนที่ DPI</value>
+    <value>Չանտեսել DPI-ը</value>
   </data>
   <data name="CompatibilityMode" xml:space="preserve">
-    <value>โหมดความเข้ากันได้</value>
+    <value>Համատեղելիության կերպ</value>
   </data>
   <data name="CompatibilityNoReducedColor" xml:space="preserve">
-    <value>ไม่มีการลดสี</value>
+    <value>Ոչ նվազեցված գույն</value>
   </data>
   <data name="ThirdPartyLibraries" xml:space="preserve">
     <value>Third party libraries</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>ตัวเลือกนี้แก้ไขรีจิสทรีของระบบซึ่งอาจทำให้เกิดผลข้างเคียงขึ้นได้ ดำเนินการต่อด้วยความเสี่ยงของคุณเอง</value>
+    <value>Այս ընտրանքը փոփոխում է համակարգի գրանցամատյանը եւ կարող է անսպասելի կողմնակի ազդեցություններ ունենալ ձեր սարքի վրա: Շարունակեք ձեր պատասխանատվությամբ:</value>
   </data>
   <data name="ShowFlattenOptionsDescription" xml:space="preserve">
     <value>The flatten operations are permanent and not recommended. Continue at your own risk.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>สร้างคลัง</value>
+    <value>Ստեղծել Դարան</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>ระบุชื่อคลัง</value>
+    <value>Գրեք Դարանի անունը</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>คำนวณขนาดของโฟลเดอร์</value>
+    <value>Հաշվել պանակի չափերը</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
-    <value>ไฟล์ล่าสุด</value>
+    <value>Վերջին նիշքերը</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>เปิด Files เมื่อวินโดว์เริ่มทำงาน</value>
+    <value>Բացել Նիշքերը Windows-ը մեկնարկելիս</value>
   </data>
   <data name="Attributes" xml:space="preserve">
-    <value>คุณสมบัติ</value>
+    <value>Հատկանիշներ</value>
   </data>
   <data name="Hidden" xml:space="preserve">
-    <value>ซ่อน</value>
+    <value>Թաքնված</value>
   </data>
   <data name="MoreDetails" xml:space="preserve">
-    <value>รายละเอียดเพิ่มเติม</value>
+    <value>Ավելի մանրամասներ</value>
   </data>
   <data name="ReadOnly" xml:space="preserve">
-    <value>อ่านอย่างเดียว</value>
+    <value>Միայն կարդալ</value>
   </data>
   <data name="CleanupDrive" xml:space="preserve">
     <value>Cleanup your drive contents</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>ประเภท</value>
+    <value>Տեսակ</value>
   </data>
   <data name="Bytes" xml:space="preserve">
-    <value>ไบต์</value>
+    <value>Բայթեր</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>แยกไฟล์</value>
+    <value>Արտահանել</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>แยกไฟล์ออกมา</value>
+    <value>Արտահանել նիշքերը</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>แยกไฟล์ที่นี่</value>
+    <value>Արտահանել այստեղ</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
   </data>
   <data name="ExtractToChildFolder" xml:space="preserve">
-    <value>แยกไฟล์ไปที่ {0}</value>
+    <value>Extract to {0}</value>
   </data>
   <data name="RunScript" xml:space="preserve">
-    <value>เรียกใช้สคริปต์</value>
+    <value>Run script</value>
   </data>
   <data name="RunWithPowerShell" xml:space="preserve">
-    <value>Run with PowerShell</value>
+    <value>Քշել PowerShell-ով</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>การคำนวณขนาดของโฟลเดอร์ใช้ทรัพยากรค่อนข้างสูง</value>
+    <value>Պանակների չափերի հաշվարկը պաշարներ է պահանջում եւ կարող է հանգեցնել մշակիչի օգտագործման ավելացմանը</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
-    <value>หมุน​ไปทางซ้าย</value>
+    <value>Rotate left</value>
   </data>
   <data name="RotateRight" xml:space="preserve">
-    <value>หมุน​ไปทางขวา</value>
+    <value>Rotate right</value>
   </data>
   <data name="Install" xml:space="preserve">
-    <value>ติดตั้ง</value>
+    <value>Տեղադրել</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
-    <value>ปิดแท็บทั้งหมดที่อยู่ด้านซ้าย</value>
+    <value>Փակել ներդիրը դեպի ձախ</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
-    <value>ปิดแท็บทั้งหมดที่อยู่ด้านขวา</value>
+    <value>Փակել ներդիրը դեպի աջ</value>
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
-    <value>ปิดแท็บอื่น ๆ ทั้งหมด</value>
+    <value>Փակել այլ ներդիրներ</value>
   </data>
   <data name="CloseAllTabs" xml:space="preserve">
     <value>Close all tabs</value>
   </data>
   <data name="Music" xml:space="preserve">
-    <value>เพลง</value>
+    <value>Երաժշտություն</value>
   </data>
   <data name="Pictures" xml:space="preserve">
-    <value>รูปภาพ</value>
+    <value>Նկարներ</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
-    <value>อัปเดต Files</value>
+    <value>Update Files</value>
   </data>
   <data name="FileTags" xml:space="preserve">
-    <value>แท็ก</value>
+    <value>Պիտակներ</value>
   </data>
   <data name="Universal" xml:space="preserve">
-    <value>สากล</value>
+    <value>Ընդհանրական</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
-    <value>ตัวอย่างเช่น: {0}, {1}</value>
+    <value>ex: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
-    <value>แสดงภาพขนาดย่อ</value>
+    <value>Ցույց տալ մանրապատկերը</value>
   </data>
   <data name="Retry" xml:space="preserve">
-    <value>ลองอีกครั้ง</value>
+    <value>Նորից փորձել</value>
   </data>
   <data name="ErrorDialogUnsupportedMoveOperation" xml:space="preserve">
-    <value>การย้ายไม่รองรับในบริบทนี้ ต้องการคัดลอกแทนหรือไม่</value>
+    <value>Move operation is not supported in this context. Do you want to copy the items instead?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
-    <value>รายการที่ซ่อนอยู่</value>
+    <value>Թաքնված տարրեր</value>
   </data>
   <data name="Custom" xml:space="preserve">
-    <value>กำหนดเอง</value>
+    <value>Անհատական</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>ตั้งเป็นสไลด์โชว์เดสก์ท็อป</value>
+    <value>Կայել որպես սեղանի սահկահանդես</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
-    <value>Size all columns to fit</value>
+    <value>Բոլոր չափերը սյունակների տեղավորելու համար</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>เลือกเค้าโครงที่ดีที่สุดโดยอัตโนมัติ</value>
+    <value>Հարմարվողական դիրք</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptive (Ctrl+Shift+7)</value>
+    <value>Adaptive layout (Ctrl+Shift+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Shift+7</value>
   </data>
   <data name="ShowAlternateStreams" xml:space="preserve">
-    <value>แสดง Alternate Data Streams</value>
+    <value>Ցույց տալ այլընտրանքային տվյալների հոսքերը</value>
   </data>
   <data name="Behaviors" xml:space="preserve">
-    <value>ลักษณะการทำงาน</value>
+    <value>Բնութագիր</value>
   </data>
   <data name="ReviewFiles" xml:space="preserve">
-    <value>แสดงคำวิจารณ์แอป</value>
+    <value>Review Files</value>
   </data>
   <data name="ReviewFilesContent" xml:space="preserve">
-    <value>คุณต้องการให้คำวิจารณ์แอปนี้ไหม??</value>
+    <value>Would you like to review Files?</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>ตั้งเป็นพื้นหลัง</value>
+    <value>Կայել որպես խորք</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>ตั้งเป็นพื้นหลังของเดสก์ท็อป</value>
+    <value>Կայել որպես սեղանի խորք</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>ตั้งเป็นค่าเริ่มต้น</value>
+    <value>Կայեր որպես լռելյայն</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>แถววันที่</value>
+    <value>Ամսաթվի սյունակ</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>แถววันที่สร้าง</value>
+    <value>Ստեղծման ամսաթվի սյունակ</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>แถวขนาด</value>
+    <value>Չափի սյունակ</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>แถวแท็ก</value>
+    <value>Պիտակի սյունակ</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>แถวประเภท</value>
+    <value>Տեսակի սյունակ</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>หน้าจอล็อก</value>
+    <value>Կողպէկրան</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+    <value>Բացել պանակները մեկ կտտոցով Սյունակների Դիրքում</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
-    <value>การเปิดรายการ</value>
+    <value>Բացված տարրեր</value>
   </data>
   <data name="Compress" xml:space="preserve">
-    <value>บีดอัด</value>
+    <value>Սեղմել</value>
   </data>
   <data name="FlattenFolderDescription" xml:space="preserve">
     <value>Move all contents from subfolders into the selected location</value>
@@ -2055,88 +2055,88 @@
     <value>Flatten</value>
   </data>
   <data name="FlattenFolderDialogContent" xml:space="preserve">
-    <value>Flattening a folder will move all contents from its subfolders to the selected location. This operation is permanent and cannot be undone. By using this experimental feature, you acknowledge the risk and agree not to hold the Files team responsible for any data loss.</value>
+    <value>Պանակը հարթեցնելու դեպքում ամբողջ բովանդակությունը նրա ենթապանակներից կտեղափոխվի ընտրված վայր:  Այս գործողությունը մշտական ​​է եւ հնարավոր չէ հետարկել:  Օգտագործելով այս փորձարարական հատկությունը՝ դուք ընդունում եք ռիսկը եւ համաձայնում եք, որ Files թիմը պատասխանատվություն չի կրի տվյալների կորստի համար:</value>
   </data>
   <data name="ShowFlattenOptions" xml:space="preserve">
     <value>Show flatten options</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Select files and folders when hovering over them</value>
+    <value>Ընտրեք նիշքեր եւ պանակներ, երբ ճախրում եք վրեն</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
     <value>Are you sure you want to restore all items in the recycle bin?</value>
   </data>
   <data name="ConfirmRestoreBinDialogTitle" xml:space="preserve">
-    <value>คืนค่ารายการทั้งหมด</value>
+    <value>Restore all items</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
     <value>Do you want to restore the {0} selected item(s)?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
-    <value>คืนค่าส่วนที่เลือก</value>
+    <value>Restore selection</value>
   </data>
   <data name="RestoreAllItems" xml:space="preserve">
-    <value>คืนค่ารายการทั้งหมด</value>
+    <value>Restore All Items</value>
   </data>
   <data name="Restore" xml:space="preserve">
-    <value>คืนค่า</value>
+    <value>Վերականգնել</value>
   </data>
   <data name="ShortcutCannotBeOpened" xml:space="preserve">
-    <value>ไม่สามารถเปิดใช้ทางลัดได้</value>
+    <value>Shortcut cannot be opened</value>
   </data>
   <data name="DeleteShortcutDescription" xml:space="preserve">
     <value>The target destination cannot be found {0}. Do you want to delete this shortcut?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>คุณไม่มีสิทธิ์ในการเข้าถึงโฟลเดอร์นี้</value>
+    <value>You don't have permission to access this folder.</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>รหัสผ่านไฟล์จัดเก็บ</value>
+    <value>Archive password</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>แยกไปที่</value>
+    <value>Ուղի</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
-    <value>การเรียงลำดับและการจัดกลุ่ม...</value>
+    <value>Դասավորում եւ խմբավորում</value>
   </data>
   <data name="CreateArchive" xml:space="preserve">
-    <value>สร้างไฟล์จัดเก็บ</value>
+    <value>Ստեղծել պահոց</value>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>สร้าง</value>
+    <value>Ստեղծել</value>
   </data>
   <data name="CreateNamedArchive" xml:space="preserve">
-    <value>สร้าง {0}</value>
+    <value>Create {0}</value>
   </data>
   <data name="EnterName" xml:space="preserve">
-    <value>ใส่ชื่อ</value>
+    <value>Գրել անունը</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
-    <value>ระดับการบีบอัด</value>
+    <value>Սեղմնվան մակարդակը</value>
   </data>
   <data name="CompressionLevelUltra" xml:space="preserve">
-    <value>สูงสุด</value>
+    <value>Գեր</value>
   </data>
   <data name="CompressionLevelHigh" xml:space="preserve">
-    <value>สูง</value>
+    <value>Բարձր</value>
   </data>
   <data name="CompressionLevelNormal" xml:space="preserve">
-    <value>ปกติ</value>
+    <value>Նորմալ</value>
   </data>
   <data name="CompressionLevelLow" xml:space="preserve">
-    <value>ตํ่า</value>
+    <value>Ցածր</value>
   </data>
   <data name="CompressionLevelFast" xml:space="preserve">
-    <value>รวดเร็ว</value>
+    <value>Արագ</value>
   </data>
   <data name="CompressionLevelNone" xml:space="preserve">
-    <value>ไม่มี</value>
+    <value>Ոչ մի</value>
   </data>
   <data name="SplittingSize" xml:space="preserve">
-    <value>ขนาดแบ่งส่วน</value>
+    <value>Բաժանման չափ</value>
   </data>
   <data name="Do not split" xml:space="preserve">
-    <value>ไม่แยก</value>
+    <value>Չբաժանել</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2151,55 +2151,55 @@
     <value>Blu-ray</value>
   </data>
   <data name="Encryption" xml:space="preserve">
-    <value>การเข้ารหัส</value>
+    <value>Կոդավորում</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>รหัสผ่าน</value>
+    <value>Գաղտնաբառ</value>
   </data>
   <data name="Format" xml:space="preserve">
-    <value>รูปแบบ</value>
+    <value>Ձեւաչափ</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
     <value>Sync status column</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>จัดกลุ่มโดย</value>
+    <value>Խումբավորել ըստ</value>
   </data>
   <data name="SortBy" xml:space="preserve">
-    <value>เรียงลำดับตาม</value>
+    <value>Դասավորել ըստ</value>
   </data>
   <data name="GroupInDescendingOrder" xml:space="preserve">
-    <value>จัดกลุ่มจากมากไปน้อย</value>
+    <value>Խմբավորել նվազման կարգի</value>
   </data>
   <data name="SortInDescendingOrder" xml:space="preserve">
-    <value>เรียงลำดับจากมากไปน้อย</value>
+    <value>Դասավորել նվազման կարգի</value>
   </data>
   <data name="NewShortcutDialogTitle" xml:space="preserve">
-    <value>สร้างทางลัดใหม่</value>
+    <value>Create a new shortcut</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>สร้างทางลัดไปยังโปรแกรม, ไฟล์, โฟลเดอร์, คอมพิวเตอร์, หรือที่อยู่อินเทอร์เน็ต ที่อยู่ในคอมพิวเตอร์หรือเครือข่ายของคุณ</value>
+    <value>Create shortcuts to local or network programs, files, folders, computers or Internet addresses.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
-    <value>ป้อนที่อยู่ของรายการ</value>
+    <value>Enter the location of the item:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>สร้างทางลัด</value>
+    <value>Creates a shortcut</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>แก้ไขไฟล์ตั้งค่า</value>
+    <value>Խմբագրել կայանքների նիշքը</value>
   </data>
   <data name="WhatsNew" xml:space="preserve">
-    <value>มีอะไรใหม่</value>
+    <value>What's new</value>
   </data>
   <data name="WhatsNewDescription" xml:space="preserve">
-    <value>Open Release Notes</value>
+    <value>Բացել Թողարկման Նշումները</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
-    <value>การสร้างทางลัดไปยังที่ตั้งนี้จำเป็นต้องใช้สิทธิ์ผู้ดูแลระบบ</value>
+    <value>Creating a shortcut in this location requires administrator privileges</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
     <value>Would you like to create the shortcut on the desktop instead?</value>
@@ -2208,208 +2208,208 @@
     <value>The specified item name is invalid</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>ตั้งค่า</value>
+    <value>Կայանքներ</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>คลิกสองครั้งตรงที่ว่างเพื่อขึ้นไปหนึ่งไดเรกทอรี</value>
+    <value>Կրկնակի կտտացրեք դատարկ տարածության վրա՝ մեկ գրացուցակ վեպ բարձրանալու համար</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
-    <value>ดูเพิ่มเติม</value>
+    <value>Դիտել ավելին</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>แสดงเมนูแก้ไขแท็ก</value>
+    <value>Ցույց տալ խմբագրման պիտակի ենթացանկը</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
-    <value>แสดงตัวเลือกการบีบอัด</value>
+    <value>Ցույց տալ սեղմման ընտրանքները</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>แสดงเมนูส่งไปยัง</value>
+    <value>Ցույց տալ ուղարկման ցանկը</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>แสดงตัวเลือก เปิดโฟลเดอร์ในแท็บใหม่</value>
+    <value>Ցույց տալ ընտրանք՝ պանակները նոր ներդիրում բացելու համար</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>แสดงตัวเลือก เปิดโฟลเดอร์ในหน้าต่างใหม่</value>
+    <value>Ցույց տալ ընտրանք՝ պանակները նոր պատուհանում բացելու համար</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
-    <value>การเข้าถึงด่วน</value>
+    <value>Արագ մուտք</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
-    <value>ป้อนข้อมูลประจำตัวเครือข่ายเพื่อเชื่อมต่อไปยัง {0}</value>
+    <value>Enter your credentials to connect to: {0}</value>
   </data>
   <data name="NetworkAuthenticationDialogTitle" xml:space="preserve">
-    <value>ป้อนข้อมูลประจำตัวเครือข่าย</value>
+    <value>Enter network credentials</value>
   </data>
   <data name="NetworkAuthenticationSaveCheckbox" xml:space="preserve">
-    <value>จดจำข้อมูลประจำตัวของฉัน</value>
+    <value>Remember my credentials</value>
   </data>
   <data name="NetworkFolderErrorDialogTitle" xml:space="preserve">
-    <value>โฟลเดอร์เครือข่ายผิดพลาด</value>
+    <value>Network folder error</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>เวอร์ชันแอป</value>
+    <value>Հավելվածի վարկած</value>
   </data>
   <data name="WindowsVersion" xml:space="preserve">
-    <value>เวอร์ชั่นวินโดวส์</value>
+    <value>Windows-ի վարկած</value>
   </data>
   <data name="Always" xml:space="preserve">
-    <value>เสมอ</value>
+    <value>Միշտ</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
-    <value>ลบถาวรเท่านั้น</value>
+    <value>Միայն մշտական ​​ջնջում</value>
   </data>
   <data name="Never" xml:space="preserve">
-    <value>ไม่เลย</value>
+    <value>Երբեք</value>
   </data>
   <data name="TagColor" xml:space="preserve">
-    <value>สีแท็ก</value>
+    <value>Պիտակի գույն</value>
   </data>
   <data name="NewTag" xml:space="preserve">
-    <value>แท็กใหม่</value>
+    <value>Նոր պիտակ</value>
   </data>
   <data name="CreateNewTag" xml:space="preserve">
-    <value>สร้างแท็กใหม่</value>
+    <value>Ստեղծել նոր պիտակ</value>
   </data>
   <data name="Loading" xml:space="preserve">
-    <value>กำลังโหลด...</value>
+    <value>Loading...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
-    <value>Context menu options</value>
+    <value>Համաշարային ցանկի ընտրանքներ</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>แสดงนามสกุลไฟล์</value>
+    <value>Ցույց տալ նիշքի ընդլայնումները</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
-    <value>แสดงรายการที่ซ่อน</value>
+    <value>Ցույց տալ թաքնված տարրերը</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>รูปแบบ</value>
+    <value>Ձեւաչափ</value>
   </data>
   <data name="Help" xml:space="preserve">
-    <value>ช่วยเหลือ</value>
+    <value>Օգնություն</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>สลับแบบเต็มหน้าจอ</value>
+    <value>Փոխարկել լիաէկրան</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
-    <value>คุณแน่ใจแล้วใช่ไหมที่จะลบแท็กนี้?</value>
+    <value>Are you sure you want to delete this tag?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>เล่นทั้งหมด</value>
+    <value>Նվագարկել բոլորը</value>
   </data>
   <data name="Height" xml:space="preserve">
-    <value>ความสูง</value>
+    <value>Բարձրություն</value>
   </data>
   <data name="Width" xml:space="preserve">
-    <value>ความกว้าง</value>
+    <value>Լայնություն</value>
   </data>
   <data name="ApplyToAllConflictingItems" xml:space="preserve">
-    <value>Apply this action to all conflicting items</value>
+    <value>Կիրառեք այս գործողությունը բոլոր հակասական տարրերի վրա</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>เปิดในวินโดว์เทอร์มินัล</value>
+    <value>Բացել Windows Տերինալում</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>เปิดในวินโดว์เทอร์มินัล (ผู้ดูแลระบบ)</value>
+    <value>Բացել Windows Տերինալում որպես վարիչ</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>บันทึก</value>
+    <value>Պահել</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
-    <value>เลือกด้วยการกาเช็ค</value>
+    <value>Multiselect</value>
   </data>
   <data name="ReorderSidebarItemsDialogText" xml:space="preserve">
-    <value>เรียงรายการแถบด้านข้าง</value>
+    <value>Վերադասավորել կողագոտու տարրերը</value>
   </data>
   <data name="Hashes" xml:space="preserve">
-    <value>แฮช</value>
+    <value>Հեշեր</value>
   </data>
   <data name="CalculationError" xml:space="preserve">
-    <value>เกิดข้อผิดพลาดในระหว่างการคำนวณ</value>
+    <value>An error occurred during the calculation</value>
   </data>
   <data name="CalculationErrorFileIsOpen" xml:space="preserve">
-    <value>ไม่สามารถคำนวณแฮชได้ กรุณาลองปิดไฟล์นั้นแล้วลองใหม่อีกครั้ง</value>
+    <value>Failed to calculate the hash, please close the file and try again.</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
     <value>Hashes aren't available for online files</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
-    <value>อัลกอริทึม</value>
+    <value>Ալգորիթմ</value>
   </data>
   <data name="HashValue" xml:space="preserve">
-    <value>ค่าแฮช</value>
+    <value>Hash value</value>
   </data>
   <data name="SelectHashesToShow" xml:space="preserve">
-    <value>เลือกแฮชที่ต้องการแสดง</value>
+    <value>Select hashes to show</value>
   </data>
   <data name="Calculating" xml:space="preserve">
-    <value>กำลังคำนวณ</value>
+    <value>Calculating...</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
-    <value>รายการที่ปักหมุดไว้</value>
+    <value>Pinned items</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
-    <value>ลดขนาด</value>
+    <value>Նվազեցման չափով</value>
   </data>
   <data name="IncreaseSize" xml:space="preserve">
-    <value>เพิ่มขนาด</value>
+    <value>Աճման չափով</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
     <value>Toggle sort direction</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
-    <value>ชื่อไม่ถูกต้อง</value>
+    <value>Invalid name</value>
   </data>
   <data name="TagNameRules" xml:space="preserve">
-    <value>ชื่อต้องไม่เว้นว่างหรือเริ่ม/จบด้วยมหัพภาค</value>
+    <value>Name must not be empty or start or end with a period.</value>
   </data>
   <data name="Videos" xml:space="preserve">
-    <value>วีดีโอ</value>
+    <value>Տեսանյութեր</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
-    <value>Launch preview popup</value>
+    <value>Մեկնարկել նախադիտման թռչող պատուհանը</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>Փոխարկել սեղմ կերպից</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>เปิดหน้าต่างช่วยเหลือในเบราว์เซอร์</value>
+    <value>Բացել առցանց օգնության էջը զննիչում</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>สลับแบบเต็มหน้าจอ</value>
+    <value>Փոխարկել լիաէկրան</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>เปิดใช้งานหน้าต่างย่อ</value>
+    <value>Մտնել սեղմ կերպ</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
-    <value>ออกจากหน้าต่างย่อ</value>
+    <value>Ելք սեղմ կերպից</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>Փոխարկել սեղմ կերպից</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>ไปที่ช่องค้นหา</value>
+    <value>Գնալ որոնման տուփ</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Toggle whether to show hidden items</value>
+    <value>Փոխարկել արդյոք ցույց տրման թաքնված նիշքերի</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Toggle whether to show dot files</value>
+    <value>Փոխարկել արդյոք ցույց տրման կետային նիշքերի</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle whether to show file extensions</value>
+    <value>Փոխարկել արդյոք ցույց տրման նիշքերի ընդլայնումների</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Toggle the preview pane to view file previews</value>
+    <value>Փոխարկել նախադիտման վահանակը դեպի նիշքի նախադիտումների դիտում</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Toggle whether to show sidebar</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>คัดลอกรายการไปยังคลิปบอร์ด</value>
+    <value>Պատճենել տարր(եր)ը սեղմնատախտակին</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of selected items to the clipboard</value>
+    <value>Պատճենեք ընթացիկ գրացուցակի ուղին սեղմատախտակին</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
     <value>Copy path of selected items to the clipboard</value>
@@ -2418,34 +2418,34 @@
     <value>Copy path of selected items with quotes to the clipboard</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of selected items with quotes to the clipboard</value>
+    <value>Պատճենեք ընթացիկ գրացուցակի ուղին չակերտներով սեղմատախտակին</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>ตัดรายการไปยังคลิปบอร์ด</value>
+    <value>Կտրել տարր(եր) սեղմնատախտակին</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>วางรายการจากคลิปบอร์ดไปยังโฟลเดอร์ปัจจุบัน</value>
+    <value>Կպցնել տարր(եր)ը սեղմնատախտակից ընթացիկ պանակին</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
     <value>Paste item(s) from clipboard to current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>วางรายการจากคลิปบอร์ดไปยังโฟลเดอร์ที่เลือก</value>
+    <value>Կպցնել տարր(եր)ը սեղմնատախտակից ընտրված պանակին</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>กำลังลบรายการ</value>
+    <value>Ջնջնել տարր(եր)ը</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
-    <value>สร้างโฟลเดอร์ใหม่</value>
+    <value>Ստեղծել նոր պանակ</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
     <value>Create new shortcut(s) to selected item(s)</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
-    <value>Create new shortcut to any item</value>
+    <value>Ստեղծել նոր կարճատ ցանկացած տարրին</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
-    <value>ล้างข้อมูลในถังรีไซเคิล</value>
+    <value>Դատարկել աղբարկղը</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
     <value>Open "Format Drive" menu for selected item</value>
@@ -2454,70 +2454,70 @@
     <value>Restore selected item(s) from recycle bin</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>Restore all items from recycle bin</value>
+    <value>Վերականգնել բոլոր տարրերը աղբարկղից</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>เปิดรายการ</value>
+    <value>Բացել տարր(եր)ը</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>เปิดรายการด้วยแอปที่เลือก</value>
+    <value>Open item(s) with selected application</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
     <value>Open parent folder of searched item</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
-    <value>รีเฟรชเนื้อหาของหน้า</value>
+    <value>Թարմացնել էջի բովանդակությունը</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
-    <value>เปลี่ยนชื่อรายการที่เลือก</value>
+    <value>Վերանվանել ընտրված տարրը</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
-    <value>เลือกรายการทั้งหมด</value>
+    <value>Ընտրել բոլոր տարրերը</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>สลับการเลือกรายการ</value>
+    <value>Շրջել տարրի ընտրությունը</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>ล้างส่วนรายการที่เลือก</value>
+    <value>Clear item selection</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Toggle item selection</value>
+    <value>Փոխարկել տարրի ընտրությունը</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
     <value>Share selected file(s) with others</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Pin item(s) to the Start Menu</value>
+    <value>Մեխել տարր(եր)ը Մեկնարկի Ցանկից</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Unpin item(s) from the Start Menu</value>
+    <value>Ապամեխել տարր(եր)ը Մեկնարկի Ցանկից</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>ปักหมุดโฟลเดอร์ยังที่แถบด้านข้าง</value>
+    <value>Մեխեք պանակ(ներ)ը կողագոտում</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
-    <value>นำโฟลเดอร์ออกจากแถบด้านข้าง</value>
+    <value>Unpin folder(s) from Sidebar</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
-    <value>ตั้งค่าพื้นหลังเดสก์ท็อปจากรูปที่เลือก</value>
+    <value>Set selected picture as desktop background</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
-    <value>ตั้งค่าสไลด์โชว์เดสก์ท็อปจากรูปที่เลือก</value>
+    <value>Set selected pictures as desktop slideshow</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
-    <value>ตั้งค่าพื้นหลังหน้าจอล็อคจากรูปที่เลือก</value>
+    <value>Set selected picture as lockscreen background</value>
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
     <value>Set selected picture as the app background</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>ติดตั้งแบบอักษรที่เลือก</value>
+    <value>Install selected font(s)</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>ติดตั้งไดรเวอร์โดยใช้ไฟล์ INF</value>
+    <value>Install driver(s) using selected inf file(s)</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>ติดตั้งใบรับรองที่เลือก</value>
+    <value>Install selected certificate(s)</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Run selected application as administrator</value>
@@ -2529,19 +2529,19 @@
     <value>Run selected PowerShell script</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
-    <value>Launch preview in popup window</value>
+    <value>Մեկնարկել նախադիտումը թռչող պատուհանում</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Create archive with selected item(s)</value>
+    <value>Ստեղծել պահոց ընտրված տարր(եր)ով</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Create 7z archive instantly with selected item(s)</value>
+    <value>Ստեղծել ակնթարթորեն 7z պահոց ընտրված տարր(եր)ով</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Create zip archive instantly with selected item(s)</value>
+    <value>Ստեղծել ակնթարթորեն zip պահոց ընտրված տարր(եր)ով</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to any folder</value>
+    <value>Արտահանեք տարրերը ընտրված պահոց(ներ)ից ցանկացած պանակ</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
     <value>Extract items from selected archive(s) to current folder</value>
@@ -2550,145 +2550,145 @@
     <value>Extract items from selected archive(s) to new folder</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>หมุนรูปที่เลือกไว้ไปทางซ้าย</value>
+    <value>Պտտել ընտրված պատկեր(ներ)ը դեպի ձախ</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>หมุนรูปที่เลือกไว้ไปทางขวา</value>
+    <value>Պտտել ընտրված պատկեր(ներ)ը դեպի աջ</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
-    <value>เปิดแผงตั้งค่า</value>
+    <value>Բացել կայանքների էջը</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
-    <value>เปิดโฟลเดอร์ในเทอร์มินัล</value>
+    <value>Բացել պանակը տերմինալում</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>เปิดโฟลเดอร์ในเทอร์มินัล (ผู้ดูแลระบบ)</value>
+    <value>Բացել պանակը տերմինալում որպես վարիչ</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
-    <value>Decrease item size in the current view</value>
+    <value>Նվազեցրեք տարրի չափը ընթացիկ տեսքում</value>
   </data>
   <data name="LayoutIncreaseSizeDescription" xml:space="preserve">
-    <value>Increase item size in the current view</value>
+    <value>Աճեցրեք տարրի չափը ընթացիկ տեսքում</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
-    <value>สลับเป็นเค้าโครงละเอียด</value>
+    <value>Փոխարկել մանրամասների տեսքի</value>
   </data>
   <data name="LayoutCardsDescription" xml:space="preserve">
     <value>Switch to cards view</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
-    <value>สลับเป็นเค้าโครงรายการ</value>
+    <value>Փոխարկել ցուցակի տեսքի</value>
   </data>
   <data name="List" xml:space="preserve">
-    <value>รายการ</value>
+    <value>Ցուցակ</value>
   </data>
   <data name="Grid" xml:space="preserve">
-    <value>ตาราง</value>
+    <value>Ցանց</value>
   </data>
   <data name="LayoutGridDescription" xml:space="preserve">
-    <value>สลับเป็นเค้าโครงตาราง</value>
+    <value>Փոխարկել ցանցի տեսքի</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Switch to columns view</value>
+    <value>Փոխարկել սույնակների տեսքի</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch views adaptively</value>
+    <value>Փոխարկեք տեսքերը հարմարվողականի</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
-    <value>เรียงรายการตามชื่อ</value>
+    <value>Դասավորել տարրերը ըստ անվան</value>
   </data>
   <data name="SortByDateModifiedDescription" xml:space="preserve">
-    <value>เรียงรายการตามวันที่ปรับเปลี่ยน</value>
+    <value>Դասավորել տարրերը ըստ ամսաթվի փոփխման</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>เรียงรายการตามวันที่สร้าง</value>
+    <value>Դասավորել տարրերը ըստ ստեղծման ամսաթվի</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
-    <value>เรียงรายการตามขนาด</value>
+    <value>Դասավորել տարրերը ըստ չափի</value>
   </data>
   <data name="SortByTypeDescription" xml:space="preserve">
-    <value>เรียงรายการตามประเภท</value>
+    <value>Դասավորել տարրերը ըստ տեսակի</value>
   </data>
   <data name="SortBySyncStatusDescription" xml:space="preserve">
-    <value>เรียงรายการตามสถานะการซิงค์</value>
+    <value>Sort items by sync status</value>
   </data>
   <data name="SortByTagDescription" xml:space="preserve">
-    <value>เรียงรายการตามแท็ก</value>
+    <value>Դասավորել տարրերը ըստ պիտակների</value>
   </data>
   <data name="SortByOriginalFolderDescription" xml:space="preserve">
     <value>Sort items by original folder</value>
   </data>
   <data name="SortByDateDeletedDescription" xml:space="preserve">
-    <value>เรียงรายการตามวันที่ลบ</value>
+    <value>Դասավորել տարրերը ըստ ջնջման ամսաթվի</value>
   </data>
   <data name="SortAscendingDescription" xml:space="preserve">
-    <value>เรียงรายการจากน้อยไปมาก</value>
+    <value>Դասավորել տարրերը ըստ աճման կարգի</value>
   </data>
   <data name="SortDescendingDescription" xml:space="preserve">
-    <value>เรียงรายการจากมากไปน้อย</value>
+    <value>Դասավորել տարրերը ըստ նվազման կարգի</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
-    <value>Toggle item sort direction</value>
+    <value>Փոխարկել տարրի տեսակավորման ուղղությունը</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
-    <value>List items without grouping</value>
+    <value>Ցուցակի տարրերը առանց խմբավորման</value>
   </data>
   <data name="GroupByNameDescription" xml:space="preserve">
-    <value>จัดกลุ่มรายการตามชื่อ</value>
+    <value>Տարրերի խումբ ըստ անվան</value>
   </data>
   <data name="GroupByDateModifiedDescription" xml:space="preserve">
-    <value>จัดกลุ่มรายการตามวันที่ปรับเปลี่ยน</value>
+    <value>Տարրերի խումբ ըստ ամսաթվի փոփխման</value>
   </data>
   <data name="GroupByDateCreatedDescription" xml:space="preserve">
-    <value>จัดกลุ่มรายการตามวันที่สร้าง</value>
+    <value>Տարրերի խումբ ըստ ստեղծման ամսաթվի</value>
   </data>
   <data name="GroupBySizeDescription" xml:space="preserve">
-    <value>จัดกลุ่มรายการตามขนาด</value>
+    <value>Տարրերի խումբ ըստ չափի</value>
   </data>
   <data name="GroupByTypeDescription" xml:space="preserve">
-    <value>จัดกลุ่มรายการตามประเภท</value>
+    <value>Տարրերի խումբ ըստ տեսակի</value>
   </data>
   <data name="GroupBySyncStatusDescription" xml:space="preserve">
-    <value>จัดกลุ่มรายการตามสถานะการซิงค์</value>
+    <value>Խմբավորել տարրերը ըստ համաժամեցման վիճակի</value>
   </data>
   <data name="GroupByTagDescription" xml:space="preserve">
-    <value>จัดกลุ่มรายการตามแท็ก</value>
+    <value>Տարրերի խումբ ըստ պիտակների</value>
   </data>
   <data name="GroupByOriginalFolderDescription" xml:space="preserve">
     <value>Group items by original folder</value>
   </data>
   <data name="GroupByDateDeletedDescription" xml:space="preserve">
-    <value>จัดกลุ่มรายการตามวันที่ลบ</value>
+    <value>Group items by date deleted</value>
   </data>
   <data name="GroupByFolderPathDescription" xml:space="preserve">
-    <value>จัดกลุ่มรายการตามอยู่ที่โฟลเดอร์</value>
+    <value>Խմբավորել տարրերը ըստ պանակի ուղղու</value>
   </data>
   <data name="GroupAscendingDescription" xml:space="preserve">
-    <value>เรียงกลุ่มจากน้อยไปมาก</value>
+    <value>Sort groups in ascending order</value>
   </data>
   <data name="GroupDescendingDescription" xml:space="preserve">
-    <value>เรียงกลุ่มจากมากไปน้อย</value>
+    <value>Sort groups in descending order</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
     <value>Toggle group sort direction</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
-    <value>เปิดแท็บใหม่</value>
+    <value>Բացել նոր ներդիր</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward in navigation history</value>
+    <value>Նավարկել հետընթաց նավարկայի պատմության մեջ</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward in navigation history</value>
+    <value>Նավարկել առաջ նավարկման պատմության մեջ</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
-    <value>Navigate up one directory</value>
+    <value>Նավարկել վերեւ մեկ պանակ</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>ทำซ้ำแท็บปัจจุบัน</value>
+    <value>Կրկնօրինակել ընթացիկ ներդիրը</value>
   </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
-    <value>ทำซ้ำแท็บที่เลือก</value>
+    <value>Կրկնօրինակել ընտրված ներդիրը</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
     <value>Close tabs to the left of current tab</value>
@@ -2709,19 +2709,19 @@
     <value>Close tabs other than selected tab</value>
   </data>
   <data name="CloseAllTabsDescription" xml:space="preserve">
-    <value>Close all tabs including the current tab</value>
+    <value>Փակել բոլոր ներդիրները, ներառյալ ընթացիկ ներդիրը</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen last closed tab</value>
+    <value>Վերաբացել վերջին փակված ներդիրները</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
-    <value>Move to the previous tab</value>
+    <value>Տեղափոխել նախորդ ներդիր</value>
   </data>
   <data name="NextTabDescription" xml:space="preserve">
-    <value>Move to the next tab</value>
+    <value>Տեղափոխել հաջորդ ներդիր</value>
   </data>
   <data name="CloseSelectedTabDescription" xml:space="preserve">
-    <value>ปิดแท็บปัจจุบัน</value>
+    <value>Փակել ընթացիկ ներդիրը</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
     <value>Close active pane</value>
@@ -2748,7 +2748,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Windows" xml:space="preserve">
-    <value>วินโดว์</value>
+    <value>Win</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
@@ -2756,7 +2756,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
-    <value>เว้นวรรค</value>
+    <value>Բացատ</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Escape" xml:space="preserve">
@@ -2764,11 +2764,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Back" xml:space="preserve">
-    <value>ถอยหลัง</value>
+    <value>Backspace</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Tab" xml:space="preserve">
-    <value>แท็บ</value>
+    <value>Tab</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Insert" xml:space="preserve">
@@ -2780,23 +2780,23 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Left" xml:space="preserve">
-    <value>ลูกศรซ้าย</value>
+    <value>Ձախ</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Right" xml:space="preserve">
-    <value>ลูกศรขวา</value>
+    <value>Աջ</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Down" xml:space="preserve">
-    <value>ลูกศรลง</value>
+    <value>Ներքեւ</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
-    <value>ขึ้นไป (Alt+Up Arrow)</value>
+    <value>Վերեւ</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Home" xml:space="preserve">
-    <value>หน้าแรก</value>
+    <value>Տուն</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.End" xml:space="preserve">
@@ -2804,15 +2804,15 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.PageDown" xml:space="preserve">
-    <value>หน้าลง</value>
+    <value>PageDown</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.PageUp" xml:space="preserve">
-    <value>หน้าขึ้น</value>
+    <value>PageUp</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Separator" xml:space="preserve">
-    <value>Sep</value>
+    <value>|</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Pause" xml:space="preserve">
@@ -2824,15 +2824,15 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Clear" xml:space="preserve">
-    <value>ล้าง</value>
+    <value>Մաքրել</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Print" xml:space="preserve">
-    <value>พิมพ์</value>
+    <value>Print</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Help" xml:space="preserve">
-    <value>ช่วยเหลือ</value>
+    <value>Օգնություն</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Mouse4" xml:space="preserve">
@@ -2844,35 +2844,35 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application" xml:space="preserve">
-    <value>แอป</value>
+    <value>Հավելված</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application1" xml:space="preserve">
-    <value>แอป1</value>
+    <value>Հավելված1</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Application2" xml:space="preserve">
-    <value>แอป2</value>
+    <value>Հավելված2</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Mail" xml:space="preserve">
-    <value>เมล</value>
+    <value>Փոստ</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoHome" xml:space="preserve">
-    <value>กลับบ้าน</value>
+    <value>GoHome</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoBack" xml:space="preserve">
-    <value>กลับ</value>
+    <value>GoBack</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserGoForward" xml:space="preserve">
-    <value>ไปข้างหน้า</value>
+    <value>GoForward</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserRefresh" xml:space="preserve">
-    <value>รีเฟรช (Ctrl + R, F5)</value>
+    <value>BrowserRefresh</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserStop" xml:space="preserve">
@@ -2880,15 +2880,15 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserSearch" xml:space="preserve">
-    <value>ค้นหา</value>
+    <value>Որոնել</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserFavorites" xml:space="preserve">
-    <value>รายการโปรด</value>
+    <value>Սիրվածներ</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaPlayPause" xml:space="preserve">
-    <value>เล่นพัก</value>
+    <value>PlayPause</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaStop" xml:space="preserve">
@@ -2908,7 +2908,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaMute" xml:space="preserve">
-    <value>Mute</value>
+    <value>Լռեցնել</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeDown" xml:space="preserve">
@@ -2916,47 +2916,47 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeUp" xml:space="preserve">
-    <value>เพิ่มเสียง</value>
+    <value>VolUp</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Change" xml:space="preserve">
-    <value>เปลี่ยน</value>
+    <value>Փոխել</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Toggle selection</value>
+    <value>Փոխարկել</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
-    <value>แสดงคำเตือนเมื่อเปลี่ยนนามสกุลไฟล์</value>
+    <value>Ցույց տալ զգուշացում նիշքերի ընդլայնումները փոխելիս</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
-    <value>พีซีเครื่องนี้</value>
+    <value>Այս ԱՀ-ն</value>
   </data>
   <data name="RecycleBin" xml:space="preserve">
-    <value>ถังขยะ</value>
+    <value>Աղբաման</value>
   </data>
   <data name="Untagged" xml:space="preserve">
-    <value>ไม่​ได้​แท็ก</value>
+    <value>Ապապիտակված</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Moves to the previous tab</value>
+    <value>Տեղափոխվում է նախորդ ներդիր</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Moves to the next tab</value>
+    <value>Տեղափոխվում է հաջորդ ներդիր</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Closes current tab</value>
+    <value>Փակում է ընթացիկ ներդիրը</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Edit path</value>
+    <value>Խմբագրել ուղին</value>
   </data>
   <data name="Redo" xml:space="preserve">
-    <value>ทำใหม่</value>
+    <value>Վերարկել</value>
   </data>
   <data name="Undo" xml:space="preserve">
-    <value>เลิกทำ</value>
+    <value>Հետարկել</value>
   </data>
   <data name="InvalidLocation" xml:space="preserve">
-    <value>ที่ตั้งไม่ถูกต้อง</value>
+    <value>Invalid location</value>
   </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
     <value>Are you sure you want to copy these files without their properties?</value>
@@ -2971,49 +2971,49 @@
     <value>Are you sure you want to move these files without their properties?</value>
   </data>
   <data name="ShowCheckboxesWhenSelectingItems" xml:space="preserve">
-    <value>แสดงช่องเครื่องหมายเมื่อเลือกรายการ</value>
+    <value>Ցույց տալ նշատուփերը, երբ ընտրում եք տարրերը</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>Կենտրոնանալ ուղագոտուն</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>สร้างรายการใหม่</value>
+    <value>Ստեղծել նոր տարր</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
-    <value>ไม่มีกลุ่มหรือผู้ใช้ที่สามารถเข้าถึงวัตถุนี้ได้ อย่างไรก็ตามเจ้าวัตถุนี้สามารถกำหนดสิทธิ์ได้</value>
+    <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
   </data>
   <data name="OpenFileLocationDescription" xml:space="preserve">
     <value>Open the item's location</value>
   </data>
   <data name="DeletePermanently" xml:space="preserve">
-    <value>ลบอย่างถาวร</value>
+    <value>Ջնջնել ընդմիշտ</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>ลบรายการอย่างถาวร</value>
+    <value>Ջնջել տարր(եր)ը ընդմիշտ</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
-    <value>เล่นไฟล์สื่อที่เลือก</value>
+    <value>Play the selected media files</value>
   </data>
   <data name="UndoDescription" xml:space="preserve">
-    <value>เลิกทำกระบวนการล่าสุด</value>
+    <value>Հետարկել վերջին նիշքի նախապատրաստում</value>
   </data>
   <data name="RedoDescription" xml:space="preserve">
-    <value>ทำซ้ำกระบวนการล่าสุด</value>
+    <value>Վերարկել վերջին նիշքի նախապատրաստում</value>
   </data>
   <data name="Location" xml:space="preserve">
-    <value>ที่ตั้ง:</value>
+    <value>Տեղադրություն.</value>
   </data>
   <data name="GroupByMonthDescription" xml:space="preserve">
-    <value>จัดกลุ่มตามเดือน</value>
+    <value>Group items by month</value>
   </data>
   <data name="GroupByYearDescription" xml:space="preserve">
-    <value>จัดกลุ่มตามปี</value>
+    <value>Group items by year</value>
   </data>
   <data name="Month" xml:space="preserve">
-    <value>เดือน</value>
+    <value>Ամիս</value>
   </data>
   <data name="Day" xml:space="preserve">
-    <value>วัน</value>
+    <value>Օր</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
     <value>Toggle unit for grouping by date</value>
@@ -3022,10 +3022,10 @@
     <value>Toggle grouping unit</value>
   </data>
   <data name="Year" xml:space="preserve">
-    <value>ปี</value>
+    <value>Տարի</value>
   </data>
   <data name="GroupByDateUnit" xml:space="preserve">
-    <value>Group by date unit</value>
+    <value>Խումբավորել ըստ ամսաթվի միավորի</value>
   </data>
   <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
     <value>Group items by day of date created</value>
@@ -3034,7 +3034,7 @@
     <value>Group items by month of date created</value>
   </data>
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
-    <value>Group items by year of date created</value>
+    <value>Տարրերի խումբ ըստ ստեղծման տարվա ամսաթվի</value>
   </data>
   <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Group items by day of date deleted</value>
@@ -3046,19 +3046,19 @@
     <value>Group items by year of date deleted</value>
   </data>
   <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
-    <value>Group items by day of date modified</value>
+    <value>Տարրերի խումբ ըստ փոփոխման օրվա</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date modified</value>
+    <value>Տարրերի խումբ ըստ փոփխման ամիս</value>
   </data>
   <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
-    <value>Group items by year of date modified</value>
+    <value>Տարրերի խումբ ըստ փոփոխման տարվա</value>
   </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
     <value>Click 'Advanced permissions' to continue.</value>
   </data>
   <data name="SecurityRequireReadPermissions" xml:space="preserve">
-    <value>คุณต้องมีสิทธิ์อ่านเพื่อดูคุณสมบัติของรายการนี้</value>
+    <value>You must have Read permissions to view the properties of this item.</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
     <value>To try taking ownership of the item, which includes permission to view its properties, click Change above.</value>
@@ -3082,58 +3082,58 @@
     <value>Switch branch</value>
   </data>
   <data name="Branches" xml:space="preserve">
-    <value>Branches</value>
+    <value>Մասնաճյուղեր</value>
   </data>
   <data name="Switch" xml:space="preserve">
-    <value>Switch</value>
+    <value>Փոխարկել</value>
   </data>
   <data name="NewBranch" xml:space="preserve">
-    <value>New branch</value>
+    <value>Նոր մասնաճուղ</value>
   </data>
   <data name="InvalidBranchName" xml:space="preserve">
     <value>Invalid branch name</value>
   </data>
   <data name="CreateBranch" xml:space="preserve">
-    <value>Create branch</value>
+    <value>Ստեղծել մասնաճուղ</value>
   </data>
   <data name="CreateNewBranch" xml:space="preserve">
-    <value>Create branch</value>
+    <value>Ստեղծել մասնաճուղ</value>
   </data>
   <data name="BasedOn" xml:space="preserve">
-    <value>Based on</value>
+    <value>Հիմնված է</value>
   </data>
   <data name="SwitchToNewBranch" xml:space="preserve">
-    <value>Switch to new branch</value>
+    <value>Փոխարկել նոր մասնաճուղի</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
     <value>Create a folder with the currently selected item(s)</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>คุณสมบัติ</value>
+    <value>Բացել հատկությունները</value>
   </data>
   <data name="OpenClassicProperties" xml:space="preserve">
     <value>Open File Explorer properties</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
-    <value>เปิดหน้าต่างคุณสมบัติ</value>
+    <value>Բացել հատկությունների պատուհանը</value>
   </data>
   <data name="OpenClassicPropertiesDescription" xml:space="preserve">
-    <value>Open File Explorer properties window</value>
+    <value>Բացեք Նիշքախույզի հատկությունների պատուհանը</value>
   </data>
   <data name="Locals" xml:space="preserve">
-    <value>Locals</value>
+    <value>Տեղայիններ</value>
   </data>
   <data name="Remotes" xml:space="preserve">
-    <value>Remotes</value>
+    <value>Հեռակառավարումներ</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>แปลภาษาบน Crowdin</value>
+    <value>Թարգմանել Crowdin-ում</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
-    <value>Fetch</value>
+    <value>Բերել</value>
   </data>
   <data name="GitPull" xml:space="preserve">
-    <value>Pull</value>
+    <value>Իջեցնել</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
     <value>Run git fetch</value>
@@ -3142,13 +3142,13 @@
     <value>Run git pull</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value>ตัวอย่าง</value>
+    <value>Նախադիտում</value>
   </data>
   <data name="GitStatus" xml:space="preserve">
-    <value>สถานะ Git</value>
+    <value>Git-ի վիճակ</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git error</value>
+    <value>Git-ի սխալ</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>git pull failed due to a timeout error</value>
@@ -3158,46 +3158,46 @@
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
   <data name="Author" xml:space="preserve">
-    <value>ผู้เขียน</value>
+    <value>Հեղինակ</value>
   </data>
   <data name="DateCommitted" xml:space="preserve">
-    <value>Date committed</value>
+    <value>Կատարման ամսաթիվ</value>
   </data>
   <data name="CommitMessage" xml:space="preserve">
-    <value>Commit message</value>
+    <value>Կատարման ուղերձ</value>
   </data>
   <data name="CommitSha" xml:space="preserve">
-    <value>Commit SHA</value>
+    <value>Պարտավորվել SHA</value>
   </data>
   <data name="Git" xml:space="preserve">
     <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
-    <value>อะคริลิค</value>
+    <value>Ջրաներկ</value>
   </data>
   <data name="Mica" xml:space="preserve">
-    <value>Mica</value>
+    <value>Փայլար</value>
   </data>
   <data name="MicaAlt" xml:space="preserve">
-    <value>Mica Alt</value>
+    <value>Փայլար Այլ</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
     <value>Backdrop</value>
   </data>
   <data name="Solid" xml:space="preserve">
-    <value>Solid</value>
+    <value>Պինդ</value>
   </data>
   <data name="ManageBranches" xml:space="preserve">
     <value>Manage branches</value>
   </data>
   <data name="Push" xml:space="preserve">
-    <value>Push</value>
+    <value>Հրել</value>
   </data>
   <data name="GitPushDescription" xml:space="preserve">
     <value>Run git push</value>
   </data>
   <data name="GitSync" xml:space="preserve">
-    <value>Sync</value>
+    <value>Հմժմ</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
     <value>Run git pull and then git push</value>
@@ -3206,10 +3206,10 @@
     <value>{0} outgoing / {1} incoming commits</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
-    <value>เชื่อมต่อกับ GitHub</value>
+    <value>Connect to GitHub</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
-    <value>ป้อนรหัสพวกนี้ไปยังลิงก์ที่อยู่ด้านล่างเพื่อเริ่มต้นทำงานกับคลังเก็บที่อยู่ใน GitHub</value>
+    <value>Enter the following code at the link below to start working with GitHub repositories.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files cannot access GitHub right now.</value>
@@ -3227,31 +3227,31 @@
     <value>Open the root of the Git repo in {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
-    <value>คัดลอกรหัส</value>
+    <value>Պատճենել կոդը</value>
   </data>
   <data name="Added" xml:space="preserve">
-    <value>Added</value>
+    <value>Հավելված</value>
   </data>
   <data name="Deleted" xml:space="preserve">
-    <value>Deleted</value>
+    <value>Ջնջված</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value>Modified</value>
+    <value>Փոփոխված</value>
   </data>
   <data name="Untracked" xml:space="preserve">
-    <value>Untracked</value>
+    <value>Անհետեւելի</value>
   </data>
   <data name="UnableToDisplayOwner" xml:space="preserve">
-    <value>ไม่สามารถแสดงเจ้าของปัจจุบันได้</value>
+    <value>Unable to display current owner.</value>
   </data>
   <data name="AuthorizationSucceded" xml:space="preserve">
-    <value>เยี่ยม คุณได้รับอนุญาตแล้ว</value>
+    <value>Great! You are now authorized.</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
     <value>Initialize repo</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Initialize a Git repository</value>
+    <value>Նախաձեռնեք Git պահոց</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
     <value>Remote Repository Name</value>
@@ -3266,22 +3266,22 @@
     <value>Sort items by path</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>เปิดโฟลเดอร์ในบานหน้าต่างใหม่</value>
+    <value>Բացել ուղղությունը նոր վահանակում</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>เปิดไดเรกทอรีในแท็บใหม่</value>
+    <value>Open directory in new tab</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>เปิดไดเรกทอรีในหน้าต่างใหม่</value>
+    <value>Բացել ուղղությունը նոր պատուհանում</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
-    <value>Open all</value>
+    <value>Բացել բոլորը</value>
   </data>
   <data name="OpenAllTaggedItemsDescription" xml:space="preserve">
     <value>Open all tagged items</value>
   </data>
   <data name="DriveWithLetter" xml:space="preserve">
-    <value>Drive ({0})</value>
+    <value>Սարքավարներ ({0})</value>
     <comment>{0} is the drive letter.</comment>
   </data>
   <data name="InvalidCommand" xml:space="preserve">
@@ -3297,126 +3297,126 @@
     <value>The '{0}' command is not ready to be executed.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Command palette</value>
+    <value>Հրամանների պնակ</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open command palette</value>
+    <value>Բացել հրամանների պնակը</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
-    <value>Start in:</value>
+    <value>Սկսել ի.</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
-    <value>เปิดใช้ BitLocker</value>
+    <value>Turn on BitLocker</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
-    <value>จัดการ BitLocker</value>
+    <value>Manage BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
-    <value>รายการดังต่อไปนี้มีขนาดใหญ่เกินไปที่จะสามารถคัดลอกไปยังไดรฟ์นี้ได้</value>
+    <value>The following items are too large to be copied to this drive</value>
   </data>
   <data name="FormatDrive" xml:space="preserve">
-    <value>จัดรูปแบบไดรฟ์</value>
+    <value>Format drive</value>
   </data>
   <data name="DontShowAgain" xml:space="preserve">
-    <value>ไม่ต้องแสดงอีก</value>
+    <value>Don't show again</value>
   </data>
   <data name="FilesRunningAsAdmin" xml:space="preserve">
     <value>Files is running as administrator</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
+    <value>Windows-ի եւ WinAppSdk-ի սահմանափակման պատճառով, քաշել եւ գցել հնարավոր չէ Files-ը որպես վարիչ գործարկելիս:  Եթե ​​ցանկանում եք օգտագործել քաշել եւ գցել, կարող եք հաղթահարել այս սահմանափակումը՝ բացելով UAC-ը (User Account Control) Մեկնարկի Ցանկից եւ ընտրելով երրորդ մակարդակը ու վերագործարկելով Windows-ը:  Հակառակ դեպքում, դուք կարող եք շարունակել օգտագործել Files-ը՝ առանց քաշելու և գցելու:</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
-    <value>ให้แอปทำงานต่อในพื้นหลังเมื่อปิดหน้าต่างไปแล้ว</value>
+    <value>Թողել հավելվածի աշխատի խորքում, երբ պատուհանը փակ է</value>
   </data>
   <data name="Blue" xml:space="preserve">
-    <value>น้ำเงิน</value>
+    <value>Կապույտ</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BlueGray" xml:space="preserve">
-    <value>น้ำเงินเทา</value>
+    <value>Կապտագորշ</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BrickRed" xml:space="preserve">
-    <value>อิฐแดง</value>
+    <value>Աղյուսե Կարմիր</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Camouflage" xml:space="preserve">
-    <value>ลายพราง</value>
+    <value>Հողագույն</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="CoolBlueBright" xml:space="preserve">
-    <value>Cool Blue Bright</value>
+    <value>Սառը Պայծառ Կապույտ</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Gray" xml:space="preserve">
-    <value>เทา</value>
+    <value>Գորշ</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="GrayDark" xml:space="preserve">
-    <value>เทาเข้ม</value>
+    <value>Մուգ Գորշ</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Green" xml:space="preserve">
-    <value>เขียว</value>
+    <value>Կանաչ</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="IrisPastel" xml:space="preserve">
-    <value>Iris Pastel</value>
+    <value>Հիրիկ Կավիճ</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="MintLight" xml:space="preserve">
-    <value>สะระแหน่อ่อน</value>
+    <value>Բաց Անանուխ</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ModRed" xml:space="preserve">
-    <value>Mod Red</value>
+    <value>Մուգ Կարմիր</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="OrangeBright" xml:space="preserve">
-    <value>ส้มสว่าง</value>
+    <value>Պայծառ Նարնջ</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Overcast" xml:space="preserve">
-    <value>Overcast</value>
+    <value>Ամպամած</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Red" xml:space="preserve">
-    <value>แดง</value>
+    <value>Կարմիր</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="RoseBright" xml:space="preserve">
-    <value>กุหลาบสดใส</value>
+    <value>Պայծառ Վարդ</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Seafoam" xml:space="preserve">
-    <value>Seafoam</value>
+    <value>Ծովափրփուռ</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Storm" xml:space="preserve">
-    <value>Storm</value>
+    <value>Փոթորիկ</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="VioletRedLight" xml:space="preserve">
-    <value>Violet Red Light</value>
+    <value>Բաց Կարմիր Մանուշակ</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="YellowGold" xml:space="preserve">
-    <value>เหลืองทอง</value>
+    <value>Ոսկե Դեղին</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
-    <value>Clear completed</value>
+    <value>Մաքրել ավարտածները</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
-    <value>ชื่อ:</value>
+    <value>Անուն.</value>
   </data>
   <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
-    <value>{0} ของ {1} ถูกประมวลผลแล้ว</value>
+    <value>{0} of {1} processed</value>
     <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
   </data>
   <data name="ItemsLower" xml:space="preserve">
-    <value>รายการ</value>
+    <value>տարր</value>
   </data>
   <data name="CannotInitializeGitRepo" xml:space="preserve">
     <value>Files can't initialize this directory as a Git repository.</value>
@@ -3425,13 +3425,13 @@
     <value>Contributing Artist</value>
   </data>
   <data name="AddPage" xml:space="preserve">
-    <value>Add page</value>
+    <value>Հավելել էջ</value>
   </data>
   <data name="ProcessingItems" xml:space="preserve">
-    <value>กำลังประมวลผลรายการ</value>
+    <value>Processing items...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
-    <value>ความเร็ว:</value>
+    <value>Արագություն.</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
     <value>Canceled compressing {0} items to "{1}"</value>
@@ -3522,7 +3522,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
-    <value>Extracting "{0}" to "{1}"</value>
+    <value>Արտահանում «{0}»-ից «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_SubHeader" xml:space="preserve">
@@ -3558,7 +3558,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Moved {0} item(s) to "{1}"</value>
+    <value>Տեղափողվել է {0} տարր դեպի «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
@@ -3594,7 +3594,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_Header" xml:space="preserve">
-    <value>Error emptying Recycle Bin</value>
+    <value>Սխալ Աղբարկղը դատարկելուց</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinFailed_SubHeader" xml:space="preserve">
@@ -3602,21 +3602,21 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_Prepare_Header" xml:space="preserve">
-    <value>กำลังเตรียมกระบวนการ</value>
+    <value>Գործակաման նախապատրաստում...</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} รายการได้ถูกประมวลผลแล้ว</value>
+    <value>Մշակված {0}/{1} տարր</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
-    <value>ยกเลิกบล็อกไฟล์ที่ดาวน์โหลด</value>
+    <value>Unblock downloaded file</value>
   </data>
   <data name="NoFileOperations" xml:space="preserve">
-    <value>ยังไม่กระบวนการใด ๆ ในตอนนี้</value>
+    <value>Չկան ընթացիկ նիշքի գործողություններ</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>ตัวเลือกเปิด Files เมื่อวินโดว์เริ่มทำงานไม่สามารถใช้งานได้เนื่องจากการตั้งค่าหรือนโยบายระบบของคุณ หากต้องการเปิดใช้งานให้เปิดตัวจัดการงานแล้วไปที่หน้าเริ่มต้น</value>
+    <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
     <value>Failed to restore items from Recycle Bin</value>
@@ -3625,22 +3625,22 @@
     <value>Failed to set the background wallpaper</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
-    <value>Delete Git branch</value>
+    <value>Ջնջել Git մասնաճյուղը</value>
   </data>
   <data name="GitDeleteBranchSubtitle" xml:space="preserve">
-    <value>Are you sure you want to permanently delete "{0}" branch?</value>
+    <value>Իսկապե՞ս ուզում եք ընդմիշտ ջնջել «{0}» մասնաճյուղը:</value>
   </data>
   <data name="ConnectedToGitHub" xml:space="preserve">
-    <value>เชื่อมต่อกับ GitHub แล้ว</value>
+    <value>Կապակցված է GitHub-ին</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>ออกจากระบบ</value>
+    <value>Դուրս գալ</value>
   </data>
   <data name="ConnectToGitHub" xml:space="preserve">
-    <value>เชื่อมต่อกับ GitHub</value>
+    <value>Connect to GitHub</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>เข้าสู่ระบบ</value>
+    <value>Մտնել</value>
   </data>
   <data name="ErrorApplyingTagContent" xml:space="preserve">
     <value>Tags are currently only compatible on drives formatted as NTFS.</value>
@@ -3649,205 +3649,205 @@
     <value>There was an error applying this tag</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract items from selected archive(s) to current folder for single-item archive, or to new folder for multi-item archive</value>
+    <value>Արտահանեք տարրեր ընտրված պահոց(ներ)ից ընթացիկ պանակ մեկ տարր պահոցի համար կամ նոր պանակ՝ բազմաբնույթ պահոցի համար</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
-    <value>แยกไฟล์ที่นี้ (อัจฉริยะ)</value>
+    <value>Արտահանել այստեղ (Խելացի)</value>
   </data>
   <data name="SortFilesAndFoldersTogether" xml:space="preserve">
-    <value>เรียงไฟล์และโฟลเดอร์เข้าด้วยกัน</value>
+    <value>Դասավորել նիշքերը եւ պանակները միասին</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>เรียงไฟล์และโฟลเดอร์เข้าด้วยกัน</value>
+    <value>Դասավորել նիշքերը եւ պանակները միասին</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
-    <value>เรียงไฟล์ก่อน</value>
+    <value>Դասավորել առաջինը նիշքերը</value>
   </data>
   <data name="SortFilesFirstDescription" xml:space="preserve">
-    <value>เรียงไฟล์ก่อน โฟลเดอร์ที่หลัง</value>
+    <value>Դասավորել նիշքեր</value>
   </data>
   <data name="SortFoldersFirst" xml:space="preserve">
-    <value>เรียงโฟลเดอร์ก่อน</value>
+    <value>Դասավորել առաջինը պանակները</value>
   </data>
   <data name="SortFoldersFirstDescription" xml:space="preserve">
-    <value>เรียงโฟลเดอร์ก่อน ไฟล์ที่หลัง</value>
+    <value>Դասավորել առաջինը պանակները, հետո նիշքերը</value>
   </data>
   <data name="SortPriority" xml:space="preserve">
-    <value>เรียงตามความสำคัญ</value>
+    <value>Դասավորել առաջնահերթությունը</value>
   </data>
   <data name="FailedToRotateImage" xml:space="preserve">
-    <value>ไม่สามารถมุมรูปภาพได้</value>
+    <value>Failed to rotate the image</value>
   </data>
   <data name="Restart" xml:space="preserve">
-    <value>เริ่มต้นใหม่</value>
+    <value>Վերագործարել</value>
   </data>
   <data name="Quit" xml:space="preserve">
-    <value>ออก</value>
+    <value>Ելք</value>
   </data>
   <data name="FaildToShareItems" xml:space="preserve">
-    <value>ไม่สามารถแชร์รายการได้</value>
+    <value>Failed to share items</value>
   </data>
   <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
-    <value>Scroll to previous folder when navigating up</value>
+    <value>Վերեւ նավարկելիս ոլորեք դեպի նախորդ պանակ</value>
   </data>
   <data name="NewWindowDescription" xml:space="preserve">
-    <value>เปิดหน้าต่างใหม่</value>
+    <value>Բացել նոր պատուհան</value>
   </data>
   <data name="ChangeAlbumCover" xml:space="preserve">
-    <value>เปลี่ยนปกอัลบั้ม</value>
+    <value>Փոխել ալբոմի շապիկը</value>
   </data>
   <data name="ItemRenameFailed" xml:space="preserve">
-    <value>ไม่สามารถเปลี่ยนชื่อรายการได้</value>
+    <value>Failed to rename item</value>
   </data>
   <data name="HigherPermissionsRequired" xml:space="preserve">
-    <value>การแก้ไข "{0}" จำเป็นต้องใช้สิทธิ์เพิ่มเติม</value>
+    <value>Editing "{0}" requires additional permissions</value>
   </data>
   <data name="EditPermissions" xml:space="preserve">
-    <value>แก้ไขสิทธิ</value>
+    <value>Edit permissions</value>
   </data>
   <data name="BackgroundRunningNotificationBody" xml:space="preserve">
-    <value>Files ยังคงทำงานอยู่ในพื้นหลังเพื่อลดเวลาที่ใช้การเปิดโปรแกรม</value>
+    <value>Files is still running in the background to improve startup performance.</value>
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
-    <value>Files หายไปไหนแล้ว</value>
+    <value>Where did Files go?</value>
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
-    <value>ตั้งคำถามสนทนา</value>
+    <value>Questions &amp; discussions</value>
   </data>
   <data name="Compact" xml:space="preserve">
-    <value>กะทัดรัด</value>
+    <value>Սեղմ</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Small" xml:space="preserve">
-    <value>เล็ก</value>
+    <value>Փոքր</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium" xml:space="preserve">
-    <value>กลาง</value>
+    <value>Միջին</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+" xml:space="preserve">
-    <value>กลาง +</value>
+    <value>Միջին +</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++" xml:space="preserve">
-    <value>กลาง ++</value>
+    <value>Միջին ++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++" xml:space="preserve">
-    <value>กลาง +++</value>
+    <value>Միջին +++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium++++" xml:space="preserve">
-    <value>กลาง ++++</value>
+    <value>Միջին ++++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+++++" xml:space="preserve">
-    <value>กลาง +++++</value>
+    <value>Միջին +++++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large" xml:space="preserve">
-    <value>ใหญ่</value>
+    <value>Սեծ</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large+" xml:space="preserve">
-    <value>ใหญ่ +</value>
+    <value>Մեծ +</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large++" xml:space="preserve">
-    <value>ใหญ่ ++</value>
+    <value>Սեծ ++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large+++" xml:space="preserve">
-    <value>ใหญ่ +++</value>
+    <value>Մեծ +++</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="ExtraLarge" xml:space="preserve">
-    <value>ใหญ่พิเศษ</value>
+    <value>Չափազանց մեծ</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="DetailsView" xml:space="preserve">
-    <value>มุมมองละเอียด</value>
+    <value>Մանրամասների դիտում</value>
   </data>
   <data name="LayoutType" xml:space="preserve">
-    <value>ประเภทเค้าโครง</value>
+    <value>Դիրքի տեսակ</value>
   </data>
   <data name="Actions" xml:space="preserve">
-    <value>Actions</value>
+    <value>Գործողություններ</value>
   </data>
   <data name="Commands" xml:space="preserve">
-    <value>Commands</value>
+    <value>Հրամաններ</value>
   </data>
   <data name="AddCommand" xml:space="preserve">
-    <value>Add command</value>
+    <value>Հավելել հրաման</value>
   </data>
   <data name="RestoreDefaults" xml:space="preserve">
-    <value>Restore defaults</value>
+    <value>Վերականգնել լռելյայնի</value>
   </data>
   <data name="ChooseAnAction" xml:space="preserve">
-    <value>Choose an action</value>
+    <value>Ընտրել գործողություն</value>
   </data>
   <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
-    <value>Are you sure you want to restore the default key bindings? This action cannot be undone.</value>
+    <value>Իսկապե՞ս ուզում եք վերականգնել լռելյայն ստեղների կապումը: Այս գործողությունը հնարավոր չէ հետարկել</value>
   </data>
   <data name="KeybindingAlreadyUsedNotification" xml:space="preserve">
-    <value>This key binding is already being used, please choose a different key binding to continue.</value>
+    <value>Այս ստեղիտ կապումն արդեն օգտագործվում է, խնդրում ենք ընտրել այլ ստեղն՝ շարունակելու համար:</value>
   </data>
   <data name="KeybindingInvalidKeyNotification" xml:space="preserve">
     <value>The key binding you choose cannot be used, please try again using a different key binding.</value>
   </data>
   <data name="Customized" xml:space="preserve">
-    <value>Customized</value>
+    <value>Անհատականեցված</value>
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
-    <value>Adaptive layout is not available when preferences are synced, the default layout has been changed to Details.</value>
+    <value>Հարմարվողական դիրքը հասանելի չէ, երբ նախապատվությունները համաժամացվում են։ Լռելյայն դիրքը փոխվել է Մանրամասների:</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
-    <value>Background image</value>
+    <value>Խորքի պատկեր</value>
   </data>
   <data name="Bottom" xml:space="preserve">
-    <value>Bottom</value>
+    <value>Ներքեւում</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Center" xml:space="preserve">
-    <value>Center</value>
+    <value>Կենտրոնում</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Fill" xml:space="preserve">
-    <value>Fill</value>
+    <value>Լցնել</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="HorizontalAlignment" xml:space="preserve">
-    <value>Horizontal alignment</value>
+    <value>Ուղղահայաց հավասարեցում</value>
   </data>
   <data name="ImageFit" xml:space="preserve">
-    <value>Image fit</value>
+    <value>Պատկերի լցում</value>
   </data>
   <data name="Left" xml:space="preserve">
-    <value>ลูกศรซ้าย</value>
+    <value>Ձախ</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Opacity" xml:space="preserve">
-    <value>Opacity</value>
+    <value>Անթափանցիկություն</value>
   </data>
   <data name="Right" xml:space="preserve">
-    <value>ลูกศรขวา</value>
+    <value>Աջ</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Top" xml:space="preserve">
-    <value>Top</value>
+    <value>Վեր</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Uniform" xml:space="preserve">
-    <value>Uniform</value>
+    <value>Միաձեւ</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="UniformToFill" xml:space="preserve">
-    <value>Uniform to fill</value>
+    <value>Միաձեւ լցնել</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
-    <value>Vertical alignment</value>
+    <value>Ուղղաձիգ հավասարեցում</value>
   </data>
   <data name="ThinAcrylic" xml:space="preserve">
     <value>Thin Acrylic</value>
@@ -3872,15 +3872,15 @@
     <comment>This is the friendly name for DLL files.</comment>
   </data>
   <data name="IcoFileCapitalized" xml:space="preserve">
-    <value>ICO File</value>
+    <value>ICO Նիշք</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
   <data name="IclFileCapitalized" xml:space="preserve">
-    <value>ICL File</value>
+    <value>ICL Նիշք</value>
     <comment>This is the friendly name for ICL files.</comment>
   </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
-    <value>Zip File</value>
+    <value>Zip Նիշք</value>
     <comment>This is the friendly name for ZIP files.</comment>
   </data>
   <data name="BitmapFiles" xml:space="preserve">
@@ -3888,7 +3888,7 @@
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
-    <value>Num</value>
+    <value>Համար</value>
   </data>
   <data name="NetworkLocations" xml:space="preserve">
     <value>Network locations</value>
@@ -3897,7 +3897,7 @@
     <value>There are no network locations. If you don't use network locations, you can disable the widget.</value>
   </data>
   <data name="Disable" xml:space="preserve">
-    <value>Disable</value>
+    <value>Անջատել</value>
   </data>
   <data name="EditInNotepad" xml:space="preserve">
     <value>Edit in Notepad</value>
@@ -3909,7 +3909,7 @@
     <value>Dimensions:</value>
   </data>
   <data name="StatusWithColon" xml:space="preserve">
-    <value>Status:</value>
+    <value>Վիճակ.</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
     <value>Show toolbar</value>
@@ -3922,13 +3922,13 @@
     <value>Add vertical pane</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Add a vertical pane</value>
+    <value>Հավելել ուղղաձիգ վահանակ</value>
   </data>
   <data name="AddHorizontalPane" xml:space="preserve">
     <value>Add horizontal pane</value>
   </data>
   <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Add a horizontal pane</value>
+    <value>Հավելել ուղղահայաց վահանակ</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Arrange vertically</value>
@@ -3943,7 +3943,7 @@
     <value>Arrange panes horizontally</value>
   </data>
   <data name="AddPane" xml:space="preserve">
-    <value>Add pane</value>
+    <value>Հավելել Վահանակ</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Show tab actions button in the title bar</value>
@@ -3955,10 +3955,10 @@
     <value>Default pane arrangement</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
-    <value>Horizontal</value>
+    <value>Ուղղահայաց</value>
   </data>
   <data name="Vertical" xml:space="preserve">
-    <value>Vertical</value>
+    <value>Ուղղահայաց</value>
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>Show Files icon in the System Tray</value>
@@ -3967,16 +3967,16 @@
     <value>CPU threads</value>
   </data>
   <data name="NavigateHomeDescription" xml:space="preserve">
-    <value>Navigate to the home page</value>
+    <value>Նավարկել դեպի տնէջ</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
     <value>Show home button in address bar</value>
   </data>
   <data name="Toolbars" xml:space="preserve">
-    <value>Toolbars</value>
+    <value>Գործիքագոտիներ</value>
   </data>
   <data name="UserID" xml:space="preserve">
-    <value>User ID</value>
+    <value>Օգտվողի ID</value>
   </data>
   <data name="BulkRename" xml:space="preserve">
     <value>Bulk rename</value>
@@ -4012,10 +4012,10 @@
     <value>Manage tags</value>
   </data>
   <data name="Available" xml:space="preserve">
-    <value>Available</value>
+    <value>Հասանելի</value>
   </data>
   <data name="Total" xml:space="preserve">
-    <value>Total</value>
+    <value>Ընդամենը</value>
   </data>
   <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
     <value>Always switch focus to newly created tab</value>
@@ -4030,7 +4030,7 @@
     <value>Show shelf pane toggle in address bar</value>
   </data>
   <data name="Shelf" xml:space="preserve">
-    <value>Shelf</value>
+    <value>Դարակ</value>
     <comment>'Shelf' refers to the Shelf Pane feature, where users can conveniently drag and drop files for quick access and perform bulk actions with ease.</comment>
   </data>
   <data name="ClearItems" xml:space="preserve">

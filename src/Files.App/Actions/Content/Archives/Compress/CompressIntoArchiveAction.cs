@@ -10,10 +10,10 @@ namespace Files.App.Actions
 	internal sealed partial class CompressIntoArchiveAction : BaseCompressArchiveAction
 	{
 		public override string Label
-			=> "CreateArchive".GetLocalizedResource();
+			=> Strings.CreateArchive.GetLocalizedResource();
 
 		public override string Description
-			=> "CompressIntoArchiveDescription".GetLocalizedResource();
+			=> Strings.CompressIntoArchiveDescription.GetLocalizedResource();
 
 		public CompressIntoArchiveAction()
 		{

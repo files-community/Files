@@ -3214,17 +3214,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Els fitxers no tenen accés al GitHub ara mateix.</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>Obre la carpeta al VS Code</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>Obre la carpeta a {0}</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Obre la carpeta actual al Visual Studio Code</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>Obre el directori actual a {0}</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Obre el repositori al VS Code</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>Obre el repositori a {0}</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Obre l'arrel del repositori de Git al Visual Studio Code</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Obre l'arrel del repositori Git a {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Copia el codi</value>
@@ -3875,6 +3875,10 @@
     <value>Fitxer ICO</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>Fitxer ICL</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Fitxer Zip</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -4038,5 +4042,32 @@
   <data name="AddToShelf" xml:space="preserve">
     <value>Afegeix al prestatge</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Ruta o àlies</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Ruta no vàlida</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Prova d'integració</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>No s'ha pogut localitzar {0}. Comproveu la configuració i torneu-ho a provar.</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>No s'ha pogut localitzar l'IDE configurat</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Obre la configuració</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>Introduïu una ruta o àlies de llançament</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>Introduïu un nom per a l'IDE</value>
   </data>
 </root>

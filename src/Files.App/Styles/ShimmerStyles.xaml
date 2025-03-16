@@ -1,16 +1,16 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:uc="using:Files.App.UserControls">
+	xmlns:wctlabs="using:CommunityToolkit.Labs.WinUI">
 
-	<Style TargetType="uc:Shimmer">
+	<Style TargetType="wctlabs:Shimmer">
 		<Setter Property="CornerRadius" Value="4" />
 		<Setter Property="MinWidth" Value="8" />
 		<Setter Property="MinHeight" Value="8" />
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="uc:Shimmer">
+				<ControlTemplate TargetType="wctlabs:Shimmer">
 					<Border
 						x:Name="Shape"
 						Background="{TemplateBinding Background}"

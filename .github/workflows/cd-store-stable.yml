@@ -25,7 +25,7 @@ jobs:
         configuration: [Release]
         platform: [x64]
     env:
-      SOLUTION_NAME:              'Files.sln'
+      SOLUTION_NAME:              'Files.slnx'
       CONFIGURATION:              '${{ matrix.configuration }}'
       PLATFORM:                   '${{ matrix.platform }}'
       APPX_BUNDLE_PLATFORMS:      'x64|arm64'
@@ -85,6 +85,7 @@ jobs:
       shell: pwsh
       run: |
         msbuild "$env:LAUNCHER_PROJECT_PATH" `
+        -t:Build `
         -p:Platform=$env:PLATFORM `
         -p:Configuration=$env:CONFIGURATION `
         -v:quiet
