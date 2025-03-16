@@ -64,10 +64,10 @@ namespace Files.App.Views
 		{
 			var promptForReviewDialog = new ContentDialog
 			{
-				Title = "ReviewFiles".ToLocalized(),
-				Content = "ReviewFilesContent".ToLocalized(),
-				PrimaryButtonText = "Yes".ToLocalized(),
-				SecondaryButtonText = "No".ToLocalized()
+				Title = Strings.ReviewFiles.ToLocalized(),
+				Content = Strings.ReviewFilesContent.ToLocalized(),
+				PrimaryButtonText = Strings.Yes.ToLocalized(),
+				SecondaryButtonText = Strings.No.ToLocalized()
 			};
 
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
@@ -95,10 +95,10 @@ namespace Files.App.Views
 		{
 			var runningAsAdminPrompt = new ContentDialog
 			{
-				Title = "FilesRunningAsAdmin".ToLocalized(),
-				Content = "FilesRunningAsAdminContent".ToLocalized(),
+				Title = Strings.FilesRunningAsAdmin.ToLocalized(),
+				Content = Strings.FilesRunningAsAdminContent.ToLocalized(),
 				PrimaryButtonText = "Ok".ToLocalized(),
-				SecondaryButtonText = "DontShowAgain".ToLocalized()
+				SecondaryButtonText = Strings.DontShowAgain.ToLocalized()
 			};
 
 			var result = await SetContentDialogRoot(runningAsAdminPrompt).TryShowAsync();
