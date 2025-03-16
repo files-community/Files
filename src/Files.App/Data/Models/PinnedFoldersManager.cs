@@ -83,9 +83,9 @@ namespace Files.App.Data.Models
 				locationItem = LocationItem.Create<LocationItem>();
 
 				if (path.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
-					locationItem.Text = "ThisPC".GetLocalizedResource();
+					locationItem.Text = Strings.ThisPC.GetLocalizedResource();
 				else if (path.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
-					locationItem.Text = "Network".GetLocalizedResource();
+					locationItem.Text = Strings.Network.GetLocalizedResource();
 			}
 
 			locationItem.Path = path;
