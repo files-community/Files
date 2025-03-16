@@ -6,6 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:datamodels="using:Files.App.Data.Models"
 	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
@@ -57,7 +58,13 @@
 					x:Name="HashInputTextBox"
 					Grid.Column="0"
 					PlaceholderText="{helpers:ResourceString Name=EnterHashToCompare}"
-					TextChanged="HashInputTextBox_TextChanged" />
+					Text="{x:Bind HashesViewModel.HashInput, Mode=TwoWay}">
+					<interactivity:Interaction.Behaviors>
+						<interactivity:EventTriggerBehavior EventName="TextChanged">
+							<interactivity:InvokeCommandAction Command="{x:Bind HashesViewModel.HashInputTextChangedCommand}" />
+						</interactivity:EventTriggerBehavior>
+					</interactivity:Interaction.Behaviors>
+				</TextBox>
 			</Grid>
 
 			<!--  Compare File Button  -->
@@ -66,7 +73,7 @@
 				Grid.Row="0"
 				Grid.Column="1"
 				Margin="12"
-				Click="CompareFileButton_Click"
+				Command="{x:Bind HashesViewModel.CompareFileCommand}"
 				Content="{helpers:ResourceString Name=CompareFile}" />
 		</Grid>
 
@@ -76,9 +83,9 @@
 			Grid.Column="0"
 			Margin="12,75,12,12"
 			IsClosable="False"
-			IsOpen="False"
-			Message="No hashes match the provided hash."
-			Severity="Informational" />
+			IsOpen="{x:Bind HashesViewModel.IsInfoBarOpen, Mode=TwoWay}"
+			Message="{x:Bind HashesViewModel.InfoBarTitle, Mode=TwoWay}"
+			Severity="{x:Bind HashesViewModel.InfoBarSeverity, Mode=TwoWay}" />
 
 		<Grid
 			x:Name="HashesListGrid"

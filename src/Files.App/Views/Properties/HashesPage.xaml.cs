@@ -48,54 +48,6 @@ namespace Files.App.Views.Properties
 			_cancel = true;
 		}
 
-		private void HashInputTextBox_TextChanged(object sender, TextChangedEventArgs e)
-		{
-			string? matchingAlgorithm = null;
-
-			try
-			{
-				matchingAlgorithm = HashesViewModel.FindMatchingAlgorithm(HashInputTextBox.Text);
-			}
-			catch (ArgumentNullException)
-			{
-				return;
-			}
-
-			if (string.IsNullOrEmpty(matchingAlgorithm))
-			{
-				HashMatchInfoBar.Severity = InfoBarSeverity.Error;
-				HashMatchInfoBar.Title = Strings.HashesDoNotMatch.GetLocalizedResource();
-				HashMatchInfoBar.IsOpen = true;
-				return;
-			}
-			else
-			{
-				HashMatchInfoBar.Severity = InfoBarSeverity.Success;
-				HashMatchInfoBar.Title = string.Format(Strings.HashesMatch.GetLocalizedResource(), matchingAlgorithm);
-				HashMatchInfoBar.IsOpen = true;
-				return;
-			}
-		}
-
-
-		private async void CompareFileButton_Click(object sender, RoutedEventArgs e)
-		{
-			var result = await HashesViewModel.CompareFileAsync();
-
-			if (result)
-			{
-				HashMatchInfoBar.Severity = InfoBarSeverity.Success; // Check mark
-				HashMatchInfoBar.Title = Strings.HashesMatch.GetLocalizedResource();
-			}
-			else
-			{
-				HashMatchInfoBar.Severity = InfoBarSeverity.Error; // Cross mark
-				HashMatchInfoBar.Title = "no";
-			}
-
-			HashMatchInfoBar.IsOpen = true;
-		}
-
 		private void MenuFlyout_Closing(FlyoutBase sender, FlyoutBaseClosingEventArgs e)
 		{
 			e.Cancel = _cancel;

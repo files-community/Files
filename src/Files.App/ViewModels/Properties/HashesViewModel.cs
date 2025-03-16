@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.Shared.Helpers;
+using Microsoft.UI.Xaml.Controls;
 using System.IO;
 using System.Security.Cryptography;
 using System.Windows.Input;
@@ -25,10 +26,40 @@ namespace Files.App.ViewModels.Properties
 		public Dictionary<string, bool> ShowHashes { get; private set; }
 
 		public ICommand ToggleIsEnabledCommand { get; private set; }
+		public ICommand HashInputTextChangedCommand { get; private set; }
+		public ICommand CompareFileCommand { get; private set; }
 
 		private ListedItem _item;
 
 		private CancellationTokenSource _cancellationTokenSource;
+
+		private string _hashInput;
+		public string HashInput
+		{
+			get => _hashInput;
+			set => SetProperty(ref _hashInput, value);
+		}
+
+		private InfoBarSeverity _infoBarSeverity;
+		public InfoBarSeverity InfoBarSeverity
+		{
+			get => _infoBarSeverity;
+			set => SetProperty(ref _infoBarSeverity, value);
+		}
+
+		private string _infoBarTitle;
+		public string InfoBarTitle
+		{
+			get => _infoBarTitle;
+			set => SetProperty(ref _infoBarTitle, value);
+		}
+
+		private bool _isInfoBarOpen;
+		public bool IsInfoBarOpen
+		{
+			get => _isInfoBarOpen;
+			set => SetProperty(ref _isInfoBarOpen, value);
+		}
 
 		public HashesViewModel(ListedItem item)
 		{
@@ -57,6 +88,9 @@ namespace Files.App.ViewModels.Properties
 			ShowHashes.TryAdd("SHA512", false);
 
 			Hashes.Where(x => ShowHashes[x.Algorithm]).ForEach(x => ToggleIsEnabledCommand.Execute(x.Algorithm));
+
+			HashInputTextChangedCommand = new RelayCommand(OnHashInputTextChanged);
+			CompareFileCommand = new RelayCommand(async () => await OnCompareFileAsync());
 		}
 
 		private void ToggleIsEnabled(string? algorithm)
@@ -181,6 +215,51 @@ namespace Files.App.ViewModels.Properties
 					return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
 				}
 			}
+		}
+
+		private void OnHashInputTextChanged()
+		{
+			string? matchingAlgorithm = null;
+
+			try
+			{
+				matchingAlgorithm = FindMatchingAlgorithm(HashInput);
+			}
+			catch (ArgumentNullException)
+			{
+				return;
+			}
+
+			if (string.IsNullOrEmpty(matchingAlgorithm))
+			{
+				InfoBarSeverity = InfoBarSeverity.Error;
+				InfoBarTitle = Strings.HashesDoNotMatch.GetLocalizedResource();
+				IsInfoBarOpen = true;
+			}
+			else
+			{
+				InfoBarSeverity = InfoBarSeverity.Success;
+				InfoBarTitle = string.Format(Strings.HashesMatch.GetLocalizedResource(), matchingAlgorithm);
+				IsInfoBarOpen = true;
+			}
+		}
+
+		private async Task OnCompareFileAsync()
+		{
+			var result = await CompareFileAsync();
+
+			if (result)
+			{
+				InfoBarSeverity = InfoBarSeverity.Success; // Check mark
+				InfoBarTitle = Strings.HashesMatch.GetLocalizedResource();
+			}
+			else
+			{
+				InfoBarSeverity = InfoBarSeverity.Error; // Cross mark
+				InfoBarTitle = Strings.HashesDoNotMatch.GetLocalizedResource();
+			}
+
+			IsInfoBarOpen = true;
 		}
 
 		public void Dispose()
