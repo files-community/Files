@@ -54,6 +54,10 @@
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/GridSplitter/GridSplitter.xaml" />
 		<!--#endregion-->
 
+		<!--#region SidebarView-->
+    <ResourceDictionary Source="ms-appx:///Files.App.Controls/Sidebar/SidebarStyles.xaml" />
+		<!--#endregion-->
+
 		<!--#region Omnibar-->
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Omnibar/Omnibar.xaml" />
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Omnibar/OmnibarMode.xaml" />

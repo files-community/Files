@@ -48,6 +48,7 @@ namespace Files.App.UITests
 					nameof(ThemedIconPage) => typeof(ThemedIconPage),
 					nameof(ToolbarPage) => typeof(ToolbarPage),
 					nameof(StorageControlsPage) => typeof(StorageControlsPage),
+					nameof(SidebarViewPage) => typeof(SidebarViewPage),
 					nameof(OmnibarPage) => typeof(OmnibarPage),
 					_ => throw new InvalidOperationException("There's no applicable page associated with the given key."),
 				});

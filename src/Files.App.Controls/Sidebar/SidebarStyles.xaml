@@ -4,8 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:controls="using:Files.App.Controls"
-	xmlns:local="using:Files.App.UserControls.Sidebar"
-	xmlns:usercontrols="using:Files.App.UserControls">
+	xmlns:local="using:Files.App.Controls">
 
 	<x:Double x:Key="SidebarOpenPaneLength">300</x:Double>
 	<x:Double x:Key="SidebarNegativeOpenPaneLength">-300</x:Double>

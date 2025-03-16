@@ -10,10 +10,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "PlayAll".GetLocalizedResource();
+			=> Strings.PlayAll.GetLocalizedResource();
 
 		public string Description
-			=> "PlayAllDescription".GetLocalizedResource();
+			=> Strings.PlayAllDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new("\uE768");
