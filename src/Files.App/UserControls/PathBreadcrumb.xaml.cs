@@ -11,7 +11,7 @@ namespace Files.App.UserControls
 	public sealed partial class PathBreadcrumb : UserControl
 	{
 		[GeneratedDependencyProperty]
-		public partial AddressToolbarViewModel ViewModel { get; set; }
+		public partial NavigationToolbarViewModel ViewModel { get; set; }
 
 		public PathBreadcrumb()
 		{

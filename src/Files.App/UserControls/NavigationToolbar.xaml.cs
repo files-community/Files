@@ -15,7 +15,7 @@ using FocusManager = Microsoft.UI.Xaml.Input.FocusManager;
 
 namespace Files.App.UserControls
 {
-	public sealed partial class AddressToolbar : UserControl
+	public sealed partial class NavigationToolbar : UserControl
 	{
 		// Dependency injections
 
@@ -39,7 +39,7 @@ namespace Files.App.UserControls
 		public partial bool ShowSearchBox { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial AddressToolbarViewModel ViewModel { get; set; }
+		public partial NavigationToolbarViewModel ViewModel { get; set; }
 
 		// Commands
 
@@ -47,7 +47,7 @@ namespace Files.App.UserControls
 
 		// Constructor
 
-		public AddressToolbar()
+		public NavigationToolbar()
 		{
 			InitializeComponent();
 

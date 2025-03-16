@@ -143,7 +143,7 @@
 			TabIndex="0" />
 
 		<!--  Address Bar  -->
-		<uc:AddressToolbar
+		<uc:NavigationToolbar
 			x:Name="NavToolbar"
 			Grid.Row="1"
 			HorizontalAlignment="Stretch"
@@ -196,7 +196,7 @@
 					</Grid.ColumnDefinitions>
 
 					<!--  File Navigation Toolbar  -->
-					<uc:InnerNavigationToolbar
+					<uc:Toolbar
 						x:Name="InnerNavigationToolbar"
 						Grid.Row="0"
 						Grid.ColumnSpan="3"
