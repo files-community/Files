@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext _context;
 
 		public string Label
-			=> "GitPull".GetLocalizedResource();
+			=> Strings.GitPull.GetLocalizedResource();
 
 		public string Description
-			=> "GitPullDescription".GetLocalizedResource();
+			=> Strings.GitPullDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new("\uE74B");
