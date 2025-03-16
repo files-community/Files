@@ -268,7 +268,8 @@
 					<!--  Open the Settings dialog  -->
 					<Button
 						x:Name="SettingsButton"
-						Height="32"
+						Height="28"
+						Padding="12,0,12,0"
 						HorizontalAlignment="Stretch"
 						HorizontalContentAlignment="Stretch"
 						AccessKey="I"
@@ -280,6 +281,9 @@
 						Command="{x:Bind Commands.OpenSettings, Mode=OneWay}"
 						ToolTipService.Placement="Bottom"
 						ToolTipService.ToolTip="{x:Bind Commands.OpenSettings.LabelWithHotKey, Mode=OneWay}">
+						<Button.Resources>
+							<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
+						</Button.Resources>
 						<Grid HorizontalAlignment="Stretch">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="Auto" />
