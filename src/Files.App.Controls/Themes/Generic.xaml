@@ -55,7 +55,7 @@
 		<!--#endregion-->
 
 		<!--#region SidebarView-->
-    <ResourceDictionary Source="ms-appx:///Files.App.Controls/Sidebar/SidebarStyles.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Sidebar/SidebarStyles.xaml" />
 		<!--#endregion-->
 
 		<!--#region Omnibar-->
@@ -65,6 +65,10 @@
 
 		<!--#region SamplePanel-->
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/SamplePanel/SamplePanel.xaml" />
+		<!--#endregion-->
+
+		<!--#region Breadcrumb-->
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/BreadcrumbBar/BreadcrumbBar.xaml" />
 		<!--#endregion-->
 
 	</ResourceDictionary.MergedDictionaries>
