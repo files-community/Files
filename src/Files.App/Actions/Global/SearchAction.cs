@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Search".GetLocalizedResource();
+			=> Strings.Search.GetLocalizedResource();
 
 		public string Description
-			=> "SearchDescription".GetLocalizedResource();
+			=> Strings.SearchDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.F, KeyModifiers.Ctrl);
