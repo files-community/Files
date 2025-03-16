@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IFoldersSettingsService settings;
 
 		public string Label
-			=> "ShowFileExtensions".GetLocalizedResource();
+			=> Strings.ShowFileExtensions.GetLocalizedResource();
 
 		public string Description
-			=> "ToggleShowFileExtensionsDescription".GetLocalizedResource();
+			=> Strings.ToggleShowFileExtensionsDescription.GetLocalizedResource();
 
 		public bool IsOn
 			=> settings.ShowFileExtensions;
