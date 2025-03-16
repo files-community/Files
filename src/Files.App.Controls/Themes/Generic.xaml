@@ -54,6 +54,8 @@
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/GridSplitter/GridSplitter.xaml" />
 		<!--#endregion-->
 
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Sidebar/SidebarStyles.xaml" />
+
 	</ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

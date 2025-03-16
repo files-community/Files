@@ -3,15 +3,12 @@
 
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Input;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using System.Collections.Specialized;
 using Windows.ApplicationModel.DataTransfer;
 
-namespace Files.App.UserControls.Sidebar
+namespace Files.App.Controls
 {
 	public sealed partial class SidebarItem : Control
 	{
@@ -20,9 +17,6 @@ namespace Files.App.UserControls.Sidebar
 		public bool HasChildren => Item?.Children is IList enumerable && enumerable.Count > 0;
 		public bool IsGroupHeader => Item?.Children is not null;
 		public bool CollapseEnabled => DisplayMode != SidebarDisplayMode.Compact;
-
-		// TODO: Do not use localized text for comparison. This is a workaround to avoid major refactoring for now, it should be done any time soon
-		public bool IsHomeItem => Item?.Text == "Home".GetLocalizedResource() && Owner?.MenuItemsSource is IList enumerable && enumerable.IndexOf(Item) == 0;
 
 		private bool hasChildSelection => selectedChildItem != null;
 		private bool isPointerOver = false;
@@ -323,7 +317,7 @@ namespace Files.App.UserControls.Sidebar
 		{
 			if (Item?.Children is null || !CollapseEnabled)
 			{
-				VisualStateManager.GoToState(this, IsHomeItem ? "NoExpansionWithPadding" : "NoExpansion", useAnimations);
+				VisualStateManager.GoToState(this, Item?.PaddedItem == true ? "NoExpansionWithPadding" : "NoExpansion", useAnimations);
 			}
 			else if (!HasChildren)
 			{

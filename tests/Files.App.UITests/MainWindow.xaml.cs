@@ -37,6 +37,9 @@ namespace Files.App.UITests
 				case "StorageControlsPage":
 					MainFrame.Navigate(typeof(StorageControlsPage));
 					break;
+				case "SidebarViewPage":
+					MainFrame.Navigate(typeof(SidebarViewPage));
+					break;
 			}
 		}
 
