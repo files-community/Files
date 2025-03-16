@@ -63,16 +63,16 @@ namespace Files.App.Views.Properties
 
 			if (string.IsNullOrEmpty(matchingAlgorithm))
 			{
+				HashesViewModel.InfoBarVisible = true;
 				HashMatchInfoBar.Severity = InfoBarSeverity.Error;
 				HashMatchInfoBar.Title = Strings.HashesDoNotMatch.GetLocalizedResource();
-				HashMatchInfoBar.IsOpen = true;
 				return;
 			}
 			else
 			{
+				HashesViewModel.InfoBarVisible = true;
 				HashMatchInfoBar.Severity = InfoBarSeverity.Success;
 				HashMatchInfoBar.Title = string.Format(Strings.HashesMatch.GetLocalizedResource(), matchingAlgorithm);
-				HashMatchInfoBar.IsOpen = true;
 				return;
 			}
 		}
@@ -81,6 +81,8 @@ namespace Files.App.Views.Properties
 		private async void CompareFileButton_Click(object sender, RoutedEventArgs e)
 		{
 			var result = await HashesViewModel.CompareFileAsync();
+
+			HashesViewModel.InfoBarVisible = true;
 
 			if (result)
 			{
@@ -92,8 +94,6 @@ namespace Files.App.Views.Properties
 				HashMatchInfoBar.Severity = InfoBarSeverity.Error; // Cross mark
 				HashMatchInfoBar.Title = "no";
 			}
-
-			HashMatchInfoBar.IsOpen = true;
 		}
 
 		private void MenuFlyout_Closing(FlyoutBase sender, FlyoutBaseClosingEventArgs e)

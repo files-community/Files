@@ -24,6 +24,8 @@ namespace Files.App.ViewModels.Properties
 
 		public Dictionary<string, bool> ShowHashes { get; private set; }
 
+		public bool InfoBarVisible { get; set;  }
+
 		public ICommand ToggleIsEnabledCommand { get; private set; }
 
 		private ListedItem _item;
@@ -33,6 +35,7 @@ namespace Files.App.ViewModels.Properties
 		public HashesViewModel(ListedItem item)
 		{
 			ToggleIsEnabledCommand = new RelayCommand<string>(ToggleIsEnabled);
+			InfoBarVisible = false;
 
 			_item = item;
 			_cancellationTokenSource = new();

@@ -75,8 +75,9 @@
 			Grid.Row="1"
 			Grid.Column="0"
 			Margin="12,75,12,12"
+			x:Load="{x:Bind HashesViewModel.InfoBarVisible, Mode=OneWay}"
 			IsClosable="False"
-			IsOpen="False"
+			IsOpen="True"
 			Message="No hashes match the provided hash."
 			Severity="Informational" />
 
