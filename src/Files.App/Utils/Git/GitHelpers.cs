@@ -920,7 +920,11 @@ namespace Files.App.Utils.Git
 			}, banner.CancellationToken);
 
 			if (!string.IsNullOrEmpty(errorMessage))
+			{
+				UIHelpers.CloseAllDialogs();
+				await Task.Delay(500);
 				await DynamicDialogFactory.ShowFor_CannotCloneRepo(errorMessage);
+			}
 
 			StatusCenterViewModel.RemoveItem(banner);
 
