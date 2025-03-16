@@ -27,6 +27,14 @@ namespace Windows.Win32
 				((IUnknown*)ptr)->AddRef();
 		}
 
+		public void Attach(T* other)
+		{
+			if (_ptr is not null)
+				((IUnknown*)_ptr)->Release();
+
+			_ptr = other;
+		}
+
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public readonly T* Get()
 		{
