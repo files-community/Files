@@ -19,8 +19,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public ObservableCollection<WidgetFileTagsContainerItem> Containers { get; } = [];
 
 		public string WidgetName => nameof(FileTagsWidget);
-		public string WidgetHeader => "FileTags".GetLocalizedResource();
-		public string AutomationProperties => "FileTags".GetLocalizedResource();
+		public string WidgetHeader => Strings.FileTags.GetLocalizedResource();
+		public string AutomationProperties => Strings.FileTags.GetLocalizedResource();
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowFileTagsWidget;
 		public bool ShowMenuFlyout => false;
 		public MenuFlyoutItem? MenuFlyoutItem => null;
@@ -108,14 +108,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				}.Build(),
 				new()
 				{
-					Text = "OpenWith".GetLocalizedResource(),
+					Text = Strings.OpenWith.GetLocalizedResource(),
 					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.OpenWith" },
 					Tag = "OpenWithPlaceholder",
 					ShowItem = !isFolder
 				},
 				new()
 				{
-					Text = "OpenFileLocation".GetLocalizedResource(),
+					Text = Strings.OpenFileLocation.GetLocalizedResource(),
 					Glyph = "\uED25",
 					Command = OpenFileLocationCommand,
 					CommandParameter = item,
@@ -123,7 +123,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
-					Text = "PinFolderToSidebar".GetLocalizedResource(),
+					Text = Strings.PinFolderToSidebar.GetLocalizedResource(),
 					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.FavoritePin" },
 					Command = PinToSidebarCommand,
 					CommandParameter = item,
@@ -131,7 +131,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
-					Text = "UnpinFolderFromSidebar".GetLocalizedResource(),
+					Text = Strings.UnpinFolderFromSidebar.GetLocalizedResource(),
 					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.FavoritePinRemove" },
 					Command = UnpinFromSidebarCommand,
 					CommandParameter = item,
@@ -139,13 +139,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
-					Text = "SendTo".GetLocalizedResource(),
+					Text = Strings.SendTo.GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new()
 				{
-					Text = "Properties".GetLocalizedResource(),
+					Text = Strings.Properties.GetLocalizedResource(),
 					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.Properties" },
 					Command = OpenPropertiesCommand,
 					CommandParameter = item,
@@ -164,7 +164,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
-					Text = "Loading".GetLocalizedResource(),
+					Text = Strings.Loading.GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = [],
 					ID = "ItemOverflow",
@@ -193,7 +193,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					ItemPath = (item.Item as WidgetFileTagCardItem)?.Path ?? string.Empty,
 					ItemNameRaw = (item.Item as WidgetFileTagCardItem)?.Name ?? string.Empty,
 					PrimaryItemAttribute = StorageItemTypes.Folder,
-					ItemType = "Folder".GetLocalizedResource(),
+					ItemType = Strings.Folder.GetLocalizedResource(),
 				};
 
 				FilePropertiesHelpers.OpenPropertiesWindow(listedItem, ContentPageContext.ShellPage!);
