@@ -4123,4 +4123,8 @@
     <value>Repository URL</value>
     <comment>URL textbox header in the clone repo dialog</comment>
   </data>
+  <data name="CannotCloneRepoTitle" xml:space="preserve">
+    <value>Cannot clone repo</value>
+    <comment>Cannot clone repo dialog title</comment>
+  </data>
 </root>

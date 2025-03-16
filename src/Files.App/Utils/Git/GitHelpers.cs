@@ -884,6 +884,7 @@ namespace Files.App.Utils.Git
 		{
 			var banner = StatusCenterHelper.AddCard_GitClone(repoName.CreateEnumerable(), targetDirectory.CreateEnumerable(), ReturnResult.InProgress);
 			var fsProgress = new StatusCenterItemProgressModel(banner.ProgressEventSource, enumerationCompleted: true, FileSystemStatusCode.InProgress);
+			var errorMessage = string.Empty;
 
 			bool isSuccess = await Task.Run(() =>
 			{
@@ -911,11 +912,15 @@ namespace Files.App.Utils.Git
 					Repository.Clone(repoUrl, targetDirectory, cloneOptions);
 					return true;
 				}
-				catch
+				catch (Exception ex)
 				{
+					errorMessage = ex.Message;
 					return false;
 				}
 			}, banner.CancellationToken);
+
+			if (!string.IsNullOrEmpty(errorMessage))
+				await DynamicDialogFactory.ShowFor_CannotCloneRepo(errorMessage);
 
 			StatusCenterViewModel.RemoveItem(banner);
 
