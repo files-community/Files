@@ -6,10 +6,10 @@ namespace Files.App.Actions
 	internal sealed partial class CloseTabsToTheRightCurrentAction : CloseTabBaseAction
 	{
 		public override string Label
-			=> "CloseTabsToTheRight".GetLocalizedResource();
+			=> Strings.CloseTabsToTheRight.GetLocalizedResource();
 
 		public override string Description
-			=> "CloseTabsToTheRightCurrentDescription".GetLocalizedResource();
+			=> Strings.CloseTabsToTheRightCurrentDescription.GetLocalizedResource();
 
 		public CloseTabsToTheRightCurrentAction()
 		{
