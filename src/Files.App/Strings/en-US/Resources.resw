@@ -3473,7 +3473,7 @@
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
     <value>Compressing {0} item(s) from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
     <value>Canceled cloning {0} to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -4110,5 +4110,17 @@
   </data>
   <data name="InvalidIDENameError" xml:space="preserve">
     <value>Please enter a name for the IDE</value>
+  </data>
+  <data name="CloneRepo" xml:space="preserve">
+    <value>Clone repo</value>
+    <comment>Clone repo dialog title</comment>
+  </data>
+  <data name="Clone" xml:space="preserve">
+    <value>Clone</value>
+    <comment>Primary action button in the clone repo dialog</comment>
+  </data>
+  <data name="RepositoryURL" xml:space="preserve">
+    <value>Repository URL</value>
+    <comment>URL textbox header in the clone repo dialog</comment>
   </data>
 </root>

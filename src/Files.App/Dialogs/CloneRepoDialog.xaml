@@ -7,21 +7,21 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Title="Clone repo"
+	Title="{helpers:ResourceString Name=CloneRepo}"
 	HighContrastAdjustment="None"
 	IsPrimaryButtonEnabled="{x:Bind ViewModel.CanCloneRepo, Mode=OneWay}"
 	PrimaryButtonCommand="{x:Bind ViewModel.CloneRepoCommand, Mode=OneWay}"
 	PrimaryButtonStyle="{ThemeResource AccentButtonStyle}"
-	PrimaryButtonText="Clone"
+	PrimaryButtonText="{helpers:ResourceString Name=Clone}"
 	RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
-	SecondaryButtonText="Cancel"
+	SecondaryButtonText="{helpers:ResourceString Name=Cancel}"
 	Style="{StaticResource DefaultContentDialogStyle}"
 	mc:Ignorable="d">
 
 	<Grid Width="340">
 		<StackPanel Spacing="8">
 			<TextBox
-				Header="Repository URL"
+				Header="{helpers:ResourceString Name=RepositoryURL}"
 				PlaceholderText="https://github.com/files-community/Files"
 				Text="{x:Bind ViewModel.RepoUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 		</StackPanel>
