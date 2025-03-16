@@ -429,7 +429,7 @@ namespace Files.App.Helpers
 		{
 			var dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
-				TitleText = "CannotCloneRepoTitle".GetLocalizedResource(),
+				TitleText = Strings.CannotCloneRepoTitle.GetLocalizedResource(),
 				SubtitleText = exception,
 				PrimaryButtonText = Strings.OK.GetLocalizedResource(),
 				DynamicButtons = DynamicDialogButtons.Primary
