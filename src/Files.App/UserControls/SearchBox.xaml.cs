@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -19,9 +20,6 @@ namespace Files.App.UserControls
 		}
 
 		public SearchBox() => InitializeComponent();
-
-		private void SearchRegion_GotFocus(object sender, RoutedEventArgs e)
-			=> SearchBoxViewModel.SearchRegion_GotFocus(sender, e);
 
 		private void SearchRegion_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs e)
 			=> SearchBoxViewModel.SearchRegion_TextChanged(sender, e);
