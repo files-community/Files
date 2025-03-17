@@ -26,30 +26,28 @@
 	</vm:BasePropertiesPage.Resources>
 
 	<Grid x:Name="RootGrid">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
 
 		<!--  Hash Comparison Section  -->
 		<Grid
 			x:Name="HashComparisonGrid"
-			Margin="12"
+			Margin="12,12,12,4"
 			VerticalAlignment="Top"
 			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
 			CornerRadius="4">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-			</Grid.RowDefinitions>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 
 			<!--  Hash Input  -->
-			<Grid
-				Grid.Row="0"
-				Grid.Column="0"
-				Margin="12">
+			<Grid Grid.Column="0" Margin="12">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
@@ -70,7 +68,6 @@
 			<!--  Compare File Button  -->
 			<Button
 				x:Name="CompareFileButton"
-				Grid.Row="0"
 				Grid.Column="1"
 				Margin="12"
 				Command="{x:Bind HashesViewModel.CompareFileCommand}"
@@ -80,16 +77,17 @@
 		<InfoBar
 			x:Name="HashMatchInfoBar"
 			Grid.Row="1"
-			Grid.Column="0"
-			Margin="12,75,12,12"
+			Margin="12,4,12,4"
+			x:Load="{x:Bind HashesViewModel.IsInfoBarOpen, Mode=OneWay}"
 			IsClosable="False"
-			IsOpen="{x:Bind HashesViewModel.IsInfoBarOpen, Mode=OneWay}"
+			IsOpen="True"
 			Message="{x:Bind HashesViewModel.InfoBarTitle, Mode=OneWay}"
 			Severity="{x:Bind HashesViewModel.InfoBarSeverity, Mode=OneWay}" />
 
 		<Grid
 			x:Name="HashesListGrid"
-			Margin="12,130,12,12"
+			Grid.Row="2"
+			Margin="12,4,12,12"
 			VerticalAlignment="Stretch"
 			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
