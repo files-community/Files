@@ -170,6 +170,7 @@
 										Text="SHA1" />
 									<ToggleMenuFlyoutItem
 										Click="ToggleMenuFlyoutItem_Click"
+										Command="{x:Bind HashesViewModel.ToggleIsEnabledCommand}"
 										CommandParameter="SHA256"
 										IsChecked="{x:Bind HashesViewModel.ShowHashes['SHA256']}"
 										Text="SHA256" />
