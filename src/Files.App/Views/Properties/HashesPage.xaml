@@ -83,9 +83,9 @@
 			Grid.Column="0"
 			Margin="12,75,12,12"
 			IsClosable="False"
-			IsOpen="{x:Bind HashesViewModel.IsInfoBarOpen, Mode=TwoWay}"
-			Message="{x:Bind HashesViewModel.InfoBarTitle, Mode=TwoWay}"
-			Severity="{x:Bind HashesViewModel.InfoBarSeverity, Mode=TwoWay}" />
+			IsOpen="{x:Bind HashesViewModel.IsInfoBarOpen, Mode=OneWay}"
+			Message="{x:Bind HashesViewModel.InfoBarTitle, Mode=OneWay}"
+			Severity="{x:Bind HashesViewModel.InfoBarSeverity, Mode=OneWay}" />
 
 		<Grid
 			x:Name="HashesListGrid"
@@ -99,8 +99,8 @@
 			<!--  Hashes ListView  -->
 			<ListView
 				x:Name="HashesListView"
-				ItemsSource="{x:Bind HashesViewModel.Hashes, Mode=TwoWay}"
-				SelectedItem="{x:Bind HashesViewModel.SelectedItem, Mode=TwoWay}">
+				ItemsSource="{x:Bind HashesViewModel.Hashes, Mode=OneWay}"
+				SelectedItem="{x:Bind HashesViewModel.SelectedItem, Mode=OneWay}">
 
 				<!--  Header  -->
 				<ListView.Header>
