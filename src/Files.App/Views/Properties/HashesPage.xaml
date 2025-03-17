@@ -58,7 +58,7 @@
 					x:Name="HashInputTextBox"
 					Grid.Column="0"
 					PlaceholderText="{helpers:ResourceString Name=EnterHashToCompare}"
-					Text="{x:Bind HashesViewModel.HashInput, Mode=TwoWay}">
+					Text="{x:Bind HashesViewModel.HashInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 					<interactivity:Interaction.Behaviors>
 						<interactivity:EventTriggerBehavior EventName="TextChanged">
 							<interactivity:InvokeCommandAction Command="{x:Bind HashesViewModel.HashInputTextChangedCommand}" />

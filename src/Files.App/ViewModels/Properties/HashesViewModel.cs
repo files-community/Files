@@ -37,7 +37,11 @@ namespace Files.App.ViewModels.Properties
 		public string HashInput
 		{
 			get => _hashInput;
-			set => SetProperty(ref _hashInput, value);
+			set
+			{
+				OnHashInputTextChanged();
+				SetProperty(ref _hashInput, value);
+			}
 		}
 
 		private InfoBarSeverity _infoBarSeverity;
