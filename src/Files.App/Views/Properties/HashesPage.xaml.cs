@@ -8,8 +8,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Navigation;
-using System.IO;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace Files.App.Views.Properties
