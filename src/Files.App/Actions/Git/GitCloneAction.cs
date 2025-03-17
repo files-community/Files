@@ -13,7 +13,7 @@ namespace Files.App.Actions
 		public string Description { get; } = Strings.GitCloneDescription.GetLocalizedResource();
 
 		public bool IsExecutable
-			=> pageContext.CanCreateItem;
+			=> pageContext.CanCreateItem && !pageContext.IsGitRepository;
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Git");
@@ -35,8 +35,13 @@ namespace Files.App.Actions
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IContentPageContext.CanCreateItem))
-				OnPropertyChanged(nameof(IsExecutable));
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.CanCreateItem):
+				case nameof(IContentPageContext.IsGitRepository):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
 		}
 	}
 }
