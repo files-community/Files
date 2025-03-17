@@ -1,8 +1,11 @@
-﻿using Files.App.Controls;
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
+
+using Files.App.Controls;
 using Microsoft.UI.Xaml.Controls;
 using System.ComponentModel;
 
-namespace Files.App.UITests.TestData
+namespace Files.App.UITests.Data
 {
 	class TestSidebarModel : ISidebarItemModel
 	{

@@ -6,8 +6,15 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.UITests.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
 	mc:Ignorable="d">
 
-	<controls:SidebarView x:Name="Sidebar" MenuItemsSource="{x:Bind sidebarModels}" />
+	<StackPanel Spacing="24">
+
+		<controls:SamplePanel Header="Default usage">
+			<controls:SamplePanel.MainContent>
+				<controls:SidebarView x:Name="Sidebar" MenuItemsSource="{x:Bind SidebarViewItems, Mode=OneWay}" />
+			</controls:SamplePanel.MainContent>
+		</controls:SamplePanel>
+
+	</StackPanel>
 </Page>

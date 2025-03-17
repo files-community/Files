@@ -11,15 +11,12 @@ namespace Files.App.Controls
 {
 	public sealed partial class SidebarItemAutomationPeer : FrameworkElementAutomationPeer, IInvokeProvider, IExpandCollapseProvider, ISelectionItemProvider
 	{
-		public ExpandCollapseState ExpandCollapseState
-		{
-			get
-			{
-				if (Owner.HasChildren)
-					return Owner.IsExpanded ? ExpandCollapseState.Expanded : ExpandCollapseState.Collapsed;
-				return ExpandCollapseState.LeafNode;
-			}
-		}
+		public ExpandCollapseState ExpandCollapseState =>
+			Owner.HasChildren
+				? Owner.IsExpanded
+					? ExpandCollapseState.Expanded
+					: ExpandCollapseState.Collapsed
+				: ExpandCollapseState.LeafNode;
 		public bool IsSelected => Owner.IsSelected;
 		public IRawElementProviderSimple SelectionContainer => ProviderFromPeer(CreatePeerForElement(Owner.Owner));
 
@@ -27,7 +24,7 @@ namespace Files.App.Controls
 
 		public SidebarItemAutomationPeer(SidebarItem owner) : base(owner)
 		{
-			this.Owner = owner;
+			Owner = owner;
 		}
 
 		protected override AutomationControlType GetAutomationControlTypeCore()
@@ -49,28 +46,22 @@ namespace Files.App.Controls
 			else if (patternInterface == PatternInterface.ExpandCollapse)
 			{
 				if (Owner.CollapseEnabled)
-				{
 					return this;
-				}
 			}
+
 			return base.GetPatternCore(patternInterface);
 		}
 
 		public void Collapse()
 		{
 			if (Owner.CollapseEnabled)
-			{
 				Owner.IsExpanded = false;
-			}
 		}
 
 		public void Expand()
 		{
-
 			if (Owner.CollapseEnabled)
-			{
 				Owner.IsExpanded = true;
-			}
 		}
 
 		public void Invoke()
@@ -106,13 +97,11 @@ namespace Files.App.Controls
 		private IList GetOwnerCollection()
 		{
 			if (Owner.FindAscendant<SidebarItem>() is SidebarItem parent && parent.Item?.Children is IList list)
-			{
 				return list;
-			}
-			if (Owner?.Owner is not null && Owner.Owner.ViewModel.SidebarItems is IList items)
-			{
+
+			if (Owner?.Owner is not null && Owner.Owner?.ViewModel?.SidebarItems is IList items)
 				return items;
-			}
+
 			return new List<object>();
 		}
 	}

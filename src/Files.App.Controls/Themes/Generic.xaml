@@ -55,7 +55,8 @@
 		<!--#endregion-->
 
 		<!--#region SidebarView-->
-    <ResourceDictionary Source="ms-appx:///Files.App.Controls/Sidebar/SidebarStyles.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Sidebar/SidebarStyles.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Sidebar/SidebarView.xaml" />
 		<!--#endregion-->
 
 		<!--#region Omnibar-->

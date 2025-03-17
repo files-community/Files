@@ -161,6 +161,7 @@
 			Grid.Row="2"
 			HorizontalAlignment="Stretch"
 			HorizontalContentAlignment="Stretch"
+			Background="{ThemeResource App.Theme.Sidebar.BackgroundBrush}"
 			DisplayMode="{x:Bind SidebarAdaptiveViewModel.SidebarDisplayMode, Mode=TwoWay}"
 			IsPaneOpen="{x:Bind ViewModel.IsSidebarPaneOpen, Mode=TwoWay}"
 			Loaded="SidebarControl_Loaded"
@@ -173,6 +174,7 @@
 			<controls:SidebarView.InnerContent>
 				<Grid
 					x:Name="RootGrid"
+					Margin="0,0,8,0"
 					PreviewKeyDown="RootGrid_PreviewKeyDown"
 					SizeChanged="RootGrid_SizeChanged">
 					<Grid.RowDefinitions>
