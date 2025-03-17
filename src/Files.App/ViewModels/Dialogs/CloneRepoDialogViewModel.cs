@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using LibGit2Sharp;
 using System.IO;
 using System.Windows.Input;
 
@@ -24,7 +23,7 @@ namespace Files.App.ViewModels.Dialogs
 			}
 		}
 
-		private string repoUrl;
+		private string repoUrl = string.Empty;
 		public string RepoUrl
 		{
 			get => repoUrl;
@@ -35,7 +34,7 @@ namespace Files.App.ViewModels.Dialogs
 			}
 		}
 
-		private string repoName;
+		private string repoName = string.Empty;
 		public string RepoName
 		{
 			get => repoName;
@@ -43,17 +42,17 @@ namespace Files.App.ViewModels.Dialogs
 
 		}
 
-		private string targetDirectory;
-		public string TargetDirectory
+		private string workingDirectory = string.Empty;
+		public string WorkingDirectory
 		{
-			get => targetDirectory;
-			set => SetProperty(ref targetDirectory, value);
+			get => workingDirectory;
+			set => SetProperty(ref workingDirectory, value);
 
 		}
 
 		public ICommand CloneRepoCommand { get; private set; }
 
-		public CloneRepoDialogViewModel(string repoUrl, string workingDirectory)
+		public CloneRepoDialogViewModel(string repoUrl, string directory)
 		{
 			var repoInfo = GitHelpers.GetRepoInfo(repoUrl);
 
@@ -68,13 +67,14 @@ namespace Files.App.ViewModels.Dialogs
 				RepoName = string.Empty;
 			}
 
-			TargetDirectory = Path.Combine(workingDirectory, RepoName);
+			WorkingDirectory = directory;
 
 			CloneRepoCommand = new AsyncRelayCommand(DoCloneRepo);
 		}
 
 		private async Task DoCloneRepo()
 		{
+			var targetDirectory = Path.Combine(workingDirectory, RepoName);
 			await GitHelpers.CloneRepoAsync(RepoUrl, repoName, targetDirectory);
 		}
 	}
