@@ -17,7 +17,7 @@
         <Title>Files UI Controls</Title>
         <Authors>files-community</Authors>
         <Company>Files Community</Company>
-        <Copyright>Copyright (c) 2024 Files Community</Copyright>
+        <Copyright>Copyright(c) Files Community</Copyright>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <RepositoryUrl>https://github.com/files-community/Files</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
