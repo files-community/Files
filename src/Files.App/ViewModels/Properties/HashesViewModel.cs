@@ -39,7 +39,9 @@ namespace Files.App.ViewModels.Properties
 			set
 			{
 				SetProperty(ref _hashInput, value);
+
 				OnHashInputTextChanged();
+				OnPropertyChanged(nameof(IsInfoBarOpen));
 				IsInfoBarOpen = !string.IsNullOrEmpty(value);
 			}
 		}
