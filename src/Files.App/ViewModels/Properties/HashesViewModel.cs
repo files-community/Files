@@ -26,7 +26,6 @@ namespace Files.App.ViewModels.Properties
 		public Dictionary<string, bool> ShowHashes { get; private set; }
 
 		public ICommand ToggleIsEnabledCommand { get; private set; }
-		public ICommand HashInputTextChangedCommand { get; private set; }
 		public ICommand CompareFileCommand { get; private set; }
 
 		private ListedItem _item;
@@ -39,10 +38,10 @@ namespace Files.App.ViewModels.Properties
 			get => _hashInput;
 			set
 			{
-				OnHashInputTextChanged();
 				SetProperty(ref _hashInput, value);
 
 				OnPropertyChanged(nameof(IsInfoBarOpen));
+				OnHashInputTextChanged();
 			}
 		}
 
@@ -95,7 +94,6 @@ namespace Files.App.ViewModels.Properties
 
 			Hashes.Where(x => ShowHashes[x.Algorithm]).ForEach(x => ToggleIsEnabledCommand.Execute(x.Algorithm));
 
-			HashInputTextChangedCommand = new RelayCommand(OnHashInputTextChanged);
 			CompareFileCommand = new RelayCommand(async () => await OnCompareFileAsync());
 		}
 

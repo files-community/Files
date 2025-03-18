@@ -6,7 +6,6 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:datamodels="using:Files.App.Data.Models"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
@@ -51,13 +50,7 @@
 				<TextBox
 					x:Name="HashInputTextBox"
 					PlaceholderText="{helpers:ResourceString Name=EnterHashToCompare}"
-					Text="{x:Bind HashesViewModel.HashInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-					<interactivity:Interaction.Behaviors>
-						<interactivity:EventTriggerBehavior EventName="TextChanged">
-							<interactivity:InvokeCommandAction Command="{x:Bind HashesViewModel.HashInputTextChangedCommand}" />
-						</interactivity:EventTriggerBehavior>
-					</interactivity:Interaction.Behaviors>
-				</TextBox>
+					Text="{x:Bind HashesViewModel.HashInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 			</Grid>
 
 			<!--  Compare File Button  -->
