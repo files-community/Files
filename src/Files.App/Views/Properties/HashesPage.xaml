@@ -48,13 +48,8 @@
 
 			<!--  Hash Input  -->
 			<Grid Grid.Column="0" Margin="12">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-				</Grid.ColumnDefinitions>
-
 				<TextBox
 					x:Name="HashInputTextBox"
-					Grid.Column="0"
 					PlaceholderText="{helpers:ResourceString Name=EnterHashToCompare}"
 					Text="{x:Bind HashesViewModel.HashInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 					<interactivity:Interaction.Behaviors>
