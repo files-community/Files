@@ -8,7 +8,7 @@ namespace Files.App.Actions
 		private readonly IContentPageContext pageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
-		public string Label { get; } = Strings.GitClone.GetLocalizedResource();
+		public string Label { get; } = Strings.Clone.GetLocalizedResource();
 
 		public string Description { get; } = Strings.GitCloneDescription.GetLocalizedResource();
 

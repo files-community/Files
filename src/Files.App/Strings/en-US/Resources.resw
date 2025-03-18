@@ -3132,9 +3132,6 @@
   <data name="ImproveTranslation" xml:space="preserve">
     <value>Translate on Crowdin</value>
   </data>
-  <data name="GitClone" xml:space="preserve">
-    <value>Clone</value>
-  </data>
   <data name="GitFetch" xml:space="preserve">
     <value>Fetch</value>
   </data>
