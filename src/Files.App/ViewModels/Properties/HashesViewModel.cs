@@ -185,7 +185,7 @@ namespace Files.App.ViewModels.Properties
 			if (file is not null)
 			{
 				var selectedFileHash = await CalculateFileHashAsync(file.Path);
-				var compare = CompareHash("SHA384", selectedFileHash);
+				var compare = CompareHash("MD5", selectedFileHash);
 
 				return compare;
 			}
