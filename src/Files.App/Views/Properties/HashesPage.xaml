@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <vm:BasePropertiesPage
 	x:Class="Files.App.Views.Properties.HashesPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -50,7 +50,7 @@
 				<TextBox
 					x:Name="HashInputTextBox"
 					PlaceholderText="{helpers:ResourceString Name=EnterHashToCompare}"
-					Text="{x:Bind HashesViewModel.HashInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+					Text="{x:Bind HashesViewModel.HashInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 			</Grid>
 
 			<!--  Compare File Button  -->
@@ -84,7 +84,7 @@
 			<!--  Hashes ListView  -->
 			<ListView
 				x:Name="HashesListView"
-				ItemsSource="{x:Bind HashesViewModel.Hashes, Mode=TwoWay}"
+				ItemsSource="{x:Bind HashesViewModel.Hashes, Mode=OneWay}"
 				SelectedItem="{x:Bind HashesViewModel.SelectedItem, Mode=TwoWay}">
 
 				<!--  Header  -->
