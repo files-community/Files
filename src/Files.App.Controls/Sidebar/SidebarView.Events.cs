@@ -95,7 +95,7 @@ namespace Files.App.Controls
 				var increment = ctrl.HasFlag(CoreVirtualKeyStates.Down) ? 5 : 1;
 
 				// Left makes the pane smaller so we invert the increment
-				if (e.Key == VirtualKey.Left)
+				if (e.Key is VirtualKey.Left)
 					increment = -increment;
 
 				var newWidth = OpenPaneLength + increment;

@@ -9,6 +9,9 @@ using Microsoft.UI.Xaml.Automation.Provider;
 
 namespace Files.App.Controls
 {
+	/// <summary>
+	/// Automation peer for <see cref="SidebarItem"/>.
+	/// </summary>
 	public sealed partial class SidebarItemAutomationPeer : FrameworkElementAutomationPeer, IInvokeProvider, IExpandCollapseProvider, ISelectionItemProvider
 	{
 		public ExpandCollapseState ExpandCollapseState =>
@@ -39,11 +42,11 @@ namespace Files.App.Controls
 
 		protected override object GetPatternCore(PatternInterface patternInterface)
 		{
-			if (patternInterface == PatternInterface.Invoke || patternInterface == PatternInterface.SelectionItem)
+			if (patternInterface is PatternInterface.Invoke or PatternInterface.SelectionItem)
 			{
 				return this;
 			}
-			else if (patternInterface == PatternInterface.ExpandCollapse)
+			else if (patternInterface is PatternInterface.ExpandCollapse)
 			{
 				if (Owner.CollapseEnabled)
 					return this;

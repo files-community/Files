@@ -1,4 +1,7 @@
-﻿using Microsoft.UI.Input;
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
+
+using Microsoft.UI.Input;
 using System.Reflection;
 
 namespace Files.App.Controls
