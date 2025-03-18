@@ -97,8 +97,8 @@
 			<!--  Hashes ListView  -->
 			<ListView
 				x:Name="HashesListView"
-				ItemsSource="{x:Bind HashesViewModel.Hashes, Mode=OneWay}"
-				SelectedItem="{x:Bind HashesViewModel.SelectedItem, Mode=OneWay}">
+				ItemsSource="{x:Bind HashesViewModel.Hashes, Mode=TwoWay}"
+				SelectedItem="{x:Bind HashesViewModel.SelectedItem, Mode=TwoWay}">
 
 				<!--  Header  -->
 				<ListView.Header>
