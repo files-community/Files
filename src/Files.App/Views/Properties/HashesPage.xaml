@@ -35,10 +35,12 @@
 		<Grid
 			x:Name="HashComparisonGrid"
 			Margin="12,12,12,4"
+			Padding="12"
 			VerticalAlignment="Top"
 			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
+			ColumnSpacing="8"
 			CornerRadius="4">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
@@ -46,18 +48,16 @@
 			</Grid.ColumnDefinitions>
 
 			<!--  Hash Input  -->
-			<Grid Grid.Column="0" Margin="12">
-				<TextBox
-					x:Name="HashInputTextBox"
-					PlaceholderText="{helpers:ResourceString Name=EnterHashToCompare}"
-					Text="{x:Bind HashesViewModel.HashInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-			</Grid>
+			<TextBox
+				x:Name="HashInputTextBox"
+				Grid.Column="0"
+				PlaceholderText="{helpers:ResourceString Name=EnterHashToCompare}"
+				Text="{x:Bind HashesViewModel.HashInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
 			<!--  Compare File Button  -->
 			<Button
 				x:Name="CompareFileButton"
 				Grid.Column="1"
-				Margin="12"
 				Command="{x:Bind HashesViewModel.CompareFileCommand}"
 				Content="{helpers:ResourceString Name=CompareFile}" />
 		</Grid>
