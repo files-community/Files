@@ -273,7 +273,7 @@
 					IsEnabled="{x:Bind Commands.NavigateBack.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateBack.Glyph.BaseGlyph}" />
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneTime}" />
 					<Button.ContextFlyout>
 						<MenuFlyout
 							x:Name="BackHistoryFlyout"
@@ -303,7 +303,7 @@
 					IsEnabled="{x:Bind Commands.NavigateForward.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateForward.Glyph.BaseGlyph}" />
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneTime}" />
 					<Button.ContextFlyout>
 						<MenuFlyout
 							x:Name="ForwardHistoryFlyout"
@@ -333,7 +333,7 @@
 					IsEnabled="{x:Bind Commands.NavigateUp.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind Commands.NavigateUp.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateUp.Glyph.BaseGlyph}" />
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneTime}" />
 				</Button>
 
 				<Button
@@ -345,7 +345,7 @@
 					IsEnabled="{x:Bind Commands.RefreshItems.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph, Mode=OneTime}" />
 				</Button>
 
 				<Button
@@ -358,7 +358,7 @@
 					IsEnabled="{x:Bind Commands.NavigateHome.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind Commands.NavigateHome.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateHome.Glyph.BaseGlyph}" />
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateHome.Glyph.BaseGlyph, Mode=OneTime}" />
 				</Button>
 			</StackPanel>
 
@@ -484,7 +484,7 @@
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind Commands.Search.LabelWithHotKey, Mode=OneWay}"
 					Visibility="Collapsed">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph}" />
+					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneTime}" />
 				</Button>
 
 				<!--  Shelf Pane  -->
