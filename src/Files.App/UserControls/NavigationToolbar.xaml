@@ -267,13 +267,13 @@
 					x:Name="Back"
 					AccessKey="B"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
-					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateBack.Description, Mode=OneWay}"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateBack.Label, Mode=OneWay}"
-					Command="{x:Bind ViewModel.Commands.NavigateBack, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.Commands.NavigateBack.IsExecutable, Mode=OneWay}"
+					AutomationProperties.FullDescription="{x:Bind Commands.NavigateBack.Description, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind Commands.NavigateBack.Label, Mode=OneWay}"
+					Command="{x:Bind Commands.NavigateBack, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.NavigateBack.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneWay}" />
+					ToolTipService.ToolTip="{x:Bind Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneTime}" />
 					<Button.ContextFlyout>
 						<MenuFlyout
 							x:Name="BackHistoryFlyout"
@@ -297,13 +297,13 @@
 					x:Name="Forward"
 					AccessKey="F"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
-					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateForward.Description, Mode=OneWay}"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateForward.Label, Mode=OneWay}"
-					Command="{x:Bind ViewModel.Commands.NavigateForward, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.Commands.NavigateForward.IsExecutable, Mode=OneWay}"
+					AutomationProperties.FullDescription="{x:Bind Commands.NavigateForward.Description, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind Commands.NavigateForward.Label, Mode=OneWay}"
+					Command="{x:Bind Commands.NavigateForward, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.NavigateForward.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneWay}" />
+					ToolTipService.ToolTip="{x:Bind Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneTime}" />
 					<Button.ContextFlyout>
 						<MenuFlyout
 							x:Name="ForwardHistoryFlyout"
@@ -327,25 +327,25 @@
 					x:Name="Up"
 					AccessKey="U"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
-					AutomationProperties.FullDescription="{x:Bind ViewModel.Commands.NavigateUp.Description, Mode=OneWay}"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.NavigateUp.Label, Mode=OneWay}"
-					Command="{x:Bind ViewModel.Commands.NavigateUp, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.Commands.NavigateUp.IsExecutable, Mode=OneWay}"
+					AutomationProperties.FullDescription="{x:Bind Commands.NavigateUp.Description, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind Commands.NavigateUp.Label, Mode=OneWay}"
+					Command="{x:Bind Commands.NavigateUp, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.NavigateUp.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.NavigateUp.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneWay}" />
+					ToolTipService.ToolTip="{x:Bind Commands.NavigateUp.LabelWithHotKey, Mode=OneWay}">
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneTime}" />
 				</Button>
 
 				<Button
 					x:Name="Refresh"
 					AccessKey="R"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
-					AutomationProperties.Name="{x:Bind Commands.RefreshItems.Label}"
+					AutomationProperties.Name="{x:Bind Commands.RefreshItems.Label, Mode=OneWay}"
 					Command="{x:Bind Commands.RefreshItems, Mode=OneWay}"
 					IsEnabled="{x:Bind Commands.RefreshItems.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph}" />
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph, Mode=OneTime}" />
 				</Button>
 
 				<Button
@@ -353,12 +353,12 @@
 					x:Load="{x:Bind ViewModel.ShowHomeButton, Mode=OneWay}"
 					AccessKey="H"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
-					AutomationProperties.Name="{x:Bind Commands.NavigateHome.Label}"
+					AutomationProperties.Name="{x:Bind Commands.NavigateHome.Label, Mode=OneWay}"
 					Command="{x:Bind Commands.NavigateHome, Mode=OneWay}"
 					IsEnabled="{x:Bind Commands.NavigateHome.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
 					ToolTipService.ToolTip="{x:Bind Commands.NavigateHome.LabelWithHotKey, Mode=OneWay}">
-					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateHome.Glyph.BaseGlyph}" />
+					<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateHome.Glyph.BaseGlyph, Mode=OneTime}" />
 				</Button>
 			</StackPanel>
 
@@ -478,13 +478,13 @@
 					x:Name="ShowSearchButton"
 					AccessKey="I"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.Search.Label}"
-					Command="{x:Bind ViewModel.Commands.Search, Mode=OneWay}"
-					IsEnabled="{x:Bind ViewModel.Commands.Search.IsExecutable}"
+					AutomationProperties.Name="{x:Bind Commands.Search.Label, Mode=OneWay}"
+					Command="{x:Bind Commands.Search, Mode=OneWay}"
+					IsEnabled="{x:Bind Commands.Search.IsExecutable, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.Search.LabelWithHotKey, Mode=OneWay}"
+					ToolTipService.ToolTip="{x:Bind Commands.Search.LabelWithHotKey, Mode=OneWay}"
 					Visibility="Collapsed">
-					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
+					<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneTime}" />
 				</Button>
 
 				<!--  Shelf Pane  -->
@@ -495,11 +495,11 @@
 					Padding="0"
 					x:Load="{x:Bind ViewModel.ShowShelfPaneToggleButton, Mode=OneWay}"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.ToggleShelfPane.Label}"
+					AutomationProperties.Name="{x:Bind Commands.ToggleShelfPane.Label, Mode=OneWay}"
 					Background="Transparent"
 					BorderBrush="Transparent"
 					IsChecked="{x:Bind Commands.ToggleShelfPane.IsOn, Mode=TwoWay}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.ToggleShelfPane.LabelWithHotKey, Mode=OneWay}">
+					ToolTipService.ToolTip="{x:Bind Commands.ToggleShelfPane.LabelWithHotKey, Mode=OneWay}">
 					<controls:ThemedIcon
 						Width="16"
 						Height="16"
@@ -609,17 +609,16 @@
 					x:Load="{x:Bind ViewModel.IsAppUpdated, Mode=OneWay}"
 					AccessKey="2"
 					AccessKeyInvoked="Button_AccessKeyInvoked"
-					AutomationProperties.Name="{x:Bind ViewModel.Commands.OpenReleaseNotes.Label}"
-					Command="{x:Bind ViewModel.Commands.OpenReleaseNotes, Mode=OneWay}"
+					AutomationProperties.Name="{x:Bind Commands.OpenReleaseNotes.Label, Mode=OneWay}"
+					Command="{x:Bind Commands.OpenReleaseNotes, Mode=OneWay}"
 					Style="{StaticResource AddressToolbarButtonStyle}"
-					ToolTipService.ToolTip="{x:Bind ViewModel.Commands.OpenReleaseNotes.LabelWithHotKey}"
-					Visibility="{x:Bind ViewModel.Commands.OpenReleaseNotes.IsExecutable, Mode=OneWay}">
+					ToolTipService.ToolTip="{x:Bind Commands.OpenReleaseNotes.LabelWithHotKey, Mode=OneWay}"
+					Visibility="{x:Bind Commands.OpenReleaseNotes.IsExecutable, Mode=OneWay}">
 					<controls:ThemedIcon
 						Width="16"
 						Height="16"
 						Style="{StaticResource App.ThemedIcons.AppUpdatedBox}" />
 				</Button>
-
 			</StackPanel>
 
 			<!--  Status Center TeachingTip  -->
