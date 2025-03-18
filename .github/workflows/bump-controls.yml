@@ -21,6 +21,7 @@ on:
 jobs:
   bump:
     runs-on: windows-latest
+    environment: Pull Requests
     strategy:
       fail-fast: false
     env:
