@@ -26,7 +26,7 @@ jobs:
     strategy:
       fail-fast: false
     env:
-      SOLUTION_NAME:              'Files.sln'
+      SOLUTION_NAME:              'Files.slnx'
       CONFIGURATION:              'Release' # It's not necessary to use a matrix as the package method will always be Release
       PLATFORM:                   'x64'
       WORKING_DIR:                '${{ github.workspace }}' # D:\a\Files\Files\
