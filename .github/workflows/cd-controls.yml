@@ -63,10 +63,8 @@ jobs:
         msbuild "$env:PACKAGE_PROJECT_PATH" `
         -t:Build `
         -p:Platform=$env:PLATFORM `
-        -p:Configuration=$env:CONFIGURATION
-
-    - name: Package Files UI Controls
-      run: dotnet pack ${{ env.PACKAGE_PROJECT_PATH }} --configuration ${{ env.CONFIGURATION }} --no-build -o ./output
+        -p:Configuration=$env:CONFIGURATION `
+        -p:PackageOutputPath="$env:WORKING_DIR\output"
 
     - name: Publish package to NuGet
       run: dotnet nuget push ./output/*.nupkg --api-key (SECRET GOES HERE) --source https://api.nuget.org/v3/index.json
