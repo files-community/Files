@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.Shared.Helpers;
@@ -39,9 +39,8 @@ namespace Files.App.ViewModels.Properties
 			set
 			{
 				SetProperty(ref _hashInput, value);
-
-				OnPropertyChanged(nameof(IsInfoBarOpen));
 				OnHashInputTextChanged();
+				IsInfoBarOpen = !string.IsNullOrEmpty(value);
 			}
 		}
 
@@ -62,7 +61,7 @@ namespace Files.App.ViewModels.Properties
 		private bool _isInfoBarOpen;
 		public bool IsInfoBarOpen
 		{
-			get => !string.IsNullOrEmpty(HashInput);
+			get => _isInfoBarOpen;
 			set => SetProperty(ref _isInfoBarOpen, value);
 		}
 
@@ -238,14 +237,14 @@ namespace Files.App.ViewModels.Properties
 			{
 				InfoBarSeverity = InfoBarSeverity.Error;
 				InfoBarTitle = Strings.HashesDoNotMatch.GetLocalizedResource();
-				IsInfoBarOpen = true;
 			}
 			else
 			{
 				InfoBarSeverity = InfoBarSeverity.Success;
 				InfoBarTitle = string.Format(Strings.HashesMatch.GetLocalizedResource(), matchingAlgorithm);
-				IsInfoBarOpen = true;
 			}
+
+			IsInfoBarOpen = true;
 		}
 
 		private async Task OnCompareFileAsync()
@@ -254,12 +253,12 @@ namespace Files.App.ViewModels.Properties
 
 			if (result)
 			{
-				InfoBarSeverity = InfoBarSeverity.Success; // Check mark
+				InfoBarSeverity = InfoBarSeverity.Success;
 				InfoBarTitle = Strings.HashesMatch.GetLocalizedResource();
 			}
 			else
 			{
-				InfoBarSeverity = InfoBarSeverity.Error; // Cross mark
+				InfoBarSeverity = InfoBarSeverity.Error;
 				InfoBarTitle = Strings.HashesDoNotMatch.GetLocalizedResource();
 			}
 
