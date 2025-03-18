@@ -86,13 +86,13 @@ namespace Files.App.Controls
 				?? throw new MissingFieldException($"Could not find {TemplatePartName_MenuItemsItemsRepeater} in the given {nameof(SidebarView)}'s style.");
 
 			// Subscribe events
-			_paneSizer.DoubleTapped += SidebarResizer_DoubleTapped;
-			_paneSizer.PointerEntered += SidebarResizer_PointerEntered;
-			_paneSizer.PointerExited += SidebarResizer_PointerExited;
-			_paneSizer.ManipulationStarted += SidebarResizer_ManipulationStarted;
-			_paneSizer.ManipulationDelta += SidebarResizer_ManipulationDelta;
-			_paneSizer.ManipulationCompleted += SidebarResizer_ManipulationCompleted;
-			_paneSizer.KeyDown += SidebarResizer_KeyDown;
+			_paneSizer.DoubleTapped += PaneResizer_DoubleTapped;
+			_paneSizer.PointerEntered += PaneResizer_PointerEntered;
+			_paneSizer.PointerExited += PaneResizer_PointerExited;
+			_paneSizer.ManipulationStarted += PaneResizer_ManipulationStarted;
+			_paneSizer.ManipulationDelta += PaneResizer_ManipulationDelta;
+			_paneSizer.ManipulationCompleted += PaneResizer_ManipulationCompleted;
+			_paneSizer.KeyDown += PaneResizer_KeyDown;
 			_paneLightDismissLayer.PointerPressed += PaneLightDismissLayer_PointerPressed;
 			_paneLightDismissLayer.Tapped += PaneLightDismissLayer_Tapped;
 			_panePanel.ContextRequested += PanePanel_ContextRequested;

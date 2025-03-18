@@ -10,7 +10,7 @@ namespace Files.App.Controls
 {
 	public partial class SidebarView
 	{
-		private void SidebarResizer_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		private void PaneResizer_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			DisplayMode = DisplayMode is SidebarDisplayMode.Expanded
 				? SidebarDisplayMode.Compact
@@ -19,7 +19,7 @@ namespace Files.App.Controls
 			e.Handled = true;
 		}
 
-		private void SidebarResizer_PointerEntered(object sender, PointerRoutedEventArgs e)
+		private void PaneResizer_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			if (sender is not FrameworkElement sizer)
 				return;
@@ -30,7 +30,7 @@ namespace Files.App.Controls
 			e.Handled = true;
 		}
 
-		private void SidebarResizer_PointerExited(object sender, PointerRoutedEventArgs e)
+		private void PaneResizer_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
 			if (_draggingSidebarResizer)
 				return;
@@ -45,7 +45,7 @@ namespace Files.App.Controls
 			e.Handled = true;
 		}
 
-		private void SidebarResizer_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+		private void PaneResizer_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
 			_draggingSidebarResizer = true;
 
@@ -56,14 +56,14 @@ namespace Files.App.Controls
 			e.Handled = true;
 		}
 
-		private void SidebarResizer_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+		private void PaneResizer_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
 		{
 			UpdateDisplayModeForPaneWidth(_preManipulationPaneWidth + e.Cumulative.Translation.X);
 
 			e.Handled = true;
 		}
 
-		private void SidebarResizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+		private void PaneResizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
 			_draggingSidebarResizer = false;
 
@@ -72,7 +72,7 @@ namespace Files.App.Controls
 			e.Handled = true;
 		}
 
-		private void SidebarResizer_KeyDown(object sender, KeyRoutedEventArgs e)
+		private void PaneResizer_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key is not VirtualKey.Space and
 				not VirtualKey.Enter and
