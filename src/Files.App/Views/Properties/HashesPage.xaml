@@ -83,7 +83,6 @@
 			x:Name="HashesListGrid"
 			Grid.Row="2"
 			Margin="12,4,12,12"
-			VerticalAlignment="Stretch"
 			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
