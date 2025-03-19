@@ -4,25 +4,51 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="using:Files.App.UITests">
+
 	<Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
+
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 
 				<ResourceDictionary Source="ms-appx:///Files.App.Controls/Themes/Generic.xaml" />
+
+				<ResourceDictionary>
+
+					<Thickness x:Key="NavigationViewHeaderMargin">36,40,0,36</Thickness>
+
+					<Style
+						x:Key="TextExampleCaptionStyle"
+						BasedOn="{StaticResource CaptionTextBlockStyle}"
+						TargetType="TextBlock">
+						<Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+						<Setter Property="Margin" Value="24,24,24,0" />
+						<Setter Property="FontWeight" Value="Normal" />
+						<Setter Property="HorizontalAlignment" Value="Center" />
+						<Setter Property="VerticalAlignment" Value="Center" />
+						<Setter Property="MaxLines" Value="1" />
+						<Setter Property="TextTrimming" Value="CharacterEllipsis" />
+						<Setter Property="TextWrapping" Value="NoWrap" />
+					</Style>
+
+				</ResourceDictionary>
+
 			</ResourceDictionary.MergedDictionaries>
 			<ResourceDictionary.ThemeDictionaries>
 				<ResourceDictionary x:Key="Default">
+					<SolidColorBrush x:Key="App.Theme.Sidebar.BackgroundBrush" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
 					<SolidColorBrush x:Key="PageBackground" Color="{ThemeResource LayerOnMicaBaseAltFillColorDefault}" />
 					<StaticResource x:Key="ToggleBackground" ResourceKey="AccentFillColorDefaultBrush" />
 					<SolidColorBrush x:Key="ToggleDisabledBackground" Color="{ThemeResource AccentFillColorDisabled}" />
 				</ResourceDictionary>
 				<ResourceDictionary x:Key="Light">
+					<SolidColorBrush x:Key="App.Theme.Sidebar.BackgroundBrush" Color="{StaticResource LayerOnMicaBaseAltFillColorDefault}" />
 					<SolidColorBrush x:Key="PageBackground" Color="{ThemeResource LayerOnMicaBaseAltFillColorDefault}" />
 					<StaticResource x:Key="ToggleBackground" ResourceKey="AccentFillColorDefaultBrush" />
 					<SolidColorBrush x:Key="ToggleDisabledBackground" Color="{ThemeResource AccentFillColorDisabled}" />
 				</ResourceDictionary>
 				<ResourceDictionary x:Key="HighContrast">
+					<SolidColorBrush x:Key="App.Theme.Sidebar.BackgroundBrush" Color="Transparent" />
 					<SolidColorBrush x:Key="PageBackground" Color="{ThemeResource SystemColorWindowColor}" />
 					<SolidColorBrush x:Key="ToggleBackground" Color="{ThemeResource SystemColorHighlightColor}" />
 					<SolidColorBrush x:Key="ToggleDisabledBackground" Color="{ThemeResource SystemColorGrayTextColor}" />
@@ -30,4 +56,5 @@
 			</ResourceDictionary.ThemeDictionaries>
 		</ResourceDictionary>
 	</Application.Resources>
+
 </Application>

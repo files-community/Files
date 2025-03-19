@@ -217,6 +217,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand ArrangePanesHorizontally => commands[CommandCodes.ArrangePanesHorizontally];
 		public IRichCommand OpenFileLocation => commands[CommandCodes.OpenFileLocation];
 		public IRichCommand PlayAll => commands[CommandCodes.PlayAll];
+		public IRichCommand GitClone => commands[CommandCodes.GitClone];
 		public IRichCommand GitFetch => commands[CommandCodes.GitFetch];
 		public IRichCommand GitInit => commands[CommandCodes.GitInit];
 		public IRichCommand GitPull => commands[CommandCodes.GitPull];
@@ -421,6 +422,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.ArrangePanesHorizontally] = new ArrangePanesHorizontallyAction(),
 			[CommandCodes.OpenFileLocation] = new OpenFileLocationAction(),
 			[CommandCodes.PlayAll] = new PlayAllAction(),
+			[CommandCodes.GitClone] = new GitCloneAction(),
 			[CommandCodes.GitFetch] = new GitFetchAction(),
 			[CommandCodes.GitInit] = new GitInitAction(),
 			[CommandCodes.GitPull] = new GitPullAction(),

@@ -16,5 +16,6 @@ namespace Files.App.Data.Enums
 		Compress,
 		Successful,
 		Error,
+		GitClone
 	}
 }

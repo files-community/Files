@@ -113,6 +113,8 @@ namespace Files.App.Data.Items
 			}
 		}
 
+		public bool PaddedItem => Section == SectionType.Home;
+
 		public int CompareTo(INavigationControlItem other)
 			=> Text.CompareTo(other.Text);
 

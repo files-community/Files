@@ -52,8 +52,6 @@ namespace Files.App.UserControls
 			}
 		}
 
-		private string GetLocalizedResource(string resName) => resName.GetLocalizedResource();
-
 		private void Root_Unloaded(object sender, RoutedEventArgs e)
 		{
 			PreviewControlPresenter.Content = null;

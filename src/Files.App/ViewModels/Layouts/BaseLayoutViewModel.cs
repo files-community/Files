@@ -104,10 +104,22 @@ namespace Files.App.ViewModels.Layouts
 			{
 				e.Handled = true;
 
-				var draggedItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
+				var workingDirectory = _associatedInstance.ShellViewModel.WorkingDirectory.TrimPath();
+				var folderName = Path.IsPathRooted(workingDirectory) && Path.GetPathRoot(workingDirectory) == workingDirectory ? Path.GetPathRoot(workingDirectory) : Path.GetFileName(workingDirectory);
 
-				var pwd = _associatedInstance.ShellViewModel.WorkingDirectory.TrimPath();
-				var folderName = Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
+				if (e.DataView.Contains(StandardDataFormats.Uri) && await e.DataView.GetUriAsync() is { } uri)
+				{
+					if (GitHelpers.IsValidRepoUrl(uri.ToString()))
+					{
+						e.DragUIOverride.IsCaptionVisible = true;
+						e.DragUIOverride.Caption = string.Format(Strings.CloneToFolderCaptionText.GetLocalizedResource(), folderName);
+						e.AcceptedOperation = DataPackageOperation.Copy;
+						deferral.Complete();
+						return;
+					}
+				}
+
+				var draggedItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 				// As long as one file doesn't already belong to this folder
 				if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(_associatedInstance.ShellViewModel.WorkingDirectory))
@@ -123,7 +135,7 @@ namespace Files.App.ViewModels.Layouts
 					try
 					{
 						e.DragUIOverride.IsCaptionVisible = true;
-						if (pwd.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
+						if (workingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 						{
 							e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName);
 							// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
@@ -148,7 +160,7 @@ namespace Files.App.ViewModels.Layouts
 						else if (draggedItems.Any(x =>
 							x.Item is ZipStorageFile ||
 							x.Item is ZipStorageFolder) ||
-							ZipStorageFolder.IsZipPath(pwd))
+							ZipStorageFolder.IsZipPath(workingDirectory))
 						{
 							e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName);
 							e.AcceptedOperation = DataPackageOperation.Copy;
@@ -180,6 +192,16 @@ namespace Files.App.ViewModels.Layouts
 		public async Task DropAsync(DragEventArgs e)
 		{
 			e.Handled = true;
+
+
+			if (e.DataView.Contains(StandardDataFormats.Uri) && await e.DataView.GetUriAsync() is { } uri)
+			{
+				if (GitHelpers.IsValidRepoUrl(uri.ToString()))
+				{
+					Commands.GitClone.Execute(uri.ToString());
+					return;
+				}
+			}
 
 			if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 			{
