@@ -42,7 +42,6 @@ namespace Files.App.ViewModels.Properties
 
 				OnHashInputTextChanged();
 				OnPropertyChanged(nameof(IsInfoBarOpen));
-				IsInfoBarOpen = !string.IsNullOrEmpty(value);
 			}
 		}
 
@@ -60,12 +59,8 @@ namespace Files.App.ViewModels.Properties
 			set => SetProperty(ref _infoBarTitle, value);
 		}
 
-		private bool _isInfoBarOpen;
 		public bool IsInfoBarOpen
-		{
-			get => _isInfoBarOpen;
-			set => SetProperty(ref _isInfoBarOpen, value);
-		}
+		 => !string.IsNullOrEmpty(HashInput);
 
 		public HashesViewModel(ListedItem item)
 		{
@@ -241,7 +236,6 @@ namespace Files.App.ViewModels.Properties
 				HashInput = string.Empty;
 		}
 
-			IsInfoBarOpen = true;
 		}
 
 		public void Dispose()
