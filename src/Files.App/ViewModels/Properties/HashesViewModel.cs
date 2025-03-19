@@ -219,8 +219,6 @@ namespace Files.App.ViewModels.Properties
 				InfoBarSeverity = InfoBarSeverity.Success;
 				InfoBarTitle = string.Format(Strings.HashesMatch.GetLocalizedResource(), matchingAlgorithm);
 			}
-
-			IsInfoBarOpen = true;
 		}
 
 		private async Task OnCompareFileAsync()
