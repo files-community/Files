@@ -172,27 +172,6 @@ namespace Files.App.ViewModels.Properties
 			return hashInfoItem.HashValue.Equals(hashToCompare, StringComparison.OrdinalIgnoreCase);
 		}
 
-		public async Task<bool> CompareFileAsync()
-		{
-			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, [], Environment.SpecialFolder.Desktop, out var toCompare);
-
-			if (!result)
-			{
-				return false;
-			}
-
-			var file = await StorageHelpers.ToStorageItem<BaseStorageFolder>(toCompare);
-
-			if (file is not null)
-			{
-				var selectedFileHash = await CalculateFileHashAsync(file.Path);
-				var compare = CompareHash("MD5", selectedFileHash);
-
-				return compare;
-			}
-
-			return false;
-		}
 
 		public string FindMatchingAlgorithm(string hash)
 		{
@@ -251,18 +230,16 @@ namespace Files.App.ViewModels.Properties
 
 		private async Task OnCompareFileAsync()
 		{
-			var result = await CompareFileAsync();
+			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, [], Environment.SpecialFolder.Desktop, out var toCompare);
 
-			if (result)
+			if (!result && toCompare is not null)
 			{
-				InfoBarSeverity = InfoBarSeverity.Success;
-				InfoBarTitle = Strings.HashesMatch.GetLocalizedResource();
+				var selectedFileHash = await CalculateFileHashAsync(toCompare);
+				HashInput = selectedFileHash;
 			}
 			else
-			{
-				InfoBarSeverity = InfoBarSeverity.Error;
-				InfoBarTitle = Strings.HashesDoNotMatch.GetLocalizedResource();
-			}
+				HashInput = string.Empty;
+		}
 
 			IsInfoBarOpen = true;
 		}
