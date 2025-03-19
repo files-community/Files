@@ -60,7 +60,7 @@ namespace Files.App.ViewModels.Properties
 		}
 
 		public bool IsInfoBarOpen
-		 => !string.IsNullOrEmpty(HashInput);
+			=> !string.IsNullOrEmpty(HashInput);
 
 		public HashesViewModel(ListedItem item)
 		{
