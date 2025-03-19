@@ -4,6 +4,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using System.IO;
@@ -15,7 +16,7 @@ using IO = System.IO;
 
 namespace Files.App
 {
-	public sealed partial class MainWindow : WinUIEx.WindowEx
+	public sealed partial class MainWindow : Window
 	{
 		private static MainWindow? _Instance;
 		public static MainWindow Instance => _Instance ??= new();
@@ -28,17 +29,20 @@ namespace Files.App
 		{
 			InitializeComponent();
 
-			WindowHandle = WinUIEx.WindowExtensions.GetWindowHandle(this);
-			MinHeight = 316;
-			MinWidth = 416;
+			WindowHandle = WinRT.Interop.WindowNative.GetWindowHandle(this);
 			ExtendsContentIntoTitleBar = true;
 			Title = "Files";
-			PersistenceId = "FilesMainWindow";
 			AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonPressedBackgroundColor = Colors.Transparent;
 			AppWindow.TitleBar.ButtonHoverBackgroundColor = Colors.Transparent;
 			AppWindow.SetIcon(AppLifecycleHelper.AppIconPath);
+
+			if (AppWindow.Presenter.TryCast<OverlappedPresenter>() is { } presenter)
+			{
+				presenter.PreferredMinimumHeight = 316;
+				presenter.PreferredMinimumWidth = 416;
+			}
 
 			WinUIEx.WindowManager.Get(this).WindowMessageReceived += WindowManager_WindowMessageReceived;
 		}
@@ -201,8 +205,9 @@ namespace Files.App
 				Win32Helper.BringToForegroundEx(new(WindowHandle));
 			}
 
-			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)))
-				WinUIEx.WindowExtensions.Restore(Instance); // Restore window if minimized
+			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)) &&
+				AppWindow.Presenter.TryCast<OverlappedPresenter>() is { } presenter)
+				presenter.Restore(); // Restore window if minimized
 		}
 
 		private Frame? EnsureWindowIsInitialized()

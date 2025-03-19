@@ -36,7 +36,7 @@ namespace Files.App.Utils.Storage
 			=> WinRT.Interop.WindowNative.GetWindowHandle(w);
 
 		private static TaskCompletionSource? PropertiesWindowsClosingTCS;
-		private static readonly BlockingCollection<WindowEx> WindowCache = [];
+		private static readonly BlockingCollection<Window> WindowCache = [];
 
 		/// <summary>
 		/// Open properties window
@@ -103,7 +103,16 @@ namespace Files.App.Utils.Storage
 
 			if (!WindowCache.TryTake(out var propertiesWindow))
 			{
-				propertiesWindow = new(460, 550);
+				propertiesWindow = new();
+
+				if (propertiesWindow.AppWindow.Presenter.TryCast<OverlappedPresenter>() is { } presenter)
+				{
+					presenter.PreferredMinimumHeight = 460;
+					presenter.PreferredMinimumWidth = 550;
+					presenter.IsMinimizable = false;
+					presenter.IsMaximizable = false;
+				}
+
 				propertiesWindow.Closed += PropertiesWindow_Closed;
 			}
 
@@ -111,13 +120,11 @@ namespace Files.App.Utils.Storage
 			var height = Convert.ToInt32(500 * App.AppModel.AppWindowDPI);
 
 			propertiesWindow.AppWindow.Resize(new (width, height));
-			propertiesWindow.IsMinimizable = false;
-			propertiesWindow.IsMaximizable = false;
 			propertiesWindow.Content = frame;
 			propertiesWindow.SystemBackdrop = new AppSystemBackdrop(true);
 
 			var appWindow = propertiesWindow.AppWindow;
-			appWindow.Title = "Properties".GetLocalizedResource();
+			appWindow.Title = Strings.Properties.GetLocalizedResource();
 			appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 			appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
@@ -158,7 +165,7 @@ namespace Files.App.Utils.Storage
 		// So instead of destroying the Window object, cache it and reuse it as a workaround.
 		private static void PropertiesWindow_Closed(object sender, WindowEventArgs args)
 		{
-			if (!App.AppModel.IsMainWindowClosed && sender is WindowEx window)
+			if (!App.AppModel.IsMainWindowClosed && sender is Window window)
 			{
 				args.Handled = true;
 
