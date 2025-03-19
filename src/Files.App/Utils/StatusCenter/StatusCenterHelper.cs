@@ -487,7 +487,7 @@ namespace Files.App.Utils.StatusCenter
 			{
 				return _statusCenterViewModel.AddItem(
 					"StatusCenter_GitCloneCanceled_Header",
-					string.Empty,
+					"StatusCenter_GitCloneCanceled_SubHeader",
 					ReturnResult.Cancelled,
 					FileOperationType.GitClone,
 					repoName,
@@ -532,6 +532,67 @@ namespace Files.App.Utils.StatusCenter
 					FileOperationType.GitClone,
 					repoName,
 					destination,
+					false,
+					itemsCount,
+					totalSize);
+			}
+		}
+
+		public static StatusCenterItem AddCard_InstallFont(
+			IEnumerable<string> source,
+			ReturnResult returnStatus,
+			long itemsCount = 0,
+			long totalSize = 0)
+		{
+			if (returnStatus == ReturnResult.Cancelled)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_InstallFontCanceled_Header",
+					"StatusCenter_InstallFontCanceled_SubHeader",
+					ReturnResult.Cancelled,
+					FileOperationType.InstallFont,
+					source,
+					string.Empty.CreateEnumerable(),
+					false,
+					itemsCount,
+					totalSize);
+			}
+			else if (returnStatus == ReturnResult.InProgress)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_InstallFontInProgress_Header",
+					"StatusCenter_InstallFontInProgress_SubHeader",
+					ReturnResult.InProgress,
+					FileOperationType.InstallFont,
+					source,
+					string.Empty.CreateEnumerable(),
+					false,
+					itemsCount,
+					totalSize,
+					new CancellationTokenSource());
+			}
+			else if (returnStatus == ReturnResult.Success)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_InstallFontComplete_Header",
+					"StatusCenter_InstallFontComplete_SubHeader",
+					ReturnResult.Success,
+					FileOperationType.InstallFont,
+					source,
+					string.Empty.CreateEnumerable(),
+					false,
+					itemsCount,
+					totalSize);
+			}
+			else
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_InstallFontFailed_Header",
+					"StatusCenter_InstallFontFailed_SubHeader",
+					ReturnResult.Failed,
+					FileOperationType.InstallFont,
+					source,
+					string.Empty.CreateEnumerable(),
 					false,
 					itemsCount,
 					totalSize);
@@ -763,6 +824,32 @@ namespace Files.App.Utils.StatusCenter
 								ReturnResult.Failed => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
 								ReturnResult.InProgress => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
 								_ => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+							};
+						}
+						break;
+					}
+				case FileOperationType.InstallFont:
+					{
+						if (headerString is not null)
+						{
+							card.Header = card.FileSystemOperationReturnResult switch
+							{
+								ReturnResult.Cancelled => string.Format(headerString, card.TotalItemsCount),
+								ReturnResult.Success => string.Format(headerString, card.TotalItemsCount),
+								ReturnResult.Failed => string.Format(headerString, card.TotalItemsCount),
+								ReturnResult.InProgress => string.Format(headerString, card.TotalItemsCount),
+								_ => string.Format(headerString, card.TotalItemsCount),
+							};
+						}
+						if (subHeaderString is not null)
+						{
+							card.SubHeader = card.FileSystemOperationReturnResult switch
+							{
+								ReturnResult.Cancelled => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								ReturnResult.Success => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								ReturnResult.Failed => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								ReturnResult.InProgress => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								_ => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
 							};
 						}
 						break;

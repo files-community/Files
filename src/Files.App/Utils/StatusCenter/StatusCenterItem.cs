@@ -230,6 +230,7 @@ namespace Files.App.Utils.StatusCenter
 							FileOperationType.Recycle => StatusCenterItemIconKind.Recycle,
 							FileOperationType.Compressed => StatusCenterItemIconKind.Compress,
 							FileOperationType.GitClone => StatusCenterItemIconKind.GitClone,
+							FileOperationType.InstallFont => StatusCenterItemIconKind.InstallFont,
 							_ => StatusCenterItemIconKind.Delete,
 						};
 
@@ -263,6 +264,7 @@ namespace Files.App.Utils.StatusCenter
 							FileOperationType.Recycle => StatusCenterItemIconKind.Recycle,
 							FileOperationType.Compressed => StatusCenterItemIconKind.Compress,
 							FileOperationType.GitClone => StatusCenterItemIconKind.GitClone,
+							FileOperationType.InstallFont => StatusCenterItemIconKind.InstallFont,
 							_ => StatusCenterItemIconKind.Delete,
 						};
 
@@ -294,7 +296,8 @@ namespace Files.App.Utils.StatusCenter
 
 					if (Operation == FileOperationType.Recycle ||
 						Operation == FileOperationType.Delete ||
-						Operation == FileOperationType.Compressed)
+						Operation == FileOperationType.Compressed ||
+						Operation == FileOperationType.GitClone)
 					{
 						Message =
 							$"{string.Format(
