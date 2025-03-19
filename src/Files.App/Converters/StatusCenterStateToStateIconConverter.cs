@@ -17,15 +17,16 @@ namespace Files.App.Converters
 			{
 				var pathMarkup = state switch
 				{
-					StatusCenterItemIconKind.Copy =>       Application.Current.Resources["App.Theme.PathIcon.ActionCopy"] as string,
-					StatusCenterItemIconKind.Move =>       Application.Current.Resources["App.Theme.PathIcon.ActionMove"] as string,
-					StatusCenterItemIconKind.Delete =>     Application.Current.Resources["App.Theme.PathIcon.ActionDelete"] as string,
-					StatusCenterItemIconKind.Recycle =>    Application.Current.Resources["App.Theme.PathIcon.ActionDelete"] as string,
-					StatusCenterItemIconKind.Extract =>    Application.Current.Resources["App.Theme.PathIcon.ActionExtract"] as string,
-					StatusCenterItemIconKind.Compress =>   Application.Current.Resources["App.Theme.PathIcon.ActionExtract"] as string,
-					StatusCenterItemIconKind.Successful => Application.Current.Resources["App.Theme.PathIcon.ActionSuccess"] as string,
-					StatusCenterItemIconKind.Error =>      Application.Current.Resources["App.Theme.PathIcon.ActionInfo"] as string,
-					StatusCenterItemIconKind.GitClone =>   Application.Current.Resources["App.Theme.PathIcon.ActionGitClone"] as string,
+					StatusCenterItemIconKind.Copy =>			Application.Current.Resources["App.Theme.PathIcon.ActionCopy"] as string,
+					StatusCenterItemIconKind.Move =>			Application.Current.Resources["App.Theme.PathIcon.ActionMove"] as string,
+					StatusCenterItemIconKind.Delete =>			Application.Current.Resources["App.Theme.PathIcon.ActionDelete"] as string,
+					StatusCenterItemIconKind.Recycle =>			Application.Current.Resources["App.Theme.PathIcon.ActionDelete"] as string,
+					StatusCenterItemIconKind.Extract =>			Application.Current.Resources["App.Theme.PathIcon.ActionExtract"] as string,
+					StatusCenterItemIconKind.Compress =>		Application.Current.Resources["App.Theme.PathIcon.ActionExtract"] as string,
+					StatusCenterItemIconKind.Successful =>		Application.Current.Resources["App.Theme.PathIcon.ActionSuccess"] as string,
+					StatusCenterItemIconKind.Error =>			Application.Current.Resources["App.Theme.PathIcon.ActionInfo"] as string,
+					StatusCenterItemIconKind.GitClone =>		Application.Current.Resources["App.Theme.PathIcon.ActionGitClone"] as string,
+					StatusCenterItemIconKind.InstallFont =>		Application.Current.Resources["App.Theme.PathIcon.ActionInstallFont"] as string,
 					_ => ""
 				};
 

@@ -67,5 +67,10 @@ namespace Files.App.Data.Enums
 		/// A git repo has been cloned
 		/// </summary>
 		GitClone = 12,
+
+		/// <summary>
+		/// A font has been installed
+		/// </summary>
+		InstallFont = 13,
 	}
 }
