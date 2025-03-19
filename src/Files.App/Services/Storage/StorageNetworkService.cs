@@ -9,7 +9,6 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.NetworkManagement.WNet;
 using Windows.Win32.Security.Credentials;
-using OwlCore.Storage;
 
 namespace Files.App.Services
 {

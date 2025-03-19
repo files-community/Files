@@ -5,7 +5,6 @@ using Files.Core.Storage;
 using Files.Core.Storage.Storables;
 using Files.Shared.Utils;
 using Windows.Storage.FileProperties;
-using OwlCore.Storage;
 
 namespace Files.App.Data.Contracts
 {

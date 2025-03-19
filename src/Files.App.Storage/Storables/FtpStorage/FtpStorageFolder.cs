@@ -3,10 +3,8 @@
 
 using Files.Shared.Helpers;
 using FluentFTP;
-using OwlCore.Storage;
 using System.IO;
 using System.Runtime.CompilerServices;
-using IFolderWatcher = OwlCore.Storage.IFolderWatcher;
 
 namespace Files.App.Storage.Storables
 {

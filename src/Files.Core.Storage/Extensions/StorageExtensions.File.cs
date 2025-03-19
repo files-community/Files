@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.IO;
-using OwlCore.Storage;
 using OwlCore.Storage.System.IO;
 
 namespace Files.Core.Storage.Extensions

@@ -3,7 +3,6 @@
 
 using Files.Shared.Utils;
 using System.Windows.Input;
-using OwlCore.Storage;
 
 namespace Files.App.Data.Items
 {

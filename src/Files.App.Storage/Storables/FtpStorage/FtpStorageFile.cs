@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.IO;
-using OwlCore.Storage;
 
 namespace Files.App.Storage.Storables
 {

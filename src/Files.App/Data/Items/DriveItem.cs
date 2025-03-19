@@ -7,7 +7,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
-using OwlCore.Storage;
 using ByteSize = ByteSizeLib.ByteSize;
 
 namespace Files.App.Data.Items

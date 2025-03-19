@@ -1,6 +1,5 @@
 ﻿using Files.Core.Storage;
 using Windows.UI.StartScreen;
-using OwlCore.Storage;
 
 namespace Files.App.Services
 {

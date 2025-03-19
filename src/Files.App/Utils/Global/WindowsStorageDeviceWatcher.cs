@@ -11,7 +11,6 @@ using System.Runtime.InteropServices;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.Storage;
-using OwlCore.Storage;
 
 namespace Files.App.Utils
 {

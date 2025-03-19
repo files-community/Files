@@ -5,7 +5,6 @@ using Files.App.Services.SizeProvider;
 using Files.Core.Storage.Storables;
 using Microsoft.Extensions.Logging;
 using System.IO;
-using OwlCore.Storage;
 
 namespace Files.App.Data.Models
 {

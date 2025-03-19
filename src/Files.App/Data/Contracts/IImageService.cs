@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Files.Shared.Utils;
-using OwlCore.Storage;
 
 namespace Files.App.Data.Contracts
 {

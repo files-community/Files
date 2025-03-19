@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using OwlCore.Storage;
 using OwlCore.Storage.System.IO;
 
 namespace Files.App.Storage.Storables

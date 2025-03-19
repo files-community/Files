@@ -1,5 +1,4 @@
 ﻿using Files.Core.Storage;
-using OwlCore.Storage;
 
 namespace Files.App.Data.Contracts
 {
