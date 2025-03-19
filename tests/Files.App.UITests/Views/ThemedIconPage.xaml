@@ -13,7 +13,7 @@
 		<ResourceDictionary>
 			<Style
 				x:Key="IconTest"
-				BasedOn="{StaticResource App.ThemedIcons.AppUpdatedBox}"
+				BasedOn="{StaticResource App.ThemedIcons.Actions.FontInstall}"
 				TargetType="controls:ThemedIcon" />
 		</ResourceDictionary>
 	</Page.Resources>
