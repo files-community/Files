@@ -7,9 +7,9 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext _context;
 
-		public string Label { get; } = "GitSync".GetLocalizedResource();
+		public string Label { get; } = Strings.GitSync.GetLocalizedResource();
 
-		public string Description { get; } = "GitSyncDescription".GetLocalizedResource();
+		public string Description { get; } = Strings.GitSyncDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new("\uEDAB");
 

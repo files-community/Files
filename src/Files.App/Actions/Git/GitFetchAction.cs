@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext _context;
 
 		public string Label
-			=> "GitFetch".GetLocalizedResource();
+			=> Strings.GitFetch.GetLocalizedResource();
 
 		public string Description
-			=> "GitFetchDescription".GetLocalizedResource();
+			=> Strings.GitFetchDescription.GetLocalizedResource();
 
 		public bool IsExecutable
 			=> _context.CanExecuteGitAction;
