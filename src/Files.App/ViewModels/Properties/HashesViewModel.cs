@@ -236,8 +236,6 @@ namespace Files.App.ViewModels.Properties
 				HashInput = string.Empty;
 		}
 
-		}
-
 		public void Dispose()
 		{
 			_cancellationTokenSource.Cancel();
