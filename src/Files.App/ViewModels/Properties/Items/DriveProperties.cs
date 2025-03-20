@@ -53,6 +53,7 @@ namespace Files.App.ViewModels.Properties
 			{
 				var result = await FileThumbnailHelper.GetIconAsync(
 					Drive.Path,
+					diskRoot,
 					Constants.ShellIconSizes.ExtraLarge,
 					true,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
