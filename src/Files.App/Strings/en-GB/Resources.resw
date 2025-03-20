@@ -2941,13 +2941,13 @@
     <value>Untagged</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Move to the previous tab</value>
+    <value>Moves to the previous tab</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Move to the next tab</value>
+    <value>Moves to the next tab</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Close current tab</value>
+    <value>Closes current tab</value>
   </data>
   <data name="EditPath" xml:space="preserve">
     <value>Edit path</value>
@@ -3221,7 +3221,7 @@
     <value>Files cannot access GitHub right now.</value>
   </data>
   <data name="OpenInIDE" xml:space="preserve">
-    <value>Open folder in {0}</value>
+    <value>ses</value>
   </data>
   <data name="OpenInIDEDescription" xml:space="preserve">
     <value>Open the current directory in {0}</value>
