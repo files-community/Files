@@ -1057,7 +1057,7 @@
     <value>Maak in nuwe paneel oop</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value/>
+    <value>Files &amp; folders</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Besonderhede (Ctrl+Shift+1)</value>
@@ -3177,7 +3177,7 @@
     <value>Commit SHA</value>
   </data>
   <data name="Git" xml:space="preserve">
-    <value>hi</value>
+    <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
     <value>Acrylic</value>
@@ -3844,7 +3844,7 @@
     <value>Layout type</value>
   </data>
   <data name="Actions" xml:space="preserve">
-    <value/>
+    <value>Actions</value>
   </data>
   <data name="Commands" xml:space="preserve">
     <value>Commands</value>
