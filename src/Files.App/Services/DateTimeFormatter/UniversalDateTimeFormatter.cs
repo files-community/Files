@@ -9,7 +9,7 @@ namespace Files.App.Services.DateTimeFormatter
 	internal sealed class UniversalDateTimeFormatter : AbstractDateTimeFormatter
 	{
 		public override string Name
-			=> "Universal".GetLocalizedResource();
+			=> Strings.Universal.GetLocalizedResource();
 
 		public override string ToShortLabel(DateTimeOffset offset)
 		{

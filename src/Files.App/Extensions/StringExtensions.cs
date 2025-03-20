@@ -60,13 +60,13 @@ namespace Files.App.Extensions
 
 		private static readonly Dictionary<string, string> abbreviations = new()
 		{
-			{ "KiB", "KiloByteSymbol".GetLocalizedResource() },
-			{ "MiB", "MegaByteSymbol".GetLocalizedResource() },
-			{ "GiB", "GigaByteSymbol".GetLocalizedResource() },
-			{ "TiB", "TeraByteSymbol".GetLocalizedResource() },
-			{ "PiB", "PetaByteSymbol".GetLocalizedResource() },
-			{ "B", "ByteSymbol".GetLocalizedResource() },
-			{ "b", "ByteSymbol".GetLocalizedResource() }
+			{ "KiB", Strings.KiloByteSymbol.GetLocalizedResource() },
+			{ "MiB", Strings.MegaByteSymbol.GetLocalizedResource() },
+			{ "GiB", Strings.GigaByteSymbol.GetLocalizedResource() },
+			{ "TiB", Strings.TeraByteSymbol.GetLocalizedResource() },
+			{ "PiB", Strings.PetaByteSymbol.GetLocalizedResource() },
+			{ "B", Strings.ByteSymbol.GetLocalizedResource() },
+			{ "b", Strings.ByteSymbol.GetLocalizedResource() }
 		};
 
 		public static string ConvertSizeAbbreviation(this string value)
@@ -87,7 +87,7 @@ namespace Files.App.Extensions
 
 		public static string ToLongSizeString(this long size) => ByteSize.FromBytes(size).ToLongSizeString();
 		public static string ToLongSizeString(this ulong size) => ByteSize.FromBytes(size).ToLongSizeString();
-		public static string ToLongSizeString(this ByteSize size) => $"{size.ToSizeString()} ({size.Bytes:#,##0} {"ItemSizeBytes".GetLocalizedResource()})";
+		public static string ToLongSizeString(this ByteSize size) => $"{size.ToSizeString()} ({size.Bytes:#,##0} {Strings.ItemSizeBytes.GetLocalizedResource()})";
 
 		//public static string GetLocalizedResource(this string s) => s.GetLocalized("Resources");
 
