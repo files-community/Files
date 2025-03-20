@@ -3221,7 +3221,7 @@
     <value>Files cannot access GitHub right now.</value>
   </data>
   <data name="OpenInIDE" xml:space="preserve">
-    <value>ses</value>
+    <value>Open folder in {0}</value>
   </data>
   <data name="OpenInIDEDescription" xml:space="preserve">
     <value>Open the current directory in {0}</value>
