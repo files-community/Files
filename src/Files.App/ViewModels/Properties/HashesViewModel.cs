@@ -225,7 +225,7 @@ namespace Files.App.ViewModels.Properties
 		{
 			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, [], Environment.SpecialFolder.Desktop, out var toCompare);
 
-			if (!result && toCompare is not null)
+			if (result && toCompare is not null)
 			{
 				var selectedFileHash = await CalculateFileHashAsync(toCompare);
 				HashInput = selectedFileHash;
