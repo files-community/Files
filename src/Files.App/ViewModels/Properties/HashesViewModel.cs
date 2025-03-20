@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.Shared.Helpers;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
 using System.Security.Cryptography;
@@ -13,6 +14,8 @@ namespace Files.App.ViewModels.Properties
 	{
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
+
+		private readonly AppWindow _appWindow;
 
 		private HashInfoItem _selectedItem;
 		public HashInfoItem SelectedItem
@@ -62,11 +65,12 @@ namespace Files.App.ViewModels.Properties
 		public bool IsInfoBarOpen
 			=> !string.IsNullOrEmpty(HashInput);
 
-		public HashesViewModel(ListedItem item)
+		public HashesViewModel(ListedItem item, AppWindow appWindow)
 		{
 			ToggleIsEnabledCommand = new RelayCommand<string>(ToggleIsEnabled);
 
 			_item = item;
+			_appWindow = appWindow;
 			_cancellationTokenSource = new();
 
 			Hashes =
@@ -189,8 +193,10 @@ namespace Files.App.ViewModels.Properties
 
 		private async Task OnCompareFileAsync()
 		{
+			var hWnd = Microsoft.UI.Win32Interop.GetWindowFromWindowId(_appWindow.Id);
+
 			var result = CommonDialogService.Open_FileOpenDialog(
-				MainWindow.Instance.WindowHandle,
+				hWnd,
 				false,
 				[],
 				Environment.SpecialFolder.Desktop,
