@@ -107,7 +107,7 @@ namespace Files.App.ViewModels.Properties
 			// Don't calculate hashes for online files
 			if (_item.SyncStatusUI.SyncStatus is CloudDriveSyncStatus.FileOnline or CloudDriveSyncStatus.FolderOnline)
 			{
-				hashInfoItem.HashValue = "CalculationOnlineFileHashError".GetLocalizedResource();
+				hashInfoItem.HashValue = Strings.CalculationOnlineFileHashError.GetLocalizedResource();
 				return;
 			}
 
@@ -142,11 +142,11 @@ namespace Files.App.ViewModels.Properties
 					catch (IOException)
 					{
 						// File is currently open
-						hashInfoItem.HashValue = "CalculationErrorFileIsOpen".GetLocalizedResource();
+						hashInfoItem.HashValue = Strings.CalculationErrorFileIsOpen.GetLocalizedResource();
 					}
 					catch (Exception)
 					{
-						hashInfoItem.HashValue = "CalculationError".GetLocalizedResource();
+						hashInfoItem.HashValue = Strings.CalculationError.GetLocalizedResource();
 					}
 					finally
 					{
@@ -156,82 +156,50 @@ namespace Files.App.ViewModels.Properties
 			}
 		}
 
-		public bool CompareHash(string algorithm, string hashToCompare)
-		{
-			var hashInfoItem = Hashes.FirstOrDefault(x => x.Algorithm == algorithm);
-			if (hashInfoItem == null || hashInfoItem.HashValue == null)
-			{
-				return false;
-			}
-
-			return hashInfoItem.HashValue.Equals(hashToCompare, StringComparison.OrdinalIgnoreCase);
-		}
-
-
 		public string FindMatchingAlgorithm(string hash)
 		{
 			if (string.IsNullOrEmpty(hash))
-				throw new ArgumentNullException($"Invalid hash '{hash}' provided.");
+				return string.Empty;
 
-			foreach (var hashInfo in Hashes)
-			{
-				if (hashInfo.HashValue != null && hashInfo.HashValue.Equals(hash, StringComparison.OrdinalIgnoreCase))
-				{
-					return hashInfo.Algorithm;
-				}
-			}
-
-			return string.Empty;
+			return Hashes
+				.FirstOrDefault(h => h.HashValue?.Equals(hash, StringComparison.OrdinalIgnoreCase) == true)
+				?.Algorithm ?? string.Empty;
 		}
 
 		public async Task<string> CalculateFileHashAsync(string filePath)
 		{
-			using (var stream = File.OpenRead(filePath))
-			{
-				using (var md5 = MD5.Create())
-				{
-					var hash = await Task.Run(() => md5.ComputeHash(stream));
-					return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
-				}
-			}
+			using var stream = File.OpenRead(filePath);
+			using var md5 = MD5.Create();
+			var hash = await Task.Run(() => md5.ComputeHash(stream));
+			return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
 		}
 
 		private void OnHashInputTextChanged()
 		{
-			string? matchingAlgorithm = null;
+			string matchingAlgorithm = FindMatchingAlgorithm(HashInput);
 
-			try
-			{
-				matchingAlgorithm = FindMatchingAlgorithm(HashInput);
-			}
-			catch (ArgumentNullException)
-			{
-				return;
-			}
+			InfoBarSeverity = string.IsNullOrEmpty(matchingAlgorithm)
+				? InfoBarSeverity.Error
+				: InfoBarSeverity.Success;
 
-			if (string.IsNullOrEmpty(matchingAlgorithm))
-			{
-				InfoBarSeverity = InfoBarSeverity.Error;
-				InfoBarTitle = Strings.HashesDoNotMatch.GetLocalizedResource();
-			}
-			else
-			{
-				InfoBarSeverity = InfoBarSeverity.Success;
-				InfoBarTitle = string.Format(Strings.HashesMatch.GetLocalizedResource(), matchingAlgorithm);
-			}
+			InfoBarTitle = string.IsNullOrEmpty(matchingAlgorithm)
+				? Strings.HashesDoNotMatch.GetLocalizedResource()
+				: string.Format(Strings.HashesMatch.GetLocalizedResource(), matchingAlgorithm);
 		}
 
 		private async Task OnCompareFileAsync()
 		{
-			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, [], Environment.SpecialFolder.Desktop, out var toCompare);
+			var result = CommonDialogService.Open_FileOpenDialog(
+				MainWindow.Instance.WindowHandle,
+				false,
+				[],
+				Environment.SpecialFolder.Desktop,
+				out var filePath
+			);
 
-			if (result && toCompare is not null)
-			{
-				var selectedFileHash = await CalculateFileHashAsync(toCompare);
-				HashInput = selectedFileHash;
-			}
-			else
-				HashInput = string.Empty;
+			HashInput = result && filePath != null
+				? await CalculateFileHashAsync(filePath)
+				: string.Empty;
 		}
 
 		public void Dispose()
