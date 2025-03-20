@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Exceptions;
 using System.IO;
 using System.Runtime.InteropServices;
 using Windows.Storage;

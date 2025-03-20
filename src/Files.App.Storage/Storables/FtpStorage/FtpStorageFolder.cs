@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace Files.App.Storage.Storables
 {
-	public sealed class FtpStorageFolder : FtpStorable, ILocatableFolder, IModifiableFolder, IFolderExtended, INestedFolder, IDirectCopy, IDirectMove
+	public sealed class FtpStorageFolder : FtpStorable, IModifiableFolder, IChildFolder, IDirectCopy, IDirectMove, IGetFirstByName
 	{
 		public FtpStorageFolder(string path, string name, IFolder? parent)
 			: base(path, name, parent)
@@ -16,52 +16,41 @@ namespace Files.App.Storage.Storables
 		}
 
 		/// <inheritdoc/>
-		public async Task<INestedFile> GetFileAsync(string fileName, CancellationToken cancellationToken = default)
+		public async Task<IStorableChild> GetFirstByNameAsync(string folderName, CancellationToken cancellationToken = default)
 		{
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
-			var path = FtpHelpers.GetFtpPath(PathHelpers.Combine(Path, fileName));
+			var path = FtpHelpers.GetFtpPath(PathHelpers.Combine(Id, folderName));
 			var item = await ftpClient.GetObjectInfo(path, token: cancellationToken);
 
-			if (item is null || item.Type != FtpObjectType.File)
+			if (item is null)
 				throw new FileNotFoundException();
 
-			return new FtpStorageFile(path, item.Name, this);
+			if (item.Type == FtpObjectType.Directory)
+				return new FtpStorageFolder(path, item.Name, this);
+			else
+				return new FtpStorageFile(path, item.Name, this);
+
 		}
 
 		/// <inheritdoc/>
-		public async Task<INestedFolder> GetFolderAsync(string folderName, CancellationToken cancellationToken = default)
+		public async IAsyncEnumerable<IStorableChild> GetItemsAsync(StorableType kind = StorableType.All, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 		{
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
-			var path = FtpHelpers.GetFtpPath(PathHelpers.Combine(Path, folderName));
-			var item = await ftpClient.GetObjectInfo(path, token: cancellationToken);
-
-			if (item is null || item.Type != FtpObjectType.Directory)
-				throw new DirectoryNotFoundException();
-
-			return new FtpStorageFolder(path, item.Name, this);
-		}
-
-		/// <inheritdoc/>
-		public async IAsyncEnumerable<INestedStorable> GetItemsAsync(StorableKind kind = StorableKind.All, [EnumeratorCancellation] CancellationToken cancellationToken = default)
-		{
-			using var ftpClient = GetFtpClient();
-			await ftpClient.EnsureConnectedAsync(cancellationToken);
-
-			if (kind == StorableKind.Files)
+			if (kind == StorableType.File)
 			{
-				foreach (var item in await ftpClient.GetListing(Path, cancellationToken))
+				foreach (var item in await ftpClient.GetListing(Id, cancellationToken))
 				{
 					if (item.Type == FtpObjectType.File)
 						yield return new FtpStorageFile(item.FullName, item.Name, this);
 				}
 			}
-			else if (kind == StorableKind.Folders)
+			else if (kind == StorableType.Folder)
 			{
-				foreach (var item in await ftpClient.GetListing(Path, cancellationToken))
+				foreach (var item in await ftpClient.GetListing(Id, cancellationToken))
 				{
 					if (item.Type == FtpObjectType.Directory)
 						yield return new FtpStorageFolder(item.FullName, item.Name, this);
@@ -69,7 +58,7 @@ namespace Files.App.Storage.Storables
 			}
 			else
 			{
-				foreach (var item in await ftpClient.GetListing(Path, cancellationToken))
+				foreach (var item in await ftpClient.GetListing(Id, cancellationToken))
 				{
 					if (item.Type == FtpObjectType.File)
 						yield return new FtpStorageFile(item.FullName, item.Name, this);
@@ -81,18 +70,24 @@ namespace Files.App.Storage.Storables
 		}
 
 		/// <inheritdoc/>
-		public async Task DeleteAsync(INestedStorable item, bool permanently = false, CancellationToken cancellationToken = default)
+		public Task<IFolderWatcher> GetFolderWatcherAsync(CancellationToken cancellationToken = default)
+		{
+			return Task.FromException<IFolderWatcher>(new NotSupportedException());
+		}
+
+		/// <inheritdoc/>
+		public async Task DeleteAsync(IStorableChild item, CancellationToken cancellationToken = default)
 		{
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
-			if (item is ILocatableFile locatableFile)
+			if (item is IFile locatableFile)
 			{
-				await ftpClient.DeleteFile(locatableFile.Path, cancellationToken);
+				await ftpClient.DeleteFile(locatableFile.Id, cancellationToken);
 			}
-			else if (item is ILocatableFolder locatableFolder)
+			else if (item is IFolder locatableFolder)
 			{
-				await ftpClient.DeleteDirectory(locatableFolder.Path, cancellationToken);
+				await ftpClient.DeleteDirectory(locatableFolder.Id, cancellationToken);
 			}
 			else
 			{
@@ -101,7 +96,7 @@ namespace Files.App.Storage.Storables
 		}
 
 		/// <inheritdoc/>
-		public async Task<INestedStorable> CreateCopyOfAsync(INestedStorable itemToCopy, bool overwrite = default, CancellationToken cancellationToken = default)
+		public async Task<IStorableChild> CreateCopyOfAsync(IStorableChild itemToCopy, bool overwrite = default, CancellationToken cancellationToken = default)
 		{
 			if (itemToCopy is IFile sourceFile)
 			{
@@ -117,24 +112,24 @@ namespace Files.App.Storage.Storables
 		}
 
 		/// <inheritdoc/>
-		public async Task<INestedStorable> MoveFromAsync(INestedStorable itemToMove, IModifiableFolder source, bool overwrite = default, CancellationToken cancellationToken = default)
+		public async Task<IStorableChild> MoveFromAsync(IStorableChild itemToMove, IModifiableFolder source, bool overwrite = default, CancellationToken cancellationToken = default)
 		{
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
 			var newItem = await CreateCopyOfAsync(itemToMove, overwrite, cancellationToken);
-			await source.DeleteAsync(itemToMove, true, cancellationToken);
+			await source.DeleteAsync(itemToMove, cancellationToken);
 
 			return newItem;
 		}
 
 		/// <inheritdoc/>
-		public async Task<INestedFile> CreateFileAsync(string desiredName, bool overwrite = default, CancellationToken cancellationToken = default)
+		public async Task<IChildFile> CreateFileAsync(string desiredName, bool overwrite = default, CancellationToken cancellationToken = default)
 		{
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
-			var newPath = $"{Path}/{desiredName}";
+			var newPath = $"{Id}/{desiredName}";
 			if (overwrite && await ftpClient.FileExists(newPath, cancellationToken))
 				throw new IOException("File already exists.");
 
@@ -159,12 +154,12 @@ namespace Files.App.Storage.Storables
 		}
 
 		/// <inheritdoc/>
-		public async Task<INestedFolder> CreateFolderAsync(string desiredName, bool overwrite = default, CancellationToken cancellationToken = default)
+		public async Task<IChildFolder> CreateFolderAsync(string desiredName, bool overwrite = default, CancellationToken cancellationToken = default)
 		{
 			using var ftpClient = GetFtpClient();
 			await ftpClient.EnsureConnectedAsync(cancellationToken);
 
-			var newPath = $"{Path}/{desiredName}";
+			var newPath = $"{Id}/{desiredName}";
 			if (overwrite && await ftpClient.DirectoryExists(newPath, cancellationToken))
 				throw new IOException("Directory already exists.");
 

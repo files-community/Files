@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.IO;
+using OwlCore.Storage.System.IO;
 
 namespace Files.Core.Storage.Extensions
 {
@@ -10,8 +11,13 @@ namespace Files.Core.Storage.Extensions
 		/// <inheritdoc cref="IFileExtended.OpenStreamAsync(FileAccess, FileShare, CancellationToken)"/>
 		public static async Task<Stream> OpenStreamAsync(this IFile file, FileAccess access, FileShare share = FileShare.None, CancellationToken cancellationToken = default)
 		{
-			if (file is IFileExtended fileExtended)
-				return await fileExtended.OpenStreamAsync(access, share, cancellationToken);
+			if (file is SystemFile systemFile)
+				return systemFile.Info.Open(new FileStreamOptions()
+				{
+					Access = access,
+					Share = share,
+					Options = FileOptions.Asynchronous
+				});
 
 			// TODO: Check if the file inherits from ILockableStorable and ensure a disposable handle to it via Stream bridge
 			return await file.OpenStreamAsync(access, cancellationToken);

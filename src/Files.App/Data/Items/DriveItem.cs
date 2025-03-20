@@ -11,7 +11,7 @@ using ByteSize = ByteSizeLib.ByteSize;
 
 namespace Files.App.Data.Items
 {
-	public sealed partial class DriveItem : ObservableObject, INavigationControlItem, ILocatableFolder
+	public sealed partial class DriveItem : ObservableObject, INavigationControlItem, IFolder
 	{
 		private BitmapImage icon;
 		public BitmapImage Icon
@@ -48,7 +48,7 @@ namespace Files.App.Data.Items
 			=> Type == DriveType.Network;
 
 		public bool IsPinned
-			=> App.QuickAccessManager.Model.PinnedFolders.Contains(path);
+			=> App.QuickAccessManager.Model.PinnedFolders.Contains(Path);
 
 		public string MaxSpaceText
 			=> MaxSpace.ToSizeString();
@@ -175,10 +175,8 @@ namespace Files.App.Data.Items
 			set => SetProperty(ref showStorageSense, value);
 		}
 
-		public string Id => DeviceID;
-
+		public string Id => Path;
 		public string Name => Root.DisplayName;
-
 		public object? Children => null;
 
 		private object toolTip = "";
@@ -317,6 +315,12 @@ namespace Files.App.Data.Items
 			}
 		}
 
+		public async IAsyncEnumerable<IStorableChild> GetItemsAsync(StorableType type = StorableType.All, CancellationToken cancellationToken = default)
+		{
+			await Task.CompletedTask;
+			yield break;
+		}
+
 		public int CompareTo(INavigationControlItem other)
 		{
 			var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
@@ -356,30 +360,6 @@ namespace Files.App.Data.Items
 				"DriveFreeSpaceAndCapacity".GetLocalizedResource(),
 				FreeSpace.ToSizeString(),
 				MaxSpace.ToSizeString());
-		}
-
-		public Task<INestedFile> GetFileAsync(string fileName, CancellationToken cancellationToken = default)
-		{
-			var folder = new WindowsStorageFolderLegacy(Root);
-			return folder.GetFileAsync(fileName, cancellationToken);
-		}
-
-		public Task<INestedFolder> GetFolderAsync(string folderName, CancellationToken cancellationToken = default)
-		{
-			var folder = new WindowsStorageFolderLegacy(Root);
-			return folder.GetFolderAsync(folderName, cancellationToken);
-		}
-
-		public IAsyncEnumerable<INestedStorable> GetItemsAsync(StorableKind kind = StorableKind.All, CancellationToken cancellationToken = default)
-		{
-			var folder = new WindowsStorageFolderLegacy(Root);
-			return folder.GetItemsAsync(kind, cancellationToken);
-		}
-
-		public Task<IFolder?> GetParentAsync(CancellationToken cancellationToken = default)
-		{
-			var folder = new WindowsStorageFolderLegacy(Root);
-			return folder.GetParentAsync(cancellationToken);
 		}
 	}
 

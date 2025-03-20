@@ -19,17 +19,17 @@ namespace Files.App.Services
 		private readonly static string guid = "::{f02c1a0d-be21-4350-88b0-7367fc96ef3c}";
 
 
-		private ObservableCollection<ILocatableFolder> _Computers = [];
+		private ObservableCollection<IFolder> _Computers = [];
 		/// <inheritdoc/>
-		public ObservableCollection<ILocatableFolder> Computers
+		public ObservableCollection<IFolder> Computers
 		{
 			get => _Computers;
 			private set => SetProperty(ref _Computers, value);
 		}
 
-		private ObservableCollection<ILocatableFolder> _Shortcuts = [];
+		private ObservableCollection<IFolder> _Shortcuts = [];
 		/// <inheritdoc/>
-		public ObservableCollection<ILocatableFolder> Shortcuts
+		public ObservableCollection<IFolder> Shortcuts
 		{
 			get => _Shortcuts;
 			private set => SetProperty(ref _Shortcuts, value);
@@ -61,7 +61,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task<IEnumerable<ILocatableFolder>> GetComputersAsync()
+		public async Task<IEnumerable<IFolder>> GetComputersAsync()
 		{
 			var result = await Win32Helper.GetShellFolderAsync(guid, false, true, 0, int.MaxValue);
 
@@ -89,7 +89,7 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task<IEnumerable<ILocatableFolder>> GetShortcutsAsync()
+		public async Task<IEnumerable<IFolder>> GetShortcutsAsync()
 		{
 			var networkLocations = await Win32Helper.StartSTATask(() =>
 			{
@@ -141,12 +141,12 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public async Task UpdateComputersAsync()
 		{
-			var unsortedDrives = new List<ILocatableFolder>()
+			var unsortedDrives = new List<IFolder>()
 			{
 				_Computers.Single(x => x is DriveItem o && o.DeviceID == "network-folder")
 			};
 
-			foreach (ILocatableFolder item in await GetComputersAsync())
+			foreach (var item in await GetComputersAsync())
 				unsortedDrives.Add(item);
 
 			var orderedDrives =
@@ -156,16 +156,16 @@ namespace Files.App.Services
 
 			Computers.Clear();
 
-			foreach (ILocatableFolder item in orderedDrives)
+			foreach (var item in orderedDrives)
 				Computers.AddIfNotPresent(item);
 		}
 
 		/// <inheritdoc/>
 		public async Task UpdateShortcutsAsync()
 		{
-			var unsortedDrives = new List<ILocatableFolder>();
+			var unsortedDrives = new List<IFolder>();
 
-			foreach (ILocatableFolder item in await GetShortcutsAsync())
+			foreach (var item in await GetShortcutsAsync())
 				unsortedDrives.Add(item);
 
 			var orderedDrives =
@@ -174,16 +174,16 @@ namespace Files.App.Services
 
 			Shortcuts.Clear();
 
-			foreach (ILocatableFolder item in orderedDrives)
+			foreach (var item in orderedDrives)
 				Shortcuts.AddIfNotPresent(item);
 		}
 
 		/// <inheritdoc/>
-		public bool DisconnectNetworkDrive(ILocatableFolder drive)
+		public bool DisconnectNetworkDrive(IFolder drive)
 		{
 			return
 				PInvoke.WNetCancelConnection2W(
-					drive.Path.TrimEnd('\\'),
+					drive.Id.TrimEnd('\\'),
 					NET_CONNECT_FLAGS.CONNECT_UPDATE_PROFILE,
 					true)
 				is WIN32_ERROR.NO_ERROR;
