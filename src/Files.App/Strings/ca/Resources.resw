@@ -536,6 +536,9 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Copia a {0}</value>
   </data>
+  <data name="CloneToFolderCaptionText" xml:space="preserve">
+    <value>Clona a {0}</value>
+  </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>Crea una drecera</value>
   </data>
@@ -3138,6 +3141,9 @@
   <data name="GitFetchDescription" xml:space="preserve">
     <value>Executa git fetch</value>
   </data>
+  <data name="GitCloneDescription" xml:space="preserve">
+    <value>Clona un repositori git</value>
+  </data>
   <data name="GitPullDescription" xml:space="preserve">
     <value>Executa git pull</value>
   </data>
@@ -3465,6 +3471,70 @@
     <value>S'estan comprimint {0} elements de "{1}" a "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
+    <value>S'ha cancel·lat la clonació de {0} a «{1}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
+    <value>S'ha cancel·lat la clonació {0} de «{1}» a «{2}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
+    <value>S'ha clonat «{0}» a «{1}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
+    <value>S'ha clonat {0} de «{1}» a «{2}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
+    <value>S'ha produït un error en clonar «{0}» a «{1}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
+    <value>No s'ha pogut clonar {0} de «{1}» a «{2}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
+    <value>S'està clonanat «{0}» a «{1}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
+    <value>S'està clonant {0} de «{1}» a «{2}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
+  <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
+    <value>S'ha cancel·lat la instal·lació de {0} fonts</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
+    <value>S'ha cancel·lat la instal·lació de {0} fonts de «{1}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
+    <value>S'han instal·lat {0} fonts</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
+    <value>S'han instal·lat {0} fonts de «{1}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
+    <value>S'ha produït un error en instal·lar {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
+    <value>No s'han pogut instal·lar {0} fonts de «{1}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
+    <value>S'estan instal·lant {0} fonts</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
+    <value>S'estan instal·lant {0} fonts de «{1}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>S'ha cancel·lat la còpia de {0} elements a "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -4069,5 +4139,21 @@
   </data>
   <data name="InvalidIDENameError" xml:space="preserve">
     <value>Introduïu un nom per a l'IDE</value>
+  </data>
+  <data name="CloneRepo" xml:space="preserve">
+    <value>Clona el repositori</value>
+    <comment>Clone repo dialog title</comment>
+  </data>
+  <data name="Clone" xml:space="preserve">
+    <value>Clona</value>
+    <comment>Primary action button in the clone repo dialog</comment>
+  </data>
+  <data name="RepositoryURL" xml:space="preserve">
+    <value>URL del repositori</value>
+    <comment>URL textbox header in the clone repo dialog</comment>
+  </data>
+  <data name="CannotCloneRepoTitle" xml:space="preserve">
+    <value>No es pot clonar el repositori</value>
+    <comment>Cannot clone repo dialog title</comment>
   </data>
 </root>

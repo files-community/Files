@@ -536,6 +536,9 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Copiază în {0}</value>
   </data>
+  <data name="CloneToFolderCaptionText" xml:space="preserve">
+    <value>Clonare la {0}</value>
+  </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>Creați o comandă rapidă</value>
   </data>
@@ -3138,6 +3141,9 @@
   <data name="GitFetchDescription" xml:space="preserve">
     <value>Rulare preluarea git</value>
   </data>
+  <data name="GitCloneDescription" xml:space="preserve">
+    <value>Clonați un repozitoriu git</value>
+  </data>
   <data name="GitPullDescription" xml:space="preserve">
     <value>Rulare git pull</value>
   </data>
@@ -3465,6 +3471,70 @@
     <value>Se comprimă {0} element(e) de la "{1}" la "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
+    <value>Clonarea {0} la „{1}” a fost anulată</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
+    <value>Clonarea {0} de la „{1}” la „{2}” a fost anulată</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
+    <value>Clonat „{0}” la „{1}”</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
+    <value>Clonat {0} din „{1}” la „{2}”</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
+    <value>Eroare la clonarea „{0}” la „{1}”</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
+    <value>Nu s-a putut clona {0} din „{1}” la „{2}”</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
+    <value>Se clonează „{0}” la „{1}”</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
+    <value>Se clonează {0} din „{1}” la „{2}”</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
+  <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
+    <value>Instalarea a {0} fonturi a fost anulată</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
+    <value>Instalarea a {0} font(uri) de la „{1}” a fost anulată</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
+    <value>S-au instalat {0} font(uri)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
+    <value>S-au instalat {0} font(uri) de la „{1}”</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
+    <value>Eroare la instalarea a {0} font(uri)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
+    <value>Instalarea a {0} font(uri) din „{1}” a eșuat</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
+    <value>Se instalează {0} font(uri)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
+    <value>Se instalează {0} font(uri) de la „{1}”</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>S-a anulat copierea a {0} element(e) la "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -4069,5 +4139,21 @@
   </data>
   <data name="InvalidIDENameError" xml:space="preserve">
     <value>Vă rugăm să introduceți un nume pentru IDE</value>
+  </data>
+  <data name="CloneRepo" xml:space="preserve">
+    <value>Clonare repozitoriu</value>
+    <comment>Clone repo dialog title</comment>
+  </data>
+  <data name="Clone" xml:space="preserve">
+    <value>Clonare</value>
+    <comment>Primary action button in the clone repo dialog</comment>
+  </data>
+  <data name="RepositoryURL" xml:space="preserve">
+    <value>URL repozitoriu</value>
+    <comment>URL textbox header in the clone repo dialog</comment>
+  </data>
+  <data name="CannotCloneRepoTitle" xml:space="preserve">
+    <value>Nu se poate clona repozitoriul</value>
+    <comment>Cannot clone repo dialog title</comment>
   </data>
 </root>

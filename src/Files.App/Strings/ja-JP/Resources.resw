@@ -536,6 +536,9 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>{0} にコピー</value>
   </data>
+  <data name="CloneToFolderCaptionText" xml:space="preserve">
+    <value>{0} にクローン</value>
+  </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>ショートカットの作成</value>
   </data>
@@ -3138,6 +3141,9 @@
   <data name="GitFetchDescription" xml:space="preserve">
     <value>git fetch を実行する</value>
   </data>
+  <data name="GitCloneDescription" xml:space="preserve">
+    <value>Git リポジトリをクローンする</value>
+  </data>
   <data name="GitPullDescription" xml:space="preserve">
     <value>git pull を実行する</value>
   </data>
@@ -3465,6 +3471,70 @@
     <value>{0} 項目を "{1}" から "{2}" へ圧縮しています</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
+    <value>{0} の "{1}" へのクローンをキャンセルしました</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
+    <value>{0} の "{1}" から "{2}" へのクローンをキャンセルしました</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
+    <value>"{0}" を "{1}" へクローンしました</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
+    <value>{0} を "{1}" から "{2}" へクローンしました</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
+    <value>"{0}" を "{1}" へクローン中にエラーが発生しました</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
+    <value>{0} を "{1}" から "{2}" へクローンできませんでした</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
+    <value>"{0}" を "{1}" へクローンしています</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
+    <value>{0} を "{1}" から "{2}" へクローンしています</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
+  <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
+    <value>{0} 個のフォントのインストールをキャンセルしました</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
+    <value>"{1}" からの {0} 個のフォントのインストールをキャンセルしました</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
+    <value>{0} 個のフォントをインストールしました</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
+    <value>"{1}" から {0} 個のフォントをインストールしました</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
+    <value>{0} 個のフォントのインストール中にエラーが発生しました</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
+    <value>"{1}" からの {0} 個のフォントをインストールできませんでした</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
+    <value>{0} 個のフォントをインストールしています</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
+    <value>"{1}" からの {0} 個のフォントをインストールしています</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>{0} 項目の "{1}" へのコピーをキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -4069,5 +4139,21 @@
   </data>
   <data name="InvalidIDENameError" xml:space="preserve">
     <value>IDE の名前を入力してください</value>
+  </data>
+  <data name="CloneRepo" xml:space="preserve">
+    <value>リポジトリのクローン</value>
+    <comment>Clone repo dialog title</comment>
+  </data>
+  <data name="Clone" xml:space="preserve">
+    <value>クローン</value>
+    <comment>Primary action button in the clone repo dialog</comment>
+  </data>
+  <data name="RepositoryURL" xml:space="preserve">
+    <value>リポジトリの URL</value>
+    <comment>URL textbox header in the clone repo dialog</comment>
+  </data>
+  <data name="CannotCloneRepoTitle" xml:space="preserve">
+    <value>リポジトリをクローンできません</value>
+    <comment>Cannot clone repo dialog title</comment>
   </data>
 </root>

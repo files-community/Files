@@ -536,6 +536,9 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Копировать в {0}</value>
   </data>
+  <data name="CloneToFolderCaptionText" xml:space="preserve">
+    <value>Clone to {0}</value>
+  </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>Создать ярлык</value>
   </data>
@@ -3138,6 +3141,9 @@
   <data name="GitFetchDescription" xml:space="preserve">
     <value>Запустить git fetch</value>
   </data>
+  <data name="GitCloneDescription" xml:space="preserve">
+    <value>Clone a git repo</value>
+  </data>
   <data name="GitPullDescription" xml:space="preserve">
     <value>Запустить git pull</value>
   </data>
@@ -3215,16 +3221,16 @@
     <value>Files не может получить доступ к GitHub сейчас.</value>
   </data>
   <data name="OpenInIDE" xml:space="preserve">
-    <value>Open folder in {0}</value>
+    <value>Открыть папку в {0}</value>
   </data>
   <data name="OpenInIDEDescription" xml:space="preserve">
-    <value>Open the current directory in {0}</value>
+    <value>Открыть текущий каталог в {0}</value>
   </data>
   <data name="OpenRepoInIDE" xml:space="preserve">
-    <value>Open repo in {0}</value>
+    <value>Открыть репозиторий в {0}</value>
   </data>
   <data name="OpenRepoInIDEDescription" xml:space="preserve">
-    <value>Open the root of the Git repo in {0}</value>
+    <value>Открыть корень репозитория Git в {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Копировать код</value>
@@ -3465,6 +3471,70 @@
     <value>Сжатие {0} элементов из "{1}" в "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
+    <value>Canceled cloning {0} to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled cloning {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
+    <value>Cloned "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
+    <value>Cloned {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
+    <value>Error cloning "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
+    <value>Failed to clone {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
+    <value>Cloning "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
+    <value>Cloning {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
+  <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
+    <value>Canceled installing {0} fonts</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled installing {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
+    <value>Installed {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
+    <value>Installed {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
+    <value>Error installing {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
+    <value>Failed to install {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
+    <value>Installing {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
+    <value>Installing {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>Копирование {0} элементов в "{1}" отменено</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -4044,30 +4114,46 @@
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
   </data>
   <data name="PathOrAlias" xml:space="preserve">
-    <value>Path or alias</value>
+    <value>Путь или псевдоним</value>
   </data>
   <data name="InvalidPath" xml:space="preserve">
-    <value>Invalid path</value>
+    <value>Недопустимый путь</value>
   </data>
   <data name="TestIntegration" xml:space="preserve">
-    <value>Test integration</value>
+    <value>Тестирование интеграции</value>
   </data>
   <data name="IDENotLocatedContent" xml:space="preserve">
-    <value>{0} could not be located. Please check your settings and try again.</value>
+    <value>{0} не может быть найден. Пожалуйста, проверьте ваши настройки и повторите попытку.</value>
   </data>
   <data name="IDENotLocatedTitle" xml:space="preserve">
-    <value>The configured IDE could not be located</value>
+    <value>Настроенный IDE не может быть найден</value>
   </data>
   <data name="OpenSettings" xml:space="preserve">
-    <value>Open settings</value>
+    <value>Открыть настройки</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
   </data>
   <data name="IDEPathPlaceholder" xml:space="preserve">
-    <value>Enter a path or launch alias</value>
+    <value>Введите путь или запустите псевдоним</value>
   </data>
   <data name="InvalidIDENameError" xml:space="preserve">
-    <value>Please enter a name for the IDE</value>
+    <value>Пожалуйста, введите имя для IDE</value>
+  </data>
+  <data name="CloneRepo" xml:space="preserve">
+    <value>Clone repo</value>
+    <comment>Clone repo dialog title</comment>
+  </data>
+  <data name="Clone" xml:space="preserve">
+    <value>Clone</value>
+    <comment>Primary action button in the clone repo dialog</comment>
+  </data>
+  <data name="RepositoryURL" xml:space="preserve">
+    <value>Repository URL</value>
+    <comment>URL textbox header in the clone repo dialog</comment>
+  </data>
+  <data name="CannotCloneRepoTitle" xml:space="preserve">
+    <value>Cannot clone repo</value>
+    <comment>Cannot clone repo dialog title</comment>
   </data>
 </root>

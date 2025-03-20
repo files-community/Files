@@ -217,7 +217,7 @@
     <value>Mostrar ficheiros ocultos</value>
   </data>
   <data name="Appearance" xml:space="preserve">
-    <value>Aparência</value>
+    <value>Aspeto</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
     <value>Cor de fundo</value>
@@ -439,7 +439,7 @@
     <value>Enviar para</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
-    <value>O nome do item não pode ter os seguintes caracteres: \ / : * ? " &lt; &gt; |</value>
+    <value>O nome do item não pode ter os seguintes carateres: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>O nome do item especificado é inválido</value>
@@ -535,6 +535,9 @@
   </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Copiar para {0}</value>
+  </data>
+  <data name="CloneToFolderCaptionText" xml:space="preserve">
+    <value>Clonar para "{0}"</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>Criar atalho</value>
@@ -879,7 +882,7 @@
     <value>N.º de palavras</value>
   </data>
   <data name="PropertyCharacterCount" xml:space="preserve">
-    <value>N.º de caracteres</value>
+    <value>N.º de carateres</value>
   </data>
   <data name="PropertyLineCount" xml:space="preserve">
     <value>N.º de linhas</value>
@@ -1179,7 +1182,7 @@
     <value>Mapear unidade de rede</value>
   </data>
   <data name="Pinned" xml:space="preserve">
-    <value>Fixada</value>
+    <value>Afixada</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Bibliotecas</value>
@@ -2346,7 +2349,7 @@
     <value>A calcular...</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
-    <value>Itens fixados</value>
+    <value>Itens afixados</value>
   </data>
   <data name="DecreaseSize" xml:space="preserve">
     <value>Diminuir tamanho</value>
@@ -2520,10 +2523,10 @@
     <value>Instalar certificado(s) selecionado(s)</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
-    <value>Exceutar aplicação selecionada como administrador</value>
+    <value>Executar aplicação selecionada como administrador</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>Exceutar aplicação selecionada como outro utilizador</value>
+    <value>Executar aplicação selecionada como outro utilizador</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>Executar script PowerShell selecionado</value>
@@ -3138,6 +3141,9 @@
   <data name="GitFetchDescription" xml:space="preserve">
     <value>Executar 'git fetch'</value>
   </data>
+  <data name="GitCloneDescription" xml:space="preserve">
+    <value>Clonar um repositório git</value>
+  </data>
   <data name="GitPullDescription" xml:space="preserve">
     <value>Executar 'git pull'</value>
   </data>
@@ -3324,7 +3330,7 @@
     <value>A aplicação está a ser executada no modo de administrador</value>
   </data>
   <data name="FilesRunningAsAdminContent" xml:space="preserve">
-    <value>Devido a uma limitação com Windows e WinAppSdk, arrastar e largar não está disponível ao executar a aplicação como administrador. Se quiser usar a funcionalidade "Arrastar e largar", pode contornar a limitação abrindo UAC (Controle de Conta do Utilizador) no menu Iniciar, selecionar o terceiro nível e reiniciando o Windows. Caso contrário, terá que continuar a utilizar a aplicação sem a funcionalidade.</value>
+    <value>Devido a uma limitação com o Windows e o WinAppSdk, a funcionalidade arrastar e largar não está disponível quando o Files é executado como administrador. Se pretender utilizar o arrastar e largar, pode contornar esta limitação abrindo o UAC (Controlo de Conta do Utilizador) a partir do Menu Iniciar e selecionando o terceiro nível, e reiniciando o Windows. Caso contrário, pode continuar a utilizar o Files sem a funcionalidade arrastar e soltar.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
     <value>Manter aplicação em segundo plano ao fechar a janela</value>
@@ -3465,6 +3471,70 @@
     <value>A comprimir {0} itens de "{1}" para "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
+    <value>Cancelada a clonagem {0} de “{1}”</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
+    <value>Cancelada a clonagem {0} de “{1}” para “{2}”</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
+    <value>Clonado {0} de "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
+    <value>Clonado {0} de "{1}" para "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
+    <value>Erro ao clonar "{0}" para "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
+    <value>Falha ao clonar {0} de "{1}" para "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
+    <value>A clonar "{0}" para "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
+    <value>A clonar {0} de "{1}" para "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
+  <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
+    <value>Cancelada a instalação de {0} tipo(s) de letra</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
+    <value>Cancelada a instalação de {0} tipo(s) de letra de “{1}”</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
+    <value>Instalado {0} tipo(s) de letra</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
+    <value>Instalado {0} tipo(s) de letra de “{1}”</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
+    <value>Erro ao instalar {0} tipo(s) de letra</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
+    <value>Falha ao instalar {0} tipo(s) de letra de "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
+    <value>A instalar {0} tipo(s) de letra</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
+    <value>A instalar {0} tipo(s) de letra de "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>Cancelou a cópia de {0} itens para "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3868,7 +3938,7 @@
     <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
   </data>
   <data name="ApplicationExtension" xml:space="preserve">
-    <value>Ficheiros DLL</value>
+    <value>Extensão da aplicação</value>
     <comment>This is the friendly name for DLL files.</comment>
   </data>
   <data name="IcoFileCapitalized" xml:space="preserve">
@@ -4069,5 +4139,21 @@
   </data>
   <data name="InvalidIDENameError" xml:space="preserve">
     <value>Indique o nome do IDE</value>
+  </data>
+  <data name="CloneRepo" xml:space="preserve">
+    <value>Clonar repositório</value>
+    <comment>Clone repo dialog title</comment>
+  </data>
+  <data name="Clone" xml:space="preserve">
+    <value>Clonar</value>
+    <comment>Primary action button in the clone repo dialog</comment>
+  </data>
+  <data name="RepositoryURL" xml:space="preserve">
+    <value>URL do repositório</value>
+    <comment>URL textbox header in the clone repo dialog</comment>
+  </data>
+  <data name="CannotCloneRepoTitle" xml:space="preserve">
+    <value>Não foi possível clonar o repositório</value>
+    <comment>Cannot clone repo dialog title</comment>
   </data>
 </root>
