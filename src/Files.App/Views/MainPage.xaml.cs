@@ -97,7 +97,7 @@ namespace Files.App.Views
 			{
 				Title = Strings.FilesRunningAsAdmin.ToLocalized(),
 				Content = Strings.FilesRunningAsAdminContent.ToLocalized(),
-				PrimaryButtonText = "Ok".ToLocalized(),
+				PrimaryButtonText = Strings.Ok.ToLocalized(),
 				SecondaryButtonText = Strings.DontShowAgain.ToLocalized()
 			};
 
