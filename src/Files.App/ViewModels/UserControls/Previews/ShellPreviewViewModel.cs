@@ -188,7 +188,7 @@ namespace Files.App.ViewModels.Previews
 			using ComPtr<IDXGIDevice> pDXGIDevice = default;
 			using ComPtr<IDCompositionDevice> pDCompositionDevice = default;
 			using ComPtr<IUnknown> pControlSurface = default;
-			ComPtr<IDCompositionVisual> pChildVisual = default; // This should not be disposed this; otherwise, it will crash
+			ComPtr<IDCompositionVisual> pChildVisual = default; // Don't dispose this one, it's used by the compositor
 
 			// Create the D3D11 device
 			foreach (var driverType in driverTypes)
