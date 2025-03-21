@@ -165,9 +165,7 @@ namespace Files.App.ViewModels.Properties
 			if (string.IsNullOrEmpty(hash))
 				return string.Empty;
 
-			return Hashes
-				.FirstOrDefault(h => h.HashValue?.Equals(hash, StringComparison.OrdinalIgnoreCase) == true)
-				?.Algorithm ?? string.Empty;
+			return Hashes.FirstOrDefault(h => h.HashValue?.Equals(hash, StringComparison.OrdinalIgnoreCase) == true)?.Algorithm ?? string.Empty;
 		}
 
 		public async Task<string> CalculateFileHashAsync(string filePath)
@@ -200,8 +198,7 @@ namespace Files.App.ViewModels.Properties
 				false,
 				[],
 				Environment.SpecialFolder.Desktop,
-				out var filePath
-			);
+				out var filePath);
 
 			HashInput = result && filePath != null
 				? await CalculateFileHashAsync(filePath)
