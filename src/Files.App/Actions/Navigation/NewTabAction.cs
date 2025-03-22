@@ -6,10 +6,10 @@ namespace Files.App.Actions
 	internal sealed class NewTabAction : IAction
 	{
 		public string Label
-			=> "NewTab".GetLocalizedResource();
+			=> Strings.NewTab.GetLocalizedResource();
 
 		public string Description
-			=> "NewTabDescription".GetLocalizedResource();
+			=> Strings.NewTabDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.T, KeyModifiers.Ctrl);

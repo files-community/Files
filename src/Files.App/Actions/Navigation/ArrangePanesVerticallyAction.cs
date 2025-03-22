@@ -9,10 +9,10 @@ namespace Files.App.Actions
 		private readonly IMultiPanesContext MultiPanesContext = Ioc.Default.GetRequiredService<IMultiPanesContext>();
 
 		public string Label
-			=> "ArrangePanesVertically".GetLocalizedResource();
+			=> Strings.ArrangePanesVertically.GetLocalizedResource();
 
 		public string Description
-			=> "ArrangePanesVerticallyDescription".GetLocalizedResource();
+			=> Strings.ArrangePanesVerticallyDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Panes.Horizontal");

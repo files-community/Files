@@ -13,10 +13,10 @@ namespace Files.App.Actions
 		protected ISidebarContext SidebarContext { get; } = Ioc.Default.GetRequiredService<ISidebarContext>();
 
 		public string Label
-			=> "OpenInNewWindow".GetLocalizedResource();
+			=> Strings.OpenInNewWindow.GetLocalizedResource();
 
 		public string Description
-			=> "OpenInNewWindowDescription".GetLocalizedResource();
+			=> Strings.OpenInNewWindowDescription.GetLocalizedResource();
 
 		public virtual HotKey HotKey
 			=> new(Keys.Enter, KeyModifiers.CtrlAlt);
