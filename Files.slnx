@@ -4,6 +4,10 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Folder Name="/.solution/" Id="ddb4ef12-cc4e-5e88-e6fc-71a802f4de97">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/core/" Id="8d626ea8-cb54-bc41-363a-217881beba6e">
     <Project Path="src/Files.Core.SourceGenerator/Files.Core.SourceGenerator.csproj" />
