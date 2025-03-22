@@ -16,10 +16,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Paste".GetLocalizedResource();
+			=> Strings.Paste.GetLocalizedResource();
 
 		public string Description
-			=> "PasteItemDescription".GetLocalizedResource();
+			=> Strings.PasteItemDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Paste");
