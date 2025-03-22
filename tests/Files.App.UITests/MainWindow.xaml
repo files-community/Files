@@ -82,7 +82,7 @@
 			SelectionChanged="NavigationView_SelectionChanged">
 
 			<NavigationView.MenuItems>
-				<NavigationViewItem Content="Controls">
+				<NavigationViewItem Content="Controls" IsExpanded="True">
 					<NavigationViewItem.Icon>
 						<FontIcon Glyph="&#xE73A;" />
 					</NavigationViewItem.Icon>
@@ -92,6 +92,7 @@
 						<NavigationViewItem Content="SidebarView" Tag="SidebarViewPage" />
 						<NavigationViewItem Content="StorageRing/StorageBar" Tag="StorageControlsPage" />
 						<NavigationViewItem Content="Omnibar" Tag="OmnibarPage" />
+						<NavigationViewItem Content="BreadcrumbBar" Tag="BreadcrumbBarPage" />
 					</NavigationViewItem.MenuItems>
 				</NavigationViewItem>
 			</NavigationView.MenuItems>
