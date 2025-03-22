@@ -21,14 +21,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public ObservableCollection<WidgetDriveCardItem> Items { get; } = [];
 
 		public string WidgetName => nameof(NetworkLocationsWidget);
-		public string AutomationProperties => "NetworkLocations".GetLocalizedResource();
-		public string WidgetHeader => "NetworkLocations".GetLocalizedResource();
+		public string AutomationProperties => Strings.NetworkLocations.GetLocalizedResource();
+		public string WidgetHeader => Strings.NetworkLocations.GetLocalizedResource();
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowNetworkLocationsWidget;
 		public bool ShowMenuFlyout => true;
 		public MenuFlyoutItem? MenuFlyoutItem => new()
 		{
 			Icon = new FontIcon() { Glyph = "\uE710" },
-			Text = "DrivesWidgetOptionsFlyoutMapNetDriveMenuItem/Text".GetLocalizedResource(),
+			Text = Strings.DrivesWidgetOptionsFlyoutMapNetDriveMenuItem_Text.GetLocalizedResource(),
 			Command = MapNetworkDriveCommand
 		};
 

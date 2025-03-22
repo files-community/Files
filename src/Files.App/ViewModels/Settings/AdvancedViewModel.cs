@@ -160,7 +160,7 @@ namespace Files.App.ViewModels.Settings
 
 		private async Task ImportSettingsAsync()
 		{
-			string[] extensions = ["ZipFileCapitalized".GetLocalizedResource(), "*.zip"];
+			string[] extensions = [Strings.ZipFileCapitalized.GetLocalizedResource(), "*.zip"];
 			bool result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
 			if (!result)
 				return;
@@ -200,13 +200,13 @@ namespace Files.App.ViewModels.Settings
 			{
 				App.Logger.LogWarning(ex, "Error importing settings");
 				UIHelpers.CloseAllDialogs();
-				await DialogDisplayHelper.ShowDialogAsync("SettingsImportErrorTitle".GetLocalizedResource(), "SettingsImportErrorDescription".GetLocalizedResource());
+				await DialogDisplayHelper.ShowDialogAsync(Strings.SettingsImportErrorTitle.GetLocalizedResource(), Strings.SettingsImportErrorDescription.GetLocalizedResource());
 			}
 		}
 
 		private async Task ExportSettingsAsync()
 		{
-			string[] extensions = ["ZipFileCapitalized".GetLocalizedResource(), "*.zip" ];
+			string[] extensions = [Strings.ZipFileCapitalized.GetLocalizedResource(), "*.zip" ];
 			bool result = CommonDialogService.Open_FileSaveDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
 			if (!result)
 				return;

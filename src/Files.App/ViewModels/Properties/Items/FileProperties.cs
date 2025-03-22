@@ -58,8 +58,8 @@ namespace Files.App.ViewModels.Properties
 				FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath) ||
 				FileExtensionHelpers.IsMsiFile(shortcutItem.TargetPath);
 
-			ViewModel.ShortcutItemType = isApplication ? "Application".GetLocalizedResource() :
-				Item.IsLinkItem ? "PropertiesShortcutTypeLink".GetLocalizedResource() : "File".GetLocalizedResource();
+			ViewModel.ShortcutItemType = isApplication ? Strings.Application.GetLocalizedResource() :
+				Item.IsLinkItem ? Strings.PropertiesShortcutTypeLink.GetLocalizedResource() : Strings.File.GetLocalizedResource();
 			ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
 			ViewModel.IsShortcutItemPathReadOnly = shortcutItem.IsSymLink;
 			ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
