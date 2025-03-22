@@ -16,7 +16,7 @@ namespace Files.App.Utils.Cloud
 
 		public bool LoadSyncStatus { get; }
 
-		public string SyncStatusString { get; } = "CloudDriveSyncStatus_Unknown".GetLocalizedResource();
+		public string SyncStatusString { get; } = Strings.CloudDriveSyncStatus_Unknown.GetLocalizedResource();
 
 		public CloudDriveSyncStatusUI()
 		{

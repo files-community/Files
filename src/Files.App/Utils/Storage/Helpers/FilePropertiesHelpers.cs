@@ -117,7 +117,7 @@ namespace Files.App.Utils.Storage
 			propertiesWindow.SystemBackdrop = new AppSystemBackdrop(true);
 
 			var appWindow = propertiesWindow.AppWindow;
-			appWindow.Title = "Properties".GetLocalizedResource();
+			appWindow.Title = Strings.Properties.GetLocalizedResource();
 			appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
 			appWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
 			appWindow.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
