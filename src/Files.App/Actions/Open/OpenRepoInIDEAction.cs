@@ -10,10 +10,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext _context;
 
 		public string Label
-			=> string.Format("OpenRepoInIDE".GetLocalizedResource(), _devToolsSettingsService.IDEName);
+			=> string.Format(Strings.OpenRepoInIDE.GetLocalizedResource(), _devToolsSettingsService.IDEName);
 
 		public string Description
-			=> string.Format("OpenRepoInIDEDescription".GetLocalizedResource(), _devToolsSettingsService.IDEName);
+			=> string.Format(Strings.OpenRepoInIDEDescription.GetLocalizedResource(), _devToolsSettingsService.IDEName);
 
 		public bool IsExecutable =>
 			_context.Folder is not null &&
