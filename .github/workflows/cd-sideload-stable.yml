@@ -83,6 +83,13 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -p:PublishReadyToRun=true `
         -v:quiet
+
+    - name: Restore NuGet Packages for Launcher Project
+      shell: pwsh
+      run: |
+        nuget restore "$env:LAUNCHER_PROJECT_PATH" `
+          -SolutionDirectory "$env:WORKING_DIR" `
+          -Verbosity detailed
     
     - name: Build launcher project
       shell: pwsh

@@ -70,7 +70,7 @@ jobs:
       shell: cmd
       run: |
         for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
-
+      
     - name: Restore Files
       shell: pwsh
       run: |
@@ -81,6 +81,13 @@ jobs:
         -p:PublishReadyToRun=true `
         -v:quiet
 
+    - name: Restore NuGet Packages for Launcher Project
+      shell: pwsh
+      run: |
+        nuget restore "$env:LAUNCHER_PROJECT_PATH" `
+          -SolutionDirectory "$env:WORKING_DIR" `
+          -Verbosity detailed
+          
     - name: Build launcher project
       shell: pwsh
       run: |
@@ -107,20 +114,20 @@ jobs:
     - name: Remove empty files from the packages
       shell: bash
       run: find $ARTIFACTS_STAGING_DIR -empty -delete
-
-    - name: Publish the packages to Microsoft Store
-      uses: isaacrlevin/windows-store-action@1
-      with:
-        app-id: '9NSQD9PKV3SS'
-        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-        client-id: ${{ secrets.AZURE_CLIENT_ID }}
-        client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
-        package-path: '${{ env.APPX_PACKAGE_DIR }}/**/*.msixupload'
-        skip-polling: false
-        packages-keep: 5
-
+        
     - name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v4
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
+
+    - name: Publish the packages to Microsoft Store
+      uses: isaacrlevin/windows-store-action@1.0
+      with:
+        app-id: '9NSQD9PKV3SS'
+        tenant-id: ${{ secrets.STORE_TENANT_ID }}
+        client-id: ${{ secrets.STORE_CLIENT_ID }}
+        client-secret: ${{ secrets.STORE_CLIENT_SECRET }}
+        package-path: '${{ env.APPX_PACKAGE_DIR }}'
+        skip-polling: false
+        packages-keep: 5
