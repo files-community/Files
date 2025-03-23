@@ -42,7 +42,7 @@ namespace Files.App.Controls
 		{
 			DefaultStyleKey = typeof(BreadcrumbBar);
 
-			_itemsRepeaterLayout = new(this, 2d);
+			_itemsRepeaterLayout = new(this);
 		}
 
 		// Methods
@@ -87,12 +87,13 @@ namespace Files.App.Controls
 
 		internal protected virtual void OnLayoutUpdated()
 		{
-			if (_itemsRepeater is null)
+			if (_itemsRepeater is null || (_itemsRepeaterLayout.IndexAfterEllipsis > _itemsRepeaterLayout.VisibleItemsCount && _isEllipsisRendered))
 				return;
 
+			if (_ellipsisBreadcrumbBarItem is not null && _isEllipsisRendered != _itemsRepeaterLayout.EllipsisIsRendered)
+				_ellipsisBreadcrumbBarItem.Visibility = _itemsRepeaterLayout.EllipsisIsRendered ? Visibility.Visible : Visibility.Collapsed;
+
 			_isEllipsisRendered = _itemsRepeaterLayout.EllipsisIsRendered;
-			if (_ellipsisBreadcrumbBarItem is not null)
-				_ellipsisBreadcrumbBarItem.Visibility = _isEllipsisRendered ? Visibility.Visible : Visibility.Collapsed;
 
 			for (int accessibilityIndex = 0, collectionIndex = _itemsRepeaterLayout.IndexAfterEllipsis;
 				accessibilityIndex < _itemsRepeaterLayout.VisibleItemsCount;

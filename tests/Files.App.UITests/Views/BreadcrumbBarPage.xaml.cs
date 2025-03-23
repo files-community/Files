@@ -12,7 +12,7 @@ namespace Files.App.UITests.Views
 {
 	public sealed partial class BreadcrumbBarPage : Page
 	{
-		private readonly ObservableCollection<DummyItem2> DummyItems;
+		private readonly ObservableCollection<BreadcrumbBarItemModel> DummyItems;
 
 		[GeneratedDependencyProperty]
 		private partial string? ClickedItemName { get; set; }

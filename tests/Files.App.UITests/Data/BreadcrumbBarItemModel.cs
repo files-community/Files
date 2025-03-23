@@ -5,5 +5,5 @@ using System.Collections.ObjectModel;
 
 namespace Files.App.UITests.Data
 {
-	internal record DummyItem2(string Text, ObservableCollection<DummyItem2>? Children = null);
+	internal record BreadcrumbBarItemModel(string Text, ObservableCollection<BreadcrumbBarItemModel>? Children = null);
 }

@@ -3,5 +3,5 @@
 
 namespace Files.App.UITests.Data
 {
-	internal record DummyItem1(string Title, string Description, string HotKeys);
+	internal record OmnibarPaletteSuggestionItem(string Title, string Description, string HotKeys);
 }

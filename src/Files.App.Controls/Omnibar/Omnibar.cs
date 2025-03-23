@@ -1,59 +1,89 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Markup;
-using Microsoft.UI.Xaml.Shapes;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI;
-using Windows.ApplicationModel.Contacts;
+using Microsoft.UI.Xaml.Media.Animation;
+using Windows.Foundation;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Files.App.Controls
 {
 	// Content
 	[ContentProperty(Name = nameof(Modes))]
-	// Template parts
-	[TemplatePart(Name = "PART_ModesHostGrid", Type = typeof(Grid))]
-	// Visual states
-	[TemplateVisualState(Name = "Focused", GroupName = "FocusStates")]
-	[TemplateVisualState(Name = "Normal", GroupName = "FocusStates")]
 	public partial class Omnibar : Control
 	{
-		private const string ModesHostGrid = "PART_ModesHostGrid";
-		private const string AutoSuggestPopup = "PART_AutoSuggestPopup";
-		private const string AutoSuggestBoxBorder = "PART_AutoSuggestBoxBorder";
+		// Constants
 
-		private Grid? _modesHostGrid;
-		private Popup? _autoSuggestPopup;
-		private Border? _autoSuggestBoxBorder;
+		private const string TemplatePartName_AutoSuggestBox = "PART_TextBox";
+		private const string TemplatePartName_ModesHostGrid = "PART_ModesHostGrid";
+		private const string TemplatePartName_AutoSuggestBoxSuggestionsPopup = "PART_SuggestionsPopup";
+		private const string TemplatePartName_AutoSuggestBoxSuggestionsContainerBorder = "PART_SuggestionsContainerBorder";
+		private const string TemplatePartName_SuggestionsListView = "PART_SuggestionsListView";
+
+		// Fields
+
+		private TextBox _textBox = null!;
+		private Grid _modesHostGrid = null!;
+		private Popup _textBoxSuggestionsPopup = null!;
+		private Border _textBoxSuggestionsContainerBorder = null!;
+		private ListView _textBoxSuggestionsListView = null!;
+
 		private bool _isFocused;
-		private bool _stillHasFocus;
+		private string _userInput = string.Empty;
+		private OmnibarTextChangeReason _textChangeReason = OmnibarTextChangeReason.None;
+
+		// Events
+
+		public event TypedEventHandler<Omnibar, OmnibarQuerySubmittedEventArgs>? QuerySubmitted;
+		public event TypedEventHandler<Omnibar, OmnibarSuggestionChosenEventArgs>? SuggestionChosen;
+		public event TypedEventHandler<Omnibar, OmnibarTextChangedEventArgs>? TextChanged;
+
+		// Constructor
 
 		public Omnibar()
 		{
 			DefaultStyleKey = typeof(Omnibar);
 
-			Modes ??= [];
+			Modes = [];
+			AutoSuggestBoxPadding = new(0, 0, 0, 0);
 		}
+
+		// Methods
 
 		protected override void OnApplyTemplate()
 		{
-			_modesHostGrid = GetTemplateChild(ModesHostGrid) as Grid
-				?? throw new MissingFieldException($"Could not find {ModesHostGrid} in the given {nameof(Omnibar)}'s style.");
-			_autoSuggestPopup = GetTemplateChild(AutoSuggestPopup) as Popup
-				?? throw new MissingFieldException($"Could not find {AutoSuggestPopup} in the given {nameof(Omnibar)}'s style.");
-			_autoSuggestBoxBorder = GetTemplateChild(AutoSuggestBoxBorder) as Border
-				?? throw new MissingFieldException($"Could not find {AutoSuggestBoxBorder} in the given {nameof(Omnibar)}'s style.");
+			base.OnApplyTemplate();
 
-			if (Modes is null)
+			_textBox = GetTemplateChild(TemplatePartName_AutoSuggestBox) as TextBox
+				?? throw new MissingFieldException($"Could not find {TemplatePartName_AutoSuggestBox} in the given {nameof(Omnibar)}'s style.");
+			_modesHostGrid = GetTemplateChild(TemplatePartName_ModesHostGrid) as Grid
+				?? throw new MissingFieldException($"Could not find {TemplatePartName_ModesHostGrid} in the given {nameof(Omnibar)}'s style.");
+			_textBoxSuggestionsPopup = GetTemplateChild(TemplatePartName_AutoSuggestBoxSuggestionsPopup) as Popup
+				?? throw new MissingFieldException($"Could not find {TemplatePartName_AutoSuggestBoxSuggestionsPopup} in the given {nameof(Omnibar)}'s style.");
+			_textBoxSuggestionsContainerBorder = GetTemplateChild(TemplatePartName_AutoSuggestBoxSuggestionsContainerBorder) as Border
+				?? throw new MissingFieldException($"Could not find {TemplatePartName_AutoSuggestBoxSuggestionsContainerBorder} in the given {nameof(Omnibar)}'s style.");
+			_textBoxSuggestionsListView = GetTemplateChild(TemplatePartName_SuggestionsListView) as ListView
+				?? throw new MissingFieldException($"Could not find {TemplatePartName_SuggestionsListView} in the given {nameof(Omnibar)}'s style.");
+
+			PopulateModes();
+
+			SizeChanged += Omnibar_SizeChanged;
+			_textBox.GotFocus += AutoSuggestBox_GotFocus;
+			_textBox.LostFocus += AutoSuggestBox_LostFocus;
+			_textBox.KeyDown += AutoSuggestBox_KeyDown;
+			_textBox.TextChanged += AutoSuggestBox_TextChanged;
+			_textBoxSuggestionsPopup.GettingFocus += AutoSuggestBoxSuggestionsPopup_GettingFocus;
+			_textBoxSuggestionsListView.ItemClick += AutoSuggestBoxSuggestionsListView_ItemClick;
+
+			// Set the default width
+			_textBoxSuggestionsContainerBorder.Width = ActualWidth;
+		}
+
+		public void PopulateModes()
+		{
+			if (Modes is null || _modesHostGrid is null)
 				return;
-
-			// Add shadow to the popup and set the proper width
-			_autoSuggestBoxBorder!.Translation = new(0, 0, 32);
-			_autoSuggestBoxBorder!.Width = _modesHostGrid!.ActualWidth;
 
 			// Populate the modes
 			foreach (var mode in Modes)
@@ -61,13 +91,7 @@ namespace Files.App.Controls
 				// Insert a divider
 				if (_modesHostGrid.Children.Count is not 0)
 				{
-					var divider = new Rectangle()
-					{
-						Fill = (SolidColorBrush)Application.Current.Resources["DividerStrokeColorDefaultBrush"],
-						Height = 20,
-						Margin = new(2,0,2,0),
-						Width = 1,
-					};
+					var divider = new OmnibarModeSeparator();
 
 					_modesHostGrid.ColumnDefinitions.Add(new() { Width = GridLength.Auto });
 					Grid.SetColumn(divider, _modesHostGrid.Children.Count);
@@ -78,103 +102,148 @@ namespace Files.App.Controls
 				_modesHostGrid.ColumnDefinitions.Add(new() { Width = GridLength.Auto });
 				Grid.SetColumn(mode, _modesHostGrid.Children.Count);
 				_modesHostGrid.Children.Add(mode);
-				mode.Host = this;
+				mode.SetOwner(this);
 			}
-
-			_modesHostGrid.SizeChanged += ModesHostGrid_SizeChanged;
-
-			GotFocus += Omnibar_GotFocus;
-			LostFocus += Omnibar_LostFocus;
-			LosingFocus += Omnibar_LosingFocus;
-
-			UpdateVisualStates();
-
-			base.OnApplyTemplate();
 		}
 
-		// Methods
-
-		internal void ChangeMode(OmnibarMode modeToExpand)
+		public void ChangeMode(OmnibarMode modeToExpand, bool useTransition = true)
 		{
 			if (_modesHostGrid is null || Modes is null)
-				throw new NullReferenceException();
+				return;
+
+			// Add the reposition transition to the all modes
+			if (useTransition)
+			{
+				foreach (var mode in Modes)
+				{
+					mode.Transitions = [new RepositionThemeTransition()];
+					mode.UpdateLayout();
+				}
+			}
+
+			var index = _modesHostGrid.Children.IndexOf(modeToExpand);
+
+			if (CurrentSelectedMode is not null)
+				VisualStateManager.GoToState(CurrentSelectedMode, "Unfocused", true);
 
 			// Reset
 			foreach (var column in _modesHostGrid.ColumnDefinitions)
 				column.Width = GridLength.Auto;
-			foreach (var mode in Modes)
-				VisualStateManager.GoToState(mode, "Unfocused", true);
 
 			// Expand the given mode
-			VisualStateManager.GoToState(modeToExpand, "Focused", true);
-			_modesHostGrid.ColumnDefinitions[_modesHostGrid.Children.IndexOf(modeToExpand)].Width = new(1, GridUnitType.Star);
+			_modesHostGrid.ColumnDefinitions[index].Width = new(1, GridUnitType.Star);
+
+			var itemCount = Modes.Count;
+			var itemIndex = Modes.IndexOf(modeToExpand);
+			var modeButtonWidth = modeToExpand.ActualWidth;
+			var modeSeparatorWidth = itemCount is not 0 or 1 ? _modesHostGrid.Children[1] is FrameworkElement frameworkElement ? frameworkElement.ActualWidth : 0 : 0;
+
+			var leftPadding = (itemIndex + 1) * modeButtonWidth + modeSeparatorWidth * itemIndex;
+			var rightPadding = (itemCount - itemIndex - 1) * modeButtonWidth + modeSeparatorWidth * (itemCount - itemIndex - 1) + 8;
+
+			// Set the correct AutoSuggestBox cursor position
+			AutoSuggestBoxPadding = new(leftPadding, 0, rightPadding, 0);
 
 			CurrentSelectedMode = modeToExpand;
 
-			UpdateVisualStates();
-		}
+			_textChangeReason = OmnibarTextChangeReason.ProgrammaticChange;
+			_textBox.Text = CurrentSelectedMode.Text ?? string.Empty;
 
-		private void UpdateVisualStates()
-		{
-			VisualStateManager.GoToState(this, _isFocused ? "Focused" : "Normal", true);
+			// Move cursor of the TextBox to the tail
+			_textBox.Select(_textBox.Text.Length, 0);
 
-			if (CurrentSelectedMode is not null && _autoSuggestPopup is not null)
+			VisualStateManager.GoToState(CurrentSelectedMode, "Focused", true);
+
+			if (_isFocused)
 			{
-				// Close anyway
-				if (_autoSuggestPopup.IsOpen && CurrentSelectedMode.SuggestionItemsSource is null)
-					VisualStateManager.GoToState(this, "PopupClosed", true);
-
-				// Decide open or close
-				if (_isFocused != _autoSuggestPopup.IsOpen)
-					VisualStateManager.GoToState(this, _isFocused && CurrentSelectedMode.SuggestionItemsSource is not null ? "PopupOpened" : "PopupClosed", true);
+				VisualStateManager.GoToState(CurrentSelectedMode, "Focused", true);
+				VisualStateManager.GoToState(_textBox, "InputAreaVisible", true);
+			}
+			else if (CurrentSelectedMode?.ContentOnInactive is not null)
+			{
+				VisualStateManager.GoToState(CurrentSelectedMode, "CurrentUnfocused", true);
+				VisualStateManager.GoToState(_textBox, "InputAreaCollapsed", true);
+			}
+			else
+			{
+				VisualStateManager.GoToState(_textBox, "InputAreaVisible", true);
 			}
 
-			if (CurrentSelectedMode is not null)
-				VisualStateManager.GoToState(
-					CurrentSelectedMode,
-					_isFocused
-						? "Focused"
-						: CurrentSelectedMode.ContentOnInactive is null
-							? "CurrentUnfocusedWithoutInactiveMode"
-							: "CurrentUnfocusedWithInactiveMode",
-					true);
-		}
+			TryToggleIsSuggestionsPopupOpen(_isFocused && CurrentSelectedMode?.SuggestionItemsSource is not null);
 
-		// Events
-
-		private void ModesHostGrid_SizeChanged(object sender, SizeChangedEventArgs e)
-		{
-			_autoSuggestBoxBorder!.Width = _modesHostGrid!.ActualWidth;
-		}
-
-		private void Omnibar_GotFocus(object sender, RoutedEventArgs e)
-		{
-			_isFocused = true;
-			UpdateVisualStates();
-		}
-
-		private void Omnibar_LosingFocus(UIElement sender, LosingFocusEventArgs args)
-		{
-			// Ignore when user clicks on the TextBox or the button area of an OmnibarMode, Omnibar still has focus anyway
-			if (args.NewFocusedElement?.GetType() is not { } focusedType ||
-				focusedType == typeof(TextBox) ||
-				focusedType == typeof(OmnibarMode) ||
-				focusedType == typeof(Omnibar))
+			// Remove the reposition transition from the all modes
+			if (useTransition)
 			{
-				_stillHasFocus = true;
+				foreach (var mode in Modes)
+				{
+					mode.Transitions.Clear();
+					mode.UpdateLayout();
+				}
 			}
 		}
 
-		private void Omnibar_LostFocus(object sender, RoutedEventArgs e)
+		public bool TryToggleIsSuggestionsPopupOpen(bool wantToOpen)
 		{
-			if (_stillHasFocus)
-			{
-				_stillHasFocus = false;
+			if (wantToOpen && (!_isFocused || CurrentSelectedMode?.SuggestionItemsSource is null))
+				return false;
+
+			_textBoxSuggestionsPopup.IsOpen = wantToOpen;
+
+			return false;
+		}
+
+		public void ChooseSuggestionItem(object obj)
+		{
+			if (CurrentSelectedMode is null)
 				return;
+
+			if (CurrentSelectedMode.UpdateTextOnSelect)
+			{
+				_textChangeReason = OmnibarTextChangeReason.SuggestionChosen;
+				_textBox.Text = GetObjectText(obj);
 			}
 
-			_isFocused = false;
-			UpdateVisualStates();
+			SuggestionChosen?.Invoke(this, new(CurrentSelectedMode, obj));
+
+			// Move the cursor to the end of the TextBox
+			_textBox?.Select(_textBox.Text.Length, 0);
+		}
+
+		private void SubmitQuery(object? item)
+		{
+			if (CurrentSelectedMode is null)
+				return;
+
+			QuerySubmitted?.Invoke(this, new OmnibarQuerySubmittedEventArgs(CurrentSelectedMode, item, _textBox.Text));
+
+			_textBoxSuggestionsPopup.IsOpen = false;
+		}
+
+		private string GetObjectText(object obj)
+		{
+			if (CurrentSelectedMode is null)
+				return string.Empty;
+
+			// Get the text to put into the text box from the chosen suggestion item
+			return obj is string text
+				? text
+				: CurrentSelectedMode.DisplayMemberPath is null
+					? obj.ToString() ?? string.Empty
+					: obj.GetType().GetProperty(CurrentSelectedMode.DisplayMemberPath)?.GetValue(obj)?.ToString() ?? string.Empty;
+		}
+
+		private void RevertTextToUserInput()
+		{
+			if (CurrentSelectedMode is null)
+				return;
+
+			_textBoxSuggestionsListView.SelectedIndex = -1;
+			_textChangeReason = OmnibarTextChangeReason.ProgrammaticChange;
+
+			_textBox.Text = _userInput ?? "";
+
+			// Move the cursor to the end of the TextBox
+			_textBox?.Select(_textBox.Text.Length, 0);
 		}
 	}
 }
