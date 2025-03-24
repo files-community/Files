@@ -122,7 +122,7 @@ jobs:
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
     - name: Publish the packages to Microsoft Store
-      uses: files-community/windows-store-action@1.0
+      uses: files-community/windows-store-action@1.1
       with:
         app-id: '9NSQD9PKV3SS'
         tenant-id: ${{ secrets.STORE_TENANT_ID }}
