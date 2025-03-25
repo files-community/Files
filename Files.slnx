@@ -4,7 +4,7 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Folder Name="/.solution/" Id="ddb4ef12-cc4e-5e88-e6fc-71a802f4de97">
+  <Folder Name="/global/" Id="ddb4ef12-cc4e-5e88-e6fc-71a802f4de97">
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
   </Folder>
