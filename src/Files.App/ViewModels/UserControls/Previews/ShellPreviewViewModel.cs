@@ -129,7 +129,7 @@ namespace Files.App.ViewModels.Previews
 		{
 			var parent = MainWindow.Instance.WindowHandle;
 			var hInst = PInvoke.GetModuleHandle(default(PWSTR));
-			var szClassName = $"{GetType().Name}-{Guid.NewGuid()}";
+			var szClassName = $"{nameof(ShellPreviewViewModel)}-{Guid.NewGuid()}";
 			var szWindowName = $"Preview";
 
 			fixed (char* pszClassName = szClassName)
