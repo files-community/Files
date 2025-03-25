@@ -67,4 +67,4 @@ jobs:
         -p:PackageOutputPath="$env:WORKING_DIR\output"
 
     - name: Publish package to NuGet
-      run: dotnet nuget push ./output/*.nupkg --api-key (SECRET GOES HERE) --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push ./output/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
