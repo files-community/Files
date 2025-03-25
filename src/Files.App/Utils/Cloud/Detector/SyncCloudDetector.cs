@@ -18,7 +18,7 @@ namespace Files.App.Utils.Cloud
 				{
 					var folder = await StorageFolder.GetFolderFromPathAsync(directory);
 
-					yield return new CloudProvider(CloudProviders.Sync)
+					yield return new CloudProvider(CloudProviders.SyncDrive)
 					{
 						Name = $"Sync - {folder.Name}",
 						SyncFolder = directory,
