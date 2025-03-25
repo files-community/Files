@@ -6,10 +6,10 @@
 	xmlns:converters="using:CommunityToolkit.WinUI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
+	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls"
 	mc:Ignorable="d">
 
 	<Page.Resources>
@@ -40,26 +40,23 @@
 				Text="{helpers:ResourceString Name=Layout}" />
 
 			<!--  Folder Overrides  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}"
-				HorizontalAlignment="Stretch"
-				IsExpanded="True">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}">
+				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE621;" />
-				</local:SettingsBlockControl.Icon>
+				</wctcontrols:SettingsCard.HeaderIcon>
 
 				<ToggleSwitch
 					x:Name="SyncPreferencesToggleSwitch"
 					AutomationProperties.Name="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}"
 					IsOn="{x:Bind ViewModel.SyncFolderPreferencesAcrossDirectories, Mode=TwoWay}"
 					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</local:SettingsBlockControl>
+			</wctcontrols:SettingsCard>
 
 			<!--  Layout Type  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=LayoutType}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=LayoutType}">
+				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8BA;" />
-				</local:SettingsBlockControl.Icon>
+				</wctcontrols:SettingsCard.HeaderIcon>
 
 				<uc:ComboBoxEx AutomationProperties.Name="{helpers:ResourceString Name=LayoutType}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultLayoutModeIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Details}" />
@@ -69,7 +66,7 @@
 					<ComboBoxItem Content="{helpers:ResourceString Name=Grid}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Adaptive}" IsEnabled="{x:Bind ViewModel.SyncFolderPreferencesAcrossDirectories, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
 				</uc:ComboBoxEx>
-			</local:SettingsBlockControl>
+			</wctcontrols:SettingsCard>
 
 			<!--  Sorting & grouping  -->
 			<TextBlock
@@ -79,10 +76,10 @@
 				Text="{helpers:ResourceString Name=SortingAndGrouping}" />
 
 			<!--  Default sorting options  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SortBy}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=SortBy}">
+				<wctcontrols:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE8CB;" />
-				</local:SettingsBlockControl.Icon>
+				</wctcontrols:SettingsExpander.HeaderIcon>
 
 				<uc:ComboBoxEx AutomationProperties.Name="{helpers:ResourceString Name=SortBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortingIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=Name}" />
@@ -92,33 +89,31 @@
 					<ComboBoxItem Content="{helpers:ResourceString Name=Type}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Tag}" />
 				</uc:ComboBoxEx>
-				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
-						<!--  Sort in Descending order  -->
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SortInDescendingOrder}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SortInDescendingOrder}"
-								IsOn="{x:Bind ViewModel.SortInDescendingOrder, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
+				<wctcontrols:SettingsExpander.Items>
+					<!--  Sort in Descending order  -->
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SortInDescendingOrder}">
+						<ToggleSwitch
+							AutomationProperties.Name="{helpers:ResourceString Name=SortInDescendingOrder}"
+							IsOn="{x:Bind ViewModel.SortInDescendingOrder, Mode=TwoWay}"
+							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+					</wctcontrols:SettingsCard>
 
-						<!--  Sort Priority  -->
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SortPriority}" HorizontalAlignment="Stretch">
-							<uc:ComboBoxEx AutomationProperties.Name="{helpers:ResourceString Name=SortPriority}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortPriorityIndex, Mode=TwoWay}">
-								<ComboBoxItem Content="{helpers:ResourceString Name=SortFoldersFirst}" />
-								<ComboBoxItem Content="{helpers:ResourceString Name=SortFilesFirst}" />
-								<ComboBoxItem Content="{helpers:ResourceString Name=SortFilesAndFoldersTogether}" />
-							</uc:ComboBoxEx>
-						</local:SettingsBlockControl>
-					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
+					<!--  Sort Priority  -->
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SortPriority}">
+						<uc:ComboBoxEx AutomationProperties.Name="{helpers:ResourceString Name=SortPriority}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultSortPriorityIndex, Mode=TwoWay}">
+							<ComboBoxItem Content="{helpers:ResourceString Name=SortFoldersFirst}" />
+							<ComboBoxItem Content="{helpers:ResourceString Name=SortFilesFirst}" />
+							<ComboBoxItem Content="{helpers:ResourceString Name=SortFilesAndFoldersTogether}" />
+						</uc:ComboBoxEx>
+					</wctcontrols:SettingsCard>
+				</wctcontrols:SettingsExpander.Items>
+			</wctcontrols:SettingsExpander>
 
 			<!--  Default grouping options  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupBy}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=GroupBy}">
+				<wctcontrols:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xF168;" />
-				</local:SettingsBlockControl.Icon>
+				</wctcontrols:SettingsExpander.HeaderIcon>
 
 				<uc:ComboBoxEx AutomationProperties.Name="{helpers:ResourceString Name=GroupBy}" SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupingIndex, Mode=TwoWay}">
 					<ComboBoxItem Content="{helpers:ResourceString Name=None}" />
@@ -129,31 +124,29 @@
 					<ComboBoxItem Content="{helpers:ResourceString Name=Type}" />
 					<ComboBoxItem Content="{helpers:ResourceString Name=Tag}" />
 				</uc:ComboBoxEx>
-				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
-						<!--  Group in Descending order  -->
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupInDescendingOrder}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=GroupInDescendingOrder}"
-								IsEnabled="{x:Bind ViewModel.IsDefaultGrouped, Mode=OneWay}"
-								IsOn="{x:Bind ViewModel.GroupInDescendingOrder, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
+				<wctcontrols:SettingsExpander.Items>
+					<!--  Group in Descending order  -->
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=GroupInDescendingOrder}">
+						<ToggleSwitch
+							AutomationProperties.Name="{helpers:ResourceString Name=GroupInDescendingOrder}"
+							IsEnabled="{x:Bind ViewModel.IsDefaultGrouped, Mode=OneWay}"
+							IsOn="{x:Bind ViewModel.GroupInDescendingOrder, Mode=TwoWay}"
+							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+					</wctcontrols:SettingsCard>
 
-						<!--  Group by date unit  -->
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=GroupByDateUnit}" HorizontalAlignment="Stretch">
-							<uc:ComboBoxEx
-								AutomationProperties.Name="{helpers:ResourceString Name=GroupByDateUnit}"
-								IsEnabled="{x:Bind ViewModel.IsGroupByDate, Mode=OneWay}"
-								SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupByDateUnitIndex, Mode=TwoWay}">
-								<ComboBoxItem Content="{helpers:ResourceString Name=Year}" />
-								<ComboBoxItem Content="{helpers:ResourceString Name=Month}" />
-								<ComboBoxItem Content="{helpers:ResourceString Name=Day}" />
-							</uc:ComboBoxEx>
-						</local:SettingsBlockControl>
-					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
+					<!--  Group by date unit  -->
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=GroupByDateUnit}">
+						<uc:ComboBoxEx
+							AutomationProperties.Name="{helpers:ResourceString Name=GroupByDateUnit}"
+							IsEnabled="{x:Bind ViewModel.IsGroupByDate, Mode=OneWay}"
+							SelectedIndex="{x:Bind ViewModel.SelectedDefaultGroupByDateUnitIndex, Mode=TwoWay}">
+							<ComboBoxItem Content="{helpers:ResourceString Name=Year}" />
+							<ComboBoxItem Content="{helpers:ResourceString Name=Month}" />
+							<ComboBoxItem Content="{helpers:ResourceString Name=Day}" />
+						</uc:ComboBoxEx>
+					</wctcontrols:SettingsCard>
+				</wctcontrols:SettingsExpander.Items>
+			</wctcontrols:SettingsExpander>
 
 			<!--  Details View  -->
 			<TextBlock
@@ -163,45 +156,43 @@
 				Text="{helpers:ResourceString Name=DetailsView}" />
 
 			<!--  Columns  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=Columns}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=Columns}">
+				<wctcontrols:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE71D;" />
-				</local:SettingsBlockControl.Icon>
-				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=TagColumn}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=TagColumn}"
-								IsOn="{x:Bind ViewModel.ShowFileTagColumn, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=SizeColumn}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=SizeColumn}"
-								IsOn="{x:Bind ViewModel.ShowSizeColumn, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=TypeColumn}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=TypeColumn}"
-								IsOn="{x:Bind ViewModel.ShowTypeColumn, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DateColumn}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=DateColumn}"
-								IsOn="{x:Bind ViewModel.ShowDateColumn, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=DateCreatedColumn}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=DateCreatedColumn}"
-								IsOn="{x:Bind ViewModel.ShowDateCreatedColumn, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
+				</wctcontrols:SettingsExpander.HeaderIcon>
+				<wctcontrols:SettingsExpander.Items>
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=TagColumn}">
+						<ToggleSwitch
+							AutomationProperties.Name="{helpers:ResourceString Name=TagColumn}"
+							IsOn="{x:Bind ViewModel.ShowFileTagColumn, Mode=TwoWay}"
+							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+					</wctcontrols:SettingsCard>
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SizeColumn}">
+						<ToggleSwitch
+							AutomationProperties.Name="{helpers:ResourceString Name=SizeColumn}"
+							IsOn="{x:Bind ViewModel.ShowSizeColumn, Mode=TwoWay}"
+							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+					</wctcontrols:SettingsCard>
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=TypeColumn}">
+						<ToggleSwitch
+							AutomationProperties.Name="{helpers:ResourceString Name=TypeColumn}"
+							IsOn="{x:Bind ViewModel.ShowTypeColumn, Mode=TwoWay}"
+							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+					</wctcontrols:SettingsCard>
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=DateColumn}">
+						<ToggleSwitch
+							AutomationProperties.Name="{helpers:ResourceString Name=DateColumn}"
+							IsOn="{x:Bind ViewModel.ShowDateColumn, Mode=TwoWay}"
+							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+					</wctcontrols:SettingsCard>
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=DateCreatedColumn}">
+						<ToggleSwitch
+							AutomationProperties.Name="{helpers:ResourceString Name=DateCreatedColumn}"
+							IsOn="{x:Bind ViewModel.ShowDateCreatedColumn, Mode=TwoWay}"
+							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+					</wctcontrols:SettingsCard>
+				</wctcontrols:SettingsExpander.Items>
+			</wctcontrols:SettingsExpander>
 
 		</StackPanel>
 
