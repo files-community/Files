@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Forward".GetLocalizedResource();
+			=> Strings.Forward.GetLocalizedResource();
 
 		public string Description
-			=> "NavigateForwardDescription".GetLocalizedResource();
+			=> Strings.NavigateForwardDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Right, KeyModifiers.Alt);

@@ -11,10 +11,10 @@ namespace Files.App.Actions
 		protected ISidebarContext SidebarContext { get; } = Ioc.Default.GetRequiredService<ISidebarContext>();
 
 		public string Label
-			=> "OpenInNewPane".GetLocalizedResource();
+			=> Strings.OpenInNewPane.GetLocalizedResource();
 
 		public string Description
-			=> "OpenDirectoryInNewPaneDescription".GetLocalizedResource();
+			=> Strings.OpenDirectoryInNewPaneDescription.GetLocalizedResource();
 
 		public virtual bool IsExecutable =>
 			ContentPageContext.SelectedItem is not null &&

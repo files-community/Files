@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IFoldersSettingsService FoldersSettingsService;
 
 		public string Label
-			=> "ShowDotFiles".GetLocalizedResource();
+			=> Strings.ShowDotFiles.GetLocalizedResource();
 
 		public string Description
-			=> "ToggleDotFilesSettingDescription".GetLocalizedResource();
+			=> Strings.ToggleDotFilesSettingDescription.GetLocalizedResource();
 
 		public bool IsOn
 			=> FoldersSettingsService.ShowDotFiles;

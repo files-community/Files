@@ -57,7 +57,7 @@ namespace Files.App.Views
 
 			string componentLabel =
 				parameters?.NavPathParam == "Home"
-					? "Home".GetLocalizedResource()
+					? Strings.Home.GetLocalizedResource()
 					: parameters?.NavPathParam
 				?? string.Empty;
 

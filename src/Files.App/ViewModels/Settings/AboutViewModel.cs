@@ -24,7 +24,7 @@ namespace Files.App.ViewModels.Settings
 		// Properties
 
 		public string Version
-			=> string.Format($"{"SettingsAboutVersionTitle".GetLocalizedResource()} {AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
+			=> string.Format($"{Strings.SettingsAboutVersionTitle.GetLocalizedResource()} {AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
 
 		public string AppName
 			=> Package.Current.DisplayName;

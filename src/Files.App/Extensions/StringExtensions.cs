@@ -87,7 +87,7 @@ namespace Files.App.Extensions
 
 		public static string ToLongSizeString(this long size) => ByteSize.FromBytes(size).ToLongSizeString();
 		public static string ToLongSizeString(this ulong size) => ByteSize.FromBytes(size).ToLongSizeString();
-		public static string ToLongSizeString(this ByteSize size) => $"{size.ToSizeString()} ({size.Bytes:#,##0} {"ItemSizeBytes".GetLocalizedResource()})";
+		public static string ToLongSizeString(this ByteSize size) => $"{size.ToSizeString()} ({size.Bytes:#,##0} {Strings.ItemSizeBytes.GetLocalizedResource()})";
 
 		//public static string GetLocalizedResource(this string s) => s.GetLocalized("Resources");
 

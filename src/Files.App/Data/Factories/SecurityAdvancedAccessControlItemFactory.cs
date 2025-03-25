@@ -28,109 +28,109 @@ namespace Files.App.Data.Factories
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.FullControl,
-						AccessMaskName = "SecurityFullControlLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityFullControlLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.Traverse,
-						AccessMaskName = "SecurityTraverseLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityTraverseLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.ExecuteFile,
-						AccessMaskName = "SecurityExecuteFileLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityExecuteFileLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.ListDirectory,
-						AccessMaskName = "SecurityListDirectoryLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityListDirectoryLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.ReadData,
-						AccessMaskName = "SecurityReadDataLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityReadDataLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.ReadAttributes,
-						AccessMaskName = "SecurityReadAttributesLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityReadAttributesLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.ReadExtendedAttributes,
-						AccessMaskName = "SecurityReadExtendedAttributesLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityReadExtendedAttributesLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.CreateFiles,
-						AccessMaskName = "SecurityCreateFilesLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityCreateFilesLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.CreateDirectories,
-						AccessMaskName = "SecurityCreateDirectoriesLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityCreateDirectoriesLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.WriteData,
-						AccessMaskName = "SecurityWriteDataLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityWriteDataLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.AppendData,
-						AccessMaskName = "SecurityAppendDataLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityAppendDataLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.WriteAttributes,
-						AccessMaskName = "SecurityWriteAttributesLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityWriteAttributesLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.WriteExtendedAttributes,
-						AccessMaskName = "SecurityWriteExtendedAttributesLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityWriteExtendedAttributesLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.DeleteSubdirectoriesAndFiles,
-						AccessMaskName = "SecurityDeleteSubdirectoriesAndFilesLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityDeleteSubdirectoriesAndFilesLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.Delete,
-						AccessMaskName = "Delete".GetLocalizedResource(),
+						AccessMaskName = Strings.Delete.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.ReadPermissions,
-						AccessMaskName = "SecurityReadPermissionsLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityReadPermissionsLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.ChangePermissions,
-						AccessMaskName = "SecurityChangePermissionsLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityChangePermissionsLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.TakeOwnership,
-						AccessMaskName = "SecurityTakeOwnershipLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityTakeOwnershipLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					}
 				];
@@ -160,42 +160,42 @@ namespace Files.App.Data.Factories
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.FullControl,
-						AccessMaskName = "SecurityFullControlLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityFullControlLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.Modify,
-						AccessMaskName = "Modify".GetLocalizedResource(),
+						AccessMaskName = Strings.Modify.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.ReadAndExecute,
-						AccessMaskName = "SecurityReadAndExecuteLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityReadAndExecuteLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.ListDirectory,
-						AccessMaskName = "SecurityListDirectoryLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityListDirectoryLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.Read,
-						AccessMaskName = "SecurityReadLabel/Text".GetLocalizedResource(),
+						AccessMaskName = Strings.SecurityReadLabel_Text.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current)
 					{
 						AccessMask = AccessMaskFlags.Write,
-						AccessMaskName = "Write".GetLocalizedResource(),
+						AccessMaskName = Strings.Write.GetLocalizedResource(),
 						IsEditable = !isInherited
 					},
 					new(current, false)
 					{
-						AccessMaskName = "SecuritySpecialLabel/Text".GetLocalizedResource()
+						AccessMaskName = Strings.SecuritySpecialLabel_Text.GetLocalizedResource()
 					}
 				];
 

@@ -12,10 +12,10 @@ namespace Files.App.Actions
 		private readonly SettingsDialogViewModel viewModel = new();
 
 		public string Label
-			=> "Settings".GetLocalizedResource();
+			=> Strings.Settings.GetLocalizedResource();
 
 		public string Description
-			=> "OpenSettingsDescription".GetLocalizedResource();
+			=> Strings.OpenSettingsDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.OemComma, KeyModifiers.Ctrl);

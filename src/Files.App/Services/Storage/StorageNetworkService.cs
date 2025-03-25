@@ -43,7 +43,7 @@ namespace Files.App.Services
 			var networkItem = new DriveItem()
 			{
 				DeviceID = "network-folder",
-				Text = "Network".GetLocalizedResource(),
+				Text = Strings.Network.GetLocalizedResource(),
 				Path = Constants.UserEnvironmentPaths.NetworkFolderPath,
 				Type = DriveType.Network,
 				ItemType = NavigationControlItemType.Drive,
@@ -263,7 +263,7 @@ namespace Files.App.Services
 			}
 			else
 			{
-				await DialogDisplayHelper.ShowDialogAsync("NetworkFolderErrorDialogTitle".GetLocalizedResource(), res.ToString());
+				await DialogDisplayHelper.ShowDialogAsync(Strings.NetworkFolderErrorDialogTitle.GetLocalizedResource(), res.ToString());
 
 				return false;
 			}

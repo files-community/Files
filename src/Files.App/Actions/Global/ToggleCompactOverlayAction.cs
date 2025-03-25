@@ -11,13 +11,13 @@ namespace Files.App.Actions
 		private readonly IWindowContext windowContext;
 
 		public string Label
-			=> "ToggleCompactOverlay".GetLocalizedResource();
+			=> Strings.ToggleCompactOverlay.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.F12);
 
 		public string Description
-			=> "ToggleCompactOverlayDescription".GetLocalizedResource();
+			=> Strings.ToggleCompactOverlayDescription.GetLocalizedResource();
 
 		public bool IsOn
 			=> windowContext.IsCompactOverlay;

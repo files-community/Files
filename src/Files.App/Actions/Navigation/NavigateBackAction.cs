@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Back".GetLocalizedResource();
+			=> Strings.Back.GetLocalizedResource();
 
 		public string Description
-			=> "NavigateBackDescription".GetLocalizedResource();
+			=> Strings.NavigateBackDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Left, KeyModifiers.Alt);

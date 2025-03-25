@@ -131,7 +131,7 @@ namespace Files.App.Services
 				string? displayName = null;
 
 				if (path.StartsWith("\\\\SHELL", StringComparison.OrdinalIgnoreCase))
-					displayName = "ThisPC".GetLocalizedResource();
+					displayName = Strings.ThisPC.GetLocalizedResource();
 
 				if (path.EndsWith('\\'))
 				{
@@ -153,11 +153,11 @@ namespace Files.App.Services
 					else if (path.Equals(Constants.UserEnvironmentPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "ms-resource:///Resources/Downloads";
 					else if (path.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
-						displayName = "Network".GetLocalizedResource();
+						displayName = Strings.Network.GetLocalizedResource();
 					else if (path.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-						displayName = "RecycleBin".GetLocalizedResource();
+						displayName = Strings.RecycleBin.GetLocalizedResource();
 					else if (path.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
-						displayName = "ThisPC".GetLocalizedResource();
+						displayName = Strings.ThisPC.GetLocalizedResource();
 					else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
 					{
 						var libName = Path.GetFileNameWithoutExtension(library.Path);

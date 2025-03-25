@@ -70,8 +70,8 @@ namespace Files.App.Utils.Storage
 			if (!IsValidForFilename(source.Name))
 			{
 				await DialogDisplayHelper.ShowDialogAsync(
-					"ErrorDialogThisActionCannotBeDone".GetLocalizedResource(),
-					"ErrorDialogNameNotAllowed".GetLocalizedResource());
+					Strings.ErrorDialogThisActionCannotBeDone.GetLocalizedResource(),
+					Strings.ErrorDialogNameNotAllowed.GetLocalizedResource());
 				return (ReturnResult.Failed, null);
 			}
 
@@ -547,8 +547,8 @@ namespace Files.App.Utils.Storage
 			if (!IsValidForFilename(newName))
 			{
 				await DialogDisplayHelper.ShowDialogAsync(
-					"ErrorDialogThisActionCannotBeDone".GetLocalizedResource(),
-					"ErrorDialogNameNotAllowed".GetLocalizedResource());
+					Strings.ErrorDialogThisActionCannotBeDone.GetLocalizedResource(),
+					Strings.ErrorDialogNameNotAllowed.GetLocalizedResource());
 				return ReturnResult.Failed;
 			}
 
@@ -569,7 +569,7 @@ namespace Files.App.Utils.Storage
 						UserSettingsService.FoldersSettingsService.ShowFileExtensionWarning
 					)
 					{
-						var yesSelected = await DialogDisplayHelper.ShowDialogAsync("Rename".GetLocalizedResource(), "RenameFileDialog/Text".GetLocalizedResource(), "Yes".GetLocalizedResource(), "No".GetLocalizedResource());
+						var yesSelected = await DialogDisplayHelper.ShowDialogAsync(Strings.Rename.GetLocalizedResource(), Strings.RenameFileDialog_Text.GetLocalizedResource(), Strings.Yes.GetLocalizedResource(), Strings.No.GetLocalizedResource());
 						if (yesSelected)
 						{
 							history = await filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
@@ -877,7 +877,7 @@ namespace Files.App.Utils.Storage
 			var value = Registry.GetValue(keyName, "ShortcutNameTemplate", null);
 
 			if (value is null)
-				return string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), itemName) + ".lnk";
+				return string.Format(Strings.ShortcutCreateNewSuffix.GetLocalizedResource(), itemName) + ".lnk";
 			else
 			{
 				// Trim the quotes and the "%s" from the string

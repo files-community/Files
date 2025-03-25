@@ -217,7 +217,7 @@ namespace Files.App.Data.Items
 					}
 				};
 
-				ToolTipService.SetToolTip(itemDecorator, "Eject".GetLocalizedResource());
+				ToolTipService.SetToolTip(itemDecorator, Strings.Eject.GetLocalizedResource());
 
 				itemDecorator.Click += ItemDecorator_Click;
 
@@ -294,7 +294,7 @@ namespace Files.App.Data.Items
 				}
 				else
 				{
-					SpaceText = "Unknown".GetLocalizedResource();
+					SpaceText = Strings.Unknown.GetLocalizedResource();
 					MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
 				}
 
@@ -307,7 +307,7 @@ namespace Files.App.Data.Items
 			}
 			catch (Exception)
 			{
-				SpaceText = "Unknown".GetLocalizedResource();
+				SpaceText = Strings.Unknown.GetLocalizedResource();
 				MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
 				Filesystem = string.Empty;
 
@@ -357,7 +357,7 @@ namespace Files.App.Data.Items
 		private string GetSizeString()
 		{
 			return string.Format(
-				"DriveFreeSpaceAndCapacity".GetLocalizedResource(),
+				Strings.DriveFreeSpaceAndCapacity.GetLocalizedResource(),
 				FreeSpace.ToSizeString(),
 				MaxSpace.ToSizeString());
 		}

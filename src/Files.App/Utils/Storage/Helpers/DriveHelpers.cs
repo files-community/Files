@@ -42,10 +42,10 @@ namespace Files.App.Utils.Storage
 				return false;
 
 			var ejectButton = await DialogDisplayHelper.ShowDialogAsync(
-				"InsertDiscDialog/Title".GetLocalizedResource(),
-				string.Format("InsertDiscDialog/Text".GetLocalizedResource(), matchingDrive.Path),
-				"InsertDiscDialog/OpenDriveButton".GetLocalizedResource(),
-				"Close".GetLocalizedResource());
+				Strings.InsertDiscDialog_Title.GetLocalizedResource(),
+				string.Format(Strings.InsertDiscDialog_Text.GetLocalizedResource(), matchingDrive.Path),
+				Strings.InsertDiscDialog_OpenDriveButton.GetLocalizedResource(),
+				Strings.Close.GetLocalizedResource());
 			if (ejectButton)
 				EjectDeviceAsync(matchingDrive.Path);
 			return true;

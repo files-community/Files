@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
 		public override string Label
-			=> "OpenTerminal".GetLocalizedResource();
+			=> Strings.OpenTerminal.GetLocalizedResource();
 
 		public override string Description
-			=> "OpenTerminalDescription".GetLocalizedResource();
+			=> Strings.OpenTerminalDescription.GetLocalizedResource();
 
 		public override bool IsExecutable =>
 			HomePageContext.IsAnyItemRightClicked &&

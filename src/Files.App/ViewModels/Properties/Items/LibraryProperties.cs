@@ -101,7 +101,7 @@ namespace Files.App.ViewModels.Properties
 			}
 			else
 			{
-				ViewModel.FilesAndFoldersCountString = "LibraryNoLocations/Text".GetLocalizedResource();
+				ViewModel.FilesAndFoldersCountString = Strings.LibraryNoLocations_Text.GetLocalizedResource();
 			}
 		}
 
