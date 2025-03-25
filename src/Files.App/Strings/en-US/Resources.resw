@@ -2138,7 +2138,7 @@
   <data name="SplittingSize" xml:space="preserve">
     <value>Splitting size</value>
   </data>
-  <data name="Do not split" xml:space="preserve">
+  <data name="DoNotSplit" xml:space="preserve">
     <value>Do not split</value>
   </data>
   <data name="CD" xml:space="preserve">
