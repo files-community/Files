@@ -71,6 +71,7 @@
         <PackageReference Include="CommunityToolkit.WinUI.Behaviors" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.ColorPicker" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.Primitives" />
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.SettingsControls" />
         <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
         <PackageReference Include="CommunityToolkit.WinUI.Converters" />
         <PackageReference Include="CommunityToolkit.WinUI.Extensions" />
