@@ -47,6 +47,6 @@ namespace Files.App.Utils.Cloud
 
 		kDrive,
 
-		Sync
+		SyncDrive
 	}
 }
