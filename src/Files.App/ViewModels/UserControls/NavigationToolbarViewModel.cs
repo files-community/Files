@@ -75,14 +75,9 @@ namespace Files.App.ViewModels.UserControls
 
 		public SearchBoxViewModel SearchBoxViewModel => (SearchBoxViewModel)SearchBox;
 
-		public string ExtractToText => IsSelectionArchivesOnly ? SelectedItems.Count > 1 ? string.Format(Strings.ExtractToChildFolder.GetLocalizedResource(), $"*{Path.DirectorySeparatorChar}") : string.Format(Strings.ExtractToChildFolder.GetLocalizedResource() + "\\", Path.GetFileNameWithoutExtension(_SelectedItems.First().Name)) : Strings.ExtractToChildFolder.GetLocalizedResource();
-
 		public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
 		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
-		public bool CanExtract => IsArchiveOpened ? (SelectedItems is null || !SelectedItems.Any()) : IsSelectionArchivesOnly;
-		public bool IsArchiveOpened => InstanceViewModel.IsPageTypeZipFolder;
-		public bool IsSelectionArchivesOnly => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsZipFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsMultipleArchivesSelected => IsSelectionArchivesOnly && SelectedItems.Count > 1;
+		public bool CanExtract => Commands.DecompressArchive.CanExecute(null) || Commands.DecompressArchiveHere.CanExecute(null) || Commands.DecompressArchiveHereSmart.CanExecute(null) || Commands.DecompressArchiveToChildFolder.CanExecute(null);
 		public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
@@ -249,10 +244,6 @@ namespace Files.App.ViewModels.UserControls
 				{
 					OnPropertyChanged(nameof(CanCopy));
 					OnPropertyChanged(nameof(CanExtract));
-					OnPropertyChanged(nameof(ExtractToText));
-					OnPropertyChanged(nameof(IsArchiveOpened));
-					OnPropertyChanged(nameof(IsSelectionArchivesOnly));
-					OnPropertyChanged(nameof(IsMultipleArchivesSelected));
 					OnPropertyChanged(nameof(IsInfFile));
 					OnPropertyChanged(nameof(IsPowerShellScript));
 					OnPropertyChanged(nameof(IsImage));
@@ -280,6 +271,30 @@ namespace Files.App.ViewModels.UserControls
 			SearchBox.Escaped += SearchRegion_Escaped;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 			UpdateService.PropertyChanged += UpdateService_OnPropertyChanged;
+
+			Commands.DecompressArchive.PropertyChanged += (s, e) =>
+			{
+				if (e.PropertyName is nameof(Commands.DecompressArchive.IsExecutable))
+					OnPropertyChanged(nameof(CanExtract));
+			};
+
+			Commands.DecompressArchiveHere.PropertyChanged += (s, e) =>
+			{
+				if (e.PropertyName is nameof(Commands.DecompressArchiveHere.IsExecutable))
+					OnPropertyChanged(nameof(CanExtract));
+			};
+
+			Commands.DecompressArchiveHereSmart.PropertyChanged += (s, e) =>
+			{
+				if (e.PropertyName is nameof(Commands.DecompressArchiveHereSmart.IsExecutable))
+					OnPropertyChanged(nameof(CanExtract));
+			};
+
+			Commands.DecompressArchiveHereSmart.PropertyChanged += (s, e) =>
+			{
+				if (e.PropertyName is nameof(Commands.DecompressArchiveToChildFolder.IsExecutable))
+					OnPropertyChanged(nameof(CanExtract));
+			};
 
 			AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
