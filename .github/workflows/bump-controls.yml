@@ -15,8 +15,6 @@ name: Bump Files UI Controls
 
 on:
   workflow_dispatch:
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   bump:
