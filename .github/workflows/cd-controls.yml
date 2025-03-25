@@ -15,9 +15,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - src/Files.App.Controls/CurrentVersion.props
   workflow_dispatch:
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
