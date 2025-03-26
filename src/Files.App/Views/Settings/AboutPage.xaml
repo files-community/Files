@@ -179,20 +179,20 @@
 							<ItemsRepeater.ItemTemplate>
 								<DataTemplate x:DataType="dataitems:OpenSourceLibraryItem">
 									<TextBlock Margin="4,0" VerticalAlignment="Center">
-									<Hyperlink NavigateUri="{x:Bind Url}" UnderlineStyle="None">
-										<Run Text="{x:Bind Name}" />
-									</Hyperlink>
+										<Hyperlink NavigateUri="{x:Bind Url}" UnderlineStyle="None">
+											<Run Text="{x:Bind Name}" />
+										</Hyperlink>
 									</TextBlock>
 								</DataTemplate>
 							</ItemsRepeater.ItemTemplate>
 							<ItemsRepeater.Layout>
 								<UniformGridLayout
-								ItemsStretch="Fill"
-								MaximumRowsOrColumns="6"
-								MinColumnSpacing="8"
-								MinItemWidth="200"
-								MinRowSpacing="8"
-								Orientation="Horizontal" />
+									ItemsStretch="Fill"
+									MaximumRowsOrColumns="6"
+									MinColumnSpacing="8"
+									MinItemWidth="200"
+									MinRowSpacing="8"
+									Orientation="Horizontal" />
 							</ItemsRepeater.Layout>
 						</ItemsRepeater>
 					</wctcontrols:SettingsCard>
