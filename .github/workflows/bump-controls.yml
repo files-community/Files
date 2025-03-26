@@ -24,7 +24,7 @@ jobs:
       fail-fast: false
     env:
       WORKING_DIR:                '${{ github.workspace }}' # D:\a\Files\Files\
-      PROPS_PATH:                 '${{ github.workspace }}\src\Files.App.Controls\CurrentVersion.props'
+      VERSION_PROPS_PATH:         '${{ github.workspace }}\src\Files.App.Controls\CurrentVersion.props'
 
     steps:
       - name: Checkout the repository
@@ -65,7 +65,7 @@ jobs:
       - name: Add and commit changes
         uses: EndBug/add-and-commit@v9
         with:
-          add: '${{ env.PROPS_PATH }}'
+          add: '${{ env.VERSION_PROPS_PATH }}'
       
           author_name: files-community-bot[bot]
           author_email: 152337890+files-community-bot[bot]@users.noreply.github.com
