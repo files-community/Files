@@ -1,0 +1,184 @@
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:converters="using:Files.App.Converters"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters">
+
+	<Style x:Key="DefaultInfoBadgeStyle" TargetType="InfoBadge">
+		<Setter Property="MinHeight" Value="{ThemeResource InfoBadgeMinHeight}" />
+		<Setter Property="MinWidth" Value="{ThemeResource InfoBadgeMinWidth}" />
+		<Setter Property="MaxHeight" Value="{ThemeResource InfoBadgeMaxHeight}" />
+		<Setter Property="Background" Value="{ThemeResource InfoBadgeBackground}" />
+		<Setter Property="Foreground" Value="{ThemeResource InfoBadgeForeground}" />
+		<Setter Property="Padding" Value="{ThemeResource InfoBadgePadding}" />
+		<Setter Property="IsTabStop" Value="False" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="InfoBadge">
+					<Grid
+						x:Name="RootGrid"
+						Padding="{TemplateBinding Padding}"
+						Background="{TemplateBinding Background}"
+						CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.InfoBadgeCornerRadius}">
+						<TextBlock
+							x:Name="ValueTextBlock"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							FontSize="{ThemeResource InfoBadgeValueFontSize}"
+							Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Value, Mode=OneWay}"
+							Visibility="Collapsed" />
+						<Viewbox
+							x:Name="IconPresenter"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Stretch"
+							Visibility="Collapsed">
+							<IconSourceElement IconSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IconSource, Mode=OneWay}" />
+						</Viewbox>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="DisplayKindStates">
+								<VisualState x:Name="Dot" />
+								<VisualState x:Name="Icon">
+									<VisualState.Setters>
+										<Setter Target="IconPresenter.Visibility" Value="Visible" />
+										<Setter Target="IconPresenter.Margin" Value="{ThemeResource IconInfoBadgeIconMargin}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="FontIcon">
+									<VisualState.Setters>
+										<Setter Target="IconPresenter.Visibility" Value="Visible" />
+										<Setter Target="IconPresenter.Margin" Value="{ThemeResource IconInfoBadgeFontIconMargin}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Value">
+									<VisualState.Setters>
+										<Setter Target="ValueTextBlock.Visibility" Value="Visible" />
+										<Setter Target="ValueTextBlock.Margin" Value="{ThemeResource ValueInfoBadgeTextMargin}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style
+		x:Key="AttentionDotInfoBadgeStyle"
+		BasedOn="{StaticResource DefaultInfoBadgeStyle}"
+		TargetType="InfoBadge">
+		<Setter Property="Background" Value="{ThemeResource SystemFillColorAttentionBrush}" />
+	</Style>
+
+	<Style
+		x:Key="AttentionValueInfoBadgeStyle"
+		BasedOn="{StaticResource AttentionDotInfoBadgeStyle}"
+		TargetType="InfoBadge" />
+
+	<Style
+		x:Key="AttentionIconInfoBadgeStyle"
+		BasedOn="{StaticResource AttentionDotInfoBadgeStyle}"
+		TargetType="InfoBadge">
+		<Setter Property="Padding" Value="0,4,0,2" />
+		<Setter Property="IconSource">
+			<Setter.Value>
+				<FontIconSource Glyph="&#xEA38;" />
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style
+		x:Key="InformationalDotInfoBadgeStyle"
+		BasedOn="{StaticResource DefaultInfoBadgeStyle}"
+		TargetType="InfoBadge">
+		<Setter Property="Background" Value="{ThemeResource SystemFillColorSolidNeutralBrush}" />
+	</Style>
+
+	<Style
+		x:Key="InformationalValueInfoBadgeStyle"
+		BasedOn="{StaticResource InformationalDotInfoBadgeStyle}"
+		TargetType="InfoBadge" />
+
+	<Style
+		x:Key="InformationalIconInfoBadgeStyle"
+		BasedOn="{StaticResource InformationalDotInfoBadgeStyle}"
+		TargetType="InfoBadge">
+		<Setter Property="Padding" Value="0,4,0,2" />
+		<Setter Property="IconSource">
+			<Setter.Value>
+				<FontIconSource Glyph="&#xF13F;" />
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style
+		x:Key="SuccessDotInfoBadgeStyle"
+		BasedOn="{StaticResource DefaultInfoBadgeStyle}"
+		TargetType="InfoBadge">
+		<Setter Property="Background" Value="{ThemeResource SystemFillColorSuccessBrush}" />
+	</Style>
+
+	<Style
+		x:Key="SuccessValueInfoBadgeStyle"
+		BasedOn="{StaticResource SuccessDotInfoBadgeStyle}"
+		TargetType="InfoBadge" />
+
+	<Style
+		x:Key="SuccessIconInfoBadgeStyle"
+		BasedOn="{StaticResource SuccessDotInfoBadgeStyle}"
+		TargetType="InfoBadge">
+		<Setter Property="IconSource">
+			<Setter.Value>
+				<SymbolIconSource Symbol="Accept" />
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style
+		x:Key="CautionDotInfoBadgeStyle"
+		BasedOn="{StaticResource DefaultInfoBadgeStyle}"
+		TargetType="InfoBadge">
+		<Setter Property="Background" Value="{ThemeResource SystemFillColorCautionBrush}" />
+	</Style>
+
+	<Style
+		x:Key="CautionValueInfoBadgeStyle"
+		BasedOn="{StaticResource CautionDotInfoBadgeStyle}"
+		TargetType="InfoBadge" />
+
+	<Style
+		x:Key="CautionIconInfoBadgeStyle"
+		BasedOn="{StaticResource CautionDotInfoBadgeStyle}"
+		TargetType="InfoBadge">
+		<Setter Property="IconSource">
+			<Setter.Value>
+				<SymbolIconSource Symbol="Important" />
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style
+		x:Key="CriticalDotInfoBadgeStyle"
+		BasedOn="{StaticResource DefaultInfoBadgeStyle}"
+		TargetType="InfoBadge">
+		<Setter Property="Background" Value="{ThemeResource SystemFillColorCriticalBrush}" />
+	</Style>
+
+	<Style
+		x:Key="CriticalValueInfoBadgeStyle"
+		BasedOn="{StaticResource CriticalDotInfoBadgeStyle}"
+		TargetType="InfoBadge" />
+
+	<Style
+		x:Key="CriticalIconInfoBadgeStyle"
+		BasedOn="{StaticResource CriticalDotInfoBadgeStyle}"
+		TargetType="InfoBadge">
+		<Setter Property="IconSource">
+			<Setter.Value>
+				<SymbolIconSource Symbol="Cancel" />
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>
