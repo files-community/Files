@@ -15,10 +15,6 @@
 	<Page.Resources>
 		<ResourceDictionary>
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/Styles/ToggleSwitchStyles.xaml" />
-			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</Page.Resources>
 
@@ -48,8 +44,7 @@
 				<ToggleSwitch
 					x:Name="SyncPreferencesToggleSwitch"
 					AutomationProperties.Name="{helpers:ResourceString Name=SyncFolderPreferencesAcrossDirectories}"
-					IsOn="{x:Bind ViewModel.SyncFolderPreferencesAcrossDirectories, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+					IsOn="{x:Bind ViewModel.SyncFolderPreferencesAcrossDirectories, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  Layout Type  -->
@@ -92,10 +87,7 @@
 				<wctcontrols:SettingsExpander.Items>
 					<!--  Sort in Descending order  -->
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SortInDescendingOrder}">
-						<ToggleSwitch
-							AutomationProperties.Name="{helpers:ResourceString Name=SortInDescendingOrder}"
-							IsOn="{x:Bind ViewModel.SortInDescendingOrder, Mode=TwoWay}"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SortInDescendingOrder}" IsOn="{x:Bind ViewModel.SortInDescendingOrder, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
 					<!--  Sort Priority  -->
@@ -130,8 +122,7 @@
 						<ToggleSwitch
 							AutomationProperties.Name="{helpers:ResourceString Name=GroupInDescendingOrder}"
 							IsEnabled="{x:Bind ViewModel.IsDefaultGrouped, Mode=OneWay}"
-							IsOn="{x:Bind ViewModel.GroupInDescendingOrder, Mode=TwoWay}"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+							IsOn="{x:Bind ViewModel.GroupInDescendingOrder, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
 					<!--  Group by date unit  -->
@@ -162,34 +153,19 @@
 				</wctcontrols:SettingsExpander.HeaderIcon>
 				<wctcontrols:SettingsExpander.Items>
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=TagColumn}">
-						<ToggleSwitch
-							AutomationProperties.Name="{helpers:ResourceString Name=TagColumn}"
-							IsOn="{x:Bind ViewModel.ShowFileTagColumn, Mode=TwoWay}"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=TagColumn}" IsOn="{x:Bind ViewModel.ShowFileTagColumn, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SizeColumn}">
-						<ToggleSwitch
-							AutomationProperties.Name="{helpers:ResourceString Name=SizeColumn}"
-							IsOn="{x:Bind ViewModel.ShowSizeColumn, Mode=TwoWay}"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SizeColumn}" IsOn="{x:Bind ViewModel.ShowSizeColumn, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=TypeColumn}">
-						<ToggleSwitch
-							AutomationProperties.Name="{helpers:ResourceString Name=TypeColumn}"
-							IsOn="{x:Bind ViewModel.ShowTypeColumn, Mode=TwoWay}"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=TypeColumn}" IsOn="{x:Bind ViewModel.ShowTypeColumn, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=DateColumn}">
-						<ToggleSwitch
-							AutomationProperties.Name="{helpers:ResourceString Name=DateColumn}"
-							IsOn="{x:Bind ViewModel.ShowDateColumn, Mode=TwoWay}"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=DateColumn}" IsOn="{x:Bind ViewModel.ShowDateColumn, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=DateCreatedColumn}">
-						<ToggleSwitch
-							AutomationProperties.Name="{helpers:ResourceString Name=DateCreatedColumn}"
-							IsOn="{x:Bind ViewModel.ShowDateCreatedColumn, Mode=TwoWay}"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=DateCreatedColumn}" IsOn="{x:Bind ViewModel.ShowDateCreatedColumn, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 				</wctcontrols:SettingsExpander.Items>
 			</wctcontrols:SettingsExpander>

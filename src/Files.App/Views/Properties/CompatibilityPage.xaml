@@ -18,7 +18,6 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///Styles/PropertiesStyles.xaml" />
-				<ResourceDictionary Source="/Styles/ToggleSwitchStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<converters:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />
@@ -57,34 +56,22 @@
 
 			<!--  Run In Low Resolution  -->
 			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CompatibilityRunIn640x480Resolution}">
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityRunIn640x480Resolution}"
-					IsOn="{x:Bind CompatibilityViewModel.RunIn40x480Resolution, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityRunIn640x480Resolution}" IsOn="{x:Bind CompatibilityViewModel.RunIn40x480Resolution, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  Disable Full Screen Optimizations  -->
 			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CompatibilityDisableFullscreenOptimizations}">
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityDisableFullscreenOptimizations}"
-					IsOn="{x:Bind CompatibilityViewModel.DisableFullscreenOptimization, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityDisableFullscreenOptimizations}" IsOn="{x:Bind CompatibilityViewModel.DisableFullscreenOptimization, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  Run As Admin  -->
 			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=RunAsAdministrator}">
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdministrator}"
-					IsOn="{x:Bind CompatibilityViewModel.RunAsAdministrator, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdministrator}" IsOn="{x:Bind CompatibilityViewModel.RunAsAdministrator, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  Register App For Restart  -->
 			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CompatibilityRegisterThisProgramForRestart}">
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityRegisterThisProgramForRestart}"
-					IsOn="{x:Bind CompatibilityViewModel.RegisterForRestart, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityRegisterThisProgramForRestart}" IsOn="{x:Bind CompatibilityViewModel.RegisterForRestart, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  High DPI Options  -->

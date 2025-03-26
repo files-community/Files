@@ -16,10 +16,6 @@
 
 	<Page.Resources>
 		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/Styles/ToggleSwitchStyles.xaml" />
-			</ResourceDictionary.MergedDictionaries>
-
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
 
@@ -243,8 +239,7 @@
 				<ToggleSwitch
 					AutomationProperties.AutomationControlType="Custom"
 					AutomationProperties.Name="{helpers:ResourceString Name=ShowTabActions}"
-					IsOn="{x:Bind ViewModel.ShowTabActions, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+					IsOn="{x:Bind ViewModel.ShowTabActions, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  Toolbar  -->
@@ -259,8 +254,7 @@
 						<ToggleSwitch
 							AutomationProperties.AutomationControlType="Custom"
 							AutomationProperties.Name="{helpers:ResourceString Name=ShowHomeButton}"
-							IsOn="{x:Bind ViewModel.ShowHomeButton, Mode=TwoWay}"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+							IsOn="{x:Bind ViewModel.ShowHomeButton, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
 					<!--  Show shelf pane toggle button  -->
@@ -268,18 +262,12 @@
 						x:Name="ShowShelfPaneSetting"
 						Header="{helpers:ResourceString Name=ShowShelfPaneButtonInAddressBar}"
 						Visibility="{x:Bind ViewModel.IsAppEnvironmentDev, Mode=OneTime}">
-						<ToggleSwitch
-							AutomationProperties.Name="{helpers:ResourceString Name=ShowShelfPaneButtonInAddressBar}"
-							IsOn="{x:Bind ViewModel.ShowShelfPaneToggleButton, Mode=TwoWay}"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowShelfPaneButtonInAddressBar}" IsOn="{x:Bind ViewModel.ShowShelfPaneToggleButton, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
 					<!--  Show toolbar  -->
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowToolbar}">
-						<ToggleSwitch
-							AutomationProperties.Name="{helpers:ResourceString Name=ShowToolbar}"
-							IsOn="{x:Bind ViewModel.ShowToolbar, Mode=TwoWay}"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowToolbar}" IsOn="{x:Bind ViewModel.ShowToolbar, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 				</wctcontrols:SettingsExpander.Items>
 			</wctcontrols:SettingsExpander>

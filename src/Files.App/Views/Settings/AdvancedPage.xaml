@@ -14,10 +14,6 @@
 
 	<Page.Resources>
 		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/Styles/ToggleSwitchStyles.xaml" />
-			</ResourceDictionary.MergedDictionaries>
-
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		</ResourceDictionary>
 	</Page.Resources>
@@ -98,8 +94,7 @@
 					<ToggleSwitch
 						AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenInLogin}"
 						IsEnabled="{x:Bind ViewModel.CanOpenOnWindowsStartup, Mode=OneWay}"
-						IsOn="{x:Bind ViewModel.OpenOnWindowsStartup, Mode=TwoWay}"
-						Style="{StaticResource RightAlignedToggleSwitchStyle}">
+						IsOn="{x:Bind ViewModel.OpenOnWindowsStartup, Mode=TwoWay}">
 						<i:Interaction.Behaviors>
 							<i:EventTriggerBehavior EventName="Toggled">
 								<i:InvokeCommandAction Command="{x:Bind ViewModel.OpenFilesOnWindowsStartupCommand, Mode=OneWay}" />
@@ -114,10 +109,7 @@
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8E6;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=SettingsLeaveAppRunning}"
-					IsOn="{x:Bind ViewModel.LeaveAppRunning, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsLeaveAppRunning}" IsOn="{x:Bind ViewModel.LeaveAppRunning, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  System Tray Icon  -->
@@ -125,10 +117,7 @@
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE75B;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=ShowSystemTrayIcon}"
-					IsOn="{x:Bind ViewModel.ShowSystemTrayIcon, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowSystemTrayIcon}" IsOn="{x:Bind ViewModel.ShowSystemTrayIcon, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  Experimental Settings  -->
@@ -147,10 +136,7 @@
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xEC50;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}"
-					IsOn="{x:Bind ViewModel.IsSetAsDefaultFileManager, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}">
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}" IsOn="{x:Bind ViewModel.IsSetAsDefaultFileManager, Mode=TwoWay}">
 					<i:Interaction.Behaviors>
 						<i:EventTriggerBehavior EventName="Toggled">
 							<i:InvokeCommandAction Command="{x:Bind ViewModel.SetAsDefaultExplorerCommand, Mode=OneWay}" />
@@ -168,10 +154,7 @@
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8E5;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
-				<ToggleSwitch
-					IsEnabled="{x:Bind ViewModel.IsSetAsDefaultFileManager, Mode=OneWay}"
-					IsOn="{x:Bind ViewModel.IsSetAsOpenFileDialog, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}">
+				<ToggleSwitch IsEnabled="{x:Bind ViewModel.IsSetAsDefaultFileManager, Mode=OneWay}" IsOn="{x:Bind ViewModel.IsSetAsOpenFileDialog, Mode=TwoWay}">
 					<i:Interaction.Behaviors>
 						<i:EventTriggerBehavior EventName="Toggled">
 							<i:InvokeCommandAction Command="{x:Bind ViewModel.SetAsOpenFileDialogCommand, Mode=OneWay}" />
@@ -188,10 +171,7 @@
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8B7;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=ShowFlattenOptions}"
-					IsOn="{x:Bind ViewModel.ShowFlattenOptions, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowFlattenOptions}" IsOn="{x:Bind ViewModel.ShowFlattenOptions, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 		</StackPanel>
 	</Grid>

@@ -16,7 +16,6 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///Styles/PropertiesStyles.xaml" />
-				<ResourceDictionary Source="ms-appx:///Styles/ToggleSwitchStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</vm:BasePropertiesPage.Resources>
@@ -148,10 +147,7 @@
 				x:Name="RunAsAdminCheckbox"
 				x:Load="{x:Bind ViewModel.RunAsAdminEnabled, Mode=OneWay}"
 				Header="{helpers:ResourceString Name=RunAsAdministrator}">
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdministrator}"
-					IsOn="{x:Bind ViewModel.RunAsAdminEditedValue, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdministrator}" IsOn="{x:Bind ViewModel.RunAsAdminEditedValue, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<wctcontrols:SettingsCard

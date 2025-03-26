@@ -11,10 +11,6 @@
 	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls"
 	mc:Ignorable="d">
 
-	<Page.Resources>
-		<ResourceDictionary Source="/Styles/ToggleSwitchStyles.xaml" />
-	</Page.Resources>
-
 	<Page.DataContext>
 		<vm:FoldersViewModel x:Name="ViewModel" />
 	</Page.DataContext>
@@ -47,34 +43,22 @@
 				<wctcontrols:SettingsExpander.Items>
 					<!--  Hidden Files  -->
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}">
-						<ToggleSwitch
-							AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}"
-							IsOn="{x:Bind ViewModel.ShowHiddenItems, Mode=TwoWay}"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowHiddenItems}" IsOn="{x:Bind ViewModel.ShowHiddenItems, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
 					<!--  Dots Files  -->
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowDotFiles}">
-						<ToggleSwitch
-							AutomationProperties.Name="{helpers:ResourceString Name=ShowDotFiles}"
-							IsOn="{x:Bind ViewModel.ShowDotFiles, Mode=TwoWay}"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowDotFiles}" IsOn="{x:Bind ViewModel.ShowDotFiles, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
 					<!--  System Files  -->
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowProtectedSystemFiles}">
-						<ToggleSwitch
-							AutomationProperties.Name="{helpers:ResourceString Name=ShowProtectedSystemFiles}"
-							IsOn="{x:Bind ViewModel.ShowProtectedSystemFiles, Mode=TwoWay}"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowProtectedSystemFiles}" IsOn="{x:Bind ViewModel.ShowProtectedSystemFiles, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
 					<!--  Alternate Data Streams  -->
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowAlternateStreams}">
-						<ToggleSwitch
-							AutomationProperties.Name="{helpers:ResourceString Name=ShowAlternateStreams}"
-							IsOn="{x:Bind ViewModel.AreAlternateStreamsVisible, Mode=TwoWay}"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowAlternateStreams}" IsOn="{x:Bind ViewModel.AreAlternateStreamsVisible, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 				</wctcontrols:SettingsExpander.Items>
 			</wctcontrols:SettingsExpander>
@@ -84,10 +68,7 @@
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8F9;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}"
-					IsOn="{x:Bind ViewModel.ShowFileExtensions, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowFileExtensions}" IsOn="{x:Bind ViewModel.ShowFileExtensions, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  Show Thumbnails  -->
@@ -95,10 +76,7 @@
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE91B;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}"
-					IsOn="{x:Bind ViewModel.ShowThumbnails, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsFilesAndFoldersShowThumbnails}" IsOn="{x:Bind ViewModel.ShowThumbnails, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  Show Checkboxes When Selecting Items  -->
@@ -106,10 +84,7 @@
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE73A;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=ShowCheckboxesWhenSelectingItems}"
-					IsOn="{x:Bind ViewModel.ShowCheckboxesWhenSelectingItems, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowCheckboxesWhenSelectingItems}" IsOn="{x:Bind ViewModel.ShowCheckboxesWhenSelectingItems, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  Behaviors  -->
@@ -126,25 +101,18 @@
 				</wctcontrols:SettingsExpander.HeaderIcon>
 				<wctcontrols:SettingsExpander.Items>
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SettingsOpenItemsWithOneClick}">
-						<ToggleSwitch
-							AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenItemsWithOneClick}"
-							IsOn="{x:Bind ViewModel.OpenItemsWithOneClick, Mode=TwoWay}"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenItemsWithOneClick}" IsOn="{x:Bind ViewModel.OpenItemsWithOneClick, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}">
-						<ToggleSwitch
-							AutomationProperties.Name="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}"
-							IsOn="{x:Bind ViewModel.ColumnLayoutOpenFoldersWithOneClick, Mode=TwoWay}"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}" IsOn="{x:Bind ViewModel.ColumnLayoutOpenFoldersWithOneClick, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=OpenFoldersInNewTab}">
 						<ToggleSwitch
 							x:Name="OpenFoldersNewTab"
 							AutomationProperties.Name="{helpers:ResourceString Name=OpenFoldersInNewTab}"
-							IsOn="{x:Bind ViewModel.OpenFoldersNewTab, Mode=TwoWay}"
-							Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+							IsOn="{x:Bind ViewModel.OpenFoldersNewTab, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 				</wctcontrols:SettingsExpander.Items>
 			</wctcontrols:SettingsExpander>
@@ -168,10 +136,7 @@
 					<FontIcon Glyph="&#xE8AC;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
 
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=ShowFileExtensionWarning}"
-					IsOn="{x:Bind ViewModel.ShowFileExtensionWarning, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowFileExtensionWarning}" IsOn="{x:Bind ViewModel.ShowFileExtensionWarning, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  Select On Hover  -->
@@ -180,10 +145,7 @@
 					<FontIcon Glyph="&#xE8B3;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
 
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}"
-					IsOn="{x:Bind ViewModel.SelectFilesOnHover, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SelectFilesAndFoldersOnHover}" IsOn="{x:Bind ViewModel.SelectFilesOnHover, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  Double click to go up  -->
@@ -192,10 +154,7 @@
 					<FontIcon Glyph="&#xE8B0;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
 
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=DoubleClickBlankSpaceToGoUp}"
-					IsOn="{x:Bind ViewModel.DoubleClickToGoUp, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=DoubleClickBlankSpaceToGoUp}" IsOn="{x:Bind ViewModel.DoubleClickToGoUp, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  Scroll to parent folder when navigating up  -->
@@ -204,10 +163,7 @@
 					<FontIcon Glyph="&#xECE7;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
 
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=ScrollToPreviousFolderWhenNavigatingUp}"
-					IsOn="{x:Bind ViewModel.ScrollToPreviousFolderWhenNavigatingUp, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ScrollToPreviousFolderWhenNavigatingUp}" IsOn="{x:Bind ViewModel.ScrollToPreviousFolderWhenNavigatingUp, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  Calculate folder sizes  -->
@@ -215,10 +171,7 @@
 				<wctcontrols:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xEE40;" />
 				</wctcontrols:SettingsExpander.HeaderIcon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=CalculateFolderSizes}"
-					IsOn="{x:Bind ViewModel.CalculateFolderSizes, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=CalculateFolderSizes}" IsOn="{x:Bind ViewModel.CalculateFolderSizes, Mode=TwoWay}" />
 				<wctcontrols:SettingsExpander.Items>
 					<InfoBar
 						CornerRadius="0,0,2,2"
