@@ -325,7 +325,7 @@
 				Style="{StaticResource AddressToolbarButtonStyle}"
 				ToolTipService.ToolTip="{x:Bind Commands.Search.LabelWithHotKey, Mode=OneWay}"
 				Visibility="Collapsed">
-				<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneTime}" />
+				<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
 			</Button>
 
 			<!--  Shelf Pane  -->
