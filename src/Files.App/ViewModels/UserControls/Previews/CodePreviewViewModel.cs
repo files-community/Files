@@ -7,7 +7,7 @@ using Files.App.ViewModels.Properties;
 
 namespace Files.App.ViewModels.Previews
 {
-	public sealed class CodePreviewViewModel : BasePreviewModel
+	public sealed partial class CodePreviewViewModel : BasePreviewModel
 	{
 		private static readonly FrozenDictionary<string, ILanguage> extensions = GetDictionary();
 

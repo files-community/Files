@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class AddItemAction : ObservableObject, IAction
+	internal sealed partial class AddItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
@@ -12,10 +12,10 @@ namespace Files.App.Actions
 		private readonly AddItemDialogViewModel viewModel = new();
 
 		public string Label
-			=> "BaseLayoutContextFlyoutNew/Label".GetLocalizedResource();
+			=> Strings.BaseLayoutContextFlyoutNew_Label.GetLocalizedResource();
 
 		public string Description
-			=> "AddItemDescription".GetLocalizedResource();
+			=> Strings.AddItemDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.New.Item");

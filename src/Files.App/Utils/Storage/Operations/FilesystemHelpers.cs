@@ -8,6 +8,7 @@ using Microsoft.Win32;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
+using Vanara.Extensions;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
@@ -18,7 +19,7 @@ using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class FilesystemHelpers : IFilesystemHelpers
+	public sealed partial class FilesystemHelpers : IFilesystemHelpers
 	{
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
@@ -69,8 +70,8 @@ namespace Files.App.Utils.Storage
 			if (!IsValidForFilename(source.Name))
 			{
 				await DialogDisplayHelper.ShowDialogAsync(
-					"ErrorDialogThisActionCannotBeDone".GetLocalizedResource(),
-					"ErrorDialogNameNotAllowed".GetLocalizedResource());
+					Strings.ErrorDialogThisActionCannotBeDone.GetLocalizedResource(),
+					Strings.ErrorDialogNameNotAllowed.GetLocalizedResource());
 				return (ReturnResult.Failed, null);
 			}
 
@@ -546,8 +547,8 @@ namespace Files.App.Utils.Storage
 			if (!IsValidForFilename(newName))
 			{
 				await DialogDisplayHelper.ShowDialogAsync(
-					"ErrorDialogThisActionCannotBeDone".GetLocalizedResource(),
-					"ErrorDialogNameNotAllowed".GetLocalizedResource());
+					Strings.ErrorDialogThisActionCannotBeDone.GetLocalizedResource(),
+					Strings.ErrorDialogNameNotAllowed.GetLocalizedResource());
 				return ReturnResult.Failed;
 			}
 
@@ -568,7 +569,7 @@ namespace Files.App.Utils.Storage
 						UserSettingsService.FoldersSettingsService.ShowFileExtensionWarning
 					)
 					{
-						var yesSelected = await DialogDisplayHelper.ShowDialogAsync("Rename".GetLocalizedResource(), "RenameFileDialog/Text".GetLocalizedResource(), "Yes".GetLocalizedResource(), "No".GetLocalizedResource());
+						var yesSelected = await DialogDisplayHelper.ShowDialogAsync(Strings.Rename.GetLocalizedResource(), Strings.RenameFileDialog_Text.GetLocalizedResource(), Strings.Yes.GetLocalizedResource(), Strings.No.GetLocalizedResource());
 						if (yesSelected)
 						{
 							history = await filesystemOperations.RenameAsync(source, newName, collision, progress, cancellationToken);
@@ -876,7 +877,7 @@ namespace Files.App.Utils.Storage
 			var value = Registry.GetValue(keyName, "ShortcutNameTemplate", null);
 
 			if (value is null)
-				return string.Format("ShortcutCreateNewSuffix".GetLocalizedResource(), itemName) + ".lnk";
+				return string.Format(Strings.ShortcutCreateNewSuffix.GetLocalizedResource(), itemName) + ".lnk";
 			else
 			{
 				// Trim the quotes and the "%s" from the string

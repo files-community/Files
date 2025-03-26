@@ -3,17 +3,17 @@
 
 namespace Files.App.Actions
 {
-    sealed class OpenAllTaggedActions: ObservableObject, IAction
+    sealed partial class OpenAllTaggedActions: ObservableObject, IAction
     {
 		private readonly IContentPageContext _pageContext;
 
 		private readonly ITagsContext _tagsContext;
 
 		public string Label
-			=> "OpenAllTaggedItems".GetLocalizedResource();
+			=> Strings.OpenAllTaggedItems.GetLocalizedResource();
 
 		public string Description
-			=> "OpenAllTaggedItemsDescription".GetLocalizedResource();
+			=> Strings.OpenAllTaggedItemsDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new("\uE71D");

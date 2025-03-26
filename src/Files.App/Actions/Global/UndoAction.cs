@@ -3,15 +3,15 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class UndoAction : ObservableObject, IAction
+	internal sealed partial class UndoAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Undo".GetLocalizedResource();
+			=> Strings.Undo.GetLocalizedResource();
 
 		public string Description
-			=> "UndoDescription".GetLocalizedResource();
+			=> Strings.UndoDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Z, KeyModifiers.Ctrl);

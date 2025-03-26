@@ -536,6 +536,9 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>复制到 {0}</value>
   </data>
+  <data name="CloneToFolderCaptionText" xml:space="preserve">
+    <value>克隆到 {0}</value>
+  </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>创建快捷方式</value>
   </data>
@@ -1032,7 +1035,7 @@
     <value>移除</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>以双面板模式打开标签页</value>
+    <value>以双窗格模式打开标签页</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
     <value>显示“在新面板中打开”</value>
@@ -1713,7 +1716,7 @@
     <value>列视图</value>
   </data>
   <data name="Cards" xml:space="preserve">
-    <value>Cards</value>
+    <value>卡片</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>在新标签页中打开文件夹</value>
@@ -1827,16 +1830,16 @@
     <value>注册此程序以重新启动</value>
   </data>
   <data name="StartWindow" xml:space="preserve">
-    <value>Start window</value>
+    <value>启动时的窗口状态</value>
   </data>
   <data name="NormalWindow" xml:space="preserve">
-    <value>Normal window</value>
+    <value>正常窗口</value>
   </data>
   <data name="Minimized" xml:space="preserve">
-    <value>Minimized</value>
+    <value>最小化</value>
   </data>
   <data name="Maximized" xml:space="preserve">
-    <value>Maximized</value>
+    <value>最大化</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>以管理员身份运行</value>
@@ -1977,7 +1980,7 @@
     <value>当前无法执行移动操作。要复制此项目吗？</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
-    <value>隐藏项目</value>
+    <value>隐藏的项目</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>自定义</value>
@@ -2190,7 +2193,7 @@
     <value>“最近使用的文件”已在 Windows 文件管理器中停用。</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>编辑设置文件</value>
+    <value>编辑配置文件</value>
   </data>
   <data name="WhatsNew" xml:space="preserve">
     <value>新功能</value>
@@ -2391,7 +2394,7 @@
     <value>转到搜索框</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>切换隐藏项目显示</value>
+    <value>切换隐藏的项目的显示</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
     <value>切换是否显示以英文句点 (.) 开头的项目</value>
@@ -2571,10 +2574,10 @@
     <value>增加当前视图中项目的大小</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
-    <value>切换至详细信息视图</value>
+    <value>切换到详细信息视图</value>
   </data>
   <data name="LayoutCardsDescription" xml:space="preserve">
-    <value>Switch to cards view</value>
+    <value>切换到卡片视图</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>切换到列表视图</value>
@@ -2589,7 +2592,7 @@
     <value>切换到网格视图</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>切换至列视图</value>
+    <value>切换到列视图</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
     <value>自适应切换视图</value>
@@ -3025,7 +3028,7 @@
     <value>年</value>
   </data>
   <data name="GroupByDateUnit" xml:space="preserve">
-    <value>按日期单位分组</value>
+    <value>按日期分组时的单位</value>
   </data>
   <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
     <value>按创建日期分组</value>
@@ -3138,6 +3141,9 @@
   <data name="GitFetchDescription" xml:space="preserve">
     <value>运行 git fetch</value>
   </data>
+  <data name="GitCloneDescription" xml:space="preserve">
+    <value>克隆一个 git 仓库</value>
+  </data>
   <data name="GitPullDescription" xml:space="preserve">
     <value>运行 git pull</value>
   </data>
@@ -3214,17 +3220,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files 目前无法访问 GitHub。</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>在 VS Code 中打开文件夹</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>在 {0} 中打开文件夹</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>在 Visual Studio Code 中打开当前目录</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>在 {0} 中打开当前目录</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>在 VS Code 中打开仓库</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>在 {0} 中打开存储库</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>在 Visual Studio Code 中打开 Git 仓库的根目录</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>在 {0} 中打开Git repo 的根目录</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>复制代码</value>
@@ -3465,6 +3471,70 @@
     <value>正在将 {0} 个项目从“{1}”压缩到“{2}”</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
+    <value>已取消将 {0} 克隆到“{1}”</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
+    <value>已取消将 {0} 从“{1}”克隆到“{2}”</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
+    <value>已将“{0}”克隆到“{1}”</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
+    <value>已将“{0}”从“{1}”克隆到“{2}”</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
+    <value>将“{0}”克隆到“{1}”时出错</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
+    <value>无法将 {0} 从“{1}”克隆到“{2}”</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
+    <value>正在将“{0}”克隆到“{1}”</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
+    <value>Cloning {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
+  <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
+    <value>Canceled installing {0} fonts</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled installing {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
+    <value>Installed {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
+    <value>Installed {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
+    <value>Error installing {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
+    <value>Failed to install {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
+    <value>Installing {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
+    <value>Installing {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>已取消将 {0} 个项目复制到“{1}”</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3875,6 +3945,10 @@
     <value>ICO 图标文件</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>ICL 文件</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Zip 压缩文件</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -3966,7 +4040,7 @@
     <value>返回主页</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Show home button in address bar</value>
+    <value>在地址栏中显示主页按钮</value>
   </data>
   <data name="Toolbars" xml:space="preserve">
     <value>工具栏</value>
@@ -4017,26 +4091,69 @@
     <value>总是切换到新创建的标签页</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
-    <value>Toggle the shelf pane</value>
+    <value>显示/隐藏中转站窗格</value>
   </data>
   <data name="ToggleShelfPaneDescription" xml:space="preserve">
-    <value>Toggle the shelf pane visibility</value>
+    <value>设定是否显示中转站窗格</value>
   </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
-    <value>Show shelf pane toggle in address bar</value>
+    <value>在地址栏中显示中转站窗格开关</value>
   </data>
   <data name="Shelf" xml:space="preserve">
-    <value>Shelf</value>
+    <value>中转站</value>
     <comment>'Shelf' refers to the Shelf Pane feature, where users can conveniently drag and drop files for quick access and perform bulk actions with ease.</comment>
   </data>
   <data name="ClearItems" xml:space="preserve">
-    <value>Clear items</value>
+    <value>清除所有项目</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
-    <value>Remove from shelf</value>
+    <value>从中转站移除</value>
   </data>
   <data name="AddToShelf" xml:space="preserve">
-    <value>Add to shelf</value>
+    <value>添加到中转站</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>路径或别名</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>路径无效</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>测试集成</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>找不到 {0}。请检查你的设置并重试。</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>找不到设置的 IDE</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>打开设置</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>输入路径或启动别名</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>请为此 IDE 配置命名</value>
+  </data>
+  <data name="CloneRepo" xml:space="preserve">
+    <value>Clone repo</value>
+    <comment>Clone repo dialog title</comment>
+  </data>
+  <data name="Clone" xml:space="preserve">
+    <value>克隆</value>
+    <comment>Primary action button in the clone repo dialog</comment>
+  </data>
+  <data name="RepositoryURL" xml:space="preserve">
+    <value>Repository URL</value>
+    <comment>URL textbox header in the clone repo dialog</comment>
+  </data>
+  <data name="CannotCloneRepoTitle" xml:space="preserve">
+    <value>Cannot clone repo</value>
+    <comment>Cannot clone repo dialog title</comment>
   </data>
 </root>

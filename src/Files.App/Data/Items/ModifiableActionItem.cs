@@ -6,7 +6,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents item for a hotkey that is registered for a <see cref="IRichCommand"/>.
 	/// </summary>
-	public class ModifiableActionItem : ObservableObject
+	public partial class ModifiableActionItem : ObservableObject
 	{
 		public CommandCodes CommandCode { get; set; }
 

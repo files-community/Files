@@ -43,8 +43,8 @@ namespace Files.App.Utils.Storage
 			{
 				Model.CountText = string.Format(
 					Count > 1
-						? "GroupItemsCount_Plural".GetLocalizedResource()
-						: "GroupItemsCount_Singular".GetLocalizedResource(),
+						? Strings.GroupItemsCount_Plural.GetLocalizedResource()
+						: Strings.GroupItemsCount_Singular.GetLocalizedResource(),
 					Count);
 			}
 		}

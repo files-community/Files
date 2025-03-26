@@ -3,15 +3,15 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class PasteItemToSelectionAction : BaseUIAction, IAction
+	internal sealed partial class PasteItemToSelectionAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Paste".GetLocalizedResource();
+			=> Strings.Paste.GetLocalizedResource();
 
 		public string Description
-			=> "PasteItemToSelectionDescription".GetLocalizedResource();
+			=> Strings.PasteItemToSelectionDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Paste");

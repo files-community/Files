@@ -14,7 +14,7 @@ namespace Files.App.Utils.Shell
 	/// <summary>
 	/// Provides a helper for Win32 context menu.
 	/// </summary>
-	public class ContextMenu : Win32ContextMenu, IDisposable
+	public partial class ContextMenu : Win32ContextMenu, IDisposable
 	{
 		private Shell32.IContextMenu _cMenu;
 		
@@ -85,7 +85,7 @@ namespace Files.App.Utils.Shell
 			return false;
 		}
 
-		public async Task<bool> InvokeItem(int itemID)
+		public async Task<bool> InvokeItem(int itemID, string? workingDirectory = null)
 		{
 			if (itemID < 0)
 				return false;
@@ -100,6 +100,8 @@ namespace Files.App.Utils.Shell
 				};
 
 				pici.cbSize = (uint)Marshal.SizeOf(pici);
+				if (workingDirectory is not null)
+					pici.lpDirectoryW = workingDirectory;
 
 				await _owningThread.PostMethod(() => _cMenu.InvokeCommand(pici));
 				Win32Helper.BringToForeground(currentWindows);

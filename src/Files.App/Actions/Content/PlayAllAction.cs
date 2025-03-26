@@ -5,15 +5,15 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
-	internal sealed class PlayAllAction : ObservableObject, IAction
+	internal sealed partial class PlayAllAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "PlayAll".GetLocalizedResource();
+			=> Strings.PlayAll.GetLocalizedResource();
 
 		public string Description
-			=> "PlayAllDescription".GetLocalizedResource();
+			=> Strings.PlayAllDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new("\uE768");

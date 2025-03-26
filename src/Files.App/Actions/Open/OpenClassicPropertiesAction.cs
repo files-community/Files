@@ -7,15 +7,15 @@ using Windows.Win32.UI.Shell;
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenClassicPropertiesAction : ObservableObject, IAction
+	internal sealed partial class OpenClassicPropertiesAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "OpenClassicProperties".GetLocalizedResource();
+			=> Strings.OpenClassicProperties.GetLocalizedResource();
 
 		public string Description
-			=> "OpenClassicPropertiesDescription".GetLocalizedResource();
+			=> Strings.OpenClassicPropertiesDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Properties");

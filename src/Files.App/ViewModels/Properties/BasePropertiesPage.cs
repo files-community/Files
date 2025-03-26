@@ -39,8 +39,8 @@ namespace Files.App.ViewModels.Properties
 				var props = new DriveProperties(ViewModel, drive, AppInstance);
 				BaseProperties = props;
 
-				ViewModel.CleanupVisibility = props.Drive.Type != DriveType.Network;
-				ViewModel.FormatVisibility = !(props.Drive.Type == DriveType.Network || string.Equals(props.Drive.Path, $@"{Constants.UserEnvironmentPaths.SystemDrivePath}\", StringComparison.OrdinalIgnoreCase));
+				ViewModel.CleanupVisibility = props.Drive.Type != DriveType.Network && props.Drive.Type != DriveType.CloudDrive;
+				ViewModel.FormatVisibility = !(props.Drive.Type == DriveType.Network || props.Drive.Type == DriveType.CloudDrive || string.Equals(props.Drive.Path, $@"{Constants.UserEnvironmentPaths.SystemDrivePath}\", StringComparison.OrdinalIgnoreCase));
 				ViewModel.CleanupDriveCommand = new AsyncRelayCommand(() => StorageSenseHelper.OpenStorageSenseAsync(props.Drive.Path));
 				ViewModel.FormatDriveCommand = new RelayCommand(async () =>
 				{
@@ -86,7 +86,7 @@ namespace Files.App.ViewModels.Properties
 
 				string[] extensions =
 				[
-					"BitmapFiles".GetLocalizedResource(), "*.bmp",
+					Strings.BitmapFiles.GetLocalizedResource(), "*.bmp",
 					"JPEG", "*.jpg;*.jpeg",
 					"PNG", "*.png",
 				];

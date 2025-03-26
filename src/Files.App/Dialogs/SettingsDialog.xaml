@@ -138,7 +138,7 @@
 					Content="{helpers:ResourceString Name=DevTools}"
 					Tag="DevToolsPage">
 					<NavigationViewItem.Icon>
-						<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="&#xE794;" />
+						<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="&#xEC7A;" />
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 				<NavigationViewItem

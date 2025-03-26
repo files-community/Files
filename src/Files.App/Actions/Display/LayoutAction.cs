@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class LayoutDetailsAction : ToggleLayoutAction
+	internal sealed partial class LayoutDetailsAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Details;
@@ -21,7 +21,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number1, KeyModifiers.CtrlShift);
 	}
 
-	internal sealed class LayoutListAction : ToggleLayoutAction
+	internal sealed partial class LayoutListAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.List;
@@ -39,7 +39,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number2, KeyModifiers.CtrlShift);
 	}
 
-	internal sealed class LayoutCardsAction : ToggleLayoutAction
+	internal sealed partial class LayoutCardsAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Cards;
@@ -57,7 +57,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number3, KeyModifiers.CtrlShift);
 	}
 
-	internal sealed class LayoutGridAction : ToggleLayoutAction
+	internal sealed partial class LayoutGridAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Grid;
@@ -75,7 +75,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number4, KeyModifiers.CtrlShift);
 	}
 
-	internal sealed class LayoutColumnsAction : ToggleLayoutAction
+	internal sealed partial class LayoutColumnsAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Columns;
@@ -93,7 +93,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number5, KeyModifiers.CtrlShift);
 	}
 
-	internal sealed class LayoutAdaptiveAction : ToggleLayoutAction
+	internal sealed partial class LayoutAdaptiveAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Adaptive;
@@ -168,7 +168,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal sealed class LayoutDecreaseSizeAction : ObservableObject, IAction
+	internal sealed partial class LayoutDecreaseSizeAction : ObservableObject, IAction
 	{
 		private static readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
@@ -256,7 +256,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal sealed class LayoutIncreaseSizeAction : ObservableObject, IAction
+	internal sealed partial class LayoutIncreaseSizeAction : ObservableObject, IAction
 	{
 		private static readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();

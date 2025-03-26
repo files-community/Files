@@ -4,7 +4,6 @@
 using Files.App.Dialogs;
 using LibGit2Sharp;
 using Microsoft.Extensions.Logging;
-using Sentry;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
@@ -13,6 +12,8 @@ namespace Files.App.Utils.Git
 {
 	internal static class GitHelpers
 	{
+		private static readonly StatusCenterViewModel StatusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+
 		private const string GIT_RESOURCE_NAME = "Files:https://github.com";
 
 		private const string GIT_RESOURCE_USERNAME = "Personal Access Token";
@@ -442,9 +443,9 @@ namespace Files.App.Utils.Git
 			{
 				var viewModel = new DynamicDialogViewModel()
 				{
-					TitleText = "GitError".GetLocalizedResource(),
-					SubtitleText = "PullTimeoutError".GetLocalizedResource(),
-					CloseButtonText = "Close".GetLocalizedResource(),
+					TitleText = Strings.GitError.GetLocalizedResource(),
+					SubtitleText = Strings.PullTimeoutError.GetLocalizedResource(),
+					CloseButtonText = Strings.Close.GetLocalizedResource(),
 					DynamicButtons = DynamicDialogButtons.Cancel
 				};
 				var dialog = new DynamicDialog(viewModel);
@@ -570,7 +571,7 @@ namespace Files.App.Utils.Git
 			var expiresIn = codeJsonContent.RootElement.GetProperty("expires_in").GetInt32();
 
 			var loginCTS = new CancellationTokenSource();
-			var viewModel = new GitHubLoginDialogViewModel(userCode, "ConnectGitHubDescription".GetLocalizedResource(), loginCTS);
+			var viewModel = new GitHubLoginDialogViewModel(userCode, Strings.ConnectGitHubDescription.GetLocalizedResource(), loginCTS);
 
 			var dialog = _dialogService.GetDialog(viewModel);
 			var loginDialogTask = dialog.TryShowAsync();
@@ -621,7 +622,7 @@ namespace Files.App.Utils.Git
 						GIT_RESOURCE_USERNAME,
 						token);
 
-					viewModel.Subtitle = "AuthorizationSucceded".GetLocalizedResource();
+					viewModel.Subtitle = Strings.AuthorizationSucceded.GetLocalizedResource();
 					viewModel.LoginConfirmed = true;
 				}
 				catch (Exception ex)
@@ -687,10 +688,10 @@ namespace Files.App.Utils.Git
 				{
 					changeKindHumanized = changeKind switch
 					{
-						ChangeKind.Added => "Added".GetLocalizedResource(),
-						ChangeKind.Deleted => "Deleted".GetLocalizedResource(),
-						ChangeKind.Modified => "Modified".GetLocalizedResource(),
-						ChangeKind.Untracked => "Untracked".GetLocalizedResource(),
+						ChangeKind.Added => Strings.Added.GetLocalizedResource(),
+						ChangeKind.Deleted => Strings.Deleted.GetLocalizedResource(),
+						ChangeKind.Modified => Strings.Modified.GetLocalizedResource(),
+						ChangeKind.Untracked => Strings.Untracked.GetLocalizedResource(),
 						_ => null,
 					};
 				}
@@ -844,6 +845,95 @@ namespace Files.App.Utils.Git
 				if (useSemaphore)
 					GitOperationSemaphore.Release();
 			}
+		}
+
+		/// <summary>
+		/// Gets repository information from a GitHub URL.
+		/// </summary>
+		/// <param name="url"></param>
+		/// <returns></returns>
+		public static (string RepoUrl, string RepoName) GetRepoInfo(string url)
+		{
+			// Remove protocol and normalize slashes
+			var normalizedUrl = url.ToLower().Replace("https://", "").Replace("http://", "").Replace("//", "");
+
+			string[] parts = normalizedUrl.Split('/');
+
+			// Check if the URL includes an organization or user name + repo (github.com/username/repo)
+			if (parts.Length >= 3 && parts[0] == "github.com")
+			{
+				// Construct the repo URL from the first three parts
+				string repoUrl = $"https://{parts[0]}/{parts[1]}/{parts[2]}";
+				return (repoUrl, parts[2]);
+			}
+
+			return (string.Empty, string.Empty);
+		}
+
+		/// <summary>
+		/// Checks if the provided URL is a valid GitHub URL.
+		/// </summary>
+		/// <param name="url">The URL to validate.</param>
+		/// <returns>True if the URL is a valid GitHub URL; otherwise, false.</returns>
+		public static bool IsValidRepoUrl(string url)
+		{
+			return !string.IsNullOrWhiteSpace(url) && url.Contains("github.com");
+		}
+
+		public static async Task CloneRepoAsync(string repoUrl, string repoName, string targetDirectory)
+		{
+			var banner = StatusCenterHelper.AddCard_GitClone(repoName.CreateEnumerable(), targetDirectory.CreateEnumerable(), ReturnResult.InProgress);
+			var fsProgress = new StatusCenterItemProgressModel(banner.ProgressEventSource, enumerationCompleted: true, FileSystemStatusCode.InProgress);
+			var errorMessage = string.Empty;
+
+			bool isSuccess = await Task.Run(() =>
+			{
+				try
+				{
+					var cloneOptions = new CloneOptions
+					{
+						FetchOptions =
+						{
+							OnTransferProgress = progress =>
+							{
+								banner.CancellationToken.ThrowIfCancellationRequested();
+								fsProgress.ItemsCount = progress.TotalObjects;
+								fsProgress.SetProcessedSize(progress.ReceivedBytes);
+								fsProgress.AddProcessedItemsCount(1);
+								fsProgress.Report((int)((progress.ReceivedObjects / (double)progress.TotalObjects) * 100));
+								return true;
+							},
+							OnProgress = _ => !banner.CancellationToken.IsCancellationRequested
+						},
+						OnCheckoutProgress = (path, completed, total) =>
+							banner.CancellationToken.ThrowIfCancellationRequested()
+					};
+
+					Repository.Clone(repoUrl, targetDirectory, cloneOptions);
+					return true;
+				}
+				catch (Exception ex)
+				{
+					errorMessage = ex.Message;
+					return false;
+				}
+			}, banner.CancellationToken);
+
+			if (!string.IsNullOrEmpty(errorMessage))
+			{
+				UIHelpers.CloseAllDialogs();
+				await Task.Delay(500);
+				await DynamicDialogFactory.ShowFor_CannotCloneRepo(errorMessage);
+			}
+
+			StatusCenterViewModel.RemoveItem(banner);
+
+			StatusCenterHelper.AddCard_GitClone(
+				repoName.CreateEnumerable(),
+				targetDirectory.CreateEnumerable(),
+				isSuccess ? ReturnResult.Success :
+				banner.CancellationToken.IsCancellationRequested ? ReturnResult.Cancelled :
+				ReturnResult.Failed);
 		}
 	}
 }

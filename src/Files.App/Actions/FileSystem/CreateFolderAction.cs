@@ -3,15 +3,15 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class CreateFolderAction : BaseUIAction, IAction
+	internal sealed partial class CreateFolderAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Folder".GetLocalizedResource();
+			=> Strings.Folder.GetLocalizedResource();
 
 		public string Description
-			=> "CreateFolderDescription".GetLocalizedResource();
+			=> Strings.CreateFolderDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.N, KeyModifiers.CtrlShift);

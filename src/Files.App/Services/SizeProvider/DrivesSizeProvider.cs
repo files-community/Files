@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Services.SizeProvider
 {
-	public sealed class DrivesSizeProvider : ISizeProvider
+	public sealed partial class DrivesSizeProvider : ISizeProvider
 	{
 		private readonly ConcurrentDictionary<string, ISizeProvider> providers = new();
 

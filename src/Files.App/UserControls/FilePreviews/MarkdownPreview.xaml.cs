@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.UI.Controls;
+using CommunityToolkit.WinUI.Controls;
 using Files.App.ViewModels.Previews;
 using Microsoft.UI.Xaml.Controls;
 using Windows.System;
@@ -18,10 +18,9 @@ namespace Files.App.UserControls.FilePreviews
 			InitializeComponent();
 		}
 
-		private async void PreviewMarkdownTextBlock_LinkClicked(object sender, LinkClickedEventArgs e)
+		private async void PreviewMarkdownTextBlock_OnLinkClicked(object sender, CommunityToolkit.Labs.WinUI.MarkdownTextBlock.LinkClickedEventArgs e)
 		{
-			if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri? link))
-				await Launcher.LaunchUriAsync(link);
+			await Launcher.LaunchUriAsync(e.Uri);
 		}
 	}
 }

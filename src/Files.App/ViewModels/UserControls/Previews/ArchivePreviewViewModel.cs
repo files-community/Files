@@ -7,7 +7,7 @@ using System.IO;
 
 namespace Files.App.ViewModels.Previews
 {
-	public sealed class ArchivePreviewViewModel : BasePreviewModel
+	public sealed partial class ArchivePreviewViewModel : BasePreviewModel
 	{
 		public ArchivePreviewViewModel(ListedItem item)
 			: base(item)
@@ -51,7 +51,7 @@ namespace Files.App.ViewModels.Previews
 
 			folderCount = (int)zipFile.FilesCount - fileCount;
 
-			string propertyItemCount = "DetailsArchiveItems".GetLocalizedFormatResource(zipFile.FilesCount, fileCount, folderCount);
+			string propertyItemCount = Strings.DetailsArchiveItems.GetLocalizedFormatResource(zipFile.FilesCount, fileCount, folderCount);
 			details.Add(GetFileProperty("PropertyItemCount", propertyItemCount));
 			details.Add(GetFileProperty("PropertyUncompressedSize", totalSize.ToLongSizeString()));
 

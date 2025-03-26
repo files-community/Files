@@ -8,24 +8,24 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// Gets enumerated network computers.
 		/// </summary>
-		ObservableCollection<ILocatableFolder> Computers { get; }
+		ObservableCollection<IFolder> Computers { get; }
 
 		/// <summary>
 		/// Gets enumerated network shortcuts.
 		/// </summary>
-		ObservableCollection<ILocatableFolder> Shortcuts { get; }
+		ObservableCollection<IFolder> Shortcuts { get; }
 
 		/// <summary>
 		/// Enumerates network computers.
 		/// </summary>
 		/// <returns>A collection of network computers</returns>
-		Task<IEnumerable<ILocatableFolder>> GetComputersAsync();
+		Task<IEnumerable<IFolder>> GetComputersAsync();
 
 		/// <summary>
 		/// Enumerates network shortcuts.
 		/// </summary>
 		/// <returns>A collection of network shortcuts</returns>
-		Task<IEnumerable<ILocatableFolder>> GetShortcutsAsync();
+		Task<IEnumerable<IFolder>> GetShortcutsAsync();
 
 		/// <summary>
 		/// Updates computers to up-to-date.
@@ -50,7 +50,7 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		/// <param name="drive">An item representing the network storage device to disconnect from</param>
 		/// <returns>True or false to indicate status</returns>
-		bool DisconnectNetworkDrive(ILocatableFolder drive);
+		bool DisconnectNetworkDrive(IFolder drive);
 
 		/// <summary>
 		/// Authenticates the specified network share point.

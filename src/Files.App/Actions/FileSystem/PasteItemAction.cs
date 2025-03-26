@@ -11,15 +11,15 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal sealed class PasteItemAction : ObservableObject, IAction
+	internal sealed partial class PasteItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Paste".GetLocalizedResource();
+			=> Strings.Paste.GetLocalizedResource();
 
 		public string Description
-			=> "PasteItemDescription".GetLocalizedResource();
+			=> Strings.PasteItemDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Paste");

@@ -3,13 +3,13 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class DecompressArchiveHereSmart : BaseDecompressArchiveAction
+	internal sealed partial class DecompressArchiveHereSmart : BaseDecompressArchiveAction
 	{
 		public override string Label
-			=> "ExtractHereSmart".GetLocalizedResource();
+			=> Strings.ExtractHereSmart.GetLocalizedResource();
 
 		public override string Description
-			=> "DecompressArchiveHereSmartDescription".GetLocalizedResource();
+			=> Strings.DecompressArchiveHereSmartDescription.GetLocalizedResource();
 
 		public override HotKey HotKey
 			=> new(Keys.E, KeyModifiers.CtrlShift);

@@ -3,15 +3,15 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class RedoAction : ObservableObject, IAction
+	internal sealed partial class RedoAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Redo".GetLocalizedResource();
+			=> Strings.Redo.GetLocalizedResource();
 
 		public string Description
-			=> "RedoDescription".GetLocalizedResource();
+			=> Strings.RedoDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Y, KeyModifiers.Ctrl);

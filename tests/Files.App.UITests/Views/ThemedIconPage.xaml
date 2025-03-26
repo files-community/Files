@@ -13,1107 +13,845 @@
 		<ResourceDictionary>
 			<Style
 				x:Key="IconTest"
-				BasedOn="{StaticResource App.ThemedIcons.AppUpdatedBox}"
-				TargetType="controls:ThemedIcon">
-				<Setter Property="IconSize" Value="16" />
-				<Setter Property="Width" Value="16" />
-				<Setter Property="Height" Value="16" />
-			</Style>
-
-			<Style x:Key="StackPanelControlTestingStyle" TargetType="StackPanel">
-				<Setter Property="Padding" Value="16,16,16,24" />
-				<Setter Property="Background" Value="{ThemeResource LayerFillColorDefaultBrush}" />
-				<Setter Property="BorderBrush" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
-				<Setter Property="BorderThickness" Value="1,0,0,0" />
-				<Setter Property="CornerRadius" Value="0,8,8,0" />
-				<Setter Property="Spacing" Value="24" />
-			</Style>
-
-			<Style x:Key="GridExampleControlStyle" TargetType="Grid">
-				<Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
-				<Setter Property="BorderBrush" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
-				<Setter Property="BorderThickness" Value="1" />
-				<Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
-			</Style>
-
-			<Style
-				x:Key="TextExampleCaptionStyle"
-				BasedOn="{StaticResource CaptionTextBlockStyle}"
-				TargetType="TextBlock">
-				<Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
-				<Setter Property="Margin" Value="24,24,24,0" />
-				<Setter Property="FontWeight" Value="Normal" />
-				<Setter Property="HorizontalAlignment" Value="Center" />
-				<Setter Property="VerticalAlignment" Value="Center" />
-				<Setter Property="MaxLines" Value="1" />
-				<Setter Property="TextTrimming" Value="CharacterEllipsis" />
-				<Setter Property="TextWrapping" Value="NoWrap" />
-			</Style>
-
+				BasedOn="{StaticResource App.ThemedIcons.Actions.FontInstall}"
+				TargetType="controls:ThemedIcon" />
 		</ResourceDictionary>
 	</Page.Resources>
 
-	<Grid Padding="36" RowSpacing="24">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
+	<StackPanel Spacing="24">
 
-		<StackPanel Spacing="8">
-			<TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="ThemedIcon" />
-			<TextBlock
-				Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-				Style="{StaticResource CaptionTextBlockStyle}"
-				Text="Files.App.Controls" />
-		</StackPanel>
-
-		<StackPanel Grid.Row="1" Spacing="24">
-
-			<!--  Icon Types and Colors  -->
-			<StackPanel Spacing="8">
-
-				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Icon Types and Colors" />
-
-				<Grid Style="{StaticResource GridExampleControlStyle}">
+		<!--  Icon Types and Colors  -->
+		<controls:SamplePanel Header="Icon Types and Colors">
+			<controls:SamplePanel.MainContent>
+				<Grid ColumnSpacing="16" RowSpacing="12">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+						<RowDefinition />
+						<RowDefinition />
+						<RowDefinition />
+						<RowDefinition />
+						<RowDefinition />
+						<RowDefinition />
+						<RowDefinition />
+						<RowDefinition />
+					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*" />
-						<ColumnDefinition Width="320" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 
-					<Grid
+					<!--  Icon Column Headers  -->
+					<TextBlock
+						Grid.Row="0"
+						Grid.Column="1"
+						Style="{StaticResource TextExampleCaptionStyle}"
+						Text="Layered" />
+
+					<TextBlock
+						Grid.Row="0"
+						Grid.Column="2"
+						Style="{StaticResource TextExampleCaptionStyle}"
+						Text="Filled" />
+
+					<TextBlock
+						Grid.Row="0"
+						Grid.Column="3"
+						Style="{StaticResource TextExampleCaptionStyle}"
+						Text="Outline" />
+
+					<!--  Icon Row Headers  -->
+					<TextBlock
+						Grid.Row="1"
 						Grid.Column="0"
-						Margin="24,0,24,24"
+						Text="Normal" />
+
+					<TextBlock
+						Grid.Row="2"
+						Grid.Column="0"
+						MaxLines="1"
+						Text="Disabled" />
+
+					<TextBlock
+						Grid.Row="3"
+						Grid.Column="0"
+						Text="Success" />
+
+					<TextBlock
+						Grid.Row="4"
+						Grid.Column="0"
+						Text="Caution" />
+
+					<TextBlock
+						Grid.Row="5"
+						Grid.Column="0"
+						Text="Critical" />
+
+					<TextBlock
+						Grid.Row="6"
+						Grid.Column="0"
+						Text="Accent" />
+
+					<TextBlock
+						Grid.Row="7"
+						Grid.Column="0"
+						Text="Neutral" />
+
+					<TextBlock
+						Grid.Row="8"
+						Grid.Column="0"
+						Text="Custom" />
+
+					<!--  Normal Icons Row 1  -->
+					<controls:ThemedIcon
+						Grid.Row="1"
+						Grid.Column="1"
+						IconColorType="Normal"
+						IconType="Layered"
+						Style="{StaticResource IconTest}" />
+
+					<controls:ThemedIcon
+						Grid.Row="1"
+						Grid.Column="2"
+						IconColorType="Normal"
+						IsFilled="True"
+						Style="{StaticResource IconTest}" />
+
+					<controls:ThemedIcon
+						Grid.Row="1"
+						Grid.Column="3"
+						IconColorType="Normal"
+						IconType="Outline"
+						Style="{StaticResource IconTest}" />
+
+					<!--  Disabled Icons Row 2  -->
+					<controls:ThemedIcon
+						Grid.Row="2"
+						Grid.Column="1"
+						IconType="Layered"
+						IsEnabled="False"
+						Style="{StaticResource IconTest}" />
+					<controls:ThemedIcon
+						Grid.Row="2"
+						Grid.Column="2"
+						IsEnabled="False"
+						IsFilled="True"
+						Style="{StaticResource IconTest}" />
+					<controls:ThemedIcon
+						Grid.Row="2"
+						Grid.Column="3"
+						IconType="Outline"
+						IsEnabled="False"
+						Style="{StaticResource IconTest}" />
+
+					<!--  Success Icons Row 3  -->
+					<controls:ThemedIcon
+						Grid.Row="3"
+						Grid.Column="1"
+						IconColorType="Success"
+						IconType="Layered"
+						Style="{StaticResource IconTest}" />
+					<controls:ThemedIcon
+						Grid.Row="3"
+						Grid.Column="2"
+						IconColorType="Success"
+						IsFilled="True"
+						Style="{StaticResource IconTest}" />
+					<controls:ThemedIcon
+						Grid.Row="3"
+						Grid.Column="3"
+						IconColorType="Success"
+						IconType="Outline"
+						Style="{StaticResource IconTest}" />
+
+					<!--  Caution Icons Row 4  -->
+					<controls:ThemedIcon
+						Grid.Row="4"
+						Grid.Column="1"
+						IconColorType="Caution"
+						IconType="Layered"
+						Style="{StaticResource IconTest}" />
+
+					<controls:ThemedIcon
+						Grid.Row="4"
+						Grid.Column="2"
+						IconColorType="Caution"
+						IsFilled="True"
+						Style="{StaticResource IconTest}" />
+
+					<controls:ThemedIcon
+						Grid.Row="4"
+						Grid.Column="3"
+						IconColorType="Caution"
+						IconType="Outline"
+						Style="{StaticResource IconTest}" />
+
+					<!--  Critical Icons Row 5  -->
+					<controls:ThemedIcon
+						Grid.Row="5"
+						Grid.Column="1"
+						IconColorType="Critical"
+						IconType="Layered"
+						Style="{StaticResource IconTest}" />
+
+					<controls:ThemedIcon
+						Grid.Row="5"
+						Grid.Column="2"
+						IconColorType="Critical"
+						IsFilled="True"
+						Style="{StaticResource IconTest}" />
+
+					<controls:ThemedIcon
+						Grid.Row="5"
+						Grid.Column="3"
+						IconColorType="Critical"
+						IconType="Outline"
+						Style="{StaticResource IconTest}" />
+
+					<!--  Accent Icons Row 6  -->
+					<controls:ThemedIcon
+						Grid.Row="6"
+						Grid.Column="1"
+						IconColorType="Accent"
+						IconType="Layered"
+						Style="{StaticResource IconTest}" />
+
+					<controls:ThemedIcon
+						Grid.Row="6"
+						Grid.Column="2"
+						IconColorType="Accent"
+						IsFilled="True"
+						Style="{StaticResource IconTest}" />
+
+					<controls:ThemedIcon
+						Grid.Row="6"
+						Grid.Column="3"
+						IconColorType="Accent"
+						IconType="Outline"
+						Style="{StaticResource IconTest}" />
+
+					<!--  Neutral Icons Row 7  -->
+					<controls:ThemedIcon
+						Grid.Row="7"
+						Grid.Column="1"
+						IconColorType="Neutral"
+						IconType="Layered"
+						Style="{StaticResource IconTest}" />
+
+					<controls:ThemedIcon
+						Grid.Row="7"
+						Grid.Column="2"
+						IconColorType="Neutral"
+						IsFilled="True"
+						Style="{StaticResource IconTest}" />
+
+					<controls:ThemedIcon
+						Grid.Row="7"
+						Grid.Column="3"
+						IconColorType="Neutral"
+						IconType="Outline"
+						Style="{StaticResource IconTest}" />
+
+					<!--  Custom Icons Row 8  -->
+					<controls:ThemedIcon
+						Grid.Row="8"
+						Grid.Column="1"
+						Foreground="Cyan"
+						IconColorType="Custom"
+						IconType="Layered"
+						Style="{StaticResource IconTest}">
+						<controls:ThemedIcon.Color>
+							<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+								<GradientStop Offset="0.0" Color="PaleVioletRed" />
+								<GradientStop Offset="1.0" Color="Red" />
+							</LinearGradientBrush>
+						</controls:ThemedIcon.Color>
+					</controls:ThemedIcon>
+
+					<controls:ThemedIcon
+						Grid.Row="8"
+						Grid.Column="2"
+						IconColorType="Custom"
+						IsFilled="True"
+						Style="{StaticResource IconTest}">
+						<controls:ThemedIcon.Color>
+							<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+								<GradientStop Offset="0.0" Color="PaleGoldenrod" />
+								<GradientStop Offset="1.0" Color="Orange" />
+							</LinearGradientBrush>
+						</controls:ThemedIcon.Color>
+					</controls:ThemedIcon>
+
+					<controls:ThemedIcon
+						Grid.Row="8"
+						Grid.Column="3"
+						IconColorType="Custom"
+						IconType="Outline"
+						Style="{StaticResource IconTest}">
+						<controls:ThemedIcon.Color>
+							<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+								<GradientStop Offset="0.0" Color="PaleTurquoise" />
+								<GradientStop Offset="1.0" Color="Teal" />
+							</LinearGradientBrush>
+						</controls:ThemedIcon.Color>
+					</controls:ThemedIcon>
+
+				</Grid>
+			</controls:SamplePanel.MainContent>
+		</controls:SamplePanel>
+
+		<!--  Toggled usages  -->
+		<controls:SamplePanel Header="Toggled usages">
+			<controls:SamplePanel.MainContent>
+				<StackPanel Spacing="12">
+
+					<TextBlock Text="HighContrast Manual Toggle:" />
+
+					<StackPanel
+						Padding="8"
+						Orientation="Horizontal"
+						Spacing="16">
+						<controls:ThemedIcon
+							IconType="Layered"
+							IsHighContrast="{x:Bind ContrastToggle.IsOn, Mode=TwoWay}"
+							Style="{StaticResource IconTest}" />
+						<controls:ThemedIcon
+							IsFilled="True"
+							IsHighContrast="{x:Bind ContrastToggle.IsOn, Mode=TwoWay}"
+							Style="{StaticResource IconTest}" />
+						<controls:ThemedIcon
+							IconType="Outline"
+							IsHighContrast="{x:Bind ContrastToggle.IsOn, Mode=TwoWay}"
+							Style="{StaticResource IconTest}" />
+					</StackPanel>
+
+					<TextBlock Text="ToggleBehavior On:" />
+
+					<StackPanel
+						Padding="8"
 						HorizontalAlignment="Left"
-						ColumnSpacing="16"
-						RowSpacing="12">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition />
-							<RowDefinition />
-							<RowDefinition />
-							<RowDefinition />
-							<RowDefinition />
-							<RowDefinition />
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-
-						<!--  Icon Column Headers  -->
-						<TextBlock
-							Grid.Row="0"
-							Grid.Column="1"
-							Style="{StaticResource TextExampleCaptionStyle}"
-							Text="Layered" />
-
-						<TextBlock
-							Grid.Row="0"
-							Grid.Column="2"
-							Style="{StaticResource TextExampleCaptionStyle}"
-							Text="Filled" />
-
-						<TextBlock
-							Grid.Row="0"
-							Grid.Column="3"
-							Style="{StaticResource TextExampleCaptionStyle}"
-							Text="Outline" />
-
-						<!--  Icon Row Headers  -->
-						<TextBlock
-							Grid.Row="1"
-							Grid.Column="0"
-							MaxLines="1"
-							Text="Normal"
-							TextTrimming="CharacterEllipsis"
-							TextWrapping="NoWrap" />
-
-						<TextBlock
-							Grid.Row="2"
-							Grid.Column="0"
-							MaxLines="1"
-							Text="Disabled"
-							TextTrimming="CharacterEllipsis"
-							TextWrapping="NoWrap" />
-
-						<TextBlock
-							Grid.Row="3"
-							Grid.Column="0"
-							MaxLines="1"
-							Text="Success"
-							TextTrimming="CharacterEllipsis"
-							TextWrapping="NoWrap" />
-
-						<TextBlock
-							Grid.Row="4"
-							Grid.Column="0"
-							MaxLines="1"
-							Text="Caution"
-							TextTrimming="CharacterEllipsis"
-							TextWrapping="NoWrap" />
-
-						<TextBlock
-							Grid.Row="5"
-							Grid.Column="0"
-							MaxLines="1"
-							Text="Critical"
-							TextTrimming="CharacterEllipsis"
-							TextWrapping="NoWrap" />
-
-						<TextBlock
-							Grid.Row="6"
-							Grid.Column="0"
-							MaxLines="1"
-							Text="Accent"
-							TextTrimming="CharacterEllipsis"
-							TextWrapping="NoWrap" />
-
-						<TextBlock
-							Grid.Row="7"
-							Grid.Column="0"
-							MaxLines="1"
-							Text="Neutral"
-							TextTrimming="CharacterEllipsis"
-							TextWrapping="NoWrap" />
-
-						<TextBlock
-							Grid.Row="8"
-							Grid.Column="0"
-							MaxLines="1"
-							Text="Custom"
-							TextTrimming="CharacterEllipsis"
-							TextWrapping="NoWrap" />
-
-						<!--  Normal Icons Row 1  -->
+						Background="{ThemeResource ToggleBackground}"
+						CornerRadius="{ThemeResource OverlayCornerRadius}"
+						Orientation="Horizontal"
+						Spacing="16">
 						<controls:ThemedIcon
-							Grid.Row="1"
-							Grid.Column="1"
-							IconColorType="Normal"
 							IconType="Layered"
-							Style="{StaticResource IconTest}" />
-
+							Style="{StaticResource IconTest}"
+							ToggleBehavior="On" />
 						<controls:ThemedIcon
-							Grid.Row="1"
-							Grid.Column="2"
-							IconColorType="Normal"
 							IsFilled="True"
-							Style="{StaticResource IconTest}" />
-
+							Style="{StaticResource IconTest}"
+							ToggleBehavior="On" />
 						<controls:ThemedIcon
-							Grid.Row="1"
-							Grid.Column="3"
-							IconColorType="Normal"
 							IconType="Outline"
-							Style="{StaticResource IconTest}" />
-
-						<!--  Disabled Icons Row 2  -->
-						<controls:ThemedIcon
-							Grid.Row="2"
-							Grid.Column="1"
-							IconType="Layered"
-							IsEnabled="False"
-							Style="{StaticResource IconTest}" />
-						<controls:ThemedIcon
-							Grid.Row="2"
-							Grid.Column="2"
-							IsEnabled="False"
-							IsFilled="True"
-							Style="{StaticResource IconTest}" />
-						<controls:ThemedIcon
-							Grid.Row="2"
-							Grid.Column="3"
-							IconType="Outline"
-							IsEnabled="False"
-							Style="{StaticResource IconTest}" />
-
-						<!--  Success Icons Row 3  -->
-						<controls:ThemedIcon
-							Grid.Row="3"
-							Grid.Column="1"
-							IconColorType="Success"
-							IconType="Layered"
-							Style="{StaticResource IconTest}" />
-						<controls:ThemedIcon
-							Grid.Row="3"
-							Grid.Column="2"
-							IconColorType="Success"
-							IsFilled="True"
-							Style="{StaticResource IconTest}" />
-						<controls:ThemedIcon
-							Grid.Row="3"
-							Grid.Column="3"
-							IconColorType="Success"
-							IconType="Outline"
-							Style="{StaticResource IconTest}" />
-
-						<!--  Caution Icons Row 4  -->
-						<controls:ThemedIcon
-							Grid.Row="4"
-							Grid.Column="1"
-							IconColorType="Caution"
-							IconType="Layered"
-							Style="{StaticResource IconTest}" />
-
-						<controls:ThemedIcon
-							Grid.Row="4"
-							Grid.Column="2"
-							IconColorType="Caution"
-							IsFilled="True"
-							Style="{StaticResource IconTest}" />
-
-						<controls:ThemedIcon
-							Grid.Row="4"
-							Grid.Column="3"
-							IconColorType="Caution"
-							IconType="Outline"
-							Style="{StaticResource IconTest}" />
-
-						<!--  Critical Icons Row 5  -->
-						<controls:ThemedIcon
-							Grid.Row="5"
-							Grid.Column="1"
-							IconColorType="Critical"
-							IconType="Layered"
-							Style="{StaticResource IconTest}" />
-
-						<controls:ThemedIcon
-							Grid.Row="5"
-							Grid.Column="2"
-							IconColorType="Critical"
-							IsFilled="True"
-							Style="{StaticResource IconTest}" />
-
-						<controls:ThemedIcon
-							Grid.Row="5"
-							Grid.Column="3"
-							IconColorType="Critical"
-							IconType="Outline"
-							Style="{StaticResource IconTest}" />
-
-						<!--  Accent Icons Row 6  -->
-						<controls:ThemedIcon
-							Grid.Row="6"
-							Grid.Column="1"
-							IconColorType="Accent"
-							IconType="Layered"
-							Style="{StaticResource IconTest}" />
-
-						<controls:ThemedIcon
-							Grid.Row="6"
-							Grid.Column="2"
-							IconColorType="Accent"
-							IsFilled="True"
-							Style="{StaticResource IconTest}" />
-
-						<controls:ThemedIcon
-							Grid.Row="6"
-							Grid.Column="3"
-							IconColorType="Accent"
-							IconType="Outline"
-							Style="{StaticResource IconTest}" />
-
-						<!--  Neutral Icons Row 7  -->
-						<controls:ThemedIcon
-							Grid.Row="7"
-							Grid.Column="1"
-							IconColorType="Neutral"
-							IconType="Layered"
-							Style="{StaticResource IconTest}" />
-
-						<controls:ThemedIcon
-							Grid.Row="7"
-							Grid.Column="2"
-							IconColorType="Neutral"
-							IsFilled="True"
-							Style="{StaticResource IconTest}" />
-
-						<controls:ThemedIcon
-							Grid.Row="7"
-							Grid.Column="3"
-							IconColorType="Neutral"
-							IconType="Outline"
-							Style="{StaticResource IconTest}" />
-
-						<!--  Custom Icons Row 8  -->
-						<controls:ThemedIcon
-							Grid.Row="8"
-							Grid.Column="1"
-							Foreground="Cyan"
-							IconColorType="Custom"
-							IconType="Layered"
-							Style="{StaticResource IconTest}">
-							<controls:ThemedIcon.Color>
-								<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-									<GradientStop Offset="0.0" Color="PaleVioletRed" />
-									<GradientStop Offset="1.0" Color="Red" />
-								</LinearGradientBrush>
-							</controls:ThemedIcon.Color>
-						</controls:ThemedIcon>
-
-						<controls:ThemedIcon
-							Grid.Row="8"
-							Grid.Column="2"
-							IconColorType="Custom"
-							IsFilled="True"
-							Style="{StaticResource IconTest}">
-							<controls:ThemedIcon.Color>
-								<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-									<GradientStop Offset="0.0" Color="PaleGoldenrod" />
-									<GradientStop Offset="1.0" Color="Orange" />
-								</LinearGradientBrush>
-							</controls:ThemedIcon.Color>
-						</controls:ThemedIcon>
-
-						<controls:ThemedIcon
-							Grid.Row="8"
-							Grid.Column="3"
-							IconColorType="Custom"
-							IconType="Outline"
-							Style="{StaticResource IconTest}">
-							<controls:ThemedIcon.Color>
-								<LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-									<GradientStop Offset="0.0" Color="PaleTurquoise" />
-									<GradientStop Offset="1.0" Color="Teal" />
-								</LinearGradientBrush>
-							</controls:ThemedIcon.Color>
-						</controls:ThemedIcon>
-
-					</Grid>
-
-					<!--  Example Controls  -->
-					<StackPanel
-						Grid.Column="1"
-						Orientation="Vertical"
-						Style="{StaticResource StackPanelControlTestingStyle}" />
-
-				</Grid>
-			</StackPanel>
-
-			<!--  Toggled usages  -->
-			<StackPanel Spacing="8">
-
-				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Toggled usages" />
-
-				<Grid Style="{StaticResource GridExampleControlStyle}">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*" />
-						<ColumnDefinition Width="320" />
-					</Grid.ColumnDefinitions>
-
-					<Grid
-						Grid.Column="0"
-						Padding="24"
-						ColumnSpacing="24"
-						RowSpacing="24">
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-
-						<!--  Grid Row Headers  -->
-						<TextBlock
-							Grid.Row="0"
-							Grid.Column="0"
-							VerticalAlignment="Center"
-							Text="HighContrast Manual Toggle" />
-
-						<TextBlock
-							Grid.Row="1"
-							Grid.Column="0"
-							VerticalAlignment="Center"
-							Text="ToggleBehavior On" />
-
-						<TextBlock
-							Grid.Row="2"
-							Grid.Column="0"
-							VerticalAlignment="Center"
-							Text="ToggleBahvior On + Disabled" />
-
-						<TextBlock
-							Grid.Row="3"
-							Grid.Column="0"
-							VerticalAlignment="Center"
-							Text="IsFilled" />
-
-						<!--  High Contrast Row 0  -->
-						<StackPanel
-							Grid.Row="0"
-							Grid.Column="1"
-							Padding="8"
-							Orientation="Horizontal"
-							Spacing="16">
-							<controls:ThemedIcon
-								IconType="Layered"
-								IsHighContrast="{x:Bind ContrastToggle.IsOn, Mode=TwoWay}"
-								Style="{StaticResource IconTest}" />
-							<controls:ThemedIcon
-								IsFilled="True"
-								IsHighContrast="{x:Bind ContrastToggle.IsOn, Mode=TwoWay}"
-								Style="{StaticResource IconTest}" />
-							<controls:ThemedIcon
-								IconType="Outline"
-								IsHighContrast="{x:Bind ContrastToggle.IsOn, Mode=TwoWay}"
-								Style="{StaticResource IconTest}" />
-						</StackPanel>
-
-						<!--  ToggleBehavior On Row 1  -->
-						<StackPanel
-							Grid.Row="1"
-							Grid.Column="1"
-							Padding="8"
-							HorizontalAlignment="Left"
-							Background="{ThemeResource ToggleBackground}"
-							CornerRadius="{ThemeResource OverlayCornerRadius}"
-							Orientation="Horizontal"
-							Spacing="16">
-							<controls:ThemedIcon
-								IconType="Layered"
-								Style="{StaticResource IconTest}"
-								ToggleBehavior="On" />
-							<controls:ThemedIcon
-								IsFilled="True"
-								Style="{StaticResource IconTest}"
-								ToggleBehavior="On" />
-							<controls:ThemedIcon
-								IconType="Outline"
-								Style="{StaticResource IconTest}"
-								ToggleBehavior="On" />
-						</StackPanel>
-
-						<!--  ToggleBehavior On + Disabled Row 2  -->
-						<StackPanel
-							Grid.Row="2"
-							Grid.Column="1"
-							Padding="8"
-							HorizontalAlignment="Left"
-							Background="{ThemeResource ToggleDisabledBackground}"
-							CornerRadius="{ThemeResource OverlayCornerRadius}"
-							Orientation="Horizontal"
-							Spacing="16">
-							<controls:ThemedIcon
-								IconType="Layered"
-								IsEnabled="False"
-								Style="{StaticResource IconTest}"
-								ToggleBehavior="On" />
-							<controls:ThemedIcon
-								IsEnabled="False"
-								IsFilled="True"
-								Style="{StaticResource IconTest}"
-								ToggleBehavior="On" />
-							<controls:ThemedIcon
-								IconType="Outline"
-								IsEnabled="False"
-								Style="{StaticResource IconTest}"
-								ToggleBehavior="On" />
-						</StackPanel>
-
-						<!--  IsFilled 3  -->
-						<StackPanel
-							Grid.Row="3"
-							Grid.Column="1"
-							Padding="8"
-							Orientation="Horizontal"
-							Spacing="16">
-							<controls:ThemedIcon
-								IconType="Layered"
-								IsFilled="{x:Bind FilledToggle.IsOn, Mode=TwoWay}"
-								Style="{StaticResource IconTest}" />
-
-							<controls:ThemedIcon
-								IconType="Outline"
-								IsFilled="{x:Bind FilledToggle.IsOn, Mode=TwoWay}"
-								Style="{StaticResource IconTest}" />
-						</StackPanel>
-
-					</Grid>
-
-					<!--  Example Controls  -->
-					<StackPanel
-						Grid.Column="1"
-						Orientation="Vertical"
-						Style="{StaticResource StackPanelControlTestingStyle}">
-
-						<ToggleSwitch
-							x:Name="ContrastToggle"
-							Header="High Contrast"
-							IsOn="True" />
-
-						<ToggleSwitch
-							x:Name="FilledToggle"
-							Header="Toggle IsFilled"
-							IsOn="True"
-							OffContent="Default"
-							OnContent="Filled" />
-
+							Style="{StaticResource IconTest}"
+							ToggleBehavior="On" />
 					</StackPanel>
 
-				</Grid>
-
-			</StackPanel>
-
-			<!--  ToggleBehaviour Auto  -->
-			<StackPanel Spacing="8">
-
-				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="ToggleBehaviour Auto" />
-
-				<Grid Style="{StaticResource GridExampleControlStyle}">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*" />
-						<ColumnDefinition Width="320" />
-					</Grid.ColumnDefinitions>
-
-					<Grid
-						Grid.Column="0"
-						Padding="24"
-						ColumnSpacing="24"
-						RowSpacing="24">
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
-
-						<!--  Grid Row Headers  -->
-
-						<TextBlock
-							Grid.Row="0"
-							Grid.Column="0"
-							VerticalAlignment="Center"
-							Text="In ToggleButtons" />
-
-						<TextBlock
-							Grid.Row="1"
-							Grid.RowSpan="2"
-							Grid.Column="0"
-							VerticalAlignment="Center"
-							Text="In AppBarToggleButtons" />
-
-						<!--  In ToggleButtons Row 0  -->
-						<StackPanel
-							Grid.Row="0"
-							Grid.Column="1"
-							Orientation="Horizontal"
-							Spacing="16">
-							<ToggleButton
-								Padding="8"
-								AutomationProperties.Name="TestToggleButton1"
-								IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
-								<controls:ThemedIcon
-									IconType="Layered"
-									Style="{StaticResource IconTest}"
-									ToggleBehavior="Auto" />
-							</ToggleButton>
-							<ToggleButton
-								Padding="8"
-								AutomationProperties.Name="TestToggleButton2"
-								IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
-								<controls:ThemedIcon
-									IsFilled="True"
-									Style="{StaticResource IconTest}"
-									ToggleBehavior="Auto" />
-							</ToggleButton>
-							<ToggleButton
-								Padding="8"
-								AutomationProperties.Name="TestToggleButton3"
-								IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
-								<controls:ThemedIcon
-									IconType="Outline"
-									Style="{StaticResource IconTest}"
-									ToggleBehavior="Auto" />
-							</ToggleButton>
-							<ToggleButton
-								Padding="8"
-								AutomationProperties.Name="TestToggle4"
-								IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}"
-								IsEnabled="False">
-								<controls:ThemedIcon
-									IconType="Outline"
-									Style="{StaticResource IconTest}"
-									ToggleBehavior="Auto" />
-							</ToggleButton>
-						</StackPanel>
-
-						<!--  In AppBarToggleButtons Row 1 and 2  -->
-						<StackPanel
-							Grid.Row="1"
-							Grid.Column="1"
-							Orientation="Horizontal"
-							Spacing="16">
-							<AppBarButton
-								AutomationProperties.Name="TestAppBarToggle0-1"
-								HighContrastAdjustment="None"
-								Label="Layered"
-								LabelPosition="Default">
-								<AppBarButton.Content>
-									<controls:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
-								</AppBarButton.Content>
-							</AppBarButton>
-
-							<AppBarToggleButton
-								AutomationProperties.Name="TestAppBarToggle0-2"
-								HighContrastAdjustment="None"
-								IsChecked="True"
-								Label="Layered Toggle"
-								LabelPosition="Default">
-								<AppBarToggleButton.Content>
-									<controls:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
-								</AppBarToggleButton.Content>
-							</AppBarToggleButton>
-
-							<AppBarButton
-								x:Name="OffAppBarButtonDisable"
-								AutomationProperties.Name="TestAppBarToggle0-3"
-								HighContrastAdjustment="None"
-								IsEnabled="{x:Bind EnabledToggle.IsOn, Mode=TwoWay}"
-								Label="Disabled"
-								LabelPosition="Default">
-								<AppBarButton.Content>
-									<controls:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
-								</AppBarButton.Content>
-							</AppBarButton>
-
-							<AppBarToggleButton
-								AutomationProperties.Name="TestAppBarToggle0-4"
-								HighContrastAdjustment="None"
-								IsChecked="True"
-								IsEnabled="{x:Bind EnabledToggle.IsOn, Mode=TwoWay}"
-								Label="Layered Toggled Disabled"
-								LabelPosition="Default">
-								<AppBarToggleButton.Content>
-									<controls:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
-								</AppBarToggleButton.Content>
-							</AppBarToggleButton>
-						</StackPanel>
-
-						<StackPanel
-							Grid.Row="2"
-							Grid.Column="1"
-							Orientation="Horizontal"
-							Spacing="16">
-							<AppBarButton
-								AutomationProperties.Name="TestAppBarToggle1-1"
-								HighContrastAdjustment="None"
-								Label="Outline"
-								LabelPosition="Default">
-								<AppBarButton.Content>
-									<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
-								</AppBarButton.Content>
-							</AppBarButton>
-
-							<AppBarToggleButton
-								AutomationProperties.Name="TestAppBarToggle1-2"
-								HighContrastAdjustment="None"
-								IsChecked="True"
-								Label="Outline Toggle"
-								LabelPosition="Default">
-								<AppBarToggleButton.Content>
-									<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
-								</AppBarToggleButton.Content>
-							</AppBarToggleButton>
-
-							<AppBarButton
-								AutomationProperties.Name="TestAppBarToggle1-3"
-								HighContrastAdjustment="None"
-								IsEnabled="{x:Bind EnabledToggle.IsOn, Mode=TwoWay}"
-								Label="Outline Disabled"
-								LabelPosition="Default">
-								<AppBarButton.Content>
-									<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
-								</AppBarButton.Content>
-							</AppBarButton>
-
-							<AppBarToggleButton
-								AutomationProperties.Name="TestAppBarToggle1-4"
-								HighContrastAdjustment="None"
-								IsChecked="True"
-								IsEnabled="{x:Bind EnabledToggle.IsOn, Mode=TwoWay}"
-								Label="Outline Toggled Disabled"
-								LabelPosition="Default">
-								<AppBarToggleButton.Content>
-									<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
-								</AppBarToggleButton.Content>
-							</AppBarToggleButton>
-						</StackPanel>
-
-					</Grid>
+					<TextBlock Text="ToggleBahvior On + Disabled:" />
 
 					<StackPanel
-						Grid.Column="1"
-						Orientation="Vertical"
-						Style="{StaticResource StackPanelControlTestingStyle}">
-
-						<ToggleSwitch
-							x:Name="TestToggleSwitch"
-							AutomationProperties.Name="TestToggleSwitch1"
-							Header="Toggle all ToggleButtons" />
-
-						<ToggleSwitch
-							x:Name="EnabledToggle"
-							Header="Toggle IsEnabled"
-							IsOn="False"
-							OffContent="Disabled"
-							OnContent="Enabled" />
-
+						Padding="8"
+						HorizontalAlignment="Left"
+						Background="{ThemeResource ToggleDisabledBackground}"
+						CornerRadius="{ThemeResource OverlayCornerRadius}"
+						Orientation="Horizontal"
+						Spacing="16">
+						<controls:ThemedIcon
+							IconType="Layered"
+							IsEnabled="False"
+							Style="{StaticResource IconTest}"
+							ToggleBehavior="On" />
+						<controls:ThemedIcon
+							IsEnabled="False"
+							IsFilled="True"
+							Style="{StaticResource IconTest}"
+							ToggleBehavior="On" />
+						<controls:ThemedIcon
+							IconType="Outline"
+							IsEnabled="False"
+							Style="{StaticResource IconTest}"
+							ToggleBehavior="On" />
 					</StackPanel>
 
-				</Grid>
+					<TextBlock Text="IsFilled:" />
 
-			</StackPanel>
+					<StackPanel
+						Padding="8"
+						Orientation="Horizontal"
+						Spacing="16">
+						<controls:ThemedIcon
+							IconType="Layered"
+							IsFilled="{x:Bind FilledToggle.IsOn, Mode=TwoWay}"
+							Style="{StaticResource IconTest}" />
+						<controls:ThemedIcon
+							IconType="Outline"
+							IsFilled="{x:Bind FilledToggle.IsOn, Mode=TwoWay}"
+							Style="{StaticResource IconTest}" />
+					</StackPanel>
 
-			<!--  ToggleBehaviour Off  -->
-			<StackPanel Spacing="8">
+				</StackPanel>
+			</controls:SamplePanel.MainContent>
+			<controls:SamplePanel.SideContent>
+				<StackPanel Spacing="8">
 
-				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="ToggleBehaviour Off" />
+					<ToggleSwitch
+						x:Name="ContrastToggle"
+						Header="High contrast:"
+						IsOn="True" />
 
-				<Grid Style="{StaticResource GridExampleControlStyle}">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*" />
-						<ColumnDefinition Width="320" />
-					</Grid.ColumnDefinitions>
+					<ToggleSwitch
+						x:Name="FilledToggle"
+						Header="IsFilled:"
+						IsOn="True"
+						OffContent="False (Default)"
+						OnContent="True" />
 
-					<Grid
-						Grid.Column="0"
-						Padding="24"
-						ColumnSpacing="24"
-						RowSpacing="24">
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
+				</StackPanel>
+			</controls:SamplePanel.SideContent>
+		</controls:SamplePanel>
 
-						<!--  Grid Row Headers  -->
-						<TextBlock
-							Grid.Row="0"
-							Grid.Column="0"
-							VerticalAlignment="Center"
-							Text="In ToggleButtons" />
+		<!--  ToggleBehaviour Auto  -->
+		<controls:SamplePanel Header="ToggleBehaviour Auto">
+			<controls:SamplePanel.MainContent>
+				<StackPanel Spacing="12">
 
-						<TextBlock
-							Grid.Row="1"
-							Grid.RowSpan="2"
-							Grid.Column="0"
-							VerticalAlignment="Center"
-							Text="In AppBarToggleButtons" />
+					<!--  Grid Row Headers  -->
 
-						<!--  In ToggleButtons Row 0  -->
-						<StackPanel
-							Grid.Row="0"
-							Grid.Column="1"
-							Orientation="Horizontal"
-							Spacing="16">
-							<ToggleButton
-								Padding="8"
-								AutomationProperties.Name="TestToggle1-Off"
-								IsChecked="{x:Bind OffTestToggleSwitch.IsOn, Mode=OneWay}">
+					<TextBlock Text="In ToggleButtons:" />
+
+					<StackPanel Orientation="Horizontal" Spacing="16">
+						<ToggleButton
+							Padding="8"
+							AutomationProperties.Name="TestToggleButton1"
+							IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
+							<controls:ThemedIcon
+								IconType="Layered"
+								Style="{StaticResource IconTest}"
+								ToggleBehavior="Auto" />
+						</ToggleButton>
+						<ToggleButton
+							Padding="8"
+							AutomationProperties.Name="TestToggleButton2"
+							IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
+							<controls:ThemedIcon
+								IsFilled="True"
+								Style="{StaticResource IconTest}"
+								ToggleBehavior="Auto" />
+						</ToggleButton>
+						<ToggleButton
+							Padding="8"
+							AutomationProperties.Name="TestToggleButton3"
+							IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}">
+							<controls:ThemedIcon
+								IconType="Outline"
+								Style="{StaticResource IconTest}"
+								ToggleBehavior="Auto" />
+						</ToggleButton>
+						<ToggleButton
+							Padding="8"
+							AutomationProperties.Name="TestToggle4"
+							IsChecked="{x:Bind TestToggleSwitch.IsOn, Mode=OneWay}"
+							IsEnabled="False">
+							<controls:ThemedIcon
+								IconType="Outline"
+								Style="{StaticResource IconTest}"
+								ToggleBehavior="Auto" />
+						</ToggleButton>
+					</StackPanel>
+
+					<TextBlock Text="In AppBarToggleButtons:" />
+
+					<StackPanel Orientation="Horizontal" Spacing="16">
+						<AppBarButton
+							AutomationProperties.Name="TestAppBarToggle0-1"
+							HighContrastAdjustment="None"
+							Label="Layered"
+							LabelPosition="Default">
+							<AppBarButton.Content>
+								<controls:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
+							</AppBarButton.Content>
+						</AppBarButton>
+
+						<AppBarToggleButton
+							AutomationProperties.Name="TestAppBarToggle0-2"
+							HighContrastAdjustment="None"
+							IsChecked="True"
+							Label="Layered Toggle"
+							LabelPosition="Default">
+							<AppBarToggleButton.Content>
+								<controls:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
+							</AppBarToggleButton.Content>
+						</AppBarToggleButton>
+
+						<AppBarButton
+							x:Name="OffAppBarButtonDisable"
+							AutomationProperties.Name="TestAppBarToggle0-3"
+							HighContrastAdjustment="None"
+							IsEnabled="{x:Bind EnabledToggle.IsOn, Mode=TwoWay}"
+							Label="Disabled"
+							LabelPosition="Default">
+							<AppBarButton.Content>
+								<controls:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
+							</AppBarButton.Content>
+						</AppBarButton>
+
+						<AppBarToggleButton
+							AutomationProperties.Name="TestAppBarToggle0-4"
+							HighContrastAdjustment="None"
+							IsChecked="True"
+							IsEnabled="{x:Bind EnabledToggle.IsOn, Mode=TwoWay}"
+							Label="Layered Toggled Disabled"
+							LabelPosition="Default">
+							<AppBarToggleButton.Content>
+								<controls:ThemedIcon IconType="Layered" Style="{StaticResource IconTest}" />
+							</AppBarToggleButton.Content>
+						</AppBarToggleButton>
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal" Spacing="16">
+						<AppBarButton
+							AutomationProperties.Name="TestAppBarToggle1-1"
+							HighContrastAdjustment="None"
+							Label="Outline"
+							LabelPosition="Default">
+							<AppBarButton.Content>
+								<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
+							</AppBarButton.Content>
+						</AppBarButton>
+
+						<AppBarToggleButton
+							AutomationProperties.Name="TestAppBarToggle1-2"
+							HighContrastAdjustment="None"
+							IsChecked="True"
+							Label="Outline Toggle"
+							LabelPosition="Default">
+							<AppBarToggleButton.Content>
+								<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
+							</AppBarToggleButton.Content>
+						</AppBarToggleButton>
+
+						<AppBarButton
+							AutomationProperties.Name="TestAppBarToggle1-3"
+							HighContrastAdjustment="None"
+							IsEnabled="{x:Bind EnabledToggle.IsOn, Mode=TwoWay}"
+							Label="Outline Disabled"
+							LabelPosition="Default">
+							<AppBarButton.Content>
+								<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
+							</AppBarButton.Content>
+						</AppBarButton>
+
+						<AppBarToggleButton
+							AutomationProperties.Name="TestAppBarToggle1-4"
+							HighContrastAdjustment="None"
+							IsChecked="True"
+							IsEnabled="{x:Bind EnabledToggle.IsOn, Mode=TwoWay}"
+							Label="Outline Toggled Disabled"
+							LabelPosition="Default">
+							<AppBarToggleButton.Content>
+								<controls:ThemedIcon IconType="Outline" Style="{StaticResource IconTest}" />
+							</AppBarToggleButton.Content>
+						</AppBarToggleButton>
+					</StackPanel>
+
+				</StackPanel>
+			</controls:SamplePanel.MainContent>
+			<controls:SamplePanel.SideContent>
+				<StackPanel Spacing="12">
+
+					<ToggleSwitch
+						x:Name="TestToggleSwitch"
+						AutomationProperties.Name="TestToggleSwitch1"
+						Header="Toggle all ToggleButtons:" />
+
+					<ToggleSwitch
+						x:Name="EnabledToggle"
+						Header="IsEnabled:"
+						IsOn="False"
+						OffContent="Disabled"
+						OnContent="Enabled (Default)" />
+
+				</StackPanel>
+			</controls:SamplePanel.SideContent>
+		</controls:SamplePanel>
+
+		<!--  ToggleBehaviour Off  -->
+		<controls:SamplePanel Header="ToggleBehaviour Off">
+			<controls:SamplePanel.MainContent>
+				<StackPanel Spacing="12">
+
+					<TextBlock Text="In ToggleButtons:" />
+
+					<StackPanel Orientation="Horizontal" Spacing="16">
+						<ToggleButton
+							Padding="8"
+							AutomationProperties.Name="TestToggle1-Off"
+							IsChecked="{x:Bind OffTestToggleSwitch.IsOn, Mode=OneWay}">
+							<controls:ThemedIcon
+								IconType="Layered"
+								Style="{StaticResource IconTest}"
+								ToggleBehavior="Off" />
+						</ToggleButton>
+						<ToggleButton
+							Padding="8"
+							AutomationProperties.Name="TestToggle2-Off"
+							IsChecked="{x:Bind OffTestToggleSwitch.IsOn, Mode=OneWay}">
+							<controls:ThemedIcon
+								IsFilled="True"
+								Style="{StaticResource IconTest}"
+								ToggleBehavior="Off" />
+						</ToggleButton>
+						<ToggleButton
+							Padding="8"
+							AutomationProperties.Name="TestToggle3-Off"
+							IsChecked="{x:Bind OffTestToggleSwitch.IsOn, Mode=OneWay}">
+							<controls:ThemedIcon
+								IconType="Outline"
+								Style="{StaticResource IconTest}"
+								ToggleBehavior="Off" />
+						</ToggleButton>
+						<ToggleButton
+							Padding="8"
+							AutomationProperties.Name="TestToggle4-Off"
+							IsChecked="{x:Bind OffTestToggleSwitch.IsOn, Mode=OneWay}"
+							IsEnabled="False">
+							<controls:ThemedIcon
+								IconType="Outline"
+								Style="{StaticResource IconTest}"
+								ToggleBehavior="Off" />
+						</ToggleButton>
+					</StackPanel>
+
+					<TextBlock Text="In AppBarToggleButtons:" />
+
+					<StackPanel Orientation="Horizontal" Spacing="16">
+						<AppBarButton
+							AutomationProperties.Name="TestAppBarToggle2-1"
+							HighContrastAdjustment="None"
+							Label="Layered"
+							LabelPosition="Default">
+							<AppBarButton.Content>
 								<controls:ThemedIcon
 									IconType="Layered"
 									Style="{StaticResource IconTest}"
 									ToggleBehavior="Off" />
-							</ToggleButton>
-							<ToggleButton
-								Padding="8"
-								AutomationProperties.Name="TestToggle2-Off"
-								IsChecked="{x:Bind OffTestToggleSwitch.IsOn, Mode=OneWay}">
+							</AppBarButton.Content>
+						</AppBarButton>
+
+						<AppBarToggleButton
+							AutomationProperties.Name="TestAppBarToggle2-2"
+							HighContrastAdjustment="None"
+							IsChecked="True"
+							Label="Layered Toggle"
+							LabelPosition="Default">
+							<AppBarToggleButton.Content>
 								<controls:ThemedIcon
-									IsFilled="True"
+									IconType="Layered"
 									Style="{StaticResource IconTest}"
 									ToggleBehavior="Off" />
-							</ToggleButton>
-							<ToggleButton
-								Padding="8"
-								AutomationProperties.Name="TestToggle3-Off"
-								IsChecked="{x:Bind OffTestToggleSwitch.IsOn, Mode=OneWay}">
+							</AppBarToggleButton.Content>
+						</AppBarToggleButton>
+
+						<AppBarButton
+							AutomationProperties.Name="TestAppBarToggle2-3"
+							HighContrastAdjustment="None"
+							IsEnabled="{x:Bind OffEnabledToggle.IsOn, Mode=TwoWay}"
+							Label="Disabled"
+							LabelPosition="Default">
+							<AppBarButton.Content>
 								<controls:ThemedIcon
-									IconType="Outline"
+									IconType="Layered"
 									Style="{StaticResource IconTest}"
 									ToggleBehavior="Off" />
-							</ToggleButton>
-							<ToggleButton
-								Padding="8"
-								AutomationProperties.Name="TestToggle4-Off"
-								IsChecked="{x:Bind OffTestToggleSwitch.IsOn, Mode=OneWay}"
-								IsEnabled="False">
+							</AppBarButton.Content>
+						</AppBarButton>
+
+						<AppBarToggleButton
+							AutomationProperties.Name="TestAppBarToggle2-4"
+							HighContrastAdjustment="None"
+							IsChecked="True"
+							IsEnabled="{x:Bind OffEnabledToggle.IsOn, Mode=TwoWay}"
+							Label="Layered Toggled Disabled"
+							LabelPosition="Default">
+							<AppBarToggleButton.Content>
 								<controls:ThemedIcon
-									IconType="Outline"
+									IconType="Layered"
 									Style="{StaticResource IconTest}"
 									ToggleBehavior="Off" />
-							</ToggleButton>
-						</StackPanel>
-
-						<!--  In AppBarToggleButtons Row 1 and 2  -->
-						<StackPanel
-							Grid.Row="1"
-							Grid.Column="1"
-							Orientation="Horizontal"
-							Spacing="16">
-							<AppBarButton
-								AutomationProperties.Name="TestAppBarToggle2-1"
-								HighContrastAdjustment="None"
-								Label="Layered"
-								LabelPosition="Default">
-								<AppBarButton.Content>
-									<controls:ThemedIcon
-										IconType="Layered"
-										Style="{StaticResource IconTest}"
-										ToggleBehavior="Off" />
-								</AppBarButton.Content>
-							</AppBarButton>
-
-							<AppBarToggleButton
-								AutomationProperties.Name="TestAppBarToggle2-2"
-								HighContrastAdjustment="None"
-								IsChecked="True"
-								Label="Layered Toggle"
-								LabelPosition="Default">
-								<AppBarToggleButton.Content>
-									<controls:ThemedIcon
-										IconType="Layered"
-										Style="{StaticResource IconTest}"
-										ToggleBehavior="Off" />
-								</AppBarToggleButton.Content>
-							</AppBarToggleButton>
-
-							<AppBarButton
-								AutomationProperties.Name="TestAppBarToggle2-3"
-								HighContrastAdjustment="None"
-								IsEnabled="{x:Bind OffEnabledToggle.IsOn, Mode=TwoWay}"
-								Label="Disabled"
-								LabelPosition="Default">
-								<AppBarButton.Content>
-									<controls:ThemedIcon
-										IconType="Layered"
-										Style="{StaticResource IconTest}"
-										ToggleBehavior="Off" />
-								</AppBarButton.Content>
-							</AppBarButton>
-
-							<AppBarToggleButton
-								AutomationProperties.Name="TestAppBarToggle2-4"
-								HighContrastAdjustment="None"
-								IsChecked="True"
-								IsEnabled="{x:Bind OffEnabledToggle.IsOn, Mode=TwoWay}"
-								Label="Layered Toggled Disabled"
-								LabelPosition="Default">
-								<AppBarToggleButton.Content>
-									<controls:ThemedIcon
-										IconType="Layered"
-										Style="{StaticResource IconTest}"
-										ToggleBehavior="Off" />
-								</AppBarToggleButton.Content>
-							</AppBarToggleButton>
-						</StackPanel>
-
-						<StackPanel
-							Grid.Row="2"
-							Grid.Column="1"
-							Orientation="Horizontal"
-							Spacing="16">
-							<AppBarButton
-								AutomationProperties.Name="TestAppBarToggle3-1"
-								HighContrastAdjustment="None"
-								Label="Outline"
-								LabelPosition="Default">
-								<AppBarButton.Content>
-									<controls:ThemedIcon
-										IconType="Outline"
-										Style="{StaticResource IconTest}"
-										ToggleBehavior="Off" />
-								</AppBarButton.Content>
-							</AppBarButton>
-
-							<AppBarToggleButton
-								AutomationProperties.Name="TestAppBarToggle3-2"
-								HighContrastAdjustment="None"
-								IsChecked="True"
-								Label="Outline Toggle"
-								LabelPosition="Default">
-								<AppBarToggleButton.Content>
-									<controls:ThemedIcon
-										IconType="Outline"
-										Style="{StaticResource IconTest}"
-										ToggleBehavior="Off" />
-								</AppBarToggleButton.Content>
-							</AppBarToggleButton>
-
-							<AppBarButton
-								AutomationProperties.Name="TestAppBarToggle3-3"
-								HighContrastAdjustment="None"
-								IsEnabled="{x:Bind OffEnabledToggle.IsOn, Mode=TwoWay}"
-								Label="Outline Disabled"
-								LabelPosition="Default">
-								<AppBarButton.Content>
-									<controls:ThemedIcon
-										IconType="Outline"
-										Style="{StaticResource IconTest}"
-										ToggleBehavior="Off" />
-								</AppBarButton.Content>
-							</AppBarButton>
-
-							<AppBarToggleButton
-								AutomationProperties.Name="TestAppBarToggle3-4"
-								HighContrastAdjustment="None"
-								IsChecked="True"
-								IsEnabled="{x:Bind OffEnabledToggle.IsOn, Mode=TwoWay}"
-								Label="Outline Toggled Disabled"
-								LabelPosition="Default">
-								<AppBarToggleButton.Content>
-									<controls:ThemedIcon
-										IconType="Outline"
-										Style="{StaticResource IconTest}"
-										ToggleBehavior="Off" />
-								</AppBarToggleButton.Content>
-							</AppBarToggleButton>
-						</StackPanel>
-
-					</Grid>
-
-					<StackPanel
-						Grid.Column="1"
-						Orientation="Vertical"
-						Style="{StaticResource StackPanelControlTestingStyle}">
-
-						<ToggleSwitch
-							x:Name="OffTestToggleSwitch"
-							AutomationProperties.Name="OffTestToggleSwitch1"
-							Header="Toggle all ToggleButtons" />
-
-						<ToggleSwitch
-							x:Name="OffEnabledToggle"
-							Header="Toggle IsEnabled"
-							IsOn="False"
-							OffContent="Disabled"
-							OnContent="Enabled" />
-
+							</AppBarToggleButton.Content>
+						</AppBarToggleButton>
 					</StackPanel>
 
-				</Grid>
+					<StackPanel
+						Grid.Row="2"
+						Grid.Column="1"
+						Orientation="Horizontal"
+						Spacing="16">
+						<AppBarButton
+							AutomationProperties.Name="TestAppBarToggle3-1"
+							HighContrastAdjustment="None"
+							Label="Outline"
+							LabelPosition="Default">
+							<AppBarButton.Content>
+								<controls:ThemedIcon
+									IconType="Outline"
+									Style="{StaticResource IconTest}"
+									ToggleBehavior="Off" />
+							</AppBarButton.Content>
+						</AppBarButton>
 
-			</StackPanel>
+						<AppBarToggleButton
+							AutomationProperties.Name="TestAppBarToggle3-2"
+							HighContrastAdjustment="None"
+							IsChecked="True"
+							Label="Outline Toggle"
+							LabelPosition="Default">
+							<AppBarToggleButton.Content>
+								<controls:ThemedIcon
+									IconType="Outline"
+									Style="{StaticResource IconTest}"
+									ToggleBehavior="Off" />
+							</AppBarToggleButton.Content>
+						</AppBarToggleButton>
 
-			<!--  Resizing  -->
-			<StackPanel Spacing="8">
+						<AppBarButton
+							AutomationProperties.Name="TestAppBarToggle3-3"
+							HighContrastAdjustment="None"
+							IsEnabled="{x:Bind OffEnabledToggle.IsOn, Mode=TwoWay}"
+							Label="Outline Disabled"
+							LabelPosition="Default">
+							<AppBarButton.Content>
+								<controls:ThemedIcon
+									IconType="Outline"
+									Style="{StaticResource IconTest}"
+									ToggleBehavior="Off" />
+							</AppBarButton.Content>
+						</AppBarButton>
 
-				<TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="Resizing" />
+						<AppBarToggleButton
+							AutomationProperties.Name="TestAppBarToggle3-4"
+							HighContrastAdjustment="None"
+							IsChecked="True"
+							IsEnabled="{x:Bind OffEnabledToggle.IsOn, Mode=TwoWay}"
+							Label="Outline Toggled Disabled"
+							LabelPosition="Default">
+							<AppBarToggleButton.Content>
+								<controls:ThemedIcon
+									IconType="Outline"
+									Style="{StaticResource IconTest}"
+									ToggleBehavior="Off" />
+							</AppBarToggleButton.Content>
+						</AppBarToggleButton>
+					</StackPanel>
 
-				<Grid Height="320" Style="{StaticResource GridExampleControlStyle}">
+				</StackPanel>
+			</controls:SamplePanel.MainContent>
+			<controls:SamplePanel.SideContent>
+				<StackPanel Spacing="12">
+
+					<ToggleSwitch
+						x:Name="OffTestToggleSwitch"
+						AutomationProperties.Name="OffTestToggleSwitch1"
+						Header="Toggle all ToggleButtons:" />
+
+					<ToggleSwitch
+						x:Name="OffEnabledToggle"
+						Header="IsEnabled:"
+						IsOn="False"
+						OffContent="Disabled"
+						OnContent="Enabled (Default)" />
+
+				</StackPanel>
+			</controls:SamplePanel.SideContent>
+		</controls:SamplePanel>
+
+		<!--  Resizing  -->
+		<controls:SamplePanel Header="">
+			<controls:SamplePanel.MainContent>
+				<Grid ColumnSpacing="24" RowSpacing="24">
+
+					<Grid.RowDefinitions>
+						<RowDefinition />
+						<RowDefinition />
+					</Grid.RowDefinitions>
+
 					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="*" />
-						<ColumnDefinition Width="320" />
+						<ColumnDefinition Width="90" />
+						<ColumnDefinition Width="90" />
+						<ColumnDefinition Width="90" />
 					</Grid.ColumnDefinitions>
 
-					<Grid
+					<!--  Row 0  -->
+					<controls:ThemedIcon
+						Grid.Row="0"
 						Grid.Column="0"
-						Padding="24"
-						ColumnSpacing="24"
-						RowSpacing="24">
+						Width="{x:Bind TestSize.Value, Mode=TwoWay}"
+						Height="{x:Bind TestSize.Value, Mode=TwoWay}"
+						IconType="Layered"
+						Style="{StaticResource IconTest}" />
 
-						<Grid.RowDefinitions>
-							<RowDefinition />
-							<RowDefinition />
-						</Grid.RowDefinitions>
-
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition />
-							<ColumnDefinition />
-							<ColumnDefinition />
-						</Grid.ColumnDefinitions>
-
-						<!--  Row 0  -->
-						<controls:ThemedIcon
-							Grid.Row="0"
-							Grid.Column="0"
-							Width="{x:Bind TestSize.Value, Mode=TwoWay}"
-							Height="{x:Bind TestSize.Value, Mode=TwoWay}"
-							IconType="Layered"
-							Style="{StaticResource IconTest}" />
-
-						<controls:ThemedIcon
-							Grid.Row="0"
-							Grid.Column="1"
-							Width="{x:Bind TestSize.Value, Mode=TwoWay}"
-							Height="{x:Bind TestSize.Value, Mode=TwoWay}"
-							IsFilled="True"
-							Style="{StaticResource IconTest}" />
-
-						<controls:ThemedIcon
-							Grid.Row="0"
-							Grid.Column="2"
-							Width="{x:Bind TestSize.Value, Mode=TwoWay}"
-							Height="{x:Bind TestSize.Value, Mode=TwoWay}"
-							IconType="Outline"
-							Style="{StaticResource IconTest}" />
-
-						<!--  Row 1  -->
-						<controls:ThemedIcon
-							Grid.Row="1"
-							Grid.Column="0"
-							Width="{x:Bind TestSize.Value, Mode=TwoWay}"
-							Height="{x:Bind TestSize.Value, Mode=TwoWay}"
-							IsEnabled="False"
-							Style="{StaticResource IconTest}" />
-
-						<controls:ThemedIcon
-							Grid.Row="1"
-							Grid.Column="1"
-							Width="{x:Bind TestSize.Value, Mode=TwoWay}"
-							Height="{x:Bind TestSize.Value, Mode=TwoWay}"
-							Foreground="Yellow"
-							IconColorType="Custom"
-							IconType="Layered"
-							Style="{StaticResource IconTest}">
-							<controls:ThemedIcon.Color>
-								<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-									<GradientStop Offset="0.0" Color="Cyan" />
-									<GradientStop Offset="1.0" Color="DeepPink" />
-								</LinearGradientBrush>
-							</controls:ThemedIcon.Color>
-						</controls:ThemedIcon>
-
-					</Grid>
-
-					<!--  Example Controls  -->
-					<StackPanel
+					<controls:ThemedIcon
+						Grid.Row="0"
 						Grid.Column="1"
-						Orientation="Vertical"
-						Style="{StaticResource StackPanelControlTestingStyle}">
+						Width="{x:Bind TestSize.Value, Mode=TwoWay}"
+						Height="{x:Bind TestSize.Value, Mode=TwoWay}"
+						IsFilled="True"
+						Style="{StaticResource IconTest}" />
 
-						<NumberBox
-							x:Name="TestSize"
-							Width="240"
-							HorizontalAlignment="Left"
-							Header="Icon Size"
-							Maximum="84"
-							Minimum="16"
-							SpinButtonPlacementMode="Inline"
-							Value="40" />
+					<controls:ThemedIcon
+						Grid.Row="0"
+						Grid.Column="2"
+						Width="{x:Bind TestSize.Value, Mode=TwoWay}"
+						Height="{x:Bind TestSize.Value, Mode=TwoWay}"
+						IconType="Outline"
+						Style="{StaticResource IconTest}" />
 
-					</StackPanel>
+					<!--  Row 1  -->
+					<controls:ThemedIcon
+						Grid.Row="1"
+						Grid.Column="0"
+						Width="{x:Bind TestSize.Value, Mode=TwoWay}"
+						Height="{x:Bind TestSize.Value, Mode=TwoWay}"
+						IsEnabled="False"
+						Style="{StaticResource IconTest}" />
+
+					<controls:ThemedIcon
+						Grid.Row="1"
+						Grid.Column="1"
+						Width="{x:Bind TestSize.Value, Mode=TwoWay}"
+						Height="{x:Bind TestSize.Value, Mode=TwoWay}"
+						Foreground="Yellow"
+						IconColorType="Custom"
+						IconType="Layered"
+						Style="{StaticResource IconTest}">
+						<controls:ThemedIcon.Color>
+							<LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+								<GradientStop Offset="0.0" Color="Cyan" />
+								<GradientStop Offset="1.0" Color="DeepPink" />
+							</LinearGradientBrush>
+						</controls:ThemedIcon.Color>
+					</controls:ThemedIcon>
 
 				</Grid>
+			</controls:SamplePanel.MainContent>
+			<controls:SamplePanel.SideContent>
+				<StackPanel>
 
-			</StackPanel>
+					<NumberBox
+						x:Name="TestSize"
+						Width="240"
+						HorizontalAlignment="Left"
+						Header="Icon size:"
+						Maximum="84"
+						Minimum="16"
+						SpinButtonPlacementMode="Inline"
+						Value="40" />
 
-		</StackPanel>
+				</StackPanel>
+			</controls:SamplePanel.SideContent>
+		</controls:SamplePanel>
 
-	</Grid>
-
+	</StackPanel>
 </Page>

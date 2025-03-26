@@ -14,7 +14,7 @@ using Visibility = Microsoft.UI.Xaml.Visibility;
 
 namespace Files.App.Utils.Library
 {
-	public sealed class LibraryManager : IDisposable
+	public sealed partial class LibraryManager : IDisposable
 	{
 		public EventHandler<NotifyCollectionChangedEventArgs>? DataChanged;
 
@@ -255,20 +255,20 @@ namespace Files.App.Utils.Library
 		{
 			if (string.IsNullOrWhiteSpace(name))
 			{
-				return (false, "ErrorInputEmpty".GetLocalizedResource());
+				return (false, Strings.ErrorInputEmpty.GetLocalizedResource());
 			}
 			if (FilesystemHelpers.ContainsRestrictedCharacters(name))
 			{
-				return (false, "ErrorNameInputRestrictedCharacters".GetLocalizedResource());
+				return (false, Strings.ErrorNameInputRestrictedCharacters.GetLocalizedResource());
 			}
 			if (FilesystemHelpers.ContainsRestrictedFileName(name))
 			{
-				return (false, "ErrorNameInputRestricted".GetLocalizedResource());
+				return (false, Strings.ErrorNameInputRestricted.GetLocalizedResource());
 			}
 			if (Libraries.Any((item) => string.Equals(name, item.Text, StringComparison.OrdinalIgnoreCase) ||
 				string.Equals(name, Path.GetFileNameWithoutExtension(item.Path), StringComparison.OrdinalIgnoreCase)))
 			{
-				return (false, "CreateLibraryErrorAlreadyExists".GetLocalizedResource());
+				return (false, Strings.CreateLibraryErrorAlreadyExists.GetLocalizedResource());
 			}
 			return (true, string.Empty);
 		}
@@ -277,10 +277,10 @@ namespace Files.App.Utils.Library
 		{
 			var dialog = new DynamicDialog(new DynamicDialogViewModel
 			{
-				TitleText = "DialogRestoreLibrariesTitleText".GetLocalizedResource(),
-				SubtitleText = "DialogRestoreLibrariesSubtitleText".GetLocalizedResource(),
-				PrimaryButtonText = "Restore".GetLocalizedResource(),
-				CloseButtonText = "Cancel".GetLocalizedResource(),
+				TitleText = Strings.DialogRestoreLibrariesTitleText.GetLocalizedResource(),
+				SubtitleText = Strings.DialogRestoreLibrariesSubtitleText.GetLocalizedResource(),
+				PrimaryButtonText = Strings.Restore.GetLocalizedResource(),
+				CloseButtonText = Strings.Cancel.GetLocalizedResource(),
 				PrimaryButtonAction = async (vm, e) =>
 				{
 					await ContextMenu.InvokeVerb("restorelibraries", ShellLibraryItem.LibrariesPath);
@@ -303,7 +303,7 @@ namespace Files.App.Utils.Library
 		{
 			var inputText = new TextBox
 			{
-				PlaceholderText = "FolderWidgetCreateNewLibraryInputPlaceholderText".GetLocalizedResource()
+				PlaceholderText = Strings.FolderWidgetCreateNewLibraryInputPlaceholderText.GetLocalizedResource()
 			};
 			var tipText = new TextBlock
 			{
@@ -328,10 +328,10 @@ namespace Files.App.Utils.Library
 						}
 					}
 				},
-				TitleText = "FolderWidgetCreateNewLibraryDialogTitleText".GetLocalizedResource(),
-				SubtitleText = "SideBarCreateNewLibrary/Text".GetLocalizedResource(),
-				PrimaryButtonText = "Create".GetLocalizedResource(),
-				CloseButtonText = "Cancel".GetLocalizedResource(),
+				TitleText = Strings.FolderWidgetCreateNewLibraryDialogTitleText.GetLocalizedResource(),
+				SubtitleText = Strings.SideBarCreateNewLibrary_Text.GetLocalizedResource(),
+				PrimaryButtonText = Strings.Create.GetLocalizedResource(),
+				CloseButtonText = Strings.Cancel.GetLocalizedResource(),
 				PrimaryButtonAction = async (vm, e) =>
 				{
 					var (result, reason) = App.LibraryManager.CanCreateLibrary(inputText.Text);

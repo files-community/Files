@@ -8,7 +8,7 @@ namespace Files.App.ViewModels.Settings
 	/// <summary>
 	/// Represents view model of <see cref="Views.Settings.ActionsPage"/>.
 	/// </summary>
-	public sealed class ActionsViewModel : ObservableObject
+	public sealed partial class ActionsViewModel : ObservableObject
 	{
 		// Dependency injections
 

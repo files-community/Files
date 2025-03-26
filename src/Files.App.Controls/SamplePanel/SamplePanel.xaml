@@ -1,0 +1,108 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Files.App.Controls">
+
+	<x:Double x:Key="SamplePanelSideContentWidth">360</x:Double>
+	<Thickness x:Key="SamplePanelPadding">24</Thickness>
+
+	<Style BasedOn="{StaticResource DefaultSamplePanelStyle}" TargetType="local:SamplePanel" />
+
+	<Style x:Key="DefaultSamplePanelStyle" TargetType="local:SamplePanel">
+		<Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="CornerRadius" Value="{ThemeResource OverlayCornerRadius}" />
+		<Setter Property="Padding" Value="{ThemeResource SamplePanelPadding}" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="IsTabStop" Value="True" />
+		<Setter Property="UseSystemFocusVisuals" Value="True" />
+		<Setter Property="IsFocusEngagementEnabled" Value="True" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:SamplePanel">
+					<Grid x:Name="PART_RootGrid" RowSpacing="8">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+
+						<TextBlock
+							Grid.Row="0"
+							Style="{StaticResource BodyStrongTextBlockStyle}"
+							Text="{Binding Header, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+
+						<Grid
+							x:Name="PART_RootPanel"
+							Grid.Row="1"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="{TemplateBinding CornerRadius}">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+
+							<ContentPresenter
+								Grid.Column="0"
+								Padding="{TemplateBinding Padding}"
+								Content="{Binding MainContent, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+
+							<StackPanel
+								Grid.Column="1"
+								Width="{StaticResource SamplePanelSideContentWidth}"
+								Padding="{TemplateBinding Padding}"
+								Background="{ThemeResource LayerFillColorDefaultBrush}"
+								BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+								BorderThickness="1,0,0,0"
+								Spacing="12">
+
+								<SelectorBar Padding="-12,0">
+									<SelectorBarItem IsSelected="True" Text="Manipulation">
+										<SelectorBarItem.Icon>
+											<FontIcon Glyph="&#xE713;" />
+										</SelectorBarItem.Icon>
+									</SelectorBarItem>
+									<SelectorBarItem IsEnabled="False" Text="Code">
+										<SelectorBarItem.Icon>
+											<FontIcon Glyph="&#xE943;" />
+										</SelectorBarItem.Icon>
+									</SelectorBarItem>
+								</SelectorBar>
+
+								<ContentPresenter Margin="0,12,0,0" Content="{Binding SideContent, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+
+								<TextBlock
+									x:Name="PART_NothingToShowTextBlock"
+									Margin="24"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									FontStyle="Italic"
+									Text="Nothing to show"
+									Visibility="Collapsed" />
+
+							</StackPanel>
+						</Grid>
+
+						<VisualStateManager.VisualStateGroups>
+
+							<VisualStateGroup x:Name="SideContentVisibilityStates">
+								<VisualState x:Name="NothingToShowTextCollapsed" />
+								<VisualState x:Name="NothingToShowTextVisible">
+									<VisualState.Setters>
+										<Setter Target="PART_NothingToShowTextBlock.Visibility" Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>

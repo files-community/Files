@@ -15,7 +15,7 @@ namespace Files.App.Utils.Storage
 		private static readonly ISizeProvider folderSizeProvider = Ioc.Default.GetService<ISizeProvider>();
 		private static readonly IStorageCacheService fileListCache = Ioc.Default.GetRequiredService<IStorageCacheService>();
 
-		private static readonly string folderTypeTextLocalized = "Folder".GetLocalizedResource();
+		private static readonly string folderTypeTextLocalized = Strings.Folder.GetLocalizedResource();
 
 		public static async Task<List<ListedItem>> ListEntries(
 			string path,
@@ -112,7 +112,7 @@ namespace Files.App.Utils.Storage
 
 		public static ListedItem GetAlternateStream((string Name, long Size) ads, ListedItem main)
 		{
-			string itemType = "File".GetLocalizedResource();
+			string itemType = Strings.File.GetLocalizedResource();
 			string itemFileExtension = null;
 
 			if (ads.Name.Contains('.'))
@@ -250,7 +250,7 @@ namespace Files.App.Utils.Storage
 
 			long itemSizeBytes = findData.GetSize();
 			var itemSize = itemSizeBytes.ToSizeString();
-			string itemType = "File".GetLocalizedResource();
+			string itemType = Strings.File.GetLocalizedResource();
 			string itemFileExtension = null;
 
 			if (findData.cFileName.Contains('.'))
@@ -289,7 +289,7 @@ namespace Files.App.Utils.Storage
 						ItemDateModifiedReal = itemModifiedDate,
 						ItemDateAccessedReal = itemLastAccessDate,
 						ItemDateCreatedReal = itemCreatedDate,
-						ItemType = "Shortcut".GetLocalizedResource(),
+						ItemType = Strings.Shortcut.GetLocalizedResource(),
 						ItemPath = itemPath,
 						FileSize = itemSize,
 						FileSizeBytes = itemSizeBytes,
@@ -311,7 +311,7 @@ namespace Files.App.Utils.Storage
 						ItemDateModifiedReal = itemModifiedDate,
 						ItemDateAccessedReal = itemLastAccessDate,
 						ItemDateCreatedReal = itemCreatedDate,
-						ItemType = "Shortcut".GetLocalizedResource(),
+						ItemType = Strings.Shortcut.GetLocalizedResource(),
 						ItemPath = itemPath,
 						FileSize = itemSize,
 						FileSizeBytes = itemSizeBytes,
@@ -342,7 +342,7 @@ namespace Files.App.Utils.Storage
 						ItemDateModifiedReal = itemModifiedDate,
 						ItemDateAccessedReal = itemLastAccessDate,
 						ItemDateCreatedReal = itemCreatedDate,
-						ItemType = isUrl ? "ShortcutWebLinkFileType".GetLocalizedResource() : "Shortcut".GetLocalizedResource(),
+						ItemType = isUrl ? Strings.ShortcutWebLinkFileType.GetLocalizedResource() : Strings.Shortcut.GetLocalizedResource(),
 						ItemPath = itemPath,
 						FileSize = itemSize,
 						FileSizeBytes = itemSizeBytes,
@@ -368,7 +368,7 @@ namespace Files.App.Utils.Storage
 						ItemDateModifiedReal = itemModifiedDate,
 						ItemDateAccessedReal = itemLastAccessDate,
 						ItemDateCreatedReal = itemCreatedDate,
-						ItemType = isUrl ? "ShortcutWebLinkFileType".GetLocalizedResource() : "Shortcut".GetLocalizedResource(),
+						ItemType = isUrl ? Strings.ShortcutWebLinkFileType.GetLocalizedResource() : Strings.Shortcut.GetLocalizedResource(),
 						ItemPath = itemPath,
 						FileSize = itemSize,
 						FileSizeBytes = itemSizeBytes,

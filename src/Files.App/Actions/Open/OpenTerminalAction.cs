@@ -6,15 +6,15 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal class OpenTerminalAction : ObservableObject, IAction
+	internal partial class OpenTerminalAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public virtual string Label
-			=> "OpenTerminal".GetLocalizedResource();
+			=> Strings.OpenTerminal.GetLocalizedResource();
 
 		public virtual string Description
-			=> "OpenTerminalDescription".GetLocalizedResource();
+			=> Strings.OpenTerminalDescription.GetLocalizedResource();
 
 		public virtual HotKey HotKey
 			=> new(Keys.Oem3, KeyModifiers.Ctrl);

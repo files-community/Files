@@ -3,15 +3,15 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenPropertiesAction : ObservableObject, IAction
+	internal sealed partial class OpenPropertiesAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "OpenProperties".GetLocalizedResource();
+			=> Strings.OpenProperties.GetLocalizedResource();
 
 		public string Description
-			=> "OpenPropertiesDescription".GetLocalizedResource();
+			=> Strings.OpenPropertiesDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Properties");

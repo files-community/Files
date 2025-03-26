@@ -1,4 +1,4 @@
-<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <local:BaseGroupableLayoutPage
 	x:Class="Files.App.Views.Layouts.ColumnLayoutPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -13,8 +13,9 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:storage="using:Files.App.Utils.Storage"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:wct="using:CommunityToolkit.WinUI.UI"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:wct="using:CommunityToolkit.WinUI"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
+	xmlns:wctlabs="using:CommunityToolkit.Labs.WinUI"
 	x:Name="PageRoot"
 	HighContrastAdjustment="None"
 	mc:Ignorable="d">
@@ -27,6 +28,10 @@
 			x:Key="NegatedBoolToVisibilityConverter"
 			FalseValue="Visible"
 			TrueValue="Collapsed" />
+		<wctconverters:BoolToVisibilityConverter
+			x:Key="BoolToVisibilityConverter"
+			FalseValue="Collapsed"
+			TrueValue="Visible" />
 		<wctconverters:EmptyObjectToObjectConverter
 			x:Key="EmptyObjectToObjectConverter"
 			EmptyValue="Collapsed"
@@ -173,7 +178,6 @@
 				<ListView
 					x:Name="FileList"
 					Padding="8,0,8,0"
-					wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					CanDragItems="{x:Bind AllowItemDrag, Mode=OneWay}"
@@ -239,7 +243,7 @@
 									</ContentPresenter>
 
 									<!--  Loading indicator  -->
-									<uc:Shimmer
+									<wctlabs:Shimmer
 										x:Name="TypeUnknownGlyph"
 										Margin="2"
 										x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
@@ -379,7 +383,7 @@
 												FontSize="14"
 												Style="{StaticResource SubheaderTextBlockStyle}"
 												Text="{x:Bind Model.Subtext, Mode=OneWay}"
-												Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay}" />
+												Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 										</StackPanel>
 
@@ -387,7 +391,7 @@
 											Margin="0,2,0,0"
 											Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 											Text="{x:Bind Model.CountText, Mode=OneWay}"
-											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay}" />
+											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 									</StackPanel>
 								</DataTemplate>
@@ -456,7 +460,7 @@
 											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 											Style="{StaticResource SubheaderTextBlockStyle}"
 											Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
-											Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay}" />
+											Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 									</StackPanel>
 
@@ -464,7 +468,7 @@
 										Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 										Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 										Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-										Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay}" />
+										Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 								</StackPanel>
 

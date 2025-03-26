@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.Data.Models
 {
-	public sealed class ColumnsViewModel : ObservableObject
+	public sealed partial class ColumnsViewModel : ObservableObject
 	{
 		private DetailsLayoutColumnItem iconColumn = new()
 		{

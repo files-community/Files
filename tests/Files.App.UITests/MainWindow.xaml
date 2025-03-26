@@ -26,9 +26,11 @@
 			Grid.Row="0"
 			HorizontalAlignment="Stretch">
 			<Grid.ColumnDefinitions>
-				<ColumnDefinition x:Name="TitleIcon" Width="48" />
-				<ColumnDefinition x:Name="TitleText" Width="Auto" />
+				<ColumnDefinition x:Name="TitleIconArea" Width="48" />
+				<ColumnDefinition x:Name="TitleTextArea" Width="Auto" />
 				<ColumnDefinition Width="*" />
+				<ColumnDefinition x:Name="AppThemeChangeToggleButtonArea" Width="Auto" />
+				<ColumnDefinition x:Name="ReservedCaptionButtonsArea" Width="160" />
 			</Grid.ColumnDefinitions>
 
 			<controls:ThemedIcon
@@ -57,6 +59,18 @@
 				Style="{ThemeResource CaptionTextBlockStyle}"
 				Text="Files UI Tests" />
 
+			<!--  IsChecked: true for light, false for dark.  -->
+			<ToggleButton
+				x:Name="AppThemeChangeToggleButton"
+				Grid.Column="3"
+				Height="32"
+				Click="AppThemeChangeToggleButton_Click">
+				<FontIcon
+					x:Name="AppThemeGlyph"
+					FontSize="14"
+					Glyph="&#xE708;" />
+			</ToggleButton>
+
 		</Grid>
 
 		<NavigationView
@@ -68,45 +82,26 @@
 			SelectionChanged="NavigationView_SelectionChanged">
 
 			<NavigationView.MenuItems>
-				<NavigationViewItem Content="Controls">
+				<NavigationViewItem Content="Controls" IsExpanded="True">
 					<NavigationViewItem.Icon>
 						<FontIcon Glyph="&#xE73A;" />
 					</NavigationViewItem.Icon>
 					<NavigationViewItem.MenuItems>
 						<NavigationViewItem Content="ThemedIcon" Tag="ThemedIconPage" />
 						<NavigationViewItem Content="Toolbar" Tag="ToolbarPage" />
-						<NavigationViewItem Content="Storage Controls" Tag="StorageControlsPage" />
+						<NavigationViewItem Content="SidebarView" Tag="SidebarViewPage" />
+						<NavigationViewItem Content="StorageRing/StorageBar" Tag="StorageControlsPage" />
+						<NavigationViewItem Content="Omnibar" Tag="OmnibarPage" />
+						<NavigationViewItem Content="BreadcrumbBar" Tag="BreadcrumbBarPage" />
 					</NavigationViewItem.MenuItems>
 				</NavigationViewItem>
 			</NavigationView.MenuItems>
 
 			<NavigationView.Content>
 				<ScrollViewer>
-					<Frame x:Name="MainFrame" />
+					<Frame x:Name="MainFrame" Padding="36,0,36,36" />
 				</ScrollViewer>
 			</NavigationView.Content>
-
-			<NavigationView.PaneFooter>
-				<Grid
-					Margin="8,2"
-					Padding="12,8"
-					Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
-					CornerRadius="4"
-					Visibility="{Binding MainNavigationView.IsPaneOpen, Mode=OneWay}">
-					<TextBlock VerticalAlignment="Center" Text="Theme mode:" />
-					<ComboBox
-						x:Name="ThemeModeSelectorCombBox"
-						HorizontalAlignment="Right"
-						SelectedIndex="0"
-						SelectionChanged="ThemeModeSelectorCombBox_SelectionChanged">
-						<ComboBox.Items>
-							<ComboBoxItem Content="Default" />
-							<ComboBoxItem Content="Light" />
-							<ComboBoxItem Content="Dark" />
-						</ComboBox.Items>
-					</ComboBox>
-				</Grid>
-			</NavigationView.PaneFooter>
 
 		</NavigationView>
 	</Grid>

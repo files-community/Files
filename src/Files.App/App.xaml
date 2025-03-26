@@ -55,7 +55,6 @@
 
 				<!--  Styles for the custom icons  -->
 				<ResourceDictionary Source="ms-appx:///Styles/PathIcons.xaml" />
-				<ResourceDictionary Source="ms-appx:///Styles/SideBarStyles.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/TextBlockStyles.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/ShimmerStyles.xaml" />
 				<ResourceDictionary Source="ms-appx:///Styles/MenuFlyoutSubItemWithImageStyle.xaml" />

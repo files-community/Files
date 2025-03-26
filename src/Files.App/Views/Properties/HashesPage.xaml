@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <vm:BasePropertiesPage
 	x:Class="Files.App.Views.Properties.HashesPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -7,7 +7,7 @@
 	xmlns:datamodels="using:Files.App.Data.Models"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:toolkitconverters="using:CommunityToolkit.WinUI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
 	DataContext="{x:Bind HashesViewModel, Mode=OneWay}"
 	Tag="Hashes"
@@ -25,11 +25,57 @@
 	</vm:BasePropertiesPage.Resources>
 
 	<Grid x:Name="RootGrid">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<!--  Hash Comparison Section  -->
+		<Grid
+			x:Name="HashComparisonGrid"
+			Margin="12,12,12,4"
+			Padding="12"
+			VerticalAlignment="Top"
+			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+			BorderThickness="1"
+			ColumnSpacing="8"
+			CornerRadius="4">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+
+			<!--  Hash Input  -->
+			<TextBox
+				x:Name="HashInputTextBox"
+				Grid.Column="0"
+				PlaceholderText="{helpers:ResourceString Name=EnterHashToCompare}"
+				Text="{x:Bind HashesViewModel.HashInput, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+			<!--  Compare File Button  -->
+			<Button
+				x:Name="CompareFileButton"
+				Grid.Column="1"
+				Command="{x:Bind HashesViewModel.CompareFileCommand}"
+				Content="{helpers:ResourceString Name=CompareFile}" />
+		</Grid>
+
+		<InfoBar
+			x:Name="HashMatchInfoBar"
+			Grid.Row="1"
+			Margin="12,4,12,4"
+			x:Load="{x:Bind HashesViewModel.IsInfoBarOpen, Mode=OneWay}"
+			IsClosable="False"
+			IsOpen="True"
+			Message="{x:Bind HashesViewModel.InfoBarTitle, Mode=OneWay}"
+			Severity="{x:Bind HashesViewModel.InfoBarSeverity, Mode=OneWay}" />
 
 		<Grid
 			x:Name="HashesListGrid"
-			Margin="12"
-			VerticalAlignment="Top"
+			Grid.Row="2"
+			Margin="12,4,12,12"
 			Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
 			BorderThickness="1"
@@ -38,7 +84,7 @@
 			<!--  Hashes ListView  -->
 			<ListView
 				x:Name="HashesListView"
-				ItemsSource="{x:Bind HashesViewModel.Hashes, Mode=TwoWay}"
+				ItemsSource="{x:Bind HashesViewModel.Hashes, Mode=OneWay}"
 				SelectedItem="{x:Bind HashesViewModel.SelectedItem, Mode=TwoWay}">
 
 				<!--  Header  -->

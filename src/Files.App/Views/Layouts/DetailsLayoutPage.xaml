@@ -11,25 +11,25 @@
 	xmlns:filesystem="using:Files.App.Utils"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
-	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.Views.Layouts"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:storage="using:Files.App.Utils.Storage"
-	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
+	xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:wct="using:CommunityToolkit.WinUI.UI"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:wct="using:CommunityToolkit.WinUI"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
+	xmlns:wctlabs="using:CommunityToolkit.Labs.WinUI"
 	x:Name="PageRoot"
 	NavigationCacheMode="Enabled"
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>
-		<icore:EventTriggerBehavior EventName="PointerWheelChanged">
-			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
-		</icore:EventTriggerBehavior>
-		<icore:EventTriggerBehavior EventName="PointerPressed">
-			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
-		</icore:EventTriggerBehavior>
+		<i:EventTriggerBehavior EventName="PointerWheelChanged">
+			<i:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
+		</i:EventTriggerBehavior>
+		<i:EventTriggerBehavior EventName="PointerPressed">
+			<i:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
+		</i:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
 	<local:BaseGroupableLayoutPage.Resources>
@@ -54,7 +54,7 @@
 			<Style
 				x:Name="HeaderGridSplitterStyle"
 				BasedOn="{StaticResource DefaultGridSplitterStyle}"
-				TargetType="toolkit:GridSplitter">
+				TargetType="controls:GridSplitter">
 				<Setter Property="Background" Value="Transparent" />
 				<Setter Property="Width" Value="12" />
 				<Setter Property="Margin" Value="0" />
@@ -222,7 +222,6 @@
 					Padding="8,0,8,12"
 					HorizontalAlignment="Stretch"
 					VerticalContentAlignment="Stretch"
-					wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					AutomationProperties.AccessibilityView="Raw"
@@ -567,7 +566,7 @@
 								Header="{helpers:ResourceString Name=Name}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="3"
 								AutomationProperties.Name="NameColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -588,7 +587,7 @@
 								Visibility="{x:Bind ColumnsViewModel.GitStatusColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="5"
 								AutomationProperties.Name="GitStatusColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -610,7 +609,7 @@
 								Visibility="{x:Bind ColumnsViewModel.GitLastCommitDateColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="7"
 								AutomationProperties.Name="GitLastCommitDateHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -632,7 +631,7 @@
 								Visibility="{x:Bind ColumnsViewModel.GitLastCommitMessageColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="9"
 								AutomationProperties.Name="GitLastCommitMessageHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -654,7 +653,7 @@
 								Visibility="{x:Bind ColumnsViewModel.GitCommitAuthorColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="11"
 								AutomationProperties.Name="GitCommitAuthorHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -676,7 +675,7 @@
 								Visibility="{x:Bind ColumnsViewModel.GitLastCommitShaColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="13"
 								AutomationProperties.Name="GitLastCommitShaHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -698,7 +697,7 @@
 								Visibility="{x:Bind ColumnsViewModel.TagColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="15"
 								AutomationProperties.Name="TagColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -720,7 +719,7 @@
 								Visibility="{x:Bind ColumnsViewModel.PathColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="17"
 								AutomationProperties.Name="PathColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -742,7 +741,7 @@
 								Visibility="{x:Bind ColumnsViewModel.OriginalPathColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="19"
 								AutomationProperties.Name="OriginalPathColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -764,7 +763,7 @@
 								Visibility="{x:Bind ColumnsViewModel.DateDeletedColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="21"
 								AutomationProperties.Name="DateDeletedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -786,7 +785,7 @@
 								Visibility="{x:Bind ColumnsViewModel.DateModifiedColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="23"
 								AutomationProperties.Name="DateModifiedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -808,7 +807,7 @@
 								Visibility="{x:Bind ColumnsViewModel.DateCreatedColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="25"
 								AutomationProperties.Name="DateCreatedColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -830,7 +829,7 @@
 								Visibility="{x:Bind ColumnsViewModel.ItemTypeColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="27"
 								AutomationProperties.Name="ItemTypeColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -852,7 +851,7 @@
 								Visibility="{x:Bind ColumnsViewModel.SizeColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="29"
 								AutomationProperties.Name="SizeColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -876,7 +875,7 @@
 								Visibility="{x:Bind ColumnsViewModel.StatusColumn.Visibility, Mode=OneWay}" />
 
 							<!--  (Divider)  -->
-							<toolkit:GridSplitter
+							<controls:GridSplitter
 								Grid.Column="31"
 								AutomationProperties.Name="StatusColumnHeaderGridSplitter"
 								DoubleTapped="GridSplitter_DoubleTapped"
@@ -933,7 +932,7 @@
 											</ContentPresenter>
 
 											<!--  Loading indicator  -->
-											<uc:Shimmer
+											<wctlabs:Shimmer
 												x:Name="TypeUnknownGlyph"
 												Margin="2"
 												x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
@@ -1416,14 +1415,14 @@
 												FontSize="14"
 												Style="{StaticResource SubheaderTextBlockStyle}"
 												Text="{x:Bind Model.Subtext, Mode=OneWay}"
-												Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay}" />
+												Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 										</StackPanel>
 
 										<TextBlock
 											Margin="0,2,0,0"
 											Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 											Text="{x:Bind Model.CountText, Mode=OneWay}"
-											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay}" />
+											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 									</StackPanel>
 								</DataTemplate>
@@ -1492,13 +1491,13 @@
 											Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 											Style="{StaticResource SubheaderTextBlockStyle}"
 											Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
-											Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay}" />
+											Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 									</StackPanel>
 									<TextBlock
 										Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 										Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 										Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-										Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay}" />
+										Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 								</StackPanel>
 							</StackPanel>
 						</DataTemplate>

@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Data.Items
 {
-	public sealed class FileTagItem : ObservableObject, INavigationControlItem
+	public sealed partial class FileTagItem : ObservableObject, INavigationControlItem
 	{
 		public string Text { get; set; }
 
@@ -53,5 +53,7 @@ namespace Files.App.Data.Items
 		public object ToolTip => Text;
 
 		public bool IsExpanded { get => false; set { } }
+
+		public bool PaddedItem => false;
 	}
 }

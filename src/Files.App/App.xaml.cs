@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.Helpers;
 using Files.App.Helpers.Application;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
@@ -80,10 +79,6 @@ namespace Files.App
 					SplashScreenLoadingTCS = new TaskCompletionSource();
 					MainWindow.Instance.ShowSplashScreen();
 				}
-
-				// Start tracking app usage
-				if (appActivationArguments.Data is Windows.ApplicationModel.Activation.IActivatedEventArgs activationEventArgs)
-					SystemInformation.Instance.TrackAppUse(activationEventArgs);
 
 				// Configure the DI (dependency injection) container
 				var host = AppLifecycleHelper.ConfigureHost();

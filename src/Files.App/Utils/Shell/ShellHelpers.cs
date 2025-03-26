@@ -28,10 +28,10 @@ namespace Files.App.Utils.Shell
 		{
 			return shPath switch
 			{
-				"Home" => "Home".GetLocalizedResource(),
-				Constants.UserEnvironmentPaths.RecycleBinPath => "RecycleBin".GetLocalizedResource(),
-				Constants.UserEnvironmentPaths.NetworkFolderPath => "Network".GetLocalizedResource(),
-				Constants.UserEnvironmentPaths.MyComputerPath => "ThisPC".GetLocalizedResource(),
+				"Home" => Strings.Home.GetLocalizedResource(),
+				Constants.UserEnvironmentPaths.RecycleBinPath => Strings.RecycleBin.GetLocalizedResource(),
+				Constants.UserEnvironmentPaths.NetworkFolderPath => Strings.Network.GetLocalizedResource(),
+				Constants.UserEnvironmentPaths.MyComputerPath => Strings.ThisPC.GetLocalizedResource(),
 				_ => shPath
 			};
 		}

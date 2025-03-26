@@ -9,7 +9,7 @@ using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
 namespace Files.App.ViewModels.Settings
 {
-	public sealed class GeneralViewModel : ObservableObject, IDisposable
+	public sealed partial class GeneralViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
@@ -107,8 +107,8 @@ namespace Files.App.ViewModels.Settings
 			PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
 			// ShellPaneArrangement
-			ShellPaneArrangementTypes.Add(ShellPaneArrangement.Horizontal, "Horizontal".GetLocalizedResource());
-			ShellPaneArrangementTypes.Add(ShellPaneArrangement.Vertical, "Vertical".GetLocalizedResource());
+			ShellPaneArrangementTypes.Add(ShellPaneArrangement.Horizontal, Strings.Horizontal.GetLocalizedResource());
+			ShellPaneArrangementTypes.Add(ShellPaneArrangement.Vertical, Strings.Vertical.GetLocalizedResource());
 			SelectedShellPaneArrangementType = ShellPaneArrangementTypes[UserSettingsService.GeneralSettingsService.ShellPaneArrangementOption];
 
 			InitStartupSettingsRecentFoldersFlyout();
@@ -146,14 +146,14 @@ namespace Files.App.ViewModels.Settings
 
 		private void InitStartupSettingsRecentFoldersFlyout()
 		{
-			var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalizedResource());
-			recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalizedResource())
+			var recentsItem = new MenuFlyoutSubItemViewModel(Strings.JumpListRecentGroupHeader.GetLocalizedResource());
+			recentsItem.Items.Add(new MenuFlyoutItemViewModel(Strings.Home.GetLocalizedResource())
 			{
 				Command = AddPageCommand,
 				CommandParameter = "Home",
-				Tooltip = "Home".GetLocalizedResource()
+				Tooltip = Strings.Home.GetLocalizedResource()
 			});
-			recentsItem.Items.Add(new MenuFlyoutItemViewModel("Browse".GetLocalizedResource()) { Command = AddPageCommand });
+			recentsItem.Items.Add(new MenuFlyoutItemViewModel(Strings.Browse.GetLocalizedResource()) { Command = AddPageCommand });
 		}
 
 		private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -359,7 +359,7 @@ namespace Files.App.ViewModels.Settings
 		}
 
 		public string DateFormatSample
-			=> string.Format("DateFormatSample".GetLocalizedResource(), DateFormats[SelectedDateTimeFormatIndex].Sample1, DateFormats[SelectedDateTimeFormatIndex].Sample2);
+			=> string.Format(Strings.DateFormatSample.GetLocalizedResource(), DateFormats[SelectedDateTimeFormatIndex].Sample1, DateFormats[SelectedDateTimeFormatIndex].Sample2);
 
 		private DispatcherQueue dispatcherQueue;
 

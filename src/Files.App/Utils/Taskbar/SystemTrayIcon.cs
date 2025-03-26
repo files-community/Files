@@ -16,7 +16,7 @@ namespace Files.App.Utils.Taskbar
 	/// <summary>
 	/// Represents a tray icon of Notification Area so-called System Tray.
 	/// </summary>
-	public sealed class SystemTrayIcon : IDisposable
+	public sealed partial class SystemTrayIcon : IDisposable
 	{
 		// Constants
 
@@ -237,10 +237,10 @@ namespace Files.App.Utils.Taskbar
 			DestroyMenuSafeHandle hMenu = PInvoke.CreatePopupMenu_SafeHandle();
 
 			// Generate the classic context menu
-			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_DOCSLINK, "Documentation".GetLocalizedResource());
+			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_DOCSLINK, Strings.Documentation.GetLocalizedResource());
 			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_SEPARATOR, 0u, string.Empty);
 			//PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_RESTART, "Restart".GetLocalizedResource());
-			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_QUIT, "Quit".GetLocalizedResource());
+			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_QUIT, Strings.Quit.GetLocalizedResource());
 			PInvoke.SetForegroundWindow(_IconWindow.WindowHandle);
 
 			TRACK_POPUP_MENU_FLAGS tRACK_POPUP_MENU_FLAGS =

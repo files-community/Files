@@ -6,7 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.Views.Shells"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	x:Name="RootPage"
 	KeyboardAcceleratorPlacementMode="Hidden"
 	Loaded="Page_Loaded"
@@ -14,6 +14,7 @@
 
 	<local:BaseShellPage.Resources>
 		<ResourceDictionary>
+			<wctconverters:BoolToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		</ResourceDictionary>
 	</local:BaseShellPage.Resources>

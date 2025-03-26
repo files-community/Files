@@ -8,7 +8,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:templateselectors="using:Files.App.Data.TemplateSelectors"
-	xmlns:tvc="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:tvc="using:CommunityToolkit.WinUI.Converters"
 	xmlns:vm="using:Files.App.ViewModels.Dialogs.FileSystemDialog"
 	x:Name="RootDialog"
 	Title="{x:Bind ViewModel.Title, Mode=OneWay}"

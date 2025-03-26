@@ -25,7 +25,7 @@ jobs:
         configuration: [Release]
         platform: [x64]
     env:
-      SOLUTION_NAME:              'Files.sln'
+      SOLUTION_NAME:              'Files.slnx'
       CONFIGURATION:              '${{ matrix.configuration }}'
       PLATFORM:                   '${{ matrix.platform }}'
       APPX_BUNDLE_PLATFORMS:      'x64|arm64'
@@ -44,7 +44,7 @@ jobs:
       uses: microsoft/setup-msbuild@v2
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v2
-    - name: Setup .NET 8
+    - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json
@@ -70,11 +70,7 @@ jobs:
       shell: cmd
       run: |
         for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
-
-    - name: Restore NuGet
-      shell: pwsh
-      run: 'nuget restore $env:SOLUTION_NAME'
-
+      
     - name: Restore Files
       shell: pwsh
       run: |
@@ -82,14 +78,24 @@ jobs:
         -t:Restore `
         -p:Platform=$env:PLATFORM `
         -p:Configuration=$env:CONFIGURATION `
-        -p:PublishReadyToRun=true
+        -p:PublishReadyToRun=true `
+        -v:quiet
 
+    - name: Restore NuGet Packages for Launcher Project
+      shell: pwsh
+      run: |
+        nuget restore "$env:LAUNCHER_PROJECT_PATH" `
+          -SolutionDirectory "$env:WORKING_DIR" `
+          -Verbosity detailed
+          
     - name: Build launcher project
       shell: pwsh
       run: |
         msbuild "$env:LAUNCHER_PROJECT_PATH" `
+        -t:Build `
         -p:Platform=$env:PLATFORM `
-        -p:Configuration=$env:CONFIGURATION
+        -p:Configuration=$env:CONFIGURATION `
+        -v:quiet
 
     - name: Build & package Files
       shell: pwsh
@@ -102,14 +108,26 @@ jobs:
         -p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS `
         -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
         -p:AppxBundle=Always `
-        -p:UapAppxPackageBuildMode=StoreUpload
+        -p:UapAppxPackageBuildMode=StoreUpload `
+        -v:quiet
 
     - name: Remove empty files from the packages
       shell: bash
       run: find $ARTIFACTS_STAGING_DIR -empty -delete
-
+        
     - name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v4
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
+
+    - name: Publish the packages to Microsoft Store
+      uses: isaacrlevin/windows-store-action@1.0
+      with:
+        app-id: '9NSQD9PKV3SS'
+        tenant-id: ${{ secrets.STORE_TENANT_ID }}
+        client-id: ${{ secrets.STORE_CLIENT_ID }}
+        client-secret: ${{ secrets.STORE_CLIENT_SECRET }}
+        package-path: '${{ env.APPX_PACKAGE_DIR }}'
+        skip-polling: false
+        packages-keep: 5

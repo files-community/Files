@@ -7,7 +7,7 @@ using Windows.Win32.Foundation;
 
 namespace Files.App.ViewModels.Properties
 {
-	public sealed class SecurityAdvancedViewModel : ObservableObject
+	public sealed partial class SecurityAdvancedViewModel : ObservableObject
 	{
 		private readonly IStorageSecurityService StorageSecurityService = Ioc.Default.GetRequiredService<IStorageSecurityService>();
 
@@ -180,14 +180,14 @@ namespace Files.App.ViewModels.Properties
 				if (error is WIN32_ERROR.ERROR_ACCESS_DENIED)
 				{
 					ErrorMessage = 
-						"SecurityRequireReadPermissions".GetLocalizedResource() +
+						Strings.SecurityRequireReadPermissions.GetLocalizedResource() +
 						"\r\n\r\n" +
-						"SecuritySuggestToTakeOwnership".GetLocalizedResource();
+						Strings.SecuritySuggestToTakeOwnership.GetLocalizedResource();
 				}
 				else
 				{
 					ErrorMessage =
-						"SecurityUnableToDisplayPermissions".GetLocalizedResource() +
+						Strings.SecurityUnableToDisplayPermissions.GetLocalizedResource() +
 						"\r\n\r\n" +
 						error.ToString();
 				}

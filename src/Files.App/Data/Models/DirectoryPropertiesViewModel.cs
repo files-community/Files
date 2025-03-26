@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public sealed class StatusBarViewModel : ObservableObject
+	public sealed partial class StatusBarViewModel : ObservableObject
 	{
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private IDevToolsSettingsService DevToolsSettingsService = Ioc.Default.GetRequiredService<IDevToolsSettingsService>();
@@ -133,7 +133,7 @@ namespace Files.App.ViewModels.UserControls
 			var behind = head is not null ? head.BehindBy ?? 0 : 0;
 			var ahead = head is not null ? head.AheadBy ?? 0 : 0;
 
-			ExtendedStatusInfo = string.Format("GitSyncStatusExtendedInfo".GetLocalizedResource(), ahead, behind);
+			ExtendedStatusInfo = string.Format(Strings.GitSyncStatusExtendedInfo.GetLocalizedResource(), ahead, behind);
 			StatusInfo = $"{ahead} / {behind}";
 
 			OnPropertyChanged(nameof(ShowOpenInIDEButton));

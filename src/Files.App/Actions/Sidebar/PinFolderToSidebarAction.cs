@@ -5,16 +5,16 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal sealed class PinFolderToSidebarAction : ObservableObject, IAction
+	internal sealed partial class PinFolderToSidebarAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 		private readonly IQuickAccessService service;
 
 		public string Label
-			=> "PinFolderToSidebar".GetLocalizedResource();
+			=> Strings.PinFolderToSidebar.GetLocalizedResource();
 
 		public string Description
-			=> "PinFolderToSidebarDescription".GetLocalizedResource();
+			=> Strings.PinFolderToSidebarDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.FavoritePin");

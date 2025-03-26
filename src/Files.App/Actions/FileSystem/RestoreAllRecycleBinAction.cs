@@ -6,15 +6,15 @@ using Windows.Foundation.Metadata;
 
 namespace Files.App.Actions
 {
-	internal sealed class RestoreAllRecycleBinAction : BaseUIAction, IAction
+	internal sealed partial class RestoreAllRecycleBinAction : BaseUIAction, IAction
 	{
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 
 		public string Label
-			=> "RestoreAllItems".GetLocalizedResource();
+			=> Strings.RestoreAllItems.GetLocalizedResource();
 
 		public string Description
-			=> "RestoreAllRecycleBinDescription".GetLocalizedResource();
+			=> Strings.RestoreAllRecycleBinDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.RestoreDeleted");
@@ -28,10 +28,10 @@ namespace Files.App.Actions
 			// TODO: Use AppDialogService
 			var confirmationDialog = new ContentDialog()
 			{
-				Title = "ConfirmRestoreBinDialogTitle".GetLocalizedResource(),
-				Content = "ConfirmRestoreBinDialogContent".GetLocalizedResource(),
-				PrimaryButtonText = "Yes".GetLocalizedResource(),
-				SecondaryButtonText = "Cancel".GetLocalizedResource(),
+				Title = Strings.ConfirmRestoreBinDialogTitle.GetLocalizedResource(),
+				Content = Strings.ConfirmRestoreBinDialogContent.GetLocalizedResource(),
+				PrimaryButtonText = Strings.Yes.GetLocalizedResource(),
+				SecondaryButtonText = Strings.Cancel.GetLocalizedResource(),
 				DefaultButton = ContentDialogButton.Primary
 			};
 
@@ -48,8 +48,8 @@ namespace Files.App.Actions
 			{
 				var errorDialog = new ContentDialog()
 				{
-					Title = "FailedToRestore".GetLocalizedResource(),
-					PrimaryButtonText = "OK".GetLocalizedResource(),
+					Title = Strings.FailedToRestore.GetLocalizedResource(),
+					PrimaryButtonText = Strings.OK.GetLocalizedResource(),
 				};
 
 				if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))

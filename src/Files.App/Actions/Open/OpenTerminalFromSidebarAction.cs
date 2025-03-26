@@ -3,15 +3,15 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenTerminalFromSidebarAction : OpenTerminalAction
+	internal sealed partial class OpenTerminalFromSidebarAction : OpenTerminalAction
 	{
 		private ISidebarContext SidebarContext { get; } = Ioc.Default.GetRequiredService<ISidebarContext>();
 
 		public override string Label
-			=> "OpenTerminal".GetLocalizedResource();
+			=> Strings.OpenTerminal.GetLocalizedResource();
 
 		public override string Description
-			=> "OpenTerminalDescription".GetLocalizedResource();
+			=> Strings.OpenTerminalDescription.GetLocalizedResource();
 
 		public override bool IsExecutable =>
 			SidebarContext.IsItemRightClicked &&

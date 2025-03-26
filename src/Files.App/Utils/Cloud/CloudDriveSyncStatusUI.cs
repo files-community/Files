@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml;
 
 namespace Files.App.Utils.Cloud
 {
-	public sealed class CloudDriveSyncStatusUI : ObservableObject
+	public sealed partial class CloudDriveSyncStatusUI : ObservableObject
 	{
 		public string Glyph { get; }
 
@@ -16,7 +16,7 @@ namespace Files.App.Utils.Cloud
 
 		public bool LoadSyncStatus { get; }
 
-		public string SyncStatusString { get; } = "CloudDriveSyncStatus_Unknown".GetLocalizedResource();
+		public string SyncStatusString { get; } = Strings.CloudDriveSyncStatus_Unknown.GetLocalizedResource();
 
 		public CloudDriveSyncStatusUI()
 		{

@@ -13,7 +13,7 @@ namespace Files.App.Utils.Taskbar
 	/// <br/>
 	/// This is provided to handle context menu and retrieve mouse events, not a regular window class.
 	/// </summary>
-	public sealed class SystemTrayIconWindow : IDisposable
+	public sealed partial class SystemTrayIconWindow : IDisposable
 	{
 		private SystemTrayIcon _trayIcon;
 

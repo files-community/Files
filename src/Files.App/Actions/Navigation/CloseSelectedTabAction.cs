@@ -3,13 +3,13 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class CloseSelectedTabAction : CloseTabBaseAction
+	internal sealed partial class CloseSelectedTabAction : CloseTabBaseAction
 	{
 		public override string Label
-			=> "CloseTab".GetLocalizedResource();
+			=> Strings.CloseTab.GetLocalizedResource();
 
 		public override string Description
-			=> "CloseSelectedTabDescription".GetLocalizedResource();
+			=> Strings.CloseSelectedTabDescription.GetLocalizedResource();
 
 		public override HotKey HotKey
 			=> new(Keys.W, KeyModifiers.Ctrl);

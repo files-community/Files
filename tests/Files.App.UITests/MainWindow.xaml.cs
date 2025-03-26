@@ -4,6 +4,8 @@
 using Files.App.UITests.Views;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using System;
 
 namespace Files.App.UITests
 {
@@ -17,8 +19,22 @@ namespace Files.App.UITests
 			InitializeComponent();
 
 			ExtendsContentIntoTitleBar = true;
-
 			MainFrame.Navigate(typeof(MainPage));
+
+			// Set the toggle state for theme change button
+			if (Content is FrameworkElement element)
+			{
+				if (element.ActualTheme is ElementTheme.Light)
+				{
+					AppThemeChangeToggleButton.IsChecked = true;
+					AppThemeGlyph.Glyph = "\uE706"; // Sun
+				}
+				else
+				{
+					AppThemeChangeToggleButton.IsChecked = false;
+					AppThemeGlyph.Glyph = "\uE708"; // Moon
+				}
+			}
 		}
 
 		private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -26,37 +42,36 @@ namespace Files.App.UITests
 			if (args.SelectedItem is not NavigationViewItem item || item.Tag is not string tag)
 				return;
 
-			switch (tag)
-			{
-				case "ThemedIconPage":
-					MainFrame.Navigate(typeof(ThemedIconPage));
-					break;
-				case "ToolbarPage":
-					MainFrame.Navigate(typeof(ToolbarPage));
-					break;
-				case "StorageControlsPage":
-					MainFrame.Navigate(typeof(StorageControlsPage));
-					break;
-			}
+			MainFrame.Navigate(
+				tag switch
+				{
+					nameof(ThemedIconPage) => typeof(ThemedIconPage),
+					nameof(ToolbarPage) => typeof(ToolbarPage),
+					nameof(StorageControlsPage) => typeof(StorageControlsPage),
+					nameof(SidebarViewPage) => typeof(SidebarViewPage),
+					nameof(OmnibarPage) => typeof(OmnibarPage),
+					nameof(BreadcrumbBarPage) => typeof(BreadcrumbBarPage),
+					_ => throw new InvalidOperationException("There's no applicable page associated with the given key."),
+				});
+
+			MainNavigationView.Header = item.Content.ToString();
 		}
 
-		private void ThemeModeSelectorCombBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		private void AppThemeChangeToggleButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (sender is not ComboBox comboBox ||
+			if (sender is not ToggleButton toggleButton ||
 				Content is not FrameworkElement element)
 				return;
 
-			switch (comboBox.SelectedIndex)
+			if (toggleButton.IsChecked is true)
 			{
-				case 0:
-					element.RequestedTheme = ElementTheme.Default;
-					break;
-				case 1:
-					element.RequestedTheme = ElementTheme.Light;
-					break;
-				case 2:
-					element.RequestedTheme = ElementTheme.Dark;
-					break;
+				element.RequestedTheme = ElementTheme.Light;
+				AppThemeGlyph.Glyph = "\uE706"; // Sun
+			}
+			else
+			{
+				element.RequestedTheme = ElementTheme.Dark;
+				AppThemeGlyph.Glyph = "\uE708"; // Moon
 			}
 		}
 	}

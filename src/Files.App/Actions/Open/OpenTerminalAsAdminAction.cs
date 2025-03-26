@@ -3,13 +3,13 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenTerminalAsAdminAction : OpenTerminalAction
+	internal sealed partial class OpenTerminalAsAdminAction : OpenTerminalAction
 	{
 		public override string Label
-			=> "OpenTerminalAsAdmin".GetLocalizedResource();
+			=> Strings.OpenTerminalAsAdmin.GetLocalizedResource();
 
 		public override string Description
-			=> "OpenTerminalAsAdminDescription".GetLocalizedResource();
+			=> Strings.OpenTerminalAsAdminDescription.GetLocalizedResource();
 
 		public override HotKey HotKey
 			=> new(Keys.Oem3, KeyModifiers.CtrlShift);

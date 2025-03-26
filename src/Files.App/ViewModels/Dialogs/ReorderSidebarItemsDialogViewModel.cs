@@ -5,11 +5,11 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.Dialogs
 {
-	public sealed class ReorderSidebarItemsDialogViewModel : ObservableObject
+	public sealed partial class ReorderSidebarItemsDialogViewModel : ObservableObject
 	{
 		private readonly IQuickAccessService quickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
-		public string HeaderText = "ReorderSidebarItemsDialogText".GetLocalizedResource();
+		public string HeaderText = Strings.ReorderSidebarItemsDialogText.GetLocalizedResource();
 		public ICommand PrimaryButtonCommand { get; private set; }
 
 		public ObservableCollection<LocationItem> SidebarPinnedFolderItems = new(App.QuickAccessManager.Model._PinnedFolderItems

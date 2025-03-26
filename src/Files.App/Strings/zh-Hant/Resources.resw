@@ -148,7 +148,7 @@
     <value>在磁碟上的大小：</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>壓縮前的大小：</value>
+    <value>未壓縮大小：</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>無法完成該操作</value>
@@ -316,7 +316,7 @@
     <value>新增資料夾</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>建立檔案</value>
+    <value>新增檔案</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>該資料夾是空的。</value>
@@ -355,7 +355,7 @@
     <value>請插入所需的磁碟機以存取此項目。</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>已斷開與裝置的連接</value>
+    <value>已中斷與裝置的連接</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>目標檔案可能已被移動或刪除。</value>
@@ -535,6 +535,9 @@
   </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>複製到 {0}</value>
+  </data>
+  <data name="CloneToFolderCaptionText" xml:space="preserve">
+    <value>複製儲存庫到 {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>建立捷徑</value>
@@ -765,7 +768,7 @@
     <value>格式</value>
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
-    <value>採樣速率</value>
+    <value>取樣速率</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>專輯演出者</value>
@@ -1230,7 +1233,7 @@
     <value>此欄位不可留白！</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
-    <value>檔案名稱不可以包含下列字元：　\ / : * ? " &lt; &gt; |</value>
+    <value>檔案名稱不可以包含下列字元：\ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ErrorNameInputRestricted" xml:space="preserve">
     <value>無法使用此名稱！</value>
@@ -2469,7 +2472,7 @@
     <value>重新整理頁面內容</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
-    <value>將選定的項目重新命名</value>
+    <value>將選取的項目重新命名</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
     <value>選擇所有項目</value>
@@ -3138,6 +3141,9 @@
   <data name="GitFetchDescription" xml:space="preserve">
     <value>執行 git fetch 以從遠端儲存庫取得最新的變更</value>
   </data>
+  <data name="GitCloneDescription" xml:space="preserve">
+    <value>建立儲存庫的完整副本，包含所有歷史記錄和分支</value>
+  </data>
   <data name="GitPullDescription" xml:space="preserve">
     <value>執行 git pull 以從遠端儲存庫取得並合併最新的變更</value>
   </data>
@@ -3214,17 +3220,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files 目前無法連線至 GitHub。</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>在 VS Code 中開啟檔案</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>以 {0} 開啟資料夾</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>在 Visual Studio Code 中開啟目前目錄</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>以 {0} 開啟當前目錄</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>在 VS Code 中開啟儲存庫</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>以 {0} 開啟儲存庫（repo）</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>在 Visual Studio Code 中開啟 Git 儲存庫的根目錄</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>以 {0} 開啟此儲存庫（repo）的根目錄</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>複製代碼</value>
@@ -3412,7 +3418,7 @@
     <value>名稱：</value>
   </data>
   <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
-    <value>已處理 {0} 個，共 {1} 個</value>
+    <value>已處理 {0}，共 {1}</value>
     <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
   </data>
   <data name="ItemsLower" xml:space="preserve">
@@ -3465,6 +3471,70 @@
     <value>正在將 {0} 個項目從「{1}」壓縮到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
+    <value>Canceled cloning {0} to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled cloning {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
+    <value>Cloned "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
+    <value>Cloned {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
+    <value>Error cloning "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
+    <value>Failed to clone {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
+    <value>Cloning "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
+    <value>Cloning {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
+  <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
+    <value>Canceled installing {0} fonts</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled installing {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
+    <value>Installed {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
+    <value>Installed {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
+    <value>Error installing {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
+    <value>Failed to install {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
+    <value>Installing {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
+    <value>Installing {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>已取消將 {0} 個項目複製到「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3875,6 +3945,10 @@
     <value>ICO 檔案</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>Windows 圖示庫檔案</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Zip 檔案</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -3999,7 +4073,7 @@
     <value>請注意，替代資料流 (Alternate Data Stream) 只適用於NTFS系統</value>
   </data>
   <data name="DataStreamsAreHiddenTitle" xml:space="preserve">
-    <value>目前替代資料流已隱藏</value>
+    <value>目前的替代資料流為隱藏狀態</value>
   </data>
   <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
     <value>是否要顯示替代資料流 (Alternate Data Stream)? 您隨時可以在「檔案與資料夾」頁面中變更設定</value>
@@ -4038,5 +4112,48 @@
   <data name="AddToShelf" xml:space="preserve">
     <value>加入檔案置放區</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>檔案路徑或是alias</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>無效的路徑</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>測試整合性</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>找不到 {0}，請重新檢查設定後重試。</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>找不到目前設定的 IDE</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>開啟設定</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>輸入檔案路徑或是開啟指令(alias)</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>為這個 IDE 命名</value>
+  </data>
+  <data name="CloneRepo" xml:space="preserve">
+    <value>Clone repo</value>
+    <comment>Clone repo dialog title</comment>
+  </data>
+  <data name="Clone" xml:space="preserve">
+    <value>複製儲存庫</value>
+    <comment>Primary action button in the clone repo dialog</comment>
+  </data>
+  <data name="RepositoryURL" xml:space="preserve">
+    <value>Repository URL</value>
+    <comment>URL textbox header in the clone repo dialog</comment>
+  </data>
+  <data name="CannotCloneRepoTitle" xml:space="preserve">
+    <value>Cannot clone repo</value>
+    <comment>Cannot clone repo dialog title</comment>
   </data>
 </root>

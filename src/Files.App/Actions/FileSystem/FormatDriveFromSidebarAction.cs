@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class FormatDriveFromSidebarAction : FormatDriveAction
+	internal sealed partial class FormatDriveFromSidebarAction : FormatDriveAction
 	{
 		private ISidebarContext SidebarContext { get; } = Ioc.Default.GetRequiredService<ISidebarContext>();
 

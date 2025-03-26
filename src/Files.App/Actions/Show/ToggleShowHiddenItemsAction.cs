@@ -3,15 +3,15 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class ToggleShowHiddenItemsAction : ObservableObject, IToggleAction
+	internal sealed partial class ToggleShowHiddenItemsAction : ObservableObject, IToggleAction
 	{
 		private readonly IFoldersSettingsService settings;
 
 		public string Label
-			=> "ShowHiddenItems".GetLocalizedResource();
+			=> Strings.ShowHiddenItems.GetLocalizedResource();
 
 		public string Description
-			=> "ToggleShowHiddenItemsDescription".GetLocalizedResource();
+			=> Strings.ToggleShowHiddenItemsDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.H, KeyModifiers.Ctrl);

@@ -3,15 +3,15 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class FocusOtherPaneAction : ObservableObject, IAction
+	internal sealed partial class FocusOtherPaneAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "FocusOtherPane".GetLocalizedResource();
+			=> Strings.FocusOtherPane.GetLocalizedResource();
 
 		public string Description
-			=> "FocusOtherPaneDescription".GetLocalizedResource();
+			=> Strings.FocusOtherPaneDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Right, KeyModifiers.CtrlShift);

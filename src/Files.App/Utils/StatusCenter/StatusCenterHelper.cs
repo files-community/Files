@@ -474,6 +474,131 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
+		public static StatusCenterItem AddCard_GitClone(
+			IEnumerable<string> repoName,
+			IEnumerable<string> destination,
+			ReturnResult returnStatus,
+			long itemsCount = 0,
+			long totalSize = 0)
+		{
+			var destinationDir = PathNormalization.GetParentDir(destination.FirstOrDefault());
+
+			if (returnStatus == ReturnResult.Cancelled)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_GitCloneCanceled_Header",
+					"StatusCenter_GitCloneCanceled_SubHeader",
+					ReturnResult.Cancelled,
+					FileOperationType.GitClone,
+					repoName,
+					destination,
+					false,
+					itemsCount,
+					totalSize);
+			}
+			else if (returnStatus == ReturnResult.InProgress)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_GitCloneInProgress_Header",
+					"StatusCenter_GitCloneInProgress_SubHeader",
+					ReturnResult.InProgress,
+					FileOperationType.GitClone,
+					repoName,
+					destination,
+					true,
+					itemsCount,
+					totalSize,
+					new CancellationTokenSource());
+			}
+			else if (returnStatus == ReturnResult.Success)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_GitCloneComplete_Header",
+					"StatusCenter_GitCloneComplete_SubHeader",
+					ReturnResult.Success,
+					FileOperationType.GitClone,
+					repoName,
+					destination,
+					false,
+					itemsCount,
+					totalSize);
+			}
+			else
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_GitCloneFailed_Header",
+					"StatusCenter_GitCloneFailed_SubHeader",
+					ReturnResult.Failed,
+					FileOperationType.GitClone,
+					repoName,
+					destination,
+					false,
+					itemsCount,
+					totalSize);
+			}
+		}
+
+		public static StatusCenterItem AddCard_InstallFont(
+			IEnumerable<string> source,
+			ReturnResult returnStatus,
+			long itemsCount = 0,
+			long totalSize = 0)
+		{
+			if (returnStatus == ReturnResult.Cancelled)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_InstallFontCanceled_Header",
+					"StatusCenter_InstallFontCanceled_SubHeader",
+					ReturnResult.Cancelled,
+					FileOperationType.InstallFont,
+					source,
+					string.Empty.CreateEnumerable(),
+					false,
+					itemsCount,
+					totalSize);
+			}
+			else if (returnStatus == ReturnResult.InProgress)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_InstallFontInProgress_Header",
+					"StatusCenter_InstallFontInProgress_SubHeader",
+					ReturnResult.InProgress,
+					FileOperationType.InstallFont,
+					source,
+					string.Empty.CreateEnumerable(),
+					false,
+					itemsCount,
+					totalSize,
+					new CancellationTokenSource());
+			}
+			else if (returnStatus == ReturnResult.Success)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_InstallFontComplete_Header",
+					"StatusCenter_InstallFontComplete_SubHeader",
+					ReturnResult.Success,
+					FileOperationType.InstallFont,
+					source,
+					string.Empty.CreateEnumerable(),
+					false,
+					itemsCount,
+					totalSize);
+			}
+			else
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_InstallFontFailed_Header",
+					"StatusCenter_InstallFontFailed_SubHeader",
+					ReturnResult.Failed,
+					FileOperationType.InstallFont,
+					source,
+					string.Empty.CreateEnumerable(),
+					false,
+					itemsCount,
+					totalSize);
+			}
+		}
+
 		public static StatusCenterItem AddCard_Prepare()
 		{
 			return _statusCenterViewModel.AddItem(
@@ -673,6 +798,58 @@ namespace Files.App.Utils.StatusCenter
 								ReturnResult.Failed => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
 								ReturnResult.InProgress => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
 								_ => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+							};
+						}
+						break;
+					}
+				case FileOperationType.GitClone:
+					{
+						if (headerString is not null)
+						{
+							card.Header = card.FileSystemOperationReturnResult switch
+							{
+								ReturnResult.Cancelled => string.Format(headerString, sourcePath, destinationDirName),
+								ReturnResult.Success => string.Format(headerString, sourcePath, destinationDirName),
+								ReturnResult.Failed => string.Format(headerString, sourcePath, destinationDirName),
+								ReturnResult.InProgress => string.Format(headerString, sourcePath, destinationDirName),
+								_ => string.Format(headerString, sourcePath, destinationDirName),
+							};
+						}
+						if (subHeaderString is not null)
+						{
+							card.SubHeader = card.FileSystemOperationReturnResult switch
+							{
+								ReturnResult.Cancelled => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+								ReturnResult.Success => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+								ReturnResult.Failed => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+								ReturnResult.InProgress => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+								_ => string.Format(subHeaderString, card.TotalItemsCount, sourcePath, destinationPath),
+							};
+						}
+						break;
+					}
+				case FileOperationType.InstallFont:
+					{
+						if (headerString is not null)
+						{
+							card.Header = card.FileSystemOperationReturnResult switch
+							{
+								ReturnResult.Cancelled => string.Format(headerString, card.TotalItemsCount),
+								ReturnResult.Success => string.Format(headerString, card.TotalItemsCount),
+								ReturnResult.Failed => string.Format(headerString, card.TotalItemsCount),
+								ReturnResult.InProgress => string.Format(headerString, card.TotalItemsCount),
+								_ => string.Format(headerString, card.TotalItemsCount),
+							};
+						}
+						if (subHeaderString is not null)
+						{
+							card.SubHeader = card.FileSystemOperationReturnResult switch
+							{
+								ReturnResult.Cancelled => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								ReturnResult.Success => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								ReturnResult.Failed => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								ReturnResult.InProgress => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
+								_ => string.Format(subHeaderString, card.TotalItemsCount, sourcePath),
 							};
 						}
 						break;

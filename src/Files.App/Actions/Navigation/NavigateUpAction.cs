@@ -3,15 +3,15 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class NavigateUpAction : ObservableObject, IAction
+	internal sealed partial class NavigateUpAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Up".GetLocalizedResource();
+			=> Strings.Up.GetLocalizedResource();
 
 		public string Description
-			=> "NavigateUpDescription".GetLocalizedResource();
+			=> Strings.NavigateUpDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Up, KeyModifiers.Alt);

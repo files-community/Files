@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenInNewTabAction : BaseOpenInNewTabAction
+	internal sealed partial class OpenInNewTabAction : BaseOpenInNewTabAction
 	{
 	}
 }

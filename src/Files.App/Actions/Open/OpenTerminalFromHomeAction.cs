@@ -3,15 +3,15 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenTerminalFromHomeAction : OpenTerminalAction
+	internal sealed partial class OpenTerminalFromHomeAction : OpenTerminalAction
 	{
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 
 		public override string Label
-			=> "OpenTerminal".GetLocalizedResource();
+			=> Strings.OpenTerminal.GetLocalizedResource();
 
 		public override string Description
-			=> "OpenTerminalDescription".GetLocalizedResource();
+			=> Strings.OpenTerminalDescription.GetLocalizedResource();
 
 		public override bool IsExecutable =>
 			HomePageContext.IsAnyItemRightClicked &&

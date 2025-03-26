@@ -94,9 +94,9 @@ namespace Files.App.Helpers
 			{
 				var errorDialog = new ContentDialog()
 				{
-					Title = "FailedToRotateImage".GetLocalizedResource(),
+					Title = Strings.FailedToRotateImage.GetLocalizedResource(),
 					Content = ex.Message,
-					PrimaryButtonText = "OK".GetLocalizedResource(),
+					PrimaryButtonText = Strings.OK.GetLocalizedResource(),
 				};
 
 				if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))

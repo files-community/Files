@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenStorageSenseFromSidebarAction : OpenStorageSenseAction
+	internal sealed partial class OpenStorageSenseFromSidebarAction : OpenStorageSenseAction
 	{
 		private ISidebarContext SidebarContext { get; } = Ioc.Default.GetRequiredService<ISidebarContext>();
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();

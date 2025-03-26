@@ -1,7 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -328,7 +328,7 @@ namespace Files.App.Views.Layouts
 					FileList.ItemContainerStyle = LocalCompactListItemContainerStyle;
 
 					// Set correct style
-					FileList.ItemContainerStyle = LocalRegularItemContainerStyle;
+					FileList.ItemContainerStyle = LocalListItemContainerStyle;
 				}
 			}
 		}

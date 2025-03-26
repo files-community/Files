@@ -3,7 +3,7 @@
 
 namespace Files.App.ViewModels.Dialogs
 {
-	public sealed class ElevateConfirmDialogViewModel : ObservableObject
+	public sealed partial class ElevateConfirmDialogViewModel : ObservableObject
 	{
 	}
 }

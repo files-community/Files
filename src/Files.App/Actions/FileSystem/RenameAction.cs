@@ -3,15 +3,15 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class RenameAction : ObservableObject, IAction
+	internal sealed partial class RenameAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Rename".GetLocalizedResource();
+			=> Strings.Rename.GetLocalizedResource();
 
 		public string Description
-			=> "RenameDescription".GetLocalizedResource();
+			=> Strings.RenameDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.F2);

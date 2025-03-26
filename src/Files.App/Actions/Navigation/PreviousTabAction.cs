@@ -6,15 +6,15 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Actions
 {
-	internal sealed class PreviousTabAction : ObservableObject, IAction
+	internal sealed partial class PreviousTabAction : ObservableObject, IAction
 	{
 		private readonly IMultitaskingContext multitaskingContext;
 
 		public string Label
-			=> "PreviousTab".GetLocalizedResource();
+			=> Strings.PreviousTab.GetLocalizedResource();
 
 		public string Description
-			=> "PreviousTabDescription".GetLocalizedResource();
+			=> Strings.PreviousTabDescription.GetLocalizedResource();
 
 		public bool IsExecutable
 			=> multitaskingContext.TabCount > 1;

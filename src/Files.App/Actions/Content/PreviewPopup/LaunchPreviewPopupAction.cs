@@ -3,17 +3,17 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class LaunchPreviewPopupAction : ObservableObject, IAction
+	internal sealed partial class LaunchPreviewPopupAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		private readonly IPreviewPopupService previewPopupService;
 
 		public string Label
-			=> "LaunchPreviewPopup".GetLocalizedResource();
+			=> Strings.LaunchPreviewPopup.GetLocalizedResource();
 
 		public string Description
-			=> "LaunchPreviewPopupDescription".GetLocalizedResource();
+			=> Strings.LaunchPreviewPopupDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Space);

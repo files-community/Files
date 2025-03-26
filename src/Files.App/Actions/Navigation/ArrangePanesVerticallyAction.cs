@@ -3,16 +3,16 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class ArrangePanesVerticallyAction : ObservableObject, IToggleAction
+	internal sealed partial class ArrangePanesVerticallyAction : ObservableObject, IToggleAction
 	{
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private readonly IMultiPanesContext MultiPanesContext = Ioc.Default.GetRequiredService<IMultiPanesContext>();
 
 		public string Label
-			=> "ArrangePanesVertically".GetLocalizedResource();
+			=> Strings.ArrangePanesVertically.GetLocalizedResource();
 
 		public string Description
-			=> "ArrangePanesVerticallyDescription".GetLocalizedResource();
+			=> Strings.ArrangePanesVerticallyDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Panes.Horizontal");

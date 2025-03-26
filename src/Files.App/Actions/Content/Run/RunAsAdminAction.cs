@@ -5,15 +5,15 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
-	internal sealed class RunAsAdminAction : BaseRunAsAction
+	internal sealed partial class RunAsAdminAction : BaseRunAsAction
 	{
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public override string Label
-			=> "RunAsAdministrator".GetLocalizedResource();
+			=> Strings.RunAsAdministrator.GetLocalizedResource();
 
 		public override string Description
-			=> "RunAsAdminDescription".GetLocalizedResource();
+			=> Strings.RunAsAdminDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new("\uE7EF");

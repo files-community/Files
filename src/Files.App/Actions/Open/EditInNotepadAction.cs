@@ -5,15 +5,15 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
-	internal sealed class EditInNotepadAction : ObservableObject, IAction
+	internal sealed partial class EditInNotepadAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "EditInNotepad".GetLocalizedResource();
+			=> Strings.EditInNotepad.GetLocalizedResource();
 
 		public string Description
-			=> "EditInNotepadDescription".GetLocalizedResource();
+			=> Strings.EditInNotepadDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new("\uE70F");

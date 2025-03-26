@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Exceptions;
 using Files.App.Storage.Storables;
 using FluentFTP;
 using System.IO;
@@ -14,12 +13,12 @@ using Windows.Storage.Search;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class FtpStorageFolder : BaseStorageFolder, IPasswordProtectedItem
+	public sealed partial class FtpStorageFolder : BaseStorageFolder, IPasswordProtectedItem
 	{
 		public override string Path { get; }
 		public override string Name { get; }
 		public override string DisplayName => Name;
-		public override string DisplayType => "Folder".GetLocalizedResource();
+		public override string DisplayType => Strings.Folder.GetLocalizedResource();
 		public string FtpPath { get; }
 		public override string FolderRelativeId => $"0\\{Name}";
 
@@ -222,7 +221,7 @@ namespace Files.App.Utils.Storage
 				if (result is FtpStatus.Skipped)
 				{
 					if (options is CreationCollisionOption.FailIfExists)
-						throw new FileAlreadyExistsException("File already exists.", desiredName);
+						throw new FileAlreadyExistsException(desiredName);
 
 					return null;
 				}
@@ -362,7 +361,7 @@ namespace Files.App.Utils.Storage
 			return new(host, credentials, port);
 		}
 
-		private sealed class FtpFolderBasicProperties : BaseBasicProperties
+		private sealed partial class FtpFolderBasicProperties : BaseBasicProperties
 		{
 			public override ulong Size { get; }
 

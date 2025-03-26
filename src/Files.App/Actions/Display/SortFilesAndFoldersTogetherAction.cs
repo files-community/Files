@@ -3,15 +3,15 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class SortFilesAndFoldersTogetherAction : ObservableObject, IToggleAction
+	internal sealed partial class SortFilesAndFoldersTogetherAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> "SortFilesAndFoldersTogether".GetLocalizedResource();
+			=> Strings.SortFilesAndFoldersTogether.GetLocalizedResource();
 
 		public string Description
-			=> "SortFilesAndFoldersTogetherDescription".GetLocalizedResource();
+			=> Strings.SortFilesAndFoldersTogetherDescription.GetLocalizedResource();
 
 		public bool IsOn
 			=> context.SortDirectoriesAlongsideFiles;

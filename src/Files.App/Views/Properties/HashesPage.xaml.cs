@@ -1,14 +1,11 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Parameters;
-using Files.App.Utils;
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Navigation;
-using System.Threading.Tasks;
 
 namespace Files.App.Views.Properties
 {
@@ -25,9 +22,10 @@ namespace Files.App.Views.Properties
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			var np = (PropertiesPageNavigationParameter)e.Parameter;
-			if (np.Parameter is ListedItem listedItem)
-				HashesViewModel = new(listedItem);
+			var parameter = (PropertiesPageNavigationParameter)e.Parameter;
+
+			if (parameter.Parameter is ListedItem listedItem)
+				HashesViewModel = new(listedItem, parameter.Window.AppWindow);
 
 			base.OnNavigatedTo(e);
 		}

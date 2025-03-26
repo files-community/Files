@@ -5,15 +5,15 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
-	internal sealed class InstallInfDriverAction : ObservableObject, IAction
+	internal sealed partial class InstallInfDriverAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Install".GetLocalizedResource();
+			=> Strings.Install.GetLocalizedResource();
 		
 		public string Description
-			=> "InstallInfDriverDescription".GetLocalizedResource();
+			=> Strings.InstallInfDriverDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new("\uE9F5");

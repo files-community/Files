@@ -6,7 +6,7 @@ using Files.Shared.Utils;
 
 namespace Files.App.ViewModels.Dialogs.AddItemDialog
 {
-	public sealed class AddItemDialogViewModel : ObservableObject
+	public sealed partial class AddItemDialogViewModel : ObservableObject
 	{
 		private readonly IImageService _imagingService;
 
@@ -33,8 +33,8 @@ namespace Files.App.ViewModels.Dialogs.AddItemDialog
 
 			AddItemsList.Add(new()
 			{
-				Header = "Folder".ToLocalized(),
-				SubHeader = "AddDialogListFolderSubHeader".ToLocalized(),
+				Header = Strings.Folder.ToLocalized(),
+				SubHeader = Strings.AddDialogListFolderSubHeader.ToLocalized(),
 				Glyph = "\xE838",
 				IsItemEnabled = true,
 				ItemResult = new()
@@ -45,8 +45,8 @@ namespace Files.App.ViewModels.Dialogs.AddItemDialog
 
 			AddItemsList.Add(new()
 			{
-				Header = "File".ToLocalized(),
-				SubHeader = "AddDialogListFileSubHeader".ToLocalized(),
+				Header = Strings.File.ToLocalized(),
+				SubHeader = Strings.AddDialogListFileSubHeader.ToLocalized(),
 				Glyph = "\xE8A5",
 				IsItemEnabled = true,
 				ItemResult = new()
@@ -58,8 +58,8 @@ namespace Files.App.ViewModels.Dialogs.AddItemDialog
 
 			AddItemsList.Add(new()
 			{
-				Header = "Shortcut".ToLocalized(),
-				SubHeader = "AddDialogListShortcutSubHeader".ToLocalized(),
+				Header = Strings.Shortcut.ToLocalized(),
+				SubHeader = Strings.AddDialogListShortcutSubHeader.ToLocalized(),
 				Glyph = "\uE71B",
 				IsItemEnabled = true,
 				ItemResult = new()

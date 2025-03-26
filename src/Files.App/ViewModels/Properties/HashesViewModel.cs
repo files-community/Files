@@ -1,15 +1,21 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.Shared.Helpers;
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml.Controls;
 using System.IO;
+using System.Security.Cryptography;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Properties
 {
-	public sealed class HashesViewModel : ObservableObject, IDisposable
+	public sealed partial class HashesViewModel : ObservableObject, IDisposable
 	{
+		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
+
+		private readonly AppWindow _appWindow;
 
 		private HashInfoItem _selectedItem;
 		public HashInfoItem SelectedItem
@@ -23,16 +29,48 @@ namespace Files.App.ViewModels.Properties
 		public Dictionary<string, bool> ShowHashes { get; private set; }
 
 		public ICommand ToggleIsEnabledCommand { get; private set; }
+		public ICommand CompareFileCommand { get; private set; }
 
 		private ListedItem _item;
 
 		private CancellationTokenSource _cancellationTokenSource;
 
-		public HashesViewModel(ListedItem item)
+		private string _hashInput;
+		public string HashInput
+		{
+			get => _hashInput;
+			set
+			{
+				SetProperty(ref _hashInput, value);
+
+				OnHashInputTextChanged();
+				OnPropertyChanged(nameof(IsInfoBarOpen));
+			}
+		}
+
+		private InfoBarSeverity _infoBarSeverity;
+		public InfoBarSeverity InfoBarSeverity
+		{
+			get => _infoBarSeverity;
+			set => SetProperty(ref _infoBarSeverity, value);
+		}
+
+		private string _infoBarTitle;
+		public string InfoBarTitle
+		{
+			get => _infoBarTitle;
+			set => SetProperty(ref _infoBarTitle, value);
+		}
+
+		public bool IsInfoBarOpen
+			=> !string.IsNullOrEmpty(HashInput);
+
+		public HashesViewModel(ListedItem item, AppWindow appWindow)
 		{
 			ToggleIsEnabledCommand = new RelayCommand<string>(ToggleIsEnabled);
 
 			_item = item;
+			_appWindow = appWindow;
 			_cancellationTokenSource = new();
 
 			Hashes =
@@ -55,6 +93,8 @@ namespace Files.App.ViewModels.Properties
 			ShowHashes.TryAdd("SHA512", false);
 
 			Hashes.Where(x => ShowHashes[x.Algorithm]).ForEach(x => ToggleIsEnabledCommand.Execute(x.Algorithm));
+
+			CompareFileCommand = new RelayCommand(async () => await OnCompareFileAsync());
 		}
 
 		private void ToggleIsEnabled(string? algorithm)
@@ -71,7 +111,7 @@ namespace Files.App.ViewModels.Properties
 			// Don't calculate hashes for online files
 			if (_item.SyncStatusUI.SyncStatus is CloudDriveSyncStatus.FileOnline or CloudDriveSyncStatus.FolderOnline)
 			{
-				hashInfoItem.HashValue = "CalculationOnlineFileHashError".GetLocalizedResource();
+				hashInfoItem.HashValue = Strings.CalculationOnlineFileHashError.GetLocalizedResource();
 				return;
 			}
 
@@ -106,11 +146,11 @@ namespace Files.App.ViewModels.Properties
 					catch (IOException)
 					{
 						// File is currently open
-						hashInfoItem.HashValue = "CalculationErrorFileIsOpen".GetLocalizedResource();
+						hashInfoItem.HashValue = Strings.CalculationErrorFileIsOpen.GetLocalizedResource();
 					}
 					catch (Exception)
 					{
-						hashInfoItem.HashValue = "CalculationError".GetLocalizedResource();
+						hashInfoItem.HashValue = Strings.CalculationError.GetLocalizedResource();
 					}
 					finally
 					{
@@ -118,6 +158,51 @@ namespace Files.App.ViewModels.Properties
 					}
 				});
 			}
+		}
+
+		public string FindMatchingAlgorithm(string hash)
+		{
+			if (string.IsNullOrEmpty(hash))
+				return string.Empty;
+
+			return Hashes.FirstOrDefault(h => h.HashValue?.Equals(hash, StringComparison.OrdinalIgnoreCase) == true)?.Algorithm ?? string.Empty;
+		}
+
+		public async Task<string> CalculateFileHashAsync(string filePath)
+		{
+			using var stream = File.OpenRead(filePath);
+			using var md5 = MD5.Create();
+			var hash = await Task.Run(() => md5.ComputeHash(stream));
+			return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+		}
+
+		private void OnHashInputTextChanged()
+		{
+			string matchingAlgorithm = FindMatchingAlgorithm(HashInput);
+
+			InfoBarSeverity = string.IsNullOrEmpty(matchingAlgorithm)
+				? InfoBarSeverity.Error
+				: InfoBarSeverity.Success;
+
+			InfoBarTitle = string.IsNullOrEmpty(matchingAlgorithm)
+				? Strings.HashesDoNotMatch.GetLocalizedResource()
+				: string.Format(Strings.HashesMatch.GetLocalizedResource(), matchingAlgorithm);
+		}
+
+		private async Task OnCompareFileAsync()
+		{
+			var hWnd = Microsoft.UI.Win32Interop.GetWindowFromWindowId(_appWindow.Id);
+
+			var result = CommonDialogService.Open_FileOpenDialog(
+				hWnd,
+				false,
+				[],
+				Environment.SpecialFolder.Desktop,
+				out var filePath);
+
+			HashInput = result && filePath != null
+				? await CalculateFileHashAsync(filePath)
+				: string.Empty;
 		}
 
 		public void Dispose()

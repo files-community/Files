@@ -46,6 +46,31 @@
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.SizeLayout28.xaml" />
 		<!--#endregion-->
 
+		<!--#region BladeView-->
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/BladeView/BladeView.xaml" />
+		<!--#endregion-->
+
+		<!--#region GridSplitter-->
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/GridSplitter/GridSplitter.xaml" />
+		<!--#endregion-->
+
+		<!--#region SidebarView-->
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Sidebar/SidebarStyles.xaml" />
+		<!--#endregion-->
+
+		<!--#region Omnibar-->
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Omnibar/Omnibar.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Omnibar/OmnibarMode.xaml" />
+		<!--#endregion-->
+
+		<!--#region SamplePanel-->
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/SamplePanel/SamplePanel.xaml" />
+		<!--#endregion-->
+
+		<!--#region Breadcrumb-->
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/BreadcrumbBar/BreadcrumbBar.xaml" />
+		<!--#endregion-->
+
 	</ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

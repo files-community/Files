@@ -536,6 +536,9 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Kopírovat do {0}</value>
   </data>
+  <data name="CloneToFolderCaptionText" xml:space="preserve">
+    <value>Klonovat do {0}</value>
+  </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>Vytvořit zástupce</value>
   </data>
@@ -3138,6 +3141,9 @@
   <data name="GitFetchDescription" xml:space="preserve">
     <value>Spustit git stahování</value>
   </data>
+  <data name="GitCloneDescription" xml:space="preserve">
+    <value>Klonovat git repozitář</value>
+  </data>
   <data name="GitPullDescription" xml:space="preserve">
     <value>Spustit vložení do gitu</value>
   </data>
@@ -3214,17 +3220,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files nemá aktuálně přístup ke GitHubu.</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>Otevřít složku v aplikaci VS Code</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>Otevřít složku v {0}</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Otevřít aktuální adresář ve VS Code</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>Otevřít aktuální složku v {0}</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Otevřít repozitář v aplikaci VS Code</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>Otevřít repozitář v {0}</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Otevřít kořen repozitáře Gitu v aplikaci Visual Studio Code</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Otevřít kořen repozitáře Gitu v {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Zkopírovat kód</value>
@@ -3465,6 +3471,70 @@
     <value>Komprimování {0} položek z "{1}" do "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
+    <value>Klonování {0} do "{1}" bylo zrušeno</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
+    <value>Klonování {0} z "{1}" do "{2}" bylo zrušeno</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
+    <value>Naklonováno "{0}" do "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
+    <value>Naklonováno {0} z "{1}" do "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
+    <value>Chyba klonování "{0}" do "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
+    <value>Nepodařilo se klonování {0} z "{1}" do "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
+    <value>Klonování "{0}" do "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
+    <value>Klonování {0} z "{1}" do "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
+  <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
+    <value>Canceled installing {0} fonts</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled installing {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
+    <value>Installed {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
+    <value>Installed {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
+    <value>Error installing {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
+    <value>Failed to install {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
+    <value>Installing {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
+    <value>Installing {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>Zrušeno kopírování {0} položky(položek) do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3875,6 +3945,10 @@
     <value>Soubor ICO</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>Soubor ICL</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Soubor ZIP</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -4038,5 +4112,48 @@
   <data name="AddToShelf" xml:space="preserve">
     <value>Odložit na panel</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Cesta nebo alias</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Neplatná cesta</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Test integrace</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>{0} se podařilo nalézt. Zkontrolujte prosím vaše nastavení a zkuste to znovu.</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>Nakonfigurované IDE nelze nalézt</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Otevřít nastavení</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>Zadejte cestu nebo spusťte alias</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>Zadejte název IDE</value>
+  </data>
+  <data name="CloneRepo" xml:space="preserve">
+    <value>Klonovat repozitář</value>
+    <comment>Clone repo dialog title</comment>
+  </data>
+  <data name="Clone" xml:space="preserve">
+    <value>Klonovat</value>
+    <comment>Primary action button in the clone repo dialog</comment>
+  </data>
+  <data name="RepositoryURL" xml:space="preserve">
+    <value>URL repozitáře</value>
+    <comment>URL textbox header in the clone repo dialog</comment>
+  </data>
+  <data name="CannotCloneRepoTitle" xml:space="preserve">
+    <value>Nelze klonovat repozitář</value>
+    <comment>Cannot clone repo dialog title</comment>
   </data>
 </root>

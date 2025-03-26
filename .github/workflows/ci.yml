@@ -29,7 +29,7 @@ run-name: ${{ github.event_name == 'pull_request' && 'Files PR Validation' || 'F
 
 env:
   WORKING_DIR: ${{ github.workspace }} # Default: 'D:\a\Files\Files'
-  SOLUTION_PATH: '${{ github.workspace }}\Files.sln'
+  SOLUTION_PATH: '${{ github.workspace }}\Files.slnx'
   PACKAGE_PROJECT_DIR: '${{ github.workspace }}\src\Files.App (Package)'
   PACKAGE_PROJECT_PATH: '${{ github.workspace }}\src\Files.App (Package)\Files.Package.wapproj'
   AUTOMATED_TESTS_ARCHITECTURE: 'x64'
@@ -57,7 +57,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 2
-    - name: Setup .NET 8
+    - name: Setup .NET
       uses: actions/setup-dotnet@v4
 
     - name: Install XamlStyler.Console
@@ -103,14 +103,10 @@ jobs:
       uses: microsoft/setup-msbuild@v2
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v2
-    - name: Setup .NET 8
+    - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json
-
-    - name: Restore NuGet
-      shell: pwsh
-      run: 'nuget restore $env:SOLUTION_PATH'
 
     - name: Restore Files
       shell: pwsh
@@ -119,7 +115,8 @@ jobs:
           -t:Restore `
           -p:Platform=$env:ARCHITECTURE `
           -p:Configuration=$env:CONFIGURATION `
-          -p:PublishReadyToRun=true
+          -p:PublishReadyToRun=true `
+          -v:quiet
 
     - if: env.CONFIGURATION != env.AUTOMATED_TESTS_CONFIGURATION || env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE 
       name: Build Files
@@ -127,10 +124,10 @@ jobs:
         msbuild `
           $env:PACKAGE_PROJECT_PATH `
           -t:Build `
-          -clp:ErrorsOnly `
           -p:Configuration=$env:CONFIGURATION `
           -p:Platform=$env:ARCHITECTURE `
-          -p:AppxBundle=Never
+          -p:AppxBundle=Never `
+          -v:quiet
 
     - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION && env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE
       name: Create self signed cert as a pfx file
@@ -143,7 +140,6 @@ jobs:
           $env:PACKAGE_PROJECT_PATH `
           -t:Build `
           -t:_GenerateAppxPackage `
-          -clp:ErrorsOnly `
           -p:Configuration=$env:CONFIGURATION `
           -p:Platform=$env:ARCHITECTURE `
           -p:AppxBundlePlatforms=$env:AUTOMATED_TESTS_ARCHITECTURE `
@@ -153,16 +149,17 @@ jobs:
           -p:AppxPackageSigningEnabled=true `
           -p:PackageCertificateKeyFile=$env:APPX_SELFSIGNED_CERT_PATH `
           -p:PackageCertificatePassword="" `
-          -p:PackageCertificateThumbprint=""
+          -p:PackageCertificateThumbprint="" `
+          -v:quiet
 
     - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
       name: Build interaction tests
       run: |
         msbuild $env:AUTOMATED_TESTS_PROJECT_PATH `
           -t:Build `
-          -clp:ErrorsOnly `
           -p:Configuration=$env:CONFIGURATION `
-          -p:Platform=$env:AUTOMATED_TESTS_ARCHITECTURE
+          -p:Platform=$env:AUTOMATED_TESTS_ARCHITECTURE `
+          -v:quiet
 
     - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
       name: Copy tests bin to the artifacts dir
@@ -204,7 +201,7 @@ jobs:
 
     - name: Checkout the repository
       uses: actions/checkout@v4
-    - name: Setup .NET 8
+    - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json

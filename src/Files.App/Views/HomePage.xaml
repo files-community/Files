@@ -8,15 +8,14 @@
 	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
-	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>
-		<icore:EventTriggerBehavior EventName="Loaded">
-			<icore:InvokeCommandAction Command="{x:Bind ViewModel.HomePageLoadedCommand, Mode=OneWay}" />
-		</icore:EventTriggerBehavior>
+		<i:EventTriggerBehavior EventName="Loaded">
+			<i:InvokeCommandAction Command="{x:Bind ViewModel.HomePageLoadedCommand, Mode=OneWay}" />
+		</i:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
 	<UserControl.Resources>

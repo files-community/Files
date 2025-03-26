@@ -3,15 +3,15 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class SearchAction : ObservableObject, IAction
+	internal sealed partial class SearchAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Search".GetLocalizedResource();
+			=> Strings.Search.GetLocalizedResource();
 
 		public string Description
-			=> "SearchDescription".GetLocalizedResource();
+			=> Strings.SearchDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.F, KeyModifiers.Ctrl);

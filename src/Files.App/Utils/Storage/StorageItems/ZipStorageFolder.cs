@@ -16,7 +16,7 @@ using IO = System.IO;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class ZipStorageFolder : BaseStorageFolder, ICreateFileWithStream, IPasswordProtectedItem
+	public sealed partial class ZipStorageFolder : BaseStorageFolder, ICreateFileWithStream, IPasswordProtectedItem
 	{
 		private readonly string containerPath;
 		private BaseStorageFile backingFile;
@@ -24,7 +24,7 @@ namespace Files.App.Utils.Storage
 		public override string Path { get; }
 		public override string Name { get; }
 		public override string DisplayName => Name;
-		public override string DisplayType => "Folder".GetLocalizedResource();
+		public override string DisplayType => Strings.Folder.GetLocalizedResource();
 		public override string FolderRelativeId => $"0\\{Name}";
 
 		public override DateTimeOffset DateCreated { get; }
@@ -646,7 +646,7 @@ namespace Files.App.Utils.Storage
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
-		private sealed class ZipFolderBasicProperties : BaseBasicProperties
+		private sealed partial class ZipFolderBasicProperties : BaseBasicProperties
 		{
 			private ArchiveFileInfo entry;
 

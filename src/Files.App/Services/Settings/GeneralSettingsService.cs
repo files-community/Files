@@ -3,7 +3,7 @@
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class GeneralSettingsService : BaseObservableJsonSettings, IGeneralSettingsService
+	internal sealed partial class GeneralSettingsService : BaseObservableJsonSettings, IGeneralSettingsService
 	{
 		public GeneralSettingsService(ISettingsSharingContext settingsSharingContext)
 		{

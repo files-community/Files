@@ -121,14 +121,14 @@ namespace Files.App.Helpers
 			switch (itemType)
 			{
 				case AddItemDialogItemType.Folder:
-					userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : "NewFolder".GetLocalizedResource();
+					userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : Strings.NewFolder.GetLocalizedResource();
 					created = await associatedInstance.FilesystemHelpers.CreateAsync(
 						StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput), FilesystemItemType.Directory),
 						true);
 					break;
 
 				case AddItemDialogItemType.File:
-					userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? "NewFile".GetLocalizedResource();
+					userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : itemInfo?.Name ?? Strings.NewFile.GetLocalizedResource();
 					created = await associatedInstance.FilesystemHelpers.CreateAsync(
 						StorageHelpers.FromPathAndType(PathNormalization.Combine(currentPath, userInput + itemInfo?.Extension), FilesystemItemType.File),
 						true);
@@ -145,8 +145,8 @@ namespace Files.App.Helpers
 			{
 				await DialogDisplayHelper.ShowDialogAsync
 				(
-					"AccessDenied".GetLocalizedResource(),
-					"AccessDeniedCreateDialog/Text".GetLocalizedResource()
+					Strings.AccessDenied.GetLocalizedResource(),
+					Strings.AccessDeniedCreateDialog_Text.GetLocalizedResource()
 				);
 			}
 
@@ -230,10 +230,10 @@ namespace Files.App.Helpers
 		{
 			var result = await DialogDisplayHelper.ShowDialogAsync
 			(
-				"CannotCreateShortcutDialogTitle".ToLocalized(),
-				"CannotCreateShortcutDialogMessage".ToLocalized(),
-				"Create".ToLocalized(),
-				"Cancel".ToLocalized()
+				Strings.CannotCreateShortcutDialogTitle.ToLocalized(),
+				Strings.CannotCreateShortcutDialogMessage.ToLocalized(),
+				Strings.Create.ToLocalized(),
+				Strings.Cancel.ToLocalized()
 			);
 			if (!result)
 				return false;

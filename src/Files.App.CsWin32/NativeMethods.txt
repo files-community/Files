@@ -28,9 +28,7 @@ HWND
 LRESULT
 WPARAM
 LPARAM
-WM_LBUTTONUP
-WM_RBUTTONUP
-WM_DESTROY
+WM_*
 SetForegroundWindow
 GetForegroundWindow
 GetCurrentThreadId
@@ -98,7 +96,7 @@ FindWindow
 SendMessage
 IsWindowVisible
 COPYDATASTRUCT
-SetWindowLongPtr
+WINDOW_LONG_PTR_INDEX
 GetDpiForWindow
 CallWindowProc
 MINMAXINFO
@@ -173,3 +171,4 @@ FSCTL_LOCK_VOLUME
 FILE_FILE_COMPRESSION
 WM_WINDOWPOSCHANGING
 WINDOWPOS
+UnregisterClass

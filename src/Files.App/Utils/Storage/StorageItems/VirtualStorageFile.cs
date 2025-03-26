@@ -11,7 +11,7 @@ using IO = System.IO;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class VirtualStorageFile : BaseStorageFile
+	public sealed partial class VirtualStorageFile : BaseStorageFile
 	{
 		public override string Path { get; }
 		public override string Name { get; }
@@ -24,7 +24,7 @@ namespace Files.App.Utils.Storage
 		{
 			get
 			{
-				var itemType = "File".GetLocalizedResource();
+				var itemType = Strings.File.GetLocalizedResource();
 				if (Name.Contains('.', StringComparison.Ordinal))
 				{
 					itemType = IO.Path.GetExtension(Name).Trim('.') + " " + itemType;
@@ -128,8 +128,8 @@ namespace Files.App.Utils.Storage
 					await using (var inStream = await this.OpenStreamForReadAsync())
 					await using (var outStream = await destFile.OpenStreamForWriteAsync())
 					{
-						await inStream.CopyToAsync(outStream);
-						await outStream.FlushAsync();
+						await inStream.CopyToAsync(outStream, cancellationToken);
+						await outStream.FlushAsync(cancellationToken);
 					}
 					return destFile;
 				}

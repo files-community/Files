@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
+using OwlCore.Storage;
 using WinRT;
 using DragEventArgs = Microsoft.UI.Xaml.DragEventArgs;
 

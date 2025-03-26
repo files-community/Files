@@ -1,10 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI;
 using CommunityToolkit.WinUI.Helpers;
-using CommunityToolkit.WinUI.UI;
-using CommunityToolkit.WinUI.UI.Controls;
-using Files.App.UserControls.Sidebar;
+using CommunityToolkit.WinUI.Controls;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
@@ -18,6 +17,9 @@ using Windows.Graphics;
 using Windows.Services.Store;
 using WinRT.Interop;
 using VirtualKey = Windows.System.VirtualKey;
+using GridSplitter = Files.App.Controls.GridSplitter;
+using Files.App.Controls;
+using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Views
 {
@@ -62,10 +64,10 @@ namespace Files.App.Views
 		{
 			var promptForReviewDialog = new ContentDialog
 			{
-				Title = "ReviewFiles".ToLocalized(),
-				Content = "ReviewFilesContent".ToLocalized(),
-				PrimaryButtonText = "Yes".ToLocalized(),
-				SecondaryButtonText = "No".ToLocalized()
+				Title = Strings.ReviewFiles.ToLocalized(),
+				Content = Strings.ReviewFilesContent.ToLocalized(),
+				PrimaryButtonText = Strings.Yes.ToLocalized(),
+				SecondaryButtonText = Strings.No.ToLocalized()
 			};
 
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
@@ -93,10 +95,10 @@ namespace Files.App.Views
 		{
 			var runningAsAdminPrompt = new ContentDialog
 			{
-				Title = "FilesRunningAsAdmin".ToLocalized(),
-				Content = "FilesRunningAsAdminContent".ToLocalized(),
+				Title = Strings.FilesRunningAsAdmin.ToLocalized(),
+				Content = Strings.FilesRunningAsAdminContent.ToLocalized(),
 				PrimaryButtonText = "Ok".ToLocalized(),
-				SecondaryButtonText = "DontShowAgain".ToLocalized()
+				SecondaryButtonText = Strings.DontShowAgain.ToLocalized()
 			};
 
 			var result = await SetContentDialogRoot(runningAsAdminPrompt).TryShowAsync();
@@ -311,7 +313,7 @@ namespace Files.App.Views
 			if (Package.Current.Id.Name != "49306atecsolution.FilesUWP" || UserSettingsService.ApplicationSettingsService.ClickedToReviewApp)
 				return;
 
-			var totalLaunchCount = SystemInformation.Instance.TotalLaunchCount;
+			var totalLaunchCount = AppLifecycleHelper.TotalLaunchCount;
 			if (totalLaunchCount is 50 or 200)
 			{
 				// Prompt user to review app in the Store
@@ -490,8 +492,15 @@ namespace Files.App.Views
 
 		private void PaneSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
-			this.ChangeCursor(InputSystemCursor.Create(PaneSplitter.GripperCursor == GridSplitter.GripperCursorType.SizeWestEast ?
+			this.ChangeCursor(InputSystemCursor.Create(InfoPane.Position == PreviewPanePositions.Right ?
 				InputSystemCursorShape.SizeWestEast : InputSystemCursorShape.SizeNorthSouth));
+		}
+
+		private void SettingsButton_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
+		{
+			// Suppress access key invocation if any dialog is open
+			if (VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot).Any())
+				args.Handled = true;
 		}
 	}
 }

@@ -21,6 +21,8 @@ namespace Files.App.Data.Items
 
 		public ObservableCollection<WidgetFileTagCardItem> Tags { get; }
 
+		public string Uid => _tagUid;
+
 		private string? _Color;
 		public string? Color
 		{
@@ -57,7 +59,7 @@ namespace Files.App.Data.Items
 		/// <inheritdoc/>
 		public async Task InitAsync(CancellationToken cancellationToken = default)
 		{
-			await foreach (var item in FileTagsService.GetItemsForTagAsync(_tagUid))
+			await foreach (var item in FileTagsService.GetItemsForTagAsync(_tagUid, cancellationToken))
 			{
 				var icon = await ImageService.GetIconAsync(item.Storable, default);
 				Tags.Add(new(item.Storable, icon));

@@ -105,7 +105,7 @@ namespace Files.App.Dialogs
 				PasswordBox.Focus(FocusState.Programmatic);
 		}
 
-		private sealed class DialogViewModel : ObservableObject
+		private sealed partial class DialogViewModel : ObservableObject
 		{
 			private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
@@ -199,28 +199,28 @@ namespace Files.App.Dialogs
 
 			public ImmutableList<CompressionLevelItem> CompressionLevels { get; } =
 			[
-				new CompressionLevelItem(ArchiveCompressionLevels.Ultra, "CompressionLevelUltra".GetLocalizedResource()),
-				new CompressionLevelItem(ArchiveCompressionLevels.High, "CompressionLevelHigh".GetLocalizedResource()),
-				new CompressionLevelItem(ArchiveCompressionLevels.Normal, "CompressionLevelNormal".GetLocalizedResource()),
-				new CompressionLevelItem(ArchiveCompressionLevels.Low, "CompressionLevelLow".GetLocalizedResource()),
-				new CompressionLevelItem(ArchiveCompressionLevels.Fast, "CompressionLevelFast".GetLocalizedResource()),
-				new CompressionLevelItem(ArchiveCompressionLevels.None, "CompressionLevelNone".GetLocalizedResource()),
+				new CompressionLevelItem(ArchiveCompressionLevels.Ultra, Strings.CompressionLevelUltra.GetLocalizedResource()),
+				new CompressionLevelItem(ArchiveCompressionLevels.High, Strings.CompressionLevelHigh.GetLocalizedResource()),
+				new CompressionLevelItem(ArchiveCompressionLevels.Normal, Strings.CompressionLevelNormal.GetLocalizedResource()),
+				new CompressionLevelItem(ArchiveCompressionLevels.Low, Strings.CompressionLevelLow.GetLocalizedResource()),
+				new CompressionLevelItem(ArchiveCompressionLevels.Fast, Strings.CompressionLevelFast.GetLocalizedResource()),
+				new CompressionLevelItem(ArchiveCompressionLevels.None, Strings.CompressionLevelNone.GetLocalizedResource()),
 			];
 
 			public ImmutableList<SplittingSizeItem> SplittingSizes { get; } =
 			[
-				new(ArchiveSplittingSizes.None, "Do not split".GetLocalizedResource()),
+				new(ArchiveSplittingSizes.None, Strings.DoNotSplit.GetLocalizedResource()),
 				new(ArchiveSplittingSizes.Mo10, ToSizeText(10)),
 				new(ArchiveSplittingSizes.Mo100, ToSizeText(100)),
-				new(ArchiveSplittingSizes.Cd650, ToSizeText(650), "CD".GetLocalizedResource()),
-				new(ArchiveSplittingSizes.Cd700, ToSizeText(700), "CD".GetLocalizedResource()),
+				new(ArchiveSplittingSizes.Cd650, ToSizeText(650), Strings.CD.GetLocalizedResource()),
+				new(ArchiveSplittingSizes.Cd700, ToSizeText(700), Strings.CD.GetLocalizedResource()),
 				new(ArchiveSplittingSizes.Mo1024, ToSizeText(1024)),
 				new(ArchiveSplittingSizes.Mo2048, ToSizeText(2048)),
-				new(ArchiveSplittingSizes.Fat4092, ToSizeText(4092), "FAT".GetLocalizedResource()),
-				new(ArchiveSplittingSizes.Dvd4480, ToSizeText(4480), "DVD".GetLocalizedResource()),
+				new(ArchiveSplittingSizes.Fat4092, ToSizeText(4092), Strings.FAT.GetLocalizedResource()),
+				new(ArchiveSplittingSizes.Dvd4480, ToSizeText(4480), Strings.DVD.GetLocalizedResource()),
 				new(ArchiveSplittingSizes.Mo5120, ToSizeText(5120)),
-				new(ArchiveSplittingSizes.Dvd8128, ToSizeText(8128), "DVD".GetLocalizedResource()),
-				new(ArchiveSplittingSizes.Bd23040, ToSizeText(23040), "Bluray".GetLocalizedResource()),
+				new(ArchiveSplittingSizes.Dvd8128, ToSizeText(8128), Strings.DVD.GetLocalizedResource()),
+				new(ArchiveSplittingSizes.Bd23040, ToSizeText(23040), Strings.Bluray.GetLocalizedResource()),
 			];
 
 			public DialogViewModel()

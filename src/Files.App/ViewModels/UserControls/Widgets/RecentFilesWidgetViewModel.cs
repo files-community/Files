@@ -13,7 +13,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// <summary>
 	/// Represents view model of <see cref="RecentFilesWidget"/>.
 	/// </summary>
-	public sealed class RecentFilesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
+	public sealed partial class RecentFilesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Fields
 
@@ -25,8 +25,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public ObservableCollection<RecentItem> Items { get; } = [];
 
 		public string WidgetName => nameof(RecentFilesWidget);
-		public string AutomationProperties => "RecentFiles".GetLocalizedResource();
-		public string WidgetHeader => "RecentFiles".GetLocalizedResource();
+		public string AutomationProperties => Strings.RecentFiles.GetLocalizedResource();
+		public string WidgetHeader => Strings.RecentFiles.GetLocalizedResource();
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowRecentFilesWidget;
 		public bool ShowMenuFlyout => false;
 		public MenuFlyoutItem? MenuFlyoutItem => null;
@@ -78,39 +78,39 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				new()
 				{
-					Text = "OpenWith".GetLocalizedResource(),
+					Text = Strings.OpenWith.GetLocalizedResource(),
 					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.OpenWith" },
 					Tag = "OpenWithPlaceholder",
 				},
 				new()
 				{
-					Text = "RecentItemRemove/Text".GetLocalizedResource(),
+					Text = Strings.RecentItemRemove_Text.GetLocalizedResource(),
 					Glyph = "\uE738",
 					Command = RemoveRecentItemCommand,
 					CommandParameter = item
 				},
 				new()
 				{
-					Text = "RecentItemClearAll/Text".GetLocalizedResource(),
+					Text = Strings.RecentItemClearAll_Text.GetLocalizedResource(),
 					Glyph = "\uE74D",
 					Command = ClearAllItemsCommand
 				},
 				new()
 				{
-					Text = "OpenFileLocation".GetLocalizedResource(),
+					Text = Strings.OpenFileLocation.GetLocalizedResource(),
 					Glyph = "\uED25",
 					Command = OpenFileLocationCommand,
 					CommandParameter = item
 				},
 				new()
 				{
-					Text = "SendTo".GetLocalizedResource(),
+					Text = Strings.SendTo.GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new()
 				{
-					Text = "Properties".GetLocalizedResource(),
+					Text = Strings.Properties.GetLocalizedResource(),
 					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.Properties" },
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
@@ -122,7 +122,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
-					Text = "Loading".GetLocalizedResource(),
+					Text = Strings.Loading.GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = [],
 					ID = "ItemOverflow",
@@ -332,8 +332,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				{
 					ContentDialog dialog = new()
 					{
-						Title = "CannotAccessPropertiesTitle".GetLocalizedResource(),
-						Content = "CannotAccessPropertiesContent".GetLocalizedResource(),
+						Title = Strings.CannotAccessPropertiesTitle.GetLocalizedResource(),
+						Content = Strings.CannotAccessPropertiesContent.GetLocalizedResource(),
 						PrimaryButtonText = "Ok".GetLocalizedResource()
 					};
 

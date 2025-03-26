@@ -8,7 +8,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	DataContext="{x:Bind SecurityViewModel, Mode=OneWay}"
 	Tag="Security"
 	mc:Ignorable="d">
@@ -153,6 +153,7 @@
 									<TextBlock
 										Grid.Column="1"
 										Style="{StaticResource App.Theme.BodyTextBlockStyle}"
+										TextWrapping="NoWrap"
 										ToolTipService.ToolTip="{x:Bind Principal.FullNameHumanized}">
 										<Run Text="{x:Bind Principal.DisplayName}" />
 										<Run Foreground="{ThemeResource TextFillColorSecondaryBrush}" Text="{x:Bind Principal.FullNameHumanizedWithBrackes}" />

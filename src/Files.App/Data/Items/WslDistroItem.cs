@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.Data.Items
 {
-	public sealed class WslDistroItem : ObservableObject, INavigationControlItem
+	public sealed partial class WslDistroItem : ObservableObject, INavigationControlItem
 	{
 		public string Text { get; set; }
 
@@ -60,6 +60,8 @@ namespace Files.App.Data.Items
 				ShowAsMonochrome = false,
 			};
 		}
+
+		public bool PaddedItem => false;
 
 		public int CompareTo(INavigationControlItem other) => Text.CompareTo(other.Text);
 	}

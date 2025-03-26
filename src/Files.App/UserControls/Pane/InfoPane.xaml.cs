@@ -52,8 +52,6 @@ namespace Files.App.UserControls
 			}
 		}
 
-		private string GetLocalizedResource(string resName) => resName.GetLocalizedResource();
-
 		private void Root_Unloaded(object sender, RoutedEventArgs e)
 		{
 			PreviewControlPresenter.Content = null;
@@ -76,7 +74,7 @@ namespace Files.App.UserControls
 			VisualStateManager.GoToState((UserControl)sender, "Normal", true);
 		}
 
-		private sealed class ObservableContext : ObservableObject
+		private sealed partial class ObservableContext : ObservableObject
 		{
 			private bool isHorizontal = false;
 			public bool IsHorizontal

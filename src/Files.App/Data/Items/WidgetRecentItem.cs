@@ -10,7 +10,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents an item for recent item of File Explorer on Windows.
 	/// </summary>
-	public sealed class RecentItem : WidgetCardItem, IEquatable<RecentItem>, IDisposable
+	public sealed partial class RecentItem : WidgetCardItem, IEquatable<RecentItem>, IDisposable
 	{
 		private BitmapImage? _Icon;
 		/// <summary>

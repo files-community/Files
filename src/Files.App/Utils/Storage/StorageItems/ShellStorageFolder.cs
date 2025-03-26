@@ -10,7 +10,7 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class ShortcutStorageFolder : ShellStorageFolder, IShortcutStorageItem
+	public sealed partial class ShortcutStorageFolder : ShellStorageFolder, IShortcutStorageItem
 	{
 		public string TargetPath { get; }
 		public string Arguments { get; }
@@ -36,7 +36,7 @@ namespace Files.App.Utils.Storage
 		bool RunAsAdmin { get; }
 	}
 
-	public sealed class BinStorageFolder : ShellStorageFolder, IBinStorageItem
+	public sealed partial class BinStorageFolder : ShellStorageFolder, IBinStorageItem
 	{
 		public string OriginalPath { get; }
 		public DateTimeOffset DateDeleted { get; }
@@ -54,7 +54,7 @@ namespace Files.App.Utils.Storage
 		DateTimeOffset DateDeleted { get; }
 	}
 
-	public class ShellStorageFolder : BaseStorageFolder
+	public partial class ShellStorageFolder : BaseStorageFolder
 	{
 		public override string Path { get; }
 		public override string Name { get; }
@@ -295,7 +295,7 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		private sealed class ShellFolderBasicProperties : BaseBasicProperties
+		private sealed partial class ShellFolderBasicProperties : BaseBasicProperties
 		{
 			private readonly ShellFileItem folder;
 

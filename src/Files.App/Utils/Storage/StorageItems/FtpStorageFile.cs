@@ -14,7 +14,7 @@ using IO = System.IO;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class FtpStorageFile : BaseStorageFile, IPasswordProtectedItem
+	public sealed partial class FtpStorageFile : BaseStorageFile, IPasswordProtectedItem
 	{
 		public override string Path { get; }
 		public override string Name { get; }
@@ -28,7 +28,7 @@ namespace Files.App.Utils.Storage
 		{
 			get
 			{
-				var itemType = "File".GetLocalizedResource();
+				var itemType = Strings.File.GetLocalizedResource();
 				if (Name.Contains('.', StringComparison.Ordinal))
 				{
 					itemType = IO.Path.GetExtension(Name).Trim('.') + " " + itemType;
@@ -292,7 +292,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private sealed class FtpFileBasicProperties : BaseBasicProperties
+		private sealed partial class FtpFileBasicProperties : BaseBasicProperties
 		{
 			public override ulong Size { get; }
 

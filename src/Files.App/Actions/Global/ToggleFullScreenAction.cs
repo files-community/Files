@@ -8,10 +8,10 @@ namespace Files.App.Actions
 	internal sealed class ToggleFullScreenAction : IToggleAction
 	{
 		public string Label
-			=> "FullScreen".GetLocalizedResource();
+			=> Strings.FullScreen.GetLocalizedResource();
 
 		public string Description
-			=> "ToggleFullScreenDescription".GetLocalizedResource();
+			=> Strings.ToggleFullScreenDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.F11);

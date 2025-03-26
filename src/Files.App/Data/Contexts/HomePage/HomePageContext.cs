@@ -7,7 +7,7 @@ using System.Collections.Immutable;
 
 namespace Files.App.Data.Contexts
 {
-	public sealed class HomePageContext : ObservableObject, IHomePageContext
+	public sealed partial class HomePageContext : ObservableObject, IHomePageContext
 	{
 		private static readonly ImmutableList<WidgetFileTagCardItem> emptyTaggedItems = Enumerable.Empty<WidgetFileTagCardItem>().ToImmutableList();
 

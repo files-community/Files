@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels
 {
-	public sealed class HomeViewModel : ObservableObject, IDisposable
+	public sealed partial class HomeViewModel : ObservableObject, IDisposable
 	{
 		// Dependency injections
 
@@ -115,6 +115,11 @@ namespace Files.App.ViewModels
 			ReloadWidgets();
 		}
 
+		public Task RefreshWidgetProperties()
+		{
+			return Task.WhenAll(WidgetItems.Select(w => w.WidgetItemModel.RefreshWidgetAsync()));
+		}
+
 		private bool InsertWidget(WidgetContainerItem widgetModel, int atIndex)
 		{
 			// The widget must not be null and must implement IWidgetItemModel
@@ -176,9 +181,10 @@ namespace Files.App.ViewModels
 
 		// Command methods
 
-		private void ExecuteHomePageLoadedCommand(RoutedEventArgs? e)
+		private async void ExecuteHomePageLoadedCommand(RoutedEventArgs? e)
 		{
 			ReloadWidgets();
+			await RefreshWidgetProperties();
 		}
 
 		// Disposer

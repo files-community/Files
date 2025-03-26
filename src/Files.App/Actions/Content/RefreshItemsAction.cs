@@ -3,15 +3,15 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class RefreshItemsAction : ObservableObject, IAction
+	internal sealed partial class RefreshItemsAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Refresh".GetLocalizedResource();
+			=> Strings.Refresh.GetLocalizedResource();
 
 		public string Description
-			=> "RefreshItemsDescription".GetLocalizedResource();
+			=> Strings.RefreshItemsDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new("\uE72C");

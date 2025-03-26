@@ -11,25 +11,25 @@
 	xmlns:filesystem="using:Files.App.Utils"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
-	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.Views.Layouts"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:storage="using:Files.App.Utils.Storage"
-	xmlns:tui="using:CommunityToolkit.WinUI.UI"
+	xmlns:tui="using:CommunityToolkit.WinUI"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:wctanimations="using:CommunityToolkit.WinUI.UI.Animations"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:wctanimations="using:CommunityToolkit.WinUI.Animations"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
+	xmlns:wctlabs="using:CommunityToolkit.Labs.WinUI"
 	x:Name="PageRoot"
 	NavigationCacheMode="Enabled"
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>
-		<icore:EventTriggerBehavior EventName="PointerWheelChanged">
-			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
-		</icore:EventTriggerBehavior>
-		<icore:EventTriggerBehavior EventName="PointerPressed">
-			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
-		</icore:EventTriggerBehavior>
+		<i:EventTriggerBehavior EventName="PointerWheelChanged">
+			<i:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
+		</i:EventTriggerBehavior>
+		<i:EventTriggerBehavior EventName="PointerPressed">
+			<i:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
+		</i:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
 	<local:BaseGroupableLayoutPage.Resources>
@@ -81,6 +81,10 @@
 			x:Key="NegatedBoolToOpacityConverter"
 			FalseValue="1"
 			TrueValue="0" />
+		<wctconverters:BoolToVisibilityConverter
+			x:Key="BoolToVisibilityConverter"
+			FalseValue="Collapsed"
+			TrueValue="Visible" />
 		<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 
 		<!--  Grid View  -->
@@ -124,7 +128,7 @@
 						</ContentPresenter>
 
 						<!--  Loading indicator  -->
-						<uc:Shimmer
+						<wctlabs:Shimmer
 							x:Name="TypeUnknownGlyph"
 							Margin="12"
 							x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
@@ -316,7 +320,7 @@
 							</ContentPresenter>
 
 							<!--  Loading indicator  -->
-							<uc:Shimmer
+							<wctlabs:Shimmer
 								x:Name="TypeUnknownGlyph"
 								Margin="2"
 								x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
@@ -464,7 +468,7 @@
 							</ContentPresenter>
 
 							<!--  Loading indicator  -->
-							<uc:Shimmer
+							<wctlabs:Shimmer
 								x:Name="TypeUnknownGlyph"
 								Width="{Binding ElementName=PageRoot, Path=CardsViewIconSize, Mode=OneWay}"
 								Height="{Binding ElementName=PageRoot, Path=CardsViewIconSize, Mode=OneWay}"
@@ -1006,7 +1010,6 @@
 					x:Name="FileList"
 					Padding="8"
 					VerticalContentAlignment="Stretch"
-					tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					wctanimations:ItemsReorderAnimation.Duration="0:0:0.350"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
@@ -1075,14 +1078,14 @@
 											FontSize="14"
 											Style="{StaticResource SubheaderTextBlockStyle}"
 											Text="{x:Bind Model.Subtext, Mode=OneWay}"
-											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay}" />
+											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 										<TextBlock
 											Grid.Row="1"
 											Grid.ColumnSpan="3"
 											Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 											Text="{x:Bind Model.CountText, Mode=OneWay}"
-											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay}" />
+											Visibility="{x:Bind Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 									</Grid>
 								</DataTemplate>
@@ -1164,7 +1167,7 @@
 									Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 									Style="{StaticResource SubheaderTextBlockStyle}"
 									Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.Subtext, Mode=OneWay}"
-									Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay}" />
+									Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 								<TextBlock
 									Grid.Row="1"
@@ -1173,7 +1176,7 @@
 									Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
 									Style="{StaticResource App.Theme.BodyTextBlockStyle}"
 									Text="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.CountText, Mode=OneWay}"
-									Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay}" />
+									Visibility="{x:Bind ((storage:IGroupedCollectionHeader)Group).Model.ShowCountTextBelow, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 							</Grid>
 						</DataTemplate>

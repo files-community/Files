@@ -3,16 +3,16 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class AddHorizontalPaneAction : ObservableObject, IAction
+	internal sealed partial class AddHorizontalPaneAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
 		public string Label
-			=> "AddHorizontalPane".GetLocalizedResource();
+			=> Strings.AddHorizontalPane.GetLocalizedResource();
 
 		public string Description
-			=> "AddHorizontalPaneDescription".GetLocalizedResource();
+			=> Strings.AddHorizontalPaneDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.H, KeyModifiers.AltShift);

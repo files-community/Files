@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace Files.App.ViewModels.Settings
 {
-	public sealed class AppearanceViewModel : ObservableObject
+	public sealed partial class AppearanceViewModel : ObservableObject
 	{
 		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
@@ -37,16 +37,16 @@ namespace Files.App.ViewModels.Settings
 
 			Themes =
 			[
-				"Default".GetLocalizedResource(),
-				"LightTheme".GetLocalizedResource(),
-				"DarkTheme".GetLocalizedResource()
+				Strings.Default.GetLocalizedResource(),
+				Strings.LightTheme.GetLocalizedResource(),
+				Strings.DarkTheme.GetLocalizedResource()
 			];
 
-			BackdropMaterialTypes.Add(BackdropMaterialType.Solid, "None".GetLocalizedResource());
-			BackdropMaterialTypes.Add(BackdropMaterialType.Acrylic, "Acrylic".GetLocalizedResource());
-			BackdropMaterialTypes.Add(BackdropMaterialType.ThinAcrylic, "ThinAcrylic".GetLocalizedResource());
-			BackdropMaterialTypes.Add(BackdropMaterialType.Mica, "Mica".GetLocalizedResource());
-			BackdropMaterialTypes.Add(BackdropMaterialType.MicaAlt, "MicaAlt".GetLocalizedResource());
+			BackdropMaterialTypes.Add(BackdropMaterialType.Solid, Strings.None.GetLocalizedResource());
+			BackdropMaterialTypes.Add(BackdropMaterialType.Acrylic, Strings.Acrylic.GetLocalizedResource());
+			BackdropMaterialTypes.Add(BackdropMaterialType.ThinAcrylic, Strings.ThinAcrylic.GetLocalizedResource());
+			BackdropMaterialTypes.Add(BackdropMaterialType.Mica, Strings.Mica.GetLocalizedResource());
+			BackdropMaterialTypes.Add(BackdropMaterialType.MicaAlt, Strings.MicaAlt.GetLocalizedResource());
 
 			selectedBackdropMaterial = BackdropMaterialTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackdropMaterial];
 
@@ -54,24 +54,24 @@ namespace Files.App.ViewModels.Settings
 
 
 			// Background image fit options
-			ImageStretchTypes.Add(Stretch.None, "None".GetLocalizedResource());
-			ImageStretchTypes.Add(Stretch.Fill, "Fill".GetLocalizedResource());
-			ImageStretchTypes.Add(Stretch.Uniform, "Uniform".GetLocalizedResource());
-			ImageStretchTypes.Add(Stretch.UniformToFill, "UniformToFill".GetLocalizedResource());
+			ImageStretchTypes.Add(Stretch.None, Strings.None.GetLocalizedResource());
+			ImageStretchTypes.Add(Stretch.Fill, Strings.Fill.GetLocalizedResource());
+			ImageStretchTypes.Add(Stretch.Uniform, Strings.Uniform.GetLocalizedResource());
+			ImageStretchTypes.Add(Stretch.UniformToFill, Strings.UniformToFill.GetLocalizedResource());
 			SelectedImageStretchType = ImageStretchTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageFit];
 
 			// Background image allignment options
 
 			// VerticalAlignment
-			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Top, "Top".GetLocalizedResource());
-			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Center, "Center".GetLocalizedResource());
-			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Bottom, "Bottom".GetLocalizedResource());
+			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Top, Strings.Top.GetLocalizedResource());
+			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Center, Strings.Center.GetLocalizedResource());
+			ImageVerticalAlignmentTypes.Add(VerticalAlignment.Bottom, Strings.Bottom.GetLocalizedResource());
 			SelectedImageVerticalAlignmentType = ImageVerticalAlignmentTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageVerticalAlignment];
 
 			// HorizontalAlignment
-			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Left, "Left".GetLocalizedResource());
-			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Center, "Center".GetLocalizedResource());
-			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Right, "Right".GetLocalizedResource());
+			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Left, Strings.Left.GetLocalizedResource());
+			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Center, Strings.Center.GetLocalizedResource());
+			ImageHorizontalAlignmentTypes.Add(HorizontalAlignment.Right, Strings.Right.GetLocalizedResource());
 			SelectedImageHorizontalAlignmentType = ImageHorizontalAlignmentTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment];
 
 			UpdateSelectedResource();
@@ -87,7 +87,7 @@ namespace Files.App.ViewModels.Settings
 		{
 			string[] extensions =
 			[
-				"BitmapFiles".GetLocalizedResource(), "*.bmp;*.dib",
+				Strings.BitmapFiles.GetLocalizedResource(), "*.bmp;*.dib",
 				"JPEG", "*.jpg;*.jpeg;*.jpe;*.jfif",
 				"GIF", "*.gif",
 				"TIFF", "*.tif;*.tiff",
@@ -120,13 +120,13 @@ namespace Files.App.ViewModels.Settings
 			if (!AppThemeResources.Any(p => p.BackgroundColor == themeBackgroundColor))
 			{
 				// Remove current value before adding a new one
-				if (AppThemeResources.Last().Name == "Custom".GetLocalizedResource())
+				if (AppThemeResources.Last().Name == Strings.Custom.GetLocalizedResource())
 					AppThemeResources.Remove(AppThemeResources.Last());
 
 				var appThemeBackgroundColor = new AppThemeResourceItem
 				{
 					BackgroundColor = themeBackgroundColor,
-					Name = "Custom".GetLocalizedResource(),
+					Name = Strings.Custom.GetLocalizedResource(),
 				};
 
 				AppThemeResources.Add(appThemeBackgroundColor);
@@ -181,11 +181,11 @@ namespace Files.App.ViewModels.Settings
 					// Apply the updated background resource
 					try
 					{
-						ResourcesService.SetAppThemeBackgroundColor(ColorHelper.ToColor(value).FromWindowsColor());
+						ResourcesService.SetAppThemeBackgroundColor(value.ToColor());
 					}
 					catch
 					{
-						ResourcesService.SetAppThemeBackgroundColor(ColorHelper.ToColor("#00000000").FromWindowsColor());
+						ResourcesService.SetAppThemeBackgroundColor("#00000000".ToColor());
 					}
 					ResourcesService.ApplyResources();
 

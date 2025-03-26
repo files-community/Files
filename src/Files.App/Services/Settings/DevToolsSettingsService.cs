@@ -3,7 +3,7 @@
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class DevToolsSettingsService : BaseObservableJsonSettings, IDevToolsSettingsService
+	internal sealed partial class DevToolsSettingsService : BaseObservableJsonSettings, IDevToolsSettingsService
 	{
 		public DevToolsSettingsService(ISettingsSharingContext settingsSharingContext)
 		{
@@ -15,6 +15,20 @@ namespace Files.App.Services.Settings
 		public OpenInIDEOption OpenInIDEOption
 		{
 			get => Get(OpenInIDEOption.GitRepos);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public string IDEPath
+		{
+			get => Get(SoftwareHelpers.IsVSCodeInstalled() ? "code" : string.Empty) ?? string.Empty;
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public string IDEName
+		{
+			get => Get(SoftwareHelpers.IsVSCodeInstalled() ? Strings.VisualStudioCode.GetLocalizedResource() : string.Empty) ?? string.Empty;
 			set => Set(value);
 		}
 

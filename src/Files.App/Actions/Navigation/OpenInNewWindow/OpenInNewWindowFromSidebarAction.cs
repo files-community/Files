@@ -3,7 +3,7 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenInNewWindowFromSidebarAction : BaseOpenInNewWindowAction
+	internal sealed partial class OpenInNewWindowFromSidebarAction : BaseOpenInNewWindowAction
 	{
 		public override HotKey HotKey
 			=> HotKey.None;

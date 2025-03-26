@@ -62,5 +62,15 @@ namespace Files.App.Data.Enums
 		/// An item has been added to an archive
 		/// </summary>
 		Compressed = 11,
+
+		/// <summary>
+		/// A git repo has been cloned
+		/// </summary>
+		GitClone = 12,
+
+		/// <summary>
+		/// A font has been installed
+		/// </summary>
+		InstallFont = 13,
 	}
 }

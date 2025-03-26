@@ -6,12 +6,12 @@ using Windows.Graphics;
 
 namespace Files.App.Actions
 {
-	internal sealed class EnterCompactOverlayAction : ObservableObject, IAction
+	internal sealed partial class EnterCompactOverlayAction : ObservableObject, IAction
 	{
 		private readonly IWindowContext windowContext;
 
 		public string Label
-			=> "EnterCompactOverlay".GetLocalizedResource();
+			=> Strings.EnterCompactOverlay.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.CompactOverlay");
@@ -20,7 +20,7 @@ namespace Files.App.Actions
 			=> new(Keys.Up, KeyModifiers.CtrlAlt);
 
 		public string Description
-			=> "EnterCompactOverlayDescription".GetLocalizedResource();
+			=> Strings.EnterCompactOverlayDescription.GetLocalizedResource();
 
 		public bool IsExecutable
 			=> !windowContext.IsCompactOverlay;

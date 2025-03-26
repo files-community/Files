@@ -14,7 +14,7 @@ using IO = System.IO;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class ZipStorageFile : BaseStorageFile, IPasswordProtectedItem
+	public sealed partial class ZipStorageFile : BaseStorageFile, IPasswordProtectedItem
 	{
 		private readonly string containerPath;
 		private readonly BaseStorageFile backingFile;
@@ -30,7 +30,7 @@ namespace Files.App.Utils.Storage
 		{
 			get
 			{
-				var itemType = "File".GetLocalizedResource();
+				var itemType = Strings.File.GetLocalizedResource();
 				if (Name.Contains('.', StringComparison.Ordinal))
 				{
 					itemType = FileType.Trim('.') + " " + itemType;
@@ -520,7 +520,7 @@ namespace Files.App.Utils.Storage
 			};
 		}
 
-		private sealed class ZipFileBasicProperties : BaseBasicProperties
+		private sealed partial class ZipFileBasicProperties : BaseBasicProperties
 		{
 			private ArchiveFileInfo entry;
 

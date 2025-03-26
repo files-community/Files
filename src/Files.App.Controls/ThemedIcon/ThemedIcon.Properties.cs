@@ -1,76 +1,100 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Controls
 {
-	[DependencyProperty<string>("FilledIconData", nameof(OnFilledIconPropertyChanged))]
-	[DependencyProperty<string>("OutlineIconData", nameof(OnOutlineIconPropertyChanged))]
-	[DependencyProperty<Brush>("Color", nameof(OnColorPropertyChanged))]
-	[DependencyProperty<ThemedIconTypes>("IconType", nameof(OnIconTypePropertyChanged), DefaultValue = "ThemedIconTypes.Layered")]
-	[DependencyProperty<ThemedIconColorType>("IconColorType", nameof(OnIconColorTypePropertyChanged), DefaultValue = "ThemedIconColorType.None")]
-	[DependencyProperty<double>("IconSize", nameof(OnIconSizePropertyChanged), DefaultValue = "(double)16")]
-	[DependencyProperty<bool>("IsToggled", nameof(OnIsToggledPropertyChanged), DefaultValue = "false")]
-	[DependencyProperty<bool>("IsFilled", nameof(OnIsFilledPropertyChanged), DefaultValue = "false")]
-	[DependencyProperty<bool>("IsHighContrast", nameof(OnIsHighContrastPropertyChanged), DefaultValue = "false")]
-	[DependencyProperty<object>("Layers", nameof(OnLayersPropertyChanged))]
-	[DependencyProperty<ToggleBehaviors>("ToggleBehavior", nameof(OnToggleBehaviorPropertyChanged), DefaultValue = "ToggleBehaviors.Auto")]
 	public partial class ThemedIcon : Control
 	{
-		protected virtual void OnFilledIconPropertyChanged(string oldValue, string newValue)
+		[GeneratedDependencyProperty]
+		public partial string FilledIconData { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial string OutlineIconData { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial Brush Color { get; set; }
+
+		[GeneratedDependencyProperty(DefaultValue = ThemedIconTypes.Layered)]
+		public partial ThemedIconTypes IconType { get; set; }
+
+		[GeneratedDependencyProperty(DefaultValue = ThemedIconColorType.None)]
+		public partial ThemedIconColorType IconColorType { get; set; }
+
+		[GeneratedDependencyProperty(DefaultValue = 16.0d)]
+		public partial double IconSize { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial bool IsToggled { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial bool IsFilled { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial bool IsHighContrast { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial object Layers { get; set; }
+
+		[GeneratedDependencyProperty(DefaultValue = ToggleBehaviors.Auto)]
+		public partial ToggleBehaviors ToggleBehavior { get; set; }
+
+		partial void OnFilledIconDataChanged(string newValue)
 		{
 			OnFilledIconChanged();
 		}
 
-		protected virtual void OnOutlineIconPropertyChanged(string oldValue, string newValue)
+		partial void OnOutlineIconDataChanged(string newValue)
 		{
 			OnOutlineIconChanged();
 		}
 
-		protected virtual void OnColorPropertyChanged(Brush oldValue, Brush newValue)
+		partial void OnColorChanged(Brush newValue)
 		{
 			OnIconTypeChanged();
 			OnIconColorChanged();
 		}
 
-		protected virtual void OnIconTypePropertyChanged(ThemedIconTypes oldValue, ThemedIconTypes newValue)
+		partial void OnIconTypeChanged(ThemedIconTypes newValue)
 		{
 			OnIconTypeChanged();
 		}
 
-		protected virtual void OnIconColorTypePropertyChanged(ThemedIconColorType oldValue, ThemedIconColorType newValue)
+		partial void OnIconColorTypeChanged(ThemedIconColorType newValue)
 		{
 			OnIconColorTypeChanged();
 		}
 
-		protected virtual void OnIconSizePropertyChanged(double oldValue, double newValue)
+		partial void OnIconSizeChanged(double newValue)
+		{
+			UpdateVisualStates();
+			OnIconSizeChanged();
+		}
+
+		partial void OnIsToggledChanged(bool newValue)
 		{
 			UpdateVisualStates();
 		}
 
-		protected virtual void OnIsToggledPropertyChanged(bool oldValue, bool newValue)
+		partial void OnIsFilledChanged(bool newValue)
 		{
 			UpdateVisualStates();
 		}
 
-		protected virtual void OnIsFilledPropertyChanged(bool oldValue, bool newValue)
+		partial void OnIsHighContrastChanged(bool newValue)
 		{
 			UpdateVisualStates();
 		}
 
-		protected virtual void OnIsHighContrastPropertyChanged(bool oldValue, bool newValue)
+		partial void OnLayersChanged(object newValue)
 		{
 			UpdateVisualStates();
 		}
 
-		protected virtual void OnLayersPropertyChanged(object oldValue, object newValue)
-		{
-			UpdateVisualStates();
-		}
-
-		protected virtual void OnToggleBehaviorPropertyChanged(ToggleBehaviors oldValue, ToggleBehaviors newValue)
+		partial void OnToggleBehaviorChanged(ToggleBehaviors newValue)
 		{
 			UpdateVisualStates();
 		}

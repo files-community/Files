@@ -6,7 +6,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents an access control entry (ACE).
 	/// </summary>
-	public sealed class AccessControlEntry : ObservableObject
+	public sealed partial class AccessControlEntry : ObservableObject
 	{
 		/// <summary>
 		/// Whether the path indicates folder or not
@@ -36,8 +36,8 @@ namespace Files.App.Data.Items
 		public string AccessControlTypeHumanized
 			=> AccessControlType switch
 			{
-				AccessControlEntryType.Allow => "Allow".GetLocalizedResource(),
-				_ => "Deny".GetLocalizedResource() // AccessControlType.Deny
+				AccessControlEntryType.Allow => Strings.Allow.GetLocalizedResource(),
+				_ => Strings.Deny.GetLocalizedResource() // AccessControlType.Deny
 			};
 
 		/// <summary>
@@ -60,22 +60,22 @@ namespace Files.App.Data.Items
 				var accessMaskStrings = new List<string>();
 
 				if (AccessMaskFlags == AccessMaskFlags.NULL)
-					accessMaskStrings.Add("None".GetLocalizedResource());
+					accessMaskStrings.Add(Strings.None.GetLocalizedResource());
 
 				if (FullControlAccess)
-					accessMaskStrings.Add("SecurityFullControlLabel/Text".GetLocalizedResource());
+					accessMaskStrings.Add(Strings.SecurityFullControlLabel_Text.GetLocalizedResource());
 				else if (ModifyAccess)
-					accessMaskStrings.Add("Modify".GetLocalizedResource());
+					accessMaskStrings.Add(Strings.Modify.GetLocalizedResource());
 				else if (ReadAndExecuteAccess)
-					accessMaskStrings.Add("SecurityReadAndExecuteLabel/Text".GetLocalizedResource());
+					accessMaskStrings.Add(Strings.SecurityReadAndExecuteLabel_Text.GetLocalizedResource());
 				else if (ReadAccess)
-					accessMaskStrings.Add("SecurityReadLabel/Text".GetLocalizedResource());
+					accessMaskStrings.Add(Strings.SecurityReadLabel_Text.GetLocalizedResource());
 
 				if (!FullControlAccess && !ModifyAccess && WriteAccess)
-					accessMaskStrings.Add("Write".GetLocalizedResource());
+					accessMaskStrings.Add(Strings.Write.GetLocalizedResource());
 
 				if (SpecialAccess)
-					accessMaskStrings.Add("SecuritySpecialLabel/Text".GetLocalizedResource());
+					accessMaskStrings.Add(Strings.SecuritySpecialLabel_Text.GetLocalizedResource());
 
 				return string.Join(", ", accessMaskStrings);
 			}
@@ -85,7 +85,7 @@ namespace Files.App.Data.Items
 		/// IsInheritedHumanized
 		/// </summary>
 		public string IsInheritedHumanized
-			=> IsInherited ? "Yes".GetLocalizedResource() : "No".GetLocalizedResource();
+			=> IsInherited ? Strings.Yes.GetLocalizedResource() : Strings.No.GetLocalizedResource();
 
 		/// <summary>
 		/// InheritanceFlagsHumanized
@@ -98,13 +98,13 @@ namespace Files.App.Data.Items
 
 				if (AccessControlEntryFlags == AccessControlEntryFlags.None ||
 					AccessControlEntryFlags == AccessControlEntryFlags.NoPropagateInherit)
-					inheritanceStrings.Add("SecurityAdvancedFlagsFolderLabel".GetLocalizedResource());
+					inheritanceStrings.Add(Strings.SecurityAdvancedFlagsFolderLabel.GetLocalizedResource());
 
 				if (AccessControlEntryFlags.HasFlag(AccessControlEntryFlags.ContainerInherit))
-					inheritanceStrings.Add("SecurityAdvancedFlagsSubfoldersLabel".GetLocalizedResource());
+					inheritanceStrings.Add(Strings.SecurityAdvancedFlagsSubfoldersLabel.GetLocalizedResource());
 
 				if (AccessControlEntryFlags.HasFlag(AccessControlEntryFlags.ObjectInherit))
-					inheritanceStrings.Add("SecurityAdvancedFlagsFilesLabel".GetLocalizedResource());
+					inheritanceStrings.Add(Strings.SecurityAdvancedFlagsFilesLabel.GetLocalizedResource());
 
 				// Capitalize the first letter
 				if (inheritanceStrings.Any())

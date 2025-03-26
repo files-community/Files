@@ -1,8 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Win32;
+using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -14,7 +14,7 @@ namespace Files.App.ViewModels.Settings
 	/// <summary>
 	/// Represents view model of <see cref="Views.Settings.AboutPage"/>.
 	/// </summary>
-	public sealed class AboutViewModel : ObservableObject
+	public sealed partial class AboutViewModel : ObservableObject
 	{
 		// Dependency injections
 
@@ -24,7 +24,7 @@ namespace Files.App.ViewModels.Settings
 		// Properties
 
 		public string Version
-			=> string.Format($"{"SettingsAboutVersionTitle".GetLocalizedResource()} {AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
+			=> string.Format($"{Strings.SettingsAboutVersionTitle.GetLocalizedResource()} {AppVersion.Major}.{AppVersion.Minor}.{AppVersion.Build}.{AppVersion.Revision}");
 
 		public string AppName
 			=> Package.Current.DisplayName;
@@ -72,7 +72,7 @@ namespace Files.App.ViewModels.Settings
 				new ("https://github.com/microsoft/WindowsAppSDK", "WindowsAppSDK"),
 				new ("https://github.com/microsoft/microsoft-ui-xaml", "WinUI 3"),
 				new ("https://github.com/microsoft/Win2D", "Win2D"),
-				new ("https://github.com/CommunityToolkit/WindowsCommunityToolkit", "Windows Community Toolkit 7.x"),
+				new ("https://github.com/CommunityToolkit/Windows", "Windows Community Toolkit"),
 				new ("https://github.com/mono/taglib-sharp", "TagLibSharp"),
 				new ("https://github.com/Tulpep/Active-Directory-Object-Picker", "ActiveDirectoryObjectPicker"),
 				new ("https://github.com/PowerShell/MMI", "MMI"),
@@ -192,7 +192,7 @@ namespace Files.App.ViewModels.Settings
 
 		public string GetWindowsVersion()
 		{
-			return SystemInformation.Instance.OperatingSystemVersion.ToString();
+			return Environment.OSVersion.Version.ToString();
 		}
 		
 		public string GetUserID()

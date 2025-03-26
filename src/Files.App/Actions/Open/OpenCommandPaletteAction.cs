@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext _context;
 
 		public string Label
-			=> "CommandPalette".GetLocalizedResource();
+			=> Strings.CommandPalette.GetLocalizedResource();
 
 		public string Description
-			=> "OpenCommandPaletteDescription".GetLocalizedResource();
+			=> Strings.OpenCommandPaletteDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.P, KeyModifiers.CtrlShift);

@@ -40,8 +40,6 @@ namespace Files.App.Data.Contracts
 
 		public event ItemDraggedOverPathItemEventHandler ItemDraggedOverPathItem;
 
-		public event EventHandler RefreshRequested;
-
 		public event EventHandler RefreshWidgetsRequested;
 
 		public void SwitchSearchBoxVisibility();

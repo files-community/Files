@@ -1,10 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Core.Storage.Storables;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace Files.Core.Storage
 {
 	/// <summary>

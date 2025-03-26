@@ -3,145 +3,145 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class GroupByNoneAction : GroupByAction
+	internal sealed partial class GroupByNoneAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.None;
 
 		public override string Label
-			=> "None".GetLocalizedResource();
+			=> Strings.None.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByNoneDescription".GetLocalizedResource();
+			=> Strings.GroupByNoneDescription.GetLocalizedResource();
 	}
 
-	internal sealed class GroupByNameAction : GroupByAction
+	internal sealed partial class GroupByNameAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.Name;
 
 		public override string Label
-			=> "Name".GetLocalizedResource();
+			=> Strings.Name.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByNameDescription".GetLocalizedResource();
+			=> Strings.GroupByNameDescription.GetLocalizedResource();
 	}
 
-	internal sealed class GroupByDateModifiedAction : GroupByAction
+	internal sealed partial class GroupByDateModifiedAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateModified;
 
 		public override string Label
-			=> "DateModifiedLowerCase".GetLocalizedResource();
+			=> Strings.DateModifiedLowerCase.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByDateModifiedDescription".GetLocalizedResource();
+			=> Strings.GroupByDateModifiedDescription.GetLocalizedResource();
 	}
 
-	internal sealed class GroupByDateCreatedAction : GroupByAction
+	internal sealed partial class GroupByDateCreatedAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateCreated;
 
 		public override string Label
-			=> "DateCreated".GetLocalizedResource();
+			=> Strings.DateCreated.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByDateCreatedDescription".GetLocalizedResource();
+			=> Strings.GroupByDateCreatedDescription.GetLocalizedResource();
 	}
 
-	internal sealed class GroupBySizeAction : GroupByAction
+	internal sealed partial class GroupBySizeAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.Size;
 
 		public override string Label
-			=> "Size".GetLocalizedResource();
+			=> Strings.Size.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupBySizeDescription".GetLocalizedResource();
+			=> Strings.GroupBySizeDescription.GetLocalizedResource();
 	}
 
-	internal sealed class GroupByTypeAction : GroupByAction
+	internal sealed partial class GroupByTypeAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.FileType;
 
 		public override string Label
-			=> "Type".GetLocalizedResource();
+			=> Strings.Type.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByTypeDescription".GetLocalizedResource();
+			=> Strings.GroupByTypeDescription.GetLocalizedResource();
 	}
 
-	internal sealed class GroupBySyncStatusAction : GroupByAction
+	internal sealed partial class GroupBySyncStatusAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.SyncStatus;
 
 		public override string Label
-			=> "SyncStatus".GetLocalizedResource();
+			=> Strings.SyncStatus.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupBySyncStatusDescription".GetLocalizedResource();
+			=> Strings.GroupBySyncStatusDescription.GetLocalizedResource();
 
 		protected override bool GetIsExecutable(ContentPageTypes pageType)
 			=> pageType is ContentPageTypes.CloudDrive;
 	}
 
-	internal sealed class GroupByTagAction : GroupByAction
+	internal sealed partial class GroupByTagAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.FileTag;
 
 		public override string Label
-			=> "FileTags".GetLocalizedResource();
+			=> Strings.FileTags.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByTagDescription".GetLocalizedResource();
+			=> Strings.GroupByTagDescription.GetLocalizedResource();
 	}
 
-	internal sealed class GroupByOriginalFolderAction : GroupByAction
+	internal sealed partial class GroupByOriginalFolderAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.OriginalFolder;
 
 		public override string Label
-			=> "OriginalFolder".GetLocalizedResource();
+			=> Strings.OriginalFolder.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByOriginalFolderDescription".GetLocalizedResource();
+			=> Strings.GroupByOriginalFolderDescription.GetLocalizedResource();
 
 		protected override bool GetIsExecutable(ContentPageTypes pageType)
 			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
-	internal sealed class GroupByDateDeletedAction : GroupByAction
+	internal sealed partial class GroupByDateDeletedAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateDeleted;
 
 		public override string Label
-			=> "DateDeleted".GetLocalizedResource();
+			=> Strings.DateDeleted.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByDateDeletedDescription".GetLocalizedResource();
+			=> Strings.GroupByDateDeletedDescription.GetLocalizedResource();
 
 		protected override bool GetIsExecutable(ContentPageTypes pageType)
 			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
-	internal sealed class GroupByFolderPathAction : GroupByAction
+	internal sealed partial class GroupByFolderPathAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.FolderPath;
 
 		public override string Label
-			=> "FolderPath".GetLocalizedResource();
+			=> Strings.FolderPath.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByFolderPathDescription".GetLocalizedResource();
+			=> Strings.GroupByFolderPathDescription.GetLocalizedResource();
 
 		protected override bool GetIsExecutable(ContentPageTypes pageType)
 			=> pageType is ContentPageTypes.Library or ContentPageTypes.SearchResults;
@@ -200,7 +200,7 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal sealed class GroupByDateModifiedYearAction : GroupByDateAction
+	internal sealed partial class GroupByDateModifiedYearAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateModified;
@@ -209,13 +209,13 @@ namespace Files.App.Actions
 			=> GroupByDateUnit.Year;
 
 		public override string Label
-			=> "Year".GetLocalizedResource();
+			=> Strings.Year.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByDateModifiedYearDescription".GetLocalizedResource();
+			=> Strings.GroupByDateModifiedYearDescription.GetLocalizedResource();
 	}
 
-	internal sealed class GroupByDateModifiedMonthAction : GroupByDateAction
+	internal sealed partial class GroupByDateModifiedMonthAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateModified;
@@ -224,13 +224,13 @@ namespace Files.App.Actions
 			=> GroupByDateUnit.Month;
 
 		public override string Label
-			=> "Month".GetLocalizedResource();
+			=> Strings.Month.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByDateModifiedMonthDescription".GetLocalizedResource();
+			=> Strings.GroupByDateModifiedMonthDescription.GetLocalizedResource();
 	}
 
-	internal sealed class GroupByDateModifiedDayAction : GroupByDateAction
+	internal sealed partial class GroupByDateModifiedDayAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateModified;
@@ -239,13 +239,13 @@ namespace Files.App.Actions
 			=> GroupByDateUnit.Day;
 
 		public override string Label
-			=> "Day".GetLocalizedResource();
+			=> Strings.Day.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByDateModifiedDayDescription".GetLocalizedResource();
+			=> Strings.GroupByDateModifiedDayDescription.GetLocalizedResource();
 	}
 
-	internal sealed class GroupByDateCreatedYearAction : GroupByDateAction
+	internal sealed partial class GroupByDateCreatedYearAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateCreated;
@@ -254,13 +254,13 @@ namespace Files.App.Actions
 			=> GroupByDateUnit.Year;
 
 		public override string Label
-			=> "Year".GetLocalizedResource();
+			=> Strings.Year.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByDateCreatedYearDescription".GetLocalizedResource();
+			=> Strings.GroupByDateCreatedYearDescription.GetLocalizedResource();
 	}
 
-	internal sealed class GroupByDateCreatedMonthAction : GroupByDateAction
+	internal sealed partial class GroupByDateCreatedMonthAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateCreated;
@@ -269,13 +269,13 @@ namespace Files.App.Actions
 			=> GroupByDateUnit.Month;
 
 		public override string Label
-			=> "Month".GetLocalizedResource();
+			=> Strings.Month.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByDateCreatedMonthDescription".GetLocalizedResource();
+			=> Strings.GroupByDateCreatedMonthDescription.GetLocalizedResource();
 	}
 
-	internal sealed class GroupByDateCreatedDayAction : GroupByDateAction
+	internal sealed partial class GroupByDateCreatedDayAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateCreated;
@@ -284,13 +284,13 @@ namespace Files.App.Actions
 			=> GroupByDateUnit.Day;
 
 		public override string Label
-			=> "Day".GetLocalizedResource();
+			=> Strings.Day.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByDateCreatedDayDescription".GetLocalizedResource();
+			=> Strings.GroupByDateCreatedDayDescription.GetLocalizedResource();
 	}
 
-	internal sealed class GroupByDateDeletedYearAction : GroupByDateAction
+	internal sealed partial class GroupByDateDeletedYearAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateDeleted;
@@ -299,16 +299,16 @@ namespace Files.App.Actions
 			=> GroupByDateUnit.Year;
 
 		public override string Label
-			=> "Year".GetLocalizedResource();
+			=> Strings.Year.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByDateDeletedYearDescription".GetLocalizedResource();
+			=> Strings.GroupByDateDeletedYearDescription.GetLocalizedResource();
 
 		protected override bool GetIsExecutable(ContentPageTypes pageType)
 			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
-	internal sealed class GroupByDateDeletedMonthAction : GroupByDateAction
+	internal sealed partial class GroupByDateDeletedMonthAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateDeleted;
@@ -317,16 +317,16 @@ namespace Files.App.Actions
 			=> GroupByDateUnit.Month;
 
 		public override string Label
-			=> "Month".GetLocalizedResource();
+			=> Strings.Month.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByDateDeletedMonthDescription".GetLocalizedResource();
+			=> Strings.GroupByDateDeletedMonthDescription.GetLocalizedResource();
 
 		protected override bool GetIsExecutable(ContentPageTypes pageType)
 			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
-	internal sealed class GroupByDateDeletedDayAction : GroupByDateAction
+	internal sealed partial class GroupByDateDeletedDayAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
 			=> GroupOption.DateDeleted;
@@ -335,10 +335,10 @@ namespace Files.App.Actions
 			=> GroupByDateUnit.Day;
 
 		public override string Label
-			=> "Day".GetLocalizedResource();
+			=> Strings.Day.GetLocalizedResource();
 
 		public override string Description
-			=> "GroupByDateDeletedDayDescription".GetLocalizedResource();
+			=> Strings.GroupByDateDeletedDayDescription.GetLocalizedResource();
 
 		protected override bool GetIsExecutable(ContentPageTypes pageType)
 			=> pageType is ContentPageTypes.RecycleBin;
@@ -401,15 +401,15 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal sealed class GroupAscendingAction : ObservableObject, IToggleAction
+	internal sealed partial class GroupAscendingAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> "Ascending".GetLocalizedResource();
+			=> Strings.Ascending.GetLocalizedResource();
 
 		public string Description
-			=> "GroupAscendingDescription".GetLocalizedResource();
+			=> Strings.GroupAscendingDescription.GetLocalizedResource();
 
 		public bool IsOn
 			=> context.GroupDirection is SortDirection.Ascending;
@@ -446,15 +446,15 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal sealed class GroupDescendingAction : ObservableObject, IToggleAction
+	internal sealed partial class GroupDescendingAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> "Descending".GetLocalizedResource();
+			=> Strings.Descending.GetLocalizedResource();
 
 		public string Description
-			=> "GroupDescendingDescription".GetLocalizedResource();
+			=> Strings.GroupDescendingDescription.GetLocalizedResource();
 
 		public bool IsOn
 			=> context.GroupDirection is SortDirection.Descending;
@@ -496,10 +496,10 @@ namespace Files.App.Actions
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> "ToggleSortDirection".GetLocalizedResource();
+			=> Strings.ToggleSortDirection.GetLocalizedResource();
 
 		public string Description
-			=> "ToggleGroupDirectionDescription".GetLocalizedResource();
+			=> Strings.ToggleGroupDirectionDescription.GetLocalizedResource();
 
 		public ToggleGroupDirectionAction()
 		{
@@ -515,15 +515,15 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal sealed class GroupByYearAction : ObservableObject, IToggleAction
+	internal sealed partial class GroupByYearAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> "Year".GetLocalizedResource();
+			=> Strings.Year.GetLocalizedResource();
 
 		public string Description
-			=> "GroupByYearDescription".GetLocalizedResource();
+			=> Strings.GroupByYearDescription.GetLocalizedResource();
 
 		public bool IsOn
 			=> context.GroupByDateUnit is GroupByDateUnit.Year;
@@ -560,15 +560,15 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal sealed class GroupByMonthAction : ObservableObject, IToggleAction
+	internal sealed partial class GroupByMonthAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> "Month".GetLocalizedResource();
+			=> Strings.Month.GetLocalizedResource();
 
 		public string Description
-			=> "GroupByMonthDescription".GetLocalizedResource();
+			=> Strings.GroupByMonthDescription.GetLocalizedResource();
 
 		public bool IsOn
 			=> context.GroupByDateUnit is GroupByDateUnit.Month;
@@ -610,10 +610,10 @@ namespace Files.App.Actions
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> "ToggleGroupingUnit".GetLocalizedResource();
+			=> Strings.ToggleGroupingUnit.GetLocalizedResource();
 
 		public string Description
-			=> "ToggleGroupByDateUnitDescription".GetLocalizedResource();
+			=> Strings.ToggleGroupByDateUnitDescription.GetLocalizedResource();
 
 		public ToggleGroupByDateUnitAction()
 		{

@@ -7,7 +7,7 @@ using Windows.Storage;
 
 namespace Files.App.ViewModels.Dialogs
 {
-	public sealed class DecompressArchiveDialogViewModel : ObservableObject
+	public sealed partial class DecompressArchiveDialogViewModel : ObservableObject
 	{
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 

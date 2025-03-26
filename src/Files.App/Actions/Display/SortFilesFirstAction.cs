@@ -3,15 +3,15 @@
 
 namespace Files.App.Actions
 {
-	internal sealed class SortFilesFirstAction : ObservableObject, IToggleAction
+	internal sealed partial class SortFilesFirstAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> "SortFilesFirst".GetLocalizedResource();
+			=> Strings.SortFilesFirst.GetLocalizedResource();
 
 		public string Description
-			=> "SortFilesFirstDescription".GetLocalizedResource();
+			=> Strings.SortFilesFirstDescription.GetLocalizedResource();
 
 		public bool IsOn
 			=> context.SortFilesFirst && !context.SortDirectoriesAlongsideFiles;

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using FluentFTP;
+using FluentFTP.Exceptions;
 using SevenZip;
 using System;
 using Windows.Storage;
