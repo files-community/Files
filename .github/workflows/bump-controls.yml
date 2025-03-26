@@ -11,7 +11,7 @@
 #  4. Push the changes to the repo
 #  5. Create a pull request and request a review
 
-name: Bump Files UI Controls
+name: Bump Files.App.Controls
 
 on:
   workflow_dispatch:
