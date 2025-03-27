@@ -2,12 +2,12 @@
 # Licensed under the MIT License.
 
 param(
-    [string]$Branch = "", # This has to correspond with one of the AppEnvironment enum values
-    [string]$PackageManifestPath = "",
-    [string]$Publisher = "",
-    [string]$WorkingDir = "",
-    [string]$SecretBingMapsKey = "",
-    [string]$SecretSentry = "",
+    [string]$Branch =                    "", # SideloadPreview, SideloadStable, StorePreview, or StoreStable
+    [string]$PackageManifestPath =       "",
+    [string]$Publisher =                 "",
+    [string]$WorkingDir =                "",
+    [string]$SecretBingMapsKey =         "",
+    [string]$SecretSentry =              "",
     [string]$SecretGitHubOAuthClientId = ""
 )
 
