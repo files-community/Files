@@ -31,7 +31,6 @@ namespace Files.App.Views
 		public ICommandManager Commands { get; }
 		public SidebarViewModel SidebarAdaptiveViewModel { get; }
 		public MainPageViewModel ViewModel { get; }
-		public StatusCenterViewModel OngoingTasksViewModel { get; }
 
 		private bool keyReleased = true;
 
@@ -47,7 +46,6 @@ namespace Files.App.Views
 			SidebarAdaptiveViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
 			SidebarAdaptiveViewModel.PaneFlyout = (MenuFlyout)Resources["SidebarContextMenu"];
 			ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-			OngoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
 				FlowDirection = FlowDirection.RightToLeft;

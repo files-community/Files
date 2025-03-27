@@ -21,8 +21,8 @@ namespace Files.App.UserControls
 
 		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly MainPageViewModel MainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-		public ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
-		public StatusCenterViewModel? OngoingTasksViewModel { get; set; }
+		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
+		private readonly StatusCenterViewModel OngoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		// Properties
 
@@ -108,8 +108,7 @@ namespace Files.App.UserControls
 			if (element is FlyoutBase or AppBarButton or Popup)
 				return;
 
-			var control = element as Control;
-			if (control is null)
+			if (element is not Control control)
 			{
 				if (ViewModel.IsEditModeEnabled)
 					ViewModel.IsEditModeEnabled = false;

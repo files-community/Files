@@ -150,7 +150,6 @@
 			HorizontalContentAlignment="Stretch"
 			x:Load="False"
 			Loaded="NavToolbar_Loaded"
-			OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
 			ShowOngoingTasks="True"
 			ShowSearchBox="True"
 			TabIndex="1" />
