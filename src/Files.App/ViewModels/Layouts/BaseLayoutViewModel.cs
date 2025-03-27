@@ -11,6 +11,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
 using Windows.System;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.ViewModels.Layouts
 {
@@ -100,7 +101,7 @@ namespace Files.App.ViewModels.Layouts
 				return;
 			}
 
-			if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 			{
 				e.Handled = true;
 
@@ -122,7 +123,8 @@ namespace Files.App.ViewModels.Layouts
 				var draggedItems = await FilesystemHelpers.GetDraggedStorageItems(e.DataView);
 
 				// As long as one file doesn't already belong to this folder
-				if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any() && draggedItems.AreItemsAlreadyInFolder(_associatedInstance.ShellViewModel.WorkingDirectory))
+				if (_associatedInstance.InstanceViewModel.IsPageTypeSearchResults || draggedItems.Any() &&
+					draggedItems.AreItemsAlreadyInFolder(_associatedInstance.ShellViewModel.WorkingDirectory))
 				{
 					e.AcceptedOperation = DataPackageOperation.None;
 				}
@@ -132,7 +134,8 @@ namespace Files.App.ViewModels.Layouts
 				}
 				else
 				{
-					try
+					e.DragUIOverride.IsCaptionVisible = true;
+					if (e.DataView.Properties.TryGetValue("Files_ActionBinder", out var actionBinder) && actionBinder is "Files_ShelfBinder")
 					{
 						e.DragUIOverride.IsCaptionVisible = true;
 						if (workingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
@@ -177,21 +180,23 @@ namespace Files.App.ViewModels.Layouts
 							e.AcceptedOperation = DataPackageOperation.Copy;
 						}
 
-						_itemManipulationModel.ClearSelection();
-					}
-					catch (COMException ex) when (ex.Message.Contains("RPC server is unavailable"))
-					{
-						Logger?.LogDebug(ex, ex.Message);
-					}
+					_itemManipulationModel.ClearSelection();
 				}
 			}
-
-			deferral.Complete();
+			catch (COMException ex) when (ex.Message.Contains("RPC server is unavailable"))
+			{
+				Logger?.LogDebug(ex, ex.Message);
+			}
+			finally
+			{
+				deferral.Complete();
+			}
 		}
 
 		public async Task DropAsync(DragEventArgs e)
 		{
 			e.Handled = true;
+			var deferral = e.GetDeferral();
 
 
 			if (e.DataView.Contains(StandardDataFormats.Uri) && await e.DataView.GetUriAsync() is { } uri)
@@ -205,17 +210,37 @@ namespace Files.App.ViewModels.Layouts
 
 			if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 			{
-				var deferral = e.GetDeferral();
+				if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+					return;
 
-				try
+				if (e.DataView.Properties.TryGetValue("Files_ActionBinder", out var actionBinder) && actionBinder is "Files_ShelfBinder")
 				{
-					await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true);
-					await _associatedInstance.RefreshIfNoWatcherExistsAsync();
+					if (e.OriginalSource is not UIElement uiElement)
+						return;
+
+					var pwd = _associatedInstance.ShellViewModel.WorkingDirectory.TrimPath();
+					var folderName = Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
+					var menuFlyout = new MenuFlyout()
+					{
+						Items =
+						{
+							new MenuFlyoutItem() { Text = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), folderName), Command = new AsyncRelayCommand(async ct =>
+								await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Copy, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true))},
+							new MenuFlyoutItem() { Text = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), folderName), Command = new AsyncRelayCommand(async ct =>
+								await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Move, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true))}
+						}
+					};
+
+					menuFlyout.ShowAt(uiElement, e.GetPosition(uiElement));
+					return;
 				}
-				finally
-				{
-					deferral.Complete();
-				}
+
+				await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true);
+				await _associatedInstance.RefreshIfNoWatcherExistsAsync();
+			}
+			finally
+			{
+				deferral.Complete();
 			}
 		}
 
