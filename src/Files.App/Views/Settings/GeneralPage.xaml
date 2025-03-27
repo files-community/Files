@@ -182,14 +182,12 @@
 				</wctcontrols:SettingsExpander.HeaderIcon>
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}" IsOn="{x:Bind ViewModel.AlwaysOpenDualPaneInNewTab, Mode=TwoWay}" />
 				<wctcontrols:SettingsExpander.Items>
-					<StackPanel>
-						<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=DefaultPaneArrangement}">
-							<uc:ComboBoxEx
-								AutomationProperties.Name="{helpers:ResourceString Name=DefaultPaneArrangement}"
-								ItemsSource="{x:Bind ViewModel.ShellPaneArrangementTypes.Values}"
-								SelectedItem="{x:Bind ViewModel.SelectedShellPaneArrangementType, Mode=TwoWay}" />
-						</wctcontrols:SettingsCard>
-					</StackPanel>
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=DefaultPaneArrangement}">
+						<uc:ComboBoxEx
+							AutomationProperties.Name="{helpers:ResourceString Name=DefaultPaneArrangement}"
+							ItemsSource="{x:Bind ViewModel.ShellPaneArrangementTypes.Values}"
+							SelectedItem="{x:Bind ViewModel.SelectedShellPaneArrangementType, Mode=TwoWay}" />
+					</wctcontrols:SettingsCard>
 				</wctcontrols:SettingsExpander.Items>
 			</wctcontrols:SettingsExpander>
 
