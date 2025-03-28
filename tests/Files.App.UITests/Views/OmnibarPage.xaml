@@ -14,188 +14,132 @@
 
 		<controls:SamplePanel Header="Default usage">
 			<controls:SamplePanel.MainContent>
-				<controls:Omnibar x:Name="Omnibar1" IsEnabled="{x:Bind Omnibar1IsEnableToggleSwitch.IsOn, Mode=OneWay}">
-
-					<controls:OmnibarMode
-						IsDefault="True"
-						ModeName="Path"
-						Text="Path..."
-						TextPlaceholder="Enter text...">
-						<controls:OmnibarMode.IconOnActive>
-							<controls:ThemedIcon IsFilled="True" Style="{StaticResource App.ThemedIcons.Omnibar.Path}" />
-						</controls:OmnibarMode.IconOnActive>
-						<controls:OmnibarMode.IconOnInactive>
-							<controls:ThemedIcon IconType="Outline" Style="{StaticResource App.ThemedIcons.Omnibar.Path}" />
-						</controls:OmnibarMode.IconOnInactive>
-						<controls:OmnibarMode.ContentOnInactive>
-							<Grid Padding="16,0" ColumnSpacing="16">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto" />
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
-								<Image
-									Grid.Column="0"
-									Width="16"
-									Height="16"
-									Source="/Data/DummyIcon1.png" />
-								<TextBlock
-									Grid.Column="1"
-									VerticalAlignment="Center"
-									Text="Breadcrumb goes here" />
-								<FontIcon
-									Grid.Column="2"
-									FontSize="14"
-									Glyph="&#xe70d;" />
-							</Grid>
-						</controls:OmnibarMode.ContentOnInactive>
-					</controls:OmnibarMode>
-
-					<controls:OmnibarMode
-						ModeName="Palette"
-						SuggestionItemsSource="{x:Bind DummyItems1, Mode=OneWay}"
-						TextPlaceholder="Enter a palette command...">
-						<controls:OmnibarMode.IconOnActive>
-							<controls:ThemedIcon IsFilled="True" Style="{StaticResource App.ThemedIcons.Omnibar.Commands}" />
-						</controls:OmnibarMode.IconOnActive>
-						<controls:OmnibarMode.IconOnInactive>
-							<controls:ThemedIcon IconType="Outline" Style="{StaticResource App.ThemedIcons.Omnibar.Commands}" />
-						</controls:OmnibarMode.IconOnInactive>
-						<controls:OmnibarMode.SuggestionItemTemplate>
-							<DataTemplate x:DataType="data:DummyItem1">
-								<Grid Height="48" ColumnSpacing="12">
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto" />
-										<ColumnDefinition Width="*" />
-										<ColumnDefinition Width="Auto" />
-									</Grid.ColumnDefinitions>
-									<StackPanel VerticalAlignment="Center">
-										<controls:ThemedIcon IconSize="20" Style="{StaticResource App.ThemedIcons.Actions.Copying}" />
-									</StackPanel>
-									<StackPanel Grid.Column="1" VerticalAlignment="Center">
-										<TextBlock
-											Style="{StaticResource BodyStrongTextBlockStyle}"
-											Text="{x:Bind Title}"
-											TextTrimming="CharacterEllipsis"
-											TextWrapping="NoWrap" />
-										<TextBlock
-											Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-											Style="{StaticResource CaptionTextBlockStyle}"
-											Text="{x:Bind Description}"
-											TextTrimming="CharacterEllipsis"
-											TextWrapping="NoWrap" />
-									</StackPanel>
-									<StackPanel Grid.Column="2" VerticalAlignment="Center">
-										<TextBlock
-											Text="{x:Bind HotKeys}"
-											TextTrimming="CharacterEllipsis"
-											TextWrapping="NoWrap" />
-									</StackPanel>
-								</Grid>
-							</DataTemplate>
-						</controls:OmnibarMode.SuggestionItemTemplate>
-					</controls:OmnibarMode>
-
-					<controls:OmnibarMode ModeName="Search" TextPlaceholder="Enter a search query...">
-						<controls:OmnibarMode.IconOnActive>
-							<controls:ThemedIcon IsFilled="True" Style="{StaticResource App.ThemedIcons.Omnibar.Search}" />
-						</controls:OmnibarMode.IconOnActive>
-						<controls:OmnibarMode.IconOnInactive>
-							<controls:ThemedIcon IconType="Outline" Style="{StaticResource App.ThemedIcons.Omnibar.Search}" />
-						</controls:OmnibarMode.IconOnInactive>
-					</controls:OmnibarMode>
-
-				</controls:Omnibar>
-			</controls:SamplePanel.MainContent>
-			<controls:SamplePanel.SideContent>
-				<StackPanel Spacing="8">
-					<ToggleSwitch
-						x:Name="Omnibar1IsEnableToggleSwitch"
-						Header="Enable/disable Omnibar:"
-						IsOn="True" />
-					<TextBox
-						Header="Current selected mode:"
-						IsReadOnly="True"
-						Text="{x:Bind Omnibar1.CurrentSelectedMode, Mode=OneWay}" />
-				</StackPanel>
-			</controls:SamplePanel.SideContent>
-		</controls:SamplePanel>
-
-		<controls:SamplePanel Header="Custom usage">
-			<controls:SamplePanel.MainContent>
-				<StackPanel Spacing="12">
-
-					<TextBlock Text="Using WinUI font glyphs:" />
-
-					<controls:Omnibar x:Name="Omnibar2" IsEnabled="{x:Bind Omnibar2IsEnableToggleSwitch.IsOn, Mode=OneWay}">
+				<Grid>
+					<controls:Omnibar
+						x:Name="Omnibar1"
+						QuerySubmitted="Omnibar1_QuerySubmitted"
+						SuggestionChosen="Omnibar1_SuggestionChosen"
+						TextChanged="Omnibar1_TextChanged">
 
 						<controls:OmnibarMode
+							IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IsFilled=True}"
+							IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IconType=Outline}"
 							IsDefault="True"
 							ModeName="Path"
-							Text="Path..."
-							TextPlaceholder="Enter text...">
-							<controls:OmnibarMode.IconOnActive>
-								<FontIcon FontSize="14" Glyph="&#xE713;" />
-							</controls:OmnibarMode.IconOnActive>
-							<controls:OmnibarMode.IconOnInactive>
-								<FontIcon FontSize="14" Glyph="&#xE713;" />
-							</controls:OmnibarMode.IconOnInactive>
+							PlaceholderText="Enter text..."
+							Text="Path...">
 							<controls:OmnibarMode.ContentOnInactive>
-								<Grid Padding="16,0" ColumnSpacing="16">
-									<Grid.ColumnDefinitions>
-										<ColumnDefinition Width="Auto" />
-										<ColumnDefinition Width="*" />
-										<ColumnDefinition Width="Auto" />
-									</Grid.ColumnDefinitions>
-									<Image
-										Grid.Column="0"
-										Width="16"
-										Height="16"
-										Source="/Data/DummyIcon1.png" />
-									<TextBlock
-										Grid.Column="1"
-										VerticalAlignment="Center"
-										Text="Breadcrumb goes here" />
-									<FontIcon
-										Grid.Column="2"
-										FontSize="14"
-										Glyph="&#xe70d;" />
-								</Grid>
+								<controls:BreadcrumbBar
+									x:Name="BreadcrumbBar1"
+									ItemDropDownFlyoutClosed="Omnibar1_BreadcrumbBar_ItemDropDownFlyoutClosed"
+									ItemDropDownFlyoutOpening="Omnibar1_BreadcrumbBar_ItemDropDownFlyoutOpening"
+									ItemsSource="{x:Bind Omnibar1_BreadcrumbBarItems, Mode=OneWay}">
+									<controls:BreadcrumbBar.RootItem>
+										<Image
+											Width="16"
+											Height="16"
+											Source="/Data/DummyIcon1.png" />
+									</controls:BreadcrumbBar.RootItem>
+									<controls:BreadcrumbBar.ItemTemplate>
+										<DataTemplate x:DataType="data:BreadcrumbBarItemModel">
+											<controls:BreadcrumbBarItem Content="{x:Bind Text}" />
+										</DataTemplate>
+									</controls:BreadcrumbBar.ItemTemplate>
+								</controls:BreadcrumbBar>
 							</controls:OmnibarMode.ContentOnInactive>
 						</controls:OmnibarMode>
 
-						<controls:OmnibarMode ModeName="Palette" TextPlaceholder="Enter a palette command...">
-							<controls:OmnibarMode.IconOnActive>
-								<FontIcon FontSize="14" Glyph="&#xE713;" />
-							</controls:OmnibarMode.IconOnActive>
-							<controls:OmnibarMode.IconOnInactive>
-								<FontIcon FontSize="14" Glyph="&#xE713;" />
-							</controls:OmnibarMode.IconOnInactive>
+						<controls:OmnibarMode
+							DisplayMemberPath="{x:Bind Omnibar1_TextMemberPathForPaletteMode}"
+							IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IsFilled=True}"
+							IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IconType=Outline}"
+							ModeName="Palette"
+							PlaceholderText="Enter a palette command..."
+							SuggestionItemsSource="{x:Bind Omnibar1_PaletteSuggestions, Mode=OneWay}">
+							<controls:OmnibarMode.SuggestionItemTemplate>
+								<DataTemplate x:DataType="data:OmnibarPaletteSuggestionItem">
+									<Grid Height="48" ColumnSpacing="12">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+										</Grid.ColumnDefinitions>
+										<controls:ThemedIcon
+											Width="20"
+											Height="20"
+											VerticalAlignment="Center"
+											Style="{StaticResource App.ThemedIcons.Actions.Copying}" />
+										<StackPanel Grid.Column="1" VerticalAlignment="Center">
+											<TextBlock
+												Style="{StaticResource BodyStrongTextBlockStyle}"
+												Text="{x:Bind Title}"
+												TextTrimming="CharacterEllipsis"
+												TextWrapping="NoWrap" />
+											<TextBlock
+												Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+												Style="{StaticResource CaptionTextBlockStyle}"
+												Text="{x:Bind Description}"
+												TextTrimming="CharacterEllipsis"
+												TextWrapping="NoWrap" />
+										</StackPanel>
+										<StackPanel Grid.Column="2" VerticalAlignment="Center">
+											<TextBlock
+												Text="{x:Bind HotKeys}"
+												TextTrimming="CharacterEllipsis"
+												TextWrapping="NoWrap" />
+										</StackPanel>
+									</Grid>
+								</DataTemplate>
+							</controls:OmnibarMode.SuggestionItemTemplate>
 						</controls:OmnibarMode>
 
-						<controls:OmnibarMode ModeName="Search" TextPlaceholder="Enter a search query...">
-							<controls:OmnibarMode.IconOnActive>
-								<FontIcon FontSize="14" Glyph="&#xE713;" />
-							</controls:OmnibarMode.IconOnActive>
-							<controls:OmnibarMode.IconOnInactive>
-								<FontIcon FontSize="14" Glyph="&#xE713;" />
-							</controls:OmnibarMode.IconOnInactive>
-						</controls:OmnibarMode>
+						<controls:OmnibarMode
+							IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IsFilled=True}"
+							IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IconType=Outline}"
+							ModeName="Search"
+							PlaceholderText="Enter a search query..." />
 
 					</controls:Omnibar>
-
-				</StackPanel>
+				</Grid>
 			</controls:SamplePanel.MainContent>
 			<controls:SamplePanel.SideContent>
-				<StackPanel Spacing="12">
-					<ToggleSwitch
-						x:Name="Omnibar2IsEnableToggleSwitch"
-						Header="Enable/disable Omnibar:"
-						IsOn="True" />
+				<StackPanel Spacing="8">
+
 					<TextBox
-						Header="Current selected mode:"
+						Header="Current mode:"
 						IsReadOnly="True"
-						Text="{x:Bind Omnibar2.CurrentSelectedMode, Mode=OneWay}" />
+						Text="{x:Bind Omnibar1.CurrentSelectedMode, Mode=OneWay}" />
+
+					<TextBox
+						Header="Text:"
+						IsReadOnly="True"
+						Text="{x:Bind Omnibar1_Text, Mode=OneWay}" />
+
+					<TextBox
+						Header="Text changed reason:"
+						IsReadOnly="True"
+						Text="{x:Bind Omnibar1_TextChangedReason, Mode=OneWay}" />
+
+					<Grid ColumnSpacing="8">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+
+						<TextBox
+							Grid.Column="0"
+							Header="Suggestion index:"
+							IsReadOnly="True"
+							Text="{x:Bind Omnibar1_ChosenSuggestionIndex, Mode=OneWay}" />
+
+						<TextBox
+							Grid.Column="1"
+							Header="Submitted query:"
+							IsReadOnly="True"
+							Text="{x:Bind Omnibar1_SubmittedQuery, Mode=OneWay}" />
+
+					</Grid>
+
 				</StackPanel>
 			</controls:SamplePanel.SideContent>
 		</controls:SamplePanel>

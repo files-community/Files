@@ -15,7 +15,7 @@
 		<controls:SamplePanel Header="Default usage">
 			<controls:SamplePanel.MainContent>
 				<Grid
-					Height="36"
+					Height="38"
 					MinWidth="120"
 					Padding="2"
 					HorizontalAlignment="Stretch"
@@ -37,14 +37,8 @@
 								Source="/Data/DummyIcon1.png" />
 						</controls:BreadcrumbBar.RootItem>
 						<controls:BreadcrumbBar.ItemTemplate>
-							<DataTemplate x:DataType="data:DummyItem2">
-								<controls:BreadcrumbBarItem Content="{x:Bind Text}">
-									<!--<controls:BreadcrumbBarItem.ContentTemplate>
-										<DataTemplate>
-											<TextBlock Text="{Binding Text}" TextLineBounds="Tight" />
-										</DataTemplate>
-									</controls:BreadcrumbBarItem.ContentTemplate>-->
-								</controls:BreadcrumbBarItem>
+							<DataTemplate x:DataType="data:BreadcrumbBarItemModel">
+								<controls:BreadcrumbBarItem Content="{x:Bind Text}" />
 							</DataTemplate>
 						</controls:BreadcrumbBar.ItemTemplate>
 					</controls:BreadcrumbBar>

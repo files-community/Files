@@ -2,13 +2,6 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Markup;
-using Microsoft.UI.Xaml.Shapes;
-using System.Linq;
-using System.Collections.Generic;
 
 namespace Files.App.Controls
 {
@@ -18,7 +11,10 @@ namespace Files.App.Controls
 		public partial string? Text { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial string? TextPlaceholder { get; set; }
+		public partial bool IsDefault { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial string? PlaceholderText { get; set; }
 
 		[GeneratedDependencyProperty]
 		public partial string? ModeName { get; set; }
@@ -39,9 +35,9 @@ namespace Files.App.Controls
 		public partial DataTemplate? SuggestionItemTemplate { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial bool IsDefault { get; set; }
+		public partial string? DisplayMemberPath { get; set; }
 
-		[GeneratedDependencyProperty]
-		internal partial Omnibar? Host { get; set; }
+		[GeneratedDependencyProperty(DefaultValue = true)]
+		public partial bool UpdateTextOnSelect { get; set; }
 	}
 }

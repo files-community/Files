@@ -5,13 +5,14 @@
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:local="using:Files.App.Controls">
 
-	<x:Double x:Key="BreadcrumbBarHeight">32</x:Double>
+	<x:Double x:Key="BreadcrumbBarHeight">34</x:Double>
 	<x:Double x:Key="BreadcrumbBarMinWidth">120</x:Double>
 	<x:Double x:Key="BreadcrumbBarEllipsisFontSize">16</x:Double>
 
 	<Thickness x:Key="BreadcrumbBarChevronPadding">4,0</Thickness>
 	<Thickness x:Key="BreadcrumbBarItemPadding">8,0</Thickness>
 	<Thickness x:Key="BreadcrumbBarRootItemPadding">16,0,8,0</Thickness>
+	<Thickness x:Key="BreadcrumbBarItemMargin">2,0,0,0</Thickness>
 
 	<CornerRadius x:Key="BreadcrumbBarItemCornerRadius">2,2,2,2</CornerRadius>
 	<CornerRadius x:Key="BreadcrumbBarChevronCornerRaduis">2,2,2,2</CornerRadius>
@@ -21,21 +22,33 @@
 	<Style BasedOn="{StaticResource DefaultBreadcrumbBarItemStyle}" TargetType="local:BreadcrumbBarItem" />
 
 	<Style x:Key="DefaultBreadcrumbBarStyle" TargetType="local:BreadcrumbBar">
+
 		<Setter Property="MinWidth" Value="{StaticResource BreadcrumbBarMinWidth}" />
+
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="HorizontalContentAlignment" Value="Center" />
+		<Setter Property="VerticalAlignment" Value="Stretch" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+
 		<Setter Property="AutomationProperties.LandmarkType" Value="Navigation" />
+
 		<Setter Property="IsTabStop" Value="False" />
+
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:BreadcrumbBar">
 					<Grid
 						MinWidth="{TemplateBinding MinWidth}"
-						ColumnSpacing="2"
+						HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+						VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+						Background="{TemplateBinding Background}"
 						TabFocusNavigation="Once"
 						XYFocusKeyboardNavigation="Enabled">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
 						<local:BreadcrumbBarItem
@@ -50,6 +63,7 @@
 						<local:BreadcrumbBarItem
 							x:Name="PART_EllipsisBreadcrumbBarItem"
 							Grid.Column="1"
+							Margin="{StaticResource BreadcrumbBarItemMargin}"
 							AutomationProperties.AccessibilityView="Content"
 							IsEllipsis="True"
 							Visibility="Collapsed">
@@ -59,6 +73,8 @@
 						<ItemsRepeater
 							x:Name="PART_MainItemsRepeater"
 							Grid.Column="2"
+							Margin="{StaticResource BreadcrumbBarItemMargin}"
+							HorizontalAlignment="Left"
 							ItemTemplate="{Binding ItemTemplate, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
 							ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 
@@ -85,17 +101,17 @@
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
 		<Setter Property="VerticalAlignment" Value="Stretch" />
-		<Setter Property="VerticalContentAlignment" Value="Center" />
+		<Setter Property="VerticalContentAlignment" Value="Stretch" />
 
 		<Setter Property="FocusVisualMargin" Value="1" />
 		<Setter Property="IsTabStop" Value="False" />
 		<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:BreadcrumbBarItem">
 					<Grid
 						x:Name="PART_LayoutRoot"
-						ColumnSpacing="2"
 						TabFocusNavigation="Once"
 						XYFocusKeyboardNavigation="Enabled">
 						<Grid.ColumnDefinitions>
@@ -107,7 +123,7 @@
 						<Button
 							x:Name="PART_ItemContentButton"
 							Padding="{TemplateBinding Padding}"
-							VerticalAlignment="Stretch"
+							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 							AutomationProperties.AccessibilityView="Raw"
 							Background="{TemplateBinding Background}"
 							BorderBrush="{TemplateBinding BorderBrush}"
@@ -115,6 +131,13 @@
 							Control.IsTemplateFocusTarget="True"
 							CornerRadius="{TemplateBinding CornerRadius}"
 							UseSystemFocusVisuals="True">
+							<Button.Resources>
+								<ResourceDictionary>
+									<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SubtleFillColorTertiaryBrush" />
+									<StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SubtleFillColorSecondaryBrush" />
+								</ResourceDictionary>
+							</Button.Resources>
+
 							<FlyoutBase.AttachedFlyout>
 								<MenuFlyout
 									x:Name="PART_ItemEllipsisDropDownMenuFlyout"
@@ -151,8 +174,9 @@
 						<Button
 							x:Name="PART_ItemChevronButton"
 							Grid.Column="1"
+							Margin="{StaticResource BreadcrumbBarItemMargin}"
 							Padding="{StaticResource BreadcrumbBarChevronPadding}"
-							VerticalAlignment="Stretch"
+							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 							AutomationProperties.AccessibilityView="Content"
 							Background="{TemplateBinding Background}"
 							BorderBrush="{TemplateBinding BorderBrush}"
@@ -160,6 +184,13 @@
 							CornerRadius="{StaticResource BreadcrumbBarChevronCornerRaduis}"
 							Style="{StaticResource BreadcrumbBarItemChevronButtonStyle}"
 							UseSystemFocusVisuals="True">
+							<Button.Resources>
+								<ResourceDictionary>
+									<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SubtleFillColorTertiaryBrush" />
+									<StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SubtleFillColorSecondaryBrush" />
+								</ResourceDictionary>
+							</Button.Resources>
+
 							<FlyoutBase.AttachedFlyout>
 								<MenuFlyout
 									x:Name="PART_ItemChevronDropDownMenuFlyout"

@@ -13,7 +13,6 @@ namespace Files.App.Controls
 		// Fields
 
 		private readonly WeakReference<BreadcrumbBar>? _ownerRef;
-		private readonly double _spacing = 0d;
 
 		private Size _availableSize;
 		private BreadcrumbBarItem? _ellipsisButton = null;
@@ -24,10 +23,9 @@ namespace Files.App.Controls
 		public int IndexAfterEllipsis { get; private set; }
 		public int VisibleItemsCount { get; private set; }
 
-		public BreadcrumbBarLayout(BreadcrumbBar breadcrumb, double spacing)
+		public BreadcrumbBarLayout(BreadcrumbBar breadcrumb)
 		{
 			_ownerRef = new(breadcrumb);
-			_spacing = spacing;
 		}
 
 		protected override Size MeasureOverride(NonVirtualizingLayoutContext context, Size availableSize)
@@ -79,7 +77,6 @@ namespace Files.App.Controls
 						breadcrumbItem.Arrange(new Rect(accumulatedWidths, 0, breadcrumbItem.DesiredSize.Width, breadcrumbItem.DesiredSize.Height));
 
 						accumulatedWidths += breadcrumbItem.DesiredSize.Width;
-						accumulatedWidths += _spacing;
 
 						VisibleItemsCount++;
 					}
@@ -89,15 +86,17 @@ namespace Files.App.Controls
 			if (_ownerRef?.TryGetTarget(out var breadcrumbBar) ?? false)
 				breadcrumbBar.OnLayoutUpdated();
 
+			finalSize.Width = accumulatedWidths;
+
 			return finalSize;
 		}
 
 		private int GetFirstIndexToRender(NonVirtualizingLayoutContext context)
 		{
 			var itemCount = context.Children.Count;
-			var accumulatedWidth = _spacing;
+			var accumulatedWidth = 0d;
 
-			// Go through all items from the end
+			// Go through all items from the last item
 			for (int index = itemCount - 1; index >= 0; index--)
 			{
 				var newAccumulatedWidth = accumulatedWidth + context.Children[index].DesiredSize.Width;

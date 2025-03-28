@@ -60,7 +60,6 @@
 
 		<!--#region Omnibar-->
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Omnibar/Omnibar.xaml" />
-		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Omnibar/OmnibarMode.xaml" />
 		<!--#endregion-->
 
 		<!--#region SamplePanel-->
