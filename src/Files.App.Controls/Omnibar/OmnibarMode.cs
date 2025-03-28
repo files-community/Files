@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.UI.Xaml.Input;
+
 namespace Files.App.Controls
 {
 	[DebuggerDisplay("{" + nameof(ToString) + "(),nq}")]
@@ -14,7 +16,7 @@ namespace Files.App.Controls
 
 		private WeakReference<Omnibar>? _ownerRef;
 
-		private Border? _modeButton;
+		private Border _modeButton = null!;
 
 		// Constructor
 
@@ -39,6 +41,30 @@ namespace Files.App.Controls
 			_modeButton.PointerExited += ModeButton_PointerExited;
 		}
 
+		protected override void OnKeyUp(KeyRoutedEventArgs args)
+		{
+			if (args.Handled || IsEnabled is false)
+				goto cleanup;
+
+			if (args.Key is Windows.System.VirtualKey.Enter)
+			{
+				if (_ownerRef is null || _ownerRef.TryGetTarget(out var owner) is false || owner.CurrentSelectedMode == this)
+					return;
+
+				VisualStateManager.GoToState(this, "PointerPressed", true);
+
+				// Change the current mode
+				owner.ChangeMode(this, true);
+
+				VisualStateManager.GoToState(this, "PointerNormal", true);
+			}
+
+		cleanup:
+			{
+				base.OnKeyDown(args);
+			}
+		}
+
 		private void OmnibarMode_Loaded(object sender, RoutedEventArgs e)
 		{
 			// Set this mode as the current mode if it is the default mode
@@ -49,6 +75,11 @@ namespace Files.App.Controls
 		public void SetOwner(Omnibar owner)
 		{
 			_ownerRef = new(owner);
+		}
+
+		public void OnChangingCurrentMode(bool isCurrentMode)
+		{
+			_modeButton.IsTabStop = !isCurrentMode;
 		}
 
 		public override string ToString()

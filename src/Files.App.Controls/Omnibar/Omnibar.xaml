@@ -37,6 +37,8 @@
 
 		<Setter Property="Height" Value="{StaticResource OmnibarDefaultHeight}" />
 
+		<Setter Property="IsTabStop" Value="False" />
+
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:Omnibar">
@@ -79,6 +81,7 @@
 							x:Name="PART_SuggestionsPopup"
 							Grid.Row="1"
 							IsLightDismissEnabled="False"
+							IsTabStop="False"
 							ShouldConstrainToRootBounds="False"
 							VerticalOffset="1">
 							<Border
@@ -119,37 +122,44 @@
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
 		<Setter Property="VerticalAlignment" Value="Stretch" />
 
+		<Setter Property="IsTabStop" Value="True" />
+		<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:OmnibarMode">
-					<Grid x:Name="PART_RootGrid" Height="{TemplateBinding Height}">
-						<!--  Clickable Area  -->
-						<Grid HorizontalAlignment="Left" Background="Transparent">
-							<Border
-								x:Name="PART_ModeButton"
-								Width="{StaticResource OmnibarModeDefaultClickAreaWidth}"
-								Height="{TemplateBinding Height}"
-								Background="{TemplateBinding Background}"
-								BorderBrush="{TemplateBinding BorderBrush}"
-								BorderThickness="{TemplateBinding BorderThickness}"
-								CornerRadius="{TemplateBinding CornerRadius}"
-								ToolTipService.ToolTip="{Binding ModeName, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
-								<Border.BackgroundTransition>
-									<BrushTransition Duration="0:0:0.083" />
-								</Border.BackgroundTransition>
+					<Grid
+						x:Name="PART_RootGrid"
+						Height="{TemplateBinding Height}"
+						HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+						Background="{TemplateBinding Background}"
+						CornerRadius="{TemplateBinding CornerRadius}"
+						TabFocusNavigation="Local">
+						<!--  Mode Button  -->
+						<Border
+							x:Name="PART_ModeButton"
+							Width="{StaticResource OmnibarModeDefaultClickAreaWidth}"
+							Height="{TemplateBinding Height}"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="{TemplateBinding CornerRadius}"
+							IsTabStop="True"
+							ToolTipService.ToolTip="{Binding ModeName, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+							UseSystemFocusVisuals="{StaticResource UseSystemFocusVisuals}">
+							<Border.BackgroundTransition>
+								<BrushTransition Duration="0:0:0.083" />
+							</Border.BackgroundTransition>
 
-								<ContentPresenter
-									x:Name="PART_ModeButtonIconPresenter"
-									HorizontalAlignment="Center"
-									VerticalAlignment="Center"
-									Content="{Binding IconOnInactive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
-							</Border>
-						</Grid>
+							<ContentPresenter
+								x:Name="PART_ModeButtonIconPresenter"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								Content="{Binding IconOnInactive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+						</Border>
 
 						<ContentPresenter
 							x:Name="PART_InactiveContent"
-							Grid.Column="0"
-							Grid.ColumnSpan="2"
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"
 							HorizontalContentAlignment="Stretch"
@@ -237,26 +247,32 @@
 		x:Key="DefaultOmnibarTextBoxStyle"
 		BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}"
 		TargetType="TextBox">
+
 		<Setter Property="Foreground" Value="{ThemeResource TextControlForeground}" />
 		<Setter Property="Background" Value="{ThemeResource TextControlBackground}" />
 		<Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}" />
-		<Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}" />
 		<Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}" />
+
 		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 		<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+		<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+
+		<Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}" />
+		<Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}" />
+		<Setter Property="Padding" Value="{ThemeResource TextControlThemePadding}" />
+
+		<Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}" />
+
+		<Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}" />
+		<Setter Property="ContextFlyout" Value="{StaticResource TextControlCommandBarContextFlyout}" />
+		<Setter Property="SelectionFlyout" Value="{StaticResource TextControlCommandBarSelectionFlyout}" />
+
 		<Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto" />
 		<Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto" />
 		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
 		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
 		<Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
-		<Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}" />
-		<Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}" />
-		<Setter Property="Padding" Value="{ThemeResource TextControlThemePadding}" />
-		<Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}" />
-		<Setter Property="ContextFlyout" Value="{StaticResource TextControlCommandBarContextFlyout}" />
-		<Setter Property="SelectionFlyout" Value="{StaticResource TextControlCommandBarSelectionFlyout}" />
-		<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
-		<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
+
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="TextBox">

@@ -2,12 +2,9 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media.Animation;
 using Windows.Foundation;
-using WinRT;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Files.App.Controls
 {
@@ -108,19 +105,21 @@ namespace Files.App.Controls
 			}
 		}
 
-		public void ChangeMode(OmnibarMode modeToExpand, bool useTransition = true)
+		public void ChangeMode(OmnibarMode modeToExpand, bool shouldFocus = false, bool useTransition = true)
 		{
 			if (_modesHostGrid is null || Modes is null)
 				return;
 
-			// Add the reposition transition to the all modes
-			if (useTransition)
+			foreach (var mode in Modes)
 			{
-				foreach (var mode in Modes)
+				// Add the reposition transition to the all modes
+				if (useTransition)
 				{
 					mode.Transitions = [new RepositionThemeTransition()];
 					mode.UpdateLayout();
 				}
+
+				mode.OnChangingCurrentMode(false);
 			}
 
 			var index = _modesHostGrid.Children.IndexOf(modeToExpand);
@@ -155,6 +154,7 @@ namespace Files.App.Controls
 			_textBox.Select(_textBox.Text.Length, 0);
 
 			VisualStateManager.GoToState(CurrentSelectedMode, "Focused", true);
+			CurrentSelectedMode.OnChangingCurrentMode(true);
 
 			if (_isFocused)
 			{
@@ -170,6 +170,9 @@ namespace Files.App.Controls
 			{
 				VisualStateManager.GoToState(_textBox, "InputAreaVisible", true);
 			}
+
+			if (shouldFocus)
+				_textBox.Focus(FocusState.Keyboard);
 
 			TryToggleIsSuggestionsPopupOpen(_isFocused && CurrentSelectedMode?.SuggestionItemsSource is not null);
 
