@@ -7,19 +7,15 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
-	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
+	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	mc:Ignorable="d">
 
 	<Page.Resources>
 		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/Styles/ToggleSwitchStyles.xaml" />
-			</ResourceDictionary.MergedDictionaries>
-
 			<converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<wctconverters:BoolToVisibilityConverter
 				x:Key="BoolVisibilityConverter"
@@ -50,15 +46,15 @@
 				Text="{helpers:ResourceString Name=DevTools}" />
 
 			<!--  Display Open IDE status bar button  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=DisplayOpenIDE}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=DisplayOpenIDE}">
+				<wctcontrols:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE7AC;" />
-				</local:SettingsBlockControl.Icon>
+				</wctcontrols:SettingsExpander.HeaderIcon>
 				<uc:ComboBoxEx
 					AutomationProperties.Name="{helpers:ResourceString Name=DisplayOpenIDE}"
 					ItemsSource="{x:Bind ViewModel.OpenInIDEOptions.Values}"
 					SelectedItem="{x:Bind ViewModel.SelectedOpenInIDEOption, Mode=TwoWay}" />
-				<local:SettingsBlockControl.ExpandableContent>
+				<wctcontrols:SettingsExpander.Items>
 					<StackPanel Orientation="Vertical">
 						<Grid
 							x:Name="IDEConfigGrid"
@@ -211,32 +207,30 @@
 								Style="{StaticResource AccentButtonStyle}" />
 						</StackPanel>
 					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
+				</wctcontrols:SettingsExpander.Items>
+			</wctcontrols:SettingsExpander>
 
 			<!--  Connect to GitHub  -->
-			<local:SettingsBlockControl
+			<wctcontrols:SettingsCard
 				x:Name="ConnectToGitHubSection"
-				Title="{helpers:ResourceString Name=ConnectToGitHub}"
-				HorizontalAlignment="Stretch"
-				x:Load="{x:Bind ViewModel.IsLogoutEnabled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}">
-				<local:SettingsBlockControl.Icon>
+				x:Load="{x:Bind ViewModel.IsLogoutEnabled, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+				Header="{helpers:ResourceString Name=ConnectToGitHub}">
+				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xF0B9;" />
-				</local:SettingsBlockControl.Icon>
+				</wctcontrols:SettingsCard.HeaderIcon>
 				<Button Command="{x:Bind ViewModel.ConnectToGitHubCommand}" Content="{helpers:ResourceString Name=Login}" />
-			</local:SettingsBlockControl>
+			</wctcontrols:SettingsCard>
 
 			<!--  Remove credentials  -->
-			<local:SettingsBlockControl
+			<wctcontrols:SettingsCard
 				x:Name="RemoveCredentialsSection"
-				Title="{helpers:ResourceString Name=ConnectedToGitHub}"
-				HorizontalAlignment="Stretch"
-				x:Load="{x:Bind ViewModel.IsLogoutEnabled, Mode=OneWay}">
-				<local:SettingsBlockControl.Icon>
+				x:Load="{x:Bind ViewModel.IsLogoutEnabled, Mode=OneWay}"
+				Header="{helpers:ResourceString Name=ConnectedToGitHub}">
+				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xF0B9;" />
-				</local:SettingsBlockControl.Icon>
+				</wctcontrols:SettingsCard.HeaderIcon>
 				<Button Command="{x:Bind ViewModel.RemoveCredentialsCommand}" Content="{helpers:ResourceString Name=Logout}" />
-			</local:SettingsBlockControl>
+			</wctcontrols:SettingsCard>
 
 		</StackPanel>
 

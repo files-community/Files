@@ -18,7 +18,6 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///Styles/ToolbarButtonStyle.xaml" />
-				<ResourceDictionary Source="ms-appx:///Styles/ToggleSwitchStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<SolidColorBrush x:Key="CommandBarBackground" Color="Transparent" />
@@ -1176,11 +1175,11 @@
 								<ToggleSwitch
 									Grid.Row="0"
 									Grid.Column="1"
+									MinWidth="68"
 									HorizontalAlignment="Right"
 									AccessKey="H"
 									AutomationProperties.Name="{x:Bind Commands.ToggleShowHiddenItems.AutomationName}"
 									IsOn="{x:Bind Commands.ToggleShowHiddenItems.IsOn, Mode=TwoWay}"
-									Style="{StaticResource RightAlignedToggleSwitchStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowHiddenItems.HotKeyText, Mode=OneWay}" />
 
 								<!--  Show File Extensions  -->
@@ -1193,12 +1192,12 @@
 								<ToggleSwitch
 									Grid.Row="1"
 									Grid.Column="1"
+									MinWidth="68"
 									HorizontalAlignment="Right"
 									AccessKey="E"
 									AutomationProperties.Name="{x:Bind Commands.ToggleShowFileExtensions.AutomationName}"
 									IsOn="{x:Bind Commands.ToggleShowFileExtensions.IsOn, Mode=TwoWay}"
 									Rotation="1"
-									Style="{StaticResource RightAlignedToggleSwitchStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.ToggleShowFileExtensions.HotKeyText, Mode=OneWay}" />
 
 								<!--  Adaptive Layout  -->
@@ -1214,13 +1213,13 @@
 									x:Name="AdaptiveLayoutToggleSwitch"
 									Grid.Row="2"
 									Grid.Column="1"
+									MinWidth="68"
 									HorizontalAlignment="Right"
 									x:Load="{x:Bind Commands.LayoutAdaptive.IsExecutable, Mode=OneWay}"
 									AutomationProperties.Name="{x:Bind Commands.LayoutAdaptive.AutomationName}"
 									IsEnabled="{x:Bind Commands.LayoutAdaptive.IsExecutable, Mode=OneWay}"
 									IsOn="{x:Bind Commands.LayoutAdaptive.IsOn, Mode=TwoWay}"
 									Rotation="1"
-									Style="{StaticResource RightAlignedToggleSwitchStyle}"
 									ToolTipService.ToolTip="{x:Bind Commands.LayoutAdaptive.LabelWithHotKey, Mode=OneWay}" />
 							</Grid>
 
