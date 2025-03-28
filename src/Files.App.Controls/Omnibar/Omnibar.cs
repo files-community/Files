@@ -2,9 +2,11 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media.Animation;
 using Windows.Foundation;
+using WinRT;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Files.App.Controls
@@ -227,9 +229,9 @@ namespace Files.App.Controls
 			// Get the text to put into the text box from the chosen suggestion item
 			return obj is string text
 				? text
-				: CurrentSelectedMode.DisplayMemberPath is null
-					? obj.ToString() ?? string.Empty
-					: obj.GetType().GetProperty(CurrentSelectedMode.DisplayMemberPath)?.GetValue(obj)?.ToString() ?? string.Empty;
+				: obj is IOmnibarTextMemberPathProvider textMemberPathProvider
+					? textMemberPathProvider.GetTextMemberPath(CurrentSelectedMode.DisplayMemberPath ?? string.Empty)
+					: obj.ToString() ?? string.Empty;
 		}
 
 		private void RevertTextToUserInput()

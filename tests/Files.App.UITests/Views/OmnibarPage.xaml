@@ -50,7 +50,7 @@
 						</controls:OmnibarMode>
 
 						<controls:OmnibarMode
-							DisplayMemberPath="Title"
+							DisplayMemberPath="{x:Bind Omnibar1_TextMemberPathForPaletteMode}"
 							IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IsFilled=True}"
 							IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IconType=Outline}"
 							ModeName="Palette"
