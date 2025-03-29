@@ -115,10 +115,8 @@ namespace Files.App.Services
 		{
 			try
 			{
-				var bhid = PInvoke.BHID_SFUIObject;
-				var contextMenuIid = typeof(IContextMenu).GUID;
 				using ComPtr<IContextMenu> pContextMenu = default;
-				HRESULT hr = item.ShellItem.Get()->BindToHandler(null, &bhid, &contextMenuIid, (void**)pContextMenu.GetAddressOf());
+				HRESULT hr = item.ShellItem.Get()->BindToHandler(null, BHID.BHID_SFUIObject, IID.IID_IContextMenu, (void**)pContextMenu.GetAddressOf());
 				HMENU hMenu = PInvoke.CreatePopupMenu();
 				hr = pContextMenu.Get()->QueryContextMenu(hMenu, 0, 1, 0x7FFF, PInvoke.CMF_OPTIMIZEFORINVOKE);
 
@@ -191,16 +189,13 @@ namespace Files.App.Services
 						: "Shell:::{679F85CB-0220-4080-B29B-5540CC05AAB6}"; // Quick Access folder (recent files)
 
 				// Get IShellItem of the shell folder
-				var shellItemIid = typeof(IShellItem).GUID;
 				using ComPtr<IShellItem> pFolderShellItem = default;
 				fixed (char* pszFolderShellPath = szFolderShellPath)
-					hr = PInvoke.SHCreateItemFromParsingName(pszFolderShellPath, null, &shellItemIid, (void**)pFolderShellItem.GetAddressOf());
+					hr = PInvoke.SHCreateItemFromParsingName(pszFolderShellPath, null, IID.IID_IShellItem, (void**)pFolderShellItem.GetAddressOf());
 
 				// Get IEnumShellItems of the quick access shell folder
-				var enumItemsBHID = PInvoke.BHID_EnumItems;
-				Guid enumShellItemIid = typeof(IEnumShellItems).GUID;
 				using ComPtr<IEnumShellItems> pEnumShellItems = default;
-				hr = pFolderShellItem.Get()->BindToHandler(null, &enumItemsBHID, &enumShellItemIid, (void**)pEnumShellItems.GetAddressOf());
+				hr = pFolderShellItem.Get()->BindToHandler(null, BHID.BHID_EnumItems, IID.IID_IEnumShellItems, (void**)pEnumShellItems.GetAddressOf());
 
 				// Enumerate recent items and populate the list
 				int index = 0;
@@ -233,9 +228,8 @@ namespace Files.App.Services
 						fileName = string.IsNullOrEmpty(fileNameWithoutExtension) ? SystemIO.Path.GetFileName(fileName) : fileNameWithoutExtension;
 
 					// Get the date last modified
-					var shellItem2Iid = typeof(IShellItem2).GUID;
 					using ComPtr<IShellItem2> pShellItem2 = default;
-					hr = pShellItem.Get()->QueryInterface(&shellItem2Iid, (void**)pShellItem2.GetAddressOf());
+					hr = pShellItem.Get()->QueryInterface(IID.IID_IShellItem2, (void**)pShellItem2.GetAddressOf());
 					hr = PInvoke.PSGetPropertyKeyFromName("System.DateModified", out var propertyKey);
 					hr = pShellItem2.Get()->GetString(propertyKey, out var szPropertyValue);
 					if (DateTime.TryParse(szPropertyValue.ToString(), out var lastModified))

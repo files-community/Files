@@ -102,21 +102,15 @@ namespace Files.App.Services
 		{
 			// Get IShellItem for Recycle Bin folder
 			using ComPtr<IShellItem> pRecycleBinFolderShellItem = default;
-			var recycleBinFolderId = PInvoke.FOLDERID_RecycleBinFolder;
-			var shellItemGuid = typeof(IShellItem).GUID;
-			HRESULT hr = PInvoke.SHGetKnownFolderItem(&recycleBinFolderId, KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, HANDLE.Null, &shellItemGuid, (void**)pRecycleBinFolderShellItem.GetAddressOf());
+			HRESULT hr = PInvoke.SHGetKnownFolderItem(FOLDERID.FOLDERID_RecycleBinFolder, KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, HANDLE.Null, IID.IID_IShellItem, (void**)pRecycleBinFolderShellItem.GetAddressOf());
 
 			// Get IEnumShellItems for Recycle Bin folder
 			using ComPtr<IEnumShellItems> pEnumShellItems = default;
-			Guid enumShellItemGuid = typeof(IEnumShellItems).GUID;
-			var enumItemsBHID = PInvoke.BHID_EnumItems;
-			hr = pRecycleBinFolderShellItem.Get()->BindToHandler(null, &enumItemsBHID, &enumShellItemGuid, (void**)pEnumShellItems.GetAddressOf());
+			hr = pRecycleBinFolderShellItem.Get()->BindToHandler(null, BHID.BHID_EnumItems, IID.IID_IEnumShellItems, (void**)pEnumShellItems.GetAddressOf());
 
 			// Initialize how to perform the operation
 			using ComPtr<IFileOperation> pFileOperation = default;
-			var fileOperationIid = typeof(IFileOperation).GUID;
-			var fileOperationInstanceIid = typeof(FileOperation).GUID;
-			hr = PInvoke.CoCreateInstance(&fileOperationInstanceIid, null, CLSCTX.CLSCTX_LOCAL_SERVER, &fileOperationIid, (void**)pFileOperation.GetAddressOf());
+			hr = PInvoke.CoCreateInstance(CLSID.CLSID_FileOperation, null, CLSCTX.CLSCTX_LOCAL_SERVER, IID.IID_IFileOperation, (void**)pFileOperation.GetAddressOf());
 			hr = pFileOperation.Get()->SetOperationFlags(FILEOPERATION_FLAGS.FOF_NO_UI);
 			hr = pFileOperation.Get()->SetOwnerWindow(new(MainWindow.Instance.WindowHandle));
 
@@ -125,8 +119,7 @@ namespace Files.App.Services
 			{
 				// Get the original path
 				using ComPtr<IShellItem2> pShellItem2 = default;
-				var shellItem2Iid = typeof(IShellItem2).GUID;
-				hr = pShellItem.Get()->QueryInterface(&shellItem2Iid, (void**)pShellItem2.GetAddressOf());
+				hr = pShellItem.Get()->QueryInterface(IID.IID_IShellItem2, (void**)pShellItem2.GetAddressOf());
 				hr = PInvoke.PSGetPropertyKeyFromName("System.Recycle.DeletedFrom", out var originalPathPropertyKey);
 				hr = pShellItem2.Get()->GetString(originalPathPropertyKey, out var szOriginalPath);
 
