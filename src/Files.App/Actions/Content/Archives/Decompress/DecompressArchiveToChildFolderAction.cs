@@ -71,6 +71,7 @@ namespace Files.App.Actions
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.SelectedItems):
+				case nameof(IContentPageContext.Folder):
 					{
 						if (IsContextPageTypeAdaptedToCommand())
 						{

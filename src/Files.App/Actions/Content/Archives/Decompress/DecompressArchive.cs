@@ -31,7 +31,12 @@ namespace Files.App.Actions
 			if (context.ShellPage is null)
 				return;
 
-			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(context.SelectedItem?.ItemPath ?? string.Empty);
+			var archivePath = GetArchivePath();
+
+			if (string.IsNullOrEmpty(archivePath))
+				return;
+
+			BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(archivePath);
 
 			if (archive?.Path is null)
 				return;
@@ -85,6 +90,22 @@ namespace Files.App.Actions
 				!context.HasSelection &&
 				context.Folder is not null &&
 				FileExtensionHelpers.IsZipFile(Path.GetExtension(context.Folder.ItemPath));
+		}
+
+		protected override bool CanDecompressSelectedItems()
+		{
+			return context.SelectedItems.Count == 1 && base.CanDecompressSelectedItems();
+		}
+
+		private string? GetArchivePath()
+		{
+			if (!string.IsNullOrEmpty(context.SelectedItem?.ItemPath))
+				return context.SelectedItem?.ItemPath;
+
+			if (context.PageType == ContentPageTypes.ZipFolder && !context.HasSelection)
+				return context.Folder?.ItemPath;
+
+			return null;
 		}
 	}
 }
