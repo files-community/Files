@@ -7,7 +7,6 @@ using System.Windows.Input;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
-using OwlCore.Storage;
 using WinRT;
 using DragEventArgs = Microsoft.UI.Xaml.DragEventArgs;
 
@@ -17,9 +16,6 @@ namespace Files.App.UserControls
 	{
 		public ShelfPane()
 		{
-			// TODO: [Shelf] Remove once view model is connected
-			ItemsSource = new ObservableCollection<ShelfItem>();
-
 			InitializeComponent();
 		}
 
@@ -51,8 +47,8 @@ namespace Files.App.UserControls
 
 				var storable = item switch
 				{
-					StorageFileWithPath => (INestedStorable?)await storageService.TryGetFileAsync(item.Path),
-					StorageFolderWithPath => (INestedStorable?)await storageService.TryGetFolderAsync(item.Path),
+					StorageFileWithPath => (IStorableChild?)await storageService.TryGetFileAsync(item.Path),
+					StorageFolderWithPath => (IStorableChild?)await storageService.TryGetFolderAsync(item.Path),
 					_ => null
 				};
 

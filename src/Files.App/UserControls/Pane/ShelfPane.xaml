@@ -115,7 +115,6 @@
 				VerticalAlignment="Center"
 				Command="{x:Bind ClearCommand, Mode=OneWay}"
 				Content="{helpers:ResourceString Name=ClearItems}" />
-
 		</StackPanel>
 	</Grid>
 </UserControl>

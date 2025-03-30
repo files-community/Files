@@ -3,6 +3,7 @@
 
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -135,7 +136,12 @@ namespace Files.App.ViewModels.Layouts
 					try
 					{
 						e.DragUIOverride.IsCaptionVisible = true;
-						if (workingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
+						if (e.DataView.Properties.TryGetValue("Files_ActionBinder", out var actionBinder) && actionBinder is "Files_ShelfBinder")
+						{
+							e.DragUIOverride.Caption = string.Format(Strings.LinkToFolderCaptionText.GetLocalizedResource(), folderName);
+							e.AcceptedOperation = DataPackageOperation.Link;
+						}
+						else if (workingDirectory.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 						{
 							e.DragUIOverride.Caption = string.Format(Strings.MoveToFolderCaptionText.GetLocalizedResource(), folderName);
 							// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
@@ -192,8 +198,6 @@ namespace Files.App.ViewModels.Layouts
 		public async Task DropAsync(DragEventArgs e)
 		{
 			e.Handled = true;
-
-
 			if (e.DataView.Contains(StandardDataFormats.Uri) && await e.DataView.GetUriAsync() is { } uri)
 			{
 				if (GitHelpers.IsValidRepoUrl(uri.ToString()))
@@ -203,19 +207,41 @@ namespace Files.App.ViewModels.Layouts
 				}
 			}
 
-			if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+			var deferral = e.GetDeferral();
+			try
 			{
-				var deferral = e.GetDeferral();
+				if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+					return;
 
-				try
+				if (e.DataView.Properties.TryGetValue("Files_ActionBinder", out var actionBinder) && actionBinder is "Files_ShelfBinder")
+				{
+					if (e.OriginalSource is not UIElement uiElement)
+						return;
+
+					var pwd = _associatedInstance.ShellViewModel.WorkingDirectory.TrimPath();
+					var folderName = Path.IsPathRooted(pwd) && Path.GetPathRoot(pwd) == pwd ? Path.GetPathRoot(pwd) : Path.GetFileName(pwd);
+					var menuFlyout = new MenuFlyout()
+					{
+						Items =
+						{
+							new MenuFlyoutItem() { Text = string.Format(Strings.CopyToFolderCaptionText.GetLocalizedResource(), folderName), Command = new AsyncRelayCommand(async ct =>
+								await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Copy, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true)) },
+							new MenuFlyoutItem() { Text = string.Format(Strings.MoveToFolderCaptionText.GetLocalizedResource(), folderName), Command = new AsyncRelayCommand(async ct =>
+								await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Move, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true)) }
+						}
+					};
+
+					menuFlyout.ShowAt(uiElement, e.GetPosition(uiElement));
+				}
+				else
 				{
 					await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true);
 					await _associatedInstance.RefreshIfNoWatcherExistsAsync();
 				}
-				finally
-				{
-					deferral.Complete();
-				}
+			}
+			finally
+			{
+				deferral.Complete();
 			}
 		}
 
