@@ -3,12 +3,12 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Input;
 using Vanara.PInvoke;
+using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
-using OwlCore.Storage;
 using WinRT;
+using DragEventArgs = Microsoft.UI.Xaml.DragEventArgs;
 
 namespace Files.App.UserControls
 {
@@ -16,9 +16,6 @@ namespace Files.App.UserControls
 	{
 		public ShelfPane()
 		{
-			// TODO: [Shelf] Remove once view model is connected
-			ItemsSource = new ObservableCollection<ShelfItem>();
-
 			InitializeComponent();
 		}
 
@@ -44,10 +41,14 @@ namespace Files.App.UserControls
 			// Add to list
 			foreach (var item in storageItems)
 			{
+				// Avoid adding duplicates
+				if (ItemsSource.Any(x => x.Inner.Id == item.Path))
+					continue;
+
 				var storable = item switch
 				{
-					StorageFileWithPath => (IStorable?)await storageService.TryGetFileAsync(item.Path),
-					StorageFolderWithPath => (IStorable?)await storageService.TryGetFolderAsync(item.Path),
+					StorageFileWithPath => (IStorableChild?)await storageService.TryGetFileAsync(item.Path),
+					StorageFolderWithPath => (IStorableChild?)await storageService.TryGetFolderAsync(item.Path),
 					_ => null
 				};
 
@@ -63,26 +64,26 @@ namespace Files.App.UserControls
 
 		private void ListView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
-			if (ItemsSource is null)
+			var apidl = SafetyExtensions.IgnoreExceptions(() => e.Items
+				.Cast<ShelfItem>()
+				.Select(x => new ShellItem(x.Inner.Id).PIDL)
+				.ToArray());
+
+			if (apidl is null)
 				return;
 
-			var shellItemList = SafetyExtensions.IgnoreExceptions(() => ItemsSource.Select(x => new Vanara.Windows.Shell.ShellItem(x.Inner.Id)).ToArray());
-			if (shellItemList?[0].FileSystemPath is not null)
-			{
-				var iddo = shellItemList[0].Parent?.GetChildrenUIObjects<IDataObject>(HWND.NULL, shellItemList);
-				if (iddo is null)
-					return;
+			if (!Shell32.SHGetDesktopFolder(out var pDesktop).Succeeded)
+				return;
 
-				shellItemList.ForEach(x => x.Dispose());
-				var dataObjectProvider = e.Data.As<Shell32.IDataObjectProvider>();
-				dataObjectProvider.SetDataObject(iddo);
-			}
-			else
-			{
-				// Only support IStorageItem capable paths
-				var storageItems = ItemsSource.Select(x => VirtualStorageItem.FromPath(x.Inner.Id));
-				e.Data.SetStorageItems(storageItems, false);
-			}
+			if (!Shell32.SHGetIDListFromObject(pDesktop, out var pDesktopPidl).Succeeded)
+				return;
+
+			e.Data.Properties["Files_ActionBinder"] = "Files_ShelfBinder";
+			if (!Shell32.SHCreateDataObject(pDesktopPidl, apidl, null, out var ppDataObject).Succeeded)
+				return;
+
+			var dataObjectProvider = e.Data.As<Shell32.IDataObjectProvider>();
+			dataObjectProvider.SetDataObject(ppDataObject);
 		}
 
 		public IList<ShelfItem>? ItemsSource

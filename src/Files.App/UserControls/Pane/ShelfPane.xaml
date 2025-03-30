@@ -50,8 +50,10 @@
 
 		<!--  Items List  -->
 		<ListView
+			x:Name="ShelfItemsList"
 			Grid.Row="1"
 			Padding="8,4,8,4"
+			CanDragItems="True"
 			DragItemsStarting="ListView_DragItemsStarting"
 			ItemContainerTransitions="{x:Null}"
 			ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
@@ -113,7 +115,6 @@
 				VerticalAlignment="Center"
 				Command="{x:Bind ClearCommand, Mode=OneWay}"
 				Content="{helpers:ResourceString Name=ClearItems}" />
-
 		</StackPanel>
 	</Grid>
 </UserControl>

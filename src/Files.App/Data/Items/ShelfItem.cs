@@ -6,7 +6,7 @@ using Files.Shared.Utils;
 namespace Files.App.Data.Items
 {
 	[Bindable(true)]
-	public sealed partial class ShelfItem : ObservableObject, IWrapper<IStorable>, IAsyncInitialize
+	public sealed partial class ShelfItem : ObservableObject, IWrapper<IStorableChild>, IAsyncInitialize
 	{
 		private readonly IImageService _imageService;
 		private readonly ICollection<ShelfItem> _sourceCollection;
@@ -16,9 +16,9 @@ namespace Files.App.Data.Items
 		[ObservableProperty] private string? _Path;
 
 		/// <inheritdoc/>
-		public IStorable Inner { get; }
+		public IStorableChild Inner { get; }
 
-		public ShelfItem(IStorable storable, ICollection<ShelfItem> sourceCollection, IImage? icon = null)
+		public ShelfItem(IStorableChild storable, ICollection<ShelfItem> sourceCollection, IImage? icon = null)
 		{
 			_imageService = Ioc.Default.GetRequiredService<IImageService>();
 			_sourceCollection = sourceCollection;
@@ -35,7 +35,7 @@ namespace Files.App.Data.Items
 		}
 
 		[RelayCommand]
-		private void Remove()
+		public void Remove()
 		{
 			_sourceCollection.Remove(this);
 		}
