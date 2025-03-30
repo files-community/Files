@@ -228,7 +228,7 @@ namespace Files.App.Controls
 			e.Handled = true;
 		}
 
-		private void PaneColumnGrid_ContextRequested(UIElement sender, ContextRequestedEventArgs e)
+		private void MenuItemHostScrollViewer_ContextRequested(UIElement sender, ContextRequestedEventArgs e)
 		{
 			var newArgs = new ItemContextInvokedArgs(null, e.TryGetPosition(this, out var point) ? point : default);
 			ViewModel.HandleItemContextInvokedAsync(this, newArgs);
