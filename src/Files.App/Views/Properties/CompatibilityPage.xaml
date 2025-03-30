@@ -7,8 +7,8 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:settingsuc="using:Files.App.UserControls.Settings"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
+	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls"
 	DataContext="{x:Bind CompatibilityViewModel, Mode=OneWay}"
 	Loaded="Properties_Loaded"
 	Tag="Compatibility"
@@ -18,7 +18,6 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///Styles/PropertiesStyles.xaml" />
-				<ResourceDictionary Source="/Styles/ToggleSwitchStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
 			<converters:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />
@@ -30,79 +29,66 @@
 		<StackPanel Padding="12" Spacing="4">
 
 			<!--  Run Troubleshooter  -->
-			<settingsuc:SettingsBlockControl
-				Title="{helpers:ResourceString Name=CompatibilityRunTroubleshooter}"
-				ButtonCommand="{x:Bind CompatibilityViewModel.RunTroubleshooterCommand}"
-				IsClickable="True">
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-			</settingsuc:SettingsBlockControl>
+			<wctcontrols:SettingsCard
+				Command="{x:Bind CompatibilityViewModel.RunTroubleshooterCommand}"
+				Header="{helpers:ResourceString Name=CompatibilityRunTroubleshooter}"
+				IsClickEnabled="True">
+				<wctcontrols:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</wctcontrols:SettingsCard.ActionIcon>
+			</wctcontrols:SettingsCard>
 
 			<!--  Compatibility Mode  -->
-			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=CompatibilityMode}" HorizontalAlignment="Stretch">
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CompatibilityMode}">
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityMode}"
 					ItemsSource="{x:Bind CompatibilityViewModel.CompatibilityModes.Values, Mode=OneWay}"
 					SelectedItem="{x:Bind CompatibilityViewModel.SelectedCompatibilityMode, Mode=TwoWay}" />
-			</settingsuc:SettingsBlockControl>
+			</wctcontrols:SettingsCard>
 
 			<!--  Reduce Color Mode  -->
-			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=CompatibilityReducedColorMode}" HorizontalAlignment="Stretch">
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CompatibilityReducedColorMode}">
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityReducedColorMode}"
 					ItemsSource="{x:Bind CompatibilityViewModel.ReducedColorModes.Values, Mode=OneWay}"
 					SelectedItem="{x:Bind CompatibilityViewModel.SelectedReducedColorMode, Mode=TwoWay}" />
-			</settingsuc:SettingsBlockControl>
+			</wctcontrols:SettingsCard>
 
 			<!--  Run In Low Resolution  -->
-			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=CompatibilityRunIn640x480Resolution}" HorizontalAlignment="Stretch">
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityRunIn640x480Resolution}"
-					IsOn="{x:Bind CompatibilityViewModel.RunIn40x480Resolution, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</settingsuc:SettingsBlockControl>
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CompatibilityRunIn640x480Resolution}">
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityRunIn640x480Resolution}" IsOn="{x:Bind CompatibilityViewModel.RunIn40x480Resolution, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
 
 			<!--  Disable Full Screen Optimizations  -->
-			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=CompatibilityDisableFullscreenOptimizations}" HorizontalAlignment="Stretch">
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityDisableFullscreenOptimizations}"
-					IsOn="{x:Bind CompatibilityViewModel.DisableFullscreenOptimization, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</settingsuc:SettingsBlockControl>
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CompatibilityDisableFullscreenOptimizations}">
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityDisableFullscreenOptimizations}" IsOn="{x:Bind CompatibilityViewModel.DisableFullscreenOptimization, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
 
 			<!--  Run As Admin  -->
-			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=RunAsAdministrator}" HorizontalAlignment="Stretch">
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdministrator}"
-					IsOn="{x:Bind CompatibilityViewModel.RunAsAdministrator, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</settingsuc:SettingsBlockControl>
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=RunAsAdministrator}">
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdministrator}" IsOn="{x:Bind CompatibilityViewModel.RunAsAdministrator, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
 
 			<!--  Register App For Restart  -->
-			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=CompatibilityRegisterThisProgramForRestart}" HorizontalAlignment="Stretch">
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityRegisterThisProgramForRestart}"
-					IsOn="{x:Bind CompatibilityViewModel.RegisterForRestart, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</settingsuc:SettingsBlockControl>
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CompatibilityRegisterThisProgramForRestart}">
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityRegisterThisProgramForRestart}" IsOn="{x:Bind CompatibilityViewModel.RegisterForRestart, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
 
 			<!--  High DPI Options  -->
-			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=CompatibilityUseDPISettings}" HorizontalAlignment="Stretch">
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CompatibilityUseDPISettings}">
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityUseDPISettings}"
 					ItemsSource="{x:Bind CompatibilityViewModel.HighDpiOptions.Values, Mode=OneWay}"
 					SelectedItem="{x:Bind CompatibilityViewModel.SelectedHighDpiOption, Mode=TwoWay}" />
-			</settingsuc:SettingsBlockControl>
+			</wctcontrols:SettingsCard>
 
 			<!--  Override High DPI Scaling Behavior  -->
-			<settingsuc:SettingsBlockControl Title="{helpers:ResourceString Name=CompatibilityOverrideHighDPIBehavior}" HorizontalAlignment="Stretch">
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CompatibilityOverrideHighDPIBehavior}">
 				<ComboBox
 					AutomationProperties.Name="{helpers:ResourceString Name=CompatibilityOverrideHighDPIBehavior}"
 					ItemsSource="{x:Bind CompatibilityViewModel.HighDpiOverrides.Values, Mode=OneWay}"
 					SelectedItem="{x:Bind CompatibilityViewModel.SelectedHighDpiOverride, Mode=TwoWay}" />
-			</settingsuc:SettingsBlockControl>
+			</wctcontrols:SettingsCard>
 
 		</StackPanel>
 	</ScrollViewer>

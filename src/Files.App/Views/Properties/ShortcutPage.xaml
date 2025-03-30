@@ -6,8 +6,8 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:settingsuc="using:Files.App.UserControls.Settings"
 	xmlns:vm="using:Files.App.ViewModels.Properties"
+	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls"
 	Loaded="Properties_Loaded"
 	Tag="Shortcut"
 	mc:Ignorable="d">
@@ -16,7 +16,6 @@
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///Styles/PropertiesStyles.xaml" />
-				<ResourceDictionary Source="ms-appx:///Styles/ToggleSwitchStyles.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</vm:BasePropertiesPage.Resources>
@@ -137,38 +136,32 @@
 					Text="{x:Bind ViewModel.ShortcutItemWorkingDirEditedValue, Mode=TwoWay}" />
 			</Grid>
 
-			<settingsuc:SettingsBlockControl
+			<wctcontrols:SettingsCard
 				x:Name="WindowArgsSetting"
-				Title="{helpers:ResourceString Name=StartWindow}"
-				HorizontalAlignment="Stretch"
-				x:Load="{x:Bind ViewModel.ShortcutItemWindowArgsVisibility, Mode=OneWay}">
+				x:Load="{x:Bind ViewModel.ShortcutItemWindowArgsVisibility, Mode=OneWay}"
+				Header="{helpers:ResourceString Name=StartWindow}">
 				<ComboBox ItemsSource="{x:Bind ViewModel.ShowWindowCommandTypes.Values, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedShowWindowCommand, Mode=TwoWay}" />
-			</settingsuc:SettingsBlockControl>
+			</wctcontrols:SettingsCard>
 
-			<settingsuc:SettingsBlockControl
+			<wctcontrols:SettingsCard
 				x:Name="RunAsAdminCheckbox"
-				Title="{helpers:ResourceString Name=RunAsAdministrator}"
-				HorizontalAlignment="Stretch"
-				x:Load="{x:Bind ViewModel.RunAsAdminEnabled, Mode=OneWay}">
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdministrator}"
-					IsOn="{x:Bind ViewModel.RunAsAdminEditedValue, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</settingsuc:SettingsBlockControl>
+				x:Load="{x:Bind ViewModel.RunAsAdminEnabled, Mode=OneWay}"
+				Header="{helpers:ResourceString Name=RunAsAdministrator}">
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=RunAsAdministrator}" IsOn="{x:Bind ViewModel.RunAsAdminEditedValue, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
 
-			<settingsuc:SettingsBlockControl
+			<wctcontrols:SettingsCard
 				x:Name="OpenFileLocation"
-				Title="{helpers:ResourceString Name=OpenFileLocation}"
 				Grid.Row="2"
 				Grid.Column="0"
 				x:Load="{x:Bind ViewModel.IsSelectedItemShortcut, Mode=OneWay}"
-				ButtonCommand="{x:Bind ViewModel.ShortcutItemOpenLinkCommand, Mode=OneWay}"
-				IsClickable="True">
-				<FontIcon
-					FontSize="14"
-					Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-					Glyph="&#xE8A7;" />
-			</settingsuc:SettingsBlockControl>
+				Command="{x:Bind ViewModel.ShortcutItemOpenLinkCommand, Mode=OneWay}"
+				Header="{helpers:ResourceString Name=OpenFileLocation}"
+				IsClickEnabled="True">
+				<wctcontrols:SettingsCard.ActionIcon>
+					<FontIcon Glyph="&#xE8A7;" />
+				</wctcontrols:SettingsCard.ActionIcon>
+			</wctcontrols:SettingsCard>
 
 		</StackPanel>
 	</ScrollViewer>
