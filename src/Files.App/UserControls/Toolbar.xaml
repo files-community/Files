@@ -35,6 +35,7 @@
 				x:Key="NegatedBoolToVisibilityConverter"
 				FalseValue="Visible"
 				TrueValue="Collapsed" />
+			<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
 			<x:Boolean x:Key="True">True</x:Boolean>
 			<x:Boolean x:Key="False">False</x:Boolean>
@@ -301,29 +302,25 @@
 							<MenuFlyoutItem
 								x:Name="ExtractSingle"
 								Command="{x:Bind Commands.DecompressArchive, Mode=OneWay}"
-								IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
 								KeyboardAcceleratorTextOverride="{x:Bind Commands.DecompressArchive.HotKeyText, Mode=OneWay}"
 								Text="{x:Bind Commands.DecompressArchive.Label}"
-								Visibility="{x:Bind ViewModel.IsMultipleArchivesSelected, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+								Visibility="{x:Bind Commands.DecompressArchive.IsExecutable, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 							<MenuFlyoutItem
 								x:Name="ExtractHereSmart"
 								Command="{x:Bind Commands.DecompressArchiveHereSmart, Mode=OneWay}"
-								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
 								KeyboardAcceleratorTextOverride="{x:Bind Commands.DecompressArchiveHereSmart.HotKeyText, Mode=OneWay}"
 								Text="{x:Bind Commands.DecompressArchiveHereSmart.Label}"
-								Visibility="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+								Visibility="{x:Bind Commands.DecompressArchiveHereSmart.IsExecutable, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 							<MenuFlyoutItem
 								x:Name="ExtractHere"
 								Command="{x:Bind Commands.DecompressArchiveHere, Mode=OneWay}"
-								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
 								Text="{x:Bind Commands.DecompressArchiveHere.Label}"
-								Visibility="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+								Visibility="{x:Bind Commands.DecompressArchiveHere.IsExecutable, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 							<MenuFlyoutItem
 								x:Name="ExtractTo"
 								Command="{x:Bind Commands.DecompressArchiveToChildFolder, Mode=OneWay}"
-								IsEnabled="{x:Bind ViewModel.IsSelectionArchivesOnly, Mode=OneWay, FallbackValue=False}"
 								Text="{x:Bind Commands.DecompressArchiveToChildFolder.Label, Mode=OneWay}"
-								Visibility="{x:Bind ViewModel.IsArchiveOpened, Mode=OneWay, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+								Visibility="{x:Bind Commands.DecompressArchiveToChildFolder.IsExecutable, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 						</MenuFlyout>
 					</AppBarButton.Flyout>
 
