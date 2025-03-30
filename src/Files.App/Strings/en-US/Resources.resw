@@ -4172,4 +4172,13 @@
     <value>Compare a file</value>
     <comment>Button that appears in file hash properties that allows the user to compare two files</comment>
   </data>
+  <data name="SizeFormat" xml:space="preserve">
+    <value>Size format</value>
+  </data>
+  <data name="Binary" xml:space="preserve">
+    <value>Binary</value>
+  </data>
+  <data name="Decimal" xml:space="preserve">
+    <value>Decimal</value>
+  </data>
 </root>

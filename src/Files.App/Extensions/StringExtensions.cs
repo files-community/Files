@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using ByteSizeLib;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.Concurrent;
 using System.IO;
@@ -11,6 +10,8 @@ namespace Files.App.Extensions
 {
 	public static class StringExtensions
 	{
+		private static IFoldersSettingsService FoldersSettingsService { get; } = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+
 		/// <summary>
 		/// Returns true if <paramref name="path"/> starts with the path <paramref name="baseDirPath"/>.
 		/// The comparison is case-insensitive, handles / and \ slashes as folder separators and
@@ -83,7 +84,10 @@ namespace Files.App.Extensions
 		public static string ToSizeString(this long size) => ByteSize.FromBytes(size).ToSizeString();
 		public static string ToSizeString(this ulong size) => ByteSize.FromBytes(size).ToSizeString();
 		public static string ToSizeString(this decimal size) => ByteSize.FromBytes((double)size).ToSizeString();
-		public static string ToSizeString(this ByteSize size) => size.ToString().ConvertSizeAbbreviation();
+		public static string ToSizeString(this ByteSize size) => FoldersSettingsService.SizeUnitFormat is SizeUnitTypes.BinaryUnits
+			? size.ToBinaryString().ConvertSizeAbbreviation()
+			: size.ToString().ConvertSizeAbbreviation();
+
 
 		public static string ToLongSizeString(this long size) => ByteSize.FromBytes(size).ToLongSizeString();
 		public static string ToLongSizeString(this ulong size) => ByteSize.FromBytes(size).ToLongSizeString();

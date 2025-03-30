@@ -84,5 +84,10 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating whether or not to show checkboxes when selecting items.
 		/// </summary>
 		bool ShowCheckboxesWhenSelectingItems { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating which format to use when displaying item sizes.
+		/// </summary>
+		SizeUnitTypes SizeUnitFormat { get; set; }
 	}
 }
