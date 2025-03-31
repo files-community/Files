@@ -280,8 +280,7 @@
 						Background="Transparent"
 						BorderThickness="0"
 						Command="{x:Bind Commands.OpenSettings, Mode=OneWay}"
-						ToolTipService.Placement="Bottom"
-						ToolTipService.ToolTip="{x:Bind Commands.OpenSettings.LabelWithHotKey, Mode=OneWay}">
+						ToolTipService.Placement="Bottom">
 						<Button.Resources>
 							<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
 							<SolidColorBrush x:Key="ButtonForegroundDisabled" Color="{ThemeResource TextFillColorPrimary}" />
