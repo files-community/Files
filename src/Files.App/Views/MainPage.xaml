@@ -284,6 +284,7 @@
 						ToolTipService.ToolTip="{x:Bind Commands.OpenSettings.LabelWithHotKey, Mode=OneWay}">
 						<Button.Resources>
 							<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
+							<SolidColorBrush x:Key="ButtonForegroundDisabled" Color="{ThemeResource TextFillColorPrimary}" />
 						</Button.Resources>
 						<Grid HorizontalAlignment="Stretch">
 							<Grid.ColumnDefinitions>
