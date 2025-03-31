@@ -319,7 +319,7 @@ namespace Files.App.Helpers
 					if (iconOptions.HasFlag(IconOptions.ReturnOnlyIfCached))
 						flags |= Shell32.SIIGBF.SIIGBF_INCACHEONLY;
 
-					var hres = shellFactory.GetImage(new SIZE(size, size), flags, out var hbitmap);
+					var hres = shellFactory.GetImage(new Vanara.PInvoke.SIZE(size, size), flags, out var hbitmap);
 					if (hres == HRESULT.S_OK)
 					{
 						using var image = GetBitmapFromHBitmap(hbitmap);

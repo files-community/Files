@@ -490,8 +490,5 @@ namespace Files.App.Helpers
 			IntPtr hToken,
 			out IntPtr pszPath
 		);
-
-		[DllImport("shell32.dll", EntryPoint = "SHUpdateRecycleBinIcon", CharSet = CharSet.Unicode, SetLastError = true)]
-		public static extern void SHUpdateRecycleBinIcon();
 	}
 }

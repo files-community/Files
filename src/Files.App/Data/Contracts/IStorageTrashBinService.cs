@@ -56,7 +56,7 @@ namespace Files.App.Data.Contracts
 		/// Deletes files and folders in Recycle Bin permanently.
 		/// </summary>
 		/// <returns>True if succeeded; otherwise, false</returns>
-		bool EmptyTrashBin();
+		Task<bool> EmptyTrashBin();
 
 		/// <summary>
 		/// Restores files and folders in Recycle Bin to original paths.

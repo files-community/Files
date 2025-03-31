@@ -9,6 +9,7 @@
         <Configurations>Debug;Release</Configurations>
         <Platforms>x86;x64;arm64</Platforms>
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <ItemGroup>
@@ -16,6 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Files.App.CsWin32\Files.App.CsWin32.csproj" />
         <ProjectReference Include="..\Files.Core.Storage\Files.Core.Storage.csproj" />
         <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
     </ItemGroup>
