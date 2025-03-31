@@ -118,6 +118,7 @@ namespace Files.App.Data.Commands
 		OpenReleaseNotes,
 		OpenClassicProperties,
 		OpenSettings,
+		OpenSettingsFile,
 		OpenStorageSense,
 		OpenStorageSenseFromHome,
 		OpenStorageSenseFromSidebar,

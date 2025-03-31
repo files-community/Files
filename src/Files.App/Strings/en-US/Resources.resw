@@ -2195,6 +2195,9 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Edit settings file</value>
   </data>
+  <data name="EditSettingsFileDescription" xml:space="preserve">
+    <value>Open settings file in your default editor</value>
+  </data>
   <data name="WhatsNew" xml:space="preserve">
     <value>What's new</value>
   </data>

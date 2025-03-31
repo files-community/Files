@@ -122,6 +122,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand OpenStorageSenseFromHome => commands[CommandCodes.OpenStorageSenseFromHome];
 		public IRichCommand OpenStorageSenseFromSidebar => commands[CommandCodes.OpenStorageSenseFromSidebar];
 		public IRichCommand OpenSettings => commands[CommandCodes.OpenSettings];
+		public IRichCommand OpenSettingsFile => commands[CommandCodes.OpenSettingsFile];
 		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
 		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
 		public IRichCommand OpenTerminalFromSidebar => commands[CommandCodes.OpenTerminalFromSidebar];
@@ -327,6 +328,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.OpenStorageSenseFromHome] = new OpenStorageSenseFromHomeAction(),
 			[CommandCodes.OpenStorageSenseFromSidebar] = new OpenStorageSenseFromSidebarAction(),
 			[CommandCodes.OpenSettings] = new OpenSettingsAction(),
+			[CommandCodes.OpenSettingsFile] = new OpenSettingsFileAction(),
 			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
 			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
 			[CommandCodes.OpenTerminalFromSidebar] = new OpenTerminalFromSidebarAction(),

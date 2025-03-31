@@ -308,6 +308,15 @@
 								Margin="12,0,0,0"
 								Text="{x:Bind Commands.OpenSettings.Label, Mode=OneWay}" />
 						</Grid>
+
+						<Button.ContextFlyout>
+							<MenuFlyout>
+								<MenuFlyoutItem
+									Command="{x:Bind Commands.OpenSettingsFile, Mode=OneWay}"
+									Icon="{x:Bind Commands.OpenSettingsFile.FontIcon, Mode=OneWay}"
+									Text="{x:Bind Commands.OpenSettingsFile.Label, Mode=OneWay}" />
+							</MenuFlyout>
+						</Button.ContextFlyout>
 					</Button>
 				</StackPanel>
 			</controls:SidebarView.Footer>
