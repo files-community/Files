@@ -5,6 +5,83 @@
 	xmlns:local="using:Files.App.Controls"
 	xmlns:primitives="using:Files.App.Controls.Primitives">
 
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Default">
+			<x:Double x:Key="StorageRingValueRingThickness">3</x:Double>
+			<x:Double x:Key="StorageRingTrackRingThickness">1</x:Double>
+
+			<Thickness x:Key="StorageRingPadding">0</Thickness>
+			<Thickness x:Key="StorageRingMargin">0</Thickness>
+
+			<PenLineCap x:Key="StorageRingValueStartCap">Round</PenLineCap>
+			<PenLineCap x:Key="StorageRingValueEndCap">Round</PenLineCap>
+			<PenLineCap x:Key="StorageRingTrackStartCap">Round</PenLineCap>
+			<PenLineCap x:Key="StorageRingTrackEndCap">Round</PenLineCap>
+
+			<StaticResource x:Key="StorageRingBackgroundBrush" ResourceKey="ControlFillColorTransparentBrush" />
+
+			<StaticResource x:Key="StorageRingValueBrush" ResourceKey="AccentFillColorDefaultBrush" />
+			<StaticResource x:Key="StorageRingValueCautionBrush" ResourceKey="SystemFillColorCautionBrush" />
+			<StaticResource x:Key="StorageRingValueCriticalBrush" ResourceKey="SystemFillColorCriticalBrush" />
+			<StaticResource x:Key="StorageRingValueDisabledBrush" ResourceKey="AccentFillColorDisabledBrush" />
+
+			<StaticResource x:Key="StorageRingTrackBrush" ResourceKey="ControlStrongStrokeColorDefaultBrush" />
+			<StaticResource x:Key="StorageRingTrackCautionBrush" ResourceKey="ControlStrongStrokeColorDefaultBrush" />
+			<StaticResource x:Key="StorageRingTrackCriticalBrush" ResourceKey="ControlStrongStrokeColorDefaultBrush" />
+			<StaticResource x:Key="StorageRingTrackDisabledBrush" ResourceKey="ControlStrongStrokeColorDisabledBrush" />
+		</ResourceDictionary>
+
+		<ResourceDictionary x:Key="HighContrast">
+			<x:Double x:Key="StorageRingValueRingThickness">4</x:Double>
+			<x:Double x:Key="StorageRingTrackRingThickness">2</x:Double>
+
+			<Thickness x:Key="StorageRingPadding">0</Thickness>
+			<Thickness x:Key="StorageRingMargin">0</Thickness>
+
+			<PenLineCap x:Key="StorageRingValueStartCap">Round</PenLineCap>
+			<PenLineCap x:Key="StorageRingValueEndCap">Round</PenLineCap>
+			<PenLineCap x:Key="StorageRingTrackStartCap">Round</PenLineCap>
+			<PenLineCap x:Key="StorageRingTrackEndCap">Round</PenLineCap>
+
+			<StaticResource x:Key="StorageRingBackgroundBrush" ResourceKey="SystemControlBackgroundBaseLowBrush" />
+
+			<StaticResource x:Key="StorageRingValueBrush" ResourceKey="SystemColorHighlightColorBrush" />
+			<StaticResource x:Key="StorageRingValueCautionBrush" ResourceKey="SystemColorHotlightColorBrush" />
+			<StaticResource x:Key="StorageRingValueCriticalBrush" ResourceKey="SystemColorHotlightColorBrush" />
+			<StaticResource x:Key="StorageRingValueDisabledBrush" ResourceKey="SystemColorGrayTextBrush" />
+
+			<StaticResource x:Key="StorageRingTrackBrush" ResourceKey="SystemColorWindowTextColorBrush" />
+			<StaticResource x:Key="StorageRingTrackCautionBrush" ResourceKey="SystemColorWindowTextColorBrush" />
+			<StaticResource x:Key="StorageRingTrackCriticalBrush" ResourceKey="SystemColorWindowTextColorBrush" />
+			<StaticResource x:Key="StorageRingTrackDisabledBrush" ResourceKey="SystemColorGrayTextBrush" />
+		</ResourceDictionary>
+
+		<ResourceDictionary x:Key="Light">
+			<x:Double x:Key="StorageRingValueRingThickness">3</x:Double>
+			<x:Double x:Key="StorageRingTrackRingThickness">1</x:Double>
+
+			<Thickness x:Key="StorageRingPadding">0</Thickness>
+			<Thickness x:Key="StorageRingMargin">0</Thickness>
+
+			<PenLineCap x:Key="StorageRingValueStartCap">Round</PenLineCap>
+			<PenLineCap x:Key="StorageRingValueEndCap">Round</PenLineCap>
+			<PenLineCap x:Key="StorageRingTrackStartCap">Round</PenLineCap>
+			<PenLineCap x:Key="StorageRingTrackEndCap">Round</PenLineCap>
+
+			<StaticResource x:Key="StorageRingBackgroundBrush" ResourceKey="ControlFillColorTransparentBrush" />
+
+			<StaticResource x:Key="StorageRingValueBrush" ResourceKey="AccentFillColorDefaultBrush" />
+			<StaticResource x:Key="StorageRingValueCautionBrush" ResourceKey="SystemFillColorCautionBrush" />
+			<StaticResource x:Key="StorageRingValueCriticalBrush" ResourceKey="SystemFillColorCriticalBrush" />
+			<StaticResource x:Key="StorageRingValueDisabledBrush" ResourceKey="AccentFillColorDisabledBrush" />
+
+			<StaticResource x:Key="StorageRingTrackBrush" ResourceKey="ControlStrongStrokeColorDefaultBrush" />
+			<StaticResource x:Key="StorageRingTrackCautionBrush" ResourceKey="ControlStrongStrokeColorDefaultBrush" />
+			<StaticResource x:Key="StorageRingTrackCriticalBrush" ResourceKey="ControlStrongStrokeColorDefaultBrush" />
+			<StaticResource x:Key="StorageRingTrackDisabledBrush" ResourceKey="ControlStrongStrokeColorDisabledBrush" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
 	<Style BasedOn="{StaticResource DefaultStorageRingStyle}" TargetType="local:StorageRing" />
 
 	<Style x:Key="DefaultStorageRingStyle" TargetType="local:StorageRing">
@@ -32,9 +109,8 @@
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="local:StorageRing">
-
-					<Grid
-						x:Name="GridRoot"
+					<Border
+						x:Name="RingRootPanel"
 						Width="{TemplateBinding Width}"
 						Height="{TemplateBinding Height}"
 						MinWidth="{TemplateBinding MinWidth}"
@@ -115,8 +191,7 @@
 
 							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
-					</Grid>
-
+					</Border>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>

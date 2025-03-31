@@ -2,16 +2,15 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using Microsoft.UI.Xaml;
 
 namespace Files.App.Controls
 {
 	public partial class StorageBar
 	{
-		[GeneratedDependencyProperty(DefaultValue = 4.0d)]
+		[GeneratedDependencyProperty(DefaultValue = 6.0d)]
 		public partial double ValueBarHeight { get; set; }
 
-		[GeneratedDependencyProperty(DefaultValue = 2.0d)]
+		[GeneratedDependencyProperty(DefaultValue = 3.0d)]
 		public partial double TrackBarHeight { get; set; }
 
 		[GeneratedDependencyProperty(DefaultValue = BarShapes.Round)]
@@ -28,57 +27,56 @@ namespace Files.App.Controls
 
 		partial void OnValueBarHeightChanged(double newValue)
 		{
-			UpdateControl(this);
+			UpdateControl();
 		}
 
 		partial void OnTrackBarHeightChanged(double newValue)
 		{
-			UpdateControl(this);
+			UpdateControl();
 		}
 
 		partial void OnBarShapeChanged(BarShapes newValue)
 		{
-			UpdateControl(this);
+			UpdateControl();
 		}
 
 		partial void OnPercentChanged(double newValue)
 		{
 			return; //Read-only
-
-			DoubleToPercentage(Value, Minimum, Maximum);
-			UpdateControl(this);
 		}
 
 		partial void OnPercentCautionChanged(double newValue)
 		{
-			UpdateControl(this);
+			UpdateControl();
 		}
 
 		partial void OnPercentCriticalChanged(double newValue)
 		{
-			UpdateControl(this);
+			UpdateControl();
 		}
 
 		/// <inheritdoc/>
 		protected override void OnValueChanged(double oldValue, double newValue)
 		{
-			_oldValue = oldValue;
 			base.OnValueChanged(oldValue, newValue);
-			UpdateValue(this, Value, _oldValue, false, -1.0);
+
+			UpdateValue(Value, _oldValue, false, -1.0);
 		}
 
 		/// <inheritdoc/>
 		protected override void OnMaximumChanged(double oldValue, double newValue)
 		{
 			base.OnMaximumChanged(oldValue, newValue);
-			UpdateValue(this, oldValue, newValue, false, -1.0);
+
+			UpdateValue(oldValue, newValue, false, -1.0);
 		}
 
 		/// <inheritdoc/>
 		protected override void OnMinimumChanged(double oldValue, double newValue)
 		{
 			base.OnMinimumChanged(oldValue, newValue);
-			UpdateValue(this, oldValue, newValue, false, -1.0);
+
+			UpdateValue(oldValue, newValue, false, -1.0);
 		}
 	}
 }
