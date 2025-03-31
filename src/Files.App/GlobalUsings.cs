@@ -75,6 +75,7 @@ global using global::OwlCore.Storage;
 
 // Files.App.Storage
 
+global using global::Files.App.Storage;
 global using global::Files.App.Storage.Storables;
 global using global::Files.App.Storage.Watchers;
 
