@@ -1,202 +1,131 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using System;
 using Windows.Foundation;
 
 namespace Files.App.Controls
 {
+	// TemplateParts
+	[TemplatePart(Name = TemplatePartName_Container, Type = typeof(Grid))]
+	[TemplatePart(Name = TemplatePartName_ValueColumn, Type = typeof(ColumnDefinition))]
+	[TemplatePart(Name = TemplatePartName__GapColumn, Type = typeof(ColumnDefinition))]
+	[TemplatePart(Name = TemplatePartName_TrackColumn, Type = typeof(ColumnDefinition))]
+	[TemplatePart(Name = TemplatePartName_ValueBorder, Type = typeof(Border))]
+	[TemplatePart(Name = TemplatePartName_TrackBorder, Type = typeof(Border))]
+	// VisualStates
+	[TemplateVisualState(GroupName = TemplateVisualStateGroupName_ControlStates, Name = TemplateVisualStateName_Safe)]
+	[TemplateVisualState(GroupName = TemplateVisualStateGroupName_ControlStates, Name = TemplateVisualStateName_Caution)]
+	[TemplateVisualState(GroupName = TemplateVisualStateGroupName_ControlStates, Name = TemplateVisualStateName_Critical)]
+	[TemplateVisualState(GroupName = TemplateVisualStateGroupName_ControlStates, Name = TemplateVisualStateName_Disabled)]
 	/// <summary>
 	/// Represents percentage ring islands.
 	/// </summary>
 	public partial class StorageBar : RangeBase
 	{
+		// Constants
+
+		private const string TemplatePartName_Container = "PART_Container";
+		private const string TemplatePartName_ValueColumn = "PART_ValueColumn";
+		private const string TemplatePartName__GapColumn = "PART_GapColumn";
+		private const string TemplatePartName_TrackColumn = "PART_TrackColumn";
+		private const string TemplatePartName_ValueBorder = "PART_ValueBar";
+		private const string TemplatePartName_TrackBorder = "PART_TrackBar";
+
+		private const string TemplateVisualStateGroupName_ControlStates = "ControlStates";
+		private const string TemplateVisualStateName_Safe = "Safe";
+		private const string TemplateVisualStateName_Caution = "Caution";
+		private const string TemplateVisualStateName_Critical = "Critical";
+		private const string TemplateVisualStateName_Disabled = "Disabled";
+
 		// Fields
 
-		double _oldValue;                // Stores the previous value
+		Grid _containerGrid = null!;
+		ColumnDefinition _valueColumn = null!;
+		ColumnDefinition _trackColumn = null!;
+		ColumnDefinition _gapColumn = null!;
+		Border _valueBarBorder = null!;
+		Border _trackBarBorder = null!;
 
-		double _valueBarMaxWidth;        // The maximum width for the Value Bar
-		double _trackBarMaxWidth;        // The maximum width for the Track Bar
-
-		Grid? _containerGrid;            // Reference to the container Grid
-		Size? _containerSize;            // Reference to the container Size
-
-		ColumnDefinition? _valueColumn;  // Reference to the ValueBar Column
-		ColumnDefinition? _trackColumn;  // Reference to the TrackBar Column
-		ColumnDefinition? _gapColumn;    // Reference to the Gap Column
-
-		Border? _valueBarBorder;         // Reference to the Value Bar Border
-		Border? _trackBarBorder;         // Reference to the Track Bar Border
-
-		BarShapes _barShape;             // Reference to the BarShape
-
-		double _gapWidth;                // Stores the Gap between Value and Track Bars
-		double _smallerHeight;           // Stores the smaller between Value and Track Bars
+		double _oldValue;
+		Size? _containerSize;
+		BarShapes _barShape;
+		double _gapWidth;
+		double _smallerHeight;
 
 		// Constructor
 
-		/// <summary>
-		/// Initializes an instance of <see cref="StorageBar"/> class.
-		/// </summary>
+		/// <summary>Initializes an instance of <see cref="StorageBar"/> class.</summary>
 		public StorageBar()
 		{
 			DefaultStyleKey = typeof(StorageBar);
+		}
 
-			SizeChanged -= StorageBar_SizeChanged;
-			Unloaded -= StorageBar_Unloaded;
-			IsEnabledChanged -= StorageBar_IsEnabledChanged;
+		// Methods
+
+		/// <inheritdoc/>
+		protected override void OnApplyTemplate()
+		{
+			base.OnApplyTemplate();
+
+			_containerGrid = GetTemplateChild(TemplatePartName_Container) as Grid
+				?? throw new MissingFieldException($"Could not find {TemplatePartName_Container} in the given {nameof(StorageBar)}'s style.");
+			_valueColumn = GetTemplateChild(TemplatePartName_ValueColumn) as ColumnDefinition
+				?? throw new MissingFieldException($"Could not find {TemplatePartName_ValueColumn} in the given {nameof(StorageBar)}'s style.");
+			_trackColumn = GetTemplateChild(TemplatePartName_TrackColumn) as ColumnDefinition
+				?? throw new MissingFieldException($"Could not find {TemplatePartName_TrackColumn} in the given {nameof(StorageBar)}'s style.");
+			_gapColumn = GetTemplateChild(TemplatePartName__GapColumn) as ColumnDefinition
+				?? throw new MissingFieldException($"Could not find {TemplatePartName__GapColumn} in the given {nameof(StorageBar)}'s style.");
+			_valueBarBorder = GetTemplateChild(TemplatePartName_ValueBorder) as Border
+				?? throw new MissingFieldException($"Could not find {TemplatePartName_ValueBorder} in the given {nameof(StorageBar)}'s style.");
+			_trackBarBorder = GetTemplateChild(TemplatePartName_TrackBorder) as Border
+				?? throw new MissingFieldException($"Could not find {TemplatePartName_TrackBorder} in the given {nameof(StorageBar)}'s style.");
+
+			_barShape = BarShape;
 
 			SizeChanged += StorageBar_SizeChanged;
 			Unloaded += StorageBar_Unloaded;
 			IsEnabledChanged += StorageBar_IsEnabledChanged;
 		}
 
-		/// <inheritdoc/>
-		protected override void OnApplyTemplate()
+		// Methods
+
+		private void UpdateControl()
 		{
-			base.OnApplyTemplate();
-			UpdateInitialLayout(this);
+			UpdateContainerHeightsAndCorners();
+			UpdateColumnWidths();
+			UpdateVisualState();
 		}
 
-		#region Handle Property Changes
-
-		/// <summary>
-		/// Handles the IsEnabledChanged event
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void StorageBar_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
-		{
-			UpdateControl(this);
-		}
-
-		/// <summary>
-		/// Handles the Unloaded event
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void StorageBar_Unloaded(object sender, RoutedEventArgs e)
-		{
-			SizeChanged -= StorageBar_SizeChanged;
-			Unloaded -= StorageBar_Unloaded;
-			IsEnabledChanged -= StorageBar_IsEnabledChanged;
-		}
-
-		/// <summary>
-		/// Handles the SizeChanged event
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void StorageBar_SizeChanged(object sender, SizeChangedEventArgs e)
-		{
-			Size minSize;
-
-			if ( DesiredSize.Width < MinWidth || DesiredSize.Height < MinHeight ||
-				e.NewSize.Width < MinWidth || e.NewSize.Height < MinHeight )
-			{
-				Width = MinWidth;
-				Height = MinHeight;
-
-				minSize = new Size( MinWidth , MinHeight );
-			}
-			else
-			{
-				minSize = e.NewSize;
-			}
-
-			UpdateContainer(this, minSize );
-			UpdateControl(this);
-		}
-
-		#endregion
-
-		#region Update functions
-
-		/// <summary>
-		/// Updates the initial layout of the StorageBar control
-		/// </summary>
-		/// <param name="d">The DependencyObject representing the control.</param>
-		private void UpdateInitialLayout(DependencyObject d)
-		{
-			// Retrieve references to visual elements
-			_containerGrid = GetTemplateChild(ContainerPartName) as Grid;
-
-			_valueColumn = GetTemplateChild(ValueColumnPartName) as ColumnDefinition;
-			_trackColumn = GetTemplateChild(TrackColumnPartName) as ColumnDefinition;
-			_gapColumn = GetTemplateChild(GapColumnPartName) as ColumnDefinition;
-
-			_valueBarBorder = GetTemplateChild(ValueBorderPartName) as Border;
-			_trackBarBorder = GetTemplateChild(TrackBorderPartName) as Border;
-
-			_barShape = BarShape;
-
-			ValueBarHeight = ValueBarHeight;
-			TrackBarHeight = TrackBarHeight;
-		}
-
-		/// <summary>
-		/// Updates the StorageBar control.
-		/// </summary>
-		/// <param name="d">The DependencyObject representing the control.</param>
-		private void UpdateControl(DependencyObject d)
-		{
-			// 1. Update the Bar Heights
-			UpdateContainerHeightsAndCorners(this, ValueBarHeight, TrackBarHeight);
-
-			// 2. Set the 3 Column Widths
-			UpdateColumnWidths(this, Value, Minimum, Maximum);
-
-			// 3. Update the control's VisualState
-			UpdateVisualState(this);
-		}
-
-		/// <summary>
-		/// Updates the StorageBar Values.
-		/// </summary>
-		/// <param name="d">The DependencyObject representing the control.</param>
-		/// <param name="newValue">The new Value</param>
-		/// <param name="oldValue">The old Value</param>
-		/// <param name="isPercent">Checks if the Percent value is being changed</param>
-		/// <param name="newPercent">The new Percent value</param>
-		private void UpdateValue(DependencyObject d, double newValue, double oldValue, bool isPercent, double newPercent)
+		private void UpdateValue(double newValue, double oldValue, bool isPercent, double newPercent)
 		{
 			_oldValue = oldValue;
 
-			var adjustedValue = isPercent ? PercentageToValue(newPercent, Minimum, Maximum) : newValue;
-			Percent = DoubleToPercentage(adjustedValue, Minimum, Maximum);
+			var adjustedValue = isPercent ? StorageControlsHelpers.PercentageToValue(newPercent, Minimum, Maximum) : newValue;
+			Percent = StorageControlsHelpers.DoubleToPercentage(adjustedValue, Minimum, Maximum);
 
-			UpdateControl(this);
+			UpdateControl();
 		}
 
-		/// <summary>
-		/// Updates Container Heights and Bar Corner Radii
-		/// </summary>
-		/// <param name="d">The DependencyObject representing the control.</param>
-		/// <param name="valueBarHeight">The ValueBar Height</param>
-		/// <param name="trackBarHeight">The TrackBar Height</param>
-		private void UpdateContainerHeightsAndCorners(DependencyObject d, double valueBarHeight, double trackBarHeight)
+		private void UpdateContainerHeightsAndCorners()
 		{
 			// Finds the larger of the two height values
-			double calculatedLargerHeight = Math.Max(valueBarHeight, trackBarHeight);
-			double calculatedSmallerHeight = Math.Min(valueBarHeight, trackBarHeight);
+			double calculatedLargerHeight = Math.Max(ValueBarHeight, TrackBarHeight);
+			double calculatedSmallerHeight = Math.Min(ValueBarHeight, TrackBarHeight);
 
-			if (_valueBarBorder != null || _trackBarBorder != null || _containerGrid != null)
+			if (_valueBarBorder != null && _trackBarBorder != null && _containerGrid != null)
 			{
-				_valueBarBorder.Height = valueBarHeight;
-				_trackBarBorder.Height = trackBarHeight;
+				_valueBarBorder.Height = ValueBarHeight;
+				_trackBarBorder.Height = TrackBarHeight;
 
-				if (_barShape == BarShapes.Round)
+				if (_barShape is BarShapes.Round)
 				{
-					_valueBarBorder.CornerRadius = new(valueBarHeight / 2);
-					_trackBarBorder.CornerRadius = new(trackBarHeight / 2);
+					_valueBarBorder.CornerRadius = new(ValueBarHeight / 2);
+					_trackBarBorder.CornerRadius = new(TrackBarHeight / 2);
 				}
-				else if (_barShape == BarShapes.Soft)
+				else if (_barShape is BarShapes.Soft)
 				{
-					_valueBarBorder.CornerRadius = new(valueBarHeight / 4);
-					_trackBarBorder.CornerRadius = new(trackBarHeight / 4);
+					_valueBarBorder.CornerRadius = new(ValueBarHeight / 4);
+					_trackBarBorder.CornerRadius = new(TrackBarHeight / 4);
 				}
 				else
 				{
@@ -212,27 +141,20 @@ namespace Files.App.Controls
 
 		}
 
-		/// <summary>
-		/// Updates Column Widths and Bar Column assignments
-		/// </summary>
-		/// <param name="d">The DependencyObject representing the control.</param>
-		/// <param name="value">The Value</param>
-		/// <param name="minValue">The Minimum value</param>
-		/// <param name="maxValue">The Maximum value</param>
-		private void UpdateColumnWidths(DependencyObject d, double value, double minValue, double maxValue)
+		private void UpdateColumnWidths()
 		{
-			if (_gapColumn != null || _valueColumn != null || _trackColumn != null || _valueBarBorder != null || _trackBarBorder != null)
+			if (_gapColumn != null && _valueColumn != null && _trackColumn != null && _valueBarBorder != null && _trackBarBorder != null)
 			{
 				if (_containerSize is not Size containerSize)
 					return;
 
 				if (containerSize.Width > TrackBarHeight || containerSize.Width > ValueBarHeight)
 				{
-					double valuePercent = DoubleToPercentage(Value, Minimum, Maximum);
-					double minPercent = DoubleToPercentage(Minimum, Minimum, Maximum);
-					double maxPercent = DoubleToPercentage(Maximum, Minimum, Maximum);
+					double valuePercent = StorageControlsHelpers.DoubleToPercentage(Value, Minimum, Maximum);
+					double minPercent = StorageControlsHelpers.DoubleToPercentage(Minimum, Minimum, Maximum);
+					double maxPercent = StorageControlsHelpers.DoubleToPercentage(Maximum, Minimum, Maximum);
 
-					if (valuePercent <= minPercent)  // Value is <= Minimum
+					if (valuePercent <= minPercent)
 					{
 						_gapColumn.Width = new(1, GridUnitType.Star);
 						_valueColumn.Width = new(1, GridUnitType.Star);
@@ -244,7 +166,7 @@ namespace Files.App.Controls
 						_valueBarBorder.Visibility = Visibility.Collapsed;
 						_trackBarBorder.Visibility = Visibility.Visible;
 					}
-					else if (valuePercent >= maxPercent)  // Value is >= Maximum
+					else if (valuePercent >= maxPercent)
 					{
 						_gapColumn.Width = new(1, GridUnitType.Star);
 						_valueColumn.Width = new(1, GridUnitType.Star);
@@ -264,10 +186,8 @@ namespace Files.App.Controls
 						Grid.SetColumnSpan(_trackBarBorder, 1);
 						Grid.SetColumn(_trackBarBorder, 2);
 
-
 						_valueBarBorder.Visibility = Visibility.Visible;
 						_trackBarBorder.Visibility = Visibility.Visible;
-
 
 						var valueBarHeight = ValueBarHeight;
 						var trackBarHeight = TrackBarHeight;
@@ -280,8 +200,7 @@ namespace Files.App.Controls
 
 						if (valuePercent > minPercent && valuePercent <= minPercent + 2.0)  // Between 0% and 2%
 						{
-							var interpolatedValueBarHeight = CalculateInterpolatedValue(
-								this,
+							var interpolatedValueBarHeight = StorageControlsHelpers.CalculateInterpolatedValue(
 								minPercent,
 								Percent,
 								minPercent + 2.0,
@@ -289,8 +208,7 @@ namespace Files.App.Controls
 								valueBarHeight,
 								true);
 
-							var interpolatedTrackBarHeight = CalculateInterpolatedValue(
-								this,
+							var interpolatedTrackBarHeight = StorageControlsHelpers.CalculateInterpolatedValue(
 								minPercent,
 								Percent,
 								minPercent + 2.0,
@@ -298,30 +216,21 @@ namespace Files.App.Controls
 								trackBarHeight,
 								true);
 
-							var interpolatedGapWidth = gapWidth;
-
-							if (valueLarger == true)
-							{
-								interpolatedGapWidth = CalculateInterpolatedValue(
-									this,
+							var interpolatedGapWidth = valueLarger
+								?  StorageControlsHelpers.CalculateInterpolatedValue(
 									minPercent,
 									Percent,
 									minPercent + 2.0,
 									0.0,
 									gapWidth,
-									true);
-							}
-							else
-							{
-								interpolatedGapWidth = CalculateInterpolatedValue(
-									this,
+									true)
+								: StorageControlsHelpers.CalculateInterpolatedValue(
 									minPercent,
 									Percent,
 									minPercent + 2.0,
 									0.0,
 									_smallerHeight,
 									true);
-							}
 
 							_valueColumn.MinWidth = interpolatedValueBarHeight;
 							_trackColumn.MinWidth = interpolatedTrackBarHeight;
@@ -337,8 +246,7 @@ namespace Files.App.Controls
 						}
 						else if (valuePercent >= maxPercent - 1.0 && valuePercent < maxPercent)   // Between 98% and 100%
 						{
-							var interpolatedValueBarHeight = CalculateInterpolatedValue(
-								this,
+							var interpolatedValueBarHeight = StorageControlsHelpers.CalculateInterpolatedValue(
 								maxPercent - 2.0,
 								Percent,
 								maxPercent,
@@ -346,8 +254,7 @@ namespace Files.App.Controls
 								0.0,
 								true);
 
-							var interpolatedTrackBarHeight = CalculateInterpolatedValue(
-								this,
+							var interpolatedTrackBarHeight = StorageControlsHelpers.CalculateInterpolatedValue(
 								maxPercent - 2.0,
 								Percent,
 								maxPercent,
@@ -355,30 +262,21 @@ namespace Files.App.Controls
 								0.0,
 								true);
 
-							var interpolatedGapWidth = gapWidth;
-
-							if (valueLarger == true)
-							{
-								interpolatedGapWidth = CalculateInterpolatedValue(
-									this,
+							var interpolatedGapWidth = valueLarger
+								? StorageControlsHelpers.CalculateInterpolatedValue(
 									maxPercent - 2.0,
 									Percent,
 									maxPercent,
 									0.0,
 									_smallerHeight,
-									true);
-							}
-							else
-							{
-								interpolatedGapWidth = CalculateInterpolatedValue(
-									this,
+									true)
+								: StorageControlsHelpers.CalculateInterpolatedValue(
 									maxPercent - 2.0,
 									Percent,
 									maxPercent,
 									0.0,
 									gapWidth,
 									true);
-							}
 
 							_valueColumn.MinWidth = interpolatedValueBarHeight;
 							_trackColumn.MinWidth = interpolatedTrackBarHeight;
@@ -402,30 +300,21 @@ namespace Files.App.Controls
 							_valueColumn.Width = new(calculatedValueWidth);
 							_trackColumn.Width = new(1, GridUnitType.Star);
 
-							var interpolatedGapWidth = gapWidth;
-
-							if (valueLarger == true)
-							{
-								interpolatedGapWidth = CalculateInterpolatedValue(
-									this,
+							var interpolatedGapWidth = valueLarger
+								? StorageControlsHelpers.CalculateInterpolatedValue(
 									minPercent + 2.0,
 									Percent,
 									maxPercent - 2.0,
 									gapWidth,
 									_smallerHeight,
-									true);
-							}
-							else
-							{
-								interpolatedGapWidth = CalculateInterpolatedValue(
-									this,
+									true)
+								: StorageControlsHelpers.CalculateInterpolatedValue(
 									minPercent + 2.0,
 									Percent,
 									maxPercent - 2.0,
 									_smallerHeight,
 									gapWidth,
 									true);
-							}
 
 							_gapColumn.Width = new(interpolatedGapWidth);
 
@@ -437,12 +326,7 @@ namespace Files.App.Controls
 			}
 		}
 
-		/// <summary>
-		/// Updates the ContainerSize taking in control Padding
-		/// </summary>
-		/// <param name="d">The DependencyObject representing the control.</param>
-		/// <param name="newSize">The new Size</param>
-		private void UpdateContainer(DependencyObject d, Size newSize)
+		private void UpdateContainer(Size newSize)
 		{
 			double containerWidth = newSize.Width - (Padding.Left + Padding.Right);
 			double containerHeight = newSize.Height - (Padding.Top + Padding.Bottom);
@@ -450,149 +334,53 @@ namespace Files.App.Controls
 			_containerSize = new(containerWidth, containerHeight);
 		}
 
-		/// <summary>
-		/// Update the control's VisualState
-		/// </summary>
-		/// <param name="d">The DependencyObject representing the control.</param>
-		private void UpdateVisualState(DependencyObject d)
+		private void UpdateVisualState()
 		{
-			// First is the control is Disabled
-			if (IsEnabled == false)
-			{
-				VisualStateManager.GoToState(this, DisabledStateName, true);
-			}
-			// Then the control is Enabled
-			else
-			{
-				// Is the Percent value equal to or above the PercentCritical value
-				if (Percent >= PercentCritical)
-				{
-					VisualStateManager.GoToState(this, CriticalStateName, true);
-				}
-				// Is the Percent value equal to or above the PercentCaution value
-				else if (Percent >= PercentCaution)
-				{
-					VisualStateManager.GoToState(this, CautionStateName, true);
-				}
-				// Else we use the Safe State
-				else
-				{
-					VisualStateManager.GoToState(this, SafeStateName, true);
-				}
-			}
+			VisualStateManager.GoToState(
+				this,
+				IsEnabled
+					? Percent >= PercentCritical
+						? TemplateVisualStateName_Critical
+						: Percent >= PercentCaution
+							? TemplateVisualStateName_Caution
+							: TemplateVisualStateName_Safe
+					: TemplateVisualStateName_Disabled,
+				true);
 		}
 
-		#endregion
+		// Event methods
 
-		#region Conversion return functions
-
-		/// <summary>
-		/// Converts a value within a specified range to a percentage.
-		/// </summary>
-		/// <param name="value">The value to convert.</param>
-		/// <param name="minValue">The minimum value of the input range.</param>
-		/// <param name="maxValue">The maximum value of the input range.</param>
-		/// <returns>The percentage value (between 0 and 100).</returns>
-		private double DoubleToPercentage(double value, double minValue, double maxValue)
+		private void StorageBar_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
-			// Ensure value is within the specified range
-			if (value < minValue)
+			UpdateControl();
+		}
+
+		private void StorageBar_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			Size minSize;
+
+			if (DesiredSize.Width < MinWidth || DesiredSize.Height < MinHeight ||
+				e.NewSize.Width < MinWidth || e.NewSize.Height < MinHeight)
 			{
-				return 0.0; // Below the range
-			}
-			else if (value > maxValue)
-			{
-				return 100.0; // Above the range
+				Width = MinWidth;
+				Height = MinHeight;
+
+				minSize = new Size(MinWidth, MinHeight);
 			}
 			else
 			{
-				// Calculate the normalized value
-				var normalizedValue = (value - minValue) / (maxValue - minValue);
-
-				// Convert to percentage
-				var percentage = normalizedValue * 100.0;
-
-				double roundedPercentage = Math.Round(percentage, 2, MidpointRounding.ToEven);
-
-				return roundedPercentage;
-			}
-		}
-
-		/// <summary>
-		/// Converts a percentage within a specified range to a value.
-		/// </summary>
-		/// <param name="percentage">The percentage to convert.</param>
-		/// <param name="minValue">The minimum value of the input range.</param>
-		/// <param name="maxValue">The maximum value of the input range.</param>
-		/// <returns>The percentage value (between 0 and 100).</returns>
-		private double PercentageToValue(double percentage, double minValue, double maxValue)
-		{
-			double convertedValue = percentage * (maxValue - minValue) / 100.0;
-
-			// Ensure the converted value stays within the specified range
-			if (convertedValue < minValue)
-				convertedValue = minValue;
-			else if (convertedValue > maxValue)
-				convertedValue = maxValue;
-
-			return convertedValue;
-		}
-
-		/// <summary>
-		/// Calculates an interpolated value based on the provided parameters.
-		/// </summary>
-		/// <param name="d">The DependencyObject representing the control.</param>
-		/// <param name="startValue">The starting value for interpolation.</param>
-		/// <param name="value">The current value to interpolate.</param>
-		/// <param name="endValue">The ending value for interpolation.</param>
-		/// <param name="startOutput">The starting Output value.</param>
-		/// <param name="endOutput">The ending Output value.</param>
-		/// <param name="useEasing">Indicates whether to apply an easing function.</param>
-		/// <returns>The interpolated thickness value.</returns>
-		private double CalculateInterpolatedValue(DependencyObject d, double startValue, double value, double endValue, double startOutput, double endOutput, bool useEasing)
-		{
-			// Ensure that value is within the range [startValue, endValue]
-			value = Math.Max(startValue, Math.Min(endValue, value));
-
-			// Calculate the interpolation factor (t) between 0 and 1
-			var t = (value - startValue) / (endValue - startValue);
-
-			double interpolatedOutput;
-
-			if (useEasing)
-			{
-				// Apply an easing function (e.g., quadratic ease-in-out)
-				//var easedT = EaseInOutFunction(t);
-				var easedT = EaseOutCubic(t);
-
-				// Interpolate the thickness
-				interpolatedOutput = startOutput + easedT * (endOutput - startOutput);
-			}
-			else
-			{
-				// Interpolate the thickness
-				interpolatedOutput = startOutput + t * (endOutput - startOutput);
+				minSize = e.NewSize;
 			}
 
-			return interpolatedOutput;
+			UpdateContainer(minSize);
+			UpdateControl();
 		}
 
-		/// <summary>
-		/// Example quadratic ease-in-out function
-		/// </summary>
-		private double EasingInOutFunction(double t)
+		private void StorageBar_Unloaded(object sender, RoutedEventArgs e)
 		{
-			return t < 0.5 ? 2 * t * t : 1 - Math.Pow(-2 * t + 2, 2) / 2;
+			SizeChanged -= StorageBar_SizeChanged;
+			Unloaded -= StorageBar_Unloaded;
+			IsEnabledChanged -= StorageBar_IsEnabledChanged;
 		}
-
-		/// <summary>
-		/// Example ease-out cubic function
-		/// </summary>
-		static double EaseOutCubic(double t)
-		{
-			return 1.0 - Math.Pow(1.0 - t, 3.0);
-		}
-
-		#endregion
 	}
 }

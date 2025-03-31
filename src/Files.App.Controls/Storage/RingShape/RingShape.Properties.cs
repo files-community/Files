@@ -32,16 +32,16 @@ namespace Files.App.Controls.Primitives
 		[GeneratedDependencyProperty(DefaultValue = 0.0d)]
 		public partial double RadiusHeight { get; set; }
 
-		[GeneratedDependencyProperty]
+		[GeneratedDependencyProperty(DefaultValue = false)]
 		public partial bool IsCircle { get; set; }
 
 		[GeneratedDependencyProperty]
 		public partial Point Center { get; set; }
 
-		[GeneratedDependencyProperty]
+		[GeneratedDependencyProperty(DefaultValue = 0.0d)]
 		public partial double ActualRadiusWidth { get; set; }
 
-		[GeneratedDependencyProperty]
+		[GeneratedDependencyProperty(DefaultValue = 0.0d)]
 		public partial double ActualRadiusHeight { get; set; }
 
 		partial void OnStartAngleChanged(double newValue)
