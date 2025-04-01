@@ -8,10 +8,16 @@ namespace Files.App.ViewModels.Settings
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 
+		public Dictionary<SizeUnitTypes, string> SizeUnitsOptions { get; private set; } = [];
 
 		public FoldersViewModel()
 		{
 			SelectedDeleteConfirmationPolicyIndex = (int)DeleteConfirmationPolicy;
+
+			// Size unit format
+			SizeUnitsOptions.Add(SizeUnitTypes.BinaryUnits, Strings.Binary.GetLocalizedResource());
+			SizeUnitsOptions.Add(SizeUnitTypes.DecimalUnits, Strings.Decimal.GetLocalizedResource());
+			SizeUnitFormat = SizeUnitsOptions[UserSettingsService.FoldersSettingsService.SizeUnitFormat];
 		}
 
 		// Properties
@@ -252,6 +258,19 @@ namespace Files.App.ViewModels.Settings
 					UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems = value;
 
 					OnPropertyChanged();
+				}
+			}
+		}
+
+		private string sizeUnitFormat;
+		public string SizeUnitFormat
+		{
+			get => sizeUnitFormat;
+			set
+			{
+				if (SetProperty(ref sizeUnitFormat, value))
+				{
+					UserSettingsService.FoldersSettingsService.SizeUnitFormat = SizeUnitsOptions.First(e => e.Value == value).Key;
 				}
 			}
 		}

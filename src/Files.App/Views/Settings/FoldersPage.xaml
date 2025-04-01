@@ -166,6 +166,19 @@
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ScrollToPreviousFolderWhenNavigatingUp}" IsOn="{x:Bind ViewModel.ScrollToPreviousFolderWhenNavigatingUp, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
+			<!--  Size format  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SizeFormat}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE67A;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+
+				<uc:ComboBoxEx
+					MinWidth="140"
+					AutomationProperties.Name="{helpers:ResourceString Name=SizeFormat}"
+					ItemsSource="{x:Bind ViewModel.SizeUnitsOptions.Values}"
+					SelectedItem="{x:Bind ViewModel.SizeUnitFormat, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
 			<!--  Calculate folder sizes  -->
 			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=CalculateFolderSizes}" IsExpanded="True">
 				<wctcontrols:SettingsExpander.HeaderIcon>
