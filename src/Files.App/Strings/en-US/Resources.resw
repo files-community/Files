@@ -2195,6 +2195,9 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Edit settings file</value>
   </data>
+  <data name="EditSettingsFileDescription" xml:space="preserve">
+    <value>Open settings file in your default editor</value>
+  </data>
   <data name="WhatsNew" xml:space="preserve">
     <value>What's new</value>
   </data>
@@ -3693,6 +3696,9 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Failed to set the background wallpaper</value>
+  </data>
+  <data name="FailedToOpenSettingsFile" xml:space="preserve">
+    <value>Failed to open the settings file</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
     <value>Delete Git branch</value>

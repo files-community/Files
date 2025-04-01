@@ -19,6 +19,7 @@ namespace Files.App.ViewModels.Settings
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
@@ -26,7 +27,6 @@ namespace Files.App.ViewModels.Settings
 		public ICommand SetAsOpenFileDialogCommand { get; }
 		public ICommand ExportSettingsCommand { get; }
 		public ICommand ImportSettingsCommand { get; }
-		public ICommand OpenSettingsJsonCommand { get; }
 		public AsyncRelayCommand OpenFilesOnWindowsStartupCommand { get; }
 
 
@@ -39,20 +39,9 @@ namespace Files.App.ViewModels.Settings
 			SetAsOpenFileDialogCommand = new AsyncRelayCommand(SetAsOpenFileDialogAsync);
 			ExportSettingsCommand = new AsyncRelayCommand(ExportSettingsAsync);
 			ImportSettingsCommand = new AsyncRelayCommand(ImportSettingsAsync);
-			OpenSettingsJsonCommand = new AsyncRelayCommand(OpenSettingsJsonAsync);
 			OpenFilesOnWindowsStartupCommand = new AsyncRelayCommand(OpenFilesOnWindowsStartupAsync);
 
 			_ = DetectOpenFilesAtStartupAsync();
-		}
-
-		private async Task OpenSettingsJsonAsync()
-		{
-			await SafetyExtensions.IgnoreExceptions(async () =>
-			{
-				var settingsJsonFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/user_settings.json"));
-				if (!await Launcher.LaunchFileAsync(settingsJsonFile))
-					await ContextMenu.InvokeVerb("open", settingsJsonFile.Path);
-			});
 		}
 
 		private async Task SetAsDefaultExplorerAsync()

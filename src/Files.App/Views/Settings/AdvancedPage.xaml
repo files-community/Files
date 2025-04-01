@@ -63,7 +63,7 @@
 
 			<!--  Edit Settings File  -->
 			<wctcontrols:SettingsCard
-				Command="{x:Bind ViewModel.OpenSettingsJsonCommand}"
+				Command="{x:Bind ViewModel.Commands.OpenSettingsFile, Mode=OneWay}"
 				Header="{helpers:ResourceString Name=EditSettingsFile}"
 				IsClickEnabled="True">
 				<wctcontrols:SettingsCard.HeaderIcon>
