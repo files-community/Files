@@ -24,7 +24,7 @@ namespace Files.App.Actions
 		{
 			await SafetyExtensions.IgnoreExceptions(async () =>
 			{
-				var settingsJsonFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/user_settings.json"));
+				var settingsJsonFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri($"ms-appdata:///local/{Constants.LocalSettings.SettingsFolderName}/{Constants.LocalSettings.UserSettingsFileName}"));
 				if (!await Launcher.LaunchFileAsync(settingsJsonFile))
 					await ContextMenu.InvokeVerb("open", settingsJsonFile.Path);
 			});
