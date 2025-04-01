@@ -173,7 +173,6 @@
 				</wctcontrols:SettingsCard.HeaderIcon>
 
 				<uc:ComboBoxEx
-					MinWidth="140"
 					AutomationProperties.Name="{helpers:ResourceString Name=SizeFormat}"
 					ItemsSource="{x:Bind ViewModel.SizeUnitsOptions.Values}"
 					SelectedItem="{x:Bind ViewModel.SizeUnitFormat, Mode=TwoWay}" />
@@ -185,15 +184,15 @@
 					<FontIcon Glyph="&#xEE40;" />
 				</wctcontrols:SettingsExpander.HeaderIcon>
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=CalculateFolderSizes}" IsOn="{x:Bind ViewModel.CalculateFolderSizes, Mode=TwoWay}" />
-				<wctcontrols:SettingsExpander.Items>
+				<wctcontrols:SettingsExpander.ItemsHeader>
 					<InfoBar
-						CornerRadius="0,0,2,2"
+						CornerRadius="0"
 						IsClosable="False"
 						IsIconVisible="True"
 						IsOpen="True"
 						Message="{helpers:ResourceString Name=ShowFolderSizesWarning}"
 						Severity="Warning" />
-				</wctcontrols:SettingsExpander.Items>
+				</wctcontrols:SettingsExpander.ItemsHeader>
 			</wctcontrols:SettingsExpander>
 		</StackPanel>
 	</Grid>

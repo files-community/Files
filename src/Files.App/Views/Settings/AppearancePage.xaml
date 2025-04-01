@@ -152,14 +152,14 @@
 						</Flyout>
 					</Button.Flyout>
 				</Button>
-				<wctcontrols:SettingsExpander.Items>
+				<wctcontrols:SettingsExpander.ItemsHeader>
 					<GridView
 						Padding="8"
 						HorizontalAlignment="Stretch"
 						ItemTemplate="{StaticResource AppThemeResourcesItemTemplate}"
 						ItemsSource="{x:Bind ViewModel.AppThemeResources, Mode=OneWay}"
 						SelectedItem="{x:Bind ViewModel.SelectedAppThemeResources, Mode=TwoWay}" />
-				</wctcontrols:SettingsExpander.Items>
+				</wctcontrols:SettingsExpander.ItemsHeader>
 			</wctcontrols:SettingsExpander>
 
 			<!--  App Background Image  -->

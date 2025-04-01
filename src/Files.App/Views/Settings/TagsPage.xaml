@@ -53,7 +53,7 @@
 				</wctcontrols:SettingsExpander.HeaderIcon>
 
 				<Button Command="{x:Bind ViewModel.AddTagCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=NewTag}" />
-				<wctcontrols:SettingsExpander.Items>
+				<wctcontrols:SettingsExpander.ItemsHeader>
 					<StackPanel>
 						<!--  Create new tag  -->
 						<Grid
@@ -340,7 +340,7 @@
 							</ListView.ItemTemplate>
 						</ListView>
 					</StackPanel>
-				</wctcontrols:SettingsExpander.Items>
+				</wctcontrols:SettingsExpander.ItemsHeader>
 			</wctcontrols:SettingsExpander>
 		</StackPanel>
 	</Grid>

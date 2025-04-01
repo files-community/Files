@@ -54,7 +54,7 @@
 					AutomationProperties.Name="{helpers:ResourceString Name=DisplayOpenIDE}"
 					ItemsSource="{x:Bind ViewModel.OpenInIDEOptions.Values}"
 					SelectedItem="{x:Bind ViewModel.SelectedOpenInIDEOption, Mode=TwoWay}" />
-				<wctcontrols:SettingsExpander.Items>
+				<wctcontrols:SettingsExpander.ItemsHeader>
 					<StackPanel Orientation="Vertical">
 						<Grid
 							x:Name="IDEConfigGrid"
@@ -207,7 +207,7 @@
 								Style="{StaticResource AccentButtonStyle}" />
 						</StackPanel>
 					</StackPanel>
-				</wctcontrols:SettingsExpander.Items>
+				</wctcontrols:SettingsExpander.ItemsHeader>
 			</wctcontrols:SettingsExpander>
 
 			<!--  Connect to GitHub  -->
