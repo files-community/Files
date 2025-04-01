@@ -3697,6 +3697,9 @@
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Failed to set the background wallpaper</value>
   </data>
+  <data name="FailedToOpenSettingsFile" xml:space="preserve">
+    <value>Failed to open the settings file</value>
+  </data>
   <data name="GitDeleteBranch" xml:space="preserve">
     <value>Delete Git branch</value>
   </data>
