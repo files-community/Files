@@ -654,6 +654,7 @@ namespace Files.App.ViewModels
 				case nameof(UserSettingsService.FoldersSettingsService.CalculateFolderSizes):
 				case nameof(UserSettingsService.FoldersSettingsService.SelectFilesOnHover):
 				case nameof(UserSettingsService.FoldersSettingsService.ShowCheckboxesWhenSelectingItems):
+				case nameof(UserSettingsService.FoldersSettingsService.SizeUnitFormat):
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
 						if (WorkingDirectory != "Home")
