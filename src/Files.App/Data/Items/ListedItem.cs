@@ -16,7 +16,7 @@ using ByteSize = ByteSizeLib.ByteSize;
 
 namespace Files.App.Utils
 {
-	public partial class ListedItem : ObservableObject, IGroupableItem
+	public partial class ListedItem : ObservableObject, IGroupableItem, IListedItem
 	{
 		protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -187,7 +187,7 @@ namespace Files.App.Utils
 			}
 		}
 
-		public bool IsItemPinnedToStart => StartMenuService.IsPinned((this as ShortcutItem)?.TargetPath ?? ItemPath);
+		public bool IsItemPinnedToStart => StartMenuService.IsPinned((this as IShortcutItem)?.TargetPath ?? ItemPath);
 
 		private BitmapImage iconOverlay;
 		public BitmapImage IconOverlay
@@ -352,7 +352,7 @@ namespace Files.App.Utils
 			set => SetProperty(ref spaceUsed, value);
 
 		}
-		
+
 		private string imageDimensions;
 		public string ImageDimensions
 		{
@@ -427,7 +427,7 @@ namespace Files.App.Utils
 		public bool IsRecycleBinItem => this is RecycleBinItem;
 		public bool IsShortcut => this is IShortcutItem;
 		public bool IsLibrary => this is LibraryItem;
-		public bool IsLinkItem => IsShortcut && ((ShortcutItem)this).IsUrl;
+		public bool IsLinkItem => IsShortcut && ((IShortcutItem)this).IsUrl;
 		public bool IsFtpItem => this is FtpItem;
 		public bool IsArchive => this is ZipItem;
 		public bool IsAlternateStream => this is AlternateStreamItem;
@@ -788,7 +788,7 @@ namespace Files.App.Utils
 		public bool IsSymLink { get; set; }
 		public override bool IsExecutable => FileExtensionHelpers.IsExecutableFile(TargetPath, true);
 	}
-	public interface IGitItem
+	public interface IGitItem : IListedItem
 	{
 		public bool StatusPropertiesInitialized { get; set; }
 		public bool CommitPropertiesInitialized { get; set; }
@@ -815,7 +815,7 @@ namespace Files.App.Utils
 			set;
 		}
 	}
-	public interface IShortcutItem
+	public interface IShortcutItem : IListedItem
 	{
 		public string TargetPath { get; set; }
 		public string Name { get; }

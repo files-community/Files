@@ -52,7 +52,7 @@ namespace Files.App.ViewModels.Properties
 			if (!Item.IsShortcut)
 				return;
 
-			var shortcutItem = (ShortcutItem)Item;
+			var shortcutItem = (IShortcutItem)Item;
 
 			var isApplication =
 				FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath) ||
@@ -78,7 +78,6 @@ namespace Files.App.ViewModels.Properties
 			{
 				if (Item.IsLinkItem)
 				{
-					var tmpItem = (ShortcutItem)Item;
 					await Win32Helper.InvokeWin32ComponentAsync(ViewModel.ShortcutItemPath, AppInstance, ViewModel.ShortcutItemArguments, ViewModel.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
 				}
 				else
@@ -125,14 +124,14 @@ namespace Files.App.ViewModels.Properties
 			{
 				ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
 				ViewModel.ItemAccessedTimestampReal = Item.ItemDateAccessedReal;
-				if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
+				if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((IShortcutItem)Item).TargetPath))
 				{
 					// Can't show any other property
 					return;
 				}
 			}
 
-			string filePath = (Item as ShortcutItem)?.TargetPath ?? Item.ItemPath;
+			string filePath = (Item as IShortcutItem)?.TargetPath ?? Item.ItemPath;
 			BaseStorageFile file = await AppInstance.ShellViewModel.GetFileFromPathAsync(filePath);
 
 			// Couldn't access the file and can't load any other properties
