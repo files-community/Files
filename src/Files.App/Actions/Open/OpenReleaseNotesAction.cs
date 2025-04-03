@@ -5,8 +5,9 @@ namespace Files.App.Actions
 {
 	internal sealed partial class OpenReleaseNotesAction : ObservableObject, IAction
 	{
-		private readonly IDialogService DialogService = Ioc.Default.GetRequiredService<IDialogService>();
+		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private readonly IUpdateService UpdateService = Ioc.Default.GetRequiredService<IUpdateService>();
+
 		public string Label
 			=> Strings.WhatsNew.GetLocalizedResource();
 
@@ -26,10 +27,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			var viewModel = new ReleaseNotesDialogViewModel(Constants.ExternalUrl.ReleaseNotesUrl);
-			var dialog = DialogService.GetDialog(viewModel);
-
-			return dialog.TryShowAsync();
+			return NavigationHelpers.OpenPathInNewTab("ReleaseNotes", true);
 		}
 
 		private void UpdateService_PropertyChanged(object? sender, PropertyChangedEventArgs e)

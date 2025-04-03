@@ -441,25 +441,6 @@
 						IsIndeterminate="True" />
 				</Grid>
 			</Button>
-
-			<!--  Open the Release Notes dialog  -->
-			<Button
-				x:Name="OpenReleaseNotesButton"
-				HorizontalContentAlignment="Stretch"
-				VerticalContentAlignment="Stretch"
-				x:Load="{x:Bind ViewModel.IsAppUpdated, Mode=OneWay}"
-				AccessKey="2"
-				AccessKeyInvoked="Button_AccessKeyInvoked"
-				AutomationProperties.Name="{x:Bind Commands.OpenReleaseNotes.Label, Mode=OneWay}"
-				Command="{x:Bind Commands.OpenReleaseNotes, Mode=OneWay}"
-				Style="{StaticResource AddressToolbarButtonStyle}"
-				ToolTipService.ToolTip="{x:Bind Commands.OpenReleaseNotes.LabelWithHotKey, Mode=OneWay}"
-				Visibility="{x:Bind Commands.OpenReleaseNotes.IsExecutable, Mode=OneWay}">
-				<controls:ThemedIcon
-					Width="16"
-					Height="16"
-					Style="{StaticResource App.ThemedIcons.AppUpdatedBox}" />
-			</Button>
 		</StackPanel>
 
 		<!--  Status Center TeachingTip  -->

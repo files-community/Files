@@ -2201,6 +2201,9 @@
   <data name="WhatsNew" xml:space="preserve">
     <value>What's new</value>
   </data>
+  <data name="ReleaseNotes" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
   <data name="WhatsNewDescription" xml:space="preserve">
     <value>Open Release Notes</value>
   </data>

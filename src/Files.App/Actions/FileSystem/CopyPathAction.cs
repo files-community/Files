@@ -18,8 +18,11 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new RichGlyph(themedIconStyle: "App.ThemedIcons.CopyAsPath");
 
-		public bool IsExecutable
-			=> context.PageType != ContentPageTypes.Home && context.PageType != ContentPageTypes.RecycleBin;
+		public bool IsExecutable =>
+			context.PageType != ContentPageTypes.Home &&
+			context.PageType != ContentPageTypes.RecycleBin &&
+			context.PageType != ContentPageTypes.ReleaseNotes &&
+			context.PageType != ContentPageTypes.Settings;
 
 		public CopyPathAction()
 		{

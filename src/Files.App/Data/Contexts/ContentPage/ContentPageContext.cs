@@ -147,6 +147,8 @@ namespace Files.App.Data.Contexts
 				case nameof(CurrentInstanceViewModel.IsPageTypeCloudDrive):
 				case nameof(CurrentInstanceViewModel.IsPageTypeMtpDevice):
 				case nameof(CurrentInstanceViewModel.IsPageTypeSearchResults):
+				case nameof(CurrentInstanceViewModel.IsPageTypeReleaseNotes):
+				case nameof(CurrentInstanceViewModel.IsPageTypeSettings):
 					UpdatePageType();
 					break;
 				case nameof(CurrentInstanceViewModel.IsGitRepository):
@@ -210,6 +212,7 @@ namespace Files.App.Data.Contexts
 			{
 				null => ContentPageTypes.None,
 				{ IsPageTypeNotHome: false } => ContentPageTypes.Home,
+				{ IsPageTypeReleaseNotes: true } => ContentPageTypes.ReleaseNotes,
 				{ IsPageTypeRecycleBin: true } => ContentPageTypes.RecycleBin,
 				{ IsPageTypeZipFolder: true } => ContentPageTypes.ZipFolder,
 				{ IsPageTypeFtp: true } => ContentPageTypes.Ftp,
@@ -217,6 +220,7 @@ namespace Files.App.Data.Contexts
 				{ IsPageTypeCloudDrive: true } => ContentPageTypes.CloudDrive,
 				{ IsPageTypeMtpDevice: true } => ContentPageTypes.MtpDevice,
 				{ IsPageTypeSearchResults: true } => ContentPageTypes.SearchResults,
+				{ IsPageTypeSettings: true } => ContentPageTypes.Settings,
 				_ => ContentPageTypes.Folder,
 			};
 			SetProperty(ref pageType, type, nameof(PageType));
@@ -246,7 +250,9 @@ namespace Files.App.Data.Contexts
 				and not ContentPageTypes.RecycleBin
 				and not ContentPageTypes.ZipFolder
 				and not ContentPageTypes.SearchResults
-				and not ContentPageTypes.MtpDevice;
+				and not ContentPageTypes.MtpDevice
+				and not ContentPageTypes.ReleaseNotes
+				and not ContentPageTypes.Settings;
 		}
 	}
 }

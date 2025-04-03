@@ -1,25 +1,16 @@
 ﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
-<ContentDialog
-	x:Class="Files.App.Dialogs.ReleaseNotesDialog"
+<Page
+	x:Class="Files.App.Views.ReleaseNotesPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Closing="ContentDialog_Closing"
-	CornerRadius="{StaticResource OverlayCornerRadius}"
-	DefaultButton="None"
-	HighContrastAdjustment="None"
-	RequestedTheme="{x:Bind RootAppElement.RequestedTheme, Mode=OneWay}"
-	Style="{StaticResource DefaultContentDialogStyle}"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
-	<ContentDialog.Resources>
-		<ResourceDictionary>
-			<Thickness x:Key="ContentDialogPadding">0</Thickness>
-			<x:Double x:Key="ContentDialogMaxWidth">1100</x:Double>
-		</ResourceDictionary>
-	</ContentDialog.Resources>
 
 	<Grid x:Name="ContainerGrid">
 		<Grid.RowDefinitions>
@@ -43,22 +34,6 @@
 					LineHeight="28"
 					Text="{helpers:ResourceString Name=WhatsNew}" />
 			</StackPanel>
-
-			<Button
-				x:Name="CloseDialogButton"
-				Width="36"
-				Height="36"
-				Margin="4"
-				HorizontalAlignment="Right"
-				VerticalAlignment="Top"
-				AutomationProperties.Name="{helpers:ResourceString Name=Close}"
-				Background="Transparent"
-				BorderBrush="Transparent"
-				Click="CloseDialogButton_Click"
-				ToolTipService.Placement="Bottom"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=Close}">
-				<FontIcon FontSize="12" Glyph="&#xE8BB;" />
-			</Button>
 		</Grid>
 
 		<!--  WebView  -->
@@ -84,4 +59,5 @@
 				NavigateUri="https://github.com/sponsors/yaira2" />
 		</Border>
 	</Grid>
-</ContentDialog>
+
+</Page>

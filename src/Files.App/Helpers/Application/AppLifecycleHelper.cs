@@ -140,6 +140,9 @@ namespace Files.App.Helpers
 			await updateService.DownloadMandatoryUpdatesAsync();
 			await updateService.CheckAndUpdateFilesLauncherAsync();
 			await updateService.CheckForReleaseNotesAsync();
+
+			if (IsAppUpdated)
+				await Ioc.Default.GetRequiredService<ICommandManager>().OpenReleaseNotes.ExecuteAsync();
 		}
 
 		/// <summary>
@@ -245,6 +248,7 @@ namespace Files.App.Helpers
 					.AddSingleton<NetworkLocationsWidgetViewModel>()
 					.AddSingleton<FileTagsWidgetViewModel>()
 					.AddSingleton<RecentFilesWidgetViewModel>()
+					.AddSingleton<ReleaseNotesViewModel>()
 					// Utilities
 					.AddSingleton<QuickAccessManager>()
 					.AddSingleton<StorageHistoryWrapper>()

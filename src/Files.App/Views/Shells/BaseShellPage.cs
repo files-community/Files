@@ -587,7 +587,9 @@ namespace Files.App.Views.Shells
 			foreach (PageStackEntry entry in ItemDisplay.BackStack.ToList())
 			{
 				if (entry.Parameter is NavigationArguments args &&
-					args.NavPathParam is not null and not "Home")
+					args.NavPathParam is not null and not "Home" &&
+					args.NavPathParam is not null and not "ReleaseNotes" &&
+					args.NavPathParam is not null and not "Settings")
 				{
 					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam, false);
 					if (!entry.SourcePageType.Equals(correctPageType))
@@ -603,7 +605,9 @@ namespace Files.App.Views.Shells
 			foreach (PageStackEntry entry in ItemDisplay.ForwardStack.ToList())
 			{
 				if (entry.Parameter is NavigationArguments args &&
-					args.NavPathParam is not null and not "Home")
+					args.NavPathParam is not null and not "Home" &&
+					args.NavPathParam is not null and not "ReleaseNotes" &&
+					args.NavPathParam is not null and not "Settings")
 				{
 					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam, false);
 					if (!entry.SourcePageType.Equals(correctPageType))
@@ -801,6 +805,8 @@ namespace Files.App.Views.Shells
 		public abstract void Up_Click();
 
 		public abstract void NavigateHome();
+
+		public abstract void NavigateToReleaseNotes();
 
 		public abstract void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null);
 
