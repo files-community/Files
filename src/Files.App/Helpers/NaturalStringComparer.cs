@@ -61,39 +61,74 @@ namespace Files.App.Helpers
 		    }
 
 		    public static int Compare(ReadOnlySpan<char> x, ReadOnlySpan<char> y, StringComparison stringComparison)
-		    {
-		        var length = Math.Min(x.Length, y.Length);
+			{
+    			// Handle file extensions specially
+    			int xExtPos = GetExtensionPosition(x);
+    			int yExtPos = GetExtensionPosition(y);
+    
+    			// If both have extensions, compare the names first
+    			if (xExtPos >= 0 && yExtPos >= 0)
+    			{
+        			var xName = x.Slice(0, xExtPos);
+        			var yName = y.Slice(0, yExtPos);
+        
+        			int nameCompare = CompareWithoutExtension(xName, yName, stringComparison);
+        			if (nameCompare != 0)
+            			return nameCompare;
+            
+        			// If names match, compare extensions
+        			return x.Slice(xExtPos).CompareTo(y.Slice(yExtPos), stringComparison);
+    			}
+    
+    			// Original comparison logic for non-extension cases
+    			return CompareWithoutExtension(x, y, stringComparison);
+			}
 
-		        for (var i = 0; i < length; i++)
-		        {
+			private static int CompareWithoutExtension(ReadOnlySpan<char> x, ReadOnlySpan<char> y, StringComparison stringComparison)
+			{
+				var length = Math.Min(x.Length, y.Length);
+
+				for (var i = 0; i < length; i++)
+				{
 					while (i < x.Length && i < y.Length && IsIgnorableSeparator(x, i) && IsIgnorableSeparator(y, i))
-        				i++;
+						i++;
 
-                	if (i >= x.Length || i >= y.Length) break;
+					if (i >= x.Length || i >= y.Length) break;
 
-		            if (char.IsDigit(x[i]) && char.IsDigit(y[i]))
-		            {
-		                var xOut = GetNumber(x.Slice(i), out var xNumAsSpan);
-		                var yOut = GetNumber(y.Slice(i), out var yNumAsSpan);
+					if (char.IsDigit(x[i]) && char.IsDigit(y[i]))
+					{
+						var xOut = GetNumber(x.Slice(i), out var xNumAsSpan);
+						var yOut = GetNumber(y.Slice(i), out var yNumAsSpan);
 
-		                var compareResult = CompareNumValues(xNumAsSpan, yNumAsSpan);
+						var compareResult = CompareNumValues(xNumAsSpan, yNumAsSpan);
 
-		                if (compareResult != 0) return compareResult;
+						if (compareResult != 0) return compareResult;
 
-		                i = -1;
-		                length = Math.Min(xOut.Length, yOut.Length);
+						i = -1;
+						length = Math.Min(xOut.Length, yOut.Length);
 
-		                x = xOut;
-		                y = yOut;
-		                continue;
-		            }
+						x = xOut;
+						y = yOut;
+						continue;
+					}
 
-		            var charCompareResult = x.Slice(i, 1).CompareTo(y.Slice(i, 1), stringComparison);
-		            if (charCompareResult != 0) return charCompareResult;
-		        }
+					var charCompareResult = x.Slice(i, 1).CompareTo(y.Slice(i, 1), stringComparison);
+					if (charCompareResult != 0) return charCompareResult;
+				}
 
-		        return x.Length.CompareTo(y.Length);
-		    }
+				return x.Length.CompareTo(y.Length);
+			}
+
+			private static int GetExtensionPosition(ReadOnlySpan<char> text)
+			{
+				// Find the last period that's not at the beginning
+				for (int i = text.Length - 1; i > 0; i--)
+				{
+					if (text[i] == '.')
+						return i;
+				}
+				return -1;
+			}
 
 			private static bool IsIgnorableSeparator(ReadOnlySpan<char> span, int index)
 			{
