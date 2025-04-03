@@ -66,6 +66,11 @@ namespace Files.App.Helpers
 
 		        for (var i = 0; i < length; i++)
 		        {
+					while (i < x.Length && i < y.Length && IsIgnorableSeparator(x, i) && IsIgnorableSeparator(y, i))
+        				i++;
+
+                	if (i >= x.Length || i >= y.Length) break;
+
 		            if (char.IsDigit(x[i]) && char.IsDigit(y[i]))
 		            {
 		                var xOut = GetNumber(x.Slice(i), out var xNumAsSpan);
@@ -89,6 +94,18 @@ namespace Files.App.Helpers
 
 		        return x.Length.CompareTo(y.Length);
 		    }
+
+			private static bool IsIgnorableSeparator(ReadOnlySpan<char> span, int index)
+			{
+    			if (span[index] != '-' && span[index] != '_') return false;
+
+    			// Check bounds before accessing span[index + 1] or span[index - 1]
+    			if (index == 0) return span.Length > 1 && char.IsLetterOrDigit(span[index + 1]);
+    			if (index == span.Length - 1) return span.Length > 1 && char.IsLetterOrDigit(span[index - 1]);
+
+    			return char.IsLetterOrDigit(span[index - 1]) && char.IsLetterOrDigit(span[index + 1]);
+			}
+
 
 		    private static ReadOnlySpan<char> GetNumber(ReadOnlySpan<char> span, out ReadOnlySpan<char> number)
 		    {
