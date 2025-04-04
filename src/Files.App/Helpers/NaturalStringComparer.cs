@@ -63,26 +63,26 @@ namespace Files.App.Helpers
 
 		    public static int Compare(ReadOnlySpan<char> x, ReadOnlySpan<char> y, StringComparison stringComparison)
 			{
-    			// Handle file extensions specially
-    			int xExtPos = GetExtensionPosition(x);
-    			int yExtPos = GetExtensionPosition(y);
-    
-    			// If both have extensions, compare the names first
-    			if (xExtPos >= 0 && yExtPos >= 0)
-    			{
-        			var xName = x.Slice(0, xExtPos);
-        			var yName = y.Slice(0, yExtPos);
-        
-        			int nameCompare = CompareWithoutExtension(xName, yName, stringComparison);
-        			if (nameCompare != 0)
-            			return nameCompare;
-            
-        			// If names match, compare extensions
-        			return x.Slice(xExtPos).CompareTo(y.Slice(yExtPos), stringComparison);
-    			}
-    
-    			// Original comparison logic for non-extension cases
-    			return CompareWithoutExtension(x, y, stringComparison);
+				// Handle file extensions specially
+				int xExtPos = GetExtensionPosition(x);
+				int yExtPos = GetExtensionPosition(y);
+
+				// If both have extensions, compare the names first
+				if (xExtPos >= 0 && yExtPos >= 0)
+				{
+		 			var xName = x.Slice(0, xExtPos);
+					var yName = y.Slice(0, yExtPos);
+		
+					int nameCompare = CompareWithoutExtension(xName, yName, stringComparison);
+					if (nameCompare != 0)
+						return nameCompare;
+
+					// If names match, compare extensions
+					return x.Slice(xExtPos).CompareTo(y.Slice(yExtPos), stringComparison);
+				}
+
+				// Original comparison logic for non-extension cases
+				return CompareWithoutExtension(x, y, stringComparison);
 			}
 
 			private static int CompareWithoutExtension(ReadOnlySpan<char> x, ReadOnlySpan<char> y, StringComparison stringComparison)
