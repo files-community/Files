@@ -19,7 +19,7 @@ namespace Files.App.Utils.Shell
 		public unsafe static void LaunchSettings(string page)
 		{
 			using ComPtr<IApplicationActivationManager> pApplicationActivationManager = default;
-			pApplicationActivationManager.CoCreateInstance<Shell32.ApplicationActivationManager>();
+			pApplicationActivationManager.CoCreateInstance(CLSID.CLSID_ApplicationActivationManager);
 
 			pApplicationActivationManager.Get()->ActivateApplication(
 				"windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel",

@@ -56,10 +56,9 @@ namespace Windows.Win32
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public readonly HRESULT CoCreateInstance<U>(CLSCTX dwClsContext = CLSCTX.CLSCTX_LOCAL_SERVER)
+		public readonly HRESULT CoCreateInstance(Guid* rclsid, IUnknown* pUnkOuter = null, CLSCTX dwClsContext = CLSCTX.CLSCTX_LOCAL_SERVER)
 		{
-			Guid iid = typeof(T).GUID, clsid = typeof(U).GUID;
-			return PInvoke.CoCreateInstance(&clsid, null, dwClsContext, &iid, (void**)this.GetAddressOf());
+			return PInvoke.CoCreateInstance(rclsid, pUnkOuter, dwClsContext, (Guid*)Unsafe.AsPointer(ref Unsafe.AsRef(in T.Guid)), (void**)this.GetAddressOf());
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
