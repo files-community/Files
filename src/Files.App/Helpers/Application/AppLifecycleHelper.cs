@@ -139,7 +139,7 @@ namespace Files.App.Helpers
 			await updateService.CheckAndUpdateFilesLauncherAsync();
 			await updateService.CheckForReleaseNotesAsync();
 
-			if (IsAppUpdated && updateService.AreReleaseNotesAvailable)
+			if (AppEnvironment != AppEnvironment.Dev && IsAppUpdated && updateService.AreReleaseNotesAvailable)
 				await Ioc.Default.GetRequiredService<ICommandManager>().OpenReleaseNotes.ExecuteAsync();
 		}
 
