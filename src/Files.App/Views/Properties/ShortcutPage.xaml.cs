@@ -19,7 +19,7 @@ namespace Files.App.Views.Properties
 				FileProperties properties => properties.Item,
 				FolderProperties properties => properties.Item,
 				_ => null
-			} as ShortcutItem;
+			} as IShortcutItem;
 
 			if (shortcutItem is null)
 				return true;

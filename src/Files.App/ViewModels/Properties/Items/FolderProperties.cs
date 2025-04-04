@@ -48,9 +48,8 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.LoadFileIcon = Item.LoadFileIcon;
 				ViewModel.ContainsFilesOrFolders = Item.ContainsFilesOrFolders;
 
-				if (Item.IsShortcut)
+				if (Item.IsShortcut && Item is IShortcutItem shortcutItem)
 				{
-					var shortcutItem = (ShortcutItem)Item;
 					ViewModel.ShortcutItemType = Strings.Folder.GetLocalizedResource();
 					ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
 					ViewModel.IsShortcutItemPathReadOnly = false;
@@ -104,14 +103,14 @@ namespace Files.App.ViewModels.Properties
 
 				ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
 				ViewModel.ItemAccessedTimestampReal = Item.ItemDateAccessedReal;
-				if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
+				if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((IShortcutItem)Item).TargetPath))
 				{
 					// Can't show any other property
 					return;
 				}
 			}
 
-			string folderPath = (Item as ShortcutItem)?.TargetPath ?? Item.ItemPath;
+			string folderPath = (Item as IShortcutItem)?.TargetPath ?? Item.ItemPath;
 			BaseStorageFolder storageFolder = await AppInstance.ShellViewModel.GetFolderFromPathAsync(folderPath);
 
 			if (storageFolder is not null)
@@ -222,12 +221,12 @@ namespace Files.App.ViewModels.Properties
 				case nameof(ViewModel.ShortcutItemWorkingDir):
 				case nameof(ViewModel.ShowWindowCommand):
 				case nameof(ViewModel.ShortcutItemArguments):
-					var tmpItem = (ShortcutItem)Item;
+					var shortcutItem = (IShortcutItem)Item;
 
 					if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
 						return;
 
-					await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, tmpItem.RunAsAdmin, ViewModel.ShowWindowCommand);
+					await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, shortcutItem.RunAsAdmin, ViewModel.ShowWindowCommand);
 					break;
 			}
 		}

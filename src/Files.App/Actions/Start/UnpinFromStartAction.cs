@@ -36,7 +36,7 @@ namespace Files.App.Actions
 						IStorable storable = listedItem.IsFolder switch
 						{
 							true => await StorageService.GetFolderAsync(listedItem.ItemPath),
-							_ => await StorageService.GetFileAsync((listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath)
+							_ => await StorageService.GetFileAsync((listedItem as IShortcutItem)?.TargetPath ?? listedItem.ItemPath)
 						};
 						await StartMenuService.UnpinAsync(storable);
 					});

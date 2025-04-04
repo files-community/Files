@@ -42,7 +42,7 @@ namespace Files.App.Actions
 				{
 					await NavigationHelpers.AddNewTabByPathAsync(
 						typeof(ShellPanesPage),
-						(listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath,
+						(listedItem as IShortcutItem)?.TargetPath ?? listedItem.ItemPath,
 						false);
 				},
 				Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);

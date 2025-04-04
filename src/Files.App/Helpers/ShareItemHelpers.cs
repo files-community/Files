@@ -59,7 +59,7 @@ namespace Files.App.Helpers
 
 				foreach (ListedItem item in itemsToShare)
 				{
-					if (item is ShortcutItem shItem)
+					if (item is IShortcutItem shItem)
 					{
 						if (shItem.IsLinkItem && !string.IsNullOrEmpty(shItem.TargetPath))
 						{
