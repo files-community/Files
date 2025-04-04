@@ -294,5 +294,10 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating whether or not to show the shelf pane.
 		/// </summary>
 		bool ShowShelfPane { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to enable the Omnibar.
+		/// </summary>
+		bool EnableOmnibar { get; set; }
 	}
 }

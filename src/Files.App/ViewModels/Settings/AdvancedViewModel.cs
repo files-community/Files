@@ -355,6 +355,20 @@ namespace Files.App.ViewModels.Settings
 				OnPropertyChanged();
 			}
 		}
+		
+		// TODO remove when feature is marked as stable
+		public bool EnableOmnibar
+		{
+			get => UserSettingsService.GeneralSettingsService.EnableOmnibar;
+			set
+			{
+				if (value == UserSettingsService.GeneralSettingsService.EnableOmnibar)
+					return;
+
+				UserSettingsService.GeneralSettingsService.EnableOmnibar = value;
+				OnPropertyChanged();
+			}
+		}
 
 		public async Task OpenFilesOnWindowsStartupAsync()
 		{

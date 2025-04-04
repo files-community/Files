@@ -25,6 +25,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly IAppearanceSettingsService AppearanceSettingsService = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
+		private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private readonly IUpdateService UpdateService = Ioc.Default.GetRequiredService<IUpdateService>();
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
@@ -66,6 +67,7 @@ namespace Files.App.ViewModels.UserControls
 		public bool SearchHasFocus { get; private set; }
 
 		public bool ShowHomeButton => AppearanceSettingsService.ShowHomeButton;
+		public bool EnableOmnibar => GeneralSettingsService.EnableOmnibar;
 
 		public bool ShowShelfPaneToggleButton => AppearanceSettingsService.ShowShelfPaneToggleButton && AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
 
@@ -303,6 +305,15 @@ namespace Files.App.ViewModels.UserControls
 						break;
 					case nameof(AppearanceSettingsService.ShowShelfPaneToggleButton):
 						OnPropertyChanged(nameof(ShowShelfPaneToggleButton));
+						break;
+				}
+			};
+			GeneralSettingsService.PropertyChanged += (s, e) =>
+			{
+				switch (e.PropertyName)
+				{
+					case nameof(GeneralSettingsService.EnableOmnibar):
+						OnPropertyChanged(nameof(EnableOmnibar));
 						break;
 				}
 			};

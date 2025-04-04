@@ -19,7 +19,6 @@
 	xmlns:ucs="using:Files.App.UserControls.StatusCenter"
 	xmlns:vm="using:Files.App.ViewModels.UserControls"
 	x:Name="NavToolbar"
-	Height="50"
 	Loading="NavToolbar_Loading"
 	mc:Ignorable="d">
 
@@ -55,13 +54,13 @@
 	</UserControl.Resources>
 
 	<Grid
-		Padding="8"
+		Height="48"
+		Padding="4,0,4,0"
 		Background="{ThemeResource App.Theme.AddressBar.BackgroundBrush}"
 		ColumnSpacing="4">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 
@@ -203,114 +202,129 @@
 			</Button>
 		</StackPanel>
 
-		<!--  Path Box  -->
-		<AutoSuggestBox
-			x:Name="VisiblePath"
-			Grid.Column="1"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Center"
-			x:Load="{x:Bind ViewModel.ManualEntryBoxLoaded, Mode=OneWay}"
-			BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
-			BorderThickness="{ThemeResource TextControlBorderThemeThickness}"
-			CornerRadius="{StaticResource ControlCornerRadius}"
-			FocusDisengaged="VisiblePath_LostFocus"
-			FontWeight="SemiBold"
-			ItemsSource="{x:Bind ViewModel.NavigationBarSuggestions, Mode=OneWay}"
-			Loaded="VisiblePath_Loaded"
-			LostFocus="VisiblePath_LostFocus"
-			PlaceholderText="{helpers:ResourceString Name=NavigationToolbarVisiblePath/PlaceholderText}"
-			PreviewKeyDown="VisiblePath_KeyDown"
-			QuerySubmitted="VisiblePath_QuerySubmitted"
-			ScrollViewer.HorizontalScrollBarVisibility="Auto"
-			ScrollViewer.VerticalScrollBarVisibility="Hidden"
-			Text="{x:Bind ViewModel.PathText, Mode=OneWay}"
-			TextChanged="{x:Bind ViewModel.VisiblePath_TextChanged, Mode=OneWay}"
-			TextMemberPath="Text"
-			Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
-			<AutoSuggestBox.ItemTemplate>
-				<DataTemplate x:DataType="items:NavigationBarSuggestionItem">
-					<StackPanel Margin="0,4">
-						<Grid ColumnSpacing="8">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="*" />
-								<ColumnDefinition Width="Auto" />
-							</Grid.ColumnDefinitions>
-
-							<!--  Primary Title  -->
-							<TextBlock
-								x:Name="PrimaryDisplayBlock"
-								Grid.Column="0"
-								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-								MaxLines="1"
-								TextTrimming="CharacterEllipsis"
-								TextWrapping="NoWrap">
-								<Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPreMatched, Mode=OneWay}" /><Run FontWeight="Bold" Text="{x:Bind PrimaryDisplayMatched, Mode=OneWay}" /><Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPostMatched, Mode=OneWay}" />
-							</TextBlock>
-
-							<!--  Keyboard Shortcuts  -->
-							<keyboard:KeyboardShortcut
-								x:Name="RightAlignedKeyboardShortcut"
-								Grid.Column="1"
-								HotKeys="{x:Bind HotKeys, Mode=OneWay}" />
-						</Grid>
-					</StackPanel>
-				</DataTemplate>
-			</AutoSuggestBox.ItemTemplate>
-		</AutoSuggestBox>
-
-		<!--  Path Breadcrumb Bar  -->
+		<!--  Legacy breadcrumb bar  -->
 		<Grid
-			x:Name="ClickablePath"
+			x:Name="LegacyBreadcrumb"
 			Grid.Column="1"
-			MinHeight="33"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Center"
-			x:Load="{x:Bind ViewModel.ClickablePathLoaded, Mode=OneWay}"
-			Background="{ThemeResource TextControlBackground}"
-			BorderBrush="{ThemeResource ControlElevationBorderBrush}"
-			BorderThickness="1"
-			CornerRadius="{StaticResource ControlCornerRadius}"
-			GettingFocus="ClickablePath_GettingFocus"
-			PointerPressed="ManualPathEntryItem_Click"
-			Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
+			x:Load="{x:Bind ViewModel.EnableOmnibar, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+			ColumnSpacing="4">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
-			<uc:PathBreadcrumb
-				Grid.Column="0"
-				VerticalAlignment="Stretch"
-				HorizontalContentAlignment="Stretch"
-				VerticalContentAlignment="Stretch"
-				ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-			<FontIcon
+			<!--  Path Box  -->
+			<AutoSuggestBox
+				x:Name="VisiblePath"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind ViewModel.ManualEntryBoxLoaded, Mode=OneWay}"
+				BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
+				BorderThickness="{ThemeResource TextControlBorderThemeThickness}"
+				CornerRadius="{StaticResource ControlCornerRadius}"
+				FocusDisengaged="VisiblePath_LostFocus"
+				FontWeight="SemiBold"
+				ItemsSource="{x:Bind ViewModel.NavigationBarSuggestions, Mode=OneWay}"
+				Loaded="VisiblePath_Loaded"
+				LostFocus="VisiblePath_LostFocus"
+				PlaceholderText="{helpers:ResourceString Name=NavigationToolbarVisiblePath/PlaceholderText}"
+				PreviewKeyDown="VisiblePath_KeyDown"
+				QuerySubmitted="VisiblePath_QuerySubmitted"
+				ScrollViewer.HorizontalScrollBarVisibility="Auto"
+				ScrollViewer.VerticalScrollBarVisibility="Hidden"
+				Text="{x:Bind ViewModel.PathText, Mode=OneWay}"
+				TextChanged="{x:Bind ViewModel.VisiblePath_TextChanged, Mode=OneWay}"
+				TextMemberPath="Text"
+				Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
+				<AutoSuggestBox.ItemTemplate>
+					<DataTemplate x:DataType="items:NavigationBarSuggestionItem">
+						<StackPanel Margin="0,4">
+							<Grid ColumnSpacing="8">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+
+								<!--  Primary Title  -->
+								<TextBlock
+									x:Name="PrimaryDisplayBlock"
+									Grid.Column="0"
+									Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+									MaxLines="1"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap">
+									<Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPreMatched, Mode=OneWay}" /><Run FontWeight="Bold" Text="{x:Bind PrimaryDisplayMatched, Mode=OneWay}" /><Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPostMatched, Mode=OneWay}" />
+								</TextBlock>
+
+								<!--  Keyboard Shortcuts  -->
+								<keyboard:KeyboardShortcut
+									x:Name="RightAlignedKeyboardShortcut"
+									Grid.Column="1"
+									HotKeys="{x:Bind HotKeys, Mode=OneWay}" />
+							</Grid>
+						</StackPanel>
+					</DataTemplate>
+				</AutoSuggestBox.ItemTemplate>
+			</AutoSuggestBox>
+
+			<!--  Path Breadcrumb Bar  -->
+			<Grid
+				x:Name="ClickablePath"
+				MinHeight="33"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind ViewModel.ClickablePathLoaded, Mode=OneWay}"
+				Background="{ThemeResource TextControlBackground}"
+				BorderBrush="{ThemeResource ControlElevationBorderBrush}"
+				BorderThickness="1"
+				CornerRadius="{StaticResource ControlCornerRadius}"
+				GettingFocus="ClickablePath_GettingFocus"
+				PointerPressed="ManualPathEntryItem_Click"
+				Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+				<uc:PathBreadcrumb
+					Grid.Column="0"
+					VerticalAlignment="Stretch"
+					HorizontalContentAlignment="Stretch"
+					VerticalContentAlignment="Stretch"
+					ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
+				<FontIcon
+					Grid.Column="1"
+					Margin="12"
+					FontSize="16"
+					Foreground="{ThemeResource App.Theme.IconBaseBrush}"
+					Glyph="&#xE70D;" />
+			</Grid>
+
+			<!--  Storage Search Box  -->
+			<uc:SearchBox
+				x:Name="SearchRegion"
 				Grid.Column="1"
-				Margin="12"
-				FontSize="16"
-				Foreground="{ThemeResource App.Theme.IconBaseBrush}"
-				Glyph="&#xE70D;" />
+				Width="240"
+				Height="34"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Center"
+				AccessKey="K"
+				AccessKeyInvoked="SearchRegion_AccessKeyInvoked"
+				Canvas.ZIndex="100"
+				CornerRadius="{StaticResource ControlCornerRadius}"
+				GotFocus="SearchRegion_OnGotFocus"
+				LostFocus="SearchRegion_LostFocus"
+				SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}"
+				Visibility="{x:Bind converters:MultiBooleanConverter.OrConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}" />
 		</Grid>
 
-		<!--  Storage Search Box  -->
-		<uc:SearchBox
-			x:Name="SearchRegion"
-			Grid.Column="2"
-			Width="240"
-			Height="34"
-			HorizontalAlignment="Stretch"
-			VerticalAlignment="Center"
-			AccessKey="K"
-			AccessKeyInvoked="SearchRegion_AccessKeyInvoked"
-			Canvas.ZIndex="100"
-			CornerRadius="{StaticResource ControlCornerRadius}"
-			GotFocus="SearchRegion_OnGotFocus"
-			LostFocus="SearchRegion_LostFocus"
-			SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}"
-			Visibility="{x:Bind converters:MultiBooleanConverter.OrConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}" />
+		<!--  Omnibar  -->
+		<controls:Omnibar
+			x:Name="Omnibar"
+			Grid.Column="1"
+			x:Load="{x:Bind ViewModel.EnableOmnibar, Mode=OneWay}" />
 
 		<!--  Right Side Action Buttons  -->
 		<StackPanel
-			Grid.Column="3"
+			Grid.Column="2"
 			Orientation="Horizontal"
 			Spacing="4">
 
@@ -465,7 +479,7 @@
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="ShowSearchButton.Visibility" Value="Visible" />
-						<Setter Target="SearchRegion.(Grid.Column)" Value="1" />
+						<Setter Target="SearchRegion.(Grid.Column)" Value="0" />
 						<Setter Target="SearchRegion.Width" Value="NaN" />
 					</VisualState.Setters>
 				</VisualState>

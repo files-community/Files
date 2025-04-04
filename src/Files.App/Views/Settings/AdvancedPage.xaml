@@ -87,7 +87,7 @@
 					Severity="Warning" />
 
 				<!--  Setting block  -->
-				<wctcontrols:SettingsCard HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=SettingsOpenInLogin}">
+				<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SettingsOpenInLogin}">
 					<wctcontrols:SettingsCard.HeaderIcon>
 						<FontIcon Glyph="&#xE7E8;" />
 					</wctcontrols:SettingsCard.HeaderIcon>
@@ -105,7 +105,7 @@
 			</StackPanel>
 
 			<!--  Leave App Running  -->
-			<wctcontrols:SettingsCard HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=SettingsLeaveAppRunning}">
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SettingsLeaveAppRunning}">
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8E6;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
@@ -113,7 +113,7 @@
 			</wctcontrols:SettingsCard>
 
 			<!--  System Tray Icon  -->
-			<wctcontrols:SettingsCard HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=ShowSystemTrayIcon}">
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowSystemTrayIcon}">
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE75B;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
@@ -130,7 +130,6 @@
 			<!--  Replace File Explorer  -->
 			<wctcontrols:SettingsCard
 				x:Name="SetAsDefaultSettingsBlockControl"
-				HorizontalAlignment="Stretch"
 				Description="{helpers:ResourceString Name=SettingsSetAsDefaultFileManagerDescription}"
 				Header="{helpers:ResourceString Name=SettingsSetAsDefaultFileManager}">
 				<wctcontrols:SettingsCard.HeaderIcon>
@@ -148,7 +147,6 @@
 			<!--  Replace Open File Dialog  -->
 			<wctcontrols:SettingsCard
 				x:Name="ReplaceOpenFileDialogSetting"
-				HorizontalAlignment="Stretch"
 				x:Load="{x:Bind ViewModel.IsAppEnvironmentDev}"
 				Header="{helpers:ResourceString Name=SettingsSetAsOpenDialog}">
 				<wctcontrols:SettingsCard.HeaderIcon>
@@ -164,14 +162,19 @@
 			</wctcontrols:SettingsCard>
 
 			<!--  Flatten options  -->
-			<wctcontrols:SettingsCard
-				HorizontalAlignment="Stretch"
-				Description="{helpers:ResourceString Name=ShowFlattenOptionsDescription}"
-				Header="{helpers:ResourceString Name=ShowFlattenOptions}">
+			<wctcontrols:SettingsCard Description="{helpers:ResourceString Name=ShowFlattenOptionsDescription}" Header="{helpers:ResourceString Name=ShowFlattenOptions}">
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8B7;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowFlattenOptions}" IsOn="{x:Bind ViewModel.ShowFlattenOptions, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
+			<!--  Omnibar  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=EnableOmnibar}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xECAD;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=EnableOmnibar}" IsOn="{x:Bind ViewModel.EnableOmnibar, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 		</StackPanel>
 	</Grid>

@@ -4187,4 +4187,7 @@
   <data name="Decimal" xml:space="preserve">
     <value>Decimal</value>
   </data>
+  <data name="EnableOmnibar" xml:space="preserve">
+    <value>Enable Omnibar</value>
+  </data>
 </root>
