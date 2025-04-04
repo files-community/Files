@@ -55,31 +55,33 @@ namespace Files.App.Controls
 
 		public void OnItemClicked()
 		{
-			if (_ownerRef is not null &&
-				_ownerRef.TryGetTarget(out var breadcrumbBar))
+			if (_ownerRef is null ||
+				!_ownerRef.TryGetTarget(out var breadcrumbBar))
+				return;
+
+			if (IsEllipsis)
 			{
-				if (IsEllipsis)
-				{
-					// Clear items in the ellipsis flyout
-					_itemEllipsisDropDownMenuFlyout.Items.Clear();
+				// Clear items in the ellipsis flyout
+				_itemEllipsisDropDownMenuFlyout.Items.Clear();
 
-					// Populate items in the ellipsis flyout
-					for (int index = 0; index < breadcrumbBar.IndexAfterEllipsis; index++)
+				// Populate items in the ellipsis flyout
+				for (int index = 0; index < breadcrumbBar.IndexAfterEllipsis; index++)
+				{
+					if (breadcrumbBar.TryGetElement(index, out var item) && item?.Content is string text)
 					{
-						if (breadcrumbBar.TryGetElement(index, out var item) && item?.Content is string text)
-						{
-							_itemEllipsisDropDownMenuFlyout.Items.Add(new MenuFlyoutItem() { Text = text });
-						}
+						var menuFlyoutItem = new MenuFlyoutItem() { Text = text };
+						_itemEllipsisDropDownMenuFlyout.Items.Add(menuFlyoutItem);
+						menuFlyoutItem.Click += (sender, e) => breadcrumbBar.RaiseItemClickedEvent(item);
 					}
+				}
 
-					// Open the ellipsis flyout
-					FlyoutBase.ShowAttachedFlyout(_itemContentButton);
-				}
-				else
-				{
-					// Fire a click event
-					breadcrumbBar.RaiseItemClickedEvent(this);
-				}
+				// Open the ellipsis flyout
+				FlyoutBase.ShowAttachedFlyout(_itemContentButton);
+			}
+			else
+			{
+				// Fire a click event
+				breadcrumbBar.RaiseItemClickedEvent(this);
 			}
 		}
 
