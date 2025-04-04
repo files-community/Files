@@ -2198,13 +2198,10 @@
   <data name="EditSettingsFileDescription" xml:space="preserve">
     <value>Open settings file in your default editor</value>
   </data>
-  <data name="WhatsNew" xml:space="preserve">
-    <value>What's new</value>
-  </data>
   <data name="ReleaseNotes" xml:space="preserve">
     <value>Release Notes</value>
   </data>
-  <data name="WhatsNewDescription" xml:space="preserve">
+  <data name="ReleaseNotesDescription" xml:space="preserve">
     <value>Open Release Notes</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">

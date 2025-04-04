@@ -9,10 +9,10 @@ namespace Files.App.Actions
 		private readonly IUpdateService UpdateService = Ioc.Default.GetRequiredService<IUpdateService>();
 
 		public string Label
-			=> Strings.WhatsNew.GetLocalizedResource();
+			=> Strings.ReleaseNotes.GetLocalizedResource();
 
 		public string Description
-			=> Strings.WhatsNewDescription.GetLocalizedResource();
+			=> Strings.ReleaseNotesDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.AppUpdatedBox");

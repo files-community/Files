@@ -14,32 +14,13 @@
 
 	<Grid x:Name="ContainerGrid">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<!--  Titlebar  -->
-		<Grid Grid.Row="0">
-			<StackPanel
-				Padding="20"
-				Orientation="Horizontal"
-				Spacing="12">
-				<Image Width="32" Source="\Assets\AppTiles\Dev\Logo.ico" />
-
-				<TextBlock
-					VerticalAlignment="Center"
-					FontSize="20"
-					FontWeight="SemiBold"
-					LineHeight="28"
-					Text="{helpers:ResourceString Name=WhatsNew}" />
-			</StackPanel>
-		</Grid>
-
 		<!--  WebView  -->
 		<WebView2
 			x:Name="BlogPostWebView"
-			Grid.Row="1"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			CoreWebView2Initialized="BlogPostWebView_CoreWebView2Initialized"
@@ -47,7 +28,7 @@
 
 		<!--  Footer  -->
 		<Border
-			Grid.Row="2"
+			Grid.Row="1"
 			Padding="12"
 			Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
 			BackgroundSizing="OuterBorderEdge"
