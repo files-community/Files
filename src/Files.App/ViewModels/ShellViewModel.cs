@@ -197,7 +197,7 @@ namespace Files.App.ViewModels
 			else if (!Path.IsPathRooted(WorkingDirectory) || Path.GetPathRoot(WorkingDirectory) != Path.GetPathRoot(value))
 				workingRoot = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(value));
 
-			if (value == "Home")
+			if (value == "Home" || value == "ReleaseNotes" || value == "Settings")
 				currentStorageFolder = null;
 			else
 				_ = Task.Run(() => jumpListService.AddFolderAsync(value));
@@ -636,7 +636,7 @@ namespace Files.App.ViewModels
 		{
 			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
-				if (WorkingDirectory != "Home")
+				if (WorkingDirectory != "Home" && WorkingDirectory != "ReleaseNotes" && WorkingDirectory != "Settings")
 					RefreshItems(null);
 			});
 		}
@@ -657,7 +657,7 @@ namespace Files.App.ViewModels
 				case nameof(UserSettingsService.FoldersSettingsService.SizeUnitFormat):
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
-						if (WorkingDirectory != "Home")
+						if (WorkingDirectory != "Home" && WorkingDirectory != "ReleaseNotes" && WorkingDirectory != "Settings")
 							RefreshItems(null);
 					});
 					break;
@@ -1899,7 +1899,7 @@ namespace Files.App.ViewModels
 
 		public void CheckForBackgroundImage()
 		{
-			if (WorkingDirectory == "Home")
+			if (WorkingDirectory == "Home" || WorkingDirectory == "ReleaseNotes" || WorkingDirectory != "Settings")
 			{
 				FolderBackgroundImageSource = null;
 				return;

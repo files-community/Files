@@ -184,6 +184,11 @@ namespace Files.App.Views.Shells
 		{
 			this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.NavigateHome();
 		}
+		
+		public override void NavigateToReleaseNotes()
+		{
+			this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.NavigateToReleaseNotes();
+		}
 
 		public override Task WhenIsCurrent()
 			=> Task.WhenAll(_IsCurrentInstanceTCS.Task, this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.WhenIsCurrent() ?? Task.CompletedTask);

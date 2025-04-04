@@ -441,6 +441,8 @@ namespace Files.App.Views.Layouts
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
+				ParentShellPageInstance.InstanceViewModel.IsPageTypeReleaseNotes = false;
+				ParentShellPageInstance.InstanceViewModel.IsPageTypeSettings = false;
 				ParentShellPageInstance.ToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
 
 				if (ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.Path)
@@ -474,6 +476,8 @@ namespace Files.App.Views.Layouts
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
+				ParentShellPageInstance.InstanceViewModel.IsPageTypeReleaseNotes = false;
+				ParentShellPageInstance.InstanceViewModel.IsPageTypeSettings = false;
 
 				if (!navigationArguments.IsLayoutSwitch)
 				{

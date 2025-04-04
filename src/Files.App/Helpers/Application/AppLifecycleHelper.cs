@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI;
 using Files.App.Helpers.Application;
 using Files.App.Services.SizeProvider;
 using Files.App.Utils.Logger;
@@ -13,7 +12,6 @@ using Microsoft.Win32;
 using Sentry;
 using Sentry.Protocol;
 using System.IO;
-using System.Security;
 using System.Text;
 using Windows.ApplicationModel;
 using Windows.Storage;
@@ -140,6 +138,9 @@ namespace Files.App.Helpers
 			await updateService.DownloadMandatoryUpdatesAsync();
 			await updateService.CheckAndUpdateFilesLauncherAsync();
 			await updateService.CheckForReleaseNotesAsync();
+
+			if (AppEnvironment != AppEnvironment.Dev && IsAppUpdated && updateService.AreReleaseNotesAvailable)
+				await Ioc.Default.GetRequiredService<ICommandManager>().OpenReleaseNotes.ExecuteAsync();
 		}
 
 		/// <summary>
@@ -245,6 +246,7 @@ namespace Files.App.Helpers
 					.AddSingleton<NetworkLocationsWidgetViewModel>()
 					.AddSingleton<FileTagsWidgetViewModel>()
 					.AddSingleton<RecentFilesWidgetViewModel>()
+					.AddSingleton<ReleaseNotesViewModel>()
 					// Utilities
 					.AddSingleton<QuickAccessManager>()
 					.AddSingleton<StorageHistoryWrapper>()

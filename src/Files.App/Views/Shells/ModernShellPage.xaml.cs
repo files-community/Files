@@ -89,6 +89,27 @@ namespace Files.App.Views.Shells
 						AssociatedTabInstance = this
 					}, new SuppressNavigationTransitionInfo());
 			}
+			else if (NavParams.NavPath == "ReleaseNotes")
+			{
+				ItemDisplayFrame.Navigate(
+					typeof(ReleaseNotesPage),
+					new NavigationArguments()
+					{
+						NavPathParam = NavParams?.NavPath,
+						AssociatedTabInstance = this
+					}, new SuppressNavigationTransitionInfo());
+			}
+			// TODO add settings page
+			//else if (NavParams.NavPath == "Settings")
+			//{
+			//	ItemDisplayFrame.Navigate(
+			//		typeof(ReleaseNotesPage),
+			//		new NavigationArguments()
+			//		{
+			//			NavPathParam = NavParams?.NavPath,
+			//			AssociatedTabInstance = this
+			//		}, new SuppressNavigationTransitionInfo());
+			//}
 			else
 			{
 				var isTagSearch = NavParams.NavPath.StartsWith("tag:");
@@ -263,6 +284,18 @@ namespace Files.App.Views.Shells
 				new NavigationArguments()
 				{
 					NavPathParam = "Home",
+					AssociatedTabInstance = this
+				},
+				new SuppressNavigationTransitionInfo());
+		}
+		
+		public override void NavigateToReleaseNotes()
+		{
+			ItemDisplayFrame.Navigate(
+				typeof(ReleaseNotesPage),
+				new NavigationArguments()
+				{
+					NavPathParam = "ReleaseNotes",
 					AssociatedTabInstance = this
 				},
 				new SuppressNavigationTransitionInfo());

@@ -27,6 +27,8 @@ namespace Files.App.ViewModels
 		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		public ShelfViewModel ShelfViewModel { get; } = Ioc.Default.GetRequiredService<ShelfViewModel>();
 
+		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 		// Properties
 
 		public static ObservableCollection<TabBarItem> AppInstances { get; private set; } = [];
@@ -97,8 +99,16 @@ namespace Files.App.ViewModels
 		public HorizontalAlignment AppThemeBackgroundImageHorizontalAlignment
 			=> AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment;
 
-		public bool ShowToolbar
-			=> AppearanceSettingsService.ShowToolbar;
+		public bool ShowToolbar =>
+			AppearanceSettingsService.ShowToolbar &&
+			context.PageType is not ContentPageTypes.Home &&
+			context.PageType is not ContentPageTypes.ReleaseNotes &&
+			context.PageType is not ContentPageTypes.Settings;
+		
+		public bool ShowStatusBar =>
+			context.PageType is not ContentPageTypes.Home &&
+			context.PageType is not ContentPageTypes.ReleaseNotes &&
+			context.PageType is not ContentPageTypes.Settings;
 
 
 		// Commands
@@ -132,6 +142,17 @@ namespace Files.App.ViewModels
 						break;
 					case nameof(AppearanceSettingsService.ShowToolbar):
 						OnPropertyChanged(nameof(ShowToolbar));
+						break;
+				}
+			};
+
+			context.PropertyChanged += (s, e) =>
+			{
+				switch (e.PropertyName)
+				{
+					case nameof(context.PageType):
+						OnPropertyChanged(nameof(ShowToolbar));
+						OnPropertyChanged(nameof(ShowStatusBar));
 						break;
 				}
 			};

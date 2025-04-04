@@ -52,7 +52,9 @@ namespace Files.App.Actions
 				context.PageType != ContentPageTypes.None &&
 				context.PageType != ContentPageTypes.Home &&
 				context.PageType != ContentPageTypes.RecycleBin &&
-				context.PageType != ContentPageTypes.ZipFolder;
+				context.PageType != ContentPageTypes.ZipFolder &&
+				context.PageType != ContentPageTypes.ReleaseNotes &&
+				context.PageType != ContentPageTypes.Settings;
 		}
 
 		private void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)

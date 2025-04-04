@@ -65,6 +65,11 @@ namespace Files.App.Data.Contracts
 		/// Navigates to the home page
 		/// </summary>
 		public void NavigateHome();
+		
+		/// <summary>
+		/// Navigates to the release notes page
+		/// </summary>
+		public void NavigateToReleaseNotes();
 
 		void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs);
 

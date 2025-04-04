@@ -1098,7 +1098,9 @@ namespace Files.App.ViewModels.UserControls
 				}
 				else if (isPathNull ||
 					(hasStorageItems && storageItems.AreItemsAlreadyInFolder(locationItem.Path)) ||
-					locationItem.Path.StartsWith("Home", StringComparison.OrdinalIgnoreCase))
+					locationItem.Path.StartsWith("Home", StringComparison.OrdinalIgnoreCase) ||
+					locationItem.Path.StartsWith("ReleaseNotes", StringComparison.OrdinalIgnoreCase) ||
+					locationItem.Path.StartsWith("Settings", StringComparison.OrdinalIgnoreCase))
 				{
 					rawEvent.AcceptedOperation = DataPackageOperation.None;
 				}

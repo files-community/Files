@@ -205,7 +205,7 @@
 						ShowPreviewPaneButton="{x:Bind ViewModel.ShouldPreviewPaneBeDisplayed, Mode=OneWay}"
 						ShowViewControlButton="{x:Bind ViewModel.ShouldViewControlBeDisplayed, Mode=OneWay}"
 						TabIndex="2"
-						Visibility="{x:Bind converters:MultiBooleanConverter.AndConvertToVisibility(SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, ViewModel.ShowToolbar), Mode=OneWay}" />
+						Visibility="{x:Bind ViewModel.ShowToolbar, Mode=OneWay}" />
 
 					<!--  Page Content  -->
 					<ContentPresenter
@@ -243,8 +243,8 @@
 						Grid.Row="4"
 						Grid.ColumnSpan="3"
 						x:Load="False"
-						ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-						Visibility="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
+						ShowInfoText="{x:Bind ViewModel.ShowStatusBar, Mode=OneWay}"
+						Visibility="{x:Bind ViewModel.ShowStatusBar, Mode=OneWay}" />
 
 					<!--  Shelf Pane  -->
 					<uc:ShelfPane

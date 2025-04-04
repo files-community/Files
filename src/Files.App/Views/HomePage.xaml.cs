@@ -42,6 +42,8 @@ namespace Files.App.Views
 			AppInstance.InstanceViewModel.IsPageTypeLibrary = false;
 			AppInstance.InstanceViewModel.GitRepositoryPath = null;
 			AppInstance.InstanceViewModel.IsGitRepository = false;
+			AppInstance.InstanceViewModel.IsPageTypeReleaseNotes = false;
+			AppInstance.InstanceViewModel.IsPageTypeSettings = false;
 			AppInstance.ToolbarViewModel.CanRefresh = true;
 			AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
 			AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
