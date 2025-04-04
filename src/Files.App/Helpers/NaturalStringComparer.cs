@@ -133,13 +133,13 @@ namespace Files.App.Helpers
 
 			private static bool IsIgnorableSeparator(ReadOnlySpan<char> span, int index)
 			{
-    			if (span[index] != '-' && span[index] != '_') return false;
+				if (span[index] != '-' && span[index] != '_') return false;
 
-    			// Check bounds before accessing span[index + 1] or span[index - 1]
-    			if (index == 0) return span.Length > 1 && char.IsLetterOrDigit(span[index + 1]);
-    			if (index == span.Length - 1) return span.Length > 1 && char.IsLetterOrDigit(span[index - 1]);
+				// Check bounds before accessing span[index + 1] or span[index - 1]
+				if (index == 0) return span.Length > 1 && char.IsLetterOrDigit(span[index + 1]);
+				if (index == span.Length - 1) return span.Length > 1 && char.IsLetterOrDigit(span[index - 1]);
 
-    			return char.IsLetterOrDigit(span[index - 1]) && char.IsLetterOrDigit(span[index + 1]);
+				return char.IsLetterOrDigit(span[index - 1]) && char.IsLetterOrDigit(span[index + 1]);
 			}
 
 
