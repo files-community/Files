@@ -269,7 +269,7 @@
 			<!--  Path Breadcrumb Bar  -->
 			<Grid
 				x:Name="ClickablePath"
-				MinHeight="33"
+				Height="34"
 				HorizontalAlignment="Stretch"
 				VerticalAlignment="Center"
 				x:Load="{x:Bind ViewModel.ClickablePathLoaded, Mode=OneWay}"
