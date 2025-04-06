@@ -2,8 +2,12 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Files.Shared.Helpers;
+using ICSharpCode.SharpZipLib.Core;
+using ICSharpCode.SharpZipLib.Zip;
 using SevenZip;
 using System.IO;
+using System.Linq;
+using System.Text;
 using Windows.Storage;
 using Windows.Win32;
 
@@ -84,7 +88,17 @@ namespace Files.App.Services
 		}
 
 		/// <inheritdoc/>
-		public async Task<bool> DecompressAsync(string archiveFilePath, string destinationFolderPath, string password = "")
+		public Task<bool> DecompressAsync(string archiveFilePath, string destinationFolderPath, string password = "", Encoding? encoding = null)
+		{
+			if(encoding == null){
+				return DecompressAsyncWithSevenZip(archiveFilePath, destinationFolderPath, password);
+			}
+			else
+			{
+				return DecompressAsyncWithSharpZipLib(archiveFilePath, destinationFolderPath, password, encoding);
+			}
+		}
+		async Task<bool> DecompressAsyncWithSevenZip(string archiveFilePath, string destinationFolderPath, string password = "")
 		{
 			if (string.IsNullOrEmpty(archiveFilePath) ||
 				string.IsNullOrEmpty(destinationFolderPath))
@@ -180,10 +194,134 @@ namespace Files.App.Services
 					fsProgress.Report();
 				}
 			};
-
 			return isSuccess;
 		}
 
+		async Task<bool> DecompressAsyncWithSharpZipLib(string archiveFilePath, string destinationFolderPath, string password, Encoding encoding)
+		{
+			if (string.IsNullOrEmpty(archiveFilePath) ||
+				string.IsNullOrEmpty(destinationFolderPath))
+				return false;
+			using var zipFile = new ZipFile(archiveFilePath, StringCodec.FromEncoding(encoding));
+			if(zipFile is null)
+				return false;
+			
+			if(!string.IsNullOrEmpty(password))
+				zipFile.Password = password;
+
+			// Initialize a new in-progress status card
+			var statusCard = StatusCenterHelper.AddCard_Decompress(
+				archiveFilePath.CreateEnumerable(),
+				destinationFolderPath.CreateEnumerable(),
+				ReturnResult.InProgress);
+			
+			// Check if the decompress operation canceled
+			if (statusCard.CancellationToken.IsCancellationRequested)
+				return false;
+			
+			StatusCenterItemProgressModel fsProgress = new(
+				statusCard.ProgressEventSource,
+				enumerationCompleted: true,
+				FileSystemStatusCode.InProgress,
+				zipFile.Cast<ZipEntry>().Count<ZipEntry>(x => !x.IsDirectory));
+			fsProgress.TotalSize = zipFile.Cast<ZipEntry>().Select(x => (long)x.Size).Sum();
+			fsProgress.Report();
+
+			bool isSuccess = false;
+
+			try
+			{
+				long processedBytes = 0;
+				int processedFiles = 0;
+
+				foreach (ZipEntry zipEntry in zipFile)
+				{
+					if (statusCard.CancellationToken.IsCancellationRequested)
+					{
+						isSuccess = false;
+						break;
+					}
+
+					if (!zipEntry.IsFile)
+					{
+						continue; // Ignore directories
+					}
+
+					string entryFileName = zipEntry.Name;
+					string fullZipToPath = Path.Combine(destinationFolderPath, entryFileName);
+					string directoryName = Path.GetDirectoryName(fullZipToPath);
+
+					if (!Directory.Exists(directoryName))
+					{
+						Directory.CreateDirectory(directoryName);
+					}
+
+					byte[] buffer = new byte[4096]; // 4K is a good default
+					using (Stream zipStream = zipFile.GetInputStream(zipEntry))
+					using (FileStream streamWriter = File.Create(fullZipToPath))
+					{
+						await ThreadingService.ExecuteOnUiThreadAsync(() =>
+						{
+							fsProgress.FileName = entryFileName;
+							fsProgress.Report();
+						});
+
+						StreamUtils.Copy(zipStream, streamWriter, buffer);
+					}
+					processedBytes += zipEntry.Size;
+					if (fsProgress.TotalSize > 0)
+					{
+						fsProgress.Report(processedBytes / (double)fsProgress.TotalSize * 100);
+					}
+					processedFiles++;
+					fsProgress.AddProcessedItemsCount(1);
+					fsProgress.Report();
+				}
+
+				if (!statusCard.CancellationToken.IsCancellationRequested)
+				{
+					isSuccess = true;
+				}
+			}
+			catch (Exception ex)
+			{
+				isSuccess = false;
+				Console.WriteLine($"Error during decompression: {ex.Message}");
+			}
+			finally
+			{
+				// Remove the in-progress status card
+				StatusCenterViewModel.RemoveItem(statusCard);
+
+				if (isSuccess)
+				{
+					// Successful
+					StatusCenterHelper.AddCard_Decompress(
+						archiveFilePath.CreateEnumerable(),
+						destinationFolderPath.CreateEnumerable(),
+						ReturnResult.Success);
+				}
+				else
+				{
+					// Error
+					StatusCenterHelper.AddCard_Decompress(
+						archiveFilePath.CreateEnumerable(),
+						destinationFolderPath.CreateEnumerable(),
+						statusCard.CancellationToken.IsCancellationRequested
+							? ReturnResult.Cancelled
+							: ReturnResult.Failed);
+				}
+
+				if (zipFile != null)
+				{
+					zipFile.IsStreamOwner = true; // Makes close also close the underlying stream
+					zipFile.Close();
+				}
+			}
+			return isSuccess;
+		}
+
+		
 		/// <inheritdoc/>
 		public string GenerateArchiveNameFromItems(IReadOnlyList<ListedItem> items)
 		{
@@ -206,6 +344,25 @@ namespace Files.App.Services
 				return true;
 
 			return zipFile.ArchiveFileData.Any(file => file.Encrypted || file.Method.Contains("Crypto") || file.Method.Contains("AES"));
+		}
+
+		/// <inheritdoc/>
+		public async Task<bool> IsEncodingUndeterminedAsync(string archiveFilePath)
+		{
+			if (archiveFilePath is null) return false;
+			if (Path.GetExtension(archiveFilePath) != ".zip") return false;
+			try
+			{
+				using (ZipFile zipFile = new ZipFile(archiveFilePath))
+				{
+					return !zipFile.Cast<ZipEntry>().All(entry=>entry.IsUnicodeText);
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"SharpZipLib error: {ex.Message}");
+				return true;
+			}
 		}
 
 		/// <inheritdoc/>

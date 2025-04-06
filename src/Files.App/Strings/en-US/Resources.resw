@@ -2093,6 +2093,12 @@
   <data name="ArchivePassword" xml:space="preserve">
     <value>Archive password</value>
   </data>
+  <data name="ArchiveEncoding" xml:space="preserve">
+    <value>Archive encoding</value>
+  </data>
+  <data name="ArchiveEncodingSystemDefault" xml:space="preserve">
+    <value>Windows default</value>
+  </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Path</value>
   </data>

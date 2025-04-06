@@ -37,12 +37,15 @@ namespace Files.App.Actions
 				return;
 
 			var isArchiveEncrypted = await FilesystemTasks.Wrap(() => StorageArchiveService.IsEncryptedAsync(archive.Path));
+			var isArchiveEncodingUndetermined = await FilesystemTasks.Wrap(() => StorageArchiveService.IsEncodingUndeterminedAsync(archive.Path));
 			var password = string.Empty;
+			Encoding? encoding = null;
 
 			DecompressArchiveDialog decompressArchiveDialog = new();
 			DecompressArchiveDialogViewModel decompressArchiveViewModel = new(archive)
 			{
 				IsArchiveEncrypted = isArchiveEncrypted,
+				IsArchiveEncodingUndetermined = isArchiveEncodingUndetermined,
 				ShowPathSelection = true
 			};
 			decompressArchiveDialog.ViewModel = decompressArchiveViewModel;
@@ -56,6 +59,8 @@ namespace Files.App.Actions
 
 			if (isArchiveEncrypted && decompressArchiveViewModel.Password is not null)
 				password = Encoding.UTF8.GetString(decompressArchiveViewModel.Password);
+
+			encoding = decompressArchiveViewModel.SelectedEncoding.Encoding;
 
 			// Check if archive still exists
 			if (!StorageHelpers.Exists(archive.Path))
@@ -72,7 +77,7 @@ namespace Files.App.Actions
 
 			// Operate decompress
 			var result = await FilesystemTasks.Wrap(() =>
-				StorageArchiveService.DecompressAsync(archive?.Path ?? string.Empty, destinationFolder?.Path ?? string.Empty, password));
+				StorageArchiveService.DecompressAsync(archive?.Path ?? string.Empty, destinationFolder?.Path ?? string.Empty, password, encoding));
 
 			if (decompressArchiveViewModel.OpenDestinationFolderOnCompletion)
 				await NavigationHelpers.OpenPath(destinationFolderPath, context.ShellPage, FilesystemItemType.Directory);

@@ -79,6 +79,7 @@
         <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.3233" />
         <PackageReference Include="Sentry" Version="4.10.2" />
         <PackageReference Include="SevenZipSharp" Version="1.0.2" />
+        <PackageReference Include="SharpZipLib" Version="1.4.2" />
         <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.8" />
         <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.241107002" />
         <PackageReference Include="Microsoft.Graphics.Win2D" Version="1.2.0" />

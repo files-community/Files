@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using System.Text;
 using SevenZip;
 
 namespace Files.App.Data.Contracts
@@ -37,8 +38,9 @@ namespace Files.App.Data.Contracts
 		/// <param name="archiveFilePath">The archive file path to decompress.</param>
 		/// <param name="destinationFolderPath">The destination folder path which the archive file will be decompressed to.</param>
 		/// <param name="password">The password to decrypt the archive file if applicable.</param>
+		/// <param name="encoding">The file name encoding to decrypt the archive file. If set to null, system default encoding will be used.</param>
 		/// <returns>True if the decompression has done successfully; otherwise, false.</returns>
-		Task<bool> DecompressAsync(string archiveFilePath, string destinationFolderPath, string password = "");
+		Task<bool> DecompressAsync(string archiveFilePath, string destinationFolderPath, string password = "", Encoding? encoding = null);
 
 		/// <summary>
 		/// Generates the archive file name from item names.
@@ -53,6 +55,13 @@ namespace Files.App.Data.Contracts
 		/// <param name="archiveFilePath">The archive file path to check if the item is encrypted.</param>
 		/// <returns>True if the archive file is encrypted; otherwise, false.</returns>
 		Task<bool> IsEncryptedAsync(string archiveFilePath);
+
+		/// <summary>
+		/// Gets the value that indicates whether the archive file's encoding is undetermined.
+		/// </summary>
+		/// <param name="archiveFilePath">The archive file path to check if the item is encrypted.</param>
+		/// <returns>True if the archive file's encoding is undetermined; otherwise, false.</returns>
+		Task<bool> IsEncodingUndeterminedAsync(string archiveFilePath);
 
 		/// <summary>
 		/// Gets the <see cref="SevenZipExtractor"/> instance from the archive file path.
