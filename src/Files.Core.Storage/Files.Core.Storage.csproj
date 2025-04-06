@@ -5,7 +5,7 @@
         <TargetFramework>$(TargetFrameworkVersion)</TargetFramework>
         <Nullable>enable</Nullable>
         <IsTrimmable>true</IsTrimmable>
-        <Configurations>Debug;Release;SideloadPreview;StorePreview;StoreStable</Configurations>
+        <Configurations>Dev;SideloadStable;SideloadPreview;StorePreview;StoreStable</Configurations>
         <Platforms>x86;x64;arm64</Platforms>
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     </PropertyGroup>

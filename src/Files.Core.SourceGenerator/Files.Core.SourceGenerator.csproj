@@ -8,7 +8,7 @@
         <IncludeBuildOutput>false</IncludeBuildOutput>
         <PlatformTarget>AnyCPU</PlatformTarget>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-        <Configurations>Debug;Release;SideloadPreview;StorePreview;StoreStable</Configurations>
+        <Configurations>Dev;SideloadStable;SideloadPreview;StorePreview;StoreStable</Configurations>
     </PropertyGroup>
 
     <ItemGroup>

@@ -24,7 +24,7 @@
         <UseWinUI>true</UseWinUI>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <Configurations>Debug;Release;SideloadPreview;StorePreview;StoreStable</Configurations>
+        <Configurations>Dev;SideloadStable;SideloadPreview;StorePreview;StoreStable</Configurations>
         <CsWinRTIncludes>Files.App.Server;Microsoft.UI.Content.ContentExternalOutputLink;Microsoft.UI.Content.IContentExternalOutputLink</CsWinRTIncludes>
         <PublishDir>bin\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\publish\</PublishDir>
         <PublishReadyToRun Condition="'$(ConfigurationCallName)' == 'Debug'">False</PublishReadyToRun>

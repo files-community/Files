@@ -1,67 +1,67 @@
 ﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|arm64">
-      <Configuration>Debug</Configuration>
-      <Platform>arm64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|arm64">
-      <Configuration>Release</Configuration>
-      <Platform>arm64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="SideloadPreview|arm64">
-      <Configuration>SideloadPreview</Configuration>
-      <Platform>arm64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="SideloadPreview|Win32">
-      <Configuration>SideloadPreview</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="SideloadPreview|x64">
-      <Configuration>SideloadPreview</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="StorePreview|arm64">
-      <Configuration>StorePreview</Configuration>
-      <Platform>arm64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="StorePreview|Win32">
-      <Configuration>StorePreview</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="StorePreview|x64">
-      <Configuration>StorePreview</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="StoreStable|arm64">
-      <Configuration>StoreStable</Configuration>
-      <Platform>arm64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="StoreStable|Win32">
-      <Configuration>StoreStable</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="StoreStable|x64">
-      <Configuration>StoreStable</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-  </ItemGroup>
+	<ItemGroup Label="ProjectConfigurations">
+		<ProjectConfiguration Include="Dev|arm64">
+			<Configuration>Dev</Configuration>
+			<Platform>arm64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="Dev|Win32">
+			<Configuration>Dev</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="Dev|x64">
+			<Configuration>Dev</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="SideloadStable|arm64">
+			<Configuration>SideloadStable</Configuration>
+			<Platform>arm64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="SideloadStable|Win32">
+			<Configuration>SideloadStable</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="SideloadStable|x64">
+			<Configuration>SideloadStable</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="SideloadPreview|arm64">
+			<Configuration>SideloadPreview</Configuration>
+			<Platform>arm64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="SideloadPreview|Win32">
+			<Configuration>SideloadPreview</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="SideloadPreview|x64">
+			<Configuration>SideloadPreview</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="StorePreview|arm64">
+			<Configuration>StorePreview</Configuration>
+			<Platform>arm64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="StorePreview|Win32">
+			<Configuration>StorePreview</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="StorePreview|x64">
+			<Configuration>StorePreview</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="StoreStable|arm64">
+			<Configuration>StoreStable</Configuration>
+			<Platform>arm64</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="StoreStable|Win32">
+			<Configuration>StoreStable</Configuration>
+			<Platform>Win32</Platform>
+		</ProjectConfiguration>
+		<ProjectConfiguration Include="StoreStable|x64">
+			<Configuration>StoreStable</Configuration>
+			<Platform>x64</Platform>
+		</ProjectConfiguration>
+	</ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{A2FF3F3B-8EBC-4108-B99D-1476B7876656}</ProjectGuid>
