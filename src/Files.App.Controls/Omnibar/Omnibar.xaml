@@ -133,7 +133,6 @@
 						Height="{TemplateBinding Height}"
 						HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 						Background="{TemplateBinding Background}"
-						CornerRadius="{TemplateBinding CornerRadius}"
 						TabFocusNavigation="Local">
 						<!--  Mode Button  -->
 						<Border

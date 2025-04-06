@@ -50,7 +50,15 @@ namespace Files.App.UserControls
 
 		private async void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
 		{
-			await ViewModel.PathBoxItem_Tapped(sender, e);
+			if (sender is not TextBlock textBlock ||
+				textBlock.DataContext is not PathBoxItem item ||
+				item.Path is not { } path)
+				return;
+
+			// TODO: Implement middle click retrieving.
+			await ViewModel.HandleFolderNavigationAsync(path);
+
+			e.Handled = true;
 		}
 
 		private void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)

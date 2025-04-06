@@ -4202,4 +4202,7 @@
   <data name="EmptyShelfText" xml:space="preserve">
     <value>Drag files or folders here to interact with them across different tabs</value>
   </data>
+  <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
+    <value>Enter a path to navigate to...</value>
+  </data>
 </root>

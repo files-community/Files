@@ -422,7 +422,7 @@ namespace Files.App.Views.Shells
 
 		protected async void ShellPage_ToolbarPathItemLoaded(object sender, ToolbarPathItemLoadedEventArgs e)
 		{
-			await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, e.Item, this);
+			await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, e.Item);
 		}
 
 		protected async void ShellPage_ToolbarFlyoutOpening(object sender, ToolbarFlyoutOpeningEventArgs e)
@@ -430,7 +430,7 @@ namespace Files.App.Views.Shells
 			var pathBoxItem = ((Button)e.OpeningFlyout.Target).DataContext as PathBoxItem;
 
 			if (pathBoxItem is not null)
-				await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpeningFlyout, pathBoxItem, this);
+				await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpeningFlyout, pathBoxItem);
 		}
 
 		protected async void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
@@ -442,9 +442,10 @@ namespace Files.App.Views.Shells
 		{
 			ToolbarViewModel.ManualEntryBoxLoaded = true;
 			ToolbarViewModel.ClickablePathLoaded = false;
-			ToolbarViewModel.PathText = string.IsNullOrEmpty(ShellViewModel?.WorkingDirectory)
+			ToolbarViewModel.OmnibarPathModeText = string.IsNullOrEmpty(ShellViewModel?.WorkingDirectory)
 				? Constants.UserEnvironmentPaths.HomePath
 				: ShellViewModel.WorkingDirectory;
+			ToolbarViewModel.PathText = ToolbarViewModel.OmnibarPathModeText;
 		}
 
 		protected async void DrivesManager_PropertyChanged(object sender, PropertyChangedEventArgs e)
