@@ -39,5 +39,13 @@ namespace Files.App.Controls
 
 		[GeneratedDependencyProperty(DefaultValue = true)]
 		public partial bool UpdateTextOnSelect { get; set; }
+
+		partial void OnTextChanged(string? newValue)
+		{
+			if (_ownerRef is null || _ownerRef.TryGetTarget(out var owner) is false)
+				return;
+
+			owner.ChangeTextBoxText(newValue ?? string.Empty);
+		}
 	}
 }
