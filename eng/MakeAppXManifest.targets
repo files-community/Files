@@ -3,6 +3,6 @@
 		<Exec Command="powershell -ExecutionPolicy Bypass -File $(RepoDir)\scripts\Configure-AppXManifest.ps1 -Branch $(AppEnvironment) -PackageManifestPath $(AppXManifestFile) -IsBuildingInVisualStudio $(BuildingInsideVisualStudio)" />
 	</Target>
 	<Target Name="PrepareAppTiles" BeforeTargets="Build">
-		<Exec Command="powershell -ExecutionPolicy Bypass -File $(RepoDir)\scripts\Copy-AppTiles.ps1 -Branch $(AppChannel)" />
+		<Exec Command="powershell -ExecutionPolicy Bypass -File $(RepoDir)\scripts\Copy-AppTiles.ps1 -Channel $(AppChannel) -WorkingDir $(RootDir)" />
 	</Target>
 </Project>
