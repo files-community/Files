@@ -21,13 +21,6 @@
 			VerticalAlignment="Stretch"
 			Spacing="4">
 
-			<!--  Title  -->
-			<TextBlock
-				Padding="0,0,0,12"
-				FontSize="24"
-				FontWeight="Medium"
-				Text="{helpers:ResourceString Name=FilesAndFolders}" />
-
 			<!--  Display  -->
 			<TextBlock
 				Padding="0,16,0,4"

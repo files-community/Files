@@ -159,9 +159,8 @@ namespace Files.App.Helpers
 				imageSource = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 			else if (path == "ReleaseNotes")
 				imageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
-			// TODO add settings page
-			//else if (path == "Settings")
-			//	imageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
+			else if (path == "Settings")
+				imageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
 			else if (WSLDistroManager.TryGetDistro(path, out WslDistroItem? wslDistro) && path.Equals(wslDistro.Path))
 				imageSource = new BitmapImage(wslDistro.Icon);
 			else
@@ -202,12 +201,11 @@ namespace Files.App.Helpers
 				tabLocationHeader = Strings.ReleaseNotes.GetLocalizedResource();
 				iconSource.ImageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
 			}
-			// TODO add settings page
-			//else if (currentPath == "Settings")
-			//{ 
-			//	tabLocationHeader = Strings.Settings.GetLocalizedResource();
-			//	iconSource.ImageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
-			//}
+			else if (currentPath == "Settings")
+			{
+				tabLocationHeader = Strings.Settings.GetLocalizedResource();
+				iconSource.ImageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
+			}
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
 				tabLocationHeader = Strings.Desktop.GetLocalizedResource();
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))

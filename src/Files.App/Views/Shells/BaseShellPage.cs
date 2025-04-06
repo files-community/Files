@@ -808,6 +808,8 @@ namespace Files.App.Views.Shells
 
 		public abstract void NavigateToReleaseNotes();
 
+		public abstract void NavigateToSettings();
+
 		public abstract void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null);
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)

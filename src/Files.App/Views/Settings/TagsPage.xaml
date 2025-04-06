@@ -39,13 +39,6 @@
 			VerticalAlignment="Stretch"
 			Spacing="4">
 
-			<!--  Title  -->
-			<TextBlock
-				Padding="0,0,0,12"
-				FontSize="24"
-				FontWeight="Medium"
-				Text="{helpers:ResourceString Name=FileTags}" />
-
 			<!--  Edit Tags  -->
 			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=FileTags}" IsExpanded="True">
 				<wctcontrols:SettingsExpander.HeaderIcon>

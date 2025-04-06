@@ -22,13 +22,6 @@
 			VerticalAlignment="Stretch"
 			Spacing="4">
 
-			<!--  Title  -->
-			<TextBlock
-				Padding="0,0,0,12"
-				FontSize="24"
-				FontWeight="Medium"
-				Text="{helpers:ResourceString Name=About}" />
-
 			<!--  App Info  -->
 			<wctcontrols:SettingsCard
 				HorizontalAlignment="Stretch"

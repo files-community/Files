@@ -246,7 +246,7 @@ namespace Files.App.Helpers
 					.AddSingleton<NetworkLocationsWidgetViewModel>()
 					.AddSingleton<FileTagsWidgetViewModel>()
 					.AddSingleton<RecentFilesWidgetViewModel>()
-					.AddSingleton<ReleaseNotesViewModel>()
+					.AddSingleton<SettingsViewModel>()
 					// Utilities
 					.AddSingleton<QuickAccessManager>()
 					.AddSingleton<StorageHistoryWrapper>()

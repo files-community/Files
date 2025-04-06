@@ -70,6 +70,11 @@ namespace Files.App.Data.Contracts
 		/// Navigates to the release notes page
 		/// </summary>
 		public void NavigateToReleaseNotes();
+		
+		/// <summary>
+		/// Navigates to the settings page
+		/// </summary>
+		public void NavigateToSettings();
 
 		void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs);
 

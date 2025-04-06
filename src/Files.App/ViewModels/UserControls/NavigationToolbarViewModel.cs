@@ -779,12 +779,11 @@ namespace Files.App.ViewModels.UserControls
 					SavePathToHistory("ReleaseNotes");
 					shellPage.NavigateToReleaseNotes();
 				}
-				// TODO add settings page
-				//else if (normalizedInput.Equals("Settings", StringComparison.OrdinalIgnoreCase) || normalizedInput.Equals(Strings.Settings.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
-				//{
-				//	SavePathToHistory("Settings");
-				//	shellPage.NavigateToReleaseNotes();
-				//}
+				else if (normalizedInput.Equals("Settings", StringComparison.OrdinalIgnoreCase) || normalizedInput.Equals(Strings.Settings.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+				{
+					SavePathToHistory("Settings");
+					shellPage.NavigateToReleaseNotes();
+				}
 				else
 				{
 					normalizedInput = StorageFileExtensions.GetResolvedPath(normalizedInput, isFtp);

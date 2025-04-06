@@ -5,11 +5,9 @@ using Files.App.Dialogs;
 
 namespace Files.App.Actions
 {
-	internal sealed partial class OpenSettingsAction : BaseUIAction, IAction
+	internal sealed partial class OpenSettingsAction : ObservableObject, IAction
 	{
-		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
-
-		private readonly SettingsDialogViewModel viewModel = new();
+		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> Strings.Settings.GetLocalizedResource();
@@ -22,11 +20,20 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			var dialog = dialogService.GetDialog(viewModel);
-			if (parameter is not null && parameter is SettingsNavigationParams navParams)
-				((SettingsDialog)dialog).NavigateTo(navParams);
+			// Find index of existing Settings tab or open new one
+			var existingTabIndex = MainPageViewModel.AppInstances
+				.Select((tabItem, index) => new { TabItem = tabItem, Index = index })
+				.FirstOrDefault(item =>
+					item.TabItem.NavigationParameter.NavigationParameter is PaneNavigationArguments paneArgs &&
+					(paneArgs.LeftPaneNavPathParam == "Settings" || paneArgs.RightPaneNavPathParam == "Settings"))
+				?.Index ?? -1;
 
-			return dialog.TryShowAsync();
+			if (existingTabIndex >= 0)
+				App.AppModel.TabStripSelectedIndex = existingTabIndex;
+			else
+				NavigationHelpers.OpenPathInNewTab("Settings", true);
+
+			return Task.CompletedTask;
 		}
 	}
 }
