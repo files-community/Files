@@ -1,0 +1,78 @@
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<MenuFlyoutItem
+	x:Class="Files.App.UserControls.MenuFlyoutHeaderItem"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:Files.App.UserControls"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	d:DesignHeight="300"
+	d:DesignWidth="400"
+	HighContrastAdjustment="None"
+	mc:Ignorable="d">
+
+	<MenuFlyoutItem.Style>
+		<Style TargetType="local:MenuFlyoutHeaderItem">
+			<Setter Property="Padding" Value="{ThemeResource MenuFlyoutItemThemePadding}" />
+			<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+			<Setter Property="IsEnabled" Value="False" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="local:MenuFlyoutHeaderItem">
+
+						<Grid
+							x:Name="LayoutRoot"
+							Margin="{StaticResource MenuFlyoutItemMargin}"
+							Padding="{TemplateBinding Padding}"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="{StaticResource ControlCornerRadius}">
+							<TextBlock
+								x:Name="TextBlock"
+								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+								FontWeight="SemiBold"
+								Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+								Style="{StaticResource CaptionTextBlockStyle}"
+								Text="{TemplateBinding Text}"
+								TextTrimming="Clip" />
+
+							<VisualStateManager.VisualStateGroups>
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal" />
+									<VisualState x:Name="PointerOver" />
+									<VisualState x:Name="Pressed" />
+									<VisualState x:Name="Disabled" />
+								</VisualStateGroup>
+								<VisualStateGroup x:Name="CheckPlaceholderStates">
+									<VisualState x:Name="NoPlaceholder" />
+									<VisualState x:Name="CheckPlaceholder" />
+									<VisualState x:Name="IconPlaceholder" />
+									<VisualState x:Name="CheckAndIconPlaceholder" />
+								</VisualStateGroup>
+								<!--  Narrow padding is only applied when flyout was invoked with pen, mouse or keyboard.  -->
+								<!--  Default padding is applied for all other cases including touch.  -->
+								<VisualStateGroup x:Name="PaddingSizeStates">
+									<VisualState x:Name="DefaultPadding" />
+									<VisualState x:Name="NarrowPadding">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Padding">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource MenuFlyoutItemThemePaddingNarrow}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+								</VisualStateGroup>
+								<VisualStateGroup x:Name="KeyboardAcceleratorTextVisibility">
+									<VisualState x:Name="KeyboardAcceleratorTextCollapsed" />
+									<VisualState x:Name="KeyboardAcceleratorTextVisible" />
+								</VisualStateGroup>
+							</VisualStateManager.VisualStateGroups>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</MenuFlyoutItem.Style>
+</MenuFlyoutItem>
