@@ -1,9 +1,9 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.ViewModels.Settings
 {
-	public sealed class LayoutViewModel : ObservableObject
+	public sealed partial class LayoutViewModel : ObservableObject
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 

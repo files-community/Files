@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -9,7 +9,7 @@ namespace Files.App.Data.TemplateSelectors
 	/// <summary>
 	/// Provides template selector for Path Breadcrumb template items.
 	/// </summary>
-	internal sealed class PathBreadcrumbItemSelector : DataTemplateSelector
+	internal sealed partial class PathBreadcrumbItemSelector : DataTemplateSelector
 	{
 		public DataTemplate? ParentItems { get; set; }
 

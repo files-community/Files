@@ -1,9 +1,9 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class GeneralSettingsService : BaseObservableJsonSettings, IGeneralSettingsService
+	internal sealed partial class GeneralSettingsService : BaseObservableJsonSettings, IGeneralSettingsService
 	{
 		public GeneralSettingsService(ISettingsSharingContext settingsSharingContext)
 		{
@@ -72,6 +72,12 @@ namespace Files.App.Services.Settings
 		}
 
 		public bool AlwaysOpenDualPaneInNewTab
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool AlwaysSwitchToNewlyOpenedTab
 		{
 			get => Get(false);
 			set => Set(value);
@@ -295,7 +301,7 @@ namespace Files.App.Services.Settings
 
 		public bool LeaveAppRunning
 		{
-#if STORE || STABLE || PREVIEW
+#if RELEASE
 			get => Get(true);
 #else
 			get => Get(false);
@@ -349,6 +355,18 @@ namespace Files.App.Services.Settings
 		{
 			get => (ShellPaneArrangement)Get((long)ShellPaneArrangement.Horizontal);
 			set => Set((long)value);
+		}
+
+		public bool ShowShelfPane
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
+		public bool EnableOmnibar
+		{
+			get => Get(false);
+			set => Set(value);
 		}
 
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)

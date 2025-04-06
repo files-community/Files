@@ -1,12 +1,12 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Media;
 using System.Runtime.CompilerServices;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class GroupedHeaderViewModel : ObservableObject
+	public sealed partial class GroupedHeaderViewModel : ObservableObject
 	{
 		public string Key { get; set; }
 		public bool Initialized { get; set; }

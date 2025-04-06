@@ -408,3 +408,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 .idea/
+src/Files.App/Assets/FilesOpenDialog/Files.App.Launcher.exe.sha256

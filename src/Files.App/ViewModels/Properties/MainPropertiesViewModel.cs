@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.Views.Properties;
 using Microsoft.UI.Windowing;
@@ -9,7 +9,7 @@ using Microsoft.UI.Xaml.Media.Animation;
 
 namespace Files.App.ViewModels.Properties
 {
-	public sealed class MainPropertiesViewModel : ObservableObject
+	public sealed partial class MainPropertiesViewModel : ObservableObject
 	{
 		public CancellationTokenSource ChangedPropertiesCancellationTokenSource { get; }
 

@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.Storage.Storables;
 using FluentFTP;
@@ -14,7 +14,7 @@ using IO = System.IO;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class FtpStorageFile : BaseStorageFile, IPasswordProtectedItem
+	public sealed partial class FtpStorageFile : BaseStorageFile, IPasswordProtectedItem
 	{
 		public override string Path { get; }
 		public override string Name { get; }
@@ -28,7 +28,7 @@ namespace Files.App.Utils.Storage
 		{
 			get
 			{
-				var itemType = "File".GetLocalizedResource();
+				var itemType = Strings.File.GetLocalizedResource();
 				if (Name.Contains('.', StringComparison.Ordinal))
 				{
 					itemType = IO.Path.GetExtension(Name).Trim('.') + " " + itemType;
@@ -171,13 +171,13 @@ namespace Files.App.Utils.Storage
 
 				if (destFolder is ICreateFileWithStream cwsf)
 				{
-					using var inStream = await ftpClient.OpenRead(FtpPath, token: cancellationToken);
+					await using var inStream = await ftpClient.OpenRead(FtpPath, token: cancellationToken);
 					return await cwsf.CreateFileAsync(inStream, desiredNewName, option.Convert());
 				}
 				else
 				{
 					BaseStorageFile file = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
-					using var stream = await file.OpenStreamForWriteAsync();
+					await using var stream = await file.OpenStreamForWriteAsync();
 					return await ftpClient.DownloadStream(stream, FtpPath, token: cancellationToken) ? file : null;
 				}
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
@@ -279,7 +279,7 @@ namespace Files.App.Utils.Storage
 					return;
 				}
 
-				using (var outStream = request.AsStreamForWrite())
+				await using (var outStream = request.AsStreamForWrite())
 				{
 					await ftpClient.DownloadStream(outStream, FtpPath);
 					await outStream.FlushAsync();
@@ -292,7 +292,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private sealed class FtpFileBasicProperties : BaseBasicProperties
+		private sealed partial class FtpFileBasicProperties : BaseBasicProperties
 		{
 			public override ulong Size { get; }
 

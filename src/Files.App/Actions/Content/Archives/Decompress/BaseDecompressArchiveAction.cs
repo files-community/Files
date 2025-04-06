@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.Dialogs;
 using Microsoft.UI.Xaml.Controls;
@@ -25,7 +25,7 @@ namespace Files.App.Actions
 
 		public override bool IsExecutable =>
 			(IsContextPageTypeAdaptedToCommand() &&
-			StorageArchiveService.CanDecompress(context.SelectedItems) ||
+			CanDecompressSelectedItems() ||
 			CanDecompressInsideArchive()) &&
 			UIHelpers.CanShowDialog;
 
@@ -43,6 +43,8 @@ namespace Files.App.Actions
 			return
 				context.PageType != ContentPageTypes.RecycleBin &&
 				context.PageType != ContentPageTypes.ZipFolder &&
+				context.PageType != ContentPageTypes.ReleaseNotes &&
+				context.PageType != ContentPageTypes.Settings &&
 				context.PageType != ContentPageTypes.None;
 		}
 
@@ -125,11 +127,17 @@ namespace Files.App.Actions
 			return false;
 		}
 
+		protected virtual bool CanDecompressSelectedItems()
+		{
+			return StorageArchiveService.CanDecompress(context.SelectedItems);
+		}
+
 		protected virtual void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{
 				case nameof(IContentPageContext.SelectedItems):
+				case nameof(IContentPageContext.Folder):
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}

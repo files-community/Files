@@ -1,4 +1,4 @@
-<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <local:BaseGroupableLayoutPage
 	x:Class="Files.App.Views.Layouts.GridLayoutPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -7,28 +7,29 @@
 	xmlns:controls="using:Files.App.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:datamodels="using:Files.App.Data.Models"
 	xmlns:filesystem="using:Files.App.Utils"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
-	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:local="using:Files.App.Views.Layouts"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:storage="using:Files.App.Utils.Storage"
-	xmlns:tui="using:CommunityToolkit.WinUI.UI"
+	xmlns:tui="using:CommunityToolkit.WinUI"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:wctanimations="using:CommunityToolkit.WinUI.UI.Animations"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:wctanimations="using:CommunityToolkit.WinUI.Animations"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
+	xmlns:wctlabs="using:CommunityToolkit.Labs.WinUI"
 	x:Name="PageRoot"
 	NavigationCacheMode="Enabled"
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>
-		<icore:EventTriggerBehavior EventName="PointerWheelChanged">
-			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
-		</icore:EventTriggerBehavior>
-		<icore:EventTriggerBehavior EventName="PointerPressed">
-			<icore:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
-		</icore:EventTriggerBehavior>
+		<i:EventTriggerBehavior EventName="PointerWheelChanged">
+			<i:InvokeCommandAction Command="{x:Bind CommandsViewModel.PointerWheelChangedCommand}" />
+		</i:EventTriggerBehavior>
+		<i:EventTriggerBehavior EventName="PointerPressed">
+			<i:InvokeCommandAction Command="{x:Bind CommandsViewModel.ItemPointerPressedCommand}" />
+		</i:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
 	<local:BaseGroupableLayoutPage.Resources>
@@ -86,11 +87,6 @@
 			TrueValue="Visible" />
 		<converters:BoolToSelectionModeConverter x:Key="BoolToSelectionModeConverter" />
 
-		<!--  Override border on GridViewItem  -->
-		<Thickness x:Key="GridViewItemSelectedBorderThickness">0</Thickness>
-		<SolidColorBrush x:Key="GridViewItemSelectedInnerBorderBrush" Color="Transparent" />
-		<SolidColorBrush x:Key="GridViewItemPointerOverBorderBrush" Color="Transparent" />
-
 		<!--  Grid View  -->
 		<DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="filesystem:ListedItem">
 			<UserControl>
@@ -132,7 +128,7 @@
 						</ContentPresenter>
 
 						<!--  Loading indicator  -->
-						<uc:Shimmer
+						<wctlabs:Shimmer
 							x:Name="TypeUnknownGlyph"
 							Margin="12"
 							x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
@@ -302,8 +298,8 @@
 						<!--  Thumbnail  -->
 						<Grid
 							x:Name="IconBox"
-							Width="24"
-							Height="24"
+							Width="{Binding IconBoxSizeListView, ElementName=PageRoot, Mode=OneWay}"
+							Height="{Binding IconBoxSizeListView, ElementName=PageRoot, Mode=OneWay}"
 							HorizontalAlignment="Center"
 							VerticalAlignment="Center"
 							AutomationProperties.Name="{helpers:ResourceString Name=FileBrowserThumbnailIconColumnGrid/AutomationProperties/Name}"
@@ -312,8 +308,7 @@
 							Tag="ItemImage">
 							<ContentPresenter
 								x:Name="PicturePresenter"
-								Width="20"
-								Height="20"
+								Margin="2"
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center"
 								x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
@@ -325,7 +320,7 @@
 							</ContentPresenter>
 
 							<!--  Loading indicator  -->
-							<uc:Shimmer
+							<wctlabs:Shimmer
 								x:Name="TypeUnknownGlyph"
 								Margin="2"
 								x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
@@ -434,192 +429,255 @@
 			</UserControl>
 		</DataTemplate>
 
-		<!--  Tiles View  -->
-		<DataTemplate x:Name="TilesBrowserTemplate" x:DataType="filesystem:ListedItem">
+		<!--  Cards View  -->
+		<DataTemplate x:Name="CardsBrowserTemplate" x:DataType="filesystem:ListedItem">
 			<UserControl>
 				<Grid
-					Width="{Binding ElementName=PageRoot, Path=ItemWidthTilesView, Mode=OneWay}"
-					MaxHeight="68"
 					Padding="0"
 					HorizontalAlignment="Left"
 					VerticalAlignment="Stretch"
-					Background="Transparent"
-					ColumnSpacing="4"
+					Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+					BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+					BorderThickness="1"
+					CornerRadius="8"
 					IsRightTapEnabled="True"
 					Loaded="Grid_Loaded"
 					PointerEntered="Grid_PointerEntered">
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="Auto" />
-						<ColumnDefinition Width="68" />
-						<ColumnDefinition Width="*" />
-					</Grid.ColumnDefinitions>
+					<StackPanel Orientation="{Binding ElementName=PageRoot, Path=CardsViewOrientation, Mode=OneWay}">
 
-					<StackPanel
-						Width="20"
-						Margin="8,4,0,4"
-						HorizontalAlignment="Center"
-						VerticalAlignment="Center"
-						Orientation="Vertical">
-						<Ellipse
-							Width="12"
-							Height="12"
-							Margin="0,4,0,4"
-							x:Phase="2"
-							Fill="{x:Bind FileTagsUI[0].Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}"
-							ToolTipService.ToolTip="{x:Bind FileTagsUI[0].Name, Mode=OneWay}"
-							Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}" />
+						<!--  Preview  -->
+						<Grid
+							Width="{Binding ElementName=PageRoot, Path=CardsViewIconBoxWidth, Mode=OneWay}"
+							Height="{Binding ElementName=PageRoot, Path=CardsViewIconBoxHeight, Mode=OneWay}"
+							Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}"
+							Opacity="{x:Bind Opacity, Mode=OneWay}"
+							Tag="ItemImage">
 
-						<Border
-							x:Name="CloudDriveSyncStatusGlyph"
-							x:Phase="2"
-							Background="Transparent"
-							ToolTipService.ToolTip="{x:Bind SyncStatusUI.SyncStatusString, Mode=OneWay}"
-							Visibility="{Binding InstanceViewModel.IsPageTypeCloudDrive, ElementName=PageRoot, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-							<controls:ThemedIcon
+							<ContentPresenter
+								x:Name="PictureBorder"
+								Height="{Binding ElementName=PageRoot, Path=CardsViewIconSize, Mode=OneWay}"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+								x:Phase="1"
+								CornerRadius="{StaticResource GridViewThumbnailCornerRadius}">
+								<Image
+									x:Name="Picture"
+									Source="{x:Bind FileImage, Mode=OneWay}"
+									Stretch="Uniform" />
+							</ContentPresenter>
+
+							<!--  Loading indicator  -->
+							<wctlabs:Shimmer
+								x:Name="TypeUnknownGlyph"
+								Width="{Binding ElementName=PageRoot, Path=CardsViewIconSize, Mode=OneWay}"
+								Height="{Binding ElementName=PageRoot, Path=CardsViewIconSize, Mode=OneWay}"
+								x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
+
+							<Image
+								x:Name="IconOverlay"
+								Width="32"
+								Height="32"
+								Margin="-10"
+								HorizontalAlignment="Right"
+								VerticalAlignment="Top"
+								x:Load="True"
+								x:Phase="1"
+								Source="{x:Bind IconOverlay, Mode=OneWay}"
+								Stretch="Uniform" />
+
+							<Viewbox
+								x:Name="ShortcutGlyphElement"
 								Width="16"
 								Height="16"
-								Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).ThemedIconStyle, Mode=OneWay}" />
-						</Border>
-					</StackPanel>
+								Margin="8"
+								HorizontalAlignment="Right"
+								VerticalAlignment="Top"
+								x:Load="{x:Bind IsShortcut}"
+								x:Phase="1">
+								<controls:ThemedIcon
+									Width="12"
+									Height="12"
+									Style="{StaticResource App.ThemedIcons.Shortcut}" />
+							</Viewbox>
 
-					<CheckBox
-						x:Name="SelectionCheckbox"
-						Grid.ColumnSpan="2"
-						Width="32"
-						MinWidth="0"
-						MinHeight="0"
-						Margin="6"
-						Padding="0"
-						HorizontalAlignment="Left"
-						VerticalAlignment="Top"
-						AutomationProperties.AccessibilityView="Raw"
-						Checked="ItemSelected_Checked"
-						DoubleTapped="SelectionCheckbox_DoubleTapped"
-						Opacity="0"
-						Unchecked="ItemSelected_Unchecked" />
-
-					<Grid
-						Grid.Column="1"
-						Height="60"
-						Margin="0,4,0,4"
-						Opacity="{x:Bind Opacity, Mode=OneWay}"
-						Tag="ItemImage">
-
-						<ContentPresenter
-							x:Name="PictureBorder"
-							HorizontalAlignment="Center"
-							VerticalAlignment="Center"
-							x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
-							x:Phase="1"
-							CornerRadius="{StaticResource GridViewThumbnailCornerRadius}">
 							<Image
-								x:Name="Picture"
-								Width="60"
-								Source="{x:Bind FileImage, Mode=OneWay}"
+								x:Name="ShieldOverlay"
+								Width="16"
+								Height="16"
+								HorizontalAlignment="Right"
+								VerticalAlignment="Top"
+								x:Load="{x:Bind IsElevationRequired}"
+								x:Phase="1"
+								Source="{x:Bind ShieldIcon, Mode=OneWay}"
 								Stretch="Uniform" />
-						</ContentPresenter>
 
-						<!--  Loading indicator  -->
-						<uc:Shimmer
-							x:Name="TypeUnknownGlyph"
-							Width="60"
-							Height="60"
-							x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
+							<CheckBox
+								x:Name="SelectionCheckbox"
+								Width="32"
+								MinWidth="0"
+								MinHeight="0"
+								Margin="6"
+								Padding="0"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Top"
+								AutomationProperties.AccessibilityView="Raw"
+								Canvas.ZIndex="100"
+								Checked="ItemSelected_Checked"
+								DoubleTapped="SelectionCheckbox_DoubleTapped"
+								Opacity="0"
+								Unchecked="ItemSelected_Unchecked" />
+						</Grid>
 
-						<Image
-							x:Name="IconOverlay"
-							Width="32"
-							Height="32"
-							Margin="2"
-							HorizontalAlignment="Left"
-							VerticalAlignment="Bottom"
-							x:Load="True"
-							x:Phase="1"
-							Source="{x:Bind IconOverlay, Mode=OneWay}"
-							Stretch="Uniform" />
+						<!--  Details  -->
+						<Grid
+							Width="{Binding ElementName=PageRoot, Path=CardsViewDetailsBoxWidth, Mode=OneWay}"
+							Height="{Binding ElementName=PageRoot, Path=CardsViewDetailsBoxHeight, Mode=OneWay}"
+							Padding="12,4,12,4">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="*" />
+								<RowDefinition Height="*" />
+								<RowDefinition Height="*" />
+								<RowDefinition Height="*" />
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
 
-						<Viewbox
-							x:Name="ShortcutGlyphElement"
-							Width="16"
-							Height="16"
-							HorizontalAlignment="Left"
-							VerticalAlignment="Bottom"
-							x:Load="{x:Bind IsShortcut}"
-							x:Phase="1">
-							<controls:ThemedIcon
-								Width="12"
-								Height="12"
-								Style="{StaticResource App.ThemedIcons.Shortcut}" />
-						</Viewbox>
+							<StackPanel
+								Grid.Row="0"
+								Grid.RowSpan="2"
+								Orientation="Vertical"
+								Spacing="4">
 
-						<Image
-							x:Name="ShieldOverlay"
-							Width="16"
-							Height="16"
-							HorizontalAlignment="Right"
-							VerticalAlignment="Bottom"
-							x:Load="{x:Bind IsElevationRequired}"
-							x:Phase="1"
-							Source="{x:Bind ShieldIcon, Mode=OneWay}"
-							Stretch="Uniform" />
-					</Grid>
+								<!--  Item Name  -->
+								<TextBlock
+									x:Name="ItemName"
+									MaxLines="{Binding ElementName=PageRoot, Path=CardsViewItemNameMaxLines, Mode=OneWay}"
+									Opacity="{x:Bind Opacity, Mode=OneWay}"
+									Style="{ThemeResource App.Theme.BodyStrongTextBlockStyle}"
+									Text="{x:Bind Name, Mode=OneWay}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="Wrap" />
 
-					<Grid
-						Grid.Column="2"
-						Height="60"
-						Margin="0,4,8,4"
-						RowSpacing="4">
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="Auto" />
-							<RowDefinition Height="Auto" />
-						</Grid.RowDefinitions>
+								<!--  Item Type  -->
+								<TextBlock
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+									Style="{ThemeResource App.Theme.CaptionTextBlockStyle}"
+									Text="{x:Bind ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap" />
 
-						<TextBlock
-							x:Name="ItemName"
-							Grid.Row="0"
-							HorizontalAlignment="Left"
-							MaxLines="2"
-							Opacity="{x:Bind Opacity, Mode=OneWay}"
-							Text="{x:Bind Name, Mode=OneWay}"
-							TextTrimming="CharacterEllipsis"
-							TextWrapping="Wrap" />
+							</StackPanel>
 
-						<TextBox
-							x:Name="TileViewTextBoxItemName"
-							Grid.Row="0"
-							Grid.RowSpan="3"
-							MaxHeight="60"
-							HorizontalAlignment="Stretch"
-							BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
-							Canvas.ZIndex="1"
-							Text="{x:Bind Name, Mode=OneWay}"
-							TextWrapping="Wrap"
-							Visibility="Collapsed">
-							<TextBox.Resources>
-								<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{ThemeResource SolidBackgroundFillColorSecondary}" />
-							</TextBox.Resources>
-						</TextBox>
+							<!--  Item Name Edit Box  -->
+							<TextBox
+								x:Name="TileViewTextBoxItemName"
+								Grid.Row="0"
+								Grid.RowSpan="5"
+								Margin="-2,0,-2,0"
+								HorizontalAlignment="Stretch"
+								BeforeTextChanging="ItemNameTextBox_BeforeTextChanging"
+								Canvas.ZIndex="1"
+								Text="{x:Bind Name, Mode=OneWay}"
+								TextWrapping="Wrap"
+								Visibility="Collapsed">
+								<TextBox.Resources>
+									<ResourceDictionary>
+										<ResourceDictionary.ThemeDictionaries>
+											<ResourceDictionary x:Key="Light">
+												<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{StaticResource ControlFillColorInputActive}" />
+											</ResourceDictionary>
+											<ResourceDictionary x:Key="Dark">
+												<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#1E1E1E" />
+											</ResourceDictionary>
+											<ResourceDictionary x:Key="HighContrast">
+												<SolidColorBrush x:Key="TextControlBackgroundFocused" Color="{StaticResource SystemColorButtonFaceColor}" />
+											</ResourceDictionary>
+										</ResourceDictionary.ThemeDictionaries>
+									</ResourceDictionary>
+								</TextBox.Resources>
+							</TextBox>
 
-						<TextBlock
-							Grid.Row="1"
-							HorizontalAlignment="Left"
-							FontSize="12px"
-							Opacity="0.6"
-							Text="{x:Bind ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-							TextTrimming="CharacterEllipsis"
-							TextWrapping="NoWrap" />
+							<StackPanel
+								Grid.Row="2"
+								Grid.RowSpan="3"
+								VerticalAlignment="Bottom"
+								Orientation="Vertical"
+								Spacing="4">
 
-						<TextBlock
-							Grid.Row="2"
-							HorizontalAlignment="Left"
-							FontSize="12px"
-							Opacity="0.6"
-							Text="{x:Bind FileSize, Mode=OneWay}"
-							TextTrimming="CharacterEllipsis"
-							TextWrapping="NoWrap" />
+								<!--  Contextual Property  -->
+								<TextBlock
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+									Style="{ThemeResource CaptionTextBlockStyle}"
+									Text="{x:Bind ContextualProperty, Mode=OneWay}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap"
+									Visibility="{Binding ElementName=PageRoot, Path=CardsViewShowContextualProperty, Mode=OneWay}" />
 
-					</Grid>
+								<!--  Drive Storage Information  -->
+								<ProgressBar
+									x:Name="DriveStorageProgressBar"
+									x:Load="{x:Bind ShowDriveStorageDetails, Mode=OneWay}"
+									AutomationProperties.AccessibilityView="Raw"
+									Maximum="{x:Bind MaxSpace.GigaBytes, Mode=OneWay}"
+									Value="{x:Bind SpaceUsed.GigaBytes, Mode=OneWay}" />
+
+								<!--  Item Size  -->
+								<TextBlock
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+									Style="{ThemeResource CaptionTextBlockStyle}"
+									Text="{x:Bind FileSize, Mode=OneWay}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap" />
+
+								<Grid MinHeight="16">
+									<!--  Item Tags  -->
+									<ItemsRepeater
+										x:Name="TagsRepeater"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Center"
+										x:Load="{x:Bind HasTags, Mode=OneWay, FallbackValue=False}"
+										ItemsSource="{x:Bind FileTagsUI, Mode=OneWay}"
+										Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}">
+										<ItemsRepeater.Layout>
+											<StackLayout Orientation="Horizontal" Spacing="-4" />
+										</ItemsRepeater.Layout>
+										<ItemsRepeater.ItemTemplate>
+											<DataTemplate x:DataType="datamodels:TagViewModel">
+												<Border
+													x:Name="Tag"
+													x:Phase="2"
+													ToolTipService.ToolTip="{x:Bind Name, Mode=OneWay}">
+													<controls:ThemedIcon
+														Width="12"
+														Height="12"
+														IconColorType="Custom"
+														IsFilled="True"
+														Style="{StaticResource App.ThemedIcons.Tag}"
+														Color="{x:Bind Color, Mode=OneWay, Converter={StaticResource StringToBrushConverter}}" />
+												</Border>
+											</DataTemplate>
+										</ItemsRepeater.ItemTemplate>
+									</ItemsRepeater>
+
+									<!--  Item Status  -->
+									<Border
+										x:Name="CloudDriveSyncStatusGlyph"
+										HorizontalAlignment="Right"
+										VerticalAlignment="Center"
+										x:Phase="2"
+										Background="Transparent"
+										ToolTipService.ToolTip="{x:Bind SyncStatusUI.SyncStatusString, Mode=OneWay}"
+										Visibility="{Binding InstanceViewModel.IsPageTypeCloudDrive, ElementName=PageRoot, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+										<controls:ThemedIcon
+											Width="16"
+											Height="16"
+											Style="{x:Bind ((cloud:CloudDriveSyncStatusUI)SyncStatusUI).ThemedIconStyle, Mode=OneWay}" />
+									</Border>
+								</Grid>
+							</StackPanel>
+						</Grid>
+
+					</StackPanel>
 
 					<VisualStateManager.VisualStateGroups>
 						<VisualStateGroup x:Name="CheckboxVisibilityStates">
@@ -723,23 +781,196 @@
 			</Setter>
 		</Style>
 
+		<!--  Regular List Container Style  -->
 		<Style
-			x:Name="DefaultItemContainerStyle"
+			x:Name="LocalListItemContainerStyle"
 			BasedOn="{StaticResource DefaultGridViewItemStyle}"
 			TargetType="GridViewItem">
 			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 			<Setter Property="HorizontalAlignment" Value="Stretch" />
 			<Setter Property="MinHeight" Value="1" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="GridViewItem">
+						<ListViewItemPresenter
+							x:Name="Root"
+							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+							CheckBoxBorderBrush="{ThemeResource GridViewItemCheckBoxBorderBrush}"
+							CheckBoxBrush="{ThemeResource GridViewItemCheckBoxBrush}"
+							CheckBoxCornerRadius="{ThemeResource GridViewItemCheckBoxCornerRadius}"
+							CheckBoxDisabledBorderBrush="{ThemeResource GridViewItemCheckBoxDisabledBorderBrush}"
+							CheckBoxDisabledBrush="{ThemeResource GridViewItemCheckBoxDisabledBrush}"
+							CheckBoxPointerOverBorderBrush="{ThemeResource GridViewItemCheckBoxPointerOverBorderBrush}"
+							CheckBoxPointerOverBrush="{ThemeResource GridViewItemCheckBoxPointerOverBrush}"
+							CheckBoxPressedBorderBrush="{ThemeResource GridViewItemCheckBoxPressedBorderBrush}"
+							CheckBoxPressedBrush="{ThemeResource GridViewItemCheckBoxPressedBrush}"
+							CheckBoxSelectedBrush="{ThemeResource GridViewItemCheckBoxSelectedBrush}"
+							CheckBoxSelectedDisabledBrush="{ThemeResource GridViewItemCheckBoxSelectedDisabledBrush}"
+							CheckBoxSelectedPointerOverBrush="{ThemeResource GridViewItemCheckBoxSelectedPointerOverBrush}"
+							CheckBoxSelectedPressedBrush="{ThemeResource GridViewItemCheckBoxSelectedPressedBrush}"
+							CheckBrush="{ThemeResource GridViewItemCheckBrush}"
+							CheckDisabledBrush="{ThemeResource GridViewItemCheckDisabledBrush}"
+							CheckMode="{ThemeResource GridViewItemCheckMode}"
+							CheckPressedBrush="{ThemeResource GridViewItemCheckPressedBrush}"
+							ContentMargin="{TemplateBinding Padding}"
+							ContentTransitions="{TemplateBinding ContentTransitions}"
+							Control.IsTemplateFocusTarget="True"
+							CornerRadius="{ThemeResource GridViewItemCornerRadius}"
+							DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+							DragBackground="{ThemeResource GridViewItemDragBackground}"
+							DragForeground="{ThemeResource GridViewItemDragForeground}"
+							DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+							FocusBorderBrush="{ThemeResource GridViewItemFocusBorderBrush}"
+							FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
+							FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
+							FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
+							FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
+							FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
+							PlaceholderBackground="{ThemeResource GridViewItemPlaceholderBackground}"
+							PointerOverBackground="{ThemeResource GridViewItemBackgroundPointerOver}"
+							PointerOverBorderBrush="Transparent"
+							PointerOverForeground="{ThemeResource GridViewItemForegroundPointerOver}"
+							PressedBackground="{ThemeResource GridViewItemBackgroundPressed}"
+							ReorderHintOffset="{ThemeResource GridViewItemReorderHintThemeOffset}"
+							SelectedBackground="{ThemeResource GridViewItemBackgroundSelected}"
+							SelectedBorderBrush="Transparent"
+							SelectedBorderThickness="{ThemeResource GridViewItemSelectedBorderThickness}"
+							SelectedDisabledBackground="{ThemeResource GridViewItemBackgroundSelectedDisabled}"
+							SelectedDisabledBorderBrush="Transparent"
+							SelectedForeground="{ThemeResource GridViewItemForegroundSelected}"
+							SelectedInnerBorderBrush="Transparent"
+							SelectedPointerOverBackground="{ThemeResource GridViewItemBackgroundSelectedPointerOver}"
+							SelectedPointerOverBorderBrush="Transparent"
+							SelectedPressedBackground="{ThemeResource GridViewItemBackgroundSelectedPressed}"
+							SelectedPressedBorderBrush="Transparent"
+							SelectionCheckMarkVisualEnabled="{ThemeResource GridViewItemSelectionCheckMarkVisualEnabled}" />
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
 		</Style>
 
+		<!--  Compact List Container Style  -->
 		<Style
-			x:Name="CompactListItemContainerStyle"
+			x:Name="LocalCompactListItemContainerStyle"
 			BasedOn="{StaticResource DefaultGridViewItemStyle}"
 			TargetType="GridViewItem">
 			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 			<Setter Property="HorizontalAlignment" Value="Stretch" />
 			<Setter Property="MinHeight" Value="1" />
 			<Setter Property="Margin" Value="0" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="GridViewItem">
+						<ListViewItemPresenter
+							x:Name="Root"
+							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+							CheckBoxBorderBrush="{ThemeResource GridViewItemCheckBoxBorderBrush}"
+							CheckBoxBrush="{ThemeResource GridViewItemCheckBoxBrush}"
+							CheckBoxCornerRadius="{ThemeResource GridViewItemCheckBoxCornerRadius}"
+							CheckBoxDisabledBorderBrush="{ThemeResource GridViewItemCheckBoxDisabledBorderBrush}"
+							CheckBoxDisabledBrush="{ThemeResource GridViewItemCheckBoxDisabledBrush}"
+							CheckBoxPointerOverBorderBrush="{ThemeResource GridViewItemCheckBoxPointerOverBorderBrush}"
+							CheckBoxPointerOverBrush="{ThemeResource GridViewItemCheckBoxPointerOverBrush}"
+							CheckBoxPressedBorderBrush="{ThemeResource GridViewItemCheckBoxPressedBorderBrush}"
+							CheckBoxPressedBrush="{ThemeResource GridViewItemCheckBoxPressedBrush}"
+							CheckBoxSelectedBrush="{ThemeResource GridViewItemCheckBoxSelectedBrush}"
+							CheckBoxSelectedDisabledBrush="{ThemeResource GridViewItemCheckBoxSelectedDisabledBrush}"
+							CheckBoxSelectedPointerOverBrush="{ThemeResource GridViewItemCheckBoxSelectedPointerOverBrush}"
+							CheckBoxSelectedPressedBrush="{ThemeResource GridViewItemCheckBoxSelectedPressedBrush}"
+							CheckBrush="{ThemeResource GridViewItemCheckBrush}"
+							CheckDisabledBrush="{ThemeResource GridViewItemCheckDisabledBrush}"
+							CheckMode="{ThemeResource GridViewItemCheckMode}"
+							CheckPressedBrush="{ThemeResource GridViewItemCheckPressedBrush}"
+							ContentMargin="{TemplateBinding Padding}"
+							ContentTransitions="{TemplateBinding ContentTransitions}"
+							Control.IsTemplateFocusTarget="True"
+							CornerRadius="{ThemeResource GridViewItemCornerRadius}"
+							DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+							DragBackground="{ThemeResource GridViewItemDragBackground}"
+							DragForeground="{ThemeResource GridViewItemDragForeground}"
+							DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+							FocusBorderBrush="{ThemeResource GridViewItemFocusBorderBrush}"
+							FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
+							FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
+							FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
+							FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
+							FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
+							PlaceholderBackground="{ThemeResource GridViewItemPlaceholderBackground}"
+							PointerOverBackground="{ThemeResource GridViewItemBackgroundPointerOver}"
+							PointerOverBorderBrush="Transparent"
+							PointerOverForeground="{ThemeResource GridViewItemForegroundPointerOver}"
+							PressedBackground="{ThemeResource GridViewItemBackgroundPressed}"
+							ReorderHintOffset="{ThemeResource GridViewItemReorderHintThemeOffset}"
+							SelectedBackground="{ThemeResource GridViewItemBackgroundSelected}"
+							SelectedBorderBrush="Transparent"
+							SelectedBorderThickness="{ThemeResource GridViewItemSelectedBorderThickness}"
+							SelectedDisabledBackground="{ThemeResource GridViewItemBackgroundSelectedDisabled}"
+							SelectedDisabledBorderBrush="Transparent"
+							SelectedForeground="{ThemeResource GridViewItemForegroundSelected}"
+							SelectedInnerBorderBrush="Transparent"
+							SelectedPointerOverBackground="{ThemeResource GridViewItemBackgroundSelectedPointerOver}"
+							SelectedPointerOverBorderBrush="Transparent"
+							SelectedPressedBackground="{ThemeResource GridViewItemBackgroundSelectedPressed}"
+							SelectedPressedBorderBrush="Transparent"
+							SelectionCheckMarkVisualEnabled="{ThemeResource GridViewItemSelectionCheckMarkVisualEnabled}" />
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+
+		<!--  Regular Container Style  -->
+		<Style
+			x:Name="LocalRegularItemContainerStyle"
+			BasedOn="{StaticResource DefaultGridViewItemStyle}"
+			TargetType="GridViewItem">
+			<Setter Property="Background" Value="Transparent" />
+			<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+			<Setter Property="HorizontalAlignment" Value="Stretch" />
+			<Setter Property="MinHeight" Value="1" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="GridViewItem">
+						<ListViewItemPresenter
+							x:Name="Root"
+							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+							CheckMode="{ThemeResource GridViewItemCheckMode}"
+							ContentMargin="{TemplateBinding Padding}"
+							ContentTransitions="{TemplateBinding ContentTransitions}"
+							Control.IsTemplateFocusTarget="True"
+							CornerRadius="8"
+							DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}"
+							DragBackground="{ThemeResource GridViewItemDragBackground}"
+							DragForeground="{ThemeResource GridViewItemDragForeground}"
+							DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}"
+							FocusBorderBrush="{ThemeResource GridViewItemFocusBorderBrush}"
+							FocusVisualMargin="{TemplateBinding FocusVisualMargin}"
+							FocusVisualPrimaryBrush="{TemplateBinding FocusVisualPrimaryBrush}"
+							FocusVisualPrimaryThickness="{TemplateBinding FocusVisualPrimaryThickness}"
+							FocusVisualSecondaryBrush="{TemplateBinding FocusVisualSecondaryBrush}"
+							FocusVisualSecondaryThickness="{TemplateBinding FocusVisualSecondaryThickness}"
+							PlaceholderBackground="{ThemeResource GridViewItemPlaceholderBackground}"
+							PointerOverBackground="{ThemeResource App.Theme.CardBackgroundFillColorTertiaryBrush}"
+							PointerOverBorderBrush="{ThemeResource GridViewItemPointerOverBorderBrush}"
+							PointerOverForeground="{ThemeResource GridViewItemForegroundPointerOver}"
+							PressedBackground="{ThemeResource App.Theme.CardBackgroundFillColorTertiaryBrush}"
+							ReorderHintOffset="{ThemeResource GridViewItemReorderHintThemeOffset}"
+							SelectedBackground="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+							SelectedBorderBrush="{ThemeResource GridViewItemSelectedBorderBrush}"
+							SelectedBorderThickness="{ThemeResource GridViewItemSelectedBorderThickness}"
+							SelectedDisabledBackground="{ThemeResource GridViewItemBackgroundSelectedDisabled}"
+							SelectedDisabledBorderBrush="{ThemeResource GridViewItemSelectedDisabledBorderBrush}"
+							SelectedForeground="{ThemeResource GridViewItemForegroundSelected}"
+							SelectedInnerBorderBrush="{ThemeResource GridViewItemSelectedInnerBorderBrush}"
+							SelectedPointerOverBackground="{ThemeResource App.Theme.CardBackgroundFillColorTertiaryBrush}"
+							SelectedPointerOverBorderBrush="{ThemeResource GridViewItemSelectedPointerOverBorderBrush}"
+							SelectedPressedBackground="{ThemeResource GridViewItemBackgroundSelectedPressed}"
+							SelectedPressedBorderBrush="{ThemeResource GridViewItemSelectedPressedBorderBrush}" />
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
 		</Style>
 	</local:BaseGroupableLayoutPage.Resources>
 
@@ -779,7 +1010,6 @@
 					x:Name="FileList"
 					Padding="8"
 					VerticalContentAlignment="Stretch"
-					tui:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					wctanimations:ItemsReorderAnimation.Duration="0:0:0.350"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
@@ -787,6 +1017,7 @@
 					ContainerContentChanging="FileList_ContainerContentChanging"
 					DoubleTapped="FileList_DoubleTapped"
 					DragEnter="ItemsLayout_DragEnter"
+					DragItemsCompleted="FileList_DragItemsCompleted"
 					DragItemsStarting="FileList_DragItemsStarting"
 					DragLeave="ItemsLayout_DragLeave"
 					DragOver="ItemsLayout_DragOver"

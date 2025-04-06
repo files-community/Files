@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
@@ -15,15 +15,15 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// <summary>
 	/// Represents view model of <see cref="QuickAccessWidget"/>.
 	/// </summary>
-	public sealed class QuickAccessWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
+	public sealed partial class QuickAccessWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Properties
 
 		public ObservableCollection<WidgetFolderCardItem> Items { get; } = [];
 
 		public string WidgetName => nameof(QuickAccessWidget);
-		public string AutomationProperties => "QuickAccess".GetLocalizedResource();
-		public string WidgetHeader => "QuickAccess".GetLocalizedResource();
+		public string AutomationProperties => Strings.QuickAccess.GetLocalizedResource();
+		public string WidgetHeader => Strings.QuickAccess.GetLocalizedResource();
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowQuickAccessWidget;
 		public bool ShowMenuFlyout => false;
 		public MenuFlyoutItem? MenuFlyoutItem => null;
@@ -62,19 +62,19 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewTabFromHomeAction)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab && CommandManager.OpenInNewTabFromHomeAction.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewWindowFromHomeAction)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow && CommandManager.OpenInNewWindowFromHomeAction.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewPaneFromHomeAction)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && CommandManager.OpenInNewPaneFromHomeAction.IsExecutable
 				}.Build(),
 				new()
 				{
-					Text = "PinFolderToSidebar".GetLocalizedResource(),
+					Text = Strings.PinFolderToSidebar.GetLocalizedResource(),
 					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.FavoritePin" },
 					Command = PinToSidebarCommand,
 					CommandParameter = item,
@@ -82,7 +82,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
-					Text = "UnpinFolderFromSidebar".GetLocalizedResource(),
+					Text = Strings.UnpinFolderFromSidebar.GetLocalizedResource(),
 					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.FavoritePinRemove" },
 					Command = UnpinFromSidebarCommand,
 					CommandParameter = item,
@@ -90,13 +90,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
-					Text = "SendTo".GetLocalizedResource(),
+					Text = Strings.SendTo.GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowSendToMenu
 				},
 				new()
 				{
-					Text = "Properties".GetLocalizedResource(),
+					Text = Strings.Properties.GetLocalizedResource(),
 					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.Properties" },
 					Command = OpenPropertiesCommand,
 					CommandParameter = item
@@ -114,7 +114,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				},
 				new()
 				{
-					Text = "Loading".GetLocalizedResource(),
+					Text = Strings.Loading.GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = [],
 					ID = "ItemOverflow",
@@ -209,7 +209,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			if (ctrlPressed)
 			{
-				await NavigationHelpers.OpenPathInNewTab(path, false);
+				await NavigationHelpers.OpenPathInNewTab(path);
 				return;
 			}
 
@@ -277,7 +277,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					ItemPath = item.Item.Path,
 					ItemNameRaw = item.Item.Text,
 					PrimaryItemAttribute = StorageItemTypes.Folder,
-					ItemType = "Folder".GetLocalizedResource(),
+					ItemType = Strings.Folder.GetLocalizedResource(),
 				};
 
 				if (!string.Equals(item.Item.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))

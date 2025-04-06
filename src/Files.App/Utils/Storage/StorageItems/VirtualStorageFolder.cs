@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
@@ -9,12 +9,12 @@ using Windows.Storage.Search;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class VirtualStorageFolder : BaseStorageFolder
+	public sealed partial class VirtualStorageFolder : BaseStorageFolder
 	{
 		public override string Path { get; }
 		public override string Name { get; }
 		public override string DisplayName => Name;
-		public override string DisplayType => "Folder".GetLocalizedResource();
+		public override string DisplayType => Strings.Folder.GetLocalizedResource();
 		public override string FolderRelativeId => $"0\\{Name}";
 
 		public override DateTimeOffset DateCreated { get; }

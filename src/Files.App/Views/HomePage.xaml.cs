@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -42,13 +42,12 @@ namespace Files.App.Views
 			AppInstance.InstanceViewModel.IsPageTypeLibrary = false;
 			AppInstance.InstanceViewModel.GitRepositoryPath = null;
 			AppInstance.InstanceViewModel.IsGitRepository = false;
+			AppInstance.InstanceViewModel.IsPageTypeReleaseNotes = false;
+			AppInstance.InstanceViewModel.IsPageTypeSettings = false;
 			AppInstance.ToolbarViewModel.CanRefresh = true;
 			AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
 			AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
 			AppInstance.ToolbarViewModel.CanNavigateToParent = false;
-
-			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
-			AppInstance.ToolbarViewModel.RefreshRequested += ToolbarViewModel_RefreshRequested;
 
 			// Set path of working directory empty
 			await AppInstance.ShellViewModel.SetWorkingDirectoryAsync("Home");
@@ -60,7 +59,7 @@ namespace Files.App.Views
 
 			string componentLabel =
 				parameters?.NavPathParam == "Home"
-					? "Home".GetLocalizedResource()
+					? Strings.Home.GetLocalizedResource()
 					: parameters?.NavPathParam
 				?? string.Empty;
 
@@ -82,20 +81,10 @@ namespace Files.App.Views
 			Dispose();
 		}
 
-		private async void ToolbarViewModel_RefreshRequested(object? sender, EventArgs e)
-		{
-			AppInstance.ToolbarViewModel.CanRefresh = false;
-
-			await Task.WhenAll(ViewModel.WidgetItems.Select(w => w.WidgetItemModel.RefreshWidgetAsync()));
-
-			AppInstance.ToolbarViewModel.CanRefresh = true;
-		}
-
 		// Disposer
 
 		public void Dispose()
 		{
-			AppInstance.ToolbarViewModel.RefreshRequested -= ToolbarViewModel_RefreshRequested;
 			ViewModel?.Dispose();
 		}
 	}

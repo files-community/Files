@@ -1,17 +1,17 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class NavigateHomeAction : ObservableObject, IAction
+	internal sealed partial class NavigateHomeAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Home".GetLocalizedResource();
+			=> Strings.Home.GetLocalizedResource();
 
 		public string Description
-			=> "NavigateHomeDescription".GetLocalizedResource();
+			=> Strings.NavigateHomeDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new("\uE80F");

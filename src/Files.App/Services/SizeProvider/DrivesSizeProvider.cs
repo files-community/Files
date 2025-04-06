@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System;
 using System.Collections.Concurrent;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Files.App.Services.SizeProvider
 {
-	public sealed class DrivesSizeProvider : ISizeProvider
+	public sealed partial class DrivesSizeProvider : ISizeProvider
 	{
 		private readonly ConcurrentDictionary<string, ISizeProvider> providers = new();
 

@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
@@ -38,9 +38,9 @@ namespace Files.App.Utils.Cloud
 
 			// Build the connection and sql command
 			SQLitePCL.Batteries_V2.Init();
-			using var database = new SqliteConnection($"Data Source='{syncDbPath}'");
-			using var cmdRoot = new SqliteCommand("SELECT * FROM roots", database);
-			using var cmdMedia = new SqliteCommand("SELECT * FROM media WHERE fs_type=10", database);
+			await using var database = new SqliteConnection($"Data Source='{syncDbPath}'");
+			await using var cmdRoot = new SqliteCommand("SELECT * FROM roots", database);
+			await using var cmdMedia = new SqliteCommand("SELECT * FROM media WHERE fs_type=10", database);
 
 			// Open the connection and execute the command
 			database.Open();
@@ -103,17 +103,24 @@ namespace Files.App.Utils.Cloud
 				};
 			}
 
+			// Log the contents of the root_preferences database to the debug output.
 			await Inspect(database, "SELECT * FROM roots", "root_preferences db, roots table");
 			await Inspect(database, "SELECT * FROM media", "root_preferences db, media table");
 			await Inspect(database, "SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY 1", "root_preferences db, all tables");
 
-			var registryPath = App.AppModel.GoogleDrivePath;
-			if (!AddMyDriveToPathAndValidate(ref registryPath))
+			// Query the Windows Registry for the base Google Drive path and time the query.
+			var sw = Stopwatch.StartNew();
+			var googleDrivePath = GetRegistryBasePath() ?? string.Empty;
+			sw.Stop();
+			Debug.WriteLine($"Google Drive path registry check took {sw.Elapsed} seconds.");
+
+			// Add "My Drive" to the base GD path; validate; return the resulting cloud provider.
+			if (!AddMyDriveToPathAndValidate(ref googleDrivePath))
 				yield break;
 			yield return new CloudProvider(CloudProviders.GoogleDrive)
 			{
 				Name = "Google Drive",
-				SyncFolder = registryPath,
+				SyncFolder = googleDrivePath,
 				IconData = iconFile is not null ? await iconFile.ToByteArrayAsync() : null
 			};
 		}
@@ -164,6 +171,13 @@ namespace Files.App.Utils.Cloud
 			return googleDriveRegValueJson;
 		}
 
+		/// <summary>
+		/// Get the base file system path for Google Drive from the Registry.
+		/// </summary>
+		/// <remarks>
+		/// For advanced "Google Drive for desktop" settings reference, see:
+		/// https://support.google.com/a/answer/7644837
+		/// </remarks>
 		public static string? GetRegistryBasePath()
 		{
 			var googleDriveRegValJson = GetGoogleDriveRegValJson();
@@ -175,8 +189,8 @@ namespace Files.App.Utils.Cloud
 				.RootElement.EnumerateObject()
 				.FirstOrDefault();
 
-			// A default JsonProperty struct has an "Undefined" Value#ValueKind and throws an
-			// error if you try to call EnumerateArray on its Value.
+			// A default "JsonProperty" struct has an undefined "Value.ValueKind" and throws an
+			// error if you try to call "EnumerateArray" on its value.
 			if (googleDriveRegValJsonProperty.Value.ValueKind == JsonValueKind.Undefined)
 			{
 				_logger.LogWarning($"Root element of Google Drive registry value for value name '{_googleDriveRegValName}' was empty.");

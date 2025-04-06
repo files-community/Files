@@ -1,9 +1,9 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.ViewModels.Dialogs
 {
-	public sealed class FileTooLargeDialogViewModel: ObservableObject
+	public sealed partial class FileTooLargeDialogViewModel: ObservableObject
 	{
 		public IEnumerable<string> Paths { get; private set; }
 

@@ -1,17 +1,17 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class PasteItemToSelectionAction : BaseUIAction, IAction
+	internal sealed partial class PasteItemToSelectionAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Paste".GetLocalizedResource();
+			=> Strings.Paste.GetLocalizedResource();
 
 		public string Description
-			=> "PasteItemToSelectionDescription".GetLocalizedResource();
+			=> Strings.PasteItemToSelectionDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Paste");
@@ -47,7 +47,7 @@ namespace Files.App.Actions
 			if (!App.AppModel.IsPasteEnabled)
 				return false;
 
-			if (context.PageType is ContentPageTypes.Home or ContentPageTypes.RecycleBin or ContentPageTypes.SearchResults)
+			if (context.PageType is ContentPageTypes.Home or ContentPageTypes.RecycleBin or ContentPageTypes.SearchResults or ContentPageTypes.ReleaseNotes or ContentPageTypes.Settings)
 				return false;
 
 			if (!context.HasSelection)

@@ -1,7 +1,7 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
@@ -49,6 +49,20 @@ namespace Files.App.Views.Layouts
 		{
 			get => LayoutSizeKindHelper.GetColumnsViewRowHeight(UserSettingsService.LayoutSettingsService.ColumnsViewSize);
 		}
+
+		/// <summary>
+		/// Icon Box size layout. The value is increased by 4px to account for icon overlays.
+		/// </summary>
+		public int IconBoxSize
+		{
+			get => (int)(LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.ColumnView) + 4);
+		}
+
+		/// <summary>
+		/// This reference is used to prevent unnecessary icon reloading by only reloading icons when their
+		/// size changes, even if the layout size changes (since some layout sizes share the same icon size).
+		/// </summary>
+		private uint currentIconSize;
 
 		// Constructor
 
@@ -149,6 +163,8 @@ namespace Files.App.Views.Layouts
 
 			base.OnNavigatedTo(eventArgs);
 
+			currentIconSize = LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.ColumnView);
+
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
 
 			SetItemContainerStyle();
@@ -180,12 +196,36 @@ namespace Files.App.Views.Layouts
 				var previousOffset = ContentScroller?.VerticalOffset;
 
 				NotifyPropertyChanged(nameof(RowHeight));
+				NotifyPropertyChanged(nameof(IconBoxSize));
 
 				// Update the container style to match the item size
 				SetItemContainerStyle();
 
 				// Restore correct scroll position
 				ContentScroller?.ChangeView(null, previousOffset, null);
+
+				// Check if icons need to be reloaded
+				var newIconSize = LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.ColumnView);
+				if (newIconSize != currentIconSize)
+				{
+					currentIconSize = newIconSize;
+					_ = ReloadItemIconsAsync();
+				}
+			}
+		}
+
+		private async Task ReloadItemIconsAsync()
+		{
+			if (ParentShellPageInstance is null)
+				return;
+
+			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
+			var filesAndFolders = ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList();
+			foreach (ListedItem listedItem in filesAndFolders)
+			{
+				listedItem.ItemPropertiesInitialized = false;
+				if (FileList.ContainerFromItem(listedItem) is not null)
+					await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
 			}
 		}
 
@@ -298,7 +338,7 @@ namespace Files.App.Views.Layouts
 
 				// Open the selected folder if selected through tap
 				if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick && !isDraggingSelectionRectangle)
-					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 				else
 					CloseFolder();
 			}
@@ -352,7 +392,7 @@ namespace Files.App.Views.Layouts
 				e.Handled = true;
 
 				if (IsItemSelected && SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder)
-					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{
@@ -423,7 +463,7 @@ namespace Files.App.Views.Layouts
 						break;
 					case StorageItemTypes.Folder:
 						if (!UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
-							ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (item is ShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
+							ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (item is IShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
 						break;
 					default:
 						if (UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
@@ -547,8 +587,8 @@ namespace Files.App.Views.Layouts
 				case FolderLayoutModes.ListView:
 					parent.FolderSettings.ToggleLayoutModeList(true);
 					break;
-				case FolderLayoutModes.TilesView:
-					parent.FolderSettings.ToggleLayoutModeTiles(true);
+				case FolderLayoutModes.CardsView:
+					parent.FolderSettings.ToggleLayoutModeCards(true);
 					break;
 				case FolderLayoutModes.GridView:
 					parent.FolderSettings.ToggleLayoutModeGridView(true);
@@ -566,7 +606,7 @@ namespace Files.App.Views.Layouts
 			if (SelectedItems?.Count is 1
 				&& SelectedItem is not null
 				&& SelectedItem.PrimaryItemAttribute is StorageItemTypes.Folder)
-				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is ShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+				ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 
 			base.SelectionRectangle_SelectionEnded(sender, e);
 		}

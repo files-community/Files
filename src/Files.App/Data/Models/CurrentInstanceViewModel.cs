@@ -1,9 +1,9 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Data.Models
 {
-	public sealed class CurrentInstanceViewModel : ObservableObject
+	public sealed partial class CurrentInstanceViewModel : ObservableObject
 	{
 		// TODO:
 		//  In the future, we should consolidate these public variables into
@@ -48,6 +48,30 @@ namespace Files.App.Data.Models
 			set
 			{
 				SetProperty(ref isPageTypeNotHome, value);
+				OnPropertyChanged(nameof(CanCreateFileInPage));
+				OnPropertyChanged(nameof(CanCopyPathInPage));
+			}
+		}
+		
+		private bool isPageTypeReleaseNotes = false;
+		public bool IsPageTypeReleaseNotes
+		{
+			get => isPageTypeReleaseNotes;
+			set
+			{
+				SetProperty(ref isPageTypeReleaseNotes, value);
+				OnPropertyChanged(nameof(CanCreateFileInPage));
+				OnPropertyChanged(nameof(CanCopyPathInPage));
+			}
+		}
+		
+		private bool isPageTypeSettings = false;
+		public bool IsPageTypeSettings
+		{
+			get => isPageTypeSettings;
+			set
+			{
+				SetProperty(ref isPageTypeSettings, value);
 				OnPropertyChanged(nameof(CanCreateFileInPage));
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 			}
@@ -124,12 +148,12 @@ namespace Files.App.Data.Models
 
 		public bool CanCopyPathInPage
 		{
-			get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults;
+			get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !IsPageTypeReleaseNotes && !IsPageTypeSettings;
 		}
 
 		public bool CanCreateFileInPage
 		{
-			get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !isPageTypeFtp && !isPageTypeZipFolder;
+			get => !isPageTypeMtpDevice && !isPageTypeRecycleBin && isPageTypeNotHome && !isPageTypeSearchResults && !isPageTypeFtp && !isPageTypeZipFolder && !IsPageTypeReleaseNotes && !IsPageTypeSettings;
 		}
 
 		public bool CanTagFilesInPage

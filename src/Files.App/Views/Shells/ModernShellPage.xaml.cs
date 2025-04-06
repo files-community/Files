@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -45,7 +45,7 @@ namespace Files.App.Views.Shells
 			ShellViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 			ShellViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
 
-			ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
+			ToolbarViewModel.PathControlDisplayText = Strings.Home.GetLocalizedResource();
 			ToolbarViewModel.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
 
 			_navigationInteractionTracker = new NavigationInteractionTracker(this, BackIcon, ForwardIcon);
@@ -89,6 +89,27 @@ namespace Files.App.Views.Shells
 						AssociatedTabInstance = this
 					}, new SuppressNavigationTransitionInfo());
 			}
+			else if (NavParams.NavPath == "ReleaseNotes")
+			{
+				ItemDisplayFrame.Navigate(
+					typeof(ReleaseNotesPage),
+					new NavigationArguments()
+					{
+						NavPathParam = NavParams?.NavPath,
+						AssociatedTabInstance = this
+					}, new SuppressNavigationTransitionInfo());
+			}
+			// TODO add settings page
+			//else if (NavParams.NavPath == "Settings")
+			//{
+			//	ItemDisplayFrame.Navigate(
+			//		typeof(ReleaseNotesPage),
+			//		new NavigationArguments()
+			//		{
+			//			NavPathParam = NavParams?.NavPath,
+			//			AssociatedTabInstance = this
+			//		}, new SuppressNavigationTransitionInfo());
+			//}
 			else
 			{
 				var isTagSearch = NavParams.NavPath.StartsWith("tag:");
@@ -263,6 +284,18 @@ namespace Files.App.Views.Shells
 				new NavigationArguments()
 				{
 					NavPathParam = "Home",
+					AssociatedTabInstance = this
+				},
+				new SuppressNavigationTransitionInfo());
+		}
+		
+		public override void NavigateToReleaseNotes()
+		{
+			ItemDisplayFrame.Navigate(
+				typeof(ReleaseNotesPage),
+				new NavigationArguments()
+				{
+					NavPathParam = "ReleaseNotes",
 					AssociatedTabInstance = this
 				},
 				new SuppressNavigationTransitionInfo());

@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IMultitaskingContext context;
 
 		public string Label
-			=> "DuplicateTab".GetLocalizedResource();
+			=> Strings.DuplicateTab.GetLocalizedResource();
 
 		public string Description
-			=> "DuplicateCurrentTabDescription".GetLocalizedResource();
+			=> Strings.DuplicateCurrentTabDescription.GetLocalizedResource();
 
 		public DuplicateCurrentTabAction()
 		{

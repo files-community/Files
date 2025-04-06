@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Win32;
@@ -10,7 +10,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents an item for recent item of File Explorer on Windows.
 	/// </summary>
-	public sealed class RecentItem : WidgetCardItem, IEquatable<RecentItem>, IDisposable
+	public sealed partial class RecentItem : WidgetCardItem, IEquatable<RecentItem>, IDisposable
 	{
 		private BitmapImage? _Icon;
 		/// <summary>

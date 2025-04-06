@@ -1,12 +1,12 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Data.Items
 {
 	/// <summary>
 	/// Represents an access mask details, such as its name and changeability.
 	/// </summary>
-	public sealed class AccessMaskItem : ObservableObject
+	public sealed partial class AccessMaskItem : ObservableObject
 	{
 		public string AccessMaskName { get; set; }
 

@@ -1,5 +1,5 @@
-// Copyright(c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright(c) Files Community
+// Licensed under the MIT License.
 
 using Files.Shared.Helpers;
 using Microsoft.UI.Dispatching;
@@ -45,7 +45,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.CustomIconSource = Item.CustomIconSource;
 			ViewModel.LoadFileIcon = Item.LoadFileIcon;
 			ViewModel.IsDownloadedFile = Win32Helper.ReadStringFromFile($"{Item.ItemPath}:Zone.Identifier") is not null;
-			ViewModel.IsEditAlbumCoverVisible = 
+			ViewModel.IsEditAlbumCoverVisible =
 				FileExtensionHelpers.IsVideoFile(Item.FileExtension) ||
 				FileExtensionHelpers.IsAudioFile(Item.FileExtension);
 
@@ -58,14 +58,16 @@ namespace Files.App.ViewModels.Properties
 				FileExtensionHelpers.IsExecutableFile(shortcutItem.TargetPath) ||
 				FileExtensionHelpers.IsMsiFile(shortcutItem.TargetPath);
 
-			ViewModel.ShortcutItemType = isApplication ? "Application".GetLocalizedResource() :
-				Item.IsLinkItem ? "PropertiesShortcutTypeLink".GetLocalizedResource() : "File".GetLocalizedResource();
+			ViewModel.ShortcutItemType = isApplication ? Strings.Application.GetLocalizedResource() :
+				Item.IsLinkItem ? Strings.PropertiesShortcutTypeLink.GetLocalizedResource() : Strings.File.GetLocalizedResource();
 			ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
 			ViewModel.IsShortcutItemPathReadOnly = shortcutItem.IsSymLink;
 			ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
 			ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
 			ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
+			ViewModel.ShowWindowCommand = shortcutItem.ShowWindowCommand;
 			ViewModel.ShortcutItemArgumentsVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
+			ViewModel.ShortcutItemWindowArgsVisibility = Item.IsLinkItem || shortcutItem.IsSymLink ? false : true;
 
 			if (isApplication)
 				ViewModel.RunAsAdmin = shortcutItem.RunAsAdmin;
@@ -93,10 +95,10 @@ namespace Files.App.ViewModels.Properties
 
 		public override async Task GetSpecialPropertiesAsync()
 		{
-			ViewModel.IsReadOnly = Win32Helper.HasFileAttribute(
-				Item.ItemPath, System.IO.FileAttributes.ReadOnly);
-			ViewModel.IsHidden = Win32Helper.HasFileAttribute(
-				Item.ItemPath, System.IO.FileAttributes.Hidden);
+			ViewModel.IsReadOnly = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
+			ViewModel.IsHidden = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+			ViewModel.CanCompressContent = Win32Helper.CanCompressContent(Item.ItemPath);
+			ViewModel.IsContentCompressed = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Compressed);
 
 			ViewModel.ItemSizeVisibility = true;
 			ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
@@ -279,21 +281,26 @@ namespace Files.App.ViewModels.Properties
 					if (ViewModel.IsHidden is not null)
 					{
 						if ((bool)ViewModel.IsHidden)
-							Win32Helper.SetFileAttribute(Item.ItemPath,	System.IO.FileAttributes.Hidden);
+							Win32Helper.SetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
 						else
 							Win32Helper.UnsetFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
 					}
 
 					break;
 
+				case nameof(ViewModel.IsContentCompressed):
+					Win32Helper.SetCompressionAttributeIoctl(Item.ItemPath, ViewModel.IsContentCompressed ?? false);
+					break;
+
 				case nameof(ViewModel.RunAsAdmin):
 				case nameof(ViewModel.ShortcutItemPath):
 				case nameof(ViewModel.ShortcutItemWorkingDir):
+				case nameof(ViewModel.ShowWindowCommand):
 				case nameof(ViewModel.ShortcutItemArguments):
 					if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
 						return;
 
-					await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, ViewModel.RunAsAdmin);
+					await FileOperationsHelpers.CreateOrUpdateLinkAsync(Item.ItemPath, ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, ViewModel.ShortcutItemWorkingDir, ViewModel.RunAsAdmin, ViewModel.ShowWindowCommand);
 
 					break;
 			}

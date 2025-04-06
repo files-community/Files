@@ -1,19 +1,20 @@
-﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Page
 	x:Class="Files.App.Views.MainPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
+	xmlns:controls="using:Files.App.Controls"
+	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
-	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:sidebar="using:Files.App.UserControls.Sidebar"
 	xmlns:tabbar="using:Files.App.UserControls.TabBar"
-	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
+	xmlns:toolkit="using:CommunityToolkit.WinUI.Controls"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:viewmodels="using:Files.App.ViewModels"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	AllowDrop="True"
 	Background="{ThemeResource App.Theme.BackgroundBrush}"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
@@ -54,65 +55,65 @@
 	<Page.KeyboardAccelerators>
 		<KeyboardAccelerator Key="Number1" Modifiers="Control">
 			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Invoked">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="Number2" Modifiers="Control">
 			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Invoked">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="Number3" Modifiers="Control">
 			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Invoked">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="Number4" Modifiers="Control">
 			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Invoked">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="Number5" Modifiers="Control">
 			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Invoked">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="Number6" Modifiers="Control">
 			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Invoked">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="Number7" Modifiers="Control">
 			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Invoked">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="Number8" Modifiers="Control">
 			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Invoked">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
 		<KeyboardAccelerator Key="Number9" Modifiers="Control">
 			<i:Interaction.Behaviors>
-				<icore:EventTriggerBehavior EventName="Invoked">
-					<icore:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
-				</icore:EventTriggerBehavior>
+				<i:EventTriggerBehavior EventName="Invoked">
+					<i:InvokeCommandAction Command="{x:Bind ViewModel.NavigateToNumberedTabKeyboardAcceleratorCommand}" />
+				</i:EventTriggerBehavior>
 			</i:Interaction.Behaviors>
 		</KeyboardAccelerator>
 	</Page.KeyboardAccelerators>
@@ -142,21 +143,19 @@
 			TabIndex="0" />
 
 		<!--  Address Bar  -->
-		<uc:AddressToolbar
+		<uc:NavigationToolbar
 			x:Name="NavToolbar"
 			Grid.Row="1"
 			HorizontalAlignment="Stretch"
 			HorizontalContentAlignment="Stretch"
 			x:Load="False"
 			Loaded="NavToolbar_Loaded"
-			OngoingTasksViewModel="{x:Bind OngoingTasksViewModel}"
 			ShowOngoingTasks="True"
 			ShowSearchBox="True"
-			ShowSettingsButton="{x:Bind WindowContext.IsCompactOverlay, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 			TabIndex="1" />
 
 		<!--  Content Area  -->
-		<sidebar:SidebarView
+		<controls:SidebarView
 			x:Name="SidebarControl"
 			Grid.Row="2"
 			HorizontalAlignment="Stretch"
@@ -170,7 +169,7 @@
 			ViewModel="{x:Bind SidebarAdaptiveViewModel}">
 
 			<!--  Inner Content  -->
-			<sidebar:SidebarView.InnerContent>
+			<controls:SidebarView.InnerContent>
 				<Grid
 					x:Name="RootGrid"
 					PreviewKeyDown="RootGrid_PreviewKeyDown"
@@ -192,10 +191,11 @@
 							MinWidth="208" />
 						<ColumnDefinition Width="Auto" />
 						<ColumnDefinition x:Name="PaneColumn" Width="Auto" />
+						<ColumnDefinition x:Name="ShelfPaneColumn" Width="Auto" />
 					</Grid.ColumnDefinitions>
 
 					<!--  File Navigation Toolbar  -->
-					<uc:InnerNavigationToolbar
+					<uc:Toolbar
 						x:Name="InnerNavigationToolbar"
 						Grid.Row="0"
 						Grid.ColumnSpan="3"
@@ -216,7 +216,7 @@
 						Content="{x:Bind ViewModel.SelectedTabItem.ContentFrame, Mode=OneWay}" />
 
 					<!--  Preview Pane Splitter  -->
-					<toolkit:GridSplitter
+					<controls:GridSplitter
 						x:Name="PaneSplitter"
 						Grid.Row="1"
 						Grid.Column="1"
@@ -243,12 +243,83 @@
 						Grid.Row="4"
 						Grid.ColumnSpan="3"
 						x:Load="False"
-						ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-						Visibility="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
+						ShowInfoText="{x:Bind ViewModel.ShowStatusBar, Mode=OneWay}"
+						Visibility="{x:Bind ViewModel.ShowStatusBar, Mode=OneWay}" />
 
+					<!--  Shelf Pane  -->
+					<uc:ShelfPane
+						x:Name="ShelfPane"
+						Grid.Row="0"
+						Grid.RowSpan="5"
+						Grid.Column="3"
+						Margin="4,0,0,8"
+						x:Load="{x:Bind ViewModel.ShowShelfPane, Mode=OneWay}"
+						ClearCommand="{x:Bind ViewModel.ShelfViewModel.ClearItemsCommand}"
+						ItemsSource="{x:Bind ViewModel.ShelfViewModel.Items}" />
 				</Grid>
-			</sidebar:SidebarView.InnerContent>
-		</sidebar:SidebarView>
+			</controls:SidebarView.InnerContent>
+
+			<controls:SidebarView.Footer>
+				<StackPanel Padding="4" Spacing="4">
+					<Border
+						Height="1"
+						HorizontalAlignment="Stretch"
+						BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
+						BorderThickness="1" />
+					<!--  Open the Settings dialog  -->
+					<Button
+						x:Name="SettingsButton"
+						Height="28"
+						Padding="12,0,12,0"
+						HorizontalAlignment="Stretch"
+						HorizontalContentAlignment="Stretch"
+						AccessKey="I"
+						AccessKeyInvoked="SettingsButton_AccessKeyInvoked"
+						AutomationProperties.AutomationId="SettingsButton"
+						AutomationProperties.Name="{x:Bind Commands.OpenSettings.Label, Mode=OneWay}"
+						Background="Transparent"
+						BorderThickness="0"
+						Command="{x:Bind Commands.OpenSettings, Mode=OneWay}"
+						ToolTipService.Placement="Bottom">
+						<Button.Resources>
+							<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
+							<SolidColorBrush x:Key="ButtonForegroundDisabled" Color="{ThemeResource TextFillColorPrimary}" />
+						</Button.Resources>
+						<Grid HorizontalAlignment="Stretch">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<AnimatedIcon
+								x:Name="SettingAnimatedIcon"
+								Height="16"
+								Margin="4,0,0,0">
+								<AnimatedIcon.Source>
+									<animatedvisuals:AnimatedSettingsVisualSource />
+								</AnimatedIcon.Source>
+								<AnimatedIcon.FallbackIconSource>
+									<SymbolIconSource Symbol="Setting" />
+								</AnimatedIcon.FallbackIconSource>
+							</AnimatedIcon>
+
+							<TextBlock
+								Grid.Column="1"
+								Margin="12,0,0,0"
+								Text="{x:Bind Commands.OpenSettings.Label, Mode=OneWay}" />
+						</Grid>
+
+						<Button.ContextFlyout>
+							<MenuFlyout>
+								<MenuFlyoutItem
+									Command="{x:Bind Commands.OpenSettingsFile, Mode=OneWay}"
+									Icon="{x:Bind Commands.OpenSettingsFile.FontIcon, Mode=OneWay}"
+									Text="{x:Bind Commands.OpenSettingsFile.Label, Mode=OneWay}" />
+							</MenuFlyout>
+						</Button.ContextFlyout>
+					</Button>
+				</StackPanel>
+			</controls:SidebarView.Footer>
+		</controls:SidebarView>
 
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup>

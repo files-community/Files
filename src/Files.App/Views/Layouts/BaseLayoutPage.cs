@@ -1,7 +1,7 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI;
 using Files.App.Controls;
 using Files.App.Helpers.ContextFlyouts;
 using Files.App.UserControls.Menus;
@@ -15,6 +15,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.ComTypes;
+using Vanara.Extensions;
 using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.DragDrop;
@@ -38,6 +39,7 @@ namespace Files.App.Views.Layouts
 
 		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>()!;
 		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
+		protected ILayoutSettingsService LayoutSettingsService { get; } = Ioc.Default.GetService<ILayoutSettingsService>()!;
 		protected ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		public InfoPaneViewModel InfoPaneViewModel { get; } = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 		protected readonly IWindowContext WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
@@ -66,6 +68,7 @@ namespace Files.App.Views.Layouts
 		private CancellationTokenSource? groupingCancellationToken;
 
 		private bool shiftPressed;
+		private bool itemDragging;
 
 		private ListedItem? dragOverItem = null;
 		private ListedItem? hoveredItem = null;
@@ -73,8 +76,8 @@ namespace Files.App.Views.Layouts
 
 		// Properties
 
-		protected AddressToolbar? NavToolbar
-			=> (MainWindow.Instance.Content as Frame)?.FindDescendant<AddressToolbar>();
+		protected NavigationToolbar? NavToolbar
+			=> (MainWindow.Instance.Content as Frame)?.FindDescendant<NavigationToolbar>();
 
 		public LayoutPreferencesManager? FolderSettings
 			=> ParentShellPageInstance?.InstanceViewModel.FolderSettings;
@@ -262,7 +265,7 @@ namespace Files.App.Views.Layouts
 						UpdateSelectionSize();
 
 						SelectedItemsPropertiesViewModel.SelectedItemsCount = selectedItems.Count;
-						SelectedItemsPropertiesViewModel.SelectedItemsCountString = "SelectedItems".GetLocalizedFormatResource(selectedItems!.Count);
+						SelectedItemsPropertiesViewModel.SelectedItemsCountString = Strings.SelectedItems.GetLocalizedFormatResource(selectedItems!.Count);
 
 						if (selectedItems.Count == 1)
 						{
@@ -438,6 +441,8 @@ namespace Files.App.Views.Layouts
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = false;
+				ParentShellPageInstance.InstanceViewModel.IsPageTypeReleaseNotes = false;
+				ParentShellPageInstance.InstanceViewModel.IsPageTypeSettings = false;
 				ParentShellPageInstance.ToolbarViewModel.PathControlDisplayText = navigationArguments.NavPathParam;
 
 				if (ParentShellPageInstance.InstanceViewModel.FolderSettings.DirectorySortOption == SortOption.Path)
@@ -471,16 +476,17 @@ namespace Files.App.Views.Layouts
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeZipFolder = ZipStorageFolder.IsZipPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeLibrary = LibraryManager.IsLibraryPath(workingDir);
 				ParentShellPageInstance.InstanceViewModel.IsPageTypeSearchResults = true;
+				ParentShellPageInstance.InstanceViewModel.IsPageTypeReleaseNotes = false;
+				ParentShellPageInstance.InstanceViewModel.IsPageTypeSettings = false;
 
 				if (!navigationArguments.IsLayoutSwitch)
 				{
 					var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
-					await ParentShellPageInstance.UpdatePathUIToWorkingDirectoryAsync(null, string.Format("SearchPagePathBoxOverrideText".GetLocalizedResource(), navigationArguments.SearchQuery, displayName));
+					await ParentShellPageInstance.UpdatePathUIToWorkingDirectoryAsync(null, string.Format(Strings.SearchPagePathBoxOverrideText.GetLocalizedResource(), navigationArguments.SearchQuery, displayName));
 					var searchInstance = new Utils.Storage.FolderSearch
 					{
 						Query = navigationArguments.SearchQuery,
 						Folder = navigationArguments.SearchPathParam,
-						ThumbnailSize = InstanceViewModel!.FolderSettings.GetRoundedIconSize(),
 					};
 
 					_ = ParentShellPageInstance.ShellViewModel.SearchAsync(searchInstance);
@@ -755,13 +761,28 @@ namespace Files.App.Views.Layouts
 			contextMenu.SecondaryCommands.Insert(index, new AppBarSeparator());
 			contextMenu.SecondaryCommands.Insert(index + 1, new AppBarButton()
 			{
-				Label = "EditTags".GetLocalizedResource(),
+				Label = Strings.EditTags.GetLocalizedResource(),
 				Content = new ThemedIcon()
 				{
 					Style = (Style)Application.Current.Resources["App.ThemedIcons.TagEdit"],
 				},
 				Flyout = fileTagsContextMenu
 			});
+
+			fileTagsContextMenu.TagsChanged += RequireTagGroupsUpdate;
+			fileTagsContextMenu.Closed += HandleClosed;
+
+			async void RequireTagGroupsUpdate(object? sender, EventArgs e)
+			{
+				if (ParentShellPageInstance is not null)
+					await ParentShellPageInstance.ShellViewModel.RefreshTagGroups();
+			}
+
+			void HandleClosed(object? sender, object e)
+			{
+				fileTagsContextMenu.TagsChanged -= RequireTagGroupsUpdate;
+				fileTagsContextMenu.Closed -= HandleClosed;
+			}
 		}
 
 		private async Task AddShellMenuItemsAsync(List<ContextMenuFlyoutItemViewModel> shellMenuItems, CommandBarFlyout contextMenuFlyout, bool shiftPressed)
@@ -841,7 +862,7 @@ namespace Files.App.Views.Layouts
 
 					if (overflowItemFlyout.Items.Count > 0 && UserSettingsService.GeneralSettingsService.MoveShellExtensionsToSubMenu)
 					{
-						overflowItem.Label = "ShowMoreOptions".GetLocalizedResource();
+						overflowItem.Label = Strings.ShowMoreOptions.GetLocalizedResource();
 						overflowItem.IsEnabled = true;
 					}
 					else
@@ -886,7 +907,7 @@ namespace Files.App.Views.Layouts
 					{
 						ThemedIconStyle = "App.ThemedIcons.OpenWith"
 					}.ToThemedIcon();
-					openWithOverflow.Label = "OpenWith".GetLocalizedResource();
+					openWithOverflow.Label = Strings.OpenWith.GetLocalizedResource();
 				}
 			}
 
@@ -1012,11 +1033,22 @@ namespace Files.App.Views.Layouts
 					var storageItemList = orderedItems.Where(x => !(x.IsHiddenItem && x.IsLinkItem && x.IsRecycleBinItem && x.IsShortcut)).Select(x => VirtualStorageItem.FromListedItem(x));
 					e.Data.SetStorageItems(storageItemList, false);
 				}
+
+				// Set can window to front (#13255)
+				MainWindow.Instance.SetCanWindowToFront(false);
+				itemDragging = true;
 			}
 			catch (Exception)
 			{
 				e.Cancel = true;
 			}
+		}
+
+		protected virtual void FileList_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)
+		{
+			// Set can window to front (#13255)
+			itemDragging = false;
+			MainWindow.Instance.SetCanWindowToFront(true);
 		}
 
 		private void Item_DragLeave(object sender, DragEventArgs e)
@@ -1060,41 +1092,41 @@ namespace Files.App.Views.Layouts
 
 						if (item.IsExecutable || item.IsScriptFile)
 						{
-							e.DragUIOverride.Caption = $"{"OpenWith".GetLocalizedResource()} {item.Name}";
+							e.DragUIOverride.Caption = $"{Strings.OpenWith.GetLocalizedResource()} {item.Name}";
 							e.AcceptedOperation = DataPackageOperation.Link;
 						}
 						// Items from the same drive as this folder are dragged into this folder, so we move the items instead of copy
 						else if (e.Modifiers.HasFlag(DragDropModifiers.Alt) || e.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
 						{
-							e.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), item.Name);
+							e.DragUIOverride.Caption = string.Format(Strings.LinkToFolderCaptionText.GetLocalizedResource(), item.Name);
 							e.AcceptedOperation = DataPackageOperation.Link;
 						}
 						else if (e.Modifiers.HasFlag(DragDropModifiers.Control))
 						{
-							e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.Name);
+							e.DragUIOverride.Caption = string.Format(Strings.CopyToFolderCaptionText.GetLocalizedResource(), item.Name);
 							e.AcceptedOperation = DataPackageOperation.Copy;
 						}
 						else if (e.Modifiers.HasFlag(DragDropModifiers.Shift))
 						{
-							e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), item.Name);
+							e.DragUIOverride.Caption = string.Format(Strings.MoveToFolderCaptionText.GetLocalizedResource(), item.Name);
 							// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
 							e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
 						}
 						else if (draggedItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
 							|| ZipStorageFolder.IsZipPath(item.ItemPath))
 						{
-							e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.Name);
+							e.DragUIOverride.Caption = string.Format(Strings.CopyToFolderCaptionText.GetLocalizedResource(), item.Name);
 							e.AcceptedOperation = DataPackageOperation.Copy;
 						}
 						else if (draggedItems.AreItemsInSameDrive(item.ItemPath))
 						{
-							e.DragUIOverride.Caption = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), item.Name);
+							e.DragUIOverride.Caption = string.Format(Strings.MoveToFolderCaptionText.GetLocalizedResource(), item.Name);
 							// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
 							e.AcceptedOperation = DataPackageOperation.Move | DataPackageOperation.Copy;
 						}
 						else
 						{
-							e.DragUIOverride.Caption = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), item.Name);
+							e.DragUIOverride.Caption = string.Format(Strings.CopyToFolderCaptionText.GetLocalizedResource(), item.Name);
 							e.AcceptedOperation = DataPackageOperation.Copy;
 						}
 					}
@@ -1130,23 +1162,34 @@ namespace Files.App.Views.Layouts
 		protected virtual async void Item_Drop(object sender, DragEventArgs e)
 		{
 			var deferral = e.GetDeferral();
+			try
+			{
+				e.Handled = true;
+				_ = e.Data.Properties;
+				var exists = e.Data.Properties.TryGetValue("Files_ActionBinder", out var val);
+				_ = val;
 
-			e.Handled = true;
+				// Reset dragged over item
+				dragOverItem = null;
 
-			// Reset dragged over item
-			dragOverItem = null;
-
-			var item = GetItemFromElement(sender);
-			if (item is not null)
-				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as ShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable, item.IsScriptFile);
-
-			deferral.Complete();
+				var item = GetItemFromElement(sender);
+				if (item is not null)
+					await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as ShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable, item.IsScriptFile);
+			}
+			finally
+			{
+				deferral.Complete();
+			}
 		}
 
 		protected void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
 			RefreshContainer(args.ItemContainer, args.InRecycleQueue);
 			RefreshItem(args.ItemContainer, args.Item, args.InRecycleQueue, args);
+
+			// Set can window to front (#13255)
+			itemDragging = false;
+			MainWindow.Instance.SetCanWindowToFront(true);
 		}
 
 		private void RefreshContainer(SelectorItem container, bool inRecycleQueue)
@@ -1154,6 +1197,8 @@ namespace Files.App.Views.Layouts
 			container.PointerPressed -= FileListItem_PointerPressed;
 			container.PointerEntered -= FileListItem_PointerEntered;
 			container.PointerExited -= FileListItem_PointerExited;
+			container.Tapped -= FileListItem_Tapped;
+			container.DoubleTapped -= FileListItem_DoubleTapped;
 			container.RightTapped -= FileListItem_RightTapped;
 
 			if (inRecycleQueue)
@@ -1163,12 +1208,11 @@ namespace Files.App.Views.Layouts
 			else
 			{
 				container.PointerPressed += FileListItem_PointerPressed;
+				container.PointerEntered += FileListItem_PointerEntered;
+				container.PointerExited += FileListItem_PointerExited;
+				container.Tapped += FileListItem_Tapped;
+				container.DoubleTapped += FileListItem_DoubleTapped;
 				container.RightTapped += FileListItem_RightTapped;
-				if (UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
-				{
-					container.PointerEntered += FileListItem_PointerEntered;
-					container.PointerExited += FileListItem_PointerExited;
-				}
 			}
 		}
 
@@ -1191,7 +1235,7 @@ namespace Files.App.Views.Layouts
 					args.RegisterUpdateCallback(callbackPhase, async (s, c) =>
 					{
 						await ParentShellPageInstance!.ShellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
-						if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None && listedItem is GitItem gitItem)
+						if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None && listedItem is IGitItem gitItem)
 							await ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
 					});
 				}
@@ -1200,6 +1244,10 @@ namespace Files.App.Views.Layouts
 
 		protected internal void FileListItem_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
+			// Set can window to front and bring the window to the front if necessary (#13255)
+			if ((!itemDragging) && MainWindow.Instance.SetCanWindowToFront(true))
+				Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
+
 			if (sender is not SelectorItem selectorItem)
 				return;
 
@@ -1225,6 +1273,10 @@ namespace Files.App.Views.Layouts
 
 		protected internal void FileListItem_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
+			// Set can window to front (#13255)
+			if (sender is SelectorItem selectorItem && selectorItem.IsSelected)
+				MainWindow.Instance.SetCanWindowToFront(false);
+
 			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;
 
@@ -1271,6 +1323,10 @@ namespace Files.App.Views.Layouts
 
 		protected internal void FileListItem_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
+			// Set can window to front (#13255)
+			if (!itemDragging)
+				MainWindow.Instance.SetCanWindowToFront(true);
+
 			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;
 
@@ -1278,8 +1334,26 @@ namespace Files.App.Views.Layouts
 			hoveredItem = null;
 		}
 
+		protected void FileListItem_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			// Set can window to front and bring the window to the front if necessary (#13255)
+			if ((!itemDragging) && MainWindow.Instance.SetCanWindowToFront(true))
+				Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
+		}
+
+		protected void FileListItem_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+		{
+			// Set can window to front and bring the window to the front if necessary (#13255)
+			if ((!itemDragging) && MainWindow.Instance.SetCanWindowToFront(true))
+				Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
+		}
+
 		protected void FileListItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
 		{
+			// Set can window to front and bring the window to the front if necessary (#13255)
+			if ((!itemDragging) && MainWindow.Instance.SetCanWindowToFront(true))
+				Win32Helper.BringToForegroundEx(new(MainWindow.Instance.WindowHandle));
+
 			var rightClickedItem = GetItemFromElement(sender);
 
 			if (rightClickedItem is not null && !((SelectorItem)sender).IsSelected)

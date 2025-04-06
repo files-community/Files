@@ -1,12 +1,12 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.IO;
 using Windows.Storage;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class StorageHistoryOperations : IStorageHistoryOperations
+	public sealed partial class StorageHistoryOperations : IStorageHistoryOperations
 	{
 		private IFilesystemHelpers helpers;
 		private ShellFilesystemOperations operations;

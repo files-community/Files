@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
@@ -11,15 +11,15 @@ using System.Threading.Tasks;
 
 namespace Files.App.Actions
 {
-	internal sealed class PasteItemAction : ObservableObject, IAction
+	internal sealed partial class PasteItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Paste".GetLocalizedResource();
+			=> Strings.Paste.GetLocalizedResource();
 
 		public string Description
-			=> "PasteItemDescription".GetLocalizedResource();
+			=> Strings.PasteItemDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Paste");
@@ -53,7 +53,9 @@ namespace Files.App.Actions
 				App.AppModel.IsPasteEnabled &&
 				context.PageType != ContentPageTypes.Home &&
 				context.PageType != ContentPageTypes.RecycleBin &&
-				context.PageType != ContentPageTypes.SearchResults;
+				context.PageType != ContentPageTypes.SearchResults &&
+				context.PageType != ContentPageTypes.ReleaseNotes &&
+				context.PageType != ContentPageTypes.Settings;
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -1,12 +1,12 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Windowing;
 
 namespace Files.App.Data.Contexts
 {
 	/// <inheritdoc cref="IWindowContext"/>
-	internal sealed class WindowContext : ObservableObject, IWindowContext
+	internal sealed partial class WindowContext : ObservableObject, IWindowContext
 	{
 		private IWindowsSecurityService WindowsSecurityService = Ioc.Default.GetRequiredService<IWindowsSecurityService>();
 

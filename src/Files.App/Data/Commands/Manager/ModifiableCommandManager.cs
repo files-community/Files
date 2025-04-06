@@ -1,11 +1,11 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.Collections.Frozen;
 
 namespace Files.App.Data.Commands
 {
-	internal sealed class ModifiableCommandManager : IModifiableCommandManager
+	internal sealed partial class ModifiableCommandManager : IModifiableCommandManager
 	{
 		private static readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 

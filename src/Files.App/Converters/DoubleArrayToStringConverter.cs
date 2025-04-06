@@ -1,12 +1,12 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Data;
 using System.Text;
 
 namespace Files.App.Converters
 {
-	internal sealed class DoubleArrayToStringConverter : IValueConverter
+	internal sealed partial class DoubleArrayToStringConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{

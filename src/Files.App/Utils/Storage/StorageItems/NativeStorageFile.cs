@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.Shared.Helpers;
 using System.IO;
@@ -18,7 +18,7 @@ namespace Files.App.Utils.Storage
 	/// Shortcuts and alternate data stream.
 	/// Uses *FromApp methods for file operations
 	/// </summary>
-	public sealed class NativeStorageFile : BaseStorageFile
+	public sealed partial class NativeStorageFile : BaseStorageFile
 	{
 		public override string Path { get; }
 		public override string Name { get; }
@@ -34,7 +34,7 @@ namespace Files.App.Utils.Storage
 		{
 			get
 			{
-				var itemType = "File".GetLocalizedResource();
+				var itemType = Strings.File.GetLocalizedResource();
 
 				if (Name.Contains('.', StringComparison.Ordinal))
 					itemType = IO.Path.GetExtension(Name).Trim('.') + " " + itemType;
@@ -83,11 +83,11 @@ namespace Files.App.Utils.Storage
 				else
 				{
 					destFile.CreateFile();
-					using (var inStream = await this.OpenStreamForReadAsync())
-					using (var outStream = await destFile.OpenStreamForWriteAsync())
+					await using (var inStream = await this.OpenStreamForReadAsync())
+					await using (var outStream = await destFile.OpenStreamForWriteAsync())
 					{
-						await inStream.CopyToAsync(outStream);
-						await outStream.FlushAsync();
+						await inStream.CopyToAsync(outStream, cancellationToken);
+						await outStream.FlushAsync(cancellationToken);
 					}
 				}
 				return destFile;
@@ -248,11 +248,11 @@ namespace Files.App.Utils.Storage
 				else
 				{
 					destFile.CreateFile();
-					using (var inStream = await this.OpenStreamForReadAsync())
-					using (var outStream = await destFile.OpenStreamForWriteAsync())
+					await using (var inStream = await this.OpenStreamForReadAsync())
+					await using (var outStream = await destFile.OpenStreamForWriteAsync())
 					{
-						await inStream.CopyToAsync(outStream);
-						await outStream.FlushAsync();
+						await inStream.CopyToAsync(outStream, cancellationToken);
+						await outStream.FlushAsync(cancellationToken);
 					}
 					await DeleteAsync();
 				}

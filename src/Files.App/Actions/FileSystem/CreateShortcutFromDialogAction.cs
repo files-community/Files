@@ -1,17 +1,17 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class CreateShortcutFromDialogAction : BaseUIAction, IAction
+	internal sealed partial class CreateShortcutFromDialogAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Shortcut".GetLocalizedResource();
+			=> Strings.Shortcut.GetLocalizedResource();
 
 		public string Description
-			=> "CreateShortcutFromDialogDescription".GetLocalizedResource();
+			=> Strings.CreateShortcutFromDialogDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new("\uE71B");

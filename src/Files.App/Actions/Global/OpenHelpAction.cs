@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Windows.System;
 
@@ -8,10 +8,10 @@ namespace Files.App.Actions
 	internal sealed class OpenHelpAction : IAction
 	{
 		public string Label
-			=> "Help".GetLocalizedResource();
+			=> Strings.Help.GetLocalizedResource();
 
 		public string Description
-			=> "OpenHelpDescription".GetLocalizedResource();
+			=> Strings.OpenHelpDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.F1);

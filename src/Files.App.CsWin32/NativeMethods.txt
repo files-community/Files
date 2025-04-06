@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 WNDPROC
 WNDCLASSEXW
@@ -28,9 +28,7 @@ HWND
 LRESULT
 WPARAM
 LPARAM
-WM_LBUTTONUP
-WM_RBUTTONUP
-WM_DESTROY
+WM_*
 SetForegroundWindow
 GetForegroundWindow
 GetCurrentThreadId
@@ -98,7 +96,7 @@ FindWindow
 SendMessage
 IsWindowVisible
 COPYDATASTRUCT
-SetWindowLongPtr
+WINDOW_LONG_PTR_INDEX
 GetDpiForWindow
 CallWindowProc
 MINMAXINFO
@@ -135,6 +133,12 @@ PSGetPropertyKeyFromName
 ShellExecuteEx
 CoTaskMemFree
 QueryDosDevice
+DeviceIoControl
+GetLastError
+CreateFile
+GetVolumeInformation
+COMPRESSION_FORMAT
+FILE_ACCESS_RIGHTS
 FindFirstFileEx
 FindNextFile
 CreateFile
@@ -152,7 +156,19 @@ BHID_SFUIObject
 IContextMenu
 CMF_NORMAL
 CMF_OPTIMIZEFORINVOKE
+CMF_EXTENDEDVERBS
+CMF_DEFAULTONLY
 IApplicationDestinations
 ApplicationDestinations
 IApplicationDocumentLists
 ApplicationDocumentLists
+IApplicationActivationManager
+MENU_ITEM_TYPE
+COMPRESSION_FORMAT
+FSCTL_SET_COMPRESSION
+FSCTL_DISMOUNT_VOLUME
+FSCTL_LOCK_VOLUME
+FILE_FILE_COMPRESSION
+WM_WINDOWPOSCHANGING
+WINDOWPOS
+UnregisterClass

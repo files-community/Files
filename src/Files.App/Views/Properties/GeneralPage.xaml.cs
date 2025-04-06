@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Dispatching;
@@ -140,6 +140,7 @@ namespace Files.App.Views.Properties
 						}
 
 						ViewModel.IsReadOnly = ViewModel.IsReadOnlyEditedValue;
+						ViewModel.IsContentCompressed = ViewModel.IsContentCompressedEditedValue;
 
 						if (ViewModel.IsAblumCoverModified)
 						{
@@ -181,6 +182,7 @@ namespace Files.App.Views.Properties
 
 				ViewModel.IsReadOnly = ViewModel.IsReadOnlyEditedValue;
 				ViewModel.IsHidden = ViewModel.IsHiddenEditedValue;
+				ViewModel.IsContentCompressed = ViewModel.IsContentCompressedEditedValue;
 
 				if (!GetNewName(out var newName))
 					return true;

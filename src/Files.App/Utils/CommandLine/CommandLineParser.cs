@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.IO;
 
@@ -17,7 +17,7 @@ namespace Files.App.Utils.CommandLine
 		/// <returns>A collection of parsed command.</returns>
 		public static ParsedCommands ParseUntrustedCommands(string cmdLineString)
 		{
-			var parsedArgs = Parse(SplitArguments(cmdLineString, true));
+			var parsedArgs = Parse(SplitArguments(cmdLineString.TrimEnd(), true));
 
 			return ParseSplitArguments(parsedArgs);
 		}

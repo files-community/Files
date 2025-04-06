@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -15,7 +15,7 @@ namespace Files.App.Utils.Storage
 	/// representing a standard filesystem item. As such, VirtualStorageItem does not support hidden,
 	/// shortcut, or link items.
 	/// </summary>
-	public sealed class VirtualStorageItem : IStorageItem
+	public sealed partial class VirtualStorageItem : IStorageItem
 	{
 		private static BasicProperties props;
 
@@ -87,7 +87,7 @@ namespace Files.App.Utils.Storage
 		{
 			try
 			{
-				using (var stream = request.AsStreamForWrite())
+				await using (var stream = request.AsStreamForWrite())
 				{
 					await stream.FlushAsync();
 				}

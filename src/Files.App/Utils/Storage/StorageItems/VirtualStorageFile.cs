@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -11,7 +11,7 @@ using IO = System.IO;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class VirtualStorageFile : BaseStorageFile
+	public sealed partial class VirtualStorageFile : BaseStorageFile
 	{
 		public override string Path { get; }
 		public override string Name { get; }
@@ -24,7 +24,7 @@ namespace Files.App.Utils.Storage
 		{
 			get
 			{
-				var itemType = "File".GetLocalizedResource();
+				var itemType = Strings.File.GetLocalizedResource();
 				if (Name.Contains('.', StringComparison.Ordinal))
 				{
 					itemType = IO.Path.GetExtension(Name).Trim('.') + " " + itemType;
@@ -50,7 +50,7 @@ namespace Files.App.Utils.Storage
 		{
 			try
 			{
-				using (var stream = request.AsStreamForWrite())
+				await using (var stream = request.AsStreamForWrite())
 				{
 					await Contents.CopyToAsync(stream);
 					await stream.FlushAsync();
@@ -119,17 +119,17 @@ namespace Files.App.Utils.Storage
 
 				if (destFolder is ICreateFileWithStream cwsf)
 				{
-					using var inStream = await this.OpenStreamForReadAsync();
+					await using var inStream = await this.OpenStreamForReadAsync();
 					return await cwsf.CreateFileAsync(inStream, desiredNewName, option.Convert());
 				}
 				else
 				{
 					var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
-					using (var inStream = await this.OpenStreamForReadAsync())
-					using (var outStream = await destFile.OpenStreamForWriteAsync())
+					await using (var inStream = await this.OpenStreamForReadAsync())
+					await using (var outStream = await destFile.OpenStreamForWriteAsync())
 					{
-						await inStream.CopyToAsync(outStream);
-						await outStream.FlushAsync();
+						await inStream.CopyToAsync(outStream, cancellationToken);
+						await outStream.FlushAsync(cancellationToken);
 					}
 					return destFile;
 				}

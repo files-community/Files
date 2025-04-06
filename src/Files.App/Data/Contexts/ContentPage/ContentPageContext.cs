@@ -1,12 +1,12 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.UserControls.TabBar;
 using System.Collections.Immutable;
 
 namespace Files.App.Data.Contexts
 {
-	internal sealed class ContentPageContext : ObservableObject, IContentPageContext
+	internal sealed partial class ContentPageContext : ObservableObject, IContentPageContext
 	{
 		private static readonly IReadOnlyList<ListedItem> emptyItems = Enumerable.Empty<ListedItem>().ToImmutableList();
 
@@ -147,6 +147,8 @@ namespace Files.App.Data.Contexts
 				case nameof(CurrentInstanceViewModel.IsPageTypeCloudDrive):
 				case nameof(CurrentInstanceViewModel.IsPageTypeMtpDevice):
 				case nameof(CurrentInstanceViewModel.IsPageTypeSearchResults):
+				case nameof(CurrentInstanceViewModel.IsPageTypeReleaseNotes):
+				case nameof(CurrentInstanceViewModel.IsPageTypeSettings):
 					UpdatePageType();
 					break;
 				case nameof(CurrentInstanceViewModel.IsGitRepository):
@@ -160,15 +162,15 @@ namespace Files.App.Data.Contexts
 		{
 			switch (e.PropertyName)
 			{
-				case nameof(AddressToolbarViewModel.CanGoBack):
-				case nameof(AddressToolbarViewModel.CanGoForward):
-				case nameof(AddressToolbarViewModel.CanNavigateToParent):
-				case nameof(AddressToolbarViewModel.HasItem):
-				case nameof(AddressToolbarViewModel.CanRefresh):
-				case nameof(AddressToolbarViewModel.IsSearchBoxVisible):
+				case nameof(NavigationToolbarViewModel.CanGoBack):
+				case nameof(NavigationToolbarViewModel.CanGoForward):
+				case nameof(NavigationToolbarViewModel.CanNavigateToParent):
+				case nameof(NavigationToolbarViewModel.HasItem):
+				case nameof(NavigationToolbarViewModel.CanRefresh):
+				case nameof(NavigationToolbarViewModel.IsSearchBoxVisible):
 					OnPropertyChanged(e.PropertyName);
 					break;
-				case nameof(AddressToolbarViewModel.SelectedItems):
+				case nameof(NavigationToolbarViewModel.SelectedItems):
 					UpdateSelectedItems();
 					break;
 			}
@@ -210,6 +212,7 @@ namespace Files.App.Data.Contexts
 			{
 				null => ContentPageTypes.None,
 				{ IsPageTypeNotHome: false } => ContentPageTypes.Home,
+				{ IsPageTypeReleaseNotes: true } => ContentPageTypes.ReleaseNotes,
 				{ IsPageTypeRecycleBin: true } => ContentPageTypes.RecycleBin,
 				{ IsPageTypeZipFolder: true } => ContentPageTypes.ZipFolder,
 				{ IsPageTypeFtp: true } => ContentPageTypes.Ftp,
@@ -217,6 +220,7 @@ namespace Files.App.Data.Contexts
 				{ IsPageTypeCloudDrive: true } => ContentPageTypes.CloudDrive,
 				{ IsPageTypeMtpDevice: true } => ContentPageTypes.MtpDevice,
 				{ IsPageTypeSearchResults: true } => ContentPageTypes.SearchResults,
+				{ IsPageTypeSettings: true } => ContentPageTypes.Settings,
 				_ => ContentPageTypes.Folder,
 			};
 			SetProperty(ref pageType, type, nameof(PageType));
@@ -246,7 +250,9 @@ namespace Files.App.Data.Contexts
 				and not ContentPageTypes.RecycleBin
 				and not ContentPageTypes.ZipFolder
 				and not ContentPageTypes.SearchResults
-				and not ContentPageTypes.MtpDevice;
+				and not ContentPageTypes.MtpDevice
+				and not ContentPageTypes.ReleaseNotes
+				and not ContentPageTypes.Settings;
 		}
 	}
 }

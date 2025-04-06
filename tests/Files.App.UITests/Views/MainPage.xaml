@@ -1,4 +1,4 @@
-<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Page
 	x:Class="Files.App.UITests.Views.MainPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -9,9 +9,13 @@
 	mc:Ignorable="d">
 
 	<Grid>
+
 		<TextBlock
+			Grid.Row="0"
+			Margin="24"
 			HorizontalAlignment="Center"
 			VerticalAlignment="Center"
-			Text="All Samples here to test UI accessibility." />
+			Text="All Samples here to test UI accessibility.&#10;Select a page from the sidebar to test it." />
+
 	</Grid>
 </Page>

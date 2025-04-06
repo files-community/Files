@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
@@ -8,7 +8,7 @@ using Windows.Storage.FileProperties;
 
 namespace Files.App.Utils.Storage
 {
-	public class BaseStorageItemExtraProperties : IStorageItemExtraProperties
+	public partial class BaseStorageItemExtraProperties : IStorageItemExtraProperties
 	{
 		public virtual IAsyncOperation<IDictionary<string, object>> RetrievePropertiesAsync(IEnumerable<string> propertiesToRetrieve)
 		{

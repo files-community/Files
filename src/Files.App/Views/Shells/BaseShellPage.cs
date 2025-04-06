@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -47,7 +47,7 @@ namespace Files.App.Views.Shells
 
 		protected readonly ICommandManager commands = Ioc.Default.GetRequiredService<ICommandManager>();
 
-		public AddressToolbarViewModel ToolbarViewModel { get; } = new AddressToolbarViewModel();
+		public NavigationToolbarViewModel ToolbarViewModel { get; } = new NavigationToolbarViewModel();
 
 		public IBaseLayoutPage SlimContentPage => ContentPage;
 
@@ -180,12 +180,11 @@ namespace Files.App.Views.Shells
 				FlowDirection = FlowDirection.RightToLeft;
 
 			ToolbarViewModel.ToolbarPathItemInvoked += ShellPage_NavigationRequested;
-			ToolbarViewModel.ToolbarFlyoutOpened += ShellPage_ToolbarFlyoutOpened;
+			ToolbarViewModel.ToolbarFlyoutOpening += ShellPage_ToolbarFlyoutOpening;
 			ToolbarViewModel.ToolbarPathItemLoaded += ShellPage_ToolbarPathItemLoaded;
 			ToolbarViewModel.AddressBarTextEntered += ShellPage_AddressBarTextEntered;
 			ToolbarViewModel.PathBoxItemDropped += ShellPage_PathBoxItemDropped;
 
-			ToolbarViewModel.RefreshRequested += ShellPage_RefreshRequested;
 			ToolbarViewModel.EditModeEnabled += NavigationToolbar_EditModeEnabled;
 			ToolbarViewModel.ItemDraggedOverPathItem += ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxQuerySubmitted += NavigationToolbar_QuerySubmitted;
@@ -234,7 +233,7 @@ namespace Files.App.Views.Shells
 			if (ContentPage is null)
 				return;
 
-			var directoryItemCountLocalization = "Items".GetLocalizedFormatResource(ShellViewModel.FilesAndFolders.Count);
+			var directoryItemCountLocalization = Strings.Items.GetLocalizedFormatResource(ShellViewModel.FilesAndFolders.Count);
 
 			BranchItem? headBranch = headBranch = InstanceViewModel.IsGitRepository
 					? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
@@ -379,11 +378,6 @@ namespace Files.App.Views.Shells
 			}
 		}
 
-		protected async void ShellPage_RefreshRequested(object sender, EventArgs e)
-		{
-			await Refresh_Click();
-		}
-
 		protected void AppSettings_SortDirectionPreferenceUpdated(object sender, SortDirection e)
 		{
 			ShellViewModel?.UpdateSortDirectionStatusAsync();
@@ -431,12 +425,12 @@ namespace Files.App.Views.Shells
 			await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, e.Item, this);
 		}
 
-		protected async void ShellPage_ToolbarFlyoutOpened(object sender, ToolbarFlyoutOpenedEventArgs e)
+		protected async void ShellPage_ToolbarFlyoutOpening(object sender, ToolbarFlyoutOpeningEventArgs e)
 		{
-			var pathBoxItem = ((Button)e.OpenedFlyout.Target).DataContext as PathBoxItem;
+			var pathBoxItem = ((Button)e.OpeningFlyout.Target).DataContext as PathBoxItem;
 
 			if (pathBoxItem is not null)
-				await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, pathBoxItem, this);
+				await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpeningFlyout, pathBoxItem, this);
 		}
 
 		protected async void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
@@ -553,7 +547,6 @@ namespace Files.App.Views.Shells
 				{
 					Query = InstanceViewModel.CurrentSearchQuery ?? (string)TabBarItemParameter.NavigationParameter,
 					Folder = ShellViewModel.WorkingDirectory,
-					ThumbnailSize = InstanceViewModel.FolderSettings.GetRoundedIconSize(),
 				};
 
 				await ShellViewModel.SearchAsync(searchInstance);
@@ -562,6 +555,12 @@ namespace Files.App.Views.Shells
 			{
 				ToolbarViewModel.CanRefresh = false;
 				ShellViewModel?.RefreshItems(null);
+			}
+			else if (ItemDisplay.Content is HomePage homePage)
+			{
+				ToolbarViewModel.CanRefresh = false;
+				await homePage.ViewModel.RefreshWidgetProperties();
+				ToolbarViewModel.CanRefresh = true;
 			}
 		}
 
@@ -588,7 +587,9 @@ namespace Files.App.Views.Shells
 			foreach (PageStackEntry entry in ItemDisplay.BackStack.ToList())
 			{
 				if (entry.Parameter is NavigationArguments args &&
-					args.NavPathParam is not null and not "Home")
+					args.NavPathParam is not null and not "Home" &&
+					args.NavPathParam is not null and not "ReleaseNotes" &&
+					args.NavPathParam is not null and not "Settings")
 				{
 					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam, false);
 					if (!entry.SourcePageType.Equals(correctPageType))
@@ -604,7 +605,9 @@ namespace Files.App.Views.Shells
 			foreach (PageStackEntry entry in ItemDisplay.ForwardStack.ToList())
 			{
 				if (entry.Parameter is NavigationArguments args &&
-					args.NavPathParam is not null and not "Home")
+					args.NavPathParam is not null and not "Home" &&
+					args.NavPathParam is not null and not "ReleaseNotes" &&
+					args.NavPathParam is not null and not "Settings")
 				{
 					var correctPageType = FolderSettings.GetLayoutType(args.NavPathParam, false);
 					if (!entry.SourcePageType.Equals(correctPageType))
@@ -760,7 +763,7 @@ namespace Files.App.Views.Shells
 		protected void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
 		{
 			if (incomingSourcePageType == typeof(HomePage) && incomingSourcePageType is not null)
-				ToolbarViewModel.PathControlDisplayText = "Home".GetLocalizedResource();
+				ToolbarViewModel.PathControlDisplayText = Strings.Home.GetLocalizedResource();
 		}
 
 		protected void SetLoadingIndicatorForTabs(bool isLoading)
@@ -803,6 +806,8 @@ namespace Files.App.Views.Shells
 
 		public abstract void NavigateHome();
 
+		public abstract void NavigateToReleaseNotes();
+
 		public abstract void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null);
 
 		private void UpdateDateDisplayTimer_Tick(object sender, object e)
@@ -828,11 +833,10 @@ namespace Files.App.Views.Shells
 			drivesViewModel.PropertyChanged -= DrivesManager_PropertyChanged;
 
 			ToolbarViewModel.ToolbarPathItemInvoked -= ShellPage_NavigationRequested;
-			ToolbarViewModel.ToolbarFlyoutOpened -= ShellPage_ToolbarFlyoutOpened;
+			ToolbarViewModel.ToolbarFlyoutOpening -= ShellPage_ToolbarFlyoutOpening;
 			ToolbarViewModel.ToolbarPathItemLoaded -= ShellPage_ToolbarPathItemLoaded;
 			ToolbarViewModel.AddressBarTextEntered -= ShellPage_AddressBarTextEntered;
 			ToolbarViewModel.PathBoxItemDropped -= ShellPage_PathBoxItemDropped;
-			ToolbarViewModel.RefreshRequested -= ShellPage_RefreshRequested;
 			ToolbarViewModel.EditModeEnabled -= NavigationToolbar_EditModeEnabled;
 			ToolbarViewModel.ItemDraggedOverPathItem -= ShellPage_NavigationRequested;
 			ToolbarViewModel.PathBoxQuerySubmitted -= NavigationToolbar_QuerySubmitted;

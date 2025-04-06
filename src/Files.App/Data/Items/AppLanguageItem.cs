@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.Globalization;
 
@@ -30,7 +30,7 @@ namespace Files.App.Data.Items
 			if (systemDefault || string.IsNullOrEmpty(code))
 			{
 				Code = new CultureInfo(code).Name;
-				Name = "SettingsPreferencesSystemDefaultLanguageOption".GetLocalizedResource();
+				Name = Strings.SettingsPreferencesSystemDefaultLanguageOption.GetLocalizedResource();
 			}
 			else
 			{

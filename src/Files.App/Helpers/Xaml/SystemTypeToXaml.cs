@@ -1,11 +1,11 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Markup;
 
 namespace Files.App.Helpers
 {
-	public sealed class SystemTypeToXaml : MarkupExtension
+	public sealed partial class SystemTypeToXaml : MarkupExtension
 	{
 		#region Private Members
 

@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
@@ -13,7 +13,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	/// <summary>
 	/// Represents view model of <see cref="DrivesWidget"/>.
 	/// </summary>
-	public sealed class DrivesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
+	public sealed partial class DrivesWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Properties
 
@@ -44,9 +44,17 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			EjectDeviceCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteEjectDeviceCommand);
 			OpenPropertiesCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteOpenPropertiesCommand);
 			DisconnectNetworkDriveCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteDisconnectNetworkDriveCommand);
+
+			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 		}
 
 		// Methods
+
+		private async void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
+		{
+			if (e.SettingName == nameof(UserSettingsService.FoldersSettingsService.SizeUnitFormat))
+				await RefreshWidgetAsync();
+		}
 
 		public async Task RefreshWidgetAsync()
 		{
@@ -62,7 +70,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			if (ctrlPressed)
 			{
-				await NavigationHelpers.OpenPathInNewTab(path, false);
+				await NavigationHelpers.OpenPathInNewTab(path);
 				return;
 			}
 
@@ -90,15 +98,15 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewTabFromHomeAction)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab && CommandManager.OpenInNewTabFromHomeAction.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewWindowFromHomeAction)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow && CommandManager.OpenInNewWindowFromHomeAction.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewPaneFromHomeAction)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && CommandManager.OpenInNewPaneFromHomeAction.IsExecutable
 				}.Build(),
 				new()
 				{

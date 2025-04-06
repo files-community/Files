@@ -1,9 +1,9 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenInNewTabFromSidebarAction : BaseOpenInNewTabAction
+	internal sealed partial class OpenInNewTabFromSidebarAction : BaseOpenInNewTabAction
 	{
 		public override bool IsExecutable =>
 			SidebarContext.IsItemRightClicked &&
@@ -21,7 +21,7 @@ namespace Files.App.Actions
 			if (await DriveHelpers.CheckEmptyDrive(SidebarContext.RightClickedItem!.Path))
 				return;
 
-			await NavigationHelpers.OpenPathInNewTab(SidebarContext.RightClickedItem!.Path ?? string.Empty, false);
+			await NavigationHelpers.OpenPathInNewTab(SidebarContext.RightClickedItem!.Path ?? string.Empty);
 		}
 
 		protected override void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

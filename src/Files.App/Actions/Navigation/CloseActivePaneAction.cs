@@ -1,17 +1,17 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class CloseActivePaneAction : ObservableObject, IAction
+	internal sealed partial class CloseActivePaneAction : ObservableObject, IAction
 	{
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
-			=> "CloseActivePane".GetLocalizedResource();
+			=> Strings.CloseActivePane.GetLocalizedResource();
 
 		public string Description
-			=> "CloseActivePaneDescription".GetLocalizedResource();
+			=> Strings.CloseActivePaneDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.W, KeyModifiers.CtrlAlt);

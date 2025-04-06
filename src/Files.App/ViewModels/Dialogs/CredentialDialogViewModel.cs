@@ -1,9 +1,9 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.ViewModels.Dialogs
 {
-	public sealed class CredentialDialogViewModel : ObservableObject
+	public sealed partial class CredentialDialogViewModel : ObservableObject
 	{
 		private string? _UserName;
 		public string? UserName

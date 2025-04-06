@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
@@ -48,6 +48,7 @@ namespace Files.App.ViewModels.Properties
 		{
 			ViewModel.IsReadOnly = Win32Helper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.ReadOnly);
 			ViewModel.IsHidden = Win32Helper.HasFileAttribute(Library.ItemPath, System.IO.FileAttributes.Hidden);
+			ViewModel.CanCompressContent = false;
 
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Library.ItemPath,
@@ -100,7 +101,7 @@ namespace Files.App.ViewModels.Properties
 			}
 			else
 			{
-				ViewModel.FilesAndFoldersCountString = "LibraryNoLocations/Text".GetLocalizedResource();
+				ViewModel.FilesAndFoldersCountString = Strings.LibraryNoLocations_Text.GetLocalizedResource();
 			}
 		}
 

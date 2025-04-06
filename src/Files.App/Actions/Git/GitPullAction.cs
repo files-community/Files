@@ -1,17 +1,17 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class GitPullAction : ObservableObject, IAction
+	internal sealed partial class GitPullAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext _context;
 
 		public string Label
-			=> "GitPull".GetLocalizedResource();
+			=> Strings.GitPull.GetLocalizedResource();
 
 		public string Description
-			=> "GitPullDescription".GetLocalizedResource();
+			=> Strings.GitPullDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new("\uE74B");

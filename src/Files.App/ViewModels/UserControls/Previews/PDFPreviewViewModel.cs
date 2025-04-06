@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
 using Files.App.ViewModels.Properties;
@@ -11,7 +11,7 @@ using Windows.Storage.Streams;
 
 namespace Files.App.ViewModels.Previews
 {
-	public sealed class PDFPreviewViewModel : BasePreviewModel
+	public sealed partial class PDFPreviewViewModel : BasePreviewModel
 	{
 		private Visibility loadingBarVisibility;
 		public Visibility LoadingBarVisibility

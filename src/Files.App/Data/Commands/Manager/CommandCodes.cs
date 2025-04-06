@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Data.Commands
 {
@@ -26,6 +26,7 @@ namespace Files.App.Data.Commands
 		ToggleDetailsPane,
 		ToggleInfoPane,
 		ToggleToolbar,
+		ToggleShelfPane,
 
 		// File System
 		CopyItem,
@@ -111,11 +112,13 @@ namespace Files.App.Data.Commands
 		RotateRight,
 
 		// Open
-		OpenInVSCode,
-		OpenRepoInVSCode,
+		OpenInIDE,
+		OpenRepoInIDE,
 		OpenProperties,
+		OpenReleaseNotes,
 		OpenClassicProperties,
 		OpenSettings,
+		OpenSettingsFile,
 		OpenStorageSense,
 		OpenStorageSenseFromHome,
 		OpenStorageSenseFromSidebar,
@@ -131,7 +134,7 @@ namespace Files.App.Data.Commands
 		LayoutIncreaseSize,
 		LayoutDetails,
 		LayoutList,
-		LayoutTiles,
+		LayoutCards,
 		LayoutGrid,
 		LayoutColumns,
 		LayoutAdaptive,
@@ -228,6 +231,7 @@ namespace Files.App.Data.Commands
 		PlayAll,
 
 		// Git
+		GitClone,
 		GitFetch,
 		GitInit,
 		GitPull,

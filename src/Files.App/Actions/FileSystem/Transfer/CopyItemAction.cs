@@ -1,17 +1,17 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions
 {
-	internal sealed class CopyItemAction : BaseTransferItemAction, IAction
+	internal sealed partial class CopyItemAction : BaseTransferItemAction, IAction
 	{
 		public string Label
-			=> "Copy".GetLocalizedResource();
+			=> Strings.Copy.GetLocalizedResource();
 
 		public string Description
-			=> "CopyItemDescription".GetLocalizedResource();
+			=> Strings.CopyItemDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Copy");

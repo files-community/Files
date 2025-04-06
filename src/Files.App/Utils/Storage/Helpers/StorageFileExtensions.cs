@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.Collections.Immutable;
 using System.IO;
@@ -139,7 +139,12 @@ namespace Files.App.Utils.Storage
 			foreach (var item in pathBoxItems)
 			{
 				if (item.Path == "Home")
-					item.Title = "Home".GetLocalizedResource();
+					item.Title = Strings.Home.GetLocalizedResource();
+				if (item.Path == "ReleaseNotes")
+					item.Title = Strings.ReleaseNotes.GetLocalizedResource();
+				// TODO add settings page
+				//if (item.Path == "Settings")
+				//	item.Title = Strings.Settings.GetLocalizedResource();
 				else
 				{
 					BaseStorageFolder folder = await FilesystemTasks.Wrap(() => DangerousGetFolderFromPathAsync(item.Path));
@@ -287,15 +292,15 @@ namespace Files.App.Utils.Storage
 			if (component.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 			{
 				// Handle the recycle bin: use the localized folder name
-				title = "RecycleBin".GetLocalizedResource();
+				title = Strings.RecycleBin.GetLocalizedResource();
 			}
 			else if (component.StartsWith(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.Ordinal))
 			{
-				title = "ThisPC".GetLocalizedResource();
+				title = Strings.ThisPC.GetLocalizedResource();
 			}
 			else if (component.StartsWith(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.Ordinal))
 			{
-				title = "Network".GetLocalizedResource();
+				title = Strings.Network.GetLocalizedResource();
 			}
 			else if (component.EndsWith(':'))
 			{
@@ -303,7 +308,7 @@ namespace Files.App.Utils.Storage
 
 				var drives = drivesViewModel.Drives.Cast<DriveItem>();
 				var drive = drives.FirstOrDefault(y => y.ItemType is NavigationControlItemType.Drive && y.Path.Contains(component, StringComparison.OrdinalIgnoreCase));
-				title = drive is not null ? drive.Text : string.Format("DriveWithLetter".GetLocalizedResource(), component);
+				title = drive is not null ? drive.Text : string.Format(Strings.DriveWithLetter.GetLocalizedResource(), component);
 			}
 			else
 			{
@@ -340,6 +345,12 @@ namespace Files.App.Utils.Storage
 		{
 			if (path.StartsWith("Home"))
 				return "Home";
+
+			if (path.StartsWith("ReleaseNotes"))
+				return "ReleaseNotes";
+			
+			if (path.StartsWith("Settings"))
+				return "Settings";
 
 			if (ShellStorageFolder.IsShellPath(path))
 				return ShellHelpers.ResolveShellPath(path);

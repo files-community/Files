@@ -1,0 +1,148 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<Page
+	x:Class="Files.App.UITests.Views.OmnibarPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:data="using:Files.App.UITests.Data"
+	xmlns:local="using:Files.App.UITests.Views"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d">
+
+	<StackPanel Spacing="24">
+
+		<controls:SamplePanel Header="Default usage">
+			<controls:SamplePanel.MainContent>
+				<Grid>
+					<controls:Omnibar
+						x:Name="Omnibar1"
+						QuerySubmitted="Omnibar1_QuerySubmitted"
+						SuggestionChosen="Omnibar1_SuggestionChosen"
+						TextChanged="Omnibar1_TextChanged">
+
+						<controls:OmnibarMode
+							IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IsFilled=True}"
+							IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IconType=Outline}"
+							IsDefault="True"
+							ModeName="Path"
+							PlaceholderText="Enter text..."
+							Text="Path...">
+							<controls:OmnibarMode.ContentOnInactive>
+								<controls:BreadcrumbBar
+									x:Name="BreadcrumbBar1"
+									ItemDropDownFlyoutClosed="Omnibar1_BreadcrumbBar_ItemDropDownFlyoutClosed"
+									ItemDropDownFlyoutOpening="Omnibar1_BreadcrumbBar_ItemDropDownFlyoutOpening"
+									ItemsSource="{x:Bind Omnibar1_BreadcrumbBarItems, Mode=OneWay}">
+									<controls:BreadcrumbBar.RootItem>
+										<Image
+											Width="16"
+											Height="16"
+											Source="/Data/DummyIcon1.png" />
+									</controls:BreadcrumbBar.RootItem>
+									<controls:BreadcrumbBar.ItemTemplate>
+										<DataTemplate x:DataType="data:BreadcrumbBarItemModel">
+											<controls:BreadcrumbBarItem Content="{x:Bind Text}" />
+										</DataTemplate>
+									</controls:BreadcrumbBar.ItemTemplate>
+								</controls:BreadcrumbBar>
+							</controls:OmnibarMode.ContentOnInactive>
+						</controls:OmnibarMode>
+
+						<controls:OmnibarMode
+							DisplayMemberPath="{x:Bind Omnibar1_TextMemberPathForPaletteMode}"
+							IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IsFilled=True}"
+							IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IconType=Outline}"
+							ModeName="Palette"
+							PlaceholderText="Enter a palette command..."
+							SuggestionItemsSource="{x:Bind Omnibar1_PaletteSuggestions, Mode=OneWay}">
+							<controls:OmnibarMode.SuggestionItemTemplate>
+								<DataTemplate x:DataType="data:OmnibarPaletteSuggestionItem">
+									<Grid Height="48" ColumnSpacing="12">
+										<Grid.ColumnDefinitions>
+											<ColumnDefinition Width="Auto" />
+											<ColumnDefinition Width="*" />
+											<ColumnDefinition Width="Auto" />
+										</Grid.ColumnDefinitions>
+										<controls:ThemedIcon
+											Width="20"
+											Height="20"
+											VerticalAlignment="Center"
+											Style="{StaticResource App.ThemedIcons.Actions.Copying}" />
+										<StackPanel Grid.Column="1" VerticalAlignment="Center">
+											<TextBlock
+												Style="{StaticResource BodyStrongTextBlockStyle}"
+												Text="{x:Bind Title}"
+												TextTrimming="CharacterEllipsis"
+												TextWrapping="NoWrap" />
+											<TextBlock
+												Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+												Style="{StaticResource CaptionTextBlockStyle}"
+												Text="{x:Bind Description}"
+												TextTrimming="CharacterEllipsis"
+												TextWrapping="NoWrap" />
+										</StackPanel>
+										<StackPanel Grid.Column="2" VerticalAlignment="Center">
+											<TextBlock
+												Text="{x:Bind HotKeys}"
+												TextTrimming="CharacterEllipsis"
+												TextWrapping="NoWrap" />
+										</StackPanel>
+									</Grid>
+								</DataTemplate>
+							</controls:OmnibarMode.SuggestionItemTemplate>
+						</controls:OmnibarMode>
+
+						<controls:OmnibarMode
+							IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IsFilled=True}"
+							IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IconType=Outline}"
+							ModeName="Search"
+							PlaceholderText="Enter a search query..." />
+
+					</controls:Omnibar>
+				</Grid>
+			</controls:SamplePanel.MainContent>
+			<controls:SamplePanel.SideContent>
+				<StackPanel Spacing="8">
+
+					<TextBox
+						Header="Current mode:"
+						IsReadOnly="True"
+						Text="{x:Bind Omnibar1.CurrentSelectedMode, Mode=OneWay}" />
+
+					<TextBox
+						Header="Text:"
+						IsReadOnly="True"
+						Text="{x:Bind Omnibar1_Text, Mode=OneWay}" />
+
+					<TextBox
+						Header="Text changed reason:"
+						IsReadOnly="True"
+						Text="{x:Bind Omnibar1_TextChangedReason, Mode=OneWay}" />
+
+					<Grid ColumnSpacing="8">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+
+						<TextBox
+							Grid.Column="0"
+							Header="Suggestion index:"
+							IsReadOnly="True"
+							Text="{x:Bind Omnibar1_ChosenSuggestionIndex, Mode=OneWay}" />
+
+						<TextBox
+							Grid.Column="1"
+							Header="Submitted query:"
+							IsReadOnly="True"
+							Text="{x:Bind Omnibar1_SubmittedQuery, Mode=OneWay}" />
+
+					</Grid>
+
+				</StackPanel>
+			</controls:SamplePanel.SideContent>
+		</controls:SamplePanel>
+
+	</StackPanel>
+</Page>

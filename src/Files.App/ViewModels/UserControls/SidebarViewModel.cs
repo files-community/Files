@@ -1,8 +1,8 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
+using Files.App.Controls;
 using Files.App.Helpers.ContextFlyouts;
-using Files.App.UserControls.Sidebar;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -16,10 +16,11 @@ using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
+using OwlCore.Storage;
 
 namespace Files.App.ViewModels.UserControls
 {
-	public sealed class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
+	public sealed partial class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
 	{
 		private INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -403,25 +404,25 @@ namespace Files.App.ViewModels.UserControls
 			{
 				switch (section.Text)
 				{
-					case var text when text == "Pinned".GetLocalizedResource():
+					case var text when text == Strings.Pinned.GetLocalizedResource():
 						UserSettingsService.GeneralSettingsService.IsPinnedSectionExpanded = section.IsExpanded;
 						break;
-					case var text when text == "SidebarLibraries".GetLocalizedResource():
+					case var text when text == Strings.SidebarLibraries.GetLocalizedResource():
 						UserSettingsService.GeneralSettingsService.IsLibrarySectionExpanded = section.IsExpanded;
 						break;
-					case var text when text == "Drives".GetLocalizedResource():
+					case var text when text == Strings.Drives.GetLocalizedResource():
 						UserSettingsService.GeneralSettingsService.IsDriveSectionExpanded = section.IsExpanded;
 						break;
-					case var text when text == "SidebarCloudDrives".GetLocalizedResource():
+					case var text when text == Strings.SidebarCloudDrives.GetLocalizedResource():
 						UserSettingsService.GeneralSettingsService.IsCloudDriveSectionExpanded = section.IsExpanded;
 						break;
-					case var text when text == "Network".GetLocalizedResource():
+					case var text when text == Strings.Network.GetLocalizedResource():
 						UserSettingsService.GeneralSettingsService.IsNetworkSectionExpanded = section.IsExpanded;
 						break;
-					case var text when text == "WSL".GetLocalizedResource():
+					case var text when text == Strings.WSL.GetLocalizedResource():
 						UserSettingsService.GeneralSettingsService.IsWslSectionExpanded = section.IsExpanded;
 						break;
-					case var text when text == "FileTags".GetLocalizedResource():
+					case var text when text == Strings.FileTags.GetLocalizedResource():
 						UserSettingsService.GeneralSettingsService.IsFileTagsSectionExpanded = section.IsExpanded;
 						break;
 				}
@@ -449,7 +450,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				case SectionType.Home:
 					{
-						section = BuildSection("Home".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true }, true);
+						section = BuildSection(Strings.Home.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLocationItem = true }, true);
 						section.Path = "Home";
 						section.Icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 						section.IsHeader = true;
@@ -464,7 +465,7 @@ namespace Files.App.ViewModels.UserControls
 							break;
 						}
 
-						section = BuildSection("Pinned".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						section = BuildSection(Strings.Pinned.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.StarIcon));
 						section.IsHeader = true;
 						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsPinnedSectionExpanded;
@@ -478,7 +479,7 @@ namespace Files.App.ViewModels.UserControls
 						{
 							break;
 						}
-						section = BuildSection("SidebarLibraries".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
+						section = BuildSection(Strings.SidebarLibraries.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.Libraries;
 						section.IsHeader = true;
 						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsLibrarySectionExpanded;
@@ -492,7 +493,7 @@ namespace Files.App.ViewModels.UserControls
 						{
 							break;
 						}
-						section = BuildSection("Drives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						section = BuildSection(Strings.Drives.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.ThisPC;
 						section.IsHeader = true;
 						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsDriveSectionExpanded;
@@ -506,7 +507,7 @@ namespace Files.App.ViewModels.UserControls
 						{
 							break;
 						}
-						section = BuildSection("SidebarCloudDrives".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						section = BuildSection(Strings.SidebarCloudDrives.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.CloudDriveIcon));
 						section.IsHeader = true;
 						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsCloudDriveSectionExpanded;
@@ -520,7 +521,7 @@ namespace Files.App.ViewModels.UserControls
 						{
 							break;
 						}
-						section = BuildSection("Network".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						section = BuildSection(Strings.Network.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						iconIdex = Constants.ImageRes.Network;
 						section.IsHeader = true;
 						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsNetworkSectionExpanded;
@@ -534,7 +535,7 @@ namespace Files.App.ViewModels.UserControls
 						{
 							break;
 						}
-						section = BuildSection("WSL".GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
+						section = BuildSection(Strings.WSL.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.WslIconsPaths.GenericIcon));
 						section.IsHeader = true;
 						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsWslSectionExpanded;
@@ -548,7 +549,7 @@ namespace Files.App.ViewModels.UserControls
 						{
 							break;
 						}
-						section = BuildSection("FileTags".GetLocalizedResource(), sectionType, new ContextMenuOptions { IsTagsHeader = true, ShowHideSection = true }, false);
+						section = BuildSection(Strings.FileTags.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsTagsHeader = true, ShowHideSection = true }, false);
 						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.FileTagsIcon));
 						section.IsHeader = true;
 						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsFileTagsSectionExpanded;
@@ -706,7 +707,7 @@ namespace Files.App.ViewModels.UserControls
 				await foreach (var taggedItem in fileTagsService.GetItemsForTagAsync(tagItem.FileTag.Uid, cts.Token))
 				{
 					items.Add((
-						taggedItem.Storable.TryGetPath() ?? string.Empty,
+						taggedItem.Storable.Id,
 						taggedItem.Storable is IFolder));
 				}
 
@@ -761,7 +762,7 @@ namespace Files.App.ViewModels.UserControls
 				middleClickPressed) &&
 				navigationControlItem.Path is not null)
 			{
-				await NavigationHelpers.OpenPathInNewTab(navigationControlItem.Path, false);
+				await NavigationHelpers.OpenPathInNewTab(navigationControlItem.Path);
 				return;
 			}
 
@@ -896,7 +897,7 @@ namespace Files.App.ViewModels.UserControls
 						ItemPath = locationItem.Path,
 						ItemNameRaw = locationItem.Text,
 						PrimaryItemAttribute = StorageItemTypes.Folder,
-						ItemType = "Folder".GetLocalizedResource(),
+						ItemType = Strings.Folder.GetLocalizedResource(),
 					};
 
 					if (!string.Equals(locationItem.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
@@ -961,19 +962,19 @@ namespace Files.App.ViewModels.UserControls
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewTabFromSidebarAction)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab && Commands.OpenInNewTabFromSidebarAction.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewWindowFromSidebarAction)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow && Commands.OpenInNewWindowFromSidebarAction.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewPaneFromSidebarAction)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && Commands.OpenInNewPaneFromSidebarAction.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "PinFolderToSidebar".GetLocalizedResource(),
+					Text = Strings.PinFolderToSidebar.GetLocalizedResource(),
 					ThemedIconModel = new ThemedIconModel()
 					{
 						ThemedIconStyle = "App.ThemedIcons.FavoritePin",
@@ -983,7 +984,7 @@ namespace Files.App.ViewModels.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "UnpinFolderFromSidebar".GetLocalizedResource(),
+					Text = Strings.UnpinFolderFromSidebar.GetLocalizedResource(),
 					ThemedIconModel = new ThemedIconModel()
 					{
 						ThemedIconStyle = "App.ThemedIcons.FavoritePinRemove",
@@ -993,27 +994,27 @@ namespace Files.App.ViewModels.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "ReorderSidebarItemsDialogText".GetLocalizedResource(),
+					Text = Strings.ReorderSidebarItemsDialogText.GetLocalizedResource(),
 					Glyph = "\uE8D8",
 					Command = ReorderItemsCommand,
 					ShowItem = isPinnedItem || item.Section is SectionType.Pinned
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = string.Format("SideBarHideSectionFromSideBar/Text".GetLocalizedResource(), rightClickedItem.Text),
+					Text = string.Format(Strings.SideBarHideSectionFromSideBar_Text.GetLocalizedResource(), rightClickedItem.Text),
 					Glyph = "\uE77A",
 					Command = HideSectionCommand,
 					ShowItem = options.ShowHideSection
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "Eject".GetLocalizedResource(),
+					Text = Strings.Eject.GetLocalizedResource(),
 					Command = EjectDeviceCommand,
 					ShowItem = options.ShowEjectDevice
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "Properties".GetLocalizedResource(),
+					Text = Strings.Properties.GetLocalizedResource(),
 					ThemedIconModel = new ThemedIconModel()
 					{
 						ThemedIconStyle = "App.ThemedIcons.Properties",
@@ -1040,7 +1041,7 @@ namespace Files.App.ViewModels.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "Loading".GetLocalizedResource(),
+					Text = Strings.Loading.GetLocalizedResource(),
 					Glyph = "\xE712",
 					Items = [],
 					ID = "ItemOverflow",
@@ -1050,7 +1051,7 @@ namespace Files.App.ViewModels.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = "ManageTags".GetLocalizedResource(),
+					Text = Strings.ManageTags.GetLocalizedResource(),
 					Glyph = "\uE8EC",
 					Command = Commands.OpenSettings,
 					CommandParameter = new SettingsNavigationParams() { PageKind = SettingsPageKind.TagsPage },
@@ -1091,13 +1092,15 @@ namespace Files.App.ViewModels.UserControls
 					}
 					else
 					{
-						var captionText = "PinFolderToSidebar".GetLocalizedResource();
+						var captionText = Strings.PinFolderToSidebar.GetLocalizedResource();
 						CompleteDragEventArgs(rawEvent, captionText, DataPackageOperation.Move);
 					}
 				}
 				else if (isPathNull ||
 					(hasStorageItems && storageItems.AreItemsAlreadyInFolder(locationItem.Path)) ||
-					locationItem.Path.StartsWith("Home", StringComparison.OrdinalIgnoreCase))
+					locationItem.Path.StartsWith("Home", StringComparison.OrdinalIgnoreCase) ||
+					locationItem.Path.StartsWith("ReleaseNotes", StringComparison.OrdinalIgnoreCase) ||
+					locationItem.Path.StartsWith("Settings", StringComparison.OrdinalIgnoreCase))
 				{
 					rawEvent.AcceptedOperation = DataPackageOperation.None;
 				}
@@ -1111,41 +1114,41 @@ namespace Files.App.ViewModels.UserControls
 					DataPackageOperation operationType;
 					if (locationItem.Path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 					{
-						captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						captionText = string.Format(Strings.MoveToFolderCaptionText.GetLocalizedResource(), locationItem.Text);
 						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
 						operationType = DataPackageOperation.Move | DataPackageOperation.Copy;
 					}
 					else if (rawEvent.Modifiers.HasFlag(DragDropModifiers.Alt) || rawEvent.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
 					{
-						captionText = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						captionText = string.Format(Strings.LinkToFolderCaptionText.GetLocalizedResource(), locationItem.Text);
 						operationType = DataPackageOperation.Link;
 					}
 					else if (rawEvent.Modifiers.HasFlag(DragDropModifiers.Control))
 					{
-						captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						captionText = string.Format(Strings.CopyToFolderCaptionText.GetLocalizedResource(), locationItem.Text);
 						operationType = DataPackageOperation.Copy;
 					}
 					else if (rawEvent.Modifiers.HasFlag(DragDropModifiers.Shift))
 					{
-						captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						captionText = string.Format(Strings.MoveToFolderCaptionText.GetLocalizedResource(), locationItem.Text);
 						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
 						operationType = DataPackageOperation.Move | DataPackageOperation.Copy;
 					}
 					else if (storageItems.Any(x => x.Item is ZipStorageFile || x.Item is ZipStorageFolder)
 						|| ZipStorageFolder.IsZipPath(locationItem.Path))
 					{
-						captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						captionText = string.Format(Strings.CopyToFolderCaptionText.GetLocalizedResource(), locationItem.Text);
 						operationType = DataPackageOperation.Copy;
 					}
 					else if (locationItem.IsDefaultLocation || storageItems.AreItemsInSameDrive(locationItem.Path))
 					{
-						captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						captionText = string.Format(Strings.MoveToFolderCaptionText.GetLocalizedResource(), locationItem.Text);
 						// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
 						operationType = DataPackageOperation.Move | DataPackageOperation.Copy;
 					}
 					else
 					{
-						captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), locationItem.Text);
+						captionText = string.Format(Strings.CopyToFolderCaptionText.GetLocalizedResource(), locationItem.Text);
 						operationType = DataPackageOperation.Copy;
 					}
 					CompleteDragEventArgs(rawEvent, captionText, operationType);
@@ -1163,7 +1166,7 @@ namespace Files.App.ViewModels.UserControls
 			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
 			var hasStorageItems = storageItems.Any();
 
-			if ("Unknown".GetLocalizedResource().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
+			if (Strings.Unknown.GetLocalizedResource().Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase) ||
 				(hasStorageItems && storageItems.AreItemsAlreadyInFolder(driveItem.Path)))
 			{
 				args.RawEvent.AcceptedOperation = DataPackageOperation.None;
@@ -1178,29 +1181,29 @@ namespace Files.App.ViewModels.UserControls
 				DataPackageOperation operationType;
 				if (args.RawEvent.Modifiers.HasFlag(DragDropModifiers.Alt) || args.RawEvent.Modifiers.HasFlag(DragDropModifiers.Control | DragDropModifiers.Shift))
 				{
-					captionText = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
+					captionText = string.Format(Strings.LinkToFolderCaptionText.GetLocalizedResource(), driveItem.Text);
 					operationType = DataPackageOperation.Link;
 				}
 				else if (args.RawEvent.Modifiers.HasFlag(DragDropModifiers.Control))
 				{
-					captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
+					captionText = string.Format(Strings.CopyToFolderCaptionText.GetLocalizedResource(), driveItem.Text);
 					operationType = DataPackageOperation.Copy;
 				}
 				else if (args.RawEvent.Modifiers.HasFlag(DragDropModifiers.Shift))
 				{
-					captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
+					captionText = string.Format(Strings.MoveToFolderCaptionText.GetLocalizedResource(), driveItem.Text);
 					// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
 					operationType = DataPackageOperation.Move | DataPackageOperation.Copy;
 				}
 				else if (storageItems.AreItemsInSameDrive(driveItem.Path))
 				{
-					captionText = string.Format("MoveToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
+					captionText = string.Format(Strings.MoveToFolderCaptionText.GetLocalizedResource(), driveItem.Text);
 					// Some applications such as Edge can't raise the drop event by the Move flag (#14008), so we set the Copy flag as well.
 					operationType = DataPackageOperation.Move | DataPackageOperation.Copy;
 				}
 				else
 				{
-					captionText = string.Format("CopyToFolderCaptionText".GetLocalizedResource(), driveItem.Text);
+					captionText = string.Format(Strings.CopyToFolderCaptionText.GetLocalizedResource(), driveItem.Text);
 					operationType = DataPackageOperation.Copy;
 				}
 				CompleteDragEventArgs(args.RawEvent, captionText, operationType);
@@ -1214,22 +1217,19 @@ namespace Files.App.ViewModels.UserControls
 
 			args.RawEvent.Handled = true;
 
-			// Comment out the code for dropping to Tags section as it is currently not supported.
+			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
 
-			//var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
-
-			//if (!storageItems.Any())
-			//{
-			args.RawEvent.AcceptedOperation = DataPackageOperation.None;
-			//}
-			//else
-			//{
-			//	args.RawEvent.DragUIOverride.IsCaptionVisible = true;
-			//	args.RawEvent.DragUIOverride.Caption = string.Format("LinkToFolderCaptionText".GetLocalizedResource(), tagItem.Text);
-			//	args.RawEvent.AcceptedOperation = DataPackageOperation.Link;
-			//}
+			if (!storageItems.Any(x => !string.IsNullOrEmpty(x.Path)))
+			{
+				args.RawEvent.AcceptedOperation = DataPackageOperation.None;
+			}
+			else
+			{
+				args.RawEvent.DragUIOverride.IsCaptionVisible = true;
+				args.RawEvent.DragUIOverride.Caption = string.Format(Strings.LinkToFolderCaptionText.GetLocalizedResource(), tagItem.Text);
+				args.RawEvent.AcceptedOperation = DataPackageOperation.Link;
+			}
 		}
-
 
 		public async Task HandleItemDroppedAsync(ItemDroppedEventArgs args)
 		{
@@ -1237,11 +1237,8 @@ namespace Files.App.ViewModels.UserControls
 				await HandleLocationItemDroppedAsync(locationItem, args);
 			else if (args.DropTarget is DriveItem driveItem)
 				await HandleDriveItemDroppedAsync(driveItem, args);
-
-			// Comment out the code for dropping to Tags section as it is currently not supported.
-
-			//else if (args.DropTarget is FileTagItem fileTagItem)
-			//	await HandleTagItemDroppedAsync(fileTagItem, args);
+			else if (args.DropTarget is FileTagItem fileTagItem)
+				await HandleTagItemDroppedAsync(fileTagItem, args);
 		}
 
 		private async Task HandleLocationItemDroppedAsync(LocationItem locationItem, ItemDroppedEventArgs args)
@@ -1269,18 +1266,28 @@ namespace Files.App.ViewModels.UserControls
 			return FilesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.RawEvent.DataView, driveItem.Path, false, true);
 		}
 
-		// TODO: This method effectively does nothing. We need to implement the functionality for dropping to Tags section.
 		private async Task HandleTagItemDroppedAsync(FileTagItem fileTagItem, ItemDroppedEventArgs args)
 		{
 			var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
+			var dbInstance = FileTagsHelper.GetDbInstance();
+			var pathToTags = new Dictionary<string, string[]>();
 			foreach (var item in storageItems.Where(x => !string.IsNullOrEmpty(x.Path)))
 			{
-				var listedItem = new ListedItem(null)
+				var filesTags = FileTagsHelper.ReadFileTag(item.Path);
+				if (!filesTags.Contains(fileTagItem.FileTag.Uid))
 				{
-					ItemPath = item.Path,
-					FileFRN = await FileTagsHelper.GetFileFRN(item.Item),
-					FileTags = [fileTagItem.FileTag.Uid]
-				};
+					filesTags = [.. filesTags, fileTagItem.FileTag.Uid];
+					var fileFRN = await FileTagsHelper.GetFileFRN(item.Item);
+					dbInstance.SetTags(item.Path, fileFRN, filesTags);
+					FileTagsHelper.WriteFileTag(item.Path, filesTags);
+					pathToTags[item.Path] = filesTags;
+				}
+			}
+
+			if (paneHolder.ActivePane is not null)
+			{
+				await paneHolder.ActivePane.ShellViewModel.UpdateItemsTags(pathToTags);
+				await paneHolder.ActivePane.ShellViewModel.RefreshTagGroups();
 			}
 		}
 

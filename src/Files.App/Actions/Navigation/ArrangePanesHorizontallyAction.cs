@@ -1,18 +1,18 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class ArrangePanesHorizontallyAction : ObservableObject, IToggleAction
+	internal sealed partial class ArrangePanesHorizontallyAction : ObservableObject, IToggleAction
 	{
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private readonly IMultiPanesContext MultiPanesContext = Ioc.Default.GetRequiredService<IMultiPanesContext>();
 
 		public string Label
-			=> "ArrangePanesHorizontally".GetLocalizedResource();
+			=> Strings.ArrangePanesHorizontally.GetLocalizedResource();
 
 		public string Description
-			=> "ArrangePanesHorizontallyDescription".GetLocalizedResource();
+			=> Strings.ArrangePanesHorizontallyDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Panes.Vertical");

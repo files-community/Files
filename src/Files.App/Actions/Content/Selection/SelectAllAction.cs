@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
@@ -8,10 +8,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "SelectAll".GetLocalizedResource();
+			=> Strings.SelectAll.GetLocalizedResource();
 
 		public string Description
-			=> "SelectAllDescription".GetLocalizedResource();
+			=> Strings.SelectAllDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.SelectAll");

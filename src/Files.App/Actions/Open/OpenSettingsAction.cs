@@ -1,21 +1,21 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.Dialogs;
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenSettingsAction : BaseUIAction, IAction
+	internal sealed partial class OpenSettingsAction : BaseUIAction, IAction
 	{
 		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
 		private readonly SettingsDialogViewModel viewModel = new();
 
 		public string Label
-			=> "Settings".GetLocalizedResource();
+			=> Strings.Settings.GetLocalizedResource();
 
 		public string Description
-			=> "OpenSettingsDescription".GetLocalizedResource();
+			=> Strings.OpenSettingsDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.OemComma, KeyModifiers.Ctrl);

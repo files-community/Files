@@ -1,11 +1,11 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.Shared.Utils;
 
 namespace Files.App.ViewModels.Dialogs.AddItemDialog
 {
-	public sealed class AddItemDialogListItemViewModel : ObservableObject
+	public sealed partial class AddItemDialogListItemViewModel : ObservableObject
 	{
 		public string? Header { get; set; }
 

@@ -1,17 +1,17 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class NavigateBackAction : ObservableObject, IAction
+	internal sealed partial class NavigateBackAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Back".GetLocalizedResource();
+			=> Strings.Back.GetLocalizedResource();
 
 		public string Description
-			=> "NavigateBackDescription".GetLocalizedResource();
+			=> Strings.NavigateBackDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Left, KeyModifiers.Alt);

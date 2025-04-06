@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.Shared.Helpers;
 using SevenZip;
@@ -14,7 +14,7 @@ using IO = System.IO;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class ZipStorageFile : BaseStorageFile, IPasswordProtectedItem
+	public sealed partial class ZipStorageFile : BaseStorageFile, IPasswordProtectedItem
 	{
 		private readonly string containerPath;
 		private readonly BaseStorageFile backingFile;
@@ -30,7 +30,7 @@ namespace Files.App.Utils.Storage
 		{
 			get
 			{
-				var itemType = "File".GetLocalizedResource();
+				var itemType = Strings.File.GetLocalizedResource();
 				if (Name.Contains('.', StringComparison.Ordinal))
 				{
 					itemType = FileType.Trim('.') + " " + itemType;
@@ -254,7 +254,7 @@ namespace Files.App.Utils.Storage
 				else
 				{
 					var destFile = await destFolder.CreateFileAsync(desiredNewName, option.Convert());
-					using var outStream = await destFile.OpenStreamForWriteAsync();
+					await using var outStream = await destFile.OpenStreamForWriteAsync();
 					await SafetyExtensions.WrapAsync(() => zipFile.ExtractFileAsync(entry.Index, outStream), async (_, exception) =>
 					{
 						await destFile.DeleteAsync();
@@ -281,7 +281,7 @@ namespace Files.App.Utils.Storage
 				}
 
 				using var hDestFile = fileToReplace.CreateSafeFileHandle(FileAccess.ReadWrite);
-				using (var outStream = new FileStream(hDestFile, FileAccess.Write))
+				await using (var outStream = new FileStream(hDestFile, FileAccess.Write))
 				{
 					await zipFile.ExtractFileAsync(entry.Index, outStream);
 				}
@@ -323,14 +323,15 @@ namespace Files.App.Utils.Storage
 					}
 					using (var ms = new MemoryStream())
 					{
-						using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
+						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
 						{
 							SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 							compressor.SetFormatFromExistingArchive(archiveStream);
 							var fileName = IO.Path.GetRelativePath(containerPath, IO.Path.Combine(IO.Path.GetDirectoryName(Path), desiredName));
 							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, fileName } }, Credentials.Password, ms);
 						}
-						using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+
+						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 						{
 							ms.Position = 0;
 							await ms.CopyToAsync(archiveStream);
@@ -371,13 +372,13 @@ namespace Files.App.Utils.Storage
 					}
 					using (var ms = new MemoryStream())
 					{
-						using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
+						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
 						{
 							SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 							compressor.SetFormatFromExistingArchive(archiveStream);
 							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, null } }, Credentials.Password, ms);
 						}
-						using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 						{
 							ms.Position = 0;
 							await ms.CopyToAsync(archiveStream);
@@ -505,7 +506,7 @@ namespace Files.App.Utils.Storage
 					}
 					else
 					{
-						using (var outStream = request.AsStreamForWrite())
+						await using (var outStream = request.AsStreamForWrite())
 						{
 							await zipFile.ExtractFileAsync(entry.Index, outStream);
 						}
@@ -519,7 +520,7 @@ namespace Files.App.Utils.Storage
 			};
 		}
 
-		private sealed class ZipFileBasicProperties : BaseBasicProperties
+		private sealed partial class ZipFileBasicProperties : BaseBasicProperties
 		{
 			private ArchiveFileInfo entry;
 

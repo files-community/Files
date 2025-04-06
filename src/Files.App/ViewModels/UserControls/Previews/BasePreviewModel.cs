@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
@@ -8,7 +8,7 @@ using Windows.Storage.FileProperties;
 
 namespace Files.App.ViewModels.Previews
 {
-	public abstract class BasePreviewModel : ObservableObject
+	public abstract partial class BasePreviewModel : ObservableObject
 	{
 		private readonly IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -129,7 +129,7 @@ namespace Files.App.ViewModels.Previews
 			return list.Where(i => i.ValueText is not null).ToList();
 		}
 
-		private sealed class DetailsOnlyPreviewModel : BasePreviewModel
+		private sealed partial class DetailsOnlyPreviewModel : BasePreviewModel
 		{
 			public DetailsOnlyPreviewModel(ListedItem item) : base(item) { }
 

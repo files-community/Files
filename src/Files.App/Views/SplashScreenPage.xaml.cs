@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -15,7 +15,7 @@ namespace Files.App.Views
 			AppLifecycleHelper.AppEnvironment switch
 			{
 				AppEnvironment.Dev => "Dev",
-				AppEnvironment.Preview => "Preview",
+				AppEnvironment.SideloadPreview or AppEnvironment.StorePreview => "Preview",
 				_ => string.Empty,
 			};
 

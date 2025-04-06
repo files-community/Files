@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.Collections.Frozen;
 using ColorCode;
@@ -7,7 +7,7 @@ using Files.App.ViewModels.Properties;
 
 namespace Files.App.ViewModels.Previews
 {
-	public sealed class CodePreviewViewModel : BasePreviewModel
+	public sealed partial class CodePreviewViewModel : BasePreviewModel
 	{
 		private static readonly FrozenDictionary<string, ILanguage> extensions = GetDictionary();
 

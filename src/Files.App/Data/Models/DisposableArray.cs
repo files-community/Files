@@ -1,11 +1,11 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.Shared.Extensions;
 
 namespace Files.App.Data.Models
 {
-	public sealed class DisposableArray : FreeableStore<DisposableArray>
+	public sealed partial class DisposableArray : FreeableStore<DisposableArray>
 	{
 		public byte[] Bytes { get; }
 

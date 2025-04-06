@@ -1,11 +1,11 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Data;
 
 namespace Files.App.Converters
 {
-	internal sealed class GenericEnumConverter : IValueConverter
+	internal sealed partial class GenericEnumConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, string language)
 		{

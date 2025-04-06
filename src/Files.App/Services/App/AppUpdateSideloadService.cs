@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.Logging;
@@ -12,7 +12,7 @@ using Windows.Storage;
 
 namespace Files.App.Services
 {
-	public sealed class SideloadUpdateService : ObservableObject, IUpdateService, IDisposable
+	public sealed partial class SideloadUpdateService : ObservableObject, IUpdateService, IDisposable
 	{
 		private const string SIDELOAD_STABLE = "https://cdn.files.community/files/stable/Files.Package.appinstaller";
 		private const string SIDELOAD_PREVIEW = "https://cdn.files.community/files/preview/Files.Package.appinstaller";
@@ -55,15 +55,16 @@ namespace Files.App.Services
 
 		public bool IsAppUpdated
 		{
-			get => SystemInformation.Instance.IsAppUpdated;
+			get => AppLifecycleHelper.IsAppUpdated;
 		}
 
-		private bool _isReleaseNotesAvailable;
-		public bool IsReleaseNotesAvailable
+		private bool _areReleaseNotesAvailable = false;
+		public bool AreReleaseNotesAvailable
 		{
-			get => _isReleaseNotesAvailable;
-			private set => SetProperty(ref _isReleaseNotesAvailable, value);
+			get => _areReleaseNotesAvailable;
+			private set => SetProperty(ref _areReleaseNotesAvailable, value);
 		}
+
 		public async Task DownloadUpdatesAsync()
 		{
 			await ApplyPackageUpdateAsync();
@@ -72,34 +73,6 @@ namespace Files.App.Services
 		public Task DownloadMandatoryUpdatesAsync()
 		{
 			return Task.CompletedTask;
-		}
-
-		public async Task<string?> GetLatestReleaseNotesAsync(CancellationToken cancellationToken = default)
-		{
-			var applicationVersion = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
-			var releaseNotesLocation = string.Concat("https://raw.githubusercontent.com/files-community/Release-Notes/main/", applicationVersion, ".md");
-
-			using var client = new HttpClient();
-
-			try
-			{
-				var result = await client.GetStringAsync(releaseNotesLocation, cancellationToken);
-				return result == string.Empty ? null : result;
-			}
-			catch
-			{
-				return null;
-			}
-		}
-
-		public async Task CheckLatestReleaseNotesAsync(CancellationToken cancellationToken = default)
-		{
-			if (!IsAppUpdated)
-				return;
-
-			var result = await GetLatestReleaseNotesAsync();
-			if (result is not null)
-				IsReleaseNotesAvailable = true;
 		}
 
 		public async Task CheckForUpdatesAsync()
@@ -161,8 +134,8 @@ namespace Files.App.Services
 
 				if (File.Exists(destHashFilePath))
 				{
-					using var srcStream = (await srcHashFile.OpenReadAsync()).AsStream();
-					using var destStream = File.OpenRead(destHashFilePath);
+					await using var srcStream = (await srcHashFile.OpenReadAsync()).AsStream();
+					await using var destStream = File.OpenRead(destHashFilePath);
 
 					hashEqual = HashEqual(srcStream, destStream);
 				}
@@ -188,6 +161,21 @@ namespace Files.App.Services
 				b.Read(bufferB);
 
 				return bufferA.SequenceEqual(bufferB);
+			}
+		}
+
+		public async Task CheckForReleaseNotesAsync()
+		{
+			using var client = new HttpClient();
+
+			try
+			{
+				var response = await client.GetAsync(Constants.ExternalUrl.ReleaseNotesUrl);
+				AreReleaseNotesAvailable = response.IsSuccessStatusCode;
+			}
+			catch
+			{
+				AreReleaseNotesAvailable = false;
 			}
 		}
 

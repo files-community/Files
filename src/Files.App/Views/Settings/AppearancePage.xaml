@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Page
 	x:Class="Files.App.Views.Settings.AppearancePage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -7,20 +7,15 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:dataitem="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
-	xmlns:local="using:Files.App.UserControls.Settings"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:toolkit="using:CommunityToolkit.WinUI.UI.Controls"
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	mc:Ignorable="d">
 
 	<Page.Resources>
 		<ResourceDictionary>
-			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/Styles/ToggleSwitchStyles.xaml" />
-			</ResourceDictionary.MergedDictionaries>
-
 			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
 
@@ -100,36 +95,36 @@
 				Text="{helpers:ResourceString Name=Appearance}" />
 
 			<!--  Theme  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=SettingsAppearanceTheme}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SettingsAppearanceTheme}">
+				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE790;" />
-				</local:SettingsBlockControl.Icon>
+				</wctcontrols:SettingsCard.HeaderIcon>
 				<uc:ComboBoxEx
 					x:Name="ThemeChooser"
 					AutomationProperties.Name="{helpers:ResourceString Name=SettingsAppearanceTheme}"
 					ItemsSource="{x:Bind ViewModel.Themes, Mode=OneWay}"
 					SelectedIndex="{x:Bind ViewModel.SelectedThemeIndex, Mode=TwoWay}" />
-			</local:SettingsBlockControl>
+			</wctcontrols:SettingsCard>
 
 			<!--  Backdrop Material  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=BackdropMaterial}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=BackdropMaterial}">
+				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xEF1F;" />
-				</local:SettingsBlockControl.Icon>
+				</wctcontrols:SettingsCard.HeaderIcon>
 				<uc:ComboBoxEx
 					AutomationProperties.Name="{helpers:ResourceString Name=BackdropMaterial}"
 					ItemsSource="{x:Bind ViewModel.BackdropMaterialTypes.Values}"
 					SelectedItem="{x:Bind ViewModel.SelectedBackdropMaterial, Mode=TwoWay}" />
-			</local:SettingsBlockControl>
+			</wctcontrols:SettingsCard>
 
 			<!--  App Background  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=BackgroundColor}"
+			<wctcontrols:SettingsExpander
 				HorizontalAlignment="Stretch"
+				Header="{helpers:ResourceString Name=BackgroundColor}"
 				IsExpanded="True">
-				<local:SettingsBlockControl.Icon>
+				<wctcontrols:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE771;" />
-				</local:SettingsBlockControl.Icon>
+				</wctcontrols:SettingsExpander.HeaderIcon>
 				<Button Padding="0" AutomationProperties.Name="{helpers:ResourceString Name=BackgroundColor}">
 					<StackPanel Orientation="Horizontal">
 						<Border
@@ -150,32 +145,32 @@
 					</StackPanel>
 					<Button.Flyout>
 						<Flyout>
-							<toolkit:ColorPicker
+							<wctcontrols:ColorPicker
 								IsAlphaEnabled="True"
 								IsColorSpectrumVisible="False"
 								Color="{x:Bind ViewModel.AppThemeBackgroundColor, Mode=TwoWay}" />
 						</Flyout>
 					</Button.Flyout>
 				</Button>
-				<local:SettingsBlockControl.ExpandableContent>
+				<wctcontrols:SettingsExpander.ItemsHeader>
 					<GridView
 						Padding="8"
 						HorizontalAlignment="Stretch"
 						ItemTemplate="{StaticResource AppThemeResourcesItemTemplate}"
 						ItemsSource="{x:Bind ViewModel.AppThemeResources, Mode=OneWay}"
 						SelectedItem="{x:Bind ViewModel.SelectedAppThemeResources, Mode=TwoWay}" />
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
+				</wctcontrols:SettingsExpander.ItemsHeader>
+			</wctcontrols:SettingsExpander>
 
 			<!--  App Background Image  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=BackgroundImage}"
+			<wctcontrols:SettingsExpander
 				HorizontalAlignment="Stretch"
 				Description="{x:Bind ViewModel.AppThemeBackgroundImageSource, Mode=OneWay}"
+				Header="{helpers:ResourceString Name=BackgroundImage}"
 				IsExpanded="False">
-				<local:SettingsBlockControl.Icon>
+				<wctcontrols:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE91B;" />
-				</local:SettingsBlockControl.Icon>
+				</wctcontrols:SettingsExpander.HeaderIcon>
 
 				<!--  Browse Button  -->
 				<SplitButton
@@ -192,94 +187,90 @@
 					</SplitButton.Flyout>
 				</SplitButton>
 
-				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
-						<!--  Opactiy Slider  -->
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=Opacity}" HorizontalAlignment="Stretch">
-							<Slider
-								Width="140"
-								HorizontalAlignment="Right"
-								AutomationProperties.Name="{helpers:ResourceString Name=Opacity}"
-								IsThumbToolTipEnabled="False"
-								Maximum="1"
-								Minimum=".1"
-								StepFrequency=".1"
-								Value="{x:Bind ViewModel.AppThemeBackgroundImageOpacity, Mode=TwoWay}" />
-						</local:SettingsBlockControl>
+				<wctcontrols:SettingsExpander.Items>
+					<!--  Opactiy Slider  -->
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=Opacity}">
+						<Slider
+							Width="140"
+							HorizontalAlignment="Right"
+							AutomationProperties.Name="{helpers:ResourceString Name=Opacity}"
+							IsThumbToolTipEnabled="False"
+							Maximum="1"
+							Minimum=".1"
+							StepFrequency=".1"
+							Value="{x:Bind ViewModel.AppThemeBackgroundImageOpacity, Mode=TwoWay}" />
+					</wctcontrols:SettingsCard>
 
-						<!--  Image Fit  -->
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ImageFit}" HorizontalAlignment="Stretch">
-							<uc:ComboBoxEx
-								MinWidth="140"
-								AutomationProperties.Name="{helpers:ResourceString Name=ImageFit}"
-								ItemsSource="{x:Bind ViewModel.ImageStretchTypes.Values}"
-								SelectedItem="{x:Bind ViewModel.SelectedImageStretchType, Mode=TwoWay}" />
-						</local:SettingsBlockControl>
+					<!--  Image Fit  -->
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ImageFit}">
+						<uc:ComboBoxEx
+							MinWidth="140"
+							AutomationProperties.Name="{helpers:ResourceString Name=ImageFit}"
+							ItemsSource="{x:Bind ViewModel.ImageStretchTypes.Values}"
+							SelectedItem="{x:Bind ViewModel.SelectedImageStretchType, Mode=TwoWay}" />
+					</wctcontrols:SettingsCard>
 
-						<!--  VerticalAlignment  -->
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=VerticalAlignment}" HorizontalAlignment="Stretch">
-							<uc:ComboBoxEx
-								MinWidth="140"
-								AutomationProperties.Name="{helpers:ResourceString Name=VerticalAlignment}"
-								ItemsSource="{x:Bind ViewModel.ImageVerticalAlignmentTypes.Values}"
-								SelectedItem="{x:Bind ViewModel.SelectedImageVerticalAlignmentType, Mode=TwoWay}" />
-						</local:SettingsBlockControl>
+					<!--  VerticalAlignment  -->
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=VerticalAlignment}">
+						<uc:ComboBoxEx
+							MinWidth="140"
+							AutomationProperties.Name="{helpers:ResourceString Name=VerticalAlignment}"
+							ItemsSource="{x:Bind ViewModel.ImageVerticalAlignmentTypes.Values}"
+							SelectedItem="{x:Bind ViewModel.SelectedImageVerticalAlignmentType, Mode=TwoWay}" />
+					</wctcontrols:SettingsCard>
 
-						<!--  HorizontalAlignment  -->
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=HorizontalAlignment}" HorizontalAlignment="Stretch">
-							<uc:ComboBoxEx
-								MinWidth="140"
-								AutomationProperties.Name="{helpers:ResourceString Name=HorizontalAlignment}"
-								ItemsSource="{x:Bind ViewModel.ImageHorizontalAlignmentTypes.Values}"
-								SelectedItem="{x:Bind ViewModel.SelectedImageHorizontalAlignmentType, Mode=TwoWay}" />
-						</local:SettingsBlockControl>
+					<!--  HorizontalAlignment  -->
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=HorizontalAlignment}">
+						<uc:ComboBoxEx
+							MinWidth="140"
+							AutomationProperties.Name="{helpers:ResourceString Name=HorizontalAlignment}"
+							ItemsSource="{x:Bind ViewModel.ImageHorizontalAlignmentTypes.Values}"
+							SelectedItem="{x:Bind ViewModel.SelectedImageHorizontalAlignmentType, Mode=TwoWay}" />
+					</wctcontrols:SettingsCard>
 
-					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
+				</wctcontrols:SettingsExpander.Items>
+			</wctcontrols:SettingsExpander>
 
 			<!--  Show tab actions  -->
-			<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowTabActions}" HorizontalAlignment="Stretch">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowTabActions}">
+				<wctcontrols:SettingsCard.HeaderIcon>
 					<PathIcon Data="{StaticResource App.Theme.PathIcon.TabActions}" />
-				</local:SettingsBlockControl.Icon>
+				</wctcontrols:SettingsCard.HeaderIcon>
 				<ToggleSwitch
 					AutomationProperties.AutomationControlType="Custom"
 					AutomationProperties.Name="{helpers:ResourceString Name=ShowTabActions}"
-					IsOn="{x:Bind ViewModel.ShowTabActions, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-			</local:SettingsBlockControl>
+					IsOn="{x:Bind ViewModel.ShowTabActions, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
 
 			<!--  Toolbar  -->
-			<local:SettingsBlockControl
-				Title="{helpers:ResourceString Name=Toolbars}"
-				HorizontalAlignment="Stretch"
-				IsExpanded="False">
-				<local:SettingsBlockControl.Icon>
+			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=Toolbars}">
+				<wctcontrols:SettingsExpander.HeaderIcon>
 					<PathIcon Data="{StaticResource App.Theme.PathIcon.WebAsset}" />
-				</local:SettingsBlockControl.Icon>
+				</wctcontrols:SettingsExpander.HeaderIcon>
 
-				<local:SettingsBlockControl.ExpandableContent>
-					<StackPanel>
-						<!--  Show home button  -->
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowHomeButton}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.AutomationControlType="Custom"
-								AutomationProperties.Name="{helpers:ResourceString Name=ShowHomeButton}"
-								IsOn="{x:Bind ViewModel.ShowHomeButton, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
+				<wctcontrols:SettingsExpander.Items>
+					<!--  Show home button  -->
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowHomeButton}">
+						<ToggleSwitch
+							AutomationProperties.AutomationControlType="Custom"
+							AutomationProperties.Name="{helpers:ResourceString Name=ShowHomeButton}"
+							IsOn="{x:Bind ViewModel.ShowHomeButton, Mode=TwoWay}" />
+					</wctcontrols:SettingsCard>
 
-						<!--  Show toolbar  -->
-						<local:SettingsBlockControl Title="{helpers:ResourceString Name=ShowToolbar}" HorizontalAlignment="Stretch">
-							<ToggleSwitch
-								AutomationProperties.Name="{helpers:ResourceString Name=ShowToolbar}"
-								IsOn="{x:Bind ViewModel.ShowToolbar, Mode=TwoWay}"
-								Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-						</local:SettingsBlockControl>
-					</StackPanel>
-				</local:SettingsBlockControl.ExpandableContent>
-			</local:SettingsBlockControl>
+					<!--  Show shelf pane toggle button  -->
+					<wctcontrols:SettingsCard
+						x:Name="ShowShelfPaneSetting"
+						Header="{helpers:ResourceString Name=ShowShelfPaneButtonInAddressBar}"
+						Visibility="{x:Bind ViewModel.IsAppEnvironmentDev, Mode=OneTime}">
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowShelfPaneButtonInAddressBar}" IsOn="{x:Bind ViewModel.ShowShelfPaneToggleButton, Mode=TwoWay}" />
+					</wctcontrols:SettingsCard>
+
+					<!--  Show toolbar  -->
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowToolbar}">
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowToolbar}" IsOn="{x:Bind ViewModel.ShowToolbar, Mode=TwoWay}" />
+					</wctcontrols:SettingsCard>
+				</wctcontrols:SettingsExpander.Items>
+			</wctcontrols:SettingsExpander>
 		</StackPanel>
 	</Grid>
 </Page>

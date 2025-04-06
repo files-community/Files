@@ -1,20 +1,20 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.IO;
 using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenItemAction : ObservableObject, IAction
+	internal sealed partial class OpenItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Open".GetLocalizedResource();
+			=> Strings.Open.GetLocalizedResource();
 
 		public string Description
-			=> "OpenItemDescription".GetLocalizedResource();
+			=> Strings.OpenItemDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.OpenFile");
@@ -50,15 +50,15 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal sealed class OpenItemWithApplicationPickerAction : ObservableObject, IAction
+	internal sealed partial class OpenItemWithApplicationPickerAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "OpenWith".GetLocalizedResource();
+			=> Strings.OpenWith.GetLocalizedResource();
 
 		public string Description
-			=> "OpenItemWithApplicationPickerDescription".GetLocalizedResource();
+			=> Strings.OpenItemWithApplicationPickerDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.OpenWith");
@@ -91,15 +91,15 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal sealed class OpenParentFolderAction : ObservableObject, IAction
+	internal sealed partial class OpenParentFolderAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "BaseLayoutItemContextFlyoutOpenParentFolder/Text".GetLocalizedResource();
+			=> Strings.BaseLayoutItemContextFlyoutOpenParentFolder_Text.GetLocalizedResource();
 
 		public string Description
-			=> "OpenParentFolderDescription".GetLocalizedResource();
+			=> Strings.OpenParentFolderDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(baseGlyph: "\uE197");

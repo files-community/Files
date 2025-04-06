@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.Core.Storage.Storables
 {
@@ -11,6 +11,6 @@ namespace Files.Core.Storage.Storables
         /// <summary>
         /// Creates a copy of the provided storable item in this folder.
         /// </summary>
-        Task<INestedStorable> CreateCopyOfAsync(INestedStorable itemToCopy, bool overwrite = default, CancellationToken cancellationToken = default);
+        Task<IStorableChild> CreateCopyOfAsync(IStorableChild itemToCopy, bool overwrite = default, CancellationToken cancellationToken = default);
     }
 }

@@ -1,7 +1,8 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using FluentFTP;
+using FluentFTP.Exceptions;
 using SevenZip;
 using System;
 using Windows.Storage;

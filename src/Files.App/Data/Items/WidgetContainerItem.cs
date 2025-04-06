@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Controls;
 
@@ -8,7 +8,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents an item of Files widget container.
 	/// </summary>
-	public sealed class WidgetContainerItem : ObservableObject, IDisposable
+	public sealed partial class WidgetContainerItem : ObservableObject, IDisposable
 	{
 		// Fields
 

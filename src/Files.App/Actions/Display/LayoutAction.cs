@@ -1,18 +1,18 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class LayoutDetailsAction : ToggleLayoutAction
+	internal sealed partial class LayoutDetailsAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Details;
 
 		public override string Label
-			=> "Details".GetLocalizedResource();
+			=> Strings.Details.GetLocalizedResource();
 
 		public override string Description
-			=> "LayoutDetailsDescription".GetLocalizedResource();
+			=> Strings.LayoutDetailsDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.IconLayout.Details");
@@ -21,16 +21,16 @@ namespace Files.App.Actions
 			=> new(Keys.Number1, KeyModifiers.CtrlShift);
 	}
 
-	internal sealed class LayoutListAction : ToggleLayoutAction
+	internal sealed partial class LayoutListAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.List;
 
 		public override string Label
-			=> "List".GetLocalizedResource();
+			=> Strings.List.GetLocalizedResource();
 
 		public override string Description
-			=> "LayoutListDescription".GetLocalizedResource();
+			=> Strings.LayoutListDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.IconLayout.List");
@@ -39,16 +39,16 @@ namespace Files.App.Actions
 			=> new(Keys.Number2, KeyModifiers.CtrlShift);
 	}
 
-	internal sealed class LayoutTilesAction : ToggleLayoutAction
+	internal sealed partial class LayoutCardsAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
-			=> LayoutTypes.Tiles;
+			=> LayoutTypes.Cards;
 
 		public override string Label
-			=> "Tiles".GetLocalizedResource();
+			=> Strings.Cards.GetLocalizedResource();
 
 		public override string Description
-			=> "LayoutTilesDescription".GetLocalizedResource();
+			=> Strings.LayoutCardsDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.IconLayout.Tiles");
@@ -57,16 +57,16 @@ namespace Files.App.Actions
 			=> new(Keys.Number3, KeyModifiers.CtrlShift);
 	}
 
-	internal sealed class LayoutGridAction : ToggleLayoutAction
+	internal sealed partial class LayoutGridAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Grid;
 
 		public override string Label
-			=> "Grid".GetLocalizedResource();
+			=> Strings.Grid.GetLocalizedResource();
 
 		public override string Description
-			=> "LayoutGridDescription".GetLocalizedResource();
+			=> Strings.LayoutGridDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.IconSize.Small");
@@ -75,16 +75,16 @@ namespace Files.App.Actions
 			=> new(Keys.Number4, KeyModifiers.CtrlShift);
 	}
 
-	internal sealed class LayoutColumnsAction : ToggleLayoutAction
+	internal sealed partial class LayoutColumnsAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Columns;
 
 		public override string Label
-			=> "Columns".GetLocalizedResource();
+			=> Strings.Columns.GetLocalizedResource();
 
 		public override string Description
-			=> "LayoutColumnsDescription".GetLocalizedResource();
+			=> Strings.LayoutColumnsDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.IconLayout.Columns");
@@ -93,16 +93,16 @@ namespace Files.App.Actions
 			=> new(Keys.Number5, KeyModifiers.CtrlShift);
 	}
 
-	internal sealed class LayoutAdaptiveAction : ToggleLayoutAction
+	internal sealed partial class LayoutAdaptiveAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Adaptive;
 
 		public override string Label
-			=> "Adaptive".GetLocalizedResource();
+			=> Strings.Adaptive.GetLocalizedResource();
 
 		public override string Description
-			=> "LayoutAdaptiveDescription".GetLocalizedResource();
+			=> Strings.LayoutAdaptiveDescription.GetLocalizedResource();
 
 		public override bool IsExecutable
 			=> Context.IsLayoutAdaptiveEnabled;
@@ -168,16 +168,16 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal sealed class LayoutDecreaseSizeAction : ObservableObject, IAction
+	internal sealed partial class LayoutDecreaseSizeAction : ObservableObject, IAction
 	{
 		private static readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
-			=> "DecreaseSize".GetLocalizedResource();
+			=> Strings.DecreaseSize.GetLocalizedResource();
 
 		public string Description
-			=> "LayoutDecreaseSizeDescription".GetLocalizedResource();
+			=> Strings.LayoutDecreaseSizeDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Subtract, KeyModifiers.Ctrl);
@@ -190,6 +190,7 @@ namespace Files.App.Actions
 			ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes layoutMode &&
 			((layoutMode is FolderLayoutModes.DetailsView && UserSettingsService.LayoutSettingsService.DetailsViewSize > DetailsViewSizeKind.Compact) ||
 			(layoutMode is FolderLayoutModes.ListView && UserSettingsService.LayoutSettingsService.ListViewSize > ListViewSizeKind.Compact) ||
+			(layoutMode is FolderLayoutModes.CardsView && UserSettingsService.LayoutSettingsService.CardsViewSize > CardsViewSizeKind.Small) ||
 			(layoutMode is FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Small) ||
 			(layoutMode is FolderLayoutModes.ColumnView && UserSettingsService.LayoutSettingsService.ColumnsViewSize > ColumnsViewSizeKind.Compact));
 
@@ -217,6 +218,7 @@ namespace Files.App.Actions
 				case nameof(ILayoutSettingsService.ListViewSize):
 				case nameof(ILayoutSettingsService.GridViewSize):
 				case nameof(ILayoutSettingsService.ColumnsViewSize):
+				case nameof(ILayoutSettingsService.CardsViewSize):
 					OnPropertyChanged(nameof(IsExecutable));
 					break;
 			}
@@ -234,7 +236,9 @@ namespace Files.App.Actions
 					if (UserSettingsService.LayoutSettingsService.ListViewSize > ListViewSizeKind.Compact)
 						UserSettingsService.LayoutSettingsService.ListViewSize -= 1;
 					break;
-				case FolderLayoutModes.TilesView:
+				case FolderLayoutModes.CardsView:
+					if (UserSettingsService.LayoutSettingsService.CardsViewSize > CardsViewSizeKind.Small)
+						UserSettingsService.LayoutSettingsService.CardsViewSize -= 1; 
 					break;
 				case FolderLayoutModes.GridView:
 					if (UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Small)
@@ -252,16 +256,16 @@ namespace Files.App.Actions
 		}
 	}
 
-	internal sealed class LayoutIncreaseSizeAction : ObservableObject, IAction
+	internal sealed partial class LayoutIncreaseSizeAction : ObservableObject, IAction
 	{
 		private static readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
-			=> "IncreaseSize".GetLocalizedResource();
+			=> Strings.IncreaseSize.GetLocalizedResource();
 
 		public string Description
-			=> "LayoutIncreaseSizeDescription".GetLocalizedResource();
+			=> Strings.LayoutIncreaseSizeDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Add, KeyModifiers.Ctrl);
@@ -274,6 +278,7 @@ namespace Files.App.Actions
 			ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes layoutMode && 
 			((layoutMode is FolderLayoutModes.DetailsView && UserSettingsService.LayoutSettingsService.DetailsViewSize < DetailsViewSizeKind.ExtraLarge) ||
 			(layoutMode is FolderLayoutModes.ListView && UserSettingsService.LayoutSettingsService.ListViewSize < ListViewSizeKind.ExtraLarge) ||
+			(layoutMode is FolderLayoutModes.CardsView && UserSettingsService.LayoutSettingsService.CardsViewSize < CardsViewSizeKind.ExtraLarge) ||
 			(layoutMode is FolderLayoutModes.GridView && UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.ExtraLarge) ||
 			(layoutMode is FolderLayoutModes.ColumnView && UserSettingsService.LayoutSettingsService.ColumnsViewSize < ColumnsViewSizeKind.ExtraLarge));
 
@@ -318,7 +323,9 @@ namespace Files.App.Actions
 					if (UserSettingsService.LayoutSettingsService.ListViewSize < ListViewSizeKind.ExtraLarge)
 						UserSettingsService.LayoutSettingsService.ListViewSize += 1;
 					break;
-				case FolderLayoutModes.TilesView:
+				case FolderLayoutModes.CardsView:
+					if (UserSettingsService.LayoutSettingsService.CardsViewSize < CardsViewSizeKind.ExtraLarge)
+						UserSettingsService.LayoutSettingsService.CardsViewSize += 1;
 					break;
 				case FolderLayoutModes.GridView:
 					if (UserSettingsService.LayoutSettingsService.GridViewSize < GridViewSizeKind.ExtraLarge)

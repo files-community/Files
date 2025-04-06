@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.Extensions;
 using Files.App.Utils;
@@ -10,6 +10,7 @@ using Files.App.Services.Settings;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.Storage;
+using CommunityToolkit.WinUI.Helpers;
 
 namespace Files.App.Services.Settings
 {
@@ -68,7 +69,7 @@ namespace Files.App.Services.Settings
 
 			if (!string.IsNullOrEmpty(uid) && tag is null)
 			{
-				tag = new TagViewModel("Unknown".GetLocalizedResource(), "#9ea3a1", uid);
+				tag = new TagViewModel(Strings.Unknown.GetLocalizedResource(), "#9ea3a1", uid);
 				FileTagList = FileTagList.Append(tag).ToList();
 			}
 

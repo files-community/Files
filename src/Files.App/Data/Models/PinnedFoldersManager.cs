@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.Collections.Specialized;
 using System.IO;
@@ -83,9 +83,9 @@ namespace Files.App.Data.Models
 				locationItem = LocationItem.Create<LocationItem>();
 
 				if (path.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
-					locationItem.Text = "ThisPC".GetLocalizedResource();
+					locationItem.Text = Strings.ThisPC.GetLocalizedResource();
 				else if (path.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
-					locationItem.Text = "Network".GetLocalizedResource();
+					locationItem.Text = Strings.Network.GetLocalizedResource();
 			}
 
 			locationItem.Path = path;

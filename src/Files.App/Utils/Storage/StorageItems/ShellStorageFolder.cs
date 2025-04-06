@@ -1,20 +1,22 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class ShortcutStorageFolder : ShellStorageFolder, IShortcutStorageItem
+	public sealed partial class ShortcutStorageFolder : ShellStorageFolder, IShortcutStorageItem
 	{
 		public string TargetPath { get; }
 		public string Arguments { get; }
 		public string WorkingDirectory { get; }
 		public bool RunAsAdmin { get; }
+		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
 
 		public ShortcutStorageFolder(ShellLinkItem item) : base(item)
 		{
@@ -22,6 +24,7 @@ namespace Files.App.Utils.Storage
 			Arguments = item.Arguments;
 			WorkingDirectory = item.WorkingDirectory;
 			RunAsAdmin = item.RunAsAdmin;
+			ShowWindowCommand = item.ShowWindowCommand;
 		}
 	}
 
@@ -33,7 +36,7 @@ namespace Files.App.Utils.Storage
 		bool RunAsAdmin { get; }
 	}
 
-	public sealed class BinStorageFolder : ShellStorageFolder, IBinStorageItem
+	public sealed partial class BinStorageFolder : ShellStorageFolder, IBinStorageItem
 	{
 		public string OriginalPath { get; }
 		public DateTimeOffset DateDeleted { get; }
@@ -51,7 +54,7 @@ namespace Files.App.Utils.Storage
 		DateTimeOffset DateDeleted { get; }
 	}
 
-	public class ShellStorageFolder : BaseStorageFolder
+	public partial class ShellStorageFolder : BaseStorageFolder
 	{
 		public override string Path { get; }
 		public override string Name { get; }
@@ -292,7 +295,7 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
-		private sealed class ShellFolderBasicProperties : BaseBasicProperties
+		private sealed partial class ShellFolderBasicProperties : BaseBasicProperties
 		{
 			private readonly ShellFileItem folder;
 

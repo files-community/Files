@@ -1,11 +1,13 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
+using Windows.Win32;
+using Windows.Win32.UI.Shell;
 
 namespace Files.App.Utils.Shell
 {
@@ -14,14 +16,15 @@ namespace Files.App.Utils.Shell
 	/// </summary>
 	public static class LaunchHelper
 	{
-		public static void LaunchSettings(string page)
+		public unsafe static void LaunchSettings(string page)
 		{
-			var appActiveManager = new Shell32.IApplicationActivationManager();
+			using ComPtr<IApplicationActivationManager> pApplicationActivationManager = default;
+			pApplicationActivationManager.CoCreateInstance<Shell32.ApplicationActivationManager>();
 
-			appActiveManager.ActivateApplication(
+			pApplicationActivationManager.Get()->ActivateApplication(
 				"windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel",
 				page,
-				Shell32.ACTIVATEOPTIONS.AO_NONE,
+				ACTIVATEOPTIONS.AO_NONE,
 				out _);
 		}
 
@@ -160,7 +163,7 @@ namespace Files.App.Utils.Shell
 									if (!group.Any())
 										continue;
 
-									using var cMenu = await ContextMenu.GetContextMenuForFiles(group.ToArray(), Shell32.CMF.CMF_DEFAULTONLY);
+									using var cMenu = await ContextMenu.GetContextMenuForFiles(group.ToArray(), PInvoke.CMF_DEFAULTONLY);
 
 									if (cMenu is not null)
 										await cMenu.InvokeVerb(Shell32.CMDSTR_OPEN);
@@ -176,7 +179,7 @@ namespace Files.App.Utils.Shell
 							{
 								opened = await Win32Helper.StartSTATask(async () =>
 								{
-									using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { application }, Shell32.CMF.CMF_DEFAULTONLY);
+									using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { application }, PInvoke.CMF_DEFAULTONLY);
 
 									if (cMenu is not null)
 										await cMenu.InvokeItem(cMenu.Items.FirstOrDefault()?.ID ?? -1);
@@ -201,8 +204,8 @@ namespace Files.App.Utils.Shell
 								if (!hFileSrc.IsInvalid && !hFileDst.IsInvalid)
 								{
 									// Copy ADS to temp folder and open
-									using (var inStream = new FileStream(hFileSrc.DangerousGetHandle(), FileAccess.Read))
-									using (var outStream = new FileStream(hFileDst.DangerousGetHandle(), FileAccess.Write))
+									await using (var inStream = new FileStream(hFileSrc.DangerousGetHandle(), FileAccess.Read))
+									await using (var outStream = new FileStream(hFileDst.DangerousGetHandle(), FileAccess.Write))
 									{
 										await inStream.CopyToAsync(outStream);
 										await outStream.FlushAsync();

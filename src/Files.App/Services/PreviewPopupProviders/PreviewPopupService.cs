@@ -1,12 +1,12 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.Services.PreviewPopupProviders;
 
 namespace Files.App.Services.PreviewPopupProviders
 {
 	/// <inheritdoc cref="IPreviewPopupService"/>
-	internal sealed class PreviewPopupService : ObservableObject, IPreviewPopupService
+	internal sealed partial class PreviewPopupService : ObservableObject, IPreviewPopupService
 	{
 		public async Task<IPreviewPopupProvider?> GetProviderAsync()
 		{

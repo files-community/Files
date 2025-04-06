@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
@@ -7,27 +7,28 @@ using System.Collections.Specialized;
 using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Core;
+using OwlCore.Storage;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
 	/// <summary>
 	/// Represents view model of <see cref="NetworkLocationsWidget"/>.
 	/// </summary>
-	public sealed class NetworkLocationsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
+	public sealed partial class NetworkLocationsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		// Properties
 
 		public ObservableCollection<WidgetDriveCardItem> Items { get; } = [];
 
 		public string WidgetName => nameof(NetworkLocationsWidget);
-		public string AutomationProperties => "NetworkLocations".GetLocalizedResource();
-		public string WidgetHeader => "NetworkLocations".GetLocalizedResource();
+		public string AutomationProperties => Strings.NetworkLocations.GetLocalizedResource();
+		public string WidgetHeader => Strings.NetworkLocations.GetLocalizedResource();
 		public bool IsWidgetSettingEnabled => UserSettingsService.GeneralSettingsService.ShowNetworkLocationsWidget;
 		public bool ShowMenuFlyout => true;
 		public MenuFlyoutItem? MenuFlyoutItem => new()
 		{
 			Icon = new FontIcon() { Glyph = "\uE710" },
-			Text = "DrivesWidgetOptionsFlyoutMapNetDriveMenuItem/Text".GetLocalizedResource(),
+			Text = Strings.DrivesWidgetOptionsFlyoutMapNetDriveMenuItem_Text.GetLocalizedResource(),
 			Command = MapNetworkDriveCommand
 		};
 
@@ -78,7 +79,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			if (ctrlPressed)
 			{
-				await NavigationHelpers.OpenPathInNewTab(path, false);
+				await NavigationHelpers.OpenPathInNewTab(path);
 				return;
 			}
 
@@ -103,15 +104,15 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewTabFromHomeAction)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab && CommandManager.OpenInNewTabFromHomeAction.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewWindowFromHomeAction)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow && CommandManager.OpenInNewWindowFromHomeAction.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewPaneFromHomeAction)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && CommandManager.OpenInNewPaneFromHomeAction.IsExecutable
 				}.Build(),
 				new()
 				{
@@ -223,7 +224,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			NetworkService.DisconnectNetworkDrive(item.Item);
 		}
 
-		private async Task UpdateItems(ObservableCollection<ILocatableFolder> source)
+		private async Task UpdateItems(ObservableCollection<IFolder> source)
 		{
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{

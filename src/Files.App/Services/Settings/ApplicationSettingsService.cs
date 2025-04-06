@@ -1,12 +1,12 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.Utils.Serialization;
 using Files.App.Services.Settings;
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class ApplicationSettingsService : BaseObservableJsonSettings, IApplicationSettingsService
+	internal sealed partial class ApplicationSettingsService : BaseObservableJsonSettings, IApplicationSettingsService
 	{
 		public bool ClickedToReviewApp
 		{

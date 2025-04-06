@@ -1,11 +1,11 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.ViewModels.Properties;
 
 namespace Files.App.ViewModels.Previews
 {
-	public sealed class MarkdownPreviewViewModel : BasePreviewModel
+	public sealed partial class MarkdownPreviewViewModel : BasePreviewModel
 	{
 		private string textValue;
 		public string TextValue

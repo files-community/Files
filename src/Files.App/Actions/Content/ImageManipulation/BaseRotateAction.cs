@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Windows.Graphics.Imaging;
 
@@ -45,6 +45,8 @@ namespace Files.App.Actions
 			return
 				context.PageType != ContentPageTypes.RecycleBin &&
 				context.PageType != ContentPageTypes.ZipFolder &&
+				context.PageType != ContentPageTypes.ReleaseNotes &&
+				context.PageType != ContentPageTypes.Settings &&
 				context.PageType != ContentPageTypes.None;
 		}
 

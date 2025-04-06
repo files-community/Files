@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.Management.Infrastructure;
 using Microsoft.Management.Infrastructure.Generic;
@@ -17,7 +17,7 @@ namespace Files.App.Helpers
 	/// Original Sourced from: https://codereview.stackexchange.com/questions/255055/trying-to-replace-managementeventwatcher-class-in-system-management-to-switch-to
 	/// Adapted to newer versions of MMI
 	/// </summary>
-	public class ManagementEventWatcher : IDisposable, IObserver<CimSubscriptionResult>
+	public partial class ManagementEventWatcher : IDisposable, IObserver<CimSubscriptionResult>
 	{
 		internal enum CimWatcherStatus
 		{

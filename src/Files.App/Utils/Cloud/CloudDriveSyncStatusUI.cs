@@ -1,12 +1,12 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.Utils.Cloud;
 using Microsoft.UI.Xaml;
 
 namespace Files.App.Utils.Cloud
 {
-	public sealed class CloudDriveSyncStatusUI : ObservableObject
+	public sealed partial class CloudDriveSyncStatusUI : ObservableObject
 	{
 		public string Glyph { get; }
 
@@ -16,7 +16,7 @@ namespace Files.App.Utils.Cloud
 
 		public bool LoadSyncStatus { get; }
 
-		public string SyncStatusString { get; } = "CloudDriveSyncStatus_Unknown".GetLocalizedResource();
+		public string SyncStatusString { get; } = Strings.CloudDriveSyncStatus_Unknown.GetLocalizedResource();
 
 		public CloudDriveSyncStatusUI()
 		{

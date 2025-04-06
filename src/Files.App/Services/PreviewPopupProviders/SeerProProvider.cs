@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.Win32;
 using System.IO;
@@ -60,9 +60,9 @@ namespace Files.App.Services.PreviewPopupProviders
 				await TogglePreviewPopupAsync(path);
 		}
 
-		public async Task<bool> DetectAvailability()
+		public async unsafe Task<bool> DetectAvailability()
 		{
-			var hWnd = PInvoke.FindWindow("SeerWindowClass", null).Value;
+			var hWnd = (nint)PInvoke.FindWindow("SeerWindowClass", null).Value;
 			return hWnd != nint.Zero && hWnd.ToInt64() != -1;
 		}
 

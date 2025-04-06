@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
@@ -15,15 +15,19 @@ namespace Files.App.ViewModels
 	/// <summary>
 	/// Represents ViewModel of <see cref="MainPage"/>.
 	/// </summary>
-	public sealed class MainPageViewModel : ObservableObject
+	public sealed partial class MainPageViewModel : ObservableObject
 	{
 		// Dependency injections
 
 		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
+		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 		private INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private IResourcesService ResourcesService { get; } = Ioc.Default.GetRequiredService<IResourcesService>();
 		private DrivesViewModel DrivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
+		public ShelfViewModel ShelfViewModel { get; } = Ioc.Default.GetRequiredService<ShelfViewModel>();
+
+		private readonly IContentPageContext context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		// Properties
 
@@ -75,6 +79,9 @@ namespace Files.App.ViewModels
 			set => SetProperty(ref shouldPreviewPaneBeDisplayed, value);
 		}
 
+		public bool ShowShelfPane
+			=> GeneralSettingsService.ShowShelfPane && AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
+
 		public Stretch AppThemeBackgroundImageFit
 			=> AppearanceSettingsService.AppThemeBackgroundImageFit;
 
@@ -92,8 +99,16 @@ namespace Files.App.ViewModels
 		public HorizontalAlignment AppThemeBackgroundImageHorizontalAlignment
 			=> AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment;
 
-		public bool ShowToolbar
-			=> AppearanceSettingsService.ShowToolbar;
+		public bool ShowToolbar =>
+			AppearanceSettingsService.ShowToolbar &&
+			context.PageType is not ContentPageTypes.Home &&
+			context.PageType is not ContentPageTypes.ReleaseNotes &&
+			context.PageType is not ContentPageTypes.Settings;
+		
+		public bool ShowStatusBar =>
+			context.PageType is not ContentPageTypes.Home &&
+			context.PageType is not ContentPageTypes.ReleaseNotes &&
+			context.PageType is not ContentPageTypes.Settings;
 
 
 		// Commands
@@ -130,6 +145,27 @@ namespace Files.App.ViewModels
 						break;
 				}
 			};
+
+			context.PropertyChanged += (s, e) =>
+			{
+				switch (e.PropertyName)
+				{
+					case nameof(context.PageType):
+						OnPropertyChanged(nameof(ShowToolbar));
+						OnPropertyChanged(nameof(ShowStatusBar));
+						break;
+				}
+			};
+
+			GeneralSettingsService.PropertyChanged += (s, e) =>
+			{
+				switch (e.PropertyName)
+				{
+					case nameof(GeneralSettingsService.ShowShelfPane):
+						OnPropertyChanged(nameof(ShowShelfPane));
+						break;
+				}
+			};
 		}
 
 		// Methods
@@ -154,9 +190,9 @@ namespace Files.App.ViewModels
 					// add last session tabs to closed tabs stack if those tabs are not about to be opened
 					if (!UserSettingsService.AppSettingsService.RestoreTabsOnStartup && !UserSettingsService.GeneralSettingsService.ContinueLastSessionOnStartUp && UserSettingsService.GeneralSettingsService.LastSessionTabList != null)
 					{
-						var items = new TabBarItemParameter[UserSettingsService.GeneralSettingsService.LastSessionTabList.Count];
-						for (int i = 0; i < items.Length; i++)
-							items[i] = TabBarItemParameter.Deserialize(UserSettingsService.GeneralSettingsService.LastSessionTabList[i]);
+						var items = UserSettingsService.GeneralSettingsService.LastSessionTabList
+							.Where(tab => !string.IsNullOrEmpty(tab))
+							.Select(tab => TabBarItemParameter.Deserialize(tab)).ToArray();
 
 						BaseTabBar.PushRecentTab(items);
 					}

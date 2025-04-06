@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <local:BaseGroupableLayoutPage
 	x:Class="Files.App.Views.Layouts.ColumnLayoutPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -13,8 +13,9 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:storage="using:Files.App.Utils.Storage"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:wct="using:CommunityToolkit.WinUI.UI"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:wct="using:CommunityToolkit.WinUI"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
+	xmlns:wctlabs="using:CommunityToolkit.Labs.WinUI"
 	x:Name="PageRoot"
 	HighContrastAdjustment="None"
 	mc:Ignorable="d">
@@ -177,12 +178,12 @@
 				<ListView
 					x:Name="FileList"
 					Padding="8,0,8,0"
-					wct:ScrollViewerExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					CanDragItems="{x:Bind AllowItemDrag, Mode=OneWay}"
 					ContainerContentChanging="FileList_ContainerContentChanging"
 					DoubleTapped="FileList_DoubleTapped"
+					DragItemsCompleted="FileList_DragItemsCompleted"
 					DragItemsStarting="FileList_DragItemsStarting"
 					DragOver="ItemsLayout_DragOver"
 					Drop="ItemsLayout_Drop"
@@ -216,7 +217,7 @@
 								Loaded="Grid_Loaded"
 								PointerEntered="Grid_PointerEntered">
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="24" />
+									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition Width="*" />
 									<ColumnDefinition Width="Auto" />
 								</Grid.ColumnDefinitions>
@@ -224,14 +225,13 @@
 								<!--  Thumbnail  -->
 								<Grid
 									Grid.Column="0"
-									Width="24"
-									Height="24"
+									Width="{Binding IconBoxSize, ElementName=PageRoot, Mode=OneWay}"
+									Height="{Binding IconBoxSize, ElementName=PageRoot, Mode=OneWay}"
 									Opacity="{x:Bind Opacity, Mode=OneWay}"
-									Tag="ItemImage">
+									Tag="IconBox">
 									<ContentPresenter
 										x:Name="PicturePresenter"
-										Width="20"
-										Height="20"
+										Margin="2"
 										HorizontalAlignment="Center"
 										VerticalAlignment="Center"
 										x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
@@ -243,7 +243,7 @@
 									</ContentPresenter>
 
 									<!--  Loading indicator  -->
-									<uc:Shimmer
+									<wctlabs:Shimmer
 										x:Name="TypeUnknownGlyph"
 										Margin="2"
 										x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />

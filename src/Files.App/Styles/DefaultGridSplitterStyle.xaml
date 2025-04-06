@@ -1,8 +1,8 @@
-﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls">
+	xmlns:controls="using:Files.App.Controls">
 
 	<Style x:Key="DefaultGridSplitterStyle" TargetType="controls:GridSplitter">
 		<Setter Property="IsTabStop" Value="True" />

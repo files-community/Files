@@ -4,6 +4,7 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.UI.WindowsAndMessaging;
 
@@ -42,21 +43,14 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
-		/// Sets cursor when hovering on a specific element.
+		/// Force window to stay at bottom of other upper windows.
 		/// </summary>
-		/// <param name="uiElement">An element to be changed.</param>
-		/// <param name="cursor">Cursor to change.</param>
-		public static void ChangeCursor(this UIElement uiElement, InputCursor cursor)
+		/// <param name="lParam">The lParam of the message.</param>
+		public static void ForceWindowPosition(nint lParam)
 		{
-			Type type = typeof(UIElement);
-
-			type.InvokeMember(
-				"ProtectedCursor",
-				BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.SetProperty | BindingFlags.Instance,
-				null,
-				uiElement,
-				[cursor]
-			);
+			var windowPos = Marshal.PtrToStructure<WINDOWPOS>(lParam);
+			windowPos.flags |= SET_WINDOW_POS_FLAGS.SWP_NOZORDER;
+			Marshal.StructureToPtr(windowPos, lParam, false);
 		}
 	}
 }

@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Data.Contracts
 {
@@ -16,14 +16,14 @@ namespace Files.App.Data.Contracts
 		bool IsUpdating { get; }
 
 		/// <summary>
-		/// Gets a value indicating if the apps being used the first time after an update.
+		/// Gets a value indicating if the app is being used the first time after an update.
 		/// </summary>
 		bool IsAppUpdated { get; }
 
 		/// <summary>
-		/// Gets a value indicating if release notes are available.
+		/// Gets a value that indicates if there are release notes available for the current version of the app.
 		/// </summary>
-		bool IsReleaseNotesAvailable { get; }
+		bool AreReleaseNotesAvailable { get; }
 
 		Task DownloadUpdatesAsync();
 
@@ -31,12 +31,7 @@ namespace Files.App.Data.Contracts
 
 		Task CheckForUpdatesAsync();
 
-		Task CheckLatestReleaseNotesAsync(CancellationToken cancellationToken = default);
-
-		/// <summary>
-		/// Gets release notes for the latest release
-		/// </summary>
-		Task<string?> GetLatestReleaseNotesAsync(CancellationToken cancellationToken = default);
+		Task CheckForReleaseNotesAsync();
 
 		/// <summary>
 		/// Replace Files.App.Launcher.exe if it is used and has been updated

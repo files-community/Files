@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Controls;
 using System.Runtime.InteropServices;
@@ -7,7 +7,7 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Data.Models
 {
-	public sealed class AppModel : ObservableObject
+	public sealed partial class AppModel : ObservableObject
 	{
 		public AppModel()
 		{

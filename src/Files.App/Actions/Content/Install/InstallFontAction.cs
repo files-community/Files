@@ -1,22 +1,23 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
-	internal sealed class InstallFontAction : ObservableObject, IAction
+	internal sealed partial class InstallFontAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
+		private static readonly StatusCenterViewModel StatusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		public string Label
-			=> "Install".GetLocalizedResource();
+			=> Strings.Install.GetLocalizedResource();
 
 		public string Description
-			=> "InstallFontDescription".GetLocalizedResource();
+			=> Strings.InstallFontDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
-			=> new("\uE8D2");
+			=> new(themedIconStyle: "App.ThemedIcons.Actions.FontInstall");
 
 		public bool IsExecutable =>
 			context.SelectedItems.Any() &&
@@ -31,10 +32,19 @@ namespace Files.App.Actions
 			context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync(object? parameter = null)
+		public async Task ExecuteAsync(object? parameter = null)
 		{
+			if (context?.ShellPage?.ShellViewModel.WorkingDirectory is null)
+				return;
+
+			var banner = StatusCenterHelper.AddCard_InstallFont(context.ShellPage.ShellViewModel.WorkingDirectory.CreateEnumerable(), ReturnResult.InProgress, context.SelectedItems.Count);
+			banner.IsCancelable = false;
+
 			var paths = context.SelectedItems.Select(item => item.ItemPath).ToArray();
-			return Win32Helper.InstallFontsAsync(paths, false);
+			await Win32Helper.InstallFontsAsync(paths, false);
+
+			StatusCenterViewModel.RemoveItem(banner);
+			StatusCenterHelper.AddCard_InstallFont(context.ShellPage.ShellViewModel.WorkingDirectory.CreateEnumerable(), ReturnResult.Success, context.SelectedItems.Count);
 		}
 
 		public void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)

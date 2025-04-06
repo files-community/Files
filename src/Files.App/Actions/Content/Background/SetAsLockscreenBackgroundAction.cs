@@ -1,33 +1,35 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
+
+using Microsoft.Extensions.Logging;
 
 namespace Files.App.Actions
 {
-	internal sealed class SetAsLockscreenBackgroundAction : BaseSetAsAction
+	internal sealed partial class SetAsLockscreenBackgroundAction : BaseSetAsAction
 	{
 		private readonly IWindowsWallpaperService WindowsWallpaperService = Ioc.Default.GetRequiredService<IWindowsWallpaperService>();
 
 		public override string Label
-			=> "SetAsLockscreen".GetLocalizedResource();
+			=> Strings.SetAsLockscreen.GetLocalizedResource();
 
 		public override string Description
-			=> "SetAsLockscreenBackgroundDescription".GetLocalizedResource();
+			=> Strings.SetAsLockscreenBackgroundDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new("\uEE3F");
 
 		public override bool IsExecutable =>
 			base.IsExecutable &&
-			context.SelectedItem is not null;
+			ContentPageContext.SelectedItem is not null;
 
 		public override Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.SelectedItem is null)
+			if (!IsExecutable || ContentPageContext.SelectedItem is not ListedItem selectedItem)
 				return Task.CompletedTask;
 
 			try
 			{
-				return WindowsWallpaperService.SetLockScreenWallpaper(context.SelectedItem.ItemPath);
+				return WindowsWallpaperService.SetLockScreenWallpaper(selectedItem.ItemPath);
 			}
 			catch (Exception ex)
 			{

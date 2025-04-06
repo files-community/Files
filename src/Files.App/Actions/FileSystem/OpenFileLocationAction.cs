@@ -1,19 +1,19 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.IO;
 
 namespace Files.App.Actions
 {
-	internal sealed class OpenFileLocationAction : ObservableObject, IAction
+	internal sealed partial class OpenFileLocationAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "OpenFileLocation".GetLocalizedResource();
+			=> Strings.OpenFileLocation.GetLocalizedResource();
 
 		public string Description
-			=> "OpenFileLocationDescription".GetLocalizedResource();
+			=> Strings.OpenFileLocationDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(baseGlyph: "\uE8DA");
@@ -21,7 +21,7 @@ namespace Files.App.Actions
 		public bool IsExecutable =>
 			context.ShellPage is not null &&
 			context.HasSelection &&
-			context.SelectedItem is ShortcutItem;
+			context.SelectedItem is IShortcutItem;
 
 		public OpenFileLocationAction()
 		{
@@ -55,12 +55,12 @@ namespace Files.App.Actions
 			}
 			else if (destFolder == FileSystemStatusCode.NotFound)
 			{
-				await DialogDisplayHelper.ShowDialogAsync("FileNotFoundDialog/Title".GetLocalizedResource(), "FileNotFoundDialog/Text".GetLocalizedResource());
+				await DialogDisplayHelper.ShowDialogAsync(Strings.FileNotFoundDialog_Title.GetLocalizedResource(), Strings.FileNotFoundDialog_Text.GetLocalizedResource());
 			}
 			else
 			{
-				await DialogDisplayHelper.ShowDialogAsync("InvalidItemDialogTitle".GetLocalizedResource(),
-					string.Format("InvalidItemDialogContent".GetLocalizedResource(), Environment.NewLine, destFolder.ErrorCode.ToString()));
+				await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidItemDialogTitle.GetLocalizedResource(),
+					string.Format(Strings.InvalidItemDialogContent.GetLocalizedResource(), Environment.NewLine, destFolder.ErrorCode.ToString()));
 			}
 		}
 

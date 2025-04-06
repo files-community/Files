@@ -1,15 +1,15 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class DecompressArchiveHere : BaseDecompressArchiveAction
+	internal sealed partial class DecompressArchiveHere : BaseDecompressArchiveAction
 	{
 		public override string Label
-			=> "ExtractHere".GetLocalizedResource();
+			=> Strings.ExtractHere.GetLocalizedResource();
 
 		public override string Description
-			=> "DecompressArchiveHereDescription".GetLocalizedResource();
+			=> Strings.DecompressArchiveHereDescription.GetLocalizedResource();
 
 		public DecompressArchiveHere()
 		{

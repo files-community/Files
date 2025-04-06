@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.Actions;
 using Microsoft.UI.Xaml;
@@ -10,7 +10,7 @@ using System.Collections.Immutable;
 namespace Files.App.Data.Commands
 {
 	[DebuggerDisplay("Command {Code} (Modifiable)")]
-	internal sealed class ModifiableCommand : ObservableObject, IRichCommand
+	internal sealed partial class ModifiableCommand : ObservableObject, IRichCommand
 	{
 		public event EventHandler? CanExecuteChanged;
 

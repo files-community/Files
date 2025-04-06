@@ -1,0 +1,44 @@
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<Page
+	x:Class="Files.App.Views.ReleaseNotesPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:i="using:Microsoft.Xaml.Interactivity"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	DataContext="{x:Bind ViewModel, Mode=OneWay}"
+	mc:Ignorable="d">
+
+	<Grid x:Name="ContainerGrid">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<!--  WebView  -->
+		<WebView2
+			x:Name="BlogPostWebView"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			CoreWebView2Initialized="BlogPostWebView_CoreWebView2Initialized"
+			Source="{x:Bind ViewModel.BlogPostUrl, Mode=OneWay}" />
+
+		<!--  Footer  -->
+		<Border
+			Grid.Row="1"
+			Padding="12"
+			Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
+			BackgroundSizing="OuterBorderEdge"
+			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+			BorderThickness="0,1,0,0">
+			<HyperlinkButton
+				HorizontalAlignment="Left"
+				Content="{helpers:ResourceString Name=SponsorUsOnGitHub}"
+				NavigateUri="https://github.com/sponsors/yaira2" />
+		</Border>
+	</Grid>
+
+</Page>

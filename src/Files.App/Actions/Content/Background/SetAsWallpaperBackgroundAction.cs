@@ -1,33 +1,33 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
+
+using Microsoft.Extensions.Logging;
 
 namespace Files.App.Actions
 {
-	internal sealed class SetAsWallpaperBackgroundAction : BaseSetAsAction
+	internal sealed partial class SetAsWallpaperBackgroundAction : BaseSetAsAction
 	{
-		private readonly IWindowsWallpaperService WindowsWallpaperService = Ioc.Default.GetRequiredService<IWindowsWallpaperService>();
-
 		public override string Label
-			=> "SetAsBackground".GetLocalizedResource();
+			=> Strings.SetAsBackground.GetLocalizedResource();
 
 		public override string Description
-			=> "SetAsWallpaperBackgroundDescription".GetLocalizedResource();
+			=> Strings.SetAsWallpaperBackgroundDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
 			=> new("\uE91B");
 
 		public override bool IsExecutable =>
 			base.IsExecutable &&
-			context.SelectedItem is not null;
+			ContentPageContext.SelectedItem is not null;
 
 		public override Task ExecuteAsync(object? parameter = null)
 		{
-			if (context.SelectedItem is null)
+			if (!IsExecutable || ContentPageContext.SelectedItem is not ListedItem selectedItem)
 				return Task.CompletedTask;
 
 			try
 			{
-				WindowsWallpaperService.SetDesktopWallpaper(context.SelectedItem.ItemPath);
+				WindowsWallpaperService.SetDesktopWallpaper(selectedItem.ItemPath);
 			}
 			catch (Exception ex)
 			{

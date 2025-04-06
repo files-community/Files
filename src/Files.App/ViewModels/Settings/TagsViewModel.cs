@@ -1,11 +1,11 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.Settings
 {
-	public sealed class TagsViewModel : ObservableObject
+	public sealed partial class TagsViewModel : ObservableObject
 	{
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
@@ -102,7 +102,7 @@ namespace Files.App.ViewModels.Settings
 		}
 	}
 
-	public sealed class NewTagViewModel : ObservableObject
+	public sealed partial class NewTagViewModel : ObservableObject
 	{
 		private string name = string.Empty;
 		public string Name

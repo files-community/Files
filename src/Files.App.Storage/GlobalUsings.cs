@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 // System
 global using global::System;
@@ -23,7 +23,7 @@ global using global::Files.Core.Storage.Storables;
 global using global::Files.Core.Storage.Enums;
 global using global::Files.Core.Storage.EventArguments;
 global using global::Files.Core.Storage.Extensions;
-global using global::Files.Core.Storage.StorageEnumeration;
+global using global::OwlCore.Storage;
 
 // Files.App.Storage
 

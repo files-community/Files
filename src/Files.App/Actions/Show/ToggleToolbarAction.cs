@@ -1,17 +1,17 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class ToggleToolbarAction : ObservableObject, IToggleAction
+	internal sealed partial class ToggleToolbarAction : ObservableObject, IToggleAction
 	{
 		private IAppearanceSettingsService AppearanceSettingsService { get; } = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
 
 		public string Label
-			=> "ToggleToolbar".GetLocalizedResource();
+			=> Strings.ToggleToolbar.GetLocalizedResource();
 
 		public string Description
-			=> "ToggleToolbar".GetLocalizedResource();
+			=> Strings.ToggleToolbar.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.B, KeyModifiers.CtrlShift);

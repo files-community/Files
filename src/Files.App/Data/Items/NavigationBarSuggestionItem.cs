@@ -1,9 +1,9 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Data.Items
 {
-	public sealed class NavigationBarSuggestionItem : ObservableObject
+	public sealed partial class NavigationBarSuggestionItem : ObservableObject
 	{
 		private string? _Text;
 		public string? Text

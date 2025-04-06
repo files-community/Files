@@ -1,0 +1,441 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Files.App.Controls"
+	xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives">
+
+	<x:Double x:Key="OmnibarDefaultHeight">38</x:Double>
+	<x:Double x:Key="OmnibarModeDefaultHeight">34</x:Double>
+	<x:Double x:Key="OmnibarModeDefaultClickAreaWidth">46</x:Double>
+	<x:Double x:Key="OmnibarModeSeparatorWidth">1</x:Double>
+	<x:Double x:Key="OmnibarModeSeparatorHeight">20</x:Double>
+
+	<Thickness x:Key="OmnibarBorderThicknessUnfocused">1</Thickness>
+	<Thickness x:Key="OmnibarBorderThicknessFocused">2</Thickness>
+	<Thickness x:Key="OmnibarBorderMarginUnfocused">-1</Thickness>
+	<Thickness x:Key="OmnibarModeSeparatorPadding">4,0,4,0</Thickness>
+
+	<CornerRadius x:Key="OmnibarDefaultCornerRadius">19</CornerRadius>
+	<CornerRadius x:Key="OmnibarModeDefaultCornerRadius">17</CornerRadius>
+
+	<Style BasedOn="{StaticResource DefaultOmnibarStyle}" TargetType="local:Omnibar" />
+	<Style BasedOn="{StaticResource DefaultOmnibarModeStyle}" TargetType="local:OmnibarMode" />
+	<Style BasedOn="{StaticResource DefaultOmnibarModeSeparatorStyle}" TargetType="local:OmnibarModeSeparator" />
+
+	<Style x:Key="DefaultOmnibarStyle" TargetType="local:Omnibar">
+
+		<Setter Property="Background" Value="{ThemeResource ControlFillColorDefaultBrush}" />
+		<Setter Property="BackgroundSizing" Value="InnerBorderEdge" />
+		<Setter Property="BorderBrush" Value="{ThemeResource CircleElevationBorderBrush}" />
+		<Setter Property="BorderThickness" Value="{StaticResource OmnibarBorderThicknessUnfocused}" />
+		<Setter Property="CornerRadius" Value="{StaticResource OmnibarDefaultCornerRadius}" />
+
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="VerticalAlignment" Value="Center" />
+
+		<Setter Property="Height" Value="{StaticResource OmnibarDefaultHeight}" />
+
+		<Setter Property="IsTabStop" Value="False" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:Omnibar">
+					<Grid x:Name="PART_RootGrid">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" />
+						</Grid.RowDefinitions>
+
+						<TextBox
+							x:Name="PART_TextBox"
+							Grid.Row="0"
+							Width="{TemplateBinding Width}"
+							Height="{TemplateBinding Height}"
+							Padding="{Binding AutoSuggestBoxPadding, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+							Background="{TemplateBinding Background}"
+							BackgroundSizing="{TemplateBinding BackgroundSizing}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="{TemplateBinding CornerRadius}"
+							DesiredCandidateWindowAlignment="BottomEdge"
+							FontFamily="{TemplateBinding FontFamily}"
+							FontSize="{TemplateBinding FontSize}"
+							FontStretch="{TemplateBinding FontStretch}"
+							FontWeight="{TemplateBinding FontWeight}"
+							Foreground="{TemplateBinding Foreground}"
+							PlaceholderText="{Binding CurrentSelectedMode.PlaceholderText, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+							ScrollViewer.BringIntoViewOnFocusChange="False"
+							Style="{StaticResource DefaultOmnibarTextBoxStyle}"
+							UseSystemFocusVisuals="{TemplateBinding UseSystemFocusVisuals}" />
+
+						<Grid
+							x:Name="PART_ModesHostGrid"
+							Grid.Row="0"
+							Padding="2,0" />
+
+						<Popup
+							x:Name="PART_SuggestionsPopup"
+							Grid.Row="1"
+							IsLightDismissEnabled="False"
+							IsTabStop="False"
+							ShouldConstrainToRootBounds="False"
+							VerticalOffset="1">
+							<Border
+								x:Name="PART_SuggestionsContainerBorder"
+								Padding="{ThemeResource AutoSuggestListMargin}"
+								Background="{ThemeResource AutoSuggestBoxSuggestionsListBackground}"
+								BorderBrush="{ThemeResource AutoSuggestBoxSuggestionsListBorderBrush}"
+								BorderThickness="{ThemeResource AutoSuggestListBorderThemeThickness}"
+								CornerRadius="{ThemeResource OverlayCornerRadius}">
+								<ListView
+									x:Name="PART_SuggestionsListView"
+									MaxHeight="{ThemeResource AutoSuggestListMaxHeight}"
+									Margin="{ThemeResource AutoSuggestListPadding}"
+									IsItemClickEnabled="True"
+									ItemTemplate="{Binding CurrentSelectedMode.SuggestionItemTemplate, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+									ItemsSource="{Binding CurrentSelectedMode.SuggestionItemsSource, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+									SelectionMode="Single">
+									<ListView.ItemContainerTransitions />
+								</ListView>
+							</Border>
+						</Popup>
+
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="DefaultOmnibarModeStyle" TargetType="local:OmnibarMode">
+
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="BorderBrush" Value="Transparent" />
+		<Setter Property="CornerRadius" Value="{StaticResource OmnibarModeDefaultCornerRadius}" />
+
+		<Setter Property="Height" Value="{StaticResource OmnibarModeDefaultHeight}" />
+
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="HorizontalContentAlignment" Value="Left" />
+		<Setter Property="VerticalAlignment" Value="Stretch" />
+
+		<Setter Property="IsTabStop" Value="True" />
+		<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:OmnibarMode">
+					<Grid
+						x:Name="PART_RootGrid"
+						Height="{TemplateBinding Height}"
+						HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+						Background="{TemplateBinding Background}"
+						CornerRadius="{TemplateBinding CornerRadius}"
+						TabFocusNavigation="Local">
+						<!--  Mode Button  -->
+						<Border
+							x:Name="PART_ModeButton"
+							Width="{StaticResource OmnibarModeDefaultClickAreaWidth}"
+							Height="{TemplateBinding Height}"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="{TemplateBinding CornerRadius}"
+							IsTabStop="True"
+							ToolTipService.ToolTip="{Binding ModeName, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+							UseSystemFocusVisuals="{StaticResource UseSystemFocusVisuals}">
+							<Border.BackgroundTransition>
+								<BrushTransition Duration="0:0:0.083" />
+							</Border.BackgroundTransition>
+
+							<ContentPresenter
+								x:Name="PART_ModeButtonIconPresenter"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								Content="{Binding IconOnInactive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+						</Border>
+
+						<ContentPresenter
+							x:Name="PART_InactiveContent"
+							HorizontalAlignment="Stretch"
+							VerticalAlignment="Stretch"
+							HorizontalContentAlignment="Stretch"
+							Content="{Binding ContentOnInactive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+							Visibility="Collapsed" />
+
+						<VisualStateManager.VisualStateGroups>
+
+							<VisualStateGroup x:Name="PointerStates">
+								<VisualState x:Name="PointerNormal" />
+								<VisualState x:Name="PointerOver">
+									<VisualState.Setters>
+										<Setter Target="PART_ModeButton.Background" Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PointerPressed">
+									<VisualState.Setters>
+										<Setter Target="PART_ModeButton.Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+										<Setter Target="PART_ModeButtonIconPresenter.Content" Value="{Binding IconOnActive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+							<VisualStateGroup x:Name="FocusStates">
+								<VisualState x:Name="Unfocused" />
+								<VisualState x:Name="CurrentUnfocused">
+									<VisualState.Setters>
+										<Setter Target="PART_ModeButtonIconPresenter.Visibility" Value="Collapsed" />
+										<Setter Target="PART_InactiveContent.Visibility" Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Focused">
+									<VisualState.Setters>
+										<Setter Target="PART_ModeButtonIconPresenter.Content" Value="{Binding IconOnActive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="DefaultOmnibarModeSeparatorStyle" TargetType="local:OmnibarModeSeparator">
+
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="BorderBrush" Value="Transparent" />
+
+		<Setter Property="Height" Value="{StaticResource OmnibarModeDefaultHeight}" />
+		<Setter Property="Padding" Value="{StaticResource OmnibarModeSeparatorPadding}" />
+
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="VerticalAlignment" Value="Stretch" />
+		<Setter Property="VerticalContentAlignment" Value="Stretch" />
+
+		<Setter Property="IsTabStop" Value="False" />
+
+		<Setter Property="AutomationProperties.AccessibilityView" Value="Raw" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:OmnibarModeSeparator">
+					<Grid
+						x:Name="PART_RootGrid"
+						Height="{TemplateBinding Height}"
+						Padding="{TemplateBinding Padding}"
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}">
+
+						<Rectangle
+							Width="{StaticResource OmnibarModeSeparatorWidth}"
+							Height="{StaticResource OmnibarModeSeparatorHeight}"
+							Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style
+		x:Key="DefaultOmnibarTextBoxStyle"
+		BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}"
+		TargetType="TextBox">
+
+		<Setter Property="Foreground" Value="{ThemeResource TextControlForeground}" />
+		<Setter Property="Background" Value="{ThemeResource TextControlBackground}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}" />
+		<Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}" />
+
+		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+		<Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+		<Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+
+		<Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}" />
+		<Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}" />
+		<Setter Property="Padding" Value="{ThemeResource TextControlThemePadding}" />
+
+		<Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}" />
+
+		<Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}" />
+		<Setter Property="ContextFlyout" Value="{StaticResource TextControlCommandBarContextFlyout}" />
+		<Setter Property="SelectionFlyout" Value="{StaticResource TextControlCommandBarSelectionFlyout}" />
+
+		<Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto" />
+		<Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto" />
+		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+		<Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="TextBox">
+					<Grid>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+
+						<!--  Header  -->
+						<ContentPresenter
+							x:Name="HeaderContentPresenter"
+							Grid.Row="0"
+							Margin="{ThemeResource TextBoxTopHeaderMargin}"
+							VerticalAlignment="Top"
+							x:DeferLoadStrategy="Lazy"
+							Content="{TemplateBinding Header}"
+							ContentTemplate="{TemplateBinding HeaderTemplate}"
+							FontWeight="Normal"
+							Foreground="{ThemeResource TextControlHeaderForeground}"
+							TextWrapping="Wrap"
+							Visibility="Collapsed" />
+
+						<!--  Control Border  -->
+						<Border
+							x:Name="BorderElement"
+							Grid.Row="1"
+							MinWidth="{TemplateBinding MinWidth}"
+							MinHeight="{TemplateBinding MinHeight}"
+							Background="{TemplateBinding Background}"
+							BackgroundSizing="{TemplateBinding BackgroundSizing}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							Control.IsTemplateFocusTarget="True"
+							CornerRadius="{TemplateBinding CornerRadius}" />
+
+						<!--  Text Input (+ Placeholder Text) & Delete Button  -->
+						<Grid
+							x:Name="PART_TextBoxInputArea"
+							Grid.Row="1"
+							Margin="{TemplateBinding BorderThickness}"
+							Padding="{TemplateBinding Padding}"
+							IsTabStop="False"
+							Visibility="Visible">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+
+							<!--  Text Input  -->
+							<ScrollViewer
+								x:Name="ContentElement"
+								Grid.Column="0"
+								VerticalAlignment="Center"
+								AutomationProperties.AccessibilityView="Raw"
+								Foreground="{TemplateBinding Foreground}"
+								HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+								HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+								IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+								IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+								IsTabStop="False"
+								IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+								VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+								VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+								ZoomMode="Disabled" />
+
+							<!--  Placeholder Text  -->
+							<TextBlock
+								x:Name="PlaceholderTextContentPresenter"
+								VerticalAlignment="Center"
+								Foreground="{Binding PlaceholderForeground, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForeground}}"
+								IsHitTestVisible="False"
+								Text="{TemplateBinding PlaceholderText}"
+								TextAlignment="{TemplateBinding TextAlignment}"
+								TextWrapping="{TemplateBinding TextWrapping}" />
+
+							<!--  Delete Button  -->
+							<Button
+								x:Name="DeleteButton"
+								Grid.Column="1"
+								Width="36"
+								Height="28"
+								Padding="0"
+								VerticalAlignment="Center"
+								AutomationProperties.AccessibilityView="Raw"
+								Background="Transparent"
+								BorderThickness="0"
+								Content="&#xE894;"
+								CornerRadius="{StaticResource ControlCornerRadius}"
+								FontFamily="{ThemeResource SymbolThemeFontFamily}"
+								FontSize="{StaticResource TextBoxIconFontSize}"
+								Foreground="{ThemeResource TextControlButtonForeground}"
+								IsTabStop="False"
+								Visibility="Collapsed" />
+						</Grid>
+
+						<!--  Description  -->
+						<ContentPresenter
+							x:Name="DescriptionPresenter"
+							Grid.Row="2"
+							x:Load="False"
+							AutomationProperties.AccessibilityView="Raw"
+							Content="{TemplateBinding Description}"
+							Foreground="{ThemeResource SystemControlDescriptionTextForegroundBrush}" />
+
+						<VisualStateManager.VisualStateGroups>
+
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal" />
+								<VisualState x:Name="Disabled">
+									<VisualState.Setters>
+										<Setter Target="PlaceholderTextContentPresenter.Foreground" Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForegroundDisabled}}" />
+										<Setter Target="HeaderContentPresenter.Foreground" Value="{ThemeResource TextControlHeaderForegroundDisabled}" />
+										<Setter Target="BorderElement.Background" Value="{ThemeResource TextControlBackgroundDisabled}" />
+										<Setter Target="BorderElement.BorderBrush" Value="{ThemeResource TextControlBorderBrushDisabled}" />
+										<Setter Target="ContentElement.Foreground" Value="{ThemeResource TextControlForegroundDisabled}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="PointerOver">
+									<VisualState.Setters>
+										<Setter Target="PlaceholderTextContentPresenter.Foreground" Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForegroundPointerOver}}" />
+										<Setter Target="HeaderContentPresenter.Foreground" Value="{ThemeResource TextControlHeaderForegroundDisabled}" />
+										<Setter Target="BorderElement.Background" Value="{ThemeResource TextControlBackgroundPointerOver}" />
+										<Setter Target="BorderElement.BorderBrush" Value="{ThemeResource CircleElevationBorderBrush}" />
+										<Setter Target="ContentElement.Foreground" Value="{ThemeResource TextControlForegroundPointerOver}" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Focused">
+									<VisualState.Setters>
+										<Setter Target="PlaceholderTextContentPresenter.Foreground" Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForegroundFocused}}" />
+										<Setter Target="BorderElement.Background" Value="{ThemeResource TextControlBackgroundFocused}" />
+										<Setter Target="BorderElement.BorderBrush" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+										<Setter Target="BorderElement.BorderThickness" Value="{ThemeResource OmnibarBorderThicknessFocused}" />
+										<Setter Target="BorderElement.Margin" Value="{StaticResource OmnibarBorderMarginUnfocused}" />
+										<Setter Target="ContentElement.Foreground" Value="{ThemeResource TextControlForegroundFocused}" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+							<VisualStateGroup x:Name="ButtonStates">
+								<VisualState x:Name="ButtonCollapsed" />
+								<VisualState x:Name="ButtonVisible">
+									<VisualState.Setters>
+										<Setter Target="DeleteButton.Visibility" Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+							<VisualStateGroup x:Name="InputAreaVisibilityStates">
+								<VisualState x:Name="InputAreaVisible" />
+								<VisualState x:Name="InputAreaCollapsed">
+									<VisualState.Setters>
+										<Setter Target="PART_TextBoxInputArea.Visibility" Value="Collapsed" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+
+						</VisualStateManager.VisualStateGroups>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>

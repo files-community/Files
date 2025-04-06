@@ -536,6 +536,9 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Kopieren nach {0}</value>
   </data>
+  <data name="CloneToFolderCaptionText" xml:space="preserve">
+    <value>Clone to {0}</value>
+  </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>Verknüpfung erstellen</value>
   </data>
@@ -1057,9 +1060,6 @@
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detailansicht (Strg+Shift+1)</value>
-  </data>
-  <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Kachelansicht (Strg+Shift+2)</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Löschdatum</value>
@@ -1658,15 +1658,6 @@
   <data name="Home" xml:space="preserve">
     <value>Startseite</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Strg+Umschalt+1</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Strg+Umschalt+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Strg+Umschalt+6</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Das Entpacken war erfolgreich.</value>
   </data>
@@ -1724,8 +1715,8 @@
   <data name="Columns" xml:space="preserve">
     <value>Spalten</value>
   </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Kacheln</value>
+  <data name="Cards" xml:space="preserve">
+    <value>Karten</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Ordner in neuem Tab öffnen</value>
@@ -1837,6 +1828,18 @@
   </data>
   <data name="CompatibilityRegisterThisProgramForRestart" xml:space="preserve">
     <value>Dieses Programm zum Neustart festlegen</value>
+  </data>
+  <data name="StartWindow" xml:space="preserve">
+    <value>Startfenster</value>
+  </data>
+  <data name="NormalWindow" xml:space="preserve">
+    <value>Normales Fenster</value>
+  </data>
+  <data name="Minimized" xml:space="preserve">
+    <value>Minimiert</value>
+  </data>
+  <data name="Maximized" xml:space="preserve">
+    <value>Maximiert</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Als Administrator ausführen</value>
@@ -2194,6 +2197,9 @@
   </data>
   <data name="WhatsNew" xml:space="preserve">
     <value>Was ist neu</value>
+  </data>
+  <data name="WhatsNewDescription" xml:space="preserve">
+    <value>Versionshinweise öffnen</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Um eine Verknüpfung an dieser Stelle zu erstellen, werden Administrator-Rechte benötigt</value>
@@ -2570,8 +2576,8 @@
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Zum Detail-Layout wechseln</value>
   </data>
-  <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Zur Kachelansicht wechseln</value>
+  <data name="LayoutCardsDescription" xml:space="preserve">
+    <value>Zur Kartenübersicht wechseln</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Zur Listenansicht wechseln</value>
@@ -3135,6 +3141,9 @@
   <data name="GitFetchDescription" xml:space="preserve">
     <value>Git fetch ausführen</value>
   </data>
+  <data name="GitCloneDescription" xml:space="preserve">
+    <value>Clone a git repo</value>
+  </data>
   <data name="GitPullDescription" xml:space="preserve">
     <value>Git pull ausführen</value>
   </data>
@@ -3211,17 +3220,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files kann momentan nicht auf GitHub zugreifen.</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>Ordner in VS Code öffnen</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>Ordner in {0} öffnen</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Aktuelles Verzeichnis in Visual Studio Code öffnen</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>Aktuelles Verzeichnis in {0} öffnen</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Repository in VS Code öffnen</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>Repository in {0} öffnen</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Das Stammverzeichnis des Git Repositorys in Visual Studio Code öffnen</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Öffne das Stammverzeichnis des Git Repos in {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Code kopieren</value>
@@ -3462,6 +3471,70 @@
     <value>{0} Element(e) wird/werden von "{1}" nach "{2}" komprimiert</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
+    <value>Canceled cloning {0} to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled cloning {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
+    <value>Cloned "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
+    <value>Cloned {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
+    <value>Error cloning "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
+    <value>Failed to clone {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
+    <value>Cloning "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
+    <value>Cloning {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
+  <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
+    <value>Canceled installing {0} fonts</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled installing {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
+    <value>Installed {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
+    <value>Installed {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
+    <value>Error installing {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
+    <value>Failed to install {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
+    <value>Installing {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
+    <value>Installing {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>Kopieren von {0} Element(en) nach "{1}" abgebrochen</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3711,9 +3784,6 @@
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Fragen &amp; Diskussionen</value>
   </data>
-  <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Weitere Größen sind für die Kachelansicht noch nicht verfügbar.</value>
-  </data>
   <data name="Compact" xml:space="preserve">
     <value>Kompakt</value>
     <comment>Used to describe layout sizes</comment>
@@ -3875,6 +3945,10 @@
     <value>ICO-Datei</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>ICL-Datei</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Zip-Datei</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -3966,7 +4040,7 @@
     <value>Zur Startseite navigieren</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Startseite in Adressleiste anzeigen</value>
+    <value>Startbutton in Adressleiste anzeigen</value>
   </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Werkzeugleisten</value>
@@ -3976,6 +4050,9 @@
   </data>
   <data name="BulkRename" xml:space="preserve">
     <value>Massenhafte Umbenennung</value>
+  </data>
+  <data name="CompressContents" xml:space="preserve">
+    <value>Inhalte komprimieren</value>
   </data>
   <data name="ShowCreateAlternateDataStream" xml:space="preserve">
     <value>Option zum Erstellen alternativer Datenströme anzeigen</value>
@@ -4003,5 +4080,80 @@
   </data>
   <data name="ManageTags" xml:space="preserve">
     <value>Tags verwalten</value>
+  </data>
+  <data name="Available" xml:space="preserve">
+    <value>Verfügbar</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Gesamt</value>
+  </data>
+  <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
+    <value>Immer auf neu erstellten Tab fokussieren</value>
+  </data>
+  <data name="ToggleShelfPane" xml:space="preserve">
+    <value>Ablagebereich umschalten</value>
+  </data>
+  <data name="ToggleShelfPaneDescription" xml:space="preserve">
+    <value>Die Sichtbarkeit des Ablagebereichs umschalten</value>
+  </data>
+  <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
+    <value>Ablagebereich in der Addressleiste anzeigen</value>
+  </data>
+  <data name="Shelf" xml:space="preserve">
+    <value>Ablage</value>
+    <comment>'Shelf' refers to the Shelf Pane feature, where users can conveniently drag and drop files for quick access and perform bulk actions with ease.</comment>
+  </data>
+  <data name="ClearItems" xml:space="preserve">
+    <value>Elemente leeren</value>
+  </data>
+  <data name="RemoveFromShelf" xml:space="preserve">
+    <value>Aus der Ablage entfernen</value>
+  </data>
+  <data name="AddToShelf" xml:space="preserve">
+    <value>Zur Ablage hinzufügen</value>
+    <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Pfad oder Alias</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Ungültiger Pfad</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Test-Integration</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>{0} konnte nicht gefunden werden. Bitte überprüfe die Einstellungen und versuche es erneut.</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>Die konfigurierte IDE konnte nicht gefunden werden</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Einstellungen öffnen</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>Gib einen Pfad oder Start-Alias ein</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>Bitte gib einen Namen für die IDE ein</value>
+  </data>
+  <data name="CloneRepo" xml:space="preserve">
+    <value>Clone repo</value>
+    <comment>Clone repo dialog title</comment>
+  </data>
+  <data name="Clone" xml:space="preserve">
+    <value>Clone</value>
+    <comment>Primary action button in the clone repo dialog</comment>
+  </data>
+  <data name="RepositoryURL" xml:space="preserve">
+    <value>Repository URL</value>
+    <comment>URL textbox header in the clone repo dialog</comment>
+  </data>
+  <data name="CannotCloneRepoTitle" xml:space="preserve">
+    <value>Cannot clone repo</value>
+    <comment>Cannot clone repo dialog title</comment>
   </data>
 </root>

@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.Controls;
 using Microsoft.UI.Xaml;
@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Files.App.Data.Items
 {
-	public class LocationItem : ObservableObject, INavigationControlItem
+	public partial class LocationItem : ObservableObject, INavigationControlItem
 	{
 		public BitmapImage icon;
 		public BitmapImage Icon
@@ -48,7 +48,9 @@ namespace Files.App.Data.Items
 					Path.Contains('?', StringComparison.Ordinal) ||
 					Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) ||
 					Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) ||
-					Path == "Home"
+					Path == "Home" ||
+					Path == "ReleaseNotes" ||
+					Path == "Settings"
 					? Text
 					: Path;
 			}
@@ -113,6 +115,8 @@ namespace Files.App.Data.Items
 			}
 		}
 
+		public bool PaddedItem => Section == SectionType.Home;
+
 		public int CompareTo(INavigationControlItem other)
 			=> Text.CompareTo(other.Text);
 
@@ -122,15 +126,20 @@ namespace Files.App.Data.Items
 		}
 	}
 
-	public sealed class RecycleBinLocationItem : LocationItem
+	public sealed partial class RecycleBinLocationItem : LocationItem
 	{
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 
 		public async void RefreshSpaceUsed(object? sender, FileSystemEventArgs e)
 		{
-			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+			await RefreshSpaceUsedAsync();
+		}
+
+		private Task RefreshSpaceUsedAsync()
+		{
+			return MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				SpaceUsed = StorageTrashBinService.GetSize();
+				SpaceUsed = await Task.Run(() => StorageTrashBinService.GetSize());
 			});
 		}
 
@@ -152,10 +161,10 @@ namespace Files.App.Data.Items
 
 		public RecycleBinLocationItem()
 		{
-			SpaceUsed = StorageTrashBinService.GetSize();
-
 			StorageTrashBinService.Watcher.ItemAdded += RefreshSpaceUsed;
 			StorageTrashBinService.Watcher.ItemDeleted += RefreshSpaceUsed;
+
+			_ = RefreshSpaceUsedAsync();
 		}
 	}
 }

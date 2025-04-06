@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.Shared.Helpers;
 using SevenZip;
@@ -16,7 +16,7 @@ using IO = System.IO;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class ZipStorageFolder : BaseStorageFolder, ICreateFileWithStream, IPasswordProtectedItem
+	public sealed partial class ZipStorageFolder : BaseStorageFolder, ICreateFileWithStream, IPasswordProtectedItem
 	{
 		private readonly string containerPath;
 		private BaseStorageFile backingFile;
@@ -24,7 +24,7 @@ namespace Files.App.Utils.Storage
 		public override string Path { get; }
 		public override string Name { get; }
 		public override string DisplayName => Name;
-		public override string DisplayType => "Folder".GetLocalizedResource();
+		public override string DisplayType => Strings.Folder.GetLocalizedResource();
 		public override string FolderRelativeId => $"0\\{Name}";
 
 		public override DateTimeOffset DateCreated { get; }
@@ -312,14 +312,14 @@ namespace Files.App.Utils.Storage
 
 				using (var ms = new MemoryStream())
 				{
-					using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
+					await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
 					{
 						SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 						compressor.SetFormatFromExistingArchive(archiveStream);
 						var fileName = IO.Path.GetRelativePath(containerPath, zipDesiredName);
 						await compressor.CompressStreamDictionaryAsync(archiveStream, new Dictionary<string, Stream>() { { fileName, null } }, Credentials.Password, ms);
 					}
-					using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+					await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 					{
 						ms.Position = 0;
 						await ms.CopyToAsync(archiveStream);
@@ -363,7 +363,7 @@ namespace Files.App.Utils.Storage
 					}
 					using (var ms = new MemoryStream())
 					{
-						using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
+						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
 						{
 							SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 							compressor.SetFormatFromExistingArchive(archiveStream);
@@ -373,7 +373,7 @@ namespace Files.App.Utils.Storage
 								IO.Path.Combine(folderDes, IO.Path.GetRelativePath(folderKey, x.Key)))));
 							await compressor.ModifyArchiveAsync(archiveStream, entriesMap, Credentials.Password, ms);
 						}
-						using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 						{
 							ms.Position = 0;
 							await ms.CopyToAsync(archiveStream);
@@ -414,14 +414,14 @@ namespace Files.App.Utils.Storage
 					}
 					using (var ms = new MemoryStream())
 					{
-						using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
+						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
 						{
 							SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 							compressor.SetFormatFromExistingArchive(archiveStream);
 							var entriesMap = new Dictionary<int, string>(index.Select(x => new KeyValuePair<int, string>(x.Index, null)));
 							await compressor.ModifyArchiveAsync(archiveStream, entriesMap, Credentials.Password, ms);
 						}
-						using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 						{
 							ms.Position = 0;
 							await ms.CopyToAsync(archiveStream);
@@ -544,7 +544,7 @@ namespace Files.App.Utils.Storage
 			return SafetyExtensions.IgnoreExceptions(async () =>
 			{
 				using var fileStream = await file.OpenAsync(FileAccessMode.ReadWrite);
-				using var stream = fileStream.AsStream();
+				await using var stream = fileStream.AsStream();
 				return await InitArchive(stream, format);
 			});
 		}
@@ -624,14 +624,14 @@ namespace Files.App.Utils.Storage
 
 				using (var ms = new MemoryStream())
 				{
-					using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
+					await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
 					{
 						SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 						compressor.SetFormatFromExistingArchive(archiveStream);
 						var fileName = IO.Path.GetRelativePath(containerPath, zipDesiredName);
 						await compressor.CompressStreamDictionaryAsync(archiveStream, new Dictionary<string, Stream>() { { fileName, contents } }, Credentials.Password, ms);
 					}
-					using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+					await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
 					{
 						ms.Position = 0;
 						await ms.CopyToAsync(archiveStream);
@@ -646,7 +646,7 @@ namespace Files.App.Utils.Storage
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
-		private sealed class ZipFolderBasicProperties : BaseBasicProperties
+		private sealed partial class ZipFolderBasicProperties : BaseBasicProperties
 		{
 			private ArchiveFileInfo entry;
 

@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.Utils.Storage.Operations;
 using Files.Shared.Helpers;
@@ -12,10 +12,11 @@ using Tulpep.ActiveDirectoryObjectPicker;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class FileOperationsHelpers
+	public sealed partial class FileOperationsHelpers
 	{
 		private static readonly Ole32.PROPERTYKEY PKEY_FilePlaceholderStatus = new Ole32.PROPERTYKEY(new Guid("B2F9B9D6-FEC4-4DD5-94D7-8957488C807B"), 2);
 		private const uint PS_CLOUDFILE_PLACEHOLDER = 8;
@@ -127,7 +128,7 @@ namespace Files.App.Utils.Storage
 					{
 						using var shi = new ShellItem(fileToDeletePath[i]);
 						using var file = SafetyExtensions.IgnoreExceptions(() => GetFirstFile(shi)) ?? shi;
-						if ((uint?)file.Properties.GetValueOrDefault(PKEY_FilePlaceholderStatus) == PS_CLOUDFILE_PLACEHOLDER)
+						if (file.Properties.TryGetValue<uint>(PKEY_FilePlaceholderStatus, out var value) && value == PS_CLOUDFILE_PLACEHOLDER)
 						{
 							// Online only files cannot be tried for deletion, so they are treated as to be permanently deleted.
 							shellOperationResult.Items.Add(new ShellOperationItemResult()
@@ -733,7 +734,7 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		public static Task<bool> CreateOrUpdateLinkAsync(string linkSavePath, string targetPath, string arguments = "", string workingDirectory = "", bool runAsAdmin = false)
+		public static Task<bool> CreateOrUpdateLinkAsync(string linkSavePath, string targetPath, string arguments = "", string workingDirectory = "", bool runAsAdmin = false, SHOW_WINDOW_CMD showWindowCommand = SHOW_WINDOW_CMD.SW_NORMAL)
 		{
 			try
 			{
@@ -746,6 +747,10 @@ namespace Files.App.Utils.Storage
 						newLink.RunAsAdministrator = runAsAdmin;
 
 					newLink.SaveAs(linkSavePath); // Overwrite if exists
+
+					// ShowState has to be set after SaveAs has been called, otherwise an UnauthorizedAccessException gets thrown in some cases
+					newLink.ShowState = (ShowWindowCommand)showWindowCommand;
+
 					return Task.FromResult(true);
 				}
 				else if (FileExtensionHelpers.IsWebLinkFile(linkSavePath))
@@ -957,7 +962,7 @@ namespace Files.App.Utils.Storage
 		public static void WaitForCompletion()
 			=> progressHandler?.WaitForCompletion();
 
-		private sealed class ProgressHandler : Disposable
+		private sealed partial class ProgressHandler : Disposable
 		{
 			private readonly ManualResetEvent operationsCompletedEvent;
 

@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -158,7 +158,7 @@ namespace Files.App.Utils.Storage
 		public async Task<string> ReadTextAsync(int maxLength = -1)
 		{
 			using var inputStream = await OpenReadAsync();
-			using var stream = inputStream.AsStreamForRead();
+			await using var stream = inputStream.AsStreamForRead();
 			using var dataReader = new StreamReader(stream, true);
 			StringBuilder builder = new();
 			int charsRead, charsToRead;

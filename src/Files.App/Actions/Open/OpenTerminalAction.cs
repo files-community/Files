@@ -1,20 +1,20 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.Text;
 using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal class OpenTerminalAction : ObservableObject, IAction
+	internal partial class OpenTerminalAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public virtual string Label
-			=> "OpenTerminal".GetLocalizedResource();
+			=> Strings.OpenTerminal.GetLocalizedResource();
 
 		public virtual string Description
-			=> "OpenTerminalDescription".GetLocalizedResource();
+			=> Strings.OpenTerminalDescription.GetLocalizedResource();
 
 		public virtual HotKey HotKey
 			=> new(Keys.Oem3, KeyModifiers.Ctrl);
@@ -96,7 +96,7 @@ namespace Files.App.Actions
 
 		private bool GetIsExecutable()
 		{
-			if (context.PageType is ContentPageTypes.None or ContentPageTypes.Home or ContentPageTypes.RecycleBin or ContentPageTypes.ZipFolder)
+			if (context.PageType is ContentPageTypes.None or ContentPageTypes.Home or ContentPageTypes.RecycleBin or ContentPageTypes.ZipFolder or ContentPageTypes.ReleaseNotes or ContentPageTypes.Settings)
 				return false;
 
 			var isFolderNull = context.Folder is null;

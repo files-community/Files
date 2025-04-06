@@ -1,19 +1,19 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions
 {
-	internal sealed class ShareItemAction : ObservableObject, IAction
+	internal sealed partial class ShareItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Share".GetLocalizedResource();
+			=> Strings.Share.GetLocalizedResource();
 
 		public string Description
-			=> "ShareItemDescription".GetLocalizedResource();
+			=> Strings.ShareItemDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Share");

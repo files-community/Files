@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Data.Contracts
 {
@@ -84,5 +84,10 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating whether or not to show checkboxes when selecting items.
 		/// </summary>
 		bool ShowCheckboxesWhenSelectingItems { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating which format to use when displaying item sizes.
+		/// </summary>
+		SizeUnitTypes SizeUnitFormat { get; set; }
 	}
 }

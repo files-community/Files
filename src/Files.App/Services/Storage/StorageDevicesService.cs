@@ -1,11 +1,10 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
-using Files.App.Storage.Storables;
-using Files.Core.Storage.Storables;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.Storage;
+using OwlCore.Storage.System.IO;
 
 namespace Files.App.Services
 {
@@ -16,21 +15,16 @@ namespace Files.App.Services
 			return new WindowsStorageDeviceWatcher();
 		}
 
-		public async IAsyncEnumerable<ILocatableFolder> GetDrivesAsync()
+		public async IAsyncEnumerable<IFolder> GetDrivesAsync()
 		{
 			var list = DriveInfo.GetDrives();
 			var pCloudDrivePath = App.AppModel.PCloudDrivePath;
-
-			var sw = Stopwatch.StartNew();
-			var googleDrivePath = GoogleDriveCloudDetector.GetRegistryBasePath();
-			sw.Stop();
-			Debug.WriteLine($"In RemovableDrivesService: Time elapsed for registry check: {sw.Elapsed}");
-			App.AppModel.GoogleDrivePath = googleDrivePath ?? string.Empty;
-
 			foreach (var drive in list)
 			{
-				// We don't want cloud drives to appear in a plain "Drives" section.
-				if (drive.Name.Equals(googleDrivePath) || drive.Name.Equals(pCloudDrivePath))
+				var driveLabel = DriveHelpers.GetExtendedDriveLabel(drive);
+				// Filter out cloud drives
+				// We don't want cloud drives to appear in the plain "Drives" sections.
+				if (driveLabel.Equals("Google Drive") || drive.Name.Equals(pCloudDrivePath))
 					continue;
 
 				var res = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Name).AsTask());
@@ -58,15 +52,15 @@ namespace Files.App.Services
 			}
 		}
 
-		public async Task<ILocatableFolder> GetPrimaryDriveAsync()
+		public async Task<IFolder> GetPrimaryDriveAsync()
 		{
-			string cDrivePath = $@"{Constants.UserEnvironmentPaths.SystemDrivePath}\";
-			return new WindowsStorageFolder(await StorageFolder.GetFolderFromPathAsync(cDrivePath));
+			var cDrivePath = $@"{Constants.UserEnvironmentPaths.SystemDrivePath}\";
+			return new SystemFolder(cDrivePath);
 		}
 
-		public async Task UpdateDrivePropertiesAsync(ILocatableFolder drive)
+		public async Task UpdateDrivePropertiesAsync(IFolder drive)
 		{
-			var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Path).AsTask());
+			var rootModified = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(drive.Id).AsTask());
 			if (rootModified && drive is DriveItem matchingDriveEjected)
 			{
 				_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>

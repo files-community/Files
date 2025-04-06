@@ -1,4 +1,4 @@
-<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Page
 	x:Class="Files.App.Views.Settings.ActionsPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -7,18 +7,17 @@
 	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
-	xmlns:icore="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:keyboard="using:Files.App.UserControls.KeyboardShortcut"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	x:Name="PageRoot"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>
-		<icore:EventTriggerBehavior EventName="Loaded">
-			<icore:InvokeCommandAction Command="{x:Bind ViewModel.LoadAllActionsCommand, Mode=OneWay}" />
-		</icore:EventTriggerBehavior>
+		<i:EventTriggerBehavior EventName="Loaded">
+			<i:InvokeCommandAction Command="{x:Bind ViewModel.LoadAllActionsCommand, Mode=OneWay}" />
+		</i:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 
 	<Page.Resources>
@@ -36,7 +35,6 @@
 			</ResourceDictionary.ThemeDictionaries>
 
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="ms-appx:///Styles/ToggleSwitchStyles.xaml" />
 				<ResourceDictionary Source="ms-appx:///UserControls/KeyboardShortcut/KeyboardShortcut.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 

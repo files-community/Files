@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.Dialogs;
 using Microsoft.UI.Xaml.Controls;
@@ -7,13 +7,13 @@ using Windows.Foundation.Metadata;
 
 namespace Files.App.Actions
 {
-	internal sealed class CompressIntoArchiveAction : BaseCompressArchiveAction
+	internal sealed partial class CompressIntoArchiveAction : BaseCompressArchiveAction
 	{
 		public override string Label
-			=> "CreateArchive".GetLocalizedResource();
+			=> Strings.CreateArchive.GetLocalizedResource();
 
 		public override string Description
-			=> "CompressIntoArchiveDescription".GetLocalizedResource();
+			=> Strings.CompressIntoArchiveDescription.GetLocalizedResource();
 
 		public CompressIntoArchiveAction()
 		{

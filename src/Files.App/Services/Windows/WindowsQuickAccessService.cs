@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.Utils.Shell;
 using Files.App.UserControls.Widgets;
@@ -26,7 +26,12 @@ namespace Files.App.Services
 		private async Task PinToSidebarAsync(string[] folderPaths, bool doUpdateQuickAccessWidget)
 		{
 			foreach (string folderPath in folderPaths)
-				await ContextMenu.InvokeVerb("pintohome", [folderPath]);
+			{
+				// make sure that the item has not yet been pinned
+				// the verb 'pintohome' is for both adding and removing
+				if (!IsItemPinned(folderPath))
+					await ContextMenu.InvokeVerb("pintohome", folderPath);
+			}
 
 			await App.QuickAccessManager.Model.LoadAsync();
 			if (doUpdateQuickAccessWidget)

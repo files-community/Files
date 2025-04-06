@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <local:BaseTabBar
 	x:Class="Files.App.UserControls.TabBar.TabBar"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -10,7 +10,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:root="using:Files.App"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.UI.Converters"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	mc:Ignorable="d">
 
 	<local:BaseTabBar.Resources>
@@ -260,7 +260,8 @@
 						Grid.ColumnSpan="2"
 						HorizontalAlignment="Stretch"
 						VerticalAlignment="Stretch"
-						Fill="Transparent" />
+						Fill="Transparent"
+						Loaded="DragAreaRectangle_Loaded" />
 
 				</Grid>
 			</TabView.TabStripFooter>

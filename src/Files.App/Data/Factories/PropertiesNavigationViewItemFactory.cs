@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.Shared.Helpers;
 using Microsoft.UI.Xaml;
@@ -15,49 +15,49 @@ namespace Files.App.Data.Factories
 
 			var generalItem = new NavigationViewItemButtonStyleItem()
 			{
-				Name = "General".GetLocalizedResource(),
+				Name = Strings.General.GetLocalizedResource(),
 				ItemType = PropertiesNavigationViewItemType.General,
 				ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.Properties.General"],
 			};
 			var securityItem = new NavigationViewItemButtonStyleItem()
 			{
-				Name = "Security".GetLocalizedResource(),
+				Name = Strings.Security.GetLocalizedResource(),
 				ItemType = PropertiesNavigationViewItemType.Security,
 				ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.Properties.Security"],
 			};
 			var hashesItem = new NavigationViewItemButtonStyleItem()
 			{
-				Name = "Hashes".GetLocalizedResource(),
+				Name = Strings.Hashes.GetLocalizedResource(),
 				ItemType = PropertiesNavigationViewItemType.Hashes,
 				ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.Properties.Hashes"],
 			};
 			var shortcutItem = new NavigationViewItemButtonStyleItem()
 			{
-				Name = "Shortcut".GetLocalizedResource(),
+				Name = Strings.Shortcut.GetLocalizedResource(),
 				ItemType = PropertiesNavigationViewItemType.Shortcut,
 				ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.Properties.Shortcut"],
 			};
 			var libraryItem = new NavigationViewItemButtonStyleItem()
 			{
-				Name = "Library".GetLocalizedResource(),
+				Name = Strings.Library.GetLocalizedResource(),
 				ItemType = PropertiesNavigationViewItemType.Library,
 				ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.Properties.Library"],
 			};
 			var detailsItem = new NavigationViewItemButtonStyleItem()
 			{
-				Name = "Details".GetLocalizedResource(),
+				Name = Strings.Details.GetLocalizedResource(),
 				ItemType = PropertiesNavigationViewItemType.Details,
 				ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.Properties.Info"],
 			};
 			var customizationItem = new NavigationViewItemButtonStyleItem()
 			{
-				Name = "Customization".GetLocalizedResource(),
+				Name = Strings.Customization.GetLocalizedResource(),
 				ItemType = PropertiesNavigationViewItemType.Customization,
 				ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.Properties.CustomizeFolder"],
 			};
 			var compatibilityItem = new NavigationViewItemButtonStyleItem()
 			{
-				Name = "Compatibility".GetLocalizedResource(),
+				Name = Strings.Compatibility.GetLocalizedResource(),
 				ItemType = PropertiesNavigationViewItemType.Compatibility,
 				ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.Properties.Compatability"],
 			};
@@ -75,7 +75,7 @@ namespace Files.App.Data.Factories
 			{
 				var firstFileExtension = listedItems.FirstOrDefault()?.FileExtension;
 				var commonFileExt = listedItems.All(x => x.FileExtension == firstFileExtension) ? firstFileExtension : null;
-				var compatibilityItemEnabled = listedItems.All(listedItem => FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : commonFileExt, true));
+				var compatibilityItemEnabled = listedItems.All(listedItem => FileExtensionHelpers.IsExecutableFile(listedItem is IShortcutItem sht ? sht.TargetPath : commonFileExt, true));
 				var onlyFiles = listedItems.All(listedItem => listedItem.PrimaryItemAttribute == StorageItemTypes.File || listedItem.IsArchive);
 
 				if (!compatibilityItemEnabled)
@@ -101,7 +101,7 @@ namespace Files.App.Data.Factories
 				var hashItemEnabled = !(isFolder && !listedItem.IsArchive) && !isLibrary && !listedItem.IsRecycleBinItem;
 				var detailsItemEnabled = !(isFolder && !listedItem.IsArchive) && !isLibrary && !listedItem.IsRecycleBinItem;
 				var customizationItemEnabled = !isLibrary && (isFolder && !listedItem.IsArchive || isShortcut && !listedItem.IsLinkItem);
-				var compatibilityItemEnabled = FileExtensionHelpers.IsExecutableFile(listedItem is ShortcutItem sht ? sht.TargetPath : fileExt, true);
+				var compatibilityItemEnabled = FileExtensionHelpers.IsExecutableFile(listedItem is IShortcutItem sht ? sht.TargetPath : fileExt, true);
 
 				if (!securityItemEnabled)
 					PropertiesNavigationViewItems.Remove(securityItem);

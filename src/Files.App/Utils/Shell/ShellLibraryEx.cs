@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.Windows.Forms;
 using Vanara.Extensions;
@@ -11,7 +11,7 @@ namespace Files.App.Utils.Shell
 	/// <summary>
 	/// Represents an encapsulated item for shell library.
 	/// </summary>
-	public sealed class ShellLibraryEx : ShellFolder
+	public sealed partial class ShellLibraryEx : ShellFolder
 	{
 		//private const string ext = ".library-ms";
 

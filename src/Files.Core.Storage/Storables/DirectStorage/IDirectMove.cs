@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.Core.Storage.Storables
 {
@@ -11,6 +11,6 @@ namespace Files.Core.Storage.Storables
         /// <summary>
         /// Moves a storable item out of the provided folder, and into this folder. Returns the new item that resides in this folder.
         /// </summary>
-        Task<INestedStorable> MoveFromAsync(INestedStorable itemToMove, IModifiableFolder source, bool overwrite = default, CancellationToken cancellationToken = default);
+        Task<IStorableChild> MoveFromAsync(IStorableChild itemToMove, IModifiableFolder source, bool overwrite = default, CancellationToken cancellationToken = default);
     }
 }

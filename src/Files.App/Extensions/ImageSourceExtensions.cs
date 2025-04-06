@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System;
 using System.IO;
@@ -20,7 +20,7 @@ namespace Files.App.Extensions
 				return null;
 			}
 
-			using var readStream = stream.AsStreamForRead();
+			await using var readStream = stream.AsStreamForRead();
 
 			return await readStream.ToByteArrayAsync();
 		}

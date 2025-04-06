@@ -1,9 +1,9 @@
-﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <UserControl
 	x:Class="Files.App.UserControls.FilePreviews.MarkdownPreview"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+	xmlns:controls="using:CommunityToolkit.Labs.WinUI.MarkdownTextBlock"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.UserControls.FilePreviews"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -22,7 +22,7 @@
 
 		<controls:MarkdownTextBlock
 			x:Name="PreviewMarkdownTextBlock"
-			LinkClicked="PreviewMarkdownTextBlock_LinkClicked"
+			OnLinkClicked="PreviewMarkdownTextBlock_OnLinkClicked"
 			Text="{x:Bind ViewModel.TextValue, Mode=OneWay}" />
 
 	</ScrollViewer>

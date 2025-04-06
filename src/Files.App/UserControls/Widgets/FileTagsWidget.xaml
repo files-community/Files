@@ -1,4 +1,4 @@
-﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <UserControl
 	x:Class="Files.App.UserControls.Widgets.FileTagsWidget"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -9,13 +9,17 @@
 	xmlns:dataitems="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:wctcontrols="using:CommunityToolkit.WinUI.UI.Controls"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
 		<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
 		<converters:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
+
+		<!--  Override border on GridViewItem  -->
+		<Thickness x:Key="GridViewItemSelectedBorderThickness">0</Thickness>
+		<SolidColorBrush x:Key="GridViewItemSelectedInnerBorderBrush" Color="Transparent" />
+		<SolidColorBrush x:Key="GridViewItemPointerOverBorderBrush" Color="Transparent" />
 	</UserControl.Resources>
 
 	<!--  Collection of containers  -->
@@ -117,26 +121,28 @@
 
 					<!--  Contents  -->
 					<!--  The vertical scroll bar must be hidden because it may cause a crash inside the ScrollViewer (#12370)  -->
-					<wctcontrols:AdaptiveGridView
+					<controls:AdaptiveGridView
 						Grid.Row="1"
 						Padding="4"
 						HorizontalAlignment="Stretch"
 						DesiredWidth="180"
 						IsItemClickEnabled="True"
 						ItemClick="FileTagItem_ItemClick"
+						ItemContainerTransitions="{x:Null}"
 						ItemsSource="{x:Bind Tags}"
 						RightTapped="AdaptiveGridView_RightTapped"
 						ScrollViewer.VerticalScrollBarVisibility="Hidden"
 						SelectionMode="None"
 						StretchContentForSingleRow="False">
 
-						<wctcontrols:AdaptiveGridView.ItemContainerStyle>
+						<controls:AdaptiveGridView.ItemContainerStyle>
 							<Style BasedOn="{StaticResource DefaultGridViewItemStyle}" TargetType="GridViewItem">
+								<Setter Property="MinHeight" Value="32" />
 								<Setter Property="Padding" Value="8,0" />
 							</Style>
-						</wctcontrols:AdaptiveGridView.ItemContainerStyle>
+						</controls:AdaptiveGridView.ItemContainerStyle>
 
-						<wctcontrols:AdaptiveGridView.ItemTemplate>
+						<controls:AdaptiveGridView.ItemTemplate>
 							<DataTemplate x:DataType="dataitems:WidgetFileTagCardItem">
 								<Grid
 									ColumnSpacing="8"
@@ -150,8 +156,8 @@
 									<!--  Icon  -->
 									<Image
 										Grid.Column="0"
-										Width="20"
-										Height="20"
+										Width="16"
+										Height="16"
 										VerticalAlignment="Center"
 										Source="{x:Bind Icon, Mode=OneWay, Converter={StaticResource ImageModelToImageConverter}}" />
 
@@ -163,8 +169,8 @@
 										TextTrimming="CharacterEllipsis" />
 								</Grid>
 							</DataTemplate>
-						</wctcontrols:AdaptiveGridView.ItemTemplate>
-					</wctcontrols:AdaptiveGridView>
+						</controls:AdaptiveGridView.ItemTemplate>
+					</controls:AdaptiveGridView>
 				</Grid>
 			</DataTemplate>
 		</ItemsRepeater.ItemTemplate>

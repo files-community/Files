@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Controls;
 
@@ -8,7 +8,7 @@ namespace Files.App.UserControls.TabBar
 	/// <summary>
 	/// Represents item for <see cref="TabBar"/>.
 	/// </summary>
-	public sealed class TabBarItem : ObservableObject, ITabBarItem, IDisposable
+	public sealed partial class TabBarItem : ObservableObject, ITabBarItem, IDisposable
 	{
 		public Frame ContentFrame { get; private set; }
 

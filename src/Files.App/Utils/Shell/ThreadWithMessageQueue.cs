@@ -1,11 +1,11 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.Collections.Concurrent;
 
 namespace Files.App.Utils.Shell
 {
-	public sealed class ThreadWithMessageQueue : Disposable
+	public sealed partial class ThreadWithMessageQueue : Disposable
 	{
 		private readonly BlockingCollection<Internal> messageQueue;
 

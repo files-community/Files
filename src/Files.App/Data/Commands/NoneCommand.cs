@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Input;
 namespace Files.App.Data.Commands
 {
 	[DebuggerDisplay("Command None")]
-	internal sealed class NoneCommand : IRichCommand
+	internal sealed partial class NoneCommand : IRichCommand
 	{
 		public event EventHandler? CanExecuteChanged { add { } remove { } }
 		public event PropertyChangingEventHandler? PropertyChanging { add { } remove { } }

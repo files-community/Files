@@ -253,7 +253,7 @@
     <value>Enganxa</value>
   </data>
   <data name="PasteShortcut" xml:space="preserve">
-    <value>Enganxa drecera</value>
+    <value>Enganxa la drecera</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nou</value>
@@ -535,6 +535,9 @@
   </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Copia a {0}</value>
+  </data>
+  <data name="CloneToFolderCaptionText" xml:space="preserve">
+    <value>Clona a {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>Crea una drecera</value>
@@ -1057,9 +1060,6 @@
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detalls (Ctrl+Shift+1)</value>
-  </data>
-  <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Teules (Ctrl+Shift+2)</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Data de supressió</value>
@@ -1658,15 +1658,6 @@
   <data name="Home" xml:space="preserve">
     <value>Inici</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Maj+1</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Maj+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Maj+6</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>L'extracció del fitxer s'ha completat correctament.</value>
   </data>
@@ -1724,8 +1715,8 @@
   <data name="Columns" xml:space="preserve">
     <value>Columnes</value>
   </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Mosaic</value>
+  <data name="Cards" xml:space="preserve">
+    <value>Targetes</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Obre carpetes en una pestanya nova</value>
@@ -1837,6 +1828,18 @@
   </data>
   <data name="CompatibilityRegisterThisProgramForRestart" xml:space="preserve">
     <value>Registrar aquest programa per a reinici</value>
+  </data>
+  <data name="StartWindow" xml:space="preserve">
+    <value>Finestra d'inici</value>
+  </data>
+  <data name="NormalWindow" xml:space="preserve">
+    <value>Finestra normal</value>
+  </data>
+  <data name="Minimized" xml:space="preserve">
+    <value>Minimitzada</value>
+  </data>
+  <data name="Maximized" xml:space="preserve">
+    <value>Maximitzada</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Executa com a administrador</value>
@@ -2194,6 +2197,9 @@
   </data>
   <data name="WhatsNew" xml:space="preserve">
     <value>Novetats</value>
+  </data>
+  <data name="WhatsNewDescription" xml:space="preserve">
+    <value>Obre les notes de la versió</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>La creació d'una drecera en aquesta ubicació requereix privilegis d'administrador</value>
@@ -2570,8 +2576,8 @@
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Canvia a la vista de detalls</value>
   </data>
-  <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Canvia a la vista de mosaics</value>
+  <data name="LayoutCardsDescription" xml:space="preserve">
+    <value>Canvia a la vista de targetes</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Canvia a la vista de llista</value>
@@ -3135,6 +3141,9 @@
   <data name="GitFetchDescription" xml:space="preserve">
     <value>Executa git fetch</value>
   </data>
+  <data name="GitCloneDescription" xml:space="preserve">
+    <value>Clona un repositori git</value>
+  </data>
   <data name="GitPullDescription" xml:space="preserve">
     <value>Executa git pull</value>
   </data>
@@ -3211,17 +3220,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Els fitxers no tenen accés al GitHub ara mateix.</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>Obre la carpeta al VS Code</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>Obre la carpeta a {0}</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Obre la carpeta actual al Visual Studio Code</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>Obre el directori actual a {0}</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Obre el repositori al VS Code</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>Obre el repositori a {0}</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Obre l'arrel del repositori de Git al Visual Studio Code</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Obre l'arrel del repositori Git a {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Copia el codi</value>
@@ -3462,6 +3471,70 @@
     <value>S'estan comprimint {0} elements de "{1}" a "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
+    <value>S'ha cancel·lat la clonació de {0} a «{1}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
+    <value>S'ha cancel·lat la clonació {0} de «{1}» a «{2}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
+    <value>S'ha clonat «{0}» a «{1}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
+    <value>S'ha clonat {0} de «{1}» a «{2}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
+    <value>S'ha produït un error en clonar «{0}» a «{1}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
+    <value>No s'ha pogut clonar {0} de «{1}» a «{2}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
+    <value>S'està clonanat «{0}» a «{1}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
+    <value>S'està clonant {0} de «{1}» a «{2}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
+  <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
+    <value>S'ha cancel·lat la instal·lació de {0} fonts</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
+    <value>S'ha cancel·lat la instal·lació de {0} fonts de «{1}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
+    <value>S'han instal·lat {0} fonts</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
+    <value>S'han instal·lat {0} fonts de «{1}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
+    <value>S'ha produït un error en instal·lar {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
+    <value>No s'han pogut instal·lar {0} fonts de «{1}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
+    <value>S'estan instal·lant {0} fonts</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
+    <value>S'estan instal·lant {0} fonts de «{1}»</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>S'ha cancel·lat la còpia de {0} elements a "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3711,9 +3784,6 @@
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Preguntes i discussions</value>
   </data>
-  <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Mides addicionals encara no estan disponibles per a la Vista de Mosaics.</value>
-  </data>
   <data name="Compact" xml:space="preserve">
     <value>Compacta</value>
     <comment>Used to describe layout sizes</comment>
@@ -3875,6 +3945,10 @@
     <value>Fitxer ICO</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>Fitxer ICL</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Fitxer Zip</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -3966,7 +4040,7 @@
     <value>Aneu a la pàgina d'inici</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Mostra l'Inici a la barra d'adreces</value>
+    <value>Mostra el botó d'inici a la barra d'adreces</value>
   </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Barra d'eines</value>
@@ -3976,6 +4050,9 @@
   </data>
   <data name="BulkRename" xml:space="preserve">
     <value>Canvi de nom en bloc</value>
+  </data>
+  <data name="CompressContents" xml:space="preserve">
+    <value>Comprimeix el contingut</value>
   </data>
   <data name="ShowCreateAlternateDataStream" xml:space="preserve">
     <value>Mostra l'opció per crear un flux de dades alternatiu</value>
@@ -4003,5 +4080,80 @@
   </data>
   <data name="ManageTags" xml:space="preserve">
     <value>Gestiona les etiquetes</value>
+  </data>
+  <data name="Available" xml:space="preserve">
+    <value>Disponible</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
+    <value>Canvia sempre el focus a la pestanya creada recentment</value>
+  </data>
+  <data name="ToggleShelfPane" xml:space="preserve">
+    <value>Commuta el panell del prestatge</value>
+  </data>
+  <data name="ToggleShelfPaneDescription" xml:space="preserve">
+    <value>Commuta la visibilitat del panell del prestatge</value>
+  </data>
+  <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
+    <value>Mostra la commutació del panell de prestatges a la barra d'adreces</value>
+  </data>
+  <data name="Shelf" xml:space="preserve">
+    <value>Prestatge</value>
+    <comment>'Shelf' refers to the Shelf Pane feature, where users can conveniently drag and drop files for quick access and perform bulk actions with ease.</comment>
+  </data>
+  <data name="ClearItems" xml:space="preserve">
+    <value>Esborra els elements</value>
+  </data>
+  <data name="RemoveFromShelf" xml:space="preserve">
+    <value>Elimina del prestatge</value>
+  </data>
+  <data name="AddToShelf" xml:space="preserve">
+    <value>Afegeix al prestatge</value>
+    <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Ruta o àlies</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Ruta no vàlida</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Prova d'integració</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>No s'ha pogut localitzar {0}. Comproveu la configuració i torneu-ho a provar.</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>No s'ha pogut localitzar l'IDE configurat</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Obre la configuració</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>Introduïu una ruta o àlies de llançament</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>Introduïu un nom per a l'IDE</value>
+  </data>
+  <data name="CloneRepo" xml:space="preserve">
+    <value>Clona el repositori</value>
+    <comment>Clone repo dialog title</comment>
+  </data>
+  <data name="Clone" xml:space="preserve">
+    <value>Clona</value>
+    <comment>Primary action button in the clone repo dialog</comment>
+  </data>
+  <data name="RepositoryURL" xml:space="preserve">
+    <value>URL del repositori</value>
+    <comment>URL textbox header in the clone repo dialog</comment>
+  </data>
+  <data name="CannotCloneRepoTitle" xml:space="preserve">
+    <value>No es pot clonar el repositori</value>
+    <comment>Cannot clone repo dialog title</comment>
   </data>
 </root>

@@ -217,7 +217,7 @@
     <value>Tunjukkan fail yang bermula dengan titik</value>
   </data>
   <data name="Appearance" xml:space="preserve">
-    <value>Rupa</value>
+    <value>Penampilan</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
     <value>Warna latar belakang</value>
@@ -298,7 +298,7 @@
     <value>Masukkan nama item</value>
   </data>
   <data name="CreateNewItemTitle" xml:space="preserve">
-    <value>Create new {0}</value>
+    <value>Hasilkan {0} baharu</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Cerah</value>
@@ -535,6 +535,9 @@
   </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Salin ke {0}</value>
+  </data>
+  <data name="CloneToFolderCaptionText" xml:space="preserve">
+    <value>Clone to {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>Buat pintasan</value>
@@ -951,7 +954,7 @@
     <value>Selection options</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
-    <value>Select</value>
+    <value>Pilih</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Recycle bin item</value>
@@ -963,7 +966,7 @@
     <value>Pemacu</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
-    <value>Move here</value>
+    <value>Alih ke sini</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>Safe to remove hardware</value>
@@ -1008,7 +1011,7 @@
     <value>Butiran</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>No</value>
+    <value>Tidak</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Paparkan fail sistem yang dilindungi</value>
@@ -1058,9 +1061,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Butiran (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Tiles (Ctrl+Shift+2)</value>
-  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Tarikh dihapus</value>
   </data>
@@ -1068,7 +1068,7 @@
     <value>Cloud Drives</value>
   </data>
   <data name="Confirm" xml:space="preserve">
-    <value>Confirm</value>
+    <value>Sahkan</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
     <value>Desired name</value>
@@ -1658,15 +1658,6 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+1</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+6</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>The archive extraction completed successfully.</value>
   </data>
@@ -1724,8 +1715,8 @@
   <data name="Columns" xml:space="preserve">
     <value>Kolum</value>
   </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Tiles</value>
+  <data name="Cards" xml:space="preserve">
+    <value>Cards</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Buka folder dalam tab baharu</value>
@@ -1837,6 +1828,18 @@
   </data>
   <data name="CompatibilityRegisterThisProgramForRestart" xml:space="preserve">
     <value>Register this program for restart</value>
+  </data>
+  <data name="StartWindow" xml:space="preserve">
+    <value>Start window</value>
+  </data>
+  <data name="NormalWindow" xml:space="preserve">
+    <value>Normal window</value>
+  </data>
+  <data name="Minimized" xml:space="preserve">
+    <value>Minimized</value>
+  </data>
+  <data name="Maximized" xml:space="preserve">
+    <value>Maximized</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Run as administrator</value>
@@ -1989,7 +1992,7 @@
     <value>Size all columns to fit</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Adaptive layout</value>
+    <value>Susun atur penyesuaian</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
     <value>Adaptive layout (Ctrl+Shift+7)</value>
@@ -2195,6 +2198,9 @@
   <data name="WhatsNew" xml:space="preserve">
     <value>What's new</value>
   </data>
+  <data name="WhatsNewDescription" xml:space="preserve">
+    <value>Open Release Notes</value>
+  </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Creating a shortcut in this location requires administrator privileges</value>
   </data>
@@ -2274,10 +2280,10 @@
     <value>Tetapan menu konteks</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>Show file extensions</value>
+    <value>Tunjukkan sambungan fail</value>
   </data>
   <data name="ShowHiddenItems" xml:space="preserve">
-    <value>Show hidden items</value>
+    <value>Tunjukkan item tersembunyi</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>Format</value>
@@ -2570,8 +2576,8 @@
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Switch to details view</value>
   </data>
-  <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Switch to tiles view</value>
+  <data name="LayoutCardsDescription" xml:space="preserve">
+    <value>Switch to cards view</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Switch to list view</value>
@@ -3135,6 +3141,9 @@
   <data name="GitFetchDescription" xml:space="preserve">
     <value>Run git fetch</value>
   </data>
+  <data name="GitCloneDescription" xml:space="preserve">
+    <value>Clone a git repo</value>
+  </data>
   <data name="GitPullDescription" xml:space="preserve">
     <value>Run git pull</value>
   </data>
@@ -3211,17 +3220,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files cannot access GitHub right now.</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>Open folder in VS Code</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>Open folder in {0}</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Open the current directory in Visual Studio Code</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>Open the current directory in {0}</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Buka repo dalam VS Code</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>Open repo in {0}</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Open the root of the Git repo in Visual Studio Code</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Open the root of the Git repo in {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Copy code</value>
@@ -3462,6 +3471,70 @@
     <value>Compressing {0} item(s) from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
+    <value>Canceled cloning {0} to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled cloning {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
+    <value>Cloned "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
+    <value>Cloned {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
+    <value>Error cloning "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
+    <value>Failed to clone {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
+    <value>Cloning "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
+    <value>Cloning {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
+  <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
+    <value>Canceled installing {0} fonts</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled installing {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
+    <value>Installed {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
+    <value>Installed {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
+    <value>Error installing {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
+    <value>Failed to install {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
+    <value>Installing {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
+    <value>Installing {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>Canceled copying {0} item(s) to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3711,9 +3784,6 @@
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Questions &amp; discussions</value>
   </data>
-  <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Additional sizes are not yet available for the Tiles View.</value>
-  </data>
   <data name="Compact" xml:space="preserve">
     <value>Padat</value>
     <comment>Used to describe layout sizes</comment>
@@ -3875,6 +3945,10 @@
     <value>ICO File</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>ICL File</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Zip File</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -3966,7 +4040,7 @@
     <value>Navigate to the home page</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Show Home in address bar</value>
+    <value>Show home button in address bar</value>
   </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Toolbars</value>
@@ -3976,6 +4050,9 @@
   </data>
   <data name="BulkRename" xml:space="preserve">
     <value>Bulk rename</value>
+  </data>
+  <data name="CompressContents" xml:space="preserve">
+    <value>Compress contents</value>
   </data>
   <data name="ShowCreateAlternateDataStream" xml:space="preserve">
     <value>Show option to create alternate data stream</value>
@@ -4003,5 +4080,80 @@
   </data>
   <data name="ManageTags" xml:space="preserve">
     <value>Manage tags</value>
+  </data>
+  <data name="Available" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
+    <value>Always switch focus to newly created tab</value>
+  </data>
+  <data name="ToggleShelfPane" xml:space="preserve">
+    <value>Toggle the shelf pane</value>
+  </data>
+  <data name="ToggleShelfPaneDescription" xml:space="preserve">
+    <value>Toggle the shelf pane visibility</value>
+  </data>
+  <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
+    <value>Show shelf pane toggle in address bar</value>
+  </data>
+  <data name="Shelf" xml:space="preserve">
+    <value>Shelf</value>
+    <comment>'Shelf' refers to the Shelf Pane feature, where users can conveniently drag and drop files for quick access and perform bulk actions with ease.</comment>
+  </data>
+  <data name="ClearItems" xml:space="preserve">
+    <value>Clear items</value>
+  </data>
+  <data name="RemoveFromShelf" xml:space="preserve">
+    <value>Remove from shelf</value>
+  </data>
+  <data name="AddToShelf" xml:space="preserve">
+    <value>Add to shelf</value>
+    <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Path or alias</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Invalid path</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Test integration</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>{0} could not be located. Please check your settings and try again.</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>The configured IDE could not be located</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Open settings</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>Enter a path or launch alias</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>Please enter a name for the IDE</value>
+  </data>
+  <data name="CloneRepo" xml:space="preserve">
+    <value>Clone repo</value>
+    <comment>Clone repo dialog title</comment>
+  </data>
+  <data name="Clone" xml:space="preserve">
+    <value>Clone</value>
+    <comment>Primary action button in the clone repo dialog</comment>
+  </data>
+  <data name="RepositoryURL" xml:space="preserve">
+    <value>Repository URL</value>
+    <comment>URL textbox header in the clone repo dialog</comment>
+  </data>
+  <data name="CannotCloneRepoTitle" xml:space="preserve">
+    <value>Cannot clone repo</value>
+    <comment>Cannot clone repo dialog title</comment>
   </data>
 </root>

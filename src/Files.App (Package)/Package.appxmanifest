@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Package
     xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
     xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
@@ -16,7 +16,7 @@
     <Identity
         Name="FilesDev"
         Publisher="CN=Files"
-        Version="3.8.0.0" />
+        Version="3.9.3.0" />
 
     <Properties>
         <DisplayName>Files - Dev</DisplayName>
@@ -51,6 +51,7 @@
         <Resource Language="hi-IN" />
         <Resource Language="hr-HR" />
         <Resource Language="hu-HU" />
+        <Resource Language="hy-AM" />
         <Resource Language="id-ID" />
         <Resource Language="it-IT" />
         <Resource Language="ja-JP" />
@@ -119,12 +120,14 @@
                 </uap3:Extension>
 
                 <uap:Extension Category="windows.protocol">
-                    <uap:Protocol ReturnResults="none" Name="files-uwp" />
+                    <!--  This value changes based on the build branch by CI (files-stable, files-preview, files-dev).  -->
+                    <uap:Protocol ReturnResults="none" Name="files-dev" />
                 </uap:Extension>
 
                 <uap5:Extension Category="windows.appExecutionAlias">
                     <uap5:AppExecutionAlias>
-                        <uap5:ExecutionAlias Alias="files.exe" />
+                        <!--  This value changes based on the build branch by CI (files-stable, files-preview, files-dev).  -->
+                        <uap5:ExecutionAlias Alias="files-dev.exe" />
                     </uap5:AppExecutionAlias>
                 </uap5:Extension>
 
@@ -146,6 +149,7 @@
                             <uap:FileType>.tar</uap:FileType>
                             <uap:FileType>.jar</uap:FileType>
                             <uap:FileType>.mrpack</uap:FileType>
+                            <uap:FileType>.gz</uap:FileType>
                         </uap:SupportedFileTypes>
                         <uap:Logo>assets\archives\ExtensionIcon.png</uap:Logo>
                     </uap:FileTypeAssociation>

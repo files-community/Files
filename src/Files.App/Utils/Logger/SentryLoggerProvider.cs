@@ -1,11 +1,11 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
 
 namespace Files.App.Utils.Logger
 {
-	public sealed class SentryLoggerProvider : ILoggerProvider
+	public sealed partial class SentryLoggerProvider : ILoggerProvider
 	{
 		public ILogger CreateLogger(string categoryName)
 		{

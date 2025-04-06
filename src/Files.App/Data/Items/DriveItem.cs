@@ -1,8 +1,7 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.Controls;
-using Files.App.Storage.Storables;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -12,7 +11,7 @@ using ByteSize = ByteSizeLib.ByteSize;
 
 namespace Files.App.Data.Items
 {
-	public sealed class DriveItem : ObservableObject, INavigationControlItem, ILocatableFolder
+	public sealed partial class DriveItem : ObservableObject, INavigationControlItem, IFolder
 	{
 		private BitmapImage icon;
 		public BitmapImage Icon
@@ -49,7 +48,7 @@ namespace Files.App.Data.Items
 			=> Type == DriveType.Network;
 
 		public bool IsPinned
-			=> App.QuickAccessManager.Model.PinnedFolders.Contains(path);
+			=> App.QuickAccessManager.Model.PinnedFolders.Contains(Path);
 
 		public string MaxSpaceText
 			=> MaxSpace.ToSizeString();
@@ -116,13 +115,25 @@ namespace Files.App.Data.Items
 		private DriveType type;
 		public DriveType Type
 		{
-			get => type; set
+			get => type;
+			set
 			{
 				type = value;
 
 				if (value is DriveType.Network or DriveType.CloudDrive)
 					ToolTip = Text;
+
+				OnPropertyChanged(nameof(TypeText));
 			}
+		}
+
+		public string TypeText => string.Format("DriveType{0}", Type).GetLocalizedResource();
+
+		private string filesystem = string.Empty;
+		public string Filesystem
+		{
+			get => filesystem;
+			set => SetProperty(ref filesystem, value);
 		}
 
 		private string text;
@@ -164,10 +175,8 @@ namespace Files.App.Data.Items
 			set => SetProperty(ref showStorageSense, value);
 		}
 
-		public string Id => DeviceID;
-
+		public string Id => Path;
 		public string Name => Root.DisplayName;
-
 		public object? Children => null;
 
 		private object toolTip = "";
@@ -208,13 +217,15 @@ namespace Files.App.Data.Items
 					}
 				};
 
-				ToolTipService.SetToolTip(itemDecorator, "Eject".GetLocalizedResource());
+				ToolTipService.SetToolTip(itemDecorator, Strings.Eject.GetLocalizedResource());
 
 				itemDecorator.Click += ItemDecorator_Click;
 
 				return itemDecorator;
 			}
 		}
+
+		public bool PaddedItem => false;
 
 		private void ItemDecorator_Click(object sender, RoutedEventArgs e)
 		{
@@ -267,7 +278,7 @@ namespace Files.App.Data.Items
 		{
 			try
 			{
-				var properties = await Root.Properties.RetrievePropertiesAsync(["System.FreeSpace", "System.Capacity"])
+				var properties = await Root.Properties.RetrievePropertiesAsync(["System.FreeSpace", "System.Capacity", "System.Volume.FileSystem"])
 					.AsTask().WithTimeoutAsync(TimeSpan.FromSeconds(5));
 
 				if (properties is not null && properties["System.Capacity"] is not null && properties["System.FreeSpace"] is not null)
@@ -283,19 +294,31 @@ namespace Files.App.Data.Items
 				}
 				else
 				{
-					SpaceText = "Unknown".GetLocalizedResource();
+					SpaceText = Strings.Unknown.GetLocalizedResource();
 					MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
 				}
+
+				if (properties is not null && properties["System.Volume.FileSystem"] is not null)
+					Filesystem = (string)properties["System.Volume.FileSystem"];
+				else
+					Filesystem = string.Empty;
 
 				OnPropertyChanged(nameof(ShowDriveDetails));
 			}
 			catch (Exception)
 			{
-				SpaceText = "Unknown".GetLocalizedResource();
+				SpaceText = Strings.Unknown.GetLocalizedResource();
 				MaxSpace = SpaceUsed = FreeSpace = ByteSize.FromBytes(0);
+				Filesystem = string.Empty;
 
 				OnPropertyChanged(nameof(ShowDriveDetails));
 			}
+		}
+
+		public async IAsyncEnumerable<IStorableChild> GetItemsAsync(StorableType type = StorableType.All, CancellationToken cancellationToken = default)
+		{
+			await Task.CompletedTask;
+			yield break;
 		}
 
 		public int CompareTo(INavigationControlItem other)
@@ -334,33 +357,9 @@ namespace Files.App.Data.Items
 		private string GetSizeString()
 		{
 			return string.Format(
-				"DriveFreeSpaceAndCapacity".GetLocalizedResource(),
+				Strings.DriveFreeSpaceAndCapacity.GetLocalizedResource(),
 				FreeSpace.ToSizeString(),
 				MaxSpace.ToSizeString());
-		}
-
-		public Task<INestedFile> GetFileAsync(string fileName, CancellationToken cancellationToken = default)
-		{
-			var folder = new WindowsStorageFolder(Root);
-			return folder.GetFileAsync(fileName, cancellationToken);
-		}
-
-		public Task<INestedFolder> GetFolderAsync(string folderName, CancellationToken cancellationToken = default)
-		{
-			var folder = new WindowsStorageFolder(Root);
-			return folder.GetFolderAsync(folderName, cancellationToken);
-		}
-
-		public IAsyncEnumerable<INestedStorable> GetItemsAsync(StorableKind kind = StorableKind.All, CancellationToken cancellationToken = default)
-		{
-			var folder = new WindowsStorageFolder(Root);
-			return folder.GetItemsAsync(kind, cancellationToken);
-		}
-
-		public Task<IFolder?> GetParentAsync(CancellationToken cancellationToken = default)
-		{
-			var folder = new WindowsStorageFolder(Root);
-			return folder.GetParentAsync(cancellationToken);
 		}
 	}
 

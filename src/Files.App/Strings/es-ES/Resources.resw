@@ -536,6 +536,9 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Copiar a {0}</value>
   </data>
+  <data name="CloneToFolderCaptionText" xml:space="preserve">
+    <value>Clonar a {0}</value>
+  </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>Crear acceso directo</value>
   </data>
@@ -762,7 +765,7 @@
     <value>Número de canales</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
-    <value>Formato</value>
+    <value>Formatear</value>
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
     <value>Frecuencia de muestreo</value>
@@ -777,7 +780,7 @@
     <value>Intérprete</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
-    <value>Pulsaciones por minuto</value>
+    <value>Pulsaciones por minuto (bpm)</value>
   </data>
   <data name="PropertyComposer" xml:space="preserve">
     <value>Compositor</value>
@@ -1058,9 +1061,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detalles (Ctrl+Mayús+1)</value>
   </data>
-  <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Mosaicos (Ctrl+Mayús+2)</value>
-  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Fecha de eliminación</value>
   </data>
@@ -1317,10 +1317,10 @@
     <value>Columna de ruta original</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
-    <value>Tipo de elemento</value>
+    <value>Columna de tipo de elemento</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateModified.Text" xml:space="preserve">
-    <value>Fecha de modificación</value>
+    <value>Columna de fecha de modificación</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateDeleted.Text" xml:space="preserve">
     <value>Columna de fecha de eliminación</value>
@@ -1431,7 +1431,7 @@
     <value>Control total</value>
   </data>
   <data name="SecurityListDirectoryLabel.Text" xml:space="preserve">
-    <value>Listar el contenido del directorio</value>
+    <value>Mostrar el contenido del directorio</value>
   </data>
   <data name="Modify" xml:space="preserve">
     <value>Modificar</value>
@@ -1658,15 +1658,6 @@
   <data name="Home" xml:space="preserve">
     <value>Inicio</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Mayús+1</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Mayús+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Mayús+6</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Extracción del archivo finalizada correctamente.</value>
   </data>
@@ -1724,8 +1715,8 @@
   <data name="Columns" xml:space="preserve">
     <value>Columnas</value>
   </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Mosaicos</value>
+  <data name="Cards" xml:space="preserve">
+    <value>Tarjetas</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Abrir carpetas en nueva pestaña</value>
@@ -1734,7 +1725,7 @@
     <value>Centro de actividades</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
-    <value>Fecha de creación</value>
+    <value>Columna de fecha de creación</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>Tamaño</value>
@@ -1838,6 +1829,18 @@
   <data name="CompatibilityRegisterThisProgramForRestart" xml:space="preserve">
     <value>Registrar este programa para reiniciar</value>
   </data>
+  <data name="StartWindow" xml:space="preserve">
+    <value>Ventana de inicio</value>
+  </data>
+  <data name="NormalWindow" xml:space="preserve">
+    <value>Ventana normal</value>
+  </data>
+  <data name="Minimized" xml:space="preserve">
+    <value>Minimizado</value>
+  </data>
+  <data name="Maximized" xml:space="preserve">
+    <value>Maximizado</value>
+  </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Ejecutar como administrador</value>
   </data>
@@ -1896,7 +1899,7 @@
     <value>Sólo lectura</value>
   </data>
   <data name="CleanupDrive" xml:space="preserve">
-    <value>Limpie el contenido de su disco</value>
+    <value>Liberar espacio en disco</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>Tipo</value>
@@ -2022,7 +2025,7 @@
     <value>Columna de fecha</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Fecha de creación: de columna</value>
+    <value>Columna de fecha de creación</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
     <value>Columna de tamaño</value>
@@ -2195,6 +2198,9 @@
   <data name="WhatsNew" xml:space="preserve">
     <value>Novedades</value>
   </data>
+  <data name="WhatsNewDescription" xml:space="preserve">
+    <value>Abrir notas de la versión</value>
+  </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Crear un acceso directo en esta ubicación requiere privilegios de administrador</value>
   </data>
@@ -2280,7 +2286,7 @@
     <value>Mostrar elementos ocultos</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
-    <value>Formato</value>
+    <value>Formatear</value>
   </data>
   <data name="Help" xml:space="preserve">
     <value>Ayuda</value>
@@ -2570,8 +2576,8 @@
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Cambiar a vista de detalles</value>
   </data>
-  <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Cambiar a vista de mosaicos</value>
+  <data name="LayoutCardsDescription" xml:space="preserve">
+    <value>Cambiar a vista de tarjetas</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Cambiar a vista de lista</value>
@@ -3135,6 +3141,9 @@
   <data name="GitFetchDescription" xml:space="preserve">
     <value>Ejecutar guardar git (git fetch)</value>
   </data>
+  <data name="GitCloneDescription" xml:space="preserve">
+    <value>Clonar un repositorio git</value>
+  </data>
   <data name="GitPullDescription" xml:space="preserve">
     <value>Ejecutar git pull</value>
   </data>
@@ -3211,17 +3220,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Los archivos no tienen acceso a GitHub en este momento.</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>Abrir carpeta en VS Code</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>Abrir carpeta en {0}</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Abrir el directorio actual en Visual Studio Code</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>Abre el directorio actual en {0}</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Abrir repositorio en VS Code</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>Abrir repositorio en {0}</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Abrir la raíz del repositorio de Git en Visual Studio Code</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Abre la raíz del repositorio de Git en {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Copiar código</value>
@@ -3462,6 +3471,70 @@
     <value>Comprimiendo {0} elemento(s) desde "{1}" a "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
+    <value>Cancelada la clonación {0} a "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
+    <value>Cancelada la clonación {0} de "{1}" a "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
+    <value>Clonado "{0}" a "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
+    <value>Clonado {0} de "{1}" a "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
+    <value>Error clonando "{0}" a "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
+    <value>No se ha podido clonar {0} de "{1}" a "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
+    <value>Clonando "{0}" a "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
+    <value>Clonando {0} de "{1}" a "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
+  <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
+    <value>Cancelada la instalación de {0} fuentes</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
+    <value>Cancelada la instalación de {0} fuente(s) desde "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
+    <value>Instalada(s) {0} fuente(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
+    <value>Instalada(s) {0} fuente(s) desde "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
+    <value>Error instalando {0} fuente(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
+    <value>No se ha(n) podido instalar {0} fuente(s) desde "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
+    <value>Instalando {0} fuente(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
+    <value>Instalando {0} fuente(s) desde "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>Cancelada la copia de {0} elemento(s) en "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3711,9 +3784,6 @@
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Preguntas y discusiones</value>
   </data>
-  <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Aún no se dispone de tamaños adicionales para la vista Mosaicos.</value>
-  </data>
   <data name="Compact" xml:space="preserve">
     <value>Compacto</value>
     <comment>Used to describe layout sizes</comment>
@@ -3875,6 +3945,10 @@
     <value>Archivo ICO</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>Archivo ICL</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Archivo Zip</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -3915,16 +3989,16 @@
     <value>Menú de acciones de pestaña</value>
   </data>
   <data name="AddVerticalPane" xml:space="preserve">
-    <value>Agregar panel vertical</value>
+    <value>Añadir panel vertical</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Agregar un panel vertical</value>
+    <value>Añadir un panel vertical</value>
   </data>
   <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Agregar panel horizontal</value>
+    <value>Añadir panel horizontal</value>
   </data>
   <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Agregar un panel horizontal</value>
+    <value>Añadir un panel horizontal</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Organizar verticalmente</value>
@@ -3939,7 +4013,7 @@
     <value>Organizar los paneles horizontalmente</value>
   </data>
   <data name="AddPane" xml:space="preserve">
-    <value>Agregar panel</value>
+    <value>Añadir panel</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Mostrar botón de acciones de pestaña en la barra de pestañas</value>
@@ -3966,7 +4040,7 @@
     <value>Ir a la página de inicio</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Mostrar Inicio en la barra de direcciones</value>
+    <value>Mostrar el botón de inicio en la barra de direcciones</value>
   </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Barra de herramientas</value>
@@ -3976,6 +4050,9 @@
   </data>
   <data name="BulkRename" xml:space="preserve">
     <value>Cambiar nombre en bloque</value>
+  </data>
+  <data name="CompressContents" xml:space="preserve">
+    <value>Comprimir contenido</value>
   </data>
   <data name="ShowCreateAlternateDataStream" xml:space="preserve">
     <value>Mostrar opción para crear flujo de datos alternativos</value>
@@ -4002,6 +4079,81 @@
     <value>¿Le gustaría mostrar flujos de datos alternativos? Puede modificar esta configuración en cualquier momento desde la página de configuración de archivos y carpetas.</value>
   </data>
   <data name="ManageTags" xml:space="preserve">
-    <value>Manage tags</value>
+    <value>Administrar etiquetas</value>
+  </data>
+  <data name="Available" xml:space="preserve">
+    <value>Disponible</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
+    <value>Cambiar siempre el foco a la pestaña recién creada</value>
+  </data>
+  <data name="ToggleShelfPane" xml:space="preserve">
+    <value>Mostrar/Ocultar el panel estante</value>
+  </data>
+  <data name="ToggleShelfPaneDescription" xml:space="preserve">
+    <value>Cambiar la visibilidad del panel estante</value>
+  </data>
+  <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
+    <value>Mostrar interruptor del panel estante en la barra de direcciones</value>
+  </data>
+  <data name="Shelf" xml:space="preserve">
+    <value>Estante</value>
+    <comment>'Shelf' refers to the Shelf Pane feature, where users can conveniently drag and drop files for quick access and perform bulk actions with ease.</comment>
+  </data>
+  <data name="ClearItems" xml:space="preserve">
+    <value>Borrar Elementos</value>
+  </data>
+  <data name="RemoveFromShelf" xml:space="preserve">
+    <value>Eliminar del estante</value>
+  </data>
+  <data name="AddToShelf" xml:space="preserve">
+    <value>Añadir al estante</value>
+    <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Ruta o alias</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Ruta no válida</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Prueba de integración</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>No se pudo localizar {0}. Por favor, compruebe su configuración e inténtelo de nuevo.</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>No se pudo localizar el IDE configurado</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Abrir configuración</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>Introducir ruta o alias de lanzamiento</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>Por favor, introduzca un nombre para el IDE</value>
+  </data>
+  <data name="CloneRepo" xml:space="preserve">
+    <value>Clonar repositorio</value>
+    <comment>Clone repo dialog title</comment>
+  </data>
+  <data name="Clone" xml:space="preserve">
+    <value>Clonar</value>
+    <comment>Primary action button in the clone repo dialog</comment>
+  </data>
+  <data name="RepositoryURL" xml:space="preserve">
+    <value>URL del repositorio</value>
+    <comment>URL textbox header in the clone repo dialog</comment>
+  </data>
+  <data name="CannotCloneRepoTitle" xml:space="preserve">
+    <value>No se puede clonar el repositorio</value>
+    <comment>Cannot clone repo dialog title</comment>
   </data>
 </root>

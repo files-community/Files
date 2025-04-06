@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
@@ -11,10 +11,10 @@ namespace Files.App.Actions
 		protected ISidebarContext SidebarContext { get; } = Ioc.Default.GetRequiredService<ISidebarContext>();
 
 		public string Label
-			=> "OpenInNewTab".GetLocalizedResource();
+			=> Strings.OpenInNewTab.GetLocalizedResource();
 
 		public string Description
-			=> "OpenDirectoryInNewTabDescription".GetLocalizedResource();
+			=> Strings.OpenDirectoryInNewTabDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.OpenInTab");

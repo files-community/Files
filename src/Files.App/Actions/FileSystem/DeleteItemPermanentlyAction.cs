@@ -1,15 +1,15 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class DeleteItemPermanentlyAction : BaseDeleteAction, IAction
+	internal sealed partial class DeleteItemPermanentlyAction : BaseDeleteAction, IAction
 	{
 		public string Label
-			=> "DeletePermanently".GetLocalizedResource();
+			=> Strings.DeletePermanently.GetLocalizedResource();
 
 		public string Description
-			=> "DeleteItemPermanentlyDescription".GetLocalizedResource();
+			=> Strings.DeleteItemPermanentlyDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Delete, KeyModifiers.Shift);

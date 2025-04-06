@@ -1,21 +1,22 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.ViewModels.Properties;
 using Files.Shared.Helpers;
 using FluentFTP;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
-using System.Drawing;
 using System.IO;
 using System.Text;
 using Windows.Storage;
+using Windows.Win32.UI.WindowsAndMessaging;
+using ByteSize = ByteSizeLib.ByteSize;
 
 #pragma warning disable CS0618 // Type or member is obsolete
 
 namespace Files.App.Utils
 {
-	public class ListedItem : ObservableObject, IGroupableItem
+	public partial class ListedItem : ObservableObject, IGroupableItem
 	{
 		protected static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -41,15 +42,15 @@ namespace Files.App.Utils
 			get
 			{
 				var tooltipBuilder = new StringBuilder();
-				tooltipBuilder.AppendLine($"{"NameWithColon".GetLocalizedResource()} {Name}");
-				tooltipBuilder.AppendLine($"{"ItemType".GetLocalizedResource()} {itemType}");
-				tooltipBuilder.Append($"{"ToolTipDescriptionDate".GetLocalizedResource()} {ItemDateModified}");
+				tooltipBuilder.AppendLine($"{Strings.NameWithColon.GetLocalizedResource()} {Name}");
+				tooltipBuilder.AppendLine($"{Strings.ItemType.GetLocalizedResource()} {itemType}");
+				tooltipBuilder.Append($"{Strings.ToolTipDescriptionDate.GetLocalizedResource()} {ItemDateModified}");
 				if (!string.IsNullOrWhiteSpace(FileSize))
-					tooltipBuilder.Append($"{Environment.NewLine}{"SizeLabel".GetLocalizedResource()} {FileSize}");
-				if (SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline && !string.IsNullOrWhiteSpace(DimensionsDisplay))
-					tooltipBuilder.Append($"{Environment.NewLine}{"PropertyDimensionsColon".GetLocalizedResource()} {DimensionsDisplay}");
+					tooltipBuilder.Append($"{Environment.NewLine}{Strings.SizeLabel.GetLocalizedResource()} {FileSize}");
+				if (!string.IsNullOrWhiteSpace(ImageDimensions))
+					tooltipBuilder.Append($"{Environment.NewLine}{Strings.PropertyDimensionsColon.GetLocalizedResource()} {ImageDimensions}");
 				if (SyncStatusUI.LoadSyncStatus)
-					tooltipBuilder.Append($"{Environment.NewLine}{"StatusWithColon".GetLocalizedResource()} {syncStatusUI.SyncStatusString}");
+					tooltipBuilder.Append($"{Environment.NewLine}{Strings.StatusWithColon.GetLocalizedResource()} {syncStatusUI.SyncStatusString}");
 
 				return tooltipBuilder.ToString();
 			}
@@ -166,7 +167,7 @@ namespace Files.App.Utils
 		// This is used to avoid passing a null value to AutomationProperties.Name, which causes a crash
 		public string SyncStatusString
 		{
-			get => string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString) ? "CloudDriveSyncStatus_Unknown".GetLocalizedResource() : SyncStatusUI.SyncStatusString;
+			get => string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString) ? Strings.CloudDriveSyncStatus_Unknown.GetLocalizedResource() : SyncStatusUI.SyncStatusString;
 		}
 
 		private BitmapImage fileImage;
@@ -276,7 +277,7 @@ namespace Files.App.Utils
 			}
 		}
 
-		public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? "ItemSizeNotCalculated".GetLocalizedResource() : FileSize;
+		public string FileSizeDisplay => string.IsNullOrEmpty(FileSize) ? Strings.ItemSizeNotCalculated.GetLocalizedResource() : FileSize;
 
 		public long FileSizeBytes { get; set; }
 
@@ -329,39 +330,58 @@ namespace Files.App.Utils
 			set => SetProperty(ref itemProperties, value);
 		}
 
-		public string DimensionsDisplay
+		private bool showDriveStorageDetails;
+		public bool ShowDriveStorageDetails
 		{
-			get
-			{
-				int imageHeight = 0;
-				int imageWidth = 0;
+			get => showDriveStorageDetails;
+			set => SetProperty(ref showDriveStorageDetails, value);
+		}
 
-				var isImageFile = FileExtensionHelpers.IsImageFile(FileExtension);
-				if (isImageFile)
-				{
-					try
-					{
-						// TODO: Consider to use 'System.Kind' instead.
-						using FileStream fileStream = new(ItemPath, FileMode.Open, FileAccess.Read, FileShare.Read);
-						using Image image = Image.FromStream(fileStream, false, false);
+		private ByteSize maxSpace;
+		public ByteSize MaxSpace
+		{
+			get => maxSpace;
+			set => SetProperty(ref maxSpace, value);
 
-						if (image is not null)
-						{
-							imageHeight = image.Height;
-							imageWidth = image.Width;
-						}
-					}
-					catch { }
-				}
+		}
 
+		private ByteSize spaceUsed;
+		public ByteSize SpaceUsed
+		{
+			get => spaceUsed;
+			set => SetProperty(ref spaceUsed, value);
 
-				return
-					isImageFile &&
-					imageWidth > 0 &&
-					imageHeight > 0
-						? $"{imageWidth} \u00D7 {imageHeight}"
-						: string.Empty;
-			}
+		}
+		
+		private string imageDimensions;
+		public string ImageDimensions
+		{
+			get => imageDimensions;
+			set => SetProperty(ref imageDimensions, value);
+		}
+
+		private string fileVersion;
+		public string FileVersion
+		{
+			get => fileVersion;
+			set => SetProperty(ref fileVersion, value);
+		}
+
+		private string mediaDuration;
+		public string MediaDuration
+		{
+			get => mediaDuration;
+			set => SetProperty(ref mediaDuration, value);
+		}
+
+		/// <summary>
+		/// Contextual property that changes based on the item type.
+		/// </summary>
+		private string contextualProperty;
+		public string ContextualProperty
+		{
+			get => contextualProperty;
+			set => SetProperty(ref contextualProperty, value);
 		}
 
 		/// <summary>
@@ -385,19 +405,19 @@ namespace Files.App.Utils
 			string suffix;
 			if (IsRecycleBinItem)
 			{
-				suffix = "RecycleBinItemAutomation".GetLocalizedResource();
+				suffix = Strings.RecycleBinItemAutomation.GetLocalizedResource();
 			}
 			else if (IsShortcut)
 			{
-				suffix = "ShortcutItemAutomation".GetLocalizedResource();
+				suffix = Strings.ShortcutItemAutomation.GetLocalizedResource();
 			}
 			else if (IsLibrary)
 			{
-				suffix = "Library".GetLocalizedResource();
+				suffix = Strings.Library.GetLocalizedResource();
 			}
 			else
 			{
-				suffix = PrimaryItemAttribute == StorageItemTypes.File ? "Folder".GetLocalizedResource() : "FolderItemAutomation".GetLocalizedResource();
+				suffix = PrimaryItemAttribute == StorageItemTypes.File ? Strings.Folder.GetLocalizedResource() : "FolderItemAutomation".GetLocalizedResource();
 			}
 
 			return $"{Name}, {suffix}";
@@ -405,13 +425,13 @@ namespace Files.App.Utils
 
 		public bool IsFolder => PrimaryItemAttribute is StorageItemTypes.Folder;
 		public bool IsRecycleBinItem => this is RecycleBinItem;
-		public bool IsShortcut => this is ShortcutItem;
+		public bool IsShortcut => this is IShortcutItem;
 		public bool IsLibrary => this is LibraryItem;
 		public bool IsLinkItem => IsShortcut && ((ShortcutItem)this).IsUrl;
 		public bool IsFtpItem => this is FtpItem;
 		public bool IsArchive => this is ZipItem;
 		public bool IsAlternateStream => this is AlternateStreamItem;
-		public bool IsGitItem => this is GitItem;
+		public bool IsGitItem => this is IGitItem;
 		public virtual bool IsExecutable => !IsFolder && FileExtensionHelpers.IsExecutableFile(ItemPath);
 		public virtual bool IsScriptFile => FileExtensionHelpers.IsScriptFile(ItemPath);
 		public bool IsPinned => App.QuickAccessManager.Model.PinnedFolders.Contains(itemPath);
@@ -442,7 +462,7 @@ namespace Files.App.Utils
 		}
 	}
 
-	public sealed class RecycleBinItem : ListedItem
+	public sealed partial class RecycleBinItem : ListedItem
 	{
 		public RecycleBinItem(string folderRelativeId) : base(folderRelativeId)
 		{
@@ -471,7 +491,7 @@ namespace Files.App.Utils
 		public string ItemOriginalFolderName => Path.GetFileName(ItemOriginalFolder);
 	}
 
-	public sealed class FtpItem : ListedItem
+	public sealed partial class FtpItem : ListedItem
 	{
 		public FtpItem(FtpListItem item, string folder) : base(null)
 		{
@@ -484,7 +504,7 @@ namespace Files.App.Utils
 			PrimaryItemAttribute = isFile ? StorageItemTypes.File : StorageItemTypes.Folder;
 			ItemPropertiesInitialized = false;
 
-			var itemType = isFile ? "File".GetLocalizedResource() : "Folder".GetLocalizedResource();
+			var itemType = isFile ? Strings.File.GetLocalizedResource() : Strings.Folder.GetLocalizedResource();
 			if (isFile && Name.Contains('.', StringComparison.Ordinal))
 			{
 				itemType = FileExtension.Trim('.') + " " + itemType;
@@ -507,7 +527,7 @@ namespace Files.App.Utils
 		};
 	}
 
-	public sealed class ShortcutItem : ListedItem
+	public sealed partial class ShortcutItem : ListedItem, IShortcutItem
 	{
 		public ShortcutItem(string folderRelativeId) : base(folderRelativeId)
 		{
@@ -526,12 +546,13 @@ namespace Files.App.Utils
 		public string Arguments { get; set; }
 		public string WorkingDirectory { get; set; }
 		public bool RunAsAdmin { get; set; }
+		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
 		public bool IsUrl { get; set; }
 		public bool IsSymLink { get; set; }
 		public override bool IsExecutable => FileExtensionHelpers.IsExecutableFile(TargetPath, true);
 	}
 
-	public sealed class ZipItem : ListedItem
+	public sealed partial class ZipItem : ListedItem
 	{
 		public ZipItem(string folderRelativeId) : base(folderRelativeId)
 		{
@@ -555,14 +576,14 @@ namespace Files.App.Utils
 		{ }
 	}
 
-	public sealed class LibraryItem : ListedItem
+	public sealed partial class LibraryItem : ListedItem
 	{
 		public LibraryItem(LibraryLocationItem library) : base(null)
 		{
 			ItemPath = library.Path;
 			ItemNameRaw = library.Text;
 			PrimaryItemAttribute = StorageItemTypes.Folder;
-			ItemType = "Library".GetLocalizedResource();
+			ItemType = Strings.Library.GetLocalizedResource();
 			LoadCustomIcon = true;
 			CustomIcon = library.Icon;
 			//CustomIconSource = library.IconSource;
@@ -582,7 +603,7 @@ namespace Files.App.Utils
 		public ReadOnlyCollection<string> Folders { get; }
 	}
 
-	public sealed class AlternateStreamItem : ListedItem
+	public sealed partial class AlternateStreamItem : ListedItem
 	{
 		public string MainStreamPath => ItemPath.Substring(0, ItemPath.LastIndexOf(':'));
 		public string MainStreamName => Path.GetFileName(MainStreamPath);
@@ -602,7 +623,7 @@ namespace Files.App.Utils
 		}
 	}
 
-	public sealed class GitItem : ListedItem
+	public partial class GitItem : ListedItem, IGitItem
 	{
 		private volatile int statusPropertiesInitialized = 0;
 		public bool StatusPropertiesInitialized
@@ -677,5 +698,133 @@ namespace Files.App.Utils
 			get => _GitLastCommitFullSha;
 			set => SetProperty(ref _GitLastCommitFullSha, value);
 		}
+	}
+	public sealed partial class GitShortcutItem : GitItem, IShortcutItem
+	{
+		private volatile int statusPropertiesInitialized = 0;
+		public bool StatusPropertiesInitialized
+		{
+			get => statusPropertiesInitialized == 1;
+			set => Interlocked.Exchange(ref statusPropertiesInitialized, value ? 1 : 0);
+		}
+
+		private volatile int commitPropertiesInitialized = 0;
+		public bool CommitPropertiesInitialized
+		{
+			get => commitPropertiesInitialized == 1;
+			set => Interlocked.Exchange(ref commitPropertiesInitialized, value ? 1 : 0);
+		}
+
+		private Style? _UnmergedGitStatusIcon;
+		public Style? UnmergedGitStatusIcon
+		{
+			get => _UnmergedGitStatusIcon;
+			set => SetProperty(ref _UnmergedGitStatusIcon, value);
+		}
+
+		private string? _UnmergedGitStatusName;
+		public string? UnmergedGitStatusName
+		{
+			get => _UnmergedGitStatusName;
+			set => SetProperty(ref _UnmergedGitStatusName, value);
+		}
+
+		private DateTimeOffset? _GitLastCommitDate;
+		public DateTimeOffset? GitLastCommitDate
+		{
+			get => _GitLastCommitDate;
+			set
+			{
+				SetProperty(ref _GitLastCommitDate, value);
+				GitLastCommitDateHumanized = value is DateTimeOffset dto ? dateTimeFormatter.ToShortLabel(dto) : "";
+			}
+		}
+
+		private string? _GitLastCommitDateHumanized;
+		public string? GitLastCommitDateHumanized
+		{
+			get => _GitLastCommitDateHumanized;
+			set => SetProperty(ref _GitLastCommitDateHumanized, value);
+		}
+
+		private string? _GitLastCommitMessage;
+		public string? GitLastCommitMessage
+		{
+			get => _GitLastCommitMessage;
+			set => SetProperty(ref _GitLastCommitMessage, value);
+		}
+
+		private string? _GitCommitAuthor;
+		public string? GitLastCommitAuthor
+		{
+			get => _GitCommitAuthor;
+			set => SetProperty(ref _GitCommitAuthor, value);
+		}
+
+		private string? _GitLastCommitSha;
+		public string? GitLastCommitSha
+		{
+			get => _GitLastCommitSha;
+			set => SetProperty(ref _GitLastCommitSha, value);
+		}
+
+		private string? _GitLastCommitFullSha;
+		public string? GitLastCommitFullSha
+		{
+			get => _GitLastCommitFullSha;
+			set => SetProperty(ref _GitLastCommitFullSha, value);
+		}
+
+		public string TargetPath { get; set; }
+
+		public override string Name
+			=> IsSymLink ? base.Name : Path.GetFileNameWithoutExtension(ItemNameRaw); // Always hide extension for shortcuts
+
+		public string Arguments { get; set; }
+		public string WorkingDirectory { get; set; }
+		public bool RunAsAdmin { get; set; }
+		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
+		public bool IsUrl { get; set; }
+		public bool IsSymLink { get; set; }
+		public override bool IsExecutable => FileExtensionHelpers.IsExecutableFile(TargetPath, true);
+	}
+	public interface IGitItem
+	{
+		public bool StatusPropertiesInitialized { get; set; }
+		public bool CommitPropertiesInitialized { get; set; }
+
+		public Style? UnmergedGitStatusIcon { get; set; }
+
+		public string? UnmergedGitStatusName { get; set; }
+
+		public DateTimeOffset? GitLastCommitDate { get; set; }
+
+		public string? GitLastCommitDateHumanized { get; set; }
+
+		public string? GitLastCommitMessage { get; set; }
+
+		public string? GitLastCommitAuthor { get; set; }
+
+		public string? GitLastCommitSha { get; set; }
+
+		public string? GitLastCommitFullSha { get; set; }
+
+		public string ItemPath
+		{
+			get;
+			set;
+		}
+	}
+	public interface IShortcutItem
+	{
+		public string TargetPath { get; set; }
+		public string Name { get; }
+		public string Arguments { get; set; }
+		public string WorkingDirectory { get; set; }
+		public bool RunAsAdmin { get; set; }
+		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
+		public bool IsUrl { get; set; }
+		public bool IsSymLink { get; set; }
+		public bool IsExecutable { get; }
 	}
 }

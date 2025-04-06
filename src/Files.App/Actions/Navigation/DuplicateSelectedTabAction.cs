@@ -1,17 +1,17 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class DuplicateSelectedTabAction : ObservableObject, IAction
+	internal sealed partial class DuplicateSelectedTabAction : ObservableObject, IAction
 	{
 		private readonly IMultitaskingContext context;
 
 		public string Label
-			=> "DuplicateTab".GetLocalizedResource();
+			=> Strings.DuplicateTab.GetLocalizedResource();
 
 		public string Description
-			=> "DuplicateSelectedTabDescription".GetLocalizedResource();
+			=> Strings.DuplicateSelectedTabDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.K, KeyModifiers.CtrlShift);

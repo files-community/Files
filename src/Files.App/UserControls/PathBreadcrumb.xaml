@@ -1,9 +1,8 @@
-﻿<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <UserControl
 	x:Class="Files.App.UserControls.PathBreadcrumb"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:core="using:Microsoft.Xaml.Interactions.Core"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:dataitem="using:Files.App.Data.Items"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
@@ -34,12 +33,12 @@
 					Spacing="4"
 					Tag="{x:Bind Path, Mode=OneWay}">
 					<i:Interaction.Behaviors>
-						<core:EventTriggerBehavior EventName="PointerEntered">
-							<core:ChangePropertyAction PropertyName="Opacity" Value="0.7" />
-						</core:EventTriggerBehavior>
-						<core:EventTriggerBehavior EventName="PointerExited">
-							<core:ChangePropertyAction PropertyName="Opacity" Value="1.0" />
-						</core:EventTriggerBehavior>
+						<i:EventTriggerBehavior EventName="PointerEntered">
+							<i:ChangePropertyAction PropertyName="Opacity" Value="0.7" />
+						</i:EventTriggerBehavior>
+						<i:EventTriggerBehavior EventName="PointerExited">
+							<i:ChangePropertyAction PropertyName="Opacity" Value="1.0" />
+						</i:EventTriggerBehavior>
 					</i:Interaction.Behaviors>
 
 					<!--  Header  -->
@@ -74,12 +73,12 @@
 						Tapped="PathBoxItem_Tapped"
 						Text="{x:Bind Title, Mode=OneWay}">
 						<i:Interaction.Behaviors>
-							<core:EventTriggerBehavior EventName="PointerEntered">
-								<core:ChangePropertyAction PropertyName="Opacity" Value="0.7" />
-							</core:EventTriggerBehavior>
-							<core:EventTriggerBehavior EventName="PointerExited">
-								<core:ChangePropertyAction PropertyName="Opacity" Value="1.0" />
-							</core:EventTriggerBehavior>
+							<i:EventTriggerBehavior EventName="PointerEntered">
+								<i:ChangePropertyAction PropertyName="Opacity" Value="0.7" />
+							</i:EventTriggerBehavior>
+							<i:EventTriggerBehavior EventName="PointerExited">
+								<i:ChangePropertyAction PropertyName="Opacity" Value="1.0" />
+							</i:EventTriggerBehavior>
 						</i:Interaction.Behaviors>
 					</TextBlock>
 
@@ -94,7 +93,9 @@
 						<Button.Flyout>
 							<MenuFlyout
 								x:Name="ExpandMenuFlyout"
-								Opened="PathBoxItemFlyout_Opened"
+								AreOpenCloseAnimationsEnabled="False"
+								Closed="PathBoxItemFlyout_Closed"
+								Opening="PathBoxItemFlyout_Opening"
 								Placement="BottomEdgeAlignedLeft"
 								ScrollViewer.VerticalScrollBarVisibility="Auto"
 								ScrollViewer.VerticalScrollMode="Auto">
@@ -134,7 +135,7 @@
 		IsItemClickEnabled="True"
 		ItemTemplateSelector="{StaticResource PathBreadcrumbItemSelector}"
 		ItemsSource="{x:Bind ViewModel.PathComponents, Mode=OneWay}"
-		KeyDown="PathBoxItem_KeyDown"
+		PreviewKeyDown="PathBoxItem_PreviewKeyDown"
 		ScrollViewer.HorizontalScrollBarVisibility="Hidden"
 		ScrollViewer.HorizontalScrollMode="Enabled"
 		ScrollViewer.VerticalScrollBarVisibility="Disabled"

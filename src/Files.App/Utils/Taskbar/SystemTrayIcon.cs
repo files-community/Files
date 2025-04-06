@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.Drawing;
 using System.Runtime.InteropServices;
@@ -16,7 +16,7 @@ namespace Files.App.Utils.Taskbar
 	/// <summary>
 	/// Represents a tray icon of Notification Area so-called System Tray.
 	/// </summary>
-	public sealed class SystemTrayIcon : IDisposable
+	public sealed partial class SystemTrayIcon : IDisposable
 	{
 		// Constants
 
@@ -27,7 +27,16 @@ namespace Files.App.Utils.Taskbar
 
 		// Fields
 
-		private readonly static Guid _trayIconGuid = new("684F2832-AC2B-4630-98C2-73D6AEBD46B7");
+		private readonly static Guid _trayIconGuid = AppLifecycleHelper.AppEnvironment switch
+		{
+			AppEnvironment.Dev => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4001"),
+			AppEnvironment.SideloadPreview => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4002"),
+			AppEnvironment.StorePreview => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4003"),
+			AppEnvironment.SideloadStable => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4004"),
+			AppEnvironment.StoreStable => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4005"),
+			_ => new Guid("684F2832-AC2B-4630-98C2-73D6AEBD4001")
+		};
+
 
 		private readonly SystemTrayIconWindow _IconWindow;
 
@@ -228,10 +237,10 @@ namespace Files.App.Utils.Taskbar
 			DestroyMenuSafeHandle hMenu = PInvoke.CreatePopupMenu_SafeHandle();
 
 			// Generate the classic context menu
-			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_DOCSLINK, "Documentation".GetLocalizedResource());
+			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_DOCSLINK, Strings.Documentation.GetLocalizedResource());
 			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_SEPARATOR, 0u, string.Empty);
 			//PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_RESTART, "Restart".GetLocalizedResource());
-			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_QUIT, "Quit".GetLocalizedResource());
+			PInvoke.AppendMenu(hMenu, MENU_ITEM_FLAGS.MF_BYCOMMAND, WM_FILES_CONTEXTMENU_QUIT, Strings.Quit.GetLocalizedResource());
 			PInvoke.SetForegroundWindow(_IconWindow.WindowHandle);
 
 			TRACK_POPUP_MENU_FLAGS tRACK_POPUP_MENU_FLAGS =
@@ -264,7 +273,7 @@ namespace Files.App.Utils.Taskbar
 			{
 				_lastLaunchDate = DateTime.Now;
 
-				_ = Launcher.LaunchUriAsync(new Uri("files-uwp:"));
+				_ = Launcher.LaunchUriAsync(new Uri("files-dev:"));
 			}
 			else
 				MainWindow.Instance.Activate();

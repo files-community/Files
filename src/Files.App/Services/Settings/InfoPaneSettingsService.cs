@@ -1,9 +1,9 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class InfoPaneSettingsService : BaseObservableJsonSettings, IInfoPaneSettingsService
+	internal sealed partial class InfoPaneSettingsService : BaseObservableJsonSettings, IInfoPaneSettingsService
 	{
 		public bool IsInfoPaneEnabled
 		{

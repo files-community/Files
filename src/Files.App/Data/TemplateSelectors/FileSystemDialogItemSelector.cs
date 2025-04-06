@@ -1,12 +1,12 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.ViewModels.Dialogs.FileSystemDialog;
 using Microsoft.UI.Xaml;
 
 namespace Files.App.Data.TemplateSelectors
 {
-	internal sealed class FileSystemDialogItemSelector : BaseTemplateSelector<BaseFileSystemDialogItemViewModel>
+	internal sealed partial class FileSystemDialogItemSelector : BaseTemplateSelector<BaseFileSystemDialogItemViewModel>
 	{
 		public DataTemplate? ConflictItemDataTemplate { get; set; }
 

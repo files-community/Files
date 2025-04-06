@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
 using Files.App.ViewModels.Properties;
@@ -10,7 +10,7 @@ using Windows.Storage.Streams;
 
 namespace Files.App.ViewModels.Previews
 {
-	public sealed class ImagePreviewViewModel : BasePreviewModel
+	public sealed partial class ImagePreviewViewModel : BasePreviewModel
 	{
 		private ImageSource imageSource;
 		public ImageSource ImageSource
@@ -26,7 +26,7 @@ namespace Files.App.ViewModels.Previews
 
 		// TODO: Use existing helper mothods
 		public static bool ContainsExtension(string extension)
-			=> extension is ".png" or ".jpg" or ".jpeg" or ".bmp" or ".gif" or ".tiff" or ".ico" or ".webp";
+			=> extension is ".png" or ".jpg" or ".jpeg" or ".bmp" or ".gif" or ".tiff" or ".ico" or ".webp" or ".jxr";
 
 		public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{

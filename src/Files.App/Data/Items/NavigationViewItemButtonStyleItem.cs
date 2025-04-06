@@ -1,11 +1,11 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
 
 namespace Files.App.Data.Items
 {
-	public sealed class NavigationViewItemButtonStyleItem : ObservableObject
+	public sealed partial class NavigationViewItemButtonStyleItem : ObservableObject
 	{
 		public string? Name;
 

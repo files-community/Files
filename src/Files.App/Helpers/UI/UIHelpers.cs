@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.Helpers.Application;
 using Microsoft.UI.Xaml.Controls;
@@ -49,8 +49,8 @@ namespace Files.App.Helpers
 				Debug.WriteLine("Can't eject device");
 
 				await DialogDisplayHelper.ShowDialogAsync(
-					"EjectNotificationErrorDialogHeader".GetLocalizedResource(),
-					"EjectNotificationErrorDialogBody".GetLocalizedResource());
+					Strings.EjectNotificationErrorDialogHeader.GetLocalizedResource(),
+					Strings.EjectNotificationErrorDialogBody.GetLocalizedResource());
 			}
 		}
 

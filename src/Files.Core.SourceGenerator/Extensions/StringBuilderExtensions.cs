@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.Core.SourceGenerator.Extensions
 {
@@ -30,8 +30,8 @@ namespace Files.Core.SourceGenerator.Extensions
 		/// <returns>The <see cref="StringBuilder"/> instance with the appended license header.</returns>
 		internal static StringBuilder AppendLicenceHeader(this StringBuilder sb)
 		{
-			return sb.AppendLine($"// Copyright (c) {DateTime.Now.Year} Files Community")
-				.AppendLine("// Licensed under the MIT License. See the LICENSE.");
+			return sb.AppendLine($"// Copyright (c) Files Community")
+				.AppendLine("// Licensed under the MIT License.");
 		}
 
 		/// <summary>

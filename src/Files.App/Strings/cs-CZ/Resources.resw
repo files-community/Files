@@ -536,6 +536,9 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Kopírovat do {0}</value>
   </data>
+  <data name="CloneToFolderCaptionText" xml:space="preserve">
+    <value>Klonovat do {0}</value>
+  </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>Vytvořit zástupce</value>
   </data>
@@ -1057,9 +1060,6 @@
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Podrobnosti (Ctrl+Shift+1)</value>
-  </data>
-  <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Dlaždice (Ctrl+Shift+2)</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>Datum smazání</value>
@@ -1658,15 +1658,6 @@
   <data name="Home" xml:space="preserve">
     <value>Domov</value>
   </data>
-  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+1</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+6</value>
-  </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>Rozbalování archivu bylo úspěšně dokončeno.</value>
   </data>
@@ -1724,8 +1715,8 @@
   <data name="Columns" xml:space="preserve">
     <value>Sloupce</value>
   </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>Dlaždice</value>
+  <data name="Cards" xml:space="preserve">
+    <value>Karty</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>Otevřít složky v nové kartě</value>
@@ -1837,6 +1828,18 @@
   </data>
   <data name="CompatibilityRegisterThisProgramForRestart" xml:space="preserve">
     <value>Registrovat tento program pro restart</value>
+  </data>
+  <data name="StartWindow" xml:space="preserve">
+    <value>Spuštění okna</value>
+  </data>
+  <data name="NormalWindow" xml:space="preserve">
+    <value>Běžně</value>
+  </data>
+  <data name="Minimized" xml:space="preserve">
+    <value>Minimalizovaně</value>
+  </data>
+  <data name="Maximized" xml:space="preserve">
+    <value>Maximalizovaně</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Spustit jako správce</value>
@@ -2195,6 +2198,9 @@
   <data name="WhatsNew" xml:space="preserve">
     <value>Co je nového</value>
   </data>
+  <data name="WhatsNewDescription" xml:space="preserve">
+    <value>Otevřít poznámky o vydání</value>
+  </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Vytvoření zástupce v tomto umístění vyžaduje oprávnění správce</value>
   </data>
@@ -2391,10 +2397,10 @@
     <value>Přepnout zobrazení skrytých položek</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Přepne zobrazení skrytých položek</value>
+    <value>Přepnout zobrazení skrytých položek</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Určuje, zda se zobrazí přípony souborů</value>
+    <value>Přepnout zobrazení přípon souborů</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Přepnout panel pro zobrazení náhledu souboru</value>
@@ -2570,8 +2576,8 @@
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>Přepnout na detailní zobrazení</value>
   </data>
-  <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>Přepnout na zobrazení dlaždic</value>
+  <data name="LayoutCardsDescription" xml:space="preserve">
+    <value>Přepnout na karetní zobrazení</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>Přepnout na zobrazení seznamu</value>
@@ -2634,7 +2640,7 @@
     <value>Seřadit položky dle názvu</value>
   </data>
   <data name="GroupByDateModifiedDescription" xml:space="preserve">
-    <value>Seřadit položky dle data úpravy</value>
+    <value>Seřadit položky dle data úprav</value>
   </data>
   <data name="GroupByDateCreatedDescription" xml:space="preserve">
     <value>Seřadit položky dle data vytvoření</value>
@@ -3135,6 +3141,9 @@
   <data name="GitFetchDescription" xml:space="preserve">
     <value>Spustit git stahování</value>
   </data>
+  <data name="GitCloneDescription" xml:space="preserve">
+    <value>Klonovat git repozitář</value>
+  </data>
   <data name="GitPullDescription" xml:space="preserve">
     <value>Spustit vložení do gitu</value>
   </data>
@@ -3211,17 +3220,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files nemá aktuálně přístup ke GitHubu.</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>Otevřít složku v aplikaci VS Code</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>Otevřít složku v {0}</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>Otevřít aktuální adresář ve VS Code</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>Otevřít aktuální složku v {0}</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>Otevřít repozitář v aplikaci VS Code</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>Otevřít repozitář v {0}</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>Otevřít kořen repozitáře Gitu v aplikaci Visual Studio Code</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Otevřít kořen repozitáře Gitu v {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>Zkopírovat kód</value>
@@ -3462,6 +3471,70 @@
     <value>Komprimování {0} položek z "{1}" do "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
+    <value>Klonování {0} do "{1}" bylo zrušeno</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
+    <value>Klonování {0} z "{1}" do "{2}" bylo zrušeno</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
+    <value>Naklonováno "{0}" do "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
+    <value>Naklonováno {0} z "{1}" do "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
+    <value>Chyba klonování "{0}" do "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
+    <value>Nepodařilo se klonování {0} z "{1}" do "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
+    <value>Klonování "{0}" do "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
+    <value>Klonování {0} z "{1}" do "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
+  <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
+    <value>Canceled installing {0} fonts</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled installing {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
+    <value>Installed {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
+    <value>Installed {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
+    <value>Error installing {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
+    <value>Failed to install {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
+    <value>Installing {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
+    <value>Installing {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>Zrušeno kopírování {0} položky(položek) do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3661,13 +3734,13 @@
     <value>Nejprve řadit soubory</value>
   </data>
   <data name="SortFilesFirstDescription" xml:space="preserve">
-    <value>Nejprve řadit soubory, poté složky</value>
+    <value>Nejprve seřadit soubory, poté složky</value>
   </data>
   <data name="SortFoldersFirst" xml:space="preserve">
     <value>Nejprve řadit složky</value>
   </data>
   <data name="SortFoldersFirstDescription" xml:space="preserve">
-    <value>Nejprve řadit složky, poté soubory</value>
+    <value>Nejprve seřadit složky, poté soubory</value>
   </data>
   <data name="SortPriority" xml:space="preserve">
     <value>Seřadit dle priority</value>
@@ -3710,9 +3783,6 @@
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Otázky a diskuse</value>
-  </data>
-  <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>Další velikosti ještě nejsou k dispozici pro zobrazení dlaždic.</value>
   </data>
   <data name="Compact" xml:space="preserve">
     <value>Kompaktní</value>
@@ -3875,6 +3945,10 @@
     <value>Soubor ICO</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>Soubor ICL</value>
+    <comment>This is the friendly name for ICL files.</comment>
+  </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Soubor ZIP</value>
     <comment>This is the friendly name for ZIP files.</comment>
@@ -3977,6 +4051,9 @@
   <data name="BulkRename" xml:space="preserve">
     <value>Hromadně přejmenovat</value>
   </data>
+  <data name="CompressContents" xml:space="preserve">
+    <value>Komprimovat obsah</value>
+  </data>
   <data name="ShowCreateAlternateDataStream" xml:space="preserve">
     <value>Zobrazit možnost vytvoření alternativního datového toku</value>
   </data>
@@ -4003,5 +4080,80 @@
   </data>
   <data name="ManageTags" xml:space="preserve">
     <value>Správa štítků</value>
+  </data>
+  <data name="Available" xml:space="preserve">
+    <value>Dostupné</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Celkem</value>
+  </data>
+  <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
+    <value>Vždy přepnout na nově vytvořenou kartu</value>
+  </data>
+  <data name="ToggleShelfPane" xml:space="preserve">
+    <value>Připnutí odkládacího okna</value>
+  </data>
+  <data name="ToggleShelfPaneDescription" xml:space="preserve">
+    <value>Připne odkládací okno</value>
+  </data>
+  <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
+    <value>Zobrazit odkládací okno v adresním řádku</value>
+  </data>
+  <data name="Shelf" xml:space="preserve">
+    <value>Odkládací panel</value>
+    <comment>'Shelf' refers to the Shelf Pane feature, where users can conveniently drag and drop files for quick access and perform bulk actions with ease.</comment>
+  </data>
+  <data name="ClearItems" xml:space="preserve">
+    <value>Odebrat položky</value>
+  </data>
+  <data name="RemoveFromShelf" xml:space="preserve">
+    <value>Odebrat z panelu</value>
+  </data>
+  <data name="AddToShelf" xml:space="preserve">
+    <value>Odložit na panel</value>
+    <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Cesta nebo alias</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Neplatná cesta</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Test integrace</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>{0} se podařilo nalézt. Zkontrolujte prosím vaše nastavení a zkuste to znovu.</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>Nakonfigurované IDE nelze nalézt</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Otevřít nastavení</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>Zadejte cestu nebo spusťte alias</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>Zadejte název IDE</value>
+  </data>
+  <data name="CloneRepo" xml:space="preserve">
+    <value>Klonovat repozitář</value>
+    <comment>Clone repo dialog title</comment>
+  </data>
+  <data name="Clone" xml:space="preserve">
+    <value>Klonovat</value>
+    <comment>Primary action button in the clone repo dialog</comment>
+  </data>
+  <data name="RepositoryURL" xml:space="preserve">
+    <value>URL repozitáře</value>
+    <comment>URL textbox header in the clone repo dialog</comment>
+  </data>
+  <data name="CannotCloneRepoTitle" xml:space="preserve">
+    <value>Nelze klonovat repozitář</value>
+    <comment>Cannot clone repo dialog title</comment>
   </data>
 </root>

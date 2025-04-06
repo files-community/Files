@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.Actions;
 using Microsoft.Extensions.Logging;
@@ -8,7 +8,7 @@ using System.Collections.Immutable;
 
 namespace Files.App.Data.Commands
 {
-	internal sealed class CommandManager : ICommandManager
+	internal sealed partial class CommandManager : ICommandManager
 	{
 		// Dependency injections
 
@@ -57,6 +57,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand ToggleDetailsPane => commands[CommandCodes.ToggleDetailsPane];
 		public IRichCommand ToggleInfoPane => commands[CommandCodes.ToggleInfoPane];
 		public IRichCommand ToggleToolbar => commands[CommandCodes.ToggleToolbar];
+		public IRichCommand ToggleShelfPane => commands[CommandCodes.ToggleShelfPane];
 		public IRichCommand SelectAll => commands[CommandCodes.SelectAll];
 		public IRichCommand InvertSelection => commands[CommandCodes.InvertSelection];
 		public IRichCommand ClearSelection => commands[CommandCodes.ClearSelection];
@@ -112,14 +113,16 @@ namespace Files.App.Data.Commands
 		public IRichCommand OpenItem => commands[CommandCodes.OpenItem];
 		public IRichCommand OpenItemWithApplicationPicker => commands[CommandCodes.OpenItemWithApplicationPicker];
 		public IRichCommand OpenParentFolder => commands[CommandCodes.OpenParentFolder];
-		public IRichCommand OpenInVSCode => commands[CommandCodes.OpenInVSCode];
-		public IRichCommand OpenRepoInVSCode => commands[CommandCodes.OpenRepoInVSCode];
+		public IRichCommand OpenInVSCode => commands[CommandCodes.OpenInIDE];
+		public IRichCommand OpenRepoInVSCode => commands[CommandCodes.OpenRepoInIDE];
 		public IRichCommand OpenProperties => commands[CommandCodes.OpenProperties];
+		public IRichCommand OpenReleaseNotes => commands[CommandCodes.OpenReleaseNotes];
 		public IRichCommand OpenClassicProperties => commands[CommandCodes.OpenClassicProperties];
 		public IRichCommand OpenStorageSense => commands[CommandCodes.OpenStorageSense];
 		public IRichCommand OpenStorageSenseFromHome => commands[CommandCodes.OpenStorageSenseFromHome];
 		public IRichCommand OpenStorageSenseFromSidebar => commands[CommandCodes.OpenStorageSenseFromSidebar];
 		public IRichCommand OpenSettings => commands[CommandCodes.OpenSettings];
+		public IRichCommand OpenSettingsFile => commands[CommandCodes.OpenSettingsFile];
 		public IRichCommand OpenTerminal => commands[CommandCodes.OpenTerminal];
 		public IRichCommand OpenTerminalAsAdmin => commands[CommandCodes.OpenTerminalAsAdmin];
 		public IRichCommand OpenTerminalFromSidebar => commands[CommandCodes.OpenTerminalFromSidebar];
@@ -130,7 +133,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand LayoutIncreaseSize => commands[CommandCodes.LayoutIncreaseSize];
 		public IRichCommand LayoutDetails => commands[CommandCodes.LayoutDetails];
 		public IRichCommand LayoutList => commands[CommandCodes.LayoutList];
-		public IRichCommand LayoutTiles => commands[CommandCodes.LayoutTiles];
+		public IRichCommand LayoutCards=> commands[CommandCodes.LayoutCards];
 		public IRichCommand LayoutGrid => commands[CommandCodes.LayoutGrid];
 		public IRichCommand LayoutColumns => commands[CommandCodes.LayoutColumns];
 		public IRichCommand LayoutAdaptive => commands[CommandCodes.LayoutAdaptive];
@@ -215,6 +218,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand ArrangePanesHorizontally => commands[CommandCodes.ArrangePanesHorizontally];
 		public IRichCommand OpenFileLocation => commands[CommandCodes.OpenFileLocation];
 		public IRichCommand PlayAll => commands[CommandCodes.PlayAll];
+		public IRichCommand GitClone => commands[CommandCodes.GitClone];
 		public IRichCommand GitFetch => commands[CommandCodes.GitFetch];
 		public IRichCommand GitInit => commands[CommandCodes.GitInit];
 		public IRichCommand GitPull => commands[CommandCodes.GitPull];
@@ -259,6 +263,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.ToggleDetailsPane] = new ToggleDetailsPaneAction(),
 			[CommandCodes.ToggleInfoPane] = new ToggleInfoPaneAction(),
 			[CommandCodes.ToggleToolbar] = new ToggleToolbarAction(),
+			[CommandCodes.ToggleShelfPane] = new ToggleShelfPaneAction(),
 			[CommandCodes.SelectAll] = new SelectAllAction(),
 			[CommandCodes.InvertSelection] = new InvertSelectionAction(),
 			[CommandCodes.ClearSelection] = new ClearSelectionAction(),
@@ -314,14 +319,16 @@ namespace Files.App.Data.Commands
 			[CommandCodes.OpenItem] = new OpenItemAction(),
 			[CommandCodes.OpenItemWithApplicationPicker] = new OpenItemWithApplicationPickerAction(),
 			[CommandCodes.OpenParentFolder] = new OpenParentFolderAction(),
-			[CommandCodes.OpenInVSCode] = new OpenInVSCodeAction(),
-			[CommandCodes.OpenRepoInVSCode] = new OpenRepoInVSCodeAction(),
+			[CommandCodes.OpenInIDE] = new OpenInIDEAction(),
+			[CommandCodes.OpenRepoInIDE] = new OpenRepoInIDEAction(),
 			[CommandCodes.OpenProperties] = new OpenPropertiesAction(),
+			[CommandCodes.OpenReleaseNotes] = new OpenReleaseNotesAction(),
 			[CommandCodes.OpenClassicProperties] = new OpenClassicPropertiesAction(),
 			[CommandCodes.OpenStorageSense] = new OpenStorageSenseAction(),
 			[CommandCodes.OpenStorageSenseFromHome] = new OpenStorageSenseFromHomeAction(),
 			[CommandCodes.OpenStorageSenseFromSidebar] = new OpenStorageSenseFromSidebarAction(),
 			[CommandCodes.OpenSettings] = new OpenSettingsAction(),
+			[CommandCodes.OpenSettingsFile] = new OpenSettingsFileAction(),
 			[CommandCodes.OpenTerminal] = new OpenTerminalAction(),
 			[CommandCodes.OpenTerminalAsAdmin] = new OpenTerminalAsAdminAction(),
 			[CommandCodes.OpenTerminalFromSidebar] = new OpenTerminalFromSidebarAction(),
@@ -332,7 +339,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.LayoutIncreaseSize] = new LayoutIncreaseSizeAction(),
 			[CommandCodes.LayoutDetails] = new LayoutDetailsAction(),
 			[CommandCodes.LayoutList] = new LayoutListAction(),
-			[CommandCodes.LayoutTiles] = new LayoutTilesAction(),
+			[CommandCodes.LayoutCards] = new LayoutCardsAction(),
 			[CommandCodes.LayoutGrid] = new LayoutGridAction(),
 			[CommandCodes.LayoutColumns] = new LayoutColumnsAction(),
 			[CommandCodes.LayoutAdaptive] = new LayoutAdaptiveAction(),
@@ -417,6 +424,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.ArrangePanesHorizontally] = new ArrangePanesHorizontallyAction(),
 			[CommandCodes.OpenFileLocation] = new OpenFileLocationAction(),
 			[CommandCodes.PlayAll] = new PlayAllAction(),
+			[CommandCodes.GitClone] = new GitCloneAction(),
 			[CommandCodes.GitFetch] = new GitFetchAction(),
 			[CommandCodes.GitInit] = new GitInitAction(),
 			[CommandCodes.GitPull] = new GitPullAction(),

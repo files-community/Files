@@ -1,17 +1,17 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class ToggleShowFileExtensionsAction : ObservableObject, IToggleAction
+	internal sealed partial class ToggleShowFileExtensionsAction : ObservableObject, IToggleAction
 	{
 		private readonly IFoldersSettingsService settings;
 
 		public string Label
-			=> "ShowFileExtensions".GetLocalizedResource();
+			=> Strings.ShowFileExtensions.GetLocalizedResource();
 
 		public string Description
-			=> "ToggleShowFileExtensionsDescription".GetLocalizedResource();
+			=> Strings.ToggleShowFileExtensionsDescription.GetLocalizedResource();
 
 		public bool IsOn
 			=> settings.ShowFileExtensions;

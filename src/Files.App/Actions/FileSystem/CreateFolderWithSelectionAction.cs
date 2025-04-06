@@ -1,17 +1,17 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class CreateFolderWithSelectionAction : ObservableObject, IAction
+	internal sealed partial class CreateFolderWithSelectionAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "CreateFolderWithSelection".GetLocalizedResource();
+			=> Strings.CreateFolderWithSelection.GetLocalizedResource();
 
 		public string Description
-			=> "CreateFolderWithSelectionDescription".GetLocalizedResource();
+			=> Strings.CreateFolderWithSelectionDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.New.Folder");

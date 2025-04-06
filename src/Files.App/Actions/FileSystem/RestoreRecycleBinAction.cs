@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation.Metadata;
@@ -7,15 +7,15 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal sealed class RestoreRecycleBinAction : BaseUIAction, IAction
+	internal sealed partial class RestoreRecycleBinAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Restore".GetLocalizedResource();
+			=> Strings.Restore.GetLocalizedResource();
 
 		public string Description
-			=> "RestoreRecycleBinDescription".GetLocalizedResource();
+			=> Strings.RestoreRecycleBinDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.RestoreDeleted");
@@ -36,10 +36,10 @@ namespace Files.App.Actions
 		{
 			var confirmationDialog = new ContentDialog()
 			{
-				Title = "ConfirmRestoreSelectionBinDialogTitle".GetLocalizedResource(),
-				Content = string.Format("ConfirmRestoreSelectionBinDialogContent".GetLocalizedResource(), context.SelectedItems.Count),
-				PrimaryButtonText = "Yes".GetLocalizedResource(),
-				SecondaryButtonText = "Cancel".GetLocalizedResource(),
+				Title = Strings.ConfirmRestoreSelectionBinDialogTitle.GetLocalizedResource(),
+				Content = string.Format(Strings.ConfirmRestoreSelectionBinDialogContent.GetLocalizedResource(), context.SelectedItems.Count),
+				PrimaryButtonText = Strings.Yes.GetLocalizedResource(),
+				SecondaryButtonText = Strings.Cancel.GetLocalizedResource(),
 				DefaultButton = ContentDialogButton.Primary
 			};
 

@@ -1,7 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
-
-using Files.Core.Storage.Storables;
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Data.Contracts
 {
@@ -14,7 +12,7 @@ namespace Files.App.Data.Contracts
 		/// Gets the primary system drive. This item is typically excluded when enumerating removable drives
 		/// </summary>
 		/// <returns>The location of the drive which the operating system is installed to.</returns>
-		Task<ILocatableFolder> GetPrimaryDriveAsync();
+		Task<IFolder> GetPrimaryDriveAsync();
 
 		/// <summary>
 		/// Creates a watcher for storage devices
@@ -26,13 +24,13 @@ namespace Files.App.Data.Contracts
 		/// Enumerates all removable drives
 		/// </summary>
 		/// <returns>A collection of removable storage devices</returns>
-		IAsyncEnumerable<ILocatableFolder> GetDrivesAsync();
+		IAsyncEnumerable<IFolder> GetDrivesAsync();
 
 		/// <summary>
 		/// Refreshes the properties of a drive
 		/// </summary>
 		/// <param name="drive"></param>
 		/// <returns></returns>
-		Task UpdateDrivePropertiesAsync(ILocatableFolder drive);
+		Task UpdateDrivePropertiesAsync(IFolder drive);
 	}
 }

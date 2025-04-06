@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.Collections.Frozen;
 
@@ -7,15 +7,17 @@ namespace Files.App.Data.Models
 {
 	public struct ByteSize : IEquatable<ByteSize>, IComparable<ByteSize>
 	{
+		private static IFoldersSettingsService FoldersSettingsService { get; } = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+
 		private static readonly FrozenDictionary<string, string> units = new Dictionary<string, string>
 		{
-			[ByteSizeLib.ByteSize.BitSymbol] = "ByteSymbol".ToLocalized(),
-			[ByteSizeLib.ByteSize.ByteSymbol] = "ByteSymbol".ToLocalized(),
-			[ByteSizeLib.ByteSize.KibiByteSymbol] = "KiloByteSymbol".ToLocalized(),
-			[ByteSizeLib.ByteSize.MebiByteSymbol] = "MegaByteSymbol".ToLocalized(),
-			[ByteSizeLib.ByteSize.GibiByteSymbol] = "GigaByteSymbol".ToLocalized(),
-			[ByteSizeLib.ByteSize.TebiByteSymbol] = "TeraByteSymbol".ToLocalized(),
-			[ByteSizeLib.ByteSize.PebiByteSymbol] = "PetaByteSymbol".ToLocalized(),
+			[ByteSizeLib.ByteSize.BitSymbol] = Strings.ByteSymbol.ToLocalized(),
+			[ByteSizeLib.ByteSize.ByteSymbol] = Strings.ByteSymbol.ToLocalized(),
+			[ByteSizeLib.ByteSize.KiloByteSymbol] = Strings.KiloByteSymbol.ToLocalized(),
+			[ByteSizeLib.ByteSize.MegaByteSymbol] = Strings.MegaByteSymbol.ToLocalized(),
+			[ByteSizeLib.ByteSize.GigaByteSymbol] = Strings.GigaByteSymbol.ToLocalized(),
+			[ByteSizeLib.ByteSize.TeraByteSymbol] = Strings.TeraByteSymbol.ToLocalized(),
+			[ByteSizeLib.ByteSize.PetaByteSymbol] = Strings.PetaByteSymbol.ToLocalized(),
 		}.ToFrozenDictionary();
 
 		private readonly ByteSizeLib.ByteSize size;
@@ -27,8 +29,9 @@ namespace Files.App.Data.Models
 		public ulong Bytes
 			=> (ulong)size.Bytes;
 
-		public string ShortString
-			=> $"{size.LargestWholeNumberBinaryValue:0.##} {units[size.LargestWholeNumberBinarySymbol]}";
+		public string ShortString => FoldersSettingsService.SizeUnitFormat == SizeUnitTypes.BinaryUnits
+				? $"{size.LargestWholeNumberBinaryValue:0.##} {units[size.LargestWholeNumberBinarySymbol]}"
+				: $"{size.LargestWholeNumberDecimalValue:0.##} {units[size.LargestWholeNumberDecimalSymbol]}";
 
 		public string LongString
 			=> $"{ShortString} ({size.Bytes:#,##0} {units[ByteSizeLib.ByteSize.ByteSymbol]})";

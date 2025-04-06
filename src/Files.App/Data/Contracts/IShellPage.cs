@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Navigation;
 
@@ -23,7 +23,7 @@ namespace Files.App.Data.Contracts
 
 		IFilesystemHelpers FilesystemHelpers { get; }
 
-		AddressToolbarViewModel ToolbarViewModel { get; }
+		NavigationToolbarViewModel ToolbarViewModel { get; }
 
 		bool CanNavigateBackward { get; }
 
@@ -65,6 +65,11 @@ namespace Files.App.Data.Contracts
 		/// Navigates to the home page
 		/// </summary>
 		public void NavigateHome();
+		
+		/// <summary>
+		/// Navigates to the release notes page
+		/// </summary>
+		public void NavigateToReleaseNotes();
 
 		void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs);
 

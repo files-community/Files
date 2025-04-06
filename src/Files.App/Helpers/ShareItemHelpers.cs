@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.Extensions;
 using Files.App.Utils;
@@ -40,9 +40,9 @@ namespace Files.App.Helpers
 			{
 				var errorDialog = new ContentDialog()
 				{
-					Title = "FaildToShareItems".GetLocalizedResource(),
+					Title = Strings.FaildToShareItems.GetLocalizedResource(),
 					Content = ex.Message,
-					PrimaryButtonText = "OK".GetLocalizedResource(),
+					PrimaryButtonText = Strings.OK.GetLocalizedResource(),
 				};
 
 				if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
@@ -63,8 +63,8 @@ namespace Files.App.Helpers
 					{
 						if (shItem.IsLinkItem && !string.IsNullOrEmpty(shItem.TargetPath))
 						{
-							dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalizedResource(), item.Name);
-							dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalizedResource();
+							dataRequest.Data.Properties.Title = string.Format(Strings.ShareDialogTitle.GetLocalizedResource(), item.Name);
+							dataRequest.Data.Properties.Description = Strings.ShareDialogSingleItemDescription.GetLocalizedResource();
 							dataRequest.Data.SetWebLink(new Uri(shItem.TargetPath));
 							dataRequestDeferral.Complete();
 
@@ -85,12 +85,12 @@ namespace Files.App.Helpers
 
 				if (items.Count == 1)
 				{
-					dataRequest.Data.Properties.Title = string.Format("ShareDialogTitle".GetLocalizedResource(), items.First().Name);
-					dataRequest.Data.Properties.Description = "ShareDialogSingleItemDescription".GetLocalizedResource();
+					dataRequest.Data.Properties.Title = string.Format(Strings.ShareDialogTitle.GetLocalizedResource(), items.First().Name);
+					dataRequest.Data.Properties.Description = Strings.ShareDialogSingleItemDescription.GetLocalizedResource();
 				}
 				else if (items.Count == 0)
 				{
-					dataRequest.FailWithDisplayText("ShareDialogFailMessage".GetLocalizedResource());
+					dataRequest.FailWithDisplayText(Strings.ShareDialogFailMessage.GetLocalizedResource());
 					dataRequestDeferral.Complete();
 
 					return;
@@ -98,10 +98,10 @@ namespace Files.App.Helpers
 				else
 				{
 					dataRequest.Data.Properties.Title = string.Format(
-						"ShareDialogTitleMultipleItems".GetLocalizedResource(),
+						Strings.ShareDialogTitleMultipleItems.GetLocalizedResource(),
 						items.Count,
 						"ItemsCount.Text".GetLocalizedResource());
-					dataRequest.Data.Properties.Description = "ShareDialogMultipleItemsDescription".GetLocalizedResource();
+					dataRequest.Data.Properties.Description = Strings.ShareDialogMultipleItemsDescription.GetLocalizedResource();
 				}
 
 				dataRequest.Data.SetStorageItems(items, false);

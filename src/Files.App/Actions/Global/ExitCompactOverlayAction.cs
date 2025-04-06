@@ -1,16 +1,16 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Windowing;
 
 namespace Files.App.Actions
 {
-	internal sealed class ExitCompactOverlayAction : ObservableObject, IAction
+	internal sealed partial class ExitCompactOverlayAction : ObservableObject, IAction
 	{
 		private readonly IWindowContext windowContext;
 
 		public string Label
-			=> "ExitCompactOverlay".GetLocalizedResource();
+			=> Strings.ExitCompactOverlay.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.CompactOverlayExit");
@@ -19,7 +19,7 @@ namespace Files.App.Actions
 			=> new(Keys.Down, KeyModifiers.CtrlAlt);
 
 		public string Description
-			=> "ExitCompactOverlayDescription".GetLocalizedResource();
+			=> Strings.ExitCompactOverlayDescription.GetLocalizedResource();
 
 		public bool IsExecutable
 			=> windowContext.IsCompactOverlay;

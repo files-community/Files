@@ -124,10 +124,10 @@
     <value>کپی کردن مسیر</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>vfvsfdz</value>
+    <value>کپی مسیر با نقل قول</value>
   </data>
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
-    <value>Copy selected item path with quotes</value>
+    <value>کپی مسیر موارد انتخاب شده را با نقل قول</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>مرور کردن</value>
@@ -181,7 +181,7 @@
     <value>پاک کردن همه آیتم ها</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>مسیری را برای پیمایش وارد کنید یا «&gt;» را تایپ کنید تا پالت فرمان باز شود</value>
+    <value>مسیری را برای پیمایش وارد کنید یا «&gt;» را تایپ کنید تا صفحه فرمان باز شود</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>جستجو</value>
@@ -208,7 +208,7 @@
     <value>تم</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value/>
+    <value>نشان دادن پسوند فایل های شناخته شده</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>نمایش فایل ها و فولدرهای مخفی</value>
@@ -253,7 +253,7 @@
     <value>جای‌گذاری</value>
   </data>
   <data name="PasteShortcut" xml:space="preserve">
-    <value>Paste shortcut</value>
+    <value>الصاق میانبر</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>جدید</value>
@@ -331,7 +331,7 @@
     <value>بالا</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>رفرش</value>
+    <value>نوسازی</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
     <value>یک آیتم با این نام از قبل در این پوشه وجود دارد.</value>
@@ -536,6 +536,9 @@
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>کپی به {0}</value>
   </data>
+  <data name="CloneToFolderCaptionText" xml:space="preserve">
+    <value>Clone to {0}</value>
+  </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>ایجاد میانبر</value>
   </data>
@@ -657,7 +660,7 @@
     <value>ایجاد یک پوشه خالی</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
-    <value>مسیر را نوسازی کنید</value>
+    <value>نوسازی مسیر</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>زبان</value>
@@ -1058,9 +1061,6 @@
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>جزئیات (Ctrl+Shift+1)</value>
   </data>
-  <data name="NavToolbarTiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>کاشی ها (Ctrl+Shift+2)</value>
-  </data>
   <data name="DateDeleted" xml:space="preserve">
     <value>تاريخ حذف</value>
   </data>
@@ -1140,7 +1140,7 @@
     <value>نامشخص</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>تغییر نام فایل می‌تواند باعث غیرقابل استفاده شدن آن شود. آیا از تغییر نام فایل اطمینان دارید؟</value>
+    <value>اگر پسوند فایل را تغییر دهید، ممکن است فایل غیرقابل استفاده شود. آیا مطمئن هستید که می خواهید آن را تغییر دهید؟</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>درایو سی دی</value>
@@ -1605,7 +1605,7 @@
     <value>ورود به همپوشانی فشرده</value>
   </data>
   <data name="ExitCompactOverlay" xml:space="preserve">
-    <value>خروج از همپوشانی فشرده</value>
+    <value>خروج از حالت فشرده</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>توضيحات فايل</value>
@@ -1657,15 +1657,6 @@
   </data>
   <data name="Home" xml:space="preserve">
     <value>خانه</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutDetails.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+1</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutTiles.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+2</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutColumn.KeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+Shift+6</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>استخراج آرشیو با موفقیت انجام شد.</value>
@@ -1724,8 +1715,8 @@
   <data name="Columns" xml:space="preserve">
     <value>ستون ها</value>
   </data>
-  <data name="Tiles" xml:space="preserve">
-    <value>کاشی ها</value>
+  <data name="Cards" xml:space="preserve">
+    <value>Cards</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
     <value>بازکردن پوشه‌ها در زبانه‌ی جدید</value>
@@ -1837,6 +1828,18 @@
   </data>
   <data name="CompatibilityRegisterThisProgramForRestart" xml:space="preserve">
     <value>ثبت این برنامه برای راه‌اندازی مجدد</value>
+  </data>
+  <data name="StartWindow" xml:space="preserve">
+    <value>Start window</value>
+  </data>
+  <data name="NormalWindow" xml:space="preserve">
+    <value>Normal window</value>
+  </data>
+  <data name="Minimized" xml:space="preserve">
+    <value>Minimized</value>
+  </data>
+  <data name="Maximized" xml:space="preserve">
+    <value>Maximized</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>اجرا به عنوان مدیر</value>
@@ -2195,6 +2198,9 @@
   <data name="WhatsNew" xml:space="preserve">
     <value>ویژگی های جدید</value>
   </data>
+  <data name="WhatsNewDescription" xml:space="preserve">
+    <value>Open Release Notes</value>
+  </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>ایجاد میانبر در این مکان نیاز به مجوز های سرپرست دارد</value>
   </data>
@@ -2304,10 +2310,10 @@
     <value>Apply this action to all conflicting items</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Open in Windows Terminal</value>
+    <value>بازکردن در ترمینال</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Open in Windows Terminal as administrator</value>
+    <value>بازکردن در ترمینال به عنوان مدیر</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>ذخیره</value>
@@ -2367,22 +2373,22 @@
     <value>Launch preview popup</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>تغییر حالت</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open online help page in browser</value>
+    <value>راهنمای آنلاین را در مرورگر باز کن</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
     <value>تغییر به حالت تمام صفحه</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>ورود به همپوشانی فشرده</value>
+    <value>ورود به حالت فشرده</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
-    <value>خروج از همپوشانی فشرده</value>
+    <value>خروج از حالت فشرده</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>تغییر به حالت فشرده و برعکس</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>رفتن به کادر جستجو</value>
@@ -2394,7 +2400,7 @@
     <value>Toggle whether to show dot files</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle whether to show file extensions</value>
+    <value>تغییر آشکار بودن پسوند فایل ها</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Toggle the preview pane to view file previews</value>
@@ -2451,7 +2457,7 @@
     <value>Restore selected item(s) from recycle bin</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>Restore all items from recycle bin</value>
+    <value>بازگردانی تمام آیتم ها از سطل زباله</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
     <value>باز کردن آیتم(ها)</value>
@@ -2463,7 +2469,7 @@
     <value>Open parent folder of searched item</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
-    <value>Refresh page contents</value>
+    <value>نوسازی صفحه</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
     <value>Rename selected item</value>
@@ -2570,8 +2576,8 @@
   <data name="LayoutDetailsDescription" xml:space="preserve">
     <value>تغییر به نمای جزئیات</value>
   </data>
-  <data name="LayoutTilesDescription" xml:space="preserve">
-    <value>تغییر به نمای کاشی‌</value>
+  <data name="LayoutCardsDescription" xml:space="preserve">
+    <value>Switch to cards view</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
     <value>تغییر به نمای فهرست</value>
@@ -2869,7 +2875,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserRefresh" xml:space="preserve">
-    <value>رفرش‌مرورگر</value>
+    <value>نوسازی مرورگر</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.BrowserStop" xml:space="preserve">
@@ -2923,7 +2929,7 @@
     <value>معکوس کردن انتخاب</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
-    <value>Show warning when changing file extensions</value>
+    <value>هنگام تغییر پسوند فابل ها هشدار نشان بده</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
     <value>این رایانه</value>
@@ -3115,7 +3121,7 @@
     <value>Open properties window</value>
   </data>
   <data name="OpenClassicPropertiesDescription" xml:space="preserve">
-    <value>Open File Explorer properties window</value>
+    <value>بازکردن در پنجره جزئیات</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>محلی</value>
@@ -3134,6 +3140,9 @@
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
     <value>اجرا دستور git fetch</value>
+  </data>
+  <data name="GitCloneDescription" xml:space="preserve">
+    <value>Clone a git repo</value>
   </data>
   <data name="GitPullDescription" xml:space="preserve">
     <value>اجرا دستور git pull</value>
@@ -3176,7 +3185,7 @@
     <value>میکا</value>
   </data>
   <data name="MicaAlt" xml:space="preserve">
-    <value>جایگزین میکا</value>
+    <value>میکا -گونه دیگر</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
     <value>Backdrop</value>
@@ -3211,17 +3220,17 @@
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files cannot access GitHub right now.</value>
   </data>
-  <data name="OpenInVSCode" xml:space="preserve">
-    <value>باز کردن پوشه در VS Code</value>
+  <data name="OpenInIDE" xml:space="preserve">
+    <value>Open folder in {0}</value>
   </data>
-  <data name="OpenInVSCodeDescription" xml:space="preserve">
-    <value>پوشه فعلی را در برنامه ویژوال استودیو کد (Visual Studio Code) باز کن</value>
+  <data name="OpenInIDEDescription" xml:space="preserve">
+    <value>Open the current directory in {0}</value>
   </data>
-  <data name="OpenRepoInVSCode" xml:space="preserve">
-    <value>باز کردن ریپو در VS Code</value>
+  <data name="OpenRepoInIDE" xml:space="preserve">
+    <value>Open repo in {0}</value>
   </data>
-  <data name="OpenRepoInVSCodeDescription" xml:space="preserve">
-    <value>ریشه منبع Git را در برنامه ویژوال استودیو کد (Visual Studio Code) باز کن</value>
+  <data name="OpenRepoInIDEDescription" xml:space="preserve">
+    <value>Open the root of the Git repo in {0}</value>
   </data>
   <data name="CopyCode" xml:space="preserve">
     <value>کپی کد</value>
@@ -3294,10 +3303,10 @@
     <value>The '{0}' command is not ready to be executed.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>پالت فرمان</value>
+    <value>صفحه فرمان</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open command palette</value>
+    <value>بازکردن صفحه فرمان</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>شروع در:</value>
@@ -3343,7 +3352,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="CoolBlueBright" xml:space="preserve">
-    <value>آبی خنک روشن</value>
+    <value>آبی سرد روشن</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Gray" xml:space="preserve">
@@ -3359,7 +3368,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="IrisPastel" xml:space="preserve">
-    <value>پاستل آیریس</value>
+    <value>پاستل سوسنی</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="MintLight" xml:space="preserve">
@@ -3367,7 +3376,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ModRed" xml:space="preserve">
-    <value>ماد قرمز</value>
+    <value>قرمز مدرن</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="OrangeBright" xml:space="preserve">
@@ -3383,11 +3392,11 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="RoseBright" xml:space="preserve">
-    <value>رز روشن</value>
+    <value>سرخ روشن</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Seafoam" xml:space="preserve">
-    <value>کف ساحلی</value>
+    <value>کف دریا</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Storm" xml:space="preserve">
@@ -3462,6 +3471,70 @@
     <value>Compressing {0} item(s) from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
+    <value>Canceled cloning {0} to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled cloning {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
+    <value>Cloned "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
+    <value>Cloned {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
+    <value>Error cloning "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
+    <value>Failed to clone {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
+    <value>Cloning "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
+    <value>Cloning {0} from "{1}" to "{2}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
+  <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
+    <value>Canceled installing {0} fonts</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled installing {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
+    <value>Installed {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
+    <value>Installed {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
+    <value>Error installing {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
+    <value>Failed to install {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
+    <value>Installing {0} font(s)</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
+    <value>Installing {0} font(s) from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>	
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>Canceled copying {0} item(s) to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3711,9 +3784,6 @@
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Questions &amp; discussions</value>
   </data>
-  <data name="TilesViewSizeInfo" xml:space="preserve">
-    <value>اندازه‌های اضافه برای نمای کاشی‌ای فعلا موجود نیستند.</value>
-  </data>
   <data name="Compact" xml:space="preserve">
     <value>فشرده</value>
     <comment>Used to describe layout sizes</comment>
@@ -3806,22 +3876,22 @@
     <value>Background image</value>
   </data>
   <data name="Bottom" xml:space="preserve">
-    <value>Bottom</value>
+    <value>پایین</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Center" xml:space="preserve">
-    <value>Center</value>
+    <value>مرکز</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Fill" xml:space="preserve">
-    <value>Fill</value>
+    <value>پر کردن</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="HorizontalAlignment" xml:space="preserve">
-    <value>Horizontal alignment</value>
+    <value>تراز افقی</value>
   </data>
   <data name="ImageFit" xml:space="preserve">
-    <value>Image fit</value>
+    <value>قرار گیری تصویر</value>
   </data>
   <data name="Left" xml:space="preserve">
     <value>چپ</value>
@@ -3835,7 +3905,7 @@
     <comment>Image alignment type</comment>
   </data>
   <data name="Top" xml:space="preserve">
-    <value>Top</value>
+    <value>بالا</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Uniform" xml:space="preserve">
@@ -3847,7 +3917,7 @@
     <comment>Image stretch type</comment>
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
-    <value>Vertical alignment</value>
+    <value>تراز عمودی</value>
   </data>
   <data name="ThinAcrylic" xml:space="preserve">
     <value>Thin Acrylic</value>
@@ -3868,12 +3938,16 @@
     <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
   </data>
   <data name="ApplicationExtension" xml:space="preserve">
-    <value>Application extension</value>
+    <value>افزونه برنامه</value>
     <comment>This is the friendly name for DLL files.</comment>
   </data>
   <data name="IcoFileCapitalized" xml:space="preserve">
     <value>ICO File</value>
     <comment>This is the friendly name for ICO files.</comment>
+  </data>
+  <data name="IclFileCapitalized" xml:space="preserve">
+    <value>ICL File</value>
+    <comment>This is the friendly name for ICL files.</comment>
   </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
     <value>Zip File</value>
@@ -3966,7 +4040,7 @@
     <value>Navigate to the home page</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Show Home in address bar</value>
+    <value>Show home button in address bar</value>
   </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Toolbars</value>
@@ -3976,6 +4050,9 @@
   </data>
   <data name="BulkRename" xml:space="preserve">
     <value>Bulk rename</value>
+  </data>
+  <data name="CompressContents" xml:space="preserve">
+    <value>Compress contents</value>
   </data>
   <data name="ShowCreateAlternateDataStream" xml:space="preserve">
     <value>Show option to create alternate data stream</value>
@@ -4003,5 +4080,80 @@
   </data>
   <data name="ManageTags" xml:space="preserve">
     <value>Manage tags</value>
+  </data>
+  <data name="Available" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="AlwaysSwitchToNewlyOpenedTab" xml:space="preserve">
+    <value>Always switch focus to newly created tab</value>
+  </data>
+  <data name="ToggleShelfPane" xml:space="preserve">
+    <value>Toggle the shelf pane</value>
+  </data>
+  <data name="ToggleShelfPaneDescription" xml:space="preserve">
+    <value>Toggle the shelf pane visibility</value>
+  </data>
+  <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
+    <value>Show shelf pane toggle in address bar</value>
+  </data>
+  <data name="Shelf" xml:space="preserve">
+    <value>Shelf</value>
+    <comment>'Shelf' refers to the Shelf Pane feature, where users can conveniently drag and drop files for quick access and perform bulk actions with ease.</comment>
+  </data>
+  <data name="ClearItems" xml:space="preserve">
+    <value>Clear items</value>
+  </data>
+  <data name="RemoveFromShelf" xml:space="preserve">
+    <value>Remove from shelf</value>
+  </data>
+  <data name="AddToShelf" xml:space="preserve">
+    <value>Add to shelf</value>
+    <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
+  </data>
+  <data name="PathOrAlias" xml:space="preserve">
+    <value>Path or alias</value>
+  </data>
+  <data name="InvalidPath" xml:space="preserve">
+    <value>Invalid path</value>
+  </data>
+  <data name="TestIntegration" xml:space="preserve">
+    <value>Test integration</value>
+  </data>
+  <data name="IDENotLocatedContent" xml:space="preserve">
+    <value>{0} could not be located. Please check your settings and try again.</value>
+  </data>
+  <data name="IDENotLocatedTitle" xml:space="preserve">
+    <value>The configured IDE could not be located</value>
+  </data>
+  <data name="OpenSettings" xml:space="preserve">
+    <value>Open settings</value>
+  </data>
+  <data name="VisualStudioCode" xml:space="preserve">
+    <value>Visual Studio Code</value>
+  </data>
+  <data name="IDEPathPlaceholder" xml:space="preserve">
+    <value>Enter a path or launch alias</value>
+  </data>
+  <data name="InvalidIDENameError" xml:space="preserve">
+    <value>Please enter a name for the IDE</value>
+  </data>
+  <data name="CloneRepo" xml:space="preserve">
+    <value>Clone repo</value>
+    <comment>Clone repo dialog title</comment>
+  </data>
+  <data name="Clone" xml:space="preserve">
+    <value>Clone</value>
+    <comment>Primary action button in the clone repo dialog</comment>
+  </data>
+  <data name="RepositoryURL" xml:space="preserve">
+    <value>Repository URL</value>
+    <comment>URL textbox header in the clone repo dialog</comment>
+  </data>
+  <data name="CannotCloneRepoTitle" xml:space="preserve">
+    <value>Cannot clone repo</value>
+    <comment>Cannot clone repo dialog title</comment>
   </data>
 </root>

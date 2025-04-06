@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Windows.ApplicationModel.DataTransfer;
 
@@ -18,8 +18,11 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new RichGlyph(themedIconStyle: "App.ThemedIcons.CopyAsPath");
 
-		public bool IsExecutable
-			=> context.PageType != ContentPageTypes.Home && context.PageType != ContentPageTypes.RecycleBin;
+		public bool IsExecutable =>
+			context.PageType != ContentPageTypes.Home &&
+			context.PageType != ContentPageTypes.RecycleBin &&
+			context.PageType != ContentPageTypes.ReleaseNotes &&
+			context.PageType != ContentPageTypes.Settings;
 
 		public CopyPathAction()
 		{

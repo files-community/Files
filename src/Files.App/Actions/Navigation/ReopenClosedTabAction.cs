@@ -1,19 +1,19 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.UserControls.TabBar;
 
 namespace Files.App.Actions
 {
-	internal sealed class ReopenClosedTabAction : ObservableObject, IAction
+	internal sealed partial class ReopenClosedTabAction : ObservableObject, IAction
 	{
 		private readonly IMultitaskingContext context;
 
 		public string Label
-			=> "ReopenClosedTab".GetLocalizedResource();
+			=> Strings.ReopenClosedTab.GetLocalizedResource();
 
 		public string Description
-			=> "ReopenClosedTabDescription".GetLocalizedResource();
+			=> Strings.ReopenClosedTabDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.T, KeyModifiers.CtrlShift);

@@ -1,15 +1,15 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class GitSyncAction : ObservableObject, IAction
+	internal sealed partial class GitSyncAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext _context;
 
-		public string Label { get; } = "GitSync".GetLocalizedResource();
+		public string Label { get; } = Strings.GitSync.GetLocalizedResource();
 
-		public string Description { get; } = "GitSyncDescription".GetLocalizedResource();
+		public string Description { get; } = Strings.GitSyncDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph { get; } = new("\uEDAB");
 

@@ -1,9 +1,9 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class LayoutSettingsService : BaseObservableJsonSettings, ILayoutSettingsService
+	internal sealed partial class LayoutSettingsService : BaseObservableJsonSettings, ILayoutSettingsService
 	{
 		public LayoutSettingsService(ISettingsSharingContext settingsSharingContext)
 		{
@@ -307,9 +307,9 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public TilesViewSizeKind TilesViewSize
+		public CardsViewSizeKind CardsViewSize
 		{
-			get => Get(TilesViewSizeKind.Small);
+			get => Get(CardsViewSizeKind.Small);
 			set => Set(value);
 		}
 

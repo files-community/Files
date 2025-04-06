@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
@@ -9,10 +9,10 @@ namespace Files.App.Actions
 	internal sealed class ToggleSelectAction : IAction
 	{
 		public string Label
-			=> "ToggleSelect".GetLocalizedResource();
+			=> Strings.ToggleSelect.GetLocalizedResource();
 
 		public string Description
-			=> "ToggleSelectDescription".GetLocalizedResource();
+			=> Strings.ToggleSelectDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.Space, KeyModifiers.Ctrl);

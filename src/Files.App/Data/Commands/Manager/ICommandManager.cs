@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Data.Commands
 {
@@ -31,6 +31,7 @@ namespace Files.App.Data.Commands
 		IRichCommand ToggleDetailsPane { get; }
 		IRichCommand ToggleInfoPane { get; }
 		IRichCommand ToggleToolbar { get; }
+		IRichCommand ToggleShelfPane { get; }
 
 		IRichCommand CopyItem { get; }
 		IRichCommand CopyItemPath { get; }
@@ -103,11 +104,13 @@ namespace Files.App.Data.Commands
 		IRichCommand OpenInVSCode { get; }
 		IRichCommand OpenRepoInVSCode { get; }
 		IRichCommand OpenProperties { get; }
+		IRichCommand OpenReleaseNotes { get; }
 		IRichCommand OpenClassicProperties { get; }
 		IRichCommand OpenStorageSense { get; }
 		IRichCommand OpenStorageSenseFromHome { get; }
 		IRichCommand OpenStorageSenseFromSidebar { get; }
 		IRichCommand OpenSettings { get; }
+		IRichCommand OpenSettingsFile { get; }
 		IRichCommand OpenTerminal { get; }
 		IRichCommand OpenTerminalAsAdmin { get; }
 		IRichCommand OpenTerminalFromSidebar { get; }
@@ -119,7 +122,7 @@ namespace Files.App.Data.Commands
 		IRichCommand LayoutIncreaseSize { get; }
 		IRichCommand LayoutDetails { get; }
 		IRichCommand LayoutList { get; }
-		IRichCommand LayoutTiles { get; }
+		IRichCommand LayoutCards{ get; }
 		IRichCommand LayoutGrid { get; }
 		IRichCommand LayoutColumns { get; }
 		IRichCommand LayoutAdaptive { get; }
@@ -208,6 +211,7 @@ namespace Files.App.Data.Commands
 
 		IRichCommand PlayAll { get; }
 
+		IRichCommand GitClone { get; }
 		IRichCommand GitFetch { get; }
 		IRichCommand GitInit { get; }
 		IRichCommand GitPull { get; }

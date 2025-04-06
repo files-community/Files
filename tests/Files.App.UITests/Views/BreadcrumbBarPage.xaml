@@ -1,0 +1,75 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<Page
+	x:Class="Files.App.UITests.Views.BreadcrumbBarPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:data="using:Files.App.UITests.Data"
+	xmlns:local="using:Files.App.UITests.Views"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d">
+
+	<StackPanel Spacing="24">
+
+		<controls:SamplePanel Header="Default usage">
+			<controls:SamplePanel.MainContent>
+				<Grid
+					Height="38"
+					MinWidth="120"
+					Padding="2"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Center"
+					Background="{ThemeResource ControlFillColorDefaultBrush}"
+					BorderBrush="{ThemeResource CircleElevationBorderBrush}"
+					CornerRadius="18">
+					<controls:BreadcrumbBar
+						x:Name="BreadcrumbBar1"
+						FlowDirection="{x:Bind BreadcrumbBar1FlowDirection, Mode=OneWay}"
+						ItemClicked="BreadcrumbBar1_ItemClicked"
+						ItemDropDownFlyoutClosed="BreadcrumbBar1_ItemDropDownFlyoutClosed"
+						ItemDropDownFlyoutOpening="BreadcrumbBar1_ItemDropDownFlyoutOpening"
+						ItemsSource="{x:Bind DummyItems, Mode=OneWay}">
+						<controls:BreadcrumbBar.RootItem>
+							<Image
+								Width="16"
+								Height="16"
+								Source="/Data/DummyIcon1.png" />
+						</controls:BreadcrumbBar.RootItem>
+						<controls:BreadcrumbBar.ItemTemplate>
+							<DataTemplate x:DataType="data:BreadcrumbBarItemModel">
+								<controls:BreadcrumbBarItem Content="{x:Bind Text}" />
+							</DataTemplate>
+						</controls:BreadcrumbBar.ItemTemplate>
+					</controls:BreadcrumbBar>
+				</Grid>
+			</controls:SamplePanel.MainContent>
+			<controls:SamplePanel.SideContent>
+				<StackPanel Spacing="12">
+					<Grid HorizontalAlignment="Stretch" ColumnSpacing="8">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<TextBox
+							Grid.Column="0"
+							Header="Clicked item name:"
+							IsReadOnly="True"
+							Text="{x:Bind ClickedItemName, Mode=OneWay}" />
+						<TextBox
+							Grid.Column="1"
+							Header="Clicked item index:"
+							IsReadOnly="True"
+							Text="{x:Bind ClickedItemIndex, Mode=OneWay}" />
+					</Grid>
+					<ToggleSwitch
+						Header="RTL flow direction:"
+						IsOn="{x:Bind IsRTLEnabled, Mode=TwoWay}"
+						OffContent="Disabled"
+						OnContent="Enabled" />
+				</StackPanel>
+			</controls:SamplePanel.SideContent>
+		</controls:SamplePanel>
+
+	</StackPanel>
+</Page>

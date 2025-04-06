@@ -1,8 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
-
-using Files.Core.Storage.Storables;
-using System;
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Data.Models
 {
@@ -14,7 +11,7 @@ namespace Files.App.Data.Models
 		/// <summary>
 		/// Fires when a new device is detected by the storage device watcher
 		/// </summary>
-		event EventHandler<ILocatableFolder> DeviceAdded;
+		event EventHandler<IFolder> DeviceAdded;
 
 		/// <summary>
 		/// Fires when a device removal is detected by the storage device watcher

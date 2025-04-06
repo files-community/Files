@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
@@ -12,10 +12,10 @@ namespace Files.App.Actions
 		public IContentPageContext context;
 
 		public string Label
-			=> "UnpinItemFromStart/Text".GetLocalizedResource();
+			=> Strings.UnpinItemFromStart_Text.GetLocalizedResource();
 
 		public string Description
-			=> "UnpinFromStartDescription".GetLocalizedResource();
+			=> Strings.UnpinFromStartDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.FavoritePinRemove");

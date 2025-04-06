@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using CommunityToolkit.WinUI.Helpers;
 using Microsoft.Extensions.Logging;
@@ -13,7 +13,7 @@ using WinRT.Interop;
 
 namespace Files.App.Services
 {
-	internal sealed class StoreUpdateService : ObservableObject, IUpdateService
+	internal sealed partial class StoreUpdateService : ObservableObject, IUpdateService
 	{
 		private StoreContext? _storeContext;
 		private List<StorePackageUpdate>? _updatePackages;
@@ -34,16 +34,16 @@ namespace Files.App.Services
 			private set => SetProperty(ref _isUpdating, value);
 		}
 
-		private bool _isReleaseNotesAvailable;
-		public bool IsReleaseNotesAvailable
-		{
-			get => _isReleaseNotesAvailable;
-			private set => SetProperty(ref _isReleaseNotesAvailable, value);
-		}
-
 		public bool IsAppUpdated
 		{
-			get => SystemInformation.Instance.IsAppUpdated;
+			get => AppLifecycleHelper.IsAppUpdated;
+		}
+
+		private bool _areReleaseNotesAvailable = false;
+		public bool AreReleaseNotesAvailable
+		{
+			get => _areReleaseNotesAvailable;
+			private set => SetProperty(ref _areReleaseNotesAvailable, value);
 		}
 
 		public StoreUpdateService()
@@ -107,6 +107,21 @@ namespace Files.App.Services
 			}
 		}
 
+		public async Task CheckForReleaseNotesAsync()
+		{
+			using var client = new HttpClient();
+
+			try
+			{
+				var response = await client.GetAsync(Constants.ExternalUrl.ReleaseNotesUrl);
+				AreReleaseNotesAvailable = response.IsSuccessStatusCode;
+			}
+			catch
+			{
+				AreReleaseNotesAvailable = false;
+			}
+		}
+
 		private async Task DownloadAndInstallAsync()
 		{
 			// Save the updated tab list before installing the update
@@ -144,10 +159,10 @@ namespace Files.App.Services
 			//TODO: Use IDialogService in future.
 			ContentDialog dialog = new()
 			{
-				Title = "ConsentDialogTitle".GetLocalizedResource(),
-				Content = "ConsentDialogContent".GetLocalizedResource(),
-				CloseButtonText = "Close".GetLocalizedResource(),
-				PrimaryButtonText = "ConsentDialogPrimaryButtonText".GetLocalizedResource()
+				Title = Strings.ConsentDialogTitle.GetLocalizedResource(),
+				Content = Strings.ConsentDialogContent.GetLocalizedResource(),
+				CloseButtonText = Strings.Close.GetLocalizedResource(),
+				PrimaryButtonText = Strings.ConsentDialogPrimaryButtonText.GetLocalizedResource()
 			};
 
 			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
@@ -156,35 +171,6 @@ namespace Files.App.Services
 			ContentDialogResult result = await dialog.TryShowAsync();
 
 			return result == ContentDialogResult.Primary;
-		}
-
-		public async Task CheckLatestReleaseNotesAsync(CancellationToken cancellationToken = default)
-		{
-			if (!IsAppUpdated)
-				return;
-
-			var result = await GetLatestReleaseNotesAsync();
-
-			if (result is not null)
-				IsReleaseNotesAvailable = true;
-		}
-
-		public async Task<string?> GetLatestReleaseNotesAsync(CancellationToken cancellationToken = default)
-		{
-			var applicationVersion = $"{SystemInformation.Instance.ApplicationVersion.Major}.{SystemInformation.Instance.ApplicationVersion.Minor}.{SystemInformation.Instance.ApplicationVersion.Build}";
-			var releaseNotesLocation = string.Concat("https://raw.githubusercontent.com/files-community/Release-Notes/main/", applicationVersion, ".md");
-
-			using var client = new HttpClient();
-
-			try
-			{
-				var result = await client.GetStringAsync(releaseNotesLocation, cancellationToken);
-				return result == string.Empty ? null : result;
-			}
-			catch
-			{
-				return null;
-			}
 		}
 
 		public async Task CheckAndUpdateFilesLauncherAsync()
@@ -200,8 +186,8 @@ namespace Files.App.Services
 
 				if (Path.Exists(destHashFilePath))
 				{
-					using var srcStream = (await srcHashFile.OpenReadAsync()).AsStream();
-					using var destStream = File.OpenRead(destHashFilePath);
+					await using var srcStream = (await srcHashFile.OpenReadAsync()).AsStream();
+					await using var destStream = File.OpenRead(destHashFilePath);
 
 					hashEqual = HashEqual(srcStream, destStream);
 				}

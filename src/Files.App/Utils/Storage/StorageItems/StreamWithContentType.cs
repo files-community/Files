@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.IO;
 using System.Runtime.InteropServices;
@@ -10,7 +10,7 @@ using Windows.Storage.Streams;
 
 namespace Files.App.Utils.Storage
 {
-	public sealed class InputStreamWithDisposeCallback : IInputStream
+	public sealed partial class InputStreamWithDisposeCallback : IInputStream
 	{
 		private Stream stream;
 		private IInputStream iStream;
@@ -35,7 +35,7 @@ namespace Files.App.Utils.Storage
 		}
 	}
 
-	public sealed class NonSeekableRandomAccessStreamForWrite : IRandomAccessStream
+	public sealed partial class NonSeekableRandomAccessStreamForWrite : IRandomAccessStream
 	{
 		private Stream stream;
 		private IOutputStream oStream;
@@ -117,7 +117,7 @@ namespace Files.App.Utils.Storage
 
 			return AsyncInfo.Run<bool>(async (cancellationToken) =>
 			{
-				await stream.FlushAsync();
+				await stream.FlushAsync(cancellationToken);
 				return true;
 			});
 		}
@@ -131,7 +131,7 @@ namespace Files.App.Utils.Storage
 		}
 	}
 
-	public sealed class NonSeekableRandomAccessStreamForRead : IRandomAccessStream
+	public sealed partial class NonSeekableRandomAccessStreamForRead : IRandomAccessStream
 	{
 		private Stream stream;
 		private IRandomAccessStream imrac;
@@ -227,7 +227,7 @@ namespace Files.App.Utils.Storage
 		}
 	}
 
-	public sealed class StreamWithContentType : IRandomAccessStreamWithContentType
+	public sealed partial class StreamWithContentType : IRandomAccessStreamWithContentType
 	{
 		private IRandomAccessStream baseStream;
 
@@ -269,7 +269,7 @@ namespace Files.App.Utils.Storage
 		public string ContentType { get; set; } = "application/octet-stream";
 	}
 
-	public sealed class ComStreamWrapper : Stream
+	public sealed partial class ComStreamWrapper : Stream
 	{
 		private IStream iStream;
 		private STATSTG iStreamStat;

@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.Windows.Input;
 
@@ -8,7 +8,7 @@ namespace Files.App.ViewModels.Properties
 	/// <summary>
 	/// Represents view model of <see cref="Views.Properties.CompatibilityPage"/>.
 	/// </summary>
-	public sealed class CompatibilityViewModel : ObservableObject
+	public sealed partial class CompatibilityViewModel : ObservableObject
 	{
 		// Dependency injections
 
@@ -81,30 +81,30 @@ namespace Files.App.ViewModels.Properties
 
 		public CompatibilityViewModel(ListedItem item)
 		{
-			ItemPath = item is ShortcutItem shortcutItem ? shortcutItem.TargetPath : item.ItemPath;
+			ItemPath = item is IShortcutItem shortcutItem ? shortcutItem.TargetPath : item.ItemPath;
 
 			CompatibilityOptions = WindowsCompatibilityService.GetCompatibilityOptionsForPath(ItemPath);
 
-			CompatibilityModes.Add(WindowsCompatModeKind.None, "None".GetLocalizedResource());
+			CompatibilityModes.Add(WindowsCompatModeKind.None, Strings.None.GetLocalizedResource());
 			CompatibilityModes.Add(WindowsCompatModeKind.WindowsVista, "Windows Vista");
 			CompatibilityModes.Add(WindowsCompatModeKind.WindowsVistaSP1, "Windows Vista (Service Pack 1)");
 			CompatibilityModes.Add(WindowsCompatModeKind.WindowsVistaSP2, "Windows Vista (Service Pack 2)");
 			CompatibilityModes.Add(WindowsCompatModeKind.Windows7, "Windows 7");
 			CompatibilityModes.Add(WindowsCompatModeKind.Windows8, "Windows 8");
 
-			ReducedColorModes.Add(WindowsCompatReducedColorModeKind.None, "CompatibilityNoReducedColor".GetLocalizedResource());
-			ReducedColorModes.Add(WindowsCompatReducedColorModeKind.Color8Bit, "CompatibilityReducedColorModeColor8bit".GetLocalizedResource());
-			ReducedColorModes.Add(WindowsCompatReducedColorModeKind.Color16Bit, "CompatibilityReducedColorModeColor16bit".GetLocalizedResource());
+			ReducedColorModes.Add(WindowsCompatReducedColorModeKind.None, Strings.CompatibilityNoReducedColor.GetLocalizedResource());
+			ReducedColorModes.Add(WindowsCompatReducedColorModeKind.Color8Bit, Strings.CompatibilityReducedColorModeColor8bit.GetLocalizedResource());
+			ReducedColorModes.Add(WindowsCompatReducedColorModeKind.Color16Bit, Strings.CompatibilityReducedColorModeColor16bit.GetLocalizedResource());
 
-			HighDpiOptions.Add(WindowsCompatDPIOptionKind.None, "CompatibilityDoNotAdjustDPI".GetLocalizedResource());
-			HighDpiOptions.Add(WindowsCompatDPIOptionKind.UseDPIOnLogin, "CompatibilityOnWindowsLogin".GetLocalizedResource());
-			HighDpiOptions.Add(WindowsCompatDPIOptionKind.UseDPIOnProgramStart, "CompatibilityOnProgramStart".GetLocalizedResource());
+			HighDpiOptions.Add(WindowsCompatDPIOptionKind.None, Strings.CompatibilityDoNotAdjustDPI.GetLocalizedResource());
+			HighDpiOptions.Add(WindowsCompatDPIOptionKind.UseDPIOnLogin, Strings.CompatibilityOnWindowsLogin.GetLocalizedResource());
+			HighDpiOptions.Add(WindowsCompatDPIOptionKind.UseDPIOnProgramStart, Strings.CompatibilityOnProgramStart.GetLocalizedResource());
 
-			HighDpiOverrides.Add(WindowsCompatDpiOverrideKind.None, "CompatibilityDoNotOverrideDPI".GetLocalizedResource());
-			HighDpiOverrides.Add(WindowsCompatDpiOverrideKind.Advanced, "Advanced".GetLocalizedResource());
-			HighDpiOverrides.Add(WindowsCompatDpiOverrideKind.Application, "Application".GetLocalizedResource());
-			HighDpiOverrides.Add(WindowsCompatDpiOverrideKind.System, "System".GetLocalizedResource());
-			HighDpiOverrides.Add(WindowsCompatDpiOverrideKind.SystemAdvanced, "CompatibilitySystemEnhanced".GetLocalizedResource());
+			HighDpiOverrides.Add(WindowsCompatDpiOverrideKind.None, Strings.CompatibilityDoNotOverrideDPI.GetLocalizedResource());
+			HighDpiOverrides.Add(WindowsCompatDpiOverrideKind.Advanced, Strings.Advanced.GetLocalizedResource());
+			HighDpiOverrides.Add(WindowsCompatDpiOverrideKind.Application, Strings.Application.GetLocalizedResource());
+			HighDpiOverrides.Add(WindowsCompatDpiOverrideKind.System, Strings.System.GetLocalizedResource());
+			HighDpiOverrides.Add(WindowsCompatDpiOverrideKind.SystemAdvanced, Strings.CompatibilitySystemEnhanced.GetLocalizedResource());
 
 			RunTroubleshooterCommand = new AsyncRelayCommand(ExecuteRunTroubleshooterCommand);
 		}

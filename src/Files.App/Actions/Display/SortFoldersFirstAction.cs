@@ -1,17 +1,17 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class SortFoldersFirstAction : ObservableObject, IToggleAction
+	internal sealed partial class SortFoldersFirstAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
 
 		public string Label
-			=> "SortFoldersFirst".GetLocalizedResource();
+			=> Strings.SortFoldersFirst.GetLocalizedResource();
 
 		public string Description
-			=> "SortFoldersFirstDescription".GetLocalizedResource();
+			=> Strings.SortFoldersFirstDescription.GetLocalizedResource();
 
 		public bool IsOn
 			=> !context.SortFilesFirst && !context.SortDirectoriesAlongsideFiles;
@@ -27,6 +27,7 @@ namespace Files.App.Actions
 		{
 			context.SortFilesFirst = false;
 			context.SortDirectoriesAlongsideFiles = false;
+			LayoutHelpers.UpdateOpenTabsPreferences();
 
 			return Task.CompletedTask;
 		}

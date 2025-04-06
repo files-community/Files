@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.Windows.Input;
 
@@ -8,7 +8,7 @@ namespace Files.App.ViewModels.Settings
 	/// <summary>
 	/// Represents view model of <see cref="Views.Settings.ActionsPage"/>.
 	/// </summary>
-	public sealed class ActionsViewModel : ObservableObject
+	public sealed partial class ActionsViewModel : ObservableObject
 	{
 		// Dependency injections
 

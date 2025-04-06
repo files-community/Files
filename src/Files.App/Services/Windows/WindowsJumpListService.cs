@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
 using System.IO;
@@ -131,14 +131,14 @@ namespace Files.App.Services
 				string? displayName = null;
 
 				if (path.StartsWith("\\\\SHELL", StringComparison.OrdinalIgnoreCase))
-					displayName = "ThisPC".GetLocalizedResource();
+					displayName = Strings.ThisPC.GetLocalizedResource();
 
 				if (path.EndsWith('\\'))
 				{
 					var drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 					// Jumplist item argument can't end with a slash so append a character that can't exist in a directory name to support listing drives.
-					var drive = drivesViewModel.Drives.FirstOrDefault(drive => drive.Path == path);
+					var drive = drivesViewModel.Drives.FirstOrDefault(drive => drive.Id == path);
 					if (drive is null)
 						return;
 
@@ -153,11 +153,11 @@ namespace Files.App.Services
 					else if (path.Equals(Constants.UserEnvironmentPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
 						displayName = "ms-resource:///Resources/Downloads";
 					else if (path.Equals(Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase))
-						displayName = "Network".GetLocalizedResource();
+						displayName = Strings.Network.GetLocalizedResource();
 					else if (path.Equals(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-						displayName = "RecycleBin".GetLocalizedResource();
+						displayName = Strings.RecycleBin.GetLocalizedResource();
 					else if (path.Equals(Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase))
-						displayName = "ThisPC".GetLocalizedResource();
+						displayName = Strings.ThisPC.GetLocalizedResource();
 					else if (App.LibraryManager.TryGetLibrary(path, out LibraryLocationItem library))
 					{
 						var libName = Path.GetFileNameWithoutExtension(library.Path);

@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Files.App.Data.Items;
 using Files.App.Helpers;
@@ -16,7 +16,7 @@ namespace Files.App.Utils
 {
 	public sealed class WindowsStorageDeviceWatcher : IStorageDeviceWatcher
 	{
-		public event EventHandler<ILocatableFolder> DeviceAdded;
+		public event EventHandler<IFolder> DeviceAdded;
 		public event EventHandler<string> DeviceRemoved;
 		public event EventHandler EnumerationCompleted;
 		public event EventHandler<string> DeviceModified;

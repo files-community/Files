@@ -1,9 +1,9 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Services.Settings
 {
-	internal sealed class ActionsSettingsService : BaseObservableJsonSettings, IActionsSettingsService
+	internal sealed partial class ActionsSettingsService : BaseObservableJsonSettings, IActionsSettingsService
 	{
 		/// <inheritdoc/>
 		public List<ActionWithParameterItem>? ActionsV2

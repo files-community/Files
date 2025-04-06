@@ -1,4 +1,4 @@
-<!--  Copyright (c) 2024 Files Community. Licensed under the MIT License. See the LICENSE.  -->
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <ContentDialog
 	x:Class="Files.App.Dialogs.SettingsDialog"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -138,7 +138,7 @@
 					Content="{helpers:ResourceString Name=DevTools}"
 					Tag="DevToolsPage">
 					<NavigationViewItem.Icon>
-						<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="&#xE794;" />
+						<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="&#xEC7A;" />
 					</NavigationViewItem.Icon>
 				</NavigationViewItem>
 				<NavigationViewItem

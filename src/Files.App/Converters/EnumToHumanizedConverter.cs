@@ -1,11 +1,11 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Data;
 
 namespace Files.App.Converters
 {
-	internal sealed class EnumToHumanizedConverter : IValueConverter
+	internal sealed partial class EnumToHumanizedConverter : IValueConverter
 	{
 		public string EnumTypeName { get; set; } = string.Empty;
 
@@ -19,8 +19,8 @@ namespace Files.App.Converters
 					=> LocalizedEnumDescriptionFactory.Get(Enum.Parse<DetailsViewSizeKind>(stringValue)),
 				"ListViewSizeKind"
 					=> LocalizedEnumDescriptionFactory.Get(Enum.Parse<ListViewSizeKind>(stringValue)),
-				"TilesViewSizeKind"
-					=> LocalizedEnumDescriptionFactory.Get(Enum.Parse<TilesViewSizeKind>(stringValue)),
+				"CardsViewSizeKind"
+					=> LocalizedEnumDescriptionFactory.Get(Enum.Parse<CardsViewSizeKind>(stringValue)),
 				"GridViewSizeKind"
 					=> LocalizedEnumDescriptionFactory.Get(Enum.Parse<GridViewSizeKind>(stringValue)),
 				"ColumnsViewSizeKind"

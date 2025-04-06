@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Data.Enums
 {
@@ -16,9 +16,9 @@ namespace Files.App.Data.Enums
 		ListView = 1,
 
 		/// <summary>
-		/// Tiles view 
+		/// Cards view 
 		/// </summary>
-		TilesView = 2,
+		CardsView = 2,
 
 		/// <summary>
 		/// Column view 

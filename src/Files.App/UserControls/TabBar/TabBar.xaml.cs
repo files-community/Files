@@ -1,7 +1,7 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.UI;
+using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -63,15 +63,6 @@ namespace Files.App.UserControls.TabBar
 
 			tabHoverTimer.Interval = TimeSpan.FromMilliseconds(Constants.DragAndDrop.HoverToOpenTimespan);
 			tabHoverTimer.Tick += TabHoverSelected;
-
-			var appWindow = MainWindow.Instance.AppWindow;
-
-			double rightPaddingColumnWidth =
-				FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
-					? appWindow.TitleBar.LeftInset
-					: appWindow.TitleBar.RightInset;
-
-			RightPaddingColumn.Width = new(rightPaddingColumnWidth >= 0 ? rightPaddingColumnWidth : 0);
 
 			AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
@@ -172,7 +163,7 @@ namespace Files.App.UserControls.TabBar
 				HorizontalTabView.CanReorderTabs = WindowContext.CanDragAndDrop;
 
 				e.AcceptedOperation = DataPackageOperation.Move;
-				e.DragUIOverride.Caption = "TabStripDragAndDropUIOverrideCaption".GetLocalizedResource();
+				e.DragUIOverride.Caption = Strings.TabStripDragAndDropUIOverrideCaption.GetLocalizedResource();
 				e.DragUIOverride.IsCaptionVisible = true;
 				e.DragUIOverride.IsGlyphVisible = false;
 			}
@@ -204,7 +195,7 @@ namespace Files.App.UserControls.TabBar
 			{
 				var item = tabStrip.ContainerFromIndex(i) as TabViewItem;
 
-				if (e.GetPosition(item).Y - item.ActualHeight < 0)
+				if (e.GetPosition(item).X - item.ActualWidth < 0)
 				{
 					index = i;
 					break;
@@ -342,7 +333,7 @@ namespace Files.App.UserControls.TabBar
 				e.Handled = true;
 				var deferral = e.GetDeferral();
 				e.DragUIOverride.IsCaptionVisible = true;
-				e.DragUIOverride.Caption = string.Format("OpenInNewTab".GetLocalizedResource());
+				e.DragUIOverride.Caption = string.Format(Strings.OpenInNewTab.GetLocalizedResource());
 				e.AcceptedOperation = DataPackageOperation.Link;
 				deferral.Complete();
 			}
@@ -365,6 +356,21 @@ namespace Files.App.UserControls.TabBar
 						iconControl.Content = (tabViewItem.IconSource as ImageIconSource)?.CreateIconElement();
 				});
 			}
+		}
+
+		private async void DragAreaRectangle_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (HorizontalTabView.ActualWidth <= 0 && TabBarAddNewTabButton.Width <= 0)
+				await Task.Delay(100);
+
+			var titleBarInset = ((FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
+				? MainWindow.Instance.AppWindow.TitleBar.LeftInset
+				: MainWindow.Instance.AppWindow.TitleBar.RightInset) / DragAreaRectangle.XamlRoot.RasterizationScale) + 40;
+
+			RightPaddingColumn.Width = new(titleBarInset > 40 ? titleBarInset : 138);
+			HorizontalTabView.Measure(new(
+				HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset,
+				HorizontalTabView.ActualHeight));
 		}
 	}
 }

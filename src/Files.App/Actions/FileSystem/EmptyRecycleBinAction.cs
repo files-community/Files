@@ -1,12 +1,12 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation.Metadata;
 
 namespace Files.App.Actions
 {
-	internal sealed class EmptyRecycleBinAction : BaseUIAction, IAction
+	internal sealed partial class EmptyRecycleBinAction : BaseUIAction, IAction
 	{
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 		private readonly StatusCenterViewModel StatusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
@@ -14,10 +14,10 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "EmptyRecycleBin".GetLocalizedResource();
+			=> Strings.EmptyRecycleBin.GetLocalizedResource();
 
 		public string Description
-			=> "EmptyRecycleBinDescription".GetLocalizedResource();
+			=> Strings.EmptyRecycleBinDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Delete");
@@ -39,10 +39,10 @@ namespace Files.App.Actions
 			// TODO: Use AppDialogService
 			var confirmationDialog = new ContentDialog()
 			{
-				Title = "ConfirmEmptyBinDialogTitle".GetLocalizedResource(),
-				Content = "ConfirmEmptyBinDialogContent".GetLocalizedResource(),
-				PrimaryButtonText = "Yes".GetLocalizedResource(),
-				SecondaryButtonText = "Cancel".GetLocalizedResource(),
+				Title = Strings.ConfirmEmptyBinDialogTitle.GetLocalizedResource(),
+				Content = Strings.ConfirmEmptyBinDialogContent.GetLocalizedResource(),
+				PrimaryButtonText = Strings.Yes.GetLocalizedResource(),
+				SecondaryButtonText = Strings.Cancel.GetLocalizedResource(),
 				DefaultButton = ContentDialogButton.Primary
 			};
 

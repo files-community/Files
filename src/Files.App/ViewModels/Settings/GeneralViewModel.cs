@@ -1,19 +1,15 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.Collections.Specialized;
-using System.Globalization;
-using Vanara.PInvoke;
-using Windows.Globalization;
 using Windows.Storage;
-using Windows.Storage.Pickers;
 using Windows.System;
 using static Files.App.Helpers.MenuFlyoutHelper;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 
 namespace Files.App.ViewModels.Settings
 {
-	public sealed class GeneralViewModel : ObservableObject, IDisposable
+	public sealed partial class GeneralViewModel : ObservableObject, IDisposable
 	{
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
@@ -111,8 +107,8 @@ namespace Files.App.ViewModels.Settings
 			PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
 			// ShellPaneArrangement
-			ShellPaneArrangementTypes.Add(ShellPaneArrangement.Horizontal, "Horizontal".GetLocalizedResource());
-			ShellPaneArrangementTypes.Add(ShellPaneArrangement.Vertical, "Vertical".GetLocalizedResource());
+			ShellPaneArrangementTypes.Add(ShellPaneArrangement.Horizontal, Strings.Horizontal.GetLocalizedResource());
+			ShellPaneArrangementTypes.Add(ShellPaneArrangement.Vertical, Strings.Vertical.GetLocalizedResource());
 			SelectedShellPaneArrangementType = ShellPaneArrangementTypes[UserSettingsService.GeneralSettingsService.ShellPaneArrangementOption];
 
 			InitStartupSettingsRecentFoldersFlyout();
@@ -127,7 +123,7 @@ namespace Files.App.ViewModels.Settings
 			AppLifecycleHelper.SaveSessionTabs();
 
 			// Launches a new instance of Files
-			await Launcher.LaunchUriAsync(new Uri("files-uwp:"));
+			await Launcher.LaunchUriAsync(new Uri("files-dev:"));
 
 			// Closes the current instance
 			Process.GetCurrentProcess().Kill();
@@ -150,14 +146,14 @@ namespace Files.App.ViewModels.Settings
 
 		private void InitStartupSettingsRecentFoldersFlyout()
 		{
-			var recentsItem = new MenuFlyoutSubItemViewModel("JumpListRecentGroupHeader".GetLocalizedResource());
-			recentsItem.Items.Add(new MenuFlyoutItemViewModel("Home".GetLocalizedResource())
+			var recentsItem = new MenuFlyoutSubItemViewModel(Strings.JumpListRecentGroupHeader.GetLocalizedResource());
+			recentsItem.Items.Add(new MenuFlyoutItemViewModel(Strings.Home.GetLocalizedResource())
 			{
 				Command = AddPageCommand,
 				CommandParameter = "Home",
-				Tooltip = "Home".GetLocalizedResource()
+				Tooltip = Strings.Home.GetLocalizedResource()
 			});
-			recentsItem.Items.Add(new MenuFlyoutItemViewModel("Browse".GetLocalizedResource()) { Command = AddPageCommand });
+			recentsItem.Items.Add(new MenuFlyoutItemViewModel(Strings.Browse.GetLocalizedResource()) { Command = AddPageCommand });
 		}
 
 		private void PagesOnStartupList_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -321,6 +317,20 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool AlwaysSwitchToNewlyOpenedTab
+		{
+			get => UserSettingsService.GeneralSettingsService.AlwaysSwitchToNewlyOpenedTab;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.AlwaysSwitchToNewlyOpenedTab)
+				{
+					UserSettingsService.GeneralSettingsService.AlwaysSwitchToNewlyOpenedTab = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		private void ChangePageAsync()
 		{
 			var result = CommonDialogService.Open_FileOpenDialog(MainWindow.Instance.WindowHandle, true, [], Environment.SpecialFolder.Desktop, out var filePath);
@@ -349,7 +359,7 @@ namespace Files.App.ViewModels.Settings
 		}
 
 		public string DateFormatSample
-			=> string.Format("DateFormatSample".GetLocalizedResource(), DateFormats[SelectedDateTimeFormatIndex].Sample1, DateFormats[SelectedDateTimeFormatIndex].Sample2);
+			=> string.Format(Strings.DateFormatSample.GetLocalizedResource(), DateFormats[SelectedDateTimeFormatIndex].Sample1, DateFormats[SelectedDateTimeFormatIndex].Sample2);
 
 		private DispatcherQueue dispatcherQueue;
 

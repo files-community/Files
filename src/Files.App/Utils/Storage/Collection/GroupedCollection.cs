@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Utils.Storage
 {
@@ -43,8 +43,8 @@ namespace Files.App.Utils.Storage
 			{
 				Model.CountText = string.Format(
 					Count > 1
-						? "GroupItemsCount_Plural".GetLocalizedResource()
-						: "GroupItemsCount_Singular".GetLocalizedResource(),
+						? Strings.GroupItemsCount_Plural.GetLocalizedResource()
+						: Strings.GroupItemsCount_Singular.GetLocalizedResource(),
 					Count);
 			}
 		}

@@ -1,15 +1,15 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class CloseTabsToTheLeftSelectedAction : CloseTabBaseAction
+	internal sealed partial class CloseTabsToTheLeftSelectedAction : CloseTabBaseAction
 	{
 		public override string Label
-			=> "CloseTabsToTheLeft".GetLocalizedResource();
+			=> Strings.CloseTabsToTheLeft.GetLocalizedResource();
 
 		public override string Description
-			=> "CloseTabsToTheLeftSelectedDescription".GetLocalizedResource();
+			=> Strings.CloseTabsToTheLeftSelectedDescription.GetLocalizedResource();
 
 		public CloseTabsToTheLeftSelectedAction()
 		{

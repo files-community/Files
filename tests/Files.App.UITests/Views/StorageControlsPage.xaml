@@ -1,0 +1,334 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<Page
+	x:Class="Files.App.UITests.Views.StorageControlsPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:Files.App.UITests.Views"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d">
+
+	<StackPanel Spacing="24">
+
+		<!--  Default uags  -->
+		<controls:SamplePanel Header="Default usages">
+			<controls:SamplePanel.MainContent>
+				<StackPanel Spacing="24">
+
+					<TextBlock HorizontalAlignment="Center" Text="StorageRing" />
+
+					<Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+
+						<TextBlock
+							Grid.Row="1"
+							Grid.Column="0"
+							HorizontalAlignment="Center"
+							Style="{StaticResource TextExampleCaptionStyle}"
+							Text="16 px" />
+
+						<controls:StorageRing
+							x:Name="DefaultUsageSampleStorageRing16px"
+							Grid.Column="0"
+							BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+							BorderThickness="1"
+							FlowDirection="LeftToRight"
+							IsEnabled="{x:Bind DefaultUsageSampleIsEnabledToggleSwitch.IsOn, Mode=OneWay}"
+							Value="{x:Bind DefaultUsageSampleValueSlider.Value, Mode=OneWay}" />
+
+						<TextBlock
+							Grid.Row="1"
+							Grid.Column="1"
+							HorizontalAlignment="Center"
+							Style="{StaticResource TextExampleCaptionStyle}"
+							Text="24 px" />
+
+						<controls:StorageRing
+							Grid.Column="1"
+							Width="24"
+							Height="24"
+							BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+							BorderThickness="1"
+							FlowDirection="LeftToRight"
+							IsEnabled="{x:Bind DefaultUsageSampleIsEnabledToggleSwitch.IsOn, Mode=OneWay}"
+							Value="{x:Bind DefaultUsageSampleValueSlider.Value, Mode=OneWay}" />
+
+						<TextBlock
+							Grid.Row="1"
+							Grid.Column="2"
+							HorizontalAlignment="Center"
+							Style="{StaticResource TextExampleCaptionStyle}"
+							Text="32 px" />
+
+						<controls:StorageRing
+							Grid.Column="2"
+							Width="32"
+							Height="32"
+							BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+							BorderThickness="1"
+							FlowDirection="LeftToRight"
+							IsEnabled="{x:Bind DefaultUsageSampleIsEnabledToggleSwitch.IsOn, Mode=OneWay}"
+							Value="{x:Bind DefaultUsageSampleValueSlider.Value, Mode=OneWay}" />
+
+						<TextBlock
+							Grid.Row="1"
+							Grid.Column="3"
+							HorizontalAlignment="Center"
+							Style="{StaticResource TextExampleCaptionStyle}"
+							Text="48 px" />
+
+						<controls:StorageRing
+							Grid.Column="3"
+							Width="48"
+							Height="48"
+							BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+							BorderThickness="1"
+							FlowDirection="LeftToRight"
+							IsEnabled="{x:Bind DefaultUsageSampleIsEnabledToggleSwitch.IsOn, Mode=OneWay}"
+							Value="{x:Bind DefaultUsageSampleValueSlider.Value, Mode=OneWay}" />
+
+					</Grid>
+
+					<Rectangle
+						Height="1"
+						Margin="12,0"
+						Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+					<TextBlock HorizontalAlignment="Center" Text="StorageBar" />
+
+					<Grid>
+						<controls:StorageBar
+							Grid.Column="1"
+							Width="280"
+							VerticalAlignment="Center"
+							BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+							BorderThickness="1"
+							FlowDirection="LeftToRight"
+							IsEnabled="{x:Bind DefaultUsageSampleIsEnabledToggleSwitch.IsOn, Mode=OneWay}"
+							Value="{x:Bind DefaultUsageSampleValueSlider.Value, Mode=OneWay}" />
+					</Grid>
+				</StackPanel>
+			</controls:SamplePanel.MainContent>
+			<controls:SamplePanel.SideContent>
+				<StackPanel Spacing="12">
+					<Slider
+						x:Name="DefaultUsageSampleValueSlider"
+						Header="Value [-10, 110]:"
+						Maximum="110"
+						Minimum="-10"
+						SmallChange="{x:Bind DefaultUsageSampleStorageRing16px.SmallChange, Mode=TwoWay}"
+						Value="50" />
+					<TextBox
+						Header="Percent:"
+						IsReadOnly="True"
+						Text="{x:Bind DefaultUsageSampleStorageRing16px.Percent, Mode=OneWay}" />
+					<ToggleSwitch
+						x:Name="DefaultUsageSampleIsEnabledToggleSwitch"
+						Header="IsEnabled:"
+						IsOn="True"
+						OffContent="False"
+						OnContent="True" />
+				</StackPanel>
+			</controls:SamplePanel.SideContent>
+		</controls:SamplePanel>
+
+		<!--  Customized StorageRing  -->
+		<controls:SamplePanel Header="Customized StorageRing">
+			<controls:SamplePanel.MainContent>
+				<Grid>
+
+					<controls:StorageRing
+						x:Name="ringCustom1"
+						Grid.Row="0"
+						Grid.Column="0"
+						Width="{x:Bind testWidth.Value, Mode=TwoWay}"
+						Height="{x:Bind testHeight.Value, Mode=TwoWay}"
+						Background="#FF005500"
+						BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+						BorderThickness="1"
+						FlowDirection="LeftToRight"
+						Foreground="Cyan"
+						IsEnabled="{x:Bind testIsEnabled.IsOn, Mode=TwoWay}"
+						MaxAngle="{x:Bind testMAngle.Value, Mode=TwoWay}"
+						MinAngle="{x:Bind testSAngle.Value, Mode=TwoWay}"
+						StartAngle="{x:Bind testSAngle.Value, Mode=TwoWay}"
+						TrackRingThickness="{x:Bind testTrackThickness.Value, Mode=TwoWay}"
+						ValueRingThickness="{x:Bind testValueThickness.Value, Mode=TwoWay}"
+						Value="{x:Bind testValue.Value, Mode=TwoWay}" />
+
+				</Grid>
+			</controls:SamplePanel.MainContent>
+			<controls:SamplePanel.SideContent>
+				<StackPanel Spacing="12">
+
+					<Grid ColumnSpacing="8">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+
+						<NumberBox
+							x:Name="testWidth"
+							Grid.Column="0"
+							Header="Width:"
+							SpinButtonPlacementMode="Inline"
+							Value="100" />
+
+						<NumberBox
+							x:Name="testHeight"
+							Grid.Column="1"
+							Header="Height:"
+							SpinButtonPlacementMode="Inline"
+							Value="120" />
+
+					</Grid>
+
+					<Slider
+						x:Name="testValue"
+						Header="Value [-10, 110]:"
+						Maximum="110"
+						Minimum="-10"
+						SmallChange="{x:Bind ringCustom1.SmallChange, Mode=TwoWay}"
+						Value="50" />
+
+					<TextBox
+						Header="Percent:"
+						IsReadOnly="True"
+						Text="{x:Bind ringCustom1.Percent, Mode=OneWay}" />
+
+					<ToggleSwitch
+						x:Name="testIsEnabled"
+						Header="IsEnabled:"
+						IsOn="True"
+						OffContent="Disabled"
+						OnContent="Enabled" />
+
+					<Slider
+						x:Name="testSAngle"
+						Header="StartAngle [-180, 180]:"
+						Maximum="180"
+						Minimum="-180"
+						Value="-150" />
+
+					<Slider
+						x:Name="testMAngle"
+						Header="MaxAngle [-180, 540]:"
+						Maximum="540"
+						Minimum="-180"
+						Value="150" />
+
+					<Grid HorizontalAlignment="Stretch" ColumnSpacing="8">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<NumberBox
+							x:Name="testValueThickness"
+							Grid.Column="0"
+							Header="Value ring thickness:"
+							Maximum="32"
+							Minimum="2"
+							SpinButtonPlacementMode="Inline"
+							Value="12" />
+
+						<NumberBox
+							x:Name="testTrackThickness"
+							Grid.Column="1"
+							Header="Track ring thickness:"
+							Maximum="32"
+							Minimum="2"
+							SpinButtonPlacementMode="Inline"
+							Value="4" />
+					</Grid>
+				</StackPanel>
+			</controls:SamplePanel.SideContent>
+		</controls:SamplePanel>
+
+		<!--  Customized StorageBar  -->
+		<controls:SamplePanel Header="Customized StorageBar">
+			<controls:SamplePanel.MainContent>
+				<Grid>
+
+					<controls:StorageBar
+						x:Name="BarCustom01"
+						Grid.Row="0"
+						Grid.Column="1"
+						Width="Auto"
+						HorizontalAlignment="Stretch"
+						Background="#FF005500"
+						BarShape="Soft"
+						BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+						BorderThickness="1"
+						FlowDirection="LeftToRight"
+						Foreground="Cyan"
+						IsEnabled="{x:Bind barTestIsEnabled.IsOn, Mode=TwoWay}"
+						TrackBarHeight="{x:Bind barTestTrackThickness.Value, Mode=TwoWay}"
+						ValueBarHeight="{x:Bind barTestValueThickness.Value, Mode=TwoWay}"
+						Value="{x:Bind barTestValue.Value, Mode=TwoWay}" />
+
+				</Grid>
+			</controls:SamplePanel.MainContent>
+			<controls:SamplePanel.SideContent>
+				<StackPanel Spacing="12">
+
+					<Slider
+						x:Name="barTestValue"
+						Header="Value [-10, 110]:"
+						Maximum="110"
+						Minimum="-10"
+						SmallChange="{x:Bind BarCustom01.SmallChange, Mode=TwoWay}"
+						Value="50" />
+
+					<TextBox
+						Header="Percent:"
+						IsReadOnly="True"
+						Text="{x:Bind BarCustom01.Percent, Mode=OneWay}" />
+
+					<ToggleSwitch
+						x:Name="barTestIsEnabled"
+						Header="IsEnabled:"
+						IsOn="True"
+						OffContent="Disabled"
+						OnContent="Enabled" />
+
+					<Grid HorizontalAlignment="Stretch" ColumnSpacing="8">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+
+						<NumberBox
+							x:Name="barTestValueThickness"
+							Grid.Column="0"
+							Header="Value ring thickness:"
+							Maximum="32"
+							Minimum="2"
+							SpinButtonPlacementMode="Inline"
+							Value="12" />
+
+						<NumberBox
+							x:Name="barTestTrackThickness"
+							Grid.Column="1"
+							Header="Track ring thickness:"
+							Maximum="32"
+							Minimum="2"
+							SpinButtonPlacementMode="Inline"
+							Value="4" />
+
+					</Grid>
+				</StackPanel>
+			</controls:SamplePanel.SideContent>
+		</controls:SamplePanel>
+
+	</StackPanel>
+</Page>

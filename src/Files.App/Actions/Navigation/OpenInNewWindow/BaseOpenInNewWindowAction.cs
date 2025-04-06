@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Windows.System;
 
@@ -13,10 +13,10 @@ namespace Files.App.Actions
 		protected ISidebarContext SidebarContext { get; } = Ioc.Default.GetRequiredService<ISidebarContext>();
 
 		public string Label
-			=> "OpenInNewWindow".GetLocalizedResource();
+			=> Strings.OpenInNewWindow.GetLocalizedResource();
 
 		public string Description
-			=> "OpenInNewWindowDescription".GetLocalizedResource();
+			=> Strings.OpenInNewWindowDescription.GetLocalizedResource();
 
 		public virtual HotKey HotKey
 			=> new(Keys.Enter, KeyModifiers.CtrlAlt);
@@ -49,7 +49,7 @@ namespace Files.App.Actions
 			foreach (ListedItem listedItem in items)
 			{
 				var selectedItemPath = (listedItem as ShortcutItem)?.TargetPath ?? listedItem.ItemPath;
-				var folderUri = new Uri($"files-uwp:?folder={@selectedItemPath}");
+				var folderUri = new Uri($"files-dev:?folder={@selectedItemPath}");
 
 				await Launcher.LaunchUriAsync(folderUri);
 			}

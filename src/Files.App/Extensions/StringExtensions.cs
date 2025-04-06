@@ -1,7 +1,6 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
-using ByteSizeLib;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.Concurrent;
 using System.IO;
@@ -11,6 +10,8 @@ namespace Files.App.Extensions
 {
 	public static class StringExtensions
 	{
+		private static IFoldersSettingsService FoldersSettingsService { get; } = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+
 		/// <summary>
 		/// Returns true if <paramref name="path"/> starts with the path <paramref name="baseDirPath"/>.
 		/// The comparison is case-insensitive, handles / and \ slashes as folder separators and
@@ -60,13 +61,13 @@ namespace Files.App.Extensions
 
 		private static readonly Dictionary<string, string> abbreviations = new()
 		{
-			{ "KiB", "KiloByteSymbol".GetLocalizedResource() },
-			{ "MiB", "MegaByteSymbol".GetLocalizedResource() },
-			{ "GiB", "GigaByteSymbol".GetLocalizedResource() },
-			{ "TiB", "TeraByteSymbol".GetLocalizedResource() },
-			{ "PiB", "PetaByteSymbol".GetLocalizedResource() },
-			{ "B", "ByteSymbol".GetLocalizedResource() },
-			{ "b", "ByteSymbol".GetLocalizedResource() }
+			{ ByteSize.KiloByteSymbol, Strings.KiloByteSymbol.GetLocalizedResource() },
+			{ ByteSize.MegaByteSymbol, Strings.MegaByteSymbol.GetLocalizedResource() },
+			{ ByteSize.GigaByteSymbol, Strings.GigaByteSymbol.GetLocalizedResource() },
+			{ ByteSize.TeraByteSymbol, Strings.TeraByteSymbol.GetLocalizedResource() },
+			{ ByteSize.PetaByteSymbol, Strings.PetaByteSymbol.GetLocalizedResource() },
+			{ ByteSize.BitSymbol, Strings.ByteSymbol.GetLocalizedResource() },
+			{ ByteSize.ByteSymbol, Strings.ByteSymbol.GetLocalizedResource() }
 		};
 
 		public static string ConvertSizeAbbreviation(this string value)
@@ -83,11 +84,14 @@ namespace Files.App.Extensions
 		public static string ToSizeString(this long size) => ByteSize.FromBytes(size).ToSizeString();
 		public static string ToSizeString(this ulong size) => ByteSize.FromBytes(size).ToSizeString();
 		public static string ToSizeString(this decimal size) => ByteSize.FromBytes((double)size).ToSizeString();
-		public static string ToSizeString(this ByteSize size) => size.ToBinaryString().ConvertSizeAbbreviation();
+		public static string ToSizeString(this ByteSize size) => FoldersSettingsService.SizeUnitFormat is SizeUnitTypes.BinaryUnits
+			? size.ToBinaryString().ConvertSizeAbbreviation()
+			: size.ToString().ConvertSizeAbbreviation();
+
 
 		public static string ToLongSizeString(this long size) => ByteSize.FromBytes(size).ToLongSizeString();
 		public static string ToLongSizeString(this ulong size) => ByteSize.FromBytes(size).ToLongSizeString();
-		public static string ToLongSizeString(this ByteSize size) => $"{size.ToSizeString()} ({size.Bytes:#,##0} {"ItemSizeBytes".GetLocalizedResource()})";
+		public static string ToLongSizeString(this ByteSize size) => $"{size.ToSizeString()} ({size.Bytes:#,##0} {Strings.ItemSizeBytes.GetLocalizedResource()})";
 
 		//public static string GetLocalizedResource(this string s) => s.GetLocalized("Resources");
 

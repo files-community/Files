@@ -1,19 +1,19 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-    sealed class OpenAllTaggedActions: ObservableObject, IAction
+    sealed partial class OpenAllTaggedActions: ObservableObject, IAction
     {
 		private readonly IContentPageContext _pageContext;
 
 		private readonly ITagsContext _tagsContext;
 
 		public string Label
-			=> "OpenAllTaggedItems".GetLocalizedResource();
+			=> Strings.OpenAllTaggedItems.GetLocalizedResource();
 
 		public string Description
-			=> "OpenAllTaggedItemsDescription".GetLocalizedResource();
+			=> Strings.OpenAllTaggedItemsDescription.GetLocalizedResource();
 
 		public RichGlyph Glyph
 			=> new("\uE71D");
@@ -47,7 +47,7 @@ namespace Files.App.Actions
 			await Task.WhenAll(filePaths.Select(path => NavigationHelpers.OpenPath(path, _pageContext.ShellPage!)));
 
 			foreach (var path in folderPaths) 
-				await NavigationHelpers.OpenPathInNewTab(path, false);
+				await NavigationHelpers.OpenPathInNewTab(path);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using Microsoft.UI.Dispatching;
 using System.IO;
@@ -122,8 +122,8 @@ namespace Files.App.ViewModels.Properties
 		public void SetItemsCountString()
 		{
 			ViewModel.FilesAndFoldersCountString = ViewModel.LocationsCount > 0
-				? "PropertiesFilesAndFoldersAndLocationsCount".GetLocalizedFormatResource(ViewModel.FilesCount, ViewModel.FoldersCount, ViewModel.LocationsCount)
-				: "PropertiesFilesAndFoldersCountString".GetLocalizedFormatResource(ViewModel.FilesCount, ViewModel.FoldersCount);
+				? Strings.PropertiesFilesAndFoldersAndLocationsCount.GetLocalizedFormatResource(ViewModel.FilesCount, ViewModel.FoldersCount, ViewModel.LocationsCount)
+				: Strings.PropertiesFilesAndFoldersCountString.GetLocalizedFormatResource(ViewModel.FilesCount, ViewModel.FoldersCount);
 		}
 	}
 }

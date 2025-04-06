@@ -1,12 +1,12 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Data.Items
 {
 	/// <summary>
 	/// Represents item for a hotkey that is registered for a <see cref="IRichCommand"/>.
 	/// </summary>
-	public class ModifiableActionItem : ObservableObject
+	public partial class ModifiableActionItem : ObservableObject
 	{
 		public CommandCodes CommandCode { get; set; }
 

@@ -1,5 +1,5 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.Collections.Frozen;
 using System.Runtime.InteropServices;
@@ -365,7 +365,7 @@ namespace Files.App.Data.Commands
 
 		private static string GetLocalizedNumPadKey(string key)
 		{
-			return "NumPadTypeName".GetLocalizedResource() + " " + key;
+			return Strings.NumPadTypeName.GetLocalizedResource() + " " + key;
 		}
 
 		private static string GetKeyCharacter(Forms.Keys key)

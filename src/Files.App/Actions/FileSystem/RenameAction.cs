@@ -1,17 +1,17 @@
-﻿// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
-	internal sealed class RenameAction : ObservableObject, IAction
+	internal sealed partial class RenameAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> "Rename".GetLocalizedResource();
+			=> Strings.Rename.GetLocalizedResource();
 
 		public string Description
-			=> "RenameDescription".GetLocalizedResource();
+			=> Strings.RenameDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.F2);
@@ -52,7 +52,9 @@ namespace Files.App.Actions
 				context.PageType != ContentPageTypes.None &&
 				context.PageType != ContentPageTypes.Home &&
 				context.PageType != ContentPageTypes.RecycleBin &&
-				context.PageType != ContentPageTypes.ZipFolder;
+				context.PageType != ContentPageTypes.ZipFolder &&
+				context.PageType != ContentPageTypes.ReleaseNotes &&
+				context.PageType != ContentPageTypes.Settings;
 		}
 
 		private void Context_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
