@@ -1,10 +1,34 @@
 <!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Project>
-  <PropertyGroup>
-    <TargetFrameworkVersion>net9.0</TargetFrameworkVersion>
-    <TargetWindowsVersion>10.0.22621.0</TargetWindowsVersion>
-    <MinimalWindowsVersion>10.0.19041.0</MinimalWindowsVersion>
-    <WindowsSdkPackageVersion>10.0.22621.57</WindowsSdkPackageVersion>
-    <WindowsTargetFramework>$(TargetFrameworkVersion)-windows$(TargetWindowsVersion)</WindowsTargetFramework>
-  </PropertyGroup>
+	<!-- Directories -->
+	<PropertyGroup>
+		<RootDir>$(MSBuildThisFileDirectory)</RootDir>
+		<SourceDir>$(RootDir)\src</SourceDir>
+		<TestsDir>$(RootDir)\tests</TestsDir>
+		<BuildDir>$(RootDir)\eng</BuildDir>
+		<RepoDir>$(RootDir)\.github</RepoDir>
+
+		<AppXManifestProvider>$(BuildDir)\PackageManifest.props</AppXManifestProvider>
+		<AppXPackageProjectPath>$(SourceDir)\Files.App (Package)</AppXPackageProjectPath>
+	</PropertyGroup>
+
+	<!-- Target framework -->
+	<PropertyGroup>
+		<TargetFrameworkVersion>net9.0</TargetFrameworkVersion>
+		<TargetWindowsVersion>10.0.22621.0</TargetWindowsVersion>
+		<MinimalWindowsVersion>10.0.19041.0</MinimalWindowsVersion>
+		<WindowsSdkPackageVersion>10.0.22621.57</WindowsSdkPackageVersion>
+		<WindowsTargetFramework>$(TargetFrameworkVersion)-windows$(TargetWindowsVersion)</WindowsTargetFramework>
+	</PropertyGroup>
+
+	<!-- App environment -->
+	<PropertyGroup>
+		<AppEnvironment>$(Configuration)</AppEnvironment>
+		<ConfigurationCallName Condition="'$(AppEnvironment)' == 'Dev'">Debug</ConfigurationCallName>
+		<ConfigurationCallName Condition="'$(AppEnvironment)' != 'Dev'">Release</ConfigurationCallName>
+		
+		<AppChannel Condition="$(AppEnvironment.Contains('Stable'))">Stable</AppChannel>
+		<AppChannel Condition="$(AppEnvironment.Contains('Preview'))">Preview</AppChannel>
+		<AppChannel Condition="$(AppEnvironment.Contains('Dev'))">Dev</AppChannel>
+	</PropertyGroup>
 </Project>

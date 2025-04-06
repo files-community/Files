@@ -24,13 +24,13 @@
         <UseWinUI>true</UseWinUI>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-        <Configurations>Debug;Release</Configurations>
+        <Configurations>Debug;Release;SideloadPreview;StorePreview;StoreStable</Configurations>
         <CsWinRTIncludes>Files.App.Server;Microsoft.UI.Content.ContentExternalOutputLink;Microsoft.UI.Content.IContentExternalOutputLink</CsWinRTIncludes>
         <PublishDir>bin\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\publish\</PublishDir>
-        <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
-        <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
-        <PublishReadyToRunComposite Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRunComposite>
-        <ApplicationIcon>..\Files.App (Package)\Assets\AppTiles\Dev\Logo.ico</ApplicationIcon>
+        <PublishReadyToRun Condition="'$(ConfigurationCallName)' == 'Debug'">False</PublishReadyToRun>
+        <PublishReadyToRun Condition="'$(ConfigurationCallName)' != 'Debug'">True</PublishReadyToRun>
+        <PublishReadyToRunComposite Condition="'$(ConfigurationCallName)' != 'Debug'">True</PublishReadyToRunComposite>
+        <ApplicationIcon>Assets\AppTiles\$(AppChannel)\Logo.ico</ApplicationIcon>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -131,8 +131,8 @@
         <TrimmerRootAssembly Include="Files.Shared" />
     </ItemGroup>
 
-	<ItemGroup>
-		<AdditionalFiles Include="Strings\en-US\Resources.resw" />
-	</ItemGroup>
+    <ItemGroup>
+        <AdditionalFiles Include="Strings\en-US\Resources.resw" />
+    </ItemGroup>
   
 </Project>

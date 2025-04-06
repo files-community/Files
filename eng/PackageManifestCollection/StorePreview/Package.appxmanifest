@@ -1,0 +1,201 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<Package
+    xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+    xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+    xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+    xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+    xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4"
+    xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
+    xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+    xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+    xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
+    xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
+    IgnorableNamespaces="mp rescap desktop desktop4 desktop6 uap uap5">
+
+    <Identity
+        Name="FilesDev"
+        Publisher="CN=Files"
+        Version="3.9.3.0" />
+
+    <Properties>
+        <DisplayName>Files - Dev</DisplayName>
+        <PublisherDisplayName>Yair A</PublisherDisplayName>
+        <Logo>Assets\AppTiles\Dev\StoreLogo.png</Logo>
+        <desktop6:FileSystemWriteVirtualization>disabled</desktop6:FileSystemWriteVirtualization>
+    </Properties>
+
+    <Dependencies>
+        <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.22621.0" />
+    </Dependencies>
+
+    <Resources>
+        <Resource Language="en-US" />
+        <Resource Language="af" />
+        <Resource Language="ar" />
+        <Resource Language="be-BY" />
+        <Resource Language="bg" />
+        <Resource Language="ca" />
+        <Resource Language="cs-CZ" />
+        <Resource Language="da" />
+        <Resource Language="de-DE" />
+        <Resource Language="el" />
+        <Resource Language="en-GB" />
+        <Resource Language="es-ES" />
+        <Resource Language="es-419" />
+        <Resource Language="fa-IR" />
+        <Resource Language="fi-FI" />
+        <Resource Language="fil-PH" />
+        <Resource Language="fr-FR" />
+        <Resource Language="he-IL" />
+        <Resource Language="hi-IN" />
+        <Resource Language="hr-HR" />
+        <Resource Language="hu-HU" />
+        <Resource Language="hy-AM" />
+        <Resource Language="id-ID" />
+        <Resource Language="it-IT" />
+        <Resource Language="ja-JP" />
+        <Resource Language="ka" />
+        <Resource Language="km-KH" />
+        <Resource Language="ko-KR" />
+        <Resource Language="lt-LT" />
+        <Resource Language="lv-LV" />        
+        <Resource Language="ms-MY" />
+        <Resource Language="nb-NO" />
+        <Resource Language="nl-NL" />
+        <Resource Language="pl-PL" />
+        <Resource Language="pt-BR" />
+        <Resource Language="pt-PT" />
+        <Resource Language="ro-RO" />
+        <Resource Language="ru-RU" />
+        <Resource Language="sk-SK" />
+        <Resource Language="sq-AL" />
+        <Resource Language="sr-Cyrl" />
+        <Resource Language="sv-SE" />
+        <Resource Language="ta" />
+        <Resource Language="th-TH" />
+        <Resource Language="tr-TR" />
+        <Resource Language="uk-UA" />
+        <Resource Language="vi" />
+        <Resource Language="zh-Hans" />
+        <Resource Language="zh-Hant" />
+    </Resources>
+
+    <Applications>
+        <Application
+            Id="App"
+            Executable="$targetnametoken$.exe"
+            EntryPoint="$targetentrypoint$"
+            desktop4:SupportsMultipleInstances="true">
+
+            <uap:VisualElements
+                DisplayName="Files - Dev"
+                Description="Organize your files and folders easily. Robust multitasking experiences, helpful tags, and deep integrations add to an intuitive design, made by the community."
+                Square150x150Logo="Assets\AppTiles\Dev\Square150x150Logo.png"
+                Square44x44Logo="Assets\AppTiles\Dev\Square44x44Logo.png"
+                BackgroundColor="transparent">
+
+                <uap:DefaultTile
+                    Wide310x150Logo="Assets\AppTiles\Dev\Wide310x150Logo.png"
+                    Square71x71Logo="Assets\AppTiles\Dev\Small71x71Logo.png"
+                    Square310x310Logo="Assets\AppTiles\Dev\Large310x310Logo.png"
+                    ShortName="Files - Dev">
+                    <uap:ShowNameOnTiles>
+                        <uap:ShowOn Tile="square150x150Logo" />
+                        <uap:ShowOn Tile="wide310x150Logo" />
+                        <uap:ShowOn Tile="square310x310Logo" />
+                    </uap:ShowNameOnTiles>
+                </uap:DefaultTile>
+
+                <uap:SplashScreen uap5:Optional="true" Image="Assets\AppTiles\Dev\SplashScreen.png" />
+
+            </uap:VisualElements>
+
+            <Extensions>
+
+                <uap3:Extension Category="windows.appExtensionHost">
+                    <uap3:AppExtensionHost>
+                        <uap3:Name>com.files.filepreview</uap3:Name>
+                    </uap3:AppExtensionHost>
+                </uap3:Extension>
+
+                <uap:Extension Category="windows.protocol">
+                    <!--  This value changes based on the build branch by CI (files-stable, files-preview, files-dev).  -->
+                    <uap:Protocol ReturnResults="none" Name="files-dev" />
+                </uap:Extension>
+
+                <uap5:Extension Category="windows.appExecutionAlias">
+                    <uap5:AppExecutionAlias>
+                        <!--  This value changes based on the build branch by CI (files-stable, files-preview, files-dev).  -->
+                        <uap5:ExecutionAlias Alias="files-dev.exe" />
+                    </uap5:AppExecutionAlias>
+                </uap5:Extension>
+
+                <uap5:Extension Category="windows.startupTask">
+                    <uap5:StartupTask
+                      TaskId="3AA55462-A5FA-4933-88C4-712D0B6CDEBB"
+                      Enabled="false"
+                      DisplayName="Files" />
+                </uap5:Extension>
+
+                <Extension Category="windows.updateTask" EntryPoint="Files.App.BackgroundTasks.UpdateTask" />
+
+                <uap:Extension Category="windows.fileTypeAssociation">
+                    <uap:FileTypeAssociation Name="archives">
+                        <uap:SupportedFileTypes>
+                            <uap:FileType>.zip</uap:FileType>
+                            <uap:FileType>.7z</uap:FileType>
+                            <uap:FileType>.rar</uap:FileType>
+                            <uap:FileType>.tar</uap:FileType>
+                            <uap:FileType>.jar</uap:FileType>
+                            <uap:FileType>.mrpack</uap:FileType>
+                            <uap:FileType>.gz</uap:FileType>
+                        </uap:SupportedFileTypes>
+                        <uap:Logo>assets\archives\ExtensionIcon.png</uap:Logo>
+                    </uap:FileTypeAssociation>
+                </uap:Extension>
+
+            </Extensions>
+
+        </Application>
+    </Applications>
+
+    <!-- To host The background task component, this activatable class entry must be added. -->
+    <Extensions>
+        <Extension Category="windows.activatableClass.inProcessServer">
+            <InProcessServer>
+                <Path>Files.App\WinRT.Host.dll</Path>
+                <ActivatableClass ActivatableClassId="Files.App.BackgroundTasks.UpdateTask" ThreadingModel="both" />
+            </InProcessServer>
+        </Extension>
+        <Extension Category="windows.activatableClass.outOfProcessServer">
+            <OutOfProcessServer ServerName="Files.App.Server" uap5:IdentityType="activateAsPackage" uap5:RunFullTrust="true">
+                <Path>Files.App.Server\Files.App.Server.exe</Path>
+                <Instancing>singleInstance</Instancing>
+                <ActivatableClass ActivatableClassId="Files.App.Server.AppInstanceMonitor" />
+            </OutOfProcessServer>
+        </Extension>
+    </Extensions>
+  
+    <Capabilities>
+        <!--
+            <rescap:Capability Name="packageQuery" />
+        -->
+        <rescap:Capability Name="runFullTrust" />
+        <rescap:Capability Name="broadFileSystemAccess" />
+        <rescap:Capability Name="allowElevation" />
+        <!--
+            The unvirtualizedResources capability is used to support file operations in the AppData directory.
+        -->
+        <rescap:Capability Name="unvirtualizedResources" />
+        <!--
+            The packageManagement capability is used to download updates in the sideload version of Files.
+            We only use this capability in the sideload version and remove it when compiling the store vesion in Azure DevOps.
+        -->
+        <rescap:Capability Name="packageManagement" />
+        <uap:Capability Name="removableStorage" />
+        <Capability Name="internetClient" />
+        <Capability Name="privateNetworkClientServer" />
+    </Capabilities>
+
+</Package>

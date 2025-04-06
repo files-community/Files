@@ -1,0 +1,5 @@
+<Project>
+	<ItemGroup>
+		<Content Include="$(SourceDir)\Files.App\Assets\AppTiles\$(AppEnvironment)\**" />
+	</ItemGroup>
+</Project>

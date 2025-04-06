@@ -1,5 +1,8 @@
 ﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Project ToolsVersion="Current" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(SolutionDir)\Directory.Build.props"/>
+  <Import Project="$(SolutionDir)\eng\PackageManifest.props"/>
+  <Import Project="$(SolutionDir)\eng\PackageLogo.props"/>
   <PropertyGroup>
     <ProjectGuid>8f60fd8e-1921-47d6-97b0-d26d7b3a4999</ProjectGuid>
     <TargetPlatformVersion>10.0.22621.0</TargetPlatformVersion>
@@ -47,18 +50,48 @@
       <Configuration>Release</Configuration>
       <Platform>ARM64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="SideloadPreview|ARM64">
+      <Configuration>SideloadPreview</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="SideloadPreview|x64">
+      <Configuration>SideloadPreview</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="SideloadPreview|x86">
+      <Configuration>SideloadPreview</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="StorePreview|ARM64">
+      <Configuration>StorePreview</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="StorePreview|x64">
+      <Configuration>StorePreview</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="StorePreview|x86">
+      <Configuration>StorePreview</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="StoreStable|ARM64">
+      <Configuration>StoreStable</Configuration>
+      <Platform>ARM64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="StoreStable|x64">
+      <Configuration>StoreStable</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="StoreStable|x86">
+      <Configuration>StoreStable</Configuration>
+      <Platform>x86</Platform>
+    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup>
     <WapProjPath Condition="'$(WapProjPath)'==''">$(MSBuildExtensionsPath)\Microsoft\DesktopBridge\</WapProjPath>
     <PathToXAMLWinRTImplementations>Files.App\</PathToXAMLWinRTImplementations>
   </PropertyGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
-  <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest">
-      <SubType>Designer</SubType>
-    </AppxManifest>
-    <Content Include="Assets\AppTiles\Dev\**" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Files.App.Server\Files.App.Server.csproj">
       <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>

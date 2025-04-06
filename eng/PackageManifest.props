@@ -1,0 +1,7 @@
+<Project>
+	<ItemGroup>
+		<AppxManifest Include="$(BuildDir)\PackageManifestCollection\$(AppEnvironment)\Package.appxmanifest">
+			<SubType>Designer</SubType>
+		</AppxManifest>
+	</ItemGroup>
+</Project>
