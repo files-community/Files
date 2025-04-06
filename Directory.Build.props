@@ -9,7 +9,9 @@
 		<RepoDir>$(RootDir)\.github</RepoDir>
 
 		<AppXManifestProvider>$(BuildDir)\PackageManifest.props</AppXManifestProvider>
+		<AppXManifestGenerator>$(BuildDir)\MakeAppXManifest.targets</AppXManifestGenerator>
 		<AppXPackageProjectPath>$(SourceDir)\Files.App (Package)</AppXPackageProjectPath>
+		<AppXManifestFile>$(BuildDir)\Package.appxmanifest</AppXManifestFile>
 	</PropertyGroup>
 
 	<!-- Target framework -->

@@ -4,8 +4,11 @@
 param(
     [string]$Branch = "", # This has to correspond with one of the AppEnvironment enum values
     [string]$PackageManifestPath = "",
+    [string]$Publisher = "",
     [string]$WorkingDir = "",
-    [string]$IsBuildingInVisualStudio = "false"
+    [string]$SecretBingMapsKey = "",
+    [string]$SecretSentry = "",
+    [string]$SecretGitHubOAuthClientId = ""
 )
 
 # Load Package.appxmanifest
@@ -21,10 +24,8 @@ $ap = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pk
 $aea = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pkg:Extensions/uap5:Extension[@Category='windows.appExecutionAlias']/uap5:AppExecutionAlias", $nsmgr)
 $ea = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pkg:Extensions/uap5:Extension[@Category='windows.appExecutionAlias']/uap5:AppExecutionAlias/uap5:ExecutionAlias", $nsmgr)
 
-$IsBuildingInVisualStudio = [System.Convert]::ToBoolean($IsBuildingInVisualStudio)
-
 # Update the publisher
-#$xmlDoc.Package.Identity.Publisher = $Publisher
+$xmlDoc.Package.Identity.Publisher = $Publisher
 
 if ($Branch -eq "SideloadPreview")
 {
@@ -40,6 +41,18 @@ if ($Branch -eq "SideloadPreview")
 
     # Save modified Package.appxmanifest
     $xmlDoc.Save($PackageManifestPath)
+
+    Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach-Object -Process `
+    { `
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Preview" }) | `
+        Set-Content $_ -NoNewline `
+    }
+
+    Get-ChildItem $WorkingDir -Include *.cs, *.cpp -recurse | ForEach-Object -Process `
+    { `
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-preview" }) | `
+        Set-Content $_ -NoNewline `
+    }
 }
 elseif ($Branch -eq "StorePreview")
 {
@@ -64,18 +77,14 @@ elseif ($Branch -eq "StorePreview")
 
     Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach-Object -Process `
     { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Preview" })
-        if (!$IsBuildingInVisualStudio) {
-            Set-Content $_ -NoNewline
-        }
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Preview" }) | `
+        Set-Content $_ -NoNewline `
     }
 
     Get-ChildItem $WorkingDir -Include *.cs, *.cpp -recurse | ForEach-Object -Process `
     { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-preview" })
-        if (!$IsBuildingInVisualStudio) {
-            Set-Content $_ -NoNewline
-        }
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-preview" }) | `
+        Set-Content $_ -NoNewline `
     }
 }
 elseif ($Branch -eq "SideloadStable")
@@ -95,18 +104,14 @@ elseif ($Branch -eq "SideloadStable")
 
     Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach-Object -Process `
     { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release" })
-        if (!$IsBuildingInVisualStudio) {
-            Set-Content $_ -NoNewline
-        }
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release" }) | `
+        Set-Content $_ -NoNewline `
     }
 
     Get-ChildItem $WorkingDir -Include *.cs, *.cpp -recurse | ForEach-Object -Process `
     { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-stable" })
-        if (!$IsBuildingInVisualStudio) {
-            Set-Content $_ -NoNewline
-        }
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-stable" }) | `
+        Set-Content $_ -NoNewline `
     }
 }
 elseif ($Branch -eq "StoreStable")
@@ -130,17 +135,37 @@ elseif ($Branch -eq "StoreStable")
 
     Get-ChildItem $WorkingDir -Include *.csproj, *.appxmanifest, *.wapproj, *.xaml -recurse | ForEach-Object -Process `
     { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release" })
-        if (!$IsBuildingInVisualStudio) {
-            Set-Content $_ -NoNewline
-        }
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "Assets\\AppTiles\\Dev", "Assets\AppTiles\Release" }) | `
+        Set-Content $_ -NoNewline `
     }
 
     Get-ChildItem $WorkingDir -Include *.cs, *.cpp -recurse | ForEach-Object -Process `
     { `
-        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-stable" })
-        if (!$IsBuildingInVisualStudio) {
-            Set-Content $_ -NoNewline
-        }
+        (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "files-dev", "files-stable" }) | `
+        Set-Content $_ -NoNewline `
     }
+}
+
+Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
+{ `
+    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "cd_app_env_placeholder", $Branch }) | `
+    Set-Content $_ -NoNewline `
+}
+
+Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
+{ `
+    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "bingmapskey.secret", "$SecretBingMapsKey" }) | `
+    Set-Content $_ -NoNewline `
+}
+
+Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
+{
+    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "sentry.secret", "$SecretSentry" }) | `
+    Set-Content $_ -NoNewline `
+}
+
+Get-ChildItem $WorkingDir -Include *.cs -recurse | ForEach-Object -Process `
+{ `
+    (Get-Content $_ -Raw | ForEach-Object -Process { $_ -replace "githubclientid.secret", "$SecretGitHubOAuthClientId" }) | `
+    Set-Content $_ -NoNewline `
 }

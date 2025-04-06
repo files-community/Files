@@ -1,5 +1,6 @@
 ﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="$(AppXManifestGenerator)"/>
 
     <PropertyGroup>
         <TargetFramework>$(WindowsTargetFramework)</TargetFramework>

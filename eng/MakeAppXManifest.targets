@@ -1,0 +1,5 @@
+<Project>
+	<Target Name="RunConfigureAppXManifest" BeforeTargets="Build">
+		<Exec Command="powershell -ExecutionPolicy Bypass -File $(RepoDir)\scripts\Configure-AppXManifest.ps1 -Branch $(AppEnvironment) -PackageManifestPath $(AppXManifestFile) -IsBuildingInVisualStudio $(BuildingInsideVisualStudio)" />
+	</Target>
+</Project>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Package
     xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
@@ -19,9 +19,9 @@
         Version="3.9.3.0" />
 
     <Properties>
-        <DisplayName>Files - Dev</DisplayName>
+        <DisplayName>Files - Preview</DisplayName>
         <PublisherDisplayName>Yair A</PublisherDisplayName>
-        <Logo>Assets\AppTiles\Dev\StoreLogo.png</Logo>
+        <Logo>Assets\AppTiles\Preview\StoreLogo.png</Logo>
         <desktop6:FileSystemWriteVirtualization>disabled</desktop6:FileSystemWriteVirtualization>
     </Properties>
 
@@ -89,17 +89,17 @@
             desktop4:SupportsMultipleInstances="true">
 
             <uap:VisualElements
-                DisplayName="Files - Dev"
+                DisplayName="Files - Preview"
                 Description="Organize your files and folders easily. Robust multitasking experiences, helpful tags, and deep integrations add to an intuitive design, made by the community."
-                Square150x150Logo="Assets\AppTiles\Dev\Square150x150Logo.png"
-                Square44x44Logo="Assets\AppTiles\Dev\Square44x44Logo.png"
+                Square150x150Logo="Assets\AppTiles\Preview\Square150x150Logo.png"
+                Square44x44Logo="Assets\AppTiles\Preview\Square44x44Logo.png"
                 BackgroundColor="transparent">
 
                 <uap:DefaultTile
-                    Wide310x150Logo="Assets\AppTiles\Dev\Wide310x150Logo.png"
-                    Square71x71Logo="Assets\AppTiles\Dev\Small71x71Logo.png"
-                    Square310x310Logo="Assets\AppTiles\Dev\Large310x310Logo.png"
-                    ShortName="Files - Dev">
+                    Wide310x150Logo="Assets\AppTiles\Preview\Wide310x150Logo.png"
+                    Square71x71Logo="Assets\AppTiles\Preview\Small71x71Logo.png"
+                    Square310x310Logo="Assets\AppTiles\Preview\Large310x310Logo.png"
+                    ShortName="Files - Preview">
                     <uap:ShowNameOnTiles>
                         <uap:ShowOn Tile="square150x150Logo" />
                         <uap:ShowOn Tile="wide310x150Logo" />
@@ -107,7 +107,7 @@
                     </uap:ShowNameOnTiles>
                 </uap:DefaultTile>
 
-                <uap:SplashScreen uap5:Optional="true" Image="Assets\AppTiles\Dev\SplashScreen.png" />
+                <uap:SplashScreen uap5:Optional="true" Image="Assets\AppTiles\Preview\SplashScreen.png" />
 
             </uap:VisualElements>
 
