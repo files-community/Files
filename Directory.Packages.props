@@ -32,6 +32,7 @@
     <PackageVersion Include="OwlCore.Storage" Version="0.12.2" />
     <PackageVersion Include="Sentry" Version="5.1.1" />
     <PackageVersion Include="SevenZipSharp" Version="1.0.2" />
+    <PackageVersion Include="SharpZipLib" Version="1.4.2" />
     <PackageVersion Include="SQLitePCLRaw.bundle_green" Version="2.1.10" />
     <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.7.250310001" />
     <PackageVersion Include="Microsoft.Graphics.Win2D" Version="1.3.2" />
