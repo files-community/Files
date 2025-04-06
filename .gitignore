@@ -8,6 +8,8 @@ Files.App.OpenDialog*.dll
 Files.App.SaveDialog*.dll
 Files.App.Launcher.exe
 
+src/Files.App/Assets/AppTiles/RealWorld/
+
 # User-specific files
 *.rsuser
 *.suo
