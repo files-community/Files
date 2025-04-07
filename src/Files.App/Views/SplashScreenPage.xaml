@@ -21,7 +21,7 @@
 				x:Name="SplashScreenImage"
 				ImageFailed="Image_ImageFailed"
 				ImageOpened="Image_ImageOpened"
-				Source="\Assets\AppTiles\Dev\SplashScreen.png" />
+				Source="\Assets\AppTiles\Current\SplashScreen.png" />
 		</Viewbox>
 
 		<!--  Branch Label  -->
