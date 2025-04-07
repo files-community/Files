@@ -38,7 +38,7 @@
 			<!--  Hidden Items  -->
 			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=HiddenItems}">
 				<wctcontrols:SettingsExpander.HeaderIcon>
-					<FontIcon Glyph="&#xED1A;" />
+					<PathIcon Data="{StaticResource App.Theme.PathIcon.Hide}" />
 				</wctcontrols:SettingsExpander.HeaderIcon>
 				<wctcontrols:SettingsExpander.Items>
 					<!--  Hidden Files  -->
