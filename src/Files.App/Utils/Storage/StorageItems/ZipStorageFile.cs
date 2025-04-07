@@ -326,6 +326,7 @@ namespace Files.App.Utils.Storage
 						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
 						{
 							SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
+							compressor.CustomParameters.Add("cu", "on");
 							compressor.SetFormatFromExistingArchive(archiveStream);
 							var fileName = IO.Path.GetRelativePath(containerPath, IO.Path.Combine(IO.Path.GetDirectoryName(Path), desiredName));
 							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, fileName } }, Credentials.Password, ms);
@@ -375,6 +376,7 @@ namespace Files.App.Utils.Storage
 						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
 						{
 							SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
+							compressor.CustomParameters.Add("cu", "on");
 							compressor.SetFormatFromExistingArchive(archiveStream);
 							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, null } }, Credentials.Password, ms);
 						}
