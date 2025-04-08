@@ -152,7 +152,7 @@ namespace Files.App.Controls
 
 		private static int CalculateColumns(double containerWidth, double itemWidth)
 		{
-			var columns = (int)Math.Round(containerWidth / itemWidth);
+			var columns = itemWidth > 0 ? (int)Math.Round(containerWidth / itemWidth) : 0;
 			if (columns == 0)
 			{
 				columns = 1;

@@ -119,7 +119,7 @@ namespace Files.App.Controls
 				_needContainerMarginForLayout = true;
 			}
 
-			return (containerWidth / columns) - itemMargin.Left - itemMargin.Right;
+			return columns > 0 ? (containerWidth / columns) - itemMargin.Left - itemMargin.Right : 0;
 		}
 
 		/// <summary>
