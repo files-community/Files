@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
+using Files.App.Controls;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -9,7 +10,6 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using System.Windows.Input;
 using Windows.System;
 
 namespace Files.App.UserControls
@@ -270,11 +270,22 @@ namespace Files.App.UserControls
 			await ViewModel.HandleBreadcrumbBarItemClicked(ViewModel.PathComponents[args.Index].Path);
 		}
 
-		private async void BreadcrumbBar_ItemDropDownFlyoutOpening(object sender, Controls.BreadcrumbBarItemDropDownFlyoutEventArgs e)
+		private async void BreadcrumbBar_ItemDropDownFlyoutOpening(object sender, BreadcrumbBarItemDropDownFlyoutEventArgs e)
 		{
 			if (e.IsRootItem)
 			{
 				// TODO: Populate a different flyout for the root item
+				e.Flyout.Items.Add(new MenuFlyoutHeaderItem() { Text = "Quick access" });
+				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Desktop" });
+				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Download" });
+				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Documents" });
+				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Pictures" });
+				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Music" });
+				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Videos" });
+				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Recycle bin" });
+				e.Flyout.Items.Add(new MenuFlyoutHeaderItem() { Text = "Drives" });
+				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Local Disk (C:)" });
+				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Local Disk (D:)" });
 				return;
 			}
 
