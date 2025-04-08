@@ -95,7 +95,7 @@
 					VerticalAlignment="Stretch"
 					Text="{helpers:ResourceString Name=Encoding}" />
 
-				<uc:ComboBoxEx
+				<ComboBox
 					x:Name="EncodingBox"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
