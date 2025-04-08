@@ -2097,7 +2097,7 @@
     <value>Archive password</value>
   </data>
   <data name="ArchiveEncoding" xml:space="preserve">
-    <value>Archive encoding</value>
+    <value>Encoding</value>
   </data>
   <data name="ArchiveEncodingSystemDefault" xml:space="preserve">
     <value>Windows default</value>
