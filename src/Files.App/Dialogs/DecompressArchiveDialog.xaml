@@ -99,7 +99,7 @@
 					x:Name="EncodingBox"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
-					ItemsSource="{x:Bind ViewModel.EncodingOptions}"
+					ItemsSource="{x:Bind ViewModel.EncodingOptions, Mode=OneWay}"
 					SelectedItem="{x:Bind ViewModel.SelectedEncoding, Mode=TwoWay}">
 					<uc:ComboBoxEx.ItemTemplate>
 						<DataTemplate x:DataType="items:EncodingItem">
