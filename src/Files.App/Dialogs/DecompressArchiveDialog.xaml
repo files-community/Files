@@ -101,12 +101,12 @@
 					VerticalAlignment="Stretch"
 					ItemsSource="{x:Bind ViewModel.EncodingOptions, Mode=OneWay}"
 					SelectedItem="{x:Bind ViewModel.SelectedEncoding, Mode=TwoWay}">
-					<uc:ComboBoxEx.ItemTemplate>
+					<ComboBox.ItemTemplate>
 						<DataTemplate x:DataType="items:EncodingItem">
 							<TextBlock Text="{x:Bind Name}" />
 						</DataTemplate>
-					</uc:ComboBoxEx.ItemTemplate>
-				</uc:ComboBoxEx>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
 
 			</StackPanel>
 
