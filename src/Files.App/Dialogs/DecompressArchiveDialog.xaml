@@ -93,7 +93,7 @@
 					x:Name="EncodingHeader"
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
-					Text="{helpers:ResourceString Name=ArchiveEncoding}" />
+					Text="{helpers:ResourceString Name=Encoding}" />
 
 				<uc:ComboBoxEx
 					x:Name="EncodingBox"
