@@ -85,7 +85,7 @@
 			<!--  Encoding  -->
 			<StackPanel
 				x:Name="EncodingStackPanel"
-				x:Load="{x:Bind ViewModel.IsArchiveEncodingUndetermined}"
+				x:Load="{x:Bind ViewModel.IsArchiveEncodingUndetermined, Mode=OneWay}"
 				Orientation="Vertical"
 				Spacing="8">
 
