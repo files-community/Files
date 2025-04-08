@@ -2099,9 +2099,6 @@
   <data name="ArchiveEncoding" xml:space="preserve">
     <value>Encoding</value>
   </data>
-  <data name="ArchiveEncodingSystemDefault" xml:space="preserve">
-    <value>Windows default</value>
-  </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Path</value>
   </data>
