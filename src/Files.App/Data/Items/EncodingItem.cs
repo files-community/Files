@@ -27,7 +27,7 @@ namespace Files.App.Data.Items
             if (string.IsNullOrEmpty(code))
             {
                 Encoding = null;
-                Name = "ArchiveEncodingSystemDefault".GetLocalizedResource();
+                Name = Strings.Default.GetLocalizedResource();
             }
             else
             {
