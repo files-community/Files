@@ -239,6 +239,11 @@ namespace Files.App.Controls
 
 		private void OnIsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
+			// Sometimes the variable _isOwnerEnabled is not set to true when the control is enabled
+			// Fixes a bug when certain icons (such as Delete and Copy) were not shown in color
+			// for image files even though the icon is enabled and clickable
+			_isOwnerEnabled = ownerControl?.IsEnabled ?? false;
+
 			UpdateVisualStates();
 		}
 
