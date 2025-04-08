@@ -287,13 +287,13 @@
 					x:Name="ExtractButton"
 					Width="Auto"
 					MinWidth="40"
-					x:Load="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
 					AccessKey="Z"
 					AccessKeyInvoked="AppBarButton_AccessKeyInvoked"
 					IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
 					Label="{helpers:ResourceString Name=Extract}"
 					LabelPosition="Default"
-					Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}">
+					Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
+					Visibility="{x:Bind ViewModel.CanExtract, Mode=OneWay}">
 
 					<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Zip}" />
 
@@ -331,12 +331,12 @@
 					x:Name="RunWithPowerShellButton"
 					Width="Auto"
 					MinWidth="40"
-					x:Load="{x:Bind Commands.RunWithPowershell.IsExecutable, Mode=OneWay}"
 					AutomationProperties.Name="RunWithPowerShell"
 					Command="{x:Bind Commands.RunWithPowershell}"
 					Label="{x:Bind Commands.RunWithPowershell.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{x:Bind Commands.RunWithPowershell.LabelWithHotKey, Mode=OneWay}">
+					ToolTipService.ToolTip="{x:Bind Commands.RunWithPowershell.LabelWithHotKey, Mode=OneWay}"
+					Visibility="{x:Bind Commands.RunWithPowershell.IsExecutable, Mode=OneWay}">
 					<AppBarButton.Icon>
 						<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="{x:Bind Commands.RunWithPowershell.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
@@ -347,12 +347,12 @@
 					x:Name="EditInNotepadButton"
 					Width="Auto"
 					MinWidth="40"
-					x:Load="{x:Bind Commands.EditInNotepad.IsExecutable, Mode=OneWay}"
 					AutomationProperties.Name="EditInNotepad"
 					Command="{x:Bind Commands.EditInNotepad}"
 					Label="{x:Bind Commands.EditInNotepad.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{x:Bind Commands.EditInNotepad.LabelWithHotKey, Mode=OneWay}">
+					ToolTipService.ToolTip="{x:Bind Commands.EditInNotepad.LabelWithHotKey, Mode=OneWay}"
+					Visibility="{x:Bind Commands.EditInNotepad.IsExecutable, Mode=OneWay}">
 					<AppBarButton.Icon>
 						<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="{x:Bind Commands.EditInNotepad.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
@@ -363,11 +363,11 @@
 					x:Name="SetAsBackgroundButton"
 					Width="Auto"
 					MinWidth="40"
-					x:Load="{x:Bind Commands.SetAsWallpaperBackground.IsExecutable, Mode=OneWay}"
 					Label="{helpers:ResourceString Name=SetAsBackgroundFlyout}"
 					LabelPosition="Default"
 					Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsBackgroundFlyout}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsBackgroundFlyout}"
+					Visibility="{x:Bind Commands.SetAsWallpaperBackground.IsExecutable, Mode=OneWay}">
 
 					<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.SetWallpaper.16}" />
 
@@ -410,21 +410,21 @@
 					x:Name="SetAsSlideshowButton"
 					Width="Auto"
 					MinWidth="40"
-					x:Load="{x:Bind Commands.SetAsSlideshowBackground.IsExecutable, Mode=OneWay}"
 					Command="{x:Bind Commands.SetAsSlideshowBackground}"
 					Icon="{x:Bind Commands.SetAsSlideshowBackground.FontIcon}"
 					Label="{x:Bind Commands.SetAsSlideshowBackground.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{x:Bind Commands.SetAsSlideshowBackground.LabelWithHotKey, Mode=OneWay}" />
+					ToolTipService.ToolTip="{x:Bind Commands.SetAsSlideshowBackground.LabelWithHotKey, Mode=OneWay}"
+					Visibility="{x:Bind Commands.SetAsSlideshowBackground.IsExecutable, Mode=OneWay}" />
 
 				<!--  Install Inf  -->
 				<AppBarButton
 					x:Name="InstallInfButton"
-					x:Load="{x:Bind Commands.InstallInfDriver.IsExecutable, Mode=OneWay, FallbackValue=False}"
 					Command="{x:Bind Commands.InstallInfDriver, Mode=OneWay}"
 					Label="{x:Bind Commands.InstallInfDriver.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}"
+					Visibility="{x:Bind Commands.InstallInfDriver.IsExecutable, Mode=OneWay}">
 					<AppBarButton.Icon>
 						<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="{x:Bind Commands.InstallInfDriver.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>
@@ -433,44 +433,44 @@
 				<!--  Rotate Image Left  -->
 				<AppBarButton
 					x:Name="RotateImageLeftButton"
-					x:Load="{x:Bind ViewModel.IsImage, Mode=OneWay, FallbackValue=False}"
 					Command="{x:Bind Commands.RotateLeft, Mode=OneWay}"
 					Label="{x:Bind Commands.RotateLeft.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=RotateLeft}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=RotateLeft}"
+					Visibility="{x:Bind Commands.RotateLeft.IsExecutable, Mode=OneWay}">
 					<controls:ThemedIcon Style="{x:Bind Commands.RotateLeft.ThemedIconStyle}" />
 				</AppBarButton>
 
 				<!--  Rotate Image Right  -->
 				<AppBarButton
 					x:Name="RotateImageRightButton"
-					x:Load="{x:Bind ViewModel.IsImage, Mode=OneWay, FallbackValue=False}"
 					Command="{x:Bind Commands.RotateRight, Mode=OneWay}"
 					Label="{x:Bind Commands.RotateRight.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=RotateRight}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=RotateRight}"
+					Visibility="{x:Bind Commands.RotateRight.IsExecutable, Mode=OneWay}">
 					<controls:ThemedIcon Style="{x:Bind Commands.RotateRight.ThemedIconStyle}" />
 				</AppBarButton>
 
 				<!--  Install Font  -->
 				<AppBarButton
 					x:Name="InstallFontButton"
-					x:Load="{x:Bind Commands.InstallFont.IsExecutable, Mode=OneWay, FallbackValue=False}"
 					Command="{x:Bind Commands.InstallFont, Mode=OneWay}"
 					Label="{x:Bind Commands.InstallFont.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}"
+					Visibility="{x:Bind Commands.InstallFont.IsExecutable, Mode=OneWay}">
 					<controls:ThemedIcon Style="{x:Bind Commands.InstallFont.ThemedIconStyle}" />
 				</AppBarButton>
 
 				<!--  Install Certificate  -->
 				<AppBarButton
 					x:Name="InstallCertificateButton"
-					x:Load="{x:Bind Commands.InstallCertificate.IsExecutable, Mode=OneWay, FallbackValue=False}"
 					Command="{x:Bind Commands.InstallCertificate, Mode=OneWay}"
 					Label="{x:Bind Commands.InstallCertificate.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}">
+					ToolTipService.ToolTip="{helpers:ResourceString Name=Install}"
+					Visibility="{x:Bind Commands.InstallCertificate.IsExecutable, Mode=OneWay}">
 					<AppBarButton.Icon>
 						<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="{x:Bind Commands.InstallCertificate.Glyph.BaseGlyph, Mode=OneTime}" />
 					</AppBarButton.Icon>
@@ -479,12 +479,12 @@
 				<!--  Play All Media  -->
 				<AppBarButton
 					x:Name="PlayAllMediaButton"
-					x:Load="{x:Bind Commands.PlayAll.IsExecutable, Mode=OneWay, FallbackValue=False}"
 					Command="{x:Bind Commands.PlayAll, Mode=OneWay}"
 					KeyboardAcceleratorTextOverride="{x:Bind Commands.PlayAll.HotKeyText, Mode=OneWay}"
 					Label="{x:Bind Commands.PlayAll.Label}"
 					LabelPosition="Default"
-					ToolTipService.ToolTip="{x:Bind Commands.PlayAll.LabelWithHotKey, Mode=OneWay}">
+					ToolTipService.ToolTip="{x:Bind Commands.PlayAll.LabelWithHotKey, Mode=OneWay}"
+					Visibility="{x:Bind Commands.PlayAll.IsExecutable, Mode=OneWay}">
 					<AppBarButton.Icon>
 						<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="{x:Bind Commands.PlayAll.Glyph.BaseGlyph}" />
 					</AppBarButton.Icon>

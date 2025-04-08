@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
+using Files.App.Actions;
 using Files.Shared.Helpers;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
@@ -75,14 +76,26 @@ namespace Files.App.ViewModels.UserControls
 
 		public SearchBoxViewModel SearchBoxViewModel => (SearchBoxViewModel)SearchBox;
 
-		public bool HasAdditionalAction => InstanceViewModel.IsPageTypeRecycleBin || IsPowerShellScript || CanExtract || IsImage || IsFont || IsInfFile;
-		public bool CanCopy => SelectedItems is not null && SelectedItems.Any();
+		public bool HasAdditionalAction =>
+			InstanceViewModel.IsPageTypeRecycleBin ||
+			Commands.RunWithPowershell.IsExecutable ||
+			CanExtract ||
+			Commands.DecompressArchive.IsExecutable ||
+			Commands.DecompressArchiveHere.IsExecutable ||
+			Commands.DecompressArchiveHereSmart.IsExecutable ||
+			Commands.DecompressArchiveToChildFolder.IsExecutable ||
+			Commands.EditInNotepad.IsExecutable ||
+			Commands.RotateLeft.IsExecutable ||
+			Commands.RotateRight.IsExecutable ||
+			Commands.SetAsAppBackground.IsExecutable ||
+			Commands.SetAsWallpaperBackground.IsExecutable ||
+			Commands.SetAsLockscreenBackground.IsExecutable ||
+			Commands.SetAsSlideshowBackground.IsExecutable ||
+			Commands.InstallFont.IsExecutable ||
+			Commands.InstallInfDriver.IsExecutable ||
+			Commands.InstallCertificate.IsExecutable;
+
 		public bool CanExtract => Commands.DecompressArchive.CanExecute(null) || Commands.DecompressArchiveHere.CanExecute(null) || Commands.DecompressArchiveHereSmart.CanExecute(null) || Commands.DecompressArchiveToChildFolder.CanExecute(null);
-		public bool IsPowerShellScript => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsPowerShellFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsImage => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsMultipleImageSelected => SelectedItems is not null && SelectedItems.Count > 1 && SelectedItems.All(x => FileExtensionHelpers.IsImageFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsInfFile => SelectedItems is not null && SelectedItems.Count == 1 && FileExtensionHelpers.IsInfFile(SelectedItems.First().FileExtension) && !InstanceViewModel.IsPageTypeRecycleBin;
-		public bool IsFont => SelectedItems is not null && SelectedItems.Any() && SelectedItems.All(x => FileExtensionHelpers.IsFontFile(x.FileExtension)) && !InstanceViewModel.IsPageTypeRecycleBin;
 
 		public bool IsCardsLayout => _InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.CardsView;
 		public bool IsColumnLayout => _InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes.ColumnView;
@@ -242,13 +255,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				if (SetProperty(ref _SelectedItems, value))
 				{
-					OnPropertyChanged(nameof(CanCopy));
 					OnPropertyChanged(nameof(CanExtract));
-					OnPropertyChanged(nameof(IsInfFile));
-					OnPropertyChanged(nameof(IsPowerShellScript));
-					OnPropertyChanged(nameof(IsImage));
-					OnPropertyChanged(nameof(IsMultipleImageSelected));
-					OnPropertyChanged(nameof(IsFont));
 					OnPropertyChanged(nameof(HasAdditionalAction));
 				}
 			}

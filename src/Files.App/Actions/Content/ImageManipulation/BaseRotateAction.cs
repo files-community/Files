@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.Shared.Helpers;
 using Windows.Graphics.Imaging;
 
 namespace Files.App.Actions
@@ -20,8 +21,13 @@ namespace Files.App.Actions
 		protected abstract BitmapRotation Rotation { get; }
 
 		public bool IsExecutable =>
-			IsContextPageTypeAdaptedToCommand() &&
-			(context.ShellPage?.SlimContentPage?.SelectedItemsPropertiesViewModel?.IsCompatibleToSetAsWindowsWallpaper ?? false);
+			context.ShellPage is not null &&
+			context.PageType != ContentPageTypes.RecycleBin &&
+			context.PageType != ContentPageTypes.ZipFolder &&
+			context.PageType != ContentPageTypes.ReleaseNotes &&
+			context.PageType != ContentPageTypes.Settings &&
+			context.HasSelection &&
+			context.SelectedItems.All(x => FileExtensionHelpers.IsCompatibleToSetAsWindowsWallpaper(x.FileExtension));
 
 		public BaseRotateAction()
 		{
@@ -40,29 +46,15 @@ namespace Files.App.Actions
 			await _infoPaneViewModel.UpdateSelectedItemPreviewAsync();
 		}
 
-		private bool IsContextPageTypeAdaptedToCommand()
-		{
-			return
-				context.PageType != ContentPageTypes.RecycleBin &&
-				context.PageType != ContentPageTypes.ZipFolder &&
-				context.PageType != ContentPageTypes.ReleaseNotes &&
-				context.PageType != ContentPageTypes.Settings &&
-				context.PageType != ContentPageTypes.None;
-		}
-
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName is nameof(IContentPageContext.SelectedItem))
+			switch (e.PropertyName)
 			{
-				if (context.ShellPage is not null && context.ShellPage.SlimContentPage is not null)
-				{
-					var viewModel = context.ShellPage.SlimContentPage.SelectedItemsPropertiesViewModel;
-					var extensions = context.SelectedItems.Select(selectedItem => selectedItem.FileExtension).Distinct().ToList();
-
-					viewModel.CheckAllFileExtensions(extensions);
-				}
-
-				OnPropertyChanged(nameof(IsExecutable));
+				case nameof(IContentPageContext.SelectedItems):
+					{
+						OnPropertyChanged(nameof(IsExecutable));
+						break;
+					}
 			}
 		}
 	}
