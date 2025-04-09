@@ -5,7 +5,9 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:items="using:Files.App.Data.Items"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc="using:Files.App.UserControls"
 	Title="{helpers:ResourceString Name=ExtractArchive}"
 	CornerRadius="{StaticResource OverlayCornerRadius}"
 	DefaultButton="Primary"
@@ -77,6 +79,34 @@
 					HorizontalAlignment="Stretch"
 					VerticalAlignment="Stretch"
 					PlaceholderText="{helpers:ResourceString Name=Password}" />
+
+			</StackPanel>
+
+			<!--  Encoding  -->
+			<StackPanel
+				x:Name="EncodingStackPanel"
+				x:Load="{x:Bind ViewModel.IsArchiveEncodingUndetermined, Mode=OneWay}"
+				Orientation="Vertical"
+				Spacing="8">
+
+				<TextBlock
+					x:Name="EncodingHeader"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					Text="{helpers:ResourceString Name=Encoding}" />
+
+				<ComboBox
+					x:Name="EncodingBox"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
+					ItemsSource="{x:Bind ViewModel.EncodingOptions, Mode=OneWay}"
+					SelectedItem="{x:Bind ViewModel.SelectedEncoding, Mode=TwoWay}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate x:DataType="items:EncodingItem">
+							<TextBlock Text="{x:Bind Name}" />
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
 
 			</StackPanel>
 

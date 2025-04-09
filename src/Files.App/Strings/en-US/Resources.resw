@@ -2096,6 +2096,9 @@
   <data name="ArchivePassword" xml:space="preserve">
     <value>Archive password</value>
   </data>
+  <data name="Encoding" xml:space="preserve">
+    <value>Encoding</value>
+  </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Path</value>
   </data>

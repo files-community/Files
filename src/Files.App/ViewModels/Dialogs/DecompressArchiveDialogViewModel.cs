@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.IO;
+using System.Text;
 using System.Windows.Input;
 using Windows.Storage;
 
@@ -36,6 +37,13 @@ namespace Files.App.ViewModels.Dialogs
 			set => SetProperty(ref isArchiveEncrypted, value);
 		}
 
+		private bool isArchiveEncodingUndetermined;
+		public bool IsArchiveEncodingUndetermined
+		{
+			get => isArchiveEncodingUndetermined;
+			set => SetProperty(ref isArchiveEncodingUndetermined, value);
+		}
+
 		private bool showPathSelection;
 		public bool ShowPathSelection
 		{
@@ -45,6 +53,20 @@ namespace Files.App.ViewModels.Dialogs
 
 		public DisposableArray? Password { get; private set; }
 
+		public EncodingItem[] EncodingOptions { get; set; } = new string?[] {
+			null,//System Default
+			"UTF-8",
+			"shift_jis",
+			"gb2312",
+			"big5",
+			"ks_c_5601-1987",
+			"Windows-1252",
+			"macintosh",
+		}
+			.Select(x=>new EncodingItem(x))
+			.ToArray();
+		public EncodingItem SelectedEncoding { get; set; }
+
 		public IRelayCommand PrimaryButtonClickCommand { get; private set; }
 
 		public ICommand SelectDestinationCommand { get; private set; }
@@ -53,6 +75,7 @@ namespace Files.App.ViewModels.Dialogs
 		{
 			this.archive = archive;
 			destinationFolderPath = DefaultDestinationFolderPath();
+			SelectedEncoding = EncodingOptions[0];
 
 			// Create commands
 			SelectDestinationCommand = new AsyncRelayCommand(SelectDestinationAsync);
