@@ -35,7 +35,7 @@ namespace Files.App.Actions
 			if (context.ShellPage?.ShellViewModel is null)
 				return;
 
-			var item = context.SelectedItem as ShortcutItem;
+			var item = context.SelectedItem as IShortcutItem;
 
 			if (string.IsNullOrWhiteSpace(item?.TargetPath))
 				return;
