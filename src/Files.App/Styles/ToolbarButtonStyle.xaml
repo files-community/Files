@@ -35,20 +35,16 @@
 							BorderThickness="{TemplateBinding BorderThickness}"
 							Control.IsTemplateFocusTarget="True"
 							CornerRadius="{TemplateBinding CornerRadius}">
-
 							<Border.BackgroundTransition>
 								<BrushTransition Duration="0:0:0.083" />
 							</Border.BackgroundTransition>
 						</Border>
-
 						<Grid x:Name="ContentRoot" MinHeight="{ThemeResource AppBarThemeMinHeight}">
-
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="30" />
+								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
-
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="Auto" />
@@ -90,20 +86,19 @@
 								TextTrimming="Clip"
 								TextWrapping="NoWrap"
 								Visibility="Collapsed" />
-							<FontIcon
-								x:Name="FlyoutItemChevron"
-								Grid.Column="2"
-								Margin="0,12,8,0"
+							<TextBlock
+								x:Name="KeyboardAcceleratorTextLabel"
+								Grid.Column="1"
+								MinWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.KeyboardAcceleratorTextMinWidth}"
+								Margin="24,0,12,0"
+								HorizontalAlignment="Right"
 								VerticalAlignment="Center"
 								AutomationProperties.AccessibilityView="Raw"
-								FontFamily="{ThemeResource SymbolThemeFontFamily}"
-								FontSize="{ThemeResource AppBarButtonSecondarySubItemChevronFontSize}"
-								Foreground="{ThemeResource AppBarButtonSubItemChevronForeground}"
-								Glyph="&#xE70D;" />
-							<Grid
-								x:Name="SubItemChevronPanel"
-								Grid.Column="2"
-								Visibility="Collapsed">
+								Foreground="{ThemeResource AppBarButtonKeyboardAcceleratorTextForeground}"
+								Style="{ThemeResource CaptionTextBlockStyle}"
+								Text="{TemplateBinding KeyboardAcceleratorTextOverride}"
+								Visibility="Collapsed" />
+							<Grid x:Name="SubItemChevronPanel" Grid.Column="2">
 								<FontIcon
 									x:Name="SubItemChevron"
 									Margin="{ThemeResource AppBarButtonSubItemChevronMargin}"
@@ -112,8 +107,9 @@
 									FontFamily="{ThemeResource SymbolThemeFontFamily}"
 									FontSize="{ThemeResource AppBarButtonSubItemChevronFontSize}"
 									Foreground="{ThemeResource AppBarButtonSubItemChevronForeground}"
-									Glyph="{ThemeResource AppBarButtonFlyoutGlyph}"
-									MirroredWhenRightToLeft="True" />
+									Glyph="&#xE70D;"
+									MirroredWhenRightToLeft="True"
+									Visibility="Collapsed" />
 								<FontIcon
 									x:Name="OverflowSubItemChevron"
 									Margin="{ThemeResource AppBarButtonSecondarySubItemChevronMargin}"
@@ -134,7 +130,6 @@
 									<VisualState.Setters>
 										<Setter Target="AppBarButtonInnerBorder.Margin" Value="{StaticResource AppBarButtonInnerBorderCompactMargin}" />
 									</VisualState.Setters>
-
 									<Storyboard>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Visibility">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
@@ -164,9 +159,6 @@
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SubItemChevron" Storyboard.TargetProperty="Margin">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarButtonSubItemChevronLabelOnRightMargin}" />
 										</ObjectAnimationUsingKeyFrames>
-										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="FlyoutItemChevron" Storyboard.TargetProperty="Margin">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="-4,8,8,0" />
-										</ObjectAnimationUsingKeyFrames>
 									</Storyboard>
 								</VisualState>
 								<VisualState x:Name="LabelCollapsed">
@@ -174,8 +166,14 @@
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="MinHeight">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarThemeCompactHeight}" />
 										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="Width">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="46" />
+										</ObjectAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Visibility">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SubItemChevron" Storyboard.TargetProperty="Margin">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="0,20,8,0" />
 										</ObjectAnimationUsingKeyFrames>
 									</Storyboard>
 								</VisualState>
@@ -226,11 +224,9 @@
 										<Setter Target="OverflowTextLabel.Margin" Value="76,0,12,0" />
 									</VisualState.Setters>
 								</VisualState>
-
 							</VisualStateGroup>
 							<VisualStateGroup x:Name="CommonStates">
 								<VisualState x:Name="Normal" />
-
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
 										<Setter Target="AppBarButtonInnerBorder.Background" Value="{ThemeResource AppBarButtonBackgroundPointerOver}" />
@@ -239,9 +235,9 @@
 										<Setter Target="TextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}" />
 										<Setter Target="OverflowTextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}" />
 										<Setter Target="SubItemChevron.Foreground" Value="{ThemeResource AppBarButtonSubItemChevronForegroundPointerOver}" />
+										<Setter Target="KeyboardAcceleratorTextLabel.Foreground" Value="{ThemeResource AppBarButtonKeyboardAcceleratorTextForegroundPointerOver}" />
 									</VisualState.Setters>
 								</VisualState>
-
 								<VisualState x:Name="Pressed">
 									<VisualState.Setters>
 										<Setter Target="AppBarButtonInnerBorder.Background" Value="{ThemeResource AppBarButtonBackgroundPressed}" />
@@ -250,9 +246,9 @@
 										<Setter Target="TextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}" />
 										<Setter Target="OverflowTextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}" />
 										<Setter Target="SubItemChevron.Foreground" Value="{ThemeResource AppBarButtonSubItemChevronForegroundPressed}" />
+										<Setter Target="KeyboardAcceleratorTextLabel.Foreground" Value="{ThemeResource AppBarButtonKeyboardAcceleratorTextForegroundPressed}" />
 									</VisualState.Setters>
 								</VisualState>
-
 								<VisualState x:Name="Disabled">
 									<VisualState.Setters>
 										<Setter Target="AppBarButtonInnerBorder.Background" Value="{ThemeResource AppBarButtonBackgroundDisabled}" />
@@ -261,6 +257,7 @@
 										<Setter Target="TextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundDisabled}" />
 										<Setter Target="OverflowTextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundDisabled}" />
 										<Setter Target="SubItemChevron.Foreground" Value="{ThemeResource AppBarButtonSubItemChevronForegroundDisabled}" />
+										<Setter Target="KeyboardAcceleratorTextLabel.Foreground" Value="{ThemeResource AppBarButtonKeyboardAcceleratorTextForegroundDisabled}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="OverflowNormal">
@@ -276,6 +273,7 @@
 										<Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}" />
 										<Setter Target="TextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}" />
 										<Setter Target="OverflowTextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}" />
+										<Setter Target="KeyboardAcceleratorTextLabel.Foreground" Value="{ThemeResource AppBarButtonKeyboardAcceleratorTextForegroundPointerOver}" />
 										<Setter Target="SubItemChevron.Foreground" Value="{ThemeResource AppBarButtonSubItemChevronForegroundPointerOver}" />
 										<Setter Target="SubItemChevron.Visibility" Value="Collapsed" />
 										<Setter Target="OverflowSubItemChevron.Visibility" Value="Visible" />
@@ -288,6 +286,7 @@
 										<Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}" />
 										<Setter Target="TextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}" />
 										<Setter Target="OverflowTextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}" />
+										<Setter Target="KeyboardAcceleratorTextLabel.Foreground" Value="{ThemeResource AppBarButtonKeyboardAcceleratorTextForegroundPressed}" />
 										<Setter Target="SubItemChevron.Foreground" Value="{ThemeResource AppBarButtonSubItemChevronForegroundPressed}" />
 										<Setter Target="SubItemChevron.Visibility" Value="Collapsed" />
 										<Setter Target="OverflowSubItemChevron.Visibility" Value="Visible" />
@@ -300,12 +299,12 @@
 										<Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundSubMenuOpened}" />
 										<Setter Target="TextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundSubMenuOpened}" />
 										<Setter Target="OverflowTextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundSubMenuOpened}" />
+										<Setter Target="KeyboardAcceleratorTextLabel.Foreground" Value="{ThemeResource AppBarButtonKeyboardAcceleratorTextForegroundSubMenuOpened}" />
 										<Setter Target="SubItemChevron.Foreground" Value="{ThemeResource AppBarButtonSubItemChevronForegroundSubMenuOpened}" />
 										<Setter Target="SubItemChevron.Visibility" Value="Collapsed" />
 										<Setter Target="OverflowSubItemChevron.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
-
 							</VisualStateGroup>
 							<VisualStateGroup x:Name="InputModeStates">
 								<VisualState x:Name="InputModeDefault" />
@@ -319,20 +318,31 @@
 										<Setter Target="OverflowTextLabel.Padding" Value="{ThemeResource AppBarButtonOverflowTextTouchMargin}" />
 									</VisualState.Setters>
 								</VisualState>
-
 							</VisualStateGroup>
-							<VisualStateGroup x:Name="FlyoutStates">
-								<VisualState x:Name="NoFlyout" />
-								<VisualState x:Name="HasFlyout">
+							<VisualStateGroup x:Name="KeyboardAcceleratorTextVisibility">
+								<VisualState x:Name="KeyboardAcceleratorTextCollapsed" />
+								<VisualState x:Name="KeyboardAcceleratorTextVisible">
 									<VisualState.Setters>
-										<Setter Target="SubItemChevronPanel.Visibility" Value="{ThemeResource AppBarButtonHasFlyoutChevronVisibility}" />
+										<Setter Target="KeyboardAcceleratorTextLabel.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
-
+							<VisualStateGroup x:Name="FlyoutStates">
+								<VisualState x:Name="NoFlyout">
+									<VisualState.Setters>
+										<Setter Target="SubItemChevronPanel.Visibility" Value="Collapsed" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="HasFlyout">
+									<VisualState.Setters>
+										<Setter Target="SubItemChevronPanel.Visibility" Value="Visible" />
+										<Setter Target="SubItemChevron.Visibility" Value="Visible" />
+										<Setter Target="OverflowSubItemChevron.Visibility" Value="Collapsed" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
 						</VisualStateManager.VisualStateGroups>
 					</Grid>
-
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
