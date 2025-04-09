@@ -22,6 +22,7 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			context.ShellPage is not null &&
+			context.ShellPage.SlimContentPage is not null &&
 			context.PageType != ContentPageTypes.RecycleBin &&
 			context.PageType != ContentPageTypes.ZipFolder &&
 			context.PageType != ContentPageTypes.ReleaseNotes &&
@@ -48,14 +49,8 @@ namespace Files.App.Actions
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			switch (e.PropertyName)
-			{
-				case nameof(IContentPageContext.SelectedItems):
-					{
-						OnPropertyChanged(nameof(IsExecutable));
-						break;
-					}
-			}
+			if (e.PropertyName is nameof(IContentPageContext.SelectedItems))
+				OnPropertyChanged(nameof(IsExecutable));
 		}
 	}
 }
