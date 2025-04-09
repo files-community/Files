@@ -8,7 +8,7 @@ namespace Files.App.Helpers
 	{
 		public static IComparer<object> GetForProcessor()
 		{
-			return new NaturalComparer(StringComparison.CurrentCulture);
+			return new NaturalComparer(StringComparison.CurrentCultureIgnoreCase);
 		}
 
 		/// <summary>
