@@ -139,6 +139,9 @@ namespace Files.App.ViewModels.UserControls
 		private bool _IsCommandPaletteOpen;
 		public bool IsCommandPaletteOpen { get => _IsCommandPaletteOpen; set => SetProperty(ref _IsCommandPaletteOpen, value); }
 
+		private bool _IsDynamicOverflowEnabled;
+		public bool IsDynamicOverflowEnabled { get => _IsDynamicOverflowEnabled; set => SetProperty(ref _IsDynamicOverflowEnabled, value); }
+		
 		private bool _IsUpdating;
 		public bool IsUpdating { get => _IsUpdating; set => SetProperty(ref _IsUpdating, value); }
 
@@ -257,6 +260,10 @@ namespace Files.App.ViewModels.UserControls
 				{
 					OnPropertyChanged(nameof(CanExtract));
 					OnPropertyChanged(nameof(HasAdditionalAction));
+
+					// Workaround to ensure the overflow button is only displayed when there are overflow items
+					IsDynamicOverflowEnabled = false;
+					IsDynamicOverflowEnabled = true;
 				}
 			}
 		}

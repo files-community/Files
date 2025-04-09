@@ -72,7 +72,8 @@
 			Grid.Column="0"
 			HorizontalAlignment="Left"
 			x:Load="{x:Bind ViewModel.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
-			DefaultLabelPosition="Right">
+			DefaultLabelPosition="Right"
+			IsDynamicOverflowEnabled="{x:Bind ViewModel.IsDynamicOverflowEnabled, Mode=OneWay}">
 			<CommandBar.PrimaryCommands>
 
 				<!--  New Item  -->
