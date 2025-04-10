@@ -596,7 +596,7 @@ namespace Files.App.ViewModels.UserControls
 			_pointerRoutedEventArgs = ptrPt.Properties.IsMiddleButtonPressed ? e : null;
 		}
 
-		public async Task HandleBreadcrumbBarItemClicked(string path, bool? isMiddleButtonPressed = null)
+		public async Task HandleFolderNavigationAsync(string path, bool? isMiddleButtonPressed = null)
 		{
 			isMiddleButtonPressed ??= _pointerRoutedEventArgs is not null;
 			if (isMiddleButtonPressed is true)

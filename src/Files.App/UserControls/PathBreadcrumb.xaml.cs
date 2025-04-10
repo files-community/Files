@@ -56,7 +56,7 @@ namespace Files.App.UserControls
 				return;
 
 			// TODO: Implement middle click retrieving.
-			await ViewModel.HandleBreadcrumbBarItemClicked(path);
+			await ViewModel.HandleFolderNavigationAsync(path);
 
 			e.Handled = true;
 		}

@@ -345,14 +345,14 @@
 			SuggestionChosen="Omnibar_SuggestionChosen">
 
 			<controls:OmnibarMode
-				DisplayMemberPath="Path"
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IconType=Outline}"
 				IsDefault="True"
 				ModeName="Path"
 				PlaceholderText="{helpers:ResourceString Name=OmnibarPathModeTextPlaceholder}"
 				SuggestionItemsSource="{x:Bind ViewModel.PathModeSuggestionItems, Mode=OneWay}"
-				Text="{x:Bind ViewModel.OmnibarPathModeText, Mode=OneWay}">
+				Text="{x:Bind ViewModel.OmnibarPathModeText, Mode=OneWay}"
+				TextMemberPath="Path">
 				<controls:OmnibarMode.ContentOnInactive>
 					<controls:BreadcrumbBar
 						x:Name="BreadcrumbBar"

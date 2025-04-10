@@ -254,9 +254,10 @@ namespace Files.App.UserControls
 				ViewModel.IsEditModeEnabled = true;
 		}
 
-		private void Omnibar_SuggestionChosen(Controls.Omnibar sender, Controls.OmnibarSuggestionChosenEventArgs args)
+		private async void Omnibar_SuggestionChosen(Omnibar sender, OmnibarSuggestionChosenEventArgs args)
 		{
-
+			if (args.SelectedItem is OmnibarPathModeSuggestionModel item)
+				await ViewModel.HandleFolderNavigationAsync(item.Path);
 		}
 
 		private async void BreadcrumbBar_ItemClicked(Controls.BreadcrumbBar sender, Controls.BreadcrumbBarItemClickedEventArgs args)
@@ -267,7 +268,7 @@ namespace Files.App.UserControls
 				return;
 			}
 
-			await ViewModel.HandleBreadcrumbBarItemClicked(ViewModel.PathComponents[args.Index].Path);
+			await ViewModel.HandleFolderNavigationAsync(ViewModel.PathComponents[args.Index].Path);
 		}
 
 		private async void BreadcrumbBar_ItemDropDownFlyoutOpening(object sender, BreadcrumbBarItemDropDownFlyoutEventArgs e)
@@ -286,13 +287,14 @@ namespace Files.App.UserControls
 				e.Flyout.Items.Add(new MenuFlyoutHeaderItem() { Text = "Drives" });
 				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Local Disk (C:)" });
 				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Local Disk (D:)" });
+
 				return;
 			}
 
 			await ViewModel.SetPathBoxDropDownFlyoutAsync(e.Flyout, ViewModel.PathComponents[e.Index]);
 		}
 
-		private void BreadcrumbBar_ItemDropDownFlyoutClosed(object sender, Controls.BreadcrumbBarItemDropDownFlyoutEventArgs e)
+		private void BreadcrumbBar_ItemDropDownFlyoutClosed(object sender, BreadcrumbBarItemDropDownFlyoutEventArgs e)
 		{
 			// Clear the flyout items to save memory
 			e.Flyout.Items.Clear();
