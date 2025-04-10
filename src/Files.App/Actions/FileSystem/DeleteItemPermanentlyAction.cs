@@ -9,7 +9,7 @@ namespace Files.App.Actions
 			=> Strings.DeletePermanently.GetLocalizedResource();
 
 		public string Description
-			=> Strings.DeleteItemPermanentlyDescription.GetLocalizedResource();
+			=> Strings.DeleteItemPermanentlyDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
 		public HotKey HotKey
 			=> new(Keys.Delete, KeyModifiers.Shift);

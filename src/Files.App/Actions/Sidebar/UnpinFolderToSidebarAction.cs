@@ -12,7 +12,7 @@ namespace Files.App.Actions
 			=> Strings.UnpinFolderFromSidebar.GetLocalizedResource();
 
 		public string Description
-			=> Strings.UnpinFolderFromSidebarDescription.GetLocalizedResource();
+			=> Strings.UnpinFolderFromSidebarDescription.GetLocalizedFormatResource(context.HasSelection ? context.SelectedItems.Count : 1);
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.FavoritePinRemove");

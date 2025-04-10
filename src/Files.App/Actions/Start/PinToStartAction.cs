@@ -15,7 +15,7 @@ namespace Files.App.Actions
 			=> Strings.PinItemToStart_Text.GetLocalizedResource();
 
 		public string Description
-			=> Strings.PinToStartDescription.GetLocalizedResource();
+			=> Strings.PinToStartDescription.GetLocalizedFormatResource(context.HasSelection ? context.SelectedItems.Count : 1);
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.FavoritePin");

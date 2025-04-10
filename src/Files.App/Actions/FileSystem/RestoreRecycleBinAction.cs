@@ -15,7 +15,7 @@ namespace Files.App.Actions
 			=> Strings.Restore.GetLocalizedResource();
 
 		public string Description
-			=> Strings.RestoreRecycleBinDescription.GetLocalizedResource();
+			=> Strings.RestoreRecycleBinDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.RestoreDeleted");
@@ -37,7 +37,7 @@ namespace Files.App.Actions
 			var confirmationDialog = new ContentDialog()
 			{
 				Title = Strings.ConfirmRestoreSelectionBinDialogTitle.GetLocalizedResource(),
-				Content = string.Format(Strings.ConfirmRestoreSelectionBinDialogContent.GetLocalizedResource(), context.SelectedItems.Count),
+				Content = string.Format(Strings.ConfirmRestoreSelectionBinDialogContent.GetLocalizedFormatResource(context.SelectedItems.Count), context.SelectedItems.Count),
 				PrimaryButtonText = Strings.Yes.GetLocalizedResource(),
 				SecondaryButtonText = Strings.Cancel.GetLocalizedResource(),
 				DefaultButton = ContentDialogButton.Primary

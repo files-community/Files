@@ -11,7 +11,7 @@ namespace Files.App.Actions
 			=> Strings.RotateRight.GetLocalizedResource();
 
 		public override string Description
-			=> Strings.RotateRightDescription.GetLocalizedResource();
+			=> Strings.RotateRightDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
 		public override RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.ImageRotate.CW");

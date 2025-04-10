@@ -11,7 +11,7 @@ namespace Files.App.Actions
 			=> Strings.Copy.GetLocalizedResource();
 
 		public string Description
-			=> Strings.CopyItemDescription.GetLocalizedResource();
+			=> Strings.CopyItemDescription.GetLocalizedFormatResource(ContentPageContext.SelectedItems.Count);
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Copy");

@@ -17,7 +17,7 @@ namespace Files.App.Actions
 			=> Strings.ExtractFiles.GetLocalizedResource();
 
 		public override string Description
-			=> Strings.DecompressArchiveDescription.GetLocalizedResource();
+			=> Strings.DecompressArchiveDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
 		public override HotKey HotKey
 			=> new(Keys.E, KeyModifiers.Ctrl);

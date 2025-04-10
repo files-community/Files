@@ -9,7 +9,7 @@ namespace Files.App.Actions
 			=> Strings.ExtractHereSmart.GetLocalizedResource();
 
 		public override string Description
-			=> Strings.DecompressArchiveHereSmartDescription.GetLocalizedResource();
+			=> Strings.DecompressArchiveHereSmartDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
 		public override HotKey HotKey
 			=> new(Keys.E, KeyModifiers.CtrlShift);

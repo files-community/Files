@@ -17,7 +17,7 @@ namespace Files.App.Actions
 			=> Strings.CreateAlternateDataStream.GetLocalizedResource();
 
 		public string Description
-			=> Strings.CreateAlternateDataStreamDescription.GetLocalizedResource();
+			=> Strings.CreateAlternateDataStreamDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
 		public RichGlyph Glyph
 			=> new RichGlyph(themedIconStyle: "App.ThemedIcons.AltDataStream");

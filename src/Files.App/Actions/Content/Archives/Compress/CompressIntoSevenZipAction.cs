@@ -9,7 +9,7 @@ namespace Files.App.Actions
 			=> string.Format(Strings.CreateNamedArchive.GetLocalizedResource(), $"{StorageArchiveService.GenerateArchiveNameFromItems(context.SelectedItems)}.7z");
 
 		public override string Description
-			=> Strings.CompressIntoSevenZipDescription.GetLocalizedResource();
+			=> Strings.CompressIntoSevenZipDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
 		public CompressIntoSevenZipAction()
 		{

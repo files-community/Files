@@ -13,7 +13,7 @@ namespace Files.App.Actions
 			=> Strings.CreateArchive.GetLocalizedResource();
 
 		public override string Description
-			=> Strings.CompressIntoArchiveDescription.GetLocalizedResource();
+			=> Strings.CompressIntoArchiveDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
 		public CompressIntoArchiveAction()
 		{
