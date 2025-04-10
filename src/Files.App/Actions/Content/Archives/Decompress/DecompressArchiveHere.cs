@@ -9,7 +9,7 @@ namespace Files.App.Actions
 			=> Strings.ExtractHere.GetLocalizedResource();
 
 		public override string Description
-			=> Strings.DecompressArchiveHereDescription.GetLocalizedResource();
+			=> Strings.DecompressArchiveHereDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
 		public DecompressArchiveHere()
 		{

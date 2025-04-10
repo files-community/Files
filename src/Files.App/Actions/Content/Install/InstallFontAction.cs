@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> Strings.Install.GetLocalizedResource();
 
 		public string Description
-			=> Strings.InstallFontDescription.GetLocalizedResource();
+			=> Strings.InstallFontDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Actions.FontInstall");

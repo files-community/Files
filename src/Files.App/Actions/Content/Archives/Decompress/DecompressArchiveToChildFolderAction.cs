@@ -15,7 +15,7 @@ namespace Files.App.Actions
 			=> ComputeLabel();
 
 		public override string Description
-			=> Strings.DecompressArchiveToChildFolderDescription.GetLocalizedResource();
+			=> Strings.DecompressArchiveToChildFolderDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
 		public DecompressArchiveToChildFolderAction()
 		{

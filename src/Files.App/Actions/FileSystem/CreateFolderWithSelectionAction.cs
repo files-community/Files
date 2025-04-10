@@ -11,7 +11,7 @@ namespace Files.App.Actions
 			=> Strings.CreateFolderWithSelection.GetLocalizedResource();
 
 		public string Description
-			=> Strings.CreateFolderWithSelectionDescription.GetLocalizedResource();
+			=> Strings.CreateFolderWithSelectionDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.New.Folder");

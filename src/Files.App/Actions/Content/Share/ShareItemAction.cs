@@ -13,7 +13,7 @@ namespace Files.App.Actions
 			=> Strings.Share.GetLocalizedResource();
 
 		public string Description
-			=> Strings.ShareItemDescription.GetLocalizedResource();
+			=> Strings.ShareItemDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Share");

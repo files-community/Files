@@ -14,7 +14,7 @@ namespace Files.App.Actions
 			=> Strings.PinFolderToSidebar.GetLocalizedResource();
 
 		public string Description
-			=> Strings.PinFolderToSidebarDescription.GetLocalizedResource();
+			=> Strings.PinFolderToSidebarDescription.GetLocalizedFormatResource(context.HasSelection ? context.SelectedItems.Count : 1);
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.FavoritePin");

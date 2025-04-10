@@ -9,7 +9,7 @@ namespace Files.App.Actions
 			=> Strings.Delete.GetLocalizedResource();
 
 		public string Description
-			=> Strings.DeleteItemDescription.GetLocalizedResource();
+			=> Strings.DeleteItemDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
 		public RichGlyph Glyph
 			=> new RichGlyph(themedIconStyle: "App.ThemedIcons.Delete");

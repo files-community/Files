@@ -13,7 +13,7 @@ namespace Files.App.Actions
 			=> Strings.Install.GetLocalizedResource();
 		
 		public string Description
-			=> Strings.InstallInfDriverDescription.GetLocalizedResource();
+			=> Strings.InstallInfDriverDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
 		public RichGlyph Glyph
 			=> new("\uE9F5");

@@ -8,7 +8,7 @@ namespace Files.App.Actions
 {
 	internal abstract class BaseRotateAction : ObservableObject, IAction
 	{
-		private readonly IContentPageContext context;
+		protected readonly IContentPageContext context;
 
 		private readonly InfoPaneViewModel _infoPaneViewModel;
 

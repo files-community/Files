@@ -11,7 +11,7 @@ namespace Files.App.Actions
 			=> Strings.Cut.GetLocalizedResource();
 
 		public string Description
-			=> Strings.CutItemDescription.GetLocalizedResource();
+			=> Strings.CutItemDescription.GetLocalizedFormatResource(ContentPageContext.SelectedItems.Count);
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Cut");
