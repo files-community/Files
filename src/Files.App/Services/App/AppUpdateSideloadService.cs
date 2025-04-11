@@ -4,7 +4,6 @@
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Net.Http;
-using System.Runtime.InteropServices;
 using System.Xml.Serialization;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
@@ -138,49 +137,23 @@ namespace Files.App.Services
 
 				if (File.Exists(destHashFilePath))
 				{
-					try
-					{
-						await using var srcStream = (await srcHashFile.OpenReadAsync().AsTask().ConfigureAwait(false)).AsStream();
-						await using var destStream = File.OpenRead(destHashFilePath);
-						hashEqual = HashEqual(srcStream, destStream);
-					}
-					catch (COMException ex)
-					{
-						Logger?.LogWarning(ex, "Failed to compare hash files");
-						return;
-					}
-					catch (IOException ex)
-					{
-						Logger?.LogWarning(ex, "IO error while reading hash files");
-						return;
-					}
+					await using var srcStream = (await srcHashFile.OpenReadAsync().AsTask().ConfigureAwait(false)).AsStream();
+					await using var destStream = File.OpenRead(destHashFilePath);
+					hashEqual = HashEqual(srcStream, destStream);
 				}
 
 				if (!hashEqual)
 				{
-					try
-					{
-						var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe"))
-							.AsTask().ConfigureAwait(false);
-						var destFolder = await StorageFolder.GetFolderFromPathAsync(destFolderPath).AsTask().ConfigureAwait(false);
+					var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe"))
+						.AsTask().ConfigureAwait(false);
+					var destFolder = await StorageFolder.GetFolderFromPathAsync(destFolderPath).AsTask().ConfigureAwait(false);
 
-						await srcExeFile.CopyAsync(destFolder, "Files.App.Launcher.exe", NameCollisionOption.ReplaceExisting)
-							.AsTask().ConfigureAwait(false);
-						await srcHashFile.CopyAsync(destFolder, "Files.App.Launcher.exe.sha256", NameCollisionOption.ReplaceExisting)
-							.AsTask().ConfigureAwait(false);
+					await srcExeFile.CopyAsync(destFolder, "Files.App.Launcher.exe", NameCollisionOption.ReplaceExisting)
+						.AsTask().ConfigureAwait(false);
+					await srcHashFile.CopyAsync(destFolder, "Files.App.Launcher.exe.sha256", NameCollisionOption.ReplaceExisting)
+						.AsTask().ConfigureAwait(false);
 
-						Logger?.LogInformation("Files.App.Launcher updated.");
-					}
-					catch (COMException ex)
-					{
-						Logger?.LogError(ex, ex.Message);
-						return;
-					}
-					catch (UnauthorizedAccessException ex)
-					{
-						Logger?.LogError(ex, ex.Message);
-						return;
-					}
+					Logger?.LogInformation("Files.App.Launcher updated.");
 				}
 			}
 			catch (Exception ex)
