@@ -16,13 +16,13 @@ namespace Windows.Win32.System.WinRT
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public HRESULT GetQuotaTotalInBytes(ulong* value)
 		{
-			return ((delegate* unmanaged[Stdcall]<IStorageProviderQuotaUI*, ulong*, HRESULT>)(lpVtbl[6]))((IStorageProviderQuotaUI*)Unsafe.AsPointer(ref this), value);
+			return (HRESULT)((delegate* unmanaged[MemberFunction]<IStorageProviderQuotaUI*, ulong*, int>)(lpVtbl[6]))((IStorageProviderQuotaUI*)Unsafe.AsPointer(ref this), value);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public HRESULT GetQuotaUsedInBytes(ulong* value)
 		{
-			return ((delegate* unmanaged[Stdcall]<IStorageProviderQuotaUI*, ulong*, HRESULT>)(lpVtbl[8]))((IStorageProviderQuotaUI*)Unsafe.AsPointer(ref this), value);
+			return (HRESULT)((delegate* unmanaged[MemberFunction]<IStorageProviderQuotaUI*, ulong*, int>)(lpVtbl[8]))((IStorageProviderQuotaUI*)Unsafe.AsPointer(ref this), value);
 		}
 
 		public static ref readonly Guid Guid

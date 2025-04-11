@@ -16,7 +16,7 @@ namespace Windows.Win32.System.WinRT
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public HRESULT GetStatusUI(IStorageProviderStatusUI** result)
 		{
-			return ((delegate* unmanaged[Stdcall]<IStorageProviderStatusUISource*, IStorageProviderStatusUI**, HRESULT>)lpVtbl[6])((IStorageProviderStatusUISource*)Unsafe.AsPointer(ref this), result);
+			return (HRESULT)((delegate* unmanaged[MemberFunction]<IStorageProviderStatusUISource*, IStorageProviderStatusUI**, int>)lpVtbl[6])((IStorageProviderStatusUISource*)Unsafe.AsPointer(ref this), result);
 		}
 
 		public static ref readonly Guid Guid
