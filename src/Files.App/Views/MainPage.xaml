@@ -261,6 +261,12 @@
 
 			<controls:SidebarView.Footer>
 				<StackPanel Padding="4" Spacing="4">
+					<InfoBar
+						Title="{helpers:ResourceString Name=SectionsHidden}"
+						IsClosable="False"
+						IsOpen="{x:Bind SidebarAdaptiveViewModel.AreSectionsHidden, Mode=OneWay}"
+						Message="{helpers:ResourceString Name=SectionsHiddenMessage}" />
+
 					<Border
 						Height="1"
 						HorizontalAlignment="Stretch"

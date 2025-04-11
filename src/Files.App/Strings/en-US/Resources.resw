@@ -3508,7 +3508,7 @@
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
     <value>Cloning {0} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
     <value>Canceled installing {0} fonts</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3540,7 +3540,7 @@
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
     <value>Installing {0} font(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>Canceled copying {0} item(s) to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -4192,5 +4192,11 @@
   </data>
   <data name="EnableOmnibar" xml:space="preserve">
     <value>Enable Omnibar</value>
+  </data>
+  <data name="SectionsHidden" xml:space="preserve">
+    <value>Sections hidden</value>
+  </data>  
+  <data name="SectionsHiddenMessage" xml:space="preserve">
+    <value>You can add the sections back by right-clicking the sidebar area and selecting the sections you want to add.</value>
   </data>
 </root>
