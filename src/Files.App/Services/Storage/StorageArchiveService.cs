@@ -236,51 +236,52 @@ namespace Files.App.Services
 			{
 				long processedBytes = 0;
 				int processedFiles = 0;
-
-				foreach (ZipEntry zipEntry in zipFile)
+				await Task.Run(async () =>
 				{
-					if (statusCard.CancellationToken.IsCancellationRequested)
+					foreach (ZipEntry zipEntry in zipFile)
 					{
-						isSuccess = false;
-						break;
-					}
-
-					if (!zipEntry.IsFile)
-					{
-						continue; // Ignore directories
-					}
-
-					string entryFileName = zipEntry.Name;
-					string fullZipToPath = Path.Combine(destinationFolderPath, entryFileName);
-					string directoryName = Path.GetDirectoryName(fullZipToPath);
-
-					if (!Directory.Exists(directoryName))
-					{
-						Directory.CreateDirectory(directoryName);
-					}
-
-					byte[] buffer = new byte[4096]; // 4K is a good default
-					using (Stream zipStream = zipFile.GetInputStream(zipEntry))
-					using (FileStream streamWriter = File.Create(fullZipToPath))
-					{
-						await ThreadingService.ExecuteOnUiThreadAsync(() =>
+						if (statusCard.CancellationToken.IsCancellationRequested)
 						{
-							fsProgress.FileName = entryFileName;
-							fsProgress.Report();
-						});
+							isSuccess = false;
+							break;
+						}
 
-						StreamUtils.Copy(zipStream, streamWriter, buffer);
-					}
-					processedBytes += zipEntry.Size;
-					if (fsProgress.TotalSize > 0)
-					{
-						fsProgress.Report(processedBytes / (double)fsProgress.TotalSize * 100);
-					}
-					processedFiles++;
-					fsProgress.AddProcessedItemsCount(1);
-					fsProgress.Report();
-				}
+						if (!zipEntry.IsFile)
+						{
+							continue; // Ignore directories
+						}
 
+						string entryFileName = zipEntry.Name;
+						string fullZipToPath = Path.Combine(destinationFolderPath, entryFileName);
+						string directoryName = Path.GetDirectoryName(fullZipToPath);
+
+						if (!Directory.Exists(directoryName))
+						{
+							Directory.CreateDirectory(directoryName);
+						}
+
+						byte[] buffer = new byte[4096]; // 4K is a good default
+						using (Stream zipStream = zipFile.GetInputStream(zipEntry))
+						using (FileStream streamWriter = File.Create(fullZipToPath))
+						{
+							await ThreadingService.ExecuteOnUiThreadAsync(() =>
+							{
+								fsProgress.FileName = entryFileName;
+								fsProgress.Report();
+							});
+
+							StreamUtils.Copy(zipStream, streamWriter, buffer);
+						}
+						processedBytes += zipEntry.Size;
+						if (fsProgress.TotalSize > 0)
+						{
+							fsProgress.Report(processedBytes / (double)fsProgress.TotalSize * 100);
+						}
+						processedFiles++;
+						fsProgress.AddProcessedItemsCount(1);
+						fsProgress.Report();
+					}
+				});
 				if (!statusCard.CancellationToken.IsCancellationRequested)
 				{
 					isSuccess = true;
