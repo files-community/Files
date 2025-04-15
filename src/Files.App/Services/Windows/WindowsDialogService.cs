@@ -23,7 +23,7 @@ namespace Files.App.Services
 			try
 			{
 				using ComPtr<IFileOpenDialog> pDialog = default;
-				HRESULT hr = pDialog.CoCreateInstance(CLSID.CLSID_FileOpenDialog, null, CLSCTX.CLSCTX_INPROC_SERVER);
+				HRESULT hr = pDialog.CoCreateInstance(CLSID.CLSID_FileOpenDialog, null, CLSCTX.CLSCTX_INPROC_SERVER).ThrowOnFailure();
 
 				if (filters.Length is not 0 && filters.Length % 2 is 0)
 				{
