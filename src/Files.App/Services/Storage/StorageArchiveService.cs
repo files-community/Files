@@ -10,7 +10,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using UtfUnknown;
-using Vanara.PInvoke;
 using Windows.Storage;
 using Windows.Win32;
 
