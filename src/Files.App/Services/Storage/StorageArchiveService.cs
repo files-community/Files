@@ -5,9 +5,12 @@ using Files.Shared.Helpers;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using SevenZip;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Text;
+using UtfUnknown;
+using Vanara.PInvoke;
 using Windows.Storage;
 using Windows.Win32;
 
@@ -362,6 +365,42 @@ namespace Files.App.Services
 			{
 				Console.WriteLine($"SharpZipLib error: {ex.Message}");
 				return true;
+			}
+		}
+
+		public async Task<Encoding?> DetectEncodingAsync(string archiveFilePath)
+		{
+			//Temporarily using cp437 to decode zip file
+			//because SharpZipLib requires an encoding when decoding
+			//and cp437 contains all bytes as character
+			//which means that we can store any byte array as cp437 string losslessly
+			var cp437 = Encoding.GetEncoding(437);
+			try
+			{
+				using (ZipFile zipFile = new ZipFile(archiveFilePath, StringCodec.FromEncoding(cp437)))
+				{
+					var fileNameBytes = cp437.GetBytes(
+						String.Join("\n", 
+							zipFile.Cast<ZipEntry>()
+								.Where(e => !e.IsUnicodeText)
+								.Select(e => e.Name)
+						)
+					);
+					var detectionResult = CharsetDetector.DetectFromBytes(fileNameBytes);
+					if (detectionResult.Detected != null && detectionResult.Detected.Confidence > 0.5)
+					{
+						return detectionResult.Detected.Encoding;
+					}
+					else
+					{
+						return null;
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"SharpZipLib error: {ex.Message}");
+				return null;
 			}
 		}
 

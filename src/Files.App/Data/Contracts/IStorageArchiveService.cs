@@ -59,9 +59,16 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// Gets the value that indicates whether the archive file's encoding is undetermined.
 		/// </summary>
-		/// <param name="archiveFilePath">The archive file path to check if the item is encrypted.</param>
+		/// <param name="archiveFilePath">The archive file path to check if the encoding is undetermined.</param>
 		/// <returns>True if the archive file's encoding is undetermined; otherwise, false.</returns>
 		Task<bool> IsEncodingUndeterminedAsync(string archiveFilePath);
+
+		/// <summary>
+		/// Detect encoding for a zip file whose encoding is undetermined.
+		/// </summary>
+		/// <param name="archiveFilePath">The archive file path to detect encoding</param>
+		/// <returns>Null if the archive file doesn't need to detect encoding or its encoding can't be detected; otherwise, the encoding detected.</returns>
+		Task<Encoding?> DetectEncodingAsync(string archiveFilePath);
 
 		/// <summary>
 		/// Gets the <see cref="SevenZipExtractor"/> instance from the archive file path.

@@ -95,6 +95,7 @@
         <PackageReference Include="Microsoft.Graphics.Win2D" />
         <PackageReference Include="TagLibSharp" />
         <PackageReference Include="Tulpep.ActiveDirectoryObjectPicker" />
+        <PackageReference Include="UTF.Unknown" />
         <PackageReference Include="WinUIEx" />
         <PackageReference Include="Vanara.Windows.Extensions" />
         <PackageReference Include="Vanara.Windows.Shell" />
