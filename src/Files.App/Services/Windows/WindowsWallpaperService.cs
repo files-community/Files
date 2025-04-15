@@ -19,7 +19,7 @@ namespace Files.App.Services
 		{
 			// Instantiate IDesktopWallpaper
 			using ComPtr<IDesktopWallpaper> pDesktopWallpaper = default;
-			HRESULT hr = pDesktopWallpaper.CoCreateInstance(CLSID.CLSID_DesktopWallpaper);
+			HRESULT hr = pDesktopWallpaper.CoCreateInstance(CLSID.CLSID_DesktopWallpaper).ThrowOnFailure();
 
 			// Get total count of all available monitors
 			hr = pDesktopWallpaper.Get()->GetMonitorDevicePathCount(out var dwMonitorCount).ThrowOnFailure();
