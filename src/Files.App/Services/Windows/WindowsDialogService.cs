@@ -93,7 +93,7 @@ namespace Files.App.Services
 			try
 			{
 				using ComPtr<IFileSaveDialog> pDialog = default;
-				HRESULT hr = pDialog.CoCreateInstance(CLSID.CLSID_FileSaveDialog, null, CLSCTX.CLSCTX_INPROC_SERVER);
+				HRESULT hr = pDialog.CoCreateInstance(CLSID.CLSID_FileSaveDialog, null, CLSCTX.CLSCTX_INPROC_SERVER).ThrowOnFailure();
 
 				if (filters.Length is not 0 && filters.Length % 2 is 0)
 				{
