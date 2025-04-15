@@ -23,17 +23,7 @@ namespace Files.App.Services
 			try
 			{
 				using ComPtr<IFileOpenDialog> pDialog = default;
-				var dialogInstanceIid = typeof(FileOpenDialog).GUID;
-				var dialogIid = typeof(IFileOpenDialog).GUID;
-
-				// Get a new instance of the dialog
-				HRESULT hr = PInvoke.CoCreateInstance(
-					&dialogInstanceIid,
-					null,
-					CLSCTX.CLSCTX_INPROC_SERVER,
-					&dialogIid,
-					(void**)pDialog.GetAddressOf())
-				.ThrowOnFailure();
+				HRESULT hr = pDialog.CoCreateInstance(CLSID.CLSID_FileOpenDialog, null, CLSCTX.CLSCTX_INPROC_SERVER).ThrowOnFailure();
 
 				if (filters.Length is not 0 && filters.Length % 2 is 0)
 				{
@@ -56,13 +46,12 @@ namespace Files.App.Services
 
 				// Get the default shell folder (My Computer)
 				using ComPtr<IShellItem> pDefaultFolderShellItem = default;
-				var shellItemIid = typeof(IShellItem).GUID;
 				fixed (char* pszDefaultFolderPath = Environment.GetFolderPath(defaultFolder))
 				{
 					hr = PInvoke.SHCreateItemFromParsingName(
 						pszDefaultFolderPath,
 						null,
-						&shellItemIid,
+						IID.IID_IShellItem,
 						(void**)pDefaultFolderShellItem.GetAddressOf())
 					.ThrowOnFailure();
 				}
@@ -104,17 +93,7 @@ namespace Files.App.Services
 			try
 			{
 				using ComPtr<IFileSaveDialog> pDialog = default;
-				var dialogInstanceIid = typeof(FileSaveDialog).GUID;
-				var dialogIid = typeof(IFileSaveDialog).GUID;
-
-				// Get a new instance of the dialog
-				HRESULT hr = PInvoke.CoCreateInstance(
-					&dialogInstanceIid,
-					null,
-					CLSCTX.CLSCTX_INPROC_SERVER,
-					&dialogIid,
-					(void**)pDialog.GetAddressOf())
-				.ThrowOnFailure();
+				HRESULT hr = pDialog.CoCreateInstance(CLSID.CLSID_FileSaveDialog, null, CLSCTX.CLSCTX_INPROC_SERVER).ThrowOnFailure();
 
 				if (filters.Length is not 0 && filters.Length % 2 is 0)
 				{
@@ -137,13 +116,12 @@ namespace Files.App.Services
 
 				// Get the default shell folder (My Computer)
 				using ComPtr<IShellItem> pDefaultFolderShellItem = default;
-				var shellItemIid = typeof(IShellItem).GUID;
 				fixed (char* pszDefaultFolderPath = Environment.GetFolderPath(defaultFolder))
 				{
 					hr = PInvoke.SHCreateItemFromParsingName(
 						pszDefaultFolderPath,
 						null,
-						&shellItemIid,
+						IID.IID_IShellItem,
 						(void**)pDefaultFolderShellItem.GetAddressOf())
 					.ThrowOnFailure();
 				}
