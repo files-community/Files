@@ -16,7 +16,7 @@ namespace Windows.Win32.System.WinRT
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public HRESULT GetQuotaUI(IStorageProviderQuotaUI** result)
 		{
-			return ((delegate* unmanaged[Stdcall]<IStorageProviderStatusUI*, IStorageProviderQuotaUI**, HRESULT>)lpVtbl[14])((IStorageProviderStatusUI*)Unsafe.AsPointer(ref this), result);
+			return (HRESULT)((delegate* unmanaged[MemberFunction]<IStorageProviderStatusUI*, IStorageProviderQuotaUI**, int>)lpVtbl[14])((IStorageProviderStatusUI*)Unsafe.AsPointer(ref this), result);
 		}
 
 		public static ref readonly Guid Guid
