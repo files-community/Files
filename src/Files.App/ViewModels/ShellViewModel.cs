@@ -1634,11 +1634,15 @@ namespace Files.App.ViewModels
 				!isMtp &&
 				!isShellFolder &&
 				!isWslDistro;
-	
-			// Special handling for network drives
 			bool isNetdisk = false;
-			if (!isNetwork)
-				isNetdisk = (new DriveInfo(path).DriveType == System.IO.DriveType.Network);
+	
+			try
+			{
+				// Special handling for network drives
+				if (!isNetwork)
+					isNetdisk = (new DriveInfo(path).DriveType == System.IO.DriveType.Network);
+			}
+			catch { }
  			
 			bool isFtp = FtpHelpers.IsFtpPath(path);
 			bool enumFromStorageFolder = isBoxFolder || isFtp;
