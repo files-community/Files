@@ -342,7 +342,9 @@
 			x:Load="{x:Bind ViewModel.EnableOmnibar, Mode=OneWay}"
 			CurrentSelectedModeName="{x:Bind ViewModel.OmnibarCurrentSelectedModeName, Mode=TwoWay}"
 			IsFocused="{x:Bind ViewModel.IsOmnibarFocused, Mode=TwoWay}"
-			SuggestionChosen="Omnibar_SuggestionChosen">
+			QuerySubmitted="Omnibar_QuerySubmitted"
+			SuggestionChosen="Omnibar_SuggestionChosen"
+			TextChanged="Omnibar_TextChanged">
 
 			<controls:OmnibarMode
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IsFilled=True}"
@@ -351,7 +353,7 @@
 				ModeName="Path"
 				PlaceholderText="{helpers:ResourceString Name=OmnibarPathModeTextPlaceholder}"
 				SuggestionItemsSource="{x:Bind ViewModel.PathModeSuggestionItems, Mode=OneWay}"
-				Text="{x:Bind ViewModel.OmnibarPathModeText, Mode=OneWay}"
+				Text="{x:Bind ViewModel.OmnibarPathModeText, Mode=TwoWay}"
 				TextMemberPath="Path">
 				<controls:OmnibarMode.ContentOnInactive>
 					<controls:BreadcrumbBar

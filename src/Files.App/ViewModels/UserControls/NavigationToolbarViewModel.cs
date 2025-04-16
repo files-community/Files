@@ -596,10 +596,10 @@ namespace Files.App.ViewModels.UserControls
 			_pointerRoutedEventArgs = ptrPt.Properties.IsMiddleButtonPressed ? e : null;
 		}
 
-		public async Task HandleFolderNavigationAsync(string path, bool? isMiddleButtonPressed = null)
+		public async Task HandleFolderNavigationAsync(string path, bool openNewTab = false)
 		{
-			isMiddleButtonPressed ??= _pointerRoutedEventArgs is not null;
-			if (isMiddleButtonPressed is true)
+			openNewTab |= _pointerRoutedEventArgs is not null;
+			if (openNewTab)
 			{
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(
 					async () =>
@@ -614,6 +614,106 @@ namespace Files.App.ViewModels.UserControls
 			}
 
 			ToolbarPathItemInvoked?.Invoke(this, new() { ItemPath = path });
+		}
+
+		public async Task HandleItemNavigationAsync(string path)
+		{
+			if (ContentPageContext.ShellPage is null || PathComponents.LastOrDefault()?.Path is not { } currentPath)
+				return;
+
+			var isFtp = FtpHelpers.IsFtpPath(path);
+			var normalizedInput = NormalizePathInput(path, isFtp);
+			if (currentPath.Equals(normalizedInput, StringComparison.OrdinalIgnoreCase) ||
+				string.IsNullOrWhiteSpace(normalizedInput))
+				return;
+
+			if (normalizedInput.Equals(ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory) &&
+				ContentPageContext.ShellPage.CurrentPageType != typeof(HomePage))
+				return;
+
+			if (normalizedInput.Equals("Home", StringComparison.OrdinalIgnoreCase) ||
+				normalizedInput.Equals(Strings.Home.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+			{
+				SavePathToHistory("Home");
+				ContentPageContext.ShellPage.NavigateHome();
+			}
+			else if (normalizedInput.Equals("ReleaseNotes", StringComparison.OrdinalIgnoreCase) ||
+				normalizedInput.Equals(Strings.ReleaseNotes.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+			{
+				SavePathToHistory("ReleaseNotes");
+				ContentPageContext.ShellPage.NavigateToReleaseNotes();
+			}
+			else if (normalizedInput.Equals("Settings", StringComparison.OrdinalIgnoreCase) ||
+				normalizedInput.Equals(Strings.Settings.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+			{
+				//SavePathToHistory("Settings");
+				//ContentPageContext.ShellPage.NavigateToSettings();
+			}
+			else
+			{
+				normalizedInput = StorageFileExtensions.GetResolvedPath(normalizedInput, isFtp);
+				if (currentPath.Equals(normalizedInput, StringComparison.OrdinalIgnoreCase))
+					return;
+
+				var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(normalizedInput));
+
+				var resFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(normalizedInput, item));
+				if (resFolder || FolderHelpers.CheckFolderAccessWithWin32(normalizedInput))
+				{
+					var matchingDrive = drivesViewModel.Drives.Cast<DriveItem>().FirstOrDefault(x => PathNormalization.NormalizePath(normalizedInput).StartsWith(PathNormalization.NormalizePath(x.Path), StringComparison.Ordinal));
+					if (matchingDrive is not null && matchingDrive.Type == Data.Items.DriveType.CDRom && matchingDrive.MaxSpace == ByteSizeLib.ByteSize.FromBytes(0))
+					{
+						bool ejectButton = await DialogDisplayHelper.ShowDialogAsync(Strings.InsertDiscDialog_Title.GetLocalizedResource(), string.Format(Strings.InsertDiscDialog_Text.GetLocalizedResource(), matchingDrive.Path), Strings.InsertDiscDialog_OpenDriveButton.GetLocalizedResource(), Strings.Close.GetLocalizedResource());
+						if (ejectButton)
+							DriveHelpers.EjectDeviceAsync(matchingDrive.Path);
+						return;
+					}
+
+					var pathToNavigate = resFolder.Result?.Path ?? normalizedInput;
+					SavePathToHistory(pathToNavigate);
+					ContentPageContext.ShellPage.NavigateToPath(pathToNavigate);
+				}
+				else if (isFtp)
+				{
+					SavePathToHistory(normalizedInput);
+					ContentPageContext.ShellPage.NavigateToPath(normalizedInput);
+				}
+				else // Not a folder or inaccessible
+				{
+					var resFile = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFileWithPathFromPathAsync(normalizedInput, item));
+					if (resFile)
+					{
+						var pathToInvoke = resFile.Result.Path;
+						await Win32Helper.InvokeWin32ComponentAsync(pathToInvoke, ContentPageContext.ShellPage);
+					}
+					else // Not a file or not accessible
+					{
+						var workingDir =
+							string.IsNullOrEmpty(ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory) ||
+							ContentPageContext.ShellPage.CurrentPageType == typeof(HomePage)
+								? Constants.UserEnvironmentPaths.HomePath
+								: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
+
+						if (await LaunchApplicationFromPath(OmnibarPathModeText, workingDir))
+							return;
+
+						try
+						{
+							if (!await Windows.System.Launcher.LaunchUriAsync(new Uri(OmnibarPathModeText)))
+								await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidItemDialogTitle.GetLocalizedResource(),
+									string.Format(Strings.InvalidItemDialogContent.GetLocalizedResource(), Environment.NewLine, resFolder.ErrorCode.ToString()));
+						}
+						catch (Exception ex) when (ex is UriFormatException || ex is ArgumentException)
+						{
+							await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidItemDialogTitle.GetLocalizedResource(),
+								string.Format(Strings.InvalidItemDialogContent.GetLocalizedResource(), Environment.NewLine, resFolder.ErrorCode.ToString()));
+						}
+					}
+				}
+			}
+
+			PathControlDisplayText = ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
+			IsOmnibarFocused = false;
 		}
 
 		public void PathBoxItem_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -799,6 +899,7 @@ namespace Files.App.ViewModels.UserControls
 			return currentInput;
 		}
 
+		[Obsolete("Remove once Omnibar goes out of experimental.")]
 		public async Task CheckPathInputAsync(string currentInput, string currentSelectedPath, IShellPage shellPage)
 		{
 			if (currentInput.StartsWith('>'))

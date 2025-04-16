@@ -254,10 +254,20 @@ namespace Files.App.UserControls
 				ViewModel.IsEditModeEnabled = true;
 		}
 
+		private async void Omnibar_QuerySubmitted(Omnibar sender, OmnibarQuerySubmittedEventArgs args)
+		{
+			await ViewModel.HandleItemNavigationAsync(args.Text);
+		}
+
 		private async void Omnibar_SuggestionChosen(Omnibar sender, OmnibarSuggestionChosenEventArgs args)
 		{
 			if (args.SelectedItem is OmnibarPathModeSuggestionModel item)
 				await ViewModel.HandleFolderNavigationAsync(item.Path);
+		}
+
+		private async void Omnibar_TextChanged(Omnibar sender, OmnibarTextChangedEventArgs args)
+		{
+			await ViewModel.PopulateOmnibarSuggestionsForPathMode();
 		}
 
 		private async void BreadcrumbBar_ItemClicked(Controls.BreadcrumbBar sender, Controls.BreadcrumbBarItemClickedEventArgs args)
