@@ -1068,48 +1068,48 @@ namespace Files.App.ViewModels.UserControls
 						newSuggestions.AddRange(currPath.Select(x => new OmnibarPathModeSuggestionModel(x.Path, x.Item.DisplayName)));
 						newSuggestions.AddRange(subPath.Select(x => new OmnibarPathModeSuggestionModel(x.Path, PathNormalization.Combine(currPath.First().Item.DisplayName, x.Item.DisplayName))));
 					}
+				}
 
-					// If there are no suggestions, show "No suggestions"
-					if (newSuggestions.Count is 0)
+				// If there are no suggestions, show "No suggestions"
+				if (newSuggestions.Count is 0)
+				{
+					AddNoResultsItem();
+				}
+
+				// Check whether at least one item is in common between the old and the new suggestions
+				// since the suggestions popup becoming empty causes flickering
+				if (!PathModeSuggestionItems.IntersectBy(newSuggestions, x => x.DisplayName).Any())
+				{
+					// No items in common, update the list in-place
+					for (int index = 0; index < newSuggestions.Count; index++)
 					{
-						AddNoResultsItem();
+						if (index < PathModeSuggestionItems.Count)
+						{
+							PathModeSuggestionItems[index] = newSuggestions[index];
+						}
+						else
+						{
+							PathModeSuggestionItems.Add(newSuggestions[index]);
+						}
 					}
 
-					// Check whether at least one item is in common between the old and the new suggestions
-					// since Omnibar suggestions popup becoming empty causes flickering
-					if (!PathModeSuggestionItems.IntersectBy(newSuggestions, x => x.DisplayName).Any())
-					{
-						// No items in common, update the list in-place
-						for (int index = 0; index < newSuggestions.Count; index++)
-						{
-							if (index < PathModeSuggestionItems.Count)
-							{
-								PathModeSuggestionItems[index] = newSuggestions[index];
-							}
-							else
-							{
-								PathModeSuggestionItems.Add(newSuggestions[index]);
-							}
-						}
+					while (PathModeSuggestionItems.Count > newSuggestions.Count)
+						PathModeSuggestionItems.RemoveAt(PathModeSuggestionItems.Count - 1);
+				}
+				else
+				{
+					// At least an element in common, show animation
+					foreach (var s in PathModeSuggestionItems.ExceptBy(newSuggestions, x => x.DisplayName).ToList())
+						PathModeSuggestionItems.Remove(s);
 
-						while (PathModeSuggestionItems.Count > newSuggestions.Count)
-							PathModeSuggestionItems.RemoveAt(PathModeSuggestionItems.Count - 1);
-					}
-					else
+					for (int index = 0; index < newSuggestions.Count; index++)
 					{
-						// At least an element in common, show animation
-						foreach (var s in PathModeSuggestionItems.ExceptBy(newSuggestions, x => x.DisplayName).ToList())
-							PathModeSuggestionItems.Remove(s);
-
-						for (int index = 0; index < newSuggestions.Count; index++)
+						if (PathModeSuggestionItems.Count > index && PathModeSuggestionItems[index].DisplayName == newSuggestions[index].DisplayName)
 						{
-							if (PathModeSuggestionItems.Count > index && PathModeSuggestionItems[index].DisplayName == newSuggestions[index].DisplayName)
-							{
-								PathModeSuggestionItems[index] = newSuggestions[index];
-							}
-							else
-								PathModeSuggestionItems.Insert(index, newSuggestions[index]);
+							PathModeSuggestionItems[index] = newSuggestions[index];
 						}
+						else
+							PathModeSuggestionItems.Insert(index, newSuggestions[index]);
 					}
 				}
 

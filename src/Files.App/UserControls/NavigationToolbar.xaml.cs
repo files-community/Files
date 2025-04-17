@@ -261,8 +261,9 @@ namespace Files.App.UserControls
 
 		private async void Omnibar_SuggestionChosen(Omnibar sender, OmnibarSuggestionChosenEventArgs args)
 		{
-			if (args.SelectedItem is OmnibarPathModeSuggestionModel item)
-				await ViewModel.HandleFolderNavigationAsync(item.Path);
+			if (args.SelectedItem is OmnibarPathModeSuggestionModel item &&
+				!string.IsNullOrEmpty(item.Path))
+				await ViewModel.HandleItemNavigationAsync(item.Path);
 		}
 
 		private async void Omnibar_TextChanged(Omnibar sender, OmnibarTextChangedEventArgs args)
@@ -274,7 +275,7 @@ namespace Files.App.UserControls
 		{
 			if (args.IsRootItem)
 			{
-				// TODO: Go to Home
+				await ViewModel.HandleItemNavigationAsync("Home");
 				return;
 			}
 

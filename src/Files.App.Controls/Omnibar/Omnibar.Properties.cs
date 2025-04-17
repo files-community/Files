@@ -26,5 +26,10 @@ namespace Files.App.Controls
 		{
 			CurrentSelectedModeName = newValue?.ModeName;
 		}
+
+		partial void OnIsFocusedChanged(bool newValue)
+		{
+			//_textBox?.Focus(newValue ? FocusState.Programmatic : FocusState.Unfocused);
+		}
 	}
 }
