@@ -2141,9 +2141,6 @@
   <data name="SplittingSize" xml:space="preserve">
     <value>Splitting size</value>
   </data>
-  <data name="DoNotSplit" xml:space="preserve">
-    <value>Do not split</value>
-  </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
   </data>
@@ -2197,15 +2194,6 @@
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Edit settings file</value>
-  </data>
-  <data name="EditSettingsFileDescription" xml:space="preserve">
-    <value>Open settings file in your default editor</value>
-  </data>
-  <data name="ReleaseNotes" xml:space="preserve">
-    <value>Release Notes</value>
-  </data>
-  <data name="ReleaseNotesDescription" xml:space="preserve">
-    <value>Open Release Notes</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Creating a shortcut in this location requires administrator privileges</value>
@@ -3508,7 +3496,7 @@
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
     <value>Cloning {0} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
     <value>Canceled installing {0} fonts</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3540,7 +3528,7 @@
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
     <value>Installing {0} font(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>Canceled copying {0} item(s) to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3699,9 +3687,6 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Failed to set the background wallpaper</value>
-  </data>
-  <data name="FailedToOpenSettingsFile" xml:space="preserve">
-    <value>Failed to open the settings file</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
     <value>Delete Git branch</value>
@@ -4122,18 +4107,6 @@
     <value>Add to shelf</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
   </data>
-  <data name="EnterHashToCompare" xml:space="preserve">
-    <value>Enter a hash to compare</value>
-    <comment>Placeholder that appears in the compare hash text box</comment>
-  </data>
-  <data name="HashesMatch" xml:space="preserve">
-    <value>Matches {0}</value>
-    <comment>Appears when two compared hashes match, e.g. "Matches SHA256"</comment>
-  </data>
-  <data name="HashesDoNotMatch" xml:space="preserve">
-    <value>No matches found</value>
-    <comment>Appears when two compared hashes don't match</comment>
-  </data>
   <data name="PathOrAlias" xml:space="preserve">
     <value>Path or alias</value>
   </data>
@@ -4177,6 +4150,33 @@
     <value>Cannot clone repo</value>
     <comment>Cannot clone repo dialog title</comment>
   </data>
+  <data name="DoNotSplit" xml:space="preserve">
+    <value>Do not split</value>
+  </data>
+  <data name="EditSettingsFileDescription" xml:space="preserve">
+    <value>Open settings file in your default editor</value>
+  </data>
+  <data name="ReleaseNotes" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="ReleaseNotesDescription" xml:space="preserve">
+    <value>Open Release Notes</value>
+  </data>
+  <data name="FailedToOpenSettingsFile" xml:space="preserve">
+    <value>Failed to open the settings file</value>
+  </data>
+  <data name="EnterHashToCompare" xml:space="preserve">
+    <value>Enter a hash to compare</value>
+    <comment>Placeholder that appears in the compare hash text box</comment>
+  </data>
+  <data name="HashesMatch" xml:space="preserve">
+    <value>Matches {0}</value>
+    <comment>Appears when two compared hashes match, e.g. "Matches SHA256"</comment>
+  </data>
+  <data name="HashesDoNotMatch" xml:space="preserve">
+    <value>No matches found</value>
+    <comment>Appears when two compared hashes don't match</comment>
+  </data>
   <data name="CompareFile" xml:space="preserve">
     <value>Compare a file</value>
     <comment>Button that appears in file hash properties that allows the user to compare two files</comment>
@@ -4192,5 +4192,8 @@
   </data>
   <data name="EnableOmnibar" xml:space="preserve">
     <value>Enable Omnibar</value>
+  </data>
+  <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
+    <value>Enter a path to navigate to...</value>
   </data>
 </root>

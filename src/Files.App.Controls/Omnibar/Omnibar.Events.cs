@@ -16,7 +16,7 @@ namespace Files.App.Controls
 
 		private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
 		{
-			_isFocused = true;
+			IsFocused = true;
 
 			VisualStateManager.GoToState(CurrentSelectedMode, "Focused", true);
 			VisualStateManager.GoToState(_textBox, "InputAreaVisible", true);
@@ -30,7 +30,7 @@ namespace Files.App.Controls
 			if (_textBox.ContextFlyout.IsOpen)
 				return;
 
-			_isFocused = false;
+			IsFocused = false;
 
 			if (CurrentSelectedMode?.ContentOnInactive is not null)
 			{
@@ -92,7 +92,8 @@ namespace Files.App.Controls
 
 		private void AutoSuggestBox_TextChanged(object sender, TextChangedEventArgs e)
 		{
-			CurrentSelectedMode!.Text = _textBox.Text;
+			if (string.Compare(_textBox.Text, CurrentSelectedMode!.Text, StringComparison.OrdinalIgnoreCase) is not 0)
+				CurrentSelectedMode!.Text = _textBox.Text;
 
 			// UpdateSuggestionListView();
 
