@@ -22,7 +22,7 @@ namespace Files.App.Data.Items
         /// Initializes a new instance of the <see cref="EncodingItem"/> class.
         /// </summary>
         /// <param name="code">The code of the language.</param>
-        public EncodingItem(string code)
+        public EncodingItem(string? code)
         {
             if (string.IsNullOrEmpty(code))
             {
@@ -44,13 +44,33 @@ namespace Files.App.Data.Items
 
 		public static EncodingItem[] Defaults = new string?[] {
 			null,//System Default
-			"UTF-8",
-			"shift_jis",
-			"gb2312",
-			"big5",
-			"ks_c_5601-1987",
-			"Windows-1252",
-			"macintosh",
+            "UTF-8",
+			
+            //All possible Windows system encodings
+            //reference: https://en.wikipedia.org/wiki/Windows_code_page
+            //East Asian
+            "shift_jis",       //Japanese
+            "gb2312",          //Simplified Chinese
+            "big5",            //Traditional Chinese
+            "ks_c_5601-1987",  //Korean
+            
+            //Southeast Asian
+            "Windows-1258",    //Vietnamese
+            "Windows-874",     //Thai
+            
+            //Middle East
+            "Windows-1256",    //Arabic
+            "Windows-1255",    //Hebrew
+            "Windows-1254",    //Turkish
+            
+            //European
+            "Windows-1252",    //Western European
+            "Windows-1250",    //Central European
+            "Windows-1251",    //Cyrillic
+            "Windows-1253",    //Greek
+            "Windows-1257",    //Baltic
+            
+            "macintosh",
 		}
 			.Select(x => new EncodingItem(x))
 			.ToArray();
