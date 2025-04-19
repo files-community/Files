@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.Collections.Concurrent;
 using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -8,17 +9,27 @@ using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.Graphics.GdiPlus;
 using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Storage.Storables
 {
 	public static partial class WindowsStorableHelpers
 	{
-		private static (Guid Format, Guid Encorder)[]? GdiEncoders;
+		// Fields
 
-		/// <inheritdoc cref="GetThumbnail"/>
-		public static async Task<byte[]> GetThumbnailAsync(this IWindowsStorable storable, int size, SIIGBF options)
+		private static (Guid Format, Guid Encorder)[]? GdiEncoders;
+		private static ConcurrentDictionary<(string, int, int), byte[]>? DllIconCache;
+
+		// Methods
+
+		/// <inheritdoc cref="TryGetThumbnail"/>
+		public static async Task<byte[]?> GetThumbnailAsync(this IWindowsStorable storable, int size, SIIGBF options)
 		{
-			return await STATask.Run(() => storable.GetThumbnail(size, options));
+			return await STATask.Run(() =>
+			{
+				storable.TryGetThumbnail(size, options, out var thumbnailData);
+				return thumbnailData;
+			});
 		}
 
 		/// <summary>
@@ -29,11 +40,13 @@ namespace Files.App.Storage.Storables
 		/// <param name="options">A combination of <see cref="SIIGBF"/> flags that specify how the thumbnail should be retrieved.</param>
 		/// <returns>A byte array containing the thumbnail image in its native format (e.g., PNG, JPEG).</returns>
 		/// <remarks>If the thumbnail is JPEG, this tries to decoded as a PNG instead because JPEG loses data.</remarks>
-		public unsafe static byte[] GetThumbnail(this IWindowsStorable storable, int size, SIIGBF options)
+		public unsafe static bool TryGetThumbnail(this IWindowsStorable storable, int size, SIIGBF options, out byte[]? thumbnailData)
 		{
+			thumbnailData = null;
+
 			using ComPtr<IShellItemImageFactory> pShellItemImageFactory = storable.ThisPtr.As<IShellItemImageFactory>();
 			if (pShellItemImageFactory.IsNull)
-				return [];
+				return false;
 
 			// Get HBITMAP
 			HBITMAP hBitmap = default;
@@ -41,20 +54,85 @@ namespace Files.App.Storage.Storables
 			if (hr.ThrowIfFailedOnDebug().Failed)
 			{
 				if (!hBitmap.IsNull) PInvoke.DeleteObject(hBitmap);
-				return [];
+				return false;
 			}
 
 			// Convert to GpBitmap of GDI+
 			GpBitmap* gpBitmap = default;
-			PInvoke.GdipCreateBitmapFromHBITMAP(hBitmap, HPALETTE.Null, &gpBitmap);
+			if (PInvoke.GdipCreateBitmapFromHBITMAP(hBitmap, HPALETTE.Null, &gpBitmap) is not Status.Ok)
+			{
+				if (gpBitmap is not null) PInvoke.GdipDisposeImage((GpImage*)gpBitmap);
+				if (!hBitmap.IsNull) PInvoke.DeleteObject(hBitmap);
+				return false;
+			}
+
+			if (TryConvertGpBitmapToByteArray(gpBitmap, out thumbnailData))
+			{
+				if (!hBitmap.IsNull) PInvoke.DeleteObject(hBitmap);
+				return false;
+			}
+
+			return true;
+		}
+
+		public unsafe static bool TryExtractImageFromDll(this IWindowsStorable storable, int size, int index, out byte[]? imageData)
+		{
+			DllIconCache ??= [];
+			imageData = null;
+
+			if (storable.ToString() is not { } path)
+				return false;
+
+			if (DllIconCache.TryGetValue((path, index, size), out var cachedImageData))
+			{
+				imageData = cachedImageData;
+				return true;
+			}
+			else
+			{
+				HICON hIcon = default;
+				HRESULT hr = default;
+
+				fixed (char* pszPath = path)
+					hr = PInvoke.SHDefExtractIcon(pszPath, -1 * index, 0, &hIcon, null, (uint)size);
+
+				if (hr.ThrowIfFailedOnDebug().Failed)
+				{
+					if (!hIcon.IsNull) PInvoke.DestroyIcon(hIcon);
+					return false;
+				}
+
+				// Convert to GpBitmap of GDI+
+				GpBitmap* gpBitmap = default;
+				if (PInvoke.GdipCreateBitmapFromHICON(hIcon, &gpBitmap) is not Status.Ok)
+				{
+					if (!hIcon.IsNull) PInvoke.DestroyIcon(hIcon);
+					return false;
+				}
+
+				if (!TryConvertGpBitmapToByteArray(gpBitmap, out imageData))
+				{
+					if (!hIcon.IsNull) PInvoke.DestroyIcon(hIcon);
+					return false;
+				}
+
+				DllIconCache[(path, index, size)] = imageData;
+				PInvoke.DestroyIcon(hIcon);
+
+				return true;
+			}
+		}
+
+		public unsafe static bool TryConvertGpBitmapToByteArray(GpBitmap* gpBitmap, out byte[]? imageData)
+		{
+			imageData = null;
 
 			// Get an encoder for PNG
 			Guid format = Guid.Empty;
 			if (PInvoke.GdipGetImageRawFormat((GpImage*)gpBitmap, &format) is not Status.Ok)
 			{
 				if (gpBitmap is not null) PInvoke.GdipDisposeImage((GpImage*)gpBitmap);
-				if (!hBitmap.IsNull) PInvoke.DeleteObject(hBitmap);
-				return [];
+				return false;
 			}
 
 			Guid encoder = GetEncoderClsid(format);
@@ -65,19 +143,17 @@ namespace Files.App.Storage.Storables
 			}
 
 			using ComPtr<IStream> pStream = default;
-			hr = PInvoke.CreateStreamOnHGlobal(HGLOBAL.Null, true, pStream.GetAddressOf());
+			HRESULT hr = PInvoke.CreateStreamOnHGlobal(HGLOBAL.Null, true, pStream.GetAddressOf());
 			if (hr.ThrowIfFailedOnDebug().Failed)
 			{
 				if (gpBitmap is not null) PInvoke.GdipDisposeImage((GpImage*)gpBitmap);
-				if (!hBitmap.IsNull) PInvoke.DeleteObject(hBitmap);
-				return [];
+				return false;
 			}
 
 			if (PInvoke.GdipSaveImageToStream((GpImage*)gpBitmap, pStream.Get(), &encoder, (EncoderParameters*)null) is not Status.Ok)
 			{
 				if (gpBitmap is not null) PInvoke.GdipDisposeImage((GpImage*)gpBitmap);
-				if (!hBitmap.IsNull) PInvoke.DeleteObject(hBitmap);
-				return [];
+				return false;
 			}
 
 			STATSTG stat = default;
@@ -85,8 +161,7 @@ namespace Files.App.Storage.Storables
 			if (hr.ThrowIfFailedOnDebug().Failed)
 			{
 				if (gpBitmap is not null) PInvoke.GdipDisposeImage((GpImage*)gpBitmap);
-				if (!hBitmap.IsNull) PInvoke.DeleteObject(hBitmap);
-				return [];
+				return false;
 			}
 
 			ulong statSize = stat.cbSize & 0xFFFFFFFF;
@@ -97,15 +172,14 @@ namespace Files.App.Storage.Storables
 			if (hr.ThrowIfFailedOnDebug().Failed)
 			{
 				if (gpBitmap is not null) PInvoke.GdipDisposeImage((GpImage*)gpBitmap);
-				if (!hBitmap.IsNull) PInvoke.DeleteObject(hBitmap);
 				if (RawThumbnailData is not null) NativeMemory.Free(RawThumbnailData);
-				return [];
+				return false;
 			}
 
-			byte[] thumbnailData = new ReadOnlySpan<byte>(RawThumbnailData, (int)statSize / sizeof(byte)).ToArray();
+			imageData = new ReadOnlySpan<byte>(RawThumbnailData, (int)statSize / sizeof(byte)).ToArray();
 			NativeMemory.Free(RawThumbnailData);
 
-			return thumbnailData;
+			return true;
 
 			Guid GetEncoderClsid(Guid format)
 			{

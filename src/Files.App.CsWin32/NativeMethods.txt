@@ -202,3 +202,5 @@ SHGetFileInfo
 GetFileAttributes
 SetFileAttributes
 INVALID_FILE_ATTRIBUTES
+SHDefExtractIconW
+GdipCreateBitmapFromHICON
