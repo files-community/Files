@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Controls;
-using Windows.Foundation.Metadata;
 
 namespace Files.App.Actions
 {
@@ -43,18 +42,16 @@ namespace Files.App.Actions
 				Content = Strings.ConfirmEmptyBinDialogContent.GetLocalizedResource(),
 				PrimaryButtonText = Strings.Yes.GetLocalizedResource(),
 				SecondaryButtonText = Strings.Cancel.GetLocalizedResource(),
-				DefaultButton = ContentDialogButton.Primary
+				DefaultButton = ContentDialogButton.Primary,
+				XamlRoot = MainWindow.Instance.Content.XamlRoot
 			};
-
-			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				confirmationDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
 			if (UserSettingsService.FoldersSettingsService.DeleteConfirmationPolicy is DeleteConfirmationPolicies.Never ||
 				await confirmationDialog.TryShowAsync() is ContentDialogResult.Primary)
 			{
 				var banner = StatusCenterHelper.AddCard_EmptyRecycleBin(ReturnResult.InProgress);
 
-				bool result = await Task.Run(StorageTrashBinService.EmptyTrashBin);
+				bool result = await StorageTrashBinService.EmptyTrashBin();
 
 				StatusCenterViewModel.RemoveItem(banner);
 
