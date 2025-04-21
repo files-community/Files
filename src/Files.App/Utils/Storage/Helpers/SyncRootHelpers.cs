@@ -20,7 +20,6 @@ namespace Files.App.Utils.Storage
 				!Guid.TryParse(factoryClsidString, out var factoryClsid))
 				return (false, 0, 0);
 
-			HRESULT hr = default;
 			ulong ulTotalSize = 0ul, ulUsedSize = 0ul;
 			using ComPtr<IStorageProviderStatusUISourceFactory> pStorageProviderStatusUISourceFactory = default;
 			using ComPtr<IStorageProviderStatusUISource> pStorageProviderStatusUISource = default;
@@ -31,7 +30,7 @@ namespace Files.App.Utils.Storage
 				&factoryClsid,
 				null,
 				CLSCTX.CLSCTX_LOCAL_SERVER,
-				(Guid*)Unsafe.AsPointer(ref Unsafe.AsRef(in IStorageProviderStatusUISourceFactory.Guid)),
+				IID.IID_IStorageProviderStatusUISourceFactory,
 				(void**)pStorageProviderStatusUISourceFactory.GetAddressOf()).ThrowIfFailedOnDebug().Failed)
 				return (false, 0, 0);
 

@@ -9,9 +9,11 @@ using Windows.Win32.Foundation;
 
 namespace Windows.Win32.System.WinRT
 {
-	public unsafe struct IStorageProviderQuotaUI : IComIID
+	public unsafe partial struct IStorageProviderQuotaUI : IComIID
 	{
+#pragma warning disable CS0649 // Field 'field' is never assigned to, and will always have its default value 'value'
 		private void** lpVtbl;
+#pragma warning restore CS0649 // Field 'field' is never assigned to, and will always have its default value 'value'
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public HRESULT GetQuotaTotalInBytes(ulong* value)
@@ -25,23 +27,7 @@ namespace Windows.Win32.System.WinRT
 			return (HRESULT)((delegate* unmanaged[MemberFunction]<IStorageProviderQuotaUI*, ulong*, int>)(lpVtbl[8]))((IStorageProviderQuotaUI*)Unsafe.AsPointer(ref this), value);
 		}
 
-		public static ref readonly Guid Guid
-		{
-			get
-			{
-				// BA6295C3-312E-544F-9FD5-1F81B21F3649
-				ReadOnlySpan<byte> data =
-				[
-					0xC3, 0x95, 0x62, 0xBA,
-					0x2E, 0x31,
-					0x4F, 0x54,
-					0x9F, 0xD5,
-					0x1F, 0x81, 0xB2, 0x1F, 0x36, 0x49
-				];
-
-				Debug.Assert(data.Length == sizeof(Guid));
-				return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
-			}
-		}
+		[GuidRVAGen.Guid("BA6295C3-312E-544F-9FD5-1F81B21F3649")]
+		public static partial ref readonly Guid Guid { get; }
 	}
 }
