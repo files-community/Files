@@ -55,6 +55,8 @@ namespace Files.App.Views
 			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
 			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
+
+			ApplySidebarWidthState();
 		}
 
 		private async Task PromptForReviewAsync()
@@ -119,6 +121,9 @@ namespace Files.App.Views
 			{
 				case nameof(IInfoPaneSettingsService.IsInfoPaneEnabled):
 					LoadPaneChanged();
+					break;
+				case nameof(IAppearanceSettingsService.SidebarWidth):
+					ApplySidebarWidthState();
 					break;
 			}
 		}
@@ -432,6 +437,16 @@ namespace Files.App.Views
 			}
 
 			this.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.Arrow));
+		}
+
+		private void ApplySidebarWidthState()
+		{
+			if (UserSettingsService.AppearanceSettingsService.SidebarWidth > 340)
+				VisualStateManager.GoToState(this, "LargeSidebarWidthState", true);
+			else if (UserSettingsService.AppearanceSettingsService.SidebarWidth > 280)
+				VisualStateManager.GoToState(this, "MediumSidebarWidthState", true);
+			else
+				VisualStateManager.GoToState(this, "SmallSidebarWidthState", true);
 		}
 
 		private void LoadPaneChanged()
