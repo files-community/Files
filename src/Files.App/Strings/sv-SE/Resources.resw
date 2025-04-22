@@ -2073,7 +2073,7 @@
     <value>Återställ alla objekt</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Vill du återställa {0} valda objekt?</value>
+    <value>Do you want to restore the {0, plural, one {selected item} other {{0} selected items}}?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>Återställ valda</value>
@@ -2095,6 +2095,12 @@
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>Arkivlösenord</value>
+  </data>
+  <data name="Encoding" xml:space="preserve">
+    <value>Encoding</value>
+  </data>
+  <data name="EncodingDetected" xml:space="preserve">
+    <value>{0} (detected)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Sökväg</value>
@@ -2138,8 +2144,8 @@
   <data name="SplittingSize" xml:space="preserve">
     <value>Delningsstorlek</value>
   </data>
-  <data name="Do not split" xml:space="preserve">
-    <value>Dela inte upp</value>
+  <data name="DoNotSplit" xml:space="preserve">
+    <value>Do not split</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2195,10 +2201,13 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Redigera inställningsfil</value>
   </data>
-  <data name="WhatsNew" xml:space="preserve">
-    <value>Vad är nytt</value>
+  <data name="EditSettingsFileDescription" xml:space="preserve">
+    <value>Open settings file in your default editor</value>
   </data>
-  <data name="WhatsNewDescription" xml:space="preserve">
+  <data name="ReleaseNotes" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="ReleaseNotesDescription" xml:space="preserve">
     <value>Open Release Notes</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
@@ -2409,7 +2418,7 @@
     <value>Växla om sidofältet ska visas</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Kopiera objekt(en) till urklipp</value>
+    <value>Copy {0, plural, one {item} other {items}} to clipboard</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Kopiera sökväg för valda objekt till urklipp</value>
@@ -2424,25 +2433,25 @@
     <value>Kopiera sökväg för valda objekt med citat till urklipp</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Klipp ut objekt till urklipp</value>
+    <value>Cut {0, plural, one {item} other {items}} to clipboard</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Klistra in objekt från urklipp till nuvarande mapp</value>
+    <value>Paste items from clipboard to current folder</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to current folder as shortcuts</value>
+    <value>Paste items from clipboard to current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Klistra in objekt från urklipp till den valda mappen</value>
+    <value>Paste items from clipboard to selected folder</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>Ta bort objekt</value>
+    <value>Radera {0, plural, one {objekt} other {objekt}}</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>Skapa ny mapp</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Skapa nya genvägar till valda objekt</value>
+    <value>Create new {0, plural, one {shortcut} other {shortcuts}} to selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>Skapa ny genväg till ett objekt</value>
@@ -2454,16 +2463,16 @@
     <value>Öppna formateringsmenyn för valt objekt</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Återställ valda objekt från papperskorgen</value>
+    <value>Restore selected {0, plural, one {item} other {items}} from recycle bin</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
     <value>Återställ alla objekt från papperskorgen</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Öppna objekt</value>
+    <value>Open {0, plural, one {item} other {items}}</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Öppna objekt med vald applikation</value>
+    <value>Open {0, plural, one {item} other {items}} with selected application</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
     <value>Öppna överordnad mapp av sökt objekt</value>
@@ -2487,19 +2496,19 @@
     <value>Växla val av objekt</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Dela markerade fil(er) med andra</value>
+    <value>Share selected {0, plural, one {file} other {files}} with others</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Fäst objekt i Start-menyn</value>
+    <value>Pin {0, plural, one {item} other {items}} to the Start Menu</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Lossa objekt från Start-menyn</value>
+    <value>Unpin {0, plural, one {item} other {items}} from the Start Menu</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>Fäst mapp(ar) till sidofält</value>
+    <value>Pin {0, plural, one {folder} other {folders}} to Sidebar</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
-    <value>Lossa mapp(er) från sidofält</value>
+    <value>Unpin {0, plural, one {folder} other {folders}} from Sidebar</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Ställ in vald bild som skrivbordsbakgrund</value>
@@ -2514,13 +2523,13 @@
     <value>Ange vald bild som appbakgrund</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Installera valda teckensnitt</value>
+    <value>Install selected {0, plural, one {font} other {fonts}}</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Installera drivrutin(er) med valda 'Inf' fil(er)</value>
+    <value>Install {0, plural, one {driver} other {drivers}} using selected inf {0, plural, one {file} other {files}}</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>Installera markerade certifikat</value>
+    <value>Install selected {0, plural, one {certificate} other {certificates}}</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Kör vald applikation som administratör</value>
@@ -2535,28 +2544,28 @@
     <value>Starta förhandsgranskning i popup-fönster</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Skapa arkiv med valda objekt</value>
+    <value>Create archive with selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Skapa ett 7z arkiv direkt med valda objekt</value>
+    <value>Create 7z archive with selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Skapa ett zip-arkiv direkt med valda objekt</value>
+    <value>Create zip archive with selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extrahera objekt från valda arkiv till valfri mapp</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to any folder</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extrahera objekt från valda arkiv till aktuell mapp</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to current folder</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extrahera objekt från markerade arkiv till ny mapp</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to new folder</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotera valda bild(er) till vänster</value>
+    <value>Rotate selected {0, plural, one {image} other {images}} to the left</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotera valda bild(er) till höger</value>
+    <value>Rotate selected {0, plural, one {image} other {images}} to the right</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>Öppna Inställningarna</value>
@@ -2992,7 +3001,7 @@
     <value>Radera permanent</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Ta bort objekt permanent</value>
+    <value>Delete {0, plural, one {item} other {items}} permanently</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>Spela upp de valda mediefilerna</value>
@@ -3109,7 +3118,7 @@
     <value>Växla till ny affärsenhet</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Skapa en mapp med de valda objekten</value>
+    <value>Create a folder with the currently selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>Öppna egenskaper</value>
@@ -3502,7 +3511,7 @@
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
     <value>Cloning {0} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
     <value>Canceled installing {0} fonts</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3534,7 +3543,7 @@
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
     <value>Installing {0} font(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>Avbröt kopiering av {0} objekt till "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3676,7 +3685,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} objekt bearbetade</value>
+    <value>{0}/{1} {0, plural, one {item} other {items}} processed</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3693,6 +3702,9 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Det gick inte att ange bakgrundsbild</value>
+  </data>
+  <data name="FailedToOpenSettingsFile" xml:space="preserve">
+    <value>Failed to open the settings file</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
     <value>Ta bort Git branch</value>
@@ -3719,7 +3731,7 @@
     <value>Det gick inte att tillämpa denna tagg</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extrahera objekt från valda arkiv till aktuell mapp för ett objekts arkiv, eller till ny mapp för flera objekts arkiv</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to current folder for single-item archive, or to new folder for multi-item archive</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Extrahera här (Smart)</value>
@@ -4061,7 +4073,7 @@
     <value>Create alternate data stream</value>
   </data>
   <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
-    <value>Create alternate data stream for the selected item(s)</value>
+    <value>Create alternate data stream for the selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="EnterDataStreamName" xml:space="preserve">
     <value>Enter data stream name</value>
@@ -4113,6 +4125,18 @@
     <value>Add to shelf</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
   </data>
+  <data name="EnterHashToCompare" xml:space="preserve">
+    <value>Enter a hash to compare</value>
+    <comment>Placeholder that appears in the compare hash text box</comment>
+  </data>
+  <data name="HashesMatch" xml:space="preserve">
+    <value>Matches {0}</value>
+    <comment>Appears when two compared hashes match, e.g. "Matches SHA256"</comment>
+  </data>
+  <data name="HashesDoNotMatch" xml:space="preserve">
+    <value>No matches found</value>
+    <comment>Appears when two compared hashes don't match</comment>
+  </data>
   <data name="PathOrAlias" xml:space="preserve">
     <value>Path or alias</value>
   </data>
@@ -4155,5 +4179,24 @@
   <data name="CannotCloneRepoTitle" xml:space="preserve">
     <value>Cannot clone repo</value>
     <comment>Cannot clone repo dialog title</comment>
+  </data>
+  <data name="CompareFile" xml:space="preserve">
+    <value>Compare a file</value>
+    <comment>Button that appears in file hash properties that allows the user to compare two files</comment>
+  </data>
+  <data name="SizeFormat" xml:space="preserve">
+    <value>Size format</value>
+  </data>
+  <data name="Binary" xml:space="preserve">
+    <value>Binary</value>
+  </data>
+  <data name="Decimal" xml:space="preserve">
+    <value>Decimal</value>
+  </data>
+  <data name="EnableOmnibar" xml:space="preserve">
+    <value>Enable Omnibar</value>
+  </data>
+  <data name="SectionsHiddenMessage" xml:space="preserve">
+    <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add.</value>
   </data>
 </root>

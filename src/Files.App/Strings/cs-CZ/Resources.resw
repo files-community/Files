@@ -2073,7 +2073,7 @@
     <value>Obnovit všechny položky</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Chcete obnovit {0} vybranou(é) položku(y)?</value>
+    <value>Přejete si obnovit {0, plural, one {vybranou položku} few {{0} vybrané položky} other {{0} vybraných položek}}?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>Obnovit výběr</value>
@@ -2095,6 +2095,12 @@
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>Heslo archivu</value>
+  </data>
+  <data name="Encoding" xml:space="preserve">
+    <value>Kódování</value>
+  </data>
+  <data name="EncodingDetected" xml:space="preserve">
+    <value>{0} (detected)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Cesta</value>
@@ -2138,8 +2144,8 @@
   <data name="SplittingSize" xml:space="preserve">
     <value>Velikost rozdělení</value>
   </data>
-  <data name="Do not split" xml:space="preserve">
-    <value>Nedělit</value>
+  <data name="DoNotSplit" xml:space="preserve">
+    <value>Nerozdělovat</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2195,11 +2201,14 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Upravit soubor nastavení</value>
   </data>
-  <data name="WhatsNew" xml:space="preserve">
-    <value>Co je nového</value>
+  <data name="EditSettingsFileDescription" xml:space="preserve">
+    <value>Otevřít soubor s nastavením ve výchozím editoru</value>
   </data>
-  <data name="WhatsNewDescription" xml:space="preserve">
-    <value>Otevřít poznámky o vydání</value>
+  <data name="ReleaseNotes" xml:space="preserve">
+    <value>Poznámky k vydání</value>
+  </data>
+  <data name="ReleaseNotesDescription" xml:space="preserve">
+    <value>Zobrazit poznámky k vydání</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Vytvoření zástupce v tomto umístění vyžaduje oprávnění správce</value>
@@ -2409,7 +2418,7 @@
     <value>Přepněte, zda se zobrazí postranní panel</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Kopírovat do schránky</value>
+    <value>Zkopírovat {0, plural, one {položku} other {položky}} do schránky</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Kopírovat cestu aktuální složky do schránky</value>
@@ -2424,25 +2433,25 @@
     <value>Kopírovat cestu aktuální složky do schránky včetně uvozovek</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Vyjmout do schránky</value>
+    <value>Vyjmout {0, plural, one {položku} other {položky}} do schránky</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Vložte položku(y) že schránky do aktuální složky</value>
+    <value>Paste items from clipboard to current folder</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Vložit položku(y) ze schránky do aktuální složky jako zástupce</value>
+    <value>Paste items from clipboard to current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Vložte položku(y) ze schránky do vybrané složky</value>
+    <value>Paste items from clipboard to selected folder</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>Smazat položku(y)</value>
+    <value>Smazat {0, plural, one {položku} other {položky}}</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>Vytvořit novou složku</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Vytvořit nové zástupce pro vybrané položky</value>
+    <value>Vytvořit {0, plural, one {nového zástupce} other {nové zástupce}} pro {0, plural, one {vybranou položku} other {vybrané položky}}</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>Vytvořit nového zástupce pro libovolnou položku</value>
@@ -2454,16 +2463,16 @@
     <value>Otevře menu "Formátovat disk" pro vybranou položku</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Obnovit vybrané položky z koše</value>
+    <value>Obnovit {0, plural, one {vybranou položku} other {vybrané položky}} z koše</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
     <value>Obnoví veškeré položky umístěné v koši</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Otevře položku(y)</value>
+    <value>Otevřít {0, plural, one {položku} other {položky}}</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Otevřít vybrané položku(y) pomocí vybrané aplikace</value>
+    <value>Otevřít {0, plural, one {položku} other {položky}} vybranou aplikací</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
     <value>Otevřít nadřazenou složku vyhledané položky</value>
@@ -2487,19 +2496,19 @@
     <value>Přepnout výběr položek</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Sdílet vybraný soubor(y) s ostatníma</value>
+    <value>Sdílet {0, plural, one {vybraný soubor} other {vybrané soubory}} s ostatními</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Připnout položku(y) do nabídky Start</value>
+    <value>Připnout {0, plural, one {položku} other {položky}} na nabídku Start</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Odepnout položku(y) z nabídky Start</value>
+    <value>Odepnout {0, plural, one {položku} other {položky}} z nabídky Start</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>Připnout složku(y) do postranního panelu</value>
+    <value>Připnout {0, plural, one {položku} other {položky}} na postranní panel</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
-    <value>Odepnout složku(y) ze postranního panelu</value>
+    <value>Odepnout {0, plural, one {položku} other {položky}} z postranního panelu</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Použít vybraný obrázek jako pozadí</value>
@@ -2514,13 +2523,13 @@
     <value>Nastaví vybraný obrázek jako pozadí aplikace</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Nainstalovat vybraná písma</value>
+    <value>Instalovat {0, plural, one {vybrané písmo} other {vybraná písma}}</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Nainstalovat ovladače pomocí vybraných inf souborů</value>
+    <value>Nainstaluje {0, plural, one {ovladač} other {ovladače}} z {0, plural, one {vybraného inf souboru} other {vybraných inf souborů}}</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>Nainstalovat zvolené certifikáty</value>
+    <value>Instalovat {0, plural, one {vybraný certifikát} other {vybrané certifikáty}}</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Spustit vybranou aplikaci jako správce</value>
@@ -2535,28 +2544,28 @@
     <value>Spustit náhled ve vyskakovacím okně</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Vytvořit archiv s vybranými položkami</value>
+    <value>Vytvořit archiv z {0, plural, one {vybrané položky} other {vybraných položek}}</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Vytvořit 7z archiv s vybranými položkami</value>
+    <value>Vytvořit 7z archiv z {0, plural, one {vybrané položky} other {vybraných položek}}</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Vytvořit zip archiv s vybranými položkami</value>
+    <value>Vytvořit zip archiv z {0, plural, one {vybrané položky} other {vybraných položek}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extrahovat položky z vybraných archivů do jakékoli složky</value>
+    <value>Extrahovat položky z {0, plural, one {vybraného archivu} other {vybraných archivů}} do libovolné složky</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extrahovat položky z vybraných archivů do aktuální složky</value>
+    <value>Extrahovat položky z {0, plural, one {vybraného archivu} other {vybraných archivů}} do aktuální složky</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extrahovat položky z vybraných archivů do nové složky</value>
+    <value>Extrahovat položky z {0, plural, one {vybraného archivu} other {vybraných archivů}} do nové složky</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Otočit vybrané obrázky doleva</value>
+    <value>Otočit {0, plural, one {vybraný obrázek} other {vybrané obrázky}} vlevo</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Otočit vybrané obrázky doprava</value>
+    <value>Otočit {0, plural, one {vybraný obrázek} other {vybrané obrázky}} vpravo</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>Otevřít stránku s nastavením</value>
@@ -2992,7 +3001,7 @@
     <value>Trvale odstranit</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Trvale odstranit položku(y)</value>
+    <value>Smazat {0, plural, one {položku} other {položky}} trvale</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>Přehrát vybrané soubory médií</value>
@@ -3109,7 +3118,7 @@
     <value>Přepnout na novou větev</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Vytvořit složku s aktuálně vybranými položkami</value>
+    <value>Vytvořit alternativní datový stream pro {0, plural, one {vybranou položku} other {vybrané položky}}</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>Otevřít vlastnosti</value>
@@ -3502,39 +3511,39 @@
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
     <value>Klonování {0} z "{1}" do "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
-    <value>Canceled installing {0} fonts</value>
+    <value>Instalace písma {0} byla zrušena</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled installing {0} font(s) from "{1}"</value>
+    <value>Instalace písma {0} z "{1}" byla zrušena</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
-    <value>Installed {0} font(s)</value>
+    <value>Písmo {0} bylo nainstalováno</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
-    <value>Installed {0} font(s) from "{1}"</value>
+    <value>Písmo {0} z "{1}" bylo nainstalováno</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
-    <value>Error installing {0} font(s)</value>
+    <value>Chyba při instalaci {0} písma</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
-    <value>Failed to install {0} font(s) from "{1}"</value>
+    <value>Nepodařilo se nainstalovat {0} písmo z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
-    <value>Installing {0} font(s)</value>
+    <value>Instalace {0} písma</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
-    <value>Installing {0} font(s) from "{1}"</value>
+    <value>Instalace {0} písma z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>Zrušeno kopírování {0} položky(položek) do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3676,7 +3685,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} položek zpracováno</value>
+    <value>{0}/{1} {0, plural, one {položka byla zpracována} few {položky byly zpracovány} other {položek bylo zpracováno}}</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3693,6 +3702,9 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Nepodařilo se nastavit tapetu pozadí</value>
+  </data>
+  <data name="FailedToOpenSettingsFile" xml:space="preserve">
+    <value>Nepodařilo se otevřít soubor s nastavením</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
     <value>Smazat Git větev</value>
@@ -3719,7 +3731,7 @@
     <value>Při aplikování tohoto štítku došlo k chybě</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extrahovat položky z vybraných archivů do aktuální složky v případě archivu s jednou položkou nebo do nové složky v případě archivu s více položkami</value>
+    <value>Extrahovat položky z {0, plural, one {vybraného archivu} other {vybraných archivů}} do aktuální složky pro archiv s jednou položkou nebo do nové složky pro archiv s více položkami</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Extrahovat zde (Chytře)</value>
@@ -4061,7 +4073,7 @@
     <value>Vytvořit alternativní datový tok</value>
   </data>
   <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
-    <value>Vytvořit alternativní datový tok pro vybranou položku(y)</value>
+    <value>Vytvořit alternativní datový stream pro {0, plural, one {vybranou položku} other {vybrané položky}}</value>
   </data>
   <data name="EnterDataStreamName" xml:space="preserve">
     <value>Zadejte název datového streamu</value>
@@ -4113,6 +4125,18 @@
     <value>Odložit na panel</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
   </data>
+  <data name="EnterHashToCompare" xml:space="preserve">
+    <value>Zadejte haš k porovnání</value>
+    <comment>Placeholder that appears in the compare hash text box</comment>
+  </data>
+  <data name="HashesMatch" xml:space="preserve">
+    <value>Shoduje se {0}</value>
+    <comment>Appears when two compared hashes match, e.g. "Matches SHA256"</comment>
+  </data>
+  <data name="HashesDoNotMatch" xml:space="preserve">
+    <value>Nenalezeny žádné shody</value>
+    <comment>Appears when two compared hashes don't match</comment>
+  </data>
   <data name="PathOrAlias" xml:space="preserve">
     <value>Cesta nebo alias</value>
   </data>
@@ -4155,5 +4179,24 @@
   <data name="CannotCloneRepoTitle" xml:space="preserve">
     <value>Nelze klonovat repozitář</value>
     <comment>Cannot clone repo dialog title</comment>
+  </data>
+  <data name="CompareFile" xml:space="preserve">
+    <value>Porovnat soubor</value>
+    <comment>Button that appears in file hash properties that allows the user to compare two files</comment>
+  </data>
+  <data name="SizeFormat" xml:space="preserve">
+    <value>Formát velikosti</value>
+  </data>
+  <data name="Binary" xml:space="preserve">
+    <value>Binární</value>
+  </data>
+  <data name="Decimal" xml:space="preserve">
+    <value>Desetinný</value>
+  </data>
+  <data name="EnableOmnibar" xml:space="preserve">
+    <value>Povolit Omnibar</value>
+  </data>
+  <data name="SectionsHiddenMessage" xml:space="preserve">
+    <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add.</value>
   </data>
 </root>

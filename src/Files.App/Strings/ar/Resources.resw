@@ -2074,7 +2074,7 @@
     <value>استعادة كل العناصر</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>هل تريد استعادة {0} عنصر محدد؟</value>
+    <value>Do you want to restore the {0, plural, one {selected item} other {{0} selected items}}?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>استعادة التحديد</value>
@@ -2096,6 +2096,12 @@
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>كلمة مرور الأرشيف</value>
+  </data>
+  <data name="Encoding" xml:space="preserve">
+    <value>Encoding</value>
+  </data>
+  <data name="EncodingDetected" xml:space="preserve">
+    <value>{0} (detected)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>المسار</value>
@@ -2139,8 +2145,8 @@
   <data name="SplittingSize" xml:space="preserve">
     <value>تقسيم الحجم</value>
   </data>
-  <data name="Do not split" xml:space="preserve">
-    <value>لا تقسم</value>
+  <data name="DoNotSplit" xml:space="preserve">
+    <value>Do not split</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2196,10 +2202,13 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>تعديل ملف الإعدادات</value>
   </data>
-  <data name="WhatsNew" xml:space="preserve">
-    <value>ما الجديد</value>
+  <data name="EditSettingsFileDescription" xml:space="preserve">
+    <value>Open settings file in your default editor</value>
   </data>
-  <data name="WhatsNewDescription" xml:space="preserve">
+  <data name="ReleaseNotes" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="ReleaseNotesDescription" xml:space="preserve">
     <value>Open Release Notes</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
@@ -2410,7 +2419,7 @@
     <value>تبديل إذا كان سيتم إظهار الشريط الجانبي</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>نسخ العناصر إلى الحافظة</value>
+    <value>Copy {0, plural, one {item} other {items}} to clipboard</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
     <value>نسخ مسار العناصر المحددة إلى الحافظة</value>
@@ -2425,25 +2434,25 @@
     <value>نسخ مسار العناصر المحددة مع الاقتباسات إلى الحافظة</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>قص العناصر إلى الحافظة</value>
+    <value>Cut {0, plural, one {item} other {items}} to clipboard</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>لصق العناصر من الحافظة إلى المجلد الحالي</value>
+    <value>Paste items from clipboard to current folder</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste item(s) from clipboard to current folder as shortcuts</value>
+    <value>Paste items from clipboard to current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>لصق العناصر من الحافظة إلى المجلد المحدد</value>
+    <value>Paste items from clipboard to selected folder</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>حذف العناصر</value>
+    <value>حذف {0, plural, zero {}one {العنصر} two {العناصر} few {العناصر} many {العناصر} other {العناصر}}</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>إنشاء مجلد جديد</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>إنشاء اختصارات جديدة للعناصر المحددة</value>
+    <value>Create new {0, plural, one {shortcut} other {shortcuts}} to selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>إنشاء اختصار جديد لأي عنصر</value>
@@ -2455,16 +2464,16 @@
     <value>فتح قائمة "تنسيق المحرك" للعنصر المحدد</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>استعادة العناصر المختارة من سلة المهملات</value>
+    <value>Restore selected {0, plural, one {item} other {items}} from recycle bin</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
     <value>استعادة جميع العناصر من سلة المهملات</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>فتح العناصر</value>
+    <value>Open {0, plural, one {item} other {items}}</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>فتح العناصر باستخدام التطبيق المحدد</value>
+    <value>Open {0, plural, one {item} other {items}} with selected application</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
     <value>فتح المجلد الأصلي للعنصر الذي تم البحث عنه</value>
@@ -2488,19 +2497,19 @@
     <value>تبديل تحديد العنصر</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>مشاركة الملفات المختارة مع الآخرين</value>
+    <value>Share selected {0, plural, one {file} other {files}} with others</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>تثبيت العناصر في قائمة البدء</value>
+    <value>Pin {0, plural, one {item} other {items}} to the Start Menu</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>إلغاء تثبيت العناصر من قائمة البدء</value>
+    <value>Unpin {0, plural, one {item} other {items}} from the Start Menu</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>تثبيت المجلدات إلى الشريط الجانبي</value>
+    <value>Pin {0, plural, one {folder} other {folders}} to Sidebar</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
-    <value>إلغاء تثبيت المجلدات من الشريط الجانبي</value>
+    <value>Unpin {0, plural, one {folder} other {folders}} from Sidebar</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>تعيين الصورة المحددة كخلفية سطح المكتب</value>
@@ -2515,13 +2524,13 @@
     <value>تعيين الصورة المحددة كخلفية للتطبيق</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>تثبيت الخطوط المحددة</value>
+    <value>Install selected {0, plural, one {font} other {fonts}}</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>تثبيت التعريفات باستخدام ملفات inf المحددة</value>
+    <value>Install {0, plural, one {driver} other {drivers}} using selected inf {0, plural, one {file} other {files}}</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>تثبيت الشهادات المحددة</value>
+    <value>Install selected {0, plural, one {certificate} other {certificates}}</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>تشغيل التطبيق المحدد كمسؤول</value>
@@ -2536,28 +2545,28 @@
     <value>تشغيل المعاينة في النافذة المنبثقة</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>إنشاء أرشيف مع العناصر المحددة</value>
+    <value>Create archive with selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>إنشاء أرشيف 7z على الفور مع العناصر المحددة</value>
+    <value>Create 7z archive with selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>إنشاء أرشيف zip على الفور مع العناصر المحددة</value>
+    <value>Create zip archive with selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>استخراج العناصر من الأرشيفات المحددة إلى أي مجلد</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to any folder</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>استخراج العناصر من الأرشيفات المحددة إلى المجلد الحالي</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to current folder</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>استخراج العناصر من الأرشيفات المحددة إلى المجلد الجديد</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to new folder</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>تدوير الصور المحددة إلى اليسار</value>
+    <value>Rotate selected {0, plural, one {image} other {images}} to the left</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>تدوير الصور المحددة إلى اليمين</value>
+    <value>Rotate selected {0, plural, one {image} other {images}} to the right</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>فتح صفحة الإعدادات</value>
@@ -2993,7 +3002,7 @@
     <value>حذف بشكل نهائي</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>حذف العناصر نهائيا</value>
+    <value>Delete {0, plural, one {item} other {items}} permanently</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>تشغيل ملفات الوسائط المحددة</value>
@@ -3110,7 +3119,7 @@
     <value>التبديل إلى فرع جديد</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>إنشاء مجلد مع العناصر المحددة حاليا</value>
+    <value>Create a folder with the currently selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>فتح الخصائص</value>
@@ -3503,7 +3512,7 @@
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
     <value>Cloning {0} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
     <value>Canceled installing {0} fonts</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3535,7 +3544,7 @@
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
     <value>Installing {0} font(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>إلغاء نسخ {0} عنصر (عناصر) إلى "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3677,7 +3686,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>تم معالجة {0}/{1} عنصر</value>
+    <value>{0}/{1} {0, plural, one {item} other {items}} processed</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3694,6 +3703,9 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>تعذر تعيين الخلفية</value>
+  </data>
+  <data name="FailedToOpenSettingsFile" xml:space="preserve">
+    <value>Failed to open the settings file</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
     <value>حذف فرع Git</value>
@@ -3720,7 +3732,7 @@
     <value>حدث خطأ خلال تطبيق هذه العلامة</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>استخرج العناصر من الأرشيفات المحددة إلى المجلد الحالي لأرشيف الفِقْرة الواحدة، أو إلى مجلد جديد لأرشيف ذو فِقْرات متعددة</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to current folder for single-item archive, or to new folder for multi-item archive</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>استخرج هنا (ذكي)</value>
@@ -4062,7 +4074,7 @@
     <value>Create alternate data stream</value>
   </data>
   <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
-    <value>Create alternate data stream for the selected item(s)</value>
+    <value>Create alternate data stream for the selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="EnterDataStreamName" xml:space="preserve">
     <value>Enter data stream name</value>
@@ -4114,6 +4126,18 @@
     <value>Add to shelf</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
   </data>
+  <data name="EnterHashToCompare" xml:space="preserve">
+    <value>Enter a hash to compare</value>
+    <comment>Placeholder that appears in the compare hash text box</comment>
+  </data>
+  <data name="HashesMatch" xml:space="preserve">
+    <value>Matches {0}</value>
+    <comment>Appears when two compared hashes match, e.g. "Matches SHA256"</comment>
+  </data>
+  <data name="HashesDoNotMatch" xml:space="preserve">
+    <value>No matches found</value>
+    <comment>Appears when two compared hashes don't match</comment>
+  </data>
   <data name="PathOrAlias" xml:space="preserve">
     <value>Path or alias</value>
   </data>
@@ -4156,5 +4180,24 @@
   <data name="CannotCloneRepoTitle" xml:space="preserve">
     <value>Cannot clone repo</value>
     <comment>Cannot clone repo dialog title</comment>
+  </data>
+  <data name="CompareFile" xml:space="preserve">
+    <value>Compare a file</value>
+    <comment>Button that appears in file hash properties that allows the user to compare two files</comment>
+  </data>
+  <data name="SizeFormat" xml:space="preserve">
+    <value>Size format</value>
+  </data>
+  <data name="Binary" xml:space="preserve">
+    <value>Binary</value>
+  </data>
+  <data name="Decimal" xml:space="preserve">
+    <value>Decimal</value>
+  </data>
+  <data name="EnableOmnibar" xml:space="preserve">
+    <value>Enable Omnibar</value>
+  </data>
+  <data name="SectionsHiddenMessage" xml:space="preserve">
+    <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add.</value>
   </data>
 </root>
