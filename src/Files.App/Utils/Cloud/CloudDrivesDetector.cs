@@ -90,6 +90,7 @@ namespace Files.App.Utils.Cloud
 						"ownCloud" => CloudProviders.ownCloud,
 						"ProtonDrive" => CloudProviders.ProtonDrive,
 						"kDrive" => CloudProviders.kDrive,
+						"Lucid" => CloudProviders.LucidLink,
 						_ => null,
 					};
 
@@ -99,6 +100,7 @@ namespace Files.App.Utils.Cloud
 					var nextCloudValue = (string?)namespaceSubKey?.GetValue(string.Empty);
 					var ownCloudValue = (string?)clsidSubKey?.GetValue(string.Empty);
 					var kDriveValue = (string?)clsidSubKey?.GetValue(string.Empty);
+					var lucidLinkValue = (string?)clsidSubKey?.GetValue(string.Empty);
 
 					using var defaultIconKey = clsidSubKey?.OpenSubKey(@"DefaultIcon");
 					var iconPath = (string?)defaultIconKey?.GetValue(string.Empty);
@@ -116,19 +118,27 @@ namespace Files.App.Utils.Cloud
 							CloudProviders.ownCloud => !string.IsNullOrEmpty(ownCloudValue) ? ownCloudValue : "ownCloud",
 							CloudProviders.ProtonDrive => $"Proton Drive",
 							CloudProviders.kDrive => !string.IsNullOrEmpty(kDriveValue) ? kDriveValue : "kDrive",
+							CloudProviders.LucidLink => !string.IsNullOrEmpty(lucidLinkValue) ? lucidLinkValue : "lucidLink",
 							_ => null
 						},
 						SyncFolder = syncedFolder,
-						IconData = cloudProvider switch
-						{
-							CloudProviders.ProtonDrive => Win32Helper.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }).FirstOrDefault()?.IconData,
-							_ => null
-						}
+						IconData = GetIconData(iconPath)
 					});
 				}
 			}
 
 			return Task.FromResult<IEnumerable<ICloudProvider>>(results);
+		}
+
+		private static byte[]? GetIconData(string iconPath)
+		{
+			if (string.IsNullOrEmpty(iconPath) || !File.Exists(iconPath))
+				return null;
+
+			if (iconPath.EndsWith(".dll") || iconPath.EndsWith(".exe"))
+				return Win32Helper.ExtractSelectedIconsFromDLL(iconPath, new List<int>() { 32512 }).FirstOrDefault()?.IconData;
+
+			return File.ReadAllBytes(iconPath);
 		}
 
 		private static Task<IEnumerable<ICloudProvider>> DetectOneDrive()
