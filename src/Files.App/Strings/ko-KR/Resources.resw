@@ -2073,7 +2073,7 @@
     <value>모든 항목 복원하기</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>선택된 ({0}) 개의 항목을 복원하시겠습니까?</value>
+    <value>Do you want to restore the {0, plural, one {selected item} other {{0} selected items}}?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>선택 목록 복원하기</value>
@@ -2095,6 +2095,12 @@
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>압축 파일 비밀번호</value>
+  </data>
+  <data name="Encoding" xml:space="preserve">
+    <value>Encoding</value>
+  </data>
+  <data name="EncodingDetected" xml:space="preserve">
+    <value>{0} (detected)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>경로</value>
@@ -2138,8 +2144,8 @@
   <data name="SplittingSize" xml:space="preserve">
     <value>분할 크기</value>
   </data>
-  <data name="Do not split" xml:space="preserve">
-    <value>분할하지 않음</value>
+  <data name="DoNotSplit" xml:space="preserve">
+    <value>Do not split</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2195,11 +2201,14 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Files 설정 파일 수정</value>
   </data>
-  <data name="WhatsNew" xml:space="preserve">
-    <value>새로운 기능</value>
+  <data name="EditSettingsFileDescription" xml:space="preserve">
+    <value>Open settings file in your default editor</value>
   </data>
-  <data name="WhatsNewDescription" xml:space="preserve">
-    <value>공개된 릴리스 노트</value>
+  <data name="ReleaseNotes" xml:space="preserve">
+    <value>Release Notes</value>
+  </data>
+  <data name="ReleaseNotesDescription" xml:space="preserve">
+    <value>Open Release Notes</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>이 위치에 바로 가기를 만들려면 관리자 권한이 필요합니다</value>
@@ -2409,7 +2418,7 @@
     <value>사이드바 표시 전환</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>클립보드에 복사</value>
+    <value>Copy {0, plural, one {item} other {items}} to clipboard</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
     <value>선택된 요소들의 경로를 클립보드에 복사하기</value>
@@ -2424,25 +2433,25 @@
     <value>선택된 요소들의 경로를 홑따옴표를 포함하여 클립보드에 복사하기</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>클립보드에 잘라내기</value>
+    <value>Cut {0, plural, one {item} other {items}} to clipboard</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>클립보드에서 현재 폴더에 붙여넣기</value>
+    <value>Paste items from clipboard to current folder</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>클립보드에서 현재 (폴더) 항목을 바로 가기로 붙여 넣기</value>
+    <value>Paste items from clipboard to current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>클립보드에서 선택된 폴더에 붙여넣기</value>
+    <value>Paste items from clipboard to selected folder</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>항목 삭제</value>
+    <value>{0, plural, other {항목}} 삭제</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>새 폴더 만들기</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>선택한 항목에 대한 새 바로 가기 만들기</value>
+    <value>Create new {0, plural, one {shortcut} other {shortcuts}} to selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>새 바로 가기 만들기</value>
@@ -2454,16 +2463,16 @@
     <value>선택한 드라이브 포맷</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>복원</value>
+    <value>Restore selected {0, plural, one {item} other {items}} from recycle bin</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
     <value>모든 항목 복원</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>열기</value>
+    <value>Open {0, plural, one {item} other {items}}</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>선택한 앱으로 항목 열기</value>
+    <value>Open {0, plural, one {item} other {items}} with selected application</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
     <value>검색된 항목의 상위 폴더 열기</value>
@@ -2487,19 +2496,19 @@
     <value>항목 선택 여부를 전환합니다</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>공유</value>
+    <value>Share selected {0, plural, one {file} other {files}} with others</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>시작 메뉴에 고정</value>
+    <value>Pin {0, plural, one {item} other {items}} to the Start Menu</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>시작 메뉴에서 제거</value>
+    <value>Unpin {0, plural, one {item} other {items}} from the Start Menu</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>사이드바에 폴더 고정</value>
+    <value>Pin {0, plural, one {folder} other {folders}} to Sidebar</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
-    <value>사이드바에서 폴더 제거</value>
+    <value>Unpin {0, plural, one {folder} other {folders}} from Sidebar</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>선택한 사진을 바탕 화면 배경으로 설정</value>
@@ -2514,13 +2523,13 @@
     <value>선택한 사진을 앱의 배경으로 설정</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>선택한 폰트 설치</value>
+    <value>Install selected {0, plural, one {font} other {fonts}}</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>설치 정보를 이용해 드라이버 설치</value>
+    <value>Install {0, plural, one {driver} other {drivers}} using selected inf {0, plural, one {file} other {files}}</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>인증서 설치</value>
+    <value>Install selected {0, plural, one {certificate} other {certificates}}</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>선택한 앱을 관리자 권한으로 실행</value>
@@ -2535,28 +2544,28 @@
     <value>팝업 창에서 미리 보기</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>선택한 항목으로 아카이브 생성</value>
+    <value>Create archive with selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>선택한 항목으로 7z 아카이브 생성</value>
+    <value>Create 7z archive with selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>선택한 항목으로 zip 아카이브 생성</value>
+    <value>Create zip archive with selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>선택한 아카이브를 임의의 폴더에 압축 해제</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to any folder</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>선택한 아카이브를 현재 폴더에 압축 해제</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to current folder</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>선택한 아카이브를 새 폴더에 압축 해제</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to new folder</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>이미지를 왼쪽으로 회전</value>
+    <value>Rotate selected {0, plural, one {image} other {images}} to the left</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>이미지를 오른쪽으로 회전</value>
+    <value>Rotate selected {0, plural, one {image} other {images}} to the right</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>설정 열기</value>
@@ -2992,7 +3001,7 @@
     <value>영구적으로 삭제</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>항목을 (영구적)으로 삭제</value>
+    <value>Delete {0, plural, one {item} other {items}} permanently</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>선택한 미디어 파일 재생하기</value>
@@ -3109,7 +3118,7 @@
     <value>새 분기로 전환</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>선택한 항목으로 폴더 생성</value>
+    <value>Create a folder with the currently selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>속성</value>
@@ -3502,7 +3511,7 @@
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
     <value>Cloning {0} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
     <value>Canceled installing {0} fonts</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3534,7 +3543,7 @@
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
     <value>Installing {0} font(s) from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>항목 {0}개를 "{1}"(으)로 복사하는 작업을 취소했습니다</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3676,7 +3685,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} 항목 처리 완료</value>
+    <value>{0}/{1} {0, plural, one {item} other {items}} processed</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3693,6 +3702,9 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>배경 이미지를 설정하지 못했습니다</value>
+  </data>
+  <data name="FailedToOpenSettingsFile" xml:space="preserve">
+    <value>Failed to open the settings file</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
     <value>Git 브랜치 삭제</value>
@@ -3719,7 +3731,7 @@
     <value>태그를 적용하는 중 오류가 발생했습니다.</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>단일 파일 아카이브는 현재 폴더에, 다중 파일 아카이브는 새로운 폴더에 압축 해제합니다</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to current folder for single-item archive, or to new folder for multi-item archive</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>여기에 압축 해제 (스마트)</value>
@@ -4061,7 +4073,7 @@
     <value>대체 데이터 생성</value>
   </data>
   <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
-    <value>선택한 항목에 대한 대체 데이터 생성()</value>
+    <value>Create alternate data stream for the selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="EnterDataStreamName" xml:space="preserve">
     <value>데이터 이름 입력</value>
@@ -4113,6 +4125,18 @@
     <value>선반에 추가</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
   </data>
+  <data name="EnterHashToCompare" xml:space="preserve">
+    <value>Enter a hash to compare</value>
+    <comment>Placeholder that appears in the compare hash text box</comment>
+  </data>
+  <data name="HashesMatch" xml:space="preserve">
+    <value>Matches {0}</value>
+    <comment>Appears when two compared hashes match, e.g. "Matches SHA256"</comment>
+  </data>
+  <data name="HashesDoNotMatch" xml:space="preserve">
+    <value>No matches found</value>
+    <comment>Appears when two compared hashes don't match</comment>
+  </data>
   <data name="PathOrAlias" xml:space="preserve">
     <value>경로 또는 별칭</value>
   </data>
@@ -4155,5 +4179,24 @@
   <data name="CannotCloneRepoTitle" xml:space="preserve">
     <value>Cannot clone repo</value>
     <comment>Cannot clone repo dialog title</comment>
+  </data>
+  <data name="CompareFile" xml:space="preserve">
+    <value>Compare a file</value>
+    <comment>Button that appears in file hash properties that allows the user to compare two files</comment>
+  </data>
+  <data name="SizeFormat" xml:space="preserve">
+    <value>Size format</value>
+  </data>
+  <data name="Binary" xml:space="preserve">
+    <value>Binary</value>
+  </data>
+  <data name="Decimal" xml:space="preserve">
+    <value>Decimal</value>
+  </data>
+  <data name="EnableOmnibar" xml:space="preserve">
+    <value>Enable Omnibar</value>
+  </data>
+  <data name="SectionsHiddenMessage" xml:space="preserve">
+    <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add.</value>
   </data>
 </root>
