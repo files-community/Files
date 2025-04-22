@@ -2073,7 +2073,7 @@
     <value>Restaura tots els elements</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Voleu restaurar els {0} elements seleccionats?</value>
+    <value>Voleu restaurar {0, plural, one {l'element seleccionat} other {{0} elements seleccionats}}?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>Restaura la selecció</value>
@@ -2095,6 +2095,12 @@
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>Contrasenya del fitxer</value>
+  </data>
+  <data name="Encoding" xml:space="preserve">
+    <value>Codificació</value>
+  </data>
+  <data name="EncodingDetected" xml:space="preserve">
+    <value>{0} (detected)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Ruta</value>
@@ -2138,7 +2144,7 @@
   <data name="SplittingSize" xml:space="preserve">
     <value>Mida de divisió</value>
   </data>
-  <data name="Do not split" xml:space="preserve">
+  <data name="DoNotSplit" xml:space="preserve">
     <value>No divideixis</value>
   </data>
   <data name="CD" xml:space="preserve">
@@ -2195,10 +2201,13 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Edita el fitxer de configuració</value>
   </data>
-  <data name="WhatsNew" xml:space="preserve">
-    <value>Novetats</value>
+  <data name="EditSettingsFileDescription" xml:space="preserve">
+    <value>Obre el fitxer de configuració a l'editor per defecte</value>
   </data>
-  <data name="WhatsNewDescription" xml:space="preserve">
+  <data name="ReleaseNotes" xml:space="preserve">
+    <value>Notes de la versió</value>
+  </data>
+  <data name="ReleaseNotesDescription" xml:space="preserve">
     <value>Obre les notes de la versió</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
@@ -2409,7 +2418,7 @@
     <value>Mostra/amaga la barra lateral</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copia els elements al porta-retalls</value>
+    <value>Copia {0, plural, one {l'item} other {items}} al porta-retalls</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Copia el camí del directori actual al porta-retalls</value>
@@ -2424,7 +2433,7 @@
     <value>Copia el camí del directori actual amb cometes al porta-retalls</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Retalla els elements al porta-retalls</value>
+    <value>Retalla {0, plural, one {l'item} other {items}} al porta-retalls</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Enganxa els elements del porta-retalls a la carpeta actual</value>
@@ -2436,13 +2445,13 @@
     <value>Enganxa els elements del porta-retalls a la carpeta seleccionada</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>Elimina els elements</value>
+    <value>Suprimeix {0, plural, one {element} other {elements}}</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>Crea una carpeta nova</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Crea dreceres noves per als elements seleccionats</value>
+    <value>Crea {0, plural, one {una nova drecera} other {noves dreceres}} per {0, plural, one {a l'item seleccionat} other {als items seleccionats}}</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>Crea una drecera nova a qualsevol element</value>
@@ -2454,16 +2463,16 @@
     <value>Obre el menú «Formata la unitat» per a l'element seleccionat</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restaura els elements seleccionats de la paperera de reciclatge</value>
+    <value>Restaura {0, plural, one {l'item seleccionat} other {items seleccionats}} de la paperera de reciclatge</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
     <value>Restaura tots els elements de la paperera de reciclatge</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Obre elements</value>
+    <value>Obre {0, plural, one {l'item} other {items}}</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Obre els elements amb l'aplicació seleccionada</value>
+    <value>Obre {0, plural, one {l'item} other {items}} amb l'aplicació seleccionada</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
     <value>Obre la carpeta principal de l'element cercat</value>
@@ -2487,19 +2496,19 @@
     <value>Commuta la selecció d'elements</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Comparteix els fitxers seleccionats amb altres</value>
+    <value>Comparteix {0, plural, one {el fitxer seleccionat} other {fitxers seleccionats}} amb altres</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Fixa els elements al menú Inici</value>
+    <value>Fixa {0, plural, one {l'item} other {items}} al menú Inici</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Desfixa els elements del menú Inici</value>
+    <value>Desancora {0, plural, one {l'item} other {items}} del menú Inici</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>Fixa carpeta(es) a la barra lateral</value>
+    <value>Fixa {0, plural, one {la carpeta} other {carpetes}} a la barra lateral</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
-    <value>Treure carpeta(es) de la barra lateral</value>
+    <value>Desancora {0, plural, one {la carpeta} other {carpetes}} de la barra lateral</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Estableix la imatge seleccionada com a fons de l'escriptori</value>
@@ -2514,13 +2523,13 @@
     <value>Estableix la imatge seleccionada com a fons de l'aplicació</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Instal·la les fonts seleccionades</value>
+    <value>Instal·la {0, plural, one {la font seleccionada} other {les fonts seleccionades}}</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Instal·leu els controladors mitjançant els fitxers inf seleccionats</value>
+    <value>Instal·la {0, plural, one {el controlador} other {els controladors}} utilitzant {0, plural, one {el fitxer} other {els fitxers}} inf</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>Instal·la els certificats seleccionats</value>
+    <value>Instal·la {0, plural, one {el certificat seleccionat} other {els certificats seleccionats}}</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Executa l'aplicació seleccionada com a administrador</value>
@@ -2535,28 +2544,28 @@
     <value>Inicia la vista prèvia a la finestra emergent</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Crea un fitxer amb els elements seleccionats</value>
+    <value>Crea un fitxer amb {0, plural, one {l'item seleccionat} other {els items seleccionats}}</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Crea un fitxer 7z a l'instant amb els elements seleccionats</value>
+    <value>Crea un fitxer 7z amb {0, plural, one {l'item seleccionat} other {els items seleccionats}}</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Crea un fitxer zip a l'instant amb els elements seleccionats</value>
+    <value>Crea un fitxer zip amb {0, plural, one {l'item seleccionat} other {els items seleccionats}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extreu elements dels fitxers seleccionats a qualsevol carpeta</value>
+    <value>Extreu els elements seleccionats {0, plural, one {del fitxer} other {dels fitxers}} a qualsevol carpeta</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extreu elements dels fitxers seleccionats a la carpeta actual</value>
+    <value>Extreu els elements seleccionats {0, plural, one {del fitxer} other {dels fitxers}} a la carpeta actual</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extreu elements dels fitxers seleccionats a una carpeta nova</value>
+    <value>Extreu els elements seleccionats {0, plural, one {del fitxer} other {dels fitxers}} a una nova carpeta</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Gira les imatges seleccionades cap a l'esquerra</value>
+    <value>Gira {0, plural, one {la imatge seleccionada} other {les imatges seleccionades}} cap a l'esquerra</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Gira les imatges seleccionades cap a la dreta</value>
+    <value>Gira {0, plural, one {la imatge seleccionada} other {les imatges seleccionades}} cap a la dreta</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>Obre la pàgina de configuració</value>
@@ -2992,7 +3001,7 @@
     <value>Suprimeix permanentment</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Suprimeix els elements permanentment</value>
+    <value>Suprimeix {0, plural, one {item} other {items}} permanentment</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>Reprodueix els fitxers multimèdia seleccionats</value>
@@ -3109,7 +3118,7 @@
     <value>Canvia a una nova branca</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Crea una carpeta amb els elements seleccionats actualment</value>
+    <value>Crea una carpeta amb {0, plural, one {l'item seleccionat} other {els items seleccionats}} actualment</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>Obre les propietats</value>
@@ -3502,7 +3511,7 @@
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
     <value>S'està clonant {0} de «{1}» a «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
     <value>S'ha cancel·lat la instal·lació de {0} fonts</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3534,7 +3543,7 @@
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
     <value>S'estan instal·lant {0} fonts de «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>S'ha cancel·lat la còpia de {0} elements a "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3676,7 +3685,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>S'han processat {0}/{1} elements</value>
+    <value>{0}/{1} {0, plural, one {item processat} other {items processats}}</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3693,6 +3702,9 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>No s'ha pogut establir el fons de pantalla</value>
+  </data>
+  <data name="FailedToOpenSettingsFile" xml:space="preserve">
+    <value>No s'ha pogut obrir el fitxer de configuració</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
     <value>Suprimeix la branca del Git</value>
@@ -3719,7 +3731,7 @@
     <value>S'ha produït un error en aplicar aquesta etiqueta</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extreu elements dels arxius seleccionats a la carpeta actual per a l'arxiu d'un sol element o a una carpeta nova per a l'arxiu de diversos elements</value>
+    <value>Extreu {0, plural, one {el fitxer} other {els fitxers}} seleccionats al directori actual si el fitxer conté només un element, o en un nou directori si el fitxer conté diversos elements</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Extreu aquí (intel·ligent)</value>
@@ -4061,7 +4073,7 @@
     <value>Crea un flux de dades alternatiu</value>
   </data>
   <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
-    <value>Crea un flux de dades alternatiu per als elements seleccionats</value>
+    <value>Crea una transmissió alternativa per {0, plural, one {a l'item seleccionat} other {als items seleccionats}}</value>
   </data>
   <data name="EnterDataStreamName" xml:space="preserve">
     <value>Introduïu el nom del flux de dades</value>
@@ -4113,6 +4125,18 @@
     <value>Afegeix al prestatge</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
   </data>
+  <data name="EnterHashToCompare" xml:space="preserve">
+    <value>Introduïu un resum per comparar</value>
+    <comment>Placeholder that appears in the compare hash text box</comment>
+  </data>
+  <data name="HashesMatch" xml:space="preserve">
+    <value>Coincidències {0}</value>
+    <comment>Appears when two compared hashes match, e.g. "Matches SHA256"</comment>
+  </data>
+  <data name="HashesDoNotMatch" xml:space="preserve">
+    <value>No s'han trobat coincidències</value>
+    <comment>Appears when two compared hashes don't match</comment>
+  </data>
   <data name="PathOrAlias" xml:space="preserve">
     <value>Ruta o àlies</value>
   </data>
@@ -4155,5 +4179,24 @@
   <data name="CannotCloneRepoTitle" xml:space="preserve">
     <value>No es pot clonar el repositori</value>
     <comment>Cannot clone repo dialog title</comment>
+  </data>
+  <data name="CompareFile" xml:space="preserve">
+    <value>Compara un fitxer</value>
+    <comment>Button that appears in file hash properties that allows the user to compare two files</comment>
+  </data>
+  <data name="SizeFormat" xml:space="preserve">
+    <value>Format de mida</value>
+  </data>
+  <data name="Binary" xml:space="preserve">
+    <value>Binari</value>
+  </data>
+  <data name="Decimal" xml:space="preserve">
+    <value>Decimal</value>
+  </data>
+  <data name="EnableOmnibar" xml:space="preserve">
+    <value>Activa l'Omnibar</value>
+  </data>
+  <data name="SectionsHiddenMessage" xml:space="preserve">
+    <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add.</value>
   </data>
 </root>
