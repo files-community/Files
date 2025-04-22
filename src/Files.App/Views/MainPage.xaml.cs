@@ -441,7 +441,7 @@ namespace Files.App.Views
 
 		private void ApplySidebarWidthState()
 		{
-			if (UserSettingsService.AppearanceSettingsService.SidebarWidth > 340)
+			if (UserSettingsService.AppearanceSettingsService.SidebarWidth > 360)
 				VisualStateManager.GoToState(this, "LargeSidebarWidthState", true);
 			else if (UserSettingsService.AppearanceSettingsService.SidebarWidth > 280)
 				VisualStateManager.GoToState(this, "MediumSidebarWidthState", true);
