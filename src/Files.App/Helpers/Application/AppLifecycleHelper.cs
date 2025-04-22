@@ -54,10 +54,10 @@ namespace Files.App.Helpers
 			}
 			else
 			{
-				IsAppUpdated = version.ToString() != Package.Current.Id.Version.ToString();
+				IsAppUpdated = version.ToString() != AppVersion.ToString();
 			}
 			TotalLaunchCount = launchCount is long l ? l + 1 : 1;
-			infoKey.SetValue("LastLaunchVersion", Package.Current.Id.Version.ToString()!);
+			infoKey.SetValue("LastLaunchVersion", AppVersion.ToString());
 			infoKey.SetValue("TotalLaunchCount", TotalLaunchCount);
 		}
 
@@ -134,13 +134,15 @@ namespace Files.App.Helpers
 		{
 			var updateService = Ioc.Default.GetRequiredService<IUpdateService>();
 
+			await updateService.CheckForReleaseNotesAsync();
+
+			// Check for release notes before checking for new updates
+			if (AppEnvironment != AppEnvironment.Dev && IsAppUpdated && updateService.AreReleaseNotesAvailable)
+				await Ioc.Default.GetRequiredService<ICommandManager>().OpenReleaseNotes.ExecuteAsync();
+
 			await updateService.CheckForUpdatesAsync();
 			await updateService.DownloadMandatoryUpdatesAsync();
 			await updateService.CheckAndUpdateFilesLauncherAsync();
-			await updateService.CheckForReleaseNotesAsync();
-
-			if (AppEnvironment != AppEnvironment.Dev && IsAppUpdated && updateService.AreReleaseNotesAvailable)
-				await Ioc.Default.GetRequiredService<ICommandManager>().OpenReleaseNotes.ExecuteAsync();
 		}
 
 		/// <summary>
