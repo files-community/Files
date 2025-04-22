@@ -7,7 +7,6 @@ namespace Files.App.Data.Models
 {
 	public struct ByteSize : IEquatable<ByteSize>, IComparable<ByteSize>
 	{
-		private static IFoldersSettingsService FoldersSettingsService { get; } = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
 
 		private static readonly FrozenDictionary<string, string> units = new Dictionary<string, string>
 		{
@@ -29,9 +28,8 @@ namespace Files.App.Data.Models
 		public ulong Bytes
 			=> (ulong)size.Bytes;
 
-		public string ShortString => FoldersSettingsService.SizeUnitFormat == SizeUnitTypes.BinaryUnits
-				? $"{size.LargestWholeNumberBinaryValue:0.##} {units[size.LargestWholeNumberBinarySymbol]}"
-				: $"{size.LargestWholeNumberDecimalValue:0.##} {units[size.LargestWholeNumberDecimalSymbol]}";
+		public string ShortString
+			=> $"{size.LargestWholeNumberDecimalValue:0.##} {units[size.LargestWholeNumberDecimalSymbol]}";
 
 		public string LongString
 			=> $"{ShortString} ({size.Bytes:#,##0} {units[ByteSizeLib.ByteSize.ByteSymbol]})";
