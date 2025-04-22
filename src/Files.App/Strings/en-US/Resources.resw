@@ -2100,7 +2100,7 @@
     <value>Encoding</value>
   </data>
   <data name="EncodingDetected" xml:space="preserve">
-    <value> (detected)</value>
+    <value>{0} (detected)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Path</value>
