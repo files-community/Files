@@ -5,9 +5,7 @@ using Files.Shared.Helpers;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
 using SevenZip;
-using System.Collections;
 using System.IO;
-using System.Linq;
 using System.Text;
 using UtfUnknown;
 using Windows.Storage;
@@ -92,7 +90,8 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public Task<bool> DecompressAsync(string archiveFilePath, string destinationFolderPath, string password = "", Encoding? encoding = null)
 		{
-			if(encoding == null){
+			if (encoding == null)
+			{
 				return DecompressAsyncWithSevenZip(archiveFilePath, destinationFolderPath, password);
 			}
 			else
@@ -205,10 +204,10 @@ namespace Files.App.Services
 				string.IsNullOrEmpty(destinationFolderPath))
 				return false;
 			using var zipFile = new ZipFile(archiveFilePath, StringCodec.FromEncoding(encoding));
-			if(zipFile is null)
+			if (zipFile is null)
 				return false;
-			
-			if(!string.IsNullOrEmpty(password))
+
+			if (!string.IsNullOrEmpty(password))
 				zipFile.Password = password;
 
 			// Initialize a new in-progress status card
@@ -216,11 +215,11 @@ namespace Files.App.Services
 				archiveFilePath.CreateEnumerable(),
 				destinationFolderPath.CreateEnumerable(),
 				ReturnResult.InProgress);
-			
+
 			// Check if the decompress operation canceled
 			if (statusCard.CancellationToken.IsCancellationRequested)
 				return false;
-			
+
 			StatusCenterItemProgressModel fsProgress = new(
 				statusCard.ProgressEventSource,
 				enumerationCompleted: true,
@@ -324,7 +323,7 @@ namespace Files.App.Services
 			return isSuccess;
 		}
 
-		
+
 		/// <inheritdoc/>
 		public string GenerateArchiveNameFromItems(IReadOnlyList<ListedItem> items)
 		{
@@ -358,7 +357,7 @@ namespace Files.App.Services
 			{
 				using (ZipFile zipFile = new ZipFile(archiveFilePath))
 				{
-					return !zipFile.Cast<ZipEntry>().All(entry=>entry.IsUnicodeText);
+					return !zipFile.Cast<ZipEntry>().All(entry => entry.IsUnicodeText);
 				}
 			}
 			catch (Exception ex)
@@ -380,7 +379,7 @@ namespace Files.App.Services
 				using (ZipFile zipFile = new ZipFile(archiveFilePath, StringCodec.FromEncoding(cp437)))
 				{
 					var fileNameBytes = cp437.GetBytes(
-						String.Join("\n", 
+						String.Join("\n",
 							zipFile.Cast<ZipEntry>()
 								.Where(e => !e.IsUnicodeText)
 								.Select(e => e.Name)
