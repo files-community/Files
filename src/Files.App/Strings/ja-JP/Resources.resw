@@ -2073,7 +2073,7 @@
     <value>すべての項目を復元</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>選択した {0} 項目を復元しますか?</value>
+    <value>Do you want to restore the {0, plural, one {selected item} other {{0} selected items}}?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>選択した項目を復元</value>
@@ -2095,6 +2095,12 @@
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>アーカイブのパスワード</value>
+  </data>
+  <data name="Encoding" xml:space="preserve">
+    <value>エンコーディング</value>
+  </data>
+  <data name="EncodingDetected" xml:space="preserve">
+    <value>{0} (detected)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>パス</value>
@@ -2138,7 +2144,7 @@
   <data name="SplittingSize" xml:space="preserve">
     <value>分割サイズ</value>
   </data>
-  <data name="Do not split" xml:space="preserve">
+  <data name="DoNotSplit" xml:space="preserve">
     <value>分割しない</value>
   </data>
   <data name="CD" xml:space="preserve">
@@ -2195,10 +2201,13 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>設定ファイルを編集する</value>
   </data>
-  <data name="WhatsNew" xml:space="preserve">
-    <value>更新情報</value>
+  <data name="EditSettingsFileDescription" xml:space="preserve">
+    <value>既定のエディターで設定ファイルを開く</value>
   </data>
-  <data name="WhatsNewDescription" xml:space="preserve">
+  <data name="ReleaseNotes" xml:space="preserve">
+    <value>更新履歴</value>
+  </data>
+  <data name="ReleaseNotesDescription" xml:space="preserve">
     <value>更新履歴を開く</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
@@ -2409,7 +2418,7 @@
     <value>サイドバーを表示するかどうかを切り替える</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>項目をクリップボードにコピーする</value>
+    <value>Copy {0, plural, one {item} other {items}} to clipboard</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
     <value>現在のディレクトリのパスをクリップボードにコピーする</value>
@@ -2424,25 +2433,25 @@
     <value>現在のディレクトリのパスを引用符付きでクリップボードにコピーする</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>項目をクリップボードに切り取る</value>
+    <value>Cut {0, plural, one {item} other {items}} to clipboard</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>項目をクリップボードから現在のフォルダーに貼り付ける</value>
+    <value>Paste items from clipboard to current folder</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>項目をクリップボードから現在のフォルダーにショートカットとして貼り付ける</value>
+    <value>Paste items from clipboard to current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>項目をクリップボードから選択したフォルダーに貼り付ける</value>
+    <value>Paste items from clipboard to selected folder</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>ファイルを削除する</value>
+    <value>{0, plural, other {項目}}を削除</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>新しいフォルダーを作成する</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>選択した項目へのショートカットを作成する</value>
+    <value>Create new {0, plural, one {shortcut} other {shortcuts}} to selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>任意の項目へのショートカットを作成する</value>
@@ -2454,16 +2463,16 @@
     <value>選択した項目の [フォーマット] メニューを開く</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>ごみ箱から選択した項目を復元</value>
+    <value>Restore selected {0, plural, one {item} other {items}} from recycle bin</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
     <value>ごみ箱からすべての項目を復元する</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>項目を開く</value>
+    <value>Open {0, plural, one {item} other {items}}</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>選択したアプリケーションで項目を開く</value>
+    <value>Open {0, plural, one {item} other {items}} with selected application</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
     <value>検索した項目の親フォルダーを開く</value>
@@ -2487,19 +2496,19 @@
     <value>項目の選択を切り替える</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>選択したファイルを他の人と共有する</value>
+    <value>Share selected {0, plural, one {file} other {files}} with others</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>スタート メニューに項目をピン留めする</value>
+    <value>Pin {0, plural, one {item} other {items}} to the Start Menu</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>スタート メニューから項目のピン留めを外す</value>
+    <value>Unpin {0, plural, one {item} other {items}} from the Start Menu</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>サイドバーにフォルダーをピン留めする</value>
+    <value>Pin {0, plural, one {folder} other {folders}} to Sidebar</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
-    <value>サイドバーからフォルダーのピン留めを外す</value>
+    <value>Unpin {0, plural, one {folder} other {folders}} from Sidebar</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>選択した画像をデスクトップの背景に設定する</value>
@@ -2514,13 +2523,13 @@
     <value>選択した画像をアプリの背景に設定する</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>選択したフォントをインストールする</value>
+    <value>Install selected {0, plural, one {font} other {fonts}}</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>選択した inf ファイルを使用してドライバーをインストールする</value>
+    <value>Install {0, plural, one {driver} other {drivers}} using selected inf {0, plural, one {file} other {files}}</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>選択した証明書をインストールする</value>
+    <value>Install selected {0, plural, one {certificate} other {certificates}}</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>選択したアプリケーションを管理者として実行する</value>
@@ -2535,28 +2544,28 @@
     <value>ポップアップ ウィンドウでプレビューを開く</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>選択した項目でアーカイブを作成する</value>
+    <value>Create archive with selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>選択した項目で即座に 7z アーカイブを作成する</value>
+    <value>Create 7z archive with selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>選択した項目で即座に zip アーカイブを作成する</value>
+    <value>Create zip archive with selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>選択したアーカイブから任意のフォルダーに項目を抽出する</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to any folder</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>選択したアーカイブから現在のフォルダーに項目を抽出する</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to current folder</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>選択したアーカイブから新しいフォルダーに項目を抽出する</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to new folder</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>選択した画像を左に回転する</value>
+    <value>Rotate selected {0, plural, one {image} other {images}} to the left</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>選択した画像を右に回転する</value>
+    <value>Rotate selected {0, plural, one {image} other {images}} to the right</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>設定画面を開く</value>
@@ -2992,7 +3001,7 @@
     <value>完全に削除</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>項目を完全に削除する</value>
+    <value>Delete {0, plural, one {item} other {items}} permanently</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>選択したメディア ファイルを再生する</value>
@@ -3109,7 +3118,7 @@
     <value>新しいブランチに切り替える</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>選択した項目でフォルダーを作成する</value>
+    <value>Create a folder with the currently selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>プロパティを開く</value>
@@ -3502,7 +3511,7 @@
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
     <value>{0} を "{1}" から "{2}" へクローンしています</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
     <value>{0} 個のフォントのインストールをキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3534,7 +3543,7 @@
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
     <value>"{1}" からの {0} 個のフォントをインストールしています</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>{0} 項目の "{1}" へのコピーをキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3676,7 +3685,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} 項目が処理されました</value>
+    <value>{0}/{1} {0, plural, one {item} other {items}} processed</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3693,6 +3702,9 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>背景を設定できませんでした</value>
+  </data>
+  <data name="FailedToOpenSettingsFile" xml:space="preserve">
+    <value>設定ファイルを開けませんでした</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
     <value>Git ブランチの削除</value>
@@ -3719,7 +3731,7 @@
     <value>このタグを適用中にエラーが発生しました</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>選択したアーカイブから単一項目の場合は現在のフォルダー、複数項目の場合は新しいフォルダーに項目を抽出する</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to current folder for single-item archive, or to new folder for multi-item archive</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>ここに展開 (スマート)</value>
@@ -4061,7 +4073,7 @@
     <value>代替データ ストリームの作成</value>
   </data>
   <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
-    <value>選択した項目の代替データ ストリームを作成する</value>
+    <value>Create alternate data stream for the selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="EnterDataStreamName" xml:space="preserve">
     <value>データ ストリーム名を入力</value>
@@ -4113,6 +4125,18 @@
     <value>シェルフに追加</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
   </data>
+  <data name="EnterHashToCompare" xml:space="preserve">
+    <value>比較するハッシュ値を入力</value>
+    <comment>Placeholder that appears in the compare hash text box</comment>
+  </data>
+  <data name="HashesMatch" xml:space="preserve">
+    <value>{0} と一致</value>
+    <comment>Appears when two compared hashes match, e.g. "Matches SHA256"</comment>
+  </data>
+  <data name="HashesDoNotMatch" xml:space="preserve">
+    <value>一致なし</value>
+    <comment>Appears when two compared hashes don't match</comment>
+  </data>
   <data name="PathOrAlias" xml:space="preserve">
     <value>パスまたはエイリアス</value>
   </data>
@@ -4155,5 +4179,24 @@
   <data name="CannotCloneRepoTitle" xml:space="preserve">
     <value>リポジトリをクローンできません</value>
     <comment>Cannot clone repo dialog title</comment>
+  </data>
+  <data name="CompareFile" xml:space="preserve">
+    <value>ファイルの比較</value>
+    <comment>Button that appears in file hash properties that allows the user to compare two files</comment>
+  </data>
+  <data name="SizeFormat" xml:space="preserve">
+    <value>サイズの形式</value>
+  </data>
+  <data name="Binary" xml:space="preserve">
+    <value>2進</value>
+  </data>
+  <data name="Decimal" xml:space="preserve">
+    <value>10進</value>
+  </data>
+  <data name="EnableOmnibar" xml:space="preserve">
+    <value>オムニバーを有効にする</value>
+  </data>
+  <data name="SectionsHiddenMessage" xml:space="preserve">
+    <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add.</value>
   </data>
 </root>
