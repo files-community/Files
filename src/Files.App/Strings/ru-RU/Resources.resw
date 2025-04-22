@@ -537,7 +537,7 @@
     <value>Копировать в {0}</value>
   </data>
   <data name="CloneToFolderCaptionText" xml:space="preserve">
-    <value>Clone to {0}</value>
+    <value>Клонировать в {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>Создать ярлык</value>
@@ -2073,7 +2073,7 @@
     <value>Восстановить все элементы</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Вы хотите восстановить {0} выбранный(ые) элемент(ы)?</value>
+    <value>Do you want to restore the {0, plural, one {selected item} other {{0} selected items}}?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>Восстановить выбранное</value>
@@ -2095,6 +2095,12 @@
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>Пароль архива</value>
+  </data>
+  <data name="Encoding" xml:space="preserve">
+    <value>Encoding</value>
+  </data>
+  <data name="EncodingDetected" xml:space="preserve">
+    <value>{0} (detected)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Путь</value>
@@ -2138,7 +2144,7 @@
   <data name="SplittingSize" xml:space="preserve">
     <value>Размер тома</value>
   </data>
-  <data name="Do not split" xml:space="preserve">
+  <data name="DoNotSplit" xml:space="preserve">
     <value>Не разбивать</value>
   </data>
   <data name="CD" xml:space="preserve">
@@ -2195,11 +2201,14 @@
   <data name="EditSettingsFile" xml:space="preserve">
     <value>Редактировать файл настроек</value>
   </data>
-  <data name="WhatsNew" xml:space="preserve">
-    <value>Из нового</value>
+  <data name="EditSettingsFileDescription" xml:space="preserve">
+    <value>Открыть файл настроек в вашем редакторе по умолчанию</value>
   </data>
-  <data name="WhatsNewDescription" xml:space="preserve">
-    <value>Открыть информацию о релизе</value>
+  <data name="ReleaseNotes" xml:space="preserve">
+    <value>Список изменений</value>
+  </data>
+  <data name="ReleaseNotesDescription" xml:space="preserve">
+    <value>Открыть список изменений</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Создание ярлыка в этом месте требует права администратора</value>
@@ -2409,7 +2418,7 @@
     <value>Включить/выключить отображение боковой панели</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Копировать элемент(ы) в буфер обмена</value>
+    <value>Copy {0, plural, one {item} other {items}} to clipboard</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Копировать путь выбранных элементов в буфер обмена</value>
@@ -2424,25 +2433,25 @@
     <value>Копировать путь выбранных элементов с кавычками в буфер обмена</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Вырезать элемент(ы) в буфер обмена</value>
+    <value>Cut {0, plural, one {item} other {items}} to clipboard</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Вставить элемент(ы) из буфера в текущую папку</value>
+    <value>Paste items from clipboard to current folder</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Вставить элемент(ы) из буфера обмена в текущую папку как ярлыки</value>
+    <value>Paste items from clipboard to current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Вставить элемент(ы) из буфера обмена в выбранную папку</value>
+    <value>Paste items from clipboard to selected folder</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>Удалить элемент(ы)</value>
+    <value>Удалить {0, plural, one {элемент} other {элеметы}}</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>Создать папку</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Создать ярлык для выбранных элемент(ов)</value>
+    <value>Create new {0, plural, one {shortcut} other {shortcuts}} to selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>Создать ярлык для любого элемента</value>
@@ -2454,16 +2463,16 @@
     <value>Открыть меню «Форматирование диска»</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Восстановить элемент(ы) из корзины</value>
+    <value>Restore selected {0, plural, one {item} other {items}} from recycle bin</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
     <value>Восстановить все элементы из корзины</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Открыть элемент(ы)</value>
+    <value>Open {0, plural, one {item} other {items}}</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Открыть элемент(ы) в выбранном приложении</value>
+    <value>Open {0, plural, one {item} other {items}} with selected application</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
     <value>Открыть родительскую папку искомого элемента</value>
@@ -2487,19 +2496,19 @@
     <value>Переключить выбор элемента</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Отправить выбранные файл(ы) другим</value>
+    <value>Share selected {0, plural, one {file} other {files}} with others</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Закрепить элемент(ы) в меню Пуск</value>
+    <value>Pin {0, plural, one {item} other {items}} to the Start Menu</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Открепить элемент(ы) из меню Пуск</value>
+    <value>Unpin {0, plural, one {item} other {items}} from the Start Menu</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>Закрепить папку(и) на боковую панель</value>
+    <value>Pin {0, plural, one {folder} other {folders}} to Sidebar</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
-    <value>Открепить папку(и) от боковой панели</value>
+    <value>Unpin {0, plural, one {folder} other {folders}} from Sidebar</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Установить как фон рабочего стола</value>
@@ -2514,13 +2523,13 @@
     <value>Установить выбранное изображение в качестве фона приложения</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Установить выбранный(е) шрифт(ы)</value>
+    <value>Install selected {0, plural, one {font} other {fonts}}</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Установить драйвер(ы) с помощью выбранного inf файла(ов)</value>
+    <value>Install {0, plural, one {driver} other {drivers}} using selected inf {0, plural, one {file} other {files}}</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>Установить выбранный(е) сертификат(ы)</value>
+    <value>Install selected {0, plural, one {certificate} other {certificates}}</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Запустить от имени администратора</value>
@@ -2535,28 +2544,28 @@
     <value>Запустить предпросмотр во всплывающем окне</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Создать архив с выбранными элементами</value>
+    <value>Create archive with selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Создать 7-zip архив с выбранными элементами</value>
+    <value>Create 7z archive with selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Создать zip архив с выбранными элементами</value>
+    <value>Create zip archive with selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Извлечь элементы из выбранного(ых) архива(ов) в любую папку</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to any folder</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Извлечь элементы из выбранного(ых) архива(ов) в текущую папку</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to current folder</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Извлечь элементы из выбранного(ых) архива(ов) в новую папку</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to new folder</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Повернуть выбранное(ые) изображение(ия) влево</value>
+    <value>Rotate selected {0, plural, one {image} other {images}} to the left</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Повернуть выбранное(ые) изображение(ия) вправо</value>
+    <value>Rotate selected {0, plural, one {image} other {images}} to the right</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>Открыть страницу настроек</value>
@@ -2992,7 +3001,7 @@
     <value>Удалить навсегда</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Удалить элемент(ы) навсегда</value>
+    <value>Delete {0, plural, one {item} other {items}} permanently</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>Воспроизвести выбранные медиа файлы</value>
@@ -3109,7 +3118,7 @@
     <value>Переключиться на новую ветку</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Создать папку с выбранными в данный момент элементами</value>
+    <value>Create a folder with the currently selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>Открыть свойства</value>
@@ -3142,7 +3151,7 @@
     <value>Запустить git fetch</value>
   </data>
   <data name="GitCloneDescription" xml:space="preserve">
-    <value>Clone a git repo</value>
+    <value>Клонировать git-репозиторий</value>
   </data>
   <data name="GitPullDescription" xml:space="preserve">
     <value>Запустить git pull</value>
@@ -3472,69 +3481,69 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
-    <value>Canceled cloning {0} to "{1}"</value>
+    <value>Клонирование {0} в "{1}" отменено</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled cloning {0} from "{1}" to "{2}"</value>
+    <value>Клонирование {0} отменено из "{1}" в "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
-    <value>Cloned "{0}" to "{1}"</value>
+    <value>Клонировано "{0}" в "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
-    <value>Cloned {0} from "{1}" to "{2}"</value>
+    <value>Клонировано {0} из "{1}" в "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_Header" xml:space="preserve">
-    <value>Error cloning "{0}" to "{1}"</value>
+    <value>Ошибка клонирования "{0}" в "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneFailed_SubHeader" xml:space="preserve">
-    <value>Failed to clone {0} from "{1}" to "{2}"</value>
+    <value>Не удалось клонировать {0} из "{1}" в "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
-    <value>Cloning "{0}" to "{1}"</value>
+    <value>Клонирование "{0}" в "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
-    <value>Cloning {0} from "{1}" to "{2}"</value>
+    <value>Клонирование {0} из "{1}" в "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_InstallFontCanceled_Header" xml:space="preserve">
-    <value>Canceled installing {0} fonts</value>
+    <value>Установка {0} шрифтов отменена</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled installing {0} font(s) from "{1}"</value>
+    <value>Установка {0} шрифт(ов) из "{1} " отменена</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
-    <value>Installed {0} font(s)</value>
+    <value>Установленный {0} шрифт(ы)</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
-    <value>Installed {0} font(s) from "{1}"</value>
+    <value>Установленный {0} шрифт(ы) из "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
-    <value>Error installing {0} font(s)</value>
+    <value>Ошибка установки {0} шрифта(ов)</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
-    <value>Failed to install {0} font(s) from "{1}"</value>
+    <value>Не удалось установить {0} шрифт(ы) из "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
-    <value>Installing {0} font(s)</value>
+    <value>Установка {0} шрифта(ов)</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
-    <value>Installing {0} font(s) from "{1}"</value>
+    <value>Установка {0} шрифта(ов) из "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
-  </data>	
+  </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
     <value>Копирование {0} элементов в "{1}" отменено</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3676,7 +3685,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} элементов обработано</value>
+    <value>{0}/{1} {0, plural, one {item} other {items}} processed</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3693,6 +3702,9 @@
   </data>
   <data name="FailedToSetBackground" xml:space="preserve">
     <value>Не удалось установить обои рабочего стола</value>
+  </data>
+  <data name="FailedToOpenSettingsFile" xml:space="preserve">
+    <value>Не удалось открыть файл настроек</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
     <value>Удалить Git ветку</value>
@@ -3719,7 +3731,7 @@
     <value>Произошла ошибка при применении этой метки</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Распаковать элементы из выбранных архивов в текущую папку для архива с одним элементом или в новую папку для архива с несколькими элементами</value>
+    <value>Extract items from selected {0, plural, one {archive} other {archives}} to current folder for single-item archive, or to new folder for multi-item archive</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Распаковать здесь (Smart)</value>
@@ -4061,7 +4073,7 @@
     <value>Создать альтернативный поток данных</value>
   </data>
   <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
-    <value>Создать альтернативный поток данных для выбранного элемента(ов)</value>
+    <value>Create alternate data stream for the selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="EnterDataStreamName" xml:space="preserve">
     <value>Введите название потока данных</value>
@@ -4113,6 +4125,18 @@
     <value>Добавить на полку</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
   </data>
+  <data name="EnterHashToCompare" xml:space="preserve">
+    <value>Введите хэш для сравнения</value>
+    <comment>Placeholder that appears in the compare hash text box</comment>
+  </data>
+  <data name="HashesMatch" xml:space="preserve">
+    <value>Совпадения {0}</value>
+    <comment>Appears when two compared hashes match, e.g. "Matches SHA256"</comment>
+  </data>
+  <data name="HashesDoNotMatch" xml:space="preserve">
+    <value>Совпадения не найдены</value>
+    <comment>Appears when two compared hashes don't match</comment>
+  </data>
   <data name="PathOrAlias" xml:space="preserve">
     <value>Путь или псевдоним</value>
   </data>
@@ -4141,19 +4165,38 @@
     <value>Пожалуйста, введите имя для IDE</value>
   </data>
   <data name="CloneRepo" xml:space="preserve">
-    <value>Clone repo</value>
+    <value>Клонировать репозиторий</value>
     <comment>Clone repo dialog title</comment>
   </data>
   <data name="Clone" xml:space="preserve">
-    <value>Clone</value>
+    <value>Клонировать</value>
     <comment>Primary action button in the clone repo dialog</comment>
   </data>
   <data name="RepositoryURL" xml:space="preserve">
-    <value>Repository URL</value>
+    <value>Ссылка на репозиторий</value>
     <comment>URL textbox header in the clone repo dialog</comment>
   </data>
   <data name="CannotCloneRepoTitle" xml:space="preserve">
-    <value>Cannot clone repo</value>
+    <value>Невозможно клонировать репозиторий</value>
     <comment>Cannot clone repo dialog title</comment>
+  </data>
+  <data name="CompareFile" xml:space="preserve">
+    <value>Сравнить файл</value>
+    <comment>Button that appears in file hash properties that allows the user to compare two files</comment>
+  </data>
+  <data name="SizeFormat" xml:space="preserve">
+    <value>Размер формата</value>
+  </data>
+  <data name="Binary" xml:space="preserve">
+    <value>Двоичный</value>
+  </data>
+  <data name="Decimal" xml:space="preserve">
+    <value>Десятичный</value>
+  </data>
+  <data name="EnableOmnibar" xml:space="preserve">
+    <value>Включить Omnibar</value>
+  </data>
+  <data name="SectionsHiddenMessage" xml:space="preserve">
+    <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add.</value>
   </data>
 </root>
