@@ -72,7 +72,7 @@ namespace Files.App.ViewModels.Dialogs
 				EncodingOptions = EncodingItem.Defaults
 				.Prepend(new EncodingItem(
 					detectedEncoding, 
-					detectedEncoding.EncodingName + Strings.EncodingDetected.GetLocalizedResource())
+					string.Format(Strings.EncodingDetected.GetLocalizedResource(), detectedEncoding.EncodingName)
 				)
 				.ToArray();
 			}
