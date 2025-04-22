@@ -11,7 +11,29 @@
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
-		<converters:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
+		<ResourceDictionary>
+			<converters:EmptyListToVisibilityConverter x:Key="EmptyListToVisibilityConverter" />
+			<converters:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
+
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Light">
+					<ImageSource x:Key="EmptyShelf.48">ms-appx:///Assets/Shelf/EmptyShelf_48_ThemeLight.svg</ImageSource>
+					<ImageSource x:Key="EmptyShelf.100">ms-appx:///Assets/Shelf/EmptyShelf_100_ThemeLight.svg</ImageSource>
+					<ImageSource x:Key="EmptyShelf.200">ms-appx:///Assets/Shelf/EmptyShelf_200_ThemeLight.svg</ImageSource>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="Dark">
+					<ImageSource x:Key="EmptyShelf.48">ms-appx:///Assets/Shelf/EmptyShelf_48_ThemeDark.svg</ImageSource>
+					<ImageSource x:Key="EmptyShelf.100">ms-appx:///Assets/Shelf/EmptyShelf_100_ThemeDark.svg</ImageSource>
+					<ImageSource x:Key="EmptyShelf.200">ms-appx:///Assets/Shelf/EmptyShelf_200_ThemeDark.svg</ImageSource>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="HighContrast">
+					<ImageSource x:Key="EmptyShelf.48">ms-appx:///Assets/Shelf/EmptyShelf_48_ThemeDark.svg</ImageSource>
+					<ImageSource x:Key="EmptyShelf.100">ms-appx:///Assets/Shelf/EmptyShelf_100_ThemeDark.svg</ImageSource>
+					<ImageSource x:Key="EmptyShelf.200">ms-appx:///Assets/Shelf/EmptyShelf_200_ThemeDark.svg</ImageSource>
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
+
+		</ResourceDictionary>
 	</UserControl.Resources>
 
 	<Grid
@@ -31,6 +53,7 @@
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
+		<!--  Shelf Header  -->
 		<StackPanel
 			Grid.Row="0"
 			Padding="12,12,12,4"
@@ -45,6 +68,30 @@
 
 			<!--  (Divider)  -->
 			<Border Height="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+		</StackPanel>
+
+		<!--  Empty Shelf Content  -->
+		<StackPanel
+			x:Name="EmptyShelfContent"
+			Grid.Row="1"
+			Padding="16,0,16,0"
+			VerticalAlignment="Center"
+			Orientation="Vertical"
+			Spacing="16"
+			Visibility="{x:Bind ItemsSource.Count, Converter={StaticResource EmptyListToVisibilityConverter}, Mode=OneWay}">
+
+			<Image
+				x:Name="EmptyShelfImage"
+				MaxHeight="48"
+				Source="{ThemeResource EmptyShelf.48}" />
+
+			<TextBlock
+				MaxWidth="240"
+				Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+				Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
+				Text="{helpers:ResourceString Name=EmptyShelfText}"
+				TextAlignment="Center" />
 
 		</StackPanel>
 
@@ -101,6 +148,7 @@
 		</ListView>
 
 
+		<!--  Shelf Footer  -->
 		<StackPanel
 			Grid.Row="2"
 			Padding="12,12,12,4"
