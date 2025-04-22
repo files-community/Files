@@ -42,6 +42,11 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static long TotalLaunchCount { get; }
 
+		/// <summary>
+		/// Gets the value that indicates if the release notes tab was automatically opened.
+		/// </summary>
+		private static bool ViewedReleaseNotes { get; set; } = false;
+
 		static AppLifecycleHelper()
 		{
 			using var infoKey = Registry.CurrentUser.CreateSubKey(AppInformationKey);
@@ -137,8 +142,14 @@ namespace Files.App.Helpers
 			await updateService.CheckForReleaseNotesAsync();
 
 			// Check for release notes before checking for new updates
-			if (AppEnvironment != AppEnvironment.Dev && IsAppUpdated && updateService.AreReleaseNotesAvailable)
+			if (AppEnvironment != AppEnvironment.Dev &&
+				IsAppUpdated &&
+				updateService.AreReleaseNotesAvailable &&
+				!ViewedReleaseNotes)
+			{
 				await Ioc.Default.GetRequiredService<ICommandManager>().OpenReleaseNotes.ExecuteAsync();
+				ViewedReleaseNotes = true;
+			}
 
 			await updateService.CheckForUpdatesAsync();
 			await updateService.DownloadMandatoryUpdatesAsync();
