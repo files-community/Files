@@ -171,7 +171,7 @@ namespace Files.App.Services
 						displayName = Path.GetFileName(path);
 				}
 
-				var jumplistItem = JumpListItem.CreateWithArguments(path, displayName);
+				var jumplistItem = Windows.UI.StartScreen.JumpListItem.CreateWithArguments(path, displayName);
 				jumplistItem.Description = jumplistItem.Arguments ?? string.Empty;
 				jumplistItem.GroupName = group;
 				jumplistItem.Logo = new Uri("ms-appx:///Assets/FolderIcon.png");

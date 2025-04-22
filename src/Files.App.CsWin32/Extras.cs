@@ -37,6 +37,9 @@ namespace Windows.Win32
 				? (nint)_SetWindowLong(hWnd, (int)nIndex, (int)dwNewLong)
 				: _SetWindowLongPtr(hWnd, (int)nIndex, dwNewLong);
 		}
+
+		[DllImport("shell32.dll", EntryPoint = "SHUpdateRecycleBinIcon", CharSet = CharSet.Unicode, SetLastError = true)]
+		public static extern void SHUpdateRecycleBinIcon();
 	}
 
 	namespace Extras

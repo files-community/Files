@@ -135,7 +135,7 @@ namespace Files.App.Services
 			hr = pFileOperation.Get()->PerformOperations();
 
 			// Reset the icon
-			Win32PInvoke.SHUpdateRecycleBinIcon();
+			PInvoke.SHUpdateRecycleBinIcon();
 
 			return true;
 		}
