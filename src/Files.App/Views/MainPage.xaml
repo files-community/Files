@@ -31,6 +31,24 @@
 				<ResourceDictionary Source="ms-appx:///Styles/DefaultGridSplitterStyle.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key="Light">
+					<ImageSource x:Key="EmptySidebar.48">ms-appx:///Assets/Sidebar/EmptySidebar_48_ThemeLight.svg</ImageSource>
+					<ImageSource x:Key="EmptySidebar.100">ms-appx:///Assets/Sidebar/EmptySidebar_100_ThemeLight.svg</ImageSource>
+					<ImageSource x:Key="EmptySidebar.200">ms-appx:///Assets/Sidebar/EmptySidebar_200_ThemeLight.svg</ImageSource>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="Dark">
+					<ImageSource x:Key="EmptySidebar.48">ms-appx:///Assets/Sidebar/EmptySidebar_48_ThemeDark.svg</ImageSource>
+					<ImageSource x:Key="EmptySidebar.100">ms-appx:///Assets/Sidebar/EmptySidebar_100_ThemeDark.svg</ImageSource>
+					<ImageSource x:Key="EmptySidebar.200">ms-appx:///Assets/Sidebar/EmptySidebar_200_ThemeDark.svg</ImageSource>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key="HighContrast">
+					<ImageSource x:Key="EmptySidebar.48">ms-appx:///Assets/Sidebar/EmptySidebar_48_ThemeDark.svg</ImageSource>
+					<ImageSource x:Key="EmptySidebar.100">ms-appx:///Assets/Sidebar/EmptySidebar_100_ThemeDark.svg</ImageSource>
+					<ImageSource x:Key="EmptySidebar.200">ms-appx:///Assets/Sidebar/EmptySidebar_200_ThemeDark.svg</ImageSource>
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
+
 			<x:Boolean x:Key="True">True</x:Boolean>
 			<x:Boolean x:Key="False">False</x:Boolean>
 
@@ -259,6 +277,32 @@
 				</Grid>
 			</controls:SidebarView.InnerContent>
 
+			<!--  Sidebar Content  -->
+			<controls:SidebarView.SidebarContent>
+				<StackPanel
+					x:Name="SidebarContent"
+					Padding="16,0,16,0"
+					VerticalAlignment="Center"
+					Orientation="Vertical"
+					Spacing="16"
+					Visibility="{x:Bind SidebarAdaptiveViewModel.AreSectionsHidden, Mode=OneWay}">
+
+					<Image
+						x:Name="EmptySidebarImage"
+						MaxHeight="48"
+						Source="{ThemeResource EmptySidebar.48}" />
+
+					<TextBlock
+						MaxWidth="240"
+						Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+						Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
+						Text="{helpers:ResourceString Name=SectionsHiddenMessage}"
+						TextAlignment="Center" />
+
+				</StackPanel>
+			</controls:SidebarView.SidebarContent>
+
+			<!--  Footer  -->
 			<controls:SidebarView.Footer>
 				<StackPanel Padding="4" Spacing="4">
 					<Border
@@ -322,6 +366,46 @@
 		</controls:SidebarView>
 
 		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="SidebarWidthStates">
+				<VisualState x:Name="SmallSidebarWidthState">
+					<VisualState.Setters>
+						<Setter Target="EmptySidebarImage.MaxHeight" Value="48" />
+						<Setter Target="EmptySidebarImage.Source" Value="{ThemeResource EmptySidebar.48}" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="MediumSidebarWidthState">
+					<VisualState.Setters>
+						<Setter Target="EmptySidebarImage.MaxHeight" Value="100" />
+						<Setter Target="EmptySidebarImage.Source" Value="{ThemeResource EmptySidebar.100}" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="LargeSidebarWidthState">
+					<VisualState.Setters>
+						<Setter Target="EmptySidebarImage.MaxHeight" Value="200" />
+						<Setter Target="EmptySidebarImage.Source" Value="{ThemeResource EmptySidebar.200}" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+
+			<VisualStateGroup x:Name="WindowHeightStates">
+				<VisualState>
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger x:Name="SmallHeightAdaptiveTrigger" MinWindowHeight="440" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="EmptySidebarImage.Visibility" Value="Visible" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState>
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger x:Name="MediumHeightAdaptiveTrigger" MinWindowHeight="0" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="EmptySidebarImage.Visibility" Value="Collapsed" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+
 			<VisualStateGroup>
 				<VisualState>
 					<VisualState.StateTriggers>
@@ -337,6 +421,7 @@
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
+
 			<VisualStateGroup>
 				<VisualState x:Name="NormalSidebarState">
 					<VisualState.StateTriggers>

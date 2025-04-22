@@ -59,6 +59,7 @@ namespace Files.App.ViewModels.UserControls
 				if (SetProperty(ref sidebarDisplayMode, value))
 				{
 					OnPropertyChanged(nameof(IsSidebarCompactSize));
+					OnPropertyChanged(nameof(AreSectionsHidden));
 					IsSidebarOpen = sidebarDisplayMode == SidebarDisplayMode.Expanded;
 					UpdateTabControlMargin();
 				}
@@ -133,6 +134,16 @@ namespace Files.App.ViewModels.UserControls
 				OnPropertyChanged();
 			}
 		}
+
+		public bool AreSectionsHidden =>
+			!ShowPinnedFoldersSection &&
+			!ShowLibrarySection &&
+			!ShowDrivesSection &&
+			!ShowCloudDrivesSection &&
+			!ShowNetworkSection &&
+			(!ShowWslSection || WSLDistroManager.Distros.Any() == false) &&
+			!ShowFileTagsSection &&
+			SidebarDisplayMode is not SidebarDisplayMode.Compact;
 
 		public bool ShowPinnedFoldersSection
 		{
@@ -635,30 +646,37 @@ namespace Files.App.ViewModels.UserControls
 				case nameof(UserSettingsService.GeneralSettingsService.ShowPinnedSection):
 					await UpdateSectionVisibilityAsync(SectionType.Pinned, ShowPinnedFoldersSection);
 					OnPropertyChanged(nameof(ShowPinnedFoldersSection));
+					OnPropertyChanged(nameof(AreSectionsHidden));
 					break;
 				case nameof(UserSettingsService.GeneralSettingsService.ShowLibrarySection):
 					await UpdateSectionVisibilityAsync(SectionType.Library, ShowLibrarySection);
 					OnPropertyChanged(nameof(ShowLibrarySection));
+					OnPropertyChanged(nameof(AreSectionsHidden));
 					break;
 				case nameof(UserSettingsService.GeneralSettingsService.ShowCloudDrivesSection):
 					await UpdateSectionVisibilityAsync(SectionType.CloudDrives, ShowCloudDrivesSection);
 					OnPropertyChanged(nameof(ShowCloudDrivesSection));
+					OnPropertyChanged(nameof(AreSectionsHidden));
 					break;
 				case nameof(UserSettingsService.GeneralSettingsService.ShowDrivesSection):
 					await UpdateSectionVisibilityAsync(SectionType.Drives, ShowDrivesSection);
 					OnPropertyChanged(nameof(ShowDrivesSection));
+					OnPropertyChanged(nameof(AreSectionsHidden));
 					break;
 				case nameof(UserSettingsService.GeneralSettingsService.ShowNetworkSection):
 					await UpdateSectionVisibilityAsync(SectionType.Network, ShowNetworkSection);
 					OnPropertyChanged(nameof(ShowNetworkSection));
+					OnPropertyChanged(nameof(AreSectionsHidden));
 					break;
 				case nameof(UserSettingsService.GeneralSettingsService.ShowWslSection):
 					await UpdateSectionVisibilityAsync(SectionType.WSL, ShowWslSection);
 					OnPropertyChanged(nameof(ShowWslSection));
+					OnPropertyChanged(nameof(AreSectionsHidden));
 					break;
 				case nameof(UserSettingsService.GeneralSettingsService.ShowFileTagsSection):
 					await UpdateSectionVisibilityAsync(SectionType.FileTag, ShowFileTagsSection);
 					OnPropertyChanged(nameof(ShowFileTagsSection));
+					OnPropertyChanged(nameof(AreSectionsHidden));
 					break;
 			}
 		}

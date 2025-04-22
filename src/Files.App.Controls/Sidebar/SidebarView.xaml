@@ -57,6 +57,15 @@
 				<CompositeTransform x:Name="PaneColumnGridTransform" />
 			</Grid.RenderTransform>
 
+			<!--  Content  -->
+			<ContentPresenter
+				Grid.RowSpan="2"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch"
+				HorizontalContentAlignment="Stretch"
+				VerticalContentAlignment="Stretch"
+				Content="{x:Bind SidebarContent, Mode=OneWay}" />
+
 			<!--  Menu Items  -->
 			<ItemsRepeaterScrollHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 				<ScrollViewer
