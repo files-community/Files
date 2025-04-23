@@ -13,6 +13,7 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<converters:EmptyListToVisibilityConverter x:Key="EmptyListToVisibilityConverter" />
+			<converters:PopulatedListToVisibilityConverter x:Key="PopulatedListToVisibilityConverter" />
 			<converters:ImageModelToImageConverter x:Key="ImageModelToImageConverter" />
 
 			<ResourceDictionary.ThemeDictionaries>
@@ -152,7 +153,8 @@
 		<StackPanel
 			Grid.Row="2"
 			Padding="12,12,12,4"
-			Spacing="4">
+			Spacing="4"
+			Visibility="{x:Bind ItemsSource.Count, Converter={StaticResource PopulatedListToVisibilityConverter}, Mode=OneWay}">
 
 			<!--  (Divider)  -->
 			<Border Height="1" Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
