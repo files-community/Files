@@ -84,7 +84,7 @@
 			</wctcontrols:SettingsCard>
 
 			<!--  Startup settings  -->
-			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=StartupSettings}">
+			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=StartupSettings}" IsExpanded="False">
 				<wctcontrols:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE7E8;" />
 				</wctcontrols:SettingsExpander.HeaderIcon>
@@ -98,7 +98,7 @@
 						Content="{helpers:ResourceString Name=SettingsOnStartupOpenASpecificPage/Content}"
 						IsSelected="{x:Bind ViewModel.OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 				</uc:ComboBoxEx>
-				<wctcontrols:SettingsExpander.Items>
+				<wctcontrols:SettingsExpander.ItemsHeader>
 					<Grid
 						Padding="8"
 						HorizontalAlignment="Stretch"
@@ -168,7 +168,8 @@
 							</ListView.ItemTemplate>
 						</ListView>
 					</Grid>
-
+				</wctcontrols:SettingsExpander.ItemsHeader>
+				<wctcontrols:SettingsExpander.Items>
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=OpenTabInExistingInstance}">
 						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=OpenTabInExistingInstance}" IsOn="{x:Bind ViewModel.OpenTabInExistingInstance, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
