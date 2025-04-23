@@ -273,31 +273,67 @@ namespace Files.App.UserControls
 
 		private async void BreadcrumbBar_ItemClicked(Controls.BreadcrumbBar sender, Controls.BreadcrumbBarItemClickedEventArgs args)
 		{
+			// Navigation to the current folder should not happen
+			if (args.Index == ViewModel.PathComponents.Count - 1 ||
+				ViewModel.PathComponents[args.Index].Path is not { } path)
+				return;
+
 			if (args.IsRootItem)
 			{
 				await ViewModel.HandleItemNavigationAsync("Home");
 				return;
 			}
 
-			await ViewModel.HandleFolderNavigationAsync(ViewModel.PathComponents[args.Index].Path);
+			await ViewModel.HandleFolderNavigationAsync(path);
 		}
 
 		private async void BreadcrumbBar_ItemDropDownFlyoutOpening(object sender, BreadcrumbBarItemDropDownFlyoutEventArgs e)
 		{
 			if (e.IsRootItem)
 			{
-				// TODO: Populate a different flyout for the root item
+				IHomeFolder homeFolder = new HomeFolder();
+
 				e.Flyout.Items.Add(new MenuFlyoutHeaderItem() { Text = "Quick access" });
-				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Desktop" });
-				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Download" });
-				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Documents" });
-				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Pictures" });
-				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Music" });
-				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Videos" });
-				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Recycle bin" });
+
+				await foreach (var storable in homeFolder.GetQuickAccessFolderAsync())
+				{
+					if (storable is not IWindowsStorable windowsStorable)
+						continue;
+
+					var flyoutItem = new MenuFlyoutItem()
+					{
+						Text = windowsStorable.GetDisplayName(Windows.Win32.UI.Shell.SIGDN.SIGDN_PARENTRELATIVEFORUI),
+						Icon = new FontIcon { Glyph = "\uE8B7" }, // Use font icon as placeholder
+					};
+
+					e.Flyout.Items.Add(flyoutItem);
+
+					windowsStorable.TryGetThumbnail((int)(16f * App.AppModel.AppWindowDPI), Windows.Win32.UI.Shell.SIIGBF.SIIGBF_ICONONLY, out var thumbnailData);
+					flyoutItem.Icon = new ImageIcon() { Source = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal) };
+
+					windowsStorable.Dispose();
+				}
+
 				e.Flyout.Items.Add(new MenuFlyoutHeaderItem() { Text = "Drives" });
-				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Local Disk (C:)" });
-				e.Flyout.Items.Add(new MenuFlyoutItem() { Text = "Local Disk (D:)" });
+
+				await foreach (var storable in homeFolder.GetLogicalDrivesAsync())
+				{
+					if (storable is not IWindowsStorable windowsStorable)
+						continue;
+
+					var flyoutItem = new MenuFlyoutItem()
+					{
+						Text = windowsStorable.GetDisplayName(Windows.Win32.UI.Shell.SIGDN.SIGDN_PARENTRELATIVEFORUI),
+						Icon = new FontIcon { Glyph = "\uE8B7" }, // Use font icon as placeholder
+					};
+
+					e.Flyout.Items.Add(flyoutItem);
+
+					windowsStorable.TryGetThumbnail((int)(16f * App.AppModel.AppWindowDPI), Windows.Win32.UI.Shell.SIIGBF.SIIGBF_ICONONLY, out var thumbnailData);
+					flyoutItem.Icon = new ImageIcon() { Source = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal) };
+
+					windowsStorable.Dispose();
+				}
 
 				return;
 			}

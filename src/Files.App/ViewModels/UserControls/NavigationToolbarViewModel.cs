@@ -859,7 +859,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					Icon = new FontIcon { Glyph = "\uE8B7" }, // Use font icon as placeholder
 					Text = childFolder.Item.Name,
-					FontSize = 12,
+					FontSize = 12
 				};
 
 				if (workingPath != childFolder.Path)
