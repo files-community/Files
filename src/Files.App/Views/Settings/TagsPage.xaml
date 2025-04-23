@@ -54,7 +54,7 @@
 
 				<Button Command="{x:Bind ViewModel.AddTagCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=NewTag}" />
 				<wctcontrols:SettingsExpander.ItemsHeader>
-					<StackPanel>
+					<StackPanel Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
 						<!--  Create new tag  -->
 						<Grid
 							x:Name="AddTagGrid"
