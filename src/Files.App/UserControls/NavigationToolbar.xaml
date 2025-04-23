@@ -325,6 +325,7 @@
 		<!--  Right Side Action Buttons  -->
 		<StackPanel
 			Grid.Column="2"
+			Margin="0,0,4,0"
 			Orientation="Horizontal"
 			Spacing="4">
 

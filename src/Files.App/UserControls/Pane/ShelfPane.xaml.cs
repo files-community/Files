@@ -86,13 +86,13 @@ namespace Files.App.UserControls
 			dataObjectProvider.SetDataObject(ppDataObject);
 		}
 
-		public IList<ShelfItem>? ItemsSource
+		public ObservableCollection<ShelfItem>? ItemsSource
 		{
-			get => (IList<ShelfItem>?)GetValue(ItemsSourceProperty);
+			get => (ObservableCollection<ShelfItem>?)GetValue(ItemsSourceProperty);
 			set => SetValue(ItemsSourceProperty, value);
 		}
 		public static readonly DependencyProperty ItemsSourceProperty =
-			DependencyProperty.Register(nameof(ItemsSource), typeof(IList<ShelfItem>), typeof(ShelfPane), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(ItemsSource), typeof(ObservableCollection<ShelfItem>), typeof(ShelfPane), new PropertyMetadata(null));
 
 		public ICommand? ClearCommand
 		{

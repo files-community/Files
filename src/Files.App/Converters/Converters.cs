@@ -238,4 +238,31 @@ namespace Files.App.Converters
 			return new NotSupportedException();
 		}
 	}
+
+	internal sealed partial class EmptyListToVisibilityConverter : ValueConverter<object?, Visibility>
+	{
+		protected override Visibility Convert(object? value, object? parameter, string? language)
+		{
+			return (value is int count && count == 0) ? Visibility.Visible : Visibility.Collapsed;
+		}
+
+		protected override object? ConvertBack(Visibility value, object? parameter, string? language)
+		{
+			return new NotSupportedException();
+		}
+	}
+
+	internal sealed partial class PopulatedListToVisibilityConverter : ValueConverter<object?, Visibility>
+	{
+		protected override Visibility Convert(object? value, object? parameter, string? language)
+		{
+			return (value is int count && count > 0) ? Visibility.Visible : Visibility.Collapsed;
+		}
+
+		protected override object? ConvertBack(Visibility value, object? parameter, string? language)
+		{
+			return new NotSupportedException();
+		}
+	}
 }
+
