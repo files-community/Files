@@ -55,7 +55,7 @@
 					ItemsSource="{x:Bind ViewModel.OpenInIDEOptions.Values}"
 					SelectedItem="{x:Bind ViewModel.SelectedOpenInIDEOption, Mode=TwoWay}" />
 				<wctcontrols:SettingsExpander.ItemsHeader>
-					<StackPanel Orientation="Vertical">
+					<StackPanel Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" Orientation="Vertical">
 						<Grid
 							x:Name="IDEConfigGrid"
 							Padding="32,12"

@@ -156,6 +156,7 @@
 					<GridView
 						Padding="8"
 						HorizontalAlignment="Stretch"
+						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 						ItemTemplate="{StaticResource AppThemeResourcesItemTemplate}"
 						ItemsSource="{x:Bind ViewModel.AppThemeResources, Mode=OneWay}"
 						SelectedItem="{x:Bind ViewModel.SelectedAppThemeResources, Mode=TwoWay}" />

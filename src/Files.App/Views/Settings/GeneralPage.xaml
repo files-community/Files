@@ -102,6 +102,7 @@
 					<Grid
 						Padding="8"
 						HorizontalAlignment="Stretch"
+						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 						RowSpacing="4"
 						Visibility="{x:Bind ViewModel.OpenASpecificPageOnStartup, Mode=OneWay}">
 						<Grid.RowDefinitions>
