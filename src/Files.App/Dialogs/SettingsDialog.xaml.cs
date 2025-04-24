@@ -1,9 +1,11 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI.Controls;
 using Files.App.Views.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 
 namespace Files.App.Dialogs
@@ -37,7 +39,7 @@ namespace Files.App.Dialogs
 			);
 			if (oldSelection is not null)
 				oldSelection.IsSelected = false;
-			
+
 			MainSettingsNavigationView.SelectedItem = targetSection;
 		}
 
@@ -88,5 +90,104 @@ namespace Files.App.Dialogs
 		{
 			Hide();
 		}
+
+		public class SearchResultItem
+		{
+			public string Text { get; set; }
+			public Page ParentPage { get; set; }
+			public override string ToString() => Text;  // Ensures dropdown shows search text
+		}
+
+		private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+		{
+			if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+			{
+				var query = sender.Text;
+				var results = SearchSettingsPages(query);
+
+				// Store actual objects instead of just text
+				sender.ItemsSource = results;
+			}
+		}
+
+		private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+		{
+			var query = args.QueryText;
+			var results = SearchSettingsPages(query);
+			sender.ItemsSource = results;
+		}
+
+		private void NavViewSearchBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+		{
+			if (args.SelectedItem is SearchResultItem selectedItem)
+			{
+				SettingsContentFrame.Navigate(selectedItem.ParentPage.GetType());
+				NavViewSearchBox.Text = string.Empty;
+			}
+		}
+
+		private IEnumerable<string> SearchVisualTreeForText(DependencyObject parent, string query)
+		{
+			var results = new List<string>();
+
+			for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+			{
+				var child = VisualTreeHelper.GetChild(parent, i);
+
+				if (child is FrameworkElement element)
+				{
+					if (element is TextBlock textBlock && textBlock.Text.Contains(query, StringComparison.OrdinalIgnoreCase))
+						results.Add(textBlock.Text);
+					else if (element is SettingsCard settingsCard && settingsCard.Header is string headerText &&
+							 headerText.Contains(query, StringComparison.OrdinalIgnoreCase))
+						results.Add(headerText);
+					else if (element is SettingsExpander settingsExpander)
+					{
+						if (settingsExpander.Header is string expanderHeader &&
+							expanderHeader.Contains(query, StringComparison.OrdinalIgnoreCase))
+							results.Add(expanderHeader);
+
+						results.AddRange(SearchVisualTreeForText(settingsExpander, query));
+
+						results.AddRange(settingsExpander.Items.OfType<SettingsCard>()
+							.Select(subCard => subCard.Header)
+							.OfType<string>()
+							.Where(subCardHeader => subCardHeader.Contains(query, StringComparison.OrdinalIgnoreCase)));
+					}
+				}
+
+				results.AddRange(SearchVisualTreeForText(child, query));
+			}
+
+			return results;
+		}
+
+
+		private IEnumerable<SearchResultItem> SearchSettingsPages(string query)
+		{
+			var results = new List<SearchResultItem>();
+
+			var settingsPages = new List<Page>
+			{
+				new AboutPage(),
+				new AppearancePage(),
+				new TagsPage(),
+				new DevToolsPage(),
+				new GeneralPage(),
+				new FoldersPage(),
+			};
+
+			foreach (var page in settingsPages)
+			{
+				var matches = SearchVisualTreeForText(page, query);
+				foreach (var match in matches)
+				{
+					results.Add(new SearchResultItem { Text = match, ParentPage = page });
+				}
+			}
+
+			return results;
+		}
+
 	}
 }
