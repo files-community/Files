@@ -86,6 +86,26 @@ namespace Files.App.UserControls
 			dataObjectProvider.SetDataObject(ppDataObject);
 		}
 
+		private void ShelfItemsList_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+		{
+			if (e.OriginalSource is not Microsoft.UI.Xaml.FrameworkElement widgetCardItem ||
+				widgetCardItem.DataContext is not ShelfItem item ||
+				item.Path is null)
+				return;
+
+			var menuFlyout = new MenuFlyout();
+
+			menuFlyout.Items.Add (new MenuFlyoutItem
+			{
+				Text = Strings.RemoveFromShelf.GetLocalizedResource(),
+				Icon = new FontIcon { Glyph = "\uE738" },
+				Command = new RelayCommand(item.Remove)
+			});
+
+			menuFlyout.ShowAt(widgetCardItem);
+			e.Handled = true;
+		}
+
 		public ObservableCollection<ShelfItem>? ItemsSource
 		{
 			get => (ObservableCollection<ShelfItem>?)GetValue(ItemsSourceProperty);

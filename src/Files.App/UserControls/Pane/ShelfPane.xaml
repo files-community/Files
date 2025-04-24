@@ -105,6 +105,7 @@
 			DragItemsStarting="ListView_DragItemsStarting"
 			ItemContainerTransitions="{x:Null}"
 			ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
+			RightTapped="ShelfItemsList_RightTapped"
 			ScrollViewer.VerticalScrollBarVisibility="Auto"
 			ScrollViewer.VerticalScrollMode="Auto"
 			SelectionMode="Extended">
@@ -126,16 +127,6 @@
 							TextTrimming="CharacterEllipsis"
 							TextWrapping="NoWrap"
 							ToolTipService.ToolTip="{x:Bind Path, Mode=OneWay}" />
-
-						<Grid.ContextFlyout>
-							<MenuFlyout>
-								<MenuFlyoutItem Command="{x:Bind RemoveCommand}" Text="{helpers:ResourceString Name=RemoveFromShelf}">
-									<MenuFlyoutItem.Icon>
-										<FontIcon Glyph="&#xE738;" />
-									</MenuFlyoutItem.Icon>
-								</MenuFlyoutItem>
-							</MenuFlyout>
-						</Grid.ContextFlyout>
 					</Grid>
 				</DataTemplate>
 			</ListView.ItemTemplate>
