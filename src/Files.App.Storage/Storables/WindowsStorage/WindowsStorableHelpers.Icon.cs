@@ -57,20 +57,45 @@ namespace Files.App.Storage
 				return hr;
 			}
 
-			// Convert to GpBitmap of GDI+
-			GpBitmap* gpBitmap = default;
-			if (PInvoke.GdipCreateBitmapFromHBITMAP(hBitmap, HPALETTE.Null, &gpBitmap) is not Status.Ok)
+			// Retrieve BITMAP data
+			BITMAP bmp = default;
+			if (PInvoke.GetObject(hBitmap, sizeof(BITMAP), &bmp) is 0)
 			{
-				if (gpBitmap is not null) PInvoke.GdipDisposeImage((GpImage*)gpBitmap);
 				if (!hBitmap.IsNull) PInvoke.DeleteObject(hBitmap);
 				return HRESULT.E_FAIL;
 			}
 
-			if (TryConvertGpBitmapToByteArray(gpBitmap, out thumbnailData))
+			// Allocate buffer for flipped pixel data
+			byte* flippedBits = (byte*)NativeMemory.AllocZeroed((nuint)(bmp.bmWidthBytes * bmp.bmHeight));
+
+			// Flip the image manually row by row
+			for (int y = 0; y < bmp.bmHeight; y++)
+			{
+				Buffer.MemoryCopy(
+					(byte*)bmp.bmBits + y * bmp.bmWidthBytes,
+					flippedBits + (bmp.bmHeight - y - 1) * bmp.bmWidthBytes,
+					bmp.bmWidthBytes,
+					bmp.bmWidthBytes
+				);
+			}
+
+			// Create GpBitmap from the flipped pixel data
+			GpBitmap* gpBitmap = default;
+			if (PInvoke.GdipCreateBitmapFromScan0(bmp.bmWidth, bmp.bmHeight, bmp.bmWidthBytes, PInvoke.PixelFormat32bppARGB, flippedBits, &gpBitmap) != Status.Ok)
+			{
+				if (flippedBits is not null) NativeMemory.Free(flippedBits);
+				if (!hBitmap.IsNull) PInvoke.DeleteObject(hBitmap);
+				return HRESULT.E_FAIL;
+			}
+
+			if (!TryConvertGpBitmapToByteArray(gpBitmap, out thumbnailData))
 			{
 				if (!hBitmap.IsNull) PInvoke.DeleteObject(hBitmap);
 				return HRESULT.E_FAIL;
 			}
+
+			if (flippedBits is not null) NativeMemory.Free(flippedBits);
+			if (!hBitmap.IsNull) PInvoke.DeleteObject(hBitmap);
 
 			return HRESULT.S_OK;
 		}
@@ -110,14 +135,14 @@ namespace Files.App.Storage
 					return HRESULT.E_FAIL;
 				}
 
-				if (!TryConvertGpBitmapToByteArray(gpBitmap, out imageData))
+				if (!TryConvertGpBitmapToByteArray(gpBitmap, out imageData) || imageData is null)
 				{
 					if (!hIcon.IsNull) PInvoke.DestroyIcon(hIcon);
 					return HRESULT.E_FAIL;
 				}
 
 				DllIconCache[(path, index, size)] = imageData;
-				PInvoke.DestroyIcon(hIcon);
+				if (!hIcon.IsNull) PInvoke.DestroyIcon(hIcon);
 
 				return HRESULT.S_OK;
 			}

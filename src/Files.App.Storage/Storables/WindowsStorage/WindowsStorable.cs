@@ -10,7 +10,7 @@ namespace Files.App.Storage
 {
 	public abstract class WindowsStorable : IWindowsStorable, IStorableChild
 	{
-		public ComPtr<IShellItem> ThisPtr { get; protected set; } = default;
+		public ComPtr<IShellItem> ThisPtr { get; protected set; }
 
 		public string Id => this.GetDisplayName(SIGDN.SIGDN_FILESYSPATH);
 
@@ -63,6 +63,12 @@ namespace Files.App.Storage
 			}
 
 			return Task.FromResult<IFolder?>(new WindowsFolder(pParentFolder));
+		}
+
+		/// <inheritdoc/>
+		public void Dispose()
+		{
+			ThisPtr.Dispose();
 		}
 
 		/// <inheritdoc/>

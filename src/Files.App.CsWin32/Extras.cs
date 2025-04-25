@@ -40,6 +40,8 @@ namespace Windows.Win32
 
 		[DllImport("shell32.dll", EntryPoint = "SHUpdateRecycleBinIcon", CharSet = CharSet.Unicode, SetLastError = true)]
 		public static extern void SHUpdateRecycleBinIcon();
+
+		public const int PixelFormat32bppARGB = 2498570;
 	}
 
 	namespace Extras

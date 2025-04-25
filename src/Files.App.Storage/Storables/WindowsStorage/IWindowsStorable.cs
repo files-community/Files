@@ -6,7 +6,7 @@ using Windows.Win32.UI.Shell;
 
 namespace Files.App.Storage
 {
-	public interface IWindowsStorable
+	public interface IWindowsStorable : IDisposable
 	{
 		ComPtr<IShellItem> ThisPtr { get; }
 	}
