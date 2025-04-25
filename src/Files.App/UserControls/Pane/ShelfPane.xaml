@@ -103,6 +103,7 @@
 			Padding="8,4,8,4"
 			CanDragItems="True"
 			DragItemsStarting="ListView_DragItemsStarting"
+			GotFocus="ShelfItemsList_GotFocus"
 			ItemContainerTransitions="{x:Null}"
 			ItemsSource="{x:Bind ItemsSource, Mode=OneWay}"
 			RightTapped="ShelfItemsList_RightTapped"

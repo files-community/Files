@@ -273,6 +273,7 @@
 						Margin="4,0,0,8"
 						x:Load="{x:Bind ViewModel.ShowShelfPane, Mode=OneWay}"
 						ClearCommand="{x:Bind ViewModel.ShelfViewModel.ClearItemsCommand}"
+						ItemFocusedCommand="{x:Bind Commands.ClearSelection, Mode=OneWay}"
 						ItemsSource="{x:Bind ViewModel.ShelfViewModel.Items}" />
 				</Grid>
 			</controls:SidebarView.InnerContent>

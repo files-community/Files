@@ -106,6 +106,12 @@ namespace Files.App.UserControls
 			e.Handled = true;
 		}
 
+		private void ShelfItemsList_GotFocus(object sender, RoutedEventArgs e)
+		{
+			if (ItemFocusedCommand is not null)
+				ItemFocusedCommand.Execute(null);
+		}
+
 		public ObservableCollection<ShelfItem>? ItemsSource
 		{
 			get => (ObservableCollection<ShelfItem>?)GetValue(ItemsSourceProperty);
@@ -121,5 +127,14 @@ namespace Files.App.UserControls
 		}
 		public static readonly DependencyProperty ClearCommandProperty =
 			DependencyProperty.Register(nameof(ClearCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
+		
+		public ICommand? ItemFocusedCommand
+		{
+			get => (ICommand?)GetValue(ItemFocusedCommandProperty);
+			set => SetValue(ItemFocusedCommandProperty, value);
+		}
+		public static readonly DependencyProperty ItemFocusedCommandProperty =
+			DependencyProperty.Register(nameof(ItemFocusedCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
+
 	}
 }
