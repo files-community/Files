@@ -46,37 +46,40 @@ namespace Files.App.Storage.Storables
 		}
 
 		/// <inheritdoc/>
-		public async IAsyncEnumerable<IStorableChild> GetLogicalDrivesAsync([EnumeratorCancellation] CancellationToken cancellationToken = default)
+		public IAsyncEnumerable<IStorableChild> GetLogicalDrivesAsync(CancellationToken cancellationToken = default)
 		{
-			var availableDrives = PInvoke.GetLogicalDrives();
-			if (availableDrives is 0)
-				yield break;
+			return GetLogicalDrives().ToAsyncEnumerable();
 
-			int count = BitOperations.PopCount(availableDrives);
-			var driveLetters = new char[count];
-
-			count = 0;
-			char driveLetter = 'A';
-			while (availableDrives is not 0)
+			IEnumerable<IStorableChild> GetLogicalDrives()
 			{
-				if ((availableDrives & 1) is not 0)
-					driveLetters[count++] = driveLetter;
+				var availableDrives = PInvoke.GetLogicalDrives();
+				if (availableDrives is 0)
+					yield break;
 
-				availableDrives >>= 1;
-				driveLetter++;
+				int count = BitOperations.PopCount(availableDrives);
+				var driveLetters = new char[count];
+
+				count = 0;
+				char driveLetter = 'A';
+				while (availableDrives is not 0)
+				{
+					if ((availableDrives & 1) is not 0)
+						driveLetters[count++] = driveLetter;
+
+					availableDrives >>= 1;
+					driveLetter++;
+				}
+
+				foreach (char letter in driveLetters)
+				{
+					cancellationToken.ThrowIfCancellationRequested();
+
+					if (WindowsStorable.TryParse($"{letter}:\\") is not IWindowsStorable driveRoot)
+						throw new InvalidOperationException();
+
+					yield return new WindowsFolder(driveRoot.ThisPtr);
+				}
 			}
-
-			foreach (int letter in driveLetters)
-			{
-				cancellationToken.ThrowIfCancellationRequested();
-
-				if (WindowsStorable.TryParse($"{letter}:\\") is not IWindowsStorable driveRoot)
-					throw new InvalidOperationException();
-
-				yield return new WindowsFolder(driveRoot.ThisPtr);
-				await Task.Yield();
-			}
-
 		}
 
 		/// <inheritdoc/>

@@ -48,7 +48,7 @@ namespace Files.App.Storage
 			HRESULT hr = storable.ThisPtr.Get()->GetDisplayName(options, (PWSTR*)pszName.GetAddressOf());
 
 			return hr.ThrowIfFailedOnDebug().Succeeded
-				? (*pszName.Get()).ToString()
+				? new string((char*)pszName.Get()) // this is safe as it gets memcpy'd internally
 				: string.Empty;
 		}
 	}

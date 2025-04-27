@@ -219,3 +219,6 @@ DestinationList
 IObjectArray
 GetCurrentProcessExplicitAppUserModelID
 SetCurrentProcessExplicitAppUserModelID
+GdipCreateBitmapFromScan0
+BITMAP
+GetObject
