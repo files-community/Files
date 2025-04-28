@@ -188,7 +188,7 @@ namespace Files.App.Controls
 
 		public bool TryToggleIsSuggestionsPopupOpen(bool wantToOpen)
 		{
-			if (wantToOpen && (!IsFocused || CurrentSelectedMode?.SuggestionItemsSource is null))
+			if (wantToOpen && (!IsFocused || CurrentSelectedMode?.SuggestionItemsSource is null || (CurrentSelectedMode?.SuggestionItemsSource is IList collection && collection.Count is 0)))
 				return false;
 
 			_textBoxSuggestionsPopup.IsOpen = wantToOpen;

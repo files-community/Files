@@ -442,10 +442,9 @@ namespace Files.App.Views.Shells
 		{
 			ToolbarViewModel.ManualEntryBoxLoaded = true;
 			ToolbarViewModel.ClickablePathLoaded = false;
-			ToolbarViewModel.OmnibarPathModeText = string.IsNullOrEmpty(ShellViewModel?.WorkingDirectory)
+			ToolbarViewModel.PathText = string.IsNullOrEmpty(ShellViewModel?.WorkingDirectory)
 				? Constants.UserEnvironmentPaths.HomePath
 				: ShellViewModel.WorkingDirectory;
-			ToolbarViewModel.PathText = ToolbarViewModel.OmnibarPathModeText;
 		}
 
 		protected async void DrivesManager_PropertyChanged(object sender, PropertyChangedEventArgs e)

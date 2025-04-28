@@ -112,7 +112,6 @@
 				AutomationProperties.FullDescription="{x:Bind Commands.NavigateBack.Description, Mode=OneWay}"
 				AutomationProperties.Name="{x:Bind Commands.NavigateBack.Label, Mode=OneWay}"
 				Command="{x:Bind Commands.NavigateBack, Mode=OneWay}"
-				IsEnabled="{x:Bind Commands.NavigateBack.IsExecutable, Mode=OneWay}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
 				ToolTipService.ToolTip="{x:Bind Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
 				<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneTime}" />
@@ -142,7 +141,6 @@
 				AutomationProperties.FullDescription="{x:Bind Commands.NavigateForward.Description, Mode=OneWay}"
 				AutomationProperties.Name="{x:Bind Commands.NavigateForward.Label, Mode=OneWay}"
 				Command="{x:Bind Commands.NavigateForward, Mode=OneWay}"
-				IsEnabled="{x:Bind Commands.NavigateForward.IsExecutable, Mode=OneWay}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
 				ToolTipService.ToolTip="{x:Bind Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
 				<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneTime}" />
@@ -172,7 +170,6 @@
 				AutomationProperties.FullDescription="{x:Bind Commands.NavigateUp.Description, Mode=OneWay}"
 				AutomationProperties.Name="{x:Bind Commands.NavigateUp.Label, Mode=OneWay}"
 				Command="{x:Bind Commands.NavigateUp, Mode=OneWay}"
-				IsEnabled="{x:Bind Commands.NavigateUp.IsExecutable, Mode=OneWay}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
 				ToolTipService.ToolTip="{x:Bind Commands.NavigateUp.LabelWithHotKey, Mode=OneWay}">
 				<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneTime}" />
@@ -184,7 +181,6 @@
 				AccessKeyInvoked="Button_AccessKeyInvoked"
 				AutomationProperties.Name="{x:Bind Commands.RefreshItems.Label, Mode=OneWay}"
 				Command="{x:Bind Commands.RefreshItems, Mode=OneWay}"
-				IsEnabled="{x:Bind Commands.RefreshItems.IsExecutable, Mode=OneWay}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
 				ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey, Mode=OneWay}">
 				<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph, Mode=OneTime}" />
@@ -197,7 +193,6 @@
 				AccessKeyInvoked="Button_AccessKeyInvoked"
 				AutomationProperties.Name="{x:Bind Commands.NavigateHome.Label, Mode=OneWay}"
 				Command="{x:Bind Commands.NavigateHome, Mode=OneWay}"
-				IsEnabled="{x:Bind Commands.NavigateHome.IsExecutable, Mode=OneWay}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
 				ToolTipService.ToolTip="{x:Bind Commands.NavigateHome.LabelWithHotKey, Mode=OneWay}">
 				<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateHome.Glyph.BaseGlyph, Mode=OneTime}" />
@@ -350,10 +345,10 @@
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IconType=Outline}"
 				IsDefault="True"
-				ModeName="Path"
+				ModeName="{helpers:ResourceString Name=Path}"
 				PlaceholderText="{helpers:ResourceString Name=OmnibarPathModeTextPlaceholder}"
 				SuggestionItemsSource="{x:Bind ViewModel.PathModeSuggestionItems, Mode=OneWay}"
-				Text="{x:Bind ViewModel.OmnibarPathModeText, Mode=TwoWay}"
+				Text="{x:Bind ViewModel.PathText, Mode=TwoWay}"
 				TextMemberPath="Path">
 				<controls:OmnibarMode.ContentOnInactive>
 					<controls:BreadcrumbBar
@@ -385,8 +380,8 @@
 			<controls:OmnibarMode
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IconType=Outline}"
-				ModeName="Palette"
-				PlaceholderText="Enter a palette command...">
+				ModeName="{helpers:ResourceString Name=CommandPalette}"
+				PlaceholderText="{helpers:ResourceString Name=OmnibarCommandPaletteModeTextPlaceholder}">
 				<!--<controls:OmnibarMode.SuggestionItemTemplate>
 					<DataTemplate x:DataType="data:OmnibarPaletteSuggestionItem">
 						<Grid Height="48" ColumnSpacing="12">
@@ -427,8 +422,8 @@
 			<controls:OmnibarMode
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IconType=Outline}"
-				ModeName="Search"
-				PlaceholderText="Enter a search query..." />
+				ModeName="{helpers:ResourceString Name=Search}"
+				PlaceholderText="{helpers:ResourceString Name=OmnibarSearchModeTextPlaceholder}" />
 
 		</controls:Omnibar>
 

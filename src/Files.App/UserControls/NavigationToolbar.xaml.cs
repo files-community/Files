@@ -273,16 +273,16 @@ namespace Files.App.UserControls
 
 		private async void BreadcrumbBar_ItemClicked(Controls.BreadcrumbBar sender, Controls.BreadcrumbBarItemClickedEventArgs args)
 		{
-			// Navigation to the current folder should not happen
-			if (args.Index == ViewModel.PathComponents.Count - 1 ||
-				ViewModel.PathComponents[args.Index].Path is not { } path)
-				return;
-
 			if (args.IsRootItem)
 			{
 				await ViewModel.HandleItemNavigationAsync("Home");
 				return;
 			}
+
+			// Navigation to the current folder should not happen
+			if (args.Index == ViewModel.PathComponents.Count - 1 ||
+				ViewModel.PathComponents[args.Index].Path is not { } path)
+				return;
 
 			await ViewModel.HandleFolderNavigationAsync(path);
 		}
@@ -292,8 +292,9 @@ namespace Files.App.UserControls
 			if (e.IsRootItem)
 			{
 				IHomeFolder homeFolder = new HomeFolder();
+				IContentPageContext contentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
-				e.Flyout.Items.Add(new MenuFlyoutHeaderItem() { Text = "Quick access" });
+				e.Flyout.Items.Add(new MenuFlyoutHeaderItem() { Text = Strings.QuickAccess.GetLocalizedResource() });
 
 				await foreach (var storable in homeFolder.GetQuickAccessFolderAsync())
 				{
@@ -303,7 +304,8 @@ namespace Files.App.UserControls
 					var flyoutItem = new MenuFlyoutItem()
 					{
 						Text = windowsStorable.GetDisplayName(Windows.Win32.UI.Shell.SIGDN.SIGDN_PARENTRELATIVEFORUI),
-						Icon = new FontIcon { Glyph = "\uE8B7" }, // Use font icon as placeholder
+						DataContext = windowsStorable.GetDisplayName(Windows.Win32.UI.Shell.SIGDN.SIGDN_DESKTOPABSOLUTEPARSING),
+						Icon = new FontIcon() { Glyph = "\uE8B7" }, // As a placeholder
 					};
 
 					e.Flyout.Items.Add(flyoutItem);
@@ -312,9 +314,15 @@ namespace Files.App.UserControls
 					flyoutItem.Icon = new ImageIcon() { Source = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal) };
 
 					windowsStorable.Dispose();
+
+					flyoutItem.Click += (sender, args) =>
+					{
+						// NOTE: We should not pass a path string but pass the storable object itself in the future.
+						contentPageContext.ShellPage!.NavigateToPath((string)flyoutItem.DataContext);
+					};
 				}
 
-				e.Flyout.Items.Add(new MenuFlyoutHeaderItem() { Text = "Drives" });
+				e.Flyout.Items.Add(new MenuFlyoutHeaderItem() { Text = Strings.Drives.GetLocalizedResource() });
 
 				await foreach (var storable in homeFolder.GetLogicalDrivesAsync())
 				{
@@ -324,7 +332,8 @@ namespace Files.App.UserControls
 					var flyoutItem = new MenuFlyoutItem()
 					{
 						Text = windowsStorable.GetDisplayName(Windows.Win32.UI.Shell.SIGDN.SIGDN_PARENTRELATIVEFORUI),
-						Icon = new FontIcon { Glyph = "\uE8B7" }, // Use font icon as placeholder
+						DataContext = windowsStorable.GetDisplayName(Windows.Win32.UI.Shell.SIGDN.SIGDN_DESKTOPABSOLUTEPARSING),
+						Icon = new FontIcon() { Glyph = "\uE8B7" }, // As a placeholder
 					};
 
 					e.Flyout.Items.Add(flyoutItem);
@@ -333,6 +342,12 @@ namespace Files.App.UserControls
 					flyoutItem.Icon = new ImageIcon() { Source = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal) };
 
 					windowsStorable.Dispose();
+
+					flyoutItem.Click += (sender, args) =>
+					{
+						// NOTE: We should not pass a path string but pass the storable object itself in the future.
+						contentPageContext.ShellPage!.NavigateToPath((string)flyoutItem.DataContext);
+					};
 				}
 
 				return;

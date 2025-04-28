@@ -206,17 +206,18 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		// SetProperty doesn't seem to properly notify the binding in path bar
 		private string? _PathText;
-		[Obsolete("Remove once Omnibar goes out of experimental.")]
 		public string? PathText
 		{
 			get => _PathText;
 			set
 			{
-				if (SetProperty(ref _PathText, value))
-					OnPropertyChanged(nameof(OmnibarPathModeText));
+				_PathText = value;
+				OnPropertyChanged(nameof(PathText));
 			}
 		}
+
 
 		private bool _IsOmnibarFocused;
 		public  bool IsOmnibarFocused
@@ -231,7 +232,7 @@ namespace Files.App.ViewModels.UserControls
 						switch(OmnibarCurrentSelectedModeName)
 						{
 							case OmnibarPathModeName:
-								OmnibarPathModeText =
+								PathText =
 									string.IsNullOrEmpty(ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory)
 										? Constants.UserEnvironmentPaths.HomePath
 										: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
@@ -252,9 +253,6 @@ namespace Files.App.ViewModels.UserControls
 
 		private string _OmnibarCurrentSelectedModeName;
 		public string OmnibarCurrentSelectedModeName { get => _OmnibarCurrentSelectedModeName; set => SetProperty(ref _OmnibarCurrentSelectedModeName, value); }
-
-		private string _OmnibarPathModeText;
-		public string OmnibarPathModeText { get => _OmnibarPathModeText; set => SetProperty(ref _OmnibarPathModeText, value); }
 
 		private CurrentInstanceViewModel _InstanceViewModel;
 		public CurrentInstanceViewModel InstanceViewModel
@@ -694,12 +692,12 @@ namespace Files.App.ViewModels.UserControls
 								? Constants.UserEnvironmentPaths.HomePath
 								: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
 
-						if (await LaunchApplicationFromPath(OmnibarPathModeText, workingDir))
+						if (await LaunchApplicationFromPath(PathText, workingDir))
 							return;
 
 						try
 						{
-							if (!await Windows.System.Launcher.LaunchUriAsync(new Uri(OmnibarPathModeText)))
+							if (!await Windows.System.Launcher.LaunchUriAsync(new Uri(PathText)))
 								await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidItemDialogTitle.GetLocalizedResource(),
 									string.Format(Strings.InvalidItemDialogContent.GetLocalizedResource(), Environment.NewLine, resFolder.ErrorCode.ToString()));
 						}
@@ -839,7 +837,6 @@ namespace Files.App.ViewModels.UserControls
 					Icon = new FontIcon { Glyph = "\uE7BA" },
 					Text = Strings.SubDirectoryAccessDenied.GetLocalizedResource(),
 					//Foreground = (SolidColorBrush)Application.Current.Resources["SystemControlErrorTextForegroundBrush"],
-					FontSize = 12
 				};
 
 				flyout.Items?.Add(flyoutItem);
@@ -859,7 +856,6 @@ namespace Files.App.ViewModels.UserControls
 				{
 					Icon = new FontIcon { Glyph = "\uE8B7" }, // Use font icon as placeholder
 					Text = childFolder.Item.Name,
-					FontSize = 12
 				};
 
 				if (workingPath != childFolder.Path)
@@ -1032,13 +1028,13 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task PopulateOmnibarSuggestionsForPathMode()
 		{
-			var result = await SafetyExtensions.IgnoreExceptions(async () =>
+			var result = await SafetyExtensions.IgnoreExceptions((Func<Task<bool>>)(async () =>
 			{
 				List<OmnibarPathModeSuggestionModel>? newSuggestions = [];
-				var pathText = OmnibarPathModeText;
+				var pathText = this.PathText;
 
 				// If the current input is special, populate navigation history instead.
-				if (string.IsNullOrWhiteSpace(pathText) ||
+				if (string.IsNullOrWhiteSpace((string)pathText) ||
 					pathText is "Home" or "ReleaseNotes" or "Settings")
 				{
 					// Load previously entered path
@@ -1049,9 +1045,9 @@ namespace Files.App.ViewModels.UserControls
 				}
 				else
 				{
-					var isFtp = FtpHelpers.IsFtpPath(pathText);
-					pathText = NormalizePathInput(pathText, isFtp);
-					var expandedPath = StorageFileExtensions.GetResolvedPath(pathText, isFtp);
+					var isFtp = FtpHelpers.IsFtpPath((string)pathText);
+					pathText = NormalizePathInput((string)pathText, isFtp);
+					var expandedPath = StorageFileExtensions.GetResolvedPath((string)pathText, isFtp);
 					var folderPath = PathNormalization.GetParentDir(expandedPath) ?? expandedPath;
 					StorageFolderWithPath folder = await ContentPageContext.ShellPage.ShellViewModel.GetFolderWithPathFromPathAsync(folderPath);
 					if (folder is null)
@@ -1114,7 +1110,7 @@ namespace Files.App.ViewModels.UserControls
 				}
 
 				return true;
-			});
+			}));
 
 			if (!result)
 			{
