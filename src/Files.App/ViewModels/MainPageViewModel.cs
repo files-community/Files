@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System.Windows.Input;
 using Windows.System;
-using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.ViewModels
 {
@@ -88,10 +88,27 @@ namespace Files.App.ViewModels
 		public float AppThemeBackgroundImageOpacity
 			=> AppearanceSettingsService.AppThemeBackgroundImageOpacity;
 
-		public ImageSource? AppThemeBackgroundImageSource =>
-			string.IsNullOrEmpty(AppearanceSettingsService.AppThemeBackgroundImageSource)
-				? null
-				: new BitmapImage(new Uri(AppearanceSettingsService.AppThemeBackgroundImageSource, UriKind.RelativeOrAbsolute));
+		public ImageSource? AppThemeBackgroundImageSource
+		{
+			get
+			{
+				if (string.IsNullOrWhiteSpace(AppearanceSettingsService.AppThemeBackgroundImageSource))
+					return null;
+
+				if (!Uri.TryCreate(AppearanceSettingsService.AppThemeBackgroundImageSource, UriKind.RelativeOrAbsolute, out Uri? validUri))
+					return null;
+
+				try
+				{
+					return new BitmapImage(validUri);
+				}
+				catch (Exception)
+				{
+					// Catch potential errors
+					return null;
+				}
+			}
+		}
 
 		public VerticalAlignment AppThemeBackgroundImageVerticalAlignment
 			=> AppearanceSettingsService.AppThemeBackgroundImageVerticalAlignment;
@@ -104,7 +121,7 @@ namespace Files.App.ViewModels
 			context.PageType is not ContentPageTypes.Home &&
 			context.PageType is not ContentPageTypes.ReleaseNotes &&
 			context.PageType is not ContentPageTypes.Settings;
-		
+
 		public bool ShowStatusBar =>
 			context.PageType is not ContentPageTypes.Home &&
 			context.PageType is not ContentPageTypes.ReleaseNotes &&
