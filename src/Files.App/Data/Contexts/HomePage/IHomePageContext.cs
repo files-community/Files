@@ -26,5 +26,10 @@ namespace Files.App.Data.Contexts
 		/// Tells whether any item has been right clicked
 		/// </summary>
 		bool IsAnyItemRightClicked { get; }
+
+		/// <summary>
+		/// Gets the instance of <see cref="IHomeFolder"/>.
+		/// </summary>
+		IHomeFolder HomeFolder { get; }
 	}
 }
