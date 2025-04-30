@@ -2100,7 +2100,7 @@
     <value>Codificação</value>
   </data>
   <data name="EncodingDetected" xml:space="preserve">
-    <value>{0} (detected)</value>
+    <value>{0} (detetado)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Caminho</value>
@@ -4197,6 +4197,18 @@
     <value>Ativar Omnibar</value>
   </data>
   <data name="SectionsHiddenMessage" xml:space="preserve">
-    <value>Pode adicionar secções à barra lateral clicando com o botão direito do rato e selecionando as secções desejadas.</value>
+    <value>Pode adicionar secções à barra lateral clicando com o botão direito do rato e selecionando as que pretende adicionar</value>
+  </data>
+  <data name="EmptyShelfText" xml:space="preserve">
+    <value>Arraste ficheiros e pastas para aqui de modo a conseguir interagir com eles entre os diversos separadores</value>
+  </data>
+  <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
+    <value>Enter a path to navigate to...</value>
+  </data>
+  <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
+    <value>Find features and commands...</value>
+  </data>
+  <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
+    <value>Search for files and folders...</value>
   </data>
 </root>
