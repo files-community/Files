@@ -627,7 +627,7 @@
     <value>Kailangang i-restart ang application upang mailapat ang mga setting na ito, gusto mo bang i-restart ang app?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Sponsor us on GitHub</value>
+    <value>Suportahan kami sa GitHub</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Hindi namin nagawa ang item na ito</value>
@@ -1056,7 +1056,7 @@
     <value>Buksan sa bagong pane</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value>Files &amp; folders</value>
+    <value>Mga File at Mga Folder</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mga Detalye (Ctrl+Shift+1)</value>
@@ -1734,7 +1734,7 @@
     <value>Mga Bandila ng Eksperimental na Tampok</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>Tulong at supora</value>
+    <value>Tulong at suporta</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
     <value>Magsumite ng Kahilingan sa Tampok</value>
@@ -1962,7 +1962,7 @@
     <value>I-update ang file</value>
   </data>
   <data name="FileTags" xml:space="preserve">
-    <value>Tanda</value>
+    <value>Mga Tag</value>
   </data>
   <data name="Universal" xml:space="preserve">
     <value>Pangkalahatan</value>
@@ -2220,7 +2220,7 @@
     <value>Ang pangalan ng item na sinasabi at hindi pwede</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>Settings</value>
+    <value>Mga Setting</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
     <value>Doblehin ang pindot sa blankong espasyo para pumunta pataas ng isa sa directory</value>
@@ -2301,7 +2301,7 @@
     <value>Tulong</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Pindutin ang buong screen</value>
+    <value>I-toggle ang buong screen</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
     <value>Sigurado ka bang gusto mong tanggalin ang tanda na ito?</value>
@@ -2382,10 +2382,10 @@
     <value>Buksan ang preview popup</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
-    <value>Pindutin ang compact overlay</value>
+    <value>I-toggle ang compact overlay</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Buksan ang online help page sa browser</value>
+    <value>Buksan ang online na pahina ng tulong sa browser</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
     <value>Pindutin ang buong screen</value>
@@ -2400,10 +2400,10 @@
     <value>Pindutin ang compact overlay</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Pumunta sa kahong hanapan</value>
+    <value>Pumunta sa panghanap na kahon</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Pindutin maalin kung ipakita ang nakatagong mga items</value>
+    <value>I-toggle para ipakita ang mga nakatagong item</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
     <value>Toggle whether to show dot files</value>
@@ -3794,7 +3794,7 @@
     <value>Where did Files go?</value>
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
-    <value>Questions &amp; discussions</value>
+    <value>Mga tanong at mga talakayan</value>
   </data>
   <data name="Compact" xml:space="preserve">
     <value>Compact</value>
@@ -3855,7 +3855,7 @@
     <value>Layout type</value>
   </data>
   <data name="Actions" xml:space="preserve">
-    <value>Actions</value>
+    <value>Mga Aksyon</value>
   </data>
   <data name="Commands" xml:space="preserve">
     <value>Commands</value>
@@ -4197,6 +4197,18 @@
     <value>Enable Omnibar</value>
   </data>
   <data name="SectionsHiddenMessage" xml:space="preserve">
-    <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add.</value>
+    <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add</value>
+  </data>
+  <data name="EmptyShelfText" xml:space="preserve">
+    <value>Drag files or folders here to interact with them across different tabs</value>
+  </data>
+  <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
+    <value>Enter a path to navigate to...</value>
+  </data>
+  <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
+    <value>Find features and commands...</value>
+  </data>
+  <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
+    <value>Search for files and folders...</value>
   </data>
 </root>
