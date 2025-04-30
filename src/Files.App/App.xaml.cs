@@ -5,6 +5,8 @@ using Files.App.Helpers.Application;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.Win32.SafeHandles;
+using Windows.Win32;
 using Microsoft.Windows.AppLifecycle;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -223,9 +225,9 @@ namespace Files.App
 				var results = items.Select(x => x.ItemPath).ToList();
 				System.IO.File.WriteAllLines(OutputPath, results);
 
-				IntPtr eventHandle = Win32PInvoke.CreateEvent(IntPtr.Zero, false, false, "FILEDIALOG");
-				Win32PInvoke.SetEvent(eventHandle);
-				Win32PInvoke.CloseHandle(eventHandle);
+				SafeFileHandle eventHandle = PInvoke.CreateEvent(null, false, false, "FILEDIALOG");
+				PInvoke.SetEvent(eventHandle);
+				eventHandle.Close();
 			}
 
 			// Continue running the app on the background

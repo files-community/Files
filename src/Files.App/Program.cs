@@ -5,11 +5,14 @@ using Files.Shared.Helpers;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
+using Windows.Win32;
+using Windows.Win32.Foundation;
 using System.IO;
 using System.Text;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using static Files.App.Helpers.Win32PInvoke;
+using Microsoft.Win32.SafeHandles;
 
 namespace Files.App
 {
@@ -250,19 +253,19 @@ namespace Files.App
 		/// </remarks>
 		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
 		{
-			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
+			SafeFileHandle eventHandle = PInvoke.CreateEvent(null, true, false, null);
 
 			Task.Run(() =>
 			{
 				keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
-				SetEvent(eventHandle);
+				PInvoke.SetEvent(eventHandle);
 			});
 
-			_ = CoWaitForMultipleObjects(
+			_ = Win32PInvoke.CoWaitForMultipleObjects(
 				CWMO_DEFAULT,
 				INFINITE,
 				1,
-				[eventHandle],
+				[eventHandle.DangerousGetHandle()],
 				out uint handleIndex);
 		}
 
@@ -273,19 +276,19 @@ namespace Files.App
 
 		public static void OpenFileFromTile(string filePath)
 		{
-			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
+			SafeFileHandle eventHandle = PInvoke.CreateEvent(null, true, false, null);
 
 			Task.Run(() =>
 			{
 				LaunchHelper.LaunchAppAsync(filePath, null, null).Wait();
-				SetEvent(eventHandle);
+				PInvoke.SetEvent(eventHandle);
 			});
 
 			_ = CoWaitForMultipleObjects(
 				CWMO_DEFAULT,
 				INFINITE,
 				1,
-				[eventHandle],
+				[eventHandle.DangerousGetHandle()],
 				out uint handleIndex);
 		}
 	}
