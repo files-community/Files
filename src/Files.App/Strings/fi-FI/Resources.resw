@@ -2100,7 +2100,7 @@
     <value>Encoding</value>
   </data>
   <data name="EncodingDetected" xml:space="preserve">
-    <value>{0} (detected)</value>
+    <value>{0} (havaittu)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Polku</value>
@@ -4197,6 +4197,18 @@
     <value>Enable Omnibar</value>
   </data>
   <data name="SectionsHiddenMessage" xml:space="preserve">
-    <value>Voit lisätä osioita sivupalkkiin napsauttamalla haluamiasi osioita hiiren oikealla painikkeella ja valitsemalla ne.</value>
+    <value>Voit lisätä osioita sivupalkkiin napsauttamalla hiiren oikealla painikkeella ja valitsemalla ne</value>
+  </data>
+  <data name="EmptyShelfText" xml:space="preserve">
+    <value>Drag files or folders here to interact with them across different tabs</value>
+  </data>
+  <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
+    <value>Enter a path to navigate to...</value>
+  </data>
+  <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
+    <value>Find features and commands...</value>
+  </data>
+  <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
+    <value>Search for files and folders...</value>
   </data>
 </root>
