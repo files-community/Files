@@ -181,7 +181,7 @@
     <value>Elimină toate elementele</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Introdu o cale pentru a naviga sau tastează „&gt;” pentru a deschide paleta de comenzi</value>
+    <value>Introduceți o cale pentru a naviga sau tastați „&gt;” pentru a deschide paleta de comenzi</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Caută</value>
@@ -193,7 +193,7 @@
     <value>Elimină acest element</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>Repository GitHub</value>
+    <value>Repozitoriu GitHub</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>Despre</value>
@@ -280,7 +280,7 @@
     <value>Șterge</value>
   </data>
   <data name="PinFolderToSidebar" xml:space="preserve">
-    <value>Fixează la Bara Laterală</value>
+    <value>Fixare la Bara Laterală</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Bun venit la Files!</value>
@@ -352,7 +352,7 @@
     <value>Nu am putut șterge acest element</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
-    <value>Te rog introdu unitatea necesară pentru a accesa acest element.</value>
+    <value>Vă rugăm introduceți unitatea necesară pentru a accesa acest element.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
     <value>Unitate deconectată</value>
@@ -2100,7 +2100,7 @@
     <value>Codificare</value>
   </data>
   <data name="EncodingDetected" xml:space="preserve">
-    <value>{0} (detected)</value>
+    <value>{0} (detectat)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Cale</value>
@@ -4197,6 +4197,18 @@
     <value>Activare Omnibar</value>
   </data>
   <data name="SectionsHiddenMessage" xml:space="preserve">
-    <value>Puteți adăuga secțiuni în bara laterală făcând clic dreapta și selectând secțiunile pe care doriți să le adăugați.</value>
+    <value>Puteți adăuga secțiuni în bara laterală făcând clic dreapta și selectând secțiunile pe care doriți să le adăugați</value>
+  </data>
+  <data name="EmptyShelfText" xml:space="preserve">
+    <value>Trageți fișiere sau foldere aici pentru a interacționa cu ele prin diferite file</value>
+  </data>
+  <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
+    <value>Enter a path to navigate to...</value>
+  </data>
+  <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
+    <value>Find features and commands...</value>
+  </data>
+  <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
+    <value>Search for files and folders...</value>
   </data>
 </root>
