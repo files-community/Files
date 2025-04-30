@@ -2100,7 +2100,7 @@
     <value>Mã hóa</value>
   </data>
   <data name="EncodingDetected" xml:space="preserve">
-    <value>{0} (detected)</value>
+    <value>{0} (đã phát hiện)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Đường dẫn</value>
@@ -4197,6 +4197,18 @@
     <value>Bật thanh đường dẫn</value>
   </data>
   <data name="SectionsHiddenMessage" xml:space="preserve">
-    <value>Bạn có thể thêm phân mục vào thanh bên bằng cách nhấp chuột phải rồi chọn vào mục mình muốn thêm.</value>
+    <value>Bạn có thể thêm phân mục vào thanh bên bằng cách nhấp chuột phải rồi chọn vào mục mình muốn thêm</value>
+  </data>
+  <data name="EmptyShelfText" xml:space="preserve">
+    <value>Kéo thả tệp hoặc thư mục vào đây để thao tác xuyên suốt trong các thẻ khác nhau</value>
+  </data>
+  <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
+    <value>Enter a path to navigate to...</value>
+  </data>
+  <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
+    <value>Find features and commands...</value>
+  </data>
+  <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
+    <value>Search for files and folders...</value>
   </data>
 </root>
