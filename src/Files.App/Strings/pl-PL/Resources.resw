@@ -2100,7 +2100,7 @@
     <value>Kodowanie</value>
   </data>
   <data name="EncodingDetected" xml:space="preserve">
-    <value>{0} (detected)</value>
+    <value>{0} (wykrytych)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Ścieżka</value>
@@ -4197,6 +4197,18 @@
     <value>Włącz Omnipasek</value>
   </data>
   <data name="SectionsHiddenMessage" xml:space="preserve">
-    <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add.</value>
+    <value>Możesz dodać sekcje do paska bocznego, klikając prawym przyciskiem myszy i wybierając sekcje, które chcesz dodać</value>
+  </data>
+  <data name="EmptyShelfText" xml:space="preserve">
+    <value>Przeciągnij tutaj pliki lub foldery, aby korzystać z nich w różnych kartach</value>
+  </data>
+  <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
+    <value>Enter a path to navigate to...</value>
+  </data>
+  <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
+    <value>Find features and commands...</value>
+  </data>
+  <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
+    <value>Search for files and folders...</value>
   </data>
 </root>

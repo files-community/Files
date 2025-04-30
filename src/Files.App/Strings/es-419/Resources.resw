@@ -2100,7 +2100,7 @@
     <value>Codificación</value>
   </data>
   <data name="EncodingDetected" xml:space="preserve">
-    <value>{0} (detected)</value>
+    <value>{0} (detectado)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Ruta</value>
@@ -4197,6 +4197,18 @@
     <value>Activar la barra de búsqueda unificada (omnibar)</value>
   </data>
   <data name="SectionsHiddenMessage" xml:space="preserve">
-    <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add.</value>
+    <value>Puede agregar secciones a la barra lateral haciendo clic derecho y seleccionando las secciones que desea agregar</value>
+  </data>
+  <data name="EmptyShelfText" xml:space="preserve">
+    <value>Arrastrar archivos o carpetas aquí para interactuar con ellos a través de diferentes pestañas</value>
+  </data>
+  <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
+    <value>Enter a path to navigate to...</value>
+  </data>
+  <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
+    <value>Find features and commands...</value>
+  </data>
+  <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
+    <value>Search for files and folders...</value>
   </data>
 </root>

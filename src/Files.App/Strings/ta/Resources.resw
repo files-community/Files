@@ -927,7 +927,7 @@
     <value>Image</value>
   </data>
   <data name="PropertySectionPhoto" xml:space="preserve">
-    <value>Photo</value>
+    <value>Pho:to</value>
   </data>
   <data name="PropertySectionGPS" xml:space="preserve">
     <value>GPS</value>
@@ -954,7 +954,7 @@
     <value>தேர்வு ஆப்ஷனுங்க</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
-    <value>Select</value>
+    <value>Select'u</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Recycle bin item</value>
@@ -963,7 +963,7 @@
     <value>குறுக்குவழி பொருள்</value>
   </data>
   <data name="Drives" xml:space="preserve">
-    <value>ட்ரய்வுங்க</value>
+    <value>Drives</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>இங்கு நகர்த்து</value>
@@ -1011,7 +1011,7 @@
     <value>Details</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>No</value>
+    <value>Illy</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>பாதுகாக்கப்பட்ட ஸிஸ்டம் கோப்புங்கள காட்டு</value>
@@ -1026,7 +1026,7 @@
     <value>Original path</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value>Add</value>
+    <value>Ce:ru</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
@@ -1065,13 +1065,13 @@
     <value>Date deleted</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
-    <value>க்லவ்டு ட்ரய்வுங்க</value>
+    <value>Cloud Drives</value>
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>Confirm</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
-    <value>Desired name</value>
+    <value>Virumbu'na pe:ru</value>
   </data>
   <data name="TogglePreviewPane" xml:space="preserve">
     <value>Toggle the preview pane</value>
@@ -1122,7 +1122,7 @@
     <value>Documentation</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
-    <value>ஆஃப்லய்ன்'ல கிடய்க்கும்</value>
+    <value>Offline'la kadýku</value>
   </data>
   <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
     <value>ஆஃப்லய்ன்'ல கொஞ்சம் கிடய்க்கும்</value>
@@ -3163,7 +3163,7 @@
     <value>Git நிலை</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git பிழை</value>
+    <value>Git pirly</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>git pull failed due to a timeout error</value>
@@ -3176,10 +3176,10 @@
     <value>Author</value>
   </data>
   <data name="DateCommitted" xml:space="preserve">
-    <value>கமிட்டு-பண்ண தேதி</value>
+    <value>Comít'na the:dhi</value>
   </data>
   <data name="CommitMessage" xml:space="preserve">
-    <value>கமிட்டு உரை</value>
+    <value>Comít ury</value>
   </data>
   <data name="CommitSha" xml:space="preserve">
     <value>கமிட்டு SHA</value>
@@ -3345,7 +3345,7 @@
     <value>Leave app running in the background when the window is closed</value>
   </data>
   <data name="Blue" xml:space="preserve">
-    <value>நீலம்</value>
+    <value>Ni:lam</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BlueGray" xml:space="preserve">
@@ -3365,7 +3365,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Gray" xml:space="preserve">
-    <value>சாம்பல்</value>
+    <value>Sa:mbal</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="GrayDark" xml:space="preserve">
@@ -3373,7 +3373,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Green" xml:space="preserve">
-    <value>பச்சை</value>
+    <value>Paccy</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="IrisPastel" xml:space="preserve">
@@ -3397,7 +3397,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Red" xml:space="preserve">
-    <value>சிவப்பு</value>
+    <value>Sivapu</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="RoseBright" xml:space="preserve">
@@ -3446,7 +3446,7 @@
     <value>Processing items...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
-    <value>வேகம்:</value>
+    <value>Ve:gam :</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
     <value>Canceled compressing {0} items to "{1}"</value>
@@ -3791,7 +3791,7 @@
     <value>Files is still running in the background to improve startup performance.</value>
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
-    <value>Files எங்கு போச்சு?</value>
+    <value>Files enga po:chu?</value>
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>கேள்விகள் &amp; உரையாடல்கள்</value>
@@ -3855,13 +3855,13 @@
     <value>Layout type</value>
   </data>
   <data name="Actions" xml:space="preserve">
-    <value>செயல்கள்</value>
+    <value>Actions</value>
   </data>
   <data name="Commands" xml:space="preserve">
-    <value>கட்டளைகள்</value>
+    <value>Commands</value>
   </data>
   <data name="AddCommand" xml:space="preserve">
-    <value>கட்டளயை சேரு</value>
+    <value>Command'y se:ru</value>
   </data>
   <data name="RestoreDefaults" xml:space="preserve">
     <value>Restore defaults</value>
@@ -3940,13 +3940,13 @@
     <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
   </data>
   <data name="DevTools" xml:space="preserve">
-    <value>'டெவலப்பர் கருவிகள்</value>
+    <value>Developer tools</value>
   </data>
   <data name="DisplayOpenIDE" xml:space="preserve">
     <value>Configure the "Open IDE" button on the status bar</value>
   </data>
   <data name="GitRepos" xml:space="preserve">
-    <value>Git களஞ்சியங்களுக்கு காட்டு</value>
+    <value>Git repos'ku ka:ttu</value>
     <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
   </data>
   <data name="ApplicationExtension" xml:space="preserve">
@@ -3954,7 +3954,7 @@
     <comment>This is the friendly name for DLL files.</comment>
   </data>
   <data name="IcoFileCapitalized" xml:space="preserve">
-    <value>ICO ஃபைல்</value>
+    <value>ICO file</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
   <data name="IclFileCapitalized" xml:space="preserve">
@@ -3966,14 +3966,14 @@
     <comment>This is the friendly name for ZIP files.</comment>
   </data>
   <data name="BitmapFiles" xml:space="preserve">
-    <value>'பிட்மே'ப் ஃபோல்டர்கள்</value>
+    <value>Bitmap Files</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Num</value>
   </data>
   <data name="NetworkLocations" xml:space="preserve">
-    <value>பிணைய இடங்கள்</value>
+    <value>Network idangal:</value>
   </data>
   <data name="NoNetworkLocationsInfo" xml:space="preserve">
     <value>There are no network locations. If you don't use network locations, you can disable the widget.</value>
@@ -3982,10 +3982,10 @@
     <value>Disable</value>
   </data>
   <data name="EditInNotepad" xml:space="preserve">
-    <value>நோட்பேடுல திருத்து</value>
+    <value>Notepad'la edit'u</value>
   </data>
   <data name="EditInNotepadDescription" xml:space="preserve">
-    <value>தேர்த்தெடுத்த கோப்பை நோட்பேடுல திருத்து</value>
+    <value>Select'na file'y Notepad'la edit'u</value>
   </data>
   <data name="PropertyDimensionsColon" xml:space="preserve">
     <value>Dimensions:</value>
@@ -3998,7 +3998,7 @@
     <comment>Setting that controls if the toolbar is shown in the main view</comment>
   </data>
   <data name="TabActions" xml:space="preserve">
-    <value>டேப்-செயல்கள் மெஞு</value>
+    <value>Tab-actions menu</value>
   </data>
   <data name="AddVerticalPane" xml:space="preserve">
     <value>Add vertical pane</value>
@@ -4049,7 +4049,7 @@
     <value>CPU threads</value>
   </data>
   <data name="NavigateHomeDescription" xml:space="preserve">
-    <value>ஹோம் பக்கத்துக்கு போ</value>
+    <value>Home-page'ku po</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
     <value>Show home button in address bar</value>
@@ -4197,6 +4197,18 @@
     <value>Enable Omnibar</value>
   </data>
   <data name="SectionsHiddenMessage" xml:space="preserve">
-    <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add.</value>
+    <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add</value>
+  </data>
+  <data name="EmptyShelfText" xml:space="preserve">
+    <value>Drag files or folders here to interact with them across different tabs</value>
+  </data>
+  <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
+    <value>Enter a path to navigate to...</value>
+  </data>
+  <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
+    <value>Find features and commands...</value>
+  </data>
+  <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
+    <value>Search for files and folders...</value>
   </data>
 </root>

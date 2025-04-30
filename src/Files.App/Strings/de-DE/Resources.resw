@@ -2100,7 +2100,7 @@
     <value>Kodierung</value>
   </data>
   <data name="EncodingDetected" xml:space="preserve">
-    <value>{0} (detected)</value>
+    <value>{0} (erkannt)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Pfad</value>
@@ -2463,16 +2463,16 @@
     <value>"Datenträger formatieren"-Menü für ausgewähltes Element öffnen</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restore selected {0, plural, one {item} other {items}} from recycle bin</value>
+    <value>{0, plural, one {Ausgewähltes Element} other {Ausgewählte Elemente}} aus dem Papierkorb wiederherstellen</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
     <value>Alle Elemente aus dem Papierkorb wiederherstellen</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Open {0, plural, one {item} other {items}}</value>
+    <value>{0, plural, one {Element} other {Elemente}} öffnen</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Open {0, plural, one {item} other {items}} with selected application</value>
+    <value>{0, plural, one {Element} other {Elemente}} mit der ausgewählten Anwendung öffnen</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
     <value>Übergeordneten Ordner des gesuchten Elements öffnen</value>
@@ -2496,19 +2496,19 @@
     <value>Auswahl umschalten</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Share selected {0, plural, one {file} other {files}} with others</value>
+    <value>Teile die {0, plural, one {ausgewählte Datei} other {ausgewählten Dateien}} mit anderen</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Pin {0, plural, one {item} other {items}} to the Start Menu</value>
+    <value>{0, plural, one {Element} other {Elemente}} an "Start" anheften</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Unpin {0, plural, one {item} other {items}} from the Start Menu</value>
+    <value>{0, plural, one {Element} other {Elemente}} von "Start" lösen</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>Pin {0, plural, one {folder} other {folders}} to Sidebar</value>
+    <value>{0, plural, one {Ordner} other {Ordner}} an Seitenleiste anheften</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
-    <value>Unpin {0, plural, one {folder} other {folders}} from Sidebar</value>
+    <value>{0, plural, one {Ordner} other {Ordner}} von Seitenleiste lösen</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Ausgewähltes Bild als Desktop-Hintergrund festlegen</value>
@@ -2523,13 +2523,13 @@
     <value>Ausgewähltes Bild als Hintergrund der App festlegen</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Install selected {0, plural, one {font} other {fonts}}</value>
+    <value>Ausgewählte {0, plural, one {Schriftart} other {Schriftarten}} installieren</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Install {0, plural, one {driver} other {drivers}} using selected inf {0, plural, one {file} other {files}}</value>
+    <value>{0, plural, one {Treiber} other {Treiber}} mit {0, plural, one {ausgewählter INF-Datei} other {ausgewählten INF-Dateien}} installieren</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>Install selected {0, plural, one {certificate} other {certificates}}</value>
+    <value>{0, plural, one {Ausgewähltes Zertifikat} other {Ausgewählte Zertifikate}} installieren</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Ausgewählte Anwendung als Administrator ausführen</value>
@@ -2544,28 +2544,28 @@
     <value>Vorschau in Popup-Fenster starten</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Create archive with selected {0, plural, one {item} other {items}}</value>
+    <value>Archiv mit {0, plural, one {ausgewähltem Element} other {ausgewählten Elementen}} erstellen</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Create 7z archive with selected {0, plural, one {item} other {items}}</value>
+    <value>7z-Archiv mit {0, plural, one {ausgewähltem Element} other {ausgewählten Elementen}} erstellen</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Create zip archive with selected {0, plural, one {item} other {items}}</value>
+    <value>ZIP-Archiv mit {0, plural, one {ausgewähltem Element} other {ausgewählten Elementen}} erstellen</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract items from selected {0, plural, one {archive} other {archives}} to any folder</value>
+    <value>Elemente aus {0, plural, one {ausgewähltem Archiv} other {ausgewählten Archiven}} in einen beliebigen Ordner entpacken</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract items from selected {0, plural, one {archive} other {archives}} to current folder</value>
+    <value>Elemente aus {0, plural, one {ausgewähltem Archiv} other {ausgewählten Archiven}} in aktuellen Ordner entpacken</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract items from selected {0, plural, one {archive} other {archives}} to new folder</value>
+    <value>Elemente aus {0, plural, one {ausgewähltem Archiv} other {ausgewählten Archiven}} in einen neuen Ordner entpacken</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected {0, plural, one {image} other {images}} to the left</value>
+    <value>{0, plural, one {Ausgewähltes Bild} other {Ausgewählte Bilder}} nach links drehen</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected {0, plural, one {image} other {images}} to the right</value>
+    <value>{0, plural, one {Ausgewähltes Bild} other {Ausgewählte Bilder}} nach rechts drehen</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>Einstellungen öffnen</value>
@@ -3001,7 +3001,7 @@
     <value>Unwiderruflich löschen</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete {0, plural, one {item} other {items}} permanently</value>
+    <value>{0, plural, one {Element} other {Elemente}} unwiderruflich löschen</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>Ausgewählte Mediendateien abspielen</value>
@@ -3118,7 +3118,7 @@
     <value>Zu neuem Zweig wechseln</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Create a folder with the currently selected {0, plural, one {item} other {items}}</value>
+    <value>Einen Ordner mit aktuell {0, plural, one {ausgewähltem Element} other {ausgewählten Elementen}} erstellen</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>Eigenschaften öffnen</value>
@@ -3685,7 +3685,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} {0, plural, one {item} other {items}} processed</value>
+    <value>{0}/{1} {0, plural, one {Element} other {Elementen}} verarbeitet</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3731,7 +3731,7 @@
     <value>Beim Anwenden dieses Tags ist ein Fehler aufgetreten</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract items from selected {0, plural, one {archive} other {archives}} to current folder for single-item archive, or to new folder for multi-item archive</value>
+    <value>Extrahiere Elemente aus {0, plural, one {dem ausgewählten Archiv} other {den ausgewählten Archiven}} in den aktuellen Ordner für ein Archiv mit einem Element, oder in einen neuen Ordner für ein Archiv mit mehreren Elementen</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Hier entpacken (Smart)</value>
@@ -4073,7 +4073,7 @@
     <value>Alternativen Datenstrom erstellen</value>
   </data>
   <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
-    <value>Create alternate data stream for the selected {0, plural, one {item} other {items}}</value>
+    <value>Alternativen Datenstrom für {0, plural, one {das ausgewählte Element} other {die ausgewählten Elemente}} erstellen</value>
   </data>
   <data name="EnterDataStreamName" xml:space="preserve">
     <value>Datenstromnamen eingeben</value>
@@ -4194,9 +4194,21 @@
     <value>Dezimal</value>
   </data>
   <data name="EnableOmnibar" xml:space="preserve">
-    <value>Enable Omnibar</value>
+    <value>Omnibar aktivieren</value>
   </data>
   <data name="SectionsHiddenMessage" xml:space="preserve">
-    <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add.</value>
+    <value>Du kannst Abschnitte zur Seitenleiste hinzufügen, indem du mit der rechten Maustaste klickst und die gewünschten Abschnitte auswählst</value>
+  </data>
+  <data name="EmptyShelfText" xml:space="preserve">
+    <value>Ziehe Dateien oder Ordner hierher, um mit ihnen über verschiedene Tabs hinweg zu interagieren</value>
+  </data>
+  <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
+    <value>Enter a path to navigate to...</value>
+  </data>
+  <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
+    <value>Find features and commands...</value>
+  </data>
+  <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
+    <value>Search for files and folders...</value>
   </data>
 </root>
