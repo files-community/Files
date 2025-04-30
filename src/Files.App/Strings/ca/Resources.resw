@@ -2100,7 +2100,7 @@
     <value>Codificació</value>
   </data>
   <data name="EncodingDetected" xml:space="preserve">
-    <value>{0} (detected)</value>
+    <value>{0} (detectat)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>Ruta</value>
@@ -4197,6 +4197,18 @@
     <value>Activa l'Omnibar</value>
   </data>
   <data name="SectionsHiddenMessage" xml:space="preserve">
-    <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add.</value>
+    <value>Podeu afegir seccions a la barra lateral fent clic amb el botó dret i seleccionant les seccions que voleu afegir</value>
+  </data>
+  <data name="EmptyShelfText" xml:space="preserve">
+    <value>Arrossegueu fitxers o carpetes aquí per interactuar-hi a través de diferents pestanyes</value>
+  </data>
+  <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
+    <value>Enter a path to navigate to...</value>
+  </data>
+  <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
+    <value>Find features and commands...</value>
+  </data>
+  <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
+    <value>Search for files and folders...</value>
   </data>
 </root>
