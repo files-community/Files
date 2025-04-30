@@ -170,7 +170,7 @@
 			</wctcontrols:SettingsCard>
 
 			<!--  Omnibar  -->
-			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=EnableOmnibar}">
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=EnableOmnibar}" IsEnabled="{x:Bind ViewModel.IsAppEnvironmentDev, Mode=OneWay}">
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xECAD;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
