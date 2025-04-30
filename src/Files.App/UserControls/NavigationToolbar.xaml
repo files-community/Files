@@ -9,6 +9,8 @@
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:converters1="using:CommunityToolkit.WinUI.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitems="using:Files.App.Data.Items"
+	xmlns:datamodels="using:Files.App.Data.Models"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:items="using:Files.App.Data.Items"
 	xmlns:keyboard="using:Files.App.UserControls.KeyboardShortcut"
@@ -110,7 +112,6 @@
 				AutomationProperties.FullDescription="{x:Bind Commands.NavigateBack.Description, Mode=OneWay}"
 				AutomationProperties.Name="{x:Bind Commands.NavigateBack.Label, Mode=OneWay}"
 				Command="{x:Bind Commands.NavigateBack, Mode=OneWay}"
-				IsEnabled="{x:Bind Commands.NavigateBack.IsExecutable, Mode=OneWay}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
 				ToolTipService.ToolTip="{x:Bind Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
 				<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneTime}" />
@@ -140,7 +141,6 @@
 				AutomationProperties.FullDescription="{x:Bind Commands.NavigateForward.Description, Mode=OneWay}"
 				AutomationProperties.Name="{x:Bind Commands.NavigateForward.Label, Mode=OneWay}"
 				Command="{x:Bind Commands.NavigateForward, Mode=OneWay}"
-				IsEnabled="{x:Bind Commands.NavigateForward.IsExecutable, Mode=OneWay}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
 				ToolTipService.ToolTip="{x:Bind Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}">
 				<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneTime}" />
@@ -170,7 +170,6 @@
 				AutomationProperties.FullDescription="{x:Bind Commands.NavigateUp.Description, Mode=OneWay}"
 				AutomationProperties.Name="{x:Bind Commands.NavigateUp.Label, Mode=OneWay}"
 				Command="{x:Bind Commands.NavigateUp, Mode=OneWay}"
-				IsEnabled="{x:Bind Commands.NavigateUp.IsExecutable, Mode=OneWay}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
 				ToolTipService.ToolTip="{x:Bind Commands.NavigateUp.LabelWithHotKey, Mode=OneWay}">
 				<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneTime}" />
@@ -182,7 +181,6 @@
 				AccessKeyInvoked="Button_AccessKeyInvoked"
 				AutomationProperties.Name="{x:Bind Commands.RefreshItems.Label, Mode=OneWay}"
 				Command="{x:Bind Commands.RefreshItems, Mode=OneWay}"
-				IsEnabled="{x:Bind Commands.RefreshItems.IsExecutable, Mode=OneWay}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
 				ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey, Mode=OneWay}">
 				<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph, Mode=OneTime}" />
@@ -195,7 +193,6 @@
 				AccessKeyInvoked="Button_AccessKeyInvoked"
 				AutomationProperties.Name="{x:Bind Commands.NavigateHome.Label, Mode=OneWay}"
 				Command="{x:Bind Commands.NavigateHome, Mode=OneWay}"
-				IsEnabled="{x:Bind Commands.NavigateHome.IsExecutable, Mode=OneWay}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
 				ToolTipService.ToolTip="{x:Bind Commands.NavigateHome.LabelWithHotKey, Mode=OneWay}">
 				<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateHome.Glyph.BaseGlyph, Mode=OneTime}" />
@@ -210,6 +207,7 @@
 			ColumnSpacing="4">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
 				<ColumnDefinition Width="Auto" />
 			</Grid.ColumnDefinitions>
 			<!--  Path Box  -->
@@ -314,24 +312,11 @@
 				LostFocus="SearchRegion_LostFocus"
 				SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}"
 				Visibility="{x:Bind converters:MultiBooleanConverter.OrConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}" />
-		</Grid>
-
-		<!--  Omnibar  -->
-		<controls:Omnibar
-			x:Name="Omnibar"
-			Grid.Column="1"
-			x:Load="{x:Bind ViewModel.EnableOmnibar, Mode=OneWay}" />
-
-		<!--  Right Side Action Buttons  -->
-		<StackPanel
-			Grid.Column="2"
-			Margin="0,0,4,0"
-			Orientation="Horizontal"
-			Spacing="4">
 
 			<!--  Mini Search Button  -->
 			<Button
 				x:Name="ShowSearchButton"
+				Grid.Column="2"
 				AccessKey="I"
 				AccessKeyInvoked="Button_AccessKeyInvoked"
 				AutomationProperties.Name="{x:Bind Commands.Search.Label, Mode=OneWay}"
@@ -342,6 +327,112 @@
 				Visibility="Collapsed">
 				<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
 			</Button>
+
+		</Grid>
+
+		<!--  Omnibar  -->
+		<controls:Omnibar
+			x:Name="Omnibar"
+			Grid.Column="1"
+			x:Load="{x:Bind ViewModel.EnableOmnibar, Mode=OneWay}"
+			CurrentSelectedModeName="{x:Bind ViewModel.OmnibarCurrentSelectedModeName, Mode=TwoWay}"
+			IsFocused="{x:Bind ViewModel.IsOmnibarFocused, Mode=TwoWay}"
+			QuerySubmitted="Omnibar_QuerySubmitted"
+			SuggestionChosen="Omnibar_SuggestionChosen"
+			TextChanged="Omnibar_TextChanged">
+
+			<controls:OmnibarMode
+				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IsFilled=True}"
+				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IconType=Outline}"
+				IsDefault="True"
+				ModeName="{helpers:ResourceString Name=Path}"
+				PlaceholderText="{helpers:ResourceString Name=OmnibarPathModeTextPlaceholder}"
+				SuggestionItemsSource="{x:Bind ViewModel.PathModeSuggestionItems, Mode=OneWay}"
+				Text="{x:Bind ViewModel.PathText, Mode=TwoWay}"
+				TextMemberPath="Path">
+				<controls:OmnibarMode.ContentOnInactive>
+					<controls:BreadcrumbBar
+						x:Name="BreadcrumbBar"
+						ItemClicked="BreadcrumbBar_ItemClicked"
+						ItemDropDownFlyoutClosed="BreadcrumbBar_ItemDropDownFlyoutClosed"
+						ItemDropDownFlyoutOpening="BreadcrumbBar_ItemDropDownFlyoutOpening"
+						ItemsSource="{x:Bind ViewModel.PathComponents, Mode=OneWay}">
+						<controls:BreadcrumbBar.RootItem>
+							<Image
+								Width="16"
+								Height="16"
+								Source="/Assets/FluentIcons/Home.png" />
+						</controls:BreadcrumbBar.RootItem>
+						<controls:BreadcrumbBar.ItemTemplate>
+							<DataTemplate x:DataType="dataitems:PathBoxItem">
+								<controls:BreadcrumbBarItem Content="{x:Bind Title, Mode=OneWay}" />
+							</DataTemplate>
+						</controls:BreadcrumbBar.ItemTemplate>
+					</controls:BreadcrumbBar>
+				</controls:OmnibarMode.ContentOnInactive>
+				<controls:OmnibarMode.SuggestionItemTemplate>
+					<DataTemplate x:DataType="datamodels:OmnibarPathModeSuggestionModel">
+						<TextBlock Text="{x:Bind DisplayName, Mode=OneWay}" />
+					</DataTemplate>
+				</controls:OmnibarMode.SuggestionItemTemplate>
+			</controls:OmnibarMode>
+
+			<controls:OmnibarMode
+				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IsFilled=True}"
+				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IconType=Outline}"
+				ModeName="{helpers:ResourceString Name=CommandPalette}"
+				PlaceholderText="{helpers:ResourceString Name=OmnibarCommandPaletteModeTextPlaceholder}">
+				<!--<controls:OmnibarMode.SuggestionItemTemplate>
+					<DataTemplate x:DataType="data:OmnibarPaletteSuggestionItem">
+						<Grid Height="48" ColumnSpacing="12">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+							<controls:ThemedIcon
+								Width="20"
+								Height="20"
+								VerticalAlignment="Center"
+								Style="{StaticResource App.ThemedIcons.Actions.Copying}" />
+							<StackPanel Grid.Column="1" VerticalAlignment="Center">
+								<TextBlock
+									Style="{StaticResource BodyStrongTextBlockStyle}"
+									Text="{x:Bind Title}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap" />
+								<TextBlock
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+									Style="{StaticResource CaptionTextBlockStyle}"
+									Text="{x:Bind Description}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap" />
+							</StackPanel>
+							<StackPanel Grid.Column="2" VerticalAlignment="Center">
+								<TextBlock
+									Text="{x:Bind HotKeys}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap" />
+							</StackPanel>
+						</Grid>
+					</DataTemplate>
+				</controls:OmnibarMode.SuggestionItemTemplate>-->
+			</controls:OmnibarMode>
+
+			<controls:OmnibarMode
+				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IsFilled=True}"
+				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IconType=Outline}"
+				ModeName="{helpers:ResourceString Name=Search}"
+				PlaceholderText="{helpers:ResourceString Name=OmnibarSearchModeTextPlaceholder}" />
+
+		</controls:Omnibar>
+
+		<!--  Right Side Action Buttons  -->
+		<StackPanel
+			Grid.Column="2"
+			Margin="0,0,4,0"
+			Orientation="Horizontal"
+			Spacing="4">
 
 			<!--  Shelf Pane  -->
 			<ToggleButton

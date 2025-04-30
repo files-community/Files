@@ -3,6 +3,7 @@
 
 namespace Files.App.Data.Items
 {
+	[Obsolete("Remove once Omnibar goes out of experimental.")]
 	public sealed partial class NavigationBarSuggestionItem : ObservableObject
 	{
 		private string? _Text;

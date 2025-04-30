@@ -28,7 +28,6 @@ namespace Files.App.Controls
 		private Border _textBoxSuggestionsContainerBorder = null!;
 		private ListView _textBoxSuggestionsListView = null!;
 
-		private bool _isFocused;
 		private string _userInput = string.Empty;
 		private OmnibarTextChangeReason _textChangeReason = OmnibarTextChangeReason.None;
 
@@ -148,7 +147,7 @@ namespace Files.App.Controls
 			CurrentSelectedMode = modeToExpand;
 
 			_textChangeReason = OmnibarTextChangeReason.ProgrammaticChange;
-			_textBox.Text = CurrentSelectedMode.Text ?? string.Empty;
+			ChangeTextBoxText(CurrentSelectedMode.Text ?? string.Empty);
 
 			// Move cursor of the TextBox to the tail
 			_textBox.Select(_textBox.Text.Length, 0);
@@ -156,7 +155,7 @@ namespace Files.App.Controls
 			VisualStateManager.GoToState(CurrentSelectedMode, "Focused", true);
 			CurrentSelectedMode.OnChangingCurrentMode(true);
 
-			if (_isFocused)
+			if (IsFocused)
 			{
 				VisualStateManager.GoToState(CurrentSelectedMode, "Focused", true);
 				VisualStateManager.GoToState(_textBox, "InputAreaVisible", true);
@@ -174,7 +173,7 @@ namespace Files.App.Controls
 			if (shouldFocus)
 				_textBox.Focus(FocusState.Keyboard);
 
-			TryToggleIsSuggestionsPopupOpen(_isFocused && CurrentSelectedMode?.SuggestionItemsSource is not null);
+			TryToggleIsSuggestionsPopupOpen(IsFocused && CurrentSelectedMode?.SuggestionItemsSource is not null);
 
 			// Remove the reposition transition from the all modes
 			if (useTransition)
@@ -189,7 +188,7 @@ namespace Files.App.Controls
 
 		public bool TryToggleIsSuggestionsPopupOpen(bool wantToOpen)
 		{
-			if (wantToOpen && (!_isFocused || CurrentSelectedMode?.SuggestionItemsSource is null))
+			if (wantToOpen && (!IsFocused || CurrentSelectedMode?.SuggestionItemsSource is null || (CurrentSelectedMode?.SuggestionItemsSource is IList collection && collection.Count is 0)))
 				return false;
 
 			_textBoxSuggestionsPopup.IsOpen = wantToOpen;
@@ -205,10 +204,15 @@ namespace Files.App.Controls
 			if (CurrentSelectedMode.UpdateTextOnSelect)
 			{
 				_textChangeReason = OmnibarTextChangeReason.SuggestionChosen;
-				_textBox.Text = GetObjectText(obj);
+				ChangeTextBoxText(GetObjectText(obj));
 			}
 
 			SuggestionChosen?.Invoke(this, new(CurrentSelectedMode, obj));
+		}
+
+		internal protected void ChangeTextBoxText(string text)
+		{
+			_textBox.Text = text;
 
 			// Move the cursor to the end of the TextBox
 			_textBox?.Select(_textBox.Text.Length, 0);
@@ -233,7 +237,7 @@ namespace Files.App.Controls
 			return obj is string text
 				? text
 				: obj is IOmnibarTextMemberPathProvider textMemberPathProvider
-					? textMemberPathProvider.GetTextMemberPath(CurrentSelectedMode.DisplayMemberPath ?? string.Empty)
+					? textMemberPathProvider.GetTextMemberPath(CurrentSelectedMode.TextMemberPath ?? string.Empty)
 					: obj.ToString() ?? string.Empty;
 		}
 
@@ -245,10 +249,7 @@ namespace Files.App.Controls
 			_textBoxSuggestionsListView.SelectedIndex = -1;
 			_textChangeReason = OmnibarTextChangeReason.ProgrammaticChange;
 
-			_textBox.Text = _userInput ?? "";
-
-			// Move the cursor to the end of the TextBox
-			_textBox?.Select(_textBox.Text.Length, 0);
+			ChangeTextBoxText(_userInput ?? "");
 		}
 	}
 }

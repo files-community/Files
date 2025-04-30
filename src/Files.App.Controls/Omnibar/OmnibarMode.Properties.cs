@@ -35,9 +35,20 @@ namespace Files.App.Controls
 		public partial DataTemplate? SuggestionItemTemplate { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial string? DisplayMemberPath { get; set; }
+		/// <remark>
+		/// Implement <see cref="IOmnibarTextMemberPathProvider"/> in <see cref="SuggestionItemsSource"/> to get the text member path from the suggestion item correctly.
+		/// </remark>
+		public partial string? TextMemberPath { get; set; }
 
 		[GeneratedDependencyProperty(DefaultValue = true)]
 		public partial bool UpdateTextOnSelect { get; set; }
+
+		partial void OnTextChanged(string? newValue)
+		{
+			if (_ownerRef is null || _ownerRef.TryGetTarget(out var owner) is false)
+				return;
+
+			owner.ChangeTextBoxText(newValue ?? string.Empty);
+		}
 	}
 }
