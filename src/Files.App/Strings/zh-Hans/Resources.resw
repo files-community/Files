@@ -2439,7 +2439,7 @@
     <value>将剪贴板中的项目粘贴到当前文件夹</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>将剪贴板中的项目以快捷方式的形式粘贴到当前文件夹</value>
+    <value>将剪贴板中的项目在当前文件夹粘贴为快捷方式</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>将剪贴板中的项目粘贴到所选文件夹</value>
@@ -3797,7 +3797,7 @@
     <value>问题和讨论</value>
   </data>
   <data name="Compact" xml:space="preserve">
-    <value>极小</value>
+    <value>紧凑</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Small" xml:space="preserve">
@@ -4197,6 +4197,18 @@
     <value>启用 Omnibar</value>
   </data>
   <data name="SectionsHiddenMessage" xml:space="preserve">
-    <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add.</value>
+    <value>可以通过右击并选择需要的部分将其添加至侧边栏</value>
+  </data>
+  <data name="EmptyShelfText" xml:space="preserve">
+    <value>将文件或文件夹拖动到此处以在不同标签页间交互操作</value>
+  </data>
+  <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
+    <value>Enter a path to navigate to...</value>
+  </data>
+  <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
+    <value>Find features and commands...</value>
+  </data>
+  <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
+    <value>Search for files and folders...</value>
   </data>
 </root>
