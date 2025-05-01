@@ -225,9 +225,15 @@ namespace Files.App
 				var results = items.Select(x => x.ItemPath).ToList();
 				System.IO.File.WriteAllLines(OutputPath, results);
 
-				HANDLE eventHandle = (HANDLE)PInvoke.CreateEvent(null, false, false, "FILEDIALOG").DangerousGetHandle();
-				PInvoke.SetEvent(eventHandle);
-				PInvoke.CloseHandle(eventHandle);
+				unsafe
+				{
+					fixed (char* fileDialog = "FILEDIALOG")
+					{
+						HANDLE eventHandle = PInvoke.CreateEvent(bManualReset: false, bInitialState: false, lpName: fileDialog);
+						PInvoke.SetEvent(eventHandle);
+						PInvoke.CloseHandle(eventHandle);
+					}
+				}
 			}
 
 			// Continue running the app on the background
