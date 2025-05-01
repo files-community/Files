@@ -12,7 +12,6 @@ using System.Text;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using static Files.App.Helpers.Win32PInvoke;
-using Microsoft.Win32.SafeHandles;
 
 namespace Files.App
 {
@@ -253,7 +252,7 @@ namespace Files.App
 		/// </remarks>
 		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
 		{
-			SafeFileHandle eventHandle = PInvoke.CreateEvent(null, true, false, null);
+			HANDLE eventHandle = (HANDLE)PInvoke.CreateEvent(null, true, false, null).DangerousGetHandle();
 
 			Task.Run(() =>
 			{
@@ -265,7 +264,7 @@ namespace Files.App
 				CWMO_DEFAULT,
 				INFINITE,
 				1,
-				[eventHandle.DangerousGetHandle()],
+				[eventHandle],
 				out uint handleIndex);
 		}
 
@@ -276,7 +275,7 @@ namespace Files.App
 
 		public static void OpenFileFromTile(string filePath)
 		{
-			SafeFileHandle eventHandle = PInvoke.CreateEvent(null, true, false, null);
+			HANDLE eventHandle = (HANDLE)PInvoke.CreateEvent(null, true, false, null).DangerousGetHandle();
 
 			Task.Run(() =>
 			{
@@ -288,7 +287,7 @@ namespace Files.App
 				CWMO_DEFAULT,
 				INFINITE,
 				1,
-				[eventHandle.DangerousGetHandle()],
+				[eventHandle],
 				out uint handleIndex);
 		}
 	}
