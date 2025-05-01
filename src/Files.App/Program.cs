@@ -250,9 +250,9 @@ namespace Files.App
 		/// <remarks>
 		/// Redirects on another thread and uses a non-blocking wait method to wait for the redirection to complete.
 		/// </remarks>
-		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
+		public static unsafe void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
 		{
-			HANDLE eventHandle = (HANDLE)PInvoke.CreateEvent(null, true, false, null).DangerousGetHandle();
+			HANDLE eventHandle = PInvoke.CreateEvent(bManualReset: true, bInitialState: false, lpName: null);
 
 			Task.Run(() =>
 			{
@@ -273,9 +273,9 @@ namespace Files.App
 			Win32Helper.OpenFolderInExistingShellWindow(shellCommand);
 		}
 
-		public static void OpenFileFromTile(string filePath)
+		public static unsafe void OpenFileFromTile(string filePath)
 		{
-			HANDLE eventHandle = (HANDLE)PInvoke.CreateEvent(null, true, false, null).DangerousGetHandle();
+			HANDLE eventHandle = PInvoke.CreateEvent(bManualReset: true, bInitialState: false, lpName: null);
 
 			Task.Run(() =>
 			{
