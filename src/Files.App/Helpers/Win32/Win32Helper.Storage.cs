@@ -1166,27 +1166,32 @@ namespace Files.App.Helpers
 		}
 
 		// https://stackoverflow.com/a/7988352
-		public static IEnumerable<(string Name, long Size)> GetAlternateStreams(string path)
+		public static unsafe IEnumerable<(string Name, long Size)> GetAlternateStreams(string path)
 		{
 			Win32PInvoke.WIN32_FIND_STREAM_DATA findStreamData = new Win32PInvoke.WIN32_FIND_STREAM_DATA();
-			IntPtr hFile = Win32PInvoke.FindFirstStreamW(path, Win32PInvoke.StreamInfoLevels.FindStreamInfoStandard, findStreamData, 0);
 
-			if (hFile.ToInt64() != -1)
+			fixed (char* pszStr = path)
 			{
-				do
-				{
-					// The documentation for FindFirstStreamW says that it is always a ::$DATA
-					// stream type, but FindNextStreamW doesn't guarantee that for subsequent
-					// streams so we check to make sure
-					if (findStreamData.cStreamName.EndsWith(":$DATA") && findStreamData.cStreamName != "::$DATA")
-					{
-						yield return (findStreamData.cStreamName, findStreamData.StreamSize);
-					}
-				}
-				while (Win32PInvoke.FindNextStreamW(hFile, findStreamData));
+				FindCloseSafeHandle hFile = PInvoke.FindFirstStream(new(pszStr), Windows.Win32.Storage.FileSystem.STREAM_INFO_LEVELS.FindStreamInfoStandard, findStreamData, 0);
 
-				Win32PInvoke.FindClose(hFile);
+				if (hFile.DangerousGetHandle().ToInt64() != -1)
+				{
+					do
+					{
+						// The documentation for FindFirstStreamW says that it is always a ::$DATA
+						// stream type, but FindNextStreamW doesn't guarantee that for subsequent
+						// streams so we check to make sure
+						if (findStreamData.cStreamName.EndsWith(":$DATA") && findStreamData.cStreamName != "::$DATA")
+						{
+							yield return (findStreamData.cStreamName, findStreamData.StreamSize);
+						}
+					}
+					while (PInvoke.FindNextStream(hFile, findStreamData));
+
+					PInvoke.FindClose((Windows.Win32.Foundation.HANDLE)hFile);
+				}
 			}
+
 		}
 
 		public static bool GetWin32FindDataForPath(string targetPath, out Win32PInvoke.WIN32_FIND_DATA findData)

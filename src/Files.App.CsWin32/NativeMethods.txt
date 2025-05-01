@@ -226,3 +226,5 @@ _SICHINTF
 RoGetAgileReference
 IQueryInfo
 QITIPF_FLAGS
+FindFirstStream
+FindNextStream
