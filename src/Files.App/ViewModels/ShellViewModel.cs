@@ -14,6 +14,8 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Vanara.Windows.Shell;
+using Windows.Win32;
+using Windows.Win32.Foundation;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -2101,7 +2103,7 @@ namespace Files.App.ViewModels
 			});
 		}
 
-		private void WatchForDirectoryChanges(string path, CloudDriveSyncStatus syncStatus)
+		private unsafe void WatchForDirectoryChanges(string path, CloudDriveSyncStatus syncStatus)
 		{
 			Debug.WriteLine($"WatchForDirectoryChanges: {path}");
 			var hWatchDir = Win32PInvoke.CreateFileFromApp(path, 1, 1 | 2 | 4,
@@ -2206,12 +2208,12 @@ namespace Files.App.ViewModels
 					Debug.WriteLine("watcher canceled");
 				}
 
-				CancelIoEx(hWatchDir, IntPtr.Zero);
-				CloseHandle(hWatchDir);
+				PInvoke.CancelIoEx((HANDLE)hWatchDir);
+				PInvoke.CloseHandle((HANDLE)hWatchDir);
 			});
 		}
 
-		private void WatchForGitChanges()
+		private unsafe void WatchForGitChanges()
 		{
 			var hWatchDir = Win32PInvoke.CreateFileFromApp(
 				GitDirectory!,
@@ -2294,7 +2296,7 @@ namespace Files.App.ViewModels
 					gitWatcherAction = null;
 				}
 
-				CancelIoEx(hWatchDir, IntPtr.Zero);
+				PInvoke.CancelIoEx((HANDLE)hWatchDir);
 				CloseHandle(hWatchDir);
 			});
 		}

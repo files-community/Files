@@ -115,17 +115,6 @@ namespace Files.App.Helpers
 			bool bWait
 		);
 
-		[DllImport("api-ms-win-core-io-l1-1-1.dll")]
-		public static extern bool CancelIo(
-			IntPtr hFile
-		);
-
-		[DllImport("api-ms-win-core-io-l1-1-1.dll")]
-		public static extern bool CancelIoEx(
-			IntPtr hFile,
-			IntPtr lpOverlapped
-		);
-
 		[DllImport("api-ms-win-core-synch-l1-2-0.dll")]
 		public static extern uint WaitForMultipleObjectsEx(
 			uint nCount,
