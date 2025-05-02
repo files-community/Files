@@ -16,6 +16,7 @@ using System.Runtime.InteropServices;
 using Vanara.Windows.Shell;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.Storage.FileSystem;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -25,6 +26,8 @@ using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
 using ByteSize = ByteSizeLib.ByteSize;
 using Windows.Win32.System.SystemServices;
+using FINDEX_SEARCH_OPS = Windows.Win32.Storage.FileSystem.FINDEX_SEARCH_OPS;
+using FINDEX_INFO_LEVELS = Windows.Win32.Storage.FileSystem.FINDEX_INFO_LEVELS;
 
 namespace Files.App.ViewModels
 {
@@ -1750,7 +1753,7 @@ namespace Files.App.ViewModels
 					var findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
 					var additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
 
-					IntPtr hFileTsk = FindFirstFileExFromApp(
+					IntPtr hFileTsk = PInvoke.FindFirstFileEx(
 						path + "\\*.*",
 						findInfoLevel,
 						out WIN32_FIND_DATA findDataTsk,
@@ -2215,16 +2218,20 @@ namespace Files.App.ViewModels
 
 		private unsafe void WatchForGitChanges()
 		{
-			var hWatchDir = Win32PInvoke.CreateFileFromApp(
-				GitDirectory!,
-				1,
-				1 | 2 | 4,
-				IntPtr.Zero,
-				3,
-				(uint)Win32PInvoke.File_Attributes.BackupSemantics | (uint)Win32PInvoke.File_Attributes.Overlapped,
-				IntPtr.Zero);
+			HANDLE hWatchDir;
 
-			if (hWatchDir.ToInt64() == -1)
+			fixed (char* gitDir = GitDirectory)
+			{
+				hWatchDir = PInvoke.CreateFile(
+					gitDir!,
+					1,
+					FILE_SHARE_MODE.FILE_SHARE_READ | FILE_SHARE_MODE.FILE_SHARE_WRITE | FILE_SHARE_MODE.FILE_SHARE_DELETE,
+					dwCreationDisposition: FILE_CREATION_DISPOSITION.OPEN_EXISTING,
+					dwFlagsAndAttributes: FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_OVERLAPPED,
+					hTemplateFile: (HANDLE)null);
+			}
+
+			if (hWatchDir.IsNull)
 				return;
 
 			gitProcessQueueAction ??= Task.Factory.StartNew(() => ProcessGitChangesQueueAsync(watcherCTS.Token), default,
@@ -2236,8 +2243,8 @@ namespace Files.App.ViewModels
 				var rand = Guid.NewGuid();
 				var notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_LAST_WRITE | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_CREATION;
 
-				var overlapped = new OVERLAPPED();
-				overlapped.hEvent = CreateEvent(IntPtr.Zero, false, false, null);
+				var overlapped = new Overlapped();
+				overlapped.EventHandleIntPtr = PInvoke.CreateEvent((bManualReset: false, bInitialState: false, lpName: null);
 				const uint INFINITE = 0xFFFFFFFF;
 
 				while (x.Status != AsyncStatus.Canceled)
@@ -2250,15 +2257,16 @@ namespace Files.App.ViewModels
 							if (x.Status == AsyncStatus.Canceled)
 								break;
 
-							ReadDirectoryChangesW(hWatchDir, pBuff,
+							PInvoke.ReadDirectoryChanges(hWatchDir, pBuff,
 								4096, true,
-								notifyFilters, null,
-								ref overlapped, null);
+								notifyFilters,
+								lpOverlapped: ref overlapped,
+								lpCompletionRoutine: null);
 
 							if (x.Status == AsyncStatus.Canceled)
 								break;
 
-							var rc = WaitForSingleObjectEx(overlapped.hEvent, INFINITE, true);
+							var rc = WaitForSingleObjectEx(overlapped.EventHandleIntPtr, INFINITE, true);
 
 							uint offset = 0;
 							ref var notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
@@ -2282,7 +2290,7 @@ namespace Files.App.ViewModels
 					}
 				}
 
-				CloseHandle(overlapped.hEvent);
+				PInvoke.CloseHandle((HANDLE)overlapped.EventHandleIntPtr);
 				gitChangesQueue.Clear();
 			});
 
@@ -2296,7 +2304,7 @@ namespace Files.App.ViewModels
 					gitWatcherAction = null;
 				}
 
-				PInvoke.CancelIoEx((HANDLE)hWatchDir);
+				PInvoke.CancelIoEx(hWatchDir);
 				CloseHandle(hWatchDir);
 			});
 		}

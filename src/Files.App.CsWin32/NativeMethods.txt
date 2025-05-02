@@ -227,3 +227,6 @@ RoGetAgileReference
 IQueryInfo
 QITIPF_FLAGS
 CancelIoEx
+OVERLAPPED
+CreateEvent
+ReadDirectoryChangesW
