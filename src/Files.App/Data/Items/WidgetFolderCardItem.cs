@@ -19,18 +19,21 @@ namespace Files.App.Data.Items
 
 		public bool IsPinned { get; set; }
 
+		public string Tooltip { get; set; }
+
 		private BitmapImage? _Thumbnail;
 		public BitmapImage? Thumbnail { get => _Thumbnail; set => SetProperty(ref _Thumbnail, value); }
 
 		// Constructor
 
-		public WidgetFolderCardItem(IWindowsStorable item, string text, bool isPinned)
+		public WidgetFolderCardItem(IWindowsStorable item, string text, bool isPinned, string tooltip)
 		{
 			AutomationProperties = text;
 			Item = item;
 			Text = text;
 			IsPinned = isPinned;
 			Path = item.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING);
+			Tooltip = tooltip;
 		}
 
 		// Methods

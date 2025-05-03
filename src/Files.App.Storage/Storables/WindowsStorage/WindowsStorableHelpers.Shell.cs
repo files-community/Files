@@ -124,5 +124,24 @@ namespace Files.App.Storage
 
 			return hr;
 		}
+
+		public unsafe static HRESULT TryGetShellTooltip(this IWindowsStorable storable, out string? tooltip)
+		{
+			tooltip = null;
+
+			using ComPtr<IQueryInfo> pQueryInfo = default;
+			HRESULT hr = storable.ThisPtr.Get()->BindToHandler(null, BHID.BHID_SFUIObject, IID.IID_IQueryInfo, (void**)pQueryInfo.GetAddressOf());
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return hr;
+
+			pQueryInfo.Get()->GetInfoTip((uint)QITIPF_FLAGS.QITIPF_DEFAULT, out var pszTip);
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return hr;
+
+			tooltip = pszTip.ToString();
+			PInvoke.CoTaskMemFree(pszTip);
+
+			return HRESULT.S_OK;
+		}
 	}
 }
