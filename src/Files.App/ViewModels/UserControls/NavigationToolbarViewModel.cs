@@ -23,9 +23,9 @@ namespace Files.App.ViewModels.UserControls
 
 		private const int MaxSuggestionsCount = 10;
 
-		public const string OmnibarPathModeName = "Path";
-		public const string OmnibarPaletteModeName = "Palette";
-		public const string OmnibarSearchModeName = "Search";
+		public const string OmnibarPathModeName = "OmnibarPathMode";
+		public const string OmnibarPaletteModeName = "OmnibarCommandPaletteMode";
+		public const string OmnibarSearchModeName = "OmnibarSearchMode";
 
 		// Dependency injections
 
@@ -229,7 +229,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					if (value)
 					{
-						switch(OmnibarCurrentSelectedModeName)
+						switch(OmnibarCurrentSelectedMode.Name)
 						{
 							case OmnibarPathModeName:
 								PathText =
@@ -243,7 +243,7 @@ namespace Files.App.ViewModels.UserControls
 							case OmnibarSearchModeName:
 								break;
 							default:
-								throw new ArgumentOutOfRangeException("");
+								break;
 						}
 
 					}
@@ -251,8 +251,8 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		private string _OmnibarCurrentSelectedModeName;
-		public string OmnibarCurrentSelectedModeName { get => _OmnibarCurrentSelectedModeName; set => SetProperty(ref _OmnibarCurrentSelectedModeName, value); }
+		private OmnibarMode _OmnibarCurrentSelectedMode;
+		public OmnibarMode OmnibarCurrentSelectedMode { get => _OmnibarCurrentSelectedMode; set => SetProperty(ref _OmnibarCurrentSelectedMode, value); }
 
 		private CurrentInstanceViewModel _InstanceViewModel;
 		public CurrentInstanceViewModel InstanceViewModel

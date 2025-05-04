@@ -335,13 +335,14 @@
 			x:Name="Omnibar"
 			Grid.Column="1"
 			x:Load="{x:Bind ViewModel.EnableOmnibar, Mode=OneWay}"
-			CurrentSelectedModeName="{x:Bind ViewModel.OmnibarCurrentSelectedModeName, Mode=TwoWay}"
+			CurrentSelectedMode="{x:Bind ViewModel.OmnibarCurrentSelectedMode, Mode=TwoWay}"
 			IsFocused="{x:Bind ViewModel.IsOmnibarFocused, Mode=TwoWay}"
 			QuerySubmitted="Omnibar_QuerySubmitted"
 			SuggestionChosen="Omnibar_SuggestionChosen"
 			TextChanged="Omnibar_TextChanged">
 
 			<controls:OmnibarMode
+				x:Name="OmnibarPathMode"
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IconType=Outline}"
 				IsDefault="True"
@@ -378,6 +379,7 @@
 			</controls:OmnibarMode>
 
 			<controls:OmnibarMode
+				x:Name="OmnibarCommandPaletteMode"
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IconType=Outline}"
 				ModeName="{helpers:ResourceString Name=CommandPalette}"
@@ -420,6 +422,7 @@
 			</controls:OmnibarMode>
 
 			<controls:OmnibarMode
+				x:Name="OmnibarSearchMode"
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IconType=Outline}"
 				ModeName="{helpers:ResourceString Name=Search}"
