@@ -191,5 +191,19 @@
 
 		</NavigationView>
 
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="NavigationStates">
+				<VisualState x:Name="Narrow">
+					<VisualState.Setters>
+						<Setter Target="MainPropertiesWindowNavigationView.PaneDisplayMode" Value="LeftCompact" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="Wide">
+					<VisualState.Setters>
+						<Setter Target="MainPropertiesWindowNavigationView.PaneDisplayMode" Value="Left" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
 	</Grid>
 </vm:BasePropertiesPage>
