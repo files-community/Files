@@ -1,17 +1,14 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Windows.Graphics;
 using Files.App.ViewModels.Properties;
-using Microsoft.UI;
+using Microsoft.UI.Input;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
+using Windows.Graphics;
 using Windows.System;
-using Windows.UI;
-using Microsoft.UI.Input;
 
 namespace Files.App.Views.Properties
 {
@@ -33,7 +30,7 @@ namespace Files.App.Views.Properties
 				FlowDirection = FlowDirection.RightToLeft;
 		}
 
-		
+
 		// Navigates to specified properties page
 		public bool TryNavigateToPage(PropertiesNavigationViewItemType pageType)
 		{
@@ -62,7 +59,7 @@ namespace Files.App.Views.Properties
 			Window.Closed += Window_Closed;
 
 			AppThemeModeService.ApplyResources();
-			UpdatePageLayout();
+			UpdatePageLayout(this.Width);
 			Window.RaiseSetTitleBarDragRegion(SetTitleBarDragRegion);
 			Window.AppWindow.Changed += AppWindow_Changed;
 		}
@@ -74,7 +71,7 @@ namespace Files.App.Views.Properties
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
-			=> UpdatePageLayout();
+			=> UpdatePageLayout(e.NewSize.Width);
 
 		private void Page_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
@@ -82,16 +79,15 @@ namespace Files.App.Views.Properties
 				Window.Close();
 		}
 
-		private void UpdatePageLayout()
+		private void UpdatePageLayout(double pageWidth)
 		{
-			// NavigationView Pane Mode
-			MainPropertiesWindowNavigationView.PaneDisplayMode =
-				ActualWidth <= 600
-					? NavigationViewPaneDisplayMode.LeftCompact
-					: NavigationViewPaneDisplayMode.Left;
+			if (pageWidth < 600)
+				VisualStateManager.GoToState(this, "Narrow", true);
+			else
+				VisualStateManager.GoToState(this, "Wide", true);
 
 			// Collapse NavigationViewItem Content text
-			if (ActualWidth <= 600)
+			if (ActualWidth < 600)
 				foreach (var item in MainPropertiesViewModel.NavigationViewItems) item.IsCompact = true;
 			else
 				foreach (var item in MainPropertiesViewModel.NavigationViewItems) item.IsCompact = false;
