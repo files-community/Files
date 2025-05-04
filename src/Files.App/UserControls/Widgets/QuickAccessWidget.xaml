@@ -37,8 +37,7 @@
 						DataContext="{x:Bind}"
 						PointerPressed="Button_PointerPressed"
 						RightTapped="Button_RightTapped"
-						Tag="{x:Bind Path}"
-						ToolTipService.ToolTip="{x:Bind Tooltip}">
+						Tag="{x:Bind Path}">
 						<Grid
 							HorizontalAlignment="Stretch"
 							VerticalAlignment="Stretch"
