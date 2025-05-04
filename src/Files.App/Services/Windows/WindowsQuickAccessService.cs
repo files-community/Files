@@ -3,6 +3,7 @@
 
 using Files.App.Utils.Shell;
 using Files.App.UserControls.Widgets;
+using Files.App.Helpers;
 
 namespace Files.App.Services
 {
@@ -38,7 +39,7 @@ namespace Files.App.Services
 				App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(folderPaths, true));
 		}
 
-		public Task UnpinFromSidebarAsync(string folderPath) => UnpinFromSidebarAsync(new[] { folderPath }); 
+		public Task UnpinFromSidebarAsync(string folderPath) => UnpinFromSidebarAsync(new[] { folderPath });
 
 		public Task UnpinFromSidebarAsync(string[] folderPaths) => UnpinFromSidebarAsync(folderPaths, true);
 
@@ -55,27 +56,30 @@ namespace Files.App.Services
 
 			foreach (dynamic? fi in f2.Items())
 			{
-				if (ShellStorageFolder.IsShellPath((string)fi.Path))
+				string pathStr = (string)fi.Path;
+
+				if (ShellStorageFolder.IsShellPath(pathStr))
 				{
-					var folder = await ShellStorageFolder.FromPathAsync((string)fi.Path);
+					var folder = await ShellStorageFolder.FromPathAsync(pathStr);
 					var path = folder?.Path;
 
-					if (path is not null && 
-						(folderPaths.Contains(path) || (path.StartsWith(@"\\SHELL\") && folderPaths.Any(x => x.StartsWith(@"\\SHELL\"))))) // Fix for the Linux header
+					if (path is not null &&
+						(folderPaths.Contains(path) ||
+						(path.StartsWith(@"\\SHELL\\") && folderPaths.Any(x => x.StartsWith(@"\\SHELL\\")))))
 					{
-						await SafetyExtensions.IgnoreExceptions(async () =>
+						await Win32Helper.StartSTATask(async () =>
 						{
-							await fi.InvokeVerb("unpinfromhome");
+							fi.InvokeVerb("unpinfromhome");
 						});
 						continue;
 					}
 				}
 
-				if (folderPaths.Contains((string)fi.Path))
+				if (folderPaths.Contains(pathStr))
 				{
-					await SafetyExtensions.IgnoreExceptions(async () =>
+					await Win32Helper.StartSTATask(async () =>
 					{
-						await fi.InvokeVerb("unpinfromhome");
+						fi.InvokeVerb("unpinfromhome");
 					});
 				}
 			}
