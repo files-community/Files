@@ -43,7 +43,7 @@ namespace Files.App.Data.Items
 			if (string.IsNullOrEmpty(Path))
 				return;
 
-			Item.TryGetThumbnail((int)(32f * App.AppModel.AppWindowDPI), SIIGBF.SIIGBF_ICONONLY, out var rawThumbnailData);
+			Item.TryGetThumbnail((int)(Constants.ShellIconSizes.Large * App.AppModel.AppWindowDPI), SIIGBF.SIIGBF_ICONONLY, out var rawThumbnailData);
 			if (rawThumbnailData is null)
 				return;
 
