@@ -14,7 +14,7 @@
 
 	<i:Interaction.Behaviors>
 		<i:EventTriggerBehavior EventName="Loaded">
-			<i:InvokeCommandAction Command="{x:Bind ViewModel.HomePageLoadedCommand, Mode=OneWay}" />
+			<i:InvokeCommandAction Command="{x:Bind ViewModel.ReloadWidgetsCommand, Mode=OneWay}" />
 		</i:EventTriggerBehavior>
 	</i:Interaction.Behaviors>
 

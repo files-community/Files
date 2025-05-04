@@ -4,11 +4,14 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
-using System.IO;
-using System.Windows.Input;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.System.Com;
+using Windows.Win32.System.WinRT;
+using Windows.Win32.UI.Shell;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
@@ -28,32 +31,61 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public bool ShowMenuFlyout => false;
 		public MenuFlyoutItem? MenuFlyoutItem => null;
 
+		// Fields
+
+		// TODO: Replace with IMutableFolder.GetWatcherAsync() once it gets implemented in IWindowsStorable
+		private readonly SystemIO.FileSystemWatcher _quickAccessFolderWatcher;
+
 		// Constructor
 
 		public QuickAccessWidgetViewModel()
 		{
-			_ = InitializeWidget();
-
 			Items.CollectionChanged += Items_CollectionChanged;
 
 			OpenPropertiesCommand = new RelayCommand<WidgetFolderCardItem>(ExecuteOpenPropertiesCommand);
 			PinToSidebarCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecutePinToSidebarCommand);
 			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecuteUnpinFromSidebarCommand);
+
+			_quickAccessFolderWatcher = new()
+			{
+				Path = SystemIO.Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations"),
+				Filter = "f01b4d95cf55d32a.automaticDestinations-ms",
+				NotifyFilter = SystemIO.NotifyFilters.LastAccess | SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName
+			};
+
+			_quickAccessFolderWatcher.Changed += async (s, e) =>
+			{
+				await RefreshWidgetAsync();
+			};
+
+			_quickAccessFolderWatcher.EnableRaisingEvents = true;
 		}
 
 		// Methods
 
-		private async Task InitializeWidget()
-		{
-			var itemsToAdd = await QuickAccessService.GetPinnedFoldersAsync();
-			ModifyItemAsync(this, new(itemsToAdd.ToArray(), false) { Reset = true });
-
-			App.QuickAccessManager.UpdateQuickAccessWidget += ModifyItemAsync;
-		}
-
 		public Task RefreshWidgetAsync()
 		{
-			return Task.CompletedTask;
+			return MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+			{
+				foreach (var item in Items)
+					item.Dispose();
+
+				Items.Clear();
+
+				await foreach (IWindowsStorable folder in HomePageContext.HomeFolder.GetQuickAccessFolderAsync(default))
+				{
+					folder.GetPropertyValue<bool>("System.Home.IsPinned", out var isPinned);
+					folder.TryGetShellTooltip(out var tooltip);
+
+					Items.Insert(
+						Items.Count,
+						new WidgetFolderCardItem(
+							folder,
+							folder.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI),
+							isPinned,
+							tooltip ?? string.Empty));
+				}
+			});
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
@@ -124,86 +156,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			}.Where(x => x.ShowItem).ToList();
 		}
 
-		private async void ModifyItemAsync(object? sender, ModifyQuickAccessEventArgs? e)
-		{
-			if (e is null)
-				return;
-
-			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-			{
-				if (e.Reset)
-				{
-					// Find the intersection between the two lists and determine whether to remove or add
-					var originalItems = Items.ToList();
-					var itemsToRemove = originalItems.Where(x => !e.Paths.Contains(x.Path));
-					var itemsToAdd = e.Paths.Where(x => !originalItems.Any(y => y.Path == x));
-
-					// Remove items
-					foreach (var itemToRemove in itemsToRemove)
-						Items.Remove(itemToRemove);
-
-					// Add items
-					foreach (var itemToAdd in itemsToAdd)
-					{
-						var interimItems = Items.ToList();
-						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
-						var lastIndex = Items.IndexOf(interimItems.FirstOrDefault(x => !x.IsPinned));
-						var isPinned = (bool?)e.Items.Where(x => x.FilePath == itemToAdd).FirstOrDefault()?.Properties["System.Home.IsPinned"] ?? false;
-						if (interimItems.Any(x => x.Path == itemToAdd))
-							continue;
-
-						Items.Insert(isPinned && lastIndex >= 0 ? Math.Min(lastIndex, Items.Count) : Items.Count, new WidgetFolderCardItem(item, Path.GetFileName(item.Text), isPinned)
-						{
-							Path = item.Path,
-						});
-					}
-
-					return;
-				}
-				if (e.Reorder)
-				{
-					// Remove pinned items
-					foreach (var itemToRemove in Items.ToList().Where(x => x.IsPinned))
-						Items.Remove(itemToRemove);
-
-					// Add pinned items in the new order
-					foreach (var itemToAdd in e.Paths)
-					{
-						var interimItems = Items.ToList();
-						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
-						var lastIndex = Items.IndexOf(interimItems.FirstOrDefault(x => !x.IsPinned));
-						if (interimItems.Any(x => x.Path == itemToAdd))
-							continue;
-
-						Items.Insert(lastIndex >= 0 ? Math.Min(lastIndex, Items.Count) : Items.Count, new WidgetFolderCardItem(item, Path.GetFileName(item.Text), true)
-						{
-							Path = item.Path,
-						});
-					}
-
-					return;
-				}
-				if (e.Add)
-				{
-					foreach (var itemToAdd in e.Paths)
-					{
-						var interimItems = Items.ToList();
-						var item = await App.QuickAccessManager.Model.CreateLocationItemFromPathAsync(itemToAdd);
-						var lastIndex = Items.IndexOf(interimItems.FirstOrDefault(x => !x.IsPinned));
-						if (interimItems.Any(x => x.Path == itemToAdd))
-							continue;
-						Items.Insert(e.Pin && lastIndex >= 0 ? Math.Min(lastIndex, Items.Count) : Items.Count, new WidgetFolderCardItem(item, Path.GetFileName(item.Text), e.Pin) // Add just after the Recent Folders
-						{
-							Path = item.Path,
-						});
-					}
-				}
-				else
-					foreach (var itemToRemove in Items.ToList().Where(x => e.Paths.Contains(x.Path)))
-						Items.Remove(itemToRemove);
-			});
-		}
-
 		public async Task NavigateToPath(string path)
 		{
 			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
@@ -233,31 +185,77 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public override async Task ExecutePinToSidebarCommand(WidgetCardItem? item)
 		{
-			if (item is null || item.Path is null)
+			if (item is not WidgetFolderCardItem folderCardItem || folderCardItem.Path is null)
 				return;
 
-			await QuickAccessService.PinToSidebarAsync(item.Path);
+			var lastPinnedItemIndex = Items.LastOrDefault(x => x.IsPinned) is { } lastPinnedItem ? Items.IndexOf(lastPinnedItem) : 0;
+			var currentPinnedItemIndex = Items.IndexOf(folderCardItem);
+			if (currentPinnedItemIndex is -1)
+				return;
 
-			ModifyItemAsync(this, new(new[] { item.Path }, false));
+			HRESULT hr = default;
+			using ComPtr<IAgileReference> pAgileReference = default;
 
-			var items = (await QuickAccessService.GetPinnedFoldersAsync())
-				.Where(link => !((bool?)link.Properties["System.Home.IsPinned"] ?? false));
-
-			var recentItem = items.Where(x => !Items.ToList().Select(y => y.Path).Contains(x.FilePath)).FirstOrDefault();
-			if (recentItem is not null)
+			unsafe
 			{
-				ModifyItemAsync(this, new(new[] { recentItem.FilePath }, true) { Pin = false });
+				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, (IUnknown*)folderCardItem.Item.ThisPtr.Get(), pAgileReference.GetAddressOf());
 			}
+
+			// Pin to Quick Access on Windows
+			hr = await STATask.Run(() =>
+			{
+				unsafe
+				{
+					using ComPtr<IShellItem> pShellItem = default;
+					hr = pAgileReference.Get()->Resolve(IID.IID_IShellItem, (void**)pShellItem.GetAddressOf());
+					var windowsFile = new WindowsFile(pShellItem);
+
+					// NOTE: "pintohome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CPinToFrequentExecute : public IExecuteCommand, ...
+					return windowsFile.TryInvokeContextMenuVerb("pintohome");
+				}
+			});
+
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return;
+
+			// Add this to right before the last pinned item
+			// NOTE: To be honest, this is not needed as the file watcher will take care of this
+			if (lastPinnedItemIndex + 1 != currentPinnedItemIndex)
+				Items.Move(currentPinnedItemIndex, lastPinnedItemIndex + 1);
 		}
 
 		public override async Task ExecuteUnpinFromSidebarCommand(WidgetCardItem? item)
 		{
-			if (item is null || item.Path is null)
+			if (item is not WidgetFolderCardItem folderCardItem || folderCardItem.Path is null)
 				return;
 
-			await QuickAccessService.UnpinFromSidebarAsync(item.Path);
+			HRESULT hr = default;
+			using ComPtr<IAgileReference> pAgileReference = default;
 
-			ModifyItemAsync(this, new(new[] { item.Path }, false));
+			unsafe
+			{
+				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, (IUnknown*)folderCardItem.Item.ThisPtr.Get(), pAgileReference.GetAddressOf());
+			}
+
+			// Unpin from Quick Access on Windows
+			hr = await STATask.Run(() =>
+			{
+				unsafe
+				{
+					using ComPtr<IShellItem> pShellItem = default;
+					hr = pAgileReference.Get()->Resolve(IID.IID_IShellItem, (void**)pShellItem.GetAddressOf());
+					var windowsFile = new WindowsFile(pShellItem);
+
+					// NOTE: "unpinfromhome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CRemoveFromFrequentPlacesExecute : public IExecuteCommand, ...
+					// NOTE: "remove" is for some shell folders where the "unpinfromhome" may not work
+					return windowsFile.TryInvokeContextMenuVerbs(["unpinfromhome", "remove"], true);
+				}
+			});
+
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return;
+
+			Items.Remove(folderCardItem);
 		}
 
 		private void ExecuteOpenPropertiesCommand(WidgetFolderCardItem? item)
@@ -274,15 +272,15 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 				ListedItem listedItem = new(null!)
 				{
-					ItemPath = item.Item.Path,
-					ItemNameRaw = item.Item.Text,
+					ItemPath = item.Path,
+					ItemNameRaw = item.Text,
 					PrimaryItemAttribute = StorageItemTypes.Folder,
 					ItemType = Strings.Folder.GetLocalizedResource(),
 				};
 
-				if (!string.Equals(item.Item.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+				if (!string.Equals(item.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
 				{
-					BaseStorageFolder matchingStorageFolder = await ContentPageContext.ShellPage!.ShellViewModel.GetFolderFromPathAsync(item.Item.Path);
+					BaseStorageFolder matchingStorageFolder = await ContentPageContext.ShellPage!.ShellViewModel.GetFolderFromPathAsync(item.Path);
 					if (matchingStorageFolder is not null)
 					{
 						var syncStatus = await ContentPageContext.ShellPage!.ShellViewModel.CheckCloudDriveSyncStatusAsync(matchingStorageFolder);
@@ -300,7 +298,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public void Dispose()
 		{
-			App.QuickAccessManager.UpdateQuickAccessWidget -= ModifyItemAsync;
+			foreach (var item in Items)
+				item.Dispose();
 		}
 	}
 }

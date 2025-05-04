@@ -38,6 +38,9 @@ namespace Windows.Win32
 
 		[GuidRVAGen.Guid("2E941141-7F97-4756-BA1D-9DECDE894A3D")]
 		public static partial Guid* IID_IApplicationActivationManager { get; }
+
+		[GuidRVAGen.Guid("00021500-0000-0000-C000-000000000046")]
+		public static partial Guid* IID_IQueryInfo { get; }
 	}
 
 	public static unsafe partial class CLSID

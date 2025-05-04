@@ -8,7 +8,7 @@ using Windows.Win32.UI.Shell;
 
 namespace Files.App.Storage
 {
-	public abstract class WindowsStorable : IWindowsStorable, IStorableChild
+	public abstract class WindowsStorable : IWindowsStorable, IStorableChild, IEquatable<IWindowsStorable>
 	{
 		public ComPtr<IShellItem> ThisPtr { get; protected set; }
 
@@ -66,6 +66,17 @@ namespace Files.App.Storage
 		}
 
 		/// <inheritdoc/>
+		public override bool Equals(object? obj)
+		{
+			return Equals(obj as IWindowsStorable);
+		}
+
+		public override int GetHashCode()
+		{
+			return HashCode.Combine(Id, Name);
+		}
+
+		/// <inheritdoc/>
 		public void Dispose()
 		{
 			ThisPtr.Dispose();
@@ -76,5 +87,20 @@ namespace Files.App.Storage
 		{
 			return this.GetDisplayName();
 		}
+
+		/// <inheritdoc/>
+		public unsafe bool Equals(IWindowsStorable? other)
+		{
+			if (other is null)
+				return false;
+
+			return ThisPtr.Get()->Compare(other.ThisPtr.Get(), (uint)_SICHINTF.SICHINT_DISPLAY, out int order).Succeeded && order is 0;
+		}
+
+		public static bool operator ==(WindowsStorable left, WindowsStorable right)
+			=> left.Equals(right);
+
+		public static bool operator !=(WindowsStorable left, WindowsStorable right)
+			=> !(left == right);
 	}
 }

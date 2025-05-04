@@ -2,63 +2,57 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Win32;
+using Windows.Win32.UI.Shell;
 
 namespace Files.App.Data.Items
 {
-	public sealed partial class WidgetFolderCardItem : WidgetCardItem, IWidgetCardItem<LocationItem>
+	public sealed partial class WidgetFolderCardItem : WidgetCardItem, IWidgetCardItem<IWindowsStorable>, IDisposable
 	{
-		// Fields
-
-		private byte[] _thumbnailData;
-
 		// Properties
 
 		public string? AutomationProperties { get; set; }
 
-		public LocationItem? Item { get; private set; }
+		public new IWindowsStorable Item { get; private set; }
 
 		public string? Text { get; set; }
 
 		public bool IsPinned { get; set; }
 
-		public bool HasPath
-			=> !string.IsNullOrEmpty(Path);
+		public string Tooltip { get; set; }
 
 		private BitmapImage? _Thumbnail;
-		public BitmapImage? Thumbnail
-		{
-			get => _Thumbnail;
-			set => SetProperty(ref _Thumbnail, value);
-		}
+		public BitmapImage? Thumbnail { get => _Thumbnail; set => SetProperty(ref _Thumbnail, value); }
 
 		// Constructor
 
-		public WidgetFolderCardItem(LocationItem item, string text, bool isPinned)
+		public WidgetFolderCardItem(IWindowsStorable item, string text, bool isPinned, string tooltip)
 		{
-			if (!string.IsNullOrWhiteSpace(text))
-			{
-				Text = text;
-				AutomationProperties = Text;
-			}
-
-			IsPinned = isPinned;
+			AutomationProperties = text;
 			Item = item;
-			Path = item.Path;
+			Text = text;
+			IsPinned = isPinned;
+			Path = item.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING);
+			Tooltip = tooltip;
 		}
 
 		// Methods
 
 		public async Task LoadCardThumbnailAsync()
 		{
-			var result = await FileThumbnailHelper.GetIconAsync(
-				Path,
-				Constants.ShellIconSizes.Large,
-				true,
-				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+			if (string.IsNullOrEmpty(Path))
+				return;
 
-			_thumbnailData = result;
-			if (_thumbnailData is not null)
-				Thumbnail = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => _thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
+			Item.TryGetThumbnail((int)(Constants.ShellIconSizes.Large * App.AppModel.AppWindowDPI), SIIGBF.SIIGBF_ICONONLY, out var rawThumbnailData);
+			if (rawThumbnailData is null)
+				return;
+
+			Thumbnail = await rawThumbnailData.ToBitmapAsync();
+		}
+
+		public void Dispose()
+		{
+			Item.Dispose();
 		}
 	}
 }

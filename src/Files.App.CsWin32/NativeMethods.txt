@@ -222,3 +222,7 @@ SetCurrentProcessExplicitAppUserModelID
 GdipCreateBitmapFromScan0
 BITMAP
 GetObject
+_SICHINTF
+RoGetAgileReference
+IQueryInfo
+QITIPF_FLAGS

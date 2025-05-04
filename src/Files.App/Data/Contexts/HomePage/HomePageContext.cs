@@ -13,6 +13,8 @@ namespace Files.App.Data.Contexts
 
 		public bool IsAnyItemRightClicked => rightClickedItem is not null;
 
+		public IHomeFolder HomeFolder { get; } = new HomeFolder();
+
 		private WidgetCardItem? rightClickedItem = null;
 		public WidgetCardItem? RightClickedItem => rightClickedItem;
 
