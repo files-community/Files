@@ -2,50 +2,63 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Media.Imaging;
+using Windows.Win32;
+using Windows.Win32.UI.Shell;
 
 namespace Files.App.Data.Items
 {
-	public sealed partial class WidgetDriveCardItem : WidgetCardItem, IWidgetCardItem<DriveItem>, IComparable<WidgetDriveCardItem>
+	public sealed partial class WidgetDriveCardItem : WidgetCardItem, IWidgetCardItem<IWindowsFolder>, IDisposable
 	{
-		private byte[] thumbnailData;
+		// Properties
 
-		public new DriveItem Item { get; private set; }
+		public required IWindowsFolder Item { get; set; }
 
-		private BitmapImage thumbnail;
-		public BitmapImage Thumbnail
+		public required new string Path { get; set; }
+
+		public required string Text { get; set; }
+
+		public bool ShowStorageSense => UsedSize.GigaBytes / TotalSize.GigaBytes >= Constants.Widgets.Drives.LowStorageSpacePercentageThreshold;
+
+		public bool ShowDriveUsage => TotalSize.GigaBytes > 0D;
+
+		public ByteSizeLib.ByteSize TotalSize { get; set; } = default;
+
+		public ByteSizeLib.ByteSize FreeSize { get; set; } = default;
+
+		public ByteSizeLib.ByteSize UsedSize => ByteSizeLib.ByteSize.FromBytes(TotalSize.Bytes - FreeSize.Bytes);
+
+		public string? UsageText => string.Format(Strings.DriveFreeSpaceAndCapacity.GetLocalizedResource(), FreeSize.ToSizeString(), TotalSize.ToSizeString());
+
+		public required SystemIO.DriveType DriveType { get; set; }
+
+		private BitmapImage? _Thumbnail;
+		public BitmapImage? Thumbnail { get => _Thumbnail; set => SetProperty(ref _Thumbnail, value); }
+
+		// Constructor
+
+		public WidgetDriveCardItem()
 		{
-			get => thumbnail;
-			set => SetProperty(ref thumbnail, value);
 		}
 
-		public WidgetDriveCardItem(DriveItem item)
-		{
-			Item = item;
-			Path = item.Path;
-		}
+		// Methods
 
 		public async Task LoadCardThumbnailAsync()
 		{
-			var result = await FileThumbnailHelper.GetIconAsync(
-				Item.Path,
-				Constants.ShellIconSizes.Large,
-				true,
-				IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+			if (string.IsNullOrEmpty(Path) || Item is not IWindowsStorable windowsStorable)
+				return;
 
-			if (result is null)
-			{
-				using var thumbnail = await DriveHelpers.GetThumbnailAsync(Item.Root);
-				result ??= await thumbnail.ToByteArrayAsync();
-			}
+			windowsStorable.TryGetThumbnail((int)(Constants.ShellIconSizes.Large * App.AppModel.AppWindowDPI), SIIGBF.SIIGBF_ICONONLY, out var rawThumbnailData);
+			if (rawThumbnailData is null)
+				return;
 
-			thumbnailData = result;
-
-			var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
-			if (bitmapImage is not null)
-				Thumbnail = bitmapImage;
+			Thumbnail = await rawThumbnailData.ToBitmapAsync();
 		}
 
-		public int CompareTo(WidgetDriveCardItem? other)
-			=> Item.Path.CompareTo(other?.Item?.Path);
+		// Disposer
+
+		public void Dispose()
+		{
+			Item.Dispose();
+		}
 	}
 }

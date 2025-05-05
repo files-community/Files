@@ -8,7 +8,7 @@ using Windows.Win32.UI.Shell;
 
 namespace Files.App.Storage
 {
-	public abstract class WindowsStorable : IWindowsStorable, IStorableChild, IEquatable<IWindowsStorable>
+	public abstract class WindowsStorable : IWindowsStorable
 	{
 		public ComPtr<IShellItem> ThisPtr { get; protected set; }
 

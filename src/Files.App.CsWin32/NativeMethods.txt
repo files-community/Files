@@ -226,3 +226,6 @@ _SICHINTF
 RoGetAgileReference
 IQueryInfo
 QITIPF_FLAGS
+GetDiskFreeSpaceEx
+GetDriveType
+SLGP_FLAGS
