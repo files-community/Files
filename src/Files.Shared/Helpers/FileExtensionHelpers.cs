@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.IO;
 using System.Linq;
 
 namespace Files.Shared.Helpers
@@ -22,7 +23,12 @@ namespace Files.Shared.Helpers
 			if (string.IsNullOrWhiteSpace(filePathToCheck))
 				return false;
 
-			return extensions.Any(ext => filePathToCheck.EndsWith(ext, StringComparison.OrdinalIgnoreCase));
+			// Don't check folder paths to avoid issues
+			// https://github.com/files-community/Files/issues/17094
+			if (Directory.Exists(filePathToCheck))
+				return false;
+
+			return extensions.Any(ext => Path.GetExtension(filePathToCheck).Equals(ext, StringComparison.OrdinalIgnoreCase));
 		}
 
 		/// <summary>
@@ -54,7 +60,7 @@ namespace Files.Shared.Helpers
 		{
 			return HasExtension(fileExtensionToCheck, ".mp3", ".m4a", ".wav", ".wma", ".aac", ".adt", ".adts", ".cda", ".flac");
 		}
-		
+
 		/// <summary>
 		/// Check if the file extension is a video file.
 		/// </summary>
@@ -213,7 +219,7 @@ namespace Files.Shared.Helpers
 		{
 			return HasExtension(fileExtensionToCheck, ".vhd", ".vhdx");
 		}
-		
+
 		/// <summary>
 		/// Check if the file extension is a screen saver file.
 		/// </summary>
@@ -256,7 +262,7 @@ namespace Files.Shared.Helpers
 		{
 			return HasExtension(filePathToCheck, ".py", ".ahk");
 		}
-		
+
 		/// <summary>
 		/// Check if the file extension is a system file.
 		/// </summary>
