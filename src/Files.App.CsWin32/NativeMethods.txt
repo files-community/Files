@@ -226,3 +226,8 @@ _SICHINTF
 RoGetAgileReference
 IQueryInfo
 QITIPF_FLAGS
+CreateEvent
+SetEvent
+CoWaitForMultipleObjects
+CWMO_FLAGS
+INFINITE

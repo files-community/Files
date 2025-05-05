@@ -2,6 +2,9 @@
 // Licensed under the MIT License.
 
 using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.System.Com;
+using Windows.Win32.Security;
 
 namespace Files.App.Storage
 {
@@ -140,6 +143,61 @@ namespace Files.App.Storage
 
 			thread.SetApartmentState(ApartmentState.STA);
 			thread.Start();
+
+			return tcs.Task;
+		}
+
+		public static Task<T?> RunAsSync<T>(Func<Task<T>> func)
+		{
+			HANDLE hEventHandle = default;
+
+			unsafe
+			{
+				hEventHandle = PInvoke.CreateEvent((SECURITY_ATTRIBUTES*)null, true, false, default);
+			}
+
+			var tcs = new TaskCompletionSource<T?>();
+
+			Thread thread =
+				new(async () =>
+				{
+					PInvoke.OleInitialize();
+
+					try
+					{
+						tcs.SetResult(await func());
+					}
+					catch (Exception ex)
+					{
+						tcs.SetException(ex);
+					}
+					finally
+					{
+						PInvoke.SetEvent(hEventHandle);
+						PInvoke.OleUninitialize();
+					}
+				})
+				{
+					IsBackground = true,
+					Priority = ThreadPriority.Normal
+				};
+
+			thread.SetApartmentState(ApartmentState.STA);
+			thread.Start();
+
+			unsafe
+			{
+				HANDLE* pEventHandles = stackalloc HANDLE[1];
+				pEventHandles[0] = hEventHandle;
+				uint dwIndex = 0u;
+
+				PInvoke.CoWaitForMultipleObjects(
+					(uint)CWMO_FLAGS.CWMO_DEFAULT,
+					PInvoke.INFINITE,
+					1u,
+					pEventHandles,
+					&dwIndex);
+			}
 
 			return tcs.Task;
 		}
