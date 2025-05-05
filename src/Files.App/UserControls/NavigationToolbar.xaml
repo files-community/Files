@@ -536,7 +536,7 @@
 						Height="16"
 						x:Load="{x:Bind ViewModel.IsUpdating, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 						IsFilled="True"
-						Style="{StaticResource App.ThemedIcons.AppUpdateAvailable}" />
+						Style="{StaticResource App.ThemedIcons.v4.AppUpdateAvailable}" />
 
 					<!--  Progress  -->
 					<ProgressRing
