@@ -3,6 +3,9 @@
 
 using Microsoft.Extensions.Logging;
 using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.System.Com;
+using Windows.Win32.Security;
 
 namespace Files.App.Storage
 {
@@ -137,6 +140,47 @@ namespace Files.App.Storage
 			thread.IsBackground = true;
 			thread.SetApartmentState(ApartmentState.STA);
 			thread.Start();
+
+			return tcs.Task;
+		}
+
+		public unsafe static Task RunAsSync(Action action)
+		{
+			Debug.Assert(Thread.CurrentThread.GetApartmentState() is ApartmentState.STA);
+
+			HANDLE hEventHandle = PInvoke.CreateEvent((SECURITY_ATTRIBUTES*)null, true, false, default);
+
+			var tcs = new TaskCompletionSource();
+
+			Task.Run(() =>
+			{
+				try
+				{
+					action();
+					tcs.SetResult();
+				}
+				catch (Exception ex)
+				{
+					tcs.SetException(ex);
+				}
+				finally
+				{
+					PInvoke.SetEvent(hEventHandle);
+				}
+			});
+
+			HANDLE* pEventHandles = stackalloc HANDLE[1];
+			pEventHandles[0] = hEventHandle;
+			uint dwIndex = 0u;
+
+			PInvoke.CoWaitForMultipleObjects(
+				(uint)CWMO_FLAGS.CWMO_DEFAULT,
+				PInvoke.INFINITE,
+				1u,
+				pEventHandles,
+				&dwIndex);
+
+			PInvoke.CloseHandle(hEventHandle);
 
 			return tcs.Task;
 		}

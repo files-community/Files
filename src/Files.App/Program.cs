@@ -9,7 +9,6 @@ using System.IO;
 using System.Text;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using static Files.App.Helpers.Win32PInvoke;
 
 namespace Files.App
 {
@@ -21,9 +20,6 @@ namespace Files.App
 	/// </remarks>
 	internal sealed class Program
 	{
-		private const uint CWMO_DEFAULT = 0;
-		private const uint INFINITE = 0xFFFFFFFF;
-
 		public static Semaphore? Pool { get; set; }
 
 		static Program()
@@ -250,20 +246,10 @@ namespace Files.App
 		/// </remarks>
 		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
 		{
-			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
-
-			Task.Run(() =>
+			STATask.RunAsSync(() =>
 			{
 				keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
-				SetEvent(eventHandle);
 			});
-
-			_ = CoWaitForMultipleObjects(
-				CWMO_DEFAULT,
-				INFINITE,
-				1,
-				[eventHandle],
-				out uint handleIndex);
 		}
 
 		public static void OpenShellCommandInExplorer(string shellCommand, int pid)
@@ -273,20 +259,10 @@ namespace Files.App
 
 		public static void OpenFileFromTile(string filePath)
 		{
-			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
-
-			Task.Run(() =>
+			STATask.RunAsSync(() =>
 			{
 				LaunchHelper.LaunchAppAsync(filePath, null, null).Wait();
-				SetEvent(eventHandle);
 			});
-
-			_ = CoWaitForMultipleObjects(
-				CWMO_DEFAULT,
-				INFINITE,
-				1,
-				[eventHandle],
-				out uint handleIndex);
 		}
 	}
 }

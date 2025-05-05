@@ -68,15 +68,6 @@ namespace Files.App.Helpers
 			IntPtr hEvent
 		);
 
-		[DllImport("ole32.dll")]
-		public static extern uint CoWaitForMultipleObjects(
-			uint dwFlags,
-			uint dwMilliseconds,
-			ulong nHandles,
-			IntPtr[] pHandles,
-			out uint dwIndex
-		);
-
 		[DllImport("shell32.dll")]
 		public static extern IntPtr SHBrowseForFolder(
 			ref BROWSEINFO lpbi

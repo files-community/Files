@@ -269,3 +269,8 @@ HCERTSTORE
 HCRYPTMSG
 CERT_QUERY_ENCODING_TYPE
 CertGetNameString
+CreateEvent
+SetEvent
+CoWaitForMultipleObjects
+CWMO_FLAGS
+INFINITE
