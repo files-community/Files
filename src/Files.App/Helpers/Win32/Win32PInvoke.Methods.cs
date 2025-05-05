@@ -81,15 +81,6 @@ namespace Files.App.Helpers
 			IntPtr hwnd
 		);
 
-		[DllImport("ole32.dll")]
-		public static extern uint CoWaitForMultipleObjects(
-			uint dwFlags,
-			uint dwMilliseconds,
-			ulong nHandles,
-			IntPtr[] pHandles,
-			out uint dwIndex
-		);
-
 		[DllImport("shell32.dll")]
 		public static extern IntPtr SHBrowseForFolder(
 			ref BROWSEINFO lpbi
@@ -133,11 +124,6 @@ namespace Files.App.Helpers
 			bool bWaitAll,
 			uint dwMilliseconds,
 			bool bAlertable
-		);
-
-		[DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
-		public static extern bool ResetEvent(
-			IntPtr hEvent
 		);
 
 		[DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]

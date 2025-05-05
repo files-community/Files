@@ -147,57 +147,43 @@ namespace Files.App.Storage
 			return tcs.Task;
 		}
 
-		public static Task<T?> RunAsSync<T>(Func<Task<T>> func)
+		public unsafe static Task RunAsSync(Action action)
 		{
-			HANDLE hEventHandle = default;
+			Debug.Assert(Thread.CurrentThread.GetApartmentState() is ApartmentState.STA);
 
-			unsafe
+			HANDLE hEventHandle = PInvoke.CreateEvent((SECURITY_ATTRIBUTES*)null, true, false, default);
+
+			var tcs = new TaskCompletionSource();
+
+			Task.Run(() =>
 			{
-				hEventHandle = PInvoke.CreateEvent((SECURITY_ATTRIBUTES*)null, true, false, default);
-			}
-
-			var tcs = new TaskCompletionSource<T?>();
-
-			Thread thread =
-				new(async () =>
+				try
 				{
-					PInvoke.OleInitialize();
-
-					try
-					{
-						tcs.SetResult(await func());
-					}
-					catch (Exception ex)
-					{
-						tcs.SetException(ex);
-					}
-					finally
-					{
-						PInvoke.SetEvent(hEventHandle);
-						PInvoke.OleUninitialize();
-					}
-				})
+					action();
+					tcs.SetResult();
+				}
+				catch (Exception ex)
 				{
-					IsBackground = true,
-					Priority = ThreadPriority.Normal
-				};
+					tcs.SetException(ex);
+				}
+				finally
+				{
+					PInvoke.SetEvent(hEventHandle);
+				}
+			});
 
-			thread.SetApartmentState(ApartmentState.STA);
-			thread.Start();
+			HANDLE* pEventHandles = stackalloc HANDLE[1];
+			pEventHandles[0] = hEventHandle;
+			uint dwIndex = 0u;
 
-			unsafe
-			{
-				HANDLE* pEventHandles = stackalloc HANDLE[1];
-				pEventHandles[0] = hEventHandle;
-				uint dwIndex = 0u;
+			PInvoke.CoWaitForMultipleObjects(
+				(uint)CWMO_FLAGS.CWMO_DEFAULT,
+				PInvoke.INFINITE,
+				1u,
+				pEventHandles,
+				&dwIndex);
 
-				PInvoke.CoWaitForMultipleObjects(
-					(uint)CWMO_FLAGS.CWMO_DEFAULT,
-					PInvoke.INFINITE,
-					1u,
-					pEventHandles,
-					&dwIndex);
-			}
+			PInvoke.CloseHandle(hEventHandle);
 
 			return tcs.Task;
 		}
