@@ -86,6 +86,32 @@ namespace Files.App.UserControls
 			dataObjectProvider.SetDataObject(ppDataObject);
 		}
 
+		private void ShelfItemsList_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+		{
+			if (e.OriginalSource is not Microsoft.UI.Xaml.FrameworkElement widgetCardItem ||
+				widgetCardItem.DataContext is not ShelfItem item ||
+				item.Path is null)
+				return;
+
+			var menuFlyout = new MenuFlyout();
+
+			menuFlyout.Items.Add (new MenuFlyoutItem
+			{
+				Text = Strings.RemoveFromShelf.GetLocalizedResource(),
+				Icon = new FontIcon { Glyph = "\uE738" },
+				Command = new RelayCommand(item.Remove)
+			});
+
+			menuFlyout.ShowAt(widgetCardItem);
+			e.Handled = true;
+		}
+
+		private void ShelfItemsList_GotFocus(object sender, RoutedEventArgs e)
+		{
+			if (ItemFocusedCommand is not null)
+				ItemFocusedCommand.Execute(null);
+		}
+
 		public ObservableCollection<ShelfItem>? ItemsSource
 		{
 			get => (ObservableCollection<ShelfItem>?)GetValue(ItemsSourceProperty);
@@ -101,5 +127,14 @@ namespace Files.App.UserControls
 		}
 		public static readonly DependencyProperty ClearCommandProperty =
 			DependencyProperty.Register(nameof(ClearCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
+		
+		public ICommand? ItemFocusedCommand
+		{
+			get => (ICommand?)GetValue(ItemFocusedCommandProperty);
+			set => SetValue(ItemFocusedCommandProperty, value);
+		}
+		public static readonly DependencyProperty ItemFocusedCommandProperty =
+			DependencyProperty.Register(nameof(ItemFocusedCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
+
 	}
 }
