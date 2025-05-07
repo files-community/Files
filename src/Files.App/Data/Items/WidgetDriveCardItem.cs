@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Media.Imaging;
-using Windows.Win32;
+using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
 
 namespace Files.App.Data.Items
@@ -45,8 +45,8 @@ namespace Files.App.Data.Items
 			if (string.IsNullOrEmpty(Path) || Item is not IWindowsStorable windowsStorable)
 				return;
 
-			windowsStorable.TryGetThumbnail((int)(Constants.ShellIconSizes.Large * App.AppModel.AppWindowDPI), SIIGBF.SIIGBF_ICONONLY, out var rawThumbnailData);
-			if (rawThumbnailData is null)
+			HRESULT hr = windowsStorable.TryGetThumbnail((int)(Constants.ShellIconSizes.Large * App.AppModel.AppWindowDPI), SIIGBF.SIIGBF_ICONONLY, out var rawThumbnailData);
+			if (hr.Failed || rawThumbnailData is null)
 				return;
 
 			Thumbnail = await rawThumbnailData.ToBitmapAsync();
