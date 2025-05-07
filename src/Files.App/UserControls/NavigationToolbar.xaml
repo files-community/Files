@@ -346,7 +346,7 @@
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IconType=Outline}"
 				IsDefault="True"
-				ModeName="{helpers:ResourceString Name=Path}"
+				ModeName="{x:Bind Commands.EditPath.LabelWithHotKey, Mode=OneWay}"
 				PlaceholderText="{helpers:ResourceString Name=OmnibarPathModeTextPlaceholder}"
 				SuggestionItemsSource="{x:Bind ViewModel.PathModeSuggestionItems, Mode=OneWay}"
 				Text="{x:Bind ViewModel.PathText, Mode=TwoWay}"
@@ -382,7 +382,7 @@
 				x:Name="OmnibarCommandPaletteMode"
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IconType=Outline}"
-				ModeName="{helpers:ResourceString Name=CommandPalette}"
+				ModeName="{x:Bind Commands.OpenCommandPalette.LabelWithHotKey, Mode=OneWay}"
 				PlaceholderText="{helpers:ResourceString Name=OmnibarCommandPaletteModeTextPlaceholder}">
 				<!--<controls:OmnibarMode.SuggestionItemTemplate>
 					<DataTemplate x:DataType="data:OmnibarPaletteSuggestionItem">
@@ -425,7 +425,7 @@
 				x:Name="OmnibarSearchMode"
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IconType=Outline}"
-				ModeName="{helpers:ResourceString Name=Search}"
+				ModeName="{x:Bind Commands.Search.LabelWithHotKey, Mode=OneWay}"
 				PlaceholderText="{helpers:ResourceString Name=OmnibarSearchModeTextPlaceholder}" />
 
 		</controls:Omnibar>
