@@ -292,7 +292,7 @@ namespace Files.App.UserControls
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
 			{
-				await ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
+				ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 			{
