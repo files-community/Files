@@ -256,19 +256,47 @@ namespace Files.App.UserControls
 
 		private async void Omnibar_QuerySubmitted(Omnibar sender, OmnibarQuerySubmittedEventArgs args)
 		{
-			await ViewModel.HandleItemNavigationAsync(args.Text);
+			if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
+			{
+				await ViewModel.HandleItemNavigationAsync(args.Text);
+			}
+			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
+			{
+			}
+			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
+			{
+			}
 		}
 
 		private async void Omnibar_SuggestionChosen(Omnibar sender, OmnibarSuggestionChosenEventArgs args)
 		{
-			if (args.SelectedItem is OmnibarPathModeSuggestionModel item &&
-				!string.IsNullOrEmpty(item.Path))
-				await ViewModel.HandleItemNavigationAsync(item.Path);
+			if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
+			{
+				if (args.SelectedItem is OmnibarPathModeSuggestionModel item &&
+					!string.IsNullOrEmpty(item.Path))
+					await ViewModel.HandleItemNavigationAsync(item.Path);
+			}
+			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
+			{
+			}
+			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
+			{
+			}
 		}
 
 		private async void Omnibar_TextChanged(Omnibar sender, OmnibarTextChangedEventArgs args)
 		{
-			await ViewModel.PopulateOmnibarSuggestionsForPathMode();
+			if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
+			{
+				await ViewModel.PopulateOmnibarSuggestionsForPathMode();
+			}
+			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
+			{
+				await ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
+			}
+			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
+			{
+			}
 		}
 
 		private async void BreadcrumbBar_ItemClicked(Controls.BreadcrumbBar sender, Controls.BreadcrumbBarItemClickedEventArgs args)

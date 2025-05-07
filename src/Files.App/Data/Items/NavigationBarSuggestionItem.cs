@@ -1,10 +1,12 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Controls;
+
 namespace Files.App.Data.Items
 {
 	[Obsolete("Remove once Omnibar goes out of experimental.")]
-	public sealed partial class NavigationBarSuggestionItem : ObservableObject
+	public sealed partial class NavigationBarSuggestionItem : ObservableObject, IOmnibarTextMemberPathProvider
 	{
 		private string? _Text;
 		public string? Text
@@ -87,6 +89,17 @@ namespace Files.App.Data.Items
 					PrimaryDisplayPostMatched = PrimaryDisplay.Substring(index + SearchText.Length);
 				}
 			}
+		}
+
+		public string GetTextMemberPath(string textMemberPath)
+		{
+			return textMemberPath switch
+			{
+				nameof(Text) => Text,
+				nameof(PrimaryDisplay) => PrimaryDisplay,
+				nameof(SearchText) => SearchText,
+				_ => string.Empty
+			};
 		}
 	}
 }

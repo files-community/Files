@@ -367,42 +367,42 @@
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IconType=Outline}"
 				ModeName="{x:Bind Commands.OpenCommandPalette.LabelWithHotKey, Mode=OneWay}"
-				PlaceholderText="{helpers:ResourceString Name=OmnibarCommandPaletteModeTextPlaceholder}">
-				<!--<controls:OmnibarMode.SuggestionItemTemplate>
-				<DataTemplate x:DataType="data:OmnibarPaletteSuggestionItem">
-					<Grid Height="48" ColumnSpacing="12">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="Auto" />
-						</Grid.ColumnDefinitions>
-						<controls:ThemedIcon
-							Width="20"
-							Height="20"
-							VerticalAlignment="Center"
-							Style="{StaticResource App.ThemedIcons.Actions.Copying}" />
-						<StackPanel Grid.Column="1" VerticalAlignment="Center">
+				PlaceholderText="{helpers:ResourceString Name=OmnibarCommandPaletteModeTextPlaceholder}"
+				SuggestionItemsSource="{x:Bind ViewModel.OmnibarCommandPaletteModeSuggestionItems, Mode=OneWay}"
+				Text="{x:Bind ViewModel.OmnibarCommandPaletteModeText, Mode=TwoWay}"
+				TextMemberPath="Text">
+				<controls:OmnibarMode.SuggestionItemTemplate>
+					<DataTemplate x:DataType="dataitems:NavigationBarSuggestionItem">
+						<Grid ColumnSpacing="12">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+
+							<ContentPresenter Grid.Column="0">
+								<controls:ThemedIcon Style="{ThemeResource App.ThemedIcons.Filter}" />
+							</ContentPresenter>
+
+							<!--  Primary Title  -->
 							<TextBlock
-								Style="{StaticResource BodyStrongTextBlockStyle}"
-								Text="{x:Bind Title}"
+								x:Name="PrimaryDisplayBlock"
+								Grid.Column="1"
+								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+								MaxLines="1"
 								TextTrimming="CharacterEllipsis"
-								TextWrapping="NoWrap" />
-							<TextBlock
-								Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-								Style="{StaticResource CaptionTextBlockStyle}"
-								Text="{x:Bind Description}"
-								TextTrimming="CharacterEllipsis"
-								TextWrapping="NoWrap" />
-						</StackPanel>
-						<StackPanel Grid.Column="2" VerticalAlignment="Center">
-							<TextBlock
-								Text="{x:Bind HotKeys}"
-								TextTrimming="CharacterEllipsis"
-								TextWrapping="NoWrap" />
-						</StackPanel>
-					</Grid>
-				</DataTemplate>
-			</controls:OmnibarMode.SuggestionItemTemplate>-->
+								TextWrapping="NoWrap">
+								<Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPreMatched, Mode=OneWay}" /><Run FontWeight="Bold" Text="{x:Bind PrimaryDisplayMatched, Mode=OneWay}" /><Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPostMatched, Mode=OneWay}" />
+							</TextBlock>
+
+							<!--  Keyboard Shortcuts  -->
+							<keyboard:KeyboardShortcut
+								x:Name="RightAlignedKeyboardShortcut"
+								Grid.Column="2"
+								HotKeys="{x:Bind HotKeys, Mode=OneWay}" />
+						</Grid>
+					</DataTemplate>
+				</controls:OmnibarMode.SuggestionItemTemplate>
 			</controls:OmnibarMode>
 
 			<controls:OmnibarMode
