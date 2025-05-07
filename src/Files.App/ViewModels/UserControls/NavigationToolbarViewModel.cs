@@ -243,7 +243,7 @@ namespace Files.App.ViewModels.UserControls
 								_ = PopulateOmnibarSuggestionsForPathMode();
 								break;
 							case OmnibarPaletteModeName:
-								_ = PopulateOmnibarSuggestionsForCommandPaletteMode();
+								PopulateOmnibarSuggestionsForCommandPaletteMode();
 								break;
 							case OmnibarSearchModeName:
 								break;
@@ -1131,10 +1131,9 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public async Task PopulateOmnibarSuggestionsForCommandPaletteMode()
+		public void PopulateOmnibarSuggestionsForCommandPaletteMode()
 		{
-			if (string.IsNullOrEmpty(OmnibarCommandPaletteModeText))
-				return;
+			OmnibarCommandPaletteModeText ??= string.Empty;
 
 			OmnibarCommandPaletteModeSuggestionItems.Clear();
 
