@@ -11,9 +11,7 @@ namespace Files.App.Data.Items
 	{
 		// Properties
 
-		public required IWindowsFolder Item { get; set; }
-
-		public required new string Path { get; set; }
+		public required new IWindowsFolder Item { get; set; }
 
 		public required string Text { get; set; }
 
