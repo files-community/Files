@@ -3,6 +3,7 @@
 
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.NetworkManagement.WNet;
 using Windows.Win32.Storage.FileSystem;
 using Windows.Win32.UI.Shell;
 
@@ -83,6 +84,38 @@ namespace Files.App.Storage
 			// NOTE: This calls an undocumented elevatable COM class, shell32.dll!CFormatEngine so this doesn't need to be elevated beforehand.
 			var result = PInvoke.SHFormatDrive(hWnd, driveLetterIndex, id, options);
 			return result is 0xFFFF;
+		}
+
+		public static bool TryGetDriveTotalSpace(this IWindowsStorable storable, out ulong totalSize)
+		{
+			ulong ulTotalSize = 0UL;
+			bool res = PInvoke.GetDiskFreeSpaceEx(storable.GetDisplayName(), null, &ulTotalSize, null);
+
+			totalSize = ulTotalSize;
+
+			return res;
+		}
+
+		public static bool TryGetDriveFreeSpace(this IWindowsStorable storable, out ulong freeSize)
+		{
+			ulong ulFreeSize = 0UL;
+			bool res = PInvoke.GetDiskFreeSpaceEx(storable.GetDisplayName(), null, null, &ulFreeSize);
+
+			freeSize = ulFreeSize;
+
+			return res;
+		}
+
+		public static bool TryGetDriveType(this IWindowsStorable storable, out uint driveType)
+		{
+			driveType = PInvoke.GetDriveType(storable.GetDisplayName());
+
+			return driveType is 0U; // DRIVE_UNKNOWN
+		}
+
+		public static bool TryDisconnectNetworkDrive(this IWindowsStorable storable)
+		{
+			return PInvoke.WNetCancelConnection2W(storable.GetDisplayName().TrimEnd('\\'), NET_CONNECT_FLAGS.CONNECT_UPDATE_PROFILE, true) is WIN32_ERROR.NO_ERROR;
 		}
 	}
 }

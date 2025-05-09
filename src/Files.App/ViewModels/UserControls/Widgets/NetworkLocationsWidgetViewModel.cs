@@ -4,10 +4,13 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
+using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Core;
-using OwlCore.Storage;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.Shell;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
@@ -41,7 +44,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Commands
 
-		private ICommand EjectDeviceCommand { get; } = null!;
 		private ICommand MapNetworkDriveCommand { get; } = null!;
 		private ICommand DisconnectNetworkDriveCommand { get; } = null!;
 
@@ -49,15 +51,10 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public NetworkLocationsWidgetViewModel()
 		{
-			Drives_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-			Shortcuts_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-
-			DrivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
-			NetworkService.Shortcuts.CollectionChanged += Shortcuts_CollectionChanged;
+			Items.CollectionChanged += Items_CollectionChanged;
 
 			PinToSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(ExecutePinToSidebarCommand);
 			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteUnpinFromSidebarCommand);
-			EjectDeviceCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteEjectDeviceCommand);
 			OpenPropertiesCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteOpenPropertiesCommand);
 			DisconnectNetworkDriveCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteDisconnectNetworkDriveCommand);
 			MapNetworkDriveCommand = new AsyncRelayCommand(ExecuteMapNetworkDriveCommand);
@@ -65,10 +62,49 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Methods
 
-		public async Task RefreshWidgetAsync()
+		public Task RefreshWidgetAsync()
 		{
-			var updateTasks = Items.Select(item => item.Item.UpdatePropertiesAsync());
-			await Task.WhenAll(updateTasks);
+			return MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+			{
+				foreach (var item in Items)
+					item.Dispose();
+
+				Items.Clear();
+
+				await foreach (IWindowsFolder folder in HomePageContext.HomeFolder.GetNetworkLocationsAsync(default))
+				{
+					folder.TryGetShellLink(out ComPtr<IShellLinkW> pShellLink);
+					string linkTargetPath = string.Empty;
+
+					if (pShellLink.IsNull)
+					{
+						folder.GetPropertyValue("System.Link.TargetParsingPath", out linkTargetPath);
+					}
+					else
+					{
+						unsafe
+						{
+							char* pszTargetPath = (char*)NativeMemory.Alloc(1024);
+							pShellLink.Get()->GetPath(pszTargetPath, 1024, null, (uint)SLGP_FLAGS.SLGP_RAWPATH);
+							linkTargetPath = new(pszTargetPath);
+
+							NativeMemory.Free(pszTargetPath);
+						}
+					}
+
+					Items.Insert(
+						Items.Count,
+						new()
+						{
+							Item = folder,
+							Text = folder.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI),
+							Path = linkTargetPath,
+							DriveType = SystemIO.DriveType.Network
+						});
+				}
+
+				IsNoNetworkLocations = !Items.Any();
+			});
 		}
 
 		public async Task NavigateToPath(string path)
@@ -90,16 +126,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
-			var drive =
-				Items.Where(x =>
-					string.Equals(
-						PathNormalization.NormalizePath(x.Path!),
-						PathNormalization.NormalizePath(item.Path!),
-					StringComparison.OrdinalIgnoreCase))
-				.FirstOrDefault();
-
-			var options = drive?.Item.MenuOptions;
-
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewTabFromHomeAction)
@@ -129,13 +155,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Command = UnpinFromSidebarCommand,
 					CommandParameter = item,
 					ShowItem = isPinned
-				},
-				new()
-				{
-					Text = Strings.Eject.GetLocalizedResource(),
-					Command = EjectDeviceCommand,
-					CommandParameter = item,
-					ShowItem = options?.ShowEjectDevice ?? false
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.FormatDriveFromHome).Build(),
 				new()
@@ -181,22 +200,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Command methods
 
-		private void ExecuteEjectDeviceCommand(WidgetDriveCardItem? item)
-		{
-			if (item is null)
-				return;
-
-			DriveHelpers.EjectDeviceAsync(item.Item.Path);
-		}
-
 		private Task ExecuteMapNetworkDriveCommand()
 		{
 			return NetworkService.OpenMapNetworkDriveDialogAsync();
-		}
-
-		private void ExecuteFormatDriveCommand(WidgetDriveCardItem? item)
-		{
-			Win32Helper.OpenFormatDriveDialog(item?.Path ?? string.Empty);
 		}
 
 		private void ExecuteOpenPropertiesCommand(WidgetDriveCardItem? item)
@@ -221,52 +227,26 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (item is null)
 				return;
 
-			NetworkService.DisconnectNetworkDrive(item.Item);
+			item.Item.TryDisconnectNetworkDrive();
 		}
-
-		private async Task UpdateItems(ObservableCollection<IFolder> source)
-		{
-			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-			{
-				IsNoNetworkLocations = false;
-
-				foreach (DriveItem drive in source.ToList().Cast<DriveItem>())
-				{
-					if (!Items.Any(x => x.Item == drive) && drive.Type is DriveType.Network)
-					{
-						var cardItem = new WidgetDriveCardItem(drive);
-						Items.AddSorted(cardItem);
-
-						await cardItem.LoadCardThumbnailAsync();
-					}
-				}
-
-				foreach (WidgetDriveCardItem driveCard in Items.ToList())
-				{
-					if (!DrivesViewModel.Drives.Contains(driveCard.Item) && !NetworkService.Shortcuts.Contains(driveCard.Item))
-						Items.Remove(driveCard);
-				}
-
-				IsNoNetworkLocations = !Items.Any();
-			});
-		}	
 
 		// Event methods
 
-		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		private async void Items_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
-			await UpdateItems(DrivesViewModel.Drives);
-		}
-
-		private async void Shortcuts_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-		{
-			await UpdateItems(NetworkService.Shortcuts);
+			if (e.Action is NotifyCollectionChangedAction.Add)
+			{
+				foreach (WidgetDriveCardItem cardItem in e.NewItems!)
+					await cardItem.LoadCardThumbnailAsync();
+			}
 		}
 
 		// Disposer
 
 		public void Dispose()
 		{
+			foreach (var item in Items)
+				item.Dispose();
 		}
 	}
 }

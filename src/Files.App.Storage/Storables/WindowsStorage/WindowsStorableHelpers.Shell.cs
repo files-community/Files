@@ -143,5 +143,19 @@ namespace Files.App.Storage
 
 			return HRESULT.S_OK;
 		}
+
+		public unsafe static HRESULT TryGetShellLink(this IWindowsStorable storable, out ComPtr<IShellLinkW> pShellLink)
+		{
+			pShellLink = default;
+
+			using ComPtr<IShellLinkW> pShellLinkW = default;
+			HRESULT hr = storable.ThisPtr.Get()->BindToHandler(null, BHID.BHID_SFUIObject, IID.IID_IShellLinkW, (void**)pShellLinkW.GetAddressOf());
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return hr;
+
+			pShellLink = pShellLinkW;
+
+			return HRESULT.S_OK;
+		}
 	}
 }

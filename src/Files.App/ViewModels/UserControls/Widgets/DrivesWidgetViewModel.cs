@@ -7,6 +7,8 @@ using System.Collections.Specialized;
 using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.Win32;
+using Windows.Win32.UI.Shell;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
@@ -29,37 +31,50 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		// Commands
 
 		private ICommand EjectDeviceCommand { get; } = null!;
-		private ICommand DisconnectNetworkDriveCommand { get; } = null!;
 
 		// Constructor
 
 		public DrivesWidgetViewModel()
 		{
-			Drives_CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-
-			DrivesViewModel.Drives.CollectionChanged += Drives_CollectionChanged;
+			Items.CollectionChanged += Items_CollectionChanged;
+			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 
 			PinToSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(ExecutePinToSidebarCommand);
 			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteUnpinFromSidebarCommand);
 			EjectDeviceCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteEjectDeviceCommand);
 			OpenPropertiesCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteOpenPropertiesCommand);
-			DisconnectNetworkDriveCommand = new RelayCommand<WidgetDriveCardItem>(ExecuteDisconnectNetworkDriveCommand);
-
-			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
 		}
 
 		// Methods
 
-		private async void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
+		public Task RefreshWidgetAsync()
 		{
-			if (e.SettingName == nameof(UserSettingsService.FoldersSettingsService.SizeUnitFormat))
-				await RefreshWidgetAsync();
-		}
+			return MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+			{
+				foreach (var item in Items)
+					item.Dispose();
 
-		public async Task RefreshWidgetAsync()
-		{
-			var updateTasks = Items.Select(item => item.Item.UpdatePropertiesAsync());
-			await Task.WhenAll(updateTasks);
+				Items.Clear();
+
+				await foreach (IWindowsFolder folder in HomePageContext.HomeFolder.GetLogicalDrivesAsync(default))
+				{
+					folder.TryGetDriveTotalSpace(out var totalSize);
+					folder.TryGetDriveFreeSpace(out var freeSize);
+					folder.TryGetDriveType(out var driveType);
+
+					Items.Insert(
+						Items.Count,
+						new()
+						{
+							Item = folder,
+							Text = folder.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI),
+							Path = folder.GetDisplayName(SIGDN.SIGDN_FILESYSPATH),
+							TotalSize = ByteSizeLib.ByteSize.FromBytes(totalSize),
+							FreeSize = ByteSizeLib.ByteSize.FromBytes(freeSize),
+							DriveType = (SystemIO.DriveType)driveType,
+						});
+				}
+			});
 		}
 
 		public async Task NavigateToPath(string path)
@@ -84,15 +99,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
 		{
-			var drive =
-				Items.Where(x =>
-					string.Equals(
-						PathNormalization.NormalizePath(x.Path!),
-						PathNormalization.NormalizePath(item.Path!),
-					StringComparison.OrdinalIgnoreCase))
-				.FirstOrDefault();
-
-			var options = drive?.Item.MenuOptions;
+			if (item is not WidgetDriveCardItem driveItem)
+				return [];
 
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
@@ -129,7 +137,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Text = Strings.Eject.GetLocalizedResource(),
 					Command = EjectDeviceCommand,
 					CommandParameter = item,
-					ShowItem = options?.ShowEjectDevice ?? false
+					ShowItem = driveItem.DriveType is SystemIO.DriveType.Removable or SystemIO.DriveType.CDRom
 				},
 				new()
 				{
@@ -184,7 +192,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (item is null)
 				return;
 
-			DriveHelpers.EjectDeviceAsync(item.Item.Path);
+			DriveHelpers.EjectDeviceAsync(item.Path);
 		}
 
 		private void ExecuteOpenPropertiesCommand(WidgetDriveCardItem? item)
@@ -204,43 +212,29 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			flyout!.Closed += flyoutClosed;
 		}
 
-		private void ExecuteDisconnectNetworkDriveCommand(WidgetDriveCardItem? item)
-		{
-			if (item is null)
-				return;
-
-			NetworkService.DisconnectNetworkDrive(item.Item);
-		}
-
 		// Event methods
 
-		private async void Drives_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		private async void Items_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
-			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+			if (e.Action is NotifyCollectionChangedAction.Add)
 			{
-				foreach (DriveItem drive in DrivesViewModel.Drives.ToList().Cast<DriveItem>())
-				{
-					if (!Items.Any(x => x.Item == drive) && drive.Type is not DriveType.VirtualDrive and not DriveType.Network)
-					{
-						var cardItem = new WidgetDriveCardItem(drive);
-						Items.AddSorted(cardItem);
+				foreach (WidgetDriveCardItem cardItem in e.NewItems!)
+					await cardItem.LoadCardThumbnailAsync();
+			}
+		}
 
-						await cardItem.LoadCardThumbnailAsync();
-					}
-				}
-
-				foreach (WidgetDriveCardItem driveCard in Items.ToList())
-				{
-					if (!DrivesViewModel.Drives.Contains(driveCard.Item))
-						Items.Remove(driveCard);
-				}
-			});
+		private async void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)
+		{
+			if (e.SettingName == nameof(UserSettingsService.FoldersSettingsService.SizeUnitFormat))
+				await RefreshWidgetAsync();
 		}
 
 		// Disposer
 
 		public void Dispose()
 		{
+			foreach (var item in Items)
+				item.Dispose();
 		}
 	}
 }
