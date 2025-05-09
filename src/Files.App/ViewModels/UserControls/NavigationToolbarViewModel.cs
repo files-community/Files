@@ -243,7 +243,8 @@ namespace Files.App.ViewModels.UserControls
 								_ = PopulateOmnibarSuggestionsForPathMode();
 								break;
 							case OmnibarPaletteModeName:
-								PopulateOmnibarSuggestionsForCommandPaletteMode();
+								if (OmnibarCommandPaletteModeSuggestionItems.Count is 0)
+									PopulateOmnibarSuggestionsForCommandPaletteMode();
 								break;
 							case OmnibarSearchModeName:
 								break;
