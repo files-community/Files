@@ -85,5 +85,11 @@ namespace Files.App.Storage
 				}
 			}
 		}
+
+		public Task<IFolderWatcher> GetFolderWatcherAsync(CancellationToken cancellationToken = default)
+		{
+			IFolderWatcher watcher = new WindowsFolderWatcher(this);
+			return Task.FromResult(watcher);
+		}
 	}
 }

@@ -3,7 +3,7 @@
 
 namespace Files.App.Storage
 {
-	public interface IWindowsFolder : IWindowsStorable, IChildFolder
+	public interface IWindowsFolder : IWindowsStorable, IChildFolder, IMutableFolder
 	{
 	}
 }

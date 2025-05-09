@@ -1,0 +1,126 @@
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
+
+using OwlCore.Storage;
+using System.Collections.Concurrent;
+using System.Collections.Specialized;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Threading;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.Graphics.Gdi;
+using Windows.Win32.System.Com;
+using Windows.Win32.UI.Shell;
+using Windows.Win32.UI.Shell.Common;
+using Windows.Win32.UI.WindowsAndMessaging;
+
+namespace Files.App.Storage
+{
+	public unsafe partial class WindowsFolderWatcher : IFolderWatcher
+	{
+		// Fields
+
+		private const uint WM_SHFLDRWATCHER = PInvoke.WM_APP | 0x0001U;
+		private readonly WNDPROC _wndProc;
+
+		private uint _registrationID = 0U;
+		private ITEMIDLIST* _pidl = default;
+
+		// Properties
+
+		public IMutableFolder Folder { get; private set; }
+
+		// Events
+
+		public event NotifyCollectionChangedEventHandler? CollectionChanged;
+
+		// Constructor
+
+		public WindowsFolderWatcher(WindowsFolder folder)
+		{
+			Folder = folder;
+
+			HINSTANCE hInst = PInvoke.GetModuleHandle(default(PWSTR));
+
+			_wndProc = new(WndProc);
+			var pfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)Marshal.GetFunctionPointerForDelegate(_wndProc);
+
+			fixed (char* pszClassName = $"FolderWatcherWindowClass{Guid.NewGuid():B}")
+			{
+				WNDCLASSEXW wndClass = default;
+				wndClass.cbSize = (uint)sizeof(WNDCLASSEXW);
+				wndClass.lpfnWndProc = pfnWndProc;
+				wndClass.hInstance = hInst;
+				wndClass.lpszClassName = pszClassName;
+
+				PInvoke.RegisterClassEx(&wndClass);
+				PInvoke.CreateWindowEx(0, pszClassName, null, 0, 0, 0, 0, 0, HWND.HWND_MESSAGE, default, hInst, null);
+			}
+		}
+
+		private unsafe LRESULT WndProc(HWND hWnd, uint uMessage, WPARAM wParam, LPARAM lParam)
+		{
+			switch (uMessage)
+			{
+				case PInvoke.WM_CREATE:
+					{
+						PInvoke.CoInitialize();
+
+						ITEMIDLIST* pidl = default;
+						IWindowsFolder folder = (IWindowsFolder)Folder;
+						PInvoke.SHGetIDListFromObject((IUnknown*)folder.ThisPtr.Get(), &pidl);
+						_pidl = pidl;
+
+						SHChangeNotifyEntry changeNotifyEntry = default;
+						changeNotifyEntry.pidl = pidl;
+
+						_registrationID = PInvoke.SHChangeNotifyRegister(
+							hWnd,
+							SHCNRF_SOURCE.SHCNRF_ShellLevel | SHCNRF_SOURCE.SHCNRF_NewDelivery,
+							(int)SHCNE_ID.SHCNE_ALLEVENTS,
+							PInvoke.WM_APP | 1,
+							1,
+							&changeNotifyEntry);
+
+						if (_registrationID is 0U)
+							break;
+					}
+					break;
+				case PInvoke.WM_APP | 1:
+					{
+						ITEMIDLIST** ppidl;
+						int lEvent = 0;
+						HANDLE hLock = PInvoke.SHChangeNotification_Lock((HANDLE)(nint)wParam.Value, (uint)lParam.Value, &ppidl, &lEvent);
+
+						if (hLock.IsNull)
+							break;
+
+						// TODO: Fire events
+
+						PInvoke.SHChangeNotification_Unlock(hLock);
+					}
+					break;
+				case PInvoke.WM_DESTROY:
+					{
+						PInvoke.SHChangeNotifyDeregister(_registrationID);
+						PInvoke.CoTaskMemFree(_pidl);
+						PInvoke.CoUninitialize();
+						PInvoke.PostQuitMessage(0);
+					}
+					break;
+			}
+
+			return PInvoke.DefWindowProc(hWnd, uMessage, wParam, lParam);
+		}
+
+		public void Dispose()
+		{
+		}
+
+		public ValueTask DisposeAsync()
+		{
+			return ValueTask.CompletedTask;
+		}
+	}
+}

@@ -226,3 +226,12 @@ _SICHINTF
 RoGetAgileReference
 IQueryInfo
 QITIPF_FLAGS
+SHChangeNotifyRegister
+SHChangeNotifyDeregister
+SHChangeNotification_Lock
+SHChangeNotification_Unlock
+CoInitialize
+CoUninitialize
+PostQuitMessage
+HWND_MESSAGE
+SHCNE_ID
