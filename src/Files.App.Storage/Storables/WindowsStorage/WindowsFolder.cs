@@ -44,6 +44,7 @@ namespace Files.App.Storage
 			ThisPtr = pShellItem;
 		}
 
+		/// <inheritdoc/>
 		public IAsyncEnumerable<IStorableChild> GetItemsAsync(StorableType type = StorableType.All, CancellationToken cancellationToken = default)
 		{
 			using ComPtr<IEnumShellItems> pEnumShellItems = default;
@@ -75,6 +76,14 @@ namespace Files.App.Storage
 			return childItems.ToAsyncEnumerable();
 		}
 
+		/// <inheritdoc/>
+		public Task<IFolderWatcher> GetFolderWatcherAsync(CancellationToken cancellationToken = default)
+		{
+			IFolderWatcher watcher = new WindowsFolderWatcher(this);
+			return Task.FromResult(watcher);
+		}
+
+		/// <inheritdoc/>
 		public override void Dispose()
 		{
 			base.Dispose();

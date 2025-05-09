@@ -6,6 +6,7 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.SystemServices;
 using Windows.Win32.UI.Shell;
+using Windows.Win32.UI.Shell.Common;
 
 namespace Files.App.Storage
 {
@@ -42,6 +43,17 @@ namespace Files.App.Storage
 				hr = PInvoke.SHCreateItemFromParsingName(pszPath, null, IID.IID_IShellItem, (void**)&pShellItem);
 
 			if (pShellItem is null)
+				return null;
+
+			return TryParse(pShellItem);
+		}
+
+		public static unsafe WindowsStorable? TryParse(ITEMIDLIST* pidl)
+		{
+			IShellItem* pShellItem = default;
+
+			HRESULT hr = PInvoke.SHCreateItemFromIDList(pidl, IID.IID_IShellItem, (void**)&pShellItem);
+			if (hr.ThrowIfFailedOnDebug().Failed || pShellItem is null)
 				return null;
 
 			return TryParse(pShellItem);
