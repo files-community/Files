@@ -3,6 +3,7 @@
 
 using System.Collections.Specialized;
 using System.Runtime.InteropServices;
+using Windows.Foundation;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
@@ -32,6 +33,37 @@ namespace Files.App.Storage
 		// Events
 
 		public event NotifyCollectionChangedEventHandler? CollectionChanged;
+
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? ItemAssocChanged; // SHCNE_ASSOCCHANGED
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? ItemAttributesChanged; // SHCNE_ATTRIBUTES
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? ItemImageUpdated; // SHCNE_UPDATEIMAGE
+
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? FileRenamed; // SHCNE_RENAMEITEM
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? FileCreated; // SHCNE_CREATE
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? FileDeleted; // SHCNE_DELETE
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? FileUpdated; // SHCNE_UPDATEITEM
+
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? FolderRenamed; // SHCNE_RENAMEFOLDER
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? FolderCreated; // SHCNE_MKDIR
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? FolderDeleted; // SHCNE_RMDIR
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? FolderUpdated; // SHCNE_UPDATEDIR
+
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? MediaInserted; // SHCNE_MEDIAINSERTED
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? MediaRemoved; // SHCNE_MEDIAREMOVED
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? DriveRemoved; // SHCNE_DRIVEREMOVED
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? DriveAdded; // SHCNE_DRIVEADD
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? DriveAddedViaGUI; // SHCNE_DRIVEADDGUI
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? DiskEventOccurred; // SHCNE_DISKEVENTS
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? FreeSpaceUpdated; // SHCNE_FREESPACE
+
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? SharingStarted; // SHCNE_NETSHARE
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? SharingStopped; // SHCNE_NETUNSHARE
+
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? DisconnectedFromServer; // SHCNE_SERVERDISCONNECT
+
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? ExtendedEventOccurred; // SHCNE_EXTENDED_EVENT
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? GlobalEventOccurred; // SHCNE_GLOBALEVENTS
+		public event TypedEventHandler<WindowsFolderWatcher, IWindowsStorable>? SystemInterruptOccurred; // SHCNE_INTERRUPT
 
 		// Constructor
 
