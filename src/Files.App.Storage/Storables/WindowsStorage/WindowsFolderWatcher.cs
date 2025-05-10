@@ -1,15 +1,10 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using OwlCore.Storage;
-using System.Collections.Concurrent;
 using System.Collections.Specialized;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Threading;
 using Windows.Win32;
 using Windows.Win32.Foundation;
-using Windows.Win32.Graphics.Gdi;
 using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.Shell.Common;
@@ -17,11 +12,14 @@ using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Storage
 {
+	/// <summary>
+	/// Represents an implementation of <see cref="IFolderWatcher"/> that uses Windows Shell notifications to watch for changes in a folder.
+	/// </summary>
 	public unsafe partial class WindowsFolderWatcher : IFolderWatcher
 	{
 		// Fields
 
-		private const uint WM_SHFLDRWATCHER = PInvoke.WM_APP | 0x0001U;
+		private const uint WM_FOLDERWATCHER = PInvoke.WM_APP | 0x0001U;
 		private readonly WNDPROC _wndProc;
 
 		private uint _registrationID = 0U;
@@ -37,11 +35,13 @@ namespace Files.App.Storage
 
 		// Constructor
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WindowsFolderWatcher"/> class.
+		/// </summary>
+		/// <param name="folder">Specifies the folder to be monitored for changes.</param>
 		public WindowsFolderWatcher(WindowsFolder folder)
 		{
 			Folder = folder;
-
-			HINSTANCE hInst = PInvoke.GetModuleHandle(default(PWSTR));
 
 			_wndProc = new(WndProc);
 			var pfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)Marshal.GetFunctionPointerForDelegate(_wndProc);
@@ -51,11 +51,11 @@ namespace Files.App.Storage
 				WNDCLASSEXW wndClass = default;
 				wndClass.cbSize = (uint)sizeof(WNDCLASSEXW);
 				wndClass.lpfnWndProc = pfnWndProc;
-				wndClass.hInstance = hInst;
+				wndClass.hInstance = PInvoke.GetModuleHandle(default(PWSTR)); ;
 				wndClass.lpszClassName = pszClassName;
 
 				PInvoke.RegisterClassEx(&wndClass);
-				PInvoke.CreateWindowEx(0, pszClassName, null, 0, 0, 0, 0, 0, HWND.HWND_MESSAGE, default, hInst, null);
+				PInvoke.CreateWindowEx(0, pszClassName, null, 0, 0, 0, 0, 0, HWND.HWND_MESSAGE, default, wndClass.hInstance, null);
 			}
 		}
 
@@ -79,7 +79,7 @@ namespace Files.App.Storage
 							hWnd,
 							SHCNRF_SOURCE.SHCNRF_ShellLevel | SHCNRF_SOURCE.SHCNRF_NewDelivery,
 							(int)SHCNE_ID.SHCNE_ALLEVENTS,
-							PInvoke.WM_APP | 1,
+							WM_FOLDERWATCHER,
 							1,
 							&changeNotifyEntry);
 
@@ -87,7 +87,7 @@ namespace Files.App.Storage
 							break;
 					}
 					break;
-				case PInvoke.WM_APP | 1:
+				case WM_FOLDERWATCHER:
 					{
 						ITEMIDLIST** ppidl;
 						int lEvent = 0;
