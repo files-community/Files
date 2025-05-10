@@ -229,3 +229,4 @@ QITIPF_FLAGS
 CreateEvent
 SetEvent
 ResetEvent
+CoWaitForMultipleObjects
