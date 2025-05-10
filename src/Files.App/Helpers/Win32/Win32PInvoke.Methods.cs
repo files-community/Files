@@ -55,7 +55,6 @@ namespace Files.App.Helpers
 			[In, Out] RM_PROCESS_INFO[] rgAffectedApps,
 			ref uint lpdwRebootReasons
 		);
-
 		[DllImport("ole32.dll")]
 		public static extern uint CoWaitForMultipleObjects(
 			uint dwFlags,
