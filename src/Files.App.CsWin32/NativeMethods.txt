@@ -228,3 +228,4 @@ GetKeyboardLayout
 CreateEvent
 SetEvent
 ResetEvent
+CoWaitForMultipleObjects

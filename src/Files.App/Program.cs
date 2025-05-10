@@ -255,18 +255,22 @@ namespace Files.App
 		{
 			HANDLE hEventHandle = PInvoke.CreateEvent((SECURITY_ATTRIBUTES*)null, true, false, null);
 
+			HANDLE* pHandles = stackalloc HANDLE[1];
+			pHandles[0] = hEventHandle;
+
 			Task.Run(() =>
 			{
 				keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
 				PInvoke.SetEvent(hEventHandle);
 			});
 
-			_ = Win32PInvoke.CoWaitForMultipleObjects(
+			uint dwIndex = 0u;
+			PInvoke.CoWaitForMultipleObjects(
 				CWMO_DEFAULT,
 				INFINITE,
-				1,
-				[hEventHandle],
-				out uint handleIndex);
+				1u,
+				pHandles,
+				&dwIndex);
 		}
 
 		public static void OpenShellCommandInExplorer(string shellCommand, int pid)
