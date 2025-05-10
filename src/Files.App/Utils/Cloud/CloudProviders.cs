@@ -47,6 +47,8 @@ namespace Files.App.Utils.Cloud
 
 		kDrive,
 
-		SyncDrive
+		SyncDrive,
+
+		MagentaCloud
 	}
 }

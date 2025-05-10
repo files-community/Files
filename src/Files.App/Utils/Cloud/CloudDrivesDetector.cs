@@ -92,6 +92,7 @@ namespace Files.App.Utils.Cloud
 						"kDrive" => CloudProviders.kDrive,
 						"Lucid" => CloudProviders.LucidLink,
 						"SyncCom" => CloudProviders.SyncDrive,
+						"MagentaCLOUD" => CloudProviders.MagentaCloud,
 						_ => null,
 					};
 
@@ -119,6 +120,7 @@ namespace Files.App.Utils.Cloud
 							CloudProviders.kDrive => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "kDrive",
 							CloudProviders.LucidLink => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "lucidLink",
 							CloudProviders.SyncDrive => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "Sync",
+							CloudProviders.MagentaCloud => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "MagentaCLOUD",
 							_ => null
 						},
 						SyncFolder = syncedFolder,
