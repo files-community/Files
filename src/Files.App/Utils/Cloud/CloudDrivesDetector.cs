@@ -91,6 +91,8 @@ namespace Files.App.Utils.Cloud
 						"ProtonDrive" => CloudProviders.ProtonDrive,
 						"kDrive" => CloudProviders.kDrive,
 						"Lucid" => CloudProviders.LucidLink,
+						"SyncCom" => CloudProviders.SyncDrive,
+						"MagentaCLOUD" => CloudProviders.MagentaCloud,
 						_ => null,
 					};
 
@@ -98,9 +100,7 @@ namespace Files.App.Utils.Cloud
 						continue;
 
 					var nextCloudValue = (string?)namespaceSubKey?.GetValue(string.Empty);
-					var ownCloudValue = (string?)clsidSubKey?.GetValue(string.Empty);
-					var kDriveValue = (string?)clsidSubKey?.GetValue(string.Empty);
-					var lucidLinkValue = (string?)clsidSubKey?.GetValue(string.Empty);
+					var clsidDefaultValue = (string?)clsidSubKey?.GetValue(string.Empty);
 
 					using var defaultIconKey = clsidSubKey?.OpenSubKey(@"DefaultIcon");
 					var iconPath = (string?)defaultIconKey?.GetValue(string.Empty);
@@ -115,10 +115,12 @@ namespace Files.App.Utils.Cloud
 							CloudProviders.AppleCloudDrive => $"iCloud Drive",
 							CloudProviders.AppleCloudPhotos => $"iCloud Photos",
 							CloudProviders.AdobeCreativeCloud => $"Creative Cloud Files",
-							CloudProviders.ownCloud => !string.IsNullOrEmpty(ownCloudValue) ? ownCloudValue : "ownCloud",
+							CloudProviders.ownCloud => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "ownCloud",
 							CloudProviders.ProtonDrive => $"Proton Drive",
-							CloudProviders.kDrive => !string.IsNullOrEmpty(kDriveValue) ? kDriveValue : "kDrive",
-							CloudProviders.LucidLink => !string.IsNullOrEmpty(lucidLinkValue) ? lucidLinkValue : "lucidLink",
+							CloudProviders.kDrive => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "kDrive",
+							CloudProviders.LucidLink => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "lucidLink",
+							CloudProviders.SyncDrive => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "Sync",
+							CloudProviders.MagentaCloud => !string.IsNullOrEmpty(clsidDefaultValue) ? clsidDefaultValue : "MagentaCLOUD",
 							_ => null
 						},
 						SyncFolder = syncedFolder,
@@ -349,6 +351,8 @@ namespace Files.App.Utils.Cloud
 				return "ownCloud";
 			if (driveIdentifier.StartsWith("ProtonDrive"))
 				return "ProtonDrive";
+			if (driveIdentifier.StartsWith("SyncCom"))
+				return "SyncCom";
 
 			// Nextcloud specific
 			var appNameFromNamespace = (string?)namespaceSubKey?.GetValue("ApplicationName");
