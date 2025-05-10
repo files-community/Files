@@ -226,3 +226,7 @@ _SICHINTF
 RoGetAgileReference
 IQueryInfo
 QITIPF_FLAGS
+CreateEvent
+SetEvent
+ResetEvent
+CoWaitForMultipleObjects

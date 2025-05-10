@@ -71,11 +71,6 @@ namespace Files.App.Helpers
 			string lpName
 		);
 
-		[DllImport("kernel32.dll")]
-		public static extern bool SetEvent(
-			IntPtr hEvent
-		);
-
 		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
 		public static extern int GetDpiForWindow(
 			IntPtr hwnd
@@ -133,11 +128,6 @@ namespace Files.App.Helpers
 			bool bWaitAll,
 			uint dwMilliseconds,
 			bool bAlertable
-		);
-
-		[DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
-		public static extern bool ResetEvent(
-			IntPtr hEvent
 		);
 
 		[DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
