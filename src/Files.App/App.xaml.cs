@@ -229,7 +229,7 @@ namespace Files.App
 				{
 					fixed (char* fileDialog = "FILEDIALOG")
 					{
-						HANDLE eventHandle = PInvoke.CreateEvent(bManualReset: false, bInitialState: false, lpName: fileDialog);
+						HANDLE eventHandle = PInvoke.CreateEvent((SECURITY_ATTRIBUTES*)null, false, false, fileDialog);
 						PInvoke.SetEvent(eventHandle);
 						PInvoke.CloseHandle(eventHandle);
 					}
