@@ -51,7 +51,7 @@ namespace Files.App.Storage
 				WNDCLASSEXW wndClass = default;
 				wndClass.cbSize = (uint)sizeof(WNDCLASSEXW);
 				wndClass.lpfnWndProc = pfnWndProc;
-				wndClass.hInstance = PInvoke.GetModuleHandle(default(PWSTR)); ;
+				wndClass.hInstance = PInvoke.GetModuleHandle(default(PWSTR));
 				wndClass.lpszClassName = pszClassName;
 
 				PInvoke.RegisterClassEx(&wndClass);
@@ -103,10 +103,7 @@ namespace Files.App.Storage
 					break;
 				case PInvoke.WM_DESTROY:
 					{
-						PInvoke.SHChangeNotifyDeregister(_registrationID);
-						PInvoke.CoTaskMemFree(_pidl);
-						PInvoke.CoUninitialize();
-						PInvoke.PostQuitMessage(0);
+						Dispose();
 					}
 					break;
 			}
@@ -116,10 +113,16 @@ namespace Files.App.Storage
 
 		public void Dispose()
 		{
+			PInvoke.SHChangeNotifyDeregister(_registrationID);
+			PInvoke.CoTaskMemFree(_pidl);
+			PInvoke.CoUninitialize();
+			PInvoke.PostQuitMessage(0);
 		}
 
 		public ValueTask DisposeAsync()
 		{
+			Dispose();
+
 			return ValueTask.CompletedTask;
 		}
 	}
