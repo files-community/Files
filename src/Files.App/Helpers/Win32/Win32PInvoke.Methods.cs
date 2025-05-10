@@ -63,6 +63,14 @@ namespace Files.App.Helpers
 			IntPtr hData
 		);
 
+		[DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+		public static extern IntPtr CreateEvent(
+			IntPtr lpEventAttributes,
+			bool bManualReset,
+			bool bInitialState,
+			string lpName
+		);
+
 		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
 		public static extern int GetDpiForWindow(
 			IntPtr hwnd
