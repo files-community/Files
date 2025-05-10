@@ -227,11 +227,11 @@ namespace Files.App
 
 				unsafe
 				{
-					fixed (char* fileDialog = "FILEDIALOG")
+					fixed (char* pszEventObjectName = "FILEDIALOG")
 					{
-						HANDLE eventHandle = PInvoke.CreateEvent((SECURITY_ATTRIBUTES*)null, false, false, fileDialog);
-						PInvoke.SetEvent(eventHandle);
-						PInvoke.CloseHandle(eventHandle);
+						HANDLE hEventHandle = PInvoke.CreateEvent((Windows.Win32.Security.SECURITY_ATTRIBUTES*)null, false, false, pszEventObjectName);
+						PInvoke.SetEvent(hEventHandle);
+						PInvoke.CloseHandle(hEventHandle);
 					}
 				}
 			}
