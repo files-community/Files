@@ -340,21 +340,6 @@ namespace Files.App.Helpers
 			uint dwBufferSize
 		);
 
-		[DllImport("kernel32.dll", ExactSpelling = true, CharSet = CharSet.Auto, SetLastError = true)]
-		public static extern IntPtr FindFirstStreamW(
-			string lpFileName,
-			StreamInfoLevels InfoLevel,
-			[In, Out, MarshalAs(UnmanagedType.LPStruct)] WIN32_FIND_STREAM_DATA lpFindStreamData,
-			uint dwFlags
-		);
-
-		[DllImport("kernel32.dll", ExactSpelling = true, CharSet = CharSet.Auto, SetLastError = true)]
-		[return: MarshalAs(UnmanagedType.Bool)]
-		public static extern bool FindNextStreamW(
-			IntPtr hndFindFile,
-			[In, Out, MarshalAs(UnmanagedType.LPStruct)] WIN32_FIND_STREAM_DATA lpFindStreamData
-		);
-
 		[DllImport("Shcore.dll", SetLastError = true)]
 		public static extern int GetDpiForMonitor(
 			IntPtr hmonitor,
