@@ -22,8 +22,8 @@ namespace Files.App.Storage
 		private const uint WM_FOLDERWATCHER = PInvoke.WM_APP | 0x0001U;
 		private readonly WNDPROC _wndProc;
 
-		private uint _registrationID = 0U;
-		private ITEMIDLIST* _pidl = default;
+		private uint _watcherRegID = 0U;
+		private ITEMIDLIST* _targetItemPIDL = default;
 
 		// Properties
 
@@ -43,14 +43,13 @@ namespace Files.App.Storage
 		{
 			Folder = folder;
 
-			_wndProc = new(WndProc);
-			var pfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)Marshal.GetFunctionPointerForDelegate(_wndProc);
-
 			fixed (char* pszClassName = $"FolderWatcherWindowClass{Guid.NewGuid():B}")
 			{
+				_wndProc = new(WndProc);
+
 				WNDCLASSEXW wndClass = default;
 				wndClass.cbSize = (uint)sizeof(WNDCLASSEXW);
-				wndClass.lpfnWndProc = pfnWndProc;
+				wndClass.lpfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)Marshal.GetFunctionPointerForDelegate(_wndProc);
 				wndClass.hInstance = PInvoke.GetModuleHandle(default(PWSTR));
 				wndClass.lpszClassName = pszClassName;
 
@@ -70,12 +69,12 @@ namespace Files.App.Storage
 						ITEMIDLIST* pidl = default;
 						IWindowsFolder folder = (IWindowsFolder)Folder;
 						PInvoke.SHGetIDListFromObject((IUnknown*)folder.ThisPtr.Get(), &pidl);
-						_pidl = pidl;
+						_targetItemPIDL = pidl;
 
 						SHChangeNotifyEntry changeNotifyEntry = default;
 						changeNotifyEntry.pidl = pidl;
 
-						_registrationID = PInvoke.SHChangeNotifyRegister(
+						_watcherRegID = PInvoke.SHChangeNotifyRegister(
 							hWnd,
 							SHCNRF_SOURCE.SHCNRF_ShellLevel | SHCNRF_SOURCE.SHCNRF_NewDelivery,
 							(int)SHCNE_ID.SHCNE_ALLEVENTS,
@@ -83,7 +82,7 @@ namespace Files.App.Storage
 							1,
 							&changeNotifyEntry);
 
-						if (_registrationID is 0U)
+						if (_watcherRegID is 0U)
 							break;
 					}
 					break;
@@ -113,8 +112,8 @@ namespace Files.App.Storage
 
 		public void Dispose()
 		{
-			PInvoke.SHChangeNotifyDeregister(_registrationID);
-			PInvoke.CoTaskMemFree(_pidl);
+			PInvoke.SHChangeNotifyDeregister(_watcherRegID);
+			PInvoke.CoTaskMemFree(_targetItemPIDL);
 			PInvoke.CoUninitialize();
 			PInvoke.PostQuitMessage(0);
 		}
