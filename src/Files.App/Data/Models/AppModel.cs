@@ -4,6 +4,8 @@
 using Microsoft.UI.Xaml.Controls;
 using System.Runtime.InteropServices;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Win32;
+using Windows.Win32.Foundation;
 
 namespace Files.App.Data.Models
 {
@@ -127,9 +129,8 @@ namespace Files.App.Data.Models
 
 		/// <summary>
 		/// Gets or sets a value indicating the AppWindow DPI.
-		/// TODO update value if the DPI changes
 		/// </summary>
-		private float _AppWindowDPI = Win32PInvoke.GetDpiForWindow(MainWindow.Instance.WindowHandle) / 96f;
+		private float _AppWindowDPI = PInvoke.GetDpiForWindow((HWND)MainWindow.Instance.WindowHandle) / 96f;
 		public float AppWindowDPI
 		{
 			get => _AppWindowDPI;

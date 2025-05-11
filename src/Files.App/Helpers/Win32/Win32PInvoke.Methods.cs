@@ -76,11 +76,6 @@ namespace Files.App.Helpers
 			IntPtr hEvent
 		);
 
-		[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern int GetDpiForWindow(
-			IntPtr hwnd
-		);
-
 		[DllImport("ole32.dll")]
 		public static extern uint CoWaitForMultipleObjects(
 			uint dwFlags,
