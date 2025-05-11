@@ -226,3 +226,4 @@ _SICHINTF
 RoGetAgileReference
 IQueryInfo
 QITIPF_FLAGS
+GetKeyboardState

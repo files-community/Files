@@ -228,11 +228,6 @@ namespace Files.App.Helpers
 			IntPtr keyboardLayout
 		);
 
-		[DllImport("user32.dll")]
-		public static extern bool GetKeyboardState(
-			byte[] lpKeyState
-		);
-
 		[DllImport("user32.dll", CharSet = CharSet.Auto)]
 		public static extern IntPtr GetKeyboardLayout
 		(

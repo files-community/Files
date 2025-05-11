@@ -4,6 +4,7 @@
 using System.Collections.Frozen;
 using System.Runtime.InteropServices;
 using System.Text;
+using Windows.Win32;
 using Forms = System.Windows.Forms;
 
 namespace Files.App.Data.Commands
@@ -374,7 +375,7 @@ namespace Files.App.Data.Commands
 			var state = new byte[256];
 
 			// Get the current keyboard state
-			if (!Win32PInvoke.GetKeyboardState(state))
+			if (!PInvoke.GetKeyboardState(state))
 				return buffer.ToString();
 
 			// Convert the key to its virtual key code
