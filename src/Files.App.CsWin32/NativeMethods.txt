@@ -227,3 +227,4 @@ RoGetAgileReference
 IQueryInfo
 QITIPF_FLAGS
 GetKeyboardState
+MapVirtualKey

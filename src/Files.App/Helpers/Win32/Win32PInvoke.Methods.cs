@@ -235,12 +235,6 @@ namespace Files.App.Helpers
 		);
 
 		[DllImport("user32.dll")]
-		public static extern uint MapVirtualKey(
-			uint code,
-			uint mapType
-		);
-
-		[DllImport("user32.dll")]
 		public static extern bool TranslateMessage(
 			ref MSG lpMsg
 		);

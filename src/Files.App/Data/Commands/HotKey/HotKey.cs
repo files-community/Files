@@ -382,7 +382,7 @@ namespace Files.App.Data.Commands
 			var virtualKey = (uint)key;
 
 			// Map the virtual key to a scan code
-			var scanCode = Win32PInvoke.MapVirtualKey(virtualKey, 0);
+			var scanCode = PInvoke.MapVirtualKey(virtualKey, 0);
 
 			// Get the active keyboard layout
 			var keyboardLayout = Win32PInvoke.GetKeyboardLayout(0);
