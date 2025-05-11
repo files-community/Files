@@ -385,7 +385,7 @@ namespace Files.App.Data.Commands
 			var scanCode = PInvoke.MapVirtualKey(virtualKey, 0);
 
 			// Get the active keyboard layout
-			var keyboardLayout = Win32PInvoke.GetKeyboardLayout(0);
+			var keyboardLayout = PInvoke.GetKeyboardLayout(0);
 
 			if (Win32PInvoke.ToUnicodeEx(virtualKey, scanCode, state, buffer, buffer.Capacity, 0, keyboardLayout) > 0)
 				return buffer[^1].ToString();

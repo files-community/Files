@@ -228,12 +228,6 @@ namespace Files.App.Helpers
 			IntPtr keyboardLayout
 		);
 
-		[DllImport("user32.dll", CharSet = CharSet.Auto)]
-		public static extern IntPtr GetKeyboardLayout
-		(
-			uint idThread
-		);
-
 		[DllImport("user32.dll")]
 		public static extern bool TranslateMessage(
 			ref MSG lpMsg

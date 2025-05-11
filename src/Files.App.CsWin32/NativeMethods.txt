@@ -228,3 +228,4 @@ IQueryInfo
 QITIPF_FLAGS
 GetKeyboardState
 MapVirtualKey
+GetKeyboardLayout
