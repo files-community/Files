@@ -8,6 +8,13 @@ namespace Files.App.Data.Items
 	[Obsolete("Remove once Omnibar goes out of experimental.")]
 	public sealed partial class NavigationBarSuggestionItem : ObservableObject, IOmnibarTextMemberPathProvider
 	{
+		private object? _Icon;
+		public object? Icon
+		{
+			get => _Icon;
+			set => SetProperty(ref _Icon, value);
+		}
+
 		private string? _Text;
 		public string? Text
 		{
