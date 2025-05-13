@@ -140,24 +140,11 @@ namespace Files.App.Helpers
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct TOKEN_USER
-		{
-			public SID_AND_ATTRIBUTES User;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
 		public struct SID_AND_ATTRIBUTES
 		{
 			public IntPtr Sid;
 
 			public uint Attributes;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct CRYPTOAPI_BLOB
-		{
-			public uint cbData;
-			public IntPtr pbData;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -210,17 +197,6 @@ namespace Files.App.Helpers
 
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 14)]
 			public string cAlternateFileName;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct MSG
-		{
-			public IntPtr hwnd;
-			public uint message;
-			public IntPtr wParam;
-			public IntPtr lParam;
-			public uint time;
-			public System.Drawing.Point pt;
 		}
 	}
 }
