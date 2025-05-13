@@ -44,7 +44,8 @@ namespace Files.App.Storage
 		{
 			thumbnailData = null;
 
-			using ComPtr<IShellItemImageFactory> pShellItemImageFactory = storable.ThisPtr.As<IShellItemImageFactory>();
+			using ComPtr<IShellItemImageFactory> pShellItemImageFactory = default;
+			storable.ThisPtr.As(pShellItemImageFactory.GetAddressOf());
 			if (pShellItemImageFactory.IsNull)
 				return HRESULT.E_NOINTERFACE;
 

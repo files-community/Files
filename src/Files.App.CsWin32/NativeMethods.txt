@@ -45,7 +45,6 @@ RemoveDirectoryFromApp
 GetKeyState
 CreateDirectoryFromApp
 WNetCancelConnection2
-NET_USE_CONNECT_FLAGS
 NETRESOURCEW
 WNetAddConnection3
 CREDENTIALW
@@ -78,7 +77,6 @@ GetAce
 SetEntriesInAcl
 ACL_SIZE_INFORMATION
 DeleteAce
-EXPLICIT_ACCESS
 ACCESS_ALLOWED_ACE
 LookupAccountSid
 GetComputerName
@@ -133,7 +131,6 @@ ShellExecuteEx
 CoTaskMemFree
 QueryDosDevice
 DeviceIoControl
-GetLastError
 CreateFile
 GetVolumeInformation
 COMPRESSION_FORMAT
