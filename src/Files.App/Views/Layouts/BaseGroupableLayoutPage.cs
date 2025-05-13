@@ -312,6 +312,11 @@ namespace Files.App.Views.Layouts
 					await CommitRenameAsync(textBox);
 					e.Handled = true;
 					break;
+				case VirtualKey.Home:
+					textBox.SelectionStart = 0;
+					textBox.SelectionLength = 0;
+					e.Handled = true;
+					break;
 				case VirtualKey.Up:
 					if (!isShiftPressed)
 						textBox.SelectionStart = 0;
