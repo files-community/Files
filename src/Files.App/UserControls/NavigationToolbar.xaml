@@ -380,14 +380,18 @@
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
-							<ContentPresenter Grid.Column="0">
-								<controls:ThemedIcon Style="{ThemeResource App.ThemedIcons.Filter}" />
-							</ContentPresenter>
+							<Viewbox
+								Grid.Column="0"
+								Width="16"
+								Height="16">
+								<ContentPresenter Content="{x:Bind Icon, Mode=OneWay}" />
+							</Viewbox>
 
 							<!--  Primary Title  -->
 							<TextBlock
 								x:Name="PrimaryDisplayBlock"
 								Grid.Column="1"
+								VerticalAlignment="Center"
 								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
 								MaxLines="1"
 								TextTrimming="CharacterEllipsis"
@@ -399,6 +403,7 @@
 							<keyboard:KeyboardShortcut
 								x:Name="RightAlignedKeyboardShortcut"
 								Grid.Column="2"
+								VerticalAlignment="Center"
 								HotKeys="{x:Bind HotKeys, Mode=OneWay}" />
 						</Grid>
 					</DataTemplate>
