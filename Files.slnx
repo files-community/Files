@@ -75,6 +75,12 @@
     </Project>
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/Files.App.UnitTests/Files.App.UnitTests.csproj" Id="dcd7e0a5-b198-4359-ab3b-1ca130997337">
+      <Platform Solution="*|arm64" Project="ARM64" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+      <Deploy />
+    </Project>
     <Project Path="tests/Files.App.UITests/Files.App.UITests.csproj">
       <Platform Solution="*|arm64" Project="arm64" />
       <Platform Solution="*|x64" Project="x64" />
