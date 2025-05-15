@@ -384,7 +384,7 @@
 								Grid.Column="0"
 								Width="16"
 								Height="16">
-								<ContentPresenter Content="{x:Bind Icon, Mode=OneWay}" />
+								<ContentPresenter Content="{x:Bind Icon, Mode=OneWay}" Foreground="{ThemeResource App.Theme.IconBaseBrush}" />
 							</Viewbox>
 
 							<!--  Primary Title  -->
