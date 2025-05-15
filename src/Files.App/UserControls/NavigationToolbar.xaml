@@ -375,15 +375,17 @@
 					<DataTemplate x:DataType="dataitems:NavigationBarSuggestionItem">
 						<Grid ColumnSpacing="12">
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="16" />
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
 							<Viewbox
+								x:Name="OmnibarCommandPaletteModeSuggestionItemIconViewbox"
 								Grid.Column="0"
 								Width="16"
-								Height="16">
+								Height="16"
+								x:Load="{x:Bind Icon, Converter={StaticResource NullToFalseConverter}, Mode=OneWay}">
 								<ContentPresenter Content="{x:Bind Icon, Mode=OneWay}" Foreground="{ThemeResource App.Theme.IconBaseBrush}" />
 							</Viewbox>
 
