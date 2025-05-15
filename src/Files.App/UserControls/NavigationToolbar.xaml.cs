@@ -278,6 +278,20 @@ namespace Files.App.UserControls
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
 			{
+				if (args.SelectedItem is not NavigationBarSuggestionItem item || item.Text is not { } commandText)
+					return;
+
+				var command = Commands[commandText];
+				if (command == Commands.None)
+					await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
+						string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), commandText));
+				else if (!command.IsExecutable)
+					await DialogDisplayHelper.ShowDialogAsync(Strings.CommandNotExecutable.GetLocalizedResource(),
+						string.Format(Strings.CommandNotExecutableContent.GetLocalizedResource(), command.Code));
+				else
+					await command.ExecuteAsync();
+
+				ViewModel.OmnibarCommandPaletteModeText = string.Empty;
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 			{
