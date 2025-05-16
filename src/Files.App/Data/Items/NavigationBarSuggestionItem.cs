@@ -2,25 +2,25 @@
 // Licensed under the MIT License.
 
 using Files.App.Controls;
+using Microsoft.UI.Xaml;
 
 namespace Files.App.Data.Items
 {
 	[Obsolete("Remove once Omnibar goes out of experimental.")]
 	public sealed partial class NavigationBarSuggestionItem : ObservableObject, IOmnibarTextMemberPathProvider
 	{
+		// Obsolete but left as is for backwards compatibility
 		private object? _Icon;
-		public object? Icon
-		{
-			get => _Icon;
-			set => SetProperty(ref _Icon, value);
-		}
+		public object? Icon { get => _Icon; set => SetProperty(ref _Icon, value); }
+
+		private Style? _ThemedIconStyle;
+		public Style? ThemedIconStyle { get => _ThemedIconStyle; set => SetProperty(ref _ThemedIconStyle, value); }
+
+		private string? _Glyph;
+		public string? Glyph { get => _Glyph; set => SetProperty(ref _Glyph, value); }
 
 		private string? _Text;
-		public string? Text
-		{
-			get => _Text;
-			set => SetProperty(ref _Text, value);
-		}
+		public string? Text { get => _Text; set => SetProperty(ref _Text, value); }
 
 		private string? _PrimaryDisplay;
 		public string? PrimaryDisplay
