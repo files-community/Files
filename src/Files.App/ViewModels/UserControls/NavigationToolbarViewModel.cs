@@ -1135,12 +1135,9 @@ namespace Files.App.ViewModels.UserControls
 		public void PopulateOmnibarSuggestionsForCommandPaletteMode()
 		{
 			OmnibarCommandPaletteModeText ??= string.Empty;
-
 			OmnibarCommandPaletteModeSuggestionItems.Clear();
 
-			IList<NavigationBarSuggestionItem>? suggestions = null;
-
-			suggestions = [.. Commands.Where(command =>
+			var suggestionItems = Commands.Where(command =>
 				command.IsExecutable &&
 				command.IsAccessibleGlobally &&
 				(command.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase) ||
@@ -1148,14 +1145,16 @@ namespace Files.App.ViewModels.UserControls
 			.Select(command => new NavigationBarSuggestionItem()
 			{
 				Icon = command.Icon,
+				ThemedIconStyle = command.Glyph.ToThemedIconStyle(),
+				Glyph = command.Glyph.BaseGlyph,
 				Text = command.Code.ToString(),
 				PrimaryDisplay = command.Description,
 				HotKeys = command.HotKeys,
 				SearchText = OmnibarCommandPaletteModeText,
-			})];
+			});
 
-			foreach (var suggestionItem in suggestions)
-				OmnibarCommandPaletteModeSuggestionItems.Add(suggestionItem);
+			foreach (var item in suggestionItems)
+				OmnibarCommandPaletteModeSuggestionItems.Add(item);
 		}
 
 		[Obsolete("Remove once Omnibar goes out of experimental.")]

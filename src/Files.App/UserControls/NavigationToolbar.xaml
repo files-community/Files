@@ -27,6 +27,7 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<converters:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />
+			<converters:NullToVisibilityCollapsedConverter x:Key="NullToVisibilityCollapsedConverter" />
 			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 
 			<ResourceDictionary.MergedDictionaries>
@@ -380,14 +381,15 @@
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
-							<Viewbox
-								x:Name="OmnibarCommandPaletteModeSuggestionItemIconViewbox"
-								Grid.Column="0"
-								Width="16"
-								Height="16"
-								x:Load="{x:Bind Icon, Converter={StaticResource NullToFalseConverter}, Mode=OneWay}">
-								<ContentPresenter Content="{x:Bind Icon, Mode=OneWay}" Foreground="{ThemeResource App.Theme.IconBaseBrush}" />
-							</Viewbox>
+							<Grid Grid.Column="0">
+								<Viewbox
+									Width="16"
+									Height="16"
+									Visibility="{x:Bind Glyph, Converter={StaticResource NullToVisibilityCollapsedConverter}}">
+									<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="{x:Bind Glyph}" />
+								</Viewbox>
+								<controls:ThemedIcon Style="{x:Bind ThemedIconStyle}" Visibility="{x:Bind ThemedIconStyle, Converter={StaticResource NullToVisibilityCollapsedConverter}}" />
+							</Grid>
 
 							<!--  Primary Title  -->
 							<TextBlock
@@ -406,7 +408,7 @@
 								x:Name="RightAlignedKeyboardShortcut"
 								Grid.Column="2"
 								VerticalAlignment="Center"
-								HotKeys="{x:Bind HotKeys, Mode=OneWay}" />
+								HotKeys="{x:Bind HotKeys}" />
 						</Grid>
 					</DataTemplate>
 				</controls:OmnibarMode.SuggestionItemTemplate>
