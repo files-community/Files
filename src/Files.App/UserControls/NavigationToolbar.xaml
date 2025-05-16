@@ -371,7 +371,8 @@
 				PlaceholderText="{helpers:ResourceString Name=OmnibarCommandPaletteModeTextPlaceholder}"
 				SuggestionItemsSource="{x:Bind ViewModel.OmnibarCommandPaletteModeSuggestionItems, Mode=OneWay}"
 				Text="{x:Bind ViewModel.OmnibarCommandPaletteModeText, Mode=TwoWay}"
-				TextMemberPath="Text">
+				TextMemberPath="Text"
+				UpdateTextOnSelect="False">
 				<controls:OmnibarMode.SuggestionItemTemplate>
 					<DataTemplate x:DataType="dataitems:NavigationBarSuggestionItem">
 						<Grid ColumnSpacing="12">
