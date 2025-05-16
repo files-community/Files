@@ -27,6 +27,7 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<converters:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />
+			<converters:NullToVisibilityCollapsedConverter x:Key="NullToVisibilityCollapsedConverter" />
 			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 
 			<ResourceDictionary.MergedDictionaries>
@@ -383,42 +384,51 @@
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IconType=Outline}"
 				ModeName="{x:Bind Commands.OpenCommandPalette.LabelWithHotKey, Mode=OneWay}"
-				PlaceholderText="{helpers:ResourceString Name=OmnibarCommandPaletteModeTextPlaceholder}">
-				<!--<controls:OmnibarMode.SuggestionItemTemplate>
-					<DataTemplate x:DataType="data:OmnibarPaletteSuggestionItem">
-						<Grid Height="48" ColumnSpacing="12">
+				PlaceholderText="{helpers:ResourceString Name=OmnibarCommandPaletteModeTextPlaceholder}"
+				SuggestionItemsSource="{x:Bind ViewModel.OmnibarCommandPaletteModeSuggestionItems, Mode=OneWay}"
+				Text="{x:Bind ViewModel.OmnibarCommandPaletteModeText, Mode=TwoWay}"
+				TextMemberPath="Text"
+				UpdateTextOnSelect="False">
+				<controls:OmnibarMode.SuggestionItemTemplate>
+					<DataTemplate x:DataType="dataitems:NavigationBarSuggestionItem">
+						<Grid ColumnSpacing="12">
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="16" />
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
-							<controls:ThemedIcon
-								Width="20"
-								Height="20"
+
+							<Grid Grid.Column="0">
+								<Viewbox
+									Width="16"
+									Height="16"
+									Visibility="{x:Bind Glyph, Converter={StaticResource NullToVisibilityCollapsedConverter}}">
+									<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="{x:Bind Glyph}" />
+								</Viewbox>
+								<controls:ThemedIcon Style="{x:Bind ThemedIconStyle}" Visibility="{x:Bind ThemedIconStyle, Converter={StaticResource NullToVisibilityCollapsedConverter}}" />
+							</Grid>
+
+							<!--  Primary Title  -->
+							<TextBlock
+								x:Name="PrimaryDisplayBlock"
+								Grid.Column="1"
 								VerticalAlignment="Center"
-								Style="{StaticResource App.ThemedIcons.Actions.Copying}" />
-							<StackPanel Grid.Column="1" VerticalAlignment="Center">
-								<TextBlock
-									Style="{StaticResource BodyStrongTextBlockStyle}"
-									Text="{x:Bind Title}"
-									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap" />
-								<TextBlock
-									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-									Style="{StaticResource CaptionTextBlockStyle}"
-									Text="{x:Bind Description}"
-									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap" />
-							</StackPanel>
-							<StackPanel Grid.Column="2" VerticalAlignment="Center">
-								<TextBlock
-									Text="{x:Bind HotKeys}"
-									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap" />
-							</StackPanel>
+								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
+								MaxLines="1"
+								TextTrimming="CharacterEllipsis"
+								TextWrapping="NoWrap">
+								<Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPreMatched, Mode=OneWay}" /><Run FontWeight="Bold" Text="{x:Bind PrimaryDisplayMatched, Mode=OneWay}" /><Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPostMatched, Mode=OneWay}" />
+							</TextBlock>
+
+							<!--  Keyboard Shortcuts  -->
+							<keyboard:KeyboardShortcut
+								x:Name="RightAlignedKeyboardShortcut"
+								Grid.Column="2"
+								VerticalAlignment="Center"
+								HotKeys="{x:Bind HotKeys}" />
 						</Grid>
 					</DataTemplate>
-				</controls:OmnibarMode.SuggestionItemTemplate>-->
+				</controls:OmnibarMode.SuggestionItemTemplate>
 			</controls:OmnibarMode>
 
 			<controls:OmnibarMode

@@ -256,19 +256,61 @@ namespace Files.App.UserControls
 
 		private async void Omnibar_QuerySubmitted(Omnibar sender, OmnibarQuerySubmittedEventArgs args)
 		{
-			await ViewModel.HandleItemNavigationAsync(args.Text);
+			if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
+			{
+				await ViewModel.HandleItemNavigationAsync(args.Text);
+			}
+			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
+			{
+			}
+			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
+			{
+			}
 		}
 
 		private async void Omnibar_SuggestionChosen(Omnibar sender, OmnibarSuggestionChosenEventArgs args)
 		{
-			if (args.SelectedItem is OmnibarPathModeSuggestionModel item &&
-				!string.IsNullOrEmpty(item.Path))
-				await ViewModel.HandleItemNavigationAsync(item.Path);
+			if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
+			{
+				if (args.SelectedItem is OmnibarPathModeSuggestionModel item &&
+					!string.IsNullOrEmpty(item.Path))
+					await ViewModel.HandleItemNavigationAsync(item.Path);
+			}
+			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
+			{
+				if (args.SelectedItem is not NavigationBarSuggestionItem item || item.Text is not { } commandText)
+					return;
+
+				var command = Commands[commandText];
+				if (command == Commands.None)
+					await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
+						string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), commandText));
+				else if (!command.IsExecutable)
+					await DialogDisplayHelper.ShowDialogAsync(Strings.CommandNotExecutable.GetLocalizedResource(),
+						string.Format(Strings.CommandNotExecutableContent.GetLocalizedResource(), command.Code));
+				else
+					await command.ExecuteAsync();
+
+				Omnibar.ChangeMode(OmnibarPathMode);
+			}
+			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
+			{
+			}
 		}
 
 		private async void Omnibar_TextChanged(Omnibar sender, OmnibarTextChangedEventArgs args)
 		{
-			await ViewModel.PopulateOmnibarSuggestionsForPathMode();
+			if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
+			{
+				await ViewModel.PopulateOmnibarSuggestionsForPathMode();
+			}
+			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
+			{
+				ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
+			}
+			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
+			{
+			}
 		}
 
 		private async void BreadcrumbBar_ItemClicked(Controls.BreadcrumbBar sender, Controls.BreadcrumbBarItemClickedEventArgs args)
