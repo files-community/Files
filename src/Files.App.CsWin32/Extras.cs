@@ -44,6 +44,20 @@ namespace Windows.Win32
 		public const int PixelFormat32bppARGB = 2498570;
 	}
 
+	namespace Foundation
+	{
+		public partial struct PCWSTR
+		{
+			public static unsafe PCWSTR FromString(string value)
+			{
+				fixed (char* p = value)
+				{
+					return new PCWSTR(p);
+				}
+			}
+		}
+	}
+
 	namespace Extras
 	{
 		[GeneratedComInterface, Guid("EACDD04C-117E-4E17-88F4-D1B12B0E3D89"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
