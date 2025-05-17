@@ -3,11 +3,11 @@
 
 using System.Drawing;
 using System.Runtime.InteropServices;
-using Vanara.InteropServices;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
 using Windows.Win32;
 using Windows.Win32.UI.WindowsAndMessaging;
+using Windows.Win32.UI.Shell;
+using Windows.Win32.Foundation;
+using Windows.Win32.Graphics.Gdi;
 
 namespace Files.App.Utils.Shell
 {
@@ -16,9 +16,9 @@ namespace Files.App.Utils.Shell
 	/// </summary>
 	public partial class ContextMenu : Win32ContextMenu, IDisposable
 	{
-		private Shell32.IContextMenu _cMenu;
+		private IContextMenu _cMenu;
 		
-		private User32.SafeHMENU _hMenu;
+		private HMENU _hMenu;
 		
 		private readonly ThreadWithMessageQueue _owningThread;
 
@@ -31,7 +31,7 @@ namespace Files.App.Utils.Shell
 
 		public List<string> ItemsPath { get; }
 
-		private ContextMenu(Shell32.IContextMenu cMenu, User32.SafeHMENU hMenu, IEnumerable<string> itemsPath, ThreadWithMessageQueue owningThread, Func<string, bool>? itemFilter)
+		private ContextMenu(IContextMenu cMenu, HMENU hMenu, IEnumerable<string> itemsPath, ThreadWithMessageQueue owningThread, Func<string, bool>? itemFilter)
 		{
 			_cMenu = cMenu;
 			_hMenu = hMenu;
@@ -64,10 +64,10 @@ namespace Files.App.Utils.Shell
 			{
 				var currentWindows = Win32Helper.GetDesktopWindows();
 
-				var pici = new Shell32.CMINVOKECOMMANDINFOEX
+				var pici = new CMINVOKECOMMANDINFO
 				{
-					lpVerb = new SafeResourceId(verb, CharSet.Ansi),
-					nShow = ShowWindowCommand.SW_SHOWNORMAL,
+					lpVerb = PCSTR.FromString(verb),
+					nShow = (int)SHOW_WINDOW_CMD.SW_SHOWNORMAL
 				};
 
 				pici.cbSize = (uint)Marshal.SizeOf(pici);
@@ -93,15 +93,15 @@ namespace Files.App.Utils.Shell
 			try
 			{
 				var currentWindows = Win32Helper.GetDesktopWindows();
-				var pici = new Shell32.CMINVOKECOMMANDINFOEX
+				var pici = new CMINVOKECOMMANDINFO
 				{
-					lpVerb = Macros.MAKEINTRESOURCE(itemID),
-					nShow = ShowWindowCommand.SW_SHOWNORMAL,
+					lpVerb = PCSTR.FromInt(itemID),
+					nShow = (int)SHOW_WINDOW_CMD.SW_SHOWNORMAL,
 				};
 
 				pici.cbSize = (uint)Marshal.SizeOf(pici);
 				if (workingDirectory is not null)
-					pici.lpDirectoryW = workingDirectory;
+					pici.lpDirectory = PCSTR.FromString(workingDirectory);
 
 				await _owningThread.PostMethod(() => _cMenu.InvokeCommand(pici));
 				Win32Helper.BringToForeground(currentWindows);
@@ -161,9 +161,9 @@ namespace Files.App.Utils.Shell
 				// NOTE: The items are all in the same folder
 				using var sf = shellItems[0].Parent;
 
-				Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(default, shellItems);
-				var hMenu = User32.CreatePopupMenu();
-				menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, (Shell32.CMF)flags);
+				IContextMenu menu = sf.GetChildrenUIObjects<IContextMenu>(default, shellItems);
+				var hMenu = PInvoke.CreatePopupMenu();
+				menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
 				var contextMenu = new ContextMenu(menu, hMenu, shellItems.Select(x => x.ParsingName), owningThread, itemFilter);
 				contextMenu.EnumMenuItems(hMenu, contextMenu.Items);
 
@@ -181,18 +181,18 @@ namespace Files.App.Utils.Shell
 			using var cMenu = await GetContextMenuForFiles(new string[] { $@"{Constants.UserEnvironmentPaths.SystemDrivePath}\" }, PInvoke.CMF_NORMAL);
 		}
 
-		private void EnumMenuItems(Vanara.PInvoke.HMENU hMenu, List<Win32ContextMenuItem> menuItemsResult, bool loadSubenus = false)
+		private void EnumMenuItems(HMENU hMenu, List<Win32ContextMenuItem> menuItemsResult, bool loadSubenus = false)
 		{
-			var itemCount = User32.GetMenuItemCount(hMenu);
+			var itemCount = PInvoke.GetMenuItemCount(hMenu);
 
-			var menuItemInfo = new User32.MENUITEMINFO()
+			var menuItemInfo = new MENUITEMINFOW()
 			{
 				fMask =
-					User32.MenuItemInfoMask.MIIM_BITMAP |
-					User32.MenuItemInfoMask.MIIM_FTYPE |
-					User32.MenuItemInfoMask.MIIM_STRING |
-					User32.MenuItemInfoMask.MIIM_ID |
-					User32.MenuItemInfoMask.MIIM_SUBMENU,
+					MENU_ITEM_MASK.MIIM_BITMAP |
+					MENU_ITEM_MASK.MIIM_FTYPE |
+					MENU_ITEM_MASK.MIIM_STRING |
+					MENU_ITEM_MASK.MIIM_ID |
+					MENU_ITEM_MASK.MIIM_SUBMENU,
 			};
 
 			menuItemInfo.cbSize = (uint)Marshal.SizeOf(menuItemInfo);
@@ -200,15 +200,15 @@ namespace Files.App.Utils.Shell
 			for (uint index = 0; index < itemCount; index++)
 			{
 				var menuItem = new ContextMenuItem();
-				var container = new SafeCoTaskMemString(512);
-				var cMenu2 = _cMenu as Shell32.IContextMenu2;
+				var container = new Marshal.SafeCoTaskMemString(512);
+				var cMenu2 = _cMenu as IContextMenu2;
 
 				menuItemInfo.dwTypeData = (IntPtr)container;
 
 				// See also, https://devblogs.microsoft.com/oldnewthing/20040928-00/?p=37723
 				menuItemInfo.cch = (uint)container.Capacity - 1;
 
-				var result = User32.GetMenuItemInfo(hMenu, index, true, ref menuItemInfo);
+				var result = PInvoke.GetMenuItemInfo(new , index, true, ref menuItemInfo);
 				if (!result)
 				{
 					container.Dispose();
@@ -234,7 +234,7 @@ namespace Files.App.Utils.Shell
 						continue;
 					}
 
-					if (menuItemInfo.hbmpItem != HBITMAP.NULL && !Enum.IsDefined(typeof(HBITMAP_HMENU), ((IntPtr)menuItemInfo.hbmpItem).ToInt64()))
+					if (menuItemInfo.hbmpItem != HBITMAP.Null && !Enum.IsDefined(typeof(HBITMAP_HMENU), ((IntPtr)menuItemInfo.hbmpItem).ToInt64()))
 					{
 						using var bitmap = Win32Helper.GetBitmapFromHBitmap(menuItemInfo.hbmpItem);
 
@@ -248,7 +248,7 @@ namespace Files.App.Utils.Shell
 						}
 					}
 
-					if (menuItemInfo.hSubMenu != Vanara.PInvoke.HMENU.NULL)
+					if (menuItemInfo.hSubMenu != HMENU.Null)
 					{
 						Debug.WriteLine("Item {0}: has submenu", index);
 						var subItems = new List<Win32ContextMenuItem>();
@@ -267,7 +267,7 @@ namespace Files.App.Utils.Shell
 						{
 							try
 							{
-								cMenu2?.HandleMenuMsg((uint)User32.WindowMessage.WM_INITMENUPOPUP, (IntPtr)hSubMenu, new IntPtr(index));
+								cMenu2?.HandleMenuMsg(PInvoke.WM_INITMENUPOPUP, (IntPtr)hSubMenu, new IntPtr(index));
 							}
 							catch (Exception ex) when (ex is InvalidCastException or ArgumentException)
 							{
@@ -316,7 +316,7 @@ namespace Files.App.Utils.Shell
 			}
 		}
 
-		private static string? GetCommandString(Shell32.IContextMenu cMenu, uint offset, Shell32.GCS flags = Shell32.GCS.GCS_VERBW)
+		private static string? GetCommandString(IContextMenu cMenu, uint offset, GCS flags = GCS.GCS_VERBW)
 		{
 			// A workaround to avoid an AccessViolationException on some items,
 			// notably the "Run with graphic processor" menu item of NVIDIA cards
@@ -325,11 +325,11 @@ namespace Files.App.Utils.Shell
 				return null;
 			}
 
-			SafeCoTaskMemString? commandString = null;
+			PSTR? commandString = null;
 
 			try
 			{
-				commandString = new SafeCoTaskMemString(512);
+				commandString = new PSTR(512);
 				cMenu.GetCommandString(new IntPtr(offset), flags, IntPtr.Zero, commandString, (uint)commandString.Capacity - 1);
 				Debug.WriteLine("Verb {0}: {1}", offset, commandString);
 
@@ -374,7 +374,7 @@ namespace Files.App.Utils.Shell
 				// TODO: Free unmanaged resources (unmanaged objects) and override a finalizer below
 				if (_hMenu is not null)
 				{
-					User32.DestroyMenu(_hMenu);
+					PInvoke.DestroyMenu(_hMenu);
 					_hMenu = null;
 				}
 				if (_cMenu is not null)

@@ -602,6 +602,37 @@ namespace Files.App.Helpers
 			}
 		}
 
+		public static Bitmap? GetBitmapFromHBitmap(Windows.Win32.Graphics.Gdi.HBITMAP hBitmap)
+		{
+			try
+			{
+				Bitmap bmp = Image.FromHbitmap((IntPtr)hBitmap);
+				if (Image.GetPixelFormatSize(bmp.PixelFormat) < 32)
+					return bmp;
+
+				Rectangle bmBounds = new Rectangle(0, 0, bmp.Width, bmp.Height);
+				var bmpData = bmp.LockBits(bmBounds, ImageLockMode.ReadOnly, bmp.PixelFormat);
+
+				if (IsAlphaBitmap(bmpData))
+				{
+					var alpha = GetAlphaBitmapFromBitmapData(bmpData);
+
+					bmp.UnlockBits(bmpData);
+					bmp.Dispose();
+
+					return alpha;
+				}
+
+				bmp.UnlockBits(bmpData);
+
+				return bmp;
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
 		public static Shell32.ITaskbarList4? CreateTaskbarObject()
 		{
 			try
