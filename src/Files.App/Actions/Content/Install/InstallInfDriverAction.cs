@@ -10,7 +10,7 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> Strings.Install.GetLocalizedResource();
+			=> Strings.InstallDriver.GetLocalizedResource();
 		
 		public string Description
 			=> Strings.InstallInfDriverDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
