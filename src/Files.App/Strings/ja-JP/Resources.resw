@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>パスのコピー</value>
   </data>
+  <data name="CopyItemPath" xml:space="preserve">
+    <value>Copy item path</value>
+  </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>引用符付きでパスのコピー</value>
   </data>
@@ -163,7 +166,7 @@
     <value>スキップ</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>すべて選択</value>
+    <value>Select all</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>選択を反転</value>
@@ -214,7 +217,7 @@
     <value>すべてのファイルとフォルダーを表示する</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>ドット ファイルを表示する</value>
+    <value>Dot files</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>外観</value>
@@ -1089,7 +1092,10 @@
     <value>詳細およびプレビューのための情報ウィンドウを表示するかどうかを切り替える</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
-    <value>ツールバーの表示を切り替える</value>
+    <value>Toggle toolbar</value>
+  </data>
+  <data name="ToggleToolbarDescription" xml:space="preserve">
+    <value>Toggle visibility of the toolbar</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>プレビューを利用できません</value>
@@ -1392,7 +1398,7 @@
     <value>{0} 個の項目</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>閉じたタブを再度開く</value>
+    <value>Reopen tab</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>名前を変更</value>
@@ -1599,7 +1605,7 @@
     <value>すべての子オブジェクトのアクセス許可エントリを、このオブジェクトから継承可能なアクセス許可エントリに置き換えます</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
-    <value>現在のペインを閉じる</value>
+    <value>Close pane</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>コンパクト オーバーレイを開始</value>
@@ -2073,7 +2079,7 @@
     <value>すべての項目を復元</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Do you want to restore the {0, plural, one {selected item} other {{0} selected items}}?</value>
+    <value>{0, plural, other {{0} 項目}}を元に戻しますか？</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>選択した項目を復元</value>
@@ -2100,7 +2106,7 @@
     <value>エンコーディング</value>
   </data>
   <data name="EncodingDetected" xml:space="preserve">
-    <value>{0} (detected)</value>
+    <value>{0} (検出済み)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
     <value>パス</value>
@@ -2289,10 +2295,7 @@
     <value>コンテキスト メニューの設定</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>ファイル名拡張子を表示</value>
-  </data>
-  <data name="ShowHiddenItems" xml:space="preserve">
-    <value>隠しファイルを表示</value>
+    <value>File extensions</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>フォーマット</value>
@@ -2301,13 +2304,13 @@
     <value>ヘルプ</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>全画面表示に切り替える</value>
+    <value>Full screen</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
     <value>このタグを削除しますか？</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>すべて再生</value>
+    <value>Play</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>高さ</value>
@@ -2367,7 +2370,7 @@
     <value>サイズを大きくする</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>昇順と降順の切り替え</value>
+    <value>Sort direction</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>無効な名前です</value>
@@ -2379,37 +2382,37 @@
     <value>ビデオ</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
-    <value>プレビュー ポップアップを開く</value>
+    <value>Preview popup</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>コンパクト オーバーレイを切り替える</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>ブラウザーでオンライン ヘルプを開く</value>
+    <value>Open the online help page in your browser</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>全画面表示に切り替える</value>
+    <value>Toggle full screen mode</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>コンパクト オーバーレイを開始する</value>
+    <value>Enter compact overlay mode</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
-    <value>コンパクト オーバーレイを終了する</value>
+    <value>Exit compact overlay mode</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>コンパクト オーバーレイを切り替える</value>
+    <value>Toggle compact overlay mode</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>検索ボックスへ移動する</value>
+    <value>Start search in the OmniBar</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>隠しファイルを表示するかどうかを切り替える</value>
+    <value>Toggle visibility of hidden items</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>ドット ファイルを表示するかどうかを切り替える</value>
+    <value>Toggle visibility of dot files</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>ファイル名拡張子を表示するかどうかを切り替える</value>
+    <value>Toggle visibility of file extensions</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>ファイルをプレビューするためのプレビュー ウィンドウを表示する</value>
@@ -2418,7 +2421,7 @@
     <value>サイドバーを表示するかどうかを切り替える</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy {0, plural, one {item} other {items}} to clipboard</value>
+    <value>Copy selected {0, plural, one {item} other {items}} to clipboard</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
     <value>現在のディレクトリのパスをクリップボードにコピーする</value>
@@ -2433,46 +2436,49 @@
     <value>現在のディレクトリのパスを引用符付きでクリップボードにコピーする</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut {0, plural, one {item} other {items}} to clipboard</value>
+    <value>Cut selected {0, plural, one {item} other {items}} to clipboard</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste items from clipboard to current folder</value>
+    <value>Paste clipboard items to the current folder</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items from clipboard to current folder as shortcuts</value>
+    <value>Paste clipboard items to the current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items from clipboard to selected folder</value>
+    <value>Paste clipboard items to the selected folder</value>
+  </data>
+  <data name="PasteToSelectedFolder" xml:space="preserve">
+    <value>Paste to selected folder</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>{0, plural, other {項目}}を削除</value>
+    <value>Delete selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>新しいフォルダーを作成する</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Create new {0, plural, one {shortcut} other {shortcuts}} to selected {0, plural, one {item} other {items}}</value>
+    <value>選択した {0, plural, other {項目}} に {0, plural, other {項目のショートカット}}を新規作成する</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>任意の項目へのショートカットを作成する</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
-    <value>ごみ箱を空にする</value>
+    <value>Empty the contents of Recycle Bin</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
     <value>選択した項目の [フォーマット] メニューを開く</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restore selected {0, plural, one {item} other {items}} from recycle bin</value>
+    <value>ゴミ箱から {0, plural, other {項目}} を元に戻す</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
     <value>ごみ箱からすべての項目を復元する</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Open {0, plural, one {item} other {items}}</value>
+    <value>{0, plural, other {項目}}を開く</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Open {0, plural, one {item} other {items}} with selected application</value>
+    <value>選択したアプリケーションで {0, plural, other {項目}}を開く</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
     <value>検索した項目の親フォルダーを開く</value>
@@ -2487,28 +2493,28 @@
     <value>すべての項目を選択する</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>項目の選択を反転する</value>
+    <value>Invert selected items</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>項目の選択をクリアする</value>
+    <value>Clear selected items</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
     <value>項目の選択を切り替える</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Share selected {0, plural, one {file} other {files}} with others</value>
+    <value>選択した {0, plural, other {ファイル}}を他の人と共有</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Pin {0, plural, one {item} other {items}} to the Start Menu</value>
+    <value>スタート メニューに {0, plural, other {項目}}をピン留めする</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Unpin {0, plural, one {item} other {items}} from the Start Menu</value>
+    <value>スタート メニューから {0, plural, other {項目}}のピン留めを外す</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>Pin {0, plural, one {folder} other {folders}} to Sidebar</value>
+    <value>サイドバーに {0, plural, other {項目}}をピン留めする</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
-    <value>Unpin {0, plural, one {folder} other {folders}} from Sidebar</value>
+    <value>サイドバーから {0, plural, other {項目}}のピン留めを外す</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>選択した画像をデスクトップの背景に設定する</value>
@@ -2522,14 +2528,23 @@
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
     <value>選択した画像をアプリの背景に設定する</value>
   </data>
+  <data name="InstallFont" xml:space="preserve">
+    <value>Install font</value>
+  </data>
+  <data name="InstallDriver" xml:space="preserve">
+    <value>Install driver</value>
+  </data>
+  <data name="InstallCertificate" xml:space="preserve">
+    <value>Install certificate</value>
+  </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Install selected {0, plural, one {font} other {fonts}}</value>
+    <value>選択した {0, plural, other {フォント}}をインストールする</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Install {0, plural, one {driver} other {drivers}} using selected inf {0, plural, one {file} other {files}}</value>
+    <value>選択した {0, plural, other {INF ファイル}}から {0, plural, other {ドライバー}}をインストールする</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>Install selected {0, plural, one {certificate} other {certificates}}</value>
+    <value>選択した {0, plural, other {証明書}}をインストールする</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>選択したアプリケーションを管理者として実行する</value>
@@ -2685,13 +2700,13 @@
     <value>項目のグループ化順を切り替える</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
-    <value>新しいタブを開く</value>
+    <value>新しいタブ</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>ナビゲーション履歴を戻る</value>
+    <value>Navigate backward</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>ナビゲーション履歴を進む</value>
+    <value>Navigate forward</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>1つ上のフォルダーに移動する</value>
@@ -2724,7 +2739,7 @@
     <value>現在のタブを含むすべてのタブを閉じる</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>最後に閉じたタブを再度開く</value>
+    <value>Reopen recently closed tab</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
     <value>前のタブに移動する</value>
@@ -2736,13 +2751,13 @@
     <value>現在のタブを閉じる</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>現在のペインを閉じる</value>
+    <value>Close the active pane</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
     <value>別のペインに移動</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>現在のペインでないペインに移動する</value>
+    <value>Switch focus to the other pane</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>サイドバーの表示を切り替える</value>
@@ -2950,13 +2965,13 @@
     <value>タグなし</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>前のタブに移動</value>
+    <value>Previous tab</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>次のタブに移動</value>
+    <value>Next tab</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>現在のタブを閉じる</value>
+    <value>Close tab</value>
   </data>
   <data name="EditPath" xml:space="preserve">
     <value>パスを編集</value>
@@ -2986,7 +3001,7 @@
     <value>項目選択時にチェック ボックスを表示する</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>パス バーに移動する</value>
+    <value>Edit path in the OmniBar</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>新しい項目を作成する</value>
@@ -3001,7 +3016,7 @@
     <value>完全に削除</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete {0, plural, one {item} other {items}} permanently</value>
+    <value>Delete selected {0, plural, one {item} other {items}} permanently</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>選択したメディア ファイルを再生する</value>
@@ -3121,7 +3136,7 @@
     <value>Create a folder with the currently selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>プロパティを開く</value>
+    <value>プロパティ</value>
   </data>
   <data name="OpenClassicProperties" xml:space="preserve">
     <value>エクスプローラーのプロパティを開く</value>
@@ -3266,7 +3281,7 @@
     <value>リポジトリの初期化</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Git リポジトリを初期化する</value>
+    <value>Initialize current folder as a git repository</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
     <value>リモート リポジトリ名</value>
@@ -3281,13 +3296,13 @@
     <value>項目をパスで並べ替える</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>新しいペインでフォルダーを開く</value>
+    <value>Open selected directory in a new pane</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>新しいタブでフォルダーを開く</value>
+    <value>Open selected directory in a new tab</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>新しいウィンドウでフォルダーを開く</value>
+    <value>Open selected directory in a new window</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
     <value>すべて開く</value>
@@ -3312,10 +3327,10 @@
     <value>コマンド {0} は現在実行できません。</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>コマンド パレット</value>
+    <value>Command Palette</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>コマンド パレットを開く</value>
+    <value>Open Command Palette in the OmniBar</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>作業フォルダー:</value>
@@ -3740,7 +3755,7 @@
     <value>ファイルとフォルダーを一緒に並べ替える</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>ファイルとフォルダーを一緒に並べ替える</value>
+    <value>Sort files and folders in the same list</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
     <value>ファイルを先に並べ替える</value>
@@ -4001,16 +4016,16 @@
     <value>タブ操作メニュー</value>
   </data>
   <data name="AddVerticalPane" xml:space="preserve">
-    <value>縦にペインを追加</value>
+    <value>Vertical pane</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>縦にペインを追加する</value>
+    <value>Add vertical pane</value>
   </data>
   <data name="AddHorizontalPane" xml:space="preserve">
-    <value>横にペインを追加</value>
+    <value>Horizontal pane</value>
   </data>
   <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>横にペインを追加する</value>
+    <value>Add horizontal pane</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>縦に配置</value>
@@ -4103,10 +4118,10 @@
     <value>常に新しく作成したタブに表示を切り替える</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
-    <value>シェルフ ウィンドウの表示を切り替える</value>
+    <value>Toggle shelf pane</value>
   </data>
   <data name="ToggleShelfPaneDescription" xml:space="preserve">
-    <value>シェルフ ウィンドウの表示を切り替える</value>
+    <value>Toggle the visibility of the shelf pane</value>
   </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
     <value>アドレス バーにシェルフ ウィンドウの切り替えボタンを表示する</value>
