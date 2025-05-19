@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>ចម្លងទីតាំង</value>
   </data>
+  <data name="CopyItemPath" xml:space="preserve">
+    <value>Copy item path</value>
+  </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>ចម្លងផ្លូវទីតាំង</value>
   </data>
@@ -163,7 +166,7 @@
     <value>រំលង</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>ជ្រើស​​​ទាំង​អស់</value>
+    <value>Select all</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>បញ្ច្រាស់ការជ្រើសរើស​</value>
@@ -214,7 +217,7 @@
     <value>បង្ហាញឯកសារ និងថតដែលលាក់</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Dot files</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>រូបរាង</value>
@@ -1089,7 +1092,10 @@
     <value>បិទបើកផ្ទាំងព័ត៌មាន ដើម្បីមើលផ្ទាំងលម្អិត/មើលជាមុន</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
-    <value>បិទបើករបារឧបករណ៍</value>
+    <value>Toggle toolbar</value>
+  </data>
+  <data name="ToggleToolbarDescription" xml:space="preserve">
+    <value>Toggle visibility of the toolbar</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>មិនមានការមើលជាមុនទេ</value>
@@ -1392,7 +1398,7 @@
     <value>{0} items</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>បើកផ្ទាំងបានបិទឡើងវិញ</value>
+    <value>Reopen tab</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>ប្តូរឈ្មោះ</value>
@@ -1599,7 +1605,7 @@
     <value>Replace all child object permissions entries with inheritable permission entries from this object</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
-    <value>បិទផ្ទាំងសកម្ម</value>
+    <value>Close pane</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>ចូលត្រួលើគ្នាដែល</value>
@@ -2289,10 +2295,7 @@
     <value>ធាតុក្រាហ្វិក</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>Show file extensions</value>
-  </data>
-  <data name="ShowHiddenItems" xml:space="preserve">
-    <value>បង្ហាញធាតុដែលលាក់</value>
+    <value>File extensions</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>ទ្រង់ទ្រាយ</value>
@@ -2301,13 +2304,13 @@
     <value>ជំនួយ</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Toggle full screen</value>
+    <value>Full screen</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
     <value>Are you sure you want to delete this tag?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play all</value>
+    <value>Play</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>Height</value>
@@ -2367,7 +2370,7 @@
     <value>បង្កើនទំហំ</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Toggle sort direction</value>
+    <value>Sort direction</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>Invalid name</value>
@@ -2379,37 +2382,37 @@
     <value>Videos</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
-    <value>Launch preview popup</value>
+    <value>Preview popup</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Toggle compact overlay</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open online help page in browser</value>
+    <value>Open the online help page in your browser</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Toggle full screen</value>
+    <value>Toggle full screen mode</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>ចូលត្រួលើគ្នាដែល</value>
+    <value>Enter compact overlay mode</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
-    <value>Exit compact overlay</value>
+    <value>Exit compact overlay mode</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Toggle compact overlay</value>
+    <value>Toggle compact overlay mode</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>ទៅកាន់ប្រអប់ស្វែងរក</value>
+    <value>Start search in the OmniBar</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>បិទបើកថាតើត្រូវបង្ហាញធាតុដែលលាក់ឬអត់</value>
+    <value>Toggle visibility of hidden items</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Toggle whether to show dot files</value>
+    <value>Toggle visibility of dot files</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle whether to show file extensions</value>
+    <value>Toggle visibility of file extensions</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>បិទបើកផ្ទាំងមើលជាមុន ដើម្បីមើលការមើលឯកសារជាមុន</value>
@@ -2418,7 +2421,7 @@
     <value>Toggle whether to show sidebar</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy {0, plural, one {item} other {items}} to clipboard</value>
+    <value>Copy selected {0, plural, one {item} other {items}} to clipboard</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Copy path of selected items to the clipboard</value>
@@ -2433,19 +2436,22 @@
     <value>Copy path of selected items with quotes to the clipboard</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut {0, plural, one {item} other {items}} to clipboard</value>
+    <value>Cut selected {0, plural, one {item} other {items}} to clipboard</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste items from clipboard to current folder</value>
+    <value>Paste clipboard items to the current folder</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items from clipboard to current folder as shortcuts</value>
+    <value>Paste clipboard items to the current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items from clipboard to selected folder</value>
+    <value>Paste clipboard items to the selected folder</value>
+  </data>
+  <data name="PasteToSelectedFolder" xml:space="preserve">
+    <value>Paste to selected folder</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>Delete {0, plural, one {item} other {items}}</value>
+    <value>Delete selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>Create new folder</value>
@@ -2457,7 +2463,7 @@
     <value>Create new shortcut to any item</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
-    <value>ទទេរធុងសំរាម</value>
+    <value>Empty the contents of Recycle Bin</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
     <value>Open "Format Drive" menu for selected item</value>
@@ -2487,10 +2493,10 @@
     <value>Select all items</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Invert item selection</value>
+    <value>Invert selected items</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Clear item selection</value>
+    <value>Clear selected items</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
     <value>Toggle item selection</value>
@@ -2521,6 +2527,15 @@
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
     <value>Set selected picture as the app background</value>
+  </data>
+  <data name="InstallFont" xml:space="preserve">
+    <value>Install font</value>
+  </data>
+  <data name="InstallDriver" xml:space="preserve">
+    <value>Install driver</value>
+  </data>
+  <data name="InstallCertificate" xml:space="preserve">
+    <value>Install certificate</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Install selected {0, plural, one {font} other {fonts}}</value>
@@ -2688,10 +2703,10 @@
     <value>បើកទំព័រថេបថ្មី</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>ត្រលប់ក្រោយតាមប្រវត្តិ</value>
+    <value>Navigate backward</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>រុករកថយក្រោយក្នុងប្រវត្តិរុករក</value>
+    <value>Navigate forward</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>ត្រលប់ទៅមួយថតខាងលើ</value>
@@ -2724,7 +2739,7 @@
     <value>បិទផ្ទាំងទាំងអស់រួមទាំងផ្ទាំងបច្ចុប្បន្ន</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen last closed tab</value>
+    <value>Reopen recently closed tab</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
     <value>Move to the previous tab</value>
@@ -2736,13 +2751,13 @@
     <value>Close current tab</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>បិទផ្ទាំងសកម្ម</value>
+    <value>Close the active pane</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
     <value>Focus other pane</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Switch focus to the non active pane</value>
+    <value>Switch focus to the other pane</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Toggle the sidebar</value>
@@ -2950,13 +2965,13 @@
     <value>Untagged</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Moves to the previous tab</value>
+    <value>Previous tab</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Moves to the next tab</value>
+    <value>Next tab</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Closes current tab</value>
+    <value>Close tab</value>
   </data>
   <data name="EditPath" xml:space="preserve">
     <value>កែប្រែផ្លូវ</value>
@@ -2986,7 +3001,7 @@
     <value>Show checkboxes when selecting items</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus path bar</value>
+    <value>Edit path in the OmniBar</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Create new item</value>
@@ -3001,7 +3016,7 @@
     <value>Delete permanently</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete {0, plural, one {item} other {items}} permanently</value>
+    <value>Delete selected {0, plural, one {item} other {items}} permanently</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>Play the selected media files</value>
@@ -3121,7 +3136,7 @@
     <value>Create a folder with the currently selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>Open properties</value>
+    <value>លក្ខណៈសម្បត្តិ</value>
   </data>
   <data name="OpenClassicProperties" xml:space="preserve">
     <value>Open File Explorer properties</value>
@@ -3266,7 +3281,7 @@
     <value>Initialize repo</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Initialize a Git repository</value>
+    <value>Initialize current folder as a git repository</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
     <value>Remote Repository Name</value>
@@ -3281,13 +3296,13 @@
     <value>Sort items by path</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Open directory in new pane</value>
+    <value>Open selected directory in a new pane</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Open directory in new tab</value>
+    <value>Open selected directory in a new tab</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open directory in new window</value>
+    <value>Open selected directory in a new window</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
     <value>Open all</value>
@@ -3312,10 +3327,10 @@
     <value>The '{0}' command is not ready to be executed.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Command palette</value>
+    <value>Command Palette</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open command palette</value>
+    <value>Open Command Palette in the OmniBar</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Start in:</value>
@@ -3740,7 +3755,7 @@
     <value>Sort files and folders together</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>Sort files and folders together</value>
+    <value>Sort files and folders in the same list</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
     <value>Sort files first</value>
@@ -4001,16 +4016,16 @@
     <value>Tab actions menu</value>
   </data>
   <data name="AddVerticalPane" xml:space="preserve">
-    <value>Add vertical pane</value>
+    <value>Vertical pane</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Add a vertical pane</value>
+    <value>Add vertical pane</value>
   </data>
   <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Add horizontal pane</value>
+    <value>Horizontal pane</value>
   </data>
   <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Add a horizontal pane</value>
+    <value>Add horizontal pane</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Arrange vertically</value>
@@ -4103,10 +4118,10 @@
     <value>Always switch focus to newly created tab</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
-    <value>Toggle the shelf pane</value>
+    <value>Toggle shelf pane</value>
   </data>
   <data name="ToggleShelfPaneDescription" xml:space="preserve">
-    <value>Toggle the shelf pane visibility</value>
+    <value>Toggle the visibility of the shelf pane</value>
   </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
     <value>Show shelf pane toggle in address bar</value>
