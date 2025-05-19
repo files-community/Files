@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Copia la ruta</value>
   </data>
+  <data name="CopyItemPath" xml:space="preserve">
+    <value>Copia la ruta de l'element</value>
+  </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Copia la ruta amb cometes</value>
   </data>
@@ -214,7 +217,7 @@
     <value>Mostra fitxers i carpetes ocults</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Mostra els fitxers de punt</value>
+    <value>Mostra els fitxers que comencen amb un punt</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Aparença</value>
@@ -1091,6 +1094,9 @@
   <data name="ToggleToolbar" xml:space="preserve">
     <value>Commuta la barra d'eines</value>
   </data>
+  <data name="ToggleToolbarDescription" xml:space="preserve">
+    <value>Commuta la visibilitat de la barra d'eines</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Cap visualització prèvia disponible</value>
   </data>
@@ -1392,7 +1398,7 @@
     <value>{0} elements</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>Torna a obrir la pestanya tancada</value>
+    <value>Torna a obrir la pestanya</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>Canvia el nom</value>
@@ -1599,7 +1605,7 @@
     <value>Substitueix totes les entrades de permisos dels objectes secundaris per entrades de permisos heretables d'aquest objecte</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
-    <value>Tanca el panell actiu</value>
+    <value>Tanca el panell</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Mode superposició compacta</value>
@@ -2289,10 +2295,7 @@
     <value>Opcions del menú contextual</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>Mostra les extensions dels fitxers</value>
-  </data>
-  <data name="ShowHiddenItems" xml:space="preserve">
-    <value>Mostra elements ocults</value>
+    <value>Extensions de fitxer</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>Format</value>
@@ -2301,13 +2304,13 @@
     <value>Ajuda</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Canvia pantalla completa</value>
+    <value>Pantalla completa</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
     <value>Esteu segur que voleu esborrar aquesta etiqueta?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Reprodueix-ho tot</value>
+    <value>Reprodueix</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>Alçada</value>
@@ -2367,7 +2370,7 @@
     <value>Augmenta la mida</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Canvia la direcció d'ordenació</value>
+    <value>Direcció d'ordenació</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>Nom no vàlid</value>
@@ -2379,7 +2382,7 @@
     <value>Vídeos</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
-    <value>Executa la finestra emergent de vista prèvia</value>
+    <value>Finestra emergent de previsualització</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Canvia la superposició compacta</value>
@@ -2388,28 +2391,28 @@
     <value>Obre la pàgina d'ajuda en línia al navegador</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Canvia pantalla completa</value>
+    <value>Commuta el mode de pantalla completa</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>Mode superposició compacta</value>
+    <value>Entra al mode de superposició compacta</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
-    <value>Surt del mode superposició compacta</value>
+    <value>Surt del mode de superposició compacta</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Canvia la superposició compacta</value>
+    <value>Commuta el mode de superposició compacta</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Ves al quadre de cerca</value>
+    <value>Inicia la cerca a l'OmniBar</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Mostra/amaga elements ocults</value>
+    <value>Commuta la visibilitat dels elements ocults</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Mostra o amaga fitxers que comencen amb un punt</value>
+    <value>Commuta la visibilitat dels fitxers que comencen amb un punt</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Canvia si voleu mostrar les extensions de fitxer</value>
+    <value>Commuta la visibilitat de les extensions dels fitxers</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Canvia el panell de vista prèvia per veure les previsualitzacions dels fitxers</value>
@@ -2418,7 +2421,7 @@
     <value>Mostra/amaga la barra lateral</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copia {0, plural, one {l'item} other {items}} al porta-retalls</value>
+    <value>Copia {0, plural, one {l'element seleccionat} other {els elements seleccionats}} al porta-retalls</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Copia el camí del directori actual al porta-retalls</value>
@@ -2433,7 +2436,7 @@
     <value>Copia el camí del directori actual amb cometes al porta-retalls</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Retalla {0, plural, one {l'item} other {items}} al porta-retalls</value>
+    <value>Retalla {0, plural, one {l'element seleccionat} other {els elements seleccionats}} al porta-retalls</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Enganxa els elements del porta-retalls a la carpeta actual</value>
@@ -2444,8 +2447,11 @@
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
     <value>Enganxa els elements del porta-retalls a la carpeta seleccionada</value>
   </data>
+  <data name="PasteToSelectedFolder" xml:space="preserve">
+    <value>Enganxa a la carpeta seleccionada</value>
+  </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>Suprimeix {0, plural, one {element} other {elements}}</value>
+    <value>Suprimeix {0, plural, one {l'element seleccionat} other {els element seleccionats}}</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>Crea una carpeta nova</value>
@@ -2457,7 +2463,7 @@
     <value>Crea una drecera nova a qualsevol element</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
-    <value>Buida la papelera de reciclatge</value>
+    <value>Buida el contingut de la paperera de reciclatge</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
     <value>Obre el menú «Formata la unitat» per a l'element seleccionat</value>
@@ -2487,10 +2493,10 @@
     <value>Selecciona tots els elements</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Inverteix la selecció d'elements</value>
+    <value>Inverteix els elements seleccionats</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Esborra la selecció d'elements</value>
+    <value>Esborra els elements seleccionats</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
     <value>Commuta la selecció d'elements</value>
@@ -2521,6 +2527,15 @@
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
     <value>Estableix la imatge seleccionada com a fons de l'aplicació</value>
+  </data>
+  <data name="InstallFont" xml:space="preserve">
+    <value>Instal·la la font</value>
+  </data>
+  <data name="InstallDriver" xml:space="preserve">
+    <value>Instal·la el controlador</value>
+  </data>
+  <data name="InstallCertificate" xml:space="preserve">
+    <value>Instal·la el certificat</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Instal·la {0, plural, one {la font seleccionada} other {les fonts seleccionades}}</value>
@@ -2688,10 +2703,10 @@
     <value>Obre una pestanya nova</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navega cap enrere a l'historial de navegació</value>
+    <value>Navega enrere</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navega cap endavant a l'historial de navegació</value>
+    <value>Navega endavant</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Navega cap amunt a un directori</value>
@@ -2724,7 +2739,7 @@
     <value>Tanca totes les pestanyes, inclosa l'actual</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Torna a obrir l'última pestanya tancada</value>
+    <value>Torna a obrir la pestanya tancada recentment</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
     <value>Ves a la pestanya anterior</value>
@@ -2742,7 +2757,7 @@
     <value>Enfoca un altre panell</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Canvia el focus al panell no actiu</value>
+    <value>Canvia el focus a l'altre panell</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Canvia la barra lateral</value>
@@ -2950,13 +2965,13 @@
     <value>Sense etiqueta</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Passa a la pestanya anterior</value>
+    <value>Pestanya anterior</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Passa a la pestanya següent</value>
+    <value>Pestanya següent</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Tanca la pestanya actual</value>
+    <value>Tanca la pestanya</value>
   </data>
   <data name="EditPath" xml:space="preserve">
     <value>Edita la ruta</value>
@@ -2986,7 +3001,7 @@
     <value>Mostra les caselles de selecció en seleccionar elements</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Enfoca la barra del camí</value>
+    <value>Edita la ruta a l'OmniBar</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Crea un element nou</value>
@@ -3001,7 +3016,7 @@
     <value>Suprimeix permanentment</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Suprimeix {0, plural, one {item} other {items}} permanentment</value>
+    <value>Suprimeix {0, plural, one {l'element seleccionat} other {els elements seleccionats}} permanentment</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>Reprodueix els fitxers multimèdia seleccionats</value>
@@ -3121,7 +3136,7 @@
     <value>Crea una carpeta amb {0, plural, one {l'item seleccionat} other {els items seleccionats}} actualment</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>Obre les propietats</value>
+    <value>Propietats</value>
   </data>
   <data name="OpenClassicProperties" xml:space="preserve">
     <value>Obre les propietats de l'Explorador de fitxers</value>
@@ -3266,7 +3281,7 @@
     <value>Inicialitza el repositori</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Inicialitza un repositori Git</value>
+    <value>Inicialitza la carpeta actual com a repositori GIT</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
     <value>Nom del repositori remot</value>
@@ -3281,13 +3296,13 @@
     <value>Ordena els elements per ruta</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Obre la carpeta en un panell nou</value>
+    <value>Obre el directori seleccionat en un panell nou</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Obre la carpeta en una pestanya nova</value>
+    <value>Obre el directori seleccionat en una pestanya nova</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Obre la carpeta en una finestra nova</value>
+    <value>Obre el directori seleccionat en una finestra nova</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
     <value>Obre-ho tot</value>
@@ -3315,7 +3330,7 @@
     <value>Paleta d'ordres</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Obre el panell d'ordres</value>
+    <value>Obre la paleta d'ordres a l'OmniBar</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Inicia en:</value>
@@ -3740,7 +3755,7 @@
     <value>Ordena fitxers i carpetes junts</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>Ordena fitxers i carpetes junts</value>
+    <value>Ordena fitxers i carpetes a la mateixa llista</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
     <value>Ordena primer els fitxers</value>
@@ -4001,13 +4016,13 @@
     <value>Menú d'accions de la pestanya</value>
   </data>
   <data name="AddVerticalPane" xml:space="preserve">
-    <value>Afegeix panell vertical</value>
+    <value>Panell vertical</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
     <value>Afegeix un panell vertical</value>
   </data>
   <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Afegeix panell horitzontal</value>
+    <value>Panell horitzontal</value>
   </data>
   <data name="AddHorizontalPaneDescription" xml:space="preserve">
     <value>Afegeix un panell horitzontal</value>
@@ -4203,12 +4218,12 @@
     <value>Arrossegueu fitxers o carpetes aquí per interactuar-hi a través de diferents pestanyes</value>
   </data>
   <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
-    <value>Enter a path to navigate to...</value>
+    <value>Introduïu una ruta per navegar a...</value>
   </data>
   <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
-    <value>Find features and commands...</value>
+    <value>Cerca funcions i ordres...</value>
   </data>
   <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
-    <value>Search for files and folders...</value>
+    <value>Cerca fitxers i carpetes...</value>
   </data>
 </root>
