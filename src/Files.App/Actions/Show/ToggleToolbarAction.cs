@@ -11,7 +11,7 @@ namespace Files.App.Actions
 			=> Strings.ToggleToolbar.GetLocalizedResource();
 
 		public string Description
-			=> Strings.ToggleToolbar.GetLocalizedResource();
+			=> Strings.ToggleToolbarDescription.GetLocalizedResource();
 
 		public HotKey HotKey
 			=> new(Keys.B, KeyModifiers.CtrlShift);

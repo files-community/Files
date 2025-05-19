@@ -20,6 +20,13 @@ namespace Files.App.ViewModels.Settings
 		public ObservableCollection<ModifiableActionItem> ValidActionItems { get; } = [];
 		public ObservableCollection<ModifiableActionItem> AllActionItems { get; } = [];
 
+		private ObservableCollection<ModifiableActionItem> _FilteredActionItems;
+		public ObservableCollection<ModifiableActionItem> FilteredActionItems
+		{
+			get { return _FilteredActionItems; }
+			set { SetProperty(ref _FilteredActionItems, value); }
+		}
+
 		private bool _IsResetAllConfirmationTeachingTipOpened;
 		public bool IsResetAllConfirmationTeachingTipOpened
 		{
@@ -148,6 +155,8 @@ namespace Files.App.ViewModels.Settings
 					}
 				}
 			});
+
+			FilteredActionItems = new ObservableCollection<ModifiableActionItem>(ValidActionItems);
 		}
 
 		private void ExecuteShowAddNewKeyBindingBlockCommand()
@@ -431,6 +440,22 @@ namespace Files.App.ViewModels.Settings
 			// Exit edit mode
 			item.IsInEditMode = false;
 			ValidActionItems.Remove(item);
+		}
+
+		public void FilterItems(string query)
+		{
+			if (string.IsNullOrEmpty(query))
+			{
+				FilteredActionItems = new ObservableCollection<ModifiableActionItem>(ValidActionItems);
+			}
+			else
+			{
+				FilteredActionItems = new ObservableCollection<ModifiableActionItem>(
+					ValidActionItems.Where(item =>
+						item.CommandLabel.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+						item.CommandDescription.Contains(query, StringComparison.OrdinalIgnoreCase))
+				);
+			}
 		}
 	}
 }

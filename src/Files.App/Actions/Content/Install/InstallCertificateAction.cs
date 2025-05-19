@@ -10,7 +10,7 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> Strings.Install.GetLocalizedResource();
+			=> Strings.InstallCertificate.GetLocalizedResource();
 
 		public string Description
 			=> Strings.InstallCertificateDescription.GetLocalizedFormatResource(context.SelectedItems.Count);

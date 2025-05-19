@@ -8,7 +8,7 @@ namespace Files.App.Actions
 		private readonly IFoldersSettingsService settings;
 
 		public string Label
-			=> Strings.ShowHiddenItems.GetLocalizedResource();
+			=> Strings.HiddenItems.GetLocalizedResource();
 
 		public string Description
 			=> Strings.ToggleShowHiddenItemsDescription.GetLocalizedResource();

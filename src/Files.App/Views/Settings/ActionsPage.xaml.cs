@@ -158,5 +158,11 @@ namespace Files.App.Views.Settings
 			// Focus the editor TextBox
 			KeyBindingEditorTextBox.Focus(FocusState.Programmatic);
 		}
+
+		private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+		{
+			var query = ((TextBox)sender).Text;
+			ViewModel.FilterItems(query);
+		}
 	}
 }

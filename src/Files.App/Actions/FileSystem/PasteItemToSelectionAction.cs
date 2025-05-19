@@ -8,7 +8,7 @@ namespace Files.App.Actions
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> Strings.Paste.GetLocalizedResource();
+			=> Strings.PasteToSelectedFolder.GetLocalizedResource();
 
 		public string Description
 			=> Strings.PasteItemToSelectionDescription.GetLocalizedResource();

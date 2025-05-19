@@ -9,6 +9,7 @@
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:keyboard="using:Files.App.UserControls.KeyboardShortcut"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc="using:Files.App.UserControls"
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	x:Name="PageRoot"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
@@ -69,12 +70,17 @@
 				Text="{helpers:ResourceString Name=Actions}" />
 
 			<!--  Subtitle  -->
-			<Grid ColumnSpacing="12">
+			<Grid ColumnSpacing="8" RowSpacing="8">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
+
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
 
 				<!--  Subtitle Text  -->
 				<TextBlock
@@ -83,20 +89,31 @@
 					FontWeight="Medium"
 					Text="{helpers:ResourceString Name=Commands}" />
 
-				<!--  Show Add New Section Button  -->
-				<Button
-					x:Name="ShowAddNewGridButton"
+				<TextBox
+					x:Name="SearchBox"
 					Grid.Column="1"
-					Command="{x:Bind ViewModel.ShowAddNewKeyBindingBlockCommand, Mode=OneWay}"
-					Content="{helpers:ResourceString Name=AddCommand}"
-					IsEnabled="{x:Bind ViewModel.ShowAddNewKeyBindingBlock, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+					MinWidth="200"
+					PlaceholderText="{helpers:ResourceString Name=Search}"
+					TextChanged="SearchBox_TextChanged" />
 
-				<!--  Restore Defaults Button  -->
-				<Button
-					x:Name="RestoreDefaultsButton"
+				<StackPanel
+					x:Name="CommandStackPanel"
 					Grid.Column="2"
-					Command="{x:Bind ViewModel.ShowRestoreDefaultsConfirmationCommand, Mode=OneWay}"
-					Content="{helpers:ResourceString Name=RestoreDefaults}" />
+					Orientation="Horizontal"
+					Spacing="8">
+					<!--  Add New Action Button  -->
+					<Button
+						x:Name="AddNewGridButton"
+						Command="{x:Bind ViewModel.ShowAddNewKeyBindingBlockCommand, Mode=OneWay}"
+						Content="{helpers:ResourceString Name=AddCommand}"
+						IsEnabled="{x:Bind ViewModel.ShowAddNewKeyBindingBlock, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}" />
+
+					<!--  Restore Defaults Button  -->
+					<Button
+						x:Name="RestoreDefaultsButton"
+						Command="{x:Bind ViewModel.ShowRestoreDefaultsConfirmationCommand, Mode=OneWay}"
+						Content="{helpers:ResourceString Name=RestoreDefaults}" />
+				</StackPanel>
 			</Grid>
 
 			<!--  New Key Binding Block  -->
@@ -119,39 +136,14 @@
 				</Grid.ColumnDefinitions>
 
 				<!--  New Command Selector  -->
-				<ComboBox
+				<uc:ComboBoxEx
 					x:Name="NewKeyBindingItemPickerComboBox"
-					Padding="0"
+					DisplayMemberPath="CommandLabel"
 					DropDownClosed="NewKeyBindingItemPickerComboBox_DropDownClosed"
 					ItemsSource="{x:Bind ViewModel.AllActionItems, Mode=OneWay}"
 					PlaceholderText="{helpers:ResourceString Name=ChooseAnAction}"
 					SelectedIndex="{x:Bind ViewModel.SelectedActionItemIndex, Mode=TwoWay}"
-					SelectedItem="{x:Bind ViewModel.SelectedActionItem, Mode=TwoWay}">
-					<ComboBox.ItemTemplate>
-						<DataTemplate x:DataType="dataitems:ModifiableActionItem">
-							<StackPanel Width="240" HorizontalAlignment="Left">
-								<TextBlock Style="{StaticResource BodyTextBlockStyle}" Text="{x:Bind CommandLabel}" />
-								<TextBlock
-									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-									Style="{StaticResource CaptionTextBlockStyle}"
-									Text="{x:Bind CommandDescription}"
-									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap" />
-							</StackPanel>
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-					<ComboBox.Resources>
-						<StaticResource x:Key="ComboBoxBackground" ResourceKey="ControlFillColorTransparentBrush" />
-						<StaticResource x:Key="ComboBoxBackgroundPointerOver" ResourceKey="ControlFillColorTransparentBrush" />
-						<StaticResource x:Key="ComboBoxBackgroundPressed" ResourceKey="ControlFillColorTransparentBrush" />
-						<StaticResource x:Key="ComboBoxBackgroundDisabled" ResourceKey="ControlFillColorTransparentBrush" />
-
-						<StaticResource x:Key="ComboBoxBorderBrush" ResourceKey="ControlFillColorTransparentBrush" />
-						<StaticResource x:Key="ComboBoxBorderBrushPointerOver" ResourceKey="ControlFillColorTransparentBrush" />
-						<StaticResource x:Key="ComboBoxBorderBrushPressed" ResourceKey="ControlFillColorTransparentBrush" />
-						<StaticResource x:Key="ComboBoxBorderBrushDisabled" ResourceKey="ControlFillColorTransparentBrush" />
-					</ComboBox.Resources>
-				</ComboBox>
+					SelectedItem="{x:Bind ViewModel.SelectedActionItem, Mode=TwoWay}" />
 
 				<!--  Editor (Using PreviewKeyDown to prevent Ctrl+A)  -->
 				<TextBox
@@ -208,7 +200,7 @@
 			<!--  List Of Available Key Bindings  -->
 			<ListView
 				x:Name="ValidKeyBindingsListView"
-				ItemsSource="{x:Bind ViewModel.ValidActionItems, Mode=OneWay}"
+				ItemsSource="{x:Bind ViewModel.FilteredActionItems, Mode=OneWay}"
 				ScrollViewer.HorizontalScrollBarVisibility="Hidden"
 				ScrollViewer.HorizontalScrollMode="Disabled"
 				ScrollViewer.VerticalScrollBarVisibility="Hidden"
@@ -416,5 +408,30 @@
 			PreferredPlacement="Bottom"
 			Subtitle="{helpers:ResourceString Name=KeybindingInvalidKeyNotification}" />
 
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup>
+				<VisualState x:Name="DefaultState">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="880" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="CommandStackPanel.(Grid.Column)" Value="2" />
+						<Setter Target="CommandStackPanel.(Grid.ColumnSpan)" Value="2" />
+						<Setter Target="CommandStackPanel.(Grid.Row)" Value="0" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="CompactState">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="0" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="CommandStackPanel.(Grid.ColumnSpan)" Value="3" />
+						<Setter Target="CommandStackPanel.(Grid.Column)" Value="0" />
+						<Setter Target="CommandStackPanel.(Grid.Row)" Value="1" />
+						<Setter Target="SearchBox.(Grid.Column)" Value="2" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
 	</Grid>
 </Page>
