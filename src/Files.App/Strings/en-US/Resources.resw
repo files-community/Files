@@ -2439,13 +2439,16 @@
     <value>Cut selected {0, plural, one {item} other {items}} to clipboard</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste items from clipboard to current folder</value>
+    <value>Paste clipboard items to the current folder</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items from clipboard to current folder as shortcuts</value>
+    <value>Paste clipboard items to the current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items from clipboard to selected folder</value>
+    <value>Paste clipboard items to the selected folder</value>
+  </data>
+  <data name="PasteToSelectedFolder" xml:space="preserve">
+    <value>Paste to selected folder</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>Delete selected {0, plural, one {item} other {items}}</value>
