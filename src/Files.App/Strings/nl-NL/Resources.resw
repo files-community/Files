@@ -123,6 +123,9 @@
   <data name="CopyPath" xml:space="preserve">
     <value>Pad kopiëren</value>
   </data>
+  <data name="CopyItemPath" xml:space="preserve">
+    <value>Copy item path</value>
+  </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Pad kopiëren met aanhalingstekens</value>
   </data>
@@ -163,7 +166,7 @@
     <value>Overslaan</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Alles selecteren</value>
+    <value>Select all</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Selectie omkeren</value>
@@ -214,7 +217,7 @@
     <value>Verborgen bestanden en mappen weergeven</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Punt-bestanden weergeven</value>
+    <value>Dot files</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Vormgeving</value>
@@ -1089,7 +1092,10 @@
     <value>Infopaneel in-/uitschakelen om het detail-/voorbeeldvenster weer te geven</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
-    <value>Werkbalk in-/uitschakelen</value>
+    <value>Toggle toolbar</value>
+  </data>
+  <data name="ToggleToolbarDescription" xml:space="preserve">
+    <value>Toggle visibility of the toolbar</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Geen voorbeeld beschikbaar</value>
@@ -1392,7 +1398,7 @@
     <value>{0} items</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>Gesloten tabblad opnieuw openen</value>
+    <value>Reopen tab</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>Hernoemen</value>
@@ -1599,7 +1605,7 @@
     <value>Vervang alle onderliggende object machtigingen met erfbare machtigingsgegevens van dit object</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
-    <value>Actief paneel sluiten</value>
+    <value>Close pane</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Open compacte overlay</value>
@@ -2289,10 +2295,7 @@
     <value>Opties contextmenu</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>Bestandsextensies weergeven</value>
-  </data>
-  <data name="ShowHiddenItems" xml:space="preserve">
-    <value>Verborgen items weergeven</value>
+    <value>File extensions</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>Formaat</value>
@@ -2301,13 +2304,13 @@
     <value>Help</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Volledig scherm in-/uitschakelen</value>
+    <value>Full screen</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
     <value>Weet je zeker dat je dit label wilt verwijderen?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Alles afspelen</value>
+    <value>Play</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>Hoogte</value>
@@ -2367,7 +2370,7 @@
     <value>Vergroten</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Sorteerrichting omkeren</value>
+    <value>Sort direction</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>Ongeldige naam</value>
@@ -2379,37 +2382,37 @@
     <value>Video's</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
-    <value>Open voorbeeld popup</value>
+    <value>Preview popup</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Compacte overlay in-/uitschakelen</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open de online help pagina in de browser</value>
+    <value>Open the online help page in your browser</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Volledig scherm in-/uitschakelen</value>
+    <value>Toggle full screen mode</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>Open compacte overlay</value>
+    <value>Enter compact overlay mode</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
-    <value>Sluit compacte overlay</value>
+    <value>Exit compact overlay mode</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Compacte overlay in-/uitschakelen</value>
+    <value>Toggle compact overlay mode</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Ga naar zoekveld</value>
+    <value>Start search in the OmniBar</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>In-/uitschakelen om verborgen items weer te geven</value>
+    <value>Toggle visibility of hidden items</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>In-/uitschakelen om punt-bestanden weer te geven</value>
+    <value>Toggle visibility of dot files</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>In-/uitschakelen om bestandsextensies weer te geven</value>
+    <value>Toggle visibility of file extensions</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Voorbeeldpaneel in-/uitschakelen om bestandsvoorbeelden weer te geven</value>
@@ -2418,7 +2421,7 @@
     <value>In-/uitschakelen om zijbalk weer te geven</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy {0, plural, one {item} other {items}} to clipboard</value>
+    <value>Copy selected {0, plural, one {item} other {items}} to clipboard</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Pad kopiëren van de huidige map naar het klembord</value>
@@ -2433,19 +2436,22 @@
     <value>Pad kopiëren van de huidige map met aanhalingstekens naar het klembord</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut {0, plural, one {item} other {items}} to clipboard</value>
+    <value>Cut selected {0, plural, one {item} other {items}} to clipboard</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Items van het klembord naar de huidige map plakken</value>
+    <value>Paste clipboard items to the current folder</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items from clipboard to current folder as shortcuts</value>
+    <value>Paste clipboard items to the current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items from clipboard to selected folder</value>
+    <value>Paste clipboard items to the selected folder</value>
+  </data>
+  <data name="PasteToSelectedFolder" xml:space="preserve">
+    <value>Paste to selected folder</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>{0, plural, one {Item} other {Items}} verwijderen</value>
+    <value>Delete selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>Nieuwe map maken</value>
@@ -2457,7 +2463,7 @@
     <value>Maak een nieuwe snelkoppeling naar een item</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
-    <value>Prullenbak leegmaken</value>
+    <value>Empty the contents of Recycle Bin</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
     <value>Open het "Schijf formatteren" menu voor geselecteerde item</value>
@@ -2487,10 +2493,10 @@
     <value>Selecteer alle items</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Selectie item omkeren</value>
+    <value>Invert selected items</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Selectie item leegmaken</value>
+    <value>Clear selected items</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
     <value>Items selectie in-/uitschakelen</value>
@@ -2521,6 +2527,15 @@
   </data>
   <data name="SetAsAppBackgroundDescription" xml:space="preserve">
     <value>Stel geselecteerde afbeelding in als app-achtergrond</value>
+  </data>
+  <data name="InstallFont" xml:space="preserve">
+    <value>Install font</value>
+  </data>
+  <data name="InstallDriver" xml:space="preserve">
+    <value>Install driver</value>
+  </data>
+  <data name="InstallCertificate" xml:space="preserve">
+    <value>Install certificate</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Install selected {0, plural, one {font} other {fonts}}</value>
@@ -2685,13 +2700,13 @@
     <value>Groep sorteerrichting omkeren</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
-    <value>Open nieuw tabblad</value>
+    <value>Nieuw tabblad openen</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigeer achteruit in de navigatiegeschiedenis</value>
+    <value>Navigate backward</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigeer vooruit in de navigatiegeschiedenis</value>
+    <value>Navigate forward</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Navigeer één map naar boven</value>
@@ -2724,7 +2739,7 @@
     <value>Alle tabbladen sluiten inclusief het huidige tabblad</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Laatst gesloten tabblad heropenen</value>
+    <value>Reopen recently closed tab</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
     <value>Verplaats naar het vorige tabblad</value>
@@ -2736,13 +2751,13 @@
     <value>Huidig tabblad sluiten</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>Actief paneel sluiten</value>
+    <value>Close the active pane</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
     <value>Focus op ander paneel</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Wijzig focus naar het niet-actieve paneel</value>
+    <value>Switch focus to the other pane</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Zijbalk in-/uitschakelen</value>
@@ -2950,13 +2965,13 @@
     <value>Zonder label</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Verplaatst naar vorige tabblad</value>
+    <value>Previous tab</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Verplaatst naar volgend tabblad</value>
+    <value>Next tab</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Sluit huidig tabblad</value>
+    <value>Close tab</value>
   </data>
   <data name="EditPath" xml:space="preserve">
     <value>Pad bewerken</value>
@@ -2986,7 +3001,7 @@
     <value>Selectievakjes weergeven bij het selecteren van items</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Focus padenbalk</value>
+    <value>Edit path in the OmniBar</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Maak nieuw item</value>
@@ -3001,7 +3016,7 @@
     <value>Permanent verwijderen</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete {0, plural, one {item} other {items}} permanently</value>
+    <value>Delete selected {0, plural, one {item} other {items}} permanently</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>De geselecteerde mediabestanden afspelen</value>
@@ -3121,7 +3136,7 @@
     <value>Create a folder with the currently selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>Open eigenschappen</value>
+    <value>Eigenschappen</value>
   </data>
   <data name="OpenClassicProperties" xml:space="preserve">
     <value>Open Verkenner eigenschappen</value>
@@ -3266,7 +3281,7 @@
     <value>Repo initialiseren</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Initialiseer een Git repository</value>
+    <value>Initialize current folder as a git repository</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
     <value>Naam externe repository</value>
@@ -3281,13 +3296,13 @@
     <value>Sorteer items op pad</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Map in nieuw paneel openen</value>
+    <value>Open selected directory in a new pane</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Open map in nieuw tabblad</value>
+    <value>Open selected directory in a new tab</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open map in nieuw venster</value>
+    <value>Open selected directory in a new window</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
     <value>Open alles</value>
@@ -3312,10 +3327,10 @@
     <value>Het '{0}' commando is niet klaar om uitgevoerd te worden.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Commandopaneel</value>
+    <value>Command Palette</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Commandopaneel openen</value>
+    <value>Open Command Palette in the OmniBar</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Start in:</value>
@@ -3740,7 +3755,7 @@
     <value>Bestanden en mappen samen sorteren</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>Bestanden en mappen samen sorteren</value>
+    <value>Sort files and folders in the same list</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
     <value>Bestanden eerst sorteren</value>
@@ -4001,16 +4016,16 @@
     <value>Tabblad acties-menu</value>
   </data>
   <data name="AddVerticalPane" xml:space="preserve">
-    <value>Verticaal paneel toevoegen</value>
+    <value>Vertical pane</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Een verticaal paneel toevoegen</value>
+    <value>Add vertical pane</value>
   </data>
   <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Horizontaal paneel toevoegen</value>
+    <value>Horizontal pane</value>
   </data>
   <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Een horizontaal paneel toevoegen</value>
+    <value>Add horizontal pane</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Verticaal ordenen</value>
@@ -4103,10 +4118,10 @@
     <value>Focus altijd schakelen naar nieuw gemaakte tabblad</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
-    <value>Plankpaneel in-/uitschakelen</value>
+    <value>Toggle shelf pane</value>
   </data>
   <data name="ToggleShelfPaneDescription" xml:space="preserve">
-    <value>Plankpaneel weergave in-/uitschakelen</value>
+    <value>Toggle the visibility of the shelf pane</value>
   </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
     <value>Plankpaneel toggle weergeven in adresbalk</value>
