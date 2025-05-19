@@ -50,7 +50,13 @@ namespace Files.App.Dialogs
 		{
 			ContainerGrid.Height = MainWindow.Instance.Bounds.Height <= 760 ? MainWindow.Instance.Bounds.Height - 70 : 690;
 			ContainerGrid.Width = MainWindow.Instance.Bounds.Width <= 1100 ? MainWindow.Instance.Bounds.Width : 1100;
-			MainSettingsNavigationView.PaneDisplayMode = MainWindow.Instance.Bounds.Width < 700 ? NavigationViewPaneDisplayMode.LeftCompact : NavigationViewPaneDisplayMode.Left;
+
+			var paneDisplayMode = MainWindow.Instance.Bounds.Width < 700
+				? NavigationViewPaneDisplayMode.LeftCompact
+				: NavigationViewPaneDisplayMode.Left;
+
+			if (MainSettingsNavigationView.PaneDisplayMode != paneDisplayMode)
+				MainSettingsNavigationView.PaneDisplayMode = paneDisplayMode;
 		}
 
 		private void MainSettingsNavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
