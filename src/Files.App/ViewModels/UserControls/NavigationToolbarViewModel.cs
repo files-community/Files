@@ -71,6 +71,8 @@ namespace Files.App.ViewModels.UserControls
 
 		internal ObservableCollection<OmnibarPathModeSuggestionModel> PathModeSuggestionItems { get; } = [];
 
+		internal ObservableCollection<NavigationBarSuggestionItem> OmnibarCommandPaletteModeSuggestionItems { get; } = [];
+
 		public bool IsSingleItemOverride { get; set; }
 
 		public bool SearchHasFocus { get; private set; }
@@ -218,6 +220,8 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		private string? _OmnibarCommandPaletteModeText;
+		public string? OmnibarCommandPaletteModeText { get => _OmnibarCommandPaletteModeText; set => SetProperty(ref _OmnibarCommandPaletteModeText, value); }
 
 		private bool _IsOmnibarFocused;
 		public  bool IsOmnibarFocused
@@ -239,6 +243,8 @@ namespace Files.App.ViewModels.UserControls
 								_ = PopulateOmnibarSuggestionsForPathMode();
 								break;
 							case OmnibarPaletteModeName:
+								if (OmnibarCommandPaletteModeSuggestionItems.Count is 0)
+									PopulateOmnibarSuggestionsForCommandPaletteMode();
 								break;
 							case OmnibarSearchModeName:
 								break;
@@ -1124,6 +1130,30 @@ namespace Files.App.ViewModels.UserControls
 					ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory,
 					Strings.NavigationToolbarVisiblePathNoResults.GetLocalizedResource()));
 			}
+		}
+
+		public void PopulateOmnibarSuggestionsForCommandPaletteMode()
+		{
+			OmnibarCommandPaletteModeText ??= string.Empty;
+			OmnibarCommandPaletteModeSuggestionItems.Clear();
+
+			var suggestionItems = Commands.Where(command =>
+				command.IsExecutable &&
+				command.IsAccessibleGlobally &&
+				(command.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase) ||
+				command.Code.ToString().Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)))
+			.Select(command => new NavigationBarSuggestionItem()
+			{
+				ThemedIconStyle = command.Glyph.ToThemedIconStyle(),
+				Glyph = command.Glyph.BaseGlyph,
+				Text = command.Code.ToString(),
+				PrimaryDisplay = command.Description,
+				HotKeys = command.HotKeys,
+				SearchText = OmnibarCommandPaletteModeText,
+			});
+
+			foreach (var item in suggestionItems)
+				OmnibarCommandPaletteModeSuggestionItems.Add(item);
 		}
 
 		[Obsolete("Remove once Omnibar goes out of experimental.")]

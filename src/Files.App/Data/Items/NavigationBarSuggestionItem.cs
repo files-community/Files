@@ -1,17 +1,22 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Controls;
+using Microsoft.UI.Xaml;
+
 namespace Files.App.Data.Items
 {
 	[Obsolete("Remove once Omnibar goes out of experimental.")]
-	public sealed partial class NavigationBarSuggestionItem : ObservableObject
+	public sealed partial class NavigationBarSuggestionItem : ObservableObject, IOmnibarTextMemberPathProvider
 	{
+		private Style? _ThemedIconStyle;
+		public Style? ThemedIconStyle { get => _ThemedIconStyle; set => SetProperty(ref _ThemedIconStyle, value); }
+
+		private string? _Glyph;
+		public string? Glyph { get => _Glyph; set => SetProperty(ref _Glyph, value); }
+
 		private string? _Text;
-		public string? Text
-		{
-			get => _Text;
-			set => SetProperty(ref _Text, value);
-		}
+		public string? Text { get => _Text; set => SetProperty(ref _Text, value); }
 
 		private string? _PrimaryDisplay;
 		public string? PrimaryDisplay
@@ -87,6 +92,17 @@ namespace Files.App.Data.Items
 					PrimaryDisplayPostMatched = PrimaryDisplay.Substring(index + SearchText.Length);
 				}
 			}
+		}
+
+		public string GetTextMemberPath(string textMemberPath)
+		{
+			return textMemberPath switch
+			{
+				nameof(Text) => Text,
+				nameof(PrimaryDisplay) => PrimaryDisplay,
+				nameof(SearchText) => SearchText,
+				_ => string.Empty
+			};
 		}
 	}
 }
