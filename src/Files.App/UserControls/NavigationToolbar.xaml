@@ -585,13 +585,13 @@
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
-			
+
 			<VisualStateGroup x:Name="RightActionsGroup">
 				<VisualState>
 					<VisualState.Setters>
 						<Setter Target="RightSideActionsStackPanel.Margin" Value="0" />
 					</VisualState.Setters>
-				</VisualState>				
+				</VisualState>
 				<VisualState x:Name="StatusButtonVisible">
 					<VisualState.StateTriggers>
 						<triggers:IsEqualStateTrigger Value="{x:Bind OngoingTasksViewModel.HasAnyItem, Mode=OneWay}" To="True" />
@@ -599,7 +599,7 @@
 					<VisualState.Setters>
 						<Setter Target="RightSideActionsStackPanel.Margin" Value="0,0,4,0" />
 					</VisualState.Setters>
-				</VisualState>				
+				</VisualState>
 				<VisualState x:Name="ShelfButtonVisible">
 					<VisualState.StateTriggers>
 						<triggers:IsEqualStateTrigger Value="{x:Bind ViewModel.ShowShelfPaneToggleButton, Mode=OneWay}" To="True" />
@@ -607,7 +607,7 @@
 					<VisualState.Setters>
 						<Setter Target="RightSideActionsStackPanel.Margin" Value="0,0,4,0" />
 					</VisualState.Setters>
-				</VisualState>				
+				</VisualState>
 				<VisualState x:Name="UpdateButtonVisible">
 					<VisualState.StateTriggers>
 						<triggers:IsEqualStateTrigger Value="{x:Bind ViewModel.IsUpdateAvailable, Mode=OneWay}" To="True" />
@@ -617,7 +617,7 @@
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
-			
+
 			<VisualStateGroup x:Name="StatusIconStates">
 				<VisualState x:Name="TasksSuccess">
 					<VisualState.StateTriggers>
