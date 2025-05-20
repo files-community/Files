@@ -398,7 +398,6 @@
 								Grid.Column="1"
 								VerticalAlignment="Center"
 								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-								MaxLines="1"
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap">
 								<Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPreMatched, Mode=OneWay}" /><Run FontWeight="Bold" Text="{x:Bind PrimaryDisplayMatched, Mode=OneWay}" /><Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPostMatched, Mode=OneWay}" />
@@ -477,12 +476,12 @@
 				<Grid Margin="-16">
 
 					<!-- Enable icon again if we add option to always display on the toolbar
-						<ThemedIcon
-							x:Name="StatusCenterIcon"
-							Width="16"
-							Height="16"
-							x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-							Style="{StaticResource App.ThemedIcons.StatusCenter}" />-->
+                        <ThemedIcon
+                            x:Name="StatusCenterIcon"
+                            Width="16"
+                            Height="16"
+                            x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+                            Style="{StaticResource App.ThemedIcons.StatusCenter}" />-->
 
 					<ProgressRing
 						x:Name="MedianOperationProgressRing"

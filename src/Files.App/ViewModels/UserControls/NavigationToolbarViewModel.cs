@@ -1144,7 +1144,6 @@ namespace Files.App.ViewModels.UserControls
 				command.Code.ToString().Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)))
 			.Select(command => new NavigationBarSuggestionItem()
 			{
-				Icon = command.Icon,
 				ThemedIconStyle = command.Glyph.ToThemedIconStyle(),
 				Glyph = command.Glyph.BaseGlyph,
 				Text = command.Code.ToString(),
