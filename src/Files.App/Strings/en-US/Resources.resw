@@ -130,7 +130,7 @@
     <value>Copy path with quotes</value>
   </data>
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
-    <value>Copy selected item path with quotes</value>
+    <value>Copy item path with quotes</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Browse</value>
@@ -1956,7 +1956,7 @@
     <value>Close other tabs</value>
   </data>
   <data name="CloseAllTabs" xml:space="preserve">
-    <value>Close every open tabs</value>
+    <value>Close all tabs</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>Music</value>
@@ -2403,7 +2403,7 @@
     <value>Toggle compact overlay mode</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Start search in the OmniBar</value>
+    <value>Start a search in the OmniBar</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Toggle visibility of hidden items</value>
@@ -3330,7 +3330,7 @@
     <value>Command Palette</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open the command palette in the OmniBar</value>
+    <value>Open the Command Palette in the OmniBar</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Start in:</value>
