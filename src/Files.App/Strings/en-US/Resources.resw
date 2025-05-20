@@ -2391,7 +2391,7 @@
     <value>Open the online help page in your browser</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Toggle between full screen</value>
+    <value>Toggle between full screen mode</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Switch to compact overlay mode</value>
@@ -2484,7 +2484,7 @@
     <value>Open parent folder of searched item</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
-    <value>Reload the page contents</value>
+    <value>Reload page contents</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
     <value>Change the name of the selected item</value>
@@ -2619,7 +2619,7 @@
     <value>Switch to columns view mode</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Automatically adjust layout to window size</value>
+    <value>Switch to the adjust layout to window size</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
     <value>Sort items by name</value>
@@ -3001,7 +3001,7 @@
     <value>Show checkboxes when selecting items</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Manually edit the current folder path in the OmniBar</value>
+    <value>Edit the current folder path in the OmniBar</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Create new item</value>
