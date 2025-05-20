@@ -2619,7 +2619,7 @@
     <value>Switch to columns view mode</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch to the adjust layout to window size</value>
+    <value>Switch to adjusting layout mode</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
     <value>Sort items by name</value>
