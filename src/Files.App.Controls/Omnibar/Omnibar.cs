@@ -145,6 +145,7 @@ namespace Files.App.Controls
 			AutoSuggestBoxPadding = new(leftPadding, 0, rightPadding, 0);
 
 			CurrentSelectedMode = modeToExpand;
+			CurrentSelectedModeName = modeToExpand.ModeName;
 
 			_textChangeReason = OmnibarTextChangeReason.ProgrammaticChange;
 			ChangeTextBoxText(CurrentSelectedMode.Text ?? string.Empty);

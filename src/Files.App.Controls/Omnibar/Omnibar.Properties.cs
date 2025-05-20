@@ -24,12 +24,7 @@ namespace Files.App.Controls
 
 		partial void OnCurrentSelectedModeChanged(OmnibarMode? newValue)
 		{
-			CurrentSelectedModeName = newValue?.ModeName;
-		}
-
-		partial void OnIsFocusedChanged(bool newValue)
-		{
-			//_textBox?.Focus(newValue ? FocusState.Programmatic : FocusState.Unfocused);
+			// TODO: Invoke ChangeMode and make it internal instead in the future.
 		}
 	}
 }
