@@ -17,11 +17,6 @@ namespace Files.App.Controls
 		private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
 		{
 			IsFocused = true;
-
-			VisualStateManager.GoToState(CurrentSelectedMode, "Focused", true);
-			VisualStateManager.GoToState(_textBox, "InputAreaVisible", true);
-
-			TryToggleIsSuggestionsPopupOpen(true);
 		}
 
 		private void AutoSuggestBox_LostFocus(object sender, RoutedEventArgs e)
@@ -31,14 +26,6 @@ namespace Files.App.Controls
 				return;
 
 			IsFocused = false;
-
-			if (CurrentSelectedMode?.ContentOnInactive is not null)
-			{
-				VisualStateManager.GoToState(CurrentSelectedMode, "CurrentUnfocused", true);
-				VisualStateManager.GoToState(_textBox, "InputAreaCollapsed", true);
-			}
-
-			TryToggleIsSuggestionsPopupOpen(false);
 		}
 
 		private void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)

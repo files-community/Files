@@ -26,5 +26,27 @@ namespace Files.App.Controls
 
 			ChangeMode(e.OldValue as OmnibarMode, newMode);
 		}
+
+		partial void OnIsFocusedChanged(bool newValue)
+		{
+			if (CurrentSelectedMode is null)
+				return;
+
+			if (newValue)
+			{
+				VisualStateManager.GoToState(CurrentSelectedMode, "Focused", true);
+				VisualStateManager.GoToState(_textBox, "InputAreaVisible", true);
+			}
+			else
+			{
+				if (CurrentSelectedMode?.ContentOnInactive is not null)
+				{
+					VisualStateManager.GoToState(CurrentSelectedMode, "CurrentUnfocused", true);
+					VisualStateManager.GoToState(_textBox, "InputAreaCollapsed", true);
+				}
+			}
+
+			TryToggleIsSuggestionsPopupOpen(newValue);
+		}
 	}
 }
