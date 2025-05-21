@@ -144,9 +144,6 @@ namespace Files.App.Controls
 			_textChangeReason = OmnibarTextChangeReason.ProgrammaticChange;
 			ChangeTextBoxText(newMode.Text ?? string.Empty);
 
-			// Move cursor of the TextBox to the tail
-			_textBox.Select(_textBox.Text.Length, 0);
-
 			VisualStateManager.GoToState(newMode, "Focused", true);
 			newMode.OnChangingCurrentMode(true);
 

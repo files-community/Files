@@ -17,6 +17,7 @@ namespace Files.App.Controls
 		private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
 		{
 			IsFocused = true;
+			_textBox.SelectAll();
 		}
 
 		private void AutoSuggestBox_LostFocus(object sender, RoutedEventArgs e)
