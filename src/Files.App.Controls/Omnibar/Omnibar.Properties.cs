@@ -34,14 +34,12 @@ namespace Files.App.Controls
 		partial void OnCurrentSelectedModeNameChanged(string? newValue)
 		{
 			if (string.IsNullOrEmpty(newValue) ||
-				string.IsNullOrEmpty(CurrentSelectedMode?.ModeName) ||
-				CurrentSelectedMode.ModeName.Equals(newValue) ||
+				string.IsNullOrEmpty(CurrentSelectedMode?.Name) ||
+				CurrentSelectedMode.Name.Equals(newValue) ||
 				Modes is null)
 				return;
 
-			_textBox.Focus(FocusState.Keyboard);
-
-			var newMode = Modes.Where(x => x.ModeName?.Equals(newValue) ?? false).FirstOrDefault();
+			var newMode = Modes.Where(x => x.Name?.Equals(newValue) ?? false).FirstOrDefault();
 			if (newMode is null)
 				return;
 
