@@ -36,6 +36,7 @@ namespace Files.App.ViewModels.UserControls
 		private readonly IUpdateService UpdateService = Ioc.Default.GetRequiredService<IUpdateService>();
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private readonly StatusCenterViewModel OngoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		// Fields
 
@@ -79,6 +80,10 @@ namespace Files.App.ViewModels.UserControls
 
 		public bool ShowHomeButton => AppearanceSettingsService.ShowHomeButton;
 		public bool EnableOmnibar => GeneralSettingsService.EnableOmnibar;
+		public bool ShowStatusCenterButton =>
+			AppearanceSettingsService.StatusCenterVisibility == StatusCenterVisibility.Always ||
+			(AppearanceSettingsService.StatusCenterVisibility == StatusCenterVisibility.DuringOngoingFileOperations && OngoingTasksViewModel.HasAnyItemInProgress) ||
+			(AppearanceSettingsService.StatusCenterVisibility == StatusCenterVisibility.DuringFileOperationsUntilDismissed && OngoingTasksViewModel.HasAnyItem);
 
 		public bool ShowShelfPaneToggleButton => AppearanceSettingsService.ShowShelfPaneToggleButton && AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
 
@@ -369,6 +374,9 @@ namespace Files.App.ViewModels.UserControls
 					case nameof(AppearanceSettingsService.ShowHomeButton):
 						OnPropertyChanged(nameof(ShowHomeButton));
 						break;
+					case nameof(AppearanceSettingsService.StatusCenterVisibility):
+						OnPropertyChanged(nameof(ShowStatusCenterButton));
+						break;
 					case nameof(AppearanceSettingsService.ShowShelfPaneToggleButton):
 						OnPropertyChanged(nameof(ShowShelfPaneToggleButton));
 						break;
@@ -380,6 +388,16 @@ namespace Files.App.ViewModels.UserControls
 				{
 					case nameof(GeneralSettingsService.EnableOmnibar):
 						OnPropertyChanged(nameof(EnableOmnibar));
+						break;
+				}
+			};
+			OngoingTasksViewModel.PropertyChanged += (s, e) =>
+			{
+				switch (e.PropertyName)
+				{
+					case nameof(OngoingTasksViewModel.HasAnyItem):
+					case nameof(OngoingTasksViewModel.HasAnyItemInProgress):
+						OnPropertyChanged(nameof(ShowStatusCenterButton));
 						break;
 				}
 			};
