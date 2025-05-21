@@ -14,6 +14,9 @@ namespace Files.App.Controls
 		public partial OmnibarMode? CurrentSelectedMode { get; set; }
 
 		[GeneratedDependencyProperty]
+		public partial string? CurrentSelectedModeName { get; set; }
+
+		[GeneratedDependencyProperty]
 		public partial Thickness AutoSuggestBoxPadding { get; set; }
 
 		[GeneratedDependencyProperty]
@@ -25,6 +28,24 @@ namespace Files.App.Controls
 				return;
 
 			ChangeMode(e.OldValue as OmnibarMode, newMode);
+			CurrentSelectedModeName = newMode.ModeName;
+		}
+
+		partial void OnCurrentSelectedModeNameChanged(string? newValue)
+		{
+			if (string.IsNullOrEmpty(newValue) ||
+				string.IsNullOrEmpty(CurrentSelectedMode?.ModeName) ||
+				CurrentSelectedMode.ModeName.Equals(newValue) ||
+				Modes is null)
+				return;
+
+			_textBox.Focus(FocusState.Keyboard);
+
+			var newMode = Modes.Where(x => x.ModeName?.Equals(newValue) ?? false).FirstOrDefault();
+			if (newMode is null)
+				return;
+
+			CurrentSelectedMode = newMode;
 		}
 
 		partial void OnIsFocusedChanged(bool newValue)
