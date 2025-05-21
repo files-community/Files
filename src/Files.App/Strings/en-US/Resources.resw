@@ -2490,7 +2490,7 @@
     <value>Change the name of the selected item</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
-    <value>Select every item in the current view</value>
+    <value>Select all items in the current view</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
     <value>Invert selected items</value>
