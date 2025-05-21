@@ -14,17 +14,17 @@ namespace Files.App.Controls
 		public partial OmnibarMode? CurrentSelectedMode { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial string? CurrentSelectedModeName { get; set; }
-
-		[GeneratedDependencyProperty]
 		public partial Thickness AutoSuggestBoxPadding { get; set; }
 
 		[GeneratedDependencyProperty]
 		public partial bool IsFocused { get; set; }
 
-		partial void OnCurrentSelectedModeChanged(OmnibarMode? newValue)
+		partial void OnCurrentSelectedModePropertyChanged(DependencyPropertyChangedEventArgs e)
 		{
-			// TODO: Invoke ChangeMode and make it internal instead in the future.
+			if (e.NewValue is not OmnibarMode newMode)
+				return;
+
+			ChangeMode(e.OldValue as OmnibarMode, newMode);
 		}
 	}
 }

@@ -291,7 +291,7 @@ namespace Files.App.UserControls
 				else
 					await command.ExecuteAsync();
 
-				Omnibar.ChangeMode(OmnibarPathMode);
+				ViewModel.OmnibarCurrentSelectedMode = OmnibarPathMode;
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 			{
