@@ -116,5 +116,11 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value whether the shelf pane toggle button should be displayed.
 		/// </summary>
 		bool ShowShelfPaneToggleButton{ get; set; }
+
+
+		/// <summary>
+		/// Gets or sets a value indicating when to display the Status Center button.
+		/// </summary>
+		StatusCenterVisibility StatusCenterVisibility { get; set; }
 	}
 }

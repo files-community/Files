@@ -471,17 +471,16 @@
 				AutomationProperties.Name="{helpers:ResourceString Name=StatusCenter}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
 				ToolTipService.ToolTip="{helpers:ResourceString Name=StatusCenter}"
-				Visibility="{x:Bind OngoingTasksViewModel.HasAnyItem, Mode=OneWay}">
+				Visibility="{x:Bind ViewModel.ShowStatusCenterButton, Mode=OneWay}">
 
 				<Grid Margin="-16">
 
-					<!-- Enable icon again if we add option to always display on the toolbar
-                        <ThemedIcon
-                            x:Name="StatusCenterIcon"
-                            Width="16"
-                            Height="16"
-                            x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-                            Style="{StaticResource App.ThemedIcons.StatusCenter}" />-->
+					<controls:ThemedIcon
+						x:Name="StatusCenterIcon"
+						Width="16"
+						Height="16"
+						x:Load="{x:Bind OngoingTasksViewModel.HasAnyItem, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
+						Style="{StaticResource App.ThemedIcons.StatusCenter}" />
 
 					<ProgressRing
 						x:Name="MedianOperationProgressRing"
@@ -496,6 +495,7 @@
 						x:Name="StatusInfoBadge"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
+						Visibility="{x:Bind OngoingTasksViewModel.HasAnyItem, Mode=OneWay}"
 						Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />
 
 				</Grid>
@@ -594,7 +594,7 @@
 				</VisualState>
 				<VisualState x:Name="StatusButtonVisible">
 					<VisualState.StateTriggers>
-						<triggers:IsEqualStateTrigger Value="{x:Bind OngoingTasksViewModel.HasAnyItem, Mode=OneWay}" To="True" />
+						<triggers:IsEqualStateTrigger Value="{x:Bind ViewModel.ShowStatusCenterButton, Mode=OneWay}" To="True" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="RightSideActionsStackPanel.Margin" Value="0,0,4,0" />

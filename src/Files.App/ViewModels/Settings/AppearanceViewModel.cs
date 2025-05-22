@@ -24,6 +24,8 @@ namespace Files.App.ViewModels.Settings
 
 		public Dictionary<HorizontalAlignment, string> ImageHorizontalAlignmentTypes { get; private set; } = [];
 
+		public Dictionary<StatusCenterVisibility, string> StatusCenterVisibilityOptions { get; private set; } = [];
+
 		public ObservableCollection<AppThemeResourceItem> AppThemeResources { get; }
 
 		public ICommand SelectImageCommand { get; }
@@ -75,6 +77,11 @@ namespace Files.App.ViewModels.Settings
 			SelectedImageHorizontalAlignmentType = ImageHorizontalAlignmentTypes[UserSettingsService.AppearanceSettingsService.AppThemeBackgroundImageHorizontalAlignment];
 
 			UpdateSelectedResource();
+
+			// StatusCenterVisibility
+			StatusCenterVisibilityOptions.Add(StatusCenterVisibility.Always, Strings.Always.GetLocalizedResource());
+			StatusCenterVisibilityOptions.Add(StatusCenterVisibility.DuringOngoingFileOperations, Strings.DuringOngoingFileOperations.GetLocalizedResource());
+			SelectedStatusCenterVisibilityOption = StatusCenterVisibilityOptions[UserSettingsService.AppearanceSettingsService.StatusCenterVisibility];
 
 			SelectImageCommand = new RelayCommand(SelectBackgroundImage);
 			RemoveImageCommand = new RelayCommand(RemoveBackgroundImage);
@@ -326,6 +333,19 @@ namespace Files.App.ViewModels.Settings
 					UserSettingsService.AppearanceSettingsService.ShowShelfPaneToggleButton = value;
 
 					OnPropertyChanged();
+				}
+			}
+		}
+
+		private string selectedStatusCenterVisibilityOption;
+		public string SelectedStatusCenterVisibilityOption
+		{
+			get => selectedStatusCenterVisibilityOption;
+			set
+			{
+				if (SetProperty(ref selectedStatusCenterVisibilityOption, value))
+				{
+					UserSettingsService.AppearanceSettingsService.StatusCenterVisibility = StatusCenterVisibilityOptions.First(e => e.Value == value).Key;
 				}
 			}
 		}
