@@ -48,8 +48,10 @@ namespace Files.App.Controls
 
 		partial void OnIsFocusedChanged(bool newValue)
 		{
-			if (CurrentSelectedMode is null)
+			if (CurrentSelectedMode is null || _textBox is null)
 				return;
+
+			_textBox.Focus(FocusState.Keyboard);
 
 			if (newValue)
 			{
