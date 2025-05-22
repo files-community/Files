@@ -82,8 +82,7 @@ namespace Files.App.ViewModels.UserControls
 		public bool EnableOmnibar => GeneralSettingsService.EnableOmnibar;
 		public bool ShowStatusCenterButton =>
 			AppearanceSettingsService.StatusCenterVisibility == StatusCenterVisibility.Always ||
-			(AppearanceSettingsService.StatusCenterVisibility == StatusCenterVisibility.DuringOngoingFileOperations && OngoingTasksViewModel.HasAnyItemInProgress) ||
-			(AppearanceSettingsService.StatusCenterVisibility == StatusCenterVisibility.DuringFileOperationsUntilDismissed && OngoingTasksViewModel.HasAnyItem);
+			(AppearanceSettingsService.StatusCenterVisibility == StatusCenterVisibility.DuringOngoingFileOperations && OngoingTasksViewModel.HasAnyItem);
 
 		public bool ShowShelfPaneToggleButton => AppearanceSettingsService.ShowShelfPaneToggleButton && AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
 
@@ -396,7 +395,6 @@ namespace Files.App.ViewModels.UserControls
 				switch (e.PropertyName)
 				{
 					case nameof(OngoingTasksViewModel.HasAnyItem):
-					case nameof(OngoingTasksViewModel.HasAnyItemInProgress):
 						OnPropertyChanged(nameof(ShowStatusCenterButton));
 						break;
 				}

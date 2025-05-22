@@ -6,18 +6,13 @@ namespace Files.App.Data.Enums
 	public enum StatusCenterVisibility
 	{
 		/// <summary>
-		/// During active file operations until dismissed.
+		/// Always displayed.
 		/// </summary>
-		DuringFileOperationsUntilDismissed,
+		Always,
 
 		/// <summary>
 		/// During active file operations.
 		/// </summary>
 		DuringOngoingFileOperations,
-
-		/// <summary>
-		/// Always displayed.
-		/// </summary>
-		Always,
 	}
 }

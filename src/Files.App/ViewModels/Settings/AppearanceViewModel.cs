@@ -79,9 +79,8 @@ namespace Files.App.ViewModels.Settings
 			UpdateSelectedResource();
 
 			// StatusCenterVisibility
-			StatusCenterVisibilityOptions.Add(StatusCenterVisibility.DuringFileOperationsUntilDismissed, Strings.DuringFileOperationsUntilDismissed.GetLocalizedResource());
-			StatusCenterVisibilityOptions.Add(StatusCenterVisibility.DuringOngoingFileOperations, Strings.DuringOngoingFileOperations.GetLocalizedResource());
 			StatusCenterVisibilityOptions.Add(StatusCenterVisibility.Always, Strings.Always.GetLocalizedResource());
+			StatusCenterVisibilityOptions.Add(StatusCenterVisibility.DuringOngoingFileOperations, Strings.DuringOngoingFileOperations.GetLocalizedResource());
 			SelectedStatusCenterVisibilityOption = StatusCenterVisibilityOptions[UserSettingsService.AppearanceSettingsService.StatusCenterVisibility];
 
 			SelectImageCommand = new RelayCommand(SelectBackgroundImage);

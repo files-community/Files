@@ -4226,11 +4226,8 @@
   <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
     <value>Search for files and folders...</value>
   </data>
-  <data name="DuringFileOperationsUntilDismissed" xml:space="preserve">
-    <value>During active operations and displayed until dismissed</value>
-  </data>
   <data name="DuringOngoingFileOperations" xml:space="preserve">
-    <value>Only during active operations</value>
+    <value>During file operations</value>
   </data>
   <data name="ShowStatusCenterButton" xml:space="preserve">
     <value>Show status center button</value>
