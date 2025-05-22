@@ -225,3 +225,8 @@ QITIPF_FLAGS
 GetKeyboardState
 MapVirtualKey
 GetKeyboardLayout
+CreateEvent
+SetEvent
+CoWaitForMultipleObjects
+CWMO_FLAGS
+INFINITE
