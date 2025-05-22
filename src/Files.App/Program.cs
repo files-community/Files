@@ -5,11 +5,14 @@ using Files.Shared.Helpers;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
+using Windows.Win32;
+using Windows.Win32.Foundation;
 using System.IO;
 using System.Text;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using static Files.App.Helpers.Win32PInvoke;
+using Windows.Win32.Security;
 
 namespace Files.App
 {
@@ -248,22 +251,26 @@ namespace Files.App
 		/// <remarks>
 		/// Redirects on another thread and uses a non-blocking wait method to wait for the redirection to complete.
 		/// </remarks>
-		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
+		public static unsafe void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
 		{
-			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
+			HANDLE hEventHandle = PInvoke.CreateEvent((SECURITY_ATTRIBUTES*)null, true, false, null);
+
+			HANDLE* pHandles = stackalloc HANDLE[1];
+			pHandles[0] = hEventHandle;
 
 			Task.Run(() =>
 			{
 				keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
-				SetEvent(eventHandle);
+				PInvoke.SetEvent(hEventHandle);
 			});
 
-			_ = CoWaitForMultipleObjects(
+			uint dwIndex = 0u;
+			PInvoke.CoWaitForMultipleObjects(
 				CWMO_DEFAULT,
 				INFINITE,
-				1,
-				[eventHandle],
-				out uint handleIndex);
+				1u,
+				pHandles,
+				&dwIndex);
 		}
 
 		public static void OpenShellCommandInExplorer(string shellCommand, int pid)
@@ -271,21 +278,21 @@ namespace Files.App
 			Win32Helper.OpenFolderInExistingShellWindow(shellCommand);
 		}
 
-		public static void OpenFileFromTile(string filePath)
+		public static unsafe void OpenFileFromTile(string filePath)
 		{
-			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
+			HANDLE hEventHandle = PInvoke.CreateEvent((SECURITY_ATTRIBUTES*)null, true, false, null);
 
 			Task.Run(() =>
 			{
 				LaunchHelper.LaunchAppAsync(filePath, null, null).Wait();
-				SetEvent(eventHandle);
+				PInvoke.SetEvent(hEventHandle);
 			});
 
 			_ = CoWaitForMultipleObjects(
 				CWMO_DEFAULT,
 				INFINITE,
 				1,
-				[eventHandle],
+				[hEventHandle],
 				out uint handleIndex);
 		}
 	}
