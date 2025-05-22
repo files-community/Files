@@ -30,7 +30,7 @@ namespace Files.App.Actions
 			if (context.ShellPage is not null)
 			{
 				if (GeneralSettingsService.EnableOmnibar)
-					context.ShellPage!.ToolbarViewModel.SwitchToPathhMode();
+					context.ShellPage!.ToolbarViewModel.SwitchToPathMode();
 				else
 					context.ShellPage.ToolbarViewModel.IsEditModeEnabled = true;
 			}

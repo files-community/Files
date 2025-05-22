@@ -321,6 +321,7 @@
 			Grid.Column="1"
 			x:Load="{x:Bind ViewModel.EnableOmnibar, Mode=OneWay}"
 			CurrentSelectedMode="{x:Bind ViewModel.OmnibarCurrentSelectedMode, Mode=TwoWay}"
+			CurrentSelectedModeName="{x:Bind ViewModel.OmnibarCurrentSelectedModeName, Mode=TwoWay}"
 			IsFocused="{x:Bind ViewModel.IsOmnibarFocused, Mode=TwoWay}"
 			QuerySubmitted="Omnibar_QuerySubmitted"
 			SuggestionChosen="Omnibar_SuggestionChosen"

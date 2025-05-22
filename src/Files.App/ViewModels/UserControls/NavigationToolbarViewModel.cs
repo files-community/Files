@@ -263,6 +263,9 @@ namespace Files.App.ViewModels.UserControls
 		private OmnibarMode _OmnibarCurrentSelectedMode;
 		public OmnibarMode OmnibarCurrentSelectedMode { get => _OmnibarCurrentSelectedMode; set => SetProperty(ref _OmnibarCurrentSelectedMode, value); }
 
+		private string _OmnibarCurrentSelectedModeName;
+		public string OmnibarCurrentSelectedModeName { get => _OmnibarCurrentSelectedModeName; set => SetProperty(ref _OmnibarCurrentSelectedModeName, value); }
+
 		private CurrentInstanceViewModel _InstanceViewModel;
 		public CurrentInstanceViewModel InstanceViewModel
 		{
@@ -768,7 +771,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			if (EnableOmnibar)
 			{
-				OmnibarCurrentSelectedMode.Name = OmnibarPaletteModeName;
+				OmnibarCurrentSelectedModeName = OmnibarPaletteModeName;
 				IsOmnibarFocused = true;
 			}
 			else
@@ -787,7 +790,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			if (EnableOmnibar)
 			{
-				OmnibarCurrentSelectedMode.Name = OmnibarSearchModeName; 
+				OmnibarCurrentSelectedModeName = OmnibarSearchModeName;
 				IsOmnibarFocused = true;
 			}
 			else
@@ -807,9 +810,9 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public void SwitchToPathhMode()
+		public void SwitchToPathMode()
 		{
-			OmnibarCurrentSelectedMode.Name = OmnibarPathModeName;
+			OmnibarCurrentSelectedModeName = OmnibarPathModeName;
 			IsOmnibarFocused = true;
 		}
 
