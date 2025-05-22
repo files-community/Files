@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using Files.App.Actions;
 using Files.App.Controls;
 using Files.Shared.Helpers;
 using Microsoft.UI.Dispatching;
@@ -155,7 +154,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private bool _IsDynamicOverflowEnabled;
 		public bool IsDynamicOverflowEnabled { get => _IsDynamicOverflowEnabled; set => SetProperty(ref _IsDynamicOverflowEnabled, value); }
-		
+
 		private bool _IsUpdating;
 		public bool IsUpdating { get => _IsUpdating; set => SetProperty(ref _IsUpdating, value); }
 
@@ -228,7 +227,7 @@ namespace Files.App.ViewModels.UserControls
 		public string? OmnibarCommandPaletteModeText { get => _OmnibarCommandPaletteModeText; set => SetProperty(ref _OmnibarCommandPaletteModeText, value); }
 
 		private bool _IsOmnibarFocused;
-		public  bool IsOmnibarFocused
+		public bool IsOmnibarFocused
 		{
 			get => _IsOmnibarFocused;
 			set
@@ -237,7 +236,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					if (value)
 					{
-						switch(OmnibarCurrentSelectedMode.Name)
+						switch (OmnibarCurrentSelectedMode.Name)
 						{
 							case OmnibarPathModeName:
 								PathText =
@@ -741,57 +740,77 @@ namespace Files.App.ViewModels.UserControls
 			switch (e.Key)
 			{
 				case Windows.System.VirtualKey.Down:
-				{
-					var item = e.OriginalSource as ListViewItem;
-					var button = item?.FindDescendant<Button>();
-					button?.Flyout.ShowAt(button);
-					e.Handled = true;
-					break;
-				}
-				case Windows.System.VirtualKey.Space: 
-				case Windows.System.VirtualKey.Enter:
-				{
-					var item = e.OriginalSource as ListViewItem;
-					var path = (item?.Content as PathBoxItem)?.Path;
-					if (path == PathControlDisplayText)
-						return;
-					ToolbarPathItemInvoked?.Invoke(this, new PathNavigationEventArgs()
 					{
-						ItemPath = path
-					});
-					e.Handled = true;
-					break;
-				}
+						var item = e.OriginalSource as ListViewItem;
+						var button = item?.FindDescendant<Button>();
+						button?.Flyout.ShowAt(button);
+						e.Handled = true;
+						break;
+					}
+				case Windows.System.VirtualKey.Space:
+				case Windows.System.VirtualKey.Enter:
+					{
+						var item = e.OriginalSource as ListViewItem;
+						var path = (item?.Content as PathBoxItem)?.Path;
+						if (path == PathControlDisplayText)
+							return;
+						ToolbarPathItemInvoked?.Invoke(this, new PathNavigationEventArgs()
+						{
+							ItemPath = path
+						});
+						e.Handled = true;
+						break;
+					}
 			}
 		}
 
-		public void OpenCommandPalette()
+		public void SwitchToCommandPaletteMode()
 		{
-			PathText = ">";
-			IsCommandPaletteOpen = true;
-			ManualEntryBoxLoaded = true;
-			ClickablePathLoaded = false;
-
-			var visiblePath = AddressToolbar?.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
-			AddressBarTextEntered?.Invoke(this, new AddressBarTextEnteredEventArgs() { AddressBarTextField = visiblePath });
-		}
-
-		public void SwitchSearchBoxVisibility()
-		{
-			if (IsSearchBoxVisible)
+			if (EnableOmnibar)
 			{
-				CloseSearchBox(true);
+				OmnibarCurrentSelectedMode.Name = OmnibarPaletteModeName;
+				IsOmnibarFocused = true;
 			}
 			else
 			{
-				IsSearchBoxVisible = true;
+				PathText = ">";
+				IsCommandPaletteOpen = true;
+				ManualEntryBoxLoaded = true;
+				ClickablePathLoaded = false;
 
-				// Given that binding and layouting might take a few cycles, when calling UpdateLayout
-				// we can guarantee that the focus call will be able to find an open ASB
-				var searchbox = AddressToolbar?.FindDescendant("SearchRegion") as SearchBox;
-				searchbox?.UpdateLayout();
-				searchbox?.Focus(FocusState.Programmatic);
+				var visiblePath = AddressToolbar?.FindDescendant<AutoSuggestBox>(x => x.Name == "VisiblePath");
+				AddressBarTextEntered?.Invoke(this, new AddressBarTextEnteredEventArgs() { AddressBarTextField = visiblePath });
 			}
+		}
+
+		public void SwitchToSearchMode()
+		{
+			if (EnableOmnibar)
+			{
+				OmnibarCurrentSelectedMode.Name = OmnibarSearchModeName; 
+				IsOmnibarFocused = true;
+			}
+			else
+			{
+				if (IsSearchBoxVisible)
+					CloseSearchBox(true);
+				else
+				{
+					IsSearchBoxVisible = true;
+
+					// Given that binding and layouting might take a few cycles, when calling UpdateLayout
+					// we can guarantee that the focus call will be able to find an open ASB
+					var searchbox = AddressToolbar?.FindDescendant("SearchRegion") as SearchBox;
+					searchbox?.UpdateLayout();
+					searchbox?.Focus(FocusState.Programmatic);
+				}
+			}
+		}
+
+		public void SwitchToPathhMode()
+		{
+			OmnibarCurrentSelectedMode.Name = OmnibarPathModeName;
+			IsOmnibarFocused = true;
 		}
 
 		public void UpdateAdditionalActions()
