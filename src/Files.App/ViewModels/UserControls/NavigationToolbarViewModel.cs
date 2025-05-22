@@ -772,7 +772,6 @@ namespace Files.App.ViewModels.UserControls
 			if (EnableOmnibar)
 			{
 				OmnibarCurrentSelectedModeName = OmnibarPaletteModeName;
-				IsOmnibarFocused = true;
 			}
 			else
 			{
@@ -791,7 +790,6 @@ namespace Files.App.ViewModels.UserControls
 			if (EnableOmnibar)
 			{
 				OmnibarCurrentSelectedModeName = OmnibarSearchModeName;
-				IsOmnibarFocused = true;
 			}
 			else
 			{
@@ -813,7 +811,6 @@ namespace Files.App.ViewModels.UserControls
 		public void SwitchToPathMode()
 		{
 			OmnibarCurrentSelectedModeName = OmnibarPathModeName;
-			IsOmnibarFocused = true;
 		}
 
 		public void UpdateAdditionalActions()
