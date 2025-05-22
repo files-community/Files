@@ -8,7 +8,7 @@ using Windows.Win32.UI.Shell;
 namespace Files.App.Storage
 {
 	[DebuggerDisplay("{" + nameof(ToString) + "()}")]
-	public sealed class WindowsFile : WindowsStorable, IChildFile
+	public sealed class WindowsFile : WindowsStorable, IWindowsFile
 	{
 		public WindowsFile(ComPtr<IShellItem> nativeObject)
 		{

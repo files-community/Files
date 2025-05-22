@@ -225,3 +225,12 @@ QITIPF_FLAGS
 GetKeyboardState
 MapVirtualKey
 GetKeyboardLayout
+SHChangeNotifyRegister
+SHChangeNotifyDeregister
+SHChangeNotification_Lock
+SHChangeNotification_Unlock
+CoInitialize
+CoUninitialize
+PostQuitMessage
+HWND_MESSAGE
+SHCNE_ID
