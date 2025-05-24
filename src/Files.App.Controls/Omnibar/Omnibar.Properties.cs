@@ -51,8 +51,6 @@ namespace Files.App.Controls
 			if (CurrentSelectedMode is null || _textBox is null)
 				return;
 
-			_textBox.Focus(FocusState.Keyboard);
-
 			if (newValue)
 			{
 				VisualStateManager.GoToState(CurrentSelectedMode, "Focused", true);

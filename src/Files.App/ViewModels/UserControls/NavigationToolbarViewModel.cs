@@ -232,29 +232,29 @@ namespace Files.App.ViewModels.UserControls
 			get => _IsOmnibarFocused;
 			set
 			{
-				if (SetProperty(ref _IsOmnibarFocused, value))
-				{
-					if (value)
-					{
-						switch (OmnibarCurrentSelectedMode.Name)
-						{
-							case OmnibarPathModeName:
-								PathText =
-									string.IsNullOrEmpty(ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory)
-										? Constants.UserEnvironmentPaths.HomePath
-										: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
-								_ = PopulateOmnibarSuggestionsForPathMode();
-								break;
-							case OmnibarPaletteModeName:
-								if (OmnibarCommandPaletteModeSuggestionItems.Count is 0)
-									PopulateOmnibarSuggestionsForCommandPaletteMode();
-								break;
-							case OmnibarSearchModeName:
-								break;
-							default:
-								break;
-						}
+				// NOTE: Don't call ObservableObject.SetProperty() here since we don't want to change focus logic outside of the control.
 
+				_IsOmnibarFocused = value;
+
+				if (value)
+				{
+					switch (OmnibarCurrentSelectedMode.Name)
+					{
+						case OmnibarPathModeName:
+							PathText =
+								string.IsNullOrEmpty(ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory)
+									? Constants.UserEnvironmentPaths.HomePath
+									: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
+							_ = PopulateOmnibarSuggestionsForPathMode();
+							break;
+						case OmnibarPaletteModeName:
+							if (OmnibarCommandPaletteModeSuggestionItems.Count is 0)
+								PopulateOmnibarSuggestionsForCommandPaletteMode();
+							break;
+						case OmnibarSearchModeName:
+							break;
+						default:
+							break;
 					}
 				}
 			}

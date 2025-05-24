@@ -78,11 +78,6 @@ namespace Files.App.Controls
 			_ownerRef = new(owner);
 		}
 
-		public void OnChangingCurrentMode(bool isCurrentMode)
-		{
-			_modeButton.IsTabStop = !isCurrentMode;
-		}
-
 		public override string ToString()
 		{
 			return ModeName ?? string.Empty;

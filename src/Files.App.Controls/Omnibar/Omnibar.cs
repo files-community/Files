@@ -114,8 +114,7 @@ namespace Files.App.Controls
 				// Add the reposition transition to the all modes
 				mode.Transitions = [new RepositionThemeTransition()];
 				mode.UpdateLayout();
-
-				mode.OnChangingCurrentMode(false);
+				mode.IsTabStop = true;
 			}
 
 			var index = _modesHostGrid.Children.IndexOf(newMode);
@@ -145,24 +144,30 @@ namespace Files.App.Controls
 			ChangeTextBoxText(newMode.Text ?? string.Empty);
 
 			VisualStateManager.GoToState(newMode, "Focused", true);
-			newMode.OnChangingCurrentMode(true);
-
-			if (IsFocused)
+			newMode.IsTabStop = false;
+			if (newMode.IsAutoFocusEnabled)
 			{
-				VisualStateManager.GoToState(newMode, "Focused", true);
-				VisualStateManager.GoToState(_textBox, "InputAreaVisible", true);
-			}
-			else if (newMode?.ContentOnInactive is not null)
-			{
-				VisualStateManager.GoToState(newMode, "CurrentUnfocused", true);
-				VisualStateManager.GoToState(_textBox, "InputAreaCollapsed", true);
+				_textBox.Focus(FocusState.Pointer);
 			}
 			else
 			{
-				VisualStateManager.GoToState(_textBox, "InputAreaVisible", true);
-			}
+				if (IsFocused)
+				{
+					VisualStateManager.GoToState(newMode, "Focused", true);
+					VisualStateManager.GoToState(_textBox, "InputAreaVisible", true);
+				}
+				else if (newMode?.ContentOnInactive is not null)
+				{
+					VisualStateManager.GoToState(newMode, "CurrentUnfocused", true);
+					VisualStateManager.GoToState(_textBox, "InputAreaCollapsed", true);
+				}
+				else
+				{
+					VisualStateManager.GoToState(_textBox, "InputAreaVisible", true);
+				}
 
-			TryToggleIsSuggestionsPopupOpen(IsFocused && newMode?.SuggestionItemsSource is not null);
+				TryToggleIsSuggestionsPopupOpen(true);
+			}
 
 			// Remove the reposition transition from the all modes
 			foreach (var mode in Modes)
