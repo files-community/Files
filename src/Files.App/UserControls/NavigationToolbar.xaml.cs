@@ -262,23 +262,7 @@ namespace Files.App.UserControls
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
 			{
-			}
-			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
-			{
-			}
-		}
-
-		private async void Omnibar_SuggestionChosen(Omnibar sender, OmnibarSuggestionChosenEventArgs args)
-		{
-			if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
-			{
-				if (args.SelectedItem is OmnibarPathModeSuggestionModel item &&
-					!string.IsNullOrEmpty(item.Path))
-					await ViewModel.HandleItemNavigationAsync(item.Path);
-			}
-			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
-			{
-				if (args.SelectedItem is not NavigationBarSuggestionItem item || item.Text is not { } commandText)
+				if (args.Item is not NavigationBarSuggestionItem item || item.Text is not { } commandText)
 					return;
 
 				var command = Commands[commandText];
@@ -291,7 +275,7 @@ namespace Files.App.UserControls
 				else
 					await command.ExecuteAsync();
 
-				Omnibar.ChangeMode(OmnibarPathMode);
+				ViewModel.OmnibarCurrentSelectedMode = OmnibarPathMode;
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 			{
@@ -300,6 +284,9 @@ namespace Files.App.UserControls
 
 		private async void Omnibar_TextChanged(Omnibar sender, OmnibarTextChangedEventArgs args)
 		{
+			if (args.Reason is not OmnibarTextChangeReason.UserInput)
+				return;
+
 			if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
 			{
 				await ViewModel.PopulateOmnibarSuggestionsForPathMode();

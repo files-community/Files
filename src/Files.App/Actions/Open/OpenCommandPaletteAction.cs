@@ -23,7 +23,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			_context.ShellPage?.ToolbarViewModel.OpenCommandPalette();
+			_context.ShellPage?.ToolbarViewModel.SwitchToCommandPaletteMode();
 
 			return Task.CompletedTask;
 		}
