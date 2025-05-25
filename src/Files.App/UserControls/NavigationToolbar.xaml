@@ -29,6 +29,7 @@
 			<converters:NullToTrueConverter x:Key="NullToFalseConverter" Inverse="True" />
 			<converters:NullToVisibilityCollapsedConverter x:Key="NullToVisibilityCollapsedConverter" />
 			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
+			<converters:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
 
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///UserControls/KeyboardShortcut/KeyboardShortcut.xaml" />
@@ -476,36 +477,35 @@
 				Visibility="{x:Bind ViewModel.ShowStatusCenterButton, Mode=OneWay}">
 
 				<Grid Margin="-16">
-
 					<controls:ThemedIcon
 						x:Name="StatusCenterIcon"
 						Width="16"
 						Height="16"
-						x:Load="{x:Bind OngoingTasksViewModel.HasAnyItem, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
-						Style="{StaticResource App.ThemedIcons.StatusCenter}" />
+						Style="{StaticResource App.ThemedIcons.StatusCenter}"
+						Visibility="{x:Bind OngoingTasksViewModel.ShowProgressRing, Converter={StaticResource VisibilityInvertConverter}, Mode=OneWay}" />
 
 					<ProgressRing
 						x:Name="MedianOperationProgressRing"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
-						x:Load="{x:Bind OngoingTasksViewModel.HasAnyItemInProgress, Mode=OneWay}"
-						Background="{ThemeResource SubtleFillColorSecondaryBrush}"
+						AutomationProperties.Name="{helpers:ResourceString Name=StatusCenterProgressRing}"
 						IsIndeterminate="False"
+						Visibility="{x:Bind OngoingTasksViewModel.ShowProgressRing, Mode=OneWay}"
 						Value="{x:Bind OngoingTasksViewModel.AverageOperationProgressValue, Mode=OneWay}" />
 
 					<InfoBadge
 						x:Name="StatusInfoBadge"
 						HorizontalAlignment="Center"
 						VerticalAlignment="Center"
-						Visibility="{x:Bind OngoingTasksViewModel.HasAnyItem, Mode=OneWay}"
+						Visibility="{x:Bind OngoingTasksViewModel.ShowProgressRing, Mode=OneWay}"
 						Value="{x:Bind OngoingTasksViewModel.InfoBadgeValue, Mode=OneWay}" />
-
 				</Grid>
 
 				<Button.Flyout>
 					<Flyout
 						contract8Present:ShouldConstrainToRootBounds="False"
 						AutomationProperties.Name="{helpers:ResourceString Name=StatusCenter}"
+						Opened="{x:Bind OngoingTasksViewModel.OnStatusCenterFlyoutOpened, Mode=OneWay}"
 						Placement="BottomEdgeAlignedRight">
 						<Flyout.FlyoutPresenterStyle>
 							<Style TargetType="FlyoutPresenter">
@@ -517,7 +517,7 @@
 						<ucs:StatusCenter
 							x:Name="OngoingTasksControl"
 							Width="400"
-							MinHeight="300"
+							MinHeight="120"
 							MaxHeight="500"
 							x:FieldModifier="public"
 							IsTabStop="True" />
@@ -629,6 +629,7 @@
 							To="0" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
+						<Setter Target="MedianOperationProgressRing.Background" Value="{ThemeResource SystemFillColorSuccessBrush}" />
 						<Setter Target="StatusInfoBadge.Style" Value="{StaticResource SuccessIconInfoBadgeStyle}" />
 					</VisualState.Setters>
 				</VisualState>
@@ -640,7 +641,9 @@
 							To="1" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
-						<Setter Target="StatusInfoBadge.Style" Value="{StaticResource AttentionValueInfoBadgeStyle}" />
+						<Setter Target="MedianOperationProgressRing.Foreground" Value="{ThemeResource SystemFillColorAttentionBrush}" />
+						<Setter Target="MedianOperationProgressRing.Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+						<Setter Target="StatusCenterIcon.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="TasksFailure">
@@ -651,7 +654,9 @@
 							To="2" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
-						<Setter Target="StatusInfoBadge.Style" Value="{StaticResource CriticalValueInfoBadgeStyle}" />
+						<Setter Target="MedianOperationProgressRing.Foreground" Value="{ThemeResource SystemFillColorAttentionBrush}" />
+						<Setter Target="MedianOperationProgressRing.Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+						<Setter Target="StatusCenterIcon.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="TasksCompletionWithFailure">
@@ -662,6 +667,8 @@
 							To="3" />
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
+						<Setter Target="MedianOperationProgressRing.Background" Value="{ThemeResource SystemFillColorCriticalBrush}" />
+						<Setter Target="StatusCenterIcon.Visibility" Value="Collapsed" />
 						<Setter Target="StatusInfoBadge.Style" Value="{StaticResource CriticalIconInfoBadgeStyle}" />
 					</VisualState.Setters>
 				</VisualState>
