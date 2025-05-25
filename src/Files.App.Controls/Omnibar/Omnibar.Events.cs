@@ -14,14 +14,18 @@ namespace Files.App.Controls
 			_textBoxSuggestionsContainerBorder.Width = ActualWidth;
 		}
 
+		private void AutoSuggestBox_GettingFocus(UIElement sender, GettingFocusEventArgs args)
+		{
+			if (args.OldFocusedElement is null)
+				return;
+
+			_previouslyFocusedElement = new(args.OldFocusedElement as UIElement);
+		}
+
 		private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
 		{
 			IsFocused = true;
-
-			VisualStateManager.GoToState(CurrentSelectedMode, "Focused", true);
-			VisualStateManager.GoToState(_textBox, "InputAreaVisible", true);
-
-			TryToggleIsSuggestionsPopupOpen(true);
+			_textBox.SelectAll();
 		}
 
 		private void AutoSuggestBox_LostFocus(object sender, RoutedEventArgs e)
@@ -31,14 +35,6 @@ namespace Files.App.Controls
 				return;
 
 			IsFocused = false;
-
-			if (CurrentSelectedMode?.ContentOnInactive is not null)
-			{
-				VisualStateManager.GoToState(CurrentSelectedMode, "CurrentUnfocused", true);
-				VisualStateManager.GoToState(_textBox, "InputAreaCollapsed", true);
-			}
-
-			TryToggleIsSuggestionsPopupOpen(false);
 		}
 
 		private void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -77,12 +73,20 @@ namespace Files.App.Controls
 					ChooseSuggestionItem(_textBoxSuggestionsListView.SelectedItem);
 				}
 			}
-			else if (e.Key == VirtualKey.Escape && _textBoxSuggestionsPopup.IsOpen)
+			else if (e.Key == VirtualKey.Escape)
 			{
 				e.Handled = true;
 
-				RevertTextToUserInput();
-				_textBoxSuggestionsPopup.IsOpen = false;
+				if (_textBoxSuggestionsPopup.IsOpen)
+				{
+					RevertTextToUserInput();
+					_textBoxSuggestionsPopup.IsOpen = false;
+				}
+				else
+				{
+					_previouslyFocusedElement.TryGetTarget(out var previouslyFocusedElement);
+					previouslyFocusedElement?.Focus(FocusState.Programmatic);
+				}
 			}
 			else
 			{

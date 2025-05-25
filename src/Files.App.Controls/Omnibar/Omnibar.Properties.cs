@@ -22,14 +22,50 @@ namespace Files.App.Controls
 		[GeneratedDependencyProperty]
 		public partial bool IsFocused { get; set; }
 
-		partial void OnCurrentSelectedModeChanged(OmnibarMode? newValue)
+		partial void OnCurrentSelectedModePropertyChanged(DependencyPropertyChangedEventArgs e)
 		{
-			CurrentSelectedModeName = newValue?.ModeName;
+			if (e.NewValue is not OmnibarMode newMode)
+				return;
+
+			ChangeMode(e.OldValue as OmnibarMode, newMode);
+			CurrentSelectedModeName = newMode.ModeName;
+		}
+
+		partial void OnCurrentSelectedModeNameChanged(string? newValue)
+		{
+			if (string.IsNullOrEmpty(newValue) ||
+				string.IsNullOrEmpty(CurrentSelectedMode?.Name) ||
+				CurrentSelectedMode.Name.Equals(newValue) ||
+				Modes is null)
+				return;
+
+			var newMode = Modes.Where(x => x.Name?.Equals(newValue) ?? false).FirstOrDefault();
+			if (newMode is null)
+				return;
+
+			CurrentSelectedMode = newMode;
 		}
 
 		partial void OnIsFocusedChanged(bool newValue)
 		{
-			//_textBox?.Focus(newValue ? FocusState.Programmatic : FocusState.Unfocused);
+			if (CurrentSelectedMode is null || _textBox is null)
+				return;
+
+			if (newValue)
+			{
+				VisualStateManager.GoToState(CurrentSelectedMode, "Focused", true);
+				VisualStateManager.GoToState(_textBox, "InputAreaVisible", true);
+			}
+			else
+			{
+				if (CurrentSelectedMode?.ContentOnInactive is not null)
+				{
+					VisualStateManager.GoToState(CurrentSelectedMode, "CurrentUnfocused", true);
+					VisualStateManager.GoToState(_textBox, "InputAreaCollapsed", true);
+				}
+			}
+
+			TryToggleIsSuggestionsPopupOpen(newValue);
 		}
 	}
 }

@@ -31,6 +31,8 @@ namespace Files.App.Controls
 		private string _userInput = string.Empty;
 		private OmnibarTextChangeReason _textChangeReason = OmnibarTextChangeReason.None;
 
+		private WeakReference<UIElement?> _previouslyFocusedElement = new(null);
+
 		// Events
 
 		public event TypedEventHandler<Omnibar, OmnibarQuerySubmittedEventArgs>? QuerySubmitted;
@@ -67,6 +69,7 @@ namespace Files.App.Controls
 			PopulateModes();
 
 			SizeChanged += Omnibar_SizeChanged;
+			_textBox.GettingFocus += AutoSuggestBox_GettingFocus;
 			_textBox.GotFocus += AutoSuggestBox_GotFocus;
 			_textBox.LostFocus += AutoSuggestBox_LostFocus;
 			_textBox.KeyDown += AutoSuggestBox_KeyDown;
@@ -104,27 +107,23 @@ namespace Files.App.Controls
 			}
 		}
 
-		public void ChangeMode(OmnibarMode modeToExpand, bool shouldFocus = false, bool useTransition = true)
+		protected void ChangeMode(OmnibarMode? oldMode, OmnibarMode newMode)
 		{
-			if (_modesHostGrid is null || Modes is null)
+			if (_modesHostGrid is null || Modes is null || CurrentSelectedMode is null)
 				return;
 
 			foreach (var mode in Modes)
 			{
 				// Add the reposition transition to the all modes
-				if (useTransition)
-				{
-					mode.Transitions = [new RepositionThemeTransition()];
-					mode.UpdateLayout();
-				}
-
-				mode.OnChangingCurrentMode(false);
+				mode.Transitions = [new RepositionThemeTransition()];
+				mode.UpdateLayout();
+				mode.IsTabStop = true;
 			}
 
-			var index = _modesHostGrid.Children.IndexOf(modeToExpand);
+			var index = _modesHostGrid.Children.IndexOf(newMode);
 
-			if (CurrentSelectedMode is not null)
-				VisualStateManager.GoToState(CurrentSelectedMode, "Unfocused", true);
+			if (oldMode is not null)
+				VisualStateManager.GoToState(oldMode, "Unfocused", true);
 
 			// Reset
 			foreach (var column in _modesHostGrid.ColumnDefinitions)
@@ -134,8 +133,8 @@ namespace Files.App.Controls
 			_modesHostGrid.ColumnDefinitions[index].Width = new(1, GridUnitType.Star);
 
 			var itemCount = Modes.Count;
-			var itemIndex = Modes.IndexOf(modeToExpand);
-			var modeButtonWidth = modeToExpand.ActualWidth;
+			var itemIndex = Modes.IndexOf(newMode);
+			var modeButtonWidth = newMode.ActualWidth;
 			var modeSeparatorWidth = itemCount is not 0 or 1 ? _modesHostGrid.Children[1] is FrameworkElement frameworkElement ? frameworkElement.ActualWidth : 0 : 0;
 
 			var leftPadding = (itemIndex + 1) * modeButtonWidth + modeSeparatorWidth * itemIndex;
@@ -144,51 +143,52 @@ namespace Files.App.Controls
 			// Set the correct AutoSuggestBox cursor position
 			AutoSuggestBoxPadding = new(leftPadding, 0, rightPadding, 0);
 
-			CurrentSelectedMode = modeToExpand;
-
 			_textChangeReason = OmnibarTextChangeReason.ProgrammaticChange;
-			ChangeTextBoxText(CurrentSelectedMode.Text ?? string.Empty);
+			ChangeTextBoxText(newMode.Text ?? string.Empty);
 
-			// Move cursor of the TextBox to the tail
-			_textBox.Select(_textBox.Text.Length, 0);
-
-			VisualStateManager.GoToState(CurrentSelectedMode, "Focused", true);
-			CurrentSelectedMode.OnChangingCurrentMode(true);
-
-			if (IsFocused)
+			VisualStateManager.GoToState(newMode, "Focused", true);
+			newMode.IsTabStop = false;
+			if (newMode.IsAutoFocusEnabled)
 			{
-				VisualStateManager.GoToState(CurrentSelectedMode, "Focused", true);
-				VisualStateManager.GoToState(_textBox, "InputAreaVisible", true);
-			}
-			else if (CurrentSelectedMode?.ContentOnInactive is not null)
-			{
-				VisualStateManager.GoToState(CurrentSelectedMode, "CurrentUnfocused", true);
-				VisualStateManager.GoToState(_textBox, "InputAreaCollapsed", true);
+				_textBox.Focus(FocusState.Pointer);
 			}
 			else
 			{
-				VisualStateManager.GoToState(_textBox, "InputAreaVisible", true);
+				if (IsFocused)
+				{
+					VisualStateManager.GoToState(newMode, "Focused", true);
+					VisualStateManager.GoToState(_textBox, "InputAreaVisible", true);
+				}
+				else if (newMode?.ContentOnInactive is not null)
+				{
+					VisualStateManager.GoToState(newMode, "CurrentUnfocused", true);
+					VisualStateManager.GoToState(_textBox, "InputAreaCollapsed", true);
+				}
+				else
+				{
+					VisualStateManager.GoToState(_textBox, "InputAreaVisible", true);
+				}
+
+				TryToggleIsSuggestionsPopupOpen(true);
 			}
-
-			if (shouldFocus)
-				_textBox.Focus(FocusState.Keyboard);
-
-			TryToggleIsSuggestionsPopupOpen(IsFocused && CurrentSelectedMode?.SuggestionItemsSource is not null);
 
 			// Remove the reposition transition from the all modes
-			if (useTransition)
+			foreach (var mode in Modes)
 			{
-				foreach (var mode in Modes)
-				{
-					mode.Transitions.Clear();
-					mode.UpdateLayout();
-				}
+				mode.Transitions.Clear();
+				mode.UpdateLayout();
 			}
+		}
+
+		internal protected void FocusTextBox()
+		{
+			_textBox.Focus(FocusState.Keyboard);
 		}
 
 		public bool TryToggleIsSuggestionsPopupOpen(bool wantToOpen)
 		{
-			if (wantToOpen && (!IsFocused || CurrentSelectedMode?.SuggestionItemsSource is null || (CurrentSelectedMode?.SuggestionItemsSource is IList collection && collection.Count is 0)))
+			if (wantToOpen && (!IsFocused || CurrentSelectedMode?.SuggestionItemsSource is null || (CurrentSelectedMode?.SuggestionItemsSource is IList collection && collection.Count is 0)) ||
+				_textBoxSuggestionsPopup is null)
 				return false;
 
 			_textBoxSuggestionsPopup.IsOpen = wantToOpen;

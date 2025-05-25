@@ -42,7 +42,7 @@ namespace Files.App.Data.Contracts
 
 		public event EventHandler RefreshWidgetsRequested;
 
-		public void SwitchSearchBoxVisibility();
+		public void SwitchToSearchMode();
 
 		public ISearchBoxViewModel SearchBox { get; }
 	}
