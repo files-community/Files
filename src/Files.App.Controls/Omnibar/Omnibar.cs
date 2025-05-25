@@ -31,6 +31,8 @@ namespace Files.App.Controls
 		private string _userInput = string.Empty;
 		private OmnibarTextChangeReason _textChangeReason = OmnibarTextChangeReason.None;
 
+		private WeakReference<UIElement?> _previouslyFocusedElement = new(null);
+
 		// Events
 
 		public event TypedEventHandler<Omnibar, OmnibarQuerySubmittedEventArgs>? QuerySubmitted;
@@ -67,6 +69,7 @@ namespace Files.App.Controls
 			PopulateModes();
 
 			SizeChanged += Omnibar_SizeChanged;
+			_textBox.GettingFocus += AutoSuggestBox_GettingFocus;
 			_textBox.GotFocus += AutoSuggestBox_GotFocus;
 			_textBox.LostFocus += AutoSuggestBox_LostFocus;
 			_textBox.KeyDown += AutoSuggestBox_KeyDown;

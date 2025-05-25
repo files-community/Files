@@ -14,6 +14,14 @@ namespace Files.App.Controls
 			_textBoxSuggestionsContainerBorder.Width = ActualWidth;
 		}
 
+		private void AutoSuggestBox_GettingFocus(UIElement sender, GettingFocusEventArgs args)
+		{
+			if (args.OldFocusedElement is null)
+				return;
+
+			_previouslyFocusedElement = new(args.OldFocusedElement as UIElement);
+		}
+
 		private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
 		{
 			IsFocused = true;
@@ -65,12 +73,20 @@ namespace Files.App.Controls
 					ChooseSuggestionItem(_textBoxSuggestionsListView.SelectedItem);
 				}
 			}
-			else if (e.Key == VirtualKey.Escape && _textBoxSuggestionsPopup.IsOpen)
+			else if (e.Key == VirtualKey.Escape)
 			{
 				e.Handled = true;
 
-				RevertTextToUserInput();
-				_textBoxSuggestionsPopup.IsOpen = false;
+				if (_textBoxSuggestionsPopup.IsOpen)
+				{
+					RevertTextToUserInput();
+					_textBoxSuggestionsPopup.IsOpen = false;
+				}
+				else
+				{
+					_previouslyFocusedElement.TryGetTarget(out var previouslyFocusedElement);
+					previouslyFocusedElement?.Focus(FocusState.Programmatic);
+				}
 			}
 			else
 			{
