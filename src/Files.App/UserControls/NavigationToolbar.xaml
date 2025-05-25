@@ -419,6 +419,7 @@
 				x:Name="OmnibarSearchMode"
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IconType=Outline}"
+				IsAutoFocusEnabled="True"
 				ModeName="{x:Bind Commands.Search.LabelWithHotKey, Mode=OneWay}"
 				PlaceholderText="{helpers:ResourceString Name=OmnibarSearchModeTextPlaceholder}" />
 
