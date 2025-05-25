@@ -2229,7 +2229,7 @@
     <value>Settings</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Double-click on a blank space to navigate one level up in the directory</value>
+    <value>Double-click a blank space to navigate one level up the folder tree</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
     <value>View more</value>
@@ -2322,10 +2322,10 @@
     <value>Apply this action to all conflicting items</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Terminal</value>
+    <value>Open in Windows Terminal</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
-    <value>Terminal as administrator</value>
+    <value>Open in Windows Terminal as administrator</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
@@ -2484,7 +2484,7 @@
     <value>Open parent folder of searched item</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
-    <value>Reload page contents</value>
+    <value>Refresh page contents</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
     <value>Change the name of the selected item</value>
@@ -2709,7 +2709,7 @@
     <value>Navigate to the next folder</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
-    <value>Navigate one level up in the directory</value>
+    <value>Navigate one level up in the folder tree</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
     <value>Duplicate the current tab</value>
