@@ -80,6 +80,7 @@ namespace Files.App.Controls
 			_textBox.TextChanged += AutoSuggestBox_TextChanged;
 			_textBoxSuggestionsPopup.GettingFocus += AutoSuggestBoxSuggestionsPopup_GettingFocus;
 			_textBoxSuggestionsListView.ItemClick += AutoSuggestBoxSuggestionsListView_ItemClick;
+			_textBoxSuggestionsListView.SelectionChanged += AutoSuggestBoxSuggestionsListView_SelectionChanged;
 
 			// Set the default width
 			_textBoxSuggestionsContainerBorder.Width = ActualWidth;
