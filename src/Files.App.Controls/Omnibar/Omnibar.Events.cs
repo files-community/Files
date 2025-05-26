@@ -80,7 +80,7 @@ namespace Files.App.Controls
 				{
 					_textBoxSuggestionsListView.SelectedIndex = nextIndex;
 
-					ChooseSuggestionItem(_textBoxSuggestionsListView.SelectedItem);
+					ChooseSuggestionItem(_textBoxSuggestionsListView.SelectedItem, true);
 				}
 			}
 			else if (e.Key == VirtualKey.Escape)
