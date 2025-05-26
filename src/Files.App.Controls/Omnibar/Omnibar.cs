@@ -201,12 +201,13 @@ namespace Files.App.Controls
 			return false;
 		}
 
-		public void ChooseSuggestionItem(object obj)
+		public void ChooseSuggestionItem(object obj, bool isOriginatedFromArrowKey = false)
 		{
 			if (CurrentSelectedMode is null)
 				return;
 
-			if (CurrentSelectedMode.UpdateTextOnSelect)
+			if (CurrentSelectedMode.UpdateTextOnSelect ||
+				(isOriginatedFromArrowKey && CurrentSelectedMode.UpdateTextOnArrowKeys))
 			{
 				_textChangeReason = OmnibarTextChangeReason.SuggestionChosen;
 				ChangeTextBoxText(GetObjectText(obj));
