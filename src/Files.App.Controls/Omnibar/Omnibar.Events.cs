@@ -137,5 +137,10 @@ namespace Files.App.Controls
 			ChooseSuggestionItem(e.ClickedItem);
 			SubmitQuery(e.ClickedItem);
 		}
+
+		private void AutoSuggestBoxSuggestionsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			_textBoxSuggestionsListView.ScrollIntoView(_textBoxSuggestionsListView.SelectedItem);
+		}
 	}
 }
