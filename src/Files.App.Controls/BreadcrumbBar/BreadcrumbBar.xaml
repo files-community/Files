@@ -66,6 +66,7 @@
 							Margin="{StaticResource BreadcrumbBarItemMargin}"
 							AutomationProperties.AccessibilityView="Content"
 							IsEllipsis="True"
+							ToolTipService.ToolTip="{TemplateBinding EllipsisButtonToolTip}"
 							Visibility="Collapsed">
 							<FontIcon FontSize="{StaticResource BreadcrumbBarEllipsisFontSize}" Glyph="&#xE712;" />
 						</local:BreadcrumbBarItem>
