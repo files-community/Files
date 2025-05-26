@@ -22,6 +22,16 @@ namespace Files.App.Controls
 			_previouslyFocusedElement = new(args.OldFocusedElement as UIElement);
 		}
 
+		private void AutoSuggestBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
+		{
+			if (IsModeButtonPressed)
+			{
+				IsModeButtonPressed = false;
+				args.TryCancel();
+				return;
+			}
+		}
+
 		private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
 		{
 			IsFocused = true;
