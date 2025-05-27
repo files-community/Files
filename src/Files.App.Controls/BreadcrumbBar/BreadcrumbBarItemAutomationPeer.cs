@@ -37,7 +37,7 @@ namespace Files.App.Controls
 
 		protected override AutomationControlType GetAutomationControlTypeCore()
 		{
-			return AutomationControlType.Button;
+			return AutomationControlType.ListItem;
 		}
 
 		/// <summary>
