@@ -4236,7 +4236,7 @@
     <value>Status center progress ping</value>
     <comment>Screen reader name for the status center progress ring</comment>
   </data>
-  <data name="IconFile" xml:space="preserve">
+  <data name="IconFiles" xml:space="preserve">
     <value>Icon files</value>
     <comment>This is the friendly name for a variety of different icon files.</comment>
   </data>
