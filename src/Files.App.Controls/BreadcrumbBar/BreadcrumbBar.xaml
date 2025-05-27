@@ -55,7 +55,6 @@
 							x:Name="PART_RootBreadcrumbBarItem"
 							Grid.Column="0"
 							Padding="{StaticResource BreadcrumbBarRootItemPadding}"
-							AutomationProperties.AccessibilityView="Content"
 							CornerRadius="{StaticResource BreadcrumbBarRootItemCornerRadius}">
 							<ContentPresenter Content="{Binding RootItem, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 						</local:BreadcrumbBarItem>
@@ -64,7 +63,6 @@
 							x:Name="PART_EllipsisBreadcrumbBarItem"
 							Grid.Column="1"
 							Margin="{StaticResource BreadcrumbBarItemMargin}"
-							AutomationProperties.AccessibilityView="Content"
 							IsEllipsis="True"
 							ToolTipService.ToolTip="{TemplateBinding EllipsisButtonToolTip}"
 							Visibility="Collapsed">
@@ -125,7 +123,8 @@
 							x:Name="PART_ItemContentButton"
 							Padding="{TemplateBinding Padding}"
 							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-							AutomationProperties.AccessibilityView="Raw"
+							AutomationProperties.AccessibilityView="Content"
+							AutomationProperties.Name="{TemplateBinding Content}"
 							Background="{TemplateBinding Background}"
 							BorderBrush="{TemplateBinding BorderBrush}"
 							BorderThickness="{TemplateBinding BorderThickness}"
@@ -179,6 +178,7 @@
 							Padding="{StaticResource BreadcrumbBarChevronPadding}"
 							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 							AutomationProperties.AccessibilityView="Content"
+							AutomationProperties.Name="Chevron"
 							Background="{TemplateBinding Background}"
 							BorderBrush="{TemplateBinding BorderBrush}"
 							BorderThickness="{TemplateBinding BorderThickness}"
