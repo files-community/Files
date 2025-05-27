@@ -375,6 +375,7 @@
 				SuggestionItemsSource="{x:Bind ViewModel.OmnibarCommandPaletteModeSuggestionItems, Mode=OneWay}"
 				Text="{x:Bind ViewModel.OmnibarCommandPaletteModeText, Mode=TwoWay}"
 				TextMemberPath="Text"
+				UnfocusedStateBehaviors="ReturnToDefaultMode"
 				UpdateTextOnSelect="False">
 				<controls:OmnibarMode.SuggestionItemTemplate>
 					<DataTemplate x:DataType="dataitems:NavigationBarSuggestionItem">

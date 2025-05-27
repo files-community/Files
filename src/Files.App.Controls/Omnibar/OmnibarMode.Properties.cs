@@ -49,6 +49,9 @@ namespace Files.App.Controls
 		[GeneratedDependencyProperty]
 		public partial bool IsAutoFocusEnabled { get; set; }
 
+		[GeneratedDependencyProperty]
+		public partial OmnibarModeUnfocusedStateBehaviors UnfocusedStateBehaviors { get; set; }
+
 		partial void OnTextChanged(string? newValue)
 		{
 			if (_ownerRef is null || _ownerRef.TryGetTarget(out var owner) is false)
