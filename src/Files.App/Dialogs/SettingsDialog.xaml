@@ -89,7 +89,8 @@
 					QueryIcon="Find"
 					QuerySubmitted="AutoSuggestBox_QuerySubmitted"
 					SuggestionChosen="NavViewSearchBox_SuggestionChosen"
-					TextChanged="AutoSuggestBox_TextChanged">
+					TextChanged="AutoSuggestBox_TextChanged"
+					UpdateTextOnSelect="False">
 					<AutoSuggestBox.ItemTemplate>
 						<DataTemplate>
 							<TextBlock
