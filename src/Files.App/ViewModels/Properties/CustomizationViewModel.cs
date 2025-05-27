@@ -95,7 +95,7 @@ namespace Files.App.ViewModels.Properties
 
 			string[] extensions =
 			[
-				Strings.IconFiles.GetLocalizedResource(), "*.dll; *.exe; *.ico; *.icl",
+				Strings.IconFiles.GetLocalizedResource(), "*.dll;*.exe;*.ico;*.icl",
 				Strings.ApplicationExtension.GetLocalizedResource(), "*.dll",
 				Strings.Application.GetLocalizedResource(), "*.exe",
 				Strings.IcoFileCapitalized.GetLocalizedResource(), "*.ico",
