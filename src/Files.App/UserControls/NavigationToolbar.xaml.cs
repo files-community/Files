@@ -10,6 +10,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Windows.AI.Actions.Hosting;
 using Windows.System;
 
 namespace Files.App.UserControls
@@ -262,20 +263,41 @@ namespace Files.App.UserControls
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
 			{
-				if (args.Item is not NavigationBarSuggestionItem item || item.Text is not { } commandText)
+				if (args.Item is not NavigationBarSuggestionItem item)
 					return;
 
-				var command = Commands[commandText];
-				if (command == Commands.None)
-					await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
-						string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), commandText));
-				else if (!command.IsExecutable)
-					await DialogDisplayHelper.ShowDialogAsync(Strings.CommandNotExecutable.GetLocalizedResource(),
-						string.Format(Strings.CommandNotExecutableContent.GetLocalizedResource(), command.Code));
-				else
-					await command.ExecuteAsync();
+				// Try invoking built-in command
+				if (item.Text is { } commandText)
+				{
+					var command = Commands[commandText];
+					if (command == Commands.None)
+						await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
+							string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), commandText));
+					else if (!command.IsExecutable)
+						await DialogDisplayHelper.ShowDialogAsync(Strings.CommandNotExecutable.GetLocalizedResource(),
+							string.Format(Strings.CommandNotExecutableContent.GetLocalizedResource(), command.Code));
+					else
+						await command.ExecuteAsync();
 
-				ViewModel.OmnibarCurrentSelectedMode = OmnibarPathMode;
+					ViewModel.OmnibarCurrentSelectedMode = OmnibarPathMode;
+					return;
+				}
+
+				// Try invoking Windows app action
+				if (ActionManager.Instance.ActionRuntime is not null && item.ActionInstance is ActionInstance actionInstance)
+				{
+					// Workaround for https://github.com/microsoft/App-Actions-On-Windows-Samples/issues/7
+					var action = ActionManager.Instance.ActionRuntime.ActionCatalog.GetAllActions()
+						.FirstOrDefault(a => a.Id == actionInstance.Context.ActionId);
+
+					if (action is not null)
+					{
+						var overload = action.GetOverloads().FirstOrDefault();
+						await overload?.InvokeAsync(actionInstance.Context);
+					}
+
+					ViewModel.OmnibarCurrentSelectedMode = OmnibarPathMode;
+				}
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 			{
