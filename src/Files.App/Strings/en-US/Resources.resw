@@ -1086,13 +1086,13 @@
     <value>Toggle the details pane to view basic file properties</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
-    <value>Toggle info pane</value>
+    <value>Info pane</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle the detail/preview panes</value>
+    <value>Toggle visibility of the detail/preview panes</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
-    <value>Toggle toolbar</value>
+    <value>Toolbar</value>
   </data>
   <data name="ToggleToolbarDescription" xml:space="preserve">
     <value>Toggle visibility of the toolbar</value>
@@ -2205,7 +2205,7 @@
     <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit settings file</value>
+    <value>Edit configuration file</value>
   </data>
   <data name="EditSettingsFileDescription" xml:space="preserve">
     <value>Open the configuration file in a text editor</value>
@@ -2451,7 +2451,7 @@
     <value>Paste to selected folder</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>Move selected {0, plural, one {item} other {items}} to the recycle bin</value>
+    <value>Delete selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>Create new folder</value>
@@ -2598,13 +2598,13 @@
     <value>Enlarge the icon or item size in view</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
-    <value>Switch to details view mode</value>
+    <value>Switch to details view</value>
   </data>
   <data name="LayoutCardsDescription" xml:space="preserve">
-    <value>Switch to cards view mode</value>
+    <value>Switch to cards view</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
-    <value>Switch to list view mode</value>
+    <value>Switch to list view</value>
   </data>
   <data name="List" xml:space="preserve">
     <value>List</value>
@@ -2613,13 +2613,13 @@
     <value>Grid</value>
   </data>
   <data name="LayoutGridDescription" xml:space="preserve">
-    <value>Switch to grid view mode</value>
+    <value>Switch to grid view</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Switch to columns view mode</value>
+    <value>Switch to columns view</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch to adjusting layout mode</value>
+    <value>Switch to adjusting layout </value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
     <value>Sort items by name</value>
@@ -2742,10 +2742,10 @@
     <value>Reopen the last closed tab</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
-    <value>Switch to the tab on the left</value>
+    <value>Switch to the previous tab</value>
   </data>
   <data name="NextTabDescription" xml:space="preserve">
-    <value>Switch to the tab on the right</value>
+    <value>Switch to the next tab</value>
   </data>
   <data name="CloseSelectedTabDescription" xml:space="preserve">
     <value>Close the current tab</value>
