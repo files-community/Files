@@ -353,7 +353,10 @@
 						</controls:BreadcrumbBar.RootItem>
 						<controls:BreadcrumbBar.ItemTemplate>
 							<DataTemplate x:DataType="dataitems:PathBoxItem">
-								<controls:BreadcrumbBarItem AutomationProperties.AutomationId="{x:Bind Title, Mode=OneWay}" Content="{x:Bind Title, Mode=OneWay}" />
+								<controls:BreadcrumbBarItem
+									AutomationProperties.AccessibilityView="Content"
+									AutomationProperties.AutomationId="{x:Bind Title, Mode=OneWay}"
+									Content="{x:Bind Title, Mode=OneWay}" />
 							</DataTemplate>
 						</controls:BreadcrumbBar.ItemTemplate>
 					</controls:BreadcrumbBar>
