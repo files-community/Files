@@ -2436,7 +2436,7 @@
     <value>Copy path of the current directory with quotes to the clipboard</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Move selected {0, plural, one {item} other {items}} to the clipboard</value>
+    <value>Cut selected {0, plural, one {item} other {items}} to the clipboard</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Paste clipboard items into the current folder</value>
@@ -2556,7 +2556,7 @@
     <value>Run selected PowerShell script</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
-    <value>Show file preview in a popup window</value>
+    <value>Show item preview in a popup window</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
     <value>Create archive with selected {0, plural, one {item} other {items}}</value>
