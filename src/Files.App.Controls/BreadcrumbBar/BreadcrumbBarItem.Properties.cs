@@ -13,6 +13,12 @@ namespace Files.App.Controls
 		[GeneratedDependencyProperty]
 		public partial bool IsLastItem { get; set; }
 
+		[GeneratedDependencyProperty]
+		public partial string ItemToolTip { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial string ChevronToolTip { get; set; }
+
 		partial void OnIsEllipsisChanged(bool newValue)
 		{
 			VisualStateManager.GoToState(this, newValue ? "ChevronCollapsed" : "ChevronVisible", true);

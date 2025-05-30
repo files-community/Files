@@ -4240,4 +4240,10 @@
     <value>Icon files</value>
     <comment>This is the friendly name for a variety of different icon files.</comment>
   </data>
+  <data name="BreadcrumbBarEllipsisButtonToolTip" xml:space="preserve">
+    <value>Show collapesed path breadcrumbs</value>
+  </data>
+  <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
+    <value>Show child folders</value>
+  </data>
 </root>
