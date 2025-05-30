@@ -51,7 +51,7 @@ namespace Files.App.Controls
 				_ellipsisButton ??= context.Children[0] as BreadcrumbBarItem;
 
 			// Sets the ellipsis item's visibility based on whether the items are overflowing
-			EllipsisIsRendered = accumulatedSize.Width > availableSize.Width;
+			EllipsisIsRendered = indexAfterEllipsis is not 0;
 
 			return accumulatedSize;
 		}
