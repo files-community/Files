@@ -153,6 +153,11 @@ namespace Files.App.Controls
 
 			VisualStateManager.GoToState(newMode, "Focused", true);
 			newMode.IsTabStop = false;
+
+			_textBox.PlaceholderText = newMode.PlaceholderText ?? string.Empty;
+			_textBoxSuggestionsListView.ItemTemplate = newMode.SuggestionItemTemplate;
+			_textBoxSuggestionsListView.ItemsSource = newMode.SuggestionItemsSource;
+
 			if (newMode.IsAutoFocusEnabled)
 			{
 				_textBox.Focus(FocusState.Pointer);

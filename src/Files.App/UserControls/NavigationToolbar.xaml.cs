@@ -266,8 +266,14 @@ namespace Files.App.UserControls
 				if (args.Item is not NavigationBarSuggestionItem item)
 					return;
 
+				string commandText = { Text: string itemText }
+					? itemText
+					: args.Text is string text
+						? text
+						: string.Empty;
+
 				// Try invoking built-in command
-				if (item.Text is { } commandText)
+				if (!string.IsNullOrEmpty(commandText))
 				{
 					var command = Commands[commandText];
 					if (command == Commands.None)
@@ -280,6 +286,7 @@ namespace Files.App.UserControls
 						await command.ExecuteAsync();
 
 					ViewModel.OmnibarCurrentSelectedMode = OmnibarPathMode;
+					ViewModel.OmnibarCommandPaletteModeText = string.Empty;
 					return;
 				}
 
@@ -295,9 +302,10 @@ namespace Files.App.UserControls
 						var overload = action.GetOverloads().FirstOrDefault();
 						await overload?.InvokeAsync(actionInstance.Context);
 					}
-
-					ViewModel.OmnibarCurrentSelectedMode = OmnibarPathMode;
 				}
+
+				ViewModel.OmnibarCurrentSelectedMode = OmnibarPathMode;
+				ViewModel.OmnibarCommandPaletteModeText = string.Empty;
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 			{

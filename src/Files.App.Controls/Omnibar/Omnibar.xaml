@@ -67,7 +67,6 @@
 							FontStretch="{TemplateBinding FontStretch}"
 							FontWeight="{TemplateBinding FontWeight}"
 							Foreground="{TemplateBinding Foreground}"
-							PlaceholderText="{Binding CurrentSelectedMode.PlaceholderText, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
 							ScrollViewer.BringIntoViewOnFocusChange="False"
 							Style="{StaticResource DefaultOmnibarTextBoxStyle}"
 							UseSystemFocusVisuals="{TemplateBinding UseSystemFocusVisuals}" />
@@ -96,11 +95,7 @@
 									MaxHeight="{ThemeResource AutoSuggestListMaxHeight}"
 									Margin="{ThemeResource AutoSuggestListPadding}"
 									IsItemClickEnabled="True"
-									ItemTemplate="{Binding CurrentSelectedMode.SuggestionItemTemplate, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
-									ItemsSource="{Binding CurrentSelectedMode.SuggestionItemsSource, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
-									SelectionMode="Single">
-									<ListView.ItemContainerTransitions />
-								</ListView>
+									SelectionMode="Single" />
 							</Border>
 						</Popup>
 
