@@ -340,6 +340,7 @@
 				<controls:OmnibarMode.ContentOnInactive>
 					<controls:BreadcrumbBar
 						x:Name="BreadcrumbBar"
+						EllipsisButtonToolTip="View collapesed path parts"
 						ItemClicked="BreadcrumbBar_ItemClicked"
 						ItemDropDownFlyoutClosed="BreadcrumbBar_ItemDropDownFlyoutClosed"
 						ItemDropDownFlyoutOpening="BreadcrumbBar_ItemDropDownFlyoutOpening"
@@ -352,7 +353,10 @@
 						</controls:BreadcrumbBar.RootItem>
 						<controls:BreadcrumbBar.ItemTemplate>
 							<DataTemplate x:DataType="dataitems:PathBoxItem">
-								<controls:BreadcrumbBarItem Content="{x:Bind Title, Mode=OneWay}" />
+								<controls:BreadcrumbBarItem
+									AutomationProperties.AccessibilityView="Content"
+									AutomationProperties.AutomationId="{x:Bind Title, Mode=OneWay}"
+									Content="{x:Bind Title, Mode=OneWay}" />
 							</DataTemplate>
 						</controls:BreadcrumbBar.ItemTemplate>
 					</controls:BreadcrumbBar>

@@ -43,6 +43,9 @@ namespace Files.App.Controls
 		[GeneratedDependencyProperty(DefaultValue = true)]
 		public partial bool UpdateTextOnSelect { get; set; }
 
+		[GeneratedDependencyProperty(DefaultValue = true)]
+		public partial bool UpdateTextOnArrowKeys { get; set; }
+
 		[GeneratedDependencyProperty]
 		public partial bool IsAutoFocusEnabled { get; set; }
 

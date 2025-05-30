@@ -33,6 +33,9 @@ namespace Files.App.Controls
 
 		private WeakReference<UIElement?> _previouslyFocusedElement = new(null);
 
+		// NOTE: This is a workaround to keep Omnibar's focus on a mode button being clicked
+		internal bool IsModeButtonPressed { get; set; }
+
 		// Events
 
 		public event TypedEventHandler<Omnibar, OmnibarQuerySubmittedEventArgs>? QuerySubmitted;
@@ -71,11 +74,13 @@ namespace Files.App.Controls
 			SizeChanged += Omnibar_SizeChanged;
 			_textBox.GettingFocus += AutoSuggestBox_GettingFocus;
 			_textBox.GotFocus += AutoSuggestBox_GotFocus;
+			_textBox.LosingFocus += AutoSuggestBox_LosingFocus;
 			_textBox.LostFocus += AutoSuggestBox_LostFocus;
 			_textBox.KeyDown += AutoSuggestBox_KeyDown;
 			_textBox.TextChanged += AutoSuggestBox_TextChanged;
 			_textBoxSuggestionsPopup.GettingFocus += AutoSuggestBoxSuggestionsPopup_GettingFocus;
 			_textBoxSuggestionsListView.ItemClick += AutoSuggestBoxSuggestionsListView_ItemClick;
+			_textBoxSuggestionsListView.SelectionChanged += AutoSuggestBoxSuggestionsListView_SelectionChanged;
 
 			// Set the default width
 			_textBoxSuggestionsContainerBorder.Width = ActualWidth;
@@ -148,6 +153,11 @@ namespace Files.App.Controls
 
 			VisualStateManager.GoToState(newMode, "Focused", true);
 			newMode.IsTabStop = false;
+
+			_textBox.PlaceholderText = newMode.PlaceholderText ?? string.Empty;
+			_textBoxSuggestionsListView.ItemTemplate = newMode.SuggestionItemTemplate;
+			_textBoxSuggestionsListView.ItemsSource = newMode.SuggestionItemsSource;
+
 			if (newMode.IsAutoFocusEnabled)
 			{
 				_textBox.Focus(FocusState.Pointer);
@@ -196,12 +206,13 @@ namespace Files.App.Controls
 			return false;
 		}
 
-		public void ChooseSuggestionItem(object obj)
+		public void ChooseSuggestionItem(object obj, bool isOriginatedFromArrowKey = false)
 		{
 			if (CurrentSelectedMode is null)
 				return;
 
-			if (CurrentSelectedMode.UpdateTextOnSelect)
+			if (CurrentSelectedMode.UpdateTextOnSelect ||
+				(isOriginatedFromArrowKey && CurrentSelectedMode.UpdateTextOnArrowKeys))
 			{
 				_textChangeReason = OmnibarTextChangeReason.SuggestionChosen;
 				ChangeTextBoxText(GetObjectText(obj));
