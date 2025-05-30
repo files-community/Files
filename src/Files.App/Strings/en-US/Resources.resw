@@ -4236,4 +4236,10 @@
     <value>Status center progress ping</value>
     <comment>Screen reader name for the status center progress ring</comment>
   </data>
+  <data name="BreadcrumbBarEllipsisButtonToolTip" xml:space="preserve">
+    <value>Show collapesed path breadcrumbs</value>
+  </data>
+  <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
+    <value>Show child folders</value>
+  </data>
 </root>

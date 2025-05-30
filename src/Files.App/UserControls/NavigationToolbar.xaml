@@ -340,11 +340,12 @@
 				<controls:OmnibarMode.ContentOnInactive>
 					<controls:BreadcrumbBar
 						x:Name="BreadcrumbBar"
-						EllipsisButtonToolTip="View collapesed path parts"
+						EllipsisButtonToolTip="{helpers:ResourceString Name=BreadcrumbBarEllipsisButtonToolTip}"
 						ItemClicked="BreadcrumbBar_ItemClicked"
 						ItemDropDownFlyoutClosed="BreadcrumbBar_ItemDropDownFlyoutClosed"
 						ItemDropDownFlyoutOpening="BreadcrumbBar_ItemDropDownFlyoutOpening"
-						ItemsSource="{x:Bind ViewModel.PathComponents, Mode=OneWay}">
+						ItemsSource="{x:Bind ViewModel.PathComponents, Mode=OneWay}"
+						RootItemToolTip="{helpers:ResourceString Name=Home}">
 						<controls:BreadcrumbBar.RootItem>
 							<Image
 								Width="16"
@@ -356,7 +357,9 @@
 								<controls:BreadcrumbBarItem
 									AutomationProperties.AccessibilityView="Content"
 									AutomationProperties.AutomationId="{x:Bind Title, Mode=OneWay}"
-									Content="{x:Bind Title, Mode=OneWay}" />
+									ChevronToolTip="{helpers:ResourceString Name=BreadcrumbBarChevronButtonToolTip}"
+									Content="{x:Bind Title, Mode=OneWay}"
+									ItemToolTip="{x:Bind Title, Mode=OneWay}" />
 							</DataTemplate>
 						</controls:BreadcrumbBar.ItemTemplate>
 					</controls:BreadcrumbBar>

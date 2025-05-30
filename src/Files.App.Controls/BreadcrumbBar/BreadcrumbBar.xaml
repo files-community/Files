@@ -55,7 +55,8 @@
 							x:Name="PART_RootBreadcrumbBarItem"
 							Grid.Column="0"
 							Padding="{StaticResource BreadcrumbBarRootItemPadding}"
-							CornerRadius="{StaticResource BreadcrumbBarRootItemCornerRadius}">
+							CornerRadius="{StaticResource BreadcrumbBarRootItemCornerRadius}"
+							ItemToolTip="{TemplateBinding RootItemToolTip}">
 							<ContentPresenter Content="{Binding RootItem, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 						</local:BreadcrumbBarItem>
 
@@ -130,6 +131,7 @@
 							BorderThickness="{TemplateBinding BorderThickness}"
 							Control.IsTemplateFocusTarget="True"
 							CornerRadius="{TemplateBinding CornerRadius}"
+							ToolTipService.ToolTip="{TemplateBinding ItemToolTip}"
 							UseSystemFocusVisuals="True">
 							<Button.Resources>
 								<ResourceDictionary>
@@ -184,6 +186,7 @@
 							BorderThickness="{TemplateBinding BorderThickness}"
 							CornerRadius="{StaticResource BreadcrumbBarChevronCornerRaduis}"
 							Style="{StaticResource BreadcrumbBarItemChevronButtonStyle}"
+							ToolTipService.ToolTip="{TemplateBinding ChevronToolTip}"
 							UseSystemFocusVisuals="True">
 							<Button.Resources>
 								<ResourceDictionary>

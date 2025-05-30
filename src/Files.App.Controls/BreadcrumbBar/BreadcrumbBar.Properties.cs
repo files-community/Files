@@ -18,5 +18,8 @@ namespace Files.App.Controls
 
 		[GeneratedDependencyProperty]
 		public partial string? EllipsisButtonToolTip { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial string? RootItemToolTip { get; set; }
 	}
 }
