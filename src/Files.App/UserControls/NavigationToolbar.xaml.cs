@@ -262,7 +262,13 @@ namespace Files.App.UserControls
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
 			{
-				if (args.Item is not NavigationBarSuggestionItem item || item.Text is not { } commandText)
+				string commandText = args.Item is NavigationBarSuggestionItem { Text: string itemText }
+					? itemText
+					: args.Text is string text
+						? text
+						: string.Empty;
+
+				if (string.IsNullOrEmpty(commandText))
 					return;
 
 				var command = Commands[commandText];
@@ -276,6 +282,7 @@ namespace Files.App.UserControls
 					await command.ExecuteAsync();
 
 				ViewModel.OmnibarCurrentSelectedMode = OmnibarPathMode;
+				ViewModel.OmnibarCommandPaletteModeText = string.Empty;
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 			{
