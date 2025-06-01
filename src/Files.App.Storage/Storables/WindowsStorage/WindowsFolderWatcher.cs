@@ -16,7 +16,7 @@ namespace Files.App.Storage
 	/// <summary>
 	/// Represents an implementation of <see cref="IFolderWatcher"/> that uses Windows Shell notifications to watch for changes in a folder.
 	/// </summary>
-	public unsafe partial class WindowsFolderWatcher : IFolderWatcher
+	public unsafe partial class WindowsFolderWatcher : IWindowsFolderWatcher
 	{
 		// Fields
 
@@ -24,7 +24,7 @@ namespace Files.App.Storage
 		private readonly WNDPROC _wndProc;
 
 		private uint _watcherRegID = 0U;
-		private ITEMIDLIST* _targetItemPIDL = default;
+		private ITEMIDLIST* _folderPidl = default;
 
 		// Properties
 
@@ -33,6 +33,8 @@ namespace Files.App.Storage
 		// Events
 
 		public event NotifyCollectionChangedEventHandler? CollectionChanged;
+
+		public event TypedEventHandler<WindowsFolderWatcher, WindowsFolderWatcherEventArgs>? EventOccurred;
 
 		public event TypedEventHandler<WindowsFolderWatcher, WindowsFolderWatcherEventArgs>? ItemAssocChanged; // SHCNE_ASSOCCHANGED
 		public event TypedEventHandler<WindowsFolderWatcher, WindowsFolderWatcherEventArgs>? ItemAttributesChanged; // SHCNE_ATTRIBUTES
@@ -86,6 +88,8 @@ namespace Files.App.Storage
 			}
 		}
 
+		// Methods
+
 		private unsafe LRESULT WndProc(HWND hWnd, uint uMessage, WPARAM wParam, LPARAM lParam)
 		{
 			switch (uMessage)
@@ -97,7 +101,7 @@ namespace Files.App.Storage
 						ITEMIDLIST* pidl = default;
 						IWindowsFolder folder = (IWindowsFolder)Folder;
 						PInvoke.SHGetIDListFromObject((IUnknown*)folder.ThisPtr.Get(), &pidl);
-						_targetItemPIDL = pidl;
+						_folderPidl = pidl;
 
 						SHChangeNotifyEntry changeNotifyEntry = default;
 						changeNotifyEntry.pidl = pidl;
@@ -123,7 +127,7 @@ namespace Files.App.Storage
 						if (hLock.IsNull)
 							break;
 
-						// TODO: Fire events
+						FireEvent((SHCNE_ID)lEvent, ppidl);
 
 						PInvoke.SHChangeNotification_Unlock(hLock);
 					}
@@ -140,6 +144,11 @@ namespace Files.App.Storage
 
 		private void FireEvent(SHCNE_ID eventType, ITEMIDLIST** ppidl)
 		{
+			//ITEMIDLIST* pOldPidl = ppidl[0];
+			//ITEMIDLIST* pNewPidl = ppidl[1];
+
+			EventOccurred?.Invoke(this, new(eventType, null, null)); //  WindowsStorable.TryParse(pOldPidl), WindowsStorable.TryParse(pNewPidl)
+
 			switch (eventType)
 			{
 				case SHCNE_ID.SHCNE_ASSOCCHANGED:
@@ -255,10 +264,12 @@ namespace Files.App.Storage
 			}
 		}
 
+		// Disposers
+
 		public void Dispose()
 		{
 			PInvoke.SHChangeNotifyDeregister(_watcherRegID);
-			PInvoke.CoTaskMemFree(_targetItemPIDL);
+			PInvoke.CoTaskMemFree(_folderPidl);
 			PInvoke.CoUninitialize();
 			PInvoke.PostQuitMessage(0);
 		}
