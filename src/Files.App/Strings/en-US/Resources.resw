@@ -4233,7 +4233,7 @@
     <value>Show status center button</value>
   </data>
   <data name="StatusCenterProgressRing" xml:space="preserve">
-    <value>Status center progress ping</value>
+    <value>Status center progress ring</value>
     <comment>Screen reader name for the status center progress ring</comment>
   </data>
   <data name="IconFiles" xml:space="preserve">
