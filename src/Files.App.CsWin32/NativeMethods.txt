@@ -225,3 +225,8 @@ QITIPF_FLAGS
 GetKeyboardState
 MapVirtualKey
 GetKeyboardLayout
+MENUITEMINFO
+GetMenuItemCount
+GetMenuItemInfo
+IContextMenu2
+CreateMenu
