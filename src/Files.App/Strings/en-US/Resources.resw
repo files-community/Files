@@ -2499,7 +2499,7 @@
     <value>Clear selected items</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Invert selection of items</value>
+    <value>Change selection of the focused item</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
     <value>Share selected {0, plural, one {file} other {files}} with others</value>
@@ -3016,7 +3016,7 @@
     <value>Delete permanently</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete selected {0, plural, one {item} other {items}} permanently without recovery</value>
+    <value>Delete selected {0, plural, one {item} other {items}} without recovery</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>Play the selected media files</value>
@@ -3139,7 +3139,7 @@
     <value>Properties</value>
   </data>
   <data name="OpenClassicProperties" xml:space="preserve">
-    <value>Explorer properties</value>
+    <value>File Explorer properties</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
     <value>Open the properties window for selected item</value>
