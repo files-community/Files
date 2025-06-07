@@ -2229,7 +2229,7 @@
     <value>Settings</value>
   </data>
   <data name="DoubleClickBlankSpaceToGoUp" xml:space="preserve">
-    <value>Double-click a blank space to navigate one level up the folder tree</value>
+    <value>Double-click blank space to navigate one level up the folder tree</value>
   </data>
   <data name="ViewMore" xml:space="preserve">
     <value>View more</value>
@@ -2703,10 +2703,10 @@
     <value>Open a new tab in the same window</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate to the previous folder</value>
+    <value>Navigate to the previous location</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate to the next folder</value>
+    <value>Navigate to the next location</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Navigate one level up in the folder tree</value>
