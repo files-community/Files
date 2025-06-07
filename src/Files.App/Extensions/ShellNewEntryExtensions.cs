@@ -1,19 +1,12 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Utils;
-using Files.App.Helpers;
-using Files.App.Utils.Shell;
-using Files.Shared;
-using Files.Shared.Extensions;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.App.Extensions
 {
+	[Obsolete($"Use {nameof(WindowsStorageHelpers.GetShellNewItems)} instead.")]
 	public static class ShellNewEntryExtensions
 	{
 		public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()

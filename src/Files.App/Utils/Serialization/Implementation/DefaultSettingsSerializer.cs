@@ -3,9 +3,9 @@
 
 using System.IO;
 using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.Security;
 using Windows.Win32.Storage.FileSystem;
-using static Files.App.Helpers.Win32Helper;
-using static Files.App.Helpers.Win32PInvoke;
 
 namespace Files.App.Utils.Serialization.Implementation
 {
@@ -13,17 +13,28 @@ namespace Files.App.Utils.Serialization.Implementation
 	{
 		private string? _filePath;
 
-		public bool CreateFile(string path)
+		public unsafe bool CreateFile(string path)
 		{
 			PInvoke.CreateDirectoryFromApp(Path.GetDirectoryName(path), null);
 
-			var hFile = CreateFileFromApp(path, (uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ, FILE_SHARE_READ, IntPtr.Zero, OPEN_ALWAYS, (uint)File_Attributes.BackupSemantics, IntPtr.Zero);
-			if (hFile.IsHandleInvalid())
+			HANDLE hFile = default;
+			fixed (char* pPath = path)
 			{
-				return false;
+				hFile = PInvoke.CreateFile(
+					pPath,
+					(uint)FILE_ACCESS_RIGHTS.FILE_GENERIC_READ,
+					FILE_SHARE_MODE.FILE_SHARE_READ,
+					(SECURITY_ATTRIBUTES*)null,
+					FILE_CREATION_DISPOSITION.OPEN_ALWAYS,
+					FILE_FLAGS_AND_ATTRIBUTES.FILE_FLAG_BACKUP_SEMANTICS,
+					HANDLE.Null);
 			}
 
-			Win32PInvoke.CloseHandle(hFile);
+			// File handle is invalid
+			if (hFile.IsNull || hFile.Value == (void*)-1)
+				return false;
+
+			PInvoke.CloseHandle(hFile);
 
 			_filePath = path;
 			return true;
@@ -38,14 +49,14 @@ namespace Files.App.Utils.Serialization.Implementation
 		{
 			_ = _filePath ?? throw new ArgumentNullException(nameof(_filePath));
 
-			return ReadStringFromFile(_filePath);
+			return Win32Helper.ReadStringFromFile(_filePath);
 		}
 
 		public bool WriteToFile(string? text)
 		{
 			_ = _filePath ?? throw new ArgumentNullException(nameof(_filePath));
 
-			return WriteStringToFile(_filePath, text);
+			return Win32Helper.WriteStringToFile(_filePath, text);
 		}
 	}
 }

@@ -101,7 +101,7 @@ namespace Files.App.Storage
 		public unsafe HRESULT QueueCopyOperation(WindowsStorable targetItem, WindowsFolder destinationFolder, string? copyName)
 		{
 			fixed (char* pszCopyName = copyName)
-				return _pFileOperation.Get()->CopyItem(targetItem.ThisPtr.Get(), destinationFolder.ThisPtr.Get(), pszCopyName, _pProgressSink.Get());
+				return _pFileOperation.Get()->CopyItem(targetItem.ThisPtr, destinationFolder.ThisPtr, pszCopyName, _pProgressSink.Get());
 		}
 
 		/// <summary>
@@ -111,7 +111,7 @@ namespace Files.App.Storage
 		/// <returns>If this method succeeds, it returns <see cref="HRESULT.S_OK"/>. Otherwise, it returns an <see cref="HRESULT"/> error code.</returns>
 		public unsafe HRESULT QueueDeleteOperation(WindowsStorable targetItem)
 		{
-			return _pFileOperation.Get()->DeleteItem(targetItem.ThisPtr.Get(), _pProgressSink.Get());
+			return _pFileOperation.Get()->DeleteItem(targetItem.ThisPtr, _pProgressSink.Get());
 		}
 
 		/// <summary>
@@ -124,7 +124,7 @@ namespace Files.App.Storage
 		public unsafe HRESULT QueueMoveOperation(WindowsStorable targetItem, WindowsFolder destinationFolder, string? newName)
 		{
 			fixed (char* pszNewName = newName)
-				return _pFileOperation.Get()->MoveItem(targetItem.ThisPtr.Get(), destinationFolder.ThisPtr.Get(), pszNewName, null);
+				return _pFileOperation.Get()->MoveItem(targetItem.ThisPtr, destinationFolder.ThisPtr, pszNewName, null);
 		}
 
 		/// <summary>
@@ -138,7 +138,7 @@ namespace Files.App.Storage
 		public unsafe HRESULT QueueCreateOperation(WindowsFolder destinationFolder, FILE_FLAGS_AND_ATTRIBUTES fileAttributes, string name, string? templateName)
 		{
 			fixed (char* pszName = name, pszTemplateName = templateName)
-				return _pFileOperation.Get()->NewItem(destinationFolder.ThisPtr.Get(), (uint)fileAttributes, pszName, pszTemplateName, _pProgressSink.Get());
+				return _pFileOperation.Get()->NewItem(destinationFolder.ThisPtr, (uint)fileAttributes, pszName, pszTemplateName, _pProgressSink.Get());
 		}
 
 		/// <summary>
@@ -150,7 +150,7 @@ namespace Files.App.Storage
 		public unsafe HRESULT QueueRenameOperation(WindowsStorable targetItem, string newName)
 		{
 			fixed (char* pszNewName = newName)
-				return _pFileOperation.Get()->RenameItem(targetItem.ThisPtr.Get(), pszNewName, _pProgressSink.Get());
+				return _pFileOperation.Get()->RenameItem(targetItem.ThisPtr, pszNewName, _pProgressSink.Get());
 		}
 
 		/// <summary>

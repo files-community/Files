@@ -8,7 +8,7 @@ using Windows.Win32.UI.Shell;
 
 namespace Files.App.Storage
 {
-	public unsafe static partial class WindowsStorableHelpers
+	public unsafe static partial class WindowsStorageHelpers
 	{
 		public static bool TryGetFileAttributes(this IWindowsStorable storable, out FILE_FLAGS_AND_ATTRIBUTES attributes)
 		{

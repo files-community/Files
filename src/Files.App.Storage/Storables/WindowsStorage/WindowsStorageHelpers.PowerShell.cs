@@ -3,7 +3,7 @@
 
 namespace Files.App.Storage
 {
-	public static partial class WindowsStorableHelpers
+	public static partial class WindowsStorageHelpers
 	{
 		public static async Task<bool> TrySetShortcutIconOnPowerShellAsElevatedAsync(this IWindowsStorable storable, IWindowsStorable iconFile, int index)
 		{

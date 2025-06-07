@@ -12,6 +12,7 @@ namespace Files.App.Utils.Shell
 	/// <summary>
 	/// Provides static helper to get extension-specific shell context menu from Windows Registry.
 	/// </summary>
+	[Obsolete($"Use {nameof(WindowsStorageHelpers.GetShellNewItems)} instead.")]
 	public static class ShellNewMenuHelper
 	{
 		public static async Task<List<ShellNewEntry>> GetNewContextMenuEntries()

@@ -10,29 +10,40 @@ using Windows.Win32.UI.Shell;
 namespace Files.App.Storage
 {
 	[DebuggerDisplay("{" + nameof(ToString) + "()}")]
-	public sealed class WindowsFolder : WindowsStorable, IChildFolder
+	public unsafe class WindowsFolder : WindowsStorable, IChildFolder
 	{
-		public WindowsFolder(ComPtr<IShellItem> nativeObject)
+		internal IContextMenu* NewMenuPtr
 		{
-			ThisPtr = nativeObject;
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			get;
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			set;
 		}
 
-		public unsafe WindowsFolder(IShellItem* nativeObject)
+		internal IContextMenu* ContextMenuPtr
 		{
-			ComPtr<IShellItem> ptr = default;
-			ptr.Attach(nativeObject);
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			get;
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			set;
+		}
+
+		public WindowsFolder(IShellItem* ptr)
+		{
 			ThisPtr = ptr;
 		}
 
-		public unsafe WindowsFolder(Guid folderId)
+		public WindowsFolder(Guid folderId)
 		{
-			ComPtr<IShellItem> pItem = default;
+			IShellItem* pItem = default;
 
-			HRESULT hr = PInvoke.SHGetKnownFolderItem(&folderId, KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, HANDLE.Null, IID.IID_IShellItem, (void**)pItem.GetAddressOf());
+			HRESULT hr = PInvoke.SHGetKnownFolderItem(&folderId, KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, HANDLE.Null, IID.IID_IShellItem, (void**)&pItem);
 			if (hr.Failed)
 			{
 				fixed (char* pszShellPath = $"Shell:::{folderId:B}")
-					hr = PInvoke.SHCreateItemFromParsingName(pszShellPath, null, IID.IID_IShellItem, (void**)pItem.GetAddressOf());
+					hr = PInvoke.SHCreateItemFromParsingName(pszShellPath, null, IID.IID_IShellItem, (void**)&pItem);
 
 				// Invalid FOLDERID; this should never happen.
 				hr.ThrowOnFailure();
@@ -43,47 +54,35 @@ namespace Files.App.Storage
 
 		public IAsyncEnumerable<IStorableChild> GetItemsAsync(StorableType type = StorableType.All, CancellationToken cancellationToken = default)
 		{
-			return GetItems().ToAsyncEnumerable();
+			ComPtr<IEnumShellItems> pEnumShellItems = default;
+			HRESULT hr = ThisPtr->BindToHandler(null, BHID.BHID_EnumItems, IID.IID_IEnumShellItems, (void**)pEnumShellItems.GetAddressOf());
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return Enumerable.Empty<IStorableChild>().ToAsyncEnumerable();
 
-			unsafe IEnumerable<IStorableChild> GetItems()
+			List<IStorableChild> items = [];
+			IShellItem* pShellItem = default;
+			while (pEnumShellItems.Get()->Next(1, &pShellItem).Succeeded && pShellItem is not null)
 			{
-				ComPtr<IEnumShellItems> pEnumShellItems = default;
-				GetEnumerator();
+				cancellationToken.ThrowIfCancellationRequested();
 
-				ComPtr<IShellItem> pShellItem = default;
-				while (GetNext() && !pShellItem.IsNull)
+				var isFolder = pShellItem->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var returnedAttributes).Succeeded &&
+					returnedAttributes == SFGAO_FLAGS.SFGAO_FOLDER;
+
+				if (type is StorableType.File && !isFolder)
 				{
-					cancellationToken.ThrowIfCancellationRequested();
-					var isFolder = pShellItem.HasShellAttributes(SFGAO_FLAGS.SFGAO_FOLDER);
-
-					if (type is StorableType.File && !isFolder)
-					{
-						yield return new WindowsFile(pShellItem);
-					}
-					else if (type is StorableType.Folder && isFolder)
-					{
-						yield return new WindowsFolder(pShellItem);
-					}
-					else
-					{
-						continue;
-					}
+					items.Add(new WindowsFile(pShellItem));
 				}
-
-				yield break;
-
-				unsafe void GetEnumerator()
+				else if (type is StorableType.Folder && isFolder)
 				{
-					HRESULT hr = ThisPtr.Get()->BindToHandler(null, BHID.BHID_EnumItems, IID.IID_IEnumShellItems, (void**)pEnumShellItems.GetAddressOf());
-					hr.ThrowIfFailedOnDebug();
+					items.Add(new WindowsFolder(pShellItem));
 				}
-
-				unsafe bool GetNext()
+				else
 				{
-					HRESULT hr = pEnumShellItems.Get()->Next(1, pShellItem.GetAddressOf());
-					return hr.ThrowIfFailedOnDebug() == HRESULT.S_OK;
+					continue;
 				}
 			}
+
+			return items.ToAsyncEnumerable();
 		}
 	}
 }

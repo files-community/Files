@@ -8,11 +8,11 @@ using Windows.Win32.UI.Shell;
 namespace Files.App.Storage
 {
 	[DebuggerDisplay("{" + nameof(ToString) + "()}")]
-	public sealed class WindowsFile : WindowsStorable, IChildFile
+	public unsafe class WindowsFile : WindowsStorable, IChildFile
 	{
-		public WindowsFile(ComPtr<IShellItem> nativeObject)
+		public WindowsFile(IShellItem* ptr)
 		{
-			ThisPtr = nativeObject;
+			ThisPtr = ptr;
 		}
 
 		public Task<Stream> OpenStreamAsync(FileAccess accessMode, CancellationToken cancellationToken = default)

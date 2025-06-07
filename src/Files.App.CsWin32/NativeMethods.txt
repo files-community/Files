@@ -225,3 +225,13 @@ QITIPF_FLAGS
 GetKeyboardState
 MapVirtualKey
 GetKeyboardLayout
+HKEY_CLASSES_ROOT
+HKEY_CURRENT_USER
+RegOpenKeyEx
+RegEnumKeyEx
+RegGetValue
+IShellExtInit
+IContextMenu2
+GetSubMenu
+GetMenuItemCount
+GetMenuItemInfo

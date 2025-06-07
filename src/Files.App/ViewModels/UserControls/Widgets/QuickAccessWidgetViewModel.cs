@@ -198,7 +198,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			unsafe
 			{
-				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, (IUnknown*)folderCardItem.Item.ThisPtr.Get(), pAgileReference.GetAddressOf());
+				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, (IUnknown*)folderCardItem.Item.ThisPtr, pAgileReference.GetAddressOf());
 			}
 
 			// Pin to Quick Access on Windows
@@ -234,7 +234,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			unsafe
 			{
-				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, (IUnknown*)folderCardItem.Item.ThisPtr.Get(), pAgileReference.GetAddressOf());
+				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, (IUnknown*)folderCardItem.Item.ThisPtr, pAgileReference.GetAddressOf());
 			}
 
 			// Unpin from Quick Access on Windows
