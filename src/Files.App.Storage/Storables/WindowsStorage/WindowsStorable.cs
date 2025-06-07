@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.Runtime.CompilerServices;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.SystemServices;
@@ -8,53 +9,54 @@ using Windows.Win32.UI.Shell;
 
 namespace Files.App.Storage
 {
-	public abstract class WindowsStorable : IWindowsStorable, IStorableChild, IEquatable<IWindowsStorable>
+	public unsafe abstract class WindowsStorable : IWindowsStorable, IStorableChild, IEquatable<IWindowsStorable>
 	{
-		public ComPtr<IShellItem> ThisPtr { get; protected set; }
+		public IShellItem* ThisPtr
+		{
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			get;
 
-		public string Id => this.GetDisplayName(SIGDN.SIGDN_FILESYSPATH);
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			protected set;
+		}
 
-		public string Name => this.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI);
+		public string Id
+			=> this.GetDisplayName(SIGDN.SIGDN_FILESYSPATH);
 
-		public static unsafe WindowsStorable? TryParse(string parsablePath)
+		public string Name
+			=> this.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI);
+
+		public static WindowsStorable? TryParse(string parsablePath)
 		{
 			HRESULT hr = default;
-			ComPtr<IShellItem> pShellItem = default;
-			var IID_IShellItem = typeof(IShellItem).GUID;
+			IShellItem* pShellItem = default;
 
 			fixed (char* pszParsablePath = parsablePath)
-			{
-				hr = PInvoke.SHCreateItemFromParsingName(
-					pszParsablePath,
-					null,
-					&IID_IShellItem,
-					(void**)pShellItem.GetAddressOf());
-			}
+				hr = PInvoke.SHCreateItemFromParsingName(pszParsablePath, null, IID.IID_IShellItem, (void**)&pShellItem);
 
-			if (pShellItem.IsNull)
+			if (pShellItem is null)
 				return null;
 
-			return pShellItem.HasShellAttributes(SFGAO_FLAGS.SFGAO_FOLDER)
-				? new WindowsFolder(pShellItem)
-				: new WindowsFile(pShellItem);
+			bool isFolder = pShellItem->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var returnedAttributes).Succeeded &&
+				returnedAttributes is SFGAO_FLAGS.SFGAO_FOLDER;
+
+			return isFolder ? new WindowsFolder(pShellItem) : new WindowsFile(pShellItem);
 		}
 
-		public static unsafe WindowsStorable? TryParse(IShellItem* ptr)
+		public static WindowsStorable? TryParse(IShellItem* ptr)
 		{
-			ComPtr<IShellItem> pShellItem = default;
-			pShellItem.Attach(ptr);
+			bool isFolder = ptr->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var returnedAttributes).Succeeded &&
+				returnedAttributes is SFGAO_FLAGS.SFGAO_FOLDER;
 
-			return pShellItem.HasShellAttributes(SFGAO_FLAGS.SFGAO_FOLDER)
-				? new WindowsFolder(pShellItem)
-				: new WindowsFile(pShellItem);
+			return isFolder ? new WindowsFolder(ptr) : new WindowsFile(ptr);
 		}
 
-		public unsafe Task<IFolder?> GetParentAsync(CancellationToken cancellationToken = default)
+		public Task<IFolder?> GetParentAsync(CancellationToken cancellationToken = default)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 
 			ComPtr<IShellItem> pParentFolder = default;
-			HRESULT hr = ThisPtr.Get()->GetParent(pParentFolder.GetAddressOf());
+			HRESULT hr = ThisPtr->GetParent(pParentFolder.GetAddressOf());
 			if (hr.Failed)
 			{
 				if (!pParentFolder.IsNull) pParentFolder.Dispose();
@@ -79,7 +81,7 @@ namespace Files.App.Storage
 		/// <inheritdoc/>
 		public void Dispose()
 		{
-			ThisPtr.Dispose();
+			ThisPtr->Release();
 		}
 
 		/// <inheritdoc/>
@@ -94,7 +96,7 @@ namespace Files.App.Storage
 			if (other is null)
 				return false;
 
-			return ThisPtr.Get()->Compare(other.ThisPtr.Get(), (uint)_SICHINTF.SICHINT_DISPLAY, out int order).Succeeded && order is 0;
+			return ThisPtr->Compare(other.ThisPtr, (uint)_SICHINTF.SICHINT_DISPLAY, out int order).Succeeded && order is 0;
 		}
 
 		public static bool operator ==(WindowsStorable left, WindowsStorable right)
