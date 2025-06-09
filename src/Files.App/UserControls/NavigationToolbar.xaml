@@ -356,10 +356,9 @@
 							<DataTemplate x:DataType="dataitems:PathBoxItem">
 								<controls:BreadcrumbBarItem
 									AutomationProperties.AccessibilityView="Content"
-									AutomationProperties.AutomationId="{x:Bind Title, Mode=OneWay}"
+									AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
 									ChevronToolTip="{helpers:ResourceString Name=BreadcrumbBarChevronButtonToolTip}"
-									Content="{x:Bind Title, Mode=OneWay}"
-									ItemToolTip="{x:Bind Title, Mode=OneWay}" />
+									Content="{x:Bind Title, Mode=OneWay}"/>
 							</DataTemplate>
 						</controls:BreadcrumbBar.ItemTemplate>
 					</controls:BreadcrumbBar>
