@@ -5,21 +5,6 @@
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:local="using:Files.App.Controls">
 
-	<ResourceDictionary.ThemeDictionaries>
-		<ResourceDictionary x:Key="Light">
-			<Color x:Key="NotSoSubtleSecondary">#12000000</Color>
-			<Color x:Key="NotSoSubtleTertiary ">#0F000000</Color>
-		</ResourceDictionary>
-		<ResourceDictionary x:Key="Dark">
-			<Color x:Key="NotSoSubtleSecondary">#0FFFFFFF</Color>
-			<Color x:Key="NotSoSubtleTertiary ">#0AFFFFFF</Color>
-		</ResourceDictionary>
-		<ResourceDictionary x:Key="HighContrast">
-			<Color x:Key="NotSoSubtleSecondary">#0FFFFFFF</Color>
-			<Color x:Key="NotSoSubtleTertiary ">#0AFFFFFF</Color>
-		</ResourceDictionary>
-	</ResourceDictionary.ThemeDictionaries>
-
 	<x:Double x:Key="BreadcrumbBarHeight">34</x:Double>
 	<x:Double x:Key="BreadcrumbBarMinWidth">120</x:Double>
 	<x:Double x:Key="BreadcrumbBarEllipsisFontSize">16</x:Double>
@@ -28,6 +13,7 @@
 	<Thickness x:Key="BreadcrumbBarItemPadding">8,0</Thickness>
 	<Thickness x:Key="BreadcrumbBarRootItemPadding">16,0,8,0</Thickness>
 	<Thickness x:Key="BreadcrumbBarItemMargin">2,0,0,0</Thickness>
+	<x:Double x:Key="BreadcrumbBarItemHeight">32</x:Double>
 
 	<CornerRadius x:Key="BreadcrumbBarItemCornerRadius">2,2,2,2</CornerRadius>
 	<CornerRadius x:Key="BreadcrumbBarChevronCornerRaduis">2,2,2,2</CornerRadius>
@@ -111,7 +97,7 @@
 		<Setter Property="FontWeight" Value="{ThemeResource BreadcrumbBarItemFontWeight}" />
 
 		<Setter Property="Padding" Value="{ThemeResource BreadcrumbBarItemPadding}" />
-		<Setter Property="Height" Value="{ThemeResource BreadcrumbBarHeight}" />
+		<Setter Property="Height" Value="{ThemeResource BreadcrumbBarItemHeight}" />
 
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -149,8 +135,8 @@
 							ToolTipService.ToolTip="{TemplateBinding ItemToolTip}"
 							UseSystemFocusVisuals="True">
 							<Button.Resources>
-								<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource NotSoSubtleSecondary}" />
-								<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource NotSoSubtleTertiary}" />
+								<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
+								<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SubtleFillColorTertiary}" />
 							</Button.Resources>
 
 							<FlyoutBase.AttachedFlyout>
@@ -202,8 +188,8 @@
 							ToolTipService.ToolTip="{TemplateBinding ChevronToolTip}"
 							UseSystemFocusVisuals="True">
 							<Button.Resources>
-								<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource NotSoSubtleSecondary}" />
-								<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource NotSoSubtleTertiary}" />
+								<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
+								<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SubtleFillColorTertiary}" />
 							</Button.Resources>
 
 							<FlyoutBase.AttachedFlyout>
