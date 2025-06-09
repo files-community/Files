@@ -3,12 +3,17 @@
 
 using Files.App.Controls;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
+using Windows.AI.Actions.Hosting;
 
 namespace Files.App.Data.Items
 {
 	[Obsolete("Remove once Omnibar goes out of experimental.")]
 	public sealed partial class NavigationBarSuggestionItem : ObservableObject, IOmnibarTextMemberPathProvider
 	{
+		private ImageSource? _ActionIconSource;
+		public ImageSource? ActionIconSource { get => _ActionIconSource; set => SetProperty(ref _ActionIconSource, value); }
+
 		private Style? _ThemedIconStyle;
 		public Style? ThemedIconStyle { get => _ThemedIconStyle; set => SetProperty(ref _ThemedIconStyle, value); }
 
@@ -45,6 +50,14 @@ namespace Files.App.Data.Items
 		{
 			get => _PrimaryDisplayPreMatched;
 			private set => SetProperty(ref _PrimaryDisplayPreMatched, value);
+		}
+
+
+		private ActionInstance? _ActionInstance;
+		public ActionInstance? ActionInstance
+		{
+			get => _ActionInstance;
+			set => SetProperty(ref _ActionInstance, value);
 		}
 
 		private string? _PrimaryDisplayMatched;

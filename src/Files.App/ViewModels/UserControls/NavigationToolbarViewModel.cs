@@ -11,8 +11,12 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using System.IO;
 using System.Windows.Input;
+using Windows.AI.Actions;
+using Windows.AI.Actions.Hosting;
 using Windows.ApplicationModel.DataTransfer;
+using Microsoft.Windows.ApplicationModel.Resources;
 using Windows.UI.Text;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -64,6 +68,8 @@ namespace Files.App.ViewModels.UserControls
 		public event EventHandler? RefreshWidgetsRequested;
 
 		// Properties
+
+		internal static ActionRuntime? ActionRuntime { get; private set; }
 
 		public ObservableCollection<PathBoxItem> PathComponents { get; } = [];
 
@@ -248,7 +254,6 @@ namespace Files.App.ViewModels.UserControls
 							_ = PopulateOmnibarSuggestionsForPathMode();
 							break;
 						case OmnibarPaletteModeName:
-							if (OmnibarCommandPaletteModeSuggestionItems.Count is 0)
 								PopulateOmnibarSuggestionsForCommandPaletteMode();
 							break;
 						case OmnibarSearchModeName:
@@ -1172,23 +1177,60 @@ namespace Files.App.ViewModels.UserControls
 			OmnibarCommandPaletteModeText ??= string.Empty;
 			OmnibarCommandPaletteModeSuggestionItems.Clear();
 
-			var suggestionItems = Commands.Where(command =>
-				command.IsExecutable &&
-				command.IsAccessibleGlobally &&
-				(command.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase) ||
-				command.Code.ToString().Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)))
-			.Select(command => new NavigationBarSuggestionItem()
+			if (ContentPageContext.SelectedItems.Count == 1 && ContentPageContext.SelectedItem is not null && !ContentPageContext.SelectedItem.IsFolder)
 			{
-				ThemedIconStyle = command.Glyph.ToThemedIconStyle(),
-				Glyph = command.Glyph.BaseGlyph,
-				Text = command.Code.ToString(),
-				PrimaryDisplay = command.Description,
-				HotKeys = command.HotKeys,
-				SearchText = OmnibarCommandPaletteModeText,
-			});
+				var dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+
+				dispatcherQueue.TryEnqueue(() =>
+				{
+					var selectedItemPath = ContentPageContext.SelectedItem.ItemPath;
+					var fileActionEntity = ActionManager.Instance.EntityFactory.CreateFileEntity(selectedItemPath);
+					var actions = ActionManager.Instance.ActionRuntime.ActionCatalog.GetActionsForInputs(new[] { fileActionEntity });
+
+					foreach (var action in actions.Where(a => a.Definition.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)))
+					{
+						var newItem = new NavigationBarSuggestionItem
+						{
+							PrimaryDisplay = action.Definition.Description,
+							SearchText = OmnibarCommandPaletteModeText,
+							ActionInstance = action
+						};
+
+						if (Uri.TryCreate(action.Definition.IconFullPath, UriKind.RelativeOrAbsolute, out Uri? validUri))
+						{
+							try
+							{
+								newItem.ActionIconSource = new BitmapImage(validUri);
+							}
+							catch (Exception)
+							{
+							}
+						}
+
+						OmnibarCommandPaletteModeSuggestionItems.Add(newItem);
+					}
+				});
+			}
+
+			var suggestionItems = Commands
+				.Where(command => command.IsExecutable
+					&& command.IsAccessibleGlobally
+					&& (command.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)
+						|| command.Code.ToString().Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)))
+				.Select(command => new NavigationBarSuggestionItem
+				{
+					ThemedIconStyle = command.Glyph.ToThemedIconStyle(),
+					Glyph = command.Glyph.BaseGlyph,
+					Text = command.Code.ToString(),
+					PrimaryDisplay = command.Description,
+					HotKeys = command.HotKeys,
+					SearchText = OmnibarCommandPaletteModeText,
+				});
 
 			foreach (var item in suggestionItems)
+			{
 				OmnibarCommandPaletteModeSuggestionItems.Add(item);
+			}
 		}
 
 		[Obsolete("Remove once Omnibar goes out of experimental.")]

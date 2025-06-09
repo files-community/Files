@@ -4,7 +4,7 @@
     <TargetFrameworkVersion>net9.0</TargetFrameworkVersion>
     <TargetWindowsVersion>10.0.22621.0</TargetWindowsVersion>
     <MinimalWindowsVersion>10.0.19041.0</MinimalWindowsVersion>
-    <WindowsSdkPackageVersion>10.0.22621.57</WindowsSdkPackageVersion>
+    <WindowsSdkPackageVersion>10.0.26100.67-preview</WindowsSdkPackageVersion>
     <WindowsTargetFramework>$(TargetFrameworkVersion)-windows$(TargetWindowsVersion)</WindowsTargetFramework>
   </PropertyGroup>
 </Project>

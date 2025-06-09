@@ -392,6 +392,7 @@
 									<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="{x:Bind Glyph}" />
 								</Viewbox>
 								<controls:ThemedIcon Style="{x:Bind ThemedIconStyle}" Visibility="{x:Bind ThemedIconStyle, Converter={StaticResource NullToVisibilityCollapsedConverter}}" />
+								<Image Source="{x:Bind ActionIconSource, Mode=OneWay}" />
 							</Grid>
 
 							<!--  Primary Title  -->
