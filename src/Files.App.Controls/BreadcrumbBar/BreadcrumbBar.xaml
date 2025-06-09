@@ -115,119 +115,115 @@
 						x:Name="PART_LayoutRoot"
 						TabFocusNavigation="Once"
 						XYFocusKeyboardNavigation="Enabled">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition x:Name="PART_ContentColumn" Width="Auto" />
-							<ColumnDefinition x:Name="PART_ChevronColumn" Width="Auto" />
-						</Grid.ColumnDefinitions>
-
-						<!--  Clickable Area  -->
-						<Button
-							x:Name="PART_ItemContentButton"
-							Padding="{TemplateBinding Padding}"
-							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-							AutomationProperties.AccessibilityView="Raw"
-							AutomationProperties.Name="{TemplateBinding Content}"
-							Background="{TemplateBinding Background}"
-							BorderBrush="{TemplateBinding BorderBrush}"
-							BorderThickness="{TemplateBinding BorderThickness}"
-							Control.IsTemplateFocusTarget="True"
-							CornerRadius="{TemplateBinding CornerRadius}"
-							UseSystemFocusVisuals="True">
-							<Button.Resources>
-								<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
-								<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SubtleFillColorTertiary}" />
-							</Button.Resources>
-
-							<FlyoutBase.AttachedFlyout>
-								<MenuFlyout
-									x:Name="PART_ItemEllipsisDropDownMenuFlyout"
-									Placement="Bottom"
-									ScrollViewer.VerticalScrollBarVisibility="Auto"
-									ScrollViewer.VerticalScrollMode="Auto">
-									<MenuFlyout.MenuFlyoutPresenterStyle>
-										<Style TargetType="MenuFlyoutPresenter">
-											<Setter Property="MaxHeight" Value="400" />
-											<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
-											<Setter Target="HighContrastAdjustment" Value="None" />
-										</Style>
-									</MenuFlyout.MenuFlyoutPresenterStyle>
-								</MenuFlyout>
-							</FlyoutBase.AttachedFlyout>
-
-							<ContentPresenter
-								x:Name="PART_ItemContentPresenter"
-								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+						<StackPanel AutomationProperties.Name="{TemplateBinding ItemToolTip}" Orientation="Horizontal">
+							<!--  Clickable Area  -->
+							<Button
+								x:Name="PART_ItemContentButton"
+								Padding="{TemplateBinding Padding}"
 								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 								AutomationProperties.AccessibilityView="Raw"
-								Content="{TemplateBinding Content}"
-								ContentTemplate="{TemplateBinding ContentTemplate}"
-								ContentTransitions="{TemplateBinding ContentTransitions}"
-								FontFamily="{TemplateBinding FontFamily}"
-								FontSize="{TemplateBinding FontSize}"
-								FontWeight="{TemplateBinding FontWeight}"
-								Foreground="{ThemeResource BreadcrumbBarForegroundBrush}"
-								TextLineBounds="Tight" />
+								AutomationProperties.Name="{TemplateBinding Content}"
+								Background="{TemplateBinding Background}"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{TemplateBinding BorderThickness}"
+								Control.IsTemplateFocusTarget="True"
+								CornerRadius="{TemplateBinding CornerRadius}"
+								UseSystemFocusVisuals="True">
+								<Button.Resources>
+									<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
+									<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SubtleFillColorTertiary}" />
+								</Button.Resources>
 
-						</Button>
+								<FlyoutBase.AttachedFlyout>
+									<MenuFlyout
+										x:Name="PART_ItemEllipsisDropDownMenuFlyout"
+										Placement="Bottom"
+										ScrollViewer.VerticalScrollBarVisibility="Auto"
+										ScrollViewer.VerticalScrollMode="Auto">
+										<MenuFlyout.MenuFlyoutPresenterStyle>
+											<Style TargetType="MenuFlyoutPresenter">
+												<Setter Property="MaxHeight" Value="400" />
+												<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
+												<Setter Target="HighContrastAdjustment" Value="None" />
+											</Style>
+										</MenuFlyout.MenuFlyoutPresenterStyle>
+									</MenuFlyout>
+								</FlyoutBase.AttachedFlyout>
 
-						<!--  Chevron  -->
-						<Button
-							x:Name="PART_ItemChevronButton"
-							Grid.Column="1"
-							Margin="{StaticResource BreadcrumbBarItemMargin}"
-							Padding="{StaticResource BreadcrumbBarChevronPadding}"
-							VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-							AutomationProperties.AccessibilityView="Raw"
-							AutomationProperties.Name="Chevron"
-							Background="{TemplateBinding Background}"
-							BorderBrush="{TemplateBinding BorderBrush}"
-							BorderThickness="{TemplateBinding BorderThickness}"
-							CornerRadius="{StaticResource BreadcrumbBarChevronCornerRaduis}"
-							Style="{StaticResource BreadcrumbBarItemChevronButtonStyle}"
-							ToolTipService.ToolTip="{TemplateBinding ChevronToolTip}"
-							UseSystemFocusVisuals="True">
-							<Button.Resources>
-								<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
-								<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SubtleFillColorTertiary}" />
-							</Button.Resources>
+								<ContentPresenter
+									x:Name="PART_ItemContentPresenter"
+									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+									AutomationProperties.AccessibilityView="Raw"
+									Content="{TemplateBinding Content}"
+									ContentTemplate="{TemplateBinding ContentTemplate}"
+									ContentTransitions="{TemplateBinding ContentTransitions}"
+									FontFamily="{TemplateBinding FontFamily}"
+									FontSize="{TemplateBinding FontSize}"
+									FontWeight="{TemplateBinding FontWeight}"
+									Foreground="{ThemeResource BreadcrumbBarForegroundBrush}"
+									TextLineBounds="Tight" />
 
-							<FlyoutBase.AttachedFlyout>
-								<MenuFlyout
-									x:Name="PART_ItemChevronDropDownMenuFlyout"
-									Placement="BottomEdgeAlignedLeft"
-									ScrollViewer.VerticalScrollBarVisibility="Auto"
-									ScrollViewer.VerticalScrollMode="Auto">
-									<MenuFlyout.MenuFlyoutPresenterStyle>
-										<Style TargetType="MenuFlyoutPresenter">
-											<Setter Property="MaxHeight" Value="400" />
-											<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
-											<Setter Target="HighContrastAdjustment" Value="None" />
-										</Style>
-									</MenuFlyout.MenuFlyoutPresenterStyle>
-								</MenuFlyout>
-							</FlyoutBase.AttachedFlyout>
+							</Button>
 
-							<AnimatedIcon
-								x:Name="PART_ItemChevronIcon"
-								Width="{StaticResource BreadcrumbBarChevronFontSize}"
-								Height="{StaticResource BreadcrumbBarChevronFontSize}"
-								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+							<!--  Chevron  -->
+							<Button
+								x:Name="PART_ItemChevronButton"
+								Margin="{StaticResource BreadcrumbBarItemMargin}"
+								Padding="{StaticResource BreadcrumbBarChevronPadding}"
 								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-								AnimatedIcon.State="NormalOff"
 								AutomationProperties.AccessibilityView="Raw"
-								Foreground="{ThemeResource BreadcrumbBarForegroundBrush}"
-								MirroredWhenRightToLeft="True"
-								RenderTransformOrigin="0.5, 0.5">
-								<AnimatedIcon.FallbackIconSource>
-									<FontIconSource
-										FontSize="{StaticResource BreadcrumbBarChevronFontSize}"
-										Glyph="&#xE76C;"
-										IsTextScaleFactorEnabled="False" />
-								</AnimatedIcon.FallbackIconSource>
-								<animatedvisuals:AnimatedChevronRightDownSmallVisualSource />
-							</AnimatedIcon>
+								AutomationProperties.Name="Chevron"
+								Background="{TemplateBinding Background}"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{TemplateBinding BorderThickness}"
+								CornerRadius="{StaticResource BreadcrumbBarChevronCornerRaduis}"
+								Style="{StaticResource BreadcrumbBarItemChevronButtonStyle}"
+								ToolTipService.ToolTip="{TemplateBinding ChevronToolTip}"
+								UseSystemFocusVisuals="True">
+								<Button.Resources>
+									<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
+									<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SubtleFillColorTertiary}" />
+								</Button.Resources>
 
-						</Button>
+								<FlyoutBase.AttachedFlyout>
+									<MenuFlyout
+										x:Name="PART_ItemChevronDropDownMenuFlyout"
+										Placement="BottomEdgeAlignedLeft"
+										ScrollViewer.VerticalScrollBarVisibility="Auto"
+										ScrollViewer.VerticalScrollMode="Auto">
+										<MenuFlyout.MenuFlyoutPresenterStyle>
+											<Style TargetType="MenuFlyoutPresenter">
+												<Setter Property="MaxHeight" Value="400" />
+												<!--  Workaround for https://github.com/files-community/Files/issues/13078  -->
+												<Setter Target="HighContrastAdjustment" Value="None" />
+											</Style>
+										</MenuFlyout.MenuFlyoutPresenterStyle>
+									</MenuFlyout>
+								</FlyoutBase.AttachedFlyout>
+
+								<AnimatedIcon
+									x:Name="PART_ItemChevronIcon"
+									Width="{StaticResource BreadcrumbBarChevronFontSize}"
+									Height="{StaticResource BreadcrumbBarChevronFontSize}"
+									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+									AnimatedIcon.State="NormalOff"
+									AutomationProperties.AccessibilityView="Raw"
+									Foreground="{ThemeResource BreadcrumbBarForegroundBrush}"
+									MirroredWhenRightToLeft="True"
+									RenderTransformOrigin="0.5, 0.5">
+									<AnimatedIcon.FallbackIconSource>
+										<FontIconSource
+											FontSize="{StaticResource BreadcrumbBarChevronFontSize}"
+											Glyph="&#xE76C;"
+											IsTextScaleFactorEnabled="False" />
+									</AnimatedIcon.FallbackIconSource>
+									<animatedvisuals:AnimatedChevronRightDownSmallVisualSource />
+								</AnimatedIcon>
+
+							</Button>
+						</StackPanel>
 
 						<VisualStateManager.VisualStateGroups>
 
