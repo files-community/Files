@@ -1177,7 +1177,7 @@ namespace Files.App.ViewModels.UserControls
 			OmnibarCommandPaletteModeText ??= string.Empty;
 			OmnibarCommandPaletteModeSuggestionItems.Clear();
 
-			if (ContentPageContext.HasSelection && ContentPageContext.SelectedItems.All(x => !x.IsFolder))
+			if (ContentPageContext.SelectedItems.Count == 1 && ContentPageContext.SelectedItem is not null && !ContentPageContext.SelectedItem.IsFolder)
 			{
 				var dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 
