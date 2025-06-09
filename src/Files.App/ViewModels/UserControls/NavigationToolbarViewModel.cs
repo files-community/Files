@@ -1177,37 +1177,40 @@ namespace Files.App.ViewModels.UserControls
 			OmnibarCommandPaletteModeText ??= string.Empty;
 			OmnibarCommandPaletteModeSuggestionItems.Clear();
 
-			var dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
-
-			dispatcherQueue.TryEnqueue(() =>
+			if (ContentPageContext.HasSelection && ContentPageContext.SelectedItems.All(x => !x.IsFolder))
 			{
-				var selectedItemPath = ContentPageContext.SelectedItem.ItemPath;
-				var fileActionEntity = ActionManager.Instance.EntityFactory.CreateFileEntity(selectedItemPath);
-				var actions = ActionManager.Instance.ActionRuntime.ActionCatalog.GetActionsForInputs(new[] { fileActionEntity });
+				var dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
 
-				foreach (var action in actions.Where(a => a.Definition.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)))
+				dispatcherQueue.TryEnqueue(() =>
 				{
-					var newItem = new NavigationBarSuggestionItem
-					{
-						PrimaryDisplay = action.Definition.Description,
-						SearchText = OmnibarCommandPaletteModeText,
-						ActionInstance = action
-					};
+					var selectedItemPath = ContentPageContext.SelectedItem.ItemPath;
+					var fileActionEntity = ActionManager.Instance.EntityFactory.CreateFileEntity(selectedItemPath);
+					var actions = ActionManager.Instance.ActionRuntime.ActionCatalog.GetActionsForInputs(new[] { fileActionEntity });
 
-					if (Uri.TryCreate(action.Definition.IconFullPath, UriKind.RelativeOrAbsolute, out Uri? validUri))
+					foreach (var action in actions.Where(a => a.Definition.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)))
 					{
-						try
+						var newItem = new NavigationBarSuggestionItem
 						{
-							newItem.ActionIconSource = new BitmapImage(validUri);
-						}
-						catch (Exception)
+							PrimaryDisplay = action.Definition.Description,
+							SearchText = OmnibarCommandPaletteModeText,
+							ActionInstance = action
+						};
+
+						if (Uri.TryCreate(action.Definition.IconFullPath, UriKind.RelativeOrAbsolute, out Uri? validUri))
 						{
+							try
+							{
+								newItem.ActionIconSource = new BitmapImage(validUri);
+							}
+							catch (Exception)
+							{
+							}
 						}
+
+						OmnibarCommandPaletteModeSuggestionItems.Add(newItem);
 					}
-
-					OmnibarCommandPaletteModeSuggestionItems.Add(newItem);
-				}
-			});
+				});
+			}
 
 			var suggestionItems = Commands
 				.Where(command => command.IsExecutable
