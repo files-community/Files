@@ -133,7 +133,7 @@
 						<Border
 							x:Name="PART_ModeButton"
 							Width="{StaticResource OmnibarModeDefaultClickAreaWidth}"
-							Height="{TemplateBinding Height}"
+							Margin="1"
 							Background="{TemplateBinding Background}"
 							BorderBrush="{TemplateBinding BorderBrush}"
 							BorderThickness="{TemplateBinding BorderThickness}"
@@ -166,12 +166,12 @@
 								<VisualState x:Name="PointerNormal" />
 								<VisualState x:Name="PointerOver">
 									<VisualState.Setters>
-										<Setter Target="PART_ModeButton.Background" Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
+										<Setter Target="PART_ModeButton.Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="PointerPressed">
 									<VisualState.Setters>
-										<Setter Target="PART_ModeButton.Background" Value="{ThemeResource SubtleFillColorSecondaryBrush}" />
+										<Setter Target="PART_ModeButton.Background" Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
 										<Setter Target="PART_ModeButtonIconPresenter.Content" Value="{Binding IconOnActive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 									</VisualState.Setters>
 								</VisualState>
