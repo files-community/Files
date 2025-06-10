@@ -278,14 +278,10 @@ namespace Files.App.UserControls
 							string.Format(Strings.CommandNotExecutableContent.GetLocalizedResource(), command.Code));
 					else
 						await command.ExecuteAsync();
-
-					ViewModel.OmnibarCurrentSelectedMode = OmnibarPathMode;
-					ViewModel.OmnibarCommandPaletteModeText = string.Empty;
-					return;
 				}
 
 				// Try invoking Windows app action
-				if (ActionManager.Instance.ActionRuntime is not null && item.ActionInstance is ActionInstance actionInstance)
+				else if (ActionManager.Instance.ActionRuntime is not null && item.ActionInstance is ActionInstance actionInstance)
 				{
 					// Workaround for https://github.com/microsoft/App-Actions-On-Windows-Samples/issues/7
 					var action = ActionManager.Instance.ActionRuntime.ActionCatalog.GetAllActions()
