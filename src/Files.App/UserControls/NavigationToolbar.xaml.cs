@@ -260,6 +260,7 @@ namespace Files.App.UserControls
 			if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
 			{
 				await ViewModel.HandleItemNavigationAsync(args.Text);
+				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
 			{
@@ -294,8 +295,7 @@ namespace Files.App.UserControls
 					}
 				}
 
-				ViewModel.OmnibarCurrentSelectedMode = OmnibarPathMode;
-				ViewModel.OmnibarCommandPaletteModeText = string.Empty;
+				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 			{
@@ -423,7 +423,10 @@ namespace Files.App.UserControls
 		private void Omnibar_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key is VirtualKey.Escape)
+			{
 				Omnibar.IsFocused = false;
+				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+			}
 		}
 	}
 }
