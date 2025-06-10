@@ -266,14 +266,8 @@ namespace Files.App.UserControls
 				if (args.Item is not NavigationBarSuggestionItem item)
 					return;
 
-				string commandText = { Text: string itemText }
-					? itemText
-					: args.Text is string text
-						? text
-						: string.Empty;
-
 				// Try invoking built-in command
-				if (!string.IsNullOrEmpty(commandText))
+				if (item.Text is { } commandText)
 				{
 					var command = Commands[commandText];
 					if (command == Commands.None)
