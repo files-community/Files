@@ -429,5 +429,11 @@ namespace Files.App.UserControls
 				ViewModel.OmnibarCommandPaletteModeText = string.Empty;
 			}
 		}
+
+		private void Omnibar_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			if (e.Key is VirtualKey.Escape)
+				Omnibar.IsFocused = false;
+		}
 	}
 }
