@@ -324,6 +324,7 @@
 			CurrentSelectedMode="{x:Bind ViewModel.OmnibarCurrentSelectedMode, Mode=TwoWay}"
 			CurrentSelectedModeName="{x:Bind ViewModel.OmnibarCurrentSelectedModeName, Mode=TwoWay}"
 			IsFocused="{x:Bind ViewModel.IsOmnibarFocused, Mode=TwoWay}"
+			LostFocus="Omnibar_LostFocus"
 			QuerySubmitted="Omnibar_QuerySubmitted"
 			TextChanged="Omnibar_TextChanged">
 
@@ -358,7 +359,7 @@
 									AutomationProperties.AccessibilityView="Content"
 									AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
 									ChevronToolTip="{helpers:ResourceString Name=BreadcrumbBarChevronButtonToolTip}"
-									Content="{x:Bind Title, Mode=OneWay}"/>
+									Content="{x:Bind Title, Mode=OneWay}" />
 							</DataTemplate>
 						</controls:BreadcrumbBar.ItemTemplate>
 					</controls:BreadcrumbBar>

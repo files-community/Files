@@ -420,5 +420,14 @@ namespace Files.App.UserControls
 			// Clear the flyout items to save memory
 			e.Flyout.Items.Clear();
 		}
+
+		private void Omnibar_LostFocus(object sender, RoutedEventArgs e)
+		{
+			if (ViewModel.OmnibarCurrentSelectedMode == OmnibarCommandPaletteMode)
+			{
+				ViewModel.OmnibarCurrentSelectedMode = OmnibarPathMode;
+				ViewModel.OmnibarCommandPaletteModeText = string.Empty;
+			}
+		}
 	}
 }
