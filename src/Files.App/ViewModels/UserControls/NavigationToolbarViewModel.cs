@@ -792,7 +792,8 @@ namespace Files.App.ViewModels.UserControls
 		{
 			if (EnableOmnibar)
 			{
-				OmnibarCurrentSelectedModeName = OmnibarSearchModeName;
+				// TODO enable when implemented
+				// OmnibarCurrentSelectedModeName = OmnibarSearchModeName;
 			}
 			else
 			{
