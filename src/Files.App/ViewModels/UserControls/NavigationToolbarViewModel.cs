@@ -1231,6 +1231,15 @@ namespace Files.App.ViewModels.UserControls
 			{
 				OmnibarCommandPaletteModeSuggestionItems.Add(item);
 			}
+
+			if (OmnibarCommandPaletteModeSuggestionItems.Count is 0)
+			{
+				OmnibarCommandPaletteModeSuggestionItems.Add(new NavigationBarSuggestionItem()
+				{
+					PrimaryDisplay = Strings.NavigationToolbarVisiblePathNoResults.GetLocalizedResource(),
+					SearchText = OmnibarCommandPaletteModeText,
+				});
+			}
 		}
 
 		[Obsolete("Remove once Omnibar goes out of experimental.")]
