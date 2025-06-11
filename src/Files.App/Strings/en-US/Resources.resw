@@ -4245,5 +4245,8 @@
   </data>
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
     <value>Show child folders</value>
+  </data>	
+  <data name="NoCommandsFound" xml:space="preserve">
+    <value>There are no commands containing {0}</value>
   </data>
 </root>

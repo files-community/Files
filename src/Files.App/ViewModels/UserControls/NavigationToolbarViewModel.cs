@@ -1236,7 +1236,7 @@ namespace Files.App.ViewModels.UserControls
 			{
 				OmnibarCommandPaletteModeSuggestionItems.Add(new NavigationBarSuggestionItem()
 				{
-					PrimaryDisplay = Strings.NavigationToolbarVisiblePathNoResults.GetLocalizedResource(),
+					PrimaryDisplay = string.Format(Strings.NoCommandsFound.GetLocalizedResource(), OmnibarCommandPaletteModeText),
 					SearchText = OmnibarCommandPaletteModeText,
 				});
 			}
