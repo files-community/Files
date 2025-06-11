@@ -12,6 +12,9 @@ namespace Files.App.Actions
 
 		public abstract string Description { get; }
 
+		public RichGlyph Glyph
+			=> new(themedIconStyle: "App.ThemedIcons.Zip");
+
 		public override bool IsExecutable =>
 			IsContextPageTypeAdaptedToCommand() &&
 			StorageArchiveService.CanCompress(context.SelectedItems) &&
