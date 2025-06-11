@@ -47,7 +47,9 @@ namespace Files.App.Controls
 				VisualStateManager.GoToState(this, "ChevronCollapsed", true);
 
 			_itemContentButton.Click += ItemContentButton_Click;
+			_itemContentButton.PreviewKeyDown += ItemContentButton_PreviewKeyDown;
 			_itemChevronButton.Click += ItemChevronButton_Click;
+			_itemChevronButton.PreviewKeyDown += ItemChevronButton_PreviewKeyDown;
 			_itemChevronDropDownMenuFlyout.Opening += ChevronDropDownMenuFlyout_Opening;
 			_itemChevronDropDownMenuFlyout.Opened += ChevronDropDownMenuFlyout_Opened;
 			_itemChevronDropDownMenuFlyout.Closed += ChevronDropDownMenuFlyout_Closed;
