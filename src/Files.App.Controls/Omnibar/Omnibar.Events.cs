@@ -129,6 +129,12 @@ namespace Files.App.Controls
 			args.TryCancel();
 		}
 
+		private void AutoSuggestBoxSuggestionsPopup_Opened(object? sender, object e)
+		{
+			if (_textBoxSuggestionsListView.Items.Count > 0)
+				_textBoxSuggestionsListView.ScrollIntoView(_textBoxSuggestionsListView.Items[0]);
+		}
+
 		private void AutoSuggestBoxSuggestionsListView_ItemClick(object sender, ItemClickEventArgs e)
 		{
 			if (CurrentSelectedMode is null)

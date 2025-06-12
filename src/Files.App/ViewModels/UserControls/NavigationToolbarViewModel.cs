@@ -1232,7 +1232,8 @@ namespace Files.App.ViewModels.UserControls
 
 			foreach (var item in suggestionItems)
 			{
-				OmnibarCommandPaletteModeSuggestionItems.Add(item);
+				if (item.Text != Commands.OpenCommandPalette.Code.ToString())
+					OmnibarCommandPaletteModeSuggestionItems.Add(item);
 			}
 
 			if (OmnibarCommandPaletteModeSuggestionItems.Count is 0)
