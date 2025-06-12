@@ -131,7 +131,7 @@ namespace Files.App.Controls
 
 		private void AutoSuggestBoxSuggestionsPopup_Opened(object? sender, object e)
 		{
-			if (_textBoxSuggestionsListView.Items.Count >= 0)
+			if (_textBoxSuggestionsListView.Items.Count > 0)
 				_textBoxSuggestionsListView.ScrollIntoView(_textBoxSuggestionsListView.Items[0]);
 		}
 
