@@ -120,14 +120,3 @@ jobs:
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
-
-    - name: Publish the packages to Microsoft Store
-      uses: isaacrlevin/windows-store-action@1.0
-      with:
-        app-id: '9NSQD9PKV3SS'
-        tenant-id: ${{ secrets.STORE_TENANT_ID }}
-        client-id: ${{ secrets.STORE_CLIENT_ID }}
-        client-secret: ${{ secrets.STORE_CLIENT_SECRET }}
-        package-path: '${{ env.APPX_PACKAGE_DIR }}'
-        skip-polling: false
-        packages-keep: 5
