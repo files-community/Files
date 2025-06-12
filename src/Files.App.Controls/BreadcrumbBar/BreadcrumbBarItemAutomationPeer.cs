@@ -24,7 +24,7 @@ namespace Files.App.Controls
 
 		protected override object GetPatternCore(PatternInterface patternInterface)
 		{
-			if (patternInterface is PatternInterface.Invoke)
+			if (patternInterface is PatternInterface.ExpandCollapse or PatternInterface.Invoke)
 				return this;
 
 			return base.GetPatternCore(patternInterface);
@@ -37,12 +37,15 @@ namespace Files.App.Controls
 
 		protected override AutomationControlType GetAutomationControlTypeCore()
 		{
-			return AutomationControlType.Button;
+			return AutomationControlType.SplitButton;
 		}
 
-		/// <summary>
-		/// Sends a request to invoke the item associated with the automation peer.
-		/// </summary>
+		protected override bool IsControlElementCore()
+		{
+			return true;
+		}
+
+		/// <inheritdoc/>
 		public void Invoke()
 		{
 			if (Owner is not BreadcrumbBarItem item)

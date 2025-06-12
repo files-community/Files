@@ -9,14 +9,12 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using System.Windows.Input;
 using Windows.AI.Actions;
-using Windows.AI.Actions.Hosting;
 using Windows.ApplicationModel.DataTransfer;
-using Microsoft.Windows.ApplicationModel.Resources;
 using Windows.UI.Text;
-using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -254,7 +252,7 @@ namespace Files.App.ViewModels.UserControls
 							_ = PopulateOmnibarSuggestionsForPathMode();
 							break;
 						case OmnibarPaletteModeName:
-								PopulateOmnibarSuggestionsForCommandPaletteMode();
+							PopulateOmnibarSuggestionsForCommandPaletteMode();
 							break;
 						case OmnibarSearchModeName:
 							break;
@@ -794,7 +792,8 @@ namespace Files.App.ViewModels.UserControls
 		{
 			if (EnableOmnibar)
 			{
-				OmnibarCurrentSelectedModeName = OmnibarSearchModeName;
+				// TODO enable when implemented
+				// OmnibarCurrentSelectedModeName = OmnibarSearchModeName;
 			}
 			else
 			{
@@ -816,6 +815,10 @@ namespace Files.App.ViewModels.UserControls
 		public void SwitchToPathMode()
 		{
 			OmnibarCurrentSelectedModeName = OmnibarPathModeName;
+
+			var omnibar = AddressToolbar?.FindDescendant("Omnibar") as Omnibar;
+			omnibar?.Focus(FocusState.Programmatic);
+			omnibar.IsFocused = true;
 		}
 
 		public void UpdateAdditionalActions()
@@ -1230,6 +1233,15 @@ namespace Files.App.ViewModels.UserControls
 			foreach (var item in suggestionItems)
 			{
 				OmnibarCommandPaletteModeSuggestionItems.Add(item);
+			}
+
+			if (OmnibarCommandPaletteModeSuggestionItems.Count is 0)
+			{
+				OmnibarCommandPaletteModeSuggestionItems.Add(new NavigationBarSuggestionItem()
+				{
+					PrimaryDisplay = string.Format(Strings.NoCommandsFound.GetLocalizedResource(), OmnibarCommandPaletteModeText),
+					SearchText = OmnibarCommandPaletteModeText,
+				});
 			}
 		}
 

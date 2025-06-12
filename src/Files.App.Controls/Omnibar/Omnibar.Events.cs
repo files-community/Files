@@ -22,6 +22,16 @@ namespace Files.App.Controls
 			_previouslyFocusedElement = new(args.OldFocusedElement as UIElement);
 		}
 
+		private void AutoSuggestBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
+		{
+			if (IsModeButtonPressed)
+			{
+				IsModeButtonPressed = false;
+				args.TryCancel();
+				return;
+			}
+		}
+
 		private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
 		{
 			IsFocused = true;
@@ -70,7 +80,7 @@ namespace Files.App.Controls
 				{
 					_textBoxSuggestionsListView.SelectedIndex = nextIndex;
 
-					ChooseSuggestionItem(_textBoxSuggestionsListView.SelectedItem);
+					ChooseSuggestionItem(_textBoxSuggestionsListView.SelectedItem, true);
 				}
 			}
 			else if (e.Key == VirtualKey.Escape)
@@ -126,6 +136,11 @@ namespace Files.App.Controls
 
 			ChooseSuggestionItem(e.ClickedItem);
 			SubmitQuery(e.ClickedItem);
+		}
+
+		private void AutoSuggestBoxSuggestionsListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			_textBoxSuggestionsListView.ScrollIntoView(_textBoxSuggestionsListView.SelectedItem);
 		}
 	}
 }

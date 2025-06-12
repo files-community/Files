@@ -324,6 +324,8 @@
 			CurrentSelectedMode="{x:Bind ViewModel.OmnibarCurrentSelectedMode, Mode=TwoWay}"
 			CurrentSelectedModeName="{x:Bind ViewModel.OmnibarCurrentSelectedModeName, Mode=TwoWay}"
 			IsFocused="{x:Bind ViewModel.IsOmnibarFocused, Mode=TwoWay}"
+			LostFocus="Omnibar_LostFocus"
+			PreviewKeyDown="Omnibar_PreviewKeyDown"
 			QuerySubmitted="Omnibar_QuerySubmitted"
 			TextChanged="Omnibar_TextChanged">
 
@@ -340,10 +342,12 @@
 				<controls:OmnibarMode.ContentOnInactive>
 					<controls:BreadcrumbBar
 						x:Name="BreadcrumbBar"
+						EllipsisButtonToolTip="{helpers:ResourceString Name=BreadcrumbBarEllipsisButtonToolTip}"
 						ItemClicked="BreadcrumbBar_ItemClicked"
 						ItemDropDownFlyoutClosed="BreadcrumbBar_ItemDropDownFlyoutClosed"
 						ItemDropDownFlyoutOpening="BreadcrumbBar_ItemDropDownFlyoutOpening"
-						ItemsSource="{x:Bind ViewModel.PathComponents, Mode=OneWay}">
+						ItemsSource="{x:Bind ViewModel.PathComponents, Mode=OneWay}"
+						RootItemToolTip="{helpers:ResourceString Name=Home}">
 						<controls:BreadcrumbBar.RootItem>
 							<Image
 								Width="16"
@@ -352,7 +356,11 @@
 						</controls:BreadcrumbBar.RootItem>
 						<controls:BreadcrumbBar.ItemTemplate>
 							<DataTemplate x:DataType="dataitems:PathBoxItem">
-								<controls:BreadcrumbBarItem Content="{x:Bind Title, Mode=OneWay}" />
+								<controls:BreadcrumbBarItem
+									AutomationProperties.AccessibilityView="Content"
+									AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
+									ChevronToolTip="{helpers:ResourceString Name=BreadcrumbBarChevronButtonToolTip}"
+									Content="{x:Bind Title, Mode=OneWay}" />
 							</DataTemplate>
 						</controls:BreadcrumbBar.ItemTemplate>
 					</controls:BreadcrumbBar>
@@ -422,6 +430,7 @@
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IconType=Outline}"
 				IsAutoFocusEnabled="True"
+				IsEnabled="False"
 				ModeName="{x:Bind Commands.Search.LabelWithHotKey, Mode=OneWay}"
 				PlaceholderText="{helpers:ResourceString Name=OmnibarSearchModeTextPlaceholder}" />
 
