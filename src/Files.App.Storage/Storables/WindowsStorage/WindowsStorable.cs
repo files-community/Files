@@ -17,7 +17,16 @@ namespace Files.App.Storage
 			get;
 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			protected set;
+			protected internal set;
+		}
+
+		public IContextMenu* ContextMenu
+		{
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			get;
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			protected internal set;
 		}
 
 		public string Id => this.GetDisplayName(SIGDN.SIGDN_FILESYSPATH);
@@ -69,9 +78,10 @@ namespace Files.App.Storage
 		}
 
 		/// <inheritdoc/>
-		public void Dispose()
+		public virtual void Dispose()
 		{
-			ThisPtr->Release();
+			if (ThisPtr is not null) ThisPtr->Release();
+			if (ContextMenu is not null) ContextMenu->Release();
 		}
 
 		/// <inheritdoc/>
