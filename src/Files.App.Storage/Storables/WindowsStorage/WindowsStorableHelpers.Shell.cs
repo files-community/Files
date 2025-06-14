@@ -135,5 +135,15 @@ namespace Files.App.Storage
 
 			return HRESULT.S_OK;
 		}
+
+		public unsafe static HRESULT TryPinFolderToQuickAccess()
+		{
+			return HRESULT.S_OK;
+		}
+
+		public unsafe static HRESULT TryUnpinFolderFromQuickAccess()
+		{
+			return HRESULT.S_OK;
+		}
 	}
 }
