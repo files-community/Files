@@ -45,7 +45,7 @@ namespace Files.App.Storage
 			thumbnailData = null;
 
 			using ComPtr<IShellItemImageFactory> pShellItemImageFactory = default;
-			storable.ThisPtr.As(pShellItemImageFactory.GetAddressOf());
+			storable.ThisPtr->QueryInterface(IID.IID_IShellItemImageFactory, (void**)pShellItemImageFactory.GetAddressOf());
 			if (pShellItemImageFactory.IsNull)
 				return HRESULT.E_NOINTERFACE;
 
@@ -267,10 +267,8 @@ namespace Files.App.Storage
 				return HRESULT.E_INVALIDARG;
 
 			using ComPtr<IShellLinkW> pShellLink = default;
-			Guid IID_IShellLink = IShellLinkW.IID_Guid;
-			Guid BHID_SFUIObject = PInvoke.BHID_SFUIObject;
 
-			HRESULT hr = storable.ThisPtr.Get()->BindToHandler(null, &BHID_SFUIObject, &IID_IShellLink, (void**)pShellLink.GetAddressOf());
+			HRESULT hr = storable.ThisPtr->BindToHandler(null, BHID.BHID_SFUIObject, IID.IID_IShellLinkW, (void**)pShellLink.GetAddressOf());
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return hr;
 

@@ -225,3 +225,4 @@ QITIPF_FLAGS
 GetKeyboardState
 MapVirtualKey
 GetKeyboardLayout
+S_FALSE
