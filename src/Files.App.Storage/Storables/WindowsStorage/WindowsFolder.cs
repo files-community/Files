@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.Runtime.CompilerServices;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.SystemServices;
@@ -11,6 +12,16 @@ namespace Files.App.Storage
 	[DebuggerDisplay("{" + nameof(ToString) + "()}")]
 	public unsafe class WindowsFolder : WindowsStorable, IWindowsFolder
 	{
+		/// <inheritdoc/>
+		public IContextMenu* ShellNewMenu
+		{
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			get;
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			protected internal set;
+		}
+
 		public WindowsFolder(IShellItem* ptr)
 		{
 			ThisPtr = ptr;
@@ -62,6 +73,13 @@ namespace Files.App.Storage
 				return Enumerable.Empty<IStorableChild>().ToAsyncEnumerable();
 
 			return childItems.ToAsyncEnumerable();
+		}
+
+		public override void Dispose()
+		{
+			base.Dispose();
+
+			if (ShellNewMenu is not null) ShellNewMenu->Release();
 		}
 	}
 }
