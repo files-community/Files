@@ -14,9 +14,7 @@ using System.Windows.Forms;
 using Vanara.PInvoke;
 using Windows.System;
 using Windows.Win32;
-using Windows.Win32.Foundation;
 using Windows.Win32.Storage.FileSystem;
-using static Vanara.PInvoke.Kernel32;
 using COMPRESSION_FORMAT = Windows.Win32.Storage.FileSystem.COMPRESSION_FORMAT;
 using HRESULT = Vanara.PInvoke.HRESULT;
 using HWND = Vanara.PInvoke.HWND;
@@ -28,6 +26,7 @@ namespace Files.App.Helpers
 	/// </summary>
 	public static partial class Win32Helper
 	{
+		[Obsolete($"Use {nameof(STATask)} instead.")]
 		public static Task StartSTATask(Func<Task> func)
 		{
 			var taskCompletionSource = new TaskCompletionSource();
@@ -62,6 +61,7 @@ namespace Files.App.Helpers
 			return taskCompletionSource.Task;
 		}
 
+		[Obsolete($"Use {nameof(STATask)} instead.")]
 		public static Task StartSTATask(Action action)
 		{
 			var taskCompletionSource = new TaskCompletionSource();
@@ -96,6 +96,7 @@ namespace Files.App.Helpers
 			return taskCompletionSource.Task;
 		}
 
+		[Obsolete($"Use {nameof(STATask)} instead.")]
 		public static Task<T?> StartSTATask<T>(Func<T> func)
 		{
 			var taskCompletionSource = new TaskCompletionSource<T?>();
@@ -131,6 +132,7 @@ namespace Files.App.Helpers
 			return taskCompletionSource.Task;
 		}
 
+		[Obsolete($"Use {nameof(STATask)} instead.")]
 		public static Task<T?> StartSTATask<T>(Func<Task<T>> func)
 		{
 			var taskCompletionSource = new TaskCompletionSource<T?>();
@@ -189,6 +191,7 @@ namespace Files.App.Helpers
 			return await GetUwpAssoc() ?? GetDesktopAssoc();
 		}
 
+		[Obsolete($"Use {nameof(WindowsStorageHelpers.TryExtractStringFromExecutable)} instead.")]
 		public static string ExtractStringFromDLL(string file, int number)
 		{
 			var lib = Kernel32.LoadLibrary(file);
@@ -228,12 +231,6 @@ namespace Files.App.Helpers
 
 		private static readonly object _iconOverlayLock = new object();
 
-		/// <summary>
-		/// Returns overlay for given file or folder
-		/// </summary>
-		/// <param name="path"></param>
-		/// <param name="isDirectory"></param>
-		/// <returns></returns>
 		public static byte[]? GetIconOverlay(string path, bool isDirectory)
 		{
 			var shFileInfo = new Shell32.SHFILEINFO();
@@ -287,16 +284,7 @@ namespace Files.App.Helpers
 		/// <summary>
 		/// Returns an icon if returnIconOnly is true, otherwise a thumbnail will be returned if available.
 		/// </summary>
-		/// <param name="path"></param>
-		/// <param name="size"></param>
-		/// <param name="isFolder"></param>
-		/// <param name="iconOptions"></param>
-		/// <returns></returns>
-		public static byte[]? GetIcon(
-			string path,
-			int size,
-			bool isFolder,
-			IconOptions iconOptions)
+		public static byte[]? GetIcon(string path, int size, bool isFolder, IconOptions iconOptions)
 		{
 			byte[]? iconData = null;
 
@@ -454,6 +442,7 @@ namespace Files.App.Helpers
 
 		private static readonly ConcurrentDictionary<(string File, int Index, int Size), IconFileInfo> _iconCache = new();
 
+		[Obsolete($"Use {nameof(WindowsStorageHelpers.TryExtractImageFromExecutable)} instead.")]
 		public static IList<IconFileInfo> ExtractSelectedIconsFromDLL(string file, IList<int> indexes, int iconSize = 48)
 		{
 			var iconsList = new List<IconFileInfo>();
@@ -483,6 +472,7 @@ namespace Files.App.Helpers
 			return iconsList;
 		}
 
+		[Obsolete($"Use {nameof(WindowsStorageHelpers.TryExtractImageFromExecutable)} instead.")]
 		public static IList<IconFileInfo>? ExtractIconsFromDLL(string file)
 		{
 			var iconsList = new List<IconFileInfo>();
@@ -517,6 +507,7 @@ namespace Files.App.Helpers
 			return iconsList;
 		}
 
+		[Obsolete($"Use {nameof(WindowsStorageHelpers.TrySetFolderIcon)} instead.")]
 		public static bool SetCustomDirectoryIcon(string? folderPath, string? iconFile, int iconIndex = 0)
 		{
 			if (folderPath is null)
@@ -537,6 +528,7 @@ namespace Files.App.Helpers
 			return success;
 		}
 
+		[Obsolete($"Use {nameof(WindowsStorageHelpers.TrySetShortcutIcon)} instead.")]
 		public static bool SetCustomFileIcon(string? filePath, string? iconFile, int iconIndex = 0)
 		{
 			if (filePath is null)
@@ -547,6 +539,7 @@ namespace Files.App.Helpers
 			return success;
 		}
 
+		[Obsolete($"Use {nameof(WindowsStorageHelpers.TryShowFormatDriveDialog)} instead.")]
 		public static Task OpenFormatDriveDialog(string drive)
 		{
 			// Format requires elevation
@@ -571,6 +564,7 @@ namespace Files.App.Helpers
 			return RunPowershellCommandAsync($"-command \"Mount-DiskImage -ImagePath '{vhdPath}'\"", PowerShellExecutionOptions.Elevated | PowerShellExecutionOptions.Hidden);
 		}
 
+		[Obsolete($"Don't use this method any more.")]
 		public static Bitmap? GetBitmapFromHBitmap(HBITMAP hBitmap)
 		{
 			try

@@ -235,3 +235,6 @@ IContextMenu2
 GetSubMenu
 GetMenuItemCount
 GetMenuItemInfo
+LoadString
+LoadLibrary
+FreeLibrary

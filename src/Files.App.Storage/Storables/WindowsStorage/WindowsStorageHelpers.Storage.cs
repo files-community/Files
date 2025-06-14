@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.Storage.FileSystem;
@@ -83,6 +84,38 @@ namespace Files.App.Storage
 			// NOTE: This calls an undocumented elevatable COM class, shell32.dll!CFormatEngine so this doesn't need to be elevated beforehand.
 			var result = PInvoke.SHFormatDrive(hWnd, driveLetterIndex, id, options);
 			return result is 0xFFFF;
+		}
+
+		public static bool TryExtractStringFromExecutable(string szExecutablePath, uint dwIndex, out string extractedString)
+		{
+			extractedString = string.Empty;
+
+			HINSTANCE hInst = default;
+			
+			fixed (char* pszExecutablePath = szExecutablePath)
+			{
+				hInst = PInvoke.LoadLibrary(pszExecutablePath);
+				if (hInst.IsNull)
+					return false;
+			}
+
+			int cchExtractedString = 1024;
+			char* pszExtractedString = (char*)NativeMemory.Alloc((nuint)cchExtractedString);
+			if (pszExtractedString is null)
+			{
+				if (!hInst.IsNull) PInvoke.FreeLibrary(hInst);
+				return false;
+			}
+
+			cchExtractedString = PInvoke.LoadString(hInst, dwIndex, pszExtractedString, cchExtractedString);
+			if (cchExtractedString is 0)
+			{
+				if (!hInst.IsNull) PInvoke.FreeLibrary(hInst);
+				if (pszExtractedString is not null) NativeMemory.Free(pszExtractedString);
+				return false;
+			}
+
+			return true;
 		}
 	}
 }

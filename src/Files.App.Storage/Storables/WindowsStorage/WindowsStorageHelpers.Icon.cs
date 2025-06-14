@@ -102,7 +102,7 @@ namespace Files.App.Storage
 			return HRESULT.S_OK;
 		}
 
-		public unsafe static HRESULT TryExtractImageFromDll(this IWindowsStorable storable, int size, int index, out byte[]? imageData)
+		public unsafe static HRESULT TryExtractImageFromExecutable(this IWindowsStorable storable, int size, int index, out byte[]? imageData)
 		{
 			DllIconCache ??= [];
 			imageData = null;

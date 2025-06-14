@@ -230,11 +230,6 @@ namespace Files.App.Storage
 
 			HRESULT hr = default;
 
-			CMINVOKECOMMANDINFO cmici = default;
-			cmici.cbSize = (uint)sizeof(CMINVOKECOMMANDINFO);
-			cmici.lpVerb = (PCSTR)(byte*)item.Id;
-			cmici.nShow = (int)SHOW_WINDOW_CMD.SW_SHOWNORMAL;
-
 			if (folder.NewMenuPtr is null)
 			{
 				IContextMenu* pNewMenu = default;
@@ -246,7 +241,14 @@ namespace Files.App.Storage
 				folder.NewMenuPtr = pNewMenu;
 			}
 
-			folder.NewMenuPtr->InvokeCommand(&cmici);
+			CMINVOKECOMMANDINFO cmici = default;
+			cmici.cbSize = (uint)sizeof(CMINVOKECOMMANDINFO);
+			cmici.lpVerb = (PCSTR)(byte*)item.Id;
+			cmici.nShow = (int)SHOW_WINDOW_CMD.SW_SHOWNORMAL;
+
+			hr = folder.NewMenuPtr->InvokeCommand(&cmici);
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return false;
 
 			return false;
 		}
