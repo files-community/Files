@@ -17,7 +17,7 @@ namespace Files.App.Storage
 		public unsafe static HRESULT GetPropertyValue<TValue>(this IWindowsStorable storable, string propKey, out TValue value)
 		{
 			using ComPtr<IShellItem2> pShellItem2 = default;
-			HRESULT hr = storable.ThisPtr.Get()->QueryInterface(IID.IID_IShellItem2, (void**)pShellItem2.GetAddressOf());
+			HRESULT hr = storable.ThisPtr->QueryInterface(IID.IID_IShellItem2, (void**)pShellItem2.GetAddressOf());
 
 			PROPERTYKEY propertyKey = default;
 			fixed (char* pszPropertyKey = propKey)
@@ -33,10 +33,9 @@ namespace Files.App.Storage
 			}
 			if (typeof(TValue) == typeof(bool))
 			{
-				bool propertyValue = false;
-				hr = pShellItem2.Get()->GetBool(propertyKey, out var fPropertyValue);
-				propertyValue = fPropertyValue;
-				value = Unsafe.As<bool, TValue>(ref propertyValue);
+				bool fPropertyValue = false;
+				hr = pShellItem2.Get()->GetBool(&propertyKey, (BOOL*)&fPropertyValue);
+				value = Unsafe.As<bool, TValue>(ref fPropertyValue);
 
 				return hr;
 			}
@@ -49,20 +48,13 @@ namespace Files.App.Storage
 
 		public unsafe static bool HasShellAttributes(this IWindowsStorable storable, SFGAO_FLAGS attributes)
 		{
-			return storable.ThisPtr.Get()->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var returnedAttributes).Succeeded &&
-				returnedAttributes == attributes;
-		}
-
-		public unsafe static bool HasShellAttributes(this ComPtr<IShellItem> pShellItem, SFGAO_FLAGS attributes)
-		{
-			return pShellItem.Get()->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var returnedAttributes).Succeeded &&
-				returnedAttributes == attributes;
+			return storable.ThisPtr->GetAttributes(attributes, out var dwRetAttributes).Succeeded && dwRetAttributes == attributes;
 		}
 
 		public unsafe static string GetDisplayName(this IWindowsStorable storable, SIGDN options = SIGDN.SIGDN_FILESYSPATH)
 		{
 			using ComHeapPtr<PWSTR> pszName = default;
-			HRESULT hr = storable.ThisPtr.Get()->GetDisplayName(options, (PWSTR*)pszName.GetAddressOf());
+			HRESULT hr = storable.ThisPtr->GetDisplayName(options, (PWSTR*)pszName.GetAddressOf());
 
 			return hr.ThrowIfFailedOnDebug().Succeeded
 				? new string((char*)pszName.Get()) // this is safe as it gets memcpy'd internally
@@ -74,7 +66,7 @@ namespace Files.App.Storage
 			Debug.Assert(Thread.CurrentThread.GetApartmentState() is ApartmentState.STA);
 
 			using ComPtr<IContextMenu> pContextMenu = default;
-			HRESULT hr = storable.ThisPtr.Get()->BindToHandler(null, BHID.BHID_SFUIObject, IID.IID_IContextMenu, (void**)pContextMenu.GetAddressOf());
+			HRESULT hr = storable.ThisPtr->BindToHandler(null, BHID.BHID_SFUIObject, IID.IID_IContextMenu, (void**)pContextMenu.GetAddressOf());
 			HMENU hMenu = PInvoke.CreatePopupMenu();
 			hr = pContextMenu.Get()->QueryContextMenu(hMenu, 0, 1, 0x7FFF, PInvoke.CMF_OPTIMIZEFORINVOKE);
 
@@ -99,7 +91,7 @@ namespace Files.App.Storage
 			Debug.Assert(Thread.CurrentThread.GetApartmentState() is ApartmentState.STA);
 
 			using ComPtr<IContextMenu> pContextMenu = default;
-			HRESULT hr = storable.ThisPtr.Get()->BindToHandler(null, BHID.BHID_SFUIObject, IID.IID_IContextMenu, (void**)pContextMenu.GetAddressOf());
+			HRESULT hr = storable.ThisPtr->BindToHandler(null, BHID.BHID_SFUIObject, IID.IID_IContextMenu, (void**)pContextMenu.GetAddressOf());
 			HMENU hMenu = PInvoke.CreatePopupMenu();
 			hr = pContextMenu.Get()->QueryContextMenu(hMenu, 0, 1, 0x7FFF, PInvoke.CMF_OPTIMIZEFORINVOKE);
 
@@ -130,7 +122,7 @@ namespace Files.App.Storage
 			tooltip = null;
 
 			using ComPtr<IQueryInfo> pQueryInfo = default;
-			HRESULT hr = storable.ThisPtr.Get()->BindToHandler(null, BHID.BHID_SFUIObject, IID.IID_IQueryInfo, (void**)pQueryInfo.GetAddressOf());
+			HRESULT hr = storable.ThisPtr->BindToHandler(null, BHID.BHID_SFUIObject, IID.IID_IQueryInfo, (void**)pQueryInfo.GetAddressOf());
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return hr;
 

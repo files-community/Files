@@ -1,13 +1,12 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Windows.Win32;
 using Windows.Win32.UI.Shell;
 
 namespace Files.App.Storage
 {
-	public interface IWindowsStorable : IDisposable
+	public unsafe interface IWindowsStorable : IStorableChild, IEquatable<IWindowsStorable>, IDisposable
 	{
-		ComPtr<IShellItem> ThisPtr { get; }
+		IShellItem* ThisPtr { get; }
 	}
 }
