@@ -48,8 +48,7 @@ namespace Files.App.Storage
 
 		public unsafe static bool HasShellAttributes(this IWindowsStorable storable, SFGAO_FLAGS attributes)
 		{
-			return storable.ThisPtr->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var returnedAttributes).Succeeded &&
-				returnedAttributes == attributes;
+			return storable.ThisPtr->GetAttributes(attributes, out var dwRetAttributes).Succeeded && dwRetAttributes == attributes;
 		}
 
 		public unsafe static string GetDisplayName(this IWindowsStorable storable, SIGDN options = SIGDN.SIGDN_FILESYSPATH)

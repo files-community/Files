@@ -206,9 +206,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				unsafe
 				{
-					using ComPtr<IShellItem> pShellItem = default;
-					hr = pAgileReference.Get()->Resolve(IID.IID_IShellItem, (void**)pShellItem.GetAddressOf());
-					var windowsFile = new WindowsFile(pShellItem.Get());
+					IShellItem* pShellItem = null;
+					hr = pAgileReference.Get()->Resolve(IID.IID_IShellItem, (void**)&pShellItem);
+					using var windowsFile = new WindowsFile(pShellItem);
 
 					// NOTE: "pintohome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CPinToFrequentExecute : public IExecuteCommand, ...
 					return windowsFile.TryInvokeContextMenuVerb("pintohome");
@@ -242,9 +242,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				unsafe
 				{
-					using ComPtr<IShellItem> pShellItem = default;
-					hr = pAgileReference.Get()->Resolve(IID.IID_IShellItem, (void**)pShellItem.GetAddressOf());
-					var windowsFile = new WindowsFile(pShellItem.Get());
+					IShellItem* pShellItem = null;
+					hr = pAgileReference.Get()->Resolve(IID.IID_IShellItem, (void**)&pShellItem);
+					using var windowsFile = new WindowsFile(pShellItem);
 
 					// NOTE: "unpinfromhome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CRemoveFromFrequentPlacesExecute : public IExecuteCommand, ...
 					// NOTE: "remove" is for some shell folders where the "unpinfromhome" may not work
