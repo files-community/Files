@@ -41,6 +41,12 @@ namespace Windows.Win32
 
 		[GuidRVAGen.Guid("00021500-0000-0000-C000-000000000046")]
 		public static partial Guid* IID_IQueryInfo { get; }
+
+		[GuidRVAGen.Guid("BCC18B79-BA16-442F-80C4-8A59C30C463B")]
+		public static partial Guid* IID_IShellItemImageFactory { get; }
+
+		[GuidRVAGen.Guid("000214F9-0000-0000-C000-000000000046")]
+		public static partial Guid* IID_IShellLinkW { get; }
 	}
 
 	public static unsafe partial class CLSID
