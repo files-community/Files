@@ -62,5 +62,7 @@ namespace Files.App.Data.Models
 		public bool ShowLoadingIndicator { get; set; }
 
 		public bool IsHidden { get; set; }
+
+		public string AccessKey { get; set; }
 	}
 }

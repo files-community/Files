@@ -457,14 +457,17 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.CutItem)
 				{
 					IsPrimary = true,
+					AccessKey="X"
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.CopyItem)
 				{
 					IsPrimary = true,
+					AccessKey="C"
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.PasteItemToSelection)
 				{
 					IsPrimary = true,
+					AccessKey="V",
 					IsVisible = true,
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.PasteItemAsShortcut).Build(),
@@ -493,11 +496,13 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.Rename)
 				{
 					IsPrimary = true,
+					AccessKey="M",
 					IsVisible = itemsSelected
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.ShareItem)
 				{
-					IsPrimary = true
+					IsPrimary = true,
+					AccessKey = "H"
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(ModifiableCommands.DeleteItem)
 				{
@@ -507,6 +512,7 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModelBuilder(ModifiableCommands.OpenProperties)
 				{
 					IsPrimary = true,
+					AccessKey="O",
 					IsVisible = ModifiableCommands.OpenProperties.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenParentFolder).Build(),

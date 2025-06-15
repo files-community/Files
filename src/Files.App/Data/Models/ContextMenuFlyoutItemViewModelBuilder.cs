@@ -23,7 +23,10 @@ namespace Files.App.Data.Models
 		}
 
 		public bool IsPrimary { get; init; } = false;
+
 		public bool IsToggle { get; init; } = false;
+
+		public string AccessKey { get; init; }
 
 		public object Tag { get; init; }
 
@@ -64,6 +67,7 @@ namespace Files.App.Data.Models
 				ShowInSearchPage = true,
 				ShowInFtpPage = true,
 				ShowInZipPage = true,
+				AccessKey = AccessKey,
 			};
 
 			var glyph = command.Glyph;
