@@ -139,7 +139,7 @@
 				<!--  New Command Selector  -->
 				<uc:ComboBoxEx
 					x:Name="NewKeyBindingItemPickerComboBox"
-					DisplayMemberPath="CommandLabel"
+					DisplayMemberPath="CommandDescription"
 					DropDownClosed="NewKeyBindingItemPickerComboBox_DropDownClosed"
 					ItemsSource="{x:Bind ViewModel.AllActionItems, Mode=OneWay}"
 					PlaceholderText="{helpers:ResourceString Name=ChooseAnAction}"
