@@ -1089,7 +1089,7 @@
     <value>Canvia el panell d'informació</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Canvia el panell d'informació per veure els panells de detalls/vista prèvia</value>
+    <value>Toggle visibility of the detail/preview panes</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
     <value>Commuta la barra d'eines</value>
@@ -2421,31 +2421,31 @@
     <value>Mostra/amaga la barra lateral</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copia {0, plural, one {l'element seleccionat} other {els elements seleccionats}} al porta-retalls</value>
+    <value>Copy selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copia el camí del directori actual al porta-retalls</value>
+    <value>Copy path of the current directory</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Copia el camí dels elements seleccionats al porta-retalls</value>
+    <value>Copy path of selected items</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Copia el camí dels elements seleccionats amb cometes al porta-retalls</value>
+    <value>Copy path of selected items with quotes</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copia el camí del directori actual amb cometes al porta-retalls</value>
+    <value>Copy path of the current directory with quotes</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Retalla {0, plural, one {l'element seleccionat} other {els elements seleccionats}} al porta-retalls</value>
+    <value>Cut selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Enganxa els elements del porta-retalls a la carpeta actual</value>
+    <value>Paste items to the current folder</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Enganxa els elements del porta-retalls a la carpeta actual com a dreceres</value>
+    <value>Paste items to the current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Enganxa els elements del porta-retalls a la carpeta seleccionada</value>
+    <value>Paste items to the selected folder</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
     <value>Enganxa a la carpeta seleccionada</value>
@@ -2568,13 +2568,13 @@
     <value>Crea un fitxer zip amb {0, plural, one {l'item seleccionat} other {els items seleccionats}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extreu els elements seleccionats {0, plural, one {del fitxer} other {dels fitxers}} a qualsevol carpeta</value>
+    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extreu els elements seleccionats {0, plural, one {del fitxer} other {dels fitxers}} a la carpeta actual</value>
+    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extreu els elements seleccionats {0, plural, one {del fitxer} other {dels fitxers}} a una nova carpeta</value>
+    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>Gira {0, plural, one {la imatge seleccionada} other {les imatges seleccionades}} cap a l'esquerra</value>
@@ -3746,7 +3746,7 @@
     <value>S'ha produït un error en aplicar aquesta etiqueta</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extreu {0, plural, one {el fitxer} other {els fitxers}} seleccionats al directori actual si el fitxer conté només un element, o en un nou directori si el fitxer conté diversos elements</value>
+    <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Extreu aquí (intel·ligent)</value>
@@ -4225,5 +4225,31 @@
   </data>
   <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
     <value>Cerca fitxers i carpetes...</value>
+  </data>
+  <data name="DuringOngoingFileOperations" xml:space="preserve">
+    <value>Durant les operacions amb fitxers</value>
+  </data>
+  <data name="ShowStatusCenterButton" xml:space="preserve">
+    <value>Mostra el botó del centre d'estat</value>
+  </data>
+  <data name="StatusCenterProgressRing" xml:space="preserve">
+    <value>Anell de progrés del centre d'estat</value>
+    <comment>Screen reader name for the status center progress ring</comment>
+  </data>
+  <data name="IconFiles" xml:space="preserve">
+    <value>Fitxers d'icones</value>
+    <comment>This is the friendly name for a variety of different icon files.</comment>
+  </data>
+  <data name="BreadcrumbBarEllipsisButtonToolTip" xml:space="preserve">
+    <value>Mostra la ruta de navegació de la ruta replegada</value>
+  </data>
+  <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
+    <value>Mostra les carpetes secundàries</value>
+  </data>
+  <data name="NoCommandsFound" xml:space="preserve">
+    <value>No hi ha cap ordre que contingui {0}</value>
+  </data>
+  <data name="SeeMore" xml:space="preserve">
+    <value>See more</value>
   </data>
 </root>
