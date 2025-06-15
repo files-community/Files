@@ -7,7 +7,7 @@ using Windows.Win32;
 
 namespace Files.App.Storage.Storables
 {
-	public partial class HomeFolder : IHomeFolder
+	public unsafe partial class HomeFolder : IHomeFolder
 	{
 		public string Id => "Home"; // Will be "files://Home" in the future.
 
@@ -48,38 +48,36 @@ namespace Files.App.Storage.Storables
 		/// <inheritdoc/>
 		public IAsyncEnumerable<IStorableChild> GetLogicalDrivesAsync(CancellationToken cancellationToken = default)
 		{
-			return GetLogicalDrives().ToAsyncEnumerable();
+			var availableDrives = PInvoke.GetLogicalDrives();
+			if (availableDrives is 0)
+				return Enumerable.Empty<IStorableChild>().ToAsyncEnumerable();
 
-			IEnumerable<IStorableChild> GetLogicalDrives()
+			int count = BitOperations.PopCount(availableDrives);
+			var driveLetters = new char[count];
+
+			count = 0;
+			char driveLetter = 'A';
+			while (availableDrives is not 0)
 			{
-				var availableDrives = PInvoke.GetLogicalDrives();
-				if (availableDrives is 0)
-					yield break;
+				if ((availableDrives & 1) is not 0)
+					driveLetters[count++] = driveLetter;
 
-				int count = BitOperations.PopCount(availableDrives);
-				var driveLetters = new char[count];
-
-				count = 0;
-				char driveLetter = 'A';
-				while (availableDrives is not 0)
-				{
-					if ((availableDrives & 1) is not 0)
-						driveLetters[count++] = driveLetter;
-
-					availableDrives >>= 1;
-					driveLetter++;
-				}
-
-				foreach (char letter in driveLetters)
-				{
-					cancellationToken.ThrowIfCancellationRequested();
-
-					if (WindowsStorable.TryParse($"{letter}:\\") is not IWindowsStorable driveRoot)
-						throw new InvalidOperationException();
-
-					yield return new WindowsFolder(driveRoot.ThisPtr);
-				}
+				availableDrives >>= 1;
+				driveLetter++;
 			}
+
+			List<IStorableChild> driveItems = [];
+			foreach (char letter in driveLetters)
+			{
+				cancellationToken.ThrowIfCancellationRequested();
+
+				if (WindowsStorable.TryParse($"{letter}:\\") is not IWindowsStorable driveRoot)
+					throw new InvalidOperationException();
+
+				driveItems.Add(new WindowsFolder(driveRoot.ThisPtr));
+			}
+
+			return driveItems.ToAsyncEnumerable();
 		}
 
 		/// <inheritdoc/>
