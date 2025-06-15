@@ -251,6 +251,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					LabelPosition = item.IsPrimary || item.CollapseLabel ? CommandBarLabelPosition.Collapsed : CommandBarLabelPosition.Default,
 					IsEnabled = item.IsEnabled,
 					Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible,
+					AccessKey = item.AccessKey,
 				};
 
 				if (element is AppBarToggleButton toggleButton)
@@ -281,6 +282,7 @@ namespace Files.App.Helpers.ContextFlyouts
 					Content = content,
 					IsEnabled = item.IsEnabled,
 					Visibility = item.IsHidden ? Visibility.Collapsed : Visibility.Visible,
+					AccessKey = item.AccessKey,
 				};
 
 				if (element is AppBarButton button)
