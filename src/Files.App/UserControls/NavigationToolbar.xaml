@@ -115,7 +115,7 @@
 				AutomationProperties.Name="{x:Bind Commands.NavigateBack.Label, Mode=OneWay}"
 				Command="{x:Bind Commands.NavigateBack, Mode=OneWay}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
-				ToolTipService.ToolTip="{helpers:ResourceString Name=SeeMore}">
+				ToolTipService.ToolTip="{x:Bind Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
 				<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneTime}" />
 				<Button.ContextFlyout>
 					<MenuFlyout
@@ -140,7 +140,7 @@
 				x:Name="FlyoutButton"
 				LosingFocus="NavigationButtonOverflowFlyoutButton_LosingFocus"
 				Style="{StaticResource AddressToolbarButtonStyle}"
-				ToolTipService.ToolTip="{x:Bind Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=SeeMore}"
 				Visibility="Collapsed">
 				<FontIcon FontSize="14" Glyph="&#xE712;" />
 				<Button.Flyout>
