@@ -1638,7 +1638,7 @@
     <value>{0, plural, one {# item} other {# items}} ({1, plural, one {# file} other {# files}}, {2, plural, one {# folder} other {# folders}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
-    <value>Uncompressed size</value>
+    <value>Madhësia e pakompresuar</value>
   </data>
   <data name="WSL" xml:space="preserve">
     <value>WSL</value>
@@ -2109,7 +2109,7 @@
     <value>{0} (detected)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>Path</value>
+    <value>Vendndodhja</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>Sorting and grouping</value>
@@ -3266,7 +3266,7 @@
     <value>Deleted</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value>Modified</value>
+    <value>Modifikuar</value>
   </data>
   <data name="Untracked" xml:space="preserve">
     <value>Untracked</value>
@@ -3439,7 +3439,7 @@
     <value>Clear completed</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
-    <value>Name:</value>
+    <value>Emrit:</value>
   </data>
   <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
     <value>{0} of {1} processed</value>
