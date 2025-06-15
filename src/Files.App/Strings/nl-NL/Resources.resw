@@ -1089,7 +1089,7 @@
     <value>Infopaneel in-/uitschakelen</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Infopaneel in-/uitschakelen om het detail-/voorbeeldvenster weer te geven</value>
+    <value>Toggle visibility of the detail/preview panes</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
     <value>Toggle toolbar</value>
@@ -2421,31 +2421,31 @@
     <value>In-/uitschakelen om zijbalk weer te geven</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy selected {0, plural, one {item} other {items}} to clipboard</value>
+    <value>Copy selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Pad kopiëren van de huidige map naar het klembord</value>
+    <value>Copy path of the current directory</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Pad kopiëren van geselecteerde items naar het klembord </value>
+    <value>Copy path of selected items</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Pad kopiëren van geselecteerde items inclusief aanhalingstekens naar het klembord</value>
+    <value>Copy path of selected items with quotes</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Pad kopiëren van de huidige map met aanhalingstekens naar het klembord</value>
+    <value>Copy path of the current directory with quotes</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut selected {0, plural, one {item} other {items}} to clipboard</value>
+    <value>Cut selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste clipboard items to the current folder</value>
+    <value>Paste items to the current folder</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste clipboard items to the current folder as shortcuts</value>
+    <value>Paste items to the current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste clipboard items to the selected folder</value>
+    <value>Paste items to the selected folder</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
     <value>Paste to selected folder</value>
@@ -2568,13 +2568,13 @@
     <value>Create zip archive with selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract items from selected {0, plural, one {archive} other {archives}} to any folder</value>
+    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract items from selected {0, plural, one {archive} other {archives}} to current folder</value>
+    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract items from selected {0, plural, one {archive} other {archives}} to new folder</value>
+    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>Rotate selected {0, plural, one {image} other {images}} to the left</value>
@@ -3746,7 +3746,7 @@
     <value>Er is een fout opgetreden tijdens het toewijzen van dit label</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract items from selected {0, plural, one {archive} other {archives}} to current folder for single-item archive, or to new folder for multi-item archive</value>
+    <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Hier uitpakken (slim)</value>
@@ -4225,5 +4225,31 @@
   </data>
   <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
     <value>Search for files and folders...</value>
+  </data>
+  <data name="DuringOngoingFileOperations" xml:space="preserve">
+    <value>During file operations</value>
+  </data>
+  <data name="ShowStatusCenterButton" xml:space="preserve">
+    <value>Show status center button</value>
+  </data>
+  <data name="StatusCenterProgressRing" xml:space="preserve">
+    <value>Status center progress ring</value>
+    <comment>Screen reader name for the status center progress ring</comment>
+  </data>
+  <data name="IconFiles" xml:space="preserve">
+    <value>Icon files</value>
+    <comment>This is the friendly name for a variety of different icon files.</comment>
+  </data>
+  <data name="BreadcrumbBarEllipsisButtonToolTip" xml:space="preserve">
+    <value>Show collapsed path breadcrumbs</value>
+  </data>
+  <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
+    <value>Show child folders</value>
+  </data>
+  <data name="NoCommandsFound" xml:space="preserve">
+    <value>There are no commands containing {0}</value>
+  </data>
+  <data name="SeeMore" xml:space="preserve">
+    <value>See more</value>
   </data>
 </root>
