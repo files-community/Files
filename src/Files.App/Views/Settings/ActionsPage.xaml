@@ -139,7 +139,7 @@
 				<!--  New Command Selector  -->
 				<uc:ComboBoxEx
 					x:Name="NewKeyBindingItemPickerComboBox"
-					DisplayMemberPath="CommandLabel"
+					DisplayMemberPath="CommandDescription"
 					DropDownClosed="NewKeyBindingItemPickerComboBox_DropDownClosed"
 					ItemsSource="{x:Bind ViewModel.AllActionItems, Mode=OneWay}"
 					PlaceholderText="{helpers:ResourceString Name=ChooseAnAction}"
@@ -211,7 +211,7 @@
 					<DataTemplate x:DataType="dataitems:ModifiableActionItem">
 						<UserControl PointerEntered="RootGrid_PointerEntered" PointerExited="RootGrid_PointerExited">
 							<Grid x:Name="RootGrid">
-								<controls:SettingsCard Description="{x:Bind CommandDescription}" Header="{x:Bind CommandLabel}">
+								<controls:SettingsCard Header="{x:Bind CommandDescription}">
 									<controls:SettingsCard.Content>
 										<Grid MinHeight="36" ColumnSpacing="12">
 											<Grid.ColumnDefinitions>
