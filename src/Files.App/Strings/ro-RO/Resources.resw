@@ -124,7 +124,7 @@
     <value>Copiază calea</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Copy item path</value>
+    <value>Copiere cale element</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Copiază calea cu ghilimele</value>
@@ -166,7 +166,7 @@
     <value>Omite</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>Selectați tot</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Inversează selecția</value>
@@ -187,7 +187,7 @@
     <value>Introduceți o cale pentru a naviga sau tastați „&gt;” pentru a deschide paleta de comenzi</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Caută</value>
+    <value>Căutare</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Fișierele pe care le veți accesa vor apărea aici</value>
@@ -214,10 +214,10 @@
     <value>Afișează extensiile pentru tipurile de fișiere cunoscute</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>Afișează fișierele și folderele ascunse</value>
+    <value>Afișează fișierele și dosarele ascunse</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Dot files</value>
+    <value>Fișiere punct</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Aspect vizual</value>
@@ -265,7 +265,7 @@
     <value>Proprietăți</value>
   </data>
   <data name="Open" xml:space="preserve">
-    <value>Deschide</value>
+    <value>Deschidere</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
     <value>Deschide într-o filă nouă</value>
@@ -337,7 +337,7 @@
     <value>Reîmprospătare</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
-    <value>Un element cu acest nume exista deja în acest folder.</value>
+    <value>Un element cu acest nume există deja în acest dosar.</value>
   </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>Înlocuiește elementul existent</value>
@@ -376,7 +376,7 @@
     <value>Dosarul pe care încerci să-l accesezi a fost mutat sau șters.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>Ați șters acest folder?</value>
+    <value>Ați șters acest dosar?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
     <value>Fișierul pe care încerci să-l accesezi este utilizat de {0}</value>
@@ -486,10 +486,10 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0, number} {0, plural, one {fișier} few {fișiere} other {de fișiere}}, {1, number} {1, plural, one {folder} few {foldere} other {de foldere}}</value>
+    <value>{0, number} {0, plural, one {fișier} few {fișiere} other {de fișiere}}, {1, number} {1, plural, one {dosar} few {dosare} other {de dosare}}</value>
   </data>
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
-    <value>{0, number} {0, plural, one {fișier} few {fișiere} other {de fișiere}}, {1, number} {1, plural, one {folder} few {foldere} other {de foldere}} din {2, number} {2, plural, one {locație} few {locații} other {de locații}}</value>
+    <value>{0, number} {0, plural, one {fișier} few {fișiere} other {de fișiere}}, {1, number} {1, plural, one {dosar} few {dosare} other {de dosare}} din {2, number} {2, plural, one {locație} few {locații} other {de locații}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Rulează ca alt utilizator</value>
@@ -525,7 +525,7 @@
     <value>Stare</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Implicit sistem</value>
+    <value>Implicit Windows</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>Niciun rezultat</value>
@@ -657,10 +657,10 @@
     <value>Creați un fișier gol</value>
   </data>
   <data name="Folder" xml:space="preserve">
-    <value>Folder</value>
+    <value>Dosar</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
-    <value>Creați un folder gol</value>
+    <value>Creați un dosar gol</value>
   </data>
   <data name="NavResfreshButton.AutomationProperties.Name" xml:space="preserve">
     <value>Reîmprospătați directorul</value>
@@ -1038,16 +1038,16 @@
     <value>Eliminare</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Deschidere file în modul panou dublu</value>
+    <value>Deschide filele în modul panou dublu</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Arată opțiunea pentru a deschide foldere într-un panou nou</value>
+    <value>Afișați opțiunea pentru a deschide dosarele într-un panou nou</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
     <value>Afișați opțiunea pentru a copia calea</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
-    <value>Afișați opțiunea pentru a crea un folder cu selecție</value>
+    <value>Afișați opțiunea pentru a crea un dosar cu selecție</value>
   </data>
   <data name="ShowCreateShortcut" xml:space="preserve">
     <value>Afișați opțiunea pentru a crea o comandă rapidă</value>
@@ -1059,7 +1059,7 @@
     <value>Deschideți într-un panou nou</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value>Fișiere &amp; foldere</value>
+    <value>Fișiere &amp; dosare</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detalii (Ctrl+Shift+1)</value>
@@ -1089,13 +1089,13 @@
     <value>Comută panoul de informații</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Comutați panoul de informații pentru a vizualiza panourile de detalii/previzualizare</value>
+    <value>Toggle visibility of the detail/preview panes</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
-    <value>Toggle toolbar</value>
+    <value>Comutare Bară de Instrumente</value>
   </data>
   <data name="ToggleToolbarDescription" xml:space="preserve">
-    <value>Toggle visibility of the toolbar</value>
+    <value>Comută vizibilitatea barei de instrumente</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nicio previzualizare disponibilă</value>
@@ -1305,7 +1305,7 @@
     <value>Generează un nume nou</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Creare folder cu selecție</value>
+    <value>Creare dosar cu selecție</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Tip:</value>
@@ -1338,7 +1338,7 @@
     <value>Data modificării</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Folder original</value>
+    <value>Dosar original</value>
   </data>
   <data name="Descending" xml:space="preserve">
     <value>Descendentă</value>
@@ -1398,7 +1398,7 @@
     <value>{0} elemente</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>Reopen tab</value>
+    <value>Redeschide fila închisă</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>Redenumire</value>
@@ -1473,7 +1473,7 @@
     <value>Extrage Arhiva</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>Deschideți folderul de destinație când se finalizează</value>
+    <value>Deschide dosarul destinație la finalizare</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>Extragere în {0}\</value>
@@ -1509,10 +1509,10 @@
     <value>fișiere</value>
   </data>
   <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
-    <value>acest folder</value>
+    <value>acest dosar</value>
   </data>
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
-    <value>subfoldere</value>
+    <value>subdosare</value>
   </data>
   <data name="Inherited" xml:space="preserve">
     <value>Moștenite</value>
@@ -1524,25 +1524,25 @@
     <value>Nu aveți permisiuni pentru a vizualiza proprietățile de securitate ale acestui obiect. Puteți încerca să preluați proprietatea asupra acestui obiect.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
-    <value>Acest folder și fișiere</value>
+    <value>Acest dosar și fișiere</value>
   </data>
   <data name="SecurityAdvancedFolderSubfoldersFiles.Text" xml:space="preserve">
-    <value>Acest folder, subfoldere și fișiere</value>
+    <value>Acest dosar, sub-dosare și fișiere</value>
   </data>
   <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
     <value>Doar fișiere</value>
   </data>
   <data name="SecurityAdvancedOnlySubfolders.Text" xml:space="preserve">
-    <value>Doar subfoldere</value>
+    <value>Doar sub-dosare</value>
   </data>
   <data name="SecurityAdvancedOnlySubfoldersFiles.Text" xml:space="preserve">
-    <value>Doar subfoldere şi fişiere</value>
+    <value>Doar sub-dosare și fișiere</value>
   </data>
   <data name="SecurityAdvancedOnlyThisFolder.Text" xml:space="preserve">
-    <value>Doar acest folder</value>
+    <value>Doar acest dosar</value>
   </data>
   <data name="SecurityAdvancedFolderSubfolders.Text" xml:space="preserve">
-    <value>Acest folder și subfoldere</value>
+    <value>Acest dosar și sub-dosare</value>
   </data>
   <data name="SecurityAppendDataLabel.Text" xml:space="preserve">
     <value>Adăugați date</value>
@@ -1551,7 +1551,7 @@
     <value>Schimbați permisiunea</value>
   </data>
   <data name="SecurityCreateDirectoriesLabel.Text" xml:space="preserve">
-    <value>Creați foldere</value>
+    <value>Creați dosare</value>
   </data>
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
     <value>Creați fișiere</value>
@@ -1578,7 +1578,7 @@
     <value>Preluați permisiune</value>
   </data>
   <data name="SecurityTraverseLabel.Text" xml:space="preserve">
-    <value>Vizitați folderul</value>
+    <value>Vizitați dosarul</value>
   </data>
   <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
     <value>Scriere atribute</value>
@@ -1605,7 +1605,7 @@
     <value>Înlocuiți toate intrările de permisiuni ale obiectului copil cu intrări de permisiuni moștenite de la acest obiect</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
-    <value>Close pane</value>
+    <value>Închidere panou</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Intrare în suprapunere compactă</value>
@@ -1635,7 +1635,7 @@
     <value>Descarcă elementul din cloud si încarcă previzualizarea</value>
   </data>
   <data name="DetailsArchiveItems" xml:space="preserve">
-    <value>{0, plural, one {# element} other {# elemente}} ({1, plural, one {# fișier} other {# fișiere}}, {2, plural, one {# folder} other {# foldere}})</value>
+    <value>{0, plural, one {# element} other {# elemente}} ({1, plural, one {# fișier} other {# fișiere}}, {2, plural, one {# dosar} other {# dosare}})</value>
   </data>
   <data name="PropertyUncompressedSize" xml:space="preserve">
     <value>Dimensiune necomprimată</value>
@@ -1674,7 +1674,7 @@
     <value>Extragere completă!</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenParentFolder.Text" xml:space="preserve">
-    <value>Deschideți folderul părinte</value>
+    <value>Deschideți dosarul părinte</value>
   </data>
   <data name="Unknown" xml:space="preserve">
     <value>Necunoscut</value>
@@ -1725,7 +1725,7 @@
     <value>Carduri</value>
   </data>
   <data name="OpenFoldersInNewTab" xml:space="preserve">
-    <value>Deschide foldere în filă nouă</value>
+    <value>Deschide dosarele în filă nouă</value>
   </data>
   <data name="StatusCenter" xml:space="preserve">
     <value>Centru de stare</value>
@@ -1761,7 +1761,7 @@
     <value>Deschide elementele cu un singur clic</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
-    <value>Cale folder</value>
+    <value>Cale dosar</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Exportare setări</value>
@@ -1782,7 +1782,7 @@
     <value>Bară Laterală</value>
   </data>
   <data name="ChooseCustomIcon" xml:space="preserve">
-    <value>Alegeți o pictogramă personalizată pentru folder</value>
+    <value>Alegeți o pictogramă personalizată pentru dosar</value>
   </data>
   <data name="Customization" xml:space="preserve">
     <value>Personalizare</value>
@@ -1848,7 +1848,7 @@
     <value>Maximizat</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
-    <value>Rulare ca administrator</value>
+    <value>Executare ca administrator</value>
   </data>
   <data name="CompatibilityRunTroubleshooter" xml:space="preserve">
     <value>Rulați depanatorul pentru compatibilitate</value>
@@ -1884,7 +1884,7 @@
     <value>Introduceți numele Bibliotecii</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
-    <value>Calculează dimensiunea folderelor</value>
+    <value>Calculează dimensiunea dosarelor</value>
   </data>
   <data name="RecentFiles" xml:space="preserve">
     <value>Fișiere recente</value>
@@ -1935,7 +1935,7 @@
     <value>Execută cu PowerShell</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
-    <value>Calcularea dimensiunilor folderelor consumă multe resurse şi poate creşte utilizarea procesorului.</value>
+    <value>Calcularea dimensiunilor dosarelor consumă multe resurse şi poate creşte utilizarea procesorului.</value>
   </data>
   <data name="RotateLeft" xml:space="preserve">
     <value>Rotire la stânga</value>
@@ -2055,22 +2055,22 @@
     <value>Comprimare</value>
   </data>
   <data name="FlattenFolderDescription" xml:space="preserve">
-    <value>Mută tot conținutul din subfoldere în locația selectată</value>
+    <value>Mută tot conținutul din sub-dosare în locația selectată</value>
   </data>
   <data name="FlattenFolder" xml:space="preserve">
-    <value>Aplatizare folder</value>
+    <value>Aplatizare dosar</value>
   </data>
   <data name="Flatten" xml:space="preserve">
     <value>Aplatizare</value>
   </data>
   <data name="FlattenFolderDialogContent" xml:space="preserve">
-    <value>Aplatizarea unui folder mută tot conținutul din subfolderele sale în locația selectată. Această operațiune este permanentă și nu poate fii anulată. Prin utilizarea acestei caracteristici experimentale, vă asumați riscul și sunteți de acord să nu trageți la răspundere echipa Files pentru orice pierdere de date.</value>
+    <value>Aplatizarea unui dosar mută tot conținutul din sub-dosarele sale în locația selectată. Această operațiune este permanentă și nu poate fii anulată. Prin utilizarea acestei caracteristici experimentale, vă asumați riscul și sunteți de acord să nu trageți la răspundere echipa Files pentru orice pierdere de date.</value>
   </data>
   <data name="ShowFlattenOptions" xml:space="preserve">
     <value>Afișare opțiuni de aplatizare</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
-    <value>Selectați fișiere și foldere când treceți cu mouse-ul peste ele</value>
+    <value>Selectați fișiere și dosare când treceți cu mouse-ul peste ele</value>
   </data>
   <data name="ConfirmRestoreBinDialogContent" xml:space="preserve">
     <value>Sunteți sigur că vreți să restaurați toate elementele din coșul de reciclare?</value>
@@ -2097,7 +2097,7 @@
     <value>Destinația țintă nu poate fi găsită {0}. Doriți să ștergeți această comandă rapidă?</value>
   </data>
   <data name="AccessDeniedToFolder" xml:space="preserve">
-    <value>Nu aveți permisiunea de a accesa acest folder.</value>
+    <value>Nu aveți permisiunea de a accesa acest dosar.</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
     <value>Parolă arhivă</value>
@@ -2193,7 +2193,7 @@
     <value>Creați o comandă rapidă nouă</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Creați comenzi rapide la programele locale sau de rețea, fișiere, foldere, computere sau adrese de internet.</value>
+    <value>Creați comenzi rapide la programele locale sau de rețea, fișiere, dosare, computere sau adrese de internet.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
     <value>Introduceți locația elementului:</value>
@@ -2244,10 +2244,10 @@
     <value>Afișați trimitere la meniu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Arată opțiunea pentru a deschide foldere într-o filă nouă</value>
+    <value>Afișați opțiunea pentru a deschide dosarele într-o filă nouă</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Arată opțiunea pentru a deschide foldere într-o fereastră nouă</value>
+    <value>Afișați opțiunea pentru a deschide dosarele într-o fereastră nouă</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>Acces rapid</value>
@@ -2295,7 +2295,7 @@
     <value>Opțiuni meniu contextual</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>File extensions</value>
+    <value>Extensii nume de fișier</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>Formatare</value>
@@ -2304,13 +2304,13 @@
     <value>Ajutor</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Full screen</value>
+    <value>Ecran complet</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
     <value>Ești sigur că vrei să ștergi această etichetă?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play</value>
+    <value>Redare</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>Înălțime</value>
@@ -2370,7 +2370,7 @@
     <value>Măriți dimensiunea</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Sort direction</value>
+    <value>Direcție sortare</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>Nume invalid</value>
@@ -2382,37 +2382,37 @@
     <value>Videoclipuri</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
-    <value>Preview popup</value>
+    <value>Previzualizare pop-up</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Comutare suprapunere compactă</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open the online help page in your browser</value>
+    <value>Deschideți pagina de ajutor online în browser</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Toggle full screen mode</value>
+    <value>Comutare la ecran complet</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>Enter compact overlay mode</value>
+    <value>Intrare în suprapunere compactă</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
-    <value>Exit compact overlay mode</value>
+    <value>Ieșire din suprapunere compactă</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Toggle compact overlay mode</value>
+    <value>Comutare suprapunere compactă</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Start search in the OmniBar</value>
+    <value>Începeți căutarea în OmniBar</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Toggle visibility of hidden items</value>
+    <value>Comutați vizibilitatea elementelor ascunse</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Toggle visibility of dot files</value>
+    <value>Comutați vizibilitatea fișierelor punct</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle visibility of file extensions</value>
+    <value>Comutați vizibilitatea fișierelor ascunse</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Comută panoul de previzualizare pentru a vizualiza previzualizări ale fișierelor</value>
@@ -2421,40 +2421,40 @@
     <value>Comutați dacă se afișează bara laterală</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy selected {0, plural, one {item} other {items}} to clipboard</value>
+    <value>Copy selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copiați calea elementelor selectate în clipboard</value>
+    <value>Copy path of the current directory</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Copiază calea elementelor selectate în clipboard</value>
+    <value>Copy path of selected items</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Copiați calea elementelor selectate cu ghilimele în clipboard</value>
+    <value>Copy path of selected items with quotes</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copiați calea elementelor selectate cu ghilimele în clipboard</value>
+    <value>Copy path of the current directory with quotes</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut selected {0, plural, one {item} other {items}} to clipboard</value>
+    <value>Cut selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste clipboard items to the current folder</value>
+    <value>Paste items to the current folder</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste clipboard items to the current folder as shortcuts</value>
+    <value>Paste items to the current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste clipboard items to the selected folder</value>
+    <value>Paste items to the selected folder</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
-    <value>Paste to selected folder</value>
+    <value>Lipire în dosarul selectat</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>Delete selected {0, plural, one {item} other {items}}</value>
+    <value>Ștergere {0, plural, one {element selectat} few {elemente selectate} other {elemente selectate}}</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
-    <value>Crează un folder nou</value>
+    <value>Creează un dosar nou</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
     <value>Creați {0, plural, one {o comandă rapidă nouă} other {comenzi rapide noi}} pentru {0, plural, one {elementul selectat} other {elementele selectate}}</value>
@@ -2463,7 +2463,7 @@
     <value>Creați o comandă rapidă către orice element</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
-    <value>Empty the contents of Recycle Bin</value>
+    <value>Golire Coș de Reciclare</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
     <value>Deschideți meniul "Formatare unitate" pentru elementul selectat</value>
@@ -2481,7 +2481,7 @@
     <value>Deschidere {0, plural, one {element} other {elemente} other {elemente}} cu aplicația selectată</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
-    <value>Deschide folderul părinte al elementului căutat</value>
+    <value>Deschide dosarul părinte al elementului căutat</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
     <value>Reîmprospătați conținutul paginii</value>
@@ -2493,10 +2493,10 @@
     <value>Selectați toate elementele</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Invert selected items</value>
+    <value>Inversare elemente selectate</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Clear selected items</value>
+    <value>Anulare selecție</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
     <value>Comută selecția elementelor</value>
@@ -2511,10 +2511,10 @@
     <value>Anulați fixarea {0, plural, one {elementului} other {elementelor}} de la Meniul Start</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>Fixați {0, plural, one {folderul} other {folderele} other {folderele}} în bara laterală</value>
+    <value>Fixați {0, plural, one {dosarul} other {dosarele} other {dosarele}} în Bara laterală</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
-    <value>Anulați fixarea {0, plural, one {folderului} other {folderelor}} din Bara Laterală</value>
+    <value>Anulați fixarea {0, plural, one {dosarului} other {dosarelor}} din Bara Laterală</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Setați imaginea selectată ca imagine de fundal</value>
@@ -2529,13 +2529,13 @@
     <value>Setează imaginea selectată ca fundal al aplicației</value>
   </data>
   <data name="InstallFont" xml:space="preserve">
-    <value>Install font</value>
+    <value>Instalare font</value>
   </data>
   <data name="InstallDriver" xml:space="preserve">
-    <value>Install driver</value>
+    <value>Instalare driver</value>
   </data>
   <data name="InstallCertificate" xml:space="preserve">
-    <value>Install certificate</value>
+    <value>Instalare certificat</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Instalați {0, plural, one {fontul selectat} other{fonturile selectate}}</value>
@@ -2568,13 +2568,13 @@
     <value>Creare archivă zip cu {0, plural, one {elementul selectat} other {elementele selectate}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extrageți elementele din {0, plural, one {arhiva selectată} other {arhivele selectate}} în orice folder</value>
+    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extrageți elementele din {0, plural, one {arhiva selectată} other {arhivele selectate}} în folderul curent</value>
+    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extrageți elementele din {0, plural, one {arhiva selectată} other {arhivele selectate}} într-un folder nou</value>
+    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>Rotiți {0, plural, one {imaginea selectată} other {imaginile selectată}} la stânga</value>
@@ -2586,10 +2586,10 @@
     <value>Deschideți pagina de setări</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
-    <value>Deschidere folder în terminal</value>
+    <value>Deschidere dosar în terminal</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Deschidere folder în terminal ca administrator</value>
+    <value>Deschidere dosar în terminal ca administrator</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
     <value>Micșorați dimensiunea elementului în vizualizarea curentă</value>
@@ -2622,7 +2622,7 @@
     <value>Comutare vizualizări în mod adaptiv</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
-    <value>Sortați elementele după nume</value>
+    <value>Sortare elemente după nume</value>
   </data>
   <data name="SortByDateModifiedDescription" xml:space="preserve">
     <value>Sortare elemente după data modificării</value>
@@ -2643,7 +2643,7 @@
     <value>Sortare elemente după etichete</value>
   </data>
   <data name="SortByOriginalFolderDescription" xml:space="preserve">
-    <value>Sortare elemente după folderul original</value>
+    <value>Sortare elemente după dosarul original</value>
   </data>
   <data name="SortByDateDeletedDescription" xml:space="preserve">
     <value>Sortare elemente după data ștergerii</value>
@@ -2682,13 +2682,13 @@
     <value>Grupați elementele după etichete</value>
   </data>
   <data name="GroupByOriginalFolderDescription" xml:space="preserve">
-    <value>Grupați elementele după folderul original</value>
+    <value>Grupați elementele după dosarul original</value>
   </data>
   <data name="GroupByDateDeletedDescription" xml:space="preserve">
     <value>Grupați elementele după data ștergerii</value>
   </data>
   <data name="GroupByFolderPathDescription" xml:space="preserve">
-    <value>Grupați elementele după calea folderului</value>
+    <value>Grupați elementele după calea dosarului</value>
   </data>
   <data name="GroupAscendingDescription" xml:space="preserve">
     <value>Sortare grupuri în ordine crescătoare</value>
@@ -2703,10 +2703,10 @@
     <value>Deschide o filă nouă</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward</value>
+    <value>Navigați înapoi</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward</value>
+    <value>Navigați înainte</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Navigați în sus într-un director</value>
@@ -2739,7 +2739,7 @@
     <value>Închide toate filele inclusiv fila curentă</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen recently closed tab</value>
+    <value>Redeschideți fila închisă recent</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
     <value>Treceți la fila anterioară</value>
@@ -2751,13 +2751,13 @@
     <value>Închideți fila curentă</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>Close the active pane</value>
+    <value>Închideți panoul activ</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
     <value>Focalizare pe alt panou</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Switch focus to the other pane</value>
+    <value>Comutați focalizarea la celălalt panoul</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Comutare bară laterală</value>
@@ -2965,13 +2965,13 @@
     <value>Fără etichetă</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Previous tab</value>
+    <value>Fila precedentă</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Next tab</value>
+    <value>Fila următoare</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Close tab</value>
+    <value>Închidere filă</value>
   </data>
   <data name="EditPath" xml:space="preserve">
     <value>Editare cale</value>
@@ -3001,7 +3001,7 @@
     <value>Afișați casete de selectare când selectați elemente</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Edit path in the OmniBar</value>
+    <value>Editare cale în OmniBar</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Creare element nou</value>
@@ -3016,7 +3016,7 @@
     <value>Ștergere definitivă</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete selected {0, plural, one {item} other {items}} permanently</value>
+    <value>Ștergere {0, plural, one {element selectat} few {elemente selectate} other {elemente selectate}} permanent</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>Redați fișierele media selectate</value>
@@ -3133,7 +3133,7 @@
     <value>Comutați la o ramură nouă</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Creați un folder cu {0, plural, one {elementul selectat} other {elementele selectate}} în prezent</value>
+    <value>Creați un dosar cu {0, plural, one {elementul selectat} other {elementele selectate}} în prezent</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>Proprietăți</value>
@@ -3245,7 +3245,7 @@
     <value>Files nu poate accesa GitHub momentan.</value>
   </data>
   <data name="OpenInIDE" xml:space="preserve">
-    <value>Deschideți folderul în {0}</value>
+    <value>Deschideți dosarul în {0}</value>
   </data>
   <data name="OpenInIDEDescription" xml:space="preserve">
     <value>Deschideți directorul curent în {0}</value>
@@ -3281,7 +3281,7 @@
     <value>Inițializați repozitoriul</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Initialize current folder as a git repository</value>
+    <value>Inițializați dosarul curent ca un repozitoriu git</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
     <value>Nume Repozitoriu la Distanță</value>
@@ -3296,13 +3296,13 @@
     <value>Sortare elemente după cale</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Open selected directory in a new pane</value>
+    <value>Deschideți dosarul selectat într-un panou nou</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Open selected directory in a new tab</value>
+    <value>Deschideți dosarul selectat într-o filă nouă</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open selected directory in a new window</value>
+    <value>Deschideți dosarul selectat într-o fereastră nouă</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
     <value>Deschideți toate</value>
@@ -3327,10 +3327,10 @@
     <value>Comanda '{0}' nu este gata pentru a fi executată.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Command Palette</value>
+    <value>Paletă de Comenzi</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open Command Palette in the OmniBar</value>
+    <value>Deschideți Paleta de Comenzi în OmniBar</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Pornire în:</value>
@@ -3746,28 +3746,28 @@
     <value>A apărut o eroare la aplicarea acestei etichete</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extrageți elementele din {0, plural, one {arhiva selectată} other {arhivele selectate}} în folderul curent pentru arhive cu un singur element sau într-un folder nou pentru arhive cu mai multe elemente</value>
+    <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Extrageți aici (Smart)</value>
   </data>
   <data name="SortFilesAndFoldersTogether" xml:space="preserve">
-    <value>Sortați fișierele și folderele împreună</value>
+    <value>Sortați fișierele și dosarele împreună</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>Sort files and folders in the same list</value>
+    <value>Sortare fișiere și dosare în aceeași listă</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
     <value>Sortați mai întâi fișierele</value>
   </data>
   <data name="SortFilesFirstDescription" xml:space="preserve">
-    <value>Sortați mai întâi fișierele apoi folderele</value>
+    <value>Sortați mai întâi fișierele apoi dosarele</value>
   </data>
   <data name="SortFoldersFirst" xml:space="preserve">
-    <value>Sortați mai întâi folderele</value>
+    <value>Sortați mai întâi dosarele</value>
   </data>
   <data name="SortFoldersFirstDescription" xml:space="preserve">
-    <value>Sortați mai întâi folderele apoi fișierele</value>
+    <value>Sortați mai întâi dosarele apoi fișierele</value>
   </data>
   <data name="SortPriority" xml:space="preserve">
     <value>Prioritate de sortare</value>
@@ -3785,7 +3785,7 @@
     <value>Partajarea elementelor a eșuat</value>
   </data>
   <data name="ScrollToPreviousFolderWhenNavigatingUp" xml:space="preserve">
-    <value>Derulează la folderul anterior când navighezi în sus</value>
+    <value>Derulează la dosarul anterior când navighezi în sus</value>
   </data>
   <data name="NewWindowDescription" xml:space="preserve">
     <value>Deschideți o fereastră nouă</value>
@@ -3958,10 +3958,10 @@
     <value>Instrumente pentru dezvoltatori</value>
   </data>
   <data name="DisplayOpenIDE" xml:space="preserve">
-    <value>Configurați butonul "Deschide IDE" pe bara de stare</value>
+    <value>Configurați butonul „Deschidere IDE” pe bara de stare</value>
   </data>
   <data name="GitRepos" xml:space="preserve">
-    <value>Arată pentru Git repos</value>
+    <value>Arată pentru repozitoriile Git</value>
     <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
   </data>
   <data name="ApplicationExtension" xml:space="preserve">
@@ -4016,16 +4016,16 @@
     <value>Meniu acțiuni filă</value>
   </data>
   <data name="AddVerticalPane" xml:space="preserve">
-    <value>Vertical pane</value>
+    <value>Panou vertical</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Add vertical pane</value>
+    <value>Adăugare panou vertical</value>
   </data>
   <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Horizontal pane</value>
+    <value>Panou orizontal</value>
   </data>
   <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Add horizontal pane</value>
+    <value>Adăugare panou orizontal</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Aranjare verticală</value>
@@ -4103,7 +4103,7 @@
     <value>Fluxurile alternative de date sunt în prezent ascunse</value>
   </data>
   <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
-    <value>Doriți să afișați fluxuri alternative de date? Puteți modifica această setare oricând din pagina de setări a fișierelor și folderelor.</value>
+    <value>Doriți să afișați fluxuri alternative de date? Puteți modifica această setare oricând din pagina de setări a fișierelor și dosarelor.</value>
   </data>
   <data name="ManageTags" xml:space="preserve">
     <value>Gestionare etichete</value>
@@ -4118,10 +4118,10 @@
     <value>Comutați întotdeauna focalizarea la fila nou creată</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
-    <value>Toggle shelf pane</value>
+    <value>Comutare panou raft</value>
   </data>
   <data name="ToggleShelfPaneDescription" xml:space="preserve">
-    <value>Toggle the visibility of the shelf pane</value>
+    <value>Comutați vizibilitatea panoului raft</value>
   </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
     <value>Afișați comutatorul pentru panoul raft în bara de adresă</value>
@@ -4215,7 +4215,7 @@
     <value>Puteți adăuga secțiuni în bara laterală făcând clic dreapta și selectând secțiunile pe care doriți să le adăugați</value>
   </data>
   <data name="EmptyShelfText" xml:space="preserve">
-    <value>Trageți fișiere sau foldere aici pentru a interacționa cu ele prin diferite file</value>
+    <value>Trageți fișiere sau dosare aici pentru a interacționa cu ele prin diferite file</value>
   </data>
   <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
     <value>Introduceți o cale pentru a naviga la...</value>
@@ -4224,6 +4224,32 @@
     <value>Găsiți caracteristici și comenzi...</value>
   </data>
   <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
-    <value>Căutare fișiere și foldere...</value>
+    <value>Căutare fișiere și dosare...</value>
+  </data>
+  <data name="DuringOngoingFileOperations" xml:space="preserve">
+    <value>În timpul operațiunilor de fișier</value>
+  </data>
+  <data name="ShowStatusCenterButton" xml:space="preserve">
+    <value>Afișați butonul centru de stare</value>
+  </data>
+  <data name="StatusCenterProgressRing" xml:space="preserve">
+    <value>Inel de proces centru de stare</value>
+    <comment>Screen reader name for the status center progress ring</comment>
+  </data>
+  <data name="IconFiles" xml:space="preserve">
+    <value>Fișiere pictograme</value>
+    <comment>This is the friendly name for a variety of different icon files.</comment>
+  </data>
+  <data name="BreadcrumbBarEllipsisButtonToolTip" xml:space="preserve">
+    <value>Afișare cale compactă (breadcrumbs)</value>
+  </data>
+  <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
+    <value>Afișare foldere copil</value>
+  </data>
+  <data name="NoCommandsFound" xml:space="preserve">
+    <value>Nu există comenzi care să conțină {0}</value>
+  </data>
+  <data name="SeeMore" xml:space="preserve">
+    <value>See more</value>
   </data>
 </root>
