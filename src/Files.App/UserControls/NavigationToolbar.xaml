@@ -115,7 +115,7 @@
 				AutomationProperties.Name="{x:Bind Commands.NavigateBack.Label, Mode=OneWay}"
 				Command="{x:Bind Commands.NavigateBack, Mode=OneWay}"
 				Style="{StaticResource AddressToolbarButtonStyle}"
-				ToolTipService.ToolTip="{x:Bind Commands.NavigateBack.LabelWithHotKey, Mode=OneWay}">
+				ToolTipService.ToolTip="{helpers:ResourceString Name=SeeMore}">
 				<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateBack.Glyph.BaseGlyph, Mode=OneTime}" />
 				<Button.ContextFlyout>
 					<MenuFlyout
