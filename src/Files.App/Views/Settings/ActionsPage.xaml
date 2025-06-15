@@ -211,7 +211,7 @@
 					<DataTemplate x:DataType="dataitems:ModifiableActionItem">
 						<UserControl PointerEntered="RootGrid_PointerEntered" PointerExited="RootGrid_PointerExited">
 							<Grid x:Name="RootGrid">
-								<controls:SettingsCard Description="{x:Bind CommandDescription}" Header="{x:Bind CommandLabel}">
+								<controls:SettingsCard Header="{x:Bind CommandDescription}">
 									<controls:SettingsCard.Content>
 										<Grid MinHeight="36" ColumnSpacing="12">
 											<Grid.ColumnDefinitions>
