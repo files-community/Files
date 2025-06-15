@@ -124,7 +124,7 @@
     <value>Копіювати шлях</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Copy item path</value>
+    <value>Копіювати шлях до елемента</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Копіювати шлях у лапках</value>
@@ -166,7 +166,7 @@
     <value>Пропустити</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>Вибрати все</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Інвертувати виділення</value>
@@ -217,7 +217,7 @@
     <value>Відображати приховані файли та папки</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Dot files</value>
+    <value>Файли, що починаються з крапки</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Оформлення</value>
@@ -1089,13 +1089,13 @@
     <value>Перемкнути інформаційну панель</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Перемкнути інформаційну панель для перегляду деталей/прев'ю панелей</value>
+    <value>Toggle visibility of the detail/preview panes</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
-    <value>Toggle toolbar</value>
+    <value>Сховати / Показати панель інструментів</value>
   </data>
   <data name="ToggleToolbarDescription" xml:space="preserve">
-    <value>Toggle visibility of the toolbar</value>
+    <value>Сховати / Приховати видимість панелі інструментів</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Попередній перегляд недоступний</value>
@@ -1398,7 +1398,7 @@
     <value>Елементів: {0}</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>Reopen tab</value>
+    <value>Знову відкрити вкладку</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>Перейменувати</value>
@@ -1605,7 +1605,7 @@
     <value>Замінити всіх записів дозволів дочірніх об'єктів на успадковувані записи дозволів з цього об'єкта</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
-    <value>Close pane</value>
+    <value>Закрити панель</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Компактний режим</value>
@@ -2295,7 +2295,7 @@
     <value>Опції контекстного меню</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>File extensions</value>
+    <value>Розширення файлів</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>Формат</value>
@@ -2304,13 +2304,13 @@
     <value>Довідка</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Full screen</value>
+    <value>На весь екран</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
     <value>Ви впевнені, що хочете видалити цю мітку?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play</value>
+    <value>Відтворити</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>Висота</value>
@@ -2370,7 +2370,7 @@
     <value>Збільшити розмір</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Sort direction</value>
+    <value>Порядок сортування</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>Недопустима назва</value>
@@ -2382,37 +2382,37 @@
     <value>Відео</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
-    <value>Preview popup</value>
+    <value>Спливне вікно передперегляду</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Увімкнути компактний оверлей</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open the online help page in your browser</value>
+    <value>Відкрити онлайн сторінку довідки у вашому браузері</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Toggle full screen mode</value>
+    <value>Перемкнути режим «На весь екран»</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>Enter compact overlay mode</value>
+    <value>Увімкнути компактне накладання</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
-    <value>Exit compact overlay mode</value>
+    <value>Вимкнути компактне накладання</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Toggle compact overlay mode</value>
+    <value>Увімк. / Вимк. компактне накладання</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Start search in the OmniBar</value>
+    <value>Почати пошук в OmniBar</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Toggle visibility of hidden items</value>
+    <value>Сховати / Показати приховані елементи</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Toggle visibility of dot files</value>
+    <value>Сховати / Показати файли, що починаються з крапки</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle visibility of file extensions</value>
+    <value>Сховати / Показати розширення файлів</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Перемкнути панель попереднього перегляду файлів</value>
@@ -2421,37 +2421,37 @@
     <value>Перемкнути для показу бічної панелі</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy selected {0, plural, one {item} other {items}} to clipboard</value>
+    <value>Copy selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Копіювати шлях до вибраних елементів в буфер обміну</value>
+    <value>Copy path of the current directory</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Скопіювати шлях до вибраних елементів у буфер обміну</value>
+    <value>Copy path of selected items</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Скопіювати шлях до вибраних елементів з лапками у буфер обміну</value>
+    <value>Copy path of selected items with quotes</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Копіювати шлях до вибраних елементів з лапок в буфер обміну</value>
+    <value>Copy path of the current directory with quotes</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut selected {0, plural, one {item} other {items}} to clipboard</value>
+    <value>Cut selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste clipboard items to the current folder</value>
+    <value>Paste items to the current folder</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste clipboard items to the current folder as shortcuts</value>
+    <value>Paste items to the current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste clipboard items to the selected folder</value>
+    <value>Paste items to the selected folder</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
-    <value>Paste to selected folder</value>
+    <value>Вставити до вибраної теки</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>Delete selected {0, plural, one {item} other {items}}</value>
+    <value>Видалити {0, plural, one {вибраний елемент} few {вибрані елементи} many {вибраних елементів} other {вибраних елементів}}</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>Створити нову теку</value>
@@ -2463,7 +2463,7 @@
     <value>Створити новий ярлик будь-якого елемента</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
-    <value>Empty the contents of Recycle Bin</value>
+    <value>Очистити вміст кошика</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
     <value>Відкрити меню "Відформатувати диск" для вибраного елемента</value>
@@ -2493,10 +2493,10 @@
     <value>Вибрати все</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Invert selected items</value>
+    <value>Інвертувати вибрані елементи</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Clear selected items</value>
+    <value>Очистити вибрані елементи</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
     <value>Перемкнути виділення елементу</value>
@@ -2529,13 +2529,13 @@
     <value>Встановити зображення тлом додатку</value>
   </data>
   <data name="InstallFont" xml:space="preserve">
-    <value>Install font</value>
+    <value>Встановити шрифт</value>
   </data>
   <data name="InstallDriver" xml:space="preserve">
-    <value>Install driver</value>
+    <value>Встановити драйвер</value>
   </data>
   <data name="InstallCertificate" xml:space="preserve">
-    <value>Install certificate</value>
+    <value>Встановити сертифікат</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Встановити {0, plural, one {вибраний шрифт} few {вибрані шрифти} many {вибраних шрифтів} other {вибраних шрифтів}}</value>
@@ -2568,13 +2568,13 @@
     <value>Створити zip-архів з {0, plural, one {вибраним елементом} few {вибраними елементами} many {вибраними елементами} other {вибраними елементами}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Витягнути елементи з {0, plural, one {вибраного архіву} few {вибраних архівів} many {вибраних архівів} other {вибраних архівів}} до будь-якої теки</value>
+    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Витягнути елементи з {0, plural, one {вибраного архіву} few {вибраних архівів} many {вибраних архівів} other {вибраних архівів}} до поточної теки</value>
+    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Витягнути елементи з {0, plural, one {вибраного архіву} few {вибраних архівів} many {вибраних архівів} other {вибраних архівів}} до нової теки</value>
+    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>Обернути {0, plural, one {вибране зображення} few {вибрані зображення} many {вибраних зображень} other {вибраних зображень}} ліворуч</value>
@@ -2703,10 +2703,10 @@
     <value>Відкрити нову вкладку</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward</value>
+    <value>Перейти назад</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward</value>
+    <value>Перейти вперед</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Перейти на один каталог вище</value>
@@ -2739,7 +2739,7 @@
     <value>Закрити всі вкладки, включаючи поточну вкладку</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen recently closed tab</value>
+    <value>Повторно відкрити нещодавно закриту вкладку</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
     <value>Перейти до попередньої вкладки</value>
@@ -2751,13 +2751,13 @@
     <value>Закрити поточну вкладку</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>Close the active pane</value>
+    <value>Закрити активну панель</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
     <value>Сфокусуватися на іншій панелі</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Switch focus to the other pane</value>
+    <value>Перемкнути фокус на іншу панель</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Перемкнути бічну панель</value>
@@ -2965,13 +2965,13 @@
     <value>Без міток</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Previous tab</value>
+    <value>Попередня вкладка</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Next tab</value>
+    <value>Наступна вкладка</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Close tab</value>
+    <value>Закрити вкладку</value>
   </data>
   <data name="EditPath" xml:space="preserve">
     <value>Редагувати шлях</value>
@@ -3001,7 +3001,7 @@
     <value>Показувати прапорці під час вибору елементів</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Edit path in the OmniBar</value>
+    <value>Змінити шлях до OmniBar</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Створити новий елемент</value>
@@ -3016,7 +3016,7 @@
     <value>Видалити безповоротно</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete selected {0, plural, one {item} other {items}} permanently</value>
+    <value>Остаточно видалити {0, plural, one {вибраний елемент} few {вибраних елементи} many {вибраних елементів} other {вибраних елементів}}</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>Відтворити вибрані медіафайли</value>
@@ -3281,7 +3281,7 @@
     <value>Ініціалізувати репозиторій</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Initialize current folder as a git repository</value>
+    <value>Встановити поточну теку як git-репозиторій</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
     <value>Назва віддаленого репозиторію</value>
@@ -3296,13 +3296,13 @@
     <value>Впорядкувати елементи за шляхом</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Open selected directory in a new pane</value>
+    <value>Відкрити вибраний каталог у новій панелі</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Open selected directory in a new tab</value>
+    <value>Відкрити вибраний каталог у новій вкладці</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open selected directory in a new window</value>
+    <value>Відкрити вибраний каталог у новому вікні</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
     <value>Відкрити все</value>
@@ -3327,10 +3327,10 @@
     <value>Команда '{0}' не готова до виконання.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Command Palette</value>
+    <value>Командна палітра</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open Command Palette in the OmniBar</value>
+    <value>Відкрити командну палітру в OmniBar</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Запустити в:</value>
@@ -3746,7 +3746,7 @@
     <value>При застосуванні цього тега сталася помилка</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Витягнути елементи з {0, plural, one {вибраного архіву} few {вибраних архівів} many {вибраних архівів} other {вибраних архівів}} до поточної теки для архіву з одним елементом або до нової теки для архіву з кількома</value>
+    <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Видобути тут (Smart)</value>
@@ -3755,7 +3755,7 @@
     <value>Сортувати папки та файли разом</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>Sort files and folders in the same list</value>
+    <value>Сортувати файли та теки з одного списку</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
     <value>Спершу сортувати файли</value>
@@ -4016,16 +4016,16 @@
     <value>Меню дій вкладки</value>
   </data>
   <data name="AddVerticalPane" xml:space="preserve">
-    <value>Vertical pane</value>
+    <value>Вертикальна панель</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Add vertical pane</value>
+    <value>Додати вертикальну панель</value>
   </data>
   <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Horizontal pane</value>
+    <value>Горизонтальна панель</value>
   </data>
   <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Add horizontal pane</value>
+    <value>Додати горизонтальну панель</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Розташувати вертикально</value>
@@ -4118,10 +4118,10 @@
     <value>Завжди перемикати фокус на новостворену вкладку</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
-    <value>Toggle shelf pane</value>
+    <value>Перемкнути панель полиць</value>
   </data>
   <data name="ToggleShelfPaneDescription" xml:space="preserve">
-    <value>Toggle the visibility of the shelf pane</value>
+    <value>Сховати / Показати панель полиць</value>
   </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
     <value>Показувати перемикач панелі полиць в адресному рядку</value>
@@ -4225,5 +4225,31 @@
   </data>
   <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
     <value>Знайти файли й теки...</value>
+  </data>
+  <data name="DuringOngoingFileOperations" xml:space="preserve">
+    <value>Під час роботи з файлами</value>
+  </data>
+  <data name="ShowStatusCenterButton" xml:space="preserve">
+    <value>Показати кнопку «Центр стану»</value>
+  </data>
+  <data name="StatusCenterProgressRing" xml:space="preserve">
+    <value>Кільце прогресу центру стану</value>
+    <comment>Screen reader name for the status center progress ring</comment>
+  </data>
+  <data name="IconFiles" xml:space="preserve">
+    <value>Файли значків</value>
+    <comment>This is the friendly name for a variety of different icon files.</comment>
+  </data>
+  <data name="BreadcrumbBarEllipsisButtonToolTip" xml:space="preserve">
+    <value>Показувати згорнутий шлях</value>
+  </data>
+  <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
+    <value>Показувати дочірні теки</value>
+  </data>
+  <data name="NoCommandsFound" xml:space="preserve">
+    <value>Немає команд, що містять {0}</value>
+  </data>
+  <data name="SeeMore" xml:space="preserve">
+    <value>See more</value>
   </data>
 </root>
