@@ -3746,7 +3746,7 @@
     <value>There was an error applying this tag</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to current folder for single-item archive, or to new folder for multi-item archive</value>
+    <value>Extract here for single-item or to new folder for multi-item {0, plural, one {archive} other {archives}}</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Extract here (Smart)</value>
