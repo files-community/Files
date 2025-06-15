@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NewWindow" xml:space="preserve">
-    <value>New window</value>
+    <value>Naujas langas</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>Copy path</value>
@@ -142,7 +142,7 @@
     <value>Sukurta:</value>
   </data>
   <data name="Path" xml:space="preserve">
-    <value>Path</value>
+    <value>Vieta</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
     <value>Dydis:</value>
@@ -2109,7 +2109,7 @@
     <value>{0} (detected)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>Path</value>
+    <value>Vieta</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>Sorting and grouping</value>
@@ -3266,7 +3266,7 @@
     <value>Deleted</value>
   </data>
   <data name="Modified" xml:space="preserve">
-    <value>Modified</value>
+    <value>Modifikuota</value>
   </data>
   <data name="Untracked" xml:space="preserve">
     <value>Untracked</value>
