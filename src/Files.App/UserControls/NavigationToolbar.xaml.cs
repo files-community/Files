@@ -413,9 +413,9 @@ namespace Files.App.UserControls
 
 		private void Omnibar_LostFocus(object sender, RoutedEventArgs e)
 		{
-			if (ViewModel.OmnibarCurrentSelectedMode == OmnibarCommandPaletteMode)
+			if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
 			{
-				ViewModel.OmnibarCurrentSelectedMode = OmnibarPathMode;
+				Omnibar.CurrentSelectedMode = OmnibarPathMode;
 				ViewModel.OmnibarCommandPaletteModeText = string.Empty;
 			}
 		}
