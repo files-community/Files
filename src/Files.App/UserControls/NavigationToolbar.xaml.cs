@@ -428,5 +428,12 @@ namespace Files.App.UserControls
 				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
 			}
 		}
+
+		private void NavigationButtonOverflowFlyoutButton_LosingFocus(UIElement sender, LosingFocusEventArgs args)
+		{
+			// Prevent the Omnibar from taking focus if the overflow button is hidden while the button is focused
+			if (args.NewFocusedElement is TextBox)
+				args.Cancel = true;
+		}
 	}
 }

@@ -137,6 +137,34 @@
 			</Button>
 
 			<Button
+				x:Name="FlyoutButton"
+				LosingFocus="NavigationButtonOverflowFlyoutButton_LosingFocus"
+				Style="{StaticResource AddressToolbarButtonStyle}"
+				ToolTipService.ToolTip="{helpers:ResourceString Name=SeeMore}"
+				Visibility="Collapsed">
+				<FontIcon FontSize="14" Glyph="&#xE712;" />
+				<Button.Flyout>
+					<MenuFlyout Placement="BottomEdgeAlignedLeft">
+						<MenuFlyoutItem Command="{x:Bind Commands.NavigateForward, Mode=OneWay}" Text="{x:Bind Commands.NavigateForward.Label, Mode=OneWay}">
+							<MenuFlyoutItem.Icon>
+								<FontIcon Glyph="{x:Bind Commands.NavigateForward.Glyph.BaseGlyph, Mode=OneTime}" />
+							</MenuFlyoutItem.Icon>
+						</MenuFlyoutItem>
+						<MenuFlyoutItem Command="{x:Bind Commands.NavigateUp, Mode=OneWay}" Text="{x:Bind Commands.NavigateUp.Label, Mode=OneWay}">
+							<MenuFlyoutItem.Icon>
+								<FontIcon Glyph="{x:Bind Commands.NavigateUp.Glyph.BaseGlyph, Mode=OneTime}" />
+							</MenuFlyoutItem.Icon>
+						</MenuFlyoutItem>
+						<MenuFlyoutItem Command="{x:Bind Commands.RefreshItems, Mode=OneWay}" Text="{x:Bind Commands.RefreshItems.Label, Mode=OneWay}">
+							<MenuFlyoutItem.Icon>
+								<FontIcon Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph, Mode=OneTime}" />
+							</MenuFlyoutItem.Icon>
+						</MenuFlyoutItem>
+					</MenuFlyout>
+				</Button.Flyout>
+			</Button>
+
+			<Button
 				x:Name="Forward"
 				AccessKey="F"
 				AccessKeyInvoked="Button_AccessKeyInvoked"
@@ -579,6 +607,31 @@
 			Target="{x:Bind ShowStatusCenterButton}" />
 
 		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="NavigationStates">
+				<VisualState x:Name="Narrow">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="0" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="FlyoutButton.Visibility" Value="Visible" />
+						<Setter Target="Forward.Visibility" Value="Collapsed" />
+						<Setter Target="Up.Visibility" Value="Collapsed" />
+						<Setter Target="Refresh.Visibility" Value="Collapsed" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="Wide">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="540" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="FlyoutButton.Visibility" Value="Collapsed" />
+						<Setter Target="Forward.Visibility" Value="Visible" />
+						<Setter Target="Up.Visibility" Value="Visible" />
+						<Setter Target="Refresh.Visibility" Value="Visible" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+
 			<VisualStateGroup x:Name="SearchBoxStates">
 				<VisualState x:Name="SearchBoxAlwaysShown">
 					<VisualState.StateTriggers>
