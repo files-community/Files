@@ -138,6 +138,7 @@
 
 			<Button
 				x:Name="FlyoutButton"
+				LosingFocus="NavigationButtonOverflowFlyoutButton_LosingFocus"
 				Style="{StaticResource AddressToolbarButtonStyle}"
 				ToolTipService.ToolTip="{x:Bind Commands.NavigateForward.LabelWithHotKey, Mode=OneWay}"
 				Visibility="Collapsed">
