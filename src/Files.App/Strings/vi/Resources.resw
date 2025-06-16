@@ -1089,7 +1089,7 @@
     <value>Bật/Tắt ngăn thông tin</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle visibility of the detail/preview panes</value>
+    <value>Ẩn hoặc hiện thanh chi tiết và thanh xem trước</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
     <value>Bật/Tắt thanh công cụ</value>
@@ -2421,31 +2421,31 @@
     <value>Ẩn hoặc hiện thanh bên</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy selected {0, plural, one {item} other {items}}</value>
+    <value>Sao chép {0, plural, other {khoản mục}} đã chọn</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of the current directory</value>
+    <value>Sao chép đường dẫn thư mục hiện tại</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Copy path of selected items</value>
+    <value>Sao chép đường dẫn khoản mục đã chọn</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of selected items with quotes</value>
+    <value>Sao chép đường dẫn khoản mục đã chọn kèm dấu ngoặc kép</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of the current directory with quotes</value>
+    <value>Sao chép đường dẫn thư mục hiện tại kèm dấu ngoặc kép</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut selected {0, plural, one {item} other {items}}</value>
+    <value>Cắt {0, plural, other {khoản mục}} đã chọn</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste items to the current folder</value>
+    <value>Dán khoản mục vào thư mục hiện tại</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items to the current folder as shortcuts</value>
+    <value>Dán khoản mục vào thư mục hiện tại dưới dạng lối tắt</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items to the selected folder</value>
+    <value>Dán khoản mục vào thư mục đã chọn</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
     <value>Dán vào thư mục đã chọn</value>
@@ -2568,13 +2568,13 @@
     <value>Tạo tệp nén zip từ {0, plural, other {khoản mục}} đã chọn</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
+    <value>Giải nén {0, plural, other {tệp}} đã chọn vào thư mục bất kỳ</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
+    <value>Giải nén {0, plural, other {tệp}} đã chọn vào thư mục hiện tại</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
+    <value>Giải nén {0, plural, other {tệp}} đã chọn vào thư mục mới</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>Xoay trái {0, plural, other {hình ảnh}} đã chọn</value>
@@ -3746,7 +3746,7 @@
     <value>Đã xảy ra lỗi khi gắn nhãn</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
+    <value>Giải nén {0, plural, other {tệp}} tại đây nếu chỉ chứa một khoản mục, hoặc vào thư mục mới nếu chứa nhiều khoản mục</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Giải nén tại đây (Thông minh)</value>
@@ -4250,6 +4250,6 @@
     <value>Không có lệnh nào chứa {0}</value>
   </data>
   <data name="SeeMore" xml:space="preserve">
-    <value>See more</value>
+    <value>Xem thêm</value>
   </data>
 </root>
