@@ -130,10 +130,10 @@
     <value>Copiar caminho com aspas</value>
   </data>
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
-    <value>Copiar, com aspas, o caminho do item selecionado</value>
+    <value>Copiar caminho do item selecionado com aspas</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>Explorar</value>
+    <value>Procurar...</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>Tamanho</value>
@@ -1083,19 +1083,19 @@
     <value>Mostrar/ocultar painel de detalhes</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Alternar exibição do painel Detalhes</value>
+    <value>Mostra/oculta a exibição do painel de detalhes</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
     <value>Mostrar/ocultar painel de informações</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle visibility of the detail/preview panes</value>
+    <value>Mostra/oculta os painéis de detalhe/pré-visualização</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
     <value>Mostrar/ocultar barra de ferramentas</value>
   </data>
   <data name="ToggleToolbarDescription" xml:space="preserve">
-    <value>Alternar exibição da barra de ferramentas</value>
+    <value>Mostra/oculta a exibição da barra de ferramentas</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Pré-visualização indisponível</value>
@@ -2391,7 +2391,7 @@
     <value>Abrir página de ajuda no navegador</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Ativar/desativar ecrã completo</value>
+    <value>Ativa/desativa o ecrã completo</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Ativar modo de sobreposição compacta</value>
@@ -2400,52 +2400,52 @@
     <value>Desativar modo de sobreposição compacta</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Ativar/desativar modo de sobreposição compacta</value>
+    <value>Ativa/desativa o modo de sobreposição compacta</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>Ir para a caixa de pesquisa</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Alternar exibição dos itens ocultos</value>
+    <value>Mostrar/ocultar itens ocultos</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Alternar exibição dos itens ocultos</value>
+    <value>Mostra/oculta os ficheiros ocultos</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Alternar exibição das extensões de ficheiros</value>
+    <value>Mostra/oculta as extensões de ficheiros</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Alternar exibição do painel de pré-visualização</value>
+    <value>Mostra/oculta as extensões de ficheiros do painel de pré-visualização</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
-    <value>Alternar exibição da barra lateral</value>
+    <value>Mostra/oculta a barra lateral</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy selected {0, plural, one {item} other {items}}</value>
+    <value>Copia {0, plural, one {o item selecionado} other {os items selecionados}}</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of the current directory</value>
+    <value>Copia o caminho da pasta atual</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Copy path of selected items</value>
+    <value>Copia o caminho dos itens selecionados</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of selected items with quotes</value>
+    <value>Copia o caminho dos itens selecionados com aspas</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of the current directory with quotes</value>
+    <value>Copia o caminho da pasta atual com aspas</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut selected {0, plural, one {item} other {items}}</value>
+    <value>Corta {0, plural, one {o item selecionado} other {os itens selecionados}}</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste items to the current folder</value>
+    <value>Cola itens na pasta atual</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items to the current folder as shortcuts</value>
+    <value>Cola itens na pasta atual como atalhos</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items to the selected folder</value>
+    <value>Cola itens na pasta selecionada</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
     <value>Colar na pasta selecionada</value>
@@ -2499,7 +2499,7 @@
     <value>Limpar itens selecionados</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
-    <value>Alternar seleção de itens</value>
+    <value>Seleciona/desseleciona o item</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
     <value>Partilhar {0, plural, one {ficheiro selecionado} other {ficheiros selecionados}} com outros</value>
@@ -2568,13 +2568,13 @@
     <value>Criar ficheiro zip com {0, plural, one {item selecionado} other {itens selecionados}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
+    <value>Extrai {0, plural, one {o ficheiro selecionado} other {os ficheiros selecionados}} para qualquer pasta</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
+    <value>Extrai {0, plural, one {o ficheiro selecionado} other {os ficheiros selecionados}} para a pasta atual</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
+    <value>Extrai {0, plural, one {o ficheiro selecionado} other {os ficheiros selecionados}} para uma nova pasta</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>Rodar {0, plural, one {imagem selecionada} other {imagens selecionadas}} para a esquerda</value>
@@ -2655,7 +2655,7 @@
     <value>Ordenar itens por ordem descendente</value>
   </data>
   <data name="ToggleSortDirectionDescription" xml:space="preserve">
-    <value>Alternar direção da ordem dos itens</value>
+    <value>Alterna a ordem de ordenação dos itens</value>
   </data>
   <data name="GroupByNoneDescription" xml:space="preserve">
     <value>Não agrupar itens</value>
@@ -2697,7 +2697,7 @@
     <value>Ordenar grupos por ordem descendente</value>
   </data>
   <data name="ToggleGroupDirectionDescription" xml:space="preserve">
-    <value>Alternar direção da ordem dos grupos</value>
+    <value>Alterna a ordem de ordenação dos grupos</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
     <value>Abrir novo separador</value>
@@ -2950,7 +2950,7 @@
     <value>Alterar</value>
   </data>
   <data name="ToggleSelect" xml:space="preserve">
-    <value>Inverter seleção</value>
+    <value>Selecionar/desselecionar</value>
   </data>
   <data name="ShowFileExtensionWarning" xml:space="preserve">
     <value>Mostrar aviso ao alterar as extensões de ficheiros</value>
@@ -3043,7 +3043,7 @@
     <value>Dia</value>
   </data>
   <data name="ToggleGroupByDateUnitDescription" xml:space="preserve">
-    <value>Alternar unidade de agrupamento por data</value>
+    <value>Alterna a unidade de agrupamento por data</value>
   </data>
   <data name="ToggleGroupingUnit" xml:space="preserve">
     <value>Alternar unidade de agrupamento</value>
@@ -3746,7 +3746,7 @@
     <value>Ocorreu um erro ao aplicar a etiqueta</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
+    <value>Extrai {0, plural, one {o ficheiro selecionado} other {os ficheiros selecionados}} aqui para um item único ou para uma nova pasta para vários itens</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Extrair aqui (inteligente)</value>
@@ -4067,7 +4067,7 @@
     <value>Ir para a página inicial</value>
   </data>
   <data name="ShowHomeButton" xml:space="preserve">
-    <value>Mostrar botão Início na barra de endereço</value>
+    <value>Mostrar botão Início na barra de endereços</value>
   </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Barras de ferramentas</value>
@@ -4118,26 +4118,26 @@
     <value>Trocar foco para o separador mais recente</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
-    <value>Mostrar/ocultar painel Estante</value>
+    <value>Mostrar/ocultar painel da prateleira</value>
   </data>
   <data name="ToggleShelfPaneDescription" xml:space="preserve">
-    <value>Alternar exibição do painel Estante</value>
+    <value>Mostra/oculta o painel da prateleira</value>
   </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
-    <value>Mostrar botão para alternar o painel Estante na barra de endereço</value>
+    <value>Mostrar botão para mostrar/ocultar a prateleira na barra de endereços</value>
   </data>
   <data name="Shelf" xml:space="preserve">
-    <value>Estante</value>
+    <value>Prateleira</value>
     <comment>'Shelf' refers to the Shelf Pane feature, where users can conveniently drag and drop files for quick access and perform bulk actions with ease.</comment>
   </data>
   <data name="ClearItems" xml:space="preserve">
     <value>Limpar itens</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
-    <value>Remover da estante</value>
+    <value>Remover da prateleira</value>
   </data>
   <data name="AddToShelf" xml:space="preserve">
-    <value>Adicionar à estante</value>
+    <value>Adicionar à prateleira</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
   </data>
   <data name="EnterHashToCompare" xml:space="preserve">
@@ -4241,15 +4241,15 @@
     <comment>This is the friendly name for a variety of different icon files.</comment>
   </data>
   <data name="BreadcrumbBarEllipsisButtonToolTip" xml:space="preserve">
-    <value>Show collapsed path breadcrumbs</value>
+    <value>Mostra os caminhos de navegação recolhidos</value>
   </data>
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
-    <value>Mostrar pastas dependentes</value>
+    <value>Mostrar subpastas</value>
   </data>
   <data name="NoCommandsFound" xml:space="preserve">
     <value>Não existem comandos que contenham {0}</value>
   </data>
   <data name="SeeMore" xml:space="preserve">
-    <value>See more</value>
+    <value>Ver mais</value>
   </data>
 </root>
