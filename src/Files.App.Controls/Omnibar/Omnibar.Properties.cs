@@ -28,7 +28,7 @@ namespace Files.App.Controls
 				return;
 
 			ChangeMode(e.OldValue as OmnibarMode, newMode);
-			CurrentSelectedModeName = newMode.ModeName;
+			CurrentSelectedModeName = newMode.Name;
 		}
 
 		partial void OnCurrentSelectedModeNameChanged(string? newValue)

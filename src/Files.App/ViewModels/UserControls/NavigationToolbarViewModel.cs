@@ -242,7 +242,7 @@ namespace Files.App.ViewModels.UserControls
 
 				if (value)
 				{
-					switch (OmnibarCurrentSelectedMode.Name)
+					switch (OmnibarCurrentSelectedModeName)
 					{
 						case OmnibarPathModeName:
 							PathText =
@@ -263,10 +263,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		private OmnibarMode _OmnibarCurrentSelectedMode;
-		public OmnibarMode OmnibarCurrentSelectedMode { get => _OmnibarCurrentSelectedMode; set => SetProperty(ref _OmnibarCurrentSelectedMode, value); }
-
-		private string _OmnibarCurrentSelectedModeName;
+		private string _OmnibarCurrentSelectedModeName = OmnibarPathModeName;
 		public string OmnibarCurrentSelectedModeName { get => _OmnibarCurrentSelectedModeName; set => SetProperty(ref _OmnibarCurrentSelectedModeName, value); }
 
 		private CurrentInstanceViewModel _InstanceViewModel;
