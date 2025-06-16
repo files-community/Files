@@ -4,7 +4,7 @@
 namespace Files.App.Controls
 {
 	/// <summary>
-	/// An interface that provides a way to get the text member path of <see cref="OmnibarMode.SuggestionItemsSource"/>.
+	/// An interface that provides a way to get the text member path of <see cref="OmnibarMode.ItemsSource"/>.
 	/// </summary>
 	/// <remarks>
 	/// An alternative to this interface is to use an <see cref="Microsoft.UI.Xaml.Data.IBindableCustomPropertyImplementation"/> powered by CsWinRT.

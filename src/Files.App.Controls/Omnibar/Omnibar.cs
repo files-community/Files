@@ -41,6 +41,7 @@ namespace Files.App.Controls
 		public event TypedEventHandler<Omnibar, OmnibarQuerySubmittedEventArgs>? QuerySubmitted;
 		public event TypedEventHandler<Omnibar, OmnibarSuggestionChosenEventArgs>? SuggestionChosen;
 		public event TypedEventHandler<Omnibar, OmnibarTextChangedEventArgs>? TextChanged;
+		public event TypedEventHandler<Omnibar, OmnibarModeChangedEventArgs>? ModeChanged;
 
 		// Constructor
 
@@ -155,9 +156,11 @@ namespace Files.App.Controls
 			VisualStateManager.GoToState(newMode, "Focused", true);
 			newMode.IsTabStop = false;
 
+			ModeChanged?.Invoke(this, new(oldMode, newMode!));
+
 			_textBox.PlaceholderText = newMode.PlaceholderText ?? string.Empty;
-			_textBoxSuggestionsListView.ItemTemplate = newMode.SuggestionItemTemplate;
-			_textBoxSuggestionsListView.ItemsSource = newMode.SuggestionItemsSource;
+			_textBoxSuggestionsListView.ItemTemplate = newMode.ItemTemplate;
+			_textBoxSuggestionsListView.ItemsSource = newMode.ItemsSource;
 
 			if (newMode.IsAutoFocusEnabled)
 			{
@@ -179,9 +182,9 @@ namespace Files.App.Controls
 				{
 					VisualStateManager.GoToState(_textBox, "InputAreaVisible", true);
 				}
-
-				TryToggleIsSuggestionsPopupOpen(true);
 			}
+
+			TryToggleIsSuggestionsPopupOpen(true);
 
 			// Remove the reposition transition from the all modes
 			foreach (var mode in Modes)
@@ -196,11 +199,16 @@ namespace Files.App.Controls
 			_textBox.Focus(FocusState.Keyboard);
 		}
 
-		public bool TryToggleIsSuggestionsPopupOpen(bool wantToOpen)
+		internal protected bool TryToggleIsSuggestionsPopupOpen(bool wantToOpen)
 		{
-			if (wantToOpen && (!IsFocused || CurrentSelectedMode?.SuggestionItemsSource is null || (CurrentSelectedMode?.SuggestionItemsSource is IList collection && collection.Count is 0)) ||
-				_textBoxSuggestionsPopup is null)
+			if (_textBoxSuggestionsPopup is null)
 				return false;
+
+			if (wantToOpen && (!IsFocused || CurrentSelectedMode?.ItemsSource is null || (CurrentSelectedMode?.ItemsSource is IList collection && collection.Count is 0)))
+			{
+				_textBoxSuggestionsPopup.IsOpen = false;
+				return false;
+			}
 
 			_textBoxSuggestionsPopup.IsOpen = wantToOpen;
 

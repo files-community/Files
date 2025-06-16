@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI;
 using Files.App.Controls;
 using Files.Shared.Helpers;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -264,7 +265,33 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		private string _OmnibarCurrentSelectedModeName = OmnibarPathModeName;
-		public string OmnibarCurrentSelectedModeName { get => _OmnibarCurrentSelectedModeName; set => SetProperty(ref _OmnibarCurrentSelectedModeName, value); }
+		public string OmnibarCurrentSelectedModeName
+		{
+			get => _OmnibarCurrentSelectedModeName;
+			set
+			{
+				if (SetProperty(ref _OmnibarCurrentSelectedModeName, value) && IsOmnibarFocused)
+				{
+					switch (value)
+					{
+						case OmnibarPathModeName:
+							PathText =
+								string.IsNullOrEmpty(ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory)
+									? Constants.UserEnvironmentPaths.HomePath
+									: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
+							_ = PopulateOmnibarSuggestionsForPathMode();
+							break;
+						case OmnibarPaletteModeName:
+							PopulateOmnibarSuggestionsForCommandPaletteMode();
+							break;
+						case OmnibarSearchModeName:
+							break;
+						default:
+							break;
+					}
+				}
+			}
+		}
 
 		private CurrentInstanceViewModel _InstanceViewModel;
 		public CurrentInstanceViewModel InstanceViewModel
@@ -735,7 +762,6 @@ namespace Files.App.ViewModels.UserControls
 			}
 
 			PathControlDisplayText = ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
-			IsOmnibarFocused = false;
 		}
 
 		public void PathBoxItem_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -1074,6 +1100,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task PopulateOmnibarSuggestionsForPathMode()
 		{
+			PathModeSuggestionItems.Clear();
+
 			var result = await SafetyExtensions.IgnoreExceptions((Func<Task<bool>>)(async () =>
 			{
 				List<OmnibarPathModeSuggestionModel>? newSuggestions = [];
@@ -1114,9 +1142,7 @@ namespace Files.App.ViewModels.UserControls
 
 				// If there are no suggestions, show "No suggestions"
 				if (newSuggestions.Count is 0)
-				{
-					AddNoResultsItem();
-				}
+					return false;
 
 				// Check whether at least one item is in common between the old and the new suggestions
 				// since the suggestions popup becoming empty causes flickering

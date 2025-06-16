@@ -333,9 +333,9 @@
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Path}, IconType=Outline}"
 				IsDefault="True"
+				ItemsSource="{x:Bind ViewModel.PathModeSuggestionItems, Mode=OneWay}"
 				ModeName="{x:Bind Commands.EditPath.LabelWithHotKey, Mode=OneWay}"
 				PlaceholderText="{helpers:ResourceString Name=OmnibarPathModeTextPlaceholder}"
-				SuggestionItemsSource="{x:Bind ViewModel.PathModeSuggestionItems, Mode=OneWay}"
 				Text="{x:Bind ViewModel.PathText, Mode=TwoWay}"
 				TextMemberPath="Path">
 				<controls:OmnibarMode.ContentOnInactive>
@@ -364,11 +364,11 @@
 						</controls:BreadcrumbBar.ItemTemplate>
 					</controls:BreadcrumbBar>
 				</controls:OmnibarMode.ContentOnInactive>
-				<controls:OmnibarMode.SuggestionItemTemplate>
+				<controls:OmnibarMode.ItemTemplate>
 					<DataTemplate x:DataType="datamodels:OmnibarPathModeSuggestionModel">
 						<TextBlock Text="{x:Bind DisplayName, Mode=OneWay}" />
 					</DataTemplate>
-				</controls:OmnibarMode.SuggestionItemTemplate>
+				</controls:OmnibarMode.ItemTemplate>
 			</controls:OmnibarMode>
 
 			<controls:OmnibarMode
@@ -376,13 +376,13 @@
 				IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IsFilled=True}"
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IconType=Outline}"
 				IsAutoFocusEnabled="True"
+				ItemsSource="{x:Bind ViewModel.OmnibarCommandPaletteModeSuggestionItems, Mode=OneWay}"
 				ModeName="{x:Bind Commands.OpenCommandPalette.LabelWithHotKey, Mode=OneWay}"
 				PlaceholderText="{helpers:ResourceString Name=OmnibarCommandPaletteModeTextPlaceholder}"
-				SuggestionItemsSource="{x:Bind ViewModel.OmnibarCommandPaletteModeSuggestionItems, Mode=OneWay}"
 				Text="{x:Bind ViewModel.OmnibarCommandPaletteModeText, Mode=TwoWay}"
 				TextMemberPath="Text"
 				UpdateTextOnSelect="False">
-				<controls:OmnibarMode.SuggestionItemTemplate>
+				<controls:OmnibarMode.ItemTemplate>
 					<DataTemplate x:DataType="dataitems:NavigationBarSuggestionItem">
 						<Grid ColumnSpacing="12">
 							<Grid.ColumnDefinitions>
@@ -421,7 +421,7 @@
 								HotKeys="{x:Bind HotKeys}" />
 						</Grid>
 					</DataTemplate>
-				</controls:OmnibarMode.SuggestionItemTemplate>
+				</controls:OmnibarMode.ItemTemplate>
 			</controls:OmnibarMode>
 
 			<controls:OmnibarMode
