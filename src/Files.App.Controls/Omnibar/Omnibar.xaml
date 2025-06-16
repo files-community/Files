@@ -145,11 +145,21 @@
 								<BrushTransition Duration="0:0:0.083" />
 							</Border.BackgroundTransition>
 
-							<ContentPresenter
-								x:Name="PART_ModeButtonIconPresenter"
-								HorizontalAlignment="Center"
-								VerticalAlignment="Center"
-								Content="{Binding IconOnInactive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+							<Grid>
+								<ContentPresenter
+									x:Name="PART_ModeButtonInactiveIconPresenter"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									Content="{Binding IconOnInactive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+									Visibility="Visible" />
+
+								<ContentPresenter
+									x:Name="PART_ModeButtonActiveIconPresenter"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									Content="{Binding IconOnActive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
+									Visibility="Collapsed" />
+							</Grid>
 						</Border>
 
 						<ContentPresenter
@@ -172,7 +182,8 @@
 								<VisualState x:Name="PointerPressed">
 									<VisualState.Setters>
 										<Setter Target="PART_ModeButton.Background" Value="{ThemeResource SubtleFillColorTertiaryBrush}" />
-										<Setter Target="PART_ModeButtonIconPresenter.Content" Value="{Binding IconOnActive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+										<Setter Target="PART_ModeButtonInactiveIconPresenter.Visibility" Value="Collapsed" />
+										<Setter Target="PART_ModeButtonActiveIconPresenter.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -181,13 +192,15 @@
 								<VisualState x:Name="Unfocused" />
 								<VisualState x:Name="CurrentUnfocused">
 									<VisualState.Setters>
-										<Setter Target="PART_ModeButtonIconPresenter.Visibility" Value="Collapsed" />
+										<Setter Target="PART_ModeButtonInactiveIconPresenter.Visibility" Value="Collapsed" />
+										<Setter Target="PART_ModeButtonActiveIconPresenter.Visibility" Value="Collapsed" />
 										<Setter Target="PART_InactiveContent.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="Focused">
 									<VisualState.Setters>
-										<Setter Target="PART_ModeButtonIconPresenter.Content" Value="{Binding IconOnActive, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+										<Setter Target="PART_ModeButtonInactiveIconPresenter.Visibility" Value="Collapsed" />
+										<Setter Target="PART_ModeButtonActiveIconPresenter.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
