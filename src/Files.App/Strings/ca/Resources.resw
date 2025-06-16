@@ -1089,7 +1089,7 @@
     <value>Canvia el panell d'informació</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle visibility of the detail/preview panes</value>
+    <value>Commuta la visibilitat dels panells de detall/vista prèvia</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
     <value>Commuta la barra d'eines</value>
@@ -2421,31 +2421,31 @@
     <value>Mostra/amaga la barra lateral</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy selected {0, plural, one {item} other {items}}</value>
+    <value>Copia {0, plural, one {l'element seleccionat} other {els elements seleccionats}}</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of the current directory</value>
+    <value>Copia la ruta del directori actual</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Copy path of selected items</value>
+    <value>Copia la ruta dels elements seleccionats</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of selected items with quotes</value>
+    <value>Copia la ruta dels elements seleccionats amb cometes</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of the current directory with quotes</value>
+    <value>Copia la ruta del directori actual amb cometes</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut selected {0, plural, one {item} other {items}}</value>
+    <value>Retalla {0, plural, one {l'element seleccionat} other {els elements seleccionats}}</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste items to the current folder</value>
+    <value>Enganxa els elements a la carpeta actual</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items to the current folder as shortcuts</value>
+    <value>Enganxa els elements a la carpeta actual com a dreceres</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items to the selected folder</value>
+    <value>Enganxa els elements a la carpeta seleccionada</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
     <value>Enganxa a la carpeta seleccionada</value>
@@ -2568,13 +2568,13 @@
     <value>Crea un fitxer zip amb {0, plural, one {l'item seleccionat} other {els items seleccionats}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
+    <value>Extreu {0, plural, one {l'arxiu seleccionat} other {els arxius seleccionats}} a qualsevol carpeta</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
+    <value>Extreu {0, plural, one {l'arxiu seleccionat} other {els arxius seleccionats}} a la carpeta actual</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
+    <value>Extreu {0, plural, one {l'arxiu seleccionat} other {els arxius seleccionats}} a una carpeta nova</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>Gira {0, plural, one {la imatge seleccionada} other {les imatges seleccionades}} cap a l'esquerra</value>
@@ -3746,7 +3746,7 @@
     <value>S'ha produït un error en aplicar aquesta etiqueta</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
+    <value>Extreu {0, plural, one {l'arxiu seleccionat} other {els arxius seleccionats}} aquí per a un sol element o a una carpeta nova per a diversos elements</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Extreu aquí (intel·ligent)</value>
@@ -4250,6 +4250,6 @@
     <value>No hi ha cap ordre que contingui {0}</value>
   </data>
   <data name="SeeMore" xml:space="preserve">
-    <value>See more</value>
+    <value>Mostra'n més</value>
   </data>
 </root>
