@@ -1416,7 +1416,7 @@
     <value>Očisti</value>
   </data>
   <data name="Widgets" xml:space="preserve">
-    <value>Widgets</value>
+    <value>Widgeti</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
     <value>Status sinkronizacije</value>
@@ -3870,7 +3870,7 @@
     <value>Layout type</value>
   </data>
   <data name="Actions" xml:space="preserve">
-    <value>Actions</value>
+    <value>Radnje</value>
   </data>
   <data name="Commands" xml:space="preserve">
     <value>Commands</value>
