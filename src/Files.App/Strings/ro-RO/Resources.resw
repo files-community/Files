@@ -1089,7 +1089,7 @@
     <value>Comută panoul de informații</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle visibility of the detail/preview panes</value>
+    <value>Comutați vizibilitatea panourilor de detaliu/previzualizare</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
     <value>Comutare Bară de Instrumente</value>
@@ -1533,10 +1533,10 @@
     <value>Doar fișiere</value>
   </data>
   <data name="SecurityAdvancedOnlySubfolders.Text" xml:space="preserve">
-    <value>Doar sub-dosare</value>
+    <value>Doar subfoldere</value>
   </data>
   <data name="SecurityAdvancedOnlySubfoldersFiles.Text" xml:space="preserve">
-    <value>Doar sub-dosare și fișiere</value>
+    <value>Doar subfoldere şi fişiere</value>
   </data>
   <data name="SecurityAdvancedOnlyThisFolder.Text" xml:space="preserve">
     <value>Doar acest dosar</value>
@@ -2421,31 +2421,31 @@
     <value>Comutați dacă se afișează bara laterală</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy selected {0, plural, one {item} other {items}}</value>
+    <value>Copiați {0, plural, one {elementul selectat} few {elementele selectate} other {elementele selectate}}</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of the current directory</value>
+    <value>Copiați calea directorului curent</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Copy path of selected items</value>
+    <value>Copiați calea elementelor selectate</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of selected items with quotes</value>
+    <value>Copiați calea elementelor selectate cu ghilimele</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of the current directory with quotes</value>
+    <value>Copiați calea directorului curent cu ghilimele</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut selected {0, plural, one {item} other {items}}</value>
+    <value>Decupați {0, plural, one {elementul selectat} few {elementele selectate} other {elementele selectate}}</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste items to the current folder</value>
+    <value>Lipire elemente la folderul curent</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items to the current folder as shortcuts</value>
+    <value>Lipire elemente la folderul curent ca comenzi rapide</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items to the selected folder</value>
+    <value>Lipire elemente la folderul selectat</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
     <value>Lipire în dosarul selectat</value>
@@ -2568,13 +2568,13 @@
     <value>Creare archivă zip cu {0, plural, one {elementul selectat} other {elementele selectate}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
+    <value>Extrageți {0, plural, one {arhiva selectată} few {arhivele selectate} other {arhivele selectate}} în orice folder</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
+    <value>Extrageți {0, plural, one {arhiva selectată} few {arhivele selectate} other {arhivele selectate}} la folderul curent</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
+    <value>Extrageți {0, plural, one {arhiva selectată} few {arhivele selectate} other {arhivele selectate}} într-un un folder nou</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>Rotiți {0, plural, one {imaginea selectată} other {imaginile selectată}} la stânga</value>
@@ -3746,7 +3746,7 @@
     <value>A apărut o eroare la aplicarea acestei etichete</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
+    <value>Extrageți {0, plural, one {arhiva selectată} few {arhivele selectate} other {arhivele selectate}} aici pentru un singur element sau într-un folder nou pentru mai multe elemente</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Extrageți aici (Smart)</value>
@@ -4250,6 +4250,6 @@
     <value>Nu există comenzi care să conțină {0}</value>
   </data>
   <data name="SeeMore" xml:space="preserve">
-    <value>See more</value>
+    <value>Vedeți mai multe</value>
   </data>
 </root>
