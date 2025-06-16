@@ -194,6 +194,7 @@
 									<VisualState.Setters>
 										<Setter Target="PART_ModeButtonInactiveIconPresenter.Visibility" Value="Collapsed" />
 										<Setter Target="PART_ModeButtonActiveIconPresenter.Visibility" Value="Collapsed" />
+										<Setter Target="PART_ModeButton.Visibility" Value="Collapsed" />
 										<Setter Target="PART_InactiveContent.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
