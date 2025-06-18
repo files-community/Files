@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.System.Com;
 using Windows.Win32.System.SystemServices;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.Shell.PropertiesSystem;
@@ -136,13 +137,65 @@ namespace Files.App.Storage
 			return HRESULT.S_OK;
 		}
 
-		public unsafe static HRESULT TryPinFolderToQuickAccess()
+		public unsafe static HRESULT TryPinFolderToQuickAccess(this IWindowsFolder @this)
 		{
+			HRESULT hr = default;
+
+			using ComPtr<IExecuteCommand> pExecuteCommand = default;
+			using ComPtr<IObjectWithSelection> pObjectWithSelection = default;
+
+			hr = PInvoke.CoCreateInstance(CLSID.CLSID_PinToFrequentExecute, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IExecuteCommand, (void**)pExecuteCommand.GetAddressOf());
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return hr;
+
+			using ComPtr<IShellItemArray> pShellItemArray = default;
+			hr = PInvoke.SHCreateShellItemArrayFromShellItem(@this.ThisPtr, IID.IID_IShellItemArray, (void**)pShellItemArray.GetAddressOf());
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return hr;
+
+			hr = pExecuteCommand.Get()->QueryInterface(IID.IID_IObjectWithSelection, (void**)pObjectWithSelection.GetAddressOf());
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return hr;
+
+			hr = pObjectWithSelection.Get()->SetSelection(pShellItemArray.Get());
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return hr;
+
+			hr = pExecuteCommand.Get()->Execute();
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return hr;
+
 			return HRESULT.S_OK;
 		}
 
-		public unsafe static HRESULT TryUnpinFolderFromQuickAccess()
+		public unsafe static HRESULT TryUnpinFolderFromQuickAccess(this IWindowsFolder @this)
 		{
+			HRESULT hr = default;
+
+			using ComPtr<IExecuteCommand> pExecuteCommand = default;
+			using ComPtr<IObjectWithSelection> pObjectWithSelection = default;
+
+			hr = PInvoke.CoCreateInstance(CLSID.CLSID_UnPinFromFrequentExecute, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IExecuteCommand, (void**)pExecuteCommand.GetAddressOf());
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return hr;
+
+			using ComPtr<IShellItemArray> pShellItemArray = default;
+			hr = PInvoke.SHCreateShellItemArrayFromShellItem(@this.ThisPtr, IID.IID_IShellItemArray, (void**)pShellItemArray.GetAddressOf());
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return hr;
+
+			hr = pExecuteCommand.Get()->QueryInterface(IID.IID_IObjectWithSelection, (void**)pObjectWithSelection.GetAddressOf());
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return hr;
+
+			hr = pObjectWithSelection.Get()->SetSelection(pShellItemArray.Get());
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return hr;
+
+			hr = pExecuteCommand.Get()->Execute();
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return hr;
+
 			return HRESULT.S_OK;
 		}
 	}

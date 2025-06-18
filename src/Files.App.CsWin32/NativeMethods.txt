@@ -226,3 +226,6 @@ GetKeyboardState
 MapVirtualKey
 GetKeyboardLayout
 S_FALSE
+IExecuteCommand
+IObjectWithSelection
+SHCreateShellItemArrayFromShellItem
