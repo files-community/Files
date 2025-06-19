@@ -366,6 +366,19 @@
 			</controls:SidebarView.Footer>
 		</controls:SidebarView>
 
+		<!--  Review Files Prompt  -->
+		<TeachingTip
+			Title="{helpers:ResourceString Name=ReviewFilesTitle}"
+			Grid.RowSpan="3"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Bottom"
+			ActionButtonCommand="{x:Bind ViewModel.ReviewAppCommand}"
+			ActionButtonContent="{helpers:ResourceString Name=RateUs}"
+			CloseButtonCommand="{x:Bind ViewModel.DismissReviewPromptCommand}"
+			CloseButtonContent="{helpers:ResourceString Name=Dismiss}"
+			IsOpen="{x:Bind ViewModel.ShowReviewPrompt, Mode=OneWay}"
+			Subtitle="{helpers:ResourceString Name=ReviewFilesSubtitle}" />
+
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup x:Name="SidebarWidthStates">
 				<VisualState x:Name="SmallSidebarWidthState">

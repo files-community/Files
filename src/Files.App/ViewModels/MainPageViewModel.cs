@@ -8,7 +8,10 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System.Windows.Input;
+using Windows.ApplicationModel;
+using Windows.Services.Store;
 using Windows.System;
+using WinRT.Interop;
 
 namespace Files.App.ViewModels
 {
@@ -127,16 +130,31 @@ namespace Files.App.ViewModels
 			context.PageType is not ContentPageTypes.ReleaseNotes &&
 			context.PageType is not ContentPageTypes.Settings;
 
+		public bool ShowReviewPrompt
+		{
+			get
+			{
+				var isTargetPackage = Package.Current.Id.Name == "49306atecsolution.FilesUWP" || Package.Current.Id.Name == "49306atecsolution.FilesPreview";
+				var hasNotClickedReview = !UserSettingsService.ApplicationSettingsService.ClickedToReviewApp;
+				var launchCountReached = AppLifecycleHelper.TotalLaunchCount == 30;
+
+				return isTargetPackage && hasNotClickedReview && launchCountReached;
+			}
+		}
 
 		// Commands
 
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; }
+		public ICommand ReviewAppCommand { get; }
+		public ICommand DismissReviewPromptCommand { get; }
 
 		// Constructor
 
 		public MainPageViewModel()
 		{
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ExecuteNavigateToNumberedTabKeyboardAcceleratorCommand);
+			ReviewAppCommand = new RelayCommand(ExecuteReviewAppCommand);
+			DismissReviewPromptCommand = new RelayCommand(ExecuteDismissReviewPromptCommand);
 
 			AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
@@ -301,6 +319,25 @@ namespace Files.App.ViewModels
 		}
 
 		// Command methods
+
+		private async void ExecuteReviewAppCommand()
+		{
+			UserSettingsService.ApplicationSettingsService.ClickedToReviewApp = true;
+			OnPropertyChanged(nameof(ShowReviewPrompt));
+
+			try
+			{
+				var storeContext = StoreContext.GetDefault();
+				InitializeWithWindow.Initialize(storeContext, MainWindow.Instance.WindowHandle);
+				await storeContext.RequestRateAndReviewAppAsync();
+			}
+			catch (Exception) { }
+		}
+
+		private void ExecuteDismissReviewPromptCommand()
+		{
+			UserSettingsService.ApplicationSettingsService.ClickedToReviewApp = true;
+		}
 
 		private async void ExecuteNavigateToNumberedTabKeyboardAcceleratorCommand(KeyboardAcceleratorInvokedEventArgs? e)
 		{
