@@ -7,8 +7,8 @@ namespace Files.App.Storage
 {
 	public unsafe interface IWindowsStorable : IStorableChild, IEquatable<IWindowsStorable>, IDisposable
 	{
-		IShellItem* ThisPtr { get; }
+		IShellItem* ThisPtr { get; set; }
 
-		IContextMenu* ContextMenu { get; }
+		IContextMenu* ContextMenu { get; set; }
 	}
 }
