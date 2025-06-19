@@ -10,6 +10,6 @@ namespace Files.App.Storage
 		/// <summary>
 		/// Gets or sets the cached <see cref="IContextMenu"/> for the ShellNew context menu.
 		/// </summary>
-		public IContextMenu* ShellNewMenu { get; }
+		public IContextMenu* ShellNewMenu { get; set; }
 	}
 }

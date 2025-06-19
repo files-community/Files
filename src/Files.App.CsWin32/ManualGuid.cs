@@ -56,6 +56,15 @@ namespace Windows.Win32
 
 		[GuidRVAGen.Guid("1C9CD5BB-98E9-4491-A60F-31AACC72B83C")]
 		public static partial Guid* IID_IObjectWithSelection { get; }
+
+		[GuidRVAGen.Guid("BCC18B79-BA16-442F-80C4-8A59C30C463B")]
+		public static partial Guid* IID_IShellItemImageFactory { get; }
+
+		[GuidRVAGen.Guid("000214E8-0000-0000-C000-000000000046")]
+		public static partial Guid* IID_IShellExtInit { get; }
+
+		[GuidRVAGen.Guid("000214F4-0000-0000-C000-000000000046")]
+		public static partial Guid* IID_IContextMenu2 { get; }
 	}
 
 	public static unsafe partial class CLSID
@@ -80,6 +89,9 @@ namespace Windows.Win32
 
 		[GuidRVAGen.Guid("EE20EEBA-DF64-4A4E-B7BB-2D1C6B2DFCC1")]
 		public static partial Guid* CLSID_UnPinFromFrequentExecute { get; }
+
+		[GuidRVAGen.Guid("D969A300-E7FF-11d0-A93B-00A0C90F2719")]
+		public static partial Guid* CLSID_NewMenu { get; }
 	}
 
 	public static unsafe partial class BHID
