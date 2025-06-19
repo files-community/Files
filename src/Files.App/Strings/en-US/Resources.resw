@@ -217,7 +217,7 @@
     <value>Show hidden files and folders</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Dot files</value>
+    <value>Show dot files</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Appearance</value>
