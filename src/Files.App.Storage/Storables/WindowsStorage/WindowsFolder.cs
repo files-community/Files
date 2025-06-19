@@ -19,7 +19,7 @@ namespace Files.App.Storage
 			get;
 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			protected internal set;
+			set;
 		}
 
 		public WindowsFolder(IShellItem* ptr)
