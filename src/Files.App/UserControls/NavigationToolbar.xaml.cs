@@ -23,6 +23,7 @@ namespace Files.App.UserControls
 		private readonly MainPageViewModel MainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly StatusCenterViewModel OngoingTasksViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		// Properties
 
@@ -413,9 +414,9 @@ namespace Files.App.UserControls
 
 		private void Omnibar_LostFocus(object sender, RoutedEventArgs e)
 		{
-			if (ViewModel.OmnibarCurrentSelectedMode == OmnibarCommandPaletteMode)
+			if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
 			{
-				ViewModel.OmnibarCurrentSelectedMode = OmnibarPathMode;
+				Omnibar.CurrentSelectedMode = OmnibarPathMode;
 				ViewModel.OmnibarCommandPaletteModeText = string.Empty;
 			}
 		}

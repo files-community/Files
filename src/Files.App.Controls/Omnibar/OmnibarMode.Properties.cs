@@ -29,14 +29,8 @@ namespace Files.App.Controls
 		public partial FrameworkElement? IconOnInactive { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial object? SuggestionItemsSource { get; set; }
-
-		[GeneratedDependencyProperty]
-		public partial DataTemplate? SuggestionItemTemplate { get; set; }
-
-		[GeneratedDependencyProperty]
 		/// <remark>
-		/// Implement <see cref="IOmnibarTextMemberPathProvider"/> in <see cref="SuggestionItemsSource"/> to get the text member path from the suggestion item correctly.
+		/// Implement <see cref="IOmnibarTextMemberPathProvider"/> in <see cref="ItemsSource"/> to get the text member path from the suggestion item correctly.
 		/// </remark>
 		public partial string? TextMemberPath { get; set; }
 

@@ -6,7 +6,7 @@ using Microsoft.UI.Xaml.Input;
 namespace Files.App.Controls
 {
 	[DebuggerDisplay("{" + nameof(ToString) + "(),nq}")]
-	public partial class OmnibarMode : Control
+	public partial class OmnibarMode : ItemsControl
 	{
 		// Constants
 
@@ -64,6 +64,14 @@ namespace Files.App.Controls
 			{
 				base.OnKeyDown(args);
 			}
+		}
+
+		protected override void OnItemsChanged(object e)
+		{
+			base.OnItemsChanged(e);
+
+			if (_ownerRef is not null && _ownerRef.TryGetTarget(out var owner))
+				owner.TryToggleIsSuggestionsPopupOpen(true);
 		}
 
 		private void OmnibarMode_Loaded(object sender, RoutedEventArgs e)

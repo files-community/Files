@@ -50,12 +50,12 @@
 						</controls:OmnibarMode>
 
 						<controls:OmnibarMode
-							DisplayMemberPath="{x:Bind Omnibar1_TextMemberPathForPaletteMode}"
 							IconOnActive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IsFilled=True}"
 							IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Commands}, IconType=Outline}"
 							ModeName="Palette"
 							PlaceholderText="Enter a palette command..."
-							SuggestionItemsSource="{x:Bind Omnibar1_PaletteSuggestions, Mode=OneWay}">
+							SuggestionItemsSource="{x:Bind Omnibar1_PaletteSuggestions, Mode=OneWay}"
+							TextMemberPath="{x:Bind Omnibar1_TextMemberPathForPaletteMode}">
 							<controls:OmnibarMode.SuggestionItemTemplate>
 								<DataTemplate x:DataType="data:OmnibarPaletteSuggestionItem">
 									<Grid Height="48" ColumnSpacing="12">
