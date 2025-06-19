@@ -253,7 +253,8 @@ namespace Files.App.ViewModels.UserControls
 							_ = PopulateOmnibarSuggestionsForPathMode();
 							break;
 						case OmnibarPaletteModeName:
-							PopulateOmnibarSuggestionsForCommandPaletteMode();
+							if (OmnibarCommandPaletteModeSuggestionItems.Count is 0)
+								PopulateOmnibarSuggestionsForCommandPaletteMode();
 							break;
 						case OmnibarSearchModeName:
 							break;
@@ -282,7 +283,8 @@ namespace Files.App.ViewModels.UserControls
 							_ = PopulateOmnibarSuggestionsForPathMode();
 							break;
 						case OmnibarPaletteModeName:
-							PopulateOmnibarSuggestionsForCommandPaletteMode();
+							if (OmnibarCommandPaletteModeSuggestionItems.Count is 0)
+								PopulateOmnibarSuggestionsForCommandPaletteMode();
 							break;
 						case OmnibarSearchModeName:
 							break;
@@ -1100,8 +1102,6 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task PopulateOmnibarSuggestionsForPathMode()
 		{
-			PathModeSuggestionItems.Clear();
-
 			var result = await SafetyExtensions.IgnoreExceptions((Func<Task<bool>>)(async () =>
 			{
 				List<OmnibarPathModeSuggestionModel>? newSuggestions = [];
