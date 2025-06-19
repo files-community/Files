@@ -57,9 +57,6 @@ namespace Windows.Win32
 		[GuidRVAGen.Guid("1C9CD5BB-98E9-4491-A60F-31AACC72B83C")]
 		public static partial Guid* IID_IObjectWithSelection { get; }
 
-		[GuidRVAGen.Guid("BCC18B79-BA16-442F-80C4-8A59C30C463B")]
-		public static partial Guid* IID_IShellItemImageFactory { get; }
-
 		[GuidRVAGen.Guid("000214E8-0000-0000-C000-000000000046")]
 		public static partial Guid* IID_IShellExtInit { get; }
 

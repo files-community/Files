@@ -17,7 +17,7 @@ namespace Files.App.Storage
 			get;
 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			protected internal set;
+			set;
 		}
 
 		public IContextMenu* ContextMenu
@@ -26,7 +26,7 @@ namespace Files.App.Storage
 			get;
 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			protected internal set;
+			set;
 		}
 
 		public string Id => this.GetDisplayName(SIGDN.SIGDN_FILESYSPATH);
@@ -49,7 +49,7 @@ namespace Files.App.Storage
 
 		public static WindowsStorable? TryParse(IShellItem* pShellItem)
 		{
-			bool isFolder = pShellItem->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var returnedAttributes).Succeeded && returnedAttributes == SFGAO_FLAGS.SFGAO_FOLDER;
+			bool isFolder = pShellItem->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var returnedAttributes).Succeeded && returnedAttributes is SFGAO_FLAGS.SFGAO_FOLDER;
 
 			return isFolder ? new WindowsFolder(pShellItem) : new WindowsFile(pShellItem);
 		}
