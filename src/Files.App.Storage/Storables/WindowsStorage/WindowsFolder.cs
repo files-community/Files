@@ -10,7 +10,7 @@ using Windows.Win32.UI.Shell;
 namespace Files.App.Storage
 {
 	[DebuggerDisplay("{" + nameof(ToString) + "()}")]
-	public sealed class WindowsFolder : WindowsStorable, IChildFolder
+	public sealed class WindowsFolder : WindowsStorable, IWindowsFolder
 	{
 		public WindowsFolder(ComPtr<IShellItem> nativeObject)
 		{
@@ -84,6 +84,12 @@ namespace Files.App.Storage
 					return hr.ThrowIfFailedOnDebug() == HRESULT.S_OK;
 				}
 			}
+		}
+
+		public Task<IFolderWatcher> GetFolderWatcherAsync(CancellationToken cancellationToken = default)
+		{
+			IFolderWatcher watcher = new WindowsFolderWatcher(this);
+			return Task.FromResult(watcher);
 		}
 	}
 }
