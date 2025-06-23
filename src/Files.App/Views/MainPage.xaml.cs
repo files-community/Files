@@ -2,24 +2,19 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using CommunityToolkit.WinUI.Helpers;
-using CommunityToolkit.WinUI.Controls;
+using Files.App.Controls;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
-using Windows.Services.Store;
-using WinRT.Interop;
-using VirtualKey = Windows.System.VirtualKey;
 using GridSplitter = Files.App.Controls.GridSplitter;
-using Files.App.Controls;
-using Microsoft.UI.Xaml.Media;
+using VirtualKey = Windows.System.VirtualKey;
 
 namespace Files.App.Views
 {
@@ -57,37 +52,6 @@ namespace Files.App.Views
 			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
 
 			ApplySidebarWidthState();
-		}
-
-		private async Task PromptForReviewAsync()
-		{
-			var promptForReviewDialog = new ContentDialog
-			{
-				Title = Strings.ReviewFiles.ToLocalized(),
-				Content = Strings.ReviewFilesContent.ToLocalized(),
-				PrimaryButtonText = Strings.Yes.ToLocalized(),
-				SecondaryButtonText = Strings.No.ToLocalized()
-			};
-
-			if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-				promptForReviewDialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
-
-			var result = await promptForReviewDialog.TryShowAsync();
-
-			if (result == ContentDialogResult.Primary)
-			{
-				try
-				{
-					var storeContext = StoreContext.GetDefault();
-					InitializeWithWindow.Initialize(storeContext, MainWindow.Instance.WindowHandle);
-					var storeRateAndReviewResult = await storeContext.RequestRateAndReviewAppAsync();
-
-					App.Logger.LogInformation($"STORE: review request status: {storeRateAndReviewResult.Status}");
-
-					UserSettingsService.ApplicationSettingsService.ClickedToReviewApp = true;
-				}
-				catch (Exception) { }
-			}
 		}
 
 		private async Task AppRunningAsAdminPromptAsync()
@@ -250,7 +214,7 @@ namespace Files.App.Views
 
 					if (command.Code is CommandCodes.OpenItem && source?.FindAscendantOrSelf<PathBreadcrumb>() is not null)
 						break;
-					
+
 
 					if (command.Code is not CommandCodes.None && keyReleased)
 					{
@@ -309,17 +273,6 @@ namespace Files.App.Views
 			)
 			{
 				DispatcherQueue.TryEnqueue(async () => await AppRunningAsAdminPromptAsync());
-			}
-
-			// ToDo put this in a StartupPromptService
-			if (Package.Current.Id.Name != "49306atecsolution.FilesUWP" || UserSettingsService.ApplicationSettingsService.ClickedToReviewApp)
-				return;
-
-			var totalLaunchCount = AppLifecycleHelper.TotalLaunchCount;
-			if (totalLaunchCount is 50 or 200)
-			{
-				// Prompt user to review app in the Store
-				DispatcherQueue.TryEnqueue(async () => await PromptForReviewAsync());
 			}
 		}
 
