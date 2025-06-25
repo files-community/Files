@@ -57,7 +57,8 @@
 							Grid.Column="0"
 							Padding="{StaticResource BreadcrumbBarRootItemPadding}"
 							CornerRadius="{StaticResource BreadcrumbBarRootItemCornerRadius}"
-							ItemToolTip="{TemplateBinding RootItemToolTip}">
+							ItemToolTip="{TemplateBinding RootItemToolTip}"
+							TabIndex="0">
 							<ContentPresenter Content="{Binding RootItem, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 						</local:BreadcrumbBarItem>
 

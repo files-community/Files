@@ -35,6 +35,7 @@ namespace Files.App.Controls
 				?? throw new MissingFieldException($"Could not find {TemplatePartName_ModeButton} in the given {nameof(OmnibarMode)}'s style.");
 			
 			Loaded += OmnibarMode_Loaded;
+			_modeButton.KeyDown += ModeButton_KeyDown;
 			_modeButton.PointerEntered += ModeButton_PointerEntered;
 			_modeButton.PointerPressed += ModeButton_PointerPressed;
 			_modeButton.PointerReleased += ModeButton_PointerReleased;

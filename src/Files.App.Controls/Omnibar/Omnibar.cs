@@ -124,7 +124,6 @@ namespace Files.App.Controls
 				// Add the reposition transition to the all modes
 				mode.Transitions = [new RepositionThemeTransition()];
 				mode.UpdateLayout();
-				mode.IsTabStop = true;
 			}
 
 			var index = _modesHostGrid.Children.IndexOf(newMode);
@@ -154,7 +153,6 @@ namespace Files.App.Controls
 			ChangeTextBoxText(newMode.Text ?? string.Empty);
 
 			VisualStateManager.GoToState(newMode, "Focused", true);
-			newMode.IsTabStop = false;
 
 			ModeChanged?.Invoke(this, new(oldMode, newMode!));
 

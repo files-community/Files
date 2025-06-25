@@ -7,6 +7,17 @@ namespace Files.App.Controls
 {
 	public partial class OmnibarMode
 	{
+		private void ModeButton_KeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			if (_ownerRef is null || _ownerRef.TryGetTarget(out var owner) is false || owner.CurrentSelectedMode == this)
+				return;
+
+			if (e.Key is Windows.System.VirtualKey.Enter)
+			{
+				owner.CurrentSelectedMode = this;
+			}
+		}
+
 		private void ModeButton_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			if (_ownerRef is null || _ownerRef.TryGetTarget(out var owner) is false || owner.CurrentSelectedMode == this)

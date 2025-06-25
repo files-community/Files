@@ -117,8 +117,8 @@
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
 		<Setter Property="VerticalAlignment" Value="Stretch" />
 
-		<Setter Property="IsTabStop" Value="True" />
-		<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+		<!--<Setter Property="IsTabStop" Value="True" />
+		<Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />-->
 
 		<Setter Property="Template">
 			<Setter.Value>

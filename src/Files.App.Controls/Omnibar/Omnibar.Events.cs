@@ -30,6 +30,11 @@ namespace Files.App.Controls
 				args.TryCancel();
 				return;
 			}
+
+			if (args.InputDevice is FocusInputDeviceKind.Keyboard || args.Direction is FocusNavigationDirection.Next or FocusNavigationDirection.Previous)
+			{
+				CurrentSelectedMode?.ContentOnInactive?.Focus(FocusState.Programmatic);
+			}
 		}
 
 		private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Automation;
+using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
 
 namespace Files.App.Controls
@@ -24,6 +25,8 @@ namespace Files.App.Controls
 		private ItemsRepeater? _itemsRepeater;
 
 		private bool _isEllipsisRendered;
+
+		private bool _focusedViaKeyboard = false; // Used to determine if the BreadcrumbBar was focused via keyboard on Tab focus
 
 		// Properties
 
@@ -62,8 +65,15 @@ namespace Files.App.Controls
 			_ellipsisBreadcrumbBarItem.SetOwner(this);
 			_itemsRepeater.Layout = _itemsRepeaterLayout;
 
+			//GettingFocus += BreadcrumbBar_GettingFocus;
+			//GettingFocus += BreadcrumbBar_GotFocus;
 			_itemsRepeater.ElementPrepared += ItemsRepeater_ElementPrepared;
 			_itemsRepeater.ItemsSourceView.CollectionChanged += ItemsSourceView_CollectionChanged;
+		}
+
+		private void BreadcrumbBar_GettingFocus(UIElement sender, GettingFocusEventArgs args)
+		{
+			_focusedViaKeyboard = args.InputDevice is FocusInputDeviceKind.Keyboard;
 		}
 
 		internal protected virtual void RaiseItemClickedEvent(BreadcrumbBarItem item)
@@ -120,6 +130,11 @@ namespace Files.App.Controls
 		}
 
 		// Event methods
+
+		private void BreadcrumbBar_GotFocus(object sender, RoutedEventArgs e)
+		{
+			_rootBreadcrumbBarItem?.Focus(FocusState.Keyboard);
+		}
 
 		private void ItemsRepeater_ElementPrepared(ItemsRepeater sender, ItemsRepeaterElementPreparedEventArgs args)
 		{
