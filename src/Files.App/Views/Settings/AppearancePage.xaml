@@ -243,6 +243,18 @@
 					IsOn="{x:Bind ViewModel.ShowTabActions, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
+			<!--  Show Status bar  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowStatusBar}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<!--  TODO: needs a new icon  -->
+					<PathIcon Data="{StaticResource App.Theme.PathIcon.TabActions}" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch
+					AutomationProperties.AutomationControlType="Custom"
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowStatusBar}"
+					IsOn="{x:Bind ViewModel.ShowStatusBar, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+			
 			<!--  Toolbar  -->
 			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=Toolbars}">
 				<wctcontrols:SettingsExpander.HeaderIcon>
