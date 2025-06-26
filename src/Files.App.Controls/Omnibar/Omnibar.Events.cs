@@ -24,20 +24,13 @@ namespace Files.App.Controls
 			_previouslyFocusedElement = new(args.OldFocusedElement as UIElement);
 		}
 
-		private async void AutoSuggestBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
+		private void AutoSuggestBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
 		{
 			if (IsModeButtonPressed)
 			{
 				IsModeButtonPressed = false;
 				args.TryCancel();
 				return;
-			}
-
-			var keyState = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Tab);
-			if (keyState.HasFlag(CoreVirtualKeyStates.Down))
-			{
-				await Task.Delay(15);
-				CurrentSelectedMode?.ContentOnInactive?.Focus(FocusState.Keyboard);
 			}
 		}
 
@@ -56,7 +49,7 @@ namespace Files.App.Controls
 			IsFocused = false;
 		}
 
-		private void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
+		private async void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key is VirtualKey.Enter)
 			{
@@ -106,6 +99,13 @@ namespace Files.App.Controls
 					_previouslyFocusedElement.TryGetTarget(out var previouslyFocusedElement);
 					previouslyFocusedElement?.Focus(FocusState.Programmatic);
 				}
+			}
+			else if (e.Key == VirtualKey.Tab && !InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
+			{
+				e.Handled = true;
+				IsFocused = false;
+				await Task.Delay(15);
+				CurrentSelectedMode?.ContentOnInactive?.Focus(FocusState.Keyboard);
 			}
 			else
 			{
