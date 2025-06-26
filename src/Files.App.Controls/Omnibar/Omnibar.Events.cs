@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using Windows.System;
+using Windows.UI.Core;
 
 namespace Files.App.Controls
 {
@@ -22,13 +24,20 @@ namespace Files.App.Controls
 			_previouslyFocusedElement = new(args.OldFocusedElement as UIElement);
 		}
 
-		private void AutoSuggestBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
+		private async void AutoSuggestBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
 		{
 			if (IsModeButtonPressed)
 			{
 				IsModeButtonPressed = false;
 				args.TryCancel();
 				return;
+			}
+
+			var keyState = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Tab);
+			if (keyState.HasFlag(CoreVirtualKeyStates.Down))
+			{
+				await Task.Delay(10);
+				CurrentSelectedMode?.ContentOnInactive?.Focus(FocusState.Keyboard);
 			}
 		}
 
