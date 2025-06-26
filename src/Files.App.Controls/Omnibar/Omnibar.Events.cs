@@ -36,7 +36,7 @@ namespace Files.App.Controls
 			var keyState = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Tab);
 			if (keyState.HasFlag(CoreVirtualKeyStates.Down))
 			{
-				await Task.Delay(10);
+				await Task.Delay(15);
 				CurrentSelectedMode?.ContentOnInactive?.Focus(FocusState.Keyboard);
 			}
 		}
