@@ -102,6 +102,7 @@ namespace Files.App.Controls
 			}
 			else if (e.Key == VirtualKey.Tab && !InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
 			{
+				// Focus on inactive content when pressing Tab instead of moving to the next control in the tab order
 				e.Handled = true;
 				IsFocused = false;
 				await Task.Delay(15);
