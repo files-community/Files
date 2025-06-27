@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using Windows.System;
+using Windows.UI.Core;
 
 namespace Files.App.Controls
 {
@@ -47,7 +49,7 @@ namespace Files.App.Controls
 			IsFocused = false;
 		}
 
-		private void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
+		private async void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key is VirtualKey.Enter)
 			{
@@ -97,6 +99,14 @@ namespace Files.App.Controls
 					_previouslyFocusedElement.TryGetTarget(out var previouslyFocusedElement);
 					previouslyFocusedElement?.Focus(FocusState.Programmatic);
 				}
+			}
+			else if (e.Key == VirtualKey.Tab && !InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
+			{
+				// Focus on inactive content when pressing Tab instead of moving to the next control in the tab order
+				e.Handled = true;
+				IsFocused = false;
+				await Task.Delay(15);
+				CurrentSelectedMode?.ContentOnInactive?.Focus(FocusState.Keyboard);
 			}
 			else
 			{
