@@ -254,7 +254,7 @@
 					AutomationProperties.Name="{helpers:ResourceString Name=ShowStatusBar}"
 					IsOn="{x:Bind ViewModel.ShowStatusBar, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
-			
+
 			<!--  Toolbar  -->
 			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=Toolbars}">
 				<wctcontrols:SettingsExpander.HeaderIcon>
