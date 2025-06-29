@@ -1392,7 +1392,7 @@
 								<DataTemplate x:DataType="storage:IGroupedCollectionHeader">
 									<StackPanel
 										Margin="0,0,0,4"
-										VerticalAlignment="Center"
+										VerticalAlignment="Bottom"
 										AutomationProperties.Name="{x:Bind Model.Text}"
 										Spacing="0">
 										<StackPanel Orientation="Horizontal" Spacing="4">
