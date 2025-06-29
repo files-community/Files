@@ -313,7 +313,7 @@ namespace Files.App.UserControls
 			}
 
 			// Search mode
-			if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
+			if (mode == OmnibarSearchMode)
 			{
 			}
 		}
