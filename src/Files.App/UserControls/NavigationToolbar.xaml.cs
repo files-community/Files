@@ -269,21 +269,25 @@ namespace Files.App.UserControls
 					return;
 
 				// Try invoking built-in command
-				if (item.Text is { } commandText)
+				foreach (IRichCommand command in Commands)
 				{
-					var command = Commands[commandText];
-					if (command == Commands.None)
-						await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
-							string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), commandText));
-					else if (!command.IsExecutable)
-						await DialogDisplayHelper.ShowDialogAsync(Strings.CommandNotExecutable.GetLocalizedResource(),
-							string.Format(Strings.CommandNotExecutableContent.GetLocalizedResource(), command.Code));
-					else
-						await command.ExecuteAsync();
+					if (item.Text == command.Description)
+					{
+						if (command == Commands.None)
+							await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
+								string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), command.Code));
+						else if (!command.IsExecutable)
+							await DialogDisplayHelper.ShowDialogAsync(Strings.CommandNotExecutable.GetLocalizedResource(),
+								string.Format(Strings.CommandNotExecutableContent.GetLocalizedResource(), command.Code));
+						else
+							await command.ExecuteAsync();
+
+						return;
+					}
 				}
 
 				// Try invoking Windows app action
-				else if (ActionManager.Instance.ActionRuntime is not null && item.ActionInstance is ActionInstance actionInstance)
+				if (ActionManager.Instance.ActionRuntime is not null && item.ActionInstance is ActionInstance actionInstance)
 				{
 					// Workaround for https://github.com/microsoft/App-Actions-On-Windows-Samples/issues/7
 					var action = ActionManager.Instance.ActionRuntime.ActionCatalog.GetAllActions()
