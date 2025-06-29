@@ -258,36 +258,35 @@ namespace Files.App.UserControls
 
 		private async void Omnibar_QuerySubmitted(Omnibar sender, OmnibarQuerySubmittedEventArgs args)
 		{
-			if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
+			var mode = Omnibar.CurrentSelectedMode;
+
+			// Path mode
+			if (mode == OmnibarPathMode)
 			{
 				await ViewModel.HandleItemNavigationAsync(args.Text);
 				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+				return;
 			}
-			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
+
+			// Command palette mode
+			if (mode == OmnibarCommandPaletteMode)
 			{
-				if (args.Item is not NavigationBarSuggestionItem item)
-					return;
+				var item = args.Item as NavigationBarSuggestionItem;
 
 				// Try invoking built-in command
-				foreach (IRichCommand command in Commands)
+				foreach (var command in Commands)
 				{
-					if (item.Text == command.Description)
-					{
-						if (command == Commands.None)
-							await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
-								string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), command.Code));
-						else if (!command.IsExecutable)
-							await DialogDisplayHelper.ShowDialogAsync(Strings.CommandNotExecutable.GetLocalizedResource(),
-								string.Format(Strings.CommandNotExecutableContent.GetLocalizedResource(), command.Code));
-						else
-							await command.ExecuteAsync();
+					if (!string.Equals(command.Description, item?.Text, StringComparison.OrdinalIgnoreCase) &&
+						!string.Equals(command.Description, args.Text, StringComparison.OrdinalIgnoreCase))
+						continue;
 
-						return;
-					}
+					await command.ExecuteAsync();
+					(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+					return;
 				}
 
 				// Try invoking Windows app action
-				if (ActionManager.Instance.ActionRuntime is not null && item.ActionInstance is ActionInstance actionInstance)
+				if (ActionManager.Instance.ActionRuntime is not null && item?.ActionInstance is ActionInstance actionInstance)
 				{
 					// Workaround for https://github.com/microsoft/App-Actions-On-Windows-Samples/issues/7
 					var action = ActionManager.Instance.ActionRuntime.ActionCatalog.GetAllActions()
@@ -298,11 +297,17 @@ namespace Files.App.UserControls
 						var overload = action.GetOverloads().FirstOrDefault();
 						await overload?.InvokeAsync(actionInstance.Context);
 					}
+
+					(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+					return;
 				}
 
-				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+				await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
+					string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), args.Text));
 			}
-			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
+
+			// Search mode
+			if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 			{
 			}
 		}
