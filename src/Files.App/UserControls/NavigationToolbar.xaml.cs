@@ -304,6 +304,9 @@ namespace Files.App.UserControls
 
 				await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
 					string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), args.Text));
+
+				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+				return;
 			}
 
 			// Search mode
