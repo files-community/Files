@@ -276,6 +276,9 @@ namespace Files.App.UserControls
 				// Try invoking built-in command
 				foreach (var command in Commands)
 				{
+					if (command == Commands.None)
+						continue;
+
 					if (!string.Equals(command.Description, item?.Text, StringComparison.OrdinalIgnoreCase) &&
 						!string.Equals(command.Description, args.Text, StringComparison.OrdinalIgnoreCase))
 						continue;
