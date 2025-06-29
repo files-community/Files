@@ -13,6 +13,7 @@ namespace Files.App.Helpers
 	public static partial class Win32Helper
 	{
 		private static bool? isRunningOnArm = null;
+		[Obsolete]
 		public static bool IsRunningOnArm
 		{
 			get
@@ -158,6 +159,7 @@ namespace Files.App.Helpers
 			return processes;
 		}
 
+		[Obsolete]
 		private static bool IsArmProcessor()
 		{
 			var handle = Process.GetCurrentProcess().Handle;
