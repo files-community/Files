@@ -132,12 +132,15 @@ namespace Files.App.Controls
 			if (oldMode is not null)
 				VisualStateManager.GoToState(oldMode, "Unfocused", true);
 
-			// Reset
-			foreach (var column in _modesHostGrid.ColumnDefinitions)
-				column.Width = GridLength.Auto;
+			DispatcherQueue.TryEnqueue(() =>
+			{
+				// Reset
+				foreach (var column in _modesHostGrid.ColumnDefinitions)
+					column.Width = GridLength.Auto;
 
-			// Expand the given mode
-			_modesHostGrid.ColumnDefinitions[index].Width = new(1, GridUnitType.Star);
+				// Expand the given mode
+				_modesHostGrid.ColumnDefinitions[index].Width = new(1, GridUnitType.Star);
+			});
 
 			var itemCount = Modes.Count;
 			var itemIndex = Modes.IndexOf(newMode);
