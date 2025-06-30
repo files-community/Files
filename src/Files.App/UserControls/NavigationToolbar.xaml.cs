@@ -269,7 +269,7 @@ namespace Files.App.UserControls
 			}
 
 			// Command palette mode
-			if (mode == OmnibarCommandPaletteMode)
+			else if (mode == OmnibarCommandPaletteMode)
 			{
 				var item = args.Item as NavigationBarSuggestionItem;
 
@@ -313,7 +313,7 @@ namespace Files.App.UserControls
 			}
 
 			// Search mode
-			if (mode == OmnibarSearchMode)
+			else if (mode == OmnibarSearchMode)
 			{
 			}
 		}
