@@ -101,7 +101,12 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value whether the toolbar should be displayed.
 		/// </summary>
 		bool ShowToolbar { get; set; }
-		
+
+		/// <summary>
+		/// Gets or sets a value whether the status bar should be displayed.
+		/// </summary>
+		bool ShowStatusBar { get; set; }
+
 		/// <summary>
 		/// Gets or sets a value whether the tab actions button should be displayed.
 		/// </summary>
