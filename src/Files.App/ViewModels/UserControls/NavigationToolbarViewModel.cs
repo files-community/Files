@@ -1254,7 +1254,7 @@ namespace Files.App.ViewModels.UserControls
 				{
 					ThemedIconStyle = command.Glyph.ToThemedIconStyle(),
 					Glyph = command.Glyph.BaseGlyph,
-					Text = command.Code.ToString(),
+					Text = command.Description,
 					PrimaryDisplay = command.Description,
 					HotKeys = command.HotKeys,
 					SearchText = OmnibarCommandPaletteModeText,
@@ -1262,7 +1262,7 @@ namespace Files.App.ViewModels.UserControls
 
 			foreach (var item in suggestionItems)
 			{
-				if (item.Text != Commands.OpenCommandPalette.Code.ToString())
+				if (item.Text != Commands.OpenCommandPalette.Description.ToString())
 					OmnibarCommandPaletteModeSuggestionItems.Add(item);
 			}
 
