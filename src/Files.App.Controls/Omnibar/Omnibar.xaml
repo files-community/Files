@@ -375,7 +375,7 @@
 								FontSize="{StaticResource TextBoxIconFontSize}"
 								Foreground="{ThemeResource TextControlButtonForeground}"
 								IsTabStop="False"
-								Visibility="Collapsed" >
+								Visibility="Collapsed">
 								<Button.Resources>
 									<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
 									<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SubtleFillColorTertiary}" />
