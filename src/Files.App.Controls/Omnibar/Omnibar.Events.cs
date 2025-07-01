@@ -15,6 +15,12 @@ namespace Files.App.Controls
 			// Popup width has to be set manually because it doesn't stretch with the parent
 			_textBoxSuggestionsContainerBorder.Width = ActualWidth;
 		}
+		
+		private void Omnibar_LostFocus(object sender, RoutedEventArgs e)
+		{
+			// Reset to the default mode when Omnibar loses focus
+			CurrentSelectedMode = Modes?.FirstOrDefault();
+		}
 
 		private void AutoSuggestBox_GettingFocus(UIElement sender, GettingFocusEventArgs args)
 		{

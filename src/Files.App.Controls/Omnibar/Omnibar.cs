@@ -73,6 +73,7 @@ namespace Files.App.Controls
 			PopulateModes();
 
 			SizeChanged += Omnibar_SizeChanged;
+			LostFocus += Omnibar_LostFocus;
 			_textBox.GettingFocus += AutoSuggestBox_GettingFocus;
 			_textBox.GotFocus += AutoSuggestBox_GotFocus;
 			_textBox.LosingFocus += AutoSuggestBox_LosingFocus;
