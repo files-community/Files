@@ -118,16 +118,6 @@ namespace Files.App.Controls
 					previouslyFocusedElement?.Focus(FocusState.Programmatic);
 				}
 			}
-			else if (e.Key == VirtualKey.Tab && !InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
-			{
-				GlobalHelper.WriteDebugStringForOmnibar("The TextBox accepted the Tab key.");
-
-				// Focus on inactive content when pressing Tab instead of moving to the next control in the tab order
-				e.Handled = true;
-				IsFocused = false;
-				await Task.Delay(15);
-				CurrentSelectedMode?.ContentOnInactive?.Focus(FocusState.Keyboard);
-			}
 			else
 			{
 				_textChangeReason = OmnibarTextChangeReason.UserInput;
