@@ -16,12 +16,6 @@ namespace Files.App.Controls
 			_textBoxSuggestionsContainerBorder.Width = ActualWidth;
 		}
 		
-		private void Omnibar_LostFocus(object sender, RoutedEventArgs e)
-		{
-			// Reset to the default mode when Omnibar loses focus
-			CurrentSelectedMode = Modes?.FirstOrDefault();
-		}
-
 		private void AutoSuggestBox_GettingFocus(UIElement sender, GettingFocusEventArgs args)
 		{
 			if (args.OldFocusedElement is null)

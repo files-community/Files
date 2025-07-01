@@ -435,6 +435,12 @@ namespace Files.App.UserControls
 				ViewModel.OmnibarCommandPaletteModeText = string.Empty;
 		}
 
+		private void Omnibar_LostFocus(object sender, RoutedEventArgs e)
+		{
+			// Reset to the default mode when Omnibar loses focus
+			Omnibar.CurrentSelectedMode = Omnibar.Modes?.FirstOrDefault();
+		}
+
 		private async void Omnibar_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key is VirtualKey.Escape)
