@@ -23,6 +23,8 @@ namespace Files.App.Controls
 		public OmnibarMode()
 		{
 			DefaultStyleKey = typeof(OmnibarMode);
+
+			GlobalHelper.WriteDebugStringForOmnibar($"Omnibar Mode ({this}) has been initialized.");
 		}
 
 		// Methods
@@ -39,6 +41,8 @@ namespace Files.App.Controls
 			_modeButton.PointerPressed += ModeButton_PointerPressed;
 			_modeButton.PointerReleased += ModeButton_PointerReleased;
 			_modeButton.PointerExited += ModeButton_PointerExited;
+
+			GlobalHelper.WriteDebugStringForOmnibar($"The template and the events of the Omnibar Mode ({this}) have been initialized.");
 		}
 
 		protected override void OnKeyUp(KeyRoutedEventArgs args)
@@ -88,7 +92,7 @@ namespace Files.App.Controls
 
 		public override string ToString()
 		{
-			return ModeName ?? string.Empty;
+			return Name ?? string.Empty;
 		}
 	}
 }
