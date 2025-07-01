@@ -428,17 +428,17 @@ namespace Files.App.UserControls
 			e.Flyout.Items.Clear();
 		}
 
+		private void Omnibar_LostFocus(object sender, RoutedEventArgs e)
+		{
+			// Reset to the default mode when Omnibar loses focus
+			Omnibar.CurrentSelectedMode = Omnibar.Modes?.FirstOrDefault();
+		}
+
 		private void Omnibar_ModeChanged(object sender, OmnibarModeChangedEventArgs e)
 		{
 			// Reset the command palette text when switching modes
 			if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
 				ViewModel.OmnibarCommandPaletteModeText = string.Empty;
-		}
-
-		private void Omnibar_LostFocus(object sender, RoutedEventArgs e)
-		{
-			// Reset to the default mode when Omnibar loses focus
-			Omnibar.CurrentSelectedMode = Omnibar.Modes?.FirstOrDefault();
 		}
 
 		private async void Omnibar_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
