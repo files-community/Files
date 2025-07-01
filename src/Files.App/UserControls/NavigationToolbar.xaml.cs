@@ -12,6 +12,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.AI.Actions.Hosting;
 using Windows.System;
+using Windows.UI.Core;
 
 namespace Files.App.UserControls
 {
@@ -434,12 +435,23 @@ namespace Files.App.UserControls
 				ViewModel.OmnibarCommandPaletteModeText = string.Empty;
 		}
 
-		private void Omnibar_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+		private async void Omnibar_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key is VirtualKey.Escape)
 			{
 				Omnibar.IsFocused = false;
 				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+			}
+			else if (e.Key is VirtualKey.Tab && Omnibar.IsFocused && !InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
+			{
+				var currentSelectedMode = Omnibar.CurrentSelectedMode;
+				Omnibar.IsFocused = false;
+				await Task.Delay(15);
+
+				if (currentSelectedMode == OmnibarPathMode)
+					BreadcrumbBar.Focus(FocusState.Keyboard);
+				else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
+					OmnibarCommandPaletteMode.Focus(FocusState.Keyboard);
 			}
 		}
 
