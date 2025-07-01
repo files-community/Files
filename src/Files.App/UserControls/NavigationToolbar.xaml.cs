@@ -450,7 +450,7 @@ namespace Files.App.UserControls
 
 				if (currentSelectedMode == OmnibarPathMode)
 					BreadcrumbBar.Focus(FocusState.Keyboard);
-				else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
+				else if (currentSelectedMode == OmnibarCommandPaletteMode)
 					OmnibarCommandPaletteMode.Focus(FocusState.Keyboard);
 			}
 		}
