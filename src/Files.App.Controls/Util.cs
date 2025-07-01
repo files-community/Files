@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Files.App.Controls
 {
-	public static class GlobalHelper
+	public static class Util
 	{
 		/// <summary>
 		/// Sets cursor when hovering on a specific element.
@@ -21,12 +21,6 @@ namespace Files.App.Controls
 				uiElement,
 				[cursor]
 			);
-		}
-
-		[Conditional("OMNIBAR_DEBUG")]
-		public static void WriteDebugStringForOmnibar(string? message)
-		{
-			Debug.WriteLine($"OMNIBAR DEBUG: [{message}]");
 		}
 	}
 }
