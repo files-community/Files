@@ -137,6 +137,8 @@ namespace Files.App.Controls
 				_textChangeReason = OmnibarTextChangeReason.UserInput;
 				_userInput = _textBox.Text;
 			}
+			else if (_textChangeReason is OmnibarTextChangeReason.ProgrammaticChange)
+				_textBox.SelectAll();
 
 			TextChanged?.Invoke(this, new(CurrentSelectedMode, _textChangeReason));
 
