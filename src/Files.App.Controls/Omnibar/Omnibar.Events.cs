@@ -1,10 +1,8 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using Windows.System;
-using Windows.UI.Core;
 
 namespace Files.App.Controls
 {
@@ -15,7 +13,7 @@ namespace Files.App.Controls
 			// Popup width has to be set manually because it doesn't stretch with the parent
 			_textBoxSuggestionsContainerBorder.Width = ActualWidth;
 		}
-		
+
 		private void AutoSuggestBox_GettingFocus(UIElement sender, GettingFocusEventArgs args)
 		{
 			if (args.OldFocusedElement is null)
