@@ -21,8 +21,6 @@ namespace Files.App.Controls
 			if (args.OldFocusedElement is null)
 				return;
 
-			GlobalHelper.WriteDebugStringForOmnibar("The TextBox is getting the focus.");
-
 			_previouslyFocusedElement = new(args.OldFocusedElement as UIElement);
 		}
 
@@ -38,8 +36,6 @@ namespace Files.App.Controls
 
 		private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
 		{
-			GlobalHelper.WriteDebugStringForOmnibar("The TextBox got the focus.");
-
 			IsFocused = true;
 			_textBox.SelectAll();
 		}
@@ -50,8 +46,6 @@ namespace Files.App.Controls
 			if (_textBox.ContextFlyout.IsOpen)
 				return;
 
-			GlobalHelper.WriteDebugStringForOmnibar("The TextBox lost the focus.");
-
 			IsFocused = false;
 		}
 
@@ -61,15 +55,11 @@ namespace Files.App.Controls
 			{
 				e.Handled = true;
 
-				GlobalHelper.WriteDebugStringForOmnibar("The TextBox accepted the Enter key.");
-
 				SubmitQuery(_textBoxSuggestionsPopup.IsOpen && _textBoxSuggestionsListView.SelectedIndex is not -1 ? _textBoxSuggestionsListView.SelectedItem : null);
 			}
 			else if ((e.Key == VirtualKey.Up || e.Key == VirtualKey.Down) && _textBoxSuggestionsPopup.IsOpen)
 			{
 				e.Handled = true;
-
-				GlobalHelper.WriteDebugStringForOmnibar("The TextBox accepted the Up/Down key while the suggestions pop-up is open.");
 
 				var currentIndex = _textBoxSuggestionsListView.SelectedIndex;
 				var nextIndex = currentIndex;
@@ -99,8 +89,6 @@ namespace Files.App.Controls
 			{
 				e.Handled = true;
 
-				GlobalHelper.WriteDebugStringForOmnibar("The TextBox accepted the Esc key.");
-
 				if (_textBoxSuggestionsPopup.IsOpen)
 				{
 					RevertTextToUserInput();
@@ -114,8 +102,6 @@ namespace Files.App.Controls
 			}
 			else if (e.Key == VirtualKey.Tab && !InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
 			{
-				GlobalHelper.WriteDebugStringForOmnibar("The TextBox accepted the Tab key.");
-
 				// Focus on inactive content when pressing Tab instead of moving to the next control in the tab order
 				e.Handled = true;
 				IsFocused = false;
@@ -150,7 +136,6 @@ namespace Files.App.Controls
 
 		private void AutoSuggestBoxSuggestionsPopup_GettingFocus(UIElement sender, GettingFocusEventArgs args)
 		{
-			// The suggestions popup is never wanted to be focused when it come to open.
 			args.TryCancel();
 		}
 
