@@ -428,12 +428,6 @@ namespace Files.App.UserControls
 			e.Flyout.Items.Clear();
 		}
 
-		private void Omnibar_LostFocus(object sender, RoutedEventArgs e)
-		{
-			// Reset to the default mode when Omnibar loses focus
-			Omnibar.CurrentSelectedMode = Omnibar.Modes?.FirstOrDefault();
-		}
-
 		private void Omnibar_ModeChanged(object sender, OmnibarModeChangedEventArgs e)
 		{
 			// Reset the command palette text when switching modes

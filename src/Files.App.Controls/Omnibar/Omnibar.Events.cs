@@ -32,6 +32,11 @@ namespace Files.App.Controls
 				args.TryCancel();
 				return;
 			}
+			else
+			{
+				// Reset to the default mode when Omnibar loses focus
+				CurrentSelectedMode = Modes?.FirstOrDefault();
+			}
 		}
 
 		private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)

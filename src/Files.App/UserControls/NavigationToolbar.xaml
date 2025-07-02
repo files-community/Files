@@ -351,7 +351,6 @@
 			x:Load="{x:Bind ViewModel.EnableOmnibar, Mode=OneWay}"
 			CurrentSelectedModeName="{x:Bind ViewModel.OmnibarCurrentSelectedModeName, Mode=TwoWay}"
 			IsFocused="{x:Bind ViewModel.IsOmnibarFocused, Mode=TwoWay}"
-			LostFocus="Omnibar_LostFocus"
 			ModeChanged="Omnibar_ModeChanged"
 			PreviewKeyDown="Omnibar_PreviewKeyDown"
 			QuerySubmitted="Omnibar_QuerySubmitted"
