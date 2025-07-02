@@ -368,7 +368,7 @@
 
 		<!--  Review Files Prompt  -->
 		<TeachingTip
-			Title="{helpers:ResourceString Name=ReviewFilesTitle}"
+			Title="{helpers:ResourceString Name=Hello}"
 			Grid.RowSpan="3"
 			HorizontalAlignment="Center"
 			VerticalAlignment="Bottom"
@@ -378,6 +378,19 @@
 			CloseButtonContent="{helpers:ResourceString Name=Dismiss}"
 			IsOpen="{x:Bind ViewModel.ShowReviewPrompt, Mode=OneWay}"
 			Subtitle="{helpers:ResourceString Name=ReviewFilesSubtitle}" />
+
+		<!--  Sponsor Prompt  -->
+		<TeachingTip
+			Title="{helpers:ResourceString Name=Hello}"
+			Grid.RowSpan="3"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Bottom"
+			ActionButtonCommand="{x:Bind ViewModel.SponsorCommand}"
+			ActionButtonContent="{helpers:ResourceString Name=Sponsor}"
+			CloseButtonCommand="{x:Bind ViewModel.DismissSponsorPromptCommand}"
+			CloseButtonContent="{helpers:ResourceString Name=Dismiss}"
+			IsOpen="{x:Bind ViewModel.ShowSponsorPrompt, Mode=OneWay}"
+			Subtitle="{helpers:ResourceString Name=SponsorSubtitle}" />
 
 		<VisualStateManager.VisualStateGroups>
 			<VisualStateGroup x:Name="SidebarWidthStates">
