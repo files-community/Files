@@ -108,6 +108,7 @@
 								<Rectangle
 									Grid.Column="1"
 									Height="1"
+									Margin="0,20,0,0"
 									HorizontalAlignment="Stretch"
 									VerticalAlignment="Center"
 									Stroke="{ThemeResource GridViewHeaderItemDividerStroke}"
