@@ -32,11 +32,6 @@ namespace Files.App.Controls
 				args.TryCancel();
 				return;
 			}
-			else
-			{
-				// Reset to the default mode when Omnibar loses focus
-				CurrentSelectedMode = Modes?.FirstOrDefault();
-			}
 		}
 
 		private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
@@ -50,12 +45,16 @@ namespace Files.App.Controls
 		private void AutoSuggestBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			// TextBox still has focus if the context menu for selected text is open
-			if (_textBox.ContextFlyout.IsOpen)
-				return;
-
+			var element = Microsoft.UI.Xaml.Input.FocusManager.GetFocusedElement(this.XamlRoot);
+			if (element is FlyoutBase or Popup)
+				return; 
+			
 			GlobalHelper.WriteDebugStringForOmnibar("The TextBox lost the focus.");
 
 			IsFocused = false;
+
+			// Reset to the default mode when Omnibar loses focus
+			CurrentSelectedMode = Modes?.FirstOrDefault();
 		}
 
 		private async void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
