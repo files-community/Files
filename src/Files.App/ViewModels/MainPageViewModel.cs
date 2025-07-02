@@ -8,7 +8,6 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using System.Windows.Input;
-using Windows.ApplicationModel;
 using Windows.Services.Store;
 using Windows.System;
 using WinRT.Interop;
@@ -134,11 +133,23 @@ namespace Files.App.ViewModels
 		{
 			get
 			{
-				var isTargetPackage = Package.Current.Id.Name == "49306atecsolution.FilesUWP" || Package.Current.Id.Name == "49306atecsolution.FilesPreview";
-				var hasNotClickedReview = !UserSettingsService.ApplicationSettingsService.ClickedToReviewApp;
+				var isTargetEnvironment = AppLifecycleHelper.AppEnvironment is AppEnvironment.StoreStable or AppEnvironment.StorePreview;
+				var hasClickedReviewPrompt = UserSettingsService.ApplicationSettingsService.HasClickedReviewPrompt;
 				var launchCountReached = AppLifecycleHelper.TotalLaunchCount == 30;
 
-				return isTargetPackage && hasNotClickedReview && launchCountReached;
+				return isTargetEnvironment && !hasClickedReviewPrompt && launchCountReached;
+			}
+		}
+
+		public bool ShowSponsorPrompt
+		{
+			get
+			{
+				var isTargetEnvironment = AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev or AppEnvironment.SideloadStable or AppEnvironment.SideloadPreview;
+				var hasClickedSponsorPrompt = UserSettingsService.ApplicationSettingsService.HasClickedSponsorPrompt;
+				var launchCountReached = AppLifecycleHelper.TotalLaunchCount == 30;
+
+				return isTargetEnvironment && !hasClickedSponsorPrompt && launchCountReached;
 			}
 		}
 
@@ -147,6 +158,8 @@ namespace Files.App.ViewModels
 		public ICommand NavigateToNumberedTabKeyboardAcceleratorCommand { get; }
 		public ICommand ReviewAppCommand { get; }
 		public ICommand DismissReviewPromptCommand { get; }
+		public ICommand SponsorCommand { get; }
+		public ICommand DismissSponsorPromptCommand { get; }
 
 		// Constructor
 
@@ -155,6 +168,8 @@ namespace Files.App.ViewModels
 			NavigateToNumberedTabKeyboardAcceleratorCommand = new RelayCommand<KeyboardAcceleratorInvokedEventArgs>(ExecuteNavigateToNumberedTabKeyboardAcceleratorCommand);
 			ReviewAppCommand = new RelayCommand(ExecuteReviewAppCommand);
 			DismissReviewPromptCommand = new RelayCommand(ExecuteDismissReviewPromptCommand);
+			SponsorCommand = new RelayCommand(ExecuteSponsorCommand);
+			DismissSponsorPromptCommand = new RelayCommand(ExecuteDismissSponsorPromptCommand);
 
 			AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
@@ -322,7 +337,7 @@ namespace Files.App.ViewModels
 
 		private async void ExecuteReviewAppCommand()
 		{
-			UserSettingsService.ApplicationSettingsService.ClickedToReviewApp = true;
+			UserSettingsService.ApplicationSettingsService.HasClickedReviewPrompt = true;
 			OnPropertyChanged(nameof(ShowReviewPrompt));
 
 			try
@@ -336,7 +351,19 @@ namespace Files.App.ViewModels
 
 		private void ExecuteDismissReviewPromptCommand()
 		{
-			UserSettingsService.ApplicationSettingsService.ClickedToReviewApp = true;
+			UserSettingsService.ApplicationSettingsService.HasClickedReviewPrompt = true;
+		}
+
+		private async void ExecuteSponsorCommand()
+		{
+			UserSettingsService.ApplicationSettingsService.HasClickedSponsorPrompt = true;
+			OnPropertyChanged(nameof(ShowSponsorPrompt));
+			await Launcher.LaunchUriAsync(new Uri(Constants.ExternalUrl.SupportUsUrl)).AsTask();
+		}
+
+		private void ExecuteDismissSponsorPromptCommand()
+		{
+			UserSettingsService.ApplicationSettingsService.HasClickedSponsorPrompt = true;
 		}
 
 		private async void ExecuteNavigateToNumberedTabKeyboardAcceleratorCommand(KeyboardAcceleratorInvokedEventArgs? e)

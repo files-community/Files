@@ -205,7 +205,7 @@ namespace Files.App
 			public const string FeatureRequestUrl = @"https://github.com/files-community/Files/issues/new?labels=feature+request&template=feature_request.yml";
 			public const string BugReportUrl = @"https://github.com/files-community/Files/issues/new?labels=bug&template=bug_report.yml";
 			public const string PrivacyPolicyUrl = @"https://files.community/privacy";
-			public const string SupportUsUrl = @"https://github.com/sponsors/yaira2";
+			public const string SupportUsUrl = @"https://github.com/files-community/Files?sponsor";
 			public const string CrowdinUrl = @"https://crowdin.com/project/files-app";
 			public static readonly string ReleaseNotesUrl= $"https://files.community/blog/posts/v{Package.Current.Id.Version.Major}-{Package.Current.Id.Version.Minor}-{Package.Current.Id.Version.Build}?minimal";
 		}

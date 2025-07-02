@@ -61,7 +61,8 @@ namespace Files.App.Helpers
 			{
 				IsAppUpdated = version.ToString() != AppVersion.ToString();
 			}
-			TotalLaunchCount = launchCount is long l ? l + 1 : 1;
+
+			TotalLaunchCount = long.TryParse(launchCount?.ToString(), out var v) ? v + 1 : 1;
 			infoKey.SetValue("LastLaunchVersion", AppVersion.ToString());
 			infoKey.SetValue("TotalLaunchCount", TotalLaunchCount);
 		}

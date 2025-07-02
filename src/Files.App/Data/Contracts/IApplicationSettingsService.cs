@@ -6,9 +6,14 @@ namespace Files.App.Data.Contracts
 	public interface IApplicationSettingsService : IBaseSettingsService
 	{
 		/// <summary>
-		/// Gets or sets a value indicating whether or not the user clicked to review the app.
+		/// Gets or sets a value indicating whether or not the user clicked the 'review' prompt.
 		/// </summary>
-		bool ClickedToReviewApp { get; set; }
+		bool HasClickedReviewPrompt { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not the user clicked the 'sponsor' prompt.
+		/// </summary>
+		bool HasClickedSponsorPrompt { get; set; }
 		
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to display a prompt when running the app as administrator.
