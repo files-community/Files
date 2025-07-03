@@ -1,10 +1,8 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using Windows.System;
-using Windows.UI.Core;
 
 namespace Files.App.Controls
 {
@@ -28,7 +26,7 @@ namespace Files.App.Controls
 
 		private void AutoSuggestBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
 		{
-			if (IsModeButtonPressed)
+			if (args.NewFocusedElement is Button && IsModeButtonPressed)
 			{
 				IsModeButtonPressed = false;
 				args.TryCancel();
@@ -47,12 +45,16 @@ namespace Files.App.Controls
 		private void AutoSuggestBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			// TextBox still has focus if the context menu for selected text is open
-			if (_textBox.ContextFlyout.IsOpen)
+			var element = Microsoft.UI.Xaml.Input.FocusManager.GetFocusedElement(this.XamlRoot);
+			if (element is FlyoutBase or Popup)
 				return;
 
 			GlobalHelper.WriteDebugStringForOmnibar("The TextBox lost the focus.");
 
 			IsFocused = false;
+
+			// Reset to the default mode when Omnibar loses focus
+			CurrentSelectedMode = Modes?.FirstOrDefault();
 		}
 
 		private async void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -112,16 +114,6 @@ namespace Files.App.Controls
 					previouslyFocusedElement?.Focus(FocusState.Programmatic);
 				}
 			}
-			else if (e.Key == VirtualKey.Tab && !InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
-			{
-				GlobalHelper.WriteDebugStringForOmnibar("The TextBox accepted the Tab key.");
-
-				// Focus on inactive content when pressing Tab instead of moving to the next control in the tab order
-				e.Handled = true;
-				IsFocused = false;
-				await Task.Delay(15);
-				CurrentSelectedMode?.ContentOnInactive?.Focus(FocusState.Keyboard);
-			}
 			else
 			{
 				_textChangeReason = OmnibarTextChangeReason.UserInput;
@@ -141,6 +133,8 @@ namespace Files.App.Controls
 				_textChangeReason = OmnibarTextChangeReason.UserInput;
 				_userInput = _textBox.Text;
 			}
+			else if (_textChangeReason is OmnibarTextChangeReason.ProgrammaticChange)
+				_textBox.SelectAll();
 
 			TextChanged?.Invoke(this, new(CurrentSelectedMode, _textChangeReason));
 

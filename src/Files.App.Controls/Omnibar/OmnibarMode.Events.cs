@@ -35,11 +35,6 @@ namespace Files.App.Controls
 			GlobalHelper.WriteDebugStringForOmnibar($"The mouse pointer has been unpressed from the UI area of this Mode ({this})");
 
 			VisualStateManager.GoToState(this, "PointerOver", true);
-
-			owner.IsModeButtonPressed = true;
-
-			// Change the current mode
-			owner.CurrentSelectedMode = this;
 		}
 
 		private void ModeButton_PointerExited(object sender, PointerRoutedEventArgs e)
@@ -47,6 +42,15 @@ namespace Files.App.Controls
 			GlobalHelper.WriteDebugStringForOmnibar($"The mouse pointer has moved away from the UI area of this Mode ({this})");
 
 			VisualStateManager.GoToState(this, "PointerNormal", true);
+		}
+
+		private void ModeButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (_ownerRef is null || _ownerRef.TryGetTarget(out var owner) is false || owner.CurrentSelectedMode == this)
+				return;
+
+			owner.IsModeButtonPressed = true;
+			owner.CurrentSelectedMode = this;
 		}
 	}
 }
