@@ -26,7 +26,7 @@ namespace Files.App.Controls
 
 		private void AutoSuggestBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
 		{
-			if (IsModeButtonPressed)
+			if (args.NewFocusedElement is Button && IsModeButtonPressed)
 			{
 				IsModeButtonPressed = false;
 				args.TryCancel();
