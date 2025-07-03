@@ -47,8 +47,8 @@ namespace Files.App.Controls
 			// TextBox still has focus if the context menu for selected text is open
 			var element = Microsoft.UI.Xaml.Input.FocusManager.GetFocusedElement(this.XamlRoot);
 			if (element is FlyoutBase or Popup)
-				return; 
-			
+				return;
+
 			GlobalHelper.WriteDebugStringForOmnibar("The TextBox lost the focus.");
 
 			IsFocused = false;

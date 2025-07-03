@@ -128,7 +128,7 @@ namespace Files.App.Controls
 				// Add the reposition transition to the all modes
 				mode.Transitions = [new RepositionThemeTransition()];
 				mode.UpdateLayout();
-				mode.IsTabStop = true;
+				mode.IsTabStop = false;
 			}
 
 			var index = _modesHostGrid.Children.IndexOf(newMode);
