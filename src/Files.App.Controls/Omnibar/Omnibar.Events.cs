@@ -26,12 +26,13 @@ namespace Files.App.Controls
 
 		private void AutoSuggestBox_LosingFocus(UIElement sender, LosingFocusEventArgs args)
 		{
-			if (args.NewFocusedElement is Button && IsModeButtonPressed)
-			{
-				IsModeButtonPressed = false;
-				args.TryCancel();
+			// Prevent the TextBox from losing focus when the ModeButton is focused
+			if (args.NewFocusedElement is not Button button ||
+				args.InputDevice is FocusInputDeviceKind.Keyboard ||
+				button.Tag?.ToString() != "ModeButton")
 				return;
-			}
+
+			args.TryCancel();
 		}
 
 		private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)

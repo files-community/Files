@@ -49,7 +49,6 @@ namespace Files.App.Controls
 			if (_ownerRef is null || _ownerRef.TryGetTarget(out var owner) is false || owner.CurrentSelectedMode == this)
 				return;
 
-			owner.IsModeButtonPressed = true;
 			owner.CurrentSelectedMode = this;
 		}
 	}
