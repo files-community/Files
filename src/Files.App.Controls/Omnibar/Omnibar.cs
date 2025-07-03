@@ -33,9 +33,6 @@ namespace Files.App.Controls
 
 		private WeakReference<UIElement?> _previouslyFocusedElement = new(null);
 
-		// NOTE: This is a workaround to keep Omnibar's focus on a mode button being clicked
-		internal bool IsModeButtonPressed { get; set; }
-
 		// Events
 
 		public event TypedEventHandler<Omnibar, OmnibarQuerySubmittedEventArgs>? QuerySubmitted;
