@@ -129,6 +129,7 @@
 						<Button
 							x:Name="PART_ModeButton"
 							Width="{StaticResource OmnibarModeDefaultClickAreaWidth}"
+							Height="{StaticResource OmnibarModeDefaultHeight}"
 							Margin="1"
 							Background="{TemplateBinding Background}"
 							BorderBrush="{TemplateBinding BorderBrush}"
