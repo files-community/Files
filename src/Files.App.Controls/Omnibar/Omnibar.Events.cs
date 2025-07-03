@@ -29,7 +29,7 @@ namespace Files.App.Controls
 			// Prevent the TextBox from losing focus when the ModeButton is focused
 			if (args.NewFocusedElement is not Button button ||
 				args.InputDevice is FocusInputDeviceKind.Keyboard ||
-				button.Tag?.ToString() != "ModeButton")
+				button.Name.ToString() != "PART_ModeButton")
 				return;
 
 			args.TryCancel();
