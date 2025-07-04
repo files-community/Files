@@ -384,10 +384,15 @@
 						<controls:BreadcrumbBar.ItemTemplate>
 							<DataTemplate x:DataType="dataitems:PathBoxItem">
 								<controls:BreadcrumbBarItem
+									AllowDrop="True"
 									AutomationProperties.AccessibilityView="Content"
 									AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
 									ChevronToolTip="{helpers:ResourceString Name=BreadcrumbBarChevronButtonToolTip}"
-									Content="{x:Bind Title, Mode=OneWay}" />
+									Content="{x:Bind Title, Mode=OneWay}"
+									DataContext="{x:Bind}"
+									DragLeave="PathBoxItem_DragLeave"
+									DragOver="PathBoxItem_DragOver"
+									Drop="PathBoxItem_Drop" />
 							</DataTemplate>
 						</controls:BreadcrumbBar.ItemTemplate>
 					</controls:BreadcrumbBar>

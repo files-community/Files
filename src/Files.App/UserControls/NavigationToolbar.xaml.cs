@@ -461,5 +461,20 @@ namespace Files.App.UserControls
 			if (args.NewFocusedElement is TextBox)
 				args.Cancel = true;
 		}
+
+		private void PathBoxItem_DragLeave(object sender, DragEventArgs e)
+		{
+			ViewModel.PathBoxItem_DragLeave(sender, e);
+		}
+
+		private async void PathBoxItem_DragOver(object sender, DragEventArgs e)
+		{
+			await ViewModel.PathBoxItem_DragOver(sender, e);
+		}
+
+		private async void PathBoxItem_Drop(object sender, DragEventArgs e)
+		{
+			await ViewModel.PathBoxItem_Drop(sender, e);
+		}
 	}
 }
