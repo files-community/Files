@@ -462,17 +462,17 @@ namespace Files.App.UserControls
 				args.Cancel = true;
 		}
 
-		private void PathBoxItem_DragLeave(object sender, DragEventArgs e)
+		private void BreadcrumbBarItem_DragLeave(object sender, DragEventArgs e)
 		{
 			ViewModel.PathBoxItem_DragLeave(sender, e);
 		}
 
-		private async void PathBoxItem_DragOver(object sender, DragEventArgs e)
+		private async void BreadcrumbBarItem_DragOver(object sender, DragEventArgs e)
 		{
 			await ViewModel.PathBoxItem_DragOver(sender, e);
 		}
 
-		private async void PathBoxItem_Drop(object sender, DragEventArgs e)
+		private async void BreadcrumbBarItem_Drop(object sender, DragEventArgs e)
 		{
 			await ViewModel.PathBoxItem_Drop(sender, e);
 		}

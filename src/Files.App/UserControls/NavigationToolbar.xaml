@@ -390,9 +390,9 @@
 									ChevronToolTip="{helpers:ResourceString Name=BreadcrumbBarChevronButtonToolTip}"
 									Content="{x:Bind Title, Mode=OneWay}"
 									DataContext="{x:Bind}"
-									DragLeave="PathBoxItem_DragLeave"
-									DragOver="PathBoxItem_DragOver"
-									Drop="PathBoxItem_Drop" />
+									DragLeave="BreadcrumbBarItem_DragLeave"
+									DragOver="BreadcrumbBarItem_DragOver"
+									Drop="BreadcrumbBarItem_Drop" />
 							</DataTemplate>
 						</controls:BreadcrumbBar.ItemTemplate>
 					</controls:BreadcrumbBar>
