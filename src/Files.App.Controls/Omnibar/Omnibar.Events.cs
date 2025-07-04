@@ -40,6 +40,8 @@ namespace Files.App.Controls
 			GlobalHelper.WriteDebugStringForOmnibar("The TextBox got the focus.");
 
 			IsFocused = true;
+			IsFocusedChanged?.Invoke(this, new(IsFocused));
+
 			_textBox.SelectAll();
 		}
 
@@ -53,6 +55,7 @@ namespace Files.App.Controls
 			GlobalHelper.WriteDebugStringForOmnibar("The TextBox lost the focus.");
 
 			IsFocused = false;
+			IsFocusedChanged?.Invoke(this, new(IsFocused));
 
 			// Reset to the default mode when Omnibar loses focus
 			CurrentSelectedMode = Modes?.FirstOrDefault();

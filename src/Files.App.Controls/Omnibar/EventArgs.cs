@@ -10,4 +10,6 @@ namespace Files.App.Controls
 	public record class OmnibarTextChangedEventArgs(OmnibarMode Mode, OmnibarTextChangeReason Reason);
 
 	public record class OmnibarModeChangedEventArgs(OmnibarMode? OldMode, OmnibarMode NewMode);
+
+	public record class OmnibarIsFocusedChangedEventArgs(bool IsFocused);
 }
