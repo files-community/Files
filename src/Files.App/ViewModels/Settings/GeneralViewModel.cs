@@ -521,6 +521,19 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool ShowOpenTerminal
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowOpenTerminal;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowOpenTerminal)
+				{
+					UserSettingsService.GeneralSettingsService.ShowOpenTerminal = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		private string selectedShellPaneArrangementType;
 		public string SelectedShellPaneArrangementType
 		{

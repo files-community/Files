@@ -4264,4 +4264,7 @@
   <data name="SeeMore" xml:space="preserve">
     <value>See more</value>
   </data>
+  <data name="ShowOpenTerminal" xml:space="preserve">
+    <value>Show option to open folders in Windows Terminal</value>
+  </data>
 </root>
