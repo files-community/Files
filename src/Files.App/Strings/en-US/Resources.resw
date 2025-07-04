@@ -4273,4 +4273,7 @@
   <data name="Filename" xml:space="preserve">
     <value>Filename</value>
   </data>
+  <data name="ShowOpenTerminal" xml:space="preserve">
+    <value>Show option to open folders in Windows Terminal</value>
+  </data>
 </root>

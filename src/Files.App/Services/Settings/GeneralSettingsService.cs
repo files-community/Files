@@ -281,6 +281,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool ShowOpenTerminal
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		public bool ShowCopyPath
 		{
 			get => Get(true);
