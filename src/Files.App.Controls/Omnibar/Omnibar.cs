@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media.Animation;
 using Windows.Foundation;
@@ -246,7 +245,8 @@ namespace Files.App.Controls
 			_textBox.Text = text;
 
 			// Move the cursor to the end of the TextBox
-			_textBox?.Select(_textBox.Text.Length, 0);
+			if (_textChangeReason == OmnibarTextChangeReason.SuggestionChosen)
+				_textBox?.Select(_textBox.Text.Length, 0);
 		}
 
 		private void SubmitQuery(object? item)
