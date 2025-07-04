@@ -350,7 +350,7 @@
 			Grid.Column="1"
 			x:Load="{x:Bind ViewModel.EnableOmnibar, Mode=OneWay}"
 			CurrentSelectedModeName="{x:Bind ViewModel.OmnibarCurrentSelectedModeName, Mode=TwoWay}"
-			IsFocused="{x:Bind ViewModel.IsOmnibarFocused, Mode=TwoWay}"
+			IsFocusedChanged="Omnibar_IsFocusedChanged"
 			ModeChanged="Omnibar_ModeChanged"
 			PreviewKeyDown="Omnibar_PreviewKeyDown"
 			QuerySubmitted="Omnibar_QuerySubmitted"
@@ -458,8 +458,44 @@
 				IconOnInactive="{controls:ThemedIconMarkup Style={StaticResource App.ThemedIcons.Omnibar.Search}, IconType=Outline}"
 				IsAutoFocusEnabled="True"
 				IsEnabled="False"
+				ItemsSource="{x:Bind ViewModel.OmnibarSearchModeSuggestionItems, Mode=OneWay}"
 				ModeName="{x:Bind Commands.Search.LabelWithHotKey, Mode=OneWay}"
-				PlaceholderText="{helpers:ResourceString Name=OmnibarSearchModeTextPlaceholder}" />
+				PlaceholderText="{helpers:ResourceString Name=OmnibarSearchModeTextPlaceholder}"
+				Text="{x:Bind ViewModel.OmnibarSearchModeText, Mode=TwoWay}"
+				UpdateTextOnSelect="False">
+				<controls:OmnibarMode.ItemTemplate>
+					<DataTemplate x:DataType="datamodels:SuggestionModel">
+						<Grid ColumnSpacing="8" Tag="{x:Bind ItemPath}">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<Grid
+								Grid.Column="0"
+								Width="16"
+								Height="16"
+								Tag="ItemImage">
+								<Border x:Name="IconArea" x:Load="{x:Bind LoadFileIcon, Mode=OneWay}">
+									<Image
+										Width="16"
+										Height="16"
+										Source="{x:Bind FileImage, Mode=OneWay}"
+										Stretch="Uniform" />
+								</Border>
+								<FontIcon
+									x:Name="EmptyIconGlyph"
+									x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}"
+									FontSize="14"
+									Glyph="{x:Bind IsRecentSearch, Mode=OneTime, Converter={StaticResource SearchSuggestionGlyphConverter}}" />
+							</Grid>
+							<TextBlock
+								Grid.Column="1"
+								VerticalAlignment="Center"
+								Text="{x:Bind Name}" />
+						</Grid>
+					</DataTemplate>
+				</controls:OmnibarMode.ItemTemplate>
+			</controls:OmnibarMode>
 
 		</controls:Omnibar>
 
