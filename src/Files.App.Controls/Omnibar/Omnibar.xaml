@@ -130,6 +130,7 @@
 							x:Name="PART_ModeButton"
 							Width="{StaticResource OmnibarModeDefaultClickAreaWidth}"
 							Margin="1"
+							VerticalAlignment="Stretch"
 							Background="{TemplateBinding Background}"
 							BorderBrush="{TemplateBinding BorderBrush}"
 							BorderThickness="0"
