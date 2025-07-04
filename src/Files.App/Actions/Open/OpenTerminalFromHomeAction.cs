@@ -6,6 +6,7 @@ namespace Files.App.Actions
 	internal sealed partial class OpenTerminalFromHomeAction : OpenTerminalAction
 	{
 		private IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public override string Label
 			=> Strings.OpenTerminal.GetLocalizedResource();
@@ -14,6 +15,7 @@ namespace Files.App.Actions
 			=> Strings.OpenTerminalDescription.GetLocalizedResource();
 
 		public override bool IsExecutable =>
+			UserSettingsService.GeneralSettingsService.ShowOpenTerminal &&
 			HomePageContext.IsAnyItemRightClicked &&
 			HomePageContext.RightClickedItem is not null &&
 			(HomePageContext.RightClickedItem is WidgetFileTagCardItem fileTagItem
