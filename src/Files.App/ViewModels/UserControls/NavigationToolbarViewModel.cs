@@ -468,7 +468,6 @@ namespace Files.App.ViewModels.UserControls
 		public void PathBoxItem_DragLeave(object sender, DragEventArgs e)
 		{
 			if (((FrameworkElement)sender).DataContext is not PathBoxItem pathBoxItem ||
-				pathBoxItem == null ||
 				pathBoxItem.Path == "Home" ||
 				pathBoxItem.Path == "ReleaseNotes" ||
 				pathBoxItem.Path == "Settings")
@@ -492,7 +491,6 @@ namespace Files.App.ViewModels.UserControls
 			_dragOverPath = null;
 
 			if (((FrameworkElement)sender).DataContext is not PathBoxItem pathBoxItem ||
-				pathBoxItem == null ||
 				pathBoxItem.Path == "Home" ||
 				pathBoxItem.Path == "ReleaseNotes" ||
 				pathBoxItem.Path == "Settings")
@@ -524,7 +522,6 @@ namespace Files.App.ViewModels.UserControls
 		{
 			if (IsSingleItemOverride ||
 				((FrameworkElement)sender).DataContext is not PathBoxItem pathBoxItem ||
-				pathBoxItem == null ||
 				pathBoxItem.Path == "Home" ||
 				pathBoxItem.Path == "ReleaseNotes" ||
 				pathBoxItem.Path == "Settings")
