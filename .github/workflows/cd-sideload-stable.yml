@@ -145,20 +145,15 @@ jobs:
         timestamp-rfc3161: http://timestamp.acs.microsoft.com
         timestamp-digest: SHA256
 
-    - name: Login to Azure
-      uses: azure/login@v2
+    - name: Upload packages to Cloudflare
+      uses: ryand56/r2-upload-action@latest
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-    - name: Upload to Azure blob storage
-      uses: azure/powershell@v2
-      with:
-        inlineScript: |
-          az storage blob upload-batch --account-name "filescommunity" --destination "files" --destination-path "stable" --source ${{ env.APPX_PACKAGE_DIR }} --overwrite true
-        azPSVersion: "latest"
-
-    - name: Logout from Azure
-      run: 'az logout'
+        r2-account-id: ${{ secrets.R2_ACCOUNT_ID }}
+        r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
+        r2-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        r2-bucket: ${{ secrets.R2_BUCKET }}
+        source-dir: ${{ env.APPX_PACKAGE_DIR }}
+        destination-dir: ./files/stable
           
     - name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v4
