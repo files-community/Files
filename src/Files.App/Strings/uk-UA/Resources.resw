@@ -217,7 +217,7 @@
     <value>Відображати приховані файли та папки</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Файли, що починаються з крапки</value>
+    <value>Показувати файли, які починаються з крапки</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Оформлення</value>
@@ -1089,7 +1089,7 @@
     <value>Перемкнути інформаційну панель</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle visibility of the detail/preview panes</value>
+    <value>Увімк. / Вимк. видимість деталей / передперегляду панелей</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
     <value>Сховати / Показати панель інструментів</value>
@@ -2012,11 +2012,23 @@
   <data name="Behaviors" xml:space="preserve">
     <value>Поведінки</value>
   </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>Оцінити Files</value>
+  <data name="Hello" xml:space="preserve">
+    <value>Привіт!</value>
   </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Бажаєте залишити відгук про Files?</value>
+  <data name="ReviewFilesSubtitle" xml:space="preserve">
+    <value>Подобається Files? Залиште відгук у Microsoft Store.</value>
+  </data>  
+  <data name="SponsorSubtitle" xml:space="preserve">
+    <value>Подобається Files? Підтримайте проєкт на GitHub.</value>
+  </data>
+  <data name="Sponsor" xml:space="preserve">
+    <value>Спонсор</value>
+  </data>
+  <data name="RateUs" xml:space="preserve">
+    <value>Оцінити нас</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Відхилити</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Встановити як тло</value>
@@ -2421,31 +2433,31 @@
     <value>Перемкнути для показу бічної панелі</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy selected {0, plural, one {item} other {items}}</value>
+    <value>Скопіювати {0, plural, one {вибраний елемент} few {вибрані елементи} many {вибраних елементів} other {вибраних елементів}}</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of the current directory</value>
+    <value>Копіювати шлях поточної теки</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Copy path of selected items</value>
+    <value>Копіювати шлях вибраних елементів</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of selected items with quotes</value>
+    <value>Копіювати шлях вибраних елементів у лапках</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of the current directory with quotes</value>
+    <value>Копіювати шлях поточної теки в лапках</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut selected {0, plural, one {item} other {items}}</value>
+    <value>Вирізати {0, plural, one {вибраний елемент} few {вибрані елементи} many {вибраних елементів} other {вибраних елементів}}</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste items to the current folder</value>
+    <value>Вставити елементи до поточної теки</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items to the current folder as shortcuts</value>
+    <value>Вставити елементи до поточної теки як ярлики</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items to the selected folder</value>
+    <value>Вставити елементи до вибраної теки</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
     <value>Вставити до вибраної теки</value>
@@ -2568,13 +2580,13 @@
     <value>Створити zip-архів з {0, plural, one {вибраним елементом} few {вибраними елементами} many {вибраними елементами} other {вибраними елементами}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
+    <value>Витягнути {0, plural, one {вибраний архів} few {вибрані архіви} many {вибраних архівів} other {вибраних архівів}} до будь-якої теки</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
+    <value>Витягнути {0, plural, one {вибраний архів} few {вибрані архіви} many {вибраних архівів} other {вибраних архівів}} до поточної теки</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
+    <value>Витягнути {0, plural, one {вибраний архів} few {вибрані архіви} many {вибраних архівів} other {вибраних архівів}} до нової теки</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>Обернути {0, plural, one {вибране зображення} few {вибрані зображення} many {вибраних зображень} other {вибраних зображень}} ліворуч</value>
@@ -3746,7 +3758,7 @@
     <value>При застосуванні цього тега сталася помилка</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
+    <value>Витягнути {0, plural, one {вибраний архів} few {вибрані архіви} many {вибраних архівів} other {вибраних архівів}} сюди для одного елемента або в нову теку для декількох</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Видобути тут (Smart)</value>
@@ -4250,6 +4262,6 @@
     <value>Немає команд, що містять {0}</value>
   </data>
   <data name="SeeMore" xml:space="preserve">
-    <value>See more</value>
+    <value>Показати більше</value>
   </data>
 </root>
