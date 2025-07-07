@@ -217,7 +217,7 @@
     <value>Afficher les fichiers et dossiers cachés</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Fichiers DOT</value>
+    <value>Afficher les fichiers dont le nom commence par un point</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Apparence</value>
@@ -771,7 +771,7 @@
     <value>Format</value>
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
-    <value>Taux d'échantillonnage</value>
+    <value>Fréquence d'échantillonnage</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
     <value>Artiste de l'album</value>
@@ -1089,7 +1089,7 @@
     <value>Afficher/Masquer le volet d'informations</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle visibility of the detail/preview panes</value>
+    <value>Activer/Désactiver la visibilité des panneaux de détails/aperçu</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
     <value>Afficher/Masquer la barre d'outils</value>
@@ -1203,7 +1203,7 @@
     <value>Arguments</value>
   </data>
   <data name="Default" xml:space="preserve">
-    <value>Défaut</value>
+    <value>Par défaut</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Nombre d'éléments</value>
@@ -2012,11 +2012,23 @@
   <data name="Behaviors" xml:space="preserve">
     <value>Comportements</value>
   </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>Évaluer Files</value>
+  <data name="Hello" xml:space="preserve">
+    <value>Bonjour !</value>
   </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Souhaitez-vous laisser une évaluation de Files ?</value>
+  <data name="ReviewFilesSubtitle" xml:space="preserve">
+    <value>Vous appréciez Files ? Pensez à laisser un avis dans le Microsoft Store.</value>
+  </data>  
+  <data name="SponsorSubtitle" xml:space="preserve">
+    <value>Vous appréciez Files ? Pensez à soutenir le projet sur GitHub.</value>
+  </data>
+  <data name="Sponsor" xml:space="preserve">
+    <value>Sponsor</value>
+  </data>
+  <data name="RateUs" xml:space="preserve">
+    <value>Laisser un avis</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Ignorer</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Définir comme fond d'écran</value>
@@ -2268,7 +2280,7 @@
     <value>Version de l'application</value>
   </data>
   <data name="WindowsVersion" xml:space="preserve">
-    <value>Version Windows</value>
+    <value>Version de Windows</value>
   </data>
   <data name="Always" xml:space="preserve">
     <value>Toujours</value>
@@ -2409,7 +2421,7 @@
     <value>Activer/Désactiver la visibilité des éléments cachés</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Activer/Désactiver la visibilité des fichiers DOT</value>
+    <value>Activer/Désactiver la visibilité des fichiers dont le nom commence par un point</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Activer/Désactiver la visibilité des extensions de fichiers</value>
@@ -2421,31 +2433,31 @@
     <value>Afficher/Masquer la barre latérale</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy selected {0, plural, one {item} other {items}}</value>
+    <value>Copier {0, plural, one {l’élément sélectionné} other {les éléments sélectionnés}}</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of the current directory</value>
+    <value>Copier le chemin du dossier actuel</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Copy path of selected items</value>
+    <value>Copier le chemin des éléments sélectionnés</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of selected items with quotes</value>
+    <value>Copier le chemin des éléments sélectionnés avec des guillemets</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of the current directory with quotes</value>
+    <value>Copier le chemin du dossier actuel avec des guillemets</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut selected {0, plural, one {item} other {items}}</value>
+    <value>Couper {0, plural, one {l’élément sélectionné} other {les éléments sélectionnés}}</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste items to the current folder</value>
+    <value>Coller les éléments dans le dossier actuel</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items to the current folder as shortcuts</value>
+    <value>Coller les éléments dans le dossier actuel comme raccourcis</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items to the selected folder</value>
+    <value>Coller les éléments dans le dossier sélectionné</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
     <value>Coller dans le dossier sélectionné</value>
@@ -2550,7 +2562,7 @@
     <value>Exécuter l'application sélectionnée en tant qu'administrateur</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>Exécuter l'application sélectionnée en tant qu'un autre utilisateur</value>
+    <value>Exécuter l’application sélectionnée en tant qu’autre utilisateur</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>Exécuter le script PowerShell sélectionné</value>
@@ -2568,13 +2580,13 @@
     <value>Créer une archive ZIP avec {0, plural, one {l'élément sélectionné} other {les éléments sélectionnés}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
+    <value>Extraire {0, plural, one {l'archive sélectionnée} other {les archives sélectionnées}} vers n'importe quel dossier</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
+    <value>Extraire {0, plural, one {l'archive sélectionnée} other {les archives sélectionnées}} vers le dossier actuel</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
+    <value>Extraire {0, plural, one {l'archive sélectionnée} other {les archives sélectionnées}} vers un nouveau dossier</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>Tourner {0, plural, one {l'image sélectionnée} other {les images sélectionnées}} vers la gauche</value>
@@ -2718,16 +2730,16 @@
     <value>Dupliquer l'onglet sélectionné</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Fermer les onglets à la gauche de l'onglet actuel</value>
+    <value>Fermer les onglets à gauche de l’onglet actuel</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
-    <value>Fermer les onglets à la gauche de l'onglet sélectionné</value>
+    <value>Fermer les onglets à gauche de l’onglet sélectionné</value>
   </data>
   <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
     <value>Fermer les onglets à droite de l'onglet actuel</value>
   </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
-    <value>Fermer les onglets à la droite de l'onglet sélectionné</value>
+    <value>Fermer les onglets à droite de l'onglet sélectionné</value>
   </data>
   <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
     <value>Fermer les onglets autres que l'onglet actuel</value>
@@ -2742,7 +2754,7 @@
     <value>Restaurer le dernier onglet fermé</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
-    <value>Revenir à l'onglet précédent</value>
+    <value>Passer à l'onglet précédent</value>
   </data>
   <data name="NextTabDescription" xml:space="preserve">
     <value>Passer à l'onglet suivant</value>
@@ -3746,7 +3758,7 @@
     <value>Une erreur s'est produite lors de l'application de cette étiquette</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
+    <value>Extraire {0, plural, one {l'archive sélectionnée} other {les archives sélectionnées}} ici pour un seul élément ou dans un nouveau dossier pour plusieurs éléments</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Extraire ici (Intelligent)</value>
@@ -4250,6 +4262,6 @@
     <value>Il n'y a aucune commande contenant {0}</value>
   </data>
   <data name="SeeMore" xml:space="preserve">
-    <value>See more</value>
+    <value>Voir plus</value>
   </data>
 </root>

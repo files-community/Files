@@ -217,7 +217,7 @@
     <value>Afișează fișierele și dosarele ascunse</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Fișiere punct</value>
+    <value>Afișare fișiere punct</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Aspect vizual</value>
@@ -582,10 +582,10 @@
     <value>Raportați această problemă</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>Fișierul la care s-a făcut referire este fie invalid, fie inaccesibil.{0}Mesaj de eroare:{0}{1}</value>
+    <value>Fișierul la care s-a făcut referire este fie nevalid, fie inaccesibil.{0}Mesaj de eroare:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
-    <value>Element invalid</value>
+    <value>Element nevalid</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
     <value>Versiune:</value>
@@ -1059,7 +1059,7 @@
     <value>Deschideți într-un panou nou</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value>Fișiere &amp; dosare</value>
+    <value>Fișiere și foldere</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detalii (Ctrl+Shift+1)</value>
@@ -1740,7 +1740,7 @@
     <value>Caracteristici experimentale</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>Asistență şi suport</value>
+    <value>Ajutor și asistență</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
     <value>Trimiteți o cerere de funcție</value>
@@ -2012,11 +2012,23 @@
   <data name="Behaviors" xml:space="preserve">
     <value>Comportamente</value>
   </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>Lăsați o recenzie pentru Files</value>
+  <data name="Hello" xml:space="preserve">
+    <value>Salut!</value>
   </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Doriți să revizuiți Files?</value>
+  <data name="ReviewFilesSubtitle" xml:space="preserve">
+    <value>Vă place Files? Vă rugăm să luați în considerare lăsarea unei recenzii în Microsoft Store.</value>
+  </data>  
+  <data name="SponsorSubtitle" xml:space="preserve">
+    <value>Vă place Files? Vă rugăm să luați în considerare susținerea proiectului pe GitHub.</value>
+  </data>
+  <data name="Sponsor" xml:space="preserve">
+    <value>Sponsorizare</value>
+  </data>
+  <data name="RateUs" xml:space="preserve">
+    <value>Acordați-ne o notă</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Ignorare</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Setați ca fundal</value>
@@ -2463,7 +2475,7 @@
     <value>Creați o comandă rapidă către orice element</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
-    <value>Golire Coș de Reciclare</value>
+    <value>Golire Coș de reciclare</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
     <value>Deschideți meniul "Formatare unitate" pentru elementul selectat</value>

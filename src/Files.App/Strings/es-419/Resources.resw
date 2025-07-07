@@ -217,7 +217,7 @@
     <value>Mostrar todos los archivos y carpetas ocultos</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Archivos de punto</value>
+    <value>Mostrar archivos que comienzan con un punto</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Apariencia</value>
@@ -1089,7 +1089,7 @@
     <value>Mostrar panel de información</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle visibility of the detail/preview panes</value>
+    <value>Cambiar la visibilidad de los paneles de detalles/vista previa</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
     <value>Mostrar/Ocultar barra de herramientas</value>
@@ -2012,11 +2012,23 @@
   <data name="Behaviors" xml:space="preserve">
     <value>Comportamiento</value>
   </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>Revisar Files</value>
+  <data name="Hello" xml:space="preserve">
+    <value>Hello!</value>
   </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>¿Le gustaría hacer una reseña de Files?</value>
+  <data name="ReviewFilesSubtitle" xml:space="preserve">
+    <value>¿Disfrutando de Files? Por favor, considere hacer una reseña en Microsoft Store.</value>
+  </data>  
+  <data name="SponsorSubtitle" xml:space="preserve">
+    <value>Enjoying Files? Please consider supporting the project on GitHub.</value>
+  </data>
+  <data name="Sponsor" xml:space="preserve">
+    <value>Sponsor</value>
+  </data>
+  <data name="RateUs" xml:space="preserve">
+    <value>Valórenos</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Descartar</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Establecer como fondo de pantalla</value>
@@ -2421,31 +2433,31 @@
     <value>Mostrar o no la barra lateral</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy selected {0, plural, one {item} other {items}}</value>
+    <value>Copiar {0, plural, one {elemento seleccionado} other {elementos seleccionados}}</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of the current directory</value>
+    <value>Copiar ruta del directorio actual</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Copy path of selected items</value>
+    <value>Copiar ruta de los elementos seleccionados</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of selected items with quotes</value>
+    <value>Copiar ruta entre comillas de los elementos seleccionados</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of the current directory with quotes</value>
+    <value>Copiar ruta entre comillas del directorio actual</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut selected {0, plural, one {item} other {items}}</value>
+    <value>Cortar {0, plural, one {elemento seleccionado} other {elementos seleccionados}}</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste items to the current folder</value>
+    <value>Pegar elementos a la carpeta actual</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items to the current folder as shortcuts</value>
+    <value>Pegar elementos a la carpeta actual como accesos directos</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items to the selected folder</value>
+    <value>Pegar elementos a la carpeta seleccionada</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
     <value>Pegar a la carpeta seleccionada</value>
@@ -2568,13 +2580,13 @@
     <value>Crea archivo zip con {0, plural, one {elemento seleccionado} other {elementos seleccionados}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
+    <value>Extraer {0, plural, one {archivo seleccionado} other {archivos seleccionados}} en cualquier carpeta</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
+    <value>Extraer {0, plural, one {archivo seleccionado} other {archivos seleccionados}} a la carpeta actual</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
+    <value>Extraer {0, plural, one {archivo seleccionado} other {archivos seleccionados}} en una nueva carpeta</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>Gira {0, plural, one {imagen seleccionada} other {imágenes seleccionadas}} a la izquierda</value>
@@ -3746,7 +3758,7 @@
     <value>Se ha producido un error al aplicar esta etiqueta</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
+    <value>Extraer {0, plural, one {archivo seleccionado} other {archivos seleccionados}} aquí para un solo elemento o a una nueva carpeta para varios elementos</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Extraer aquí (Inteligente)</value>
@@ -4250,6 +4262,6 @@
     <value>No hay comandos que contengan {0}</value>
   </data>
   <data name="SeeMore" xml:space="preserve">
-    <value>See more</value>
+    <value>Ver más</value>
   </data>
 </root>

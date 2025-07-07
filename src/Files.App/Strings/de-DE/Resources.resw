@@ -217,7 +217,7 @@
     <value>Versteckte Dateien und Ordner anzeigen</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Dateien, die mit einem Punkt beginnen</value>
+    <value>Dateien, die mit einem Punkt beginnen, anzeigen</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Erscheinungsbild</value>
@@ -1089,7 +1089,7 @@
     <value>Infobereich umschalten</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle visibility of the detail/preview panes</value>
+    <value>Detail-/Vorschaufenster ein-/ausblenden</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
     <value>Symbolleiste umschalten</value>
@@ -1404,7 +1404,7 @@
     <value>Umbenennen</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>Privatsphäre</value>
+    <value>Datenschutz</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>Der Papierkorb</value>
@@ -2012,11 +2012,23 @@
   <data name="Behaviors" xml:space="preserve">
     <value>Verhalten</value>
   </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>File bewerten</value>
+  <data name="Hello" xml:space="preserve">
+    <value>Hallo!</value>
   </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Willst du Files bewerten?</value>
+  <data name="ReviewFilesSubtitle" xml:space="preserve">
+    <value>Gefällt dir Files? Bitte hinterlasse eine Bewertung im Microsoft Store.</value>
+  </data>  
+  <data name="SponsorSubtitle" xml:space="preserve">
+    <value>Gefällt dir Files? Bitte unterstütze das Projekt auf GitHub.</value>
+  </data>
+  <data name="Sponsor" xml:space="preserve">
+    <value>Unterstützen</value>
+  </data>
+  <data name="RateUs" xml:space="preserve">
+    <value>Bewerte uns</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Verwerfen</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Als Hintergrund festlegen</value>
@@ -2421,31 +2433,31 @@
     <value>Umschalten, ob Seitenleiste angezeigt werden soll</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy selected {0, plural, one {item} other {items}}</value>
+    <value>{0, plural, one {Ausgewähltes Element} other {Ausgewählte Elemente}} kopieren</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of the current directory</value>
+    <value>Pfad des aktuellen Ordners kopieren</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Copy path of selected items</value>
+    <value>Pfad der ausgewählten Elemente kopieren</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of selected items with quotes</value>
+    <value>Pfad der ausgewählten Elemente mit Anführungszeichen kopieren</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of the current directory with quotes</value>
+    <value>Pfad des aktuellen Ordners mit Anführungszeichen kopieren</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut selected {0, plural, one {item} other {items}}</value>
+    <value>{0, plural, one {Ausgewähltes Element} other {Ausgewählte Elemente}} ausschneiden</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste items to the current folder</value>
+    <value>Elemente in den aktuellen Ordner einfügen</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items to the current folder as shortcuts</value>
+    <value>Elemente als Verknüpfungen in den aktuellen Ordner einfügen</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items to the selected folder</value>
+    <value>Elemente in den ausgewählten Ordner einfügen</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
     <value>In ausgewählten Ordner einfügen</value>
@@ -2568,13 +2580,13 @@
     <value>ZIP-Archiv mit {0, plural, one {ausgewähltem Element} other {ausgewählten Elementen}} erstellen</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
+    <value>{0, plural, one {Ausgewähltes Archiv} other {Ausgewählte Archive}} in einen beliebigen Ordner entpacken</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
+    <value>{0, plural, one {Ausgewähltes Archiv} other {Ausgewählte Archive}} in den aktuellen Ordner entpacken</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
+    <value>{0, plural, one {Ausgewähltes Archiv} other {Ausgewählte Archive}} in einen neuen Ordner entpacken</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>{0, plural, one {Ausgewähltes Bild} other {Ausgewählte Bilder}} nach links drehen</value>
@@ -3746,7 +3758,7 @@
     <value>Beim Anwenden dieses Tags ist ein Fehler aufgetreten</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
+    <value>{0, plural, one {Ausgewähltes Archiv} other {Ausgewählte Archive}} hier entpacken (einzeln) oder in neuen Ordner entpacken (mehrere)</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Hier entpacken (Smart)</value>
@@ -4250,6 +4262,6 @@
     <value>Es gibt keine Befehle, die {0} enthalten</value>
   </data>
   <data name="SeeMore" xml:space="preserve">
-    <value>See more</value>
+    <value>Mehr anzeigen</value>
   </data>
 </root>

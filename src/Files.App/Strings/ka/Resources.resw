@@ -217,7 +217,7 @@
     <value>დამალული ფაილების და საქაღალდეების ჩვენება</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Dot files</value>
+    <value>Show dot files</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>შესახედაობა</value>
@@ -2012,11 +2012,23 @@
   <data name="Behaviors" xml:space="preserve">
     <value>Behaviors</value>
   </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+  <data name="Hello" xml:space="preserve">
+    <value>Hello!</value>
   </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+  <data name="ReviewFilesSubtitle" xml:space="preserve">
+    <value>Enjoying Files? Please consider reviewing in the Microsoft Store.</value>
+  </data>  
+  <data name="SponsorSubtitle" xml:space="preserve">
+    <value>Enjoying Files? Please consider supporting the project on GitHub.</value>
+  </data>
+  <data name="Sponsor" xml:space="preserve">
+    <value>Sponsor</value>
+  </data>
+  <data name="RateUs" xml:space="preserve">
+    <value>Rate us</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Dismiss</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Set as background</value>

@@ -124,13 +124,13 @@
     <value>Kopyahin ang daan</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Copy item path</value>
+    <value>Kopyahin ang Path</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value/>
   </data>
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
-    <value>Copy selected item path with quotes</value>
+    <value>Kopyahin ang path ng item kasama ang quotes</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Mag-browse</value>
@@ -166,7 +166,7 @@
     <value>Laktawan</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>Piliin lahat</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value/>
@@ -217,13 +217,13 @@
     <value>Ipakita ang mga natatagong file at folder</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Dot files</value>
+    <value>Show dot files</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Hitsura</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Kulay ng background</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Pinahusay</value>
@@ -256,7 +256,7 @@
     <value>I-paste</value>
   </data>
   <data name="PasteShortcut" xml:space="preserve">
-    <value>Paste shortcut</value>
+    <value>I-paste ang shortcut</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Bago</value>
@@ -289,7 +289,7 @@
     <value>Maligayang pagdating sa Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Grant permission</value>
+    <value>Bigyan ng permiso</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
     <value>Upang makapagsimula, kakailanganin mong bigyan kami ng pahintulot na ipakita ang iyong mga file. Magbubukas ito ng setting kung saan maaari mong ibigay sa amin ang pahintulot na ito. Kakailanganin mong muling buksan ang app kapag nakumpleto mo na ang hakbang na ito. </value>
@@ -301,7 +301,7 @@
     <value>Pangalanan ang bagay</value>
   </data>
   <data name="CreateNewItemTitle" xml:space="preserve">
-    <value>Create new {0}</value>
+    <value>Gumawa ng bagong Item {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Maliwanag</value>
@@ -316,10 +316,10 @@
     <value>Sistema</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>New folder</value>
+    <value>Bagong folder</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>New file</value>
+    <value>Bagong file</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>Walang laman ang folder na ito.</value>
@@ -349,7 +349,7 @@
     <value>I-set bilang background ng lock screen</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>I-set bilang app background</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Hindi namin natanggal ang item na ito</value>
@@ -358,13 +358,13 @@
     <value>Mangyaring ipasok ang kinakailangang drive upang ma-access ang item na ito.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>Natanggal ang Drive</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>Ang file na iyong sinusubukang i-access ay maaaring nailipat o nabura na.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
-    <value>Cannot open properties for this file</value>
+    <value>Hindi mabuksan ang properties para sa file na ito</value>
   </data>
   <data name="CannotAccessPropertiesContent" xml:space="preserve">
     <value>Ang file na iyong sinusubukang i-access ay maaaring nailipat o nabura na.</value>
@@ -394,28 +394,28 @@
     <value>Pagbasa-lamang</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0, plural, one {# day ago} other {# days ago}}</value>
+    <value>{0, plural, one {# na araw} other {# na mga araw}}</value>
   </data>
   <data name="DaysAgo_Singular" xml:space="preserve">
-    <value>1 day ago</value>
+    <value>1 araw na nakalipas</value>
   </data>
   <data name="DaysAgo_Plural" xml:space="preserve">
-    <value>{0} days ago</value>
+    <value>{0} mga araw ang nakalipas</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
+    <value>{0, plural, one {# na oras} other {# na mga oras}}</value>
   </data>
   <data name="HoursAgo_Singular" xml:space="preserve">
-    <value>1 hour ago</value>
+    <value>1 oras na nakalipas</value>
   </data>
   <data name="HoursAgo_Plural" xml:space="preserve">
-    <value>{0} hours ago</value>
+    <value>{0} mga oras ang nakalipas</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>{0, plural, one {# minute ago} other {# minutes ago}}</value>
+    <value>{0, plural, one {# na minuto} other {# na mga minuto}}</value>
   </data>
   <data name="MinutesAgo_Singular" xml:space="preserve">
-    <value>1 minute ago</value>
+    <value>1 minuto ang nakaraan</value>
   </data>
   <data name="MinutesAgo_Plural" xml:space="preserve">
     <value>{0} minutes ago</value>
@@ -2012,11 +2012,23 @@
   <data name="Behaviors" xml:space="preserve">
     <value>Mga pag-uugali</value>
   </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>Suriin ang Files</value>
+  <data name="Hello" xml:space="preserve">
+    <value>Hello!</value>
   </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Gusto mo bang suriin ang Files?</value>
+  <data name="ReviewFilesSubtitle" xml:space="preserve">
+    <value>Enjoying Files? Please consider reviewing in the Microsoft Store.</value>
+  </data>  
+  <data name="SponsorSubtitle" xml:space="preserve">
+    <value>Enjoying Files? Please consider supporting the project on GitHub.</value>
+  </data>
+  <data name="Sponsor" xml:space="preserve">
+    <value>Sponsor</value>
+  </data>
+  <data name="RateUs" xml:space="preserve">
+    <value>Rate us</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Dismiss</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Itakda bilang background</value>

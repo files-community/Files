@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NewWindow" xml:space="preserve">
-    <value>Tetingkap baru</value>
+    <value>Tetingkap baharu</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>Salin laluan</value>
@@ -187,7 +187,7 @@
     <value>Masukkan laluan untuk navigasi atau taip "&gt;" untuk membuka palet arahan</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Cari</value>
+    <value>Carian</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Fail yang telah anda akses sebelum ini akan dipaparkan di sini</value>
@@ -217,7 +217,7 @@
     <value>Tunjukkan fail dan folder tersembunyi</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Dot files</value>
+    <value>Show dot files</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Penampilan</value>
@@ -244,7 +244,7 @@
     <value>Dokumen</value>
   </data>
   <data name="Downloads" xml:space="preserve">
-    <value>Muat turun</value>
+    <value>Muat Turun</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Nama</value>
@@ -672,7 +672,7 @@
     <value>Pindahkan sambungan shell ke dalam submenu</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
-    <value>Tunjuk dialog pengesahan ketika memadam fail</value>
+    <value>Tunjukkan dialog pengesahan semasa memadam item</value>
   </data>
   <data name="PropertySaveErrorMessage.Text" xml:space="preserve">
     <value>Terdapat masalah dalam menyimpan "Properties".</value>
@@ -987,10 +987,10 @@
     <value>Eject</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
-    <value>Duplicate tab</value>
+    <value>Gandakan tab</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
-    <value>Move tab to new window</value>
+    <value>Pindahkan tab ke tetingkap baharu</value>
   </data>
   <data name="NewTab" xml:space="preserve">
     <value>Tab baharu</value>
@@ -1041,19 +1041,19 @@
     <value>Buka tab dalam mod dwipanel</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Paparkan opsyen untuk memnuka folder di panel baharu</value>
+    <value>Tunjukkan pilihan buka dalam anak tetingkap baharu</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
-    <value>Show option to copy path</value>
+    <value>Tunjukkan pilihan salin laluan</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
-    <value>Paparkan opsyen untuk mencipta folder dengan pilihan</value>
+    <value>Tunjukkan pilihan untuk buat folder dengan pilihan</value>
   </data>
   <data name="ShowCreateShortcut" xml:space="preserve">
-    <value>Paparkan opsyen untuk mencipta pintasan</value>
+    <value>Tunjukkan pilihan buat pintasan</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
-    <value>New pane</value>
+    <value>Anak tetingkap baharu</value>
   </data>
   <data name="OpenInNewPane" xml:space="preserve">
     <value>Open in new pane</value>
@@ -1065,10 +1065,10 @@
     <value>Butiran (Ctrl+Shift+1)</value>
   </data>
   <data name="DateDeleted" xml:space="preserve">
-    <value>Tarikh dihapus</value>
+    <value>Tarikh Dihapuskan</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
-    <value>Cloud Drives</value>
+    <value>Pemacu Awan</value>
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>Sahkan</value>
@@ -1107,7 +1107,7 @@
     <value>Unpin from Sidebar</value>
   </data>
   <data name="Network" xml:space="preserve">
-    <value>Network</value>
+    <value>Rangkaian</value>
   </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
     <value>Butiran fail</value>
@@ -1188,10 +1188,10 @@
     <value>Map network drive</value>
   </data>
   <data name="Pinned" xml:space="preserve">
-    <value>Pinned</value>
+    <value>Disematkan</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
-    <value>Libraries</value>
+    <value>Pusaka</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
     <value>No item selected</value>
@@ -1338,10 +1338,10 @@
     <value>Date modified</value>
   </data>
   <data name="OriginalFolder" xml:space="preserve">
-    <value>Original folder</value>
+    <value>Folder asal</value>
   </data>
   <data name="Descending" xml:space="preserve">
-    <value>Descending</value>
+    <value>Menurun</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
     <value>Huge</value>
@@ -1398,7 +1398,7 @@
     <value>{0} items</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>Reopen tab</value>
+    <value>Buka semula tab</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>Namakan semula</value>
@@ -1419,7 +1419,7 @@
     <value>Widget</value>
   </data>
   <data name="SyncStatus" xml:space="preserve">
-    <value>Sync status</value>
+    <value>Status penyegerakan</value>
   </data>
   <data name="Security" xml:space="preserve">
     <value>Security</value>
@@ -1662,7 +1662,7 @@
     <value>Update</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>Home</value>
+    <value>Rumah</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>The archive extraction completed successfully.</value>
@@ -1728,7 +1728,7 @@
     <value>Buka folder dalam tab baharu</value>
   </data>
   <data name="StatusCenter" xml:space="preserve">
-    <value>Status center</value>
+    <value>Pusat status</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Date created column</value>
@@ -1908,7 +1908,7 @@
     <value>Cleanup your drive contents</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Type</value>
+    <value>Jenis</value>
   </data>
   <data name="Bytes" xml:space="preserve">
     <value>Bytes</value>
@@ -1944,13 +1944,13 @@
     <value>Rotate right</value>
   </data>
   <data name="Install" xml:space="preserve">
-    <value>Install</value>
+    <value>Pasang</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
-    <value>Close tabs to the left</value>
+    <value>Tutup tab di sebelah kiri</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
-    <value>Close tabs to the right</value>
+    <value>Tutup tab di sebelah kanan</value>
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
     <value>Tutup tab lain</value>
@@ -1962,7 +1962,7 @@
     <value>Muzik</value>
   </data>
   <data name="Pictures" xml:space="preserve">
-    <value>Pictures</value>
+    <value>Gambar</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Update Files</value>
@@ -2012,14 +2012,26 @@
   <data name="Behaviors" xml:space="preserve">
     <value>Behaviors</value>
   </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+  <data name="Hello" xml:space="preserve">
+    <value>Hello!</value>
   </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+  <data name="ReviewFilesSubtitle" xml:space="preserve">
+    <value>Enjoying Files? Please consider reviewing in the Microsoft Store.</value>
+  </data>  
+  <data name="SponsorSubtitle" xml:space="preserve">
+    <value>Enjoying Files? Please consider supporting the project on GitHub.</value>
+  </data>
+  <data name="Sponsor" xml:space="preserve">
+    <value>Sponsor</value>
+  </data>
+  <data name="RateUs" xml:space="preserve">
+    <value>Rate us</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Dismiss</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>Tetapkan sebagai latar belakang</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Set as desktop background</value>
@@ -2043,7 +2055,7 @@
     <value>Kolum Taip</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>Skrin Kunci</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
     <value>Buka folder dengan satu klik dalam susun atur kolum</value>
@@ -2178,16 +2190,16 @@
     <value>Sync status column</value>
   </data>
   <data name="GroupBy" xml:space="preserve">
-    <value>Group by</value>
+    <value>Kumpul ikut</value>
   </data>
   <data name="SortBy" xml:space="preserve">
-    <value>Sort by</value>
+    <value>Isih ikut</value>
   </data>
   <data name="GroupInDescendingOrder" xml:space="preserve">
     <value>Group in descending order</value>
   </data>
   <data name="SortInDescendingOrder" xml:space="preserve">
-    <value>Sort in descending order</value>
+    <value>Isih mengikut susunan menurun</value>
   </data>
   <data name="NewShortcutDialogTitle" xml:space="preserve">
     <value>Create a new shortcut</value>
@@ -2235,19 +2247,19 @@
     <value>View more</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>Tunjukkan panel sunting tag</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
-    <value>Paparkan tetapan pemampatan</value>
+    <value>Tunjukkan pilihan pemampatan</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Paparkan menu "hantar ke"</value>
+    <value>Tunjukkan menu Hantar ke</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Paparkan opsyen untuk membuka folder di tab baharu</value>
+    <value>Tunjukkan pilihan buka dalam tab baharu</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Paparkan opsyen untuk membuka folder di windows baharu</value>
+    <value>Tunjukkan pilihan buka dalam tetingkap baharu</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>Akses pantas</value>
@@ -2271,19 +2283,19 @@
     <value>Windows version</value>
   </data>
   <data name="Always" xml:space="preserve">
-    <value>Always</value>
+    <value>Selalu</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
-    <value>Permanent deletion only</value>
+    <value>Hanya pemadaman kekal</value>
   </data>
   <data name="Never" xml:space="preserve">
-    <value>Never</value>
+    <value>Jangan akan</value>
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>Tag color</value>
   </data>
   <data name="NewTag" xml:space="preserve">
-    <value>New tag</value>
+    <value>Tag baharu</value>
   </data>
   <data name="CreateNewTag" xml:space="preserve">
     <value>Create new tag</value>
@@ -2292,7 +2304,7 @@
     <value>Loading...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
-    <value>Tetapan menu konteks</value>
+    <value>Pilihan menu konteks</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
     <value>File extensions</value>
@@ -2301,7 +2313,7 @@
     <value>Format</value>
   </data>
   <data name="Help" xml:space="preserve">
-    <value>Help</value>
+    <value>Bantuan</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
     <value>Full screen</value>
@@ -2388,22 +2400,22 @@
     <value>Toggle compact overlay</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open the online help page in your browser</value>
+    <value>Buka halaman bantuan atas talian melalui pelayar anda</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Toggle full screen mode</value>
+    <value>Togol mod skrin penuh</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>Enter compact overlay mode</value>
+    <value>Masuk mod tindihan padat</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
-    <value>Exit compact overlay mode</value>
+    <value>Keluar mod tindihan padat</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Toggle compact overlay mode</value>
+    <value>Togol mod tindihan padat</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Start search in the OmniBar</value>
+    <value>Mulakan carian dalam OmniBar</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Toggle visibility of hidden items</value>
@@ -2823,7 +2835,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Home" xml:space="preserve">
-    <value>Home</value>
+    <value>Rumah</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.End" xml:space="preserve">
@@ -2859,7 +2871,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Help" xml:space="preserve">
-    <value>Help</value>
+    <value>Bantuan</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Mouse4" xml:space="preserve">
@@ -2959,7 +2971,7 @@
     <value>This PC</value>
   </data>
   <data name="RecycleBin" xml:space="preserve">
-    <value>Recycle Bin</value>
+    <value>Tong Kitar Semula</value>
   </data>
   <data name="Untagged" xml:space="preserve">
     <value>Untagged</value>
@@ -2974,7 +2986,7 @@
     <value>Close tab</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Edit path</value>
+    <value>Sunting laluan</value>
   </data>
   <data name="Redo" xml:space="preserve">
     <value>Redo</value>
@@ -3001,7 +3013,7 @@
     <value>Show checkboxes when selecting items</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Edit path in the OmniBar</value>
+    <value>Sunting laluan dalam OmniBar</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Create new item</value>
@@ -3142,10 +3154,10 @@
     <value>Open File Explorer properties</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
-    <value>Open properties window</value>
+    <value>Buka tetingkap sifat</value>
   </data>
   <data name="OpenClassicPropertiesDescription" xml:space="preserve">
-    <value>Open File Explorer properties window</value>
+    <value>Buka tetingkap sifat Penjelajah Fail</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Locals</value>
@@ -3436,7 +3448,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
-    <value>Clear completed</value>
+    <value>Kosongkan yang telah selesai</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
     <value>Name:</value>
@@ -3446,7 +3458,7 @@
     <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
   </data>
   <data name="ItemsLower" xml:space="preserve">
-    <value>items</value>
+    <value>item</value>
   </data>
   <data name="CannotInitializeGitRepo" xml:space="preserve">
     <value>Files can't initialize this directory as a Git repository.</value>
@@ -3707,7 +3719,7 @@
     <value>Unblock downloaded file</value>
   </data>
   <data name="NoFileOperations" xml:space="preserve">
-    <value>Tiada operasi fail yang sedang berjalan</value>
+    <value>Tiada operasi fail yang sedang dijalankan</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>The option to open Files on Windows Startup is not available due to your system settings or group policy. To re-enable, open the startup page in Task Manager.</value>
@@ -3752,25 +3764,25 @@
     <value>Ekstrak di sini (Pintar)</value>
   </data>
   <data name="SortFilesAndFoldersTogether" xml:space="preserve">
-    <value>Susun fail dan folder bersama</value>
+    <value>Isih fail dan folder bersama</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
     <value>Sort files and folders in the same list</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
-    <value>Susun fail dahulu</value>
+    <value>Isih fail dahulu</value>
   </data>
   <data name="SortFilesFirstDescription" xml:space="preserve">
     <value>Sort files first then folders</value>
   </data>
   <data name="SortFoldersFirst" xml:space="preserve">
-    <value>Susun folder dahulu</value>
+    <value>Isih folder dahulu</value>
   </data>
   <data name="SortFoldersFirstDescription" xml:space="preserve">
     <value>Sort folders first then files</value>
   </data>
   <data name="SortPriority" xml:space="preserve">
-    <value>Keutamaan susunan</value>
+    <value>Keutamaan pengisihan</value>
   </data>
   <data name="FailedToRotateImage" xml:space="preserve">
     <value>Failed to rotate the image</value>
@@ -3915,17 +3927,17 @@
     <comment>Image stretch type</comment>
   </data>
   <data name="HorizontalAlignment" xml:space="preserve">
-    <value>Horizontal alignment</value>
+    <value>Penjajaran mendatar</value>
   </data>
   <data name="ImageFit" xml:space="preserve">
-    <value>Image fit</value>
+    <value>Padanan imej</value>
   </data>
   <data name="Left" xml:space="preserve">
     <value>Kiri</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Opacity" xml:space="preserve">
-    <value>Opacity</value>
+    <value>Kelegapan</value>
   </data>
   <data name="Right" xml:space="preserve">
     <value>Kanan</value>
@@ -3940,11 +3952,11 @@
     <comment>Image stretch type</comment>
   </data>
   <data name="UniformToFill" xml:space="preserve">
-    <value>Uniform to fill</value>
+    <value>Isi penuh secara seragam</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
-    <value>Vertical alignment</value>
+    <value>Penjajaran menegak</value>
   </data>
   <data name="ThinAcrylic" xml:space="preserve">
     <value>Thin Acrylic</value>

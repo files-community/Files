@@ -124,7 +124,7 @@
     <value>パスのコピー</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Copy item path</value>
+    <value>アイテムのパスをコピー</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>引用符付きでパスのコピー</value>
@@ -166,7 +166,7 @@
     <value>スキップ</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>すべて選択</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>選択を反転</value>
@@ -217,7 +217,7 @@
     <value>すべてのファイルとフォルダーを表示する</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Dot files</value>
+    <value>ドット ファイルを表示する</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>外観</value>
@@ -1089,13 +1089,13 @@
     <value>情報ウィンドウの表示を切り替える</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle visibility of the detail/preview panes</value>
+    <value>詳細/プレビュー ペインの表示/非表示を切り替え</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
-    <value>Toggle toolbar</value>
+    <value>ツールバーの表示を切り替える</value>
   </data>
   <data name="ToggleToolbarDescription" xml:space="preserve">
-    <value>Toggle visibility of the toolbar</value>
+    <value>ツールバーの表示/非表示</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>プレビューを利用できません</value>
@@ -1398,7 +1398,7 @@
     <value>{0} 個の項目</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>Reopen tab</value>
+    <value>閉じたタブを再度開く</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>名前を変更</value>
@@ -1605,7 +1605,7 @@
     <value>すべての子オブジェクトのアクセス許可エントリを、このオブジェクトから継承可能なアクセス許可エントリに置き換えます</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
-    <value>Close pane</value>
+    <value>ペインを閉じる</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>コンパクト オーバーレイを開始</value>
@@ -2012,11 +2012,23 @@
   <data name="Behaviors" xml:space="preserve">
     <value>動作</value>
   </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>Files を評価</value>
+  <data name="Hello" xml:space="preserve">
+    <value>こんにちは！</value>
   </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Files を評価していただけますか?</value>
+  <data name="ReviewFilesSubtitle" xml:space="preserve">
+    <value>Files をお楽しみいただけましたか? Microsoft Store でのレビューをご検討ください。</value>
+  </data>  
+  <data name="SponsorSubtitle" xml:space="preserve">
+    <value>Files をお楽しみいただけましたか? GitHub でプロジェクトをサポートすることをご検討ください。</value>
+  </data>
+  <data name="Sponsor" xml:space="preserve">
+    <value>スポンサー</value>
+  </data>
+  <data name="RateUs" xml:space="preserve">
+    <value>評価する</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>閉じる</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>背景に設定</value>
@@ -2295,7 +2307,7 @@
     <value>コンテキスト メニューの設定</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>File extensions</value>
+    <value>ファイルの拡張子</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>フォーマット</value>
@@ -2304,13 +2316,13 @@
     <value>ヘルプ</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Full screen</value>
+    <value>全画面表示</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
     <value>このタグを削除しますか？</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play</value>
+    <value>再生</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>高さ</value>
@@ -2370,7 +2382,7 @@
     <value>サイズを大きくする</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Sort direction</value>
+    <value>並べ替え方向</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>無効な名前です</value>
@@ -2382,37 +2394,37 @@
     <value>ビデオ</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
-    <value>Preview popup</value>
+    <value>プレビューポップアップ</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>コンパクト オーバーレイを切り替える</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open the online help page in your browser</value>
+    <value>ブラウザでオンラインヘルプページを開く</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Toggle full screen mode</value>
+    <value>全画面モードの切り替え</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>Enter compact overlay mode</value>
+    <value>コンパクト オーバーレイを開始</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
-    <value>Exit compact overlay mode</value>
+    <value>コンパクト オーバーレイを終了</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Toggle compact overlay mode</value>
+    <value>コンパクト オーバーレイモードを切り替える</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Start search in the OmniBar</value>
+    <value>OmniBarで検索を開始</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Toggle visibility of hidden items</value>
+    <value>非表示項目の表示を切り替える</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Toggle visibility of dot files</value>
+    <value>ドットファイルの表示を切り替える</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle visibility of file extensions</value>
+    <value>ファイル拡張子の表示を切り替える</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>ファイルをプレビューするためのプレビュー ウィンドウを表示する</value>
@@ -2421,37 +2433,37 @@
     <value>サイドバーを表示するかどうかを切り替える</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy selected {0, plural, one {item} other {items}}</value>
+    <value>選択した{0, plural, other {項目}}をコピー</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of the current directory</value>
+    <value>カレントディレクトリのパスをコピー</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Copy path of selected items</value>
+    <value>選択した項目のパスをコピー</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of selected items with quotes</value>
+    <value>選択した項目のパスを引用符付きでコピー</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of the current directory with quotes</value>
+    <value>現在のディレクトリのパスを引用符付きでコピーする</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut selected {0, plural, one {item} other {items}}</value>
+    <value>選択した{0, plural, other {項目}}をカット</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste items to the current folder</value>
+    <value>項目を現在のフォルダーに貼り付け</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items to the current folder as shortcuts</value>
+    <value>項目を現在のフォルダーにショートカットとして貼り付ける</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items to the selected folder</value>
+    <value>選択したフォルダーに項目を貼り付け</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
-    <value>Paste to selected folder</value>
+    <value>選択したフォルダーに貼り付け</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>Delete selected {0, plural, one {item} other {items}}</value>
+    <value>選択した{0, plural, other {項目}}を削除</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>新しいフォルダーを作成する</value>
@@ -2463,7 +2475,7 @@
     <value>任意の項目へのショートカットを作成する</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
-    <value>Empty the contents of Recycle Bin</value>
+    <value>ごみ箱を空にする</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
     <value>選択した項目の [フォーマット] メニューを開く</value>
@@ -2493,10 +2505,10 @@
     <value>すべての項目を選択する</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Invert selected items</value>
+    <value>項目の選択を反転する</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Clear selected items</value>
+    <value>選択した項目をクリア</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
     <value>項目の選択を切り替える</value>
@@ -2529,13 +2541,13 @@
     <value>選択した画像をアプリの背景に設定する</value>
   </data>
   <data name="InstallFont" xml:space="preserve">
-    <value>Install font</value>
+    <value>フォントをインストール</value>
   </data>
   <data name="InstallDriver" xml:space="preserve">
-    <value>Install driver</value>
+    <value>ドライバーをインストール</value>
   </data>
   <data name="InstallCertificate" xml:space="preserve">
-    <value>Install certificate</value>
+    <value>証明書をインストール</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>選択した {0, plural, other {フォント}}をインストールする</value>
@@ -2559,19 +2571,19 @@
     <value>ポップアップ ウィンドウでプレビューを開く</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Create archive with selected {0, plural, one {item} other {items}}</value>
+    <value>選択した{0, plural, other {項目}}でアーカイブを作成</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Create 7z archive with selected {0, plural, one {item} other {items}}</value>
+    <value>選択した{0, plural, other {項目}}で7zアーカイブを作成</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Create zip archive with selected {0, plural, one {item} other {items}}</value>
+    <value>選択した{0, plural, other {項目}}でzipアーカイブを作成</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
+    <value>選択した {0, plural, other {アーカイブ}} を任意のフォルダに展開</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
+    <value>選択した {0, plural, other {アーカイブ}} を現在のフォルダに展開</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
     <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>

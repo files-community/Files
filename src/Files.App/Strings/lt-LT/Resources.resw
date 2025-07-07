@@ -121,13 +121,13 @@
     <value>Naujas langas</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Copy path</value>
+    <value>Kopijuoti kelio adresą</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Copy item path</value>
+    <value>Kopijuoti daikto kelio adresą</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>Copy path with quotes</value>
+    <value>Kopijuoti kelio adresą su kabutėmis</value>
   </data>
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
     <value>Copy selected item path with quotes</value>
@@ -148,10 +148,10 @@
     <value>Dydis:</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
-    <value>Size on disk:</value>
+    <value>Dydis diske:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>Uncompressed size:</value>
+    <value>Nesuspaustas/Nesuglaudintas dydis:</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>Ši veiksma negalima atlikti</value>
@@ -196,34 +196,34 @@
     <value>Remove this item</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub repository</value>
+    <value>„GitHub“ saugykla</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>Apie</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Open source</value>
+    <value>Atvirasis kodas</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Datos formatas</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>Theme</value>
+    <value>Apipavidalinimas</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
-    <value>Show extensions for known file types</value>
+    <value>Rodyti žinomų failų plėtinius</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
     <value>Show hidden files and folders</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Dot files</value>
+    <value>Show dot files</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Išvaizda</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Fono spalva</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Išplėstinė</value>
@@ -238,46 +238,46 @@
     <value>Open a specific page or pages</value>
   </data>
   <data name="Desktop" xml:space="preserve">
-    <value>Desktop</value>
+    <value>Darbalaukis</value>
   </data>
   <data name="Documents" xml:space="preserve">
-    <value>Documents</value>
+    <value>Dokumentai</value>
   </data>
   <data name="Downloads" xml:space="preserve">
-    <value>Downloads</value>
+    <value>Atsisiuntimai</value>
   </data>
   <data name="Name" xml:space="preserve">
-    <value>Name</value>
+    <value>Pavadinimas/-ą</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Ascending</value>
   </data>
   <data name="Paste" xml:space="preserve">
-    <value>Paste</value>
+    <value>Įklijuoti</value>
   </data>
   <data name="PasteShortcut" xml:space="preserve">
-    <value>Paste shortcut</value>
+    <value>Įklijuoti nuorodą</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
-    <value>New</value>
+    <value>Kurti naują</value>
   </data>
   <data name="Properties" xml:space="preserve">
-    <value>Properties</value>
+    <value>Ypatybės</value>
   </data>
   <data name="Open" xml:space="preserve">
-    <value>Open</value>
+    <value>Atidaryti/Atverti</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Open in new tab</value>
+    <value>Atidaryti naujame skirtuke</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Open in new window</value>
+    <value>Atidaryti naujame lange</value>
   </data>
   <data name="Share" xml:space="preserve">
     <value>Share</value>
   </data>
   <data name="Cut" xml:space="preserve">
-    <value>Cut</value>
+    <value>Iškirpti</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
@@ -301,25 +301,25 @@
     <value>Enter an item name</value>
   </data>
   <data name="CreateNewItemTitle" xml:space="preserve">
-    <value>Create new {0}</value>
+    <value>Sukurti naują – „{0}“</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>Light</value>
+    <value>Šviesus</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>Dark</value>
+    <value>Tamsus</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Paraiška</value>
   </data>
   <data name="SystemTimeStyle" xml:space="preserve">
-    <value>System</value>
+    <value>Sistema</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>New folder</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>New file</value>
+    <value>Naujas failas</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
     <value>This folder is empty.</value>
@@ -370,7 +370,7 @@
     <value>The file you are attempting to access may have been moved or deleted.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
-    <value>File Not Found</value>
+    <value>Failas nerastas</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
     <value>The folder you are attempting to access may have been moved or deleted.</value>
@@ -385,7 +385,7 @@
     <value>The file you are attempting to access is currently being used by another application</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
-    <value>File is in use</value>
+    <value>Failas yra naudojamas</value>
   </data>
   <data name="Layout" xml:space="preserve">
     <value>Maketavimas</value>
@@ -430,7 +430,7 @@
     <value>{0} seconds ago</value>
   </data>
   <data name="Now" xml:space="preserve">
-    <value>Now</value>
+    <value>Dabar</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>The requested operation is not supported</value>
@@ -456,7 +456,7 @@
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>Yes</value>
+    <value>Taip</value>
   </data>
   <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
     <value>Are you sure you want to permanently delete all these items?</value>
@@ -513,7 +513,7 @@
     <value>Capacity:</value>
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
-    <value>File system:</value>
+    <value>Failų sistema:</value>
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Recent</value>
@@ -534,7 +534,7 @@
     <value>Can't access any items to display</value>
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
-    <value>Move to {0}</value>
+    <value>Perkelti į – {0}</value>
   </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
     <value>Copy to {0}</value>
@@ -549,7 +549,7 @@
     <value>Open file location</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
-    <value>Arguments:</value>
+    <value>Argumentai:</value>
   </data>
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
     <value>Destination:</value>
@@ -564,10 +564,10 @@
     <value>Bendra</value>
   </data>
   <data name="Shortcut" xml:space="preserve">
-    <value>Shortcut</value>
+    <value>Nuoroda</value>
   </data>
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
-    <value>Internet shortcut</value>
+    <value>Internetinė nuoroda</value>
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - shortcut</value>
@@ -579,7 +579,7 @@
     <value>Something went wrong!</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
-    <value>Report this issue</value>
+    <value>Pranešti apie šią problemą</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</value>
@@ -588,7 +588,7 @@
     <value>Invalid item</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
-    <value>Version:</value>
+    <value>Versija:</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
     <value>There's nothing to share right now...</value>
@@ -624,13 +624,13 @@
     <value>Item name was too long</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Show more options</value>
+    <value>Rodyti daugiau parinkčių</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>The application needs to be restarted in order to apply these settings, would you like to restart the app?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Sponsor us on GitHub</value>
+    <value>Paremkite mus „GitHub“ platformoje</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>We weren't able to create this item</value>
@@ -639,7 +639,7 @@
     <value>Access Denied</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
-    <value>Set as</value>
+    <value>Nustatyti kaip</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
@@ -651,10 +651,10 @@
     <value>Choose a type for this new item below</value>
   </data>
   <data name="File" xml:space="preserve">
-    <value>File</value>
+    <value>Failas</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
-    <value>Creates an empty file</value>
+    <value>Sukuria tuščią failą</value>
   </data>
   <data name="Folder" xml:space="preserve">
     <value>Folder</value>
@@ -678,7 +678,7 @@
     <value>There was an issue saving some properties.</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
-    <value>Error</value>
+    <value>Klaida</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
     <value>Close anyway</value>
@@ -795,13 +795,13 @@
     <value>Disc Number</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
-    <value>Genre</value>
+    <value>Žanras</value>
   </data>
   <data name="PropertyTrackNumber" xml:space="preserve">
     <value>Track Number</value>
   </data>
   <data name="PropertyDuration" xml:space="preserve">
-    <value>Duration</value>
+    <value>Trukmė</value>
   </data>
   <data name="PropertyFrameCount" xml:space="preserve">
     <value>Frame Count</value>
@@ -942,7 +942,7 @@
     <value>Audio</value>
   </data>
   <data name="PropertySectionMusic" xml:space="preserve">
-    <value>Music</value>
+    <value>Muzika</value>
   </data>
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Video</value>
@@ -951,7 +951,7 @@
     <value>Document</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value>Address</value>
+    <value>Adresas</value>
   </data>
   <data name="SelectionOptions" xml:space="preserve">
     <value>Selection options</value>
@@ -978,13 +978,13 @@
     <value>The device can now be safely removed from the computer.</value>
   </data>
   <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
-    <value>Problem Ejecting Device</value>
+    <value>Įvyko problema, bandant išstumti įrenginį</value>
   </data>
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</value>
   </data>
   <data name="Eject" xml:space="preserve">
-    <value>Eject</value>
+    <value>Išstumti</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
     <value>Duplicate tab</value>
@@ -993,7 +993,7 @@
     <value>Move tab to new window</value>
   </data>
   <data name="NewTab" xml:space="preserve">
-    <value>New tab</value>
+    <value>Naujas skirtukas</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
     <value>Some properties may contain personal information.</value>
@@ -1014,7 +1014,7 @@
     <value>Details</value>
   </data>
   <data name="No" xml:space="preserve">
-    <value>No</value>
+    <value>Ne</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
     <value>Show protected system files</value>
@@ -1029,10 +1029,10 @@
     <value>Original path</value>
   </data>
   <data name="Add" xml:space="preserve">
-    <value>Add</value>
+    <value>Pridėti</value>
   </data>
   <data name="Edit" xml:space="preserve">
-    <value>Edit</value>
+    <value>Redaguoti</value>
   </data>
   <data name="Remove" xml:space="preserve">
     <value>Remove</value>
@@ -1068,10 +1068,10 @@
     <value>Date deleted</value>
   </data>
   <data name="SidebarCloudDrives" xml:space="preserve">
-    <value>Cloud Drives</value>
+    <value>Debesijos saugykla</value>
   </data>
   <data name="Confirm" xml:space="preserve">
-    <value>Confirm</value>
+    <value>Patvirtinti</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
     <value>Desired name</value>
@@ -1107,7 +1107,7 @@
     <value>Unpin from Sidebar</value>
   </data>
   <data name="Network" xml:space="preserve">
-    <value>Network</value>
+    <value>Tinklas</value>
   </data>
   <data name="PreviewPaneFileDetails.AutomationProperties.Name" xml:space="preserve">
     <value>File details</value>
@@ -1140,7 +1140,7 @@
     <value>Excluded from sync</value>
   </data>
   <data name="ItemSizeNotCalculated" xml:space="preserve">
-    <value>Not calculated</value>
+    <value>Neapskaičiuota/-s</value>
   </data>
   <data name="CloudDriveSyncStatus_Unknown" xml:space="preserve">
     <value>Unknown</value>
@@ -1152,7 +1152,7 @@
     <value>CD ROM Drive</value>
   </data>
   <data name="DriveTypeCloudDrive" xml:space="preserve">
-    <value>Cloud Drive</value>
+    <value>Debesijos saugykla</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
     <value>Fixed Disk Drive</value>
@@ -1182,7 +1182,7 @@
     <value>Date created</value>
   </data>
   <data name="MoreOptions" xml:space="preserve">
-    <value>More options...</value>
+    <value>Daugiau parinkčių...</value>
   </data>
   <data name="DrivesWidgetOptionsFlyoutMapNetDriveMenuItem.Text" xml:space="preserve">
     <value>Map network drive</value>
@@ -1191,7 +1191,7 @@
     <value>Pinned</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
-    <value>Libraries</value>
+    <value>Bibliotekos</value>
   </data>
   <data name="NoItemSelected" xml:space="preserve">
     <value>No item selected</value>
@@ -1224,7 +1224,7 @@
     <value>Unpin from the Start Menu</value>
   </data>
   <data name="Library" xml:space="preserve">
-    <value>Library</value>
+    <value>Biblioteka</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
     <value>Locations:</value>
@@ -1308,16 +1308,16 @@
     <value>Create folder with selection</value>
   </data>
   <data name="ItemType" xml:space="preserve">
-    <value>Type:</value>
+    <value>Tipas:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>Date modified:</value>
   </data>
   <data name="OpenWith" xml:space="preserve">
-    <value>Open with</value>
+    <value>Atidaryti naudojant</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
-    <value>File icon</value>
+    <value>Failo piktograma</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
     <value>Original path column</value>
@@ -1344,37 +1344,37 @@
     <value>Descending</value>
   </data>
   <data name="ItemSizeText_Huge" xml:space="preserve">
-    <value>Huge</value>
+    <value>Didžiulis</value>
   </data>
   <data name="ItemSizeText_VeryLarge" xml:space="preserve">
-    <value>Very large</value>
+    <value>Labai didelis</value>
   </data>
   <data name="ItemSizeText_Large" xml:space="preserve">
-    <value>Large</value>
+    <value>Didelis</value>
   </data>
   <data name="ItemSizeText_Medium" xml:space="preserve">
-    <value>Medium</value>
+    <value>Vidutinis</value>
   </data>
   <data name="ItemSizeText_Small" xml:space="preserve">
-    <value>Small</value>
+    <value>Mažas</value>
   </data>
   <data name="ItemSizeText_Tiny" xml:space="preserve">
-    <value>Tiny</value>
+    <value>Mažytis</value>
   </data>
   <data name="Future" xml:space="preserve">
-    <value>Future</value>
+    <value>Ateitis</value>
   </data>
   <data name="Today" xml:space="preserve">
-    <value>Today</value>
+    <value>Šiandien</value>
   </data>
   <data name="Yesterday" xml:space="preserve">
-    <value>Yesterday</value>
+    <value>Vakar</value>
   </data>
   <data name="EarlierThisWeek" xml:space="preserve">
-    <value>Earlier this week</value>
+    <value>Anksčiau šią savaitę</value>
   </data>
   <data name="LastWeek" xml:space="preserve">
-    <value>Last week</value>
+    <value>Praeitą savaitę</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
     <value>Earlier this month</value>
@@ -1422,7 +1422,7 @@
     <value>Sync status</value>
   </data>
   <data name="Security" xml:space="preserve">
-    <value>Security</value>
+    <value>Saugumas</value>
   </data>
   <data name="AdvancedPermissions" xml:space="preserve">
     <value>Advanced permissions</value>
@@ -1464,10 +1464,10 @@
     <value>You do not have permissions to view the security properties of this object. Click "Advanced permissions" to proceed.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>Owner:</value>
+    <value>Savininkas/-ė:</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
-    <value>Unknown owner</value>
+    <value>Nežinoma/-s savininkė/-as</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
     <value>Extract archive</value>
@@ -1491,7 +1491,7 @@
     <value>Restore Libraries</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
-    <value>Owner</value>
+    <value>Savininkas/-ė</value>
   </data>
   <data name="SecuritySpecialLabel.Text" xml:space="preserve">
     <value>Special</value>
@@ -1506,7 +1506,7 @@
     <value>Principal</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
-    <value>files</value>
+    <value>failai</value>
   </data>
   <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
     <value>this folder</value>
@@ -1530,7 +1530,7 @@
     <value>This folder, subfolders and files</value>
   </data>
   <data name="SecurityAdvancedOnlyFiles.Text" xml:space="preserve">
-    <value>Only files</value>
+    <value>Tik failai</value>
   </data>
   <data name="SecurityAdvancedOnlySubfolders.Text" xml:space="preserve">
     <value>Only subfolders</value>
@@ -1554,13 +1554,13 @@
     <value>Create folders</value>
   </data>
   <data name="SecurityCreateFilesLabel.Text" xml:space="preserve">
-    <value>Create files</value>
+    <value>Sukurti failus</value>
   </data>
   <data name="SecurityDeleteSubdirectoriesAndFilesLabel.Text" xml:space="preserve">
     <value>Delete subdirectories and files</value>
   </data>
   <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
-    <value>Execute files</value>
+    <value>Vykdyti failus</value>
   </data>
   <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
     <value>Read attributes</value>
@@ -1617,7 +1617,7 @@
     <value>File description</value>
   </data>
   <data name="PropertyCompany" xml:space="preserve">
-    <value>Company</value>
+    <value>Įmonė</value>
   </data>
   <data name="PropertyLanguage" xml:space="preserve">
     <value>Kalba</value>
@@ -1626,7 +1626,7 @@
     <value>Trademarks</value>
   </data>
   <data name="PropertyFileVersion" xml:space="preserve">
-    <value>File version</value>
+    <value>Failo versija</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
     <value>Load full preview</value>
@@ -1641,13 +1641,13 @@
     <value>Uncompressed size</value>
   </data>
   <data name="WSL" xml:space="preserve">
-    <value>WSL</value>
+    <value>„WSL“</value>
   </data>
   <data name="SideBarHideSectionFromSideBar.Text" xml:space="preserve">
     <value>Hide {0} section</value>
   </data>
   <data name="AddFile" xml:space="preserve">
-    <value>Add file</value>
+    <value>Pridėti failą</value>
   </data>
   <data name="ConsentDialogTitle" xml:space="preserve">
     <value>Updates available</value>
@@ -1662,7 +1662,7 @@
     <value>Update</value>
   </data>
   <data name="Home" xml:space="preserve">
-    <value>Home</value>
+    <value>Namai</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
     <value>The archive extraction completed successfully.</value>
@@ -1695,7 +1695,7 @@
     <value>Insert a disc</value>
   </data>
   <data name="OK" xml:space="preserve">
-    <value>OK</value>
+    <value>Gerai/Supratau</value>
   </data>
   <data name="AskCredentialDialog.Title" xml:space="preserve">
     <value>Credential required</value>
@@ -1764,16 +1764,16 @@
     <value>Folder path</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
-    <value>Export settings</value>
+    <value>Eksportuoti nustatymus</value>
   </data>
   <data name="ImportSettings" xml:space="preserve">
-    <value>Import settings</value>
+    <value>Importuoti nustatymus</value>
   </data>
   <data name="SettingsImportErrorDescription" xml:space="preserve">
-    <value>Couldn't import settings. The settings file is corrupted.</value>
+    <value>Nepavyko importuoti nustatymų. Nustatymų failas yra korumpuotas.</value>
   </data>
   <data name="SettingsImportErrorTitle" xml:space="preserve">
-    <value>Error importing settings</value>
+    <value>Įvyko klaida importuojant nustatymus</value>
   </data>
   <data name="EmptyRecycleBin" xml:space="preserve">
     <value>Empty Recycle Bin</value>
@@ -1809,7 +1809,7 @@
     <value>On this program start</value>
   </data>
   <data name="System" xml:space="preserve">
-    <value>System</value>
+    <value>Sistema</value>
   </data>
   <data name="CompatibilitySystemEnhanced" xml:space="preserve">
     <value>System (Enhanced)</value>
@@ -1878,10 +1878,10 @@
     <value>The flatten operations are permanent and not recommended. Continue at your own risk.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
-    <value>Create Library</value>
+    <value>Sukurti biblioteką</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Enter Library name</value>
+    <value>Įveskite bibliotekos pavadinimą</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Calculate folder sizes</value>
@@ -1908,22 +1908,22 @@
     <value>Cleanup your drive contents</value>
   </data>
   <data name="Type" xml:space="preserve">
-    <value>Type</value>
+    <value>Tipas/-ą</value>
   </data>
   <data name="Bytes" xml:space="preserve">
-    <value>Bytes</value>
+    <value>Baitai</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>Extract</value>
+    <value>Išskleisti</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>Extract files</value>
+    <value>Išskleisti failus</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>Extract here</value>
+    <value>Išskleisti čia</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
-    <value>Ctrl+E</value>
+    <value>Vald.+E</value>
   </data>
   <data name="ExtractToChildFolder" xml:space="preserve">
     <value>Extract to {0}</value>
@@ -1932,7 +1932,7 @@
     <value>Run script</value>
   </data>
   <data name="RunWithPowerShell" xml:space="preserve">
-    <value>Run with PowerShell</value>
+    <value>Vykdyti su „PowerShell“</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
@@ -1944,7 +1944,7 @@
     <value>Rotate right</value>
   </data>
   <data name="Install" xml:space="preserve">
-    <value>Install</value>
+    <value>Įdiegti</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
     <value>Close tabs to the left</value>
@@ -1959,7 +1959,7 @@
     <value>Close all tabs</value>
   </data>
   <data name="Music" xml:space="preserve">
-    <value>Music</value>
+    <value>Muzika</value>
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>Pictures</value>
@@ -1974,10 +1974,10 @@
     <value>Universal</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
-    <value>ex: {0}, {1}</value>
+    <value>Pvz.: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
-    <value>Show thumbnails</value>
+    <value>Rodyti miniatiūras</value>
   </data>
   <data name="Retry" xml:space="preserve">
     <value>Retry</value>
@@ -2012,11 +2012,23 @@
   <data name="Behaviors" xml:space="preserve">
     <value>Behaviors</value>
   </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>Review Files</value>
+  <data name="Hello" xml:space="preserve">
+    <value>Hello!</value>
   </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Would you like to review Files?</value>
+  <data name="ReviewFilesSubtitle" xml:space="preserve">
+    <value>Enjoying Files? Please consider reviewing in the Microsoft Store.</value>
+  </data>  
+  <data name="SponsorSubtitle" xml:space="preserve">
+    <value>Enjoying Files? Please consider supporting the project on GitHub.</value>
+  </data>
+  <data name="Sponsor" xml:space="preserve">
+    <value>Sponsor</value>
+  </data>
+  <data name="RateUs" xml:space="preserve">
+    <value>Įvertinkite mus</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Dismiss</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Set as background</value>
@@ -2109,7 +2121,7 @@
     <value>{0} (detected)</value>
   </data>
   <data name="ExtractToPath" xml:space="preserve">
-    <value>Vieta</value>
+    <value>Kelias</value>
   </data>
   <data name="SortingAndGrouping" xml:space="preserve">
     <value>Sorting and grouping</value>
@@ -2124,7 +2136,7 @@
     <value>Create {0}</value>
   </data>
   <data name="EnterName" xml:space="preserve">
-    <value>Enter a name</value>
+    <value>Įveskite pavadinimą</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
     <value>Compression level</value>
@@ -2160,19 +2172,19 @@
     <value>DVD</value>
   </data>
   <data name="FAT" xml:space="preserve">
-    <value>FAT</value>
+    <value>„FAT“</value>
   </data>
   <data name="Bluray" xml:space="preserve">
-    <value>Blu-ray</value>
+    <value>„Blu-ray“</value>
   </data>
   <data name="Encryption" xml:space="preserve">
-    <value>Encryption</value>
+    <value>Šifravimas</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>Password</value>
+    <value>Slaptažodis</value>
   </data>
   <data name="Format" xml:space="preserve">
-    <value>Format</value>
+    <value>Formatas</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowSyncStatus.Text" xml:space="preserve">
     <value>Sync status column</value>
@@ -2199,13 +2211,13 @@
     <value>Enter the location of the item:</value>
   </data>
   <data name="AddDialogListShortcutSubHeader" xml:space="preserve">
-    <value>Creates a shortcut</value>
+    <value>Sukuria nuorodą</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
     <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit settings file</value>
+    <value>Redaguoti nustatymų failą</value>
   </data>
   <data name="EditSettingsFileDescription" xml:space="preserve">
     <value>Open settings file in your default editor</value>
@@ -2265,19 +2277,19 @@
     <value>Network folder error</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>App version</value>
+    <value>Programos versija</value>
   </data>
   <data name="WindowsVersion" xml:space="preserve">
-    <value>Windows version</value>
+    <value>„Windows“ versija</value>
   </data>
   <data name="Always" xml:space="preserve">
-    <value>Always</value>
+    <value>Visada</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
     <value>Permanent deletion only</value>
   </data>
   <data name="Never" xml:space="preserve">
-    <value>Never</value>
+    <value>Niekada</value>
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>Tag color</value>
@@ -2328,7 +2340,7 @@
     <value>Open in Windows Terminal as administrator</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>Išsaugoti</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>Multiselect</value>
@@ -2358,7 +2370,7 @@
     <value>Select hashes to show</value>
   </data>
   <data name="Calculating" xml:space="preserve">
-    <value>Calculating...</value>
+    <value>Apskaičiuojama...</value>
   </data>
   <data name="JumpListPinnedGroupHeader" xml:space="preserve">
     <value>Pinned items</value>
@@ -2379,7 +2391,7 @@
     <value>Name must not be empty or start or end with a period.</value>
   </data>
   <data name="Videos" xml:space="preserve">
-    <value>Videos</value>
+    <value>Vaizdo įrašai</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
     <value>Preview popup</value>
@@ -2529,13 +2541,13 @@
     <value>Set selected picture as the app background</value>
   </data>
   <data name="InstallFont" xml:space="preserve">
-    <value>Install font</value>
+    <value>Įdiegti šriftą</value>
   </data>
   <data name="InstallDriver" xml:space="preserve">
-    <value>Install driver</value>
+    <value>Įdiegti tvarkyklę</value>
   </data>
   <data name="InstallCertificate" xml:space="preserve">
-    <value>Install certificate</value>
+    <value>Įdiegti sertifikatą</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Install selected {0, plural, one {font} other {fonts}}</value>
@@ -2583,7 +2595,7 @@
     <value>Rotate selected {0, plural, one {image} other {images}} to the right</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
-    <value>Open settings page</value>
+    <value>Atidaryti nustatymų puslapį</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
     <value>Open folder in terminal</value>
@@ -2767,7 +2779,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Control" xml:space="preserve">
-    <value>Ctrl</value>
+    <value>Vald.</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Shift" xml:space="preserve">
@@ -2775,7 +2787,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Windows" xml:space="preserve">
-    <value>Win</value>
+    <value>„Win“</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
@@ -2807,15 +2819,15 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Left" xml:space="preserve">
-    <value>Left</value>
+    <value>Kairė</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Right" xml:space="preserve">
-    <value>Right</value>
+    <value>Dešinė</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Down" xml:space="preserve">
-    <value>Down</value>
+    <value>Žemyn</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
@@ -2823,7 +2835,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Home" xml:space="preserve">
-    <value>Home</value>
+    <value>Namai</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.End" xml:space="preserve">
@@ -3028,7 +3040,7 @@
     <value>Redo the last file operation</value>
   </data>
   <data name="Location" xml:space="preserve">
-    <value>Location:</value>
+    <value>Vietovė:</value>
   </data>
   <data name="GroupByMonthDescription" xml:space="preserve">
     <value>Group items by month</value>
@@ -3136,7 +3148,7 @@
     <value>Create a folder with the currently selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
-    <value>Properties</value>
+    <value>Ypatybės</value>
   </data>
   <data name="OpenClassicProperties" xml:space="preserve">
     <value>Open File Explorer properties</value>
@@ -3154,7 +3166,7 @@
     <value>Remotes</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>Translate on Crowdin</value>
+    <value>Verskite „Crowdin“ platformoje</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
     <value>Fetch</value>
@@ -3178,7 +3190,7 @@
     <value>Git status</value>
   </data>
   <data name="GitError" xml:space="preserve">
-    <value>Git error</value>
+    <value>„Git“ klaida</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
     <value>git pull failed due to a timeout error</value>
@@ -3227,7 +3239,7 @@
     <value>Run git push</value>
   </data>
   <data name="GitSync" xml:space="preserve">
-    <value>Sync</value>
+    <value>Sinchronizuoti</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
     <value>Run git pull and then git push</value>
@@ -3360,7 +3372,7 @@
     <value>Leave app running in the background when the window is closed</value>
   </data>
   <data name="Blue" xml:space="preserve">
-    <value>Blue</value>
+    <value>Mėlyna/-s</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BlueGray" xml:space="preserve">
@@ -3388,7 +3400,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Green" xml:space="preserve">
-    <value>Green</value>
+    <value>Žalia/-s</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="IrisPastel" xml:space="preserve">
@@ -3412,7 +3424,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Red" xml:space="preserve">
-    <value>Red</value>
+    <value>Raudona/-s</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="RoseBright" xml:space="preserve">
@@ -3461,7 +3473,7 @@
     <value>Processing items...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
-    <value>Speed:</value>
+    <value>Greitis:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
     <value>Canceled compressing {0} items to "{1}"</value>
@@ -3816,11 +3828,11 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Small" xml:space="preserve">
-    <value>Small</value>
+    <value>Mažas</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium" xml:space="preserve">
-    <value>Medium</value>
+    <value>Vidutinis</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Medium+" xml:space="preserve">
@@ -3844,7 +3856,7 @@
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large" xml:space="preserve">
-    <value>Large</value>
+    <value>Didelis</value>
     <comment>Used to describe layout sizes</comment>
   </data>
   <data name="Large+" xml:space="preserve">
@@ -3921,14 +3933,14 @@
     <value>Image fit</value>
   </data>
   <data name="Left" xml:space="preserve">
-    <value>Left</value>
+    <value>Kairė</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Opacity" xml:space="preserve">
     <value>Opacity</value>
   </data>
   <data name="Right" xml:space="preserve">
-    <value>Right</value>
+    <value>Dešinė</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Top" xml:space="preserve">
@@ -3969,15 +3981,15 @@
     <comment>This is the friendly name for DLL files.</comment>
   </data>
   <data name="IcoFileCapitalized" xml:space="preserve">
-    <value>ICO File</value>
+    <value>„ICO“ failas</value>
     <comment>This is the friendly name for ICO files.</comment>
   </data>
   <data name="IclFileCapitalized" xml:space="preserve">
-    <value>ICL File</value>
+    <value>„ICL“ failas</value>
     <comment>This is the friendly name for ICL files.</comment>
   </data>
   <data name="ZipFileCapitalized" xml:space="preserve">
-    <value>Zip File</value>
+    <value>„Zip“ failas</value>
     <comment>This is the friendly name for ZIP files.</comment>
   </data>
   <data name="BitmapFiles" xml:space="preserve">
@@ -4168,7 +4180,7 @@
     <value>The configured IDE could not be located</value>
   </data>
   <data name="OpenSettings" xml:space="preserve">
-    <value>Open settings</value>
+    <value>Atidaryti nustatymus</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
@@ -4196,11 +4208,11 @@
     <comment>Cannot clone repo dialog title</comment>
   </data>
   <data name="CompareFile" xml:space="preserve">
-    <value>Compare a file</value>
+    <value>Palyginti failą</value>
     <comment>Button that appears in file hash properties that allows the user to compare two files</comment>
   </data>
   <data name="SizeFormat" xml:space="preserve">
-    <value>Size format</value>
+    <value>Dydžio formatas</value>
   </data>
   <data name="Binary" xml:space="preserve">
     <value>Binary</value>
@@ -4237,7 +4249,7 @@
     <comment>Screen reader name for the status center progress ring</comment>
   </data>
   <data name="IconFiles" xml:space="preserve">
-    <value>Icon files</value>
+    <value>Piktogramų failai</value>
     <comment>This is the friendly name for a variety of different icon files.</comment>
   </data>
   <data name="BreadcrumbBarEllipsisButtonToolTip" xml:space="preserve">
@@ -4250,6 +4262,6 @@
     <value>There are no commands containing {0}</value>
   </data>
   <data name="SeeMore" xml:space="preserve">
-    <value>See more</value>
+    <value>Žiūrėti daugiau</value>
   </data>
 </root>

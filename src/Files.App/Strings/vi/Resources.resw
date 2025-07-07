@@ -202,7 +202,7 @@
     <value>Giới thiệu</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Mã nguồn mở</value>
+    <value>Nguồn mở</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Định dạng thời gian</value>
@@ -217,7 +217,7 @@
     <value>Hiện tệp và thư mục bị ẩn</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Tệp bắt đầu bằng dấu chấm</value>
+    <value>Hiện tệp có tên bắt đầu bằng dấu chấm</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Giao diện</value>
@@ -1608,10 +1608,10 @@
     <value>Đóng ngăn</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
-    <value>Bật chế độ thu gọn</value>
+    <value>Mở chế độ thu gọn</value>
   </data>
   <data name="ExitCompactOverlay" xml:space="preserve">
-    <value>Tắt chế độ thu gọn</value>
+    <value>Thoát chế độ thu gọn</value>
   </data>
   <data name="PropertyFileDescription" xml:space="preserve">
     <value>Mô tả tệp</value>
@@ -2012,11 +2012,23 @@
   <data name="Behaviors" xml:space="preserve">
     <value>Hành vi</value>
   </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>Đánh giá Files</value>
+  <data name="Hello" xml:space="preserve">
+    <value>Xin chào!</value>
   </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Bạn có muốn đánh giá Files không?</value>
+  <data name="ReviewFilesSubtitle" xml:space="preserve">
+    <value>Thích Files? Hãy gửi nhận xét của bạn lên Microsoft Store.</value>
+  </data>  
+  <data name="SponsorSubtitle" xml:space="preserve">
+    <value>Thích Files? Hãy cân nhắc hỗ trợ dự án trên GitHub.</value>
+  </data>
+  <data name="Sponsor" xml:space="preserve">
+    <value>Tài trợ</value>
+  </data>
+  <data name="RateUs" xml:space="preserve">
+    <value>Đánh giá</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Bỏ qua</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Đặt làm hình nền</value>
@@ -2046,7 +2058,7 @@
     <value>Màn hình khóa</value>
   </data>
   <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Mở thư mục bằng một lần nhấp ở bố cục dạng cột</value>
+    <value>Mở thư mục bằng một lần nhấp trong bố cục cột</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Mở các khoản mục</value>
@@ -2616,7 +2628,7 @@
     <value>Chuyển sang bố cục lưới</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Chuyển sang bố cục dạng cột</value>
+    <value>Chuyển sang bố cục cột</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
     <value>Tự động lựa chọn bố cục phù hợp</value>
