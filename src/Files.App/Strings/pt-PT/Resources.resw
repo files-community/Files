@@ -166,7 +166,7 @@
     <value>Ignorar</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Seleccionar tudo</value>
+    <value>Selecionar tudo</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Inverter seleção</value>
@@ -217,7 +217,7 @@
     <value>Mostrar ficheiros e pastas ocultas</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Ficheiros ocultos</value>
+    <value>Mostrar ficheiros ocultos</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Aspeto</value>
@@ -235,7 +235,7 @@
     <value>Abrir um novo separador</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Abrir página(s) específica(s)</value>
+    <value>Abrir uma ou várias páginas específicas</value>
   </data>
   <data name="Desktop" xml:space="preserve">
     <value>Ambiente de trabalho</value>
@@ -283,10 +283,10 @@
     <value>Eliminar</value>
   </data>
   <data name="PinFolderToSidebar" xml:space="preserve">
-    <value>Afixar na barra lateral</value>
+    <value>Afixar em Acesso rápido</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Obrigado por utilizar Files!</value>
+    <value>Bem-vindo ao Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Conceder permissão</value>
@@ -325,7 +325,7 @@
     <value>Esta pasta está vazia.</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Recuar</value>
+    <value>Voltar</value>
   </data>
   <data name="Forward" xml:space="preserve">
     <value>Avançar</value>
@@ -1104,7 +1104,7 @@
     <value>Nome do item</value>
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
-    <value>Desafixar da barra lateral</value>
+    <value>Remover de Acesso rápido</value>
   </data>
   <data name="Network" xml:space="preserve">
     <value>Rede</value>
@@ -1218,10 +1218,10 @@
     <value>Colunas (Ctrl+Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
-    <value>Afixar no menu Iniciar</value>
+    <value>Afixar em Iniciar</value>
   </data>
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
-    <value>Desafixar do menu Iniciar</value>
+    <value>Remover de Iniciar</value>
   </data>
   <data name="Library" xml:space="preserve">
     <value>Biblioteca</value>
@@ -1470,10 +1470,10 @@
     <value>Proprietário desconhecido</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>Extrair arquivo</value>
+    <value>Selecionar um destino e Extrair Ficheiros</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>Abrir pasta de destino ao terminar</value>
+    <value>Mostrar ficheiros extraídos quando concluir</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>Extrair para {0}\</value>
@@ -1632,7 +1632,7 @@
     <value>Carregar pré-visualização completa</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Descarrega o item da nuvem e carrega a pré-visualização</value>
+    <value>Transfere o item da nuvem e carrega a pré-visualização</value>
   </data>
   <data name="DetailsArchiveItems" xml:space="preserve">
     <value>{0, plural, one {# item} other {# itens}} ({1, plural, one {# ficheiro} other {# ficheiros}}, {2, plural, one {# pasta} other {# pastas}})</value>
@@ -1665,10 +1665,10 @@
     <value>Início</value>
   </data>
   <data name="ArchiveExtractionCompletedSuccessfullyText" xml:space="preserve">
-    <value>A extração do arquivo foi terminada com sucesso.</value>
+    <value>A extração dos ficheiros foi concluída com sucesso.</value>
   </data>
   <data name="ExtractingArchiveText" xml:space="preserve">
-    <value>A extrair arquivo</value>
+    <value>A extrair ficheiros</value>
   </data>
   <data name="ExtractingCompleteText" xml:space="preserve">
     <value>Extração terminada!</value>
@@ -2012,11 +2012,23 @@
   <data name="Behaviors" xml:space="preserve">
     <value>Comportamentos</value>
   </data>
-  <data name="ReviewFiles" xml:space="preserve">
-    <value>Avaliar Files</value>
+  <data name="Hello" xml:space="preserve">
+    <value>Olá!</value>
   </data>
-  <data name="ReviewFilesContent" xml:space="preserve">
-    <value>Deseja avaliar Files?</value>
+  <data name="ReviewFilesSubtitle" xml:space="preserve">
+    <value>Está a gostar do Files? Considere deixar uma classificação na Microsoft Store.</value>
+  </data>  
+  <data name="SponsorSubtitle" xml:space="preserve">
+    <value>Está a gostar do Files? Considere apoiar o projeto no GitHub.</value>
+  </data>
+  <data name="Sponsor" xml:space="preserve">
+    <value>Patrocinador</value>
+  </data>
+  <data name="RateUs" xml:space="preserve">
+    <value>Clasifique-nos</value>
+  </data>
+  <data name="Dismiss" xml:space="preserve">
+    <value>Dispensar</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Definir como imagem de fundo</value>
@@ -2505,16 +2517,16 @@
     <value>Partilhar {0, plural, one {ficheiro selecionado} other {ficheiros selecionados}} com outros</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
-    <value>Afixar {0, plural, one {item} other {itens}} no Menu Iniciar</value>
+    <value>Afixar {0, plural, one {item} other {itens}} em Iniciar</value>
   </data>
   <data name="UnpinFromStartDescription" xml:space="preserve">
-    <value>Desafixar {0, plural, one {item} other {itens}} do Menu Iniciar</value>
+    <value>Remover {0, plural, one {item} other {itens}} de Iniciar</value>
   </data>
   <data name="PinFolderToSidebarDescription" xml:space="preserve">
-    <value>Afixar {0, plural, one {pasta} other {pastas}} na barra lateral</value>
+    <value>Afixar {0, plural, one {pasta} other {pastas}} em Acesso rápido</value>
   </data>
   <data name="UnpinFolderFromSidebarDescription" xml:space="preserve">
-    <value>Desafixar {0, plural, one {pasta} other {pastas}} da barra lateral</value>
+    <value>Remover {0, plural, one {pasta} other {pastas}} de Acesso rápido</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
     <value>Definir imagem selecionada como fundo do ambiente de trabalho</value>
@@ -2664,7 +2676,7 @@
     <value>Agrupar itens por nome</value>
   </data>
   <data name="GroupByDateModifiedDescription" xml:space="preserve">
-    <value>Agrupar itens por data de alteração</value>
+    <value>Agrupar itens por data de modificação</value>
   </data>
   <data name="GroupByDateCreatedDescription" xml:space="preserve">
     <value>Agrupar itens por data de criação</value>
@@ -2939,11 +2951,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeDown" xml:space="preserve">
-    <value>Baixar volume</value>
+    <value>Diminuir volume</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeUp" xml:space="preserve">
-    <value>Subir volume</value>
+    <value>Aumentar volume</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Change" xml:space="preserve">
@@ -3704,7 +3716,7 @@
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
-    <value>Desbloquear ficheiro descarregado</value>
+    <value>Desbloquear o ficheiro transferido</value>
   </data>
   <data name="NoFileOperations" xml:space="preserve">
     <value>Não existem operações em curso</value>
