@@ -203,31 +203,27 @@
 									</MenuFlyout>
 								</FlyoutBase.AttachedFlyout>
 
-								<AnimatedIcon
+								<FontIcon
 									x:Name="PART_ItemChevronIcon"
 									Width="{StaticResource BreadcrumbBarChevronFontSize}"
 									Height="{StaticResource BreadcrumbBarChevronFontSize}"
 									HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 									VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-									AnimatedIcon.State="NormalOff"
-									AutomationProperties.AccessibilityView="Raw"
+									FontSize="{StaticResource BreadcrumbBarChevronFontSize}"
 									Foreground="{ThemeResource BreadcrumbBarForegroundBrush}"
-									MirroredWhenRightToLeft="True"
-									RenderTransformOrigin="0.5, 0.5">
-									<AnimatedIcon.FallbackIconSource>
-										<FontIconSource
-											FontSize="{StaticResource BreadcrumbBarChevronFontSize}"
-											Glyph="&#xE76C;"
-											IsTextScaleFactorEnabled="False" />
-									</AnimatedIcon.FallbackIconSource>
-									<animatedvisuals:AnimatedChevronRightDownSmallVisualSource />
-								</AnimatedIcon>
-
+									Glyph="&#xE76C;"
+									IsTextScaleFactorEnabled="False"
+									RenderTransformOrigin="0.5,0.5">
+									<FontIcon.RenderTransform>
+										<TransformGroup>
+											<RotateTransform x:Name="ChevronRotateTransform" Angle="0" />
+										</TransformGroup>
+									</FontIcon.RenderTransform>
+								</FontIcon>
 							</Button>
 						</StackPanel>
 
 						<VisualStateManager.VisualStateGroups>
-
 							<VisualStateGroup x:Name="ChevronVisibilityStates">
 								<VisualState x:Name="ChevronVisible" />
 								<VisualState x:Name="ChevronCollapsed">
@@ -238,14 +234,36 @@
 							</VisualStateGroup>
 
 							<VisualStateGroup x:Name="ChevronStates">
-								<VisualState x:Name="ChevronNormalOff" />
+								<VisualState x:Name="ChevronNormalOff">
+									<Storyboard>
+										<DoubleAnimation
+											EnableDependentAnimation="True"
+											Storyboard.TargetName="ChevronRotateTransform"
+											Storyboard.TargetProperty="Angle"
+											To="0"
+											Duration="0:0:0.2">
+											<DoubleAnimation.EasingFunction>
+												<CubicEase EasingMode="EaseIn" />
+											</DoubleAnimation.EasingFunction>
+										</DoubleAnimation>
+									</Storyboard>
+								</VisualState>
+
 								<VisualState x:Name="ChevronNormalOn">
-									<VisualState.Setters>
-										<Setter Target="PART_ItemChevronIcon.(AnimatedIcon.State)" Value="NormalOn" />
-									</VisualState.Setters>
+									<Storyboard>
+										<DoubleAnimation
+											EnableDependentAnimation="True"
+											Storyboard.TargetName="ChevronRotateTransform"
+											Storyboard.TargetProperty="Angle"
+											To="90"
+											Duration="0:0:0.2">
+											<DoubleAnimation.EasingFunction>
+												<CubicEase EasingMode="EaseIn" />
+											</DoubleAnimation.EasingFunction>
+										</DoubleAnimation>
+									</Storyboard>
 								</VisualState>
 							</VisualStateGroup>
-
 						</VisualStateManager.VisualStateGroups>
 					</Grid>
 				</ControlTemplate>
