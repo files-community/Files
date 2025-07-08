@@ -330,7 +330,10 @@ namespace Files.App.UserControls
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
 			{
-				ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
+				await DispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
+				});
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 			{
@@ -475,13 +478,10 @@ namespace Files.App.UserControls
 				{
 					ViewModel.OmnibarCommandPaletteModeText = string.Empty;
 
-					if (ViewModel.OmnibarCommandPaletteModeSuggestionItems.Count is 0)
+					await DispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
-						await DispatcherQueue.EnqueueOrInvokeAsync(() =>
-						{
-							ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
-						});
-					}
+						ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
+					});
 				}
 				else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 				{
