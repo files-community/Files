@@ -466,13 +466,10 @@ namespace Files.App.UserControls
 						? Constants.UserEnvironmentPaths.HomePath
 						: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
 
-					if (ViewModel.PathModeSuggestionItems.Count is 0)
+					await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
-						await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-						{
-							await ViewModel.PopulateOmnibarSuggestionsForPathMode();
-						});
-					}
+						await ViewModel.PopulateOmnibarSuggestionsForPathMode();
+					});
 				}
 				else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
 				{
