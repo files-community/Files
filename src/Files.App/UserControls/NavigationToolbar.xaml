@@ -412,9 +412,9 @@
 				UpdateTextOnSelect="False">
 				<controls:OmnibarMode.ItemTemplate>
 					<DataTemplate x:DataType="dataitems:NavigationBarSuggestionItem">
-						<Grid ColumnSpacing="12">
+						<Grid Padding="0,0,6,0" ColumnSpacing="12">
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="16" />
+								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
@@ -445,7 +445,6 @@
 							<keyboard:KeyboardShortcut
 								x:Name="RightAlignedKeyboardShortcut"
 								Grid.Column="2"
-								Margin="0,0,8,0"
 								VerticalAlignment="Center"
 								HotKeys="{x:Bind HotKeys}" />
 						</Grid>

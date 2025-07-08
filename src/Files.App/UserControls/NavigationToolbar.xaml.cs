@@ -466,19 +466,25 @@ namespace Files.App.UserControls
 						? Constants.UserEnvironmentPaths.HomePath
 						: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
 
-					await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+					if (ViewModel.PathModeSuggestionItems.Count is 0)
 					{
-						await ViewModel.PopulateOmnibarSuggestionsForPathMode();
-					});
+						await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+						{
+							await ViewModel.PopulateOmnibarSuggestionsForPathMode();
+						});
+					}
 				}
 				else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
 				{
 					ViewModel.OmnibarCommandPaletteModeText = string.Empty;
 
-					await DispatcherQueue.EnqueueOrInvokeAsync(() =>
+					if (ViewModel.OmnibarCommandPaletteModeSuggestionItems.Count is 0)
 					{
-						ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
-					});
+						await DispatcherQueue.EnqueueOrInvokeAsync(() =>
+						{
+							ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
+						});
+					}
 				}
 				else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 				{
