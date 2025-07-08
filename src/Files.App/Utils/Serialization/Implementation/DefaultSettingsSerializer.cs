@@ -36,14 +36,14 @@ namespace Files.App.Utils.Serialization.Implementation
 		/// <exception cref="ArgumentNullException"></exception>
 		public string ReadFromFile()
 		{
-			_ = _filePath ?? throw new ArgumentNullException(nameof(_filePath));
+			ArgumentNullException.ThrowIfNull(_filePath);
 
 			return ReadStringFromFile(_filePath);
 		}
 
 		public bool WriteToFile(string? text)
 		{
-			_ = _filePath ?? throw new ArgumentNullException(nameof(_filePath));
+			ArgumentNullException.ThrowIfNull(_filePath);
 
 			return WriteStringToFile(_filePath, text);
 		}

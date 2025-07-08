@@ -87,8 +87,7 @@ namespace Files.App.Services
 				XmlSerializer xml = new XmlSerializer(typeof(AppInstaller));
 				var appInstaller = (AppInstaller?)xml.Deserialize(stream);
 
-				if (appInstaller is null)
-					throw new ArgumentNullException(nameof(appInstaller));
+				ArgumentNullException.ThrowIfNull(appInstaller);
 
 				var remoteVersion = new Version(appInstaller.Version);
 

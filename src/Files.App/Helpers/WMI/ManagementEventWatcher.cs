@@ -51,10 +51,7 @@ namespace Files.App.Helpers
 		{
 			string queryExpression = query.QueryExpression;
 
-			if (string.IsNullOrWhiteSpace(queryExpression))
-			{
-				throw new ArgumentNullException(nameof(queryExpression));
-			}
+			ArgumentNullException.ThrowIfNullOrWhiteSpace(queryExpression);
 
 			_nameSpace = DefaultNameSpace;
 			_queryDialect = DefaultQueryDialect;
@@ -70,10 +67,7 @@ namespace Files.App.Helpers
 		/// <param name="queryExpression"></param>
 		public ManagementEventWatcher(string queryDialect, string queryExpression)
 		{
-			if (string.IsNullOrWhiteSpace(queryExpression))
-			{
-				throw new ArgumentNullException(nameof(queryExpression));
-			}
+			ArgumentNullException.ThrowIfNullOrWhiteSpace(queryExpression);
 
 			_nameSpace = DefaultNameSpace;
 			_queryDialect = queryDialect ?? DefaultQueryDialect;
@@ -90,10 +84,7 @@ namespace Files.App.Helpers
 		/// <param name="queryExpression"></param>
 		public ManagementEventWatcher(string nameSpace, string queryDialect, string queryExpression)
 		{
-			if (string.IsNullOrWhiteSpace(queryExpression))
-			{
-				throw new ArgumentNullException(nameof(queryExpression));
-			}
+			ArgumentNullException.ThrowIfNullOrWhiteSpace(queryExpression);
 
 			_nameSpace = nameSpace ?? DefaultNameSpace;
 			_queryDialect = queryDialect ?? DefaultQueryDialect;
@@ -111,10 +102,7 @@ namespace Files.App.Helpers
 		/// <param name="queryExpression"></param>
 		public ManagementEventWatcher(string computerName, string nameSpace, string queryDialect, string queryExpression)
 		{
-			if (string.IsNullOrWhiteSpace(queryExpression))
-			{
-				throw new ArgumentNullException(nameof(queryExpression));
-			}
+			ArgumentNullException.ThrowIfNullOrWhiteSpace(queryExpression);
 
 			_computerName = computerName;
 			_nameSpace = nameSpace ?? DefaultNameSpace;
@@ -160,10 +148,7 @@ namespace Files.App.Helpers
 		{
 			lock (_myLock)
 			{
-				if (_isDisposed)
-				{
-					throw new ObjectDisposedException(nameof(ManagementEventWatcher));
-				}
+				ObjectDisposedException.ThrowIf(_isDisposed, this);
 
 				if (_cimWatcherStatus != CimWatcherStatus.Default && _cimWatcherStatus != CimWatcherStatus.Stopped)
 				{
@@ -180,10 +165,7 @@ namespace Files.App.Helpers
 		{
 			lock (_myLock)
 			{
-				if (_isDisposed)
-				{
-					throw new ObjectDisposedException(nameof(ManagementEventWatcher));
-				}
+				ObjectDisposedException.ThrowIf(_isDisposed, this);
 
 				if (_cimWatcherStatus != CimWatcherStatus.Started)
 				{
