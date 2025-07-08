@@ -1148,6 +1148,8 @@ namespace Files.App.ViewModels.UserControls
 
 		public void PopulateOmnibarSuggestionsForCommandPaletteMode()
 		{
+			var newSuggestions = new List<NavigationBarSuggestionItem>();
+
 			if (ContentPageContext.SelectedItems.Count == 1 && ContentPageContext.SelectedItem is not null && !ContentPageContext.SelectedItem.IsFolder)
 			{
 				try
@@ -1176,7 +1178,7 @@ namespace Files.App.ViewModels.UserControls
 							}
 						}
 
-						OmnibarCommandPaletteModeSuggestionItems.Add(newItem);
+						newSuggestions.Add(newItem);
 					}
 				}
 				catch (Exception ex)
@@ -1198,21 +1200,51 @@ namespace Files.App.ViewModels.UserControls
 					PrimaryDisplay = command.Description,
 					HotKeys = command.HotKeys,
 					SearchText = OmnibarCommandPaletteModeText,
-				});
+				})
+				.Where(item => item.Text != Commands.OpenCommandPalette.Description.ToString()
+					&& item.Text != Commands.EditPath.Description.ToString());
 
-			foreach (var item in suggestionItems)
-			{
-				if (item.Text != Commands.OpenCommandPalette.Description.ToString())
-					OmnibarCommandPaletteModeSuggestionItems.Add(item);
-			}
+			newSuggestions.AddRange(suggestionItems);
 
-			if (OmnibarCommandPaletteModeSuggestionItems.Count is 0)
+			if (newSuggestions.Count == 0)
 			{
-				OmnibarCommandPaletteModeSuggestionItems.Add(new NavigationBarSuggestionItem()
+				newSuggestions.Add(new NavigationBarSuggestionItem()
 				{
 					PrimaryDisplay = string.Format(Strings.NoCommandsFound.GetLocalizedResource(), OmnibarCommandPaletteModeText),
 					SearchText = OmnibarCommandPaletteModeText,
 				});
+			}
+
+			if (!OmnibarCommandPaletteModeSuggestionItems.IntersectBy(newSuggestions, x => x.PrimaryDisplay).Any())
+			{
+				for (int index = 0; index < newSuggestions.Count; index++)
+				{
+					if (index < OmnibarCommandPaletteModeSuggestionItems.Count)
+						OmnibarCommandPaletteModeSuggestionItems[index] = newSuggestions[index];
+					else
+						OmnibarCommandPaletteModeSuggestionItems.Add(newSuggestions[index]);
+				}
+
+				while (OmnibarCommandPaletteModeSuggestionItems.Count > newSuggestions.Count)
+					OmnibarCommandPaletteModeSuggestionItems.RemoveAt(OmnibarCommandPaletteModeSuggestionItems.Count - 1);
+			}
+			else
+			{
+				foreach (var s in OmnibarCommandPaletteModeSuggestionItems.ExceptBy(newSuggestions, x => x.PrimaryDisplay).ToList())
+					OmnibarCommandPaletteModeSuggestionItems.Remove(s);
+
+				for (int index = 0; index < newSuggestions.Count; index++)
+				{
+					if (OmnibarCommandPaletteModeSuggestionItems.Count > index
+						&& OmnibarCommandPaletteModeSuggestionItems[index].PrimaryDisplay == newSuggestions[index].PrimaryDisplay)
+					{
+						OmnibarCommandPaletteModeSuggestionItems[index] = newSuggestions[index];
+					}
+					else
+					{
+						OmnibarCommandPaletteModeSuggestionItems.Insert(index, newSuggestions[index]);
+					}
+				}
 			}
 		}
 

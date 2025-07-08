@@ -330,7 +330,10 @@ namespace Files.App.UserControls
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
 			{
-				ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
+				await DispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
+				});
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 			{

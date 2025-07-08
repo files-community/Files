@@ -419,7 +419,7 @@
 					<DataTemplate x:DataType="dataitems:NavigationBarSuggestionItem">
 						<Grid Padding="0,0,4,0" ColumnSpacing="12">
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="16" />
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
