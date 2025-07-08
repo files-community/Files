@@ -23,28 +23,24 @@ namespace Files.App.Storage
 
 		private HWND _hWnd = default;
 		private WNDPROC? _wndProc;
-		private bool _isInitialized;
 		private uint _dwTaskbarRestartMsgId;
 		private bool _isShown;
 
-		public void Initialize(string szWndClassName, string szToolTip, HICON hIcon, Guid id, uint dwCallbackMsgId, Action<uint> callback)
+		public static SystemTrayManager CreateIcon(string szWndClassName, string szToolTip, HICON hIcon, Guid id, uint dwCallbackMsgId, Action<uint> callback)
 		{
-			_szWndClassName = szWndClassName;
-			_szToolTip = szToolTip;
-			_hIcon = hIcon;
-			_id = id;
-			_dwCallbackMsgId = dwCallbackMsgId;
-			_callback = callback;
-
-			_isInitialized = true;
+			return new()
+			{
+				_szWndClassName = szWndClassName,
+				_szToolTip = szToolTip,
+				_hIcon = hIcon,
+				_id = id,
+				_dwCallbackMsgId = dwCallbackMsgId,
+				_callback = callback,
+			};
 		}
 
-		public bool CreateIcon()
+		private bool CreateIcon()
 		{
-			// Not expected usage
-			if (!_isInitialized)
-				throw new InvalidOperationException($"{nameof(SystemTrayManager)} is not initialized. Call {nameof(Initialize)}() before using this method.");
-
 			if (_hWnd.IsNull)
 				_hWnd = CreateIconWindow(_szWndClassName);
 
@@ -135,7 +131,7 @@ namespace Files.App.Storage
 
 				return default;
 			}
-			else if (uMsg == _dwTaskbarRestartMsgId && _isInitialized)
+			else if (uMsg == _dwTaskbarRestartMsgId)
 			{
 				DeleteIcon();
 				CreateIcon();
