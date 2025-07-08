@@ -242,7 +242,11 @@
 											Storyboard.TargetName="ChevronRotateTransform"
 											Storyboard.TargetProperty="Angle"
 											To="0"
-											Duration="0:0:0.1" />
+											Duration="0:0:0.2">
+											<DoubleAnimation.EasingFunction>
+												<CubicEase EasingMode="EaseIn" />
+											</DoubleAnimation.EasingFunction>
+										</DoubleAnimation>
 									</Storyboard>
 								</VisualState>
 
@@ -253,7 +257,11 @@
 											Storyboard.TargetName="ChevronRotateTransform"
 											Storyboard.TargetProperty="Angle"
 											To="90"
-											Duration="0:0:0.1" />
+											Duration="0:0:0.2">
+											<DoubleAnimation.EasingFunction>
+												<CubicEase EasingMode="EaseIn" />
+											</DoubleAnimation.EasingFunction>
+										</DoubleAnimation>
 									</Storyboard>
 								</VisualState>
 							</VisualStateGroup>
