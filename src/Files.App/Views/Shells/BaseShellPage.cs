@@ -176,7 +176,7 @@ namespace Files.App.Views.Shells
 
 			DisplayFilesystemConsentDialogAsync();
 
-			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
+			if (AppLanguageHelper.IsPreferredLanguageRtl)
 				FlowDirection = FlowDirection.RightToLeft;
 
 			ToolbarViewModel.ToolbarPathItemInvoked += ShellPage_NavigationRequested;

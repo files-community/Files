@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
+using WinUIEx;
 using GridSplitter = Files.App.Controls.GridSplitter;
 using VirtualKey = Windows.System.VirtualKey;
 
@@ -41,8 +42,11 @@ namespace Files.App.Views
 			SidebarAdaptiveViewModel.PaneFlyout = (MenuFlyout)Resources["SidebarContextMenu"];
 			ViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
 
-			if (FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft)
+			if (AppLanguageHelper.IsPreferredLanguageRtl)
+			{
+				MainWindow.Instance.SetExtendedWindowStyle(ExtendedWindowStyle.LayoutRtl);
 				FlowDirection = FlowDirection.RightToLeft;
+			}
 
 			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;

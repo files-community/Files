@@ -22,12 +22,6 @@ namespace Files.App.Utils.Storage
 		private static IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 
 		/// <summary>
-		/// Whether LayoutDirection (FlowDirection) is set to right-to-left (RTL)
-		/// </summary>
-		public static readonly bool FlowDirectionSettingIsRightToLeft =
-			new ResourceManager().CreateResourceContext().QualifierValues["LayoutDirection"] == "RTL";
-
-		/// <summary>
 		/// Get window handle (hWnd) of the given properties window instance
 		/// </summary>
 		/// <param name="w">Window instance</param>

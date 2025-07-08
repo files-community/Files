@@ -28,6 +28,21 @@ namespace Files.App.Helpers
 		public static AppLanguageItem PreferredLanguage { get; private set; }
 
 		/// <summary>
+		/// Gets the preferred language.
+		/// </summary>
+		public static bool IsPreferredLanguageRtl
+		{
+			get
+			{
+				if (PreferredLanguage.Code is null)
+					return false;
+
+				var culture = new CultureInfo(PreferredLanguage.Code);
+				return culture.TextInfo.IsRightToLeft;
+			}
+		}
+
+		/// <summary>
 		/// Initializes the <see cref="AppLanguageHelper"/> class.
 		/// </summary>
 		static AppLanguageHelper()

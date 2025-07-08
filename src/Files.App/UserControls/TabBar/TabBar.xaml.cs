@@ -363,7 +363,7 @@ namespace Files.App.UserControls.TabBar
 			if (HorizontalTabView.ActualWidth <= 0 && TabBarAddNewTabButton.Width <= 0)
 				await Task.Delay(100);
 
-			var titleBarInset = ((FilePropertiesHelpers.FlowDirectionSettingIsRightToLeft
+			var titleBarInset = ((AppLanguageHelper.IsPreferredLanguageRtl
 				? MainWindow.Instance.AppWindow.TitleBar.LeftInset
 				: MainWindow.Instance.AppWindow.TitleBar.RightInset) / DragAreaRectangle.XamlRoot.RasterizationScale) + 40;
 
