@@ -213,7 +213,6 @@
 									Foreground="{ThemeResource BreadcrumbBarForegroundBrush}"
 									Glyph="&#xE76C;"
 									IsTextScaleFactorEnabled="False"
-									MirroredWhenRightToLeft="True"
 									RenderTransformOrigin="0.5,0.5">
 									<FontIcon.RenderTransform>
 										<TransformGroup>
