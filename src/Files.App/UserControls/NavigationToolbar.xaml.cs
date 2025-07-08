@@ -259,18 +259,13 @@ namespace Files.App.UserControls
 
 		private async void Omnibar_QuerySubmitted(Omnibar sender, OmnibarQuerySubmittedEventArgs args)
 		{
-			var mode = Omnibar.CurrentSelectedMode;
-
-			// Path mode
-			if (mode == OmnibarPathMode)
+			if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
 			{
 				await ViewModel.HandleItemNavigationAsync(args.Text);
 				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
 				return;
 			}
-
-			// Command palette mode
-			else if (mode == OmnibarCommandPaletteMode)
+			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
 			{
 				var item = args.Item as NavigationBarSuggestionItem;
 
@@ -312,26 +307,9 @@ namespace Files.App.UserControls
 				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
 				return;
 			}
-
-			// Search mode
-			else if (mode == OmnibarSearchMode)
+			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 			{
-				var shellPage = ContentPageContext.ShellPage;
-
-				if (args.Item is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath) && shellPage is not null)
-					await NavigationHelpers.OpenPath(item.ItemPath, shellPage);
-				else
-				{
-					var searchQuery = args.Item is SuggestionModel x && !string.IsNullOrWhiteSpace(x.Name)
-						? x.Name
-						: args.Text;
-
-					shellPage?.SubmitSearch(searchQuery); // use the resolved shellPage for consistency
-					ViewModel.SaveSearchQueryToList(searchQuery);
-				}
-
-				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
-				return;
+				ContentPageContext.ShellPage?.SubmitSearch(args.Text);
 			}
 		}
 
@@ -340,20 +318,26 @@ namespace Files.App.UserControls
 			if (args.Reason is not OmnibarTextChangeReason.UserInput)
 				return;
 
-			if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
+			if (args.Mode == OmnibarPathMode)
 			{
-				await ViewModel.PopulateOmnibarSuggestionsForPathMode();
-			}
-			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
-			{
-				await DispatcherQueue.EnqueueOrInvokeAsync(() =>
+				await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
+					await ViewModel.PopulateOmnibarSuggestionsForPathMode();
 				});
 			}
-			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
+			else if (args.Mode == OmnibarCommandPaletteMode)
 			{
-				await ViewModel.PopulateOmnibarSuggestionsForSearchMode();
+				await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				{
+					await ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
+				});
+			}
+			else if (args.Mode == OmnibarSearchMode)
+			{
+				await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				{
+					await ViewModel.PopulateOmnibarSuggestionsForSearchMode();
+				});
 			}
 		}
 
@@ -465,9 +449,9 @@ namespace Files.App.UserControls
 			{
 				ViewModel.OmnibarCommandPaletteModeText = string.Empty;
 
-				await DispatcherQueue.EnqueueOrInvokeAsync(() =>
+				await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 				{
-					ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
+					await ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
 				});
 			}
 			else if (e.NewMode == OmnibarSearchMode)
@@ -477,7 +461,10 @@ namespace Files.App.UserControls
 				else
 					ViewModel.OmnibarSearchModeText = ViewModel.InstanceViewModel.CurrentSearchQuery;
 
-				await ViewModel.PopulateOmnibarSuggestionsForSearchMode();
+				await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				{
+					await ViewModel.PopulateOmnibarSuggestionsForSearchMode();
+				});
 			}
 		}
 
@@ -500,14 +487,17 @@ namespace Files.App.UserControls
 				{
 					ViewModel.OmnibarCommandPaletteModeText = string.Empty;
 
-					await DispatcherQueue.EnqueueOrInvokeAsync(() =>
+					await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
-						ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
+						await ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
 					});
 				}
 				else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 				{
-					await ViewModel.PopulateOmnibarSuggestionsForSearchMode();
+					await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+					{
+						await ViewModel.PopulateOmnibarSuggestionsForSearchMode();
+					});
 				}
 			}
 		}

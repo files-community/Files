@@ -7,6 +7,7 @@ using Windows.Foundation;
 
 namespace Files.App.Data.EventArguments
 {
+	[Obsolete("Superseded by Omnibar.")]
 	public sealed class SearchBoxTextChangedEventArgs
 	{
 		public SearchBoxTextChangeReason Reason { get; }

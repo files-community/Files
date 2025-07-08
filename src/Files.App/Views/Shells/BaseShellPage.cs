@@ -345,6 +345,7 @@ namespace Files.App.Views.Shells
 			}
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		protected async void ShellPage_QuerySubmitted(ISearchBoxViewModel sender, SearchBoxQuerySubmittedEventArgs e)
 		{
 			if (e.ChosenSuggestion is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath))
@@ -353,6 +354,7 @@ namespace Files.App.Views.Shells
 				SubmitSearch(sender.Query);
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		protected async void ShellPage_TextChanged(ISearchBoxViewModel sender, SearchBoxTextChangedEventArgs e)
 		{
 			if (e.Reason != SearchBoxTextChangeReason.UserInput)
