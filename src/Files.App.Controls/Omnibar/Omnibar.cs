@@ -38,6 +38,7 @@ namespace Files.App.Controls
 		public event TypedEventHandler<Omnibar, OmnibarSuggestionChosenEventArgs>? SuggestionChosen;
 		public event TypedEventHandler<Omnibar, OmnibarTextChangedEventArgs>? TextChanged;
 		public event TypedEventHandler<Omnibar, OmnibarModeChangedEventArgs>? ModeChanged;
+		public event TypedEventHandler<Omnibar, OmnibarIsFocusedChangedEventArgs> IsFocusedChanged;
 
 		// Constructor
 

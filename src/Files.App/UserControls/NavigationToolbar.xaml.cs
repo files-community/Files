@@ -428,11 +428,66 @@ namespace Files.App.UserControls
 			e.Flyout.Items.Clear();
 		}
 
-		private void Omnibar_ModeChanged(object sender, OmnibarModeChangedEventArgs e)
+		private async void Omnibar_ModeChanged(object sender, OmnibarModeChangedEventArgs e)
 		{
-			// Reset the command palette text when switching modes
-			if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
+			if (e.NewMode == OmnibarPathMode)
+			{
+				ViewModel.PathText = string.IsNullOrEmpty(ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory)
+					? Constants.UserEnvironmentPaths.HomePath
+					: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
+
+				await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				{
+					await ViewModel.PopulateOmnibarSuggestionsForPathMode();
+				});
+			}
+			else if (e.NewMode == OmnibarCommandPaletteMode)
+			{
 				ViewModel.OmnibarCommandPaletteModeText = string.Empty;
+
+				await DispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
+				});
+			}
+			else if (e.NewMode == OmnibarSearchMode)
+			{
+
+			}
+		}
+
+		private async void Omnibar_IsFocusedChanged(Omnibar sender, OmnibarIsFocusedChangedEventArgs args)
+		{
+			if (args.IsFocused)
+			{
+				if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
+				{
+					ViewModel.PathText = string.IsNullOrEmpty(ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory)
+						? Constants.UserEnvironmentPaths.HomePath
+						: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
+
+					await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+					{
+						await ViewModel.PopulateOmnibarSuggestionsForPathMode();
+					});
+				}
+				else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
+				{
+					ViewModel.OmnibarCommandPaletteModeText = string.Empty;
+
+					if (ViewModel.OmnibarCommandPaletteModeSuggestionItems.Count is 0)
+					{
+						await DispatcherQueue.EnqueueOrInvokeAsync(() =>
+						{
+							ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
+						});
+					}
+				}
+				else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
+				{
+
+				}
+			}
 		}
 
 		private async void Omnibar_PreviewKeyDown(object sender, KeyRoutedEventArgs e)

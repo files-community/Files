@@ -78,6 +78,8 @@ namespace Files.App.ViewModels.UserControls
 
 		internal ObservableCollection<NavigationBarSuggestionItem> OmnibarCommandPaletteModeSuggestionItems { get; } = [];
 
+		internal ObservableCollection<SuggestionModel> OmnibarSearchModeSuggestionItems { get; } = [];
+
 		public bool IsSingleItemOverride { get; set; }
 
 		public bool SearchHasFocus { get; private set; }
@@ -231,66 +233,14 @@ namespace Files.App.ViewModels.UserControls
 		private string? _OmnibarCommandPaletteModeText;
 		public string? OmnibarCommandPaletteModeText { get => _OmnibarCommandPaletteModeText; set => SetProperty(ref _OmnibarCommandPaletteModeText, value); }
 
-		private bool _IsOmnibarFocused;
-		public bool IsOmnibarFocused
-		{
-			get => _IsOmnibarFocused;
-			set
-			{
-				// NOTE: Don't call ObservableObject.SetProperty() here since we don't want to change focus logic outside of the control.
-
-				_IsOmnibarFocused = value;
-
-				if (value)
-				{
-					switch (OmnibarCurrentSelectedModeName)
-					{
-						case OmnibarPathModeName:
-							PathText =
-								string.IsNullOrEmpty(ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory)
-									? Constants.UserEnvironmentPaths.HomePath
-									: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
-							_ = PopulateOmnibarSuggestionsForPathMode();
-							break;
-						case OmnibarPaletteModeName:
-							PopulateOmnibarSuggestionsForCommandPaletteMode();
-							break;
-						case OmnibarSearchModeName:
-							break;
-						default:
-							break;
-					}
-				}
-			}
-		}
+		private string? _OmnibarSearchModeText;
+		public string? OmnibarSearchModeText { get => _OmnibarSearchModeText; set => SetProperty(ref _OmnibarSearchModeText, value); }
 
 		private string _OmnibarCurrentSelectedModeName = OmnibarPathModeName;
 		public string OmnibarCurrentSelectedModeName
 		{
 			get => _OmnibarCurrentSelectedModeName;
-			set
-			{
-				if (SetProperty(ref _OmnibarCurrentSelectedModeName, value) && IsOmnibarFocused)
-				{
-					switch (value)
-					{
-						case OmnibarPathModeName:
-							PathText =
-								string.IsNullOrEmpty(ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory)
-									? Constants.UserEnvironmentPaths.HomePath
-									: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
-							_ = PopulateOmnibarSuggestionsForPathMode();
-							break;
-						case OmnibarPaletteModeName:
-							PopulateOmnibarSuggestionsForCommandPaletteMode();
-							break;
-						case OmnibarSearchModeName:
-							break;
-						default:
-							break;
-					}
-				}
-			}
+			set => SetProperty(ref _OmnibarCurrentSelectedModeName, value);
 		}
 
 		private CurrentInstanceViewModel _InstanceViewModel;
@@ -1100,8 +1050,6 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task PopulateOmnibarSuggestionsForPathMode()
 		{
-			PathModeSuggestionItems.Clear();
-
 			var result = await SafetyExtensions.IgnoreExceptions((Func<Task<bool>>)(async () =>
 			{
 				List<OmnibarPathModeSuggestionModel>? newSuggestions = [];
@@ -1200,49 +1148,41 @@ namespace Files.App.ViewModels.UserControls
 
 		public void PopulateOmnibarSuggestionsForCommandPaletteMode()
 		{
-			OmnibarCommandPaletteModeText ??= string.Empty;
-			OmnibarCommandPaletteModeSuggestionItems.Clear();
-
 			if (ContentPageContext.SelectedItems.Count == 1 && ContentPageContext.SelectedItem is not null && !ContentPageContext.SelectedItem.IsFolder)
 			{
-				var dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
-
-				dispatcherQueue.TryEnqueue(() =>
+				try
 				{
-					try
-					{
-						var selectedItemPath = ContentPageContext.SelectedItem.ItemPath;
-						var fileActionEntity = ActionManager.Instance.EntityFactory.CreateFileEntity(selectedItemPath);
-						var actions = ActionManager.Instance.ActionRuntime.ActionCatalog.GetActionsForInputs(new[] { fileActionEntity });
+					var selectedItemPath = ContentPageContext.SelectedItem.ItemPath;
+					var fileActionEntity = ActionManager.Instance.EntityFactory.CreateFileEntity(selectedItemPath);
+					var actions = ActionManager.Instance.ActionRuntime.ActionCatalog.GetActionsForInputs(new[] { fileActionEntity });
 
-						foreach (var action in actions.Where(a => a.Definition.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)))
+					foreach (var action in actions.Where(a => a.Definition.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)))
+					{
+						var newItem = new NavigationBarSuggestionItem
 						{
-							var newItem = new NavigationBarSuggestionItem
-							{
-								PrimaryDisplay = action.Definition.Description,
-								SearchText = OmnibarCommandPaletteModeText,
-								ActionInstance = action
-							};
+							PrimaryDisplay = action.Definition.Description,
+							SearchText = OmnibarCommandPaletteModeText,
+							ActionInstance = action
+						};
 
-							if (Uri.TryCreate(action.Definition.IconFullPath, UriKind.RelativeOrAbsolute, out Uri? validUri))
+						if (Uri.TryCreate(action.Definition.IconFullPath, UriKind.RelativeOrAbsolute, out Uri? validUri))
+						{
+							try
 							{
-								try
-								{
-									newItem.ActionIconSource = new BitmapImage(validUri);
-								}
-								catch (Exception)
-								{
-								}
+								newItem.ActionIconSource = new BitmapImage(validUri);
 							}
-
-							OmnibarCommandPaletteModeSuggestionItems.Add(newItem);
+							catch (Exception)
+							{
+							}
 						}
+
+						OmnibarCommandPaletteModeSuggestionItems.Add(newItem);
 					}
-					catch (Exception ex)
-					{
-						App.Logger.LogWarning(ex, ex.Message);
-					}
-				});
+				}
+				catch (Exception ex)
+				{
+					App.Logger.LogWarning(ex, ex.Message);
+				}
 			}
 
 			var suggestionItems = Commands
