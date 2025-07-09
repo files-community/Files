@@ -47,10 +47,7 @@ namespace Files.App.Utils.Storage
 			=> DateCreated = entry.CreationTime == DateTime.MinValue ? DateTimeOffset.MinValue : entry.CreationTime;
 		public ZipStorageFolder(BaseStorageFile backingFile)
 		{
-			if (string.IsNullOrEmpty(backingFile.Path))
-			{
-				throw new ArgumentException("Backing file Path cannot be null");
-			}
+			ArgumentException.ThrowIfNullOrEmpty(backingFile.Path);
 			Name = IO.Path.GetFileName(backingFile.Path.TrimEnd('\\', '/'));
 			Path = backingFile.Path;
 			this.containerPath = backingFile.Path;
