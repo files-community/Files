@@ -134,7 +134,9 @@ namespace Files.App.Controls
 			if (_textChangeReason is not OmnibarTextChangeReason.SuggestionChosen and
 				not OmnibarTextChangeReason.ProgrammaticChange)
 			{
-				_textChangeReason = OmnibarTextChangeReason.UserInput;
+				if (_textChangeReason is OmnibarTextChangeReason.None)
+					_textChangeReason = OmnibarTextChangeReason.UserInput;
+
 				_userInput = _textBox.Text;
 			}
 			else if (_textChangeReason is OmnibarTextChangeReason.ProgrammaticChange)
