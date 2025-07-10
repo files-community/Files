@@ -316,6 +316,7 @@ namespace Files.App.UserControls
 			// Search mode
 			else if (mode == OmnibarSearchMode)
 			{
+				ContentPageContext.ShellPage?.SubmitSearch(args.Text);
 			}
 		}
 
