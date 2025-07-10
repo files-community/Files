@@ -131,7 +131,6 @@
 							Width="{StaticResource OmnibarModeDefaultClickAreaWidth}"
 							Height="{StaticResource OmnibarModeDefaultHeight}"
 							Margin="1"
-							VerticalAlignment="Stretch"
 							Background="{TemplateBinding Background}"
 							BorderBrush="{TemplateBinding BorderBrush}"
 							BorderThickness="0"

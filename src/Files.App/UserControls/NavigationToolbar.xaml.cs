@@ -507,6 +507,8 @@ namespace Files.App.UserControls
 					BreadcrumbBar.Focus(FocusState.Keyboard);
 				else if (currentSelectedMode == OmnibarCommandPaletteMode)
 					OmnibarCommandPaletteMode.Focus(FocusState.Keyboard);
+				else if (currentSelectedMode == OmnibarSearchMode)
+					OmnibarSearchMode.Focus(FocusState.Keyboard);
 			}
 		}
 
