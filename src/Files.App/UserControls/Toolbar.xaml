@@ -500,6 +500,21 @@
 			Grid.Column="1"
 			DefaultLabelPosition="Right">
 
+			<!--  Toggle filter header  -->
+			<AppBarToggleButton
+				x:Name="FilterHeader"
+				Width="Auto"
+				MinWidth="40"
+				AccessKey="F"
+				AccessKeyInvoked="AppBarButton_AccessKeyInvoked"
+				AutomationProperties.Name="{x:Bind Commands.ToggleFilterHeader.AutomationName}"
+				IsChecked="{x:Bind Commands.ToggleFilterHeader.IsOn, Mode=TwoWay}"
+				Label="{x:Bind Commands.ToggleFilterHeader.Label}"
+				LabelPosition="Collapsed"
+				ToolTipService.ToolTip="{x:Bind Commands.ToggleFilterHeader.LabelWithHotKey, Mode=OneWay}">
+				<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Filter}" />
+			</AppBarToggleButton>
+
 			<!--  Selection Commands  -->
 			<AppBarButton
 				x:Name="SelectionOptions"
