@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.UserControls
 {
+	[Obsolete("Superseded by Omnibar.")]
 	public sealed partial class SearchBox : UserControl
 	{
 		public static readonly DependencyProperty SearchBoxViewModelProperty =
