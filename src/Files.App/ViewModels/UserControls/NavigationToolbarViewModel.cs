@@ -84,7 +84,6 @@ namespace Files.App.ViewModels.UserControls
 
 		public bool SearchHasFocus { get; private set; }
 
-		public bool ShowHomeButton => AppearanceSettingsService.ShowHomeButton;
 		public bool EnableOmnibar => GeneralSettingsService.EnableOmnibar;
 		public bool ShowStatusCenterButton =>
 			AppearanceSettingsService.StatusCenterVisibility == StatusCenterVisibility.Always ||
@@ -349,9 +348,6 @@ namespace Files.App.ViewModels.UserControls
 			{
 				switch (e.PropertyName)
 				{
-					case nameof(AppearanceSettingsService.ShowHomeButton):
-						OnPropertyChanged(nameof(ShowHomeButton));
-						break;
 					case nameof(AppearanceSettingsService.StatusCenterVisibility):
 						OnPropertyChanged(nameof(ShowStatusCenterButton));
 						break;

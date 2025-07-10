@@ -108,11 +108,6 @@ namespace Files.App.Data.Contracts
 		bool ShowTabActions { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value whether the home button should be displayed.
-		/// </summary>
-		bool ShowHomeButton { get; set; }
-
-		/// <summary>
 		/// Gets or sets a value whether the shelf pane toggle button should be displayed.
 		/// </summary>
 		bool ShowShelfPaneToggleButton{ get; set; }

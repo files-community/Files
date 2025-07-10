@@ -250,14 +250,6 @@
 				</wctcontrols:SettingsExpander.HeaderIcon>
 
 				<wctcontrols:SettingsExpander.Items>
-					<!--  Show home button  -->
-					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowHomeButton}">
-						<ToggleSwitch
-							AutomationProperties.AutomationControlType="Custom"
-							AutomationProperties.Name="{helpers:ResourceString Name=ShowHomeButton}"
-							IsOn="{x:Bind ViewModel.ShowHomeButton, Mode=TwoWay}" />
-					</wctcontrols:SettingsCard>
-
 					<!--  Show shelf pane toggle button  -->
 					<wctcontrols:SettingsCard
 						x:Name="ShowShelfPaneSetting"

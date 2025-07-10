@@ -253,7 +253,7 @@ namespace Files.App.UserControls
 				return;
 
 			var previousControl = args.OldFocusedElement as FrameworkElement;
-			if (previousControl?.Name == nameof(HomeButton) || previousControl?.Name == nameof(Refresh))
+			if (previousControl?.Name == nameof(Refresh))
 				ViewModel.IsEditModeEnabled = true;
 		}
 

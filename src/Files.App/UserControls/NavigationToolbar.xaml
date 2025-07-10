@@ -215,18 +215,6 @@
 				ToolTipService.ToolTip="{x:Bind Commands.RefreshItems.LabelWithHotKey, Mode=OneWay}">
 				<FontIcon FontSize="14" Glyph="{x:Bind Commands.RefreshItems.Glyph.BaseGlyph, Mode=OneTime}" />
 			</Button>
-
-			<Button
-				x:Name="HomeButton"
-				x:Load="{x:Bind ViewModel.ShowHomeButton, Mode=OneWay}"
-				AccessKey="H"
-				AccessKeyInvoked="Button_AccessKeyInvoked"
-				AutomationProperties.Name="{x:Bind Commands.NavigateHome.Label, Mode=OneWay}"
-				Command="{x:Bind Commands.NavigateHome, Mode=OneWay}"
-				Style="{StaticResource AddressToolbarButtonStyle}"
-				ToolTipService.ToolTip="{x:Bind Commands.NavigateHome.LabelWithHotKey, Mode=OneWay}">
-				<FontIcon FontSize="14" Glyph="{x:Bind Commands.NavigateHome.Glyph.BaseGlyph, Mode=OneTime}" />
-			</Button>
 		</StackPanel>
 
 		<!--  Legacy breadcrumb bar  -->

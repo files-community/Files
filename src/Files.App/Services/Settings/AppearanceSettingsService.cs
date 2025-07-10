@@ -146,13 +146,6 @@ namespace Files.App.Services.Settings
 		}
 
 		/// <inheritdoc/>
-		public bool ShowHomeButton
-		{
-			get => Get(false);
-			set => Set(value);
-		}
-
-		/// <inheritdoc/>
 		public bool ShowShelfPaneToggleButton
 		{
 			get => Get(false);

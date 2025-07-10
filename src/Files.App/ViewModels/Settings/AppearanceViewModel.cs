@@ -309,20 +309,6 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public bool ShowHomeButton
-		{
-			get => UserSettingsService.AppearanceSettingsService.ShowHomeButton;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.ShowHomeButton)
-				{
-					UserSettingsService.AppearanceSettingsService.ShowHomeButton = value;
-
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public bool ShowShelfPaneToggleButton
 		{
 			get => UserSettingsService.AppearanceSettingsService.ShowShelfPaneToggleButton;
