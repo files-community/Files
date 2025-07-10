@@ -13,14 +13,8 @@ namespace Files.Shared.Extensions
 		/// <returns>The substring.</returns>
 		public static string Left(this string value, int length)
 		{
-			if (value is null)
-			{
-				throw new ArgumentNullException(nameof(value));
-			}
-			if (length < 0)
-			{
-				throw new ArgumentOutOfRangeException(nameof(length), length, "Length is less than zero");
-			}
+			ArgumentNullException.ThrowIfNull(value);
+			ArgumentOutOfRangeException.ThrowIfLessThan(length, 0);
 
 			return length > value.Length ? value : value.Substring(0, length);
 		}
@@ -31,16 +25,10 @@ namespace Files.Shared.Extensions
 		/// <returns>The substring.</returns>
 		public static string Right(this string value, int length)
 		{
-			if (value is null)
-			{
-				throw new ArgumentNullException(nameof(value));
-			}
-			if (length < 0)
-			{
-				throw new ArgumentOutOfRangeException(nameof(length), length, "Length is less than zero");
-			}
+			ArgumentNullException.ThrowIfNull(value);
+			ArgumentOutOfRangeException.ThrowIfLessThan(length, 0);
 
-			return length > value.Length ? value : value.Substring(value.Length - length);
+			return length > value.Length ? value : value[^length..];
 		}
 	}
 }

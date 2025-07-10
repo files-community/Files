@@ -38,8 +38,7 @@ namespace Files.App.Utils.Shell
 		/// <exception cref="ArgumentNullException">location</exception>
 		public void Add(ShellItem location)
 		{
-			if (location is null)
-				throw new ArgumentNullException(nameof(location));
+			ArgumentNullException.ThrowIfNull(location);
 
 			_lib.AddFolder(location.IShellItem);
 		}
@@ -52,8 +51,7 @@ namespace Files.App.Utils.Shell
 		/// <exception cref="ArgumentNullException">location</exception>
 		public bool Remove(ShellItem location)
 		{
-			if (location is null)
-				throw new ArgumentNullException(nameof(location));
+			ArgumentNullException.ThrowIfNull(location);
 
 			try
 			{
