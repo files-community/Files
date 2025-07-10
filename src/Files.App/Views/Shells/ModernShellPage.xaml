@@ -4,6 +4,7 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.Views.Shells"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:wct="using:CommunityToolkit.WinUI"
@@ -49,8 +50,13 @@
 		<Grid.Shadow>
 			<ThemeShadow x:Name="ShellContentThemeShadow" x:FieldModifier="public" />
 		</Grid.Shadow>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
 
 		<Image
+			Grid.RowSpan="2"
 			HorizontalAlignment="{x:Bind ShellViewModel.FolderBackgroundImageHorizontalAlignment, Mode=OneWay}"
 			VerticalAlignment="{x:Bind ShellViewModel.FolderBackgroundImageVerticalAlignment, Mode=OneWay}"
 			Opacity="{x:Bind ShellViewModel.FolderBackgroundImageOpacity, Mode=OneWay}"
@@ -60,6 +66,7 @@
 		<!--  Swipe Backward Icon  -->
 		<Border
 			x:Name="BackIcon"
+			Grid.RowSpan="2"
 			Width="48"
 			Height="48"
 			Margin="-4,0,0,0"
@@ -81,6 +88,7 @@
 		<!--  Swipe Forward Icon  -->
 		<Border
 			x:Name="ForwardIcon"
+			Grid.RowSpan="2"
 			Width="48"
 			Height="48"
 			Margin="0,0,-4,0"
@@ -99,9 +107,33 @@
 				Symbol="Forward" />
 		</Border>
 
+		<!--  Filter header  -->
+		<Grid
+			x:Name="FilterHeader"
+			Grid.Row="0"
+			Padding="12,8,12,8"
+			x:Load="{x:Bind ShellViewModel.ShowFilterHeader, Mode=OneWay}">
+			<StackPanel
+				VerticalAlignment="Center"
+				Orientation="Horizontal"
+				Spacing="12">
+				<TextBlock
+					VerticalAlignment="Center"
+					Style="{StaticResource BodyStrongTextBlockStyle}"
+					Text="{helpers:ResourceString Name=FilteringFor}" />
+				<AutoSuggestBox
+					x:Name="FilterTextBox"
+					Width="180"
+					VerticalAlignment="Center"
+					PlaceholderText="{helpers:ResourceString Name=Filename}"
+					TextChanged="FilterTextBox_TextChanged" />
+			</StackPanel>
+		</Grid>
+
 		<!--  Shell Frame  -->
 		<Frame
 			x:Name="ItemDisplayFrame"
+			Grid.Row="1"
 			x:FieldModifier="public"
 			Navigated="ItemDisplayFrame_Navigated" />
 

@@ -27,6 +27,7 @@ namespace Files.App.Data.Commands
 		ToggleInfoPane,
 		ToggleToolbar,
 		ToggleShelfPane,
+		ToggleFilterHeader,
 
 		// File System
 		CopyItem,

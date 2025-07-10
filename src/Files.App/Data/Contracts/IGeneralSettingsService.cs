@@ -296,6 +296,11 @@ namespace Files.App.Data.Contracts
 		bool ShowShelfPane { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value whether the filter header should be displayed.
+		/// </summary>
+		bool ShowFilterHeader { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not to enable the Omnibar.
 		/// </summary>
 		bool EnableOmnibar { get; set; }

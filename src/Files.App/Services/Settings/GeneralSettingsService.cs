@@ -363,6 +363,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool ShowFilterHeader
+		{
+			get => Get(false);
+			set => Set(value);
+		}
+
 		public bool EnableOmnibar
 		{
 			get => Get(false);
