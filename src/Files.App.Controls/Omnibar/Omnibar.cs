@@ -219,6 +219,12 @@ namespace Files.App.Controls
 				return false;
 			}
 
+			if (CurrentSelectedMode is not null)
+			{
+				_textBoxSuggestionsListView.ItemTemplate = CurrentSelectedMode.ItemTemplate;
+				_textBoxSuggestionsListView.ItemsSource = CurrentSelectedMode.ItemsSource;
+			}
+
 			_textBoxSuggestionsPopup.IsOpen = wantToOpen;
 
 			GlobalHelper.WriteDebugStringForOmnibar("The suggestions pop-up is open.");
