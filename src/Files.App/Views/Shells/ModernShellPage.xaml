@@ -111,7 +111,7 @@
 		<Grid
 			x:Name="FilterHeader"
 			Grid.Row="0"
-			Padding="12,8,12,8"
+			Padding="28,8,12,8"
 			x:Load="{x:Bind ShellViewModel.ShowFilterHeader, Mode=OneWay}">
 			<StackPanel
 				VerticalAlignment="Center"
