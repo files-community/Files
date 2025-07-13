@@ -56,7 +56,8 @@ namespace Files.App.Views.Shells
 		private void ShellViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
 		{
 			// Regular binding causes issues when refreshing the directory so we set the text manually
-			FilterTextBox.Text = ShellViewModel.FilesAndFoldersFilter ?? string.Empty;
+			if (FilterTextBox is not null && FilterTextBox.IsLoaded)
+				FilterTextBox.Text = ShellViewModel.FilesAndFoldersFilter ?? string.Empty;
 		}
 
 		private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)

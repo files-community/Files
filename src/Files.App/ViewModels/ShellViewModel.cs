@@ -114,6 +114,13 @@ namespace Files.App.ViewModels
 			private set => SetProperty(ref _FolderBackgroundImageHorizontalAlignment, value);
 		}
 
+		private ImageSource? _FolderThumbnailImageSource;
+		public ImageSource? FolderThumbnailImageSource
+		{
+			get => _FolderThumbnailImageSource;
+			private set => SetProperty(ref _FolderThumbnailImageSource, value);
+		}
+
 		public bool ShowFilterHeader =>
 			UserSettingsService.GeneralSettingsService.ShowFilterHeader &&
 			WorkingDirectory != "Home" &&
@@ -219,6 +226,8 @@ namespace Files.App.ViewModels
 			GitDirectory = GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
 			IsValidGitDirectory = !string.IsNullOrEmpty((await GitHelpers.GetRepositoryHead(GitDirectory))?.Name);
 
+			_ = UpdateFolderThumbnailImageSource();
+
 			OnPropertyChanged(nameof(WorkingDirectory));
 			OnPropertyChanged(nameof(ShowFilterHeader));
 		}
@@ -280,6 +289,11 @@ namespace Files.App.ViewModels
 		{
 			get => emptyTextType;
 			set => SetProperty(ref emptyTextType, value);
+		}
+
+		public async Task UpdateFolderThumbnailImageSource()
+		{
+			FolderThumbnailImageSource = await NavigationHelpers.GetIconForPathAsync(WorkingDirectory);
 		}
 
 		public async Task UpdateSortOptionStatusAsync()

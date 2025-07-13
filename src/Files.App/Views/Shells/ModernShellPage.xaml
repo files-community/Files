@@ -111,12 +111,16 @@
 		<Grid
 			x:Name="FilterHeader"
 			Grid.Row="0"
-			Padding="28,8,12,8"
-			x:Load="{x:Bind ShellViewModel.ShowFilterHeader, Mode=OneWay}">
+			Padding="26,8,12,8"
+			Visibility="{x:Bind ShellViewModel.ShowFilterHeader, Mode=OneWay}">
 			<StackPanel
 				VerticalAlignment="Center"
 				Orientation="Horizontal"
 				Spacing="12">
+				<Image
+					Height="16"
+					VerticalAlignment="Center"
+					Source="{x:Bind ShellViewModel.FolderThumbnailImageSource, Mode=OneWay}" />
 				<TextBlock
 					VerticalAlignment="Center"
 					Style="{StaticResource BodyStrongTextBlockStyle}"
