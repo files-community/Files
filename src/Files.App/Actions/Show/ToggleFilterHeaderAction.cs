@@ -1,6 +1,10 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+
 namespace Files.App.Actions
 {
 	internal sealed partial class ToggleFilterHeaderAction : ObservableObject, IToggleAction
@@ -27,6 +31,12 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			generalSettingsService.ShowFilterHeader = !IsOn;
+
+			if (IsOn)
+			{
+				var filterTextBox = (MainWindow.Instance.Content as Frame)?.FindDescendant("FilterTextBox") as AutoSuggestBox;
+				filterTextBox?.Focus(FocusState.Programmatic);
+			}
 
 			return Task.CompletedTask;
 		}
