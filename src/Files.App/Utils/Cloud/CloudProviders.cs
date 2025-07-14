@@ -49,6 +49,8 @@ namespace Files.App.Utils.Cloud
 
 		SyncDrive,
 
-		MagentaCloud
+		MagentaCloud,
+
+		OXDrive
 	}
 }
