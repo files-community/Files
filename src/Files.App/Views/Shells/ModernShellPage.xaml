@@ -130,6 +130,7 @@
 					Width="180"
 					VerticalAlignment="Center"
 					PlaceholderText="{helpers:ResourceString Name=Filename}"
+					PreviewKeyDown="FilterTextBox_PreviewKeyDown"
 					TextChanged="FilterTextBox_TextChanged" />
 			</StackPanel>
 		</Grid>

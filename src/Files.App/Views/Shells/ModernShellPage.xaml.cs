@@ -297,7 +297,7 @@ namespace Files.App.Views.Shells
 				},
 				new SuppressNavigationTransitionInfo());
 		}
-		
+
 		public override void NavigateToReleaseNotes()
 		{
 			ItemDisplayFrame.Navigate(
@@ -365,6 +365,14 @@ namespace Files.App.Views.Shells
 				await ShellViewModel.ApplyFilesAndFoldersChangesAsync();
 			}
 
+		}
+
+		private void FilterTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			if (e.Key is VirtualKey.Escape &&
+				SlimContentPage is BaseGroupableLayoutPage svb &&
+				svb.IsLoaded)
+				SlimContentPage.ItemManipulationModel.FocusFileList();
 		}
 	}
 }
