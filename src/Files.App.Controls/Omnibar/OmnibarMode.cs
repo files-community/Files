@@ -35,7 +35,13 @@ namespace Files.App.Controls
 
 			_modeButton = GetTemplateChild(TemplatePartName_ModeButton) as Button
 				?? throw new MissingFieldException($"Could not find {TemplatePartName_ModeButton} in the given {nameof(OmnibarMode)}'s style.");
-			
+
+			RegisterPropertyChangedCallback(ItemsSourceProperty, (d, dp) =>
+			{
+				if (_ownerRef is not null && _ownerRef.TryGetTarget(out var owner))
+					owner.TryToggleIsSuggestionsPopupOpen(true);
+			});
+
 			Loaded += OmnibarMode_Loaded;
 			_modeButton.PointerEntered += ModeButton_PointerEntered;
 			_modeButton.PointerPressed += ModeButton_PointerPressed;
