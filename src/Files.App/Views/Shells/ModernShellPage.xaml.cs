@@ -370,8 +370,7 @@ namespace Files.App.Views.Shells
 		private void FilterTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key is VirtualKey.Escape &&
-				SlimContentPage is BaseGroupableLayoutPage svb &&
-				svb.IsLoaded)
+				SlimContentPage is BaseGroupableLayoutPage { IsLoaded: true } svb)
 				SlimContentPage.ItemManipulationModel.FocusFileList();
 		}
 	}
