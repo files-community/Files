@@ -44,12 +44,20 @@ namespace Files.App.Views.Shells
 			ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			ShellViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 			ShellViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
+			ShellViewModel.DirectoryInfoUpdated += ShellViewModel_DirectoryInfoUpdated;
 
 			ToolbarViewModel.PathControlDisplayText = Strings.Home.GetLocalizedResource();
 			ToolbarViewModel.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
 
 			_navigationInteractionTracker = new NavigationInteractionTracker(this, BackIcon, ForwardIcon);
 			_navigationInteractionTracker.NavigationRequested += OverscrollNavigationRequested;
+		}
+
+		private void ShellViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
+		{
+			// Regular binding causes issues when refreshing the directory so we set the text manually
+			if (FilterTextBox?.IsLoaded ?? false)
+				FilterTextBox.Text = ShellViewModel.FilesAndFoldersFilter ?? string.Empty;
 		}
 
 		private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
@@ -166,6 +174,7 @@ namespace Files.App.Views.Shells
 
 			if (parameters.IsLayoutSwitch)
 				FilesystemViewModel_DirectoryInfoUpdated(sender, EventArgs.Empty);
+
 			_navigationInteractionTracker.CanNavigateBackward = CanNavigateBackward;
 			_navigationInteractionTracker.CanNavigateForward = CanNavigateForward;
 		}
@@ -288,7 +297,7 @@ namespace Files.App.Views.Shells
 				},
 				new SuppressNavigationTransitionInfo());
 		}
-		
+
 		public override void NavigateToReleaseNotes()
 		{
 			ItemDisplayFrame.Navigate(
@@ -346,6 +355,23 @@ namespace Files.App.Views.Shells
 			}
 
 			ToolbarViewModel.PathControlDisplayText = ShellViewModel.WorkingDirectory;
+		}
+
+		private async void FilterTextBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+		{
+			if (args.Reason is AutoSuggestionBoxTextChangeReason.UserInput)
+			{
+				ShellViewModel.FilesAndFoldersFilter = sender.Text;
+				await ShellViewModel.ApplyFilesAndFoldersChangesAsync();
+			}
+
+		}
+
+		private void FilterTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+		{
+			if (e.Key is VirtualKey.Escape &&
+				SlimContentPage is BaseGroupableLayoutPage { IsLoaded: true } svb)
+				SlimContentPage.ItemManipulationModel.FocusFileList();
 		}
 	}
 }

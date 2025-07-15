@@ -1035,6 +1035,18 @@ namespace Files.App.ViewModels.UserControls
 				UserSettingsService.GeneralSettingsService.PathHistoryList = pathHistoryList;
 		}
 
+		public void SaveSearchQueryToList(string searchQuery)
+		{
+			var previousSearchQueriesList = UserSettingsService.GeneralSettingsService.PreviousSearchQueriesList?.ToList() ?? [];
+			previousSearchQueriesList.Remove(searchQuery);
+			previousSearchQueriesList.Insert(0, searchQuery);
+
+			if (previousSearchQueriesList.Count > MaxSuggestionsCount)
+				UserSettingsService.GeneralSettingsService.PreviousSearchQueriesList = previousSearchQueriesList.RemoveFrom(MaxSuggestionsCount + 1);
+			else
+				UserSettingsService.GeneralSettingsService.PreviousSearchQueriesList = previousSearchQueriesList;
+		}
+
 		private static async Task<bool> LaunchApplicationFromPath(string currentInput, string workingDir)
 		{
 			var args = CommandLineParser.SplitArguments(currentInput);
@@ -1242,6 +1254,49 @@ namespace Files.App.ViewModels.UserControls
 				}
 			}
 		}
+
+		public async Task PopulateOmnibarSuggestionsForSearchMode()
+		{
+			if (ContentPageContext.ShellPage is null)
+				return;
+
+			List<SuggestionModel> newSuggestions = [];
+
+			if (string.IsNullOrWhiteSpace(OmnibarSearchModeText))
+			{
+				var previousSearchQueries = UserSettingsService.GeneralSettingsService.PreviousSearchQueriesList;
+				if (previousSearchQueries is not null)
+					newSuggestions.AddRange(previousSearchQueries.Select(query => new SuggestionModel(query, true)));
+			}
+			else
+			{
+				var search = new FolderSearch
+				{
+					Query = OmnibarSearchModeText,
+					Folder = ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory,
+					MaxItemCount = 10,
+				};
+
+				var results = await search.SearchAsync();
+				newSuggestions.AddRange(results.Select(result => new SuggestionModel(result)));
+			}
+
+			// Remove outdated suggestions
+			var toRemove = OmnibarSearchModeSuggestionItems
+				.Where(existing => !newSuggestions.Any(newItem => newItem.ItemPath == existing.ItemPath))
+				.ToList();
+
+			foreach (var item in toRemove)
+				OmnibarSearchModeSuggestionItems.Remove(item);
+
+			// Add new suggestions
+			var toAdd = newSuggestions
+				.Where(newItem => !OmnibarSearchModeSuggestionItems.Any(existing => existing.Name == newItem.Name));
+
+			foreach (var item in toAdd)
+				OmnibarSearchModeSuggestionItems.Add(item);
+		}
+
 
 		[Obsolete("Remove once Omnibar goes out of experimental.")]
 		public async Task SetAddressBarSuggestionsAsync(AutoSuggestBox sender, IShellPage shellpage)

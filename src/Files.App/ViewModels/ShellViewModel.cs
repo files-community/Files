@@ -18,11 +18,11 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using Windows.Win32.System.SystemServices;
 using static Files.App.Helpers.Win32PInvoke;
+using ByteSize = ByteSizeLib.ByteSize;
 using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
 using FileAttributes = System.IO.FileAttributes;
-using ByteSize = ByteSizeLib.ByteSize;
-using Windows.Win32.System.SystemServices;
 
 namespace Files.App.ViewModels
 {
@@ -113,6 +113,19 @@ namespace Files.App.ViewModels
 			get => _FolderBackgroundImageHorizontalAlignment;
 			private set => SetProperty(ref _FolderBackgroundImageHorizontalAlignment, value);
 		}
+
+		private ImageSource? _FolderThumbnailImageSource;
+		public ImageSource? FolderThumbnailImageSource
+		{
+			get => _FolderThumbnailImageSource;
+			private set => SetProperty(ref _FolderThumbnailImageSource, value);
+		}
+
+		public bool ShowFilterHeader =>
+			UserSettingsService.GeneralSettingsService.ShowFilterHeader &&
+			WorkingDirectory != "Home" &&
+			WorkingDirectory != "ReleaseNotes" &&
+			WorkingDirectory != "Settings";
 
 		private GitProperties _EnabledGitProperties;
 		public GitProperties EnabledGitProperties
@@ -213,7 +226,10 @@ namespace Files.App.ViewModels
 			GitDirectory = GitHelpers.GetGitRepositoryPath(WorkingDirectory, pathRoot);
 			IsValidGitDirectory = !string.IsNullOrEmpty((await GitHelpers.GetRepositoryHead(GitDirectory))?.Name);
 
+			_ = UpdateFolderThumbnailImageSource();
+
 			OnPropertyChanged(nameof(WorkingDirectory));
+			OnPropertyChanged(nameof(ShowFilterHeader));
 		}
 
 		public async Task<FilesystemResult<BaseStorageFolder>> GetFolderFromPathAsync(string value, CancellationToken cancellationToken = default)
@@ -273,6 +289,11 @@ namespace Files.App.ViewModels
 		{
 			get => emptyTextType;
 			set => SetProperty(ref emptyTextType, value);
+		}
+
+		public async Task UpdateFolderThumbnailImageSource()
+		{
+			FolderThumbnailImageSource = await NavigationHelpers.GetIconForPathAsync(WorkingDirectory);
 		}
 
 		public async Task UpdateSortOptionStatusAsync()
@@ -676,6 +697,9 @@ namespace Files.App.ViewModels
 					await OrderFilesAndFoldersAsync();
 					await ApplyFilesAndFoldersChangesAsync();
 					break;
+				case nameof(UserSettingsService.GeneralSettingsService.ShowFilterHeader):
+					OnPropertyChanged(nameof(ShowFilterHeader));
+					break;
 			}
 		}
 
@@ -715,7 +739,13 @@ namespace Files.App.ViewModels
 			EmptyTextType = FilesAndFolders.Count == 0 ? (IsSearchResults ? EmptyTextType.NoSearchResultsFound : EmptyTextType.FolderEmpty) : EmptyTextType.None;
 		}
 
-		public string? FilesAndFoldersFilter { get; set; }
+		private string? _filesAndFoldersFilter;
+		public string? FilesAndFoldersFilter 
+		{ 
+			get => _filesAndFoldersFilter; 
+			set => SetProperty(ref _filesAndFoldersFilter, value); 
+		}
+
 
 		// Apply changes immediately after manipulating on filesAndFolders completed
 		public async Task ApplyFilesAndFoldersChangesAsync()
@@ -1339,7 +1369,7 @@ namespace Files.App.ViewModels
 			return dispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				int count = newTags.Count;
-				foreach(var item in FilesAndFolders)
+				foreach (var item in FilesAndFolders)
 				{
 					if (newTags.TryGetValue(item.ItemPath, out var tags))
 					{
@@ -1635,7 +1665,7 @@ namespace Files.App.ViewModels
 				!isShellFolder &&
 				!isWslDistro;
 			bool isNetdisk = false;
-	
+
 			try
 			{
 				// Special handling for network drives
@@ -1643,7 +1673,7 @@ namespace Files.App.ViewModels
 					isNetdisk = (new DriveInfo(path).DriveType == System.IO.DriveType.Network);
 			}
 			catch { }
- 			
+
 			bool isFtp = FtpHelpers.IsFtpPath(path);
 			bool enumFromStorageFolder = isBoxFolder || isFtp;
 
