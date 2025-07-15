@@ -6,6 +6,7 @@ namespace Files.App.Actions
 	internal sealed partial class OpenTerminalFromSidebarAction : OpenTerminalAction
 	{
 		private ISidebarContext SidebarContext { get; } = Ioc.Default.GetRequiredService<ISidebarContext>();
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public override string Label
 			=> Strings.OpenTerminal.GetLocalizedResource();
@@ -14,6 +15,7 @@ namespace Files.App.Actions
 			=> Strings.OpenTerminalDescription.GetLocalizedResource();
 
 		public override bool IsExecutable =>
+			UserSettingsService.GeneralSettingsService.ShowOpenTerminal &&
 			SidebarContext.IsItemRightClicked &&
 			SidebarContext.RightClickedItem is not null &&
 			SidebarContext.RightClickedItem.MenuOptions.ShowShellItems &&
