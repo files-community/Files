@@ -65,6 +65,12 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public List<string> PreviousSearchQueriesList
+		{
+			get => Get<List<string>>(null);
+			set => Set(value);
+		}
+
 		public DateTimeFormats DateTimeFormat
 		{
 			get => Get(DateTimeFormats.Application);

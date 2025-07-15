@@ -30,6 +30,10 @@
 			<converters:NullToVisibilityCollapsedConverter x:Key="NullToVisibilityCollapsedConverter" />
 			<converters1:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<converters:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
+			<converters1:BoolToObjectConverter
+				x:Key="SearchSuggestionGlyphConverter"
+				FalseValue="&#xE7C3;"
+				TrueValue="&#xE81C;" />
 
 			<ResourceDictionary.MergedDictionaries>
 				<ResourceDictionary Source="ms-appx:///UserControls/KeyboardShortcut/KeyboardShortcut.xaml" />

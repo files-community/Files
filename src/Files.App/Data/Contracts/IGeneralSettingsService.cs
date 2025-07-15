@@ -51,6 +51,11 @@ namespace Files.App.Data.Contracts
 		List<string> PathHistoryList { get; set; }
 
 		/// <summary>
+		/// A list containing previous search queries.
+		/// </summary>
+		List<string> PreviousSearchQueriesList { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating which date and time format to use.
 		/// </summary>
 		DateTimeFormats DateTimeFormat { get; set; }
