@@ -350,18 +350,15 @@ namespace Files.App.UserControls
 
 			if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
 			{
-				await ViewModel.PopulateOmnibarSuggestionsForPathMode();
+				await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForPathMode);
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
 			{
-				await DispatcherQueue.EnqueueOrInvokeAsync(() =>
-				{
-					ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
-				});
+				await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode);
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 			{
-				await ViewModel.PopulateOmnibarSuggestionsForSearchMode();
+				await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForSearchMode);
 			}
 		}
 
@@ -464,19 +461,13 @@ namespace Files.App.UserControls
 					? Constants.UserEnvironmentPaths.HomePath
 					: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
 
-				await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-				{
-					await ViewModel.PopulateOmnibarSuggestionsForPathMode();
-				});
+				await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForPathMode);
 			}
 			else if (e.NewMode == OmnibarCommandPaletteMode)
 			{
 				ViewModel.OmnibarCommandPaletteModeText = string.Empty;
 
-				await DispatcherQueue.EnqueueOrInvokeAsync(() =>
-				{
-					ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
-				});
+				await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode);
 			}
 			else if (e.NewMode == OmnibarSearchMode)
 			{
@@ -485,7 +476,7 @@ namespace Files.App.UserControls
 				else
 					ViewModel.OmnibarSearchModeText = ViewModel.InstanceViewModel.CurrentSearchQuery;
 
-				await ViewModel.PopulateOmnibarSuggestionsForSearchMode();
+				await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForSearchMode);
 			}
 		}
 
@@ -499,23 +490,17 @@ namespace Files.App.UserControls
 						? Constants.UserEnvironmentPaths.HomePath
 						: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
 
-					await DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-					{
-						await ViewModel.PopulateOmnibarSuggestionsForPathMode();
-					});
+					await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForPathMode);
 				}
 				else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
 				{
 					ViewModel.OmnibarCommandPaletteModeText = string.Empty;
 
-					await DispatcherQueue.EnqueueOrInvokeAsync(() =>
-					{
-						ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode();
-					});
+					await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode);
 				}
 				else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 				{
-					await ViewModel.PopulateOmnibarSuggestionsForSearchMode();
+					await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForSearchMode);
 				}
 			}
 		}

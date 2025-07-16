@@ -1171,7 +1171,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public void PopulateOmnibarSuggestionsForCommandPaletteMode()
+		public async Task PopulateOmnibarSuggestionsForCommandPaletteMode()
 		{
 			var newSuggestions = new List<NavigationBarSuggestionItem>();
 
@@ -1212,22 +1212,27 @@ namespace Files.App.ViewModels.UserControls
 				}
 			}
 
-			var suggestionItems = Commands
-				.Where(command => command.IsExecutable
-					&& command.IsAccessibleGlobally
-					&& (command.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)
-						|| command.Code.ToString().Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)))
-				.Select(command => new NavigationBarSuggestionItem
-				{
-					ThemedIconStyle = command.Glyph.ToThemedIconStyle(),
-					Glyph = command.Glyph.BaseGlyph,
-					Text = command.Description,
-					PrimaryDisplay = command.Description,
-					HotKeys = command.HotKeys,
-					SearchText = OmnibarCommandPaletteModeText,
-				})
-				.Where(item => item.Text != Commands.OpenCommandPalette.Description.ToString()
-					&& item.Text != Commands.EditPath.Description.ToString());
+			IEnumerable<NavigationBarSuggestionItem> suggestionItems = null!;
+
+			await Task.Run(() =>
+			{
+				suggestionItems = Commands
+					.Where(command => command.IsExecutable
+						&& command.IsAccessibleGlobally
+						&& (command.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)
+							|| command.Code.ToString().Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)))
+					.Select(command => new NavigationBarSuggestionItem
+					{
+						ThemedIconStyle = command.Glyph.ToThemedIconStyle(),
+						Glyph = command.Glyph.BaseGlyph,
+						Text = command.Description,
+						PrimaryDisplay = command.Description,
+						HotKeys = command.HotKeys,
+						SearchText = OmnibarCommandPaletteModeText,
+					})
+					.Where(item => item.Text != Commands.OpenCommandPalette.Description.ToString()
+						&& item.Text != Commands.EditPath.Description.ToString());
+			});
 
 			newSuggestions.AddRange(suggestionItems);
 
