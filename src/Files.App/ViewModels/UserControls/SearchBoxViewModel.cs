@@ -9,6 +9,7 @@ using Windows.System;
 
 namespace Files.App.ViewModels.UserControls
 {
+	[Obsolete("Superseded by Omnibar.")]
 	public sealed partial class SearchBoxViewModel : ObservableObject, ISearchBoxViewModel
 	{
 		private string query;

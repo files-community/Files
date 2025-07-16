@@ -59,6 +59,7 @@ namespace Files.App.UserControls
 				OngoingTasksViewModel.NewItemAdded += OngoingTasksActions_ProgressBannerPosted;
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		private void VisiblePath_Loaded(object _, RoutedEventArgs e)
 		{
 			// AutoSuggestBox won't receive focus unless it's fully loaded
@@ -73,6 +74,7 @@ namespace Files.App.UserControls
 			}
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		private void ManualPathEntryItem_Click(object _, PointerRoutedEventArgs e)
 		{
 			if (e.Pointer.PointerDeviceType is PointerDeviceType.Mouse)
@@ -84,6 +86,7 @@ namespace Files.App.UserControls
 			ViewModel.IsEditModeEnabled = true;
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		private async void VisiblePath_KeyDown(object _, KeyRoutedEventArgs e)
 		{
 			if (e.Key is VirtualKey.Escape)
@@ -97,6 +100,7 @@ namespace Files.App.UserControls
 				ClickablePath.Focus(FocusState.Keyboard);
 			}
 		}
+		[Obsolete("Superseded by Omnibar.")]
 		private void VisiblePath_LostFocus(object _, RoutedEventArgs e)
 		{
 			if (App.AppModel.IsMainWindowClosed)
@@ -119,8 +123,11 @@ namespace Files.App.UserControls
 				VisiblePath.Focus(FocusState.Programmatic);
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		private void SearchRegion_OnGotFocus(object sender, RoutedEventArgs e) => ViewModel.SearchRegion_GotFocus(sender, e);
+		[Obsolete("Superseded by Omnibar.")]
 		private void SearchRegion_LostFocus(object sender, RoutedEventArgs e) => ViewModel.SearchRegion_LostFocus(sender, e);
+		[Obsolete("Superseded by Omnibar.")]
 		private void SearchRegion_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
 		{
 			// Suppress access key invocation if any dialog is open
@@ -129,7 +136,7 @@ namespace Files.App.UserControls
 			else
 				sender.Focus(FocusState.Keyboard);
 		}
-
+		[Obsolete("Superseded by Omnibar.")]
 		private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
 			=> ViewModel.VisiblePath_QuerySubmitted(sender, args);
 
@@ -247,6 +254,7 @@ namespace Files.App.UserControls
 			}
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		private void ClickablePath_GettingFocus(UIElement sender, GettingFocusEventArgs args)
 		{
 			if (args.InputDevice != FocusInputDeviceKind.Keyboard)
