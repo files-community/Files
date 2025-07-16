@@ -731,7 +731,7 @@ namespace Files.App.ViewModels
 						DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
 					}
 
-					if (Win32Helper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
+					if (dispatcherQueue.HasThreadAccess)
 						ClearDisplay();
 					else
 						await dispatcherQueue.EnqueueOrInvokeAsync(ClearDisplay);
@@ -819,7 +819,7 @@ namespace Files.App.ViewModels
 					folderSettings.SortDirectoriesAlongsideFiles, folderSettings.SortFilesFirst));
 			}
 
-			if (Win32Helper.IsHasThreadAccessPropertyPresent && dispatcherQueue.HasThreadAccess)
+			if (dispatcherQueue.HasThreadAccess)
 				return Task.Run(OrderEntries);
 
 			OrderEntries();
