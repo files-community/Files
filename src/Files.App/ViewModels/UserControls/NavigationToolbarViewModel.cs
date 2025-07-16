@@ -1279,19 +1279,20 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task PopulateOmnibarSuggestionsForSearchMode()
 		{
-			OmnibarSearchModeSuggestionItems.Clear();
-
 			if (ContentPageContext.ShellPage is null)
 				return;
 
-			ContentPageContext.ShellPage.ShellViewModel.FilesAndFoldersFilter = OmnibarSearchModeText;
+			List<SuggestionModel> newSuggestions = [];
 
-			// Refresh the browser to apply the search filter
-			await ContentPageContext.ShellPage.ShellViewModel.ApplyFilesAndFoldersChangesAsync();
-
-			if (!string.IsNullOrWhiteSpace(OmnibarSearchModeText))
+			if (string.IsNullOrWhiteSpace(OmnibarSearchModeText))
 			{
-				var search = new FolderSearch()
+				var previousSearchQueries = UserSettingsService.GeneralSettingsService.PreviousSearchQueriesList;
+				if (previousSearchQueries is not null)
+					newSuggestions.AddRange(previousSearchQueries.Select(query => new SuggestionModel(query, true)));
+			}
+			else
+			{
+				var search = new FolderSearch
 				{
 					Query = OmnibarSearchModeText,
 					Folder = ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory,
