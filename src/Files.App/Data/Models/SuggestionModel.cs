@@ -1,11 +1,12 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Files.App.Data.Models
 {
-	public sealed partial class SuggestionModel : ObservableObject
+	public sealed partial class SuggestionModel : ObservableObject, IOmnibarTextMemberPathProvider
 	{
 		public bool IsRecentSearch { get; set; } = false;
 
@@ -75,6 +76,11 @@ namespace Files.App.Data.Models
 		{
 			IsRecentSearch = isRecentSearch;
 			Name = itemName;
+		}
+
+		public string GetTextMemberPath(string textMemberPath)
+		{
+			return Name;
 		}
 	}
 }
