@@ -309,10 +309,13 @@ namespace Files.App.UserControls
 			}
 			else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
 			{
-				var shellPage = ContentPageContext.ShellPage;
+				if (ContentPageContext.ShellPage is not { } shellPage)
+					return;
 
-				if (args.Item is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath) && shellPage is not null)
+				if (args.Item is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath))
+				{
 					await NavigationHelpers.OpenPath(item.ItemPath, shellPage);
+				}
 				else
 				{
 					var searchQuery = args.Item is SuggestionModel x && !string.IsNullOrWhiteSpace(x.Name)
@@ -324,6 +327,7 @@ namespace Files.App.UserControls
 				}
 
 				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+
 				return;
 			}
 		}
