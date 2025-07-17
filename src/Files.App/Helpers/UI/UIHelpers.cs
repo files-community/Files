@@ -106,6 +106,8 @@ namespace Files.App.Helpers
 
 		private static IconFileInfo ShieldIconResource = LoadShieldIconResource();
 
+		private static IconFileInfo SearchIconResource = LoadSearchIconResource();
+
 		public static IconFileInfo GetSidebarIconResourceInfo(int index)
 		{
 			var icons = UIHelpers.SidebarIconResources;
@@ -125,6 +127,13 @@ namespace Files.App.Helpers
 		{
 			return ShieldIconResource is not null
 				? await ShieldIconResource.IconData.ToBitmapAsync()
+				: null;
+		}
+
+		public static async Task<BitmapImage?> GetSearchIconResource()
+		{
+			return SearchIconResource is not null
+				? await SearchIconResource.IconData.ToBitmapAsync()
 				: null;
 		}
 
@@ -150,6 +159,16 @@ namespace Files.App.Helpers
 			var imageResList = Win32Helper.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
 					Constants.ImageRes.ShieldIcon
 				}, 16);
+
+			return imageResList.FirstOrDefault();
+		}
+
+		private static IconFileInfo LoadSearchIconResource()
+		{
+			string imageres = Path.Combine(Constants.UserEnvironmentPaths.SystemRootPath, "System32", "imageres.dll");
+			var imageResList = Win32Helper.ExtractSelectedIconsFromDLL(imageres, new List<int>() {
+					Constants.ImageRes.SearchIcon
+				}, 48);
 
 			return imageResList.FirstOrDefault();
 		}

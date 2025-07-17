@@ -121,6 +121,14 @@ namespace Files.App.ViewModels
 			private set => SetProperty(ref _FolderThumbnailImageSource, value);
 		}
 
+		private BitmapImage? _SearchIconBitmapImage;
+		public BitmapImage? SearchIconBitmapImage
+		{
+			get => _SearchIconBitmapImage;
+			private set => SetProperty(ref _SearchIconBitmapImage, value);
+		}
+
+
 		public bool ShowFilterHeader =>
 			UserSettingsService.GeneralSettingsService.ShowFilterHeader &&
 			WorkingDirectory != "Home" &&
@@ -2714,6 +2722,9 @@ namespace Files.App.ViewModels
 			SearchHeaderTitle = !string.IsNullOrEmpty(search.Query)
 				? string.Format(Strings.SearchResultsFor.GetLocalizedResource(), search.Query)
 				: string.Empty;
+
+			if (SearchIconBitmapImage is null)
+				SearchIconBitmapImage ??= await UIHelpers.GetSearchIconResource();
 
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
 
