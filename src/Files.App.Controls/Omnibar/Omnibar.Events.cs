@@ -56,9 +56,6 @@ namespace Files.App.Controls
 
 			IsFocused = false;
 			IsFocusedChanged?.Invoke(this, new(IsFocused));
-
-			// Reset to the default mode when Omnibar loses focus
-			CurrentSelectedMode = Modes?.FirstOrDefault();
 		}
 
 		private async void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)

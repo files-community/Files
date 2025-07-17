@@ -390,7 +390,7 @@ namespace Files.App.ViewModels
 				// Small delay for the UI to load
 				await Task.Delay(500);
 
-				// Refocus on the file list
+				// Focus the content of the selected tab item (needed for keyboard navigation)
 				(SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
 			}
 

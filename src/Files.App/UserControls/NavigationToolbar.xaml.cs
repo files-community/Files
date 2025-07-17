@@ -510,6 +510,10 @@ namespace Files.App.UserControls
 					await ViewModel.PopulateOmnibarSuggestionsForSearchMode();
 				}
 			}
+			else
+			{
+				Omnibar.CurrentSelectedMode = OmnibarPathMode;
+			}
 		}
 
 		private async void Omnibar_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
