@@ -28,17 +28,17 @@ namespace Files.App.Actions
 			generalSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
 		}
 
-		public Task ExecuteAsync(object? parameter = null)
+		public async Task ExecuteAsync(object? parameter = null)
 		{
 			generalSettingsService.ShowFilterHeader = !IsOn;
 
 			if (IsOn)
 			{
+				// Delay to ensure the UI updates before focusing
+				await Task.Delay(100);
 				var filterTextBox = (MainWindow.Instance.Content as Frame)?.FindDescendant("FilterTextBox") as AutoSuggestBox;
 				filterTextBox?.Focus(FocusState.Programmatic);
 			}
-
-			return Task.CompletedTask;
 		}
 
 		private void GeneralSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
