@@ -104,7 +104,7 @@
 		<Grid
 			x:Name="SearchHeader"
 			Grid.Row="0"
-			Padding="26,8,12,8"
+			Padding="26,12,12,12"
 			BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 			BorderThickness="0,0,0,1"
 			Visibility="{x:Bind ShellViewModel.IsSearchResults, Mode=OneWay}">

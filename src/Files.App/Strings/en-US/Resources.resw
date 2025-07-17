@@ -1010,6 +1010,9 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Search results in {1} for {0}</value>
   </data>
+  <data name="SearchResultsFor" xml:space="preserve">
+    <value>Search results for `{0}`</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Details</value>
   </data>
