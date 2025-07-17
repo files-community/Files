@@ -104,7 +104,7 @@
 		<Grid
 			x:Name="SearchHeader"
 			Grid.Row="0"
-			Padding="26,12,12,12"
+			Padding="26,16,16,16"
 			BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 			BorderThickness="0,0,0,1"
 			Visibility="{x:Bind ShellViewModel.IsSearchResults, Mode=OneWay}">
@@ -112,10 +112,10 @@
 				VerticalAlignment="Center"
 				Orientation="Horizontal"
 				Spacing="12">
-				<!--<Image
-					Height="16"
+				<Image
+					Height="24"
 					VerticalAlignment="Center"
-					Source="{x:Bind ShellViewModel.FolderThumbnailImageSource, Mode=OneWay}" />-->
+					Source="{x:Bind ShellViewModel.SearchIconBitmapImage, Mode=OneWay}" />
 				<TextBlock
 					VerticalAlignment="Center"
 					Style="{StaticResource SubtitleTextBlockStyle}"
