@@ -82,6 +82,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public bool IsSingleItemOverride { get; set; }
 
+		[Obsolete("Superseded by Omnibar.")]
 		public bool SearchHasFocus { get; private set; }
 
 		public bool EnableOmnibar => GeneralSettingsService.EnableOmnibar;
@@ -93,6 +94,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private NavigationToolbar? AddressToolbar => (MainWindow.Instance.Content as Frame)?.FindDescendant<NavigationToolbar>();
 
+		[Obsolete("Superseded by Omnibar.")]
 		public SearchBoxViewModel SearchBoxViewModel => (SearchBoxViewModel)SearchBox;
 
 		public bool HasAdditionalAction =>
@@ -186,15 +188,19 @@ namespace Files.App.ViewModels.UserControls
 		public bool CanRefresh { get => _CanRefresh; set => SetProperty(ref _CanRefresh, value); }
 
 		private string _SearchButtonGlyph = "\uE721";
+		[Obsolete("Superseded by Omnibar.")]
 		public string SearchButtonGlyph { get => _SearchButtonGlyph; set => SetProperty(ref _SearchButtonGlyph, value); }
 
 		private bool _ManualEntryBoxLoaded;
+		[Obsolete("Superseded by Omnibar.")]
 		public bool ManualEntryBoxLoaded { get => _ManualEntryBoxLoaded; set => SetProperty(ref _ManualEntryBoxLoaded, value); }
 
 		private bool _ClickablePathLoaded = true;
+		[Obsolete("Superseded by Omnibar.")]
 		public bool ClickablePathLoaded { get => _ClickablePathLoaded; set => SetProperty(ref _ClickablePathLoaded, value); }
 
 		private string _PathControlDisplayText;
+		[Obsolete("Superseded by Omnibar.")]
 		public string PathControlDisplayText { get => _PathControlDisplayText; set => SetProperty(ref _PathControlDisplayText, value); }
 
 		private bool _HasItem = false;
@@ -207,6 +213,7 @@ namespace Files.App.ViewModels.UserControls
 		public ISearchBoxViewModel SearchBox { get => _SearchBox; set => SetProperty(ref _SearchBox, value); }
 
 		private bool _IsSearchBoxVisible;
+		[Obsolete("Superseded by Omnibar.")]
 		public bool IsSearchBoxVisible
 		{
 			get => _IsSearchBoxVisible;
@@ -236,11 +243,7 @@ namespace Files.App.ViewModels.UserControls
 		public string? OmnibarSearchModeText { get => _OmnibarSearchModeText; set => SetProperty(ref _OmnibarSearchModeText, value); }
 
 		private string _OmnibarCurrentSelectedModeName = OmnibarPathModeName;
-		public string OmnibarCurrentSelectedModeName
-		{
-			get => _OmnibarCurrentSelectedModeName;
-			set => SetProperty(ref _OmnibarCurrentSelectedModeName, value);
-		}
+		public string OmnibarCurrentSelectedModeName { get => _OmnibarCurrentSelectedModeName; set => SetProperty(ref _OmnibarCurrentSelectedModeName, value); }
 
 		private CurrentInstanceViewModel _InstanceViewModel;
 		public CurrentInstanceViewModel InstanceViewModel
@@ -259,7 +262,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		[Obsolete("Remove once Omnibar goes out of experimental.")]
+		[Obsolete("Superseded by Omnibar.")]
 		public bool IsEditModeEnabled
 		{
 			get => ManualEntryBoxLoaded;
@@ -411,6 +414,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		public void PathBoxItem_DragLeave(object sender, DragEventArgs e)
 		{
 			if (((FrameworkElement)sender).DataContext is not PathBoxItem pathBoxItem ||
@@ -426,6 +430,7 @@ namespace Files.App.ViewModels.UserControls
 				_dragOverPath = null;
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		public async Task PathBoxItem_Drop(object sender, DragEventArgs e)
 		{
 			if (_lockFlag)
@@ -464,6 +469,7 @@ namespace Files.App.ViewModels.UserControls
 			_lockFlag = false;
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		public async Task PathBoxItem_DragOver(object sender, DragEventArgs e)
 		{
 			if (IsSingleItemOverride ||
@@ -540,6 +546,7 @@ namespace Files.App.ViewModels.UserControls
 			deferral.Complete();
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		public void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
 		{
 			var pathSeparatorIcon = sender as FontIcon;
@@ -553,28 +560,33 @@ namespace Files.App.ViewModels.UserControls
 			});
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		public void PathboxItemFlyout_Opening(object sender, object e)
 		{
 			ToolbarFlyoutOpening?.Invoke(this, new ToolbarFlyoutOpeningEventArgs((MenuFlyout)sender));
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		public void PathBoxItemFlyout_Closed(object sender, object e)
 		{
 			((MenuFlyout)sender).Items.Clear();
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		public void CurrentPathSetTextBox_TextChanged(object sender, TextChangedEventArgs args)
 		{
 			if (sender is TextBox textBox)
 				PathBoxQuerySubmitted?.Invoke(this, new ToolbarQuerySubmittedEventArgs() { QueryText = textBox.Text });
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		public void VisiblePath_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
 		{
 			if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
 				AddressBarTextEntered?.Invoke(this, new AddressBarTextEnteredEventArgs() { AddressBarTextField = sender });
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		public void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
 		{
 			PathBoxQuerySubmitted?.Invoke(this, new ToolbarQuerySubmittedEventArgs() { QueryText = args.QueryText });
@@ -582,6 +594,7 @@ namespace Files.App.ViewModels.UserControls
 			(this as IAddressToolbarViewModel).IsEditModeEnabled = false;
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		public void PathBoxItem_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
 			if (e.Pointer.PointerDeviceType != Microsoft.UI.Input.PointerDeviceType.Mouse)
@@ -710,6 +723,7 @@ namespace Files.App.ViewModels.UserControls
 			PathControlDisplayText = ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		public void PathBoxItem_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			switch (e.Key)
@@ -794,6 +808,7 @@ namespace Files.App.ViewModels.UserControls
 			OnPropertyChanged(nameof(HasAdditionalAction));
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		private void CloseSearchBox(bool doFocus = false)
 		{
 			if (_SearchBox.WasQuerySubmitted)
@@ -818,11 +833,13 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		public void SearchRegion_GotFocus(object sender, RoutedEventArgs e)
 		{
 			SearchHasFocus = true;
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		public void SearchRegion_LostFocus(object sender, RoutedEventArgs e)
 		{
 			var element = Microsoft.UI.Xaml.Input.FocusManager.GetFocusedElement();
@@ -833,6 +850,7 @@ namespace Files.App.ViewModels.UserControls
 			CloseSearchBox();
 		}
 
+		[Obsolete("Superseded by Omnibar.")]
 		private void SearchRegion_Escaped(object? sender, ISearchBoxViewModel _SearchBox)
 			=> CloseSearchBox(true);
 
@@ -912,7 +930,7 @@ namespace Files.App.ViewModels.UserControls
 			return currentInput;
 		}
 
-		[Obsolete("Remove once Omnibar goes out of experimental.")]
+		[Obsolete("Superseded by Omnibar.")]
 		public async Task CheckPathInputAsync(string currentInput, string currentSelectedPath, IShellPage shellPage)
 		{
 			if (currentInput.StartsWith('>'))
@@ -1153,7 +1171,7 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		public void PopulateOmnibarSuggestionsForCommandPaletteMode()
+		public async Task PopulateOmnibarSuggestionsForCommandPaletteMode()
 		{
 			var newSuggestions = new List<NavigationBarSuggestionItem>();
 
@@ -1194,22 +1212,27 @@ namespace Files.App.ViewModels.UserControls
 				}
 			}
 
-			var suggestionItems = Commands
-				.Where(command => command.IsExecutable
-					&& command.IsAccessibleGlobally
-					&& (command.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)
-						|| command.Code.ToString().Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)))
-				.Select(command => new NavigationBarSuggestionItem
-				{
-					ThemedIconStyle = command.Glyph.ToThemedIconStyle(),
-					Glyph = command.Glyph.BaseGlyph,
-					Text = command.Description,
-					PrimaryDisplay = command.Description,
-					HotKeys = command.HotKeys,
-					SearchText = OmnibarCommandPaletteModeText,
-				})
-				.Where(item => item.Text != Commands.OpenCommandPalette.Description.ToString()
-					&& item.Text != Commands.EditPath.Description.ToString());
+			IEnumerable<NavigationBarSuggestionItem> suggestionItems = null!;
+
+			await Task.Run(() =>
+			{
+				suggestionItems = Commands
+					.Where(command => command.IsExecutable
+						&& command.IsAccessibleGlobally
+						&& (command.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)
+							|| command.Code.ToString().Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)))
+					.Select(command => new NavigationBarSuggestionItem
+					{
+						ThemedIconStyle = command.Glyph.ToThemedIconStyle(),
+						Glyph = command.Glyph.BaseGlyph,
+						Text = command.Description,
+						PrimaryDisplay = command.Description,
+						HotKeys = command.HotKeys,
+						SearchText = OmnibarCommandPaletteModeText,
+					})
+					.Where(item => item.Text != Commands.OpenCommandPalette.Description.ToString()
+						&& item.Text != Commands.EditPath.Description.ToString());
+			});
 
 			newSuggestions.AddRange(suggestionItems);
 
@@ -1297,8 +1320,7 @@ namespace Files.App.ViewModels.UserControls
 				OmnibarSearchModeSuggestionItems.Add(item);
 		}
 
-
-		[Obsolete("Remove once Omnibar goes out of experimental.")]
+		[Obsolete("Superseded by Omnibar.")]
 		public async Task SetAddressBarSuggestionsAsync(AutoSuggestBox sender, IShellPage shellpage)
 		{
 			if (sender.Text is not null && shellpage.ShellViewModel is not null)
