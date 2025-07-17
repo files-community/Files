@@ -44,6 +44,7 @@
 		</Grid.Shadow>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
@@ -58,7 +59,7 @@
 		<!--  Swipe Backward Icon  -->
 		<Border
 			x:Name="BackIcon"
-			Grid.RowSpan="2"
+			Grid.RowSpan="3"
 			Width="48"
 			Height="48"
 			Margin="-4,0,0,0"
@@ -80,7 +81,7 @@
 		<!--  Swipe Forward Icon  -->
 		<Border
 			x:Name="ForwardIcon"
-			Grid.RowSpan="2"
+			Grid.RowSpan="3"
 			Width="48"
 			Height="48"
 			Margin="0,0,-4,0"
@@ -99,10 +100,33 @@
 				Symbol="Forward" />
 		</Border>
 
+		<!--  Search header  -->
+		<Grid
+			x:Name="SearchHeader"
+			Grid.Row="0"
+			Padding="26,8,12,8"
+			BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+			BorderThickness="0,0,0,1"
+			Visibility="{x:Bind ShellViewModel.IsSearchResults, Mode=OneWay}">
+			<StackPanel
+				VerticalAlignment="Center"
+				Orientation="Horizontal"
+				Spacing="12">
+				<!--<Image
+					Height="16"
+					VerticalAlignment="Center"
+					Source="{x:Bind ShellViewModel.FolderThumbnailImageSource, Mode=OneWay}" />-->
+				<TextBlock
+					VerticalAlignment="Center"
+					Style="{StaticResource SubtitleTextBlockStyle}"
+					Text="{x:Bind ShellViewModel.SearchHeaderTitle, Mode=OneWay}" />
+			</StackPanel>
+		</Grid>
+
 		<!--  Filter header  -->
 		<Grid
 			x:Name="FilterHeader"
-			Grid.Row="0"
+			Grid.Row="1"
 			Padding="26,8,12,8"
 			BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
 			BorderThickness="0,0,0,1"
@@ -132,7 +156,7 @@
 		<!--  Shell Frame  -->
 		<Frame
 			x:Name="ItemDisplayFrame"
-			Grid.Row="1"
+			Grid.Row="2"
 			x:FieldModifier="public"
 			Navigated="ItemDisplayFrame_Navigated" />
 
