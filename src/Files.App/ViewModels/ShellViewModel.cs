@@ -759,10 +759,10 @@ namespace Files.App.ViewModels
 		}
 
 		private string? _filesAndFoldersFilter;
-		public string? FilesAndFoldersFilter 
-		{ 
-			get => _filesAndFoldersFilter; 
-			set => SetProperty(ref _filesAndFoldersFilter, value); 
+		public string? FilesAndFoldersFilter
+		{
+			get => _filesAndFoldersFilter;
+			set => SetProperty(ref _filesAndFoldersFilter, value);
 		}
 
 
@@ -2703,7 +2703,10 @@ namespace Files.App.ViewModels
 			HasNoWatcher = true;
 			await ApplyFilesAndFoldersChangesAsync();
 			EmptyTextType = EmptyTextType.None;
-			SearchHeaderTitle = search.Query ?? string.Empty;
+
+			SearchHeaderTitle = !string.IsNullOrEmpty(search.Query)
+				? string.Format(Strings.SearchResultsFor.GetLocalizedResource(), search.Query)
+				: string.Empty;
 
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
 
