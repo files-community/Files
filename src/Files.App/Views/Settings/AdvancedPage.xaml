@@ -170,11 +170,11 @@
 			</wctcontrols:SettingsCard>
 
 			<!--  Omnibar  -->
-			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=EnableOmnibar}" IsEnabled="{x:Bind ViewModel.IsAppEnvironmentDev, Mode=OneWay}">
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=EnableOmnibar}">
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xECAD;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
-				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=EnableOmnibar}" IsOn="{x:Bind ViewModel.EnableOmnibar, Mode=TwoWay}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=EnableOmnibar}" IsOn="{x:Bind ViewModel.EnableOmnibarDesign, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 		</StackPanel>
 	</Grid>

@@ -85,7 +85,7 @@ namespace Files.App.ViewModels.UserControls
 		[Obsolete("Superseded by Omnibar.")]
 		public bool SearchHasFocus { get; private set; }
 
-		public bool EnableOmnibar => GeneralSettingsService.EnableOmnibar;
+		public bool EnableOmnibarDesign => GeneralSettingsService.EnableOmnibarDesign;
 		public bool ShowStatusCenterButton =>
 			AppearanceSettingsService.StatusCenterVisibility == StatusCenterVisibility.Always ||
 			(AppearanceSettingsService.StatusCenterVisibility == StatusCenterVisibility.DuringOngoingFileOperations && OngoingTasksViewModel.HasAnyItem);
@@ -363,8 +363,8 @@ namespace Files.App.ViewModels.UserControls
 			{
 				switch (e.PropertyName)
 				{
-					case nameof(GeneralSettingsService.EnableOmnibar):
-						OnPropertyChanged(nameof(EnableOmnibar));
+					case nameof(GeneralSettingsService.EnableOmnibarDesign):
+						OnPropertyChanged(nameof(EnableOmnibarDesign));
 						break;
 				}
 			};
@@ -755,7 +755,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public void SwitchToCommandPaletteMode()
 		{
-			if (EnableOmnibar)
+			if (EnableOmnibarDesign)
 			{
 				OmnibarCurrentSelectedModeName = OmnibarPaletteModeName;
 			}
@@ -773,7 +773,7 @@ namespace Files.App.ViewModels.UserControls
 
 		public void SwitchToSearchMode()
 		{
-			if (EnableOmnibar)
+			if (EnableOmnibarDesign)
 			{
 				OmnibarCurrentSelectedModeName = OmnibarSearchModeName;
 			}

@@ -225,7 +225,7 @@
 		<Grid
 			x:Name="LegacyBreadcrumb"
 			Grid.Column="1"
-			x:Load="{x:Bind ViewModel.EnableOmnibar, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
+			x:Load="{x:Bind ViewModel.EnableOmnibarDesign, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
 			ColumnSpacing="4">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*" />
@@ -340,7 +340,7 @@
 		<controls:Omnibar
 			x:Name="Omnibar"
 			Grid.Column="1"
-			x:Load="{x:Bind ViewModel.EnableOmnibar, Mode=OneWay}"
+			x:Load="{x:Bind ViewModel.EnableOmnibarDesign, Mode=OneWay}"
 			CurrentSelectedModeName="{x:Bind ViewModel.OmnibarCurrentSelectedModeName, Mode=TwoWay}"
 			IsFocusedChanged="Omnibar_IsFocusedChanged"
 			ModeChanged="Omnibar_ModeChanged"

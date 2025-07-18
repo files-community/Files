@@ -357,15 +357,15 @@ namespace Files.App.ViewModels.Settings
 		}
 		
 		// TODO remove when feature is marked as stable
-		public bool EnableOmnibar
+		public bool EnableOmnibarDesign
 		{
-			get => UserSettingsService.GeneralSettingsService.EnableOmnibar;
+			get => UserSettingsService.GeneralSettingsService.EnableOmnibarDesign;
 			set
 			{
-				if (value == UserSettingsService.GeneralSettingsService.EnableOmnibar)
+				if (value == UserSettingsService.GeneralSettingsService.EnableOmnibarDesign)
 					return;
 
-				UserSettingsService.GeneralSettingsService.EnableOmnibar = value;
+				UserSettingsService.GeneralSettingsService.EnableOmnibarDesign = value;
 				OnPropertyChanged();
 			}
 		}

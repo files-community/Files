@@ -308,6 +308,6 @@ namespace Files.App.Data.Contracts
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to enable the Omnibar.
 		/// </summary>
-		bool EnableOmnibar { get; set; }
+		bool EnableOmnibarDesign { get; set; }
 	}
 }
