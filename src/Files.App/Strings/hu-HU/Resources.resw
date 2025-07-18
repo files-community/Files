@@ -166,7 +166,7 @@
     <value>Kihagyás</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>Összes kijelölése</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Kijelölés megfordítása</value>
@@ -1096,6 +1096,12 @@
   </data>
   <data name="ToggleToolbarDescription" xml:space="preserve">
     <value>Toggle visibility of the toolbar</value>
+  </data>
+  <data name="ToggleFilterHeader" xml:space="preserve">
+    <value>Toggle filter header</value>
+  </data>
+  <data name="ToggleFilterHeaderDescription" xml:space="preserve">
+    <value>Toggle visibility of the filter header</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nincs elérhető előnézet</value>
@@ -2307,7 +2313,7 @@
     <value>Helyi menü elemek</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>File extensions</value>
+    <value>Fájlkiterjesztések</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>Formázás</value>
@@ -4078,9 +4084,6 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Navigálás a kezdőlapra</value>
   </data>
-  <data name="ShowHomeButton" xml:space="preserve">
-    <value>Kezdőlap gomb megjelenítése a címsorban</value>
-  </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Eszköztárak</value>
   </data>
@@ -4263,5 +4266,11 @@
   </data>
   <data name="SeeMore" xml:space="preserve">
     <value>See more</value>
+  </data>
+  <data name="FilteringFor" xml:space="preserve">
+    <value>Filtering for</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Filename</value>
   </data>
 </root>
