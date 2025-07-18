@@ -56,6 +56,7 @@
 							x:Name="PART_RootBreadcrumbBarItem"
 							Grid.Column="0"
 							Padding="{StaticResource BreadcrumbBarRootItemPadding}"
+							ChevronToolTip="{TemplateBinding RootItemChevronToolTip}"
 							CornerRadius="{StaticResource BreadcrumbBarRootItemCornerRadius}"
 							ItemToolTip="{TemplateBinding RootItemToolTip}">
 							<ContentPresenter Content="{Binding RootItem, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />

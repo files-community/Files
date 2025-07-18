@@ -366,6 +366,7 @@
 						ItemDropDownFlyoutClosed="BreadcrumbBar_ItemDropDownFlyoutClosed"
 						ItemDropDownFlyoutOpening="BreadcrumbBar_ItemDropDownFlyoutOpening"
 						ItemsSource="{x:Bind ViewModel.PathComponents, Mode=OneWay}"
+						RootItemChevronToolTip="View folders in Home"
 						RootItemToolTip="{helpers:ResourceString Name=Home}">
 						<controls:BreadcrumbBar.RootItem>
 							<Image
@@ -379,7 +380,7 @@
 									AllowDrop="True"
 									AutomationProperties.AccessibilityView="Content"
 									AutomationProperties.Name="{x:Bind Title, Mode=OneWay}"
-									ChevronToolTip="{helpers:ResourceString Name=BreadcrumbBarChevronButtonToolTip}"
+									ChevronToolTip="{x:Bind ChevronToolTip, Mode=OneWay}"
 									Content="{x:Bind Title, Mode=OneWay}"
 									DataContext="{x:Bind}"
 									DragLeave="BreadcrumbBarItem_DragLeave"

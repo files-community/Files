@@ -14,10 +14,10 @@ namespace Files.App.Controls
 		public partial bool IsLastItem { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial string ItemToolTip { get; set; }
+		public partial string? ItemToolTip { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial string ChevronToolTip { get; set; }
+		public partial string? ChevronToolTip { get; set; }
 
 		partial void OnIsEllipsisChanged(bool newValue)
 		{
