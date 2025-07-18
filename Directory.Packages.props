@@ -28,6 +28,7 @@
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.5" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.5" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4188" />
+    <PackageVersion Include="Microsoft.TestPlatform.TestHost" Version="17.13.0" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.0" />
     <PackageVersion Include="OwlCore.Storage" Version="0.12.2" />
     <PackageVersion Include="Sentry" Version="5.10.0" />
