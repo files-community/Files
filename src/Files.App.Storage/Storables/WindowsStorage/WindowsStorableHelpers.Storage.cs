@@ -84,5 +84,12 @@ namespace Files.App.Storage
 			var result = PInvoke.SHFormatDrive(hWnd, driveLetterIndex, id, options);
 			return result is 0xFFFF;
 		}
+
+		public static bool TryRenameVolumeLabel(string path, string newLabel)
+		{
+			// TODO: Use shell32.dll!CMountPointRename (CLSID: 60173D16-A550-47f0-A14B-C6F9E4DA0831, IID: 92F8D886-AB61-4113-BD4F-2E894397386F)
+
+			return false;
+		}
 	}
 }
