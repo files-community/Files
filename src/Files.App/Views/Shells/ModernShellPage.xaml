@@ -116,10 +116,10 @@
 					Height="24"
 					VerticalAlignment="Center"
 					Source="{x:Bind ShellViewModel.SearchIconBitmapImage, Mode=OneWay}" />
-				<TextBlock
-					VerticalAlignment="Center"
-					Style="{StaticResource SubtitleTextBlockStyle}"
-					Text="{x:Bind ShellViewModel.SearchHeaderTitle, Mode=OneWay}" />
+				<TextBlock VerticalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}">
+					<Run FontWeight="Normal" Text="{helpers:ResourceString Name=SearchResultsFor}" />
+					<Run Text="{x:Bind ShellViewModel.SearchHeaderTitle, Mode=OneWay}" />
+				</TextBlock>
 			</StackPanel>
 		</Grid>
 

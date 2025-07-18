@@ -2720,7 +2720,7 @@ namespace Files.App.ViewModels
 			EmptyTextType = EmptyTextType.None;
 
 			SearchHeaderTitle = !string.IsNullOrEmpty(search.Query)
-				? string.Format(Strings.SearchResultsFor.GetLocalizedResource(), search.Query)
+				? $"`{search.Query}`"
 				: string.Empty;
 
 			if (SearchIconBitmapImage is null)
