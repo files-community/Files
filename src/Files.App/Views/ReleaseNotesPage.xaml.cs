@@ -68,6 +68,7 @@ namespace Files.App.Views
 			{
 				Title = componentLabel,
 				Path = tag,
+				ChevronToolTip = string.Format(Strings.BreadcrumbBarChevronButtonToolTip.GetLocalizedResource(), componentLabel),
 			};
 
 			AppInstance.ToolbarViewModel.PathComponents.Add(item);
