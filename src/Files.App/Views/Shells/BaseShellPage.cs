@@ -481,7 +481,13 @@ namespace Files.App.Views.Shells
 				// Clear the path UI
 				ToolbarViewModel.PathComponents.Clear();
 				ToolbarViewModel.IsSingleItemOverride = true;
-				ToolbarViewModel.PathComponents.Add(new PathBoxItem() { Path = null, Title = singleItemOverride });
+				ToolbarViewModel.PathComponents.Add(
+					new()
+					{
+						Path = null,
+						Title = singleItemOverride,
+						ChevronToolTip = string.Format(Strings.BreadcrumbBarChevronButtonToolTip.GetLocalizedResource(), singleItemOverride),
+					});
 			}
 		}
 

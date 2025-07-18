@@ -131,6 +131,8 @@
 							Width="{StaticResource OmnibarModeDefaultClickAreaWidth}"
 							Height="{StaticResource OmnibarModeDefaultHeight}"
 							Margin="1"
+							AutomationProperties.AccessibilityView="Content"
+							AutomationProperties.Name="{Binding ModeName, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
 							Background="{TemplateBinding Background}"
 							BorderBrush="{TemplateBinding BorderBrush}"
 							BorderThickness="0"

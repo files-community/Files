@@ -8,5 +8,7 @@ namespace Files.App.Data.Items
 		public string? Title { get; set; }
 
 		public string? Path { get; set; }
+
+		public string? ChevronToolTip { get; set; }
 	}
 }
