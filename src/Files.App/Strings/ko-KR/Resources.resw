@@ -1097,6 +1097,12 @@
   <data name="ToggleToolbarDescription" xml:space="preserve">
     <value>Toggle visibility of the toolbar</value>
   </data>
+  <data name="ToggleFilterHeader" xml:space="preserve">
+    <value>Toggle filter header</value>
+  </data>
+  <data name="ToggleFilterHeaderDescription" xml:space="preserve">
+    <value>Toggle visibility of the filter header</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>확인 가능한 미리 보기가 없습니다</value>
   </data>
@@ -4078,9 +4084,6 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>홈 페이지로 이동</value>
   </data>
-  <data name="ShowHomeButton" xml:space="preserve">
-    <value>주소 창에 홈 버튼 표시</value>
-  </data>
   <data name="Toolbars" xml:space="preserve">
     <value>도구 모음</value>
   </data>
@@ -4263,5 +4266,11 @@
   </data>
   <data name="SeeMore" xml:space="preserve">
     <value>See more</value>
+  </data>
+  <data name="FilteringFor" xml:space="preserve">
+    <value>Filtering for</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Filename</value>
   </data>
 </root>

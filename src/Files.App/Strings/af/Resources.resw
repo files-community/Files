@@ -1098,6 +1098,12 @@
   <data name="ToggleToolbarDescription" xml:space="preserve">
     <value>Toggle visibility of the toolbar</value>
   </data>
+  <data name="ToggleFilterHeader" xml:space="preserve">
+    <value>Toggle filter header</value>
+  </data>
+  <data name="ToggleFilterHeaderDescription" xml:space="preserve">
+    <value>Toggle visibility of the filter header</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Geen voorskou beskikbaar nie</value>
   </data>
@@ -4079,9 +4085,6 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Navigate to the home page</value>
   </data>
-  <data name="ShowHomeButton" xml:space="preserve">
-    <value>Show home button in address bar</value>
-  </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Toolbars</value>
   </data>
@@ -4264,5 +4267,11 @@
   </data>
   <data name="SeeMore" xml:space="preserve">
     <value>See more</value>
+  </data>
+  <data name="FilteringFor" xml:space="preserve">
+    <value>Filtering for</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Filename</value>
   </data>
 </root>

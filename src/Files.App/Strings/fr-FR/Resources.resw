@@ -1097,6 +1097,12 @@
   <data name="ToggleToolbarDescription" xml:space="preserve">
     <value>Activer/Désactiver la visibilité de la barre d'outils</value>
   </data>
+  <data name="ToggleFilterHeader" xml:space="preserve">
+    <value>Activer/Désactiver l'en-tête du filtre</value>
+  </data>
+  <data name="ToggleFilterHeaderDescription" xml:space="preserve">
+    <value>Activer/Désactiver la visibilité de l'en-tête du filtre</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Pas d'aperçu disponible</value>
   </data>
@@ -2091,7 +2097,7 @@
     <value>Restaurer tous les éléments</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Veux-tu restaurer {0, plural, one {l’élément sélectionné} other {{0} éléments sélectionnés}} ?</value>
+    <value>Veux-tu restaurer {0, plural, one {l'élément sélectionné} other {{0} éléments sélectionnés}} ?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>Restaurer la sélection</value>
@@ -2427,13 +2433,13 @@
     <value>Activer/Désactiver la visibilité des extensions de fichiers</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Afficher/Masquer le volet d’aperçu pour afficher les aperçus des fichiers</value>
+    <value>Afficher/Masquer le volet d'aperçu pour afficher les aperçus des fichiers</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Afficher/Masquer la barre latérale</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copier {0, plural, one {l’élément sélectionné} other {les éléments sélectionnés}}</value>
+    <value>Copier {0, plural, one {l'élément sélectionné} other {les éléments sélectionnés}}</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
     <value>Copier le chemin du dossier actuel</value>
@@ -2448,7 +2454,7 @@
     <value>Copier le chemin du dossier actuel avec des guillemets</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Couper {0, plural, one {l’élément sélectionné} other {les éléments sélectionnés}}</value>
+    <value>Couper {0, plural, one {l'élément sélectionné} other {les éléments sélectionnés}}</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>Coller les éléments dans le dossier actuel</value>
@@ -2469,7 +2475,7 @@
     <value>Créer un nouveau dossier</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Créer {0, plural, one {un raccourci} other {des raccourcis}} vers {0, plural, one {l’élément sélectionné} other {les éléments sélectionnés}}</value>
+    <value>Créer {0, plural, one {un raccourci} other {des raccourcis}} vers {0, plural, one {l'élément sélectionné} other {les éléments sélectionnés}}</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>Créer un nouveau raccourci vers n'importe quel élément</value>
@@ -2481,16 +2487,16 @@
     <value>Ouvrir le menu "Formater le lecteur" pour l'élément sélectionné</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restaurer {0, plural, one {l’élément sélectionné} other {les éléments sélectionnés}} depuis la corbeille</value>
+    <value>Restaurer {0, plural, one {l'élément sélectionné} other {les éléments sélectionnés}} depuis la corbeille</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
     <value>Restaurer tous les éléments de la corbeille</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Ouvrir {0, plural, one {l’élément} other {les éléments}}</value>
+    <value>Ouvrir {0, plural, one {l'élément} other {les éléments}}</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Ouvrir {0, plural, one {l’élément} other {les éléments}} avec l’application sélectionnée</value>
+    <value>Ouvrir {0, plural, one {l'élément} other {les éléments}} avec l'application sélectionnée</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
     <value>Ouvrir le dossier parent de l'élément recherché</value>
@@ -2553,7 +2559,7 @@
     <value>Installer {0, plural, one {la police sélectionnée} other {les polices sélectionnées}}</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Installer {0, plural, one {le pilote} other {les pilotes}} à l’aide {0, plural, one {du fichier INF sélectionné} other {des fichiers INF sélectionnés}}</value>
+    <value>Installer {0, plural, one {le pilote} other {les pilotes}} à l'aide {0, plural, one {du fichier INF sélectionné} other {des fichiers INF sélectionnés}}</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
     <value>Installer {0, plural, one {le certificat sélectionné} other {les certificats sélectionnés}}</value>
@@ -2562,7 +2568,7 @@
     <value>Exécuter l'application sélectionnée en tant qu'administrateur</value>
   </data>
   <data name="RunAsAnotherUserDescription" xml:space="preserve">
-    <value>Exécuter l’application sélectionnée en tant qu’autre utilisateur</value>
+    <value>Exécuter l'application sélectionnée en tant qu'autre utilisateur</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
     <value>Exécuter le script PowerShell sélectionné</value>
@@ -2601,7 +2607,7 @@
     <value>Ouvrir le dossier dans le terminal</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Ouvrir le dossier dans le terminal en tant qu’administrateur</value>
+    <value>Ouvrir le dossier dans le terminal en tant qu'administrateur</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
     <value>Réduire la taille des éléments dans la vue actuelle</value>
@@ -2730,10 +2736,10 @@
     <value>Dupliquer l'onglet sélectionné</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Fermer les onglets à gauche de l’onglet actuel</value>
+    <value>Fermer les onglets à gauche de l'onglet actuel</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
-    <value>Fermer les onglets à gauche de l’onglet sélectionné</value>
+    <value>Fermer les onglets à gauche de l'onglet sélectionné</value>
   </data>
   <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
     <value>Fermer les onglets à droite de l'onglet actuel</value>
@@ -3157,7 +3163,7 @@
     <value>Ouvrir la fenêtre des propriétés</value>
   </data>
   <data name="OpenClassicPropertiesDescription" xml:space="preserve">
-    <value>Ouvrir la fenêtre des propriétés de l’Explorateur de fichiers</value>
+    <value>Ouvrir la fenêtre des propriétés de l'Explorateur de fichiers</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Locaux</value>
@@ -3731,7 +3737,7 @@
     <value>Échec de la définition du fond d'écran</value>
   </data>
   <data name="FailedToOpenSettingsFile" xml:space="preserve">
-    <value>Échec de l’ouverture du fichier de paramètres</value>
+    <value>Échec de l'ouverture du fichier de paramètres</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
     <value>Supprimer la branche Git</value>
@@ -4003,7 +4009,7 @@
     <value>Réseau</value>
   </data>
   <data name="NoNetworkLocationsInfo" xml:space="preserve">
-    <value>Il n’y a pas d'emplacement réseau. Si vous n’en utilisez pas, vous pouvez désactiver le widget.</value>
+    <value>Il n'y a pas d'emplacement réseau. Si vous n'en utilisez pas, vous pouvez désactiver le widget.</value>
   </data>
   <data name="Disable" xml:space="preserve">
     <value>Désactiver</value>
@@ -4078,9 +4084,6 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Aller à la page d'accueil</value>
   </data>
-  <data name="ShowHomeButton" xml:space="preserve">
-    <value>Afficher le bouton d'accueil dans la barre d'adresse</value>
-  </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Barre d'outils</value>
   </data>
@@ -4106,7 +4109,7 @@
     <value>Entrez le nom du flux de données</value>
   </data>
   <data name="ErrorCreatingDataStreamTitle" xml:space="preserve">
-    <value>Une erreur s’est produite lors de la création du flux de données alternatif</value>
+    <value>Une erreur s'est produite lors de la création du flux de données alternatif</value>
   </data>
   <data name="ErrorCreatingDataStreamDescription" xml:space="preserve">
     <value>Veuillez noter que les flux de données alternatifs ne fonctionnent que sur les lecteurs formatés en NTFS.</value>
@@ -4253,7 +4256,7 @@
     <comment>This is the friendly name for a variety of different icon files.</comment>
   </data>
   <data name="BreadcrumbBarEllipsisButtonToolTip" xml:space="preserve">
-    <value>Afficher le fil d’Ariane du chemin réduit</value>
+    <value>Afficher le fil d'Ariane du chemin réduit</value>
   </data>
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
     <value>Afficher les sous-dossiers</value>
@@ -4263,5 +4266,11 @@
   </data>
   <data name="SeeMore" xml:space="preserve">
     <value>Voir plus</value>
+  </data>
+  <data name="FilteringFor" xml:space="preserve">
+    <value>Filtering for</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Nom du fichier</value>
   </data>
 </root>

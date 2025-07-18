@@ -1097,6 +1097,12 @@
   <data name="ToggleToolbarDescription" xml:space="preserve">
     <value>Toggle visibility of the toolbar</value>
   </data>
+  <data name="ToggleFilterHeader" xml:space="preserve">
+    <value>Attiva/Disattiva intestazione filtro</value>
+  </data>
+  <data name="ToggleFilterHeaderDescription" xml:space="preserve">
+    <value>Attiva/Disattiva visibilità dell'intestazione del filtro</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Anteprima non disponibile</value>
   </data>
@@ -4078,9 +4084,6 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Vai alla pagina iniziale</value>
   </data>
-  <data name="ShowHomeButton" xml:space="preserve">
-    <value>Mostra il pulsante Home nella barra degli strumenti</value>
-  </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Barre degli strumenti</value>
   </data>
@@ -4263,5 +4266,11 @@
   </data>
   <data name="SeeMore" xml:space="preserve">
     <value>Mostra altro</value>
+  </data>
+  <data name="FilteringFor" xml:space="preserve">
+    <value>Filtra per</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Nome file</value>
   </data>
 </root>

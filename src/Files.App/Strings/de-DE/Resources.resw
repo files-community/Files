@@ -1097,6 +1097,12 @@
   <data name="ToggleToolbarDescription" xml:space="preserve">
     <value>Sichtbarkeit der Symbolleiste umschalten</value>
   </data>
+  <data name="ToggleFilterHeader" xml:space="preserve">
+    <value>Filter-Header umschalten</value>
+  </data>
+  <data name="ToggleFilterHeaderDescription" xml:space="preserve">
+    <value>Sichtbarkeit des Filter-Headers umschalten</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Keine Vorschau verfügbar</value>
   </data>
@@ -4078,9 +4084,6 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Zur Startseite navigieren</value>
   </data>
-  <data name="ShowHomeButton" xml:space="preserve">
-    <value>Startbutton in Adressleiste anzeigen</value>
-  </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Werkzeugleisten</value>
   </data>
@@ -4263,5 +4266,11 @@
   </data>
   <data name="SeeMore" xml:space="preserve">
     <value>Mehr anzeigen</value>
+  </data>
+  <data name="FilteringFor" xml:space="preserve">
+    <value>Filtern nach</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Dateiname</value>
   </data>
 </root>

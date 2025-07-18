@@ -1097,6 +1097,12 @@
   <data name="ToggleToolbarDescription" xml:space="preserve">
     <value>Přepnout viditelnost panelu nástrojů</value>
   </data>
+  <data name="ToggleFilterHeader" xml:space="preserve">
+    <value>Toggle filter header</value>
+  </data>
+  <data name="ToggleFilterHeaderDescription" xml:space="preserve">
+    <value>Toggle visibility of the filter header</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Není dostupný žádný náhled</value>
   </data>
@@ -4078,9 +4084,6 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Přejít na domovskou stránku</value>
   </data>
-  <data name="ShowHomeButton" xml:space="preserve">
-    <value>Zobrazit tlačítko Domů v adresním řádku</value>
-  </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Panel nástrojů</value>
   </data>
@@ -4263,5 +4266,11 @@
   </data>
   <data name="SeeMore" xml:space="preserve">
     <value>Zobrazit více</value>
+  </data>
+  <data name="FilteringFor" xml:space="preserve">
+    <value>Filtering for</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Filename</value>
   </data>
 </root>

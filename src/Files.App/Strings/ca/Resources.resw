@@ -1097,6 +1097,12 @@
   <data name="ToggleToolbarDescription" xml:space="preserve">
     <value>Commuta la visibilitat de la barra d'eines</value>
   </data>
+  <data name="ToggleFilterHeader" xml:space="preserve">
+    <value>Commuta la capçalera del filtre</value>
+  </data>
+  <data name="ToggleFilterHeaderDescription" xml:space="preserve">
+    <value>Commuta la visibilitat de la capçalera del filtre</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Cap visualització prèvia disponible</value>
   </data>
@@ -4078,9 +4084,6 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Aneu a la pàgina d'inici</value>
   </data>
-  <data name="ShowHomeButton" xml:space="preserve">
-    <value>Mostra el botó d'inici a la barra d'adreces</value>
-  </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Barra d'eines</value>
   </data>
@@ -4263,5 +4266,11 @@
   </data>
   <data name="SeeMore" xml:space="preserve">
     <value>Mostra'n més</value>
+  </data>
+  <data name="FilteringFor" xml:space="preserve">
+    <value>Filtra per</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Nom del fitxer</value>
   </data>
 </root>

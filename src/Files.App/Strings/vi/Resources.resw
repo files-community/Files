@@ -1097,6 +1097,12 @@
   <data name="ToggleToolbarDescription" xml:space="preserve">
     <value>Ẩn hoặc hiện thanh công cụ</value>
   </data>
+  <data name="ToggleFilterHeader" xml:space="preserve">
+    <value>Bật/Tắt phần lọc</value>
+  </data>
+  <data name="ToggleFilterHeaderDescription" xml:space="preserve">
+    <value>Ẩn hoặc hiện phần lọc</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Không có bản xem trước</value>
   </data>
@@ -1986,7 +1992,7 @@
     <value>Thao tác di chuyển không được hỗ trợ trong ngữ cảnh này. Thay vào đó, bạn có muốn sao chép khoản mục không?</value>
   </data>
   <data name="HiddenItems" xml:space="preserve">
-    <value>Mục bị ẩn</value>
+    <value>Khoản mục bị ẩn</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Tùy chỉnh</value>
@@ -4078,9 +4084,6 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Điều hướng về trang chủ</value>
   </data>
-  <data name="ShowHomeButton" xml:space="preserve">
-    <value>Hiện nút trang chủ trên thanh địa chỉ</value>
-  </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Thanh công cụ</value>
   </data>
@@ -4115,7 +4118,7 @@
     <value>Luồng dữ liệu phụ hiện đang ẩn</value>
   </data>
   <data name="DataStreamsAreHiddenDescription" xml:space="preserve">
-    <value>Bạn có muốn hiển thị luồng dữ liệu phụ không? Để sửa đổi cài đặt này, hãy mở phần Tệp &amp; thư mục trong Cài đặt ứng dụng.</value>
+    <value>Bạn có muốn hiển thị luồng dữ liệu phụ không? Để sửa đổi cài đặt này, hãy mở phần Tệp &amp; thư mục trong giao diện cài đặt.</value>
   </data>
   <data name="ManageTags" xml:space="preserve">
     <value>Quản lý nhãn</value>
@@ -4263,5 +4266,11 @@
   </data>
   <data name="SeeMore" xml:space="preserve">
     <value>Xem thêm</value>
+  </data>
+  <data name="FilteringFor" xml:space="preserve">
+    <value>Lọc theo</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Filename</value>
   </data>
 </root>
