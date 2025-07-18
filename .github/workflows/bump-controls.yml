@@ -1,0 +1,85 @@
+# Copyright (c) Files Community
+# Licensed under the MIT License.
+
+# Abstract:
+#  Bumps the version of the Files UI Controls library
+#
+# Workflow:
+#  1. Find the version of the Files UI Controls library
+#  2. Bump the version of the Files UI Controls library
+#  3. Commit the changes to a new branch in the repo
+#  4. Push the changes to the repo
+#  5. Create a pull request and request a review
+
+name: Bump Files.App.Controls
+
+on:
+  workflow_dispatch:
+
+jobs:
+  bump:
+    runs-on: windows-latest
+    environment: Pull Requests
+    strategy:
+      fail-fast: false
+    env:
+      WORKING_DIR:                '${{ github.workspace }}' # D:\a\Files\Files\
+      VERSION_PROPS_PATH:         '${{ github.workspace }}\src\Files.App.Controls\CurrentVersion.props'
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - name: Generate GitHub Apps token
+        if: github.repository_owner == 'files-community'
+        id: generate
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_PRIVATE_KEY }}
+
+      - name: Bump Version
+        id: bump_version
+        shell: pwsh
+        run: |
+          $xml = [xml](Get-Content $env:PROPS_PATH)
+          $version = [int]$xml.Project.PropertyGroup.MicroVersion
+          $newVersion = $version + 1
+          $xml.Project.PropertyGroup.MicroVersion = $newVersion
+          $xml.Save($env:PROPS_PATH)
+          Write-Output "Bumped version to $newVersion"
+          echo "::set-output name=new_version::$newVersion"
+
+      - name: Get version for PR message
+        id: get_version
+        shell: pwsh
+        run: |
+          $xml = [xml](Get-Content $env:PROPS_PATH)
+          $microVersion = [int]$xml.Project.PropertyGroup.MicroVersion
+          $minorVersion = [int]$xml.Project.PropertyGroup.MinorVersion
+          $majorVersion = [int]$xml.Project.PropertyGroup.MajorVersion
+          $fullVersion = "$majorVersion.$minorVersion.$microVersion"
+          Write-Output "Found publish version, $fullVersion"
+          echo "::set-output name=full_version::$fullVersion"
+
+      - name: Add and commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: '${{ env.VERSION_PROPS_PATH }}'
+      
+          author_name: files-community-bot[bot]
+          author_email: 152337890+files-community-bot[bot]@users.noreply.github.com
+          default_author: github_actor
+
+          message: 'Bump Files UI controls version to ${{ steps.get_version.outputs.full_version }}'
+          new_branch: 'files/ui-controls/${{ steps.get_version.outputs.full_version }}'
+      
+          pathspec_error_handling: ignore
+          push: true
+      
+      - name: Create Pull Request
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ steps.generate.outputs.token }}
+        run: |
+          gh pr create --title "Controls: Bumped Controls version to ${{ steps.get_version.outputs.full_version }}" --body "This is an automated PR that bumps the version of the Files UI controls project." --base main --head bot/ui-controls/${{ steps.get_version.outputs.full_version }}
