@@ -1097,6 +1097,12 @@
   <data name="ToggleToolbarDescription" xml:space="preserve">
     <value>Сховати / Приховати видимість панелі інструментів</value>
   </data>
+  <data name="ToggleFilterHeader" xml:space="preserve">
+    <value>Увімк. / Вимк. заголовок фільтра</value>
+  </data>
+  <data name="ToggleFilterHeaderDescription" xml:space="preserve">
+    <value>Увімк. / Вимк. видимість заголовка фільтра</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Попередній перегляд недоступний</value>
   </data>
@@ -4078,9 +4084,6 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Перейти до головної сторінки</value>
   </data>
-  <data name="ShowHomeButton" xml:space="preserve">
-    <value>Показувати кнопку «Головна» в адресному рядку</value>
-  </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Панелі інструментів</value>
   </data>
@@ -4263,5 +4266,11 @@
   </data>
   <data name="SeeMore" xml:space="preserve">
     <value>Показати більше</value>
+  </data>
+  <data name="FilteringFor" xml:space="preserve">
+    <value>Фільтрувати за</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Назва файлу</value>
   </data>
 </root>
