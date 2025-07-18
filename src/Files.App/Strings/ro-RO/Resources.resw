@@ -1059,7 +1059,7 @@
     <value>Deschideți într-un panou nou</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value>Fișiere și foldere</value>
+    <value>Fișiere &amp; foldere</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detalii (Ctrl+Shift+1)</value>
@@ -1096,6 +1096,12 @@
   </data>
   <data name="ToggleToolbarDescription" xml:space="preserve">
     <value>Comută vizibilitatea barei de instrumente</value>
+  </data>
+  <data name="ToggleFilterHeader" xml:space="preserve">
+    <value>Toggle filter header</value>
+  </data>
+  <data name="ToggleFilterHeaderDescription" xml:space="preserve">
+    <value>Toggle visibility of the filter header</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nicio previzualizare disponibilă</value>
@@ -4078,9 +4084,6 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Navigați spre pagina principală</value>
   </data>
-  <data name="ShowHomeButton" xml:space="preserve">
-    <value>Afișați butonul Pornire în bara de adresă</value>
-  </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Bare de Instrumente</value>
   </data>
@@ -4263,5 +4266,11 @@
   </data>
   <data name="SeeMore" xml:space="preserve">
     <value>Vedeți mai multe</value>
+  </data>
+  <data name="FilteringFor" xml:space="preserve">
+    <value>Filtering for</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Filename</value>
   </data>
 </root>
