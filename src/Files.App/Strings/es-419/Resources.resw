@@ -1097,6 +1097,12 @@
   <data name="ToggleToolbarDescription" xml:space="preserve">
     <value>Cambiar la visibilidad de la barra de herramientas</value>
   </data>
+  <data name="ToggleFilterHeader" xml:space="preserve">
+    <value>Toggle filter header</value>
+  </data>
+  <data name="ToggleFilterHeaderDescription" xml:space="preserve">
+    <value>Toggle visibility of the filter header</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>No hay vista previa disponible</value>
   </data>
@@ -2013,16 +2019,16 @@
     <value>Comportamiento</value>
   </data>
   <data name="Hello" xml:space="preserve">
-    <value>Hello!</value>
+    <value>¡Hola!</value>
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>¿Disfrutando de Files? Por favor, considere hacer una reseña en Microsoft Store.</value>
   </data>  
   <data name="SponsorSubtitle" xml:space="preserve">
-    <value>Enjoying Files? Please consider supporting the project on GitHub.</value>
+    <value>¿Qué le parece Files? Considere la posibilidad de apoyar el proyecto en GitHub.</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
-    <value>Sponsor</value>
+    <value>Patrocinador</value>
   </data>
   <data name="RateUs" xml:space="preserve">
     <value>Valórenos</value>
@@ -4078,9 +4084,6 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Ir a la página de inicio</value>
   </data>
-  <data name="ShowHomeButton" xml:space="preserve">
-    <value>Mostrar el botón de inicio en la barra de direcciones</value>
-  </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Barras de herramientas</value>
   </data>
@@ -4263,5 +4266,11 @@
   </data>
   <data name="SeeMore" xml:space="preserve">
     <value>Ver más</value>
+  </data>
+  <data name="FilteringFor" xml:space="preserve">
+    <value>Filtering for</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Filename</value>
   </data>
 </root>
