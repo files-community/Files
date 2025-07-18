@@ -1097,6 +1097,12 @@
   <data name="ToggleToolbarDescription" xml:space="preserve">
     <value>Araç çubuğu görünürlüğünü değiştir</value>
   </data>
+  <data name="ToggleFilterHeader" xml:space="preserve">
+    <value>Toggle filter header</value>
+  </data>
+  <data name="ToggleFilterHeaderDescription" xml:space="preserve">
+    <value>Toggle visibility of the filter header</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Ön izleme yok</value>
   </data>
@@ -2013,7 +2019,7 @@
     <value>Davranışlar</value>
   </data>
   <data name="Hello" xml:space="preserve">
-    <value>Hello!</value>
+    <value>Merhaba!</value>
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Enjoying Files? Please consider reviewing in the Microsoft Store.</value>
@@ -2022,7 +2028,7 @@
     <value>Enjoying Files? Please consider supporting the project on GitHub.</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
-    <value>Sponsor</value>
+    <value>Destekle</value>
   </data>
   <data name="RateUs" xml:space="preserve">
     <value>Rate us</value>
@@ -2436,7 +2442,7 @@
     <value>Copy selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of the current directory</value>
+    <value>Geçerli dizin yolunu kopyala</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
     <value>Copy path of selected items</value>
@@ -4078,9 +4084,6 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Ev sayfasına gidin</value>
   </data>
-  <data name="ShowHomeButton" xml:space="preserve">
-    <value>Adres çubuğunda ana sayfa düğmesini göster</value>
-  </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Araç çubukları</value>
   </data>
@@ -4263,5 +4266,11 @@
   </data>
   <data name="SeeMore" xml:space="preserve">
     <value>See more</value>
+  </data>
+  <data name="FilteringFor" xml:space="preserve">
+    <value>Filtering for</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Filename</value>
   </data>
 </root>
