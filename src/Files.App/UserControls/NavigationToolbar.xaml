@@ -366,7 +366,7 @@
 						ItemDropDownFlyoutClosed="BreadcrumbBar_ItemDropDownFlyoutClosed"
 						ItemDropDownFlyoutOpening="BreadcrumbBar_ItemDropDownFlyoutOpening"
 						ItemsSource="{x:Bind ViewModel.PathComponents, Mode=OneWay}"
-						RootItemChevronToolTip="View folders in Home"
+						RootItemChevronToolTip="{helpers:ResourceString Name=BreadcrumbBarRootChevronButtonToolTip}"
 						RootItemToolTip="{helpers:ResourceString Name=Home}">
 						<controls:BreadcrumbBar.RootItem>
 							<Image

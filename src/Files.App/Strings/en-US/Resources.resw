@@ -4261,6 +4261,9 @@
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
     <value>Show folders in {0}</value>
   </data>
+  <data name="BreadcrumbBarRootChevronButtonToolTip" xml:space="preserve">
+    <value>Show folders in Home</value>
+  </data>
   <data name="NoCommandsFound" xml:space="preserve">
     <value>There are no commands containing {0}</value>
   </data>
