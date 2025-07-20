@@ -65,15 +65,6 @@ namespace Windows.Win32
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		[Obsolete("Use `HRESULT As<U>(U** other)` instead.")]
-		public readonly ComPtr<U> As<U>() where U : unmanaged, IComIID
-		{
-			ComPtr<U> ptr = default;
-			((IUnknown*)_ptr)->QueryInterface((Guid*)Unsafe.AsPointer(ref Unsafe.AsRef(in U.Guid)), (void**)ptr.GetAddressOf());
-			return ptr;
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public readonly HRESULT As<U>(U** other) where U : unmanaged, IComIID
 		{
 			return ((IUnknown*)_ptr)->QueryInterface((Guid*)Unsafe.AsPointer(ref Unsafe.AsRef(in U.Guid)), (void**)other);
@@ -89,22 +80,6 @@ namespace Windows.Win32
 		public readonly HRESULT CoCreateInstance(Guid* rclsid, IUnknown* pUnkOuter = null, CLSCTX dwClsContext = CLSCTX.CLSCTX_LOCAL_SERVER)
 		{
 			return PInvoke.CoCreateInstance(rclsid, pUnkOuter, dwClsContext, (Guid*)Unsafe.AsPointer(ref Unsafe.AsRef(in T.Guid)), (void**)this.GetAddressOf());
-		}
-
-		// Conversion operators
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static implicit operator ComPtr<T>(T* other)
-		{
-			ComPtr<T> ptr = default;
-			ptr.Attach(other);
-			return ptr;
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static implicit operator T*(ComPtr<T> other)
-		{
-			return other._ptr;
 		}
 
 		// Disposer

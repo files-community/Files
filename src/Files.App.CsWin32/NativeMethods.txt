@@ -225,3 +225,14 @@ QITIPF_FLAGS
 GetKeyboardState
 MapVirtualKey
 GetKeyboardLayout
+S_FALSE
+IExecuteCommand
+IObjectWithSelection
+SHCreateShellItemArrayFromShellItem
+IShellExtInit
+IContextMenu2
+GetSubMenu
+GetMenuItemCount
+GetMenuItemInfo
+IsWow64Process2
+GetCurrentProcess

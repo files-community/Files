@@ -10,80 +10,76 @@ using Windows.Win32.UI.Shell;
 namespace Files.App.Storage
 {
 	[DebuggerDisplay("{" + nameof(ToString) + "()}")]
-	public sealed class WindowsFolder : WindowsStorable, IChildFolder
+	public unsafe class WindowsFolder : WindowsStorable, IWindowsFolder
 	{
-		public WindowsFolder(ComPtr<IShellItem> nativeObject)
+		/// <inheritdoc/>
+		public IContextMenu* ShellNewMenu
 		{
-			ThisPtr = nativeObject;
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			get;
+
+			[MethodImpl(MethodImplOptions.AggressiveInlining)]
+			set;
 		}
 
-		public unsafe WindowsFolder(IShellItem* nativeObject)
+		public WindowsFolder(IShellItem* ptr)
 		{
-			ComPtr<IShellItem> ptr = default;
-			ptr.Attach(nativeObject);
 			ThisPtr = ptr;
 		}
 
-		public unsafe WindowsFolder(Guid folderId)
+		public WindowsFolder(Guid folderId)
 		{
-			ComPtr<IShellItem> pItem = default;
+			IShellItem* pShellItem = default;
 
-			HRESULT hr = PInvoke.SHGetKnownFolderItem(&folderId, KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, HANDLE.Null, IID.IID_IShellItem, (void**)pItem.GetAddressOf());
+			HRESULT hr = PInvoke.SHGetKnownFolderItem(&folderId, KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, HANDLE.Null, IID.IID_IShellItem, (void**)&pShellItem);
 			if (hr.Failed)
 			{
 				fixed (char* pszShellPath = $"Shell:::{folderId:B}")
-					hr = PInvoke.SHCreateItemFromParsingName(pszShellPath, null, IID.IID_IShellItem, (void**)pItem.GetAddressOf());
+					hr = PInvoke.SHCreateItemFromParsingName(pszShellPath, null, IID.IID_IShellItem, (void**)&pShellItem);
 
 				// Invalid FOLDERID; this should never happen.
 				hr.ThrowOnFailure();
 			}
 
-			ThisPtr = pItem;
+			ThisPtr = pShellItem;
 		}
 
 		public IAsyncEnumerable<IStorableChild> GetItemsAsync(StorableType type = StorableType.All, CancellationToken cancellationToken = default)
 		{
-			return GetItems().ToAsyncEnumerable();
+			using ComPtr<IEnumShellItems> pEnumShellItems = default;
 
-			unsafe IEnumerable<IStorableChild> GetItems()
+			HRESULT hr = ThisPtr->BindToHandler(null, BHID.BHID_EnumItems, IID.IID_IEnumShellItems, (void**)pEnumShellItems.GetAddressOf());
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return Enumerable.Empty<IStorableChild>().ToAsyncEnumerable();
+
+			List<IStorableChild> childItems = [];
+
+			IShellItem* pChildShellItem = null;
+			while ((hr = pEnumShellItems.Get()->Next(1, &pChildShellItem)) == HRESULT.S_OK)
 			{
-				ComPtr<IEnumShellItems> pEnumShellItems = default;
-				GetEnumerator();
+				bool isFolder = pChildShellItem->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var dwAttributes).Succeeded && dwAttributes is SFGAO_FLAGS.SFGAO_FOLDER;
 
-				ComPtr<IShellItem> pShellItem = default;
-				while (GetNext() && !pShellItem.IsNull)
+				if (type.HasFlag(StorableType.File) && !isFolder)
 				{
-					cancellationToken.ThrowIfCancellationRequested();
-					var isFolder = pShellItem.HasShellAttributes(SFGAO_FLAGS.SFGAO_FOLDER);
-
-					if (type is StorableType.File && !isFolder)
-					{
-						yield return new WindowsFile(pShellItem);
-					}
-					else if (type is StorableType.Folder && isFolder)
-					{
-						yield return new WindowsFolder(pShellItem);
-					}
-					else
-					{
-						continue;
-					}
+					childItems.Add(new WindowsFile(pChildShellItem));
 				}
-
-				yield break;
-
-				unsafe void GetEnumerator()
+				else if (type.HasFlag(StorableType.Folder) && isFolder)
 				{
-					HRESULT hr = ThisPtr.Get()->BindToHandler(null, BHID.BHID_EnumItems, IID.IID_IEnumShellItems, (void**)pEnumShellItems.GetAddressOf());
-					hr.ThrowIfFailedOnDebug();
-				}
-
-				unsafe bool GetNext()
-				{
-					HRESULT hr = pEnumShellItems.Get()->Next(1, pShellItem.GetAddressOf());
-					return hr.ThrowIfFailedOnDebug() == HRESULT.S_OK;
+					childItems.Add(new WindowsFolder(pChildShellItem));
 				}
 			}
+
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return Enumerable.Empty<IStorableChild>().ToAsyncEnumerable();
+
+			return childItems.ToAsyncEnumerable();
+		}
+
+		public override void Dispose()
+		{
+			base.Dispose();
+
+			if (ShellNewMenu is not null) ShellNewMenu->Release();
 		}
 	}
 }
