@@ -177,7 +177,6 @@ namespace Files.App.Views.Shells
 				FlowDirection = FlowDirection.RightToLeft;
 
 			ToolbarViewModel.ToolbarPathItemInvoked += ShellPage_NavigationRequested;
-			ToolbarViewModel.ToolbarFlyoutOpening += ShellPage_ToolbarFlyoutOpening;
 			ToolbarViewModel.ToolbarPathItemLoaded += ShellPage_ToolbarPathItemLoaded;
 			ToolbarViewModel.PathBoxItemDropped += ShellPage_PathBoxItemDropped;
 
@@ -378,15 +377,6 @@ namespace Files.App.Views.Shells
 		protected async void ShellPage_ToolbarPathItemLoaded(object sender, ToolbarPathItemLoadedEventArgs e)
 		{
 			await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpenedFlyout, e.Item);
-		}
-
-		[Obsolete("Superseded by Omnibar.")]
-		protected async void ShellPage_ToolbarFlyoutOpening(object sender, ToolbarFlyoutOpeningEventArgs e)
-		{
-			var pathBoxItem = ((Button)e.OpeningFlyout.Target).DataContext as PathBoxItem;
-
-			if (pathBoxItem is not null)
-				await ToolbarViewModel.SetPathBoxDropDownFlyoutAsync(e.OpeningFlyout, pathBoxItem);
 		}
 
 		protected async void NavigationToolbar_QuerySubmitted(object sender, ToolbarQuerySubmittedEventArgs e)
@@ -780,7 +770,6 @@ namespace Files.App.Views.Shells
 			drivesViewModel.PropertyChanged -= DrivesManager_PropertyChanged;
 
 			ToolbarViewModel.ToolbarPathItemInvoked -= ShellPage_NavigationRequested;
-			ToolbarViewModel.ToolbarFlyoutOpening -= ShellPage_ToolbarFlyoutOpening;
 			ToolbarViewModel.ToolbarPathItemLoaded -= ShellPage_ToolbarPathItemLoaded;
 			ToolbarViewModel.PathBoxItemDropped -= ShellPage_PathBoxItemDropped;
 			ToolbarViewModel.ItemDraggedOverPathItem -= ShellPage_NavigationRequested;

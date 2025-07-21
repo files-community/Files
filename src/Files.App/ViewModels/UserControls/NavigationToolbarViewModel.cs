@@ -52,15 +52,10 @@ namespace Files.App.ViewModels.UserControls
 
 		public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
 
-		[Obsolete("Superseded by Omnibar.")]
-		public delegate void ToolbarFlyoutOpeningEventHandler(object sender, ToolbarFlyoutOpeningEventArgs e);
 		public delegate void ToolbarPathItemLoadedEventHandler(object sender, ToolbarPathItemLoadedEventArgs e);
 
 		public delegate void PathBoxItemDroppedEventHandler(object sender, PathBoxItemDroppedEventArgs e);
 		public event ToolbarPathItemInvokedEventHandler? ToolbarPathItemInvoked;
-
-		[Obsolete("Superseded by Omnibar.")]
-		public event ToolbarFlyoutOpeningEventHandler? ToolbarFlyoutOpening;
 
 		public event ToolbarPathItemLoadedEventHandler? ToolbarPathItemLoaded;
 		public event IAddressToolbarViewModel.ItemDraggedOverPathItemEventHandler? ItemDraggedOverPathItem;
