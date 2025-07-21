@@ -21,5 +21,8 @@ namespace Files.App.Controls
 
 		[GeneratedDependencyProperty]
 		public partial string? RootItemToolTip { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial string? RootItemChevronToolTip { get; set; }
 	}
 }
