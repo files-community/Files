@@ -621,36 +621,6 @@ namespace Files.App.ViewModels.UserControls
 			PathControlDisplayText = ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
 		}
 
-		[Obsolete("Superseded by Omnibar.")]
-		public void PathBoxItem_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
-		{
-			switch (e.Key)
-			{
-				case Windows.System.VirtualKey.Down:
-					{
-						var item = e.OriginalSource as ListViewItem;
-						var button = item?.FindDescendant<Button>();
-						button?.Flyout.ShowAt(button);
-						e.Handled = true;
-						break;
-					}
-				case Windows.System.VirtualKey.Space:
-				case Windows.System.VirtualKey.Enter:
-					{
-						var item = e.OriginalSource as ListViewItem;
-						var path = (item?.Content as PathBoxItem)?.Path;
-						if (path == PathControlDisplayText)
-							return;
-						ToolbarPathItemInvoked?.Invoke(this, new PathNavigationEventArgs()
-						{
-							ItemPath = path
-						});
-						e.Handled = true;
-						break;
-					}
-			}
-		}
-
 		public void SwitchToCommandPaletteMode()
 		{
 			OmnibarCurrentSelectedModeName = OmnibarPaletteModeName;
