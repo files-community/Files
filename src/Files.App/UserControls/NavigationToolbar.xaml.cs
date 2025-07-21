@@ -38,9 +38,6 @@ namespace Files.App.UserControls
 		public partial bool ShowSettingsButton { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial bool ShowSearchBox { get; set; }
-
-		[GeneratedDependencyProperty]
 		public partial NavigationToolbarViewModel ViewModel { get; set; }
 
 		// Constructor
@@ -58,87 +55,6 @@ namespace Files.App.UserControls
 			if (OngoingTasksViewModel is not null)
 				OngoingTasksViewModel.NewItemAdded += OngoingTasksActions_ProgressBannerPosted;
 		}
-
-		[Obsolete("Superseded by Omnibar.")]
-		private void VisiblePath_Loaded(object _, RoutedEventArgs e)
-		{
-			// AutoSuggestBox won't receive focus unless it's fully loaded
-			VisiblePath.Focus(FocusState.Programmatic);
-
-			if (DependencyObjectHelpers.FindChild<TextBox>(VisiblePath) is TextBox textBox)
-			{
-				if (textBox.Text.StartsWith(">"))
-					textBox.Select(1, textBox.Text.Length - 1);
-				else
-					textBox.SelectAll();
-			}
-		}
-
-		[Obsolete("Superseded by Omnibar.")]
-		private void ManualPathEntryItem_Click(object _, PointerRoutedEventArgs e)
-		{
-			if (e.Pointer.PointerDeviceType is PointerDeviceType.Mouse)
-			{
-				var ptrPt = e.GetCurrentPoint(NavToolbar);
-				if (ptrPt.Properties.IsMiddleButtonPressed)
-					return;
-			}
-			ViewModel.IsEditModeEnabled = true;
-		}
-
-		[Obsolete("Superseded by Omnibar.")]
-		private async void VisiblePath_KeyDown(object _, KeyRoutedEventArgs e)
-		{
-			if (e.Key is VirtualKey.Escape)
-				ViewModel.IsEditModeEnabled = false;
-
-			if (e.Key is VirtualKey.Tab)
-			{
-				ViewModel.IsEditModeEnabled = false;
-				// Delay to ensure clickable path is ready to be focused
-				await Task.Delay(10);
-				ClickablePath.Focus(FocusState.Keyboard);
-			}
-		}
-		[Obsolete("Superseded by Omnibar.")]
-		private void VisiblePath_LostFocus(object _, RoutedEventArgs e)
-		{
-			if (App.AppModel.IsMainWindowClosed)
-				return;
-
-			var element = Microsoft.UI.Xaml.Input.FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot);
-			if (element is FlyoutBase or AppBarButton or Popup)
-				return;
-
-			if (element is not Control control)
-			{
-				if (ViewModel.IsEditModeEnabled)
-					ViewModel.IsEditModeEnabled = false;
-				return;
-			}
-
-			if (control.FocusState is not FocusState.Programmatic and not FocusState.Keyboard)
-				ViewModel.IsEditModeEnabled = false;
-			else if (ViewModel.IsEditModeEnabled)
-				VisiblePath.Focus(FocusState.Programmatic);
-		}
-
-		[Obsolete("Superseded by Omnibar.")]
-		private void SearchRegion_OnGotFocus(object sender, RoutedEventArgs e) => ViewModel.SearchRegion_GotFocus(sender, e);
-		[Obsolete("Superseded by Omnibar.")]
-		private void SearchRegion_LostFocus(object sender, RoutedEventArgs e) => ViewModel.SearchRegion_LostFocus(sender, e);
-		[Obsolete("Superseded by Omnibar.")]
-		private void SearchRegion_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
-		{
-			// Suppress access key invocation if any dialog is open
-			if (VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot).Any())
-				args.Handled = true;
-			else
-				sender.Focus(FocusState.Keyboard);
-		}
-		[Obsolete("Superseded by Omnibar.")]
-		private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-			=> ViewModel.VisiblePath_QuerySubmitted(sender, args);
 
 		private void OngoingTasksActions_ProgressBannerPosted(object? _, StatusCenterItem e)
 		{
@@ -252,17 +168,6 @@ namespace Files.App.UserControls
 					}
 				}
 			}
-		}
-
-		[Obsolete("Superseded by Omnibar.")]
-		private void ClickablePath_GettingFocus(UIElement sender, GettingFocusEventArgs args)
-		{
-			if (args.InputDevice != FocusInputDeviceKind.Keyboard)
-				return;
-
-			var previousControl = args.OldFocusedElement as FrameworkElement;
-			if (previousControl?.Name == nameof(Refresh))
-				ViewModel.IsEditModeEnabled = true;
 		}
 
 		private async void Omnibar_QuerySubmitted(Omnibar sender, OmnibarQuerySubmittedEventArgs args)

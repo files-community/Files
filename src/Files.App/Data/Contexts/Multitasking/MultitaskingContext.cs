@@ -10,8 +10,6 @@ namespace Files.App.Data.Contexts
 {
 	internal sealed partial class MultitaskingContext : ObservableObject, IMultitaskingContext
 	{
-		private readonly MainPageViewModel MainPageViewModel = Ioc.Default.GetRequiredService<MainPageViewModel>();
-
 		private bool isPopupOpen = false;
 
 		private ITabBar? control;
@@ -72,9 +70,6 @@ namespace Files.App.Data.Contexts
 			{
 				int newSelectedIndex = MainPageViewModel.AppInstances.IndexOf(tabItem);
 				UpdateSelectedTabIndex(newSelectedIndex);
-
-				// Focus the content of the selected tab item (needed for pointer navigation)
-				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
 			}
 		}
 

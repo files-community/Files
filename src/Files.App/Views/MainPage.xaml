@@ -169,7 +169,6 @@
 			x:Load="False"
 			Loaded="NavToolbar_Loaded"
 			ShowOngoingTasks="True"
-			ShowSearchBox="True"
 			TabIndex="1" />
 
 		<!--  Content Area  -->
@@ -429,22 +428,6 @@
 					</VisualState.StateTriggers>
 					<VisualState.Setters>
 						<Setter Target="EmptySidebarImage.Visibility" Value="Collapsed" />
-					</VisualState.Setters>
-				</VisualState>
-			</VisualStateGroup>
-
-			<VisualStateGroup>
-				<VisualState>
-					<VisualState.StateTriggers>
-						<AdaptiveTrigger x:Name="CollapseSearchBoxAdaptiveTrigger" MinWindowWidth="750" />
-					</VisualState.StateTriggers>
-				</VisualState>
-				<VisualState x:Name="CollapseSearchBoxState">
-					<VisualState.StateTriggers>
-						<AdaptiveTrigger MinWindowWidth="0" />
-					</VisualState.StateTriggers>
-					<VisualState.Setters>
-						<Setter Target="NavToolbar.ShowSearchBox" Value="False" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>

@@ -150,12 +150,7 @@ namespace Files.App.Views.Shells
 		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
 		{
 			ContentPage = await GetContentOrNullAsync();
-			if (!ToolbarViewModel.SearchBox.WasQuerySubmitted)
-			{
-				ToolbarViewModel.SearchBox.Query = string.Empty;
-				ToolbarViewModel.IsSearchBoxVisible = false;
-			}
-
+			
 			ToolbarViewModel.UpdateAdditionalActions();
 			if (ItemDisplayFrame.CurrentSourcePageType == (typeof(DetailsLayoutPage))
 				|| ItemDisplayFrame.CurrentSourcePageType == typeof(GridLayoutPage))
@@ -177,27 +172,6 @@ namespace Files.App.Views.Shells
 
 			_navigationInteractionTracker.CanNavigateBackward = CanNavigateBackward;
 			_navigationInteractionTracker.CanNavigateForward = CanNavigateForward;
-		}
-
-		private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-		{
-			args.Handled = true;
-			var tabInstance =
-				CurrentPageType == typeof(DetailsLayoutPage) ||
-				CurrentPageType == typeof(GridLayoutPage);
-
-			var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
-			var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
-			var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
-
-			switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
-			{
-				// Ctrl + V, Paste
-				case (true, false, false, true, VirtualKey.V):
-					if (!ToolbarViewModel.IsEditModeEnabled && !ContentPage.IsRenamingItem && !InstanceViewModel.IsPageTypeSearchResults && !ToolbarViewModel.SearchHasFocus)
-						await UIFilesystemHelpers.PasteItemAsync(ShellViewModel.WorkingDirectory, this);
-					break;
-			}
 		}
 
 		private void OverscrollNavigationRequested(object? sender, OverscrollNavigationEventArgs e)

@@ -31,12 +31,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage is not null)
-			{
-				if (GeneralSettingsService.EnableOmnibarDesign)
-					context.ShellPage!.ToolbarViewModel.SwitchToPathMode();
-				else
-					context.ShellPage.ToolbarViewModel.IsEditModeEnabled = true;
-			}
+				context.ShellPage!.ToolbarViewModel.SwitchToPathMode();
 
 			return Task.CompletedTask;
 		}

@@ -168,14 +168,6 @@
 				</wctcontrols:SettingsCard.HeaderIcon>
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowFlattenOptions}" IsOn="{x:Bind ViewModel.ShowFlattenOptions, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
-
-			<!--  Omnibar  -->
-			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=EnableOmnibar}">
-				<wctcontrols:SettingsCard.HeaderIcon>
-					<FontIcon Glyph="&#xECAD;" />
-				</wctcontrols:SettingsCard.HeaderIcon>
-				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=EnableOmnibar}" IsOn="{x:Bind ViewModel.EnableOmnibarDesign, Mode=TwoWay}" />
-			</wctcontrols:SettingsCard>
 		</StackPanel>
 	</Grid>
 </Page>
