@@ -221,126 +221,11 @@
 			</Button>
 		</StackPanel>
 
-		<!--  Legacy breadcrumb bar  -->
-		<Grid
-			x:Name="LegacyBreadcrumb"
-			Grid.Column="1"
-			x:Load="{x:Bind ViewModel.EnableOmnibarDesign, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
-			ColumnSpacing="4">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="*" />
-				<ColumnDefinition Width="Auto" />
-			</Grid.ColumnDefinitions>
-			<!--  Path Box  -->
-			<AutoSuggestBox
-				x:Name="VisiblePath"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Center"
-				x:Load="{x:Bind ViewModel.ManualEntryBoxLoaded, Mode=OneWay}"
-				BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
-				BorderThickness="{ThemeResource TextControlBorderThemeThickness}"
-				CornerRadius="{StaticResource ControlCornerRadius}"
-				FocusDisengaged="VisiblePath_LostFocus"
-				FontWeight="SemiBold"
-				ItemsSource="{x:Bind ViewModel.NavigationBarSuggestions, Mode=OneWay}"
-				Loaded="VisiblePath_Loaded"
-				LostFocus="VisiblePath_LostFocus"
-				PlaceholderText="{helpers:ResourceString Name=NavigationToolbarVisiblePath/PlaceholderText}"
-				PreviewKeyDown="VisiblePath_KeyDown"
-				QuerySubmitted="VisiblePath_QuerySubmitted"
-				ScrollViewer.HorizontalScrollBarVisibility="Auto"
-				ScrollViewer.VerticalScrollBarVisibility="Hidden"
-				Text="{x:Bind ViewModel.PathText, Mode=OneWay}"
-				TextChanged="{x:Bind ViewModel.VisiblePath_TextChanged, Mode=OneWay}"
-				TextMemberPath="Text"
-				Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
-				<AutoSuggestBox.ItemTemplate>
-					<DataTemplate x:DataType="items:NavigationBarSuggestionItem">
-						<StackPanel Margin="0,4">
-							<Grid ColumnSpacing="8">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="*" />
-									<ColumnDefinition Width="Auto" />
-								</Grid.ColumnDefinitions>
-
-								<!--  Primary Title  -->
-								<TextBlock
-									x:Name="PrimaryDisplayBlock"
-									Grid.Column="0"
-									Foreground="{ThemeResource TextFillColorPrimaryBrush}"
-									MaxLines="1"
-									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap">
-									<Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPreMatched, Mode=OneWay}" /><Run FontWeight="Bold" Text="{x:Bind PrimaryDisplayMatched, Mode=OneWay}" /><Run FontWeight="Normal" Text="{x:Bind PrimaryDisplayPostMatched, Mode=OneWay}" />
-								</TextBlock>
-
-								<!--  Keyboard Shortcuts  -->
-								<keyboard:KeyboardShortcut
-									x:Name="RightAlignedKeyboardShortcut"
-									Grid.Column="1"
-									HotKeys="{x:Bind HotKeys, Mode=OneWay}" />
-							</Grid>
-						</StackPanel>
-					</DataTemplate>
-				</AutoSuggestBox.ItemTemplate>
-			</AutoSuggestBox>
-
-			<!--  Path Breadcrumb Bar  -->
-			<Grid
-				x:Name="ClickablePath"
-				Height="34"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Center"
-				x:Load="{x:Bind ViewModel.ClickablePathLoaded, Mode=OneWay}"
-				Background="{ThemeResource TextControlBackground}"
-				BorderBrush="{ThemeResource ControlElevationBorderBrush}"
-				BorderThickness="1"
-				CornerRadius="{StaticResource ControlCornerRadius}"
-				GettingFocus="ClickablePath_GettingFocus"
-				PointerPressed="ManualPathEntryItem_Click"
-				Visibility="{x:Bind converters:MultiBooleanConverter.OrNotConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="Auto" />
-				</Grid.ColumnDefinitions>
-				<uc:PathBreadcrumb
-					Grid.Column="0"
-					VerticalAlignment="Stretch"
-					HorizontalContentAlignment="Stretch"
-					VerticalContentAlignment="Stretch"
-					ViewModel="{x:Bind ViewModel, Mode=OneWay}" />
-				<FontIcon
-					Grid.Column="1"
-					Margin="12"
-					FontSize="16"
-					Foreground="{ThemeResource App.Theme.IconBaseBrush}"
-					Glyph="&#xE70D;" />
-			</Grid>
-
-			<!--  Storage Search Box  -->
-			<uc:SearchBox
-				x:Name="SearchRegion"
-				Grid.Column="1"
-				Width="240"
-				Height="34"
-				HorizontalAlignment="Stretch"
-				VerticalAlignment="Center"
-				AccessKey="K"
-				AccessKeyInvoked="SearchRegion_AccessKeyInvoked"
-				Canvas.ZIndex="100"
-				CornerRadius="{StaticResource ControlCornerRadius}"
-				GotFocus="SearchRegion_OnGotFocus"
-				LostFocus="SearchRegion_LostFocus"
-				SearchBoxViewModel="{x:Bind ViewModel.SearchBoxViewModel, Mode=OneWay}"
-				Visibility="{x:Bind converters:MultiBooleanConverter.OrConvertToVisibility(ShowSearchBox, ViewModel.IsSearchBoxVisible), Mode=OneWay}" />
-
-		</Grid>
-
 		<!--  Omnibar  -->
 		<controls:Omnibar
 			x:Name="Omnibar"
 			Grid.Column="1"
-			x:Load="{x:Bind ViewModel.EnableOmnibarDesign, Mode=OneWay}"
+			x:Load="{x:Bind ViewModel.LoadOmnibar, Mode=OneWay}"
 			CurrentSelectedModeName="{x:Bind ViewModel.OmnibarCurrentSelectedModeName, Mode=TwoWay}"
 			IsFocusedChanged="Omnibar_IsFocusedChanged"
 			ModeChanged="Omnibar_ModeChanged"
@@ -504,19 +389,6 @@
 			Grid.Column="2"
 			Orientation="Horizontal"
 			Spacing="4">
-			<!--  Mini Search Button  -->
-			<Button
-				x:Name="ShowSearchButton"
-				AccessKey="I"
-				AccessKeyInvoked="Button_AccessKeyInvoked"
-				AutomationProperties.Name="{x:Bind Commands.Search.Label, Mode=OneWay}"
-				Command="{x:Bind Commands.Search, Mode=OneWay}"
-				IsEnabled="{x:Bind Commands.Search.IsExecutable, Mode=OneWay}"
-				Style="{StaticResource AddressToolbarButtonStyle}"
-				ToolTipService.ToolTip="{x:Bind Commands.Search.LabelWithHotKey, Mode=OneWay}"
-				Visibility="Collapsed">
-				<FontIcon FontSize="14" Glyph="{x:Bind ViewModel.SearchButtonGlyph, Mode=OneWay}" />
-			</Button>
 
 			<!--  Shelf Pane  -->
 			<ToggleButton
@@ -662,25 +534,6 @@
 						<Setter Target="Forward.Visibility" Value="Visible" />
 						<Setter Target="Up.Visibility" Value="Visible" />
 						<Setter Target="Refresh.Visibility" Value="Visible" />
-					</VisualState.Setters>
-				</VisualState>
-			</VisualStateGroup>
-
-			<VisualStateGroup x:Name="SearchBoxStates">
-				<VisualState x:Name="SearchBoxAlwaysShown">
-					<VisualState.StateTriggers>
-						<triggers:IsEqualStateTrigger Value="{x:Bind ShowSearchBox, Mode=OneWay}" To="True" />
-					</VisualState.StateTriggers>
-				</VisualState>
-
-				<VisualState x:Name="SearchBoxCollapse">
-					<VisualState.StateTriggers>
-						<triggers:IsEqualStateTrigger Value="{x:Bind ShowSearchBox, Mode=OneWay}" To="False" />
-					</VisualState.StateTriggers>
-					<VisualState.Setters>
-						<Setter Target="ShowSearchButton.Visibility" Value="Visible" />
-						<Setter Target="SearchRegion.(Grid.Column)" Value="0" />
-						<Setter Target="SearchRegion.Width" Value="NaN" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>

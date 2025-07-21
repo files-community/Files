@@ -375,12 +375,6 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool EnableOmnibarDesign
-		{
-			get => Get(true);
-			set => Set(value);
-		}
-
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			base.RaiseOnSettingChangedEvent(sender, e);

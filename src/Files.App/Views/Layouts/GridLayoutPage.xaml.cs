@@ -531,8 +531,7 @@ namespace Files.App.Views.Layouts
 			}
 			else if (e.Key == VirtualKey.Space)
 			{
-				if (!ParentShellPageInstance.ToolbarViewModel.IsEditModeEnabled)
-					e.Handled = true;
+				e.Handled = true;
 			}
 			else if (e.KeyStatus.IsMenuKeyDown && (e.Key == VirtualKey.Left || e.Key == VirtualKey.Right || e.Key == VirtualKey.Up))
 			{

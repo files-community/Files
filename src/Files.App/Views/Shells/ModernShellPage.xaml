@@ -30,14 +30,6 @@
 		</ResourceDictionary>
 	</local:BaseShellPage.Resources>
 
-	<local:BaseShellPage.KeyboardAccelerators>
-		<KeyboardAccelerator
-			Key="V"
-			Invoked="KeyboardAccelerator_Invoked"
-			IsEnabled="{x:Bind IsCurrentInstance, Mode=OneWay}"
-			Modifiers="Control" />
-	</local:BaseShellPage.KeyboardAccelerators>
-
 	<Grid
 		x:Name="RootGrid"
 		wct:UIElementExtensions.ClipToBounds="True"

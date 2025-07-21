@@ -23,8 +23,6 @@ namespace Files.App.Data.Contexts
 		bool CanGoForward { get; }
 		bool CanNavigateToParent { get; }
 
-		bool IsSearchBoxVisible { get; }
-
 		bool CanCreateItem { get; }
 
 		bool IsMultiPaneAvailable { get; }

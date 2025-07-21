@@ -216,7 +216,7 @@ namespace Files.App.Views
 					// Execute command for hotkey
 					var command = Commands[hotKey];
 
-					if (command.Code is CommandCodes.OpenItem && source?.FindAscendantOrSelf<PathBreadcrumb>() is not null)
+					if (command.Code is CommandCodes.OpenItem && (source?.FindAscendantOrSelf<Omnibar>() is not null || source?.FindAscendantOrSelf<AppBarButton>() is not null))
 						break;
 
 

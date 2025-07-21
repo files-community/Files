@@ -39,8 +39,6 @@ namespace Files.App.Data.Contexts
 
 		public bool CanNavigateToParent => ShellPage is not null && ShellPage.ToolbarViewModel.CanNavigateToParent;
 
-		public bool IsSearchBoxVisible => ShellPage is not null && ShellPage.ToolbarViewModel.IsSearchBoxVisible;
-
 		public bool CanCreateItem => GetCanCreateItem();
 
 		public bool IsMultiPaneAvailable => ShellPage is not null && ShellPage.PaneHolder is not null && ShellPage.PaneHolder.IsMultiPaneAvailable;
@@ -167,7 +165,6 @@ namespace Files.App.Data.Contexts
 				case nameof(NavigationToolbarViewModel.CanNavigateToParent):
 				case nameof(NavigationToolbarViewModel.HasItem):
 				case nameof(NavigationToolbarViewModel.CanRefresh):
-				case nameof(NavigationToolbarViewModel.IsSearchBoxVisible):
 					OnPropertyChanged(e.PropertyName);
 					break;
 				case nameof(NavigationToolbarViewModel.SelectedItems):

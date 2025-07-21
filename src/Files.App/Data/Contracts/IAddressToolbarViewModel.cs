@@ -5,15 +5,6 @@ namespace Files.App.Data.Contracts
 {
 	public interface IAddressToolbarViewModel
 	{
-		public bool IsSearchBoxVisible { get; set; }
-
-		public bool IsEditModeEnabled { get; set; }
-
-		/// <summary>
-		/// Gets or sets the value that indicates whether the command palette is open.
-		/// </summary>
-		public bool IsCommandPaletteOpen { get; set; }
-
 		public bool CanRefresh { get; set; }
 
 		public bool CanCopyPathInPage { get; set; }
@@ -36,14 +27,11 @@ namespace Files.App.Data.Contracts
 
 		public event ToolbarQuerySubmittedEventHandler PathBoxQuerySubmitted;
 
-		public event EventHandler EditModeEnabled;
 
 		public event ItemDraggedOverPathItemEventHandler ItemDraggedOverPathItem;
 
 		public event EventHandler RefreshWidgetsRequested;
 
 		public void SwitchToSearchMode();
-
-		public ISearchBoxViewModel SearchBox { get; }
 	}
 }
