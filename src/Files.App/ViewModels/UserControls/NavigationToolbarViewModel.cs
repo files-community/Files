@@ -51,13 +51,8 @@ namespace Files.App.ViewModels.UserControls
 		// Events
 
 		public delegate void ToolbarPathItemInvokedEventHandler(object sender, PathNavigationEventArgs e);
-
-		public delegate void ToolbarPathItemLoadedEventHandler(object sender, ToolbarPathItemLoadedEventArgs e);
-
 		public delegate void PathBoxItemDroppedEventHandler(object sender, PathBoxItemDroppedEventArgs e);
 		public event ToolbarPathItemInvokedEventHandler? ToolbarPathItemInvoked;
-
-		public event ToolbarPathItemLoadedEventHandler? ToolbarPathItemLoaded;
 		public event IAddressToolbarViewModel.ItemDraggedOverPathItemEventHandler? ItemDraggedOverPathItem;
 		public event IAddressToolbarViewModel.ToolbarQuerySubmittedEventHandler? PathBoxQuerySubmitted;
 
@@ -474,20 +469,6 @@ namespace Files.App.ViewModels.UserControls
 			}
 
 			deferral.Complete();
-		}
-
-		[Obsolete("Superseded by Omnibar.")]
-		public void PathItemSeparator_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-		{
-			var pathSeparatorIcon = sender as FontIcon;
-			if (pathSeparatorIcon is null || pathSeparatorIcon.DataContext is null)
-				return;
-
-			ToolbarPathItemLoaded?.Invoke(pathSeparatorIcon, new ToolbarPathItemLoadedEventArgs()
-			{
-				Item = (PathBoxItem)pathSeparatorIcon.DataContext,
-				OpenedFlyout = (MenuFlyout)pathSeparatorIcon.ContextFlyout
-			});
 		}
 
 		[Obsolete("Superseded by Omnibar.")]
