@@ -157,6 +157,9 @@ namespace Files.App.Views
 			e.CurrentInstance.ContentChanged += TabItemContent_ContentChanged;
 
 			await NavigationHelpers.UpdateInstancePropertiesAsync(navArgs);
+
+			// Focus the content of the selected tab item (this also avoids an issue where the Omnibar sometimes steals the focus)
+			(ViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
 		}
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
