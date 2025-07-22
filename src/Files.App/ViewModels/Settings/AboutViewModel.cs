@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Microsoft.Win32;
-using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -170,7 +169,7 @@ namespace Files.App.ViewModels.Settings
 				Clipboard.SetContent(dataPackage);
 			});
 		}
-		
+
 		public void CopyUserID()
 		{
 			SafetyExtensions.IgnoreExceptions(() =>
@@ -194,9 +193,10 @@ namespace Files.App.ViewModels.Settings
 
 		public string GetWindowsVersion()
 		{
-			return Environment.OSVersion.Version.ToString();
+			ulong v = ulong.Parse(Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
+			return $"{(v >> 48) & 0xFFFF}.{(v >> 32) & 0xFFFF}.{(v >> 16) & 0xFFFF}.{v & 0xFFFF}";
 		}
-		
+
 		public string GetUserID()
 		{
 			return GeneralSettingsService.UserId;
