@@ -161,6 +161,8 @@ namespace Files.App.ViewModels
 		private CancellationTokenSource searchCTS;
 		private CancellationTokenSource updateTagGroupCTS;
 
+		public event EventHandler FocusFilterHeader;
+
 		public event EventHandler DirectoryInfoUpdated;
 
 		public event EventHandler GitDirectoryUpdated;
@@ -189,6 +191,11 @@ namespace Files.App.ViewModels
 		public delegate void ItemLoadStatusChangedEventHandler(object sender, ItemLoadStatusChangedEventArgs e);
 
 		public event ItemLoadStatusChangedEventHandler ItemLoadStatusChanged;
+
+		public void InvokeFocusFilterHeader()
+		{
+			FocusFilterHeader.Invoke(this, null);
+		}
 
 		public async Task SetWorkingDirectoryAsync(string? value)
 		{
@@ -740,10 +747,10 @@ namespace Files.App.ViewModels
 		}
 
 		private string? _filesAndFoldersFilter;
-		public string? FilesAndFoldersFilter 
-		{ 
-			get => _filesAndFoldersFilter; 
-			set => SetProperty(ref _filesAndFoldersFilter, value); 
+		public string? FilesAndFoldersFilter
+		{
+			get => _filesAndFoldersFilter;
+			set => SetProperty(ref _filesAndFoldersFilter, value);
 		}
 
 

@@ -1,15 +1,12 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-
 namespace Files.App.Actions
 {
 	internal sealed partial class ToggleFilterHeaderAction : ObservableObject, IToggleAction
 	{
 		private readonly IGeneralSettingsService generalSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> Strings.ToggleFilterHeader.GetLocalizedResource();
@@ -28,17 +25,14 @@ namespace Files.App.Actions
 			generalSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
 		}
 
-		public async Task ExecuteAsync(object? parameter = null)
+		public Task ExecuteAsync(object? parameter = null)
 		{
 			generalSettingsService.ShowFilterHeader = !IsOn;
 
 			if (IsOn)
-			{
-				// Delay to ensure the UI updates before focusing
-				await Task.Delay(100);
-				var filterTextBox = (MainWindow.Instance.Content as Frame)?.FindDescendant("FilterTextBox") as AutoSuggestBox;
-				filterTextBox?.Focus(FocusState.Programmatic);
-			}
+				ContentPageContext.ShellPage!.ShellViewModel.InvokeFocusFilterHeader();
+
+			return Task.CompletedTask;
 		}
 
 		private void GeneralSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)

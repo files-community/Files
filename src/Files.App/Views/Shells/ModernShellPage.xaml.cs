@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media.Animation;
@@ -45,12 +46,21 @@ namespace Files.App.Views.Shells
 			ShellViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 			ShellViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
 			ShellViewModel.DirectoryInfoUpdated += ShellViewModel_DirectoryInfoUpdated;
+			ShellViewModel.FocusFilterHeader += ShellViewModel_FocusFilterHeader;
 
 			ToolbarViewModel.PathControlDisplayText = Strings.Home.GetLocalizedResource();
 			ToolbarViewModel.RefreshWidgetsRequested += ModernShellPage_RefreshWidgetsRequested;
 
 			_navigationInteractionTracker = new NavigationInteractionTracker(this, BackIcon, ForwardIcon);
 			_navigationInteractionTracker.NavigationRequested += OverscrollNavigationRequested;
+		}
+
+		private async void ShellViewModel_FocusFilterHeader(object sender, EventArgs e)
+		{
+			// Delay to ensure the UI is ready for focus
+			await Task.Delay(100);
+			if (FilterTextBox?.IsLoaded ?? false)
+				FilterTextBox.Focus(FocusState.Programmatic);
 		}
 
 		private void ShellViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
@@ -151,7 +161,7 @@ namespace Files.App.Views.Shells
 		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
 		{
 			ContentPage = await GetContentOrNullAsync();
-			
+
 			ToolbarViewModel.UpdateAdditionalActions();
 			if (ItemDisplayFrame.CurrentSourcePageType == (typeof(DetailsLayoutPage))
 				|| ItemDisplayFrame.CurrentSourcePageType == typeof(GridLayoutPage))
