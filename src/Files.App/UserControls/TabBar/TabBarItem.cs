@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 
 namespace Files.App.UserControls.TabBar
 {
@@ -60,7 +61,7 @@ namespace Files.App.UserControls.TabBar
 					_NavigationArguments = value;
 					if (_NavigationArguments is not null)
 					{
-						ContentFrame.Navigate(_NavigationArguments.InitialPageType, _NavigationArguments.NavigationParameter);
+						ContentFrame.Navigate(_NavigationArguments.InitialPageType, _NavigationArguments.NavigationParameter, new SuppressNavigationTransitionInfo());
 					}
 					else
 					{

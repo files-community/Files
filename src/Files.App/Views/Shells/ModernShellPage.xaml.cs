@@ -82,7 +82,8 @@ namespace Files.App.Views.Shells
 			{
 				NavPathParam = e.ItemPath,
 				AssociatedTabInstance = this
-			});
+			},
+			new SuppressNavigationTransitionInfo());
 		}
 
 		protected override void OnNavigationParamsChanged()
