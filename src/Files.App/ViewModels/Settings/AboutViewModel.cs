@@ -194,9 +194,10 @@ namespace Files.App.ViewModels.Settings
 
 		public string GetWindowsVersion()
 		{
-			return Environment.OSVersion.Version.ToString();
+			ulong v = ulong.Parse(Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamilyVersion);
+			return $"{(v >> 48) & 0xFFFF}.{(v >> 32) & 0xFFFF}.{(v >> 16) & 0xFFFF}.{v & 0xFFFF}";
 		}
-		
+
 		public string GetUserID()
 		{
 			return GeneralSettingsService.UserId;
