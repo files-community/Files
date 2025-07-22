@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Microsoft.Win32;
-using System.Runtime.InteropServices;
 using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -170,7 +169,7 @@ namespace Files.App.ViewModels.Settings
 				Clipboard.SetContent(dataPackage);
 			});
 		}
-		
+
 		public void CopyUserID()
 		{
 			SafetyExtensions.IgnoreExceptions(() =>
