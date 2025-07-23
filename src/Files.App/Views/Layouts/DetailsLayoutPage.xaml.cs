@@ -493,7 +493,9 @@ namespace Files.App.Views.Layouts
 			}
 			else if (e.Key == VirtualKey.Down)
 			{
-				if (isHeaderFocused)
+				// Focus the first item in the file list if Header header has focus,
+				// or if there is only one item in the file list (#13774)
+				if (isHeaderFocused || FileList.Items.Count == 1)
 				{
 					var selectIndex = FileList.SelectedIndex < 0 ? 0 : FileList.SelectedIndex;
 					if (FileList.ContainerFromIndex(selectIndex) is ListViewItem item)
