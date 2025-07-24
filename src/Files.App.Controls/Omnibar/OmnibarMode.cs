@@ -89,7 +89,12 @@ namespace Files.App.Controls
 		{
 			// Set this mode as the current mode if it is the default mode
 			if (IsDefault && _ownerRef is not null && _ownerRef.TryGetTarget(out var owner))
-				owner.CurrentSelectedMode = this;
+			{
+				DispatcherQueue.TryEnqueue(() =>
+				{
+					owner.CurrentSelectedMode = this;
+				});
+			}
 		}
 
 		public void SetOwner(Omnibar owner)
