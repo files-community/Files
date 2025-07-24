@@ -41,7 +41,8 @@ namespace Files.App.ViewModels.Properties
 						PropertiesNavigationViewItemType.Customization => typeof(CustomizationPage),
 						PropertiesNavigationViewItemType.Compatibility => typeof(CompatibilityPage),
 						PropertiesNavigationViewItemType.Hashes =>        typeof(HashesPage),
-						_ => typeof(GeneralPage),
+                        PropertiesNavigationViewItemType.Signatures => typeof(SignaturesPage),
+                        _ => typeof(GeneralPage),
 					};
 
 					_mainFrame?.Navigate(page, parameter, new EntranceNavigationTransitionInfo());

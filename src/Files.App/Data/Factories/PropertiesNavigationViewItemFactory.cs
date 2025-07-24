@@ -61,9 +61,16 @@ namespace Files.App.Data.Factories
 				ItemType = PropertiesNavigationViewItemType.Compatibility,
 				ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.Properties.Compatability"],
 			};
+            var signaturesItem = new NavigationViewItemButtonStyleItem()
+            {
+                Name = Strings.Signatures.GetLocalizedResource(),
+                ItemType = PropertiesNavigationViewItemType.Signatures,
+                ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.Properties.Signatures"],
+            };
 
-			PropertiesNavigationViewItems.Add(generalItem);
-			PropertiesNavigationViewItems.Add(securityItem);
+            PropertiesNavigationViewItems.Add(generalItem);
+            PropertiesNavigationViewItems.Add(signaturesItem);
+            PropertiesNavigationViewItems.Add(securityItem);
 			PropertiesNavigationViewItems.Add(hashesItem);
 			PropertiesNavigationViewItems.Add(shortcutItem);
 			PropertiesNavigationViewItems.Add(libraryItem);
@@ -89,7 +96,8 @@ namespace Files.App.Data.Factories
 				PropertiesNavigationViewItems.Remove(securityItem);
 				PropertiesNavigationViewItems.Remove(customizationItem);
 				PropertiesNavigationViewItems.Remove(hashesItem);
-			}
+                PropertiesNavigationViewItems.Remove(signaturesItem);
+            }
 			else if (item is ListedItem listedItem)
 			{
 				var isShortcut = listedItem.IsShortcut;
@@ -106,10 +114,13 @@ namespace Files.App.Data.Factories
 				if (!securityItemEnabled)
 					PropertiesNavigationViewItems.Remove(securityItem);
 
-				if (!hashItemEnabled)
-					PropertiesNavigationViewItems.Remove(hashesItem);
+                if (!hashItemEnabled)
+                {
+                    PropertiesNavigationViewItems.Remove(hashesItem);
+                    PropertiesNavigationViewItems.Remove(signaturesItem);
+                }
 
-				if (!isShortcut)
+                if (!isShortcut)
 					PropertiesNavigationViewItems.Remove(shortcutItem);
 
 				if (!isLibrary)
@@ -132,7 +143,8 @@ namespace Files.App.Data.Factories
 				PropertiesNavigationViewItems.Remove(detailsItem);
 				PropertiesNavigationViewItems.Remove(customizationItem);
 				PropertiesNavigationViewItems.Remove(compatibilityItem);
-			}
+                PropertiesNavigationViewItems.Remove(signaturesItem);
+            }
 
 			return PropertiesNavigationViewItems;
 		}

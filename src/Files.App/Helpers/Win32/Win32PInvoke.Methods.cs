@@ -1,5 +1,5 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.IO;
 using System.Runtime.InteropServices;
@@ -347,5 +347,38 @@ namespace Files.App.Helpers
 			IntPtr hToken,
 			out IntPtr pszPath
 		);
-	}
+
+        [DllImport("wintrust.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        private static extern uint WinVerifyTrust(
+            IntPtr hwnd,
+            [MarshalAs(UnmanagedType.LPStruct)] Guid pgActionID,
+            IntPtr pWVTData
+        );
+
+        [DllImport("crypt32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern bool CryptQueryObject(
+            uint dwObjectType,
+            IntPtr pvObject,
+            uint dwExpectedContentTypeFlags,
+            uint dwExpectedFormatTypeFlags,
+            uint dwFlags,
+            out uint pdwMsgAndCertEncodingType,
+            out uint pdwContentType,
+            out uint pdwFormatType,
+            out IntPtr phCertStore,
+            out IntPtr phMsg,
+            out IntPtr ppvContext
+        );
+
+        [DllImport("crypt32.dll", SetLastError = true)]
+        private static extern bool CertCloseStore(
+            IntPtr hCertStore,
+            uint dwFlags
+        );
+
+        [DllImport("crypt32.dll", SetLastError = true)]
+        private static extern bool CryptMsgClose(
+            IntPtr hCryptMsg
+        );
+    }
 }

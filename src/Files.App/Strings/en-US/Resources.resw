@@ -4273,4 +4273,22 @@
   <data name="Filename" xml:space="preserve">
     <value>Filename</value>
   </data>
+  <data name="Signatures" xml:space="preserve">
+    <value>Signatures</value>
+   </data>
+  <data name="SignatureList" xml:space="preserve">
+    <value>Signature list</value>
+  </data>
+  <data name="IssuedBy" xml:space="preserve">
+    <value>Issued by:</value>
+  </data>
+  <data name="IssuedTo" xml:space="preserve">
+    <value>Issued to:</value>
+  </data>
+  <data name="ValidFrom" xml:space="preserve">
+    <value>Valid from:</value>
+  </data>
+  <data name="ValidTo" xml:space="preserve">
+    <value>Valid to:</value>
+  </data>
 </root>
