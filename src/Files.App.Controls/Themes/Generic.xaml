@@ -33,7 +33,7 @@
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/Toolbar/ToolbarToggleButton/ToolbarToggleButton.xaml" />
 		<!--#endregion-->
 
-		<!--#region  ThemedIcon Styles-->
+		<!--#region ThemedIcon Styles-->
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Common.xaml" />
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.New.xaml" />
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ThemedIcon/Styles/Icons.Open.xaml" />
