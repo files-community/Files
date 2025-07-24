@@ -95,11 +95,17 @@ namespace Files.App.UserControls
 
 			var menuFlyout = new MenuFlyout();
 
-			menuFlyout.Items.Add (new MenuFlyoutItem
+			menuFlyout.Items.Add(new MenuFlyoutItem
+			{
+				Text = Strings.BaseLayoutItemContextFlyoutOpenParentFolder_Text.GetLocalizedResource(),
+				Icon = new FontIcon() { Glyph = "\uE838" },
+				Command = item.ViewInFolderCommand
+			});
+			menuFlyout.Items.Add(new MenuFlyoutItem
 			{
 				Text = Strings.RemoveFromShelf.GetLocalizedResource(),
 				Icon = new FontIcon { Glyph = "\uE738" },
-				Command = new RelayCommand(item.Remove)
+				Command = item.RemoveCommand
 			});
 
 			menuFlyout.ShowAt(widgetCardItem);
