@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Collections.Specialized;
 using Files.Shared.Utils;
+using System.Collections.Specialized;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -33,6 +33,28 @@ namespace Files.App.ViewModels.UserControls
 			Items.Clear();
 		}
 
+		[RelayCommand]
+		private async Task BulkDeleteAsync()
+		{
+			if (Items.IsEmpty())
+				return;
+
+			var context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			if (context.ShellPage is not { } shellPage)
+				return;
+
+			var itemsToDelete = Items.Select(x => StorageHelpers.FromPathAndType(x.Inner.Id, x.Inner switch
+			{
+				IFile => FilesystemItemType.File,
+				IFolder => FilesystemItemType.Directory,
+				_ => throw new ArgumentOutOfRangeException(nameof(ShelfViewModel))
+			}));
+
+			var settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
+			await shellPage.FilesystemHelpers.DeleteItemsAsync(itemsToDelete, settings.DeleteConfirmationPolicy, false, true);
+			await shellPage.ShellViewModel.ApplyFilesAndFoldersChangesAsync();
+		}
+
 		private async void Items_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			switch (e.Action)
@@ -46,7 +68,7 @@ namespace Files.App.ViewModels.UserControls
 					if (_watchers.TryGetValue(parentPath, out var reference))
 					{
 						// Only increase the reference count if the watcher already exists
-						reference.Item2++;
+						reference.Item2 += 1;
 						return;
 					}
 					
@@ -71,7 +93,7 @@ namespace Files.App.ViewModels.UserControls
 						return;
 
 					// Decrease the reference count and remove the watcher if no references are present
-					reference.Item2--;
+					reference.Item2 -= 1;
 					if (reference.Item2 < 1)
 					{
 						reference.Item1.CollectionChanged -= Watcher_CollectionChanged;
