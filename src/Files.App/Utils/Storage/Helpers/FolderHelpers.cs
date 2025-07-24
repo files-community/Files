@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.IO;
-using static Files.App.Helpers.Win32Helper;
 
 namespace Files.App.Utils.Storage
 {

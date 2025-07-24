@@ -4,7 +4,6 @@
 using Microsoft.UI.Dispatching;
 using System.IO;
 using Windows.Storage.FileProperties;
-using static Files.App.Helpers.Win32Helper;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.App.ViewModels.Properties

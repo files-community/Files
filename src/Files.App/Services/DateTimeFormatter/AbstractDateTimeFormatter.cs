@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.Globalization;
-using Windows.Globalization;
 
 namespace Files.App.Services.DateTimeFormatter
 {

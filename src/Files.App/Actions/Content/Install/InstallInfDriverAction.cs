@@ -11,7 +11,7 @@ namespace Files.App.Actions
 
 		public string Label
 			=> Strings.InstallDriver.GetLocalizedResource();
-		
+
 		public string Description
 			=> Strings.InstallInfDriverDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 

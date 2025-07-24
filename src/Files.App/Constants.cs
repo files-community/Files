@@ -207,7 +207,7 @@ namespace Files.App
 			public const string PrivacyPolicyUrl = @"https://files.community/privacy";
 			public const string SupportUsUrl = @"https://github.com/files-community/Files?sponsor";
 			public const string CrowdinUrl = @"https://crowdin.com/project/files-app";
-			public static readonly string ReleaseNotesUrl= $"https://files.community/blog/posts/v{Package.Current.Id.Version.Major}-{Package.Current.Id.Version.Minor}-{Package.Current.Id.Version.Build}?minimal";
+			public static readonly string ReleaseNotesUrl = $"https://files.community/blog/posts/v{Package.Current.Id.Version.Major}-{Package.Current.Id.Version.Minor}-{Package.Current.Id.Version.Build}?minimal";
 		}
 
 		public static class DocsPath
@@ -219,7 +219,7 @@ namespace Files.App
 		{
 			public const int MaxSelectedItems = 5;
 		}
-		
+
 		public static class DragAndDrop
 		{
 			public const Int32 HoverToOpenTimespan = 1300;

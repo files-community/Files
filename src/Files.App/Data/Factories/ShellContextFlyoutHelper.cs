@@ -262,8 +262,8 @@ namespace Files.App.Helpers
 					(showSendToMenu || !UserSettingsService.GeneralSettingsService.ShowSendToMenu))
 					shellMenuItems.Remove(sendToItem);
 
-				var turnOnBitLocker = shellMenuItems.FirstOrDefault(x => 
-					x.Tag is Win32ContextMenuItem menuItem && 
+				var turnOnBitLocker = shellMenuItems.FirstOrDefault(x =>
+					x.Tag is Win32ContextMenuItem menuItem &&
 					(menuItem.CommandString?.StartsWith("encrypt-bde") ?? false));
 
 				if (turnOnBitLocker is not null)
@@ -384,8 +384,8 @@ namespace Files.App.Helpers
 					{
 						AddItemsToMainMenu(itemContextMenuFlyout.SecondaryCommands, item);
 					}
-					else if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton 
-						         && appBarButton.Tag as string == "ItemOverflow") is AppBarButton overflowItem)
+					else if (itemContextMenuFlyout.SecondaryCommands.FirstOrDefault(x => x is AppBarButton appBarButton
+								 && appBarButton.Tag as string == "ItemOverflow") is AppBarButton overflowItem)
 					{
 						AddItemsToOverflowMenu(overflowItem, item);
 					}

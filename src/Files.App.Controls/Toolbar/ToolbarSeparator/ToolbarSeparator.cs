@@ -3,7 +3,7 @@
 
 namespace Files.App.Controls
 {
-	public partial class ToolbarSeparator : Control , IToolbarItemSet
+	public partial class ToolbarSeparator : Control, IToolbarItemSet
 	{
 		public ToolbarSeparator()
 		{

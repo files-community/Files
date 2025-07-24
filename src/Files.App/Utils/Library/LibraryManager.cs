@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Files.App.Dialogs;
-using Files.App.ViewModels.Dialogs;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;

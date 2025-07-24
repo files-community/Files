@@ -52,7 +52,7 @@ namespace Files.App.Data.Models
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 			}
 		}
-		
+
 		private bool isPageTypeReleaseNotes = false;
 		public bool IsPageTypeReleaseNotes
 		{
@@ -64,7 +64,7 @@ namespace Files.App.Data.Models
 				OnPropertyChanged(nameof(CanCopyPathInPage));
 			}
 		}
-		
+
 		private bool isPageTypeSettings = false;
 		public bool IsPageTypeSettings
 		{

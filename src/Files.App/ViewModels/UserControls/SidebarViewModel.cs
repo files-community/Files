@@ -16,7 +16,6 @@ using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using OwlCore.Storage;
 
 namespace Files.App.ViewModels.UserControls
 {

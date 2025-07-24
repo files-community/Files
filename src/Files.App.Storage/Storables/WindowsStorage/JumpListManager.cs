@@ -1,13 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Collections.Concurrent;
-using Windows.Win32;
-using Windows.Win32.Foundation;
-using Windows.Win32.System.Com;
-using Windows.Win32.UI.Shell;
-using Windows.Win32.UI.Shell.Common;
-
 namespace Files.App.Storage
 {
 	public unsafe class JumpListManager : IDisposable

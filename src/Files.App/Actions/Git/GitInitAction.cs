@@ -3,8 +3,8 @@
 
 namespace Files.App.Actions
 {
-    sealed partial class GitInitAction : ObservableObject, IAction
-    {
+	sealed partial class GitInitAction : ObservableObject, IAction
+	{
 		private readonly IContentPageContext _context;
 
 		public string Label
@@ -13,7 +13,7 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.InitRepoDescription.GetLocalizedResource();
 
-		public bool IsExecutable => 
+		public bool IsExecutable =>
 			_context.Folder is not null &&
 			_context.Folder.ItemPath != SystemIO.Path.GetPathRoot(_context.Folder.ItemPath) &&
 			!_context.IsGitRepository;

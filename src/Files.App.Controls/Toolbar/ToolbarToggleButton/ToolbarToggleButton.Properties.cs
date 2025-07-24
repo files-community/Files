@@ -24,17 +24,17 @@ namespace Files.App.Controls
 		/// </summary>
 		public string Label
 		{
-			get => (string)GetValue( LabelProperty );
-			set => SetValue( LabelProperty , value );
+			get => (string)GetValue(LabelProperty);
+			set => SetValue(LabelProperty, value);
 		}
 
 
 
-		protected virtual void OnLabelPropertyChanged(string oldValue , string newValue)
+		protected virtual void OnLabelPropertyChanged(string oldValue, string newValue)
 		{
-			if ( oldValue != newValue )
+			if (oldValue != newValue)
 			{
-				LabelChanged( newValue );
+				LabelChanged(newValue);
 			}
 		}
 
@@ -59,17 +59,17 @@ namespace Files.App.Controls
 		/// </summary>
 		public Style ThemedIcon
 		{
-			get => (Style)GetValue( ThemedIconProperty );
-			set => SetValue( ThemedIconProperty , value );
+			get => (Style)GetValue(ThemedIconProperty);
+			set => SetValue(ThemedIconProperty, value);
 		}
 
 
 
-		protected virtual void OnThemedIconPropertyChanged(Style oldValue , Style newValue)
+		protected virtual void OnThemedIconPropertyChanged(Style oldValue, Style newValue)
 		{
-			if ( newValue != oldValue )
+			if (newValue != oldValue)
 			{
-				ThemedIconChanged( newValue );
+				ThemedIconChanged(newValue);
 			}
 		}
 
@@ -91,17 +91,17 @@ namespace Files.App.Controls
 		/// </summary>        
 		public double IconSize
 		{
-			get => (double)GetValue( IconSizeProperty );
-			set => SetValue( IconSizeProperty , value );
+			get => (double)GetValue(IconSizeProperty);
+			set => SetValue(IconSizeProperty, value);
 		}
 
 
 
-		protected virtual void OnIconSizePropertyChanged(double oldValue , double newValue)
+		protected virtual void OnIconSizePropertyChanged(double oldValue, double newValue)
 		{
-			if ( newValue != oldValue )
+			if (newValue != oldValue)
 			{
-				IconSizeChanged( newValue );
+				IconSizeChanged(newValue);
 			}
 		}
 
@@ -110,12 +110,12 @@ namespace Files.App.Controls
 		#region ButtonBase Events
 
 		/// <inheritdoc/>
-		protected override void OnContentChanged(object oldContent , object newContent)
+		protected override void OnContentChanged(object oldContent, object newContent)
 		{
-			if ( newContent != oldContent )
+			if (newContent != oldContent)
 			{
-				ContentChanged( newContent );
-				base.OnContentChanged( oldContent , newContent );
+				ContentChanged(newContent);
+				base.OnContentChanged(oldContent, newContent);
 			}
 		}
 

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
-using System.Text.Json;
 
 namespace Files.App.Utils.Serialization.Implementation
 {

@@ -238,7 +238,7 @@ namespace Files.App.Actions
 					break;
 				case FolderLayoutModes.CardsView:
 					if (UserSettingsService.LayoutSettingsService.CardsViewSize > CardsViewSizeKind.Small)
-						UserSettingsService.LayoutSettingsService.CardsViewSize -= 1; 
+						UserSettingsService.LayoutSettingsService.CardsViewSize -= 1;
 					break;
 				case FolderLayoutModes.GridView:
 					if (UserSettingsService.LayoutSettingsService.GridViewSize > GridViewSizeKind.Small)
@@ -275,7 +275,7 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			ContentPageContext.PageType is not ContentPageTypes.Home &&
-			ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes layoutMode && 
+			ContentPageContext.ShellPage?.InstanceViewModel.FolderSettings.LayoutMode is FolderLayoutModes layoutMode &&
 			((layoutMode is FolderLayoutModes.DetailsView && UserSettingsService.LayoutSettingsService.DetailsViewSize < DetailsViewSizeKind.ExtraLarge) ||
 			(layoutMode is FolderLayoutModes.ListView && UserSettingsService.LayoutSettingsService.ListViewSize < ListViewSizeKind.ExtraLarge) ||
 			(layoutMode is FolderLayoutModes.CardsView && UserSettingsService.LayoutSettingsService.CardsViewSize < CardsViewSizeKind.ExtraLarge) ||

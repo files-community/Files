@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Utils.Cloud;
 using Microsoft.UI.Xaml;
 
 namespace Files.App.Utils.Cloud

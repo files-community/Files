@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Input;
-using Files.App.Controls.Primitives;
 
 namespace Files.App.Controls
 {
@@ -27,17 +26,17 @@ namespace Files.App.Controls
 		/// </summary>
 		public ToolbarItemTypes ItemType
 		{
-			get => (ToolbarItemTypes)GetValue( ItemTypeProperty );
-			set => SetValue( ItemTypeProperty , value );
+			get => (ToolbarItemTypes)GetValue(ItemTypeProperty);
+			set => SetValue(ItemTypeProperty, value);
 		}
 
 
 
-		protected virtual void OnItemTypePropertyChanged(ToolbarItemTypes oldValue , ToolbarItemTypes newValue)
+		protected virtual void OnItemTypePropertyChanged(ToolbarItemTypes oldValue, ToolbarItemTypes newValue)
 		{
-			if ( oldValue != newValue ) 
+			if (oldValue != newValue)
 			{
-				ItemTypeChanged( newValue );
+				ItemTypeChanged(newValue);
 			}
 		}
 
@@ -62,17 +61,17 @@ namespace Files.App.Controls
 		/// </summary>
 		public OverflowBehaviors OverflowBehavior
 		{
-			get => (OverflowBehaviors)GetValue( OverflowBehaviorProperty );
-			set => SetValue( OverflowBehaviorProperty , value );
+			get => (OverflowBehaviors)GetValue(OverflowBehaviorProperty);
+			set => SetValue(OverflowBehaviorProperty, value);
 		}
 
 
 
-		protected virtual void OnOverflowBehaviorPropertyChanged(OverflowBehaviors oldValue , OverflowBehaviors newValue)
+		protected virtual void OnOverflowBehaviorPropertyChanged(OverflowBehaviors oldValue, OverflowBehaviors newValue)
 		{
-			if ( newValue != oldValue )
+			if (newValue != oldValue)
 			{
-				OverflowBehaviorChanged( newValue );
+				OverflowBehaviorChanged(newValue);
 			}
 		}
 
@@ -97,17 +96,17 @@ namespace Files.App.Controls
 		/// </summary>
 		public string Label
 		{
-			get => (string)GetValue( LabelProperty );
-			set => SetValue( LabelProperty , value );
+			get => (string)GetValue(LabelProperty);
+			set => SetValue(LabelProperty, value);
 		}
 
 
 
-		protected virtual void OnLabelPropertyChanged(string oldValue , string newValue)
+		protected virtual void OnLabelPropertyChanged(string oldValue, string newValue)
 		{
-			if ( newValue != oldValue )
-			{ 
-				LabelChanged( newValue );
+			if (newValue != oldValue)
+			{
+				LabelChanged(newValue);
 			}
 		}
 
@@ -117,26 +116,26 @@ namespace Files.App.Controls
 
 		public static readonly DependencyProperty SubItemsProperty =
 			DependencyProperty.Register(
-				nameof( SubItems ),
-				typeof( IList<ToolbarItem> ),
+				nameof(SubItems),
+				typeof(IList<ToolbarItem>),
 				typeof(ToolbarItem),
-				new PropertyMetadata( new List<ToolbarItem>(), (d, e) => ((ToolbarItem)d).OnSubItemsPropertyChanged(( IList<ToolbarItem> )e.OldValue, ( IList<ToolbarItem> )e.NewValue)));
+				new PropertyMetadata(new List<ToolbarItem>(), (d, e) => ((ToolbarItem)d).OnSubItemsPropertyChanged((IList<ToolbarItem>)e.OldValue, (IList<ToolbarItem>)e.NewValue)));
 
 
 
 		public IList<ToolbarItem> SubItems
 		{
-			get => (IList<ToolbarItem>)GetValue( SubItemsProperty );
-			set => SetValue( SubItemsProperty , value );
+			get => (IList<ToolbarItem>)GetValue(SubItemsProperty);
+			set => SetValue(SubItemsProperty, value);
 		}
 
 
 
-		protected virtual void OnSubItemsPropertyChanged(IList<ToolbarItem> oldItems , IList<ToolbarItem> newItems)
+		protected virtual void OnSubItemsPropertyChanged(IList<ToolbarItem> oldItems, IList<ToolbarItem> newItems)
 		{
-			if ( newItems != oldItems )
+			if (newItems != oldItems)
 			{
-				SubItemsChanged( newItems );
+				SubItemsChanged(newItems);
 			}
 		}
 
@@ -161,17 +160,17 @@ namespace Files.App.Controls
 		/// </summary>
 		public object Content
 		{
-			get => (object)GetValue( ContentProperty );
-			set => SetValue( ContentProperty , value );
+			get => (object)GetValue(ContentProperty);
+			set => SetValue(ContentProperty, value);
 		}
 
 
 
-		protected virtual void OnContentPropertyChanged(object oldValue , object newValue)
+		protected virtual void OnContentPropertyChanged(object oldValue, object newValue)
 		{
-			if ( newValue != oldValue )
+			if (newValue != oldValue)
 			{
-				ContentChanged( newValue );
+				ContentChanged(newValue);
 			}
 		}
 
@@ -196,17 +195,17 @@ namespace Files.App.Controls
 		/// </summary>
 		public Style ThemedIcon
 		{
-			get => (Style)GetValue( ThemedIconProperty );
-			set => SetValue( ThemedIconProperty , value );
+			get => (Style)GetValue(ThemedIconProperty);
+			set => SetValue(ThemedIconProperty, value);
 		}
 
 
 
-		protected virtual void OnThemedIconPropertyChanged(Style oldValue , Style newValue)
+		protected virtual void OnThemedIconPropertyChanged(Style oldValue, Style newValue)
 		{
-			if ( newValue != oldValue )
+			if (newValue != oldValue)
 			{
-				ThemedIconChanged( newValue );
+				ThemedIconChanged(newValue);
 			}
 		}
 
@@ -228,17 +227,17 @@ namespace Files.App.Controls
 		/// </summary>        
 		public double IconSize
 		{
-			get => (double)GetValue( IconSizeProperty );
-			set => SetValue( IconSizeProperty , value );
+			get => (double)GetValue(IconSizeProperty);
+			set => SetValue(IconSizeProperty, value);
 		}
 
 
 
-		protected virtual void OnIconSizePropertyChanged(double oldValue , double newValue)
+		protected virtual void OnIconSizePropertyChanged(double oldValue, double newValue)
 		{
-			if ( newValue != oldValue )
+			if (newValue != oldValue)
 			{
-				IconSizeChanged( newValue );
+				IconSizeChanged(newValue);
 			}
 		}
 
@@ -263,17 +262,17 @@ namespace Files.App.Controls
 		/// </summary>
 		public bool IsChecked
 		{
-			get => (bool)GetValue( IsCheckedProperty );
-			set => SetValue( IsCheckedProperty , value );
+			get => (bool)GetValue(IsCheckedProperty);
+			set => SetValue(IsCheckedProperty, value);
 		}
 
 
 
-		protected virtual void OnIsCheckedPropertyChanged(bool oldValue , bool newValue)
+		protected virtual void OnIsCheckedPropertyChanged(bool oldValue, bool newValue)
 		{
-			if ( newValue != oldValue )
+			if (newValue != oldValue)
 			{
-				IsCheckedChanged( newValue );
+				IsCheckedChanged(newValue);
 			}
 		}
 
@@ -298,17 +297,17 @@ namespace Files.App.Controls
 		/// </summary>
 		public string KeyboardAcceleratorTextOverride
 		{
-			get => (string)GetValue( KeyboardAcceleratorTextOverrideProperty );
-			set => SetValue( KeyboardAcceleratorTextOverrideProperty , value );
+			get => (string)GetValue(KeyboardAcceleratorTextOverrideProperty);
+			set => SetValue(KeyboardAcceleratorTextOverrideProperty, value);
 		}
 
 
 
-		protected virtual void OnKeyboardAcceleratorTextOverridePropertyChanged(string oldValue , string newValue)
+		protected virtual void OnKeyboardAcceleratorTextOverridePropertyChanged(string oldValue, string newValue)
 		{
-			if ( newValue != oldValue )
+			if (newValue != oldValue)
 			{
-				KeyboardAcceleratorTextOverrideChanged( newValue );
+				KeyboardAcceleratorTextOverrideChanged(newValue);
 			}
 		}
 
@@ -333,17 +332,17 @@ namespace Files.App.Controls
 		/// </summary>
 		public string GroupName
 		{
-			get => (string)GetValue( GroupNameProperty );
-			set => SetValue( GroupNameProperty , value );
+			get => (string)GetValue(GroupNameProperty);
+			set => SetValue(GroupNameProperty, value);
 		}
 
 
 
-		protected virtual void OnGroupNamePropertyChanged(string oldValue , string newValue)
+		protected virtual void OnGroupNamePropertyChanged(string oldValue, string newValue)
 		{
-			if ( newValue != oldValue )
+			if (newValue != oldValue)
 			{
-				GroupNameChanged( newValue );
+				GroupNameChanged(newValue);
 			}
 		}
 
@@ -368,17 +367,17 @@ namespace Files.App.Controls
 		/// </summary>
 		public XamlUICommand Command
 		{
-			get => (XamlUICommand)GetValue( CommandProperty );
-			set => SetValue( CommandProperty , value );
+			get => (XamlUICommand)GetValue(CommandProperty);
+			set => SetValue(CommandProperty, value);
 		}
 
 
 
-		protected virtual void OnCommandPropertyChanged(XamlUICommand oldValue , XamlUICommand newValue)
+		protected virtual void OnCommandPropertyChanged(XamlUICommand oldValue, XamlUICommand newValue)
 		{
-			if ( newValue != oldValue )
+			if (newValue != oldValue)
 			{
-				CommandChanged( newValue );
+				CommandChanged(newValue);
 			}
 		}
 
@@ -403,17 +402,17 @@ namespace Files.App.Controls
 		/// </summary>
 		public object CommandParameter
 		{
-			get => (object)GetValue( CommandParameterProperty );
-			set => SetValue( CommandParameterProperty , value );
+			get => (object)GetValue(CommandParameterProperty);
+			set => SetValue(CommandParameterProperty, value);
 		}
 
 
 
-		protected virtual void OnCommandParameterPropertyChanged(object oldValue , object newValue)
+		protected virtual void OnCommandParameterPropertyChanged(object oldValue, object newValue)
 		{
-			if ( newValue != oldValue )
+			if (newValue != oldValue)
 			{
-				CommandParameterChanged( newValue );
+				CommandParameterChanged(newValue);
 			}
 		}
 

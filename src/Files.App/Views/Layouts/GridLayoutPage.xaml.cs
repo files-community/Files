@@ -131,7 +131,7 @@ namespace Files.App.Views.Layouts
 		/// <summary>
 		/// Gets the visibility for the contextual property string in the Cards View layout.
 		/// </summary>
-		public bool CardsViewShowContextualProperty=>
+		public bool CardsViewShowContextualProperty =>
 			LayoutSettingsService.CardsViewSize != CardsViewSizeKind.Small;
 
 		/// <summary>

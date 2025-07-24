@@ -1,10 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Utils.Shell;
-using Files.App.UserControls.Widgets;
-using Files.App.Helpers;
-
 namespace Files.App.Services
 {
 	internal sealed class QuickAccessService : IQuickAccessService

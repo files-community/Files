@@ -48,7 +48,8 @@ namespace Files.App.ViewModels.Dialogs
 		public Encoding? DetectedEncoding
 		{
 			get => detectedEncoding;
-			set { 
+			set
+			{
 				SetProperty(ref detectedEncoding, value);
 				RefreshEncodingOptions();
 			}
@@ -71,7 +72,7 @@ namespace Files.App.ViewModels.Dialogs
 			{
 				EncodingOptions = EncodingItem.Defaults
 				.Prepend(new EncodingItem(
-					detectedEncoding, 
+					detectedEncoding,
 					string.Format(Strings.EncodingDetected.GetLocalizedResource(), detectedEncoding.EncodingName)
 				))
 				.ToArray();
@@ -83,7 +84,7 @@ namespace Files.App.ViewModels.Dialogs
 			SelectedEncoding = EncodingOptions.FirstOrDefault();
 		}
 
-		
+
 
 		public IRelayCommand PrimaryButtonClickCommand { get; private set; }
 

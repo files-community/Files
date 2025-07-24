@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 using OpenQA.Selenium.Interactions;
-using System;
-using System.Threading;
 
 namespace Files.InteractionTests.Tests
 {

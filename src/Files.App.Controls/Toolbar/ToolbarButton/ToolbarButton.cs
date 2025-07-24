@@ -10,17 +10,17 @@ namespace Files.App.Controls
 
 		public ToolbarButton()
 		{
-			DefaultStyleKey = typeof( ToolbarButton );
+			DefaultStyleKey = typeof(ToolbarButton);
 		}
 
 		/// <inheritdoc/>
 		protected override void OnApplyTemplate()
 		{
-			RegisterPropertyChangedCallback( ContentProperty , OnContentChanged );
+			RegisterPropertyChangedCallback(ContentProperty, OnContentChanged);
 
 			base.OnApplyTemplate();
 
-			UpdateContentStates( CheckHasContent() );
+			UpdateContentStates(CheckHasContent());
 		}
 
 		#region Private Getters
@@ -59,7 +59,7 @@ namespace Files.App.Controls
 
 		private void UpdateContent(object newContent)
 		{
-			if ( CheckHasContent() == false )
+			if (CheckHasContent() == false)
 			{
 				// We clear the content
 			}
@@ -68,7 +68,7 @@ namespace Files.App.Controls
 				// We make sure the content displays
 			}
 
-			UpdateContentStates( CheckHasContent() );
+			UpdateContentStates(CheckHasContent());
 		}
 
 
@@ -80,13 +80,13 @@ namespace Files.App.Controls
 		/// <param name="hasContent"></param>
 		private void UpdateContentStates(bool hasContent)
 		{
-			if ( hasContent )
+			if (hasContent)
 			{
-				VisualStateManager.GoToState( this , HasContentStateName , true );
+				VisualStateManager.GoToState(this, HasContentStateName, true);
 			}
 			else
 			{
-				VisualStateManager.GoToState( this , HasNoContentStateName , true );
+				VisualStateManager.GoToState(this, HasNoContentStateName, true);
 			}
 		}
 
@@ -128,7 +128,7 @@ namespace Files.App.Controls
 		/// <param name="newLabel"></param>
 		private void LabelChanged(string newLabel)
 		{
-			UpdateLabel( newLabel );
+			UpdateLabel(newLabel);
 		}
 
 
@@ -139,7 +139,7 @@ namespace Files.App.Controls
 		/// <param name="newStyle"></param>
 		private void ThemedIconChanged(Style newStyle)
 		{
-			UpdateThemedIcon( newStyle );
+			UpdateThemedIcon(newStyle);
 		}
 
 
@@ -148,8 +148,8 @@ namespace Files.App.Controls
 		/// </summary>
 		/// <param name="newSize"></param>
 		private void IconSizeChanged(double newSize)
-		{ 
-			UpdateIconSize( newSize );
+		{
+			UpdateIconSize(newSize);
 		}
 
 		#endregion
@@ -163,16 +163,16 @@ namespace Files.App.Controls
 		/// <param name="newContent"></param>
 		private void ContentChanged(object newContent)
 		{
-			if ( newContent != null )
+			if (newContent != null)
 			{
-				SetHasContent( true );
+				SetHasContent(true);
 			}
-			else 
+			else
 			{
-				SetHasContent( false );
+				SetHasContent(false);
 			}
 
-			UpdateContent( newContent );
+			UpdateContent(newContent);
 		}
 
 		#endregion

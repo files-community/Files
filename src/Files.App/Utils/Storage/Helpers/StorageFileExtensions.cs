@@ -351,7 +351,7 @@ namespace Files.App.Utils.Storage
 
 			if (path.StartsWith("ReleaseNotes"))
 				return "ReleaseNotes";
-			
+
 			if (path.StartsWith("Settings"))
 				return "Settings";
 

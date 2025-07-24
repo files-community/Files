@@ -96,7 +96,7 @@ namespace Files.App.UserControls
 
 				for (ushort index = 0; index < items.Count; ++index)
 				{
-					items[index].AccessKey = (index+1).ToString(format);
+					items[index].AccessKey = (index + 1).ToString(format);
 				}
 			}
 

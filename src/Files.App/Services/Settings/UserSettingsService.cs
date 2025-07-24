@@ -1,12 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
-using Files.App.Utils.Serialization;
 using Files.App.Utils.Serialization.Implementation;
-using Files.App.Services.Settings;
-using Files.Shared.Extensions;
-using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;
 

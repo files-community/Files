@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Text;
 using SevenZip;
+using System.Text;
 
 namespace Files.App.Data.Contracts
 {

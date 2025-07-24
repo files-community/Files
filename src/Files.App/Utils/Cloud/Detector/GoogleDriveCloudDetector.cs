@@ -5,8 +5,8 @@ using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System.IO;
-using Windows.Storage;
 using Vanara.Windows.Shell;
+using Windows.Storage;
 
 namespace Files.App.Utils.Cloud
 {
@@ -220,7 +220,7 @@ namespace Files.App.Utils.Cloud
 			}
 
 			var path = googleDriveRegValPropProp.GetString();
-			if (path is not null) 
+			if (path is not null)
 				return ConvertDriveLetterToPathAndValidate(ref path) ? path : null;
 
 			_logger.LogWarning($"Could not get string from value from {_googleDriveRegValPropPropName}");
@@ -234,7 +234,7 @@ namespace Files.App.Utils.Cloud
 		/// </summary>
 		private static bool ConvertDriveLetterToPathAndValidate(ref string path)
 		{
-			if (path.Length > 1) 
+			if (path.Length > 1)
 				return ValidatePath(path);
 
 			DriveInfo driveInfo;
@@ -253,7 +253,7 @@ namespace Files.App.Utils.Cloud
 		}
 
 		private static bool ValidatePath(string path)
-		{ 
+		{
 			if (Directory.Exists(path))
 				return true;
 			_logger.LogWarning($"Invalid path: {path}");
@@ -273,7 +273,7 @@ namespace Files.App.Utils.Cloud
 		}
 
 		private static bool AddMyDriveToPathAndValidate(ref string path)
-		{ 
+		{
 			// If `path` contains a shortcut named "My Drive", store its target in `shellFolderBaseFirst`.
 			// This happens when "My Drive syncing options" is set to "Mirror files".
 			// TODO: Avoid to use Vanara (#15000)

@@ -221,7 +221,7 @@ namespace Files.App.Helpers
 					}
 				}
 				else
-				{					
+				{
 					_parent._tracker.TryUpdatePositionWithAnimation(_returnAnimation);
 				}
 				_shouldBounceBack = false;

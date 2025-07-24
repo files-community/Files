@@ -1,8 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Core.Storage;
-using Files.Core.Storage.Storables;
 using Files.Shared.Utils;
 using Windows.Storage.FileProperties;
 

@@ -1,11 +1,11 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.Shared.Helpers;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Input;
-using Files.Shared.Helpers;
 
 namespace Files.App.ViewModels.Dialogs
 {
@@ -38,7 +38,7 @@ namespace Files.App.ViewModels.Dialogs
 		private string _shortcutName;
 		public string ShortcutName
 		{
-			get => _shortcutName; 
+			get => _shortcutName;
 			set
 			{
 				if (SetProperty(ref _shortcutName, value))
@@ -195,7 +195,7 @@ namespace Files.App.ViewModels.Dialogs
 			set
 			{
 				if (SetProperty(ref _isLocationValid, value))
-				{ 
+				{
 					OnPropertyChanged(nameof(ShowWarningTip));
 					OnPropertyChanged(nameof(IsShortcutValid));
 				}

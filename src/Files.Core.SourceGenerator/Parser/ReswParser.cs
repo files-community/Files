@@ -21,10 +21,12 @@ namespace Files.Core.SourceGenerator.Parser
 			var document = XDocument.Load(file.Path);
 			var keys = document
 				.Descendants("data")
-				.Select(element => new ParserItem {
+				.Select(element => new ParserItem
+				{
 					Key = element.Attribute("name")?.Value.Replace('.', ConstantSeparator)!,
 					Value = element.Element("value")?.Value ?? string.Empty,
-					Comment = element.Element("comment")?.Value })
+					Comment = element.Element("comment")?.Value
+				})
 				.Where(item => !string.IsNullOrEmpty(item.Key));
 
 			return keys is not null

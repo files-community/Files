@@ -3,7 +3,6 @@
 
 using System.Collections.Specialized;
 using System.IO;
-using System.Text.Json.Serialization;
 
 namespace Files.App.Data.Models
 {

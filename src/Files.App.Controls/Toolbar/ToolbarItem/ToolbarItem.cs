@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.Controls
@@ -13,7 +12,7 @@ namespace Files.App.Controls
 	/// </summary>
 	public partial class ToolbarItem : DependencyObject
 	{
-		# region Update Item Properties
+		#region Update Item Properties
 
 		private void UpdateItemType(ToolbarItemTypes newItemType)
 		{
@@ -54,7 +53,7 @@ namespace Files.App.Controls
 
 
 		private void UpdateLabel(string newLabel)
-		{ 
+		{
 			///
 			/// Updates the internal item's Text or Label
 			/// property as it changes.
@@ -68,7 +67,7 @@ namespace Files.App.Controls
 		/// </summary>
 		/// <param name="newItems"></param>
 		private void UpdateSubItems(IList<ToolbarItem> newItems)
-		{ 		
+		{
 		}
 
 
@@ -198,21 +197,21 @@ namespace Files.App.Controls
 
 		private void ItemTypeChanged(ToolbarItemTypes newItemType)
 		{
-			UpdateItemType( newItemType );
+			UpdateItemType(newItemType);
 		}
 
 
 
 		private void OverflowBehaviorChanged(OverflowBehaviors newOverflowBehavior)
 		{
-			UpdateOverflowBehavior( newOverflowBehavior );
+			UpdateOverflowBehavior(newOverflowBehavior);
 		}
 
 
 
-		private void LabelChanged(string newLabel) 
+		private void LabelChanged(string newLabel)
 		{
-			UpdateLabel( newLabel );
+			UpdateLabel(newLabel);
 		}
 
 
@@ -224,49 +223,49 @@ namespace Files.App.Controls
 		/// <param name="newItems"></param>
 		private void SubItemsChanged(IList<ToolbarItem> newItems)
 		{
-			UpdateSubItems( newItems );
+			UpdateSubItems(newItems);
 		}
 
 
 
-		private void ContentChanged(object newContent) 
+		private void ContentChanged(object newContent)
 		{
-			UpdateContent( newContent );
+			UpdateContent(newContent);
 		}
 
 
 
 		private void ThemedIconChanged(Style newStyle)
 		{
-			UpdateThemedIcon( newStyle );
+			UpdateThemedIcon(newStyle);
 		}
 
 
 
-		private void KeyboardAcceleratorTextOverrideChanged( string newKeyboardAcceleratorText)
+		private void KeyboardAcceleratorTextOverrideChanged(string newKeyboardAcceleratorText)
 		{
-			UpdateKeyboardAcceleratorTextOverride( newKeyboardAcceleratorText );
+			UpdateKeyboardAcceleratorTextOverride(newKeyboardAcceleratorText);
 		}
 
 
 
 		private void GroupNameChanged(string newGroupName)
 		{
-			UpdateGroupName( newGroupName );
+			UpdateGroupName(newGroupName);
 		}
 
 
 
 		private void CommandChanged(XamlUICommand newCommand)
 		{
-			UpdateCommand( newCommand );
+			UpdateCommand(newCommand);
 		}
 
 
 
 		private void CommandParameterChanged(object newCommandParameter)
 		{
-			UpdateCommandParameter( newCommandParameter );
+			UpdateCommandParameter(newCommandParameter);
 		}
 
 
@@ -276,7 +275,7 @@ namespace Files.App.Controls
 		/// <param name="newSize"></param>
 		private void IconSizeChanged(double newSize)
 		{
-			UpdateIconSize( newSize );
+			UpdateIconSize(newSize);
 		}
 
 
@@ -286,7 +285,7 @@ namespace Files.App.Controls
 		/// <param name="newSize"></param>
 		private void IsCheckedChanged(bool isChecked)
 		{
-			UpdateIsChecked( isChecked );
+			UpdateIsChecked(isChecked);
 		}
 
 		#endregion
