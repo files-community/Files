@@ -271,8 +271,9 @@
 						Grid.Column="3"
 						Margin="4,0,0,8"
 						x:Load="{x:Bind ViewModel.ShowShelfPane, Mode=OneWay}"
+						BulkDeleteCommand="{x:Bind ViewModel.ShelfViewModel.BulkDeleteCommand}"
 						ClearCommand="{x:Bind ViewModel.ShelfViewModel.ClearItemsCommand}"
-						ItemFocusedCommand="{x:Bind Commands.ClearSelection, Mode=OneWay}"
+						ItemFocusedCommand="{x:Bind Commands.ClearSelection}"
 						ItemsSource="{x:Bind ViewModel.ShelfViewModel.Items}" />
 				</Grid>
 			</controls:SidebarView.InnerContent>
