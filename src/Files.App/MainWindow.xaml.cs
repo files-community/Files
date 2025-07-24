@@ -27,6 +27,7 @@ namespace Files.App
 		public MainWindow()
 		{
 			InitializeComponent();
+			Closed += MainWindow_Closed;
 
 			WindowHandle = WinUIEx.WindowExtensions.GetWindowHandle(this);
 			MinHeight = 316;
@@ -367,6 +368,11 @@ namespace Files.App
 				Win32Helper.ForceWindowPosition(e.Message.LParam);
 				e.Handled = true;
 			}
+		}
+
+		private void MainWindow_Closed(object sender, WindowEventArgs args)
+		{
+			_Instance = null;
 		}
 	}
 }

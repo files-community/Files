@@ -7,4 +7,5 @@
 	xmlns:items="using:Files.App.Data.Items"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:winuiex="using:WinUIEx"
-	mc:Ignorable="d" />
+	mc:Ignorable="d"
+	Closed="MainWindow_Closed" />
