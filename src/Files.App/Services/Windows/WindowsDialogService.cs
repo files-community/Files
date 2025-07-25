@@ -65,7 +65,13 @@ namespace Files.App.Services
 				pDialog.Get()->SetDefaultFolder(pDefaultFolderShellItem.Get());
 
 				// Show the dialog
-				pDialog.Get()->Show(new HWND(hWnd));
+				HRESULT hr = pDialog.Get()->Show(new HWND(hWnd));
+
+				// 0x800704C7 is the HRESULT for ERROR_CANCELLED
+				if (hr.Value == -2147023705)
+					return false;
+
+				hr.ThrowOnFailure();
 
 				// Get the file that user chose
 				using ComPtr<IShellItem> pResultShellItem = default;
@@ -135,7 +141,13 @@ namespace Files.App.Services
 				pDialog.Get()->SetDefaultFolder(pDefaultFolderShellItem.Get());
 
 				// Show the dialog
-				pDialog.Get()->Show(new HWND(hWnd));
+				HRESULT hr = pDialog.Get()->Show(new HWND(hWnd));
+
+				// 0x800704C7 is the HRESULT for ERROR_CANCELLED
+				if (hr.Value == -2147023705)
+					return false;
+
+				hr.ThrowOnFailure();
 
 				// Get the file that user chose
 				using ComPtr<IShellItem> pResultShellItem = default;
