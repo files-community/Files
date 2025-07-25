@@ -118,7 +118,14 @@ namespace Files.App.Utils.Serialization.Implementation
 		{
 			if (obj is JsonElement jElem)
 			{
-				return jElem.Deserialize<TValue>();
+				try
+				{
+					return jElem.Deserialize<TValue>();
+				}
+				catch (JsonException)
+				{
+					return default;
+				}
 			}
 
 			return (TValue?)obj;
