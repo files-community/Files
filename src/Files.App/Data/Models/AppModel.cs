@@ -43,8 +43,10 @@ namespace Files.App.Data.Models
 					if (value >= 0 && value < MainPageViewModel.AppInstances.Count)
 					{
 						var rootFrame = (Frame)MainWindow.Instance.Content;
-						var mainView = (MainPage)rootFrame.Content;
-						mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
+						if (rootFrame.Content is MainPage mainView)
+						{
+							mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
+						}
 					}
 				}
 				catch (COMException)
