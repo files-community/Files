@@ -18,6 +18,7 @@ namespace Files.App.ViewModels.UserControls
 		private DrivesViewModel drivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		private CancellationTokenSource loadCancellationTokenSource;
+		private MediaPreview? _mediaPreview;
 
 		/// <summary>
 		/// Value indicating if the info pane is on/off
@@ -273,9 +274,17 @@ namespace Files.App.ViewModels.UserControls
 				(FileExtensionHelpers.IsAudioFile(ext) || FileExtensionHelpers.IsVideoFile(ext)))
 			{
 				var model = new MediaPreviewViewModel(item);
-				await model.LoadAsync();
 
-				return new MediaPreview(model);
+				if (_mediaPreview is null)
+				{
+					await model.LoadAsync(); // Load only if creating new instance
+					_mediaPreview = new(model);
+				}
+				else
+				{
+					await _mediaPreview.UpdateViewModelAsync(model); // Update existing instance
+				}
+				return _mediaPreview;
 			}
 
 			if (MarkdownPreviewViewModel.ContainsExtension(ext))
