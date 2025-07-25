@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Windows.Win32;
-using Windows.Win32.Foundation;
 using Windows.Win32.Security;
 
 namespace Files.App.Data.Items
@@ -87,7 +86,7 @@ namespace Files.App.Data.Items
 
 			// Get account name and domain
 			bResult = PInvoke.LookupAccountSid(string.Empty, lpSid, lpName, ref cchName, lpDomain, ref cchDomainName, out var snu);
-			if(!bResult)
+			if (!bResult)
 				return;
 
 			PrincipalType = snu switch

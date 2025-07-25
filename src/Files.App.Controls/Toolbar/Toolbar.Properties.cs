@@ -24,8 +24,8 @@ namespace Files.App.Controls
 		/// </summary>
 		public ToolbarSizes ToolbarSize
 		{
-			get => (ToolbarSizes)GetValue( ToolbarSizeProperty );
-			set => SetValue( ToolbarSizeProperty , value );
+			get => (ToolbarSizes)GetValue(ToolbarSizeProperty);
+			set => SetValue(ToolbarSizeProperty, value);
 		}
 
 
@@ -34,11 +34,11 @@ namespace Files.App.Controls
 		/// </summary>
 		/// <param name="oldValue"></param>
 		/// <param name="newValue"></param>
-		protected virtual void OnToolbarSizePropertyChanged(ToolbarSizes oldValue , ToolbarSizes newValue)
+		protected virtual void OnToolbarSizePropertyChanged(ToolbarSizes oldValue, ToolbarSizes newValue)
 		{
-			if ( newValue != oldValue )
+			if (newValue != oldValue)
 			{
-				ToolbarSizeChanged( newValue );
+				ToolbarSizeChanged(newValue);
 			}
 		}
 
@@ -48,26 +48,26 @@ namespace Files.App.Controls
 
 		public static readonly DependencyProperty ItemsProperty =
 			DependencyProperty.Register(
-				nameof( Items ), 
-				typeof( IList<ToolbarItem> ),
-				typeof(Toolbar), 
-				new PropertyMetadata( defaultValue: new List<ToolbarItem>(), (d, e) => ((Toolbar)d).OnItemsPropertyChanged(( IList<ToolbarItem> )e.OldValue, ( IList<ToolbarItem> )e.NewValue)));
+				nameof(Items),
+				typeof(IList<ToolbarItem>),
+				typeof(Toolbar),
+				new PropertyMetadata(defaultValue: new List<ToolbarItem>(), (d, e) => ((Toolbar)d).OnItemsPropertyChanged((IList<ToolbarItem>)e.OldValue, (IList<ToolbarItem>)e.NewValue)));
 
 
 
 		public IList<ToolbarItem> Items
 		{
-			get => ( IList<ToolbarItem> )GetValue( ItemsProperty );
-			set => SetValue( ItemsProperty , value );
+			get => (IList<ToolbarItem>)GetValue(ItemsProperty);
+			set => SetValue(ItemsProperty, value);
 		}
 
 
 
-		private void OnItemsPropertyChanged(IList<ToolbarItem> oldItems , IList<ToolbarItem> newItems)
+		private void OnItemsPropertyChanged(IList<ToolbarItem> oldItems, IList<ToolbarItem> newItems)
 		{
-			if ( newItems != oldItems )
+			if (newItems != oldItems)
 			{
-				ItemsChanged( newItems );
+				ItemsChanged(newItems);
 			}
 		}
 
@@ -92,8 +92,8 @@ namespace Files.App.Controls
 		/// </summary>
 		public DataTemplate ItemTemplate
 		{
-			get => (DataTemplate)GetValue( ItemTemplateProperty );
-			set => SetValue( ItemTemplateProperty , value );
+			get => (DataTemplate)GetValue(ItemTemplateProperty);
+			set => SetValue(ItemTemplateProperty, value);
 		}
 
 
@@ -102,11 +102,11 @@ namespace Files.App.Controls
 		/// </summary>
 		/// <param name="oldValue"></param>
 		/// <param name="newValue"></param>
-		protected virtual void OnItemTemplatePropertyChanged(DataTemplate oldValue , DataTemplate newValue)
+		protected virtual void OnItemTemplatePropertyChanged(DataTemplate oldValue, DataTemplate newValue)
 		{
-			if ( newValue != oldValue )
+			if (newValue != oldValue)
 			{
-				ItemTemplateChanged( newValue );
+				ItemTemplateChanged(newValue);
 			}
 		}
 
@@ -122,7 +122,7 @@ namespace Files.App.Controls
 				nameof(ItemList),
 				typeof(ToolbarItemList),
 				typeof(Toolbar),
-				new PropertyMetadata(new ToolbarItemList(), (d, e) => ((Toolbar)d).OnItemListPropertyChanged(( ToolbarItemList )e.OldValue, ( ToolbarItemList )e.NewValue)));
+				new PropertyMetadata(new ToolbarItemList(), (d, e) => ((Toolbar)d).OnItemListPropertyChanged((ToolbarItemList)e.OldValue, (ToolbarItemList)e.NewValue)));
 
 
 
@@ -131,17 +131,17 @@ namespace Files.App.Controls
 		/// </summary>
 		private ToolbarItemList ItemList
 		{
-			get { return (ToolbarItemList)GetValue( ItemListProperty ); }
-			set { SetValue( ItemListProperty , value ); }
+			get { return (ToolbarItemList)GetValue(ItemListProperty); }
+			set { SetValue(ItemListProperty, value); }
 		}
 
 
 
-		private void OnItemListPropertyChanged(ToolbarItemList oldList , ToolbarItemList newList)
+		private void OnItemListPropertyChanged(ToolbarItemList oldList, ToolbarItemList newList)
 		{
-			if ( newList != oldList )
+			if (newList != oldList)
 			{
-				PrivateItemListChanged( newList );
+				PrivateItemListChanged(newList);
 			}
 		}
 		#endregion
@@ -156,7 +156,7 @@ namespace Files.App.Controls
 				nameof(ItemOverflowList),
 				typeof(ToolbarItemOverflowList),
 				typeof(Toolbar),
-				new PropertyMetadata(new ToolbarItemOverflowList(), (d, e) => ((Toolbar)d).OnItemOverflowListPropertyChanged(( ToolbarItemOverflowList )e.OldValue, ( ToolbarItemOverflowList )e.NewValue)));
+				new PropertyMetadata(new ToolbarItemOverflowList(), (d, e) => ((Toolbar)d).OnItemOverflowListPropertyChanged((ToolbarItemOverflowList)e.OldValue, (ToolbarItemOverflowList)e.NewValue)));
 
 
 
@@ -165,17 +165,17 @@ namespace Files.App.Controls
 		/// </summary>
 		private ToolbarItemOverflowList ItemOverflowList
 		{
-			get { return (ToolbarItemOverflowList)GetValue( ItemOverflowListProperty ); }
-			set { SetValue( ItemOverflowListProperty , value ); }
+			get { return (ToolbarItemOverflowList)GetValue(ItemOverflowListProperty); }
+			set { SetValue(ItemOverflowListProperty, value); }
 		}
 
 
 
-		private void OnItemOverflowListPropertyChanged(ToolbarItemOverflowList oldList , ToolbarItemOverflowList newList)
+		private void OnItemOverflowListPropertyChanged(ToolbarItemOverflowList oldList, ToolbarItemOverflowList newList)
 		{
-			if ( newList != oldList )
+			if (newList != oldList)
 			{
-				PrivateItemOverflowListChanged( newList );
+				PrivateItemOverflowListChanged(newList);
 			}
 		}
 		#endregion

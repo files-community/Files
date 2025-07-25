@@ -19,7 +19,7 @@ namespace Files.App.Actions
 		public GitFetchAction()
 		{
 			_context = Ioc.Default.GetRequiredService<IContentPageContext>();
-			
+
 			_context.PropertyChanged += Context_PropertyChanged;
 		}
 

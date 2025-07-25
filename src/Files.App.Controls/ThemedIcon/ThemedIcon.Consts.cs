@@ -1,9 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-
 namespace Files.App.Controls
 {
 	// Template Parts
@@ -12,7 +9,7 @@ namespace Files.App.Controls
 	[TemplatePart(Name = LayeredPathIconViewBox, Type = typeof(Viewbox))]
 	[TemplatePart(Name = LayeredPathCanvas, Type = typeof(Canvas))]
 	// Icon Type Visual States
-	[TemplateVisualState(Name = OutlineTypeStateName, GroupName = IconTypeStateGroupName)]    
+	[TemplateVisualState(Name = OutlineTypeStateName, GroupName = IconTypeStateGroupName)]
 	[TemplateVisualState(Name = LayeredTypeStateName, GroupName = IconTypeStateGroupName)]
 	[TemplateVisualState(Name = FilledTypeStateName, GroupName = IconTypeStateGroupName)]
 	// Icon Color Visual States

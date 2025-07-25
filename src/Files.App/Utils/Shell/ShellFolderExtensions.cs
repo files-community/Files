@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System;
 using System.IO;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;

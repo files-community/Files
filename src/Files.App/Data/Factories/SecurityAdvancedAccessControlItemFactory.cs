@@ -1,10 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Extensions;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-
 namespace Files.App.Data.Factories
 {
 	public static class SecurityAdvancedAccessControlItemFactory

@@ -424,7 +424,7 @@ namespace Files.App.Helpers
 					new SettingsNavigationParams() { PageKind = SettingsPageKind.DevToolsPage }
 				);
 		}
-		
+
 		public static async Task ShowFor_CannotCloneRepo(string exception)
 		{
 			var dialog = new DynamicDialog(new DynamicDialogViewModel()

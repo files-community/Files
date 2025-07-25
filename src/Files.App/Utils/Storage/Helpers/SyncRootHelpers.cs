@@ -2,9 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.Win32;
-using System.Runtime.CompilerServices;
 using Windows.Win32;
-using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
 using Windows.Win32.System.WinRT;
 using WinRT;

@@ -7,7 +7,7 @@ namespace Files.App.Controls
 	{
 		public ToolbarFlyoutButton()
 		{
-			this.DefaultStyleKey = typeof( ToolbarFlyoutButton );
+			this.DefaultStyleKey = typeof(ToolbarFlyoutButton);
 		}
 
 		protected override void OnApplyTemplate()

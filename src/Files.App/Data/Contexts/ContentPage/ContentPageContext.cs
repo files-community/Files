@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.UserControls.TabBar;
 using System.Collections.Immutable;
 
 namespace Files.App.Data.Contexts
@@ -92,7 +91,7 @@ namespace Files.App.Data.Contexts
 				page.ContentChanged += Page_ContentChanged;
 				page.InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
 				page.ToolbarViewModel.PropertyChanged += ToolbarViewModel_PropertyChanged;
-				
+
 				if (page.PaneHolder is not null)
 					page.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 			}

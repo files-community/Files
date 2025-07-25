@@ -19,7 +19,7 @@ namespace Files.App.ViewModels.Settings
 			// Sorting options
 			SelectedDefaultSortingIndex = UserSettingsService.LayoutSettingsService.DefaultSortOption == SortOption.FileTag ? FileTagSortingIndex : (int)UserSettingsService.LayoutSettingsService.DefaultSortOption;
 			SelectedDefaultSortPriorityIndex = UserSettingsService.LayoutSettingsService.DefaultSortDirectoriesAlongsideFiles ? 2 : UserSettingsService.LayoutSettingsService.DefaultSortFilesFirst ? 1 : 0;
-			
+
 			// Grouping options
 			SelectedDefaultGroupingIndex = UserSettingsService.LayoutSettingsService.DefaultGroupOption == GroupOption.FileTag ? FileTagGroupingIndex : (int)UserSettingsService.LayoutSettingsService.DefaultGroupOption;
 			SelectedDefaultGroupByDateUnitIndex = (int)UserSettingsService.LayoutSettingsService.DefaultGroupByDateUnit;
@@ -110,7 +110,7 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-	
+
 		private int selectedDefaultSortPriorityIndex;
 		public int SelectedDefaultSortPriorityIndex
 		{

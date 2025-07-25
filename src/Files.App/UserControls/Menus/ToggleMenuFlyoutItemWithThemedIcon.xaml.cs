@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls
 {
-	public sealed partial class ToggleMenuFlyoutItemWithThemedIcon: ToggleMenuFlyoutItem
+	public sealed partial class ToggleMenuFlyoutItemWithThemedIcon : ToggleMenuFlyoutItem
 	{
 		public Style ThemedIconStyle
 		{

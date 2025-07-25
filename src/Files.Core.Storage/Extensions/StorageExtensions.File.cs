@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.IO;
 using OwlCore.Storage.System.IO;
+using System.IO;
 
 namespace Files.Core.Storage.Extensions
 {

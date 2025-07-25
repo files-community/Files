@@ -52,7 +52,7 @@ namespace Files.App.Services.PreviewPopupProviders
 			if (!IsTrackSelectionSettingEnabled && !string.IsNullOrEmpty(CurrentPath))
 			{
 				await TogglePreviewPopupAsync(CurrentPath);
-				return;				
+				return;
 			}
 
 			// Update the preview window if the path changed

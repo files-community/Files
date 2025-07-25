@@ -88,7 +88,7 @@ namespace Files.App.Views.Settings
 		private void CancelRemoveTag_Click(object sender, RoutedEventArgs e)
 		{
 			deleteItemFlyout?.Hide();
-		}	
+		}
 
 		private void RemoveTag_Click(object sender, RoutedEventArgs e)
 		{

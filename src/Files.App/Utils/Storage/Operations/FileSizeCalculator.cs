@@ -3,7 +3,6 @@
 
 using System.Collections.Concurrent;
 using System.IO;
-using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Storage.FileSystem;
 

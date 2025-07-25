@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.Foundation;

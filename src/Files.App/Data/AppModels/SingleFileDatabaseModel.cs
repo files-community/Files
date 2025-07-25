@@ -1,8 +1,4 @@
-﻿using Files.Core.Storage;
-using Files.Core.Storage.Extensions;
-using Files.Core.Storage.Storables;
-using Files.Shared.Extensions;
-using Files.Shared.Utils;
+﻿using Files.Shared.Utils;
 using System.IO;
 
 namespace Files.App.Data.AppModels

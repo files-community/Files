@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared;
-
 namespace Files.App.Data.Models
 {
 	/// <summary>

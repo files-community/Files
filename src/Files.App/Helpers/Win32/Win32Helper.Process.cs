@@ -1,10 +1,6 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.Extensions.Logging;
-using Windows.Foundation.Metadata;
-using Windows.System;
-
 namespace Files.App.Helpers
 {
 	/// <summary>

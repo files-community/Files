@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.IO;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;

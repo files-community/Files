@@ -1,9 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Extensions;
-using Files.Shared;
-using System;
 using System.IO;
 
 namespace Files.App.Utils.Shell

@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.ViewModels.Dialogs.FileSystemDialog;
 using Microsoft.UI.Xaml;
 
 namespace Files.App.Data.TemplateSelectors

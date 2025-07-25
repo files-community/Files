@@ -1,10 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace Files.App.Services.SizeProvider
 {
 	public interface ISizeProvider : IDisposable

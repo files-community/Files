@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared;
 using Files.Shared.Utils;
 
 namespace Files.App.ViewModels.Dialogs.AddItemDialog

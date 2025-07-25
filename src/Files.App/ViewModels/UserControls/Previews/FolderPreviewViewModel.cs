@@ -32,7 +32,7 @@ namespace Files.App.ViewModels.Previews
 				Constants.ShellIconSizes.Jumbo,
 				true,
 				IconOptions.None);
-			
+
 			if (result is not null)
 				Thumbnail = await result.ToBitmapAsync();
 
@@ -59,7 +59,7 @@ namespace Files.App.ViewModels.Previews
 				var headName = (await GitHelpers.GetRepositoryHead(gitDirectory))?.Name ?? string.Empty;
 				var repositoryName = GitHelpers.GetOriginRepositoryName(gitDirectory);
 
-				if(!string.IsNullOrEmpty(gitDirectory))
+				if (!string.IsNullOrEmpty(gitDirectory))
 					Item.FileDetails.Add(GetFileProperty("GitOriginRepositoryName", repositoryName));
 
 				if (!string.IsNullOrWhiteSpace(headName))

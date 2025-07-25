@@ -8,7 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UserControls
 {
-	public sealed partial class MenuFlyoutItemWithThemedIcon: MenuFlyoutItem
+	public sealed partial class MenuFlyoutItemWithThemedIcon : MenuFlyoutItem
 	{
 		public Style ThemedIconStyle
 		{

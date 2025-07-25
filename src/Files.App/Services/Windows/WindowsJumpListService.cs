@@ -3,7 +3,6 @@
 
 using Microsoft.Extensions.Logging;
 using System.IO;
-using Windows.Storage;
 using Windows.UI.StartScreen;
 
 namespace Files.App.Services

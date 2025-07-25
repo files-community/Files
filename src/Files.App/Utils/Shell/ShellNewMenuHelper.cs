@@ -69,7 +69,8 @@ namespace Files.App.Utils.Shell
 					}
 				}
 			}
-			catch {
+			catch
+			{
 				// Ignore exceptions when the registry is inaccessible to avoid freezes
 			}
 
