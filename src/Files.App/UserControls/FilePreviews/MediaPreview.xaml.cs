@@ -63,5 +63,11 @@ namespace Files.App.UserControls.FilePreviews
 		{
 			TogglePlaybackRequestInvoked(sender, null);
 		}
+
+		public async Task UpdateViewModelAsync(MediaPreviewViewModel model)
+		{
+			ViewModel = model;
+			await ViewModel.LoadAsync();
+		}
 	}
 }
