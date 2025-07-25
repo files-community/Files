@@ -13,6 +13,11 @@ namespace Files.App.Data.Contracts
 
 		StorageHistoryHelpers StorageHistoryHelpers { get; }
 
+		/// <summary>
+		/// Gets a value indicating whether this instance is disposed.
+		/// </summary>
+		bool IsDisposed { get; }
+
 		IList<PageStackEntry> ForwardStack { get; }
 
 		IList<PageStackEntry> BackwardStack { get; }

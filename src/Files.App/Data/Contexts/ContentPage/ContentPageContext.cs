@@ -187,6 +187,9 @@ namespace Files.App.Data.Contexts
 
 		private void Update()
 		{
+			if (ShellPage is null || ShellPage.IsDisposed)
+				return;
+
 			UpdatePageType();
 			UpdateSelectedItems();
 

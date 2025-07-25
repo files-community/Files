@@ -19,6 +19,8 @@ namespace Files.App.Views.Shells
 	{
 		private readonly DispatcherQueueTimer _updateDateDisplayTimer;
 
+		public bool IsDisposed { get; private set; } = false;
+
 		private DateTimeFormats _lastDateTimeFormats;
 
 		private Task _gitFetch = Task.CompletedTask;
@@ -764,6 +766,8 @@ namespace Files.App.Views.Shells
 
 		public virtual void Dispose()
 		{
+			IsDisposed = true;
+
 			PreviewKeyDown -= ShellPage_PreviewKeyDown;
 			PointerPressed -= CoreWindow_PointerPressed;
 			drivesViewModel.PropertyChanged -= DrivesManager_PropertyChanged;
