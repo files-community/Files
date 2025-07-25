@@ -286,26 +286,24 @@ namespace Files.App.Utils.Taskbar
 
 		private void OnRestartClicked()
 		{
+			App.AppModel.ForceProcessTermination = true;
+			Program.Pool?.Release();
 			Microsoft.Windows.AppLifecycle.AppInstance.Restart("");
-
-			var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance", out var isNew);
-			if (!isNew)
-				pool.Release();
-
-			Environment.Exit(0);
+			App.Current.Exit();
 		}
 
 		private void OnQuitClicked()
 		{
 			Hide();
-
 			App.AppModel.ForceProcessTermination = true;
-
-			var pool = new Semaphore(0, 1, $"Files-{AppLifecycleHelper.AppEnvironment}-Instance", out var isNew);
-			if (!isNew)
-				pool.Release();
+			if (Program.Pool is not null)
+			{
+				Program.Pool.Release();
+			}
 			else
+			{
 				App.Current.Exit();
+			}
 		}
 
 		internal LRESULT WindowProc(HWND hWnd, uint uMsg, WPARAM wParam, LPARAM lParam)
