@@ -22,7 +22,20 @@ namespace Files.App.Data.Items
 		public string Tooltip { get; set; }
 
 		private BitmapImage? _Thumbnail;
-		public BitmapImage? Thumbnail { get => _Thumbnail; set => SetProperty(ref _Thumbnail, value); }
+		private bool _isThumbnailLoaded = false;
+
+		public BitmapImage? Thumbnail
+		{
+			get
+			{
+				if (!_isThumbnailLoaded)
+				{
+					_ = LoadCardThumbnailAsync(); // Fire and forget
+				}
+				return _Thumbnail;
+			}
+			set => SetProperty(ref _Thumbnail, value);
+		}
 
 		// Constructor
 
@@ -38,9 +51,9 @@ namespace Files.App.Data.Items
 
 		// Methods
 
-		public async Task LoadCardThumbnailAsync()
+		private async Task LoadCardThumbnailAsync()
 		{
-			if (string.IsNullOrEmpty(Path))
+			if (_isThumbnailLoaded || string.IsNullOrEmpty(Path))
 				return;
 
 			Item.TryGetThumbnail((int)(Constants.ShellIconSizes.Large * App.AppModel.AppWindowDPI), SIIGBF.SIIGBF_ICONONLY, out var rawThumbnailData);
@@ -48,6 +61,7 @@ namespace Files.App.Data.Items
 				return;
 
 			Thumbnail = await rawThumbnailData.ToBitmapAsync();
+			_isThumbnailLoaded = true;
 		}
 
 		public void Dispose()

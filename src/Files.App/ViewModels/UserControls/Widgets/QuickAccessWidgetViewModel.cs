@@ -40,8 +40,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public QuickAccessWidgetViewModel()
 		{
-			Items.CollectionChanged += Items_CollectionChanged;
-
 			OpenPropertiesCommand = new RelayCommand<WidgetFolderCardItem>(ExecuteOpenPropertiesCommand);
 			PinToSidebarCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecutePinToSidebarCommand);
 			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecuteUnpinFromSidebarCommand);
@@ -168,17 +166,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			ContentPageContext.ShellPage?.NavigateWithArguments(
 				ContentPageContext.ShellPage.InstanceViewModel.FolderSettings.GetLayoutType(path),
 				new() { NavPathParam = path });
-		}
-
-		// Event methods
-
-		private async void Items_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-		{
-			if (e.Action is NotifyCollectionChangedAction.Add)
-			{
-				foreach (WidgetFolderCardItem cardItem in e.NewItems!)
-					await cardItem.LoadCardThumbnailAsync();
-			}
 		}
 
 		// Command methods
