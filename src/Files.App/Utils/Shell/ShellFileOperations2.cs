@@ -576,7 +576,7 @@ public partial class ShellFileOperations2 : IDisposable
 				// Dispose managed state (managed objects).
 			}
 
-			if (sink != null)
+			if (sink != null && op != null) // Add a null check for op
 			{
 				op.Unadvise(sinkCookie);
 			}
