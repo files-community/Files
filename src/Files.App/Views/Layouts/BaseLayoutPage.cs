@@ -1007,6 +1007,12 @@ namespace Files.App.Views.Layouts
 
 		protected virtual void FileList_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
 		{
+			if (!AllowItemDrag)
+			{
+				e.Cancel = true;
+				return;
+			}
+
 			try
 			{
 				var itemList = e.Items.OfType<ListedItem>().ToList();
