@@ -65,13 +65,17 @@ namespace Files.App.Services
 				pDialog.Get()->SetDefaultFolder(pDefaultFolderShellItem.Get());
 
 				// Show the dialog
-				pDialog.Get()->Show(new HWND(hWnd));
+				hr = pDialog.Get()->Show(new HWND(hWnd));
+				if (hr.Value == unchecked((int)0x800704C7)) // HRESULT_FROM_WIN32(ERROR_CANCELLED)
+					return false;
+
+				hr.ThrowOnFailure();
 
 				// Get the file that user chose
 				using ComPtr<IShellItem> pResultShellItem = default;
 				pDialog.Get()->GetResult(pResultShellItem.GetAddressOf());
-				if (pResultShellItem.Get() == null)
-					throw new COMException("FileSaveDialog returned invalid shell item.");
+				if (pResultShellItem.Get() is null)
+					throw new COMException("FileOpenDialog returned invalid shell item.");
 				pResultShellItem.Get()->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
 				filePath = lpFilePath.ToString();
 
@@ -135,13 +139,17 @@ namespace Files.App.Services
 				pDialog.Get()->SetDefaultFolder(pDefaultFolderShellItem.Get());
 
 				// Show the dialog
-				pDialog.Get()->Show(new HWND(hWnd));
+				hr = pDialog.Get()->Show(new HWND(hWnd));
+				if (hr.Value == unchecked((int)0x800704C7)) // HRESULT_FROM_WIN32(ERROR_CANCELLED)
+					return false;
+
+				hr.ThrowOnFailure();
 
 				// Get the file that user chose
 				using ComPtr<IShellItem> pResultShellItem = default;
 				pDialog.Get()->GetResult(pResultShellItem.GetAddressOf());
-				if (pResultShellItem.Get() == null)
-					throw new COMException("FileSaveDialog returned invalid shell item.");
+				if (pResultShellItem.Get() is null)
+					throw new COMException("FileOpenDialog returned invalid shell item.");
 				pResultShellItem.Get()->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
 				filePath = lpFilePath.ToString();
 
