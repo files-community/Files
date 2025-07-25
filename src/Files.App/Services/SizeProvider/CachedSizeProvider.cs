@@ -33,12 +33,12 @@ namespace Files.App.Services.SizeProvider
 			}
 
 			var stopwatch = Stopwatch.StartNew();
-			ulong size = await Calculate(path);
+			ulong size = await Task.Run(() => Calculate(path, cancellationToken), cancellationToken);
 
 			sizes[path] = size;
 			RaiseSizeChanged(path, size, SizeChangedValueState.Final);
 
-			async Task<ulong> Calculate(string path, int level = 0)
+			ulong Calculate(string path, CancellationToken cancellationToken, int level = 0)
 			{
 				if (string.IsNullOrEmpty(path))
 				{
@@ -68,13 +68,12 @@ namespace Files.App.Services.SizeProvider
 						else if (findData.cFileName is not "." and not "..")
 						{
 							localPath = Path.Combine(path, findData.cFileName);
-							localSize = await Calculate(localPath, level + 1);
+							localSize = Calculate(localPath, cancellationToken, level + 1);
 							size += localSize;
 						}
 
 						if (level <= 3)
 						{
-							await Task.Yield();
 							sizes[localPath] = localSize;
 						}
 						if (level is 0 && stopwatch.ElapsedMilliseconds > 500)
