@@ -13,15 +13,9 @@ namespace Files.App.Views.Properties
 {
 	public sealed partial class GeneralPage : BasePropertiesPage
 	{
-		private readonly DispatcherQueueTimer _updateDateDisplayTimer;
 		public GeneralPage()
 		{
 			InitializeComponent();
-
-			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
-			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
-			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
-			_updateDateDisplayTimer.Start();
 		}
 
 		private void ItemFileName_GettingFocus(UIElement _, GettingFocusEventArgs e)
@@ -40,17 +34,6 @@ namespace Files.App.Views.Properties
 			var match = RegexHelpers.DriveLetter().Match(ViewModel.OriginalItemName);
 			if (match.Success)
 				ItemFileName.Text += match.Value;
-		}
-
-		private void UpdateDateDisplayTimer_Tick(object sender, object e)
-		{
-			if (App.AppModel.PropertiesWindowCount == 0)
-				return;
-
-			// Reassign values to update date display
-			ViewModel.ItemCreatedTimestampReal = ViewModel.ItemCreatedTimestampReal;
-			ViewModel.ItemModifiedTimestampReal = ViewModel.ItemModifiedTimestampReal;
-			ViewModel.ItemAccessedTimestampReal = ViewModel.ItemAccessedTimestampReal;
 		}
 
 		public override async Task<bool> SaveChangesAsync()
@@ -194,7 +177,6 @@ namespace Files.App.Views.Properties
 
 		public override void Dispose()
 		{
-			_updateDateDisplayTimer.Stop();
 		}
 	}
 }

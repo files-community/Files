@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Data.Items;
 using Files.App.ViewModels.Properties;
 using Files.Shared.Helpers;
 using FluentFTP;
@@ -287,15 +288,45 @@ namespace Files.App.Utils
 
 		public string ItemDateAccessed { get; private set; }
 
+		/// <summary>
+		/// Updates the formatted date modified string and triggers property change notification.
+		/// </summary>
+		public void UpdateDateModified()
+		{
+			ItemDateModified = dateTimeFormatter.ToShortLabel(itemDateModifiedReal);
+			OnPropertyChanged(nameof(ItemDateModified));
+		}
+
+		/// <summary>
+		/// Updates the formatted date created string and triggers property change notification.
+		/// </summary>
+		public void UpdateDateCreated()
+		{
+			ItemDateCreated = dateTimeFormatter.ToShortLabel(itemDateCreatedReal);
+			OnPropertyChanged(nameof(ItemDateCreated));
+		}
+
+		/// <summary>
+		/// Updates the formatted date accessed string and triggers property change notification.
+		/// </summary>
+		public void UpdateDateAccessed()
+		{
+			ItemDateAccessed = dateTimeFormatter.ToShortLabel(itemDateAccessedReal);
+			OnPropertyChanged(nameof(ItemDateAccessed));
+		}
+
 		private DateTimeOffset itemDateModifiedReal;
 		public DateTimeOffset ItemDateModifiedReal
 		{
 			get => itemDateModifiedReal;
 			set
 			{
-				ItemDateModified = dateTimeFormatter.ToShortLabel(value);
-				itemDateModifiedReal = value;
-				OnPropertyChanged(nameof(ItemDateModified));
+				if (value != itemDateModifiedReal)
+				{
+					itemDateModifiedReal = value;
+					FileProperties.TryAdd(this);
+					UpdateDateModified();
+				}
 			}
 		}
 
@@ -305,9 +336,12 @@ namespace Files.App.Utils
 			get => itemDateCreatedReal;
 			set
 			{
-				ItemDateCreated = dateTimeFormatter.ToShortLabel(value);
-				itemDateCreatedReal = value;
-				OnPropertyChanged(nameof(ItemDateCreated));
+				if (value != itemDateCreatedReal)
+				{
+					itemDateCreatedReal = value;
+					FileProperties.TryAdd(this);
+					UpdateDateCreated();
+				}
 			}
 		}
 
@@ -317,9 +351,12 @@ namespace Files.App.Utils
 			get => itemDateAccessedReal;
 			set
 			{
-				ItemDateAccessed = dateTimeFormatter.ToShortLabel(value);
-				itemDateAccessedReal = value;
-				OnPropertyChanged(nameof(ItemDateAccessed));
+				if (value != itemDateAccessedReal)
+				{
+					itemDateAccessedReal = value;
+					FileProperties.TryAdd(this);
+					UpdateDateAccessed();
+				}
 			}
 		}
 

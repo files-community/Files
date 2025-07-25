@@ -17,7 +17,6 @@ namespace Files.App.Views.Shells
 {
 	public abstract class BaseShellPage : Page, IShellPage, INotifyPropertyChanged
 	{
-		private readonly DispatcherQueueTimer _updateDateDisplayTimer;
 
 		private DateTimeFormats _lastDateTimeFormats;
 
@@ -194,11 +193,7 @@ namespace Files.App.Views.Shells
 
 			GitHelpers.GitFetchCompleted += FilesystemViewModel_GitDirectoryUpdated;
 
-			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
-			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
-			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
 			_lastDateTimeFormats = userSettingsService.GeneralSettingsService.DateTimeFormat;
-			_updateDateDisplayTimer.Start();
 		}
 
 		protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -746,22 +741,6 @@ namespace Files.App.Views.Shells
 
 		public abstract void NavigateToPath(string? navigationPath, Type? sourcePageType, NavigationArguments? navArgs = null);
 
-		private void UpdateDateDisplayTimer_Tick(object sender, object e)
-		{
-			if (App.AppModel.IsMainWindowClosed)
-				return;
-
-			if (userSettingsService.GeneralSettingsService.DateTimeFormat != _lastDateTimeFormats)
-			{
-				_lastDateTimeFormats = userSettingsService.GeneralSettingsService.DateTimeFormat;
-				ShellViewModel?.UpdateDateDisplay(true);
-			}
-			else if (userSettingsService.GeneralSettingsService.DateTimeFormat == DateTimeFormats.Application)
-			{
-				ShellViewModel?.UpdateDateDisplay(false);
-			}
-		}
-
 		public virtual void Dispose()
 		{
 			PreviewKeyDown -= ShellPage_PreviewKeyDown;
@@ -795,8 +774,6 @@ namespace Files.App.Views.Shells
 				disposableContent?.Dispose();
 
 			GitHelpers.GitFetchCompleted -= FilesystemViewModel_GitDirectoryUpdated;
-
-			_updateDateDisplayTimer.Stop();
 		}
 	}
 }

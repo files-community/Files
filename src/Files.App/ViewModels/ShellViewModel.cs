@@ -707,6 +707,12 @@ namespace Files.App.ViewModels
 				case nameof(UserSettingsService.GeneralSettingsService.ShowFilterHeader):
 					OnPropertyChanged(nameof(ShowFilterHeader));
 					break;
+				case nameof(UserSettingsService.GeneralSettingsService.DateTimeFormat):
+					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+					{
+						UpdateDateDisplay(true);
+					});
+					break;
 			}
 		}
 
@@ -2720,20 +2726,16 @@ namespace Files.App.ViewModels
 
 		public void UpdateDateDisplay(bool isFormatChange)
 		{
-			filesAndFolders.ToList().AsParallel().ForAll(async item =>
+			if (!isFormatChange)
+				return;
+
+			var items = filesAndFolders.ToList();
+			foreach (var item in items)
 			{
-				// Reassign values to update date display
-				if (isFormatChange || IsDateDiff(item.ItemDateAccessedReal))
-					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateAccessedReal = item.ItemDateAccessedReal);
-				if (isFormatChange || IsDateDiff(item.ItemDateCreatedReal))
-					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateCreatedReal = item.ItemDateCreatedReal);
-				if (isFormatChange || IsDateDiff(item.ItemDateModifiedReal))
-					await dispatcherQueue.EnqueueOrInvokeAsync(() => item.ItemDateModifiedReal = item.ItemDateModifiedReal);
-				if (item is RecycleBinItem recycleBinItem && (isFormatChange || IsDateDiff(recycleBinItem.ItemDateDeletedReal)))
-					await dispatcherQueue.EnqueueOrInvokeAsync(() => recycleBinItem.ItemDateDeletedReal = recycleBinItem.ItemDateDeletedReal);
-				if (item is IGitItem gitItem && gitItem.GitLastCommitDate is DateTimeOffset offset && (isFormatChange || IsDateDiff(offset)))
-					await dispatcherQueue.EnqueueOrInvokeAsync(() => gitItem.GitLastCommitDate = gitItem.GitLastCommitDate);
-			});
+				item.UpdateDateModified();
+				item.UpdateDateCreated();
+				item.UpdateDateAccessed();
+			}
 		}
 
 		private static bool IsDateDiff(DateTimeOffset offset) => (DateTimeOffset.Now - offset).TotalDays < 7;

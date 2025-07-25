@@ -30,8 +30,6 @@ namespace Files.App.Views
 
 		private bool keyReleased = true;
 
-		private DispatcherQueueTimer _updateDateDisplayTimer;
-
 		public MainPage()
 		{
 			InitializeComponent();
@@ -50,10 +48,6 @@ namespace Files.App.Views
 
 			ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-
-			_updateDateDisplayTimer = DispatcherQueue.CreateTimer();
-			_updateDateDisplayTimer.Interval = TimeSpan.FromSeconds(1);
-			_updateDateDisplayTimer.Tick += UpdateDateDisplayTimer_Tick;
 
 			ApplySidebarWidthState();
 		}
@@ -285,18 +279,10 @@ namespace Files.App.Views
 
 		private void PreviewPane_Loaded(object sender, RoutedEventArgs e)
 		{
-			_updateDateDisplayTimer.Start();
 		}
 
 		private void PreviewPane_Unloaded(object sender, RoutedEventArgs e)
 		{
-			_updateDateDisplayTimer.Stop();
-		}
-
-		private void UpdateDateDisplayTimer_Tick(object sender, object e)
-		{
-			if (!App.AppModel.IsMainWindowClosed)
-				InfoPane?.ViewModel.UpdateDateDisplay();
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
