@@ -60,6 +60,11 @@ namespace Files.App.Utils.Storage
 				return (false, 0, 0);
 			}
 
+			if (syncRootInfo is null)
+			{
+				return (false, 0, 0);
+			}
+
 			return GetSyncRootQuotaFromSyncRootId(syncRootInfo.Id);
 		}
 	}
