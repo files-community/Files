@@ -172,14 +172,11 @@ namespace Files.App.Helpers
 
 				if (imageSource is null)
 				{
-					var result = await FileThumbnailHelper.GetIconAsync(
+					imageSource = await FileThumbnailHelper.GetIconAsync(
 						path,
 						Constants.ShellIconSizes.Small,
 						true,
 						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
-
-					if (result is not null)
-						imageSource = await result.ToBitmapAsync();
 				}
 			}
 
@@ -260,14 +257,11 @@ namespace Files.App.Helpers
 
 			if (iconSource.ImageSource is null)
 			{
-				var result = await FileThumbnailHelper.GetIconAsync(
+				iconSource.ImageSource = await FileThumbnailHelper.GetIconAsync(
 					currentPath,
 					Constants.ShellIconSizes.Small,
 					true,
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
-
-				if (result is not null)
-					iconSource.ImageSource = await result.ToBitmapAsync();
 			}
 
 			return (tabLocationHeader, iconSource, toolTipText);
