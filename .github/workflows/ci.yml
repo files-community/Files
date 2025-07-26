@@ -264,6 +264,8 @@ jobs:
 
     - name: Checkout the repository
       uses: actions/checkout@v4
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
