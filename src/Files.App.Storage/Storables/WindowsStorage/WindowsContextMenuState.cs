@@ -3,9 +3,9 @@
 
 namespace Files.App.Storage
 {
-	public enum ContextMenuType
+	public enum WindowsContextMenuState : uint
 	{
-		Normal = 0x00000000,
+		Enabled = 0x00000000,
 
 		Disabled = 0x00000003,
 

@@ -3,6 +3,7 @@
 
 using System;
 using System.Runtime.CompilerServices;
+using Windows.Win32.System.Com;
 
 namespace Windows.Win32
 {
@@ -19,6 +20,15 @@ namespace Windows.Win32
 		public ComHeapPtr(T* ptr)
 		{
 			_ptr = ptr;
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public void Attach(T* other)
+		{
+			if (_ptr is not null)
+				((IUnknown*)_ptr)->Release();
+
+			_ptr = other;
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
