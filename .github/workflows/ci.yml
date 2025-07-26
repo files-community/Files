@@ -37,7 +37,7 @@ env:
   TESTS_ASSEMBLY_DIR: '${{ github.workspace }}\artifacts\TestsAssembly'
   AXE_TESTS_PROJECT_DIR: '${{ github.workspace }}\tests\Files.InteractionTests'
   AXE_TESTS_PROJECT_PATH: '${{ github.workspace }}\tests\Files.InteractionTests\Files.InteractionTests.csproj'
-  UNIT_TESTS_PROJECT_PATH: '${{ github.workspace }}\tests\Files.UnitTests\Files.UnitTests.csproj'
+  UNIT_TESTS_PROJECT_PATH: '${{ github.workspace }}\tests\Files.App.UnitTests\Files.App.UnitTests.csproj'
   ARTIFACTS_STAGING_DIR:  '${{ github.workspace }}\artifacts'
   APPX_PACKAGE_DIR: '${{ github.workspace }}\artifacts\AppxPackages'
   APPX_SELFSIGNED_CERT_PATH: '${{ github.workspace }}\.github\workflows\FilesApp_SelfSigned.pfx'
