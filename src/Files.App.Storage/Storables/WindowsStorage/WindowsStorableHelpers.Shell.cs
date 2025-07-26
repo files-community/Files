@@ -6,7 +6,10 @@ using System.Runtime.InteropServices;
 using System.Text;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.Graphics.Gdi;
+using Windows.Win32.Graphics.GdiPlus;
 using Windows.Win32.System.Com;
+using Windows.Win32.System.Registry;
 using Windows.Win32.System.SystemServices;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.Shell.Common;
@@ -201,7 +204,7 @@ namespace Files.App.Storage
 			return HRESULT.S_OK;
 		}
 
-		public static IEnumerable<ContextMenuItem> GetShellNewItems(this IWindowsFolder @this)
+		public static IEnumerable<WindowsContextMenuItem> GetShellNewItems(this IWindowsFolder @this)
 		{
 			HRESULT hr = default;
 
@@ -249,23 +252,18 @@ namespace Files.App.Storage
 				return [];
 
 			// Enumerates and populates the list
-			List<ContextMenuItem> shellNewItems = [];
+			List<WindowsContextMenuItem> shellNewItems = [];
 			for (uint dwIndex = 0; dwIndex < dwCount; dwIndex++)
 			{
 				MENUITEMINFOW mii = default;
 				mii.cbSize = (uint)sizeof(MENUITEMINFOW);
-				mii.fMask = MENU_ITEM_MASK.MIIM_STRING | MENU_ITEM_MASK.MIIM_ID | MENU_ITEM_MASK.MIIM_STATE;
+				mii.fMask = MENU_ITEM_MASK.MIIM_STRING | MENU_ITEM_MASK.MIIM_ID | MENU_ITEM_MASK.MIIM_STATE | MENU_ITEM_MASK.MIIM_TYPE;
 				mii.dwTypeData = (char*)NativeMemory.Alloc(256U);
 				mii.cch = 256;
 
 				if (PInvoke.GetMenuItemInfo(hSubMenu, dwIndex, true, &mii))
 				{
-					shellNewItems.Add(new()
-					{
-						Id = mii.wID,
-						Name = mii.dwTypeData.ToString(),
-						Type = (ContextMenuType)mii.fState,
-					});
+					shellNewItems.Add(new(mii.wID, new(mii.dwTypeData), null, (WindowsContextMenuType)mii.fType, (WindowsContextMenuState)mii.fState));
 				}
 
 				NativeMemory.Free(mii.dwTypeData);
@@ -274,7 +272,7 @@ namespace Files.App.Storage
 			return shellNewItems;
 		}
 
-		public static bool InvokeShellNewItem(this IWindowsFolder @this, ContextMenuItem item)
+		public static bool InvokeShellNewItem(this IWindowsFolder @this, WindowsContextMenuItem item)
 		{
 			HRESULT hr = default;
 
@@ -299,6 +297,74 @@ namespace Files.App.Storage
 				return false;
 
 			return false;
+		}
+
+		public static IEnumerable<WindowsContextMenuItem> GetOpenWithMenuItems(this IWindowsFile @this)
+		{
+			HRESULT hr = default;
+
+			using ComPtr<IContextMenu> pOpenWithContextMenu = default;
+			using ComPtr<IContextMenu2> pOpenWithContextMenu2 = default;
+			using ComPtr<IShellExtInit> pShellExtInit = default;
+			using ComPtr<IShellItem> pParentFolderShellItem = default;
+			using ComPtr<IDataObject> pDataObject = default;
+			using ComHeapPtr<ITEMIDLIST> pParentAbsolutePidl = default;
+			using ComHeapPtr<ITEMIDLIST> pThisAbsolutePidl = default;
+			ComHeapPtr<ITEMIDLIST> pThisRelativePidl = default;
+
+			PInvoke.CoCreateInstance(CLSID.CLSID_OpenWithMenu, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IContextMenu, (void**)pOpenWithContextMenu.GetAddressOf());
+			hr = pOpenWithContextMenu.Get()->QueryInterface(IID.IID_IShellExtInit, (void**)pShellExtInit.GetAddressOf());
+			hr = pOpenWithContextMenu.Get()->QueryInterface(IID.IID_IContextMenu2, (void**)pOpenWithContextMenu2.GetAddressOf());
+
+			// Get the absolute PIDL of the parent folder
+			@this.ThisPtr->GetParent(pParentFolderShellItem.GetAddressOf());
+			PInvoke.SHGetIDListFromObject((IUnknown*)pParentFolderShellItem.Get(), pParentAbsolutePidl.GetAddressOf());
+
+			// Get the relative PIDL of the current item
+			PInvoke.SHGetIDListFromObject((IUnknown*)@this.ThisPtr, pThisAbsolutePidl.GetAddressOf());
+			pThisRelativePidl.Attach(PInvoke.ILFindLastID(pThisAbsolutePidl.Get()));
+
+			hr = PInvoke.SHCreateDataObject(pParentAbsolutePidl.Get(), 1U, pThisRelativePidl.GetAddressOf(), null, IID.IID_IDataObject, (void**)pDataObject.GetAddressOf());
+
+			// The 2nd parameter must not be null, others aren't used.
+			hr = pShellExtInit.Get()->Initialize(null, pDataObject.Get(), HKEY.Null);
+
+			// Inserts "New (&W)"
+			HMENU hMenu = PInvoke.CreatePopupMenu();
+			hr = pOpenWithContextMenu.Get()->QueryContextMenu(hMenu, 0, 1, 256, 0);
+
+			// Invokes CNewMenu::_InitMenuPopup(), which populates the hSubMenu
+			HMENU hSubMenu = PInvoke.GetSubMenu(hMenu, 0);
+			hr = pOpenWithContextMenu2.Get()->HandleMenuMsg(PInvoke.WM_INITMENUPOPUP, (WPARAM)(nuint)hSubMenu.Value, 0);
+
+			uint dwCount = unchecked((uint)PInvoke.GetMenuItemCount(hSubMenu));
+			if (dwCount is unchecked((uint)-1)) return [];
+
+			List<WindowsContextMenuItem> items = [];
+
+			// Enumerates and populates the list
+			for (uint dwIndex = 0U; dwIndex < dwCount; dwIndex++)
+			{
+				MENUITEMINFOW mii = default;
+				mii.cbSize = (uint)sizeof(MENUITEMINFOW);
+				mii.fMask = MENU_ITEM_MASK.MIIM_STRING | MENU_ITEM_MASK.MIIM_ID | MENU_ITEM_MASK.MIIM_STATE | MENU_ITEM_MASK.MIIM_FTYPE;
+				mii.dwTypeData = (char*)NativeMemory.Alloc(256U);
+				mii.cch = 256U;
+
+				if (PInvoke.GetMenuItemInfo(hSubMenu, dwIndex, true, &mii))
+				{
+					byte[]? rawImageData = null;
+					GpBitmap* gpBitmap = ConvertHBITMAPToGpBitmap(mii.hbmpItem);
+					if (gpBitmap is not null)
+						rawImageData = ConvertGpBitmapToByteArray(gpBitmap);
+
+					items.Add(new(mii.wID, new(mii.dwTypeData), rawImageData, (WindowsContextMenuType)mii.fType, (WindowsContextMenuState)mii.fState));
+				}
+
+				NativeMemory.Free(mii.dwTypeData);
+			}
+
+			return items;
 		}
 	}
 }

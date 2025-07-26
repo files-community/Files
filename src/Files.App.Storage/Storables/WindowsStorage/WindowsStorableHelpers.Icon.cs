@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -44,168 +45,145 @@ namespace Files.App.Storage
 		{
 			thumbnailData = null;
 
-			using ComPtr<IShellItemImageFactory> pShellItemImageFactory = default;
-			storable.ThisPtr->QueryInterface(IID.IID_IShellItemImageFactory, (void**)pShellItemImageFactory.GetAddressOf());
-			if (pShellItemImageFactory.IsNull)
-				return HRESULT.E_NOINTERFACE;
-
-			// Get HBITMAP
 			HBITMAP hBitmap = default;
-			HRESULT hr = pShellItemImageFactory.Get()->GetImage(new(size, size), options, &hBitmap);
-			if (hr.ThrowIfFailedOnDebug().Failed)
+			GpBitmap* gpBitmap = null;
+
+			try
 			{
+				using ComPtr<IShellItemImageFactory> pShellItemImageFactory = default;
+				storable.ThisPtr->QueryInterface(IID.IID_IShellItemImageFactory, (void**)pShellItemImageFactory.GetAddressOf());
+				if (pShellItemImageFactory.IsNull)
+					return HRESULT.E_NOINTERFACE;
+
+				HRESULT hr = pShellItemImageFactory.Get()->GetImage(new(size, size), options, &hBitmap);
+				if (hr.ThrowIfFailedOnDebug().Failed) return hr;
+
+				gpBitmap = ConvertHBITMAPToGpBitmap(hBitmap);
+				if (gpBitmap is null) return HRESULT.E_FAIL;
+
+				return (thumbnailData = ConvertGpBitmapToByteArray(gpBitmap)) is null ? HRESULT.E_FAIL : HRESULT.S_OK;
+			}
+			finally
+			{
+				if (gpBitmap is not null) PInvoke.GdipDisposeImage((GpImage*)gpBitmap);
 				if (!hBitmap.IsNull) PInvoke.DeleteObject(hBitmap);
-				return hr;
 			}
-
-			// Retrieve BITMAP data
-			BITMAP bmp = default;
-			if (PInvoke.GetObject(hBitmap, sizeof(BITMAP), &bmp) is 0)
-			{
-				if (!hBitmap.IsNull) PInvoke.DeleteObject(hBitmap);
-				return HRESULT.E_FAIL;
-			}
-
-			// Allocate buffer for flipped pixel data
-			byte* flippedBits = (byte*)NativeMemory.AllocZeroed((nuint)(bmp.bmWidthBytes * bmp.bmHeight));
-
-			// Flip the image manually row by row
-			for (int y = 0; y < bmp.bmHeight; y++)
-			{
-				Buffer.MemoryCopy(
-					(byte*)bmp.bmBits + y * bmp.bmWidthBytes,
-					flippedBits + (bmp.bmHeight - y - 1) * bmp.bmWidthBytes,
-					bmp.bmWidthBytes,
-					bmp.bmWidthBytes
-				);
-			}
-
-			// Create GpBitmap from the flipped pixel data
-			GpBitmap* gpBitmap = default;
-			if (PInvoke.GdipCreateBitmapFromScan0(bmp.bmWidth, bmp.bmHeight, bmp.bmWidthBytes, PInvoke.PixelFormat32bppARGB, flippedBits, &gpBitmap) != Status.Ok)
-			{
-				if (flippedBits is not null) NativeMemory.Free(flippedBits);
-				if (!hBitmap.IsNull) PInvoke.DeleteObject(hBitmap);
-				return HRESULT.E_FAIL;
-			}
-
-			if (!TryConvertGpBitmapToByteArray(gpBitmap, out thumbnailData))
-			{
-				if (!hBitmap.IsNull) PInvoke.DeleteObject(hBitmap);
-				return HRESULT.E_FAIL;
-			}
-
-			if (flippedBits is not null) NativeMemory.Free(flippedBits);
-			if (!hBitmap.IsNull) PInvoke.DeleteObject(hBitmap);
-
-			return HRESULT.S_OK;
 		}
 
 		public unsafe static HRESULT TryExtractImageFromDll(this IWindowsStorable storable, int size, int index, out byte[]? imageData)
 		{
 			DllIconCache ??= [];
 			imageData = null;
+			HICON hIcon = default;
+			GpBitmap* gpBitmap = default;
 
 			if (storable.ToString() is not { } path)
 				return HRESULT.E_INVALIDARG;
 
-			if (DllIconCache.TryGetValue((path, index, size), out var cachedImageData))
+			try
 			{
-				imageData = cachedImageData;
-				return HRESULT.S_OK;
+				if (DllIconCache.TryGetValue((path, index, size), out var cachedImageData))
+				{
+					imageData = cachedImageData;
+					return HRESULT.S_OK;
+				}
+				else
+				{
+					HRESULT hr = default;
+
+					fixed (char* pszPath = path)
+						hr = PInvoke.SHDefExtractIcon(pszPath, -1 * index, 0, &hIcon, null, (uint)size);
+					if (hr.ThrowIfFailedOnDebug().Failed) return hr;
+
+					// Convert to GpBitmap of GDI+
+					if (PInvoke.GdipCreateBitmapFromHICON(hIcon, &gpBitmap) is not Status.Ok) return HRESULT.E_FAIL;
+
+					imageData = ConvertGpBitmapToByteArray(gpBitmap);
+					if (imageData is null) return HRESULT.E_FAIL;
+
+					DllIconCache[(path, index, size)] = imageData;
+
+					return HRESULT.S_OK;
+				}
 			}
-			else
+			finally
 			{
-				HICON hIcon = default;
-				HRESULT hr = default;
-
-				fixed (char* pszPath = path)
-					hr = PInvoke.SHDefExtractIcon(pszPath, -1 * index, 0, &hIcon, null, (uint)size);
-
-				if (hr.ThrowIfFailedOnDebug().Failed)
-				{
-					if (!hIcon.IsNull) PInvoke.DestroyIcon(hIcon);
-					return hr;
-				}
-
-				// Convert to GpBitmap of GDI+
-				GpBitmap* gpBitmap = default;
-				if (PInvoke.GdipCreateBitmapFromHICON(hIcon, &gpBitmap) is not Status.Ok)
-				{
-					if (!hIcon.IsNull) PInvoke.DestroyIcon(hIcon);
-					return HRESULT.E_FAIL;
-				}
-
-				if (!TryConvertGpBitmapToByteArray(gpBitmap, out imageData) || imageData is null)
-				{
-					if (!hIcon.IsNull) PInvoke.DestroyIcon(hIcon);
-					return HRESULT.E_FAIL;
-				}
-
-				DllIconCache[(path, index, size)] = imageData;
 				if (!hIcon.IsNull) PInvoke.DestroyIcon(hIcon);
+			}
 
-				return HRESULT.S_OK;
+		}
+
+		public unsafe static GpBitmap* ConvertHBITMAPToGpBitmap(HBITMAP hBitmap)
+		{
+			BITMAP bmp = default;
+			byte* flippedBits = null;
+			GpBitmap* gpBitmap = null;
+
+			try
+			{
+				// Retrieve BITMAP data
+				if (PInvoke.GetObject(hBitmap, sizeof(BITMAP), &bmp) is 0) return null;
+
+				// Flip the image manually row by row
+				flippedBits = (byte*)NativeMemory.AllocZeroed((nuint)(bmp.bmWidthBytes * bmp.bmHeight));
+				for (int y = 0; y < bmp.bmHeight; y++)
+					Buffer.MemoryCopy((byte*)bmp.bmBits + y * bmp.bmWidthBytes, flippedBits + (bmp.bmHeight - y - 1) * bmp.bmWidthBytes, bmp.bmWidthBytes, bmp.bmWidthBytes);
+
+				// Create GpBitmap from the flipped pixel data
+				Status status = PInvoke.GdipCreateBitmapFromScan0(bmp.bmWidth, bmp.bmHeight, bmp.bmWidthBytes, PInvoke.PixelFormat32bppARGB, flippedBits, &gpBitmap);
+				if (status is not Status.Ok) return null;
+
+				return gpBitmap;
+			}
+			finally
+			{
+				if (flippedBits is not null) NativeMemory.Free(flippedBits);
 			}
 		}
 
-		public unsafe static bool TryConvertGpBitmapToByteArray(GpBitmap* gpBitmap, out byte[]? imageData)
+		public unsafe static byte[]? ConvertGpBitmapToByteArray(GpBitmap* gpBitmap)
 		{
-			imageData = null;
+			byte* pRawThumbnailData = null;
 
-			// Get an encoder for PNG
-			Guid format = Guid.Empty;
-			if (PInvoke.GdipGetImageRawFormat((GpImage*)gpBitmap, &format) is not Status.Ok)
+			try
 			{
-				if (gpBitmap is not null) PInvoke.GdipDisposeImage((GpImage*)gpBitmap);
-				return false;
-			}
+				// Get an encoder for PNG
+				Guid format = Guid.Empty;
+				Status status = PInvoke.GdipGetImageRawFormat((GpImage*)gpBitmap, &format);
+				if (status is not Status.Ok) return null;
 
-			Guid encoder = GetEncoderClsid(format);
-			if (format == PInvoke.ImageFormatJPEG || encoder == Guid.Empty)
+				Guid encoder = GetEncoderClsid(format);
+				if (format == PInvoke.ImageFormatJPEG || encoder == Guid.Empty)
+				{
+					// Default to PNG
+					format = PInvoke.ImageFormatPNG;
+					encoder = GetEncoderClsid(format);
+				}
+
+				using ComPtr<IStream> pStream = default;
+				HRESULT hr = PInvoke.CreateStreamOnHGlobal(HGLOBAL.Null, true, pStream.GetAddressOf());
+				if (hr.ThrowIfFailedOnDebug().Failed) return null;
+
+				status = PInvoke.GdipSaveImageToStream((GpImage*)gpBitmap, pStream.Get(), &encoder, (EncoderParameters*)null);
+				if (status is not Status.Ok) return null;
+
+				STATSTG stat = default;
+				hr = pStream.Get()->Stat(&stat, (uint)STATFLAG.STATFLAG_NONAME);
+				if (hr.ThrowIfFailedOnDebug().Failed) return null;
+
+				ulong statSize = stat.cbSize & 0xFFFFFFFF;
+				pRawThumbnailData = (byte*)NativeMemory.Alloc((nuint)statSize);
+
+				pStream.Get()->Seek(0L, (SystemIO.SeekOrigin)STREAM_SEEK.STREAM_SEEK_SET, null);
+				hr = pStream.Get()->Read(pRawThumbnailData, (uint)statSize);
+				if (hr.ThrowIfFailedOnDebug().Failed) return null;
+
+				return new ReadOnlySpan<byte>(pRawThumbnailData, (int)statSize / sizeof(byte)).ToArray();
+			}
+			finally
 			{
-				format = PInvoke.ImageFormatPNG;
-				encoder = GetEncoderClsid(format);
+				if (pRawThumbnailData is not null) NativeMemory.Free(pRawThumbnailData);
 			}
-
-			using ComPtr<IStream> pStream = default;
-			HRESULT hr = PInvoke.CreateStreamOnHGlobal(HGLOBAL.Null, true, pStream.GetAddressOf());
-			if (hr.ThrowIfFailedOnDebug().Failed)
-			{
-				if (gpBitmap is not null) PInvoke.GdipDisposeImage((GpImage*)gpBitmap);
-				return false;
-			}
-
-			if (PInvoke.GdipSaveImageToStream((GpImage*)gpBitmap, pStream.Get(), &encoder, (EncoderParameters*)null) is not Status.Ok)
-			{
-				if (gpBitmap is not null) PInvoke.GdipDisposeImage((GpImage*)gpBitmap);
-				return false;
-			}
-
-			STATSTG stat = default;
-			hr = pStream.Get()->Stat(&stat, (uint)STATFLAG.STATFLAG_NONAME);
-			if (hr.ThrowIfFailedOnDebug().Failed)
-			{
-				if (gpBitmap is not null) PInvoke.GdipDisposeImage((GpImage*)gpBitmap);
-				return false;
-			}
-
-			ulong statSize = stat.cbSize & 0xFFFFFFFF;
-			byte* RawThumbnailData = (byte*)NativeMemory.Alloc((nuint)statSize);
-
-			pStream.Get()->Seek(0L, (SystemIO.SeekOrigin)STREAM_SEEK.STREAM_SEEK_SET, null);
-			hr = pStream.Get()->Read(RawThumbnailData, (uint)statSize);
-			if (hr.ThrowIfFailedOnDebug().Failed)
-			{
-				if (gpBitmap is not null) PInvoke.GdipDisposeImage((GpImage*)gpBitmap);
-				if (RawThumbnailData is not null) NativeMemory.Free(RawThumbnailData);
-				return false;
-			}
-
-			imageData = new ReadOnlySpan<byte>(RawThumbnailData, (int)statSize / sizeof(byte)).ToArray();
-			NativeMemory.Free(RawThumbnailData);
-
-			return true;
 
 			Guid GetEncoderClsid(Guid format)
 			{

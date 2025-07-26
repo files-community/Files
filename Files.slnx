@@ -9,7 +9,7 @@
     <File Path="Directory.Packages.props" />
   </Folder>
   <Folder Name="/src/" />
-  <Folder Name="/src/core/" Id="8d626ea8-cb54-bc41-363a-217881beba6e">
+  <Folder Name="/src/core/">
     <Project Path="src/Files.Core.SourceGenerator/Files.Core.SourceGenerator.csproj" />
     <Project Path="src/Files.Core.Storage/Files.Core.Storage.csproj">
       <Platform Solution="*|arm64" Project="arm64" />
@@ -22,7 +22,7 @@
       <Platform Solution="*|x86" Project="x86" />
     </Project>
   </Folder>
-  <Folder Name="/src/platforms/" Id="82099983-647e-f067-e69a-cd800643a918">
+  <Folder Name="/src/platforms/">
     <Project Path="src/Files.App (Package)/Files.Package.wapproj" Type="c7167f0d-bc9f-4e6e-afe1-012c56b48db5">
       <Deploy />
     </Project>
@@ -77,6 +77,12 @@
   <Folder Name="/tests/">
     <Project Path="tests/Files.App.UITests/Files.App.UITests.csproj">
       <Platform Solution="*|arm64" Project="arm64" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|x86" Project="x86" />
+      <Deploy />
+    </Project>
+    <Project Path="tests/Files.App.UnitTests/Files.App.UnitTests.csproj">
+      <Platform Solution="*|arm64" Project="ARM64" />
       <Platform Solution="*|x64" Project="x64" />
       <Platform Solution="*|x86" Project="x86" />
       <Deploy />

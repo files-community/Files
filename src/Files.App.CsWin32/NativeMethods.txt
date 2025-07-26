@@ -236,3 +236,5 @@ GetMenuItemCount
 GetMenuItemInfo
 IsWow64Process2
 GetCurrentProcess
+ILFindLastID
+SHCreateDataObject
