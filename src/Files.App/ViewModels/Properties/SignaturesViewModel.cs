@@ -16,8 +16,7 @@ namespace Files.App.ViewModels.Properties
             _cancellationTokenSource = new();
             Signatures = new();
 
-            var signatures = DigitalSignaturesUtil.GetSignaturesOfItem(item.ItemPath);
-            signatures.ForEach(s => Signatures.Add(s));
+            DigitalSignaturesUtil.LoadItemSignatures(item.ItemPath, Signatures);
         }
 
         public void Dispose()

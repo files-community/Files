@@ -60,12 +60,15 @@ namespace Files.App.Data.Models
             }
         }
 
+        public List<CertNodeInfoItem> SignChain { get; }
+
         public string Glyph => Verified ? "\uE930" : "\uEA39";
 
         public ICommand OpenDetailsCommand { get; }
 
-        public SignatureInfoItem()
+        public SignatureInfoItem(List<CertNodeInfoItem> chain)
         {
+            SignChain = chain ?? new List<CertNodeInfoItem>();
             OpenDetailsCommand = new AsyncRelayCommand(DoOpenDetails);
         }
 

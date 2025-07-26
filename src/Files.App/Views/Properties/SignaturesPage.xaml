@@ -26,15 +26,17 @@
         </ResourceDictionary>
     </vm:BasePropertiesPage.Resources>
 
-    <Grid x:Name="RootGrid" Padding="12,6">
+    <ScrollViewer>
+        
+        <Grid x:Name="RootGrid" Padding="12,6">
 
-        <!--  Signatures ItemsRepeater  -->
-        <ItemsRepeater x:Name="HashesListView" ItemsSource="{x:Bind SignaturesViewModel.Signatures, Mode=TwoWay}">
+            <!--  Signatures ItemsRepeater  -->
+            <ItemsRepeater x:Name="HashesListView" ItemsSource="{x:Bind SignaturesViewModel.Signatures, Mode=TwoWay}">
 
-            <!--  Template  -->
-            <ItemsRepeater.ItemTemplate>
-                <DataTemplate x:DataType="datamodels:SignatureInfoItem">
-                    <Expander
+                <!--  Template  -->
+                <ItemsRepeater.ItemTemplate>
+                    <DataTemplate x:DataType="datamodels:SignatureInfoItem">
+                        <Expander
 						x:Name="ItemDetails"
 						Margin="0,6"
 						HorizontalAlignment="Stretch"
@@ -45,74 +47,74 @@
 						BorderThickness="1"
 						CornerRadius="4"
 						IsExpanded="True">
-                        <Expander.Header>
-                            <Grid Padding="0,8" ColumnSpacing="12">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                            <Expander.Header>
+                                <Grid Padding="0,8" ColumnSpacing="12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
 
-                                <!--  Signature verified badge  -->
-                                <Border x:Name="SignatureVerifiedBadge" Grid.RowSpan="2">
-                                    <FontIcon
+                                    <!--  Signature verified badge  -->
+                                    <Border x:Name="SignatureVerifiedBadge" Grid.RowSpan="2">
+                                        <FontIcon
 										FontSize="24"
 										Foreground="{x:Bind Verified, Converter={StaticResource BoolToBrushConverter}, Mode=OneWay}"
 										Glyph="{x:Bind Glyph, Mode=OneWay}" />
-                                </Border>
+                                    </Border>
 
-                                <!--  Issuer  -->
-                                <TextBlock Grid.Column="1" Text="{x:Bind IssuedTo, Mode=OneWay}" />
+                                    <!--  Issuer  -->
+                                    <TextBlock Grid.Column="1" Text="{x:Bind IssuedTo, Mode=OneWay}" />
 
-                                <!--  Current date  -->
-                                <TextBlock
+                                    <!--  Current date  -->
+                                    <TextBlock
 									Grid.Row="1"
 									Grid.Column="1"
 									FontSize="12"
 									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
 									Text="{x:Bind VerifiedTimestamp, Mode=OneWay}" />
 
-                                <!--  TODO: Show certificate details  -->
-                                <Button
+                                    <!--  TODO: Show certificate details  -->
+                                    <Button
 									Grid.RowSpan="2"
 									Grid.Column="2"
 									Command="{x:Bind OpenDetailsCommand, Mode=OneWay}"
 									Content="{helpers:ResourceString Name=Details}" />
-                            </Grid>
-                        </Expander.Header>
-                        <Expander.Content>
-                            <Grid
+                                </Grid>
+                            </Expander.Header>
+                            <Expander.Content>
+                                <Grid
 								HorizontalAlignment="Stretch"
 								ColumnSpacing="8"
 								RowSpacing="8">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition
 										Width="Auto"
 										MinWidth="100"
 										MaxWidth="140" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
 
-                                <!--  Version  -->
-                                <TextBlock
+                                    <!--  Version  -->
+                                    <TextBlock
 									Grid.Row="0"
 									Grid.Column="0"
 									HorizontalAlignment="Left"
 									Style="{StaticResource PropertyName}"
 									Text="{helpers:ResourceString Name=SettingsAboutVersionTitle}" />
 
-                                <TextBlock
+                                    <TextBlock
 									x:Name="DigitalSignatureVersionValue"
 									Grid.Row="0"
 									Grid.Column="1"
@@ -120,15 +122,15 @@
 									Text="{x:Bind Version, Mode=OneWay}"
 									TextWrapping="Wrap" />
 
-                                <!--  Issued by  -->
-                                <TextBlock
+                                    <!--  Issued by  -->
+                                    <TextBlock
 									Grid.Row="1"
 									Grid.Column="0"
 									HorizontalAlignment="Left"
 									Style="{StaticResource PropertyName}"
 									Text="{helpers:ResourceString Name=IssuedBy}" />
 
-                                <TextBlock
+                                    <TextBlock
 									x:Name="DigitalSignatureIssuedByValue"
 									Grid.Row="1"
 									Grid.Column="1"
@@ -136,15 +138,15 @@
 									Text="{x:Bind IssuedBy, Mode=OneWay}"
 									TextWrapping="Wrap" />
 
-                                <!--  Issued to  -->
-                                <TextBlock
+                                    <!--  Issued to  -->
+                                    <TextBlock
 									Grid.Row="2"
 									Grid.Column="0"
 									HorizontalAlignment="Left"
 									Style="{StaticResource PropertyName}"
 									Text="{helpers:ResourceString Name=IssuedTo}" />
 
-                                <TextBlock
+                                    <TextBlock
 									x:Name="DigitalSignatureIssuedToValue"
 									Grid.Row="2"
 									Grid.Column="1"
@@ -152,15 +154,15 @@
 									Text="{x:Bind IssuedTo, Mode=OneWay}"
 									TextWrapping="Wrap" />
 
-                                <!--  Valid from  -->
-                                <TextBlock
+                                    <!--  Valid from  -->
+                                    <TextBlock
 									Grid.Row="3"
 									Grid.Column="0"
 									HorizontalAlignment="Left"
 									Style="{StaticResource PropertyName}"
 									Text="{helpers:ResourceString Name=ValidFrom}" />
 
-                                <TextBlock
+                                    <TextBlock
 									x:Name="DigitalSignatureValidFromValue"
 									Grid.Row="3"
 									Grid.Column="1"
@@ -168,26 +170,27 @@
 									Text="{x:Bind ValidFromTimestamp, Mode=OneWay}"
 									TextWrapping="Wrap" />
 
-                                <!--  Valid to  -->
-                                <TextBlock
+                                    <!--  Valid to  -->
+                                    <TextBlock
 									Grid.Row="4"
 									Grid.Column="0"
 									HorizontalAlignment="Left"
 									Style="{StaticResource PropertyName}"
 									Text="{helpers:ResourceString Name=ValidTo}" />
 
-                                <TextBlock
+                                    <TextBlock
 									x:Name="DigitalSignatureValidToValue"
 									Grid.Row="4"
 									Grid.Column="1"
 									Style="{StaticResource PropertyValueTextBlock}"
 									Text="{x:Bind ValidToTimestamp, Mode=OneWay}"
 									TextWrapping="Wrap" />
-                            </Grid>
-                        </Expander.Content>
-                    </Expander>
-                </DataTemplate>
-            </ItemsRepeater.ItemTemplate>
-        </ItemsRepeater>
-    </Grid>
+                                </Grid>
+                            </Expander.Content>
+                        </Expander>
+                    </DataTemplate>
+                </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+        </Grid>
+    </ScrollViewer>
 </vm:BasePropertiesPage>
