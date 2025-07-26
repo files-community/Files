@@ -204,72 +204,69 @@ namespace Files.App.Storage
 			return HRESULT.S_OK;
 		}
 
-		public static IEnumerable<WindowsContextMenuItem> GetShellNewItems(this IWindowsFolder @this)
+		public static IEnumerable<WindowsContextMenuItem>? GetShellNewMenuItems(this IWindowsFolder @this)
 		{
 			HRESULT hr = default;
 
 			IContextMenu* pNewMenu = default;
 			using ComPtr<IShellExtInit> pShellExtInit = default;
 			using ComPtr<IContextMenu2> pContextMenu2 = default;
+			using ComHeapPtr<ITEMIDLIST> pShellFolderPidl = default;
 
 			hr = PInvoke.CoCreateInstance(CLSID.CLSID_NewMenu, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IContextMenu, (void**)&pNewMenu);
-			if (hr.ThrowIfFailedOnDebug().Failed)
-				return [];
+			if (hr.ThrowIfFailedOnDebug().Failed) return null;
 
 			hr = pNewMenu->QueryInterface(IID.IID_IContextMenu2, (void**)pContextMenu2.GetAddressOf());
-			if (hr.ThrowIfFailedOnDebug().Failed)
-				return [];
+			if (hr.ThrowIfFailedOnDebug().Failed) return null;
 
 			hr = pNewMenu->QueryInterface(IID.IID_IShellExtInit, (void**)pShellExtInit.GetAddressOf());
-			if (hr.ThrowIfFailedOnDebug().Failed)
-				return [];
+			if (hr.ThrowIfFailedOnDebug().Failed) return null;
 
 			@this.ShellNewMenu = pNewMenu;
 
-			ITEMIDLIST* pFolderPidl = default;
-			hr = PInvoke.SHGetIDListFromObject((IUnknown*)@this.ThisPtr, &pFolderPidl);
-			if (hr.ThrowIfFailedOnDebug().Failed)
-				return [];
+			hr = PInvoke.SHGetIDListFromObject((IUnknown*)@this.ThisPtr, pShellFolderPidl.GetAddressOf());
+			if (hr.ThrowIfFailedOnDebug().Failed) return null;
 
-			hr = pShellExtInit.Get()->Initialize(pFolderPidl, null, default);
-			if (hr.ThrowIfFailedOnDebug().Failed)
-				return [];
+			hr = pShellExtInit.Get()->Initialize(pShellFolderPidl.Get(), null, default);
+			if (hr.ThrowIfFailedOnDebug().Failed) return null;
 
 			// Inserts "New (&W)"
 			HMENU hMenu = PInvoke.CreatePopupMenu();
 			hr = pNewMenu->QueryContextMenu(hMenu, 0, 1, 256, 0);
-			if (hr.ThrowIfFailedOnDebug().Failed)
-				return [];
+			if (hr.ThrowIfFailedOnDebug().Failed) return null;
 
-			// Invokes CNewMenu::_InitMenuPopup(), which populates the hSubMenu
+			// Populates the hSubMenu
 			HMENU hSubMenu = PInvoke.GetSubMenu(hMenu, 0);
 			hr = pContextMenu2.Get()->HandleMenuMsg(PInvoke.WM_INITMENUPOPUP, (WPARAM)(nuint)hSubMenu.Value, 0);
-			if (hr.ThrowIfFailedOnDebug().Failed)
-				return [];
+			if (hr.ThrowIfFailedOnDebug().Failed) return null;
 
 			uint dwCount = unchecked((uint)PInvoke.GetMenuItemCount(hSubMenu));
-			if (dwCount is unchecked((uint)-1))
-				return [];
+			if (dwCount is unchecked((uint)-1)) return null;
 
-			// Enumerates and populates the list
-			List<WindowsContextMenuItem> shellNewItems = [];
+			// Enumerates the menu items
+			List<WindowsContextMenuItem> items = [];
 			for (uint dwIndex = 0; dwIndex < dwCount; dwIndex++)
 			{
 				MENUITEMINFOW mii = default;
 				mii.cbSize = (uint)sizeof(MENUITEMINFOW);
-				mii.fMask = MENU_ITEM_MASK.MIIM_STRING | MENU_ITEM_MASK.MIIM_ID | MENU_ITEM_MASK.MIIM_STATE | MENU_ITEM_MASK.MIIM_TYPE;
+				mii.fMask = MENU_ITEM_MASK.MIIM_STRING | MENU_ITEM_MASK.MIIM_ID | MENU_ITEM_MASK.MIIM_STATE | MENU_ITEM_MASK.MIIM_FTYPE;
 				mii.dwTypeData = (char*)NativeMemory.Alloc(256U);
 				mii.cch = 256;
 
 				if (PInvoke.GetMenuItemInfo(hSubMenu, dwIndex, true, &mii))
 				{
-					shellNewItems.Add(new(mii.wID, new(mii.dwTypeData), null, (WindowsContextMenuType)mii.fType, (WindowsContextMenuState)mii.fState));
+					byte[]? rawImageData = null;
+					GpBitmap* gpBitmap = ConvertHBITMAPToGpBitmap(mii.hbmpItem);
+					if (gpBitmap is not null)
+						rawImageData = ConvertGpBitmapToByteArray(gpBitmap);
+
+					items.Add(new(mii.wID, new(mii.dwTypeData), rawImageData, (WindowsContextMenuType)mii.fType, (WindowsContextMenuState)mii.fState));
 				}
 
 				NativeMemory.Free(mii.dwTypeData);
 			}
 
-			return shellNewItems;
+			return items;
 		}
 
 		public static bool InvokeShellNewItem(this IWindowsFolder @this, WindowsContextMenuItem item)
@@ -299,7 +296,7 @@ namespace Files.App.Storage
 			return false;
 		}
 
-		public static IEnumerable<WindowsContextMenuItem> GetOpenWithMenuItems(this IWindowsFile @this)
+		public static IEnumerable<WindowsContextMenuItem>? GetOpenWithMenuItems(this IWindowsFile @this)
 		{
 			HRESULT hr = default;
 
@@ -312,37 +309,46 @@ namespace Files.App.Storage
 			using ComHeapPtr<ITEMIDLIST> pThisAbsolutePidl = default;
 			ComHeapPtr<ITEMIDLIST> pThisRelativePidl = default;
 
-			PInvoke.CoCreateInstance(CLSID.CLSID_OpenWithMenu, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IContextMenu, (void**)pOpenWithContextMenu.GetAddressOf());
+			hr = PInvoke.CoCreateInstance(CLSID.CLSID_OpenWithMenu, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IContextMenu, (void**)pOpenWithContextMenu.GetAddressOf());
+			if (hr.ThrowIfFailedOnDebug().Failed) return null;
+
 			hr = pOpenWithContextMenu.Get()->QueryInterface(IID.IID_IShellExtInit, (void**)pShellExtInit.GetAddressOf());
+			if (hr.ThrowIfFailedOnDebug().Failed) return null;
+
 			hr = pOpenWithContextMenu.Get()->QueryInterface(IID.IID_IContextMenu2, (void**)pOpenWithContextMenu2.GetAddressOf());
+			if (hr.ThrowIfFailedOnDebug().Failed) return null;
 
 			// Get the absolute PIDL of the parent folder
 			@this.ThisPtr->GetParent(pParentFolderShellItem.GetAddressOf());
-			PInvoke.SHGetIDListFromObject((IUnknown*)pParentFolderShellItem.Get(), pParentAbsolutePidl.GetAddressOf());
+			hr = PInvoke.SHGetIDListFromObject((IUnknown*)pParentFolderShellItem.Get(), pParentAbsolutePidl.GetAddressOf());
+			if (hr.ThrowIfFailedOnDebug().Failed) return null;
 
 			// Get the relative PIDL of the current item
-			PInvoke.SHGetIDListFromObject((IUnknown*)@this.ThisPtr, pThisAbsolutePidl.GetAddressOf());
+			hr = PInvoke.SHGetIDListFromObject((IUnknown*)@this.ThisPtr, pThisAbsolutePidl.GetAddressOf());
+			if (hr.ThrowIfFailedOnDebug().Failed) return null;
 			pThisRelativePidl.Attach(PInvoke.ILFindLastID(pThisAbsolutePidl.Get()));
 
 			hr = PInvoke.SHCreateDataObject(pParentAbsolutePidl.Get(), 1U, pThisRelativePidl.GetAddressOf(), null, IID.IID_IDataObject, (void**)pDataObject.GetAddressOf());
+			if (hr.ThrowIfFailedOnDebug().Failed) return null;
 
-			// The 2nd parameter must not be null, others aren't used.
 			hr = pShellExtInit.Get()->Initialize(null, pDataObject.Get(), HKEY.Null);
+			if (hr.ThrowIfFailedOnDebug().Failed) return [];
 
-			// Inserts "New (&W)"
+			// Inserts "Open With(&H)" or "Open With(&H)..."
 			HMENU hMenu = PInvoke.CreatePopupMenu();
 			hr = pOpenWithContextMenu.Get()->QueryContextMenu(hMenu, 0, 1, 256, 0);
+			if (hr.ThrowIfFailedOnDebug().Failed) return null;
 
-			// Invokes CNewMenu::_InitMenuPopup(), which populates the hSubMenu
+			// Populates the hSubMenu
 			HMENU hSubMenu = PInvoke.GetSubMenu(hMenu, 0);
 			hr = pOpenWithContextMenu2.Get()->HandleMenuMsg(PInvoke.WM_INITMENUPOPUP, (WPARAM)(nuint)hSubMenu.Value, 0);
+			if (hr.ThrowIfFailedOnDebug().Failed) return null;
 
 			uint dwCount = unchecked((uint)PInvoke.GetMenuItemCount(hSubMenu));
-			if (dwCount is unchecked((uint)-1)) return [];
+			if (dwCount is unchecked((uint)-1)) return null;
 
+			// Enumerates the menu items
 			List<WindowsContextMenuItem> items = [];
-
-			// Enumerates and populates the list
 			for (uint dwIndex = 0U; dwIndex < dwCount; dwIndex++)
 			{
 				MENUITEMINFOW mii = default;
