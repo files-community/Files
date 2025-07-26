@@ -110,5 +110,11 @@ namespace Windows.Win32
 	{
 		[GuidRVAGen.Guid("B7534046-3ECB-4C18-BE4E-64CD4CB7D6AC")]
 		public static partial Guid* FOLDERID_RecycleBinFolder { get; }
+
+		[GuidRVAGen.Guid("B4BFCC3A-DB2C-424C-B029-7FE99A87C641")]
+		public static partial Guid* FOLDERID_Desktop { get; }
+
+		[GuidRVAGen.Guid("374DE290-123F-4565-9164-39C4925E467B")]
+		public static partial Guid* FOLDERID_Downloads { get; }
 	}
 }

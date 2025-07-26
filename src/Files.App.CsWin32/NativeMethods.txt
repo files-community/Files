@@ -238,3 +238,5 @@ IsWow64Process2
 GetCurrentProcess
 ILFindLastID
 SHCreateDataObject
+CoInitializeEx
+CoUninitialize

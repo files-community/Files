@@ -11,8 +11,9 @@
         <UseWinUI>true</UseWinUI>
         <EnableMsixTooling>true</EnableMsixTooling>
         <Nullable>enable</Nullable>
-        <PublishAot>true</PublishAot>
-        <PublishTrimmed>true</PublishTrimmed>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <!--<PublishAot>true</PublishAot>-->
+        <!--<PublishTrimmed>true</PublishTrimmed>-->
         <IlcGenerateMstatFile>true</IlcGenerateMstatFile>
         <IlcGenerateDgmlFile>true</IlcGenerateDgmlFile>
         <HasPackageAndPublishMenu Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">true</HasPackageAndPublishMenu>
