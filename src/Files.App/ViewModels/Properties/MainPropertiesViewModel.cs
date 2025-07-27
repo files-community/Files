@@ -33,15 +33,15 @@ namespace Files.App.ViewModels.Properties
 
 					var page = value.ItemType switch
 					{
-						PropertiesNavigationViewItemType.General =>		  typeof(GeneralPage),
-						PropertiesNavigationViewItemType.Shortcut =>	  typeof(ShortcutPage),
-						PropertiesNavigationViewItemType.Library =>		  typeof(LibraryPage),
-						PropertiesNavigationViewItemType.Details =>		  typeof(DetailsPage),
-						PropertiesNavigationViewItemType.Security =>	  typeof(SecurityPage),
+						PropertiesNavigationViewItemType.General =>       typeof(GeneralPage),
+						PropertiesNavigationViewItemType.Shortcut =>      typeof(ShortcutPage),
+						PropertiesNavigationViewItemType.Library =>       typeof(LibraryPage),
+						PropertiesNavigationViewItemType.Details =>       typeof(DetailsPage),
+						PropertiesNavigationViewItemType.Security =>      typeof(SecurityPage),
 						PropertiesNavigationViewItemType.Customization => typeof(CustomizationPage),
 						PropertiesNavigationViewItemType.Compatibility => typeof(CompatibilityPage),
-						PropertiesNavigationViewItemType.Hashes =>		  typeof(HashesPage),
-						PropertiesNavigationViewItemType.Signatures =>	  typeof(SignaturesPage),
+						PropertiesNavigationViewItemType.Hashes =>        typeof(HashesPage),
+						PropertiesNavigationViewItemType.Signatures =>    typeof(SignaturesPage),
 						_ => typeof(GeneralPage),
 					};
 
