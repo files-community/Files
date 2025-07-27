@@ -499,12 +499,13 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task HandleItemNavigationAsync(string path)
 		{
-			if (ContentPageContext.ShellPage is null || PathComponents.LastOrDefault()?.Path is not { } currentPath)
+			if (ContentPageContext.ShellPage is null)
 				return;
 
+			var currentPath = PathComponents.LastOrDefault()?.Path;
 			var isFtp = FtpHelpers.IsFtpPath(path);
 			var normalizedInput = NormalizePathInput(path, isFtp);
-			if (currentPath.Equals(normalizedInput, StringComparison.OrdinalIgnoreCase) ||
+			if (currentPath is not null && currentPath.Equals(normalizedInput, StringComparison.OrdinalIgnoreCase) ||
 				string.IsNullOrWhiteSpace(normalizedInput))
 				return;
 
@@ -533,7 +534,7 @@ namespace Files.App.ViewModels.UserControls
 			else
 			{
 				normalizedInput = StorageFileExtensions.GetResolvedPath(normalizedInput, isFtp);
-				if (currentPath.Equals(normalizedInput, StringComparison.OrdinalIgnoreCase))
+				if (currentPath is not null && currentPath.Equals(normalizedInput, StringComparison.OrdinalIgnoreCase))
 					return;
 
 				var item = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(normalizedInput));
