@@ -750,7 +750,18 @@ namespace Files.App.ViewModels
 		public string? FilesAndFoldersFilter
 		{
 			get => _filesAndFoldersFilter;
-			set => SetProperty(ref _filesAndFoldersFilter, value);
+			set
+			{
+				if (SetProperty(ref _filesAndFoldersFilter, value))
+				{
+					FilesAndFolderFilterUpdated();
+				}
+			}
+		}
+
+		private void FilesAndFolderFilterUpdated()
+		{
+			_ = ApplyFilesAndFoldersChangesAsync();
 		}
 
 
@@ -1867,7 +1878,6 @@ namespace Files.App.ViewModels
 						});
 
 						filesAndFolders.AddRange(fileList);
-						FilesAndFoldersFilter = null;
 
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
@@ -1876,6 +1886,7 @@ namespace Files.App.ViewModels
 						{
 							GetDesktopIniFileData();
 							CheckForBackgroundImage();
+							FilesAndFoldersFilter = null;
 						},
 						Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					});
