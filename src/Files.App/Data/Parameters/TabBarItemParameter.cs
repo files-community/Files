@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Text.Json;
-
 namespace Files.App.Data.Parameters
 {
 	public sealed class TabBarItemParameter

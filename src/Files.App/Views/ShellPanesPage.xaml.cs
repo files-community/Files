@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.Controls;
 using Files.App.Controls;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;

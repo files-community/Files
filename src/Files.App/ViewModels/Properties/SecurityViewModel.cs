@@ -89,7 +89,8 @@ namespace Files.App.ViewModels.Properties
 					_path = defaultlistedItem.ItemPath;
 					_isFolder = defaultlistedItem.PrimaryItemAttribute == StorageItemTypes.Folder && !defaultlistedItem.IsShortcut;
 					break;
-			};
+			}
+			;
 
 			var error = StorageSecurityService.GetAcl(_path, _isFolder, out _AccessControlList);
 			_SelectedAccessControlEntry = AccessControlList.AccessControlEntries.FirstOrDefault();

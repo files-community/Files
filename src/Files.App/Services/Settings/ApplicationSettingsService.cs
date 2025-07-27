@@ -1,9 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Utils.Serialization;
-using Files.App.Services.Settings;
-
 namespace Files.App.Services.Settings
 {
 	internal sealed partial class ApplicationSettingsService : BaseObservableJsonSettings, IApplicationSettingsService
@@ -19,13 +16,13 @@ namespace Files.App.Services.Settings
 			get => Get(false);
 			set => Set(value);
 		}
-		
+
 		public bool ShowRunningAsAdminPrompt
 		{
 			get => Get(true);
 			set => Set(value);
 		}
-		
+
 		public bool ShowDataStreamsAreHiddenPrompt
 		{
 			get => Get(true);

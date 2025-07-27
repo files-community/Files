@@ -7,7 +7,6 @@ using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
-using Microsoft.Windows.ApplicationModel.Resources;
 using System.Collections.Concurrent;
 using Windows.Graphics;
 using Windows.Win32;
@@ -104,7 +103,7 @@ namespace Files.App.Utils.Storage
 			var width = Convert.ToInt32(800 * App.AppModel.AppWindowDPI);
 			var height = Convert.ToInt32(500 * App.AppModel.AppWindowDPI);
 
-			propertiesWindow.AppWindow.Resize(new (width, height));
+			propertiesWindow.AppWindow.Resize(new(width, height));
 			propertiesWindow.IsMinimizable = false;
 			propertiesWindow.IsMaximizable = false;
 			propertiesWindow.Content = frame;

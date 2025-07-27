@@ -1,8 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
-
 namespace Files.App.UserControls.Selection
 {
 	public abstract class ItemSelectionStrategy

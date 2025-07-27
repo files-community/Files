@@ -7,7 +7,7 @@ namespace Files.App.Controls
 	{
 		public ToolbarRadioButton()
 		{
-			DefaultStyleKey = typeof( ToolbarRadioButton );
+			DefaultStyleKey = typeof(ToolbarRadioButton);
 		}
 
 		protected override void OnApplyTemplate()

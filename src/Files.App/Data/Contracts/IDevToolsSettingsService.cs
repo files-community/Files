@@ -9,7 +9,7 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value when the Open in IDE button should be displayed on the status bar.
 		/// </summary>
 		OpenInIDEOption OpenInIDEOption { get; set; }
-		
+
 		/// <summary>
 		/// Gets or sets the path of the chosen IDE.
 		/// </summary>

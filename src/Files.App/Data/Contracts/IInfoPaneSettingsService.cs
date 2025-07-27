@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.ComponentModel;
-
 namespace Files.App.Data.Contracts
 {
 	public interface IInfoPaneSettingsService : IBaseSettingsService, INotifyPropertyChanged

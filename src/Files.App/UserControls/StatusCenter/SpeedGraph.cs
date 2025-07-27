@@ -3,10 +3,8 @@ using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Hosting;
-using Microsoft.UI.Xaml.Media;
 using System.Collections.Specialized;
 using System.Numerics;
-using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -24,7 +22,7 @@ namespace Files.App.UserControls.StatusCenter
 				SetValue(PointsProperty, value);
 			}
 		}
-		
+
 		public static readonly DependencyProperty PointsProperty =
 			DependencyProperty.Register(nameof(Points), typeof(ObservableCollection<Vector2>), typeof(SpeedGraph), null);
 
@@ -52,7 +50,7 @@ namespace Files.App.UserControls.StatusCenter
 		float highestValue;
 
 		IAppThemeModeService themeModeService;
-		
+
 		public SpeedGraph()
 		{
 			compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;

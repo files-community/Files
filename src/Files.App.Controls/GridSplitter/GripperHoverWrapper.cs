@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using Microsoft.UI.Input;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.Controls

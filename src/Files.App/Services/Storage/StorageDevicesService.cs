@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
+using OwlCore.Storage.System.IO;
 using System.IO;
 using Windows.Storage;
-using OwlCore.Storage.System.IO;
 
 namespace Files.App.Services
 {

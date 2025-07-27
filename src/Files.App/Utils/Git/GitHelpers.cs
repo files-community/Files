@@ -333,7 +333,7 @@ namespace Files.App.Utils.Git
 				branch.FriendlyName.Equals(branchName, StringComparison.OrdinalIgnoreCase));
 		}
 
-		public static async void FetchOrigin(string? repositoryPath)
+		public static async void FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default)
 		{
 			if (string.IsNullOrWhiteSpace(repositoryPath))
 				return;
@@ -359,11 +359,15 @@ namespace Files.App.Utils.Git
 
 			await DoGitOperationAsync<GitOperationResult>(() =>
 			{
+				cancellationToken.ThrowIfCancellationRequested();
+
 				var result = GitOperationResult.Success;
 				try
 				{
 					foreach (var remote in repository.Network.Remotes)
 					{
+						cancellationToken.ThrowIfCancellationRequested();
+
 						LibGit2Sharp.Commands.Fetch(
 							repository,
 							remote.Name,
@@ -371,6 +375,8 @@ namespace Files.App.Utils.Git
 							_fetchOptions,
 							"git fetch updated a ref");
 					}
+
+					cancellationToken.ThrowIfCancellationRequested();
 				}
 				catch (Exception ex)
 				{
@@ -384,6 +390,10 @@ namespace Files.App.Utils.Git
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
+				if (cancellationToken.IsCancellationRequested)
+					// Do nothing because the operation was cancelled and another fetch may be in progress
+					return;
+
 				IsExecutingGitAction = false;
 				GitFetchCompleted?.Invoke(null, EventArgs.Empty);
 			});

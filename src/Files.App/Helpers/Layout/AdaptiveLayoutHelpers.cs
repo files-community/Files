@@ -93,7 +93,7 @@ namespace Files.App.Helpers
 
 			static bool IsMedia(ListedItem item)
 				=> !string.IsNullOrEmpty(item.FileExtension)
-				&& (FileExtensionHelpers.IsAudioFile(item.FileExtension) 
+				&& (FileExtensionHelpers.IsAudioFile(item.FileExtension)
 				|| FileExtensionHelpers.IsVideoFile(item.FileExtension));
 		}
 

@@ -1,11 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.UserControls.TabBar;
-using Files.App.ViewModels;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Files.App.Helpers
 {
 	public static class MultitaskingTabsHelpers
@@ -40,7 +35,7 @@ namespace Files.App.Helpers
 				tabs.Where((t) => t != clickedTab).ToList().ForEach(tab => multitaskingControl.CloseTab(tab));
 			}
 		}
-		
+
 		public static void CloseAllTabs(ITabBar multitaskingControl)
 		{
 			if (multitaskingControl is not null)

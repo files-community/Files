@@ -2,15 +2,9 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using Files.App.Data.Items;
-using Files.App.Extensions;
-using Files.App.ViewModels.Dialogs;
-using Files.App.ViewModels.Dialogs;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using System;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Dialogs
@@ -59,7 +53,7 @@ namespace Files.App.Dialogs
 			if ((sender as Grid)?.DataContext is not LocationItem locationItem)
 				return;
 			var deferral = e.GetDeferral();
-			
+
 			if ((e.DataView.Properties["sourceLocationItem"] as Grid)?.DataContext is LocationItem sourceLocationItem)
 			{
 				DragOver_SetCaptions(sourceLocationItem, locationItem, e);

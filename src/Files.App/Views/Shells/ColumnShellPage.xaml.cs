@@ -4,9 +4,7 @@
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
-using Windows.System;
 
 namespace Files.App.Views.Shells
 {
@@ -105,7 +103,7 @@ namespace Files.App.Views.Shells
 		private async void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
 		{
 			ContentPage = await GetContentOrNullAsync();
-			
+
 			if (ItemDisplayFrame.CurrentSourcePageType == typeof(ColumnLayoutPage))
 			{
 				// Reset DataGrid Rows that may be in "cut" command mode
@@ -155,7 +153,7 @@ namespace Files.App.Views.Shells
 		{
 			this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.NavigateHome();
 		}
-		
+
 		public override void NavigateToReleaseNotes()
 		{
 			this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.NavigateToReleaseNotes();

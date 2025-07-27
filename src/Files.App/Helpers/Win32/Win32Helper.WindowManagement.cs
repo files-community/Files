@@ -1,9 +1,6 @@
 ﻿// Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
-using Microsoft.UI.Input;
-using Microsoft.UI.Xaml;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.UI.WindowsAndMessaging;

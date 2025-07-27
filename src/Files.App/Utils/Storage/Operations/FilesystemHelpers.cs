@@ -1,14 +1,11 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Core.Storage;
-using Files.Core.Storage.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.ComTypes;
-using Vanara.Extensions;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;

@@ -2,9 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using Windows.Win32.Foundation;
 
 namespace Windows.Win32.System.WinRT

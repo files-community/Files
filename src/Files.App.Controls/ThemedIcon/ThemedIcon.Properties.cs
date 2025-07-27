@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Controls

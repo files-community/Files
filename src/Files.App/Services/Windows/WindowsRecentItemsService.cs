@@ -3,11 +3,9 @@
 
 using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
-using System.Runtime.InteropServices;
 using System.Text;
 using Windows.Win32;
 using Windows.Win32.Foundation;
-using Windows.Win32.System.Com;
 using Windows.Win32.System.SystemServices;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.WindowsAndMessaging;
@@ -271,9 +269,9 @@ namespace Files.App.Services
 				var eventArgs = GetChangedActionEventArgs(snapshot, recentItems);
 
 				if (isFolder)
- 					RecentFoldersChanged?.Invoke(this, eventArgs);
+					RecentFoldersChanged?.Invoke(this, eventArgs);
 				else
- 					RecentFilesChanged?.Invoke(this, eventArgs);
+					RecentFilesChanged?.Invoke(this, eventArgs);
 
 				return true;
 			}

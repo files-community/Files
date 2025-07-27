@@ -1,9 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.ViewModels.Dialogs;
-using Files.App.Data.Enums;
-
 namespace Files.App.Data.Contracts
 {
 	/// <summary>

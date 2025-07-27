@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Text.Json.Serialization;
-
 namespace Files.App.Data.Models
 {
 	[Serializable]

@@ -21,7 +21,7 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			context.PageType is not ContentPageTypes.Home &&
-			!(context.PageType is ContentPageTypes.SearchResults && 
+			!(context.PageType is ContentPageTypes.SearchResults &&
 			!context.HasSelection);
 
 		public OpenPropertiesAction()
@@ -50,7 +50,7 @@ namespace Files.App.Actions
 			var page = context.ShellPage?.SlimContentPage;
 			if (page is not null)
 				page.ItemContextMenuFlyout.Closed -= OpenPropertiesFromItemContextMenuFlyout;
-			
+
 			FilePropertiesHelpers.OpenPropertiesWindow(context.ShellPage!);
 		}
 
@@ -59,7 +59,7 @@ namespace Files.App.Actions
 			var page = context.ShellPage?.SlimContentPage;
 			if (page is not null)
 				page.BaseContextMenuFlyout.Closed -= OpenPropertiesFromBaseContextMenuFlyout;
-			
+
 			FilePropertiesHelpers.OpenPropertiesWindow(context.ShellPage!);
 		}
 

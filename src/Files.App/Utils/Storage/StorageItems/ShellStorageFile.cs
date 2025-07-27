@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.Runtime.InteropServices.WindowsRuntime;
-using Vanara.PInvoke;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;

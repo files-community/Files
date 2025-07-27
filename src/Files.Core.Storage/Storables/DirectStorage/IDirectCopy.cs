@@ -7,10 +7,10 @@ namespace Files.Core.Storage.Storables
 	/// Provides direct copy operation of storage objects.
 	/// </summary>
 	public interface IDirectCopy : IModifiableFolder
-    {
-        /// <summary>
-        /// Creates a copy of the provided storable item in this folder.
-        /// </summary>
-        Task<IStorableChild> CreateCopyOfAsync(IStorableChild itemToCopy, bool overwrite = default, CancellationToken cancellationToken = default);
-    }
+	{
+		/// <summary>
+		/// Creates a copy of the provided storable item in this folder.
+		/// </summary>
+		Task<IStorableChild> CreateCopyOfAsync(IStorableChild itemToCopy, bool overwrite = default, CancellationToken cancellationToken = default);
+	}
 }
