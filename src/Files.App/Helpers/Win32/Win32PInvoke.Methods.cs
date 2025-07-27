@@ -416,15 +416,6 @@ namespace Files.App.Helpers
         );
 
         [DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern bool CryptBinaryToStringA(
-            IntPtr pbBinary,
-            uint cbBinary,
-            uint dwFlags,
-            IntPtr pszString,
-            ref uint pcchString
-        );
-
-        [DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern IntPtr CertFindCertificateInStore(
             IntPtr hCertStore,
             uint dwCertEncodingType,
@@ -462,68 +453,11 @@ namespace Files.App.Helpers
             uint dwFlags
         );
 
-        // wintrust.dll
-        [DllImport("wintrust.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern bool CryptCATAdminCalcHashFromFileHandle(
-            IntPtr hFile,
-            ref uint pdwHash,
-            IntPtr pReserved,
-            uint dwFlags
-        );
-
         [DllImport("wintrust.dll")]
         public static extern long WinVerifyTrust(
             IntPtr hwnd,
             IntPtr pgActionID,
             IntPtr pWVTData
-        );
-
-        // ncrypt.dll
-        [DllImport("ncrypt.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern bool BCryptDestroyHash(
-            IntPtr hHash
-        );
-
-        [DllImport("ncrypt.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern uint BCryptFinishHash(
-            IntPtr hHash,
-            IntPtr pbOutput,
-            uint cbOutput,
-            uint dwFlags
-        );
-
-        [DllImport("ncrypt.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern uint BCryptOpenAlgorithmProvider(
-            out IntPtr phAlgorithm,
-            string pszAlgId,
-            string pszImplementation,
-            uint dwFlags
-        );
-
-        [DllImport("ncrypt.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern uint BCryptCloseAlgorithmProvider(
-            IntPtr hAlgorithm,
-            uint dwFlags
-        );
-
-        [DllImport("ncrypt.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern uint BCryptCreateHash(
-            IntPtr hAlgorithm,
-            out IntPtr hHash,
-            IntPtr pbHashObject,
-            uint cbHashObject,
-            IntPtr pbSecret,
-            uint cbSecret,
-            uint flags
-        );
-
-
-        [DllImport("ncrypt.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern uint BCryptHashData(
-            IntPtr hHash,
-            IntPtr pbInput,
-            uint cbInput,
-            uint dwFlags
         );
 
         // kernel32.dll
@@ -544,5 +478,9 @@ namespace Files.App.Helpers
             IntPtr lpSystemTime,
             IntPtr lpFileTime
         );
+
+        // cryptui.dll
+        [DllImport("cryptui.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        public static extern bool CryptUIDlgViewSignerInfo(IntPtr pViewInfo);
     }
 }

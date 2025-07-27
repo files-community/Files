@@ -19,7 +19,7 @@ namespace Files.App.Views.Properties
         {
             var np = (PropertiesPageNavigationParameter)e.Parameter;
             if (np.Parameter is ListedItem listedItem)
-                SignaturesViewModel = new(listedItem);
+                SignaturesViewModel = new(listedItem, np.Window.AppWindow);
 
             base.OnNavigatedTo(e);
         }

@@ -2,21 +2,13 @@
 // Licensed under the MIT License.
 
 using System.Runtime.InteropServices;
-using System.Text;
 using static Files.App.Helpers.Win32PInvoke;
 
 namespace Files.App.Utils.Signatures
 {
     public static class DigitalSignaturesUtil
     {
-        // Constants
-        private const int SHA1LEN = 20;
-        private const int MD5_LEN = 16;
-
-        private const uint CALG_SHA1 = 0x00008004;
-        private const uint CALG_MD5 = 0x00008003;
-
-        // - OIDs
+        // OIDs
         private const string szOID_NESTED_SIGNATURE = "1.3.6.1.4.1.311.2.4.1";
         private const string szOID_RSA_counterSign = "1.2.840.113549.1.9.6";
         private const string szOID_RSA_signingTime = "1.2.840.113549.1.9.5";
@@ -24,15 +16,8 @@ namespace Files.App.Utils.Signatures
         private const string szOID_OIWSEC_sha1 = "1.3.14.3.2.26";
         private const string szOID_RSA_MD5 = "1.2.840.113549.2.5";
         private const string szOID_NIST_sha256 = "2.16.840.1.101.3.4.2.1";
-        private const string szOID_RSA_SHA1RSA = "1.2.840.113549.1.1.5";
-        private const string szOID_OIWSEC_sha1RSASign = "1.3.14.3.2.29";
-        private const string szOID_RSA_MD5RSA = "1.2.840.113549.1.1.4";
-        private const string szOID_OIWSEC_md5RSA = "1.3.14.3.2.3";
-        private const string szOID_RSA_MD2RSA = "1.2.840.113549.1.1.2";
-        private const string szOID_RSA_SHA256RSA = "1.2.840.113549.1.1.11";
 
-        // - Flags
-        private const uint CRYPT_STRING_HEX = 0x00000004;
+        // Flags
         private const uint CERT_NAME_SIMPLE_DISPLAY_TYPE = 4;
         private const uint CERT_FIND_SUBJECT_NAME = 131079;
         private const uint CERT_FIND_ISSUER_NAME = 131076;
@@ -51,7 +36,7 @@ namespace Files.App.Utils.Signatures
 
         private const uint CMSG_SIGNER_INFO_PARAM = 6;
 
-        // - Version numbers
+        // Version numbers
         private const uint CERT_V1 = 0;
         private const uint CERT_V2 = 1;
         private const uint CERT_V3 = 2;
@@ -66,17 +51,21 @@ namespace Files.App.Utils.Signatures
 
         private static readonly IDateTimeFormatter formatter = Ioc.Default.GetRequiredService<IDateTimeFormatter>();
 
-        public static void LoadItemSignatures(string filePath, ObservableCollection<SignatureInfoItem> signatures)
+        public static void LoadItemSignatures(
+            string filePath,
+            ObservableCollection<SignatureInfoItem> signatures,
+            IntPtr hWnd,
+            CancellationToken ct)
         {
             var signChain = new List<SignNodeInfo>();
-            GetSignerCertificateInfo(filePath, signChain);
+            GetSignerCertificateInfo(filePath, signChain, ct);
 
             foreach (var signNode in signChain)
             {
                 if (signNode.CertChain.Count == 0)
                     continue;
 
-                var signatureInfo = new SignatureInfoItem(signNode.CertChain)
+                var signatureInfo = new SignatureInfoItem(filePath, signNode.Index, hWnd, signNode.CertChain)
                 {
                     Version = signNode.Version,
                     IssuedBy = signNode.CertChain[0].IssuedBy,
@@ -90,51 +79,88 @@ namespace Files.App.Utils.Signatures
             }
         }
 
-        private static bool CalculateSignSerial(IntPtr pbData, uint cbData, CertNodeInfoItem info)
+        public static void DisplaySignerInfoDialog(string filePath, IntPtr hwndParent, int index)
         {
-            uint size = 0;
-            var abSerial = Marshal.AllocHGlobal(0x400);
-            IntPtr nameBuff = IntPtr.Zero;
-            info.SerialNumber = string.Empty;
+            if (string.IsNullOrEmpty(filePath))
+                return;
+
+            var hAuthCryptMsg = IntPtr.Zero;
+            var signHandle = new SignDataHandle();
+            var signDataChain = new List<SignDataHandle>();
 
             try
             {
-                for (var i = 0; i < cbData && i < 0x400; i++)
+                var result = TryGetSignerInfo(
+                    filePath,
+                    ref hAuthCryptMsg,
+                    ref signHandle.hCertStoreHandle,
+                    ref signHandle.pSignerInfo,
+                    ref signHandle.dwObjSize
+                );
+                if (!result || signHandle.pSignerInfo == IntPtr.Zero)
+                    return;
+
+                signDataChain.Add(signHandle);
+                GetNestedSignerInfo(ref signHandle, signDataChain);
+                if (index >= signDataChain.Count)
+                    return;
+
+                signHandle = signDataChain[index];
+                var signerInfo = Marshal.PtrToStructure<CMSG_SIGNER_INFO>(signHandle.pSignerInfo);
+                var pIssuer = Marshal.AllocHGlobal(Marshal.SizeOf<CRYPTOAPI_BLOB>());
+                Marshal.StructureToPtr(signerInfo.Issuer, pIssuer, false);
+                var pCertContext = CertFindCertificateInStore(
+                    signHandle.hCertStoreHandle,
+                    PKCS_7_ASN_ENCODING | CRYPT_ASN_ENCODING,
+                    0,
+                    CERT_FIND_ISSUER_NAME,
+                    pIssuer,
+                    IntPtr.Zero
+                );
+                Marshal.FreeHGlobal(pIssuer);
+                if (pCertContext == IntPtr.Zero)
+                    return;
+
+                var viewInfo = new CRYPTUI_VIEWSIGNERINFO_STRUCT
                 {
-                    Marshal.WriteByte(
-                        abSerial,
-                        i,
-                        Marshal.ReadByte(pbData, (int)(cbData - 1 - i))
-                    );
-                }
+                    dwSize = (uint)Marshal.SizeOf<CRYPTUI_VIEWSIGNERINFO_STRUCT>(),
+                    hwndParent = hwndParent,
+                    dwFlags = 0,
+                    szTitle = IntPtr.Zero,
+                    pSignerInfo = signHandle.pSignerInfo,
+                    hMsg = hAuthCryptMsg,
+                    pszOID = IntPtr.Zero,
+                    dwReserved = null,
+                    cStores = 1,
+                    rghStores = Marshal.AllocHGlobal(IntPtr.Size),
+                    cPropPages = 0,
+                    rgPropPages = IntPtr.Zero
+                };
+                Marshal.WriteIntPtr(viewInfo.rghStores, signHandle.hCertStoreHandle);
+                var pViewInfo = Marshal.AllocHGlobal((int)viewInfo.dwSize);
+                Marshal.StructureToPtr(viewInfo, pViewInfo, false);
 
-                var result = CryptBinaryToStringA(abSerial, cbData, CRYPT_STRING_HEX, IntPtr.Zero, ref size);
-                if (!result)
-                    return false;
+                result = CryptUIDlgViewSignerInfo(pViewInfo);
 
-                nameBuff = Marshal.AllocHGlobal(0x400);
-                result = CryptBinaryToStringA(abSerial, cbData, CRYPT_STRING_HEX, nameBuff, ref size);
-                if (!result)
-                    return false;
-
-                StringBuilder builder = new(Marshal.PtrToStringAnsi(nameBuff));
-                var iter2 = 0;
-                for (var iter1 = 0; iter1 < size; iter1++)
-                {
-                    if (!char.IsWhiteSpace(builder[iter1]))
-                        builder[iter2++] = builder[iter1];
-                }
-
-                builder.Remove(iter2, builder.Length - iter2);
-                info.SerialNumber = StripString(builder.ToString());
-
-                return true;
+                Marshal.FreeHGlobal(viewInfo.rghStores);
+                Marshal.FreeHGlobal(pViewInfo);
+                CertFreeCertificateContext(pCertContext);
             }
             finally
             {
-                Marshal.FreeHGlobal(abSerial);
-                if (nameBuff != IntPtr.Zero)
-                    Marshal.FreeHGlobal(nameBuff);
+                // Since signDataChain contains nested signatures,
+                // you must release them starting from the last one.
+                for (int i = signDataChain.Count - 1; i >= 0; i--)
+                {
+                    if (signDataChain[i].pSignerInfo != IntPtr.Zero)
+                        Marshal.FreeHGlobal(signDataChain[i].pSignerInfo);
+
+                    if (signDataChain[i].hCertStoreHandle != IntPtr.Zero)
+                        CertCloseStore(signDataChain[i].hCertStoreHandle, 0);
+                }
+
+                if (hAuthCryptMsg != IntPtr.Zero)
+                    CryptMsgClose(hAuthCryptMsg);
             }
         }
 
@@ -149,19 +175,10 @@ namespace Files.App.Utils.Signatures
             var pCertInfo = currContext.pCertInfo;
             var certNode = new CertNodeInfoItem();
             var certInfo = Marshal.PtrToStructure<CERT_INFO>(pCertInfo);
-            var szObjId = certInfo.SignatureAlgorithm.pszObjId;
 
-            CalculateCertAlgorithm(szObjId, certNode);
-            CalculateSignSerial(certInfo.SerialNumber.pbData, certInfo.SerialNumber.cbData, certNode);
             (_, certNode.Version) = CalculateSignVersion(certInfo.dwVersion);
             GetStringFromCertContext(pCurrContext, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, certNode);
             GetStringFromCertContext(pCurrContext, CERT_NAME_SIMPLE_DISPLAY_TYPE, 1, certNode);
-            CalculateHashOfBytes(
-                currContext.pbCertEncoded,
-                CALG_SHA1,
-                currContext.cbCertEncoded,
-                certNode
-            );
 
             var pft = Marshal.AllocHGlobal(Marshal.SizeOf<FILETIME>());
             Marshal.StructureToPtr(certInfo.NotBefore, pft, false);
@@ -219,7 +236,7 @@ namespace Files.App.Utils.Signatures
             return !result;
         }
 
-        private static bool GetSignerCertificateInfo(string fileName, List<SignNodeInfo> signChain)
+        private static bool GetSignerCertificateInfo(string fileName, List<SignNodeInfo> signChain, CancellationToken ct)
         {
             var succeded = false;
             var authSignData = new SignDataHandle();
@@ -239,45 +256,26 @@ namespace Files.App.Utils.Signatures
                 return false;
 
             var hAuthCryptMsg = IntPtr.Zero;
-            uint encoding = 0;
-            var pDummy = IntPtr.Zero;
-            uint dummy = 0;
-            var pFileName = Marshal.StringToHGlobalAuto(fileName);
-            var result = CryptQueryObject(
-                CERT_QUERY_OBJECT_FILE,
-                pFileName,
-                CERT_QUERY_CONTENT_FLAG_PKCS7_SIGNED_EMBED,
-                CERT_QUERY_FORMAT_FLAG_BINARY,
-                0,
-                ref encoding,
-                ref dummy,
-                ref dummy,
-                ref authSignData.hCertStoreHandle,
+            var result = TryGetSignerInfo(
+                fileName,
                 ref hAuthCryptMsg,
-                ref pDummy
-            );
-            Marshal.FreeHGlobal(pFileName);
-
-            if (!result)
-            {
-                CertCloseStore(hSystemStore, 0);
-                return false;
-            }
-
-            result = CustomCryptMsgGetParam(
-                hAuthCryptMsg,
-                CMSG_SIGNER_INFO_PARAM,
-                0,
+                ref authSignData.hCertStoreHandle,
                 ref authSignData.pSignerInfo,
                 ref authSignData.dwObjSize
             );
-            CryptMsgClose(hAuthCryptMsg);
-            hAuthCryptMsg = IntPtr.Zero;
+
+            if (hAuthCryptMsg != IntPtr.Zero)
+            {
+                CryptMsgClose(hAuthCryptMsg);
+                hAuthCryptMsg = IntPtr.Zero;
+            }
+
             if (!result)
             {
-                CertCloseStore(authSignData.hCertStoreHandle, 0);
-                CertCloseStore(hSystemStore, 0);
+                if (authSignData.hCertStoreHandle != IntPtr.Zero)
+                    CertCloseStore(authSignData.hCertStoreHandle, 0);
 
+                CertCloseStore(hSystemStore, 0);
                 return false;
             }
 
@@ -286,6 +284,12 @@ namespace Files.App.Utils.Signatures
 
             for (var i = 0; i < signDataChain.Count; i++)
             {
+                if (ct.IsCancellationRequested)
+                {
+                    CertCloseStore(hSystemStore, 0);
+                    return false;
+                }
+
                 var pCurrContext = IntPtr.Zero;
                 var pCounterSigner = IntPtr.Zero;
                 var signNode = new SignNodeInfo();
@@ -294,7 +298,7 @@ namespace Files.App.Utils.Signatures
                 if (pCounterSigner != IntPtr.Zero)
                     GetCounterSignerData(pCounterSigner, signNode.CounterSign);
                 else
-                    GetGeneralizedNameAndTimeStamp(signDataChain[i].pSignerInfo, signNode.CounterSign);
+                    GetGeneralizedTimeStamp(signDataChain[i].pSignerInfo, signNode.CounterSign);
 
                 var signerInfo = Marshal.PtrToStructure<CMSG_SIGNER_INFO>(signDataChain[i].pSignerInfo);
                 var szObjId = signerInfo.HashAlgorithm.pszObjId;
@@ -341,39 +345,12 @@ namespace Files.App.Utils.Signatures
 
                 succeded = true;
                 signNode.IsValid = VerifyySignature(fileName);
+                signNode.Index = i;
                 signChain.Add(signNode);
             }
 
             CertCloseStore(hSystemStore, 0);
             return succeded;
-        }
-
-        private static bool CustomCryptCalcFileHash(
-            IntPtr fileHandle,
-            ref IntPtr szBuffer,
-            ref uint hashSize)
-        {
-            hashSize = 0;
-            CryptCATAdminCalcHashFromFileHandle(
-                fileHandle,
-                ref hashSize,
-                IntPtr.Zero,
-                0
-            );
-            if (hashSize == 0)
-                return false;
-
-            szBuffer = Marshal.AllocHGlobal((int)hashSize * sizeof(byte));
-            var result = CryptCATAdminCalcHashFromFileHandle(
-               fileHandle,
-               ref hashSize,
-               szBuffer,
-               0
-            );
-            if (!result)
-                Marshal.FreeHGlobal(szBuffer);
-
-            return result;
         }
 
         private static bool VerifyySignature(string certPath)
@@ -433,11 +410,50 @@ namespace Files.App.Utils.Signatures
             }
         }
 
+        private static bool TryGetSignerInfo(
+           string fileName,
+           ref IntPtr hMsg,
+           ref IntPtr hCertStore,
+           ref IntPtr pSignerInfo,
+           ref uint signerSize,
+           uint index = 0)
+        {
+            uint encoding = 0;
+            var pDummy = IntPtr.Zero;
+            uint dummy = 0;
+            var pFileName = Marshal.StringToHGlobalAuto(fileName);
+            var result = CryptQueryObject(
+                CERT_QUERY_OBJECT_FILE,
+                pFileName,
+                CERT_QUERY_CONTENT_FLAG_PKCS7_SIGNED_EMBED,
+                CERT_QUERY_FORMAT_FLAG_BINARY,
+                0,
+                ref encoding,
+                ref dummy,
+                ref dummy,
+                ref hCertStore,
+                ref hMsg,
+                ref pDummy
+            );
+            Marshal.FreeHGlobal(pFileName);
+
+            if (!result)
+                return false;
+
+            result = CustomCryptMsgGetParam(
+                hMsg,
+                CMSG_SIGNER_INFO_PARAM,
+                index,
+                ref pSignerInfo,
+                ref signerSize
+            );
+
+            return result;
+        }
+
         private static bool GetCounterSignerInfo(IntPtr pSignerInfo, ref IntPtr pTargetSigner)
         {
             uint objSize = 0;
-            int n;
-
             if (pSignerInfo == IntPtr.Zero)
                 return false;
 
@@ -642,7 +658,7 @@ namespace Files.App.Utils.Signatures
             return false;
         }
 
-        private static bool GetGeneralizedNameAndTimeStamp(
+        private static bool GetGeneralizedTimeStamp(
             IntPtr pSignerInfo,
             SignCounterSign counter)
         {
@@ -664,17 +680,12 @@ namespace Files.App.Utils.Signatures
 
             // Counter Signer Timstamp
             var pbOctetString = IntPtr.Add(rgValue.pbData, (int)positionFound);
-            (counter.TimeStamp, var timestampLength) = GetTimeStampFromDER(pbOctetString, lengthFound, ref positionFound);
-
-            // Counter Signer Name
-            var pbSignerName = IntPtr.Add(pbOctetString, (int)(positionFound + timestampLength));
-            lengthFound -= positionFound + timestampLength;
-            counter.SignerName = GetNameFromDER(pbSignerName, lengthFound);
-
+            counter.TimeStamp = GetTimeStampFromDER(pbOctetString, lengthFound, ref positionFound);
+            
             return true;
         }
 
-        private static (string, uint) GetTimeStampFromDER(IntPtr pbOctetString, uint lengthFound, ref uint positionFound)
+        private static string GetTimeStampFromDER(IntPtr pbOctetString, uint lengthFound, ref uint positionFound)
         {
             var result = ParseDERFindType(
                 0x18,
@@ -684,7 +695,7 @@ namespace Files.App.Utils.Signatures
                 ref lengthFound
             );
             if (!result)
-                return (string.Empty, 0);
+                return string.Empty;
 
             var st = new SYSTEMTIME();
             var buffer = Marshal.PtrToStringUTF8(
@@ -692,13 +703,13 @@ namespace Files.App.Utils.Signatures
                 (int)lengthFound
             ) + (char)0;
 
-            short.TryParse(buffer.AsSpan(0, 4), out st.Year);
-            short.TryParse(buffer.AsSpan(4, 2), out st.Month);
-            short.TryParse(buffer.AsSpan(6, 2), out st.Day);
-            short.TryParse(buffer.AsSpan(8, 2), out st.Hour);
-            short.TryParse(buffer.AsSpan(10, 2), out st.Minute);
-            short.TryParse(buffer.AsSpan(12, 2), out st.Second);
-            short.TryParse(buffer.AsSpan(15, 3), out st.Milliseconds);
+            _ = short.TryParse(buffer.AsSpan(0, 4), out st.Year);
+            _ = short.TryParse(buffer.AsSpan(4, 2), out st.Month);
+            _ = short.TryParse(buffer.AsSpan(6, 2), out st.Day);
+            _ = short.TryParse(buffer.AsSpan(8, 2), out st.Hour);
+            _ = short.TryParse(buffer.AsSpan(10, 2), out st.Minute);
+            _ = short.TryParse(buffer.AsSpan(12, 2), out st.Second);
+            _ = short.TryParse(buffer.AsSpan(15, 3), out st.Milliseconds);
 
             var sst = Marshal.AllocHGlobal(Marshal.SizeOf<SYSTEMTIME>());
             var lst = Marshal.AllocHGlobal(Marshal.SizeOf<SYSTEMTIME>());
@@ -715,31 +726,7 @@ namespace Files.App.Utils.Signatures
             Marshal.FreeHGlobal(sst);
             Marshal.FreeHGlobal(lst);
 
-            return (timestamp, lengthFound);
-        }
-
-        private static string GetNameFromDER(IntPtr pbSignerName, uint lengthFound)
-        {
-            uint namePositionFound = 0;
-            uint nameLengthFound = 0;
-
-            while (lengthFound > 0)
-            {
-                pbSignerName = IntPtr.Add(pbSignerName, (int)(namePositionFound + nameLengthFound));
-                ParseDERFindType(
-                    0x13,
-                    pbSignerName,
-                    lengthFound,
-                    ref namePositionFound,
-                    ref nameLengthFound
-                );
-                lengthFound -= namePositionFound + nameLengthFound;
-            }
-
-            return Marshal.PtrToStringAnsi(
-                IntPtr.Add(pbSignerName, (int)namePositionFound),
-                (int)nameLengthFound
-            );
+            return timestamp;
         }
 
         private static bool GetStringFromCertContext(IntPtr pCertContext, uint dwType, uint flag, CertNodeInfoItem info)
@@ -773,99 +760,6 @@ namespace Files.App.Utils.Signatures
             Marshal.FreeHGlobal(pszTempName);
 
             return true;
-        }
-
-        private static bool CalculateHashOfBytes(IntPtr pbBinary, uint algId, uint binary, CertNodeInfoItem info)
-        {
-            uint cbHash;
-            string algorithmName;
-            IntPtr hAlg = IntPtr.Zero;
-            IntPtr hHash = IntPtr.Zero;
-            IntPtr rgbHash = IntPtr.Zero;
-            var hexByte = new char[3];
-            var rgbDigits = "0123456789abcdef";
-            StringBuilder calcHash = new();
-
-            if (algId == CALG_SHA1)
-            {
-                algorithmName = "SHA1";
-                cbHash = SHA1LEN;
-            }
-            else if (algId == CALG_MD5)
-            {
-                algorithmName = "MD5";
-                cbHash = MD5_LEN;
-            }
-            else
-            {
-                return false;
-            }
-
-            try
-            {
-                var errorCode = BCryptOpenAlgorithmProvider(
-                    out hAlg,
-                    algorithmName,
-                    null,
-                    0
-                );
-                if (errorCode != 0)
-                    return false;
-
-                errorCode = BCryptCreateHash(
-                    hAlg,
-                    out hHash,
-                    IntPtr.Zero,
-                    0,
-                    IntPtr.Zero,
-                    0,
-                    0
-                );
-                if (errorCode != 0)
-                    return false;
-
-                errorCode = BCryptHashData(
-                    hHash,
-                    pbBinary,
-                    binary,
-                    0
-                );
-                if (errorCode != 0)
-                    return false;
-
-                rgbHash = Marshal.AllocHGlobal((int)cbHash);
-                errorCode = BCryptFinishHash(
-                    hHash,
-                    rgbHash,
-                    cbHash,
-                    0
-                );
-                if (errorCode != 0)
-                    return false;
-
-                hexByte[2] = '\0';
-                for (var i = 0; i < cbHash; i++)
-                {
-                    var val = Marshal.ReadByte(rgbHash, i);
-                    hexByte[0] = rgbDigits[val >> 4];
-                    hexByte[1] = rgbDigits[val & 0xf];
-                    calcHash.Append(hexByte);
-                }
-
-                info.Thumbprint = calcHash.ToString();
-                return true;
-            }
-            finally
-            {
-                if (hHash != IntPtr.Zero)
-                    BCryptDestroyHash(hHash);
-
-                if (hAlg != IntPtr.Zero)
-                    BCryptCloseAlgorithmProvider(hAlg, 0);
-
-                if (rgbHash != IntPtr.Zero)
-                    Marshal.FreeHGlobal(rgbHash);
-            }
         }
 
         private static bool TryGetUnauthAttr(IntPtr pSignerInfo, string oid, out CRYPT_ATTRIBUTE attr)
@@ -978,6 +872,7 @@ namespace Files.App.Utils.Signatures
 
             return succeded;
         }
+
         private static bool CustomCryptMsgGetParam(
             IntPtr hCryptMsg,
             uint paramType,
@@ -1061,28 +956,6 @@ namespace Files.App.Utils.Signatures
             return true;
         }
 
-        private static bool CalculateCertAlgorithm(string pszObjId, CertNodeInfoItem info)
-        {
-            if (string.IsNullOrWhiteSpace(pszObjId))
-                info.SignAlgorithm = "Unknown";
-            else if (pszObjId == szOID_RSA_SHA1RSA)
-                info.SignAlgorithm = "sha1RSA(RSA)";
-            else if (pszObjId == szOID_OIWSEC_sha1RSASign)
-                info.SignAlgorithm = "sha1RSA(OIW)";
-            else if (pszObjId == szOID_RSA_MD5RSA)
-                info.SignAlgorithm = "md5RSA(RSA)";
-            else if (pszObjId == szOID_OIWSEC_md5RSA)
-                info.SignAlgorithm = "md5RSA(OIW)";
-            else if (pszObjId == szOID_RSA_MD2RSA)
-                info.SignAlgorithm = "md2RSA(RSA)";
-            else if (pszObjId == szOID_RSA_SHA256RSA)
-                info.SignAlgorithm = "sha256RSA(RSA)";
-            else
-                info.SignAlgorithm = StripString(pszObjId);
-
-            return true;
-        }
-
         private static bool SafeToReadNBytes(uint size, uint start, uint requestSize)
             => size - start >= requestSize;
 
@@ -1152,7 +1025,6 @@ namespace Files.App.Utils.Signatures
 
         class SignCounterSign
         {
-            public string SignerName { get; set; } = string.Empty;
             public string TimeStamp { get; set; } = string.Empty;
         }
 
@@ -1161,8 +1033,9 @@ namespace Files.App.Utils.Signatures
             public bool IsValid { get; set; } = false;
             public string DigestAlgorithm { get; set; } = string.Empty;
             public string Version { get; set; } = string.Empty;
+            public int Index { get; set; } = 0;
             public SignCounterSign CounterSign { get; set; } = new();
-            public List<CertNodeInfoItem> CertChain = new();
+            public List<CertNodeInfoItem> CertChain = [];
         }
     }
 }

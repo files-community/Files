@@ -258,13 +258,6 @@ namespace Files.App.Helpers
         }
 
         [StructLayout(LayoutKind.Sequential)]
-        public struct CRL_DIST_POINT_NAME
-        {
-            public uint dwDistPointNameChoice;
-            public CERT_ALT_NAME_INFO FullName;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
         public struct CERT_CONTEXT
         {
             public uint dwCertEncodingType;
@@ -342,6 +335,23 @@ namespace Files.App.Helpers
             public uint dwProvFlags;
             public uint dwUIContext;
             public IntPtr pSignatureSettings;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        public struct CRYPTUI_VIEWSIGNERINFO_STRUCT
+        {
+            public uint dwSize;
+            public IntPtr hwndParent;
+            public uint dwFlags;
+            public IntPtr szTitle;
+            public IntPtr pSignerInfo;
+            public IntPtr hMsg;
+            public IntPtr pszOID;
+            public uint? dwReserved;
+            public uint cStores;
+            public IntPtr rghStores;
+            public uint cPropPages;
+            public IntPtr rgPropPages;
         }
     }
 }

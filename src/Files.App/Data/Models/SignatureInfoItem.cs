@@ -1,12 +1,19 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Utils.Signatures;
 using System.Windows.Input;
 
 namespace Files.App.Data.Models
 {
     public sealed partial class SignatureInfoItem : ObservableObject
     {
+        private readonly string _fileName;
+
+        private readonly IntPtr _hwndParent;
+
+        private readonly int _index;
+
         private string _Version = string.Empty;
         public string Version
         {
@@ -66,14 +73,18 @@ namespace Files.App.Data.Models
 
         public ICommand OpenDetailsCommand { get; }
 
-        public SignatureInfoItem(List<CertNodeInfoItem> chain)
+        public SignatureInfoItem(string fileName, int index, IntPtr hWnd, List<CertNodeInfoItem> chain)
         {
+            _fileName = fileName;
+            _hwndParent = hWnd;
+            _index = index;
             SignChain = chain ?? new List<CertNodeInfoItem>();
             OpenDetailsCommand = new AsyncRelayCommand(DoOpenDetails);
         }
 
         private Task DoOpenDetails()
         {
+            DigitalSignaturesUtil.DisplaySignerInfoDialog(_fileName, _hwndParent, _index);
             return Task.CompletedTask;
         }
     }
