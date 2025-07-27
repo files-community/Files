@@ -5,14 +5,14 @@ namespace Files.App.Data.Items
 {
 	public class CertNodeInfoItem
 	{
-        public string IssuedTo { get; set; } = string.Empty;
+		public string IssuedTo { get; set; } = string.Empty;
 
-        public string IssuedBy { get; set; } = string.Empty;
+		public string IssuedBy { get; set; } = string.Empty;
 
-        public string Version { get; set; } = string.Empty;
+		public string Version { get; set; } = string.Empty;
 
-        public string ValidFrom { get; set; } = string.Empty;
+		public string ValidFrom { get; set; } = string.Empty;
 
-        public string ValidTo { get; set; } = string.Empty;
-    }
+		public string ValidTo { get; set; } = string.Empty;
+	}
 }

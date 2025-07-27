@@ -27,7 +27,7 @@
     </vm:BasePropertiesPage.Resources>
 
     <ScrollViewer>
-        
+
         <Grid x:Name="RootGrid" Padding="12,6">
 
             <!--  Signatures ItemsRepeater  -->

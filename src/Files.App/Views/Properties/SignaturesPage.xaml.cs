@@ -6,35 +6,35 @@ using Microsoft.UI.Xaml.Navigation;
 
 namespace Files.App.Views.Properties
 {
-    public sealed partial class SignaturesPage : BasePropertiesPage
-    {
-        private SignaturesViewModel SignaturesViewModel { get; set; }
+	public sealed partial class SignaturesPage : BasePropertiesPage
+	{
+		private SignaturesViewModel SignaturesViewModel { get; set; }
 
-        public SignaturesPage()
-        {
-            InitializeComponent();
-        }
+		public SignaturesPage()
+		{
+			InitializeComponent();
+		}
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            var np = (PropertiesPageNavigationParameter)e.Parameter;
-            if (np.Parameter is ListedItem listedItem)
-                SignaturesViewModel = new(listedItem, np.Window.AppWindow);
+		protected override void OnNavigatedTo(NavigationEventArgs e)
+		{
+			var np = (PropertiesPageNavigationParameter)e.Parameter;
+			if (np.Parameter is ListedItem listedItem)
+				SignaturesViewModel = new(listedItem, np.Window.AppWindow);
 
-            base.OnNavigatedTo(e);
-        }
+			base.OnNavigatedTo(e);
+		}
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-            => Dispose();
+		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+			=> Dispose();
 
-        public override Task<bool> SaveChangesAsync()
-        {
-            return Task.FromResult(true);
-        }
+		public override Task<bool> SaveChangesAsync()
+		{
+			return Task.FromResult(true);
+		}
 
-        public override void Dispose()
-        {
-            SignaturesViewModel.Dispose();
-        }
-    }
+		public override void Dispose()
+		{
+			SignaturesViewModel.Dispose();
+		}
+	}
 }
