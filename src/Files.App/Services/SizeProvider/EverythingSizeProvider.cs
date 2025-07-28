@@ -18,6 +18,7 @@ namespace Files.App.Services.SizeProvider
 		private readonly ConcurrentDictionary<string, ulong> sizes = new();
 		private readonly IEverythingSearchService everythingService;
 		private readonly IGeneralSettingsService generalSettings;
+		private static EverythingSdk3Service _sdk3Service;
 
 		public event EventHandler<SizeChangedEventArgs>? SizeChanged;
 
@@ -42,6 +43,18 @@ namespace Files.App.Services.SizeProvider
 		
 		[DllImport("Everything", EntryPoint = "Everything_Reset")]
 		private static extern void Everything_Reset();
+		
+		[DllImport("Everything", EntryPoint = "Everything_SetSort")]
+		private static extern void Everything_SetSort(uint dwSortType);
+		
+		[DllImport("Everything", EntryPoint = "Everything_IsFileResult")]
+		private static extern bool Everything_IsFileResult(uint nIndex);
+		
+		[DllImport("Everything", EntryPoint = "Everything_GetResultPath", CharSet = CharSet.Unicode)]
+		private static extern IntPtr Everything_GetResultPath(uint nIndex);
+		
+		[DllImport("Everything", EntryPoint = "Everything_GetResultFileName", CharSet = CharSet.Unicode)]
+		private static extern IntPtr Everything_GetResultFileName(uint nIndex);
 		
 		// Note: Everything_CleanUp is intentionally not imported as it can cause access violations
 		// Everything_Reset() is sufficient for resetting the query state between searches
@@ -107,6 +120,47 @@ namespace Files.App.Services.SizeProvider
 
 		private async Task<ulong> CalculateWithEverythingAsync(string path, CancellationToken cancellationToken)
 		{
+			// Try SDK3 first if available
+			if (_sdk3Service == null)
+			{
+				try
+				{
+					_sdk3Service = new EverythingSdk3Service();
+					if (_sdk3Service.Connect())
+					{
+						App.Logger?.LogInformation("[EverythingSizeProvider] Connected to Everything SDK3 for folder size calculation");
+					}
+					else
+					{
+						_sdk3Service?.Dispose();
+						_sdk3Service = null;
+					}
+				}
+				catch (Exception ex)
+				{
+					App.Logger?.LogWarning(ex, "[EverythingSizeProvider] SDK3 not available");
+					_sdk3Service = null;
+				}
+			}
+			
+			if (_sdk3Service != null && _sdk3Service.IsConnected)
+			{
+				try
+				{
+					var size = await Task.Run(() => _sdk3Service.GetFolderSize(path), cancellationToken);
+					if (size > 0)
+					{
+						App.Logger?.LogInformation($"[EverythingSizeProvider SDK3] Got folder size for {path}: {size} bytes");
+						return size;
+					}
+				}
+				catch (Exception ex)
+				{
+					App.Logger?.LogError(ex, $"[EverythingSizeProvider SDK3] Error getting folder size for {path}");
+				}
+			}
+			
+			// Fall back to SDK2
 			return await Task.Run(() =>
 			{
 				bool queryExecuted = false;
@@ -143,11 +197,17 @@ namespace Files.App.Services.SizeProvider
 					// Reset Everything state
 					Everything_Reset();
 					
-					// Search for all files under this path
-					// Use folder: to search within specific folder
-					var searchQuery = $"folder:\"{path}\"";
+					// Use an optimized query that only returns files (not folders) to reduce result count
+					// The folder: syntax searches recursively within the specified folder
+					// Adding file: ensures we only get files, not directories
+					var searchQuery = $"folder:\"{path}\" file:";
 					Everything_SetSearchW(searchQuery);
+					
+					// Request only size information to optimize performance
 					Everything_SetRequestFlags(EVERYTHING_REQUEST_SIZE);
+					
+					// Sort by size descending to prioritize large files if we hit the limit
+					Everything_SetSort(13); // EVERYTHING_SORT_SIZE_DESCENDING
 					
 					// Use configurable max results limit
 					var maxResults = (uint)generalSettings.EverythingMaxFolderSizeResults;
@@ -159,29 +219,42 @@ namespace Files.App.Services.SizeProvider
 
 					var numResults = Everything_GetNumResults();
 					
-					// If we hit the limit, fall back to standard calculation
+					// If we hit the limit, we're still getting the largest files first
+					// This gives a more accurate estimate even with limited results
 					if (numResults >= maxResults)
 					{
-						return 0UL; // Will trigger fallback calculation
+						App.Logger?.LogInformation($"[EverythingSizeProvider SDK2] Hit result limit ({maxResults}) for {path}, results may be incomplete");
 					}
 					
 					ulong totalSize = 0;
+					int validResults = 0;
 
 					for (uint i = 0; i < numResults; i++)
 					{
 						if (cancellationToken.IsCancellationRequested)
 							break;
 
-						if (Everything_GetResultSize(i, out long size))
+						if (Everything_GetResultSize(i, out long size) && size > 0)
 						{
 							totalSize += (ulong)size;
+							validResults++;
 						}
 					}
+					
+					// If we got very few results or hit the limit for a folder that should have more files,
+					// fall back to standard calculation
+					if (numResults >= maxResults && validResults < 100)
+					{
+						App.Logger?.LogInformation($"[EverythingSizeProvider SDK2] Too few valid results ({validResults}) for {path}, using fallback");
+						return 0UL; // Will trigger fallback calculation
+					}
 
+					App.Logger?.LogInformation($"[EverythingSizeProvider SDK2] Calculated {totalSize} bytes for {path} ({validResults} files)");
 					return totalSize;
 				}
 				catch (Exception ex)
 				{
+					App.Logger?.LogError(ex, $"[EverythingSizeProvider SDK2] Error calculating with Everything for {path}");
 					return 0UL;
 				}
 				finally

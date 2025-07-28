@@ -501,6 +501,11 @@ namespace Files.App.ViewModels.Settings
 			get => showEverythingNotInstalledWarning;
 			set => SetProperty(ref showEverythingNotInstalledWarning, value);
 		}
+		
+		public bool ShowEverythingFolderSizeInfo
+		{
+			get => IsEverythingSearchAvailable && SelectedSearchEngineType == "Everything" && UserSettingsService.FoldersSettingsService.CalculateFolderSizes;
+		}
 
 		public bool CanSelectSearchEngine(string searchEngine)
 		{

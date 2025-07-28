@@ -202,6 +202,15 @@
 						Command="{x:Bind ViewModel.OpenEverythingDownloadCommand}" />
 				</InfoBar.ActionButton>
 			</InfoBar>
+			
+			<!--  Everything Folder Size Indexing Info  -->
+			<InfoBar
+				IsOpen="{x:Bind ViewModel.ShowEverythingFolderSizeInfo, Mode=OneWay}"
+				IsClosable="True"
+				IsIconVisible="True"
+				Severity="Informational"
+				Title="Enable folder size indexing in Everything"
+				Message="For faster folder size calculations, enable 'Index file size' and 'Index folder size' in Everything Options > Indexes." />
 
 		</StackPanel>
 	</Grid>

@@ -25,7 +25,20 @@ namespace Files.App.Services.Search
 		private const int EVERYTHING_REQUEST_ATTRIBUTES = 0x00000100;
 
 		// Architecture-aware DLL name
-		private static readonly string EverythingDllName = Environment.Is64BitProcess ? "Everything64.dll" : "Everything32.dll";
+		private static readonly string EverythingDllName = GetArchitectureSpecificDllName();
+		
+		private static string GetArchitectureSpecificDllName()
+		{
+			// Check for ARM64 first
+			if (System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture == System.Runtime.InteropServices.Architecture.Arm64)
+			{
+				// Use native ARM64 DLL for better performance
+				return "EverythingARM64.dll";
+			}
+			
+			// Standard x86/x64 detection
+			return Environment.Is64BitProcess ? "Everything64.dll" : "Everything32.dll";
+		}
 
 		// Everything API imports - using architecture-aware DLL resolution
 		[DllImport("Everything", EntryPoint = "Everything_SetSearchW", CharSet = CharSet.Unicode)]
@@ -88,6 +101,9 @@ namespace Files.App.Services.Search
 		[DllImport("Everything", EntryPoint = "Everything_Reset")]
 		private static extern void Everything_Reset();
 		
+		[DllImport("Everything", EntryPoint = "Everything_SetSort")]
+		private static extern void Everything_SetSort(uint dwSortType);
+		
 		// Note: Everything_CleanUp is intentionally not imported as it can cause access violations
 		// Everything_Reset() is sufficient for resetting the query state between searches
 		
@@ -118,6 +134,11 @@ namespace Files.App.Services.Search
 		private static bool _everythingAvailable = false;
 		private static bool _availabilityChecked = false;
 		private static DateTime _lastAvailabilityCheck = default;
+		
+		// SDK3 support
+		private static EverythingSdk3Service _sdk3Service;
+		private static bool _sdk3Available = false;
+		private static bool _sdk3Checked = false;
 
 		static EverythingSearchService()
 		{
@@ -156,8 +177,8 @@ namespace Files.App.Services.Search
 					var appDirectory = AppContext.BaseDirectory;
 					var possiblePaths = new[]
 					{
-						Path.Combine(appDirectory, EverythingDllName),
 						Path.Combine(appDirectory, "Libraries", EverythingDllName),
+						Path.Combine(appDirectory, EverythingDllName),
 						Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Everything", EverythingDllName),
 						Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Everything", EverythingDllName),
 						Path.Combine(@"C:\Program Files\Everything", EverythingDllName),
@@ -257,9 +278,36 @@ namespace Files.App.Services.Search
 				if (_availabilityChecked && _lastAvailabilityCheck != default && 
 				    DateTime.UtcNow - _lastAvailabilityCheck < TimeSpan.FromSeconds(30))
 				{
-					return _everythingAvailable;
+					return _everythingAvailable || _sdk3Available;
 				}
-
+				
+				// Check SDK3 first (Everything 1.5)
+				// Note: SDK3 DLLs are not included and must be obtained separately from:
+				// https://github.com/voidtools/everything_sdk3
+				if (!_sdk3Checked)
+				{
+					try
+					{
+						if (_sdk3Service == null)
+							_sdk3Service = new EverythingSdk3Service();
+						
+						_sdk3Available = _sdk3Service.Connect();
+						_sdk3Checked = true;
+						
+						if (_sdk3Available)
+						{
+							App.Logger?.LogInformation("[Everything] Everything SDK3 (v1.5) is available");
+							_lastAvailabilityCheck = DateTime.UtcNow;
+							return true;
+						}
+					}
+					catch (Exception ex)
+					{
+						App.Logger?.LogWarning(ex, "[Everything] SDK3 not available, falling back to SDK2");
+						_sdk3Available = false;
+						_sdk3Checked = true;
+					}
+				}
 
 				try
 				{
@@ -292,7 +340,7 @@ namespace Files.App.Services.Search
 
 						if (_everythingAvailable)
 						{
-							App.Logger?.LogInformation("[Everything] Everything is available and responding");
+							App.Logger?.LogInformation("[Everything] Everything SDK2 (v1.4) is available and responding");
 						}
 						else
 						{
@@ -323,7 +371,74 @@ namespace Files.App.Services.Search
 			{
 				return new List<ListedItem>();
 			}
+			
+			// Try SDK3 first if available
+			if (_sdk3Available && _sdk3Service != null)
+			{
+				try
+				{
+					var searchQuery = BuildOptimizedQuery(query, searchPath);
+					App.Logger?.LogInformation($"[Everything SDK3] Executing search query: '{searchQuery}'");
+					
+					var sdk3Results = await _sdk3Service.SearchAsync(searchQuery, 1000, cancellationToken);
+					var results = new List<ListedItem>();
+					
+					foreach (var (path, name, isFolder, size, dateModified, dateCreated, attributes) in sdk3Results)
+					{
+						if (cancellationToken.IsCancellationRequested)
+							break;
+						
+						var fullPath = string.IsNullOrEmpty(path) ? name : Path.Combine(path, name);
+						
+						// Skip if it doesn't match our filter criteria
+						if (!string.IsNullOrEmpty(searchPath) && searchPath != "Home" && 
+							!fullPath.StartsWith(searchPath, StringComparison.OrdinalIgnoreCase))
+							continue;
+						
+						var isHidden = (attributes & 0x02) != 0; // FILE_ATTRIBUTE_HIDDEN
+						
+						// Check user settings for hidden items
+						if (isHidden && !_userSettingsService.FoldersSettingsService.ShowHiddenItems)
+							continue;
+						
+						// Check for dot files
+						if (name.StartsWith('.') && !_userSettingsService.FoldersSettingsService.ShowDotFiles)
+							continue;
+						
+						var item = new ListedItem(null)
+						{
+							PrimaryItemAttribute = isFolder ? StorageItemTypes.Folder : StorageItemTypes.File,
+							ItemNameRaw = name,
+							ItemPath = fullPath,
+							ItemDateModifiedReal = dateModified,
+							ItemDateCreatedReal = dateCreated,
+							IsHiddenItem = isHidden,
+							LoadFileIcon = false,
+							FileExtension = isFolder ? null : Path.GetExtension(fullPath),
+							FileSizeBytes = isFolder ? 0 : (long)size,
+							FileSize = isFolder ? null : ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString(),
+							Opacity = isHidden ? Constants.UI.DimItemOpacity : 1
+						};
+						
+						if (!isFolder)
+						{
+							item.ItemType = item.FileExtension?.Trim('.') + " " + Strings.File.GetLocalizedResource();
+						}
+						
+						results.Add(item);
+					}
+					
+					App.Logger?.LogInformation($"[Everything SDK3] Search completed with {results.Count} results");
+					return results;
+				}
+				catch (Exception ex)
+				{
+					App.Logger?.LogError(ex, "[Everything SDK3] Search failed, falling back to SDK2");
+					// Fall through to SDK2
+				}
+			}
 
+			// SDK2 fallback
 			return await Task.Run(() =>
 			{
 				var results = new List<ListedItem>();
@@ -349,7 +464,7 @@ namespace Files.App.Services.Search
 					Everything_SetMax(1000);
 
 					// Execute the query
-					App.Logger?.LogInformation($"[Everything] Executing search query: '{searchQuery}'");
+					App.Logger?.LogInformation($"[Everything SDK2] Executing search query: '{searchQuery}'");
 					queryExecuted = Everything_QueryW(true);
 					if (!queryExecuted)
 					{
@@ -365,7 +480,7 @@ namespace Files.App.Services.Search
 					}
 
 					var numResults = Everything_GetNumResults();
-					App.Logger?.LogInformation($"[Everything] Query returned {numResults} results");
+					App.Logger?.LogInformation($"[Everything SDK2] Query returned {numResults} results");
 
 					for (uint i = 0; i < numResults; i++)
 					{
@@ -434,6 +549,7 @@ namespace Files.App.Services.Search
 				}
 				catch (Exception ex)
 				{
+					App.Logger?.LogError(ex, "[Everything SDK2] Search error");
 				}
 				finally
 				{
