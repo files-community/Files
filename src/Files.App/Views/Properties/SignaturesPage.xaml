@@ -23,16 +23,30 @@
 				x:Key="BoolToBrushConverter"
 				FalseValue="{ThemeResource SystemFillColorCriticalBrush}"
 				TrueValue="{ThemeResource SystemFillColorSuccessBrush}" />
+
+			<toolkitconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 		</ResourceDictionary>
 	</vm:BasePropertiesPage.Resources>
 
 	<ScrollViewer>
 
 		<Grid x:Name="RootGrid" Padding="12,6">
+			<TextBlock
+				x:Name="NoSignaturesMessage"
+				Grid.Row="1"
+				VerticalAlignment="Center"
+				x:Load="{x:Bind SignaturesViewModel.NoSignatureFound}"
+				FontSize="20"
+				FontWeight="SemiBold"
+				Text="{helpers:ResourceString Name=NoSignatureFound}"
+				TextAlignment="Center" />
 
 			<!--  Signatures ItemsRepeater  -->
-			<ItemsRepeater x:Name="HashesListView" ItemsSource="{x:Bind SignaturesViewModel.Signatures, Mode=TwoWay}">
-
+			<ItemsRepeater
+				x:Name="SignaturesListView"
+				Grid.Row="1"
+				x:Load="{x:Bind SignaturesViewModel.NoSignatureFound, Converter={StaticResource BoolNegationConverter}}"
+				ItemsSource="{x:Bind SignaturesViewModel.Signatures, Mode=TwoWay}">
 				<!--  Template  -->
 				<ItemsRepeater.ItemTemplate>
 					<DataTemplate x:DataType="datamodels:SignatureInfoItem">

@@ -4291,4 +4291,7 @@
   <data name="ValidTo" xml:space="preserve">
     <value>Valid to:</value>
   </data>
+  <data name="NoSignatureFound" xml:space="preserve">
+    <value>No signature was found.</value>
+  </data>
 </root>

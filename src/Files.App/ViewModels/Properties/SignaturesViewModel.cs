@@ -12,11 +12,14 @@ namespace Files.App.ViewModels.Properties
 
 		public ObservableCollection<SignatureInfoItem> Signatures { get; set; }
 
+		public bool NoSignatureFound => Signatures.Count == 0;
+
 		public SignaturesViewModel(ListedItem item, AppWindow appWindow)
 		{
 			_cancellationTokenSource = new();
 			Signatures = new();
 			var hWnd = Microsoft.UI.Win32Interop.GetWindowFromWindowId(appWindow.Id);
+			Signatures.CollectionChanged += (s, e) => OnPropertyChanged(nameof(NoSignatureFound));
 			DigitalSignaturesUtil.LoadItemSignatures(
 				item.ItemPath,
 				Signatures,

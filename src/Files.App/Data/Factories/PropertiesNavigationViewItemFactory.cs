@@ -3,12 +3,25 @@
 
 using Files.Shared.Helpers;
 using Microsoft.UI.Xaml;
+using System.Collections.Frozen;
 using Windows.Storage;
 
 namespace Files.App.Data.Factories
 {
 	public static class PropertiesNavigationViewItemFactory
 	{
+		private static readonly FrozenSet<string> _signableTypes = new HashSet<string>()
+		{
+			".aab", ".apk", ".application", ".appx", ".appxbundle", ".arx", ".cab", ".cat", ".cbx",
+			".cpl", ".crx", ".dbx", ".deploy", ".dll", ".doc", ".docm", ".dot", ".dotm", ".drx",
+			".ear", ".efi", ".exe", ".jar", ".js", ".manifest", ".mpp", ".mpt", ".msi", ".msix",
+			".msixbundle", ".msm", ".msp", ".nupkg", ".ocx", ".pot", ".potm", ".ppa", ".ppam", ".pps",
+			".ppsm", ".ppt", ".pptm", ".ps1", ".psm1", ".psi", ".pub", ".sar", ".stl", ".sys", ".vbs",
+			".vdw", ".vdx", ".vsd", ".vsdm", ".vss", ".vssm", ".vst", ".vstm", ".vsto", ".vsix", ".vsx", ".vtx",
+			".vxd", ".war", ".wiz", ".wsf", ".xap", ".xla", ".xlam", ".xls", ".xlsb", ".xlsm", ".xlt",
+			".xltm", ".xlsm", ".xsn"
+		}.ToFrozenSet();
+
 		public static ObservableCollection<NavigationViewItemButtonStyleItem> Initialize(object item)
 		{
 			ObservableCollection<NavigationViewItemButtonStyleItem> PropertiesNavigationViewItems = [];
@@ -110,15 +123,16 @@ namespace Files.App.Data.Factories
 				var detailsItemEnabled = !(isFolder && !listedItem.IsArchive) && !isLibrary && !listedItem.IsRecycleBinItem;
 				var customizationItemEnabled = !isLibrary && (isFolder && !listedItem.IsArchive || isShortcut && !listedItem.IsLinkItem);
 				var compatibilityItemEnabled = FileExtensionHelpers.IsExecutableFile(listedItem is IShortcutItem sht ? sht.TargetPath : fileExt, true);
+				var signaturesItemEnabled = !isFolder && !isLibrary && !listedItem.IsRecycleBinItem && _signableTypes.Contains(fileExt);
 
 				if (!securityItemEnabled)
 					PropertiesNavigationViewItems.Remove(securityItem);
 
 				if (!hashItemEnabled)
-				{
 					PropertiesNavigationViewItems.Remove(hashesItem);
+
+				if (!signaturesItemEnabled)
 					PropertiesNavigationViewItems.Remove(signaturesItem);
-				}
 
 				if (!isShortcut)
 					PropertiesNavigationViewItems.Remove(shortcutItem);
