@@ -3,7 +3,7 @@
 
 namespace Files.App.Storage
 {
-	public enum ContextMenuType
+	public enum WindowsContextMenuType
 	{
 		Normal = 0x00000000,
 

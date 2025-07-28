@@ -11,6 +11,7 @@ namespace Files.App.Storage
 {
 	public unsafe abstract class WindowsStorable : IWindowsStorable
 	{
+		/// <inheritdoc/>
 		public IShellItem* ThisPtr
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -20,6 +21,7 @@ namespace Files.App.Storage
 			set;
 		}
 
+		/// <inheritdoc/>
 		public IContextMenu* ContextMenu
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -29,8 +31,10 @@ namespace Files.App.Storage
 			set;
 		}
 
+		/// <inheritdoc/>
 		public string Id => this.GetDisplayName(SIGDN.SIGDN_FILESYSPATH);
 
+		/// <inheritdoc/>
 		public string Name => this.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI);
 
 		public static WindowsStorable? TryParse(string szPath)
@@ -54,6 +58,7 @@ namespace Files.App.Storage
 			return isFolder ? new WindowsFolder(pShellItem) : new WindowsFile(pShellItem);
 		}
 
+		/// <inheritdoc/>
 		public unsafe Task<IFolder?> GetParentAsync(CancellationToken cancellationToken = default)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
@@ -72,6 +77,7 @@ namespace Files.App.Storage
 			return Equals(obj as IWindowsStorable);
 		}
 
+		/// <inheritdoc/>
 		public override int GetHashCode()
 		{
 			return HashCode.Combine(Id, Name);
