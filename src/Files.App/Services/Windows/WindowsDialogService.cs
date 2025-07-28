@@ -149,7 +149,7 @@ namespace Files.App.Services
 				using ComPtr<IShellItem> pResultShellItem = default;
 				pDialog.Get()->GetResult(pResultShellItem.GetAddressOf());
 				if (pResultShellItem.Get() is null)
-					throw new COMException("FileOpenDialog returned invalid shell item.");
+					throw new COMException("FileSaveDialog returned invalid shell item.");
 				pResultShellItem.Get()->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
 				filePath = lpFilePath.ToString();
 
