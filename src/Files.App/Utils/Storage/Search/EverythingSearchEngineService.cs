@@ -100,11 +100,7 @@ namespace Files.App.Utils.Storage.Search
 			{
 				App.Logger?.LogInformation("[SearchEngine: Everything] Showing fallback notification to user");
 				
-				// Show toast notification that Everything is unavailable
-				await Task.Run(() =>
-				{
-					AppToastNotificationHelper.ShowEverythingUnavailableToast();
-				});
+				// Everything is not available - search will use Windows Search instead
 			}
 			catch (Exception ex)
 			{
