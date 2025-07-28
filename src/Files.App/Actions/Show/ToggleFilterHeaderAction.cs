@@ -31,6 +31,11 @@ namespace Files.App.Actions
 
 			if (IsOn)
 				ContentPageContext.ShellPage!.ShellViewModel.InvokeFocusFilterHeader();
+			else
+			{
+				// Clear the filter query when the header is hidden
+				ContentPageContext.ShellPage!.ShellViewModel.FilesAndFoldersFilter = string.Empty;
+			}
 
 			return Task.CompletedTask;
 		}

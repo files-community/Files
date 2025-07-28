@@ -95,7 +95,7 @@ namespace Files.App.Views.Layouts
 			ItemManipulationModel.RefreshItemsThumbnailInvoked -= ItemManipulationModel_RefreshItemsThumbnail;
 		}
 
-		protected override void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
+		protected override void Page_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (ParentShellPageInstance is null ||
 				ParentShellPageInstance.CurrentPageType != this.GetType() ||
@@ -112,7 +112,7 @@ namespace Files.App.Views.Layouts
 				DependencyObjectHelpers.FindParent<ContentDialog>(focusedElement) is not null)
 				return;
 
-			base.Page_CharacterReceived(sender, args);
+			base.Page_PreviewKeyDown(sender, e);
 		}
 
 		// Virtual methods

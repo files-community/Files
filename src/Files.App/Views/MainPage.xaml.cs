@@ -216,6 +216,13 @@ namespace Files.App.Views
 					if (source?.FindAscendantOrSelf<TextBox>() is not null)
 						break;
 
+					// Prevent the Back and Space keys from executing a command if the keyboard
+					// typing behavior is set to filter items and a filter is currently applied.
+					if ((e.Key is VirtualKey.Back or VirtualKey.Space) &&
+						UserSettingsService.FoldersSettingsService.KeyboardTypingBehavior == KeyboardTypingBehavior.FilterItems &&
+						!string.IsNullOrEmpty(SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn!.ShellViewModel.FilesAndFoldersFilter))
+						break;
+
 					// Execute command for hotkey
 					var command = Commands[hotKey];
 

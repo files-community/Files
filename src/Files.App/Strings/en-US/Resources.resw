@@ -4278,6 +4278,15 @@
   </data>
   <data name="Filename" xml:space="preserve">
     <value>Filename</value>
+  </data>	
+  <data name="KeyboardTypingBehavior" xml:space="preserve">
+    <value>Behavior when typing in the file area</value>
+  </data>
+  <data name="JumpToFile" xml:space="preserve">
+    <value>Jump to file</value>
+  </data>
+  <data name="FilterItems" xml:space="preserve">
+    <value>Filter items</value>
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>Signatures</value>

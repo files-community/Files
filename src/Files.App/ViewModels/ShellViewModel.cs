@@ -781,6 +781,7 @@ namespace Files.App.ViewModels
 			{
 				if (SetProperty(ref _filesAndFoldersFilter, value))
 				{
+					// Apply the updated filter to the files and folders list
 					FilesAndFolderFilterUpdated();
 				}
 			}
@@ -791,6 +792,27 @@ namespace Files.App.ViewModels
 			_ = ApplyFilesAndFoldersChangesAsync();
 		}
 
+		/// <summary>
+		/// Clears the files and folder filter.
+		/// This is used when the directory is changed or refreshed.
+		/// </summary>
+		private void ClearFilesAndFolderFilter()
+		{
+			// Hide the filter header if:
+			// - Keyboard behavior is set to filter items
+			// - A filter is currently applied
+			//
+			// Keep the header visible if:
+			// - The filter is already empty (e.g. opened manually)
+			if (UserSettingsService.FoldersSettingsService.KeyboardTypingBehavior == KeyboardTypingBehavior.FilterItems &&
+				!string.IsNullOrEmpty(FilesAndFoldersFilter))
+			{
+				UserSettingsService.GeneralSettingsService.ShowFilterHeader = false;
+			}
+
+			// Clear the filter
+			FilesAndFoldersFilter = string.Empty;
+		}
 
 		// Apply changes immediately after manipulating on filesAndFolders completed
 		public async Task ApplyFilesAndFoldersChangesAsync()
@@ -1913,7 +1935,7 @@ namespace Files.App.ViewModels
 						{
 							GetDesktopIniFileData();
 							CheckForBackgroundImage();
-							FilesAndFoldersFilter = null;
+							ClearFilesAndFolderFilter();
 						},
 						Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					});
