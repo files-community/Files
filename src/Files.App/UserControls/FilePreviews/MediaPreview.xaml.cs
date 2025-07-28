@@ -17,7 +17,6 @@ namespace Files.App.UserControls.FilePreviews
 			ViewModel = model;
 			InitializeComponent();
 			PlayerContext.Loaded += PlayerContext_Loaded;
-			PlayerContext.Unloaded += PlayerContext_Unloaded;
 			Unloaded += MediaPreview_Unloaded;
 		}
 
@@ -30,12 +29,6 @@ namespace Files.App.UserControls.FilePreviews
 			ViewModel.TogglePlaybackRequested += TogglePlaybackRequestInvoked;
 		}
 
-		private void PlayerContext_Unloaded(object sender, RoutedEventArgs e)
-		{
-			PlayerContext.MediaPlayer.VolumeChanged -= MediaPlayer_VolumeChanged;
-			ViewModel.TogglePlaybackRequested -= TogglePlaybackRequestInvoked;
-		}
-
 		private void MediaPreview_Unloaded(object sender, RoutedEventArgs e)
 		{
 			// The MediaPlayerElement isn't properly disposed by Windows so we set the source to null
@@ -43,8 +36,10 @@ namespace Files.App.UserControls.FilePreviews
 			PlayerContext.Source = null;
 
 			PlayerContext.Loaded -= PlayerContext_Loaded;
-			PlayerContext.Unloaded -= PlayerContext_Unloaded;
 			Unloaded -= MediaPreview_Unloaded;
+
+			PlayerContext.MediaPlayer.VolumeChanged -= MediaPlayer_VolumeChanged;
+			ViewModel.TogglePlaybackRequested -= TogglePlaybackRequestInvoked;
 		}
 
 		private void MediaPlayer_VolumeChanged(MediaPlayer sender, object args)
