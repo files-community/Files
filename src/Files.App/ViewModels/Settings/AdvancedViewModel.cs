@@ -28,6 +28,7 @@ namespace Files.App.ViewModels.Settings
 		public ICommand ImportSettingsCommand { get; }
 		public AsyncRelayCommand OpenFilesOnWindowsStartupCommand { get; }
 
+		public Dictionary<KeyboardTypingBehavior, string> KeyboardTypingBehaviors { get; private set; } = [];
 
 		public AdvancedViewModel()
 		{
@@ -39,6 +40,11 @@ namespace Files.App.ViewModels.Settings
 			ExportSettingsCommand = new AsyncRelayCommand(ExportSettingsAsync);
 			ImportSettingsCommand = new AsyncRelayCommand(ImportSettingsAsync);
 			OpenFilesOnWindowsStartupCommand = new AsyncRelayCommand(OpenFilesOnWindowsStartupAsync);
+
+			// Keyboard typing behavior
+			KeyboardTypingBehaviors.Add(Data.Enums.KeyboardTypingBehavior.JumpToFile, Strings.JumpToFile.GetLocalizedResource());
+			KeyboardTypingBehaviors.Add(Data.Enums.KeyboardTypingBehavior.FilterItems, Strings.FilterItems.GetLocalizedResource());
+			KeyboardTypingBehavior = KeyboardTypingBehaviors[UserSettingsService.FoldersSettingsService.KeyboardTypingBehavior];
 
 			_ = DetectOpenFilesAtStartupAsync();
 		}
@@ -354,6 +360,20 @@ namespace Files.App.ViewModels.Settings
 				OnPropertyChanged();
 			}
 		}
+
+		private string keyboardTypingBehavior;
+		public string KeyboardTypingBehavior
+		{
+			get => keyboardTypingBehavior;
+			set
+			{
+				if (SetProperty(ref keyboardTypingBehavior, value))
+				{
+					UserSettingsService.FoldersSettingsService.KeyboardTypingBehavior = KeyboardTypingBehaviors.First(e => e.Value == value).Key;
+				}
+			}
+		}
+
 		public async Task OpenFilesOnWindowsStartupAsync()
 		{
 			var stateMode = await ReadState();

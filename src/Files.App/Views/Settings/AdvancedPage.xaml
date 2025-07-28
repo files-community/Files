@@ -8,6 +8,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls"
 	mc:Ignorable="d">
@@ -159,6 +160,18 @@
 						</i:EventTriggerBehavior>
 					</i:Interaction.Behaviors>
 				</ToggleSwitch>
+			</wctcontrols:SettingsCard>
+
+			<!--  Keyboard typing behavior  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=KeyboardTypingBehavior}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE765;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+
+				<uc:ComboBoxEx
+					AutomationProperties.Name="{helpers:ResourceString Name=KeyboardTypingBehavior}"
+					ItemsSource="{x:Bind ViewModel.KeyboardTypingBehaviors.Values}"
+					SelectedItem="{x:Bind ViewModel.KeyboardTypingBehavior, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
 			<!--  Flatten options  -->

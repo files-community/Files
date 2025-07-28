@@ -15,6 +15,7 @@ using Microsoft.UI.Xaml.Navigation;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.ComTypes;
+using System.Text;
 using Vanara.Extensions;
 using Vanara.PInvoke;
 using Windows.ApplicationModel.DataTransfer;
@@ -23,6 +24,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
+using Windows.Win32;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.App.Data.Enums.SortDirection;
@@ -40,6 +42,8 @@ namespace Files.App.Views.Layouts
 		protected IFileTagsSettingsService FileTagsSettingsService { get; } = Ioc.Default.GetService<IFileTagsSettingsService>()!;
 		protected IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetService<IUserSettingsService>()!;
 		protected ILayoutSettingsService LayoutSettingsService { get; } = Ioc.Default.GetService<ILayoutSettingsService>()!;
+		protected IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetService<IGeneralSettingsService>()!;
+		protected IFoldersSettingsService FoldersSettingsService { get; } = Ioc.Default.GetService<IFoldersSettingsService>()!;
 		protected ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		public InfoPaneViewModel InfoPaneViewModel { get; } = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 		protected readonly IWindowContext WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
@@ -401,7 +405,7 @@ namespace Files.App.Views.Layouts
 			base.OnNavigatedTo(e);
 
 			// Add item jumping handler
-			CharacterReceived += Page_CharacterReceived;
+			PreviewKeyDown += Page_PreviewKeyDown;
 
 			navigationArguments = (NavigationArguments)e.Parameter;
 			ParentShellPageInstance = navigationArguments.AssociatedTabInstance;
@@ -565,7 +569,7 @@ namespace Files.App.Views.Layouts
 			base.OnNavigatingFrom(e);
 
 			// Remove item jumping handler
-			CharacterReceived -= Page_CharacterReceived;
+			PreviewKeyDown -= Page_PreviewKeyDown;
 			FolderSettings!.LayoutModeChangeRequested -= BaseFolderSettings_LayoutModeChangeRequested;
 			FolderSettings.GroupOptionPreferenceUpdated -= FolderSettings_GroupOptionPreferenceUpdated;
 			FolderSettings.GroupDirectionPreferenceUpdated -= FolderSettings_GroupDirectionPreferenceUpdated;
@@ -996,12 +1000,82 @@ namespace Files.App.Views.Layouts
 				overflowSeparator.Visibility = Visibility.Collapsed;
 		}
 
-		protected virtual void Page_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
+		protected virtual void Page_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
-			if (ParentShellPageInstance!.IsCurrentInstance)
+			var shellPage = ParentShellPageInstance;
+			if (shellPage?.IsCurrentInstance != true)
+				return;
+
+			var pressedKey = e.Key;
+			var currentFilter = shellPage.ShellViewModel.FilesAndFoldersFilter ?? string.Empty;
+			var isFilterModeOn = FoldersSettingsService.KeyboardTypingBehavior == KeyboardTypingBehavior.FilterItems;
+			var buffer = new StringBuilder(4);
+			var state = new byte[256];
+			char? typedCharacter = null;
+
+			if (PInvoke.GetKeyboardState(state))
 			{
-				char letter = args.Character;
-				JumpString += letter.ToString().ToLowerInvariant();
+				var virtualKey = (uint)pressedKey;
+				var scanCode = PInvoke.MapVirtualKey(virtualKey, 0);
+				var keyboardLayout = PInvoke.GetKeyboardLayout(0);
+
+				if (Win32PInvoke.ToUnicodeEx(virtualKey, scanCode, state, buffer, buffer.Capacity, 0, keyboardLayout) > 0)
+				{
+					var character = buffer[^1];
+					if (character != ' ')
+						typedCharacter = character;
+				}
+			}
+
+			if (!typedCharacter.HasValue)
+				return;
+
+			// Handle valid character input
+			if (!Path.GetInvalidFileNameChars().Contains(char.ToLowerInvariant(typedCharacter.Value)))
+			{
+				var lowerCharString = char.ToLowerInvariant(typedCharacter.Value).ToString();
+
+				if (isFilterModeOn)
+				{
+					if (!GeneralSettingsService.ShowFilterHeader)
+						GeneralSettingsService.ShowFilterHeader = true;
+					shellPage.ShellViewModel.FilesAndFoldersFilter += lowerCharString;
+				}
+				else
+				{
+					JumpString += lowerCharString;
+				}
+			}
+			// Handle special keys in filter mode
+			else if (isFilterModeOn && !string.IsNullOrEmpty(currentFilter))
+			{
+				switch (pressedKey)
+				{
+					case VirtualKey.Back when currentFilter.Length > 1:
+						shellPage.ShellViewModel.FilesAndFoldersFilter = currentFilter[..^1];
+						break;
+
+					case VirtualKey.Back when currentFilter.Length == 1:
+						shellPage.ShellViewModel.FilesAndFoldersFilter = string.Empty;
+						GeneralSettingsService.ShowFilterHeader = false;
+						break;
+				}
+			}
+
+			// Update selection in filter mode
+			if (isFilterModeOn)
+			{
+				var filterText = shellPage.ShellViewModel.FilesAndFoldersFilter;
+				var matchedItem = shellPage.ShellViewModel.FilesAndFolders
+					.FirstOrDefault(item => !string.IsNullOrEmpty(filterText) &&
+										   item.Name?.Contains(filterText, StringComparison.OrdinalIgnoreCase) == true);
+
+				if (matchedItem != null)
+				{
+					ItemManipulationModel.SetSelectedItem(matchedItem);
+					ItemManipulationModel.ScrollIntoView(matchedItem);
+					ItemManipulationModel.FocusSelectedItems();
+				}
 			}
 		}
 
