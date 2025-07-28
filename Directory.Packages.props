@@ -56,8 +56,10 @@
     <PackageVersion Include="Appium.WebDriver" Version="4.4.5" />
     <PackageVersion Include="Axe.Windows" Version="2.4.2" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+    <PackageVersion Include="MSTest" Version="3.8.3" />
     <PackageVersion Include="MSTest.TestAdapter" Version="3.8.3" />
     <PackageVersion Include="MSTest.TestFramework" Version="3.8.3" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
     <PackageVersion Include="Dongle.GuidRVAGen" Version="1.0.5" />
     <PackageVersion Include="Microsoft.TestPlatform.TestHost" Version="17.13.0" />
   </ItemGroup>

@@ -19,7 +19,7 @@ global using SystemIO = global::System.IO;
 
 global using global::Microsoft.VisualStudio.TestPlatform.TestExecutor;
 global using global::Microsoft.VisualStudio.TestTools.UnitTesting;
-global using global::Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
+//global using global::Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 
 
 // Files.Core.Storage

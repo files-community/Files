@@ -14,7 +14,7 @@ namespace Files.App.UnitTests
 		[STATestMethod]
 		public void Test_GetShellNewItems()
 		{
-			using var folder = WindowsStorable.TryParse(FOLDERID.FOLDERID_Desktop) as WindowsFolder;
+			using var folder = new WindowsFolder(*FOLDERID.FOLDERID_Desktop);
 			Assert.IsNotNull(folder, $"\"{nameof(folder)}\" must not be null.");
 
 			var items = folder.GetShellNewMenuItems();
@@ -36,7 +36,7 @@ namespace Files.App.UnitTests
 
 			HRESULT hr = default;
 			using var bulkOperations = new WindowsBulkOperations();
-			using var desktopFolder = WindowsStorable.TryParse(FOLDERID.FOLDERID_Desktop) as WindowsFolder;
+			using var desktopFolder = new WindowsFolder(*FOLDERID.FOLDERID_Desktop);
 			Assert.IsNotNull(desktopFolder, $"\"{nameof(desktopFolder)}\" was null.");
 			hr = bulkOperations.QueueCreateOperation(desktopFolder, 0, "Test_GetOpenWithMenuItems.txt", null);
 			Assert.IsTrue(hr.Succeeded, $"Failed to queue the create operation: {hr}");
