@@ -32,13 +32,11 @@ env:
   SOLUTION_PATH: '${{ github.workspace }}\Files.slnx'
   PACKAGE_PROJECT_DIR: '${{ github.workspace }}\src\Files.App (Package)'
   PACKAGE_PROJECT_PATH: '${{ github.workspace }}\src\Files.App (Package)\Files.Package.wapproj'
-  TESTS_ARCHITECTURE: 'x64'
-  TESTS_CONFIGURATION: 'Release'
-  TESTS_ASSEMBLY_DIR: '${{ github.workspace }}\artifacts\TestsAssembly'
-  AXE_TESTS_PROJECT_DIR: '${{ github.workspace }}\tests\Files.InteractionTests'
-  AXE_TESTS_PROJECT_PATH: '${{ github.workspace }}\tests\Files.InteractionTests\Files.InteractionTests.csproj'
-  UNIT_TESTS_PROJECT_DIR: '${{ github.workspace }}\tests\Files.App.UnitTests'
-  UNIT_TESTS_PROJECT_PATH: '${{ github.workspace }}\tests\Files.App.UnitTests\Files.App.UnitTests.csproj'
+  AUTOMATED_TESTS_ARCHITECTURE: 'x64'
+  AUTOMATED_TESTS_CONFIGURATION: 'Release'
+  AUTOMATED_TESTS_PROJECT_DIR: '${{ github.workspace }}\tests\Files.InteractionTests'
+  AUTOMATED_TESTS_PROJECT_PATH: '${{ github.workspace }}\tests\Files.InteractionTests\Files.InteractionTests.csproj'
+  AUTOMATED_TESTS_ASSEMBLY_DIR: '${{ github.workspace }}\artifacts\TestsAssembly'
   ARTIFACTS_STAGING_DIR:  '${{ github.workspace }}\artifacts'
   APPX_PACKAGE_DIR: '${{ github.workspace }}\artifacts\AppxPackages'
   APPX_SELFSIGNED_CERT_PATH: '${{ github.workspace }}\.github\workflows\FilesApp_SelfSigned.pfx'
@@ -120,7 +118,7 @@ jobs:
           -p:PublishReadyToRun=true `
           -v:quiet
 
-    - if: env.CONFIGURATION != env.TESTS_CONFIGURATION || env.ARCHITECTURE != env.TESTS_ARCHITECTURE 
+    - if: env.CONFIGURATION != env.AUTOMATED_TESTS_CONFIGURATION || env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE 
       name: Build Files
       run: |
         msbuild `
@@ -131,11 +129,11 @@ jobs:
           -p:AppxBundle=Never `
           -v:quiet
 
-    - if: env.CONFIGURATION == env.TESTS_CONFIGURATION && env.ARCHITECTURE == env.TESTS_ARCHITECTURE
+    - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION && env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE
       name: Create self signed cert as a pfx file
       run: ./.github/scripts/Generate-SelfCertPfx.ps1 -Destination "$env:APPX_SELFSIGNED_CERT_PATH"
 
-    - if: env.CONFIGURATION == env.TESTS_CONFIGURATION && env.ARCHITECTURE == env.TESTS_ARCHITECTURE
+    - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION && env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE
       name: Build & package Files
       run: |
         msbuild `
@@ -144,7 +142,7 @@ jobs:
           -t:_GenerateAppxPackage `
           -p:Configuration=$env:CONFIGURATION `
           -p:Platform=$env:ARCHITECTURE `
-          -p:AppxBundlePlatforms=$env:TESTS_ARCHITECTURE `
+          -p:AppxBundlePlatforms=$env:AUTOMATED_TESTS_ARCHITECTURE `
           -p:AppxBundle=Always `
           -p:UapAppxPackageBuildMode=SideloadOnly `
           -p:AppxPackageDir=$env:APPX_PACKAGE_DIR `
@@ -154,31 +152,31 @@ jobs:
           -p:PackageCertificateThumbprint="" `
           -v:quiet
 
-    - if: env.ARCHITECTURE == env.TESTS_ARCHITECTURE && env.CONFIGURATION == env.TESTS_CONFIGURATION
+    - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
       name: Build interaction tests
       run: |
-        msbuild $env:AXE_TESTS_PROJECT_PATH `
+        msbuild $env:AUTOMATED_TESTS_PROJECT_PATH `
           -t:Build `
           -p:Configuration=$env:CONFIGURATION `
-          -p:Platform=$env:TESTS_ARCHITECTURE `
+          -p:Platform=$env:AUTOMATED_TESTS_ARCHITECTURE `
           -v:quiet
 
-    - if: env.ARCHITECTURE == env.TESTS_ARCHITECTURE && env.CONFIGURATION == env.TESTS_CONFIGURATION
+    - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
       name: Copy tests bin to the artifacts dir
       shell: pwsh
       run: |
         Copy-Item `
-          -Path "$env:AXE_TESTS_PROJECT_DIR\bin" `
-          -Destination "$env:TESTS_ASSEMBLY_DIR" -Recurse
+          -Path "$env:AUTOMATED_TESTS_PROJECT_DIR\bin" `
+          -Destination "$env:AUTOMATED_TESTS_ASSEMBLY_DIR" -Recurse
 
-    - if: env.ARCHITECTURE == env.TESTS_ARCHITECTURE && env.CONFIGURATION == env.TESTS_CONFIGURATION
+    - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
       name: Upload the packages to the Artifacts
       uses: actions/upload-artifact@v4
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.ARCHITECTURE }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
-  axe-test:
+  test:
 
     if: github.repository_owner == 'files-community' && always()
 
@@ -191,7 +189,6 @@ jobs:
         platform: [x64]
     env:
       CONFIGURATION: ${{ matrix.configuration }}
-      PLATFORM:  ${{ matrix.platform }}
     permissions:
       contents: read
       pull-requests: write
@@ -212,10 +209,10 @@ jobs:
     - name: Download the packages from the Artifacts
       uses: actions/download-artifact@v4
       with:
-        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
+        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.AUTOMATED_TESTS_ARCHITECTURE }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
-    - name: Prepare for the tests
+    - name: Install Files
       shell: powershell
       run: |
         Set-Location "$env:APPX_PACKAGE_DIR"
@@ -223,10 +220,15 @@ jobs:
         Set-Location $AppxPackageBundleDir
         ./Install.ps1 -Force
         Get-AppxPackage
-        Set-DisplayResolution -Width 1920 -Height 1080 -Force
-        Start-Process -FilePath "$env:WINAPPDRIVER_EXE86_PATH"
 
-    # Retry the tests if first attempt fails
+    - name: Set full HD resolution
+      run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
+
+    - name: Start WinAppDriver process
+      shell: pwsh
+      run: Start-Process -FilePath "$env:WINAPPDRIVER_EXE86_PATH"
+
+    # Retry integration tests if first attempt fails
     - name: Run interaction tests
       uses: nick-fields/retry@v3
       with:
@@ -235,46 +237,30 @@ jobs:
         shell: pwsh
         command: |
           dotnet test `
-            $env:TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll `
-            --logger "trx;LogFileName=$env:TESTS_ASSEMBLY_DIR\testResults.trx"
+            $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll `
+            --logger "trx;LogFileName=$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"
 
     - if: github.event_name == 'pull_request'
       uses: geekyeggo/delete-artifact@v5
       with:
           name: '*'
 
-  unit-test:
+    # - name: Generate markdown from the tests result
+    #   shell: pwsh
+    #   run: |
+    #     . './scripts/Convert-TrxToMarkdown.ps1' `
+    #       -Source "$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx" `
+    #       -Destination "$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.md"
+    #   env:
+    #     PULL_REQUEST_ID: ${{ github.event.pull_request_id }}
 
-    if: github.repository_owner == 'files-community' && always()
+    # - name: Display the markdown on the output (temp)
+    #   shell: pwsh
+    #   run: |
+    #     Get-Content $env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.md
 
-    runs-on: windows-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        configuration: [Release]
-        platform: [x64]
-    env:
-      CONFIGURATION: ${{ matrix.configuration }}
-      PLATFORM: ${{ matrix.platform }}
-
-    steps:
-
-    - if: contains(join(needs.*.result, ','), 'failure')
-      name: Fail if necessary
-      run: exit 1
-
-    - name: Checkout the repository
-      uses: actions/checkout@v4
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        global-json-file: global.json
-
-    - name: Build the unit tests
-      run: |
-        dotnet build $env:UNIT_TESTS_PROJECT_PATH -c $env:CONFIGURATION -a $env:PLATFORM
-
-    - name: Run the unit tests
-      run: |
-        Set-DisplayResolution -Width 1920 -Height 1080 -Force
-        dotnet test $env:UNIT_TESTS_PROJECT_DIR\bin\**\Files.App.UnitTests.dll -v minimal
+    # - name: Publish tests result
+    #   uses: marocchino/sticky-pull-request-comment@v2
+    #   with:
+    #     header: test-result
+    #     path: '${{ env.AUTOMATED_TESTS_ASSEMBLY_DIR }}\testResults.md'

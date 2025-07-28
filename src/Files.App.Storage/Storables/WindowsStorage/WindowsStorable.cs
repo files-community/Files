@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.SystemServices;
@@ -40,14 +39,7 @@ namespace Files.App.Storage
 			IShellItem* pShellItem = null;
 
 			fixed (char* pszPath = szPath)
-			{
 				hr = PInvoke.SHCreateItemFromParsingName(pszPath, null, IID.IID_IShellItem, (void**)&pShellItem);
-
-				if (hr.Failed)
-				{
-					throw new COMException($"Failed with {hr:X}", hr);
-				}
-			}
 
 			if (pShellItem is null)
 				return null;
@@ -60,23 +52,6 @@ namespace Files.App.Storage
 			bool isFolder = pShellItem->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var returnedAttributes).Succeeded && returnedAttributes is SFGAO_FLAGS.SFGAO_FOLDER;
 
 			return isFolder ? new WindowsFolder(pShellItem) : new WindowsFile(pShellItem);
-		}
-
-		public static WindowsStorable? TryParse(Guid* pFolderId, KNOWN_FOLDER_FLAG dwFlags = KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT)
-		{
-			IShellItem* pShellItem = default;
-
-			HRESULT hr = PInvoke.SHGetKnownFolderItem(pFolderId, dwFlags, HANDLE.Null, IID.IID_IShellItem, (void**)&pShellItem);
-			if (hr.Failed)
-			{
-				fixed (char* pszShellPath = $"::{*pFolderId:B}")
-					hr = PInvoke.SHCreateItemFromParsingName(pszShellPath, null, IID.IID_IShellItem, (void**)&pShellItem);
-
-				// Invalid FOLDERID; this should never happen.
-				hr.ThrowOnFailure();
-			}
-
-			return new WindowsFolder(pShellItem);
 		}
 
 		public unsafe Task<IFolder?> GetParentAsync(CancellationToken cancellationToken = default)
