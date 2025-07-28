@@ -236,3 +236,12 @@ GetMenuItemCount
 GetMenuItemInfo
 IsWow64Process2
 GetCurrentProcess
+SHChangeNotifyRegister
+SHChangeNotifyDeregister
+SHChangeNotification_Lock
+SHChangeNotification_Unlock
+CoInitialize
+CoUninitialize
+PostQuitMessage
+HWND_MESSAGE
+SHCNE_ID

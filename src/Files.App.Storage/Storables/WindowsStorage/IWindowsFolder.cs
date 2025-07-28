@@ -5,7 +5,7 @@ using Windows.Win32.UI.Shell;
 
 namespace Files.App.Storage
 {
-	public unsafe interface IWindowsFolder : IWindowsStorable, IChildFolder
+	public unsafe interface IWindowsFolder : IWindowsStorable, IChildFolder, IMutableFolder
 	{
 		/// <summary>
 		/// Gets or sets the cached <see cref="IContextMenu"/> for the ShellNew context menu.
