@@ -19,6 +19,7 @@ namespace Files.App.Services.SizeProvider
 		private readonly IEverythingSearchService everythingService;
 		private readonly IGeneralSettingsService generalSettings;
 		private static EverythingSdk3Service _sdk3Service;
+		private readonly SemaphoreSlim _calculationSemaphore = new(3); // Limit concurrent calculations
 
 		public event EventHandler<SizeChangedEventArgs>? SizeChanged;
 
@@ -77,45 +78,55 @@ namespace Files.App.Services.SizeProvider
 
 		public async Task UpdateAsync(string path, CancellationToken cancellationToken)
 		{
-			await Task.Yield();
-			
-			
 			// Return cached size immediately if available
 			if (sizes.TryGetValue(path, out ulong cachedSize))
 			{
 				RaiseSizeChanged(path, cachedSize, SizeChangedValueState.Final);
-			}
-			else
-			{
-				RaiseSizeChanged(path, 0, SizeChangedValueState.None);
-			}
-
-			// Check if Everything is available
-			if (!everythingService.IsEverythingAvailable())
-			{
-				await FallbackCalculateAsync(path, cancellationToken);
 				return;
 			}
 
-			try
+			// Indicate that calculation is starting
+			RaiseSizeChanged(path, 0, SizeChangedValueState.None);
+
+			// Run the entire calculation on a background thread to avoid blocking
+			await Task.Run(async () =>
 			{
-				// Calculate using Everything
-				ulong totalSize = await CalculateWithEverythingAsync(path, cancellationToken);
-				
-				if (totalSize == 0)
+				// Limit concurrent calculations
+				await _calculationSemaphore.WaitAsync(cancellationToken);
+				try
 				{
-					// Everything returned 0, use fallback
-					await FallbackCalculateAsync(path, cancellationToken);
-					return;
+					// Check if Everything is available
+					if (!everythingService.IsEverythingAvailable())
+					{
+						await FallbackCalculateAsync(path, cancellationToken);
+						return;
+					}
+
+					try
+					{
+						// Calculate using Everything
+						ulong totalSize = await CalculateWithEverythingAsync(path, cancellationToken);
+						
+						if (totalSize == 0)
+						{
+							// Everything returned 0, use fallback
+							await FallbackCalculateAsync(path, cancellationToken);
+							return;
+						}
+						sizes[path] = totalSize;
+						RaiseSizeChanged(path, totalSize, SizeChangedValueState.Final);
+					}
+					catch (Exception ex)
+					{
+						// Fall back to standard calculation on error
+						await FallbackCalculateAsync(path, cancellationToken);
+					}
 				}
-				sizes[path] = totalSize;
-				RaiseSizeChanged(path, totalSize, SizeChangedValueState.Final);
-			}
-			catch (Exception ex)
-			{
-				// Fall back to standard calculation on error
-				await FallbackCalculateAsync(path, cancellationToken);
-			}
+				finally
+				{
+					_calculationSemaphore.Release();
+				}
+			}, cancellationToken).ConfigureAwait(false);
 		}
 
 		private async Task<ulong> CalculateWithEverythingAsync(string path, CancellationToken cancellationToken)
@@ -147,12 +158,20 @@ namespace Files.App.Services.SizeProvider
 			{
 				try
 				{
-					var size = await Task.Run(() => _sdk3Service.GetFolderSize(path), cancellationToken);
+					// Use a timeout for SDK3 queries to prevent hanging
+					using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+					cts.CancelAfter(TimeSpan.FromSeconds(2)); // 2 second timeout
+					
+					var size = await Task.Run(() => _sdk3Service.GetFolderSize(path), cts.Token);
 					if (size > 0)
 					{
 						App.Logger?.LogInformation($"[EverythingSizeProvider SDK3] Got folder size for {path}: {size} bytes");
 						return size;
 					}
+				}
+				catch (OperationCanceledException)
+				{
+					App.Logger?.LogWarning($"[EverythingSizeProvider SDK3] Timeout getting folder size for {path}");
 				}
 				catch (Exception ex)
 				{
@@ -326,7 +345,11 @@ namespace Files.App.Services.SizeProvider
 
 		public bool TryGetSize(string path, out ulong size) => sizes.TryGetValue(path, out size);
 
-		public void Dispose() { }
+		public void Dispose() 
+		{
+			_calculationSemaphore?.Dispose();
+			_sdk3Service?.Dispose();
+		}
 
 		private void RaiseSizeChanged(string path, ulong newSize, SizeChangedValueState valueState)
 			=> SizeChanged?.Invoke(this, new SizeChangedEventArgs(path, newSize, valueState));
