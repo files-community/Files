@@ -304,5 +304,20 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value whether the filter header should be displayed.
 		/// </summary>
 		bool ShowFilterHeader { get; set; }
+
+		/// <summary>
+		/// Gets or sets the preferred search engine.
+		/// </summary>
+		PreferredSearchEngine PreferredSearchEngine { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether to use Everything for folder size calculations.
+		/// </summary>
+		bool UseEverythingForFolderSizes { get; set; }
+
+		/// <summary>
+		/// Gets or sets the maximum number of results Everything should return for folder size calculations.
+		/// </summary>
+		int EverythingMaxFolderSizeResults { get; set; }
 	}
 }

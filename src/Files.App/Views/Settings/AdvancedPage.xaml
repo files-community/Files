@@ -10,6 +10,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls"
+	xmlns:uc="using:Files.App.UserControls"
 	mc:Ignorable="d">
 
 	<Page.Resources>
@@ -168,6 +169,40 @@
 				</wctcontrols:SettingsCard.HeaderIcon>
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowFlattenOptions}" IsOn="{x:Bind ViewModel.ShowFlattenOptions, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
+
+			<!--  Search Settings  -->
+			<TextBlock
+				Padding="0,16,0,4"
+				FontSize="16"
+				FontWeight="Medium"
+				Text="Search" />
+
+			<!--  Preferred Search Engine  -->
+			<wctcontrols:SettingsCard Header="Preferred search engine" Description="Choose which search engine to use for file searches">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE721;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<uc:ComboBoxEx
+					ItemsSource="{x:Bind ViewModel.SearchEngineTypes.Values}"
+					SelectedItem="{x:Bind ViewModel.SelectedSearchEngineType, Mode=TwoWay}"
+					MinWidth="120" />
+			</wctcontrols:SettingsCard>
+			
+			<!--  Everything Not Installed Warning  -->
+			<InfoBar
+				IsOpen="{x:Bind ViewModel.ShowEverythingNotInstalledWarning, Mode=OneWay}"
+				IsClosable="False"
+				IsIconVisible="True"
+				Severity="Warning"
+				Title="Everything is not installed"
+				Message="Everything search is not available on your system. Download and install Everything to use this search engine.">
+				<InfoBar.ActionButton>
+					<HyperlinkButton
+						Content="Download Everything"
+						Command="{x:Bind ViewModel.OpenEverythingDownloadCommand}" />
+				</InfoBar.ActionButton>
+			</InfoBar>
+
 		</StackPanel>
 	</Grid>
 </Page>

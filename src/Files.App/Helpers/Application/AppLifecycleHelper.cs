@@ -4,6 +4,7 @@
 using Files.App.Helpers.Application;
 using Files.App.Services.SizeProvider;
 using Files.App.Utils.Logger;
+using Files.App.Utils.Storage.Search;
 using Files.App.ViewModels.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -246,6 +247,11 @@ namespace Files.App.Helpers
 					.AddSingleton<IStorageArchiveService, StorageArchiveService>()
 					.AddSingleton<IStorageSecurityService, StorageSecurityService>()
 					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
+					// Search Engine Services
+					.AddSingleton<WindowsSearchEngineService>()
+					.AddSingleton<EverythingSearchEngineService>()
+					.AddSingleton<Files.App.Services.Search.IEverythingSearchService, Files.App.Services.Search.EverythingSearchService>()
+					.AddSingleton<ISearchEngineSelector, SearchEngineSelector>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()
 					.AddSingleton<InfoPaneViewModel>()

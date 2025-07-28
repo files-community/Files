@@ -369,13 +369,31 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool ShowFilterHeader
-		{
-			get => Get(false);
-			set => Set(value);
-		}
+	public bool ShowFilterHeader
+	{
+		get => Get(false);
+		set => Set(value);
+	}
 
-		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
+	public PreferredSearchEngine PreferredSearchEngine
+	{
+		get => (PreferredSearchEngine)Get((long)PreferredSearchEngine.Windows);
+		set => Set((long)value);
+	}
+
+	public bool UseEverythingForFolderSizes
+	{
+		get => Get(false);
+		set => Set(value);
+	}
+
+	public int EverythingMaxFolderSizeResults
+	{
+		get => Get(1000);
+		set => Set(value);
+	}
+
+	protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			base.RaiseOnSettingChangedEvent(sender, e);
 		}
