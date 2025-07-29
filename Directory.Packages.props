@@ -46,18 +46,18 @@
     <PackageVersion Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="3.0.0" />
     <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
     <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.183" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.12.0" />
     <PackageVersion Include="PolySharp" Version="1.15.0" />
     <PackageVersion Include="System.Text.Json" Version="9.0.6" />
     <PackageVersion Include="System.IO.Hashing" Version="9.0.6" />
     <PackageVersion Include="System.Threading.Tasks.Dataflow" Version="9.0.6" />
-    <PackageVersion Include="Appium.WebDriver" Version="4.4.5" />
+    <PackageVersion Include="Appium.WebDriver" Version="8.0.0" />
     <PackageVersion Include="Axe.Windows" Version="2.4.2" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
-    <PackageVersion Include="MSTest.TestAdapter" Version="3.8.3" />
-    <PackageVersion Include="MSTest.TestFramework" Version="3.8.3" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageVersion Include="MSTest.TestAdapter" Version="3.9.3" />
+    <PackageVersion Include="MSTest.TestFramework" Version="3.9.3" />
     <PackageVersion Include="Dongle.GuidRVAGen" Version="1.0.5" />
   </ItemGroup>
 </Project>
