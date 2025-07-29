@@ -34,8 +34,8 @@ namespace Files.App.Utils.Storage
 			{
 				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 				return userSettingsService.FoldersSettingsService.AreAlternateStreamsVisible
-					? ['\\', '/', '*', '?', '"', '<', '>', '|'] // Allow ":" char
-					: ['\\', '/', ':', '*', '?', '"', '<', '>', '|'];
+					? Path.GetInvalidFileNameChars().Where(c => c != ':').ToArray() // Allow ":" char when alternate streams are visible
+					: Path.GetInvalidFileNameChars();
 			}
 		}
 

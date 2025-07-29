@@ -1031,7 +1031,7 @@ namespace Files.App.Views.Layouts
 				return;
 
 			// Handle valid character input
-			if (!Path.GetInvalidFileNameChars().Contains(char.ToLowerInvariant(typedCharacter.Value)))
+			if (!FilesystemHelpers.ContainsRestrictedCharacters(char.ToString(typedCharacter.Value)))
 			{
 				var lowerCharString = char.ToLowerInvariant(typedCharacter.Value).ToString();
 
