@@ -619,9 +619,9 @@ namespace Files.App.Data.Factories
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenTerminal)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenTerminal &&
-							Commands.OpenTerminal.IsExecutable &&
-							(!itemsSelected || areAllItemsFolders)
+					IsVisible = (!itemsSelected || areAllItemsFolders) &&
+						Commands.OpenTerminal.IsExecutable &&
+						UserSettingsService.GeneralSettingsService.ShowOpenTerminal
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenStorageSense).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.FormatDrive).Build(),
