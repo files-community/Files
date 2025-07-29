@@ -3490,27 +3490,27 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>S'han comprimit {0} elements a "{1}"</value>
+    <value>{0, plural, one {# element comprimit} other {# elements comprimits}} a «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
-    <value>S'han comprimit {0} elements de "{1}" a "{2}"</value>
+    <value>{0, plural, one {# element comprimit} other {# elements comprimits}} de «{1}» a «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>S'ha produït un error en comprimir {0} elements a "{1}"</value>
+    <value>Error en comprimir {0, plural, one {# element} other {# elements}} a «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>No s'han pogut comprimir {0} elements de "{1}" a "{2}"</value>
+    <value>No s'ha pogut comprimir {0, plural, one {# element} other {# elements}} de «{1}» a «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>S'estan comprimint {0} elements a "{1}"</value>
+    <value>S'està comprimint {0, plural, one {# element} other {# elements}} a «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
-    <value>S'estan comprimint {0} elements de "{1}" a "{2}"</value>
+    <value>S'està comprimint {0, plural, one {# element} other {# elements}} de «{1}» a «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
@@ -3550,63 +3550,63 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
-    <value>S'ha cancel·lat la instal·lació de {0} fonts de «{1}»</value>
+    <value>S'ha cancel·lat la instal·lació de {0, plural, one {# origen} other {# origens}} de «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
-    <value>S'han instal·lat {0} fonts</value>
+    <value>{0, plural, one {# origen instal·lat} other {# origens instal·lats}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
-    <value>S'han instal·lat {0} fonts de «{1}»</value>
+    <value>{0, plural, one {# font} other {# fonts}} de «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
-    <value>S'ha produït un error en instal·lar {0} font(s)</value>
+    <value>S'ha produït un error instal·lant {0, plural, one {# font} other {# fonts}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
-    <value>No s'han pogut instal·lar {0} fonts de «{1}»</value>
+    <value>No s'ha pogut instal·lar {0, plural, one {# font} other {# fonts}} de «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
-    <value>S'estan instal·lant {0} fonts</value>
+    <value>S'està instal·lant {0, plural, one {# font} other {# fonts}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
-    <value>S'estan instal·lant {0} fonts de «{1}»</value>
+    <value>S'està instal·lant {0, plural, one {# font} other {# fonts}} de «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>S'ha cancel·lat la còpia de {0} elements a "{1}"</value>
+    <value>S'ha cancel·lat la còpia de {0, plural, one {# element} other {# elements}} a «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>S'ha cancel·lat la còpia de {0} elements de "{1}" a "{2}"</value>
+    <value>S'ha cancel·lat la còpia de {0, plural, one {# element} other {# elements}} de «{1}» a «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>S'han copiat {0} elements a "{1}"</value>
+    <value>S'ha copiat {0, plural, one {# element} other {# elements}} a «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>S'han copiat {0} elements de "{1}" a "{2}"</value>
+    <value>S'ha copiat {0, plural, one {# element} other {# elements}} de «{1}» a «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>S'ha produït un error en copiar {0} elements a "{1}"</value>
+    <value>S'ha produït un error en copiar {0, plural, one {# element} other {# elements}} a «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>No s'han pogut copiar {0} elements de "{1}" a "{2}"</value>
+    <value>No s'ha pogut copiar {0, plural, one {# element} other {# elements}} de «{1}» a «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
-    <value>S'estan copiant {0} elements a "{1}"</value>
+    <value>S'està copiant {0, plural, one {# element} other {# elements}} a «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>S'estan copiant {0} elements de "{1}" a "{2}"</value>
+    <value>S'està copiant {0, plural, one {# element} other {# elements}} de «{1}» a «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
@@ -3642,55 +3642,55 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>S'ha cancel·lat la supressió de {0} elements de "{1}"</value>
+    <value>S'ha cancel·lat l'eliminació de {0, plural, one {# element} other {# elements}} de «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>S'han suprimit {0} elements de "{1}"</value>
+    <value>S'ha eliminat {0, plural, one {# element} other {# elements}} de «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>S'ha produït un error en suprimir {0} elements de "{1}"</value>
+    <value>S'ha produït un error en eliminar {0, plural, one {# element} other {# elements}} de «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>No s'han pogut suprimir {0} elements de "{1}"</value>
+    <value>No s'ha pogut eliminar {0, plural, one {# element} other {# elements}} de «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>S'estan suprimint {0} elements de "{1}"</value>
+    <value>S'està eliminant {0, plural, one {# element} other {# elements}} de «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>S'ha cancel·lat el moviment de {0} elements a "{1}"</value>
+    <value>S'ha cancel·lat el moviment de {0, plural, one {# element} other {# elements}} a «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
-    <value>S'ha cancel·lat el moviment de {0} elements de "{1}" a "{2}"</value>
+    <value>S'ha cancel·lat el moviment de {0, plural, one {# element} other {# elements}} de «{1}» a «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>S'han mogut {0} elements a "{1}"</value>
+    <value>S'ha mogut {0, plural, one {# element} other {# elements}} a «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
-    <value>S'han mogut {0} elements de "{1}" a "{2}"</value>
+    <value>S'ha mogut {0, plural, one {# element} other {# elements}} de «{1}» a «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
-    <value>S'estan movent {0} elements a "{1}"</value>
+    <value>S'està movent {0, plural, one {# element} other {# elements}} a «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
-    <value>S'està movent {0} elements de "{1}" a "{2}"</value>
+    <value>S'està movent {0, plural, one {# element} other {# elements}} de «{1}» a «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>S'ha produït un error en moure {0} elements a "{1}"</value>
+    <value>S'ha produït un error en moure {0, plural, one {# element} other {# elements}} a «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
-    <value>No s'han pogut moure {0} elements de "{1}" a "{2}"</value>
+    <value>No s'ha pogut moure {0, plural, one {# element} other {# elements}} de «{1}» a «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
@@ -4223,9 +4223,6 @@
   <data name="Decimal" xml:space="preserve">
     <value>Decimal</value>
   </data>
-  <data name="EnableOmnibar" xml:space="preserve">
-    <value>Activa l'Omnibar</value>
-  </data>
   <data name="SectionsHiddenMessage" xml:space="preserve">
     <value>Podeu afegir seccions a la barra lateral fent clic amb el botó dret i seleccionant les seccions que voleu afegir</value>
   </data>
@@ -4259,7 +4256,10 @@
     <value>Mostra la ruta de navegació de la ruta replegada</value>
   </data>
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
-    <value>Mostra les carpetes secundàries</value>
+    <value>Mostra les carpetes a {0}</value>
+  </data>
+  <data name="BreadcrumbBarRootChevronButtonToolTip" xml:space="preserve">
+    <value>Mostra les carpetes a l'inici</value>
   </data>
   <data name="NoCommandsFound" xml:space="preserve">
     <value>No hi ha cap ordre que contingui {0}</value>
@@ -4272,5 +4272,8 @@
   </data>
   <data name="Filename" xml:space="preserve">
     <value>Nom del fitxer</value>
+  </data>
+  <data name="ShowOpenTerminal" xml:space="preserve">
+    <value>Show option to open folders in Windows Terminal</value>
   </data>
 </root>
