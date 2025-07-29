@@ -557,10 +557,10 @@ namespace Files.App.ViewModels
 			watcherCTS = new CancellationTokenSource();
 			operationEvent = new AsyncManualResetEvent();
 			gitChangedEvent = new AsyncManualResetEvent();
-			enumFolderSemaphore = new SemaphoreSlim(1, 1);
+			enumFolderSemaphore = new SemaphoreSlim(4, 4); // Allow 4 concurrent folder enumerations
 			getFileOrFolderSemaphore = new SemaphoreSlim(50);
 			bulkOperationSemaphore = new SemaphoreSlim(1, 1);
-			loadThumbnailSemaphore = new SemaphoreSlim(1, 1);
+			loadThumbnailSemaphore = new SemaphoreSlim(20, 20); // Allow 20 concurrent thumbnail loads
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -725,6 +725,7 @@ namespace Files.App.ViewModels
 			CancelExtendedPropertiesLoading();
 			filesAndFolders.Clear();
 			FilesAndFolders.Clear();
+			_lastKnownItems.Clear(); // Clear differential update tracking
 			CancelSearch();
 		}
 
@@ -755,8 +756,21 @@ namespace Files.App.ViewModels
 
 
 		// Apply changes immediately after manipulating on filesAndFolders completed
+		// Track the last known state for differential updates
+		private Dictionary<string, ListedItem> _lastKnownItems = new Dictionary<string, ListedItem>();
+		
+		// Icon cache to prevent reloading the same icons (using WeakReference for better memory management)
+		private static readonly ConcurrentDictionary<string, WeakReference<BitmapImage>> _iconCache = new ConcurrentDictionary<string, WeakReference<BitmapImage>>();
+		
+		// Performance monitoring
+		private readonly ConcurrentDictionary<string, (int count, double totalMs)> _performanceMetrics = new ConcurrentDictionary<string, (int, double)>();
+		
+		// Git status cache to avoid repeated checks
+		private readonly ConcurrentDictionary<string, (bool isGitRepo, DateTime checkedTime)> _gitStatusCache = new ConcurrentDictionary<string, (bool, DateTime)>();
+
 		public async Task ApplyFilesAndFoldersChangesAsync()
 		{
+			var stopwatch = System.Diagnostics.Stopwatch.StartNew();
 			try
 			{
 				if (filesAndFolders is null || filesAndFolders.Count == 0)
@@ -764,6 +778,7 @@ namespace Files.App.ViewModels
 					void ClearDisplay()
 					{
 						FilesAndFolders.Clear();
+						_lastKnownItems.Clear();
 						UpdateEmptyTextType();
 						DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
 					}
@@ -775,14 +790,23 @@ namespace Files.App.ViewModels
 
 					return;
 				}
+				
 				var filesAndFoldersLocal = filesAndFolders.ToList();
+				
+				// Apply filter if needed
+				if (!string.IsNullOrEmpty(FilesAndFoldersFilter))
+				{
+					filesAndFoldersLocal = filesAndFoldersLocal.Where(x => x.Name.Contains(FilesAndFoldersFilter, StringComparison.OrdinalIgnoreCase)).ToList();
+				}
 
-				// CollectionChanged will cause UI update, which may cause significant performance degradation,
-				// so suppress CollectionChanged event here while loading items heavily.
+				// Use differential updates when we have existing items
+				if (_lastKnownItems.Count > 0 && FilesAndFolders.Count > 0)
+				{
+					await ApplyDifferentialUpdatesAsync(filesAndFoldersLocal);
+					return;
+				}
 
-				// Note that both DataGrid and GridView don't support multi-items changes notification, so here
-				// we have to call BeginBulkOperation to suppress CollectionChanged and call EndBulkOperation
-				// in the end to fire a CollectionChanged event with NotifyCollectionChangedAction.Reset
+				// Fall back to bulk update for initial load or major changes
 				await bulkOperationSemaphore.WaitAsync(addFilesCTS.Token);
 				var isSemaphoreReleased = false;
 				try
@@ -797,16 +821,18 @@ namespace Files.App.ViewModels
 								return;
 
 							FilesAndFolders.Clear();
-							if (string.IsNullOrEmpty(FilesAndFoldersFilter))
-								FilesAndFolders.AddRange(filesAndFoldersLocal);
-							else
-								FilesAndFolders.AddRange(filesAndFoldersLocal.Where(x => x.Name.Contains(FilesAndFoldersFilter, StringComparison.OrdinalIgnoreCase)));
+							FilesAndFolders.AddRange(filesAndFoldersLocal);
+							
+							// Update tracking dictionary
+							_lastKnownItems.Clear();
+							foreach (var item in filesAndFoldersLocal)
+							{
+								_lastKnownItems[item.ItemPath] = item;
+							}
 
 							if (folderSettings.DirectoryGroupOption != GroupOption.None)
 								OrderGroups();
 
-							// Trigger CollectionChanged with NotifyCollectionChangedAction.Reset
-							// once loading is completed so that UI can be updated
 							FilesAndFolders.EndBulkOperation();
 							UpdateEmptyTextType();
 							DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
@@ -818,7 +844,6 @@ namespace Files.App.ViewModels
 						}
 					});
 
-					// The semaphore will be released in UI thread
 					isSemaphoreReleased = true;
 				}
 				finally
@@ -830,6 +855,134 @@ namespace Files.App.ViewModels
 			catch (Exception ex)
 			{
 				App.Logger.LogWarning(ex, ex.Message);
+			}
+			finally
+			{
+				stopwatch.Stop();
+				TrackPerformance("ApplyFilesAndFoldersChanges", stopwatch.ElapsedMilliseconds);
+			}
+		}
+		
+		private void TrackPerformance(string operation, double elapsedMs)
+		{
+			var current = _performanceMetrics.GetOrAdd(operation, (0, 0));
+			_performanceMetrics[operation] = (current.count + 1, current.totalMs + elapsedMs);
+			
+			if (elapsedMs > 100) // Log slow operations
+			{
+				App.Logger?.LogWarning($"Slow operation {operation}: {elapsedMs:F1}ms");
+			}
+		}
+
+		private async Task ApplyDifferentialUpdatesAsync(List<ListedItem> newItems)
+		{
+			await bulkOperationSemaphore.WaitAsync(addFilesCTS.Token);
+			var isSemaphoreReleased = false;
+			
+			try
+			{
+				await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					try
+					{
+						// Create lookup for new items
+						var newItemsDict = newItems.ToDictionary(x => x.ItemPath, x => x);
+						
+						// Track items to add and remove
+						var itemsToAdd = new List<ListedItem>();
+						var itemsToRemove = new List<ListedItem>();
+						var itemsToUpdate = new List<(ListedItem oldItem, ListedItem newItem)>();
+						
+						// Find items to remove or update
+						foreach (var existingItem in FilesAndFolders.ToList())
+						{
+							if (!newItemsDict.TryGetValue(existingItem.ItemPath, out var newItem))
+							{
+								itemsToRemove.Add(existingItem);
+							}
+							else if (existingItem.ItemDateModifiedReal != newItem.ItemDateModifiedReal ||
+									 existingItem.FileSizeBytes != newItem.FileSizeBytes)
+							{
+								itemsToUpdate.Add((existingItem, newItem));
+							}
+						}
+						
+						// Find new items to add
+						foreach (var newItem in newItems)
+						{
+							if (!_lastKnownItems.ContainsKey(newItem.ItemPath))
+							{
+								itemsToAdd.Add(newItem);
+							}
+						}
+						
+						// Apply changes efficiently
+						if (itemsToAdd.Count > 0 || itemsToRemove.Count > 0 || itemsToUpdate.Count > 0)
+						{
+							// For small changes, apply individually
+							if (itemsToAdd.Count + itemsToRemove.Count + itemsToUpdate.Count < 50)
+							{
+								// Remove items
+								foreach (var item in itemsToRemove)
+								{
+									FilesAndFolders.Remove(item);
+									_lastKnownItems.Remove(item.ItemPath);
+								}
+								
+								// Update items
+								foreach (var (oldItem, newItem) in itemsToUpdate)
+								{
+									var index = FilesAndFolders.IndexOf(oldItem);
+									if (index >= 0)
+									{
+										FilesAndFolders[index] = newItem;
+										_lastKnownItems[newItem.ItemPath] = newItem;
+									}
+								}
+								
+								// Add new items
+								foreach (var item in itemsToAdd)
+								{
+									FilesAndFolders.Add(item);
+									_lastKnownItems[item.ItemPath] = item;
+								}
+							}
+							else
+							{
+								// For large changes, use bulk operation
+								FilesAndFolders.BeginBulkOperation();
+								FilesAndFolders.Clear();
+								FilesAndFolders.AddRange(newItems);
+								FilesAndFolders.EndBulkOperation();
+								
+								// Update tracking dictionary
+								_lastKnownItems.Clear();
+								foreach (var item in newItems)
+								{
+									_lastKnownItems[item.ItemPath] = item;
+								}
+							}
+							
+							if (folderSettings.DirectoryGroupOption != GroupOption.None)
+								OrderGroups();
+								
+							UpdateEmptyTextType();
+							DirectoryInfoUpdated?.Invoke(this, EventArgs.Empty);
+						}
+					}
+					finally
+					{
+						isSemaphoreReleased = true;
+						bulkOperationSemaphore.Release();
+					}
+				});
+				
+				isSemaphoreReleased = true;
+			}
+			finally
+			{
+				if (!isSemaphoreReleased)
+					bulkOperationSemaphore.Release();
 			}
 		}
 
@@ -1011,8 +1164,89 @@ namespace Files.App.ViewModels
 			return shieldIcon;
 		}
 
-		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken)
+		private async Task PreloadVisibleItemsAsync(int startIndex, int endIndex)
 		{
+			if (startIndex < 0 || endIndex > FilesAndFolders.Count)
+				return;
+
+			// Preload visible items with high priority
+			var visibleItems = FilesAndFolders.Skip(startIndex).Take(endIndex - startIndex);
+			
+			// Process visible items in parallel but limit concurrency
+			await Task.Run(async () =>
+			{
+				var tasks = new List<Task>();
+				foreach (var item in visibleItems)
+				{
+					if (!item.ItemPropertiesInitialized)
+					{
+						tasks.Add(LoadExtendedItemPropertiesAsync(item, isVisible: true));
+					}
+				}
+				
+				// Limit concurrent operations
+				const int maxConcurrency = 10;
+				using (var semaphore = new SemaphoreSlim(maxConcurrency))
+				{
+					var wrappedTasks = tasks.Select(async task =>
+					{
+						await semaphore.WaitAsync();
+						try
+						{
+							await task;
+						}
+						finally
+						{
+							semaphore.Release();
+						}
+					});
+					
+					await Task.WhenAll(wrappedTasks);
+				}
+			});
+			
+			// Preload adjacent items with lower priority
+			var preloadRadius = 20;
+			var preloadStart = Math.Max(0, startIndex - preloadRadius);
+			var preloadEnd = Math.Min(FilesAndFolders.Count, endIndex + preloadRadius);
+			
+			// Process adjacent items in background
+			_ = Task.Run(async () =>
+			{
+				for (int i = preloadStart; i < startIndex; i++)
+				{
+					if (i >= 0 && i < FilesAndFolders.Count)
+					{
+						var item = FilesAndFolders[i];
+						if (!item.ItemPropertiesInitialized)
+						{
+							await LoadExtendedItemPropertiesAsync(item, isVisible: false);
+						}
+					}
+				}
+				
+				for (int i = endIndex; i < preloadEnd; i++)
+				{
+					if (i >= 0 && i < FilesAndFolders.Count)
+					{
+						var item = FilesAndFolders[i];
+						if (!item.ItemPropertiesInitialized)
+						{
+							await LoadExtendedItemPropertiesAsync(item, isVisible: false);
+						}
+					}
+				}
+			});
+		}
+
+		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken, bool isVisible = true)
+		{
+			// Skip loading thumbnails for non-visible items to improve performance
+			if (!isVisible && UserSettingsService.FoldersSettingsService.ShowThumbnails)
+			{
+				return;
+			}
+
 			var loadNonCachedThumbnail = false;
 			var thumbnailSize = LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
 			var returnIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
@@ -1022,30 +1256,51 @@ namespace Files.App.ViewModels
 
 			byte[]? result = null;
 
+			// For folders, check icon cache first
+			string cacheKey = null;
+			if (item.IsFolder && item.PrimaryItemAttribute == StorageItemTypes.Folder)
+			{
+				// Use a generic key for standard folders
+				cacheKey = $"folder_{thumbnailSize}_{useCurrentScale}";
+				if (_iconCache.TryGetValue(cacheKey, out var weakRef) && weakRef.TryGetTarget(out var cachedIcon))
+				{
+					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+					{
+						item.FileImage = cachedIcon;
+					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.High);
+					return;
+				}
+			}
+
+			// ALWAYS load icon first to prevent flashing - this is fast and prevents UI flashing
+			result = await FileThumbnailHelper.GetIconAsync(
+					item.ItemPath,
+					thumbnailSize,
+					item.IsFolder,
+					IconOptions.ReturnIconOnly | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
+
+			cancellationToken.ThrowIfCancellationRequested();
+
 			// Non-cached thumbnails take longer to generate
 			if (item.IsFolder || !FileExtensionHelpers.IsExecutableFile(item.FileExtension))
 			{
-				if (!returnIconOnly)
+				if (!returnIconOnly && result is not null)
 				{
-					// Get cached thumbnail
-					result = await FileThumbnailHelper.GetIconAsync(
+					// Try to get cached thumbnail after we've already shown the icon
+					var cachedThumbnail = await FileThumbnailHelper.GetIconAsync(
 							item.ItemPath,
 							thumbnailSize,
 							item.IsFolder,
 							IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
 
-					cancellationToken.ThrowIfCancellationRequested();
-					loadNonCachedThumbnail = true;
-				}
-
-				if (result is null)
-				{
-					// Get icon
-					result = await FileThumbnailHelper.GetIconAsync(
-							item.ItemPath,
-							thumbnailSize,
-							item.IsFolder,
-							IconOptions.ReturnIconOnly | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
+					if (cachedThumbnail is not null)
+					{
+						result = cachedThumbnail;
+					}
+					else
+					{
+						loadNonCachedThumbnail = true;
+					}
 
 					cancellationToken.ThrowIfCancellationRequested();
 				}
@@ -1069,8 +1324,16 @@ namespace Files.App.ViewModels
 					// Assign FileImage property
 					var image = await result.ToBitmapAsync();
 					if (image is not null)
+					{
 						item.FileImage = image;
-				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
+						
+						// Cache folder icons using WeakReference
+						if (cacheKey is not null && _iconCache.Count < 100)
+						{
+							_iconCache.TryAdd(cacheKey, new WeakReference<BitmapImage>(image));
+						}
+					}
+				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.High); // Use High priority for faster icon display
 
 				cancellationToken.ThrowIfCancellationRequested();
 			}
@@ -1091,7 +1354,7 @@ namespace Files.App.ViewModels
 				cancellationToken.ThrowIfCancellationRequested();
 			}
 
-			if (loadNonCachedThumbnail)
+			if (loadNonCachedThumbnail && isVisible) // Only load non-cached thumbnails for visible items
 			{
 				// Get non-cached thumbnail asynchronously
 				_ = Task.Run(async () =>
@@ -1134,10 +1397,19 @@ namespace Files.App.ViewModels
 
 		// This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
 		// for file inside the recycle bin (but not on the recycle bin folder itself)
-		public async Task LoadExtendedItemPropertiesAsync(ListedItem item)
+		public async Task LoadExtendedItemPropertiesAsync(ListedItem item, bool isVisible = true)
 		{
 			if (item is null)
 				return;
+
+			// Skip loading extended properties for non-visible items to improve performance
+			if (!isVisible)
+			{
+				item.ItemPropertiesInitialized = false;
+				return;
+			}
+			
+			var stopwatch = System.Diagnostics.Stopwatch.StartNew();
 
 			itemLoadQueue[item.ItemPath] = false;
 
@@ -1166,7 +1438,7 @@ namespace Files.App.ViewModels
 					}
 
 					cts.Token.ThrowIfCancellationRequested();
-					await LoadThumbnailAsync(item, cts.Token);
+					await LoadThumbnailAsync(item, cts.Token, isVisible);
 
 					cts.Token.ThrowIfCancellationRequested();
 					if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
@@ -1328,9 +1600,9 @@ namespace Files.App.ViewModels
 						{
 							_ = Task.Run(async () =>
 							{
-								await Task.Delay(500);
+								// Removed delay to prevent icon flashing
 								cts.Token.ThrowIfCancellationRequested();
-								await LoadThumbnailAsync(item, cts.Token);
+								await LoadThumbnailAsync(item, cts.Token, isVisible);
 							});
 						}
 					}
@@ -1355,6 +1627,9 @@ namespace Files.App.ViewModels
 			{
 				itemLoadQueue.TryRemove(item.ItemPath, out _);
 				await RefreshTagGroups();
+				
+				stopwatch.Stop();
+				TrackPerformance("LoadExtendedItemProperties", stopwatch.ElapsedMilliseconds);
 			}
 		}
 
@@ -1515,6 +1790,24 @@ namespace Files.App.ViewModels
 		public void RefreshItems(string? previousDir, Action postLoadCallback = null)
 		{
 			RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, postLoadCallback);
+		}
+
+		/// <summary>
+		/// Call this method when the viewport changes to preload items that are or will be visible
+		/// </summary>
+		public async Task OnViewportChangedAsync(int firstVisibleIndex, int lastVisibleIndex)
+		{
+			if (firstVisibleIndex < 0 || lastVisibleIndex < 0)
+				return;
+				
+			// Ensure indices are within bounds
+			firstVisibleIndex = Math.Max(0, firstVisibleIndex);
+			lastVisibleIndex = Math.Min(FilesAndFolders.Count - 1, lastVisibleIndex);
+			
+			if (firstVisibleIndex <= lastVisibleIndex)
+			{
+				await PreloadVisibleItemsAsync(firstVisibleIndex, lastVisibleIndex + 1);
+			}
 		}
 
 		private async Task RapidAddItemsToCollectionAsync(string path, string? previousDir, Action postLoadCallback)
