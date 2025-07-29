@@ -4,12 +4,18 @@
 using CommunityToolkit.WinUI;
 using Files.App.Controls;
 using Files.App.UserControls.Selection;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
+using System.Collections.Concurrent;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
@@ -27,6 +33,15 @@ namespace Files.App.Views.Layouts
 
 		private const int TAG_TEXT_BLOCK = 1;
 
+		// Enums
+		
+		private enum ThumbnailPriority
+		{
+			Immediate,  // Visible items
+			Soon,       // Items about to be visible
+			Later       // Items far from viewport
+		}
+
 		// Fields
 
 		private ListedItem? _nextItemToSelect;
@@ -36,6 +51,572 @@ namespace Files.App.Views.Layouts
 		/// size changes, even if the layout size changes (since some layout sizes share the same icon size).
 		/// </summary>
 		private uint currentIconSize;
+
+		// Thumbnail loading infrastructure
+		// Removed global _thumbnailLoadingCts - now using local cancellation tokens for each operation
+		private readonly Dictionary<string, WeakReference<BitmapImage>> _thumbnailCache = new();
+		private readonly Queue<ListedItem> _thumbnailQueue = new();
+		private readonly SemaphoreSlim _thumbnailBatchSemaphore = new(1, 1);
+		private readonly SemaphoreSlim _thumbnailLoadSemaphore = new(Environment.ProcessorCount * 2, Environment.ProcessorCount * 2); // Dynamic concurrency
+		private readonly ConcurrentDictionary<string, Task<BitmapImage?>> _thumbnailLoadTasks = new(); // Prevent duplicate loads
+		private bool _isBatchProcessing;
+		private Microsoft.UI.Dispatching.DispatcherQueueTimer? _scrollEndTimer;
+		private bool _isScrolling;
+		private readonly Timer _cacheCleanupTimer;
+
+		// Helper methods for thumbnail loading
+		private ThumbnailPriority GetItemPriority(ListedItem item, Rect viewport)
+		{
+			if (FileList.ContainerFromItem(item) is not ListViewItem container)
+				return ThumbnailPriority.Later;
+
+			var transform = container.TransformToVisual(FileList);
+			var position = transform.TransformPoint(new Windows.Foundation.Point(0, 0));
+			var itemBounds = new Rect(position.X, position.Y, container.ActualWidth, container.ActualHeight);
+
+			// Check if item is visible
+			if (viewport.X <= itemBounds.X && itemBounds.X <= viewport.X + viewport.Width &&
+				viewport.Y <= itemBounds.Y && itemBounds.Y <= viewport.Y + viewport.Height)
+				return ThumbnailPriority.Immediate;
+
+			// Check if item is near viewport (within 500 pixels)
+			var expandedViewport = new Rect(
+				viewport.X - 500,
+				viewport.Y - 500,
+				viewport.Width + 1000,
+				viewport.Height + 1000);
+
+			if (expandedViewport.X <= itemBounds.X && itemBounds.X <= expandedViewport.X + expandedViewport.Width &&
+				expandedViewport.Y <= itemBounds.Y && itemBounds.Y <= expandedViewport.Y + expandedViewport.Height)
+				return ThumbnailPriority.Soon;
+
+			return ThumbnailPriority.Later;
+		}
+
+		private async Task LoadThumbnailWithCacheAsync(ListedItem item, CancellationToken cancellationToken)
+		{
+			try
+			{
+				// Check cache first
+				if (_thumbnailCache.TryGetValue(item.ItemPath, out var weakRef) && 
+					weakRef.TryGetTarget(out var cachedThumbnail))
+				{
+					item.FileImage = cachedThumbnail;
+					return;
+				}
+
+				// Prevent duplicate loads for the same item
+				if (_thumbnailLoadTasks.TryGetValue(item.ItemPath, out var existingTask))
+				{
+					var result = await existingTask;
+					if (result != null)
+					{
+						item.FileImage = result;
+						_thumbnailCache[item.ItemPath] = new WeakReference<BitmapImage>(result);
+					}
+					return;
+				}
+
+				// Create new load task
+				var loadTask = Task.Run(async () =>
+				{
+					await _thumbnailLoadSemaphore.WaitAsync(cancellationToken);
+					try
+					{
+						// Load thumbnail
+						await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(item);
+
+						// Cache the thumbnail if loaded
+						if (item.FileImage is BitmapImage bitmapImage)
+						{
+							_thumbnailCache[item.ItemPath] = new WeakReference<BitmapImage>(bitmapImage);
+							return bitmapImage;
+						}
+						return null;
+					}
+					finally
+					{
+						_thumbnailLoadSemaphore.Release();
+					}
+				}, cancellationToken);
+
+				// Store the task to prevent duplicates
+				_thumbnailLoadTasks[item.ItemPath] = loadTask;
+
+				var loadResult = await loadTask;
+				if (loadResult != null)
+				{
+					item.FileImage = loadResult;
+				}
+
+				// Clean up the task reference
+				_thumbnailLoadTasks.TryRemove(item.ItemPath, out _);
+			}
+			catch (OperationCanceledException)
+			{
+				// Cancelled, do nothing
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Failed to load thumbnail for {item.ItemPath}: {ex.Message}");
+			}
+		}
+
+		private void InitializeScrollThrottling()
+		{
+			_scrollEndTimer = DispatcherQueue.CreateTimer();
+			_scrollEndTimer.Interval = TimeSpan.FromMilliseconds(150);
+			_scrollEndTimer.Tick += async (s, e) =>
+			{
+				_scrollEndTimer.Stop();
+				_isScrolling = false;
+				await ProcessThumbnailQueueAsync();
+			};
+		}
+
+		private async Task ProcessThumbnailQueueAsync()
+		{
+			if (_isBatchProcessing || _thumbnailQueue.Count == 0)
+				return;
+
+			await _thumbnailBatchSemaphore.WaitAsync();
+			try
+			{
+				_isBatchProcessing = true;
+
+				// Create a new cancellation token source for this operation
+				using var operationCts = new CancellationTokenSource();
+				var cancellationToken = operationCts.Token;
+
+				// Use Parallel.ForEach for better performance
+				var itemsToProcess = new List<ListedItem>();
+				while (_thumbnailQueue.Count > 0 && itemsToProcess.Count < 50)
+				{
+					itemsToProcess.Add(_thumbnailQueue.Dequeue());
+				}
+
+				await Parallel.ForEachAsync(
+					itemsToProcess,
+					new ParallelOptions 
+					{ 
+						MaxDegreeOfParallelism = Environment.ProcessorCount * 2,
+						CancellationToken = cancellationToken 
+					},
+					async (item, token) =>
+					{
+						try
+						{
+							await LoadThumbnailWithCacheAsync(item, token);
+						}
+						catch (OperationCanceledException)
+						{
+							// Gracefully handle cancellation
+							System.Diagnostics.Debug.WriteLine("Thumbnail loading was canceled");
+						}
+						catch (Exception ex)
+						{
+							System.Diagnostics.Debug.WriteLine($"Error loading thumbnail: {ex.Message}");
+						}
+					});
+			}
+			catch (OperationCanceledException)
+			{
+				// Gracefully handle cancellation
+				System.Diagnostics.Debug.WriteLine("ProcessThumbnailQueueAsync was canceled");
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Error in ProcessThumbnailQueueAsync: {ex.Message}");
+			}
+			finally
+			{
+				_isBatchProcessing = false;
+				_thumbnailBatchSemaphore.Release();
+			}
+		}
+
+		// Updated thumbnail loading method with priority-based loading
+		private async Task ShowIconsAndThumbnailsAsync()
+		{
+			if (ContentScroller is null || ParentShellPageInstance is null)
+				return;
+
+			try
+			{
+				// Create a new cancellation token source for this operation
+				using var operationCts = new CancellationTokenSource();
+				var cancellationToken = operationCts.Token;
+
+			// Clear the queue
+			_thumbnailQueue.Clear();
+
+			// Get viewport info
+			var scrollViewer = ContentScroller;
+			var viewport = new Rect(0, scrollViewer.VerticalOffset, scrollViewer.ViewportWidth, scrollViewer.ViewportHeight);
+
+			// Categorize items by priority
+			var itemsByPriority = new Dictionary<ThumbnailPriority, List<ListedItem>>
+			{
+				[ThumbnailPriority.Immediate] = new(),
+				[ThumbnailPriority.Soon] = new(),
+				[ThumbnailPriority.Later] = new()
+			};
+
+			foreach (var item in ParentShellPageInstance.ShellViewModel.FilesAndFolders)
+			{
+				if (item.FileImage != null)
+					continue;
+
+				var priority = GetItemPriority(item, viewport);
+				itemsByPriority[priority].Add(item);
+			}
+
+			// Load immediate priority items with high concurrency
+			var immediateTasks = itemsByPriority[ThumbnailPriority.Immediate]
+				.Take(Environment.ProcessorCount * 2) // Dynamic limit based on CPU cores
+				.Select(item => LoadThumbnailWithCacheAsync(item, cancellationToken))
+				.ToList();
+
+			// Queue soon and later priority items
+			foreach (var item in itemsByPriority[ThumbnailPriority.Soon])
+				_thumbnailQueue.Enqueue(item);
+			foreach (var item in itemsByPriority[ThumbnailPriority.Later])
+				_thumbnailQueue.Enqueue(item);
+
+			// Start loading immediate items
+			if (immediateTasks.Any())
+			{
+				try
+				{
+					await Task.WhenAll(immediateTasks);
+				}
+				catch (OperationCanceledException)
+				{
+					// Cancelled, expected
+				}
+			}
+
+			// Process the queue if not scrolling
+			if (!_isScrolling)
+				await ProcessThumbnailQueueAsync();
+		}
+		catch (OperationCanceledException)
+		{
+			// Gracefully handle cancellation
+			System.Diagnostics.Debug.WriteLine("ShowIconsAndThumbnailsAsync was canceled");
+		}
+		catch (Exception ex)
+		{
+			System.Diagnostics.Debug.WriteLine($"Error in ShowIconsAndThumbnailsAsync: {ex.Message}");
+		}
+		}
+
+		// Optimized ForceLoadMissingThumbnailsAsync
+		private async Task ForceLoadMissingThumbnailsAsync()
+		{
+			if (ParentShellPageInstance is null)
+				return;
+
+			try
+			{
+				// Create a new cancellation token source for this operation
+				using var operationCts = new CancellationTokenSource();
+				var cancellationToken = operationCts.Token;
+
+				// Get all items without thumbnails
+				var itemsWithoutThumbnails = ParentShellPageInstance.ShellViewModel.FilesAndFolders
+					.Where(item => item.FileImage == null)
+					.ToList();
+
+				if (itemsWithoutThumbnails.Count == 0)
+					return;
+
+				System.Diagnostics.Debug.WriteLine($"Force loading thumbnails for {itemsWithoutThumbnails.Count} items");
+
+				// Process in batches with enhanced concurrency
+				const int batchSize = 20;
+				const int maxConcurrency = 8;
+
+				await Parallel.ForEachAsync(
+					itemsWithoutThumbnails.Chunk(batchSize),
+					new ParallelOptions 
+					{ 
+						MaxDegreeOfParallelism = maxConcurrency,
+						CancellationToken = cancellationToken 
+					},
+					async (batch, token) =>
+					{
+						try
+						{
+							var tasks = batch.Select(item => LoadThumbnailWithCacheAsync(item, token));
+							await Task.WhenAll(tasks);
+							await Task.Delay(50, token); // Small delay between batches
+						}
+						catch (OperationCanceledException)
+						{
+							// Gracefully handle cancellation
+							System.Diagnostics.Debug.WriteLine("Batch processing was canceled");
+						}
+						catch (Exception ex)
+						{
+							System.Diagnostics.Debug.WriteLine($"Error in batch processing: {ex.Message}");
+						}
+					});
+			}
+			catch (OperationCanceledException)
+			{
+				// Gracefully handle cancellation
+				System.Diagnostics.Debug.WriteLine("ForceLoadMissingThumbnailsAsync was canceled");
+			}
+			catch (Exception ex)
+			{
+				System.Diagnostics.Debug.WriteLine($"Error in ForceLoadMissingThumbnailsAsync: {ex.Message}");
+			}
+		}
+
+		// Debug helper methods
+		private void LogThumbnailStatus()
+		{
+			if (ParentShellPageInstance is null)
+				return;
+
+			var items = ParentShellPageInstance.ShellViewModel.FilesAndFolders;
+			var withThumbnails = items.Count(i => i.FileImage != null);
+			var total = items.Count();
+
+			// Debug output
+			System.Diagnostics.Debug.WriteLine($"Thumbnail Status: {withThumbnails}/{total} loaded, {_thumbnailQueue.Count} queued");
+		}
+
+		private string GetThumbnailCacheStats()
+		{
+			var activeCount = 0;
+			var deadCount = 0;
+
+			foreach (var kvp in _thumbnailCache)
+			{
+				if (kvp.Value.TryGetTarget(out _))
+					activeCount++;
+				else
+					deadCount++;
+			}
+
+			return $"Cache: {activeCount} active, {deadCount} dead references";
+		}
+
+		private void CleanupCache(object? state)
+		{
+			var deadReferences = _thumbnailCache
+				.Where(kvp => !kvp.Value.TryGetTarget(out _))
+				.Select(kvp => kvp.Key)
+				.ToList();
+			
+			foreach (var key in deadReferences)
+			{
+				_thumbnailCache.Remove(key);
+			}
+
+			System.Diagnostics.Debug.WriteLine($"Cache cleanup: removed {deadReferences.Count} dead references");
+		}
+
+		/// <summary>
+		/// Priority-based thread pool for thumbnail loading
+		/// </summary>
+		private class PriorityThreadPool
+		{
+			private readonly SemaphoreSlim _highPrioritySemaphore = new(Environment.ProcessorCount, Environment.ProcessorCount);
+			private readonly SemaphoreSlim _lowPrioritySemaphore = new(Environment.ProcessorCount * 2, Environment.ProcessorCount * 2);
+			
+			public async Task<T> ExecuteAsync<T>(Func<Task<T>> work, ThumbnailPriority priority)
+			{
+				var semaphore = priority == ThumbnailPriority.Immediate ? _highPrioritySemaphore : _lowPrioritySemaphore;
+				
+				await semaphore.WaitAsync();
+				try
+				{
+					return await work();
+				}
+				finally
+				{
+					semaphore.Release();
+				}
+			}
+
+			public void Dispose()
+			{
+				_highPrioritySemaphore?.Dispose();
+				_lowPrioritySemaphore?.Dispose();
+			}
+		}
+
+		/// <summary>
+		/// Process items in batches with parallel execution for better performance
+		/// </summary>
+		private async Task ProcessItemsInBatchesAsync<T>(
+			IEnumerable<T> items, 
+			Func<T, Task> processor, 
+			int batchSize = 100,
+			int maxConcurrency = 8) // Use constant instead of Environment.ProcessorCount
+		{
+			var batches = items.Chunk(batchSize);
+			
+			await Parallel.ForEachAsync(
+				batches,
+				new ParallelOptions { MaxDegreeOfParallelism = maxConcurrency },
+				async (batch, token) =>
+				{
+					var tasks = batch.Select(processor);
+					await Task.WhenAll(tasks);
+				});
+		}
+
+		/// <summary>
+		/// Get file information in parallel for better performance
+		/// </summary>
+		private static async Task<FileInfo[]> GetFilesParallelAsync(string path, string searchPattern = "*")
+		{
+			return await Task.Run(() =>
+			{
+				var directory = new DirectoryInfo(path);
+				return directory.GetFiles(searchPattern, SearchOption.TopDirectoryOnly);
+			});
+		}
+
+		/// <summary>
+		/// Memory-efficient batch processing with proper resource management
+		/// </summary>
+		private async Task ProcessBatchWithMemoryManagement<T>(
+			IEnumerable<T> items,
+			Func<T, Task> processor,
+			int batchSize = 50,
+			CancellationToken cancellationToken = default)
+		{
+			using var semaphore = new SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount);
+			
+			await Parallel.ForEachAsync(
+				items.Chunk(batchSize),
+				new ParallelOptions 
+				{ 
+					MaxDegreeOfParallelism = Environment.ProcessorCount,
+					CancellationToken = cancellationToken 
+				},
+				async (batch, token) =>
+				{
+					await semaphore.WaitAsync(token);
+					try
+					{
+						var tasks = batch.Select(processor);
+						await Task.WhenAll(tasks);
+					}
+					finally
+					{
+						semaphore.Release();
+					}
+				});
+		}
+
+		/// <summary>
+		/// Execute async operation with timeout for better reliability
+		/// </summary>
+		private async Task<T?> ExecuteWithTimeoutAsync<T>(
+			Func<Task<T>> operation,
+			TimeSpan timeout,
+			T? defaultValue = default)
+		{
+			try
+			{
+				using var cts = new CancellationTokenSource(timeout);
+				var operationTask = operation();
+				var timeoutTask = Task.Delay(timeout, cts.Token);
+				
+				var completedTask = await Task.WhenAny(operationTask, timeoutTask);
+				
+				if (completedTask == operationTask)
+				{
+					return await operationTask;
+				}
+				
+				return defaultValue;
+			}
+			catch (OperationCanceledException)
+			{
+				return defaultValue;
+			}
+		}
+
+		/// <summary>
+		/// Load file properties in parallel for better performance
+		/// </summary>
+		private async Task LoadFilePropertiesParallelAsync(ListedItem item)
+		{
+			await Task.Run(async () =>
+			{
+				var tasks = new List<Task>();
+				
+				// Load thumbnail in parallel with other properties
+				if (UserSettingsService.FoldersSettingsService.ShowThumbnails)
+				{
+					tasks.Add(LoadThumbnailWithCacheAsync(item, CancellationToken.None));
+				}
+				
+				// Load other properties in parallel
+				tasks.Add(LoadFilePropertiesAsync(item));
+				tasks.Add(LoadGitPropertiesAsync(item));
+				
+				await Task.WhenAll(tasks);
+			}, CancellationToken.None);
+		}
+
+		private async Task LoadFilePropertiesAsync(ListedItem item)
+		{
+			// Placeholder for file properties loading
+			await Task.CompletedTask;
+		}
+
+		private async Task LoadGitPropertiesAsync(ListedItem item)
+		{
+			// Placeholder for git properties loading
+			await Task.CompletedTask;
+		}
+
+		/// <summary>
+		/// Enumerate files concurrently for better performance
+		/// </summary>
+		private async Task<List<ListedItem>> EnumerateFilesParallelAsync(string path, CancellationToken cancellationToken)
+		{
+			var results = new ConcurrentBag<ListedItem>();
+			
+			await Parallel.ForEachAsync(
+				GetFilePaths(path),
+				new ParallelOptions 
+				{ 
+					MaxDegreeOfParallelism = Environment.ProcessorCount,
+					CancellationToken = cancellationToken 
+				},
+				async (filePath, token) =>
+				{
+					var item = await CreateListedItemAsync(filePath, token);
+					if (item != null)
+					{
+						results.Add(item);
+					}
+				});
+			
+			return results.ToList();
+		}
+
+		private IEnumerable<string> GetFilePaths(string path)
+		{
+			// Placeholder for getting file paths
+			return Directory.GetFiles(path);
+		}
+
+		private async Task<ListedItem?> CreateListedItemAsync(string filePath, CancellationToken cancellationToken)
+		{
+			// Placeholder for creating ListedItem
+			await Task.CompletedTask;
+			return null;
+		}
 
 		// Properties
 
@@ -94,6 +675,66 @@ namespace Files.App.Views.Layouts
 					FolderSettings.DirectorySortDirection = SortDirection.Ascending;
 				}
 			});
+
+			// Initialize scroll throttling
+			InitializeScrollThrottling();
+		
+			// Hook up scroll events
+			FileList.Loaded += FileList_Loaded;
+			FileList.Unloaded += FileList_Unloaded;
+
+			// Initialize cache cleanup timer
+			_cacheCleanupTimer = new Timer(CleanupCache, null, TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(5));
+		}
+
+		// Event handlers for scroll events
+		private void FileList_Loaded(object sender, RoutedEventArgs e)
+		{
+			var scrollViewer = FileList.FindDescendant<ScrollViewer>();
+			if (scrollViewer != null)
+			{
+				ContentScroller = scrollViewer;
+				scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
+				scrollViewer.ViewChanging += ScrollViewer_ViewChanging;
+				
+				// Initial thumbnail load
+				_ = ShowIconsAndThumbnailsAsync();
+			}
+		}
+
+		private void FileList_Unloaded(object sender, RoutedEventArgs e)
+		{
+			var scrollViewer = FileList.FindDescendant<ScrollViewer>();
+			if (scrollViewer != null)
+			{
+				scrollViewer.ViewChanged -= ScrollViewer_ViewChanged;
+				scrollViewer.ViewChanging -= ScrollViewer_ViewChanging;
+			}
+			
+			// Stop scroll timer
+			_scrollEndTimer?.Stop();
+		}
+
+		private void ScrollViewer_ViewChanging(object? sender, ScrollViewerViewChangingEventArgs e)
+		{
+			_isScrolling = true;
+			_scrollEndTimer?.Stop();
+		}
+
+		private void ScrollViewer_ViewChanged(object? sender, ScrollViewerViewChangedEventArgs e)
+		{
+			if (!e.IsIntermediate)
+			{
+				// Final view change
+				_scrollEndTimer?.Stop();
+				_scrollEndTimer?.Start();
+			}
+			else
+			{
+				// Still scrolling
+				_scrollEndTimer?.Stop();
+				_scrollEndTimer?.Start();
+			}
 		}
 
 		// Methods
@@ -192,6 +833,13 @@ namespace Files.App.Views.Layouts
 			RootGrid_SizeChanged(null, null);
 
 			SetItemContainerStyle();
+
+			// Schedule a fallback thumbnail load after a shorter delay to catch any items that didn't load through progressive loading
+			_ = Task.Run(async () =>
+			{
+				await Task.Delay(1000); // Wait 1 second for progressive loading to complete
+				await ForceLoadMissingThumbnailsAsync();
+			});
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -202,6 +850,9 @@ namespace Files.App.Views.Layouts
 			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.ShellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+			
+			if (FileList != null)
+				FileList.ContainerContentChanging -= OnFileListContainerContentChanging;
 		}
 
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -260,22 +911,13 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		private void SetItemContainerStyle()
 		{
-			if (UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact)
-			{
-				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = RegularItemContainerStyle;
+			// Directly set the appropriate style without toggling
+			FileList.ItemContainerStyle = UserSettingsService.LayoutSettingsService.DetailsViewSize == DetailsViewSizeKind.Compact
+				? CompactItemContainerStyle
+				: RegularItemContainerStyle;
 
-				// Set correct style
-				FileList.ItemContainerStyle = CompactItemContainerStyle;
-			}
-			else
-			{
-				// Toggle style to force item size to update
-				FileList.ItemContainerStyle = CompactItemContainerStyle;
-
-				// Set correct style
-				FileList.ItemContainerStyle = RegularItemContainerStyle;
-			}
+			// Force layout update without full re-render
+			FileList.UpdateLayout();
 
 			// Set the width of the icon column. The value is increased by 4px to account for icon overlays.
 			ColumnsViewModel.IconColumn.UserLength = new GridLength(LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.DetailsView) + 4);
@@ -442,6 +1084,14 @@ namespace Files.App.Views.Layouts
 			var focusedElement = (FrameworkElement)FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot);
 			var isHeaderFocused = DependencyObjectHelpers.FindParent<DataGridHeader>(focusedElement) is not null;
 			var isFooterFocused = focusedElement is HyperlinkButton;
+
+			// Debug: Force load thumbnails with Ctrl+Shift+T
+			if (e.Key == VirtualKey.T && ctrlPressed && shiftPressed)
+			{
+				e.Handled = true;
+				_ = ForceLoadMissingThumbnailsAsync();
+				return;
+			}
 
 			if (ctrlPressed && e.Key is VirtualKey.A)
 			{
@@ -866,10 +1516,7 @@ namespace Files.App.Views.Layouts
 			return columnIndexFromName != -1 && columnIndexFromName == columnIndex;
 		}
 
-		private void FileList_Loaded(object sender, RoutedEventArgs e)
-		{
-			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
-		}
+
 
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
 		{
@@ -1041,6 +1688,406 @@ namespace Files.App.Views.Layouts
 				(false, true) => GitProperties.Commit,
 				(false, false) => GitProperties.None
 			};
+		}
+
+		/// <summary>
+		/// Implements progressive rendering for better performance
+		/// </summary>
+		private void OnFileListContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+		{
+			if (args.InRecycleQueue)
+				return;
+
+			var item = args.Item as ListedItem;
+			if (item is null)
+				return;
+
+			// Phase 0: Show name and basic info immediately
+			if (args.Phase == 0)
+			{
+				ShowBasicInfo(args.ItemContainer, item);
+				args.RegisterUpdateCallback(1, LoadPhase1);
+			}
+		}
+
+		private void LoadPhase1(ListViewBase sender, ContainerContentChangingEventArgs args)
+		{
+			if (args.Phase == 1)
+			{
+				var item = args.Item as ListedItem;
+				if (item is null)
+					return;
+
+				// Phase 1: Show file size, dates, and type
+				ShowExtendedInfo(args.ItemContainer, item);
+				args.RegisterUpdateCallback(2, LoadPhase2);
+			}
+		}
+
+		private void LoadPhase2(ListViewBase sender, ContainerContentChangingEventArgs args)
+		{
+			if (args.Phase == 2)
+			{
+				var item = args.Item as ListedItem;
+				if (item is null)
+					return;
+
+				// Phase 2: Load icons and thumbnails
+				ShowIconsAndThumbnails(args.ItemContainer, item);
+				args.RegisterUpdateCallback(3, LoadPhase3);
+			}
+		}
+
+		private void LoadPhase3(ListViewBase sender, ContainerContentChangingEventArgs args)
+		{
+			if (args.Phase == 3)
+			{
+				var item = args.Item as ListedItem;
+				if (item is null)
+					return;
+
+				// Phase 3: Load tags and other expensive operations
+				ShowRemainingContent(args.ItemContainer, item);
+			}
+		}
+
+		private void ShowBasicInfo(DependencyObject container, ListedItem item)
+		{
+			// Show name immediately
+			var nameTextBlock = container.FindDescendant("ItemName") as TextBlock;
+			if (nameTextBlock is not null)
+			{
+				nameTextBlock.Text = item.Name;
+				nameTextBlock.Opacity = item.Opacity;
+			}
+		}
+
+		private void ShowExtendedInfo(DependencyObject container, ListedItem item)
+		{
+			// Show dates, size, and type
+			var dateModifiedTextBlock = container.FindDescendant("ItemDateModified") as TextBlock;
+			if (dateModifiedTextBlock is not null)
+				dateModifiedTextBlock.Text = item.ItemDateModified;
+
+			var dateCreatedTextBlock = container.FindDescendant("ItemDateCreated") as TextBlock;
+			if (dateCreatedTextBlock is not null)
+				dateCreatedTextBlock.Text = item.ItemDateCreated;
+
+			var sizeTextBlock = container.FindDescendant("ItemSize") as TextBlock;
+			if (sizeTextBlock is not null)
+				sizeTextBlock.Text = item.FileSize;
+
+			var typeTextBlock = container.FindDescendant("ItemType") as TextBlock;
+			if (typeTextBlock is not null)
+				typeTextBlock.Text = item.ItemType;
+		}
+
+		private async void ShowIconsAndThumbnails(DependencyObject container, ListedItem item)
+		{
+			// Load file icon/thumbnail with smart viewport detection
+			// This loads thumbnails for visible items and items that will be visible soon
+			var listViewItem = container as ListViewItem;
+			if (listViewItem is null)
+				return;
+
+			// Check if item is in extended viewport (much larger buffer)
+			if (!IsItemInExtendedViewport(listViewItem))
+				return;
+
+			var iconBox = container.FindDescendant("IconBox") as Grid;
+			if (iconBox is not null)
+			{
+				iconBox.Opacity = item.Opacity;
+				
+				var picturePresenter = container.FindDescendant("PicturePresenter") as ContentPresenter;
+				if (picturePresenter is not null)
+				{
+					// Load thumbnail if not already loaded
+					if (item.FileImage is null)
+					{
+						// Check if item is actually visible (not just in extended viewport)
+						if (IsItemInViewport(listViewItem))
+						{
+							// Load high-resolution thumbnail for visible items
+							await LoadItemThumbnailAsync(item);
+						}
+						else
+						{
+							// Load low-resolution thumbnail for items that will be visible soon
+							await LoadLowResThumbnailAsync(item);
+						}
+					}
+					
+					var picture = container.FindDescendant("Picture") as Image;
+					if (picture is not null && item.FileImage is not null)
+						picture.Source = item.FileImage;
+				}
+			}
+		}
+
+
+
+		private bool IsItemInViewport(ListViewItem item)
+		{
+			if (ContentScroller is null)
+				return true; // Assume visible if we can't check
+
+			// Check if item has valid dimensions
+			if (item.ActualWidth <= 0 || item.ActualHeight <= 0)
+				return true; // Assume visible if item hasn't been measured yet
+
+			try
+			{
+				var itemBounds = item.TransformToVisual(FileList).TransformBounds(new Rect(0, 0, item.ActualWidth, item.ActualHeight));
+				var viewportHeight = ContentScroller.ViewportHeight;
+				var verticalOffset = ContentScroller.VerticalOffset;
+
+				// Much more aggressive viewport detection - load items that are within a much larger range
+				// This ensures we load thumbnails for items that will be visible when scrolling
+				var buffer = Math.Max(RowHeight * 20, 1000); // Load items within 20 rows or 1000 pixels
+				var isInViewport = itemBounds.Bottom >= verticalOffset - buffer && itemBounds.Top <= verticalOffset + viewportHeight + buffer;
+				
+				// Debug output for troubleshooting
+				if (!isInViewport)
+				{
+					System.Diagnostics.Debug.WriteLine($"Item not in viewport: {item.DataContext} - Bounds: {itemBounds}, Viewport: {verticalOffset}-{verticalOffset + viewportHeight}, Buffer: {buffer}");
+				}
+				
+				return isInViewport;
+			}
+			catch
+			{
+				// If viewport detection fails, assume item is visible
+				return true;
+			}
+		}
+
+		/// <summary>
+		/// Extended viewport detection with much larger buffer for thumbnail loading
+		/// This loads thumbnails for items that are visible or will be visible soon
+		/// </summary>
+		private bool IsItemInExtendedViewport(ListViewItem item)
+		{
+			if (ContentScroller is null)
+				return true; // Assume visible if we can't check
+
+			// Check if item has valid dimensions
+			if (item.ActualWidth <= 0 || item.ActualHeight <= 0)
+				return true; // Assume visible if item hasn't been measured yet
+
+			try
+			{
+				var itemBounds = item.TransformToVisual(FileList).TransformBounds(new Rect(0, 0, item.ActualWidth, item.ActualHeight));
+				var viewportHeight = ContentScroller.ViewportHeight;
+				var verticalOffset = ContentScroller.VerticalOffset;
+
+				// Very large buffer for thumbnail loading - load items that are within a huge range
+				// This ensures smooth scrolling experience with thumbnails
+				var buffer = Math.Max(RowHeight * 50, 2000); // Load items within 50 rows or 2000 pixels
+				var isInExtendedViewport = itemBounds.Bottom >= verticalOffset - buffer && itemBounds.Top <= verticalOffset + viewportHeight + buffer;
+				
+				// Debug output for troubleshooting
+				if (!isInExtendedViewport)
+				{
+					System.Diagnostics.Debug.WriteLine($"Item not in extended viewport: {item.DataContext} - Bounds: {itemBounds}, Viewport: {verticalOffset}-{verticalOffset + viewportHeight}, Buffer: {buffer}");
+				}
+				
+				return isInExtendedViewport;
+			}
+			catch
+			{
+				// If viewport detection fails, assume item is visible
+				return true;
+			}
+		}
+
+		private async Task LoadItemThumbnailAsync(ListedItem item)
+		{
+			try
+			{
+				// Load extended properties including thumbnail with timeout
+				if (ParentShellPageInstance?.ShellViewModel != null && FileList.ContainerFromItem(item) is not null)
+				{
+					System.Diagnostics.Debug.WriteLine($"Loading thumbnail for: {item.Name} ({item.ItemPath})");
+					
+					await ExecuteWithTimeoutAsync<Task>(
+						async () => 
+						{
+							await ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(item);
+							return Task.CompletedTask;
+						},
+						TimeSpan.FromSeconds(10),
+						null);
+					
+					System.Diagnostics.Debug.WriteLine($"Finished loading thumbnail for: {item.Name}");
+				}
+				else
+				{
+					System.Diagnostics.Debug.WriteLine($"Skipping thumbnail load for: {item.Name} - ParentShellPageInstance: {ParentShellPageInstance?.ShellViewModel != null}, Container: {FileList.ContainerFromItem(item) != null}");
+				}
+			}
+			catch (Exception ex)
+			{
+				// Log errors for debugging
+				System.Diagnostics.Debug.WriteLine($"Error loading thumbnail for {item.Name}: {ex.Message}");
+			}
+		}
+
+		/// <summary>
+		/// Load a lower resolution thumbnail for better performance
+		/// This is used for items that are not immediately visible but should have thumbnails loaded
+		/// </summary>
+		private async Task LoadLowResThumbnailAsync(ListedItem item)
+		{
+			try
+			{
+				if (ParentShellPageInstance?.ShellViewModel == null)
+					return;
+
+				// Use a smaller thumbnail size for better performance
+				var smallThumbnailSize = 32u; // Much smaller than the default
+				
+				System.Diagnostics.Debug.WriteLine($"Loading low-res thumbnail for: {item.Name} ({item.ItemPath})");
+				
+				// Load a small thumbnail directly using FileThumbnailHelper with timeout
+				var result = await ExecuteWithTimeoutAsync<byte[]?>(
+					async () => await FileThumbnailHelper.GetIconAsync(
+						item.ItemPath,
+						smallThumbnailSize,
+						item.IsFolder,
+						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale),
+					TimeSpan.FromSeconds(5),
+					null);
+
+				if (result is not null)
+				{
+					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+					{
+						var image = await result.ToBitmapAsync();
+						if (image is not null)
+						{
+							item.FileImage = image;
+							System.Diagnostics.Debug.WriteLine($"Finished loading low-res thumbnail for: {item.Name}");
+						}
+					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+				}
+			}
+			catch (Exception ex)
+			{
+				// Log errors for debugging
+				System.Diagnostics.Debug.WriteLine($"Error loading low-res thumbnail for {item.Name}: {ex.Message}");
+			}
+		}
+
+		private void ShowRemainingContent(DependencyObject container, ListedItem item)
+		{
+			// Load tags (expensive operation)
+			var tagsRepeater = container.FindDescendant("TagsRepeater") as ItemsRepeater;
+			if (tagsRepeater is not null && item.FileTagsUI is not null)
+			{
+				tagsRepeater.ItemsSource = item.FileTagsUI;
+			}
+
+			// Load git information if applicable
+			if (item is IGitItem gitItem)
+			{
+				var gitStatusIcon = container.FindDescendant("ItemGitStatusTextBlock") as Border;
+				if (gitStatusIcon is not null)
+					gitStatusIcon.Visibility = Visibility.Visible;
+			}
+		}
+
+		private void ClearContainer(DependencyObject container)
+		{
+			// Clear content when recycling to prevent stale data
+			var nameTextBlock = container.FindDescendant("ItemName") as TextBlock;
+			if (nameTextBlock is not null)
+				nameTextBlock.Text = string.Empty;
+
+			var picture = container.FindDescendant("Picture") as Image;
+			if (picture is not null)
+				picture.Source = null;
+
+			var tagsRepeater = container.FindDescendant("TagsRepeater") as ItemsRepeater;
+			if (tagsRepeater is not null)
+				tagsRepeater.ItemsSource = null;
+		}
+		// Dispose
+		public void Dispose()
+		{
+			// Clean up thumbnail loading resources
+			_scrollEndTimer?.Stop();
+			_thumbnailBatchSemaphore?.Dispose();
+			_thumbnailLoadSemaphore?.Dispose();
+			_cacheCleanupTimer?.Dispose();
+			_thumbnailCache.Clear();
+			_thumbnailQueue.Clear();
+			_thumbnailLoadTasks.Clear();
+
+			// Unhook events
+			FileList.Loaded -= FileList_Loaded;
+			FileList.Unloaded -= FileList_Unloaded;
+		}
+
+		/// <summary>
+		/// Memory-efficient batch processing with proper resource management and cleanup
+		/// </summary>
+		private async Task ProcessBatchWithCleanupAsync<T>(
+			IEnumerable<T> items,
+			Func<T, Task> processor,
+			int batchSize = 50,
+			CancellationToken cancellationToken = default)
+		{
+			using var semaphore = new SemaphoreSlim(Environment.ProcessorCount, Environment.ProcessorCount);
+			using var memoryPressure = new MemoryPressureMonitor();
+			
+			await Parallel.ForEachAsync(
+				items.Chunk(batchSize),
+				new ParallelOptions 
+				{ 
+					MaxDegreeOfParallelism = Environment.ProcessorCount,
+					CancellationToken = cancellationToken 
+				},
+				async (batch, token) =>
+				{
+					await semaphore.WaitAsync(token);
+					try
+					{
+						var tasks = batch.Select(processor);
+						await Task.WhenAll(tasks);
+						
+						// Check memory pressure and trigger cleanup if needed
+						if (memoryPressure.IsHighPressure)
+						{
+							CleanupCache(null);
+							GC.Collect();
+						}
+					}
+					finally
+					{
+						semaphore.Release();
+					}
+				});
+		}
+
+		/// <summary>
+		/// Simple memory pressure monitor
+		/// </summary>
+		private class MemoryPressureMonitor : IDisposable
+		{
+			private readonly long _initialMemory;
+			
+			public MemoryPressureMonitor()
+			{
+				_initialMemory = GC.GetTotalMemory(false);
+			}
+			
+			public bool IsHighPressure => GC.GetTotalMemory(false) > _initialMemory * 2;
+			
+			public void Dispose()
+			{
+				// Cleanup if needed
+			}
 		}
 	}
 }
