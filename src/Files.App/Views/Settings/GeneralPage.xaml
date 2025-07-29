@@ -261,11 +261,6 @@
 						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowOpenInNewPane}" IsOn="{x:Bind ViewModel.ShowOpenInNewPane, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
-					<!--  Open in Windows Terminal  -->
-					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowOpenTerminal}">
-						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowOpenTerminal}" IsOn="{x:Bind ViewModel.ShowOpenTerminal, Mode=TwoWay}" />
-					</wctcontrols:SettingsCard>
-
 					<!--  Copy path  -->
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowCopyPath}">
 						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowCopyPath}" IsOn="{x:Bind ViewModel.ShowCopyPath, Mode=TwoWay}" />
@@ -303,6 +298,11 @@
 					<!--  Send To  -->
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowSendToMenu}">
 						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowSendToMenu}" IsOn="{x:Bind ViewModel.ShowSendToMenu, Mode=TwoWay}" />
+					</wctcontrols:SettingsCard>
+
+					<!--  Open in Windows Terminal  -->
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowOpenTerminal}">
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowOpenTerminal}" IsOn="{x:Bind ViewModel.ShowOpenTerminal, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
 					<!--  Edit tags  -->

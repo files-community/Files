@@ -10,8 +10,6 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context;
 
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-
 		public virtual string Label
 			=> Strings.OpenTerminal.GetLocalizedResource();
 
@@ -98,9 +96,6 @@ namespace Files.App.Actions
 
 		private bool GetIsExecutable()
 		{
-			if (UserSettingsService.GeneralSettingsService.ShowOpenTerminal is false)
-				return false;
-
 			if (context.PageType is ContentPageTypes.None or ContentPageTypes.Home or ContentPageTypes.RecycleBin or ContentPageTypes.ZipFolder or ContentPageTypes.ReleaseNotes or ContentPageTypes.Settings)
 				return false;
 

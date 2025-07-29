@@ -612,14 +612,16 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
-					ShowItem = (!itemsSelected && Commands.OpenTerminal.IsExecutable) ||
-						(areAllItemsFolders && Commands.OpenTerminal.IsExecutable) ||
+					ShowItem = (!itemsSelected && Commands.OpenTerminal.IsExecutable && UserSettingsService.GeneralSettingsService.ShowOpenTerminal) ||
+						(areAllItemsFolders && Commands.OpenTerminal.IsExecutable && UserSettingsService.GeneralSettingsService.ShowOpenTerminal) ||
 						Commands.OpenStorageSense.IsExecutable ||
 						Commands.FormatDrive.IsExecutable
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenTerminal)
 				{
-					IsVisible = (!itemsSelected && Commands.OpenTerminal.IsExecutable) || (areAllItemsFolders && Commands.OpenTerminal.IsExecutable)
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenTerminal &&
+							Commands.OpenTerminal.IsExecutable &&
+							(!itemsSelected || areAllItemsFolders)
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenStorageSense).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.FormatDrive).Build(),
