@@ -670,18 +670,18 @@ namespace Files.App.Views.Layouts
 
 		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
 		{
-			if (sender is CheckBox checkBox)
-			{
-				if (checkBox.DataContext is ListedItem item && FileList.SelectedItems.Contains(item))
-					FileList.SelectedItems.Remove(item);
+			if (sender is not CheckBox checkBox)
+				return;
 
-				// Workaround for #17298
-				checkBox.IsTabStop = false;
-				checkBox.IsEnabled = false;
-				checkBox.IsEnabled = true;
-				checkBox.IsTabStop = true;
-				FileList.Focus(FocusState.Programmatic);
-			}
+			if (checkBox.DataContext is ListedItem item && FileList.SelectedItems.Contains(item))
+				FileList.SelectedItems.Remove(item);
+
+			// Workaround for #17298
+			checkBox.IsTabStop = false;
+			checkBox.IsEnabled = false;
+			checkBox.IsEnabled = true;
+			checkBox.IsTabStop = true;
+			FileList.Focus(FocusState.Programmatic);
 		}
 
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
