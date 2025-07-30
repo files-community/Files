@@ -151,7 +151,7 @@ namespace Files.App.Utils.Shell
 				previewHandler = null;
 				comSite.Dispose();
 				comSite = null;
-				throw;
+				// No re-throw
 			}
 		}
 
