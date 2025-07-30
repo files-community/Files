@@ -300,6 +300,11 @@
 						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowSendToMenu}" IsOn="{x:Bind ViewModel.ShowSendToMenu, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
+					<!--  Open in Windows Terminal  -->
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowOpenTerminal}">
+						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowOpenTerminal}" IsOn="{x:Bind ViewModel.ShowOpenTerminal, Mode=TwoWay}" />
+					</wctcontrols:SettingsCard>
+
 					<!--  Edit tags  -->
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowEditTagsMenu}">
 						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowEditTagsMenu}" IsOn="{x:Bind ViewModel.ShowEditTagsMenu, Mode=TwoWay}" />

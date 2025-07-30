@@ -198,7 +198,7 @@ namespace Files.App.Helpers
 				iconSource.ImageSource = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 			}
 			else if (currentPath == "ReleaseNotes")
-			{ 
+			{
 				tabLocationHeader = Strings.ReleaseNotes.GetLocalizedResource();
 				iconSource.ImageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
 			}
@@ -489,7 +489,8 @@ namespace Files.App.Helpers
 
 					opened = await OpenFile(path, associatedInstance, shortcutInfo, openViaApplicationPicker, args);
 					break;
-			};
+			}
+			;
 
 			if (opened.ErrorCode == FileSystemStatusCode.NotFound && !openSilent)
 			{

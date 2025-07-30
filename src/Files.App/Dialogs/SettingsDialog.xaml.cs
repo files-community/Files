@@ -37,7 +37,7 @@ namespace Files.App.Dialogs
 			);
 			if (oldSelection is not null)
 				oldSelection.IsSelected = false;
-			
+
 			MainSettingsNavigationView.SelectedItem = targetSection;
 		}
 

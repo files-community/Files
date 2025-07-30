@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Extensions;
-
 namespace Files.App.Data.Models
 {
 	public sealed partial class DisposableArray : FreeableStore<DisposableArray>

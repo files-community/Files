@@ -55,7 +55,7 @@ namespace Files.App.ViewModels.Properties
 				Constants.ShellIconSizes.ExtraLarge,
 				true,
 				IconOptions.UseCurrentScale);
-			
+
 			if (result is not null)
 			{
 				ViewModel.IconData = result;

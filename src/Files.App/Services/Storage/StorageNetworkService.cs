@@ -209,24 +209,24 @@ namespace Files.App.Services
 			unsafe
 			{
 
-   				if (!path.StartsWith(@"\\", StringComparison.Ordinal))
+				if (!path.StartsWith(@"\\", StringComparison.Ordinal))
 				{
 					//  Special handling for network drives
-	 				//  This part will change path from "y:\Download" to "\\192.168.0.1\nfs\Download"
+					//  This part will change path from "y:\Download" to "\\192.168.0.1\nfs\Download"
 					[DllImport("mpr.dll", CharSet = CharSet.Auto)]
 					static extern int WNetGetConnection(string lpLocalName, StringBuilder lpRemoteName, ref int lpnLength);
-					
+
 					StringBuilder remoteName = new StringBuilder(300);
 					int length = remoteName.Capacity;
 					string lpLocalName = path.Substring(0, 2);
 
 					int ret = WNetGetConnection(lpLocalName, remoteName, ref length);
 
-					if ( ret == 0 )
+					if (ret == 0)
 						path = path.Replace(lpLocalName, remoteName.ToString());
 
 				}
-	
+
 				fixed (char* lpcPath = path)
 					netRes.lpRemoteName = new PWSTR(lpcPath);
 			}

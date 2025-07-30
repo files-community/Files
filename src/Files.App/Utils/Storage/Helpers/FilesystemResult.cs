@@ -16,8 +16,8 @@ namespace Files.App.Utils.Storage
 
 		public static implicit operator bool(FilesystemResult res) => res?.ErrorCode is FileSystemStatusCode.Success;
 		public static explicit operator FilesystemResult(bool res) => new(res ? FileSystemStatusCode.Success : FileSystemStatusCode.Generic);
-		
-		
+
+
 		public static implicit operator BOOL(FilesystemResult res) => res?.ErrorCode is FileSystemStatusCode.Success;
 		public static explicit operator FilesystemResult(BOOL res) => new(res ? FileSystemStatusCode.Success : FileSystemStatusCode.Generic);
 	}

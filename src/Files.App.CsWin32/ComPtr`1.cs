@@ -3,10 +3,8 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
-using Windows.Win32.System.WinRT;
 
 namespace Windows.Win32
 {

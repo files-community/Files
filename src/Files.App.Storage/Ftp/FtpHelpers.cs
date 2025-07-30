@@ -4,7 +4,7 @@
 using Files.Shared.Extensions;
 using FluentFTP;
 
-namespace Files.App.Storage.Storables
+namespace Files.App.Storage
 {
 	internal static class FtpHelpers
 	{

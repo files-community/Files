@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 using Jeffijoe.MessageFormat;
+using Microsoft.Extensions.Logging;
 using Microsoft.Windows.ApplicationModel.Resources;
 using System.Globalization;
-using Microsoft.Extensions.Logging;
 
 namespace Files.App.Extensions
 {

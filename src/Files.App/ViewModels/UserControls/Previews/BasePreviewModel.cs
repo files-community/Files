@@ -4,7 +4,6 @@
 using Files.App.ViewModels.Properties;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media.Imaging;
-using Windows.Storage.FileProperties;
 
 namespace Files.App.ViewModels.Previews
 {
@@ -89,7 +88,7 @@ namespace Files.App.ViewModels.Previews
 				Constants.ShellIconSizes.Jumbo,
 				false,
 				IconOptions.None);
-			
+
 			if (result is not null)
 				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () => FileImage = await result.ToBitmapAsync());
 			else

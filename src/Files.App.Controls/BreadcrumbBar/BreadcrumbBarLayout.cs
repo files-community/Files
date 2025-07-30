@@ -41,7 +41,7 @@ namespace Files.App.Controls
 				if (context.Children[index] is BreadcrumbBarItem breadcrumbItem)
 				{
 					breadcrumbItem.Measure(availableSize);
-					accumulatedSize.Width += index < indexAfterEllipsis ? 0: breadcrumbItem.DesiredSize.Width;
+					accumulatedSize.Width += index < indexAfterEllipsis ? 0 : breadcrumbItem.DesiredSize.Width;
 					accumulatedSize.Height = Math.Max(accumulatedSize.Height, breadcrumbItem.DesiredSize.Height);
 				}
 			}

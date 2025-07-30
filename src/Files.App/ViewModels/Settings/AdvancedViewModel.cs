@@ -10,7 +10,6 @@ using System.Windows.Input;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.System;
 using Windows.Win32.Storage.FileSystem;
 
 namespace Files.App.ViewModels.Settings
@@ -195,7 +194,7 @@ namespace Files.App.ViewModels.Settings
 
 		private async Task ExportSettingsAsync()
 		{
-			string[] extensions = [Strings.ZipFileCapitalized.GetLocalizedResource(), "*.zip" ];
+			string[] extensions = [Strings.ZipFileCapitalized.GetLocalizedResource(), "*.zip"];
 			bool result = CommonDialogService.Open_FileSaveDialog(MainWindow.Instance.WindowHandle, false, extensions, Environment.SpecialFolder.Desktop, out var filePath);
 			if (!result)
 				return;
@@ -327,7 +326,7 @@ namespace Files.App.ViewModels.Settings
 				}
 			}
 		}
-		
+
 		public bool ShowSystemTrayIcon
 		{
 			get => UserSettingsService.GeneralSettingsService.ShowSystemTrayIcon;

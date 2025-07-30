@@ -3,8 +3,8 @@
 
 namespace Files.App.Actions
 {
-    sealed partial class OpenAllTaggedActions: ObservableObject, IAction
-    {
+	sealed partial class OpenAllTaggedActions : ObservableObject, IAction
+	{
 		private readonly IContentPageContext _pageContext;
 
 		private readonly ITagsContext _tagsContext;
@@ -18,7 +18,7 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new("\uE71D");
 
-		public bool IsExecutable => 
+		public bool IsExecutable =>
 			_pageContext.ShellPage is not null &&
 			_tagsContext.TaggedItems.Any();
 
@@ -37,16 +37,16 @@ namespace Files.App.Actions
 				.Where(item => !item.isFolder)
 				.Select(f => f.path)
 				.ToList();
-			
+
 			var folderPaths = _tagsContext
 				.TaggedItems
 				.Where(item => item.isFolder)
 				.Select(f => f.path)
 				.ToList();
-			
+
 			await Task.WhenAll(filePaths.Select(path => NavigationHelpers.OpenPath(path, _pageContext.ShellPage!)));
 
-			foreach (var path in folderPaths) 
+			foreach (var path in folderPaths)
 				await NavigationHelpers.OpenPathInNewTab(path);
 		}
 

@@ -98,9 +98,9 @@ namespace Files.App.ViewModels.UserControls
 			switch (e.Action)
 			{
 				case NotifyCollectionChangedAction.Add when e.NewItems is not null:
-				{
-					if (e.NewItems[0] is not ShelfItem shelfItem)
-						return;
+					{
+						if (e.NewItems[0] is not ShelfItem shelfItem)
+							return;
 
 					var parentPath = SystemIO.Path.GetDirectoryName(shelfItem.Inner.Id) ?? string.Empty;
 					if (_watchers.TryGetValue(parentPath, out var reference))
@@ -113,22 +113,22 @@ namespace Files.App.ViewModels.UserControls
 					if (await shelfItem.Inner.GetParentAsync() is not IMutableFolder mutableFolder)
 						return;
 
-					// Register new watcher
-					var watcher = await mutableFolder.GetFolderWatcherAsync();
-					watcher.CollectionChanged += Watcher_CollectionChanged;
+						// Register new watcher
+						var watcher = await mutableFolder.GetFolderWatcherAsync();
+						watcher.CollectionChanged += Watcher_CollectionChanged;
 
 					_watchers.Add(parentPath, new(watcher, 1));
 					break;
 				}
 
 				case NotifyCollectionChangedAction.Remove when e.OldItems is not null:
-				{
-					if (e.OldItems[0] is not ShelfItem shelfItem)
-						return;
+					{
+						if (e.OldItems[0] is not ShelfItem shelfItem)
+							return;
 
-					var parentPath = SystemIO.Path.GetDirectoryName(shelfItem.Inner.Id) ?? string.Empty;
-					if (!_watchers.TryGetValue(parentPath, out var reference))
-						return;
+						var parentPath = SystemIO.Path.GetDirectoryName(shelfItem.Inner.Id) ?? string.Empty;
+						if (!_watchers.TryGetValue(parentPath, out var reference))
+							return;
 
 					// Decrease the reference count and remove the watcher if no references are present
 					reference.ReferenceCount -= 1;
@@ -139,8 +139,8 @@ namespace Files.App.ViewModels.UserControls
 						_watchers.Remove(parentPath);
 					}
 
-					break;
-				}
+						break;
+					}
 			}
 		}
 
@@ -152,16 +152,16 @@ namespace Files.App.ViewModels.UserControls
 			switch (e.Action)
 			{
 				case NotifyCollectionChangedAction.Remove when e.OldItems is not null:
-				{
-					// Remove the matching item notified from the watcher
-					var item = e.OldItems.Cast<IStorable>().ElementAt(0);
-					var itemToRemove = Items.FirstOrDefault(x => x.Inner.Id == item.Id);
-					if (itemToRemove is null)
-						return;
+					{
+						// Remove the matching item notified from the watcher
+						var item = e.OldItems.Cast<IStorable>().ElementAt(0);
+						var itemToRemove = Items.FirstOrDefault(x => x.Inner.Id == item.Id);
+						if (itemToRemove is null)
+							return;
 
-					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => Items.Remove(itemToRemove));
-					break;
-				}
+						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => Items.Remove(itemToRemove));
+						break;
+					}
 			}
 		}
 	}

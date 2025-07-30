@@ -3490,27 +3490,27 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>Itens {0} comprimidos para "{1}"</value>
+    <value>{0, plural, one {# item compactado} other {# items compactados}} para "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
-    <value>Item(s) {0} comprimido(s) de "{1}" para "{2}"</value>
+    <value>{0, plural, one {# item compactado} other {# items compactados}} de "{1}" para "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Erro ao comprimir item(s) {0} para "{1}"</value>
+    <value>Erro ao compactar {0, plural, one {# item} other {# itens}} para "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>Falha ao comprimir item(s) {0} de "{1}" para "{2}"</value>
+    <value>Falha ao compactar {0, plural, one {# item} other {# itens}} de "{1}" para "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>Comprimindo {0} item(s) para "{1}"</value>
+    <value>Compactando {0, plural, one {# item} other {# itens}} para "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
-    <value>Comprimindo item(s) {0} de "{1}" para "{2}"</value>
+    <value>Compactando {0, plural, one {# item} other {# itens}} de "{1}" para "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
@@ -3550,63 +3550,63 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
-    <value>Cancelada a instalação de {0} fonte(s) de "{1}"</value>
+    <value>Cancelado instalação de {0, plural, one {# fonte} other {# fontes}} de "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
-    <value>{0} fonte(s) instalada(s)</value>
+    <value>{0, plural, one {# fonte instalada} other {# fontes instaladas}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
-    <value>{0} fonte(s) instalada(s) de "{1}"</value>
+    <value>{0, plural, one {# fonte instalada} other {# fontes instaladas}} de "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
-    <value>Erro ao instalar {0} fonte(s)</value>
+    <value>Erro ao instalar {0, plural, one {# fonte} other {# fontes}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
-    <value>Falha ao instalar {0} fonte(s) de "{1}"</value>
+    <value>Falha ao instalar {0, plural, one {# fonte} other {# fontes}} de "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
-    <value>Instalando {0} fonte(s)</value>
+    <value>Instalando {0, plural, one {# fonte} other {# fontes}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
-    <value>Instalando {0} fonte(s) de "{1}"</value>
+    <value>Instalando {0, plural, one {# fonte} other {# fontes}} de "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Cancelando a cópia do item {0} para "{1}"</value>
+    <value>Cancelada a cópia de {0, plural, one {# item} other {# itens}} para "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>Cancelando a cópia de {0} item(s) de "{1}" para "{2}"</value>
+    <value>Cancelada a cópia de {0, plural, one {# item} other {# itens}} de "{1}" para "{2} " "</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Copiado(s) {0} item(s) para "{1}"</value>
+    <value>{0, plural, one {# item copiado} other {# itens copiados}} para "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>Copiado(s) {0} item(s) de "{1}" para "{2}"</value>
+    <value>Copiado {0, plural, one {# item} other {# itens}} de "{1}" para "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Erro ao copiar item(s) {0} para "{1}"</value>
+    <value>Erro ao copiar {0, plural, one {# item} other {# itens}} para "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>Falha ao copiar item(s) {0} de "{1}" para "{2}"</value>
+    <value>Falha ao copiar {0, plural, one {# item} other {# itens}} de "{1}" para "{2} " "</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
-    <value>Copiando item(s) {0} para "{1}"</value>
+    <value>Copiando {0, plural, one {# item} other {# itens}} para "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>Copiando item(s) {0} de "{1}" para "{2}"</value>
+    <value>Copiando {0, plural, one {# item} other {# itens}} de "{1}" para "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
@@ -3642,55 +3642,55 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Exclusão cancelada do item {0} de "{1}"</value>
+    <value>Cancelada a exclusão de {0, plural, one {# item} other {# itens}} de "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value> {0} item(s) apagados de "{1}"</value>
+    <value>{0, plural, one {# item excluído} other {# itens excluídos}} de "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Erro ao excluir item(s) {0} de "{1}"</value>
+    <value>Erro ao excluir {0, plural, one {# item} other {# itens}} de "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Falha em excluir {0} itens de {1}"</value>
+    <value>Falha ao excluir {0, plural, one {# item} other {# itens}} de "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Excluindo Item(s) {0} de "{1}"</value>
+    <value>Excluindo {0, plural, one {# item} other {# itens}} de "{1}" "</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>Movimentação cancelada do(s) {0} item(s) para "{1}"</value>
+    <value>Cancelado mover {0, plural, one {# item} other {# itens}} para "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
-    <value>Transferência cancelada do item {0} de "{1}" para "{2}"</value>
+    <value>Cancelado mover {0, plural, one {# item} other {# itens}} de "{1}" para "{2} " "</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value> {0} item(ns) Movido(s) para "{1}"</value>
+    <value>{0, plural, one {# item movido} other {# itens movidos}} para "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
-    <value>{0} Movido(s) item(ns) de "{1}" para "{2}"</value>
+    <value>{0, plural, one {# item movido} other {# itens movidos}} de "{1}" para "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
-    <value>Movendo {0} item(ns) para "{1}"</value>
+    <value>Movendo {0, plural, one {# item} other {# itens}} para "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
-    <value>Movendo um item(s) {0} de "{1}" para "{2}"</value>
+    <value>Movendo {0, plural, one {# item} other {# itens}} de "{1}" para "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Erro ao mover item(s) {0} para "{1}"</value>
+    <value>Erro ao mover {0, plural, one {# item} other {# itens}} para "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
-    <value>Falha ao mover item(s) {0} de "{1}" para "{2}"</value>
+    <value>Falha ao mover {0, plural, one {# item} other {# itens}} de "{1}" para "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
@@ -4223,9 +4223,6 @@
   <data name="Decimal" xml:space="preserve">
     <value>Decimal</value>
   </data>
-  <data name="EnableOmnibar" xml:space="preserve">
-    <value>Habilitar Omnibar</value>
-  </data>
   <data name="SectionsHiddenMessage" xml:space="preserve">
     <value>Você pode adicionar seções à barra lateral clicando com o botão direito e selecionando as seções que você deseja adicionar</value>
   </data>
@@ -4259,7 +4256,10 @@
     <value>Mostrar trilhas de navegação recolhidas</value>
   </data>
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
-    <value>Mostrar pastas filhas</value>
+    <value>Mostrar pastas em {0}</value>
+  </data>
+  <data name="BreadcrumbBarRootChevronButtonToolTip" xml:space="preserve">
+    <value>Mostrar pastas no Início</value>
   </data>
   <data name="NoCommandsFound" xml:space="preserve">
     <value>Não há comandos contendo {0}</value>
@@ -4272,5 +4272,8 @@
   </data>
   <data name="Filename" xml:space="preserve">
     <value>Nome do arquivo</value>
+  </data>
+  <data name="ShowOpenTerminal" xml:space="preserve">
+    <value>Mostrar a opção de abrir pastas no Terminal do Windows</value>
   </data>
 </root>

@@ -216,6 +216,11 @@ namespace Files.App.Data.Contracts
 		bool ShowOpenInNewPane { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to open folders in Windows Terminal.
+		/// </summary>
+		bool ShowOpenTerminal { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not to show the option to copy an items path.
 		/// </summary>
 		bool ShowCopyPath { get; set; }

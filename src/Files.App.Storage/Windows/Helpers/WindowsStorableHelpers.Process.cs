@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Windows.Win32;
-using Windows.Win32.Foundation;
 using Windows.Win32.System.SystemInformation;
 
 namespace Files.App.Storage

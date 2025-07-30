@@ -1,9 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Collections.Frozen;
 using ColorCode;
 using Files.App.ViewModels.Properties;
+using System.Collections.Frozen;
 
 namespace Files.App.ViewModels.Previews
 {

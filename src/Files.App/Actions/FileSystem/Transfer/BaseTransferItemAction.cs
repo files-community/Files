@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
 
 namespace Files.App.Actions
 {

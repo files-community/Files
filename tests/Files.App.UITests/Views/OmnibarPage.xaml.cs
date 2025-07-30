@@ -4,7 +4,6 @@
 using CommunityToolkit.WinUI;
 using Files.App.Controls;
 using Files.App.UITests.Data;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 

@@ -1,12 +1,9 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Utils.Cloud;
 using Microsoft.Win32;
 using System.IO;
-using System.Text.Json;
 using Windows.Storage;
-using static Vanara.PInvoke.Gdi32;
 
 namespace Files.App.Utils.Cloud
 {
@@ -33,7 +30,7 @@ namespace Files.App.Utils.Cloud
 		{
 			var jsonPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, "Open-Xchange", "OXDrive", "userConfig.json");
 			if (!File.Exists(jsonPath))
-				return null; 
+				return null;
 
 			var configFile = await StorageFile.GetFileFromPathAsync(jsonPath);
 			using var jsonDoc = JsonDocument.Parse(await FileIO.ReadTextAsync(configFile));

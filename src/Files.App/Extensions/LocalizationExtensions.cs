@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Services;
-
 namespace Files.App.Extensions
 {
 	/// <summary>

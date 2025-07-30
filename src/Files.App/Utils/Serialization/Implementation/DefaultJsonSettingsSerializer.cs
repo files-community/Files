@@ -1,8 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Text.Json;
-
 namespace Files.App.Utils.Serialization.Implementation
 {
 	internal sealed class DefaultJsonSettingsSerializer : IJsonSettingsSerializer

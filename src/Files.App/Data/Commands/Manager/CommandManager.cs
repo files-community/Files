@@ -134,7 +134,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand LayoutIncreaseSize => commands[CommandCodes.LayoutIncreaseSize];
 		public IRichCommand LayoutDetails => commands[CommandCodes.LayoutDetails];
 		public IRichCommand LayoutList => commands[CommandCodes.LayoutList];
-		public IRichCommand LayoutCards=> commands[CommandCodes.LayoutCards];
+		public IRichCommand LayoutCards => commands[CommandCodes.LayoutCards];
 		public IRichCommand LayoutGrid => commands[CommandCodes.LayoutGrid];
 		public IRichCommand LayoutColumns => commands[CommandCodes.LayoutColumns];
 		public IRichCommand LayoutAdaptive => commands[CommandCodes.LayoutAdaptive];

@@ -1,6 +1,4 @@
-using Files.App.Extensions;
 using Microsoft.UI.Xaml;
-using System.Collections.Generic;
 
 namespace Files.App.ViewModels.Properties
 {

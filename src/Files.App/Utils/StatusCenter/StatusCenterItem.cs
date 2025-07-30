@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Windows.Input;
 using Microsoft.UI.Xaml.Media;
 using System.Numerics;
+using System.Windows.Input;
 
 namespace Files.App.Utils.StatusCenter
 {

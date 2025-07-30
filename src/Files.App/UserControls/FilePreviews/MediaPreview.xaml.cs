@@ -36,8 +36,11 @@ namespace Files.App.UserControls.FilePreviews
 			PlayerContext.Source = null;
 
 			PlayerContext.Loaded -= PlayerContext_Loaded;
-			Unloaded -= MediaPreview_Unloaded;		
-	}
+			Unloaded -= MediaPreview_Unloaded;
+
+			PlayerContext.MediaPlayer.VolumeChanged -= MediaPlayer_VolumeChanged;
+			ViewModel.TogglePlaybackRequested -= TogglePlaybackRequestInvoked;
+		}
 
 		private void MediaPlayer_VolumeChanged(MediaPlayer sender, object args)
 		{
@@ -47,7 +50,7 @@ namespace Files.App.UserControls.FilePreviews
 			}
 		}
 
-		private void TogglePlaybackRequestInvoked(object sender, EventArgs e)
+		private void TogglePlaybackRequestInvoked(object? sender, EventArgs e)
 		{
 			if (PlayerContext.MediaPlayer.PlaybackSession.PlaybackState is not MediaPlaybackState.Playing)
 			{

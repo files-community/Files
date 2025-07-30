@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Microsoft.Extensions.Logging;
-
 namespace Files.App.Actions
 {
 	internal sealed partial class SetAsSlideshowBackgroundAction : BaseSetAsAction

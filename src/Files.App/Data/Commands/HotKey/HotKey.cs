@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.Collections.Frozen;
-using System.Runtime.InteropServices;
 using System.Text;
 using Windows.Win32;
 using Forms = System.Windows.Forms;

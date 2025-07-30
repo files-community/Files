@@ -1,8 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Diagnostics.CodeAnalysis;
-
 namespace Files.App.Helpers
 {
 	/// <summary>

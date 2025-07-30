@@ -190,7 +190,7 @@
     <value>Søg</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Tidligere tilgåede filer vil dukke op her</value>
+    <value>Tidligere tilgåede filer vil fremgå her</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
     <value>Fjern dette emne</value>
@@ -217,7 +217,7 @@
     <value>Vis skjulte filer og mapper</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Vis punktum-filer</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Udseende</value>
@@ -226,7 +226,7 @@
     <value>Baggrundsfarve</value>
   </data>
   <data name="Advanced" xml:space="preserve">
-    <value>Advanceret</value>
+    <value>Avanceret</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Fortsæt fra hvor man slap</value>
@@ -379,10 +379,10 @@
     <value>Har du slettet denne mappe?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>Filen, der forsøges tilgået, bruges i øjeblikket af {0}</value>
+    <value>Filen, der forsøges tilgået, anvendes p.t. af {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>Filen, der forsøges tilgået, bruges i øjeblikket af en anden applikation</value>
+    <value>Filen, der forsøges tilgået, anvendes p.t. af en anden applikation</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Fil er i brug</value>
@@ -1089,7 +1089,7 @@
     <value>Slå inforuden til/fra</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle visibility of the detail/preview panes</value>
+    <value>Slå synlighed af detalje-/forhåndsvisningsruder til/fra</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
     <value>Vis/skjul værktøjslinje</value>
@@ -1098,10 +1098,10 @@
     <value>Slå synligheden af værktøjslinjen til/fra</value>
   </data>
   <data name="ToggleFilterHeader" xml:space="preserve">
-    <value>Toggle filter header</value>
+    <value>Slå filterheader til/fra</value>
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
-    <value>Toggle visibility of the filter header</value>
+    <value>Slå synlighed af filterheaderen til/fra</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Ingen forhåndsvisning tilgængelig</value>
@@ -2019,22 +2019,22 @@
     <value>Adfærd</value>
   </data>
   <data name="Hello" xml:space="preserve">
-    <value>Hello!</value>
+    <value>Hej!</value>
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
-    <value>Enjoying Files? Please consider reviewing in the Microsoft Store.</value>
+    <value>Synes om Files? Overvej at bedømme den i Microsoft Store.</value>
   </data>  
   <data name="SponsorSubtitle" xml:space="preserve">
-    <value>Enjoying Files? Please consider supporting the project on GitHub.</value>
+    <value>Synes om Files? Overvej at støtte projektet på GitHub.</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
-    <value>Sponsor</value>
+    <value>Sponsorér</value>
   </data>
   <data name="RateUs" xml:space="preserve">
-    <value>Rate us</value>
+    <value>Bedøm os</value>
   </data>
   <data name="Dismiss" xml:space="preserve">
-    <value>Dismiss</value>
+    <value>Afvis</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Anvend som baggrund</value>
@@ -2439,31 +2439,31 @@
     <value>Vis/Skjul sidebjælke</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy selected {0, plural, one {item} other {items}}</value>
+    <value>Kopiér {0, plural, one {valgt emne} other {valgte emner}}</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of the current directory</value>
+    <value>Kopiér sti til aktuel mappe</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Copy path of selected items</value>
+    <value>Kopiér sti til valgte emner</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of selected items with quotes</value>
+    <value>Kopiér sti til valgte emner med anførselstegn</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of the current directory with quotes</value>
+    <value>Kopiér sti til aktuel mappe med anførselstegn</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut selected {0, plural, one {item} other {items}}</value>
+    <value>Klip {0, plural, one {valgt emne} other {valgte emner}}</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste items to the current folder</value>
+    <value>Indsæt emner i den aktuelle mappe</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items to the current folder as shortcuts</value>
+    <value>Indsæt emner i den aktuelle mappe som genveje</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items to the selected folder</value>
+    <value>Indsæt emner i den aktuelle mappe</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
     <value>Indsæt i den valgte mappe</value>
@@ -2586,13 +2586,13 @@
     <value>Opret ZIP-arkiv med {0, plural, one {valgt emne} other {valgte emner}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
+    <value>Udpak {0, plural, one {valgt arkiv} other {valgte arkiver}} til en mappe</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
+    <value>Udpak {0, plural, one {valgt arkiv} other {valgte arkiver}} til den aktuelle mappe</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
+    <value>Udpak {0, plural, one {valgt arkiv} other {valgte arkiver}} til ny mappe</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>Rotér {0, plural, one {valgt billede} other {valgte billeder}} venstre om</value>
@@ -2733,7 +2733,7 @@
     <value>Dublér aktuel fane</value>
   </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
-    <value>Dublér valgte fane</value>
+    <value>Dublér valgt fane</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
     <value>Luk faner til venstre for aktuel fane</value>
@@ -3320,7 +3320,7 @@
     <value>Åbn den valgte mappe i en ny fane</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Åbn den valgte mappe i et nyt vindue</value>
+    <value>Åbn valgt mappe i et nyt vindue</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
     <value>Åbn alle</value>
@@ -3490,27 +3490,27 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>Komprimerede {0} emne(r) til "{1}"</value>
+    <value>Komprimeret {0, plural, one {# emne} other {# emner}} til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
-    <value>Komprimerede {0} emne(r) fra "{1}" til "{2}"</value>
+    <value>Komprimeret {0, plural, one {# emne} other {# emner}} fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Fejl under komprimeringen af {0} emne(r) til "{1}"</value>
+    <value>Fejl under komprimering af {0, plural, one {# emne} other {# emner}} til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>Kunne ikke komprimere {0} emne(r) fra {1} til {2}"</value>
+    <value>Mislykkedes at komprimere {0, plural, one {# emne} other {# emner}} fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>Komprimerer {0} emne(r) til "{1}"</value>
+    <value>Komprimerer {0, plural, one {# emne} other {# emner}} til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
-    <value>Komprimerer {0} emne(r) fra "{1}" til "{2}"</value>
+    <value>Komprimerer {0, plural, one {# emne} other {# emner}} fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
@@ -3550,63 +3550,63 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
-    <value>Afbrudt installation af {0} skrifttype(r) fra "{1}"</value>
+    <value>Afbrød installationen af {0, plural, one {# skrifttype} other {# skrifttyper}} fra "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
-    <value>Installeret {0} skrifttype(r)</value>
+    <value>Installerede {0, plural, one {# skrifttype} other {# skrifttyper}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
-    <value>Installeret {0} skrifttype(r) fra "{1}"</value>
+    <value>Installerede {0, plural, one {# skrifttype} other {# skrifttyper}} fra "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
-    <value>Fejl under installation af {0} skrifttype(r)</value>
+    <value>Fejl under installationen af {0, plural, one {# skrifttype} other {# skrifttyper}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
-    <value>Mislykkedes at installere {0} skrifttype(r) fra "{1}"</value>
+    <value>Mislykkedes at installere {0, plural, one {# skrifttype} other {# skrifttyper}} fra "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
-    <value>Installerer {0} skrifttype(r)</value>
+    <value>Installerer {0, plural, one {# skrifttype} other {# skrifttyper}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
-    <value>Installerer {0} skrifttype(r) fra "{1}"</value>
+    <value>Installerer {0, plural, one {# skrifttype} other {# skrifttyper}} fra "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Annullerede kopieringen af {0} emne(r) til "{1}"</value>
+    <value>Afbrød kopieringen af {0, plural, one {# emne} other {# emner}} til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>Annullerede kopieringen af {0} vare(r) fra "{1}" til "{2}"</value>
+    <value>Afbrød kopieringen af {0, plural, one {# emne} other {# emner}} fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Kopierede {0} emne(r) til "{1}"</value>
+    <value>Kopieret {0, plural, one {# emne} other {# emner}} til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>Kopierede {0} emne(r) fra "{1}" til "{2}"</value>
+    <value>Kopieret {0, plural, one {# emne} other {# emner}} fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Fejl under kopieringen af {0} emne(r) til "{1}"</value>
+    <value>Fejl under komprimeringen af {0, plural, one {# emne} other {# emner}} til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>Mislykkedes at kopiere {0} emne(r) fra "{1}" til "{2}"</value>
+    <value>Mislykkedes at kopiere {0, plural, one {# emne} other {# emner}} fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
-    <value>Kopierer {0} emne(r) til "{1}"</value>
+    <value>Kopierer {0, plural, one {# emne} other {# emner}} til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>Kopierer {0} emne(r) fra "{1}" til "{2}"</value>
+    <value>Kopierer {0, plural, one {# emne} other {# emner}} fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
@@ -3642,55 +3642,55 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Annullerede sletningen af {0} emne(r) fra "{1}"</value>
+    <value>Afbrød sletningen af {0, plural, one {# emne} other {# emner}} fra "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Slettede {0} emne(r) fra "{1}"</value>
+    <value>Slettede {0, plural, one {# emne} other {# emner}} fra "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Fejl under sletningen af {0} emne(r) fra "{1}"</value>
+    <value>Fejl under sletningen af {0, plural, one {# emne} other {# emner}} fra "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Mislykkedes at slette {0} emne(r) fra "{1}"</value>
+    <value>Mislykkedes at slette {0, plural, one {# emne} other {# emner}} fra "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Sletter {0} emne(r) fra "{1}"</value>
+    <value>Sletter {0, plural, one {# emne} other {# emner}} fra "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>Annullerede flytningen af {0} emne(r) til "{1}"</value>
+    <value>Afbrød flytningen af {0, plural, one {# emne} other {# emner}} til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
-    <value>Annullerede flytningen af {0} emne(r) fra "{1}" til "{2}"</value>
+    <value>Afbrød flytningen af {0, plural, one {# emne} other {# emner}} fra "{1}" til "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Flyttede {0} emne(r) til "{1}"</value>
+    <value>Flyttet {0, plural, one {# emne} other {# emner}} til "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
-    <value>Flyttede {0} emne(r) fra "{1}" til "{2}"</value>
+    <value>Moved {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
-    <value>Flytter {0} emne(r) til "{1}"</value>
+    <value>Moving {0, plural, one {# item} other {# items}} to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
-    <value>Flytter {0} emne(r) fra "{1}" til "{2}"</value>
+    <value>Moving {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Fejl under flytningen af {0} emne(r) til "{1}"</value>
+    <value>Error moving {0, plural, one {# item} other {# items}} to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
-    <value>Kunne ikke flytte {0} emne(r) fra "{1}" til "{2}"</value>
+    <value>Failed to move {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
@@ -4223,9 +4223,6 @@
   <data name="Decimal" xml:space="preserve">
     <value>Decimal</value>
   </data>
-  <data name="EnableOmnibar" xml:space="preserve">
-    <value>Aktivér OmniBar</value>
-  </data>
   <data name="SectionsHiddenMessage" xml:space="preserve">
     <value>Afsnit kan føjes til sidepanelet via højreklik og valg af de ønskede afsnit</value>
   </data>
@@ -4259,7 +4256,10 @@
     <value>Vis brødkrummer for sammenfoldet sti</value>
   </data>
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
-    <value>Vis undermapper</value>
+    <value>Show folders in {0}</value>
+  </data>
+  <data name="BreadcrumbBarRootChevronButtonToolTip" xml:space="preserve">
+    <value>Show folders in Home</value>
   </data>
   <data name="NoCommandsFound" xml:space="preserve">
     <value>Der er ingen kommandoer indeholdende {0}</value>
@@ -4272,5 +4272,8 @@
   </data>
   <data name="Filename" xml:space="preserve">
     <value>Filename</value>
+  </data>
+  <data name="ShowOpenTerminal" xml:space="preserve">
+    <value>Show option to open folders in Windows Terminal</value>
   </data>
 </root>

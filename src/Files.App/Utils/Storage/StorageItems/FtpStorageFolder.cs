@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Storage.Storables;
 using FluentFTP;
 using System.IO;
 using System.Net;

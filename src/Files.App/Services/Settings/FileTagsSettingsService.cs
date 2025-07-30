@@ -1,16 +1,10 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Extensions;
-using Files.App.Utils;
-using Files.App.Helpers;
-using Files.App.Utils.Serialization;
 using Files.App.Utils.Serialization.Implementation;
-using Files.App.Services.Settings;
 using Microsoft.Extensions.Logging;
 using System.IO;
 using Windows.Storage;
-using CommunityToolkit.WinUI.Helpers;
 
 namespace Files.App.Services.Settings
 {

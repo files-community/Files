@@ -146,7 +146,7 @@ namespace Files.App.UserControls.TabBar
 
 			Items.Remove(tabItem);
 			tabItem.Unload();
-			
+
 			// Dispose and save tab arguments
 			PushRecentTab(
 			[

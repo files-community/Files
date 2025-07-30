@@ -8,7 +8,7 @@ namespace Files.App.Helpers
 	public sealed class ConcurrentCollection<T> : ICollection<T>, IList<T>, ICollection, IList
 	{
 		private readonly object syncRoot = new object();
-		
+
 		private readonly List<T> collection = [];
 
 		public int Count

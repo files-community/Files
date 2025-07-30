@@ -84,7 +84,7 @@ namespace Files.App.Converters
 		public object? Convert(object value, Type targetType, object parameter, string language)
 		{
 			if (value is StatusCenterItemKind state)
-			{	
+			{
 				if (bool.TryParse(parameter?.ToString(), out var isBackground) && isBackground)
 				{
 					return state switch

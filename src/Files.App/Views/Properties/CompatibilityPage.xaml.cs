@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Files.App.ViewModels.Properties;
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Navigation;
 
 namespace Files.App.Views.Properties

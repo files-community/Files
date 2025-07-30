@@ -3,7 +3,7 @@
 
 using FluentFTP;
 
-namespace Files.App.Storage.Storables
+namespace Files.App.Storage
 {
 	public abstract class FtpStorable : IStorableChild
 	{
@@ -16,7 +16,7 @@ namespace Files.App.Storage.Storables
 		/// <summary>
 		/// Gets the parent folder of the storable, if any.
 		/// </summary>
-	 	protected virtual IFolder? Parent { get; }
+		protected virtual IFolder? Parent { get; }
 
 		protected internal FtpStorable(string path, string name, IFolder? parent)
 		{
