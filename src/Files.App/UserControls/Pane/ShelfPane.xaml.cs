@@ -142,6 +142,22 @@ namespace Files.App.UserControls
 		public static readonly DependencyProperty BulkDeleteCommandProperty =
 			DependencyProperty.Register(nameof(BulkDeleteCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
 
+		public ICommand? BulkCopyCommand
+		{
+			get => (ICommand?)GetValue(BulkCopyCommandProperty);
+			set => SetValue(BulkCopyCommandProperty, value);
+		}
+		public static readonly DependencyProperty BulkCopyCommandProperty =
+			DependencyProperty.Register(nameof(BulkCopyCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
+
+		public ICommand? BulkCutCommand
+		{
+			get => (ICommand?)GetValue(BulkCutCommandProperty);
+			set => SetValue(BulkCutCommandProperty, value);
+		}
+		public static readonly DependencyProperty BulkCutCommandProperty =
+			DependencyProperty.Register(nameof(BulkCutCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
+
 		public ICommand? ItemFocusedCommand
 		{
 			get => (ICommand?)GetValue(ItemFocusedCommandProperty);

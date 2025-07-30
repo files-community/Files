@@ -164,6 +164,20 @@
 					Command="{x:Bind BulkDeleteCommand, Mode=OneWay}">
 					<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Delete}" />
 				</Button>
+				<Button
+					Padding="8"
+					Background="Transparent"
+					BorderThickness="0"
+					Command="{x:Bind BulkCopyCommand, Mode=OneWay}">
+					<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Copy}" />
+				</Button>
+				<Button
+					Padding="8"
+					Background="Transparent"
+					BorderThickness="0"
+					Command="{x:Bind BulkCutCommand, Mode=OneWay}">
+					<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Cut}" />
+				</Button>
 			</StackPanel>
 
 			<HyperlinkButton
