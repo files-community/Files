@@ -234,7 +234,7 @@ namespace Files.App
 				!Process.GetProcessesByName("Files").Any(x => x.Id != Environment.ProcessId))
 			{
 				// Close open content dialogs
-				UIHelpers.CloseAllDialogs();
+				await UIHelpers.CloseAllDialogs();
 
 				// Close all notification banners except in progress
 				statusCenterViewModel.RemoveAllCompletedItems();

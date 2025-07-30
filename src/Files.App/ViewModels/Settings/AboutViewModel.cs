@@ -108,7 +108,7 @@ namespace Files.App.ViewModels.Settings
 
 			// Close the settings dialog if Files is the deault file manager
 			if (!string.IsNullOrEmpty(command) && command.Contains("Files.App.Launcher.exe"))
-				UIHelpers.CloseAllDialogs();
+				await UIHelpers.CloseAllDialogs();
 
 			return true;
 		}
