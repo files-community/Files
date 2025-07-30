@@ -61,8 +61,15 @@ namespace Files.App.Data.Factories
 				ItemType = PropertiesNavigationViewItemType.Compatibility,
 				ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.Properties.Compatability"],
 			};
+			var signaturesItem = new NavigationViewItemButtonStyleItem()
+			{
+				Name = Strings.Signatures.GetLocalizedResource(),
+				ItemType = PropertiesNavigationViewItemType.Signatures,
+				ThemedIconStyle = (Style)Application.Current.Resources["App.ThemedIcons.Properties.Signatures"],
+			};
 
 			PropertiesNavigationViewItems.Add(generalItem);
+			PropertiesNavigationViewItems.Add(signaturesItem);
 			PropertiesNavigationViewItems.Add(securityItem);
 			PropertiesNavigationViewItems.Add(hashesItem);
 			PropertiesNavigationViewItems.Add(shortcutItem);
@@ -89,6 +96,7 @@ namespace Files.App.Data.Factories
 				PropertiesNavigationViewItems.Remove(securityItem);
 				PropertiesNavigationViewItems.Remove(customizationItem);
 				PropertiesNavigationViewItems.Remove(hashesItem);
+				PropertiesNavigationViewItems.Remove(signaturesItem);
 			}
 			else if (item is ListedItem listedItem)
 			{
@@ -102,12 +110,20 @@ namespace Files.App.Data.Factories
 				var detailsItemEnabled = !(isFolder && !listedItem.IsArchive) && !isLibrary && !listedItem.IsRecycleBinItem;
 				var customizationItemEnabled = !isLibrary && (isFolder && !listedItem.IsArchive || isShortcut && !listedItem.IsLinkItem);
 				var compatibilityItemEnabled = FileExtensionHelpers.IsExecutableFile(listedItem is IShortcutItem sht ? sht.TargetPath : fileExt, true);
+				var signaturesItemEnabled = 
+					!isFolder &&
+					!isLibrary &&
+					!listedItem.IsRecycleBinItem &&
+					FileExtensionHelpers.IsSignableFile(fileExt, true);
 
 				if (!securityItemEnabled)
 					PropertiesNavigationViewItems.Remove(securityItem);
 
 				if (!hashItemEnabled)
 					PropertiesNavigationViewItems.Remove(hashesItem);
+
+				if (!signaturesItemEnabled)
+					PropertiesNavigationViewItems.Remove(signaturesItem);
 
 				if (!isShortcut)
 					PropertiesNavigationViewItems.Remove(shortcutItem);
@@ -132,6 +148,7 @@ namespace Files.App.Data.Factories
 				PropertiesNavigationViewItems.Remove(detailsItem);
 				PropertiesNavigationViewItems.Remove(customizationItem);
 				PropertiesNavigationViewItems.Remove(compatibilityItem);
+				PropertiesNavigationViewItems.Remove(signaturesItem);
 			}
 
 			return PropertiesNavigationViewItems;

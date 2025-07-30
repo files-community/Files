@@ -40,7 +40,8 @@ namespace Files.App.ViewModels.Properties
 						PropertiesNavigationViewItemType.Security => typeof(SecurityPage),
 						PropertiesNavigationViewItemType.Customization => typeof(CustomizationPage),
 						PropertiesNavigationViewItemType.Compatibility => typeof(CompatibilityPage),
-						PropertiesNavigationViewItemType.Hashes => typeof(HashesPage),
+						PropertiesNavigationViewItemType.Hashes =>        typeof(HashesPage),
+						PropertiesNavigationViewItemType.Signatures =>    typeof(SignaturesPage),
 						_ => typeof(GeneralPage),
 					};
 
