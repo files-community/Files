@@ -252,7 +252,8 @@ namespace Files.App.Data.Items
 				ShowShellItems = true,
 				ShowProperties = true
 			};
-			item.Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
+			item.Path = string.IsNullOrEmpty(root.Path) && !root.Name.EndsWith('\\') ? deviceId :
+				(string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path);
 			item.DeviceID = deviceId;
 			item.Root = root;
 
