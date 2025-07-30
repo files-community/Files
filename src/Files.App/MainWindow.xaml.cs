@@ -160,23 +160,37 @@ namespace Files.App
 					break;
 
 				case IFileActivatedEventArgs fileArgs:
-					var index = 0;
-					if (rootFrame.Content is null || rootFrame.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
+					try
 					{
-						// When the navigation stack isn't restored navigate to the first page,
-						// configuring the new page by passing required information as a navigation parameter
-						rootFrame.Navigate(typeof(MainPage), fileArgs.Files.First().Path, new SuppressNavigationTransitionInfo());
-						index = 1;
-					}
-					else
-					{
-						// Bring to foreground (#14730)
-						Win32Helper.BringToForegroundEx(new(WindowHandle));
-					}
+						if (fileArgs.Files is null || fileArgs.Files.Count == 0)
+						{
+							break;
+						}
 
-					for (; index < fileArgs.Files.Count; index++)
+						var index = 0;
+						if (rootFrame.Content is null || rootFrame.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
+						{
+							// When the navigation stack isn't restored navigate to the first page,
+							// configuring the new page by passing required information as a navigation parameter
+							rootFrame.Navigate(typeof(MainPage), fileArgs.Files.First().Path, new SuppressNavigationTransitionInfo());
+							index = 1;
+						}
+						else
+						{
+							// Bring to foreground (#14730)
+							Win32Helper.BringToForegroundEx(new(WindowHandle));
+						}
+
+						for (; index < fileArgs.Files.Count; index++)
+						{
+							await NavigationHelpers.AddNewTabByPathAsync(typeof(ShellPanesPage), fileArgs.Files[index].Path, true);
+						}
+					}
+					catch (Exception ex)
 					{
-						await NavigationHelpers.AddNewTabByPathAsync(typeof(ShellPanesPage), fileArgs.Files[index].Path, true);
+						App.Logger.LogWarning(ex, "Failed to open files.");
+						if (rootFrame.Content is null || rootFrame.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
+							rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 					}
 					break;
 
