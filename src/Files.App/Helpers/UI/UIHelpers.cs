@@ -102,6 +102,26 @@ namespace Files.App.Helpers
 					dialog.Hide();
 		}
 
+		public static async Task CloseAllDialogsAsync()
+		{
+			if (MainWindow.Instance?.Content?.XamlRoot == null)
+				return;
+
+			var openedDialogs = VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot);
+			var closingTasks = new List<Task>();
+			foreach (var item in openedDialogs)
+			{
+				if (item.Child is ContentDialog dialog)
+				{
+					var tcs = new TaskCompletionSource();
+					dialog.Closed += (s, e) => tcs.SetResult();
+					dialog.Hide();
+					closingTasks.Add(tcs.Task);
+				}
+			}
+			await Task.WhenAll(closingTasks);
+		}
+
 		private static IEnumerable<IconFileInfo> SidebarIconResources = LoadSidebarIconResources();
 
 		private static IconFileInfo ShieldIconResource = LoadShieldIconResource();
