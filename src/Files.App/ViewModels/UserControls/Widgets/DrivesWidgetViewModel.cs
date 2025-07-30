@@ -153,11 +153,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
-					ShowItem = CommandManager.OpenTerminalFromHome.IsExecutable ||
+					ShowItem = (UserSettingsService.GeneralSettingsService.ShowOpenTerminal && CommandManager.OpenTerminalFromHome.IsExecutable) ||
 						CommandManager.OpenStorageSenseFromHome.IsExecutable ||
 						CommandManager.FormatDriveFromHome.IsExecutable
 				},
-				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenTerminalFromHome).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenTerminalFromHome)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenTerminal && CommandManager.OpenTerminalFromHome.IsExecutable
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenStorageSenseFromHome).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.FormatDriveFromHome).Build(),
 				new()

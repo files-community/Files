@@ -30,7 +30,7 @@ namespace Files.App.Data.Items
 			if (systemDefault || string.IsNullOrEmpty(code))
 			{
 				Code = new CultureInfo(code).Name;
-				Name = Strings.SettingsPreferencesSystemDefaultLanguageOption.GetLocalizedResource();
+				Name = Strings.UseSystemSetting.GetLocalizedResource();
 			}
 			else
 			{

@@ -201,7 +201,7 @@ namespace Files.App.Storage
 			return HRESULT.S_OK;
 		}
 
-		public static IEnumerable<ContextMenuItem> GetShellNewItems(this IWindowsFolder @this)
+		public static IEnumerable<WindowsContextMenuItem> GetShellNewItems(this IWindowsFolder @this)
 		{
 			HRESULT hr = default;
 
@@ -249,7 +249,7 @@ namespace Files.App.Storage
 				return [];
 
 			// Enumerates and populates the list
-			List<ContextMenuItem> shellNewItems = [];
+			List<WindowsContextMenuItem> shellNewItems = [];
 			for (uint dwIndex = 0; dwIndex < dwCount; dwIndex++)
 			{
 				MENUITEMINFOW mii = default;
@@ -264,7 +264,7 @@ namespace Files.App.Storage
 					{
 						Id = mii.wID,
 						Name = mii.dwTypeData.ToString(),
-						Type = (ContextMenuType)mii.fState,
+						Type = (WindowsContextMenuType)mii.fState,
 					});
 				}
 
@@ -274,7 +274,7 @@ namespace Files.App.Storage
 			return shellNewItems;
 		}
 
-		public static bool InvokeShellNewItem(this IWindowsFolder @this, ContextMenuItem item)
+		public static bool InvokeShellNewItem(this IWindowsFolder @this, WindowsContextMenuItem item)
 		{
 			HRESULT hr = default;
 
