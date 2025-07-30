@@ -39,7 +39,7 @@ namespace Files.App.ViewModels.Settings
 
 			Themes =
 			[
-				Strings.Default.GetLocalizedResource(),
+				Strings.UseSystemSetting.GetLocalizedResource(),
 				Strings.LightTheme.GetLocalizedResource(),
 				Strings.DarkTheme.GetLocalizedResource()
 			];
