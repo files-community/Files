@@ -26,7 +26,7 @@ namespace Files.App.Extensions
 				}
 
 				return function();
-			}, App.Logger, typeof(COMException));
+			}, App.Logger, typeof(COMException), typeof(InvalidOperationException));
 		}
 
 		public static Task<T?> EnqueueOrInvokeAsync<T>(this DispatcherQueue? dispatcher, Func<Task<T>> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
@@ -47,7 +47,7 @@ namespace Files.App.Extensions
 				}
 
 				return function();
-			}, App.Logger, typeof(COMException));
+			}, App.Logger, typeof(COMException), typeof(InvalidOperationException));
 		}
 
 		public static Task EnqueueOrInvokeAsync(this DispatcherQueue? dispatcher, Action function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
@@ -69,7 +69,7 @@ namespace Files.App.Extensions
 
 				function();
 				return Task.CompletedTask;
-			}, App.Logger, typeof(COMException));
+			}, App.Logger, typeof(COMException), typeof(InvalidOperationException));
 		}
 
 		public static Task<T?> EnqueueOrInvokeAsync<T>(this DispatcherQueue? dispatcher, Func<T> function, DispatcherQueuePriority priority = DispatcherQueuePriority.Normal)
@@ -90,7 +90,7 @@ namespace Files.App.Extensions
 				}
 
 				return Task.FromResult(function());
-			}, App.Logger, typeof(COMException));
+			}, App.Logger, typeof(COMException), typeof(InvalidOperationException));
 		}
 
 	}
