@@ -395,23 +395,24 @@ namespace Files.App.Utils.Storage
 
 			if (listedItem is not null && MaxItemCount > 0) // Only load icon for searchbox suggestions
 			{
-				_ = FileThumbnailHelper.GetIconAsync(
-					listedItem.ItemPath,
-					Constants.ShellIconSizes.Small,
-					isFolder,
-					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale)
-					.ContinueWith((t) =>
+				_ = FilesystemTasks.Wrap(async () =>
+				{
+					var iconData = await FileThumbnailHelper.GetIconAsync(
+						listedItem.ItemPath,
+						Constants.ShellIconSizes.Small,
+						isFolder,
+						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+
+					if (iconData is not null)
 					{
-						if (t.IsCompletedSuccessfully && t.Result is not null)
+						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 						{
-							_ = FilesystemTasks.Wrap(() => MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-							{
-								var bitmapImage = await t.Result.ToBitmapAsync();
-								if (bitmapImage is not null)
-									listedItem.FileImage = bitmapImage;
-							}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low));
-						}
-					});
+							var bitmapImage = await iconData.ToBitmapAsync();
+							if (bitmapImage is not null)
+								listedItem.FileImage = bitmapImage;
+						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+					}
+				});
 			}
 
 			return listedItem;
