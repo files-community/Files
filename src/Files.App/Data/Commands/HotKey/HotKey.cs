@@ -278,6 +278,9 @@ namespace Files.App.Data.Commands
 		/// <returns>Humanized code with a format <see cref="HotKey"/>.</returns>
 		public static HotKey Parse(string code, bool localized = true)
 		{
+			if (string.IsNullOrEmpty(code))
+				return None;
+
 			var key = Keys.None;
 			var modifier = KeyModifiers.None;
 			bool isVisible = true;
