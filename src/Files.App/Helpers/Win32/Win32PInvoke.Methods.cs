@@ -5,6 +5,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using Windows.Win32.Foundation;
+using Windows.Win32.Security.Cryptography;
 using Windows.Win32.System.Com;
 
 namespace Files.App.Helpers
@@ -349,138 +350,17 @@ namespace Files.App.Helpers
 
 		// crypt32.dll
 		[DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern uint CertGetNameStringA(
-			IntPtr pCertContext,
+		public unsafe static extern uint CertGetNameStringA(
+			CERT_CONTEXT* pCertContext,
 			uint dwType,
 			uint dwFlags,
-			IntPtr pvTypePara,
-			IntPtr pszNameString,
+			void* pvTypePara,
+			PCSTR pszNameString,
 			uint cchNameString
-		);
-
-		[DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern bool CertFreeCertificateContext(
-			IntPtr pCertContext
-		);
-
-		[DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern bool CryptMsgGetParam(
-			IntPtr hCryptMsg,
-			uint dwParamType,
-			uint dwIndex,
-			IntPtr pParam,
-			ref uint dwOutSize
-		);
-
-		[DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern bool CryptMsgClose(
-			IntPtr hCryptMsg
-		);
-
-		[DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern IntPtr CryptMsgOpenToDecode(
-			uint dwMsgEncodingType,
-			uint dwFlags,
-			uint dwMsgType,
-			IntPtr hCryptProv,
-			IntPtr pRecipientInfo,
-			IntPtr pStreamInfo
-		);
-
-		[DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern bool CryptMsgUpdate(
-			IntPtr hCryptMsg,
-			IntPtr pbData,
-			uint cbDatam,
-			bool fFinal
-		);
-
-		[DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern IntPtr CertOpenStore(
-			IntPtr lpszStoreProvider,
-			uint dwEncodingType,
-			IntPtr hCryptProv,
-			uint dwFlags,
-			IntPtr pvPara
-		);
-
-		[DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern bool CryptDecodeObject(
-			uint dwCertEncodingType,
-			IntPtr lpszStructType,
-			IntPtr pbEncoded,
-			uint cbEncoded,
-			uint dwFlags,
-			IntPtr pvStructInfo,
-			ref uint pcbStructInfo
-		);
-
-		[DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern IntPtr CertFindCertificateInStore(
-			IntPtr hCertStore,
-			uint dwCertEncodingType,
-			uint dwFindFlags,
-			uint dwFindType,
-			IntPtr pvFindPara,
-			IntPtr pPrevCertContext
-		);
-
-		[DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern bool CertComparePublicKeyInfo(
-			uint dwCertEncodingType,
-			IntPtr pPublicKey1,
-			IntPtr pPublicKey2
-		);
-
-		[DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern bool CryptQueryObject(
-			uint dwObjectType,
-			IntPtr pvObject,
-			uint dwExpectedContentTypeFlags,
-			uint dwExpectedFormatTypeFlags,
-			uint dwFlags,
-			ref uint pdwMsgAndCertEncodingType,
-			ref uint pdwContentType,
-			ref uint pdwFormatType,
-			ref IntPtr phCertStore,
-			ref IntPtr phMsg,
-			ref IntPtr ppvContext
-		);
-
-		[DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern bool CertCloseStore(
-			IntPtr hCertStore,
-			uint dwFlags
-		);
-
-		[DllImport("wintrust.dll")]
-		public static extern long WinVerifyTrust(
-			IntPtr hwnd,
-			IntPtr pgActionID,
-			IntPtr pWVTData
-		);
-
-		// kernel32.dll
-		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern bool FileTimeToSystemTime(
-			IntPtr lpFileTime,
-			IntPtr lpSystemTime
-		);
-
-		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern bool FileTimeToLocalFileTime(
-			IntPtr lpFileTime,
-			IntPtr lpLocalFileTime
-		);
-
-		[DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public static extern bool SystemTimeToFileTime(
-			IntPtr lpSystemTime,
-			IntPtr lpFileTime
 		);
 
 		// cryptui.dll
 		[DllImport("cryptui.dll", SetLastError = true, CharSet = CharSet.Auto)]
-		public static extern bool CryptUIDlgViewSignerInfo(IntPtr pViewInfo);
+		public unsafe static extern bool CryptUIDlgViewSignerInfo(CRYPTUI_VIEWSIGNERINFO_STRUCT* pViewInfo);
 	}
 }

@@ -3,6 +3,7 @@
 
 using Files.App.Utils.Signatures;
 using System.Windows.Input;
+using Windows.Win32.Foundation;
 
 namespace Files.App.Data.Models
 {
@@ -10,7 +11,7 @@ namespace Files.App.Data.Models
 	{
 		private readonly string _fileName;
 
-		private readonly IntPtr _hwndParent;
+		private readonly HWND _hwndParent;
 
 		private readonly int _index;
 
@@ -73,7 +74,7 @@ namespace Files.App.Data.Models
 
 		public ICommand OpenDetailsCommand { get; }
 
-		public SignatureInfoItem(string fileName, int index, IntPtr hWnd, List<CertNodeInfoItem> chain)
+		public SignatureInfoItem(string fileName, int index, HWND hWnd, List<CertNodeInfoItem> chain)
 		{
 			_fileName = fileName;
 			_hwndParent = hWnd;

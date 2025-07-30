@@ -3,6 +3,8 @@
 
 using System.IO;
 using System.Runtime.InteropServices;
+using Windows.Win32.Foundation;
+using Windows.Win32.Security.Cryptography;
 
 namespace Files.App.Helpers
 {
@@ -199,159 +201,35 @@ namespace Files.App.Helpers
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct CRYPTOAPI_BLOB
-		{
-			public uint cbData;
-			public IntPtr pbData;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct CMSG_SIGNER_INFO
-		{
-			public uint dwVersion;
-			public CRYPTOAPI_BLOB Issuer;
-			public CRYPTOAPI_BLOB SerialNumber;
-			public CRYPT_ALGORITHM_IDENTIFIER HashAlgorithm;
-			public CRYPT_ALGORITHM_IDENTIFIER HashEncryptionAlgorithm;
-			public CRYPTOAPI_BLOB EncryptedHash;
-			public CRYPTOAPI_BLOB AuthAttrs;
-			public CRYPTOAPI_BLOB UnauthAttrs;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct SignDataHandle
+		public unsafe struct SignDataHandle
 		{
 			public uint dwObjSize;
-			public IntPtr pSignerInfo;
-			public IntPtr hCertStoreHandle;
+			public CMSG_SIGNER_INFO* pSignerInfo;
+			public HCERTSTORE hCertStoreHandle;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct CRYPT_ATTRIBUTE
+		public unsafe struct CRYPTOAPI_BLOB
 		{
-			[MarshalAs(UnmanagedType.LPStr)]
-			public string pszObjId;
-			public uint cValue;
-			public IntPtr rgValue;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct FILETIME
-		{
-			public uint dwLowDateTime;
-			public uint dwHighDateTime;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct CRYPT_BIT_BLOB
-		{
-			private readonly uint cbData;
-			private readonly IntPtr pbData;
-			private readonly uint cUnusedBits;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct CERT_ALT_NAME_INFO
-		{
-			public uint cAltEntry;
-			public IntPtr rgAltEntry;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct CERT_CONTEXT
-		{
-			public uint dwCertEncodingType;
-			public IntPtr pbCertEncoded;
-			public uint cbCertEncoded;
-			public IntPtr pCertInfo;
-			public IntPtr hCertStore;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct CERT_INFO
-		{
-			public uint dwVersion;
-			public CRYPTOAPI_BLOB SerialNumber;
-			public CRYPT_ALGORITHM_IDENTIFIER SignatureAlgorithm;
-			public CRYPTOAPI_BLOB Issuer;
-			public FILETIME NotBefore;
-			public FILETIME NotAfter;
-			public CRYPTOAPI_BLOB Subject;
-			public CERT_PUBLIC_KEY_INFO SubjectPublicKeyInfo;
-			public CRYPT_BIT_BLOB IssuerUniqueId;
-			public CRYPT_BIT_BLOB SubjectUniqueId;
-			public uint cExtension;
-			public IntPtr rgExtension;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct CRYPT_ALGORITHM_IDENTIFIER
-		{
-			[MarshalAs(UnmanagedType.LPStr)]
-			public string pszObjId;
-			public CRYPTOAPI_BLOB Parameters;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct CERT_PUBLIC_KEY_INFO
-		{
-			public CRYPT_ALGORITHM_IDENTIFIER Algorithm;
-			public CRYPTOAPI_BLOB PublicKey;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct CATALOG_INFO
-		{
-			public uint cbStruct;
-			public char[] wszCatalogFile = new char[256];
-
-			public CATALOG_INFO()
-			{
-			}
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct WINTRUST_FILE_INFO
-		{
-			public uint cbStruct;
-			public IntPtr pcwszFilePath;
-			public IntPtr hFile;
-			public IntPtr pgKnownSubject;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct WINTRUST_DATA
-		{
-			public uint cbStruct;
-			public IntPtr pPolicyCallbackData;
-			public IntPtr pSIPClientData;
-			public uint dwUIChoice;
-			public uint fdwRevocationChecks;
-			public uint dwUnionChoice;
-			public IntPtr pFile;
-			public uint dwStateAction;
-			public IntPtr hVWTStateData;
-			public IntPtr pwszURLReference;
-			public uint dwProvFlags;
-			public uint dwUIContext;
-			public IntPtr pSignatureSettings;
+			public uint cbData;
+			public void* pbData;
 		}
 
 		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-		public struct CRYPTUI_VIEWSIGNERINFO_STRUCT
+		public unsafe struct CRYPTUI_VIEWSIGNERINFO_STRUCT
 		{
 			public uint dwSize;
-			public IntPtr hwndParent;
+			public HWND hwndParent;
 			public uint dwFlags;
-			public IntPtr szTitle;
-			public IntPtr pSignerInfo;
-			public IntPtr hMsg;
-			public IntPtr pszOID;
+			public PCSTR szTitle;
+			public CMSG_SIGNER_INFO* pSignerInfo;
+			public void* hMsg;
+			public PCSTR pszOID;
 			public uint? dwReserved;
 			public uint cStores;
-			public IntPtr rghStores;
+			public HCERTSTORE* rghStores;
 			public uint cPropPages;
-			public IntPtr rgPropPages;
+			public void* rgPropPages;
 		}
 	}
 }

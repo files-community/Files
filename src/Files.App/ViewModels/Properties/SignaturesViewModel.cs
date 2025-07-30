@@ -3,6 +3,7 @@
 
 using Files.App.Utils.Signatures;
 using Microsoft.UI.Windowing;
+using Windows.Win32.Foundation;
 
 namespace Files.App.ViewModels.Properties
 {
@@ -18,7 +19,7 @@ namespace Files.App.ViewModels.Properties
 		{
 			_cancellationTokenSource = new();
 			Signatures = new();
-			var hWnd = Microsoft.UI.Win32Interop.GetWindowFromWindowId(appWindow.Id);
+			var hWnd = new HWND(Microsoft.UI.Win32Interop.GetWindowFromWindowId(appWindow.Id));
 			Signatures.CollectionChanged += (s, e) => OnPropertyChanged(nameof(NoSignatureFound));
 			DigitalSignaturesUtil.LoadItemSignatures(
 				item.ItemPath,

@@ -2,6 +2,10 @@
 // Licensed under the MIT License.
 
 using System.Runtime.InteropServices;
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.Security.Cryptography;
+using Windows.Win32.Security.WinTrust;
 using static Files.App.Helpers.Win32PInvoke;
 
 namespace Files.App.Utils.Signatures
@@ -19,20 +23,11 @@ namespace Files.App.Utils.Signatures
 
 		// Flags
 		private const uint CERT_NAME_SIMPLE_DISPLAY_TYPE = 4;
-		private const uint CERT_FIND_SUBJECT_NAME = 131079;
-		private const uint CERT_FIND_ISSUER_NAME = 131076;
-		private const uint CERT_QUERY_OBJECT_FILE = 0x00000001;
-		private const uint CERT_QUERY_CONTENT_FLAG_PKCS7_SIGNED_EMBED = 0x00000400;
-		private const uint CERT_QUERY_FORMAT_FLAG_BINARY = 0x00000002;
 		private const uint CERT_SYSTEM_STORE_CURRENT_USER = 0x00010000;
-		private const IntPtr CERT_STORE_PROV_SYSTEM = 10;
-		private const IntPtr CERT_STORE_PROV_MSG = 1;
-
 		private const uint PKCS_7_ASN_ENCODING = 0x00010000;
 		private const uint CRYPT_ASN_ENCODING = 0x00000001;
-
-		private const IntPtr PKCS7_SIGNER_INFO = 500;
-		private const IntPtr PKCS_UTC_TIME = 17;
+		private const CERT_QUERY_ENCODING_TYPE ENCODING =
+			CERT_QUERY_ENCODING_TYPE.X509_ASN_ENCODING | CERT_QUERY_ENCODING_TYPE.PKCS_7_ASN_ENCODING;
 
 		private const uint CMSG_SIGNER_INFO_PARAM = 6;
 
@@ -54,7 +49,7 @@ namespace Files.App.Utils.Signatures
 		public static void LoadItemSignatures(
 			string filePath,
 			ObservableCollection<SignatureInfoItem> signatures,
-			IntPtr hWnd,
+			HWND hWnd,
 			CancellationToken ct)
 		{
 			var signChain = new List<SignNodeInfo>();
@@ -79,12 +74,12 @@ namespace Files.App.Utils.Signatures
 			}
 		}
 
-		public static void DisplaySignerInfoDialog(string filePath, IntPtr hwndParent, int index)
+		public unsafe static void DisplaySignerInfoDialog(string filePath, HWND hwndParent, int index)
 		{
 			if (string.IsNullOrEmpty(filePath))
 				return;
 
-			var hAuthCryptMsg = IntPtr.Zero;
+			void* hAuthCryptMsg = null;
 			var signHandle = new SignDataHandle();
 			var signDataChain = new List<SignDataHandle>();
 
@@ -92,12 +87,12 @@ namespace Files.App.Utils.Signatures
 			{
 				var result = TryGetSignerInfo(
 					filePath,
-					ref hAuthCryptMsg,
-					ref signHandle.hCertStoreHandle,
-					ref signHandle.pSignerInfo,
-					ref signHandle.dwObjSize
+					out hAuthCryptMsg,
+					out signHandle.hCertStoreHandle,
+					out signHandle.pSignerInfo,
+					out signHandle.dwObjSize
 				);
-				if (!result || signHandle.pSignerInfo == IntPtr.Zero)
+				if (!result || signHandle.pSignerInfo is null)
 					return;
 
 				signDataChain.Add(signHandle);
@@ -106,19 +101,16 @@ namespace Files.App.Utils.Signatures
 					return;
 
 				signHandle = signDataChain[index];
-				var signerInfo = Marshal.PtrToStructure<CMSG_SIGNER_INFO>(signHandle.pSignerInfo);
-				var pIssuer = Marshal.AllocHGlobal(Marshal.SizeOf<CRYPTOAPI_BLOB>());
-				Marshal.StructureToPtr(signerInfo.Issuer, pIssuer, false);
-				var pCertContext = CertFindCertificateInStore(
+				var issuer = signHandle.pSignerInfo->Issuer;
+				var pCertContext = PInvoke.CertFindCertificateInStore(
 					signHandle.hCertStoreHandle,
-					PKCS_7_ASN_ENCODING | CRYPT_ASN_ENCODING,
+					ENCODING,
 					0,
-					CERT_FIND_ISSUER_NAME,
-					pIssuer,
-					IntPtr.Zero
+					CERT_FIND_FLAGS.CERT_FIND_ISSUER_NAME,
+					&issuer,
+					null
 				);
-				Marshal.FreeHGlobal(pIssuer);
-				if (pCertContext == IntPtr.Zero)
+				if (pCertContext is null)
 					return;
 
 				var viewInfo = new CRYPTUI_VIEWSIGNERINFO_STRUCT
@@ -126,25 +118,21 @@ namespace Files.App.Utils.Signatures
 					dwSize = (uint)Marshal.SizeOf<CRYPTUI_VIEWSIGNERINFO_STRUCT>(),
 					hwndParent = hwndParent,
 					dwFlags = 0,
-					szTitle = IntPtr.Zero,
+					szTitle = (PCSTR)null,
 					pSignerInfo = signHandle.pSignerInfo,
 					hMsg = hAuthCryptMsg,
-					pszOID = IntPtr.Zero,
+					pszOID = (PCSTR)null,
 					dwReserved = null,
 					cStores = 1,
-					rghStores = Marshal.AllocHGlobal(IntPtr.Size),
+					rghStores = (HCERTSTORE*)NativeMemory.Alloc((uint)sizeof(void*)),
 					cPropPages = 0,
-					rgPropPages = IntPtr.Zero
+					rgPropPages = null
 				};
-				Marshal.WriteIntPtr(viewInfo.rghStores, signHandle.hCertStoreHandle);
-				var pViewInfo = Marshal.AllocHGlobal((int)viewInfo.dwSize);
-				Marshal.StructureToPtr(viewInfo, pViewInfo, false);
+				*(viewInfo.rghStores) = signHandle.hCertStoreHandle;
 
-				result = CryptUIDlgViewSignerInfo(pViewInfo);
+				result = CryptUIDlgViewSignerInfo(&viewInfo);
 
-				Marshal.FreeHGlobal(viewInfo.rghStores);
-				Marshal.FreeHGlobal(pViewInfo);
-				CertFreeCertificateContext(pCertContext);
+				PInvoke.CertFreeCertificateContext(pCertContext);
 			}
 			finally
 			{
@@ -152,130 +140,113 @@ namespace Files.App.Utils.Signatures
 				// you must release them starting from the last one.
 				for (int i = signDataChain.Count - 1; i >= 0; i--)
 				{
-					if (signDataChain[i].pSignerInfo != IntPtr.Zero)
-						Marshal.FreeHGlobal(signDataChain[i].pSignerInfo);
+					if (signDataChain[i].pSignerInfo is not null)
+						NativeMemory.Free(signDataChain[i].pSignerInfo);
 
-					if (signDataChain[i].hCertStoreHandle != IntPtr.Zero)
-						CertCloseStore(signDataChain[i].hCertStoreHandle, 0);
+					if (!signDataChain[i].hCertStoreHandle.IsNull)
+						PInvoke.CertCloseStore(signDataChain[i].hCertStoreHandle, 0);
 				}
 
-				if (hAuthCryptMsg != IntPtr.Zero)
-					CryptMsgClose(hAuthCryptMsg);
+				if (hAuthCryptMsg is not null)
+					PInvoke.CryptMsgClose(hAuthCryptMsg);
 			}
 		}
 
-		private static bool GetSignerSignatureInfo(
-			IntPtr hSystemStore,
-			IntPtr hCertStore,
-			IntPtr pOrigContext,
-			ref IntPtr pCurrContext,
+		private unsafe static bool GetSignerSignatureInfo(
+			HCERTSTORE hSystemStore,
+			HCERTSTORE hCertStore,
+			CERT_CONTEXT* pOrigContext,
+			ref CERT_CONTEXT* pCurrContext,
 			SignNodeInfo signNode)
 		{
-			var currContext = Marshal.PtrToStructure<CERT_CONTEXT>(pCurrContext);
-			var pCertInfo = currContext.pCertInfo;
+			var pCertInfo = pCurrContext->pCertInfo;
 			var certNode = new CertNodeInfoItem();
-			var certInfo = Marshal.PtrToStructure<CERT_INFO>(pCertInfo);
 
-			(_, certNode.Version) = CalculateSignVersion(certInfo.dwVersion);
+			(_, certNode.Version) = CalculateSignVersion(pCertInfo->dwVersion);
 			GetStringFromCertContext(pCurrContext, CERT_NAME_SIMPLE_DISPLAY_TYPE, 0, certNode);
 			GetStringFromCertContext(pCurrContext, CERT_NAME_SIMPLE_DISPLAY_TYPE, 1, certNode);
 
-			var pft = Marshal.AllocHGlobal(Marshal.SizeOf<FILETIME>());
-			Marshal.StructureToPtr(certInfo.NotBefore, pft, false);
+			var pft = &(pCertInfo->NotBefore);
 			certNode.ValidFrom = TimeToString(pft);
-			Marshal.StructureToPtr(certInfo.NotAfter, pft, false);
+			pft = &(pCertInfo->NotAfter);
 			certNode.ValidTo = TimeToString(pft);
-			Marshal.FreeHGlobal(pft);
 
 			signNode.CertChain.Add(certNode);
 
-			var pIssuer = Marshal.AllocHGlobal(Marshal.SizeOf<CRYPTOAPI_BLOB>());
-			Marshal.StructureToPtr(certInfo.Issuer, pIssuer, false);
-			pCurrContext = CertFindCertificateInStore(
+			pCurrContext = PInvoke.CertFindCertificateInStore(
 				hCertStore,
-				PKCS_7_ASN_ENCODING | CRYPT_ASN_ENCODING,
+				ENCODING,
 				0,
-				CERT_FIND_SUBJECT_NAME,
-				pIssuer,
-				IntPtr.Zero
+				CERT_FIND_FLAGS.CERT_FIND_SUBJECT_NAME,
+				&(pCertInfo->Issuer),
+				null
 			);
 
-			if (pCurrContext == IntPtr.Zero)
+			if (pCurrContext is null)
 			{
-				pCurrContext = CertFindCertificateInStore(
+				pCurrContext = PInvoke.CertFindCertificateInStore(
 					hSystemStore,
-					PKCS_7_ASN_ENCODING | CRYPT_ASN_ENCODING,
+					ENCODING,
 					0,
-					CERT_FIND_SUBJECT_NAME,
-					pIssuer,
-					IntPtr.Zero
+					CERT_FIND_FLAGS.CERT_FIND_SUBJECT_NAME,
+					&(pCertInfo->Issuer),
+					null
 				);
 			}
 
-			Marshal.FreeHGlobal(pIssuer);
-			if (pCurrContext == IntPtr.Zero)
+			if (pCurrContext is null)
 				return false;
 
-			var pCurrPublicKey = Marshal.AllocHGlobal(Marshal.SizeOf<CERT_PUBLIC_KEY_INFO>());
-			Marshal.StructureToPtr(certInfo.SubjectPublicKeyInfo, pCurrPublicKey, false);
-
-			var origContext = Marshal.PtrToStructure<CERT_CONTEXT>(pOrigContext);
-			var origInfo = Marshal.PtrToStructure<CERT_INFO>(origContext.pCertInfo);
-			var pOrigPublicKey = Marshal.AllocHGlobal(Marshal.SizeOf<CERT_PUBLIC_KEY_INFO>());
-			Marshal.StructureToPtr(origInfo.SubjectPublicKeyInfo, pOrigPublicKey, false);
-
-			var result = CertComparePublicKeyInfo(
-				PKCS_7_ASN_ENCODING | CRYPT_ASN_ENCODING,
-				pCurrPublicKey,
-				pOrigPublicKey
+			var result = PInvoke.CertComparePublicKeyInfo(
+				ENCODING,
+				&pCurrContext->pCertInfo->SubjectPublicKeyInfo,
+				&pOrigContext->pCertInfo->SubjectPublicKeyInfo
 			);
-
-			Marshal.FreeHGlobal(pCurrPublicKey);
-			Marshal.FreeHGlobal(pOrigPublicKey);
 
 			return !result;
 		}
 
-		private static bool GetSignerCertificateInfo(string fileName, List<SignNodeInfo> signChain, CancellationToken ct)
+		private unsafe static bool GetSignerCertificateInfo(string fileName, List<SignNodeInfo> signChain, CancellationToken ct)
 		{
 			var succeded = false;
-			var authSignData = new SignDataHandle();
+			var authSignData = new SignDataHandle() { dwObjSize = 0, hCertStoreHandle = HCERTSTORE.Null, pSignerInfo = null };
 			var signDataChain = new List<SignDataHandle>();
 			signChain.Clear();
 
-			var pRoot = Marshal.StringToHGlobalAuto("Root");
-			var hSystemStore = CertOpenStore(
-				CERT_STORE_PROV_SYSTEM,
-				PKCS_7_ASN_ENCODING | CRYPT_ASN_ENCODING,
-				IntPtr.Zero,
-				CERT_SYSTEM_STORE_CURRENT_USER,
+			var cert_store_prov_system = (PCSTR)(byte*)10;
+			var root = "Root";
+			var pRoot = &root;
+			var hSystemStore = PInvoke.CertOpenStore(
+				cert_store_prov_system,
+				ENCODING,
+				HCRYPTPROV_LEGACY.Null,
+				(CERT_OPEN_STORE_FLAGS)CERT_SYSTEM_STORE_CURRENT_USER,
 				pRoot
-			);
-			Marshal.FreeHGlobal(pRoot);
+			); 
 			if (hSystemStore == IntPtr.Zero)
 				return false;
 
-			var hAuthCryptMsg = IntPtr.Zero;
+			void* hAuthCryptMsg = null;
 			var result = TryGetSignerInfo(
 				fileName,
-				ref hAuthCryptMsg,
-				ref authSignData.hCertStoreHandle,
-				ref authSignData.pSignerInfo,
-				ref authSignData.dwObjSize
+				out hAuthCryptMsg,
+				out authSignData.hCertStoreHandle,
+				out authSignData.pSignerInfo,
+				out authSignData.dwObjSize
 			);
 
-			if (hAuthCryptMsg != IntPtr.Zero)
+			if (hAuthCryptMsg is not null)
 			{
-				CryptMsgClose(hAuthCryptMsg);
-				hAuthCryptMsg = IntPtr.Zero;
+				PInvoke.CryptMsgClose(hAuthCryptMsg);
+				hAuthCryptMsg = null;
 			}
 
 			if (!result)
 			{
 				if (authSignData.hCertStoreHandle != IntPtr.Zero)
-					CertCloseStore(authSignData.hCertStoreHandle, 0);
+					PInvoke.CertCloseStore(authSignData.hCertStoreHandle, 0);
 
-				CertCloseStore(hSystemStore, 0);
+				PInvoke.CertCloseStore(hSystemStore, 0);
 				return false;
 			}
 
@@ -286,38 +257,37 @@ namespace Files.App.Utils.Signatures
 			{
 				if (ct.IsCancellationRequested)
 				{
-					CertCloseStore(hSystemStore, 0);
+					PInvoke.CertCloseStore(hSystemStore, 0);
 					return false;
 				}
 
-				var pCurrContext = IntPtr.Zero;
-				var pCounterSigner = IntPtr.Zero;
+				CERT_CONTEXT* pCurrContext = null;
+				CMSG_SIGNER_INFO* pCounterSigner = null;
 				var signNode = new SignNodeInfo();
 
-				GetCounterSignerInfo(signDataChain[i].pSignerInfo, ref pCounterSigner);
-				if (pCounterSigner != IntPtr.Zero)
+				GetCounterSignerInfo(signDataChain[i].pSignerInfo, &pCounterSigner);
+				if (pCounterSigner is not null)
 					GetCounterSignerData(pCounterSigner, signNode.CounterSign);
 				else
 					GetGeneralizedTimeStamp(signDataChain[i].pSignerInfo, signNode.CounterSign);
 
-				var signerInfo = Marshal.PtrToStructure<CMSG_SIGNER_INFO>(signDataChain[i].pSignerInfo);
-				var szObjId = signerInfo.HashAlgorithm.pszObjId;
+				var pszObjId = signDataChain[i].pSignerInfo->HashAlgorithm.pszObjId;
+				var szObjId = new string((sbyte*)(byte*)pszObjId);
 				CalculateDigestAlgorithm(szObjId, signNode);
-				(_, signNode.Version) = CalculateSignVersion(signerInfo.dwVersion);
+				(_, signNode.Version) = CalculateSignVersion(signDataChain[i].pSignerInfo->dwVersion);
 
-				var pIssuer = Marshal.AllocHGlobal(Marshal.SizeOf<CRYPTOAPI_BLOB>());
-				Marshal.StructureToPtr(signerInfo.Issuer, pIssuer, false);
-				pCurrContext = CertFindCertificateInStore(
+
+				var pIssuer = &(signDataChain[i].pSignerInfo->Issuer);
+				pCurrContext = PInvoke.CertFindCertificateInStore(
 					signDataChain[i].hCertStoreHandle,
-					PKCS_7_ASN_ENCODING | CRYPT_ASN_ENCODING,
+					ENCODING,
 					0,
-					CERT_FIND_ISSUER_NAME,
+					CERT_FIND_FLAGS.CERT_FIND_ISSUER_NAME,
 					pIssuer,
-					IntPtr.Zero
+					null
 				);
-				Marshal.FreeHGlobal(pIssuer);
 
-				result = pCurrContext != IntPtr.Zero;
+				result = pCurrContext is not null;
 				while (result)
 				{
 					var pOrigContext = pCurrContext;
@@ -328,20 +298,20 @@ namespace Files.App.Utils.Signatures
 						ref pCurrContext,
 						signNode
 					);
-					CertFreeCertificateContext(pOrigContext);
+					PInvoke.CertFreeCertificateContext(pOrigContext);
 				}
 
-				if (pCurrContext != IntPtr.Zero)
-					CertFreeCertificateContext(pCurrContext);
+				if (pCurrContext is not null)
+					PInvoke.CertFreeCertificateContext(pCurrContext);
 
-				if (pCounterSigner != IntPtr.Zero)
-					Marshal.FreeHGlobal(pCounterSigner);
+				if (pCounterSigner is not null)
+					NativeMemory.Free(pCounterSigner);
 
-				if (signDataChain[i].pSignerInfo != IntPtr.Zero)
-					Marshal.FreeHGlobal(signDataChain[i].pSignerInfo);
+				if (signDataChain[i].pSignerInfo is not null)
+					NativeMemory.Free(signDataChain[i].pSignerInfo);
 
-				if (signDataChain[i].hCertStoreHandle != IntPtr.Zero)
-					CertCloseStore(signDataChain[i].hCertStoreHandle, 0);
+				if (!signDataChain[i].hCertStoreHandle.IsNull)
+					PInvoke.CertCloseStore(signDataChain[i].hCertStoreHandle, 0);
 
 				succeded = true;
 				signNode.IsValid = VerifyySignature(fileName);
@@ -349,145 +319,151 @@ namespace Files.App.Utils.Signatures
 				signChain.Add(signNode);
 			}
 
-			CertCloseStore(hSystemStore, 0);
+			PInvoke.CertCloseStore(hSystemStore, 0);
 			return succeded;
 		}
 
-		private static bool VerifyySignature(string certPath)
+		private unsafe static bool VerifyySignature(string certPath)
 		{
+			int res = 1;
+			var sFileInfo = (uint)Marshal.SizeOf<WINTRUST_FILE_INFO>();
+			var sData = (uint)Marshal.SizeOf<WINTRUST_DATA>();
 			var actionGuid = new Guid("{00AAC56B-CD44-11D0-8CC2-00C04FC295EE}");
-			var guidPtr = Marshal.AllocHGlobal(Marshal.SizeOf(actionGuid));
-			Marshal.StructureToPtr(actionGuid, guidPtr, false);
 
-			var sFileInfo = Marshal.SizeOf<WINTRUST_FILE_INFO>();
-			var fileInfo = new WINTRUST_FILE_INFO
+			fixed (char* pCertPath = certPath)
 			{
-				cbStruct = (uint)sFileInfo,
-				pcwszFilePath = Marshal.StringToCoTaskMemAuto(certPath),
-				hFile = IntPtr.Zero,
-				pgKnownSubject = IntPtr.Zero
-			};
-			var filePtr = Marshal.AllocHGlobal(sFileInfo);
-			Marshal.StructureToPtr(fileInfo, filePtr, false);
+				var fileInfo = new WINTRUST_FILE_INFO
+				{
+					cbStruct = sFileInfo,
+					pcwszFilePath = (PCWSTR)pCertPath,
+					hFile = (HANDLE)null,
+					pgKnownSubject = null
+				};
 
-			var sData = Marshal.SizeOf<WINTRUST_DATA>();
-			var wintrustData = new WINTRUST_DATA
-			{
-				cbStruct = (uint)sData,
-				pPolicyCallbackData = IntPtr.Zero,
-				pSIPClientData = IntPtr.Zero,
-				dwUIChoice = 2,             // Display no UI
-				fdwRevocationChecks = 0,    // No revocation checking
-				dwUnionChoice = 1,          // Verify an embedded signature on a file
-				dwStateAction = 1,          // Verify action
-				hVWTStateData = IntPtr.Zero,
-				pwszURLReference = IntPtr.Zero,
-				dwUIContext = 0,
-				pFile = filePtr
-			};
-			var dataPtr = Marshal.AllocHGlobal(sData);
-			Marshal.StructureToPtr(wintrustData, dataPtr, false);
+				var wintrustData = new WINTRUST_DATA
+				{
+					cbStruct = sData,
+					pPolicyCallbackData = null,
+					pSIPClientData = null,
+					dwUIChoice = WINTRUST_DATA_UICHOICE.WTD_UI_NONE,
+					fdwRevocationChecks = 0,    // No revocation checking
+					dwUnionChoice = WINTRUST_DATA_UNION_CHOICE.WTD_CHOICE_FILE,
+					dwStateAction = WINTRUST_DATA_STATE_ACTION.WTD_STATEACTION_VERIFY,
+					hWVTStateData = (HANDLE)null,
+					pwszURLReference = null,
+					dwUIContext = 0,
+					Anonymous = new WINTRUST_DATA._Anonymous_e__Union
+					{
+						pFile = &fileInfo,
+					},
+				};
 
-			try
-			{
-				var res = WinVerifyTrust(IntPtr.Zero, guidPtr, dataPtr);
+				res = PInvoke.WinVerifyTrust((HWND)null, ref actionGuid, &wintrustData);
 
 				// Release hWVTStateData
-				wintrustData.dwStateAction = 2; // Close
-				Marshal.StructureToPtr(wintrustData, dataPtr, true);
-				WinVerifyTrust(IntPtr.Zero, guidPtr, dataPtr);
-
-				return res == 0;
+				wintrustData.dwStateAction = WINTRUST_DATA_STATE_ACTION.WTD_STATEACTION_CLOSE;
+				PInvoke.WinVerifyTrust((HWND)null, ref actionGuid, &wintrustData);
 			}
-			finally
-			{
-				if (fileInfo.pcwszFilePath != IntPtr.Zero)
-					Marshal.FreeCoTaskMem(fileInfo.pcwszFilePath);
 
-				Marshal.FreeHGlobal(guidPtr);
-				Marshal.FreeHGlobal(filePtr);
-				Marshal.FreeHGlobal(dataPtr);
-			}
+			return res == 0;
 		}
 
-		private static bool TryGetSignerInfo(
+		private unsafe static bool TryGetSignerInfo(
 		   string fileName,
-		   ref IntPtr hMsg,
-		   ref IntPtr hCertStore,
-		   ref IntPtr pSignerInfo,
-		   ref uint signerSize,
+		   out void* hMsg,
+		   out HCERTSTORE hCertStore,
+		   out CMSG_SIGNER_INFO* pSignerInfo,
+		   out uint signerSize,
 		   uint index = 0)
 		{
-			uint encoding = 0;
-			var pDummy = IntPtr.Zero;
-			uint dummy = 0;
-			var pFileName = Marshal.StringToHGlobalAuto(fileName);
-			var result = CryptQueryObject(
-				CERT_QUERY_OBJECT_FILE,
-				pFileName,
-				CERT_QUERY_CONTENT_FLAG_PKCS7_SIGNED_EMBED,
-				CERT_QUERY_FORMAT_FLAG_BINARY,
-				0,
-				ref encoding,
-				ref dummy,
-				ref dummy,
-				ref hCertStore,
-				ref hMsg,
-				ref pDummy
-			);
-			Marshal.FreeHGlobal(pFileName);
+			CERT_QUERY_ENCODING_TYPE encoding = 0;
+			CERT_QUERY_CONTENT_TYPE dummy = 0;
+			CERT_QUERY_FORMAT_TYPE dummy2 = 0;
+			void* pDummy = null;
+			BOOL result = false;
+
+			HCERTSTORE hCertStoreTmp = HCERTSTORE.Null;
+			void* hMsgTmp = null;
+			
+			fixed (char* pFileName = fileName)
+			{
+				result = PInvoke.CryptQueryObject(
+					CERT_QUERY_OBJECT_TYPE.CERT_QUERY_OBJECT_FILE,
+					pFileName,
+					CERT_QUERY_CONTENT_TYPE_FLAGS.CERT_QUERY_CONTENT_FLAG_PKCS7_SIGNED_EMBED,
+					CERT_QUERY_FORMAT_TYPE_FLAGS.CERT_QUERY_FORMAT_FLAG_BINARY,
+					0,
+					&encoding,
+					&dummy,
+					&dummy2,
+					&hCertStoreTmp,
+					&hMsgTmp,
+					&pDummy
+				);
+			}
+
+			hCertStore = hCertStoreTmp;
+			hMsg = hMsgTmp;
+			pSignerInfo = null;
+			signerSize = 0;
 
 			if (!result)
 				return false;
 
+			var vpSignerInfo = (void*)pSignerInfo;
 			result = CustomCryptMsgGetParam(
 				hMsg,
 				CMSG_SIGNER_INFO_PARAM,
 				index,
-				ref pSignerInfo,
+				ref vpSignerInfo,
 				ref signerSize
 			);
+			pSignerInfo = (CMSG_SIGNER_INFO*)vpSignerInfo;
 
 			return result;
 		}
 
-		private static bool GetCounterSignerInfo(IntPtr pSignerInfo, ref IntPtr pTargetSigner)
+		private unsafe static bool GetCounterSignerInfo(
+			CMSG_SIGNER_INFO* pSignerInfo,
+			CMSG_SIGNER_INFO** pTargetSigner)
 		{
 			uint objSize = 0;
-			if (pSignerInfo == IntPtr.Zero)
+			if (pSignerInfo is null || pTargetSigner is null)
 				return false;
 
 			try
 			{
-				var res = TryGetUnauthAttr(pSignerInfo, szOID_RSA_counterSign, out var attr);
-				if (!res)
+				*pTargetSigner = null;
+				CRYPT_ATTRIBUTE* attr = null;
+				var res = TryGetUnauthAttr(pSignerInfo, szOID_RSA_counterSign, ref attr);
+				if (!res || attr is null)
 					return false;
 
-				var rgValue = Marshal.PtrToStructure<CRYPTOAPI_BLOB>(attr.rgValue);
-				var result = CryptDecodeObject(
-					PKCS_7_ASN_ENCODING | CRYPT_ASN_ENCODING,
-					PKCS7_SIGNER_INFO,
-					rgValue.pbData,
-					rgValue.cbData,
+				var pkcs7_signer_info = (PCSTR)(byte*)500;
+				var result = PInvoke.CryptDecodeObject(
+					ENCODING,
+					pkcs7_signer_info,
+					attr->rgValue[0].pbData,
+					attr->rgValue[0].cbData,
 					0,
-					IntPtr.Zero,
-					ref objSize
+					null,
+					&objSize
 				);
 				if (!result)
 					return false;
 
-				pTargetSigner = Marshal.AllocHGlobal((int)objSize * sizeof(byte));
-				if (pTargetSigner == IntPtr.Zero)
+				*pTargetSigner = (CMSG_SIGNER_INFO*)NativeMemory.Alloc(objSize);
+				if (*pTargetSigner is null)
 					return false;
 
-				result = CryptDecodeObject(
-					PKCS_7_ASN_ENCODING | CRYPT_ASN_ENCODING,
-					PKCS7_SIGNER_INFO,
-					rgValue.pbData,
-					rgValue.cbData,
+				result = PInvoke.CryptDecodeObject(
+					ENCODING,
+					pkcs7_signer_info,
+					attr->rgValue[0].pbData,
+					attr->rgValue[0].cbData,
 					0,
-					pTargetSigner,
-					ref objSize
+					*pTargetSigner,
+					&objSize
 				);
 				if (!result)
 					return false;
@@ -499,57 +475,45 @@ namespace Files.App.Utils.Signatures
 			return true;
 		}
 
-		private static bool GetCounterSignerData(IntPtr pSignerInfo, SignCounterSign counterSign)
+		private unsafe static bool GetCounterSignerData(CMSG_SIGNER_INFO* pSignerInfo, SignCounterSign counterSign)
 		{
-			var res = TryGetAuthAttr(pSignerInfo, szOID_RSA_signingTime, out var attr);
-			if (!res)
+			CRYPT_ATTRIBUTE* attr = null;
+			var res = TryGetAuthAttr(pSignerInfo, szOID_RSA_signingTime, ref attr);
+			if (!res || attr is null)
 				return false;
 
-			var rgValue = Marshal.PtrToStructure<CRYPTOAPI_BLOB>(attr.rgValue);
-
-			var data = (uint)Marshal.SizeOf<FILETIME>();
-			var ft = Marshal.AllocHGlobal((int)data);
-			IntPtr lft = IntPtr.Zero;
-			IntPtr st = IntPtr.Zero;
-
+			var data = (uint)Marshal.SizeOf<System.Runtime.InteropServices.ComTypes.FILETIME>();
+			var ft = (System.Runtime.InteropServices.ComTypes.FILETIME*)NativeMemory.Alloc(data);
 			try
 			{
-				var pStructType = Marshal.StringToHGlobalUni(szOID_RSA_signingTime);
-				var result = CryptDecodeObject(
-					PKCS_7_ASN_ENCODING | CRYPT_ASN_ENCODING,
-					PKCS_UTC_TIME,
-					rgValue.pbData,
-					rgValue.cbData,
+				var pkcs_utc_time = (PCSTR)(byte*)17;
+				var result = PInvoke.CryptDecodeObject(
+					ENCODING,
+					pkcs_utc_time,
+					attr->rgValue[0].pbData,
+					attr->rgValue[0].cbData,
 					0,
 					ft,
-					ref data
+					&data
 				);
-				Marshal.FreeHGlobal(pStructType);
 				if (!result)
 					return false;
 
-				lft = Marshal.AllocHGlobal((int)data);
-				st = Marshal.AllocHGlobal(Marshal.SizeOf<SYSTEMTIME>());
-				FileTimeToLocalFileTime(ft, lft);
-				FileTimeToSystemTime(lft, st);
-				counterSign.TimeStamp = TimeToString(IntPtr.Zero, st);
+				PInvoke.FileTimeToLocalFileTime(*ft, out var lft);
+				PInvoke.FileTimeToSystemTime(lft, out var st);
+				counterSign.TimeStamp = TimeToString(null, &st);
 
 				return true;
 			}
 			finally
 			{
-				Marshal.FreeHGlobal(ft);
-				if (lft != IntPtr.Zero)
-					Marshal.FreeHGlobal(lft);
-
-				if (st != IntPtr.Zero)
-					Marshal.FreeHGlobal(st);
+				NativeMemory.Free(ft);
 			}
 		}
 
-		private static bool ParseDERFindType(
+		private unsafe static bool ParseDERFindType(
 			int typeSearch,
-			IntPtr pbSignature,
+			byte* pbSignature,
 			uint size,
 			ref uint positionFound,
 			ref uint lengthFound)
@@ -561,7 +525,7 @@ namespace Files.App.Utils.Signatures
 			var iClass = 0;
 			positionFound = 0;
 			lengthFound = 0;
-			if (pbSignature == IntPtr.Zero)
+			if (pbSignature is null)
 				return false;
 
 			while (size > position)
@@ -569,12 +533,12 @@ namespace Files.App.Utils.Signatures
 				if (!SafeToReadNBytes(size, position, 2))
 					return false;
 
-				ParseDERType(Marshal.ReadByte(pbSignature, (int)position), ref iType, ref iClass);
+				ParseDERType(pbSignature[position], ref iType, ref iClass);
 				switch (iType)
 				{
 					case 0x05: // Null
 						++position;
-						if (Marshal.ReadByte(pbSignature, (int)position) != 0x00)
+						if (pbSignature[position] != 0x00)
 							return false;
 
 						++position;
@@ -582,11 +546,10 @@ namespace Files.App.Utils.Signatures
 
 					case 0x06: // Object Identifier
 						++position;
-						var val = Marshal.ReadByte(pbSignature, (int)position);
-						if (!SafeToReadNBytes(size - position, 1, val))
+						if (!SafeToReadNBytes(size - position, 1, pbSignature[position]))
 							return false;
 
-						position += 1u + val;
+						position += 1u + pbSignature[position];
 						break;
 
 					case 0x00: // ?
@@ -604,10 +567,10 @@ namespace Files.App.Utils.Signatures
 					case 0x1E: // BMPstring
 						++position;
 						if (!ParseDERSize(
-							IntPtr.Add(pbSignature, (int)position),
-							size - position,
-							ref sizeFound,
-							ref bytesParsed))
+								pbSignature + position,
+								size - position,
+								ref sizeFound,
+								ref bytesParsed))
 						{
 							return false;
 						}
@@ -635,10 +598,10 @@ namespace Files.App.Utils.Signatures
 					case 0x31: // set
 						position++;
 						if (!ParseDERSize(
-							IntPtr.Add(pbSignature, (int)position),
-							size - position,
-							ref sizeFound,
-							ref bytesParsed))
+								pbSignature + position,
+								size - position,
+								ref sizeFound,
+								ref bytesParsed))
 						{
 							return false;
 						}
@@ -658,34 +621,34 @@ namespace Files.App.Utils.Signatures
 			return false;
 		}
 
-		private static bool GetGeneralizedTimeStamp(
-			IntPtr pSignerInfo,
+		private unsafe static bool GetGeneralizedTimeStamp(
+			CMSG_SIGNER_INFO* pSignerInfo,
 			SignCounterSign counter)
 		{
 			uint positionFound = 0;
 			uint lengthFound = 0;
-			var res = TryGetUnauthAttr(pSignerInfo, szOID_RFC3161_counterSign, out var attr);
-			if (!res)
+			CRYPT_ATTRIBUTE* attr = null;
+			var res = TryGetUnauthAttr(pSignerInfo, szOID_RFC3161_counterSign, ref attr);
+			if (!res || attr is null)
 				return false;
 
-			var rgValue = Marshal.PtrToStructure<CRYPTOAPI_BLOB>(attr.rgValue);
 			var result = ParseDERFindType(
 				0x04,
-				rgValue.pbData,
-				rgValue.cbData,
+				attr->rgValue[0].pbData,
+				attr->rgValue[0].cbData,
 				ref positionFound,
 				ref lengthFound);
 			if (!result)
 				return false;
 
 			// Counter Signer Timstamp
-			var pbOctetString = IntPtr.Add(rgValue.pbData, (int)positionFound);
+			var pbOctetString = attr->rgValue[0].pbData + positionFound;
 			counter.TimeStamp = GetTimeStampFromDER(pbOctetString, lengthFound, ref positionFound);
 
 			return true;
 		}
 
-		private static string GetTimeStampFromDER(IntPtr pbOctetString, uint lengthFound, ref uint positionFound)
+		private unsafe static string GetTimeStampFromDER(byte* pbOctetString, uint lengthFound, ref uint positionFound)
 		{
 			var result = ParseDERFindType(
 				0x18,
@@ -697,165 +660,151 @@ namespace Files.App.Utils.Signatures
 			if (!result)
 				return string.Empty;
 
-			var st = new SYSTEMTIME();
-			var buffer = Marshal.PtrToStringUTF8(
-				IntPtr.Add(pbOctetString, (int)positionFound),
-				(int)lengthFound
-			) + (char)0;
+			var st = new Windows.Win32.Foundation.SYSTEMTIME();
+			var buffer = new string((sbyte*)(pbOctetString + positionFound));
 
-			_ = short.TryParse(buffer.AsSpan(0, 4), out st.Year);
-			_ = short.TryParse(buffer.AsSpan(4, 2), out st.Month);
-			_ = short.TryParse(buffer.AsSpan(6, 2), out st.Day);
-			_ = short.TryParse(buffer.AsSpan(8, 2), out st.Hour);
-			_ = short.TryParse(buffer.AsSpan(10, 2), out st.Minute);
-			_ = short.TryParse(buffer.AsSpan(12, 2), out st.Second);
-			_ = short.TryParse(buffer.AsSpan(15, 3), out st.Milliseconds);
+			_ = ushort.TryParse(buffer.AsSpan(0, 4), out st.wYear);
+			_ = ushort.TryParse(buffer.AsSpan(4, 2), out st.wMonth);
+			_ = ushort.TryParse(buffer.AsSpan(6, 2), out st.wDay);
+			_ = ushort.TryParse(buffer.AsSpan(8, 2), out st.wHour);
+			_ = ushort.TryParse(buffer.AsSpan(10, 2), out st.wMinute);
+			_ = ushort.TryParse(buffer.AsSpan(12, 2), out st.wSecond);
+			_ = ushort.TryParse(buffer.AsSpan(15, 3), out st.wMilliseconds);
 
-			var sst = Marshal.AllocHGlobal(Marshal.SizeOf<SYSTEMTIME>());
-			var lst = Marshal.AllocHGlobal(Marshal.SizeOf<SYSTEMTIME>());
-			var fft = Marshal.AllocHGlobal(Marshal.SizeOf<FILETIME>());
-			var lft = Marshal.AllocHGlobal(Marshal.SizeOf<FILETIME>());
-			Marshal.StructureToPtr(st, sst, true);
-			SystemTimeToFileTime(sst, fft);
-			FileTimeToLocalFileTime(fft, lft);
-			FileTimeToSystemTime(lft, lst);
-			var timestamp = TimeToString(IntPtr.Zero, lst);
-
-			Marshal.FreeHGlobal(fft);
-			Marshal.FreeHGlobal(lft);
-			Marshal.FreeHGlobal(sst);
-			Marshal.FreeHGlobal(lst);
+			PInvoke.SystemTimeToFileTime(st, out var fft);
+			PInvoke.FileTimeToLocalFileTime(fft, out var lft);
+			PInvoke.FileTimeToSystemTime(lft, out var lst);
+			var timestamp = TimeToString(null, &lst);
 
 			return timestamp;
 		}
 
-		private static bool GetStringFromCertContext(IntPtr pCertContext, uint dwType, uint flag, CertNodeInfoItem info)
+		private unsafe static bool GetStringFromCertContext(CERT_CONTEXT* pCertContext, uint dwType, uint flag, CertNodeInfoItem info)
 		{
-			var data = CertGetNameStringA(pCertContext, dwType, flag, IntPtr.Zero, IntPtr.Zero, 0);
+			var data = CertGetNameStringA(pCertContext, dwType, flag, null, (PCSTR)null, 0);
 			if (data == 0)
 			{
-				CertFreeCertificateContext(pCertContext);
+				PInvoke.CertFreeCertificateContext(pCertContext);
 				return false;
 			}
 
-			var pszTempName = Marshal.AllocHGlobal((int)data * sizeof(byte));
-			if (pszTempName == IntPtr.Zero)
+			var pszTempName = (PCSTR)NativeMemory.Alloc(data);
+			if (pszTempName.Value is null)
 			{
-				CertFreeCertificateContext(pCertContext);
+				PInvoke.CertFreeCertificateContext(pCertContext);
 				return false;
 			}
 
-			data = CertGetNameStringA(pCertContext, dwType, flag, IntPtr.Zero, pszTempName, data);
+			data = CertGetNameStringA(pCertContext, dwType, flag, null, pszTempName, data);
 			if (data == 0)
 			{
-				Marshal.FreeHGlobal(pszTempName);
+				NativeMemory.Free(pszTempName);
 				return false;
 			}
 
+			var tmpName = new string((sbyte*)(byte*)pszTempName);
 			if (flag == 0)
-				info.IssuedTo = StripString(Marshal.PtrToStringUTF8(pszTempName));
+				info.IssuedTo = StripString(tmpName);
 			else
-				info.IssuedBy = StripString(Marshal.PtrToStringUTF8(pszTempName));
+				info.IssuedBy = StripString(tmpName);
 
-			Marshal.FreeHGlobal(pszTempName);
+			NativeMemory.Free(pszTempName);
 
 			return true;
 		}
 
-		private static bool TryGetUnauthAttr(IntPtr pSignerInfo, string oid, out CRYPT_ATTRIBUTE attr)
+		private unsafe static bool TryGetUnauthAttr(CMSG_SIGNER_INFO* pSignerInfo, string oid, ref CRYPT_ATTRIBUTE* attr)
 		{
 			int n = 0;
-			var signerInfo = Marshal.PtrToStructure<CMSG_SIGNER_INFO>(pSignerInfo);
-			attr = new CRYPT_ATTRIBUTE();
-			for (; n < signerInfo.UnauthAttrs.cbData; n++)
+			attr = null;
+			for (; n < pSignerInfo->UnauthAttrs.cAttr; n++)
 			{
-				attr = Marshal.PtrToStructure<CRYPT_ATTRIBUTE>(
-					IntPtr.Add(signerInfo.UnauthAttrs.pbData, n * Marshal.SizeOf<CRYPT_ATTRIBUTE>())
-				);
-				if (attr.pszObjId == oid)
+				attr = &pSignerInfo->UnauthAttrs.rgAttr[n];
+				var objId = new string((sbyte*)(byte*)attr->pszObjId);
+				if (objId == oid)
 					break;
 			}
 
-			return n < signerInfo.UnauthAttrs.cbData;
+			return n < pSignerInfo->UnauthAttrs.cAttr;
 		}
 
-		private static bool TryGetAuthAttr(IntPtr pSignerInfo, string oid, out CRYPT_ATTRIBUTE attr)
+		private unsafe static bool TryGetAuthAttr(CMSG_SIGNER_INFO* pSignerInfo, string oid, ref CRYPT_ATTRIBUTE* attr)
 		{
 			int n = 0;
-			var signerInfo = Marshal.PtrToStructure<CMSG_SIGNER_INFO>(pSignerInfo);
-			attr = new CRYPT_ATTRIBUTE();
-			for (; n < signerInfo.AuthAttrs.cbData; n++)
+			attr = null;
+			for (; n < pSignerInfo->AuthAttrs.cAttr; n++)
 			{
-				attr = Marshal.PtrToStructure<CRYPT_ATTRIBUTE>(
-					IntPtr.Add(signerInfo.AuthAttrs.pbData, n * Marshal.SizeOf<CRYPT_ATTRIBUTE>())
-				);
-				if (attr.pszObjId == oid)
+				attr = &pSignerInfo->AuthAttrs.rgAttr[n];
+				var objId = new string((sbyte*)(byte*)attr->pszObjId);
+				if (objId == oid)
 					break;
 			}
 
-			return n < signerInfo.AuthAttrs.cbData;
+			return n < pSignerInfo->AuthAttrs.cAttr;
 		}
 
-		private static bool GetNestedSignerInfo(ref SignDataHandle AuthSignData, List<SignDataHandle> NestedChain)
+		private unsafe static bool GetNestedSignerInfo(ref SignDataHandle AuthSignData, List<SignDataHandle> NestedChain)
 		{
 			var succeded = false;
-			var hNestedMsg = IntPtr.Zero;
-			if (AuthSignData.pSignerInfo == IntPtr.Zero)
+			void* hNestedMsg = null;
+			if (AuthSignData.pSignerInfo is null)
 				return false;
 
 			try
 			{
-				var res = TryGetUnauthAttr(AuthSignData.pSignerInfo, szOID_NESTED_SIGNATURE, out var attr);
-				if (!res)
+				CRYPT_ATTRIBUTE* attr = null;
+				var res = TryGetUnauthAttr(AuthSignData.pSignerInfo, szOID_NESTED_SIGNATURE, ref attr);
+				if (!res || attr is null)
 					return false;
 
-				var rgValue = Marshal.PtrToStructure<CRYPTOAPI_BLOB>(attr.rgValue);
-				var cbCurrData = rgValue.cbData;
-				var pbCurrData = rgValue.pbData;
-
-				var upperBound = IntPtr.Add(AuthSignData.pSignerInfo, (int)AuthSignData.dwObjSize);
+				var cbCurrData = attr->rgValue[0].cbData;
+				var pbCurrData = attr->rgValue[0].pbData;
+				var upperBound = AuthSignData.pSignerInfo + AuthSignData.dwObjSize;
 				while (pbCurrData > AuthSignData.pSignerInfo && pbCurrData < upperBound)
 				{
-					var nestedHandle = new SignDataHandle() { dwObjSize = 0 };
+					var nestedHandle = new SignDataHandle() { dwObjSize = 0, pSignerInfo = null, hCertStoreHandle = HCERTSTORE.Null };
 					if (!Memcmp(pbCurrData, SG_ProtoCoded) ||
-						!Memcmp(IntPtr.Add(pbCurrData, 6), SG_SignedData))
+						!Memcmp(pbCurrData + 6, SG_SignedData))
 					{
 						break;
 					}
 
-					hNestedMsg = CryptMsgOpenToDecode(
+					hNestedMsg = PInvoke.CryptMsgOpenToDecode(
 						PKCS_7_ASN_ENCODING | CRYPT_ASN_ENCODING,
 						0,
 						0,
-						IntPtr.Zero,
-						IntPtr.Zero,
-						IntPtr.Zero
+						HCRYPTPROV_LEGACY.Null,
+						null,
+						null
 					);
-					if (hNestedMsg == IntPtr.Zero)
+					if (hNestedMsg is null)
 						return false;
 
-					cbCurrData = XCHWordLitend(unchecked((ushort)Marshal.ReadInt16(pbCurrData)) + 2u) + 4u;
+					cbCurrData = XCHWordLitend(*(ushort*)(pbCurrData + 2)) + 4u;
 					var pbNextData = pbCurrData;
-					pbNextData = IntPtr.Add(pbNextData, (int)EightByteAlign(cbCurrData, unchecked(pbCurrData)));
-					var result = CryptMsgUpdate(hNestedMsg, pbCurrData, cbCurrData, true);
+					pbNextData += EightByteAlign(cbCurrData, (long)pbCurrData);
+					var result = PInvoke.CryptMsgUpdate(hNestedMsg, pbCurrData, cbCurrData, true);
 					pbCurrData = pbNextData;
 					if (!result)
 						continue;
 
+					var pSignerInfo = (void*)nestedHandle.pSignerInfo;
 					result = CustomCryptMsgGetParam(
 						hNestedMsg,
 						CMSG_SIGNER_INFO_PARAM,
 						0,
-						ref nestedHandle.pSignerInfo,
+						ref pSignerInfo,
 						ref nestedHandle.dwObjSize
 					);
+					nestedHandle.pSignerInfo = (CMSG_SIGNER_INFO*)pSignerInfo;
 					if (!result)
 						continue;
 
-					nestedHandle.hCertStoreHandle = CertOpenStore(
-						CERT_STORE_PROV_MSG,
-						PKCS_7_ASN_ENCODING | CRYPT_ASN_ENCODING,
-						IntPtr.Zero,
+					var cert_store_prov_msg = (PCSTR)(byte*)1;
+					nestedHandle.hCertStoreHandle = PInvoke.CertOpenStore(
+						cert_store_prov_msg,
+						ENCODING,
+						HCRYPTPROV_LEGACY.Null,
 						0,
 						hNestedMsg
 					);
@@ -866,38 +815,38 @@ namespace Files.App.Utils.Signatures
 			}
 			finally
 			{
-				if (hNestedMsg != IntPtr.Zero)
-					CryptMsgClose(hNestedMsg);
+				if (hNestedMsg is not null)
+					PInvoke.CryptMsgClose(hNestedMsg);
 			}
 
 			return succeded;
 		}
 
-		private static bool CustomCryptMsgGetParam(
-			IntPtr hCryptMsg,
+		private unsafe static bool CustomCryptMsgGetParam(
+			void* hCryptMsg,
 			uint paramType,
 			uint index,
-			ref IntPtr pParam,
+			ref void* pParam,
 			ref uint outSize)
 		{
 			bool result;
 			uint size = 0;
 
-			result = CryptMsgGetParam(
+			result = PInvoke.CryptMsgGetParam(
 				hCryptMsg,
 				paramType,
 				index,
-				IntPtr.Zero,
+				null,
 				ref size
 			);
 			if (!result)
 				return false;
 
-			pParam = Marshal.AllocHGlobal((int)size);
-			if (pParam == IntPtr.Zero)
+			pParam = NativeMemory.Alloc(size);
+			if (pParam is null)
 				return false;
 
-			result = CryptMsgGetParam(
+			result = PInvoke.CryptMsgGetParam(
 				hCryptMsg,
 				paramType,
 				index,
@@ -917,11 +866,11 @@ namespace Files.App.Utils.Signatures
 		private static long EightByteAlign(long offset, long b)
 			=> ((offset + b + 7) & 0xFFFFFFF8L) - (b & 0xFFFFFFF8L);
 
-		private static bool Memcmp(IntPtr ptr1, byte[] arr)
+		private unsafe static bool Memcmp(byte* ptr1, byte[] arr)
 		{
 			for (var i = 0; i < arr.Length; i++)
 			{
-				if (Marshal.ReadByte(ptr1, i) != arr[i])
+				if (ptr1[i] != arr[i])
 					return false;
 			}
 
@@ -965,30 +914,29 @@ namespace Files.App.Utils.Signatures
 			iClass = bIn >> 6;
 		}
 
-		private static uint ReadNumberFromNBytes(IntPtr pbSignature, uint start, uint requestSize)
+		private unsafe static uint ReadNumberFromNBytes(byte* pbSignature, uint start, uint requestSize)
 		{
 			uint number = 0;
 			for (var i = 0; i < requestSize; i++)
-				number = number * 0x100 + Marshal.ReadByte(pbSignature, (int)(start + i));
+				number = number * 0x100 + pbSignature[start + i];
 
 			return number;
 		}
 
-		private static bool ParseDERSize(IntPtr pbSignature, uint size, ref uint sizeFound, ref uint bytesParsed)
+		private unsafe static bool ParseDERSize(byte* pbSignature, uint size, ref uint sizeFound, ref uint bytesParsed)
 		{
-			var val = Marshal.ReadByte(pbSignature);
-			if (val > 0x80 && !SafeToReadNBytes(size, 1, val - 0x80u))
+			if (pbSignature[0] > 0x80 && !SafeToReadNBytes(size, 1, pbSignature[0] - 0x80u))
 				return false;
 
-			if (val <= 0x80)
+			if (pbSignature[0] <= 0x80)
 			{
-				sizeFound = val;
+				sizeFound = pbSignature[0];
 				bytesParsed = 1;
 			}
 			else
 			{
-				sizeFound = ReadNumberFromNBytes(pbSignature, 1, val - 0x80u);
-				bytesParsed = val - 0x80u + 1;
+				sizeFound = ReadNumberFromNBytes(pbSignature, 1, pbSignature[0] - 0x80u);
+				bytesParsed = pbSignature[0] - 0x80u + 1;
 			}
 
 			return true;
@@ -1003,21 +951,22 @@ namespace Files.App.Utils.Signatures
 				.Replace(((char)0).ToString(), "") ?? string.Empty;
 		}
 
-		private static string TimeToString(IntPtr pftIn, IntPtr pstIn = 0)
+		private unsafe static string TimeToString(
+			System.Runtime.InteropServices.ComTypes.FILETIME* pftIn,
+			Windows.Win32.Foundation.SYSTEMTIME* pstIn = null)
 		{
-			if (pstIn == IntPtr.Zero)
+			if (pstIn is null)
 			{
-				if (pftIn == IntPtr.Zero)
+				if (pftIn is null)
 					return string.Empty;
 
-				pstIn = Marshal.AllocHGlobal(Marshal.SizeOf<SYSTEMTIME>());
-				FileTimeToSystemTime(pftIn, pstIn);
+				PInvoke.FileTimeToSystemTime(*pftIn, out var sysTime);
+				pstIn = &sysTime;
 			}
 
-			var st = Marshal.PtrToStructure<SYSTEMTIME>(pstIn);
 			var date = new DateTime(
-				st.Year, st.Month, st.Day,
-				st.Hour, st.Minute, st.Second
+				pstIn->wYear, pstIn->wMonth, pstIn->wDay,
+				pstIn->wHour, pstIn->wMinute, pstIn->wSecond
 			);
 
 			return formatter.ToLongLabel(date);
@@ -1035,7 +984,7 @@ namespace Files.App.Utils.Signatures
 			public string Version { get; set; } = string.Empty;
 			public int Index { get; set; } = 0;
 			public SignCounterSign CounterSign { get; set; } = new();
-			public List<CertNodeInfoItem> CertChain = [];
+			public List<CertNodeInfoItem> CertChain { get; set; } = [];
 		}
 	}
 }
