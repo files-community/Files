@@ -681,34 +681,34 @@ namespace Files.App.Utils.Signatures
 
 		private unsafe static bool GetStringFromCertContext(CERT_CONTEXT* pCertContext, uint dwType, uint flag, CertNodeInfoItem info)
 		{
-			var data = CertGetNameStringA(pCertContext, dwType, flag, null, (PCSTR)null, 0);
+			var data = PInvoke.CertGetNameString(pCertContext, dwType, flag, null, (PWSTR)null, 0);
 			if (data == 0)
 			{
 				PInvoke.CertFreeCertificateContext(pCertContext);
 				return false;
 			}
 
-			var pszTempName = (PCSTR)NativeMemory.Alloc(data);
+			var pszTempName = (PWSTR)NativeMemory.Alloc(data * sizeof(char));
 			if (pszTempName.Value is null)
 			{
 				PInvoke.CertFreeCertificateContext(pCertContext);
+				NativeMemory.Free(pszTempName);
 				return false;
 			}
 
-			data = CertGetNameStringA(pCertContext, dwType, flag, null, pszTempName, data);
+			data = PInvoke.CertGetNameString(pCertContext, dwType, flag, null, pszTempName, data);
 			if (data == 0)
 			{
 				NativeMemory.Free(pszTempName);
 				return false;
 			}
 
-			var tmpName = new string((sbyte*)(byte*)pszTempName);
-			if (flag == 0)
-				info.IssuedTo = StripString(tmpName);
-			else
-				info.IssuedBy = StripString(tmpName);
-
+			var name = pszTempName.AsSpan().ToString();
 			NativeMemory.Free(pszTempName);
+			if (flag == 0)
+				info.IssuedTo = StripString(name);
+			else
+				info.IssuedBy = StripString(name);
 
 			return true;
 		}

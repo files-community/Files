@@ -188,7 +188,7 @@
 							<ItemsRepeater.Layout>
 								<UniformGridLayout
 									ItemsStretch="Fill"
-									MaximumRowsOrColumns="6"
+									MaximumRowsOrColumns="4"
 									MinColumnSpacing="8"
 									MinItemWidth="200"
 									MinRowSpacing="8"

@@ -5,7 +5,6 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using Windows.Win32.Foundation;
-using Windows.Win32.Security.Cryptography;
 using Windows.Win32.System.Com;
 
 namespace Files.App.Helpers
@@ -346,17 +345,6 @@ namespace Files.App.Helpers
 			uint dwFlags,
 			IntPtr hToken,
 			out IntPtr pszPath
-		);
-
-		// crypt32.dll
-		[DllImport("crypt32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-		public unsafe static extern uint CertGetNameStringA(
-			CERT_CONTEXT* pCertContext,
-			uint dwType,
-			uint dwFlags,
-			void* pvTypePara,
-			PCSTR pszNameString,
-			uint cchNameString
 		);
 
 		// cryptui.dll
