@@ -51,6 +51,7 @@ namespace Files.App.Helpers
 
 			ArgumentNullException.ThrowIfNullOrWhiteSpace(queryExpression);
 
+			_computerName = "."; // Add this line
 			_nameSpace = DefaultNameSpace;
 			_queryDialect = DefaultQueryDialect;
 			_queryExpression = queryExpression;
@@ -67,6 +68,7 @@ namespace Files.App.Helpers
 		{
 			ArgumentNullException.ThrowIfNullOrWhiteSpace(queryExpression);
 
+			_computerName = "."; // Add this line
 			_nameSpace = DefaultNameSpace;
 			_queryDialect = queryDialect ?? DefaultQueryDialect;
 			_queryExpression = queryExpression;
@@ -84,6 +86,7 @@ namespace Files.App.Helpers
 		{
 			ArgumentNullException.ThrowIfNullOrWhiteSpace(queryExpression);
 
+			_computerName = "."; // Add this line
 			_nameSpace = nameSpace ?? DefaultNameSpace;
 			_queryDialect = queryDialect ?? DefaultQueryDialect;
 			_queryExpression = queryExpression;
