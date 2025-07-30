@@ -3,13 +3,19 @@
 
 using Files.Shared.Utils;
 using System.Collections.Specialized;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.ViewModels.UserControls
 {
+	public sealed record class WatcherReference(IFolderWatcher FolderWatcher, int ReferenceCount)
+	{
+		public int ReferenceCount { get; set; } = ReferenceCount;
+	}
+
 	[Bindable(true)]
 	public sealed partial class ShelfViewModel : ObservableObject, IAsyncInitialize
 	{
-		private readonly Dictionary<string, (IFolderWatcher, int)> _watchers;
+		private readonly Dictionary<string, WatcherReference> _watchers;
 
 		public ObservableCollection<ShelfItem> Items { get; }
 
@@ -55,6 +61,38 @@ namespace Files.App.ViewModels.UserControls
 			await shellPage.ShellViewModel.ApplyFilesAndFoldersChangesAsync();
 		}
 
+		[RelayCommand]
+		private async Task BulkCopyAsync()
+		{
+			if (Items.IsEmpty())
+				return;
+
+			var context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			var statusViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+
+			if (context.ShellPage?.ShellViewModel is not { } shellViewModel)
+				return;
+
+			var itemsToCopy = Items.Select(x => x.Inner).ToArray();
+			await TransferHelpers.ExecuteTransferAsync(itemsToCopy, shellViewModel, statusViewModel, DataPackageOperation.Copy);
+		}
+
+		[RelayCommand]
+		private async Task BulkCutAsync()
+		{
+			if (Items.IsEmpty())
+				return;
+
+			var context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			var statusViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
+
+			if (context.ShellPage?.ShellViewModel is not { } shellViewModel)
+				return;
+
+			var itemsToCut = Items.Select(x => x.Inner).ToArray();
+			await TransferHelpers.ExecuteTransferAsync(itemsToCut, shellViewModel, statusViewModel, DataPackageOperation.Move);
+		}
+
 		private async void Items_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
 			switch (e.Action)
@@ -68,7 +106,7 @@ namespace Files.App.ViewModels.UserControls
 					if (_watchers.TryGetValue(parentPath, out var reference))
 					{
 						// Only increase the reference count if the watcher already exists
-						reference.Item2 += 1;
+						reference.ReferenceCount += 1;
 						return;
 					}
 					
@@ -79,7 +117,7 @@ namespace Files.App.ViewModels.UserControls
 					var watcher = await mutableFolder.GetFolderWatcherAsync();
 					watcher.CollectionChanged += Watcher_CollectionChanged;
 
-					_watchers.Add(parentPath, (watcher, 1));
+					_watchers.Add(parentPath, new(watcher, 1));
 					break;
 				}
 
@@ -93,11 +131,11 @@ namespace Files.App.ViewModels.UserControls
 						return;
 
 					// Decrease the reference count and remove the watcher if no references are present
-					reference.Item2 -= 1;
-					if (reference.Item2 < 1)
+					reference.ReferenceCount -= 1;
+					if (reference.ReferenceCount < 1)
 					{
-						reference.Item1.CollectionChanged -= Watcher_CollectionChanged;
-						reference.Item1.Dispose();
+						reference.FolderWatcher.CollectionChanged -= Watcher_CollectionChanged;
+						reference.FolderWatcher.Dispose();
 						_watchers.Remove(parentPath);
 					}
 
@@ -108,7 +146,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private async void Watcher_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
-			if (sender is not IFolderWatcher watcher)
+			if (sender is not IFolderWatcher)
 				return;
 
 			switch (e.Action)
