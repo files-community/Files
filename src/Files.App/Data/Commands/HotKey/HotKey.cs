@@ -308,7 +308,7 @@ namespace Files.App.Data.Commands
 				{
 					parts = [code];
 				}
-				else if (parts.Count > 0 && string.IsNullOrEmpty(parts.Last()))
+				else if (parts.Count > 1 && string.IsNullOrEmpty(parts.Last()))
 				{
 					// If the last part is empty, remove it and add a "+" to the last non-empty part
 					parts.RemoveAt(parts.Count - 1);
