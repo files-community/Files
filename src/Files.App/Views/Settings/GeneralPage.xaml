@@ -177,22 +177,6 @@
 				</wctcontrols:SettingsExpander.Items>
 			</wctcontrols:SettingsExpander>
 
-			<!--  Dual Pane  -->
-			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}">
-				<wctcontrols:SettingsExpander.HeaderIcon>
-					<FontIcon Glyph="&#xE89F;" />
-				</wctcontrols:SettingsExpander.HeaderIcon>
-				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}" IsOn="{x:Bind ViewModel.AlwaysOpenDualPaneInNewTab, Mode=TwoWay}" />
-				<wctcontrols:SettingsExpander.Items>
-					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=DefaultPaneArrangement}">
-						<uc:ComboBoxEx
-							AutomationProperties.Name="{helpers:ResourceString Name=DefaultPaneArrangement}"
-							ItemsSource="{x:Bind ViewModel.ShellPaneArrangementTypes.Values}"
-							SelectedItem="{x:Bind ViewModel.SelectedShellPaneArrangementType, Mode=TwoWay}" />
-					</wctcontrols:SettingsCard>
-				</wctcontrols:SettingsExpander.Items>
-			</wctcontrols:SettingsExpander>
-
 			<!--  Switch to new tab  -->
 			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=AlwaysSwitchToNewlyOpenedTab}">
 				<wctcontrols:SettingsCard.HeaderIcon>
@@ -232,6 +216,31 @@
 				</wctcontrols:SettingsExpander.Items>
 			</wctcontrols:SettingsExpander>
 
+			<!--  Dual Pane  -->
+			<TextBlock
+				Padding="0,16,0,4"
+				FontSize="16"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=DualPane}" />
+
+			<!--  Open tabs in Dual Pane mode  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE89F;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsMultitaskingAlwaysOpenDualPane}" IsOn="{x:Bind ViewModel.AlwaysOpenDualPaneInNewTab, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
+			<!--  Dual Pane split direction  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=DualPaneSplitDirection}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE784;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<uc:ComboBoxEx
+					AutomationProperties.Name="{helpers:ResourceString Name=DualPaneSplitDirection}"
+					ItemsSource="{x:Bind ViewModel.ShellPaneArrangementTypes.Values}"
+					SelectedItem="{x:Bind ViewModel.SelectedShellPaneArrangementType, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
 
 			<!--  Right Click Menu  -->
 			<TextBlock

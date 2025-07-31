@@ -212,8 +212,8 @@ namespace Files.App.Data.Commands
 		// Shell Panes
 		CloseActivePane,
 		FocusOtherPane,
-		AddVerticalPane,
-		AddHorizontalPane,
+		SplitPaneVertically,
+		SplitPaneHorizontally,
 		ArrangePanesVertically,
 		ArrangePanesHorizontally,
 

@@ -107,8 +107,8 @@ namespace Files.App.ViewModels.Settings
 			PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
 			// ShellPaneArrangement
-			ShellPaneArrangementTypes.Add(ShellPaneArrangement.Horizontal, Strings.Horizontal.GetLocalizedResource());
 			ShellPaneArrangementTypes.Add(ShellPaneArrangement.Vertical, Strings.Vertical.GetLocalizedResource());
+			ShellPaneArrangementTypes.Add(ShellPaneArrangement.Horizontal, Strings.Horizontal.GetLocalizedResource());
 			SelectedShellPaneArrangementType = ShellPaneArrangementTypes[UserSettingsService.GeneralSettingsService.ShellPaneArrangementOption];
 
 			InitStartupSettingsRecentFoldersFlyout();

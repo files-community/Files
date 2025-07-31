@@ -3,13 +3,13 @@
 
 namespace Files.App.Actions
 {
-	internal sealed partial class AddVerticalPaneAction : ObservableObject, IAction
+	internal sealed partial class SplitPaneVerticallyAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
 		public string Label
-			=> Strings.AddVerticalPane.GetLocalizedResource();
+			=> Strings.SplitPaneVertically.GetLocalizedResource();
 
 		public string Description
 			=> Strings.AddVerticalPaneDescription.GetLocalizedResource();
@@ -18,13 +18,13 @@ namespace Files.App.Actions
 			=> new(Keys.V, KeyModifiers.AltShift);
 
 		public RichGlyph Glyph
-			=> new(themedIconStyle: "App.ThemedIcons.Panes.Horizontal");
+			=> new(themedIconStyle: "App.ThemedIcons.Panes.Vertical");
 
 		public bool IsExecutable =>
 			ContentPageContext.IsMultiPaneAvailable &&
 			!ContentPageContext.IsMultiPaneActive;
 
-		public AddVerticalPaneAction()
+		public SplitPaneVerticallyAction()
 		{
 			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
 		}
