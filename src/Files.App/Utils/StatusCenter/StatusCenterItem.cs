@@ -301,7 +301,7 @@ namespace Files.App.Utils.StatusCenter
 					{
 						Message =
 							$"{string.Format(
-								Strings.StatusCenter_ProcessedItems_Header.GetLocalizedFormatResource(value.ProcessedItemsCount),
+								Strings.StatusCenter_ProcessedItems_Header.GetLocalizedFormatResource(value.ProcessedItemsCount, value.ItemsCount),
 								value.ProcessedItemsCount,
 								value.ItemsCount)}";
 					}
