@@ -382,7 +382,12 @@ namespace Files.App.Utils.Library
 					return;
 				}
 
-				var library1 = ShellFolderExtensions.GetShellLibraryItem(library, newPath);
+				var library1 = SafetyExtensions.IgnoreExceptions(() => ShellFolderExtensions.GetShellLibraryItem(library, newPath));
+				if (library1 is null)
+				{
+					App.Logger.LogWarning($"Failed to open library after {changeType}: {newPath}");
+					return;
+				}
 
 				string? path = oldPath;
 				if (string.IsNullOrEmpty(oldPath))
