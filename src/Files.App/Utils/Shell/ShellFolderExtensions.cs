@@ -23,11 +23,18 @@ namespace Files.App.Utils.Shell
 				IsPinned = library.PinnedToNavigationPane,
 			};
 
-			var folders = library.Folders;
-			if (folders.Count > 0)
+			try
 			{
-				libraryItem.DefaultSaveFolder = SafetyExtensions.IgnoreExceptions(() => library.DefaultSaveFolder.FileSystemPath);
-				libraryItem.Folders = folders.Select(f => f.FileSystemPath).ToArray();
+				var folders = library.Folders;
+				if (folders.Count > 0)
+				{
+					libraryItem.DefaultSaveFolder = SafetyExtensions.IgnoreExceptions(() => library.DefaultSaveFolder.FileSystemPath);
+					libraryItem.Folders = folders.Select(f => f.FileSystemPath).ToArray();
+				}
+			}
+			catch (UnauthorizedAccessException ex)
+			{
+				App.Logger.LogWarning(ex, $"Access denied to library folders for {filePath}");
 			}
 
 			return libraryItem;
