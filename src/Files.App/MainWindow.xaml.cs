@@ -191,6 +191,8 @@ namespace Files.App
 						App.Logger.LogWarning(ex, "Failed to open files.");
 						if (rootFrame.Content is null || rootFrame.Content is SplashScreenPage || !MainPageViewModel.AppInstances.Any())
 							rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
+						else
+							Win32Helper.BringToForegroundEx(new(WindowHandle));
 					}
 					break;
 
