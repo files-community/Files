@@ -24,7 +24,7 @@ namespace Files.App.Helpers
 				path = $"shell:{path}";
 			}
 
-			return await Win32Helper.StartSTATask(() =>
+			return await STATask.Run(() =>
 			{
 				var flc = new List<ShellFileItem>();
 				var folder = (ShellFileItem)null;
@@ -77,7 +77,7 @@ namespace Files.App.Helpers
 				}
 
 				return (folder, flc);
-			});
+			}, App.Logger);
 		}
 
 		public static string GetFolderFromKnownFolderGUID(Guid guid)
