@@ -143,24 +143,24 @@
 							<!--  Add Pane  -->
 							<MenuFlyoutSubItem
 								x:Name="SplitPaneMenuItem"
-								x:Load="{x:Bind Commands.AddHorizontalPane.IsExecutable, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=AddPane}">
-								<MenuFlyoutSubItem.Items>
-									<!--  Horizontal  -->
-									<uc:MenuFlyoutItemWithThemedIcon
-										x:Name="AddHorizontalPaneTabActionButton"
-										Command="{x:Bind Commands.AddHorizontalPane, Mode=OneWay}"
-										KeyboardAcceleratorTextOverride="{x:Bind Commands.AddHorizontalPane.HotKeyText, Mode=OneWay}"
-										Text="{x:Bind Commands.AddHorizontalPane.Label}"
-										ThemedIconStyle="{x:Bind Commands.AddHorizontalPane.ThemedIconStyle}" />
-
+								x:Load="{x:Bind Commands.SplitPaneHorizontally.IsExecutable, Mode=OneWay}"
+								Text="{helpers:ResourceString Name=SplitPane}">
+								<MenuFlyoutSubItem.Items>									
 									<!--  Vertical  -->
 									<uc:MenuFlyoutItemWithThemedIcon
 										x:Name="AddVerticalPaneTabActionButton"
-										Command="{x:Bind Commands.AddVerticalPane, Mode=OneWay}"
-										KeyboardAcceleratorTextOverride="{x:Bind Commands.AddVerticalPane.HotKeyText, Mode=OneWay}"
-										Text="{x:Bind Commands.AddVerticalPane.Label}"
-										ThemedIconStyle="{x:Bind Commands.AddVerticalPane.ThemedIconStyle}" />
+										Command="{x:Bind Commands.SplitPaneVertically, Mode=OneWay}"
+										KeyboardAcceleratorTextOverride="{x:Bind Commands.SplitPaneVertically.HotKeyText, Mode=OneWay}"
+										Text="{x:Bind Commands.SplitPaneVertically.Label}"
+										ThemedIconStyle="{x:Bind Commands.SplitPaneVertically.ThemedIconStyle}" />
+
+									<!--  Horizontal  -->
+									<uc:MenuFlyoutItemWithThemedIcon
+										x:Name="SplitPaneHorizontalTabActionButton"
+										Command="{x:Bind Commands.SplitPaneHorizontally, Mode=OneWay}"
+										KeyboardAcceleratorTextOverride="{x:Bind Commands.SplitPaneHorizontally.HotKeyText, Mode=OneWay}"
+										Text="{x:Bind Commands.SplitPaneHorizontally.Label}"
+										ThemedIconStyle="{x:Bind Commands.SplitPaneHorizontally.ThemedIconStyle}" />
 								</MenuFlyoutSubItem.Items>
 							</MenuFlyoutSubItem>
 
@@ -170,15 +170,6 @@
 								x:Load="{x:Bind Commands.CloseActivePane.IsExecutable, Mode=OneWay}"
 								Text="{helpers:ResourceString Name=ArrangePanes}">
 								<MenuFlyoutSubItem.Items>
-									<!--  Horizontal  -->
-									<uc:ToggleMenuFlyoutItemWithThemedIcon
-										x:Name="ArrangePanesHorizontallyTabActionButton"
-										Command="{x:Bind Commands.ArrangePanesHorizontally, Mode=OneWay}"
-										IsChecked="{x:Bind Commands.ArrangePanesHorizontally.IsOn, Mode=OneWay}"
-										KeyboardAcceleratorTextOverride="{x:Bind Commands.ArrangePanesHorizontally.HotKeyText, Mode=OneWay}"
-										Text="{x:Bind Commands.ArrangePanesHorizontally.Label}"
-										ThemedIconStyle="{x:Bind Commands.ArrangePanesHorizontally.ThemedIconStyle}" />
-
 									<!--  Vertical  -->
 									<uc:ToggleMenuFlyoutItemWithThemedIcon
 										x:Name="ArrangePanesVerticallyTabActionButton"
@@ -187,6 +178,15 @@
 										KeyboardAcceleratorTextOverride="{x:Bind Commands.ArrangePanesVertically.HotKeyText, Mode=OneWay}"
 										Text="{x:Bind Commands.ArrangePanesVertically.Label}"
 										ThemedIconStyle="{x:Bind Commands.ArrangePanesVertically.ThemedIconStyle}" />
+
+									<!--  Horizontal  -->
+									<uc:ToggleMenuFlyoutItemWithThemedIcon
+										x:Name="ArrangePanesHorizontallyTabActionButton"
+										Command="{x:Bind Commands.ArrangePanesHorizontally, Mode=OneWay}"
+										IsChecked="{x:Bind Commands.ArrangePanesHorizontally.IsOn, Mode=OneWay}"
+										KeyboardAcceleratorTextOverride="{x:Bind Commands.ArrangePanesHorizontally.HotKeyText, Mode=OneWay}"
+										Text="{x:Bind Commands.ArrangePanesHorizontally.Label}"
+										ThemedIconStyle="{x:Bind Commands.ArrangePanesHorizontally.ThemedIconStyle}" />
 								</MenuFlyoutSubItem.Items>
 							</MenuFlyoutSubItem>
 

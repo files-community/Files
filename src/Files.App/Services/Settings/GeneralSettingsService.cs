@@ -365,7 +365,7 @@ namespace Files.App.Services.Settings
 
 		public ShellPaneArrangement ShellPaneArrangementOption
 		{
-			get => (ShellPaneArrangement)Get((long)ShellPaneArrangement.Horizontal);
+			get => (ShellPaneArrangement)Get((long)ShellPaneArrangement.Vertical);
 			set => Set((long)value);
 		}
 

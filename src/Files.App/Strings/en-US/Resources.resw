@@ -4033,17 +4033,17 @@
   <data name="TabActions" xml:space="preserve">
     <value>Tab actions menu</value>
   </data>
-  <data name="AddVerticalPane" xml:space="preserve">
-    <value>Vertical pane</value>
+  <data name="SplitPaneVertically" xml:space="preserve">
+    <value>Split vertically</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Add vertical pane</value>
+    <value>Split pane vertically</value>
   </data>
-  <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Horizontal pane</value>
+  <data name="SplitPaneHorizontally" xml:space="preserve">
+    <value>Split horizontally</value>
   </data>
-  <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Add horizontal pane</value>
+  <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
+    <value>Split pane horizontally</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Arrange vertically</value>
@@ -4057,8 +4057,8 @@
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
     <value>Arrange panes horizontally</value>
   </data>
-  <data name="AddPane" xml:space="preserve">
-    <value>Add pane</value>
+  <data name="SplitPane" xml:space="preserve">
+    <value>Split pane</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Show tab actions button in the title bar</value>
@@ -4066,8 +4066,11 @@
   <data name="ArrangePanes" xml:space="preserve">
     <value>Arrange panes</value>
   </data>
-  <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>Default pane arrangement</value>
+  <data name="DualPaneSplitDirection" xml:space="preserve">
+    <value>Default dual pane split direction</value>
+  </data>
+  <data name="DualPane" xml:space="preserve">
+    <value>Dual pane mode</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>Horizontal</value>
