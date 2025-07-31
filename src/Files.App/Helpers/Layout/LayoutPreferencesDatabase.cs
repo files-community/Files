@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
 using static Files.App.Helpers.LayoutPreferencesDatabaseItemRegistry;
 using static Files.App.Helpers.RegistryHelpers;
+using static Files.Shared.Helpers.ChecksumHelpers;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Files.App.Helpers
@@ -58,7 +59,7 @@ namespace Files.App.Helpers
 			{
 				if (filePath is not null)
 				{
-					using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(LayoutSettingsKey, filePath));
+					using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(LayoutSettingsKey, CreateSHA256(filePath)));
 					SaveValues(filePathKey, preferences);
 				}
 
@@ -91,7 +92,7 @@ namespace Files.App.Helpers
 			}
 			foreach (var preference in preferences)
 			{
-				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(LayoutSettingsKey, preference.FilePath));
+				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(LayoutSettingsKey, CreateSHA256(preference.FilePath)));
 				SaveValues(filePathKey, preference);
 				if (preference.Frn is not null)
 				{
@@ -139,7 +140,7 @@ namespace Files.App.Helpers
 		{
 			if (filePath is not null)
 			{
-				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(LayoutSettingsKey, filePath));
+				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(LayoutSettingsKey, CreateSHA256(filePath)));
 				if (filePathKey.ValueCount > 0)
 				{
 					var preference = new LayoutPreferencesDatabaseItem();

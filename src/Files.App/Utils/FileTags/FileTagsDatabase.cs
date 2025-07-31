@@ -7,6 +7,7 @@ using System.Security;
 using Windows.ApplicationModel;
 using static Files.App.Helpers.RegistryHelpers;
 using static Files.App.Utils.FileTags.TaggedFileRegistry;
+using static Files.Shared.Helpers.ChecksumHelpers;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Files.App.Utils.FileTags
@@ -21,7 +22,7 @@ namespace Files.App.Utils.FileTags
 			if (FileTagsKey is null)
 				return;
 
-			using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, filePath));
+			using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, CreateSHA256(filePath)));
 
 			if (tags is [])
 			{
@@ -57,7 +58,7 @@ namespace Files.App.Utils.FileTags
 
 			if (filePath is not null)
 			{
-				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, filePath));
+				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, CreateSHA256(filePath)));
 				if (filePathKey.ValueCount > 0)
 				{
 					var tag = new TaggedFile();
@@ -99,7 +100,7 @@ namespace Files.App.Utils.FileTags
 				return;
 
 			var tag = FindTag(oldFilePath, null);
-			using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, oldFilePath));
+			using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, CreateSHA256(oldFilePath)));
 			SaveValues(filePathKey, null);
 
 			if (tag is not null)
@@ -115,7 +116,7 @@ namespace Files.App.Utils.FileTags
 
 				if (newFilePath is not null)
 				{
-					using var newFilePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, newFilePath));
+					using var newFilePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, CreateSHA256(newFilePath)));
 					SaveValues(newFilePathKey, tag);
 				}
 			}
@@ -143,7 +144,7 @@ namespace Files.App.Utils.FileTags
 
 				if (newFilePath is not null)
 				{
-					using var newFilePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, newFilePath));
+					using var newFilePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, CreateSHA256(newFilePath)));
 					SaveValues(newFilePathKey, tag);
 				}
 			}
@@ -182,7 +183,7 @@ namespace Files.App.Utils.FileTags
 			{
 				try
 				{
-					IterateKeys(list, CombineKeys(FileTagsKey, folderPath), 0);
+					IterateKeys(list, CombineKeys(FileTagsKey, CreateSHA256(folderPath)), 0);
 				}
 				catch (SecurityException)
 				{
@@ -207,7 +208,7 @@ namespace Files.App.Utils.FileTags
 			}
 			foreach (var tag in tags)
 			{
-				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, tag.FilePath));
+				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, CreateSHA256(tag.FilePath)));
 				SaveValues(filePathKey, tag);
 				if (tag.Frn is not null)
 				{
