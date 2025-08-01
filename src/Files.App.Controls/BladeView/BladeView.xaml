@@ -114,6 +114,18 @@
 							VerticalAlignment="Stretch"
 							Background="{TemplateBinding Background}" />
 
+						<!--  Resizer  -->
+						<Border
+							x:Name="BladeResizer"
+							Width="4"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Stretch"
+							AllowFocusOnInteraction="True"
+							Background="Transparent"
+							BorderBrush="Transparent"
+							CornerRadius="2"
+							ManipulationMode="TranslateX" />
+
 						<Button
 							Name="CloseButton"
 							HorizontalAlignment="Right"
@@ -127,6 +139,33 @@
 							Style="{StaticResource ButtonRevealStyle}"
 							TabIndex="0"
 							Visibility="{TemplateBinding CloseButtonVisibility}" />
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="ResizerStates">
+								<VisualState x:Name="ResizerNormal" />
+								<VisualState x:Name="ResizerPointerOver">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="BladeResizer" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CardStrokeColorDefaultSolidBrush}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="BladeResizer" Storyboard.TargetProperty="BorderBrush">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CardStrokeColorDefaultSolidBrush}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+
+								<VisualState x:Name="ResizerPressed">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="BladeResizer" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SolidBackgroundFillColorSecondaryBrush}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="BladeResizer" Storyboard.TargetProperty="BorderBrush">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SolidBackgroundFillColorSecondaryBrush}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
