@@ -165,26 +165,19 @@ namespace Files.App.Helpers
 
 		public static async Task<string?> GetFileAssociationAsync(string filename, bool checkDesktopFirst = false)
 		{
-			// Find UWP apps
-			async Task<string?> GetUwpAssoc()
-			{
-				var uwpApps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
-				return uwpApps.Any() ? uwpApps[0].PackageFamilyName : null;
-			}
-
-			// Find desktop apps
-			string? GetDesktopAssoc()
-			{
-				var lpResult = new StringBuilder(2048);
-				var hResult = Shell32.FindExecutable(filename, null, lpResult);
-
-				return hResult.ToInt64() > 32 ? lpResult.ToString() : null;
-			}
-
 			if (checkDesktopFirst)
-				return GetDesktopAssoc() ?? await GetUwpAssoc();
+				return GetDesktopFileAssociation(filename) ?? (await GetUwpFileAssociations(filename)).FirstOrDefault();
 
-			return await GetUwpAssoc() ?? GetDesktopAssoc();
+			return (await GetUwpFileAssociations(filename)).FirstOrDefault() ?? GetDesktopFileAssociation(filename);
+		}
+
+		public static async Task<IEnumerable<string>> GetAllFileAssociationsAsync(string filename)
+		{
+			var uwpApps = await GetUwpFileAssociations(filename);
+			var desktopApp = GetDesktopFileAssociation(filename);
+			return desktopApp is not null
+				? uwpApps.Append(desktopApp)
+				: uwpApps;
 		}
 
 		public static string ExtractStringFromDLL(string file, int number)
@@ -1209,6 +1202,18 @@ namespace Files.App.Helpers
 			}
 
 			return false;
+		}
+		private static async Task<IEnumerable<string>> GetUwpFileAssociations(string filename)
+		{
+			var uwpApps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
+			return uwpApps.Select(x => x.PackageFamilyName);
+		}
+
+		private static string? GetDesktopFileAssociation(string filename)
+		{
+			var lpResult = new StringBuilder(2048);
+			var hResult = Shell32.FindExecutable(filename, null, lpResult);
+			return hResult.ToInt64() > 32 ? lpResult.ToString() : null;
 		}
 	}
 }

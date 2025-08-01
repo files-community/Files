@@ -98,14 +98,11 @@ namespace Files.App.Utils.Storage
 		{
 			Func<Task<bool>> queryFileAssoc = async () =>
 			{
-				var assoc = await Win32Helper.GetFileAssociationAsync(filePath);
-				if (assoc is not null)
-				{
-					return assoc == Package.Current.Id.FamilyName
-						|| assoc.EndsWith("Files.App\\Files.exe", StringComparison.OrdinalIgnoreCase)
-						|| assoc.Equals(IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"), StringComparison.OrdinalIgnoreCase);
-				}
-				return true;
+				var associations = await Win32Helper.GetAllFileAssociationsAsync(filePath);
+				return associations.Any(assoc =>
+					assoc == Package.Current.Id.FamilyName
+					|| assoc.EndsWith("Files.App\\Files.exe", StringComparison.OrdinalIgnoreCase)
+					|| assoc.Equals(IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"), StringComparison.OrdinalIgnoreCase));
 			};
 			var ext = IO.Path.GetExtension(filePath)?.ToLowerInvariant();
 			return await defaultAppDict.GetAsync(ext, queryFileAssoc);
