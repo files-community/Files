@@ -124,13 +124,7 @@
 							Background="Transparent"
 							BorderBrush="Transparent"
 							CornerRadius="2"
-							DoubleTapped="BladeResizer_DoubleTapped"
-							ManipulationCompleted="BladeResizer_ManipulationCompleted"
-							ManipulationDelta="BladeResizer_ManipulationDelta"
-							ManipulationMode="TranslateX"
-							ManipulationStarted="BladeResizer_ManipulationStarted"
-							PointerEntered="BladeResizer_PointerEntered"
-							PointerExited="BladeResizer_PointerExited" />
+							ManipulationMode="TranslateX" />
 
 						<Button
 							Name="CloseButton"

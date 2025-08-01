@@ -70,7 +70,7 @@ namespace Files.App.Controls
 
 				_bladeResizer.DoubleTapped -= BladeResizer_DoubleTapped;
 				_bladeResizer.DoubleTapped += BladeResizer_DoubleTapped;
-			}			
+			}
 		}
 
 		/// <summary>
@@ -98,9 +98,6 @@ namespace Files.App.Controls
 		private void BladeResizer_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
 		{
 			var newWidth = _preManipulationSidebarWidth + e.Cumulative.Translation.X;
-			
-			Debug.WriteLine($"BladeResizer - New item width: {newWidth}");
-			
 			if (newWidth < MINIMUM_WIDTH)
 				newWidth = MINIMUM_WIDTH;
 
@@ -149,9 +146,8 @@ namespace Files.App.Controls
 
 				return maxTextWidth + totalPadding;
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				Debug.WriteLine($"Error calculating optimal width: {ex.Message}");
 				return 0;
 			}
 		}
@@ -202,13 +198,13 @@ namespace Files.App.Controls
 
 				return maxWidth;
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				Debug.WriteLine($"Error measuring content width: {ex.Message}");
 				// Fallback calculation
 				return 200; // Default reasonable width
 			}
 		}
+
 		private List<TextBlock> GetTextBlocksFromVisualTree(DependencyObject parent)
 		{
 			var textBlocks = new List<TextBlock>();
@@ -216,25 +212,18 @@ namespace Files.App.Controls
 			if (parent == null)
 				return textBlocks;
 
-			try
+			var childrenCount = VisualTreeHelper.GetChildrenCount(parent);
+			for (int i = 0; i < childrenCount; i++)
 			{
-				var childrenCount = VisualTreeHelper.GetChildrenCount(parent);
-				for (int i = 0; i < childrenCount; i++)
+				var child = VisualTreeHelper.GetChild(parent, i);
+
+				if (child is TextBlock textBlock)
 				{
-					var child = VisualTreeHelper.GetChild(parent, i);
-
-					if (child is TextBlock textBlock)
-					{
-						textBlocks.Add(textBlock);
-					}
-
-					// Recursively search child elements
-					textBlocks.AddRange(GetTextBlocksFromVisualTree(child));
+					textBlocks.Add(textBlock);
 				}
-			}
-			catch (Exception ex)
-			{
-				Debug.WriteLine($"Error walking visual tree: {ex.Message}");
+
+				// Recursively search child elements
+				textBlocks.AddRange(GetTextBlocksFromVisualTree(child));
 			}
 
 			return textBlocks;
