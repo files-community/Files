@@ -97,9 +97,15 @@ namespace Files.App.UserControls
 
 			menuFlyout.Items.Add(new MenuFlyoutItem
 			{
+				Text = Strings.BaseLayoutItemContextFlyoutOpenParentFolder_Text.GetLocalizedResource(),
+				Icon = new FontIcon() { Glyph = "\uE838" },
+				Command = item.ViewInFolderCommand
+			});
+			menuFlyout.Items.Add(new MenuFlyoutItem
+			{
 				Text = Strings.RemoveFromShelf.GetLocalizedResource(),
 				Icon = new FontIcon { Glyph = "\uE738" },
-				Command = new RelayCommand(item.Remove)
+				Command = item.RemoveCommand
 			});
 
 			menuFlyout.ShowAt(widgetCardItem);
@@ -128,6 +134,30 @@ namespace Files.App.UserControls
 		public static readonly DependencyProperty ClearCommandProperty =
 			DependencyProperty.Register(nameof(ClearCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
 
+		public ICommand? BulkDeleteCommand
+		{
+			get => (ICommand?)GetValue(BulkDeleteCommandProperty);
+			set => SetValue(BulkDeleteCommandProperty, value);
+		}
+		public static readonly DependencyProperty BulkDeleteCommandProperty =
+			DependencyProperty.Register(nameof(BulkDeleteCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
+
+		public ICommand? BulkCopyCommand
+		{
+			get => (ICommand?)GetValue(BulkCopyCommandProperty);
+			set => SetValue(BulkCopyCommandProperty, value);
+		}
+		public static readonly DependencyProperty BulkCopyCommandProperty =
+			DependencyProperty.Register(nameof(BulkCopyCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
+
+		public ICommand? BulkCutCommand
+		{
+			get => (ICommand?)GetValue(BulkCutCommandProperty);
+			set => SetValue(BulkCutCommandProperty, value);
+		}
+		public static readonly DependencyProperty BulkCutCommandProperty =
+			DependencyProperty.Register(nameof(BulkCutCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
+
 		public ICommand? ItemFocusedCommand
 		{
 			get => (ICommand?)GetValue(ItemFocusedCommandProperty);
@@ -135,6 +165,5 @@ namespace Files.App.UserControls
 		}
 		public static readonly DependencyProperty ItemFocusedCommandProperty =
 			DependencyProperty.Register(nameof(ItemFocusedCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
-
 	}
 }
