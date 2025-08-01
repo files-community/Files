@@ -114,6 +114,13 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		/// <inheritdoc/>
+		public KeyboardTypingBehavior KeyboardTypingBehavior
+		{
+			get => (KeyboardTypingBehavior)Get((long)KeyboardTypingBehavior.JumpToFile);
+			set => Set((long)value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			base.RaiseOnSettingChangedEvent(sender, e);

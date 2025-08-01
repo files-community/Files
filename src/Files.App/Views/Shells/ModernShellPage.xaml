@@ -125,7 +125,7 @@
 					VerticalAlignment="Center"
 					PlaceholderText="{helpers:ResourceString Name=Filename}"
 					PreviewKeyDown="FilterTextBox_PreviewKeyDown"
-					TextChanged="FilterTextBox_TextChanged" />
+					Text="{x:Bind ShellViewModel.FilesAndFoldersFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 			</StackPanel>
 		</Grid>
 
