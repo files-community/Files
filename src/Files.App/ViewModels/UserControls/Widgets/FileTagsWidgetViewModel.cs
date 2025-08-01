@@ -63,7 +63,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				if (_updateCTS.IsCancellationRequested)
 					break;
 
-				var matchingItem = Containers.First(c => c.Uid == item.Uid);
+				var matchingItem = Containers.FirstOrDefault(c => c.Uid == item.Uid);
 				if (matchingItem is null)
 				{
 					CreateTagContainerItem(item);
