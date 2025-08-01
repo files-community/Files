@@ -55,7 +55,8 @@ namespace Files.App.ViewModels.Dialogs
 					true,
 					false
 				);
-			};
+			}
+			;
 		}
 
 	}

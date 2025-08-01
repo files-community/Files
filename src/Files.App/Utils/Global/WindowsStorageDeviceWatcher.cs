@@ -1,11 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Data.Items;
-using Files.App.Helpers;
-using Files.Core.Storage.Storables;
 using Microsoft.Extensions.Logging;
-using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using Windows.Devices.Enumeration;
@@ -63,7 +59,7 @@ namespace Files.App.Utils
 					+ " failed at the StorageFolder initialization step. This device will be ignored.");
 				return;
 			}
-			
+
 			var type = DriveHelpers.GetDriveType(driveAdded);
 			var label = DriveHelpers.GetExtendedDriveLabel(driveAdded);
 			DriveItem driveItem = await DriveItem.CreateFromPropertiesAsync(rootAdded, e.DeviceId, label, type);
@@ -96,7 +92,7 @@ namespace Files.App.Utils
 				return;
 			}
 
-            Data.Items.DriveType type;
+			Data.Items.DriveType type;
 			string label;
 			try
 			{

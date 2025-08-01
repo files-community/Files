@@ -10,7 +10,7 @@ namespace Files.App.Services
 	public sealed class ResourcesService : IResourcesService
 	{
 		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
-		
+
 		/// <inheritdoc/>
 		public void SetAppThemeBackgroundColor(Color appThemeBackgroundColor)
 		{
@@ -31,7 +31,7 @@ namespace Files.App.Services
 		{
 			Application.Current.Resources["App.Theme.Toolbar.BackgroundBrush"] = appThemeToolbarBackgroundColor;
 		}
-		
+
 		/// <inheritdoc/>
 		public void SetAppThemeSidebarBackgroundColor(Color appThemeSidebarBackgroundColor)
 		{
@@ -43,7 +43,7 @@ namespace Files.App.Services
 		{
 			Application.Current.Resources["App.Theme.FileArea.BackgroundBrush"] = appThemeFileAreaBackgroundColor;
 		}
-		
+
 		/// <inheritdoc/>
 		public void SetAppThemeFileAreaSecondaryBackgroundColor(Color appThemeFileAreaSecondaryBackgroundColor)
 		{

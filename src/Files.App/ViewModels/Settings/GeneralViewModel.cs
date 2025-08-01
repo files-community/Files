@@ -107,8 +107,8 @@ namespace Files.App.ViewModels.Settings
 			PagesOnStartupList.CollectionChanged += PagesOnStartupList_CollectionChanged;
 
 			// ShellPaneArrangement
-			ShellPaneArrangementTypes.Add(ShellPaneArrangement.Horizontal, Strings.Horizontal.GetLocalizedResource());
 			ShellPaneArrangementTypes.Add(ShellPaneArrangement.Vertical, Strings.Vertical.GetLocalizedResource());
+			ShellPaneArrangementTypes.Add(ShellPaneArrangement.Horizontal, Strings.Horizontal.GetLocalizedResource());
 			SelectedShellPaneArrangementType = ShellPaneArrangementTypes[UserSettingsService.GeneralSettingsService.ShellPaneArrangementOption];
 
 			InitStartupSettingsRecentFoldersFlyout();
@@ -516,6 +516,19 @@ namespace Files.App.ViewModels.Settings
 				if (value != UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow)
 				{
 					UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowOpenTerminal
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowOpenTerminal;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowOpenTerminal)
+				{
+					UserSettingsService.GeneralSettingsService.ShowOpenTerminal = value;
 					OnPropertyChanged();
 				}
 			}

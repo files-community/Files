@@ -8,28 +8,28 @@ namespace Files.App.Controls
 		// A reference to the current available size for ToolbarItems
 		private double _availableSize;
 
-		private ItemsRepeater?				_itemsRepeater;
-		private ToolbarItemList?			_toolbarItemsList;
-		private ToolbarItemOverflowList?	_toolbarItemsOverflowList;
+		private ItemsRepeater? _itemsRepeater;
+		private ToolbarItemList? _toolbarItemsList;
+		private ToolbarItemOverflowList? _toolbarItemsOverflowList;
 
-		private ToolbarItemList				_tempToolbarItemsList;
-		private ToolbarItemOverflowList		_tempToolbarItemsOverflowList;
+		private ToolbarItemList _tempToolbarItemsList;
+		private ToolbarItemOverflowList _tempToolbarItemsOverflowList;
 
 
-		private double				_smallMinWidth    = 24; // I have set default values, but we pull from resources
-		private double				_mediumMinWidth   = 32; // if they are available.
-		private double				_largeMinWidth    = 32;
-		 
-		private double				_smallMinHeight   = 24;
-		private double				_mediumMinHeight  = 24;
-		private double				_largeMinHeight   = 32;
+		private double _smallMinWidth = 24; // I have set default values, but we pull from resources
+		private double _mediumMinWidth = 32; // if they are available.
+		private double _largeMinWidth = 32;
 
-		private double				_currentMinWidth;
-		private double				_currentMinHeight;
+		private double _smallMinHeight = 24;
+		private double _mediumMinHeight = 24;
+		private double _largeMinHeight = 32;
+
+		private double _currentMinWidth;
+		private double _currentMinHeight;
 
 		public Toolbar()
 		{
-			DefaultStyleKey = typeof( Toolbar );
+			DefaultStyleKey = typeof(Toolbar);
 		}
 
 		protected override void OnApplyTemplate()
@@ -38,17 +38,17 @@ namespace Files.App.Controls
 
 			UpdateMinSizesFromResources();
 
-			if ( Items != null )
+			if (Items != null)
 			{
 				_tempToolbarItemsList = new ToolbarItemList();
 				_tempToolbarItemsOverflowList = new ToolbarItemOverflowList();
 
-				UpdateItems( Items );
+				UpdateItems(Items);
 			}
 
-			SetItemsRepeater( GetTemplateChild( ToolbarItemsRepeaterPartName ) as ItemsRepeater );
+			SetItemsRepeater(GetTemplateChild(ToolbarItemsRepeaterPartName) as ItemsRepeater);
 
-			if ( GetItemsRepeater() != null )
+			if (GetItemsRepeater() != null)
 			{
 				ItemsRepeater itemsRepeater = GetItemsRepeater();
 				itemsRepeater.ItemsSource = GetToolbarItemsList();
@@ -201,17 +201,17 @@ namespace Files.App.Controls
 			/// manage the Buttons and the Menu items
 			///
 
-			foreach ( var item in newItems )
+			foreach (var item in newItems)
 			{
-				SortItemsByOverflowBehavior( item );
-				Debug.Write( "-> Sorted " + item.Label + " from Items... ..." + Environment.NewLine );
+				SortItemsByOverflowBehavior(item);
+				Debug.Write("-> Sorted " + item.Label + " from Items... ..." + Environment.NewLine);
 			}
 
-			UpdatePrivateItemList( _tempToolbarItemsList );
-			Debug.Write( " | tempItemsList " + _tempToolbarItemsList.Count.ToString() + " *" + Environment.NewLine );
+			UpdatePrivateItemList(_tempToolbarItemsList);
+			Debug.Write(" | tempItemsList " + _tempToolbarItemsList.Count.ToString() + " *" + Environment.NewLine);
 
-			UpdatePrivateItemOverflowList( _tempToolbarItemsOverflowList );
-			Debug.Write( " | tempItemsOverflowList " + _tempToolbarItemsOverflowList.Count.ToString() + " *" + Environment.NewLine );
+			UpdatePrivateItemOverflowList(_tempToolbarItemsOverflowList);
+			Debug.Write(" | tempItemsOverflowList " + _tempToolbarItemsOverflowList.Count.ToString() + " *" + Environment.NewLine);
 		}
 
 
@@ -225,9 +225,9 @@ namespace Files.App.Controls
 
 
 
-		private void UpdateToolbarSize( ToolbarSizes newToolbarSize )
+		private void UpdateToolbarSize(ToolbarSizes newToolbarSize)
 		{
-			UpdateMinSizesFromResources();		
+			UpdateMinSizesFromResources();
 		}
 
 
@@ -239,7 +239,7 @@ namespace Files.App.Controls
 			// Do some code to check or respond to size changes for
 			// the Toolbar's Items space (ItemsRepeaterLayout?)
 
-			SetAvailableSize( newAvailableSize );
+			SetAvailableSize(newAvailableSize);
 
 			/// We need to check the Item Widths and Heights
 			/// (we know the sizes for buttons, but content will need
@@ -256,43 +256,43 @@ namespace Files.App.Controls
 		/// </summary>
 		private void UpdateMinSizesFromResources()
 		{
-			double smallMinWidth    = (double)Application.Current.Resources[SmallMinWidthResourceKey];
-			double smallMinHeight   = (double)Application.Current.Resources[SmallMinHeightResourceKey];
+			double smallMinWidth = (double)Application.Current.Resources[SmallMinWidthResourceKey];
+			double smallMinHeight = (double)Application.Current.Resources[SmallMinHeightResourceKey];
 
-			double mediumMinWidth   = (double)Application.Current.Resources[MediumMinWidthResourceKey];
-			double mediumMinHeight  = (double)Application.Current.Resources[MediumMinHeightResourceKey];
+			double mediumMinWidth = (double)Application.Current.Resources[MediumMinWidthResourceKey];
+			double mediumMinHeight = (double)Application.Current.Resources[MediumMinHeightResourceKey];
 
-			double largeMinWidth    = (double)Application.Current.Resources[LargeMinWidthResourceKey];
-			double largeMinHeight   = (double)Application.Current.Resources[LargeMinHeightResourceKey];			
+			double largeMinWidth = (double)Application.Current.Resources[LargeMinWidthResourceKey];
+			double largeMinHeight = (double)Application.Current.Resources[LargeMinHeightResourceKey];
 
-			if ( !double.IsNaN( smallMinWidth )  || !double.IsNaN( smallMinHeight )  ||
-				 !double.IsNaN( mediumMinWidth ) || !double.IsNaN( mediumMinHeight ) ||
-				 !double.IsNaN( largeMinWidth )  || !double.IsNaN( largeMinHeight )    )
+			if (!double.IsNaN(smallMinWidth) || !double.IsNaN(smallMinHeight) ||
+				 !double.IsNaN(mediumMinWidth) || !double.IsNaN(mediumMinHeight) ||
+				 !double.IsNaN(largeMinWidth) || !double.IsNaN(largeMinHeight))
 			{
-				SetSmallMinWidth( smallMinWidth );
-				SetSmallMinHeight( smallMinHeight );
+				SetSmallMinWidth(smallMinWidth);
+				SetSmallMinHeight(smallMinHeight);
 
-				SetMediumMinWidth( mediumMinWidth );
-				SetMediumMinHeight( mediumMinHeight );
+				SetMediumMinWidth(mediumMinWidth);
+				SetMediumMinHeight(mediumMinHeight);
 
-				SetLargeMinWidth( largeMinWidth );
-				SetLargeMinHeight( largeMinHeight );
+				SetLargeMinWidth(largeMinWidth);
+				SetLargeMinHeight(largeMinHeight);
 			}
 
-			if ( ToolbarSize == ToolbarSizes.Small )
+			if (ToolbarSize == ToolbarSizes.Small)
 			{
-				SetCurrentMinWidth( GetSmallMinWidth() );
-				SetCurrentMinHeight( GetSmallMinHeight() );
+				SetCurrentMinWidth(GetSmallMinWidth());
+				SetCurrentMinHeight(GetSmallMinHeight());
 			}
-			else if ( ToolbarSize == ToolbarSizes.Large )
+			else if (ToolbarSize == ToolbarSizes.Large)
 			{
-				SetCurrentMinWidth( GetLargeMinWidth() );
-				SetCurrentMinHeight( GetLargeMinHeight() );
+				SetCurrentMinWidth(GetLargeMinWidth());
+				SetCurrentMinHeight(GetLargeMinHeight());
 			}
 			else
 			{
-				SetCurrentMinWidth( GetMediumMinWidth() );
-				SetCurrentMinHeight( GetMediumMinHeight() );
+				SetCurrentMinWidth(GetMediumMinWidth());
+				SetCurrentMinHeight(GetMediumMinHeight());
 			}
 		}
 
@@ -304,7 +304,7 @@ namespace Files.App.Controls
 		/// <param name="newList"></param>
 		private void UpdatePrivateItemList(ToolbarItemList newList)
 		{
-			SetToolbarItemsList( newList );
+			SetToolbarItemsList(newList);
 		}
 
 
@@ -315,7 +315,7 @@ namespace Files.App.Controls
 		/// <param name="newOverflowList"></param>
 		private void UpdatePrivateItemOverflowList(ToolbarItemOverflowList newOverflowList)
 		{
-			SetToolbarItemsOverflowList( newOverflowList );
+			SetToolbarItemsOverflowList(newOverflowList);
 		}
 
 		#endregion
@@ -328,7 +328,7 @@ namespace Files.App.Controls
 		/// <param name="newItemsSource"></param>
 		private void ItemsChanged(IList<ToolbarItem> newItems)
 		{
-			UpdateItems( newItems );
+			UpdateItems(newItems);
 		}
 
 
@@ -339,7 +339,7 @@ namespace Files.App.Controls
 		/// <param name="newDataTemplate"></param>
 		private void ItemTemplateChanged(DataTemplate newDataTemplate)
 		{
-			UpdateItemTemplate( newDataTemplate );
+			UpdateItemTemplate(newDataTemplate);
 		}
 
 
@@ -350,7 +350,7 @@ namespace Files.App.Controls
 		/// <param name="newToolbarSize"></param>
 		private void ToolbarSizeChanged(ToolbarSizes newToolbarSize)
 		{
-			UpdateToolbarSize( newToolbarSize );
+			UpdateToolbarSize(newToolbarSize);
 		}
 
 
@@ -361,7 +361,7 @@ namespace Files.App.Controls
 		/// <param name="newList"></param>
 		private void PrivateItemListChanged(ToolbarItemList newList)
 		{
-			UpdatePrivateItemList( newList );
+			UpdatePrivateItemList(newList);
 		}
 
 
@@ -372,7 +372,7 @@ namespace Files.App.Controls
 		/// <param name="newOverflowList"></param>
 		private void PrivateItemOverflowListChanged(ToolbarItemOverflowList newOverflowList)
 		{
-			UpdatePrivateItemOverflowList( newOverflowList );
+			UpdatePrivateItemOverflowList(newOverflowList);
 		}
 
 		#endregion
@@ -390,18 +390,18 @@ namespace Files.App.Controls
 			/// Then we pass that item through additional sorting and
 			/// then add the relevant control to the lists.
 			/// 
-			if ( item != null )
+			if (item != null)
 			{
-				if ( item.OverflowBehavior == OverflowBehaviors.Always )
+				if (item.OverflowBehavior == OverflowBehaviors.Always)
 				{
-					AddItemToOverflowList( SortByItemTypeForOverflowItemList( item ) );
+					AddItemToOverflowList(SortByItemTypeForOverflowItemList(item));
 				}
 				else
 				{
 					/// Not sure if we check for space at this point, or
 					/// When we are adding items to the Private ItemList
 					/// 
-					if ( item.OverflowBehavior == OverflowBehaviors.Never )
+					if (item.OverflowBehavior == OverflowBehaviors.Never)
 					{
 						/// Not sure if we need to behave differently at
 						/// this stage for the items, but we can do if
@@ -414,7 +414,7 @@ namespace Files.App.Controls
 						//AddItemToItemList( SortByItemTypeForItemList( item ) );
 					}
 
-					AddItemToItemList( SortByItemTypeForItemList( item ) );
+					AddItemToItemList(SortByItemTypeForItemList(item));
 				}
 			}
 		}
@@ -428,11 +428,11 @@ namespace Files.App.Controls
 		/// <param name="item"></param>
 		private IToolbarItemSet SortByItemTypeForItemList(ToolbarItem item)
 		{
-			switch ( item.ItemType )
+			switch (item.ItemType)
 			{
 				case ToolbarItemTypes.Button:
 					// Add ToolbarButton
-					return CreateToolbarButton( item.Label , item.ThemedIcon , GetCurrentMinWidth() , GetCurrentMinHeight() , item.IconSize );
+					return CreateToolbarButton(item.Label, item.ThemedIcon, GetCurrentMinWidth(), GetCurrentMinHeight(), item.IconSize);
 
 				case ToolbarItemTypes.FlyoutButton:
 					// Add ToolbarFlyoutButton
@@ -448,7 +448,7 @@ namespace Files.App.Controls
 
 				case ToolbarItemTypes.ToggleButton:
 					// Add ToolbarToggleButton
-					return CreateToolbarToggleButton( item.Label , item.ThemedIcon , GetCurrentMinWidth() , GetCurrentMinHeight() , item.IconSize , item.IsChecked );
+					return CreateToolbarToggleButton(item.Label, item.ThemedIcon, GetCurrentMinWidth(), GetCurrentMinHeight(), item.IconSize, item.IsChecked);
 
 				case ToolbarItemTypes.Separator:
 					// Add ToolbarToggleButton
@@ -472,7 +472,7 @@ namespace Files.App.Controls
 		/// <param name="item"></param>
 		private IToolbarOverflowItemSet SortByItemTypeForOverflowItemList(ToolbarItem item)
 		{
-			switch ( item.ItemType )
+			switch (item.ItemType)
 			{
 				case ToolbarItemTypes.Button:
 					// Add MenuFlyoutItemEx
@@ -528,47 +528,51 @@ namespace Files.App.Controls
 
 			ItemsRepeater itemsRepeater = GetItemsRepeater();
 
-			foreach ( ToolbarItem item in GetToolbarItemsList() )
+			foreach (ToolbarItem item in GetToolbarItemsList())
 			{
 				/// We can get the AvailableSize
 				/// 
-				double availableSize = GetAvailableSize();				
+				double availableSize = GetAvailableSize();
 
 				ObservableCollection<object> itemsSource = new ObservableCollection<object>();
 
 				/// Then we create the ToolbarButton, ToolbarSeparator, ToolbarToggleButton etc
 				/// for each item
 				/// 
-				if ( item.ItemType == ToolbarItemTypes.Button )
+				if (item.ItemType == ToolbarItemTypes.Button)
 				{
 					//Add a ToolbarButton to the ItemsSource for the ItemsRepeaterPartName
-					itemsSource.Add( new ToolbarButton
-					{ 
-						Label = item.Label , 
-						ThemedIcon = item.ThemedIcon , Command = item.Command , 
-						CommandParameter = item.CommandParameter , 
+					itemsSource.Add(new ToolbarButton
+					{
+						Label = item.Label,
+						ThemedIcon = item.ThemedIcon,
+						Command = item.Command,
+						CommandParameter = item.CommandParameter,
 						IconSize = item.IconSize,
-					} );
-				};
+					});
+				}
+				;
 
-				if ( item.ItemType == ToolbarItemTypes.ToggleButton )
+				if (item.ItemType == ToolbarItemTypes.ToggleButton)
 				{
 					//Add a ToolbarToggleButton to the ItemsSource for the ItemsRepeaterPartName
-					itemsSource.Add( new ToolbarToggleButton
+					itemsSource.Add(new ToolbarToggleButton
 					{
-						Label = item.Label ,
-						ThemedIcon = item.ThemedIcon ,
-						Command = item.Command ,
-						CommandParameter = item.CommandParameter ,
-						IconSize = item.IconSize ,
-					} );
-				};
+						Label = item.Label,
+						ThemedIcon = item.ThemedIcon,
+						Command = item.Command,
+						CommandParameter = item.CommandParameter,
+						IconSize = item.IconSize,
+					});
+				}
+				;
 
-				if ( item.ItemType == ToolbarItemTypes.Separator )
+				if (item.ItemType == ToolbarItemTypes.Separator)
 				{
 					//Add a ToolbarSeparator to the ItemsSource for the ItemsRepeaterPartName
 					//itemsSource.Add( new ToolbarSeparator );
-				};
+				}
+				;
 				/// etc
 
 				//SetAvailableSize( availableSize - item.Width );
@@ -579,11 +583,11 @@ namespace Files.App.Controls
 				itemsRepeater.ItemsSource = itemsSource;
 			}
 
-				/// We do this for each item until there is no more space
-				/// available, then we check its OverflowBehavior and move
-				/// it if neccessary.
+			/// We do this for each item until there is no more space
+			/// available, then we check its OverflowBehavior and move
+			/// it if neccessary.
 
-			}
+		}
 
 
 
@@ -594,17 +598,17 @@ namespace Files.App.Controls
 			/// is what we need to add to the Overflow Menu
 			/// 
 
-			foreach ( ToolbarItem item in GetToolbarItemsOverflowList() )
+			foreach (ToolbarItem item in GetToolbarItemsOverflowList())
 			{
-				if ( item != null )
+				if (item != null)
 				{
-					if ( item.ItemType != ToolbarItemTypes.Separator )
-					{ 
+					if (item.ItemType != ToolbarItemTypes.Separator)
+					{
 						MenuFlyoutSeparator menuFlyoutSeparator = new MenuFlyoutSeparator();
 						/// OverflowMenuFlyout.AddMenuItem( menuFlyoutSeparator );
 					}
 
-					if ( item.ItemType != ToolbarItemTypes.FlyoutButton )
+					if (item.ItemType != ToolbarItemTypes.FlyoutButton)
 					{
 						MenuFlyoutSubItem menuFlyoutSubItem = new MenuFlyoutSubItem();
 						menuFlyoutSubItem.Text = item.Label;
@@ -615,13 +619,13 @@ namespace Files.App.Controls
 						/// We will need to make child menu items for the 
 						/// ToolbarItem's flyout items.
 						/// 
-					
+
 						/// OverflowMenuFlyout.AddMenuItem( menuFlyoutSubItem );
 					}
 
-					if ( item.ItemType != ToolbarItemTypes.Button )
+					if (item.ItemType != ToolbarItemTypes.Button)
 					{
-						MenuFlyoutItem menuFlyoutItem= new MenuFlyoutItem();
+						MenuFlyoutItem menuFlyoutItem = new MenuFlyoutItem();
 						//MenuFlyoutItemEx menuFlyoutItemEx = new MenuFlyoutItemEx();
 						menuFlyoutItem.Text = item.Label;
 						menuFlyoutItem.Command = item.Command;
@@ -633,7 +637,7 @@ namespace Files.App.Controls
 						/// OverflowMenuFlyout.AddMenuItem( menuFlyoutSeparator );
 					}
 
-					if ( item.ItemType != ToolbarItemTypes.ToggleButton )
+					if (item.ItemType != ToolbarItemTypes.ToggleButton)
 					{
 						ToggleMenuFlyoutItem menuToggleItem = new ToggleMenuFlyoutItem();
 						//ToggleMenuFlyoutItemEx menuToggleItemEx = new ToggleMenuFlyoutItemEx();
@@ -655,15 +659,15 @@ namespace Files.App.Controls
 
 		#region Create Elements
 
-		private ToolbarButton CreateToolbarButton(string label , Style iconStyle , double minWidth , double minHeight , double iconSize)
+		private ToolbarButton CreateToolbarButton(string label, Style iconStyle, double minWidth, double minHeight, double iconSize)
 		{
 			ToolbarButton createdButton = new ToolbarButton
 			{
-				Label = label ,
-				ThemedIcon = iconStyle ,
-				MinWidth = minWidth ,
-				MinHeight = minHeight ,
-				IconSize = iconSize ,
+				Label = label,
+				ThemedIcon = iconStyle,
+				MinWidth = minWidth,
+				MinHeight = minHeight,
+				IconSize = iconSize,
 			};
 
 			return createdButton;
@@ -671,16 +675,16 @@ namespace Files.App.Controls
 
 
 
-		private ToolbarToggleButton CreateToolbarToggleButton(string label , Style iconStyle , double minWidth , double minHeight , double iconSize , bool isChecked)
+		private ToolbarToggleButton CreateToolbarToggleButton(string label, Style iconStyle, double minWidth, double minHeight, double iconSize, bool isChecked)
 		{
 			ToolbarToggleButton createdToggleButton = new ToolbarToggleButton
 			{
-				Label = label ,
-				ThemedIcon = iconStyle ,
-				MinWidth = minWidth ,
-				MinHeight = minHeight ,
-				IconSize = iconSize ,
-				IsChecked = isChecked ,
+				Label = label,
+				ThemedIcon = iconStyle,
+				MinWidth = minWidth,
+				MinHeight = minHeight,
+				IconSize = iconSize,
+				IsChecked = isChecked,
 			};
 
 			return createdToggleButton;
@@ -705,10 +709,10 @@ namespace Files.App.Controls
 		/// <param name="item"></param>
 		private void AddItemToOverflowList(IToolbarOverflowItemSet item)
 		{
-			if ( item != null && _tempToolbarItemsOverflowList != null)
+			if (item != null && _tempToolbarItemsOverflowList != null)
 			{
-				_tempToolbarItemsOverflowList.Add( item );
-				Debug.Write( "<- Added " + item.ToString() + " to OverflowList " + Environment.NewLine );
+				_tempToolbarItemsOverflowList.Add(item);
+				Debug.Write("<- Added " + item.ToString() + " to OverflowList " + Environment.NewLine);
 			}
 		}
 
@@ -720,10 +724,10 @@ namespace Files.App.Controls
 		/// <param name="item"></param>
 		private void AddItemToItemList(IToolbarItemSet item)
 		{
-			if ( item != null && _tempToolbarItemsList != null )
+			if (item != null && _tempToolbarItemsList != null)
 			{
-				_tempToolbarItemsList.Add( item );
-				Debug.Write( "Added " + item.ToString() + " to ItemList " + Environment.NewLine );
+				_tempToolbarItemsList.Add(item);
+				Debug.Write("Added " + item.ToString() + " to ItemList " + Environment.NewLine);
 			}
 		}
 

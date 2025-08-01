@@ -123,7 +123,7 @@ namespace Files.App.Data.Commands
 		IRichCommand LayoutIncreaseSize { get; }
 		IRichCommand LayoutDetails { get; }
 		IRichCommand LayoutList { get; }
-		IRichCommand LayoutCards{ get; }
+		IRichCommand LayoutCards { get; }
 		IRichCommand LayoutGrid { get; }
 		IRichCommand LayoutColumns { get; }
 		IRichCommand LayoutAdaptive { get; }
@@ -195,8 +195,8 @@ namespace Files.App.Data.Commands
 
 		IRichCommand CloseActivePane { get; }
 		IRichCommand FocusOtherPane { get; }
-		IRichCommand AddVerticalPane { get; }
-		IRichCommand AddHorizontalPane { get; }
+		IRichCommand SplitPaneVertically { get; }
+		IRichCommand SplitPaneHorizontally { get; }
 		IRichCommand ArrangePanesVertically { get; }
 		IRichCommand ArrangePanesHorizontally { get; }
 

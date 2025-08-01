@@ -131,7 +131,7 @@ namespace Files.App.Views.Layouts
 		/// <summary>
 		/// Gets the visibility for the contextual property string in the Cards View layout.
 		/// </summary>
-		public bool CardsViewShowContextualProperty=>
+		public bool CardsViewShowContextualProperty =>
 			LayoutSettingsService.CardsViewSize != CardsViewSizeKind.Small;
 
 		/// <summary>
@@ -670,10 +670,18 @@ namespace Files.App.Views.Layouts
 
 		private void ItemSelected_Unchecked(object sender, RoutedEventArgs e)
 		{
-			if (sender is CheckBox checkBox &&
-				checkBox.DataContext is ListedItem item &&
-				FileList.SelectedItems.Contains(item))
+			if (sender is not CheckBox checkBox)
+				return;
+
+			if (checkBox.DataContext is ListedItem item && FileList.SelectedItems.Contains(item))
 				FileList.SelectedItems.Remove(item);
+
+			// Workaround for #17298
+			checkBox.IsTabStop = false;
+			checkBox.IsEnabled = false;
+			checkBox.IsEnabled = true;
+			checkBox.IsTabStop = true;
+			FileList.Focus(FocusState.Programmatic);
 		}
 
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)

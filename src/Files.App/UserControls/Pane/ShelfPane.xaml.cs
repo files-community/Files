@@ -95,7 +95,7 @@ namespace Files.App.UserControls
 
 			var menuFlyout = new MenuFlyout();
 
-			menuFlyout.Items.Add (new MenuFlyoutItem
+			menuFlyout.Items.Add(new MenuFlyoutItem
 			{
 				Text = Strings.RemoveFromShelf.GetLocalizedResource(),
 				Icon = new FontIcon { Glyph = "\uE738" },
@@ -127,7 +127,7 @@ namespace Files.App.UserControls
 		}
 		public static readonly DependencyProperty ClearCommandProperty =
 			DependencyProperty.Register(nameof(ClearCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
-		
+
 		public ICommand? ItemFocusedCommand
 		{
 			get => (ICommand?)GetValue(ItemFocusedCommandProperty);

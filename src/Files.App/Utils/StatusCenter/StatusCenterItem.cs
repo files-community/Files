@@ -1,9 +1,9 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.Windows.Input;
 using Microsoft.UI.Xaml.Media;
 using System.Numerics;
+using System.Windows.Input;
 
 namespace Files.App.Utils.StatusCenter
 {
@@ -301,7 +301,7 @@ namespace Files.App.Utils.StatusCenter
 					{
 						Message =
 							$"{string.Format(
-								Strings.StatusCenter_ProcessedItems_Header.GetLocalizedFormatResource(value.ProcessedItemsCount),
+								Strings.StatusCenter_ProcessedItems_Header.GetLocalizedFormatResource(value.ProcessedItemsCount, value.ItemsCount),
 								value.ProcessedItemsCount,
 								value.ItemsCount)}";
 					}

@@ -16,7 +16,6 @@ using Windows.ApplicationModel.DataTransfer.DragDrop;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using OwlCore.Storage;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -1044,11 +1043,14 @@ namespace Files.App.ViewModels.UserControls
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
-					ShowItem = Commands.OpenTerminalFromSidebar.IsExecutable ||
+					ShowItem = (UserSettingsService.GeneralSettingsService.ShowOpenTerminal && Commands.OpenTerminalFromSidebar.IsExecutable) ||
 						Commands.OpenStorageSenseFromSidebar.IsExecutable ||
 						Commands.FormatDriveFromSidebar.IsExecutable
 				},
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenTerminalFromSidebar).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenTerminalFromSidebar)
+				{
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenTerminal && Commands.OpenTerminalFromSidebar.IsExecutable
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenStorageSenseFromSidebar).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.FormatDriveFromSidebar).Build(),
 				new ContextMenuFlyoutItemViewModel()

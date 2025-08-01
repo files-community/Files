@@ -3490,27 +3490,27 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>Стиснення {0} елемент(ів) до "{1}"</value>
+    <value>Стиснуто {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} до «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
-    <value>Стиснення {0} елемент(ів) з "{1}" до "{2}"</value>
+    <value>Стиснуто {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} з «{1}» до «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Помилка стиснення {0} елемент(ів) до "{1}"</value>
+    <value>Помилка стиснення {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} до «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>Не вдалось стиснути {0} елемент(ів) з "{1}" до "{2}"</value>
+    <value>Не вдалося стиснути {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} з «{1}» до «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>Стиснення {0} елемент(ів) до "{1}"</value>
+    <value>Стиснення {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} до «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
-    <value>Стиснення {0} елемент(ів) до "{1}" до "{2}"</value>
+    <value>Стиснення {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} з «{1}» до «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
@@ -3550,63 +3550,63 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
-    <value>Скасовано встановлення {0} шрифту (-ів) з «{1}»</value>
+    <value>Скасовано встановлення {0, plural, one {# шрифту} few {# шрифтів} many {# шрифтів} other {# шрифтів}} з «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
-    <value>Встановлено {0} шрифт (-и)</value>
+    <value>Встановлено {0, plural, one {# шрифт} few {# шрифти} many {# шрифтів} other {# шрифтів}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
-    <value>Встановлено {0} шрифт (-и) з «{1}»</value>
+    <value>Встановлено {0, plural, one {# шрифт} few {# шрифти} many {# шрифтів} other {# шрифтів}} з «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
-    <value>Помилка встановлення {0} шрифту (-ів)</value>
+    <value>Помилка встановлення {0, plural, one {# шрифт} few {# шрифти} many {# шрифтів} other {# шрифтів}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
-    <value>Не вдалося встановити {0} шрифт (-и) з «{1}»</value>
+    <value>Не вдалося встановити {0, plural, one {# шрифту} few {# шрифтів} many {# шрифтів} other {# шрифтів}} з «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
-    <value>Встановлення {0} шрифту (-ів)</value>
+    <value>Встановлення {0, plural, one {# шрифт} few {# шрифти} many {# шрифтів} other {# шрифтів}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
-    <value>Встановлення {0} шрифту (-ів) з «{1}»</value>
+    <value>Встановлення {0, plural, one {# шрифт} few {# шрифти} many {# шрифтів} other {# шрифтів}} з «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Скасовано копіювання {0} елемент(ів) до "{1}"</value>
+    <value>Скасовано копіювання {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} до «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>Скасовано копіювання {0} елемент(ів) з "{1}" до "{2}"</value>
+    <value>Скасовано встановлення {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} з «{1}» до «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Скопійовано {0} елемент(ів) до "{1}"</value>
+    <value>Скопійовано {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} до «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>Скопійовано {0} елемент(ів) з "{1}" до "{2}"</value>
+    <value>Скопійовано {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} з «{1}» до «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Помилка копіювання {0} елемент(ів) до "{1}"</value>
+    <value>Помилка копіювання {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} до «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>Не вдалось скопіювати {0} елемент(ів) з "{1}" до "{2}"</value>
+    <value>Не вдалося скопіювати {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} з «{1}» до «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
-    <value>Копіювання {0} елемент(ів) до "{1}"</value>
+    <value>Копіювання {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} до «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>Копіювання {0} елемент(ів) з "{1}" до "{2}"</value>
+    <value>Копіювання {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} з «{1}» до «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
@@ -3642,55 +3642,55 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Скасовано видалення {0} елементів з "{1}"</value>
+    <value>Скасовано видалення {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} з «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Видалено {0} item(s) з "{1} " "</value>
+    <value>Видалено {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} з «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Помилка видалення {0} елемента(ів) з "{1}"</value>
+    <value>Помилка видалення {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} з «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Не вдалося видалити {0} item(s) з "{1}"</value>
+    <value>Не вдалося видалити {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} з «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Видалення {0} елемент(ів) з "{1} " "</value>
+    <value>Видалення {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} з «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>Скасовано переміщення {0} елемент(ів) до "{1}"</value>
+    <value>Скасовано переміщення {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} до «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
-    <value>Скасовано переміщення {0} елемент(ів) з "{1}" до "{2}"</value>
+    <value>Скасовано переміщення {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} з «{1}» до «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Переміщено {0} елемент(ів) до "{1}"</value>
+    <value>Переміщено {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} до «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
-    <value>Переміщено {0} елемент(ів) з "{1}" до "{2}"</value>
+    <value>Переміщено {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} з «{1}» до «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
-    <value>Переміщення {0} елемент(ів) з "{1}"</value>
+    <value>Перміщення {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} до «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
-    <value>Переміщення {0} елемент(ів) з "{1}" до "{2}"</value>
+    <value>Переміщення {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} з «{1}» до «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Помлка переміщення {0} елемент(ів) до "{1}"</value>
+    <value>Помилка переміщення {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} до «{1}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
-    <value>Не вдалось перемістити {0} елемент(ів) з "{1}" до "{2}"</value>
+    <value>Не вдалося перемістити {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} з «{1}» до «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
@@ -4223,9 +4223,6 @@
   <data name="Decimal" xml:space="preserve">
     <value>Десятковий</value>
   </data>
-  <data name="EnableOmnibar" xml:space="preserve">
-    <value>Увімкнути Omnibar</value>
-  </data>
   <data name="SectionsHiddenMessage" xml:space="preserve">
     <value>Ви можете додати розділи на бічну панель, клацнувши ПКМ та вибравши розділи, які ви хочете додати.</value>
   </data>
@@ -4259,7 +4256,10 @@
     <value>Показувати згорнутий шлях</value>
   </data>
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
-    <value>Показувати дочірні теки</value>
+    <value>Показати теку в {0}</value>
+  </data>
+  <data name="BreadcrumbBarRootChevronButtonToolTip" xml:space="preserve">
+    <value>Показати теки в Головній</value>
   </data>
   <data name="NoCommandsFound" xml:space="preserve">
     <value>Немає команд, що містять {0}</value>
@@ -4272,5 +4272,8 @@
   </data>
   <data name="Filename" xml:space="preserve">
     <value>Назва файлу</value>
+  </data>
+  <data name="ShowOpenTerminal" xml:space="preserve">
+    <value>Show option to open folders in Windows Terminal</value>
   </data>
 </root>

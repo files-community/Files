@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI.Controls;
 using Files.App.ViewModels.Previews;
 using Microsoft.UI.Xaml.Controls;
 using Windows.System;

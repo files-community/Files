@@ -3490,27 +3490,27 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>Pakattu {0} kohdetta kansioon "{1}"</value>
+    <value>Compressed {0, plural, one {# item} other {# items}} to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
-    <value>Pakattu {0} kohdetta kansiosta "{1}" kansioon "{2}"</value>
+    <value>Compressed {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Virhe pakattaessa {0} kohdetta kansioon "{1}"</value>
+    <value>Error compressing {0, plural, one {# item} other {# items}} to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>{0} kohteen pakkaaminen epäonnistui kansiosta "{1}" kansioon "{2}"</value>
+    <value>Failed to compress {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>Pakataan {0} kohdetta kansioon "{1}"</value>
+    <value>Compressing {0, plural, one {# item} other {# items}} to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
-    <value>Pakataan {0} kohdetta kansiosta "{1}" kansioon "{2}"</value>
+    <value>Compressing {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
@@ -3550,63 +3550,63 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
-    <value>{0} fontin asennus peruutettu kohteesta "{1}"</value>
+    <value>Canceled installing {0, plural, one {# font} other {# fonts}} from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
-    <value>{0} fontti(a) asennettu</value>
+    <value>Installed {0, plural, one {# font} other {# fonts}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
-    <value>Asennettu {0} fontti(a) kohteesta "{1}"</value>
+    <value>Installed {0, plural, one {# font} other {# fonts}} from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
-    <value>Virhe asennettaessa {0} fonttia</value>
+    <value>Error installing {0, plural, one {# font} other {# fonts}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
-    <value>{0} fontin asennus epäonnistui kohteesta "{1}"</value>
+    <value>Failed to install {0, plural, one {# font} other {# fonts}} from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
-    <value>Asennetaan {0} fontti(a)</value>
+    <value>Installing {0, plural, one {# font} other {# fonts}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
-    <value>Asennetaan {0} fontti(a) kohteesta "{1}"</value>
+    <value>Installing {0, plural, one {# font} other {# fonts}} from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>{0} kohteen kopiointi peruutettu kansioon "{1}"</value>
+    <value>Canceled copying {0, plural, one {# item} other {# items}} to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>{0} kohteen kopiointi peruutettu kansiosta "{1}" kansioon "{2}"</value>
+    <value>Canceled copying {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Kopioitu {0} kohdetta kansioon "{1}"</value>
+    <value>Copied {0, plural, one {# item} other {# items}} to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>Kopioitu {0} kohdetta kansiosta "{1}" kansioon "{2}"</value>
+    <value>Copied {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Virhe kopioitaessa {0} kohdetta kansioon "{1}"</value>
+    <value>Error copying {0, plural, one {# item} other {# items}} to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>{0} kohteen kopiointi epäonnistui kansiosta "{1}" kansioon "{2}"</value>
+    <value>Failed to copy {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
-    <value>Kopioidaan {0} kohdetta kansioon "{1}"</value>
+    <value>Copying {0, plural, one {# item} other {# items}} to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>Kopioidaan {0} kohdetta kansiosta "{1}" kansioon "{2}"</value>
+    <value>Copying {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
@@ -3642,55 +3642,55 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Peruutettu {0} kohteen poisto kansiosta "{1}"</value>
+    <value>Canceled deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Poistettu {0} kohde(tta) kansiosta "{1}"</value>
+    <value>Deleted {0, plural, one {# item} other {# items}} from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Virhe poistettaessa {0} kohde(tta) kansiosta "{1}"</value>
+    <value>Error deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>{0} kohteen poistaminen epäonnistui kansiosta "{1}"</value>
+    <value>Failed to delete {0, plural, one {# item} other {# items}} from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Poistetaan {0} kohde(tta) kansiosta "{1}"</value>
+    <value>Deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>Peruutettiin {0} kohteen siirtäminen kansioon "{1}"</value>
+    <value>Canceled moving {0, plural, one {# item} other {# items}} to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
-    <value>Peruutettiin {0} kohteen siirtäminen kansiosta "{1}" kansioon "{2}"</value>
+    <value>Canceled moving {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Siirrettiin {0} kohdetta kansioon "{1}"</value>
+    <value>Moved {0, plural, one {# item} other {# items}} to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
-    <value>Siirrettiin {0} kohdetta kansiosta "{1}" kansioon "{2}"</value>
+    <value>Moved {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
-    <value>Siirretään {0} kohdetta kansioon "{1}"</value>
+    <value>Moving {0, plural, one {# item} other {# items}} to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
-    <value>Siirretään {0} kohdetta kansiosta "{1}" kansioon "{2}"</value>
+    <value>Moving {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Virhe siirrettäessä {0} kohdetta kansioon "{1}"</value>
+    <value>Error moving {0, plural, one {# item} other {# items}} to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
-    <value>{0} kohteen siirtäminen kansiosta "{1}" kansioon "{2}" epäonnistui</value>
+    <value>Failed to move {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
@@ -4223,9 +4223,6 @@
   <data name="Decimal" xml:space="preserve">
     <value>Decimal</value>
   </data>
-  <data name="EnableOmnibar" xml:space="preserve">
-    <value>Enable Omnibar</value>
-  </data>
   <data name="SectionsHiddenMessage" xml:space="preserve">
     <value>Voit lisätä osioita sivupalkkiin napsauttamalla hiiren oikealla painikkeella ja valitsemalla ne</value>
   </data>
@@ -4259,7 +4256,10 @@
     <value>Show collapsed path breadcrumbs</value>
   </data>
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
-    <value>Show child folders</value>
+    <value>Show folders in {0}</value>
+  </data>
+  <data name="BreadcrumbBarRootChevronButtonToolTip" xml:space="preserve">
+    <value>Show folders in Home</value>
   </data>
   <data name="NoCommandsFound" xml:space="preserve">
     <value>There are no commands containing {0}</value>
@@ -4272,5 +4272,8 @@
   </data>
   <data name="Filename" xml:space="preserve">
     <value>Filename</value>
+  </data>
+  <data name="ShowOpenTerminal" xml:space="preserve">
+    <value>Show option to open folders in Windows Terminal</value>
   </data>
 </root>

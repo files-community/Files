@@ -134,7 +134,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand LayoutIncreaseSize => commands[CommandCodes.LayoutIncreaseSize];
 		public IRichCommand LayoutDetails => commands[CommandCodes.LayoutDetails];
 		public IRichCommand LayoutList => commands[CommandCodes.LayoutList];
-		public IRichCommand LayoutCards=> commands[CommandCodes.LayoutCards];
+		public IRichCommand LayoutCards => commands[CommandCodes.LayoutCards];
 		public IRichCommand LayoutGrid => commands[CommandCodes.LayoutGrid];
 		public IRichCommand LayoutColumns => commands[CommandCodes.LayoutColumns];
 		public IRichCommand LayoutAdaptive => commands[CommandCodes.LayoutAdaptive];
@@ -213,8 +213,8 @@ namespace Files.App.Data.Commands
 		public IRichCommand CloseSelectedTab => commands[CommandCodes.CloseSelectedTab];
 		public IRichCommand CloseActivePane => commands[CommandCodes.CloseActivePane];
 		public IRichCommand FocusOtherPane => commands[CommandCodes.FocusOtherPane];
-		public IRichCommand AddVerticalPane => commands[CommandCodes.AddVerticalPane];
-		public IRichCommand AddHorizontalPane => commands[CommandCodes.AddHorizontalPane];
+		public IRichCommand SplitPaneVertically => commands[CommandCodes.SplitPaneVertically];
+		public IRichCommand SplitPaneHorizontally => commands[CommandCodes.SplitPaneHorizontally];
 		public IRichCommand ArrangePanesVertically => commands[CommandCodes.ArrangePanesVertically];
 		public IRichCommand ArrangePanesHorizontally => commands[CommandCodes.ArrangePanesHorizontally];
 		public IRichCommand OpenFileLocation => commands[CommandCodes.OpenFileLocation];
@@ -420,8 +420,8 @@ namespace Files.App.Data.Commands
 			[CommandCodes.CloseSelectedTab] = new CloseSelectedTabAction(),
 			[CommandCodes.CloseActivePane] = new CloseActivePaneAction(),
 			[CommandCodes.FocusOtherPane] = new FocusOtherPaneAction(),
-			[CommandCodes.AddVerticalPane] = new AddVerticalPaneAction(),
-			[CommandCodes.AddHorizontalPane] = new AddHorizontalPaneAction(),
+			[CommandCodes.SplitPaneVertically] = new SplitPaneVerticallyAction(),
+			[CommandCodes.SplitPaneHorizontally] = new SplitPaneHorizontallyAction(),
 			[CommandCodes.ArrangePanesVertically] = new ArrangePanesVerticallyAction(),
 			[CommandCodes.ArrangePanesHorizontally] = new ArrangePanesHorizontallyAction(),
 			[CommandCodes.OpenFileLocation] = new OpenFileLocationAction(),

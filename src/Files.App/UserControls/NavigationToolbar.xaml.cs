@@ -6,7 +6,6 @@ using Files.App.Controls;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
@@ -358,10 +357,16 @@ namespace Files.App.UserControls
 			e.Flyout.Items.Clear();
 		}
 
+		/// <summary>
+		/// Handles mode changes in the Omnibar control. This event can fire even when the Omnibar
+		/// already has focus (e.g., user switching from Command Palette to Search mode).
+		/// Updates the appropriate text property and populates suggestions based on the new mode.
+		/// </summary>
 		private async void Omnibar_ModeChanged(object sender, OmnibarModeChangedEventArgs e)
 		{
 			if (e.NewMode == OmnibarPathMode)
 			{
+				// Initialize with current working directory or fallback to home path
 				ViewModel.PathText = string.IsNullOrEmpty(ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory)
 					? Constants.UserEnvironmentPaths.HomePath
 					: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
@@ -370,12 +375,14 @@ namespace Files.App.UserControls
 			}
 			else if (e.NewMode == OmnibarCommandPaletteMode)
 			{
+				// Clear text and load command suggestions
 				ViewModel.OmnibarCommandPaletteModeText = string.Empty;
 
 				await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode);
 			}
 			else if (e.NewMode == OmnibarSearchMode)
 			{
+				// Preserve existing search query or clear for new search
 				if (!ViewModel.InstanceViewModel.IsPageTypeSearchResults)
 					ViewModel.OmnibarSearchModeText = string.Empty;
 				else
@@ -385,10 +392,16 @@ namespace Files.App.UserControls
 			}
 		}
 
+		/// <summary>
+		/// Handles focus state changes for the Omnibar control.
+		/// When focused: Updates Path Mode content (Path Mode has both focused/unfocused states).
+		/// When unfocused: Automatically switches back to Path Mode to display the BreadcrumbBar.
+		/// </summary>
 		private async void Omnibar_IsFocusedChanged(Omnibar sender, OmnibarIsFocusedChangedEventArgs args)
 		{
 			if (args.IsFocused)
 			{
+				// Path Mode needs special handling when gaining focus since it has an unfocused state
 				if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
 				{
 					ViewModel.PathText = string.IsNullOrEmpty(ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory)
@@ -397,19 +410,10 @@ namespace Files.App.UserControls
 
 					await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForPathMode);
 				}
-				else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
-				{
-					ViewModel.OmnibarCommandPaletteModeText = string.Empty;
-
-					await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode);
-				}
-				else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
-				{
-					await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForSearchMode);
-				}
 			}
 			else
 			{
+				// When Omnibar loses focus, revert to Path Mode to display BreadcrumbBar
 				Omnibar.CurrentSelectedMode = OmnibarPathMode;
 			}
 		}

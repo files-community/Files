@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.Mvvm.Messaging.Messages;
-using Files.App.ViewModels.Dialogs.FileSystemDialog;
 
 namespace Files.App.Data.Messages
 {

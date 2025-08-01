@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 namespace Files.App.Actions
-{	
+{
 	internal sealed partial class OpenRepoInIDEAction : ObservableObject, IAction
 	{
 		private readonly IDevToolsSettingsService _devToolsSettingsService;

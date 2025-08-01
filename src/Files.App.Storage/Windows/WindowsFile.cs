@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.IO;
-using Windows.Win32;
 using Windows.Win32.UI.Shell;
 
 namespace Files.App.Storage

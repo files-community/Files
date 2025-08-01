@@ -1,8 +1,6 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System;
-
 namespace Files.App.Services.SizeProvider
 {
 	public sealed class SizeChangedEventArgs : EventArgs

@@ -217,7 +217,7 @@ namespace Files.App.Controls
 								true);
 
 							var interpolatedGapWidth = valueLarger
-								?  StorageControlsHelpers.CalculateInterpolatedValue(
+								? StorageControlsHelpers.CalculateInterpolatedValue(
 									minPercent,
 									Percent,
 									minPercent + 2.0,

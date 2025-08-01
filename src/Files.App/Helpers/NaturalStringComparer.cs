@@ -21,47 +21,47 @@ namespace Files.App.Helpers
 		/// </remarks>
 		private sealed class NaturalComparer : IComparer<object?>, IComparer<string?>, IComparer<ReadOnlyMemory<char>>
 		{
-		    private readonly StringComparison stringComparison;
+			private readonly StringComparison stringComparison;
 
-		    public NaturalComparer(StringComparison stringComparison = StringComparison.Ordinal)
-		    {
-		        this.stringComparison = stringComparison;
-		    }
+			public NaturalComparer(StringComparison stringComparison = StringComparison.Ordinal)
+			{
+				this.stringComparison = stringComparison;
+			}
 
-		    public int Compare(object? x, object? y)
-		    {
-			    if (x == y) return 0;
-			    if (x == null) return -1;
-			    if (y == null) return 1;
+			public int Compare(object? x, object? y)
+			{
+				if (x == y) return 0;
+				if (x == null) return -1;
+				if (y == null) return 1;
 
-			    return x switch
-			    {
-				    string x1 when y is string y1 => Compare(x1.AsSpan(), y1.AsSpan(), stringComparison),
-				    IComparable comparable => comparable.CompareTo(y),
-				    _ => StringComparer.FromComparison(stringComparison).Compare(x, y)
-			    };
-		    }
+				return x switch
+				{
+					string x1 when y is string y1 => Compare(x1.AsSpan(), y1.AsSpan(), stringComparison),
+					IComparable comparable => comparable.CompareTo(y),
+					_ => StringComparer.FromComparison(stringComparison).Compare(x, y)
+				};
+			}
 
-		    public int Compare(string? x, string? y)
-		    {
-		        if (ReferenceEquals(x, y)) return 0;
-		        if (x is null) return -1;
-		        if (y is null) return 1;
+			public int Compare(string? x, string? y)
+			{
+				if (ReferenceEquals(x, y)) return 0;
+				if (x is null) return -1;
+				if (y is null) return 1;
 
-		        return Compare(x.AsSpan(), y.AsSpan(), stringComparison);
-		    }
+				return Compare(x.AsSpan(), y.AsSpan(), stringComparison);
+			}
 
-		    public int Compare(ReadOnlySpan<char> x, ReadOnlySpan<char> y)
-		    {
-		        return Compare(x, y, stringComparison);
-		    }
+			public int Compare(ReadOnlySpan<char> x, ReadOnlySpan<char> y)
+			{
+				return Compare(x, y, stringComparison);
+			}
 
-		    public int Compare(ReadOnlyMemory<char> x, ReadOnlyMemory<char> y)
-		    {
-		        return Compare(x.Span, y.Span, stringComparison);
-		    }
+			public int Compare(ReadOnlyMemory<char> x, ReadOnlyMemory<char> y)
+			{
+				return Compare(x.Span, y.Span, stringComparison);
+			}
 
-		    public static int Compare(ReadOnlySpan<char> x, ReadOnlySpan<char> y, StringComparison stringComparison)
+			public static int Compare(ReadOnlySpan<char> x, ReadOnlySpan<char> y, StringComparison stringComparison)
 			{
 				// Handle file extensions specially
 				int xExtPos = GetExtensionPosition(x);
@@ -70,9 +70,9 @@ namespace Files.App.Helpers
 				// If both have extensions, compare the names first
 				if (xExtPos >= 0 && yExtPos >= 0)
 				{
-		 			var xName = x.Slice(0, xExtPos);
+					var xName = x.Slice(0, xExtPos);
 					var yName = y.Slice(0, yExtPos);
-		
+
 					int nameCompare = CompareWithoutExtension(xName, yName, stringComparison);
 					if (nameCompare != 0)
 						return nameCompare;
@@ -143,35 +143,35 @@ namespace Files.App.Helpers
 			}
 
 
-		    private static ReadOnlySpan<char> GetNumber(ReadOnlySpan<char> span, out ReadOnlySpan<char> number)
-		    {
-		        var i = 0;
-		        while (i < span.Length && char.IsDigit(span[i]))
-		        {
-		            i++;
-		        }
+			private static ReadOnlySpan<char> GetNumber(ReadOnlySpan<char> span, out ReadOnlySpan<char> number)
+			{
+				var i = 0;
+				while (i < span.Length && char.IsDigit(span[i]))
+				{
+					i++;
+				}
 
-		        number = span.Slice(0, i);
-		        return span.Slice(i);
-		    }
+				number = span.Slice(0, i);
+				return span.Slice(i);
+			}
 
-		    private static int CompareNumValues(ReadOnlySpan<char> numValue1, ReadOnlySpan<char> numValue2)
-		    {
-		        var num1AsSpan = numValue1.TrimStart('0');
-		        var num2AsSpan = numValue2.TrimStart('0');
+			private static int CompareNumValues(ReadOnlySpan<char> numValue1, ReadOnlySpan<char> numValue2)
+			{
+				var num1AsSpan = numValue1.TrimStart('0');
+				var num2AsSpan = numValue2.TrimStart('0');
 
-		        if (num1AsSpan.Length < num2AsSpan.Length) return -1;
+				if (num1AsSpan.Length < num2AsSpan.Length) return -1;
 
-		        if (num1AsSpan.Length > num2AsSpan.Length) return 1;
+				if (num1AsSpan.Length > num2AsSpan.Length) return 1;
 
-		        var compareResult = num1AsSpan.CompareTo(num2AsSpan, StringComparison.Ordinal);
+				var compareResult = num1AsSpan.CompareTo(num2AsSpan, StringComparison.Ordinal);
 
-		        if (compareResult != 0) return Math.Sign(compareResult);
+				if (compareResult != 0) return Math.Sign(compareResult);
 
-		        if (numValue2.Length == numValue1.Length) return compareResult;
+				if (numValue2.Length == numValue1.Length) return compareResult;
 
-		        return numValue2.Length < numValue1.Length ? -1 : 1; // "033" < "33" == true
-		    }
+				return numValue2.Length < numValue1.Length ? -1 : 1; // "033" < "33" == true
+			}
 		}
 	}
 }

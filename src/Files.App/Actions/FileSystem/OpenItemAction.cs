@@ -15,7 +15,7 @@ namespace Files.App.Actions
 
 		public string Description
 			=> Strings.OpenItemDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
-			
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.OpenFile");
 

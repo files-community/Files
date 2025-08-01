@@ -7,7 +7,6 @@ using System.Collections.Specialized;
 using System.Windows.Input;
 using Windows.System;
 using Windows.UI.Core;
-using OwlCore.Storage;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
@@ -249,7 +248,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 				IsNoNetworkLocations = !Items.Any();
 			});
-		}	
+		}
 
 		// Event methods
 

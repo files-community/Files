@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.Collections.Frozen;
-using System.Runtime.InteropServices;
 using System.Text;
 using Windows.Win32;
 using Forms = System.Windows.Forms;
@@ -279,6 +278,9 @@ namespace Files.App.Data.Commands
 		/// <returns>Humanized code with a format <see cref="HotKey"/>.</returns>
 		public static HotKey Parse(string code, bool localized = true)
 		{
+			if (string.IsNullOrEmpty(code))
+				return None;
+
 			var key = Keys.None;
 			var modifier = KeyModifiers.None;
 			bool isVisible = true;
@@ -306,7 +308,7 @@ namespace Files.App.Data.Commands
 				{
 					parts = [code];
 				}
-				else if (parts.Count > 0 && string.IsNullOrEmpty(parts.Last()))
+				else if (parts.Count > 1 && string.IsNullOrEmpty(parts.Last()))
 				{
 					// If the last part is empty, remove it and add a "+" to the last non-empty part
 					parts.RemoveAt(parts.Count - 1);

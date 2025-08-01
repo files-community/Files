@@ -3,7 +3,8 @@
 
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
+using Windows.Win32.Foundation;
+using Windows.Win32.Security.Cryptography;
 
 namespace Files.App.Helpers
 {
@@ -90,9 +91,9 @@ namespace Files.App.Helpers
 		public struct WIN32_FILE_ATTRIBUTE_DATA
 		{
 			public FileAttributes dwFileAttributes;
-			public FILETIME ftCreationTime;
-			public FILETIME ftLastAccessTime;
-			public FILETIME ftLastWriteTime;
+			public System.Runtime.InteropServices.ComTypes.FILETIME ftCreationTime;
+			public System.Runtime.InteropServices.ComTypes.FILETIME ftLastAccessTime;
+			public System.Runtime.InteropServices.ComTypes.FILETIME ftLastWriteTime;
 			public uint nFileSizeHigh;
 			public uint nFileSizeLow;
 		}
@@ -183,9 +184,9 @@ namespace Files.App.Helpers
 		{
 			public uint dwFileAttributes;
 
-			public FILETIME ftCreationTime;
-			public FILETIME ftLastAccessTime;
-			public FILETIME ftLastWriteTime;
+			public System.Runtime.InteropServices.ComTypes.FILETIME ftCreationTime;
+			public System.Runtime.InteropServices.ComTypes.FILETIME ftLastAccessTime;
+			public System.Runtime.InteropServices.ComTypes.FILETIME ftLastWriteTime;
 
 			public uint nFileSizeHigh;
 			public uint nFileSizeLow;
@@ -197,6 +198,38 @@ namespace Files.App.Helpers
 
 			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 14)]
 			public string cAlternateFileName;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct SignDataHandle
+		{
+			public uint dwObjSize;
+			public CMSG_SIGNER_INFO* pSignerInfo;
+			public HCERTSTORE hCertStoreHandle;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct CRYPTOAPI_BLOB
+		{
+			public uint cbData;
+			public void* pbData;
+		}
+
+		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+		public unsafe struct CRYPTUI_VIEWSIGNERINFO_STRUCT
+		{
+			public uint dwSize;
+			public HWND hwndParent;
+			public uint dwFlags;
+			public PCSTR szTitle;
+			public CMSG_SIGNER_INFO* pSignerInfo;
+			public void* hMsg;
+			public PCSTR pszOID;
+			public uint? dwReserved;
+			public uint cStores;
+			public HCERTSTORE* rghStores;
+			public uint cPropPages;
+			public void* rgPropPages;
 		}
 	}
 }

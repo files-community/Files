@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using Windows.Security.Credentials;
+﻿using Windows.Security.Credentials;
 
 namespace Files.App.Helpers
 {
