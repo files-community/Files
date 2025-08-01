@@ -42,10 +42,8 @@ namespace Files.App.Data.Models
 				{
 					if (value >= 0 && value < MainPageViewModel.AppInstances.Count)
 					{
-						if (MainWindow.Instance.Content is Frame rootFrame &&	rootFrame.Content is MainPage mainView)
-						{
+						if (MainWindow.Instance.Content is Frame rootFrame && rootFrame.Content is MainPage mainView)
 							mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
-						}
 					}
 				}
 				catch (COMException)
