@@ -9,7 +9,7 @@ namespace Files.Shared.Extensions
 {
 	public static class SafetyExtensions
 	{
-		public static bool IgnoreExceptions(Action action, ILogger? logger = null, Type? exceptionToIgnore = null)
+		public static bool IgnoreExceptions(Action action, ILogger? logger = null, params Type[]? exceptionsToIgnore)
 		{
 			try
 			{
@@ -18,18 +18,30 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				if (exceptionToIgnore is null || exceptionToIgnore.IsAssignableFrom(ex.GetType()))
+				bool shouldIgnore = exceptionsToIgnore is null || exceptionsToIgnore.Length == 0;
+				if (!shouldIgnore)
+				{
+					foreach (var type in exceptionsToIgnore)
+					{
+						if (type.IsAssignableFrom(ex.GetType()))
+						{
+							shouldIgnore = true;
+							break;
+						}
+					}
+				}
+
+				if (shouldIgnore)
 				{
 					logger?.LogInformation(ex, ex.Message);
-
 					return false;
 				}
-				else
-					throw;
+
+				throw;
 			}
 		}
 
-		public static async Task<bool> IgnoreExceptions(Func<Task> action, ILogger? logger = null, Type? exceptionToIgnore = null)
+		public static async Task<bool> IgnoreExceptions(Func<Task> action, ILogger? logger = null, params Type[]? exceptionsToIgnore)
 		{
 			try
 			{
@@ -39,18 +51,30 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				if (exceptionToIgnore is null || exceptionToIgnore.IsAssignableFrom(ex.GetType()))
+				bool shouldIgnore = exceptionsToIgnore is null || exceptionsToIgnore.Length == 0;
+				if (!shouldIgnore)
+				{
+					foreach (var type in exceptionsToIgnore)
+					{
+						if (type.IsAssignableFrom(ex.GetType()))
+						{
+							shouldIgnore = true;
+							break;
+						}
+					}
+				}
+
+				if (shouldIgnore)
 				{
 					logger?.LogInformation(ex, ex.Message);
-
 					return false;
 				}
-				else
-					throw;
+
+				throw;
 			}
 		}
 
-		public static T? IgnoreExceptions<T>(Func<T> action, ILogger? logger = null, Type? exceptionToIgnore = null)
+		public static T? IgnoreExceptions<T>(Func<T> action, ILogger? logger = null, params Type[]? exceptionsToIgnore)
 		{
 			try
 			{
@@ -58,18 +82,30 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				if (exceptionToIgnore is null || exceptionToIgnore.IsAssignableFrom(ex.GetType()))
+				bool shouldIgnore = exceptionsToIgnore is null || exceptionsToIgnore.Length == 0;
+				if (!shouldIgnore)
+				{
+					foreach (var type in exceptionsToIgnore)
+					{
+						if (type.IsAssignableFrom(ex.GetType()))
+						{
+							shouldIgnore = true;
+							break;
+						}
+					}
+				}
+
+				if (shouldIgnore)
 				{
 					logger?.LogInformation(ex, ex.Message);
-
 					return default;
 				}
-				else
-					throw;
+
+				throw;
 			}
 		}
 
-		public static async Task<T?> IgnoreExceptions<T>(Func<Task<T>> action, ILogger? logger = null, Type? exceptionToIgnore = null)
+		public static async Task<T?> IgnoreExceptions<T>(Func<Task<T>> action, ILogger? logger = null, params Type[]? exceptionsToIgnore)
 		{
 			try
 			{
@@ -77,14 +113,26 @@ namespace Files.Shared.Extensions
 			}
 			catch (Exception ex)
 			{
-				if (exceptionToIgnore is null || exceptionToIgnore.IsAssignableFrom(ex.GetType()))
+				bool shouldIgnore = exceptionsToIgnore is null || exceptionsToIgnore.Length == 0;
+				if (!shouldIgnore)
+				{
+					foreach (var type in exceptionsToIgnore)
+					{
+						if (type.IsAssignableFrom(ex.GetType()))
+						{
+							shouldIgnore = true;
+							break;
+						}
+					}
+				}
+
+				if (shouldIgnore)
 				{
 					logger?.LogInformation(ex, ex.Message);
-
 					return default;
 				}
-				else
-					throw;
+
+				throw;
 			}
 		}
 
