@@ -488,6 +488,9 @@ namespace Files.App.Helpers
 		{
 			if (!UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories)
 			{
+				if (!IsPathAccessible(path))
+					return GetDefaultLayoutPreferences(path);
+
 				path = path.TrimPath() ?? string.Empty;
 
 				return SafetyExtensions.IgnoreExceptions(() =>
@@ -560,6 +563,18 @@ namespace Files.App.Helpers
 			{
 				// Either global setting or smart guess
 				return new();
+			}
+		}
+
+		private static bool IsPathAccessible(string path)
+		{
+			try
+			{
+				return !string.IsNullOrEmpty(path) && Directory.Exists(path);
+			}
+			catch (Exception)
+			{
+				return false;
 			}
 		}
 
