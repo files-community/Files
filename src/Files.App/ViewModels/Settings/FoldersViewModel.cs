@@ -18,6 +18,19 @@ namespace Files.App.ViewModels.Settings
 			SizeUnitsOptions.Add(SizeUnitTypes.BinaryUnits, Strings.Binary.GetLocalizedResource());
 			SizeUnitsOptions.Add(SizeUnitTypes.DecimalUnits, Strings.Decimal.GetLocalizedResource());
 			SizeUnitFormat = SizeUnitsOptions[UserSettingsService.FoldersSettingsService.SizeUnitFormat];
+
+			// Listen for search engine changes to update folder size info
+			UserSettingsService.GeneralSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
+		}
+
+		private void GeneralSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(IGeneralSettingsService.PreferredSearchEngine))
+			{
+				OnPropertyChanged(nameof(IsEverythingEnabled));
+				OnPropertyChanged(nameof(FolderSizeWarningMessage));
+				OnPropertyChanged(nameof(FolderSizeInfoMessage));
+			}
 		}
 
 		// Properties
@@ -146,7 +159,38 @@ namespace Files.App.ViewModels.Settings
 					UserSettingsService.FoldersSettingsService.CalculateFolderSizes = value;
 
 					OnPropertyChanged();
+					OnPropertyChanged(nameof(FolderSizeWarningMessage));
+					OnPropertyChanged(nameof(FolderSizeInfoMessage));
 				}
+			}
+		}
+
+		public bool IsEverythingEnabled
+		{
+			get => UserSettingsService.GeneralSettingsService.PreferredSearchEngine == Data.Enums.PreferredSearchEngine.Everything;
+		}
+
+		public string FolderSizeWarningMessage
+		{
+			get
+			{
+				if (IsEverythingEnabled)
+				{
+					return "";  // No warning when Everything is enabled
+				}
+				return Strings.ShowFolderSizesWarning.GetLocalizedResource();
+			}
+		}
+
+		public string FolderSizeInfoMessage
+		{
+			get
+			{
+				if (IsEverythingEnabled)
+				{
+					return "Everything search is enabled. Folder sizes will be calculated using Everything's fast indexing.";
+				}
+				return "";
 			}
 		}
 
