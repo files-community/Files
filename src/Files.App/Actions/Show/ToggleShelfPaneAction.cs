@@ -15,7 +15,15 @@ namespace Files.App.Actions
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Shelf");
-		
+
+		// TODO Remove IsAccessibleGlobally when shelf feature is ready
+		public bool IsAccessibleGlobally
+			=> AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
+
+		// TODO Remove IsExecutable when shelf feature is ready
+		public bool IsExecutable
+			=> AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;
+
 		public bool IsOn
 			=> generalSettingsService.ShowShelfPane;
 
