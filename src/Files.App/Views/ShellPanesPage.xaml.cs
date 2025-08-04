@@ -337,6 +337,18 @@ namespace Files.App.Views
 		}
 
 		/// <inheritdoc/>
+		public void CloseOtherPane()
+		{
+			if (!IsMultiPaneActive)
+				return;
+
+			if (ActivePane == (IShellPage)GetPane(0)!)
+				RemovePane(1);
+			else
+				RemovePane(0);
+		}
+
+		/// <inheritdoc/>
 		public void CloseActivePane()
 		{
 			if (ActivePane == (IShellPage)GetPane(0)!)

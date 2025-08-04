@@ -59,6 +59,7 @@ namespace Files.App.Data.Commands
 		public IRichCommand ToggleToolbar => commands[CommandCodes.ToggleToolbar];
 		public IRichCommand ToggleShelfPane => commands[CommandCodes.ToggleShelfPane];
 		public IRichCommand ToggleFilterHeader => commands[CommandCodes.ToggleFilterHeader];
+		public IRichCommand ToggleDualPane => commands[CommandCodes.ToggleDualPane];
 		public IRichCommand SelectAll => commands[CommandCodes.SelectAll];
 		public IRichCommand InvertSelection => commands[CommandCodes.InvertSelection];
 		public IRichCommand ClearSelection => commands[CommandCodes.ClearSelection];
@@ -266,6 +267,7 @@ namespace Files.App.Data.Commands
 			[CommandCodes.ToggleToolbar] = new ToggleToolbarAction(),
 			[CommandCodes.ToggleShelfPane] = new ToggleShelfPaneAction(),
 			[CommandCodes.ToggleFilterHeader] = new ToggleFilterHeaderAction(),
+			[CommandCodes.ToggleDualPane] = new ToggleDualPaneAction(),
 			[CommandCodes.SelectAll] = new SelectAllAction(),
 			[CommandCodes.InvertSelection] = new InvertSelectionAction(),
 			[CommandCodes.ClearSelection] = new ClearSelectionAction(),
