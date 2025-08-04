@@ -26,6 +26,143 @@ namespace Files.App.Helpers
 	/// </summary>
 	public static partial class Win32Helper
 	{
+		public static Task StartSTATask(Func<Task> func)
+		{
+			var taskCompletionSource = new TaskCompletionSource();
+			Thread thread = new Thread(async () =>
+			{
+				Ole32.OleInitialize();
+
+				try
+				{
+					await func();
+					taskCompletionSource.SetResult();
+				}
+				catch (Exception ex)
+				{
+					taskCompletionSource.SetResult();
+					App.Logger.LogWarning(ex, ex.Message);
+				}
+				finally
+				{
+					Ole32.OleUninitialize();
+				}
+			})
+
+			{
+				IsBackground = true,
+				Priority = ThreadPriority.Normal
+			};
+
+			thread.SetApartmentState(ApartmentState.STA);
+			thread.Start();
+
+			return taskCompletionSource.Task;
+		}
+
+		public static Task StartSTATask(Action action)
+		{
+			var taskCompletionSource = new TaskCompletionSource();
+			Thread thread = new Thread(() =>
+			{
+				Ole32.OleInitialize();
+
+				try
+				{
+					action();
+					taskCompletionSource.SetResult();
+				}
+				catch (Exception ex)
+				{
+					taskCompletionSource.SetResult();
+					App.Logger.LogWarning(ex, ex.Message);
+				}
+				finally
+				{
+					Ole32.OleUninitialize();
+				}
+			})
+
+			{
+				IsBackground = true,
+				Priority = ThreadPriority.Normal
+			};
+
+			thread.SetApartmentState(ApartmentState.STA);
+			thread.Start();
+
+			return taskCompletionSource.Task;
+		}
+
+		public static Task<T?> StartSTATask<T>(Func<T> func)
+		{
+			var taskCompletionSource = new TaskCompletionSource<T?>();
+
+			Thread thread = new Thread(() =>
+			{
+				Ole32.OleInitialize();
+
+				try
+				{
+					taskCompletionSource.SetResult(func());
+				}
+				catch (Exception ex)
+				{
+					taskCompletionSource.SetResult(default);
+					App.Logger.LogWarning(ex, ex.Message);
+					//tcs.SetException(e);
+				}
+				finally
+				{
+					Ole32.OleUninitialize();
+				}
+			})
+
+			{
+				IsBackground = true,
+				Priority = ThreadPriority.Normal
+			};
+
+			thread.SetApartmentState(ApartmentState.STA);
+			thread.Start();
+
+			return taskCompletionSource.Task;
+		}
+
+		public static Task<T?> StartSTATask<T>(Func<Task<T>> func)
+		{
+			var taskCompletionSource = new TaskCompletionSource<T?>();
+
+			Thread thread = new Thread(async () =>
+			{
+				Ole32.OleInitialize();
+				try
+				{
+					taskCompletionSource.SetResult(await func());
+				}
+				catch (Exception ex)
+				{
+					taskCompletionSource.SetResult(default);
+					App.Logger.LogInformation(ex, ex.Message);
+					//tcs.SetException(e);
+				}
+				finally
+				{
+					Ole32.OleUninitialize();
+				}
+			})
+
+			{
+				IsBackground = true,
+				Priority = ThreadPriority.Normal
+			};
+
+			thread.SetApartmentState(ApartmentState.STA);
+			thread.Start();
+
+			return taskCompletionSource.Task;
+		}
+
 		public static async Task<string?> GetFileAssociationAsync(string filename, bool checkDesktopFirst = false)
 		{
 			// Find UWP apps

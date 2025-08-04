@@ -91,7 +91,7 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public async Task<IEnumerable<IFolder>> GetShortcutsAsync()
 		{
-			var networkLocations = await STATask.Run(() =>
+			var networkLocations = await Win32Helper.StartSTATask(() =>
 			{
 				var locations = new List<ShellLinkItem>();
 				using (var netHood = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_NetHood))
@@ -114,7 +114,7 @@ namespace Files.App.Services
 					}
 				}
 				return locations;
-			}, App.Logger);
+			});
 
 			return (networkLocations ?? Enumerable.Empty<ShellLinkItem>()).Select(item =>
 			{
@@ -192,13 +192,13 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public Task OpenMapNetworkDriveDialogAsync()
 		{
-			return STATask.Run(() =>
+			return Win32Helper.StartSTATask(() =>
 			{
 				return CommonDialogService.Open_NetworkConnectionDialog(
 					MainWindow.Instance.WindowHandle,
 					useMostRecentPath: true,
 					hideRestoreConnectionCheckBox: false);
-			}, App.Logger);
+			});
 		}
 
 		/// <inheritdoc/>

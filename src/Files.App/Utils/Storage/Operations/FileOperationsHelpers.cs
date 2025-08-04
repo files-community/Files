@@ -25,7 +25,7 @@ namespace Files.App.Utils.Storage
 
 		public static Task SetClipboard(string[] filesToCopy, DataPackageOperation operation)
 		{
-			return STATask.Run(() =>
+			return Win32Helper.StartSTATask(() =>
 			{
 				System.Windows.Forms.Clipboard.Clear();
 				var fileList = new System.Collections.Specialized.StringCollection();
@@ -36,12 +36,12 @@ namespace Files.App.Utils.Storage
 				data.SetFileDropList(fileList);
 				data.SetData("Preferred DropEffect", dropEffect);
 				System.Windows.Forms.Clipboard.SetDataObject(data, true);
-			}, App.Logger);
+			});
 		}
 
 		public static Task<(bool, ShellOperationResult)> CreateItemAsync(string filePath, string fileOp, long ownerHwnd, bool asAdmin, string template = "", byte[]? dataBytes = null)
 		{
-			return STATask.Run(async () =>
+			return Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -105,12 +105,12 @@ namespace Files.App.Utils.Storage
 				}
 
 				return (await createTcs.Task, shellOperationResult);
-			}, App.Logger);
+			});
 		}
 
 		public static Task<(bool, ShellOperationResult)> TestRecycleAsync(string[] fileToDeletePath)
 		{
-			return STATask.Run(async () =>
+			return Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -193,7 +193,7 @@ namespace Files.App.Utils.Storage
 				}
 
 				return (await deleteTcs.Task, shellOperationResult);
-			}, App.Logger);
+			});
 		}
 
 		public static Task<(bool, ShellOperationResult)> DeleteItemAsync(string[] fileToDeletePath, bool permanently, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel> progress, string operationID = "")
@@ -219,7 +219,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 			progressHandler ??= new();
 
-			return STATask.Run(async () =>
+			return Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -324,7 +324,7 @@ namespace Files.App.Utils.Storage
 				cts.Cancel();
 
 				return (await deleteTcs.Task, shellOperationResult);
-			}, App.Logger);
+			});
 		}
 
 		public static Task<(bool, ShellOperationResult)> RenameItemAsync(string fileToRenamePath, string newName, bool overwriteOnRename, long ownerHwnd, bool asAdmin, string operationID = "")
@@ -333,7 +333,7 @@ namespace Files.App.Utils.Storage
 
 			progressHandler ??= new();
 
-			return STATask.Run(async () =>
+			return Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 				var shellOperationResult = new ShellOperationResult();
@@ -391,7 +391,7 @@ namespace Files.App.Utils.Storage
 				progressHandler.RemoveOperation(operationID);
 
 				return (await renameTcs.Task, shellOperationResult);
-			}, App.Logger);
+			});
 		}
 
 		public static Task<(bool, ShellOperationResult)> MoveItemAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel> progress, string operationID = "")
@@ -417,7 +417,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 			progressHandler ??= new();
 
-			return STATask.Run(async () =>
+			return Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 				var shellOperationResult = new ShellOperationResult();
@@ -519,7 +519,7 @@ namespace Files.App.Utils.Storage
 				cts.Cancel();
 
 				return (await moveTcs.Task, shellOperationResult);
-			}, App.Logger);
+			});
 		}
 
 		public static Task<(bool, ShellOperationResult)> CopyItemAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel> progress, string operationID = "")
@@ -545,7 +545,7 @@ namespace Files.App.Utils.Storage
 			fsProgress.Report();
 			progressHandler ??= new();
 
-			return STATask.Run(async () =>
+			return Win32Helper.StartSTATask(async () =>
 			{
 				using var op = new ShellFileOperations2();
 
@@ -650,7 +650,7 @@ namespace Files.App.Utils.Storage
 				cts.Cancel();
 
 				return (await copyTcs.Task, shellOperationResult);
-			}, App.Logger);
+			});
 		}
 
 		public static void TryCancelOperation(string operationId)
@@ -696,13 +696,13 @@ namespace Files.App.Utils.Storage
 				}
 				else if (FileExtensionHelpers.IsWebLinkFile(linkPath))
 				{
-					targetPath = await STATask.Run(() =>
+					targetPath = await Win32Helper.StartSTATask(() =>
 					{
 						var ipf = new Url.IUniformResourceLocator();
 						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
 						ipf.GetUrl(out var retVal);
 						return retVal;
-					}, App.Logger);
+					});
 					return string.IsNullOrEmpty(targetPath) ?
 						new ShellLinkItem
 						{
@@ -751,13 +751,13 @@ namespace Files.App.Utils.Storage
 				}
 				else if (FileExtensionHelpers.IsWebLinkFile(linkSavePath))
 				{
-					return STATask.Run(() =>
+					return Win32Helper.StartSTATask(() =>
 					{
 						var ipf = new Url.IUniformResourceLocator();
 						ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
 						(ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false); // Overwrite if exists
 						return true;
-					}, App.Logger);
+					});
 				}
 			}
 			catch (UnauthorizedAccessException ex)
@@ -826,7 +826,7 @@ namespace Files.App.Utils.Storage
 
 		public static Task<string?> OpenObjectPickerAsync(long hWnd)
 		{
-			return STATask.Run(() =>
+			return Win32Helper.StartSTATask(() =>
 			{
 				var picker = new DirectoryObjectPickerDialog()
 				{
@@ -855,7 +855,7 @@ namespace Files.App.Utils.Storage
 				}
 
 				return null;
-			}, App.Logger);
+			});
 		}
 
 		private static ShellItem? GetFirstFile(ShellItem shi)

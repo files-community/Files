@@ -67,7 +67,7 @@ namespace Files.App.Utils.Library
 		/// <returns>List of library items</returns>
 		public static async Task<List<LibraryLocationItem>> ListUserLibraries()
 		{
-			var libraries = await STATask.Run(() =>
+			var libraries = await Win32Helper.StartSTATask(() =>
 			{
 				try
 				{
@@ -90,7 +90,7 @@ namespace Files.App.Utils.Library
 				}
 
 				return [];
-			}, App.Logger);
+			});
 
 			return libraries.Select(lib => new LibraryLocationItem(lib)).ToList();
 		}
@@ -134,7 +134,7 @@ namespace Files.App.Utils.Library
 			if (string.IsNullOrWhiteSpace(name) || !CanCreateLibrary(name).result)
 				return false;
 
-			var newLib = new LibraryLocationItem(await STATask.Run(() =>
+			var newLib = new LibraryLocationItem(await Win32Helper.StartSTATask(() =>
 			{
 				try
 				{
@@ -150,7 +150,7 @@ namespace Files.App.Utils.Library
 				}
 
 				return Task.FromResult<ShellLibraryItem>(null);
-			}, App.Logger));
+			}));
 
 			if (newLib is not null)
 			{
@@ -178,7 +178,7 @@ namespace Files.App.Utils.Library
 				// Nothing to update
 				return null;
 
-			var item = await STATask.Run(() =>
+			var item = await Win32Helper.StartSTATask(() =>
 			{
 				try
 				{
@@ -231,7 +231,7 @@ namespace Files.App.Utils.Library
 				}
 
 				return Task.FromResult<ShellLibraryItem>(null);
-			}, App.Logger);
+			});
 
 			var newLib = item is not null ? new LibraryLocationItem(item) : null;
 			if (newLib is not null)
