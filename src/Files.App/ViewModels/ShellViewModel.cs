@@ -121,6 +121,14 @@ namespace Files.App.ViewModels
 			private set => SetProperty(ref _FolderThumbnailImageSource, value);
 		}
 
+		private BitmapImage? _SearchIconBitmapImage;
+		public BitmapImage? SearchIconBitmapImage
+		{
+			get => _SearchIconBitmapImage;
+			private set => SetProperty(ref _SearchIconBitmapImage, value);
+		}
+
+
 		public bool ShowFilterHeader =>
 			UserSettingsService.GeneralSettingsService.ShowFilterHeader &&
 			WorkingDirectory != "Home" &&
@@ -739,7 +747,26 @@ namespace Files.App.ViewModels
 			itemLoadQueue.TryUpdate(item.ItemPath, true, false);
 		}
 
-		private bool IsSearchResults { get; set; }
+		private bool _isSearchResults;
+		public bool IsSearchResults
+		{
+			get => _isSearchResults;
+			set
+			{
+				if (SetProperty(ref _isSearchResults, value))
+				{
+					if (!value)
+						SearchHeaderTitle = string.Empty;
+				}
+			}
+		}
+
+		private string? _searchHeaderTitle;
+		public string? SearchHeaderTitle
+		{
+			get => _searchHeaderTitle;
+			set => SetProperty(ref _searchHeaderTitle, value);
+		}
 
 		public void UpdateEmptyTextType()
 		{
@@ -2691,6 +2718,13 @@ namespace Files.App.ViewModels
 			HasNoWatcher = true;
 			await ApplyFilesAndFoldersChangesAsync();
 			EmptyTextType = EmptyTextType.None;
+
+			SearchHeaderTitle = !string.IsNullOrEmpty(search.Query)
+				? string.Format(Strings.SearchResultsFor.GetLocalizedResource(), search.Query)
+				: string.Empty;
+
+			if (SearchIconBitmapImage is null)
+				SearchIconBitmapImage ??= await UIHelpers.GetSearchIconResource();
 
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
 
