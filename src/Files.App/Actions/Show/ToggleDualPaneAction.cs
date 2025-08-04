@@ -27,7 +27,7 @@ namespace Files.App.Actions
 			if (IsOn)
 				ContentPageContext.ShellPage?.PaneHolder.CloseOtherPane();
 			else
-				ContentPageContext.ShellPage!.PaneHolder.OpenSecondaryPane(arrangement: generalSettingsService.ShellPaneArrangementOption);
+				ContentPageContext.ShellPage?.PaneHolder.OpenSecondaryPane(arrangement: generalSettingsService.ShellPaneArrangementOption);
 
 			return Task.CompletedTask;
 		}
