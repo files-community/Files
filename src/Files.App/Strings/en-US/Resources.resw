@@ -1106,6 +1106,12 @@
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
     <value>Toggle visibility of the filter header</value>
   </data>
+  <data name="ToggleDualPane" xml:space="preserve">
+    <value>Toggle dual pane</value>
+  </data>
+  <data name="ToggleDualPaneDescription" xml:space="preserve">
+    <value>Toggle dual pane mode</value>
+  </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>No preview available</value>
   </data>
