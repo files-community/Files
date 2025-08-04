@@ -2709,7 +2709,7 @@ namespace Files.App.ViewModels
 		public async Task SearchAsync(FolderSearch search)
 		{
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
-			//
+
 			CancelSearch();
 			searchCTS = new CancellationTokenSource();
 			filesAndFolders.Clear();
