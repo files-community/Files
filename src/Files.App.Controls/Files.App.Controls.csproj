@@ -15,6 +15,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="CommunityToolkit.WinUI.Controls.Sizers" />
         <PackageReference Include="CommunityToolkit.WinUI.Extensions" />
         <PackageReference Include="CommunityToolkit.Labs.WinUI.DependencyPropertyGenerator" />
         <PackageReference Include="Microsoft.WindowsAppSDK" />

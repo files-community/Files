@@ -1,0 +1,71 @@
+<Page
+	x:Class="Files.App.UITests.Views.TableViewPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:data="using:Files.App.UITests.Data"
+	xmlns:local="using:Files.App.UITests.Views"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Loaded="TableViewPage_Loaded"
+	mc:Ignorable="d">
+
+	<Page.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary>
+
+					<Style x:Key="TableViewListViewStyle" TargetType="ListView">
+						<Style.Setters>
+							<Setter Property="Margin" Value="-4,0" />
+						</Style.Setters>
+					</Style>
+
+					<Style
+						x:Key="TableViewListViewItemStyle"
+						BasedOn="{StaticResource DefaultListViewItemStyle}"
+						TargetType="ListViewItem">
+						<Style.Setters>
+							<Setter Property="Padding" Value="4,0" />
+						</Style.Setters>
+					</Style>
+
+				</ResourceDictionary>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Page.Resources>
+
+	<StackPanel Spacing="24">
+
+		<controls:SamplePanel Header="Default usage">
+			<controls:SamplePanel.MainContent>
+				<Grid Height="500">
+					<controls:TableView Grid.Row="1" VerticalAlignment="Top">
+						<controls:TableView.Columns>
+							<controls:TableViewTextColumn Binding="Name" Header="Name" />
+							<controls:TableViewTextColumn Binding="DateUpdated" Header="Date updated" />
+							<controls:TableViewTextColumn Binding="Type" Header="Type" />
+							<controls:TableViewTextColumn Binding="Size" Header="Size" />
+						</controls:TableView.Columns>
+						<controls:TableView.View>
+							<ListView
+								ItemContainerStyle="{StaticResource TableViewListViewItemStyle}"
+								ItemsSource="{x:Bind Items, Mode=OneWay}"
+								Style="{StaticResource TableViewListViewStyle}">
+								<ListView.ItemTemplate>
+									<DataTemplate x:DataType="data:TableViewItemModel">
+										<controls:TableViewRow HorizontalAlignment="Left" />
+									</DataTemplate>
+								</ListView.ItemTemplate>
+							</ListView>
+						</controls:TableView.View>
+					</controls:TableView>
+				</Grid>
+			</controls:SamplePanel.MainContent>
+			<controls:SamplePanel.SideContent>
+				<StackPanel Spacing="12" />
+			</controls:SamplePanel.SideContent>
+		</controls:SamplePanel>
+
+	</StackPanel>
+</Page>
