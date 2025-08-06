@@ -14,8 +14,6 @@ namespace Files.App.Controls
 
 		private Grid? _columnsPanel;
 
-		internal HashSet<TableViewRow> Rows { get; private set; } = [];
-
 		public TableView()
 		{
 			Columns = [];
@@ -112,10 +110,16 @@ namespace Files.App.Controls
 
 		private void ListViewBase_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			Debug.WriteLine($"ListViewBase_ContainerContentChanging {args.ItemIndex}");
+			//Debug.WriteLine($"ListViewBase_ContainerContentChanging {args.ItemIndex}");
 
 			var itemContainer = args.ItemContainer as Control;
-			SetCells(sender, itemContainer, args.ItemIndex);
+			RecycleRowOf(sender, itemContainer, args.ItemIndex);
+
+			// Recycle the index 1 item since ContainerContentChanging doesn't get called for the index 1st item somehow.
+			if (args.ItemIndex is 1)
+			{
+				RecycleRowOf(sender, sender.ContainerFromIndex(0) as Control, 0);
+			}
 		}
 
 		private void ListViewBase_Items_VectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs args)
@@ -126,13 +130,15 @@ namespace Files.App.Controls
 			// Only need to handle Inserted and Removed because we'll handle everything else in the ListViewBase_ContainerContentChanging event
 			if (args.CollectionChange is CollectionChange.ItemInserted or CollectionChange.ItemRemoved)
 			{
+				Debug.WriteLine($"ListViewBase_Items_VectorChanged {args.Index}~{sender.Count}");
+
 				int index = (int)args.Index;
 				for (int i = index; i < sender.Count; i++)
 				{
 					var itemContainer = listViewBase.ContainerFromIndex(i) as Control;
 					if (itemContainer != null)
 					{
-						SetCells(listViewBase, itemContainer, i);
+						RecycleRowOf(listViewBase, itemContainer, i);
 					}
 				}
 			}
@@ -148,12 +154,14 @@ namespace Files.App.Controls
 			}
 		}
 
-		private void SetCells(ListViewBase sender, FrameworkElement itemContainer, int itemIndex)
+		private void RecycleRowOf(ListViewBase sender, FrameworkElement itemContainer, int itemIndex)
 		{
 			if (itemContainer is not ListViewItem listViewItem ||
 				listViewItem.ContentTemplateRoot is not TableViewRow row ||
 				sender.Items.ElementAt(itemIndex) is not ITableViewCellValueProvider cellValueProvider)
 				return;
+
+			row.SetOwner(this);
 
 			row.Children.Clear();
 
@@ -166,35 +174,23 @@ namespace Files.App.Controls
 
 		public void RearrangeRows()
 		{
-			Debug.WriteLine("RearrangeRows");
-
 			if (View is ListViewBase listViewBase)
 			{
 				if (listViewBase.ItemsPanelRoot is ItemsStackPanel itemsStackPanel)
 				{
 					for (int index = itemsStackPanel.FirstCacheIndex;
-						index < itemsStackPanel.LastCacheIndex;
+						index <= itemsStackPanel.LastCacheIndex;
 						index++)
 					{
 						if (listViewBase.ContainerFromIndex(index) is not ListViewItem listViewItem ||
 							listViewItem.ContentTemplateRoot is not TableViewRow row)
 							continue;
 
+						//Debug.WriteLine($"RearrangeRows {index}");
+
 						row.InvalidateArrange();
 						row.InvalidateMeasure();
 					}
-
-					//for (int index = itemsStackPanel.FirstVisibleIndex;
-					//	index < itemsStackPanel.LastVisibleIndex;
-					//	index++)
-					//{
-					//	if (listViewBase.ContainerFromIndex(index) is not ListViewItem listViewItem ||
-					//		listViewItem.ContentTemplateRoot is not TableViewRow row)
-					//		continue;
-
-					//	row.InvalidateArrange();
-					//	row.InvalidateMeasure();
-					//}
 				}
 			}
 		}

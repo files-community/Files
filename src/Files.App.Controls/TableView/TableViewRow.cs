@@ -49,14 +49,18 @@ namespace Files.App.Controls
 			}
 		}
 
+		public void SetOwner(TableView owner)
+		{
+			_owner = new(owner);
+		}
+
 		private void TableViewRow_Loaded(object sender, RoutedEventArgs e)
 		{
-			if (this.FindAscendant<TableView>() is { } tableView)
+			if (this.FindAscendant<TableView>() is { } owner)
 			{
 				Debug.WriteLine("TableViewRow_Loaded");
 
-				tableView.Rows.Add(this);
-				_owner = new(tableView);
+				_owner = new(owner);
 			}
 		}
 
@@ -65,7 +69,6 @@ namespace Files.App.Controls
 			if (_owner is null || !_owner.TryGetTarget(out var owner))
 				return;
 
-			owner.Rows.Remove(this);
 			_owner = null;
 
 			Unloaded -= TableViewRow_Unloaded;
