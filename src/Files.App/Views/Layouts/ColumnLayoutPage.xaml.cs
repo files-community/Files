@@ -80,9 +80,20 @@ namespace Files.App.Views.Layouts
 
 		// Methods
 
+		private void OnItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs args)
+		{
+			if (args is ItemLoadStatusChangedEventArgs statusArgs && statusArgs.Status is ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete)
+			{
+				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
+				this.FindAscendant<ColumnsLayoutPage>()?.SetWidth(currentBladeIndex);
+			}
+		}
+
+
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
 		{
 			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
+			ParentShellPageInstance.ShellViewModel.ItemLoadStatusChanged += OnItemLoadStatusChanged;
 		}
 
 		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
@@ -186,6 +197,7 @@ namespace Files.App.Views.Layouts
 		{
 			base.OnNavigatingFrom(e);
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+			ParentShellPageInstance.ShellViewModel.ItemLoadStatusChanged -= OnItemLoadStatusChanged;
 		}
 
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)

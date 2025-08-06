@@ -81,6 +81,12 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		public void SetWidth(int index)
+		{
+			var blade = ColumnHost.ActiveBlades[index];
+			blade?.SetWidth();
+		}
+
 		private void ContentChanged(IShellPage p)
 		{
 			(ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabBarItemParameter);
