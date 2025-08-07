@@ -17,7 +17,7 @@ namespace Files.App.Controls
 	public partial class BladeItem : ContentControl
 	{
 		private const double MINIMUM_WIDTH = 150;
-		private const double DEFAULT_WIDTH = 300; // Default width for the blade item
+		private const double DEFAULT_WIDTH = 200; // Default width for the blade item
 
 		private Button _closeButton;
 		private Border _bladeResizer;
@@ -114,6 +114,12 @@ namespace Files.App.Controls
 
 		private void BladeResizer_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
+			SetWidth();
+			e.Handled = true;
+		}
+
+		public void SetWidth()
+		{
 			var optimalWidth = CalculateOptimalWidth();
 			if (optimalWidth > 0)
 			{
@@ -124,8 +130,6 @@ namespace Files.App.Controls
 				// Fallback to default width if calculation fails
 				Width = DEFAULT_WIDTH;
 			}
-
-			e.Handled = true;
 		}
 
 		private double CalculateOptimalWidth()
@@ -201,7 +205,7 @@ namespace Files.App.Controls
 			catch (Exception)
 			{
 				// Fallback calculation
-				return 200; // Default reasonable width
+				return DEFAULT_WIDTH; // Default reasonable width
 			}
 		}
 

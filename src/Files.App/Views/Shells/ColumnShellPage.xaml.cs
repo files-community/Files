@@ -93,6 +93,16 @@ namespace Files.App.Views.Shells
 			NotifyPropertyChanged(nameof(ShellViewModel));
 		}
 
+		private void Page_Unloaded(object sender, RoutedEventArgs e)
+		{
+			ShellViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
+			ShellViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
+			ShellViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
+			ShellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+			ShellViewModel.OnSelectionRequestedEvent -= FilesystemViewModel_OnSelectionRequestedEvent;
+			ShellViewModel.GitDirectoryUpdated -= FilesystemViewModel_GitDirectoryUpdated;
+		}
+
 		protected override async void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
 		{
 			string value = e.Path;

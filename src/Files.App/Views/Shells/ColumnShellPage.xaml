@@ -10,6 +10,7 @@
 	x:Name="RootPage"
 	KeyboardAcceleratorPlacementMode="Hidden"
 	Loaded="Page_Loaded"
+	Unloaded="Page_Unloaded"
 	mc:Ignorable="d">
 
 	<local:BaseShellPage.Resources>

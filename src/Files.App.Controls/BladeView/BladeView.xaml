@@ -21,16 +21,11 @@
 		<Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="True" />
 		<Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
 		<Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
-		<Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
+		<Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="False" />
 		<Setter Property="UseSystemFocusVisuals" Value="True" />
 		<Setter Property="ItemContainerTransitions">
 			<Setter.Value>
-				<TransitionCollection>
-					<AddDeleteThemeTransition />
-					<ContentThemeTransition />
-					<ReorderThemeTransition />
-					<EntranceThemeTransition IsStaggeringEnabled="False" />
-				</TransitionCollection>
+				<TransitionCollection />
 			</Setter.Value>
 		</Setter>
 		<Setter Property="ItemsPanel">
@@ -96,12 +91,10 @@
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="VerticalAlignment" Value="Stretch" />
 		<Setter Property="Margin" Value="0" />
-		<Setter Property="MinWidth" Value="{ThemeResource GridViewItemMinWidth}" />
 		<Setter Property="MinHeight" Value="{ThemeResource GridViewItemMinHeight}" />
 		<Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="IsTabStop" Value="False" />
-		<Setter Property="Width" Value="320" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="controls:BladeItem">
