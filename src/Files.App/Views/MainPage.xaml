@@ -432,7 +432,7 @@
 				</VisualState>
 			</VisualStateGroup>
 
-			<VisualStateGroup>
+			<VisualStateGroup x:Name="SidebarStates">
 				<VisualState x:Name="NormalSidebarState">
 					<VisualState.StateTriggers>
 						<AdaptiveTrigger MinWindowWidth="0" />
@@ -448,6 +448,44 @@
 					</VisualState.StateTriggers>
 				</VisualState>
 			</VisualStateGroup>
+
+			<VisualStateGroup x:Name="InfoPanePositionStates">
+				<VisualState x:Name="InfoPanePositionNone">
+					<VisualState.Setters>
+						<Setter Target="PaneRow.MinHeight" Value="0" />
+						<Setter Target="PaneRow.Height" Value="0" />
+						<Setter Target="PaneColumn.MinWidth" Value="0" />
+						<Setter Target="PaneColumn.Width" Value="0" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="InfoPanePositionRight">
+					<VisualState.Setters>
+						<Setter Target="InfoPane.(Grid.Row)" Value="1" />
+						<Setter Target="InfoPane.(Grid.Column)" Value="2" />
+						<Setter Target="PaneSplitter.(Grid.Row)" Value="1" />
+						<Setter Target="PaneSplitter.(Grid.Column)" Value="1" />
+						<Setter Target="PaneSplitter.Width" Value="2" />
+						<Setter Target="PaneSplitter.GripperCursor" Value="SizeWestEast" />
+						<Setter Target="PaneColumn.Width" Value="{x:Bind UserSettingsService.InfoPaneSettingsService.VerticalSizePx, Mode=OneWay}" />
+						<Setter Target="PaneRow.MinHeight" Value="0" />
+						<Setter Target="PaneRow.Height" Value="0" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="InfoPanePositionBottom">
+					<VisualState.Setters>
+						<Setter Target="InfoPane.(Grid.Row)" Value="3" />
+						<Setter Target="InfoPane.(Grid.Column)" Value="0" />
+						<Setter Target="PaneSplitter.(Grid.Row)" Value="2" />
+						<Setter Target="PaneSplitter.(Grid.Column)" Value="0" />
+						<Setter Target="PaneSplitter.Height" Value="2" />
+						<Setter Target="PaneSplitter.GripperCursor" Value="SizeNorthSouth" />
+						<Setter Target="PaneColumn.MinWidth" Value="0" />
+						<Setter Target="PaneColumn.Width" Value="0" />
+						<Setter Target="PaneRow.Height" Value="{x:Bind UserSettingsService.InfoPaneSettingsService.HorizontalSizePx, Mode=OneWay}" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+
 		</VisualStateManager.VisualStateGroups>
 	</Grid>
 </Page>
