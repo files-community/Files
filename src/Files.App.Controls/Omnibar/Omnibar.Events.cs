@@ -56,6 +56,14 @@ namespace Files.App.Controls
 
 			IsFocused = false;
 			IsFocusedChanged?.Invoke(this, new(IsFocused));
+
+			// Workaround to prevent an issue where if the window loses focus and then regains focus,
+			// the AutoSuggestBox will regain focus and the suggestions popup will open again.
+			if (element is TextBox)
+			{
+				_previouslyFocusedElement.TryGetTarget(out var previouslyFocusedElement);
+				previouslyFocusedElement?.Focus(FocusState.Programmatic);
+			}
 		}
 
 		private async void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
