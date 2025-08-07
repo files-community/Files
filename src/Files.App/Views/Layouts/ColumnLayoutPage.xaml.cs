@@ -82,7 +82,7 @@ namespace Files.App.Views.Layouts
 
 		private void OnItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs args)
 		{
-			if (args is ItemLoadStatusChangedEventArgs statusArgs && statusArgs.Status is ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete)
+			if (args.Status is ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete)
 			{
 				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams.Column : 0;
 				this.FindAscendant<ColumnsLayoutPage>()?.SetWidth(currentBladeIndex);
