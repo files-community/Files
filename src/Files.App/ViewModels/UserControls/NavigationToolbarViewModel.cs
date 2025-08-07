@@ -602,16 +602,26 @@ namespace Files.App.ViewModels.UserControls
 			OmnibarCurrentSelectedModeName = OmnibarPaletteModeName;
 		}
 
-		public void SwitchToSearchMode()
+		public async Task SwitchToSearchMode()
 		{
+			// If the Omnibar is already focused such as when the user initiates a search via the Command Palette,
+			// add a short delay to allow the Command Palette to fully close before switching modes.
+			var omnibar = AddressToolbar?.FindDescendant("Omnibar") as Omnibar;
+			if (omnibar is not null && omnibar.IsFocused)
+				await Task.Delay(100);
+
 			OmnibarCurrentSelectedModeName = OmnibarSearchModeName;
 		}
 
-		public void SwitchToPathMode()
+		public async Task SwitchToPathMode()
 		{
-			OmnibarCurrentSelectedModeName = OmnibarPathModeName;
-
+			// If the Omnibar is already focused such as when the user initiates the Edit Path action via the
+			// Command Palette, add a short delay to allow the Command Palette to fully close before switching modes.
 			var omnibar = AddressToolbar?.FindDescendant("Omnibar") as Omnibar;
+			if (omnibar is not null && omnibar.IsFocused)
+				await Task.Delay(100);
+
+			OmnibarCurrentSelectedModeName = OmnibarPathModeName;
 			omnibar?.Focus(FocusState.Programmatic);
 			omnibar.IsFocused = true;
 		}
@@ -997,8 +1007,7 @@ namespace Files.App.ViewModels.UserControls
 						HotKeys = command.HotKeys,
 						SearchText = OmnibarCommandPaletteModeText,
 					})
-					.Where(item => item.Text != Commands.OpenCommandPalette.Description.ToString()
-						&& item.Text != Commands.EditPath.Description.ToString());
+					.Where(item => item.Text != Commands.OpenCommandPalette.Description.ToString());
 			});
 
 			newSuggestions.AddRange(suggestionItems);
