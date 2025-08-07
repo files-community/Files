@@ -31,7 +31,5 @@ namespace Files.App.Data.Contracts
 		public event ItemDraggedOverPathItemEventHandler ItemDraggedOverPathItem;
 
 		public event EventHandler RefreshWidgetsRequested;
-
-		public void SwitchToSearchMode();
 	}
 }
