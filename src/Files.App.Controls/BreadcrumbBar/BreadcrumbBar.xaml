@@ -5,6 +5,21 @@
 	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:local="using:Files.App.Controls">
 
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Default">
+			<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Light">
+			<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="HighContrast">
+			<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
 	<x:Double x:Key="BreadcrumbBarHeight">34</x:Double>
 	<x:Double x:Key="BreadcrumbBarMinWidth">120</x:Double>
 	<x:Double x:Key="BreadcrumbBarEllipsisFontSize">16</x:Double>
@@ -131,10 +146,6 @@
 								CornerRadius="{TemplateBinding CornerRadius}"
 								ToolTipService.ToolTip="{TemplateBinding ItemToolTip}"
 								UseSystemFocusVisuals="True">
-								<Button.Resources>
-									<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondaryBrush}" />
-									<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SubtleFillColorTertiaryBrush}" />
-								</Button.Resources>
 
 								<FlyoutBase.AttachedFlyout>
 									<MenuFlyout
@@ -180,13 +191,8 @@
 								BorderBrush="{TemplateBinding BorderBrush}"
 								BorderThickness="{TemplateBinding BorderThickness}"
 								CornerRadius="{StaticResource BreadcrumbBarChevronCornerRaduis}"
-								Style="{StaticResource BreadcrumbBarItemChevronButtonStyle}"
 								ToolTipService.ToolTip="{TemplateBinding ChevronToolTip}"
 								UseSystemFocusVisuals="True">
-								<Button.Resources>
-									<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondaryBrush}" />
-									<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SubtleFillColorTertiaryBrush}" />
-								</Button.Resources>
 
 								<FlyoutBase.AttachedFlyout>
 									<MenuFlyout
@@ -273,7 +279,7 @@
 	</Style>
 
 	<Style
-		x:Key="BreadcrumbBarItemChevronButtonStyle"
+		x:Key="BreadcrumbBarButtonStyle"
 		BasedOn="{StaticResource DefaultButtonStyle}"
 		TargetType="Button">
 		<Setter Property="Template">
@@ -303,7 +309,7 @@
 								<VisualState x:Name="PointerOver">
 									<Storyboard>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}" />
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource BreadcrumbBarButtonBackgroundPointerOver}" />
 										</ObjectAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}" />
@@ -316,7 +322,7 @@
 								<VisualState x:Name="Pressed">
 									<Storyboard>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource BreadcrumbBarButtonBackgroundPressed}" />
 										</ObjectAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
