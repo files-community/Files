@@ -5,6 +5,18 @@
 	xmlns:local="using:Files.App.Controls"
 	xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives">
 
+	<ResourceDictionary.ThemeDictionaries>
+		<ResourceDictionary x:Key="Default">
+			<StaticResource x:Key="OmnibarTextBoxFocusedBorderBrush" ResourceKey="AccentFillColorDefaultBrush" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="Light">
+			<StaticResource x:Key="OmnibarTextBoxFocusedBorderBrush" ResourceKey="AccentFillColorDefaultBrush" />
+		</ResourceDictionary>
+		<ResourceDictionary x:Key="HighContrast">
+			<StaticResource x:Key="OmnibarTextBoxFocusedBorderBrush" ResourceKey="SystemAccentColorLight2" />
+		</ResourceDictionary>
+	</ResourceDictionary.ThemeDictionaries>
+
 	<x:Double x:Key="OmnibarDefaultHeight">38</x:Double>
 	<x:Double x:Key="OmnibarModeDefaultHeight">34</x:Double>
 	<x:Double x:Key="OmnibarModeDefaultClickAreaWidth">46</x:Double>
@@ -139,8 +151,8 @@
 							CornerRadius="{TemplateBinding CornerRadius}"
 							ToolTipService.ToolTip="{Binding ModeName, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
 							<Button.Resources>
-								<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
-								<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SubtleFillColorTertiary}" />
+								<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondaryBrush}" />
+								<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SubtleFillColorTertiaryBrush}" />
 							</Button.Resources>
 
 							<Grid>
@@ -370,8 +382,8 @@
 								IsTabStop="False"
 								Visibility="Collapsed">
 								<Button.Resources>
-									<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
-									<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SubtleFillColorTertiary}" />
+									<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondaryBrush}" />
+									<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SubtleFillColorTertiaryBrush}" />
 								</Button.Resources>
 							</Button>
 						</Grid>
@@ -411,7 +423,7 @@
 									<VisualState.Setters>
 										<Setter Target="PlaceholderTextContentPresenter.Foreground" Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForegroundFocused}}" />
 										<Setter Target="BorderElement.Background" Value="{ThemeResource TextControlBackgroundFocused}" />
-										<Setter Target="BorderElement.BorderBrush" Value="{ThemeResource AccentFillColorDefaultBrush}" />
+										<Setter Target="BorderElement.BorderBrush" Value="{ThemeResource OmnibarTextBoxFocusedBorderBrush}" />
 										<Setter Target="BorderElement.BorderThickness" Value="{ThemeResource OmnibarBorderThicknessFocused}" />
 										<Setter Target="BorderElement.Margin" Value="{StaticResource OmnibarBorderMarginUnfocused}" />
 										<Setter Target="ContentElement.Foreground" Value="{ThemeResource TextControlForegroundFocused}" />
