@@ -8,12 +8,18 @@
 	<ResourceDictionary.ThemeDictionaries>
 		<ResourceDictionary x:Key="Default">
 			<StaticResource x:Key="OmnibarTextBoxFocusedBorderBrush" ResourceKey="AccentFillColorDefaultBrush" />
+			<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="Light">
 			<StaticResource x:Key="OmnibarTextBoxFocusedBorderBrush" ResourceKey="AccentFillColorDefaultBrush" />
+			<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SubtleFillColorSecondaryBrush" />
+			<StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SubtleFillColorTertiaryBrush" />
 		</ResourceDictionary>
 		<ResourceDictionary x:Key="HighContrast">
 			<StaticResource x:Key="OmnibarTextBoxFocusedBorderBrush" ResourceKey="SystemAccentColorLight2" />
+			<StaticResource x:Key="ButtonBackgroundPointerOver" ResourceKey="SystemColorHighlightTextColorBrush" />
+			<StaticResource x:Key="ButtonBackgroundPressed" ResourceKey="SystemColorHighlightTextColorBrush" />
 		</ResourceDictionary>
 	</ResourceDictionary.ThemeDictionaries>
 
@@ -150,10 +156,6 @@
 							BorderThickness="0"
 							CornerRadius="{TemplateBinding CornerRadius}"
 							ToolTipService.ToolTip="{Binding ModeName, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}">
-							<Button.Resources>
-								<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondaryBrush}" />
-								<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SubtleFillColorTertiaryBrush}" />
-							</Button.Resources>
 
 							<Grid>
 								<ContentPresenter
@@ -380,12 +382,7 @@
 								FontSize="{StaticResource TextBoxIconFontSize}"
 								Foreground="{ThemeResource TextControlButtonForeground}"
 								IsTabStop="False"
-								Visibility="Collapsed">
-								<Button.Resources>
-									<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondaryBrush}" />
-									<SolidColorBrush x:Key="ButtonBackgroundPressed" Color="{ThemeResource SubtleFillColorTertiaryBrush}" />
-								</Button.Resources>
-							</Button>
+								Visibility="Collapsed" />
 						</Grid>
 
 						<!--  Description  -->
