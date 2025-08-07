@@ -216,7 +216,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					// NOTE: "pintohome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CPinToFrequentExecute : public IExecuteCommand, ...
 					return windowsFile.TryInvokeContextMenuVerb("pintohome");
 				}
-			});
+			}, App.Logger);
 
 			// The file watcher will update the collection automatically
 		}
@@ -247,7 +247,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					// NOTE: "remove" is for some shell folders where the "unpinfromhome" may not work
 					return windowsFile.TryInvokeContextMenuVerbs(["unpinfromhome", "remove"], true);
 				}
-			});
+			}, App.Logger);
 
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return;
