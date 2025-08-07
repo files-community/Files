@@ -638,10 +638,18 @@ namespace Files.App.Views
 		{
 			if (sender is UIElement element)
 			{
+				element.GettingFocus += Pane_GettingFocus;
 				element.GotFocus += Pane_GotFocus;
 				element.RightTapped += Pane_RightTapped;
 				element.PointerPressed += Pane_PointerPressed;
 			}
+		}
+
+		private void Pane_GettingFocus(UIElement sender, GettingFocusEventArgs args)
+		{
+			// Workaround for https://github.com/files-community/Files/issues/15397
+			if (args?.NewFocusedElement is not null && args.NewFocusedElement is not (ListViewItem or GridViewItem or ListView or GridView))
+				args.TryCancel();
 		}
 
 		private void Pane_ContentChanged(object? sender, TabBarItemParameter e)
@@ -754,6 +762,7 @@ namespace Files.App.Views
 			{
 				pane.Loaded -= Pane_Loaded;
 				pane.ContentChanged -= Pane_ContentChanged;
+				pane.GettingFocus -= Pane_GettingFocus;
 				pane.GotFocus -= Pane_GotFocus;
 				pane.RightTapped -= Pane_RightTapped;
 				pane.PointerPressed -= Pane_PointerPressed;
