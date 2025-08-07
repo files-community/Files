@@ -322,10 +322,6 @@ namespace Files.App.Views
 
 		private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e) => LoadPaneChanged();
 
-		/// <summary>
-		/// Call this function to update the positioning of the preview pane.
-		/// This is a workaround as the VisualStateManager causes problems.
-		/// </summary>
 		private void UpdatePositioning()
 		{
 			if (InfoPane is null || !ViewModel.ShouldPreviewPaneBeActive)
