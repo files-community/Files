@@ -15,6 +15,9 @@ global using global::System.Text.Json;
 global using global::System.Text.Json.Serialization;
 global using SystemIO = global::System.IO;
 
+// Microsoft Extensions
+global using global::Microsoft.Extensions.Logging;
+
 // CommunityToolkit.Mvvm
 global using global::CommunityToolkit.Mvvm.ComponentModel;
 global using global::CommunityToolkit.Mvvm.DependencyInjection;
