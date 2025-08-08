@@ -648,7 +648,7 @@ namespace Files.App.Views
 		private void Pane_GettingFocus(UIElement sender, GettingFocusEventArgs args)
 		{
 			// Workaround for https://github.com/files-community/Files/issues/15397
-			if (args?.NewFocusedElement is not null && args.NewFocusedElement is not (ListViewItem or GridViewItem or ListView or GridView))
+			if (args?.NewFocusedElement is not null && args.NewFocusedElement is not (ListViewItem or GridViewItem or ListView or GridView or TextBox))
 				args.TryCancel();
 		}
 
