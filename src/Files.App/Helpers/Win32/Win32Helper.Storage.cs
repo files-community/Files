@@ -166,7 +166,13 @@ namespace Files.App.Helpers
 		public static async Task<string?> GetFileAssociationAsync(string filename, bool checkDesktopFirst = false)
 		{
 			if (checkDesktopFirst)
-				return GetDesktopFileAssociation(filename) ?? (await GetUwpFileAssociations(filename)).FirstOrDefault();
+			{
+				var desktopAssociation = GetDesktopFileAssociation(filename);
+				if (desktopAssociation is not null)
+					return desktopAssociation;
+
+				return (await GetUwpFileAssociations(filename)).FirstOrDefault();
+			}
 
 			return (await GetUwpFileAssociations(filename)).FirstOrDefault() ?? GetDesktopFileAssociation(filename);
 		}
