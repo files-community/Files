@@ -931,7 +931,7 @@ namespace Files.App.Utils.Git
 
 			if (!string.IsNullOrEmpty(errorMessage))
 			{
-				UIHelpers.CloseAllDialogs();
+				await UIHelpers.CloseAllDialogs();
 				await Task.Delay(500);
 				await DynamicDialogFactory.ShowFor_CannotCloneRepo(errorMessage);
 			}
