@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI.Input;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace Files.App.Controls
@@ -10,6 +11,7 @@ namespace Files.App.Controls
 		/// </summary>
 		/// <param name="uiElement">An element to be changed.</param>
 		/// <param name="cursor">Cursor to change.</param>
+		[DynamicDependency("ProtectedCursor", typeof(UIElement))]
 		public static void ChangeCursor(this UIElement uiElement, InputCursor cursor)
 		{
 			Type type = typeof(UIElement);

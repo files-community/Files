@@ -52,6 +52,7 @@ namespace Files.App.UITests
 					nameof(SidebarViewPage) => typeof(SidebarViewPage),
 					nameof(OmnibarPage) => typeof(OmnibarPage),
 					nameof(BreadcrumbBarPage) => typeof(BreadcrumbBarPage),
+					nameof(ResizeVisualPage) => typeof(ResizeVisualPage),
 					nameof(TableViewPage) => typeof(TableViewPage),
 					_ => throw new InvalidOperationException("There's no applicable page associated with the given key."),
 				});

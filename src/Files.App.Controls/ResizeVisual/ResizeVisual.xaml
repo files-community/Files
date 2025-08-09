@@ -1,0 +1,125 @@
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Files.App.Controls">
+
+	<Style BasedOn="{StaticResource DefaultResizeVisualStyle}" TargetType="local:ResizeVisual" />
+
+	<Style x:Key="DefaultResizeVisualStyle" TargetType="local:ResizeVisual">
+		<Style.Setters>
+			<Setter Property="ThumbWidth" Value="16" />
+			<Setter Property="ThumbHeight" Value="32" />
+			<Setter Property="CornerRadius" Value="8" />
+			<Setter Property="Background" Value="{ThemeResource AcrylicInAppFillColorDefaultBrush}" />
+			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="BorderBrush" Value="{ThemeResource ControlElevationBorderBrush}" />
+			<Setter Property="Foreground" Value="{ThemeResource ControlStrongFillColorDefaultBrush}" />
+			<Setter Property="VerticalAlignment" Value="Stretch" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="local:ResizeVisual">
+						<Grid
+							x:Name="PART_RootGrid"
+							Width="{TemplateBinding Width}"
+							VerticalAlignment="{TemplateBinding VerticalAlignment}"
+							Background="Transparent">
+							<Thumb
+								x:Name="PART_Thumb"
+								Width="{TemplateBinding ThumbWidth}"
+								Height="{TemplateBinding ThumbHeight}"
+								VerticalAlignment="Center"
+								Background="{TemplateBinding Background}"
+								BorderBrush="{TemplateBinding BorderBrush}"
+								BorderThickness="{TemplateBinding BorderThickness}"
+								CornerRadius="{TemplateBinding CornerRadius}"
+								Foreground="{TemplateBinding Foreground}"
+								Opacity="0.0"
+								Style="{StaticResource ResizeVisualThumbStyle}"
+								Translation="0,0,32">
+								<Thumb.Shadow>
+									<ThemeShadow />
+								</Thumb.Shadow>
+							</Thumb>
+
+							<VisualStateManager.VisualStateGroups>
+
+								<VisualStateGroup x:Name="CommonStates">
+									<VisualState x:Name="Normal" />
+									<VisualState x:Name="PointerOver" />
+									<VisualState x:Name="PointerPressed" />
+									<VisualState x:Name="Disabled" />
+								</VisualStateGroup>
+
+								<VisualStateGroup x:Name="VisibilityStates">
+									<VisualState x:Name="Collapsed">
+										<Storyboard>
+											<DoubleAnimationUsingKeyFrames
+												Storyboard.TargetName="PART_Thumb"
+												Storyboard.TargetProperty="Opacity"
+												Duration="0:0:0.333">
+												<DiscreteDoubleKeyFrame KeyTime="0:0:0.133" Value="1.0" />
+												<SplineDoubleKeyFrame
+													KeySpline="0.55,0.55 0.0,1.0"
+													KeyTime="0:0:0.333"
+													Value="0.0" />
+											</DoubleAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+									<VisualState x:Name="Visible">
+										<Storyboard>
+											<DoubleAnimationUsingKeyFrames
+												Storyboard.TargetName="PART_Thumb"
+												Storyboard.TargetProperty="Opacity"
+												Duration="0:0:0.267">
+												<DiscreteDoubleKeyFrame KeyTime="0:0:0.133" Value="0.0" />
+												<SplineDoubleKeyFrame
+													KeySpline="0.55,0.55 0.0,1.0"
+													KeyTime="0:0:0.267"
+													Value="1.0" />
+											</DoubleAnimationUsingKeyFrames>
+										</Storyboard>
+									</VisualState>
+
+								</VisualStateGroup>
+
+							</VisualStateManager.VisualStateGroups>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style.Setters>
+	</Style>
+
+	<Style x:Key="ResizeVisualThumbStyle" TargetType="Thumb">
+		<Style.Setters>
+			<Setter Property="Width" Value="16" />
+			<Setter Property="Height" Value="32" />
+			<Setter Property="CornerRadius" Value="8" />
+			<Setter Property="Background" Value="{ThemeResource AcrylicInAppFillColorDefaultBrush}" />
+			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="BorderBrush" Value="{ThemeResource ControlElevationBorderBrush}" />
+			<Setter Property="Foreground" Value="{ThemeResource ControlStrongFillColorDefaultBrush}" />
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Thumb">
+						<Border
+							x:Name="PART_OuterThumb"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="{TemplateBinding CornerRadius}">
+							<Rectangle
+								x:Name="PART_InnerThumb"
+								Width="2"
+								Height="8"
+								Fill="{TemplateBinding Foreground}"
+								RadiusX="2"
+								RadiusY="2" />
+						</Border>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style.Setters>
+	</Style>
+
+</ResourceDictionary>
