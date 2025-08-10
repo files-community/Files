@@ -94,6 +94,7 @@ namespace Files.App.ViewModels.Settings
 		{
 			string[] extensions =
 			[
+				Strings.ImageFiles.GetLocalizedResource(), "*.bmp;*.dib;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.tif;*.tiff;*.png;*.heic;*.hif;*.webp",
 				Strings.BitmapFiles.GetLocalizedResource(), "*.bmp;*.dib",
 				"JPEG", "*.jpg;*.jpeg;*.jpe;*.jfif",
 				"GIF", "*.gif",
