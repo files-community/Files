@@ -4,6 +4,7 @@
 using Microsoft.Win32;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
+using Files.Shared.Helpers;
 using static Files.App.Helpers.LayoutPreferencesDatabaseItemRegistry;
 using static Files.App.Helpers.RegistryHelpers;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -13,9 +14,11 @@ namespace Files.App.Helpers
 	public sealed class LayoutPreferencesDatabase
 	{
 		private readonly static string LayoutSettingsKey = @$"Software\Files Community\{Package.Current.Id.Name}\v1\LayoutPreferences";
+		private readonly static string MigrationMarkerKey = "MigrationCompleted";
 
 		public LayoutPreferencesItem? GetPreferences(string filePath, ulong? frn)
 		{
+			MigrateExistingKeys();
 			return FindPreferences(filePath, frn)?.LayoutPreferencesManager;
 		}
 
@@ -58,7 +61,7 @@ namespace Files.App.Helpers
 			{
 				if (filePath is not null)
 				{
-					using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(LayoutSettingsKey, filePath));
+					using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(LayoutSettingsKey, ChecksumHelpers.CreateSHA256(filePath)));
 					SaveValues(filePathKey, preferences);
 				}
 
@@ -91,7 +94,7 @@ namespace Files.App.Helpers
 			}
 			foreach (var preference in preferences)
 			{
-				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(LayoutSettingsKey, preference.FilePath));
+				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(LayoutSettingsKey, ChecksumHelpers.CreateSHA256(preference.FilePath)));
 				SaveValues(filePathKey, preference);
 				if (preference.Frn is not null)
 				{
@@ -139,7 +142,7 @@ namespace Files.App.Helpers
 		{
 			if (filePath is not null)
 			{
-				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(LayoutSettingsKey, filePath));
+				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(LayoutSettingsKey, ChecksumHelpers.CreateSHA256(filePath)));
 				if (filePathKey.ValueCount > 0)
 				{
 					var preference = new LayoutPreferencesDatabaseItem();
@@ -173,6 +176,68 @@ namespace Files.App.Helpers
 			}
 
 			return null;
+		}
+
+		private void MigrateExistingKeys()
+		{
+			using var baseKey = Registry.CurrentUser.OpenSubKey(LayoutSettingsKey);
+			if (baseKey is null)
+				return;
+
+			// Check if migration is already completed
+			if (baseKey.GetValue(MigrationMarkerKey) is not null)
+				return;
+
+			var keysToMigrate = new List<(string oldKey, LayoutPreferencesDatabaseItem preference)>();
+			
+			// Collect all keys that need migration (excluding FRN and migration marker)
+			foreach (var subKeyName in baseKey.GetSubKeyNames())
+			{
+				if (subKeyName == "FRN" || subKeyName == MigrationMarkerKey)
+					continue;
+
+				// Check if this is a hash key (64 characters hex)
+				if (subKeyName.Length == 64 && IsHexString(subKeyName))
+					continue; // Already migrated
+
+				using var subKey = baseKey.OpenSubKey(subKeyName);
+				if (subKey?.ValueCount > 0)
+				{
+					var preference = new LayoutPreferencesDatabaseItem();
+					BindValues(subKey, preference);
+					keysToMigrate.Add((subKeyName, preference));
+				}
+			}
+
+			// Migrate collected keys
+			using var writerKey = Registry.CurrentUser.CreateSubKey(LayoutSettingsKey);
+			foreach (var (oldKey, preference) in keysToMigrate)
+			{
+				if (!string.IsNullOrEmpty(preference.FilePath))
+				{
+					// Create new hashed key
+					using var newKey = Registry.CurrentUser.CreateSubKey(CombineKeys(LayoutSettingsKey, ChecksumHelpers.CreateSHA256(preference.FilePath)));
+					SaveValues(newKey, preference);
+				}
+
+				// Delete old key
+				try
+				{
+					writerKey.DeleteSubKeyTree(oldKey);
+				}
+				catch
+				{
+					// Ignore deletion errors
+				}
+			}
+
+			// Mark migration as completed
+			writerKey.SetValue(MigrationMarkerKey, "1", RegistryValueKind.String);
+		}
+
+		private static bool IsHexString(string value)
+		{
+			return value.All(c => c >= '0' && c <= '9' || c >= 'a' && c <= 'f' || c >= 'A' && c <= 'F');
 		}
 	}
 }
