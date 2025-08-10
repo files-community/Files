@@ -23,14 +23,14 @@ namespace Files.App.Actions
 			_context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync(object? parameter = null)
+		public async Task ExecuteAsync(object? parameter = null)
 		{
 			var instance = _context.ShellPage?.InstanceViewModel;
 
-			return GitHelpers.PullOriginAsync(instance?.GitRepositoryPath)
-				.ContinueWith(t => GitHelpers.PushToOriginAsync(
-					instance?.GitRepositoryPath,
-					instance?.GitBranchName));
+			await GitHelpers.PullOriginAsync(instance?.GitRepositoryPath);
+			await GitHelpers.PushToOriginAsync(
+				instance?.GitRepositoryPath,
+				instance?.GitBranchName);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
