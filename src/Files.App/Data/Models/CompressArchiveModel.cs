@@ -158,10 +158,10 @@ namespace Files.App.Data.Models
 			};
 
 			compressor.CustomParameters.Add("mt", CPUThreads.ToString());
-			//Use UTF-8 encoding. 
-			//References: 7-zip chm --> Command Line Version --> Switches
-			//--> -m --> cu=[off | on].
-			//Don't add "cu" parameter for 7zip files, see https://github.com/files-community/Files/issues/17257
+			// Use UTF-8 encoding. 
+			// References: 7-zip chm --> Command Line Version --> Switches
+			// --> -m --> cu=[off | on].
+			// Don't add "cu" parameter for 7zip files, see https://github.com/files-community/Files/issues/17257
 			if (FileFormat != ArchiveFormats.SevenZip)
 				compressor.CustomParameters.Add("cu", "on");
 
