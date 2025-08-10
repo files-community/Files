@@ -943,7 +943,7 @@ namespace Files.App.Utils.Git
 				ReturnResult.Failed);
 		}
 
-		[GeneratedRegex(@"^(?:https?:\/\/)?(?:www\.)?github\.com\/(?<user>[^\/]+)\/(?<repo>[^\/]+?)(?:\.git)?(?:\/)?$", RegexOptions.IgnoreCase)]
+		[GeneratedRegex(@"^(?:https?:\/\/)?(?:www\.)?github\.com\/(?<user>[^\/]+)\/(?<repo>[^\/]+?)(?=\.git|\/|$)(?:\.git)?(?:\/)?", RegexOptions.IgnoreCase)]
 		private static partial Regex GitHubRepositoryRegex();
 	}
 }
