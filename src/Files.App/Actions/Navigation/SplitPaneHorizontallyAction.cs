@@ -6,7 +6,6 @@ namespace Files.App.Actions
 	internal sealed partial class SplitPaneHorizontallyAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
-		private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
 		public string Label
 			=> Strings.SplitPaneHorizontally.GetLocalizedResource();
@@ -31,7 +30,7 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			ContentPageContext.ShellPage!.PaneHolder.OpenSecondaryPane(arrangement: ShellPaneArrangement.Horizontal);
+			ContentPageContext.ShellPage!.PaneHolder.OpenSecondaryPane(ContentPageContext.ShellPage!.ShellViewModel.WorkingDirectory, ShellPaneArrangement.Horizontal);
 
 			return Task.CompletedTask;
 		}
