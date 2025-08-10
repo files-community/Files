@@ -59,6 +59,7 @@ namespace Files.App.ViewModels
 		private readonly IStorageCacheService fileListCache = Ioc.Default.GetRequiredService<IStorageCacheService>();
 		private readonly IWindowsSecurityService WindowsSecurityService = Ioc.Default.GetRequiredService<IWindowsSecurityService>();
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
+		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -873,6 +874,11 @@ namespace Files.App.ViewModels
 
 		private Task RequestSelectionAsync(List<ListedItem> itemsToSelect)
 		{
+			// Don't notify if shell page is not the active pane (eg. Dual Pane)
+			// https://github.com/files-community/Files/issues/17427
+			if (WorkingDirectory != ContentPageContext.ShellPage!.ShellViewModel.WorkingDirectory)
+				return Task.CompletedTask;
+
 			// Don't notify if there weren't listed items
 			if (itemsToSelect is null || itemsToSelect.IsEmpty())
 				return Task.CompletedTask;
