@@ -337,11 +337,11 @@ namespace Files.App.Views
 						VisualStateManager.GoToState(this, "InfoPanePositionNone", true);
 						break;
 					case PreviewPanePositions.Right:
-						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+						InfoPaneSizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 						VisualStateManager.GoToState(this, "InfoPanePositionRight", true);
 						break;
 					case PreviewPanePositions.Bottom:
-						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeNorthSouth));
+						InfoPaneSizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeNorthSouth));
 						VisualStateManager.GoToState(this, "InfoPanePositionBottom", true);
 						break;
 				}
