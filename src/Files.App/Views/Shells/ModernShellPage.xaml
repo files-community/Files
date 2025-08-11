@@ -49,7 +49,7 @@
 		</Grid.RowDefinitions>
 
 		<Image
-			Grid.RowSpan="2"
+			Grid.RowSpan="3"
 			HorizontalAlignment="{x:Bind ShellViewModel.FolderBackgroundImageHorizontalAlignment, Mode=OneWay}"
 			VerticalAlignment="{x:Bind ShellViewModel.FolderBackgroundImageVerticalAlignment, Mode=OneWay}"
 			Opacity="{x:Bind ShellViewModel.FolderBackgroundImageOpacity, Mode=OneWay}"
