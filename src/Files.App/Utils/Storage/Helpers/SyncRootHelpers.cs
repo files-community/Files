@@ -60,7 +60,7 @@ namespace Files.App.Utils.Storage
 				return (false, 0, 0);
 			}
 
-			if (syncRootInfo is null)
+			if (syncRootInfo is null || syncRootInfo.Id is null)
 			{
 				return (false, 0, 0);
 			}
