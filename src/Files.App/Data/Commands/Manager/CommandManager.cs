@@ -131,6 +131,8 @@ namespace Files.App.Data.Commands
 		public IRichCommand OpenTerminalFromHome => commands[CommandCodes.OpenTerminalFromHome];
 		public IRichCommand OpenCommandPalette => commands[CommandCodes.OpenCommandPalette];
 		public IRichCommand EditInNotepad => commands[CommandCodes.EditInNotepad];
+		public IRichCommand OpenLogFile => commands[CommandCodes.OpenLogFile];
+		public IRichCommand OpenLogFileLocation => commands[CommandCodes.OpenLogFileLocation];
 		public IRichCommand LayoutDecreaseSize => commands[CommandCodes.LayoutDecreaseSize];
 		public IRichCommand LayoutIncreaseSize => commands[CommandCodes.LayoutIncreaseSize];
 		public IRichCommand LayoutDetails => commands[CommandCodes.LayoutDetails];
@@ -339,6 +341,8 @@ namespace Files.App.Data.Commands
 			[CommandCodes.OpenTerminalFromHome] = new OpenTerminalFromHomeAction(),
 			[CommandCodes.OpenCommandPalette] = new OpenCommandPaletteAction(),
 			[CommandCodes.EditInNotepad] = new EditInNotepadAction(),
+			[CommandCodes.OpenLogFile] = new OpenLogFileAction(),
+			[CommandCodes.OpenLogFileLocation] = new OpenLogFileLocationAction(),
 			[CommandCodes.LayoutDecreaseSize] = new LayoutDecreaseSizeAction(),
 			[CommandCodes.LayoutIncreaseSize] = new LayoutIncreaseSizeAction(),
 			[CommandCodes.LayoutDetails] = new LayoutDetailsAction(),

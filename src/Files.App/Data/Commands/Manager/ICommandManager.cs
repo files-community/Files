@@ -119,6 +119,8 @@ namespace Files.App.Data.Commands
 		IRichCommand OpenTerminalFromHome { get; }
 		IRichCommand OpenCommandPalette { get; }
 		IRichCommand EditInNotepad { get; }
+		IRichCommand OpenLogFile { get; }
+		IRichCommand OpenLogFileLocation { get; }
 
 		IRichCommand LayoutDecreaseSize { get; }
 		IRichCommand LayoutIncreaseSize { get; }
