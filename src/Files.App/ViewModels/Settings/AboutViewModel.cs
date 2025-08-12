@@ -107,7 +107,7 @@ namespace Files.App.ViewModels.Settings
 			using var subkey = Registry.ClassesRoot.OpenSubKey(@"Folder\shell\open\command");
 			var command = (string?)subkey?.GetValue(string.Empty);
 
-			// Close the settings dialog if Files is the deault file manager
+			// Close the settings dialog if Files is the default file manager
 			if (!string.IsNullOrEmpty(command) && command.Contains("Files.App.Launcher.exe"))
 				UIHelpers.CloseAllDialogs();
 

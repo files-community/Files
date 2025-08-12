@@ -4313,4 +4313,16 @@
   <data name="ShowOpenTerminal" xml:space="preserve">
     <value>Show option to open folders in Windows Terminal</value>
   </data>
+  <data name="OpenLogFile" xml:space="preserve">
+    <value>Open log file</value>
+  </data>
+  <data name="OpenLogFileDescription" xml:space="preserve">
+    <value>Open log file in your default editor</value>
+  </data>
+  <data name="OpenLogFileLocationDescription" xml:space="preserve">
+    <value>Open log file location in your default file manager</value>
+  </data>
+  <data name="FailedToOpenLogFile" xml:space="preserve">
+    <value>Unable to open the log file</value>
+  </data>
 </root>

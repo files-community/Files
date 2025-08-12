@@ -130,6 +130,8 @@ namespace Files.App.Data.Commands
 		OpenTerminalFromHome,
 		OpenCommandPalette,
 		EditInNotepad,
+		OpenLogFile,
+		OpenLogFileLocation,
 
 		// Layout
 		LayoutDecreaseSize,
