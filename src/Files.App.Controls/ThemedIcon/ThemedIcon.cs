@@ -20,6 +20,7 @@ namespace Files.App.Controls
 		public ThemedIcon()
 		{
 			DefaultStyleKey = typeof(ThemedIcon);
+			RegisterPropertyChangedCallback(StyleProperty, OnStylePropertyChanged);
 		}
 
 		protected override void OnApplyTemplate()
