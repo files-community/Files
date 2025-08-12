@@ -17,10 +17,20 @@ namespace Files.App.Controls
 		private Viewbox? _layeredViewBox;
 		private Canvas? _layeredCanvas;
 
+		private long _stylePropertyChangedToken;
+
 		public ThemedIcon()
 		{
 			DefaultStyleKey = typeof(ThemedIcon);
-			RegisterPropertyChangedCallback(StyleProperty, OnStylePropertyChanged);
+			_stylePropertyChangedToken = RegisterPropertyChangedCallback(
+				StyleProperty,
+				OnStylePropertyChanged
+			);
+		}
+
+		~ThemedIcon()
+		{
+			UnregisterPropertyChangedCallback(StyleProperty, _stylePropertyChangedToken);
 		}
 
 		protected override void OnApplyTemplate()
