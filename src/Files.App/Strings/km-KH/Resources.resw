@@ -229,7 +229,7 @@
     <value>កម្រិតខ្ពស់</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>បន្តវិញកន្លែងចាកចេញ</value>
+    <value>បន្តត្រង់កន្លែងដែលអ្នកចេញ</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>បើកទំព័រថេបថ្មី</value>
@@ -308,6 +308,9 @@
   </data>
   <data name="DarkTheme" xml:space="preserve">
     <value>ងងឹត</value>
+  </data>
+  <data name="UseSystemSetting" xml:space="preserve">
+    <value>Use system setting</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>កម្មវិធី</value>
@@ -523,9 +526,6 @@
   </data>
   <data name="Status" xml:space="preserve">
     <value>ស្ថានភាព</value>
-  </data>
-  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>បុរជម្រើសវីនដូ</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>គ្មានលទ្ធផល</value>
@@ -1010,6 +1010,9 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>លទ្ធផលស្វែងរកក្នុង {1} សម្រាប់ {0}</value>
   </data>
+  <data name="SearchResultsFor" xml:space="preserve">
+    <value>Search results for `{0}`</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>លម្អិត</value>
   </data>
@@ -1102,6 +1105,12 @@
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
     <value>Toggle visibility of the filter header</value>
+  </data>
+  <data name="ToggleDualPane" xml:space="preserve">
+    <value>Toggle dual pane</value>
+  </data>
+  <data name="ToggleDualPaneDescription" xml:space="preserve">
+    <value>Toggle dual pane mode</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>មិនមានការមើលជាមុនទេ</value>
@@ -1800,7 +1809,7 @@
     <value>បើកផ្ទាំងនៅក្នុងឧទាហរណ៍ដែលមានស្រាប់ នៅពេលបើកឯកសារពីកម្មវិធីផ្សេងទៀត</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
-    <value>កំណត់ពេលចាប់ផ្តើម</value>
+    <value>ការកំណត់ពេលចាប់ផ្តើម</value>
   </data>
   <data name="Compatibility" xml:space="preserve">
     <value>Compatibility</value>
@@ -1977,7 +1986,7 @@
     <value>ស្លាក</value>
   </data>
   <data name="Universal" xml:space="preserve">
-    <value>Universal</value>
+    <value>ម៉ោងសកល</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
     <value>ex: {0}, {1}</value>
@@ -2199,7 +2208,7 @@
     <value>Group by</value>
   </data>
   <data name="SortBy" xml:space="preserve">
-    <value>Sort by</value>
+    <value>តម្រៀបតាម</value>
   </data>
   <data name="GroupInDescendingOrder" xml:space="preserve">
     <value>Group in descending order</value>
@@ -2310,7 +2319,7 @@
     <value>Loading...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
-    <value>ធាតុក្រាហ្វិក</value>
+    <value>ជម្រើសមុឺនុយបរិបទ</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
     <value>File extensions</value>
@@ -3718,7 +3727,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} {0, plural, one {item} other {items}} processed</value>
+    <value>{0}/{1, plural, one {# item} other {# items}} processed</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -4002,6 +4011,10 @@
     <value>Bitmap Files</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
+  <data name="ImageFiles" xml:space="preserve">
+    <value>Image Files</value>
+    <comment>This is the friendly name for image files.</comment>
+  </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Num</value>
   </data>
@@ -4033,17 +4046,17 @@
   <data name="TabActions" xml:space="preserve">
     <value>Tab actions menu</value>
   </data>
-  <data name="AddVerticalPane" xml:space="preserve">
-    <value>Vertical pane</value>
+  <data name="SplitPaneVertically" xml:space="preserve">
+    <value>Split vertically</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Add vertical pane</value>
+    <value>Split pane vertically</value>
   </data>
-  <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Horizontal pane</value>
+  <data name="SplitPaneHorizontally" xml:space="preserve">
+    <value>Split horizontally</value>
   </data>
-  <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Add horizontal pane</value>
+  <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
+    <value>Split pane horizontally</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Arrange vertically</value>
@@ -4057,8 +4070,8 @@
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
     <value>Arrange panes horizontally</value>
   </data>
-  <data name="AddPane" xml:space="preserve">
-    <value>Add pane</value>
+  <data name="SplitPane" xml:space="preserve">
+    <value>Split pane</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Show tab actions button in the title bar</value>
@@ -4066,8 +4079,11 @@
   <data name="ArrangePanes" xml:space="preserve">
     <value>Arrange panes</value>
   </data>
-  <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>Default pane arrangement</value>
+  <data name="DualPaneSplitDirection" xml:space="preserve">
+    <value>Default dual pane split direction</value>
+  </data>
+  <data name="DualPane" xml:space="preserve">
+    <value>Dual pane mode</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>Horizontal</value>
@@ -4273,7 +4289,40 @@
   <data name="Filename" xml:space="preserve">
     <value>Filename</value>
   </data>
+  <data name="Signatures" xml:space="preserve">
+    <value>Signatures</value>
+   </data>
+  <data name="SignatureList" xml:space="preserve">
+    <value>Signature list</value>
+  </data>
+  <data name="IssuedBy" xml:space="preserve">
+    <value>Issued by:</value>
+  </data>
+  <data name="IssuedTo" xml:space="preserve">
+    <value>Issued to:</value>
+  </data>
+  <data name="ValidFrom" xml:space="preserve">
+    <value>Valid from:</value>
+  </data>
+  <data name="ValidTo" xml:space="preserve">
+    <value>Valid to:</value>
+  </data>
+  <data name="NoSignatureFound" xml:space="preserve">
+    <value>No signature was found.</value>
+  </data>
   <data name="ShowOpenTerminal" xml:space="preserve">
     <value>Show option to open folders in Windows Terminal</value>
+  </data>
+  <data name="OpenLogFile" xml:space="preserve">
+    <value>Open log file</value>
+  </data>
+  <data name="OpenLogFileDescription" xml:space="preserve">
+    <value>Open log file in your default editor</value>
+  </data>
+  <data name="OpenLogFileLocationDescription" xml:space="preserve">
+    <value>Open log file location in your default file manager</value>
+  </data>
+  <data name="FailedToOpenLogFile" xml:space="preserve">
+    <value>Unable to open the log file</value>
   </data>
 </root>
