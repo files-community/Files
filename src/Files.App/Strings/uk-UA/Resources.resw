@@ -309,6 +309,9 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>Темна</value>
   </data>
+  <data name="UseSystemSetting" xml:space="preserve">
+    <value>Використовувати системні налаштування</value>
+  </data>
   <data name="Application" xml:space="preserve">
     <value>За замовчуванням</value>
   </data>
@@ -523,9 +526,6 @@
   </data>
   <data name="Status" xml:space="preserve">
     <value>Стан</value>
-  </data>
-  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Стандартна</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>Немає результатів</value>
@@ -1010,6 +1010,9 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Результати пошуку в</value>
   </data>
+  <data name="SearchResultsFor" xml:space="preserve">
+    <value>Результати пошуку для «{0}»</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Подробиці</value>
   </data>
@@ -1102,6 +1105,12 @@
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
     <value>Увімк. / Вимк. видимість заголовка фільтра</value>
+  </data>
+  <data name="ToggleDualPane" xml:space="preserve">
+    <value>Увімк. / Вимк. подвійні панелі</value>
+  </data>
+  <data name="ToggleDualPaneDescription" xml:space="preserve">
+    <value>Увімк. / Вимк. режим подвійних панелей</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Попередній перегляд недоступний</value>
@@ -3718,7 +3727,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} {0, plural, one {елемент} few {елементи} many {елементів} other {елементів}} оброблено</value>
+    <value>{0}/{1, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} оброблено</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -4002,6 +4011,10 @@
     <value>Файли растру</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
+  <data name="ImageFiles" xml:space="preserve">
+    <value>Файли зображень</value>
+    <comment>This is the friendly name for image files.</comment>
+  </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Номер</value>
   </data>
@@ -4033,17 +4046,17 @@
   <data name="TabActions" xml:space="preserve">
     <value>Меню дій вкладки</value>
   </data>
-  <data name="AddVerticalPane" xml:space="preserve">
-    <value>Вертикальна панель</value>
+  <data name="SplitPaneVertically" xml:space="preserve">
+    <value>Розділити вертикально</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Додати вертикальну панель</value>
+    <value>Розділити панелі вертикально</value>
   </data>
-  <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Горизонтальна панель</value>
+  <data name="SplitPaneHorizontally" xml:space="preserve">
+    <value>Розділити горизонтально</value>
   </data>
-  <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Додати горизонтальну панель</value>
+  <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
+    <value>Розділити панелі горизонтально</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Розташувати вертикально</value>
@@ -4057,8 +4070,8 @@
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
     <value>Розташувати панелі горизонтально</value>
   </data>
-  <data name="AddPane" xml:space="preserve">
-    <value>Додати панель</value>
+  <data name="SplitPane" xml:space="preserve">
+    <value>Розділена панель</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Показати кнопку дій вкладки в рядку заголовка</value>
@@ -4066,8 +4079,11 @@
   <data name="ArrangePanes" xml:space="preserve">
     <value>Розташувати панелі</value>
   </data>
-  <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>Розташування панелей за замовчуванням</value>
+  <data name="DualPaneSplitDirection" xml:space="preserve">
+    <value>Типовий напрямок розділення на дві панелі</value>
+  </data>
+  <data name="DualPane" xml:space="preserve">
+    <value>Режим подвійних панелей</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>Горизонтально</value>
@@ -4273,7 +4289,40 @@
   <data name="Filename" xml:space="preserve">
     <value>Назва файлу</value>
   </data>
+  <data name="Signatures" xml:space="preserve">
+    <value>Підписи</value>
+   </data>
+  <data name="SignatureList" xml:space="preserve">
+    <value>Список підписів</value>
+  </data>
+  <data name="IssuedBy" xml:space="preserve">
+    <value>Ким видано:</value>
+  </data>
+  <data name="IssuedTo" xml:space="preserve">
+    <value>Кому видано:</value>
+  </data>
+  <data name="ValidFrom" xml:space="preserve">
+    <value>Дійсний з:</value>
+  </data>
+  <data name="ValidTo" xml:space="preserve">
+    <value>Дійсний до:</value>
+  </data>
+  <data name="NoSignatureFound" xml:space="preserve">
+    <value>Підпис не знайдено.</value>
+  </data>
   <data name="ShowOpenTerminal" xml:space="preserve">
-    <value>Show option to open folders in Windows Terminal</value>
+    <value>Показати параметр відкриття тек у терміналі Windows</value>
+  </data>
+  <data name="OpenLogFile" xml:space="preserve">
+    <value>Open log file</value>
+  </data>
+  <data name="OpenLogFileDescription" xml:space="preserve">
+    <value>Open log file in your default editor</value>
+  </data>
+  <data name="OpenLogFileLocationDescription" xml:space="preserve">
+    <value>Open log file location in your default file manager</value>
+  </data>
+  <data name="FailedToOpenLogFile" xml:space="preserve">
+    <value>Unable to open the log file</value>
   </data>
 </root>
