@@ -26,11 +26,14 @@ namespace Files.App.Controls
 				StyleProperty,
 				OnStylePropertyChanged
 			);
+
+			Unloaded += OnUnloaded;
 		}
 
-		~ThemedIcon()
+		private void OnUnloaded(object sender, RoutedEventArgs e)
 		{
 			UnregisterPropertyChangedCallback(StyleProperty, _stylePropertyChangedToken);
+			Unloaded -= OnUnloaded;
 		}
 
 		protected override void OnApplyTemplate()

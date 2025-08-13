@@ -297,12 +297,12 @@
 					<DataTemplate x:DataType="dataitems:NavigationBarSuggestionItem">
 						<Grid Padding="0,0,4,0" ColumnSpacing="12">
 							<Grid.ColumnDefinitions>
-								<!--<ColumnDefinition Width="Auto" />-->
+								<ColumnDefinition Width="Auto" />
 								<ColumnDefinition Width="*" />
 								<ColumnDefinition Width="Auto" />
 							</Grid.ColumnDefinitions>
 
-							<!--<Grid
+							<Grid
 								Grid.Column="0"
 								Width="16"
 								Height="16">
@@ -314,12 +314,12 @@
 								</Viewbox>
 								<controls:ThemedIcon Style="{x:Bind ThemedIconStyle, Mode=OneWay}" Visibility="{x:Bind ThemedIconStyle, Converter={StaticResource NullToVisibilityCollapsedConverter}, Mode=OneWay}" />
 								<Image Source="{x:Bind ActionIconSource, Mode=OneWay}" />
-							</Grid>-->
+							</Grid>
 
 							<!--  Primary Title  -->
 							<TextBlock
 								x:Name="PrimaryDisplayBlock"
-								Grid.Column="0"
+								Grid.Column="1"
 								VerticalAlignment="Center"
 								Foreground="{ThemeResource TextFillColorPrimaryBrush}"
 								TextTrimming="CharacterEllipsis"
@@ -330,7 +330,7 @@
 							<!--  Keyboard Shortcuts  -->
 							<keyboard:KeyboardShortcut
 								x:Name="RightAlignedKeyboardShortcut"
-								Grid.Column="1"
+								Grid.Column="2"
 								VerticalAlignment="Center"
 								HotKeys="{x:Bind HotKeys, Mode=OneWay}" />
 						</Grid>
