@@ -309,11 +309,14 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>Mørkt</value>
   </data>
+  <data name="UseSystemSetting" xml:space="preserve">
+    <value>Use system setting</value>
+  </data>
   <data name="Application" xml:space="preserve">
     <value>Applikasjon</value>
   </data>
   <data name="SystemTimeStyle" xml:space="preserve">
-    <value>systemet</value>
+    <value>System</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
     <value>Ny mappe</value>
@@ -346,7 +349,7 @@
     <value>Elementet finnes allerede</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Sett som låseskjerm bakgrunn</value>
+    <value>Sett som bakgrunn for låseskjerm</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
     <value>Bruk som app bakgrunn</value>
@@ -524,9 +527,6 @@
   <data name="Status" xml:space="preserve">
     <value>Status</value>
   </data>
-  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Windows-standard</value>
-  </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>Ingen resultater</value>
   </data>
@@ -633,7 +633,7 @@
     <value>Støtt oss på GitHub</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
-    <value>Vi kunne ikke opprettet dette elementet</value>
+    <value>Vi kunne ikke opprette dette elementet</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
     <value>Ingen tilgang</value>
@@ -1010,6 +1010,9 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Søkeresultater i {1} for {0}</value>
   </data>
+  <data name="SearchResultsFor" xml:space="preserve">
+    <value>Search results for `{0}`</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Detaljer</value>
   </data>
@@ -1102,6 +1105,12 @@
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
     <value>Toggle visibility of the filter header</value>
+  </data>
+  <data name="ToggleDualPane" xml:space="preserve">
+    <value>Toggle dual pane</value>
+  </data>
+  <data name="ToggleDualPaneDescription" xml:space="preserve">
+    <value>Toggle dual pane mode</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Forhåndsvisning ikke tilgjengelig</value>
@@ -1686,7 +1695,7 @@
     <value>Ukjent</value>
   </data>
   <data name="EditTags" xml:space="preserve">
-    <value>Rediger fil-merkelapper</value>
+    <value>Rediger merkelapper</value>
   </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
     <value>Del av sett</value>
@@ -1809,7 +1818,7 @@
     <value>Ingen</value>
   </data>
   <data name="CompatibilityOnWindowsLogin" xml:space="preserve">
-    <value>Ved Windows innlogging</value>
+    <value>Ved innlogging i Windows</value>
   </data>
   <data name="CompatibilityOnProgramStart" xml:space="preserve">
     <value>Ved dette programmet start</value>
@@ -1848,10 +1857,10 @@
     <value>Normal window</value>
   </data>
   <data name="Minimized" xml:space="preserve">
-    <value>Minimized</value>
+    <value>Minimert</value>
   </data>
   <data name="Maximized" xml:space="preserve">
-    <value>Maximized</value>
+    <value>Maksimert</value>
   </data>
   <data name="RunAsAdministrator" xml:space="preserve">
     <value>Kjør som administrator</value>
@@ -1962,7 +1971,7 @@
     <value>Lukk andre faner</value>
   </data>
   <data name="CloseAllTabs" xml:space="preserve">
-    <value>Close all tabs</value>
+    <value>Lukk alle faner</value>
   </data>
   <data name="Music" xml:space="preserve">
     <value>Musikk</value>
@@ -2118,7 +2127,7 @@
     <value>Du har ikke tilgang til denne mappen.</value>
   </data>
   <data name="ArchivePassword" xml:space="preserve">
-    <value>Arkiver passord</value>
+    <value>Arkivpassord</value>
   </data>
   <data name="Encoding" xml:space="preserve">
     <value>Encoding</value>
@@ -2253,7 +2262,7 @@
     <value>Vis mer</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Vis menyen for redigering av tagger</value>
+    <value>Vis menyen for redigering av merkelapper</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
     <value>Vis komprimeringsalternativer</value>
@@ -2283,7 +2292,7 @@
     <value>Feil i nettverksmappen</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>App versjon</value>
+    <value>App-versjon</value>
   </data>
   <data name="WindowsVersion" xml:space="preserve">
     <value>Windows versjon</value>
@@ -2328,7 +2337,7 @@
     <value>Er du sikker på at du vil slette denne taggen?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play</value>
+    <value>Spill av</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>Høyde</value>
@@ -2364,7 +2373,7 @@
     <value>Klarte ikke beregne hash, lukk filen og prøv på nytt.</value>
   </data>
   <data name="CalculationOnlineFileHashError" xml:space="preserve">
-    <value>Hashes er ikke tilgjengelig for online filer</value>
+    <value>Hasher er ikke tilgjengelig for online filer</value>
   </data>
   <data name="Algorithm" xml:space="preserve">
     <value>Algoritme</value>
@@ -2406,7 +2415,7 @@
     <value>Kompakt overlegg av/på</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open the online help page in your browser</value>
+    <value>Åpne online hjelpeside i nettleseren</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
     <value>Toggle full screen mode</value>
@@ -2457,16 +2466,16 @@
     <value>Cut selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste items to the current folder</value>
+    <value>Lim inn elementer i den gjeldende mappen</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items to the current folder as shortcuts</value>
+    <value>Lim elementer inn i den gjeldende mappen som snarveier</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items to the selected folder</value>
+    <value>Lim inn elementer i den valgte mappen</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
-    <value>Paste to selected folder</value>
+    <value>Lim inn i valgt mappe</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>Delete selected {0, plural, one {item} other {items}}</value>
@@ -2481,22 +2490,22 @@
     <value>Lag ny snarvei til et hvilket som helst element</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
-    <value>Empty the contents of Recycle Bin</value>
+    <value>Tøm innholdet i papirkurven</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
     <value>Åpne "Formater stasjon" meny for valgt element</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restore selected {0, plural, one {item} other {items}} from recycle bin</value>
+    <value>Gjenopprett {0, plural, one {valgt element} other {valgte elementer}} fra papirkurven</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
     <value>Gjenopprett alle elementer fra papirkurven</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Open {0, plural, one {item} other {items}}</value>
+    <value>Åpne {0, plural, one {element} other {elementer}}</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Open {0, plural, one {item} other {items}} with selected application</value>
+    <value>Åpne {0, plural, one {element} other {elementer}} med valgt applikasjon</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
     <value>Åpne overordnet mappe for søkt element</value>
@@ -2658,7 +2667,7 @@
     <value>Sorter elementer etter synkroniseringsstatus</value>
   </data>
   <data name="SortByTagDescription" xml:space="preserve">
-    <value>Sorter elementer etter tagger</value>
+    <value>Sorter elementer etter merkelapper</value>
   </data>
   <data name="SortByOriginalFolderDescription" xml:space="preserve">
     <value>Sorter elementer etter originalmappe</value>
@@ -2697,7 +2706,7 @@
     <value>Gruppere elementer etter synkroniseringsstatus</value>
   </data>
   <data name="GroupByTagDescription" xml:space="preserve">
-    <value>Gruppere elementer etter tagger</value>
+    <value>Gruppere elementer etter merkelapper</value>
   </data>
   <data name="GroupByOriginalFolderDescription" xml:space="preserve">
     <value>Gruppere elementer etter originalmappe</value>
@@ -2721,10 +2730,10 @@
     <value>Åpne en ny fane</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward</value>
+    <value>Gå tilbake</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward</value>
+    <value>Gå fremover</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Naviger opp en mappe</value>
@@ -2742,22 +2751,22 @@
     <value>Lukk faner til venstre for valgte fane</value>
   </data>
   <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Lukk faner til høyre for denne fane</value>
+    <value>Lukk faner til høyre for gjeldende fane</value>
   </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
     <value>Lukk faner til høyre for valgte fane</value>
   </data>
   <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Lukk faner fra nåværende</value>
+    <value>Lukk faner bortsett fra gjeldende fane</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
-    <value>Lukk faner fra valgte fane</value>
+    <value>Lukk faner bortsett fra valgte fane</value>
   </data>
   <data name="CloseAllTabsDescription" xml:space="preserve">
-    <value>Close all tabs including the current tab</value>
+    <value>Lukk alle faner inkludert gjeldende fane</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen recently closed tab</value>
+    <value>Åpne nylig lukket fane</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
     <value>Flytt til forrige fane</value>
@@ -2766,16 +2775,16 @@
     <value>Flytt til neste fane</value>
   </data>
   <data name="CloseSelectedTabDescription" xml:space="preserve">
-    <value>Lukk nåværende fane</value>
+    <value>Lukk gjeldende fane</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>Close the active pane</value>
+    <value>Lukk den aktive ruten</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
-    <value>Focus other pane</value>
+    <value>Fokuser på annen rute</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Switch focus to the other pane</value>
+    <value>Flytt fokuset til annen rute</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Slå av/på sidepanelet</value>
@@ -2974,22 +2983,22 @@
     <value>Vis advarsel ved endring av filendelser</value>
   </data>
   <data name="ThisPC" xml:space="preserve">
-    <value>Denne PC</value>
+    <value>Denne PCen</value>
   </data>
   <data name="RecycleBin" xml:space="preserve">
-    <value>Resirkuler tkort</value>
+    <value>Papirkurv</value>
   </data>
   <data name="Untagged" xml:space="preserve">
     <value>Umerket</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Previous tab</value>
+    <value>Forrige fane</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Next tab</value>
+    <value>Neste fane</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Close tab</value>
+    <value>Lukk fane</value>
   </data>
   <data name="EditPath" xml:space="preserve">
     <value>Endre sti</value>
@@ -3230,7 +3239,7 @@
     <value>Mica Alt</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
-    <value>Backdrop</value>
+    <value>Bakgrunnsmateriale</value>
   </data>
   <data name="Solid" xml:space="preserve">
     <value>Solid</value>
@@ -3263,10 +3272,10 @@
     <value>Filer kan ikke få tilgang til GitHub akkurat nå.</value>
   </data>
   <data name="OpenInIDE" xml:space="preserve">
-    <value>Open folder in {0}</value>
+    <value>Åpne mappe i {0}</value>
   </data>
   <data name="OpenInIDEDescription" xml:space="preserve">
-    <value>Open the current directory in {0}</value>
+    <value>Åpne gjeldende mappe i {0}</value>
   </data>
   <data name="OpenRepoInIDE" xml:space="preserve">
     <value>Open repo in {0}</value>
@@ -3278,7 +3287,7 @@
     <value>Kopier koden</value>
   </data>
   <data name="Added" xml:space="preserve">
-    <value>Lagt</value>
+    <value>Lagt til</value>
   </data>
   <data name="Deleted" xml:space="preserve">
     <value>Slettet</value>
@@ -3320,7 +3329,7 @@
     <value>Open selected directory in a new tab</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open selected directory in a new window</value>
+    <value>Åpne valgt mappe i nytt vindu</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
     <value>Åpne alle sider</value>
@@ -3718,7 +3727,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} {0, plural, one {item} other {items}} processed</value>
+    <value>{0}/{1, plural, one {# item} other {# items}} processed</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3755,10 +3764,10 @@
     <value>Koble til GitHub</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Innlogging</value>
+    <value>Logg inn</value>
   </data>
   <data name="ErrorApplyingTagContent" xml:space="preserve">
-    <value>Merker er for tiden bare kompatible på drivverk formatert som NTFS.</value>
+    <value>Merkelapper er for tiden bare kompatible med disker formatert som NTFS.</value>
   </data>
   <data name="ErrorApplyingTagTitle" xml:space="preserve">
     <value>Det oppstod en feil ved å legge til denne taggen</value>
@@ -3824,7 +3833,7 @@
     <value>Filene kjører fortsatt i bakgrunnen for at ytelsen kan forbedres.</value>
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
-    <value>Hvor gikk filene?</value>
+    <value>Hvor ble det av Files?</value>
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
     <value>Spørsmål og diskusjoner</value>
@@ -4002,6 +4011,10 @@
     <value>Bitmap filer</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
+  <data name="ImageFiles" xml:space="preserve">
+    <value>Image Files</value>
+    <comment>This is the friendly name for image files.</comment>
+  </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Num</value>
   </data>
@@ -4033,17 +4046,17 @@
   <data name="TabActions" xml:space="preserve">
     <value>Tab actions menu</value>
   </data>
-  <data name="AddVerticalPane" xml:space="preserve">
-    <value>Vertical pane</value>
+  <data name="SplitPaneVertically" xml:space="preserve">
+    <value>Split vertically</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Add vertical pane</value>
+    <value>Split pane vertically</value>
   </data>
-  <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Horizontal pane</value>
+  <data name="SplitPaneHorizontally" xml:space="preserve">
+    <value>Split horizontally</value>
   </data>
-  <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Add horizontal pane</value>
+  <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
+    <value>Split pane horizontally</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Arrange vertically</value>
@@ -4057,8 +4070,8 @@
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
     <value>Arrange panes horizontally</value>
   </data>
-  <data name="AddPane" xml:space="preserve">
-    <value>Add pane</value>
+  <data name="SplitPane" xml:space="preserve">
+    <value>Split pane</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Show tab actions button in the title bar</value>
@@ -4066,8 +4079,11 @@
   <data name="ArrangePanes" xml:space="preserve">
     <value>Arrange panes</value>
   </data>
-  <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>Default pane arrangement</value>
+  <data name="DualPaneSplitDirection" xml:space="preserve">
+    <value>Default dual pane split direction</value>
+  </data>
+  <data name="DualPane" xml:space="preserve">
+    <value>Dual pane mode</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>Horizontal</value>
@@ -4076,7 +4092,7 @@
     <value>Vertical</value>
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
-    <value>Show Files icon in the System Tray</value>
+    <value>Vis Files-ikon i systemstatusfeltet</value>
   </data>
   <data name="CPUThreads" xml:space="preserve">
     <value>CPU threads</value>
@@ -4091,7 +4107,7 @@
     <value>User ID</value>
   </data>
   <data name="BulkRename" xml:space="preserve">
-    <value>Bulk rename</value>
+    <value>Gi nytt navn til flere elementer</value>
   </data>
   <data name="CompressContents" xml:space="preserve">
     <value>Compress contents</value>
@@ -4121,7 +4137,7 @@
     <value>Would you like to display alternate data streams? You can modify this setting anytime from the files and folders settings page.</value>
   </data>
   <data name="ManageTags" xml:space="preserve">
-    <value>Manage tags</value>
+    <value>Administrer merkelapper</value>
   </data>
   <data name="Available" xml:space="preserve">
     <value>Available</value>
@@ -4168,7 +4184,7 @@
     <comment>Appears when two compared hashes don't match</comment>
   </data>
   <data name="PathOrAlias" xml:space="preserve">
-    <value>Path or alias</value>
+    <value>Sti eller alias</value>
   </data>
   <data name="InvalidPath" xml:space="preserve">
     <value>Invalid path</value>
@@ -4177,10 +4193,10 @@
     <value>Test integration</value>
   </data>
   <data name="IDENotLocatedContent" xml:space="preserve">
-    <value>{0} could not be located. Please check your settings and try again.</value>
+    <value>{0} ble ikke funnet. Sjekk innstillingene og prøv igjen.</value>
   </data>
   <data name="IDENotLocatedTitle" xml:space="preserve">
-    <value>The configured IDE could not be located</value>
+    <value>Den konfigurerte IDE-en ble ikke funnet</value>
   </data>
   <data name="OpenSettings" xml:space="preserve">
     <value>Open settings</value>
@@ -4189,10 +4205,10 @@
     <value>Visual Studio Code</value>
   </data>
   <data name="IDEPathPlaceholder" xml:space="preserve">
-    <value>Enter a path or launch alias</value>
+    <value>Skriv inn en sti eller startalias</value>
   </data>
   <data name="InvalidIDENameError" xml:space="preserve">
-    <value>Please enter a name for the IDE</value>
+    <value>Angi et navn for IDE-en</value>
   </data>
   <data name="CloneRepo" xml:space="preserve">
     <value>Clone repo</value>
@@ -4230,13 +4246,13 @@
     <value>Drag files or folders here to interact with them across different tabs</value>
   </data>
   <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
-    <value>Enter a path to navigate to...</value>
+    <value>Angi en sti å navigere til...</value>
   </data>
   <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
-    <value>Find features and commands...</value>
+    <value>Finn funksjoner og kommandoer...</value>
   </data>
   <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
-    <value>Search for files and folders...</value>
+    <value>Søk etter filer og mapper...</value>
   </data>
   <data name="DuringOngoingFileOperations" xml:space="preserve">
     <value>During file operations</value>
@@ -4265,7 +4281,7 @@
     <value>There are no commands containing {0}</value>
   </data>
   <data name="SeeMore" xml:space="preserve">
-    <value>See more</value>
+    <value>Se mer</value>
   </data>
   <data name="FilteringFor" xml:space="preserve">
     <value>Filtering for</value>
@@ -4273,7 +4289,40 @@
   <data name="Filename" xml:space="preserve">
     <value>Filename</value>
   </data>
+  <data name="Signatures" xml:space="preserve">
+    <value>Signatures</value>
+   </data>
+  <data name="SignatureList" xml:space="preserve">
+    <value>Signature list</value>
+  </data>
+  <data name="IssuedBy" xml:space="preserve">
+    <value>Issued by:</value>
+  </data>
+  <data name="IssuedTo" xml:space="preserve">
+    <value>Issued to:</value>
+  </data>
+  <data name="ValidFrom" xml:space="preserve">
+    <value>Valid from:</value>
+  </data>
+  <data name="ValidTo" xml:space="preserve">
+    <value>Valid to:</value>
+  </data>
+  <data name="NoSignatureFound" xml:space="preserve">
+    <value>No signature was found.</value>
+  </data>
   <data name="ShowOpenTerminal" xml:space="preserve">
     <value>Show option to open folders in Windows Terminal</value>
+  </data>
+  <data name="OpenLogFile" xml:space="preserve">
+    <value>Open log file</value>
+  </data>
+  <data name="OpenLogFileDescription" xml:space="preserve">
+    <value>Open log file in your default editor</value>
+  </data>
+  <data name="OpenLogFileLocationDescription" xml:space="preserve">
+    <value>Open log file location in your default file manager</value>
+  </data>
+  <data name="FailedToOpenLogFile" xml:space="preserve">
+    <value>Unable to open the log file</value>
   </data>
 </root>
