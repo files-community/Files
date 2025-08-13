@@ -33,6 +33,7 @@ namespace Files.App.Controls
 		private void OnUnloaded(object sender, RoutedEventArgs e)
 		{
 			UnregisterPropertyChangedCallback(StyleProperty, _stylePropertyChangedToken);
+			IsEnabledChanged -= OnIsEnabledChanged;
 			Unloaded -= OnUnloaded;
 		}
 
