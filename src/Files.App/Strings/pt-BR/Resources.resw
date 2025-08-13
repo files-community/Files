@@ -309,6 +309,9 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>Escuro</value>
   </data>
+  <data name="UseSystemSetting" xml:space="preserve">
+    <value>Usar configuração do sistema</value>
+  </data>
   <data name="Application" xml:space="preserve">
     <value>Aplicativo</value>
   </data>
@@ -523,9 +526,6 @@
   </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
-  </data>
-  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Padrão do Windows</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>Sem resultados</value>
@@ -1010,6 +1010,9 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Resultados da pesquisa em {1} para {0}</value>
   </data>
+  <data name="SearchResultsFor" xml:space="preserve">
+    <value>Resultados da pesquisa para '{0}'</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Detalhes</value>
   </data>
@@ -1102,6 +1105,12 @@
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
     <value>Alternar a visibilidade do cabeçalho do filtro</value>
+  </data>
+  <data name="ToggleDualPane" xml:space="preserve">
+    <value>Ativar/desativar painel duplo</value>
+  </data>
+  <data name="ToggleDualPaneDescription" xml:space="preserve">
+    <value>Alternar modo de painel duplo</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nenhuma visualização disponível</value>
@@ -3718,7 +3727,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} {0, plural, one {item processado} other {itens processados}}</value>
+    <value>{0}/ {1, plural, one {# item processado} other {# itens processados}}</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -4002,6 +4011,10 @@
     <value>Arquivos Bitmap</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
+  <data name="ImageFiles" xml:space="preserve">
+    <value>Arquivos de imagem</value>
+    <comment>This is the friendly name for image files.</comment>
+  </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Num</value>
   </data>
@@ -4033,17 +4046,17 @@
   <data name="TabActions" xml:space="preserve">
     <value>Menu de ações de aba</value>
   </data>
-  <data name="AddVerticalPane" xml:space="preserve">
-    <value>Vertical pane</value>
+  <data name="SplitPaneVertically" xml:space="preserve">
+    <value>Dividir verticalmente</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Add vertical pane</value>
+    <value>Dividir painel verticalmente</value>
   </data>
-  <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Horizontal pane</value>
+  <data name="SplitPaneHorizontally" xml:space="preserve">
+    <value>Dividir horizontalmente</value>
   </data>
-  <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Add horizontal pane</value>
+  <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
+    <value>Dividir painel horizontalmente</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Organizar verticalmente</value>
@@ -4057,8 +4070,8 @@
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
     <value>Organizar painéis horizontalmente</value>
   </data>
-  <data name="AddPane" xml:space="preserve">
-    <value>Adicionar painel</value>
+  <data name="SplitPane" xml:space="preserve">
+    <value>Dividir painel</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Mostrar botão de ações da aba na barra de título</value>
@@ -4066,8 +4079,11 @@
   <data name="ArrangePanes" xml:space="preserve">
     <value>Organizar painéis</value>
   </data>
-  <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>Disposição padrão do painel</value>
+  <data name="DualPaneSplitDirection" xml:space="preserve">
+    <value>Direção padrão do duplo painel dividido</value>
+  </data>
+  <data name="DualPane" xml:space="preserve">
+    <value>Modo de painel duplo</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>Horizontal</value>
@@ -4273,7 +4289,40 @@
   <data name="Filename" xml:space="preserve">
     <value>Nome do arquivo</value>
   </data>
+  <data name="Signatures" xml:space="preserve">
+    <value>Assinaturas</value>
+   </data>
+  <data name="SignatureList" xml:space="preserve">
+    <value>Lista de assinaturas</value>
+  </data>
+  <data name="IssuedBy" xml:space="preserve">
+    <value>Emitido por:</value>
+  </data>
+  <data name="IssuedTo" xml:space="preserve">
+    <value>Emitido para:</value>
+  </data>
+  <data name="ValidFrom" xml:space="preserve">
+    <value>Válido de:</value>
+  </data>
+  <data name="ValidTo" xml:space="preserve">
+    <value>Válido até:</value>
+  </data>
+  <data name="NoSignatureFound" xml:space="preserve">
+    <value>Nenhuma assinatura foi encontrada.</value>
+  </data>
   <data name="ShowOpenTerminal" xml:space="preserve">
     <value>Mostrar a opção de abrir pastas no Terminal do Windows</value>
+  </data>
+  <data name="OpenLogFile" xml:space="preserve">
+    <value>Abrir arquivo de registro</value>
+  </data>
+  <data name="OpenLogFileDescription" xml:space="preserve">
+    <value>Abrir arquivo de registro no seu editor padrão</value>
+  </data>
+  <data name="OpenLogFileLocationDescription" xml:space="preserve">
+    <value>Abrir o local do arquivo de registro no seu gerenciador de arquivos padrão</value>
+  </data>
+  <data name="FailedToOpenLogFile" xml:space="preserve">
+    <value>Não foi possível abrir o arquivo de registro</value>
   </data>
 </root>
