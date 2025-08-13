@@ -11,6 +11,8 @@ using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Win32.Storage.FileSystem;
+using Files.App.Utils.Storage.Search;
+using System.Runtime.CompilerServices;
 
 namespace Files.App.ViewModels.Settings
 {
@@ -27,6 +29,9 @@ namespace Files.App.ViewModels.Settings
 		public ICommand ExportSettingsCommand { get; }
 		public ICommand ImportSettingsCommand { get; }
 		public AsyncRelayCommand OpenFilesOnWindowsStartupCommand { get; }
+		public ICommand OpenEverythingDownloadCommand { get; }
+
+		public Dictionary<PreferredSearchEngine, string> SearchEngineTypes { get; private set; } = [];
 
 
 		public AdvancedViewModel()
@@ -39,6 +44,12 @@ namespace Files.App.ViewModels.Settings
 			ExportSettingsCommand = new AsyncRelayCommand(ExportSettingsAsync);
 			ImportSettingsCommand = new AsyncRelayCommand(ImportSettingsAsync);
 			OpenFilesOnWindowsStartupCommand = new AsyncRelayCommand(OpenFilesOnWindowsStartupAsync);
+			OpenEverythingDownloadCommand = new RelayCommand(OpenEverythingDownload);
+
+			// Initialize search engine types
+			SearchEngineTypes.Add(PreferredSearchEngine.Windows, "Windows Search");
+			SearchEngineTypes.Add(PreferredSearchEngine.Everything, "Everything");
+			SelectedSearchEngineType = SearchEngineTypes[UserSettingsService.GeneralSettingsService.PreferredSearchEngine];
 
 			_ = DetectOpenFilesAtStartupAsync();
 		}
@@ -354,6 +365,71 @@ namespace Files.App.ViewModels.Settings
 				OnPropertyChanged();
 			}
 		}
+
+		public PreferredSearchEngine PreferredSearchEngine
+		{
+			get => UserSettingsService.GeneralSettingsService.PreferredSearchEngine;
+			set
+			{
+				if (value == UserSettingsService.GeneralSettingsService.PreferredSearchEngine)
+					return;
+
+				UserSettingsService.GeneralSettingsService.PreferredSearchEngine = value;
+				OnPropertyChanged();
+				OnPropertyChanged(nameof(IsEverythingSearchSelected));
+			}
+		}
+
+	public bool IsEverythingSearchAvailable
+	{
+		get => new EverythingSearchEngineService().IsAvailable;
+	}
+
+	public bool IsEverythingSearchSelected
+	{
+		get => PreferredSearchEngine == PreferredSearchEngine.Everything;
+	}
+
+
+	public int EverythingMaxFolderSizeResults
+	{
+		get => UserSettingsService.GeneralSettingsService.EverythingMaxFolderSizeResults;
+		set
+		{
+			if (value != UserSettingsService.GeneralSettingsService.EverythingMaxFolderSizeResults)
+			{
+				UserSettingsService.GeneralSettingsService.EverythingMaxFolderSizeResults = value;
+				OnPropertyChanged();
+			}
+		}
+	}
+
+	private string selectedSearchEngineType;
+	public string SelectedSearchEngineType
+	{
+		get => selectedSearchEngineType;
+		set
+		{
+			// Check if user is trying to select Everything but it's not available
+			if (value == "Everything" && !IsEverythingSearchAvailable)
+			{
+				// Don't change the selection, show warning
+				ShowEverythingNotInstalledWarning = true;
+				// Force the UI to refresh back to current value
+				OnPropertyChanged(nameof(SelectedSearchEngineType));
+				return;
+			}
+			
+			// Hide warning if shown
+			ShowEverythingNotInstalledWarning = false;
+
+			if (SetProperty(ref selectedSearchEngineType, value))
+			{
+				UserSettingsService.GeneralSettingsService.PreferredSearchEngine = SearchEngineTypes.First(e => e.Value == value).Key;
+				OnPropertyChanged(nameof(IsEverythingSearchSelected));
+			}
+		}
+	}
 		public async Task OpenFilesOnWindowsStartupAsync()
 		{
 			var stateMode = await ReadState();
@@ -412,5 +488,34 @@ namespace Files.App.ViewModels.Settings
 			var state = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
 			return state.State;
 		}
+
+		private void OpenEverythingDownload()
+		{
+			var url = "https://www.voidtools.com/";
+			Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+		}
+
+		private bool showEverythingNotInstalledWarning;
+		public bool ShowEverythingNotInstalledWarning
+		{
+			get => showEverythingNotInstalledWarning;
+			set => SetProperty(ref showEverythingNotInstalledWarning, value);
+		}
+		
+		public bool ShowEverythingFolderSizeInfo
+		{
+			get => IsEverythingSearchAvailable && SelectedSearchEngineType == "Everything" && UserSettingsService.FoldersSettingsService.CalculateFolderSizes;
+		}
+
+		public bool CanSelectSearchEngine(string searchEngine)
+		{
+			if (searchEngine == "Everything")
+			{
+				return IsEverythingSearchAvailable;
+			}
+			return true;
+		}
+
+
 	}
 }

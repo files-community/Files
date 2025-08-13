@@ -78,8 +78,18 @@ namespace Files.App.Utils.Storage
 										folder.FileSizeBytes = (long)size;
 										folder.FileSize = size.ToSizeString();
 									}
-
-									_ = folderSizeProvider.UpdateAsync(folder.ItemPath, cancellationToken);
+									else
+									{
+										// Fire and forget - calculate size in background without blocking
+										_ = Task.Run(async () =>
+										{
+											try
+											{
+												await folderSizeProvider.UpdateAsync(folder.ItemPath, cancellationToken);
+											}
+											catch { /* Ignore errors in background size calculation */ }
+										});
+									}
 								}
 							}
 						}

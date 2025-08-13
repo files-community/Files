@@ -9,7 +9,13 @@
 	xmlns:uc="using:Files.App.UserControls"
 	xmlns:vm="using:Files.App.ViewModels.Settings"
 	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	mc:Ignorable="d">
+
+	<Page.Resources>
+		<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+		<wctconverters:BoolToVisibilityConverter x:Key="BoolNegationToVisibilityConverter" FalseValue="Visible" TrueValue="Collapsed" />
+	</Page.Resources>
 
 	<Page.DataContext>
 		<vm:FoldersViewModel x:Name="ViewModel" />
@@ -185,13 +191,27 @@
 				</wctcontrols:SettingsExpander.HeaderIcon>
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=CalculateFolderSizes}" IsOn="{x:Bind ViewModel.CalculateFolderSizes, Mode=TwoWay}" />
 				<wctcontrols:SettingsExpander.ItemsHeader>
-					<InfoBar
-						CornerRadius="0"
-						IsClosable="False"
-						IsIconVisible="True"
-						IsOpen="True"
-						Message="{helpers:ResourceString Name=ShowFolderSizesWarning}"
-						Severity="Warning" />
+					<StackPanel>
+						<!--  Warning when Everything is not enabled  -->
+						<InfoBar
+							CornerRadius="0"
+							IsClosable="False"
+							IsIconVisible="True"
+							IsOpen="{x:Bind ViewModel.CalculateFolderSizes, Mode=OneWay}"
+							Message="{x:Bind ViewModel.FolderSizeWarningMessage, Mode=OneWay}"
+							Severity="Warning"
+							Visibility="{x:Bind ViewModel.IsEverythingEnabled, Mode=OneWay, Converter={StaticResource BoolNegationToVisibilityConverter}}" />
+						
+						<!--  Info when Everything is enabled  -->
+						<InfoBar
+							CornerRadius="0"
+							IsClosable="False"
+							IsIconVisible="True"
+							IsOpen="{x:Bind ViewModel.CalculateFolderSizes, Mode=OneWay}"
+							Message="{x:Bind ViewModel.FolderSizeInfoMessage, Mode=OneWay}"
+							Severity="Informational"
+							Visibility="{x:Bind ViewModel.IsEverythingEnabled, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+					</StackPanel>
 				</wctcontrols:SettingsExpander.ItemsHeader>
 			</wctcontrols:SettingsExpander>
 		</StackPanel>
