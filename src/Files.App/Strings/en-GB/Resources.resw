@@ -124,7 +124,7 @@
     <value>Copy path</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Rakeshghoshal32@gmail.com</value>
+    <value>Copy item path</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Copy path with quotes</value>
@@ -166,7 +166,7 @@
     <value>Skip</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>ApkFiles</value>
+    <value>Select all</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Invert selection</value>
@@ -217,7 +217,7 @@
     <value>Show hidden files and folders</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>P t f</value>
+    <value>Show dot files</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Appearance</value>
