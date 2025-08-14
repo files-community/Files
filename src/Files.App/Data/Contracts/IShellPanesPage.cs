@@ -65,6 +65,11 @@ namespace Files.App.Data.Contracts
 		public void FocusOtherPane();
 
 		/// <summary>
+		/// Focuses the active pane.
+		/// </summary>
+		public void FocusActivePane();
+
+		/// <summary>
 		/// Gets open panes.
 		/// </summary>
 		/// <returns>An enumerable containing open panes.</returns>

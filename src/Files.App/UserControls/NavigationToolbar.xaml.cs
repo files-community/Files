@@ -177,7 +177,7 @@ namespace Files.App.UserControls
 			if (mode == OmnibarPathMode)
 			{
 				await ViewModel.HandleItemNavigationAsync(args.Text);
-				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+				ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
 				return;
 			}
 
@@ -197,7 +197,7 @@ namespace Files.App.UserControls
 						continue;
 
 					await command.ExecuteAsync();
-					(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+					ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
 					return;
 				}
 
@@ -214,14 +214,14 @@ namespace Files.App.UserControls
 						await overload?.InvokeAsync(actionInstance.Context);
 					}
 
-					(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+					ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
 					return;
 				}
 
 				await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
 					string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), args.Text));
 
-				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+				ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
 				return;
 			}
 
@@ -242,7 +242,7 @@ namespace Files.App.UserControls
 					ViewModel.SaveSearchQueryToList(searchQuery);
 				}
 
-				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+				ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
 				return;
 			}
 		}
@@ -423,7 +423,7 @@ namespace Files.App.UserControls
 			if (e.Key is VirtualKey.Escape)
 			{
 				Omnibar.IsFocused = false;
-				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+				ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
 			}
 			else if (e.Key is VirtualKey.Tab && Omnibar.IsFocused && !InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
 			{
