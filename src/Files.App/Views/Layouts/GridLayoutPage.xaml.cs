@@ -615,6 +615,8 @@ namespace Files.App.Views.Layouts
 				// https://github.com/files-community/Files/issues/15051
 				if (e.PointerDeviceType == PointerDeviceType.Touch)
 					ItemManipulationModel.ClearSelection();
+
+				return;
 			}
 
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
