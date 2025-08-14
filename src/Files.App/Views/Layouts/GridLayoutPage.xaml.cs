@@ -610,7 +610,12 @@ namespace Files.App.Views.Layouts
 
 			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
 			if (item is null)
-				return;
+			{
+				// Clear selection when clicking empty area via touch
+				// https://github.com/files-community/Files/issues/15051
+				if (e.PointerDeviceType == PointerDeviceType.Touch)
+					ItemManipulationModel.ClearSelection();
+			}
 
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
 			if (ctrlPressed ||
