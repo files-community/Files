@@ -83,7 +83,11 @@ namespace Files.App.Views.Layouts
 
 		public void SetWidth(int index)
 		{
-			var blade = ColumnHost.ActiveBlades[index];
+			var activeBlades = ColumnHost.ActiveBlades;
+			if (index < 0 || activeBlades is null || index >= activeBlades.Count)
+				return;
+
+			var blade = activeBlades[index];
 			blade?.SetWidth();
 		}
 
