@@ -20,7 +20,7 @@ namespace Files.App.Services
 					.Where(line => !line.StartsWith(';') && !string.IsNullOrEmpty(line))
 					.ToList();
 			}
-			catch (Exception ex) when (ex is UnauthorizedAccessException || ex is SystemIO.FileNotFoundException)
+			catch (Exception ex) when (ex is UnauthorizedAccessException || ex is SystemIO.FileNotFoundException || ex is SystemIO.IOException)
 			{
 				return [];
 			}
