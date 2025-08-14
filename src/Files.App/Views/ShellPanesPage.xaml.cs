@@ -668,7 +668,11 @@ namespace Files.App.Views
 
 		private void Pane_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
-			if (sender != ActivePane && sender is IShellPage shellPage && shellPage.SlimContentPage is not ColumnsLayoutPage)
+			// Focus pane if interaction suggests intent to focus:
+			// 1. Sender is not the currently active pane (user is switching panes), or the sender is the active pane,
+			// but the user is refocusing the pane (e.g. user taps pane to refocus while the Omnibar flyout is open)
+			// 2. AND the sender is a valid shell page not using a column-based layout
+			if ((sender != ActivePane || e.Pointer.PointerDeviceType == PointerDeviceType.Touch) && sender is IShellPage shellPage && shellPage.SlimContentPage is not ColumnsLayoutPage)
 				(sender as UIElement)?.Focus(FocusState.Pointer);
 		}
 
