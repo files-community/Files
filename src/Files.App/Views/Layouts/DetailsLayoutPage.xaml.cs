@@ -567,6 +567,13 @@ namespace Files.App.Views.Layouts
 							await CommitRenameAsync(textBox);
 					}
 				}
+				else
+				{
+					// Clear selection when clicking empty area via touch
+					// https://github.com/files-community/Files/issues/15051
+					if (e.PointerDeviceType == PointerDeviceType.Touch)
+						ItemManipulationModel.ClearSelection();
+				}
 				return;
 			}
 
