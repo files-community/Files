@@ -149,9 +149,6 @@ namespace Files.App.ViewModels.UserControls
 
 		private async void Watcher_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
-			if (sender is not IFolderWatcher)
-				return;
-
 			switch (e.Action)
 			{
 				case NotifyCollectionChangedAction.Remove when e.OldItems is not null:
