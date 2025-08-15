@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using SevenZip;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Input;
 using Windows.ApplicationModel;
@@ -354,6 +355,7 @@ namespace Files.App.ViewModels.Settings
 				OnPropertyChanged();
 			}
 		}
+
 		public async Task OpenFilesOnWindowsStartupAsync()
 		{
 			var stateMode = await ReadState();
@@ -369,12 +371,19 @@ namespace Files.App.ViewModels.Settings
 
 			if (state != OpenOnWindowsStartup)
 			{
-				StartupTask startupTask = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
-				if (OpenOnWindowsStartup)
-					await startupTask.RequestEnableAsync();
-				else
-					startupTask.Disable();
-				await DetectOpenFilesAtStartupAsync();
+				try
+				{
+					StartupTask startupTask = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
+					if (OpenOnWindowsStartup)
+						await startupTask.RequestEnableAsync();
+					else
+						startupTask.Disable();
+					await DetectOpenFilesAtStartupAsync();
+				}
+				catch (COMException ex)
+				{
+					App.Logger?.LogWarning(ex, "RPC server unavailable, returning default state");
+				}
 			}
 		}
 
@@ -409,8 +418,16 @@ namespace Files.App.ViewModels.Settings
 
 		public async Task<StartupTaskState> ReadState()
 		{
-			var state = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
-			return state.State;
+			try
+			{
+				var state = await StartupTask.GetAsync("3AA55462-A5FA-4933-88C4-712D0B6CDEBB");
+				return state.State;
+			}
+			catch (COMException ex)
+			{
+				App.Logger?.LogWarning(ex, "RPC server unavailable, returning default state");
+				return StartupTaskState.Disabled;
+			}
 		}
 	}
 }
