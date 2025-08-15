@@ -7,8 +7,10 @@ using System.Windows.Input;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
+using Microsoft.UI.Xaml.Input;
 using WinRT;
 using DragEventArgs = Microsoft.UI.Xaml.DragEventArgs;
+using Visibility = Microsoft.UI.Xaml.Visibility;
 
 namespace Files.App.UserControls
 {
@@ -88,13 +90,10 @@ namespace Files.App.UserControls
 
 		private void ShelfItemsList_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
 		{
-			if (e.OriginalSource is not Microsoft.UI.Xaml.FrameworkElement widgetCardItem ||
-				widgetCardItem.DataContext is not ShelfItem item ||
-				item.Path is null)
+			if (e.OriginalSource is not Microsoft.UI.Xaml.FrameworkElement { DataContext: ShelfItem item } widgetCardItem || item.Path is null)
 				return;
 
 			var menuFlyout = new MenuFlyout();
-
 			menuFlyout.Items.Add(new MenuFlyoutItem
 			{
 				Text = Strings.BaseLayoutItemContextFlyoutOpenParentFolder_Text.GetLocalizedResource(),
@@ -114,8 +113,25 @@ namespace Files.App.UserControls
 
 		private void ShelfItemsList_GotFocus(object sender, RoutedEventArgs e)
 		{
-			if (ItemFocusedCommand is not null)
-				ItemFocusedCommand.Execute(null);
+			ItemFocusedCommand?.Execute(null);
+		}
+
+		private void HyperlinkBatch_Click(object sender, RoutedEventArgs e)
+		{
+			if (sender is not FrameworkElement element)
+				return;
+
+			BatchFlyout.ShowAt(element);
+		}
+
+		private void ShelfItemsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			BatchActionsButton.Visibility = ShelfItemsList.SelectedItems.IsEmpty() ? Visibility.Collapsed : Visibility.Visible;
+		}
+
+		private void Pane_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			ShelfItemsList.SelectedItems.Clear();
 		}
 
 		public ObservableCollection<ShelfItem>? ItemsSource

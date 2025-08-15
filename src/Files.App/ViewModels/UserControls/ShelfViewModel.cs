@@ -40,16 +40,17 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		[RelayCommand]
-		private async Task BulkDeleteAsync()
+		private async Task BulkDeleteAsync(IEnumerable? enumerable, CancellationToken cancellationToken)
 		{
-			if (Items.IsEmpty())
+			var items = enumerable?.Cast<ShelfItem>().ToArray();
+			if (items.IsEmpty())
 				return;
 
 			var context = Ioc.Default.GetRequiredService<IContentPageContext>();
 			if (context.ShellPage is not { } shellPage)
 				return;
 
-			var itemsToDelete = Items.Select(x => StorageHelpers.FromPathAndType(x.Inner.Id, x.Inner switch
+			var itemsToDelete = items.Select(x => StorageHelpers.FromPathAndType(x.Inner.Id, x.Inner switch
 			{
 				IFile => FilesystemItemType.File,
 				IFolder => FilesystemItemType.Directory,
@@ -62,9 +63,10 @@ namespace Files.App.ViewModels.UserControls
 		}
 
 		[RelayCommand]
-		private async Task BulkCopyAsync()
+		private async Task BulkCopyAsync(IEnumerable? enumerable, CancellationToken cancellationToken)
 		{
-			if (Items.IsEmpty())
+			var items = enumerable?.Cast<ShelfItem>().ToArray();
+			if (items.IsEmpty())
 				return;
 
 			var context = Ioc.Default.GetRequiredService<IContentPageContext>();
@@ -73,14 +75,15 @@ namespace Files.App.ViewModels.UserControls
 			if (context.ShellPage?.ShellViewModel is not { } shellViewModel)
 				return;
 
-			var itemsToCopy = Items.Select(x => x.Inner).ToArray();
+			var itemsToCopy = items.Select(x => x.Inner).ToArray();
 			await TransferHelpers.ExecuteTransferAsync(itemsToCopy, shellViewModel, statusViewModel, DataPackageOperation.Copy);
 		}
 
 		[RelayCommand]
-		private async Task BulkCutAsync()
+		private async Task BulkCutAsync(IEnumerable? enumerable, CancellationToken cancellationToken)
 		{
-			if (Items.IsEmpty())
+			var items = enumerable?.Cast<ShelfItem>().ToArray();
+			if (items.IsEmpty())
 				return;
 
 			var context = Ioc.Default.GetRequiredService<IContentPageContext>();
@@ -89,7 +92,7 @@ namespace Files.App.ViewModels.UserControls
 			if (context.ShellPage?.ShellViewModel is not { } shellViewModel)
 				return;
 
-			var itemsToCut = Items.Select(x => x.Inner).ToArray();
+			var itemsToCut = items.Select(x => x.Inner).ToArray();
 			await TransferHelpers.ExecuteTransferAsync(itemsToCut, shellViewModel, statusViewModel, DataPackageOperation.Move);
 		}
 
