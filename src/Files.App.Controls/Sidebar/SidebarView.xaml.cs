@@ -2,8 +2,11 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Markup;
+using System.ComponentModel;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
@@ -23,6 +26,8 @@ namespace Files.App.Controls
 
 		private bool draggingSidebarResizer;
 		private double preManipulationSidebarWidth = 0;
+		private SidebarDisplayMode lastDisplayModeBeforeManipulation;
+		private double lastDisplayModeChangeWidth = 0;
 
 		public SidebarView()
 		{
@@ -78,13 +83,16 @@ namespace Files.App.Controls
 
 		private void UpdateDisplayMode()
 		{
+			// During manipulation, use non-animated transitions to prevent layout cycles
+			bool useTransition = !draggingSidebarResizer;
+			
 			switch (DisplayMode)
 			{
 				case SidebarDisplayMode.Compact:
-					VisualStateManager.GoToState(this, "Compact", true);
+					VisualStateManager.GoToState(this, "Compact", useTransition);
 					return;
 				case SidebarDisplayMode.Expanded:
-					VisualStateManager.GoToState(this, "Expanded", true);
+					VisualStateManager.GoToState(this, "Expanded", useTransition);
 					return;
 				case SidebarDisplayMode.Minimal:
 					IsPaneOpen = false;
@@ -95,20 +103,51 @@ namespace Files.App.Controls
 
 		private void UpdateDisplayModeForPaneWidth(double newPaneWidth)
 		{
-			if (newPaneWidth < COMPACT_MAX_WIDTH)
+			// During manipulation, prevent rapid mode switching by adding hysteresis
+			if (draggingSidebarResizer)
 			{
-				DisplayMode = SidebarDisplayMode.Compact;
+				var hysteresisTolerance = 20.0; // 20px tolerance to prevent rapid mode switching
+				
+				if (DisplayMode == SidebarDisplayMode.Compact && newPaneWidth > COMPACT_MAX_WIDTH + hysteresisTolerance)
+				{
+					DisplayMode = SidebarDisplayMode.Expanded;
+					OpenPaneLength = newPaneWidth;
+					lastDisplayModeChangeWidth = newPaneWidth;
+				}
+				else if (DisplayMode == SidebarDisplayMode.Expanded && newPaneWidth < COMPACT_MAX_WIDTH - hysteresisTolerance)
+				{
+					DisplayMode = SidebarDisplayMode.Compact;
+					lastDisplayModeChangeWidth = newPaneWidth;
+				}
+				else if (DisplayMode == SidebarDisplayMode.Expanded)
+				{
+					// Only update OpenPaneLength if we're already in Expanded mode to avoid triggering layout changes
+					OpenPaneLength = newPaneWidth;
+				}
 			}
-			else if (newPaneWidth > COMPACT_MAX_WIDTH)
+			else
 			{
-				DisplayMode = SidebarDisplayMode.Expanded;
-				OpenPaneLength = newPaneWidth;
+				// Normal behavior when not dragging
+				if (newPaneWidth < COMPACT_MAX_WIDTH)
+				{
+					DisplayMode = SidebarDisplayMode.Compact;
+				}
+				else if (newPaneWidth > COMPACT_MAX_WIDTH)
+				{
+					DisplayMode = SidebarDisplayMode.Expanded;
+					OpenPaneLength = newPaneWidth;
+				}
 			}
 		}
 
 		private void UpdateOpenPaneLengthColumn()
 		{
-			PaneColumnDefinition.Width = new GridLength(OpenPaneLength);
+			// Only update the column width if we're not actively dragging
+			// During dragging, the width will be controlled by the visual state manager
+			if (!draggingSidebarResizer)
+			{
+				PaneColumnDefinition.Width = new GridLength(OpenPaneLength);
+			}
 		}
 
 		private void SidebarView_Loaded(object sender, RoutedEventArgs e)
@@ -122,6 +161,8 @@ namespace Files.App.Controls
 		{
 			draggingSidebarResizer = true;
 			preManipulationSidebarWidth = PaneColumnGrid.ActualWidth;
+			lastDisplayModeBeforeManipulation = DisplayMode;
+			lastDisplayModeChangeWidth = preManipulationSidebarWidth;
 			VisualStateManager.GoToState(this, "ResizerPressed", true);
 			e.Handled = true;
 		}
@@ -224,6 +265,11 @@ namespace Files.App.Controls
 		private void SidebarResizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
 		{
 			draggingSidebarResizer = false;
+			
+			// After manipulation ends, re-apply the current display mode with animations
+			// to ensure smooth final state transition
+			UpdateDisplayMode();
+			
 			VisualStateManager.GoToState(this, "ResizerNormal", true);
 			e.Handled = true;
 		}

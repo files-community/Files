@@ -188,6 +188,10 @@
 				</VisualState>
 
 				<VisualStateGroup.Transitions>
+					<!--  Instantaneous transitions for manipulation to prevent layout cycles  -->
+					<VisualTransition From="Compact" To="Expanded" GeneratedDuration="0" />
+					<VisualTransition From="Expanded" To="Compact" GeneratedDuration="0" />
+					
 					<VisualTransition From="Compact" To="MinimalCollapsed">
 						<Storyboard>
 							<DoubleAnimationUsingKeyFrames Storyboard.TargetName="PaneColumnGridTransform" Storyboard.TargetProperty="TranslateX">
