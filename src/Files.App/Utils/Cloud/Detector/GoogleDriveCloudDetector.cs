@@ -1,14 +1,10 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Utils.Storage;
-using Files.Shared.Extensions;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
-using System.Diagnostics;
 using System.IO;
-using System.Text.Json;
 using Vanara.Windows.Shell;
 using Windows.Storage;
 
@@ -73,7 +69,7 @@ namespace Files.App.Utils.Cloud
 					_logger.LogWarning($"Could not access Google Drive path as local storage: {path}");
 					continue;
 				}
-				
+
 				var folder = folderResult.Result;
 				string title = reader["title"]?.ToString() ?? folder.Name;
 
@@ -106,7 +102,7 @@ namespace Files.App.Utils.Cloud
 					_logger.LogWarning($"Could not access Google Drive path as local storage: {path}");
 					continue;
 				}
-				
+
 				var folder = folderResult.Result;
 				string title = reader["name"]?.ToString() ?? folder.Name;
 
