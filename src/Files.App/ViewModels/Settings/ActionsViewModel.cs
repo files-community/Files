@@ -76,7 +76,6 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref _SelectedActionItem, value);
 		}
 
-		// Store the current filter query to refresh filtered list after operations
 		private string _currentFilterQuery = string.Empty;
 
 		// Commands
@@ -443,11 +442,11 @@ namespace Files.App.ViewModels.Settings
 					action.IsDefinedByDefault = item.DefaultKeyBindings.Contains(action.KeyBinding);
 			}
 
-			// Exit edit mode and remove from valid items
+			// Exit edit mode
 			item.IsInEditMode = false;
 			ValidActionItems.Remove(item);
 
-			// Refresh filtered list to immediately reflect the deletion
+			// Refresh filtered list
 			FilterItems(_currentFilterQuery);
 		}
 
