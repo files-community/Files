@@ -258,7 +258,7 @@ namespace Files.App.ViewModels.Settings
 			// Add to existing list
 			ValidActionItems.Insert(0, selectedNewItem);
 
-			// Refresh filtered list to show the new item immediately
+			// Refresh filtered list
 			FilterItems(_currentFilterQuery);
 		}
 
