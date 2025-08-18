@@ -1,10 +1,14 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Utils.Storage;
+using Files.Shared.Extensions;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
+using System.Diagnostics;
 using System.IO;
+using System.Text.Json;
 using Vanara.Windows.Shell;
 using Windows.Storage;
 
@@ -63,7 +67,14 @@ namespace Files.App.Utils.Cloud
 					path = path.Substring(@"\\?\".Length);
 				}
 
-				var folder = await StorageFolder.GetFolderFromPathAsync(path);
+				var folderResult = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(path).AsTask());
+				if (!folderResult)
+				{
+					_logger.LogWarning($"Could not access Google Drive path as local storage: {path}");
+					continue;
+				}
+				
+				var folder = folderResult.Result;
 				string title = reader["title"]?.ToString() ?? folder.Name;
 
 				Debug.WriteLine("YIELD RETURNING from `GoogleDriveCloudDetector.GetProviders()` (roots): ");
@@ -89,7 +100,14 @@ namespace Files.App.Utils.Cloud
 				if (!AddMyDriveToPathAndValidate(ref path))
 					continue;
 
-				var folder = await StorageFolder.GetFolderFromPathAsync(path);
+				var folderResult = await FilesystemTasks.Wrap(() => StorageFolder.GetFolderFromPathAsync(path).AsTask());
+				if (!folderResult)
+				{
+					_logger.LogWarning($"Could not access Google Drive path as local storage: {path}");
+					continue;
+				}
+				
+				var folder = folderResult.Result;
 				string title = reader["name"]?.ToString() ?? folder.Name;
 
 				Debug.WriteLine("YIELD RETURNING from `GoogleDriveCloudDetector.GetProviders` (media): ");
@@ -269,7 +287,8 @@ namespace Files.App.Utils.Cloud
 
 			var iconPath = Path.Combine(programFilesEnvVar, "Google", "Drive File Stream", "drive_fs.ico");
 
-			return await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
+			var iconFileResult = await FilesystemTasks.Wrap(() => StorageFile.GetFileFromPathAsync(iconPath).AsTask());
+			return iconFileResult ? iconFileResult.Result : null;
 		}
 
 		private static bool AddMyDriveToPathAndValidate(ref string path)
