@@ -129,10 +129,18 @@ namespace Files.App.Data.Models
 		/// <summary>
 		/// Gets or sets a value indicating the AppWindow DPI.
 		/// </summary>
-		private float _AppWindowDPI = PInvoke.GetDpiForWindow((HWND)MainWindow.Instance.WindowHandle) / 96f;
+		private float? _AppWindowDPI = null;
 		public float AppWindowDPI
 		{
-			get => _AppWindowDPI;
+			get
+			{
+				if (_AppWindowDPI is null || _AppWindowDPI == 0f)
+				{
+					var dpi = PInvoke.GetDpiForWindow((HWND)MainWindow.Instance.WindowHandle);
+					_AppWindowDPI = dpi > 0 ? dpi / 96f : 1.0f; // Fallback to 1.0f if invalid DPI
+				}
+				return _AppWindowDPI.Value;
+			}
 			set => SetProperty(ref _AppWindowDPI, value);
 		}
 	}
