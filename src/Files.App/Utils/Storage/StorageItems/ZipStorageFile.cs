@@ -122,13 +122,32 @@ namespace Files.App.Utils.Storage
 
 					if (entry.FileName is not null)
 					{
-						var ms = new MemoryStream();
-						await zipFile.ExtractFileAsync(entry.Index, ms);
-						ms.Position = 0;
-						return new NonSeekableRandomAccessStreamForRead(ms, entry.Size)
+						// Use a temporary file to avoid memory issues with large files
+						var tempFile = IO.Path.GetTempFileName();
+						try
 						{
-							DisposeCallback = () => zipFile.Dispose()
-						};
+							await using (var tempStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
+							{
+								await zipFile.ExtractFileAsync(entry.Index, tempStream);
+							}
+							
+							var fileStream = new FileStream(tempFile, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, FileOptions.DeleteOnClose);
+							return new NonSeekableRandomAccessStreamForRead(fileStream, entry.Size)
+							{
+								DisposeCallback = () => 
+								{
+									fileStream.Dispose();
+									zipFile.Dispose();
+								}
+							};
+						}
+						catch
+						{
+							// Clean up temp file if extraction failed
+							try { IO.File.Delete(tempFile); } catch { }
+							zipFile.Dispose();
+							throw;
+						}
 					}
 					return null;
 				}
@@ -167,14 +186,33 @@ namespace Files.App.Utils.Storage
 					return null;
 				}
 
-				var ms = new MemoryStream();
-				await zipFile.ExtractFileAsync(entry.Index, ms);
-				ms.Position = 0;
-				var nsStream = new NonSeekableRandomAccessStreamForRead(ms, entry.Size)
+				// Use a temporary file to avoid memory issues with large files
+				var tempFile = IO.Path.GetTempFileName();
+				try
 				{
-					DisposeCallback = () => zipFile.Dispose()
-				};
-				return new StreamWithContentType(nsStream);
+					await using (var tempStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
+					{
+						await zipFile.ExtractFileAsync(entry.Index, tempStream);
+					}
+					
+					var fileStream = new FileStream(tempFile, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, FileOptions.DeleteOnClose);
+					var nsStream = new NonSeekableRandomAccessStreamForRead(fileStream, entry.Size)
+					{
+						DisposeCallback = () => 
+						{
+							fileStream.Dispose();
+							zipFile.Dispose();
+						}
+					};
+					return new StreamWithContentType(nsStream);
+				}
+				catch
+				{
+					// Clean up temp file if extraction failed
+					try { IO.File.Delete(tempFile); } catch { }
+					zipFile.Dispose();
+					throw;
+				}
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
@@ -205,13 +243,32 @@ namespace Files.App.Utils.Storage
 					return null;
 				}
 
-				var ms = new MemoryStream();
-				await zipFile.ExtractFileAsync(entry.Index, ms);
-				ms.Position = 0;
-				return new NonSeekableRandomAccessStreamForRead(ms, entry.Size)
+				// Use a temporary file to avoid memory issues with large files
+				var tempFile = IO.Path.GetTempFileName();
+				try
 				{
-					DisposeCallback = () => zipFile.Dispose()
-				};
+					await using (var tempStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
+					{
+						await zipFile.ExtractFileAsync(entry.Index, tempStream);
+					}
+					
+					var fileStream = new FileStream(tempFile, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, FileOptions.DeleteOnClose);
+					return new NonSeekableRandomAccessStreamForRead(fileStream, entry.Size)
+					{
+						DisposeCallback = () => 
+						{
+							fileStream.Dispose();
+							zipFile.Dispose();
+						}
+					};
+				}
+				catch
+				{
+					// Clean up temp file if extraction failed
+					try { IO.File.Delete(tempFile); } catch { }
+					zipFile.Dispose();
+					throw;
+				}
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
 		}
 
@@ -245,11 +302,25 @@ namespace Files.App.Utils.Storage
 
 				if (destFolder is ICreateFileWithStream cwsf)
 				{
-					var ms = new MemoryStream();
-					await zipFile.ExtractFileAsync(entry.Index, ms);
-					ms.Position = 0;
-					using var inStream = new NonSeekableRandomAccessStreamForRead(ms, entry.Size);
-					return await cwsf.CreateFileAsync(inStream.AsStreamForRead(), desiredNewName, option.Convert());
+					// Use a temporary file to avoid memory issues with large files
+					var tempFile = IO.Path.GetTempFileName();
+					try
+					{
+						await using (var tempStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
+						{
+							await zipFile.ExtractFileAsync(entry.Index, tempStream);
+						}
+						
+						using var fileStream = new FileStream(tempFile, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, FileOptions.DeleteOnClose);
+						using var inStream = new NonSeekableRandomAccessStreamForRead(fileStream, entry.Size);
+						return await cwsf.CreateFileAsync(inStream.AsStreamForRead(), desiredNewName, option.Convert());
+					}
+					catch
+					{
+						// Clean up temp file if operation failed
+						try { IO.File.Delete(tempFile); } catch { }
+						throw;
+					}
 				}
 				else
 				{
@@ -321,24 +392,32 @@ namespace Files.App.Utils.Storage
 					{
 						return;
 					}
-					using (var ms = new MemoryStream())
+					// Use a temporary file to avoid memory issues with large archives
+					var tempFile = IO.Path.GetTempFileName();
+					try
 					{
+						await using (var tempStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
 						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
 						{
 							SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 							compressor.CustomParameters.Add("cu", "on");
 							compressor.SetFormatFromExistingArchive(archiveStream);
 							var fileName = IO.Path.GetRelativePath(containerPath, IO.Path.Combine(IO.Path.GetDirectoryName(Path), desiredName));
-							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, fileName } }, Credentials.Password, ms);
+							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, fileName } }, Credentials.Password, tempStream);
 						}
 
 						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+						await using (var tempReadStream = new FileStream(tempFile, FileMode.Open, FileAccess.Read))
 						{
-							ms.Position = 0;
-							await ms.CopyToAsync(archiveStream);
-							await ms.FlushAsync();
+							await tempReadStream.CopyToAsync(archiveStream);
+							await archiveStream.FlushAsync();
 							archiveStream.SetLength(archiveStream.Position);
 						}
+					}
+					finally
+					{
+						// Clean up temp file
+						try { IO.File.Delete(tempFile); } catch { }
 					}
 				}
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
@@ -371,22 +450,31 @@ namespace Files.App.Utils.Storage
 					{
 						return;
 					}
-					using (var ms = new MemoryStream())
+					// Use a temporary file to avoid memory issues with large archives
+					var tempFile = IO.Path.GetTempFileName();
+					try
 					{
+						await using (var tempStream = new FileStream(tempFile, FileMode.Create, FileAccess.Write))
 						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.Read))
 						{
 							SevenZipCompressor compressor = new SevenZipCompressor() { CompressionMode = CompressionMode.Append };
 							compressor.CustomParameters.Add("cu", "on");
 							compressor.SetFormatFromExistingArchive(archiveStream);
-							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, null } }, Credentials.Password, ms);
+							await compressor.ModifyArchiveAsync(archiveStream, new Dictionary<int, string>() { { index, null } }, Credentials.Password, tempStream);
 						}
+						
 						await using (var archiveStream = await OpenZipFileAsync(FileAccessMode.ReadWrite))
+						await using (var tempReadStream = new FileStream(tempFile, FileMode.Open, FileAccess.Read))
 						{
-							ms.Position = 0;
-							await ms.CopyToAsync(archiveStream);
-							await ms.FlushAsync();
+							await tempReadStream.CopyToAsync(archiveStream);
+							await archiveStream.FlushAsync();
 							archiveStream.SetLength(archiveStream.Position);
 						}
+					}
+					finally
+					{
+						// Clean up temp file
+						try { IO.File.Delete(tempFile); } catch { }
 					}
 				}
 			}, ((IPasswordProtectedItem)this).RetryWithCredentialsAsync));
