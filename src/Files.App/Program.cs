@@ -246,10 +246,7 @@ namespace Files.App
 		/// </remarks>
 		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
 		{
-			STATask.RunAsSync(() =>
-			{
-				keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
-			});
+			keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
 		}
 
 		public static void OpenShellCommandInExplorer(string shellCommand, int pid)
@@ -259,10 +256,7 @@ namespace Files.App
 
 		public static void OpenFileFromTile(string filePath)
 		{
-			STATask.RunAsSync(() =>
-			{
-				LaunchHelper.LaunchAppAsync(filePath, null, null).Wait();
-			});
+			LaunchHelper.LaunchAppAsync(filePath, null, null).Wait();
 		}
 	}
 }
