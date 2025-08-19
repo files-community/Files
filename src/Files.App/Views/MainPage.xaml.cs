@@ -338,10 +338,12 @@ namespace Files.App.Views
 						break;
 					case PreviewPanePositions.Right:
 						InfoPaneSizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+						InfoPaneColumnDefinition.Width = new(UserSettingsService.InfoPaneSettingsService.VerticalSizePx);
 						VisualStateManager.GoToState(this, "InfoPanePositionRight", true);
 						break;
 					case PreviewPanePositions.Bottom:
 						InfoPaneSizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeNorthSouth));
+						InfoPaneRowDefinition.Height = new(UserSettingsService.InfoPaneSettingsService.HorizontalSizePx);
 						VisualStateManager.GoToState(this, "InfoPanePositionBottom", true);
 						break;
 				}

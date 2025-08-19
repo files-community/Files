@@ -466,7 +466,6 @@
 						<Setter Target="InfoPaneSizer.(Grid.Column)" Value="1" />
 						<Setter Target="InfoPaneSizer.Width" Value="2" />
 						<Setter Target="InfoPaneSizer.GripperCursor" Value="SizeWestEast" />
-						<Setter Target="InfoPaneColumnDefinition.Width" Value="{x:Bind UserSettingsService.InfoPaneSettingsService.VerticalSizePx, Mode=OneWay}" />
 						<Setter Target="InfoPaneColumnDefinition.MinWidth" Value="{x:Bind InfoPane.MinWidth, Mode=OneWay}" />
 						<Setter Target="InfoPaneRowDefinition.MinHeight" Value="0" />
 						<Setter Target="InfoPaneRowDefinition.Height" Value="0" />
@@ -483,7 +482,6 @@
 						<Setter Target="InfoPaneColumnDefinition.Width" Value="0" />
 						<Setter Target="InfoPaneColumnDefinition.MinWidth" Value="0" />
 						<Setter Target="InfoPaneRowDefinition.MinHeight" Value="{x:Bind InfoPane.MinHeight, Mode=OneWay}" />
-						<Setter Target="InfoPaneRowDefinition.Height" Value="{x:Bind UserSettingsService.InfoPaneSettingsService.HorizontalSizePx, Mode=OneWay}" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>
