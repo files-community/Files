@@ -284,6 +284,10 @@ namespace Files.App.UserControls
 
 		private async void BreadcrumbBar_ItemDropDownFlyoutOpening(object sender, BreadcrumbBarItemDropDownFlyoutEventArgs e)
 		{
+			// Ensure thumbnail size is at least 1 to prevent layout errors
+			var thumbnailSize = (int)(Constants.ShellIconSizes.Small * App.AppModel.AppWindowDPI);
+			thumbnailSize = Math.Max(1, thumbnailSize);
+
 			if (e.IsRootItem)
 			{
 				IHomeFolder homeFolder = new HomeFolder();
@@ -305,7 +309,7 @@ namespace Files.App.UserControls
 
 					e.Flyout.Items.Add(flyoutItem);
 
-					windowsStorable.TryGetThumbnail((int)(16f * App.AppModel.AppWindowDPI), Windows.Win32.UI.Shell.SIIGBF.SIIGBF_ICONONLY, out var thumbnailData);
+					windowsStorable.TryGetThumbnail(thumbnailSize, Windows.Win32.UI.Shell.SIIGBF.SIIGBF_ICONONLY, out var thumbnailData);
 					flyoutItem.Icon = new ImageIcon() { Source = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal) };
 
 					windowsStorable.Dispose();
@@ -333,7 +337,7 @@ namespace Files.App.UserControls
 
 					e.Flyout.Items.Add(flyoutItem);
 
-					windowsStorable.TryGetThumbnail((int)(16f * App.AppModel.AppWindowDPI), Windows.Win32.UI.Shell.SIIGBF.SIIGBF_ICONONLY, out var thumbnailData);
+					windowsStorable.TryGetThumbnail(thumbnailSize, Windows.Win32.UI.Shell.SIIGBF.SIIGBF_ICONONLY, out var thumbnailData);
 					flyoutItem.Icon = new ImageIcon() { Source = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => thumbnailData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal) };
 
 					windowsStorable.Dispose();
