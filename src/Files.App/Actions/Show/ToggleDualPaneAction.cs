@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.ToggleDualPaneDescription.GetLocalizedResource();
 
+		public HotKey HotKey
+		=> new(Keys.S, KeyModifiers.CtrlShift);
+
 		public bool IsOn
 			=> ContentPageContext.IsMultiPaneActive;
 

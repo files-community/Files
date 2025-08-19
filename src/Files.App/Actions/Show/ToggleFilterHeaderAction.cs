@@ -17,6 +17,9 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Filter");
 
+		public HotKey HotKey
+			=> new(Keys.F, KeyModifiers.CtrlShift);
+
 		public bool IsOn
 			=> generalSettingsService.ShowFilterHeader;
 
