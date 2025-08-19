@@ -173,6 +173,11 @@ namespace Files.App.Views.Shells
 			if (parameters.IsLayoutSwitch)
 				FilesystemViewModel_DirectoryInfoUpdated(sender, EventArgs.Empty);
 
+			// Update the ShellViewModel with the current working directory
+			// Fixes https://github.com/files-community/Files/issues/17469
+			if (parameters.IsSearchResultPage == false)
+				ShellViewModel.IsSearchResults = false;
+
 			_navigationInteractionTracker.CanNavigateBackward = CanNavigateBackward;
 			_navigationInteractionTracker.CanNavigateForward = CanNavigateForward;
 		}
