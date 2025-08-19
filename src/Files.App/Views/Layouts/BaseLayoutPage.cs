@@ -1239,6 +1239,9 @@ namespace Files.App.Views.Layouts
 						await ParentShellPageInstance!.ShellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
 						if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None && listedItem is IGitItem gitItem)
 							await ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
+
+						// Focus file list when items finish loading (#16530)
+						ItemManipulationModel.FocusFileList();
 					});
 				}
 			}
