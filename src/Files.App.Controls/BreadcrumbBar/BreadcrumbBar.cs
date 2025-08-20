@@ -67,10 +67,10 @@ namespace Files.App.Controls
 			_itemsRepeater.ItemsSourceView.CollectionChanged += ItemsSourceView_CollectionChanged;
 		}
 
-		internal protected virtual void RaiseItemClickedEvent(BreadcrumbBarItem item)
+		internal protected virtual void RaiseItemClickedEvent(BreadcrumbBarItem item, bool isMiddleButtonPressed)
 		{
 			var index = _itemsRepeater?.GetElementIndex(item) ?? throw new ArgumentNullException($"{_itemsRepeater} is null.");
-			var eventArgs = new BreadcrumbBarItemClickedEventArgs(item, index, item == _rootBreadcrumbBarItem);
+			var eventArgs = new BreadcrumbBarItemClickedEventArgs(item, index, item == _rootBreadcrumbBarItem, isMiddleButtonPressed);
 			ItemClicked?.Invoke(this, eventArgs);
 		}
 

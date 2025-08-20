@@ -279,7 +279,7 @@ namespace Files.App.UserControls
 				ViewModel.PathComponents[args.Index].Path is not { } path)
 				return;
 
-			await ViewModel.HandleFolderNavigationAsync(path);
+			await ViewModel.HandleFolderNavigationAsync(path, args.IsMiddleButtonPressed);
 		}
 
 		private async void BreadcrumbBar_ItemDropDownFlyoutOpening(object sender, BreadcrumbBarItemDropDownFlyoutEventArgs e)
