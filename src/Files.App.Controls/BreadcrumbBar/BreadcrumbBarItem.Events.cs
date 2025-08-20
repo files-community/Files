@@ -8,11 +8,6 @@ namespace Files.App.Controls
 {
 	public partial class BreadcrumbBarItem
 	{
-		private void ItemContentButton_Click(object sender, RoutedEventArgs e)
-		{
-			OnItemClicked();
-		}
-
 		private void ItemChevronButton_Click(object sender, RoutedEventArgs e)
 		{
 			FlyoutBase.ShowAttachedFlyout(_itemChevronButton);

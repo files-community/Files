@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Automation;
+using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
 
 namespace Files.App.Controls
@@ -67,10 +68,10 @@ namespace Files.App.Controls
 			_itemsRepeater.ItemsSourceView.CollectionChanged += ItemsSourceView_CollectionChanged;
 		}
 
-		internal protected virtual void RaiseItemClickedEvent(BreadcrumbBarItem item)
+		internal protected virtual void RaiseItemClickedEvent(BreadcrumbBarItem item, PointerRoutedEventArgs? pointerRoutedEventArgs = null)
 		{
 			var index = _itemsRepeater?.GetElementIndex(item) ?? throw new ArgumentNullException($"{_itemsRepeater} is null.");
-			var eventArgs = new BreadcrumbBarItemClickedEventArgs(item, index, item == _rootBreadcrumbBarItem);
+			var eventArgs = new BreadcrumbBarItemClickedEventArgs(item, index, item == _rootBreadcrumbBarItem, pointerRoutedEventArgs);
 			ItemClicked?.Invoke(this, eventArgs);
 		}
 
