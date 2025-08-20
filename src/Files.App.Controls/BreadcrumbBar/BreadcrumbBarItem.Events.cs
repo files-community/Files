@@ -10,7 +10,7 @@ namespace Files.App.Controls
 	{
 		private void ItemContentButton_Click(object sender, RoutedEventArgs e)
 		{
-			OnItemClicked();
+			OnItemClicked(false);
 		}
 
 		private void ItemChevronButton_Click(object sender, RoutedEventArgs e)
