@@ -37,6 +37,9 @@ namespace Files.App.Controls
 
 		private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
 		{
+			if (IsFocused)
+				return;
+
 			GlobalHelper.WriteDebugStringForOmnibar("The TextBox got the focus.");
 
 			IsFocused = true;
@@ -48,8 +51,8 @@ namespace Files.App.Controls
 		private void AutoSuggestBox_LostFocus(object sender, RoutedEventArgs e)
 		{
 			// TextBox still has focus if the context menu for selected text is open
-			var element = Microsoft.UI.Xaml.Input.FocusManager.GetFocusedElement(this.XamlRoot);
-			if (element is FlyoutBase or Popup)
+			var element = FocusManager.GetFocusedElement(this.XamlRoot);
+			if (element is FlyoutBase or Popup || !IsFocused)
 				return;
 
 			GlobalHelper.WriteDebugStringForOmnibar("The TextBox lost the focus.");
@@ -66,7 +69,7 @@ namespace Files.App.Controls
 			}
 		}
 
-		private async void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
+		private void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
 			if (e.Key is VirtualKey.Enter)
 			{
@@ -137,10 +140,15 @@ namespace Files.App.Controls
 			// UpdateSuggestionListView();
 
 			if (_textChangeReason is OmnibarTextChangeReason.ProgrammaticChange)
+			{
 				_textBox.SelectAll();
+			}
 			else
 			{
 				_userInput = _textBox.Text;
+
+				if (_textChangeReason is OmnibarTextChangeReason.None)
+					_textChangeReason = OmnibarTextChangeReason.UserInput;
 			}
 
 			TextChanged?.Invoke(this, new(CurrentSelectedMode, _textChangeReason));

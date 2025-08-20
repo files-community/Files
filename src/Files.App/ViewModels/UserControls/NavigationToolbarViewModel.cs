@@ -338,7 +338,6 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-		[Obsolete("Superseded by Omnibar.")]
 		public void PathBoxItem_DragLeave(object sender, DragEventArgs e)
 		{
 			if (((FrameworkElement)sender).DataContext is not PathBoxItem pathBoxItem ||
@@ -354,7 +353,6 @@ namespace Files.App.ViewModels.UserControls
 				_dragOverPath = null;
 		}
 
-		[Obsolete("Superseded by Omnibar.")]
 		public async Task PathBoxItem_Drop(object sender, DragEventArgs e)
 		{
 			if (_lockFlag)
@@ -393,7 +391,6 @@ namespace Files.App.ViewModels.UserControls
 			_lockFlag = false;
 		}
 
-		[Obsolete("Superseded by Omnibar.")]
 		public async Task PathBoxItem_DragOver(object sender, DragEventArgs e)
 		{
 			if (IsSingleItemOverride ||

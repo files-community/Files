@@ -249,10 +249,14 @@ namespace Files.App.Controls
 
 		internal protected void ChangeTextBoxText(string text)
 		{
+			if (text.Equals(_textBox.Text, StringComparison.OrdinalIgnoreCase) || CurrentSelectedMode is null)
+				return;
+
 			_textBox.Text = text;
+			CurrentSelectedMode.Text = text;
 
 			// Move the cursor to the end of the TextBox
-			if (_textChangeReason == OmnibarTextChangeReason.SuggestionChosen)
+			if (_textChangeReason is OmnibarTextChangeReason.SuggestionChosen)
 				_textBox?.Select(_textBox.Text.Length, 0);
 		}
 
