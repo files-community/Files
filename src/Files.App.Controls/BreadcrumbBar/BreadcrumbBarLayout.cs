@@ -98,6 +98,10 @@ namespace Files.App.Controls
 			var itemCount = context.Children.Count;
 			var accumulatedWidth = 0d;
 
+			// Handle zero or negative available width - hide all items
+			if (_availableSize.Width <= 0)
+				return itemCount;
+
 			// Go through all items from the last item
 			for (int index = itemCount - 1; index >= 0; index--)
 			{
