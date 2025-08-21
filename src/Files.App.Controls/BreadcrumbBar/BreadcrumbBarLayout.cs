@@ -33,13 +33,6 @@ namespace Files.App.Controls
 			var accumulatedSize = new Size(0, 0);
 			_availableSize = availableSize;
 
-			// Ensure we have a minimum size to prevent DivideByZeroException in WinUI
-			// When availableSize has zero dimensions, provide a minimal positive size for measurement
-			var measureSize = new Size(
-				Math.Max(availableSize.Width, 1.0),
-				Math.Max(availableSize.Height, 1.0)
-			);
-
 			var indexAfterEllipsis = GetFirstIndexToRender(context);
 
 			// Go through all items and measure them
@@ -47,7 +40,7 @@ namespace Files.App.Controls
 			{
 				if (context.Children[index] is BreadcrumbBarItem breadcrumbItem)
 				{
-					breadcrumbItem.Measure(measureSize);
+					breadcrumbItem.Measure(availableSize);
 					accumulatedSize.Width += index < indexAfterEllipsis ? 0 : breadcrumbItem.DesiredSize.Width;
 					accumulatedSize.Height = Math.Max(accumulatedSize.Height, breadcrumbItem.DesiredSize.Height);
 				}
