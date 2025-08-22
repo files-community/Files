@@ -30,30 +30,40 @@ namespace Files.App.Controls
 
 		protected override Size MeasureOverride(NonVirtualizingLayoutContext context, Size availableSize)
 		{
-			var accumulatedSize = new Size(0, 0);
+			// Early exit for null or empty context
+			if (context?.Children == null || context.Children.Count == 0)
+			{
+				return new Size(0, 0);
+			}
+
 			_availableSize = availableSize;
 
 			var indexAfterEllipsis = GetFirstIndexToRender(context);
+			var maxHeight = 0;
+			var totalWidth = 0;
+			var children = context.Children;
+
+			// Cache ellipsis button reference from first item
+			_ellipsisButton ??= children[0] as BreadcrumbBarItem;
 
 			// Go through all items and measure them
-			for (int index = 0; index < context.Children.Count; index++)
+			for (int index = 0; index < children.Count; index++)
 			{
-				if (context.Children[index] is BreadcrumbBarItem breadcrumbItem)
+				if (children[index] is not BreadcrumbBarItem breadcrumbItem)
+					continue;
+
+				breadcrumbItem.Measure(availableSize);
+				if (index >= indexAfterEllipsis)
 				{
-					breadcrumbItem.Measure(availableSize);
-					accumulatedSize.Width += index < indexAfterEllipsis ? 0 : breadcrumbItem.DesiredSize.Width;
-					accumulatedSize.Height = Math.Max(accumulatedSize.Height, breadcrumbItem.DesiredSize.Height);
+					totalWidth += breadcrumbItem.DesiredSize.Width;
 				}
+				maxHeight = Math.Max(maxHeight, breadcrumbItem.DesiredSize.Height);
 			}
 
-			// Get a reference to the ellipsis item
-			if (context.Children.Count > 0)
-				_ellipsisButton ??= context.Children[0] as BreadcrumbBarItem;
+			// Update ellipsis visibility based on whether items are hidden
+			EllipsisIsRendered = indexAfterEllipsis > 0;
 
-			// Sets the ellipsis item's visibility based on whether the items are overflowing
-			EllipsisIsRendered = indexAfterEllipsis is not 0;
-
-			return accumulatedSize;
+			return new Size(totalWidth, maxHeight);
 		}
 
 		protected override Size ArrangeOverride(NonVirtualizingLayoutContext context, Size finalSize)
