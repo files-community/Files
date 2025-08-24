@@ -4012,7 +4012,7 @@
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
   <data name="ImageFiles" xml:space="preserve">
-    <value>Image Files</value>
+    <value>图片文件</value>
     <comment>This is the friendly name for image files.</comment>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
@@ -4314,15 +4314,15 @@
     <value>显示“在 Windows 终端中打开”</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
-    <value>Open log file</value>
+    <value>打开日志文件</value>
   </data>
   <data name="OpenLogFileDescription" xml:space="preserve">
-    <value>Open log file in your default editor</value>
+    <value>在你的默认编辑器中打开日志文件</value>
   </data>
   <data name="OpenLogFileLocationDescription" xml:space="preserve">
-    <value>Open log file location in your default file manager</value>
+    <value>在你的默认文件管理器中打开日志文件的位置</value>
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
-    <value>Unable to open the log file</value>
+    <value>无法打开日志文件</value>
   </data>
 </root>
