@@ -187,7 +187,7 @@
     <value>Digite um caminho para navegar ou digite "&gt;" para abrir a paleta de comandos</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Procurar</value>
+    <value>Pesquisar</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Os arquivos que você acessou anteriormente serão exibidos aqui</value>
@@ -277,7 +277,7 @@
     <value>Compartilhar</value>
   </data>
   <data name="Cut" xml:space="preserve">
-    <value>Cortar</value>
+    <value>Recortar</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Excluir</value>
@@ -334,7 +334,7 @@
     <value>Avançar</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>Em cima</value>
+    <value>Acima</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Atualizar</value>
