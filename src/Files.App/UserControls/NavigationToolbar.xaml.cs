@@ -279,7 +279,8 @@ namespace Files.App.UserControls
 				ViewModel.PathComponents[args.Index].Path is not { } path)
 				return;
 
-			await ViewModel.HandleFolderNavigationAsync(path, args.IsMiddleButtonPressed);
+			var pointerUpdateKind = args.PointerRoutedEventArgs.GetCurrentPoint(null).Properties.PointerUpdateKind;
+			await ViewModel.HandleFolderNavigationAsync(path, pointerUpdateKind is PointerUpdateKind.MiddleButtonReleased);
 		}
 
 		private async void BreadcrumbBar_ItemDropDownFlyoutOpening(object sender, BreadcrumbBarItemDropDownFlyoutEventArgs e)

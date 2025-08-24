@@ -49,16 +49,12 @@ namespace Files.App.Controls
 			if (IsEllipsis || IsLastItem)
 				VisualStateManager.GoToState(this, "ChevronCollapsed", true);
 
-			_itemContentButton.AddHandler(
+			_itemContentButton.AddHandler( // Bypass IsHandled = true in the base class
 				PointerReleasedEvent,
 				new PointerEventHandler((s, e) =>
 				{
-					var pointerUpdateKind = e.GetCurrentPoint(null).Properties.PointerUpdateKind;
-					if (pointerUpdateKind is PointerUpdateKind.MiddleButtonReleased)
-					{
-						OnItemClicked(true);
-						e.Handled = true;
-					}
+					OnItemClicked(e);
+					e.Handled = true;
 				}),
 				handledEventsToo: true);
 
@@ -71,7 +67,7 @@ namespace Files.App.Controls
 			_itemChevronDropDownMenuFlyout.Closed += ChevronDropDownMenuFlyout_Closed;
 		}
 
-		public void OnItemClicked(bool isMiddleButtonPressed)
+		public void OnItemClicked(PointerRoutedEventArgs? pointerRoutedEventArgs = null)
 		{
 			if (_ownerRef is null ||
 				!_ownerRef.TryGetTarget(out var breadcrumbBar))
@@ -89,7 +85,7 @@ namespace Files.App.Controls
 					{
 						var menuFlyoutItem = new MenuFlyoutItem() { Text = text };
 						_itemEllipsisDropDownMenuFlyout.Items.Add(menuFlyoutItem);
-						menuFlyoutItem.Click += (sender, e) => breadcrumbBar.RaiseItemClickedEvent(item, isMiddleButtonPressed);
+						menuFlyoutItem.Click += (sender, e) => breadcrumbBar.RaiseItemClickedEvent(item, pointerRoutedEventArgs);
 					}
 				}
 
@@ -99,7 +95,7 @@ namespace Files.App.Controls
 			else
 			{
 				// Fire a click event
-				breadcrumbBar.RaiseItemClickedEvent(this, isMiddleButtonPressed);
+				breadcrumbBar.RaiseItemClickedEvent(this, pointerRoutedEventArgs);
 			}
 		}
 

@@ -51,7 +51,7 @@ namespace Files.App.Controls
 			if (Owner is not BreadcrumbBarItem item)
 				return;
 
-			item.OnItemClicked(false);
+			item.OnItemClicked();
 		}
 	}
 }
