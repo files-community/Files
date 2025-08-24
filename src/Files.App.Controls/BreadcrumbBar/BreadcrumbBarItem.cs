@@ -49,7 +49,8 @@ namespace Files.App.Controls
 			if (IsEllipsis || IsLastItem)
 				VisualStateManager.GoToState(this, "ChevronCollapsed", true);
 
-			_itemContentButton.AddHandler( // Bypass IsHandled = true in the base class
+			// Handle click event with PointerReleasedEvent to get PointerPoint
+			_itemContentButton.AddHandler( // Bypass "IsHandled = true" done in the base class
 				PointerReleasedEvent,
 				new PointerEventHandler((s, e) =>
 				{
@@ -58,7 +59,6 @@ namespace Files.App.Controls
 				}),
 				handledEventsToo: true);
 
-			_itemContentButton.Click += ItemContentButton_Click;
 			_itemContentButton.PreviewKeyDown += ItemContentButton_PreviewKeyDown;
 			_itemChevronButton.Click += ItemChevronButton_Click;
 			_itemChevronButton.PreviewKeyDown += ItemChevronButton_PreviewKeyDown;
