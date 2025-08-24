@@ -166,7 +166,7 @@
     <value>דלג</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>בחר הכל</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>הפוך בחירה</value>
@@ -256,7 +256,7 @@
     <value>הדבק</value>
   </data>
   <data name="PasteShortcut" xml:space="preserve">
-    <value>Paste shortcut</value>
+    <value>צור קיצור דרך</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>חדש</value>
@@ -3230,7 +3230,7 @@
     <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
-    <value>Acrylic</value>
+    <value>אקריליק</value>
   </data>
   <data name="Mica" xml:space="preserve">
     <value>Mica</value>
