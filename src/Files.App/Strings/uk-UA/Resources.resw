@@ -4314,15 +4314,15 @@
     <value>Показати параметр відкриття тек у терміналі Windows</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
-    <value>Open log file</value>
+    <value>Відкрити файл журналу</value>
   </data>
   <data name="OpenLogFileDescription" xml:space="preserve">
-    <value>Open log file in your default editor</value>
+    <value>Відкрити файл журналу в типовому редакторі</value>
   </data>
   <data name="OpenLogFileLocationDescription" xml:space="preserve">
-    <value>Open log file location in your default file manager</value>
+    <value>Відкрити файл журналу в типовому файловому менеджері</value>
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
-    <value>Unable to open the log file</value>
+    <value>Не вдається відкрити файл журналу</value>
   </data>
 </root>
