@@ -14,6 +14,7 @@
         DestinationFolder="$(IntermediateOutputPath)Satori"
         OverwriteReadOnlyFiles="true"
     />
+    <Delete Files="@(SatoriArchive)" />
   </Target>
 
   <Target Name="IncludeSatoriInRuntimePackAssets" AfterTargets="ExtractSatori" DependsOnTargets="ExtractSatori">
