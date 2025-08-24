@@ -606,7 +606,7 @@
     <value>Partage de {0} {1}</value>
   </data>
   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>L'élément que vous essayez de renommer n'existe plus. Veuillez vérifier l'emplacement exact de l'élément que vous avez besoin de renommer.</value>
+    <value>L'élément que vous tentez de renommer n'existe plus. Veuillez vérifier l'emplacement correct de l'élément que vous avez besoin de renommer.</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
     <value>L'élément n'existe plus</value>
@@ -627,7 +627,7 @@
     <value>Afficher plus d'options</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>L'application a besoin d'être redémarrée pour appliquer les nouveaux paramètres, voulez-vous redémarrer l'application ?</value>
+    <value>L’application doit être redémarrée pour appliquer ces paramètres, voulez-vous redémarrer l'application ?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>Soutenez-nous sur GitHub</value>
@@ -648,7 +648,7 @@
     <value>Créer un nouvel élément</value>
   </data>
   <data name="AddDialogDescription.Text" xml:space="preserve">
-    <value>Choisissez le type du nouvel élément ci-dessous</value>
+    <value>Choisissez un type pour ce nouvel élément ci-dessous</value>
   </data>
   <data name="File" xml:space="preserve">
     <value>Fichier</value>
@@ -1392,7 +1392,7 @@
     <value>La semaine dernière</value>
   </data>
   <data name="EarlierThisMonth" xml:space="preserve">
-    <value>Plus tôt ce mois</value>
+    <value>Plus tôt ce mois-ci</value>
   </data>
   <data name="LastMonth" xml:space="preserve">
     <value>Le mois dernier</value>
@@ -1476,7 +1476,7 @@
     <value>Compte inconnu</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
-    <value>Vous n'êtes pas autorisé à afficher les propriétés de sécurité de cet objet. Cliquez sur "Autorisations avancées" pour continuer.</value>
+    <value>Vous n'avez pas les autorisations pour voir les propriétés de sécurité de cet objet. Cliquez sur "Autorisations avancées" pour continuer.</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
     <value>Propriétaire :</value>
@@ -1536,7 +1536,7 @@
     <value>Autorisations</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>Vous n'êtes pas autorisé à afficher les propriétés de sécurité de cet objet. Vous pouvez essayer de vous approprier cet objet.</value>
+    <value>Vous n’avez pas les autorisations pour voir les propriétés de sécurité de cet objet. Vous pouvez essayer de prendre possession de cet objet.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>Ce dossier et ses fichiers</value>
@@ -1728,7 +1728,7 @@
     <value>Aucun élément trouvé</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
-    <value>Ouvrir l'emplacement des fichiers journaux</value>
+    <value>Ouvrir l’emplacement du journal</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Créer un lien dans {0}</value>
@@ -1890,7 +1890,7 @@
     <value>Cette option modifie le registre du système et peut avoir des effets secondaires inattendus sur votre appareil. Continuez à vos risques et périls.</value>
   </data>
   <data name="ShowFlattenOptionsDescription" xml:space="preserve">
-    <value>Les opérations d'aplatissement sont permanentes et non recommandées. Continuez à vos risques et périls.</value>
+    <value>Les opérations d'aplatissement sont définitives et non recommandées. Continuez à vos risques et périls.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Créer une bibliothèque</value>
@@ -2007,16 +2007,16 @@
     <value>Personnalisé</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
-    <value>Définir comme fond d'écran en diaporama</value>
+    <value>Définir comme diaporama du bureau</value>
   </data>
   <data name="SizeAllColumnsToFit" xml:space="preserve">
     <value>Adapter la largeur des colonnes</value>
   </data>
   <data name="Adaptive" xml:space="preserve">
-    <value>Disposition adaptative</value>
+    <value>Adaptatif</value>
   </data>
   <data name="AdaptiveShortcutTooltip" xml:space="preserve">
-    <value>Adaptative (Ctrl+Maj+7)</value>
+    <value>Adaptatif (Ctrl+Maj+7)</value>
   </data>
   <data name="BaseLayoutContextFlyoutAdaptive.KeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+Maj+7</value>
@@ -2091,7 +2091,7 @@
     <value>Aplatir</value>
   </data>
   <data name="FlattenFolderDialogContent" xml:space="preserve">
-    <value>L'aplatissement d'un dossier déplacera tout le contenu de ses sous-dossiers vers l'emplacement sélectionné. Cette opération est permanente et ne peut pas être annulée. En utilisant cette fonctionnalité expérimentale, vous reconnaissez les risques et acceptez de ne pas tenir l'équipe de Files responsable de toute perte de données.</value>
+    <value>L'aplatissement d'un dossier déplacera tout le contenu de ses sous-dossiers vers l'emplacement sélectionné. Cette opération est définitive et ne peut pas être annulée. En utilisant cette fonctionnalité expérimentale, vous reconnaissez les risques et acceptez de ne pas tenir l'équipe de Files responsable de toute perte de données.</value>
   </data>
   <data name="ShowFlattenOptions" xml:space="preserve">
     <value>Afficher les options d'aplatissement</value>
@@ -2244,13 +2244,13 @@
     <value>Ouvrir les notes de version</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
-    <value>La création d'un raccourci à cet emplacement nécessite des droits d'administrateur</value>
+    <value>La création d’un raccourci à cet emplacement nécessite des privilèges administrateur</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
     <value>Souhaitez-vous plutôt créer le raccourci sur le bureau ?</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
-    <value>Le nom d'élément spécifié est invalide</value>
+    <value>Le nom de l’élément spécifié est invalide</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Paramètres</value>
@@ -2442,7 +2442,7 @@
     <value>Activer/Désactiver la visibilité des extensions de fichiers</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
-    <value>Afficher/Masquer le volet d'aperçu pour afficher les aperçus des fichiers</value>
+    <value>Afficher/Masquer le volet d'aperçu pour afficher l'aperçu des fichiers</value>
   </data>
   <data name="ToggleSidebarDescription" xml:space="preserve">
     <value>Afficher/Masquer la barre latérale</value>
@@ -3112,7 +3112,7 @@
     <value>Cliquez sur "Autorisations avancées" pour continuer.</value>
   </data>
   <data name="SecurityRequireReadPermissions" xml:space="preserve">
-    <value>Vous devez avoir des autorisations de lecture pour afficher les propriétés de cet élément.</value>
+    <value>Vous devez avoir des autorisations de lecture pour voir les propriétés de cet élément.</value>
   </data>
   <data name="SecuritySuggestToTakeOwnership" xml:space="preserve">
     <value>Pour essayer de prendre possession de l'élément, ce qui inclut l'autorisation de voir ses propriétés, cliquez sur Modifier ci-dessus.</value>
@@ -3184,10 +3184,10 @@
     <value>Traduire sur Crowdin</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
-    <value>Fetch</value>
+    <value>Récupérer</value>
   </data>
   <data name="GitPull" xml:space="preserve">
-    <value>Pull</value>
+    <value>Tirer</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
     <value>Exécuter git fetch</value>
@@ -3221,10 +3221,10 @@
     <value>Date de validation</value>
   </data>
   <data name="CommitMessage" xml:space="preserve">
-    <value>Message de révision</value>
+    <value>Message du commit</value>
   </data>
   <data name="CommitSha" xml:space="preserve">
-    <value>SHA de révision</value>
+    <value>SHA du commit</value>
   </data>
   <data name="Git" xml:space="preserve">
     <value>Git</value>
@@ -3248,7 +3248,7 @@
     <value>Gérer les branches</value>
   </data>
   <data name="Push" xml:space="preserve">
-    <value>Push</value>
+    <value>Envoyer</value>
   </data>
   <data name="GitPushDescription" xml:space="preserve">
     <value>Exécuter git push</value>
@@ -3260,7 +3260,7 @@
     <value>Exécuter git pull puis git push</value>
   </data>
   <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
-    <value>{0} révisions sortantes / {1} révisions entrantes</value>
+    <value>{0} commits sortants / {1} commits entrants</value>
   </data>
   <data name="ConnectGitHub" xml:space="preserve">
     <value>Connectez-vous à GitHub</value>
@@ -3308,7 +3308,7 @@
     <value>Initialiser le dépôt</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Initialiser le dossier actuel en tant que dépôt git</value>
+    <value>Initialiser le dossier actuel en tant que dépôt Git</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
     <value>Nom du dépôt distant</value>
@@ -3323,7 +3323,7 @@
     <value>Trier les éléments par chemin</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Ouvrir le dossier sélectionner dans un nouveau volet</value>
+    <value>Ouvrir le dossier sélectionné dans un nouveau volet</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
     <value>Ouvrir le dossier sélectionné dans un nouvel onglet</value>
@@ -4314,15 +4314,15 @@
     <value>Afficher l’option pour ouvrir les dossiers dans le Terminal Windows</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
-    <value>Open log file</value>
+    <value>Ouvrir le fichier journal</value>
   </data>
   <data name="OpenLogFileDescription" xml:space="preserve">
-    <value>Open log file in your default editor</value>
+    <value>Ouvrir le fichier journal dans votre éditeur par défaut</value>
   </data>
   <data name="OpenLogFileLocationDescription" xml:space="preserve">
-    <value>Open log file location in your default file manager</value>
+    <value>Ouvrir l’emplacement du fichier journal dans le gestionnaire de fichiers par défaut</value>
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
-    <value>Unable to open the log file</value>
+    <value>Impossible d’ouvrir le fichier journal</value>
   </data>
 </root>

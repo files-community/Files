@@ -639,7 +639,7 @@
     <value>Acces Respins</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
-    <value>Setare ca</value>
+    <value>Stabilire ca</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Anulare</value>
@@ -4092,7 +4092,7 @@
     <value>Vertical</value>
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
-    <value>Afișare pictograma Files în System Tray</value>
+    <value>Afișați pictograma Files în System Tray</value>
   </data>
   <data name="CPUThreads" xml:space="preserve">
     <value>Fire CPU</value>

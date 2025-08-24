@@ -4314,15 +4314,15 @@
     <value>Показать опцию открытия папок в Windows Terminal</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
-    <value>Open log file</value>
+    <value>Открыть файл журнала</value>
   </data>
   <data name="OpenLogFileDescription" xml:space="preserve">
-    <value>Open log file in your default editor</value>
+    <value>Открыть файл журнала в редакторе по умолчанию</value>
   </data>
   <data name="OpenLogFileLocationDescription" xml:space="preserve">
-    <value>Open log file location in your default file manager</value>
+    <value>Открыть папку файла журнала в файловом менеджере по умолчанию</value>
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
-    <value>Unable to open the log file</value>
+    <value>Не удалось открыть файл журнала</value>
   </data>
 </root>

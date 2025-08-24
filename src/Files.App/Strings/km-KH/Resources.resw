@@ -2262,19 +2262,19 @@
     <value>View more</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>បង្ហាញការកែសម្រួលស្លាក</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
-    <value>Show compression options</value>
+    <value>បង្ហាញជម្រើសបង្ហាប់</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Show send to menu</value>
+    <value>បង្ហាញម៉ឺនុយការផ្ញើទៅកាន់</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Show option to open folders in a new tab</value>
+    <value>បង្ហាញជម្រើសដើម្បីបើកថតនៅក្នុងផ្ទាំងផែនថ្មី</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Show option to open folders in a new window</value>
+    <value>បង្ហាញជម្រើសដើម្បីបើកថតនៅក្នុងផ្ទាំងផែនថ្មី</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>ចូលប្រើរហ័ស</value>
@@ -3230,13 +3230,13 @@
     <value>ហ្គិត</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
-    <value>Acrylic</value>
+    <value>អាគ្រីលីក</value>
   </data>
   <data name="Mica" xml:space="preserve">
     <value>Mica</value>
   </data>
   <data name="MicaAlt" xml:space="preserve">
-    <value>Mica Alt</value>
+    <value>ឆ្លាស់មីកា</value>
   </data>
   <data name="BackdropMaterial" xml:space="preserve">
     <value>Backdrop</value>
@@ -3407,7 +3407,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Gray" xml:space="preserve">
-    <value>Gray</value>
+    <value>ប្រផេស</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="GrayDark" xml:space="preserve">

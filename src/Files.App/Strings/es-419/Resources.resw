@@ -4314,15 +4314,15 @@
     <value>Mostrar opción para abrir carpetas en Terminal de Windows</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
-    <value>Open log file</value>
+    <value>Abrir archivo de registro</value>
   </data>
   <data name="OpenLogFileDescription" xml:space="preserve">
-    <value>Open log file in your default editor</value>
+    <value>Abrir el archivo de registro en el editor predeterminado</value>
   </data>
   <data name="OpenLogFileLocationDescription" xml:space="preserve">
-    <value>Open log file location in your default file manager</value>
+    <value>Abre la ubicación del archivo de registro en el administrador de archivos predeterminado</value>
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
-    <value>Unable to open the log file</value>
+    <value>No se puede abir el archivo de registro</value>
   </data>
 </root>
