@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.UI.Input;
+using Microsoft.UI.Xaml.Input;
+
 namespace Files.App.Controls
 {
 	public partial class BreadcrumbBarItem : ContentControl
@@ -46,7 +49,16 @@ namespace Files.App.Controls
 			if (IsEllipsis || IsLastItem)
 				VisualStateManager.GoToState(this, "ChevronCollapsed", true);
 
-			_itemContentButton.Click += ItemContentButton_Click;
+			// Handle click event with PointerReleasedEvent to get PointerPoint
+			_itemContentButton.AddHandler( // Bypass "IsHandled = true" done in the base class
+				PointerReleasedEvent,
+				new PointerEventHandler((s, e) =>
+				{
+					OnItemClicked(e);
+					e.Handled = true;
+				}),
+				handledEventsToo: true);
+
 			_itemContentButton.PreviewKeyDown += ItemContentButton_PreviewKeyDown;
 			_itemChevronButton.Click += ItemChevronButton_Click;
 			_itemChevronButton.PreviewKeyDown += ItemChevronButton_PreviewKeyDown;
@@ -55,7 +67,7 @@ namespace Files.App.Controls
 			_itemChevronDropDownMenuFlyout.Closed += ChevronDropDownMenuFlyout_Closed;
 		}
 
-		public void OnItemClicked()
+		public void OnItemClicked(PointerRoutedEventArgs? pointerRoutedEventArgs = null)
 		{
 			if (_ownerRef is null ||
 				!_ownerRef.TryGetTarget(out var breadcrumbBar))
@@ -73,7 +85,7 @@ namespace Files.App.Controls
 					{
 						var menuFlyoutItem = new MenuFlyoutItem() { Text = text };
 						_itemEllipsisDropDownMenuFlyout.Items.Add(menuFlyoutItem);
-						menuFlyoutItem.Click += (sender, e) => breadcrumbBar.RaiseItemClickedEvent(item);
+						menuFlyoutItem.Click += (sender, e) => breadcrumbBar.RaiseItemClickedEvent(item, pointerRoutedEventArgs);
 					}
 				}
 
@@ -83,7 +95,7 @@ namespace Files.App.Controls
 			else
 			{
 				// Fire a click event
-				breadcrumbBar.RaiseItemClickedEvent(this);
+				breadcrumbBar.RaiseItemClickedEvent(this, pointerRoutedEventArgs);
 			}
 		}
 
