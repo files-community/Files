@@ -627,7 +627,7 @@
     <value>Afficher plus d'options</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>L’application doit être redémarrée pour appliquer ces paramètres, voulez-vous redémarrer l'application ?</value>
+    <value>L'application doit être redémarrée pour appliquer ces paramètres, voulez-vous redémarrer l'application ?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>Soutenez-nous sur GitHub</value>
@@ -1536,7 +1536,7 @@
     <value>Autorisations</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
-    <value>Vous n’avez pas les autorisations pour voir les propriétés de sécurité de cet objet. Vous pouvez essayer de prendre possession de cet objet.</value>
+    <value>Vous n'avez pas les autorisations pour voir les propriétés de sécurité de cet objet. Vous pouvez essayer de prendre possession de cet objet.</value>
   </data>
   <data name="SecurityAdvancedFolderFiles.Text" xml:space="preserve">
     <value>Ce dossier et ses fichiers</value>
@@ -1728,7 +1728,7 @@
     <value>Aucun élément trouvé</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
-    <value>Ouvrir l’emplacement du journal</value>
+    <value>Ouvrir l'emplacement du journal</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Créer un lien dans {0}</value>
@@ -2244,13 +2244,13 @@
     <value>Ouvrir les notes de version</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
-    <value>La création d’un raccourci à cet emplacement nécessite des privilèges administrateur</value>
+    <value>La création d'un raccourci à cet emplacement nécessite des privilèges administrateur</value>
   </data>
   <data name="CannotCreateShortcutDialogMessage" xml:space="preserve">
     <value>Souhaitez-vous plutôt créer le raccourci sur le bureau ?</value>
   </data>
   <data name="ErrorDialogNameNotAllowed" xml:space="preserve">
-    <value>Le nom de l’élément spécifié est invalide</value>
+    <value>Le nom de l'élément spécifié est invalide</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Paramètres</value>
@@ -3571,11 +3571,11 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
-    <value>Erreur lors de l’installation de {0, plural, one {# police} other {# polices}}</value>
+    <value>Erreur lors de l'installation de {0, plural, one {# police} other {# polices}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
-    <value>Échec de l’installation de {0, plural, one {# police} other {# polices}} depuis « {1} »</value>
+    <value>Échec de l'installation de {0, plural, one {# police} other {# polices}} depuis « {1} »</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
@@ -3635,11 +3635,11 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_Header" xml:space="preserve">
-    <value>Erreur lors de l’extraction de « {0} » vers « {1} »</value>
+    <value>Erreur lors de l'extraction de « {0} » vers « {1} »</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressFailed_SubHeader" xml:space="preserve">
-    <value>Échec de l’extraction de « {0} » depuis « {1} » vers « {2} »</value>
+    <value>Échec de l'extraction de « {0} » depuis « {1} » vers « {2} »</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DecompressInProgress_Header" xml:space="preserve">
@@ -4305,13 +4305,13 @@
     <value>Valable à partir du :</value>
   </data>
   <data name="ValidTo" xml:space="preserve">
-    <value>Valable jusqu’au :</value>
+    <value>Valable jusqu'au :</value>
   </data>
   <data name="NoSignatureFound" xml:space="preserve">
-    <value>Aucune signature n’a été trouvée.</value>
+    <value>Aucune signature n'a été trouvée.</value>
   </data>
   <data name="ShowOpenTerminal" xml:space="preserve">
-    <value>Afficher l’option pour ouvrir les dossiers dans le Terminal Windows</value>
+    <value>Afficher l'option pour ouvrir les dossiers dans le Terminal Windows</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
     <value>Ouvrir le fichier journal</value>
@@ -4320,9 +4320,9 @@
     <value>Ouvrir le fichier journal dans votre éditeur par défaut</value>
   </data>
   <data name="OpenLogFileLocationDescription" xml:space="preserve">
-    <value>Ouvrir l’emplacement du fichier journal dans le gestionnaire de fichiers par défaut</value>
+    <value>Ouvrir l'emplacement du fichier journal dans le gestionnaire de fichiers par défaut</value>
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
-    <value>Impossible d’ouvrir le fichier journal</value>
+    <value>Impossible d'ouvrir le fichier journal</value>
   </data>
 </root>
