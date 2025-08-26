@@ -11,6 +11,9 @@ namespace Files.App.Helpers
 {
 	public static class ShareItemHelpers
 	{
+		private static DataTransferManager _dataTransferManager;
+		private static IEnumerable<ListedItem> _itemsToShare;
+
 		public static bool IsItemShareable(ListedItem item)
 			=> !item.IsHiddenItem &&
 				(!item.IsShortcut || item.IsLinkItem) &&
@@ -21,14 +24,20 @@ namespace Files.App.Helpers
 			if (itemsToShare is null)
 				return;
 
-			var interop = DataTransferManager.As<IDataTransferManagerInterop>();
-			IntPtr result = interop.GetForWindow(MainWindow.Instance.WindowHandle, Win32PInvoke.DataTransferManagerInteropIID);
+			_itemsToShare = itemsToShare;
 
-			var manager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
-			manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
+			if (_dataTransferManager == null)
+			{
+				var interop = DataTransferManager.As<IDataTransferManagerInterop>();
+				IntPtr result = interop.GetForWindow(MainWindow.Instance.WindowHandle, Win32PInvoke.DataTransferManagerInteropIID);
+				_dataTransferManager = WinRT.MarshalInterface<DataTransferManager>.FromAbi(result);
+			}
+			_dataTransferManager.DataRequested -= new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
+			_dataTransferManager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
 
 			try
 			{
+				var interop = DataTransferManager.As<IDataTransferManagerInterop>();
 				interop.ShowShareUIForWindow(MainWindow.Instance.WindowHandle);
 			}
 			catch (Exception ex)
@@ -52,7 +61,7 @@ namespace Files.App.Helpers
 				List<IStorageItem> items = [];
 				DataRequest dataRequest = args.Request;
 
-				foreach (ListedItem item in itemsToShare)
+				foreach (ListedItem item in _itemsToShare)
 				{
 					if (item is IShortcutItem shItem)
 					{
