@@ -1,8 +1,8 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
-
 using Microsoft.UI.Xaml.Input;
 using Windows.System;
+using Microsoft.UI.Input;
 
 namespace Files.App.Controls
 {
@@ -11,6 +11,16 @@ namespace Files.App.Controls
 		private void ItemContentButton_Click(object sender, RoutedEventArgs e)
 		{
 			OnItemClicked();
+		}
+
+		private void ItemContentButton_PointerPressed(object sender, PointerRoutedEventArgs e)
+		{
+			// Check for middle mouse button click
+			if (e.GetCurrentPoint(sender as FrameworkElement).Properties.IsMiddleButtonPressed)
+			{
+				OnItemMiddleClicked();
+				e.Handled = true;
+			}
 		}
 
 		private void ItemChevronButton_Click(object sender, RoutedEventArgs e)
@@ -53,7 +63,6 @@ namespace Files.App.Controls
 				return;
 
 			breadcrumbBar.RaiseItemDropDownFlyoutClosed(this, flyout);
-
 			VisualStateManager.GoToState(this, "ChevronNormalOff", true);
 			VisualStateManager.GoToState(this, "PointerNormal", true);
 		}
