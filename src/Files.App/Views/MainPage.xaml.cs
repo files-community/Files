@@ -22,6 +22,7 @@ namespace Files.App.Views
 	public sealed partial class MainPage : Page
 	{
 		private IGeneralSettingsService generalSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 		public IUserSettingsService UserSettingsService { get; }
 		private readonly IWindowContext WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
@@ -159,7 +160,9 @@ namespace Files.App.Views
 			await NavigationHelpers.UpdateInstancePropertiesAsync(navArgs);
 
 			// Focus the content of the selected tab item (this also avoids an issue where the Omnibar sometimes steals the focus)
-			(ViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+			await Task.Delay(100);
+			ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
+
 		}
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
