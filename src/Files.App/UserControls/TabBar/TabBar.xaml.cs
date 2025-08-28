@@ -19,6 +19,7 @@ namespace Files.App.UserControls.TabBar
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly IAppearanceSettingsService AppearanceSettingsService = Ioc.Default.GetRequiredService<IAppearanceSettingsService>();
 		private readonly IWindowContext WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
+		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		// Fields
 
@@ -371,6 +372,13 @@ namespace Files.App.UserControls.TabBar
 			HorizontalTabView.Measure(new(
 				HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset,
 				HorizontalTabView.ActualHeight));
+		}
+
+		private void DragAreaRectangle_PointerReleased(object sender, PointerRoutedEventArgs e)
+		{
+			// Workaround for issue where clicking the drag area prevents keyboard
+			// shortcuts from working, see https://github.com/microsoft/microsoft-ui-xaml/issues/6467
+			DispatcherQueue.TryEnqueue(() => ContentPageContext.ShellPage!.PaneHolder.FocusActivePane());
 		}
 	}
 }

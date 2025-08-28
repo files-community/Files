@@ -162,7 +162,6 @@ namespace Files.App.Views
 			// Focus the content of the selected tab item (this also avoids an issue where the Omnibar sometimes steals the focus)
 			await Task.Delay(100);
 			ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
-
 		}
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)

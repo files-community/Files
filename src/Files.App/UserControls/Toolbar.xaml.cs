@@ -17,6 +17,7 @@ namespace Files.App.UserControls
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly IModifiableCommandManager ModifiableCommands = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
 		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
+		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		[GeneratedDependencyProperty]
 		public partial NavigationToolbarViewModel? ViewModel { get; set; }
@@ -107,6 +108,13 @@ namespace Files.App.UserControls
 			// Suppress access key invocation if any dialog is open
 			if (VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot).Any())
 				args.Handled = true;
+		}
+
+		private void RootGrid_PointerReleased(object sender, PointerRoutedEventArgs e)
+		{
+			// Workaround for issue where clicking the toolbar prevents keyboard
+			// shortcuts from working, see https://github.com/microsoft/microsoft-ui-xaml/issues/6467
+			DispatcherQueue.TryEnqueue(() => ContentPageContext.ShellPage!.PaneHolder.FocusActivePane());
 		}
 	}
 }
