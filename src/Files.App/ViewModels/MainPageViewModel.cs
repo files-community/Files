@@ -391,7 +391,7 @@ namespace Files.App.ViewModels
 				await Task.Delay(500);
 
 				// Focus the content of the selected tab item (needed for keyboard navigation)
-				(SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+				context.ShellPage!.PaneHolder.FocusActivePane();
 			}
 
 			e.Handled = true;

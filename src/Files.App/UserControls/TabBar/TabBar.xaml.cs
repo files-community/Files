@@ -373,12 +373,5 @@ namespace Files.App.UserControls.TabBar
 				HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset,
 				HorizontalTabView.ActualHeight));
 		}
-
-		private void DragAreaRectangle_PointerReleased(object sender, PointerRoutedEventArgs e)
-		{
-			// Workaround for issue where clicking the drag area prevents keyboard
-			// shortcuts from working, see https://github.com/microsoft/microsoft-ui-xaml/issues/6467
-			DispatcherQueue.TryEnqueue(() => ContentPageContext.ShellPage!.PaneHolder.FocusActivePane());
-		}
 	}
 }

@@ -476,5 +476,12 @@ namespace Files.App.Views
 			if (VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot).Any())
 				args.Handled = true;
 		}
+
+		private void Page_PointerReleased(object sender, PointerRoutedEventArgs e)
+		{
+			// Workaround for issue where clicking an empty area in the window (toolbar, title bar etc) prevents keyboard
+			// shortcuts from working properly, see https://github.com/microsoft/microsoft-ui-xaml/issues/6467
+			DispatcherQueue.TryEnqueue(() => ContentPageContext.ShellPage!.PaneHolder.FocusActivePane());
+		}
 	}
 }

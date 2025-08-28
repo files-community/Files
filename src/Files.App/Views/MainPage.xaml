@@ -22,6 +22,7 @@
 	KeyboardAcceleratorPlacementMode="Hidden"
 	Loaded="Page_Loaded"
 	NavigationCacheMode="Required"
+	PointerReleased="Page_PointerReleased"
 	SizeChanged="Page_SizeChanged"
 	mc:Ignorable="d">
 

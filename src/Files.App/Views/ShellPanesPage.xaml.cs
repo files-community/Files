@@ -228,6 +228,17 @@ namespace Files.App.Views
 			}
 		}
 
+		private bool _IsActivePaneLocked;
+		public bool IsActivePaneLocked
+		{
+			get => _IsActivePaneLocked;
+			set
+			{
+				if (_IsActivePaneLocked != value)
+					_IsActivePaneLocked = value;
+			}
+		}
+
 		// Events
 
 		public static event EventHandler<ShellPanesPage>? CurrentInstanceChanged;
@@ -376,6 +387,12 @@ namespace Files.App.Views
 				GetPane(0)?.Focus(FocusState.Programmatic);
 			else
 				GetPane(1)?.Focus(FocusState.Programmatic);
+		}
+
+		/// <inheritdoc/>
+		public void LockActivePane()
+		{
+			IsActivePaneLocked = true;
 		}
 
 		/// <inheritdoc/>
@@ -656,9 +673,16 @@ namespace Files.App.Views
 
 		private void Pane_GettingFocus(UIElement sender, GettingFocusEventArgs args)
 		{
-			// Workaround for https://github.com/files-community/Files/issues/15397
-			if (args?.NewFocusedElement is not null && args.NewFocusedElement is not (ListViewItem or GridViewItem or ListView or GridView or TextBox))
+			// Cancel focus attempts while the active pane is locked during layout changes.
+			// Pane locking occurs in LayoutModeChangeRequested() in ShellViewModel.cs.
+			// Focus is restored in RefreshItem() in BaseLayoutPage.cs when file loading completes.
+			// See https://github.com/files-community/Files/issues/15397
+			// See https://github.com/files-community/Files/issues/16530
+			if (IsActivePaneLocked)
+			{
+				IsActivePaneLocked = false;
 				args.TryCancel();
+			}
 		}
 
 		private void Pane_ContentChanged(object? sender, TabBarItemParameter e)
