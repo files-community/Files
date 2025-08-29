@@ -1245,8 +1245,7 @@ namespace Files.App.Views.Layouts
 						// when file loading completes.
 						// See https://github.com/files-community/Files/issues/15397
 						// See https://github.com/files-community/Files/issues/16530
-
-						if (ParentShellPageInstance.InstanceViewModel.FolderSettings.LayoutMode is not FolderLayoutModes.ColumnView)
+						if (ParentShellPageInstance.IsCurrentPane && ParentShellPageInstance.InstanceViewModel.FolderSettings.LayoutMode is not FolderLayoutModes.ColumnView)
 							ItemManipulationModel.FocusFileList();
 					});
 				}
