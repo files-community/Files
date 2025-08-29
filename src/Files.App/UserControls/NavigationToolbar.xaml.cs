@@ -279,7 +279,10 @@ namespace Files.App.UserControls
 				ViewModel.PathComponents[args.Index].Path is not { } path)
 				return;
 
-			await ViewModel.HandleFolderNavigationAsync(path);
+			// If user clicked the item with middle mouse button, open it in new tab
+			var openInNewTab = args.PointerRoutedEventArgs?.GetCurrentPoint(null).Properties.PointerUpdateKind is PointerUpdateKind.MiddleButtonReleased;
+
+			await ViewModel.HandleFolderNavigationAsync(path, openInNewTab);
 		}
 
 		private async void BreadcrumbBar_ItemDropDownFlyoutOpening(object sender, BreadcrumbBarItemDropDownFlyoutEventArgs e)
