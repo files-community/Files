@@ -162,7 +162,6 @@ namespace Files.App.Views
 			// Focus the content of the selected tab item (this also avoids an issue where the Omnibar sometimes steals the focus)
 			await Task.Delay(100);
 			ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
-
 		}
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -476,6 +475,13 @@ namespace Files.App.Views
 			// Suppress access key invocation if any dialog is open
 			if (VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot).Any())
 				args.Handled = true;
+		}
+
+		private void Page_PointerReleased(object sender, PointerRoutedEventArgs e)
+		{
+			// Workaround for issue where clicking an empty area in the window (toolbar, title bar etc) prevents keyboard
+			// shortcuts from working properly, see https://github.com/microsoft/microsoft-ui-xaml/issues/6467
+			DispatcherQueue.TryEnqueue(() => ContentPageContext.ShellPage?.PaneHolder.FocusActivePane());
 		}
 	}
 }

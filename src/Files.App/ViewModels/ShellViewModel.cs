@@ -584,6 +584,13 @@ namespace Files.App.ViewModels
 
 		private async void LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
 		{
+			// Layout changes can cause the active pane to lose focus. To prevent this,
+			// the pane is locked here and focus is restored when file loading completes
+			// in the RefreshItem() method in BaseLayoutPage.cs.
+			// See https://github.com/files-community/Files/issues/15397
+			// See https://github.com/files-community/Files/issues/16530
+			ContentPageContext.ShellPage!.PaneHolder.LockActivePane();
+
 			await dispatcherQueue.EnqueueOrInvokeAsync(CheckForBackgroundImage, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 		}
 

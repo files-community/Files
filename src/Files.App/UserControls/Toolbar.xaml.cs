@@ -108,5 +108,11 @@ namespace Files.App.UserControls
 			if (VisualTreeHelper.GetOpenPopupsForXamlRoot(MainWindow.Instance.Content.XamlRoot).Any())
 				args.Handled = true;
 		}
+
+		private void LayoutButton_Click(object sender, RoutedEventArgs e)
+		{
+			// Hide flyout after choosing a layout
+			LayoutFlyout.Hide();
+		}
 	}
 }

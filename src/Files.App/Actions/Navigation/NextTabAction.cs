@@ -9,6 +9,7 @@ namespace Files.App.Actions
 	internal sealed partial class NextTabAction : ObservableObject, IAction
 	{
 		private readonly IMultitaskingContext multitaskingContext;
+		private readonly IContentPageContext contentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		public string Label
 			=> Strings.NextTab.GetLocalizedResource();
@@ -37,7 +38,7 @@ namespace Files.App.Actions
 			await Task.Delay(500);
 
 			// Focus the content of the selected tab item (needed for keyboard navigation)
-			(multitaskingContext.CurrentTabItem.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+			contentPageContext.ShellPage!.PaneHolder.FocusActivePane();
 		}
 
 		private void MultitaskingContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)

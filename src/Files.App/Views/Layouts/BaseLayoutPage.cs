@@ -1240,8 +1240,14 @@ namespace Files.App.Views.Layouts
 						if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None && listedItem is IGitItem gitItem)
 							await ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
 
-						// Focus file list when items finish loading (#16530)
-						ItemManipulationModel.FocusFileList();
+						// Layout changes can cause the active pane to lose focus. To prevent this,
+						// the pane is locked in LayoutModeChangeRequested() and focus is restored here
+						// when file loading completes.
+						// See https://github.com/files-community/Files/issues/15397
+						// See https://github.com/files-community/Files/issues/16530
+
+						if (ParentShellPageInstance.IsCurrentPane && !ParentShellPageInstance.IsColumnView)
+							ItemManipulationModel.FocusFileList();
 					});
 				}
 			}

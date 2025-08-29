@@ -145,7 +145,7 @@
 								x:Name="SplitPaneMenuItem"
 								x:Load="{x:Bind Commands.SplitPaneHorizontally.IsExecutable, Mode=OneWay}"
 								Text="{helpers:ResourceString Name=SplitPane}">
-								<MenuFlyoutSubItem.Items>									
+								<MenuFlyoutSubItem.Items>
 									<!--  Vertical  -->
 									<uc:MenuFlyoutItemWithThemedIcon
 										x:Name="AddVerticalPaneTabActionButton"
