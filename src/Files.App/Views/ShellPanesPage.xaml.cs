@@ -679,7 +679,7 @@ namespace Files.App.Views
 		private void Pane_GettingFocus(UIElement sender, GettingFocusEventArgs args)
 		{
 			// Cancel focus attempts while the active pane is locked during layout changes.
-			// Pane locking occurs in LayoutModeChangeRequested() in ShellViewModel.cs.
+			// Pane locking occurs in BaseFolderSettings_LayoutModeChangeRequested() in BaseLayoutPage.cs.
 			// Focus is restored in RefreshItem() in BaseLayoutPage.cs when file loading completes.
 			// See https://github.com/files-community/Files/issues/15397
 			// See https://github.com/files-community/Files/issues/16530
