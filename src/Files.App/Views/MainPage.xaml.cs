@@ -481,7 +481,7 @@ namespace Files.App.Views
 		{
 			// Workaround for issue where clicking an empty area in the window (toolbar, title bar etc) prevents keyboard
 			// shortcuts from working properly, see https://github.com/microsoft/microsoft-ui-xaml/issues/6467
-			DispatcherQueue.TryEnqueue(() => ContentPageContext.ShellPage!.PaneHolder.FocusActivePane());
+			DispatcherQueue.TryEnqueue(() => ContentPageContext.ShellPage?.PaneHolder.FocusActivePane());
 		}
 	}
 }
