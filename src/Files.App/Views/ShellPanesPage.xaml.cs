@@ -20,6 +20,7 @@ namespace Files.App.Views
 		// Dependency injections
 
 		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private AppModel AppModel { get; } = Ioc.Default.GetRequiredService<AppModel>();
 
 		// Constants
@@ -383,12 +384,14 @@ namespace Files.App.Views
 		/// <inheritdoc/>
 		public void FocusActivePane()
 		{
-			if (ActivePane is BaseShellPage baseShellPage)
-				baseShellPage.ContentPage?.ItemManipulationModel.FocusFileList();
-			else if (ActivePane == (IShellPage)GetPane(0)!)
+			if (ActivePane == (IShellPage)GetPane(0)!)
 				GetPane(0)?.Focus(FocusState.Programmatic);
 			else
 				GetPane(1)?.Focus(FocusState.Programmatic);
+
+			// Focus file list
+			if (ActivePane is BaseShellPage baseShellPage)
+				baseShellPage.ContentPage?.ItemManipulationModel.FocusFileList();
 		}
 
 		/// <inheritdoc/>
