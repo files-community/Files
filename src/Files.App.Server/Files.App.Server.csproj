@@ -51,4 +51,5 @@
         <ProjectReference Include="..\Files.Shared\Files.Shared.csproj" />
     </ItemGroup>
 
+    <Import Project="..\Satori.targets" Condition=" '$(Platform)' != 'x86' " />
 </Project>
