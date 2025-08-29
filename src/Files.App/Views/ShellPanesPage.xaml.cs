@@ -383,7 +383,9 @@ namespace Files.App.Views
 		/// <inheritdoc/>
 		public void FocusActivePane()
 		{
-			if (ActivePane == (IShellPage)GetPane(0)!)
+			if (ActivePane is BaseShellPage baseShellPage)
+				baseShellPage.ContentPage?.ItemManipulationModel.FocusFileList();
+			else if (ActivePane == (IShellPage)GetPane(0)!)
 				GetPane(0)?.Focus(FocusState.Programmatic);
 			else
 				GetPane(1)?.Focus(FocusState.Programmatic);
