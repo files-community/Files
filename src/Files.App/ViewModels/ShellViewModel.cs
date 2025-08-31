@@ -203,7 +203,7 @@ namespace Files.App.ViewModels
 
 		public void InvokeFocusFilterHeader()
 		{
-			FocusFilterHeader.Invoke(this, null);
+			FocusFilterHeader?.Invoke(this, EventArgs.Empty);
 		}
 
 		public async Task SetWorkingDirectoryAsync(string? value)
