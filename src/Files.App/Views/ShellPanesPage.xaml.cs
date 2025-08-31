@@ -229,16 +229,6 @@ namespace Files.App.Views
 			}
 		}
 
-		private bool _IsActivePaneLocked;
-		public bool IsActivePaneLocked
-		{
-			get => _IsActivePaneLocked;
-			set
-			{
-				if (_IsActivePaneLocked != value)
-					_IsActivePaneLocked = value;
-			}
-		}
 
 		// Events
 
@@ -392,12 +382,6 @@ namespace Files.App.Views
 			// Focus file list
 			if (ActivePane is BaseShellPage baseShellPage)
 				baseShellPage.ContentPage?.ItemManipulationModel.FocusFileList();
-		}
-
-		/// <inheritdoc/>
-		public void LockActivePane()
-		{
-			IsActivePaneLocked = true;
 		}
 
 		/// <inheritdoc/>
@@ -669,24 +653,9 @@ namespace Files.App.Views
 		{
 			if (sender is UIElement element)
 			{
-				element.GettingFocus += Pane_GettingFocus;
 				element.GotFocus += Pane_GotFocus;
 				element.RightTapped += Pane_RightTapped;
 				element.PointerPressed += Pane_PointerPressed;
-			}
-		}
-
-		private void Pane_GettingFocus(UIElement sender, GettingFocusEventArgs args)
-		{
-			// Cancel focus attempts while the active pane is locked during layout changes.
-			// Pane locking occurs in BaseFolderSettings_LayoutModeChangeRequested() in BaseLayoutPage.cs.
-			// Focus is restored in RefreshItem() in BaseLayoutPage.cs when file loading completes.
-			// See https://github.com/files-community/Files/issues/15397
-			// See https://github.com/files-community/Files/issues/16530
-			if (IsActivePaneLocked)
-			{
-				IsActivePaneLocked = false;
-				args.TryCancel();
 			}
 		}
 
@@ -804,7 +773,6 @@ namespace Files.App.Views
 			{
 				pane.Loaded -= Pane_Loaded;
 				pane.ContentChanged -= Pane_ContentChanged;
-				pane.GettingFocus -= Pane_GettingFocus;
 				pane.GotFocus -= Pane_GotFocus;
 				pane.RightTapped -= Pane_RightTapped;
 				pane.PointerPressed -= Pane_PointerPressed;

@@ -24,5 +24,6 @@
 		</ResourceDictionary>
 	</Page.Resources>
 
-	<Grid x:Name="RootGrid" />
+	<!--  TabFocusNavigation is set to 'once' to prevent focus from auto switching to the next pane  -->
+	<Grid x:Name="RootGrid" TabFocusNavigation="Once" />
 </Page>

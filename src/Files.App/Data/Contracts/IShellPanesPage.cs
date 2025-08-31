@@ -70,11 +70,6 @@ namespace Files.App.Data.Contracts
 		public void FocusActivePane();
 
 		/// <summary>
-		/// Locks the active pane.
-		/// </summary>
-		public void LockActivePane();
-
-		/// <summary>
 		/// Gets open panes.
 		/// </summary>
 		/// <returns>An enumerable containing open panes.</returns>
