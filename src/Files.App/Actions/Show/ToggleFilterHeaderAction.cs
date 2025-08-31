@@ -34,8 +34,10 @@ namespace Files.App.Actions
 
 			if (IsOn)
 				ContentPageContext.ShellPage!.ShellViewModel.InvokeFocusFilterHeader();
+			else
+				ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
 
-			return Task.CompletedTask;
+				return Task.CompletedTask;
 		}
 
 		private void GeneralSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
