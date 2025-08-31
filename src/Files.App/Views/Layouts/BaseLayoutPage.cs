@@ -1203,25 +1203,34 @@ namespace Files.App.Views.Layouts
 
 		private void RefreshContainer(SelectorItem container, bool inRecycleQueue)
 		{
-			container.PointerPressed -= FileListItem_PointerPressed;
-			container.PointerEntered -= FileListItem_PointerEntered;
-			container.PointerExited -= FileListItem_PointerExited;
-			container.Tapped -= FileListItem_Tapped;
-			container.DoubleTapped -= FileListItem_DoubleTapped;
-			container.RightTapped -= FileListItem_RightTapped;
+			try
+			{
+				container.PointerPressed -= FileListItem_PointerPressed;
+				container.PointerEntered -= FileListItem_PointerEntered;
+				container.PointerExited -= FileListItem_PointerExited;
+				container.Tapped -= FileListItem_Tapped;
+				container.DoubleTapped -= FileListItem_DoubleTapped;
+				container.RightTapped -= FileListItem_RightTapped;
 
-			if (inRecycleQueue)
-			{
-				UninitializeDrag(container);
+				if (inRecycleQueue)
+				{
+					UninitializeDrag(container);
+				}
+				else
+				{
+					container.PointerPressed += FileListItem_PointerPressed;
+					container.PointerEntered += FileListItem_PointerEntered;
+					container.PointerExited += FileListItem_PointerExited;
+					container.Tapped += FileListItem_Tapped;
+					container.DoubleTapped += FileListItem_DoubleTapped;
+					container.RightTapped += FileListItem_RightTapped;
+				}
 			}
-			else
+			catch (System.Runtime.InteropServices.COMException)
 			{
-				container.PointerPressed += FileListItem_PointerPressed;
-				container.PointerEntered += FileListItem_PointerEntered;
-				container.PointerExited += FileListItem_PointerExited;
-				container.Tapped += FileListItem_Tapped;
-				container.DoubleTapped += FileListItem_DoubleTapped;
-				container.RightTapped += FileListItem_RightTapped;
+				// Suppress COMExceptions that occur when trying to access disposed UI containers
+				// during rapid collection clearing operations. This prevents crashes when the 
+				// WinUI framework disposes containers faster than our cleanup code can execute.
 			}
 		}
 
@@ -1396,10 +1405,19 @@ namespace Files.App.Views.Layouts
 
 		protected void UninitializeDrag(UIElement element)
 		{
-			element.AllowDrop = false;
-			element.RemoveHandler(UIElement.DragOverEvent, Item_DragOverEventHandler);
-			element.DragLeave -= Item_DragLeave;
-			element.Drop -= Item_Drop;
+			try
+			{
+				element.AllowDrop = false;
+				element.RemoveHandler(UIElement.DragOverEvent, Item_DragOverEventHandler);
+				element.DragLeave -= Item_DragLeave;
+				element.Drop -= Item_Drop;
+			}
+			catch (System.Runtime.InteropServices.COMException)
+			{
+				// Suppress COMExceptions that occur when trying to access disposed UI containers
+				// during rapid collection clearing operations. This prevents crashes when the 
+				// WinUI framework disposes containers faster than our cleanup code can execute.
+			}
 		}
 
 		public virtual void Dispose()

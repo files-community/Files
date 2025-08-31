@@ -701,18 +701,30 @@ namespace Files.App.Views.Layouts
 
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox")!;
+			try
+			{
+				var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox")!;
 
-			selectionCheckbox.PointerEntered -= SelectionCheckbox_PointerEntered;
-			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
-			selectionCheckbox.PointerCanceled -= SelectionCheckbox_PointerCanceled;
+				selectionCheckbox.PointerEntered -= SelectionCheckbox_PointerEntered;
+				selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
+				selectionCheckbox.PointerCanceled -= SelectionCheckbox_PointerCanceled;
 
-			base.FileList_ContainerContentChanging(sender, args);
-			SetCheckboxSelectionState(args.Item, args.ItemContainer as GridViewItem);
+				base.FileList_ContainerContentChanging(sender, args);
+				SetCheckboxSelectionState(args.Item, args.ItemContainer as GridViewItem);
 
-			selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;
-			selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
-			selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
+				selectionCheckbox.PointerEntered += SelectionCheckbox_PointerEntered;
+				selectionCheckbox.PointerExited += SelectionCheckbox_PointerExited;
+				selectionCheckbox.PointerCanceled += SelectionCheckbox_PointerCanceled;
+			}
+			catch (System.Runtime.InteropServices.COMException)
+			{
+				// Suppress COMExceptions that occur when trying to access disposed UI containers
+				// during rapid collection clearing operations. This prevents crashes when the 
+				// WinUI framework disposes containers faster than our cleanup code can execute.
+				
+				// Still call the base method to ensure proper cleanup
+				base.FileList_ContainerContentChanging(sender, args);
+			}
 		}
 
 		private void SetCheckboxSelectionState(object item, GridViewItem? lviContainer = null)
