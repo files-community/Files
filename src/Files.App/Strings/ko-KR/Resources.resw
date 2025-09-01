@@ -166,7 +166,7 @@
     <value>넘어가기</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>모두 선택</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>선택 반전</value>
@@ -1413,7 +1413,7 @@
     <value>항목 {0}개</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>Reopen tab</value>
+    <value>최근 탭 다시 열기</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>이름 바꾸기</value>
@@ -2322,7 +2322,7 @@
     <value>컨텍스트 메뉴 옵션</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>File extensions</value>
+    <value>파일 확장 프로그램</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>포맷</value>
@@ -2415,25 +2415,25 @@
     <value>컴팩트 오버레이 전환</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open the online help page in your browser</value>
+    <value>브라우저에서 지원 페이지 열기</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Toggle full screen mode</value>
+    <value>전체 화면 전환</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>Enter compact overlay mode</value>
+    <value>컴팩트 오버레이 채우기</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Exit compact overlay mode</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Toggle compact overlay mode</value>
+    <value>컴팩트 오버레이 모드</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Start search in the OmniBar</value>
+    <value>경로 막대에서 검색</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Toggle visibility of hidden items</value>
+    <value>숨겨진 항목 표시</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
     <value>Toggle visibility of dot files</value>
@@ -2490,7 +2490,7 @@
     <value>새 바로 가기 만들기</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
-    <value>Empty the contents of Recycle Bin</value>
+    <value>휴지통 비우기</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
     <value>선택한 드라이브 포맷</value>
@@ -2730,13 +2730,13 @@
     <value>새 탭 열기</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward</value>
+    <value>뒤로 가기</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward</value>
+    <value>앞으로 가기</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
-    <value>상위 디렉토리로 이동</value>
+    <value>상위 경로로 이동</value>
   </data>
   <data name="DuplicateCurrentTabDescription" xml:space="preserve">
     <value>현재 탭 복제</value>
@@ -2766,7 +2766,7 @@
     <value>현재 탭을 포함한 모든탭을 닫습니다</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen recently closed tab</value>
+    <value>마지막으로 닫은 탭 다시 열기</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
     <value>이전 탭으로 이동</value>
@@ -2992,13 +2992,13 @@
     <value>태그 지정 안함</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Previous tab</value>
+    <value>이전 탭</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Next tab</value>
+    <value>다음 탭</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Close tab</value>
+    <value>탭 닫기</value>
   </data>
   <data name="EditPath" xml:space="preserve">
     <value>경로 수정</value>
@@ -3028,7 +3028,7 @@
     <value>항목 확인란 표시</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Edit path in the OmniBar</value>
+    <value>경로 막대 편집</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>새 항목 만들기</value>
@@ -3329,7 +3329,7 @@
     <value>Open selected directory in a new tab</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open selected directory in a new window</value>
+    <value>새 창에서 열기</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
     <value>모두 열기</value>
@@ -3357,7 +3357,7 @@
     <value>Command Palette</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open Command Palette in the OmniBar</value>
+    <value>경로 막대에서 명령어 열기</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>시작 시간:</value>
@@ -3366,7 +3366,7 @@
     <value>BitLocker 켜기</value>
   </data>
   <data name="ManageBitLocker" xml:space="preserve">
-    <value>비트락 관리</value>
+    <value>BitLocker 관리</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
     <value>다음 항목을 드라이브로 복사하기에 너무 큽니다.</value>
