@@ -1062,7 +1062,7 @@
     <value>Ouvrir dans un nouveau volet</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value>Fichiers &amp; dossiers</value>
+    <value>Fichiers et dossiers</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Détails (Ctrl+Maj+1)</value>
@@ -3208,7 +3208,7 @@
     <value>Erreur Git</value>
   </data>
   <data name="PullTimeoutError" xml:space="preserve">
-    <value>git pull a échoué en raison d'une erreur de délai</value>
+    <value>git pull a échoué en raison d’un délai d’attente dépassé</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
     <value>(plusieurs valeurs)</value>
@@ -3734,7 +3734,7 @@
     <value>Débloquer le fichier téléchargé</value>
   </data>
   <data name="NoFileOperations" xml:space="preserve">
-    <value>Aucune opération de fichier en cours</value>
+    <value>Aucune opération en cours</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
     <value>L'option pour ouvrir Files au démarrage de Windows n'est pas disponible en raison des paramètres de votre système ou de votre stratégie de groupe. Pour la réactiver, ouvrez la page applications de démarrage dans le gestionnaire des tâches.</value>
@@ -3836,7 +3836,7 @@
     <value>Où est passé Files ?</value>
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
-    <value>Questions &amp; discussions</value>
+    <value>Questions et discussions</value>
   </data>
   <data name="Compact" xml:space="preserve">
     <value>Compact</value>
