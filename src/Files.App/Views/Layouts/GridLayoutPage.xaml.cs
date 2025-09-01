@@ -31,8 +31,6 @@ namespace Files.App.Views.Layouts
 
 		private volatile bool shouldSetVerticalScrollMode;
 
-		private RectangleSelection? _rectangleSelection;
-
 		// Properties
 
 		public ScrollViewer? ContentScroller { get; private set; }
@@ -151,8 +149,8 @@ namespace Files.App.Views.Layouts
 			InitializeComponent();
 			DataContext = this;
 
-			_rectangleSelection = RectangleSelection.Create(ListViewBase, SelectionRectangle, FileList_SelectionChanged);
-			_rectangleSelection.SelectionEnded += SelectionRectangle_SelectionEnded;
+			var selectionRectangle = RectangleSelection.Create(ListViewBase, SelectionRectangle, FileList_SelectionChanged);
+			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 		}
 
 		// Methods
@@ -224,12 +222,6 @@ namespace Files.App.Views.Layouts
 				FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
-
-			if (_rectangleSelection is not null)
-			{
-				_rectangleSelection.SelectionEnded -= SelectionRectangle_SelectionEnded;
-				_rectangleSelection = null;
-			}
 		}
 
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
