@@ -160,7 +160,10 @@ namespace Files.App
 		public async Task OnActivatedAsync(AppActivationArguments activatedEventArgs)
 		{
 			var activatedEventArgsData = activatedEventArgs.Data;
-			Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgsData.GetType().Name}");
+			
+			// Logger may not be initialized yet due to race condition during startup
+			if (Logger is not null)
+				Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgsData.GetType().Name}");
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
