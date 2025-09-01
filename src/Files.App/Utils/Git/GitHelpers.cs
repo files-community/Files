@@ -870,10 +870,11 @@ namespace Files.App.Utils.Git
 			if (!match.Success)
 				return (string.Empty, string.Empty);
 
+			string platform = match.Groups["domain"].Value;
 			string userOrOrg = match.Groups["user"].Value;
 			string repoName = match.Groups["repo"].Value;
 
-			string repoUrl = $"https://github.com/{userOrOrg}/{repoName}";
+			string repoUrl = $"https://{platform}.com/{userOrOrg}/{repoName}";
 			return (repoUrl, repoName);
 		}
 
@@ -943,7 +944,7 @@ namespace Files.App.Utils.Git
 				ReturnResult.Failed);
 		}
 
-		[GeneratedRegex(@"^(?:https?:\/\/)?(?:www\.)?(github|gitlab)\.com\/(?<user>[^\/]+)\/(?<repo>[^\/]+?)(?=\.git|\/|$)(?:\.git)?(?:\/)?", RegexOptions.IgnoreCase)]
+		[GeneratedRegex(@"^(?:https?:\/\/)?(?:www\.)?(?<domain>github|gitlab)\.com\/(?<user>[^\/]+)\/(?<repo>[^\/]+?)(?=\.git|\/|$)(?:\.git)?(?:\/)?", RegexOptions.IgnoreCase)]
 		private static partial Regex GitHubRepositoryRegex();
 	}
 }
