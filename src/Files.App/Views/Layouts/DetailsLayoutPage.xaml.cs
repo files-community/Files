@@ -37,8 +37,6 @@ namespace Files.App.Views.Layouts
 		/// </summary>
 		private uint currentIconSize;
 
-		private RectangleSelection? _rectangleSelection;
-
 		// Properties
 
 		protected override ListViewBase ListViewBase => FileList;
@@ -79,8 +77,8 @@ namespace Files.App.Views.Layouts
 		{
 			InitializeComponent();
 			DataContext = this;
-			_rectangleSelection = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
-			_rectangleSelection.SelectionEnded += SelectionRectangle_SelectionEnded;
+			var selectionRectangle = RectangleSelection.Create(FileList, SelectionRectangle, FileList_SelectionChanged);
+			selectionRectangle.SelectionEnded += SelectionRectangle_SelectionEnded;
 
 			UpdateSortOptionsCommand = new RelayCommand<string>(x =>
 			{
@@ -204,11 +202,6 @@ namespace Files.App.Views.Layouts
 			FolderSettings.SortOptionPreferenceUpdated -= FolderSettings_SortOptionPreferenceUpdated;
 			ParentShellPageInstance.ShellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
-			if (_rectangleSelection is not null)
-			{
-				_rectangleSelection.SelectionEnded -= SelectionRectangle_SelectionEnded;
-				_rectangleSelection = null;
-			}
 		}
 
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
