@@ -47,7 +47,7 @@ jobs:
 
   check-formatting:
 
-    if: github.repository_owner == 'files-community'
+    
 
     runs-on: windows-latest
 
