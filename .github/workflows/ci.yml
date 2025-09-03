@@ -83,7 +83,7 @@ jobs:
 
   build:
 
-    if: github.repository_owner == 'files-community'
+    
 
     runs-on: windows-latest
     strategy:
@@ -178,7 +178,7 @@ jobs:
 
   test:
 
-    if: github.repository_owner == 'files-community' && always()
+    
 
     needs: [build]
     runs-on: windows-latest
