@@ -1,7 +1,7 @@
 ﻿<Project>
   <Target Name="FetchSatori" AfterTargets="ResolveRuntimePackAssets">
     <DownloadFile
-        SourceUrl="https://github.com/hez2010/Satori/releases/latest/download/windows_$(Platform).zip"
+        SourceUrl="https://github.com/files-community/Satori/releases/latest/download/windows_$(Platform).zip"
         DestinationFolder="$(IntermediateOutputPath)$([System.Guid]::NewGuid().ToString('N'))"
         Retries="3">
       <Output TaskParameter="DownloadedFile" ItemName="SatoriArchive" />
