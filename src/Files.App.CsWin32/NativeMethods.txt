@@ -269,3 +269,11 @@ HCERTSTORE
 HCRYPTMSG
 CERT_QUERY_ENCODING_TYPE
 CertGetNameString
+IObjectCollection
+SHCNE_ID
+SHChangeNotifyRegister
+SHChangeNotifyDeregister
+HWND_MESSAGE
+SHChangeNotification_Lock
+SHChangeNotification_Unlock
+SHGetKnownFolderPath
