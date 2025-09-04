@@ -1,0 +1,44 @@
+﻿<Project>
+  <Target Name="FetchSatori" AfterTargets="ResolveRuntimePackAssets">
+    <DownloadFile
+        SourceUrl="https://github.com/files-community/Satori/releases/latest/download/windows_$(Platform).zip"
+        DestinationFolder="$(IntermediateOutputPath)$([System.Guid]::NewGuid().ToString('N'))"
+        Retries="3">
+      <Output TaskParameter="DownloadedFile" ItemName="SatoriArchive" />
+    </DownloadFile>
+  </Target>
+
+  <Target Name="ExtractSatori" AfterTargets="FetchSatori" DependsOnTargets="FetchSatori">
+    <Unzip
+        SourceFiles="@(SatoriArchive)"
+        DestinationFolder="$(IntermediateOutputPath)Satori"
+        OverwriteReadOnlyFiles="true"
+    />
+    <Delete Files="@(SatoriArchive)" />
+  </Target>
+
+  <Target Name="IncludeSatoriInRuntimePackAssets" AfterTargets="ExtractSatori" DependsOnTargets="ExtractSatori">
+    <ItemGroup>
+      <RuntimePackAsset Remove="@(RuntimePackAsset)"
+                        Condition=" '%(RuntimePackAsset.Filename)' == 'coreclr'
+                                 Or '%(RuntimePackAsset.Filename)' == 'clrjit'
+                                 Or '%(RuntimePackAsset.Filename)' == 'System.Private.CoreLib' " />
+
+      <SatoriRuntimePackAsset Include="$(IntermediateOutputPath)Satori\System.Private.CoreLib.dll">
+        <AssetType>runtime</AssetType>
+      </SatoriRuntimePackAsset>
+      <SatoriRuntimePackAsset Include="$(IntermediateOutputPath)Satori\clrjit.dll;$(IntermediateOutputPath)Satori\coreclr.dll">
+        <AssetType>native</AssetType>
+        <DropFromSingleFile>true</DropFromSingleFile>
+      </SatoriRuntimePackAsset>
+      <RuntimePackAsset Include="@(SatoriRuntimePackAsset)">
+        <DestinationSubPath>%(Filename)%(Extension)</DestinationSubPath>
+        <RuntimeIdentifier>$(RuntimeIdentifier)</RuntimeIdentifier>
+        <CopyLocal>true</CopyLocal>
+        <NuGetPackageId>Microsoft.NETCore.App.Runtime.win-x64</NuGetPackageId>
+        <FileVersion>42.42.42.42424</FileVersion>
+        <NuGetPackageVersion>42.42.42.42424</NuGetPackageVersion>
+      </RuntimePackAsset>
+    </ItemGroup>
+  </Target>
+</Project>
