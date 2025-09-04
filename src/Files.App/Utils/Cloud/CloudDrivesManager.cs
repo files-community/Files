@@ -11,12 +11,10 @@ namespace Files.App.Utils.Cloud
 	public static class CloudDrivesManager
 	{
 		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
-
 		private static readonly ICloudDetector _detector = Ioc.Default.GetRequiredService<ICloudDetector>();
-
 		public static EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
-
 		private static readonly List<DriveItem> _Drives = [];
+
 		public static IReadOnlyList<DriveItem> Drives
 		{
 			get
@@ -72,6 +70,25 @@ namespace Files.App.Utils.Cloud
 					ShowProperties = true,
 				};
 
+				_ = LoadIconAsync(cloudProviderItem, provider);
+				lock (_Drives)
+				{
+					if (_Drives.Any(x => x.Path == cloudProviderItem.Path))
+						continue;
+
+					_Drives.Add(cloudProviderItem);
+				}
+				DataChanged?.Invoke(
+					SectionType.CloudDrives,
+					new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, cloudProviderItem)
+				);
+			}
+		}
+
+		private static async Task LoadIconAsync(DriveItem cloudProviderItem, ICloudProvider provider)
+		{
+			try
+			{
 				var iconData = provider.IconData;
 
 				if (iconData is null)
@@ -92,19 +109,10 @@ namespace Files.App.Utils.Cloud
 					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async ()
 						=> cloudProviderItem.Icon = await iconData.ToBitmapAsync());
 				}
-
-				lock (_Drives)
-				{
-					if (_Drives.Any(x => x.Path == cloudProviderItem.Path))
-						continue;
-
-					_Drives.Add(cloudProviderItem);
-				}
-
-				DataChanged?.Invoke(
-					SectionType.CloudDrives,
-					new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, cloudProviderItem)
-				);
+			}
+			catch (Exception ex)
+			{
+				_logger?.LogWarning(ex, "Failed to load icon for cloud provider \"{ProviderName}\"", provider.Name);
 			}
 		}
 	}
