@@ -98,7 +98,7 @@ namespace Files.App.Utils.Storage
 		{
 			Func<Task<bool>> queryFileAssoc = async () =>
 			{
-				var assoc = await Win32Helper.GetFileAssociationAsync(filePath);
+				var assoc = await Win32Helper.GetDefaultFileAssociationAsync(filePath);
 				if (assoc is not null)
 				{
 					return assoc == Package.Current.Id.FamilyName
