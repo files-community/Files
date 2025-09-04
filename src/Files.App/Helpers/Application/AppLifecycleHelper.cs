@@ -105,22 +105,25 @@ namespace Files.App.Helpers
 
 			// Start off a list of tasks we need to run before we can continue startup
 			await Task.WhenAll(
-				OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
-				App.LibraryManager.UpdateLibrariesAsync(),
-				OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
-				OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
 				App.QuickAccessManager.InitializeAsync()
 			);
 
-			await Task.WhenAll(
-				jumpListService.InitializeAsync(),
-				addItemService.InitializeAsync(),
-				ContextMenu.WarmUpQueryContextMenuAsync()
-			);
+			// Start non-critical tasks without waiting for them to complete
+			_ = Task.Run(async () =>
+			{
+				await Task.WhenAll(
+					OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
+					App.LibraryManager.UpdateLibrariesAsync(),
+					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
+					OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
+					jumpListService.InitializeAsync(),
+					addItemService.InitializeAsync(),
+					ContextMenu.WarmUpQueryContextMenuAsync(),
+					CheckAppUpdate()
+				);
+			});
 
 			FileTagsHelper.UpdateTagsDb();
-
-			await CheckAppUpdate();
 
 			static Task OptionalTaskAsync(Task task, bool condition)
 			{
