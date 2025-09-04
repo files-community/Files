@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class RenameAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

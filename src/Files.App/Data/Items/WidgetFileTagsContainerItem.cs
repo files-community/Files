@@ -75,7 +75,7 @@ namespace Files.App.Data.Items
 		{
 			SelectedTagChanged?.Invoke(this, new(Tags.Select(tag => (tag.Path, tag.IsFolder))));
 
-			return Commands.OpenAllTaggedItems.ExecuteAsync();
+			return Commands.OpenAllTagged.ExecuteAsync();
 		}
 	}
 }

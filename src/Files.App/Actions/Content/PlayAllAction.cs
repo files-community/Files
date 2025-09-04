@@ -5,6 +5,7 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class PlayAllAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

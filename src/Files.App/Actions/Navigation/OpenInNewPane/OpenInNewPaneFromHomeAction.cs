@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class OpenInNewPaneFromHomeAction : BaseOpenInNewPaneAction
 	{
 		public override bool IsExecutable =>

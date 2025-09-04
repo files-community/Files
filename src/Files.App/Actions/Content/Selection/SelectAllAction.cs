@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed class SelectAllAction : IAction
 	{
 		private readonly IContentPageContext context;

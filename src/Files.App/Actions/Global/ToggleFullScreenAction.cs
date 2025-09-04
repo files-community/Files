@@ -5,6 +5,7 @@ using Microsoft.UI.Windowing;
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed class ToggleFullScreenAction : IToggleAction
 	{
 		public string Label

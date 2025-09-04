@@ -111,17 +111,17 @@
 				<Button.Flyout>
 					<MenuFlyout>
 						<MenuFlyoutItem
-							x:Name="OpenFolderInVSCodeButton"
-							Command="{x:Bind Commands.OpenInVSCode}"
-							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenInVSCode.HotKeys, Mode=OneWay}"
-							Text="{x:Bind Commands.OpenInVSCode.Label, Mode=OneWay}"
-							ToolTipService.ToolTip="{x:Bind Commands.OpenInVSCode.LabelWithHotKey, Mode=OneWay}" />
+							x:Name="OpenFolderInIDEButton"
+							Command="{x:Bind Commands.OpenInIDE}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenInIDE.HotKeys, Mode=OneWay}"
+							Text="{x:Bind Commands.OpenInIDE.Label, Mode=OneWay}"
+							ToolTipService.ToolTip="{x:Bind Commands.OpenInIDE.LabelWithHotKey, Mode=OneWay}" />
 						<MenuFlyoutItem
-							x:Name="OpenRepoInVSCodeButton"
-							Command="{x:Bind Commands.OpenRepoInVSCode}"
-							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenRepoInVSCode.HotKeys, Mode=OneWay}"
-							Text="{x:Bind Commands.OpenRepoInVSCode.Label, Mode=OneWay}"
-							ToolTipService.ToolTip="{x:Bind Commands.OpenRepoInVSCode.LabelWithHotKey, Mode=OneWay}"
+							x:Name="OpenRepoInIDEButton"
+							Command="{x:Bind Commands.OpenRepoInIDE}"
+							KeyboardAcceleratorTextOverride="{x:Bind Commands.OpenRepoInIDE.HotKeys, Mode=OneWay}"
+							Text="{x:Bind Commands.OpenRepoInIDE.Label, Mode=OneWay}"
+							ToolTipService.ToolTip="{x:Bind Commands.OpenRepoInIDE.LabelWithHotKey, Mode=OneWay}"
 							Visibility="{x:Bind StatusBarViewModel.GitBranchDisplayName, Mode=OneWay, Converter={StaticResource NullToVisibilityCollapsedConverter}, FallbackValue=Collapsed}" />
 					</MenuFlyout>
 				</Button.Flyout>

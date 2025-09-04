@@ -6,6 +6,7 @@ using Windows.Graphics;
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class ToggleCompactOverlayAction : ObservableObject, IToggleAction
 	{
 		private readonly IWindowContext windowContext;

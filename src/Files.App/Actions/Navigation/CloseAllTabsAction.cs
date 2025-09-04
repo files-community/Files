@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class CloseAllTabsAction : CloseTabBaseAction
 	{
 		public override string Label

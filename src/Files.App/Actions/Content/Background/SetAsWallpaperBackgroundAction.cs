@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class SetAsWallpaperBackgroundAction : BaseSetAsAction
 	{
 		public override string Label

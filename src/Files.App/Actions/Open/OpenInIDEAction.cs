@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class OpenInIDEAction : ObservableObject, IAction
 	{
 		private readonly IDevToolsSettingsService _devToolsSettingsService;

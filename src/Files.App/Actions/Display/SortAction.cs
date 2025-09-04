@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class SortByNameAction : SortByAction
 	{
 		protected override SortOption SortOption
@@ -15,6 +16,7 @@ namespace Files.App.Actions
 			=> Strings.SortByNameDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class SortByDateModifiedAction : SortByAction
 	{
 		protected override SortOption SortOption
@@ -27,6 +29,7 @@ namespace Files.App.Actions
 			=> Strings.SortByDateModifiedDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class SortByDateCreatedAction : SortByAction
 	{
 		protected override SortOption SortOption
@@ -39,6 +42,7 @@ namespace Files.App.Actions
 			=> Strings.SortByDateCreatedDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class SortBySizeAction : SortByAction
 	{
 		protected override SortOption SortOption
@@ -51,6 +55,7 @@ namespace Files.App.Actions
 			=> Strings.SortBySizeDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class SortByTypeAction : SortByAction
 	{
 		protected override SortOption SortOption
@@ -63,6 +68,7 @@ namespace Files.App.Actions
 			=> Strings.SortByTypeDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class SortBySyncStatusAction : SortByAction
 	{
 		protected override SortOption SortOption
@@ -78,6 +84,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.CloudDrive;
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class SortByTagAction : SortByAction
 	{
 		protected override SortOption SortOption
@@ -90,6 +97,7 @@ namespace Files.App.Actions
 			=> Strings.SortByTagDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class SortByPathAction : SortByAction
 	{
 		protected override SortOption SortOption
@@ -105,6 +113,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.SearchResults;
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class SortByOriginalFolderAction : SortByAction
 	{
 		protected override SortOption SortOption
@@ -120,6 +129,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class SortByDateDeletedAction : SortByAction
 	{
 		protected override SortOption SortOption
@@ -185,6 +195,7 @@ namespace Files.App.Actions
 		}
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class SortAscendingAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
@@ -220,6 +231,7 @@ namespace Files.App.Actions
 		}
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class SortDescendingAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
@@ -255,6 +267,7 @@ namespace Files.App.Actions
 		}
 	}
 
+	[GeneratedRichCommand]
 	internal sealed class ToggleSortDirectionAction : IAction
 	{
 		private readonly IDisplayPageContext context;

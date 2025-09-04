@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class GitCloneAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext pageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
