@@ -2387,9 +2387,6 @@
   <data name="Calculating" xml:space="preserve">
     <value>Calculating...</value>
   </data>
-  <data name="JumpListPinnedGroupHeader" xml:space="preserve">
-    <value>Pinned items</value>
-  </data>
   <data name="DecreaseSize" xml:space="preserve">
     <value>Decrease size</value>
   </data>
