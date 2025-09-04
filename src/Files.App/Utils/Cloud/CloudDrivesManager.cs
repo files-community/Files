@@ -14,7 +14,7 @@ namespace Files.App.Utils.Cloud
 		private static readonly ICloudDetector _detector = Ioc.Default.GetRequiredService<ICloudDetector>();
 		public static EventHandler<NotifyCollectionChangedEventArgs> DataChanged;
 		private static readonly List<DriveItem> _Drives = [];
-		
+
 		public static IReadOnlyList<DriveItem> Drives
 		{
 			get
@@ -46,7 +46,7 @@ namespace Files.App.Utils.Cloud
 				try
 				{
 					cloudProviderItem.Root = await StorageFolder.GetFolderFromPathAsync(cloudProviderItem.Path);
-					
+
 					_ = MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => cloudProviderItem.UpdatePropertiesAsync());
 				}
 				catch (FileNotFoundException ex)
@@ -98,14 +98,14 @@ namespace Files.App.Utils.Cloud
 						Constants.ShellIconSizes.Small,
 						false,
 						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
-					
+
 					iconData = result;
 				}
 
 				if (iconData is not null)
 				{
 					cloudProviderItem.IconData = iconData;
-					
+
 					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async ()
 						=> cloudProviderItem.Icon = await iconData.ToBitmapAsync());
 				}
