@@ -9,6 +9,7 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class DecompressArchiveToChildFolderAction : BaseDecompressArchiveAction
 	{
 		public override string Label

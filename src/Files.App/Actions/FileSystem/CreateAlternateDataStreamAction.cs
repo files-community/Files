@@ -6,6 +6,7 @@ using Windows.Foundation.Metadata;
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class CreateAlternateDataStreamAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;

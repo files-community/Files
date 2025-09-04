@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByNoneAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
@@ -15,6 +16,7 @@ namespace Files.App.Actions
 			=> Strings.GroupByNoneDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByNameAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
@@ -27,6 +29,7 @@ namespace Files.App.Actions
 			=> Strings.GroupByNameDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByDateModifiedAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
@@ -39,6 +42,7 @@ namespace Files.App.Actions
 			=> Strings.GroupByDateModifiedDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByDateCreatedAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
@@ -51,6 +55,7 @@ namespace Files.App.Actions
 			=> Strings.GroupByDateCreatedDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupBySizeAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
@@ -63,6 +68,7 @@ namespace Files.App.Actions
 			=> Strings.GroupBySizeDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByTypeAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
@@ -75,6 +81,7 @@ namespace Files.App.Actions
 			=> Strings.GroupByTypeDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupBySyncStatusAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
@@ -90,6 +97,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.CloudDrive;
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByTagAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
@@ -102,6 +110,7 @@ namespace Files.App.Actions
 			=> Strings.GroupByTagDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByOriginalFolderAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
@@ -117,6 +126,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByDateDeletedAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
@@ -132,6 +142,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByFolderPathAction : GroupByAction
 	{
 		protected override GroupOption GroupOption
@@ -200,6 +211,7 @@ namespace Files.App.Actions
 		}
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByDateModifiedYearAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
@@ -215,6 +227,7 @@ namespace Files.App.Actions
 			=> Strings.GroupByDateModifiedYearDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByDateModifiedMonthAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
@@ -230,6 +243,7 @@ namespace Files.App.Actions
 			=> Strings.GroupByDateModifiedMonthDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByDateModifiedDayAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
@@ -245,6 +259,7 @@ namespace Files.App.Actions
 			=> Strings.GroupByDateModifiedDayDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByDateCreatedYearAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
@@ -260,6 +275,7 @@ namespace Files.App.Actions
 			=> Strings.GroupByDateCreatedYearDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByDateCreatedMonthAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
@@ -275,6 +291,7 @@ namespace Files.App.Actions
 			=> Strings.GroupByDateCreatedMonthDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByDateCreatedDayAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
@@ -290,6 +307,7 @@ namespace Files.App.Actions
 			=> Strings.GroupByDateCreatedDayDescription.GetLocalizedResource();
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByDateDeletedYearAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
@@ -308,6 +326,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByDateDeletedMonthAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
@@ -326,6 +345,7 @@ namespace Files.App.Actions
 			=> pageType is ContentPageTypes.RecycleBin;
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByDateDeletedDayAction : GroupByDateAction
 	{
 		protected override GroupOption GroupOption
@@ -401,6 +421,7 @@ namespace Files.App.Actions
 		}
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupAscendingAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
@@ -446,6 +467,7 @@ namespace Files.App.Actions
 		}
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupDescendingAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
@@ -491,6 +513,7 @@ namespace Files.App.Actions
 		}
 	}
 
+	[GeneratedRichCommand]
 	internal sealed class ToggleGroupDirectionAction : IAction
 	{
 		private readonly IDisplayPageContext context;
@@ -515,6 +538,7 @@ namespace Files.App.Actions
 		}
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByYearAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
@@ -560,6 +584,7 @@ namespace Files.App.Actions
 		}
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class GroupByMonthAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;
@@ -605,6 +630,7 @@ namespace Files.App.Actions
 		}
 	}
 
+	[GeneratedRichCommand]
 	internal sealed class ToggleGroupByDateUnitAction : IAction
 	{
 		private readonly IDisplayPageContext context;

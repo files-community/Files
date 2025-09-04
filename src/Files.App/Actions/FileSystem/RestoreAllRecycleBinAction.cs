@@ -6,6 +6,7 @@ using Windows.Foundation.Metadata;
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class RestoreAllRecycleBinAction : BaseUIAction, IAction
 	{
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();

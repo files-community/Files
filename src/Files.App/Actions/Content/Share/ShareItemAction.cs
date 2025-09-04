@@ -5,6 +5,7 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class ShareItemAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed class DuplicateCurrentTabAction : IAction
 	{
 		private readonly IMultitaskingContext context;

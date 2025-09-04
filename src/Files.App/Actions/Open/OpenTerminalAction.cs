@@ -6,6 +6,7 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal partial class OpenTerminalAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;

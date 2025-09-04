@@ -3,7 +3,8 @@
 
 namespace Files.App.Actions
 {
-	internal sealed partial class DecompressArchiveHereSmart : BaseDecompressArchiveAction
+	[GeneratedRichCommand]
+	internal sealed partial class DecompressArchiveHereSmartAction : BaseDecompressArchiveAction
 	{
 		public override string Label
 			=> Strings.ExtractHereSmart.GetLocalizedResource();
@@ -14,7 +15,7 @@ namespace Files.App.Actions
 		public override HotKey HotKey
 			=> new(Keys.E, KeyModifiers.CtrlShift);
 
-		public DecompressArchiveHereSmart()
+		public DecompressArchiveHereSmartAction()
 		{
 		}
 

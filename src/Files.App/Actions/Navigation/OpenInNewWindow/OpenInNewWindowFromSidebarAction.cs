@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class OpenInNewWindowFromSidebarAction : BaseOpenInNewWindowAction
 	{
 		public override HotKey HotKey

@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class PasteItemToSelectionAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;

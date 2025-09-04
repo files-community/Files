@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed class UnpinFromStartAction : IAction
 	{
 		private IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();

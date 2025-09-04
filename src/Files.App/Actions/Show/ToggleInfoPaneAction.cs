@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class ToggleInfoPaneAction : ObservableObject, IToggleAction
 	{
 		private readonly InfoPaneViewModel viewModel;

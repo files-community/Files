@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed class PinToStartAction : IAction
 	{
 		private IStorageService StorageService { get; } = Ioc.Default.GetRequiredService<IStorageService>();

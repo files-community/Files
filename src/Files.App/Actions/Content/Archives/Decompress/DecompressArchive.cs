@@ -11,7 +11,8 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
-	internal sealed partial class DecompressArchive : BaseDecompressArchiveAction
+	[GeneratedRichCommand]
+	internal sealed partial class DecompressArchiveAction : BaseDecompressArchiveAction
 	{
 		public override string Label
 			=> Strings.ExtractFiles.GetLocalizedResource();
@@ -22,7 +23,7 @@ namespace Files.App.Actions
 		public override HotKey HotKey
 			=> new(Keys.E, KeyModifiers.Ctrl);
 
-		public DecompressArchive()
+		public DecompressArchiveAction()
 		{
 		}
 

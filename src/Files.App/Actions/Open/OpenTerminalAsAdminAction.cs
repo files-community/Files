@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class OpenTerminalAsAdminAction : OpenTerminalAction
 	{
 		public override string Label

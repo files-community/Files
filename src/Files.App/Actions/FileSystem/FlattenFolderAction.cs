@@ -9,6 +9,7 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class FlattenFolderAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
