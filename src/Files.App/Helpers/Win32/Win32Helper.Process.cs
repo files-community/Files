@@ -126,10 +126,5 @@ namespace Files.App.Helpers
 
 			return processes;
 		}
-
-		public static Task<string> GetFileAssociationAsync(string filePath)
-		{
-			return GetFileAssociationAsync(filePath, true);
-		}
 	}
 }

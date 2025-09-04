@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See the LICENSE.
 
 using Microsoft.Extensions.Logging;
+using Microsoft.Win32;
 using Microsoft.Win32.SafeHandles;
 using System.Collections.Concurrent;
 using System.Drawing;
@@ -163,28 +164,15 @@ namespace Files.App.Helpers
 			return taskCompletionSource.Task;
 		}
 
-		public static async Task<string?> GetFileAssociationAsync(string filename, bool checkDesktopFirst = false)
+		public static async Task<string?> GetDefaultFileAssociationAsync(string filename, bool checkDesktopFirst = true)
 		{
-			// Find UWP apps
-			async Task<string?> GetUwpAssoc()
-			{
-				var uwpApps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
-				return uwpApps.Any() ? uwpApps[0].PackageFamilyName : null;
-			}
+			// check if there exists an user choice first
+			var userChoice = GetUserChoiceFileAssociation(filename);
+			if (!string.IsNullOrEmpty(userChoice))
+				return userChoice;
 
-			// Find desktop apps
-			string? GetDesktopAssoc()
-			{
-				var lpResult = new StringBuilder(2048);
-				var hResult = Shell32.FindExecutable(filename, null, lpResult);
+			return await GetFileAssociationAsync(filename, checkDesktopFirst);
 
-				return hResult.ToInt64() > 32 ? lpResult.ToString() : null;
-			}
-
-			if (checkDesktopFirst)
-				return GetDesktopAssoc() ?? await GetUwpAssoc();
-
-			return await GetUwpAssoc() ?? GetDesktopAssoc();
 		}
 
 		public static string ExtractStringFromDLL(string file, int number)
@@ -1209,6 +1197,99 @@ namespace Files.App.Helpers
 			}
 
 			return false;
+		}
+
+		private static string? GetPackageFamilyNameFromAppRegistryName(string appRegistryName)
+		{
+			using var appXKey = Registry.ClassesRoot.OpenSubKey(appRegistryName + @"\Application");
+			var appUserModelIdObj = appXKey?.GetValue("AppUserModelId");
+			string? appUserModelId = appUserModelIdObj?.ToString();
+			string? packageFamilyName = null;
+			if (!string.IsNullOrEmpty(appUserModelId))
+			{
+				int bangIndex = appUserModelId.IndexOf('!');
+				packageFamilyName = bangIndex > 0 ? appUserModelId[..bangIndex] : appUserModelId;
+			}
+
+			return packageFamilyName;
+		}
+
+		private static string? GetUserChoiceFileAssociation(string filename)
+		{
+			var fileExtension = Path.GetExtension(filename);
+			if (string.IsNullOrEmpty(filename))
+				return null;
+
+			try
+			{
+				// Get ProgId from UserChoice
+				using var userChoiceKey = Registry.CurrentUser.OpenSubKey($@"Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\{fileExtension}\UserChoice");
+				var progIdObj = userChoiceKey?.GetValue("ProgId");
+				string? progId = progIdObj?.ToString();
+
+				if (string.IsNullOrEmpty(progId))
+					return null;
+
+				// Get the package family name if it's an AppX app
+				if (progId.StartsWith("AppX", StringComparison.OrdinalIgnoreCase))
+				{
+					string? packageFamilyName = GetPackageFamilyNameFromAppRegistryName(progId);
+					if (!string.IsNullOrEmpty(packageFamilyName))
+						return packageFamilyName;
+				}
+
+				// Find the open command for the ProgId
+				using var commandKey = Registry.ClassesRoot.OpenSubKey($@"{progId}\shell\open\command");
+				var command = commandKey?.GetValue(null)?.ToString();
+
+				if (string.IsNullOrEmpty(command))
+					return null;
+
+				// Extract executable path from command string (e.g. "\"C:\\Program Files\\App\\app.exe\" \"%1\"")
+				var exePath = command.Trim();
+				if (exePath.StartsWith("\""))
+				{
+					int endQuote = exePath.IndexOf('\"', 1);
+					if (endQuote > 1)
+						exePath = exePath.Substring(1, endQuote - 1);
+				}
+				else
+				{
+					int firstSpace = exePath.IndexOf(' ');
+					if (firstSpace > 0)
+						exePath = exePath.Substring(0, firstSpace);
+				}
+
+				return File.Exists(exePath) ? exePath : null;
+			}
+			catch
+			{
+				return null;
+			}
+		}
+
+		private static async Task<string?> GetFileAssociationAsync(string filename, bool checkDesktopFirst = true)
+		{
+			// Find UWP apps
+			async Task<string?> GetUwpAssoc()
+			{
+				var uwpApps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
+				return uwpApps.Any() ? uwpApps[0].PackageFamilyName : null;
+			}
+
+			// Find desktop apps
+			string? GetDesktopAssoc()
+			{
+				var lpResult = new StringBuilder(2048);
+				var hResult = Shell32.FindExecutable(filename, null, lpResult);
+
+				return hResult.ToInt64() > 32 ? lpResult.ToString() : null;
+			}
+
+			if (checkDesktopFirst)
+				return GetDesktopAssoc() ?? await GetUwpAssoc();
+
+			return await GetUwpAssoc() ?? GetDesktopAssoc();
 		}
 	}
 }

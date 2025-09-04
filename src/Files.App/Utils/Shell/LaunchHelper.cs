@@ -155,7 +155,7 @@ namespace Files.App.Utils.Shell
 								var groups = split.GroupBy(x => new
 								{
 									Dir = Path.GetDirectoryName(x),
-									Prog = Win32Helper.GetFileAssociationAsync(x).Result ?? Path.GetExtension(x)
+									Prog = Win32Helper.GetDefaultFileAssociationAsync(x).Result ?? Path.GetExtension(x)
 								});
 
 								foreach (var group in groups)
