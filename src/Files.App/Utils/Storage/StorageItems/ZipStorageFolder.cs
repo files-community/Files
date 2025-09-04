@@ -101,7 +101,8 @@ namespace Files.App.Utils.Storage
 				var assoc = await Win32Helper.GetDefaultFileAssociationAsync(filePath);
 				if (assoc is not null)
 				{
-					return assoc == Package.Current.Id.FamilyName
+					return Constants.Distributions.KnownAppNames.Any(x => assoc.StartsWith(x, StringComparison.OrdinalIgnoreCase))
+						|| assoc == Package.Current.Id.FamilyName
 						|| assoc.EndsWith("Files.App\\Files.exe", StringComparison.OrdinalIgnoreCase)
 						|| assoc.Equals(IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"), StringComparison.OrdinalIgnoreCase);
 				}

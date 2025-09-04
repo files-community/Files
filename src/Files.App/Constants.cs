@@ -270,5 +270,17 @@ namespace Files.App
 					{ NetworkFolderPath.ToUpperInvariant(), NetworkFolderPath },
 				};
 		}
+
+		public static class Distributions
+		{
+			public static readonly string[] KnownAppNames =
+			{
+				"49306atecsolution.FilesUWP", // store stable
+				"FilesStable", // sideload stable
+				"FilesPreview", // sideload preview
+				"49306atecsolution.FilesPreview", // store preview
+				"FilesDev", // dev
+			};
+		}
 	}
 }
