@@ -148,11 +148,38 @@ namespace Files.App.Controls
 			var modeButtonWidth = newMode.ActualWidth;
 			var modeSeparatorWidth = itemCount is not 0 or 1 ? _modesHostGrid.Children[1] is FrameworkElement frameworkElement ? frameworkElement.ActualWidth : 0 : 0;
 
-			var leftPadding = (itemIndex + 1) * modeButtonWidth + modeSeparatorWidth * itemIndex;
-			var rightPadding = (itemCount - itemIndex - 1) * modeButtonWidth + modeSeparatorWidth * (itemCount - itemIndex - 1) + 8;
+			// Check if the UI elements have been properly measured
+			// If ActualWidth is 0, defer the padding calculation to avoid division by zero in WinUI's layout system
+			if (modeButtonWidth > 0)
+			{
+				var leftPadding = (itemIndex + 1) * modeButtonWidth + modeSeparatorWidth * itemIndex;
+				var rightPadding = (itemCount - itemIndex - 1) * modeButtonWidth + modeSeparatorWidth * (itemCount - itemIndex - 1) + 8;
 
-			// Set the correct AutoSuggestBox cursor position
-			AutoSuggestBoxPadding = new(leftPadding, 0, rightPadding, 0);
+				// Set the correct AutoSuggestBox cursor position
+				AutoSuggestBoxPadding = new(leftPadding, 0, rightPadding, 0);
+			}
+			else
+			{
+				// Defer padding calculation until the UI elements are properly measured
+				DispatcherQueue.TryEnqueue(Microsoft.UI.Dispatching.DispatcherQueuePriority.Low, () =>
+				{
+					// Force layout update to ensure ActualWidth values are available
+					_modesHostGrid.UpdateLayout();
+					newMode.UpdateLayout();
+
+					var updatedModeButtonWidth = newMode.ActualWidth;
+					var updatedModeSeparatorWidth = itemCount is not 0 or 1 ? _modesHostGrid.Children[1] is FrameworkElement frameworkElement ? frameworkElement.ActualWidth : 0 : 0;
+
+					// Only update padding if we now have valid measurements
+					if (updatedModeButtonWidth > 0)
+					{
+						var leftPadding = (itemIndex + 1) * updatedModeButtonWidth + updatedModeSeparatorWidth * itemIndex;
+						var rightPadding = (itemCount - itemIndex - 1) * updatedModeButtonWidth + updatedModeSeparatorWidth * (itemCount - itemIndex - 1) + 8;
+
+						AutoSuggestBoxPadding = new(leftPadding, 0, rightPadding, 0);
+					}
+				});
+			}
 
 			_textChangeReason = OmnibarTextChangeReason.ProgrammaticChange;
 			ChangeTextBoxText(newMode.Text ?? string.Empty);
