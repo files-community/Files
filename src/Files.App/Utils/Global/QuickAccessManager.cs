@@ -25,14 +25,27 @@ namespace Files.App.Utils
 
 		public void Initialize()
 		{
-			PinnedItemsWatcher = new()
+			var automaticDestinationsPath = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations");
+			
+			// Only initialize FileSystemWatcher if the directory exists
+			// This handles cases where AppData is redirected to network locations that don't contain Windows system directories
+			if (Directory.Exists(automaticDestinationsPath))
 			{
-				Path = Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations"),
-				Filter = "f01b4d95cf55d32a.automaticDestinations-ms",
-				NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName
-			};
+				PinnedItemsWatcher = new()
+				{
+					Path = automaticDestinationsPath,
+					Filter = "f01b4d95cf55d32a.automaticDestinations-ms",
+					NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName
+				};
 
-			PinnedItemsWatcher.Changed += PinnedItemsWatcher_Changed;
+				PinnedItemsWatcher.Changed += PinnedItemsWatcher_Changed;
+			}
+			else
+			{
+				// If the directory doesn't exist (e.g., redirected AppData), skip FileSystemWatcher initialization
+				// The app will still function, but won't receive automatic updates when pinned items change externally
+				PinnedItemsWatcher = null;
+			}
 		}
 
 		private void PinnedItemsWatcher_Changed(object sender, FileSystemEventArgs e)
