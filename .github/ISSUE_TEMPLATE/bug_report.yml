@@ -78,7 +78,7 @@ body:
         Please upload the log file as an attachment (DO NOT COPY OR PASTE THE CONTENTS INTO THIS FIELD)
       placeholder: |
         To upload the log, access it from Settings -> About -> Open log location; Or
-        - Select the `debug.log` file from `%LocalAppData%\Packages\FilesPreview_1y0xx7n9077q4\LocalState` or `%LocalAppData%\Packages\49306atecsolution.FilesUWP_et10x9a9vyk8t\LocalState`
+        - Select the `debug.log` file from `%LocalAppData%\Packages\FilesPreview_1y0xx7n9077q4\LocalState` (Sideloaded preview) or `%LocalAppData%\Packages\49306atecsolution.FilesPreview_et10x9a9vyk8t\LocalState` (Store preview), `%LocalAppData%\Packages\Files_1y0xx7n9077q4\LocalState` (Sideloaded stable) or `%LocalAppData%\Packages\49306atecsolution.FilesUWP_et10x9a9vyk8t\LocalState` (Store stable)
         - Drag and drop the file to upload as an attachment 
     validations:
       required: true
