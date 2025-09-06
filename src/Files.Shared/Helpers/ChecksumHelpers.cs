@@ -22,6 +22,14 @@ namespace Files.Shared.Helpers
 			return Convert.ToHexString(hash);
 		}
 
+		public static string CreateSHA256(string input)
+		{
+			var buffer = Encoding.UTF8.GetBytes(input);
+			Span<byte> hash = stackalloc byte[SHA256.HashSizeInBytes];
+			SHA256.HashData(buffer, hash);
+			return Convert.ToHexString(hash).ToLower();
+		}
+
 		public async static Task<string> CreateCRC32(Stream stream, CancellationToken cancellationToken)
 		{
 			var crc32 = new Crc32();
