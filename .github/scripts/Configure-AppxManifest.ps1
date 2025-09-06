@@ -25,7 +25,10 @@ $aea = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/p
 $ea = $xmlDoc.SelectSingleNode("/pkg:Package/pkg:Applications/pkg:Application/pkg:Extensions/uap5:Extension[@Category='windows.appExecutionAlias']/uap5:AppExecutionAlias/uap5:ExecutionAlias", $nsmgr)
 
 # Update the publisher
-$xmlDoc.Package.Identity.Publisher = $Publisher
+if (-not [string]::IsNullOrEmpty($Publisher))
+{
+    $xmlDoc.Package.Identity.Publisher = $Publisher
+}
 
 if ($Branch -eq "SideloadPreview")
 {
