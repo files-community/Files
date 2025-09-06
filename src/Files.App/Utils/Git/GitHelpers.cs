@@ -334,7 +334,7 @@ namespace Files.App.Utils.Git
 				branch.FriendlyName.Equals(branchName, StringComparison.OrdinalIgnoreCase));
 		}
 
-		public static async void FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default)
+		public static async Task FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default)
 		{
 			if (string.IsNullOrWhiteSpace(repositoryPath))
 				return;
