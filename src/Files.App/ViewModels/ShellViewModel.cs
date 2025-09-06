@@ -1810,9 +1810,10 @@ namespace Files.App.ViewModels
 					Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 				});
 
-				var rootFolder = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
-				if (rootFolder is not null)
+				var rootFolderResult = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+				if (rootFolderResult)
 				{
+					var rootFolder = rootFolderResult.Result;
 					if (rootFolder.DisplayName is not null)
 						currentFolder.ItemNameRaw = rootFolder.DisplayName;
 
@@ -2369,12 +2370,51 @@ namespace Files.App.ViewModels
 			Debug.WriteLine("aProcessQueueAction done: {0}", rand);
 		}
 
-		public Task<ListedItem> AddFileOrFolderFromShellFile(ShellFileItem item)
+		public async Task<ListedItem> AddFileOrFolderFromShellFile(ShellFileItem item)
 		{
-			return
-				item.IsFolder ?
-				UniversalStorageEnumerator.AddFolderAsync(ShellStorageFolder.FromShellItem(item), currentStorageFolder, addFilesCTS.Token) :
-				UniversalStorageEnumerator.AddFileAsync(ShellStorageFile.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
+			if (item.IsFolder)
+			{
+				var folder = ShellStorageFolder.FromShellItem(item);
+				var basicProperties = await folder.GetBasicPropertiesAsync();
+
+				return new ListedItem(folder.FolderRelativeId)
+				{
+					PrimaryItemAttribute = StorageItemTypes.Folder,
+					ItemNameRaw = folder.DisplayName,
+					ItemDateModifiedReal = basicProperties.DateModified,
+					ItemDateCreatedReal = folder.DateCreated,
+					ItemType = folder.DisplayType,
+					IsHiddenItem = false,
+					Opacity = 1,
+					FileImage = null,
+					LoadFileIcon = false,
+					ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
+					FileSize = null,
+					FileSizeBytes = 0
+				};
+			}
+			else
+			{
+				var file = ShellStorageFile.FromShellItem(item);
+				var basicProperties = await file.GetBasicPropertiesAsync();
+
+				return new ListedItem(file.FolderRelativeId)
+				{
+					PrimaryItemAttribute = StorageItemTypes.File,
+					FileExtension = file.FileType,
+					IsHiddenItem = false,
+					Opacity = 1,
+					FileImage = null,
+					LoadFileIcon = false,
+					ItemNameRaw = file.Name,
+					ItemDateModifiedReal = basicProperties.DateModified,
+					ItemDateCreatedReal = file.DateCreated,
+					ItemType = file.DisplayType,
+					ItemPath = string.IsNullOrEmpty(file.Path) ? PathNormalization.Combine(currentStorageFolder.Path, file.Name) : file.Path,
+					FileSize = basicProperties.Size.ToSizeString(),
+					FileSizeBytes = (long)basicProperties.Size,
+				};
+			}
 		}
 
 		private async Task AddFileOrFolderAsync(ListedItem? item)
