@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using System.Collections.Specialized;
 using System.IO;
 using Windows.Foundation.Metadata;
+using Windows.Storage;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
