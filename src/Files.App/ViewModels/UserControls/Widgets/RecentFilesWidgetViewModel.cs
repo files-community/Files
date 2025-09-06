@@ -7,6 +7,7 @@ using Microsoft.Win32;
 using System.Collections.Specialized;
 using System.IO;
 using Windows.Foundation.Metadata;
+using Windows.Storage;
 
 namespace Files.App.ViewModels.UserControls.Widgets
 {
@@ -344,7 +345,23 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				}
 				else
 				{
-					var listedItem = await UniversalStorageEnumerator.AddFileAsync(file, null!, default);
+					var basicProperties = await file.GetBasicPropertiesAsync();
+					var listedItem = new ListedItem(file.FolderRelativeId)
+					{
+						PrimaryItemAttribute = StorageItemTypes.File,
+						FileExtension = file.FileType,
+						IsHiddenItem = false,
+						Opacity = 1,
+						FileImage = null,
+						LoadFileIcon = false,
+						ItemNameRaw = file.Name,
+						ItemDateModifiedReal = basicProperties.DateModified,
+						ItemDateCreatedReal = file.DateCreated,
+						ItemType = file.DisplayType,
+						ItemPath = file.Path,
+						FileSize = basicProperties.Size.ToSizeString(),
+						FileSizeBytes = (long)basicProperties.Size,
+					};
 					FilePropertiesHelpers.OpenPropertiesWindow(listedItem, ContentPageContext.ShellPage!);
 				}
 			};

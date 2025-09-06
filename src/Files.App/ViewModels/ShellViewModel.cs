@@ -1705,62 +1705,77 @@ namespace Files.App.ViewModels
 
 		private async Task<int> EnumerateItemsFromStandardFolderAsync(string path, CancellationToken cancellationToken, LibraryItem? library = null)
 		{
-			// Flag to use FindFirstFileExFromApp or StorageFolder enumeration - Use storage folder for Box Drive (#4629)
-			var isBoxFolder = CloudDrivesManager.Drives.FirstOrDefault(x => x.Text == "Box")?.Path?.TrimEnd('\\') is string boxFolder && path.StartsWith(boxFolder);
-			bool isWslDistro = path.StartsWith(@"\\wsl$\", StringComparison.OrdinalIgnoreCase) || path.StartsWith(@"\\wsl.localhost\", StringComparison.OrdinalIgnoreCase)
+			var isWslDistro = path.StartsWith(@"\\wsl$\", StringComparison.OrdinalIgnoreCase) || path.StartsWith(@"\\wsl.localhost\", StringComparison.OrdinalIgnoreCase)
 				|| path.Equals(@"\\wsl$", StringComparison.OrdinalIgnoreCase) || path.Equals(@"\\wsl.localhost", StringComparison.OrdinalIgnoreCase);
-			bool isMtp = path.StartsWith(@"\\?\", StringComparison.Ordinal);
-			bool isShellFolder = path.StartsWith(@"\\SHELL\", StringComparison.Ordinal);
-			bool isNetwork = path.StartsWith(@"\\", StringComparison.Ordinal) &&
-				!isMtp &&
-				!isShellFolder &&
-				!isWslDistro;
-			bool isNetdisk = false;
+			var isMtp = path.StartsWith(@"\\?\", StringComparison.Ordinal);
+			var isFtp = FtpHelpers.IsFtpPath(path);
+
+			HasNoWatcher = isFtp || isWslDistro || isMtp;
+
+			(IntPtr hFile, WIN32_FIND_DATA findData, int errorCode) = await Task.Run(() =>
+			{
+				var findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+				var additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+
+				IntPtr hFileTsk = FindFirstFileExFromApp(
+					path + "\\*.*",
+					findInfoLevel,
+					out WIN32_FIND_DATA findDataTsk,
+					FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+					IntPtr.Zero,
+					additionalFlags);
+
+				return (hFileTsk, findDataTsk, hFileTsk.ToInt64() == -1 ? Marshal.GetLastWin32Error() : 0);
+			})
+			.WithTimeoutAsync(TimeSpan.FromSeconds(5));
+
+			var itemModifiedDate = DateTime.Now;
+			var itemCreatedDate = DateTime.Now;
 
 			try
 			{
-				// Special handling for network drives
-				if (!isNetwork)
-					isNetdisk = (new DriveInfo(path).DriveType == System.IO.DriveType.Network);
+				FileTimeToSystemTime(ref findData.ftLastWriteTime, out var systemModifiedTimeOutput);
+				itemModifiedDate = systemModifiedTimeOutput.ToDateTime();
+
+				FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedTimeOutput);
+				itemCreatedDate = systemCreatedTimeOutput.ToDateTime();
 			}
-			catch { }
-
-			bool isFtp = FtpHelpers.IsFtpPath(path);
-			bool enumFromStorageFolder = isBoxFolder || isFtp;
-
-			BaseStorageFolder? rootFolder = null;
-
-			if (isNetwork || isNetdisk)
+			catch (ArgumentException)
 			{
-				var auth = await NetworkService.AuthenticateNetworkShare(path);
-				if (!auth)
-					return -1;
 			}
 
-			if (!enumFromStorageFolder && FolderHelpers.CheckFolderAccessWithWin32(path))
-			{
-				// Will enumerate with FindFirstFileExFromApp, rootFolder only used for Bitlocker
-				currentStorageFolder = null;
-			}
-			else if (workingRoot is not null)
-			{
-				var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path, workingRoot, currentStorageFolder));
-				if (!res)
-					return -1;
+			var isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
+			var opacity = isHidden ? Constants.UI.DimItemOpacity : 1d;
 
-				currentStorageFolder = res.Result;
-				rootFolder = currentStorageFolder.Item;
-				enumFromStorageFolder = true;
-			}
-			else
+			var currentFolder = library ?? new ListedItem(null)
 			{
-				var res = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path, workingRoot, currentStorageFolder));
-				if (res)
-				{
-					currentStorageFolder = res.Result;
-					rootFolder = currentStorageFolder.Item;
-				}
-				else if (res == FileSystemStatusCode.Unauthorized)
+				PrimaryItemAttribute = StorageItemTypes.Folder,
+				ItemPropertiesInitialized = true,
+				ItemNameRaw = Path.GetFileName(path.TrimEnd('\\')),
+				ItemDateModifiedReal = itemModifiedDate,
+				ItemDateCreatedReal = itemCreatedDate,
+				ItemType = folderTypeTextLocalized,
+				FileImage = null,
+				IsHiddenItem = isHidden,
+				Opacity = opacity,
+				LoadFileIcon = false,
+				ItemPath = path,
+				FileSize = null,
+				FileSizeBytes = 0,
+			};
+
+			CurrentFolder = currentFolder;
+
+			if (hFile == IntPtr.Zero)
+			{
+				await DialogDisplayHelper.ShowDialogAsync(Strings.DriveUnpluggedDialog_Title.GetLocalizedResource(), "");
+
+				return -1;
+			}
+			else if (hFile.ToInt64() == -1)
+			{
+				// errorCode == ERROR_ACCESS_DENIED
+				if (filesAndFolders.Count == 0 && errorCode == 0x5)
 				{
 					await DialogDisplayHelper.ShowDialogAsync(
 						Strings.AccessDenied.GetLocalizedResource(),
@@ -1768,211 +1783,49 @@ namespace Files.App.ViewModels
 
 					return -1;
 				}
-				else if (res == FileSystemStatusCode.NotFound)
-				{
-					await DialogDisplayHelper.ShowDialogAsync(
-						Strings.FolderNotFoundDialog_Title.GetLocalizedResource(),
-						Strings.FolderNotFoundDialog_Text.GetLocalizedResource());
 
-					return -1;
-				}
-				else
-				{
-					await DialogDisplayHelper.ShowDialogAsync(
-						Strings.DriveUnpluggedDialog_Title.GetLocalizedResource(),
-						res.ErrorCode.ToString());
-
-					return -1;
-				}
-			}
-
-			var pathRoot = Path.GetPathRoot(path);
-			if (Path.IsPathRooted(path) && pathRoot == path)
-			{
-				rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
-				if (await FolderHelpers.CheckBitlockerStatusAsync(rootFolder, WorkingDirectory))
-					await ContextMenu.InvokeVerb("unlock-bde", pathRoot);
-			}
-
-			HasNoWatcher = isFtp || isWslDistro || isMtp || currentStorageFolder?.Item is ZipStorageFolder;
-
-			if (enumFromStorageFolder)
-			{
-				var basicProps = await rootFolder?.GetBasicPropertiesAsync();
-				var currentFolder = library ?? new ListedItem(rootFolder?.FolderRelativeId ?? string.Empty)
-				{
-					PrimaryItemAttribute = StorageItemTypes.Folder,
-					ItemPropertiesInitialized = true,
-					ItemNameRaw = rootFolder?.DisplayName ?? string.Empty,
-					ItemDateModifiedReal = basicProps.DateModified,
-					ItemType = rootFolder?.DisplayType ?? string.Empty,
-					FileImage = null,
-					LoadFileIcon = false,
-					ItemPath = string.IsNullOrEmpty(rootFolder?.Path) ? currentStorageFolder?.Path ?? string.Empty : rootFolder.Path,
-					FileSize = null,
-					FileSizeBytes = 0,
-				};
-
-				if (library is null)
-					currentFolder.ItemDateCreatedReal = rootFolder?.DateCreated ?? DateTimeOffset.Now;
-
-				CurrentFolder = currentFolder;
-				await EnumFromStorageFolderAsync(path, rootFolder, currentStorageFolder, cancellationToken);
-
-				// Workaround for #7428
-				return isBoxFolder ? 2 : 1;
+				return 1;
 			}
 			else
 			{
-				(IntPtr hFile, WIN32_FIND_DATA findData, int errorCode) = await Task.Run(() =>
+				await Task.Run(async () =>
 				{
-					var findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-					var additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-					IntPtr hFileTsk = FindFirstFileExFromApp(
-						path + "\\*.*",
-						findInfoLevel,
-						out WIN32_FIND_DATA findDataTsk,
-						FINDEX_SEARCH_OPS.FindExSearchNameMatch,
-						IntPtr.Zero,
-						additionalFlags);
-
-					return (hFileTsk, findDataTsk, hFileTsk.ToInt64() == -1 ? Marshal.GetLastWin32Error() : 0);
-				})
-				.WithTimeoutAsync(TimeSpan.FromSeconds(5));
-
-				var itemModifiedDate = DateTime.Now;
-				var itemCreatedDate = DateTime.Now;
-
-				try
-				{
-					FileTimeToSystemTime(ref findData.ftLastWriteTime, out var systemModifiedTimeOutput);
-					itemModifiedDate = systemModifiedTimeOutput.ToDateTime();
-
-					FileTimeToSystemTime(ref findData.ftCreationTime, out SYSTEMTIME systemCreatedTimeOutput);
-					itemCreatedDate = systemCreatedTimeOutput.ToDateTime();
-				}
-				catch (ArgumentException)
-				{
-				}
-
-				var isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
-				var opacity = isHidden ? Constants.UI.DimItemOpacity : 1d;
-
-				var currentFolder = library ?? new ListedItem(null)
-				{
-					PrimaryItemAttribute = StorageItemTypes.Folder,
-					ItemPropertiesInitialized = true,
-					ItemNameRaw = rootFolder?.DisplayName ?? Path.GetFileName(path.TrimEnd('\\')),
-					ItemDateModifiedReal = itemModifiedDate,
-					ItemDateCreatedReal = itemCreatedDate,
-					ItemType = folderTypeTextLocalized,
-					FileImage = null,
-					IsHiddenItem = isHidden,
-					Opacity = opacity,
-					LoadFileIcon = false,
-					ItemPath = path,
-					FileSize = null,
-					FileSizeBytes = 0,
-				};
-
-				CurrentFolder = currentFolder;
-
-				if (hFile == IntPtr.Zero)
-				{
-					await DialogDisplayHelper.ShowDialogAsync(Strings.DriveUnpluggedDialog_Title.GetLocalizedResource(), "");
-
-					return -1;
-				}
-				else if (hFile.ToInt64() == -1)
-				{
-					await EnumFromStorageFolderAsync(path, rootFolder, currentStorageFolder, cancellationToken);
-
-					// errorCode == ERROR_ACCESS_DENIED
-					if (filesAndFolders.Count == 0 && errorCode == 0x5)
-					{
-						await DialogDisplayHelper.ShowDialogAsync(
-							Strings.AccessDenied.GetLocalizedResource(),
-							Strings.AccessDeniedToFolder.GetLocalizedResource());
-
-						return -1;
-					}
-
-					return 1;
-				}
-				else
-				{
-					await Task.Run(async () =>
-					{
-						List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, hFile, findData, cancellationToken, -1, intermediateAction: async (intermediateList) =>
-						{
-							filesAndFolders.AddRange(intermediateList);
-							await ApplyFilesAndFoldersChangesAsync();
-						});
-
-						filesAndFolders.AddRange(fileList);
-
-						await OrderFilesAndFoldersAsync();
-						await ApplyFilesAndFoldersChangesAsync();
-						await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-						await dispatcherQueue.EnqueueOrInvokeAsync(() =>
-						{
-							GetDesktopIniFileData();
-							CheckForBackgroundImage();
-							FilesAndFoldersFilter = null;
-						},
-						Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
-					});
-
-					rootFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
-					if (rootFolder is not null)
-					{
-						if (rootFolder.DisplayName is not null)
-							currentFolder.ItemNameRaw = rootFolder.DisplayName;
-
-						if (!string.Equals(path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-						{
-							var syncStatus = await CheckCloudDriveSyncStatusAsync(rootFolder);
-							currentFolder.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
-						}
-					}
-
-					return 0;
-				}
-			}
-		}
-
-		private async Task EnumFromStorageFolderAsync(string path, BaseStorageFolder? rootFolder, StorageFolderWithPath currentStorageFolder, CancellationToken cancellationToken)
-		{
-			if (rootFolder is null)
-				return;
-
-			if (rootFolder is IPasswordProtectedItem ppis)
-				ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
-
-			await Task.Run(async () =>
-			{
-				List<ListedItem> finalList = await UniversalStorageEnumerator.ListEntries(
-					rootFolder,
-					currentStorageFolder,
-					cancellationToken,
-					-1,
-					async (intermediateList) =>
+					List<ListedItem> fileList = await Win32StorageEnumerator.ListEntries(path, hFile, findData, cancellationToken, -1, intermediateAction: async (intermediateList) =>
 					{
 						filesAndFolders.AddRange(intermediateList);
-
-						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
 					});
 
-				filesAndFolders.AddRange(finalList);
+					filesAndFolders.AddRange(fileList);
 
-				await OrderFilesAndFoldersAsync();
-				await ApplyFilesAndFoldersChangesAsync();
-			}, cancellationToken);
+					await OrderFilesAndFoldersAsync();
+					await ApplyFilesAndFoldersChangesAsync();
+					await dispatcherQueue.EnqueueOrInvokeAsync(CheckForSolutionFile, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+					{
+						GetDesktopIniFileData();
+						CheckForBackgroundImage();
+						FilesAndFoldersFilter = null;
+					},
+					Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
+				});
 
-			if (rootFolder is IPasswordProtectedItem ppiu)
-				ppiu.PasswordRequestedCallback = null;
+				var rootFolderResult = await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderFromPathAsync(path));
+				if (rootFolderResult)
+				{
+					var rootFolder = rootFolderResult.Result;
+					if (rootFolder.DisplayName is not null)
+						currentFolder.ItemNameRaw = rootFolder.DisplayName;
+
+					if (!string.Equals(path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+					{
+						var syncStatus = await CheckCloudDriveSyncStatusAsync(rootFolder);
+						currentFolder.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+					}
+				}
+
+				return 0;
+			}
 		}
 
 		private void CheckForSolutionFile()
@@ -2517,12 +2370,51 @@ namespace Files.App.ViewModels
 			Debug.WriteLine("aProcessQueueAction done: {0}", rand);
 		}
 
-		public Task<ListedItem> AddFileOrFolderFromShellFile(ShellFileItem item)
+		public async Task<ListedItem> AddFileOrFolderFromShellFile(ShellFileItem item)
 		{
-			return
-				item.IsFolder ?
-				UniversalStorageEnumerator.AddFolderAsync(ShellStorageFolder.FromShellItem(item), currentStorageFolder, addFilesCTS.Token) :
-				UniversalStorageEnumerator.AddFileAsync(ShellStorageFile.FromShellItem(item), currentStorageFolder, addFilesCTS.Token);
+			if (item.IsFolder)
+			{
+				var folder = ShellStorageFolder.FromShellItem(item);
+				var basicProperties = await folder.GetBasicPropertiesAsync();
+
+				return new ListedItem(folder.FolderRelativeId)
+				{
+					PrimaryItemAttribute = StorageItemTypes.Folder,
+					ItemNameRaw = folder.DisplayName,
+					ItemDateModifiedReal = basicProperties.DateModified,
+					ItemDateCreatedReal = folder.DateCreated,
+					ItemType = folder.DisplayType,
+					IsHiddenItem = false,
+					Opacity = 1,
+					FileImage = null,
+					LoadFileIcon = false,
+					ItemPath = string.IsNullOrEmpty(folder.Path) ? PathNormalization.Combine(currentStorageFolder.Path, folder.Name) : folder.Path,
+					FileSize = null,
+					FileSizeBytes = 0
+				};
+			}
+			else
+			{
+				var file = ShellStorageFile.FromShellItem(item);
+				var basicProperties = await file.GetBasicPropertiesAsync();
+
+				return new ListedItem(file.FolderRelativeId)
+				{
+					PrimaryItemAttribute = StorageItemTypes.File,
+					FileExtension = file.FileType,
+					IsHiddenItem = false,
+					Opacity = 1,
+					FileImage = null,
+					LoadFileIcon = false,
+					ItemNameRaw = file.Name,
+					ItemDateModifiedReal = basicProperties.DateModified,
+					ItemDateCreatedReal = file.DateCreated,
+					ItemType = file.DisplayType,
+					ItemPath = string.IsNullOrEmpty(file.Path) ? PathNormalization.Combine(currentStorageFolder.Path, file.Name) : file.Path,
+					FileSize = basicProperties.Size.ToSizeString(),
+					FileSizeBytes = (long)basicProperties.Size,
+				};
+			}
 		}
 
 		private async Task AddFileOrFolderAsync(ListedItem? item)
