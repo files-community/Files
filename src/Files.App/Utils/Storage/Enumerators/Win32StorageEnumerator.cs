@@ -15,6 +15,9 @@ namespace Files.App.Utils.Storage
 		private static readonly IStorageCacheService fileListCache = Ioc.Default.GetRequiredService<IStorageCacheService>();
 
 		private static readonly string folderTypeTextLocalized = Strings.Folder.GetLocalizedResource();
+		
+		// Performance optimization: Increased batch size for better throughput
+		private const int BATCH_SIZE = 200;
 
 		public static async Task<List<ListedItem>> ListEntries(
 			string path,
@@ -89,7 +92,7 @@ namespace Files.App.Utils.Storage
 				if (cancellationToken.IsCancellationRequested || count == countLimit)
 					break;
 
-				if (intermediateAction is not null && (count == 32 || sampler.CheckNow()))
+				if (intermediateAction is not null && (count == BATCH_SIZE || sampler.CheckNow()))
 				{
 					await intermediateAction(tempList);
 
@@ -170,9 +173,8 @@ namespace Files.App.Utils.Storage
 
 			var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
-			string itemName = await fileListCache.GetDisplayName(itemPath, cancellationToken);
-			if (string.IsNullOrEmpty(itemName))
-				itemName = findData.cFileName;
+			// Use the file name directly to avoid async operation during enumeration
+			string itemName = findData.cFileName;
 
 			bool isHidden = (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) == FileAttributes.Hidden);
 			double opacity = 1;
@@ -192,7 +194,8 @@ namespace Files.App.Utils.Storage
 					FileImage = null,
 					IsHiddenItem = isHidden,
 					Opacity = opacity,
-					LoadFileIcon = false,
+					LoadFileIcon = true, // Show icon immediately to prevent flashing
+					NeedsPlaceholderGlyph = true,
 					ItemPath = itemPath,
 					FileSize = null,
 					FileSizeBytes = 0,
@@ -210,7 +213,8 @@ namespace Files.App.Utils.Storage
 					FileImage = null,
 					IsHiddenItem = isHidden,
 					Opacity = opacity,
-					LoadFileIcon = false,
+					LoadFileIcon = true, // Show icon immediately to prevent flashing
+					NeedsPlaceholderGlyph = true,
 					ItemPath = itemPath,
 					FileSize = null,
 					FileSizeBytes = 0,
@@ -258,7 +262,7 @@ namespace Files.App.Utils.Storage
 				itemType = itemFileExtension.Trim('.') + " " + itemType;
 			}
 
-			bool itemThumbnailImgVis = false;
+			bool itemThumbnailImgVis = true; // Changed to true to show icons immediately
 			bool itemEmptyImgVis = true;
 
 			if (cancellationToken.IsCancellationRequested)
@@ -284,6 +288,7 @@ namespace Files.App.Utils.Storage
 						Opacity = opacity,
 						FileImage = null,
 						LoadFileIcon = itemThumbnailImgVis,
+						NeedsPlaceholderGlyph = true,
 						ItemNameRaw = itemName,
 						ItemDateModifiedReal = itemModifiedDate,
 						ItemDateAccessedReal = itemLastAccessDate,
@@ -306,6 +311,7 @@ namespace Files.App.Utils.Storage
 						Opacity = opacity,
 						FileImage = null,
 						LoadFileIcon = itemThumbnailImgVis,
+						NeedsPlaceholderGlyph = true,
 						ItemNameRaw = itemName,
 						ItemDateModifiedReal = itemModifiedDate,
 						ItemDateAccessedReal = itemLastAccessDate,
@@ -391,7 +397,8 @@ namespace Files.App.Utils.Storage
 			}
 			else
 			{
-				if (ZipStorageFolder.IsZipPath(itemPath) && await ZipStorageFolder.CheckDefaultZipApp(itemPath))
+				// Quick check for zip extension first to avoid async call for non-zip files
+				if (FileExtensionHelpers.IsZipFile(itemFileExtension) && ZipStorageFolder.IsZipPath(itemPath))
 				{
 					return new ZipItem(null)
 					{
@@ -399,6 +406,7 @@ namespace Files.App.Utils.Storage
 						FileExtension = itemFileExtension,
 						FileImage = null,
 						LoadFileIcon = itemThumbnailImgVis,
+						NeedsPlaceholderGlyph = true,
 						ItemNameRaw = itemName,
 						IsHiddenItem = isHidden,
 						Opacity = opacity,
@@ -419,6 +427,7 @@ namespace Files.App.Utils.Storage
 						FileExtension = itemFileExtension,
 						FileImage = null,
 						LoadFileIcon = itemThumbnailImgVis,
+						NeedsPlaceholderGlyph = true,
 						ItemNameRaw = itemName,
 						IsHiddenItem = isHidden,
 						Opacity = opacity,
@@ -439,6 +448,7 @@ namespace Files.App.Utils.Storage
 						FileExtension = itemFileExtension,
 						FileImage = null,
 						LoadFileIcon = itemThumbnailImgVis,
+						NeedsPlaceholderGlyph = true,
 						ItemNameRaw = itemName,
 						IsHiddenItem = isHidden,
 						Opacity = opacity,
