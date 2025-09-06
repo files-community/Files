@@ -65,7 +65,7 @@ namespace Files.App
 			async Task ActivateAsync()
 			{
 				// Get AppActivationArguments
-				var appActivationArguments = AppInstance.GetCurrent().GetActivatedEventArgs();
+				var appActivationArguments = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
 				var isStartupTask = appActivationArguments.Data is Windows.ApplicationModel.Activation.IStartupTaskActivatedEventArgs;
 
 				if (!isStartupTask)
