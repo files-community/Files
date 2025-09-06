@@ -73,9 +73,6 @@ namespace Files.App
 					// Initialize and activate MainWindow
 					MainWindow.Instance.Activate();
 
-					// Wait for the Window to initialize
-					await Task.Delay(10);
-
 					SplashScreenLoadingTCS = new TaskCompletionSource();
 					MainWindow.Instance.ShowSplashScreen();
 				}
@@ -86,7 +83,12 @@ namespace Files.App
 
 				// Configure Sentry
 				if (AppLifecycleHelper.AppEnvironment is not AppEnvironment.Dev)
-					AppLifecycleHelper.ConfigureSentry();
+				{
+					_ = Task.Run(() =>
+					{
+						AppLifecycleHelper.ConfigureSentry();
+					});
+				}
 
 				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 				var isLeaveAppRunning = userSettingsService.GeneralSettingsService.LeaveAppRunning;
@@ -95,9 +97,6 @@ namespace Files.App
 				{
 					// Initialize and activate MainWindow
 					MainWindow.Instance.Activate();
-
-					// Wait for the Window to initialize
-					await Task.Delay(10);
 
 					SplashScreenLoadingTCS = new TaskCompletionSource();
 					MainWindow.Instance.ShowSplashScreen();
