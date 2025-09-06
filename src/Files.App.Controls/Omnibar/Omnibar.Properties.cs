@@ -36,24 +36,27 @@ namespace Files.App.Controls
 			CurrentSelectedModeName = newMode.Name;
 		}
 
-		partial void OnCurrentSelectedModeNameChanged(string? newValue)
+		partial void OnCurrentSelectedModeNamePropertyChanged(DependencyPropertyChangedEventArgs e)
 		{
-			if (string.IsNullOrEmpty(newValue) ||
+			if (e.OldValue is not string oldValue ||
+				e.NewValue is not string newValue ||
+				string.IsNullOrEmpty(newValue) ||
 				string.IsNullOrEmpty(CurrentSelectedMode?.Name) ||
-				CurrentSelectedMode.Name.Equals(newValue) ||
+				CurrentSelectedMode.Name.Equals(newValue, StringComparison.OrdinalIgnoreCase) ||
+				oldValue.Equals(newValue, StringComparison.OrdinalIgnoreCase) ||
 				Modes is null)
 				return;
 
-			var newMode = Modes.Where(x => x.Name?.Equals(newValue) ?? false).FirstOrDefault();
+			var newMode = Modes.Where(x => x.Name?.Equals(newValue, StringComparison.OrdinalIgnoreCase) ?? false).FirstOrDefault();
 			if (newMode is null)
 				return;
 
 			CurrentSelectedMode = newMode;
 		}
 
-		partial void OnIsFocusedChanged(bool newValue)
+		partial void OnIsFocusedPropertyChanged(DependencyPropertyChangedEventArgs e)
 		{
-			if (CurrentSelectedMode is null || _textBox is null)
+			if (CurrentSelectedMode is null || _textBox is null || e.OldValue is not bool oldValue || e.NewValue is not bool newValue || oldValue == newValue)
 				return;
 
 			GlobalHelper.WriteDebugStringForOmnibar($"{nameof(IsFocused)} has been changed to {IsFocused}");
