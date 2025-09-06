@@ -119,4 +119,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
-        path: ${{ env.ARTIFACTS_STAGING_DIR }}
+        path: ${{ env.APPX_PACKAGE_DIR }}
