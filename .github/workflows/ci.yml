@@ -47,7 +47,7 @@ jobs:
 
   check-formatting:
 
-    if: github.repository_owner == 'files-community'
+    if: github.repository_owner == 'op30mmd'
 
     runs-on: windows-latest
 
@@ -83,7 +83,7 @@ jobs:
 
   build:
 
-    if: github.repository_owner == 'files-community'
+    if: github.repository_owner == 'op30mmd'
 
     runs-on: windows-latest
     strategy:
@@ -178,7 +178,7 @@ jobs:
 
   test:
 
-    if: github.repository_owner == 'files-community' && always()
+    if: github.repository_owner == 'op30mmd' && always()
 
     needs: [build]
     runs-on: windows-latest
