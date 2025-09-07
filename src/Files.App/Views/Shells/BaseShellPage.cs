@@ -72,6 +72,8 @@ namespace Files.App.Views.Shells
 
 		public ShellViewModel ShellViewModel { get; protected set; }
 
+		public Microsoft.UI.Dispatching.DispatcherQueue DispatcherQueue => base.DispatcherQueue;
+
 		public CurrentInstanceViewModel InstanceViewModel { get; }
 
 		protected BaseLayoutPage _ContentPage;

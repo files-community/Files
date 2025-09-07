@@ -327,10 +327,14 @@ namespace Files.App.ViewModels
 			// Load the app theme resources
 			ResourcesService.LoadAppResources(AppearanceSettingsService);
 
-			await Task.WhenAll(
-				DrivesViewModel.UpdateDrivesAsync(),
-				NetworkService.UpdateComputersAsync(),
-				NetworkService.UpdateShortcutsAsync());
+			// Perform non-critical updates on a background thread
+			_ = Task.Run(async () =>
+			{
+				await Task.WhenAll(
+					DrivesViewModel.UpdateDrivesAsync(),
+					NetworkService.UpdateComputersAsync(),
+					NetworkService.UpdateShortcutsAsync());
+			});
 		}
 
 		// Command methods

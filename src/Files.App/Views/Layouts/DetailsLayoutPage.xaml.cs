@@ -519,20 +519,20 @@ namespace Files.App.Views.Layouts
 				return;
 
 			ParentShellPageInstance.ShellViewModel.CancelExtendedPropertiesLoading();
-			var filesAndFolders = ParentShellPageInstance.ShellViewModel.FilesAndFolders.ToList();
 
-			await Task.WhenAll(filesAndFolders.Select(listedItem =>
+			var visibleItems = FileList.Items.Cast<ListedItem>()
+				.Where(listedItem => FileList.ContainerFromItem(listedItem) is not null)
+				.ToList();
+
+			await Task.WhenAll(visibleItems.Select(listedItem =>
 			{
 				listedItem.ItemPropertiesInitialized = false;
-				if (FileList.ContainerFromItem(listedItem) is not null)
-					return ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
-				else
-					return Task.CompletedTask;
+				return ParentShellPageInstance.ShellViewModel.LoadExtendedItemPropertiesAsync(listedItem);
 			}));
 
 			if (ParentShellPageInstance.ShellViewModel.EnabledGitProperties is not GitProperties.None)
 			{
-				await Task.WhenAll(filesAndFolders.Select(item =>
+				await Task.WhenAll(visibleItems.Select(item =>
 				{
 					if (item is IGitItem gitItem)
 						return ParentShellPageInstance.ShellViewModel.LoadGitPropertiesAsync(gitItem);
@@ -743,12 +743,13 @@ namespace Files.App.Views.Layouts
 				_ => 20 // cloud status column
 			};
 
-			// if called programmatically, the column could be hidden
-			// in this case, resizing doesn't need to be done at all
 			if (maxItemLength == 0)
 				return;
 
-			var columnSizeToFit = MeasureColumnEstimate(columnToResize, 5, maxItemLength);
+			// Take a sample of items to estimate the width
+			var sampleItems = FileList.Items.Cast<ListedItem>().Take(100).ToList();
+
+			var columnSizeToFit = MeasureColumnEstimate(columnToResize, 5, maxItemLength, sampleItems);
 
 			if (columnSizeToFit > 1)
 			{
@@ -783,7 +784,7 @@ namespace Files.App.Views.Layouts
 			FolderSettings.ColumnsViewModel = ColumnsViewModel;
 		}
 
-		private double MeasureColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
+		private double MeasureColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength, IEnumerable<ListedItem> sampleItems)
 		{
 			if (columnIndex == 15) // sync status
 				return maxItemLength;
@@ -791,7 +792,7 @@ namespace Files.App.Views.Layouts
 			if (columnIndex == 8) // file tag
 				return MeasureTagColumnEstimate(columnIndex);
 
-			return MeasureTextColumnEstimate(columnIndex, measureItemsCount, maxItemLength);
+			return MeasureTextColumnEstimate(columnIndex, measureItemsCount, maxItemLength, sampleItems);
 		}
 
 		private double MeasureTagColumnEstimate(int columnIndex)
@@ -820,24 +821,32 @@ namespace Files.App.Views.Layouts
 			return mesuredSize;
 		}
 
-		private double MeasureTextColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength)
+		private double MeasureTextColumnEstimate(int columnIndex, int measureItemsCount, int maxItemLength, IEnumerable<ListedItem> sampleItems)
 		{
-			var tbs = DependencyObjectHelpers
-				.FindChildren<TextBlock>(FileList.ItemsPanelRoot)
-				.Where(tb => IsCorrectColumn(tb, columnIndex));
+			// Get the text from the sample items
+			var sampleText = sampleItems.Select(x => GetTextFromColumn(x, columnIndex)).ToList();
 
-			// heuristic: usually, text with more letters are wider than shorter text with wider letters
-			// with this, we can calculate avg width using longest text(s) to avoid overshooting the width
-			var widthPerLetter = tbs
-				.OrderByDescending(x => x.Text.Length)
-				.Where(tb => !string.IsNullOrEmpty(tb.Text))
+			if (!sampleText.Any())
+				return 0;
+
+			// Create a TextBlock with the same properties as the one in the list
+			var textBlock = new TextBlock();
+			if (App.Current.Resources.TryGetValue("BodyTextBlockStyle", out var style))
+			{
+				textBlock.Style = (Style)style;
+			}
+
+			// Heuristic: usually, text with more letters are wider than shorter text with wider letters
+			// With this, we can calculate avg width using longest text(s) to avoid overshooting the width
+			var widthPerLetter = sampleText
+				.OrderByDescending(x => x?.Length ?? 0)
+				.Where(x => !string.IsNullOrEmpty(x))
 				.Take(measureItemsCount)
-				.Select(tb =>
+				.Select(x =>
 				{
-					var sampleTb = new TextBlock { Text = tb.Text, FontSize = tb.FontSize, FontFamily = tb.FontFamily };
-					sampleTb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-
-					return sampleTb.DesiredSize.Width / Math.Max(1, tb.Text.Length);
+					textBlock.Text = x;
+					textBlock.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+					return textBlock.DesiredSize.Width / Math.Max(1, x.Length);
 				});
 
 			if (!widthPerLetter.Any())
@@ -846,6 +855,26 @@ namespace Files.App.Views.Layouts
 			// Take weighted avg between mean and max since width is an estimate
 			var weightedAvg = (widthPerLetter.Average() + widthPerLetter.Max()) / 2;
 			return weightedAvg * maxItemLength;
+		}
+
+		private string? GetTextFromColumn(ListedItem item, int columnIndex)
+		{
+			return columnIndex switch
+			{
+				2 => item.Name,
+				4 => (item as IGitItem)?.GitLastCommitDateHumanized,
+				5 => (item as IGitItem)?.GitLastCommitMessage,
+				6 => (item as IGitItem)?.GitLastCommitAuthor,
+				7 => (item as IGitItem)?.GitLastCommitSha,
+				9 => item.ItemPath,
+				10 => (item as RecycleBinItem)?.ItemOriginalPath,
+				11 => (item as RecycleBinItem)?.ItemDateDeleted,
+				12 => item.ItemDateModified,
+				13 => item.ItemDateCreated,
+				14 => item.ItemType,
+				15 => item.FileSize,
+				_ => null,
+			};
 		}
 
 		private bool IsCorrectColumn(FrameworkElement element, int columnIndex)
