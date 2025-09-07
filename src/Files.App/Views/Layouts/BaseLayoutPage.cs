@@ -1100,7 +1100,7 @@ namespace Files.App.Views.Layouts
 					{
 						e.DragUIOverride.IsCaptionVisible = true;
 
-						if (item.IsExecutable || item.IsScriptFile)
+						if (((item as IShortcutItem)?.IsExecutable ?? item.IsExecutable) || ((item as IShortcutItem)?.IsScriptFile ?? item.IsScriptFile))
 						{
 							e.DragUIOverride.Caption = $"{Strings.OpenWith.GetLocalizedResource()} {item.Name}";
 							e.AcceptedOperation = DataPackageOperation.Link;
@@ -1189,7 +1189,7 @@ namespace Files.App.Views.Layouts
 			dragOverItem = null;
 			var item = GetItemFromElement(sender);
 			if (item is not null)
-				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as IShortcutItem)?.TargetPath ?? item.ItemPath, false, true, (item as IShortcutItem)?.IsExecutable ?? item.IsExecutable, item.IsScriptFile);
+				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as IShortcutItem)?.TargetPath ?? item.ItemPath, false, true, (item as IShortcutItem)?.IsExecutable ?? item.IsExecutable, (item as IShortcutItem)?.IsScriptFile ?? item.IsScriptFile);
 
 			deferral.Complete();
 		}
@@ -1379,8 +1379,8 @@ namespace Files.App.Views.Layouts
 
 			UninitializeDrag(container);
 			if ((item.PrimaryItemAttribute == StorageItemTypes.Folder && !StorageTrashBinService.IsUnderTrashBin(item.ItemPath))
-				|| item.IsExecutable
-				|| item.IsScriptFile)
+				|| ((item as IShortcutItem)?.IsExecutable ?? item.IsExecutable)
+				|| ((item as IShortcutItem)?.IsScriptFile ?? item.IsScriptFile))
 			{
 				container.AllowDrop = true;
 				container.AddHandler(UIElement.DragOverEvent, Item_DragOverEventHandler, true);
