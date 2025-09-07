@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed class OpenCommandPaletteAction : IAction
 	{
 		private readonly IContentPageContext _context;

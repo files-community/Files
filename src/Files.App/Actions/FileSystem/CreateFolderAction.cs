@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class CreateFolderAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;

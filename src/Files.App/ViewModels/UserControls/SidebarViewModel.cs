@@ -977,17 +977,17 @@ namespace Files.App.ViewModels.UserControls
 				{
 					IsVisible = options.ShowEmptyRecycleBin,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewTabFromSidebarAction)
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewTabFromSidebar)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab && Commands.OpenInNewTabFromSidebarAction.IsExecutable
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab && Commands.OpenInNewTabFromSidebar.IsExecutable
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewWindowFromSidebarAction)
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewWindowFromSidebar)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow && Commands.OpenInNewWindowFromSidebarAction.IsExecutable
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow && Commands.OpenInNewWindowFromSidebar.IsExecutable
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewPaneFromSidebarAction)
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewPaneFromSidebar)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && Commands.OpenInNewPaneFromSidebarAction.IsExecutable
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && Commands.OpenInNewPaneFromSidebar.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{

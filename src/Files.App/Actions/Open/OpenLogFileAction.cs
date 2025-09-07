@@ -9,6 +9,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class OpenLogFileAction : IAction
 	{
 		public string Label

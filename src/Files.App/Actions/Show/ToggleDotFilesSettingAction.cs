@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class ToggleDotFilesSettingAction : ObservableObject, IToggleAction
 	{
 		private readonly IFoldersSettingsService FoldersSettingsService;

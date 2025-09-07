@@ -7,6 +7,7 @@ using Windows.Foundation.Metadata;
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class CompressIntoArchiveAction : BaseCompressArchiveAction
 	{
 		public override string Label

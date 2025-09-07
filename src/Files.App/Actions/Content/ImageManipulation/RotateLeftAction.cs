@@ -5,6 +5,7 @@ using Windows.Graphics.Imaging;
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class RotateLeftAction : BaseRotateAction
 	{
 		public override string Label

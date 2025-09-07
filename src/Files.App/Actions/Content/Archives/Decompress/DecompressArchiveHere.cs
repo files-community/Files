@@ -3,7 +3,8 @@
 
 namespace Files.App.Actions
 {
-	internal sealed partial class DecompressArchiveHere : BaseDecompressArchiveAction
+	[GeneratedRichCommand]
+	internal sealed partial class DecompressArchiveHereAction : BaseDecompressArchiveAction
 	{
 		public override string Label
 			=> Strings.ExtractHere.GetLocalizedResource();
@@ -11,7 +12,7 @@ namespace Files.App.Actions
 		public override string Description
 			=> Strings.DecompressArchiveHereDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
-		public DecompressArchiveHere()
+		public DecompressArchiveHereAction()
 		{
 		}
 

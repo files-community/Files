@@ -112,7 +112,8 @@ namespace Files.App.UserControls
 		private void LayoutButton_Click(object sender, RoutedEventArgs e)
 		{
 			// Hide flyout after choosing a layout
-			LayoutFlyout.Hide();
+			// Check if LayoutFlyout is not null to handle cases where UI elements are unloaded via x:Load
+			LayoutFlyout?.Hide();
 		}
 	}
 }

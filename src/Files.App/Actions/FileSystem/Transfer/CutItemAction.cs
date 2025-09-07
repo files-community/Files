@@ -5,6 +5,7 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class CutItemAction : BaseTransferItemAction, IAction
 	{
 		public string Label

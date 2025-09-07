@@ -9,6 +9,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class OpenSettingsFileAction : IAction
 	{
 		public string Label

@@ -3,7 +3,8 @@
 
 namespace Files.App.Actions
 {
-	sealed partial class OpenAllTaggedActions : ObservableObject, IAction
+	[GeneratedRichCommand]
+	sealed partial class OpenAllTaggedAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext _pageContext;
 
@@ -22,7 +23,7 @@ namespace Files.App.Actions
 			_pageContext.ShellPage is not null &&
 			_tagsContext.TaggedItems.Any();
 
-		public OpenAllTaggedActions()
+		public OpenAllTaggedAction()
 		{
 			_pageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 			_tagsContext = Ioc.Default.GetRequiredService<ITagsContext>();
