@@ -122,87 +122,157 @@ namespace Files.App.Utils.Storage
 
 			if (destination.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 			{
-				fsProgress.ReportStatus(FileSystemStatusCode.Unauthorized);
-
 				// Do not paste files and folders inside the recycle bin
+				fsProgress.ReportStatus(FileSystemStatusCode.Unauthorized);
 				await DialogDisplayHelper.ShowDialogAsync(
 					Strings.ErrorDialogThisActionCannotBeDone.GetLocalizedResource(),
 					Strings.ErrorDialogUnsupportedOperation.GetLocalizedResource());
-
 				return null;
 			}
 
-			IStorageItem copiedItem = null;
-
-			if (source.ItemType == FilesystemItemType.Directory)
+			return await Task.Run(async () =>
 			{
-				if (!string.IsNullOrWhiteSpace(source.Path) &&
-					PathNormalization.GetParentDir(destination).IsSubPathOf(source.Path)) // We check if user tried to copy anything above the source.ItemPath
+				IStorageItem copiedItem = null;
+				if (source.ItemType == FilesystemItemType.Directory)
 				{
-					var destinationName = destination.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
-					var sourceName = source.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
-
-					ContentDialog dialog = new()
+					if (!string.IsNullOrWhiteSpace(source.Path) &&
+						PathNormalization.GetParentDir(destination).IsSubPathOf(source.Path)) // We check if user tried to copy anything above the source.ItemPath
 					{
-						Title = Strings.ErrorDialogThisActionCannotBeDone.GetLocalizedResource(),
-						Content = $"{Strings.ErrorDialogTheDestinationFolder.GetLocalizedResource()} ({destinationName}) {Strings.ErrorDialogIsASubfolder.GetLocalizedResource()} ({sourceName})",
-						//PrimaryButtonText = "Skip".GetLocalizedResource(),
-						CloseButtonText = Strings.Cancel.GetLocalizedResource()
-					};
+						var destinationName = destination.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
+						var sourceName = source.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
 
-					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-						dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+						ContentDialog dialog = new()
+						{
+							Title = Strings.ErrorDialogThisActionCannotBeDone.GetLocalizedResource(),
+							Content = $"{Strings.ErrorDialogTheDestinationFolder.GetLocalizedResource()} ({destinationName}) {Strings.ErrorDialogIsASubfolder.GetLocalizedResource()} ({sourceName})",
+							//PrimaryButtonText = "Skip".GetLocalizedResource(),
+							CloseButtonText = Strings.Cancel.GetLocalizedResource()
+						};
 
-					ContentDialogResult result = await dialog.TryShowAsync();
+						ContentDialogResult result = ContentDialogResult.None;
+						await _associatedInstance.DispatcherQueue.TryEnqueue(async () =>
+						{
+							if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+								dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+							result = await dialog.TryShowAsync();
+						});
 
-					if (result == ContentDialogResult.Primary)
-						fsProgress.ReportStatus(FileSystemStatusCode.InProgress | FileSystemStatusCode.Success);
+						if (result == ContentDialogResult.Primary)
+							fsProgress.ReportStatus(FileSystemStatusCode.InProgress | FileSystemStatusCode.Success);
+						else
+							fsProgress.ReportStatus(FileSystemStatusCode.InProgress | FileSystemStatusCode.Generic);
+
+						return null;
+					}
 					else
-						fsProgress.ReportStatus(FileSystemStatusCode.InProgress | FileSystemStatusCode.Generic);
-
-					return null;
-				}
-				else
-				{
-					// CopyFileFromApp only works on file not directories
-					var fsSourceFolder = await source.ToStorageItemResult();
-					var fsDestinationFolder = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination), cancellationToken);
-					var fsResult = (FilesystemResult)(fsSourceFolder.ErrorCode | fsDestinationFolder.ErrorCode);
-
-					if (fsResult)
 					{
-						if (fsSourceFolder.Result is IPasswordProtectedItem ppis)
-							ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
+						// CopyFileFromApp only works on file not directories
+						var fsSourceFolder = await source.ToStorageItemResult();
+						var fsDestinationFolder = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination), cancellationToken);
+						var fsResult = (FilesystemResult)(fsSourceFolder.ErrorCode | fsDestinationFolder.ErrorCode);
 
-						var fsCopyResult = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
-
-						if (fsSourceFolder.Result is IPasswordProtectedItem ppiu)
-							ppiu.PasswordRequestedCallback = null;
-
-						if (fsCopyResult == FileSystemStatusCode.AlreadyExists)
+						if (fsResult)
 						{
-							fsProgress.ReportStatus(FileSystemStatusCode.AlreadyExists);
+							if (fsSourceFolder.Result is IPasswordProtectedItem ppis)
+								ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
 
-							return null;
-						}
+							var fsCopyResult = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
 
-						if (fsCopyResult)
-						{
-							if (Win32Helper.HasFileAttribute(source.Path, SystemIO.FileAttributes.Hidden))
+							if (fsSourceFolder.Result is IPasswordProtectedItem ppiu)
+								ppiu.PasswordRequestedCallback = null;
+
+							if (fsCopyResult == FileSystemStatusCode.AlreadyExists)
 							{
-								// The source folder was hidden, apply hidden attribute to destination
-								Win32Helper.SetFileAttribute(fsCopyResult.Result.Path, SystemIO.FileAttributes.Hidden);
+								fsProgress.ReportStatus(FileSystemStatusCode.AlreadyExists);
+
+								return null;
 							}
 
-							copiedItem = (BaseStorageFolder)fsCopyResult;
+							if (fsCopyResult)
+							{
+								if (Win32Helper.HasFileAttribute(source.Path, SystemIO.FileAttributes.Hidden))
+								{
+									// The source folder was hidden, apply hidden attribute to destination
+									Win32Helper.SetFileAttribute(fsCopyResult.Result.Path, SystemIO.FileAttributes.Hidden);
+								}
+
+								copiedItem = (BaseStorageFolder)fsCopyResult;
+							}
+
+							fsResult = fsCopyResult;
 						}
 
-						fsResult = fsCopyResult;
-					}
+						if (fsResult == FileSystemStatusCode.Unauthorized)
+						{
+							// Cannot do anything, already tried with admin FTP
+						}
 
-					if (fsResult == FileSystemStatusCode.Unauthorized)
+						fsProgress.ReportStatus(fsResult.ErrorCode);
+
+						if (!fsResult)
+							return null;
+					}
+				}
+				else if (source.ItemType == FilesystemItemType.File)
+				{
+					var fsResult = (FilesystemResult)PInvoke.CopyFileFromApp(source.Path, destination, true);
+
+					if (!fsResult)
 					{
-						// Cannot do anything, already tried with admin FTP
+						Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
+
+						FilesystemResult<BaseStorageFolder> destinationResult = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination), cancellationToken);
+						var sourceResult = await source.ToStorageItemResult();
+						fsResult = sourceResult.ErrorCode | destinationResult.ErrorCode;
+
+						if (fsResult)
+						{
+							if (sourceResult.Result is IPasswordProtectedItem ppis)
+								ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
+
+							var file = (BaseStorageFile)sourceResult;
+							var fsResultCopy = new FilesystemResult<BaseStorageFile>(null, FileSystemStatusCode.Generic);
+							if (string.IsNullOrEmpty(file.Path) && collision == NameCollisionOption.GenerateUniqueName)
+							{
+								// If collision is GenerateUniqueName we will manually check for existing file and generate a new name
+								// HACK: If file is dragged from zip file in windows explorer for example. The file path is empty and
+								// GenerateUniqueName isn't working correctly. Below is a possible solution.
+								var desiredNewName = Path.GetFileName(file.Name);
+								string nameWithoutExt = Path.GetFileNameWithoutExtension(desiredNewName);
+								string extension = Path.GetExtension(desiredNewName);
+								ushort attempt = 1;
+
+								do
+								{
+									fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, desiredNewName, NameCollisionOption.FailIfExists).AsTask());
+									desiredNewName = $"{nameWithoutExt} ({attempt}){extension}";
+								} while (fsResultCopy.ErrorCode == FileSystemStatusCode.AlreadyExists && ++attempt < 1024);
+							}
+							else
+							{
+								fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
+							}
+
+							if (sourceResult.Result is IPasswordProtectedItem ppiu)
+								ppiu.PasswordRequestedCallback = null;
+
+							if (fsResultCopy == FileSystemStatusCode.AlreadyExists)
+							{
+								fsProgress.ReportStatus(FileSystemStatusCode.AlreadyExists);
+
+								return null;
+							}
+
+							if (fsResultCopy)
+								copiedItem = fsResultCopy.Result;
+
+							fsResult = fsResultCopy;
+						}
+
+						if (fsResult == FileSystemStatusCode.Unauthorized)
+						{
+							// Cannot do anything, already tried with admin FTP
+						}
 					}
 
 					fsProgress.ReportStatus(fsResult.ErrorCode);
@@ -210,86 +280,18 @@ namespace Files.App.Utils.Storage
 					if (!fsResult)
 						return null;
 				}
-			}
-			else if (source.ItemType == FilesystemItemType.File)
-			{
-				var fsResult = (FilesystemResult)await Task.Run(() => PInvoke.CopyFileFromApp(source.Path, destination, true));
 
-				if (!fsResult)
+				if (collision == NameCollisionOption.ReplaceExisting)
 				{
-					Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
+					fsProgress.ReportStatus(FileSystemStatusCode.Success);
 
-					FilesystemResult<BaseStorageFolder> destinationResult = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination), cancellationToken);
-					var sourceResult = await source.ToStorageItemResult();
-					fsResult = sourceResult.ErrorCode | destinationResult.ErrorCode;
-
-					if (fsResult)
-					{
-						if (sourceResult.Result is IPasswordProtectedItem ppis)
-							ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
-
-						var file = (BaseStorageFile)sourceResult;
-						var fsResultCopy = new FilesystemResult<BaseStorageFile>(null, FileSystemStatusCode.Generic);
-						if (string.IsNullOrEmpty(file.Path) && collision == NameCollisionOption.GenerateUniqueName)
-						{
-							// If collision is GenerateUniqueName we will manually check for existing file and generate a new name
-							// HACK: If file is dragged from zip file in windows explorer for example. The file path is empty and
-							// GenerateUniqueName isn't working correctly. Below is a possible solution.
-							var desiredNewName = Path.GetFileName(file.Name);
-							string nameWithoutExt = Path.GetFileNameWithoutExtension(desiredNewName);
-							string extension = Path.GetExtension(desiredNewName);
-							ushort attempt = 1;
-
-							do
-							{
-								fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, desiredNewName, NameCollisionOption.FailIfExists).AsTask());
-								desiredNewName = $"{nameWithoutExt} ({attempt}){extension}";
-							} while (fsResultCopy.ErrorCode == FileSystemStatusCode.AlreadyExists && ++attempt < 1024);
-						}
-						else
-						{
-							fsResultCopy = await FilesystemTasks.Wrap(() => file.CopyAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
-						}
-
-						if (sourceResult.Result is IPasswordProtectedItem ppiu)
-							ppiu.PasswordRequestedCallback = null;
-
-						if (fsResultCopy == FileSystemStatusCode.AlreadyExists)
-						{
-							fsProgress.ReportStatus(FileSystemStatusCode.AlreadyExists);
-
-							return null;
-						}
-
-						if (fsResultCopy)
-							copiedItem = fsResultCopy.Result;
-
-						fsResult = fsResultCopy;
-					}
-
-					if (fsResult == FileSystemStatusCode.Unauthorized)
-					{
-						// Cannot do anything, already tried with admin FTP
-					}
+					// Cannot undo overwrite operation
+					return null;
 				}
 
-				fsProgress.ReportStatus(fsResult.ErrorCode);
-
-				if (!fsResult)
-					return null;
-			}
-
-			if (collision == NameCollisionOption.ReplaceExisting)
-			{
-				fsProgress.ReportStatus(FileSystemStatusCode.Success);
-
-				// Cannot undo overwrite operation
-				return null;
-			}
-
-			var pathWithType = copiedItem.FromStorageItem(destination, source.ItemType);
-
-			return new StorageHistory(FileOperationType.Copy, source, pathWithType);
+				var pathWithType = copiedItem.FromStorageItem(destination, source.ItemType);
+				return new StorageHistory(FileOperationType.Copy, source, pathWithType);
+			}, cancellationToken);
 		}
 
 		public Task<IStorageHistory> MoveAsync(IStorageItem source, string destination, NameCollisionOption collision, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken)
@@ -309,7 +311,6 @@ namespace Files.App.Utils.Storage
 			if (source.Path == destination)
 			{
 				fsProgress.ReportStatus(FileSystemStatusCode.Success);
-
 				return null;
 			}
 
@@ -323,77 +324,135 @@ namespace Files.App.Utils.Storage
 
 			if (destination.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 			{
-				fsProgress.ReportStatus(FileSystemStatusCode.Unauthorized);
-
 				// Do not paste files and folders inside the recycle bin
+				fsProgress.ReportStatus(FileSystemStatusCode.Unauthorized);
 				await DialogDisplayHelper.ShowDialogAsync(
 					Strings.ErrorDialogThisActionCannotBeDone.GetLocalizedResource(),
 					Strings.ErrorDialogUnsupportedOperation.GetLocalizedResource());
-
 				return null;
 			}
 
-			IStorageItem movedItem = null;
-
-			if (source.ItemType == FilesystemItemType.Directory)
+			return await Task.Run(async () =>
 			{
-				// Also check if user tried to move anything above the source.ItemPath
-				if (!string.IsNullOrWhiteSpace(source.Path) &&
-					PathNormalization.GetParentDir(destination).IsSubPathOf(source.Path))
+				IStorageItem movedItem = null;
+				if (source.ItemType == FilesystemItemType.Directory)
 				{
-					var destinationName = destination.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
-					var sourceName = source.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
-
-					ContentDialog dialog = new()
+					// Also check if user tried to move anything above the source.ItemPath
+					if (!string.IsNullOrWhiteSpace(source.Path) &&
+						PathNormalization.GetParentDir(destination).IsSubPathOf(source.Path))
 					{
-						Title = Strings.ErrorDialogThisActionCannotBeDone.GetLocalizedResource(),
-						Content = $"{Strings.ErrorDialogTheDestinationFolder.GetLocalizedResource()} ({destinationName}) {Strings.ErrorDialogIsASubfolder.GetLocalizedResource()} ({sourceName})",
-						//PrimaryButtonText = "Skip".GetLocalizedResource(),
-						CloseButtonText = Strings.Cancel.GetLocalizedResource()
-					};
+						var destinationName = destination.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
+						var sourceName = source.Path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last();
 
-					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-						dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+						ContentDialog dialog = new()
+						{
+							Title = Strings.ErrorDialogThisActionCannotBeDone.GetLocalizedResource(),
+							Content = $"{Strings.ErrorDialogTheDestinationFolder.GetLocalizedResource()} ({destinationName}) {Strings.ErrorDialogIsASubfolder.GetLocalizedResource()} ({sourceName})",
+							//PrimaryButtonText = "Skip".GetLocalizedResource(),
+							CloseButtonText = Strings.Cancel.GetLocalizedResource()
+						};
 
-					ContentDialogResult result = await dialog.TryShowAsync();
+					ContentDialogResult result = ContentDialogResult.None;
+					await _associatedInstance.DispatcherQueue.TryEnqueue(async () =>
+					{
+						if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+							dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+						result = await dialog.TryShowAsync();
+					});
 
-					if (result == ContentDialogResult.Primary)
-						fsProgress.ReportStatus(FileSystemStatusCode.InProgress | FileSystemStatusCode.Success);
+						if (result == ContentDialogResult.Primary)
+							fsProgress.ReportStatus(FileSystemStatusCode.InProgress | FileSystemStatusCode.Success);
+						else
+							fsProgress.ReportStatus(FileSystemStatusCode.InProgress | FileSystemStatusCode.Generic);
+
+						return null;
+					}
 					else
-						fsProgress.ReportStatus(FileSystemStatusCode.InProgress | FileSystemStatusCode.Generic);
+					{
+						var fsResult = (FilesystemResult)PInvoke.MoveFileFromApp(source.Path, destination);
 
-					return null;
+						if (!fsResult)
+						{
+							Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
+
+							var fsSourceFolder = await source.ToStorageItemResult();
+							var fsDestinationFolder = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination), cancellationToken);
+							fsResult = fsSourceFolder.ErrorCode | fsDestinationFolder.ErrorCode;
+
+							if (fsResult)
+							{
+								if (fsSourceFolder.Result is IPasswordProtectedItem ppis)
+									ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
+
+								var srcFolder = (BaseStorageFolder)fsSourceFolder;
+								var fsResultMove = await FilesystemTasks.Wrap(() => srcFolder.MoveAsync(fsDestinationFolder.Result, collision).AsTask());
+
+								if (!fsResultMove) // Use generic move folder operation (move folder items one by one)
+								{
+									// Moving folders using Storage API can result in data loss, copy instead
+									//var fsResultMove = await FilesystemTasks.Wrap(() => MoveDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert(), true));
+								var moveResult = DialogResult.None;
+								await _associatedInstance.DispatcherQueue.TryEnqueue(async () =>
+								{
+									moveResult = await DialogDisplayHelper.ShowDialogAsync(Strings.ErrorDialogThisActionCannotBeDone.GetLocalizedResource(), Strings.ErrorDialogUnsupportedMoveOperation.GetLocalizedResource(), "OK", Strings.Cancel.GetLocalizedResource());
+								});
+
+								if (moveResult == DialogResult.Primary)
+										fsResultMove = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
+								}
+
+								if (fsSourceFolder.Result is IPasswordProtectedItem ppiu)
+									ppiu.PasswordRequestedCallback = null;
+
+								if (fsResultMove == FileSystemStatusCode.AlreadyExists)
+								{
+									fsProgress.ReportStatus(FileSystemStatusCode.AlreadyExists);
+
+									return null;
+								}
+
+								if (fsResultMove)
+								{
+									if (Win32Helper.HasFileAttribute(source.Path, SystemIO.FileAttributes.Hidden))
+									{
+										// The source folder was hidden, apply hidden attribute to destination
+										Win32Helper.SetFileAttribute(fsResultMove.Result.Path, SystemIO.FileAttributes.Hidden);
+									}
+
+									movedItem = (BaseStorageFolder)fsResultMove;
+								}
+								fsResult = fsResultMove;
+							}
+							if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
+							{
+								// Cannot do anything, already tried with admin FTP
+							}
+						}
+
+						fsProgress.ReportStatus(fsResult.ErrorCode);
+					}
 				}
-				else
+				else if (source.ItemType == FilesystemItemType.File)
 				{
-					var fsResult = (FilesystemResult)await Task.Run(() => PInvoke.MoveFileFromApp(source.Path, destination));
+					var fsResult = (FilesystemResult)PInvoke.MoveFileFromApp(source.Path, destination);
 
 					if (!fsResult)
 					{
 						Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
 
-						var fsSourceFolder = await source.ToStorageItemResult();
-						var fsDestinationFolder = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination), cancellationToken);
-						fsResult = fsSourceFolder.ErrorCode | fsDestinationFolder.ErrorCode;
+						FilesystemResult<BaseStorageFolder> destinationResult = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination), cancellationToken);
+						var sourceResult = await source.ToStorageItemResult();
+						fsResult = sourceResult.ErrorCode | destinationResult.ErrorCode;
 
 						if (fsResult)
 						{
-							if (fsSourceFolder.Result is IPasswordProtectedItem ppis)
+							if (sourceResult.Result is IPasswordProtectedItem ppis)
 								ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
 
-							var srcFolder = (BaseStorageFolder)fsSourceFolder;
-							var fsResultMove = await FilesystemTasks.Wrap(() => srcFolder.MoveAsync(fsDestinationFolder.Result, collision).AsTask());
+							var file = (BaseStorageFile)sourceResult;
+							var fsResultMove = await FilesystemTasks.Wrap(() => file.MoveAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
 
-							if (!fsResultMove) // Use generic move folder operation (move folder items one by one)
-							{
-								// Moving folders using Storage API can result in data loss, copy instead
-								//var fsResultMove = await FilesystemTasks.Wrap(() => MoveDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert(), true));
-
-								if (await DialogDisplayHelper.ShowDialogAsync(Strings.ErrorDialogThisActionCannotBeDone.GetLocalizedResource(), Strings.ErrorDialogUnsupportedMoveOperation.GetLocalizedResource(), "OK", Strings.Cancel.GetLocalizedResource()))
-									fsResultMove = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
-							}
-
-							if (fsSourceFolder.Result is IPasswordProtectedItem ppiu)
+							if (sourceResult.Result is IPasswordProtectedItem ppiu)
 								ppiu.PasswordRequestedCallback = null;
 
 							if (fsResultMove == FileSystemStatusCode.AlreadyExists)
@@ -404,15 +463,8 @@ namespace Files.App.Utils.Storage
 							}
 
 							if (fsResultMove)
-							{
-								if (Win32Helper.HasFileAttribute(source.Path, SystemIO.FileAttributes.Hidden))
-								{
-									// The source folder was hidden, apply hidden attribute to destination
-									Win32Helper.SetFileAttribute(fsResultMove.Result.Path, SystemIO.FileAttributes.Hidden);
-								}
+								movedItem = file;
 
-								movedItem = (BaseStorageFolder)fsResultMove;
-							}
 							fsResult = fsResultMove;
 						}
 						if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
@@ -420,70 +472,27 @@ namespace Files.App.Utils.Storage
 							// Cannot do anything, already tried with admin FTP
 						}
 					}
-
 					fsProgress.ReportStatus(fsResult.ErrorCode);
 				}
-			}
-			else if (source.ItemType == FilesystemItemType.File)
-			{
-				var fsResult = (FilesystemResult)await Task.Run(() => PInvoke.MoveFileFromApp(source.Path, destination));
 
-				if (!fsResult)
+				if (collision == NameCollisionOption.ReplaceExisting)
 				{
-					Debug.WriteLine(System.Runtime.InteropServices.Marshal.GetLastWin32Error());
-
-					FilesystemResult<BaseStorageFolder> destinationResult = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(destination), cancellationToken);
-					var sourceResult = await source.ToStorageItemResult();
-					fsResult = sourceResult.ErrorCode | destinationResult.ErrorCode;
-
-					if (fsResult)
-					{
-						if (sourceResult.Result is IPasswordProtectedItem ppis)
-							ppis.PasswordRequestedCallback = UIFilesystemHelpers.RequestPassword;
-
-						var file = (BaseStorageFile)sourceResult;
-						var fsResultMove = await FilesystemTasks.Wrap(() => file.MoveAsync(destinationResult.Result, Path.GetFileName(file.Name), collision).AsTask());
-
-						if (sourceResult.Result is IPasswordProtectedItem ppiu)
-							ppiu.PasswordRequestedCallback = null;
-
-						if (fsResultMove == FileSystemStatusCode.AlreadyExists)
-						{
-							fsProgress.ReportStatus(FileSystemStatusCode.AlreadyExists);
-
-							return null;
-						}
-
-						if (fsResultMove)
-							movedItem = file;
-
-						fsResult = fsResultMove;
-					}
-					if (fsResult == FileSystemStatusCode.Unauthorized || fsResult == FileSystemStatusCode.ReadOnly)
-					{
-						// Cannot do anything, already tried with admin FTP
-					}
+					// Cannot undo overwrite operation
+					return null;
 				}
-				fsProgress.ReportStatus(fsResult.ErrorCode);
-			}
 
-			if (collision == NameCollisionOption.ReplaceExisting)
-			{
-				// Cannot undo overwrite operation
-				return null;
-			}
+				bool sourceInCurrentFolder = PathNormalization.TrimPath(_associatedInstance.ShellViewModel.CurrentFolder.ItemPath) ==
+					PathNormalization.GetParentDir(source.Path);
 
-			bool sourceInCurrentFolder = PathNormalization.TrimPath(_associatedInstance.ShellViewModel.CurrentFolder.ItemPath) ==
-				PathNormalization.GetParentDir(source.Path);
-			if (fsProgress.Status == FileSystemStatusCode.Success && sourceInCurrentFolder)
-			{
-				await _associatedInstance.ShellViewModel.RemoveFileOrFolderAsync(source.Path);
-				await _associatedInstance.ShellViewModel.ApplyFilesAndFoldersChangesAsync();
-			}
+				if (fsProgress.Status == FileSystemStatusCode.Success && sourceInCurrentFolder)
+				{
+					await _associatedInstance.ShellViewModel.RemoveFileOrFolderAsync(source.Path);
+					await _associatedInstance.ShellViewModel.ApplyFilesAndFoldersChangesAsync();
+				}
 
-			var pathWithType = movedItem.FromStorageItem(destination, source.ItemType);
-
-			return new StorageHistory(FileOperationType.Move, source, pathWithType);
+				var pathWithType = movedItem.FromStorageItem(destination, source.ItemType);
+				return new StorageHistory(FileOperationType.Move, source, pathWithType);
+			}, cancellationToken);
 		}
 
 		public Task<IStorageHistory> DeleteAsync(IStorageItem source, IProgress<StatusCenterItemProgressModel> progress, bool permanently, CancellationToken cancellationToken)
@@ -500,78 +509,83 @@ namespace Files.App.Utils.Storage
 
 			fsProgress.Report();
 
-			bool deleteFromRecycleBin = StorageTrashBinService.IsUnderTrashBin(source.Path);
-
-			FilesystemResult fsResult = FileSystemStatusCode.InProgress;
-
-			if (permanently)
+			return await Task.Run(async () =>
 			{
-				fsResult = (FilesystemResult)PInvoke.DeleteFileFromApp(source.Path);
-			}
-			if (!fsResult)
-			{
-				if (source.ItemType == FilesystemItemType.File)
+				bool deleteFromRecycleBin = StorageTrashBinService.IsUnderTrashBin(source.Path);
+				FilesystemResult fsResult = FileSystemStatusCode.InProgress;
+
+				if (permanently)
 				{
-					fsResult = await _associatedInstance.ShellViewModel.GetFileFromPathAsync(source.Path, cancellationToken)
-						.OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
+					fsResult = (FilesystemResult)PInvoke.DeleteFileFromApp(source.Path);
 				}
-				else if (source.ItemType == FilesystemItemType.Directory)
+				if (!fsResult)
 				{
-					fsResult = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(source.Path, cancellationToken)
-						.OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
-				}
-			}
-
-			fsProgress.ReportStatus(fsResult);
-
-			if (fsResult == FileSystemStatusCode.Unauthorized)
-			{
-				// Cannot do anything, already tried with admin FTP
-			}
-			else if (fsResult == FileSystemStatusCode.InUse)
-			{
-				// TODO: Retry
-				await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FileInUseDialog());
-			}
-
-			if (deleteFromRecycleBin)
-			{
-				// Recycle bin also stores a file starting with $I for each item
-				string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I", StringComparison.Ordinal));
-
-				await _associatedInstance.ShellViewModel.GetFileFromPathAsync(iFilePath, cancellationToken)
-					.OnSuccess(iFile => iFile.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
-			}
-			fsProgress.ReportStatus(fsResult);
-
-			if (fsResult)
-			{
-				await _associatedInstance.ShellViewModel.RemoveFileOrFolderAsync(source.Path);
-
-				if (!permanently)
-				{
-					// Enumerate Recycle Bin
-					IEnumerable<ShellFileItem> nameMatchItems, items = await StorageTrashBinService.GetAllRecycleBinFoldersAsync();
-
-					// Get name matching files
-					if (FileExtensionHelpers.IsShortcutOrUrlFile(source.Path)) // We need to check if it is a shortcut file
-						nameMatchItems = items.Where((item) => item.FilePath == Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileNameWithoutExtension(source.Path)));
-					else
-						nameMatchItems = items.Where((item) => item.FilePath == source.Path);
-
-					// Get newest file
-					ShellFileItem item = nameMatchItems.OrderBy((item) => item.RecycleDate).FirstOrDefault();
-
-					return new StorageHistory(FileOperationType.Recycle, source, StorageHelpers.FromPathAndType(item?.RecyclePath, source.ItemType));
+					if (source.ItemType == FilesystemItemType.File)
+					{
+						fsResult = await _associatedInstance.ShellViewModel.GetFileFromPathAsync(source.Path, cancellationToken)
+							.OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
+					}
+					else if (source.ItemType == FilesystemItemType.Directory)
+					{
+						fsResult = await _associatedInstance.ShellViewModel.GetFolderFromPathAsync(source.Path, cancellationToken)
+							.OnSuccess((t) => t.DeleteAsync(permanently ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default).AsTask());
+					}
 				}
 
-				return new StorageHistory(FileOperationType.Delete, source, null);
-			}
-			else
-			{
-				// Stop at first error
-				return null;
-			}
+				fsProgress.ReportStatus(fsResult);
+
+				if (fsResult == FileSystemStatusCode.Unauthorized)
+				{
+					// Cannot do anything, already tried with admin FTP
+				}
+				else if (fsResult == FileSystemStatusCode.InUse)
+				{
+					// TODO: Retry
+					await _associatedInstance.DispatcherQueue.TryEnqueue(async () =>
+					{
+						await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FileInUseDialog());
+					});
+				}
+
+				if (deleteFromRecycleBin)
+				{
+					// Recycle bin also stores a file starting with $I for each item
+					string iFilePath = Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileName(source.Path).Replace("$R", "$I", StringComparison.Ordinal));
+
+					await _associatedInstance.ShellViewModel.GetFileFromPathAsync(iFilePath, cancellationToken)
+						.OnSuccess(iFile => iFile.DeleteAsync(StorageDeleteOption.PermanentDelete).AsTask());
+				}
+				fsProgress.ReportStatus(fsResult);
+
+				if (fsResult)
+				{
+					await _associatedInstance.ShellViewModel.RemoveFileOrFolderAsync(source.Path);
+
+					if (!permanently)
+					{
+						// Enumerate Recycle Bin
+						IEnumerable<ShellFileItem> nameMatchItems, items = await StorageTrashBinService.GetAllRecycleBinFoldersAsync();
+
+						// Get name matching files
+						if (FileExtensionHelpers.IsShortcutOrUrlFile(source.Path)) // We need to check if it is a shortcut file
+							nameMatchItems = items.Where((item) => item.FilePath == Path.Combine(Path.GetDirectoryName(source.Path), Path.GetFileNameWithoutExtension(source.Path)));
+						else
+							nameMatchItems = items.Where((item) => item.FilePath == source.Path);
+
+						// Get newest file
+						ShellFileItem item = nameMatchItems.OrderBy((item) => item.RecycleDate).FirstOrDefault();
+
+						return new StorageHistory(FileOperationType.Recycle, source, StorageHelpers.FromPathAndType(item?.RecyclePath, source.ItemType));
+					}
+
+					return new StorageHistory(FileOperationType.Delete, source, null);
+				}
+				else
+				{
+					// Stop at first error
+					return null;
+				}
+			}, cancellationToken);
 		}
 
 		public Task<IStorageHistory> RenameAsync(IStorageItem source, string newName, NameCollisionOption collision, IProgress<StatusCenterItemProgressModel> progress, CancellationToken cancellationToken)
@@ -748,8 +762,12 @@ namespace Files.App.Utils.Storage
 					{
 						// Moving folders using Storage API can result in data loss, copy instead
 						//fsResult = await FilesystemTasks.Wrap(() => MoveDirectoryAsync(sourceFolder.Result, destinationFolder.Result, Path.GetFileName(destination), CreationCollisionOption.FailIfExists, true));
-
-						if (await DialogDisplayHelper.ShowDialogAsync(Strings.ErrorDialogThisActionCannotBeDone.GetLocalizedResource(), Strings.ErrorDialogUnsupportedMoveOperation.GetLocalizedResource(), "OK", Strings.Cancel.GetLocalizedResource()))
+						var moveResult = DialogResult.None;
+						await _associatedInstance.DispatcherQueue.TryEnqueue(async () =>
+						{
+							moveResult = await DialogDisplayHelper.ShowDialogAsync(Strings.ErrorDialogThisActionCannotBeDone.GetLocalizedResource(), Strings.ErrorDialogUnsupportedMoveOperation.GetLocalizedResource(), "OK", Strings.Cancel.GetLocalizedResource());
+						});
+						if (moveResult == DialogResult.Primary)
 							fsResult = await FilesystemTasks.Wrap(() => CloneDirectoryAsync(sourceFolder.Result, destinationFolder.Result, Path.GetFileName(destination), CreationCollisionOption.FailIfExists));
 
 						// TODO: we could use here FilesystemHelpers with registerHistory false?
