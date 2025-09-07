@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI;
 using Files.Shared.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using System.IO;
@@ -150,7 +151,7 @@ namespace Files.App.Utils.Storage
 						};
 
 						ContentDialogResult result = ContentDialogResult.None;
-						await _associatedInstance.DispatcherQueue.TryEnqueue(async () =>
+						await _associatedInstance.DispatcherQueue.EnqueueAsync(async () =>
 						{
 							if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 								dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
@@ -353,7 +354,7 @@ namespace Files.App.Utils.Storage
 						};
 
 					ContentDialogResult result = ContentDialogResult.None;
-					await _associatedInstance.DispatcherQueue.TryEnqueue(async () =>
+					await _associatedInstance.DispatcherQueue.EnqueueAsync(async () =>
 					{
 						if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
 							dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
@@ -391,13 +392,13 @@ namespace Files.App.Utils.Storage
 								{
 									// Moving folders using Storage API can result in data loss, copy instead
 									//var fsResultMove = await FilesystemTasks.Wrap(() => MoveDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert(), true));
-								var moveResult = DialogResult.None;
-								await _associatedInstance.DispatcherQueue.TryEnqueue(async () =>
+								var moveResult = false;
+								await _associatedInstance.DispatcherQueue.EnqueueAsync(async () =>
 								{
 									moveResult = await DialogDisplayHelper.ShowDialogAsync(Strings.ErrorDialogThisActionCannotBeDone.GetLocalizedResource(), Strings.ErrorDialogUnsupportedMoveOperation.GetLocalizedResource(), "OK", Strings.Cancel.GetLocalizedResource());
 								});
 
-								if (moveResult == DialogResult.Primary)
+								if (moveResult)
 									fsResultMove = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
 								}
 
@@ -541,7 +542,7 @@ namespace Files.App.Utils.Storage
 				else if (fsResult == FileSystemStatusCode.InUse)
 				{
 					// TODO: Retry
-					await _associatedInstance.DispatcherQueue.TryEnqueue(async () =>
+					await _associatedInstance.DispatcherQueue.EnqueueAsync(async () =>
 					{
 						await DialogDisplayHelper.ShowDialogAsync(DynamicDialogFactory.GetFor_FileInUseDialog());
 					});
@@ -762,12 +763,12 @@ namespace Files.App.Utils.Storage
 					{
 						// Moving folders using Storage API can result in data loss, copy instead
 						//fsResult = await FilesystemTasks.Wrap(() => MoveDirectoryAsync(sourceFolder.Result, destinationFolder.Result, Path.GetFileName(destination), CreationCollisionOption.FailIfExists, true));
-						var moveResult = DialogResult.None;
-						await _associatedInstance.DispatcherQueue.TryEnqueue(async () =>
+						var moveResult = false;
+						await _associatedInstance.DispatcherQueue.EnqueueAsync(async () =>
 						{
 							moveResult = await DialogDisplayHelper.ShowDialogAsync(Strings.ErrorDialogThisActionCannotBeDone.GetLocalizedResource(), Strings.ErrorDialogUnsupportedMoveOperation.GetLocalizedResource(), "OK", Strings.Cancel.GetLocalizedResource());
 						});
-						if (moveResult == DialogResult.Primary)
+						if (moveResult)
 							fsResult = await FilesystemTasks.Wrap(() => CloneDirectoryAsync(sourceFolder.Result, destinationFolder.Result, Path.GetFileName(destination), CreationCollisionOption.FailIfExists));
 
 						// TODO: we could use here FilesystemHelpers with registerHistory false?
