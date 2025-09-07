@@ -9,6 +9,8 @@ namespace Files.App.Data.Contracts
 	{
 		ShellViewModel ShellViewModel { get; }
 
+		Microsoft.UI.Dispatching.DispatcherQueue DispatcherQueue { get; }
+
 		CurrentInstanceViewModel InstanceViewModel { get; }
 
 		StorageHistoryHelpers StorageHistoryHelpers { get; }

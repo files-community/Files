@@ -398,7 +398,7 @@ namespace Files.App.Utils.Storage
 								});
 
 								if (moveResult == DialogResult.Primary)
-										fsResultMove = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
+									fsResultMove = await FilesystemTasks.Wrap(() => CloneDirectoryAsync((BaseStorageFolder)fsSourceFolder, (BaseStorageFolder)fsDestinationFolder, fsSourceFolder.Result.Name, collision.Convert()));
 								}
 
 								if (fsSourceFolder.Result is IPasswordProtectedItem ppiu)
