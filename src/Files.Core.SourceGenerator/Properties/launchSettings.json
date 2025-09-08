@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Run in Files.App.CsWin32": {
+      "commandName": "DebugRoslynComponent",
+      "targetProject": "..\\Files.App.CsWin32\\Files.App.CsWin32.csproj"
+    }
+  }
+}
