@@ -118,12 +118,14 @@ namespace Files.App.Helpers
 					OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
 					jumpListService.InitializeAsync(),
 					addItemService.InitializeAsync(),
-					ContextMenu.WarmUpQueryContextMenuAsync(),
-					CheckAppUpdate()
+					ContextMenu.WarmUpQueryContextMenuAsync()
 				);
 			});
 
 			FileTagsHelper.UpdateTagsDb();
+
+			// Release notes tab doesn't open unless this is awaited
+			await CheckAppUpdate();
 
 			static Task OptionalTaskAsync(Task task, bool condition)
 			{
@@ -155,9 +157,14 @@ namespace Files.App.Helpers
 				ViewedReleaseNotes = true;
 			}
 
-			await updateService.CheckForUpdatesAsync();
-			await updateService.DownloadMandatoryUpdatesAsync();
-			await updateService.CheckAndUpdateFilesLauncherAsync();
+			_ = Task.Run(async () =>
+			{
+				await Task.WhenAll(
+					updateService.CheckForUpdatesAsync(),
+					updateService.DownloadMandatoryUpdatesAsync(),
+					updateService.CheckAndUpdateFilesLauncherAsync()
+				);
+			});
 		}
 
 		/// <summary>
