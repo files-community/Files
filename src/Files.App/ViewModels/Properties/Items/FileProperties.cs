@@ -94,19 +94,24 @@ namespace Files.App.ViewModels.Properties
 
 		public override async Task GetSpecialPropertiesAsync()
 		{
+			// Check if item is on device (not online)
+			var isOnDevice = Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline;
+
+			// Set basic file attributes
 			ViewModel.IsReadOnly = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
 			ViewModel.IsHidden = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
 			ViewModel.CanCompressContent = Win32Helper.CanCompressContent(Item.ItemPath);
-			ViewModel.IsContentCompressed = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Compressed);
-
 			ViewModel.ItemSizeVisibility = true;
 			ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
 
-			// Only load the size for items on the device
-			if (Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
-				ViewModel.ItemSizeOnDisk = Win32Helper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ??
-				   string.Empty;
+			// Only check the compressed attribute and size on disk for items on the device
+			if (isOnDevice)
+			{
+				ViewModel.IsContentCompressed = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Compressed);
+				ViewModel.ItemSizeOnDisk = Win32Helper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ?? string.Empty;
+			}
 
+			// Load icon
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Item.ItemPath,
 				Constants.ShellIconSizes.ExtraLarge,
@@ -120,10 +125,12 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.LoadFileIcon = true;
 			}
 
+			// Handle shortcut properties
 			if (Item.IsShortcut)
 			{
 				ViewModel.ItemCreatedTimestampReal = Item.ItemDateCreatedReal;
 				ViewModel.ItemAccessedTimestampReal = Item.ItemDateAccessedReal;
+
 				if (Item.IsLinkItem || string.IsNullOrWhiteSpace(((IShortcutItem)Item).TargetPath))
 				{
 					// Can't show any other property
@@ -131,6 +138,7 @@ namespace Files.App.ViewModels.Properties
 				}
 			}
 
+			// Get file for further processing
 			string filePath = (Item as IShortcutItem)?.TargetPath ?? Item.ItemPath;
 			BaseStorageFile file = await AppInstance.ShellViewModel.GetFileFromPathAsync(filePath);
 
@@ -142,15 +150,18 @@ namespace Files.App.ViewModels.Properties
 			if (Item.IsShortcut)
 				return;
 
-			if (Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
-				if (FileExtensionHelpers.IsBrowsableZipFile(Item.FileExtension, out _))
-					if (await ZipStorageFolder.FromPathAsync(Item.ItemPath) is ZipStorageFolder zipFolder)
-					{
-						var uncompressedSize = await zipFolder.GetUncompressedSize();
-						ViewModel.UncompressedItemSize = uncompressedSize.ToLongSizeString();
-						ViewModel.UncompressedItemSizeBytes = uncompressedSize;
-					}
+			// Load uncompressed size for browsable zip files on device
+			if (isOnDevice && FileExtensionHelpers.IsBrowsableZipFile(Item.FileExtension, out _))
+			{
+				if (await ZipStorageFolder.FromPathAsync(Item.ItemPath) is ZipStorageFolder zipFolder)
+				{
+					var uncompressedSize = await zipFolder.GetUncompressedSize();
+					ViewModel.UncompressedItemSize = uncompressedSize.ToLongSizeString();
+					ViewModel.UncompressedItemSizeBytes = uncompressedSize;
+				}
+			}
 
+			// Get other properties if available
 			if (file.Properties is not null)
 				GetOtherPropertiesAsync(file.Properties);
 		}
