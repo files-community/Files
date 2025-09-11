@@ -116,7 +116,11 @@ namespace Files.App.Helpers
 					App.LibraryManager.UpdateLibrariesAsync(),
 					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
 					OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
-					jumpListService.InitializeAsync(),
+					jumpListService.InitializeAsync()
+				);
+
+				//Start the tasks separately to reduce resource contention
+				await Task.WhenAll(
 					addItemService.InitializeAsync(),
 					ContextMenu.WarmUpQueryContextMenuAsync()
 				);
