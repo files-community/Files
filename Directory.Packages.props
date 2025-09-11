@@ -39,7 +39,7 @@
     <PackageVersion Include="TagLibSharp" Version="2.3.0" />
     <PackageVersion Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
     <PackageVersion Include="UTF.Unknown" Version="2.6.0" />
-    <PackageVersion Include="WinUIEx" Version="2.7.0" />
+    <PackageVersion Include="WinUIEx" Version="2.5.1" />
     <PackageVersion Include="Vanara.Windows.Extensions" Version="4.0.1" />
     <PackageVersion Include="Vanara.Windows.Shell" Version="4.0.1" />
     <PackageVersion Include="Microsoft.Management.Infrastructure" Version="3.0.0" />
