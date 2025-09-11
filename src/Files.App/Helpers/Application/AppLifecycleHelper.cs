@@ -125,6 +125,7 @@ namespace Files.App.Helpers
 			FileTagsHelper.UpdateTagsDb();
 
 			// Release notes tab doesn't open unless this is awaited
+			// Auto update doesn't work unless this is awaited
 			await CheckAppUpdate();
 
 			static Task OptionalTaskAsync(Task task, bool condition)
@@ -157,14 +158,9 @@ namespace Files.App.Helpers
 				ViewedReleaseNotes = true;
 			}
 
-			_ = Task.Run(async () =>
-			{
-				await Task.WhenAll(
-					updateService.CheckForUpdatesAsync(),
-					updateService.DownloadMandatoryUpdatesAsync(),
-					updateService.CheckAndUpdateFilesLauncherAsync()
-				);
-			});
+			await updateService.CheckForUpdatesAsync();
+			await updateService.DownloadMandatoryUpdatesAsync();
+			await updateService.CheckAndUpdateFilesLauncherAsync();
 		}
 
 		/// <summary>
