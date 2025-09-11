@@ -83,11 +83,11 @@ namespace Files.App.Views
 
 		private async void BlogPostWebView_CoreWebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
 		{
-			BlogPostWebView.CoreWebView2.Profile.PreferredColorScheme = (CoreWebView2PreferredColorScheme)RootAppElement.RequestedTheme;
-			BlogPostWebView.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
-			BlogPostWebView.CoreWebView2.Settings.AreDevToolsEnabled = false;
-			BlogPostWebView.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
-			BlogPostWebView.CoreWebView2.Settings.IsSwipeNavigationEnabled = false;
+			sender.CoreWebView2.Profile.PreferredColorScheme = (CoreWebView2PreferredColorScheme)RootAppElement.RequestedTheme;
+			sender.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
+			sender.CoreWebView2.Settings.AreDevToolsEnabled = false;
+			sender.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
+			sender.CoreWebView2.Settings.IsSwipeNavigationEnabled = false;
 
 			var script = @"
 				document.addEventListener('click', function(event) {
