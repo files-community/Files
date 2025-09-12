@@ -9,6 +9,7 @@
         <PlatformTarget>AnyCPU</PlatformTarget>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
         <Configurations>Debug;Release</Configurations>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
     <ItemGroup>
