@@ -7,6 +7,7 @@ namespace Files.Core.SourceGenerator.Data
 		string FullyQualifiedParentTypeName,
 		string ParentTypeNamespace,
 		string ParentTypeName,
+		bool IsReturnTypeVoid,
 		string Name,
 		string ReturnTypeName,
 		int Index,

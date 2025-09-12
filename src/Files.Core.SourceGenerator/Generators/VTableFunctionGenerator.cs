@@ -36,12 +36,13 @@ namespace Files.Core.SourceGenerator.Generators
 					var structNamespace = context.TargetSymbol.ContainingType.ContainingNamespace.ToString();
 					var structName = context.TargetSymbol.ContainingType.Name;
 					var methodSymbol = (IMethodSymbol)context.TargetSymbol;
+					var isReturnTypeVoid = methodSymbol.ReturnsVoid;
 					var functionName = methodSymbol.Name;
 					var returnTypeName = methodSymbol.ReturnType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
 					var parameters = methodSymbol.Parameters.Select(x => new ParameterTypeNamePair(x.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat), x.Name));
 					var index = (int)context.Attributes[0].NamedArguments.FirstOrDefault(x => x.Key.Equals("Index")).Value.Value!;
 
-					return new VTableFunctionInfo(fullyQualifiedParentTypeName, structNamespace, structName, functionName, returnTypeName, index, new(parameters.ToImmutableArray()));
+					return new VTableFunctionInfo(fullyQualifiedParentTypeName, structNamespace, structName, isReturnTypeVoid, functionName, returnTypeName, index, new(parameters.ToImmutableArray()));
 				})
 				.Where(static item => item is not null)
 				.Collect()
@@ -88,12 +89,14 @@ namespace Files.Core.SourceGenerator.Generators
 
 			foreach (var source in sources)
 			{
+				var returnTypeName = source.IsReturnTypeVoid ? "void" : "int";
+
 				builder.AppendLine($"	[global::System.Runtime.CompilerServices.MethodImpl(global::System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]");
 
 				builder.AppendLine($"	public partial {source.ReturnTypeName} {source.Name}({string.Join(", ", source.Parameters.Select(x => $"{x.FullyQualifiedTypeName} {x.ValueName}"))})");
 				builder.AppendLine($"	{{");
-				builder.AppendLine($"		return ({source.ReturnTypeName})((delegate* unmanaged[MemberFunction]<{sources.ElementAt(0).ParentTypeName}*, {string.Join(", ", source.Parameters.Select(x => $"{x.FullyQualifiedTypeName}"))}, int>)(lpVtbl[{source.Index}]))");
-				builder.AppendLine($"			(({sources.ElementAt(0).ParentTypeName}*)global::System.Runtime.CompilerServices.Unsafe.AsPointer(ref this), {string.Join(", ", source.Parameters.Select(x => $"{x.ValueName}"))});");
+				builder.AppendLine($"		return ({source.ReturnTypeName})((delegate* unmanaged[MemberFunction]<{sources.ElementAt(0).FullyQualifiedParentTypeName}*, {string.Join(", ", source.Parameters.Select(x => $"{x.FullyQualifiedTypeName}"))}, {returnTypeName}>)(lpVtbl[{source.Index}]))");
+				builder.AppendLine($"			(({sources.ElementAt(0).FullyQualifiedParentTypeName}*)global::System.Runtime.CompilerServices.Unsafe.AsPointer(ref this), {string.Join(", ", source.Parameters.Select(x => $"{x.ValueName}"))});");
 				builder.AppendLine($"	}}");
 
 				if (sourceIndex < sourceCount - 1)
