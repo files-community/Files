@@ -32,7 +32,7 @@ namespace Files.Core.SourceGenerator.Generators
 				{
 					token.ThrowIfCancellationRequested();
 
-					var fullyQualifiedParentTypeName = context.TargetSymbol.ContainingType.ToString();
+					var fullyQualifiedParentTypeName = context.TargetSymbol.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
 					var structNamespace = context.TargetSymbol.ContainingType.ContainingNamespace.ToString();
 					var structName = context.TargetSymbol.ContainingType.Name;
 					var methodSymbol = (IMethodSymbol)context.TargetSymbol;
