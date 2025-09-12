@@ -335,20 +335,11 @@ namespace Files.App.Views
 
 		private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e) => LoadPaneChanged();
 
-		/// <summary>
-		/// Call this function to update the positioning of the preview pane.
-		/// This is a workaround as the VisualStateManager causes problems.
-		/// </summary>
 		private void UpdatePositioning()
 		{
 			if (InfoPane is null || !ViewModel.ShouldPreviewPaneBeActive)
 			{
-				PaneRow.MinHeight = 0;
-				PaneRow.MaxHeight = double.MaxValue;
-				PaneRow.Height = new GridLength(0);
-				PaneColumn.MinWidth = 0;
-				PaneColumn.MaxWidth = double.MaxValue;
-				PaneColumn.Width = new GridLength(0);
+				VisualStateManager.GoToState(this, "InfoPanePositionNone", true);
 			}
 			else
 			{
@@ -356,42 +347,17 @@ namespace Files.App.Views
 				switch (InfoPane.Position)
 				{
 					case PreviewPanePositions.None:
-						PaneRow.MinHeight = 0;
-						PaneRow.Height = new GridLength(0);
-						PaneColumn.MinWidth = 0;
-						PaneColumn.Width = new GridLength(0);
+						VisualStateManager.GoToState(this, "InfoPanePositionNone", true);
 						break;
 					case PreviewPanePositions.Right:
-						InfoPane.SetValue(Grid.RowProperty, 1);
-						InfoPane.SetValue(Grid.ColumnProperty, 2);
-						PaneSplitter.SetValue(Grid.RowProperty, 1);
-						PaneSplitter.SetValue(Grid.ColumnProperty, 1);
-						PaneSplitter.Width = 2;
-						PaneSplitter.Height = RootGrid.ActualHeight;
-						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeWestEast;
-						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
-						PaneColumn.MinWidth = InfoPane.MinWidth;
-						PaneColumn.MaxWidth = InfoPane.MaxWidth;
-						PaneColumn.Width = new GridLength(UserSettingsService.InfoPaneSettingsService.VerticalSizePx, GridUnitType.Pixel);
-						PaneRow.MinHeight = 0;
-						PaneRow.MaxHeight = double.MaxValue;
-						PaneRow.Height = new GridLength(0);
+						InfoPaneSizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
+						InfoPaneColumnDefinition.Width = new(UserSettingsService.InfoPaneSettingsService.VerticalSizePx);
+						VisualStateManager.GoToState(this, "InfoPanePositionRight", true);
 						break;
 					case PreviewPanePositions.Bottom:
-						InfoPane.SetValue(Grid.RowProperty, 3);
-						InfoPane.SetValue(Grid.ColumnProperty, 0);
-						PaneSplitter.SetValue(Grid.RowProperty, 2);
-						PaneSplitter.SetValue(Grid.ColumnProperty, 0);
-						PaneSplitter.Height = 2;
-						PaneSplitter.Width = RootGrid.ActualWidth;
-						PaneSplitter.GripperCursor = GridSplitter.GripperCursorType.SizeNorthSouth;
-						PaneSplitter.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeNorthSouth));
-						PaneColumn.MinWidth = 0;
-						PaneColumn.MaxWidth = double.MaxValue;
-						PaneColumn.Width = new GridLength(0);
-						PaneRow.MinHeight = InfoPane.MinHeight;
-						PaneRow.MaxHeight = InfoPane.MaxHeight;
-						PaneRow.Height = new GridLength(UserSettingsService.InfoPaneSettingsService.HorizontalSizePx, GridUnitType.Pixel);
+						InfoPaneSizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeNorthSouth));
+						InfoPaneRowDefinition.Height = new(UserSettingsService.InfoPaneSettingsService.HorizontalSizePx);
+						VisualStateManager.GoToState(this, "InfoPanePositionBottom", true);
 						break;
 				}
 			}
