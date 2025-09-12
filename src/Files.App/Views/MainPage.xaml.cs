@@ -134,21 +134,31 @@ namespace Files.App.Views
 			AppLifecycleHelper.SaveSessionTabs();
 		}
 
+
 		public async void MultitaskingControl_CurrentInstanceChanged(object? sender, CurrentInstanceChangedEventArgs e)
 		{
-			if (SidebarAdaptiveViewModel.PaneHolder is not null)
+			// Add null check for the event args and CurrentInstance
+			if (e?.CurrentInstance == null)
+				return;
+
+			// Safely unsubscribe from previous instance
+			if (SidebarAdaptiveViewModel?.PaneHolder is not null)
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
 
 			var navArgs = e.CurrentInstance.TabBarItemParameter?.NavigationParameter;
-			if (e.CurrentInstance is IShellPanesPage currentInstance)
+
+			if (e.CurrentInstance is IShellPanesPage currentInstance && SidebarAdaptiveViewModel != null)
 			{
 				SidebarAdaptiveViewModel.PaneHolder = currentInstance;
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged += PaneHolder_PropertyChanged;
 			}
-			SidebarAdaptiveViewModel.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments)?.LeftPaneNavPathParam);
 
-			if (SidebarAdaptiveViewModel.PaneHolder?.ActivePaneOrColumn.SlimContentPage?.StatusBarViewModel is not null)
-				SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.SlimContentPage.StatusBarViewModel.ShowLocals = true;
+			SidebarAdaptiveViewModel?.NotifyInstanceRelatedPropertiesChanged((navArgs as PaneNavigationArguments)?.LeftPaneNavPathParam);
+
+			// Safely access nested properties with null checks
+			var statusBarViewModel = SidebarAdaptiveViewModel?.PaneHolder?.ActivePaneOrColumn?.SlimContentPage?.StatusBarViewModel;
+			if (statusBarViewModel is not null)
+				statusBarViewModel.ShowLocals = true;
 
 			UpdateStatusBarProperties();
 			UpdateNavToolbarProperties();
@@ -161,7 +171,8 @@ namespace Files.App.Views
 
 			// Focus the content of the selected tab item (this also avoids an issue where the Omnibar sometimes steals the focus)
 			await Task.Delay(100);
-			ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
+			if (ContentPageContext?.ShellPage?.PaneHolder != null)
+				ContentPageContext.ShellPage.PaneHolder.FocusActivePane();
 		}
 
 		private void PaneHolder_PropertyChanged(object? sender, PropertyChangedEventArgs e)
