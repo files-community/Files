@@ -139,7 +139,9 @@ namespace Files.App.Views
 			if (SidebarAdaptiveViewModel.PaneHolder is not null)
 				SidebarAdaptiveViewModel.PaneHolder.PropertyChanged -= PaneHolder_PropertyChanged;
 
-			var navArgs = e.CurrentInstance.TabBarItemParameter?.NavigationParameter;
+			// Find the TabBarItem that contains this ITabBarItemContent instance
+			var correspondingTabItem = ViewModel.AppInstances.FirstOrDefault(tabItem => tabItem.TabItemContent == e.CurrentInstance);
+			var navArgs = correspondingTabItem?.NavigationParameter?.NavigationParameter;
 			if (e.CurrentInstance is IShellPanesPage currentInstance)
 			{
 				SidebarAdaptiveViewModel.PaneHolder = currentInstance;
