@@ -128,9 +128,11 @@ namespace Files.App.Helpers
 
 			FileTagsHelper.UpdateTagsDb();
 
-			// Release notes tab doesn't open unless this is awaited
-			// Auto update doesn't work unless this is awaited
-			await CheckAppUpdate();
+			_ = Task.Run(async () =>
+			{
+				// The follwing method invokes UI thread, so we run it in a separate task
+				await CheckAppUpdate();
+			});
 
 			static Task OptionalTaskAsync(Task task, bool condition)
 			{
@@ -158,8 +160,11 @@ namespace Files.App.Helpers
 				updateService.AreReleaseNotesAvailable &&
 				!ViewedReleaseNotes)
 			{
-				await Ioc.Default.GetRequiredService<ICommandManager>().OpenReleaseNotes.ExecuteAsync();
-				ViewedReleaseNotes = true;
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				{
+					await Ioc.Default.GetRequiredService<ICommandManager>().OpenReleaseNotes.ExecuteAsync();
+					ViewedReleaseNotes = true;
+				});
 			}
 
 			await updateService.CheckForUpdatesAsync();
