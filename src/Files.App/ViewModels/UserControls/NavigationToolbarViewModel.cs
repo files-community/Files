@@ -942,8 +942,14 @@ namespace Files.App.ViewModels.UserControls
 			void AddNoResultsItem()
 			{
 				PathModeSuggestionItems.Clear();
+				
+				// Use null-safe access to avoid NullReferenceException during app lifecycle transitions
+				var workingDirectory = string.IsNullOrEmpty(ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory)
+					? Constants.UserEnvironmentPaths.HomePath
+					: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
+				
 				PathModeSuggestionItems.Add(new(
-					ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory,
+					workingDirectory,
 					Strings.NavigationToolbarVisiblePathNoResults.GetLocalizedResource()));
 			}
 		}
