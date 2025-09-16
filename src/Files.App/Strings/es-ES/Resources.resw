@@ -3595,7 +3595,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>{0, plural, one {Copiado # elemento} other {Copiados # elementos}} a "{1}"</value>
+    <value>{0, plural, one {Copiado # elemento} other {Copiados # elementos}} en "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
