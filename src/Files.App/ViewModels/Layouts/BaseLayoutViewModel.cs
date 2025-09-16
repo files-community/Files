@@ -101,6 +101,14 @@ namespace Files.App.ViewModels.Layouts
 				return;
 			}
 
+			// Check if ShellViewModel is initialized to prevent race condition
+			if (_associatedInstance.ShellViewModel is null)
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				deferral.Complete();
+				return;
+			}
+
 			if (FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 			{
 				e.Handled = true;
@@ -205,6 +213,13 @@ namespace Files.App.ViewModels.Layouts
 					Commands.GitClone.Execute(uri.ToString());
 					return;
 				}
+			}
+
+			// Check if ShellViewModel is initialized to prevent race condition
+			if (_associatedInstance.ShellViewModel is null)
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				return;
 			}
 
 			var deferral = e.GetDeferral();
