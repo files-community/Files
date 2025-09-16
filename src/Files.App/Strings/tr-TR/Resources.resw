@@ -3473,7 +3473,7 @@
     <comment>Shown in a StatusCenter card. Used as "64 MB of 1 GB processed"</comment>
   </data>
   <data name="ItemsLower" xml:space="preserve">
-    <value>ögeler</value>
+    <value>öğe</value>
   </data>
   <data name="CannotInitializeGitRepo" xml:space="preserve">
     <value>Dosyalar bu dizini Git deposu olarak başlatamaz.</value>

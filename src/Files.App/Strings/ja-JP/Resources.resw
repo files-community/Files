@@ -310,7 +310,7 @@
     <value>ダーク</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
-    <value>Use system setting</value>
+    <value>システム設定を使用</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>アプリ</value>
@@ -1011,7 +1011,7 @@
     <value>{0} の {1} での検索結果を表示:</value>
   </data>
   <data name="SearchResultsFor" xml:space="preserve">
-    <value>Search results for `{0}`</value>
+    <value>「{0}」の検索結果</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>詳細</value>
@@ -1101,10 +1101,10 @@
     <value>ツールバーの表示/非表示</value>
   </data>
   <data name="ToggleFilterHeader" xml:space="preserve">
-    <value>Toggle filter header</value>
+    <value>絞り込みヘッダーを切り替える</value>
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
-    <value>Toggle visibility of the filter header</value>
+    <value>絞り込みヘッダーの表示/非表示を切り替える</value>
   </data>
   <data name="ToggleDualPane" xml:space="preserve">
     <value>Toggle dual pane</value>
@@ -2601,13 +2601,13 @@
     <value>選択した {0, plural, other {アーカイブ}} を現在のフォルダに展開</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
+    <value>選択した {0, plural, other {アーカイブ}} を新規フォルダに展開</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected {0, plural, one {image} other {images}} to the left</value>
+    <value>選択した {0, plural, other {画像}} を左に回転</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected {0, plural, one {image} other {images}} to the right</value>
+    <value>選択した {0, plural, other {画像}} を右に回転</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>設定画面を開く</value>
@@ -2733,7 +2733,7 @@
     <value>前に戻る</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>次へ進む</value>
+    <value>次に進む</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>1つ上のフォルダーに移動する</value>
@@ -2766,7 +2766,7 @@
     <value>現在のタブを含むすべてのタブを閉じる</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>最近閉じたタブを開く</value>
+    <value>最近閉じたタブを再度開く</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
     <value>前のタブに移動する</value>
@@ -2778,13 +2778,13 @@
     <value>現在のタブを閉じる</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>アクティブなペインを閉じる</value>
+    <value>現在のペインを閉じる</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
     <value>別のペインに移動</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>他のペインにフォーカスする</value>
+    <value>他のペインに移動する</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>サイドバーの表示を切り替える</value>
@@ -2992,10 +2992,10 @@
     <value>タグなし</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>前のタブへ</value>
+    <value>前のタブ</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>次のタブへ</value>
+    <value>次のタブ</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
     <value>タブを閉じる</value>
@@ -3028,7 +3028,7 @@
     <value>項目選択時にチェック ボックスを表示する</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Edit path in the OmniBar</value>
+    <value>OmniBarでパスを編集</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>新しい項目を作成する</value>
@@ -3043,7 +3043,7 @@
     <value>完全に削除</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete selected {0, plural, one {item} other {items}} permanently</value>
+    <value>選択した{0, plural, other {項目}}を完全に削除</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>選択したメディア ファイルを再生する</value>
@@ -3160,7 +3160,7 @@
     <value>新しいブランチに切り替える</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>選択された{0, plural, other {}}から新しいフォルダーを作成する</value>
+    <value>現在選択している{0, plural, other {項目}}でアーカイブを作成</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>プロパティ</value>
@@ -3308,7 +3308,7 @@
     <value>リポジトリの初期化</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>今いる場所をGitリポジトリとして初期化する</value>
+    <value>現在のフォルダを git リポジトリとして初期化</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
     <value>リモート リポジトリ名</value>
@@ -3323,13 +3323,13 @@
     <value>項目をパスで並べ替える</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>ディレクトリを新しいペインで開く</value>
+    <value>新しいペインで選択したフォルダーを開く</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>ディレクトリを新しいタブで開く</value>
+    <value>新しいタブで選択したフォルダーを開く</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>ディレクトリを新しいウインドウで開く</value>
+    <value>新しいウィンドウでフォルダーを開く</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
     <value>すべて開く</value>
@@ -3354,10 +3354,10 @@
     <value>コマンド {0} は現在実行できません。</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>コマンドパレット</value>
+    <value>コマンド パレット</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open Command Palette in the OmniBar</value>
+    <value>コマンド パレットをOmniBarで開く</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>作業フォルダー:</value>
@@ -3782,7 +3782,7 @@
     <value>ファイルとフォルダーを一緒に並べ替える</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>Sort files and folders in the same list</value>
+    <value>ファイルとフォルダーを混ぜて並べ替える</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
     <value>ファイルを先に並べ替える</value>
@@ -4047,13 +4047,13 @@
     <value>タブ操作メニュー</value>
   </data>
   <data name="SplitPaneVertically" xml:space="preserve">
-    <value>Split vertically</value>
+    <value>縦に分割</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
     <value>Split pane vertically</value>
   </data>
   <data name="SplitPaneHorizontally" xml:space="preserve">
-    <value>Split horizontally</value>
+    <value>横に分割</value>
   </data>
   <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
     <value>Split pane horizontally</value>
@@ -4071,7 +4071,7 @@
     <value>ペインを横に配置する</value>
   </data>
   <data name="SplitPane" xml:space="preserve">
-    <value>Split pane</value>
+    <value>分割ペイン</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>タイトル バーにタブ操作ボタンを表示する</value>
@@ -4290,22 +4290,22 @@
     <value>ファイル名</value>
   </data>
   <data name="Signatures" xml:space="preserve">
-    <value>Signatures</value>
+    <value>署名</value>
    </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Signature list</value>
   </data>
   <data name="IssuedBy" xml:space="preserve">
-    <value>Issued by:</value>
+    <value>発行者：</value>
   </data>
   <data name="IssuedTo" xml:space="preserve">
-    <value>Issued to:</value>
+    <value>発行先：</value>
   </data>
   <data name="ValidFrom" xml:space="preserve">
-    <value>Valid from:</value>
+    <value>有効期間の開始：</value>
   </data>
   <data name="ValidTo" xml:space="preserve">
-    <value>Valid to:</value>
+    <value>有効期間の終了：</value>
   </data>
   <data name="NoSignatureFound" xml:space="preserve">
     <value>No signature was found.</value>

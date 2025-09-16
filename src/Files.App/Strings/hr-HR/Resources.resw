@@ -223,7 +223,7 @@
     <value>Izgled</value>
   </data>
   <data name="BackgroundColor" xml:space="preserve">
-    <value>Background color</value>
+    <value>Pozadinska boja</value>
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Napredno</value>
@@ -669,7 +669,7 @@
     <value>Jezik</value>
   </data>
   <data name="SettingsContextMenuOverflow" xml:space="preserve">
-    <value>Move shell extensions into a sub menu</value>
+    <value>Premjesti dodatne opcije u podizbornik</value>
   </data>
   <data name="ShowConfirmationWhenDeletingItems" xml:space="preserve">
     <value>Prikaz dijaloga za potvrdu prilikom brisanja</value>
@@ -1041,19 +1041,19 @@
     <value>Ukloni</value>
   </data>
   <data name="SettingsMultitaskingAlwaysOpenDualPane" xml:space="preserve">
-    <value>Open tabs in dual pane mode</value>
+    <value>Otvori kartice u dvostrukom panelu</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>Show option to open folders in a new pane</value>
+    <value>Prikaži opciju za otvaranje mapa u novom panelu</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
-    <value>Show option to copy path</value>
+    <value>Prikaži opciju za kopiranje putanje</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
-    <value>Show option to create folder with selection</value>
+    <value>Prikaži opciju za stvaranje mape s odabirom</value>
   </data>
   <data name="ShowCreateShortcut" xml:space="preserve">
-    <value>Show option to create shortcut</value>
+    <value>Prikaži opciju za stvaranje prečaca</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Novo okno</value>
@@ -1062,7 +1062,7 @@
     <value>Open in new pane</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value>Files &amp; folders</value>
+    <value>Datoteke i mape</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Detalji (Ctrl+Shift+1)</value>
@@ -1806,7 +1806,7 @@
     <value>Vrati izvorno</value>
   </data>
   <data name="OpenTabInExistingInstance" xml:space="preserve">
-    <value>Open tab in existing instance when opening Files from another app</value>
+    <value>Otvori karticu u postojećoj instanci prilikom pokretanja Files iz druge aplikacije</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Postavke kod pokretanja</value>
@@ -2055,19 +2055,19 @@
     <value>Set as default</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>Date column</value>
+    <value>Stupac datum promjene</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
     <value>Stupac datum stvaranja</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
-    <value>Size column</value>
+    <value>Stupac veličina</value>
   </data>
   <data name="TagColumn" xml:space="preserve">
-    <value>Tag column</value>
+    <value>Stupac oznaka</value>
   </data>
   <data name="TypeColumn" xml:space="preserve">
-    <value>Type column</value>
+    <value>Stupac vrsta</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
@@ -2262,22 +2262,22 @@
     <value>View more</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>Prikaži izbornik za uređivanje oznaka</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
-    <value>Show compression options</value>
+    <value>Prikaži opcije kompresije</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Show send to menu</value>
+    <value>Prikaži izbornik Pošalji</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Show option to open folders in a new tab</value>
+    <value>Prikaži opciju za otvaranje mapa u novoj kartici</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Show option to open folders in a new window</value>
+    <value>Prikaži opciju za otvaranje mapa u novom prozoru</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
-    <value>Quick access</value>
+    <value>Brzi pristup</value>
   </data>
   <data name="NetworkAuthenticationDialogMessage" xml:space="preserve">
     <value>Enter your credentials to connect to: {0}</value>
@@ -2319,7 +2319,7 @@
     <value>Loading...</value>
   </data>
   <data name="ContextMenuOptions" xml:space="preserve">
-    <value>Context menu options</value>
+    <value>Stavke izbornika desnog klika</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
     <value>File extensions</value>
@@ -3387,79 +3387,79 @@
     <value>Leave app running in the background when the window is closed</value>
   </data>
   <data name="Blue" xml:space="preserve">
-    <value>Blue</value>
+    <value>Plava</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BlueGray" xml:space="preserve">
-    <value>Blue Gray</value>
+    <value>Plavkasto siva</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="BrickRed" xml:space="preserve">
-    <value>Brick Red</value>
+    <value>Cigleno crvena</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Camouflage" xml:space="preserve">
-    <value>Camouflage</value>
+    <value>Kamuflažna</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="CoolBlueBright" xml:space="preserve">
-    <value>Cool Blue Bright</value>
+    <value>Hladno jarko plava</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Gray" xml:space="preserve">
-    <value>Gray</value>
+    <value>Siva</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="GrayDark" xml:space="preserve">
-    <value>Gray Dark</value>
+    <value>Tamno siva</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Green" xml:space="preserve">
-    <value>Green</value>
+    <value>Zelena</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="IrisPastel" xml:space="preserve">
-    <value>Iris Pastel</value>
+    <value>Iris pastelna</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="MintLight" xml:space="preserve">
-    <value>Mint Light</value>
+    <value>Svijetla metvica</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ModRed" xml:space="preserve">
-    <value>Mod Red</value>
+    <value>Moderna crvena</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="OrangeBright" xml:space="preserve">
-    <value>Orange Bright</value>
+    <value>Jarko narančasta</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Overcast" xml:space="preserve">
-    <value>Overcast</value>
+    <value>Oblačno siva</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Red" xml:space="preserve">
-    <value>Red</value>
+    <value>Crvena</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="RoseBright" xml:space="preserve">
-    <value>Rose Bright</value>
+    <value>Jarko ružičasta</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Seafoam" xml:space="preserve">
-    <value>Seafoam</value>
+    <value>Pjenušavo zelena</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Storm" xml:space="preserve">
-    <value>Storm</value>
+    <value>Olujna siva</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="VioletRedLight" xml:space="preserve">
-    <value>Violet Red Light</value>
+    <value>Svijetlo ljubičasto crvena</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="YellowGold" xml:space="preserve">
-    <value>Yellow Gold</value>
+    <value>Zlatno žuta</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
@@ -3779,25 +3779,25 @@
     <value>Extract here (Smart)</value>
   </data>
   <data name="SortFilesAndFoldersTogether" xml:space="preserve">
-    <value>Sort files and folders together</value>
+    <value>Sortiraj datoteke i mape zajedno</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
     <value>Sort files and folders in the same list</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
-    <value>Sort files first</value>
+    <value>Sortiraj prvo datoteke</value>
   </data>
   <data name="SortFilesFirstDescription" xml:space="preserve">
     <value>Sort files first then folders</value>
   </data>
   <data name="SortFoldersFirst" xml:space="preserve">
-    <value>Sort folders first</value>
+    <value>Sortiraj prvo mape</value>
   </data>
   <data name="SortFoldersFirstDescription" xml:space="preserve">
     <value>Sort folders first then files</value>
   </data>
   <data name="SortPriority" xml:space="preserve">
-    <value>Sort priority</value>
+    <value>Prioritet sortiranja</value>
   </data>
   <data name="FailedToRotateImage" xml:space="preserve">
     <value>Failed to rotate the image</value>
@@ -3927,51 +3927,51 @@
     <value>Adaptive layout is not available when preferences are synced, the default layout has been changed to Details.</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
-    <value>Background image</value>
+    <value>Pozadinska slika</value>
   </data>
   <data name="Bottom" xml:space="preserve">
-    <value>Bottom</value>
+    <value>Dolje</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Center" xml:space="preserve">
-    <value>Center</value>
+    <value>Centrirano</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Fill" xml:space="preserve">
-    <value>Fill</value>
+    <value>Ispuni</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="HorizontalAlignment" xml:space="preserve">
-    <value>Horizontal alignment</value>
+    <value>Vodoravno poravnanje</value>
   </data>
   <data name="ImageFit" xml:space="preserve">
-    <value>Image fit</value>
+    <value>Prilagodba slike</value>
   </data>
   <data name="Left" xml:space="preserve">
-    <value>Left</value>
+    <value>Lijevo</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Opacity" xml:space="preserve">
-    <value>Opacity</value>
+    <value>Prozirnost</value>
   </data>
   <data name="Right" xml:space="preserve">
-    <value>Right</value>
+    <value>Desno</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Top" xml:space="preserve">
-    <value>Top</value>
+    <value>Gore</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Uniform" xml:space="preserve">
-    <value>Uniform</value>
+    <value>Zadrži proporcije</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="UniformToFill" xml:space="preserve">
-    <value>Uniform to fill</value>
+    <value>Zadrži proporcije i popuni</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
-    <value>Vertical alignment</value>
+    <value>Okomito poravnanje</value>
   </data>
   <data name="ThinAcrylic" xml:space="preserve">
     <value>Thin Acrylic</value>
