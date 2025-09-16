@@ -1110,7 +1110,7 @@
     <value>Bật tắt hai ngăn</value>
   </data>
   <data name="ToggleDualPaneDescription" xml:space="preserve">
-    <value>Bật tắt chế độ hai ngăn</value>
+    <value>Bật hoặc tắt chế độ hai ngăn</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Không có bản xem trước</value>
@@ -4190,7 +4190,7 @@
     <value>Đường dẫn không hợp lệ</value>
   </data>
   <data name="TestIntegration" xml:space="preserve">
-    <value>Kiểm tra tích hợp</value>
+    <value>Kiểm thử</value>
   </data>
   <data name="IDENotLocatedContent" xml:space="preserve">
     <value>Không tìm thấy {0}. Vui lòng kiểm tra cài đặt của bạn và thử lại.</value>
@@ -4305,7 +4305,7 @@
     <value>Có giá trị từ:</value>
   </data>
   <data name="ValidTo" xml:space="preserve">
-    <value>Hết hạn vào:</value>
+    <value>Hết hạn sau:</value>
   </data>
   <data name="NoSignatureFound" xml:space="preserve">
     <value>Không tìm thấy chữ ký nào.</value>
