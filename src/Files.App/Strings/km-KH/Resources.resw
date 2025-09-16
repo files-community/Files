@@ -3927,14 +3927,14 @@
     <value>Adaptive layout is not available when preferences are synced, the default layout has been changed to Details.</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
-    <value>Background image</value>
+    <value>រូបភាពផ្ទៃខាងក្រោយ</value>
   </data>
   <data name="Bottom" xml:space="preserve">
     <value>Bottom</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Center" xml:space="preserve">
-    <value>Center</value>
+    <value>កណ្តាល</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Fill" xml:space="preserve">
@@ -3942,20 +3942,20 @@
     <comment>Image stretch type</comment>
   </data>
   <data name="HorizontalAlignment" xml:space="preserve">
-    <value>Horizontal alignment</value>
+    <value>​តម្រឹម​ផ្តេក</value>
   </data>
   <data name="ImageFit" xml:space="preserve">
-    <value>Image fit</value>
+    <value>សម្របរូបភាព</value>
   </data>
   <data name="Left" xml:space="preserve">
-    <value>Left</value>
+    <value>ឆ្វេង</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Opacity" xml:space="preserve">
-    <value>Opacity</value>
+    <value>កម្រិតបង្ហាញ</value>
   </data>
   <data name="Right" xml:space="preserve">
-    <value>Right</value>
+    <value>ស្តាំ</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Top" xml:space="preserve">
@@ -3971,7 +3971,7 @@
     <comment>Image stretch type</comment>
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
-    <value>Vertical alignment</value>
+    <value>តម្រឹម​បញ្ឈរ</value>
   </data>
   <data name="ThinAcrylic" xml:space="preserve">
     <value>Thin Acrylic</value>
