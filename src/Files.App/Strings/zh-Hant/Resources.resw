@@ -217,7 +217,7 @@
     <value>顯示隱藏的檔案和資料夾</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>顯示以點開頭的隱藏配置文件(Dotfiles)</value>
+    <value>顯示以點開頭的隱藏配置文件(Dot files)</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>外觀</value>
@@ -310,7 +310,7 @@
     <value>暗色</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
-    <value>Use system setting</value>
+    <value>使用系統設定</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>應用程式</value>
@@ -1011,7 +1011,7 @@
     <value>從 {1} 搜尋 {0}</value>
   </data>
   <data name="SearchResultsFor" xml:space="preserve">
-    <value>Search results for `{0}`</value>
+    <value>‵{0}‵ 的搜尋結果</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>詳細資料</value>
@@ -1101,16 +1101,16 @@
     <value>顯示或隱藏工具列</value>
   </data>
   <data name="ToggleFilterHeader" xml:space="preserve">
-    <value>Toggle filter header</value>
+    <value>顯示/關閉篩選列</value>
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
-    <value>Toggle visibility of the filter header</value>
+    <value>顯示或關閉篩選檔案名稱的搜尋列</value>
   </data>
   <data name="ToggleDualPane" xml:space="preserve">
-    <value>Toggle dual pane</value>
+    <value>顯示/隱藏分割畫面</value>
   </data>
   <data name="ToggleDualPaneDescription" xml:space="preserve">
-    <value>Toggle dual pane mode</value>
+    <value>開啟或關閉分割畫面模式</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>無法預覽</value>
@@ -2028,16 +2028,16 @@
     <value>行為</value>
   </data>
   <data name="Hello" xml:space="preserve">
-    <value>Hello!</value>
+    <value>哈囉！</value>
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>喜歡「Files」嗎？請考慮至 Microsoft Store 留下評論。</value>
   </data>  
   <data name="SponsorSubtitle" xml:space="preserve">
-    <value>Enjoying Files? Please consider supporting the project on GitHub.</value>
+    <value>喜歡 Files 嗎？請考慮在 GitHub 上支持本專案。</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
-    <value>Sponsor</value>
+    <value>贊助</value>
   </data>
   <data name="RateUs" xml:space="preserve">
     <value>為我們評分</value>
@@ -2430,16 +2430,16 @@
     <value>切換懸浮模式</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Start search in the OmniBar</value>
+    <value>在 OmniBar 中搜尋</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Toggle visibility of hidden items</value>
+    <value>切換隱藏項目顯示</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Toggle visibility of dot files</value>
+    <value>顯示/隱藏以點開頭的隱藏配置文件 (Dotfiles)</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle visibility of file extensions</value>
+    <value>顯示/隱藏已知檔案類型的副檔名</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>開啟/關閉預覽視窗以查看文件預覽</value>
@@ -2778,13 +2778,13 @@
     <value>關閉目前分頁</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>Close the active pane</value>
+    <value>關閉目前聚焦的分割畫面</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
     <value>切換焦點到另一個分割畫面</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Switch focus to the other pane</value>
+    <value>聚焦到另一個分割畫面</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>開啟/關閉側邊欄</value>
@@ -3308,7 +3308,7 @@
     <value>初始化 Git 儲存庫</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Initialize current folder as a git repository</value>
+    <value>初始化 Git 倉庫</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
     <value>遠端儲存庫名稱</value>
@@ -3354,10 +3354,10 @@
     <value>指令 "{0}" 目前還無法執行</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Command Palette</value>
+    <value>命令選擇區</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open Command Palette in the OmniBar</value>
+    <value>在 OmniBar 開啟命令選擇區</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>開始於：</value>
@@ -3782,7 +3782,7 @@
     <value>同時排序檔案和資料夾</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>Sort files and folders in the same list</value>
+    <value>檔案與資料夾一同排序</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
     <value>優先排序檔案</value>
@@ -4012,7 +4012,7 @@
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
   <data name="ImageFiles" xml:space="preserve">
-    <value>Image Files</value>
+    <value>圖片檔</value>
     <comment>This is the friendly name for image files.</comment>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
@@ -4047,16 +4047,16 @@
     <value>索引標籤功能表</value>
   </data>
   <data name="SplitPaneVertically" xml:space="preserve">
-    <value>Split vertically</value>
+    <value>左右分割</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Split pane vertically</value>
+    <value>分隔成左、右面板</value>
   </data>
   <data name="SplitPaneHorizontally" xml:space="preserve">
-    <value>Split horizontally</value>
+    <value>上下分割</value>
   </data>
   <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
-    <value>Split pane horizontally</value>
+    <value>分隔成上、下面板</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>調整為上下分割模式</value>
@@ -4071,7 +4071,7 @@
     <value>左右分割畫面</value>
   </data>
   <data name="SplitPane" xml:space="preserve">
-    <value>Split pane</value>
+    <value>分割面板</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>在標題欄顯示索引標籤功能表</value>
@@ -4080,10 +4080,10 @@
     <value>調整分割畫面</value>
   </data>
   <data name="DualPaneSplitDirection" xml:space="preserve">
-    <value>Default dual pane split direction</value>
+    <value>預設分割面板方式</value>
   </data>
   <data name="DualPane" xml:space="preserve">
-    <value>Dual pane mode</value>
+    <value>分割畫面模式</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>左右排列</value>
@@ -4149,10 +4149,10 @@
     <value>一律將焦點切換至新的分頁</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
-    <value>Toggle shelf pane</value>
+    <value>顯示/隱藏置放架</value>
   </data>
   <data name="ToggleShelfPaneDescription" xml:space="preserve">
-    <value>Toggle the visibility of the shelf pane</value>
+    <value>顯示或隱藏置放架面板</value>
   </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
     <value>在路徑列中顯示置放架開關</value>
@@ -4255,74 +4255,74 @@
     <value>搜尋資料夾和檔案……</value>
   </data>
   <data name="DuringOngoingFileOperations" xml:space="preserve">
-    <value>During file operations</value>
+    <value>正在進行的檔案操作</value>
   </data>
   <data name="ShowStatusCenterButton" xml:space="preserve">
-    <value>Show status center button</value>
+    <value>顯示狀態中心按鈕</value>
   </data>
   <data name="StatusCenterProgressRing" xml:space="preserve">
-    <value>Status center progress ring</value>
+    <value>狀態中心進度環</value>
     <comment>Screen reader name for the status center progress ring</comment>
   </data>
   <data name="IconFiles" xml:space="preserve">
-    <value>Icon files</value>
+    <value>圖標檔案</value>
     <comment>This is the friendly name for a variety of different icon files.</comment>
   </data>
   <data name="BreadcrumbBarEllipsisButtonToolTip" xml:space="preserve">
-    <value>Show collapsed path breadcrumbs</value>
+    <value>展開已收合的路徑導覽</value>
   </data>
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
     <value>Show folders in {0}</value>
   </data>
   <data name="BreadcrumbBarRootChevronButtonToolTip" xml:space="preserve">
-    <value>Show folders in Home</value>
+    <value>在首頁顯示資料夾</value>
   </data>
   <data name="NoCommandsFound" xml:space="preserve">
-    <value>There are no commands containing {0}</value>
+    <value>沒有任何包含 {0} 的指令</value>
   </data>
   <data name="SeeMore" xml:space="preserve">
-    <value>See more</value>
+    <value>查看更多</value>
   </data>
   <data name="FilteringFor" xml:space="preserve">
-    <value>Filtering for</value>
+    <value>篩選檔案名稱</value>
   </data>
   <data name="Filename" xml:space="preserve">
-    <value>Filename</value>
+    <value>檔名</value>
   </data>
   <data name="Signatures" xml:space="preserve">
-    <value>Signatures</value>
+    <value>電子簽章</value>
    </data>
   <data name="SignatureList" xml:space="preserve">
-    <value>Signature list</value>
+    <value>電子簽章清單</value>
   </data>
   <data name="IssuedBy" xml:space="preserve">
-    <value>Issued by:</value>
+    <value>發行人：</value>
   </data>
   <data name="IssuedTo" xml:space="preserve">
-    <value>Issued to:</value>
+    <value>發行給：</value>
   </data>
   <data name="ValidFrom" xml:space="preserve">
-    <value>Valid from:</value>
+    <value>有效期自：</value>
   </data>
   <data name="ValidTo" xml:space="preserve">
-    <value>Valid to:</value>
+    <value>有效期至：</value>
   </data>
   <data name="NoSignatureFound" xml:space="preserve">
-    <value>No signature was found.</value>
+    <value>找不到電子簽章。</value>
   </data>
   <data name="ShowOpenTerminal" xml:space="preserve">
-    <value>Show option to open folders in Windows Terminal</value>
+    <value>顯示「在 Windows Terminal 中開啟資料夾」選項</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
-    <value>Open log file</value>
+    <value>開啟紀錄檔</value>
   </data>
   <data name="OpenLogFileDescription" xml:space="preserve">
-    <value>Open log file in your default editor</value>
+    <value>在預設編輯器開啟紀錄檔</value>
   </data>
   <data name="OpenLogFileLocationDescription" xml:space="preserve">
-    <value>Open log file location in your default file manager</value>
+    <value>在預設檔案管理器中開啟紀錄檔位置</value>
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
-    <value>Unable to open the log file</value>
+    <value>無法開啟紀錄檔</value>
   </data>
 </root>
