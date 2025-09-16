@@ -3488,7 +3488,7 @@
     <value>Processando itens...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
-    <value>Veocidade:</value>
+    <value>Velocidade:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
     <value>Cancelada a compressão dos ítens {0} para "{1}"</value>
