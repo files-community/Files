@@ -205,7 +205,10 @@ namespace Files.App.Services
 
 				Logger?.LogInformation($"Download time taken: {timespan.Hours:00}:{timespan.Minutes:00}:{timespan.Seconds:00}");
 
-				IsUpdateAvailable = true;
+				MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+				{
+					IsUpdateAvailable = true;
+				});
 			}
 			catch (IOException ex)
 			{
