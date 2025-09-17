@@ -1107,10 +1107,10 @@
     <value>絞り込みヘッダーの表示/非表示を切り替える</value>
   </data>
   <data name="ToggleDualPane" xml:space="preserve">
-    <value>Toggle dual pane</value>
+    <value>デュアルペインの切り替え</value>
   </data>
   <data name="ToggleDualPaneDescription" xml:space="preserve">
-    <value>Toggle dual pane mode</value>
+    <value>デュアルペインモードを切り替え</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>プレビューを利用できません</value>
@@ -4012,7 +4012,7 @@
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
   <data name="ImageFiles" xml:space="preserve">
-    <value>Image Files</value>
+    <value>画像ファイル</value>
     <comment>This is the friendly name for image files.</comment>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
@@ -4050,13 +4050,13 @@
     <value>縦に分割</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Split pane vertically</value>
+    <value>ペインを垂直に分割</value>
   </data>
   <data name="SplitPaneHorizontally" xml:space="preserve">
     <value>横に分割</value>
   </data>
   <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
-    <value>Split pane horizontally</value>
+    <value>ペインを水平に分割</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>縦に配置</value>
