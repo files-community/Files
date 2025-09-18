@@ -46,6 +46,13 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		/// <inheritdoc/>
+		public int RobocopyBatchSize
+		{
+			get => Get(20);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			base.RaiseOnSettingChangedEvent(sender, e);

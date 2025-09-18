@@ -864,12 +864,13 @@ namespace Files.App.Utils.Storage
 					}
 
 					var threads = Math.Clamp(Ioc.Default.GetRequiredService<IUserSettingsService>().DevToolsSettingsService.RobocopyThreads, 1, 128);
+					var batchSize = Math.Clamp(Ioc.Default.GetRequiredService<IUserSettingsService>().DevToolsSettingsService.RobocopyBatchSize, 1, 1000);
 
-					// Calculate total batches (split large file groups into chunks of 20 files to avoid command line length limits)
+					// Calculate total batches (split large file groups into chunks to avoid command line length limits)
 					int totalFileBatches = 0;
 					foreach (var kvp in fileGroups)
 					{
-						int chunksForThisGroup = (int)Math.Ceiling(kvp.Value.Count / 20.0);
+						int chunksForThisGroup = (int)Math.Ceiling(kvp.Value.Count / (double)batchSize);
 						totalFileBatches += chunksForThisGroup;
 					}
 					int totalBatches = dirJobs.Count + totalFileBatches;
@@ -929,10 +930,10 @@ namespace Files.App.Utils.Storage
 						var (sourceDir, destDir) = kvp.Key;
 						var allFileSpecs = kvp.Value;
 
-						// Split files into chunks of 20 to avoid command line length limits
+						// Split files into chunks to avoid command line length limits
 						var fileChunks = allFileSpecs
 							.Select((file, index) => new { file, index })
-							.GroupBy(x => x.index / 20)
+							.GroupBy(x => x.index / batchSize)
 							.Select(g => g.Select(x => x.file).ToList())
 							.ToList();
 

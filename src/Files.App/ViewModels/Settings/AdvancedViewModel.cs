@@ -48,6 +48,20 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public int RobocopyBatchSize
+		{
+			get => UserSettingsService.DevToolsSettingsService.RobocopyBatchSize;
+			set
+			{
+				var clamped = Math.Clamp(value, 1, 1000);
+				if (clamped != UserSettingsService.DevToolsSettingsService.RobocopyBatchSize)
+				{
+					UserSettingsService.DevToolsSettingsService.RobocopyBatchSize = clamped;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		// Debug method to verify robocopy setting status
 		public string GetRobocopyStatus()
 		{
