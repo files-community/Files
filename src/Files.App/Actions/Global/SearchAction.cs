@@ -23,16 +23,35 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Omnibar.Search");
 
+		public bool IsExecutable
+			=> context.ShellPage is not null;
+
 		public SearchAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
+
+			context.PropertyChanged += Context_PropertyChanged;
 		}
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			context.ShellPage!.ToolbarViewModel.SwitchToSearchMode();
+			// Check if ShellPage is available before executing the action
+			if (context.ShellPage is null)
+				return Task.CompletedTask;
+
+			context.ShellPage.ToolbarViewModel.SwitchToSearchMode();
 
 			return Task.CompletedTask;
+		}
+
+		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.ShellPage):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
 		}
 	}
 }
