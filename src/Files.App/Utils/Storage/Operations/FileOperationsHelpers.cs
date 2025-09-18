@@ -653,6 +653,334 @@ namespace Files.App.Utils.Storage
 			});
 		}
 
+		public static Task<(bool, ShellOperationResult)> CopyItemWithRobocopyAsync(string[] fileToCopyPath, string[] copyDestination, bool overwriteOnCopy, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel> progress, string operationID = "", IShellPage? shellPage = null)
+		{
+			return PerformRobocopyOperationAsync(
+				fileToCopyPath,
+				copyDestination,
+				overwriteOnCopy,
+				progress,
+				operationID,
+				shellPage,
+				isMoveOperation: false);
+		}
+
+		public static Task<(bool, ShellOperationResult)> MoveItemWithRobocopyAsync(string[] fileToMovePath, string[] moveDestination, bool overwriteOnMove, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel> progress, string operationID = "", IShellPage? shellPage = null)
+		{
+			return PerformRobocopyOperationAsync(
+				fileToMovePath,
+				moveDestination,
+				overwriteOnMove,
+				progress,
+				operationID,
+				shellPage,
+				isMoveOperation: true);
+		}
+
+		private static async Task<(bool success, int exitCode)> RunRobocopyAsync(string arguments, StatusCenterItemProgressModel progressModel, string operationID, CancellationToken cancellationToken)
+		{
+			try
+			{
+				var psi = new ProcessStartInfo
+				{
+					FileName = "robocopy.exe",
+					Arguments = arguments,
+					UseShellExecute = false,
+					RedirectStandardOutput = true,
+					RedirectStandardError = true,
+					CreateNoWindow = true
+				};
+
+				using var process = new Process { StartInfo = psi };
+
+				process.Start();
+
+				using var registration = cancellationToken.Register(() =>
+				{
+					try
+					{
+						if (!process.HasExited)
+							process.Kill();
+					}
+					catch { }
+				});
+
+				await process.WaitForExitAsync(cancellationToken);
+
+				var success = process.ExitCode >= 0 && process.ExitCode <= 7;
+
+				return (success, process.ExitCode);
+			}
+			catch (Exception ex)
+			{
+				return (false, -1);
+			}
+		}
+
+		private static Task<(bool, ShellOperationResult)> PerformRobocopyOperationAsync(
+			string[] filePaths,
+			string[] destinationPaths,
+			bool overwriteOnOperation,
+			IProgress<StatusCenterItemProgressModel> progress,
+			string operationID,
+			IShellPage? shellPage,
+			bool isMoveOperation)
+		{
+			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
+
+			StatusCenterItemProgressModel fsProgress = new(
+				progress,
+				false,
+				FileSystemStatusCode.InProgress);
+
+			var cts = new CancellationTokenSource();
+			var sizeCalculator = new FileSizeCalculator(filePaths);
+			var sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
+			sizeTask.ContinueWith(_ =>
+			{
+				fsProgress.TotalSize = sizeCalculator.Size;
+				fsProgress.ItemsCount = filePaths.Length;
+				fsProgress.EnumerationCompleted = true;
+				fsProgress.Report();
+			});
+
+			fsProgress.Report();
+			progressHandler ??= new();
+
+			return Win32Helper.StartSTATask(async () =>
+			{
+				var shellOperationResult = new ShellOperationResult();
+				var success = true;
+
+				// Initial progress update
+				fsProgress.Report(0);
+
+				try
+				{
+					progressHandler.AddOperation(operationID);
+
+					// Group files by (sourceDir, destDir) so we can batch per directory
+					var dirJobs = new List<(string sourceDir, string destDir)>();
+					var fileGroups = new Dictionary<(string sourceDir, string destDir), List<string>>();
+					for (var i = 0; i < filePaths.Length; i++)
+					{
+						var sourcePath = filePaths[i];
+						var destPath = destinationPaths[i];
+						var isDirectory = Win32Helper.HasFileAttribute(sourcePath, FileAttributes.Directory);
+
+						if (isDirectory)
+						{
+							// Process entire directory individually
+							var sourceDir = sourcePath;
+							var destDir = Path.GetDirectoryName(destPath)!;
+							dirJobs.Add((sourceDir, destDir));
+						}
+						else
+						{
+							var sourceDir = Path.GetDirectoryName(sourcePath)!;
+							var destDir = Path.GetDirectoryName(destPath)!;
+							var key = (sourceDir, destDir);
+							if (!fileGroups.TryGetValue(key, out var list))
+							{
+								list = new List<string>();
+								fileGroups[key] = list;
+							}
+							list.Add(Path.GetFileName(sourcePath));
+						}
+					}
+
+					var threads = Math.Clamp(Ioc.Default.GetRequiredService<IUserSettingsService>().DevToolsSettingsService.RobocopyThreads, 1, 128);
+
+					// Calculate total batches (split large file groups into chunks of 20 files to avoid command line length limits)
+					int totalFileBatches = 0;
+					foreach (var kvp in fileGroups)
+					{
+						int chunksForThisGroup = (int)Math.Ceiling(kvp.Value.Count / 20.0);
+						totalFileBatches += chunksForThisGroup;
+					}
+					int totalBatches = dirJobs.Count + totalFileBatches;
+					int completed = 0;
+
+					// Execute directory jobs (cannot batch across different source dirs)
+					foreach (var job in dirJobs)
+					{
+						if (cts.Token.IsCancellationRequested)
+							break;
+
+						Directory.CreateDirectory(job.destDir);
+
+						var argsList = new List<string>
+						{
+							$"\"{job.sourceDir}\"",
+							$"\"{job.destDir}\"",
+							"*.*",
+							"/E",
+							"/R:3",
+							"/W:1",
+							"/NP",
+							"/NJH",
+							"/NJS"
+						};
+
+						// Add operation-specific flags
+						if (isMoveOperation)
+							argsList.Add("/MOVE");
+
+						argsList.Add($"/MT:{threads}");
+
+						if (!overwriteOnOperation)
+						{
+							argsList.Add("/XN");
+							argsList.Add("/XO");
+							argsList.Add("/XC");
+						}
+
+						var robocopyArgs = string.Join(" ", argsList);
+						var (ok, exitCode) = await RunRobocopyAsync(robocopyArgs, fsProgress, operationID, cts.Token);
+
+						if (!ok)
+							success = false;
+
+						// Progress update per batch
+						completed++;
+						fsProgress.Report(100.0 * completed / Math.Max(1, totalBatches));
+					}
+
+					// Execute file groups batched per (sourceDir,destDir), split into chunks of 20 files
+					foreach (var kvp in fileGroups)
+					{
+						if (cts.Token.IsCancellationRequested)
+							break;
+
+						var (sourceDir, destDir) = kvp.Key;
+						var allFileSpecs = kvp.Value;
+
+						// Split files into chunks of 20 to avoid command line length limits
+						var fileChunks = allFileSpecs
+							.Select((file, index) => new { file, index })
+							.GroupBy(x => x.index / 20)
+							.Select(g => g.Select(x => x.file).ToList())
+							.ToList();
+
+						foreach (var fileSpecs in fileChunks)
+						{
+							if (cts.Token.IsCancellationRequested)
+								break;
+
+							Directory.CreateDirectory(destDir);
+
+							var argsList = new List<string>
+							{
+								$"\"{sourceDir}\"",
+								$"\"{destDir}\"",
+								string.Join(" ", fileSpecs.Select(s => s.Contains(' ') ? $"\"{s}\"" : s)),
+								"/R:3",
+								"/W:1",
+								"/NP",
+								"/NJH",
+								"/NJS"
+							};
+
+							// Add operation-specific flags
+							if (isMoveOperation)
+								argsList.Add("/MOV");
+							else
+								argsList.Add("/E");
+
+							argsList.Add($"/MT:{threads}");
+
+							if (!overwriteOnOperation)
+							{
+								argsList.Add("/XN");
+								argsList.Add("/XO");
+								argsList.Add("/XC");
+							}
+
+							var robocopyArgs = string.Join(" ", argsList);
+
+							// Fallback: if command line is too long, process files individually
+							bool batchOk;
+							int exitCode;
+							if (robocopyArgs.Length > 4000 && fileSpecs.Count > 1)
+							{
+								batchOk = true;
+								exitCode = 0;
+								foreach (var singleFile in fileSpecs)
+								{
+									if (cts.Token.IsCancellationRequested)
+										break;
+
+									var singleArgsList = new List<string>
+									{
+										$"\"{sourceDir}\"",
+										$"\"{destDir}\"",
+										singleFile.Contains(' ') ? $"\"{singleFile}\"" : singleFile,
+										"/R:3",
+										"/W:1",
+										"/NP",
+										"/NJH",
+										"/NJS"
+									};
+
+									// Add operation-specific flags for individual file processing
+									if (isMoveOperation)
+										singleArgsList.Add("/MOV");
+									else
+										singleArgsList.Add("/E");
+
+									singleArgsList.Add($"/MT:{threads}");
+
+									if (!overwriteOnOperation)
+									{
+										singleArgsList.Add("/XN");
+										singleArgsList.Add("/XO");
+										singleArgsList.Add("/XC");
+									}
+
+									var singleRobocopyArgs = string.Join(" ", singleArgsList);
+									var (singleOk, singleExitCode) = await RunRobocopyAsync(singleRobocopyArgs, fsProgress, operationID, cts.Token);
+									if (!singleOk)
+									{
+										batchOk = false;
+										exitCode = singleExitCode;
+									}
+								}
+							}
+							else
+							{
+								(batchOk, exitCode) = await RunRobocopyAsync(robocopyArgs, fsProgress, operationID, cts.Token);
+							}
+
+							if (!batchOk)
+								success = false;
+
+							completed++;
+							var progressPercent = 100.0 * completed / Math.Max(1, totalBatches);
+							fsProgress.Report(progressPercent);
+
+							// Refresh UI periodically to show files (every batch for better responsiveness)
+							if (shellPage is not null)
+							{
+								await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+									shellPage.ShellViewModel.RefreshItems(null));
+							}
+						}
+					}
+
+					progressHandler.RemoveOperation(operationID);
+					cts.Cancel();
+				}
+				catch (Exception ex)
+				{
+					success = false;
+					progressHandler.RemoveOperation(operationID);
+					cts.Cancel();
+				}
+
+				return (success, shellOperationResult);
+			});
+		}
+
 		public static void TryCancelOperation(string operationId)
 			=> progressHandler?.TryCancel(operationId);
 

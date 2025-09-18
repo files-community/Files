@@ -168,6 +168,35 @@
 				</wctcontrols:SettingsCard.HeaderIcon>
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowFlattenOptions}" IsOn="{x:Bind ViewModel.ShowFlattenOptions, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
+
+			<!--  Use Robocopy for file operations  -->
+			<wctcontrols:SettingsCard Header="Use Robocopy for file operations">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE8B5;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<StackPanel Orientation="Vertical" Spacing="8">
+					<ToggleSwitch
+						AutomationProperties.Name="Use Robocopy for file operations"
+						IsOn="{x:Bind ViewModel.UseRobocopyForFileOperations, Mode=TwoWay}"
+						OffContent="Use Windows Shell API"
+						OnContent="Use Robocopy (faster)" />
+					<StackPanel Orientation="Horizontal" Spacing="8">
+						<TextBlock VerticalAlignment="Center" Text="Threads:" />
+						<NumberBox
+							Width="100"
+							SpinButtonPlacementMode="Compact"
+							Minimum="1"
+							Maximum="128"
+							SmallChange="1"
+							LargeChange="8"
+							IsEnabled="{x:Bind ViewModel.UseRobocopyForFileOperations, Mode=OneWay}"
+							Value="{x:Bind ViewModel.RobocopyThreads, Mode=TwoWay}" />
+					</StackPanel>
+				</StackPanel>
+				<wctcontrols:SettingsCard.Description>
+					<TextBlock Text="Enable Robocopy for faster file copy/move operations. May provide better performance for large files and bulk operations." />
+				</wctcontrols:SettingsCard.Description>
+			</wctcontrols:SettingsCard>
 		</StackPanel>
 	</Grid>
 </Page>
