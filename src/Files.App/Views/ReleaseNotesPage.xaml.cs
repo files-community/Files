@@ -82,8 +82,8 @@ namespace Files.App.Views
 		}
 
 		private async void BlogPostWebView_CoreWebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
-		{
-            try
+		{ 
+		  try
 			{
 				sender.CoreWebView2.Profile.PreferredColorScheme = (CoreWebView2PreferredColorScheme)RootAppElement.RequestedTheme;
 				sender.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
