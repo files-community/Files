@@ -127,6 +127,7 @@ namespace Files.App.Views
 
 		public void Dispose()
 		{
+			BlogPostWebView.WebMessageReceived -= WebView_WebMessageReceived;
 			BlogPostWebView.Close();
 		}
 	}
