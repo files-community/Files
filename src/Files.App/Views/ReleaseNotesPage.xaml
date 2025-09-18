@@ -21,10 +21,10 @@
 		<!--  WebView  -->
 		<WebView2
 			x:Name="BlogPostWebView"
-			FlowDirection="LeftToRight"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			CoreWebView2Initialized="BlogPostWebView_CoreWebView2Initialized"
+			FlowDirection="LeftToRight"
 			Source="{x:Bind ViewModel.BlogPostUrl, Mode=OneWay}" />
 
 		<!--  Footer  -->
