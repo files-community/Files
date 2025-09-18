@@ -677,6 +677,15 @@ namespace Files.App.Utils.Storage
 				isMoveOperation: true);
 		}
 
+		public static Task<(bool, ShellOperationResult)> DeleteItemWithRobocopyAsync(string[] fileToDeletePath, long ownerHwnd, bool asAdmin, IProgress<StatusCenterItemProgressModel> progress, string operationID = "", IShellPage? shellPage = null)
+		{
+			return PerformRobocopyDeleteOperationAsync(
+				fileToDeletePath,
+				progress,
+				operationID,
+				shellPage);
+		}
+
 		private static async Task<(bool success, int exitCode)> RunRobocopyAsync(string arguments, StatusCenterItemProgressModel progressModel, string operationID, CancellationToken cancellationToken)
 		{
 			try
@@ -688,14 +697,65 @@ namespace Files.App.Utils.Storage
 					UseShellExecute = false,
 					RedirectStandardOutput = true,
 					RedirectStandardError = true,
-					CreateNoWindow = true
+					CreateNoWindow = true,
+					StandardOutputEncoding = System.Text.Encoding.UTF8,
+					StandardErrorEncoding = System.Text.Encoding.UTF8
 				};
 
 				using var process = new Process { StartInfo = psi };
 
 				process.Start();
 
+				// Verify process started successfully
+				if (process.Id <= 0)
+				{
+					return (false, -4); // Process start failure
+				}
+
+				// Start reading streams AFTER process starts to prevent buffer overflow
+				var outputTask = Task.Run(() =>
+				{
+					try
+					{
+						return process.StandardOutput.ReadToEnd();
+					}
+					catch
+					{
+						return string.Empty;
+					}
+				});
+
+				var errorTask = Task.Run(() =>
+				{
+					try
+					{
+						return process.StandardError.ReadToEnd();
+					}
+					catch
+					{
+						return string.Empty;
+					}
+				});
+
 				using var registration = cancellationToken.Register(() =>
+				{
+					try
+					{
+						if (!process.HasExited)
+						{
+							process.Kill();
+						}
+					}
+					catch { }
+				});
+
+				// Wait for the process to exit with a reasonable timeout
+				var exitTask = process.WaitForExitAsync(cancellationToken);
+				var timeoutTask = Task.Delay(TimeSpan.FromMinutes(30), cancellationToken);
+
+				var completedTask = await Task.WhenAny(exitTask, timeoutTask);
+
+				if (completedTask == timeoutTask)
 				{
 					try
 					{
@@ -703,15 +763,29 @@ namespace Files.App.Utils.Storage
 							process.Kill();
 					}
 					catch { }
-				});
+					return (false, -2); // Timeout error
+				}
 
-				await process.WaitForExitAsync(cancellationToken);
+				// Wait for output reading to complete (with timeout)
+				try
+				{
+					await Task.WhenAny(
+						Task.WhenAll(outputTask, errorTask),
+						Task.Delay(5000, CancellationToken.None)
+					);
+				}
+				catch { }
 
-				var success = process.ExitCode >= 0 && process.ExitCode <= 7;
+				var exitCode = process.ExitCode;
+				var success = exitCode >= 0 && exitCode <= 7;
 
-				return (success, process.ExitCode);
+				return (success, exitCode);
 			}
-			catch (Exception ex)
+			catch (OperationCanceledException)
+			{
+				return (false, -3); // Cancelled
+			}
+			catch
 			{
 				return (false, -1);
 			}
@@ -971,6 +1045,131 @@ namespace Files.App.Utils.Storage
 					cts.Cancel();
 				}
 				catch (Exception ex)
+				{
+					success = false;
+					progressHandler.RemoveOperation(operationID);
+					cts.Cancel();
+				}
+
+				return (success, shellOperationResult);
+			});
+		}
+
+		private static Task<(bool, ShellOperationResult)> PerformRobocopyDeleteOperationAsync(
+			string[] filePaths,
+			IProgress<StatusCenterItemProgressModel> progress,
+			string operationID,
+			IShellPage? shellPage)
+		{
+			operationID = string.IsNullOrEmpty(operationID) ? Guid.NewGuid().ToString() : operationID;
+
+			StatusCenterItemProgressModel fsProgress = new(
+				progress,
+				false,
+				FileSystemStatusCode.InProgress);
+
+			var cts = new CancellationTokenSource();
+			var sizeCalculator = new FileSizeCalculator(filePaths);
+			var sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
+			sizeTask.ContinueWith(_ =>
+			{
+				fsProgress.TotalSize = sizeCalculator.Size;
+				fsProgress.ItemsCount = filePaths.Length;
+				fsProgress.EnumerationCompleted = true;
+				fsProgress.Report();
+			});
+
+			fsProgress.Report();
+			progressHandler ??= new();
+
+			return Win32Helper.StartSTATask(async () =>
+			{
+				var shellOperationResult = new ShellOperationResult();
+				var success = true;
+
+				// Initial progress update
+				fsProgress.Report(0);
+
+				try
+				{
+					progressHandler.AddOperation(operationID);
+
+					// Step 1: Create temp folder structure
+					var tempBasePath = Path.GetTempPath();
+					var tempDeleteFolder = Path.Combine(tempBasePath, $"Files_Delete_{Guid.NewGuid()}");
+					var emptyFolder = Path.Combine(tempBasePath, $"Files_Empty_{Guid.NewGuid()}");
+
+					// Create temp directories
+					Directory.CreateDirectory(tempDeleteFolder);
+					Directory.CreateDirectory(emptyFolder);
+
+					var threads = Math.Clamp(Ioc.Default.GetRequiredService<IUserSettingsService>().DevToolsSettingsService.RobocopyThreads, 1, 128);
+
+					// Step 2: Move files to temp folder first (reuse existing move logic)
+					var tempDestinations = new string[filePaths.Length];
+					for (var i = 0; i < filePaths.Length; i++)
+					{
+						var fileName = Path.GetFileName(filePaths[i]);
+						tempDestinations[i] = Path.Combine(tempDeleteFolder, fileName);
+					}
+
+					// Use existing move functionality to move files to temp
+					var (moveSuccess, moveResult) = await PerformRobocopyOperationAsync(
+						filePaths,
+						tempDestinations,
+						true, // overwrite
+						new Progress<StatusCenterItemProgressModel>(p => fsProgress.Report(p.Percentage / 2)), // Half progress for move
+						operationID,
+						shellPage,
+						isMoveOperation: true);
+
+					if (!moveSuccess)
+					{
+						success = false;
+					}
+					else
+					{
+						fsProgress.Report(50); // 50% complete after move
+
+						// Step 3: Use robocopy MIR to delete all data (single command, no batching)
+						var robocopyArgs = $"\"{emptyFolder}\" \"{tempDeleteFolder}\" /MIR /MT:{threads} /R:0 /W:0 /NP /NJH /NJS";
+
+						var (deleteSuccess, exitCode) = await RunRobocopyAsync(robocopyArgs, fsProgress, operationID, cts.Token);
+
+						if (!deleteSuccess)
+						{
+							success = false;
+						}
+
+						fsProgress.Report(75); // 75% complete after robocopy MIR
+					}
+
+					// Step 4: Clean up temp folders
+					try
+					{
+						if (Directory.Exists(tempDeleteFolder))
+							Directory.Delete(tempDeleteFolder, true);
+						if (Directory.Exists(emptyFolder))
+							Directory.Delete(emptyFolder, true);
+					}
+					catch
+					{
+						// Ignore cleanup errors
+					}
+
+					fsProgress.Report(100); // 100% complete
+
+					// Refresh UI if shellPage is provided
+					if (shellPage is not null)
+					{
+						await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+							shellPage.ShellViewModel.RefreshItems(null));
+					}
+
+					progressHandler.RemoveOperation(operationID);
+					cts.Cancel();
+				}
+				catch
 				{
 					success = false;
 					progressHandler.RemoveOperation(operationID);

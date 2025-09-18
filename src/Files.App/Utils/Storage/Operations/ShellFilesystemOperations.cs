@@ -379,7 +379,11 @@ namespace Files.App.Utils.Storage
 			var operationID = Guid.NewGuid().ToString();
 			await using var r = cancellationToken.Register(CancelOperation, operationID, false);
 
-			var (success, response) = await FileOperationsHelpers.DeleteItemAsync(deleteFilePaths.ToArray(), permanently, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+			var settings = Ioc.Default.GetRequiredService<IUserSettingsService>().DevToolsSettingsService;
+
+			var (success, response) = permanently && settings.UseRobocopyForFileOperations
+				? await FileOperationsHelpers.DeleteItemWithRobocopyAsync(deleteFilePaths.ToArray(), MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID, _associatedInstance)
+				: await FileOperationsHelpers.DeleteItemAsync(deleteFilePaths.ToArray(), permanently, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
 
 			var result = (FilesystemResult)success;
 			var deleteResult = new ShellOperationResult();
