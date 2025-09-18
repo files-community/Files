@@ -60,7 +60,6 @@ namespace Files.App.Utils.Storage.Operations
 						System.Diagnostics.Debug.WriteLine(ex);
 					}
 #endif
-
 					try
 					{
 						foreach (var dir in Directory.EnumerateDirectories(currentPath))
