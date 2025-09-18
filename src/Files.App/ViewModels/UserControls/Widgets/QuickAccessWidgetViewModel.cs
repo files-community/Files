@@ -34,7 +34,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		// Fields
 
 		// TODO: Replace with IMutableFolder.GetWatcherAsync() once it gets implemented in IWindowsStorable
-		private readonly SystemIO.FileSystemWatcher _quickAccessFolderWatcher;
+		private readonly SystemIO.FileSystemWatcher? _quickAccessFolderWatcher;
 
 		// Constructor
 
@@ -46,19 +46,46 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			PinToSidebarCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecutePinToSidebarCommand);
 			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecuteUnpinFromSidebarCommand);
 
-			_quickAccessFolderWatcher = new()
+			// Initialize FileSystemWatcher only if the AutomaticDestinations directory exists
+			var automaticDestinationsPath = SystemIO.Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations");
+			if (SystemIO.Directory.Exists(automaticDestinationsPath))
 			{
-				Path = SystemIO.Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations"),
-				Filter = "f01b4d95cf55d32a.automaticDestinations-ms",
-				NotifyFilter = SystemIO.NotifyFilters.LastAccess | SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName
-			};
+				try
+				{
+					_quickAccessFolderWatcher = new()
+					{
+						Path = automaticDestinationsPath,
+						Filter = "f01b4d95cf55d32a.automaticDestinations-ms",
+						NotifyFilter = SystemIO.NotifyFilters.LastAccess | SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName
+					};
 
-			_quickAccessFolderWatcher.Changed += async (s, e) =>
+					_quickAccessFolderWatcher.Changed += async (s, e) =>
+					{
+						await RefreshWidgetAsync();
+					};
+
+					_quickAccessFolderWatcher.EnableRaisingEvents = true;
+				}
+				catch (SystemIO.DirectoryNotFoundException)
+				{
+					// Directory was deleted between the Exists check and FileSystemWatcher initialization
+					_quickAccessFolderWatcher = null;
+				}
+				catch (UnauthorizedAccessException)
+				{
+					// Access denied to the directory
+					_quickAccessFolderWatcher = null;
+				}
+				catch (ArgumentException)
+				{
+					// Invalid directory path
+					_quickAccessFolderWatcher = null;
+				}
+			}
+			else
 			{
-				await RefreshWidgetAsync();
-			};
-
-			_quickAccessFolderWatcher.EnableRaisingEvents = true;
+				_quickAccessFolderWatcher = null;
+			}
 		}
 
 		// Methods
@@ -301,6 +328,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public void Dispose()
 		{
+			_quickAccessFolderWatcher?.Dispose();
+			
 			foreach (var item in Items)
 				item.Dispose();
 		}
