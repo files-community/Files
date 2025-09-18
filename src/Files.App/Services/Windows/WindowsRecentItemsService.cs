@@ -3,6 +3,7 @@
 
 using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
+using System.IO;
 using System.Text;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -59,16 +60,23 @@ namespace Files.App.Services
 
 		public WindowsRecentItemsService()
 		{
-			_watcher = new()
+			var automaticDestinationsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Recent), "AutomaticDestinations");
+			
+			// Only create the file system watcher if the AutomaticDestinations directory exists
+			if (Directory.Exists(automaticDestinationsPath))
 			{
-				Path = SystemIO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Recent), "AutomaticDestinations"),
-				Filter = "5f7b5f1e01b83767.automaticDestinations-ms",
-				NotifyFilter = SystemIO.NotifyFilters.DirectoryName | SystemIO.NotifyFilters.FileName | SystemIO.NotifyFilters.LastWrite,
-			};
+				_watcher = new()
+				{
+					Path = automaticDestinationsPath,
+					Filter = "5f7b5f1e01b83767.automaticDestinations-ms",
+					NotifyFilter = SystemIO.NotifyFilters.DirectoryName | SystemIO.NotifyFilters.FileName | SystemIO.NotifyFilters.LastWrite,
+				};
 
-			_watcher.Changed += Watcher_Changed;
-			_watcher.Deleted += Watcher_Changed;
-			_watcher.EnableRaisingEvents = true;
+				_watcher.Changed += Watcher_Changed;
+				_watcher.Deleted += Watcher_Changed;
+				_watcher.EnableRaisingEvents = true;
+			}
+			// If the directory doesn't exist, _watcher remains null and the service will function without file system monitoring
 		}
 
 		// Methods
