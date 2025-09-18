@@ -21,6 +21,7 @@
 		<!--  WebView  -->
 		<WebView2
 			x:Name="BlogPostWebView"
+			FlowDirection="LeftToRight"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			CoreWebView2Initialized="BlogPostWebView_CoreWebView2Initialized"
