@@ -30,9 +30,5 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		int RobocopyThreads { get; set; }
 
-		/// <summary>
-		/// Gets or sets the batch size for Robocopy operations.
-		/// </summary>
-		int RobocopyBatchSize { get; set; }
 	}
 }

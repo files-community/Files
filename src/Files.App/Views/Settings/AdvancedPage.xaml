@@ -192,18 +192,6 @@
 							IsEnabled="{x:Bind ViewModel.UseRobocopyForFileOperations, Mode=OneWay}"
 							Value="{x:Bind ViewModel.RobocopyThreads, Mode=TwoWay}" />
 					</StackPanel>
-					<StackPanel Orientation="Horizontal" Spacing="8">
-						<TextBlock VerticalAlignment="Center" Text="Batch size:" />
-						<NumberBox
-							Width="100"
-							SpinButtonPlacementMode="Compact"
-							Minimum="1"
-							Maximum="1000"
-							SmallChange="1"
-							LargeChange="10"
-							IsEnabled="{x:Bind ViewModel.UseRobocopyForFileOperations, Mode=OneWay}"
-							Value="{x:Bind ViewModel.RobocopyBatchSize, Mode=TwoWay}" />
-					</StackPanel>
 				</StackPanel>
 				<wctcontrols:SettingsCard.Description>
 					<TextBlock Text="Enable Robocopy for faster file copy/move operations. May provide better performance for large files and bulk operations." />

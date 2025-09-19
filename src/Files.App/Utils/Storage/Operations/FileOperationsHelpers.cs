@@ -690,6 +690,8 @@ namespace Files.App.Utils.Storage
 		{
 			try
 			{
+				App.Logger?.LogInformation($"Robocopy operation {operationID}: Starting with arguments: {arguments}");
+
 				var psi = new ProcessStartInfo
 				{
 					FileName = "robocopy.exe",
@@ -779,16 +781,105 @@ namespace Files.App.Utils.Storage
 				var exitCode = process.ExitCode;
 				var success = exitCode >= 0 && exitCode <= 7;
 
+				App.Logger?.LogInformation($"Robocopy operation {operationID}: Completed with exit code {exitCode}, success: {success}");
+
 				return (success, exitCode);
 			}
 			catch (OperationCanceledException)
 			{
+				App.Logger?.LogWarning($"Robocopy operation {operationID}: Cancelled");
 				return (false, -3); // Cancelled
 			}
-			catch
+			catch (Exception ex)
 			{
+				App.Logger?.LogError(ex, $"Robocopy operation {operationID}: Failed with exception");
 				return (false, -1);
 			}
+		}
+
+		private static (Dictionary<(string sourceDir, string destDir), List<string>> fileGroups, List<(string sourcePath, string destPath)> folderItems) GroupFilesAndFolders(
+			string[] filePaths,
+			string[] destinationPaths)
+		{
+			var fileGroups = new Dictionary<(string sourceDir, string destDir), List<string>>();
+			var folderItems = new List<(string sourcePath, string destPath)>();
+
+			for (var i = 0; i < filePaths.Length; i++)
+			{
+				var sourcePath = filePaths[i];
+				var destPath = destinationPaths[i];
+				var isDirectory = Win32Helper.HasFileAttribute(sourcePath, FileAttributes.Directory);
+
+				if (isDirectory)
+				{
+					// For directories: store full source and destination paths for individual processing
+					folderItems.Add((sourcePath, destPath));
+				}
+				else
+				{
+					// For files: group by sourceDir/destDir for batching
+					var sourceDir = Path.GetDirectoryName(sourcePath)!;
+					var itemName = Path.GetFileName(sourcePath);
+					var destDir = Path.GetDirectoryName(destPath)!;
+
+					var key = (sourceDir, destDir);
+					if (!fileGroups.TryGetValue(key, out var list))
+					{
+						list = new List<string>();
+						fileGroups[key] = list;
+					}
+					list.Add(itemName);
+				}
+			}
+			return (fileGroups, folderItems);
+		}
+
+		private static (Dictionary<(string sourceDir, string destDir), List<List<string>>> batchesByGroup, int totalBatches) CreateBatchesForFileGroups(
+			Dictionary<(string sourceDir, string destDir), List<string>> fileGroups)
+		{
+			var batchesByGroup = new Dictionary<(string sourceDir, string destDir), List<List<string>>>();
+			var totalBatches = 0;
+
+			foreach (var group in fileGroups)
+			{
+				var groupBatches = new List<List<string>>();
+				var currentBatch = new List<string>();
+				int currentBatchSize = 0;
+				const int maxBatchSize = 8000;
+
+				foreach (var itemName in group.Value)
+				{
+					// Calculate the size this item would add to the batch
+					// Include quotes if the item name contains spaces, plus space separator
+					int itemSize = itemName.Contains(' ') ?
+						itemName.Length + 2 + 1 : // +2 for quotes, +1 for space
+						itemName.Length + 1;     // +1 for space
+
+					// If adding this item would exceed the batch size limit, start a new batch
+					if (currentBatch.Count > 0 && currentBatchSize + itemSize > maxBatchSize)
+					{
+						groupBatches.Add(currentBatch);
+						currentBatch = new List<string>();
+						currentBatchSize = 0;
+						totalBatches++;
+					}
+
+					// Add the item to the current batch
+					currentBatch.Add(itemName);
+					currentBatchSize += itemSize;
+				}
+
+				// Add the final batch for this group if it has items
+				if (currentBatch.Count > 0)
+				{
+					groupBatches.Add(currentBatch);
+					totalBatches++;
+				}
+
+				batchesByGroup[group.Key] = groupBatches;
+			}
+
+			return (batchesByGroup, totalBatches);
 		}
 
 		private static Task<(bool, ShellOperationResult)> PerformRobocopyOperationAsync(
@@ -826,6 +917,8 @@ namespace Files.App.Utils.Storage
 				var shellOperationResult = new ShellOperationResult();
 				var success = true;
 
+				App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Processing {filePaths.Length} items");
+
 				// Initial progress update
 				fsProgress.Report(0);
 
@@ -833,204 +926,80 @@ namespace Files.App.Utils.Storage
 				{
 					progressHandler.AddOperation(operationID);
 
-					// Group files by (sourceDir, destDir) so we can batch per directory
-					var dirJobs = new List<(string sourceDir, string destDir)>();
-					var fileGroups = new Dictionary<(string sourceDir, string destDir), List<string>>();
-					for (var i = 0; i < filePaths.Length; i++)
-					{
-						var sourcePath = filePaths[i];
-						var destPath = destinationPaths[i];
-						var isDirectory = Win32Helper.HasFileAttribute(sourcePath, FileAttributes.Directory);
+					// Group files and folders separately
+					var (fileGroups, folderItems) = GroupFilesAndFolders(filePaths, destinationPaths);
 
-						if (isDirectory)
-						{
-							// Process entire directory individually
-							var sourceDir = sourcePath;
-							var destDir = Path.GetDirectoryName(destPath)!;
-							dirJobs.Add((sourceDir, destDir));
-						}
-						else
-						{
-							var sourceDir = Path.GetDirectoryName(sourcePath)!;
-							var destDir = Path.GetDirectoryName(destPath)!;
-							var key = (sourceDir, destDir);
-							if (!fileGroups.TryGetValue(key, out var list))
-							{
-								list = new List<string>();
-								fileGroups[key] = list;
-							}
-							list.Add(Path.GetFileName(sourcePath));
-						}
-					}
+					App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Created {fileGroups.Count} file groups and {folderItems.Count} folder items");
 
 					var threads = Math.Clamp(Ioc.Default.GetRequiredService<IUserSettingsService>().DevToolsSettingsService.RobocopyThreads, 1, 128);
-					var batchSize = Math.Clamp(Ioc.Default.GetRequiredService<IUserSettingsService>().DevToolsSettingsService.RobocopyBatchSize, 1, 1000);
 
-					// Calculate total batches (split large file groups into chunks to avoid command line length limits)
-					int totalFileBatches = 0;
-					foreach (var kvp in fileGroups)
-					{
-						int chunksForThisGroup = (int)Math.Ceiling(kvp.Value.Count / (double)batchSize);
-						totalFileBatches += chunksForThisGroup;
-					}
-					int totalBatches = dirJobs.Count + totalFileBatches;
-					int completed = 0;
+					// Create batches for files only (folders will be processed individually)
+					(Dictionary<(string sourceDir, string destDir), List<List<string>>> fileBatchesByGroup, int totalFileBatches) = CreateBatchesForFileGroups(fileGroups);
 
-					// Execute directory jobs (cannot batch across different source dirs)
-					foreach (var job in dirJobs)
+					var totalOperations = totalFileBatches + folderItems.Count;
+					App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Created {fileBatchesByGroup.Sum(g => g.Value.Count)} file batches and {folderItems.Count} folder operations (total: {totalOperations})");
+
+					// Execute file batches per source/destination directory combo (8000 chars max)
+					var completed = 0;
+					foreach (var groupKvp in fileBatchesByGroup)
 					{
 						if (cts.Token.IsCancellationRequested)
 							break;
 
-						Directory.CreateDirectory(job.destDir);
+						(string sourceDir, string destDir) = groupKvp.Key;
+						var groupBatches = groupKvp.Value;
 
-						var argsList = new List<string>
-						{
-							$"\"{job.sourceDir}\"",
-							$"\"{job.destDir}\"",
-							"*.*",
-							"/E",
-							"/R:3",
-							"/W:1",
-							"/NP",
-							"/NJH",
-							"/NJS"
-						};
+						App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Processing file group ({sourceDir}, {destDir}) with {groupBatches.Count} batches");
 
-						// Add operation-specific flags
-						if (isMoveOperation)
-							argsList.Add("/MOVE");
-
-						argsList.Add($"/MT:{threads}");
-
-						if (!overwriteOnOperation)
-						{
-							argsList.Add("/XN");
-							argsList.Add("/XO");
-							argsList.Add("/XC");
-						}
-
-						var robocopyArgs = string.Join(" ", argsList);
-						var (ok, exitCode) = await RunRobocopyAsync(robocopyArgs, fsProgress, operationID, cts.Token);
-
-						if (!ok)
-							success = false;
-
-						// Progress update per batch
-						completed++;
-						fsProgress.Report(100.0 * completed / Math.Max(1, totalBatches));
-					}
-
-					// Execute file groups batched per (sourceDir,destDir), split into chunks of 20 files
-					foreach (var kvp in fileGroups)
-					{
-						if (cts.Token.IsCancellationRequested)
-							break;
-
-						var (sourceDir, destDir) = kvp.Key;
-						var allFileSpecs = kvp.Value;
-
-						// Split files into chunks to avoid command line length limits
-						var fileChunks = allFileSpecs
-							.Select((file, index) => new { file, index })
-							.GroupBy(x => x.index / batchSize)
-							.Select(g => g.Select(x => x.file).ToList())
-							.ToList();
-
-						foreach (var fileSpecs in fileChunks)
+						foreach (var itemNames in groupBatches)
 						{
 							if (cts.Token.IsCancellationRequested)
 								break;
 
-							Directory.CreateDirectory(destDir);
+							var batchOk = true;
+							var exitCode = 0;
 
 							var argsList = new List<string>
 							{
 								$"\"{sourceDir}\"",
 								$"\"{destDir}\"",
-								string.Join(" ", fileSpecs.Select(s => s.Contains(' ') ? $"\"{s}\"" : s)),
+								string.Join(" ", itemNames.Select(name =>
+									name.Contains(' ') ? $"\"{name}\"" : name)),
 								"/R:3",
 								"/W:1",
 								"/NP",
 								"/NJH",
-								"/NJS"
+								"/NJS",
+								$"/MT:{threads}"
 							};
 
 							// Add operation-specific flags
 							if (isMoveOperation)
-								argsList.Add("/MOV");
-							else
-								argsList.Add("/E");
-
-							argsList.Add($"/MT:{threads}");
-
-							if (!overwriteOnOperation)
-							{
-								argsList.Add("/XN");
-								argsList.Add("/XO");
-								argsList.Add("/XC");
-							}
+								argsList.Add("/MOVE");
 
 							var robocopyArgs = string.Join(" ", argsList);
 
-							// Fallback: if command line is too long, process files individually
-							bool batchOk;
-							int exitCode;
-							if (robocopyArgs.Length > 4000 && fileSpecs.Count > 1)
+							// check if the argsList is longer than 8000 characters
+							if (robocopyArgs.Length > 8000)
 							{
-								batchOk = true;
-								exitCode = 0;
-								foreach (var singleFile in fileSpecs)
-								{
-									if (cts.Token.IsCancellationRequested)
-										break;
+								App.Logger?.LogWarning($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Args list is longer than 8000 characters, trying anyway");
+							}
 
-									var singleArgsList = new List<string>
-									{
-										$"\"{sourceDir}\"",
-										$"\"{destDir}\"",
-										singleFile.Contains(' ') ? $"\"{singleFile}\"" : singleFile,
-										"/R:3",
-										"/W:1",
-										"/NP",
-										"/NJH",
-										"/NJS"
-									};
+							App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Executing file batch with {itemNames.Count} items, args length: {robocopyArgs.Length}");
+							(batchOk, exitCode) = await RunRobocopyAsync(robocopyArgs, fsProgress, operationID, cts.Token);
 
-									// Add operation-specific flags for individual file processing
-									if (isMoveOperation)
-										singleArgsList.Add("/MOV");
-									else
-										singleArgsList.Add("/E");
-
-									singleArgsList.Add($"/MT:{threads}");
-
-									if (!overwriteOnOperation)
-									{
-										singleArgsList.Add("/XN");
-										singleArgsList.Add("/XO");
-										singleArgsList.Add("/XC");
-									}
-
-									var singleRobocopyArgs = string.Join(" ", singleArgsList);
-									var (singleOk, singleExitCode) = await RunRobocopyAsync(singleRobocopyArgs, fsProgress, operationID, cts.Token);
-									if (!singleOk)
-									{
-										batchOk = false;
-										exitCode = singleExitCode;
-									}
-								}
+							if (!batchOk)
+							{
+								App.Logger?.LogWarning($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: File batch failed with exit code {exitCode}");
+								success = false;
 							}
 							else
 							{
-								(batchOk, exitCode) = await RunRobocopyAsync(robocopyArgs, fsProgress, operationID, cts.Token);
+								App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: File batch completed successfully");
 							}
 
-							if (!batchOk)
-								success = false;
-
 							completed++;
-							var progressPercent = 100.0 * completed / Math.Max(1, totalBatches);
+							var progressPercent = 100.0 * completed / Math.Max(1, totalOperations);
 							fsProgress.Report(progressPercent);
 
 							// Refresh UI periodically to show files (every batch for better responsiveness)
@@ -1042,11 +1011,67 @@ namespace Files.App.Utils.Storage
 						}
 					}
 
+					// Process folders individually
+					foreach (var (sourcePath, destPath) in folderItems)
+					{
+						if (cts.Token.IsCancellationRequested)
+							break;
+
+						var folderOk = true;
+						var exitCode = 0;
+
+						var argsList = new List<string>
+						{
+							$"\"{sourcePath}\"",
+							$"\"{destPath}\"",
+							"/E",
+							"/R:3",
+							"/W:1",
+							"/NP",
+							"/NJH",
+							"/NJS",
+							$"/MT:{threads}"
+						};
+
+						// Add operation-specific flags
+						if (isMoveOperation)
+							argsList.Add("/MOVE");
+
+						var robocopyArgs = string.Join(" ", argsList);
+
+						App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Processing folder {sourcePath} -> {destPath}");
+						(folderOk, exitCode) = await RunRobocopyAsync(robocopyArgs, fsProgress, operationID, cts.Token);
+
+						if (!folderOk)
+						{
+							App.Logger?.LogWarning($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Folder operation failed with exit code {exitCode}");
+							success = false;
+						}
+						else
+						{
+							App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Folder operation completed successfully");
+						}
+
+						completed++;
+						var progressPercent = 100.0 * completed / Math.Max(1, totalOperations);
+						fsProgress.Report(progressPercent);
+
+						// Refresh UI periodically to show folders
+						if (shellPage is not null)
+						{
+							await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+								shellPage.ShellViewModel.RefreshItems(null));
+						}
+					}
+
 					progressHandler.RemoveOperation(operationID);
 					cts.Cancel();
+
+					App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Completed with overall success: {success}");
 				}
 				catch (Exception ex)
 				{
+					App.Logger?.LogError(ex, $"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Failed with exception");
 					success = false;
 					progressHandler.RemoveOperation(operationID);
 					cts.Cancel();
@@ -1088,6 +1113,8 @@ namespace Files.App.Utils.Storage
 				var shellOperationResult = new ShellOperationResult();
 				var success = true;
 
+				App.Logger?.LogInformation($"Robocopy delete operation {operationID}: Processing {filePaths.Length} items for deletion");
+
 				// Initial progress update
 				fsProgress.Report(0);
 
@@ -1099,6 +1126,8 @@ namespace Files.App.Utils.Storage
 					var tempBasePath = Path.GetTempPath();
 					var tempDeleteFolder = Path.Combine(tempBasePath, $"Files_Delete_{Guid.NewGuid()}");
 					var emptyFolder = Path.Combine(tempBasePath, $"Files_Empty_{Guid.NewGuid()}");
+
+					App.Logger?.LogInformation($"Robocopy delete operation {operationID}: Created temp folders - Delete: {tempDeleteFolder}, Empty: {emptyFolder}");
 
 					// Create temp directories
 					Directory.CreateDirectory(tempDeleteFolder);
@@ -1114,6 +1143,8 @@ namespace Files.App.Utils.Storage
 						tempDestinations[i] = Path.Combine(tempDeleteFolder, fileName);
 					}
 
+					App.Logger?.LogInformation($"Robocopy delete operation {operationID}: Starting move to temp folder");
+
 					// Use existing move functionality to move files to temp
 					var (moveSuccess, moveResult) = await PerformRobocopyOperationAsync(
 						filePaths,
@@ -1126,20 +1157,29 @@ namespace Files.App.Utils.Storage
 
 					if (!moveSuccess)
 					{
+						App.Logger?.LogWarning($"Robocopy delete operation {operationID}: Move to temp folder failed");
 						success = false;
 					}
 					else
 					{
+						App.Logger?.LogInformation($"Robocopy delete operation {operationID}: Move to temp folder completed successfully");
 						fsProgress.Report(50); // 50% complete after move
 
 						// Step 3: Use robocopy MIR to delete all data (single command, no batching)
 						var robocopyArgs = $"\"{emptyFolder}\" \"{tempDeleteFolder}\" /MIR /MT:{threads} /R:0 /W:0 /NP /NJH /NJS";
 
+						App.Logger?.LogInformation($"Robocopy delete operation {operationID}: Starting MIR deletion with args: {robocopyArgs}");
+
 						var (deleteSuccess, exitCode) = await RunRobocopyAsync(robocopyArgs, fsProgress, operationID, cts.Token);
 
 						if (!deleteSuccess)
 						{
+							App.Logger?.LogWarning($"Robocopy delete operation {operationID}: MIR deletion failed with exit code {exitCode}");
 							success = false;
+						}
+						else
+						{
+							App.Logger?.LogInformation($"Robocopy delete operation {operationID}: MIR deletion completed successfully");
 						}
 
 						fsProgress.Report(75); // 75% complete after robocopy MIR
@@ -1148,17 +1188,22 @@ namespace Files.App.Utils.Storage
 					// Step 4: Clean up temp folders
 					try
 					{
+						App.Logger?.LogInformation($"Robocopy delete operation {operationID}: Cleaning up temp folders");
 						if (Directory.Exists(tempDeleteFolder))
 							Directory.Delete(tempDeleteFolder, true);
 						if (Directory.Exists(emptyFolder))
 							Directory.Delete(emptyFolder, true);
+						App.Logger?.LogInformation($"Robocopy delete operation {operationID}: Temp folder cleanup completed");
 					}
-					catch
+					catch (Exception ex)
 					{
+						App.Logger?.LogWarning(ex, $"Robocopy delete operation {operationID}: Temp folder cleanup failed");
 						// Ignore cleanup errors
 					}
 
 					fsProgress.Report(100); // 100% complete
+
+					App.Logger?.LogInformation($"Robocopy delete operation {operationID}: Completed with overall success: {success}");
 
 					// Refresh UI if shellPage is provided
 					if (shellPage is not null)
@@ -1170,8 +1215,9 @@ namespace Files.App.Utils.Storage
 					progressHandler.RemoveOperation(operationID);
 					cts.Cancel();
 				}
-				catch
+				catch (Exception ex)
 				{
+					App.Logger?.LogError(ex, $"Robocopy delete operation {operationID}: Failed with exception");
 					success = false;
 					progressHandler.RemoveOperation(operationID);
 					cts.Cancel();
