@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 
 namespace Files.App.Views.Shells
@@ -185,7 +186,37 @@ namespace Files.App.Views.Shells
 			if (string.IsNullOrEmpty(navigationPath))
 				return;
 
-			this.FindAscendant<ColumnsLayoutPage>()?.SetSelectedPathOrNavigate(navigationPath, sourcePageType, navArgs);
+			var columnsLayoutPage = this.FindAscendant<ColumnsLayoutPage>();
+			if (columnsLayoutPage != null)
+			{
+				columnsLayoutPage.SetSelectedPathOrNavigate(navigationPath, sourcePageType, navArgs);
+			}
+			else
+			{
+				if (sourcePageType is null)
+					sourcePageType = InstanceViewModel.FolderSettings.GetLayoutType(navigationPath);
+
+				if (navArgs is not null && navArgs.AssociatedTabInstance is not null)
+				{
+					ItemDisplayFrame.Navigate(
+						sourcePageType,
+						navArgs,
+						new SuppressNavigationTransitionInfo());
+				}
+				else
+				{
+					var newNavArgs = new NavigationArguments()
+					{
+						NavPathParam = navigationPath,
+						AssociatedTabInstance = this
+					};
+
+					ItemDisplayFrame.Navigate(
+						sourcePageType,
+						newNavArgs,
+						new SuppressNavigationTransitionInfo());
+				}
+			}
 		}
 
 		public override void NavigateHome()
