@@ -471,6 +471,12 @@ namespace Files.App.Views.Layouts
 					if (selectedFolder is not null)
 						NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, selectedFolder);
 				}
+				else if (!ctrlPressed && !shiftPressed && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+				{
+					var selectedItem = SelectedItems?.FirstOrDefault();
+					if (selectedItem != null)
+						await OpenItem(selectedItem);
+				}
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
 			{
@@ -607,12 +613,33 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		private async Task OpenItem(ListedItem item)
+		{
+			if (!Commands.OpenItem.IsExecutable)
+			{
+				var itemType = item.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
+				await NavigationHelpers.OpenPath(item.ItemPath, ParentShellPageInstance, itemType);
+			}
+			else
+			{
+				await Commands.OpenItem.ExecuteAsync();
+			}
+		}
+
 		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
-				await Commands.OpenItem.ExecuteAsync();
-			else if ((e.OriginalSource as FrameworkElement)?.DataContext is not ListedItem && UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
+			var originalElement = e.OriginalSource as FrameworkElement;
+			var dataContext = originalElement?.DataContext;
+
+			// Try to get the item from DataContext or from sender (ListView)
+			ListedItem? item = dataContext as ListedItem;
+			if (item == null && sender is ListView listView && listView.SelectedItem is ListedItem selectedItem)
+				item = selectedItem;
+
+			if (item != null && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+				await OpenItem(item);
+			else if (item == null && UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 				await Commands.NavigateUp.ExecuteAsync();
 
 			ResetRenameDoubleClick();
