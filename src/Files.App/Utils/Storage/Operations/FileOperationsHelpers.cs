@@ -975,7 +975,7 @@ namespace Files.App.Utils.Storage
 
 							// Add operation-specific flags
 							if (isMoveOperation)
-								argsList.Add("/MOVE");
+								argsList.Add("/MOV");
 
 							var robocopyArgs = string.Join(" ", argsList);
 
