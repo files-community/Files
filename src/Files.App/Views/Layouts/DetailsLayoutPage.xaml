@@ -20,7 +20,7 @@
 	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	xmlns:wctlabs="using:CommunityToolkit.Labs.WinUI"
 	x:Name="PageRoot"
-	NavigationCacheMode="Enabled"
+	NavigationCacheMode="Disabled"
 	mc:Ignorable="d">
 
 	<i:Interaction.Behaviors>
@@ -227,7 +227,6 @@
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					AutomationProperties.AccessibilityView="Raw"
 					CanDragItems="{x:Bind AllowItemDrag, Mode=OneWay}"
-					ContainerContentChanging="FileList_ContainerContentChanging"
 					DoubleTapped="FileList_DoubleTapped"
 					DragItemsCompleted="FileList_DragItemsCompleted"
 					DragItemsStarting="FileList_DragItemsStarting"
@@ -244,6 +243,8 @@
 					PreviewKeyDown="FileList_PreviewKeyDown"
 					ScrollViewer.HorizontalScrollBarVisibility="Auto"
 					ScrollViewer.HorizontalScrollMode="Auto"
+					ScrollViewer.IsDeferredScrollingEnabled="True"
+					ScrollViewer.CanContentRenderOutsideBounds="False"
 					SelectionChanged="FileList_SelectionChanged"
 					SelectionMode="Extended"
 					Tapped="FileList_ItemTapped"
@@ -924,7 +925,7 @@
 												Margin="2"
 												HorizontalAlignment="Center"
 												VerticalAlignment="Center"
-												x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
+												Visibility="{x:Bind LoadFileIcon, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
 												CornerRadius="{StaticResource DetailsLayoutThumbnailCornerRadius}">
 												<Image
 													x:Name="Picture"
@@ -936,7 +937,7 @@
 											<wctlabs:Shimmer
 												x:Name="TypeUnknownGlyph"
 												Margin="2"
-												x:Load="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay}" />
+												Visibility="{x:Bind NeedsPlaceholderGlyph, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
 											<Image
 												x:Name="IconOverlay"
@@ -1026,14 +1027,14 @@
 										Padding="10,0,0,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
-										x:Load="{x:Bind IsGitItem}">
+										x:Load="{x:Bind IsGitItem}"
+										Visibility="{Binding ColumnsViewModel.GitStatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
 										<controls:ThemedIcon
 											Width="16"
 											Height="16"
 											HorizontalAlignment="Left"
 											Style="{x:Bind AsGitItem.UnmergedGitStatusIcon, Mode=OneWay}"
-											ToolTipService.ToolTip="{x:Bind AsGitItem.UnmergedGitStatusName, Mode=OneWay}"
-											Visibility="{Binding ColumnsViewModel.GitStatusColumn.Visibility, ElementName=PageRoot, Mode=OneWay}" />
+											ToolTipService.ToolTip="{x:Bind AsGitItem.UnmergedGitStatusName, Mode=OneWay}" />
 									</Border>
 
 									<!--  Item Git Last Commit Date  -->
@@ -1098,10 +1099,10 @@
 										Padding="12,0,12,0"
 										HorizontalAlignment="Stretch"
 										VerticalAlignment="Center"
+										x:Load="{x:Bind HasTags, Mode=OneWay, FallbackValue=False}"
 										Visibility="{Binding ColumnsViewModel.TagColumn.Visibility, ElementName=PageRoot, Mode=OneWay}">
 										<ItemsRepeater
 											x:Name="TagsRepeater"
-											x:Load="{x:Bind HasTags, Mode=OneWay, FallbackValue=False}"
 											ItemsSource="{x:Bind FileTagsUI, Mode=OneWay}"
 											Visibility="{x:Bind FileTagsUI, Converter={StaticResource EmptyObjectToObjectConverter}, Mode=OneWay}">
 											<ItemsRepeater.Layout>
@@ -1434,7 +1435,7 @@
 					<!--  ListView Item Displaying Style  -->
 					<ListView.ItemsPanel>
 						<ItemsPanelTemplate>
-							<ItemsStackPanel AreStickyGroupHeadersEnabled="False" Orientation="Vertical" />
+							<ItemsStackPanel Orientation="Vertical" />
 						</ItemsPanelTemplate>
 					</ListView.ItemsPanel>
 
