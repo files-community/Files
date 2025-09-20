@@ -29,71 +29,70 @@ namespace Files.App.Utils.Storage.Operations
 			var queue = new Queue<string>(_paths);
 			var batch = new List<string>(ChunkSize);
 
-			while (!cancellationToken.IsCancellationRequested && queue.TryDequeue(out var currentPath))
+		while (queue.TryDequeue(out var currentPath))
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+
+			if (!Win32Helper.HasFileAttribute(currentPath, FileAttributes.Directory))
 			{
-				if (!Win32Helper.HasFileAttribute(currentPath, FileAttributes.Directory))
+				batch.Add(currentPath);
+			}
+			else
+			{
+				try
 				{
-					batch.Add(currentPath);
-				}
-				else
-				{
-					try
+					// Use EnumerateFileSystemEntries to get both files and directories in one pass
+					foreach (var entry in Directory.EnumerateFileSystemEntries(currentPath))
 					{
-						foreach (var file in Directory.EnumerateFiles(currentPath))
+						cancellationToken.ThrowIfCancellationRequested();
+
+						if (Win32Helper.HasFileAttribute(entry, FileAttributes.Directory))
 						{
-							if (cancellationToken.IsCancellationRequested)
-								break;
-							batch.Add(file);
-							if (batch.Count >= ChunkSize)
-							{
-								ComputeFileSizeBatch(batch);
-								batch.Clear();
-								await Task.Yield();
-							}
+							queue.Enqueue(entry);
+						}
+						else
+						{
+							batch.Add(entry);
+						}
+
+						if (batch.Count >= ChunkSize)
+						{
+							await ProcessBatchAsync(batch, ChunkSize);
 						}
 					}
-					catch (UnauthorizedAccessException) { }
-					catch (IOException) { }
-#if DEBUG
-					catch (Exception ex)
-					{
-						System.Diagnostics.Debug.WriteLine(ex);
-					}
-#endif
-					try
-					{
-						foreach (var dir in Directory.EnumerateDirectories(currentPath))
-						{
-							if (cancellationToken.IsCancellationRequested)
-								break;
-							queue.Enqueue(dir);
-						}
-					}
-					catch (UnauthorizedAccessException) { }
-					catch (IOException) { }
-#if DEBUG
-					catch (Exception ex)
-					{
-						System.Diagnostics.Debug.WriteLine(ex);
-					}
-#endif
-
 				}
-
-				if (batch.Count >= ChunkSize)
+				catch (UnauthorizedAccessException) { }
+				catch (IOException) { }
+#if DEBUG
+				catch (Exception ex)
 				{
-					ComputeFileSizeBatch(batch);
-					batch.Clear();
-					await Task.Yield();
+					System.Diagnostics.Debug.WriteLine(ex);
 				}
+#endif
 			}
 
-			if (batch.Count > 0)
+			if (batch.Count >= ChunkSize)
 			{
-				ComputeFileSizeBatch(batch);
-				batch.Clear();
+				await ProcessBatchAsync(batch, ChunkSize);
 			}
 		}
+
+		// Process remaining items
+		if (batch.Count > 0)
+		{
+			ComputeFileSizeBatch(batch);
+			batch.Clear();
+		}
+
+		Completed = true;
+	}
+
+	private async Task ProcessBatchAsync(List<string> batch, int chunkSize)
+	{
+		ComputeFileSizeBatch(batch);
+		batch.Clear();
+		await Task.Yield();
+	}
 
 		private void ComputeFileSizeBatch(IEnumerable<string> files)
 		{
