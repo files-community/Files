@@ -227,6 +227,14 @@ namespace Files.App.Services
 
 				}
 
+				// Skip authentication for RaiDrive virtual shares
+				// RaiDrive creates virtual UNC paths that don't work with Windows networking APIs
+				// Format is \\RaiDrive-{user}\{drive-custom-name}\
+				if (path.StartsWith(@"\\RaiDrive-", StringComparison.OrdinalIgnoreCase))
+				{
+					return true;
+				}
+
 				fixed (char* lpcPath = path)
 					netRes.lpRemoteName = new PWSTR(lpcPath);
 			}
