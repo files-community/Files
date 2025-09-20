@@ -256,7 +256,7 @@
     <value>Klistra in</value>
   </data>
   <data name="PasteShortcut" xml:space="preserve">
-    <value>Paste shortcut</value>
+    <value>Klistra in genväg</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Nya</value>
@@ -310,7 +310,7 @@
     <value>Mörkt</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
-    <value>Use system setting</value>
+    <value>Använd systeminställning</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>App</value>
@@ -540,7 +540,7 @@
     <value>Kopiera till {0}</value>
   </data>
   <data name="CloneToFolderCaptionText" xml:space="preserve">
-    <value>Clone to {0}</value>
+    <value>Klona till {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>Skapa genväg</value>
@@ -1011,7 +1011,7 @@
     <value>Sökresultat i</value>
   </data>
   <data name="SearchResultsFor" xml:space="preserve">
-    <value>Search results for `{0}`</value>
+    <value>Sökresultat för `{0}`</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Information</value>
@@ -2028,7 +2028,7 @@
     <value>Beteenden</value>
   </data>
   <data name="Hello" xml:space="preserve">
-    <value>Hello!</value>
+    <value>Hej!</value>
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Enjoying Files? Please consider reviewing in the Microsoft Store.</value>
@@ -2130,7 +2130,7 @@
     <value>Arkivlösenord</value>
   </data>
   <data name="Encoding" xml:space="preserve">
-    <value>Encoding</value>
+    <value>Kodning</value>
   </data>
   <data name="EncodingDetected" xml:space="preserve">
     <value>{0} (detected)</value>
@@ -3523,7 +3523,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
-    <value>Canceled cloning {0} to "{1}"</value>
+    <value>Avbröt kloning {0} till "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_SubHeader" xml:space="preserve">
@@ -3531,7 +3531,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_Header" xml:space="preserve">
-    <value>Cloned "{0}" to "{1}"</value>
+    <value>Klonade "{0}" till "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneComplete_SubHeader" xml:space="preserve">
@@ -3547,7 +3547,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_Header" xml:space="preserve">
-    <value>Cloning "{0}" to "{1}"</value>
+    <value>Klonar "{0}" till "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneInProgress_SubHeader" xml:space="preserve">
@@ -4012,7 +4012,7 @@
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
   <data name="ImageFiles" xml:space="preserve">
-    <value>Image Files</value>
+    <value>Bildfiler</value>
     <comment>This is the friendly name for image files.</comment>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
@@ -4047,19 +4047,19 @@
     <value>Tab actions menu</value>
   </data>
   <data name="SplitPaneVertically" xml:space="preserve">
-    <value>Split vertically</value>
+    <value>Dela vertikalt</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
     <value>Split pane vertically</value>
   </data>
   <data name="SplitPaneHorizontally" xml:space="preserve">
-    <value>Split horizontally</value>
+    <value>Dela horisontellt</value>
   </data>
   <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
     <value>Split pane horizontally</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
-    <value>Arrange vertically</value>
+    <value>Ordna vertikalt</value>
   </data>
   <data name="ArrangePanesVerticallyDescription" xml:space="preserve">
     <value>Arrange panes vertically</value>
@@ -4086,10 +4086,10 @@
     <value>Dual pane mode</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
-    <value>Horizontal</value>
+    <value>Horisontell</value>
   </data>
   <data name="Vertical" xml:space="preserve">
-    <value>Vertical</value>
+    <value>Vertikal</value>
   </data>
   <data name="ShowSystemTrayIcon" xml:space="preserve">
     <value>Show Files icon in the System Tray</value>
@@ -4098,7 +4098,7 @@
     <value>CPU-trådar</value>
   </data>
   <data name="NavigateHomeDescription" xml:space="preserve">
-    <value>Navigate to the home page</value>
+    <value>Navigera till hemsidan</value>
   </data>
   <data name="Toolbars" xml:space="preserve">
     <value>Verktygsfält</value>
@@ -4190,7 +4190,7 @@
     <value>Ogiltig sökväg</value>
   </data>
   <data name="TestIntegration" xml:space="preserve">
-    <value>Test integration</value>
+    <value>Testa integration</value>
   </data>
   <data name="IDENotLocatedContent" xml:space="preserve">
     <value>{0} could not be located. Please check your settings and try again.</value>
@@ -4215,7 +4215,7 @@
     <comment>Clone repo dialog title</comment>
   </data>
   <data name="Clone" xml:space="preserve">
-    <value>Clone</value>
+    <value>Klona</value>
     <comment>Primary action button in the clone repo dialog</comment>
   </data>
   <data name="RepositoryURL" xml:space="preserve">
@@ -4234,7 +4234,7 @@
     <value>Size format</value>
   </data>
   <data name="Binary" xml:space="preserve">
-    <value>Binary</value>
+    <value>Binär</value>
   </data>
   <data name="Decimal" xml:space="preserve">
     <value>Decimal</value>
@@ -4249,7 +4249,7 @@
     <value>Enter a path to navigate to...</value>
   </data>
   <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
-    <value>Find features and commands...</value>
+    <value>Hitta funktioner och kommandon...</value>
   </data>
   <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
     <value>Sök efter filer och mappar...</value>
@@ -4272,22 +4272,22 @@
     <value>Show collapsed path breadcrumbs</value>
   </data>
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
-    <value>Show folders in {0}</value>
+    <value>Visa mappar i {0}</value>
   </data>
   <data name="BreadcrumbBarRootChevronButtonToolTip" xml:space="preserve">
-    <value>Show folders in Home</value>
+    <value>Visa mappar i Hem</value>
   </data>
   <data name="NoCommandsFound" xml:space="preserve">
     <value>There are no commands containing {0}</value>
   </data>
   <data name="SeeMore" xml:space="preserve">
-    <value>See more</value>
+    <value>Se mer</value>
   </data>
   <data name="FilteringFor" xml:space="preserve">
     <value>Filtering for</value>
   </data>
   <data name="Filename" xml:space="preserve">
-    <value>Filename</value>
+    <value>Filnamn</value>
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>Signatures</value>
@@ -4302,10 +4302,10 @@
     <value>Issued to:</value>
   </data>
   <data name="ValidFrom" xml:space="preserve">
-    <value>Valid from:</value>
+    <value>Giltig från:</value>
   </data>
   <data name="ValidTo" xml:space="preserve">
-    <value>Valid to:</value>
+    <value>Giltig till:</value>
   </data>
   <data name="NoSignatureFound" xml:space="preserve">
     <value>No signature was found.</value>
@@ -4314,7 +4314,7 @@
     <value>Show option to open folders in Windows Terminal</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
-    <value>Open log file</value>
+    <value>Öppna loggfil</value>
   </data>
   <data name="OpenLogFileDescription" xml:space="preserve">
     <value>Open log file in your default editor</value>
@@ -4323,6 +4323,6 @@
     <value>Open log file location in your default file manager</value>
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
-    <value>Unable to open the log file</value>
+    <value>Kunde inte öppna loggfilen</value>
   </data>
 </root>

@@ -105,7 +105,7 @@ namespace Files.App.ViewModels
 
 		public void RefreshWidgetList()
 		{
-			for (int i = 0; i < WidgetItems.Count; i++)
+			for (int i = WidgetItems.Count - 1; i >= 0; i--)
 			{
 				if (!WidgetItems[i].WidgetItemModel.IsWidgetSettingEnabled)
 					RemoveWidgetAt(i);
@@ -116,8 +116,11 @@ namespace Files.App.ViewModels
 
 		public async Task RefreshWidgetProperties()
 		{
-			foreach (var viewModel in WidgetItems.Select(x => x.WidgetItemModel))
-				await viewModel.RefreshWidgetAsync();
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+			{
+				foreach (var viewModel in WidgetItems.Select(x => x.WidgetItemModel).ToList())
+					await viewModel.RefreshWidgetAsync();
+			});
 		}
 
 		private bool InsertWidget(WidgetContainerItem widgetModel, int atIndex)
@@ -136,11 +139,17 @@ namespace Files.App.ViewModels
 
 			if (atIndex > WidgetItems.Count)
 			{
-				WidgetItems.Add(widgetModel);
+				MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					WidgetItems.Add(widgetModel);
+				});
 			}
 			else
 			{
-				WidgetItems.Insert(atIndex, widgetModel);
+				MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					WidgetItems.Insert(atIndex, widgetModel);
+				});
 			}
 
 			return true;
@@ -148,7 +157,10 @@ namespace Files.App.ViewModels
 
 		public bool CanAddWidget(string widgetName)
 		{
-			return !(WidgetItems.Any((item) => item.WidgetItemModel.WidgetName == widgetName));
+			return MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+			{
+				return !(WidgetItems.Any((item) => item.WidgetItemModel.WidgetName == widgetName));
+			}).GetAwaiter().GetResult();
 		}
 
 		private void RemoveWidgetAt(int index)
@@ -158,25 +170,35 @@ namespace Files.App.ViewModels
 				return;
 			}
 
-			WidgetItems[index].Dispose();
-			WidgetItems.RemoveAt(index);
+			MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+			{
+				WidgetItems[index].Dispose();
+				WidgetItems.RemoveAt(index);
+			});
 		}
 
 		public void RemoveWidget<TWidget>() where TWidget : IWidgetViewModel
 		{
-			int indexToRemove = -1;
-
-			for (int i = 0; i < WidgetItems.Count; i++)
+			MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
-				if (typeof(TWidget).IsAssignableFrom(WidgetItems[i].WidgetControl.GetType()))
-				{
-					// Found matching types
-					indexToRemove = i;
-					break;
-				}
-			}
+				int indexToRemove = -1;
 
-			RemoveWidgetAt(indexToRemove);
+				for (int i = 0; i < WidgetItems.Count; i++)
+				{
+					if (typeof(TWidget).IsAssignableFrom(WidgetItems[i].WidgetControl.GetType()))
+					{
+						// Found matching types
+						indexToRemove = i;
+						break;
+					}
+				}
+
+				if (indexToRemove >= 0)
+				{
+					WidgetItems[indexToRemove].Dispose();
+					WidgetItems.RemoveAt(indexToRemove);
+				}
+			});
 		}
 
 		// Command methods
@@ -191,10 +213,13 @@ namespace Files.App.ViewModels
 
 		public void Dispose()
 		{
-			for (int i = 0; i < WidgetItems.Count; i++)
-				WidgetItems[i].Dispose();
+			MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+			{
+				for (int i = 0; i < WidgetItems.Count; i++)
+					WidgetItems[i].Dispose();
 
-			WidgetItems.Clear();
+				WidgetItems.Clear();
+			});
 		}
 	}
 }

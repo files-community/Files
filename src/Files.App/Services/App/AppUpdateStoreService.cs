@@ -102,7 +102,11 @@ namespace Files.App.Services
 			if (_updatePackages is not null && _updatePackages.Count > 0)
 			{
 				App.Logger.LogInformation("STORE: Update found.");
-				IsUpdateAvailable = true;
+
+				MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+				{
+					IsUpdateAvailable = true;
+				});
 			}
 		}
 

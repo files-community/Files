@@ -124,7 +124,7 @@
     <value>Salin jalur</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Copy item path</value>
+    <value>Salin jalur item</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Salin jalur dengan kutip</value>
@@ -217,7 +217,7 @@
     <value>Tampilkan file dan folder tersembunyi</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Tampilkan berkas dot</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Tampilan</value>
@@ -310,7 +310,7 @@
     <value>Gelap</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
-    <value>Use system setting</value>
+    <value>Gunakan pengaturan sistem</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Aplikasi</value>
@@ -492,7 +492,7 @@
     <value>{0, number} {0, plural, one {berkas} other {berkas}}, {1, number} {1, plural, one {folder} other {folder}}</value>
   </data>
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
-    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}} from {2, number} {2, plural, one {location} other {locations}}</value>
+    <value>{0, number} {0, plural, one {berkas} other {berkas}}, {1, number} {1, plural, one {folder} other {folders}} from {2, number} {2, plural, one {lokasi} other {lokasi}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Jalankan sebagai pengguna lain</value>
@@ -540,7 +540,7 @@
     <value>Salin ke {0}</value>
   </data>
   <data name="CloneToFolderCaptionText" xml:space="preserve">
-    <value>Clone to {0}</value>
+    <value>Salin ke {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>Buat pintasan</value>
@@ -1011,7 +1011,7 @@
     <value>Hasil pencarian di {1} untuk {0}</value>
   </data>
   <data name="SearchResultsFor" xml:space="preserve">
-    <value>Search results for `{0}`</value>
+    <value>Hasil pencarian untuk `{0}`</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Rincian</value>

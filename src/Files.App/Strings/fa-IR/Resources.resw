@@ -124,7 +124,7 @@
     <value>کپی کردن مسیر</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Copy item path</value>
+    <value>کپی مسیر آیتم</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>کپی مسیر با نقل قول</value>
@@ -166,7 +166,7 @@
     <value>رد کردن</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>انتخاب همه</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>معکوس کردن انتخاب</value>
@@ -217,7 +217,7 @@
     <value>نمایش فایل ها و فولدرهای مخفی</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>نمایش فایل هایی که با نقطه شروع میشوند</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>ظاهر</value>
@@ -301,7 +301,7 @@
     <value>نام آیتم را وارد کن</value>
   </data>
   <data name="CreateNewItemTitle" xml:space="preserve">
-    <value>Create new {0}</value>
+    <value>ایحاد {0} جدید</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>روشن</value>
@@ -310,7 +310,7 @@
     <value>تاریک</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
-    <value>Use system setting</value>
+    <value>استفاده از تنظیمات سیستم</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>برنامه</value>
@@ -397,7 +397,7 @@
     <value>فقط خواندنی</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0, plural, one {# day ago} other {# days ago}}</value>
+    <value>{0, plural,one {# روز پیش}other {# روز پیش}}</value>
   </data>
   <data name="DaysAgo_Singular" xml:space="preserve">
     <value>1 روز پیش</value>
@@ -406,7 +406,7 @@
     <value>{0} روز پیش</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
+    <value>{0, plural,one {# ساعت پیش}other {# ساعت پیش}}</value>
   </data>
   <data name="HoursAgo_Singular" xml:space="preserve">
     <value>1 ساعت پیش</value>
@@ -415,7 +415,7 @@
     <value>{0} ساعت پیش</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>{0, plural, one {# minute ago} other {# minutes ago}}</value>
+    <value>{0, plural, one {# دقیقه پیش} other {دقیقه پیش#}}</value>
   </data>
   <data name="MinutesAgo_Singular" xml:space="preserve">
     <value>1 دقیقه پیش</value>
@@ -424,13 +424,13 @@
     <value>{0} دقيقه پیش</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>{0, plural, one {# second ago} other {# seconds ago}}</value>
+    <value>{0, plural, one {# ثانیه پیش} other { ثانیه پیش#}}</value>
   </data>
   <data name="SecondsAgo_Singular" xml:space="preserve">
     <value>1 ثانیه قبل</value>
   </data>
   <data name="SecondsAgo_Plural" xml:space="preserve">
-    <value>{0} seconds ago</value>
+    <value>{0} ثانیه پیش</value>
   </data>
   <data name="Now" xml:space="preserve">
     <value>اکنون</value>
@@ -489,10 +489,10 @@
     <value>بایت</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}}</value>
+    <value>{0, number}{0, plural, one { فایل} other { فایل}}{1, number}{1, plural, one { پوشه} other { پوشه}}</value>
   </data>
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
-    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}} from {2, number} {2, plural, one {location} other {locations}}</value>
+    <value>{0, number}{0, plural, one { فایل } other { فایل }}{1, number}{1, plural, one { پوشه } other { پوشه }}{2, number}{2, plural, one { مکان} other { مکان}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>اجرا به عنوان کاربر دیگر</value>
@@ -540,7 +540,7 @@
     <value>کپی به {0}</value>
   </data>
   <data name="CloneToFolderCaptionText" xml:space="preserve">
-    <value>Clone to {0}</value>
+    <value>کلون به {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
     <value>ایجاد میانبر</value>
@@ -1002,10 +1002,10 @@
     <value>پاک کردن همه صفات</value>
   </data>
   <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
-    <value>وضعیت عملکرد فایل ها را اینجا بررسی کن</value>
+    <value>وضعیت ها را اینجا بررسی کن</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>مرکز وضعیت</value>
+    <value>وضعیت ها</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>جستجو برای (1) در (0)</value>
@@ -1095,13 +1095,13 @@
     <value>Toggle visibility of the detail/preview panes</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
-    <value>Toggle toolbar</value>
+    <value>جعبه ابزار</value>
   </data>
   <data name="ToggleToolbarDescription" xml:space="preserve">
     <value>Toggle visibility of the toolbar</value>
   </data>
   <data name="ToggleFilterHeader" xml:space="preserve">
-    <value>Toggle filter header</value>
+    <value>فعالسازی فیلتر نام</value>
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
     <value>Toggle visibility of the filter header</value>
@@ -1755,10 +1755,10 @@
     <value>پرچم‌های ویژگی‌های آزمایشی</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>کمک و پشتیبانی</value>
+    <value>پشتیبانی</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
-    <value>ارسال درخواست قابلیت</value>
+    <value>درخواست قابلیت</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
     <value>ارسال گزارش اشکال نرم افزاری</value>
@@ -2145,13 +2145,13 @@
     <value>ایجاد آرشیو</value>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>ايجاد كردن</value>
+    <value>ايجاد</value>
   </data>
   <data name="CreateNamedArchive" xml:space="preserve">
     <value>ایجاد {0}</value>
   </data>
   <data name="EnterName" xml:space="preserve">
-    <value>یک نام وارد کنید</value>
+    <value>نام را وارد کنید</value>
   </data>
   <data name="CompressionLevel" xml:space="preserve">
     <value>سطح فشرده سازی</value>
@@ -2301,7 +2301,7 @@
     <value>همیشه</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
-    <value>فقط پاک کردن دائمی</value>
+    <value>فقط حذف دائمی</value>
   </data>
   <data name="Never" xml:space="preserve">
     <value>هرگز</value>
@@ -2418,10 +2418,10 @@
     <value>Open the online help page in your browser</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Toggle full screen mode</value>
+    <value>تغییر حجم صفحه</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>Enter compact overlay mode</value>
+    <value>حالت متراکم</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Exit compact overlay mode</value>
@@ -3181,7 +3181,7 @@
     <value>ریموت‌ها</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>Translate on Crowdin</value>
+    <value>کمک در ترجمه</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
     <value>گرفتن</value>
@@ -4290,7 +4290,7 @@
     <value>Filename</value>
   </data>
   <data name="Signatures" xml:space="preserve">
-    <value>Signatures</value>
+    <value>مشخصه ها</value>
    </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Signature list</value>

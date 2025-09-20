@@ -139,7 +139,7 @@
     <value>大小</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>创建日期:</value>
+    <value>创建日期：</value>
   </data>
   <data name="Path" xml:space="preserve">
     <value>路径</value>
@@ -175,10 +175,10 @@
     <value>清除选择</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>修改日期:</value>
+    <value>修改日期：</value>
   </data>
   <data name="Accessed" xml:space="preserve">
-    <value>访问日期:</value>
+    <value>访问日期：</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>清空所有项目</value>
@@ -507,16 +507,16 @@
     <value>{0} 中全部</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
-    <value>已用空间:</value>
+    <value>已用空间：</value>
   </data>
   <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
-    <value>可用空间:</value>
+    <value>可用空间：</value>
   </data>
   <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
-    <value>容量:</value>
+    <value>容量：</value>
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
-    <value>文件系统:</value>
+    <value>文件系统：</value>
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>近期访问</value>
@@ -549,13 +549,13 @@
     <value>打开文件位置</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
-    <value>参数:</value>
+    <value>参数：</value>
   </data>
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
-    <value>目标位置:</value>
+    <value>目标位置：</value>
   </data>
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
-    <value>快捷方式类型:</value>
+    <value>快捷方式类型：</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
     <value>Web 链接</value>
@@ -582,13 +582,13 @@
     <value>报告此问题</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>引用的项目无效或无法访问。{0}代码:{0}{1}</value>
+    <value>引用的项目无效或无法访问。{0}代码：{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>无效项</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
-    <value>版本:</value>
+    <value>版本：</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
     <value>目前没有可共享的内容。</value>
@@ -1242,7 +1242,7 @@
     <value>库</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
-    <value>位置:</value>
+    <value>位置：</value>
   </data>
   <data name="SetAsDefaultSavePath" xml:space="preserve">
     <value>设置为默认保存路径</value>
@@ -1323,7 +1323,7 @@
     <value>用选中的项目创建文件夹</value>
   </data>
   <data name="ItemType" xml:space="preserve">
-    <value>类型:</value>
+    <value>类型：</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>修改日期:</value>
@@ -1479,7 +1479,7 @@
     <value>你无权查看此对象的安全属性。 单击“高级权限”继续。</value>
   </data>
   <data name="SecurityOwnerLabel.Text" xml:space="preserve">
-    <value>所有者:</value>
+    <value>所有者：</value>
   </data>
   <data name="SecurityUnknownOwnerText.Text" xml:space="preserve">
     <value>未知所有者</value>
@@ -3055,7 +3055,7 @@
     <value>重做上一次文件操作</value>
   </data>
   <data name="Location" xml:space="preserve">
-    <value>位置:</value>
+    <value>位置：</value>
   </data>
   <data name="GroupByMonthDescription" xml:space="preserve">
     <value>按月份分组</value>
@@ -3360,7 +3360,7 @@
     <value>在 OmniBar 中打开命令面板</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
-    <value>起始位置:</value>
+    <value>起始位置：</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
     <value>打开 BitLocker</value>
@@ -3466,7 +3466,7 @@
     <value>清除已完成的条目</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
-    <value>名称:</value>
+    <value>名称：</value>
   </data>
   <data name="StatusCenter_ProcessedSize_Header" xml:space="preserve">
     <value>已处理 {0}，共 {1}</value>
@@ -3488,7 +3488,7 @@
     <value>正在处理项目...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
-    <value>速度:</value>
+    <value>速度：</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
     <value>已取消将 {0} 个项目压缩到“{1}”</value>
@@ -4034,10 +4034,10 @@
     <value>在记事本中编辑选中的文件</value>
   </data>
   <data name="PropertyDimensionsColon" xml:space="preserve">
-    <value>分辨率:</value>
+    <value>分辨率：</value>
   </data>
   <data name="StatusWithColon" xml:space="preserve">
-    <value>状态:</value>
+    <value>状态：</value>
   </data>
   <data name="ShowToolbar" xml:space="preserve">
     <value>显示工具栏</value>
