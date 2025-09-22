@@ -458,8 +458,8 @@ namespace Files.App.Views.Layouts
 
 				if (ctrlPressed && !shiftPressed)
 				{
-					var folders = ParentShellPageInstance?.SlimContentPage.SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
-					if (folders is not null)
+					var folders = SelectedItems?.Where(file => file.PrimaryItemAttribute == StorageItemTypes.Folder);
+					if (folders?.Any() ?? false)
 					{
 						foreach (ListedItem folder in folders)
 							await NavigationHelpers.OpenPathInNewTab(folder.ItemPath);
@@ -467,15 +467,20 @@ namespace Files.App.Views.Layouts
 				}
 				else if (ctrlPressed && shiftPressed)
 				{
-					var selectedFolder = SelectedItems?.FirstOrDefault(item => item.PrimaryItemAttribute == StorageItemTypes.Folder);
-					if (selectedFolder is not null)
-						NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, selectedFolder);
+					var selectedFolders = SelectedItems?.Where(item => item.PrimaryItemAttribute == StorageItemTypes.Folder);
+					if (selectedFolders?.Any() ?? false)
+					{
+						foreach (var selectedFolder in selectedFolders)
+							NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, selectedFolder);
+					}
 				}
 				else if (!ctrlPressed && !shiftPressed && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
 				{
-					var selectedItem = SelectedItems?.FirstOrDefault();
-					if (selectedItem != null)
-						await OpenItem(selectedItem);
+					if (SelectedItems?.Any() ?? false)
+					{
+						foreach (var selectedItem in SelectedItems)
+							await OpenItem(selectedItem);
+					}
 				}
 			}
 			else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
