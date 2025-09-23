@@ -73,25 +73,51 @@ namespace Files.App.Utils.Storage
 
 			var settings = Ioc.Default.GetRequiredService<IUserSettingsService>().DevToolsSettingsService;
 
-			if (sourceRename.Any())
+			// For small operations (<= 20 files), use shell for everything but still respect conflict resolution choices
+			if (source.Count <= 20)
 			{
-				// Rename operations always use shell operations for proper incremental naming
-				var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+				if (sourceRename.Any())
+				{
+					// Rename operations always use shell operations for proper incremental naming
+					var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
 
-				result &= (FilesystemResult)resultItem.Item1;
+					result &= (FilesystemResult)resultItem.Item1;
 
-				copyResult.Items.AddRange(resultItem.Item2?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+					copyResult.Items.AddRange(resultItem.Item2?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+				}
+
+				if (sourceReplace.Any())
+				{
+					// Replace operations use shell with overwrite enabled
+					var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+
+					result &= (FilesystemResult)resultItem.Item1;
+
+					copyResult.Items.AddRange(resultItem.Item2?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+				}
 			}
-
-			if (sourceReplace.Any())
+			else
 			{
-				var resultItem = settings.UseRobocopyForFileOperations
-					? await FileOperationsHelpers.CopyItemWithRobocopyAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID, _associatedInstance)
-					: await FileOperationsHelpers.CopyItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+				if (sourceRename.Any())
+				{
+					// Rename operations always use shell operations for proper incremental naming
+					var resultItem = await FileOperationsHelpers.CopyItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
 
-				result &= (FilesystemResult)resultItem.Item1;
+					result &= (FilesystemResult)resultItem.Item1;
 
-				copyResult.Items.AddRange(resultItem.Item2?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+					copyResult.Items.AddRange(resultItem.Item2?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+				}
+
+				if (sourceReplace.Any())
+				{
+					var resultItem = settings.UseRobocopyForFileOperations
+						? await FileOperationsHelpers.CopyItemWithRobocopyAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID, _associatedInstance)
+						: await FileOperationsHelpers.CopyItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+
+					result &= (FilesystemResult)resultItem.Item1;
+
+					copyResult.Items.AddRange(resultItem.Item2?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+				}
 			}
 
 			result &= (FilesystemResult)copyResult.Items.All(x => x.Succeeded);
@@ -503,23 +529,47 @@ namespace Files.App.Utils.Storage
 
 			var settings = Ioc.Default.GetRequiredService<IUserSettingsService>().DevToolsSettingsService;
 
-			if (sourceRename.Any())
+			// For small operations (<= 20 files), use shell for everything but still respect conflict resolution choices
+			if (source.Count <= 20)
 			{
-				// Rename operations always use shell operations for proper incremental naming
-				var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+				if (sourceRename.Any())
+				{
+					// Rename operations always use shell operations for proper incremental naming
+					var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
 
-				result &= (FilesystemResult)status;
-				moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+					result &= (FilesystemResult)status;
+					moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+				}
+
+				if (sourceReplace.Any())
+				{
+					// Replace operations use shell with overwrite enabled
+					var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+
+					result &= (FilesystemResult)status;
+					moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+				}
 			}
-
-			if (sourceReplace.Any())
+			else
 			{
-				var (status, response) = settings.UseRobocopyForFileOperations
-					? await FileOperationsHelpers.MoveItemWithRobocopyAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID, _associatedInstance)
-					: await FileOperationsHelpers.MoveItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+				if (sourceRename.Any())
+				{
+					// Rename operations always use shell operations for proper incremental naming
+					var (status, response) = await FileOperationsHelpers.MoveItemAsync(sourceRename.Select(s => s.Path).ToArray(), destinationRename.ToArray(), false, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
 
-				result &= (FilesystemResult)status;
-				moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+					result &= (FilesystemResult)status;
+					moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+				}
+
+				if (sourceReplace.Any())
+				{
+					var (status, response) = settings.UseRobocopyForFileOperations
+						? await FileOperationsHelpers.MoveItemWithRobocopyAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID, _associatedInstance)
+						: await FileOperationsHelpers.MoveItemAsync(sourceReplace.Select(s => s.Path).ToArray(), destinationReplace.ToArray(), true, MainWindow.Instance.WindowHandle.ToInt64(), asAdmin, progress, operationID);
+
+					result &= (FilesystemResult)status;
+					moveResult.Items.AddRange(response?.Final ?? Enumerable.Empty<ShellOperationItemResult>());
+				}
 			}
 
 			result &= (FilesystemResult)moveResult.Items.All(x => x.Succeeded);
