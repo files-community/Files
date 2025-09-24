@@ -706,6 +706,40 @@ namespace Files.App.Utils.Storage
 
 				using var process = new Process { StartInfo = psi };
 
+				int completedFiles = 0;
+				int totalFiles = 0;
+
+				process.OutputDataReceived += (sender, e) =>
+				{
+					if (!string.IsNullOrEmpty(e.Data))
+					{
+						// Parse for file completion lines (e.g., "100%    12345   filename.ext")
+						if (e.Data.Contains('%') && e.Data.Length > 10)
+						{
+							completedFiles++;
+							// Update progress for every few files to avoid too frequent updates
+							if (completedFiles % 5 == 0)
+							{
+								// Estimate total progress within this operation
+								// This is a simple approach - we don't know exact total, so we use a rolling estimate
+								var estimatedProgress = Math.Min(95, completedFiles * 2); // Conservative estimate
+								progressModel.Report(estimatedProgress);
+							}
+						}
+						// Parse summary lines for total count (e.g., "Files : 5  0  5")
+						else if (e.Data.StartsWith("Files :", StringComparison.OrdinalIgnoreCase))
+						{
+							var parts = e.Data.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+							if (parts.Length >= 4 && int.TryParse(parts[1], out var copied) &&
+								int.TryParse(parts[2], out var skipped) &&
+								int.TryParse(parts[3], out var failed))
+							{
+								totalFiles = copied + skipped + failed;
+							}
+						}
+					}
+				};
+
 				process.Start();
 
 				// Verify process started successfully
@@ -714,19 +748,10 @@ namespace Files.App.Utils.Storage
 					return (false, -4); // Process start failure
 				}
 
-				// Start reading streams AFTER process starts to prevent buffer overflow
-				var outputTask = Task.Run(() =>
-				{
-					try
-					{
-						return process.StandardOutput.ReadToEnd();
-					}
-					catch
-					{
-						return string.Empty;
-					}
-				});
+				// Begin async reading of output
+				process.BeginOutputReadLine();
 
+				// Start reading error stream
 				var errorTask = Task.Run(() =>
 				{
 					try
@@ -768,20 +793,17 @@ namespace Files.App.Utils.Storage
 					return (false, -2); // Timeout error
 				}
 
-				// Wait for output reading to complete (with timeout)
+				// Wait for error reading to complete (with timeout)
 				try
 				{
-					await Task.WhenAny(
-						Task.WhenAll(outputTask, errorTask),
-						Task.Delay(5000, CancellationToken.None)
-					);
+					await Task.WhenAny(errorTask, Task.Delay(5000, CancellationToken.None));
 				}
 				catch { }
 
 				var exitCode = process.ExitCode;
 				var success = exitCode >= 0 && exitCode <= 7;
 
-				App.Logger?.LogInformation($"Robocopy operation {operationID}: Completed with exit code {exitCode}, success: {success}");
+				App.Logger?.LogInformation($"Robocopy operation {operationID}: Completed with exit code {exitCode}, success: {success}, processed {completedFiles} files");
 
 				return (success, exitCode);
 			}
@@ -967,7 +989,6 @@ namespace Files.App.Utils.Storage
 									name.Contains(' ') ? $"\"{name}\"" : name)),
 								"/R:3",
 								"/W:1",
-								"/NP",
 								"/NJH",
 								"/NJS",
 								$"/MT:{threads}"
@@ -1027,7 +1048,6 @@ namespace Files.App.Utils.Storage
 							"/E",
 							"/R:3",
 							"/W:1",
-							"/NP",
 							"/NJH",
 							"/NJS",
 							$"/MT:{threads}"
@@ -1166,11 +1186,22 @@ namespace Files.App.Utils.Storage
 						fsProgress.Report(50); // 50% complete after move
 
 						// Step 3: Use robocopy MIR to delete all data (single command, no batching)
-						var robocopyArgs = $"\"{emptyFolder}\" \"{tempDeleteFolder}\" /MIR /MT:{threads} /R:0 /W:0 /NP /NJH /NJS";
+						var robocopyArgs = $"\"{emptyFolder}\" \"{tempDeleteFolder}\" /MIR /MT:{threads} /R:0 /W:0 /NJH /NJS";
 
 						App.Logger?.LogInformation($"Robocopy delete operation {operationID}: Starting MIR deletion with args: {robocopyArgs}");
 
-						var (deleteSuccess, exitCode) = await RunRobocopyAsync(robocopyArgs, fsProgress, operationID, cts.Token);
+						// Create a progress handler that maps MIR progress from 50-100%
+						var mirProgressModel = new StatusCenterItemProgressModel(
+							new Progress<StatusCenterItemProgressModel>(p =>
+							{
+								// Map progress from 0-95% (from RunRobocopyAsync) to 50-100%
+								var mappedProgress = 50 + (p.Percentage * 0.5);
+								fsProgress.Report(mappedProgress);
+							}),
+							false,
+							FileSystemStatusCode.InProgress);
+
+						var (deleteSuccess, exitCode) = await RunRobocopyAsync(robocopyArgs, mirProgressModel, operationID, cts.Token);
 
 						if (!deleteSuccess)
 						{
@@ -1182,7 +1213,7 @@ namespace Files.App.Utils.Storage
 							App.Logger?.LogInformation($"Robocopy delete operation {operationID}: MIR deletion completed successfully");
 						}
 
-						fsProgress.Report(75); // 75% complete after robocopy MIR
+						fsProgress.Report(100); // 100% complete after robocopy MIR
 					}
 
 					// Step 4: Clean up temp folders
