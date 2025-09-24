@@ -686,6 +686,59 @@ namespace Files.App.Utils.Storage
 				shellPage);
 		}
 
+		private static void ParseRobocopySummaryLine(ReadOnlySpan<char> line, ref int totalFiles)
+		{
+			// Parse summary lines for total count (e.g., "Files : 5  0  5")
+			// Expected format: "Files : copied  skipped  failed"
+			// Skip "Files :" (7 chars) and parse the numbers
+			if (line.Length < 12) // Minimum length for "Files : 0 0 0"
+				return;
+
+			ReadOnlySpan<char> numbersPart = line.Slice(7); // Skip "Files :"
+
+			// Find the three numbers separated by spaces
+			int copied = 0, skipped = 0, failed = 0;
+			int spaceCount = 0;
+			int start = 0;
+
+			for (int i = 0; i < numbersPart.Length && spaceCount < 3; i++)
+			{
+				if (numbersPart[i] == ' ')
+				{
+					if (i > start)
+					{
+						ReadOnlySpan<char> numberSpan = numbersPart.Slice(start, i - start);
+						if (!numberSpan.IsEmpty && int.TryParse(numberSpan, out int value))
+						{
+							switch (spaceCount)
+							{
+								case 0: copied = value; break;
+								case 1: skipped = value; break;
+								case 2: failed = value; break;
+							}
+						}
+					}
+					start = i + 1;
+					spaceCount++;
+				}
+			}
+
+			// Handle the last number if no trailing space
+			if (spaceCount >= 2 && start < numbersPart.Length)
+			{
+				ReadOnlySpan<char> numberSpan = numbersPart.Slice(start);
+				if (!numberSpan.IsEmpty && int.TryParse(numberSpan, out int value))
+				{
+					failed = value;
+				}
+			}
+
+			if (spaceCount >= 2) // We need at least 3 parts (copied, skipped, failed)
+			{
+				totalFiles = copied + skipped + failed;
+			}
+		}
+
 		private static async Task<(bool success, int exitCode)> RunRobocopyAsync(string arguments, StatusCenterItemProgressModel progressModel, string operationID, CancellationToken cancellationToken)
 		{
 			try
@@ -711,32 +764,29 @@ namespace Files.App.Utils.Storage
 
 				process.OutputDataReceived += (sender, e) =>
 				{
-					if (!string.IsNullOrEmpty(e.Data))
+					if (string.IsNullOrEmpty(e.Data))
+						return;
+
+					ReadOnlySpan<char> line = e.Data;
+
+					// Fast path: check for file completion lines (e.g., "100%    12345   filename.ext")
+					// Use IndexOf for faster scanning than Contains
+					if (line.Length > 10 && line.IndexOf('%') >= 0)
 					{
-						// Parse for file completion lines (e.g., "100%    12345   filename.ext")
-						if (e.Data.Contains('%') && e.Data.Length > 10)
+						completedFiles++;
+						// Update progress for every few files to avoid too frequent updates
+						if (completedFiles % 5 == 0)
 						{
-							completedFiles++;
-							// Update progress for every few files to avoid too frequent updates
-							if (completedFiles % 5 == 0)
-							{
-								// Estimate total progress within this operation
-								// This is a simple approach - we don't know exact total, so we use a rolling estimate
-								var estimatedProgress = Math.Min(95, completedFiles * 2); // Conservative estimate
-								progressModel.Report(estimatedProgress);
-							}
+							// Estimate total progress within this operation
+							// This is a simple approach - we don't know exact total, so we use a rolling estimate
+							var estimatedProgress = Math.Min(95, completedFiles * 2); // Conservative estimate
+							progressModel.Report(estimatedProgress);
 						}
-						// Parse summary lines for total count (e.g., "Files : 5  0  5")
-						else if (e.Data.StartsWith("Files :", StringComparison.OrdinalIgnoreCase))
-						{
-							var parts = e.Data.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-							if (parts.Length >= 4 && int.TryParse(parts[1], out var copied) &&
-								int.TryParse(parts[2], out var skipped) &&
-								int.TryParse(parts[3], out var failed))
-							{
-								totalFiles = copied + skipped + failed;
-							}
-						}
+					}
+					// Parse summary lines for total count (e.g., "Files : 5  0  5")
+					else if (line.StartsWith("Files :", StringComparison.OrdinalIgnoreCase))
+					{
+						ParseRobocopySummaryLine(line, ref totalFiles);
 					}
 				};
 
