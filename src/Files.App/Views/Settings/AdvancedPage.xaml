@@ -170,33 +170,33 @@
 			</wctcontrols:SettingsCard>
 
 			<!--  Use Robocopy for file operations  -->
-			<wctcontrols:SettingsCard Header="Use Robocopy for file operations">
-				<wctcontrols:SettingsCard.HeaderIcon>
+			<wctcontrols:SettingsExpander Header="Use Robocopy for file operations" IsExpanded="False">
+				<wctcontrols:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE8B5;" />
-				</wctcontrols:SettingsCard.HeaderIcon>
-					<StackPanel Orientation="Vertical" Spacing="8">
-					<ToggleSwitch
-						AutomationProperties.Name="Use Robocopy for file operations"
-						IsOn="{x:Bind ViewModel.UseRobocopyForFileOperations, Mode=TwoWay}"
-						OffContent="Use Windows Shell API"
-						OnContent="Use Robocopy (faster)" />
-					<StackPanel Orientation="Horizontal" Spacing="8">
-						<TextBlock VerticalAlignment="Center" Text="Threads:" />
-						<NumberBox
-							Width="100"
-							SpinButtonPlacementMode="Compact"
-							Minimum="1"
-							Maximum="128"
-							SmallChange="1"
-							LargeChange="8"
-							IsEnabled="{x:Bind ViewModel.UseRobocopyForFileOperations, Mode=OneWay}"
-							Value="{x:Bind ViewModel.RobocopyThreads, Mode=TwoWay}" />
-					</StackPanel>
-				</StackPanel>
-				<wctcontrols:SettingsCard.Description>
-					<TextBlock Text="Enable Robocopy for faster file copy/move operations. May provide better performance for large files and bulk operations." />
-				</wctcontrols:SettingsCard.Description>
-			</wctcontrols:SettingsCard>
+				</wctcontrols:SettingsExpander.HeaderIcon>
+				<ToggleSwitch
+					AutomationProperties.Name="Use Robocopy for file operations"
+					IsOn="{x:Bind ViewModel.UseRobocopyForFileOperations, Mode=TwoWay}" />
+				<wctcontrols:SettingsExpander.ItemsHeader>
+					<Grid
+						Padding="8"
+						HorizontalAlignment="Stretch"
+						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+						RowSpacing="4">
+						<StackPanel Orientation="Horizontal" Spacing="12">
+							<TextBlock VerticalAlignment="Center" Text="Threads:" />
+							<NumberBox
+								Width="160"
+								SpinButtonPlacementMode="Compact"
+								Minimum="1"
+								Maximum="128"
+								SmallChange="1"
+								LargeChange="8"
+								Value="{x:Bind ViewModel.RobocopyThreads, Mode=TwoWay}" />
+						</StackPanel>
+					</Grid>
+				</wctcontrols:SettingsExpander.ItemsHeader>
+			</wctcontrols:SettingsExpander>
 		</StackPanel>
 	</Grid>
 </Page>
