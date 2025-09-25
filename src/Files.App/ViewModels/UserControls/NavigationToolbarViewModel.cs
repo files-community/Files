@@ -510,7 +510,8 @@ namespace Files.App.ViewModels.UserControls
 				return;
 
 			if (normalizedInput.Equals(ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory) &&
-				ContentPageContext.ShellPage.CurrentPageType != typeof(HomePage))
+				ContentPageContext.ShellPage.CurrentPageType != typeof(HomePage) &&
+				!ContentPageContext.ShellPage.ShellViewModel.IsSearchResults)
 				return;
 
 			if (normalizedInput.Equals("Home", StringComparison.OrdinalIgnoreCase) ||
