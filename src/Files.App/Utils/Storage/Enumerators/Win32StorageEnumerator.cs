@@ -25,9 +25,10 @@ namespace Files.App.Utils.Storage
 			Func<List<ListedItem>, Task> intermediateAction
 		)
 		{
-			var sampler = new IntervalSampler(500);
+			var sampler = new IntervalSampler(5000);
 			var tempList = new List<ListedItem>();
 			var count = 0;
+			var disableIntermediateUpdates = false;
 
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			bool CalculateFolderSizes = userSettingsService.FoldersSettingsService.CalculateFolderSizes;
@@ -89,7 +90,10 @@ namespace Files.App.Utils.Storage
 				if (cancellationToken.IsCancellationRequested || count == countLimit)
 					break;
 
-				if (intermediateAction is not null && (count == 32 || sampler.CheckNow()))
+				if (count > 50000 && !disableIntermediateUpdates)
+					disableIntermediateUpdates = true;
+
+				if (intermediateAction is not null && !disableIntermediateUpdates && (count % 10000 == 0 || sampler.CheckNow()))
 				{
 					await intermediateAction(tempList);
 
