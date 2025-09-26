@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
@@ -25,82 +25,129 @@ namespace Files.App.Utils.Storage.Operations
 
 		public async Task ComputeSizeAsync(CancellationToken cancellationToken = default)
 		{
-			await Parallel.ForEachAsync(
-				_paths,
-				cancellationToken,
-				async (path, token) => await Task.Factory.StartNew(() =>
-				{
-					ComputeSizeRecursively(path, token);
-				},
-				token,
-				TaskCreationOptions.LongRunning,
-				TaskScheduler.Default));
+			int chunkSize = 500; // start small for responsiveness
+			const int minChunkSize = 500;
+			const int maxChunkSize = 5000;
 
-			unsafe void ComputeSizeRecursively(string path, CancellationToken token)
+			var queue = new Queue<string>(_paths);
+			var batch = new List<string>(chunkSize);
+
+			int chunksProcessed = 0;
+
+			while (queue.TryDequeue(out var currentPath))
 			{
-				var queue = new Queue<string>();
-				if (!Win32Helper.HasFileAttribute(path, FileAttributes.Directory))
+				cancellationToken.ThrowIfCancellationRequested();
+
+				if (!Win32Helper.HasFileAttribute(currentPath, FileAttributes.Directory))
 				{
-					ComputeFileSize(path);
+					if (!_computedFiles.ContainsKey(currentPath))
+						batch.Add(currentPath);
 				}
 				else
 				{
-					queue.Enqueue(path);
-
-					while (queue.TryDequeue(out var directory))
+					try
 					{
-						WIN32_FIND_DATAW findData = default;
-
-						fixed (char* pszFilePath = directory + "\\*.*")
+						// Use EnumerateFileSystemEntries to get both files and directories in one pass
+						foreach (var entry in Directory.EnumerateFileSystemEntries(currentPath))
 						{
-							var hFile = PInvoke.FindFirstFileEx(
-								pszFilePath,
-								FINDEX_INFO_LEVELS.FindExInfoBasic,
-								&findData,
-								FINDEX_SEARCH_OPS.FindExSearchNameMatch,
-								null,
-								FIND_FIRST_EX_FLAGS.FIND_FIRST_EX_LARGE_FETCH);
+							cancellationToken.ThrowIfCancellationRequested();
 
-							if (!hFile.IsNull)
+							if (Win32Helper.HasFileAttribute(entry, FileAttributes.Directory))
 							{
-								do
+								queue.Enqueue(entry);
+							}
+							else
+							{
+								if (!_computedFiles.ContainsKey(entry))
+									batch.Add(entry);
+							}
+
+							if (batch.Count >= chunkSize)
+							{
+								await ProcessBatchAsync(batch, cancellationToken).ConfigureAwait(false);
+
+								// ✅ Adaptive tuning
+								if (++chunksProcessed % 5 == 0)
 								{
-									FILE_FLAGS_AND_ATTRIBUTES attributes = (FILE_FLAGS_AND_ATTRIBUTES)findData.dwFileAttributes;
-
-									if (attributes.HasFlag(FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_REPARSE_POINT))
-										// Skip symbolic links and junctions
-										continue;
-
-									var itemPath = Path.Combine(directory, findData.cFileName.ToString());
-
-									// Skip current and parent directory entries
-									var fileName = findData.cFileName.ToString();
-									if (fileName.Equals(".", StringComparison.OrdinalIgnoreCase) ||
-										fileName.Equals("..", StringComparison.OrdinalIgnoreCase))
-									{
-										continue;
-									}
-
-									if (attributes.HasFlag(FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_DIRECTORY))
-									{
-										queue.Enqueue(itemPath);
-									}
-									else
-									{
-										ComputeFileSize(itemPath);
-									}
-
-									if (token.IsCancellationRequested)
-										break;
+									if (chunkSize < maxChunkSize)
+										chunkSize = Math.Min(chunkSize * 2, maxChunkSize);
 								}
-								while (PInvoke.FindNextFile(hFile, &findData));
-
-								PInvoke.FindClose(hFile);
 							}
 						}
 					}
+					catch (UnauthorizedAccessException) { }
+					catch (IOException) { }
+#if DEBUG
+					catch (Exception ex)
+					{
+						System.Diagnostics.Debug.WriteLine(ex);
+					}
+#endif
+				}
+
+				if (batch.Count >= chunkSize)
+				{
+					await ProcessBatchAsync(batch, cancellationToken).ConfigureAwait(false);
 				}
 			}
+
+			// Process any remaining files
+			if (batch.Count > 0)
+			{
+				await ProcessBatchAsync(batch, cancellationToken).ConfigureAwait(false);
+			}
+
+			Completed = true;
+		}
+
+		private async Task ProcessBatchAsync(List<string> batch, CancellationToken token)
+		{
+			if (batch.Count == 0) return;
+
+			var files = batch.ToArray();
+			batch.Clear();
+
+			long batchTotal = await Task.Run(() =>
+			{
+				long localSum = 0;
+
+				Parallel.ForEach(
+					files,
+					new ParallelOptions
+					{
+						MaxDegreeOfParallelism = Environment.ProcessorCount,
+						CancellationToken = token
+					},
+					file =>
+					{
+						try
+						{
+							using var hFile = PInvoke.CreateFile(
+								file,
+								(uint)FILE_ACCESS_RIGHTS.FILE_READ_ATTRIBUTES,
+								FILE_SHARE_MODE.FILE_SHARE_READ,
+								null,
+								FILE_CREATION_DISPOSITION.OPEN_EXISTING,
+								0,
+								null);
+
+							if (!hFile.IsInvalid && PInvoke.GetFileSizeEx(hFile, out long size))
+							{
+								if (_computedFiles.TryAdd(file, size))
+									Interlocked.Add(ref localSum, size);
+							}
+						}
+						catch { /* ignore bad files */ }
+					});
+
+				return localSum;
+			}, token).ConfigureAwait(false);
+
+			if (batchTotal > 0)
+				Interlocked.Add(ref _size, batchTotal);
+
+			// Yield to UI to avoid freezing
+			await Task.Yield();
 		}
 
 		private long ComputeFileSize(string path)
