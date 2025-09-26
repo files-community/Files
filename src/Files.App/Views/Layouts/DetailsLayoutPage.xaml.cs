@@ -468,10 +468,9 @@ namespace Files.App.Views.Layouts
 				else if (ctrlPressed && shiftPressed)
 				{
 					var selectedFolders = SelectedItems?.Where(item => item.PrimaryItemAttribute == StorageItemTypes.Folder);
-					if (selectedFolders?.Any() ?? false)
+					if (selectedFolders?.Count() == 1)
 					{
-						foreach (var selectedFolder in selectedFolders)
-							NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, selectedFolder);
+						NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, selectedFolders.First());
 					}
 				}
 				else if (!ctrlPressed && !shiftPressed && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
@@ -622,6 +621,7 @@ namespace Files.App.Views.Layouts
 		{
 			if (!Commands.OpenItem.IsExecutable)
 			{
+				// Fallback if the command is not executable. It occurs only when search is performed from the columns view.
 				var itemType = item.PrimaryItemAttribute == StorageItemTypes.Folder ? FilesystemItemType.Directory : FilesystemItemType.File;
 				await NavigationHelpers.OpenPath(item.ItemPath, ParentShellPageInstance, itemType);
 			}
