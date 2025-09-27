@@ -12,10 +12,13 @@ using Microsoft.Win32;
 using Sentry;
 using Sentry.Protocol;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using Windows.ApplicationModel;
+using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.System;
+using Windows.Win32.Foundation;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Files.App.Helpers
@@ -128,7 +131,7 @@ namespace Files.App.Helpers
 					OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
 					App.LibraryManager.UpdateLibrariesAsync(),
 					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
-					OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
+					OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection)
 				);
 
 				//Start the tasks separately to reduce resource contention
@@ -148,8 +151,12 @@ namespace Files.App.Helpers
 
 			_ = STATask.Run(() =>
 			{
-				JumpListManager.Default.FetchJumpListFromExplorer();
-				JumpListManager.Default.WatchJumpListChanges(AppUserModelIdCrcHash);
+				HRESULT hr = JumpListManager.Default?.PullJumpListFromExplorer() ?? HRESULT.S_OK;
+				if (hr.Value < 0)
+					App.Logger.LogWarning("Failed to synchronizing jump list unexpectedly.");
+
+				JumpListManager.Default?.WatchJumpListChanges(AppUserModelIdCrcHash);
+
 			});
 
 			static Task OptionalTaskAsync(Task task, bool condition)
