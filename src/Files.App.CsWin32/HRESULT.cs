@@ -21,5 +21,8 @@ namespace Windows.Win32.Foundation
 
 			return this;
 		}
+
+		// #define E_NOT_SET HRESULT_FROM_WIN32(ERROR_NOT_FOUND)
+		public static readonly HRESULT E_NOT_SET = (HRESULT)(-2147023728);
 	}
 }
