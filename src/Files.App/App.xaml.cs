@@ -321,7 +321,7 @@ namespace Files.App
 
 		~App()
 		{
-			JumpListManager.Default.Dispose();
+			JumpListManager.Default?.Dispose();
 		}
 	}
 }

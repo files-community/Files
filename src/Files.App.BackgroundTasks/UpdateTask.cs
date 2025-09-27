@@ -43,7 +43,7 @@ namespace Files.App.BackgroundTasks
 
 			_ = STATask.Run(() =>
 			{
-				JumpListManager.Default.FetchJumpListFromExplorer();
+				JumpListManager.Default.PullJumpListFromExplorer();
 			});
 		}
 	}
