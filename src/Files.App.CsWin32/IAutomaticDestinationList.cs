@@ -81,7 +81,7 @@ namespace Windows.Win32.System.Com
 		/// </remarks>
 		/// <param name="punk">The native object to get its index in the list.</param>
 		/// <param name="piIndex">A pointer that points to an int value that takes the index of the item passed.</param>
-		/// <returns>Returns <see cref="HRESULT.S_OK"/> if successful, or an error value otherwise. If the passed item doesn't belong to the <see cref="DESTLISTTYPE.PINNED"/> list, HRESULT.E_NOT_SET is returned.</returns>
+		/// <returns>Returns <see cref="HRESULT.S_OK"/> if successful, or an error value otherwise. If the passed item doesn't belong to the <see cref="DESTLISTTYPE.PINNED"/> list, <see cref="HRESULT.E_NOT_SET"/> is returned.</returns>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public HRESULT GetPinIndex(IUnknown* punk, int* piIndex)
 			=> (HRESULT)((delegate* unmanaged[MemberFunction]<IAutomaticDestinationList*, IUnknown*, int*, int>)lpVtbl[8])

@@ -275,3 +275,11 @@ HWND_MESSAGE
 SHChangeNotification_Lock
 SHChangeNotification_Unlock
 SHGetKnownFolderPath
+SHARDAPPIDINFO
+SHLoadIndirectString
+InitPropVariantFromString
+PKEY_Title
+CoTaskMemAlloc
+E_OUTOFMEMORY
+PropVariantInit
+PropVariantClear
