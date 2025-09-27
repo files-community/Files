@@ -18,6 +18,14 @@ namespace Files.App.Services
 
 		private readonly static string guid = "::{f02c1a0d-be21-4350-88b0-7367fc96ef3c}";
 
+		// Virtual disk path prefixes that don't work with Windows networking APIs
+		private readonly static string[] VirtualDiskPrefixes =
+		[
+			@"\\RaiDrive-",
+			@"\\cryptomator-vault\",
+			@"\\EgnyteDrive\"
+		];
+
 
 		private ObservableCollection<IFolder> _Computers = [];
 		/// <inheritdoc/>
@@ -227,10 +235,9 @@ namespace Files.App.Services
 
 				}
 
-				// Skip authentication for RaiDrive virtual shares
-				// RaiDrive creates virtual UNC paths that don't work with Windows networking APIs
-				// Format is \\RaiDrive-{user}\{drive-custom-name}\
-				if (path.StartsWith(@"\\RaiDrive-", StringComparison.OrdinalIgnoreCase))
+				// Skip authentication for virtual disk shares
+				// These providers create virtual disk paths that don't work with Windows networking APIs
+				if (VirtualDiskPrefixes.Any(prefix => path.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)))
 				{
 					return true;
 				}
