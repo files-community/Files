@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+global using static global::Windows.Win32.ManualMacros;
+
 using Windows.Win32.Foundation;
 
 namespace Windows.Win32
