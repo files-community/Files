@@ -5,6 +5,7 @@ using Microsoft.Win32;
 using System.Runtime.CompilerServices;
 using System.Security;
 using Windows.ApplicationModel;
+using Files.Shared.Helpers;
 using static Files.App.Helpers.RegistryHelpers;
 using static Files.App.Utils.FileTags.TaggedFileRegistry;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -15,13 +16,14 @@ namespace Files.App.Utils.FileTags
 	{
 		private static string? _FileTagsKey;
 		private string? FileTagsKey => _FileTagsKey ??= SafetyExtensions.IgnoreExceptions(() => @$"Software\Files Community\{Package.Current.Id.Name}\v1\FileTags");
+		private readonly static string MigrationMarkerKey = "MigrationCompleted";
 
 		public void SetTags(string filePath, ulong? frn, string[] tags)
 		{
 			if (FileTagsKey is null)
 				return;
 
-			using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, filePath));
+			using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, ChecksumHelpers.CreateSHA256(filePath)));
 
 			if (tags is [])
 			{
@@ -57,7 +59,7 @@ namespace Files.App.Utils.FileTags
 
 			if (filePath is not null)
 			{
-				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, filePath));
+				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, ChecksumHelpers.CreateSHA256(filePath)));
 				if (filePathKey.ValueCount > 0)
 				{
 					var tag = new TaggedFile();
@@ -99,7 +101,7 @@ namespace Files.App.Utils.FileTags
 				return;
 
 			var tag = FindTag(oldFilePath, null);
-			using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, oldFilePath));
+			using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, ChecksumHelpers.CreateSHA256(oldFilePath)));
 			SaveValues(filePathKey, null);
 
 			if (tag is not null)
@@ -115,7 +117,7 @@ namespace Files.App.Utils.FileTags
 
 				if (newFilePath is not null)
 				{
-					using var newFilePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, newFilePath));
+					using var newFilePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, ChecksumHelpers.CreateSHA256(newFilePath)));
 					SaveValues(newFilePathKey, tag);
 				}
 			}
@@ -143,7 +145,7 @@ namespace Files.App.Utils.FileTags
 
 				if (newFilePath is not null)
 				{
-					using var newFilePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, newFilePath));
+					using var newFilePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, ChecksumHelpers.CreateSHA256(newFilePath)));
 					SaveValues(newFilePathKey, tag);
 				}
 			}
@@ -151,6 +153,7 @@ namespace Files.App.Utils.FileTags
 
 		public string[] GetTags(string? filePath, ulong? frn)
 		{
+			MigrateExistingKeys();
 			return FindTag(filePath, frn)?.Tags ?? [];
 		}
 
@@ -182,7 +185,7 @@ namespace Files.App.Utils.FileTags
 			{
 				try
 				{
-					IterateKeys(list, CombineKeys(FileTagsKey, folderPath), 0);
+					IterateKeys(list, CombineKeys(FileTagsKey, ChecksumHelpers.CreateSHA256(folderPath)), 0);
 				}
 				catch (SecurityException)
 				{
@@ -207,7 +210,7 @@ namespace Files.App.Utils.FileTags
 			}
 			foreach (var tag in tags)
 			{
-				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, tag.FilePath));
+				using var filePathKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, ChecksumHelpers.CreateSHA256(tag.FilePath)));
 				SaveValues(filePathKey, tag);
 				if (tag.Frn is not null)
 				{
@@ -248,6 +251,71 @@ namespace Files.App.Utils.FileTags
 
 				IterateKeys(list, CombineKeys(path, subKey), depth + 1);
 			}
+		}
+
+		private void MigrateExistingKeys()
+		{
+			if (FileTagsKey is null)
+				return;
+
+			using var baseKey = Registry.CurrentUser.OpenSubKey(FileTagsKey);
+			if (baseKey is null)
+				return;
+
+			// Check if migration is already completed
+			if (baseKey.GetValue(MigrationMarkerKey) is not null)
+				return;
+
+			var keysToMigrate = new List<(string oldKey, TaggedFile tag)>();
+			
+			// Collect all keys that need migration (excluding FRN and migration marker)
+			foreach (var subKeyName in baseKey.GetSubKeyNames())
+			{
+				if (subKeyName == "FRN" || subKeyName == MigrationMarkerKey)
+					continue;
+
+				// Check if this is a hash key (64 characters hex)
+				if (subKeyName.Length == 64 && IsHexString(subKeyName))
+					continue; // Already migrated
+
+				using var subKey = baseKey.OpenSubKey(subKeyName);
+				if (subKey?.ValueCount > 0)
+				{
+					var tag = new TaggedFile();
+					BindValues(subKey, tag);
+					keysToMigrate.Add((subKeyName, tag));
+				}
+			}
+
+			// Migrate collected keys
+			using var writerKey = Registry.CurrentUser.CreateSubKey(FileTagsKey);
+			foreach (var (oldKey, tag) in keysToMigrate)
+			{
+				if (!string.IsNullOrEmpty(tag.FilePath))
+				{
+					// Create new hashed key
+					using var newKey = Registry.CurrentUser.CreateSubKey(CombineKeys(FileTagsKey, ChecksumHelpers.CreateSHA256(tag.FilePath)));
+					SaveValues(newKey, tag);
+				}
+
+				// Delete old key
+				try
+				{
+					writerKey.DeleteSubKeyTree(oldKey);
+				}
+				catch
+				{
+					// Ignore deletion errors
+				}
+			}
+
+			// Mark migration as completed
+			writerKey.SetValue(MigrationMarkerKey, "1", RegistryValueKind.String);
+		}
+
+		private static bool IsHexString(string value)
+		{
+			return value.All(c => c >= '0' && c <= '9' || c >= 'a' && c <= 'f' || c >= 'A' && c <= 'F');
 		}
 	}
 }
