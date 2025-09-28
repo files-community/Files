@@ -8,16 +8,16 @@ namespace Files.App.Controls
 {
 	internal class GripperHoverWrapper
 	{
-		private readonly GridSplitter.GridResizeDirection _gridSplitterDirection;
+		private readonly GridResizeDirection _gridSplitterDirection;
 
 		private InputCursor _splitterPreviousPointer;
 		private InputCursor _previousCursor;
-		private GridSplitter.GripperCursorType _gripperCursor;
+		private GripperCursorType _gripperCursor;
 		private int _gripperCustomCursorResource;
 		private bool _isDragging;
 		private UIElement _element;
 
-		internal GridSplitter.GripperCursorType GripperCursor
+		internal GripperCursorType GripperCursor
 		{
 			get
 			{
@@ -50,7 +50,7 @@ namespace Files.App.Controls
 		/// <param name="gridSplitterDirection">GridSplitter resize direction</param>
 		/// <param name="gripperCursor">GridSplitter gripper on hover cursor type</param>
 		/// <param name="gripperCustomCursorResource">GridSplitter gripper custom cursor resource number</param>
-		internal GripperHoverWrapper(UIElement element, GridSplitter.GridResizeDirection gridSplitterDirection, GridSplitter.GripperCursorType gripperCursor, int gripperCustomCursorResource)
+		internal GripperHoverWrapper(UIElement element, GridResizeDirection gridSplitterDirection, GripperCursorType gripperCursor, int gripperCustomCursorResource)
 		{
 			_gridSplitterDirection = gridSplitterDirection;
 			_gripperCursor = gripperCursor;
@@ -113,13 +113,13 @@ namespace Files.App.Controls
 				return;
 			}
 
-			if (_gripperCursor == GridSplitter.GripperCursorType.Default)
+			if (_gripperCursor == GripperCursorType.Default)
 			{
-				if (_gridSplitterDirection == GridSplitter.GridResizeDirection.Columns)
+				if (_gridSplitterDirection == GridResizeDirection.Columns)
 				{
 					// Window.Current.CoreWindow.PointerCursor = GridSplitter.ColumnsSplitterCursor;
 				}
-				else if (_gridSplitterDirection == GridSplitter.GridResizeDirection.Rows)
+				else if (_gridSplitterDirection == GridResizeDirection.Rows)
 				{
 					// Window.Current.CoreWindow.PointerCursor = GridSplitter.RowSplitterCursor;
 				}
@@ -127,7 +127,7 @@ namespace Files.App.Controls
 			else
 			{
 				var inputSystemCursorShape = (InputSystemCursorShape)((int)_gripperCursor);
-				if (_gripperCursor == GridSplitter.GripperCursorType.Custom)
+				if (_gripperCursor == GripperCursorType.Custom)
 				{
 					if (_gripperCustomCursorResource > GridSplitter.GripperCustomCursorDefaultResource)
 					{
