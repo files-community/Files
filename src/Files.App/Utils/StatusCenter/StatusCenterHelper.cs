@@ -667,11 +667,11 @@ namespace Files.App.Utils.StatusCenter
 						string headerResource = card.HeaderStringResource;
 
 						if (card.IsDiscovering && card.TotalItemsCount > 0 && card.IsInProgress)
-							headerResource = "StatusCenter_MoveDiscovery_Header";
+							headerResource = "StatusCenter_CopyDiscovery_Header";
 
 						if (string.IsNullOrWhiteSpace(headerResource))
 							card.Header = string.Empty;
-						else if (headerResource == "StatusCenter_MoveDiscovery_Header")
+						else if (headerResource == "StatusCenter_CopyDiscovery_Header")
 							card.Header = headerResource.GetLocalizedFormatResource(card.TotalItemsCount);
 						else
 							card.Header = headerResource.GetLocalizedFormatResource(card.TotalItemsCount, destinationDirName);
@@ -686,11 +686,11 @@ namespace Files.App.Utils.StatusCenter
 						string headerResource = card.HeaderStringResource;
 
 						if (card.IsDiscovering && card.TotalItemsCount > 0 && card.IsInProgress)
-							headerResource = "StatusCenter_DeleteDiscovery_Header";
+							headerResource = "StatusCenter_CopyDiscovery_Header";
 
 						if (string.IsNullOrWhiteSpace(headerResource))
 							card.Header = string.Empty;
-						else if (headerResource == "StatusCenter_DeleteDiscovery_Header")
+						else if (headerResource == "StatusCenter_CopyDiscovery_Header")
 							card.Header = headerResource.GetLocalizedFormatResource(card.TotalItemsCount);
 						else
 							card.Header = headerResource.GetLocalizedFormatResource(card.TotalItemsCount, sourceDirName);
