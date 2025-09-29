@@ -207,6 +207,14 @@ namespace Files.App.Utils.Storage
 
 			var cts = new CancellationTokenSource();
 			var sizeCalculator = new FileSizeCalculator(fileToDeletePath);
+
+			// Track the count and update the progress
+			sizeCalculator.ItemsCountChanged += (newCount) =>
+			{
+				fsProgress.ItemsCount = newCount;
+				fsProgress.Report();
+			};
+
 			var sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
 			sizeTask.ContinueWith(_ =>
 			{
@@ -405,6 +413,14 @@ namespace Files.App.Utils.Storage
 
 			var cts = new CancellationTokenSource();
 			var sizeCalculator = new FileSizeCalculator(fileToMovePath);
+
+			// Track the count and update the progress
+			sizeCalculator.ItemsCountChanged += (newCount) =>
+			{
+				fsProgress.ItemsCount = newCount;
+				fsProgress.Report();
+			};
+
 			var sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
 			sizeTask.ContinueWith(_ =>
 			{
@@ -533,6 +549,14 @@ namespace Files.App.Utils.Storage
 
 			var cts = new CancellationTokenSource();
 			var sizeCalculator = new FileSizeCalculator(fileToCopyPath);
+
+			// Track the count and update the progress
+			sizeCalculator.ItemsCountChanged += (newCount) =>
+			{
+				fsProgress.ItemsCount = newCount;
+				fsProgress.Report();
+			};
+
 			var sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
 			sizeTask.ContinueWith(_ =>
 			{

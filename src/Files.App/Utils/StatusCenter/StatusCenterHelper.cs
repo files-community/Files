@@ -611,7 +611,7 @@ namespace Files.App.Utils.StatusCenter
 				false);
 		}
 
-		public static void UpdateCardStrings(StatusCenterItem card)
+		public static void UpdateCardStrings(StatusCenterItem card, StatusCenterItemProgressModel? progressValue = null)
 		{
 			// Aren't used for now
 			string sourcePath = string.Empty;
@@ -645,9 +645,17 @@ namespace Files.App.Utils.StatusCenter
 			{
 				case FileOperationType.Copy:
 					{
-						string headerString = string.IsNullOrWhiteSpace(card.HeaderStringResource) ? string.Empty
-							: card.HeaderStringResource.GetLocalizedFormatResource(card.TotalItemsCount, destinationDirName);
-						card.Header = headerString;
+						string headerResource = card.HeaderStringResource;
+
+						if (card.IsDiscovering && card.TotalItemsCount > 0 && card.IsInProgress)
+							headerResource = "StatusCenter_CopyDiscovery_Header";
+
+						if (string.IsNullOrWhiteSpace(headerResource))
+							card.Header = string.Empty;
+						else if (headerResource == "StatusCenter_CopyDiscovery_Header")
+							card.Header = headerResource.GetLocalizedFormatResource(card.TotalItemsCount);
+						else
+							card.Header = headerResource.GetLocalizedFormatResource(card.TotalItemsCount, destinationDirName);
 
 						string subHeaderString = string.IsNullOrWhiteSpace(card.SubHeaderStringResource) ? string.Empty
 							: card.SubHeaderStringResource.GetLocalizedFormatResource(card.TotalItemsCount, sourcePath, destinationPath);
@@ -656,9 +664,17 @@ namespace Files.App.Utils.StatusCenter
 					}
 				case FileOperationType.Move:
 					{
-						string headerString = string.IsNullOrWhiteSpace(card.HeaderStringResource) ? string.Empty
-							: card.HeaderStringResource.GetLocalizedFormatResource(card.TotalItemsCount, destinationDirName);
-						card.Header = headerString;
+						string headerResource = card.HeaderStringResource;
+
+						if (card.IsDiscovering && card.TotalItemsCount > 0 && card.IsInProgress)
+							headerResource = "StatusCenter_MoveDiscovery_Header";
+
+						if (string.IsNullOrWhiteSpace(headerResource))
+							card.Header = string.Empty;
+						else if (headerResource == "StatusCenter_MoveDiscovery_Header")
+							card.Header = headerResource.GetLocalizedFormatResource(card.TotalItemsCount);
+						else
+							card.Header = headerResource.GetLocalizedFormatResource(card.TotalItemsCount, destinationDirName);
 
 						string subHeaderString = string.IsNullOrWhiteSpace(card.SubHeaderStringResource) ? string.Empty
 							: card.SubHeaderStringResource.GetLocalizedFormatResource(card.TotalItemsCount, sourcePath, destinationPath);
@@ -667,9 +683,17 @@ namespace Files.App.Utils.StatusCenter
 					}
 				case FileOperationType.Delete:
 					{
-						string headerString = string.IsNullOrWhiteSpace(card.HeaderStringResource) ? string.Empty
-							: card.HeaderStringResource.GetLocalizedFormatResource(card.TotalItemsCount, sourceDirName);
-						card.Header = headerString;
+						string headerResource = card.HeaderStringResource;
+
+						if (card.IsDiscovering && card.TotalItemsCount > 0 && card.IsInProgress)
+							headerResource = "StatusCenter_DeleteDiscovery_Header";
+
+						if (string.IsNullOrWhiteSpace(headerResource))
+							card.Header = string.Empty;
+						else if (headerResource == "StatusCenter_DeleteDiscovery_Header")
+							card.Header = headerResource.GetLocalizedFormatResource(card.TotalItemsCount);
+						else
+							card.Header = headerResource.GetLocalizedFormatResource(card.TotalItemsCount, sourceDirName);
 
 						string subHeaderString = string.IsNullOrWhiteSpace(card.SubHeaderStringResource) ? string.Empty
 							: card.SubHeaderStringResource.GetLocalizedFormatResource(card.TotalItemsCount, sourcePath);
