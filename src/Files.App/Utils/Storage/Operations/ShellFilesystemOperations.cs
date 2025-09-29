@@ -49,7 +49,7 @@ namespace Files.App.Utils.Storage
 
 			StatusCenterItemProgressModel fsProgress = new(
 				progress,
-				true,
+				false,
 				FileSystemStatusCode.InProgress,
 				source.Count);
 

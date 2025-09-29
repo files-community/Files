@@ -147,6 +147,8 @@ namespace Files.App.Utils.StatusCenter
 
 		public bool IsInProgress { get; private set; }
 
+		public bool IsDiscovering { get; private set; } = true;
+
 		public IEnumerable<string>? Source { get; private set; }
 
 		public IEnumerable<string>? Destination { get; private set; }
@@ -199,7 +201,7 @@ namespace Files.App.Utils.StatusCenter
 			AnimatedIconState = "NormalOff";
 			SpeedGraphValues = [];
 			CancelCommand = new RelayCommand(ExecuteCancelCommand);
-			Message = Strings.ProcessingItems.GetLocalizedResource();
+			Message = Strings.DiscoveringItems.GetLocalizedResource();
 			Source = source;
 			Destination = destination;
 
@@ -299,7 +301,7 @@ namespace Files.App.Utils.StatusCenter
 						Operation == FileOperationType.Compressed ||
 						Operation == FileOperationType.GitClone)
 					{
-						Message =
+						Message = 
 							$"{string.Format(
 								Strings.StatusCenter_ProcessedItems_Header.GetLocalizedFormatResource(value.ProcessedItemsCount, value.ItemsCount),
 								value.ProcessedItemsCount,
@@ -307,7 +309,7 @@ namespace Files.App.Utils.StatusCenter
 					}
 					else
 					{
-						Message =
+						Message = 
 							$"{string.Format(
 								Strings.StatusCenter_ProcessedSize_Header.GetLocalizedResource(),
 								value.ProcessedSize.ToSizeString(),
@@ -327,8 +329,14 @@ namespace Files.App.Utils.StatusCenter
 			if (TotalSize < value.TotalSize)
 				TotalSize = value.TotalSize;
 
+			if (value.EnumerationCompleted && IsDiscovering)
+			{
+				IsDiscovering = false;
+				Message = Strings.ProcessingItems.GetLocalizedResource();
+			}
+
 			// Update UI for strings
-			StatusCenterHelper.UpdateCardStrings(this);
+			StatusCenterHelper.UpdateCardStrings(this, value);
 			OnPropertyChanged(nameof(HeaderTooltip));
 
 			// Graph item point
@@ -382,7 +390,7 @@ namespace Files.App.Utils.StatusCenter
 				SpeedGraphValues?.Add(point);
 
 			// Add percentage to the header
-			if (!IsIndeterminateProgress)
+			if (!IsIndeterminateProgress && value.EnumerationCompleted)
 				Header = $"{Header} ({ProgressPercentage}%)";
 
 			// Update UI of the address bar
