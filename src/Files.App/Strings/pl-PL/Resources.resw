@@ -1011,7 +1011,7 @@
     <value>Wyniki wyszukiwania {0} w {1}</value>
   </data>
   <data name="SearchResultsFor" xml:space="preserve">
-    <value>Search results for `{0}`</value>
+    <value>Wyniki wyszukiwania dla "{0}"</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Szczegóły</value>
@@ -2271,10 +2271,10 @@
     <value>Pokaż wysyłanie do menu</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Pokaż opcję otwierania folderów w nowym panelu</value>
+    <value>Pokaż opcję otwierania folderów w nowej zakładce</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Pokaż opcję otwierania folderów w nowym panelu</value>
+    <value>Pokaż opcję otwierania folderów w nowym oknie</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>Szybki dostęp</value>
@@ -3487,6 +3487,9 @@
   <data name="ProcessingItems" xml:space="preserve">
     <value>Przetwarzanie elementów...</value>
   </data>
+  <data name="DiscoveringItems" xml:space="preserve">
+    <value>Discovering items...</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Prędkość:</value>
   </data>
@@ -3618,6 +3621,10 @@
     <value>Copying {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
+    <value>Discovered {0, plural, one {# item} other {# items}}</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
+  </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>Anulowano wypakowywanie "{0}" do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3670,6 +3677,10 @@
     <value>Deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_DeleteDiscovery_Header" xml:space="preserve">
+    <value>Discovered {0, plural, one {# item} other {# items}}</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
+  </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
     <value>Canceled moving {0, plural, one {# item} other {# items}} to "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3693,6 +3704,10 @@
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
     <value>Moving {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveDiscovery_Header" xml:space="preserve">
+    <value>Discovered {0, plural, one {# item} other {# items}}</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
     <value>Error moving {0, plural, one {# item} other {# items}} to "{1}"</value>
@@ -4246,13 +4261,13 @@
     <value>Przeciągnij tutaj pliki lub foldery, aby korzystać z nich w różnych kartach</value>
   </data>
   <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
-    <value>Enter a path to navigate to...</value>
+    <value>Wpisz ścieżkę do...</value>
   </data>
   <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
     <value>Find features and commands...</value>
   </data>
   <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
-    <value>Search for files and folders...</value>
+    <value>Szukaj plików i folderów...</value>
   </data>
   <data name="DuringOngoingFileOperations" xml:space="preserve">
     <value>During file operations</value>
