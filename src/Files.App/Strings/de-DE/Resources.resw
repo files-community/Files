@@ -3487,6 +3487,9 @@
   <data name="ProcessingItems" xml:space="preserve">
     <value>Elemente werden verarbeitet...</value>
   </data>
+  <data name="DiscoveringItems" xml:space="preserve">
+    <value>Elemente werden gesucht...</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Geschwindigkeit:</value>
   </data>
@@ -3618,6 +3621,10 @@
     <value>Kopiere {0, plural, one {# Element} other {# Elemente}} von "{1}" nach "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
+    <value>{0, plural, one {# Element} other {# Elemente}} gefunden</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
+  </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>Entpacken von "{0}" nach "{1}" abgebrochen</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3670,6 +3677,10 @@
     <value>Lösche {0, plural, one {# Element} other {# Elemente}} aus "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_DeleteDiscovery_Header" xml:space="preserve">
+    <value>{0, plural, one {# Element} other {# Elemente}} gefunden</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
+  </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
     <value>Verschieben von {0, plural, one {# Element} other {# Elementen}} nach "{1}" abgebrochen</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3693,6 +3704,10 @@
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
     <value>Verschiebe {0, plural, one {# Element} other {# Elemente}} von "{1}" nach "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_MoveDiscovery_Header" xml:space="preserve">
+    <value>{0, plural, one {# Element} other {# Elemente}} gefunden</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
     <value>Fehler beim Verschieben von {0, plural, one {# Element} other {# Elementen}} nach "{1}"</value>
