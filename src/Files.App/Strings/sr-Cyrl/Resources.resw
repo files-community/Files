@@ -124,13 +124,13 @@
     <value>Копирај путању</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Copy item path</value>
+    <value>Копирај путању ставке</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Копирај путању са наводницима</value>
   </data>
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
-    <value>Copy selected item path with quotes</value>
+    <value>Копирај путању ставке са наводницима</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Потражи</value>
@@ -166,7 +166,7 @@
     <value>Прескочи</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>Изабери све</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Обрни селекцију</value>
@@ -217,7 +217,7 @@
     <value>Прикажи скривене датотеке и фасцикле</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Прикажи фајлове који почињу са тачком</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Изглед</value>
@@ -256,7 +256,7 @@
     <value>Налепи</value>
   </data>
   <data name="PasteShortcut" xml:space="preserve">
-    <value>Paste shortcut</value>
+    <value>Пречица за лепљење</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Нов</value>
@@ -301,7 +301,7 @@
     <value>Унеси нови назив</value>
   </data>
   <data name="CreateNewItemTitle" xml:space="preserve">
-    <value>Create new {0}</value>
+    <value>Креирај нову {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Светла тема</value>
@@ -310,7 +310,7 @@
     <value>Тамна тема</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
-    <value>Use system setting</value>
+    <value>Користи системска подешавања</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Формат по апликацији</value>
@@ -361,7 +361,7 @@
     <value>Молимо привежите потребан диск како бисте приступили овој ставци.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Drive unplugged</value>
+    <value>Диск је искључен</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>Датотека којој покушавате да приступите је можда премештена или обрисана.</value>
@@ -397,7 +397,7 @@
     <value>Само за читање</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0, plural, one {# day ago} other {# days ago}}</value>
+    <value>{0, plural, one {# дан} other {# дана}}</value>
   </data>
   <data name="DaysAgo_Singular" xml:space="preserve">
     <value>Пре једног дана</value>
@@ -406,7 +406,7 @@
     <value>Пре {0} дана</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
+    <value>{0, plural, one {пре # сат} few {пре # сата} other {пре # сати}}</value>
   </data>
   <data name="HoursAgo_Singular" xml:space="preserve">
     <value>Пре сат времена</value>
@@ -415,7 +415,7 @@
     <value>Пре {0} сата</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
-    <value>{0, plural, one {# minute ago} other {# minutes ago}}</value>
+    <value>{0, plural, one {пре # минут} other {пре # минута}}</value>
   </data>
   <data name="MinutesAgo_Singular" xml:space="preserve">
     <value>Пре једног минута</value>
@@ -424,7 +424,7 @@
     <value>Пре {0} минута</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
-    <value>{0, plural, one {# second ago} other {# seconds ago}}</value>
+    <value>{0, plural, one {пре # секунд} few {пре # секунде} other {пре # секунди}}</value>
   </data>
   <data name="SecondsAgo_Singular" xml:space="preserve">
     <value>Пре једне секунде</value>
@@ -489,16 +489,16 @@
     <value>B</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
-    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}}</value>
+    <value>{0, number} {0, plural, one {фајл} other {фајлова}} и {1, number} {1, plural, one {фасцикла} few {фасцикле} other {фасцикли}}</value>
   </data>
   <data name="PropertiesFilesAndFoldersAndLocationsCount" xml:space="preserve">
-    <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}} from {2, number} {2, plural, one {location} other {locations}}</value>
+    <value>{0, number} {0, plural, one {фајл} other {фајлова}}, {1, number} {1, plural, one {фасцикла} few {фасцикле} other {фасцикли}} са {2, number} {2, plural, one {локације} few{локације} other {локација}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Покрени као други корисник</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
-    <value>All type of {0}</value>
+    <value>Сви типови {0}</value>
   </data>
   <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
     <value>Друге врсте</value>
@@ -519,61 +519,61 @@
     <value>Систем датотека:</value>
   </data>
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
-    <value>Recent</value>
+    <value>Недавно</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
-    <value>Move tab here</value>
+    <value>Помери картицу овде</value>
   </data>
   <data name="Status" xml:space="preserve">
     <value>Стање</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
-    <value>No results</value>
+    <value>Нема резултата</value>
   </data>
   <data name="SubDirectoryAccessDenied" xml:space="preserve">
-    <value>Can't access any items to display</value>
+    <value>Не може да се приступи било којим ставкама да се прикажу</value>
   </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
-    <value>Move to {0}</value>
+    <value>Помери у {0}</value>
   </data>
   <data name="CopyToFolderCaptionText" xml:space="preserve">
-    <value>Copy to {0}</value>
+    <value>Копирај у {0}</value>
   </data>
   <data name="CloneToFolderCaptionText" xml:space="preserve">
-    <value>Clone to {0}</value>
+    <value>Копирај у {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>Create shortcut</value>
+    <value>Направи пречицу</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>Отвори извор датотеке</value>
   </data>
   <data name="PropertiesShortcutItemArgs.Text" xml:space="preserve">
-    <value>Arguments:</value>
+    <value>Аргументи:</value>
   </data>
   <data name="PropertiesShortcutItemPath.Text" xml:space="preserve">
-    <value>Destination:</value>
+    <value>Одредиште:</value>
   </data>
   <data name="PropertiesShortcutItemType.Text" xml:space="preserve">
-    <value>Shortcut type:</value>
+    <value>Врста пречице:</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
-    <value>Web link</value>
+    <value>Веб линк</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>Општа</value>
   </data>
   <data name="Shortcut" xml:space="preserve">
-    <value>Shortcut</value>
+    <value>Пречицa</value>
   </data>
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
-    <value>Internet shortcut</value>
+    <value>Интернет пречица</value>
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
-    <value>{0} - shortcut</value>
+    <value>{0} - пречица</value>
   </data>
   <data name="ExceptionNotificationBody" xml:space="preserve">
-    <value>Files ran into a problem that the developers didn't prepare for yet.</value>
+    <value>Files је наишао на проблем за који се програмери нису спремили.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
     <value>Нешто је пошло по злу!</value>
@@ -582,34 +582,34 @@
     <value>Пријави овај проблем</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
-    <value>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</value>
+    <value>Ставка која је референцирана или није валидна или је неприступачна. {0}Порука грешке: {0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Неважећа ставка</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
-    <value>Version:</value>
+    <value>Верзија:</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
-    <value>There's nothing to share right now...</value>
+    <value>Нема ништа да се подели тренутно...</value>
   </data>
   <data name="ShareDialogMultipleItemsDescription" xml:space="preserve">
-    <value>The items you've selected will be shared</value>
+    <value>Ставке које сте изабрали ће бити подељене</value>
   </data>
   <data name="ShareDialogSingleItemDescription" xml:space="preserve">
-    <value>The selected item will be shared</value>
+    <value>Изабрана ставка ће бити дељена</value>
   </data>
   <data name="ShareDialogTitle" xml:space="preserve">
-    <value>Sharing {0}</value>
+    <value>Дељење {0}</value>
   </data>
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
-    <value>Sharing {0} {1}</value>
+    <value>Дељење {0} {1}</value>
   </data>
   <data name="RenameError.ItemDeleted.Text" xml:space="preserve">
-    <value>The item you're attempting to rename no longer exists. Please verify the correct location of the item you need to rename.</value>
+    <value>Ставка коју покушавате да преименујете више не постоји. Молимо вас да верификујете тренутну локацију ставке коју хоћете да преименујете.</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
-    <value>Item no longer exists</value>
+    <value>Ставка више не постоји</value>
   </data>
   <data name="RenameError.NameInvalid.Text" xml:space="preserve">
     <value>Унето име садржи грешке. Молимо проверите унето име и покушајте поново.</value>
@@ -630,7 +630,7 @@
     <value>Потребно је поново покренути програм како бисте применили ова подешавања. Да ли желите да поново покренете програм?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Sponsor us on GitHub</value>
+    <value>Спонзориши нас на GitHub-у</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>Нисмо могли да креирамо ову ставку</value>
@@ -741,7 +741,7 @@
     <value>Latitude Decimal</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
-    <value>Altitude</value>
+    <value>Висина</value>
   </data>
   <data name="PropertyDateTaken" xml:space="preserve">
     <value>Датум сликања</value>
@@ -753,7 +753,7 @@
     <value>Модел камере</value>
   </data>
   <data name="PropertyExposureTime" xml:space="preserve">
-    <value>Exposure Time</value>
+    <value>Време Експозиције</value>
   </data>
   <data name="PropertyFocalLength" xml:space="preserve">
     <value>Focal Length</value>
@@ -765,7 +765,7 @@
     <value>Имена људи</value>
   </data>
   <data name="PropertyChannelCount" xml:space="preserve">
-    <value>Channel Count</value>
+    <value>Број канала</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
     <value>Формат</value>
@@ -783,7 +783,7 @@
     <value>Извођач</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
-    <value>Beats Per Minute</value>
+    <value>Ударца по секунди</value>
   </data>
   <data name="PropertyComposer" xml:space="preserve">
     <value>Композитор</value>
@@ -3487,6 +3487,9 @@
   <data name="ProcessingItems" xml:space="preserve">
     <value>Processing items...</value>
   </data>
+  <data name="DiscoveringItems" xml:space="preserve">
+    <value>Discovering items...</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Speed:</value>
   </data>
@@ -3617,6 +3620,10 @@
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
     <value>Copying {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
+    <value>Discovered {0, plural, one {# item} other {# items}}</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>Canceled extracting "{0}" to "{1}"</value>
