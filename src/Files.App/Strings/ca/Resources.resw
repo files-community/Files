@@ -3487,6 +3487,9 @@
   <data name="ProcessingItems" xml:space="preserve">
     <value>Processant elements...</value>
   </data>
+  <data name="DiscoveringItems" xml:space="preserve">
+    <value>S'estan descobrint els elements...</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Velocitat:</value>
   </data>
@@ -3617,6 +3620,10 @@
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
     <value>S'està copiant {0, plural, one {# element} other {# elements}} de «{1}» a «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
+    <value>S'han descobert {0, plural, one {# element} other {# elements}}</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>S'ha cancel·lat l'extracció de "{0}" a "{1}"</value>
