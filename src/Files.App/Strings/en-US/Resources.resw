@@ -3488,7 +3488,7 @@
     <value>Processing items...</value>
   </data>
   <data name="DiscoveringItems" xml:space="preserve">
-    <value>Discovery in progress...</value>
+    <value>Discovering items...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Speed:</value>
