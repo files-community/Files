@@ -1107,10 +1107,10 @@
     <value>絞り込みヘッダーの表示/非表示を切り替える</value>
   </data>
   <data name="ToggleDualPane" xml:space="preserve">
-    <value>デュアルペインの切り替え</value>
+    <value>デュアルペインの切り替える</value>
   </data>
   <data name="ToggleDualPaneDescription" xml:space="preserve">
-    <value>デュアルペインモードを切り替え</value>
+    <value>デュアルペインモードを切り替える</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>プレビューを利用できません</value>
@@ -3487,6 +3487,9 @@
   <data name="ProcessingItems" xml:space="preserve">
     <value>項目を処理しています...</value>
   </data>
+  <data name="DiscoveringItems" xml:space="preserve">
+    <value>Discovering items...</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>速度:</value>
   </data>
@@ -3499,27 +3502,27 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>Compressed {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>{0, plural, other {# 項目}}を "{1}" に圧縮しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
-    <value>Compressed {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>​"{1}" から "{2}" に {0, plural, other {# 項目}}を圧縮しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Error compressing {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>​{0, plural, other {# 項目}}を "{1}" に圧縮する際にエラーが発生しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>Failed to compress {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>"{1}" から "{2}" への {0, plural, other {# 項目}}の圧縮に失敗しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>Compressing {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>{0, plural, other {# 項目}}を "{1}" に圧縮しています</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
-    <value>Compressing {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>"{1}" から "{2}" へ{0, plural, other {# 項目}}を圧縮中</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
@@ -3559,64 +3562,68 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled installing {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>​"{1}" からの {0, plural, other {# 個のフォント}}のインストールがキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
-    <value>Installed {0, plural, one {# font} other {# fonts}}</value>
+    <value>{0, plural, other {# 個のフォント}}をインストールしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
-    <value>Installed {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>"{1}" から {0, plural, other {# 個のフォント}}をインストールしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
-    <value>Error installing {0, plural, one {# font} other {# fonts}}</value>
+    <value>{0, plural, other {# 個のフォント}}のインストール中にエラーが発生しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
-    <value>Failed to install {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>"{1}" から {0, plural, other {# 個のフォント}}のインストールに失敗しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
-    <value>Installing {0, plural, one {# font} other {# fonts}}</value>
+    <value>{0, plural, other {# 個のフォント}}をインストールしています</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
-    <value>Installing {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>​"{1}" から {0, plural, other {# 個のフォント}}をインストールしています</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Canceled copying {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>​"{1}" への {0, plural, other {# 項目}}のコピーをキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled copying {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>​"{1}" から "{2}" への {0, plural, other {# 項目}}のコピーをキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Copied {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>"{1}" へ {0, plural, other {# 項目}}をコピーしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>Copied {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>"{1}" から "{2}" へ {0, plural, other {# 項目}}をコピーしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Error copying {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>​"{1}" への {0, plural, other {# 項目}}のコピー中にエラーが発生しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>Failed to copy {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>"{1}" から "{2}" への {0, plural, other {# 項目}}のコピーに失敗しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
-    <value>Copying {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>​"{1}" へ {0, plural, other {# 項目}}をコピー中</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>Copying {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>"{1}" から "{2}" へ {0, plural, other {# 項目}}をコピー中</value>
     <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
+    <value>Discovered {0, plural, one {# item} other {# items}}</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>"{0}" の "{1}" への展開をキャンセルしました</value>
@@ -4080,10 +4087,10 @@
     <value>ペインの配置</value>
   </data>
   <data name="DualPaneSplitDirection" xml:space="preserve">
-    <value>Default dual pane split direction</value>
+    <value>既定のデュアルペインの分割方向</value>
   </data>
   <data name="DualPane" xml:space="preserve">
-    <value>Dual pane mode</value>
+    <value>デュアルペインモード</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>横</value>
@@ -4119,7 +4126,7 @@
     <value>代替データ ストリームの作成</value>
   </data>
   <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
-    <value>Create alternate data stream for the selected {0, plural, one {item} other {items}}</value>
+    <value>選択した {0, plural, other {# 項目}}の代替データストリームを作成する</value>
   </data>
   <data name="EnterDataStreamName" xml:space="preserve">
     <value>データ ストリーム名を入力</value>
@@ -4149,10 +4156,10 @@
     <value>常に新しく作成したタブに表示を切り替える</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
-    <value>Toggle shelf pane</value>
+    <value>シェルフペインを切り替え</value>
   </data>
   <data name="ToggleShelfPaneDescription" xml:space="preserve">
-    <value>Toggle the visibility of the shelf pane</value>
+    <value>シェルフペインの表示を切り替え</value>
   </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
     <value>アドレス バーにシェルフ ウィンドウの切り替えボタンを表示する</value>
@@ -4255,27 +4262,27 @@
     <value>ファイルとフォルダーを検索…</value>
   </data>
   <data name="DuringOngoingFileOperations" xml:space="preserve">
-    <value>During file operations</value>
+    <value>ファイル操作中</value>
   </data>
   <data name="ShowStatusCenterButton" xml:space="preserve">
-    <value>Show status center button</value>
+    <value>ステータスセンターボタンを表示</value>
   </data>
   <data name="StatusCenterProgressRing" xml:space="preserve">
-    <value>Status center progress ring</value>
+    <value>ステータスセンターの進行状況表示リング</value>
     <comment>Screen reader name for the status center progress ring</comment>
   </data>
   <data name="IconFiles" xml:space="preserve">
-    <value>Icon files</value>
+    <value>アイコンファイル</value>
     <comment>This is the friendly name for a variety of different icon files.</comment>
   </data>
   <data name="BreadcrumbBarEllipsisButtonToolTip" xml:space="preserve">
-    <value>Show collapsed path breadcrumbs</value>
+    <value>折りたたんだパンくずリストを表示する</value>
   </data>
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
-    <value>Show folders in {0}</value>
+    <value>{0} 内のフォルダを表示</value>
   </data>
   <data name="BreadcrumbBarRootChevronButtonToolTip" xml:space="preserve">
-    <value>Show folders in Home</value>
+    <value>フォルダ内のフォルダを表示</value>
   </data>
   <data name="NoCommandsFound" xml:space="preserve">
     <value>{0}を含むコマンドは存在しません</value>
@@ -4293,7 +4300,7 @@
     <value>署名</value>
    </data>
   <data name="SignatureList" xml:space="preserve">
-    <value>Signature list</value>
+    <value>署名リスト</value>
   </data>
   <data name="IssuedBy" xml:space="preserve">
     <value>発行者：</value>
@@ -4308,21 +4315,21 @@
     <value>有効期間の終了：</value>
   </data>
   <data name="NoSignatureFound" xml:space="preserve">
-    <value>No signature was found.</value>
+    <value>署名が見つかりませんでした。</value>
   </data>
   <data name="ShowOpenTerminal" xml:space="preserve">
-    <value>Show option to open folders in Windows Terminal</value>
+    <value>Windows Terminal でフォルダーを開くオプションを表示する</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
-    <value>Open log file</value>
+    <value>ログファイルを開く</value>
   </data>
   <data name="OpenLogFileDescription" xml:space="preserve">
-    <value>Open log file in your default editor</value>
+    <value>既定のエディターでログファイルを開く</value>
   </data>
   <data name="OpenLogFileLocationDescription" xml:space="preserve">
-    <value>Open log file location in your default file manager</value>
+    <value>既定のファイルマネージャーでログファイルの場所を開く</value>
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
-    <value>Unable to open the log file</value>
+    <value>ログファイルを開けません</value>
   </data>
 </root>
