@@ -659,7 +659,7 @@ namespace Files.App.Utils.StatusCenter
 
 						string subHeaderString = string.IsNullOrWhiteSpace(card.SubHeaderStringResource) ? string.Empty
 							: card.SubHeaderStringResource.GetLocalizedFormatResource(card.TotalItemsCount, sourcePath, destinationPath);
-						card.SubHeader = subHeaderString; 
+						card.SubHeader = subHeaderString;
 						break;
 					}
 				case FileOperationType.Move:

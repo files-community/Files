@@ -301,7 +301,7 @@ namespace Files.App.Utils.StatusCenter
 						Operation == FileOperationType.Compressed ||
 						Operation == FileOperationType.GitClone)
 					{
-						Message = 
+						Message =
 							$"{string.Format(
 								Strings.StatusCenter_ProcessedItems_Header.GetLocalizedFormatResource(value.ProcessedItemsCount, value.ItemsCount),
 								value.ProcessedItemsCount,
@@ -309,7 +309,7 @@ namespace Files.App.Utils.StatusCenter
 					}
 					else
 					{
-						Message = 
+						Message =
 							$"{string.Format(
 								Strings.StatusCenter_ProcessedSize_Header.GetLocalizedResource(),
 								value.ProcessedSize.ToSizeString(),

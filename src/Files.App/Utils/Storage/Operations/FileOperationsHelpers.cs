@@ -207,7 +207,7 @@ namespace Files.App.Utils.Storage
 
 			var cts = new CancellationTokenSource();
 			var sizeCalculator = new FileSizeCalculator(fileToDeletePath);
-			
+
 			// Track the count and update the progress
 			sizeCalculator.ItemsCountChanged += (newCount) =>
 			{
@@ -413,7 +413,7 @@ namespace Files.App.Utils.Storage
 
 			var cts = new CancellationTokenSource();
 			var sizeCalculator = new FileSizeCalculator(fileToMovePath);
-			
+
 			// Track the count and update the progress
 			sizeCalculator.ItemsCountChanged += (newCount) =>
 			{
