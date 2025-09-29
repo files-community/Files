@@ -3487,6 +3487,9 @@
   <data name="ProcessingItems" xml:space="preserve">
     <value>Elemente werden verarbeitet...</value>
   </data>
+  <data name="DiscoveringItems" xml:space="preserve">
+    <value>Elemente werden gesucht...</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Geschwindigkeit:</value>
   </data>
@@ -3617,6 +3620,10 @@
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
     <value>Kopiere {0, plural, one {# Element} other {# Elemente}} von "{1}" nach "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
+    <value>{0, plural, one {# Element} other {# Elemente}} gefunden</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>Entpacken von "{0}" nach "{1}" abgebrochen</value>
