@@ -3488,7 +3488,7 @@
     <value>Đang xử lý khoản mục...</value>
   </data>
   <data name="DiscoveringItems" xml:space="preserve">
-    <value>Discovering items...</value>
+    <value>Đang quét tìm khoản mục...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Tốc độ:</value>
@@ -3622,7 +3622,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
-    <value>Discovered {0, plural, one {# item} other {# items}}</value>
+    <value>Đã tìm thấy {0, plural, other {# khoản mục}}</value>
     <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
