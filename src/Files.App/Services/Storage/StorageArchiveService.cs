@@ -128,6 +128,36 @@ namespace Files.App.Services
 			fsProgress.TotalSize = zipFile.ArchiveFileData.Select(x => (long)x.Size).Sum();
 			fsProgress.Report();
 
+			zipFile.Extracting += (s, e) =>
+			{
+				if (fsProgress.TotalSize > 0)
+					fsProgress.Report(e.BytesProcessed / (double)fsProgress.TotalSize * 100);
+			};
+
+			zipFile.FileExtractionStarted += (s, e) =>
+			{
+				if (statusCard.CancellationToken.IsCancellationRequested)
+					e.Cancel = true;
+
+				if (!e.FileInfo.IsDirectory)
+				{
+					ThreadingService.ExecuteOnUiThreadAsync(() =>
+					{
+						fsProgress.FileName = e.FileInfo.FileName;
+						fsProgress.Report();
+					});
+				}
+			};
+
+			zipFile.FileExtractionFinished += (s, e) =>
+			{
+				if (!e.FileInfo.IsDirectory)
+				{
+					fsProgress.AddProcessedItemsCount(1);
+					fsProgress.Report();
+				}
+			};
+
 			bool isSuccess = false;
 
 			try
@@ -166,35 +196,6 @@ namespace Files.App.Services
 				}
 			}
 
-			zipFile.Extracting += (s, e) =>
-			{
-				if (fsProgress.TotalSize > 0)
-					fsProgress.Report(e.BytesProcessed / (double)fsProgress.TotalSize * 100);
-			};
-
-			zipFile.FileExtractionStarted += (s, e) =>
-			{
-				if (statusCard.CancellationToken.IsCancellationRequested)
-					e.Cancel = true;
-
-				if (!e.FileInfo.IsDirectory)
-				{
-					ThreadingService.ExecuteOnUiThreadAsync(() =>
-					{
-						fsProgress.FileName = e.FileInfo.FileName;
-						fsProgress.Report();
-					});
-				}
-			};
-
-			zipFile.FileExtractionFinished += (s, e) =>
-			{
-				if (!e.FileInfo.IsDirectory)
-				{
-					fsProgress.AddProcessedItemsCount(1);
-					fsProgress.Report();
-				}
-			};
 			return isSuccess;
 		}
 
