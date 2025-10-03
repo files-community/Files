@@ -9,6 +9,7 @@
 	xmlns:local="using:Files.App.UserControls.StatusCenter"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:statuscenter="using:Files.App.Utils.StatusCenter"
+	xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
@@ -19,7 +20,7 @@
 		</ResourceDictionary>
 	</UserControl.Resources>
 
-	<Grid x:Name="RootGrid">
+	<Grid x:Name="RootGrid" MinWidth="360" MinHeight="240">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
@@ -357,7 +358,7 @@
 
 		</ListView>
 
-		<!--  No Items  -->
+		
 		<TextBlock
 			x:Name="NoItemsMessageTextBlock"
 			Grid.Row="1"
@@ -366,5 +367,17 @@
 			x:Load="{x:Bind ViewModel.HasAnyItem, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 			Text="{helpers:ResourceString Name=NoFileOperations}" />
 
-	</Grid>
+
+		<primitives:Thumb
+			x:Name="ResizeGrip"
+			Grid.Row="1"
+			Width="16"
+			Height="16"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Bottom"
+			Margin="8"
+			Opacity="0.6"
+			ToolTipService.ToolTip="Resize" />
+
+		</Grid>
 </UserControl>
