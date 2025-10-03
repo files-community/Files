@@ -410,9 +410,10 @@ namespace Files.App.Services
 		{
 			return await FilesystemTasks.Wrap(async () =>
 			{
+				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(archiveFilePath);
 				var extractor = string.IsNullOrEmpty(password)
-					? new SevenZipExtractor(archiveFilePath)
-					: new SevenZipExtractor(archiveFilePath, password);
+					? new SevenZipExtractor(archive.Path)
+					: new SevenZipExtractor(archive.Path, password);
 
 				// Force to load archive (1665013614u)
 				return extractor?.ArchiveFileData is null ? null : extractor;
