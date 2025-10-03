@@ -4,6 +4,7 @@
 using Files.Shared.Helpers;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
+using Microsoft.Extensions.Logging;
 using SevenZip;
 using System.IO;
 using System.Text;
@@ -137,9 +138,10 @@ namespace Files.App.Services
 
 				isSuccess = true;
 			}
-			catch
+			catch (Exception ex)
 			{
 				isSuccess = false;
+				App.Logger.LogError(ex, "SevenZipLib error extracting archive file.");
 			}
 			finally
 			{
@@ -288,7 +290,7 @@ namespace Files.App.Services
 			catch (Exception ex)
 			{
 				isSuccess = false;
-				Console.WriteLine($"Error during decompression: {ex.Message}");
+				App.Logger.LogError(ex, "SharpZipLib error during decompression.");
 			}
 			finally
 			{
@@ -362,7 +364,7 @@ namespace Files.App.Services
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"SharpZipLib error: {ex.Message}");
+				App.Logger.LogError(ex, "SharpZipLib error.");
 				return true;
 			}
 		}
@@ -398,7 +400,7 @@ namespace Files.App.Services
 			}
 			catch (Exception ex)
 			{
-				Console.WriteLine($"SharpZipLib error: {ex.Message}");
+				App.Logger.LogError(ex, "SharpZipLib error detecting encoding.");
 				return null;
 			}
 		}
@@ -409,8 +411,9 @@ namespace Files.App.Services
 			return await FilesystemTasks.Wrap(async () =>
 			{
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(archiveFilePath);
-
-				var extractor = new SevenZipExtractor(await archive.OpenStreamForReadAsync(), password);
+				var extractor = string.IsNullOrEmpty(password)
+					? new SevenZipExtractor(archive.Path)
+					: new SevenZipExtractor(archive.Path, password);
 
 				// Force to load archive (1665013614u)
 				return extractor?.ArchiveFileData is null ? null : extractor;
