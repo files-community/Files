@@ -13,9 +13,9 @@ namespace Files.App.Helpers
 	/// </summary>
 	public static partial class Win32Helper
 	{
-		private readonly static ShellFolder _controlPanel = new(Shell32.KNOWNFOLDERID.FOLDERID_ControlPanelFolder);
+		private readonly static Lazy<ShellFolder> _controlPanel = new(() => new(Shell32.KNOWNFOLDERID.FOLDERID_ControlPanelFolder));
 
-		private readonly static ShellFolder _controlPanelCategoryView = new("::{26EE0668-A00A-44D7-9371-BEB064C98683}");
+		private readonly static Lazy<ShellFolder> _controlPanelCategoryView = new(() => new("::{26EE0668-A00A-44D7-9371-BEB064C98683}"));
 
 		public static async Task<(ShellFileItem Folder, List<ShellFileItem> Enumerate)> GetShellFolderAsync(string path, bool getFolder, bool getEnumerate, int from, int count, params string[] properties)
 		{
@@ -34,8 +34,8 @@ namespace Files.App.Helpers
 					using var shellFolder = ShellFolderExtensions.GetShellItemFromPathOrPIDL(path) as ShellFolder;
 
 					if (shellFolder is null ||
-						(_controlPanel.PIDL.IsParentOf(shellFolder.PIDL, false) ||
-						_controlPanelCategoryView.PIDL.IsParentOf(shellFolder.PIDL, false)) &&
+						(_controlPanel.Value.PIDL.IsParentOf(shellFolder.PIDL, false) ||
+						_controlPanelCategoryView.Value.PIDL.IsParentOf(shellFolder.PIDL, false)) &&
 						!shellFolder.Any())
 					{
 						// Return null to force open unsupported items in explorer
