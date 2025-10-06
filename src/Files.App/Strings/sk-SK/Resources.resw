@@ -1013,7 +1013,7 @@
 </value>
   </data>
   <data name="SearchResultsFor" xml:space="preserve">
-    <value>Výsledky hľadania v {1} pre {0}</value>
+    <value>Search results for `{0}`</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Detaily</value>
