@@ -3622,7 +3622,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
-    <value>Encontrado(s) {0, plural, one {# item} other {# itens}}</value>
+    <value>{0, plural, one {# item encontrado} other {# itens encontrados}}</value>
     <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
@@ -4019,7 +4019,7 @@
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
   <data name="ImageFiles" xml:space="preserve">
-    <value>Imagens</value>
+    <value>Ficheiros de imagem</value>
     <comment>This is the friendly name for image files.</comment>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
@@ -4324,10 +4324,10 @@
     <value>Abrir ficheiro de registos</value>
   </data>
   <data name="OpenLogFileDescription" xml:space="preserve">
-    <value>Abrir ficheiro de registos no editor padrão</value>
+    <value>Abre o ficheiro de registos no editor predefinido</value>
   </data>
   <data name="OpenLogFileLocationDescription" xml:space="preserve">
-    <value>Abrir pasta do ficheiro de registos no gestor de ficheiros padrão</value>
+    <value>Abre a pasta do ficheiro de registos no gestor de ficheiros predefinido</value>
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
     <value>Não foi possível abrir o ficheiro de registos</value>
