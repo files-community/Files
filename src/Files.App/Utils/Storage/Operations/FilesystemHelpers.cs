@@ -22,7 +22,6 @@ namespace Files.App.Utils.Storage
 		private readonly static StatusCenterViewModel _statusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
 		private IShellPage associatedInstance;
-		private readonly IWindowsJumpListService jumpListService;
 		private ShellFilesystemOperations filesystemOperations;
 
 		private ItemManipulationModel? itemManipulationModel => associatedInstance.SlimContentPage?.ItemManipulationModel;
@@ -55,7 +54,6 @@ namespace Files.App.Utils.Storage
 		{
 			this.associatedInstance = associatedInstance;
 			this.cancellationToken = cancellationToken;
-			jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
 			filesystemOperations = new ShellFilesystemOperations(this.associatedInstance);
 		}
 		public async Task<(ReturnResult, IStorageItem?)> CreateAsync(IStorageItemWithPath source, bool registerHistory)
@@ -163,7 +161,6 @@ namespace Files.App.Utils.Storage
 
 			// Execute removal tasks concurrently in background
 			var sourcePaths = source.Select(x => x.Path);
-			_ = Task.WhenAll(sourcePaths.Select(jumpListService.RemoveFolderAsync));
 
 			var itemsCount = banner.TotalItemsCount;
 
@@ -476,7 +473,6 @@ namespace Files.App.Utils.Storage
 
 			// Execute removal tasks concurrently in background
 			var sourcePaths = source.Select(x => x.Path);
-			_ = Task.WhenAll(sourcePaths.Select(jumpListService.RemoveFolderAsync));
 
 			var itemsCount = banner.TotalItemsCount;
 
@@ -588,8 +584,6 @@ namespace Files.App.Utils.Storage
 			{
 				App.HistoryWrapper.AddHistory(history);
 			}
-
-			await jumpListService.RemoveFolderAsync(source.Path); // Remove items from jump list
 
 			await Task.Yield();
 			return returnStatus;
