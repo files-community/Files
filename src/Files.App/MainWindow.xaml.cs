@@ -287,7 +287,12 @@ namespace Files.App
 				if (rootFrame.Content is MainPage && MainPageViewModel.AppInstances.Any())
 				{
 					// Bring to foreground (#14730)
-					Win32Helper.BringToForegroundEx(new(WindowHandle));
+
+					// Exception for Menus opened from the sidebar.
+					if (CanWindowToFront)
+					{
+						Win32Helper.BringToForegroundEx(new(WindowHandle));
+					}
 
 					var existingTabIndex = MainPageViewModel.AppInstances
 						.Select((tabItem, idx) => new { tabItem, idx })
