@@ -3181,7 +3181,7 @@
     <value>远程</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>在 Crowdin 上翻译此应用</value>
+    <value>在 Crowdin 上翻译Files</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
     <value>抓取</value>
@@ -3266,7 +3266,7 @@
     <value>连接到 GitHub</value>
   </data>
   <data name="ConnectGitHubDescription" xml:space="preserve">
-    <value>若要开始使用 GitHub 存储库，请在下方的链接中输入以下验证码。</value>
+    <value>若要开始使用 GitHub 存储库，请点击下方的链接，并输入以下验证码。</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
     <value>Files 目前无法访问 GitHub。</value>
@@ -3302,7 +3302,7 @@
     <value>无法显示当前所有者。</value>
   </data>
   <data name="AuthorizationSucceded" xml:space="preserve">
-    <value>针不戳！你现在已获得授权。</value>
+    <value>真不错！你现在已获得授权。</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
     <value>初始化存储库</value>

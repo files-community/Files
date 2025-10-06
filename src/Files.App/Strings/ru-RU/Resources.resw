@@ -3488,7 +3488,7 @@
     <value>Обработка элементов...</value>
   </data>
   <data name="DiscoveringItems" xml:space="preserve">
-    <value>Discovering items...</value>
+    <value>Поиск элементов...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Скорость:</value>
