@@ -2736,25 +2736,9 @@ namespace Files.App.ViewModels
 			await ApplyFilesAndFoldersChangesAsync();
 			EmptyTextType = EmptyTextType.None;
 
-			if (!string.IsNullOrEmpty(search.Query))
-			{
-				try
-				{
-					// Try to format the localized string with the search query
-					SearchHeaderTitle = string.Format(Strings.SearchResultsFor.GetLocalizedResource(), search.Query);
-				}
-				catch (FormatException ex)
-				{
-					// Handle malformed localized format strings (e.g., incorrect placeholders in translation)
-					// Fallback to a safe default format
-					App.Logger.LogWarning(ex, "Malformed localized format string for SearchResultsFor. Using fallback format.");
-					SearchHeaderTitle = $"Search results for \"{search.Query}\"";
-				}
-			}
-			else
-			{
-				SearchHeaderTitle = string.Empty;
-			}
+			SearchHeaderTitle = !string.IsNullOrEmpty(search.Query)
+				? string.Format(Strings.SearchResultsFor.GetLocalizedResource(), search.Query)
+				: string.Empty;
 
 			if (SearchIconBitmapImage is null)
 				SearchIconBitmapImage ??= await UIHelpers.GetSearchIconResource();
