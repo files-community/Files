@@ -351,6 +351,10 @@ namespace Files.App.UserControls
 				return;
 			}
 
+			// Don't open flyout for the last item in the breadcrumb path
+			if (e.Index == ViewModel.PathComponents.Count - 1)
+				return;
+
 			await ViewModel.SetPathBoxDropDownFlyoutAsync(e.Flyout, ViewModel.PathComponents[e.Index]);
 		}
 
