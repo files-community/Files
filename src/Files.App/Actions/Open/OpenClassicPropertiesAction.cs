@@ -4,6 +4,8 @@
 using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.UI.Shell;
+using Windows.Win32.Foundation;
+using Windows.Win32.UI.WindowsAndMessaging;
 
 namespace Files.App.Actions
 {
@@ -53,12 +55,23 @@ namespace Files.App.Actions
 			info.nShow = 5; // SW_SHOW
 			info.fMask = 0x0000000C; // SEE_MASK_INVOKEIDLIST
 
+			// Prevent Main Window from coming to from when sidebar menu is opened.
+
+			MainWindow.Instance.SetCanWindowToFront(false);
+
 			fixed (char* cVerb = "properties", lpFile = itemPath)
 			{
 				info.lpVerb = cVerb;
 				info.lpFile = lpFile;
 
-				PInvoke.ShellExecuteEx(ref info);
+				try
+				{
+					PInvoke.ShellExecuteEx(ref info);
+				}
+				finally
+				{
+					MainWindow.Instance.SetCanWindowToFront(true);
+				}
 			}
 		}
 
