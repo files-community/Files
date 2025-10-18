@@ -29,7 +29,7 @@ namespace Files.App.Storage
 			{
 				HRESULT hr = storable.TryGetThumbnail(size, options, out var thumbnailData).ThrowIfFailedOnDebug();
 				return thumbnailData;
-			});
+			}, null);
 		}
 
 		/// <summary>
