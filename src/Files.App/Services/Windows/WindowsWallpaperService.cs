@@ -1,9 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System.IO;
-using Vanara.PInvoke;
-using Vanara.Windows.Shell;
 using Windows.Storage;
 using Windows.System.UserProfile;
 using Windows.Win32;
@@ -16,17 +13,15 @@ namespace Files.App.Services
 	/// <inheritdoc cref="IWindowsWallpaperService"/>
 	public sealed class WindowsWallpaperService : IWindowsWallpaperService
 	{
-		private static readonly Ole32.PROPERTYKEY PKEY_FilePlaceholderStatus = new Ole32.PROPERTYKEY(new Guid("B2F9B9D6-FEC4-4DD5-94D7-8957488C807B"), 2);
-		private const uint PS_CLOUDFILE_PLACEHOLDER = 8;
 		/// <inheritdoc/>
 		public unsafe void SetDesktopWallpaper(string szPath)
 		{
 			// Instantiate IDesktopWallpaper
 			using ComPtr<IDesktopWallpaper> pDesktopWallpaper = default;
-			HRESULT hr = pDesktopWallpaper.CoCreateInstance(CLSID.CLSID_DesktopWallpaper).ThrowOnFailure();
+			HRESULT hr = pDesktopWallpaper.CoCreateInstance(CLSID.CLSID_DesktopWallpaper);
 
 			// Get total count of all available monitors
-			hr = pDesktopWallpaper.Get()->GetMonitorDevicePathCount(out var dwMonitorCount).ThrowOnFailure();
+			hr = pDesktopWallpaper.Get()->GetMonitorDevicePathCount(out var dwMonitorCount);
 
 			fixed (char* pszPath = szPath)
 			{
@@ -36,8 +31,8 @@ namespace Files.App.Services
 				for (uint dwIndex = 0u; dwIndex < dwMonitorCount; dwIndex++)
 				{
 					// Set the wallpaper
-					hr = pDesktopWallpaper.Get()->GetMonitorDevicePathAt(dwIndex, &pMonitorId).ThrowOnFailure();
-					hr = pDesktopWallpaper.Get()->SetWallpaper(pMonitorId, pszPath).ThrowOnFailure();
+					hr = pDesktopWallpaper.Get()->GetMonitorDevicePathAt(dwIndex, &pMonitorId);
+					hr = pDesktopWallpaper.Get()->SetWallpaper(pMonitorId, pszPath);
 
 					pMonitorId = default;
 				}
@@ -49,7 +44,7 @@ namespace Files.App.Services
 		{
 			// Instantiate IDesktopWallpaper
 			using ComPtr<IDesktopWallpaper> pDesktopWallpaper = default;
-			HRESULT hr = pDesktopWallpaper.CoCreateInstance(CLSID.CLSID_DesktopWallpaper).ThrowOnFailure();
+			HRESULT hr = pDesktopWallpaper.CoCreateInstance(CLSID.CLSID_DesktopWallpaper);
 
 			uint dwCount = (uint)aszPaths.Length;
 			ITEMIDLIST** ppItemIdList = stackalloc ITEMIDLIST*[aszPaths.Length];
@@ -60,52 +55,22 @@ namespace Files.App.Services
 
 			// Get an IShellItemArray from the array of the PIDL
 			using ComPtr<IShellItemArray> pShellItemArray = default;
-			hr = PInvoke.SHCreateShellItemArrayFromIDLists(dwCount, ppItemIdList, pShellItemArray.GetAddressOf()).ThrowOnFailure();
+			hr = PInvoke.SHCreateShellItemArrayFromIDLists(dwCount, ppItemIdList, pShellItemArray.GetAddressOf());
 
 			// Release the allocated PIDL
 			for (uint dwIndex = 0u; dwIndex < dwCount; dwIndex++)
 				PInvoke.CoTaskMemFree((void*)ppItemIdList[dwIndex]);
 
 			// Set the slideshow and its position
-			hr = pDesktopWallpaper.Get()->SetSlideshow(pShellItemArray.Get()).ThrowOnFailure();
-			hr = pDesktopWallpaper.Get()->SetPosition(DESKTOP_WALLPAPER_POSITION.DWPOS_FILL).ThrowOnFailure();
+			hr = pDesktopWallpaper.Get()->SetSlideshow(pShellItemArray.Get());
+			hr = pDesktopWallpaper.Get()->SetPosition(DESKTOP_WALLPAPER_POSITION.DWPOS_FILL);
 		}
 
 		/// <inheritdoc/>
 		public async Task SetLockScreenWallpaper(string szPath)
 		{
-			// Verify the file exists on disk
-			if (!File.Exists(szPath))
-				throw new FileNotFoundException("The specified file does not exist.", szPath);
-
-			// Check if the file is a cloud placeholder (online-only file)
-			if (IsCloudPlaceholder(szPath))
-				throw new InvalidOperationException("The file is stored in the cloud and is not available offline. Please download the file before setting it as a wallpaper.");
-
 			IStorageFile sourceFile = await StorageFile.GetFileFromPathAsync(szPath);
 			await LockScreen.SetImageFileAsync(sourceFile);
-		}
-
-		/// <summary>
-		/// Checks if the file is a cloud placeholder (online-only file).
-		/// </summary>
-		/// <param name="path">The path to the file.</param>
-		/// <returns>True if the file is a cloud placeholder; otherwise, false.</returns>
-		private static bool IsCloudPlaceholder(string path)
-		{
-			try
-			{
-				using var shi = new ShellItem(path);
-				if (shi.Properties.TryGetValue<uint>(PKEY_FilePlaceholderStatus, out var value) && value == PS_CLOUDFILE_PLACEHOLDER)
-					return true;
-			}
-			catch
-			{
-				// If we can't determine the placeholder status, assume it's not a placeholder
-				// and let the subsequent StorageFile.GetFileFromPathAsync call handle any errors
-			}
-
-			return false;
 		}
 	}
 }
