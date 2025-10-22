@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<!--  Refined version of the AppxManifest.xml file.  -->
 <Package
     xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
     xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
@@ -16,7 +17,7 @@
     <Identity
         Name="FilesDev"
         Publisher="CN=Files"
-        Version="4.0.13.0" />
+        Version="4.0.14.0" /> <!-- Version updated to 4.0.14.0 -->
 
     <Properties>
         <DisplayName>Files - Dev</DisplayName>
@@ -59,7 +60,7 @@
         <Resource Language="km-KH" />
         <Resource Language="ko-KR" />
         <Resource Language="lt-LT" />
-        <Resource Language="lv-LV" />        
+        <Resource Language="lv-LV" />     
         <Resource Language="ms-MY" />
         <Resource Language="nb-NO" />
         <Resource Language="nl-NL" />
@@ -150,6 +151,7 @@
                             <uap:FileType>.jar</uap:FileType>
                             <uap:FileType>.mrpack</uap:FileType>
                             <uap:FileType>.gz</uap:FileType>
+                            <uap:FileType>.iso</uap:FileType> <!-- Added .iso file type association -->
                         </uap:SupportedFileTypes>
                         <uap:Logo>assets\archives\ExtensionIcon.png</uap:Logo>
                     </uap:FileTypeAssociation>
@@ -178,19 +180,16 @@
     </Extensions>
   
     <Capabilities>
-        <!--
-            <rescap:Capability Name="packageQuery" />
-        -->
         <rescap:Capability Name="runFullTrust" />
         <rescap:Capability Name="broadFileSystemAccess" />
         <rescap:Capability Name="allowElevation" />
         <!--
-            The unvirtualizedResources capability is used to support file operations in the AppData directory.
+             The unvirtualizedResources capability is used to support file operations in the AppData directory.
         -->
         <rescap:Capability Name="unvirtualizedResources" />
         <!--
-            The packageManagement capability is used to download updates in the sideload version of Files.
-            We only use this capability in the sideload version and remove it when compiling the store vesion in Azure DevOps.
+             The packageManagement capability is used to download updates in the sideload version of Files.
+             We only use this capability in the sideload version and remove it when compiling the store vesion in Azure DevOps.
         -->
         <rescap:Capability Name="packageManagement" />
         <uap:Capability Name="removableStorage" />
