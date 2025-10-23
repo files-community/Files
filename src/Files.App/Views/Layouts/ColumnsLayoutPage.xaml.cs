@@ -365,6 +365,7 @@ namespace Files.App.Views.Layouts
 		{
 			if (navArgs is not null && navArgs.IsSearchResultPage)
 			{
+				navArgs.AssociatedTabInstance = ParentShellPageInstance;
 				ParentShellPageInstance?.NavigateToPath(navArgs.SearchPathParam, typeof(DetailsLayoutPage), navArgs);
 				return;
 			}
