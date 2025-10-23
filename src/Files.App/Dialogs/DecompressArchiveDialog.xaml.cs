@@ -28,5 +28,13 @@ namespace Files.App.Dialogs
 			if (ViewModel.IsArchiveEncrypted)
 				ViewModel.PrimaryButtonClickCommand.Execute(new DisposableArray(Encoding.UTF8.GetBytes(Password.Password)));
 		}
+
+		private void DestinationFolderPath_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+		{
+			if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+			{
+				ViewModel.UpdateSuggestions(sender.Text);
+			}
+		}
 	}
 }
