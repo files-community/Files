@@ -103,8 +103,34 @@ namespace Files.App.Views.Layouts
 			var path = navigationArguments.NavPathParam;
 			var pathRoot = GetPathRoot(path);
 			var pathStack = new Stack<string>();
+			var storageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
+			if (storageTrashBinService.IsUnderTrashBin(path))
+			{
+				var recycleBinPath = $"{pathRoot}$Recycle.Bin";
+				var tempPath = path;
+				var pathsToAdd = new List<string>();
 
-			if (!string.IsNullOrEmpty(pathRoot))
+				while (!string.IsNullOrEmpty(tempPath))
+				{
+					var parentPath = GetParentDir(tempPath);
+
+					if (!string.IsNullOrEmpty(parentPath) && parentPath.Equals(recycleBinPath, StringComparison.OrdinalIgnoreCase))
+						// SID folder? stop here
+						break;
+
+					if (tempPath.Equals(recycleBinPath, StringComparison.OrdinalIgnoreCase))
+						break;
+
+					pathsToAdd.Add(tempPath);
+					tempPath = parentPath;
+				}
+
+				foreach (var pathToAdd in pathsToAdd)
+					pathStack.Push(pathToAdd);
+
+				path = Constants.UserEnvironmentPaths.RecycleBinPath;
+			}
+			else if (!string.IsNullOrEmpty(pathRoot))
 			{
 				var rootPathList = App.QuickAccessManager.Model.PinnedFolders.Select(NormalizePath)
 					.Concat(CloudDrivesManager.Drives.Select(x => NormalizePath(x.Path))).ToList()
