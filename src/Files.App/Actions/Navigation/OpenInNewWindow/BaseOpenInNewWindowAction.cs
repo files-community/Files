@@ -11,6 +11,7 @@ namespace Files.App.Actions
 		protected IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		protected IHomePageContext HomePageContext { get; } = Ioc.Default.GetRequiredService<IHomePageContext>();
 		protected ISidebarContext SidebarContext { get; } = Ioc.Default.GetRequiredService<ISidebarContext>();
+		protected IStorageTrashBinService StorageTrashBinService { get; } = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 
 		public string Label
 			=> Strings.OpenInNewWindow.GetLocalizedResource();
@@ -49,6 +50,9 @@ namespace Files.App.Actions
 			foreach (ListedItem listedItem in items)
 			{
 				var selectedItemPath = (listedItem as IShortcutItem)?.TargetPath ?? listedItem.ItemPath;
+				if (StorageTrashBinService.IsUnderTrashBin(selectedItemPath))
+					selectedItemPath = Uri.EscapeDataString(Constants.UserEnvironmentPaths.RecycleBinPath);
+
 				var folderUri = new Uri($"files-dev:?folder={@selectedItemPath}");
 
 				await Launcher.LaunchUriAsync(folderUri);
