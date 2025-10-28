@@ -456,14 +456,17 @@
 							<Style TargetType="FlyoutPresenter">
 								<Setter Property="Padding" Value="0" />
 								<Setter Property="CornerRadius" Value="{StaticResource OverlayCornerRadius}" />
+								<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+								<Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
+								<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+								<Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled" />
+								<Setter Property="MaxWidth" Value="600" />
+								<Setter Property="MinWidth" Value="300" />
 							</Style>
 						</Flyout.FlyoutPresenterStyle>
 
 						<ucs:StatusCenter
 							x:Name="OngoingTasksControl"
-							Width="400"
-							MinHeight="120"
-							MaxHeight="500"
 							x:FieldModifier="public"
 							IsTabStop="True" />
 					</Flyout>
