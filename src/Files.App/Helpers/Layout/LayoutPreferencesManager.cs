@@ -486,23 +486,6 @@ namespace Files.App.Helpers
 
 		private static LayoutPreferencesItem? GetLayoutPreferencesForPath(string path)
 		{
-			if (!UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories)
-			{
-				path = path.TrimPath() ?? string.Empty;
-
-				return SafetyExtensions.IgnoreExceptions(() =>
-				{
-					if (path.StartsWith("tag:", StringComparison.Ordinal))
-						return GetLayoutPreferencesFromDatabase("Home", null);
-
-					var folderFRN = Win32Helper.GetFolderFRN(path);
-
-					return GetLayoutPreferencesFromDatabase(path, folderFRN)
-						?? GetLayoutPreferencesFromAds(path, folderFRN);
-				}, App.Logger)
-					?? GetDefaultLayoutPreferences(path);
-			}
-
 			if (path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 			{
 				var trimmedPath = path.TrimPath() ?? string.Empty;
@@ -523,6 +506,23 @@ namespace Files.App.Helpers
 					defaultPref.LayoutMode = FolderLayoutModes.DetailsView;
 
 				return defaultPref;
+			}
+
+			if (!UserSettingsService.LayoutSettingsService.SyncFolderPreferencesAcrossDirectories)
+			{
+				path = path.TrimPath() ?? string.Empty;
+
+				return SafetyExtensions.IgnoreExceptions(() =>
+				{
+					if (path.StartsWith("tag:", StringComparison.Ordinal))
+						return GetLayoutPreferencesFromDatabase("Home", null);
+
+					var folderFRN = Win32Helper.GetFolderFRN(path);
+
+					return GetLayoutPreferencesFromDatabase(path, folderFRN)
+						?? GetLayoutPreferencesFromAds(path, folderFRN);
+				}, App.Logger)
+					?? GetDefaultLayoutPreferences(path);
 			}
 
 			return new LayoutPreferencesItem();
