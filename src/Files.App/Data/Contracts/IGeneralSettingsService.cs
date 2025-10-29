@@ -56,6 +56,11 @@ namespace Files.App.Data.Contracts
 		List<string> PreviousSearchQueriesList { get; set; }
 
 		/// <summary>
+		/// Stores list of paths where archives have previously been extracted.
+		/// </summary>
+		List<string> PreviousArchiveExtractionLocations { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating which date and time format to use.
 		/// </summary>
 		DateTimeFormats DateTimeFormat { get; set; }
