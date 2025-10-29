@@ -95,7 +95,6 @@ SendMessage
 IsWindowVisible
 COPYDATASTRUCT
 WINDOW_LONG_PTR_INDEX
-SetWindowLongPtr
 CallWindowProc
 MINMAXINFO
 SUBCLASSPROC
