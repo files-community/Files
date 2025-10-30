@@ -37,6 +37,15 @@
     <PropertyGroup>
         <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Remove="Terminal\**" />
+      <Content Remove="Terminal\**" />
+      <EmbeddedResource Remove="Terminal\**" />
+      <None Remove="Terminal\**" />
+      <Page Remove="Terminal\**" />
+      <PRIResource Remove="Terminal\**" />
+    </ItemGroup>
   
     <ItemGroup>
         <Manifest Include="app.manifest" />
@@ -60,10 +69,6 @@
         <Content Include="7zArm64.dll">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-		<Content Include="Terminal\UI\bundle.js" />
-		<Content Include="Terminal\UI\index.html" />
-		<Content Include="Terminal\UI\style.css" />
-		<Content Include="Terminal\UI\xterm.css" />
     </ItemGroup>
 
     <ItemGroup>

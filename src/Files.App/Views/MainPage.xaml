@@ -200,7 +200,7 @@
 							MinHeight="100" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition x:Name="InfoPaneRowDefinition" Height="Auto" />
-                        <RowDefinition x:Name="TerminalRow" Height="0" />
+						<RowDefinition x:Name="TerminalRow" Height="0" />
 						<RowDefinition Height="Auto" MinHeight="8" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
@@ -256,55 +256,56 @@
 						Loaded="PreviewPane_Loaded"
 						Unloaded="PreviewPane_Unloaded" />
 
-				<!--  Terminal  -->
-				<ContentPresenter
-					x:Name="TerminalControl"
-					Grid.Row="4"
-					Grid.ColumnSpan="3"
-                    Margin="0,4,0,4"
-					Content="{x:Bind ViewModel.ActiveTerminal, Mode=OneWay}"
-					Visibility="{x:Bind ViewModel.IsTerminalViewOpen, Mode=OneWay}" />
+					<!--  Terminal  -->
+					<ContentPresenter
+						x:Name="TerminalControl"
+						Grid.Row="4"
+						Grid.ColumnSpan="3"
+						Margin="0,4,0,4"
+						Content="{x:Bind ViewModel.ActiveTerminal, Mode=OneWay}"
+						Visibility="{x:Bind ViewModel.IsTerminalViewOpen, Mode=OneWay}" />
 
-                    <!--  Status Bar  -->
-				<uc:StatusBarControl
-					x:Name="StatusBarControl"
-					Grid.Row="5"
-					Grid.ColumnSpan="3"
-					x:Load="False"
-					ShowInfoText="{x:Bind SidebarAdaptiveViewModel.PaneHolder.ActivePaneOrColumn.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
+					<!--  Status Bar  -->
+					<uc:StatusBar
+						x:Name="StatusBar"
+						Grid.Row="5"
+						Grid.ColumnSpan="3"
+						x:Load="False"
+						ShowInfoText="{x:Bind ViewModel.ShowStatusBar, Mode=OneWay}"
+						Visibility="{x:Bind ViewModel.ShowStatusBar, Mode=OneWay}" />
 
-                <i:Interaction.Behaviors>
-                    <icore:DataTriggerBehavior
-						Binding="{x:Bind ViewModel.IsTerminalViewOpen, Mode=OneWay}"
-						ComparisonCondition="Equal"
-						Value="True">
-                        <icore:ChangePropertyAction
-							PropertyName="Height"
-							TargetObject="{Binding ElementName=TerminalRow}"
-							Value="0.5*" />
-                    </icore:DataTriggerBehavior>
-                    <icore:DataTriggerBehavior
-						Binding="{x:Bind ViewModel.IsTerminalViewOpen, Mode=OneWay}"
-						ComparisonCondition="Equal"
-						Value="False">
-                        <icore:ChangePropertyAction
-							PropertyName="Height"
-							TargetObject="{Binding ElementName=TerminalRow}"
-							Value="0" />
-                    </icore:DataTriggerBehavior>
-                </i:Interaction.Behaviors>
-                </Grid>
-
-						<Button.ContextFlyout>
-							<MenuFlyout>
-								<MenuFlyoutItem
-									Command="{x:Bind Commands.OpenSettingsFile, Mode=OneWay}"
-									Icon="{x:Bind Commands.OpenSettingsFile.FontIcon, Mode=OneWay}"
-									Text="{x:Bind Commands.OpenSettingsFile.Label, Mode=OneWay}" />
+					<!--  Shelf Pane  -->
+					<uc:ShelfPane
+						x:Name="ShelfPane"
+						Grid.Row="0"
+						Grid.RowSpan="5"
+						Grid.Column="3"
+						Margin="4,0,0,8"
 						x:Load="{x:Bind ViewModel.ShowShelfPane, Mode=OneWay}"
 						ClearCommand="{x:Bind ViewModel.ShelfViewModel.ClearItemsCommand}"
 						ItemFocusedCommand="{x:Bind Commands.ClearSelection, Mode=OneWay}"
 						ItemsSource="{x:Bind ViewModel.ShelfViewModel.Items}" />
+
+					<i:Interaction.Behaviors>
+						<i:DataTriggerBehavior
+							Binding="{x:Bind ViewModel.IsTerminalViewOpen, Mode=OneWay}"
+							ComparisonCondition="Equal"
+							Value="True">
+							<i:ChangePropertyAction
+								PropertyName="Height"
+								TargetObject="{Binding ElementName=TerminalRow}"
+								Value="0.5*" />
+						</i:DataTriggerBehavior>
+						<i:DataTriggerBehavior
+							Binding="{x:Bind ViewModel.IsTerminalViewOpen, Mode=OneWay}"
+							ComparisonCondition="Equal"
+							Value="False">
+							<i:ChangePropertyAction
+								PropertyName="Height"
+								TargetObject="{Binding ElementName=TerminalRow}"
+								Value="0" />
+						</i:DataTriggerBehavior>
+					</i:Interaction.Behaviors>
 				</Grid>
 			</controls:SidebarView.InnerContent>
 
@@ -398,7 +399,7 @@
 
 		<!--  Review Files Prompt  -->
 		<TeachingTip
-			ActionButtonCommand="{x:Bind ViewModel.ReviewAppCommand}"
+			Title="{helpers:ResourceString Name=Hello}"
 			Grid.RowSpan="3"
 			HorizontalAlignment="Center"
 			VerticalAlignment="Bottom"

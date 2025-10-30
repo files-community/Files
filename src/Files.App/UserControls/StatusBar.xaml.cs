@@ -22,6 +22,16 @@ namespace Files.App.UserControls
 		public static readonly DependencyProperty StatusBarViewModelProperty =
 			DependencyProperty.Register(nameof(StatusBarViewModel), typeof(StatusBarViewModel), typeof(StatusBar), new PropertyMetadata(null));
 
+		public MainPageViewModel? MainPageViewModel
+		{
+			get => (MainPageViewModel)GetValue(MainPageViewModelProperty);
+			set => SetValue(MainPageViewModelProperty, value);
+		}
+
+		// Using a DependencyProperty as the backing store for MainPageViewModel.  This enables animation, styling, binding, etc...
+		public static readonly DependencyProperty MainPageViewModelProperty =
+			DependencyProperty.Register(nameof(MainPageViewModel), typeof(MainPageViewModel), typeof(StatusBar), new PropertyMetadata(null));
+
 		public SelectedItemsPropertiesViewModel? SelectedItemsPropertiesViewModel
 		{
 			get => (SelectedItemsPropertiesViewModel)GetValue(SelectedItemsPropertiesViewModelProperty);

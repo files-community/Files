@@ -169,20 +169,16 @@
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowFlattenOptions}" IsOn="{x:Bind ViewModel.ShowFlattenOptions, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
-            <!--  Enable terminal integration  -->
-            <local:SettingsBlockControl
-		x:Name="TerminalIntegrationSettingsBlockControl"
-		Title="{helpers:ResourceString Name=SettingsTerminalIntegration}"
-		HorizontalAlignment="Stretch">
-                <local:SettingsBlockControl.Icon>
-                    <FontIcon Glyph="&#xE756;" />
-                </local:SettingsBlockControl.Icon>
-                <ToggleSwitch
-			AutomationProperties.Name="{helpers:ResourceString Name=SettingsTerminalIntegration}"
-			IsOn="{x:Bind ViewModel.IsTerminalIntegrationEnabled, Mode=TwoWay}"
-			Style="{StaticResource RightAlignedToggleSwitchStyle}" />
-            </local:SettingsBlockControl>
-        </StackPanel>
-        </StackPanel>
+			<!--  Enable terminal integration  -->
+			<wctcontrols:SettingsCard HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=SettingsTerminalIntegration}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE756;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch
+					AutomationProperties.Name="{helpers:ResourceString Name=SettingsTerminalIntegration}"
+					IsOn="{x:Bind ViewModel.IsTerminalIntegrationEnabled, Mode=TwoWay}"
+					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+			</wctcontrols:SettingsCard>
+		</StackPanel>
 	</Grid>
 </Page>
