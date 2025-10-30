@@ -82,6 +82,8 @@ namespace Files.App.Actions
 	[GeneratedRichCommand]
 	internal sealed partial class LayoutColumnsAction : ToggleLayoutAction
 	{
+		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Columns;
 
@@ -96,6 +98,24 @@ namespace Files.App.Actions
 
 		public override HotKey HotKey
 			=> new(Keys.Number5, KeyModifiers.CtrlShift);
+
+		public override bool IsExecutable
+			=> ContentPageContext.PageType is not ContentPageTypes.RecycleBin;
+
+		public LayoutColumnsAction()
+		{
+			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
+		}
+
+		private void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.PageType):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
+		}
 	}
 
 	[GeneratedRichCommand]
