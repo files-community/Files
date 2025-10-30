@@ -380,7 +380,10 @@ namespace Files.App.Data.Factories
 				{
 					IsVisible = currentInstanceViewModel.IsPageTypeRecycleBin && itemsSelected,
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenItem).Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenItem)
+				{
+					IsVisible = !areAllItemsFolders
+				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenItemWithApplicationPicker)
 				{
 					Tag = "OpenWith",
@@ -409,15 +412,15 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenFileLocation).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewTab)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab && Commands.OpenInNewTab.IsExecutable
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab && Commands.OpenInNewTab.IsExecutable && !currentInstanceViewModel.IsPageTypeRecycleBin
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewWindow)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow && Commands.OpenInNewWindow.IsExecutable
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow && Commands.OpenInNewWindow.IsExecutable && !currentInstanceViewModel.IsPageTypeRecycleBin
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewPane)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && Commands.OpenInNewPane.IsExecutable
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && Commands.OpenInNewPane.IsExecutable && !currentInstanceViewModel.IsPageTypeRecycleBin
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -479,7 +482,7 @@ namespace Files.App.Data.Factories
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.CreateFolderWithSelection)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowCreateFolderWithSelection && itemsSelected
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowCreateFolderWithSelection && itemsSelected && !currentInstanceViewModel.IsPageTypeRecycleBin
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.CreateShortcut)
 				{
