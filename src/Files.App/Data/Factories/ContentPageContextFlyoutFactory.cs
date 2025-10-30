@@ -382,7 +382,7 @@ namespace Files.App.Data.Factories
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenItem)
 				{
-					IsVisible = !areAllItemsFolders
+					IsVisible = !(currentInstanceViewModel.IsPageTypeRecycleBin && areAllItemsFolders)
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenItemWithApplicationPicker)
 				{
