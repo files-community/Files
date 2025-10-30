@@ -525,28 +525,6 @@ namespace Files.App.Helpers
 					?? GetDefaultLayoutPreferences(path);
 			}
 
-			if (path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
-			{
-				var trimmedPath = path.TrimPath() ?? string.Empty;
-
-				var recycleBinPreference = SafetyExtensions.IgnoreExceptions(() =>
-				{
-					var folderFRN = Win32Helper.GetFolderFRN(trimmedPath);
-
-					return GetLayoutPreferencesFromDatabase(trimmedPath, folderFRN)
-						?? GetLayoutPreferencesFromAds(trimmedPath, folderFRN);
-				}, App.Logger);
-
-				if (recycleBinPreference is not null && recycleBinPreference.LayoutMode != FolderLayoutModes.ColumnView)
-					return recycleBinPreference;
-
-				var defaultPref = new LayoutPreferencesItem();
-				if (defaultPref.LayoutMode == FolderLayoutModes.ColumnView)
-					defaultPref.LayoutMode = FolderLayoutModes.DetailsView;
-
-				return defaultPref;
-			}
-
 			return new LayoutPreferencesItem();
 		}
 
