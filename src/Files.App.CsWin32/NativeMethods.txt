@@ -6,6 +6,7 @@ WNDCLASSEXW
 RegisterClassEx
 CreateWindowEx
 DestroyWindow
+ShowWindow
 GetModuleHandle
 RECT
 NOTIFYICONIDENTIFIER
