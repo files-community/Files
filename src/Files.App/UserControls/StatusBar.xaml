@@ -31,6 +31,7 @@
 			<ColumnDefinition />
 			<ColumnDefinition Width="Auto" />
 			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
 		</Grid.ColumnDefinitions>
 
 		<!--  Folder and selection info  -->
@@ -322,7 +323,7 @@
 				x:Load="{x:Bind MainPageViewModel.IsTerminalViewOpen, Mode=OneWay}"
 				Background="Transparent"
 				BorderBrush="Transparent"
-				Command="{x:Bind MainPageViewModel.TerminalSyncUpCommand}">
+				Command="{x:Bind MainPageViewModel.TerminalSyncUpCommand, Mode=OneWay}">
 				<Button.Content>
 					<FontIcon FontSize="12" Glyph="&#xE110;" />
 				</Button.Content>
@@ -336,7 +337,7 @@
 				x:Load="{x:Bind MainPageViewModel.IsTerminalViewOpen, Mode=OneWay}"
 				Background="Transparent"
 				BorderBrush="Transparent"
-				Command="{x:Bind MainPageViewModel.TerminalSyncDownCommand}">
+				Command="{x:Bind MainPageViewModel.TerminalSyncDownCommand, Mode=OneWay}">
 				<Button.Content>
 					<FontIcon FontSize="12" Glyph="&#xE74B;" />
 				</Button.Content>
@@ -350,7 +351,7 @@
 				AutomationProperties.Name="Toggle terminal"
 				Background="Transparent"
 				BorderBrush="Transparent"
-				Command="{x:Bind MainPageViewModel.TerminalToggleCommand}">
+				Command="{x:Bind MainPageViewModel.TerminalToggleCommand, Mode=OneWay}">
 				<SplitButton.Content>
 					<StackPanel Orientation="Horizontal" Spacing="8">
 						<FontIcon FontSize="12" Glyph="&#xE756;" />

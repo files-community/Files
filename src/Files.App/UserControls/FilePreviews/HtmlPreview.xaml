@@ -21,7 +21,7 @@
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
 			DefaultBackgroundColor="Transparent"
-			Loaded="WebViewControl_LoadedAsync" />
+			Loaded="WebViewControl_Loaded" />
 
 	</Border>
 </UserControl>
