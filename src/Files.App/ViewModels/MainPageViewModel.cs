@@ -250,20 +250,24 @@ namespace Files.App.ViewModels
 						OnPropertyChanged(nameof(ShowStatusBar));
 						break;
 				}
-                if (e.PropertyName == nameof(ActiveTerminal))
-                {
-                    if (ActiveTerminal is TerminalView termView)
-                    {
-                        GetTerminalFolder = termView.GetTerminalFolder;
-                        SetTerminalFolder = termView.SetTerminalFolder;
-                    }
-                    else
-                    {
-                        GetTerminalFolder = null;
-                        SetTerminalFolder = null;
-                    }
-                }
             };
+
+			this.PropertyChanged += (s, e) =>
+			{
+				if (e.PropertyName == nameof(ActiveTerminal))
+				{
+					if (ActiveTerminal is TerminalView termView)
+					{
+						GetTerminalFolder = termView.GetTerminalFolder;
+						SetTerminalFolder = termView.SetTerminalFolder;
+					}
+					else
+					{
+						GetTerminalFolder = null;
+						SetTerminalFolder = null;
+					}
+				}
+			};
 
 			GeneralSettingsService.PropertyChanged += (s, e) =>
 			{
