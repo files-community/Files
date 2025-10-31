@@ -200,6 +200,7 @@
 							MinHeight="100" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition x:Name="InfoPaneRowDefinition" Height="Auto" />
+						<RowDefinition x:Name="TerminalRow" Height="0" />
 						<RowDefinition Height="Auto" MinHeight="8" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
@@ -255,10 +256,19 @@
 						Loaded="PreviewPane_Loaded"
 						Unloaded="PreviewPane_Unloaded" />
 
+					<!--  Terminal  -->
+					<ContentPresenter
+						x:Name="TerminalControl"
+						Grid.Row="4"
+						Grid.ColumnSpan="3"
+						Margin="0,4,0,4"
+						Content="{x:Bind ViewModel.ActiveTerminal, Mode=OneWay}"
+						Visibility="{x:Bind ViewModel.IsTerminalViewOpen, Mode=OneWay}" />
+
 					<!--  Status Bar  -->
 					<uc:StatusBar
 						x:Name="StatusBar"
-						Grid.Row="4"
+						Grid.Row="5"
 						Grid.ColumnSpan="3"
 						x:Load="False"
 						ShowInfoText="{x:Bind ViewModel.ShowStatusBar, Mode=OneWay}"
@@ -275,6 +285,27 @@
 						ClearCommand="{x:Bind ViewModel.ShelfViewModel.ClearItemsCommand}"
 						ItemFocusedCommand="{x:Bind Commands.ClearSelection, Mode=OneWay}"
 						ItemsSource="{x:Bind ViewModel.ShelfViewModel.Items}" />
+
+					<i:Interaction.Behaviors>
+						<i:DataTriggerBehavior
+							Binding="{x:Bind ViewModel.IsTerminalViewOpen, Mode=OneWay}"
+							ComparisonCondition="Equal"
+							Value="True">
+							<i:ChangePropertyAction
+								PropertyName="Height"
+								TargetObject="{Binding ElementName=TerminalRow}"
+								Value="0.5*" />
+						</i:DataTriggerBehavior>
+						<i:DataTriggerBehavior
+							Binding="{x:Bind ViewModel.IsTerminalViewOpen, Mode=OneWay}"
+							ComparisonCondition="Equal"
+							Value="False">
+							<i:ChangePropertyAction
+								PropertyName="Height"
+								TargetObject="{Binding ElementName=TerminalRow}"
+								Value="0" />
+						</i:DataTriggerBehavior>
+					</i:Interaction.Behaviors>
 				</Grid>
 			</controls:SidebarView.InnerContent>
 

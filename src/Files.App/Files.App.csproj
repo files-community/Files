@@ -37,7 +37,7 @@
     <PropertyGroup>
         <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     </PropertyGroup>
-  
+
     <ItemGroup>
         <Manifest Include="app.manifest" />
         <Content Update="Assets\Resources\**">
@@ -60,6 +60,10 @@
         <Content Include="7zArm64.dll">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+		<Content Include="Utils\Terminal\UI\bundle.js" />
+		<Content Include="Utils\Terminal\UI\index.html" />
+		<Content Include="Utils\Terminal\UI\style.css" />
+		<Content Include="Utils\Terminal\UI\xterm.css" />
     </ItemGroup>
 
     <ItemGroup>

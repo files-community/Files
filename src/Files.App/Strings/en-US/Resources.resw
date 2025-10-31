@@ -4332,4 +4332,7 @@
   <data name="FailedToOpenLogFile" xml:space="preserve">
     <value>Unable to open the log file</value>
   </data>
+  <data name="SettingsTerminalIntegration" xml:space="preserve">
+    <value>Enable Terminal integration</value>
+  </data>
 </root>
