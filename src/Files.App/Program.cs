@@ -56,7 +56,7 @@ namespace Files.App
 			WinRT.ComWrappersSupport.InitializeComWrappers();
 
 			// We are about to do the first WinRT server call, in case the WinRT server is hanging
-			// we need to kill the server if there is no other Files instances already running
+			// we need to kill the server if there are no other Files instances already running
 
 			static bool ProcessPathPredicate(Process p)
 			{
@@ -95,7 +95,7 @@ namespace Files.App
 			}
 
 			// NOTE:
-			//  This has been commentted out since out-of-proc WinRT server seems not to support elevetion.
+			//  This has been commented out since out-of-proc WinRT server seems not to support elevetion.
 			//  For more info, see the GitHub issue (#15384).
 			// Now we can do the first WinRT server call
 			//Server.AppInstanceMonitor.StartMonitor(Environment.ProcessId);
