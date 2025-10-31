@@ -27,7 +27,9 @@ namespace Files.App.Actions
 		public bool IsExecutable =>
 			context.HasSelection &&
 			!(context.ShellPage is ColumnShellPage &&
-			context.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder);
+			context.SelectedItem?.PrimaryItemAttribute == StorageItemTypes.Folder) &&
+			!(context.PageType == ContentPageTypes.RecycleBin &&
+			context.SelectedItems.All(x => x.IsFolder));
 
 		public OpenItemAction()
 		{
