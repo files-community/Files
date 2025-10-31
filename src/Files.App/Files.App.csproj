@@ -39,15 +39,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Remove="Terminal\**" />
-      <Content Remove="Terminal\**" />
-      <EmbeddedResource Remove="Terminal\**" />
-      <None Remove="Terminal\**" />
-      <Page Remove="Terminal\**" />
-      <PRIResource Remove="Terminal\**" />
-    </ItemGroup>
-  
-    <ItemGroup>
         <Manifest Include="app.manifest" />
         <Content Update="Assets\Resources\**">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -69,6 +60,10 @@
         <Content Include="7zArm64.dll">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+		<Content Include="Utils\Terminal\UI\bundle.js" />
+		<Content Include="Utils\Terminal\UI\index.html" />
+		<Content Include="Utils\Terminal\UI\style.css" />
+		<Content Include="Utils\Terminal\UI\xterm.css" />
     </ItemGroup>
 
     <ItemGroup>

@@ -174,10 +174,7 @@
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE756;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
-				<ToggleSwitch
-					AutomationProperties.Name="{helpers:ResourceString Name=SettingsTerminalIntegration}"
-					IsOn="{x:Bind ViewModel.IsTerminalIntegrationEnabled, Mode=TwoWay}"
-					Style="{StaticResource RightAlignedToggleSwitchStyle}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsTerminalIntegration}" IsOn="{x:Bind ViewModel.IsTerminalIntegrationEnabled, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 		</StackPanel>
 	</Grid>
