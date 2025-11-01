@@ -124,13 +124,13 @@
     <value>Скапіяваць шлях</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Copy item path</value>
+    <value>Скапіяваць шлях файла</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Скапіяваць шлях з двукоссем</value>
   </data>
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
-    <value>Copy selected item path with quotes</value>
+    <value>Скапіяваць шлях выбранага файла ў двукоссях</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Агляд</value>
@@ -166,7 +166,7 @@
     <value>Прапусціць</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>Выбраць усё</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Інвертаваць выбранае</value>
@@ -217,7 +217,7 @@
     <value>Паказваць схаваныя файлы і папкі</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Паказваць тыпы файлаў якія вядомы</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Выгляд</value>
@@ -301,7 +301,7 @@
     <value>Увядзіце назву элемента</value>
   </data>
   <data name="CreateNewItemTitle" xml:space="preserve">
-    <value>Create new {0}</value>
+    <value>Стварыць новы {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Светлая</value>
@@ -310,7 +310,7 @@
     <value>Цёмная</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
-    <value>Use system setting</value>
+    <value>Выкарыстоўваць сістэмныя налады</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Прыкладання</value>
@@ -364,28 +364,28 @@
     <value>Дыск адключаны</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access may have been moved or deleted.</value>
+    <value>Файл, да якога вы спрабуеце атрымаць доступ, мог быць перамешчаны або выдалены.</value>
   </data>
   <data name="CannotAccessPropertiesTitle" xml:space="preserve">
-    <value>Cannot open properties for this file</value>
+    <value>Немагчыма адкрыць уласцівасці гэтага файла</value>
   </data>
   <data name="CannotAccessPropertiesContent" xml:space="preserve">
-    <value>The file you are attempting to access may have been moved or deleted.</value>
+    <value>Файл, да якога вы спрабуеце атрымаць доступ, мог быць перамешчаны або выдалены.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Файл не знойдзены</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>The folder you are attempting to access may have been moved or deleted.</value>
+    <value>Папка да якой вы спрабуеце атрымаць доступ, можа быць перамешчаны або выдалена.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
-    <value>Did you delete this folder?</value>
+    <value>Вы выдалілі гэтую папку?</value>
   </data>
   <data name="FileInUseByDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by {0}</value>
+    <value>Файл якім вы спрабуеце атрымаць доступ, зараз выкарыстоўваецца {0}</value>
   </data>
   <data name="FileInUseDialog.Text" xml:space="preserve">
-    <value>The file you are attempting to access is currently being used by another application</value>
+    <value>Файл да якога вы спрабуеце атрымаць доступ, зараз выкарыстоўваецца другой аплікацыяй</value>
   </data>
   <data name="FileInUseDialog.Title" xml:space="preserve">
     <value>Файл выкарыстоўваецца</value>
@@ -397,22 +397,22 @@
     <value>Толькі чытанне</value>
   </data>
   <data name="DaysAgo" xml:space="preserve">
-    <value>{0, plural, one {# day ago} other {# days ago}}</value>
+    <value>{0, plural, one {# дзень назад} other {# дзён назад}}</value>
   </data>
   <data name="DaysAgo_Singular" xml:space="preserve">
-    <value>1 day ago</value>
+    <value>1 дзень назад</value>
   </data>
   <data name="DaysAgo_Plural" xml:space="preserve">
-    <value>{0} days ago</value>
+    <value>{0} дзён назад</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
-    <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
+    <value>{0, plural, one {# гадзіну назад} other {# гадзін назад}}</value>
   </data>
   <data name="HoursAgo_Singular" xml:space="preserve">
-    <value>1 hour ago</value>
+    <value>1 гадзіну назад</value>
   </data>
   <data name="HoursAgo_Plural" xml:space="preserve">
-    <value>{0} hours ago</value>
+    <value>{0} гадзін назад</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>{0, plural, one {# minute ago} other {# minutes ago}}</value>
@@ -436,7 +436,7 @@
     <value>Зараз</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
-    <value>The requested operation is not supported</value>
+    <value>Даны запрос на аперацыю не падтрымліваецца</value>
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} free of {1}</value>
@@ -445,10 +445,10 @@
     <value>Адправіць у</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
-    <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
+    <value>Назва прадмета не павінна змяшчаць наступныя сімвалы: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
-    <value>The item name specified is invalid</value>
+    <value>Пазначаная назва элемента няправільная</value>
   </data>
   <data name="SelectedItems" xml:space="preserve">
     <value>{0, plural, one {# item selected} few {# items selected} many {# items selected} other {# items selected}}</value>
@@ -495,7 +495,7 @@
     <value>{0, number} {0, plural, one {file} other {files}}, {1, number} {1, plural, one {folder} other {folders}} from {2, number} {2, plural, one {location} other {locations}}</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
-    <value>Run as another user</value>
+    <value>Запусціць як другі карыстальнік</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>All type of {0}</value>
@@ -525,7 +525,7 @@
     <value>Move tab here</value>
   </data>
   <data name="Status" xml:space="preserve">
-    <value>Status</value>
+    <value>Статус</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>Няма вынікаў</value>
@@ -558,16 +558,16 @@
     <value>Shortcut type:</value>
   </data>
   <data name="PropertiesShortcutTypeLink" xml:space="preserve">
-    <value>Web link</value>
+    <value>Інтэрнэт спасылка</value>
   </data>
   <data name="General" xml:space="preserve">
     <value>General</value>
   </data>
   <data name="Shortcut" xml:space="preserve">
-    <value>Shortcut</value>
+    <value>Ярлык</value>
   </data>
   <data name="ShortcutWebLinkFileType" xml:space="preserve">
-    <value>Internet shortcut</value>
+    <value>Інтэрнэт ярлык</value>
   </data>
   <data name="ShortcutCreateNewSuffix" xml:space="preserve">
     <value>{0} - shortcut</value>
@@ -576,19 +576,19 @@
     <value>Files ran into a problem that the developers didn't prepare for yet.</value>
   </data>
   <data name="ExceptionNotificationHeader" xml:space="preserve">
-    <value>Something went wrong!</value>
+    <value>Нешта пайшло не так!</value>
   </data>
   <data name="ExceptionNotificationReportButton" xml:space="preserve">
-    <value>Report this issue</value>
+    <value>Паведамі пра гэту праблему</value>
   </data>
   <data name="InvalidItemDialogContent" xml:space="preserve">
     <value>The item referenced is either invalid or inaccessible.{0}Error message:{0}{1}</value>
   </data>
   <data name="InvalidItemDialogTitle" xml:space="preserve">
-    <value>Invalid item</value>
+    <value>Няправільны прадмет</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
-    <value>Version:</value>
+    <value>Версія:</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
     <value>There's nothing to share right now...</value>
@@ -630,7 +630,7 @@
     <value>The application needs to be restarted in order to apply these settings, would you like to restart the app?</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
-    <value>Sponsor us on GitHub</value>
+    <value>Падтрымайце нас на GitHub</value>
   </data>
   <data name="AccessDeniedCreateDialog.Text" xml:space="preserve">
     <value>We weren't able to create this item</value>
@@ -678,22 +678,22 @@
     <value>There was an issue saving some properties.</value>
   </data>
   <data name="PropertySaveErrorDialog.Title" xml:space="preserve">
-    <value>Error</value>
+    <value>Памылка</value>
   </data>
   <data name="PropertySaveErrorDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Close anyway</value>
+    <value>Закрыць усё роўна</value>
   </data>
   <data name="PropertyRatingText" xml:space="preserve">
     <value>Rating</value>
   </data>
   <data name="PropertyParsingPath" xml:space="preserve">
-    <value>Item Path</value>
+    <value>Пуць да прадмета</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
-    <value>Item Type</value>
+    <value>Тып прадмета</value>
   </data>
   <data name="PropertyTitle" xml:space="preserve">
-    <value>Title</value>
+    <value>Назва</value>
   </data>
   <data name="PropertySubject" xml:space="preserve">
     <value>Subject</value>
@@ -702,7 +702,7 @@
     <value>Comment</value>
   </data>
   <data name="PropertyCopyright" xml:space="preserve">
-    <value>Copyright</value>
+    <value>Аўтарскае права</value>
   </data>
   <data name="PropertyDateModified" xml:space="preserve">
     <value>Date Modified</value>
@@ -714,10 +714,10 @@
     <value>Dimensions</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
-    <value>Horizontal Size</value>
+    <value>Гарызантальны памер</value>
   </data>
   <data name="PropertyVerticalSize" xml:space="preserve">
-    <value>Vertical Size</value>
+    <value>Вертыкальны памер</value>
   </data>
   <data name="PropertyHorizontalResolution" xml:space="preserve">
     <value>Horizontal Resolution</value>
@@ -792,7 +792,7 @@
     <value>Conductor</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
-    <value>Disc Number</value>
+    <value>Нумар дыска</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
     <value>Genre</value>
@@ -810,13 +810,13 @@
     <value>Protection Type</value>
   </data>
   <data name="PropertyAuthorUrl" xml:space="preserve">
-    <value>Author Url</value>
+    <value>URL аўтара</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
     <value>Content Distributor</value>
   </data>
   <data name="PropertyDateReleased" xml:space="preserve">
-    <value>Date Released</value>
+    <value>Дата выпуску</value>
   </data>
   <data name="PropertySeriesName" xml:space="preserve">
     <value>Series Name</value>
@@ -855,10 +855,10 @@
     <value>User Web Url</value>
   </data>
   <data name="PropertyWriter" xml:space="preserve">
-    <value>Writer</value>
+    <value>Пісьменнік</value>
   </data>
   <data name="PropertyYear" xml:space="preserve">
-    <value>Year</value>
+    <value>Год</value>
   </data>
   <data name="PropertyContributor" xml:space="preserve">
     <value>Contributor</value>
@@ -870,10 +870,10 @@
     <value>Revision Number</value>
   </data>
   <data name="PropertyVersion" xml:space="preserve">
-    <value>Version</value>
+    <value>Версія</value>
   </data>
   <data name="PropertyDateCreated" xml:space="preserve">
-    <value>Date Created</value>
+    <value>Дата стварэння</value>
   </data>
   <data name="PropertyTotalEditingTime" xml:space="preserve">
     <value>Total Editing Time</value>
@@ -882,22 +882,22 @@
     <value>Template</value>
   </data>
   <data name="PropertyWordCount" xml:space="preserve">
-    <value>Word Count</value>
+    <value>Колькасць слоў</value>
   </data>
   <data name="PropertyCharacterCount" xml:space="preserve">
-    <value>Character Count</value>
+    <value>Колькасць літар</value>
   </data>
   <data name="PropertyLineCount" xml:space="preserve">
-    <value>Line Count</value>
+    <value>Колькасць ліній</value>
   </data>
   <data name="PropertyParagraphCount" xml:space="preserve">
-    <value>Paragraph Count</value>
+    <value>Колькасць чырвоных радкоў</value>
   </data>
   <data name="PropertyPageCount" xml:space="preserve">
-    <value>Page Count</value>
+    <value>Колькасць старонак</value>
   </data>
   <data name="PropertySlideCount" xml:space="preserve">
-    <value>Slide Count</value>
+    <value>Колькасць слайдаў</value>
   </data>
   <data name="PropertyFrameRate" xml:space="preserve">
     <value>Frame Rate</value>
@@ -927,10 +927,10 @@
     <value>Core</value>
   </data>
   <data name="PropertySectionImage" xml:space="preserve">
-    <value>Image</value>
+    <value>Малюнак</value>
   </data>
   <data name="PropertySectionPhoto" xml:space="preserve">
-    <value>Photo</value>
+    <value>Фота</value>
   </data>
   <data name="PropertySectionGPS" xml:space="preserve">
     <value>GPS</value>
@@ -939,25 +939,25 @@
     <value>Media</value>
   </data>
   <data name="PropertySectionAudio" xml:space="preserve">
-    <value>Audio</value>
+    <value>Аўдыё</value>
   </data>
   <data name="PropertySectionMusic" xml:space="preserve">
-    <value>Music</value>
+    <value>Музыка</value>
   </data>
   <data name="PropertySectionVideo" xml:space="preserve">
     <value>Video</value>
   </data>
   <data name="Document" xml:space="preserve">
-    <value>Document</value>
+    <value>Дакумент</value>
   </data>
   <data name="Address" xml:space="preserve">
-    <value>Address</value>
+    <value>Адрас</value>
   </data>
   <data name="SelectionOptions" xml:space="preserve">
     <value>Selection options</value>
   </data>
   <data name="NavToolbarSelectionOptions.Label" xml:space="preserve">
-    <value>Select</value>
+    <value>Выбраць</value>
   </data>
   <data name="RecycleBinItemAutomation" xml:space="preserve">
     <value>Recycle bin item</value>
@@ -966,22 +966,22 @@
     <value>Shortcut item</value>
   </data>
   <data name="Drives" xml:space="preserve">
-    <value>Drives</value>
+    <value>Дыскі</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
-    <value>Move here</value>
+    <value>Перамясціць сюды</value>
   </data>
   <data name="EjectNotificationHeader" xml:space="preserve">
     <value>Safe to remove hardware</value>
   </data>
   <data name="EjectNotificationBody" xml:space="preserve">
-    <value>The device can now be safely removed from the computer.</value>
+    <value>Устройства можа быць адключана бяспечна.</value>
   </data>
   <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
-    <value>Problem Ejecting Device</value>
+    <value>Праблема з выманнем устройства</value>
   </data>
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
-    <value>This device is currently in use. Close any programs, windows or tabs that might be using the device, and then try again.</value>
+    <value>Устройства выкарыстоўваецца. Закрыйце праграму ці ўкладкі, якія могуць выкарыстоўваць устройства, і затым паспрабуйце яшчэ раз.</value>
   </data>
   <data name="Eject" xml:space="preserve">
     <value>Eject</value>
@@ -1074,7 +1074,7 @@
     <value>Cloud Drives</value>
   </data>
   <data name="Confirm" xml:space="preserve">
-    <value>Confirm</value>
+    <value>Пацвердзіць</value>
   </data>
   <data name="DesiredName" xml:space="preserve">
     <value>Desired name</value>
@@ -1134,13 +1134,13 @@
     <value>Selected file preview pane</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>Feedback</value>
+    <value>Зваротная сувязь</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>Available when online</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>Дакументацыя</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
     <value>Available offline</value>
@@ -1218,7 +1218,7 @@
     <value>Arguments</value>
   </data>
   <data name="Default" xml:space="preserve">
-    <value>Default</value>
+    <value>Звычайныя</value>
   </data>
   <data name="PropertyItemCount" xml:space="preserve">
     <value>Item count</value>
@@ -1272,7 +1272,7 @@
     <value>Cleanup</value>
   </data>
   <data name="Copy" xml:space="preserve">
-    <value>Copy</value>
+    <value>Капіраваць</value>
   </data>
   <data name="CopyItemsDialogTitle" xml:space="preserve">
     <value>Copy {0, plural, one {item} other {items}}</value>
@@ -1419,7 +1419,7 @@
     <value>Rename</value>
   </data>
   <data name="Privacy" xml:space="preserve">
-    <value>Privacy</value>
+    <value>Прыватнасць</value>
   </data>
   <data name="TheRecycleBin" xml:space="preserve">
     <value>the Recycle Bin</value>
@@ -1755,13 +1755,13 @@
     <value>Experimental feature flags</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>Help and support</value>
+    <value>Дапамога і падтрымка</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
-    <value>Submit feature request</value>
+    <value>Адправіць запыт на функцыю</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
-    <value>Submit bug report</value>
+    <value>Адправіць паведамленне пра памылку</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>Set Files as the default file manager</value>
@@ -1974,7 +1974,7 @@
     <value>Close all tabs</value>
   </data>
   <data name="Music" xml:space="preserve">
-    <value>Music</value>
+    <value>Музыка</value>
   </data>
   <data name="Pictures" xml:space="preserve">
     <value>Pictures</value>
@@ -3076,7 +3076,7 @@
     <value>Toggle grouping unit</value>
   </data>
   <data name="Year" xml:space="preserve">
-    <value>Year</value>
+    <value>Год</value>
   </data>
   <data name="GroupByDateUnit" xml:space="preserve">
     <value>Group by date unit</value>
@@ -3181,7 +3181,7 @@
     <value>Remotes</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>Translate on Crowdin</value>
+    <value>Перакладаць на Crowdin</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
     <value>Fetch</value>
@@ -3843,7 +3843,7 @@
     <value>Where did Files go?</value>
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
-    <value>Questions &amp; discussions</value>
+    <value>Пытанні і дыскусіі</value>
   </data>
   <data name="Compact" xml:space="preserve">
     <value>Compact</value>
@@ -3934,7 +3934,7 @@
     <value>Adaptive layout is not available when preferences are synced, the default layout has been changed to Details.</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
-    <value>Background image</value>
+    <value>Малюнак у фоне</value>
   </data>
   <data name="Bottom" xml:space="preserve">
     <value>Bottom</value>
