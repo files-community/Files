@@ -486,6 +486,8 @@ namespace Files.App.Helpers
 
 		private static LayoutPreferencesItem? GetLayoutPreferencesForPath(string path)
 		{
+			//Recycle Bin does not support Column View due to navigation conflicts with hierarchical display
+			//Fall back to Details View when Column View is configured
 			if (path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
 			{
 				var trimmedPath = path.TrimPath() ?? string.Empty;
