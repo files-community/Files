@@ -479,7 +479,7 @@ namespace Files.App.Data.Factories
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.CreateFolderWithSelection)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowCreateFolderWithSelection && itemsSelected && !currentInstanceViewModel.IsPageTypeRecycleBin
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowCreateFolderWithSelection && itemsSelected
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.CreateShortcut)
 				{
