@@ -48,6 +48,9 @@ namespace Files.App.Actions
 
 		private bool GetIsExecutable()
 		{
+			if (context.PageType == ContentPageTypes.RecycleBin)
+				return false;
+
 			string[] pinnedFolders = [.. App.QuickAccessManager.Model.PinnedFolders];
 
 			return context.HasSelection
