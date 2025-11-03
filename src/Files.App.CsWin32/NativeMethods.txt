@@ -6,6 +6,7 @@ WNDCLASSEXW
 RegisterClassEx
 CreateWindowEx
 DestroyWindow
+ShowWindow
 GetModuleHandle
 RECT
 NOTIFYICONIDENTIFIER
@@ -115,7 +116,6 @@ WindowsCreateString
 WindowsDeleteString
 IPreviewHandler
 AssocQueryString
-GetModuleHandle
 SHEmptyRecycleBin
 SHFileOperation
 SHGetFolderPath
@@ -137,15 +137,12 @@ COMPRESSION_FORMAT
 FILE_ACCESS_RIGHTS
 FindFirstFileEx
 FindNextFile
-CreateFile
 GetFileSizeEx
 WIN32_FIND_DATAW
-FILE_ACCESS_RIGHTS
 SHAddToRecentDocs
 SHARD
 BHID_EnumItems
 FOLDERID_RecycleBinFolder
-CoTaskMemFree
 SHGetIDListFromObject
 SHCreateItemFromIDList
 BHID_SFUIObject
@@ -160,7 +157,6 @@ IApplicationDocumentLists
 ApplicationDocumentLists
 IApplicationActivationManager
 MENU_ITEM_TYPE
-COMPRESSION_FORMAT
 FSCTL_SET_COMPRESSION
 FSCTL_DISMOUNT_VOLUME
 FSCTL_LOCK_VOLUME
@@ -266,3 +262,25 @@ WINTRUST_DATA
 HCERTSTORE
 CERT_QUERY_ENCODING_TYPE
 CertGetNameString
+// Console api
+AllocConsole
+GetConsoleWindow
+GetStdHandle
+SetConsoleMode
+GetConsoleMode
+COORD
+CreatePseudoConsole
+ResizePseudoConsole
+ClosePseudoConsole
+CreatePipe
+PROC_THREAD_ATTRIBUTE_PSEUDOCONSOLE
+STARTUPINFOEXW
+STARTUPINFOW
+PROCESS_CREATION_FLAGS
+PROCESS_INFORMATION
+SECURITY_ATTRIBUTES
+CloseHandle
+DeleteProcThreadAttributeList
+UpdateProcThreadAttribute
+InitializeProcThreadAttributeList
+CreateProcess

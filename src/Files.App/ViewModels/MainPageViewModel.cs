@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Utils.Terminal;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -170,8 +171,52 @@ namespace Files.App.ViewModels
 			DismissReviewPromptCommand = new RelayCommand(ExecuteDismissReviewPromptCommand);
 			SponsorCommand = new RelayCommand(ExecuteSponsorCommand);
 			DismissSponsorPromptCommand = new RelayCommand(ExecuteDismissSponsorPromptCommand);
+            TerminalAddCommand = new RelayCommand<ShellProfile>((e) =>
+            {
+                if (Terminals.IsEmpty())
+                    IsTerminalViewOpen = true;
+                var termId = Guid.NewGuid().ToString();
+                Terminals.Add(new TerminalModel()
+                {
+                    Name = (e ?? TerminalSelectedProfile).Name,
+                    Id = termId,
+                    Control = new TerminalView(e ?? TerminalSelectedProfile, termId)
+                });
+                OnPropertyChanged(nameof(SelectedTerminal));
+                OnPropertyChanged(nameof(ActiveTerminal));
+            });
+            TerminalToggleCommand = new RelayCommand(() =>
+            {
+                IsTerminalViewOpen = !IsTerminalViewOpen;
+                if (IsTerminalViewOpen && Terminals.IsEmpty())
+                    TerminalAddCommand.Execute(TerminalSelectedProfile);
+            });
+            TerminalSyncUpCommand = new AsyncRelayCommand(async () =>
+            {
+                var context = Ioc.Default.GetRequiredService<IContentPageContext>();
+                if (GetTerminalFolder is not null && await GetTerminalFolder() is string terminalFolder)
+                    _ = NavigationHelpers.OpenPath(terminalFolder, context.ShellPage, FilesystemItemType.Directory);
+            });
+            TerminalSyncDownCommand = new RelayCommand(() =>
+            {
+                var context = Ioc.Default.GetRequiredService<IContentPageContext>();
+                if (context.Folder?.ItemPath is string currentFolder)
+                    SetTerminalFolder?.Invoke(currentFolder);
+            });
+            TerminalCloseCommand = new RelayCommand<string>((name) =>
+            {
+                var terminal = Terminals.FirstOrDefault(x => x.Id == name);
+                if (terminal is null)
+                    return;
+                terminal.Dispose();
+                Terminals.Remove(terminal);
+                SelectedTerminal = int.Min(SelectedTerminal, Terminals.Count - 1);
+                if (Terminals.IsEmpty())
+                    IsTerminalViewOpen = false;
+                OnPropertyChanged(nameof(ActiveTerminal));
+            });
 
-			AppearanceSettingsService.PropertyChanged += (s, e) =>
+            AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
 				switch (e.PropertyName)
 				{
@@ -204,6 +249,23 @@ namespace Files.App.ViewModels
 						OnPropertyChanged(nameof(ShowToolbar));
 						OnPropertyChanged(nameof(ShowStatusBar));
 						break;
+				}
+            };
+
+			this.PropertyChanged += (s, e) =>
+			{
+				if (e.PropertyName == nameof(ActiveTerminal))
+				{
+					if (ActiveTerminal is TerminalView termView)
+					{
+						GetTerminalFolder = termView.GetTerminalFolder;
+						SetTerminalFolder = termView.SetTerminalFolder;
+					}
+					else
+					{
+						GetTerminalFolder = null;
+						SetTerminalFolder = null;
+					}
 				}
 			};
 
@@ -397,5 +459,43 @@ namespace Files.App.ViewModels
 			e.Handled = true;
 		}
 
+		// Terminal integration
+		public ICommand TerminalToggleCommand { get; init; }
+		public ICommand TerminalSyncUpCommand { get; init; }
+		public ICommand TerminalSyncDownCommand { get; init; }
+		public IRelayCommand<string> TerminalCloseCommand { get; init; }
+		public IRelayCommand<ShellProfile> TerminalAddCommand { get; init; }
+
+		public Func<Task<string?>>? GetTerminalFolder { get; set; }
+		public Action<string>? SetTerminalFolder { get; set; }
+
+		public List<ShellProfile> TerminalProfiles => new DefaultValueProvider().GetPreinstalledShellProfiles().ToList();
+
+		public ShellProfile TerminalSelectedProfile => TerminalProfiles[0]; // TODO: selectable in settings
+
+		public bool IsTerminalIntegrationEnabled => GeneralSettingsService.IsTerminalIntegrationEnabled;
+
+		private bool _isTerminalViewOpen;
+		public bool IsTerminalViewOpen
+		{
+			get => _isTerminalViewOpen;
+			set => SetProperty(ref _isTerminalViewOpen, value);
+		}
+
+		public ObservableCollection<TerminalModel> Terminals { get; } = new();
+
+		private int _selectedTerminal;
+		public int SelectedTerminal
+		{
+			get => _selectedTerminal;
+			set
+			{
+				if (value != -1)
+					if (SetProperty(ref _selectedTerminal, value))
+						OnPropertyChanged(nameof(ActiveTerminal));
+			}
+		}
+
+		public Control? ActiveTerminal => SelectedTerminal >= 0 && SelectedTerminal < Terminals.Count ? Terminals[SelectedTerminal].Control : null;
 	}
 }

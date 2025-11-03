@@ -168,6 +168,14 @@
 				</wctcontrols:SettingsCard.HeaderIcon>
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowFlattenOptions}" IsOn="{x:Bind ViewModel.ShowFlattenOptions, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
+
+			<!--  Enable terminal integration  -->
+			<wctcontrols:SettingsCard HorizontalAlignment="Stretch" Header="{helpers:ResourceString Name=SettingsTerminalIntegration}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE756;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsTerminalIntegration}" IsOn="{x:Bind ViewModel.IsTerminalIntegrationEnabled, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
 		</StackPanel>
 	</Grid>
 </Page>

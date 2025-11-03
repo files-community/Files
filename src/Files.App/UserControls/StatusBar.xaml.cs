@@ -1,6 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Data.Commands;
+using Files.App.Utils.Terminal;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
@@ -19,6 +21,16 @@ namespace Files.App.UserControls
 		// Using a DependencyProperty as the backing store for StatusBarViewModel.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty StatusBarViewModelProperty =
 			DependencyProperty.Register(nameof(StatusBarViewModel), typeof(StatusBarViewModel), typeof(StatusBar), new PropertyMetadata(null));
+
+		public MainPageViewModel? MainPageViewModel
+		{
+			get => (MainPageViewModel)GetValue(MainPageViewModelProperty);
+			set => SetValue(MainPageViewModelProperty, value);
+		}
+
+		// Using a DependencyProperty as the backing store for MainPageViewModel.  This enables animation, styling, binding, etc...
+		public static readonly DependencyProperty MainPageViewModelProperty =
+			DependencyProperty.Register(nameof(MainPageViewModel), typeof(MainPageViewModel), typeof(StatusBar), new PropertyMetadata(null));
 
 		public SelectedItemsPropertiesViewModel? SelectedItemsPropertiesViewModel
 		{
@@ -75,6 +87,16 @@ namespace Files.App.UserControls
 
 			BranchesFlyout.Hide();
 			await StatusBarViewModel.ExecuteDeleteBranch(((BranchItem)((Button)sender).DataContext).Name);
+		}
+
+		private void TerminalCloseButton_Click(object sender, RoutedEventArgs e)
+		{
+			MainPageViewModel.TerminalCloseCommand.Execute(((Button)sender).Tag.ToString());
+		}
+
+		private void ShellProfileList_ItemClick(object sender, ItemClickEventArgs e)
+		{
+			MainPageViewModel.TerminalAddCommand.Execute((ShellProfile)e.ClickedItem);
 		}
 	}
 }
