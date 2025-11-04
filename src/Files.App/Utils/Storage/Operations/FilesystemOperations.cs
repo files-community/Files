@@ -481,7 +481,9 @@ namespace Files.App.Utils.Storage
 				await _associatedInstance.ShellViewModel.ApplyFilesAndFoldersChangesAsync();
 			}
 
-			var pathWithType = movedItem.FromStorageItem(destination, source.ItemType);
+			var pathWithType = movedItem is not null
+				? movedItem.FromStorageItem(destination, source.ItemType)
+				: StorageHelpers.FromPathAndType(destination, source.ItemType);
 
 			return new StorageHistory(FileOperationType.Move, source, pathWithType);
 		}
