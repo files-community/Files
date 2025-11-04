@@ -153,7 +153,7 @@ namespace Files.App.Utils.Storage
 		{
 			if (!App.AppModel.IsMainWindowClosed && sender is WindowEx window)
 			{
-				args.Handled = true;
+				args.Handled = false;
 
 				window.AppWindow.Hide();
 				window.Content = null;
