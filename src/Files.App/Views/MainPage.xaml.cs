@@ -235,6 +235,9 @@ namespace Files.App.Views
 					if (command.Code is CommandCodes.OpenItem && (source?.FindAscendantOrSelf<Omnibar>() is not null || source?.FindAscendantOrSelf<AppBarButton>() is not null))
 						break;
 
+					// Prevent ctrl + c from overriding copy in textblocks 					
+					if (currentModifiers == KeyModifiers.Ctrl && e.Key is VirtualKey.C && (FrameworkElement)FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot) is TextBlock)
+						break;
 
 					if (command.Code is not CommandCodes.None && keyReleased)
 					{
