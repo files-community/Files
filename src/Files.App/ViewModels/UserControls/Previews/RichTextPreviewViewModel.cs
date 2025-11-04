@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.App.ViewModels.Properties;
+using Microsoft.UI.Xaml;
 using Windows.Storage.Streams;
 
 namespace Files.App.ViewModels.Previews
@@ -20,6 +21,14 @@ namespace Files.App.ViewModels.Previews
 			Stream = await Item.ItemFile.OpenReadAsync();
 
 			return [];
+		}
+
+		public override void PreviewControlBase_Unloaded(object sender, RoutedEventArgs e)
+		{
+			Stream?.Dispose();
+			Stream = null;
+
+			base.PreviewControlBase_Unloaded(sender, e);
 		}
 	}
 }

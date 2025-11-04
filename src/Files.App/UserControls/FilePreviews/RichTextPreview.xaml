@@ -8,6 +8,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	d:DesignHeight="300"
 	d:DesignWidth="400"
+	Unloaded="RichTextPreview_Unloaded"
 	mc:Ignorable="d">
 
 	<Border>
