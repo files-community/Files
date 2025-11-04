@@ -495,7 +495,7 @@ namespace Files.App.Views.Layouts
 						Folder = navigationArguments.SearchPathParam,
 					};
 
-					_ = ParentShellPageInstance.ShellViewModel.SearchAsync(searchInstance);
+					await ParentShellPageInstance.ShellViewModel.SearchAsync(searchInstance);
 				}
 			}
 
