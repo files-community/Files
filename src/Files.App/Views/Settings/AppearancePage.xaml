@@ -273,7 +273,7 @@
 				</wctcontrols:SettingsExpander.Items>
 			</wctcontrols:SettingsExpander>
 
-			<!--  Show Status bar  -->
+			<!--  Show Status Bar  -->
 			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowStatusBar}">
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<PathIcon Data="{StaticResource App.Theme.PathIcon.StatusBar}" />
