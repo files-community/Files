@@ -314,6 +314,11 @@ namespace Files.App.Views.Layouts
 
 		private void FilesystemViewModel_PageTypeUpdated(object? sender, PageTypeUpdatedEventArgs e)
 		{
+			// Guard against race condition: if the page is being disposed/navigated away from,
+			// don't update column visibility to avoid WinRT property access exceptions
+			if (!IsLoaded)
+				return;
+
 			if (e.IsTypeRecycleBin)
 			{
 				ColumnsViewModel.OriginalPathColumn.Show();

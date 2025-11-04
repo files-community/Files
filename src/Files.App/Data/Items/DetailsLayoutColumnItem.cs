@@ -109,11 +109,20 @@ namespace Files.App.Data.Items
 
 		private void UpdateVisibility()
 		{
-			OnPropertyChanged(nameof(Length));
-			OnPropertyChanged(nameof(LengthIncludingGridSplitter));
-			OnPropertyChanged(nameof(MaxLength));
-			OnPropertyChanged(nameof(Visibility));
-			OnPropertyChanged(nameof(MinLength));
+			try
+			{
+				OnPropertyChanged(nameof(Length));
+				OnPropertyChanged(nameof(LengthIncludingGridSplitter));
+				OnPropertyChanged(nameof(MaxLength));
+				OnPropertyChanged(nameof(Visibility));
+				OnPropertyChanged(nameof(MinLength));
+			}
+			catch (NullReferenceException)
+			{
+				// Swallow the exception that occurs when the WinRT property wrapper is being disposed
+				// during page navigation while property change notifications are being raised.
+				// This is a known issue with async operations calling this method during page disposal.
+			}
 		}
 
 		public override bool Equals(object? obj)
