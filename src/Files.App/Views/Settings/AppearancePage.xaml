@@ -243,17 +243,6 @@
 					IsOn="{x:Bind ViewModel.ShowTabActions, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
-			<!--  Show Status bar  -->
-			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowStatusBar}">
-				<wctcontrols:SettingsCard.HeaderIcon>
-					<PathIcon Data="{StaticResource App.Theme.PathIcon.StatusBar}" />
-				</wctcontrols:SettingsCard.HeaderIcon>
-				<ToggleSwitch
-					AutomationProperties.AutomationControlType="Custom"
-					AutomationProperties.Name="{helpers:ResourceString Name=ShowStatusBar}"
-					IsOn="{x:Bind ViewModel.ShowStatusBar, Mode=TwoWay}" />
-			</wctcontrols:SettingsCard>
-
 			<!--  Toolbar  -->
 			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=Toolbars}">
 				<wctcontrols:SettingsExpander.HeaderIcon>
@@ -283,6 +272,17 @@
 					</wctcontrols:SettingsCard>
 				</wctcontrols:SettingsExpander.Items>
 			</wctcontrols:SettingsExpander>
+
+			<!--  Show Status bar  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowStatusBar}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<PathIcon Data="{StaticResource App.Theme.PathIcon.StatusBar}" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch
+					AutomationProperties.AutomationControlType="Custom"
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowStatusBar}"
+					IsOn="{x:Bind ViewModel.ShowStatusBar, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
 		</StackPanel>
 	</Grid>
 </Page>

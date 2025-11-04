@@ -4333,6 +4333,6 @@
     <value>Unable to open the log file</value>
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
-    <value>Show status bar at the bottom</value>
+    <value>Show status bar</value>
   </data>
 </root>
