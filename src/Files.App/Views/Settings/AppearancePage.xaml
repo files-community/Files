@@ -246,8 +246,7 @@
 			<!--  Show Status bar  -->
 			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowStatusBar}">
 				<wctcontrols:SettingsCard.HeaderIcon>
-					<!--  TODO: needs a new icon  -->
-					<PathIcon Data="{StaticResource App.Theme.PathIcon.TabActions}" />
+					<PathIcon Data="{StaticResource App.Theme.PathIcon.StatusBar}" />
 				</wctcontrols:SettingsCard.HeaderIcon>
 				<ToggleSwitch
 					AutomationProperties.AutomationControlType="Custom"
