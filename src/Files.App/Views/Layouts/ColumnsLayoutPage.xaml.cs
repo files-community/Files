@@ -89,6 +89,8 @@ namespace Files.App.Views.Layouts
 
 			var blade = activeBlades[index];
 			blade?.SetWidth();
+
+			ColumnHost.ScrollToEnd();
 		}
 
 		private void ContentChanged(IShellPage p)
