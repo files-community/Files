@@ -150,6 +150,17 @@ namespace Files.App.Controls
 			return _scrollViewer ?? (_scrollViewer = this.FindDescendant<ScrollViewer>());
 		}
 
+		public void ScrollToEnd()
+		{
+			LayoutUpdated += OnLayoutUpdatedScrollToEnd;
+		}
+
+		private void OnLayoutUpdatedScrollToEnd(object sender, object e)
+		{
+			LayoutUpdated -= OnLayoutUpdatedScrollToEnd;
+			GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null, false);
+		}
+
 		private void AdjustBladeItemSize()
 		{
 			// Adjust blade items to be full screen
@@ -182,7 +193,8 @@ namespace Files.App.Controls
 			else if (e.CollectionChange == CollectionChange.ItemInserted)
 			{
 				UpdateLayout();
-				GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
+				// The following line doesn't work as expected due to the items not being fully loaded yet and thus the scrollable width not being accurate.
+				//GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
 			}
 		}
 	}
