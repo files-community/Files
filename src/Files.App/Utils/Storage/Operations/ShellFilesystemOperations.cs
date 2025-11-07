@@ -415,7 +415,31 @@ namespace Files.App.Utils.Storage
 				else if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
 					var failedSources = deleteResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-					var filePath = failedSources.Select(x => x.Source); // When deleting only source can be in use but shell returns COPYENGINE_E_SHARING_VIOLATION_DEST for folders
+
+					var lockedFiles = new List<string>();
+					foreach (var failedSource in failedSources)
+					{
+						if (Directory.Exists(failedSource.Source))
+						{
+							try
+							{
+								var files = Directory.EnumerateFiles(failedSource.Source, "*", SearchOption.AllDirectories);
+								foreach (var file in files)
+								{
+									var procs = SafetyExtensions.IgnoreExceptions(() => FileOperationsHelpers.CheckFileInUse(new[] { file }), App.Logger);
+									if (procs is not null && procs.Any())
+										lockedFiles.Add(file);
+								}
+							}
+							catch { }
+						}
+						else if (File.Exists(failedSource.Source))
+						{
+							lockedFiles.Add(failedSource.Source);
+						}
+					}
+
+					var filePath = lockedFiles.Any() ? lockedFiles : failedSources.Select(x => x.Source);
 					var lockingProcess = WhoIsLocking(filePath);
 
 					switch (await GetFileInUseDialog(filePath, lockingProcess))
