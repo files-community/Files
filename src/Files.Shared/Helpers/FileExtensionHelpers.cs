@@ -274,7 +274,7 @@ namespace Files.Shared.Helpers
 		/// <returns><c>true</c> if the filePathToCheck is a script file; otherwise, <c>false</c>.</returns>
 		public static bool IsScriptFile(string? filePathToCheck)
 		{
-			return HasExtension(filePathToCheck, ".py", ".ahk");
+			return HasExtension(filePathToCheck, ".py", ".ahk", ".bat", ".cmd", ".ps1");
 		}
 
 		/// <summary>

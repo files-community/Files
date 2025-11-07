@@ -549,6 +549,7 @@ namespace Files.App.Utils
 		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
 		public bool IsUrl { get; set; }
 		public bool IsSymLink { get; set; }
+		public override bool IsScriptFile => FileExtensionHelpers.IsScriptFile(TargetPath);
 		public override bool IsExecutable => FileExtensionHelpers.IsExecutableFile(TargetPath, true);
 	}
 
@@ -786,6 +787,7 @@ namespace Files.App.Utils
 		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
 		public bool IsUrl { get; set; }
 		public bool IsSymLink { get; set; }
+		public override bool IsScriptFile => FileExtensionHelpers.IsScriptFile(TargetPath);
 		public override bool IsExecutable => FileExtensionHelpers.IsExecutableFile(TargetPath, true);
 	}
 	public interface IGitItem : IListedItem
