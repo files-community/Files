@@ -4332,4 +4332,7 @@
   <data name="FailedToOpenLogFile" xml:space="preserve">
     <value>ログファイルを開けません</value>
   </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Show status bar</value>
+  </data>
 </root>
