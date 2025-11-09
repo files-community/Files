@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.ApplicationModel.DataTransfer;
@@ -305,7 +306,11 @@ namespace Files.App.UserControls.TabBar
 
 				deferral.Complete();
 			}
-			catch { }
+			catch (Exception ex)
+			{
+				// Log the exception for visibility
+				App.Logger.LogWarning(ex, "Failed while handling middle-click on tab bar empty area.");
+			}
 
 			_lockDropOperation = false;
 		}
@@ -371,6 +376,22 @@ namespace Files.App.UserControls.TabBar
 			HorizontalTabView.Measure(new(
 				HorizontalTabView.ActualWidth - TabBarAddNewTabButton.Width - titleBarInset,
 				HorizontalTabView.ActualHeight));
+		}
+
+		private async void DragAreaRectangle_PointerReleased(object sender, PointerRoutedEventArgs e)
+		{
+			try
+			{
+				var kind = e.GetCurrentPoint(null).Properties.PointerUpdateKind;
+				if (kind is PointerUpdateKind.MiddleButtonReleased)
+				{
+					// Invoke New Tab command
+					await Commands.NewTab.ExecuteAsync();
+					// Mark handled so no further handlers process it
+					e.Handled = true;
+				}
+			}
+			catch { }
 		}
 	}
 }
