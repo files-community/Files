@@ -4332,4 +4332,7 @@
   <data name="FailedToOpenLogFile" xml:space="preserve">
     <value>Nu s-a putut deschide fișierul jurnal</value>
   </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Afișați bara de stare</value>
+  </data>
 </root>

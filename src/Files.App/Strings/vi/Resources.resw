@@ -4332,4 +4332,7 @@
   <data name="FailedToOpenLogFile" xml:space="preserve">
     <value>Không thể mở tệp nhật ký</value>
   </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Hiện thanh trạng thái</value>
+  </data>
 </root>

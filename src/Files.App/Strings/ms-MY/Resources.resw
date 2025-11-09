@@ -124,7 +124,7 @@
     <value>Salin laluan</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Copy item path</value>
+    <value>Salin laluan item</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Salin laluan dengan petikan</value>
@@ -166,7 +166,7 @@
     <value>Langkau</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>Pilih semua</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Terbalikkan pilihan</value>
@@ -256,7 +256,7 @@
     <value>Tampal</value>
   </data>
   <data name="PasteShortcut" xml:space="preserve">
-    <value>Paste shortcut</value>
+    <value>Tampal pintasan</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>Baru</value>
@@ -310,7 +310,7 @@
     <value>Gelap</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
-    <value>Use system setting</value>
+    <value>Guna tetapan sistem</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Aplikasi</value>
@@ -465,7 +465,7 @@
     <value>Adakah anda pasti anda ingin memadamkan semua item ini secara kekal?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
-    <value>Empty recycle bin</value>
+    <value>Kosongkan tong kitar semula</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>bait</value>
@@ -1005,7 +1005,7 @@
     <value>Check the status of file operations here</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Status center</value>
+    <value>Pusat status</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Search results in {1} for {0}</value>
@@ -1128,28 +1128,28 @@
     <value>Butiran fail</value>
   </data>
   <data name="PreviewPaneFilePreview.AutomationProperties.Name" xml:space="preserve">
-    <value>File preview</value>
+    <value>Pratonton fail</value>
   </data>
   <data name="SelectedFilePreviewPane.AutomationProperties.Name" xml:space="preserve">
     <value>Selected file preview pane</value>
   </data>
   <data name="Feedback" xml:space="preserve">
-    <value>Feedback</value>
+    <value>Maklum balas</value>
   </data>
   <data name="CloudDriveSyncStatus_Online" xml:space="preserve">
     <value>Available when online</value>
   </data>
   <data name="Documentation" xml:space="preserve">
-    <value>Documentation</value>
+    <value>Dokumentasi</value>
   </data>
   <data name="CloudDriveSyncStatus_Offline" xml:space="preserve">
-    <value>Available offline</value>
+    <value>Tersedia di luar talian</value>
   </data>
   <data name="CloudDriveSyncStatus_PartialOffline" xml:space="preserve">
     <value>Partially available offline</value>
   </data>
   <data name="CloudDriveSyncStatus_Sync" xml:space="preserve">
-    <value>Syncing</value>
+    <value>Menyegerak</value>
   </data>
   <data name="CloudDriveSyncStatus_Excluded" xml:space="preserve">
     <value>Excluded from sync</value>
@@ -3945,7 +3945,7 @@
     <comment>Image alignment type</comment>
   </data>
   <data name="Fill" xml:space="preserve">
-    <value>Fill</value>
+    <value>Isi</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="HorizontalAlignment" xml:space="preserve">
@@ -3970,7 +3970,7 @@
     <comment>Image alignment type</comment>
   </data>
   <data name="Uniform" xml:space="preserve">
-    <value>Uniform</value>
+    <value>Seragam</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="UniformToFill" xml:space="preserve">
@@ -4331,5 +4331,8 @@
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
     <value>Unable to open the log file</value>
+  </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Show status bar</value>
   </data>
 </root>

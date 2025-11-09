@@ -4332,4 +4332,7 @@
   <data name="FailedToOpenLogFile" xml:space="preserve">
     <value>Impossibile aprire il file di registro</value>
   </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Show status bar</value>
+  </data>
 </root>

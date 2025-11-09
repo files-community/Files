@@ -4332,4 +4332,7 @@
   <data name="FailedToOpenLogFile" xml:space="preserve">
     <value>Log-Datei konnte nicht geöffnet werden</value>
   </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Statusleiste anzeigen</value>
+  </data>
 </root>

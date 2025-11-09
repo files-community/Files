@@ -4332,4 +4332,7 @@
   <data name="FailedToOpenLogFile" xml:space="preserve">
     <value>No es pot obrir el fitxer de registre</value>
   </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Mostra la barra d’estat</value>
+  </data>
 </root>
