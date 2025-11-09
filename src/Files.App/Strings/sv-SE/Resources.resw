@@ -4297,7 +4297,7 @@
     <value>Filnamn</value>
   </data>
   <data name="Signatures" xml:space="preserve">
-    <value>Signatures</value>
+    <value>Signaturer</value>
    </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Signature list</value>
@@ -4331,5 +4331,8 @@
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
     <value>Kunde inte öppna loggfilen</value>
+  </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Show status bar</value>
   </data>
 </root>
