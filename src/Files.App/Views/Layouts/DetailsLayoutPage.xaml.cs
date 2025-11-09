@@ -593,7 +593,8 @@ namespace Files.App.Views.Layouts
 			}
 
 			// Check if the setting to open items with a single click is turned on
-			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if ((item.PrimaryItemAttribute is StorageItemTypes.File && UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick) ||
+				(item.PrimaryItemAttribute is StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick is OpenFoldersWithOneClickEnum.Always))
 			{
 				ResetRenameDoubleClick();
 				await Commands.OpenItem.ExecuteAsync();
@@ -642,7 +643,9 @@ namespace Files.App.Views.Layouts
 			if (item == null && sender is ListView listView && listView.SelectedItem is ListedItem selectedItem)
 				item = selectedItem;
 
-			if (item != null && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if (item != null && item.PrimaryItemAttribute == StorageItemTypes.File && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+				await OpenItem(item);
+			else if (item != null && item.PrimaryItemAttribute == StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick is not OpenFoldersWithOneClickEnum.Always)
 				await OpenItem(item);
 			else if (item == null && UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 				await Commands.NavigateUp.ExecuteAsync();

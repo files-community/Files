@@ -31,9 +31,9 @@ namespace Files.App.Data.Contracts
 		bool OpenItemsWithOneClick { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether or not folders should open with two clicks in ColumnsLayout.
+		/// Gets or sets a value indicating whether or not folders should open with a single click.
 		/// </summary>
-		bool ColumnLayoutOpenFoldersWithOneClick { get; set; }
+		OpenFoldersWithOneClickEnum OpenFoldersWithOneClick { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether or not to open folders in new tab.
