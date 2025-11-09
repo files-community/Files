@@ -2268,7 +2268,7 @@
     <value>Показване на възможности за компресиране</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Показване на изпращане в менюто</value>
+    <value>Показване на "Изпрати до..." в менюто</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
     <value>Показване на възможност за отваряне на папки в нов раздел</value>
@@ -3079,7 +3079,7 @@
     <value>Година</value>
   </data>
   <data name="GroupByDateUnit" xml:space="preserve">
-    <value>Group by date unit</value>
+    <value>Групиране по дата</value>
   </data>
   <data name="GroupByDateCreatedDayDescription" xml:space="preserve">
     <value>Групиране на елементите по ден на сътворение</value>
@@ -3786,25 +3786,25 @@
     <value>Extract here (Smart)</value>
   </data>
   <data name="SortFilesAndFoldersTogether" xml:space="preserve">
-    <value>Sort files and folders together</value>
+    <value>Сортиране на папките и файловете заедно</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
     <value>Sort files and folders in the same list</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
-    <value>Sort files first</value>
+    <value>Сортиране файловете отгоре</value>
   </data>
   <data name="SortFilesFirstDescription" xml:space="preserve">
     <value>Sort files first then folders</value>
   </data>
   <data name="SortFoldersFirst" xml:space="preserve">
-    <value>Sort folders first</value>
+    <value>Сортиране папките отгоре</value>
   </data>
   <data name="SortFoldersFirstDescription" xml:space="preserve">
     <value>Sort folders first then files</value>
   </data>
   <data name="SortPriority" xml:space="preserve">
-    <value>Приоритизиране</value>
+    <value>Приоритет на сортиране</value>
   </data>
   <data name="FailedToRotateImage" xml:space="preserve">
     <value>Неуспешно завъртане на образа</value>
@@ -3945,7 +3945,7 @@
     <comment>Image alignment type</comment>
   </data>
   <data name="Fill" xml:space="preserve">
-    <value>Fill</value>
+    <value>Запълване</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="HorizontalAlignment" xml:space="preserve">
@@ -4331,5 +4331,8 @@
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
     <value>Unable to open the log file</value>
+  </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Show status bar</value>
   </data>
 </root>
