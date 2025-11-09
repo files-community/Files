@@ -660,9 +660,9 @@ namespace Files.App.Views.Layouts
 		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item && item.PrimaryItemAttribute == StorageItemTypes.File && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
-				await Commands.OpenItem.ExecuteAsync();
-			else if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item && item.PrimaryItemAttribute == StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick is not OpenFoldersWithOneClickEnum.Always)
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item &&
+				((item.PrimaryItemAttribute == StorageItemTypes.File && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick) ||
+				 (item.PrimaryItemAttribute == StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick is not OpenFoldersWithOneClickEnum.Always)))
 				await Commands.OpenItem.ExecuteAsync();
 			else if ((e.OriginalSource as FrameworkElement)?.DataContext is not ListedItem && UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 				await Commands.NavigateUp.ExecuteAsync();
