@@ -310,6 +310,10 @@ namespace Files.App.Helpers
 
 		public void OnDefaultPreferencesChanged(string path, string settingsName)
 		{
+			// Guard against null or empty path
+			if (string.IsNullOrWhiteSpace(path))
+				return;
+
 			var preferencesItem = GetLayoutPreferencesForPath(path);
 			if (preferencesItem is null)
 				return;
@@ -486,6 +490,10 @@ namespace Files.App.Helpers
 
 		private static LayoutPreferencesItem? GetLayoutPreferencesForPath(string path)
 		{
+			// Guard against null or empty paths
+			if (string.IsNullOrWhiteSpace(path))
+				return new LayoutPreferencesItem();
+
 			//Recycle Bin does not support Column View due to navigation conflicts with hierarchical display
 			//Fall back to Details View when Column View is configured
 			if (path.StartsWith(Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.Ordinal))
