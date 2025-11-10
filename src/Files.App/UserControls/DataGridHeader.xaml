@@ -115,7 +115,7 @@
 
 	<Grid>
 		<Button
-			Padding="12,12,12,0"
+			Padding="12,12,12,12"
 			VerticalAlignment="Stretch"
 			AutomationProperties.Name="{x:Bind Header, Mode=OneWay}"
 			Command="{x:Bind Command}"
