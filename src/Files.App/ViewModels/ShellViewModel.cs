@@ -1222,6 +1222,21 @@ namespace Files.App.ViewModels
 							{
 								cts.Token.ThrowIfCancellationRequested();
 
+								if (FileExtensionHelpers.IsFontFile(item.FileExtension) &&
+									!item.FileExtension.Equals(".fon", StringComparison.OrdinalIgnoreCase))
+								{
+									var fontDisplayName = FontFileHelper.GetFontName(item.ItemPath);
+									if (!string.IsNullOrEmpty(fontDisplayName) && fontDisplayName != item.Name)
+									{
+										cts.Token.ThrowIfCancellationRequested();
+										await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+										{
+											item.ItemNameRaw = fontDisplayName;
+										});
+										await fileListCache.AddDisplayName(item.ItemPath, fontDisplayName);
+									}
+								}
+
 								var syncStatus = await CheckCloudDriveSyncStatusAsync(matchingStorageFile);
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
 								var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);

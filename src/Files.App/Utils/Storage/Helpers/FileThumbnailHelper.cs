@@ -1,6 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.Shared.Helpers;
+using System.IO;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.Utils.Storage
@@ -15,6 +17,24 @@ namespace Files.App.Utils.Storage
 			var size = iconOptions.HasFlag(IconOptions.UseCurrentScale) ? requestedSize * App.AppModel.AppWindowDPI : requestedSize;
 			// Ensure size is at least 1 to prevent layout errors
 			size = Math.Max(1, size);
+
+			if (!isFolder && !iconOptions.HasFlag(IconOptions.ReturnIconOnly))
+			{
+				var extension = Path.GetExtension(path);
+				if (FileExtensionHelpers.IsFontFile(extension))
+				{
+					var winrtThumbnail = await FontFileHelper.GetWinRTThumbnailAsync(path, (uint)size);
+					if (winrtThumbnail is not null)
+						return winrtThumbnail;
+
+					if (!extension.Equals(".fon", StringComparison.OrdinalIgnoreCase))
+					{
+						var fontThumbnail = await Win32Helper.StartSTATask(() => FontFileHelper.GenerateFontThumbnail(path, (int)size));
+						if (fontThumbnail is not null)
+							return fontThumbnail;
+					}
+				}
+			}
 
 			return await Win32Helper.StartSTATask(() => Win32Helper.GetIcon(path, (int)size, isFolder, iconOptions));
 		}
