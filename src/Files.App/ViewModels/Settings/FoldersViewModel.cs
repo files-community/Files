@@ -9,6 +9,7 @@ namespace Files.App.ViewModels.Settings
 
 
 		public Dictionary<SizeUnitTypes, string> SizeUnitsOptions { get; private set; } = [];
+		public Dictionary<OpenFoldersWithOneClickEnum, string> OpenFoldersWithOneClickOptions { get; private set; } = [];
 
 		public FoldersViewModel()
 		{
@@ -18,6 +19,11 @@ namespace Files.App.ViewModels.Settings
 			SizeUnitsOptions.Add(SizeUnitTypes.BinaryUnits, Strings.Binary.GetLocalizedResource());
 			SizeUnitsOptions.Add(SizeUnitTypes.DecimalUnits, Strings.Decimal.GetLocalizedResource());
 			SizeUnitFormat = SizeUnitsOptions[UserSettingsService.FoldersSettingsService.SizeUnitFormat];
+
+			OpenFoldersWithOneClickOptions.Add(OpenFoldersWithOneClickEnum.OnlyInColumnsView, Strings.OnlyInColumnsView.GetLocalizedResource());
+			OpenFoldersWithOneClickOptions.Add(OpenFoldersWithOneClickEnum.Always, Strings.Always.GetLocalizedResource());
+			OpenFoldersWithOneClickOptions.Add(OpenFoldersWithOneClickEnum.Never, Strings.Never.GetLocalizedResource());
+			SelectedOpenFoldersWithOneClickOption = OpenFoldersWithOneClickOptions[UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick];
 		}
 
 		// Properties
@@ -108,16 +114,15 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public bool ColumnLayoutOpenFoldersWithOneClick
+		private string selectedOpenFoldersWithOneClickOption;
+		public string SelectedOpenFoldersWithOneClickOption
 		{
-			get => UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick;
+			get => selectedOpenFoldersWithOneClickOption;
 			set
 			{
-				if (value != UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+				if (SetProperty(ref selectedOpenFoldersWithOneClickOption, value))
 				{
-					UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick = value;
-
-					OnPropertyChanged();
+					UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick = OpenFoldersWithOneClickOptions.First(e => e.Value == value).Key;
 				}
 			}
 		}

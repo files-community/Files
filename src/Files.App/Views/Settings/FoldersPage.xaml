@@ -104,8 +104,11 @@
 						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenItemsWithOneClick}" IsOn="{x:Bind ViewModel.OpenItemsWithOneClick, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
-					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}">
-						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=OpenFolderWithOneClickColumnsLayout}" IsOn="{x:Bind ViewModel.ColumnLayoutOpenFoldersWithOneClick, Mode=TwoWay}" />
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=OpenFolderWithOneClick}">
+						<uc:ComboBoxEx
+							AutomationProperties.Name="{helpers:ResourceString Name=OpenFolderWithOneClick}"
+							ItemsSource="{x:Bind ViewModel.OpenFoldersWithOneClickOptions.Values}"
+							SelectedItem="{x:Bind ViewModel.SelectedOpenFoldersWithOneClickOption, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=OpenFoldersInNewTab}">
