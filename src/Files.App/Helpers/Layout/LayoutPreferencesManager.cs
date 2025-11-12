@@ -310,10 +310,6 @@ namespace Files.App.Helpers
 
 		public void OnDefaultPreferencesChanged(string path, string settingsName)
 		{
-			// Guard against null or empty path
-			if (string.IsNullOrWhiteSpace(path))
-				return;
-
 			var preferencesItem = GetLayoutPreferencesForPath(path);
 			if (preferencesItem is null)
 				return;
