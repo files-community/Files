@@ -707,12 +707,8 @@ namespace Files.App.ViewModels
 				case nameof(UserSettingsService.LayoutSettingsService.DefaultLayoutMode):
 					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
 					{
-						// Only update preferences if WorkingDirectory is initialized
-						if (!string.IsNullOrWhiteSpace(WorkingDirectory))
-						{
-							folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);
-							UpdateSortAndGroupOptions();
-						}
+						folderSettings.OnDefaultPreferencesChanged(WorkingDirectory, e.SettingName);
+						UpdateSortAndGroupOptions();
 					});
 					await OrderFilesAndFoldersAsync();
 					await ApplyFilesAndFoldersChangesAsync();
