@@ -55,7 +55,7 @@
     <PackageVersion Include="System.Threading.Tasks.Dataflow" Version="9.0.9" />
     <PackageVersion Include="Appium.WebDriver" Version="4.4.5" />
     <PackageVersion Include="Axe.Windows" Version="2.4.2" />
-    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
     <PackageVersion Include="MSTest.TestAdapter" Version="4.0.1" />
     <PackageVersion Include="MSTest.TestFramework" Version="4.0.2" />
     <PackageVersion Include="Dongle.GuidRVAGen" Version="1.0.5" />
