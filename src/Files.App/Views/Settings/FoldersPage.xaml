@@ -11,10 +11,6 @@
 	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls"
 	mc:Ignorable="d">
 
-	<Page.DataContext>
-		<vm:FoldersViewModel x:Name="ViewModel" />
-	</Page.DataContext>
-
 	<Grid>
 		<StackPanel
 			HorizontalAlignment="Stretch"
