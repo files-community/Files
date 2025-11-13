@@ -21,7 +21,9 @@ namespace Files.App.Utils.Storage
 			if (!isFolder && !iconOptions.HasFlag(IconOptions.ReturnIconOnly))
 			{
 				var extension = Path.GetExtension(path);
-				if (FileExtensionHelpers.IsFontFile(extension))
+
+				//Restrict to only %windir%\fonts
+				if (FileExtensionHelpers.IsFontFile(extension) && PathHelpers.IsInSystemFontsFolder(path))
 				{
 					var winrtThumbnail = await FontFileHelper.GetWinRTThumbnailAsync(path, (uint)size);
 					if (winrtThumbnail is not null)
