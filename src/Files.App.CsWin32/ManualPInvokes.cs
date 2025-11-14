@@ -44,7 +44,7 @@ namespace Windows.Win32
 		public static unsafe nint SetWindowLongPtr(HWND hWnd, WINDOW_LONG_PTR_INDEX nIndex, nint dwNewLong)
 		{
 			// NOTE:
-			//  Since CsWin32 generates SetWindowLong only on x86, and SetWindowLongPtr only on x64,
+			//  Since CsWin32 generates SetWindowLong only on x86 and SetWindowLongPtr only on x64,
 			//  we need to manually define both functions here.
 			//  For more info, visit https://github.com/microsoft/CsWin32/issues/882
 			return sizeof(nint) is 4

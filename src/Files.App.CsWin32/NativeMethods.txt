@@ -282,3 +282,6 @@ CoTaskMemAlloc
 E_OUTOFMEMORY
 PropVariantInit
 PropVariantClear
+IExtractIconW
+GIL_FORSHELL
+MAX_PATH
