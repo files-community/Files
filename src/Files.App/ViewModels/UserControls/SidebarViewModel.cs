@@ -21,11 +21,21 @@ namespace Files.App.ViewModels.UserControls
 {
 	public sealed partial class SidebarViewModel : ObservableObject, IDisposable, ISidebarViewModel
 	{
-		private INetworkService NetworkService { get; } = Ioc.Default.GetRequiredService<INetworkService>();
-		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
-		private ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+		// Dependency Injection
+
+		private readonly INetworkService NetworkService = Ioc.Default.GetRequiredService<INetworkService>();
+		private readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
-		private readonly IFileTagsService fileTagsService;
+		private readonly IFileTagsService fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
+		private readonly IQuickAccessService QuickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
+
+		// Fields
+
+		private readonly Microsoft.UI.Dispatching.DispatcherQueue _dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+		private INavigationControlItem _rightClickedItem;
+
+		// Properties
 
 		private IShellPanesPage paneHolder;
 		public IShellPanesPage PaneHolder
@@ -34,18 +44,16 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref paneHolder, value);
 		}
 
-		public MenuFlyout PaneFlyout;
+		public MenuFlyout PaneFlyout { get; set; }
 
 		public IFilesystemHelpers FilesystemHelpers
 			=> PaneHolder?.FilesystemHelpers;
 
-		private Microsoft.UI.Dispatching.DispatcherQueue dispatcherQueue;
-		private INavigationControlItem rightClickedItem;
 
 		public object SidebarItems => sidebarItems;
-		public BulkConcurrentObservableCollection<INavigationControlItem> sidebarItems { get; init; }
+		public BulkConcurrentObservableCollection<INavigationControlItem> sidebarItems { get; init; } = [];
+
 		public PinnedFoldersManager SidebarPinnedModel => App.QuickAccessManager.Model;
-		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
 		private SidebarDisplayMode sidebarDisplayMode;
 		public SidebarDisplayMode SidebarDisplayMode
@@ -236,14 +244,23 @@ namespace Files.App.ViewModels.UserControls
 			set => SetProperty(ref selectedSidebarItem, value);
 		}
 
+		// Commands
+
+		private ICommand CreateLibraryCommand = new AsyncRelayCommand(LibraryManager.ShowCreateNewLibraryDialogAsync);
+		private ICommand RestoreLibrariesCommand = new AsyncRelayCommand(LibraryManager.ShowRestoreDefaultLibrariesDialogAsync);
+		private ICommand HideSectionCommand;
+		private ICommand PinItemCommand;
+		private ICommand UnpinItemCommand;
+		private ICommand EjectDeviceCommand;
+		private ICommand OpenPropertiesCommand;
+		private ICommand ReorderItemsCommand;
+
+		// Constructor
+
 		public SidebarViewModel()
 		{
-			dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
-			fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
-
-			sidebarItems = [];
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
-			CreateItemHomeAsync();
+			CreateSectionAsync(SectionType.Home);
 
 			Manager_DataChanged(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 			Manager_DataChanged(SectionType.Library, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
@@ -270,14 +287,9 @@ namespace Files.App.ViewModels.UserControls
 			ReorderItemsCommand = new AsyncRelayCommand(ReorderItemsAsync);
 		}
 
-		private Task<LocationItem> CreateItemHomeAsync()
-		{
-			return CreateSectionAsync(SectionType.Home);
-		}
-
 		private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+			await _dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
 				var sectionType = (SectionType)sender;
 				var section = await GetOrCreateSectionAsync(sectionType);
@@ -731,7 +743,7 @@ namespace Files.App.ViewModels.UserControls
 				SelectedTagChanged?.Invoke(this, new SelectedTagChangedEventArgs(items));
 			}
 
-			rightClickedItem = item;
+			_rightClickedItem = item;
 			RightClickedItemChanged?.Invoke(this, item);
 
 			var itemContextMenuFlyout = new CommandBarFlyout()
@@ -762,7 +774,7 @@ namespace Files.App.ViewModels.UserControls
 				return;
 
 			itemContextMenuFlyout.Opened -= ItemContextMenuFlyout_Opened;
-			await ShellContextFlyoutFactory.LoadShellMenuItemsAsync(rightClickedItem.Path, itemContextMenuFlyout, rightClickedItem.MenuOptions);
+			await ShellContextFlyoutFactory.LoadShellMenuItemsAsync(_rightClickedItem.Path, itemContextMenuFlyout, _rightClickedItem.MenuOptions);
 		}
 
 		public async void HandleItemInvokedAsync(object item, PointerUpdateKind pointerUpdateKind)
@@ -835,36 +847,20 @@ namespace Files.App.ViewModels.UserControls
 				shellPage.NavigateToPath(navigationPath, sourcePageType);
 		}
 
-		public readonly ICommand CreateLibraryCommand = new AsyncRelayCommand(LibraryManager.ShowCreateNewLibraryDialogAsync);
-
-		public readonly ICommand RestoreLibrariesCommand = new AsyncRelayCommand(LibraryManager.ShowRestoreDefaultLibrariesDialogAsync);
-
-		private ICommand HideSectionCommand { get; }
-
-		private ICommand PinItemCommand { get; }
-
-		private ICommand UnpinItemCommand { get; }
-
-		private ICommand EjectDeviceCommand { get; }
-
-		private ICommand OpenPropertiesCommand { get; }
-
-		private ICommand ReorderItemsCommand { get; }
-
 		private void PinItem()
 		{
-			if (rightClickedItem is DriveItem)
-				_ = QuickAccessService.PinToSidebarAsync(new[] { rightClickedItem.Path });
+			if (_rightClickedItem is DriveItem)
+				_ = QuickAccessService.PinToSidebarAsync(new[] { _rightClickedItem.Path });
 		}
 		private void UnpinItem()
 		{
-			if (rightClickedItem.Section == SectionType.Pinned || rightClickedItem is DriveItem)
-				_ = QuickAccessService.UnpinFromSidebarAsync(rightClickedItem.Path);
+			if (_rightClickedItem.Section == SectionType.Pinned || _rightClickedItem is DriveItem)
+				_ = QuickAccessService.UnpinFromSidebarAsync(_rightClickedItem.Path);
 		}
 
 		private void HideSection()
 		{
-			switch (rightClickedItem.Section)
+			switch (_rightClickedItem.Section)
 			{
 				case SectionType.Pinned:
 					UserSettingsService.GeneralSettingsService.ShowPinnedSection = false;
@@ -903,11 +899,11 @@ namespace Files.App.ViewModels.UserControls
 			flyoutClosed = async (s, e) =>
 			{
 				menu.Closed -= flyoutClosed;
-				if (rightClickedItem is DriveItem)
-					FilePropertiesHelpers.OpenPropertiesWindow(rightClickedItem, PaneHolder.ActivePane);
-				else if (rightClickedItem is LibraryLocationItem library)
+				if (_rightClickedItem is DriveItem)
+					FilePropertiesHelpers.OpenPropertiesWindow(_rightClickedItem, PaneHolder.ActivePane);
+				else if (_rightClickedItem is LibraryLocationItem library)
 					FilePropertiesHelpers.OpenPropertiesWindow(new LibraryItem(library), PaneHolder.ActivePane);
-				else if (rightClickedItem is LocationItem locationItem)
+				else if (_rightClickedItem is LocationItem locationItem)
 				{
 					var listedItem = new ListedItem(null!)
 					{
@@ -935,7 +931,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private void EjectDevice()
 		{
-			DriveHelpers.EjectDeviceAsync(rightClickedItem.Path);
+			DriveHelpers.EjectDeviceAsync(_rightClickedItem.Path);
 		}
 
 		private List<ContextMenuFlyoutItemViewModel> GetLocationItemMenuItems(INavigationControlItem item, CommandBarFlyout menu)
@@ -1018,7 +1014,7 @@ namespace Files.App.ViewModels.UserControls
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
-					Text = string.Format(Strings.SideBarHideSectionFromSideBar_Text.GetLocalizedResource(), rightClickedItem.Text),
+					Text = string.Format(Strings.SideBarHideSectionFromSideBar_Text.GetLocalizedResource(), _rightClickedItem.Text),
 					Glyph = "\uE77A",
 					Command = HideSectionCommand,
 					ShowItem = options.ShowHideSection
