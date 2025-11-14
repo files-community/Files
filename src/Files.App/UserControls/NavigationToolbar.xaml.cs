@@ -274,6 +274,10 @@ namespace Files.App.UserControls
 				return;
 			}
 
+			// Validate index before accessing the collection
+			if (args.Index < 0 || args.Index >= ViewModel.PathComponents.Count)
+				return;
+
 			// Navigation to the current folder should not happen
 			if (args.Index == ViewModel.PathComponents.Count - 1 ||
 				ViewModel.PathComponents[args.Index].Path is not { } path)
@@ -281,7 +285,6 @@ namespace Files.App.UserControls
 
 			// If user clicked the item with middle mouse button, open it in new tab
 			var openInNewTab = args.PointerRoutedEventArgs?.GetCurrentPoint(null).Properties.PointerUpdateKind is PointerUpdateKind.MiddleButtonReleased;
-
 			await ViewModel.HandleFolderNavigationAsync(path, openInNewTab);
 		}
 
