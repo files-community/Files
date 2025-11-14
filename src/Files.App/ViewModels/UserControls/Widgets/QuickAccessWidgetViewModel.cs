@@ -193,6 +193,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			var lastPinnedItemIndex = Items.LastOrDefault(x => x.IsPinned) is { } lastPinnedItem ? Items.IndexOf(lastPinnedItem) : 0;
 			var currentPinnedItemIndex = Items.IndexOf(folderCardItem);
+
 			if (currentPinnedItemIndex is -1)
 				return;
 
@@ -212,19 +213,12 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					IShellItem* pShellItem = null;
 					hr = pAgileReference.Get()->Resolve(IID.IID_IShellItem, (void**)&pShellItem);
 					using var windowsFile = new WindowsFile(pShellItem);
-
 					// NOTE: "pintohome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CPinToFrequentExecute : public IExecuteCommand, ...
 					return windowsFile.TryInvokeContextMenuVerb("pintohome");
 				}
 			});
 
-			if (hr.ThrowIfFailedOnDebug().Failed)
-				return;
-
-			// Add this to right before the last pinned item
-			// NOTE: To be honest, this is not needed as the file watcher will take care of this
-			if (lastPinnedItemIndex + 1 != currentPinnedItemIndex)
-				Items.Move(currentPinnedItemIndex, lastPinnedItemIndex + 1);
+			// The file watcher will update the collection automatically
 		}
 
 		public override async Task ExecuteUnpinFromSidebarCommand(WidgetCardItem? item)
@@ -258,7 +252,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return;
 
-			Items.Remove(folderCardItem);
+			// The file watcher will update the collection automatically
 		}
 
 		private void ExecuteOpenPropertiesCommand(WidgetFolderCardItem? item)
