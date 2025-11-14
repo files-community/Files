@@ -83,6 +83,12 @@ namespace Windows.Win32
 
 		[GuidRVAGen.Guid("92CA9DCD-5622-4BBA-A805-5E9F541BD8C9")]
 		public static partial Guid* IID_IObjectArray { get; }
+
+		[GuidRVAGen.Guid("000214FA-0000-0000-C000-000000000046")]
+		public static partial Guid* IID_IExtractIconW { get; }
+
+		[GuidRVAGen.Guid("000214E6-0000-0000-C000-000000000046")]
+		public static partial Guid* IID_IShellFolder { get; }
 	}
 
 	public static unsafe partial class CLSID
