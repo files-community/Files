@@ -1,11 +1,8 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using OwlCore.Storage;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Xml.Linq;
 using Windows.ApplicationModel;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -195,27 +192,27 @@ namespace Files.App.Storage
 			hr = poc.Get()->GetCount(&dwItemsCount);
 			if (FAILED(hr)) return hr;
 
-			for (uint dwIndex = 0; dwIndex < dwItemsCount; dwIndex++)
-			{
-				// Get an instance of IShellItem
-				using ComPtr<IShellItem> psi = default;
-				hr = poc.Get()->GetAt(dwIndex, IID.IID_IShellItem, (void**)psi.GetAddressOf());
-				if (FAILED(hr)) continue;
+			//for (uint dwIndex = 0; dwIndex < dwItemsCount; dwIndex++)
+			//{
+			//	// Get an instance of IShellItem
+			//	using ComPtr<IShellItem> psi = default;
+			//	hr = poc.Get()->GetAt(dwIndex, IID.IID_IShellItem, (void**)psi.GetAddressOf());
+			//	if (FAILED(hr)) continue;
 
-				// Get its pin index
-				int pinIndex = 0;
-				hr = _explorerADL->GetPinIndex((IUnknown*)psi.Get(), &pinIndex);
-				if (FAILED(hr)) continue;
+			//	// Get its pin index
+			//	int pinIndex = 0;
+			//	hr = _explorerADL->GetPinIndex((IUnknown*)psi.Get(), &pinIndex);
+			//	if (FAILED(hr)) continue;
 
-				// Get an instance of IShellLinkW from the IShellItem instance
-				IShellLinkW* psl = default;
-				hr = CreateLinkFromItem(psi.Get(), &psl);
-				if (FAILED(hr)) continue;
+			//	// Get an instance of IShellLinkW from the IShellItem instance
+			//	IShellLinkW* psl = default;
+			//	hr = CreateLinkFromItem(psi.Get(), &psl);
+			//	if (FAILED(hr)) continue;
 
-				// Pin it to the Files' Automatic Destinations
-				hr = _filesADL->PinItem((IUnknown*)psl, pinIndex);
-				if (FAILED(hr)) continue;
-			}
+			//	// Pin it to the Files' Automatic Destinations
+			//	hr = _filesADL->PinItem((IUnknown*)psl, pinIndex);
+			//	if (FAILED(hr)) continue;
+			//}
 
 			// Get the Explorer's Recent items from its Automatic Destination
 			poc.Dispose();
@@ -355,7 +352,8 @@ namespace Files.App.Storage
 			HRESULT hr = PInvoke.CoCreateInstance(CLSID.CLSID_ShellLink, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IShellLinkW, (void**)psl.GetAddressOf());
 			if (FAILED(hr)) return hr;
 
-			hr = psl.Get()->SetPath((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in $"Shell:AppsFolder\\{_filesAUMID}".GetPinnableReference())));
+			fixed (char* pszFilesEntryPointPath = $"Shell:AppsFolder\\{_filesAUMID}")
+				hr = psl.Get()->SetPath(pszFilesEntryPointPath);
 			if (FAILED(hr)) return hr;
 
 			using ComHeapPtr<char> pszParseablePath = default;
@@ -365,22 +363,21 @@ namespace Files.App.Storage
 			hr = psl.Get()->SetArguments(new(pszParseablePath.Get()));
 			if (FAILED(hr)) return hr;
 
-			PWSTR pIconLocation = (PWSTR)PInvoke.CoTaskMemAlloc(PInvoke.MAX_PATH);
+			using ComHeapPtr<char> pszIconLocation = default;
+			pszIconLocation.Allocate(PInvoke.MAX_PATH);
 			int index = 0;
-			hr = GetFolderIconLocation(psi, &pIconLocation, PInvoke.MAX_PATH, &index);
+			hr = GetFolderIconLocation(psi, (PWSTR*)pszIconLocation.GetAddressOf(), PInvoke.MAX_PATH, &index);
 			if (FAILED(hr)) return hr;
 
-			var iconLocation = new string(pIconLocation);
-			hr = psl.Get()->SetIconLocation(pIconLocation, index);
+			hr = psl.Get()->SetIconLocation(pszIconLocation.Get(), index);
 			if (FAILED(hr)) return hr;
-
-			PInvoke.CoTaskMemFree(pIconLocation);
 
 			using ComHeapPtr<char> pszDisplayName = default;
 			hr = psi->GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI, (PWSTR*)pszDisplayName.GetAddressOf());
 			if (FAILED(hr)) return hr;
 
-			hr = psl.Get()->SetDescription((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in $"{new(pszDisplayName.Get())} ({new (pszParseablePath.Get())})".GetPinnableReference())));
+			fixed (char* pszTooltip = $"{new(pszDisplayName.Get())} ({new(pszParseablePath.Get())})")
+				hr = psl.Get()->SetDescription(pszTooltip);
 			if (FAILED(hr)) return hr;
 
 			using ComPtr<IPropertyStore> pps = default;
@@ -390,11 +387,7 @@ namespace Files.App.Storage
 			PROPVARIANT PVAR_Title;
 			PROPERTYKEY PKEY_Title = PInvoke.PKEY_Title;
 
-			using ComHeapPtr<char> pDisplayName = default;
-			hr = psi->GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI, (PWSTR*)pDisplayName.GetAddressOf());
-			if (FAILED(hr)) return hr;
-
-			hr = PInvoke.InitPropVariantFromString(pDisplayName.Get(), &PVAR_Title);
+			hr = PInvoke.InitPropVariantFromString(pszDisplayName.Get(), &PVAR_Title);
 			if (FAILED(hr)) return hr;
 
 			hr = pps.Get()->SetValue(&PKEY_Title, &PVAR_Title);

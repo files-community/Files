@@ -40,6 +40,10 @@ namespace Files.App.BackgroundTasks
 			File.Delete($"{recentFolder}\\CustomDestinations\\1265066178db259d.customDestinations-ms");
 			File.Delete($"{recentFolder}\\CustomDestinations\\8e2322986488aba5.customDestinations-ms");
 			File.Delete($"{recentFolder}\\CustomDestinations\\6b0bf5ca007c8bea.customDestinations-ms");
+			File.Delete($"{recentFolder}\\AutomaticDestinations\\3b19d860a346d7da.customDestinations-ms");
+			File.Delete($"{recentFolder}\\AutomaticDestinations\\1265066178db259d.customDestinations-ms");
+			File.Delete($"{recentFolder}\\AutomaticDestinations\\8e2322986488aba5.customDestinations-ms");
+			File.Delete($"{recentFolder}\\AutomaticDestinations\\6b0bf5ca007c8bea.customDestinations-ms");
 
 			_ = STATask.Run(() =>
 			{
