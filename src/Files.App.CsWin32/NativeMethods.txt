@@ -285,3 +285,6 @@ PropVariantClear
 IExtractIconW
 GIL_FORSHELL
 MAX_PATH
+GetEnvironmentVariable
+CoTaskMemRealloc
+PKEY_AppUserModel_IsDestListSeparator

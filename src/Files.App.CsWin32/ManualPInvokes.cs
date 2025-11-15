@@ -36,6 +36,13 @@ namespace Windows.Win32
 			return hr;
 		}
 
+		public static HRESULT InitPropVariantFromBoolean(BOOL fVal, PROPVARIANT* ppropvar)
+		{
+			ppropvar->Anonymous.Anonymous.vt = VARENUM.VT_BOOL;
+			ppropvar->Anonymous.Anonymous.Anonymous.boolVal = (VARIANT_BOOL)(bool)fVal;
+			return HRESULT.S_OK;
+		}
+
 		public static void PropVariantInit(PROPVARIANT* pvar)
 		{
 			NativeMemory.Fill(pvar, (uint)(sizeof(PROPVARIANT)), 0);
