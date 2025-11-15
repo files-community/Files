@@ -5,6 +5,7 @@ using OwlCore.Storage;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Xml.Linq;
 using Windows.ApplicationModel;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -131,13 +132,16 @@ namespace Files.App.Storage
 		{
 			HRESULT hr = default;
 
-			void* pv = default;
+			var categoryName = WindowsStorableHelpers.ResolveIndirectString($"@{{{WindowsStorableHelpers.GetEnvironmentVariable("SystemRoot")}\\SystemResources\\Windows.UI.ShellCommon\\Windows.UI.ShellCommon.pri? ms-resource://Windows.UI.ShellCommon/JumpViewUI/JumpViewCategoryType_Recent}}");
+			if (categoryName is null) return null;
 
 			var instance = new JumpListManager()
 			{
 				_filesAUMID = $"{Package.Current.Id.FamilyName}!App",
-				_localizedRecentCategoryName = $"@{{{Environment.GetEnvironmentVariable("SystemRoot")}\\SystemResources\\Windows.UI.ShellCommon\\Windows.UI.ShellCommon.pri? ms-resource://Windows.UI.ShellCommon/JumpViewUI/JumpViewCategoryType_Recent}}",
+				_localizedRecentCategoryName = categoryName,
 			};
+
+			void* pv = default;
 
 			hr = PInvoke.CoCreateInstance(CLSID.CLSID_AutomaticDestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IAutomaticDestinationList, &pv);
 			if (FAILED(hr)) return null;
@@ -166,72 +170,106 @@ namespace Files.App.Storage
 		{
 			HRESULT hr = default;
 
+			// If the Explorer's Automatic Destination has no items, nothing to sync
 			BOOL hasList = default;
 			hr = _filesADL->HasList(&hasList);
 			if (FAILED(hr)) return hr;
 
+			// Clear the Files' Automatic Destination if any
 			if (hasList)
 			{
 				hr = _filesADL->ClearList(true);
 				if (FAILED(hr)) return hr;
 			}
 
+			// Clear the Files' Custom Destination
 			hr = _filesCDL->DeleteList((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in _filesAUMID.GetPinnableReference())));
 
+			// Get the Explorer's Pinned items from its Automatic Destination
 			using ComPtr<IObjectCollection> poc = default;
-			hr = _explorerADL->GetList(DESTLISTTYPE.RECENT, maxItemsToSync, GETDESTLISTFLAGS.NONE, IID.IID_IObjectCollection, (void**)poc.GetAddressOf());
+			hr = _explorerADL->GetList(DESTLISTTYPE.PINNED, maxItemsToSync, GETDESTLISTFLAGS.NONE, IID.IID_IObjectCollection, (void**)poc.GetAddressOf());
 			if (FAILED(hr)) return hr;
 
+			// Get the count of the Explorer's Pinned items
 			uint dwItemsCount = 0U;
 			hr = poc.Get()->GetCount(&dwItemsCount);
 			if (FAILED(hr)) return hr;
 
+			for (uint dwIndex = 0; dwIndex < dwItemsCount; dwIndex++)
+			{
+				// Get an instance of IShellItem
+				using ComPtr<IShellItem> psi = default;
+				hr = poc.Get()->GetAt(dwIndex, IID.IID_IShellItem, (void**)psi.GetAddressOf());
+				if (FAILED(hr)) continue;
+
+				// Get its pin index
+				int pinIndex = 0;
+				hr = _explorerADL->GetPinIndex((IUnknown*)psi.Get(), &pinIndex);
+				if (FAILED(hr)) continue;
+
+				// Get an instance of IShellLinkW from the IShellItem instance
+				IShellLinkW* psl = default;
+				hr = CreateLinkFromItem(psi.Get(), &psl);
+				if (FAILED(hr)) continue;
+
+				// Pin it to the Files' Automatic Destinations
+				hr = _filesADL->PinItem((IUnknown*)psl, pinIndex);
+				if (FAILED(hr)) continue;
+			}
+
+			// Get the Explorer's Recent items from its Automatic Destination
+			poc.Dispose();
+			hr = _explorerADL->GetList(DESTLISTTYPE.RECENT, maxItemsToSync, GETDESTLISTFLAGS.NONE, IID.IID_IObjectCollection, (void**)poc.GetAddressOf());
+			if (FAILED(hr)) return hr;
+
+			// Get the count of the Explorer's Recent items
+			hr = poc.Get()->GetCount(&dwItemsCount);
+			if (FAILED(hr)) return hr;
+
+			// Instantiate an instance of IObjectCollection
 			using ComPtr<IObjectCollection> pNewObjectCollection = default;
 			hr = PInvoke.CoCreateInstance(CLSID.CLSID_EnumerableObjectCollection, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IObjectCollection, (void**)pNewObjectCollection.GetAddressOf());
 
 			for (uint dwIndex = 0; dwIndex < dwItemsCount; dwIndex++)
 			{
+				// Get an instance of IShellItem
 				using ComPtr<IShellItem> psi = default;
 				hr = poc.Get()->GetAt(dwIndex, IID.IID_IShellItem, (void**)psi.GetAddressOf());
 				if (FAILED(hr)) continue;
 
+				// Try to get the pin index of the item. If it is not pinned, keep going
+				int pinIndex = 0;
+				hr = _explorerADL->GetPinIndex((IUnknown*)psi.Get(), &pinIndex);
+				if (SUCCEEDED(hr)) continue; // If not pinned, HRESULT is E_NOT_SET
+
+				// Get an instance of IShellLinkW from the IShellItem instance
 				IShellLinkW* psl = default;
 				hr = CreateLinkFromItem(psi.Get(), &psl);
 				if (FAILED(hr)) continue;
 
+				// Add it to the Files' Custom Destinations
 				hr = pNewObjectCollection.Get()->AddObject((IUnknown*)psl);
-				if (FAILED(hr)) continue;
-
-				int pinIndex = 0;
-				hr = _explorerADL->GetPinIndex((IUnknown*)psi.Get(), &pinIndex);
-				if (FAILED(hr)) continue; // If not pinned, HRESULT is E_NOT_SET
-
-				hr = _filesADL->PinItem((IUnknown*)psl, pinIndex);
 				if (FAILED(hr)) continue;
 			}
 
+			// Get IObjectArray from IObjectCollection
 			using ComPtr<IObjectArray> pNewObjectArray = default;
 			hr = pNewObjectCollection.Get()->QueryInterface(IID.IID_IObjectArray, (void**)pNewObjectArray.GetAddressOf());
 			if (FAILED(hr)) return hr;
 
-			PWSTR pOutBuffer = (PWSTR)NativeMemory.Alloc(256 * sizeof(char));
-			hr = PInvoke.SHLoadIndirectString(
-				(PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in _localizedRecentCategoryName.GetPinnableReference())),
-				pOutBuffer, 256U);
-			if (FAILED(hr)) return hr;
-
+			// Set the collection
 			uint cMinSlots;
 			using ComPtr<IObjectArray> pRemovedObjectArray = default;
 			hr = _filesCDL->BeginList(&cMinSlots, IID.IID_IObjectArray, (void**)pRemovedObjectArray.GetAddressOf());
 			if (FAILED(hr)) return hr;
 
-			hr = _filesCDL->AppendCategory(pOutBuffer, pNewObjectArray.Get());
+			// Append "Recent" category
+			hr = _filesCDL->AppendCategory((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in _localizedRecentCategoryName.GetPinnableReference())), pNewObjectArray.Get());
 			if (FAILED(hr)) return hr;
 
+			// Commit the collection updates
 			hr = _filesCDL->CommitList();
 			if (FAILED(hr)) return hr;
-
-			NativeMemory.Free(pOutBuffer);
 
 			return hr;
 		}
@@ -317,19 +355,14 @@ namespace Files.App.Storage
 			HRESULT hr = PInvoke.CoCreateInstance(CLSID.CLSID_ShellLink, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IShellLinkW, (void**)psl.GetAddressOf());
 			if (FAILED(hr)) return hr;
 
-			using ComHeapPtr<ITEMIDLIST> pidl = default;
-			hr = PInvoke.SHGetIDListFromObject((IUnknown*)psi, pidl.GetAddressOf());
+			hr = psl.Get()->SetPath((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in $"Shell:AppsFolder\\{_filesAUMID}".GetPinnableReference())));
 			if (FAILED(hr)) return hr;
 
-			using ComHeapPtr<char> pParseablePath = default;
-			hr = psi->GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING, (PWSTR*)pParseablePath.GetAddressOf());
+			using ComHeapPtr<char> pszParseablePath = default;
+			hr = psi->GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING, (PWSTR*)pszParseablePath.GetAddressOf());
 			if (FAILED(hr)) return hr;
 
-			hr = psl.Get()->SetArguments(new(pParseablePath.Get()));
-			if (FAILED(hr)) return hr;
-
-			using ComHeapPtr<char> pDisplayName = default;
-			hr = psi->GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI, (PWSTR*)pDisplayName.GetAddressOf());
+			hr = psl.Get()->SetArguments(new(pszParseablePath.Get()));
 			if (FAILED(hr)) return hr;
 
 			PWSTR pIconLocation = (PWSTR)PInvoke.CoTaskMemAlloc(PInvoke.MAX_PATH);
@@ -343,23 +376,34 @@ namespace Files.App.Storage
 
 			PInvoke.CoTaskMemFree(pIconLocation);
 
+			using ComHeapPtr<char> pszDisplayName = default;
+			hr = psi->GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI, (PWSTR*)pszDisplayName.GetAddressOf());
+			if (FAILED(hr)) return hr;
+
+			hr = psl.Get()->SetDescription((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in $"{new(pszDisplayName.Get())} ({new (pszParseablePath.Get())})".GetPinnableReference())));
+			if (FAILED(hr)) return hr;
+
 			using ComPtr<IPropertyStore> pps = default;
 			hr = psl.Get()->QueryInterface(IID.IID_IPropertyStore, (void**)pps.GetAddressOf());
 			if (FAILED(hr)) return hr;
 
-			PROPVARIANT propvar;
+			PROPVARIANT PVAR_Title;
 			PROPERTYKEY PKEY_Title = PInvoke.PKEY_Title;
 
-			hr = PInvoke.InitPropVariantFromString(pDisplayName.Get(), &propvar);
+			using ComHeapPtr<char> pDisplayName = default;
+			hr = psi->GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI, (PWSTR*)pDisplayName.GetAddressOf());
 			if (FAILED(hr)) return hr;
 
-			hr = pps.Get()->SetValue(&PKEY_Title, &propvar);
+			hr = PInvoke.InitPropVariantFromString(pDisplayName.Get(), &PVAR_Title);
+			if (FAILED(hr)) return hr;
+
+			hr = pps.Get()->SetValue(&PKEY_Title, &PVAR_Title);
 			if (FAILED(hr)) return hr;
 
 			hr = pps.Get()->Commit();
 			if (FAILED(hr)) return hr;
 
-			hr = PInvoke.PropVariantClear(&propvar);
+			hr = PInvoke.PropVariantClear(&PVAR_Title);
 			if (FAILED(hr)) return hr;
 
 			hr = psl.Get()->QueryInterface(IID.IID_IShellLinkW, (void**)ppsl);
@@ -390,7 +434,7 @@ namespace Files.App.Storage
 
 		private void FilesJumpListWatcher_Changed(object sender, FileSystemEventArgs e)
 		{
-			PushJumpListToExplorer();
+			//PushJumpListToExplorer();
 		}
 
 		public void Dispose()

@@ -3,13 +3,14 @@
 
 using System;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace Windows.Win32
 {
 	/// <summary>
-	/// Contains a heap pointer allocated via <see cref="PInvoke.CoTaskMemAlloc"/> and a set of methods to work with the pointer safely.
+	/// Contains a heap pointer allocated via <see cref="NativeMemory.Alloc"/> and a set of methods to work with the pointer safely.
 	/// </summary>
-	public unsafe struct ComHeapPtr<T> : IDisposable where T : unmanaged
+	public unsafe struct HeapPtr<T> : IDisposable where T : unmanaged
 	{
 		private T* _ptr;
 
@@ -19,7 +20,7 @@ namespace Windows.Win32
 			get => _ptr is null;
 		}
 
-		public ComHeapPtr(T* ptr)
+		public HeapPtr(T* ptr)
 		{
 			_ptr = ptr;
 		}
@@ -54,7 +55,7 @@ namespace Windows.Win32
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public bool Allocate(nuint cch)
 		{
-			_ptr = (T*)PInvoke.CoTaskMemAlloc(cch);
+			_ptr = (T*)NativeMemory.Alloc(cch); // malloc()
 			return _ptr is not null;
 		}
 
@@ -73,7 +74,7 @@ namespace Windows.Win32
 			T* ptr = _ptr;
 			if (ptr is null) return;
 			_ptr = null;
-			PInvoke.CoTaskMemFree(ptr);
+			NativeMemory.Free(ptr); // free()
 		}
 	}
 }
