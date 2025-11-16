@@ -125,9 +125,14 @@ namespace Windows.Win32.System.Com
 		public fixed int Padding[10];
 	}
 
+	/// <summary>
+	/// Defines constants that specify category enumeration behavior.
+	/// </summary>
 	public enum GETCATFLAG : uint
 	{
-		// 1 is the only valid value?
+		/// <summary>
+		/// The default behavior. Only this value is currently valid.
+		/// </summary>
 		DEFAULT = 1,
 	}
 
