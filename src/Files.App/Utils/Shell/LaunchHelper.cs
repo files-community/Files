@@ -105,7 +105,7 @@ namespace Files.App.Utils.Shell
 						string key = (string)ent.Key;
 
 						// Skip USERNAME to avoid issues where files were executed as SYSTEM user (#12139)
-						if (key == "USERNAME")
+						if (string.Equals(key, "USERNAME", StringComparison.OrdinalIgnoreCase)) 
 							continue;
 
 						process.StartInfo.EnvironmentVariables[key] = (string)ent.Value;
