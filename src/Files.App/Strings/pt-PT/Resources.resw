@@ -1773,7 +1773,7 @@
     <value>Etiqueta</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Abrir itens com um clique</value>
+    <value>Abrir ficheiros com um clique</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Caminho da pasta</value>
@@ -2072,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Ecrã de bloqueio</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Abrir pastas com um clique no esquema Colunas</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Abrir pastas com um clique</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Abrir itens</value>
@@ -4333,6 +4333,9 @@
     <value>Não foi possível abrir o ficheiro de registos</value>
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
-    <value>Show status bar</value>
+    <value>Mostrar barra de estado</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Apenas na visualização em Colunas</value>
   </data>
 </root>
