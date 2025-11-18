@@ -1773,7 +1773,7 @@
     <value>Etichetă</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Deschidere elemente cu un singur clic</value>
+    <value>Deschidere fișiere cu un singur clic</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Cale folder</value>
@@ -2072,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Ecran de blocare</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Deschidere foldere cu un singur clic în aspectul coloană</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Deschidere foldere cu un singur clic</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Deschidere elemente</value>
@@ -4334,5 +4334,8 @@
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Afișați bara de stare</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Doar în Vizualizarea coloane</value>
   </data>
 </root>
