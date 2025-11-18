@@ -1773,7 +1773,7 @@
     <value>Etiqueta</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Obre els elements amb un sol clic</value>
+    <value>Obre els fitxers amb un sol clic</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Ruta de la carpeta</value>
@@ -2072,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Pantalla de bloqueig</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Obre les carpetes amb un sol clic al disseny de columnes</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Obre les carpetes amb un sol clic</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Obertura d'elements</value>
@@ -4334,5 +4334,8 @@
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Mostra la barra d’estat</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Només a la vista de columnes</value>
   </data>
 </root>
