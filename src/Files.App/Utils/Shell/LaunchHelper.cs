@@ -100,6 +100,17 @@ namespace Files.App.Utils.Shell
 					process.StartInfo.Arguments = arguments;
 
 					// Refresh env variables for the child process
+					foreach (DictionaryEntry ent in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine))
+					{
+						string key = (string)ent.Key;
+
+						// Skip USERNAME to avoid issues where files were executed as SYSTEM user (#12139)
+						if (string.Equals(key, "USERNAME", StringComparison.OrdinalIgnoreCase)) 
+							continue;
+
+						process.StartInfo.EnvironmentVariables[key] = (string)ent.Value;
+					}
+
 					foreach (DictionaryEntry ent in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User))
 						process.StartInfo.EnvironmentVariables[(string)ent.Key] = (string)ent.Value;
 
