@@ -1773,7 +1773,7 @@
     <value>Nhãn</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Mở khoản mục bằng một lần nhấp</value>
+    <value>Mở tệp bằng một lần nhấp</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Đường dẫn thư mục</value>
@@ -2072,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Màn hình khóa</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Mở thư mục bằng một lần nhấp trong bố cục cột</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Mở thư mục bằng một lần nhấp</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Mở các khoản mục</value>
@@ -4334,5 +4334,8 @@
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Hiện thanh trạng thái</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Chỉ trong bố cục cột</value>
   </data>
 </root>
