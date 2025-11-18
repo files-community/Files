@@ -1775,7 +1775,7 @@
     <value>Značka súboru</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Otvoriť položky jedným kliknutím</value>
+    <value>Open files with a single click</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Cesta ku zložke</value>
@@ -2074,8 +2074,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Obrazovka uzamknutia</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Otvoriť priečinky jedným kliknutím v rozložení stĺpcov</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Open folders with a single click</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Otváranie položiek</value>
@@ -4336,5 +4336,8 @@
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Show status bar</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Only in Columns View</value>
   </data>
 </root>
