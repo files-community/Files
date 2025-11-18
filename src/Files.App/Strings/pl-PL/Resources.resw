@@ -310,7 +310,7 @@
     <value>Ciemny</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
-    <value>Use system setting</value>
+    <value>Użyj ustawień systemowych</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Aplikacja</value>
@@ -1773,7 +1773,7 @@
     <value>Tag pliku</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Otwórz elementy jednym kliknięciem</value>
+    <value>Open files with a single click</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Lokalizacja folderu</value>
@@ -2072,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Otwórz foldery jednym za pomocą pojedynczego kliknięcia w kolumnę szczegóły</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Open folders with a single click</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Otwieranie elementów</value>
@@ -2995,7 +2995,7 @@
     <value>Previous tab</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Next tab</value>
+    <value>Następna zakładka</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
     <value>Close tab</value>
@@ -4334,5 +4334,8 @@
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Show status bar</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Only in Columns View</value>
   </data>
 </root>
