@@ -208,7 +208,7 @@
     <value>ទ្រង់ទ្រាយ​​​កាល​បរិច្ឆេទ</value>
   </data>
   <data name="SettingsAppearanceTheme" xml:space="preserve">
-    <value>ស្បែក</value>
+    <value>ផ្ទៃស្បែក</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>បង្ហាញប្រភេទឯកសារដែលគេស្គាល់</value>
@@ -1014,7 +1014,7 @@
     <value>Search results for `{0}`</value>
   </data>
   <data name="Details" xml:space="preserve">
-    <value>លម្អិត</value>
+    <value>ពត៌មាន​លម្អិត</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>ទេ</value>
@@ -1101,7 +1101,7 @@
     <value>Toggle visibility of the toolbar</value>
   </data>
   <data name="ToggleFilterHeader" xml:space="preserve">
-    <value>Toggle filter header</value>
+    <value>បិទ/បើកក្បាលតម្រង</value>
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
     <value>Toggle visibility of the filter header</value>
@@ -1413,7 +1413,7 @@
     <value>{0} items</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>Reopen tab</value>
+    <value>បើកថេបសាថ្មី</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>ប្តូរឈ្មោះ</value>
@@ -1773,7 +1773,7 @@
     <value>ស្លាក</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>Open files with a single click</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>ទីតាំង​ថត</value>
@@ -1962,13 +1962,13 @@
     <value>តម្លើង</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
-    <value>Close tabs to the left</value>
+    <value>បិទថេបខាងឆេ្វង</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
-    <value>Close tabs to the right</value>
+    <value>បិទថេបខាងស្ដាំ</value>
   </data>
   <data name="CloseOtherTabs" xml:space="preserve">
-    <value>Close other tabs</value>
+    <value>បិទថេបដទៃ</value>
   </data>
   <data name="CloseAllTabs" xml:space="preserve">
     <value>បិទផ្ទាំងទាំងអស់</value>
@@ -2072,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Open folders with a single click</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Opening items</value>
@@ -2310,7 +2310,7 @@
     <value>Tag color</value>
   </data>
   <data name="NewTag" xml:space="preserve">
-    <value>New tag</value>
+    <value>ស្លាកថ្មី</value>
   </data>
   <data name="CreateNewTag" xml:space="preserve">
     <value>Create new tag</value>
@@ -2637,7 +2637,7 @@
     <value>បញ្ជី</value>
   </data>
   <data name="Grid" xml:space="preserve">
-    <value>ចត្រង្គ</value>
+    <value>ក្រឡាចត្រង្គ</value>
   </data>
   <data name="LayoutGridDescription" xml:space="preserve">
     <value>ប្តូរទៅក្រឡាចត្រង្គ</value>
@@ -3463,7 +3463,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="ClearCompleted" xml:space="preserve">
-    <value>សម្អាតបានបញ្ចប់</value>
+    <value>សម្អាតទាំងស្រុង</value>
   </data>
   <data name="NameWithColon" xml:space="preserve">
     <value>Name:</value>
@@ -3786,25 +3786,25 @@
     <value>Extract here (Smart)</value>
   </data>
   <data name="SortFilesAndFoldersTogether" xml:space="preserve">
-    <value>Sort files and folders together</value>
+    <value>តម្រៀបឯកសារនិងថតឯកសារជាមួយគ្នា</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
     <value>Sort files and folders in the same list</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
-    <value>Sort files first</value>
+    <value>តម្រៀបឯកសារជាមុន</value>
   </data>
   <data name="SortFilesFirstDescription" xml:space="preserve">
     <value>Sort files first then folders</value>
   </data>
   <data name="SortFoldersFirst" xml:space="preserve">
-    <value>Sort folders first</value>
+    <value>តម្រៀបថតឯកសារជាមុន</value>
   </data>
   <data name="SortFoldersFirstDescription" xml:space="preserve">
     <value>Sort folders first then files</value>
   </data>
   <data name="SortPriority" xml:space="preserve">
-    <value>Sort priority</value>
+    <value>តម្រៀបអាទិភាព</value>
   </data>
   <data name="FailedToRotateImage" xml:space="preserve">
     <value>Failed to rotate the image</value>
@@ -4334,5 +4334,8 @@
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Show status bar</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Only in Columns View</value>
   </data>
 </root>
