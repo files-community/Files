@@ -1774,7 +1774,7 @@
     <value>Lêermerker</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Maak lêers met 'n enkele klik oop</value>
+    <value>Open files with a single click</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Omslagpad</value>
@@ -2073,8 +2073,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Lockscreen</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Open folders with a single click in the Columns Layout</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Open folders with a single click</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Opening items</value>
@@ -4335,5 +4335,8 @@
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Show status bar</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Only in Columns View</value>
   </data>
 </root>
