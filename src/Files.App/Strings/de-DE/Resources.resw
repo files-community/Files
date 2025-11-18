@@ -1773,7 +1773,7 @@
     <value>Tag</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Elemente mit einem Klick öffnen</value>
+    <value>Dateien mit einem einzigen Klick öffnen</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Ordnerpfad</value>
@@ -2072,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Sperrbildschirm</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Ordner mit einem Klick im Spaltenlayout öffnen</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Ordner mit einem einzigen Klick öffnen</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Öffne Elemente</value>
@@ -4334,5 +4334,8 @@
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Statusleiste anzeigen</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Nur in der Spaltenansicht</value>
   </data>
 </root>
