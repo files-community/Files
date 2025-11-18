@@ -1773,7 +1773,7 @@
     <value>Метка</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Открывать файлы и папки одним нажатием</value>
+    <value>Открывать файлы одним щелчком</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Путь к папке</value>
@@ -2072,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Экран блокировки</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Открывать папки одним кликом в макете Столбцы</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Открывать папки одним кликом</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Открытие объектов</value>
@@ -4333,6 +4333,9 @@
     <value>Не удалось открыть файл журнала</value>
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
-    <value>Show status bar</value>
+    <value>Показать строку состояния</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Только в виде столбцов</value>
   </data>
 </root>
