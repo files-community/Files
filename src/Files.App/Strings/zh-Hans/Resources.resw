@@ -1485,7 +1485,7 @@
     <value>未知所有者</value>
   </data>
   <data name="ExtractArchive" xml:space="preserve">
-    <value>解压缩</value>
+    <value>解压文件到</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
     <value>完成后打开目标文件夹</value>
@@ -1773,7 +1773,7 @@
     <value>文件标签</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>通过单击打开项目</value>
+    <value>Open files with a single click</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>文件夹路径</value>
@@ -1929,13 +1929,13 @@
     <value>字节</value>
   </data>
   <data name="Extract" xml:space="preserve">
-    <value>解压缩</value>
+    <value>解压</value>
   </data>
   <data name="ExtractFiles" xml:space="preserve">
-    <value>解压缩文件</value>
+    <value>解压文件</value>
   </data>
   <data name="ExtractHere" xml:space="preserve">
-    <value>解压缩到此处</value>
+    <value>解压到当前文件夹</value>
   </data>
   <data name="ExtractKeyboardAcceleratorTextOverride" xml:space="preserve">
     <value>Ctrl+E</value>
@@ -2037,7 +2037,7 @@
     <value>喜欢Files吗？请考虑在Github上支持该项目</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
-    <value>赞助者</value>
+    <value>赞助</value>
   </data>
   <data name="RateUs" xml:space="preserve">
     <value>为我们评分</value>
@@ -2072,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>锁屏界面</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>在“列”布局下，通过单击打开文件夹</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Open folders with a single click</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>打开项目</value>
@@ -3181,7 +3181,7 @@
     <value>远程</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>在 Crowdin 上翻译Files</value>
+    <value>在 Crowdin 上协助翻译此应用</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
     <value>抓取</value>
@@ -3783,7 +3783,7 @@
     <value>解压缩选中的{0, plural, other {压缩文件}}：若其中仅有一个项目，解压缩到当前目录下；否则，解压缩到当前目录下与压缩文件同名的新文件夹中</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
-    <value>智能解压</value>
+    <value>自动解压</value>
   </data>
   <data name="SortFilesAndFoldersTogether" xml:space="preserve">
     <value>将文件和文件夹一同排序</value>
@@ -4334,5 +4334,8 @@
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Show status bar</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Only in Columns View</value>
   </data>
 </root>
