@@ -187,12 +187,26 @@ namespace Files.App.Services
 			if (!File.Exists(destExeFilePath))
 				return;
 
-			// Check if the launcher file is associated with the current branch of the app. Users updating from versions earlier than
-			// v4.0.20 will not have the branch file in which case we create it for them. 
-			if (File.Exists(branchFilePath) && await File.ReadAllTextAsync(branchFilePath, Encoding.UTF8) != "files-dev")
-				return;
-			else if (!File.Exists(branchFilePath))
-				await File.WriteAllTextAsync(branchFilePath, "files-dev", Encoding.UTF8);
+			// Check if the launcher file is associated with the current branch of the app.
+			if (File.Exists(branchFilePath))
+			{
+				try
+				{
+					var branch = await File.ReadAllTextAsync(branchFilePath, Encoding.UTF8);
+					if (!string.Equals(branch.Trim(), "files-dev", StringComparison.OrdinalIgnoreCase))
+						return;
+				}
+				catch { }
+			}
+			else
+			{
+				try
+				{
+					// Create branch file for users updating from versions earlier than v4.0.20.
+					await File.WriteAllTextAsync(branchFilePath, "files-dev", Encoding.UTF8);
+				}
+				catch { }
+			}
 
 			var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe"));
 			var destFolder = await StorageFolder.GetFolderFromPathAsync(destFolderPath);
