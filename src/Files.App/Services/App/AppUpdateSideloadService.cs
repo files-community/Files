@@ -4,6 +4,7 @@
 using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Xml.Serialization;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
@@ -125,51 +126,30 @@ namespace Files.App.Services
 			{
 				var destFolderPath = Path.Combine(UserDataPaths.GetDefault().LocalAppData, "Files");
 				var destExeFilePath = Path.Combine(destFolderPath, "Files.App.Launcher.exe");
+				var branchFilePath = Path.Combine(destFolderPath, "Branch.txt");
 
+				// If Files.App.Launcher.exe doesn't exist, no need to update it.
 				if (!File.Exists(destExeFilePath))
 					return;
 
-				var hashEqual = false;
-				var srcHashFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe.sha256"))
-					.AsTask().ConfigureAwait(false);
-				var destHashFilePath = Path.Combine(destFolderPath, "Files.App.Launcher.exe.sha256");
+				// Check if the launcher file is associated with the current branch of the app. Users updating from versions earlier than
+				// v4.0.20 will not have the branch file in which case we create it for them. 
+				if (File.Exists(branchFilePath) && await File.ReadAllTextAsync(branchFilePath, Encoding.UTF8) != "files-dev")
+					return;
+				else if (!File.Exists(branchFilePath))
+					await File.WriteAllTextAsync(branchFilePath, "files-dev", Encoding.UTF8);
 
-				if (File.Exists(destHashFilePath))
-				{
-					await using var srcStream = (await srcHashFile.OpenReadAsync().AsTask().ConfigureAwait(false)).AsStream();
-					await using var destStream = File.OpenRead(destHashFilePath);
-					hashEqual = HashEqual(srcStream, destStream);
-				}
+				var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe"));
+				var destFolder = await StorageFolder.GetFolderFromPathAsync(destFolderPath);
 
-				if (!hashEqual)
-				{
-					var srcExeFile = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/FilesOpenDialog/Files.App.Launcher.exe"))
-						.AsTask().ConfigureAwait(false);
-					var destFolder = await StorageFolder.GetFolderFromPathAsync(destFolderPath).AsTask().ConfigureAwait(false);
+				await srcExeFile.CopyAsync(destFolder, "Files.App.Launcher.exe", NameCollisionOption.ReplaceExisting);
 
-					await srcExeFile.CopyAsync(destFolder, "Files.App.Launcher.exe", NameCollisionOption.ReplaceExisting)
-						.AsTask().ConfigureAwait(false);
-					await srcHashFile.CopyAsync(destFolder, "Files.App.Launcher.exe.sha256", NameCollisionOption.ReplaceExisting)
-						.AsTask().ConfigureAwait(false);
-
-					Logger?.LogInformation("Files.App.Launcher updated.");
-				}
+				App.Logger.LogInformation("Files.App.Launcher updated.");
 			}
 			catch (Exception ex)
 			{
 				Logger?.LogError(ex, ex.Message);
 				return;
-			}
-
-			bool HashEqual(Stream a, Stream b)
-			{
-				Span<byte> bufferA = stackalloc byte[64];
-				Span<byte> bufferB = stackalloc byte[64];
-
-				a.Read(bufferA);
-				b.Read(bufferB);
-
-				return bufferA.SequenceEqual(bufferB);
 			}
 		}
 

@@ -169,7 +169,9 @@ namespace Files.App.Helpers
 
 			await updateService.CheckForUpdatesAsync();
 			await updateService.DownloadMandatoryUpdatesAsync();
-			await updateService.CheckAndUpdateFilesLauncherAsync();
+
+			if (IsAppUpdated)
+				await updateService.CheckAndUpdateFilesLauncherAsync();
 		}
 
 		/// <summary>
