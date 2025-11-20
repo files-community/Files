@@ -1226,7 +1226,24 @@ namespace Files.App.ViewModels
 								var fileFRN = await FileTagsHelper.GetFileFRN(matchingStorageFile);
 								var fileTag = FileTagsHelper.ReadFileTag(item.ItemPath);
 								var itemType = (item.ItemType == Strings.Folder.GetLocalizedResource()) ? item.ItemType : matchingStorageFile.DisplayType;
-								var extraProperties = await GetExtraProperties(matchingStorageFile);
+
+								var isSystemFont = FileExtensionHelpers.IsFontFile(item.FileExtension) &&
+												   PathHelpers.IsInSystemFontsFolder(item.ItemPath);
+								var extraProperties = await GetExtraProperties(matchingStorageFile, isSystemFont);
+
+								//Restrict to only %windir%\fonts
+								if (isSystemFont)
+								{
+									var fontDisplayName = extraProperties?.Result?["System.Title"]?.ToString();
+									if (!string.IsNullOrEmpty(fontDisplayName) && fontDisplayName != item.ItemNameRaw)
+									{
+										cts.Token.ThrowIfCancellationRequested();
+										await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+										{
+											item.ItemNameRaw = fontDisplayName;
+										});
+									}
+								}
 
 								cts.Token.ThrowIfCancellationRequested();
 
@@ -2083,11 +2100,16 @@ namespace Files.App.ViewModels
 			return (CloudDriveSyncStatus)syncStatus;
 		}
 
-		private async Task<FilesystemResult<IDictionary<string, object>>?> GetExtraProperties(IStorageItem matchingStorageItem)
+		private async Task<FilesystemResult<IDictionary<string, object>>?> GetExtraProperties(IStorageItem matchingStorageItem, bool includeTitle = false)
 		{
 			if (matchingStorageItem is BaseStorageFile file && file.Properties != null)
-				return await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(["System.Image.Dimensions", "System.Media.Duration", "System.FileVersion"]).AsTask());
+			{
+				string[] propertiesToRetrieve = includeTitle
+					? ["System.Image.Dimensions", "System.Media.Duration", "System.FileVersion", "System.Title"]
+					: ["System.Image.Dimensions", "System.Media.Duration", "System.FileVersion"];
 
+				return await FilesystemTasks.Wrap(() => file.Properties.RetrievePropertiesAsync(propertiesToRetrieve).AsTask());
+			}
 			else if (matchingStorageItem is BaseStorageFolder folder && folder.Properties != null)
 				return await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(["System.FreeSpace", "System.Capacity", "System.SFGAOFlags"]).AsTask());
 

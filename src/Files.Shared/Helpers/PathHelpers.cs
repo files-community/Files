@@ -60,5 +60,20 @@ namespace Files.Shared.Helpers
 				return false;
 			}
 		}
+
+		public static bool IsInSystemFontsFolder(string path)
+		{
+			try
+			{
+				var fullPath = Path.GetFullPath(path);
+				var windowsFontsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Fonts");
+
+				return fullPath.StartsWith(windowsFontsPath, StringComparison.OrdinalIgnoreCase);
+			}
+			catch
+			{
+				return false;
+			}
+		}
 	}
 }
