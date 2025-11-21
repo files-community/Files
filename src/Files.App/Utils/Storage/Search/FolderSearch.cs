@@ -3,6 +3,7 @@
 
 using Microsoft.Extensions.Logging;
 using System.IO;
+using System.Text.RegularExpressions;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
@@ -183,19 +184,47 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
+		private (HashSet<string> includeTags, HashSet<string> excludeTags) ParseTagQuery(string query)
+		{
+			var includeTags = new HashSet<string>();
+			var excludeTags = new HashSet<string>();
+
+			var matches = Regex.Matches(query, @"(NOT\s+)?tag:([^\s]+)", RegexOptions.IgnoreCase);
+
+			foreach (Match match in matches)
+			{
+				var isExclude = !string.IsNullOrEmpty(match.Groups[1].Value);
+				var tagValues = match.Groups[2].Value.Split(',', StringSplitOptions.RemoveEmptyEntries);
+
+				foreach (var tagName in tagValues)
+				{
+					var tagUids = fileTagsSettingsService.GetTagsByName(tagName).Select(t => t.Uid);
+					foreach (var uid in tagUids)
+					{
+						if (isExclude)
+							excludeTags.Add(uid);
+						else
+							includeTags.Add(uid);
+					}
+				}
+			}
+
+			return (includeTags, excludeTags);
+		}
+
 		private async Task SearchTagsAsync(string folder, IList<ListedItem> results, CancellationToken token)
 		{
 			//var sampler = new IntervalSampler(500);
-			var tags = AQSQuery.Substring("tag:".Length)?.Split(',').Where(t => !string.IsNullOrWhiteSpace(t))
-				.SelectMany(t => fileTagsSettingsService.GetTagsByName(t), (_, t) => t.Uid).ToHashSet();
-			if (tags?.Any() != true)
+			var (includeTags, excludeTags) = ParseTagQuery(AQSQuery);
+
+			if (includeTags.Count == 0)
 			{
 				return;
 			}
 
 			var dbInstance = FileTagsHelper.GetDbInstance();
 			var matches = dbInstance.GetAllUnderPath(folder)
-				.Where(x => tags.All(x.Tags.Contains));
+				.Where(x => includeTags.All(x.Tags.Contains) && !excludeTags.Any(x.Tags.Contains));
 			if (string.IsNullOrEmpty(folder))
 				matches = matches.Where(x => !StorageTrashBinService.IsUnderTrashBin(x.FilePath));
 
