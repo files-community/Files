@@ -29,8 +29,8 @@ namespace Files.App
 			InitializeComponent();
 
 			WindowHandle = WinUIEx.WindowExtensions.GetWindowHandle(this);
-			MinHeight = 316;
-			MinWidth = 416;
+			MinHeight = 646;
+			MinWidth = 850;
 			ExtendsContentIntoTitleBar = true;
 			Title = "Files";
 			PersistenceId = "FilesMainWindow";
