@@ -91,5 +91,12 @@ namespace Files.App.Storage
 
 			return false;
 		}
+
+		public static string GetRecentFolderPath()
+		{
+			using ComHeapPtr<char> pwszRecentFolderPath = default;
+			PInvoke.SHGetKnownFolderPath(FOLDERID.FOLDERID_Recent, KNOWN_FOLDER_FLAG.KF_FLAG_DONT_VERIFY | KNOWN_FOLDER_FLAG.KF_FLAG_NO_ALIAS, HANDLE.Null, (PWSTR*)pwszRecentFolderPath.GetAddressOf());
+			return new(pwszRecentFolderPath.Get());
+		}
 	}
 }

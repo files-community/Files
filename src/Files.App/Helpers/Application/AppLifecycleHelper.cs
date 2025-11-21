@@ -74,9 +74,21 @@ namespace Files.App.Helpers
 		/// Gets the value that provides application environment or branch name.
 		/// </summary>
 		public static AppEnvironment AppEnvironment =>
-			Enum.TryParse("cd_app_env_placeholder", true, out AppEnvironment appEnvironment)
+			Enum.TryParse("cd_app_env_placeholder" /* This will be replaced with an actual value by the Files CD */, true, out AppEnvironment appEnvironment)
 				? appEnvironment
 				: AppEnvironment.Dev;
+
+		/// <summary>
+		/// Gets the executable alias associated with the current application environment.
+		/// </summary>
+		public static string AppExeAlias => AppEnvironment switch
+		{
+			AppEnvironment.SideloadStable => "files.exe",
+			AppEnvironment.SideloadPreview => "files-preview.exe",
+			AppEnvironment.StoreStable => "files.exe",
+			AppEnvironment.StorePreview => "files-preview.exe",
+			_ => "files-dev.exe", // Default to Dev
+		};
 
 		/// <summary>
 		/// Gets the CRC hash string associated with the current application environment's AppUserModelId.
@@ -151,12 +163,15 @@ namespace Files.App.Helpers
 
 			_ = STATask.Run(() =>
 			{
-				HRESULT hr = JumpListManager.Default?.PullJumpListFromExplorer() ?? HRESULT.S_OK;
-				if (hr.Value < 0)
+				var manager = JumpListManager.Create($"{Package.Current.Id.FamilyName}!App", AppExeAlias);
+				if (manager is null)
+					return;
+
+				HRESULT hr = manager.PullJumpListFromExplorer();
+				if (hr.Failed)
 					App.Logger.LogWarning("Failed to synchronizing jump list unexpectedly.");
 
-				JumpListManager.Default?.WatchJumpListChanges(AppUserModelIdCrcHash);
-
+				manager.WatchJumpListChanges(AppUserModelIdCrcHash);
 			});
 
 			static Task OptionalTaskAsync(Task task, bool condition)
