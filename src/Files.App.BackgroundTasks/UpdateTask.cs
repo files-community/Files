@@ -35,20 +35,15 @@ namespace Files.App.BackgroundTasks
 		private void RefreshJumpList()
 		{
 			// Make sure to delete the Files' custom destinations binary files
-			var recentFolder = JumpListManager.Default.GetRecentFolderPath();
+			var recentFolder = WindowsStorableHelpers.GetRecentFolderPath();
 			File.Delete($"{recentFolder}\\CustomDestinations\\3b19d860a346d7da.customDestinations-ms");
 			File.Delete($"{recentFolder}\\CustomDestinations\\1265066178db259d.customDestinations-ms");
 			File.Delete($"{recentFolder}\\CustomDestinations\\8e2322986488aba5.customDestinations-ms");
 			File.Delete($"{recentFolder}\\CustomDestinations\\6b0bf5ca007c8bea.customDestinations-ms");
-			File.Delete($"{recentFolder}\\AutomaticDestinations\\3b19d860a346d7da.customDestinations-ms");
-			File.Delete($"{recentFolder}\\AutomaticDestinations\\1265066178db259d.customDestinations-ms");
-			File.Delete($"{recentFolder}\\AutomaticDestinations\\8e2322986488aba5.customDestinations-ms");
-			File.Delete($"{recentFolder}\\AutomaticDestinations\\6b0bf5ca007c8bea.customDestinations-ms");
-
-			_ = STATask.Run(() =>
-			{
-				JumpListManager.Default.PullJumpListFromExplorer();
-			});
+			File.Delete($"{recentFolder}\\AutomaticDestinations\\3b19d860a346d7da.automaticDestinations-ms");
+			File.Delete($"{recentFolder}\\AutomaticDestinations\\1265066178db259d.automaticDestinations-ms");
+			File.Delete($"{recentFolder}\\AutomaticDestinations\\8e2322986488aba5.automaticDestinations-ms");
+			File.Delete($"{recentFolder}\\AutomaticDestinations\\6b0bf5ca007c8bea.automaticDestinations-ms");
 		}
 	}
 }
