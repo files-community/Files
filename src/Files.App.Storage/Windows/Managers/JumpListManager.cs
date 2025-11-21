@@ -3,8 +3,6 @@
 
 using System.IO;
 using System.Runtime.CompilerServices;
-using Windows.ApplicationModel;
-using Windows.Devices.Enumeration.Pnp;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
@@ -24,12 +22,9 @@ namespace Files.App.Storage
 	/// </remarks>
 	public unsafe class JumpListManager : IDisposable
 	{
-		private static readonly Lazy<JumpListManager?> _default = new(Create, LazyThreadSafetyMode.ExecutionAndPublication);
-		public static JumpListManager? Default => _default.Value;
-
-		private string _filesAUMID = null!;
-
-		private string _localizedRecentCategoryName = null!;
+		private string _aumid = null!;
+		private string _exeAlias = null!;
+		private string _recentCategoryName = null!;
 
 		private FileSystemWatcher? _explorerJumpListWatcher;
 		private FileSystemWatcher? _filesJumpListWatcher;
@@ -88,7 +83,7 @@ namespace Files.App.Storage
 			_explorerJumpListWatcher?.Dispose();
 			_explorerJumpListWatcher = new()
 			{
-				Path = $"{GetRecentFolderPath()}\\AutomaticDestinations",
+				Path = $"{WindowsStorableHelpers.GetRecentFolderPath()}\\AutomaticDestinations",
 				Filter = "f01b4d95cf55d32a.automaticDestinations-ms", // Microsoft.Windows.Explorer
 				NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.CreationTime,
 			};
@@ -96,7 +91,7 @@ namespace Files.App.Storage
 			_filesJumpListWatcher?.Dispose();
 			_filesJumpListWatcher = new()
 			{
-				Path = $"{GetRecentFolderPath()}\\AutomaticDestinations",
+				Path = $"{WindowsStorableHelpers.GetRecentFolderPath()}\\AutomaticDestinations",
 				Filter = $"{aumidCrcHash}.automaticDestinations-ms",
 				NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.CreationTime,
 			};
@@ -119,14 +114,7 @@ namespace Files.App.Storage
 			return true;
 		}
 
-		public string GetRecentFolderPath()
-		{
-			using ComHeapPtr<char> pwszRecentFolderPath = default;
-			PInvoke.SHGetKnownFolderPath(FOLDERID.FOLDERID_Recent, KNOWN_FOLDER_FLAG.KF_FLAG_DONT_VERIFY | KNOWN_FOLDER_FLAG.KF_FLAG_NO_ALIAS, HANDLE.Null, (PWSTR*)pwszRecentFolderPath.GetAddressOf());
-			return new(pwszRecentFolderPath.Get());
-		}
-
-		private static JumpListManager? Create()
+		public static JumpListManager? Create(string amuid, string exeAlias)
 		{
 			HRESULT hr = default;
 
@@ -135,8 +123,9 @@ namespace Files.App.Storage
 
 			var instance = new JumpListManager()
 			{
-				_filesAUMID = $"{Package.Current.Id.FamilyName}!App",
-				_localizedRecentCategoryName = categoryName,
+				_aumid = amuid,
+				_exeAlias = exeAlias,
+				_recentCategoryName = categoryName,
 			};
 
 			void* pv = default;
@@ -149,17 +138,17 @@ namespace Files.App.Storage
 			hr = PInvoke.CoCreateInstance(CLSID.CLSID_AutomaticDestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IAutomaticDestinationList, &pv);
 			if (FAILED(hr)) return null;
 			instance._filesADL = (IAutomaticDestinationList*)pv;
-			instance._filesADL->Initialize((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in instance._filesAUMID.GetPinnableReference())), default, default);
+			instance._filesADL->Initialize((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in instance._aumid.GetPinnableReference())), default, default);
 
 			hr = PInvoke.CoCreateInstance(CLSID.CLSID_DestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_ICustomDestinationList, &pv);
 			if (FAILED(hr)) return null;
 			instance._filesCDL = (ICustomDestinationList*)pv;
-			instance._filesCDL->SetAppID((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in instance._filesAUMID.GetPinnableReference())));
+			instance._filesCDL->SetAppID((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in instance._aumid.GetPinnableReference())));
 
 			hr = PInvoke.CoCreateInstance(CLSID.CLSID_DestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IInternalCustomDestinationList, &pv);
 			if (FAILED(hr)) return null;
 			instance._filesICDL = (IInternalCustomDestinationList*)pv;
-			instance._filesICDL->SetApplicationID((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in instance._filesAUMID.GetPinnableReference())));
+			instance._filesICDL->SetApplicationID((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in instance._aumid.GetPinnableReference())));
 
 			return instance;
 		}
@@ -181,7 +170,7 @@ namespace Files.App.Storage
 			}
 
 			// Clear the Files' Custom Destination
-			hr = _filesCDL->DeleteList((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in _filesAUMID.GetPinnableReference())));
+			hr = _filesCDL->DeleteList((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in _aumid.GetPinnableReference())));
 
 			// Get the Explorer's Pinned items from its Automatic Destination
 			using ComPtr<IObjectCollection> poc = default;
@@ -307,7 +296,7 @@ namespace Files.App.Storage
 					hr = _filesICDL->GetCategory(index, GETCATFLAG.DEFAULT, &category);
 					if (FAILED(hr) ||
 						category.Type is not APPDESTCATEGORYTYPE.CUSTOM ||
-						!_localizedRecentCategoryName.Equals(new(category.Anonymous.Name), StringComparison.OrdinalIgnoreCase))
+						!_recentCategoryName.Equals(new(category.Anonymous.Name), StringComparison.OrdinalIgnoreCase))
 						continue;
 
 					indexOfRecentCategory = index;
@@ -334,6 +323,10 @@ namespace Files.App.Storage
 			{
 				using ComPtr<IShellLinkW> psl = default;
 				hr = poc.Get()->GetAt(index, IID.IID_IShellLinkW, (void**)psl.GetAddressOf());
+				if (FAILED(hr)) continue;
+
+				int pinIndex;
+				hr = _filesADL->GetPinIndex((IUnknown*)psl.Get(), &pinIndex);
 				if (FAILED(hr)) continue;
 
 				using ComHeapPtr<char> pszParseablePath = default;
@@ -394,7 +387,7 @@ namespace Files.App.Storage
 			if (FAILED(hr)) return hr;
 
 			// Set the Files package path in the shell namespace
-			fixed (char* pszFilesEntryPointPath = $"files-dev.exe")
+			fixed (char* pszFilesEntryPointPath = _exeAlias)
 				hr = psl.Get()->SetPath(pszFilesEntryPointPath);
 			if (FAILED(hr)) return hr;
 
@@ -495,6 +488,7 @@ namespace Files.App.Storage
 			if (_explorerADL is not null) ((IUnknown*)_explorerADL)->Release();
 			if (_filesADL is not null) ((IUnknown*)_filesADL)->Release();
 			if (_filesCDL is not null) ((IUnknown*)_filesCDL)->Release();
+			if (_filesICDL is not null) ((IUnknown*)_filesICDL)->Release();
 		}
 	}
 }
