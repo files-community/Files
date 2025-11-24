@@ -7,7 +7,11 @@ namespace Files.App.Utils.Serialization.Implementation
 	{
 		public static readonly JsonSerializerOptions Options = new JsonSerializerOptions
 		{
-			WriteIndented = true
+			WriteIndented = true,
+			Converters =
+			{
+				new OpenFoldersWithOneClickEnumConverter()
+			}
 		};
 
 		public string? SerializeToJson(object? obj)
