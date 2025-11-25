@@ -393,6 +393,10 @@ namespace Files.App.Views.Shells
 		{
 			if (string.IsNullOrWhiteSpace(singleItemOverride))
 			{
+				// Validate newWorkingDir to prevent null reference exceptions
+				if (string.IsNullOrWhiteSpace(newWorkingDir))
+					return;
+
 				cts = new CancellationTokenSource();
 
 				var components = await StorageFileExtensions.GetDirectoryPathComponentsWithDisplayNameAsync(newWorkingDir);

@@ -145,7 +145,11 @@ namespace Files.App.Views.Shells
 				return;
 
 			if (e.IsLibrary)
-				await UpdatePathUIToWorkingDirectoryAsync(null, e.Name);
+			{
+				// Validate e.Name before passing to UpdatePathUIToWorkingDirectoryAsync
+				if (!string.IsNullOrWhiteSpace(e.Name))
+					await UpdatePathUIToWorkingDirectoryAsync(null, e.Name);
+			}
 			else
 				await UpdatePathUIToWorkingDirectoryAsync(e.Path);
 		}
