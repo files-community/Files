@@ -95,7 +95,7 @@ namespace Files.App.Utils.Storage
 
 		private async Task AddItemsForHomeAsync(IList<ListedItem> results, CancellationToken token)
 		{
-			if (AQSQuery.StartsWith("tag:", StringComparison.Ordinal))
+			if (IsTagQuery(AQSQuery))
 			{
 				await SearchTagsAsync("", results, token); // Search tags everywhere, not only local drives
 			}
@@ -184,47 +184,99 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private (HashSet<string> includeTags, HashSet<string> excludeTags) ParseTagQuery(string query)
+		private bool IsTagQuery(string query)
 		{
-			var includeTags = new HashSet<string>();
-			var excludeTags = new HashSet<string>();
+			return query?.Contains("tag:", StringComparison.OrdinalIgnoreCase) == true;
+		}
 
-			var matches = Regex.Matches(query, @"(NOT\s+)?tag:([^\s]+)", RegexOptions.IgnoreCase);
+		private TagQueryExpression ParseTagQuery(string query)
+		{
+			var expression = new TagQueryExpression();
+			var orParts = Regex.Split(query, @"\s+OR\s+", RegexOptions.IgnoreCase);
 
-			foreach (Match match in matches)
+			foreach (var orPart in orParts)
 			{
-				var isExclude = !string.IsNullOrEmpty(match.Groups[1].Value);
-				var tagValues = match.Groups[2].Value.Split(',', StringSplitOptions.RemoveEmptyEntries);
+				var andGroup = new List<TagTerm>();
+				var andParts = Regex.Split(orPart, @"\s+AND\s+", RegexOptions.IgnoreCase);
 
-				foreach (var tagName in tagValues)
+				foreach (var andPart in andParts)
 				{
-					var tagUids = fileTagsSettingsService.GetTagsByName(tagName).Select(t => t.Uid);
-					foreach (var uid in tagUids)
+					var matches = Regex.Matches(andPart.Trim(), @"(NOT\s+)?tag:([^\s]+)", RegexOptions.IgnoreCase);
+					foreach (Match match in matches)
 					{
-						if (isExclude)
-							excludeTags.Add(uid);
-						else
-							includeTags.Add(uid);
+						var isExclude = !string.IsNullOrEmpty(match.Groups[1].Value);
+						var tagValues = match.Groups[2].Value.Split(',', StringSplitOptions.RemoveEmptyEntries);
+						var tagUids = new HashSet<string>();
+
+						foreach (var tagName in tagValues)
+						{
+							var uids = fileTagsSettingsService.GetTagsByName(tagName).Select(t => t.Uid);
+							foreach (var uid in uids)
+							{
+								tagUids.Add(uid);
+							}
+						}
+
+						andGroup.Add(new TagTerm { TagUids = tagUids, IsExclude = isExclude });
 					}
+				}
+
+				if (andGroup.Count > 0)
+				{
+					expression.OrGroups.Add(andGroup);
 				}
 			}
 
-			return (includeTags, excludeTags);
+			return expression;
+		}
+
+		private bool MatchesTagExpression(IEnumerable<string> fileTags, TagQueryExpression expression)
+		{
+			foreach (var orGroup in expression.OrGroups)
+			{
+				bool groupMatches = true;
+				foreach (var term in orGroup)
+				{
+					if (term.IsExclude)
+					{
+						if (term.TagUids.Count > 0 && term.TagUids.Any(fileTags.Contains))
+						{
+							groupMatches = false;
+							break;
+						}
+					}
+					else
+					{
+						if (term.TagUids.Count == 0 || !term.TagUids.Any(fileTags.Contains))
+						{
+							groupMatches = false;
+							break;
+						}
+					}
+				}
+
+				if (groupMatches)
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		private async Task SearchTagsAsync(string folder, IList<ListedItem> results, CancellationToken token)
 		{
 			//var sampler = new IntervalSampler(500);
-			var (includeTags, excludeTags) = ParseTagQuery(AQSQuery);
+			var expression = ParseTagQuery(AQSQuery);
 
-			if (includeTags.Count == 0)
+			if (expression.OrGroups.Count == 0)
 			{
 				return;
 			}
 
 			var dbInstance = FileTagsHelper.GetDbInstance();
 			var matches = dbInstance.GetAllUnderPath(folder)
-				.Where(x => includeTags.All(x.Tags.Contains) && !excludeTags.Any(x.Tags.Contains));
+				.Where(x => MatchesTagExpression(x.Tags, expression));
 			if (string.IsNullOrEmpty(folder))
 				matches = matches.Where(x => !StorageTrashBinService.IsUnderTrashBin(x.FilePath));
 
@@ -287,7 +339,7 @@ namespace Files.App.Utils.Storage
 
 		private async Task AddItemsAsync(string folder, IList<ListedItem> results, CancellationToken token)
 		{
-			if (AQSQuery.StartsWith("tag:", StringComparison.Ordinal))
+			if (IsTagQuery(AQSQuery))
 			{
 				await SearchTagsAsync(folder, results, token);
 			}
