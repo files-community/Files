@@ -29,7 +29,7 @@
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.9" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4948" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.0" />
-    <PackageVersion Include="OwlCore.Storage" Version="0.12.2" />
+    <PackageVersion Include="OwlCore.Storage" Version="0.14.0" />
     <PackageVersion Include="Sentry" Version="5.10.0" />
     <PackageVersion Include="SevenZipSharp" Version="1.0.2" />
     <PackageVersion Include="SharpZipLib" Version="1.4.2" />
