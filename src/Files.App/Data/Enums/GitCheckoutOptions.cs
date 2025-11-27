@@ -24,6 +24,11 @@ namespace Files.App.Data.Enums
 		DiscardChanges,
 
 		/// <summary>
+		/// Abort merge and check out to the branch.
+		/// </summary>
+		AbortMerge,
+
+		/// <summary>
 		/// No operation to perform.
 		/// </summary>
 		None
