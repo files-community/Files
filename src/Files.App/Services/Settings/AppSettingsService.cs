@@ -23,11 +23,23 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool RestoreTabsOnStartup
-		{
-			get => Get(false);
-			set => Set(value);
-		}
+	public bool RestoreTabsOnStartup
+	{
+		get => Get(false);
+		set => Set(value);
+	}
+
+	public double StatusCenterWidth
+	{
+		get => Math.Max(300d, Math.Min(600d, Get(400d)));
+		set => Set(Math.Max(300d, Math.Min(600d, value)));
+	}
+
+	public double StatusCenterHeight
+	{
+		get => Math.Max(200d, Math.Min(800d, Get(500d)));
+		set => Set(Math.Max(200d, Math.Min(800d, value)));
+	}
 
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
