@@ -318,5 +318,10 @@ namespace Files.App
 			if (_LastOpenedFlyout == commandBarFlyout)
 				_LastOpenedFlyout = null;
 		}
+
+		~App()
+		{
+			JumpListManager.Default?.Dispose();
+		}
 	}
 }
