@@ -2,12 +2,14 @@
 // Licensed under the MIT License.
 
 using System.Collections.Specialized;
+using System.Runtime.CompilerServices;
 
 namespace Files.App.Utils.Storage
 {
 	[DebuggerTypeProxy(typeof(CollectionDebugView<>))]
 	[DebuggerDisplay("Count = {Count}")]
 	public class BulkConcurrentObservableCollection<T> : INotifyCollectionChanged, INotifyPropertyChanged, ICollection<T>, IList<T>, ICollection, IList
+		where T : class
 	{
 		protected bool isBulkOperationStarted;
 		private readonly object syncRoot = new object();
@@ -200,7 +202,10 @@ namespace Files.App.Utils.Storage
 					GroupedCollection?.Add(group);
 					GroupedCollection!.IsSorted = false;
 				}
+				// Register property changed handler to react to date changes so the item can be moved
+				RegisterPropertyChanged(item);
 			}
+
 		}
 
 		private void RemoveItemsFromGroup(IEnumerable<T> items)
@@ -215,6 +220,100 @@ namespace Files.App.Utils.Storage
 					group.Remove(item);
 					if (group.Count == 0)
 						GroupedCollection?.Remove(group);
+				}
+
+				// Unregister change handler when item is removed from groups/collection
+				UnregisterPropertyChanged(item);
+			}
+		}
+
+		private readonly ConditionalWeakTable<T, PropertyChangedEventHandler> propertyChangedHandlers = new();
+
+		private void RegisterPropertyChanged(T item)
+		{
+			if (item is INotifyPropertyChanged notifier)
+			{
+				// avoid duplicate handler
+				if (propertyChangedHandlers.TryGetValue(item, out _))
+					return;
+
+				PropertyChangedEventHandler handler = (s, e) =>
+				{
+					// React to date fields changing — move item between groups if needed
+					if (e.PropertyName is "ItemDateModifiedReal" or "ItemDateCreatedReal" or "ItemDateAccessedReal" or "ItemDateDeletedReal")
+						OnItemDatePropertyChanged((T)s);
+				};
+
+				propertyChangedHandlers.Add(item, handler);
+				notifier.PropertyChanged += handler;
+			}
+		}
+
+		private void UnregisterPropertyChanged(T item)
+		{
+			if (item is INotifyPropertyChanged notifier)
+			{
+				if (propertyChangedHandlers.TryGetValue(item, out var handler))
+				{
+					notifier.PropertyChanged -= handler;
+					propertyChangedHandlers.Remove(item);
+				}
+			}
+		}
+
+		private void OnItemDatePropertyChanged(T item)
+		{
+			if (!IsGrouped || ItemGroupKeySelector is null)
+				return;
+
+			var newKey = GetGroupKeyForItem(item);
+			if (newKey is null)
+				return;
+
+			var oldKey = (item is IGroupableItem groupable) ? groupable.Key : null;
+			if (oldKey == newKey)
+				return;
+
+			// Move item between groups under a lock to keep collection consistent
+			lock (syncRoot)
+			{
+				// remove from old group
+				if (!string.IsNullOrEmpty(oldKey))
+				{
+					var oldGroup = GroupedCollection?.Where(x => x.Model.Key == oldKey).FirstOrDefault();
+					if (oldGroup is not null && oldGroup.Contains(item))
+					{
+						oldGroup.Remove(item);
+						if (oldGroup.Count == 0)
+							GroupedCollection?.Remove(oldGroup);
+					}
+				}
+
+				// add to new group
+				var groups = GroupedCollection?.Where(x => x.Model.Key == newKey);
+				if (item is IGroupableItem gp)
+					gp.Key = newKey;
+
+				if (groups is not null && groups.Any())
+				{
+					var gp = groups.First();
+					if (!gp.Contains(item))
+						gp.Add(item);
+					gp.IsSorted = false;
+				}
+				else
+				{
+					var group = new GroupedCollection<T>(newKey)
+					{
+						item
+					};
+
+					group.GetExtendedGroupHeaderInfo = GetExtendedGroupHeaderInfo;
+					if (GetGroupHeaderInfo is not null)
+						GetGroupHeaderInfo.Invoke(group);
+
+					GroupedCollection?.Add(group);
+					GroupedCollection!.IsSorted = false;
 				}
 			}
 		}
@@ -265,6 +364,10 @@ namespace Files.App.Utils.Storage
 		{
 			lock (syncRoot)
 			{
+				// Unregister handlers for all items before clearing
+				foreach (var it in collection.ToList())
+					UnregisterPropertyChanged(it);
+
 				collection.Clear();
 				GroupedCollection?.Clear();
 
