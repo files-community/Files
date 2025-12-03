@@ -291,7 +291,7 @@ namespace Files.App.Helpers
 			dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
 				TitleText = Strings.SwitchBranch.GetLocalizedResource(),
-				PrimaryButtonText = Strings.OK.GetLocalizedResource(),
+				PrimaryButtonText = Strings.Confirm.GetLocalizedResource(),
 				CloseButtonText = Strings.Cancel.GetLocalizedResource(),
 				SubtitleText = Strings.MergeInProgress.GetLocalizedResource(),
 				DisplayControl = new Grid()
