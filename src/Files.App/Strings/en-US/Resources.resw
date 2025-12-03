@@ -3133,7 +3133,7 @@
     <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
   </data>
   <data name="MergeInProgress" xml:space="preserve">
-    <value>You have an ongoing merge with unresolved conflicts. You must resolve or abort the merge before switching branches.</value>
+    <value>You have an ongoing merge with unresolved conflicts. Please resolve the conflicts or abort the merge to switch branches.</value>
   </data>
   <data name="AbortMergeAndSwitch" xml:space="preserve">
     <value>Abort merge and switch to '{0}'</value>
