@@ -266,6 +266,53 @@ namespace Files.App.Helpers
 			return dialog;
 		}
 
+		public static DynamicDialog GetFor_GitMergeConflicts(string checkoutBranchName, string headBranchName)
+		{
+			DynamicDialog dialog = null!;
+
+			var optionsListView = new ListView()
+			{
+				ItemsSource = new string[]
+				{
+					string.Format(Strings.AbortMergeAndSwitch.GetLocalizedResource(), checkoutBranchName),
+					string.Format(Strings.StayAndResolveConflicts.GetLocalizedResource(), headBranchName)
+				},
+				SelectionMode = ListViewSelectionMode.Single
+			};
+			optionsListView.SelectedIndex = 0;
+
+			optionsListView.SelectionChanged += (listView, args) =>
+			{
+				dialog.ViewModel.AdditionalData = optionsListView.SelectedIndex == 0
+					? GitCheckoutOptions.AbortMerge
+					: GitCheckoutOptions.None;
+			};
+
+			dialog = new DynamicDialog(new DynamicDialogViewModel()
+			{
+				TitleText = Strings.SwitchBranch.GetLocalizedResource(),
+				PrimaryButtonText = Strings.Confirm.GetLocalizedResource(),
+				CloseButtonText = Strings.Cancel.GetLocalizedResource(),
+				SubtitleText = Strings.MergeInProgress.GetLocalizedResource(),
+				DisplayControl = new Grid()
+				{
+					MinWidth = 250d,
+					Children =
+					{
+						optionsListView
+					}
+				},
+				AdditionalData = GitCheckoutOptions.AbortMerge,
+				CloseButtonAction = (vm, e) =>
+				{
+					dialog.ViewModel.AdditionalData = GitCheckoutOptions.None;
+					vm.HideDialog();
+				}
+			});
+
+			return dialog;
+		}
+
 		public static DynamicDialog GetFor_GitHubConnectionError()
 		{
 			DynamicDialog dialog = new DynamicDialog(new DynamicDialogViewModel()
