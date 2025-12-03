@@ -51,6 +51,15 @@ namespace Windows.Win32
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public readonly HRESULT CopyTo(T** ptr)
+		{
+			InternalAddRef();
+			*ptr = _ptr;
+
+			return HRESULT.S_OK;
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public readonly T* Get()
 		{
 			return _ptr;
@@ -78,6 +87,14 @@ namespace Windows.Win32
 		public readonly HRESULT CoCreateInstance(Guid* rclsid, IUnknown* pUnkOuter = null, CLSCTX dwClsContext = CLSCTX.CLSCTX_LOCAL_SERVER)
 		{
 			return PInvoke.CoCreateInstance(rclsid, pUnkOuter, dwClsContext, (Guid*)Unsafe.AsPointer(ref Unsafe.AsRef(in T.Guid)), (void**)this.GetAddressOf());
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private readonly void InternalAddRef()
+		{
+			T* ptr = _ptr;
+			if (ptr != null)
+				_ = ((IUnknown*)ptr)->AddRef();
 		}
 
 		// Disposer
