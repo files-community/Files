@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
+using System.Text.Json;
 
 namespace Files.App.Utils.Serialization.Implementation
 {
@@ -118,7 +119,16 @@ namespace Files.App.Utils.Serialization.Implementation
 		{
 			if (obj is JsonElement jElem)
 			{
-				return jElem.Deserialize<TValue>();
+				try
+				{
+					return jElem.Deserialize<TValue>();
+				}
+				catch (JsonException)
+				{
+					// Deserialization failed (e.g., incompatible type in settings file)
+					// Return null to fall back to the default value
+					return default;
+				}
 			}
 
 			return (TValue?)obj;
