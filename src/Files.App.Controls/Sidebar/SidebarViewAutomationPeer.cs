@@ -21,19 +21,16 @@ namespace Files.App.Controls
 		protected override object GetPatternCore(PatternInterface patternInterface)
 		{
 			if (patternInterface == PatternInterface.Selection)
-			{
 				return this;
-			}
+
 			return base.GetPatternCore(patternInterface);
 		}
 
 		public IRawElementProviderSimple[] GetSelection()
 		{
 			if (Owner.SelectedItemContainer != null)
-				return
-				[
-				ProviderFromPeer(CreatePeerForElement(Owner.SelectedItemContainer))
-				];
+				return [ProviderFromPeer(CreatePeerForElement(Owner.SelectedItemContainer))];
+
 			return [];
 		}
 	}
