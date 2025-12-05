@@ -28,7 +28,7 @@ namespace Files.App
 		{
 			InitializeComponent();
 
-			WindowHandle = WinUIEx.WindowExtensions.GetWindowHandle(this); 
+			WindowHandle = WinUIEx.WindowExtensions.GetWindowHandle(this);
 			MinHeight = 316;
 			MinWidth = 416;
 			ExtendsContentIntoTitleBar = true;
