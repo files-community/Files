@@ -96,7 +96,16 @@ namespace Files.App.Helpers
 			inputText.Loaded += (s, e) =>
 			{
 				// dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
-				_ = inputText.DispatcherQueue.EnqueueOrInvokeAsync(() => inputText.Focus(FocusState.Programmatic));
+				_ = inputText.DispatcherQueue.EnqueueOrInvokeAsync(() => 
+				{
+					if(itemType.Equals("Folder", StringComparison.OrdinalIgnoreCase))
+					{
+						inputText.Text = Strings.NewFolder.GetLocalizedResource();
+					}
+
+					inputText.Focus(FocusState.Programmatic);
+					inputText.SelectAll();
+				});
 			};
 
 			dialog = new DynamicDialog(new DynamicDialogViewModel()
