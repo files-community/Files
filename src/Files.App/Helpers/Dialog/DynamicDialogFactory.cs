@@ -111,7 +111,7 @@ namespace Files.App.Helpers
 			dialog = new DynamicDialog(new DynamicDialogViewModel()
 			{
 				TitleText = string.Format(Strings.CreateNewItemTitle.GetLocalizedResource(), itemType),
-				SubtitleText = null,
+				SubtitleText = Strings.EnterAnItemName.GetLocalizedResource(),
 				DisplayControl = new Grid()
 				{
 					MinWidth = 300d,
