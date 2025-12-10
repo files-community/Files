@@ -95,7 +95,7 @@ namespace Files.App
 			}
 
 			// NOTE:
-			//  This has been commented out since out-of-proc WinRT server seems not to support elevetion.
+			//  This has been commented out since out-of-proc WinRT server seems not to support elevation.
 			//  For more info, see the GitHub issue (#15384).
 			// Now we can do the first WinRT server call
 			//Server.AppInstanceMonitor.StartMonitor(Environment.ProcessId);
