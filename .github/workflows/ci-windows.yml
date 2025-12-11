@@ -1,0 +1,39 @@
+name: CI (Windows)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Install WinAppDriver
+        shell: powershell
+        run: |
+          choco install winappdriver -y
+
+      - name: Start WinAppDriver
+        shell: powershell
+        run: |
+          Start-Process 'C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe' -ArgumentList '127.0.0.1 4723' -NoNewWindow
+
+      - name: Restore
+        run: dotnet restore Files.slnx
+
+      - name: Build
+        run: dotnet build Files.slnx -c Release --no-restore
+
+      - name: Run interaction tests
+        run: dotnet test tests/Files.InteractionTests/Files.InteractionTests.csproj -c Release --no-build --logger "trx;LogFileName=interactiontests.trx"
