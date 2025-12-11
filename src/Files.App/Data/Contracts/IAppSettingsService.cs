@@ -15,10 +15,20 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		bool ShowBackgroundRunningNotification { get; set; }
 
-		/// <summary>
-		/// Gets or sets a value indicating whether or not to restore tabs on startup.
-		/// This is used when prompting users to restart after changing the app language.
-		/// </summary>
-		bool RestoreTabsOnStartup { get; set; }
+	/// <summary>
+	/// Gets or sets a value indicating whether or not to restore tabs on startup.
+	/// This is used when prompting users to restart after changing the app language.
+	/// </summary>
+	bool RestoreTabsOnStartup { get; set; }
+
+	/// <summary>
+	/// Gets or sets the width of the Status Center flyout.
+	/// </summary>
+	double StatusCenterWidth { get; set; }
+
+	/// <summary>
+	/// Gets or sets the height of the Status Center flyout.
+	/// </summary>
+	double StatusCenterHeight { get; set; }
 	}
 }
