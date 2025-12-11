@@ -1694,6 +1694,8 @@ namespace Files.App.ViewModels
 
 		public void CloseWatcher()
 		{
+			App.Logger.LogInformation($"CloseWatcher: aProcessQueueAction={aProcessQueueAction?.Status.ToString()}, gitProcessQueueAction={gitProcessQueueAction?.Status.ToString()}");
+
 			watcher?.Dispose();
 			watcher = null;
 
@@ -2771,6 +2773,8 @@ namespace Files.App.ViewModels
 
 		public void UpdateDateDisplay(bool isFormatChange)
 		{
+			App.Logger.LogDebug($"UpdateDateDisplay: isFormatChange={isFormatChange}, itemCount={filesAndFolders?.Count}");
+
 			filesAndFolders.ToList().AsParallel().ForAll(async item =>
 			{
 				// Reassign values to update date display
@@ -2792,6 +2796,8 @@ namespace Files.App.ViewModels
 		public void Dispose()
 		{
 			CancelLoadAndClearFiles();
+			App.Logger.LogInformation($"ShellViewModel.Dispose: CurrentFolder={CurrentFolder?.ItemPath}");
+
 			StorageTrashBinService.Watcher.ItemAdded -= RecycleBinItemCreatedAsync;
 			StorageTrashBinService.Watcher.ItemDeleted -= RecycleBinItemDeletedAsync;
 			StorageTrashBinService.Watcher.RefreshRequested -= RecycleBinRefreshRequestedAsync;
