@@ -767,7 +767,7 @@ namespace Files.App.Views
 
 		public void Dispose()
 		{
-			App.Logger.LogInformation($"ShellPanesPage.Dispose: PaneCount={GetPaneCount()}, ActivePane={ActivePane?.TabBarItemParameter?.NavigationParameter?.ToString()}");
+			App.Logger.LogInformation($"ShellPanesPage.Dispose: PaneCount={GetPaneCount()}, ActivePane={LogPathHelper.GetDirectoryName(ActivePane?.TabBarItemParameter?.NavigationParameter?.ToString())}");
 
 			MainWindow.Instance.SizeChanged -= MainWindow_SizeChanged;
 

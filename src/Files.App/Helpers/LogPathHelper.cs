@@ -24,5 +24,22 @@ namespace Files.App.Helpers
 				return "?";
 			}
 		}
+
+		public static string GetDirectoryName(string? path)
+		{
+			if (string.IsNullOrEmpty(path))
+				return "[Empty]";
+
+			try
+			{
+				// Trim trailing separators to ensure we get the last directory name
+				var trimmedPath = path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+				return Path.GetFileName(trimmedPath) ?? "?";
+			}
+			catch
+			{
+				return "?";
+			}
+		}
 	}
 }
