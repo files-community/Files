@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Helpers;
 using Files.App.ViewModels.Properties;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Content;
@@ -128,7 +129,7 @@ namespace Files.App.ViewModels.Previews
 
 		public unsafe void LoadPreview(UIElement presenter)
 		{
-			App.Logger.LogInformation($"ShellPreview.LoadPreview: Item={Item?.ItemPath}");
+			App.Logger.LogInformation($"ShellPreview.LoadPreview: Item={LogPathHelper.GetFileName(Item?.ItemPath)}");
 
 			var parent = MainWindow.Instance.WindowHandle;
 			var hInst = PInvoke.GetModuleHandle(default(PWSTR));
@@ -256,10 +257,10 @@ namespace Files.App.ViewModels.Previews
 			if (_hWnd != HWND.Null)
 			{
 				PInvoke.DestroyWindow(_hWnd);
-				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND={((nint)_hWnd)}, Item={Item?.ItemPath}");
+				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND={((nint)_hWnd)}, Item={LogPathHelper.GetFileName(Item?.ItemPath)}");
 			}
 			else
-				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND=, Item={Item?.ItemPath}");
+				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND=, Item={LogPathHelper.GetFileName(Item?.ItemPath)}");
 
 
 			_contentExternalOutputLink?.Dispose();
