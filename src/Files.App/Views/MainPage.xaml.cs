@@ -313,6 +313,8 @@ namespace Files.App.Views
 		{
 			if (!App.AppModel.IsMainWindowClosed)
 				InfoPane?.ViewModel.UpdateDateDisplay();
+			else
+				App.Logger.LogWarning("UpdateDateDisplayTimer_Tick: Timer firing after window closed!");
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
