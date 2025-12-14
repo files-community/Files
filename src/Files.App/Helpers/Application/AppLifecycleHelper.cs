@@ -12,10 +12,13 @@ using Microsoft.Win32;
 using Sentry;
 using Sentry.Protocol;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using Windows.ApplicationModel;
+using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.System;
+using Windows.Win32.Foundation;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Files.App.Helpers
@@ -75,6 +78,20 @@ namespace Files.App.Helpers
 				? appEnvironment
 				: AppEnvironment.Dev;
 
+		/// <summary>
+		/// Gets the CRC hash string associated with the current application environment's AppUserModelId.
+		/// </summary>
+		/// <remarks>
+		/// See <a href="https://github.com/0x5bfa/JumpListManager/blob/HEAD/JumpListManager/AppIdCrcHash.cs" />
+		/// </remarks>
+		public static string AppUserModelIdCrcHash => AppEnvironment switch
+			{
+				AppEnvironment.SideloadStable => "3b19d860a346d7da",
+				AppEnvironment.SideloadPreview => "1265066178db259d",
+				AppEnvironment.StoreStable => "8e2322986488aba5",
+				AppEnvironment.StorePreview => "6b0bf5ca007c8bea",
+				_ => "1527fd0cf5681354", // Default to Dev
+			};
 
 		/// <summary>
 		/// Gets application package version.
@@ -101,7 +118,6 @@ namespace Files.App.Helpers
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 			var generalSettingsService = userSettingsService.GeneralSettingsService;
-			var jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
 
 			// Start off a list of tasks we need to run before we can continue startup
 			await Task.WhenAll(
@@ -115,8 +131,7 @@ namespace Files.App.Helpers
 					OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
 					App.LibraryManager.UpdateLibrariesAsync(),
 					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
-					OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
-					jumpListService.InitializeAsync()
+					OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection)
 				);
 
 				//Start the tasks separately to reduce resource contention
@@ -132,6 +147,16 @@ namespace Files.App.Helpers
 			{
 				// The follwing method invokes UI thread, so we run it in a separate task
 				await CheckAppUpdate();
+			});
+
+			_ = STATask.Run(() =>
+			{
+				HRESULT hr = JumpListManager.Default?.PullJumpListFromExplorer() ?? HRESULT.S_OK;
+				if (hr.Value < 0)
+					App.Logger.LogWarning("Failed to synchronizing jump list unexpectedly.");
+
+				JumpListManager.Default?.WatchJumpListChanges(AppUserModelIdCrcHash);
+
 			});
 
 			static Task OptionalTaskAsync(Task task, bool condition)
@@ -252,7 +277,6 @@ namespace Files.App.Helpers
 					.AddSingleton<ISizeProvider, UserSizeProvider>()
 					.AddSingleton<IQuickAccessService, QuickAccessService>()
 					.AddSingleton<IResourcesService, ResourcesService>()
-					.AddSingleton<IWindowsJumpListService, WindowsJumpListService>()
 					.AddSingleton<IStorageTrashBinService, StorageTrashBinService>()
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
 					.AddSingleton<INetworkService, NetworkService>()
