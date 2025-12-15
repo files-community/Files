@@ -476,7 +476,7 @@ namespace Files.App.ViewModels.UserControls
 						}
 
 						section = BuildSection(Strings.Pinned.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.StarIcon));
+						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.PinnedIcon));
 						section.IsHeader = true;
 						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsPinnedSectionExpanded;
 
@@ -490,7 +490,7 @@ namespace Files.App.ViewModels.UserControls
 							break;
 						}
 						section = BuildSection(Strings.SidebarLibraries.GetLocalizedResource(), sectionType, new ContextMenuOptions { IsLibrariesHeader = true, ShowHideSection = true }, false);
-						iconIdex = Constants.ImageRes.Libraries;
+						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.LibrariesIcon));
 						section.IsHeader = true;
 						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsLibrarySectionExpanded;
 
@@ -504,7 +504,7 @@ namespace Files.App.ViewModels.UserControls
 							break;
 						}
 						section = BuildSection(Strings.Drives.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						iconIdex = Constants.ImageRes.ThisPC;
+						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.DrivesIcon));
 						section.IsHeader = true;
 						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsDriveSectionExpanded;
 
@@ -532,7 +532,7 @@ namespace Files.App.ViewModels.UserControls
 							break;
 						}
 						section = BuildSection(Strings.Network.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						iconIdex = Constants.ImageRes.Network;
+						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.NetworkIcon));
 						section.IsHeader = true;
 						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsNetworkSectionExpanded;
 
@@ -546,7 +546,7 @@ namespace Files.App.ViewModels.UserControls
 							break;
 						}
 						section = BuildSection(Strings.WSL.GetLocalizedResource(), sectionType, new ContextMenuOptions { ShowHideSection = true }, false);
-						icon = new BitmapImage(new Uri(Constants.WslIconsPaths.GenericIcon));
+						icon = new BitmapImage(new Uri(Constants.FluentIconsPaths.WslIcon));
 						section.IsHeader = true;
 						section.IsExpanded = UserSettingsService.GeneralSettingsService.IsWslSectionExpanded;
 

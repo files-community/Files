@@ -348,6 +348,7 @@ namespace Files.App.Data.Items
 
 			if (string.Equals(DeviceID, "network-folder"))
 				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Network)?.IconData;
+				IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Network)?.IconData;
 
 			IconData ??= UIHelpers.GetSidebarIconResourceInfo(Constants.ImageRes.Folder)?.IconData;
 
