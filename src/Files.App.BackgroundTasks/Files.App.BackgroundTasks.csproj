@@ -24,4 +24,8 @@
         <PackageReference Include="Microsoft.Windows.CsWinRT" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Files.App.Storage\Files.App.Storage.csproj" />
+    </ItemGroup>
+
 </Project>

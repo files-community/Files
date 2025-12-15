@@ -1,13 +1,11 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System;
+using Files.App.Storage;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using Windows.Storage;
-using Windows.UI.StartScreen;
 
 namespace Files.App.BackgroundTasks
 {
@@ -19,8 +17,8 @@ namespace Files.App.BackgroundTasks
 		{
 			var deferral = taskInstance.GetDeferral();
 
-			// Refresh jump list to update string resources
-			try { await RefreshJumpListAsync(); } catch { }
+			// Sync the jump list with Explorer
+			try { RefreshJumpList(); } catch { }
 
 			// Delete previous version log files
 			try { DeleteLogFiles(); } catch { }
@@ -34,30 +32,23 @@ namespace Files.App.BackgroundTasks
 			File.Delete(Path.Combine(ApplicationData.Current.LocalFolder.Path, "debug_fulltrust.log"));
 		}
 
-		private async Task RefreshJumpListAsync()
+		private void RefreshJumpList()
 		{
-			if (JumpList.IsSupported())
+			// Make sure to delete the Files' custom destinations binary files
+			var recentFolder = JumpListManager.Default.GetRecentFolderPath();
+			File.Delete($"{recentFolder}\\CustomDestinations\\3b19d860a346d7da.customDestinations-ms");
+			File.Delete($"{recentFolder}\\CustomDestinations\\1265066178db259d.customDestinations-ms");
+			File.Delete($"{recentFolder}\\CustomDestinations\\8e2322986488aba5.customDestinations-ms");
+			File.Delete($"{recentFolder}\\CustomDestinations\\6b0bf5ca007c8bea.customDestinations-ms");
+			File.Delete($"{recentFolder}\\AutomaticDestinations\\3b19d860a346d7da.customDestinations-ms");
+			File.Delete($"{recentFolder}\\AutomaticDestinations\\1265066178db259d.customDestinations-ms");
+			File.Delete($"{recentFolder}\\AutomaticDestinations\\8e2322986488aba5.customDestinations-ms");
+			File.Delete($"{recentFolder}\\AutomaticDestinations\\6b0bf5ca007c8bea.customDestinations-ms");
+
+			_ = STATask.Run(() =>
 			{
-				var instance = await JumpList.LoadCurrentAsync();
-				// Disable automatic jumplist. It doesn't work with Files UWP.
-				instance.SystemGroupKind = JumpListSystemGroupKind.None;
-
-				var jumpListItems = instance.Items.ToList();
-
-				// Clear all items to avoid localization issues
-				instance.Items.Clear();
-
-				foreach (var temp in jumpListItems)
-				{
-					var jumplistItem = JumpListItem.CreateWithArguments(temp.Arguments, temp.DisplayName);
-					jumplistItem.Description = jumplistItem.Arguments;
-					jumplistItem.GroupName = "ms-resource:///Resources/JumpListRecentGroupHeader";
-					jumplistItem.Logo = new Uri("ms-appx:///Assets/FolderIcon.png");
-					instance.Items.Add(jumplistItem);
-				}
-
-				await instance.SaveAsync();
-			}
+				JumpListManager.Default.PullJumpListFromExplorer();
+			});
 		}
 	}
 }

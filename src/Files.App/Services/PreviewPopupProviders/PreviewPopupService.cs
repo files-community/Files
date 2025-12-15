@@ -8,6 +8,8 @@ namespace Files.App.Services.PreviewPopupProviders
 	{
 		public async Task<IPreviewPopupProvider?> GetProviderAsync()
 		{
+			if (await PowerToysPeekProvider.Instance.DetectAvailability())
+				return await Task.FromResult<IPreviewPopupProvider>(PowerToysPeekProvider.Instance);
 			if (await QuickLookProvider.Instance.DetectAvailability())
 				return await Task.FromResult<IPreviewPopupProvider>(QuickLookProvider.Instance);
 			if (await SeerProProvider.Instance.DetectAvailability())
