@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.App.Controls;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -777,6 +778,8 @@ namespace Files.App.Views
 
 		public void Dispose()
 		{
+			App.Logger.LogInformation($"ShellPanesPage.Dispose: PaneCount={GetPaneCount()}, ActivePane={LogPathHelper.GetPathIdentifier(ActivePane?.TabBarItemParameter?.NavigationParameter?.ToString())}");
+
 			MainWindow.Instance.SizeChanged -= MainWindow_SizeChanged;
 
 			// Dispose panes
