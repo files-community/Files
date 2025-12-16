@@ -104,6 +104,10 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && CommandManager.OpenInNewPaneFromHome.IsExecutable
 				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.CopyItemFromHome)
+				{
+					IsVisible = CommandManager.CopyItemFromHome.IsExecutable
+				}.Build(),
 				new()
 				{
 					Text = Strings.PinFolderToSidebar.GetLocalizedResource(),
