@@ -4347,4 +4347,7 @@
   <data name="OnlyInColumnsView" xml:space="preserve">
     <value>Only in Columns View</value>
   </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>New {0}</value>
+  </data>
 </root>
