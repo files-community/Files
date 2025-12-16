@@ -39,6 +39,20 @@ You can also use the preview version alongside the stable release to get early a
   </a>
 </p>
 
+### CommandLign Install
+to use the default tool winget (windows store) you need open windows store and update before usite command
+open terminal (shell, MINGW64/Git-bash)
+and past this
+```properties
+winget install --id FilesCommunity.Files -e
+```
+
+you will obtain the last version "stable"
+### Update
+```properties
+winget update --all
+```
+
 ## Building from source
 
 Instructions for building the source code can be found on our [documentation site](https://files.community/docs/contributing/building-from-source).
