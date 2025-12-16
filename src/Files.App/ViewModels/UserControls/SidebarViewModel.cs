@@ -736,13 +736,15 @@ namespace Files.App.ViewModels.UserControls
 
 			var itemContextMenuFlyout = new CommandBarFlyout()
 			{
-				Placement = FlyoutPlacementMode.Full
+				AlwaysExpanded = true
 			};
 
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 
 			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
-			var (_, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
+			var (primaryElements, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
+
+			primaryElements.ForEach(itemContextMenuFlyout.PrimaryCommands.Add);
 
 			secondaryElements
 				.OfType<FrameworkElement>()
@@ -991,6 +993,7 @@ namespace Files.App.ViewModels.UserControls
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.CopyItemFromSidebar)
 				{
+					IsPrimary = true,
 					IsVisible = Commands.CopyItemFromSidebar.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()

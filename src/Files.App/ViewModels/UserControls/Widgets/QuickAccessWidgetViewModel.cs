@@ -106,6 +106,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.CopyItemFromHome)
 				{
+					IsPrimary = true,
 					IsVisible = CommandManager.CopyItemFromHome.IsExecutable
 				}.Build(),
 				new()
