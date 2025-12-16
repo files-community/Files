@@ -952,7 +952,7 @@ namespace Files.App.ViewModels.UserControls
 
 			var isDriveItem = item is DriveItem;
 			var isDriveItemPinned = isDriveItem && ((DriveItem)item).IsPinned;
-
+						
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
 				new ContextMenuFlyoutItemViewModel()
@@ -988,6 +988,10 @@ namespace Files.App.ViewModels.UserControls
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewPaneFromSidebar)
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && Commands.OpenInNewPaneFromSidebar.IsExecutable
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.CopyItemFromSidebar)
+				{
+					IsVisible = Commands.CopyItemFromSidebar.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
