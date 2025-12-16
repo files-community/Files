@@ -55,7 +55,7 @@ namespace Files.App.Helpers
 			return dialog;
 		}
 
-		public static DynamicDialog GetFor_CreateItemDialog(string itemType)
+		public static DynamicDialog GetFor_CreateItemDialog(string itemType, string? itemName)
 		{
 			DynamicDialog? dialog = null;
 			TextBox inputText = new()
@@ -95,13 +95,14 @@ namespace Files.App.Helpers
 
 			inputText.Loaded += (s, e) =>
 			{
-				// dispatching to the ui thread fixes an issue where the primary dialog button would steal focus
-				_ = inputText.DispatcherQueue.EnqueueOrInvokeAsync(() => 
+				// Dispatching to the UI thread fixes an issue where the primary dialog button would steal focus
+				_ = inputText.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 				{
-					if(itemType.Equals("Folder", StringComparison.OrdinalIgnoreCase))
-					{
+					// Prefill text box with default name #17845
+					if (itemType.Equals("Folder", StringComparison.OrdinalIgnoreCase))
 						inputText.Text = Strings.NewFolder.GetLocalizedResource();
-					}
+					else if (itemName is not null)
+						inputText.Text = string.Format(Strings.CreateNewFile.GetLocalizedResource(), itemName);
 
 					inputText.Focus(FocusState.Programmatic);
 					inputText.SelectAll();
