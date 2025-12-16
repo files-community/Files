@@ -129,7 +129,7 @@ namespace Files.App.ViewModels.Previews
 
 		public unsafe void LoadPreview(UIElement presenter)
 		{
-			App.Logger.LogInformation($"ShellPreview.LoadPreview: Item={LogPathHelper.GetFileName(Item?.ItemPath)}");
+			App.Logger.LogInformation($"ShellPreview.LoadPreview: Item={LogPathHelper.GetPathIdentifier(Item?.ItemPath)}");
 
 			var parent = MainWindow.Instance.WindowHandle;
 			var hInst = PInvoke.GetModuleHandle(default(PWSTR));
@@ -257,10 +257,10 @@ namespace Files.App.ViewModels.Previews
 			if (_hWnd != HWND.Null)
 			{
 				PInvoke.DestroyWindow(_hWnd);
-				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND={((nint)_hWnd)}, Item={LogPathHelper.GetFileName(Item?.ItemPath)}");
+				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND={((nint)_hWnd)}, Item={LogPathHelper.GetPathIdentifier(Item?.ItemPath)}");
 			}
 			else
-				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND=, Item={LogPathHelper.GetFileName(Item?.ItemPath)}");
+				App.Logger.LogInformation($"ShellPreview.UnloadPreview: HWND=, Item={LogPathHelper.GetPathIdentifier(Item?.ItemPath)}");
 
 
 			_contentExternalOutputLink?.Dispose();

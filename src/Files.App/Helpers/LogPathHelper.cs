@@ -2,43 +2,36 @@
 // Licensed under the MIT License.
 
 using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Files.App.Helpers
 {
-	/// <summary>
-	/// Provides helper methods for formatting paths in logs.
-	/// </summary>
 	public static class LogPathHelper
 	{
-		public static string GetFileName(string? path)
+		public static string GetPathIdentifier(string? path)
 		{
 			if (string.IsNullOrEmpty(path))
 				return "[Empty]";
 
 			try
 			{
-				return Path.GetFileName(path) ?? "?";
+				using var md5 = MD5.Create();
+				var hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(path));
+
+				//4 bytes, still low collision 
+				var shortHash = BitConverter.ToString(hashBytes, 0, 4).Replace("-", "").ToLowerInvariant();
+
+				var extension = Path.GetExtension(path);
+
+				if (!string.IsNullOrEmpty(extension))
+					return $"[hash:{shortHash}{extension}]";
+				else
+					return $"[hash:{shortHash}]";
 			}
 			catch
 			{
-				return "?";
-			}
-		}
-
-		public static string GetDirectoryName(string? path)
-		{
-			if (string.IsNullOrEmpty(path))
-				return "[Empty]";
-
-			try
-			{
-				// Trim trailing separators to ensure we get the last directory name
-				var trimmedPath = path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-				return Path.GetFileName(trimmedPath) ?? "?";
-			}
-			catch
-			{
-				return "?";
+				return "[?]";
 			}
 		}
 	}
