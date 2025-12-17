@@ -227,6 +227,8 @@ namespace Files.App.ViewModels
 
 			if (value == "Home" || value == "ReleaseNotes" || value == "Settings")
 				currentStorageFolder = null;
+			else
+				AppLifecycleHelper.JumpListManager?.AddFolderToRecentCategory(value);
 
 			WorkingDirectory = value;
 
