@@ -288,6 +288,8 @@ namespace Files.App
 			// Method can take a long time, make sure the window is hidden
 			await Task.Yield();
 
+			AppLifecycleHelper.JumpListManager?.Dispose();
+
 			// Try to maintain clipboard data after app close
 			SafetyExtensions.IgnoreExceptions(() =>
 			{
@@ -319,11 +321,6 @@ namespace Files.App
 			commandBarFlyout.Closed -= LastOpenedFlyout_Closed;
 			if (_LastOpenedFlyout == commandBarFlyout)
 				_LastOpenedFlyout = null;
-		}
-
-		~App()
-		{
-			JumpListManager.Default?.Dispose();
 		}
 	}
 }

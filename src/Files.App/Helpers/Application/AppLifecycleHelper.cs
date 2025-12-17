@@ -45,6 +45,8 @@ namespace Files.App.Helpers
 		/// </summary>
 		public static long TotalLaunchCount { get; }
 
+		public static JumpListManager? JumpListManager { get; private set; }
+
 		/// <summary>
 		/// Gets the value that indicates if the release notes tab was automatically opened.
 		/// </summary>
@@ -163,15 +165,15 @@ namespace Files.App.Helpers
 
 			_ = STATask.Run(() =>
 			{
-				var manager = JumpListManager.Create($"{Package.Current.Id.FamilyName}!App", AppExeAlias);
-				if (manager is null)
+				JumpListManager = JumpListManager.Create($"{Package.Current.Id.FamilyName}!App", AppExeAlias);
+				if (JumpListManager is null)
 					return;
 
-				HRESULT hr = manager.PullJumpListFromExplorer();
-				if (hr.Failed)
-					App.Logger.LogWarning("Failed to synchronizing jump list unexpectedly.");
+				HRESULT hr = JumpListManager.PullJumpListFromExplorer();
+				if (hr.Failed) App.Logger.LogWarning("Failed to synchronizing jump list unexpectedly.");
 
-				manager.WatchJumpListChanges(AppUserModelIdCrcHash);
+				bool result = JumpListManager.WatchJumpListChanges(AppUserModelIdCrcHash);
+				if (!result) App.Logger.LogWarning("Failed to watch jump list unexpectedly.");
 			});
 
 			static Task OptionalTaskAsync(Task task, bool condition)
