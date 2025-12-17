@@ -279,9 +279,6 @@ namespace Files.App.Storage
 					hr = PInvoke.SHCreateItemFromParsingName(pszParseablePath.Get(), null, IID.IID_IShellItem, (void**)psi.GetAddressOf());
 					if (FAILED(hr)) continue;
 
-					//hr = pExplorerADL.Get()->AddUsagePoint((IUnknown*)psi.Get());
-					//if (FAILED(hr)) continue;
-
 					fixed (char* pAumid = "Microsoft.Windows.Explorer")
 					{
 						SHARDAPPIDINFO info = default;
@@ -316,9 +313,6 @@ namespace Files.App.Storage
 					hr = PInvoke.SHCreateItemFromParsingName(pszParseablePath.Get(), null, IID.IID_IShellItem, (void**)psi.GetAddressOf());
 					if (FAILED(hr)) continue;
 
-					//hr = pExplorerADL.Get()->AddUsagePoint((IUnknown*)psi.Get());
-					//if (FAILED(hr)) continue;
-
 					fixed (char* pAumid = "Microsoft.Windows.Explorer")
 					{
 						SHARDAPPIDINFO info = default;
@@ -343,6 +337,28 @@ namespace Files.App.Storage
 				if (_explorerADLStoreFileWatcher is not null && !_explorerADLStoreFileWatcher.EnableRaisingEvents)
 					_explorerADLStoreFileWatcher.EnableRaisingEvents = true;
 			}
+		}
+
+		public HRESULT AddFolderToRecentCategory(string path) // TODO: This will be WindowsFolder in the future
+		{
+			HRESULT hr;
+
+			using ComHeapPtr<IShellItem> psi = default;
+			fixed (char* pszPath = path)
+				hr = PInvoke.SHCreateItemFromParsingName(pszPath, null, IID.IID_IShellItem, (void**)psi.GetAddressOf());
+			if (FAILED(hr)) return hr;
+
+			fixed (char* pAumid = "Microsoft.Windows.Explorer")
+			{
+				SHARDAPPIDINFO info = default;
+				info.psi = psi.Get();
+				info.pszAppID = pAumid;
+
+				// This will update Files' jump list as well because of the file watcher
+				PInvoke.SHAddToRecentDocs((uint)SHARD.SHARD_APPIDINFO, &info);
+			}
+
+			return HRESULT.S_OK;
 		}
 
 		public bool WatchJumpListChanges(string aumidCrcHash)
