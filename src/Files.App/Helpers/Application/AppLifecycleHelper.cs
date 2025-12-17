@@ -166,15 +166,16 @@ namespace Files.App.Helpers
 			_ = STATask.Run(() =>
 			{
 				JumpListManager = JumpListManager.Create($"{Package.Current.Id.FamilyName}!App", AppExeAlias);
-				if (JumpListManager is null)
-					return;
+				if (JumpListManager is not null)
+				{
+					HRESULT hr = JumpListManager.PullJumpListFromExplorer();
+					if (hr.Failed) App.Logger.LogWarning("Failed to synchronizing jump list unexpectedly.");
 
-				HRESULT hr = JumpListManager.PullJumpListFromExplorer();
-				if (hr.Failed) App.Logger.LogWarning("Failed to synchronizing jump list unexpectedly.");
-
-				bool result = JumpListManager.WatchJumpListChanges(AppUserModelIdCrcHash);
-				if (!result) App.Logger.LogWarning("Failed to watch jump list unexpectedly.");
-			});
+					bool result = JumpListManager.WatchJumpListChanges(AppUserModelIdCrcHash);
+					if (!result) App.Logger.LogWarning("Failed to watch jump list unexpectedly.");
+				}
+			},
+			App.Logger);
 
 			static Task OptionalTaskAsync(Task task, bool condition)
 			{
