@@ -107,7 +107,9 @@ namespace Files.App.Actions
 			if (string.IsNullOrEmpty(item.Path))
 				return true;
 
-			return string.Equals(item.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
+			return item.Path.StartsWith("tag:", StringComparison.OrdinalIgnoreCase) || 
+				string.Equals(item.Path, "Home", StringComparison.OrdinalIgnoreCase) ||				
+				string.Equals(item.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
 				string.Equals(item.Path, Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase) ||
 				string.Equals(item.Path, Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase);
 		}
