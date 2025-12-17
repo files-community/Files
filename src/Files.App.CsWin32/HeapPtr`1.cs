@@ -62,7 +62,7 @@ namespace Windows.Win32
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public bool Reallocate(nuint cch)
 		{
-			T* ptr = (T*)PInvoke.CoTaskMemRealloc(_ptr, cch);
+			T* ptr = (T*)NativeMemory.Realloc(_ptr, cch); // realloc()
 			if (ptr is null) return false;
 			_ptr = ptr;
 			return true;
