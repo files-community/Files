@@ -744,6 +744,15 @@ namespace Files.App.ViewModels.UserControls
 			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
 			var (primaryElements, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
 
+			// Workaround for WinUI (#5508) - AppBarButtons don't auto-close CommandBarFlyout
+			var closeHandler = new RoutedEventHandler((s, e) => itemContextMenuFlyout.Hide());
+			primaryElements
+				.OfType<AppBarButton>()
+				.ForEach(button => button.Click += closeHandler);
+			primaryElements
+				.OfType<AppBarToggleButton>()
+				.ForEach(button => button.Click += closeHandler);
+
 			primaryElements.ForEach(itemContextMenuFlyout.PrimaryCommands.Add);
 
 			secondaryElements
