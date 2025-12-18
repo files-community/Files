@@ -106,7 +106,7 @@ namespace Files.App.Controls
 			if (Owner.FindAscendant<SidebarItem>() is SidebarItem parent && parent.Item?.Children is IList list)
 				return list;
 
-			if (Owner?.Owner is not null && Owner.Owner.ViewModel.SidebarItems is IList items)
+			if (Owner?.Owner is not null && Owner.Owner?.MenuItemsSource is IList items)
 				return items;
 
 			return new List<object>();

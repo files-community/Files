@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
+using Windows.UI.Input;
 using WinUIEx;
 using GridSplitter = Files.App.Controls.GridSplitter;
 using VirtualKey = Windows.System.VirtualKey;
@@ -464,6 +465,28 @@ namespace Files.App.Views
 			// Workaround for issue where clicking an empty area in the window (toolbar, title bar etc) prevents keyboard
 			// shortcuts from working properly, see https://github.com/microsoft/microsoft-ui-xaml/issues/6467
 			DispatcherQueue.TryEnqueue(() => ContentPageContext.ShellPage?.PaneHolder.FocusActivePane());
+		}
+
+		private void SidebarControl_ItemContextInvoked(object sender, ItemContextInvokedArgs e)
+		{
+			SidebarAdaptiveViewModel.HandleItemContextInvokedAsync(sender, e);
+		}
+
+		private async void SidebarControl_ItemDragOver(object sender, ItemDragOverEventArgs e)
+		{
+			var deferral = e.RawEvent.GetDeferral();
+			await SidebarAdaptiveViewModel.HandleItemDragOverAsync(e);
+			deferral.Complete();
+		}
+
+		private async void SidebarControl_ItemDropped(object sender, ItemDroppedEventArgs e)
+		{
+			await SidebarAdaptiveViewModel.HandleItemDroppedAsync(e);
+		}
+
+		private void SidebarControl_ItemInvoked(object sender, ItemInvokedEventArgs e)
+		{
+			SidebarAdaptiveViewModel.HandleItemInvokedAsync(((SidebarItem)sender).Item, e.PointerUpdateKind);
 		}
 	}
 }
