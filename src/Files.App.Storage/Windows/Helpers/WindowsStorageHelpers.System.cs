@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.Runtime.CompilerServices;
-using System.Xml.Linq;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using static Windows.Win32.ManualMacros;
@@ -23,11 +22,14 @@ namespace Files.App.Storage
 
 		public static unsafe string? ResolveIndirectString(string source)
 		{
+			HRESULT hr = default;
+
 			using HeapPtr<char> pszBuffer = default;
 			bool fRes = pszBuffer.Allocate(1024U);
 			if (!fRes) return null;
 
-			HRESULT hr = PInvoke.SHLoadIndirectString((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in source.GetPinnableReference())), pszBuffer.Get(), (uint)source.Length + 1, null);
+			fixed (char* pSource = source)
+				hr = PInvoke.SHLoadIndirectString(pSource, pszBuffer.Get(), 1024U, null);
 			return FAILED(hr) ? null : new(pszBuffer.Get());
 		}
 	}
