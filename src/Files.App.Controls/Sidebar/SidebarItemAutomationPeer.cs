@@ -9,6 +9,9 @@ using Microsoft.UI.Xaml.Automation.Provider;
 
 namespace Files.App.Controls
 {
+	/// <summary>
+	/// Exposes <see cref="SidebarItem"/> types to Microsoft UI Automation.
+	/// </summary>
 	public sealed partial class SidebarItemAutomationPeer : FrameworkElementAutomationPeer, IInvokeProvider, IExpandCollapseProvider, ISelectionItemProvider
 	{
 		public ExpandCollapseState ExpandCollapseState
@@ -17,6 +20,7 @@ namespace Files.App.Controls
 			{
 				if (Owner.HasChildren)
 					return Owner.IsExpanded ? ExpandCollapseState.Expanded : ExpandCollapseState.Collapsed;
+
 				return ExpandCollapseState.LeafNode;
 			}
 		}
@@ -27,7 +31,7 @@ namespace Files.App.Controls
 
 		public SidebarItemAutomationPeer(SidebarItem owner) : base(owner)
 		{
-			this.Owner = owner;
+			Owner = owner;
 		}
 
 		protected override AutomationControlType GetAutomationControlTypeCore()
@@ -49,28 +53,22 @@ namespace Files.App.Controls
 			else if (patternInterface == PatternInterface.ExpandCollapse)
 			{
 				if (Owner.CollapseEnabled)
-				{
 					return this;
-				}
 			}
+
 			return base.GetPatternCore(patternInterface);
 		}
 
 		public void Collapse()
 		{
 			if (Owner.CollapseEnabled)
-			{
 				Owner.IsExpanded = false;
-			}
 		}
 
 		public void Expand()
 		{
-
 			if (Owner.CollapseEnabled)
-			{
 				Owner.IsExpanded = true;
-			}
 		}
 
 		public void Invoke()
@@ -106,13 +104,11 @@ namespace Files.App.Controls
 		private IList GetOwnerCollection()
 		{
 			if (Owner.FindAscendant<SidebarItem>() is SidebarItem parent && parent.Item?.Children is IList list)
-			{
 				return list;
-			}
+
 			if (Owner?.Owner is not null && Owner.Owner.ViewModel.SidebarItems is IList items)
-			{
 				return items;
-			}
+
 			return new List<object>();
 		}
 	}
