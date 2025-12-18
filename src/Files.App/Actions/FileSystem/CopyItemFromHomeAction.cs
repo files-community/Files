@@ -106,9 +106,13 @@ namespace Files.App.Actions
 			if (string.IsNullOrEmpty(item.Path))
 				return true;
 
-			return string.Equals(item.Path, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
-				string.Equals(item.Path, Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase) ||
-				string.Equals(item.Path, Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase);
+			var normalizedPath = Constants.UserEnvironmentPaths.ShellPlaces.GetValueOrDefault(
+				item.Path.ToUpperInvariant(),
+				item.Path);
+
+			return string.Equals(normalizedPath, Constants.UserEnvironmentPaths.RecycleBinPath, StringComparison.OrdinalIgnoreCase) ||
+				string.Equals(normalizedPath, Constants.UserEnvironmentPaths.NetworkFolderPath, StringComparison.OrdinalIgnoreCase) ||
+				string.Equals(normalizedPath, Constants.UserEnvironmentPaths.MyComputerPath, StringComparison.OrdinalIgnoreCase);
 		}
 	}
 }
