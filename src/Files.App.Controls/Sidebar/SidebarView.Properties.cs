@@ -1,53 +1,105 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI;
-
 namespace Files.App.Controls
 {
 	public sealed partial class SidebarView
 	{
-		[GeneratedDependencyProperty(DefaultValue = SidebarDisplayMode.Expanded)]
-		public partial SidebarDisplayMode DisplayMode { get; set; }
-
-		[GeneratedDependencyProperty]
-		public partial UIElement? InnerContent { get; set; }
-
-		[GeneratedDependencyProperty]
-		public partial UIElement? SidebarContent { get; set; }
-
-		[GeneratedDependencyProperty]
-		public partial UIElement? Footer { get; set; }
-
-		[GeneratedDependencyProperty]
-		public partial bool IsPaneOpen { get; set; }
-
-		[GeneratedDependencyProperty(DefaultValue = 240D)]
-		public partial double OpenPaneLength { get; set; }
-
-		[GeneratedDependencyProperty]
-		public partial double NegativeOpenPaneLength { get; set; }
-
-		[GeneratedDependencyProperty]
-		public partial ISidebarItemModel? SelectedItem { get; set; }
-
-		[GeneratedDependencyProperty]
-		public partial object? MenuItemsSource { get; set; }
-
-		partial void OnDisplayModePropertyChanged(DependencyPropertyChangedEventArgs e)
+		public SidebarDisplayMode DisplayMode
 		{
-			UpdateDisplayMode();
+			get { return (SidebarDisplayMode)GetValue(DisplayModeProperty); }
+			set { SetValue(DisplayModeProperty, value); }
 		}
+		public static readonly DependencyProperty DisplayModeProperty =
+			DependencyProperty.Register(nameof(DisplayMode), typeof(SidebarDisplayMode), typeof(SidebarView), new PropertyMetadata(SidebarDisplayMode.Expanded, OnPropertyChanged));
 
-		partial void OnIsPaneOpenPropertyChanged(DependencyPropertyChangedEventArgs e)
+		public UIElement InnerContent
 		{
-			UpdateMinimalMode();
+			get { return (UIElement)GetValue(InnerContentProperty); }
+			set { SetValue(InnerContentProperty, value); }
 		}
+		public static readonly DependencyProperty InnerContentProperty =
+			DependencyProperty.Register(nameof(InnerContent), typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
 
-		partial void OnOpenPaneLengthPropertyChanged(DependencyPropertyChangedEventArgs e)
+		public UIElement SidebarContent
 		{
-			NegativeOpenPaneLength = -(double)(e.NewValue);
-			UpdateOpenPaneLengthColumn();
+			get { return (UIElement)GetValue(SidebarContentProperty); }
+			set { SetValue(SidebarContentProperty, value); }
+		}
+		public static readonly DependencyProperty SidebarContentProperty =
+			DependencyProperty.Register("SidebarContent", typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
+
+		public UIElement Footer
+		{
+			get { return (UIElement)GetValue(FooterProperty); }
+			set { SetValue(FooterProperty, value); }
+		}
+		public static readonly DependencyProperty FooterProperty =
+			DependencyProperty.Register("Footer", typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
+
+		public bool IsPaneOpen
+		{
+			get { return (bool)GetValue(IsPaneOpenProperty); }
+			set { SetValue(IsPaneOpenProperty, value); }
+		}
+		public static readonly DependencyProperty IsPaneOpenProperty =
+			DependencyProperty.Register(nameof(IsPaneOpen), typeof(bool), typeof(SidebarView), new PropertyMetadata(false, OnPropertyChanged));
+
+		public double OpenPaneLength
+		{
+			get { return (double)GetValue(OpenPaneLengthProperty); }
+			set
+			{
+				SetValue(OpenPaneLengthProperty, value);
+				NegativeOpenPaneLength = -value;
+			}
+		}
+		public static readonly DependencyProperty OpenPaneLengthProperty =
+			DependencyProperty.Register(nameof(OpenPaneLength), typeof(double), typeof(SidebarView), new PropertyMetadata(240d, OnPropertyChanged));
+
+		public double NegativeOpenPaneLength
+		{
+			get { return (double)GetValue(NegativeOpenPaneLengthProperty); }
+			set { SetValue(NegativeOpenPaneLengthProperty, value); }
+		}
+		public static readonly DependencyProperty NegativeOpenPaneLengthProperty =
+			DependencyProperty.Register(nameof(NegativeOpenPaneLength), typeof(double), typeof(SidebarView), new PropertyMetadata(null));
+
+		public ISidebarItemModel SelectedItem
+		{
+			get => (ISidebarItemModel)GetValue(SelectedItemProperty);
+			set
+			{
+				SetValue(SelectedItemProperty, value);
+			}
+		}
+		public static readonly DependencyProperty SelectedItemProperty =
+			DependencyProperty.Register(nameof(SelectedItem), typeof(ISidebarItemModel), typeof(SidebarView), new PropertyMetadata(null));
+
+		public object MenuItemsSource
+		{
+			get => (object)GetValue(MenuItemsSourceProperty);
+			set => SetValue(MenuItemsSourceProperty, value);
+		}
+		public static readonly DependencyProperty MenuItemsSourceProperty =
+			DependencyProperty.Register(nameof(MenuItemsSource), typeof(object), typeof(SidebarView), new PropertyMetadata(null));
+
+		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+		{
+			if (sender is not SidebarView control) return;
+
+			if (e.Property == OpenPaneLengthProperty)
+			{
+				control.UpdateOpenPaneLengthColumn();
+			}
+			else if (e.Property == DisplayModeProperty)
+			{
+				control.UpdateDisplayMode();
+			}
+			else if (e.Property == IsPaneOpenProperty)
+			{
+				control.UpdateMinimalMode();
+			}
 		}
 	}
 }
