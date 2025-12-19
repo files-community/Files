@@ -736,7 +736,8 @@ namespace Files.App.ViewModels.UserControls
 
 			var itemContextMenuFlyout = new CommandBarFlyout()
 			{
-				Placement = FlyoutPlacementMode.Right
+				Placement = FlyoutPlacementMode.Right,
+				AlwaysExpanded = true
 			};
 
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
