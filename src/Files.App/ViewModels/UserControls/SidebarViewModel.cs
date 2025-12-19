@@ -736,13 +736,25 @@ namespace Files.App.ViewModels.UserControls
 
 			var itemContextMenuFlyout = new CommandBarFlyout()
 			{
-				Placement = FlyoutPlacementMode.Full
+				Placement = FlyoutPlacementMode.Right,
+				AlwaysExpanded = true
 			};
 
 			itemContextMenuFlyout.Opening += (sender, e) => App.LastOpenedFlyout = sender as CommandBarFlyout;
 
 			var menuItems = GetLocationItemMenuItems(item, itemContextMenuFlyout);
-			var (_, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
+			var (primaryElements, secondaryElements) = ContextFlyoutModelToElementHelper.GetAppBarItemsFromModel(menuItems);
+
+			// Workaround for WinUI (#5508) - AppBarButtons don't auto-close CommandBarFlyout
+			var closeHandler = new RoutedEventHandler((s, e) => itemContextMenuFlyout.Hide());
+			primaryElements
+				.OfType<AppBarButton>()
+				.ForEach(button => button.Click += closeHandler);
+			primaryElements
+				.OfType<AppBarToggleButton>()
+				.ForEach(button => button.Click += closeHandler);
+
+			primaryElements.ForEach(itemContextMenuFlyout.PrimaryCommands.Add);
 
 			secondaryElements
 				.OfType<FrameworkElement>()
@@ -952,7 +964,7 @@ namespace Files.App.ViewModels.UserControls
 
 			var isDriveItem = item is DriveItem;
 			var isDriveItemPinned = isDriveItem && ((DriveItem)item).IsPinned;
-
+						
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
 				new ContextMenuFlyoutItemViewModel()
@@ -988,6 +1000,11 @@ namespace Files.App.ViewModels.UserControls
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenInNewPaneFromSidebar)
 				{
 					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && Commands.OpenInNewPaneFromSidebar.IsExecutable
+				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(Commands.CopyItemFromSidebar)
+				{
+					IsPrimary = true,
+					IsVisible = Commands.CopyItemFromSidebar.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
