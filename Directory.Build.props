@@ -7,5 +7,7 @@
     <WindowsSdkPackageVersion>10.0.26100.67-preview</WindowsSdkPackageVersion>
     <WindowsTargetFramework>$(TargetFrameworkVersion)-windows$(TargetWindowsVersion)</WindowsTargetFramework>
     <LangVersion>preview</LangVersion>
+
+    <EnableMSTestRunner>true</EnableMSTestRunner>
   </PropertyGroup>
 </Project>
