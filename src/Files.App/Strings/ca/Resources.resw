@@ -3132,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Teniu canvis no confirmats en aquesta branca. Què us agradaria fer amb ells?</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>Teniu una fusió en curs amb conflictes no resolts. Resoleu els conflictes o cancel·leu la fusió per canviar de branques.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Avorta la fusió i canvia a «{0}»</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Continua a «{0}» i resol els conflictes</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Canvia de branca</value>
   </data>
@@ -3734,7 +3743,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1, plural, one {# item} other {# items}} processed</value>
+    <value>{0}/{1, plural, one {# element processat} other {# elements processats}}</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -4019,7 +4028,7 @@
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
   <data name="ImageFiles" xml:space="preserve">
-    <value>Image Files</value>
+    <value>Fitxers d'imatge</value>
     <comment>This is the friendly name for image files.</comment>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
@@ -4300,25 +4309,25 @@
     <value>Signatures</value>
    </data>
   <data name="SignatureList" xml:space="preserve">
-    <value>Signature list</value>
+    <value>Llistat de signatures</value>
   </data>
   <data name="IssuedBy" xml:space="preserve">
-    <value>Issued by:</value>
+    <value>Emès per:</value>
   </data>
   <data name="IssuedTo" xml:space="preserve">
-    <value>Issued to:</value>
+    <value>Emès per a:</value>
   </data>
   <data name="ValidFrom" xml:space="preserve">
-    <value>Valid from:</value>
+    <value>Vàlid des de:</value>
   </data>
   <data name="ValidTo" xml:space="preserve">
-    <value>Valid to:</value>
+    <value>Vàlid fins al:</value>
   </data>
   <data name="NoSignatureFound" xml:space="preserve">
-    <value>No signature was found.</value>
+    <value>No s'ha trobat cap signatura.</value>
   </data>
   <data name="ShowOpenTerminal" xml:space="preserve">
-    <value>Show option to open folders in Windows Terminal</value>
+    <value>Mostra l'opció per a obrir carpetes a la consola d'ordres del Windows</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
     <value>Obre el fitxer de registre</value>
@@ -4337,5 +4346,8 @@
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
     <value>Només a la vista de columnes</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>Nou {0}</value>
   </data>
 </root>
