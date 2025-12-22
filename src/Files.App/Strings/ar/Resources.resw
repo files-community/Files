@@ -3133,6 +3133,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>لديك تغييرات غير محفوظة في هذا الفرع. ماذا تريد أن تفعل بها؟</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>You have an ongoing merge with unresolved conflicts. Please resolve the conflicts or abort the merge to switch branches.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Abort merge and switch to '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Stay on '{0}' and resolve conflicts</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>تغيير الفرع</value>
   </data>
@@ -4338,5 +4347,8 @@
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
     <value>Only in Columns View</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>New {0}</value>
   </data>
 </root>
