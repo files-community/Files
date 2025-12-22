@@ -400,7 +400,7 @@
     <value>{0, plural, one {# day ago} other {# days ago}}</value>
   </data>
   <data name="DaysAgo_Singular" xml:space="preserve">
-    <value>១ ថ្ងៃមុន</value>
+    <value>1 ថ្ងៃមុន</value>
   </data>
   <data name="DaysAgo_Plural" xml:space="preserve">
     <value>{0} ថ្ងៃមុន</value>
@@ -409,7 +409,7 @@
     <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
   </data>
   <data name="HoursAgo_Singular" xml:space="preserve">
-    <value>១ ម៉ោងមុន</value>
+    <value>1 ម៉ោងមុន</value>
   </data>
   <data name="HoursAgo_Plural" xml:space="preserve">
     <value>{0} ម៉ោងមុន</value>
@@ -418,7 +418,7 @@
     <value>{0, plural, one {# minute ago} other {# minutes ago}}</value>
   </data>
   <data name="MinutesAgo_Singular" xml:space="preserve">
-    <value>១ នាទីមុន</value>
+    <value>1 នាទីមុន</value>
   </data>
   <data name="MinutesAgo_Plural" xml:space="preserve">
     <value>{0} នាទីមុន</value>
@@ -427,7 +427,7 @@
     <value>{0, plural, one {# second ago} other {# seconds ago}}</value>
   </data>
   <data name="SecondsAgo_Singular" xml:space="preserve">
-    <value>១ វិនាទី​មុន</value>
+    <value>1 វិនាទី​មុន</value>
   </data>
   <data name="SecondsAgo_Plural" xml:space="preserve">
     <value>{0} វិនាទី​មុន</value>
@@ -561,7 +561,7 @@
     <value>បញ្ជាប់វេប</value>
   </data>
   <data name="General" xml:space="preserve">
-    <value>ទូទៅ</value>
+    <value>ជាទូទៅ</value>
   </data>
   <data name="Shortcut" xml:space="preserve">
     <value>ផ្លូវកាត់</value>
@@ -1977,7 +1977,7 @@
     <value>តន្ត្រី</value>
   </data>
   <data name="Pictures" xml:space="preserve">
-    <value>Pictures</value>
+    <value>រូបភាព</value>
   </data>
   <data name="UpdateFiles" xml:space="preserve">
     <value>Update Files</value>
@@ -2055,7 +2055,7 @@
     <value>កំណត់ជាបុរេជម្រើស</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
-    <value>Date column</value>
+    <value>ជួរឈរកាលបរិច្ឆេទ</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
     <value>Date created column</value>
@@ -2406,7 +2406,7 @@
     <value>Name must not be empty or start or end with a period.</value>
   </data>
   <data name="Videos" xml:space="preserve">
-    <value>Videos</value>
+    <value>វីដេអូ</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
     <value>Preview popup</value>
@@ -2986,7 +2986,7 @@
     <value>This PC</value>
   </data>
   <data name="RecycleBin" xml:space="preserve">
-    <value>Recycle Bin</value>
+    <value>ធុងសម្រាម</value>
   </data>
   <data name="Untagged" xml:space="preserve">
     <value>Untagged</value>
@@ -3131,6 +3131,15 @@
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
     <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
+  </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>You have an ongoing merge with unresolved conflicts. Please resolve the conflicts or abort the merge to switch branches.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Abort merge and switch to '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Stay on '{0}' and resolve conflicts</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Switch branch</value>
@@ -3937,7 +3946,7 @@
     <value>រូបភាពផ្ទៃខាងក្រោយ</value>
   </data>
   <data name="Bottom" xml:space="preserve">
-    <value>Bottom</value>
+    <value>ក្រោម</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Center" xml:space="preserve">
@@ -3966,7 +3975,7 @@
     <comment>Image alignment type</comment>
   </data>
   <data name="Top" xml:space="preserve">
-    <value>Top</value>
+    <value>លើ</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Uniform" xml:space="preserve">
@@ -4054,13 +4063,13 @@
     <value>Tab actions menu</value>
   </data>
   <data name="SplitPaneVertically" xml:space="preserve">
-    <value>Split vertically</value>
+    <value>ពុះបញ្ឈរ</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
     <value>Split pane vertically</value>
   </data>
   <data name="SplitPaneHorizontally" xml:space="preserve">
-    <value>Split horizontally</value>
+    <value>ពុះផ្ដេក</value>
   </data>
   <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
     <value>Split pane horizontally</value>
@@ -4078,7 +4087,7 @@
     <value>Arrange panes horizontally</value>
   </data>
   <data name="SplitPane" xml:space="preserve">
-    <value>Split pane</value>
+    <value>ពុះបន្ទះផ្ទាំង</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Show tab actions button in the title bar</value>
@@ -4337,5 +4346,8 @@
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
     <value>Only in Columns View</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>New {0}</value>
   </data>
 </root>

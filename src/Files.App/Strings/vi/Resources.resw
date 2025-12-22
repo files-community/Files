@@ -3132,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Bạn có các thay đổi chưa commit ở nhánh này. Bạn muốn làm gì với các thay đổi này?</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>Bạn hiện có merge với conflict chưa giải quyết. Vui lòng thực hiện giải quyết conflict hoặc bỏ merge để chuyển nhánh.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Bỏ merge và chuyển sang '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Ở lại '{0}' và giải quyết conflict</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Chuyển nhánh</value>
   </data>
@@ -4337,5 +4346,8 @@
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
     <value>Chỉ trong bố cục cột</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>New {0}</value>
   </data>
 </root>

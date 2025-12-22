@@ -1773,7 +1773,7 @@
     <value>Etichetta</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>Apri i file con un solo click</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Percorso cartella</value>
@@ -2073,7 +2073,7 @@
     <value>Schermata di blocco</value>
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
-    <value>Open folders with a single click</value>
+    <value>Apri le cartelle con un solo click</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Apertura elementi</value>
@@ -3131,6 +3131,15 @@
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Hai dei cambiamenti non commitati su questo branch. Cosa vorresti farci?</value>
+  </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>Hai una fusione in corso con conflitti non risolti. Si prega di risolvere i conflitti o interrompere la fusione per cambiare ramo.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Interrompi la fusione e passa a '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Rimani su '{0}' e risolvi i conflitti</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Cambia branch</value>
@@ -4333,9 +4342,12 @@
     <value>Impossibile aprire il file di registro</value>
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
-    <value>Show status bar</value>
+    <value>Mostra la barra di stato</value>
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
-    <value>Only in Columns View</value>
+    <value>Solo nella vista a colonne</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>New {0}</value>
   </data>
 </root>

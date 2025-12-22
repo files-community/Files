@@ -127,10 +127,10 @@
     <value>Copier le chemin de l'élément</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>Copier le chemin entre guillemets</value>
+    <value>Copier le chemin avec des guillemets</value>
   </data>
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
-    <value>Copier le chemin de l'élément sélectionné entre guillemets</value>
+    <value>Copier le chemin de l'élément sélectionné avec des guillemets</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Parcourir</value>
@@ -1773,7 +1773,7 @@
     <value>Étiquette</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>Ouvrir les fichiers d'un seul clic</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Chemin du dossier</value>
@@ -2073,7 +2073,7 @@
     <value>Écran de verrouillage</value>
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
-    <value>Open folders with a single click</value>
+    <value>Ouvrir les dossiers d'un seul clic</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Ouverture des éléments</value>
@@ -2806,7 +2806,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Enter" xml:space="preserve">
-    <value>Entrer</value>
+    <value>Entrée</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Space" xml:space="preserve">
@@ -3131,6 +3131,15 @@
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Vous avez des modifications non validées sur cette branche. Que souhaitez-vous faire d'elles ?</value>
+  </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>Vous avez une fusion en cours avec des conflits non résolus. Veuillez résoudre les conflits ou annuler la fusion pour changer de branche.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Annuler la fusion et basculer vers '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Rester sur ‘{0}’ et résoudre les conflits</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Changer de branche</value>
@@ -4336,6 +4345,9 @@
     <value>Afficher la barre de statut</value>
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
-    <value>Only in Columns View</value>
+    <value>Seulement en vue colonnes</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>Nouveau {0}</value>
   </data>
 </root>

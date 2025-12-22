@@ -2028,7 +2028,7 @@
     <value>Működés</value>
   </data>
   <data name="Hello" xml:space="preserve">
-    <value>Hello!</value>
+    <value>Üdvözöljük!</value>
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Enjoying Files? Please consider reviewing in the Microsoft Store.</value>
@@ -2037,13 +2037,13 @@
     <value>Enjoying Files? Please consider supporting the project on GitHub.</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
-    <value>Sponsor</value>
+    <value>Támogatás</value>
   </data>
   <data name="RateUs" xml:space="preserve">
-    <value>Rate us</value>
+    <value>Értékelj minket</value>
   </data>
   <data name="Dismiss" xml:space="preserve">
-    <value>Dismiss</value>
+    <value>Bezár</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Beállítás háttérképként</value>
@@ -2130,7 +2130,7 @@
     <value>Jelszó</value>
   </data>
   <data name="Encoding" xml:space="preserve">
-    <value>Encoding</value>
+    <value>Kódolás</value>
   </data>
   <data name="EncodingDetected" xml:space="preserve">
     <value>{0} (detected)</value>
@@ -2178,7 +2178,7 @@
     <value>Max. fájlméret</value>
   </data>
   <data name="DoNotSplit" xml:space="preserve">
-    <value>Do not split</value>
+    <value>Feldarabolás nélkül</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2238,10 +2238,10 @@
     <value>Open settings file in your default editor</value>
   </data>
   <data name="ReleaseNotes" xml:space="preserve">
-    <value>Release Notes</value>
+    <value>Verziónapló</value>
   </data>
   <data name="ReleaseNotesDescription" xml:space="preserve">
-    <value>Open Release Notes</value>
+    <value>Változások megnyitása</value>
   </data>
   <data name="CannotCreateShortcutDialogTitle" xml:space="preserve">
     <value>Rendszergazdai jogosultságok szükségesek parancsikon lérehozásához ezen a helyen</value>
@@ -2331,13 +2331,13 @@
     <value>Súgó</value>
   </data>
   <data name="FullScreen" xml:space="preserve">
-    <value>Full screen</value>
+    <value>Teljes képernyő</value>
   </data>
   <data name="ConfirmDeleteTag" xml:space="preserve">
     <value>Biztosan törölni szeretné ezt a címkét?</value>
   </data>
   <data name="PlayAll" xml:space="preserve">
-    <value>Play</value>
+    <value>Lejátszás</value>
   </data>
   <data name="Height" xml:space="preserve">
     <value>Magasság</value>
@@ -2397,7 +2397,7 @@
     <value>Nagyítás</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Sort direction</value>
+    <value>Rendezés iránya</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>Érvénytelen név</value>
@@ -2409,16 +2409,16 @@
     <value>Videók</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
-    <value>Preview popup</value>
+    <value>Előnézet</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Kompakt mód ki-/bekapcsolása</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open the online help page in your browser</value>
+    <value>Nyissa meg az online súgóoldalt a böngészőjében</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Toggle full screen mode</value>
+    <value>Teljes képernyős mód váltása</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Enter compact overlay mode</value>
@@ -2478,31 +2478,31 @@
     <value>Paste to selected folder</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>Delete selected {0, plural, one {item} other {items}}</value>
+    <value>{0, plural, one {#} other {#}} elem törlése</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>Új mappa létrehozása</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Create new {0, plural, one {shortcut} other {shortcuts}} to selected {0, plural, one {item} other {items}}</value>
+    <value>Új {0, plural, one {shortcut} other {shortcuts}} létrehozása a kiválasztott {0, plural, one {item} other {items}} elemhez</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>Új parancsikon létrehozása</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
-    <value>Empty the contents of Recycle Bin</value>
+    <value>Lomtár űrítése</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
     <value>A "Meghajtó Formázása" menü megnyitása a kiválasztott elemhez</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restore selected {0, plural, one {item} other {items}} from recycle bin</value>
+    <value>Kijelölt {0, plural, one {item} other {items}} visszaállítása a lomtárból</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
     <value>Minden elem visszaállítása a lomtárból</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Open {0, plural, one {item} other {items}}</value>
+    <value>Megnyit {0, plural, one {item} other {items}}</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
     <value>Open {0, plural, one {item} other {items}} with selected application</value>
@@ -2520,7 +2520,7 @@
     <value>Összes elem kiválasztása</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Invert selected items</value>
+    <value>-</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
     <value>Clear selected items</value>
@@ -3131,6 +3131,15 @@
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Ezen az ágon nem publikált változtatások vannak. Mit szeretnél csinálni velük?</value>
+  </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>You have an ongoing merge with unresolved conflicts. Please resolve the conflicts or abort the merge to switch branches.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Abort merge and switch to '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Stay on '{0}' and resolve conflicts</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Ág átváltása</value>
@@ -4337,5 +4346,8 @@
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
     <value>Only in Columns View</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>New {0}</value>
   </data>
 </root>
