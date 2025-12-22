@@ -481,7 +481,9 @@ namespace Files.App.Views
 
 		private async void SidebarControl_ItemDropped(object sender, ItemDroppedEventArgs e)
 		{
+			var deferral = e.RawEvent.GetDeferral();
 			await SidebarAdaptiveViewModel.HandleItemDroppedAsync(e);
+			deferral.Complete();
 		}
 
 		private void SidebarControl_ItemInvoked(object sender, ItemInvokedEventArgs e)
