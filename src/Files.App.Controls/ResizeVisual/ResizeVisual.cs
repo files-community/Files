@@ -5,6 +5,13 @@ using Microsoft.UI.Xaml.Input;
 
 namespace Files.App.Controls
 {
+	/// <summary>
+	/// Represents a control that provides visual resizing handles and events for interactive resizing operations.
+	/// </summary>
+	/// <remarks>
+	/// This control is typically used as part of resizable content users to resize elements by dragging <see cref="Thumb"/>.
+	/// It directly updates <see cref="FrameworkElement.ActualWidth"/> or <see cref="FrameworkElement.ActualHeight"/> of <see cref="Target"/> and raises events during the dragging to allow customization or handling of resizing logic.
+	/// </remarks>
 	public partial class ResizeVisual : Control
 	{
 		private Grid? _rootGrid;

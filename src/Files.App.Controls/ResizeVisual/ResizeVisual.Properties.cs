@@ -32,15 +32,21 @@ namespace Files.App.Controls
 
 		partial void OnTargetChanged(FrameworkElement? newValue)
 		{
+			if (newValue?.ActualHeight is 0 || ActualHeight is 0 ||
+				newValue?.ActualWidth is 0 || ActualWidth is 0)
+				return;
+
+			Debug.WriteLine("OnTargetChanged");
+
 			RenderTransform = new TranslateTransform();
 
 			if (Orientation is Orientation.Vertical)
 			{
-				((TranslateTransform)RenderTransform).Y = newValue?.Height - ActualHeight / 2 ?? 0;
+				((TranslateTransform)RenderTransform).Y = newValue?.ActualHeight - ActualHeight / 2 ?? 0;
 			}
 			else if (Orientation is Orientation.Horizontal)
 			{
-				((TranslateTransform)RenderTransform).X = newValue?.Width - ActualWidth / 2 ?? 0;
+				((TranslateTransform)RenderTransform).X = newValue?.ActualWidth - ActualWidth / 2 ?? 0;
 			}
 		}
 
@@ -69,12 +75,12 @@ namespace Files.App.Controls
 				{
 					_outerThumb.HorizontalAlignment = HorizontalAlignment.Center;
 					((TranslateTransform)RenderTransform).X = 0;
-					((TranslateTransform)RenderTransform).Y = Target.Height - ActualHeight / 2;
+					((TranslateTransform)RenderTransform).Y = Target.ActualHeight - ActualHeight / 2;
 				}
 				else if (newValue is Orientation.Horizontal)
 				{
 					_outerThumb.VerticalAlignment = VerticalAlignment.Center;
-					((TranslateTransform)RenderTransform).X = Target.Width - ActualWidth / 2;
+					((TranslateTransform)RenderTransform).X = Target.ActualWidth - ActualWidth / 2;
 					((TranslateTransform)RenderTransform).Y = 0;
 				}
 			}

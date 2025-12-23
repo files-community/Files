@@ -15,6 +15,7 @@
 			<Setter Property="BorderBrush" Value="{ThemeResource ControlElevationBorderBrush}" />
 			<Setter Property="Foreground" Value="{ThemeResource ControlStrongFillColorDefaultBrush}" />
 			<Setter Property="VerticalAlignment" Value="Stretch" />
+			<Setter Property="HorizontalAlignment" Value="Left" />
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="local:ResizeVisual">

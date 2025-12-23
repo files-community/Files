@@ -28,6 +28,8 @@
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="*" />
 							</Grid.RowDefinitions>
+
+							<!--  Columns  -->
 							<Grid
 								x:Name="PART_ColumnsPanel"
 								Grid.Row="0"
@@ -38,10 +40,13 @@
 								BorderBrush="{TemplateBinding BorderBrush}"
 								BorderThickness="{TemplateBinding BorderThickness}"
 								CornerRadius="{TemplateBinding CornerRadius}" />
+
+							<!--  View  -->
 							<ContentPresenter
 								x:Name="PART_ViewContentPresenter"
 								Grid.Row="1"
 								Content="{TemplateBinding View}" />
+
 						</Grid>
 					</ControlTemplate>
 				</Setter.Value>
@@ -55,12 +60,12 @@
 			<Setter Property="VerticalAlignment" Value="Stretch" />
 			<Setter Property="VerticalContentAlignment" Value="Center" />
 			<Setter Property="Padding" Value="16,0" />
+			<Setter Property="MinWidth" Value="84" />
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="local:TableViewColumn">
 						<Grid
 							x:Name="PART_RootGrid"
-							MinWidth="84"
 							Background="{TemplateBinding Background}">
 							<Grid.BackgroundTransition>
 								<BrushTransition Duration="0:0:0.083" />
@@ -72,6 +77,7 @@
 
 							<TextBlock
 								x:Name="PART_HeaderTextBlock"
+								MinWidth="0"
 								Margin="{TemplateBinding Padding}"
 								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 								Foreground="{ThemeResource TextFillColorTertiaryBrush}"
@@ -80,20 +86,12 @@
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap" />
 
-							<wctcontrols:ContentSizer
-								x:Name="PART_ColumnSizer"
+							<Rectangle
 								Grid.Column="1"
-								Width="8"
-								MinWidth="4"
-								Margin="0"
-								Padding="0"
-								Background="Transparent"
-								Foreground="{ThemeResource ControlStrokeColorSecondaryBrush}">
-								<wctcontrols:ContentSizer.Resources>
-									<x:Double x:Key="SizerBaseThumbWidth">2</x:Double>
-									<x:Double x:Key="SizerBaseThumbHeight">16</x:Double>
-								</wctcontrols:ContentSizer.Resources>
-							</wctcontrols:ContentSizer>
+								Width="1"
+								HorizontalAlignment="Right"
+								VerticalAlignment="Stretch"
+								Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
 							<VisualStateManager.VisualStateGroups>
 								<VisualStateGroup x:Name="CommonStates">
@@ -134,7 +132,6 @@
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 										<VisualState.Setters>
-											<!--  DisabledVisual Should be handled by the control, not the animated icon.  -->
 											<Setter Target="PART_RootGrid.(AnimatedIcon.State)" Value="Normal" />
 										</VisualState.Setters>
 									</VisualState>

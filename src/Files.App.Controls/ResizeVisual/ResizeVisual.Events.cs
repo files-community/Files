@@ -58,6 +58,9 @@ namespace Files.App.Controls
 				{
 					var delta = e.VerticalChange;
 
+					if (Target.Height is double.NaN)
+						Target.Height = Target.ActualHeight;
+
 					if (!_reachedToBounds && IsValidHeight(Target, Target.Height + delta, ActualHeight))
 					{
 						Target.Height += delta;
@@ -75,7 +78,7 @@ namespace Files.App.Controls
 							_reachedToBounds = false;
 					}
 
-					((TranslateTransform)RenderTransform).Y = Target.Height - ActualHeight / 2;
+					((TranslateTransform)RenderTransform).Y = Target.ActualHeight - ActualHeight / 2;
 				}
 				else if (Orientation is Orientation.Horizontal)
 				{
@@ -83,6 +86,9 @@ namespace Files.App.Controls
 
 					if (Target.FlowDirection is FlowDirection.RightToLeft) delta = -delta;
 					if (IsDragInverted) delta = -delta;
+
+					if (Target.Width is double.NaN)
+						Target.Width = Target.ActualWidth;
 
 					if (!_reachedToBounds && IsValidWidth(Target, Target.Width + delta, ActualWidth))
 					{
@@ -101,7 +107,7 @@ namespace Files.App.Controls
 							_reachedToBounds = false;
 					}
 
-					((TranslateTransform)RenderTransform).X = Target.Width - ActualWidth / 2;
+					((TranslateTransform)RenderTransform).X = Target.ActualWidth - ActualWidth / 2;
 				}
 				else
 				{

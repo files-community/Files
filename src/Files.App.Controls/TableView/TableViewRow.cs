@@ -6,8 +6,6 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
 using System.Collections.Specialized;
-using System.Linq;
-using System.Runtime.InteropServices;
 using Windows.Foundation;
 
 namespace Files.App.Controls
@@ -175,7 +173,7 @@ namespace Files.App.Controls
 			{
 				var column = owner.Columns[index];
 
-				child.Measure(new(column.ActualWidth - (column.Padding.Left + column.Padding.Right), availableSize.Height));
+				child.Measure(new(Math.Max(column.ActualWidth - (column.Padding.Left + column.Padding.Right), 0D), availableSize.Height));
 
 				maxHeight = Math.Max(maxHeight, child.DesiredSize.Height);
 

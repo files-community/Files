@@ -30,16 +30,7 @@ namespace Files.App.Controls
 
 			Unloaded += TableView_Unloaded;
 
-			if (_columnsPanel.Children.Count is 0)
-			{
-				foreach (var column in Columns)
-				{
-					_columnsPanel.Children.Add(column);
-					_columnsPanel.ColumnDefinitions.Add(new ColumnDefinition() { Width = new(0, GridUnitType.Auto) });
-					Grid.SetColumn(column, _columnsPanel.ColumnDefinitions.Count - 1);
-					column.SetOwner(this);
-				}
-			}
+			UpdateColumns();
 
 			if (View is ListViewBase listViewBase)
 			{
@@ -62,6 +53,8 @@ namespace Files.App.Controls
 		{
 			if (_columnsPanel is null)
 				return;
+
+			// TODO: Re-arrange ColumnDefinitions accordingly
 
 			switch (e.Action)
 			{
@@ -116,9 +109,9 @@ namespace Files.App.Controls
 			RecycleRowOf(sender, itemContainer, args.ItemIndex);
 
 			// Recycle the index 1 item since ContainerContentChanging doesn't get called for the index 1st item somehow.
-			if (args.ItemIndex is 1)
+			if (args.ItemIndex is 1 && sender.ContainerFromIndex(0) is Control container)
 			{
-				RecycleRowOf(sender, sender.ContainerFromIndex(0) as Control, 0);
+				RecycleRowOf(sender, container, 0);
 			}
 		}
 
@@ -192,6 +185,54 @@ namespace Files.App.Controls
 						row.InvalidateMeasure();
 					}
 				}
+			}
+		}
+
+		private void UpdateColumns()
+		{
+			if (_columnsPanel?.Children.Count is not 0) // TODO: Handle updating the property itself
+				return;
+
+			foreach (var column in Columns)
+			{
+				_columnsPanel.Children.Add(column);
+				_columnsPanel.ColumnDefinitions.Add(new() { Width = new(0, GridUnitType.Auto) });
+				Grid.SetColumn(column, _columnsPanel.ColumnDefinitions.Count - 1);
+				column.SetOwner(this);
+			}
+
+			_columnsPanel.ColumnDefinitions.Add(new() { Width = new(0, GridUnitType.Auto) });
+
+			// Put resize visual at the end of the Children collection to make sure it's on top of other elements
+			int resizeVisualPosition = 0;
+			foreach (var column in Columns)
+			{
+				// Set resize visual
+				var resizeVisual = new ResizeVisual { Target = column, Orientation = Orientation.Horizontal };
+				_columnsPanel.Children.Add(resizeVisual);
+				Grid.SetColumn(resizeVisual, resizeVisualPosition);
+				Grid.SetColumnSpan(resizeVisual, 2);
+
+				resizeVisual.DragDelta += ResizeVisual_DragDelta;
+				resizeVisual.DragCompleted += ResizeVisual_DragCompleted;
+
+				resizeVisualPosition++;
+			}
+		}
+
+		private void ResizeVisual_DragCompleted(object sender, DragCompletedEventArgs e)
+		{
+			if (sender is ResizeVisual { Target: TableViewColumn column })
+			{
+				column.OnColumnBeingResized();
+			}
+		}
+
+		private void ResizeVisual_DragDelta(object sender, DragDeltaEventArgs e)
+		{
+			if (sender is ResizeVisual { Target: TableViewColumn column })
+			{
+				column.OnColumnResizeCompleted();
 			}
 		}
 	}

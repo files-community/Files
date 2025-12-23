@@ -10,7 +10,6 @@ namespace Files.App.Controls
 	public abstract partial class TableViewColumn : Control
 	{
 		private const string TemplatePartName_RootGrid = "PART_RootGrid";
-		private const string TemplatePartName_ColumnSizer = "PART_ColumnSizer";
 
 		private const string TemplateVisualStateName_Normal = "Normal";
 		private const string TemplateVisualStateName_PointerOver = "PointerOver";
@@ -19,7 +18,6 @@ namespace Files.App.Controls
 		private WeakReference<TableView>? _owner;
 
 		private Grid? _rootGrid;
-		ContentSizer? _columnSizer;
 
 		[GeneratedDependencyProperty]
 		public partial string? Header { get; set; }
@@ -38,16 +36,11 @@ namespace Files.App.Controls
 
 			_rootGrid = GetTemplateChild(TemplatePartName_RootGrid) as Grid
 				?? throw new MissingFieldException($"Could not find {TemplatePartName_RootGrid} in the given {nameof(TableViewColumn)}'s style.");
-			_columnSizer = GetTemplateChild(TemplatePartName_ColumnSizer) as ContentSizer
-				?? throw new MissingFieldException($"Could not find {TemplatePartName_ColumnSizer} in the given {nameof(TableView)}'s style.");
 
 			_rootGrid.PointerEntered += RootGrid_PointerEntered;
 			_rootGrid.PointerExited += RootGrid_PointerExited;
 			_rootGrid.PointerPressed += RootGrid_PointerPressed;
 			_rootGrid.PointerReleased += RootGrid_PointerReleased;
-
-			_columnSizer.ManipulationDelta += ColumnSizer_ManipulationDelta;
-			_columnSizer.ManipulationCompleted += ColumnSizer_ManipulationCompleted;
 		}
 
 		public abstract FrameworkElement BuildCellElement(object dataItem);
@@ -92,7 +85,7 @@ namespace Files.App.Controls
 			VisualStateManager.GoToState(this, TemplateVisualStateName_PointerOver, true);
 		}
 
-		private void ColumnSizer_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+		internal protected void OnColumnBeingResized()
 		{
 			if (_owner is null || !_owner.TryGetTarget(out var owner))
 				return;
@@ -106,7 +99,7 @@ namespace Files.App.Controls
 			owner.RearrangeRows();
 		}
 
-		private void ColumnSizer_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+		internal protected void OnColumnResizeCompleted()
 		{
 			if (_owner is null || !_owner.TryGetTarget(out var owner))
 				return;
