@@ -607,8 +607,10 @@ namespace Files.App.Helpers
 			}
 			else
 			{
-				if (associatedInstance.ShellViewModel is not null shellViewModel)
+				if (associatedInstance.ShellViewModel is not null)
 				{
+					var shellViewModel = associatedInstance.ShellViewModel;
+
 					opened = await shellViewModel.GetFileWithPathFromPathAsync(path)
 						.OnSuccess(async childFile =>
 						{
