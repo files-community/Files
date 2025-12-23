@@ -124,7 +124,7 @@
     <value>Útvonal másolása</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Copy item path</value>
+    <value>Kiválasztott elem útvonalának másolása</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Útvonal másolása idézőjelekkel</value>
@@ -310,7 +310,7 @@
     <value>Sötét</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
-    <value>Use system setting</value>
+    <value>Rendszerbeállítás használata</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Alkalmazás</value>
@@ -1620,7 +1620,7 @@
     <value>Almappák engedélyeinek lecserélése ennek az objektum engedélyeivel</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
-    <value>Close pane</value>
+    <value>Panel bezárása</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Kompakt nézet</value>
@@ -1773,7 +1773,7 @@
     <value>Címkék</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>Fájlok megnyitása egy kattintással</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Mappa útvonala</value>
@@ -2073,7 +2073,7 @@
     <value>Zárolási képernyő</value>
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
-    <value>Open folders with a single click</value>
+    <value>Mappák megnyitása egy kattintással</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Elemek megnyitása</value>
@@ -4247,13 +4247,13 @@
     <comment>Button that appears in file hash properties that allows the user to compare two files</comment>
   </data>
   <data name="SizeFormat" xml:space="preserve">
-    <value>Size format</value>
+    <value>Méret formátum</value>
   </data>
   <data name="Binary" xml:space="preserve">
-    <value>Binary</value>
+    <value>Bináris</value>
   </data>
   <data name="Decimal" xml:space="preserve">
-    <value>Decimal</value>
+    <value>Decimális</value>
   </data>
   <data name="SectionsHiddenMessage" xml:space="preserve">
     <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add</value>
@@ -4342,10 +4342,10 @@
     <value>Unable to open the log file</value>
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
-    <value>Show status bar</value>
+    <value>Állapotsor megjelenítése</value>
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
-    <value>Only in Columns View</value>
+    <value>Csak Oszlopok Nézetben</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>New {0}</value>
