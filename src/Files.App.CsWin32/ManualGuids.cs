@@ -12,6 +12,24 @@ namespace Windows.Win32
 		public static Guid* IID_IStorageProviderStatusUISourceFactory
 			=> (Guid*)Unsafe.AsPointer(ref Unsafe.AsRef(in IStorageProviderStatusUISourceFactory.Guid));
 
+		[GuidRVAGen.Guid("E9C5EF8D-FD41-4F72-BA87-EB03BAD5817C")]
+		public static partial Guid* IID_IAutomaticDestinationList { get; }
+
+		[GuidRVAGen.Guid("6332DEBF-87B5-4670-90C0-5E57B408A49E")]
+		public static partial Guid* IID_ICustomDestinationList { get; }
+
+		[GuidRVAGen.Guid("5632B1A4-E38A-400A-928A-D4CD63230295")]
+		public static partial Guid* IID_IObjectCollection { get; }
+
+		[GuidRVAGen.Guid("00000000-0000-0000-C000-000000000046")]
+		public static partial Guid* IID_IUnknown { get; }
+
+		[GuidRVAGen.Guid("886D8EEB-8CF2-4446-8D02-CDBA1DBDCF99")]
+		public static partial Guid* IID_IPropertyStore { get; }
+
+		[GuidRVAGen.Guid("507101CD-F6AD-46C8-8E20-EEB9E6BAC47F")]
+		public static partial Guid* IID_IInternalCustomDestinationList { get; }
+
 		[GuidRVAGen.Guid("000214E4-0000-0000-C000-000000000046")]
 		public static partial Guid* IID_IContextMenu { get; }
 
@@ -62,10 +80,25 @@ namespace Windows.Win32
 
 		[GuidRVAGen.Guid("000214F4-0000-0000-C000-000000000046")]
 		public static partial Guid* IID_IContextMenu2 { get; }
+
+		[GuidRVAGen.Guid("92CA9DCD-5622-4BBA-A805-5E9F541BD8C9")]
+		public static partial Guid* IID_IObjectArray { get; }
+
+		[GuidRVAGen.Guid("000214FA-0000-0000-C000-000000000046")]
+		public static partial Guid* IID_IExtractIconW { get; }
+
+		[GuidRVAGen.Guid("000214E6-0000-0000-C000-000000000046")]
+		public static partial Guid* IID_IShellFolder { get; }
 	}
 
 	public static unsafe partial class CLSID
 	{
+		[GuidRVAGen.Guid("F0AE1542-F497-484B-A175-A20DB09144BA")]
+		public static partial Guid* CLSID_AutomaticDestinationList { get; }
+
+		[GuidRVAGen.Guid("77F10CF0-3DB5-4966-B520-B7C54FD35ED6")]
+		public static partial Guid* CLSID_DestinationList { get; }
+
 		[GuidRVAGen.Guid("3AD05575-8857-4850-9277-11B85BDB8E09")]
 		public static partial Guid* CLSID_FileOperation { get; }
 
@@ -89,6 +122,12 @@ namespace Windows.Win32
 
 		[GuidRVAGen.Guid("D969A300-E7FF-11d0-A93B-00A0C90F2719")]
 		public static partial Guid* CLSID_NewMenu { get; }
+
+		[GuidRVAGen.Guid("2D3468C1-36A7-43B6-AC24-D3F02FD9607A")]
+		public static partial Guid* CLSID_EnumerableObjectCollection { get; }
+
+		[GuidRVAGen.Guid("00021401-0000-0000-C000-000000000046")]
+		public static partial Guid* CLSID_ShellLink { get; }
 	}
 
 	public static unsafe partial class BHID
@@ -104,5 +143,8 @@ namespace Windows.Win32
 	{
 		[GuidRVAGen.Guid("B7534046-3ECB-4C18-BE4E-64CD4CB7D6AC")]
 		public static partial Guid* FOLDERID_RecycleBinFolder { get; }
+
+		[GuidRVAGen.Guid("AE50C081-EBD2-438A-8655-8A092E34987A")]
+		public static partial Guid* FOLDERID_Recent { get; }
 	}
 }
