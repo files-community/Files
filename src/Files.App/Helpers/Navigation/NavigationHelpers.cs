@@ -637,9 +637,7 @@ namespace Files.App.Helpers
 								bool launchSuccess = false;
 								BaseStorageFileQueryResult? fileQueryResult = null;
 								//Get folder to create a file query (to pass to apps like Photos, Movies & TV..., needed to scroll through the folder like what Windows Explorer does)
-								BaseStorageFolder? currentFolder = associatedInstance.ShellViewModel is not null
-									? await associatedInstance.ShellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(path))
-									: null;
+								BaseStorageFolder currentFolder = await shellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(path));
 								if (currentFolder is not null)
 								{
 									QueryOptions queryOptions = new(CommonFileQuery.DefaultQuery, null);
