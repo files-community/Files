@@ -11,11 +11,6 @@ namespace Files.App.Controls
 		object? Children { get; }
 
 		/// <summary>
-		/// The icon source used to generate the icon for the SidebarItem
-		/// </summary>
-		IconSource? IconSource { get; }
-
-		/// <summary>
 		/// Item decorator for the given item.
 		/// </summary>
 		FrameworkElement? ItemDecorator { get => null; }

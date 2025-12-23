@@ -121,25 +121,21 @@ namespace Files.App.Controls
 		{
 			if (lastSubscriber != null)
 			{
-				lastSubscriber.PropertyChanged -= ItemPropertyChangedHandler;
 				if (lastSubscriber.Children is INotifyCollectionChanged observableCollection)
 					observableCollection.CollectionChanged -= ChildItems_CollectionChanged;
 			}
 
 			if (oldItem != null)
 			{
-				oldItem.PropertyChanged -= ItemPropertyChangedHandler;
 				if (oldItem.Children is INotifyCollectionChanged observableCollection)
 					observableCollection.CollectionChanged -= ChildItems_CollectionChanged;
 			}
 			if (newItem != null)
 			{
-				newItem.PropertyChanged += ItemPropertyChangedHandler;
 				lastSubscriber = newItem;
 				if (newItem.Children is INotifyCollectionChanged observableCollection)
 					observableCollection.CollectionChanged += ChildItems_CollectionChanged;
 			}
-			UpdateIcon();
 		}
 
 		private void SidebarItem_DragStarting(UIElement sender, DragStartingEventArgs args)
@@ -169,14 +165,6 @@ namespace Files.App.Controls
 			if (DisplayMode == SidebarDisplayMode.Compact && !HasChildren)
 			{
 				SetFlyoutOpen(false);
-			}
-		}
-
-		void ItemPropertyChangedHandler(object? sender, PropertyChangedEventArgs args)
-		{
-			if (args.PropertyName == nameof(ISidebarItemModel.IconSource))
-			{
-				UpdateIcon();
 			}
 		}
 
@@ -275,13 +263,6 @@ namespace Files.App.Controls
 		{
 			VisualStateManager.GoToState(this, ShouldShowSelectionIndicator() ? "Selected" : "Unselected", true);
 			UpdatePointerState();
-		}
-
-		private void UpdateIcon()
-		{
-			Icon = Item?.IconSource?.CreateIconElement();
-			if (Icon is not null)
-				AutomationProperties.SetAccessibilityView(Icon, AccessibilityView.Raw);
 		}
 
 		private bool ShouldShowSelectionIndicator()

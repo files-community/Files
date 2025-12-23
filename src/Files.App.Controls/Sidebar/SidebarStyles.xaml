@@ -38,7 +38,8 @@
 
 	<DataTemplate x:Key="DefaultSidebarItemTemplate">
 		<local:SidebarItem
-			AutomationProperties.AutomationId="{Binding Text, Mode=OneWay}"
+			AutomationProperties.AutomationId="{Binding Text}"
+			Icon="{Binding IconElement}"
 			IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
 			Item="{Binding}" />
 	</DataTemplate>
