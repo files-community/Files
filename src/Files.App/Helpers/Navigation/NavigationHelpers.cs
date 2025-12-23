@@ -607,9 +607,9 @@ namespace Files.App.Helpers
 			}
 			else
 			{
-				if (associatedInstance.ShellViewModel is not null)
+				if (associatedInstance.ShellViewModel is not null shellViewModel)
 				{
-					opened = await associatedInstance.ShellViewModel.GetFileWithPathFromPathAsync(path)
+					opened = await shellViewModel.GetFileWithPathFromPathAsync(path)
 						.OnSuccess(async childFile =>
 						{
 						// Add location to Recent Items List
