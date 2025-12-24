@@ -4063,16 +4063,16 @@
     <value>Fülműveletek menü</value>
   </data>
   <data name="SplitPaneVertically" xml:space="preserve">
-    <value>Split vertically</value>
+    <value>Elrendezés függőlegesen</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Split pane vertically</value>
+    <value>Elrendezés függőlegesen</value>
   </data>
   <data name="SplitPaneHorizontally" xml:space="preserve">
-    <value>Split horizontally</value>
+    <value>Elrendezés vízszintesen</value>
   </data>
   <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
-    <value>Split pane horizontally</value>
+    <value>Elrendezés vízszintesen</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Elrendezés függőlegesen</value>
@@ -4087,7 +4087,7 @@
     <value>Panelek elrendezése vízszintesen</value>
   </data>
   <data name="SplitPane" xml:space="preserve">
-    <value>Split pane</value>
+    <value>Osztott panel mód</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Mutassa a fülműveletek gombot a címsorban</value>
@@ -4096,10 +4096,10 @@
     <value>Panelek elrendezése</value>
   </data>
   <data name="DualPaneSplitDirection" xml:space="preserve">
-    <value>Default dual pane split direction</value>
+    <value>Alapértelmezett osztott panel elválasztási irány</value>
   </data>
   <data name="DualPane" xml:space="preserve">
-    <value>Dual pane mode</value>
+    <value>Osztott paneles mód</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>Vízszintes</value>
