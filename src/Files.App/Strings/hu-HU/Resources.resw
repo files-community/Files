@@ -4327,7 +4327,7 @@
     <value>No signature was found.</value>
   </data>
   <data name="ShowOpenTerminal" xml:space="preserve">
-    <value>Show option to open folders in Windows Terminal</value>
+    <value>Mappa megnyitása Windows Terminálban lehetősége</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
     <value>Log fájl megnyitása</value>
