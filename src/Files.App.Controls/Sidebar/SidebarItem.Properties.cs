@@ -91,6 +91,9 @@ namespace Files.App.Controls
 		[GeneratedDependencyProperty]
 		public partial string? Text { get; set; }
 
+		[GeneratedDependencyProperty]
+		public partial object? ToolTip { get; set; }
+
 		public static void SetTemplateRoot(DependencyObject target, FrameworkElement value)
 		{
 			target.SetValue(TemplateRootProperty, value);

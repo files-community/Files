@@ -43,7 +43,8 @@
 			Icon="{Binding IconElement}"
 			IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
 			Item="{Binding}"
-			Text="{Binding Text}" />
+			Text="{Binding Text}"
+			ToolTip="{Binding ToolTip}" />
 	</DataTemplate>
 
 	<Style TargetType="local:SidebarItem">
@@ -87,7 +88,7 @@
 								CornerRadius="{ThemeResource ControlCornerRadius}"
 								IsTabStop="True"
 								TabFocusNavigation="Once"
-								ToolTipService.ToolTip="{Binding ToolTip, Mode=OneWay}"
+								ToolTipService.ToolTip="{TemplateBinding ToolTip}"
 								UseSystemFocusVisuals="True">
 								<Grid.ColumnDefinitions>
 									<!--  Selection Indicator  -->

@@ -17,11 +17,6 @@ namespace Files.App.Controls
 		bool IsExpanded { get; set; }
 
 		/// <summary>
-		/// The tooltip used when hovering over this item in the sidebar
-		/// </summary>
-		object ToolTip { get; }
-
-		/// <summary>
 		/// Indicates whether the children should have an indentation or not.
 		/// </summary>
 		bool PaddedItem { get; }
