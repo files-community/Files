@@ -387,6 +387,18 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool EnableThumbnailCache
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public double ThumbnailCacheSizeLimit
+		{
+			get => Get(512d);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			base.RaiseOnSettingChangedEvent(sender, e);

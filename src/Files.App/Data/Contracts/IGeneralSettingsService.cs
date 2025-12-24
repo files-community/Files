@@ -314,5 +314,15 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value whether the filter header should be displayed.
 		/// </summary>
 		bool ShowFilterHeader { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether thumbnail cache should be enabled.
+		/// </summary>
+		bool EnableThumbnailCache { get; set; }
+
+		/// <summary>
+		/// Gets or sets the thumbnail cache size limit in MB.
+		/// </summary>
+		double ThumbnailCacheSizeLimit { get; set; }
 	}
 }
