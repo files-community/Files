@@ -17,11 +17,6 @@ namespace Files.App.Controls
 		bool IsExpanded { get; set; }
 
 		/// <summary>
-		/// The text of this item that will be rendered as the label of the SidebarItem
-		/// </summary>
-		string Text { get; }
-
-		/// <summary>
 		/// The tooltip used when hovering over this item in the sidebar
 		/// </summary>
 		object ToolTip { get; }

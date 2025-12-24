@@ -6,8 +6,4 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="using:Files.App.UITests.Views"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-	mc:Ignorable="d">
-
-	<controls:SidebarView x:Name="Sidebar" MenuItemsSource="{x:Bind sidebarModels}" />
-</Page>
+	mc:Ignorable="d" />

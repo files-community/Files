@@ -42,7 +42,8 @@
 			Decorator="{Binding ItemDecorator}"
 			Icon="{Binding IconElement}"
 			IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
-			Item="{Binding}" />
+			Item="{Binding}"
+			Text="{Binding Text}" />
 	</DataTemplate>
 
 	<Style TargetType="local:SidebarItem">
@@ -123,7 +124,7 @@
 									HorizontalAlignment="Center"
 									VerticalAlignment="Center"
 									AutomationProperties.AccessibilityView="Raw"
-									Content="{Binding Icon, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+									Content="{TemplateBinding Icon}" />
 
 								<!--  Text  -->
 								<TextBlock
@@ -135,7 +136,7 @@
 									AutomationProperties.AccessibilityView="Raw"
 									FontFamily="{ThemeResource ContentControlThemeFontFamily}"
 									LineHeight="16"
-									Text="{Binding Text, Mode=OneWay}"
+									Text="{TemplateBinding Text}"
 									TextTrimming="CharacterEllipsis"
 									TextWrapping="NoWrap" />
 
@@ -148,7 +149,7 @@
 									HorizontalContentAlignment="Center"
 									VerticalContentAlignment="Center"
 									BorderThickness="0"
-									Content="{Binding Decorator, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+									Content="{TemplateBinding Decorator}"
 									Visibility="Collapsed" />
 
 								<!--  Chevron  -->

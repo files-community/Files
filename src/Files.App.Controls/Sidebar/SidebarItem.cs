@@ -137,7 +137,7 @@ namespace Files.App.Controls
 
 		private void SidebarItem_DragStarting(UIElement sender, DragStartingEventArgs args)
 		{
-			args.Data.SetData(StandardDataFormats.Text, Item!.Text.ToString());
+			args.Data.SetData(StandardDataFormats.Text, Text?.ToString() ?? string.Empty);
 		}
 
 		private void SetFlyoutOpen(bool isOpen = true)

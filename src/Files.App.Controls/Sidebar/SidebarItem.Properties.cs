@@ -1,6 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI;
+
 namespace Files.App.Controls
 {
 	public sealed partial class SidebarItem : Control
@@ -85,6 +87,9 @@ namespace Files.App.Controls
 		}
 		public static readonly DependencyProperty DisplayModeProperty =
 			DependencyProperty.Register(nameof(DisplayMode), typeof(SidebarDisplayMode), typeof(SidebarItem), new PropertyMetadata(SidebarDisplayMode.Expanded, OnPropertyChanged));
+
+		[GeneratedDependencyProperty]
+		public partial string? Text { get; set; }
 
 		public static void SetTemplateRoot(DependencyObject target, FrameworkElement value)
 		{
