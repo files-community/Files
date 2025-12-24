@@ -217,7 +217,7 @@
     <value>Rejtett fájlok és mappák megjelenítése</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Ponttal kezdődő fájlok megjelenítése</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Megjelenés</value>
@@ -1047,13 +1047,13 @@
     <value>Mappa megnyitása új panelen</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
-    <value>Az elérési útvonal másolásának megjelenítése</value>
+    <value>Elérési útvonal másolásának megjelenítése</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
     <value>Mappa létrehozásának lehetősége a kiválasztással</value>
   </data>
   <data name="ShowCreateShortcut" xml:space="preserve">
-    <value>A parancsikon létrehozásának lehetősége</value>
+    <value>Parancsikon létrehozásának megjelnítése</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Új panel</value>
@@ -2448,34 +2448,34 @@
     <value>Oldalsáv megjelenítésének ki-/bekapcsolása</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy selected {0, plural, one {item} other {items}}</value>
+    <value>Kiválasztott {0, plural, one {elem} other {elemek}} másolása</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of the current directory</value>
+    <value>Aktuális mappa útvonalának másolása</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Copy path of selected items</value>
+    <value>Kiválasztott elemek útvonalának másolása</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of selected items with quotes</value>
+    <value>Kiválasztott elemek útvonalának másolása idézőjelekkel</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of the current directory with quotes</value>
+    <value>Aktuális mappa útvonalának másolása idézőjelekkel</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut selected {0, plural, one {item} other {items}}</value>
+    <value>Kiválasztott {0, plural, one {elem} other {elemek}} kivágása</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste items to the current folder</value>
+    <value>Elemek beillesztése az aktuális mappába</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items to the current folder as shortcuts</value>
+    <value>Elemek beillesztése az aktuális mappába parancsikonokként</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items to the selected folder</value>
+    <value>Elemek beillesztése a kiválasztott mappába</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
-    <value>Paste to selected folder</value>
+    <value>Beillesztés a kiválasztott mappába</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>{0, plural, one {#} other {#}} elem törlése</value>
@@ -2595,19 +2595,19 @@
     <value>Create zip archive with selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
+    <value>Kiválasztott {0, plural, one {archívum} other {archívumok}} kicsomagolása egy mappába</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
+    <value>Kiválasztott {0, plural, one {archívum} other {archívumok}} kicsomagolása ide</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
+    <value>Kiválasztott {0, plural, one {archívum} other {archívumok}} kicsomagolása új mappába</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected {0, plural, one {image} other {images}} to the left</value>
+    <value>Kiválasztott {0, plural, one {kép} other {képek}} elforgatása balra</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected {0, plural, one {image} other {images}} to the right</value>
+    <value>Kiválasztott {0, plural, one {kép} other {képek}} elforgatása jobbra</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>Beállítások oldal megnyitása</value>
@@ -2763,7 +2763,7 @@
     <value>A kiválasztotton kívüli lapok bezárása</value>
   </data>
   <data name="CloseAllTabsDescription" xml:space="preserve">
-    <value>Az összes lap bezárása, beleértve az aktuális lapot is</value>
+    <value>Összes lap bezárása, beleértve az aktuális lapot is</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
     <value>Reopen recently closed tab</value>
@@ -2778,7 +2778,7 @@
     <value>Aktuális lap bezárása</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>Close the active pane</value>
+    <value>Aktív panel bezárása</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
     <value>Fókusz váltása a másik panelra</value>
@@ -3040,10 +3040,10 @@
     <value>Elem helyének megnyitása</value>
   </data>
   <data name="DeletePermanently" xml:space="preserve">
-    <value>Törlés végelgesen</value>
+    <value>Törlés véglegesen</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete selected {0, plural, one {item} other {items}} permanently</value>
+    <value>Kiválasztott {0, plural, one {elem} other {elemek}} törlése véglegesen</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>A kiválasztott médiafájlok lejátszása</value>
@@ -3789,7 +3789,7 @@
     <value>Hiba történt a címke alkalmazása közben</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
+    <value>Kiválasztott {0, plural, one {archívum} other {archívumok}} kicsomagolása ide egy elem vagy új mappába több elem esetén</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Intelligens kicsomagolás ide</value>
@@ -4345,7 +4345,7 @@
     <value>Állapotsor megjelenítése</value>
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
-    <value>Csak Oszlopok Nézetben</value>
+    <value>Csak oszlopos nézetben</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>New {0}</value>
