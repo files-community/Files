@@ -90,9 +90,6 @@ namespace Files.App.Controls
 			HookupItemChangeListener(null, Item);
 			UpdateExpansionState();
 			ReevaluateSelection();
-
-			if (Item is not null)
-				Decorator = Item.ItemDecorator;
 		}
 
 		private void HookupOwners()

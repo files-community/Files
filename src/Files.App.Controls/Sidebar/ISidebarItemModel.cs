@@ -11,11 +11,6 @@ namespace Files.App.Controls
 		object? Children { get; }
 
 		/// <summary>
-		/// Item decorator for the given item.
-		/// </summary>
-		FrameworkElement? ItemDecorator { get => null; }
-
-		/// <summary>
 		/// Determines whether the SidebarItem is expanded and the children are visible 
 		/// or if it is collapsed and children are not visible.
 		/// </summary>
