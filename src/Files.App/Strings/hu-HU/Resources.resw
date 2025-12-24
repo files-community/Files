@@ -2235,7 +2235,7 @@
     <value>Beállítási fájl szerkesztése</value>
   </data>
   <data name="EditSettingsFileDescription" xml:space="preserve">
-    <value>Open settings file in your default editor</value>
+    <value>Beállítási fájl megnyitása az alapértelmezett szerkesztőben</value>
   </data>
   <data name="ReleaseNotes" xml:space="preserve">
     <value>Verziónapló</value>
@@ -2421,13 +2421,13 @@
     <value>Teljes képernyős mód váltása</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>Enter compact overlay mode</value>
+    <value>Belépés a kompakt nézetbe</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
-    <value>Exit compact overlay mode</value>
+    <value>Kilépés a kompakt nézetből</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Toggle compact overlay mode</value>
+    <value>Kompakt mód ki-/bekapcsolása</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>Start search in the OmniBar</value>
@@ -2613,7 +2613,7 @@
     <value>Beállítások oldal megnyitása</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
-    <value>Mappa megnyitásba terminálban</value>
+    <value>Mappa megnyitása terminálban</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
     <value>Mappa megnyitása terminálban rendszergazdaként</value>
@@ -2730,10 +2730,10 @@
     <value>Új lap megnyitása</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward</value>
+    <value>Visszalépés</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward</value>
+    <value>Előrelépés</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Felfelé lépés</value>
@@ -2784,7 +2784,7 @@
     <value>Fókusz váltása a másik panelra</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Switch focus to the other pane</value>
+    <value>Másik panel aktívvá tétele</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Oldalsáv átállítása</value>
@@ -3028,7 +3028,7 @@
     <value>Jelölőnégyzetek megjelenítése elemek kiválasztásakor</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Edit path in the OmniBar</value>
+    <value>Elérési út szerkesztése az OmniBar-ban</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Új elem létrehozása</value>
@@ -3332,13 +3332,13 @@
     <value>Elemek rendezése elérési útvonal szerint</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Open selected directory in a new pane</value>
+    <value>Kiválasztott mappa megnyitása új panelen</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Open selected directory in a new tab</value>
+    <value>Kiválasztott mappa megnyitása új lapon</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open selected directory in a new window</value>
+    <value>Kiválasztott mappa megnyitása új ablakban</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
     <value>Összes megnyitása</value>
@@ -3363,10 +3363,10 @@
     <value>A '{0}' parancs nem áll készen a végrehajtásra.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Command Palette</value>
+    <value>Parancspaletta</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open Command Palette in the OmniBar</value>
+    <value>Parancspaletta megnyitása az OmniBar-ban</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Kezdés:</value>
@@ -3762,7 +3762,7 @@
     <value>Nem sikerült beállítani a háttérképet</value>
   </data>
   <data name="FailedToOpenSettingsFile" xml:space="preserve">
-    <value>Failed to open the settings file</value>
+    <value>Nem sikerült megnyitni a beállítási fájlt</value>
   </data>
   <data name="GitDeleteBranch" xml:space="preserve">
     <value>Git ág kitörlése</value>
@@ -3995,7 +3995,7 @@
   </data>
   <data name="AllLocations" xml:space="preserve">
     <value>Mindenhol</value>
-    <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
+    <comment>Beállítás, amivel a felhasználók megjeleníthetik az "Open IDE" gombot a Git repók számára</comment>
   </data>
   <data name="DevTools" xml:space="preserve">
     <value>Fejlesztői eszközök</value>
@@ -4005,7 +4005,7 @@
   </data>
   <data name="GitRepos" xml:space="preserve">
     <value>Git repókban</value>
-    <comment>Setting where users can choose to display "Open IDE" button for all locations.</comment>
+    <comment>Beállítás, amivel a felhasználók megjeleníthetik az "Open IDE" gombot minden hely számára.</comment>
   </data>
   <data name="ApplicationExtension" xml:space="preserve">
     <value>Alkalmazás kiegészítő</value>
@@ -4215,7 +4215,7 @@
     <value>The configured IDE could not be located</value>
   </data>
   <data name="OpenSettings" xml:space="preserve">
-    <value>Open settings</value>
+    <value>Beállítások megnyitása</value>
   </data>
   <data name="VisualStudioCode" xml:space="preserve">
     <value>Visual Studio Code</value>
@@ -4262,13 +4262,13 @@
     <value>Drag files or folders here to interact with them across different tabs</value>
   </data>
   <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
-    <value>Enter a path to navigate to...</value>
+    <value>Írjon be egy elérési útvonalat...</value>
   </data>
   <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
-    <value>Find features and commands...</value>
+    <value>Funkciók és parancsok megtalálása...</value>
   </data>
   <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
-    <value>Search for files and folders...</value>
+    <value>Fájlok és mappák keresése...</value>
   </data>
   <data name="DuringOngoingFileOperations" xml:space="preserve">
     <value>During file operations</value>
@@ -4330,13 +4330,13 @@
     <value>Show option to open folders in Windows Terminal</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
-    <value>Open log file</value>
+    <value>Log fájl megnyitása</value>
   </data>
   <data name="OpenLogFileDescription" xml:space="preserve">
-    <value>Open log file in your default editor</value>
+    <value>Log fájl megnyitása az alapértelmezett szerkesztőben</value>
   </data>
   <data name="OpenLogFileLocationDescription" xml:space="preserve">
-    <value>Open log file location in your default file manager</value>
+    <value>Log fájl mappájának megnyitása az alapértelmezett fájlkezelőben</value>
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
     <value>Unable to open the log file</value>
