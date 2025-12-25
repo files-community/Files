@@ -4348,6 +4348,6 @@
     <value>Sólo en la vista de columnas</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
-    <value>New {0}</value>
+    <value>Nuevo {0}</value>
   </data>
 </root>
