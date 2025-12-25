@@ -310,7 +310,7 @@
     <value>Tmavý</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
-    <value>Use system setting</value>
+    <value>Použít systémové nastavení</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Aplikace</value>
@@ -1011,7 +1011,7 @@
     <value>Výsledky vyhledávání v {1} pro {0}</value>
   </data>
   <data name="SearchResultsFor" xml:space="preserve">
-    <value>Search results for `{0}`</value>
+    <value>Výsledky vyhledávání pro `{0}`</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>Podrobnosti</value>
@@ -1101,10 +1101,10 @@
     <value>Přepnout viditelnost panelu nástrojů</value>
   </data>
   <data name="ToggleFilterHeader" xml:space="preserve">
-    <value>Toggle filter header</value>
+    <value>Přepnout filtrovací lištu</value>
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
-    <value>Toggle visibility of the filter header</value>
+    <value>Přepnout viditelnost panelu vyhledávání</value>
   </data>
   <data name="ToggleDualPane" xml:space="preserve">
     <value>Toggle dual pane</value>
@@ -1773,7 +1773,7 @@
     <value>Štítek</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>Otevírat soubory jedním kliknutím</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Cesta ke složce</value>
@@ -2028,16 +2028,16 @@
     <value>Chování</value>
   </data>
   <data name="Hello" xml:space="preserve">
-    <value>Hello!</value>
+    <value>Zdravíme!</value>
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Užíváte si Files? Zvažte prosím ohodnocení v Microsoft Store.</value>
   </data>  
   <data name="SponsorSubtitle" xml:space="preserve">
-    <value>Enjoying Files? Please consider supporting the project on GitHub.</value>
+    <value>Líbí se Vám aplikace Files? Zvažte prosím podpoření projektu na GitHub.</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
-    <value>Sponsor</value>
+    <value>Sponzorovat</value>
   </data>
   <data name="RateUs" xml:space="preserve">
     <value>Ohodnoťte nás</value>
@@ -2073,7 +2073,7 @@
     <value>Zamykací obrazovka</value>
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
-    <value>Open folders with a single click</value>
+    <value>Otevírat složky jedním kliknutím</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Otevírání položek</value>
@@ -3497,7 +3497,7 @@
     <value>Zpracovávání položek...</value>
   </data>
   <data name="DiscoveringItems" xml:space="preserve">
-    <value>Discovering items...</value>
+    <value>Zjišťování položek...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Rychlost:</value>
@@ -4063,13 +4063,13 @@
     <value>Nabídka akcí</value>
   </data>
   <data name="SplitPaneVertically" xml:space="preserve">
-    <value>Split vertically</value>
+    <value>Rozdělit vertikálně</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
     <value>Split pane vertically</value>
   </data>
   <data name="SplitPaneHorizontally" xml:space="preserve">
-    <value>Split horizontally</value>
+    <value>Rozdělit horizontálně</value>
   </data>
   <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
     <value>Split pane horizontally</value>
@@ -4087,7 +4087,7 @@
     <value>Uspořádání panelů vodorovně</value>
   </data>
   <data name="SplitPane" xml:space="preserve">
-    <value>Split pane</value>
+    <value>Rozdělit panel</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Zobrazit tlačítko nabídky akcí v záhlaví</value>
@@ -4300,28 +4300,28 @@
     <value>Zobrazit více</value>
   </data>
   <data name="FilteringFor" xml:space="preserve">
-    <value>Filtering for</value>
+    <value>Filtrování pro</value>
   </data>
   <data name="Filename" xml:space="preserve">
     <value>Název souboru</value>
   </data>
   <data name="Signatures" xml:space="preserve">
-    <value>Signatures</value>
+    <value>Podpisy</value>
    </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Signature list</value>
   </data>
   <data name="IssuedBy" xml:space="preserve">
-    <value>Issued by:</value>
+    <value>Vydal:</value>
   </data>
   <data name="IssuedTo" xml:space="preserve">
-    <value>Issued to:</value>
+    <value>Vydáno pro:</value>
   </data>
   <data name="ValidFrom" xml:space="preserve">
-    <value>Valid from:</value>
+    <value>Platné od:</value>
   </data>
   <data name="ValidTo" xml:space="preserve">
-    <value>Valid to:</value>
+    <value>Platné do:</value>
   </data>
   <data name="NoSignatureFound" xml:space="preserve">
     <value>No signature was found.</value>
