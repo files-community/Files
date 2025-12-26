@@ -111,6 +111,9 @@ namespace Files.App
 				Logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 				AppModel = Ioc.Default.GetRequiredService<AppModel>();
 
+				var thumbnailService = Ioc.Default.GetRequiredService<IThumbnailService>();
+				FileThumbnailHelper.Initialize(thumbnailService);
+
 				// Hook events for the window
 				MainWindow.Instance.Closed += Window_Closed;
 				MainWindow.Instance.Activated += Window_Activated;

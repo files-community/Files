@@ -356,6 +356,32 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool EnableThumbnailCache
+		{
+			get => UserSettingsService.GeneralSettingsService.EnableThumbnailCache;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.EnableThumbnailCache)
+				{
+					UserSettingsService.GeneralSettingsService.EnableThumbnailCache = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public double ThumbnailCacheSizeLimit
+		{
+			get => UserSettingsService.GeneralSettingsService.ThumbnailCacheSizeLimit;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ThumbnailCacheSizeLimit)
+				{
+					UserSettingsService.GeneralSettingsService.ThumbnailCacheSizeLimit = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public async Task OpenFilesOnWindowsStartupAsync()
 		{
 			var stateMode = await ReadState();
