@@ -75,6 +75,9 @@ namespace Files.App.Services.Thumbnails
 		{
 			try
 			{
+				if (IsPathInCacheDirectory(path))
+					return;
+
 				var metadata = GetFileMetadata(path);
 				var cacheKey = GenerateCacheKey(path, size, options, metadata);
 				var cachePath = Path.Combine(_cacheDirectory, $"{cacheKey}{CacheFileExtension}");
@@ -98,6 +101,19 @@ namespace Files.App.Services.Thumbnails
 			catch (Exception ex)
 			{
 				_logger.LogWarning(ex, "Error writing cache for {Path}", path);
+			}
+		}
+
+		private bool IsPathInCacheDirectory(string path)
+		{
+			try
+			{
+				var normalizedPath = Path.GetFullPath(path);
+				return normalizedPath.StartsWith(_cacheDirectory, StringComparison.OrdinalIgnoreCase);
+			}
+			catch
+			{
+				return false;
 			}
 		}
 
