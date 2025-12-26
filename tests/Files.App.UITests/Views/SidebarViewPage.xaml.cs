@@ -1,4 +1,6 @@
-using Files.App.UITests.TestData;
+// Copyright (c) Files Community
+// Licensed under the MIT License.
+
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
 
@@ -6,15 +8,9 @@ namespace Files.App.UITests.Views
 {
 	public sealed partial class SidebarViewPage : Page
 	{
-		private ObservableCollection<TestSidebarModel> sidebarModels = new();
-
 		public SidebarViewPage()
 		{
 			InitializeComponent();
-
-			sidebarModels.Add(new TestSidebarModel { Text = "Test 1" });
-			sidebarModels.Add(new TestSidebarModel { Text = "Test 2" });
-			sidebarModels.Add(new TestSidebarModel { Text = "Test 3" });
 		}
 	}
 }
