@@ -237,8 +237,10 @@ jobs:
         shell: pwsh
         command: |
           dotnet test `
-            $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll `
-            --logger "trx;LogFileName=$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx"
+            --test-modules $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll `
+            --results-directory $env:AUTOMATED_TESTS_ASSEMBLY_DIR `
+            --report-trx `
+            --report-trx-filename testResults.trx
 
     - if: github.event_name == 'pull_request'
       uses: geekyeggo/delete-artifact@v5
