@@ -204,7 +204,7 @@ namespace Files.App.Services.Thumbnails
 					_logger.LogInformation("Cache size {Current} MB exceeds limit {Max} MB, evicting...",
 						currentSize / 1024 / 1024, maxCacheSizeBytes / 1024 / 1024);
 
-					await EvictToSizeAsync(maxCacheSizeBytes * 3 / 4);
+					await EvictToSizeCoreAsync(maxCacheSizeBytes * 3 / 4);
 				}
 			}
 			finally
@@ -236,51 +236,57 @@ namespace Files.App.Services.Thumbnails
 			{
 				return 0;
 			}
-		}
-
+		}		
+		
 		public async Task EvictToSizeAsync(long targetSizeBytes)
 		{
 			await _evictionLock.WaitAsync();
 
 			try
 			{
-				var cacheDir = new DirectoryInfo(_cacheDirectory);
-				if (!cacheDir.Exists)
-					return;
-
-				var files = cacheDir.GetFiles($"*{CacheFileExtension}")
-					.OrderBy(f => f.LastAccessTime)
-					.ToList();
-
-				long currentSize = files.Sum(f => f.Length);
-				int removedCount = 0;
-
-				foreach (var file in files)
-				{
-					if (currentSize <= targetSizeBytes)
-						break;
-
-					try
-					{
-						var cacheKey = Path.GetFileNameWithoutExtension(file.Name);
-						currentSize -= file.Length;
-						file.Delete();
-						_memoryIndex.TryRemove(cacheKey, out _);
-						removedCount++;
-					}
-					catch (Exception ex)
-					{
-						_logger.LogWarning(ex, "Error deleting cache file {Path}", file.FullName);
-					}
-				}
-
-				_logger.LogInformation("Evicted {Count} cache entries, new size: {Size} MB",
-					removedCount, currentSize / 1024 / 1024);
+				await EvictToSizeCoreAsync(targetSizeBytes);
 			}
 			finally
 			{
 				_evictionLock.Release();
 			}
+		}
+
+
+		private async Task EvictToSizeCoreAsync(long targetSizeBytes)
+		{
+			var cacheDir = new DirectoryInfo(_cacheDirectory);
+			if (!cacheDir.Exists)
+				return;
+
+			var files = cacheDir.GetFiles($"*{CacheFileExtension}")
+				.OrderBy(f => f.LastAccessTime)
+				.ToList();
+
+			long currentSize = files.Sum(f => f.Length);
+			int removedCount = 0;
+
+			foreach (var file in files)
+			{
+				if (currentSize <= targetSizeBytes)
+					break;
+
+				try
+				{
+					var cacheKey = Path.GetFileNameWithoutExtension(file.Name);
+					currentSize -= file.Length;
+					file.Delete();
+					_memoryIndex.TryRemove(cacheKey, out _);
+					removedCount++;
+				}
+				catch (Exception ex)
+				{
+					_logger.LogWarning(ex, "Error deleting cache file {Path}", file.FullName);
+				}
+			}
+
+			_logger.LogInformation("Evicted {Count} cache entries, new size: {Size} MB",
+				removedCount, currentSize / 1024 / 1024);
 		}
 
 		public async Task ClearAsync()
