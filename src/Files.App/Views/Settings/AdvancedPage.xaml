@@ -152,12 +152,24 @@
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE8B7;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
-				<NumberBox
-					AutomationProperties.Name="Cache Size Limit"
-					Maximum="5000"
-					Minimum="100"
-					SpinButtonPlacementMode="Compact"
-					Value="{x:Bind ViewModel.ThumbnailCacheSizeLimit, Mode=TwoWay}" />
+				<StackPanel
+					Orientation="Horizontal"
+					Spacing="8">
+					<NumberBox
+						AutomationProperties.Name="Cache Size Limit"
+						Maximum="5000"
+						Minimum="100"
+						SpinButtonPlacementMode="Compact"
+						Value="{x:Bind ViewModel.ThumbnailCacheSizeLimit, Mode=TwoWay}" />
+					<Button
+						x:Name="ClearCacheButton"
+						Command="{x:Bind ViewModel.ClearThumbnailCacheCommand}"
+						ToolTipService.ToolTip="Clear Cache">
+						<FontIcon
+							FontSize="16"
+							Glyph="&#xE74D;" />
+					</Button>
+				</StackPanel>
 			</wctcontrols:SettingsCard>
 
 			<!--  Experimental Settings  -->
@@ -209,5 +221,12 @@
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowFlattenOptions}" IsOn="{x:Bind ViewModel.ShowFlattenOptions, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 		</StackPanel>
+
+		<!--  Cache Cleared Notification  -->
+		<TeachingTip
+			IsLightDismissEnabled="True"
+			IsOpen="{x:Bind ViewModel.ShowCacheClearedNotification, Mode=TwoWay}"
+			Subtitle="{x:Bind ViewModel.CacheClearedMessage, Mode=OneWay}"
+			Target="{x:Bind ClearCacheButton}" />
 	</Grid>
 </Page>

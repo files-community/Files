@@ -28,6 +28,7 @@ namespace Files.App.ViewModels.Settings
 		public ICommand ExportSettingsCommand { get; }
 		public ICommand ImportSettingsCommand { get; }
 		public AsyncRelayCommand OpenFilesOnWindowsStartupCommand { get; }
+		public ICommand ClearThumbnailCacheCommand { get; }
 
 
 		public AdvancedViewModel()
@@ -40,6 +41,7 @@ namespace Files.App.ViewModels.Settings
 			ExportSettingsCommand = new AsyncRelayCommand(ExportSettingsAsync);
 			ImportSettingsCommand = new AsyncRelayCommand(ImportSettingsAsync);
 			OpenFilesOnWindowsStartupCommand = new AsyncRelayCommand(OpenFilesOnWindowsStartupAsync);
+			ClearThumbnailCacheCommand = new AsyncRelayCommand(ClearThumbnailCacheAsync);
 
 			_ = DetectOpenFilesAtStartupAsync();
 		}
@@ -380,6 +382,29 @@ namespace Files.App.ViewModels.Settings
 					OnPropertyChanged();
 				}
 			}
+		}
+
+		private bool showCacheClearedNotification;
+		public bool ShowCacheClearedNotification
+		{
+			get => showCacheClearedNotification;
+			set => SetProperty(ref showCacheClearedNotification, value);
+		}
+
+		private string cacheClearedMessage = string.Empty;
+		public string CacheClearedMessage
+		{
+			get => cacheClearedMessage;
+			set => SetProperty(ref cacheClearedMessage, value);
+		}
+
+		private async Task ClearThumbnailCacheAsync()
+		{
+			var thumbnailCache = Ioc.Default.GetRequiredService<IThumbnailCache>();
+			await thumbnailCache.ClearAsync();
+
+			CacheClearedMessage = "Cache cleared";
+			ShowCacheClearedNotification = true;
 		}
 
 		public async Task OpenFilesOnWindowsStartupAsync()
