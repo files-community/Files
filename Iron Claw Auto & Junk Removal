@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Iron Claw Auto & Junk Removal | Mobile Mechanic & Cash for Cars</title>
+<meta name="description" content="Iron Claw Auto & Junk Removal offers mobile mechanic services and cash for junk cars. We come to you. Same-day service. Call 989-529-3105.">
+<meta name="keywords" content="mobile mechanic, junk car removal, cash for cars, roadside mechanic, auto repair mobile, sell junk car">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{margin:0;font-family:Arial,sans-serif}
+header{background:#111;color:#fff;padding:20px;text-align:center}
+.logo{font-size:26px;font-weight:bold}
+.hero{background:#000;color:#fff;padding:80px 20px;text-align:center}
+.hero h1{font-size:2.4em}
+.btn{background:#d90429;color:#fff;padding:15px 30px;text-decoration:none;font-weight:bold;border-radius:5px;display:inline-block;margin:10px}
+section{padding:50px 20px;max-width:1100px;margin:auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.card{border:1px solid #ccc;padding:25px;border-radius:6px}
+footer{background:#111;color:#fff;text-align:center;padding:30px}
+
+/* Sticky Call Button */
+.sticky-call{
+ position:fixed;
+ bottom:15px;
+ right:15px;
+ background:#28a745;
+ color:#fff;
+ padding:18px;
+ border-radius:50px;
+ font-weight:bold;
+ text-decoration:none;
+ z-index:999;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🦾 IRON CLAW AUTO & JUNK REMOVAL</div>
+</header>
+
+<div class="hero">
+  <h1>Mobile Mechanics & Cash for Junk Cars</h1>
+  <p>We come to you. Repairs or cash — fast, aggressive, no BS.</p>
+  <a href="tel:9895293105" class="btn">📞 Call 989-529-3105</a>
+  <a href="#lead" class="btn">💰 Get Instant Help</a>
+</div>
+
+<section>
+  <div class="grid">
+    <div class="card">✔ Mobile Mechanic Services</div>
+    <div class="card">✔ Cash for Junk Cars</div>
+    <div class="card">✔ Same-Day Service</div>
+    <div class="card">✔ We Come to You</div>
+  </div>
+</section>
+
+<section>
+  <h2>Choose a Service</h2>
+  <a class="btn" href="mechanic.html">🔧 Mobile Mechanic</a>
+  <a class="btn" href="junk-cars.html">🚗 Junk Cars for Cash</a>
+</section>
+
+<section id="lead">
+<h2>Get Help Now</h2>
+
+<!-- TEXTS YOUR PHONE -->
+<form action="sms:9895293105" method="get">
+<input type="hidden" name="body" value="New lead from website">
+<input required placeholder="Your Name" style="width:100%;padding:12px"><br><br>
+<input required placeholder="Phone Number" style="width:100%;padding:12px"><br><br>
+<textarea placeholder="What do you need?" style="width:100%;padding:12px"></textarea><br><br>
+<button class="btn" type="submit">Send</button>
+</form>
+</section>
+
+<footer>
+<p>© 2025 Iron Claw Auto & Junk Removal</p>
+</footer>
+
+<a href="tel:9895293105" class="sticky-call">📞 CALL NOW</a>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mobile Mechanic | Iron Claw Auto</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<h1>🔧 Mobile Mechanic Services</h1>
+<p>Breakdowns, no-starts, diagnostics, brakes, batteries — we come to you.</p>
+
+<a href="tel:9895293105">📞 Call 989-529-3105</a>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cash for Junk Cars | Iron Claw Auto</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<h1>🚗 Cash for Junk Cars</h1>
+<p>Running or not. Wrecked or old. Paid same day.</p>
+
+<a href="tel:9895293105">📞 Call 989-529-3105</a>
+
+</body>
+</html>
