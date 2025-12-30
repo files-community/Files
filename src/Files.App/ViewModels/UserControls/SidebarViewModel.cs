@@ -275,29 +275,29 @@ namespace Files.App.ViewModels.UserControls
 			return CreateSectionAsync(SectionType.Home);
 		}
 
-	private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
-	{
-		if (dispatcherQueue is null)
-			return;
-
-		await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+		private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			var sectionType = (SectionType)sender;
-			var section = await GetOrCreateSectionAsync(sectionType);
-			Func<IReadOnlyList<INavigationControlItem>> getElements = () => sectionType switch
+			if (dispatcherQueue is null)
+				return;
+
+			await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				SectionType.Pinned => App.QuickAccessManager.Model.PinnedFolderItems,
-				SectionType.CloudDrives => CloudDrivesManager.Drives,
-				SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
-				SectionType.Network => NetworkService.Computers.Cast<DriveItem>().ToList().AsReadOnly(),
-				SectionType.WSL => WSLDistroManager.Distros,
-				SectionType.Library => App.LibraryManager.Libraries,
-				SectionType.FileTag => App.FileTagsManager.FileTags,
-				_ => null
-			};
-			await SyncSidebarItemsAsync(section, getElements, e);
-		});
-	}
+				var sectionType = (SectionType)sender;
+				var section = await GetOrCreateSectionAsync(sectionType);
+				Func<IReadOnlyList<INavigationControlItem>> getElements = () => sectionType switch
+				{
+					SectionType.Pinned => App.QuickAccessManager.Model.PinnedFolderItems,
+					SectionType.CloudDrives => CloudDrivesManager.Drives,
+					SectionType.Drives => drivesViewModel.Drives.Cast<DriveItem>().ToList().AsReadOnly(),
+					SectionType.Network => NetworkService.Computers.Cast<DriveItem>().ToList().AsReadOnly(),
+					SectionType.WSL => WSLDistroManager.Distros,
+					SectionType.Library => App.LibraryManager.Libraries,
+					SectionType.FileTag => App.FileTagsManager.FileTags,
+					_ => null
+				};
+				await SyncSidebarItemsAsync(section, getElements, e);
+			});
+		}
 
 		private void Manager_DataChangedForDrives(object? sender, NotifyCollectionChangedEventArgs e) => Manager_DataChanged(SectionType.Drives, e);
 
@@ -683,20 +683,20 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
-	public void Dispose()
-	{
-		UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+		public void Dispose()
+		{
+			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
 
-		App.QuickAccessManager.Model.DataChanged -= Manager_DataChanged;
-		App.LibraryManager.DataChanged -= Manager_DataChanged;
-		drivesViewModel.Drives.CollectionChanged -= Manager_DataChangedForDrives;
-		CloudDrivesManager.DataChanged -= Manager_DataChanged;
-		NetworkService.Computers.CollectionChanged -= Manager_DataChangedForNetworkComputers;
-		WSLDistroManager.DataChanged -= Manager_DataChanged;
-		App.FileTagsManager.DataChanged -= Manager_DataChanged;
+			App.QuickAccessManager.Model.DataChanged -= Manager_DataChanged;
+			App.LibraryManager.DataChanged -= Manager_DataChanged;
+			drivesViewModel.Drives.CollectionChanged -= Manager_DataChangedForDrives;
+			CloudDrivesManager.DataChanged -= Manager_DataChanged;
+			NetworkService.Computers.CollectionChanged -= Manager_DataChangedForNetworkComputers;
+			WSLDistroManager.DataChanged -= Manager_DataChanged;
+			App.FileTagsManager.DataChanged -= Manager_DataChanged;
 
-		dispatcherQueue = null;
-	}
+			dispatcherQueue = null;
+		}
 
 		public void UpdateTabControlMargin()
 		{
@@ -969,7 +969,7 @@ namespace Files.App.ViewModels.UserControls
 
 			var isDriveItem = item is DriveItem;
 			var isDriveItemPinned = isDriveItem && ((DriveItem)item).IsPinned;
-						
+
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
 				new ContextMenuFlyoutItemViewModel()
