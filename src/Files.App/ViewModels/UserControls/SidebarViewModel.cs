@@ -277,6 +277,9 @@ namespace Files.App.ViewModels.UserControls
 
 		private async void Manager_DataChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
+			if (dispatcherQueue is null)
+				return;
+
 			await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
 				var sectionType = (SectionType)sender;
@@ -691,6 +694,8 @@ namespace Files.App.ViewModels.UserControls
 			NetworkService.Computers.CollectionChanged -= Manager_DataChangedForNetworkComputers;
 			WSLDistroManager.DataChanged -= Manager_DataChanged;
 			App.FileTagsManager.DataChanged -= Manager_DataChanged;
+
+			dispatcherQueue = null;
 		}
 
 		public void UpdateTabControlMargin()
@@ -964,7 +969,7 @@ namespace Files.App.ViewModels.UserControls
 
 			var isDriveItem = item is DriveItem;
 			var isDriveItemPinned = isDriveItem && ((DriveItem)item).IsPinned;
-						
+
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
 				new ContextMenuFlyoutItemViewModel()
