@@ -41,7 +41,7 @@ namespace Files.App.Controls
 
 		protected override string GetNameCore()
 		{
-			return Owner.Item?.Text ?? "";
+			return Owner?.Text ?? string.Empty;
 		}
 
 		protected override object GetPatternCore(PatternInterface patternInterface)
