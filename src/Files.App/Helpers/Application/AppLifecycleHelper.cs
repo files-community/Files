@@ -3,6 +3,8 @@
 
 using Files.App.Helpers.Application;
 using Files.App.Services.SizeProvider;
+using Files.App.Services.Thumbnails;
+using Files.App.Services.Thumbnails.Generators;
 using Files.App.Utils.Logger;
 using Files.App.ViewModels.Settings;
 using Microsoft.Extensions.DependencyInjection;
@@ -261,6 +263,9 @@ namespace Files.App.Helpers
 					.AddSingleton<IStorageArchiveService, StorageArchiveService>()
 					.AddSingleton<IStorageSecurityService, StorageSecurityService>()
 					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
+					.AddSingleton<IThumbnailCache, ThumbnailCache>()
+					.AddSingleton<IThumbnailGenerator, ShellApiThumbnailGenerator>()
+					.AddSingleton<IThumbnailService, ThumbnailService>()
 					// ViewModels
 					.AddSingleton<MainPageViewModel>()
 					.AddSingleton<InfoPaneViewModel>()

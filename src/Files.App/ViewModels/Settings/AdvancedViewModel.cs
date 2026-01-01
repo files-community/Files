@@ -28,6 +28,7 @@ namespace Files.App.ViewModels.Settings
 		public ICommand ExportSettingsCommand { get; }
 		public ICommand ImportSettingsCommand { get; }
 		public AsyncRelayCommand OpenFilesOnWindowsStartupCommand { get; }
+		public ICommand ClearThumbnailCacheCommand { get; }
 
 
 		public AdvancedViewModel()
@@ -40,6 +41,7 @@ namespace Files.App.ViewModels.Settings
 			ExportSettingsCommand = new AsyncRelayCommand(ExportSettingsAsync);
 			ImportSettingsCommand = new AsyncRelayCommand(ImportSettingsAsync);
 			OpenFilesOnWindowsStartupCommand = new AsyncRelayCommand(OpenFilesOnWindowsStartupAsync);
+			ClearThumbnailCacheCommand = new AsyncRelayCommand(ClearThumbnailCacheAsync);
 
 			_ = DetectOpenFilesAtStartupAsync();
 		}
@@ -354,6 +356,55 @@ namespace Files.App.ViewModels.Settings
 				UserSettingsService.GeneralSettingsService.ShowFlattenOptions = value;
 				OnPropertyChanged();
 			}
+		}
+
+		public bool EnableThumbnailCache
+		{
+			get => UserSettingsService.GeneralSettingsService.EnableThumbnailCache;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.EnableThumbnailCache)
+				{
+					UserSettingsService.GeneralSettingsService.EnableThumbnailCache = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public double ThumbnailCacheSizeLimit
+		{
+			get => UserSettingsService.GeneralSettingsService.ThumbnailCacheSizeLimit;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ThumbnailCacheSizeLimit)
+				{
+					UserSettingsService.GeneralSettingsService.ThumbnailCacheSizeLimit = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private bool showCacheClearedNotification;
+		public bool ShowCacheClearedNotification
+		{
+			get => showCacheClearedNotification;
+			set => SetProperty(ref showCacheClearedNotification, value);
+		}
+
+		private string cacheClearedMessage = string.Empty;
+		public string CacheClearedMessage
+		{
+			get => cacheClearedMessage;
+			set => SetProperty(ref cacheClearedMessage, value);
+		}
+
+		private async Task ClearThumbnailCacheAsync()
+		{
+			var thumbnailCache = Ioc.Default.GetRequiredService<IThumbnailCache>();
+			await thumbnailCache.ClearAsync();
+
+			CacheClearedMessage = "Cache cleared";
+			ShowCacheClearedNotification = true;
 		}
 
 		public async Task OpenFilesOnWindowsStartupAsync()
