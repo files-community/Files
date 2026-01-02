@@ -215,14 +215,17 @@ namespace Files.App.Utils.Signatures
 			signChain.Clear();
 
 			var cert_store_prov_system = (PCSTR)(byte*)10;
-			ReadOnlySpan<char> root = "Root";
-			var hSystemStore = PInvoke.CertOpenStore(
-				cert_store_prov_system,
-				ENCODING,
-				HCRYPTPROV_LEGACY.Null,
-				(CERT_OPEN_STORE_FLAGS)CERT_SYSTEM_STORE_CURRENT_USER,
-				Unsafe.AsPointer(ref MemoryMarshal.GetReference(root))
-			); 
+			HCERTSTORE hSystemStore;
+			fixed (char* pRoot = "Root")
+			{
+				hSystemStore = PInvoke.CertOpenStore(
+					cert_store_prov_system,
+					ENCODING,
+					HCRYPTPROV_LEGACY.Null,
+					(CERT_OPEN_STORE_FLAGS)CERT_SYSTEM_STORE_CURRENT_USER,
+					(void*)pRoot
+				); 
+			}
 			if (hSystemStore == IntPtr.Zero)
 				return false;
 
@@ -233,7 +236,7 @@ namespace Files.App.Utils.Signatures
 				out authSignData.hCertStoreHandle,
 				out authSignData.pSignerInfo,
 				out authSignData.dwObjSize
-			);
+				);
 
 			if (hAuthCryptMsg is not null)
 			{

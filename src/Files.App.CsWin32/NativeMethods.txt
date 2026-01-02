@@ -184,6 +184,7 @@ IStream
 CreateStreamOnHGlobal
 STATFLAG
 STREAM_SEEK
+STGM
 GdipSaveImageToStream
 GdipGetImageRawFormat
 _TRANSFER_SOURCE_FLAGS
