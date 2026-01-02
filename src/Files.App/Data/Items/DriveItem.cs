@@ -5,6 +5,7 @@ using Files.App.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System.Runtime.CompilerServices;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using ByteSize = ByteSizeLib.ByteSize;
@@ -315,13 +316,13 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public async IAsyncEnumerable<IStorableChild> GetItemsAsync(StorableType type = StorableType.All, CancellationToken cancellationToken = default)
+		public async IAsyncEnumerable<IStorableChild> GetItemsAsync(StorableType type = StorableType.All, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 		{
 			await Task.CompletedTask;
 			yield break;
 		}
 
-		public int CompareTo(INavigationControlItem other)
+		public int CompareTo(INavigationControlItem? other)
 		{
 			var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
 			return result == 0 ? Text.CompareTo(other.Text) : result;

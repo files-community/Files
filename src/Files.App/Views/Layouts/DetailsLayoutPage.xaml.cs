@@ -360,7 +360,7 @@ namespace Files.App.Views.Layouts
 
 		}
 
-		private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			SelectedItems = FileList.SelectedItems.Cast<ListedItem>().Where(x => x is not null).ToList();
 
@@ -392,7 +392,7 @@ namespace Files.App.Views.Layouts
 		{
 			if (IsRenamingItem)
 			{
-				ValidateItemNameInputTextAsync(textBox, args, (showError) =>
+				_ = ValidateItemNameInputTextAsync(textBox, args, (showError) =>
 				{
 					FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
 					FileNameTeachingTip.IsOpen = showError;

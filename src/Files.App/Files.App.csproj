@@ -24,7 +24,7 @@
         <UseWinUI>true</UseWinUI>
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<CETCompat>false</CETCompat>
+        <CETCompat>false</CETCompat>
         <Configurations>Debug;Release</Configurations>
         <CsWinRTIncludes>Files.App.Server;Microsoft.UI.Content.ContentExternalOutputLink;Microsoft.UI.Content.IContentExternalOutputLink</CsWinRTIncludes>
         <PublishDir>bin\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\publish\</PublishDir>
@@ -32,6 +32,7 @@
         <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
         <PublishReadyToRunComposite Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRunComposite>
         <ApplicationIcon>..\Files.App (Package)\Assets\AppTiles\Dev\Logo.ico</ApplicationIcon>
+        <NoWarn>$(NoWarn);CS8305;CS8600;CS8601;CS8602;CS8603;CS8604;CS8618;CS8619;CS8620;CS8622;CS8625;CS8765;CS8766;CS0612;CS0618</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup>
@@ -134,9 +135,9 @@
         <TrimmerRootAssembly Include="Files.Shared" />
     </ItemGroup>
 
-	<ItemGroup>
-		<AdditionalFiles Include="Strings\en-US\Resources.resw" />
-	</ItemGroup>
+    <ItemGroup>
+        <AdditionalFiles Include="Strings\en-US\Resources.resw" />
+    </ItemGroup>
 
   <Import Project="..\Satori.targets" Condition=" '$(Platform)' != 'x86' " />
 </Project>

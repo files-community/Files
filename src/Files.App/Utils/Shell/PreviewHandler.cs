@@ -1,6 +1,5 @@
 ﻿using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
-using Vanara.PInvoke;
 using Windows.UI;
 
 namespace Files.App.Utils.Shell
@@ -195,6 +194,17 @@ namespace Files.App.Utils.Shell
 		}
 
 		#region Initialization interfaces
+
+		[Flags]
+		public enum STGM
+		{
+			STGM_READ = 0x00000000,
+			STGM_WRITE = 0x00000001,
+			STGM_READWRITE = 0x00000002,
+		}
+
+		const int E_NOTIMPL = unchecked((int)0x80004001);
+
 		[GeneratedComInterface, Guid("0000000c-0000-0000-C000-000000000046"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 		public partial interface IStream
 		{
@@ -264,7 +274,7 @@ namespace Files.App.Utils.Shell
 			if (iws == null)
 				return false;
 			var hr = iws.Initialize(stream, mode);
-			if (hr == HRESULT.E_NOTIMPL)
+			if (hr == E_NOTIMPL)
 				return false;
 			if (hr < 0)
 				throw new COMException("IInitializeWithStream.Initialize failed.", hr);
@@ -290,7 +300,7 @@ namespace Files.App.Utils.Shell
 			if (iws == null)
 				return false;
 			var hr = iws.Initialize(pStream, mode);
-			if (hr == HRESULT.E_NOTIMPL)
+			if (hr == E_NOTIMPL)
 				return false;
 			if (hr < 0)
 				throw new COMException("IInitializeWithStream.Initialize failed.", hr);
@@ -316,7 +326,7 @@ namespace Files.App.Utils.Shell
 			if (iwi == null)
 				return false;
 			var hr = iwi.Initialize(psi, mode);
-			if (hr == HRESULT.E_NOTIMPL)
+			if (hr == E_NOTIMPL)
 				return false;
 			if (hr < 0)
 				throw new COMException("IInitializeWithItem.Initialize failed.", hr);
@@ -342,7 +352,7 @@ namespace Files.App.Utils.Shell
 			if (iwf == null)
 				return false;
 			var hr = iwf.Initialize(path, mode);
-			if (hr == HRESULT.E_NOTIMPL)
+			if (hr == E_NOTIMPL)
 				return false;
 			if (hr < 0)
 				throw new COMException("IInitializeWithFile.Initialize failed.", hr);
