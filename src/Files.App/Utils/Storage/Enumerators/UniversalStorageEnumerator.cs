@@ -339,8 +339,6 @@ namespace Files.App.Utils.Storage
 					};
 				}
 			}
-
-			return null;
 		}
 	}
 }

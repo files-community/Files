@@ -37,7 +37,7 @@ namespace Files.App.UserControls
 
 		// Using a DependencyProperty as the backing store for HideInfoText.  This enables animation, styling, binding, etc...
 		public static readonly DependencyProperty ShowInfoTextProperty =
-			DependencyProperty.Register(nameof(ShowInfoText), typeof(bool), typeof(StatusBar), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(ShowInfoText), typeof(bool), typeof(StatusBar), new PropertyMetadata(false));
 
 		public StatusBar()
 		{

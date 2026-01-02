@@ -11,7 +11,7 @@ namespace Files.App.UserControls
 	public sealed partial class DataGridHeader : UserControl
 	{
 		[GeneratedDependencyProperty]
-		public partial string Header { get; set; }
+		public partial string? Header { get; set; }
 
 		[GeneratedDependencyProperty(DefaultValue = true)]
 		public partial bool CanBeSorted { get; set; }

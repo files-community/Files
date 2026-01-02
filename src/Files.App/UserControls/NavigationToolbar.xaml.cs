@@ -37,7 +37,7 @@ namespace Files.App.UserControls
 		public partial bool ShowSettingsButton { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial NavigationToolbarViewModel ViewModel { get; set; }
+		public partial NavigationToolbarViewModel? ViewModel { get; set; }
 
 		// Constructor
 

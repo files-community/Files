@@ -34,5 +34,15 @@ namespace Files.App.Data.EventArguments
 		{
 			return !(a1 == a2);
 		}
+
+		public override bool Equals(object? obj)
+		{
+			return obj is PaneNavigationArguments args && this == args;
+		}
+
+		public override int GetHashCode()
+		{
+			return HashCode.Combine(LeftPaneNavPathParam, LeftPaneSelectItemParam, RightPaneNavPathParam, RightPaneSelectItemParam, ShellPaneArrangement);
+		}
 	}
 }

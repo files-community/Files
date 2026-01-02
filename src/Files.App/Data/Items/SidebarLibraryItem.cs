@@ -59,7 +59,7 @@ namespace Files.App.Data.Items
 
 		public override int GetHashCode() => Path.GetHashCode(System.StringComparison.OrdinalIgnoreCase);
 
-		public override bool Equals(object obj)
+		public override bool Equals(object? obj)
 			=> obj is LibraryLocationItem other && GetType() == obj.GetType() && string.Equals(Path, other.Path, System.StringComparison.OrdinalIgnoreCase);
 	}
 }

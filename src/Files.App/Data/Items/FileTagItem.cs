@@ -34,7 +34,7 @@ namespace Files.App.Data.Items
 		public NavigationControlItemType ItemType
 			=> NavigationControlItemType.FileTag;
 
-		public int CompareTo(INavigationControlItem other)
+		public int CompareTo(INavigationControlItem? other)
 			=> Text.CompareTo(other.Text);
 
 		public TagViewModel FileTag { get; set; }

@@ -211,7 +211,7 @@ namespace Files.App.Views.Layouts
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
-				ReloadItemIconsAsync();
+				_ = ReloadItemIconsAsync();
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -437,7 +437,7 @@ namespace Files.App.Views.Layouts
 			if (!IsRenamingItem)
 				return;
 
-			ValidateItemNameInputTextAsync(textBox, args, (showError) =>
+			_ = ValidateItemNameInputTextAsync(textBox, args, (showError) =>
 			{
 				FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
 				FileNameTeachingTip.IsOpen = showError;

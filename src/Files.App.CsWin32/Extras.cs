@@ -38,8 +38,8 @@ namespace Windows.Win32
 				: _SetWindowLongPtr(hWnd, (int)nIndex, dwNewLong);
 		}
 
-		[DllImport("shell32.dll", EntryPoint = "SHUpdateRecycleBinIcon", CharSet = CharSet.Unicode, SetLastError = true)]
-		public static extern void SHUpdateRecycleBinIcon();
+		[LibraryImport("shell32.dll", EntryPoint = "SHUpdateRecycleBinIcon", SetLastError = true)]
+		public static partial void SHUpdateRecycleBinIcon();
 
 		public const int PixelFormat32bppARGB = 2498570;
 	}

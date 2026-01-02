@@ -163,7 +163,7 @@ namespace Files.App.ViewModels.Properties
 
 			// Get other properties if available
 			if (file.Properties is not null)
-				GetOtherPropertiesAsync(file.Properties);
+				_ = GetOtherPropertiesAsync(file.Properties);
 		}
 
 		public async Task GetSystemFilePropertiesAsync()

@@ -212,8 +212,8 @@ namespace Files.App.Services
 				Span<byte> bufferA = stackalloc byte[64];
 				Span<byte> bufferB = stackalloc byte[64];
 
-				a.Read(bufferA);
-				b.Read(bufferB);
+				a.ReadExactly(bufferA);
+				b.ReadExactly(bufferB);
 
 				return bufferA.SequenceEqual(bufferB);
 			}
