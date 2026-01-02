@@ -316,7 +316,7 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public async IAsyncEnumerable<IStorableChild> GetItemsAsync(StorableType type = StorableType.All, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+		public async IAsyncEnumerable<IStorableChild> GetItemsAsync(StorableType storableType = StorableType.All, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 		{
 			await Task.CompletedTask;
 			yield break;
