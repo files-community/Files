@@ -39,7 +39,7 @@ namespace Files.App.Actions
 			if (context.ShellPage is null)
 				return Task.CompletedTask;
 
-			context.ShellPage.ToolbarViewModel.SwitchToSearchMode();
+			_ = context.ShellPage.ToolbarViewModel.SwitchToSearchMode();
 
 			return Task.CompletedTask;
 		}
