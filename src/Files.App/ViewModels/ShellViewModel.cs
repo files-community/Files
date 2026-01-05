@@ -1215,7 +1215,7 @@ namespace Files.App.ViewModels
 					cts.Token.ThrowIfCancellationRequested();
 					if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 					{
-						if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+						if (!item.IsShortcut && !FtpHelpers.IsFtpPath(item.ItemPath))
 						{
 							matchingStorageFile = await GetFileFromPathAsync(item.ItemPath, cts.Token);
 							if (matchingStorageFile is not null)
