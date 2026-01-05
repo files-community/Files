@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.App.Controls;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -32,6 +33,7 @@ namespace Files.App.Views
 		// Fields
 
 		private bool _wasRightPaneVisible;
+		private NavigationParams? _savedNavParamsRight;
 
 		// Properties
 
@@ -105,14 +107,24 @@ namespace Files.App.Views
 						// Close pane
 						_wasRightPaneVisible = GetPaneCount() >= 2;
 
-						if (GetPaneCount() >= 2)
+						if (_wasRightPaneVisible)
+						{
+							var currentPath = GetPane(1)?.TabBarItemParameter?.NavigationParameter as string ?? "Home";
+							_savedNavParamsRight = new NavigationParams { NavPath = currentPath };
 							RemovePane(1);
+						}
 					}
 					else if (_wasRightPaneVisible)
 					{
 						// Add back pane
 						if (GetPaneCount() == 1)
 							AddPane();
+
+						if (_savedNavParamsRight is not null)
+						{
+							NavParamsRight = _savedNavParamsRight;
+							_savedNavParamsRight = null;
+						}
 
 						_wasRightPaneVisible = false;
 					}
@@ -766,6 +778,8 @@ namespace Files.App.Views
 
 		public void Dispose()
 		{
+			App.Logger.LogInformation($"ShellPanesPage.Dispose: PaneCount={GetPaneCount()}, ActivePane={LogPathHelper.GetPathIdentifier(ActivePane?.TabBarItemParameter?.NavigationParameter?.ToString())}");
+
 			MainWindow.Instance.SizeChanged -= MainWindow_SizeChanged;
 
 			// Dispose panes

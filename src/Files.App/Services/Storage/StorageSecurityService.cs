@@ -23,8 +23,8 @@ namespace Files.App.Services
 				OBJECT_SECURITY_INFORMATION.OWNER_SECURITY_INFORMATION,
 				out var pSidOwner,
 				out _,
-				null,
-				null,
+				out _,
+				out _,
 				out _);
 
 			PInvoke.ConvertSidToStringSid(pSidOwner, out var sid);
@@ -78,8 +78,8 @@ namespace Files.App.Services
 				OBJECT_SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | OBJECT_SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
 				out _,
 				out _,
-				&pDACL,
-				null,
+				out pDACL,
+				out _,
 				out _);
 
 			if (result is not WIN32_ERROR.ERROR_SUCCESS || pDACL == null)
@@ -89,7 +89,7 @@ namespace Files.App.Services
 
 			// Get ACL size info
 			bool bResult = PInvoke.GetAclInformation(
-				*pDACL,
+				pDACL,
 				&aclSizeInfo,
 				(uint)Marshal.SizeOf<ACL_SIZE_INFORMATION>(),
 				ACL_INFORMATION_CLASS.AclSizeInformation);
@@ -181,8 +181,8 @@ namespace Files.App.Services
 				OBJECT_SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | OBJECT_SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
 				out _,
 				out _,
-				&pDACL,
-				null,
+				out pDACL,
+				out _,
 				out _);
 
 			if (result is not WIN32_ERROR.ERROR_SUCCESS)
@@ -258,8 +258,8 @@ namespace Files.App.Services
 				OBJECT_SECURITY_INFORMATION.DACL_SECURITY_INFORMATION | OBJECT_SECURITY_INFORMATION.PROTECTED_DACL_SECURITY_INFORMATION,
 				out _,
 				out _,
-				&pDACL,
-				null,
+				out pDACL,
+				out _,
 				out _);
 
 			if (result is not WIN32_ERROR.ERROR_SUCCESS)

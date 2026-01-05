@@ -11,8 +11,10 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using System.Runtime.InteropServices;
 using Windows.Foundation.Metadata;
 using Windows.Graphics;
+using Windows.UI.Input;
 using WinUIEx;
 using GridSplitter = Files.App.Controls.GridSplitter;
 using VirtualKey = Windows.System.VirtualKey;
@@ -203,7 +205,7 @@ namespace Files.App.Views
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
 		{
-			ViewModel.OnNavigatedToAsync(e);
+			_ = ViewModel.OnNavigatedToAsync(e);
 		}
 
 		protected override async void OnPreviewKeyDown(KeyRoutedEventArgs e) => await OnPreviewKeyDownAsync(e);
@@ -313,6 +315,8 @@ namespace Files.App.Views
 		{
 			if (!App.AppModel.IsMainWindowClosed)
 				InfoPane?.ViewModel.UpdateDateDisplay();
+			else
+				App.Logger.LogWarning("UpdateDateDisplayTimer_Tick: Timer firing after window closed!");
 		}
 
 		private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -462,6 +466,43 @@ namespace Files.App.Views
 			// Workaround for issue where clicking an empty area in the window (toolbar, title bar etc) prevents keyboard
 			// shortcuts from working properly, see https://github.com/microsoft/microsoft-ui-xaml/issues/6467
 			DispatcherQueue.TryEnqueue(() => ContentPageContext.ShellPage?.PaneHolder.FocusActivePane());
+		}
+
+		private void SidebarControl_ItemContextInvoked(object sender, ItemContextInvokedArgs e)
+		{
+			SidebarAdaptiveViewModel.HandleItemContextInvokedAsync(sender, e);
+		}
+
+		private async void SidebarControl_ItemDragOver(object sender, ItemDragOverEventArgs e)
+		{
+			var deferral = e.RawEvent.GetDeferral();
+
+			await SafetyExtensions.IgnoreExceptions(async () =>
+			{
+				await SidebarAdaptiveViewModel.HandleItemDragOverAsync(e);
+			}, App.Logger);
+
+			deferral.Complete();
+		}
+
+		private async void SidebarControl_ItemDropped(object sender, ItemDroppedEventArgs e)
+		{
+			var deferral = e.RawEvent.GetDeferral();
+
+			await SafetyExtensions.IgnoreExceptions(async () =>
+			{
+				await SidebarAdaptiveViewModel.HandleItemDroppedAsync(e);
+			}, App.Logger);
+
+			deferral.Complete();
+		}
+
+		private void SidebarControl_ItemInvoked(object sender, ItemInvokedEventArgs e)
+		{
+			if (sender is not SidebarItem { Item: ISidebarItemModel item })
+				return;
+
+			SidebarAdaptiveViewModel.HandleItemInvokedAsync(item, e.PointerUpdateKind);
 		}
 	}
 }

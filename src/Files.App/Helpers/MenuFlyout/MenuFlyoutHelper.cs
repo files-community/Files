@@ -56,7 +56,7 @@ namespace Files.App.Helpers
 
 		public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.RegisterAttached("ItemsSource", typeof(IEnumerable<IMenuFlyoutItemViewModel>), typeof(MenuFlyoutHelper), new PropertyMetadata(null, ItemsSourceChanged));
 
-		private static void ItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => SetupItemsAsync(d as MenuFlyout);
+		private static void ItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => _ = SetupItemsAsync(d as MenuFlyout);
 
 		public static bool GetIsVisible(DependencyObject d) => (bool)d.GetValue(IsVisibleProperty);
 

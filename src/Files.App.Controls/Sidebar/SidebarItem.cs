@@ -404,12 +404,7 @@ namespace Files.App.Controls
 				VisualStateManager.GoToState(this, "DragInsertBelow", true);
 			}
 
-			if (Owner is not null)
-			{
-				var deferral = e.GetDeferral();
-				await Owner.RaiseItemDragOver(this, insertsAbove, e);
-				deferral.Complete();
-			}
+			Owner?.RaiseItemDragOver(this, insertsAbove, e);
 		}
 
 		private void ItemBorder_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
@@ -423,11 +418,10 @@ namespace Files.App.Controls
 			UpdatePointerState();
 		}
 
-		private async void ItemBorder_Drop(object sender, DragEventArgs e)
+		private void ItemBorder_Drop(object sender, DragEventArgs e)
 		{
 			UpdatePointerState();
-			if (Owner is not null)
-				await Owner.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
+			Owner?.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
 		}
 
 		private SidebarItemDropPosition DetermineDropTargetPosition(DragEventArgs args)

@@ -76,6 +76,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.CopyItemFromHome)
+				{
+					IsPrimary = true,
+					IsVisible = CommandManager.CopyItemFromHome.IsExecutable
+				}.Build(),
 				new()
 				{
 					Text = Strings.OpenWith.GetLocalizedResource(),

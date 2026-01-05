@@ -702,80 +702,6 @@ namespace Files.App.Utils
 	}
 	public sealed partial class GitShortcutItem : GitItem, IShortcutItem
 	{
-		private volatile int statusPropertiesInitialized = 0;
-		public bool StatusPropertiesInitialized
-		{
-			get => statusPropertiesInitialized == 1;
-			set => Interlocked.Exchange(ref statusPropertiesInitialized, value ? 1 : 0);
-		}
-
-		private volatile int commitPropertiesInitialized = 0;
-		public bool CommitPropertiesInitialized
-		{
-			get => commitPropertiesInitialized == 1;
-			set => Interlocked.Exchange(ref commitPropertiesInitialized, value ? 1 : 0);
-		}
-
-		private Style? _UnmergedGitStatusIcon;
-		public Style? UnmergedGitStatusIcon
-		{
-			get => _UnmergedGitStatusIcon;
-			set => SetProperty(ref _UnmergedGitStatusIcon, value);
-		}
-
-		private string? _UnmergedGitStatusName;
-		public string? UnmergedGitStatusName
-		{
-			get => _UnmergedGitStatusName;
-			set => SetProperty(ref _UnmergedGitStatusName, value);
-		}
-
-		private DateTimeOffset? _GitLastCommitDate;
-		public DateTimeOffset? GitLastCommitDate
-		{
-			get => _GitLastCommitDate;
-			set
-			{
-				SetProperty(ref _GitLastCommitDate, value);
-				GitLastCommitDateHumanized = value is DateTimeOffset dto ? dateTimeFormatter.ToShortLabel(dto) : "";
-			}
-		}
-
-		private string? _GitLastCommitDateHumanized;
-		public string? GitLastCommitDateHumanized
-		{
-			get => _GitLastCommitDateHumanized;
-			set => SetProperty(ref _GitLastCommitDateHumanized, value);
-		}
-
-		private string? _GitLastCommitMessage;
-		public string? GitLastCommitMessage
-		{
-			get => _GitLastCommitMessage;
-			set => SetProperty(ref _GitLastCommitMessage, value);
-		}
-
-		private string? _GitCommitAuthor;
-		public string? GitLastCommitAuthor
-		{
-			get => _GitCommitAuthor;
-			set => SetProperty(ref _GitCommitAuthor, value);
-		}
-
-		private string? _GitLastCommitSha;
-		public string? GitLastCommitSha
-		{
-			get => _GitLastCommitSha;
-			set => SetProperty(ref _GitLastCommitSha, value);
-		}
-
-		private string? _GitLastCommitFullSha;
-		public string? GitLastCommitFullSha
-		{
-			get => _GitLastCommitFullSha;
-			set => SetProperty(ref _GitLastCommitFullSha, value);
-		}
-
 		public string TargetPath { get; set; }
 
 		public override string Name
@@ -810,23 +736,15 @@ namespace Files.App.Utils
 		public string? GitLastCommitSha { get; set; }
 
 		public string? GitLastCommitFullSha { get; set; }
-
-		public string ItemPath
-		{
-			get;
-			set;
-		}
 	}
 	public interface IShortcutItem : IListedItem
 	{
 		public string TargetPath { get; set; }
-		public string Name { get; }
 		public string Arguments { get; set; }
 		public string WorkingDirectory { get; set; }
 		public bool RunAsAdmin { get; set; }
 		public SHOW_WINDOW_CMD ShowWindowCommand { get; set; }
 		public bool IsUrl { get; set; }
 		public bool IsSymLink { get; set; }
-		public bool IsExecutable { get; }
 	}
 }

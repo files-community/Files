@@ -488,7 +488,7 @@ namespace Files.App.Helpers
 					Color pixelColor = Color.FromArgb(
 						Marshal.ReadInt32(bmpData.Scan0, (bmpData.Stride * y) + (4 * x)));
 
-					if (pixelColor.A > 0 & pixelColor.A < 255)
+					if (pixelColor.A < 255)
 						return true;
 				}
 			}
@@ -803,9 +803,9 @@ namespace Files.App.Helpers
 			var success = PInvoke.GetVolumeInformation(
 				path,
 				[],
-				null,
-				null,
-				&dwFileSystemFlags,
+				out _,
+				out _,
+				out dwFileSystemFlags,
 				[]);
 
 			if (!success)

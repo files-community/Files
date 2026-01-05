@@ -115,7 +115,13 @@ namespace Files.App.ViewModels.UserControls
 		public UIElement PreviewPaneContent
 		{
 			get => previewPaneContent;
-			set => SetProperty(ref previewPaneContent, value);
+			set
+			{
+				var oldType = previewPaneContent?.GetType()?.Name;
+				var newType = value?.GetType()?.Name;
+				App.Logger.LogDebug($"PreviewPaneContent changing: {oldType} -> {newType}");
+				SetProperty(ref previewPaneContent, value);
+			}
 		}
 
 		public bool LoadTagsList

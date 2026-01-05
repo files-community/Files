@@ -10,45 +10,47 @@
     <PackageVersion Include="CommunityToolkit.Labs.WinUI.DependencyPropertyGenerator" Version="0.1.250206-build.2040" />
     <PackageVersion Include="CommunityToolkit.Labs.WinUI.Shimmer" Version="0.1.250206-build.2040" />
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Behaviors" Version="8.2.250402" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.ColorPicker" Version="8.2.250402" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.250402" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.250402" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.250402" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Converters" Version="8.2.250402" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Extensions" Version="8.2.250402" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Helpers" Version="8.2.250402" />
-    <PackageVersion Include="CommunityToolkit.WinUI.Triggers" Version="8.2.250402" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Behaviors" Version="8.2.251219" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.ColorPicker" Version="8.2.251219" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Primitives" Version="8.2.251219" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.SettingsControls" Version="8.2.251219" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Controls.Sizers" Version="8.2.251219" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Converters" Version="8.2.251219" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Extensions" Version="8.2.251219" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Helpers" Version="8.2.251219" />
+    <PackageVersion Include="CommunityToolkit.WinUI.Triggers" Version="8.2.251219" />
     <PackageVersion Include="DiscUtils.Udf" Version="0.16.13" />
-    <PackageVersion Include="FluentFTP" Version="52.1.0" />
-    <PackageVersion Include="LibGit2Sharp" Version="0.30.0" /> <!-- Note, 0.31 causes issues with repos cloned via ssh -->
+    <PackageVersion Include="FluentFTP" Version="53.0.2" />
+    <!-- Note, 0.31 causes issues with repos cloned via ssh -->
+    <PackageVersion Include="LibGit2Sharp" Version="0.30.0" />
     <PackageVersion Include="MessageFormat" Version="7.1.3" />
     <PackageVersion Include="Microsoft.Data.Sqlite.Core" Version="9.0.9" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.9" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.9" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.9" />
-    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4948" />
+    <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7175" />
     <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.0" />
     <PackageVersion Include="OwlCore.Storage" Version="0.14.0" />
-    <PackageVersion Include="Sentry" Version="5.10.0" />
+    <PackageVersion Include="Sentry" Version="6.0.0" />
     <PackageVersion Include="SevenZipSharp" Version="1.0.2" />
     <PackageVersion Include="SharpZipLib" Version="1.4.2" />
-    <PackageVersion Include="SQLitePCLRaw.bundle_green" Version="2.1.10" />
-    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.250907003" />
+    <PackageVersion Include="SQLitePCLRaw.bundle_green" Version="2.1.11" />
+    <PackageVersion Include="Microsoft.WindowsAppSDK" Version="1.8.251106002" />
     <PackageVersion Include="Microsoft.Graphics.Win2D" Version="1.3.2" />
     <PackageVersion Include="TagLibSharp" Version="2.3.0" />
     <PackageVersion Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
     <PackageVersion Include="UTF.Unknown" Version="2.6.0" />
-    <PackageVersion Include="WinUIEx" Version="2.5.1" /> <!-- Note, updating WinUIEx seems to cause an increase in crashes -->
+    <!-- Note, updating WinUIEx seems to cause an increase in crashes -->
+    <PackageVersion Include="WinUIEx" Version="2.5.1" />
     <PackageVersion Include="Vanara.Windows.Extensions" Version="4.0.1" />
     <PackageVersion Include="Vanara.Windows.Shell" Version="4.0.1" />
     <PackageVersion Include="Microsoft.Management.Infrastructure" Version="3.0.0" />
     <PackageVersion Include="Microsoft.Management.Infrastructure.Runtime.Win" Version="3.0.0" />
     <PackageVersion Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
-    <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.183" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" />
+    <PackageVersion Include="Microsoft.Windows.CsWin32" Version="0.3.264" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.0" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="4.14.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Workspaces.Common" Version="5.0.0" />
     <PackageVersion Include="PolySharp" Version="1.15.0" />
     <PackageVersion Include="System.Text.Json" Version="9.0.9" />
     <PackageVersion Include="System.IO.Hashing" Version="9.0.9" />

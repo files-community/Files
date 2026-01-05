@@ -77,6 +77,15 @@ namespace Files.App.Helpers
 			if (string.IsNullOrEmpty(folder))
 				return name;
 
+			// Handle case where name is a rooted path (e.g., "E:\")
+			if (Path.IsPathRooted(name))
+			{
+				var root = Path.GetPathRoot(name);
+				if (!string.IsNullOrEmpty(root) && name.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) == root.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar))
+					// Just use the drive letter
+					name = root.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar, ':');
+			}
+
 			return folder.Contains('/', StringComparison.Ordinal) ? Path.Combine(folder, name).Replace("\\", "/", StringComparison.Ordinal) : Path.Combine(folder, name);
 		}
 	}

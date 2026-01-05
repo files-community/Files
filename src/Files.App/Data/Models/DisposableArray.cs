@@ -17,7 +17,7 @@ namespace Files.App.Data.Models
 			return new DisposableArray(Bytes.CloneArray());
 		}
 
-		public override bool Equals(DisposableArray other)
+		public override bool Equals(DisposableArray? other)
 		{
 			if (other?.Bytes is null || Bytes is null)
 				return false;
