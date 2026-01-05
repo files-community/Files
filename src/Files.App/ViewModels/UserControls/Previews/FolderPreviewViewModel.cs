@@ -25,7 +25,9 @@ namespace Files.App.ViewModels.Previews
 		{
 			var rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(Item.ItemPath));
 			Folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(Item.ItemPath, rootItem);
-			var items = await Folder.GetItemsAsync();
+			
+			// Get actual item count including hidden files based on user settings
+			int itemCount = await Task.Run(() => CountItemsInFolder(Item.ItemPath));
 
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Item.ItemPath,
@@ -46,7 +48,7 @@ namespace Files.App.ViewModels.Previews
 
 			Item.FileDetails =
 			[
-				GetFileProperty("PropertyItemCount", items.Count),
+				GetFileProperty("PropertyItemCount", itemCount),
 				GetFileProperty("PropertyDateModified", info.DateModified),
 				GetFileProperty("PropertyDateCreated", info.DateCreated),
 				GetFileProperty("PropertyParsingPath", Folder.Path),
@@ -64,6 +66,57 @@ namespace Files.App.ViewModels.Previews
 
 				if (!string.IsNullOrWhiteSpace(headName))
 					Item.FileDetails.Add(GetFileProperty("GitCurrentBranch", headName));
+			}
+		}
+
+		private static int CountItemsInFolder(string folderPath)
+		{
+			try
+			{
+				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+				var showHiddenItems = userSettingsService.FoldersSettingsService.ShowHiddenItems;
+				var showProtectedSystemFiles = userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles;
+
+				int count = 0;
+				var directory = new DirectoryInfo(folderPath);
+
+				// Count files
+				foreach (var file in directory.EnumerateFiles())
+				{
+					var isHidden = (file.Attributes & System.IO.FileAttributes.Hidden) != 0;
+					var isSystem = (file.Attributes & System.IO.FileAttributes.System) != 0;
+
+					// Skip hidden files if setting is off
+					if (isHidden && (!showHiddenItems || (isSystem && !showProtectedSystemFiles)))
+						continue;
+
+					count++;
+				}
+
+				// Count directories
+				foreach (var dir in directory.EnumerateDirectories())
+				{
+					var isHidden = (dir.Attributes & System.IO.FileAttributes.Hidden) != 0;
+					var isSystem = (dir.Attributes & System.IO.FileAttributes.System) != 0;
+
+					// Skip hidden directories if setting is off
+					if (isHidden && (!showHiddenItems || (isSystem && !showProtectedSystemFiles)))
+						continue;
+
+					count++;
+				}
+
+				return count;
+			}
+			catch (UnauthorizedAccessException)
+			{
+				// If we can't access the folder, return 0
+				return 0;
+			}
+			catch (Exception)
+			{
+				// For any other error, return 0
+				return 0;
 			}
 		}
 
