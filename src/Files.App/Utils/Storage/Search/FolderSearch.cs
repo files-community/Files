@@ -18,6 +18,7 @@ namespace Files.App.Utils.Storage
 		private DrivesViewModel drivesViewModel = Ioc.Default.GetRequiredService<DrivesViewModel>();
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
+		private readonly ILogger logger = Ioc.Default.GetRequiredService<ILogger<FolderSearch>>();
 
 		private const uint defaultStepSize = 500;
 
@@ -189,6 +190,15 @@ namespace Files.App.Utils.Storage
 			return query?.Contains("tag:", StringComparison.OrdinalIgnoreCase) == true;
 		}
 
+		public static string FormatTagQuery(string tagName)
+		{
+			if (tagName.Contains(' ') || tagName.Contains('"') || tagName.Contains(','))
+			{
+				return $"tag:\"{tagName.Replace("\"", "\"\"")}\"";
+			}
+			return $"tag:{tagName}";
+		}
+
 		private TagQueryExpression ParseTagQuery(string query)
 		{
 			var expression = new TagQueryExpression();
@@ -201,11 +211,21 @@ namespace Files.App.Utils.Storage
 
 				foreach (var andPart in andParts)
 				{
-					var matches = Regex.Matches(andPart.Trim(), @"(NOT\s+)?tag:([^\s]+)", RegexOptions.IgnoreCase);
+					var matches = Regex.Matches(andPart.Trim(), @"(NOT\s+)?tag:(?:""([^""]+)""|([^\s""]+))", RegexOptions.IgnoreCase);
 					foreach (Match match in matches)
 					{
 						var isExclude = !string.IsNullOrEmpty(match.Groups[1].Value);
-						var tagValues = match.Groups[2].Value.Split(',', StringSplitOptions.RemoveEmptyEntries);
+						var tagValue = match.Groups[2].Value;
+						if (string.IsNullOrEmpty(tagValue))
+							tagValue = match.Groups[3].Value;
+
+						if (string.IsNullOrEmpty(tagValue))
+						{
+							logger.LogWarning("Failed to parse tag query: {Query}", andPart);
+							continue;
+						}
+
+						var tagValues = tagValue.Split(',', StringSplitOptions.RemoveEmptyEntries);
 						var tagUids = new HashSet<string>();
 
 						foreach (var tagName in tagValues)
