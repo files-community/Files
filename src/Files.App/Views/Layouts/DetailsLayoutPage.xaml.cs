@@ -983,7 +983,7 @@ namespace Files.App.Views.Layouts
 			if (tagName is null)
 				return;
 
-			ParentShellPageInstance?.SubmitSearch($"tag:{tagName}");
+			ParentShellPageInstance?.SubmitSearch(FolderSearch.FormatTagQuery(tagName));
 		}
 
 		private void FileTag_PointerEntered(object sender, PointerRoutedEventArgs e)
