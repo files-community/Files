@@ -5,12 +5,13 @@ using Files.Shared.Helpers;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Vanara.PInvoke;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 using Windows.Win32;
+using Windows.Win32.Storage.FileSystem;
+using Windows.Win32.UI.Shell;
 using IO = System.IO;
 
 namespace Files.App.Utils.Storage
@@ -46,19 +47,31 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		private string GetDisplayTypeFromShell()
+		private unsafe string GetDisplayTypeFromShell()
 		{
 			// Try using SHGetFileInfo to get proper file type description
 			var extension = IO.Path.GetExtension(Name);
 			if (!string.IsNullOrEmpty(extension))
 			{
-				var shfi = new Shell32.SHFILEINFO();
-				var flags = Shell32.SHGFI.SHGFI_TYPENAME | Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES;
+				SHFILEINFOW shfi = default;
+				var flags = SHGFI_FLAGS.SHGFI_TYPENAME | SHGFI_FLAGS.SHGFI_USEFILEATTRIBUTES;
 				
-				var result = Shell32.SHGetFileInfo(extension, IO.FileAttributes.Normal, ref shfi, Shell32.SHFILEINFO.Size, flags);
-				
-				if (result != IntPtr.Zero && !string.IsNullOrEmpty(shfi.szTypeName))
-					return shfi.szTypeName;
+				fixed (char* pExtension = extension)
+				{
+					var result = PInvoke.SHGetFileInfo(
+						pExtension,
+						FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL,
+						&shfi,
+						(uint)sizeof(SHFILEINFOW),
+						flags);
+					
+					if (result != 0 && shfi.szTypeName.Value[0] != '\0')
+					{
+						var typeName = shfi.szTypeName.ToString();
+						if (!string.IsNullOrEmpty(typeName))
+							return typeName;
+					}
+				}
 			}
 
 			// Fallback to generic format
