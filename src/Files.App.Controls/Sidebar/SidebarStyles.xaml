@@ -200,9 +200,14 @@
 											<ItemsRepeater.ItemTemplate>
 												<DataTemplate>
 													<local:SidebarItem
-														AutomationProperties.AutomationId="{Binding Text, Mode=OneWay}"
+														AutomationProperties.AutomationId="{Binding Text}"
+														Decorator="{Binding ItemDecorator}"
+														Icon="{Binding IconElement}"
+														IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
 														IsInFlyout="True"
-														Item="{Binding}" />
+														Item="{Binding}"
+														Text="{Binding Text}"
+														ToolTip="{Binding ToolTip}" />
 												</DataTemplate>
 											</ItemsRepeater.ItemTemplate>
 										</ItemsRepeater>
