@@ -5,6 +5,7 @@ using Files.Shared.Helpers;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Vanara.PInvoke;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -30,17 +31,42 @@ namespace Files.App.Utils.Storage
 		public bool IsShortcut => FileExtensionHelpers.IsShortcutOrUrlFile(FileType);
 		public bool IsAlternateStream => System.Text.RegularExpressions.Regex.IsMatch(Path, @"\w:\w");
 
+		private string? _DisplayType;
 		public override string DisplayType
 		{
 			get
 			{
-				var itemType = Strings.File.GetLocalizedResource();
+				if (_DisplayType is not null)
+					return _DisplayType;
 
-				if (Name.Contains('.', StringComparison.Ordinal))
-					itemType = IO.Path.GetExtension(Name).Trim('.') + " " + itemType;
+				// Try to get the proper display type from Windows Shell
+				_DisplayType = GetDisplayTypeFromShell();
 
-				return itemType;
+				return _DisplayType;
 			}
+		}
+
+		private string GetDisplayTypeFromShell()
+		{
+			// Try using SHGetFileInfo to get proper file type description
+			var extension = IO.Path.GetExtension(Name);
+			if (!string.IsNullOrEmpty(extension))
+			{
+				var shfi = new Shell32.SHFILEINFO();
+				var flags = Shell32.SHGFI.SHGFI_TYPENAME | Shell32.SHGFI.SHGFI_USEFILEATTRIBUTES;
+				
+				var result = Shell32.SHGetFileInfo(extension, IO.FileAttributes.Normal, ref shfi, Shell32.SHFILEINFO.Size, flags);
+				
+				if (result != IntPtr.Zero && !string.IsNullOrEmpty(shfi.szTypeName))
+					return shfi.szTypeName;
+			}
+
+			// Fallback to generic format
+			var itemType = Strings.File.GetLocalizedResource();
+			if (Name.Contains('.', StringComparison.Ordinal))
+				itemType = extension?.Trim('.') + " " + itemType;
+			
+			return itemType;
 		}
 
 		public override DateTimeOffset DateCreated { get; }
@@ -162,7 +188,26 @@ namespace Files.App.Utils.Storage
 		{
 			var isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
 			var isAlternateStream = RegexHelpers.AlternateStream().IsMatch(path);
-			return isShortcut || isAlternateStream;
+			var hasRestrictedAttributes = HasHiddenOrSystemAttributes(path);
+			return isShortcut || isAlternateStream || hasRestrictedAttributes;
+		}
+
+		private static bool HasHiddenOrSystemAttributes(string path)
+		{
+			try
+			{
+				// Check if file has hidden or system attributes
+				// This will work even if WinRT APIs fail
+				var fileInfo = new FileInfo(path);
+				if (!fileInfo.Exists)
+					return false;
+
+				return (fileInfo.Attributes & (IO.FileAttributes.Hidden | IO.FileAttributes.System)) != 0;
+			}
+			catch
+			{
+				return false;
+			}
 		}
 
 		public override bool IsEqual(IStorageItem item) => item?.Path == Path;
