@@ -32,7 +32,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage is not null)
-				context.ShellPage!.ToolbarViewModel.SwitchToPathMode();
+				_ = context.ShellPage!.ToolbarViewModel.SwitchToPathMode();
 
 			return Task.CompletedTask;
 		}

@@ -31,9 +31,22 @@ namespace Files.App.Utils.Storage
 		public SystemStorageFile(StorageFile file) => File = file;
 
 		public static IAsyncOperation<BaseStorageFile> FromPathAsync(string path)
-			=> AsyncInfo.Run<BaseStorageFile>(async (cancellationToken)
-				=> new SystemStorageFile(await StorageFile.GetFileFromPathAsync(path))
-			);
+			=> AsyncInfo.Run<BaseStorageFile>(async (cancellationToken) =>
+			{
+				try
+				{
+					return new SystemStorageFile(await StorageFile.GetFileFromPathAsync(path));
+				}
+				catch (UnauthorizedAccessException)
+				{
+					// File may have hidden/system attributes that prevent WinRT API access
+					return null;
+				}
+				catch (FileNotFoundException)
+				{
+					return null;
+				}
+			});
 
 		public override IAsyncOperation<StorageFile> ToStorageFileAsync()
 			=> Task.FromResult(File).AsAsyncOperation();

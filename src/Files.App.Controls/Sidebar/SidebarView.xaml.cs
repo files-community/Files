@@ -15,8 +15,10 @@ namespace Files.App.Controls
 	{
 		private const double COMPACT_MAX_WIDTH = 200;
 
-		public event EventHandler<object>? ItemInvoked;
+		public event EventHandler<ItemInvokedEventArgs>? ItemInvoked;
 		public event EventHandler<ItemContextInvokedArgs>? ItemContextInvoked;
+		public event EventHandler<ItemDragOverEventArgs>? ItemDragOver;
+		public event EventHandler<ItemDroppedEventArgs>? ItemDropped;
 		public event PropertyChangedEventHandler? PropertyChanged;
 
 		internal SidebarItem? SelectedItemContainer = null;
@@ -40,26 +42,24 @@ namespace Files.App.Controls
 			if (item.Item is null || item.IsGroupHeader) return;
 
 			SelectedItem = item.Item;
-			ItemInvoked?.Invoke(item, item.Item);
-			ViewModel.HandleItemInvokedAsync(item.Item, pointerUpdateKind);
+			ItemInvoked?.Invoke(item, new(pointerUpdateKind));
 		}
 
 		internal void RaiseContextRequested(SidebarItem item, Point e)
 		{
-			ItemContextInvoked?.Invoke(item, new ItemContextInvokedArgs(item.Item, e));
-			ViewModel.HandleItemContextInvokedAsync(item, new ItemContextInvokedArgs(item.Item, e));
+			ItemContextInvoked?.Invoke(item, new(item.Item, e));
 		}
 
-		internal async Task RaiseItemDropped(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
+		internal void RaiseItemDropped(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
 		{
 			if (sideBarItem.Item is null) return;
-			await ViewModel.HandleItemDroppedAsync(new ItemDroppedEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
+			ItemDropped?.Invoke(this, new(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
 		}
 
-		internal async Task RaiseItemDragOver(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
+		internal void RaiseItemDragOver(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
 		{
 			if (sideBarItem.Item is null) return;
-			await ViewModel.HandleItemDragOverAsync(new ItemDragOverEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
+			ItemDragOver?.Invoke(this, new(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
 		}
 
 		private void UpdateMinimalMode()
@@ -230,8 +230,7 @@ namespace Files.App.Controls
 
 		private void MenuItemHostScrollViewer_ContextRequested(UIElement sender, ContextRequestedEventArgs e)
 		{
-			var newArgs = new ItemContextInvokedArgs(null, e.TryGetPosition(this, out var point) ? point : default);
-			ViewModel.HandleItemContextInvokedAsync(this, newArgs);
+			ItemContextInvoked?.Invoke(this, new(null, e.TryGetPosition(this, out var point) ? point : default));
 			e.Handled = true;
 		}
 

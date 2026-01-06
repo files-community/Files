@@ -1773,7 +1773,7 @@
     <value>Tunniste</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>Avaa tiedostot yhdellä napsautuksella</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Kansion polku</value>
@@ -2073,7 +2073,7 @@
     <value>Lukitusnäyttö</value>
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
-    <value>Open folders with a single click</value>
+    <value>Avaa kansiot yhdellä napsautuksella</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Avataan kohteita</value>
@@ -2448,34 +2448,34 @@
     <value>Valitse, näytetäänkö sivupalkki</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>Copy selected {0, plural, one {item} other {items}}</value>
+    <value>Kopioi {0, plural, one {kohde} other {kohteet}}</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of the current directory</value>
+    <value>Kopioi nykyisen hakemiston polku</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Copy path of selected items</value>
+    <value>Kopioi valittujen kohteiden polut</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of selected items with quotes</value>
+    <value>Kopioi valittujen kohteiden polut lainausmerkeissä</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of the current directory with quotes</value>
+    <value>Kopioi nykyisen hakemiston polku lainausmerkeissä</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>Cut selected {0, plural, one {item} other {items}}</value>
+    <value>Leikkaa {0, plural, one {valittu kohde} other {valitut kohteet}}</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste items to the current folder</value>
+    <value>Liitä kohteet nykyiseen kansioon</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items to the current folder as shortcuts</value>
+    <value>Liitä kohteet nykyiseen kansioon pikakuvakkeina</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items to the selected folder</value>
+    <value>Liitä kohteet valittuun kansioon</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
-    <value>Paste to selected folder</value>
+    <value>Liitä valittuun kansioon</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>Poista {0, plural, one {kohde} other {kohdetta}}</value>
@@ -2490,7 +2490,7 @@
     <value>Luo uusi pikakuvake mihin tahansa kohteeseen</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
-    <value>Empty the contents of Recycle Bin</value>
+    <value>Tyhjennä Roskakori</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
     <value>Avaa valitun kohteen "Alusta asema" -valikko</value>
@@ -2520,10 +2520,10 @@
     <value>Valitse kaikki kohteet</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Invert selected items</value>
+    <value>Käänteinen valittujen kohteiden valinta</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Clear selected items</value>
+    <value>Peru kohteiden valinta</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
     <value>Vaihda kohteen valinta</value>
@@ -2556,13 +2556,13 @@
     <value>Aseta valittu kuva sovelluksen taustaksi</value>
   </data>
   <data name="InstallFont" xml:space="preserve">
-    <value>Install font</value>
+    <value>Asenna fontti</value>
   </data>
   <data name="InstallDriver" xml:space="preserve">
-    <value>Install driver</value>
+    <value>Asenna ohjain</value>
   </data>
   <data name="InstallCertificate" xml:space="preserve">
-    <value>Install certificate</value>
+    <value>Asenna varmenne</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
     <value>Asenna {0, plural, one {valittu fontti} other {valitut fontit}}</value>
@@ -2595,13 +2595,13 @@
     <value>Luo zip-arkisto {0, plural, one {valitusta kohteesta} other {valituista kohteista}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
+    <value>Pura {0, plural, one {valittu arkisto} other {valitut arkistot}} mihin tahansa kansioon</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
+    <value>Pura {0, plural, one {valittu arkisto} other {valitut arkistot}} nykyiseen kansioon</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
+    <value>Pura {0, plural, one {valittu arkisto} other {valitut arkistot}} uuteen kansioon</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>Käännä {0, plural, one {valittua kuvaa} other {valittuja kuvia}} vasemmalle</value>
@@ -2730,10 +2730,10 @@
     <value>Avaa uusi välilehti</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward</value>
+    <value>Siirry taaksepäin</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward</value>
+    <value>Siirry eteenpäin</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Navigoi yksi hakemisto ylöspäin</value>
@@ -2766,7 +2766,7 @@
     <value>Sulje kaikki välilehdet (myös nykyinen)</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen recently closed tab</value>
+    <value>Avaa viimeksi suljettu välilehti uudelleen</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
     <value>Siirry edelliseen välilehteen</value>
@@ -2784,7 +2784,7 @@
     <value>Siirrä kohdistus toiseen ruutuun</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Switch focus to the other pane</value>
+    <value>Siirrä kohdistus toiseen ruutuun</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Vaihda sivupalkkia</value>
@@ -2992,13 +2992,13 @@
     <value>Merkitsemätön</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Previous tab</value>
+    <value>Edellinen välilehti</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Next tab</value>
+    <value>Seuraava välilehti</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Close tab</value>
+    <value>Sulje välilehti</value>
   </data>
   <data name="EditPath" xml:space="preserve">
     <value>Muokkaa polkua</value>
@@ -3131,6 +3131,15 @@
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Sinulla on vahvistamattomia muutoksia tässä haarassa. Mitä haluat tehdä niille?</value>
+  </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>You have an ongoing merge with unresolved conflicts. Please resolve the conflicts or abort the merge to switch branches.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Abort merge and switch to '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Stay on '{0}' and resolve conflicts</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Vaihda haaraa</value>
@@ -4337,5 +4346,8 @@
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
     <value>Only in Columns View</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>Uusi {0}</value>
   </data>
 </root>

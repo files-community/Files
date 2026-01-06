@@ -1773,7 +1773,7 @@
     <value>檔案標籤</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>點擊一下即開啟檔案</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>資料夾路徑</value>
@@ -2073,7 +2073,7 @@
     <value>鎖定畫面</value>
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
-    <value>Open folders with a single click</value>
+    <value>按一下即可開啟資料夾</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>開啟項目</value>
@@ -2106,7 +2106,7 @@
     <value>還原​​所有項目​​</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>是否要復原選取的 {0, plural, one {selected item} other {{0} selected items}}？</value>
+    <value>是否要復原選取的{0,plural,other{ {0} 個項目}}？</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>還原選取項目</value>
@@ -2436,7 +2436,7 @@
     <value>切換隱藏項目顯示</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>顯示/隱藏以點開頭的隱藏配置文件 (Dotfiles)</value>
+    <value>顯示/隱藏點開頭的隱藏檔案</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>顯示/隱藏已知檔案類型的副檔名</value>
@@ -2448,7 +2448,7 @@
     <value>切換是否顯示側邊攔</value>
   </data>
   <data name="CopyItemDescription" xml:space="preserve">
-    <value>複製選取的 {0, plural, one {item} other {items}}</value>
+    <value>複製選取的{0, plural, other {項目}}</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
     <value>複製目前目錄的路徑</value>
@@ -2463,7 +2463,7 @@
     <value>複製目前目錄的路徑（含引號）</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
-    <value>剪下選取的 {0, plural, one {item} other {items}}</value>
+    <value>剪下選取的{0, plural, other {項目}}</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
     <value>貼上檔案至目前的資料夾</value>
@@ -2478,7 +2478,7 @@
     <value>貼上至選取的資料夾</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
-    <value>刪除選取的 {0, plural, one {item} other {items}}</value>
+    <value>刪除選取的{0, plural, other {項目}}</value>
   </data>
   <data name="CreateFolderDescription" xml:space="preserve">
     <value>新增資料夾</value>
@@ -2520,10 +2520,10 @@
     <value>選擇所有項目</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>復原選取檔案</value>
+    <value>反向選取檔案</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>清除選取檔案</value>
+    <value>清除選取的檔案</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
     <value>選取/取消選取所選定的項目</value>
@@ -2595,13 +2595,13 @@
     <value>建立包含「選取的{0,plural,other{項目}}」的zip壓縮檔</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
+    <value>解壓縮選取的{0, plural, other{壓縮檔}}到任一個資料夾</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
+    <value>解壓縮選取的{0,plural,other{壓縮檔}}到目前的資料夾</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
+    <value>解壓縮選取的{0,plural,other{壓縮檔}}到新資料夾</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
     <value>向左旋轉已選取{0, plural, other{影像}}</value>
@@ -3132,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>您在此分支上有未提交的變更，您要如何處理它們？</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>您目前有尚未解決的合併衝突。請先解決這些衝突或放棄合併，以便切換分支。</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>終止合併並切換到 '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>停留在 '{0}' 並解決衝突</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>切換分支</value>
   </data>
@@ -3488,7 +3497,7 @@
     <value>正在處理檔案...</value>
   </data>
   <data name="DiscoveringItems" xml:space="preserve">
-    <value>Discovering items...</value>
+    <value>正在探索項目...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>速度：</value>
@@ -3502,27 +3511,27 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>Compressed {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>已壓縮 {0, plural, other{# 個項目}}到「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
-    <value>Compressed {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>已從「{1}」壓縮 {0, plural, other{# 個項目}}到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Error compressing {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>壓縮 {0, plural, other{# 個項目}}到 "{1}" 時發生錯誤</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>Failed to compress {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>從「{1}」壓縮 {0, plural, other{# 個項目}}到「{2}」失敗</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>Compressing {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>正在壓縮 {0, plural, other{# 個項目}}到「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
-    <value>Compressing {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>正在從「{1}」壓縮 {0, plural, other{# 個項目}}到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
@@ -3562,67 +3571,67 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled installing {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>已取消從「{1}」安裝 {0, plural, other{# 款字體}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
-    <value>Installed {0, plural, one {# font} other {# fonts}}</value>
+    <value>已安裝 {0, plural, other{# 款字體}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
-    <value>Installed {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>已從「{1}」安裝 {0, plural, other{# 款字體}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
-    <value>Error installing {0, plural, one {# font} other {# fonts}}</value>
+    <value>安裝 {0, plural, other{# 款字體}}時發生錯誤</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
-    <value>Failed to install {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>從「{1}」安裝 {0, plural, other{# 款字體}}時發生錯誤</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
-    <value>Installing {0, plural, one {# font} other {# fonts}}</value>
+    <value>正在安裝 {0, plural, other{# 款字體}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
-    <value>Installing {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>正在從「{1}」安裝 {0, plural, other{# 款字體}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Canceled copying {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>已取消複製到「{1}」的 {0, plural, other{# 個項目}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled copying {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>已取消從「{1}」複製到「{2}」的 {0, plural, other{# 個項目}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Copied {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>已複製 {0, plural, other{# 個項目}}到「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>Copied {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>已從「{1}」複製 {0, plural, other{# 個項目}}到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Error copying {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>複製 {0, plural, other{# 個項目}}到「{1}」時發生錯誤</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>Failed to copy {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>從「{1}」複製 {0, plural, other{# 個項目}}到「{2}」失敗</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
-    <value>Copying {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>正在複製 {0, plural, other{# 個項目}}到「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>Copying {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>正在從「{1}」複製 {0, plural, other{# 個項目}}到「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
-    <value>Discovered {0, plural, one {# item} other {# items}}</value>
+    <value>已找到{0, plural, other{ # 個項目}}</value>
     <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
@@ -3658,55 +3667,55 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>已取消從「{1}」刪除 {0, plural, other{# 個項目}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Deleted {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>已從「{1}」刪除 {0, plural, other{# 個項目}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>從「{1}」刪除 {0, plural, other{# 個項目}}時發生錯誤</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Failed to delete {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>從「{1}」刪除 {0, plural, other{# 個項目}}失敗</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>正在從「{1}」刪除 {0, plural, other{# 個項目}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>Canceled moving {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>已取消將 {0, plural, other{# 個項目}}移至「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled moving {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>已取消將 {0, plural, other{# 個項目}}從「{1}」移至「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Moved {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>已將 {0, plural, other{# 個項目}}移至「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
-    <value>Moved {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>已將 {0, plural, other{# 個項目}}從「{1}」移至「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
-    <value>Moving {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>正在將 {0,plural,other{#}} 個項目移至「{1}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
-    <value>Moving {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>正在將 {0, plural, other{# 個項目}}從「{1}」移至「{2}」</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Error moving {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>將 {0, plural, other{# 個項目}}移至「{1}」時發生錯誤</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
-    <value>Failed to move {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>將 {0, plural, other{# 個項目}}從「{1}」移至「{2}」失敗</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
@@ -3734,7 +3743,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1, plural, one {# item} other {# items}} processed</value>
+    <value>已處理 {0} / {1, plural, other {# 項目}}</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3780,7 +3789,7 @@
     <value>套用此標籤時發生錯誤</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
+    <value>解壓縮選取的{0,plural,other{壓縮檔}}：單一檔案至此，多個檔案至新資料夾</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>解壓縮至此（智慧）</value>
@@ -4279,7 +4288,7 @@
     <value>展開已收合的路徑導覽</value>
   </data>
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
-    <value>Show folders in {0}</value>
+    <value>開啟 {0} 中的資料夾清單</value>
   </data>
   <data name="BreadcrumbBarRootChevronButtonToolTip" xml:space="preserve">
     <value>在首頁顯示資料夾</value>
@@ -4333,9 +4342,12 @@
     <value>無法開啟紀錄檔</value>
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
-    <value>Show status bar</value>
+    <value>顯示狀態欄</value>
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
-    <value>Only in Columns View</value>
+    <value>只在欄檢視模式</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>新增 '{0}'</value>
   </data>
 </root>

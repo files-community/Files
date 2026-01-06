@@ -135,11 +135,10 @@
 								<TextBlock
 									x:Name="StatusCenterItemHeaderTextBlock"
 									x:Load="{x:Bind Header, Converter={StaticResource EmptyStringToBoolConverter}, Mode=OneWay}"
-									MaxLines="1"
+									MaxLines="2"
 									Style="{StaticResource BodyTextBlockStyle}"
 									Text="{x:Bind Header, Mode=OneWay}"
 									TextTrimming="CharacterEllipsis"
-									TextWrapping="NoWrap"
 									ToolTipService.ToolTip="{x:Bind HeaderTooltip, Mode=OneWay}" />
 
 							</StackPanel>

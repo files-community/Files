@@ -166,7 +166,7 @@
     <value>Overslaan</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>Alles selecteren</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Selectie omkeren</value>
@@ -2421,7 +2421,7 @@
     <value>Toggle full screen mode</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
-    <value>Enter compact overlay mode</value>
+    <value>Ga naar compacte overlay</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
     <value>Exit compact overlay mode</value>
@@ -2490,7 +2490,7 @@
     <value>Maak een nieuwe snelkoppeling naar een item</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
-    <value>Empty the contents of Recycle Bin</value>
+    <value>Prullenbak leegmaken</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
     <value>Open het "Schijf formatteren" menu voor geselecteerde item</value>
@@ -3131,6 +3131,15 @@
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Je hebt niet-gecommitte wijzigingen in deze branche. Wat wil je ermee doen?</value>
+  </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>You have an ongoing merge with unresolved conflicts. Please resolve the conflicts or abort the merge to switch branches.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Abort merge and switch to '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Stay on '{0}' and resolve conflicts</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Wissel van branch</value>
@@ -4337,5 +4346,8 @@
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
     <value>Only in Columns View</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>New {0}</value>
   </data>
 </root>

@@ -65,14 +65,6 @@ namespace Files.App.Controls
 		public static readonly DependencyProperty NegativeOpenPaneLengthProperty =
 			DependencyProperty.Register(nameof(NegativeOpenPaneLength), typeof(double), typeof(SidebarView), new PropertyMetadata(null));
 
-		public ISidebarViewModel ViewModel
-		{
-			get => (ISidebarViewModel)GetValue(ViewModelProperty);
-			set => SetValue(ViewModelProperty, value);
-		}
-		public static readonly DependencyProperty ViewModelProperty =
-			DependencyProperty.Register(nameof(ViewModel), typeof(ISidebarViewModel), typeof(SidebarView), new PropertyMetadata(null));
-
 		public ISidebarItemModel SelectedItem
 		{
 			get => (ISidebarItemModel)GetValue(SelectedItemProperty);

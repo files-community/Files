@@ -528,7 +528,7 @@
     <value>Status</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
-    <value>No results</value>
+    <value>Nėra rezultatų</value>
   </data>
   <data name="SubDirectoryAccessDenied" xml:space="preserve">
     <value>Can't access any items to display</value>
@@ -3132,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>You have an ongoing merge with unresolved conflicts. Please resolve the conflicts or abort the merge to switch branches.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Abort merge and switch to '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Stay on '{0}' and resolve conflicts</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Switch branch</value>
   </data>
@@ -4253,7 +4262,7 @@
     <value>Drag files or folders here to interact with them across different tabs</value>
   </data>
   <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
-    <value>Enter a path to navigate to...</value>
+    <value>Įveskite kelią, į kurį norite naršyti...</value>
   </data>
   <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
     <value>Find features and commands...</value>
@@ -4337,5 +4346,8 @@
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
     <value>Only in Columns View</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>New {0}</value>
   </data>
 </root>

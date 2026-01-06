@@ -6,6 +6,9 @@ using Microsoft.UI.Xaml.Automation.Provider;
 
 namespace Files.App.Controls
 {
+	/// <summary>
+	/// Exposes <see cref="SidebarView"/> types to Microsoft UI Automation.
+	/// </summary>
 	public sealed partial class SidebarViewAutomationPeer : FrameworkElementAutomationPeer, ISelectionProvider
 	{
 		public bool CanSelectMultiple => false;
@@ -20,20 +23,17 @@ namespace Files.App.Controls
 
 		protected override object GetPatternCore(PatternInterface patternInterface)
 		{
-			if (patternInterface == PatternInterface.Selection)
-			{
+			if (patternInterface is PatternInterface.Selection)
 				return this;
-			}
+
 			return base.GetPatternCore(patternInterface);
 		}
 
 		public IRawElementProviderSimple[] GetSelection()
 		{
 			if (Owner.SelectedItemContainer != null)
-				return
-				[
-				ProviderFromPeer(CreatePeerForElement(Owner.SelectedItemContainer))
-				];
+				return [ProviderFromPeer(CreatePeerForElement(Owner.SelectedItemContainer))];
+
 			return [];
 		}
 	}

@@ -180,11 +180,14 @@
 			HorizontalContentAlignment="Stretch"
 			DisplayMode="{x:Bind SidebarAdaptiveViewModel.SidebarDisplayMode, Mode=TwoWay}"
 			IsPaneOpen="{x:Bind ViewModel.IsSidebarPaneOpen, Mode=TwoWay}"
+			ItemContextInvoked="SidebarControl_ItemContextInvoked"
+			ItemDragOver="SidebarControl_ItemDragOver"
+			ItemDropped="SidebarControl_ItemDropped"
+			ItemInvoked="SidebarControl_ItemInvoked"
 			Loaded="SidebarControl_Loaded"
 			MenuItemsSource="{x:Bind SidebarAdaptiveViewModel.SidebarItems, Mode=OneWay}"
 			OpenPaneLength="{x:Bind UserSettingsService.AppearanceSettingsService.SidebarWidth, Mode=TwoWay}"
-			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
-			ViewModel="{x:Bind SidebarAdaptiveViewModel}">
+			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}">
 
 			<!--  Inner Content  -->
 			<controls:SidebarView.InnerContent>

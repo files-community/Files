@@ -803,9 +803,9 @@ namespace Files.App.Helpers
 			var success = PInvoke.GetVolumeInformation(
 				path,
 				[],
-				null,
-				null,
-				&dwFileSystemFlags,
+				out _,
+				out _,
+				out dwFileSystemFlags,
 				[]);
 
 			if (!success)

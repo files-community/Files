@@ -3132,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Aveți modificări neconfirmate în această ramură. Ce doriți să faceți cu ele?</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>Aveți o îmbinare în curs cu conflicte nerezolvate. Vă rugăm să rezolvați conflictele sau să abandonați îmbinarea pentru a comuta ramurile.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Renunțați la îmbinare și comutați la „{0}”</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Rămâneți pe „{0}” și rezolvați conflictele</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Comutare ramură</value>
   </data>
@@ -4337,5 +4346,8 @@
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
     <value>Doar în Vizualizarea coloane</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>Nou {0}</value>
   </data>
 </root>

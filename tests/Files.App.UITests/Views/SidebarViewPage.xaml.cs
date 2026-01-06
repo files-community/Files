@@ -15,8 +15,6 @@ namespace Files.App.UITests.Views
 			sidebarModels.Add(new TestSidebarModel { Text = "Test 1" });
 			sidebarModels.Add(new TestSidebarModel { Text = "Test 2" });
 			sidebarModels.Add(new TestSidebarModel { Text = "Test 3" });
-
-			Sidebar.ViewModel = new TestSidebarViewModel();
 		}
 	}
 }

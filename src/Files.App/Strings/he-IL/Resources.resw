@@ -966,7 +966,7 @@
     <value>קיצור דרך</value>
   </data>
   <data name="Drives" xml:space="preserve">
-    <value>כוננים:</value>
+    <value>כוננים</value>
   </data>
   <data name="PinToSidebarByDraggingCaptionText" xml:space="preserve">
     <value>העבר לכאן</value>
@@ -3132,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>You have uncommitted changes on this branch. What would you like to do with them?</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>You have an ongoing merge with unresolved conflicts. Please resolve the conflicts or abort the merge to switch branches.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Abort merge and switch to '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Stay on '{0}' and resolve conflicts</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Switch branch</value>
   </data>
@@ -3230,7 +3239,7 @@
     <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
-    <value>אקריליק</value>
+    <value>אקרילי</value>
   </data>
   <data name="Mica" xml:space="preserve">
     <value>Mica</value>
@@ -4337,5 +4346,8 @@
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
     <value>Only in Columns View</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>New {0}</value>
   </data>
 </root>

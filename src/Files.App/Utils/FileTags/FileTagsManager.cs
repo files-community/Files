@@ -48,14 +48,14 @@ namespace Files.App.Utils.FileTags
 					var tagItem = new FileTagItem
 					{
 						Text = tag.Name,
-						Path = $"tag:{tag.Name}",
+						Path = FolderSearch.FormatTagQuery(tag.Name),
 						FileTag = tag,
 						MenuOptions = new ContextMenuOptions { IsLocationItem = true },
 					};
 
 					lock (fileTags)
 					{
-						if (fileTags.Any(x => x.Path == $"tag:{tag.Name}"))
+						if (fileTags.Any(x => x.Path == FolderSearch.FormatTagQuery(tag.Name)))
 						{
 							continue;
 						}

@@ -19,7 +19,7 @@ namespace Files.App.Data.Contracts
 			return bitmapImage is null ? null : new BitmapImageModel(bitmapImage);
 		}
 
-		public async Task<IImage?> GetImageModelFromDataAsync(byte[] rawData)
+		public async Task<IImage?> GetImageModelFromDataAsync(byte[]? rawData)
 		{
 			return new BitmapImageModel(await BitmapHelper.ToBitmapAsync(rawData));
 		}

@@ -2766,7 +2766,7 @@
     <value>Zamknij wszystkie karty wraz z bieżącą kartą</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen recently closed tab</value>
+    <value>Przywróć ostatnio zamkniętą kartę</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
     <value>Przenieś do poprzedniej karty</value>
@@ -2992,13 +2992,13 @@
     <value>Nietagowane</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Previous tab</value>
+    <value>Poprzednia karta</value>
   </data>
   <data name="NextTab" xml:space="preserve">
     <value>Następna zakładka</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Close tab</value>
+    <value>Zamknij kartę</value>
   </data>
   <data name="EditPath" xml:space="preserve">
     <value>Edytuj ścieżkę</value>
@@ -3028,7 +3028,7 @@
     <value>Pokaż pola zaznaczenia podczas wybierania elementów</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Edit path in the OmniBar</value>
+    <value>Edytuj ścieżkę w OmniBar</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>Utwórz nowy element</value>
@@ -3131,6 +3131,15 @@
   </data>
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Masz niezatwierdzone zmiany w tej gałęzi. Co chciałbyś z nimi zrobić?</value>
+  </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>You have an ongoing merge with unresolved conflicts. Please resolve the conflicts or abort the merge to switch branches.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Abort merge and switch to '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Stay on '{0}' and resolve conflicts</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Zmień gałąź</value>
@@ -3329,7 +3338,7 @@
     <value>Open selected directory in a new tab</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>Open selected directory in a new window</value>
+    <value>Otwórz zaznaczony katalog w nowym oknie</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
     <value>Otwórz wszystko</value>
@@ -4337,5 +4346,8 @@
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
     <value>Only in Columns View</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>New {0}</value>
   </data>
 </root>

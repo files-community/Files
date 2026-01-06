@@ -27,7 +27,7 @@ namespace Files.App.ViewModels.Properties
 		{
 			Library = library;
 			GetBaseProperties();
-			GetSpecialPropertiesAsync();
+			_ = GetSpecialPropertiesAsync();
 		}
 
 		public override void GetBaseProperties()
@@ -69,7 +69,7 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.ItemCreatedTimestampReal = libraryFile.DateCreated;
 				if (libraryFile.Properties is not null)
 				{
-					GetOtherPropertiesAsync(libraryFile.Properties);
+					await GetOtherPropertiesAsync(libraryFile.Properties);
 				}
 			}
 
@@ -97,7 +97,7 @@ namespace Files.App.ViewModels.Properties
 			{
 				ViewModel.ContainsFilesOrFolders = true;
 				ViewModel.LocationsCount = storageFolders.Count;
-				GetLibrarySizeAsync(storageFolders, TokenSource.Token);
+				await GetLibrarySizeAsync(storageFolders, TokenSource.Token);
 			}
 			else
 			{

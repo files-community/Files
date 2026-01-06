@@ -62,6 +62,7 @@ namespace Files.App.Views.Properties
 				CombinedProperties properties => await SaveCombinedAsync(properties.List),
 				FileProperties properties => await SaveBaseAsync(properties.Item),
 				FolderProperties properties => await SaveBaseAsync(properties.Item),
+				_ => throw new UnreachableException()
 			};
 
 			bool GetNewName(out string newName)

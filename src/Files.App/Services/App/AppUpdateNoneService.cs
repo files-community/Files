@@ -17,7 +17,7 @@ namespace Files.App.Services
 			private set => SetProperty(ref _areReleaseNotesAvailable, value);
 		}
 
-		public event PropertyChangedEventHandler? PropertyChanged { add { } remove { } }
+		public new event PropertyChangedEventHandler? PropertyChanged { add { } remove { } }
 
 		public Task CheckAndUpdateFilesLauncherAsync()
 		{

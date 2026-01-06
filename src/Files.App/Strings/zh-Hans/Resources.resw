@@ -145,7 +145,7 @@
     <value>路径</value>
   </data>
   <data name="SizeLabel" xml:space="preserve">
-    <value>大小:</value>
+    <value>大小：</value>
   </data>
   <data name="SizeOnDiskLabel" xml:space="preserve">
     <value>占用空间:</value>
@@ -1161,7 +1161,7 @@
     <value>未知</value>
   </data>
   <data name="RenameFileDialog.Text" xml:space="preserve">
-    <value>如果改变文件扩展名，可能会导致文件不可用。确实要更改吗？</value>
+    <value>如果改变文件扩展名，可能会导致文件不可用。确定要更改吗？</value>
   </data>
   <data name="DriveTypeCDRom" xml:space="preserve">
     <value>CD-ROM 驱动器</value>
@@ -1326,7 +1326,7 @@
     <value>类型：</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
-    <value>修改日期:</value>
+    <value>修改日期：</value>
   </data>
   <data name="OpenWith" xml:space="preserve">
     <value>打开方式</value>
@@ -1773,7 +1773,7 @@
     <value>文件标签</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>单击打开文件</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>文件夹路径</value>
@@ -2031,10 +2031,10 @@
     <value>您好！</value>
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
-    <value>喜欢Files吗？请考虑在Microsoft Store中给我们写评价。</value>
+    <value>喜欢Files吗？请考虑在 Microsoft Store 中给我们写评价。</value>
   </data>  
   <data name="SponsorSubtitle" xml:space="preserve">
-    <value>喜欢Files吗？请考虑在Github上支持该项目</value>
+    <value>喜欢Files吗？请考虑在 Github 上支持该项目。</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
     <value>赞助</value>
@@ -2073,7 +2073,7 @@
     <value>锁屏界面</value>
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
-    <value>Open folders with a single click</value>
+    <value>单击打开文件夹</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>打开项目</value>
@@ -3132,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>你在此分支上有未提交的更改。如何处理这些更改？</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>您当前存在未解决冲突的合并操作。请解决冲突或取消合并以切换分支。</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>中止合并并切换到'{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>保持'{0}'并解决冲突</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>切换分支</value>
   </data>
@@ -3783,7 +3792,7 @@
     <value>解压缩选中的{0, plural, other {压缩文件}}：若其中仅有一个项目，解压缩到当前目录下；否则，解压缩到当前目录下与压缩文件同名的新文件夹中</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
-    <value>自动解压</value>
+    <value>智能解压</value>
   </data>
   <data name="SortFilesAndFoldersTogether" xml:space="preserve">
     <value>将文件和文件夹一同排序</value>
@@ -4333,9 +4342,12 @@
     <value>无法打开日志文件</value>
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
-    <value>Show status bar</value>
+    <value>显示状态栏</value>
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
-    <value>Only in Columns View</value>
+    <value>仅在列视图时</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>New {0}</value>
   </data>
 </root>

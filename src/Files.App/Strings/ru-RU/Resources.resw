@@ -3132,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>У вас есть незакоммиченные изменения в этой ветке. Что вы хотите с ними сделать?</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>У вас есть текущее слияние с неразрешенными конфликтами. Пожалуйста, устраните конфликты или прервите слияние для переключения ветвей.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Прервать слияние и переключиться на '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Оставайтесь на '{0}' и разрешите конфликты</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Сменить ветку</value>
   </data>
@@ -4337,5 +4346,8 @@
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
     <value>Только в виде столбцов</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>New {0}</value>
   </data>
 </root>

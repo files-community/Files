@@ -10,6 +10,8 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Streams;
 using Windows.Win32;
+using Windows.Win32.Storage.FileSystem;
+using Windows.Win32.UI.Shell;
 using IO = System.IO;
 
 namespace Files.App.Utils.Storage
@@ -30,17 +32,54 @@ namespace Files.App.Utils.Storage
 		public bool IsShortcut => FileExtensionHelpers.IsShortcutOrUrlFile(FileType);
 		public bool IsAlternateStream => System.Text.RegularExpressions.Regex.IsMatch(Path, @"\w:\w");
 
+		private string? _DisplayType;
 		public override string DisplayType
 		{
 			get
 			{
-				var itemType = Strings.File.GetLocalizedResource();
+				if (_DisplayType is not null)
+					return _DisplayType;
 
-				if (Name.Contains('.', StringComparison.Ordinal))
-					itemType = IO.Path.GetExtension(Name).Trim('.') + " " + itemType;
+				// Try to get the proper display type from Windows Shell
+				_DisplayType = GetDisplayTypeFromShell();
 
-				return itemType;
+				return _DisplayType;
 			}
+		}
+
+		private unsafe string GetDisplayTypeFromShell()
+		{
+			// Try using SHGetFileInfo to get proper file type description
+			var extension = IO.Path.GetExtension(Name);
+			if (!string.IsNullOrEmpty(extension))
+			{
+				SHFILEINFOW shfi = default;
+				var flags = SHGFI_FLAGS.SHGFI_TYPENAME | SHGFI_FLAGS.SHGFI_USEFILEATTRIBUTES;
+				
+				fixed (char* pExtension = extension)
+				{
+					var result = PInvoke.SHGetFileInfo(
+						pExtension,
+						FILE_FLAGS_AND_ATTRIBUTES.FILE_ATTRIBUTE_NORMAL,
+						&shfi,
+						(uint)sizeof(SHFILEINFOW),
+						flags);
+					
+					if (result != 0 && shfi.szTypeName.Value[0] != '\0')
+					{
+						var typeName = shfi.szTypeName.ToString();
+						if (!string.IsNullOrEmpty(typeName))
+							return typeName;
+					}
+				}
+			}
+
+			// Fallback to generic format
+			var itemType = Strings.File.GetLocalizedResource();
+			if (Name.Contains('.', StringComparison.Ordinal))
+				itemType = extension?.Trim('.') + " " + itemType;
+			
+			return itemType;
 		}
 
 		public override DateTimeOffset DateCreated { get; }
@@ -162,7 +201,26 @@ namespace Files.App.Utils.Storage
 		{
 			var isShortcut = FileExtensionHelpers.IsShortcutOrUrlFile(path);
 			var isAlternateStream = RegexHelpers.AlternateStream().IsMatch(path);
-			return isShortcut || isAlternateStream;
+			var hasRestrictedAttributes = HasHiddenOrSystemAttributes(path);
+			return isShortcut || isAlternateStream || hasRestrictedAttributes;
+		}
+
+		private static bool HasHiddenOrSystemAttributes(string path)
+		{
+			try
+			{
+				// Check if file has hidden or system attributes
+				// This will work even if WinRT APIs fail
+				var fileInfo = new FileInfo(path);
+				if (!fileInfo.Exists)
+					return false;
+
+				return (fileInfo.Attributes & (IO.FileAttributes.Hidden | IO.FileAttributes.System)) != 0;
+			}
+			catch
+			{
+				return false;
+			}
 		}
 
 		public override bool IsEqual(IStorageItem item) => item?.Path == Path;

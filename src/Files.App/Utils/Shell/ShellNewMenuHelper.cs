@@ -125,7 +125,7 @@ namespace Files.App.Utils.Shell
 			{
 				var readStream = thumbnail.AsStreamForRead();
 				var bitmapData = new byte[readStream.Length];
-				await readStream.ReadAsync(bitmapData, 0, bitmapData.Length);
+				await readStream.ReadExactlyAsync(bitmapData, 0, bitmapData.Length);
 				iconString = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
 			}
 
