@@ -9,6 +9,8 @@ namespace Files.App.ViewModels.Previews
 {
 	public sealed class FolderPreviewViewModel
 	{
+		private readonly IContentPageContext _contentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 		public ListedItem Item { get; }
 
 		public BitmapImage Thumbnail { get; set; } = new();
@@ -26,8 +28,8 @@ namespace Files.App.ViewModels.Previews
 			var rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(Item.ItemPath));
 			Folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(Item.ItemPath, rootItem);
 
-			// Get actual item count including hidden items based on user settings.
-			int itemCount = await Task.Run(() => CountItemsInFolder(Item.ItemPath));
+			// Get actual item count including hidden files based on user settings
+			int itemCount = await GetItemCountAsync();
 
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Item.ItemPath,
@@ -69,6 +71,21 @@ namespace Files.App.ViewModels.Previews
 			}
 		}
 
+		private async Task<int> GetItemCountAsync()
+		{
+			// If this is the current folder being viewed, use ShellViewModel's TotalItemCount
+			// which includes hidden files when the setting is enabled (same as status bar)
+			if (_contentPageContext.ShellPage?.ShellViewModel is not null &&
+				_contentPageContext.Folder?.ItemPath == Item.ItemPath)
+			{
+				return _contentPageContext.ShellPage.ShellViewModel.TotalItemCount;
+			}
+
+			// For other folders (e.g., selected folder in the file list), enumerate directly
+			// This respects the user's "Show hidden files" setting
+			return await Task.Run(() => CountItemsInFolder(Item.ItemPath));
+		}
+
 		private static int CountItemsInFolder(string folderPath)
 		{
 			try
@@ -86,7 +103,7 @@ namespace Files.App.ViewModels.Previews
 					var isHidden = (file.Attributes & System.IO.FileAttributes.Hidden) != 0;
 					var isSystem = (file.Attributes & System.IO.FileAttributes.System) != 0;
 
-					// Skip hidden & system directories if their respective settings are off.
+					// Skip hidden & system files if their respective settings are off
 					if (isHidden && (!showHiddenItems || (isSystem && !showProtectedSystemFiles)))
 						continue;
 
