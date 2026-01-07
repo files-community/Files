@@ -1013,6 +1013,18 @@ namespace Files.App.ViewModels.UserControls
 				}.Build(),
 				new ContextMenuFlyoutItemViewModel()
 				{
+					Text = Strings.Properties.GetLocalizedResource(),
+					ThemedIconModel = new ThemedIconModel()
+					{
+						ThemedIconStyle = "App.ThemedIcons.Properties",
+					},
+					Command = OpenPropertiesCommand,
+					CommandParameter = menu,
+					IsPrimary = true,
+					ShowItem = options.ShowProperties
+				},
+				new ContextMenuFlyoutItemViewModel()
+				{
 					Text = Strings.PinFolderToSidebar.GetLocalizedResource(),
 					ThemedIconModel = new ThemedIconModel()
 					{
@@ -1050,17 +1062,6 @@ namespace Files.App.ViewModels.UserControls
 					Text = Strings.Eject.GetLocalizedResource(),
 					Command = EjectDeviceCommand,
 					ShowItem = options.ShowEjectDevice
-				},
-				new ContextMenuFlyoutItemViewModel()
-				{
-					Text = Strings.Properties.GetLocalizedResource(),
-					ThemedIconModel = new ThemedIconModel()
-					{
-						ThemedIconStyle = "App.ThemedIcons.Properties",
-					},
-					Command = OpenPropertiesCommand,
-					CommandParameter = menu,
-					ShowItem = options.ShowProperties
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
