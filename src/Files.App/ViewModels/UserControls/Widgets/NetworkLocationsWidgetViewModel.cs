@@ -120,6 +120,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				}.Build(),
 				new()
 				{
+					Text = Strings.Properties.GetLocalizedResource(),
+					ThemedIconModel = new ThemedIconModel() { ThemedIconStyle = "App.ThemedIcons.Properties" },
+					Command = OpenPropertiesCommand,
+					CommandParameter = item,
+					IsPrimary = true
+				},
+				new()
+				{
 					Text = Strings.PinFolderToSidebar.GetLocalizedResource(),
 					ThemedIconModel = new ThemedIconModel() { ThemedIconStyle = "App.ThemedIcons.FavoritePin" },
 					Command = PinToSidebarCommand,
@@ -142,13 +150,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					ShowItem = options?.ShowEjectDevice ?? false
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.FormatDriveFromHome).Build(),
-				new()
-				{
-					Text = Strings.Properties.GetLocalizedResource(),
-					ThemedIconModel = new ThemedIconModel() { ThemedIconStyle = "App.ThemedIcons.Properties" },
-					Command = OpenPropertiesCommand,
-					CommandParameter = item
-				},
 				new()
 				{
 					Text = Strings.TurnOnBitLocker.GetLocalizedResource(),
