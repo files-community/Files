@@ -149,9 +149,6 @@
 								Maximum disk space to use for thumbnail cache (100-5000 MB).
 							</TextBlock>
 						</wctcontrols:SettingsCard.Description>
-						<wctcontrols:SettingsCard.HeaderIcon>
-							<FontIcon Glyph="&#xE8B7;" />
-						</wctcontrols:SettingsCard.HeaderIcon>
 						<NumberBox
 							AutomationProperties.Name="Cache Size Limit"
 							Maximum="5000"
@@ -162,9 +159,6 @@
 					<wctcontrols:SettingsCard
 						Header="Remove all cached thumbnails to free up disk space"
 						IsEnabled="{x:Bind ViewModel.EnableThumbnailCache, Mode=OneWay}">
-						<wctcontrols:SettingsCard.HeaderIcon>
-							<FontIcon Glyph="&#xE74D;" />
-						</wctcontrols:SettingsCard.HeaderIcon>
 						<Button Command="{x:Bind ViewModel.ClearThumbnailCacheCommand}" Content="Clear Cache" />
 					</wctcontrols:SettingsCard>
 				</wctcontrols:SettingsExpander.Items>
