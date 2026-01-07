@@ -942,7 +942,15 @@ namespace Files.App.Views.Layouts
 
 		private new void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
-			var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox")!;
+			// Guard against visual tree access during disposal
+			if (args.ItemContainer is null)
+				return;
+
+			var selectionCheckbox = args.ItemContainer.FindDescendant("SelectionCheckbox");
+			
+			// If we can't find the checkbox, the visual tree may be in an invalid state (e.g., during disposal)
+			if (selectionCheckbox is null)
+				return;
 
 			selectionCheckbox.PointerEntered -= SelectionCheckbox_PointerEntered;
 			selectionCheckbox.PointerExited -= SelectionCheckbox_PointerExited;
@@ -1093,6 +1101,16 @@ namespace Files.App.Views.Layouts
 				(false, true) => GitProperties.Commit,
 				(false, false) => GitProperties.None
 			};
+		}
+
+		public override void Dispose()
+		{
+			// Unsubscribe from the ContainerContentChanging event to prevent it from being
+			// triggered during disposal when the visual tree is in an invalid state
+			if (FileList is not null)
+				FileList.ContainerContentChanging -= FileList_ContainerContentChanging;
+
+			base.Dispose();
 		}
 	}
 }
