@@ -4,6 +4,7 @@
 using Files.App.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 
@@ -18,7 +19,7 @@ namespace Files.App.Data.Items
 			set
 			{
 				SetProperty(ref icon, value, nameof(Icon));
-				OnPropertyChanged(nameof(IconSource));
+				OnPropertyChanged(nameof(IconElement));
 			}
 		}
 
@@ -63,12 +64,17 @@ namespace Files.App.Data.Items
 
 		public object? Children => Section == SectionType.Home ? null : ChildItems;
 		public BulkConcurrentObservableCollection<INavigationControlItem>? ChildItems { get; set; }
-		public IconSource? IconSource
+
+		public IconElement? IconElement
 		{
-			get => new ImageIconSource()
+			get
 			{
-				ImageSource = icon
-			};
+				var source = new ImageIconSource()
+				{
+					ImageSource = icon
+				};
+				return source.CreateIconElement();
+			}
 		}
 
 		public bool SelectsOnInvoked { get; set; } = true;

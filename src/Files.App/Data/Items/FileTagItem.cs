@@ -20,7 +20,7 @@ namespace Files.App.Data.Items
 			set
 			{
 				path = value;
-				OnPropertyChanged(nameof(IconSource));
+				OnPropertyChanged(nameof(IconElement));
 				OnPropertyChanged(nameof(ToolTip));
 			}
 		}
@@ -41,13 +41,17 @@ namespace Files.App.Data.Items
 
 		public object? Children => null;
 
-		public IconSource? IconSource
+		public IconElement? IconElement
 		{
-			get => new PathIconSource()
+			get
 			{
-				Data = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), (string)Application.Current.Resources["App.Theme.PathIcon.FilledTag"]),
-				Foreground = new SolidColorBrush(FileTag.Color.ToColor())
-			};
+				var source = new PathIconSource()
+				{
+					Data = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), (string)Application.Current.Resources["App.Theme.PathIcon.FilledTag"]),
+					Foreground = new SolidColorBrush(FileTag.Color.ToColor())
+				};
+				return source.CreateIconElement();
+			}
 		}
 
 		public object ToolTip => Text;
