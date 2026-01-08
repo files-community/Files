@@ -223,7 +223,7 @@ namespace Files.App.Views.Shells
 			if (ContentPage is null)
 				return;
 
-			var directoryItemCountLocalization = Strings.Items.GetLocalizedFormatResource(ShellViewModel.FilesAndFolders.Count);
+			var directoryItemCountLocalization = Strings.Items.GetLocalizedFormatResource(ShellViewModel.TotalItemCount);
 
 			BranchItem? headBranch = headBranch = InstanceViewModel.IsGitRepository
 					? await GitHelpers.GetRepositoryHead(InstanceViewModel.GitRepositoryPath)
@@ -265,7 +265,7 @@ namespace Files.App.Views.Shells
 					headBranch);
 			}
 
-			contentPage.StatusBarViewModel.DirectoryItemCount = $"{ShellViewModel.FilesAndFolders.Count} {directoryItemCountLocalization}";
+			contentPage.StatusBarViewModel.DirectoryItemCount = $"{ShellViewModel.TotalItemCount} {directoryItemCountLocalization}";
 			contentPage.UpdateSelectionSize();
 		}
 
