@@ -19,7 +19,10 @@
 	mc:Ignorable="d">
 
 	<Grid x:Name="DestinationPathGrid">
-		<ListView x:Name="SidebarNavView" ItemsSource="{x:Bind ViewModel.SidebarPinnedFolderItems, Mode=OneWay}">
+		<ListView
+			x:Name="SidebarNavView"
+			ItemsSource="{x:Bind ViewModel.SidebarPinnedFolderItems, Mode=OneWay}"
+			ScrollViewer.IsScrollInertiaEnabled="{x:Bind UserSettingsService.AppearanceSettingsService.EnableSmoothScrolling, Mode=OneWay}">
 
 			<ListView.ItemTemplate>
 				<DataTemplate x:DataType="dataitems:LocationItem">

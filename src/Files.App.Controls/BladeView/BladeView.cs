@@ -18,6 +18,19 @@ namespace Files.App.Controls
 
 		private Dictionary<BladeItem, Size> _cachedBladeItemSizes = new Dictionary<BladeItem, Size>();
 
+		public static readonly DependencyProperty EnableSmoothScrollingProperty =
+			DependencyProperty.Register(
+				nameof(EnableSmoothScrolling),
+				typeof(bool),
+				typeof(BladeView),
+				new PropertyMetadata(true));
+
+		public bool EnableSmoothScrolling
+		{
+			get => (bool)GetValue(EnableSmoothScrollingProperty);
+			set => SetValue(EnableSmoothScrollingProperty, value);
+		}
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BladeView"/> class.
 		/// </summary>

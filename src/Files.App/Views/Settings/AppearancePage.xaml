@@ -283,6 +283,18 @@
 					AutomationProperties.Name="{helpers:ResourceString Name=ShowStatusBar}"
 					IsOn="{x:Bind ViewModel.ShowStatusBar, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
+
+			<!--  Enable Smooth Scrolling  -->
+			<wctcontrols:SettingsCard
+				Header="Enable smooth scrolling"
+				Description="Enable smooth scrolling experience">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE7C4;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch
+					AutomationProperties.Name="Enable smooth scrolling"
+					IsOn="{x:Bind ViewModel.EnableSmoothScrolling, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
 		</StackPanel>
 	</Grid>
 </Page>
