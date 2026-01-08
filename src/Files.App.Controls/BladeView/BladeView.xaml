@@ -51,6 +51,7 @@
 							IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
 							IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
 							IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+							IsScrollInertiaEnabled="{TemplateBinding EnableSmoothScrolling}"
 							IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
 							IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
 							TabNavigation="{TemplateBinding TabNavigation}"

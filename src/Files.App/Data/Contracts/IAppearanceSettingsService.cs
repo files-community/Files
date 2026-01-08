@@ -122,5 +122,10 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value indicating when to display the Status Center button.
 		/// </summary>
 		StatusCenterVisibility StatusCenterVisibility { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether smooth scrolling is enabled.
+		/// </summary>
+		bool EnableSmoothScrolling { get; set; }
 	}
 }
