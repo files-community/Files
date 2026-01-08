@@ -2,10 +2,8 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Data;
 using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using Windows.Foundation;
 
 namespace Files.App.Controls
@@ -19,6 +17,7 @@ namespace Files.App.Controls
 		private StackPanel? _cellsPanel;
 
 		[GeneratedDependencyProperty]
+		[SuppressMessage("DependencyPropertyGenerator", "WCTDPG0009:Non-nullable dependency property is not guaranteed to not be null", Justification = "This is initialized in the constructor.")]
 		public partial ObservableCollection<UIElement> Children { get; set; }
 
 		[GeneratedDependencyProperty]

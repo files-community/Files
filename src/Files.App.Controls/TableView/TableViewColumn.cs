@@ -1,29 +1,17 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI;
-using CommunityToolkit.WinUI.Controls;
-using Microsoft.UI.Xaml.Input;
-
 namespace Files.App.Controls
 {
 	public abstract partial class TableViewColumn : Control
 	{
-		private const string TemplatePartName_RootGrid = "PART_RootGrid";
-
-		private const string TemplateVisualStateName_Normal = "Normal";
-		private const string TemplateVisualStateName_PointerOver = "PointerOver";
-		private const string TemplateVisualStateName_Pressed = "Pressed";
-
 		private WeakReference<TableView>? _owner;
+		private bool _pointerEnteredToColumnVisual;
+		private bool _pointerEnteredToFilterButtonVisual;
 
 		private Grid? _rootGrid;
-
-		[GeneratedDependencyProperty]
-		public partial string? Header { get; set; }
-
-		[GeneratedDependencyProperty]
-		public partial string? Binding { get; set; }
+		private Border? _columnVisualBorder;
+		private Border? _filterVisualBorder;
 
 		public TableViewColumn()
 		{
@@ -36,11 +24,23 @@ namespace Files.App.Controls
 
 			_rootGrid = GetTemplateChild(TemplatePartName_RootGrid) as Grid
 				?? throw new MissingFieldException($"Could not find {TemplatePartName_RootGrid} in the given {nameof(TableViewColumn)}'s style.");
+			_columnVisualBorder = GetTemplateChild(TemplatePartName_ColumnVisualBorder) as Border
+				?? throw new MissingFieldException($"Could not find {TemplatePartName_ColumnVisualBorder} in the given {nameof(TableViewColumn)}'s style.");
+			_filterVisualBorder = GetTemplateChild(TemplatePartName_FilterVisualBorder) as Border
+				?? throw new MissingFieldException($"Could not find {TemplatePartName_FilterVisualBorder} in the given {nameof(TableViewColumn)}'s style.");
+
+			Loaded += TableViewColumn_Loaded;
 
 			_rootGrid.PointerEntered += RootGrid_PointerEntered;
 			_rootGrid.PointerExited += RootGrid_PointerExited;
-			_rootGrid.PointerPressed += RootGrid_PointerPressed;
-			_rootGrid.PointerReleased += RootGrid_PointerReleased;
+			_columnVisualBorder.PointerEntered += ColumnVisualBorder_PointerEntered;
+			_columnVisualBorder.PointerExited += ColumnVisualBorder_PointerExited;
+			_columnVisualBorder.PointerPressed += ColumnVisualBorder_PointerPressed;
+			_columnVisualBorder.PointerReleased += ColumnVisualBorder_PointerReleased;
+			_filterVisualBorder.PointerEntered += FilterBorder_PointerEntered;
+			_filterVisualBorder.PointerExited += FilterBorder_PointerExited;
+			_filterVisualBorder.PointerPressed += FilterBorder_PointerPressed;
+			_filterVisualBorder.PointerReleased += FilterBorder_PointerReleased;
 		}
 
 		public abstract FrameworkElement BuildCellElement(object dataItem);
@@ -56,33 +56,8 @@ namespace Files.App.Controls
 
 		public void ResetPointerEventVisual()
 		{
-			VisualStateManager.GoToState(this, TemplateVisualStateName_Normal, true);
-		}
-
-		private void RootGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
-		{
-			if (_owner is not null && _owner.TryGetTarget(out var owner) && owner.IsColumnResizing)
-			{
-				ResetPointerEventVisual();
-				return;
-			}
-
-			VisualStateManager.GoToState(this, TemplateVisualStateName_PointerOver, true);
-		}
-
-		private void RootGrid_PointerExited(object sender, PointerRoutedEventArgs e)
-		{
-			ResetPointerEventVisual();
-		}
-
-		private void RootGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
-		{
-			VisualStateManager.GoToState(this, TemplateVisualStateName_Pressed, true);
-		}
-
-		private void RootGrid_PointerReleased(object sender, PointerRoutedEventArgs e)
-		{
-			VisualStateManager.GoToState(this, TemplateVisualStateName_PointerOver, true);
+			VisualStateManager.GoToState(this, TemplateVisualStateName_ColumnNormal, true);
+			VisualStateManager.GoToState(this, TemplateVisualStateName_FilterNormal, true);
 		}
 
 		internal protected void OnColumnBeingResized()

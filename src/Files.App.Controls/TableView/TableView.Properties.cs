@@ -11,7 +11,7 @@ namespace Files.App.Controls
 	public partial class TableView
 	{
 		[GeneratedDependencyProperty]
-		public partial ObservableCollection<TableViewColumn> Columns { get; set; }
+		public partial ObservableCollection<TableViewColumn> Columns { get; internal protected set; }
 
 		[GeneratedDependencyProperty]
 		public partial object View { get; set; }

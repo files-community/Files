@@ -1,8 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.WinUI;
-using CommunityToolkit.WinUI.Controls;
 using System.Collections.Specialized;
 using Windows.Foundation.Collections;
 
@@ -11,6 +9,8 @@ namespace Files.App.Controls
 	public partial class TableView : Control
 	{
 		private const string TemplatePartName_ColumnsPanel = "PART_ColumnsPanel";
+
+		protected internal TableViewColumn? SortedColumn;
 
 		private Grid? _columnsPanel;
 
@@ -220,7 +220,7 @@ namespace Files.App.Controls
 			}
 		}
 
-		private void ResizeVisual_DragCompleted(object sender, DragCompletedEventArgs e)
+		private void ResizeVisual_DragDelta(object sender, DragDeltaEventArgs e)
 		{
 			if (sender is ResizeVisual { Target: TableViewColumn column })
 			{
@@ -228,7 +228,7 @@ namespace Files.App.Controls
 			}
 		}
 
-		private void ResizeVisual_DragDelta(object sender, DragDeltaEventArgs e)
+		private void ResizeVisual_DragCompleted(object sender, DragCompletedEventArgs e)
 		{
 			if (sender is ResizeVisual { Target: TableViewColumn column })
 			{

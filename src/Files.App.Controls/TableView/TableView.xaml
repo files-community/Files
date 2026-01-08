@@ -1,6 +1,7 @@
 <ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:animatedvisuals="using:Microsoft.UI.Xaml.Controls.AnimatedVisuals"
 	xmlns:local="using:Files.App.Controls"
 	xmlns:wct="using:CommunityToolkit.WinUI"
 	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls">
@@ -59,24 +60,24 @@
 			<Setter Property="Background" Value="{ThemeResource ControlFillColorDefaultBrush}" />
 			<Setter Property="VerticalAlignment" Value="Stretch" />
 			<Setter Property="VerticalContentAlignment" Value="Center" />
-			<Setter Property="Padding" Value="16,0" />
-			<Setter Property="MinWidth" Value="84" />
+			<Setter Property="Padding" Value="16,0,16,0" />
+			<Setter Property="MinWidth" Value="96" />
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="local:TableViewColumn">
-						<Grid
-							x:Name="PART_RootGrid"
-							Background="{TemplateBinding Background}">
-							<Grid.BackgroundTransition>
-								<BrushTransition Duration="0:0:0.083" />
-							</Grid.BackgroundTransition>
+						<Grid x:Name="PART_RootGrid">
 							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="*" />
-								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition x:Name="HeaderTextColumn" Width="*" />
+								<ColumnDefinition x:Name="SortOrderGlyphColumn" Width="Auto" />
+								<ColumnDefinition x:Name="FilterDropdownButtonVisualDividerColumn" Width="Auto" />
+								<ColumnDefinition x:Name="FilterDropdownButtonVisualColumn" Width="Auto" />
+								<ColumnDefinition x:Name="ColumnVisualDividerColumn" Width="1" />
 							</Grid.ColumnDefinitions>
 
 							<TextBlock
 								x:Name="PART_HeaderTextBlock"
+								Grid.Column="0"
+								Grid.ColumnSpan="1"
 								MinWidth="0"
 								Margin="{TemplateBinding Padding}"
 								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -86,19 +87,76 @@
 								TextTrimming="CharacterEllipsis"
 								TextWrapping="NoWrap" />
 
-							<Rectangle
+							<FontIcon
+								x:Name="SortOrderGlyphTextBlock"
 								Grid.Column="1"
+								Width="24"
+								HorizontalAlignment="Center"
+								VerticalAlignment="Center"
+								FontFamily="{ThemeResource SymbolThemeFontFamily}"
+								FontSize="8"
+								Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+								Glyph="&#xEDDB;"
+								RenderTransformOrigin="0.5,0.5"
+								Visibility="Collapsed">
+								<FontIcon.RenderTransform>
+									<RotateTransform />
+								</FontIcon.RenderTransform>
+							</FontIcon>
+
+							<Rectangle
+								x:Name="FilterDropdownButtonVisualSeparator"
+								Grid.Column="2"
+								Width="1"
+								HorizontalAlignment="Right"
+								VerticalAlignment="Stretch"
+								Fill="{ThemeResource DividerStrokeColorDefaultBrush}"
+								Visibility="Collapsed" />
+
+							<Border
+								x:Name="PART_FilterVisualBorder"
+								Grid.Column="3"
+								Width="24"
+								Background="{TemplateBinding Background}"
+								Visibility="Collapsed">
+								<Border.BackgroundTransition>
+									<BrushTransition Duration="0:0:0.083" />
+								</Border.BackgroundTransition>
+								<TextBlock
+									x:Name="FilterDropdownButtonVisualGlyphTextBlock"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									FontFamily="{ThemeResource SymbolThemeFontFamily}"
+									FontSize="10"
+									Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+									Text="&#xE70D;"
+									Visibility="Collapsed" />
+							</Border>
+
+							<Border
+								x:Name="PART_ColumnVisualBorder"
+								Grid.Column="0"
+								Grid.ColumnSpan="3"
+								Background="{TemplateBinding Background}">
+								<Border.BackgroundTransition>
+									<BrushTransition Duration="0:0:0.083" />
+								</Border.BackgroundTransition>
+							</Border>
+
+							<Rectangle
+								x:Name="ColumnSeparator"
+								Grid.Column="4"
 								Width="1"
 								HorizontalAlignment="Right"
 								VerticalAlignment="Stretch"
 								Fill="{ThemeResource DividerStrokeColorDefaultBrush}" />
 
 							<VisualStateManager.VisualStateGroups>
-								<VisualStateGroup x:Name="CommonStates">
-									<VisualState x:Name="Normal" />
-									<VisualState x:Name="PointerOver">
+								<VisualStateGroup x:Name="ColumnVisualStates">
+									<VisualState x:Name="ColumnNormal" />
+									<VisualState x:Name="ColumnPointerOver">
 										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid" Storyboard.TargetProperty="Background">
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ColumnVisualBorder" Storyboard.TargetProperty="Background">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ControlFillColorSecondaryBrush}" />
 											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderTextBlock" Storyboard.TargetProperty="Foreground">
@@ -106,12 +164,14 @@
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 										<VisualState.Setters>
-											<Setter Target="PART_RootGrid.(AnimatedIcon.State)" Value="PointerOver" />
+											<Setter Target="FilterDropdownButtonVisualSeparator.Visibility" Value="Visible" />
+											<Setter Target="FilterDropdownButtonVisualGlyphTextBlock.Visibility" Value="Visible" />
+											<Setter Target="PART_FilterVisualBorder.Visibility" Value="Visible" />
 										</VisualState.Setters>
 									</VisualState>
-									<VisualState x:Name="Pressed">
+									<VisualState x:Name="ColumnPressed">
 										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid" Storyboard.TargetProperty="Background">
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ColumnVisualBorder" Storyboard.TargetProperty="Background">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ControlFillColorTertiaryBrush}" />
 											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderTextBlock" Storyboard.TargetProperty="Foreground">
@@ -119,20 +179,79 @@
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
 										<VisualState.Setters>
-											<Setter Target="PART_RootGrid.(AnimatedIcon.State)" Value="Pressed" />
+											<Setter Target="FilterDropdownButtonVisualSeparator.Visibility" Value="Visible" />
+											<Setter Target="FilterDropdownButtonVisualGlyphTextBlock.Visibility" Value="Visible" />
+											<Setter Target="PART_FilterVisualBorder.Visibility" Value="Visible" />
 										</VisualState.Setters>
 									</VisualState>
-									<VisualState x:Name="Disabled">
+									<VisualState x:Name="ColumnDisabled">
 										<Storyboard>
-											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid" Storyboard.TargetProperty="Background">
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ColumnVisualBorder" Storyboard.TargetProperty="Background">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ControlFillColorDisabledBrush}" />
 											</ObjectAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderTextBlock" Storyboard.TargetProperty="Foreground">
 												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorDisabledBrush}" />
 											</ObjectAnimationUsingKeyFrames>
 										</Storyboard>
+									</VisualState>
+								</VisualStateGroup>
+								<VisualStateGroup x:Name="FilterVisualStates">
+									<VisualState x:Name="FilterNormal" />
+									<VisualState x:Name="FilterPointerOver">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_ColumnVisualBorder" Storyboard.TargetProperty="Background">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ControlFillColorSecondaryBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_HeaderTextBlock" Storyboard.TargetProperty="Foreground">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_FilterVisualBorder" Storyboard.TargetProperty="Background">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ControlFillColorSecondaryBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
 										<VisualState.Setters>
-											<Setter Target="PART_RootGrid.(AnimatedIcon.State)" Value="Normal" />
+											<Setter Target="FilterDropdownButtonVisualSeparator.Visibility" Value="Visible" />
+											<Setter Target="FilterDropdownButtonVisualGlyphTextBlock.Visibility" Value="Visible" />
+											<Setter Target="PART_FilterVisualBorder.Visibility" Value="Visible" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="FilterPressed">
+										<Storyboard>
+											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_FilterVisualBorder" Storyboard.TargetProperty="Background">
+												<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ControlFillColorTertiaryBrush}" />
+											</ObjectAnimationUsingKeyFrames>
+										</Storyboard>
+										<VisualState.Setters>
+											<Setter Target="FilterDropdownButtonVisualSeparator.Visibility" Value="Visible" />
+											<Setter Target="FilterDropdownButtonVisualGlyphTextBlock.Visibility" Value="Visible" />
+											<Setter Target="PART_FilterVisualBorder.Visibility" Value="Visible" />
+										</VisualState.Setters>
+									</VisualState>
+								</VisualStateGroup>
+								<VisualStateGroup x:Name="SortOrderVisualStates">
+									<VisualState x:Name="SortOrderNone" />
+									<VisualState x:Name="SortOrderAscending">
+										<Storyboard>
+											<DoubleAnimation
+												Storyboard.TargetName="SortOrderGlyphTextBlock"
+												Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
+												To="0"
+												Duration="0:0:0.12" />
+										</Storyboard>
+										<VisualState.Setters>
+											<Setter Target="SortOrderGlyphTextBlock.Visibility" Value="Visible" />
+										</VisualState.Setters>
+									</VisualState>
+									<VisualState x:Name="SortOrderDescending">
+										<Storyboard>
+											<DoubleAnimation
+												Storyboard.TargetName="SortOrderGlyphTextBlock"
+												Storyboard.TargetProperty="(FontIcon.RenderTransform).(RotateTransform.Angle)"
+												To="-180"
+												Duration="0:0:0.12" />
+										</Storyboard>
+										<VisualState.Setters>
+											<Setter Target="SortOrderGlyphTextBlock.Visibility" Value="Visible" />
 										</VisualState.Setters>
 									</VisualState>
 								</VisualStateGroup>
