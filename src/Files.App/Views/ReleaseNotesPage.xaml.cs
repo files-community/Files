@@ -90,7 +90,7 @@ namespace Files.App.Views
 				sender.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
 				sender.CoreWebView2.Settings.AreDevToolsEnabled = false;
 				sender.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
-				sender.CoreWebView2.Settings.IsSwipeNavigationEnabled = false;
+				sender.CoreWebView2.Settings.IsSwipeNavigationEnabled = true;
 
 				var script = @"
 					document.addEventListener('click', function(event) {
