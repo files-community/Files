@@ -1,14 +1,15 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Actions;
+using Files.App.Data.Messages;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
+using System.Text.RegularExpressions;
 using Windows.System;
-using Files.App.Actions;
-using Files.App.Data.Messages;
 
 namespace Files.App.Views
 {
@@ -88,10 +89,17 @@ namespace Files.App.Views
 			try
 			{
 				sender.CoreWebView2.Profile.PreferredColorScheme = (CoreWebView2PreferredColorScheme)RootAppElement.RequestedTheme;
-				sender.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false; // enabled for debug
+				sender.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
 				sender.CoreWebView2.Settings.AreDevToolsEnabled = false;
 				sender.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
 				sender.CoreWebView2.Settings.IsSwipeNavigationEnabled = false;
+
+				// Hotkey values for CloseSelectedTabAction
+				var action = new CloseSelectedTabAction();
+				var hotKey1 = NormaliseKey(action.HotKey.Key.ToString());
+				var hotKey1Modifier = HotKey.JavaScriptModifiers.GetValueRefOrNullRef(action.SecondHotKey.Modifier);
+				var hotKey2 = NormaliseKey(action.SecondHotKey.Key.ToString());
+				var hotKey2Modifier = HotKey.JavaScriptModifiers.GetValueRefOrNullRef(action.SecondHotKey.Modifier);
 
 				// Injected script for both click and keydown events
 				var script = $$"""
@@ -113,16 +121,13 @@ namespace Files.App.Views
 					});
 
 					window.addEventListener('keydown', function(event) {
-						const hotkeyKey = '{{new CloseSelectedTabAction().HotKey.Key.ToString()}}';
-						const secondHotkeyKey = '{{new CloseSelectedTabAction().SecondHotKey.Key.ToString()}}';
-
-						const hotkey = event.{{HotKey.JavaScriptModifiers.GetValueRefOrNullRef(new CloseSelectedTabAction().HotKey.Modifier)}} && event.key === ({{new CloseSelectedTabAction().HotKey.Key}} || {{new CloseSelectedTabAction().HotKey.Key.ToString().ToLower()}});
-						const secondHotkey = event.{{HotKey.JavaScriptModifiers.GetValueRefOrNullRef(new CloseSelectedTabAction().SecondHotKey.Modifier)}} && event.key === ({{new CloseSelectedTabAction().SecondHotKey.Key}} || {{new CloseSelectedTabAction().SecondHotKey.Key.ToString().ToLower()}}));
+						const hotkey = event.{{hotKey1Modifier}} && event.key === '{{hotKey1}}';
+						const secondHotkey = event.{{hotKey2Modifier}} && event.key === '{{hotKey2}}';
 
 						if (hotkey || secondHotkey) {
 							window.chrome.webview.postMessage({
 								type: 'shortcut',
-								key: '{{new CloseSelectedTabAction().HotKey.RawLabel}}'
+								key: '{{action.HotKey.RawLabel}}'
 							});
 						}
 					});
@@ -131,8 +136,6 @@ namespace Files.App.Views
 				await sender.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(script);
 				sender.WebMessageReceived += WebView_OpenLinkInWebBrowser;
 				sender.WebMessageReceived += WebView_HandleShortcut;
-
-				App.Logger.LogInformation(script);
 			}
 			catch (Exception ex)
 			{
@@ -182,6 +185,18 @@ namespace Files.App.Views
 			{
 				App.Logger.LogWarning(ex, ex.Message);
 			}
+		}
+
+		private static string NormaliseKey(string key)
+		{
+			if (string.IsNullOrWhiteSpace(key))
+				return string.Empty;
+
+			// F1–F24
+			if (Regex.IsMatch(key, @"^F\d{1,2}$", RegexOptions.IgnoreCase))
+				return key.ToUpperInvariant();
+
+			return key.ToLowerInvariant();
 		}
 
 		public void Dispose()
