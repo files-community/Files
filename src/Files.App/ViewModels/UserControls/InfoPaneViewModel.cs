@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.App.UserControls.FilePreviews;
@@ -19,6 +19,20 @@ namespace Files.App.ViewModels.UserControls
 
 		private CancellationTokenSource loadCancellationTokenSource;
 
+		private bool isTemporarilyDisabled;
+		public bool IsTemporarilyDisabled
+		{
+			get => isTemporarilyDisabled;
+			set
+			{
+				if (SetProperty(ref isTemporarilyDisabled, value))
+					OnPropertyChanged(nameof(IsVisible));
+			}
+		}
+
+		public bool IsVisible
+			=> IsEnabled && !IsTemporarilyDisabled;
+
 		/// <summary>
 		/// Value indicating if the info pane is on/off
 		/// </summary>
@@ -30,7 +44,8 @@ namespace Files.App.ViewModels.UserControls
 			{
 				infoPaneSettingsService.IsInfoPaneEnabled = value;
 
-				SetProperty(ref isEnabled, value);
+				if (SetProperty(ref isEnabled, value))
+					OnPropertyChanged(nameof(IsVisible));
 			}
 		}
 
@@ -457,6 +472,7 @@ namespace Files.App.ViewModels.UserControls
 					isEnabled = newEnablingStatus;
 					_ = UpdateSelectedItemPreviewAsync();
 					OnPropertyChanged(nameof(IsEnabled));
+					OnPropertyChanged(nameof(IsVisible));
 				}
 			}
 		}
