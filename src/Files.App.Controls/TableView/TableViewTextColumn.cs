@@ -17,7 +17,7 @@ namespace Files.App.Controls
 				cellValueProvider?.GetValue(Binding) is not string cellValue)
 				throw new ArgumentException("The type of the argument was invalid.", $"{dataItem}");
 
-			var textBlock = new TextBlock
+			var textBlock = new TextBlock()
 			{
 				Style = ElementStyle,
 				Text = cellValue
@@ -33,7 +33,7 @@ namespace Files.App.Controls
 				cellValueProvider?.GetValue(Binding) is not string cellValue)
 				throw new ArgumentException("The type of the argument was invalid.", $"{dataItem}");
 
-			var textBox = new TextBox
+			var textBox = new TextBox()
 			{
 				Style = EditingElementStyle,
 				Text = cellValue

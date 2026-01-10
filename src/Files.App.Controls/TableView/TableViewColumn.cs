@@ -69,7 +69,7 @@ namespace Files.App.Controls
 				owner.IsColumnResizing = true;
 			}
 
-			owner.RearrangeRows();
+			owner.InvalidateLayoutOfAllRows();
 		}
 
 		internal protected void OnColumnResizeCompleted()
@@ -79,7 +79,7 @@ namespace Files.App.Controls
 
 			ResetPointerEventVisual();
 			owner.IsColumnResizing = false;
-			owner.RearrangeRows();
+			owner.InvalidateLayoutOfAllRows();
 		}
 	}
 }

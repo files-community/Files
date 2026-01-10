@@ -145,13 +145,13 @@ namespace Files.App.Controls
 				column = owner.Columns[index];
 				width = column.ActualWidth;
 
-				maxHeight = Math.Max(maxHeight, column.ActualHeight);
+				maxHeight = Math.Max(maxHeight, child.ActualHeight);
 
 				child.Arrange(new(
 					x,
 					0,
 					width,
-					finalSize.Height));
+					maxHeight));
 
 				x += width;
 				index++;

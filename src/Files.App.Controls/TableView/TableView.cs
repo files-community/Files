@@ -165,7 +165,7 @@ namespace Files.App.Controls
 			row.InvalidateMeasure();
 		}
 
-		public void RearrangeRows()
+		public void InvalidateLayoutOfAllRows()
 		{
 			if (View is ListViewBase listViewBase)
 			{
