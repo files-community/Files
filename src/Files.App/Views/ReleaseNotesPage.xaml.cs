@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
@@ -15,11 +15,12 @@ namespace Files.App.Views
 		// Dependency injections
 		public ReleaseNotesViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<ReleaseNotesViewModel>();
 
-
 		private FrameworkElement RootAppElement
 			=> (FrameworkElement)MainWindow.Instance.Content;
 
 		private IShellPage AppInstance { get; set; } = null!;
+		private IInfoPaneSettingsService InfoPaneSettingsService { get; } = Ioc.Default.GetRequiredService<IInfoPaneSettingsService>();
+		private bool? previousInfoPaneEnabledState;
 
 		public ReleaseNotesPage()
 		{
@@ -44,6 +45,11 @@ namespace Files.App.Views
 			AppInstance.InstanceViewModel.GitRepositoryPath = null;
 			AppInstance.InstanceViewModel.IsGitRepository = false;
 			AppInstance.InstanceViewModel.IsPageTypeReleaseNotes = true;
+
+			// Hide the info pane while it's open
+			previousInfoPaneEnabledState ??= InfoPaneSettingsService.IsInfoPaneEnabled;
+			InfoPaneSettingsService.IsInfoPaneEnabled = false;
+
 			AppInstance.ToolbarViewModel.CanRefresh = false;
 			AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
 			AppInstance.ToolbarViewModel.CanGoForward = AppInstance.CanNavigateForward;
@@ -79,6 +85,12 @@ namespace Files.App.Views
 
 		protected override void OnNavigatedFrom(NavigationEventArgs e)
 		{
+			if (previousInfoPaneEnabledState is not null)
+			{
+				InfoPaneSettingsService.IsInfoPaneEnabled = previousInfoPaneEnabledState.Value;
+				previousInfoPaneEnabledState = null;
+			}
+
 			Dispose();
 		}
 
