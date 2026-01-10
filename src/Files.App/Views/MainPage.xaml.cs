@@ -401,15 +401,15 @@ namespace Files.App.Views
 			{
 				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
 				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
+				var isReleaseNotesPage = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeReleaseNotes ?? false;
 				var isBigEnough = !App.AppModel.IsMainWindowClosed &&
 					(MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360);
 
 				ViewModel.ShouldPreviewPaneBeDisplayed = (!isHomePage || isMultiPane) && isBigEnough;
-				var infoPaneViewModel = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
 				ViewModel.ShouldPreviewPaneBeActive =
-					UserSettingsService.InfoPaneSettingsService.IsInfoPaneEnabled &&
-					!infoPaneViewModel.IsTemporarilyDisabled &&
-					ViewModel.ShouldPreviewPaneBeDisplayed;
+ 					UserSettingsService.InfoPaneSettingsService.IsInfoPaneEnabled &&
+					!isReleaseNotesPage &&
+ 					ViewModel.ShouldPreviewPaneBeDisplayed;
 				ViewModel.ShouldViewControlBeDisplayed = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
 
 				UpdatePositioning();

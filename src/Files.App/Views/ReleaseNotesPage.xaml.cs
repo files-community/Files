@@ -19,8 +19,6 @@ namespace Files.App.Views
 			=> (FrameworkElement)MainWindow.Instance.Content;
 
 		private IShellPage AppInstance { get; set; } = null!;
-		private InfoPaneViewModel InfoPaneViewModel { get; } = Ioc.Default.GetRequiredService<InfoPaneViewModel>();
-		private bool? previousInfoPaneTempDisableState;
 
 		public ReleaseNotesPage()
 		{
@@ -45,10 +43,6 @@ namespace Files.App.Views
 			AppInstance.InstanceViewModel.GitRepositoryPath = null;
 			AppInstance.InstanceViewModel.IsGitRepository = false;
 			AppInstance.InstanceViewModel.IsPageTypeReleaseNotes = true;
-
-			// Hide the info pane while it's open
-			previousInfoPaneTempDisableState ??= InfoPaneViewModel.IsTemporarilyDisabled;
-			InfoPaneViewModel.IsTemporarilyDisabled = true;
 
 			AppInstance.ToolbarViewModel.CanRefresh = false;
 			AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
@@ -85,12 +79,6 @@ namespace Files.App.Views
 
 		protected override void OnNavigatedFrom(NavigationEventArgs e)
 		{
-			if (previousInfoPaneTempDisableState is not null)
-			{
-				InfoPaneViewModel.IsTemporarilyDisabled = previousInfoPaneTempDisableState.Value;
-				previousInfoPaneTempDisableState = null;
-			}
-
 			Dispose();
 		}
 
