@@ -144,7 +144,7 @@ namespace Files.App.Views
 		}
 
 		// Handle keyboard shortcuts (Files.App.Actions) from WebView
-		private void WebView_HandleShortcut(WebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
+		private async void WebView_HandleShortcut(WebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
 		{
 			try
 			{
@@ -153,7 +153,7 @@ namespace Files.App.Views
 
 				if (message?.Type == "shortcut")
 				{
-					new CloseSelectedTabAction().ExecuteAsync();
+					await new CloseSelectedTabAction().ExecuteAsync();
 				}
 			}
 			catch (Exception ex)
