@@ -1,21 +1,24 @@
-﻿using Files.App.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// Copyright (c) Files Community
+// Licensed under the MIT License.
+
+using CommunityToolkit.Mvvm.ComponentModel;
+using Files.App.Controls;
 
 namespace Files.App.UITests.Data
 {
-	internal class TableViewItemModel : ITableViewCellValueProvider
+	internal partial class TableViewItemModel : ObservableObject, ITableViewCellValueProvider
 	{
-		public string? Name { get; set; }
+		[ObservableProperty]
+		public partial string? Name { get; set; }
 
-		public string? DateUpdated { get; set; }
+		[ObservableProperty]
+		public partial string? DateUpdated { get; set; }
 
-		public string? Type { get; set; }
+		[ObservableProperty]
+		public partial string? Type { get; set; }
 
-		public string? Size { get; set; }
+		[ObservableProperty]
+		public partial string? Size { get; set; }
 
 		public string GetValue(string name)
 		{

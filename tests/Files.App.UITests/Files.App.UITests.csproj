@@ -26,6 +26,7 @@
     <ProjectReference Include="..\..\src\Files.App.Controls\Files.App.Controls.csproj" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" />
     <PackageReference Include="Microsoft.WindowsAppSDK" />
+    <PackageReference Include="CommunityToolkit.Mvvm" />
   </ItemGroup>
 
   <!--  Allows the Single-project MSIX Packaging Tools extension to be activated for this project even if the Windows App SDK Nuget package has not yet been restored.  -->

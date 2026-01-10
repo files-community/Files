@@ -43,11 +43,9 @@ namespace Files.App.Controls
 			_filterVisualBorder.PointerReleased += FilterBorder_PointerReleased;
 		}
 
-		public abstract FrameworkElement BuildCellElement(object dataItem);
+		public abstract FrameworkElement GenerateElement(object dataItem);
 
-		public abstract FrameworkElement BuildEditCellElement(object dataItem);
-
-		public abstract void ApplyStyle(Style style);
+		public abstract FrameworkElement GenerateEditingElement(object dataItem);
 
 		public void SetOwner(TableView owner)
 		{

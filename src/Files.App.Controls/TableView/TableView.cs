@@ -159,7 +159,7 @@ namespace Files.App.Controls
 			row.Children.Clear();
 
 			foreach (var column in Columns)
-				row.Children.Add(column.BuildCellElement(cellValueProvider));
+				row.Children.Add(column.GenerateElement(cellValueProvider));
 
 			row.InvalidateArrange();
 			row.InvalidateMeasure();

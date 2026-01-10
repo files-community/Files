@@ -290,9 +290,20 @@
 		x:Key="DefaultTableViewTextColumnStyle"
 		BasedOn="{StaticResource DefaultTableViewColumnStyle}"
 		TargetType="local:TableViewTextColumn">
-		<!--<Style.Setters>
-			<Setter />
-		</Style.Setters>-->
+		<Style.Setters>
+			<Setter Property="ElementStyle" Value="{StaticResource DefaultTableViewTextBlockStyle}" />
+		</Style.Setters>
+	</Style>
+
+	<Style
+		x:Key="DefaultTableViewTextBlockStyle"
+		BasedOn="{StaticResource BodyTextBlockStyle}"
+		TargetType="TextBlock">
+		<Style.Setters>
+			<Setter Property="TextTrimming" Value="CharacterEllipsis" />
+			<Setter Property="TextWrapping" Value="NoWrap" />
+			<Setter Property="Padding" Value="16,0,16,0" />
+		</Style.Setters>
 	</Style>
 
 </ResourceDictionary>
