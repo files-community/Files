@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
@@ -7,6 +7,8 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
 using Windows.System;
+using Files.App.Actions;
+using Files.App.Data.Messages;
 
 namespace Files.App.Views
 {
@@ -14,7 +16,6 @@ namespace Files.App.Views
 	{
 		// Dependency injections
 		public ReleaseNotesViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<ReleaseNotesViewModel>();
-
 
 		private FrameworkElement RootAppElement
 			=> (FrameworkElement)MainWindow.Instance.Content;
@@ -87,26 +88,58 @@ namespace Files.App.Views
 			try
 			{
 				sender.CoreWebView2.Profile.PreferredColorScheme = (CoreWebView2PreferredColorScheme)RootAppElement.RequestedTheme;
-				sender.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
-				sender.CoreWebView2.Settings.AreDevToolsEnabled = false;
+				sender.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true; // enabled for debug
+				sender.CoreWebView2.Settings.AreDevToolsEnabled = true;
 				sender.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
 				sender.CoreWebView2.Settings.IsSwipeNavigationEnabled = false;
 
-				var script = @"
+				var script = $$"""
 					document.addEventListener('click', function(event) {
 						var target = event.target;
+
 						while (target && target.tagName !== 'A') {
 							target = target.parentElement;
 						}
+
 						if (target && target.href) {
 							event.preventDefault();
-							window.chrome.webview.postMessage(target.href);
+
+							window.chrome.webview.postMessage({
+								type: 'link-click',
+								key: target.href
+							});
 						}
 					});
-				";
+
+					window.addEventListener('keydown', function(event) {
+						if (event.{{HotKey.JavaScriptModifiers.GetValueRefOrNullRef(new CloseSelectedTabAction().HotKey.Modifier)}} && event.key === '{{new CloseSelectedTabAction().HotKey.Key.ToString().ToLower()}}') {
+							window.chrome.webview.postMessage({
+								type: 'shortcut',
+								key: '{{new CloseSelectedTabAction().HotKey.RawLabel}}'
+							});
+						}
+					});
+				""";
 
 				await sender.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(script);
-				sender.WebMessageReceived += WebView_WebMessageReceived;
+				sender.WebMessageReceived += WebView_OpenLinkInWebBrowser;
+
+				var closeShortcutScript = $$"""
+					window.addEventListener('keydown', function(event) {
+						if (event.{{HotKey.JavaScriptModifiers.GetValueRefOrNullRef(new CloseSelectedTabAction().HotKey.Modifier)}} && event.key === '5') {
+							window.chrome.webview.postMessage({
+								type: 'shortcut',
+								key: '{{new CloseSelectedTabAction().HotKey.RawLabel}}'
+							});
+						}
+					});
+				""";
+
+				App.Logger.LogInformation(script);
+
+				//await sender.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(closeShortcutScript);
+				sender.WebMessageReceived += WebView_HandleShortcut;
+
 			}
 			catch (Exception ex)
 			{
@@ -114,15 +147,48 @@ namespace Files.App.Views
 			}
 		}
 
-		private async void WebView_WebMessageReceived(WebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
+		// Handle keyboard shortcuts (Files.App.Actions) from WebView
+		private void WebView_HandleShortcut(WebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
 		{
-			// Open link in web browser
-			if (Uri.TryCreate(args.TryGetWebMessageAsString(), UriKind.Absolute, out Uri? uri))
-				await Launcher.LaunchUriAsync(uri);
+			try
+			{
+				var json = args.WebMessageAsJson;
+				var message = JsonSerializer.Deserialize<WebMessage>(json);
 
-			// Navigate back to blog post
-			if (sender.CoreWebView2.CanGoBack)
-				sender.CoreWebView2.GoBack();
+				if (message?.Type == "shortcut")
+				{
+					new CloseSelectedTabAction().ExecuteAsync();
+				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
+			}
+		}
+
+		// Handle link clicks to open in external web browser
+		private async void WebView_OpenLinkInWebBrowser(WebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
+		{
+			try
+			{
+				var json = args.WebMessageAsJson;
+				var message = JsonSerializer.Deserialize<WebMessage>(json);
+
+				if (message?.Type == "link-click")
+				{
+					// Open link in web browser
+					if (Uri.TryCreate(message.Key, UriKind.Absolute, out Uri? uri))
+						await Launcher.LaunchUriAsync(uri);
+
+					// Navigate back to blog post
+					if (sender.CoreWebView2.CanGoBack)
+						sender.CoreWebView2.GoBack();
+				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
+			}
 		}
 
 		public void Dispose()
