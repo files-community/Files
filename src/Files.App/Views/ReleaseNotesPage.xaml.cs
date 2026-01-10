@@ -97,7 +97,7 @@ namespace Files.App.Views
 				// Hotkey values for CloseSelectedTabAction
 				var action = new CloseSelectedTabAction();
 				var hotKey1 = NormaliseKey(action.HotKey.Key.ToString());
-				var hotKey1Modifier = HotKey.JavaScriptModifiers.GetValueRefOrNullRef(action.SecondHotKey.Modifier);
+				var hotKey1Modifier = HotKey.JavaScriptModifiers.GetValueRefOrNullRef(action.HotKey.Modifier);
 				var hotKey2 = NormaliseKey(action.SecondHotKey.Key.ToString());
 				var hotKey2Modifier = HotKey.JavaScriptModifiers.GetValueRefOrNullRef(action.SecondHotKey.Modifier);
 
