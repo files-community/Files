@@ -88,11 +88,12 @@ namespace Files.App.Views
 			try
 			{
 				sender.CoreWebView2.Profile.PreferredColorScheme = (CoreWebView2PreferredColorScheme)RootAppElement.RequestedTheme;
-				sender.CoreWebView2.Settings.AreDefaultContextMenusEnabled = true; // enabled for debug
-				sender.CoreWebView2.Settings.AreDevToolsEnabled = true;
+				sender.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false; // enabled for debug
+				sender.CoreWebView2.Settings.AreDevToolsEnabled = false;
 				sender.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
 				sender.CoreWebView2.Settings.IsSwipeNavigationEnabled = false;
 
+				// Injected script for both click and keydown events
 				var script = $$"""
 					document.addEventListener('click', function(event) {
 						var target = event.target;
@@ -123,23 +124,7 @@ namespace Files.App.Views
 
 				await sender.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(script);
 				sender.WebMessageReceived += WebView_OpenLinkInWebBrowser;
-
-				var closeShortcutScript = $$"""
-					window.addEventListener('keydown', function(event) {
-						if (event.{{HotKey.JavaScriptModifiers.GetValueRefOrNullRef(new CloseSelectedTabAction().HotKey.Modifier)}} && event.key === '5') {
-							window.chrome.webview.postMessage({
-								type: 'shortcut',
-								key: '{{new CloseSelectedTabAction().HotKey.RawLabel}}'
-							});
-						}
-					});
-				""";
-
-				App.Logger.LogInformation(script);
-
-				//await sender.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(closeShortcutScript);
 				sender.WebMessageReceived += WebView_HandleShortcut;
-
 			}
 			catch (Exception ex)
 			{
