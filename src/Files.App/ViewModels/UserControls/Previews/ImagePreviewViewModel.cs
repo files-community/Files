@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.App.ViewModels.Properties;
@@ -22,10 +22,6 @@ namespace Files.App.ViewModels.Previews
 			: base(item)
 		{
 		}
-
-		// TODO: Use existing helper mothods
-		public static bool ContainsExtension(string extension)
-			=> extension is ".png" or ".jpg" or ".jpeg" or ".bmp" or ".gif" or ".tiff" or ".ico" or ".webp" or ".jxr";
 
 		public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{

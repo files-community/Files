@@ -1,6 +1,7 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using ColorCode;
 using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace Files.Shared.Helpers
 	/// </summary>
 	public static class FileExtensionHelpers
 	{
+		public static readonly FrozenDictionary<string, ILanguage> CodeFileExtensions = CodeFileExtensions_GetDictionary();
+
 		private static readonly FrozenSet<string> _signableTypes = new HashSet<string>()
 		{
 			".aab", ".apk", ".application", ".appx", ".appxbundle", ".arx", ".cab", ".cat", ".cbx",
@@ -25,6 +28,41 @@ namespace Files.Shared.Helpers
 			".vxd", ".war", ".wiz", ".wsf", ".xap", ".xla", ".xlam", ".xls", ".xlsb", ".xlsm", ".xlt",
 			".xltm", ".xlsm", ".xsn"
 		}.ToFrozenSet();
+
+		private static FrozenDictionary<string, ILanguage> CodeFileExtensions_GetDictionary()
+		{
+			var items = new Dictionary<ILanguage, string>
+			{
+				[Languages.Aspx] = "aspx",
+				[Languages.AspxCs] = "acsx",
+				[Languages.Cpp] = "cpp,c++,cc,cp,cxx,h,h++,hh,hpp,hxx,inc,inl,ino,ipp,re,tcc,tpp",
+				[Languages.CSharp] = "cs,cake,csx,linq",
+				[Languages.Css] = "css,scss",
+				[Languages.FSharp] = "fs,fsi,fsx",
+				[Languages.Haskell] = "hs",
+				[Languages.Html] = "razor,cshtml,vbhtml,svelte",
+				[Languages.Java] = "java",
+				[Languages.JavaScript] = "js,jsx",
+				[Languages.Php] = "php",
+				[Languages.PowerShell] = "pwsh,ps1,psd1,psm1",
+				[Languages.Typescript] = "ts,tsx",
+				[Languages.VbDotNet] = "vb,vbs",
+				[Languages.Xml] = "xml,axml,xaml,xsd,xsl,xslt,xlf",
+			};
+
+			var dictionary = new Dictionary<string, ILanguage>();
+
+			foreach (var item in items)
+			{
+				var extensions = item.Value.Split(',').Select(ext => $".{ext}");
+				foreach (var extension in extensions)
+				{
+					dictionary.Add(extension, item.Key);
+				}
+			}
+
+			return dictionary.ToFrozenDictionary();
+		}
 
 		/// <summary>
 		/// Check if the file extension matches one of the specified extensions.
@@ -51,7 +89,7 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
-		/// Check if the file extension is an image file.
+		/// Checks if the file extension represents an image file.
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
 		/// <returns><c>true</c> if the fileExtensionToCheck is an image; otherwise, <c>false</c>.</returns>
@@ -71,7 +109,7 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
-		/// Check if the file extension is an audio file.
+		/// Checks if the file extension represents an audio file.
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
 		/// <returns><c>true</c> if the fileExtensionToCheck is an audio file; otherwise, <c>false</c>.</returns>
@@ -81,7 +119,7 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
-		/// Check if the file extension is a video file.
+		/// Checks if the file extension represents a video file.
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
 		/// <returns><c>true</c> if the fileExtensionToCheck is a video file; otherwise, <c>false</c>.</returns>
@@ -91,7 +129,7 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
-		/// Check if the file extension is a PowerShell script.
+		/// Checks if the file extension represents a PowerShell script.
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
 		/// <returns><c>true</c> if the fileExtensionToCheck is a PowerShell script; otherwise, <c>false</c>.</returns>
@@ -101,7 +139,7 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
-		/// Check if the file extension is a Batch file.
+		/// Checks if the file extension represents a Batch file.
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
 		/// <returns><c>true</c> if the fileExtensionToCheck is a Batch file; otherwise, <c>false</c>.</returns>
@@ -111,7 +149,7 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
-		/// Check if the file extension is a zip file.
+		/// Checks if the file extension represents a zip file.
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
 		/// <returns><c>true</c> if the fileExtensionToCheck is a zip bundle file; otherwise, <c>false</c>.</returns>
@@ -137,43 +175,40 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
-		/// Check if the file extension is a driver inf file.
+		/// Checks if the file extension represents a driver inf file.
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
-		/// <returns><c>true</c> if the fileExtensionToCheck is an inf file; otherwise <c>false</c>.</returns>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is an inf file; otherwise <c>false</c>.</returns>
 		public static bool IsInfFile(string? fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".inf");
 		}
 
 		/// <summary>
-		/// Check if the file extension is a font file.
+		/// Checks if the file extension represents a font file.
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
-		/// <returns><c>true</c> if the fileExtensionToCheck is a font file; otherwise <c>false</c>.</returns>
-		/// <remarks>Font file types are; fon, otf, ttc, ttf</remarks>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a font file; otherwise <c>false</c>.</returns>
 		public static bool IsFontFile(string? fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".fon", ".otf", ".ttc", ".ttf");
 		}
 
 		/// <summary>
-		/// Check if the file path is a shortcut file.
+		/// Checks if the file extension represents a shortcut file.
 		/// </summary>
 		/// <param name="filePathToCheck">The file path to check.</param>
-		/// <returns><c>true</c> if the filePathToCheck is a shortcut file; otherwise, <c>false</c>.</returns>
-		/// <remarks>Shortcut file type is .lnk</remarks>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a shortcut file; otherwise, <c>false</c>.</returns>
 		public static bool IsShortcutFile(string? filePathToCheck)
 		{
 			return HasExtension(filePathToCheck, ".lnk");
 		}
 
 		/// <summary>
-		/// Check if the file path is a web link file.
+		/// Checks if the file extension represents a web link file.
 		/// </summary>
 		/// <param name="filePathToCheck">The file path to check.</param>
-		/// <returns><c>true</c> if the filePathToCheck is a web link file; otherwise, <c>false</c>.</returns>
-		/// <remarks>Web link file type is .url</remarks>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a web link file; otherwise, <c>false</c>.</returns>
 		public static bool IsWebLinkFile(string? filePathToCheck)
 		{
 			return HasExtension(filePathToCheck, ".url");
@@ -185,11 +220,10 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
-		/// Check if the file path is an executable file.
+		/// Checks if the file extension represents an executable file.
 		/// </summary>
 		/// <param name="filePathToCheck">The file path to check.</param>
-		/// <returns><c>true</c> if the filePathToCheck is an executable file; otherwise, <c>false</c>.</returns>
-		/// /// <remarks>Executable file types are; exe, bat, cmd</remarks>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is an executable file; otherwise, <c>false</c>.</returns>
 		public static bool IsExecutableFile(string? filePathToCheck, bool exeOnly = false)
 		{
 			return
@@ -199,62 +233,60 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
-		/// Check if the file path is an Auto Hot Key file.
+		/// Checks if the file extension represents an Auto Hot Key file.
 		/// </summary>
 		/// <param name="filePathToCheck">The file path to check.</param>
-		/// <returns><c>true</c> if the filePathToCheck is an Auto Hot Key file; otherwise, <c>false</c>.</returns>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is an Auto Hot Key file; otherwise, <c>false</c>.</returns>
 		public static bool IsAhkFile(string? filePathToCheck)
 		{
 			return HasExtension(filePathToCheck, ".ahk");
 		}
 
 		/// <summary>
-		/// Check if the file path is a cmd file.
+		/// Checks if the file extension represents a CMD file.
 		/// </summary>
 		/// <param name="filePathToCheck">The file path to check.</param>
-		/// <returns><c>true</c> if the filePathToCheck is a cmd file; otherwise, <c>false</c>.</returns>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a CMD file; otherwise, <c>false</c>.</returns>
 		public static bool IsCmdFile(string? filePathToCheck)
 		{
 			return HasExtension(filePathToCheck, ".cmd");
 		}
 
 		/// <summary>
-		/// Check if the file path is an msi installer file.
+		/// Checks if the file extension represents an MSI installer file.
 		/// </summary>
 		/// <param name="filePathToCheck">The file path to check.</param>
-		/// <returns><c>true</c> if the filePathToCheck is an msi installer file; otherwise, <c>false</c>.</returns>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is an MSI installer file; otherwise, <c>false</c>.</returns>
 		public static bool IsMsiFile(string? filePathToCheck)
 		{
 			return HasExtension(filePathToCheck, ".msi");
 		}
 
 		/// <summary>
-		/// Check if the file extension is a vhd disk file.
+		/// Checks if the file extension represents a vhd disk file.
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
-		/// <returns><c>true</c> if the fileExtensionToCheck is a vhd disk file; otherwise, <c>false</c>.</returns>
-		/// <remarks>Vhd disk file types are; vhd, vhdx</remarks>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a vhd disk file; otherwise, <c>false</c>.</returns>
 		public static bool IsVhdFile(string? fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".vhd", ".vhdx");
 		}
 
 		/// <summary>
-		/// Check if the file extension is a screen saver file.
+		/// Checks if the file extension represents a screen saver file.
 		/// </summary>
 		/// <param name="fileExtensionToCheck">The file extension to check.</param>
-		/// <returns><c>true</c> if the fileExtensionToCheck is a screen saver file; otherwise, <c>false</c>.</returns>
-		/// <remarks>Screen saver file types are; scr</remarks>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a screen saver file; otherwise, <c>false</c>.</returns>
 		public static bool IsScreenSaverFile(string? fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".scr");
 		}
 
 		/// <summary>
-		/// Check if the file extension is a media (audio/video) file.
+		/// Checks if the file extension represents a media (audio/video) file.
 		/// </summary>
 		/// <param name="filePathToCheck">The file extension to check.</param>
-		/// <returns><c>true</c> if the filePathToCheck is a media file; otherwise, <c>false</c>.</returns>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a media file; otherwise, <c>false</c>.</returns>
 		public static bool IsMediaFile(string? filePathToCheck)
 		{
 			return HasExtension(
@@ -263,33 +295,93 @@ namespace Files.Shared.Helpers
 		}
 
 		/// <summary>
-		/// Check if the file extension is a certificate file.
+		/// Checks if the file extension represents a certificate file.
 		/// </summary>
 		/// <param name="filePathToCheck"></param>
-		/// <returns><c>true</c> if the filePathToCheck is a certificate file; otherwise, <c>false</c>.</returns>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a certificate file; otherwise, <c>false</c>.</returns>
 		public static bool IsCertificateFile(string? filePathToCheck)
 		{
 			return HasExtension(filePathToCheck, ".cer", ".crt", ".der", ".pfx");
 		}
 
 		/// <summary>
-		/// Check if the file extension is a Script file.
+		/// Checks if the file extension represents a script file.
 		/// </summary>
 		/// <param name="filePathToCheck"></param>
-		/// <returns><c>true</c> if the filePathToCheck is a script file; otherwise, <c>false</c>.</returns>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a script file; otherwise, <c>false</c>.</returns>
 		public static bool IsScriptFile(string? filePathToCheck)
 		{
 			return HasExtension(filePathToCheck, ".py", ".ahk", ".bat", ".cmd", ".ps1");
 		}
 
 		/// <summary>
-		/// Check if the file extension is a system file.
+		/// Checks if the file extension represents a system file.
 		/// </summary>
 		/// <param name="filePathToCheck"></param>
-		/// <returns><c>true</c> if the filePathToCheck is a system file; otherwise, <c>false</c>.</returns>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a system file; otherwise, <c>false</c>.</returns>
 		public static bool IsSystemFile(string? filePathToCheck)
 		{
 			return HasExtension(filePathToCheck, ".dll", ".exe", ".sys", ".inf");
+		}
+
+		/// <summary>
+		/// Checks if the file extension matches a recognised code file extension.
+		/// </summary>
+		/// <param name="filePathToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a code file; otherwise, <c>false</c>.</returns>
+		public static bool IsCodeFile(string? filePathToCheck)
+		{
+			return HasExtension(filePathToCheck, CodeFileExtensions.Keys.ToArray());
+		}
+
+		/// <summary>
+		/// Checks if the file extension represents an Adobe Acrobat PDF file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck">The file extension to check</param>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a PDF file; otherwise, <c>false</c>.</returns>
+		public static bool IsPdfFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".pdf");
+		}
+
+		/// <summary>
+		/// Checks if the file extension represents an HTML file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck">The file extension to check</param>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is an HTML file; otherwise, <c>false</c>.</returns>
+		public static bool IsHtmlFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".html", ".htm", ".xhtml", ".svg");
+		}
+
+		/// <summary>
+		/// Checks if the file extension represents a markdown file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck">The file extension to check</param>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a markdown file; otherwise, <c>false</c>.</returns>
+		public static bool IsMarkdownFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".md", ".markdown", ".mdx");
+		}
+
+		/// <summary>
+		/// Checks if the file extension represents a rich text file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck">The file extension to check</param>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a rich text file; otherwise, <c>false</c>.</returns>
+		public static bool IsRichTextFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".rtf");
+		}
+
+		/// <summary>
+		/// Checks if the file extension represents a plain text file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck">The file extension to check</param>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a text file; otherwise, <c>false</c>.</returns>
+		public static bool IsTextFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".txt");
 		}
 
 		/// <summary>

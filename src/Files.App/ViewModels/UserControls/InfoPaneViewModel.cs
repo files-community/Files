@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.App.UserControls.FilePreviews;
@@ -284,7 +284,7 @@ namespace Files.App.ViewModels.UserControls
 				return new MediaPreview(model);
 			}
 
-			if (MarkdownPreviewViewModel.ContainsExtension(ext))
+			if (FileExtensionHelpers.IsMarkdownFile(ext))
 			{
 				var model = new MarkdownPreviewViewModel(item);
 				await model.LoadAsync();
@@ -292,7 +292,7 @@ namespace Files.App.ViewModels.UserControls
 				return new MarkdownPreview(model);
 			}
 
-			if (ImagePreviewViewModel.ContainsExtension(ext))
+			if (FileExtensionHelpers.IsImageFile(ext))
 			{
 				var model = new ImagePreviewViewModel(item);
 				await model.LoadAsync();
@@ -300,7 +300,7 @@ namespace Files.App.ViewModels.UserControls
 				return new ImagePreview(model);
 			}
 
-			if (TextPreviewViewModel.ContainsExtension(ext))
+			if (FileExtensionHelpers.IsTextFile(ext))
 			{
 				var model = new TextPreviewViewModel(item);
 				await model.LoadAsync();
@@ -308,7 +308,7 @@ namespace Files.App.ViewModels.UserControls
 				return new TextPreview(model);
 			}
 
-			/*if (PDFPreviewViewModel.ContainsExtension(ext))
+			/*if (FileExtensionHelpers.IsPdfFile(ext))
 			{
 				var model = new PDFPreviewViewModel(item);
 				await model.LoadAsync();
@@ -316,7 +316,7 @@ namespace Files.App.ViewModels.UserControls
 				return new PDFPreview(model);
 			}*/
 
-			/*if (HtmlPreviewViewModel.ContainsExtension(ext))
+			/*if (FileExtensionHelpers.IsHtmlFile(ext))
 			{
 				var model = new HtmlPreviewViewModel(item);
 				await model.LoadAsync();
@@ -324,7 +324,7 @@ namespace Files.App.ViewModels.UserControls
 				return new HtmlPreview(model);
 			}*/
 
-			if (RichTextPreviewViewModel.ContainsExtension(ext))
+			if (FileExtensionHelpers.IsRichTextFile(ext))
 			{
 				var model = new RichTextPreviewViewModel(item);
 				await model.LoadAsync();
@@ -332,7 +332,7 @@ namespace Files.App.ViewModels.UserControls
 				return new RichTextPreview(model);
 			}
 
-			if (CodePreviewViewModel.ContainsExtension(ext))
+			if (FileExtensionHelpers.IsCodeFile(ext))
 			{
 				var model = new CodePreviewViewModel(item);
 				await model.LoadAsync();

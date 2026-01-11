@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.App.ViewModels.Properties;
@@ -18,9 +18,6 @@ namespace Files.App.ViewModels.Previews
 			: base(item)
 		{
 		}
-
-		public static bool ContainsExtension(string extension)
-			=> extension is ".md" or ".markdown";
 
 		public override async Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{

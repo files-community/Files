@@ -16,6 +16,7 @@
         <PackageReference Include="Microsoft.Extensions.Logging" />
         <PackageReference Include="System.IO.Hashing" />
         <PackageReference Include="System.Threading.Tasks.Dataflow" />
+        <PackageReference Include="ColorCode.Core" />
     </ItemGroup>
 
 </Project>
