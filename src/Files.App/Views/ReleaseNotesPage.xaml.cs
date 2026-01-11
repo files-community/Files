@@ -43,6 +43,7 @@ namespace Files.App.Views
 			AppInstance.InstanceViewModel.GitRepositoryPath = null;
 			AppInstance.InstanceViewModel.IsGitRepository = false;
 			AppInstance.InstanceViewModel.IsPageTypeReleaseNotes = true;
+			AppInstance.InstanceViewModel.ShowInfoPaneInTabOverride = false;
 
 			AppInstance.ToolbarViewModel.CanRefresh = false;
 			AppInstance.ToolbarViewModel.CanGoBack = AppInstance.CanNavigateBackward;
@@ -79,6 +80,8 @@ namespace Files.App.Views
 
 		protected override void OnNavigatedFrom(NavigationEventArgs e)
 		{
+			AppInstance.InstanceViewModel.ShowInfoPaneInTabOverride = null;
+
 			Dispose();
 		}
 

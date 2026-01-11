@@ -401,15 +401,21 @@ namespace Files.App.Views
 			{
 				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
 				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
-				var isReleaseNotesPage = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeReleaseNotes ?? false;
+				var overrideInfoPaneInTab = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.ShowInfoPaneInTabOverride;
 				var isBigEnough = !App.AppModel.IsMainWindowClosed &&
 					(MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360);
 
 				ViewModel.ShouldPreviewPaneBeDisplayed = (!isHomePage || isMultiPane) && isBigEnough;
+				var isInfoPaneEnabledByUser = UserSettingsService.InfoPaneSettingsService.IsInfoPaneEnabled;
+				var isInfoPaneAllowedInTab = overrideInfoPaneInTab switch
+				{
+					true => true,
+					false => false,
+					null => isInfoPaneEnabledByUser,
+				};
 				ViewModel.ShouldPreviewPaneBeActive =
- 					UserSettingsService.InfoPaneSettingsService.IsInfoPaneEnabled &&
-					!isReleaseNotesPage &&
- 					ViewModel.ShouldPreviewPaneBeDisplayed;
+					isInfoPaneAllowedInTab &&
+					ViewModel.ShouldPreviewPaneBeDisplayed;
 				ViewModel.ShouldViewControlBeDisplayed = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
 
 				UpdatePositioning();

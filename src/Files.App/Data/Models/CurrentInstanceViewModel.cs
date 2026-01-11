@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 namespace Files.App.Data.Models
@@ -20,6 +20,14 @@ namespace Files.App.Data.Models
 		public CurrentInstanceViewModel(FolderLayoutModes rootLayoutMode)
 		{
 			FolderSettings = new LayoutPreferencesManager(rootLayoutMode);
+		}
+
+		// Can be either true, false, or null (use default behavior)
+		private bool? showInfoPaneInTabOverride;
+		public bool? ShowInfoPaneInTabOverride
+		{
+			get => showInfoPaneInTabOverride;
+			set => SetProperty(ref showInfoPaneInTabOverride, value);
 		}
 
 		private bool isPageTypeSearchResults = false;
