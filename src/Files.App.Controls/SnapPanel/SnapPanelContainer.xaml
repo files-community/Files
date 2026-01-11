@@ -1,0 +1,27 @@
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Files.App.Controls">
+
+	<Style BasedOn="{StaticResource DefaultSnapPanelContainerStyle}" TargetType="local:SnapPanelContainer" />
+
+	<Style x:Key="DefaultSnapPanelContainerStyle" TargetType="local:SnapPanelContainer">
+		<Setter Property="ItemsPanel">
+			<Setter.Value>
+				<ItemsPanelTemplate>
+					<local:SnapPanel />
+				</ItemsPanelTemplate>
+			</Setter.Value>
+		</Setter>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:SnapPanelContainer">
+					<Grid x:Name="PART_RootGrid">
+						<ItemsPresenter x:Name="PART_ItemsPresenter" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>

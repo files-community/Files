@@ -1,0 +1,51 @@
+<Page
+	x:Class="Files.App.UITests.Views.SnapPanelContainerPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:Files.App.UITests.Views"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d">
+
+	<StackPanel Spacing="24">
+
+		<controls:SamplePanel Header="With Items">
+			<controls:SamplePanel.MainContent>
+
+				<controls:SnapPanelContainer>
+					<Rectangle
+						Width="200"
+						Height="40"
+						Fill="Blue"
+						Opacity="0.5" />
+					<Rectangle
+						Width="200"
+						Height="40"
+						Fill="Green"
+						Opacity="0.5" />
+					<Rectangle
+						Width="200"
+						Height="40"
+						Fill="Red"
+						Opacity="0.5" />
+					<Rectangle
+						Width="200"
+						Height="40"
+						Fill="Yellow"
+						Opacity="0.5" />
+				</controls:SnapPanelContainer>
+
+			</controls:SamplePanel.MainContent>
+		</controls:SamplePanel>
+
+		<!--<controls:SamplePanel Header="With ItemsSource">
+			<controls:SamplePanel.MainContent>
+
+				<controls:SnapPanelContainer ItemsSource="" />
+
+			</controls:SamplePanel.MainContent>
+		</controls:SamplePanel>-->
+
+	</StackPanel>
+</Page>

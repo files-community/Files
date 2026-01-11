@@ -5,9 +5,9 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UITests.Views
 {
-	public sealed partial class ResizeVisualPage : Page
+	public sealed partial class SnapPanelContainerPage : Page
 	{
-		public ResizeVisualPage()
+		public SnapPanelContainerPage()
 		{
 			InitializeComponent();
 		}

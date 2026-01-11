@@ -83,6 +83,10 @@
 		<ResourceDictionary Source="ms-appx:///Files.App.Controls/TableView/TableView.xaml" />
 		<!--#endregion-->
 
+		<!--#region TableView-->
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/SnapPanel/SnapPanelContainer.xaml" />
+		<!--#endregion-->
+
 	</ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
