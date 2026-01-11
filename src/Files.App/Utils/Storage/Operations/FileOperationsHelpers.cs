@@ -802,10 +802,14 @@ namespace Files.App.Utils.Storage
 		{
 			try
 			{
-				using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
-				link.IconLocation = new IconLocation(iconFile, iconIndex);
-				link.SaveAs(filePath); // Overwrite if exists
-				return true;
+				var ext = Path.GetExtension(filePath).ToLowerInvariant();
+
+				return ext switch
+				{
+					".lnk" => TrySetLnkShortcutIcon(filePath, iconFile, iconIndex),
+					".url" => TrySetUrlShortcutIcon(filePath, iconFile, iconIndex),
+					_ => false,
+				};
 			}
 			catch (UnauthorizedAccessException)
 			{
@@ -846,6 +850,43 @@ namespace Files.App.Utils.Storage
 			}
 
 			return false;
+		}
+
+		private static bool TrySetUrlShortcutIcon(string filePath, string iconFile, int iconIndex)
+		{
+			var fileExist = File.Exists(filePath);
+			if (!fileExist)
+			{
+				return false;
+			}
+
+			var lines = File.ReadAllLines(filePath).ToList();
+			var hasInternetShortcutHeader = lines.Any(l => l.Trim().Equals("[InternetShortcut]", StringComparison.OrdinalIgnoreCase));
+
+			if (!hasInternetShortcutHeader)
+			{
+				return false;
+			}
+
+			lines.RemoveAll(l =>
+				l.StartsWith("IconFile=", StringComparison.OrdinalIgnoreCase) ||
+				l.StartsWith("IconIndex=", StringComparison.OrdinalIgnoreCase));
+
+			lines.Add($"IconFile={iconFile}");
+			lines.Add($"IconIndex={iconIndex}");
+
+			File.WriteAllLines(filePath, lines);
+
+			return true;
+		}
+
+		private static bool TrySetLnkShortcutIcon(string filePath, string iconFile, int iconIndex)
+		{
+			using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
+			link.IconLocation = new IconLocation(iconFile, iconIndex);
+			link.SaveAs(filePath); // Overwrite if exists
+
+			return true;
 		}
 
 		public static Task<string?> OpenObjectPickerAsync(long hWnd)

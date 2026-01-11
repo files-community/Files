@@ -108,7 +108,7 @@ namespace Files.App.Data.Factories
 				var securityItemEnabled = !isLibrary && !listedItem.IsRecycleBinItem;
 				var hashItemEnabled = !(isFolder && !listedItem.IsArchive) && !isLibrary && !listedItem.IsRecycleBinItem;
 				var detailsItemEnabled = !(isFolder && !listedItem.IsArchive) && !isLibrary && !listedItem.IsRecycleBinItem;
-				var customizationItemEnabled = !isLibrary && (isFolder && !listedItem.IsArchive || isShortcut && !listedItem.IsLinkItem);
+				var customizationItemEnabled = !isLibrary && (isFolder && !listedItem.IsArchive || isShortcut);
 				var compatibilityItemEnabled = FileExtensionHelpers.IsExecutableFile(listedItem is IShortcutItem sht ? sht.TargetPath : fileExt, true);
 				var signaturesItemEnabled = 
 					!isFolder &&
