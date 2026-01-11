@@ -17,6 +17,8 @@ namespace Files.Shared.Helpers
 	{
 		public static readonly FrozenDictionary<string, ILanguage> CodeFileExtensions = CodeFileExtensions_GetDictionary();
 
+		private static readonly string[] CodeFileExtensionKeys = [.. CodeFileExtensions.Keys];
+
 		private static readonly FrozenSet<string> _signableTypes = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 		{
 			".aab", ".apk", ".application", ".appx", ".appxbundle", ".arx", ".cab", ".cat", ".cbx",
@@ -331,7 +333,7 @@ namespace Files.Shared.Helpers
 		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a code file; otherwise, <c>false</c>.</returns>
 		public static bool IsCodeFile(string? filePathToCheck)
 		{
-			return HasExtension(filePathToCheck, CodeFileExtensions.Keys.ToArray());
+			return HasExtension(filePathToCheck, CodeFileExtensionKeys);
 		}
 
 		/// <summary>
