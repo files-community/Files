@@ -14,7 +14,7 @@ namespace Files.Shared.Helpers
 	/// </summary>
 	public static class FileExtensionHelpers
 	{
-		private static readonly FrozenSet<string> _signableTypes = new HashSet<string>()
+		private static readonly FrozenSet<string> _signableTypes = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 		{
 			".aab", ".apk", ".application", ".appx", ".appxbundle", ".arx", ".cab", ".cat", ".cbx",
 			".cpl", ".crx", ".dbx", ".deploy", ".dll", ".doc", ".docm", ".dot", ".dotm", ".drx",
@@ -24,7 +24,7 @@ namespace Files.Shared.Helpers
 			".vdw", ".vdx", ".vsd", ".vsdm", ".vss", ".vssm", ".vst", ".vstm", ".vsto", ".vsix", ".vsx", ".vtx",
 			".vxd", ".war", ".wiz", ".wsf", ".xap", ".xla", ".xlam", ".xls", ".xlsb", ".xlsm", ".xlt",
 			".xltm", ".xlsm", ".xsn"
-		}.ToFrozenSet();
+		}.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
 		/// <summary>
 		/// Check if the file extension matches one of the specified extensions.
