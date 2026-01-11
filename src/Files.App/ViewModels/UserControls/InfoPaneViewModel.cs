@@ -158,6 +158,17 @@ namespace Files.App.ViewModels.UserControls
 		{
 			switch (e.PropertyName)
 			{
+				case nameof(IContentPageContext.PageType):
+					if (contentPageContext.PageType is ContentPageTypes.ReleaseNotes)
+					{
+						loadCancellationTokenSource?.Cancel();
+						SelectedItem = null;
+						SelectedDriveItem = null;
+						PreviewPaneContent = null;
+						PreviewPaneState = PreviewPaneStates.NoItemSelected;
+					}
+					break;
+
 				case nameof(IContentPageContext.Folder):
 				case nameof(IContentPageContext.SelectedItem):
 
