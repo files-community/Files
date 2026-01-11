@@ -899,16 +899,23 @@ namespace Files.App.Utils.Storage
 				l.StartsWith("IconIndex=", StringComparison.OrdinalIgnoreCase));
 
 			int index = 0;
+			int insertedIndex = 0;
 			foreach(var line in lines )
 			{
 				var isInternetShortcutHeader = line.Trim().Equals("[InternetShortcut]", StringComparison.OrdinalIgnoreCase);
 				if(isInternetShortcutHeader)
 				{
-					lines.Insert(index + 1, $"IconFile={iconFile}");
-					lines.Insert(index + 2, $"IconIndex={iconIndex}");
+					insertedIndex = index + 1;
+					break;
 				}
 
 				index++;
+			}
+
+			if(insertedIndex > 0)
+			{
+				lines.Insert(insertedIndex, $"IconFile={iconFile}");
+				lines.Insert(insertedIndex + 1, $"IconIndex={iconIndex}");
 			}
 
 			File.WriteAllLines(filePath, lines);
