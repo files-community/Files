@@ -813,16 +813,42 @@ namespace Files.App.Utils.Storage
 			}
 			catch (UnauthorizedAccessException)
 			{
-				string psScript = $@"
-					$FilePath = '{filePath}'
-					$IconFile = '{iconFile}'
-					$IconIndex = '{iconIndex}'
+				var ext = Path.GetExtension(filePath).ToLowerInvariant();
+				string psScript;
 
-					$Shell = New-Object -ComObject WScript.Shell
-					$Shortcut = $Shell.CreateShortcut($FilePath)
-					$Shortcut.IconLocation = ""$IconFile, $IconIndex""
-					$Shortcut.Save()
-				";
+				if(ext == ".url")
+				{
+					psScript = $@"
+						$path = '{filePath}'
+						$iconFile = '{iconFile}'
+						$iconIndex = '{iconIndex}'
+						$content = Get-Content $path
+                
+						$content = $content | Where-Object {{ $_ -notmatch '^IconFile=' -and $_ -notmatch '^IconIndex=' }}
+                
+						$newContent = foreach ($line in $content) {{
+							$line
+							if ($line -eq '[InternetShortcut]') {{
+								""IconFile=$iconFile""
+								""IconIndex=$iconIndex""
+							}}
+						}}
+						$newContent | Set-Content $path -Encoding UTF8
+					";
+				}
+				else
+				{
+					psScript = $@"
+						$FilePath = '{filePath}'
+						$IconFile = '{iconFile}'
+						$IconIndex = '{iconIndex}'
+
+						$Shell = New-Object -ComObject WScript.Shell
+						$Shortcut = $Shell.CreateShortcut($FilePath)
+						$Shortcut.IconLocation = ""$IconFile, $IconIndex""
+						$Shortcut.Save()
+					";
+				}
 
 				var base64EncodedScript = Convert.ToBase64String(System.Text.Encoding.Unicode.GetBytes(psScript));
 
@@ -872,8 +898,18 @@ namespace Files.App.Utils.Storage
 				l.StartsWith("IconFile=", StringComparison.OrdinalIgnoreCase) ||
 				l.StartsWith("IconIndex=", StringComparison.OrdinalIgnoreCase));
 
-			lines.Add($"IconFile={iconFile}");
-			lines.Add($"IconIndex={iconIndex}");
+			int index = 0;
+			foreach(var line in lines )
+			{
+				var isInternetShortcutHeader = line.Trim().Equals("[InternetShortcut]", StringComparison.OrdinalIgnoreCase);
+				if(isInternetShortcutHeader)
+				{
+					lines.Insert(index + 1, $"IconFile={iconFile}");
+					lines.Insert(index + 2, $"IconIndex={iconIndex}");
+				}
+
+				index++;
+			}
 
 			File.WriteAllLines(filePath, lines);
 
