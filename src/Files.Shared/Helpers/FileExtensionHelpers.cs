@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using ColorCode;
@@ -363,7 +363,7 @@ namespace Files.Shared.Helpers
 		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a markdown file; otherwise, <c>false</c>.</returns>
 		public static bool IsMarkdownFile(string? fileExtensionToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".md", ".markdown", ".mdx");
+			return HasExtension(fileExtensionToCheck, ".md", ".markdown");
 		}
 
 		/// <summary>
