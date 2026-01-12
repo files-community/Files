@@ -353,7 +353,7 @@ namespace Files.Shared.Helpers
 		/// <returns><c>true</c> if the <c>filePathToCheck</c> is an HTML file; otherwise, <c>false</c>.</returns>
 		public static bool IsHtmlFile(string? fileExtensionToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".html", ".htm", ".xhtml", ".svg");
+			return HasExtension(fileExtensionToCheck, ".html", ".htm", ".xhtml");
 		}
 
 		/// <summary>
@@ -384,6 +384,16 @@ namespace Files.Shared.Helpers
 		public static bool IsTextFile(string? fileExtensionToCheck)
 		{
 			return HasExtension(fileExtensionToCheck, ".txt");
+		}
+
+		/// <summary>
+		/// Checks if the file extension represents an SVG file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck">The file extension to check</param>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is an SVG file; otherwise, <c>false</c>.</returns>
+		public static bool IsSvgFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".svg");
 		}
 
 		/// <summary>
