@@ -57,6 +57,9 @@ namespace Files.App.Views
 
 			AppInstance.ToolbarViewModel.PathComponents.Clear();
 
+			// Update Info Pane to avoid showing items from the previous directory
+			AppInstance.SlimContentPage?.InfoPaneViewModel.UpdateSelectedItemPreviewAsync();
+
 			string componentLabel =
 				parameters?.NavPathParam == "ReleaseNotes"
 					? Strings.ReleaseNotes.GetLocalizedResource()
