@@ -40,7 +40,8 @@ namespace Files.App.Services.PreviewPopupProviders
 			HWND hWnd = PInvoke.FindWindow("SeerWindowClass", null);
 			var result = PInvoke.SendMessage(hWnd, 0x004A /*WM_COPYDATA*/, 0, pData);
 
-			CurrentPath = PInvoke.IsWindowVisible(hWnd) ? path : null;
+			bool isVisible = PInvoke.IsWindowVisible(hWnd);
+			CurrentPath = isVisible ? path : null;
 
 			Marshal.FreeHGlobal((nint)data.lpData);
 			Marshal.FreeHGlobal(pData);
@@ -48,6 +49,15 @@ namespace Files.App.Services.PreviewPopupProviders
 
 		public async Task SwitchPreviewAsync(string path)
 		{
+			HWND hWnd = PInvoke.FindWindow("SeerWindowClass", null);
+			bool isWindowVisible = PInvoke.IsWindowVisible(hWnd);
+
+			if (CurrentPath is not null && !isWindowVisible)
+			{
+				CurrentPath = null;
+				return;
+			}
+
 			// Close preview window is track selection setting is disabled
 			if (!IsTrackSelectionSettingEnabled && !string.IsNullOrEmpty(CurrentPath))
 			{
@@ -55,8 +65,8 @@ namespace Files.App.Services.PreviewPopupProviders
 				return;
 			}
 
-			// Update the preview window if the path changed
-			if (CurrentPath is not null && path != CurrentPath)
+			// Update the preview window if the path changed and window is currently open
+			if (CurrentPath is not null && path != CurrentPath && isWindowVisible)
 				await TogglePreviewPopupAsync(path);
 		}
 
