@@ -30,7 +30,7 @@ namespace Files.App.Data.Items
 			set
 			{
 				SetProperty(ref icon, value, nameof(Icon));
-				OnPropertyChanged(nameof(IconSource));
+				OnPropertyChanged(nameof(IconElement));
 			}
 		}
 
@@ -52,13 +52,17 @@ namespace Files.App.Data.Items
 
 		public bool IsExpanded { get => false; set { } }
 
-		public IconSource? IconSource
+		public IconElement? IconElement
 		{
-			get => new BitmapIconSource()
+			get
 			{
-				UriSource = icon,
-				ShowAsMonochrome = false,
-			};
+				var source = new BitmapIconSource()
+				{
+					UriSource = icon,
+					ShowAsMonochrome = false,
+				};
+				return source.CreateIconElement();
+			}
 		}
 
 		public bool PaddedItem => false;

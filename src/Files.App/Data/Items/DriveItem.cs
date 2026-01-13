@@ -21,7 +21,7 @@ namespace Files.App.Data.Items
 			set
 			{
 				SetProperty(ref icon, value, nameof(Icon));
-				OnPropertyChanged(nameof(IconSource));
+				OnPropertyChanged(nameof(IconElement));
 			}
 		}
 
@@ -192,12 +192,13 @@ namespace Files.App.Data.Items
 
 		public bool IsExpanded { get => false; set { } }
 
-		public IconSource? IconSource
+		public IconElement? IconElement
 		{
-			get => new ImageIconSource()
+			get
 			{
-				ImageSource = Icon
-			};
+				var source = new ImageIconSource() { ImageSource = Icon };
+				return source.CreateIconElement();
+			}
 		}
 
 		public FrameworkElement? ItemDecorator
