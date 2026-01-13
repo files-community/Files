@@ -388,6 +388,12 @@ namespace Files.App.Services.Settings
 		}
 
 		public bool EnableThumbnailCache
+    {
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool EnableSmoothScrolling
 		{
 			get => Get(true);
 			set => Set(value);

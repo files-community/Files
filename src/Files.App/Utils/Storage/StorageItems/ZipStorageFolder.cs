@@ -109,7 +109,7 @@ namespace Files.App.Utils.Storage
 				return true;
 			};
 			var ext = IO.Path.GetExtension(filePath)?.ToLowerInvariant();
-			return await defaultAppDict.GetAsync(ext, queryFileAssoc);
+			return await defaultAppDict.GetAsync(ext ?? "", queryFileAssoc);
 		}
 
 		public static IAsyncOperation<BaseStorageFolder> FromPathAsync(string path)

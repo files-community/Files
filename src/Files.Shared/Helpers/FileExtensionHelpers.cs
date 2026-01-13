@@ -14,7 +14,7 @@ namespace Files.Shared.Helpers
 	/// </summary>
 	public static class FileExtensionHelpers
 	{
-		private static readonly FrozenSet<string> _signableTypes = new HashSet<string>()
+		private static readonly FrozenSet<string> _signableTypes = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 		{
 			".aab", ".apk", ".application", ".appx", ".appxbundle", ".arx", ".cab", ".cat", ".cbx",
 			".cpl", ".crx", ".dbx", ".deploy", ".dll", ".doc", ".docm", ".dot", ".dotm", ".drx",
@@ -24,7 +24,7 @@ namespace Files.Shared.Helpers
 			".vdw", ".vdx", ".vsd", ".vsdm", ".vss", ".vssm", ".vst", ".vstm", ".vsto", ".vsix", ".vsx", ".vtx",
 			".vxd", ".war", ".wiz", ".wsf", ".xap", ".xla", ".xlam", ".xls", ".xlsb", ".xlsm", ".xlt",
 			".xltm", ".xlsm", ".xsn"
-		}.ToFrozenSet();
+		}.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
 
 		/// <summary>
 		/// Check if the file extension matches one of the specified extensions.
@@ -32,7 +32,7 @@ namespace Files.Shared.Helpers
 		/// <param name="filePathToCheck">Path or name or extension of the file to check.</param>
 		/// <param name="extensions">List of the extensions to check.</param>
 		/// <returns><c>true</c> if the filePathToCheck has one of the specified extensions; otherwise, <c>false</c>.</returns>
-		public static bool HasExtension(string? filePathToCheck, params string[] extensions)
+		public static bool HasExtension(string? filePathToCheck, params ReadOnlySpan<string> extensions)
 		{
 			if (string.IsNullOrWhiteSpace(filePathToCheck))
 				return false;
@@ -42,7 +42,12 @@ namespace Files.Shared.Helpers
 			if (Directory.Exists(filePathToCheck))
 				return false;
 
-			return extensions.Any(ext => Path.GetExtension(filePathToCheck).Equals(ext, StringComparison.OrdinalIgnoreCase));
+			string pathExtension = Path.GetExtension(filePathToCheck);
+			foreach (string ext in extensions)
+				if (pathExtension.Equals(ext, StringComparison.OrdinalIgnoreCase))
+					return true;
+
+			return false;
 		}
 
 		/// <summary>

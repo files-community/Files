@@ -528,7 +528,7 @@
     <value>Status</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
-    <value>No results</value>
+    <value>Nėra rezultatų</value>
   </data>
   <data name="SubDirectoryAccessDenied" xml:space="preserve">
     <value>Can't access any items to display</value>
@@ -4262,7 +4262,7 @@
     <value>Drag files or folders here to interact with them across different tabs</value>
   </data>
   <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
-    <value>Enter a path to navigate to...</value>
+    <value>Įveskite kelią, į kurį norite naršyti...</value>
   </data>
   <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
     <value>Find features and commands...</value>

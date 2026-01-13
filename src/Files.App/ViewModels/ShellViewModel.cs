@@ -1215,7 +1215,7 @@ namespace Files.App.ViewModels
 					cts.Token.ThrowIfCancellationRequested();
 					if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 					{
-						if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+						if (!item.IsShortcut && !FtpHelpers.IsFtpPath(item.ItemPath))
 						{
 							matchingStorageFile = await GetFileFromPathAsync(item.ItemPath, cts.Token);
 							if (matchingStorageFile is not null)
@@ -1558,7 +1558,7 @@ namespace Files.App.ViewModels
 
 		public void RefreshItems(string? previousDir, Action postLoadCallback = null)
 		{
-			RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, postLoadCallback);
+			_ = RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, postLoadCallback);
 		}
 
 		private async Task RapidAddItemsToCollectionAsync(string path, string? previousDir, Action postLoadCallback)
@@ -1665,7 +1665,7 @@ namespace Files.App.ViewModels
 					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeRecycleBin = isRecycleBin });
 					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
 					if (!HasNoWatcher)
-						WatchForStorageFolderChangesAsync(currentStorageFolder?.Item);
+						_ = WatchForStorageFolderChangesAsync(currentStorageFolder?.Item);
 					break;
 
 				// Watch for changes using Win32 in Box Drive folder (#7428) and network drives (#5869)

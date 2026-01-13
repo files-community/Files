@@ -6,5 +6,6 @@
     <MinimalWindowsVersion>10.0.19041.0</MinimalWindowsVersion>
     <WindowsSdkPackageVersion>10.0.26100.67-preview</WindowsSdkPackageVersion>
     <WindowsTargetFramework>$(TargetFrameworkVersion)-windows$(TargetWindowsVersion)</WindowsTargetFramework>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 </Project>

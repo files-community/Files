@@ -990,7 +990,7 @@
     <value>Nhân đôi thẻ</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
-    <value>Di chuyển thẻ đến cửa sổ mới</value>
+    <value>Di chuyển thẻ sang cửa sổ mới</value>
   </data>
   <data name="NewTab" xml:space="preserve">
     <value>Thẻ mới</value>
@@ -1413,7 +1413,7 @@
     <value>{0} mục</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>Mở lại thẻ</value>
+    <value>Mở lại thẻ đã đóng</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>Đổi tên</value>

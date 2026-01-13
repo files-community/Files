@@ -996,10 +996,10 @@
     <value>زبانه جدید</value>
   </data>
   <data name="ClearPropertiesFlyoutText.Text" xml:space="preserve">
-    <value>برخی از خصوصیات ممکن است حاوی اطلاعات شخصی باشند.</value>
+    <value>برخی از ویژگی‌ها ممکن است حاوی اطلاعات شخصی باشند.</value>
   </data>
   <data name="ClearPropertiesButton.Content" xml:space="preserve">
-    <value>پاک کردن همه صفات</value>
+    <value>پاک کردن همه ویژگی‌ها</value>
   </data>
   <data name="OngoingTasksTeachingTip.Subtitle" xml:space="preserve">
     <value>وضعیت ها را اینجا بررسی کن</value>
@@ -1008,10 +1008,10 @@
     <value>وضعیت ها</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
-    <value>جستجو برای (1) در (0)</value>
+    <value>جستجو برای {1} در {0}</value>
   </data>
   <data name="SearchResultsFor" xml:space="preserve">
-    <value>Search results for `{0}`</value>
+    <value>نتایج جستجو برای `{0}`</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>جزئیات</value>

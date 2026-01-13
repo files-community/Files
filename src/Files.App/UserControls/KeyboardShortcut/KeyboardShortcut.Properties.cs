@@ -11,7 +11,7 @@ namespace Files.App.UserControls.KeyboardShortcut
 			DependencyProperty.Register(
 				nameof(ItemType),
 				typeof(KeyboardShortcutItemKind),
-				typeof(KeyboardShortcutItem),
+				typeof(KeyboardShortcut),
 				new PropertyMetadata(defaultValue: KeyboardShortcutItemKind.Outlined, (d, e) => ((KeyboardShortcutItem)d).OnItemTypePropertyChanged()));
 
 		public KeyboardShortcutItemKind ItemType
@@ -24,7 +24,7 @@ namespace Files.App.UserControls.KeyboardShortcut
 			DependencyProperty.Register(
 				nameof(Size),
 				typeof(KeyboardShortcutItemSize),
-				typeof(KeyboardShortcutItem),
+				typeof(KeyboardShortcut),
 				new PropertyMetadata(defaultValue: KeyboardShortcutItemSize.Small, (d, e) => ((KeyboardShortcutItem)d).OnSizePropertyChanged()));
 
 		public KeyboardShortcutItemSize Size
@@ -38,7 +38,7 @@ namespace Files.App.UserControls.KeyboardShortcut
 				nameof(HotKeys),
 				typeof(HotKeyCollection),
 				typeof(KeyboardShortcut),
-				new PropertyMetadata(defaultValue: new(), (d, e) => ((KeyboardShortcut)d).OnHotKeysPropertyChanged()));
+				new PropertyMetadata(defaultValue: new HotKeyCollection(), (d, e) => ((KeyboardShortcut)d).OnHotKeysPropertyChanged()));
 
 		public HotKeyCollection HotKeys
 		{
