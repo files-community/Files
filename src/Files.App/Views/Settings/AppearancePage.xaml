@@ -286,13 +286,12 @@
 
 			<!--  Enable Smooth Scrolling  -->
 			<wctcontrols:SettingsCard
-				Header="Enable smooth scrolling"
-				Description="Enable smooth scrolling experience">
+				Header="{helpers:ResourceString Name=EnableSmoothScrolling}">
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE7C4;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
 				<ToggleSwitch
-					AutomationProperties.Name="Enable smooth scrolling"
+					AutomationProperties.Name="{helpers:ResourceString Name=EnableSmoothScrolling}"
 					IsOn="{x:Bind ViewModel.EnableSmoothScrolling, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 		</StackPanel>
