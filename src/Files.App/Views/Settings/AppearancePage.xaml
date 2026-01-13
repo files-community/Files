@@ -288,7 +288,7 @@
 			<wctcontrols:SettingsCard
 				Header="{helpers:ResourceString Name=EnableSmoothScrolling}">
 				<wctcontrols:SettingsCard.HeaderIcon>
-					<FontIcon Glyph="&#xE7C4;" />
+					<FontIcon Glyph="&#xEC8F;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
 				<ToggleSwitch
 					AutomationProperties.Name="{helpers:ResourceString Name=EnableSmoothScrolling}"
