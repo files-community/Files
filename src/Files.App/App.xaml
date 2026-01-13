@@ -55,14 +55,6 @@
 				<Setter Property="IsScrollInertiaEnabled" Value="{ThemeResource App.ScrollInertiaEnabled}" />
 			</Style>
 
-			<Style TargetType="ListView">
-				<Setter Property="ScrollViewer.IsScrollInertiaEnabled" Value="{ThemeResource App.ScrollInertiaEnabled}" />
-			</Style>
-
-			<Style TargetType="GridView">
-				<Setter Property="ScrollViewer.IsScrollInertiaEnabled" Value="{ThemeResource App.ScrollInertiaEnabled}" />
-			</Style>
-
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
 				<ResourceDictionary Source="ms-appx:///Files.App.Controls/Themes/Generic.xaml" />
