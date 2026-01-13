@@ -314,5 +314,10 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets a value whether the filter header should be displayed.
 		/// </summary>
 		bool ShowFilterHeader { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether smooth scrolling is enabled.
+		/// </summary>
+		bool EnableSmoothScrolling { get; set; }
 	}
 }

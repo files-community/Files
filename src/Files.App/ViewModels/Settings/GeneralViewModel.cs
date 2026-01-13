@@ -547,6 +547,20 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool EnableSmoothScrolling
+		{
+			get => UserSettingsService.GeneralSettingsService.EnableSmoothScrolling;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.EnableSmoothScrolling)
+				{
+					UserSettingsService.GeneralSettingsService.EnableSmoothScrolling = value;
+
+					OnPropertyChanged();
+				}
+			}
+		}
+
 		public void Dispose()
 		{
 			if (!disposed)
