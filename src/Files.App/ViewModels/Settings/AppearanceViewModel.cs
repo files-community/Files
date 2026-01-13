@@ -351,20 +351,6 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		public bool EnableSmoothScrolling
-		{
-			get => UserSettingsService.AppearanceSettingsService.EnableSmoothScrolling;
-			set
-			{
-				if (value != UserSettingsService.AppearanceSettingsService.EnableSmoothScrolling)
-				{
-					UserSettingsService.AppearanceSettingsService.EnableSmoothScrolling = value;
-
-					OnPropertyChanged();
-				}
-			}
-		}
-
 		public bool IsAppEnvironmentDev
 		{
 			get => AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev;

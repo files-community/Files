@@ -321,13 +321,27 @@
 				</wctcontrols:SettingsExpander.Items>
 			</wctcontrols:SettingsExpander>
 
-
 			<!--  Overflow Options  -->
 			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SettingsContextMenuOverflow}">
 				<wctcontrols:SettingsCard.HeaderIcon>
 					<FontIcon Glyph="&#xE712;" />
 				</wctcontrols:SettingsCard.HeaderIcon>
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsContextMenuOverflow}" IsOn="{x:Bind ViewModel.MoveShellExtensionsToSubMenu, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
+			<!--  Scrolling  -->
+			<TextBlock
+				Padding="0,16,0,4"
+				FontSize="16"
+				FontWeight="Medium"
+				Text="{helpers:ResourceString Name=Scrolling}" />
+
+			<!--  Enable Smooth Scrolling  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=EnableSmoothScrolling}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xEC8F;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=EnableSmoothScrolling}" IsOn="{x:Bind ViewModel.EnableSmoothScrolling, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 		</StackPanel>
 

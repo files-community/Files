@@ -14,16 +14,16 @@ namespace Files.App.Services
 
 		public ResourcesService()
 		{
-			SetScrollInertiaEnabled(UserSettingsService.AppearanceSettingsService.EnableSmoothScrolling);
+			SetScrollInertiaEnabled(UserSettingsService.GeneralSettingsService.EnableSmoothScrolling);
 
-			UserSettingsService.AppearanceSettingsService.PropertyChanged += AppearanceSettingsService_PropertyChanged;
+			UserSettingsService.GeneralSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
 		}
 
-		private void AppearanceSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		private void GeneralSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
-			if (e.PropertyName == nameof(IAppearanceSettingsService.EnableSmoothScrolling))
+			if (e.PropertyName == nameof(IGeneralSettingsService.EnableSmoothScrolling))
 			{
-				SetScrollInertiaEnabled(UserSettingsService.AppearanceSettingsService.EnableSmoothScrolling);
+				SetScrollInertiaEnabled(UserSettingsService.GeneralSettingsService.EnableSmoothScrolling);
 				ApplyResources();
 			}
 		}

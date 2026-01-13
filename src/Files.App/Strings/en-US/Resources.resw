@@ -4353,4 +4353,7 @@
   <data name="EnableSmoothScrolling" xml:space="preserve">
     <value>Enable smooth scrolling</value>
   </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Scrolling</value>
+  </data>
 </root>
