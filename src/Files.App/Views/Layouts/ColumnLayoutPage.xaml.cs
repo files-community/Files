@@ -177,6 +177,7 @@ namespace Files.App.Views.Layouts
 			currentIconSize = LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.ColumnView);
 
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
+			this.ActualThemeChanged += ColumnLayoutPage_ActualThemeChanged;
 
 			SetItemContainerStyle();
 		}
@@ -197,6 +198,7 @@ namespace Files.App.Views.Layouts
 		{
 			base.OnNavigatingFrom(e);
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+			this.ActualThemeChanged -= ColumnLayoutPage_ActualThemeChanged;
 			ParentShellPageInstance.ShellViewModel.ItemLoadStatusChanged -= OnItemLoadStatusChanged;
 		}
 
@@ -223,6 +225,15 @@ namespace Files.App.Views.Layouts
 					currentIconSize = newIconSize;
 					_ = ReloadItemIconsAsync();
 				}
+			}
+		}
+
+		private void ColumnLayoutPage_ActualThemeChanged(FrameworkElement sender, object args)
+		{
+			// Reapply the folder background when theme changes
+			if (openedFolderPresenter is not null)
+			{
+				SetFolderBackground(openedFolderPresenter, this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush);
 			}
 		}
 
