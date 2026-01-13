@@ -10,6 +10,23 @@ namespace Files.App.Services
 	public sealed class ResourcesService : IResourcesService
 	{
 		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
+		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		public ResourcesService()
+		{
+			SetScrollInertiaEnabled(UserSettingsService.AppearanceSettingsService.EnableSmoothScrolling);
+
+			UserSettingsService.AppearanceSettingsService.PropertyChanged += AppearanceSettingsService_PropertyChanged;
+		}
+
+		private void AppearanceSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName == nameof(IAppearanceSettingsService.EnableSmoothScrolling))
+			{
+				SetScrollInertiaEnabled(UserSettingsService.AppearanceSettingsService.EnableSmoothScrolling);
+				ApplyResources();
+			}
+		}
 
 		/// <inheritdoc/>
 		public void SetAppThemeBackgroundColor(Color appThemeBackgroundColor)
@@ -60,6 +77,12 @@ namespace Files.App.Services
 		public void SetAppThemeFontFamily(string contentControlThemeFontFamily)
 		{
 			Application.Current.Resources["ContentControlThemeFontFamily"] = contentControlThemeFontFamily;
+		}
+
+		/// <inheritdoc/>
+		public void SetScrollInertiaEnabled(bool enableScrollInertia)
+		{
+			Application.Current.Resources["App.ScrollInertiaEnabled"] = enableScrollInertia;
 		}
 
 		/// <inheritdoc/>
