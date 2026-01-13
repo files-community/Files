@@ -800,10 +800,10 @@ namespace Files.App.Utils.Storage
 
 		public static bool SetLinkIcon(string filePath, string iconFile, int iconIndex)
 		{
+			var ext = Path.GetExtension(filePath).ToLowerInvariant();
+
 			try
 			{
-				var ext = Path.GetExtension(filePath).ToLowerInvariant();
-
 				return ext switch
 				{
 					".lnk" => TrySetLnkShortcutIcon(filePath, iconFile, iconIndex),
@@ -813,7 +813,6 @@ namespace Files.App.Utils.Storage
 			}
 			catch (UnauthorizedAccessException)
 			{
-				var ext = Path.GetExtension(filePath).ToLowerInvariant();
 				string psScript;
 
 				if(ext == ".url")
