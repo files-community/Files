@@ -1,9 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
-using Files.App.Data.Contracts;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
@@ -39,8 +37,6 @@ namespace Files.App.Views.Layouts
 		public event EventHandler? ItemTapped;
 
 		// Properties
-
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		protected override ListViewBase ListViewBase => FileList;
 		protected override SemanticZoom RootZoom => RootGridZoom;
@@ -97,10 +93,6 @@ namespace Files.App.Views.Layouts
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
 		{
 			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
-
-			if (ContentScroller is not null)
-				ContentScroller.IsScrollInertiaEnabled = UserSettingsService.AppearanceSettingsService.EnableSmoothScrolling;
-
 			ParentShellPageInstance.ShellViewModel.ItemLoadStatusChanged += OnItemLoadStatusChanged;
 		}
 
@@ -185,7 +177,6 @@ namespace Files.App.Views.Layouts
 			currentIconSize = LayoutSizeKindHelper.GetIconSize(FolderLayoutModes.ColumnView);
 
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
-			UserSettingsService.AppearanceSettingsService.PropertyChanged += AppearanceSettingsService_PropertyChanged;
 
 			SetItemContainerStyle();
 		}
@@ -206,7 +197,6 @@ namespace Files.App.Views.Layouts
 		{
 			base.OnNavigatingFrom(e);
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
-			UserSettingsService.AppearanceSettingsService.PropertyChanged -= AppearanceSettingsService_PropertyChanged;
 			ParentShellPageInstance.ShellViewModel.ItemLoadStatusChanged -= OnItemLoadStatusChanged;
 		}
 
@@ -233,15 +223,6 @@ namespace Files.App.Views.Layouts
 					currentIconSize = newIconSize;
 					_ = ReloadItemIconsAsync();
 				}
-			}
-		}
-
-		private void AppearanceSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == nameof(IAppearanceSettingsService.EnableSmoothScrolling))
-			{
-				if (ContentScroller is not null)
-					ContentScroller.IsScrollInertiaEnabled = UserSettingsService.AppearanceSettingsService.EnableSmoothScrolling;
 			}
 		}
 

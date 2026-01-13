@@ -28,10 +28,7 @@
 		</Style>
 	</local:BaseLayoutPage.Resources>
 
-	<controls:BladeView
-		x:Name="ColumnHost"
-		ContextFlyout="{x:Bind BaseContextMenuFlyout}"
-		EnableSmoothScrolling="{x:Bind UserSettingsService.AppearanceSettingsService.EnableSmoothScrolling, Mode=OneWay}">
+	<controls:BladeView x:Name="ColumnHost" ContextFlyout="{x:Bind BaseContextMenuFlyout}">
 		<controls:BladeView.ItemContainerTransitions>
 			<TransitionCollection />
 		</controls:BladeView.ItemContainerTransitions>

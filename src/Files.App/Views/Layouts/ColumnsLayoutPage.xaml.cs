@@ -1,10 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.Controls;
-using Files.App.Data.Contracts;
 using Files.App.ViewModels.Layouts;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -20,8 +18,6 @@ namespace Files.App.Views.Layouts
 	public sealed partial class ColumnsLayoutPage : BaseLayoutPage
 	{
 		// Properties
-
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		protected override ItemsControl ItemsControl => ColumnHost;
 

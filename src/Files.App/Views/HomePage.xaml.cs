@@ -11,7 +11,6 @@ namespace Files.App.Views
 		// Dependency injections
 
 		public HomeViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<HomeViewModel>();
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		// Properties
 

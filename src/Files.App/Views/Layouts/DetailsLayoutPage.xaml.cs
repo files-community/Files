@@ -1,10 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
 using Files.App.Controls;
-using Files.App.Data.Contracts;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -47,8 +45,6 @@ namespace Files.App.Views.Layouts
 		public ColumnsViewModel ColumnsViewModel { get; } = new();
 
 		private RelayCommand<string>? UpdateSortOptionsCommand { get; set; }
-
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public ScrollViewer? ContentScroller { get; private set; }
 

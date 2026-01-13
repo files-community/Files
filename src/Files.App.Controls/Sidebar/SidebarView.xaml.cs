@@ -26,19 +26,6 @@ namespace Files.App.Controls
 		private bool draggingSidebarResizer;
 		private double preManipulationSidebarWidth = 0;
 
-		public static readonly DependencyProperty EnableSmoothScrollingProperty =
-			DependencyProperty.Register(
-				nameof(EnableSmoothScrolling),
-				typeof(bool),
-				typeof(SidebarView),
-				new PropertyMetadata(true));
-
-		public bool EnableSmoothScrolling
-		{
-			get => (bool)GetValue(EnableSmoothScrollingProperty);
-			set => SetValue(EnableSmoothScrollingProperty, value);
-		}
-
 		public SidebarView()
 		{
 			InitializeComponent();

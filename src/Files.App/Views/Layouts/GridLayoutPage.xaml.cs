@@ -1,9 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.WinUI;
-using Files.App.Data.Contracts;
 using Files.App.UserControls.Selection;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -34,8 +32,6 @@ namespace Files.App.Views.Layouts
 		private volatile bool shouldSetVerticalScrollMode;
 
 		// Properties
-
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		public ScrollViewer? ContentScroller { get; private set; }
 
@@ -207,7 +203,6 @@ namespace Files.App.Views.Layouts
 			FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 			FolderSettings.LayoutModeChangeRequested += FolderSettings_LayoutModeChangeRequested;
 			UserSettingsService.LayoutSettingsService.PropertyChanged += LayoutSettingsService_PropertyChanged;
-			UserSettingsService.AppearanceSettingsService.PropertyChanged += AppearanceSettingsService_PropertyChanged;
 
 			// Set ItemTemplate
 			SetItemTemplate();
@@ -227,7 +222,6 @@ namespace Files.App.Views.Layouts
 				FolderSettings.LayoutModeChangeRequested -= FolderSettings_LayoutModeChangeRequested;
 
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
-			UserSettingsService.AppearanceSettingsService.PropertyChanged -= AppearanceSettingsService_PropertyChanged;
 		}
 
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -260,15 +254,6 @@ namespace Files.App.Views.Layouts
 
 			// Restore correct scroll position
 			ContentScroller?.ChangeView(previousHorizontalOffset, previousVerticalOffset, null);
-		}
-
-		private void AppearanceSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == nameof(IAppearanceSettingsService.EnableSmoothScrolling))
-			{
-				if (ContentScroller is not null)
-					ContentScroller.IsScrollInertiaEnabled = UserSettingsService.AppearanceSettingsService.EnableSmoothScrolling;
-			}
 		}
 
 		private void FolderSettings_LayoutModeChangeRequested(object? sender, LayoutModeEventArgs e)
@@ -351,9 +336,6 @@ namespace Files.App.Views.Layouts
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
 		{
 			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
-
-			if (ContentScroller is not null)
-				ContentScroller.IsScrollInertiaEnabled = UserSettingsService.AppearanceSettingsService.EnableSmoothScrolling;
 		}
 
 		protected override void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)

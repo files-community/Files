@@ -421,7 +421,7 @@
 	</UserControl.Resources>
 
 	<!--  Widget List  -->
-	<ScrollViewer IsScrollInertiaEnabled="{x:Bind UserSettingsService.AppearanceSettingsService.EnableSmoothScrolling, Mode=OneWay}">
+	<ScrollViewer>
 		<ListView ItemsSource="{x:Bind ViewModel.WidgetItems, Mode=OneWay}" SelectionMode="None">
 
 			<ListView.ItemTemplate>

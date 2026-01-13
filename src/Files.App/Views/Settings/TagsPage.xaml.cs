@@ -13,7 +13,6 @@ namespace Files.App.Views.Settings
 	public sealed partial class TagsPage : Page
 	{
 		private readonly IWindowContext WindowContext = Ioc.Default.GetRequiredService<IWindowContext>();
-		public IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
 		private string oldTagName = string.Empty;
 

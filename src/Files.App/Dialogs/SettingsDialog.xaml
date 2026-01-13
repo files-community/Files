@@ -163,7 +163,7 @@
 			</NavigationView.MenuItems>
 
 			<!--  Content Frame  -->
-			<ScrollViewer x:Name="SettingsContentScrollViewer" IsScrollInertiaEnabled="{x:Bind UserSettingsService.AppearanceSettingsService.EnableSmoothScrolling, Mode=OneWay}">
+			<ScrollViewer x:Name="SettingsContentScrollViewer">
 				<Frame x:Name="SettingsContentFrame" Padding="4,0,24,24" />
 			</ScrollViewer>
 

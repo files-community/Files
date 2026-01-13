@@ -167,7 +167,6 @@
 							IsItemClickEnabled="True"
 							ItemsSource="{x:Bind ViewModel.Tags, Mode=TwoWay}"
 							ReorderMode="Enabled"
-							ScrollViewer.IsScrollInertiaEnabled="{x:Bind UserSettingsService.AppearanceSettingsService.EnableSmoothScrolling, Mode=OneWay}"
 							SelectionMode="None">
 							<ListView.ItemTemplate>
 								<DataTemplate x:DataType="datamodels:ListedTagViewModel">

@@ -74,7 +74,6 @@
 					ContextRequested="MenuItemHostScrollViewer_ContextRequested"
 					HorizontalScrollMode="Disabled"
 					VerticalScrollBarVisibility="Auto"
-					IsScrollInertiaEnabled="{x:Bind EnableSmoothScrolling, Mode=OneWay}"
 					XYFocusKeyboardNavigation="Enabled">
 					<ItemsRepeater
 						x:Name="MenuItemsHost"
