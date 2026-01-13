@@ -226,11 +226,16 @@ namespace Files.App.Services.Thumbnails
 		{
 			try
 			{
-				var cacheDir = new DirectoryInfo(_cacheDirectory);
-				if (!cacheDir.Exists)
-					return 0;
+				var cacheFiles = Directory.GetFiles(_cacheDirectory, $"*{CacheFileExtension}");
 
-				return cacheDir.GetFiles($"*{CacheFileExtension}").Sum(f => f.Length);
+				long totalSizeOnDisk = 0;
+				foreach (var file in cacheFiles)
+				{
+					var fileSizeOnDisk = Win32Helper.GetFileSizeOnDisk(file);
+					totalSizeOnDisk += fileSizeOnDisk ?? 0;
+				}
+
+				return totalSizeOnDisk;
 			}
 			catch
 			{
@@ -263,7 +268,13 @@ namespace Files.App.Services.Thumbnails
 				.OrderBy(f => f.LastAccessTime)
 				.ToList();
 
-			long currentSize = files.Sum(f => f.Length);
+			long currentSize = 0;
+			foreach (var file in files)
+			{
+				var fileSizeOnDisk = Win32Helper.GetFileSizeOnDisk(file.FullName);
+				currentSize += fileSizeOnDisk ?? 0;
+			}
+
 			int removedCount = 0;
 
 			foreach (var file in files)
@@ -274,7 +285,8 @@ namespace Files.App.Services.Thumbnails
 				try
 				{
 					var cacheKey = Path.GetFileNameWithoutExtension(file.Name);
-					currentSize -= file.Length;
+					var fileSizeOnDisk = Win32Helper.GetFileSizeOnDisk(file.FullName);
+					currentSize -= fileSizeOnDisk ?? 0;
 					file.Delete();
 					_memoryIndex.TryRemove(cacheKey, out _);
 					removedCount++;

@@ -44,6 +44,7 @@ namespace Files.App.ViewModels.Settings
 			ClearThumbnailCacheCommand = new AsyncRelayCommand(ClearThumbnailCacheAsync);
 
 			_ = DetectOpenFilesAtStartupAsync();
+			_ = UpdateCacheSizeAsync();
 		}
 
 		private async Task SetAsDefaultExplorerAsync()
@@ -384,27 +385,43 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-		private bool showCacheClearedNotification;
-		public bool ShowCacheClearedNotification
+		private string cacheSizeText = string.Empty;
+		public string CacheSizeText
 		{
-			get => showCacheClearedNotification;
-			set => SetProperty(ref showCacheClearedNotification, value);
+			get => cacheSizeText;
+			set => SetProperty(ref cacheSizeText, value);
 		}
 
-		private string cacheClearedMessage = string.Empty;
-		public string CacheClearedMessage
+		private bool isClearCacheButtonEnabled;
+		public bool IsClearCacheButtonEnabled
 		{
-			get => cacheClearedMessage;
-			set => SetProperty(ref cacheClearedMessage, value);
+			get => isClearCacheButtonEnabled;
+			set => SetProperty(ref isClearCacheButtonEnabled, value);
 		}
 
 		private async Task ClearThumbnailCacheAsync()
 		{
 			var thumbnailCache = Ioc.Default.GetRequiredService<IThumbnailCache>();
 			await thumbnailCache.ClearAsync();
+			await UpdateCacheSizeAsync();
+		}
 
-			CacheClearedMessage = "Cache cleared";
-			ShowCacheClearedNotification = true;
+		private async Task UpdateCacheSizeAsync()
+		{
+			try
+			{
+				var thumbnailCache = Ioc.Default.GetRequiredService<IThumbnailCache>();
+				var sizeInBytes = await thumbnailCache.GetSizeAsync();
+
+				CacheSizeText = sizeInBytes.ToSizeString();
+				IsClearCacheButtonEnabled = sizeInBytes > 0;
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.LogWarning(ex, "Failed to get cache size");
+				CacheSizeText = "Unknown";
+				IsClearCacheButtonEnabled = false;
+			}
 		}
 
 		public async Task OpenFilesOnWindowsStartupAsync()

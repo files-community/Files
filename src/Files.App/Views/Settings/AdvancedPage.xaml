@@ -159,7 +159,16 @@
 					<wctcontrols:SettingsCard
 						Header="Remove all cached thumbnails to free up disk space"
 						IsEnabled="{x:Bind ViewModel.EnableThumbnailCache, Mode=OneWay}">
-						<Button Command="{x:Bind ViewModel.ClearThumbnailCacheCommand}" Content="Clear Cache" />
+						<wctcontrols:SettingsCard.Description>
+							<TextBlock>
+								<Run Text="Current cache size: " />
+								<Run FontWeight="SemiBold" Text="{x:Bind ViewModel.CacheSizeText, Mode=OneWay}" />
+							</TextBlock>
+						</wctcontrols:SettingsCard.Description>
+						<Button
+							Command="{x:Bind ViewModel.ClearThumbnailCacheCommand}"
+							Content="Clear Cache"
+							IsEnabled="{x:Bind ViewModel.IsClearCacheButtonEnabled, Mode=OneWay}" />
 					</wctcontrols:SettingsCard>
 				</wctcontrols:SettingsExpander.Items>
 			</wctcontrols:SettingsExpander>
@@ -214,10 +223,5 @@
 			</wctcontrols:SettingsCard>
 		</StackPanel>
 
-		<!--  Cache Cleared Notification  -->
-		<TeachingTip
-			IsLightDismissEnabled="True"
-			IsOpen="{x:Bind ViewModel.ShowCacheClearedNotification, Mode=TwoWay}"
-			Subtitle="{x:Bind ViewModel.CacheClearedMessage, Mode=OneWay}" />
 	</Grid>
 </Page>
