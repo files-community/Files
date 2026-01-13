@@ -120,55 +120,6 @@
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowSystemTrayIcon}" IsOn="{x:Bind ViewModel.ShowSystemTrayIcon, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 
-			<!--  Thumbnail Cache  -->
-			<TextBlock
-				Padding="0,16,0,4"
-				FontSize="16"
-				FontWeight="Medium"
-				Text="{helpers:ResourceString Name=ThumbnailCache}" />
-
-			<!--  Enable Thumbnail Cache  -->
-			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=EnableThumbnailCache}" IsExpanded="False">
-				<wctcontrols:SettingsExpander.Description>
-					<TextBlock Text="{helpers:ResourceString Name=EnableThumbnailCacheDescription}" TextWrapping="WrapWholeWords" />
-				</wctcontrols:SettingsExpander.Description>
-				<wctcontrols:SettingsExpander.HeaderIcon>
-					<FontIcon Glyph="&#xE74C;" />
-				</wctcontrols:SettingsExpander.HeaderIcon>
-				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=EnableThumbnailCache}" IsOn="{x:Bind ViewModel.EnableThumbnailCache, Mode=TwoWay}" />
-				<wctcontrols:SettingsExpander.Items>
-
-					<!--  Cache Size Limit  -->
-					<wctcontrols:SettingsCard
-						Header="{helpers:ResourceString Name=CacheSizeLimitMB}"
-						IsEnabled="{x:Bind ViewModel.EnableThumbnailCache, Mode=OneWay}">
-						<wctcontrols:SettingsCard.Description>
-							<TextBlock Text="{helpers:ResourceString Name=CacheSizeLimitDescription}" TextWrapping="WrapWholeWords" />
-						</wctcontrols:SettingsCard.Description>
-						<NumberBox
-							AutomationProperties.Name="{helpers:ResourceString Name=CacheSizeLimit}"
-							Maximum="5000"
-							Minimum="100"
-							SpinButtonPlacementMode="Compact"
-							Value="{x:Bind ViewModel.ThumbnailCacheSizeLimit, Mode=TwoWay}" />
-					</wctcontrols:SettingsCard>
-					<wctcontrols:SettingsCard
-						Header="{helpers:ResourceString Name=ClearCachedThumbnails}"
-						IsEnabled="{x:Bind ViewModel.EnableThumbnailCache, Mode=OneWay}">
-						<wctcontrols:SettingsCard.Description>
-							<TextBlock>
-								<Run Text="{helpers:ResourceString Name=CurrentCacheSize}" />
-								<Run FontWeight="SemiBold" Text="{x:Bind ViewModel.CacheSizeText, Mode=OneWay}" />
-							</TextBlock>
-						</wctcontrols:SettingsCard.Description>
-						<Button
-							Command="{x:Bind ViewModel.ClearThumbnailCacheCommand}"
-							Content="{helpers:ResourceString Name=ClearCache}"
-							IsEnabled="{x:Bind ViewModel.IsClearCacheButtonEnabled, Mode=OneWay}" />
-					</wctcontrols:SettingsCard>
-				</wctcontrols:SettingsExpander.Items>
-			</wctcontrols:SettingsExpander>
-
 			<!--  Experimental Settings  -->
 			<TextBlock
 				Padding="0,16,0,4"
@@ -209,6 +160,41 @@
 					</i:Interaction.Behaviors>
 				</ToggleSwitch>
 			</wctcontrols:SettingsCard>
+
+			<!--  Thumbnail Caching  -->
+			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=CacheThumbnails}" IsExpanded="False">
+				<wctcontrols:SettingsExpander.HeaderIcon>
+					<FontIcon Glyph="&#xEDA2;" />
+				</wctcontrols:SettingsExpander.HeaderIcon>
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=CacheThumbnails}" IsOn="{x:Bind ViewModel.EnableThumbnailCache, Mode=TwoWay}" />
+				<wctcontrols:SettingsExpander.Items>
+
+					<!--  Cache Size Limit  -->
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CacheSizeLimitMB}" IsEnabled="{x:Bind ViewModel.EnableThumbnailCache, Mode=OneWay}">
+						<wctcontrols:SettingsCard.Description>
+							<TextBlock Text="{helpers:ResourceString Name=CacheSizeLimitDescription}" TextWrapping="WrapWholeWords" />
+						</wctcontrols:SettingsCard.Description>
+						<NumberBox
+							AutomationProperties.Name="{helpers:ResourceString Name=CacheSizeLimit}"
+							Maximum="5000"
+							Minimum="100"
+							SpinButtonPlacementMode="Inline"
+							Value="{x:Bind ViewModel.ThumbnailCacheSizeLimit, Mode=TwoWay}" />
+					</wctcontrols:SettingsCard>
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ClearCachedThumbnails}" IsEnabled="{x:Bind ViewModel.EnableThumbnailCache, Mode=OneWay}">
+						<wctcontrols:SettingsCard.Description>
+							<TextBlock>
+								<Run Text="{helpers:ResourceString Name=CurrentCacheSize}" />
+								<Run FontWeight="SemiBold" Text="{x:Bind ViewModel.CacheSizeText, Mode=OneWay}" />
+							</TextBlock>
+						</wctcontrols:SettingsCard.Description>
+						<Button
+							Command="{x:Bind ViewModel.ClearThumbnailCacheCommand}"
+							Content="{helpers:ResourceString Name=ClearCache}"
+							IsEnabled="{x:Bind ViewModel.IsClearCacheButtonEnabled, Mode=OneWay}" />
+					</wctcontrols:SettingsCard>
+				</wctcontrols:SettingsExpander.Items>
+			</wctcontrols:SettingsExpander>
 
 			<!--  Flatten options  -->
 			<wctcontrols:SettingsCard Description="{helpers:ResourceString Name=ShowFlattenOptionsDescription}" Header="{helpers:ResourceString Name=ShowFlattenOptions}">

@@ -228,17 +228,11 @@
   <data name="Advanced" xml:space="preserve">
     <value>Advanced</value>
   </data>
-  <data name="ThumbnailCache" xml:space="preserve">
-    <value>Thumbnail Cache</value>
-  </data>
-  <data name="EnableThumbnailCache" xml:space="preserve">
-    <value>Enable Thumbnail Cache</value>
-  </data>
-  <data name="EnableThumbnailCacheDescription" xml:space="preserve">
-    <value>Cache thumbnails to disk for faster loading.</value>
+  <data name="CacheThumbnails" xml:space="preserve">
+    <value>Cache thumbnails</value>
   </data>
   <data name="CacheSizeLimitMB" xml:space="preserve">
-    <value>Cache Size Limit (MB)</value>
+    <value>Cache size limit (MB)</value>
   </data>
   <data name="CacheSizeLimitDescription" xml:space="preserve">
     <value>Maximum disk space to use for thumbnail cache (100-5000 MB).</value>
@@ -247,13 +241,13 @@
     <value>Cache Size Limit</value>
   </data>
   <data name="ClearCachedThumbnails" xml:space="preserve">
-    <value>Remove all cached thumbnails to free up disk space</value>
+    <value>Clear cached thumbnails to free up disk space</value>
   </data>
   <data name="CurrentCacheSize" xml:space="preserve">
     <value>Current cache size: </value>
   </data>
   <data name="ClearCache" xml:space="preserve">
-    <value>Clear Cache</value>
+    <value>Clear cache</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Continue where you left off</value>
