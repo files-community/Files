@@ -125,49 +125,45 @@
 				Padding="0,16,0,4"
 				FontSize="16"
 				FontWeight="Medium"
-				Text="Thumbnail Cache" />
+				Text="{helpers:ResourceString Name=ThumbnailCache}" />
 
 			<!--  Enable Thumbnail Cache  -->
-			<wctcontrols:SettingsExpander Header="Enable Thumbnail Cache" IsExpanded="False">
+			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=EnableThumbnailCache}" IsExpanded="False">
 				<wctcontrols:SettingsExpander.Description>
-					<TextBlock TextWrapping="WrapWholeWords">
-						Cache thumbnails to disk for faster loading.
-					</TextBlock>
+					<TextBlock Text="{helpers:ResourceString Name=EnableThumbnailCacheDescription}" TextWrapping="WrapWholeWords" />
 				</wctcontrols:SettingsExpander.Description>
 				<wctcontrols:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE74C;" />
 				</wctcontrols:SettingsExpander.HeaderIcon>
-				<ToggleSwitch AutomationProperties.Name="Enable Thumbnail Cache" IsOn="{x:Bind ViewModel.EnableThumbnailCache, Mode=TwoWay}" />
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=EnableThumbnailCache}" IsOn="{x:Bind ViewModel.EnableThumbnailCache, Mode=TwoWay}" />
 				<wctcontrols:SettingsExpander.Items>
 
 					<!--  Cache Size Limit  -->
 					<wctcontrols:SettingsCard
-						Header="Cache Size Limit (MB)"
+						Header="{helpers:ResourceString Name=CacheSizeLimitMB}"
 						IsEnabled="{x:Bind ViewModel.EnableThumbnailCache, Mode=OneWay}">
 						<wctcontrols:SettingsCard.Description>
-							<TextBlock TextWrapping="WrapWholeWords">
-								Maximum disk space to use for thumbnail cache (100-5000 MB).
-							</TextBlock>
+							<TextBlock Text="{helpers:ResourceString Name=CacheSizeLimitDescription}" TextWrapping="WrapWholeWords" />
 						</wctcontrols:SettingsCard.Description>
 						<NumberBox
-							AutomationProperties.Name="Cache Size Limit"
+							AutomationProperties.Name="{helpers:ResourceString Name=CacheSizeLimit}"
 							Maximum="5000"
 							Minimum="100"
 							SpinButtonPlacementMode="Compact"
 							Value="{x:Bind ViewModel.ThumbnailCacheSizeLimit, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 					<wctcontrols:SettingsCard
-						Header="Remove all cached thumbnails to free up disk space"
+						Header="{helpers:ResourceString Name=ClearCachedThumbnails}"
 						IsEnabled="{x:Bind ViewModel.EnableThumbnailCache, Mode=OneWay}">
 						<wctcontrols:SettingsCard.Description>
 							<TextBlock>
-								<Run Text="Current cache size: " />
+								<Run Text="{helpers:ResourceString Name=CurrentCacheSize}" />
 								<Run FontWeight="SemiBold" Text="{x:Bind ViewModel.CacheSizeText, Mode=OneWay}" />
 							</TextBlock>
 						</wctcontrols:SettingsCard.Description>
 						<Button
 							Command="{x:Bind ViewModel.ClearThumbnailCacheCommand}"
-							Content="Clear Cache"
+							Content="{helpers:ResourceString Name=ClearCache}"
 							IsEnabled="{x:Bind ViewModel.IsClearCacheButtonEnabled, Mode=OneWay}" />
 					</wctcontrols:SettingsCard>
 				</wctcontrols:SettingsExpander.Items>
