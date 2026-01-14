@@ -8,14 +8,6 @@ namespace Files.App.Controls
 {
 	public sealed partial class SidebarItem : Control
 	{
-		public SidebarView? Owner
-		{
-			get { return (SidebarView?)GetValue(OwnerProperty); }
-			set { SetValue(OwnerProperty, value); }
-		}
-		public static readonly DependencyProperty OwnerProperty =
-			DependencyProperty.Register(nameof(Owner), typeof(SidebarView), typeof(SidebarItem), new PropertyMetadata(null));
-
 		public bool IsSelected
 		{
 			get { return (bool)GetValue(IsSelectedProperty); }
@@ -31,14 +23,6 @@ namespace Files.App.Controls
 		}
 		public static readonly DependencyProperty IsExpandedProperty =
 			DependencyProperty.Register(nameof(IsExpanded), typeof(bool), typeof(SidebarItem), new PropertyMetadata(true, OnPropertyChanged));
-
-		public bool IsInFlyout
-		{
-			get { return (bool)GetValue(IsInFlyoutProperty); }
-			set { SetValue(IsInFlyoutProperty, value); }
-		}
-		public static readonly DependencyProperty IsInFlyoutProperty =
-			DependencyProperty.Register(nameof(IsInFlyout), typeof(bool), typeof(SidebarItem), new PropertyMetadata(false));
 
 		public double ChildrenPresenterHeight
 		{
@@ -96,12 +80,42 @@ namespace Files.App.Controls
 		[GeneratedDependencyProperty, Obsolete]
 		public partial object? Item { get; set; }
 
+		[GeneratedDependencyProperty]
+		public partial SidebarView? Owner { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial bool IsInFlyout { get; set; }
+
 		partial void OnChildrenPropertyChanged(DependencyPropertyChangedEventArgs e)
 		{
 			if (e.OldValue is INotifyCollectionChanged oldNCC)
 				oldNCC.CollectionChanged -= ChildItems_CollectionChanged;
 			if (e.NewValue is INotifyCollectionChanged newNCC)
 				newNCC.CollectionChanged += ChildItems_CollectionChanged;
+		}
+
+		partial void OnOwnerPropertyChanged(DependencyPropertyChangedEventArgs e)
+		{
+			if (Owner is null)
+				return;
+
+			DisplayMode = Owner.DisplayMode;
+
+			Owner.RegisterPropertyChangedCallback(SidebarView.DisplayModeProperty, (sender, args) =>
+			{
+				DisplayMode = Owner.DisplayMode;
+			});
+			Owner.RegisterPropertyChangedCallback(SidebarView.SelectedItemProperty, (sender, args) =>
+			{
+				ReevaluateSelection();
+			});
+
+			ReevaluateSelection();
+		}
+
+		partial void OnIsInFlyoutPropertyChanged(DependencyPropertyChangedEventArgs e)
+		{
+			VisualStateManager.GoToState(this, DisplayMode is SidebarDisplayMode.Compact && !IsInFlyout ? "Compact" : "NonCompact", true);
 		}
 
 		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)

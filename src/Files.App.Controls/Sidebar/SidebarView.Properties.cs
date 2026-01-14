@@ -67,8 +67,13 @@ namespace Files.App.Controls
 		public static readonly DependencyProperty NegativeOpenPaneLengthProperty =
 			DependencyProperty.Register(nameof(NegativeOpenPaneLength), typeof(double), typeof(SidebarView), new PropertyMetadata(null));
 
-		[GeneratedDependencyProperty]
-		public partial object? SelectedItem { get; set; }
+		public object SelectedItem
+		{
+			get => GetValue(SelectedItemProperty);
+			set => SetValue(SelectedItemProperty, value);
+		}
+		public static readonly DependencyProperty SelectedItemProperty =
+			DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(SidebarView), new PropertyMetadata(null));
 
 		public object MenuItemsSource
 		{

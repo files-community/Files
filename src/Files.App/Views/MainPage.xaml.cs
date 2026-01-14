@@ -499,10 +499,10 @@ namespace Files.App.Views
 
 		private void SidebarControl_ItemInvoked(object sender, ItemInvokedEventArgs e)
 		{
-			if (sender is not SidebarItem)
+			if (sender is not SidebarItem sidebarItem)
 				return;
 
-			SidebarAdaptiveViewModel.HandleItemInvokedAsync(sender, e.PointerUpdateKind);
+			SidebarAdaptiveViewModel.HandleItemInvokedAsync(sidebarItem.Item, e.PointerUpdateKind);
 		}
 	}
 }

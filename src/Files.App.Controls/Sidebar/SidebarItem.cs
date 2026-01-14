@@ -5,6 +5,7 @@ using CommunityToolkit.WinUI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
+using Microsoft.UI.Xaml.Media;
 using System.Collections.Specialized;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -54,7 +55,8 @@ namespace Files.App.Controls
 
 		private void SidebarItem_Loaded(object sender, RoutedEventArgs e)
 		{
-			HookupOwners();
+			if (!IsInFlyout)
+				Owner = this.FindAscendant<SidebarView>()!;
 
 			if (GetTemplateChild("ElementBorder") is Border border)
 			{
@@ -80,6 +82,11 @@ namespace Files.App.Controls
 				flyoutRepeater.ElementPrepared += ChildrenPresenter_ElementPrepared;
 			}
 
+			if (GetTemplateChild("ChildrenFlyout") is Flyout flyout)
+			{
+				flyout.Opened += ChildrenFlyout_Opened;
+			}
+
 			HandleItemChange();
 		}
 
@@ -89,21 +96,25 @@ namespace Files.App.Controls
 			ReevaluateSelection();
 		}
 
-		private void HookupOwners()
+		private void ChildrenFlyout_Opened(object? sender, object e)
 		{
-			Owner = this.FindAscendant<SidebarView>()!;
+			if (sender is not Flyout)
+				return;
 
-			Owner.RegisterPropertyChangedCallback(SidebarView.DisplayModeProperty, (sender, args) =>
-			{
-				DisplayMode = Owner.DisplayMode;
-			});
-			DisplayMode = Owner.DisplayMode;
+			var popup = VisualTreeHelper.GetOpenPopupsForXamlRoot(XamlRoot).ToList().FirstOrDefault();
+			var itemsRepeater = popup?.Child.FindDescendant<ItemsRepeater>();
+			if (itemsRepeater is null)
+				return;
 
-			Owner.RegisterPropertyChangedCallback(SidebarView.SelectedItemProperty, (sender, args) =>
+			var count = itemsRepeater.ItemsSourceView.Count;
+			for (int i = 0; i < count; i++)
 			{
-				ReevaluateSelection();
-			});
-			ReevaluateSelection();
+				if (itemsRepeater.GetOrCreateElement(i).FindDescendantOrSelf<SidebarItem>() is not { } sidebarItem)
+					continue;
+
+				sidebarItem.Owner = Owner;
+				sidebarItem.IsInFlyout = true;
+			}
 		}
 
 		private void SidebarItem_DragStarting(UIElement sender, DragStartingEventArgs args)

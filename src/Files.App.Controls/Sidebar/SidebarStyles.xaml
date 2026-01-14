@@ -285,7 +285,7 @@
 												<SplineDoubleKeyFrame
 													KeySpline="0.1,0.9 0.2,1.0"
 													KeyTime="0:0:0.35"
-													Value="{TemplateBinding ChildrenPresenterHeight}" />
+													Value="{Binding ChildrenPresenterHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 											</DoubleAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootPanel" Storyboard.TargetProperty="Margin">
 												<DiscreteObjectKeyFrame Value="0,0,0,12" />
@@ -302,7 +302,7 @@
 												EnableDependentAnimation="True"
 												Storyboard.TargetName="ChildrenPresenter"
 												Storyboard.TargetProperty="MaxHeight">
-												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{TemplateBinding ChildrenPresenterHeight}" />
+												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ChildrenPresenterHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 												<SplineDoubleKeyFrame
 													KeySpline="0.1,0.9 0.2,1.0"
 													KeyTime="0:0:0.35"
@@ -324,7 +324,7 @@
 												<SplineDoubleKeyFrame
 													KeySpline="0.1,0.9 0.2,1.0"
 													KeyTime="0:0:0.35"
-													Value="{TemplateBinding ChildrenPresenterHeight}" />
+													Value="{Binding ChildrenPresenterHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 											</DoubleAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="IconPresenter" Storyboard.TargetProperty="Visibility">
 												<DiscreteObjectKeyFrame Value="Collapsed" />
@@ -357,7 +357,7 @@
 												<SplineDoubleKeyFrame
 													KeySpline="0.1,0.9 0.2,1.0"
 													KeyTime="0:0:0.35"
-													Value="{TemplateBinding ChildrenPresenterHeight}" />
+													Value="{Binding ChildrenPresenterHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
 											</DoubleAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualTransition>
