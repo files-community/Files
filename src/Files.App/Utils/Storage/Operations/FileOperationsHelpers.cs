@@ -814,6 +814,8 @@ namespace Files.App.Utils.Storage
 			catch (UnauthorizedAccessException)
 			{
 				string psScript;
+				filePath = filePath.Replace("'", "''");
+				iconFile = iconFile.Replace("'", "''");
 
 				if(ext == ".url")
 				{
@@ -821,7 +823,7 @@ namespace Files.App.Utils.Storage
 						$path = '{filePath}'
 						$iconFile = '{iconFile}'
 						$iconIndex = '{iconIndex}'
-						$content = Get-Content $path
+						$content = Get-Content -LiteralPath $path
                 
 						$content = $content | Where-Object {{ $_ -notmatch '^IconFile=' -and $_ -notmatch '^IconIndex=' }}
                 
@@ -832,7 +834,7 @@ namespace Files.App.Utils.Storage
 								""IconIndex=$iconIndex""
 							}}
 						}}
-						$newContent | Set-Content $path -Encoding UTF8
+						$newContent | Set-Content -LiteralPath $path -Encoding UTF8
 					";
 				}
 				else
