@@ -49,8 +49,7 @@ namespace Files.App.Controls
 
 		internal void Select()
 		{
-			if (Owner is not null)
-				Owner.SelectedItem = Item!;
+			Owner?.SelectedItem = Item!;
 		}
 
 		private void SidebarItem_Loaded(object sender, RoutedEventArgs e)
@@ -92,12 +91,7 @@ namespace Files.App.Controls
 
 		private void HookupOwners()
 		{
-			FrameworkElement resolvingTarget = this;
-			if (GetTemplateRoot(Parent) is FrameworkElement element)
-			{
-				resolvingTarget = element;
-			}
-			Owner = resolvingTarget.FindAscendant<SidebarView>()!;
+			Owner = this.FindAscendant<SidebarView>()!;
 
 			Owner.RegisterPropertyChangedCallback(SidebarView.DisplayModeProperty, (sender, args) =>
 			{
@@ -280,10 +274,8 @@ namespace Files.App.Controls
 			}
 			else
 			{
-				if (Children is IList enumerable && enumerable.Count > 0 && childrenRepeater is not null)
+				if (Children is IList { Count: > 0 } enumerable && childrenRepeater?.ItemsSourceView.Count > 0 && childrenRepeater?.GetOrCreateElement(0) is UIElement firstChild)
 				{
-					var firstChild = childrenRepeater.GetOrCreateElement(0);
-
 					// Collapsed elements might have a desired size of 0 so we need to have a sensible fallback
 					var childHeight = firstChild.DesiredSize.Height > 0 ? firstChild.DesiredSize.Height : 32;
 					ChildrenPresenterHeight = enumerable.Count * childHeight;

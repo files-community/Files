@@ -49,14 +49,6 @@ namespace Files.App.Controls
 		public static readonly DependencyProperty ChildrenPresenterHeightProperty =
 			DependencyProperty.Register(nameof(ChildrenPresenterHeight), typeof(double), typeof(SidebarItem), new PropertyMetadata(30d));
 
-		public ISidebarItemModel? Item
-		{
-			get { return (ISidebarItemModel)GetValue(ItemProperty); }
-			set { SetValue(ItemProperty, value); }
-		}
-		public static readonly DependencyProperty ItemProperty =
-			DependencyProperty.Register(nameof(Item), typeof(ISidebarItemModel), typeof(SidebarItem), new PropertyMetadata(null));
-
 		public bool UseReorderDrop
 		{
 			get { return (bool)GetValue(UseReorderDropProperty); }
@@ -100,6 +92,9 @@ namespace Files.App.Controls
 
 		[GeneratedDependencyProperty]
 		public partial object? Children { get; set; }
+
+		[GeneratedDependencyProperty, Obsolete]
+		public partial object? Item { get; set; }
 
 		partial void OnChildrenPropertyChanged(DependencyPropertyChangedEventArgs e)
 		{

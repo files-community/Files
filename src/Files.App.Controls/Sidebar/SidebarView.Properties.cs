@@ -1,6 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI;
+
 namespace Files.App.Controls
 {
 	public sealed partial class SidebarView
@@ -65,16 +67,8 @@ namespace Files.App.Controls
 		public static readonly DependencyProperty NegativeOpenPaneLengthProperty =
 			DependencyProperty.Register(nameof(NegativeOpenPaneLength), typeof(double), typeof(SidebarView), new PropertyMetadata(null));
 
-		public ISidebarItemModel SelectedItem
-		{
-			get => (ISidebarItemModel)GetValue(SelectedItemProperty);
-			set
-			{
-				SetValue(SelectedItemProperty, value);
-			}
-		}
-		public static readonly DependencyProperty SelectedItemProperty =
-			DependencyProperty.Register(nameof(SelectedItem), typeof(ISidebarItemModel), typeof(SidebarView), new PropertyMetadata(null));
+		[GeneratedDependencyProperty]
+		public partial object? SelectedItem { get; set; }
 
 		public object MenuItemsSource
 		{

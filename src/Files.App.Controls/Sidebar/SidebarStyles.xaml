@@ -196,24 +196,9 @@
 											x:Name="FlyoutChildrenPresenter"
 											HorizontalAlignment="Stretch"
 											AutomationProperties.AccessibilityView="Content"
-											ItemsSource="{Binding Children, Mode=OneWay}"
-											XYFocusKeyboardNavigation="Enabled">
-											<ItemsRepeater.ItemTemplate>
-												<DataTemplate>
-													<local:SidebarItem
-														AutomationProperties.AutomationId="{Binding Text}"
-														Children="{Binding Children}"
-														Decorator="{Binding ItemDecorator}"
-														Icon="{Binding IconElement}"
-														IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
-														IsInFlyout="True"
-														IsPaddedItem="{Binding PaddedItem}"
-														Item="{Binding}"
-														Text="{Binding Text}"
-														ToolTip="{Binding ToolTip}" />
-												</DataTemplate>
-											</ItemsRepeater.ItemTemplate>
-										</ItemsRepeater>
+											ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
+											ItemsSource="{TemplateBinding Children}"
+											XYFocusKeyboardNavigation="Enabled" />
 									</Flyout>
 								</FlyoutBase.AttachedFlyout>
 							</Grid>
@@ -227,7 +212,7 @@
 							HorizontalAlignment="Stretch"
 							AutomationProperties.AccessibilityView="Content"
 							ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
-							ItemsSource="{Binding Children, Mode=OneWay}"
+							ItemsSource="{TemplateBinding Children}"
 							Visibility="Collapsed"
 							XYFocusKeyboardNavigation="Enabled">
 							<ItemsRepeater.Layout>
@@ -300,7 +285,7 @@
 												<SplineDoubleKeyFrame
 													KeySpline="0.1,0.9 0.2,1.0"
 													KeyTime="0:0:0.35"
-													Value="{Binding ChildrenPresenterHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+													Value="{TemplateBinding ChildrenPresenterHeight}" />
 											</DoubleAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootPanel" Storyboard.TargetProperty="Margin">
 												<DiscreteObjectKeyFrame Value="0,0,0,12" />
@@ -317,7 +302,7 @@
 												EnableDependentAnimation="True"
 												Storyboard.TargetName="ChildrenPresenter"
 												Storyboard.TargetProperty="MaxHeight">
-												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{Binding ChildrenPresenterHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+												<DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="{TemplateBinding ChildrenPresenterHeight}" />
 												<SplineDoubleKeyFrame
 													KeySpline="0.1,0.9 0.2,1.0"
 													KeyTime="0:0:0.35"
@@ -339,7 +324,7 @@
 												<SplineDoubleKeyFrame
 													KeySpline="0.1,0.9 0.2,1.0"
 													KeyTime="0:0:0.35"
-													Value="{Binding ChildrenPresenterHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+													Value="{TemplateBinding ChildrenPresenterHeight}" />
 											</DoubleAnimationUsingKeyFrames>
 											<ObjectAnimationUsingKeyFrames Storyboard.TargetName="IconPresenter" Storyboard.TargetProperty="Visibility">
 												<DiscreteObjectKeyFrame Value="Collapsed" />
@@ -372,7 +357,7 @@
 												<SplineDoubleKeyFrame
 													KeySpline="0.1,0.9 0.2,1.0"
 													KeyTime="0:0:0.35"
-													Value="{Binding ChildrenPresenterHeight, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+													Value="{TemplateBinding ChildrenPresenterHeight}" />
 											</DoubleAnimationUsingKeyFrames>
 										</Storyboard>
 									</VisualTransition>
