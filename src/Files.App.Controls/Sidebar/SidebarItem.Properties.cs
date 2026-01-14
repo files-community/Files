@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
+using System.Collections.Specialized;
 
 namespace Files.App.Controls
 {
@@ -94,16 +95,19 @@ namespace Files.App.Controls
 		[GeneratedDependencyProperty]
 		public partial object? ToolTip { get; set; }
 
-		public static void SetTemplateRoot(DependencyObject target, FrameworkElement value)
+		[GeneratedDependencyProperty]
+		public partial bool IsPaddedItem { get; set; }
+
+		[GeneratedDependencyProperty]
+		public partial object? Children { get; set; }
+
+		partial void OnChildrenPropertyChanged(DependencyPropertyChangedEventArgs e)
 		{
-			target.SetValue(TemplateRootProperty, value);
+			if (e.OldValue is INotifyCollectionChanged oldNCC)
+				oldNCC.CollectionChanged -= ChildItems_CollectionChanged;
+			if (e.NewValue is INotifyCollectionChanged newNCC)
+				newNCC.CollectionChanged += ChildItems_CollectionChanged;
 		}
-		public static FrameworkElement GetTemplateRoot(DependencyObject target)
-		{
-			return (FrameworkElement)target.GetValue(TemplateRootProperty);
-		}
-		public static readonly DependencyProperty TemplateRootProperty =
-			DependencyProperty.Register("TemplateRoot", typeof(FrameworkElement), typeof(FrameworkElement), new PropertyMetadata(null));
 
 		public static void OnPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
 		{

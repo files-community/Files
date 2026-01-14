@@ -14,8 +14,8 @@ namespace Files.App.Controls
 	{
 		private const double DROP_REPOSITION_THRESHOLD = 0.2; // Percentage of top/bottom at which we consider a drop to be a reposition/insertion
 
-		public bool HasChildren => Item?.Children is IList enumerable && enumerable.Count > 0;
-		public bool IsGroupHeader => Item?.Children is not null;
+		public bool HasChildren => Children is IList enumerable && enumerable.Count > 0;
+		public bool IsGroupHeader => Children is not null;
 		public bool CollapseEnabled => DisplayMode != SidebarDisplayMode.Compact;
 
 		private bool hasChildSelection => selectedChildItem != null;
@@ -23,7 +23,6 @@ namespace Files.App.Controls
 		private bool isClicking = false;
 		private object? selectedChildItem = null;
 		private ItemsRepeater? childrenRepeater;
-		private ISidebarItemModel? lastSubscriber;
 
 		public SidebarItem()
 		{
@@ -87,7 +86,6 @@ namespace Files.App.Controls
 
 		public void HandleItemChange()
 		{
-			HookupItemChangeListener(null, Item);
 			UpdateExpansionState();
 			ReevaluateSelection();
 		}
@@ -114,27 +112,6 @@ namespace Files.App.Controls
 			ReevaluateSelection();
 		}
 
-		private void HookupItemChangeListener(ISidebarItemModel? oldItem, ISidebarItemModel? newItem)
-		{
-			if (lastSubscriber != null)
-			{
-				if (lastSubscriber.Children is INotifyCollectionChanged observableCollection)
-					observableCollection.CollectionChanged -= ChildItems_CollectionChanged;
-			}
-
-			if (oldItem != null)
-			{
-				if (oldItem.Children is INotifyCollectionChanged observableCollection)
-					observableCollection.CollectionChanged -= ChildItems_CollectionChanged;
-			}
-			if (newItem != null)
-			{
-				lastSubscriber = newItem;
-				if (newItem.Children is INotifyCollectionChanged observableCollection)
-					observableCollection.CollectionChanged += ChildItems_CollectionChanged;
-			}
-		}
-
 		private void SidebarItem_DragStarting(UIElement sender, DragStartingEventArgs args)
 		{
 			args.Data.SetData(StandardDataFormats.Text, Text?.ToString() ?? string.Empty);
@@ -142,7 +119,7 @@ namespace Files.App.Controls
 
 		private void SetFlyoutOpen(bool isOpen = true)
 		{
-			if (Item?.Children is null) return;
+			if (Children is null) return;
 
 			var flyoutOwner = (GetTemplateChild("ElementGrid") as FrameworkElement)!;
 			if (isOpen)
@@ -175,7 +152,7 @@ namespace Files.App.Controls
 					Owner?.UpdateSelectedItemContainer(this);
 				}
 			}
-			else if (Item?.Children is IList list)
+			else if (Children is IList list)
 			{
 				if (list.Contains(Owner?.SelectedItem))
 				{
@@ -194,7 +171,7 @@ namespace Files.App.Controls
 		{
 			if (args.Element is SidebarItem item)
 			{
-				if (Item?.Children is IList enumerable)
+				if (Children is IList enumerable)
 				{
 					var newElement = enumerable[args.Index];
 					if (newElement == selectedChildItem)
@@ -293,9 +270,9 @@ namespace Files.App.Controls
 
 		private void UpdateExpansionState(bool useAnimations = true)
 		{
-			if (Item?.Children is null || !CollapseEnabled)
+			if (Children is null || !CollapseEnabled)
 			{
-				VisualStateManager.GoToState(this, Item?.PaddedItem == true ? "NoExpansionWithPadding" : "NoExpansion", useAnimations);
+				VisualStateManager.GoToState(this, IsPaddedItem ? "NoExpansionWithPadding" : "NoExpansion", useAnimations);
 			}
 			else if (!HasChildren)
 			{
@@ -303,7 +280,7 @@ namespace Files.App.Controls
 			}
 			else
 			{
-				if (Item?.Children is IList enumerable && enumerable.Count > 0 && childrenRepeater is not null)
+				if (Children is IList enumerable && enumerable.Count > 0 && childrenRepeater is not null)
 				{
 					var firstChild = childrenRepeater.GetOrCreateElement(0);
 

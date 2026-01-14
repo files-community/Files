@@ -103,7 +103,7 @@ namespace Files.App.Controls
 
 		private IList GetOwnerCollection()
 		{
-			if (Owner.FindAscendant<SidebarItem>() is SidebarItem parent && parent.Item?.Children is IList list)
+			if (Owner.FindAscendant<SidebarItem>() is SidebarItem parent && parent.Children is IList list)
 				return list;
 
 			if (Owner?.Owner is not null && Owner.Owner?.MenuItemsSource is IList items)

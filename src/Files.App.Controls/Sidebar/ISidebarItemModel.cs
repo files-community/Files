@@ -9,16 +9,5 @@ namespace Files.App.Controls
 		/// The children of this item that will be rendered as child elements of the SidebarItem
 		/// </summary>
 		object? Children { get; }
-
-		/// <summary>
-		/// Determines whether the SidebarItem is expanded and the children are visible 
-		/// or if it is collapsed and children are not visible.
-		/// </summary>
-		bool IsExpanded { get; set; }
-
-		/// <summary>
-		/// Indicates whether the children should have an indentation or not.
-		/// </summary>
-		bool PaddedItem { get; }
 	}
 }
