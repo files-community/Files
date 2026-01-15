@@ -104,6 +104,8 @@ namespace Files.App.Helpers
 			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 			var generalSettingsService = userSettingsService.GeneralSettingsService;
 			var jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
+			var thumbnailService = Ioc.Default.GetRequiredService<IThumbnailService>();
+			FileThumbnailHelper.Initialize(thumbnailService);
 
 			// Start off a list of tasks we need to run before we can continue startup
 			await Task.WhenAll(

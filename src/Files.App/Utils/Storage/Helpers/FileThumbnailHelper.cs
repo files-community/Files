@@ -8,11 +8,11 @@ namespace Files.App.Utils.Storage
 {
 	public static class FileThumbnailHelper
 	{
-		private static IThumbnailService? _thumbnailService;
+		private static IThumbnailService? thumbnailService;
 
 		public static void Initialize(IThumbnailService thumbnailService)
 		{
-			_thumbnailService = thumbnailService;
+			FileThumbnailHelper.thumbnailService = thumbnailService;
 		}
 
 		/// <summary>
@@ -24,9 +24,9 @@ namespace Files.App.Utils.Storage
 			// Ensure size is at least 1 to prevent layout errors
 			size = Math.Max(1, size);
 
-			if (_thumbnailService is not null)
+			if (thumbnailService is not null)
 			{
-				return await _thumbnailService.GetThumbnailAsync(
+				return await thumbnailService.GetThumbnailAsync(
 					path,
 					(int)size,
 					isFolder,
