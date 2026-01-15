@@ -901,7 +901,7 @@ namespace Files.App.Utils.Storage
 
 			int index = 0;
 			int insertedIndex = 0;
-			foreach(var line in lines )
+			foreach(var line in lines)
 			{
 				var isInternetShortcutHeader = line.Trim().Equals("[InternetShortcut]", StringComparison.OrdinalIgnoreCase);
 				if(isInternetShortcutHeader)
@@ -927,7 +927,14 @@ namespace Files.App.Utils.Storage
 		private static bool TrySetLnkShortcutIcon(string filePath, string iconFile, int iconIndex)
 		{
 			using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
-			link.IconLocation = new IconLocation(iconFile, iconIndex);
+			if (string.IsNullOrWhiteSpace(iconFile))
+			{
+				link.IconLocation = new IconLocation(string.Empty, 0);
+			}
+			else
+			{
+				link.IconLocation = new IconLocation(iconFile, iconIndex);
+			}
 			link.SaveAs(filePath); // Overwrite if exists
 
 			return true;
