@@ -170,7 +170,7 @@
 				<wctcontrols:SettingsExpander.Items>
 
 					<!--  Cache Size Limit  -->
-					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CacheSizeLimitMB}" IsEnabled="{x:Bind ViewModel.EnableThumbnailCache, Mode=OneWay}">
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CacheSizeLimit}" IsEnabled="{x:Bind ViewModel.EnableThumbnailCache, Mode=OneWay}">
 						<wctcontrols:SettingsCard.Description>
 							<TextBlock Text="{helpers:ResourceString Name=CacheSizeLimitDescription}" TextWrapping="WrapWholeWords" />
 						</wctcontrols:SettingsCard.Description>

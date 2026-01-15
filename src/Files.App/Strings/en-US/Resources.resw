@@ -231,17 +231,14 @@
   <data name="CacheThumbnails" xml:space="preserve">
     <value>Cache thumbnails</value>
   </data>
-  <data name="CacheSizeLimitMB" xml:space="preserve">
-    <value>Cache size limit (MB)</value>
-  </data>
   <data name="CacheSizeLimitDescription" xml:space="preserve">
     <value>Maximum disk space to use for thumbnail cache (100-5000 MB).</value>
   </data>
   <data name="CacheSizeLimit" xml:space="preserve">
-    <value>Cache Size Limit</value>
+    <value>Cache size limit</value>
   </data>
   <data name="ClearCachedThumbnails" xml:space="preserve">
-    <value>Clear cached thumbnails to free up disk space</value>
+    <value>Clear cached thumbnails to free up space</value>
   </data>
   <data name="CurrentCacheSize" xml:space="preserve">
     <value>Current cache size: </value>
