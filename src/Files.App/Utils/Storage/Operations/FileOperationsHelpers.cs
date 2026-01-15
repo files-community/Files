@@ -800,25 +800,56 @@ namespace Files.App.Utils.Storage
 
 		public static bool SetLinkIcon(string filePath, string iconFile, int iconIndex)
 		{
+			var ext = Path.GetExtension(filePath).ToLowerInvariant();
+
 			try
 			{
-				using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
-				link.IconLocation = new IconLocation(iconFile, iconIndex);
-				link.SaveAs(filePath); // Overwrite if exists
-				return true;
+				return ext switch
+				{
+					".lnk" => TrySetLnkShortcutIcon(filePath, iconFile, iconIndex),
+					".url" => TrySetUrlShortcutIcon(filePath, iconFile, iconIndex),
+					_ => false,
+				};
 			}
 			catch (UnauthorizedAccessException)
 			{
-				string psScript = $@"
-					$FilePath = '{filePath}'
-					$IconFile = '{iconFile}'
-					$IconIndex = '{iconIndex}'
+				string psScript;
+				filePath = filePath.Replace("'", "''");
+				iconFile = iconFile.Replace("'", "''");
 
-					$Shell = New-Object -ComObject WScript.Shell
-					$Shortcut = $Shell.CreateShortcut($FilePath)
-					$Shortcut.IconLocation = ""$IconFile, $IconIndex""
-					$Shortcut.Save()
-				";
+				if(ext == ".url")
+				{
+					psScript = $@"
+						$path = '{filePath}'
+						$iconFile = '{iconFile}'
+						$iconIndex = '{iconIndex}'
+						$content = Get-Content -LiteralPath $path
+                
+						$content = $content | Where-Object {{ $_ -notmatch '^IconFile=' -and $_ -notmatch '^IconIndex=' }}
+                
+						$newContent = foreach ($line in $content) {{
+							$line
+							if ($line -eq '[InternetShortcut]') {{
+								""IconFile=$iconFile""
+								""IconIndex=$iconIndex""
+							}}
+						}}
+						$newContent | Set-Content -LiteralPath $path -Encoding UTF8
+					";
+				}
+				else
+				{
+					psScript = $@"
+						$FilePath = '{filePath}'
+						$IconFile = '{iconFile}'
+						$IconIndex = '{iconIndex}'
+
+						$Shell = New-Object -ComObject WScript.Shell
+						$Shortcut = $Shell.CreateShortcut($FilePath)
+						$Shortcut.IconLocation = ""$IconFile, $IconIndex""
+						$Shortcut.Save()
+					";
+				}
 
 				var base64EncodedScript = Convert.ToBase64String(System.Text.Encoding.Unicode.GetBytes(psScript));
 
@@ -846,6 +877,67 @@ namespace Files.App.Utils.Storage
 			}
 
 			return false;
+		}
+
+		private static bool TrySetUrlShortcutIcon(string filePath, string iconFile, int iconIndex)
+		{
+			var fileExist = File.Exists(filePath);
+			if (!fileExist)
+			{
+				return false;
+			}
+
+			var lines = File.ReadAllLines(filePath).ToList();
+			var hasInternetShortcutHeader = lines.Any(l => l.Trim().Equals("[InternetShortcut]", StringComparison.OrdinalIgnoreCase));
+
+			if (!hasInternetShortcutHeader)
+			{
+				return false;
+			}
+
+			lines.RemoveAll(l =>
+				l.StartsWith("IconFile=", StringComparison.OrdinalIgnoreCase) ||
+				l.StartsWith("IconIndex=", StringComparison.OrdinalIgnoreCase));
+
+			int index = 0;
+			int insertedIndex = 0;
+			foreach(var line in lines)
+			{
+				var isInternetShortcutHeader = line.Trim().Equals("[InternetShortcut]", StringComparison.OrdinalIgnoreCase);
+				if(isInternetShortcutHeader)
+				{
+					insertedIndex = index + 1;
+					break;
+				}
+
+				index++;
+			}
+
+			if(insertedIndex > 0)
+			{
+				lines.Insert(insertedIndex, $"IconFile={iconFile}");
+				lines.Insert(insertedIndex + 1, $"IconIndex={iconIndex}");
+			}
+
+			File.WriteAllLines(filePath, lines);
+
+			return true;
+		}
+
+		private static bool TrySetLnkShortcutIcon(string filePath, string iconFile, int iconIndex)
+		{
+			using var link = new ShellLink(filePath, LinkResolution.NoUIWithMsgPump, default, TimeSpan.FromMilliseconds(100));
+			if (string.IsNullOrWhiteSpace(iconFile))
+			{
+				link.IconLocation = new IconLocation(string.Empty, 0);
+			}
+			else
+			{
+				link.IconLocation = new IconLocation(iconFile, iconIndex);
+			}
+			link.SaveAs(filePath); // Overwrite if exists
+
+			return true;
 		}
 
 		public static Task<string?> OpenObjectPickerAsync(long hWnd)
