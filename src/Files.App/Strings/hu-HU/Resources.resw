@@ -121,16 +121,16 @@
     <value>Új ablak</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
-    <value>Útvonal másolása</value>
+    <value>Elérési út másolása</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Elem útvonalának másolása</value>
+    <value>Elem elérési útjának másolása</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
-    <value>Útvonal másolása idézőjelekkel</value>
+    <value>Elérési út másolása idézőjelekkel</value>
   </data>
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
-    <value>Kiválasztott elem útvonalának másolása idézőjelekkel</value>
+    <value>Kiválasztott elem elérési útjának másolása idézőjelekkel</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Tallózás</value>
@@ -184,7 +184,7 @@
     <value>Minden elem eltávolítása</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Adja meg a navigáció útvonalát vagy írjon "&gt;"-t a parancspanel megnyitásához</value>
+    <value>Írjon be egy elérési utat vagy írjon "&gt;"-t a parancspaletta megnyitásához</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Keresés</value>
@@ -1776,7 +1776,7 @@
     <value>Fájlok megnyitása egy kattintással</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
-    <value>Mappa útvonala</value>
+    <value>Mappa elérési útja</value>
   </data>
   <data name="ExportSettings" xml:space="preserve">
     <value>Beállítások exportálása</value>
@@ -2451,16 +2451,16 @@
     <value>Kiválasztott {0, plural, one {elem} other {elemek}} másolása</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Aktuális könyvtár útvonalának másolása</value>
+    <value>Aktuális könyvtár elérési útjának másolása</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Kiválasztott elemek útvonalainak másolása</value>
+    <value>Kiválasztott elemek elérési útjainak másolása</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Kiválasztott elemek útvonalainak másolása idézőjelekkel</value>
+    <value>Kiválasztott elemek elérési útjainak másolása idézőjelekkel</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Aktuális könyvtár útvonalának másolása idézőjelekkel</value>
+    <value>Aktuális könyvtár elérési útjának másolása idézőjelekkel</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Kiválasztott {0, plural, one {elem} other {elemek}} kivágása</value>
@@ -3001,7 +3001,7 @@
     <value>Lap bezárása</value>
   </data>
   <data name="EditPath" xml:space="preserve">
-    <value>Útvonal szerkesztése</value>
+    <value>Elérési út szerkesztése</value>
   </data>
   <data name="Redo" xml:space="preserve">
     <value>Újra</value>
@@ -3010,7 +3010,7 @@
     <value>Visszavonás</value>
   </data>
   <data name="InvalidLocation" xml:space="preserve">
-    <value>Érvénytelen útvonal</value>
+    <value>Érvénytelen elérési út</value>
   </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
     <value>Biztos, hogy ezeket a fájlokat a tulajdonságaik nélkül szeretnéd másolni?</value>
@@ -4349,5 +4349,11 @@
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>Új {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Enable smooth scrolling</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Scrolling</value>
   </data>
 </root>
