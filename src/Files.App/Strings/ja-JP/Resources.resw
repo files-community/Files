@@ -1773,7 +1773,7 @@
     <value>タグ</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>シングルクリックでファイルを開く</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>フォルダー パス</value>
@@ -2073,7 +2073,7 @@
     <value>ロック画面</value>
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
-    <value>Open folders with a single click</value>
+    <value>シングルクリックでフォルダを開く</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>項目を開くとき</value>
@@ -3133,13 +3133,13 @@
     <value>このブランチにはコミットされていない変更があります。どうしますか?</value>
   </data>
   <data name="MergeInProgress" xml:space="preserve">
-    <value>You have an ongoing merge with unresolved conflicts. Please resolve the conflicts or abort the merge to switch branches.</value>
+    <value>未解決の競合を含む統合が進行中です。競合を解決するか、統合を中止してからブランチを切り替えてください。</value>
   </data>
   <data name="AbortMergeAndSwitch" xml:space="preserve">
-    <value>Abort merge and switch to '{0}'</value>
+    <value>統合を中止し、「{0}」に切り替え</value>
   </data>
   <data name="StayAndResolveConflicts" xml:space="preserve">
-    <value>Stay on '{0}' and resolve conflicts</value>
+    <value>「{0}」に留まり競合を解決</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>ブランチを切り替え</value>
@@ -3497,7 +3497,7 @@
     <value>項目を処理しています...</value>
   </data>
   <data name="DiscoveringItems" xml:space="preserve">
-    <value>Discovering items...</value>
+    <value>項目を検出しています…</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>速度:</value>
@@ -3631,7 +3631,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
-    <value>Discovered {0, plural, one {# item} other {# items}}</value>
+    <value>{0, plural, one {# 件} other {# 件}}の項目を検出しました</value>
     <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
@@ -3667,55 +3667,56 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>「{1}」から {0, plural, one {# 件} other {# 件}} の削除をキャンセルしました。
+</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Deleted {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>「{1}」 から {0, plural, one {# 件} other {# 件}} を削除しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>「{1}」から {0, plural, one {# 件} other {# 件}} を削除中にエラーが発生しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Failed to delete {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>「{1}」から {0, plural, one {# 件} other {# 件}} の削除に失敗しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>「{1}」から {0, plural, one {# 件} other {# 件}} を削除中</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>Canceled moving {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>「{1}」から {0, plural, one {# 件} other {# 件}} の移動をキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled moving {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>「{1}」から「{2}」への {0, plural, one {# 件} other {# 件}} の移動をキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Moved {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>「{1}」に {0, plural, one {# 件} other {# 件}} を移動しましました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
-    <value>Moved {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>「{1}」から「{2}」へ {0, plural, one {# 件} other {# 件}} を移動しましました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
-    <value>Moving {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>「{1}」から {0, plural, one {# 件} other {# 件}} を移動中</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
-    <value>Moving {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>「{1}」から「{2}」へ {0, plural, one {# 件} other {# 件}} を移動中</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Error moving {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>「{1}」から {0, plural, one {# 件} other {# 件}} を移動中にエラーが発生しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
-    <value>Failed to move {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>「{1}」から「{2}」へ {0, plural, one {# 件} other {# 件}} の移動に失敗しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
@@ -3743,7 +3744,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1, plural, one {# item} other {# items}} processed</value>
+    <value>処理済み：{0}/{1, plural, one {# 件} other {# 件}}</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3789,7 +3790,7 @@
     <value>このタグを適用中にエラーが発生しました</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
+    <value>選択した {0, plural, one {アーカイブ} other {アーカイブ}} を1 件の場合はここに、複数の場合は新しいフォルダーに展開します</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>ここに展開 (スマート)</value>
@@ -4087,7 +4088,7 @@
     <value>ペインを横に配置する</value>
   </data>
   <data name="SplitPane" xml:space="preserve">
-    <value>分割ペイン</value>
+    <value>ペインを分割</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>タイトル バーにタブ操作ボタンを表示する</value>
@@ -4342,12 +4343,18 @@
     <value>ログファイルを開けません</value>
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
-    <value>Show status bar</value>
+    <value>ステータスバーを表示</value>
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
-    <value>Only in Columns View</value>
+    <value>カラム表示でのみ</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
-    <value>New {0}</value>
+    <value>新規 {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Enable smooth scrolling</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Scrolling</value>
   </data>
 </root>

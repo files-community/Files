@@ -4350,4 +4350,10 @@
   <data name="CreateNewFile" xml:space="preserve">
     <value>Neu {0}</value>
   </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Sanftes Scrollen aktivieren</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Scrollen</value>
+  </data>
 </root>

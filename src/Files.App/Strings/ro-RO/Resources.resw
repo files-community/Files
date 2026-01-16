@@ -4350,4 +4350,10 @@
   <data name="CreateNewFile" xml:space="preserve">
     <value>Nou {0}</value>
   </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Activare defilare lină</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Defilare</value>
+  </data>
 </root>
