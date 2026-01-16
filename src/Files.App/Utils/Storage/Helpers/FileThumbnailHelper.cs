@@ -8,12 +8,7 @@ namespace Files.App.Utils.Storage
 {
 	public static class FileThumbnailHelper
 	{
-		private static IThumbnailService? thumbnailService;
-
-		public static void Initialize(IThumbnailService thumbnailService)
-		{
-			FileThumbnailHelper.thumbnailService = thumbnailService;
-		}
+		private static readonly IThumbnailService thumbnailService = Ioc.Default.GetRequiredService<IThumbnailService>();
 
 		/// <summary>
 		/// Returns icon or thumbnail for given file or folder
@@ -24,16 +19,11 @@ namespace Files.App.Utils.Storage
 			// Ensure size is at least 1 to prevent layout errors
 			size = Math.Max(1, size);
 
-			if (thumbnailService is not null)
-			{
-				return await thumbnailService.GetThumbnailAsync(
-					path,
-					(int)size,
-					isFolder,
-					iconOptions);
-			}
-
-			return await STATask.Run(() => Win32Helper.GetIcon(path, (int)size, isFolder, iconOptions), App.Logger);
+			return await thumbnailService.GetThumbnailAsync(
+				path,
+				(int)size,
+				isFolder,
+				iconOptions);
 		}
 
 		/// <summary>
