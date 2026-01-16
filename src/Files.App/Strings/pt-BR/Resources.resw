@@ -301,7 +301,7 @@
     <value>Insira o nome do item</value>
   </data>
   <data name="CreateNewItemTitle" xml:space="preserve">
-    <value>Criar  {0}</value>
+    <value>Criar novo {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Claro</value>
@@ -4349,5 +4349,11 @@
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>Novo {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Ativar rolagem suave</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Rolagem</value>
   </data>
 </root>
