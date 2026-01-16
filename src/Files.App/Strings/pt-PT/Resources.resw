@@ -4348,6 +4348,12 @@
     <value>Apenas na visualização em Colunas</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
-    <value>Criar {0}</value>
+    <value>Novo {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Ativar deslocação suve</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Deslocação</value>
   </data>
 </root>
