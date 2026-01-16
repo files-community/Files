@@ -133,7 +133,7 @@
     <value>Copy selected item path with quotes</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>צפייה</value>
+    <value>עיון</value>
   </data>
   <data name="Size" xml:space="preserve">
     <value>גודל</value>
@@ -1044,16 +1044,16 @@
     <value>פתח כרטיסיות במצב חלון כפול</value>
   </data>
   <data name="ShowOpenInNewPane" xml:space="preserve">
-    <value>הראה אפשרות לפתוח תיקיות בחלון חדש</value>
+    <value>הראה אפשרות לפתוח תיקיות בחלונית חדשה</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
-    <value>Show option to copy path</value>
+    <value>הצג אפשרות לנתיב העתקה</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
-    <value>Show option to create folder with selection</value>
+    <value>הצג אפשרות יצירת תיקיה ע"י בחירה</value>
   </data>
   <data name="ShowCreateShortcut" xml:space="preserve">
-    <value>Show option to create shortcut</value>
+    <value>הצג אפשרות ליצירת קיצור דרך</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>חלון חדש</value>
@@ -1728,7 +1728,7 @@
     <value>לא נמצאו פריטים</value>
   </data>
   <data name="OpenLogLocation" xml:space="preserve">
-    <value>Open log location</value>
+    <value>פתח מיקום יומן</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
     <value>Create link in {0}</value>
@@ -1755,13 +1755,13 @@
     <value>Experimental feature flags</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
-    <value>Help and support</value>
+    <value>עזרה ותמיכה</value>
   </data>
   <data name="SubmitFeatureRequest" xml:space="preserve">
-    <value>Submit feature request</value>
+    <value>הצע תכונה חדשה</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
-    <value>Submit bug report</value>
+    <value>דווח על תקלה</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
     <value>Set Files as the default file manager</value>
@@ -2262,19 +2262,19 @@
     <value>View more</value>
   </data>
   <data name="ShowEditTagsMenu" xml:space="preserve">
-    <value>Show edit tags flyout</value>
+    <value>הצג תפריט עריכת תגיות</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
     <value>Show compression options</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
-    <value>Show send to menu</value>
+    <value>הצג שלח לתפריט</value>
   </data>
   <data name="ShowOpenInNewTab" xml:space="preserve">
-    <value>Show option to open folders in a new tab</value>
+    <value>הצג אפשרות לפתיחת תיקיה בלשונית חדשה</value>
   </data>
   <data name="ShowOpenInNewWindow" xml:space="preserve">
-    <value>Show option to open folders in a new window</value>
+    <value>הצג אפשרות לפתיחת תיקיה בחלון חדש</value>
   </data>
   <data name="QuickAccess" xml:space="preserve">
     <value>גישה נוחה</value>
@@ -2415,10 +2415,10 @@
     <value>Toggle compact overlay</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open the online help page in your browser</value>
+    <value>פתח את דף העזרה המקוון בדפדפן שלך</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
-    <value>Toggle full screen mode</value>
+    <value>הפעל/כבה מצב מסך מלא</value>
   </data>
   <data name="EnterCompactOverlayDescription" xml:space="preserve">
     <value>Enter compact overlay mode</value>
@@ -2640,13 +2640,13 @@
     <value>רשת</value>
   </data>
   <data name="LayoutGridDescription" xml:space="preserve">
-    <value>Switch to grid view</value>
+    <value>עבור לתצוגת רשת</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Switch to columns view</value>
+    <value>עבור לתצוגת עמודות</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Switch views adaptively</value>
+    <value>שנה תצוגות באופן אדפטיבי</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
     <value>Sort items by name</value>
@@ -3190,7 +3190,7 @@
     <value>Remotes</value>
   </data>
   <data name="ImproveTranslation" xml:space="preserve">
-    <value>Translate on Crowdin</value>
+    <value>תרגם ב־Crowdin</value>
   </data>
   <data name="GitFetch" xml:space="preserve">
     <value>Fetch</value>
@@ -3852,7 +3852,7 @@
     <value>Where did Files go?</value>
   </data>
   <data name="QuestionsAndDiscussions" xml:space="preserve">
-    <value>Questions &amp; discussions</value>
+    <value>שאלות ודיונים</value>
   </data>
   <data name="Compact" xml:space="preserve">
     <value>Compact</value>
@@ -3943,14 +3943,14 @@
     <value>Adaptive layout is not available when preferences are synced, the default layout has been changed to Details.</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
-    <value>Background image</value>
+    <value>תמונת רקע</value>
   </data>
   <data name="Bottom" xml:space="preserve">
-    <value>Bottom</value>
+    <value>למטה</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Center" xml:space="preserve">
-    <value>Center</value>
+    <value>מרכז</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Fill" xml:space="preserve">
@@ -3958,24 +3958,24 @@
     <comment>Image stretch type</comment>
   </data>
   <data name="HorizontalAlignment" xml:space="preserve">
-    <value>Horizontal alignment</value>
+    <value>יישור אופקי</value>
   </data>
   <data name="ImageFit" xml:space="preserve">
-    <value>Image fit</value>
+    <value>התאם תמונה</value>
   </data>
   <data name="Left" xml:space="preserve">
     <value>Left</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Opacity" xml:space="preserve">
-    <value>Opacity</value>
+    <value>אטימות</value>
   </data>
   <data name="Right" xml:space="preserve">
     <value>Right</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Top" xml:space="preserve">
-    <value>Top</value>
+    <value>למעלה</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Uniform" xml:space="preserve">
@@ -3983,11 +3983,11 @@
     <comment>Image stretch type</comment>
   </data>
   <data name="UniformToFill" xml:space="preserve">
-    <value>Uniform to fill</value>
+    <value>התאמה אחידה למילוי</value>
     <comment>Image stretch type</comment>
   </data>
   <data name="VerticalAlignment" xml:space="preserve">
-    <value>Vertical alignment</value>
+    <value>יישור אנכי</value>
   </data>
   <data name="ThinAcrylic" xml:space="preserve">
     <value>Thin Acrylic</value>
@@ -4349,5 +4349,11 @@
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>New {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Enable smooth scrolling</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Scrolling</value>
   </data>
 </root>
