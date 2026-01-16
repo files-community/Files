@@ -3823,7 +3823,10 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitPullFailed_SubHeader" xml:space="preserve">
-    <value>Failed to pull branch "{0}" from "{1}"</value>
+    <value>We couldn't pull the latest changes from the remote right now.</value>
+  </data>
+  <data name="GitError_UncommittedChanges" xml:space="preserve">
+    <value>Please commit or stash your changes before pulling.</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitPullInProgress_Header" xml:space="preserve">

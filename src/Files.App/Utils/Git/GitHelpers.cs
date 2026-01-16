@@ -29,11 +29,6 @@ namespace Files.App.Utils.Git
 
 		private static readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
-		private static readonly FetchOptions _fetchOptions = new()
-		{
-			Prune = true
-		};
-
 		private static readonly PullOptions _pullOptions = new();
 
 		private static readonly string _clientId = AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev
@@ -363,34 +358,39 @@ namespace Files.App.Utils.Git
 			using var repository = new Repository(repositoryPath);
 			var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
 
-            var remoteName = repository.Network.Remotes.FirstOrDefault()?.Name ?? "origin";
-            
-            // Add Status Center Card
-            var banner = StatusCenterHelper.AddCard_GitFetch(remoteName, ReturnResult.InProgress);
-            var fsProgress = new StatusCenterItemProgressModel(banner.ProgressEventSource, enumerationCompleted: true, FileSystemStatusCode.InProgress);
-            
-            // Link CancellationTokens
-            using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, banner.CancellationToken);
-            var token = linkedCts.Token;
+			var remoteName = repository.Network.Remotes.FirstOrDefault()?.Name ?? "origin";
 
-            var fetchOptions = new FetchOptions
-            {
-                CredentialsProvider = CredentialsHandler,
-                OnTransferProgress = (progress) =>
-                {
-                    if (token.IsCancellationRequested)
-                        return false;
+			// Add Status Center Card
+			var banner = StatusCenterHelper.AddCard_GitFetch(remoteName, ReturnResult.InProgress);
+			var fsProgress = new StatusCenterItemProgressModel(banner.ProgressEventSource, enumerationCompleted: true, FileSystemStatusCode.InProgress);
 
-                    if (progress.TotalObjects > 0)
-                    {
-                        fsProgress.ItemsCount = progress.TotalObjects;
-                        fsProgress.SetProcessedSize(progress.ReceivedBytes);
-                        fsProgress.AddProcessedItemsCount(progress.ReceivedObjects);
-                        fsProgress.Report((int)((progress.ReceivedObjects / (double)progress.TotalObjects) * 100));
-                    }
-                    return true;
-                }
-            };
+			// Link CancellationTokens
+			using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, banner.CancellationToken);
+			var token = linkedCts.Token;
+
+			var fetchOptions = new FetchOptions
+			{
+				CredentialsProvider = CredentialsHandler,
+				OnTransferProgress = (progress) =>
+				{
+					if (token.IsCancellationRequested)
+						return false;
+
+					// Ensure StatusCenter updates are dispatched to the UI thread
+					MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+					{
+						if (progress.TotalObjects > 0)
+						{
+							fsProgress.ItemsCount = progress.TotalObjects;
+							fsProgress.SetProcessedSize(progress.ReceivedBytes);
+							fsProgress.AddProcessedItemsCount(progress.ReceivedObjects);
+							fsProgress.Report((int)((progress.ReceivedObjects / (double)progress.TotalObjects) * 100));
+						}
+					});
+					return true;
+				},
+				Prune = true // Restore Prune behavior as requested in PR review
+			};
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
@@ -403,7 +403,7 @@ namespace Files.App.Utils.Git
 				{
 					token.ThrowIfCancellationRequested();
 
-                    // Iterate remotes (though usually only one matters for progress, we'll fetch all)
+					// Iterate remotes (though usually only one matters for progress, we'll fetch all)
 					foreach (var remote in repository.Network.Remotes)
 					{
 						token.ThrowIfCancellationRequested();
@@ -417,7 +417,22 @@ namespace Files.App.Utils.Git
 					}
 
 					token.ThrowIfCancellationRequested();
-                    return GitOperationResult.Success;
+					return GitOperationResult.Success;
+				}
+				catch (LibGit2SharpException e)
+				{
+					MainWindow.Instance.DispatcherQueue.TryEnqueue(async () =>
+					{
+						var dialog = new DynamicDialog(new DynamicDialogViewModel
+						{
+							TitleText = Strings.GitError.GetLocalizedResource(),
+							SubtitleText = e.Message,
+							CloseButtonText = Strings.Close.GetLocalizedResource(),
+							DynamicButtons = DynamicDialogButtons.Cancel
+						});
+						await dialog.TryShowAsync();
+					});
+					return GitOperationResult.GenericError;
 				}
 				catch (Exception ex)
 				{
@@ -427,10 +442,13 @@ namespace Files.App.Utils.Git
 				}
 			});
 
-            StatusCenterViewModel.RemoveItem(banner);
-            StatusCenterHelper.AddCard_GitFetch(
-                remoteName, 
-                result == GitOperationResult.Success ? ReturnResult.Success : ReturnResult.Failed);
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			{
+				StatusCenterViewModel.RemoveItem(banner);
+				StatusCenterHelper.AddCard_GitFetch(
+					remoteName,
+					result == GitOperationResult.Success ? ReturnResult.Success : ReturnResult.Failed);
+			});
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
@@ -452,36 +470,40 @@ namespace Files.App.Utils.Git
 			if (signature is null)
 				return;
 
-            var branchName = repository.Head.FriendlyName; 
-            // We use 'origin' as generic remote name for display, though pull might use upstream
-            var remoteName = "origin"; 
+			var branchName = repository.Head.FriendlyName;
+			// We use 'origin' as generic remote name for display, though pull might use upstream
+			var remoteName = "origin";
 
-            // Add Status Center Card
-            var banner = StatusCenterHelper.AddCard_GitPull(remoteName, branchName, ReturnResult.InProgress);
-            var fsProgress = new StatusCenterItemProgressModel(banner.ProgressEventSource, enumerationCompleted: true, FileSystemStatusCode.InProgress);
-            var token = banner.CancellationToken;
+			// Add Status Center Card
+			var banner = StatusCenterHelper.AddCard_GitPull(remoteName, branchName, ReturnResult.InProgress);
+			var fsProgress = new StatusCenterItemProgressModel(banner.ProgressEventSource, enumerationCompleted: true, FileSystemStatusCode.InProgress);
+			var token = banner.CancellationToken;
 
-            var pullOptions = new PullOptions
-            {
-                FetchOptions = new FetchOptions
-                {
-                    CredentialsProvider = CredentialsHandler,
-                    OnTransferProgress = (progress) =>
-                    {
-                        if (token.IsCancellationRequested)
-                            return false;
+			var pullOptions = new PullOptions
+			{
+				FetchOptions = new FetchOptions
+				{
+					CredentialsProvider = CredentialsHandler,
+					OnTransferProgress = (progress) =>
+					{
+						if (token.IsCancellationRequested)
+							return false;
 
-                        if (progress.TotalObjects > 0)
-                        {
-                            fsProgress.ItemsCount = progress.TotalObjects;
-                            fsProgress.SetProcessedSize(progress.ReceivedBytes);
-                            fsProgress.AddProcessedItemsCount(progress.ReceivedObjects);
-                            fsProgress.Report((int)((progress.ReceivedObjects / (double)progress.TotalObjects) * 100));
-                        }
-                        return true;
-                    }
-                }
-            };
+						// Ensure StatusCenter updates are dispatched to the UI thread
+						MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+						{
+							if (progress.TotalObjects > 0)
+							{
+								fsProgress.ItemsCount = progress.TotalObjects;
+								fsProgress.SetProcessedSize(progress.ReceivedBytes);
+								fsProgress.AddProcessedItemsCount(progress.ReceivedObjects);
+								fsProgress.Report((int)((progress.ReceivedObjects / (double)progress.TotalObjects) * 100));
+							}
+						});
+						return true;
+					}
+				}
+			};
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
@@ -492,11 +514,41 @@ namespace Files.App.Utils.Git
 			{
 				try
 				{
-                    // LibGit2Sharp Pull doesn't take CancellationToken explicitly in all overloads, rely on callbacks
+					// LibGit2Sharp Pull doesn't take CancellationToken explicitly in all overloads, rely on callbacks
 					LibGit2Sharp.Commands.Pull(
 						repository,
 						signature,
 						pullOptions);
+				}
+				catch (CheckoutConflictException)
+				{
+					MainWindow.Instance.DispatcherQueue.TryEnqueue(async () =>
+					{
+						var dialog = new DynamicDialog(new DynamicDialogViewModel
+						{
+							TitleText = Strings.GitError.GetLocalizedResource(),
+							SubtitleText = Strings.GitError_UncommittedChanges.GetLocalizedResource(),
+							CloseButtonText = Strings.Close.GetLocalizedResource(),
+							DynamicButtons = DynamicDialogButtons.Cancel
+						});
+						await dialog.TryShowAsync();
+					});
+					return GitOperationResult.GenericError;
+				}
+				catch (LibGit2SharpException e)
+				{
+					MainWindow.Instance.DispatcherQueue.TryEnqueue(async () =>
+					{
+						var dialog = new DynamicDialog(new DynamicDialogViewModel
+						{
+							TitleText = Strings.GitError.GetLocalizedResource(),
+							SubtitleText = e.Message,
+							CloseButtonText = Strings.Close.GetLocalizedResource(),
+							DynamicButtons = DynamicDialogButtons.Cancel
+						});
+						await dialog.TryShowAsync();
+					});
+					return GitOperationResult.GenericError;
 				}
 				catch (Exception ex)
 				{
@@ -508,8 +560,11 @@ namespace Files.App.Utils.Git
 				return GitOperationResult.Success;
 			});
 
-            StatusCenterViewModel.RemoveItem(banner);
-            StatusCenterHelper.AddCard_GitPull(remoteName, branchName, result == GitOperationResult.Success ? ReturnResult.Success : ReturnResult.Failed);
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			{
+				StatusCenterViewModel.RemoveItem(banner);
+				StatusCenterHelper.AddCard_GitPull(remoteName, branchName, result == GitOperationResult.Success ? ReturnResult.Success : ReturnResult.Failed);
+			});
 
 			if (result is GitOperationResult.AuthorizationError)
 			{
@@ -530,11 +585,11 @@ namespace Files.App.Utils.Git
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
-                IsExecutingGitAction = false;
-                if (result == GitOperationResult.Success)
-                {
-                    GitFetchCompleted?.Invoke(null, EventArgs.Empty);
-                }
+				IsExecutingGitAction = false;
+				if (result == GitOperationResult.Success)
+				{
+					GitFetchCompleted?.Invoke(null, EventArgs.Empty);
+				}
 			});
 		}
 
@@ -564,13 +619,13 @@ namespace Files.App.Utils.Git
 					if (banner.CancellationToken.IsCancellationRequested)
 						return false; // Cancel
 
-                    if (total > 0)
-                    {
-                        fsProgress.ItemsCount = total;
-                        fsProgress.SetProcessedSize(bytes);
-                        fsProgress.AddProcessedItemsCount(1); // Not accurate but shows activity
-                        fsProgress.Report((int)((current / (double)total) * 100));
-                    }
+					if (total > 0)
+					{
+						fsProgress.ItemsCount = total;
+						fsProgress.SetProcessedSize(bytes);
+						fsProgress.AddProcessedItemsCount(1); // Not accurate but shows activity
+						fsProgress.Report((int)((current / (double)total) * 100));
+					}
 					return true;
 				}
 			};
@@ -598,7 +653,7 @@ namespace Files.App.Utils.Git
 					try
 					{
 						if (banner.CancellationToken.IsCancellationRequested)
-                            return GitOperationResult.GenericError; // Or Cancelled
+							return GitOperationResult.GenericError; // Or Cancelled
 
 						repository.Network.Push(branch, options);
 					}
@@ -620,22 +675,22 @@ namespace Files.App.Utils.Git
 				_logger.LogWarning(ex.Message);
 			}
 
-            // Remove InProgress Card
+			// Remove InProgress Card
 			StatusCenterViewModel.RemoveItem(banner);
 
 			// Add Result Card
-            StatusCenterHelper.AddCard_GitPush(
-                "origin", 
-                branchName, 
-                result == GitOperationResult.Success ? ReturnResult.Success : ReturnResult.Failed);
+			StatusCenterHelper.AddCard_GitPush(
+				"origin",
+				branchName,
+				result == GitOperationResult.Success ? ReturnResult.Success : ReturnResult.Failed);
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
 				IsExecutingGitAction = false;
-                if (result == GitOperationResult.Success)
-                {
-                    GitFetchCompleted?.Invoke(null, EventArgs.Empty);
-                }
+				if (result == GitOperationResult.Success)
+				{
+					GitFetchCompleted?.Invoke(null, EventArgs.Empty);
+				}
 			});
 		}
 
