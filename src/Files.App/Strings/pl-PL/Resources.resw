@@ -1107,10 +1107,10 @@
     <value>Przełącz widoczność nagłówka filtru</value>
   </data>
   <data name="ToggleDualPane" xml:space="preserve">
-    <value>Toggle dual pane</value>
+    <value>Przełącz tryb dwupanelowy</value>
   </data>
   <data name="ToggleDualPaneDescription" xml:space="preserve">
-    <value>Toggle dual pane mode</value>
+    <value>Przełącz tryb dwupanelowy</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Podgląd niedostępny</value>
@@ -1773,7 +1773,7 @@
     <value>Tag pliku</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>Otwieraj pliki jednym kliknięciem</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Lokalizacja folderu</value>
@@ -2073,7 +2073,7 @@
     <value>Lockscreen</value>
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
-    <value>Open folders with a single click</value>
+    <value>Otwieraj foldery pojedynczym kliknięciem</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Otwieranie elementów</value>
@@ -2730,10 +2730,10 @@
     <value>Otwórz nową kartę</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward</value>
+    <value>Przejdź wstecz</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward</value>
+    <value>Przejdź do przodu</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Przejdź jeden katalog wyżej</value>
@@ -2778,13 +2778,13 @@
     <value>Zamknij bieżącą kartę</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>Close the active pane</value>
+    <value>Zamknij aktywny panel</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
     <value>Skup się na innej stronie</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Switch focus to the other pane</value>
+    <value>Przełącz fokus na inną stronę</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Przełącz boczny pasek</value>
@@ -3043,7 +3043,7 @@
     <value>Usuń na stałe</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete selected {0, plural, one {item} other {items}} permanently</value>
+    <value>Usuń wybrane {0, plural, one {element} other {elementy}} permanentnie</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>Odtwórz wybrane pliki multimedialne</value>
@@ -3133,13 +3133,13 @@
     <value>Masz niezatwierdzone zmiany w tej gałęzi. Co chciałbyś z nimi zrobić?</value>
   </data>
   <data name="MergeInProgress" xml:space="preserve">
-    <value>You have an ongoing merge with unresolved conflicts. Please resolve the conflicts or abort the merge to switch branches.</value>
+    <value>Masz trwające połączenie z nierozwiązanymi konfliktami. Rozwiąż konflikty lub przerwij scalanie.</value>
   </data>
   <data name="AbortMergeAndSwitch" xml:space="preserve">
-    <value>Abort merge and switch to '{0}'</value>
+    <value>Przerwij scalanie i przełącz na '{0}'</value>
   </data>
   <data name="StayAndResolveConflicts" xml:space="preserve">
-    <value>Stay on '{0}' and resolve conflicts</value>
+    <value>Pozostań w '{0}' i rozwiąż konflikty</value>
   </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Zmień gałąź</value>
@@ -3317,7 +3317,7 @@
     <value>Inicjalizuj repozytorium</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Initialize current folder as a git repository</value>
+    <value>Zainicjuj bieżący folder jako repozytorium GitHub</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
     <value>Nazwa zdalnego repozytorium</value>
@@ -3332,10 +3332,10 @@
     <value>Sortuj pozycje według ścieżki</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>Open selected directory in a new pane</value>
+    <value>Otwórz zaznaczony folder w nowym panelu</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>Open selected directory in a new tab</value>
+    <value>Otwórz wybrany katalog w nowej karcie</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
     <value>Otwórz zaznaczony katalog w nowym oknie</value>
@@ -3363,10 +3363,10 @@
     <value>Polecenie '{0}' nie jest gotowe do wykonania.</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>Command Palette</value>
+    <value>Paleta poleceń</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open Command Palette in the OmniBar</value>
+    <value>Otwórz paletę poleceń w OmniBar</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>Rozpocznij w:</value>
@@ -3497,7 +3497,7 @@
     <value>Przetwarzanie elementów...</value>
   </data>
   <data name="DiscoveringItems" xml:space="preserve">
-    <value>Discovering items...</value>
+    <value>Odkryj przedmioty...</value>
   </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Prędkość:</value>
@@ -3511,27 +3511,27 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>Compressed {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Skompresowano {0, plural, one {# przedmiot} few {# przedmiotów} many {# przedmiotów} other {# przedmiotów}} do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
-    <value>Compressed {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Skompresowano {0, plural, one {# przedmiot} few {# przedmiotów} many {# przedmiotów} other {# przedmiotów}} z "{1}" do "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Error compressing {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Błąd kompresji {0, plural, one {# przedmiot} few {# przedmiotów} many {# przedmiotów} other {# przedmiotów}} do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>Failed to compress {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Nie udało się skompresować {0, plural, one {# przedmiotu} few {# przedmiotów} many {# przedmiotów} other {# przedmiotów}} z "{1}" do "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>Compressing {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Kompresowanie {0, plural, one {# przedmiotu} few {# przedmiotów} many {# przedmiotów} other {# przedmiotów}} do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
-    <value>Compressing {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Kompresowanie {0, plural, one {# przedmiotu} few {# przedmiotów} many {# przedmiotów} other {# przedmiotów}} z "{1}" do "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
@@ -3571,67 +3571,67 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled installing {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>Anulowano instalację {0, plural, one {# czcionki} few {# czcionek} many {# czcionek} other {# czcionek}} z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
-    <value>Installed {0, plural, one {# font} other {# fonts}}</value>
+    <value>Zainstalowano {0, plural, one {# czcionkę} few {# czcionki} many {# czcionki} other {# czcionki}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
-    <value>Installed {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>Zainstalowano {0, plural, one {# czcionkę} few {# czcionki} many {# czcionki} other {# czcionki}} z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
-    <value>Error installing {0, plural, one {# font} other {# fonts}}</value>
+    <value>Błąd instalacji {0, plural, one {# czcionki} few {# czcionek} many {# czcionek} other {# czcionki}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
-    <value>Failed to install {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>Nie udało się zainstalować {0, plural, one {# czcionki} few {# czcionek} many {# czcionek} other {# czcionki}} z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
-    <value>Installing {0, plural, one {# font} other {# fonts}}</value>
+    <value>Instalowanie {0, plural, one {# czcionki} few {# czcionek} many {# czcionek} other {# czcionek}}</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
-    <value>Installing {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>Instalowanie {0, plural, one {# czcionki} few {# czcionek} many {# czcionek} other {# czcionek}} z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Canceled copying {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Anulowano kopiowanie {0, plural, one {# przedmiotu} few {# przedmiotów} many {# przedmiotów} other {# przedmiotów}} do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled copying {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Anulowano kopiowanie {0, plural, one {# przedmiotu} few {# przedmiotów} many {# przedmiotów} other {# przedmiotów}} z "{1}" do "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Copied {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Kopiowanie {0, plural, one {# przedmiotu} few {# przedmiotów} many {# przedmiotów} other {# przedmiotów}} do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>Copied {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Skopiowano {0, plural, one {# element} few {# elementy} many {# elementy} other {# elementy}} z "{1}" do "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Error copying {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Błąd kopiowania {0, plural, one {# elementu} few {# elementów} many {# elementów} other {# elementów}} do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>Failed to copy {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Nie udało się skopiować {0, plural, one {# elementu} other {# elementów}} z "{1}" do "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
-    <value>Copying {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Kopiowanie {0, plural, one {# elementu} few {# elementów} many {# elementów} other {# elementy}} do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>Copying {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Kopiowanie {0, plural, one {# elementu} few {# elementów} many {# elementów} other {# elementy}} z "{1}" do "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
-    <value>Discovered {0, plural, one {# item} other {# items}}</value>
+    <value>Znaleziono {0, plural, one {# element} few {# elementów} many {# elementów} other {# elementy}}</value>
     <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
@@ -3667,31 +3667,31 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>Anulowano kopiowanie {0, plural, one {# elementu} few {# elementów} many {# elementów} other {# elementów}} z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Deleted {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>Usunięto {0, plural, one {# element} few {# elementów} many {# elementów} other {# elementów}} from "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>Błąd usuwania {0, plural, one {# elementu} few {# elementów} many {# elementów} other {# elementów}} z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Failed to delete {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>Nie udało się usunąć {0, plural, one {# elementu} other {# elementów}} z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>Usuwanie {0, plural, one {# elementu} other {# elementów}} z "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>Canceled moving {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>Anulowano przenoszenie {0, plural, one {# elementu} other {# elementów}} do "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled moving {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Anulowano przenoszenie {0, plural, one {# elementu} other {# elementów}} z "{1}" do "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
@@ -3789,7 +3789,7 @@
     <value>Wystąpił błąd podczas stosowania tego tagu</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
+    <value>Wypakuj wybrane {0, plural, one {archiwum} few {archiwa} many {archiwa} other {archiwa}} tutaj dla pojedynczego elementu lub do folderu dla wielu elementów</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>Wypakuj tutaj (Inteligentnie)</value>
@@ -3798,7 +3798,7 @@
     <value>Posortuj razem pliki i foldery</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>Sort files and folders in the same list</value>
+    <value>Sortuj pliki i foldery na tej samej liście</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
     <value>Posortuj najpierw pliki</value>
@@ -4028,7 +4028,7 @@
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
   <data name="ImageFiles" xml:space="preserve">
-    <value>Image Files</value>
+    <value>Pliki obrazów</value>
     <comment>This is the friendly name for image files.</comment>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
@@ -4063,13 +4063,13 @@
     <value>Menu akcji kart</value>
   </data>
   <data name="SplitPaneVertically" xml:space="preserve">
-    <value>Split vertically</value>
+    <value>Podziel w pionie</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
     <value>Split pane vertically</value>
   </data>
   <data name="SplitPaneHorizontally" xml:space="preserve">
-    <value>Split horizontally</value>
+    <value>Podziel w poziomie</value>
   </data>
   <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
     <value>Split pane horizontally</value>
@@ -4087,7 +4087,7 @@
     <value>Ułóż strony poziomo</value>
   </data>
   <data name="SplitPane" xml:space="preserve">
-    <value>Split pane</value>
+    <value>podział panelu</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Pokaż przycisk akcji karty na pasku tytułu</value>
@@ -4265,7 +4265,7 @@
     <value>Wpisz ścieżkę do...</value>
   </data>
   <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
-    <value>Find features and commands...</value>
+    <value>Znajdź funkcje i komendy...</value>
   </data>
   <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
     <value>Szukaj plików i folderów...</value>
@@ -4281,73 +4281,79 @@
     <comment>Screen reader name for the status center progress ring</comment>
   </data>
   <data name="IconFiles" xml:space="preserve">
-    <value>Icon files</value>
+    <value>Pliki ikon</value>
     <comment>This is the friendly name for a variety of different icon files.</comment>
   </data>
   <data name="BreadcrumbBarEllipsisButtonToolTip" xml:space="preserve">
     <value>Show collapsed path breadcrumbs</value>
   </data>
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
-    <value>Show folders in {0}</value>
+    <value>Pokaż foldery w {0}</value>
   </data>
   <data name="BreadcrumbBarRootChevronButtonToolTip" xml:space="preserve">
-    <value>Show folders in Home</value>
+    <value>Pokaż foldery na stronie głównej</value>
   </data>
   <data name="NoCommandsFound" xml:space="preserve">
-    <value>There are no commands containing {0}</value>
+    <value>Nie ma poleceń zawierających {0}</value>
   </data>
   <data name="SeeMore" xml:space="preserve">
-    <value>See more</value>
+    <value>Zobacz więcej</value>
   </data>
   <data name="FilteringFor" xml:space="preserve">
-    <value>Filtering for</value>
+    <value>Filtrowanie dla</value>
   </data>
   <data name="Filename" xml:space="preserve">
-    <value>Filename</value>
+    <value>Nazwa pliku</value>
   </data>
   <data name="Signatures" xml:space="preserve">
-    <value>Signatures</value>
+    <value>Sygnatury</value>
    </data>
   <data name="SignatureList" xml:space="preserve">
-    <value>Signature list</value>
+    <value>Lista podpisów</value>
   </data>
   <data name="IssuedBy" xml:space="preserve">
-    <value>Issued by:</value>
+    <value>Wystawca:</value>
   </data>
   <data name="IssuedTo" xml:space="preserve">
-    <value>Issued to:</value>
+    <value>Wydany dla:</value>
   </data>
   <data name="ValidFrom" xml:space="preserve">
-    <value>Valid from:</value>
+    <value>Data wydania:</value>
   </data>
   <data name="ValidTo" xml:space="preserve">
-    <value>Valid to:</value>
+    <value>Ważne do:</value>
   </data>
   <data name="NoSignatureFound" xml:space="preserve">
-    <value>No signature was found.</value>
+    <value>Nie znaleziono podpisu.</value>
   </data>
   <data name="ShowOpenTerminal" xml:space="preserve">
-    <value>Show option to open folders in Windows Terminal</value>
+    <value>Pokaż opcję otwierania folderów w Terminalu Windows</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
-    <value>Open log file</value>
+    <value>Otwórz plik dziennika</value>
   </data>
   <data name="OpenLogFileDescription" xml:space="preserve">
-    <value>Open log file in your default editor</value>
+    <value>Otwórz plik dziennika w domyślnym edytorze</value>
   </data>
   <data name="OpenLogFileLocationDescription" xml:space="preserve">
-    <value>Open log file location in your default file manager</value>
+    <value>Otwórz lokalizację pliku dziennika w domyślnym eksploratorze plików</value>
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
-    <value>Unable to open the log file</value>
+    <value>Nie można otworzyć pliku dziennika</value>
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
-    <value>Show status bar</value>
+    <value>Pokaż pasek statusu</value>
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
     <value>Only in Columns View</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
-    <value>New {0}</value>
+    <value>Nowy {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Enable smooth scrolling</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Scrolling</value>
   </data>
 </root>
