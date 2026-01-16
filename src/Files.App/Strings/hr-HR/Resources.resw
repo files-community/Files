@@ -1773,7 +1773,7 @@
     <value>Oznaka datoteke</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Otvori datoteke jednim klikom</value>
+    <value>Otvaranje datoteka jednim klikom</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Putanja do mape</value>
@@ -2073,7 +2073,7 @@
     <value>Zaključani zaslon</value>
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
-    <value>Otvori mape jednim klikom</value>
+    <value>Otvaranje mapa jednim klikom</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Otvaranje stavki</value>
@@ -2745,7 +2745,7 @@
     <value>Dupliciraj odabranu karticu</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Close tabs to the left of current tab</value>
+    <value>Zatvori kartice lijevo od trenutne kartice</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
     <value>Close tabs to the left of selected tab</value>
@@ -4345,9 +4345,15 @@
     <value>Prikaži statusnu traku</value>
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
-    <value>Only in Columns View</value>
+    <value>Samo u prikazu stupaca</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>New {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Enable smooth scrolling</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Scrolling</value>
   </data>
 </root>
