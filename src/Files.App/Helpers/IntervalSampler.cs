@@ -5,32 +5,30 @@ namespace Files.App.Helpers
 {
 	internal sealed class IntervalSampler
 	{
-		private DateTime recordPoint;
-		private TimeSpan sampleInterval;
+		private readonly TimeSpan sampleInterval;
+		private DateTime nextRecordPoint;
 
-		public IntervalSampler(int millisecondsInterval)
+		public IntervalSampler(int millisecondsInterval) : this(TimeSpan.FromMilliseconds(millisecondsInterval))
 		{
-			sampleInterval = TimeSpan.FromMilliseconds(millisecondsInterval);
-			recordPoint = DateTime.Now;
 		}
 
 		public IntervalSampler(TimeSpan interval)
 		{
 			sampleInterval = interval;
-			recordPoint = DateTime.Now;
+			Reset();
 		}
 
 		public void Reset()
 		{
-			recordPoint = DateTime.Now;
+			nextRecordPoint = DateTime.UtcNow + sampleInterval;
 		}
 
 		public bool CheckNow()
 		{
-			var now = DateTime.Now;
-			if (now - sampleInterval >= recordPoint)
+			var utcNow = DateTime.UtcNow;
+			if (utcNow >= nextRecordPoint)
 			{
-				recordPoint = now;
+				Reset();
 				return true;
 			}
 			return false;
