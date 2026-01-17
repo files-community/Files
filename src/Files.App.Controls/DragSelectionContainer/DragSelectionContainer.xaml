@@ -1,0 +1,42 @@
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:local="using:Files.App.Controls">
+
+	<SolidColorBrush
+		x:Key="SystemAccentColor50Brush"
+		Opacity="0.5"
+		Color="{ThemeResource SystemAccentColor}" />
+
+	<Style BasedOn="{StaticResource DefaultDragSelectionContainerStyle}" TargetType="local:DragSelectionContainer" />
+
+	<Style x:Key="DefaultDragSelectionContainerStyle" TargetType="local:DragSelectionContainer">
+		<Setter Property="Background" Value="{ThemeResource SystemAccentColor50Brush}" />
+		<Setter Property="BorderBrush" Value="{ThemeResource SystemAccentColor}" />
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:DragSelectionContainer">
+					<Grid x:Name="PART_RootGrid">
+
+						<ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding Content}" />
+
+						<Canvas HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+							<Rectangle
+								Name="PART_SelectionRectangle"
+								Canvas.Left="0"
+								Canvas.Top="0"
+								Width="0"
+								Height="0"
+								Fill="{TemplateBinding Background}"
+								Stroke="{TemplateBinding BorderBrush}"
+								StrokeThickness="{TemplateBinding BorderThickness}" />
+						</Canvas>
+
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+</ResourceDictionary>

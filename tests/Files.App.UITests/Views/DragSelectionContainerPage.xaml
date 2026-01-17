@@ -1,0 +1,42 @@
+<Page
+	x:Class="Files.App.UITests.Views.DragSelectionContainerPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:Files.App.UITests.Views"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d">
+
+	<StackPanel Spacing="24">
+
+		<controls:SamplePanel Header="With Items">
+			<controls:SamplePanel.MainContent>
+
+				<controls:DragSelectionContainer>
+					<controls:DragSelectionContainer.Targets>
+						<controls:DragSelectionTarget Target="{x:Bind Sample1ListView1}" />
+					</controls:DragSelectionContainer.Targets>
+
+					<Grid Height="800">
+						<ListView x:Name="Sample1ListView1">
+							<ListViewItem Content="ListViewItem 1" />
+							<ListViewItem Content="ListViewItem 2" />
+							<ListViewItem Content="ListViewItem 3" />
+							<ListViewItem Content="ListViewItem 4" />
+							<ListViewItem Content="ListViewItem 5" />
+							<ListViewItem Content="ListViewItem 6" />
+							<ListViewItem Content="ListViewItem 7" />
+							<ListViewItem Content="ListViewItem 8" />
+							<ListViewItem Content="ListViewItem 9" />
+							<ListViewItem Content="ListViewItem 10" />
+						</ListView>
+					</Grid>
+
+				</controls:DragSelectionContainer>
+
+			</controls:SamplePanel.MainContent>
+		</controls:SamplePanel>
+
+	</StackPanel>
+</Page>

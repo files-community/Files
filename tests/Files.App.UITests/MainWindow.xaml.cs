@@ -55,6 +55,7 @@ namespace Files.App.UITests
 					nameof(ResizeVisualPage) => typeof(ResizeVisualPage),
 					nameof(TableViewPage) => typeof(TableViewPage),
 					nameof(SnapPanelContainerPage) => typeof(SnapPanelContainerPage),
+					nameof(DragSelectionContainerPage) => typeof(DragSelectionContainerPage),
 					_ => throw new InvalidOperationException("There's no applicable page associated with the given key."),
 				});
 

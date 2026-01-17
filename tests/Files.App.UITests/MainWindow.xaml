@@ -97,6 +97,7 @@
 						<NavigationViewItem Content="ResizeVisual" Tag="ResizeVisualPage" />
 						<NavigationViewItem Content="TableView" Tag="TableViewPage" />
 						<NavigationViewItem Content="SnapPanelContainer" Tag="SnapPanelContainerPage" />
+						<NavigationViewItem Content="DragSelectionContainer" Tag="DragSelectionContainerPage" />
 					</NavigationViewItem.MenuItems>
 				</NavigationViewItem>
 			</NavigationView.MenuItems>
