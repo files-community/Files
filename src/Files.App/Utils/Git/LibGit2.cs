@@ -80,12 +80,14 @@ namespace Files.App.Utils.Git
 			{
 				if (IsRepoValid(path))
 					return path;
-
-				var parentDir = PathNormalization.GetParentDir(path);
-				if (parentDir == path)
-					return null;
-
-				return GetGitRepositoryPath(parentDir, root);
+				else
+				{
+					var parentDir = PathNormalization.GetParentDir(path);
+					if (parentDir == path)
+						return null;
+					else
+						return GetGitRepositoryPath(parentDir, root);
+				}
 			}
 			catch (Exception ex) when (ex is LibGit2SharpException or EncoderFallbackException)
 			{
@@ -130,7 +132,7 @@ namespace Files.App.Utils.Git
 						.Select(b => new BranchItem(b.FriendlyName, b.IsCurrentRepositoryHead, b.IsRemote, TryGetTrackingDetails(b)?.AheadBy ?? 0, TryGetTrackingDetails(b)?.BehindBy ?? 0))
 						.ToArray();
 				}
-				catch
+				catch (Exception)
 				{
 					result = GitOperationResult.GenericError;
 				}
@@ -174,6 +176,9 @@ namespace Files.App.Utils.Git
 
 		public async Task<bool> Checkout(string? repositoryPath, string? branch)
 		{
+			// Re-enable when Metrics feature is available again
+			// SentrySdk.Metrics.Increment("Triggered git checkout");
+
 			if (string.IsNullOrWhiteSpace(repositoryPath) || !IsRepoValid(repositoryPath))
 				return false;
 
@@ -229,6 +234,7 @@ namespace Files.App.Utils.Git
 						}
 
 						repository.Stashes.Add(signature);
+
 						isBringingChanges = resolveConflictOption is GitCheckoutOptions.BringChanges;
 						break;
 				}
@@ -249,7 +255,7 @@ namespace Files.App.Utils.Git
 						repository.Stashes.Pop(lastStashIndex, new StashApplyOptions());
 					}
 				}
-				catch
+				catch (Exception)
 				{
 					return GitOperationResult.GenericError;
 				}
@@ -258,11 +264,15 @@ namespace Files.App.Utils.Git
 			});
 
 			IsExecutingGitAction = false;
+
 			return result is GitOperationResult.Success;
 		}
 
 		public async Task CreateNewBranchAsync(string repositoryPath, string activeBranch)
 		{
+			// Re-enable when Metrics feature is available again
+			// SentrySdk.Metrics.Increment("Triggered create git branch");
+
 			var viewModel = new AddBranchDialogViewModel(repositoryPath, activeBranch);
 			var loadBranchesTask = viewModel.LoadBranches();
 			var dialog = _dialogService.GetDialog(viewModel);
@@ -291,6 +301,9 @@ namespace Files.App.Utils.Git
 
 		public async Task DeleteBranchAsync(string? repositoryPath, string? activeBranch, string? branchToDelete)
 		{
+			// Re-enable when Metris feature is available again
+			// SentrySdk.Metrics.Increment("Triggered delete git branch");
+
 			if (string.IsNullOrWhiteSpace(repositoryPath) ||
 				string.IsNullOrWhiteSpace(activeBranch) ||
 				string.IsNullOrWhiteSpace(branchToDelete) ||
@@ -314,7 +327,7 @@ namespace Files.App.Utils.Git
 					using var repository = new Repository(repositoryPath);
 					repository.Branches.Remove(branchToDelete);
 				}
-				catch
+				catch (Exception)
 				{
 					return GitOperationResult.GenericError;
 				}
@@ -397,6 +410,7 @@ namespace Files.App.Utils.Git
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
 				if (cancellationToken.IsCancellationRequested)
+					// Do nothing because the operation was cancelled and another fetch may be in progress
 					return;
 
 				IsExecutingGitAction = false;
@@ -672,6 +686,7 @@ namespace Files.App.Utils.Git
 			if (getCommit)
 			{
 				commit = GetLastCommitForFile(repository, relativePath);
+				//var commit = repository.Commits.QueryBy(relativePath).FirstOrDefault()?.Commit; // Considers renames but slow
 			}
 
 			ChangeKind? changeKind = null;
@@ -679,6 +694,7 @@ namespace Files.App.Utils.Git
 			if (getStatus)
 			{
 				changeKind = ChangeKind.Unmodified;
+				//foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>())
 				foreach (TreeEntryChanges c in repository.Diff.Compare<TreeChanges>(repository.Commits.FirstOrDefault()?.Tree, DiffTargets.Index | DiffTargets.WorkingDirectory))
 				{
 					if (c.Path.StartsWith(relativePath))
@@ -710,8 +726,10 @@ namespace Files.App.Utils.Git
 			};
 		}
 
+		// Remove saved credentails
 		public void RemoveSavedCredentials() => CredentialsHelpers.DeleteSavedPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
 
+		// Get saved credentails
 		public string GetSavedCredentials() => CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
 
 		public async Task InitializeRepositoryAsync(string? path)
@@ -802,7 +820,10 @@ namespace Files.App.Utils.Git
 				ReturnResult.Failed);
 		}
 
-		private static bool IsRepoValid(string path) => SafetyExtensions.IgnoreExceptions(() => Repository.IsValid(path));
+		private static bool IsRepoValid(string path)
+		{
+			return SafetyExtensions.IgnoreExceptions(() => Repository.IsValid(path));
+		}
 
 		private static IEnumerable<Branch> GetValidBranches(BranchCollection branches)
 		{
@@ -849,7 +870,10 @@ namespace Files.App.Utils.Git
 				else if (parentCount == 1)
 				{
 					var parentCommit = currentCommit.Parents.Single();
+
+					// Does not consider renames
 					var parentPath = currentPath;
+
 					var parentTreeEntry = parentCommit.Tree[parentPath];
 
 					if (parentTreeEntry == null ||
@@ -868,17 +892,26 @@ namespace Files.App.Utils.Git
 		{
 			var uniqueName = branch.FriendlyName.Substring(END_OF_ORIGIN_PREFIX);
 
+			// TODO: This is a temp fix to avoid an issue where Files would create many branches in a loop
 			if (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
 				return;
 
+			//var discriminator = 0;
+			//while (repository.Branches.Any(b => !b.IsRemote && b.FriendlyName == uniqueName))
+			//	uniqueName = $"{branch.FriendlyName}_{++discriminator}";
+
 			var newBranch = repository.CreateBranch(uniqueName, branch.Tip);
 			repository.Branches.Update(newBranch, b => b.TrackedBranch = branch.CanonicalName);
+
 			LibGit2Sharp.Commands.Checkout(repository, newBranch);
 		}
 
-		private static bool IsAuthorizationException(Exception ex) =>
-			ex.Message.Contains("status code: 401", StringComparison.OrdinalIgnoreCase) ||
-			ex.Message.Contains("authentication replays", StringComparison.OrdinalIgnoreCase);
+		private static bool IsAuthorizationException(Exception ex)
+		{
+			return
+				ex.Message.Contains("status code: 401", StringComparison.OrdinalIgnoreCase) ||
+				ex.Message.Contains("authentication replays", StringComparison.OrdinalIgnoreCase);
+		}
 
 		private static async Task<T?> DoGitOperationAsync<T>(Func<object> payload, bool useSemaphore = false)
 		{
