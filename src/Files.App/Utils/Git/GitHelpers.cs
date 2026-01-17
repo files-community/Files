@@ -13,6 +13,7 @@ namespace Files.App.Utils.Git
 {
 	internal static partial class GitHelpers
 	{
+		// The implementation of the version control interface; it's hardcoded right now but will be made configurable in the future (#16738)
 		private static readonly IVersionControl _impl = new LibGit2();
 
 		/// <inheritdoc cref="IVersionControl.IsExecutingGitActionChanged"/>
