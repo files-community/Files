@@ -91,15 +91,29 @@ namespace Files.App.Actions
 					if (zipFile is null)
 						return true;
 
-					return zipFile.ArchiveFileData.Select(file =>
+					static string? GetFirstMeaningfulSegment(string? fileName)
 					{
-						var pathCharIndex = file.FileName.IndexOfAny(['/', '\\']);
-						if (pathCharIndex == -1)
-							return file.FileName;
-						else
-							return file.FileName.Substring(0, pathCharIndex);
-					})
-					.Distinct().Count() > 1;
+						if (string.IsNullOrEmpty(fileName))
+							return null;
+
+						var parts = fileName.Split(['/', '\\'], StringSplitOptions.RemoveEmptyEntries);
+						foreach (var part in parts)
+						{
+							if (part is "." or "..")
+								continue;
+							return part;
+						}
+
+						return null;
+					}
+
+					var topLevelEntries = zipFile.ArchiveFileData
+						.Select(file => GetFirstMeaningfulSegment(file.FileName))
+						.Where(x => !string.IsNullOrEmpty(x))
+						.Distinct()
+						.Count();
+
+					return topLevelEntries > 1;
 				});
 
 				if (smart && currentFolder is not null && isMultipleItems)
