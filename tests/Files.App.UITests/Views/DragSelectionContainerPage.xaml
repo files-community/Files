@@ -18,8 +18,53 @@
 						<controls:DragSelectionTarget Target="{x:Bind Sample1ListView1}" />
 					</controls:DragSelectionContainer.Targets>
 
-					<Grid Height="800">
-						<ListView x:Name="Sample1ListView1">
+					<Grid>
+						<ListView
+							x:Name="Sample1ListView1"
+							Width="600"
+							Height="800"
+							Margin="0,0,0,300"
+							HorizontalAlignment="Left">
+							<ListViewItem Content="ListViewItem 1" />
+							<ListViewItem Content="ListViewItem 2" />
+							<ListViewItem Content="ListViewItem 3" />
+							<ListViewItem Content="ListViewItem 4" />
+							<ListViewItem Content="ListViewItem 5" />
+							<ListViewItem Content="ListViewItem 6" />
+							<ListViewItem Content="ListViewItem 7" />
+							<ListViewItem Content="ListViewItem 8" />
+							<ListViewItem Content="ListViewItem 9" />
+							<ListViewItem Content="ListViewItem 10" />
+							<ListViewItem Content="ListViewItem 1" />
+							<ListViewItem Content="ListViewItem 2" />
+							<ListViewItem Content="ListViewItem 3" />
+							<ListViewItem Content="ListViewItem 4" />
+							<ListViewItem Content="ListViewItem 5" />
+							<ListViewItem Content="ListViewItem 6" />
+							<ListViewItem Content="ListViewItem 7" />
+							<ListViewItem Content="ListViewItem 8" />
+							<ListViewItem Content="ListViewItem 9" />
+							<ListViewItem Content="ListViewItem 10" />
+							<ListViewItem Content="ListViewItem 1" />
+							<ListViewItem Content="ListViewItem 2" />
+							<ListViewItem Content="ListViewItem 3" />
+							<ListViewItem Content="ListViewItem 4" />
+							<ListViewItem Content="ListViewItem 5" />
+							<ListViewItem Content="ListViewItem 6" />
+							<ListViewItem Content="ListViewItem 7" />
+							<ListViewItem Content="ListViewItem 8" />
+							<ListViewItem Content="ListViewItem 9" />
+							<ListViewItem Content="ListViewItem 10" />
+							<ListViewItem Content="ListViewItem 1" />
+							<ListViewItem Content="ListViewItem 2" />
+							<ListViewItem Content="ListViewItem 3" />
+							<ListViewItem Content="ListViewItem 4" />
+							<ListViewItem Content="ListViewItem 5" />
+							<ListViewItem Content="ListViewItem 6" />
+							<ListViewItem Content="ListViewItem 7" />
+							<ListViewItem Content="ListViewItem 8" />
+							<ListViewItem Content="ListViewItem 9" />
+							<ListViewItem Content="ListViewItem 10" />
 							<ListViewItem Content="ListViewItem 1" />
 							<ListViewItem Content="ListViewItem 2" />
 							<ListViewItem Content="ListViewItem 3" />

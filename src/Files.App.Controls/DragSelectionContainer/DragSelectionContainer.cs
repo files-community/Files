@@ -1,13 +1,9 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.Foundation;
-using Windows.System;
 
 namespace Files.App.Controls
 {
@@ -41,12 +37,14 @@ namespace Files.App.Controls
 		private Point _dragCurrentPoint;
 		private DragSelectionKind _selectionKind;
 		private DragSelectionState _selectionState;
+		private Dictionary<FrameworkElement, DragSelectionItemPositionCacheEntry> _positionOfItems;
 
 		public DragSelectionContainer()
 		{
 			DefaultStyleKey = typeof(DragSelectionContainer);
 			Targets = [];
 			_dispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread().CreateTimer();
+			_positionOfItems = [];
 		}
 
 		protected override void OnApplyTemplate()
@@ -62,57 +60,11 @@ namespace Files.App.Controls
 			_contentPresenter.PointerReleased += ContentPresenter_PointerReleased;
 		}
 
-		private void ContentPresenter_PointerPressed(object sender, PointerRoutedEventArgs e)
+		protected void DrawRectangleOnCanvas()
 		{
-			if (_contentPresenter is null)
+			if (_contentPresenter is null || _selectionRectangle is null)
 				return;
 
-			var currentPointerPointInfo = e.GetCurrentPoint(_contentPresenter);
-			if (currentPointerPointInfo.Properties.IsLeftButtonPressed &&
-				e.Pointer.PointerDeviceType is Microsoft.UI.Input.PointerDeviceType.Touch)
-				return;
-
-			_dragStartPoint = currentPointerPointInfo.Position;
-			_selectionKind = e.KeyModifiers switch
-			{
-				var modifiers when modifiers.HasFlag(VirtualKeyModifiers.Control) => DragSelectionKind.InvertPreviousSelection,
-				var modifiers when modifiers.HasFlag(VirtualKeyModifiers.Shift) => DragSelectionKind.ExtendPreviousSelection,
-				_ => DragSelectionKind.IgnorePreviousSelection,
-			};
-
-			_contentPresenter.PointerMoved -= ContentPresenter_PointerMoved;
-			_contentPresenter.PointerMoved += ContentPresenter_PointerMoved;
-
-			//if (_selectionKind is DragSelectionKind.IgnorePreviousSelection)
-			//{
-			//	foreach (var target in Targets)
-			//		target.Target.SelectedItems.Clear();
-			//}
-
-			_contentPresenter.CapturePointer(e.Pointer);
-			_selectionState = DragSelectionState.Started;
-
-			e.Handled = true;
-		}
-
-		private void ContentPresenter_PointerMoved(object sender, PointerRoutedEventArgs e)
-		{
-			var currentPointerPointInfo = e.GetCurrentPoint(_contentPresenter);
-			if (!currentPointerPointInfo.Properties.IsLeftButtonPressed ||
-				_contentPresenter is null || _selectionRectangle is null)
-				return;
-
-			_dragCurrentPoint = currentPointerPointInfo.Position;
-
-			// When the drag just started, ignore small movements to avoid accidental selections
-			if (_selectionState is DragSelectionState.Started &&
-				(Math.Abs(_dragStartPoint.X - _dragCurrentPoint.X) < 5 ||
-				Math.Abs(_dragStartPoint.Y - _dragCurrentPoint.Y) < 5))
-				return;
-
-			_selectionState = DragSelectionState.Moving;
-
-			// Draw a rectangle visual
 			if (_dragCurrentPoint.X >= _dragStartPoint.X)
 			{
 				double maxWidth = _contentPresenter.ActualWidth - _dragStartPoint.X;
@@ -152,26 +104,27 @@ namespace Files.App.Controls
 					_selectionRectangle.Height = Math.Max(0, _dragCurrentPoint.Y - Math.Max(0, _dragStartPoint.Y));
 				}
 			}
-
-			e.Handled = true;
 		}
 
-		private void ContentPresenter_PointerReleased(object sender, PointerRoutedEventArgs e)
+		protected void GetPositionOfItemsInViewport()
 		{
-			if (_selectionRectangle is null || _contentPresenter is null)
-				return;
+			// Retrieve position of items shown in the current view
+			foreach (var target in Targets)
+			{
+				foreach (var item in target.Target.Items)
+				{
+					var obj = target.Target.ContainerFromItem(item);
+					if (obj is not FrameworkElement frameworkElement)
+						return;
 
-			Canvas.SetLeft(_selectionRectangle, 0);
-			Canvas.SetTop(_selectionRectangle, 0);
-			_selectionRectangle.Width = 0;
-			_selectionRectangle.Height = 0;
+					var transform = frameworkElement.TransformToVisual(_contentPresenter);
+					var itemTopLeftPoint = transform.TransformPoint(new(0, 0));
+					var itemRect = new Rect(itemTopLeftPoint, new Size(frameworkElement.ActualWidth, frameworkElement.ActualHeight));
 
-			_contentPresenter.PointerMoved -= ContentPresenter_PointerMoved;
-			_contentPresenter.ReleasePointerCapture(e.Pointer);
-
-			_selectionState = DragSelectionState.Ended;
-
-			e.Handled = true;
+					// Save the position until the selection ends
+					_positionOfItems[frameworkElement] = new(target.Target, itemRect);
+				}
+			}
 		}
 	}
 }
