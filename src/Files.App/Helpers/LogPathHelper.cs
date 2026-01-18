@@ -16,18 +16,14 @@ namespace Files.App.Helpers
 
 			try
 			{
-				using var md5 = MD5.Create();
-				var hashBytes = md5.ComputeHash(Encoding.UTF8.GetBytes(path));
+				var hashBytes = MD5.HashData(Encoding.UTF8.GetBytes(path));
 
 				//4 bytes, still low collision 
-				var shortHash = BitConverter.ToString(hashBytes, 0, 4).Replace("-", "").ToLowerInvariant();
+				var shortHash = Convert.ToHexStringLower(hashBytes, 0, 4);
 
 				var extension = Path.GetExtension(path);
 
-				if (!string.IsNullOrEmpty(extension))
-					return $"[hash:{shortHash}{extension}]";
-				else
-					return $"[hash:{shortHash}]";
+				return $"[hash:{shortHash}{extension}]";
 			}
 			catch
 			{
