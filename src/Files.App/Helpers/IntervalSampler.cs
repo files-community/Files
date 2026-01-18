@@ -28,7 +28,7 @@ namespace Files.App.Helpers
 			var utcNow = DateTime.UtcNow;
 			if (utcNow >= nextRecordPoint)
 			{
-				Reset();
+				nextRecordPoint = utcNow + sampleInterval;
 				return true;
 			}
 			return false;
