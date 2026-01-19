@@ -12,7 +12,7 @@ namespace Files.App.ViewModels.Dialogs
 		// Properties
 
 		public bool IsNameValid =>
-			FilesystemHelpers.IsValidForFilename(_FileName) && !_FileName.Contains(".");
+			FilesystemHelpers.IsValidForFilename(_FileName) && !_FileName.Contains('.');
 
 		public bool ShowNameWarning =>
 			!string.IsNullOrEmpty(_FileName) && !IsNameValid;
