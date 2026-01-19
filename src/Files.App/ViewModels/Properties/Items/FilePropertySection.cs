@@ -20,7 +20,7 @@ namespace Files.App.ViewModels.Properties
 			=> Key.GetLocalizedResource();
 
 		public int Priority
-			=> sectionPriority.ContainsKey(Key) ? sectionPriority[Key] : 0;
+			=> sectionPriority.TryGetValue(Key, out int priority) ? priority : 0;
 
 		/// <summary>
 		/// This list sets the priorities for the sections
