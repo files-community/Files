@@ -186,7 +186,7 @@ namespace Files.App.Utils.Storage
 			if (IsNativePath(path) && CheckAccess(path))
 			{
 				var name = IO.Path.GetFileName(path);
-				return Task.FromResult((BaseStorageFile)new NativeStorageFile(path, name[(name.LastIndexOf(":") + 1)..], DateTime.Now)).AsAsyncOperation();
+				return Task.FromResult((BaseStorageFile)new NativeStorageFile(path, name[(name.LastIndexOf(':') + 1)..], DateTime.Now)).AsAsyncOperation();
 			}
 			return Task.FromResult<BaseStorageFile>(null).AsAsyncOperation();
 		}
