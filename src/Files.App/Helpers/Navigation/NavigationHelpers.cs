@@ -55,7 +55,7 @@ namespace Files.App.Helpers
 				path = "Home";
 			}
 			// Support drives launched through jump list by stripping away the question mark at the end.
-			else if (path.EndsWith("\\?"))
+			else if (path.EndsWith("\\?", StringComparison.Ordinal))
 			{
 				path = path.Remove(path.Length - 1);
 			}

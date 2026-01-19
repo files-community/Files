@@ -603,7 +603,7 @@ namespace Files.App.Views.Shells
 						// Remove the WorkingDir from previous dir
 						e.PreviousDirectory = e.PreviousDirectory.Replace(e.Path, string.Empty, StringComparison.Ordinal);
 
-						var isNetwork = e.Path.StartsWith("\\\\");
+						var isNetwork = e.Path.StartsWith("\\\\", StringComparison.Ordinal);
 						var isFtp = FtpHelpers.IsFtpPath(e.Path);
 						var separator = isFtp ? "/" : "\\";
 
