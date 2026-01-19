@@ -15,6 +15,7 @@
         <PackageReference Include="Axe.Windows" />
         <PackageReference Include="MSTest.TestAdapter" />
         <PackageReference Include="MSTest.TestFramework" />
+        <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" />
     </ItemGroup>
 
 </Project>

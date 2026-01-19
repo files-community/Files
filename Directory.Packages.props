@@ -59,6 +59,7 @@
     <PackageVersion Include="Axe.Windows" Version="2.4.2" />
     <PackageVersion Include="MSTest.TestAdapter" Version="4.0.2" />
     <PackageVersion Include="MSTest.TestFramework" Version="4.0.2" />
+    <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="2.0.2" />
     <PackageVersion Include="Dongle.GuidRVAGen" Version="1.0.5" />
   </ItemGroup>
 </Project>
