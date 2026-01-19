@@ -71,7 +71,7 @@ namespace Files.App.Utils.Shell
 					"::{031E4825-7B94-4DC3-B131-E946B44C8DD5}\\Videos.library-ms" => ShellHelpers.GetLibraryFullPathFromShell(parsingPath),
 					// Use PIDL as path
 					// Replace "/" with "_" to avoid confusion with path separator
-					_ => $@"\\SHELL\{string.Join("\\", folderItem.PIDL.Select(x => x.GetBytes()).Select(x => Convert.ToBase64String(x, 0, x.Length).Replace("/", "_")))}"
+					_ => $@"\\SHELL\{string.Join("\\", folderItem.PIDL.Select(x => x.GetBytes()).Select(x => Convert.ToBase64String(x, 0, x.Length).Replace('/', '_')))}"
 				};
 			}
 
@@ -149,7 +149,7 @@ namespace Files.App.Utils.Shell
 			{
 				pPIDL = pathOrPIDL.Replace(@"\\SHELL\", "", StringComparison.Ordinal)
 					// Avoid confusion with path separator
-					.Replace("_", "/")
+					.Replace('_', '/')
 					.Split('\\', StringSplitOptions.RemoveEmptyEntries)
 					.Select(pathSegment => new Shell32.PIDL(Convert.FromBase64String(pathSegment)))
 					.Aggregate(Shell32.PIDL.Combine);
