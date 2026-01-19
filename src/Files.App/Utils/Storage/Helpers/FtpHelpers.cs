@@ -67,7 +67,7 @@ namespace Files.App.Utils.Storage
 		{
 			path = path.Replace("\\", "/", StringComparison.Ordinal);
 			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
-			var hostIndex = path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
+			var hostIndex = path.IndexOf('/', schemaIndex);
 			return hostIndex == -1 ? "/" : path.Substring(hostIndex);
 		}
 
@@ -75,7 +75,7 @@ namespace Files.App.Utils.Storage
 		{
 			path = path.Replace("\\", "/", StringComparison.Ordinal);
 			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
-			return path.IndexOf("/", schemaIndex, StringComparison.Ordinal);
+			return path.IndexOf('/', schemaIndex);
 		}
 	}
 }
