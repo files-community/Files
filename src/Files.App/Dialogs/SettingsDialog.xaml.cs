@@ -30,7 +30,7 @@ namespace Files.App.Dialogs
 
 		public void NavigateTo(SettingsNavigationParams navParams)
 		{
-			var defaultTag = SettingsPageKind.AppearancePage.ToString();
+			const string? defaultTag = nameof(SettingsPageKind.AppearancePage);
 			var oldSelection = MainSettingsNavigationView.MenuItems.FirstOrDefault(item => ((NavigationViewItem)item).IsSelected) as NavigationViewItem;
 			var targetSection = MainSettingsNavigationView.MenuItems.FirstOrDefault(
 				item => Enum.Parse<SettingsPageKind>(((NavigationViewItem)item).Tag.ToString() ?? defaultTag) == navParams.PageKind
