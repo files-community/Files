@@ -237,7 +237,8 @@ jobs:
         shell: pwsh
         command: |
           dotnet test `
-            --test-modules $env:AUTOMATED_TESTS_ASSEMBLY_DIR\**\Files.InteractionTests.dll `
+            --test-modules **\Files.InteractionTests.dll `
+            --root-directory $env:AUTOMATED_TESTS_ASSEMBLY_DIR `
             --results-directory $env:AUTOMATED_TESTS_ASSEMBLY_DIR `
             --report-trx `
             --report-trx-filename testResults.trx
