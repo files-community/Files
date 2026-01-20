@@ -23,6 +23,9 @@ namespace Files.App.Services.Thumbnails
 		private const long DefaultCacheSizeMiB = 512;
 		private const string CacheFileExtension = ".thumb";
 
+		private const System.IO.FileAttributes CloudPinned = (System.IO.FileAttributes)0x80000;
+		private const System.IO.FileAttributes CloudUnpinned = (System.IO.FileAttributes)0x100000;
+
 		public ThumbnailCache(IUserSettingsService userSettingsService, ILogger<ThumbnailCache> logger)
 		{
 			_logger = logger;
@@ -121,8 +124,9 @@ namespace Files.App.Services.Thumbnails
 		{
 			var iconType = options.HasFlag(IconOptions.ReturnIconOnly) ? "icon" : "thumb";
 
-			// Unique key for hashing
-			var input = $"{path.ToLowerInvariant()}|{size}|{iconType}|{metadata.Modified.Ticks}|{metadata.Size}";
+			var input = metadata.CloudStatus != 0
+				? $"{path.ToLowerInvariant()}|{size}|{iconType}|{metadata.Modified.Ticks}|{metadata.Size}|{(int)metadata.CloudStatus}"
+				: $"{path.ToLowerInvariant()}|{size}|{iconType}|{metadata.Modified.Ticks}|{metadata.Size}";
 			var hash = SHA256.HashData(Encoding.UTF8.GetBytes(input));
 			return Convert.ToHexString(hash);
 		}
@@ -134,19 +138,23 @@ namespace Files.App.Services.Thumbnails
 				if (Directory.Exists(path))
 				{
 					var dirInfo = new DirectoryInfo(path);
+					var cloudStatus = dirInfo.Attributes & (CloudPinned | CloudUnpinned);
 					return new FileMetadata
 					{
 						Modified = dirInfo.LastWriteTimeUtc,
-						Size = 0
+						Size = 0,
+						CloudStatus = cloudStatus
 					};
 				}
 				else
 				{
 					var fileInfo = new FileInfo(path);
+					var cloudStatus = fileInfo.Attributes & (CloudPinned | CloudUnpinned);
 					return new FileMetadata
 					{
 						Modified = fileInfo.LastWriteTimeUtc,
-						Size = fileInfo.Length
+						Size = fileInfo.Length,
+						CloudStatus = cloudStatus
 					};
 				}
 			}
@@ -155,7 +163,8 @@ namespace Files.App.Services.Thumbnails
 				return new FileMetadata
 				{
 					Modified = DateTime.MinValue,
-					Size = 0
+					Size = 0,
+					CloudStatus = 0
 				};
 			}
 		}
@@ -330,6 +339,7 @@ namespace Files.App.Services.Thumbnails
 	{
 		public DateTime Modified { get; init; }
 		public long Size { get; init; }
+		public System.IO.FileAttributes CloudStatus { get; init; }
 	}
 
 	internal record CacheEntry
