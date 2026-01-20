@@ -20,7 +20,7 @@ namespace Files.App.Services.Thumbnails
 		private readonly ILogger _logger;
 		private readonly IUserSettingsService _userSettingsService;
 
-		private const long DefaultCacheSizeMB = 512;
+		private const long DefaultCacheSizeMiB = 512;
 		private const string CacheFileExtension = ".thumb";
 
 		public ThumbnailCache(IUserSettingsService userSettingsService, ILogger<ThumbnailCache> logger)
@@ -201,7 +201,7 @@ namespace Files.App.Services.Thumbnails
 
 				if (currentSize > maxCacheSizeBytes)
 				{
-					_logger.LogInformation("Cache size {Current} MB exceeds limit {Max} MB, evicting...",
+					_logger.LogInformation("Cache size {Current} MiB exceeds limit {Max} MiB, evicting...",
 						currentSize / 1024 / 1024, maxCacheSizeBytes / 1024 / 1024);
 
 					await EvictToSizeCoreAsync(maxCacheSizeBytes * 3 / 4);
@@ -215,11 +215,11 @@ namespace Files.App.Services.Thumbnails
 
 		private long GetMaxCacheSizeBytes()
 		{
-			var cacheSizeMB = _userSettingsService.GeneralSettingsService.ThumbnailCacheSizeLimit;
-			if (cacheSizeMB <= 0)
-				cacheSizeMB = DefaultCacheSizeMB;
+			var cacheSizeMiB = _userSettingsService.GeneralSettingsService.ThumbnailCacheSizeLimit;
+			if (cacheSizeMiB <= 0)
+				cacheSizeMiB = DefaultCacheSizeMiB;
 
-			return (long)(cacheSizeMB * 1024 * 1024);
+			return (long)(cacheSizeMiB * 1024 * 1024);
 		}
 
 		public async Task<long> GetSizeAsync()
@@ -297,7 +297,7 @@ namespace Files.App.Services.Thumbnails
 				}
 			}
 
-			_logger.LogInformation("Evicted {Count} cache entries, new size: {Size} MB",
+			_logger.LogInformation("Evicted {Count} cache entries, new size: {Size} MiB",
 				removedCount, currentSize / 1024 / 1024);
 		}
 

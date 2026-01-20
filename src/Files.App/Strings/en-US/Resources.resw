@@ -232,7 +232,7 @@
     <value>Cache thumbnails</value>
   </data>
   <data name="CacheSizeLimitDescription" xml:space="preserve">
-    <value>Maximum disk space to use for thumbnail cache (100-5000 MB).</value>
+    <value>Maximum disk space to use for thumbnail cache (100-5000 MiB).</value>
   </data>
   <data name="CacheSizeLimit" xml:space="preserve">
     <value>Cache size limit</value>
