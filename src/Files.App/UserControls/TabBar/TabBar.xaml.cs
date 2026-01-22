@@ -262,14 +262,14 @@ namespace Files.App.UserControls.TabBar
 			if (delta > 0)
 			{
 				// Scroll up, select the next tab
-				if (HorizontalTabView.SelectedIndex < HorizontalTabView.TabItems.Count - 1)
-					HorizontalTabView.SelectedIndex++;
+				if (App.AppModel.TabStripSelectedIndex < Items.Count - 1)
+					App.AppModel.TabStripSelectedIndex++;
 			}
 			else
 			{
 				// Scroll down, select the previous tab
-				if (HorizontalTabView.SelectedIndex > 0)
-					HorizontalTabView.SelectedIndex--;
+				if (App.AppModel.TabStripSelectedIndex > 0)
+					App.AppModel.TabStripSelectedIndex--;
 			}
 
 			e.Handled = true;
