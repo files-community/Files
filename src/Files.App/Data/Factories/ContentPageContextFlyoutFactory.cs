@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.Storage;
+using Microsoft.Win32;
 
 namespace Files.App.Data.Factories
 {
@@ -93,6 +94,8 @@ namespace Files.App.Data.Factories
 			string newArchiveName =
 				Path.GetFileName(selectedItems.Count is 1 ? selectedItems[0].ItemPath : Path.GetDirectoryName(selectedItems[0].ItemPath))
 				?? string.Empty;
+			bool isTerminalInstalled =
+				File.Exists(Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\App Paths\wt.exe").GetValue("Path") + @"\wt.exe");
 
 			bool isDriveRoot = itemViewModel?.CurrentFolder is not null && (itemViewModel.CurrentFolder.ItemPath == Path.GetPathRoot(itemViewModel.CurrentFolder.ItemPath));
 
@@ -612,16 +615,17 @@ namespace Files.App.Data.Factories
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
-					ShowItem = (!itemsSelected && Commands.OpenTerminal.IsExecutable && UserSettingsService.GeneralSettingsService.ShowOpenTerminal) ||
-						(areAllItemsFolders && Commands.OpenTerminal.IsExecutable && UserSettingsService.GeneralSettingsService.ShowOpenTerminal) ||
-						Commands.OpenStorageSense.IsExecutable ||
-						Commands.FormatDrive.IsExecutable
+					ShowItem = isTerminalInstalled && ((!itemsSelected && Commands.OpenTerminal.IsExecutable && UserSettingsService.GeneralSettingsService.ShowOpenTerminal) ||
+					           (areAllItemsFolders && Commands.OpenTerminal.IsExecutable && UserSettingsService.GeneralSettingsService.ShowOpenTerminal) ||
+					           Commands.OpenStorageSense.IsExecutable ||
+					           Commands.FormatDrive.IsExecutable)
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenTerminal)
 				{
-					IsVisible = (!itemsSelected || areAllItemsFolders) &&
-						Commands.OpenTerminal.IsExecutable &&
-						UserSettingsService.GeneralSettingsService.ShowOpenTerminal
+					IsVisible = isTerminalInstalled && (!itemsSelected || areAllItemsFolders) &&
+					            Commands.OpenTerminal.IsExecutable &&
+					            UserSettingsService.GeneralSettingsService.ShowOpenTerminal
+					
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenStorageSense).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.FormatDrive).Build(),

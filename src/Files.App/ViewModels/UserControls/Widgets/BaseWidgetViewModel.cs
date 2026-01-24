@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.Win32;
 using System.Windows.Input;
 
 namespace Files.App.ViewModels.UserControls.Widgets
@@ -32,6 +33,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		// Fields
 
 		protected string? _flyoutItemPath;
+		protected bool _isTerminalInstalled;
 
 		// Commands
 
@@ -106,6 +108,12 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			// Load shell menu items
 			_ = ShellContextFlyoutFactory.LoadShellMenuItemsAsync(_flyoutItemPath, itemContextMenuFlyout, null, true, true);
+
+			_isTerminalInstalled = SystemIO.File.Exists(Registry.CurrentUser
+				                                            .OpenSubKey(
+					                                            @"Software\Microsoft\Windows\CurrentVersion\App Paths\wt.exe")?
+				                                            .GetValue("Path") +
+			                                            @"\wt.exe");
 
 			e.Handled = true;
 		}

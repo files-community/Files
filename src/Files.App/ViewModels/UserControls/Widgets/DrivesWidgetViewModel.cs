@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.Win32;
 using System.Collections.Specialized;
 using System.Windows.Input;
 using Windows.System;
@@ -159,13 +160,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
-					ShowItem = (UserSettingsService.GeneralSettingsService.ShowOpenTerminal && CommandManager.OpenTerminalFromHome.IsExecutable) ||
+					ShowItem = _isTerminalInstalled && ((UserSettingsService.GeneralSettingsService.ShowOpenTerminal && CommandManager.OpenTerminalFromHome.IsExecutable) ||
 						CommandManager.OpenStorageSenseFromHome.IsExecutable ||
-						CommandManager.FormatDriveFromHome.IsExecutable
+						CommandManager.FormatDriveFromHome.IsExecutable)
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenTerminalFromHome)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenTerminal && CommandManager.OpenTerminalFromHome.IsExecutable
+					IsVisible = _isTerminalInstalled && UserSettingsService.GeneralSettingsService.ShowOpenTerminal && CommandManager.OpenTerminalFromHome.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenStorageSenseFromHome).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.FormatDriveFromHome).Build(),

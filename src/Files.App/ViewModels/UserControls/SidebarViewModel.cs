@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Media.Imaging;
+using Microsoft.Win32;
 using System.Collections.Specialized;
 using System.IO;
 using System.Windows.Input;
@@ -970,6 +971,9 @@ namespace Files.App.ViewModels.UserControls
 			var isDriveItem = item is DriveItem;
 			var isDriveItemPinned = isDriveItem && ((DriveItem)item).IsPinned;
 
+			bool isTerminalInstalled =
+				File.Exists(Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\App Paths\wt.exe").GetValue("Path") + @"\wt.exe");
+
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
 				new ContextMenuFlyoutItemViewModel()
@@ -1066,13 +1070,13 @@ namespace Files.App.ViewModels.UserControls
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
-					ShowItem = (UserSettingsService.GeneralSettingsService.ShowOpenTerminal && Commands.OpenTerminalFromSidebar.IsExecutable) ||
-						Commands.OpenStorageSenseFromSidebar.IsExecutable ||
-						Commands.FormatDriveFromSidebar.IsExecutable
+					ShowItem = isTerminalInstalled && ((UserSettingsService.GeneralSettingsService.ShowOpenTerminal && Commands.OpenTerminalFromSidebar.IsExecutable) ||
+					           Commands.OpenStorageSenseFromSidebar.IsExecutable ||
+					           Commands.FormatDriveFromSidebar.IsExecutable)
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenTerminalFromSidebar)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenTerminal && Commands.OpenTerminalFromSidebar.IsExecutable
+					IsVisible = isTerminalInstalled && UserSettingsService.GeneralSettingsService.ShowOpenTerminal && Commands.OpenTerminalFromSidebar.IsExecutable
 				}.Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.OpenStorageSenseFromSidebar).Build(),
 				new ContextMenuFlyoutItemViewModelBuilder(Commands.FormatDriveFromSidebar).Build(),
