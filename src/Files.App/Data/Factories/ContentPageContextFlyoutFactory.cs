@@ -95,7 +95,7 @@ namespace Files.App.Data.Factories
 				Path.GetFileName(selectedItems.Count is 1 ? selectedItems[0].ItemPath : Path.GetDirectoryName(selectedItems[0].ItemPath))
 				?? string.Empty;
 			bool isTerminalInstalled =
-				File.Exists(Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\App Paths\wt.exe").GetValue("Path") + @"\wt.exe");
+				File.Exists(Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\App Paths\wt.exe")?.GetValue("Path") + @"\wt.exe");
 
 			bool isDriveRoot = itemViewModel?.CurrentFolder is not null && (itemViewModel.CurrentFolder.ItemPath == Path.GetPathRoot(itemViewModel.CurrentFolder.ItemPath));
 

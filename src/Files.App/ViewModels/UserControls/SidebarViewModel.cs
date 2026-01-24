@@ -972,7 +972,7 @@ namespace Files.App.ViewModels.UserControls
 			var isDriveItemPinned = isDriveItem && ((DriveItem)item).IsPinned;
 
 			bool isTerminalInstalled =
-				File.Exists(Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\App Paths\wt.exe").GetValue("Path") + @"\wt.exe");
+				File.Exists(Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\App Paths\wt.exe")?.GetValue("Path") + @"\wt.exe");
 
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
