@@ -128,7 +128,7 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public string TypeText => string.Format("DriveType{0}", Type).GetLocalizedResource();
+		public string TypeText => $"DriveType{Type}".GetLocalizedResource();
 
 		private string filesystem = string.Empty;
 		public string Filesystem

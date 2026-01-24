@@ -31,7 +31,7 @@ namespace Files.App.Views.Properties
 				Stopwatch stopwatch = Stopwatch.StartNew();
 				await fileProps.GetSystemFilePropertiesAsync();
 				stopwatch.Stop();
-				Debug.WriteLine(string.Format("System file properties were obtained in {0} milliseconds", stopwatch.ElapsedMilliseconds));
+				Debug.WriteLine($"System file properties were obtained in {stopwatch.ElapsedMilliseconds} milliseconds");
 
 				ViewModel.IsPropertiesLoaded = true;
 			}
