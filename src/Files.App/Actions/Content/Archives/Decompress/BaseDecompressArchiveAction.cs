@@ -97,12 +97,8 @@ namespace Files.App.Actions
 							return null;
 
 						var parts = fileName.Split(['/', '\\'], StringSplitOptions.RemoveEmptyEntries);
-						foreach (var part in parts)
-						{
-							if (part is "." or "..")
-								continue;
+						foreach (var part in parts.Where(part => part is not "." and not ".."))
 							return part;
-						}
 
 						return null;
 					}
