@@ -160,9 +160,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				new ContextMenuFlyoutItemViewModel()
 				{
 					ItemType = ContextMenuFlyoutItemType.Separator,
-					ShowItem = _isTerminalInstalled && ((UserSettingsService.GeneralSettingsService.ShowOpenTerminal && CommandManager.OpenTerminalFromHome.IsExecutable) ||
+					ShowItem = (_isTerminalInstalled && UserSettingsService.GeneralSettingsService.ShowOpenTerminal && CommandManager.OpenTerminalFromHome.IsExecutable) ||
 						CommandManager.OpenStorageSenseFromHome.IsExecutable ||
-						CommandManager.FormatDriveFromHome.IsExecutable)
+						CommandManager.FormatDriveFromHome.IsExecutable
 				},
 				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenTerminalFromHome)
 				{
