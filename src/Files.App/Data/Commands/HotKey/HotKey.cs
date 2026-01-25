@@ -9,7 +9,7 @@ using Forms = System.Windows.Forms;
 namespace Files.App.Data.Commands
 {
 	/// <summary>
-	/// Represents hot key.
+	/// Represents a hot key.
 	/// </summary>
 	[DebuggerDisplay("{LocalizedLabel}")]
 	public readonly struct HotKey : IEquatable<HotKey>
@@ -20,6 +20,14 @@ namespace Files.App.Data.Commands
 			[KeyModifiers.Ctrl] = GetLocalizedKey("Control"),
 			[KeyModifiers.Shift] = GetLocalizedKey("Shift"),
 			[KeyModifiers.Win] = GetLocalizedKey("Windows"),
+		}.ToFrozenDictionary();
+
+		public static FrozenDictionary<KeyModifiers, string> JavaScriptModifiers { get; } = new Dictionary<KeyModifiers, string>()
+		{
+			[KeyModifiers.Alt] = "altKey",
+			[KeyModifiers.Ctrl] = "ctrlKey",
+			[KeyModifiers.Shift] = "shiftKey",
+			[KeyModifiers.Win] = "metaKey",
 		}.ToFrozenDictionary();
 
 		public static FrozenDictionary<Keys, string> LocalizedKeys { get; } = new Dictionary<Keys, string>()

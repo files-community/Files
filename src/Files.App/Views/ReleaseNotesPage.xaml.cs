@@ -1,11 +1,14 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Actions;
+using Files.App.Data.Messages;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.Web.WebView2.Core;
+using System.Text.RegularExpressions;
 using Windows.System;
 
 namespace Files.App.Views
@@ -14,7 +17,6 @@ namespace Files.App.Views
 	{
 		// Dependency injections
 		public ReleaseNotesViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<ReleaseNotesViewModel>();
-
 
 		private FrameworkElement RootAppElement
 			=> (FrameworkElement)MainWindow.Instance.Content;
@@ -95,21 +97,48 @@ namespace Files.App.Views
 				sender.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
 				sender.CoreWebView2.Settings.IsSwipeNavigationEnabled = false;
 
-				var script = @"
+				// Hotkey values for CloseSelectedTabAction
+				var action = new CloseSelectedTabAction();
+				var hotKey1 = NormaliseKey(action.HotKey.Key.ToString());
+				var hotKey1Modifier = HotKey.JavaScriptModifiers.GetValueRefOrNullRef(action.HotKey.Modifier);
+				var hotKey2 = NormaliseKey(action.SecondHotKey.Key.ToString());
+				var hotKey2Modifier = HotKey.JavaScriptModifiers.GetValueRefOrNullRef(action.SecondHotKey.Modifier);
+
+				// Injected script for both click and keydown events
+				var script = $$"""
 					document.addEventListener('click', function(event) {
 						var target = event.target;
+
 						while (target && target.tagName !== 'A') {
 							target = target.parentElement;
 						}
+
 						if (target && target.href) {
 							event.preventDefault();
-							window.chrome.webview.postMessage(target.href);
+
+							window.chrome.webview.postMessage({
+								type: 'link-click',
+								key: target.href
+							});
 						}
 					});
-				";
+
+					window.addEventListener('keydown', function(event) {
+						const hotkey = event.{{hotKey1Modifier}} && event.key === '{{hotKey1}}';
+						const secondHotkey = event.{{hotKey2Modifier}} && event.key === '{{hotKey2}}';
+
+						if (hotkey || secondHotkey) {
+							window.chrome.webview.postMessage({
+								type: 'shortcut',
+								key: '{{action.HotKey.RawLabel}}'
+							});
+						}
+					});
+				""";
 
 				await sender.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(script);
-				sender.WebMessageReceived += WebView_WebMessageReceived;
+				sender.WebMessageReceived += WebView_OpenLinkInWebBrowser;
+				sender.WebMessageReceived += WebView_HandleShortcut;
 			}
 			catch (Exception ex)
 			{
@@ -117,15 +146,60 @@ namespace Files.App.Views
 			}
 		}
 
-		private async void WebView_WebMessageReceived(WebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
+		// Handle keyboard shortcuts (Files.App.Actions) from WebView
+		private async void WebView_HandleShortcut(WebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
 		{
-			// Open link in web browser
-			if (Uri.TryCreate(args.TryGetWebMessageAsString(), UriKind.Absolute, out Uri? uri))
-				await Launcher.LaunchUriAsync(uri);
+			try
+			{
+				var json = args.WebMessageAsJson;
+				var message = JsonSerializer.Deserialize<WebMessage>(json);
 
-			// Navigate back to blog post
-			if (sender.CoreWebView2.CanGoBack)
-				sender.CoreWebView2.GoBack();
+				if (message?.Type == "shortcut")
+				{
+					await new CloseSelectedTabAction().ExecuteAsync();
+				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
+			}
+		}
+
+		// Handle link clicks to open in external web browser
+		private async void WebView_OpenLinkInWebBrowser(WebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
+		{
+			try
+			{
+				var json = args.WebMessageAsJson;
+				var message = JsonSerializer.Deserialize<WebMessage>(json);
+
+				if (message?.Type == "link-click")
+				{
+					// Open link in web browser
+					if (Uri.TryCreate(message.Key, UriKind.Absolute, out Uri? uri))
+						await Launcher.LaunchUriAsync(uri);
+
+					// Navigate back to blog post
+					if (sender.CoreWebView2.CanGoBack)
+						sender.CoreWebView2.GoBack();
+				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
+			}
+		}
+
+		private static string NormaliseKey(string key)
+		{
+			if (string.IsNullOrWhiteSpace(key))
+				return string.Empty;
+
+			// F1–F24
+			if (Regex.IsMatch(key, @"^F\d{1,2}$", RegexOptions.IgnoreCase))
+				return key.ToUpperInvariant();
+
+			return key.ToLowerInvariant();
 		}
 
 		public void Dispose()
