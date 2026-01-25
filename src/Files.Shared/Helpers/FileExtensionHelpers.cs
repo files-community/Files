@@ -71,7 +71,7 @@ namespace Files.Shared.Helpers
 		/// </summary>
 		/// <param name="filePathToCheck">Path or name or extension of the file to check.</param>
 		/// <param name="extensions">List of the extensions to check.</param>
-		/// <returns><c>true</c> if the filePathToCheck has one of the specified extensions; otherwise, <c>false</c>.</returns>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> has one of the specified extensions; otherwise, <c>false</c>.</returns>
 		public static bool HasExtension(string? filePathToCheck, params ReadOnlySpan<string> extensions)
 		{
 			if (string.IsNullOrWhiteSpace(filePathToCheck))
@@ -93,71 +93,71 @@ namespace Files.Shared.Helpers
 		/// <summary>
 		/// Checks if the file extension represents an image file.
 		/// </summary>
-		/// <param name="fileExtensionToCheck">The file extension to check.</param>
-		/// <returns><c>true</c> if the fileExtensionToCheck is an image; otherwise, <c>false</c>.</returns>
-		public static bool IsImageFile(string? fileExtensionToCheck)
+		/// <param name="filePathToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is an image; otherwise, <c>false</c>.</returns>
+		public static bool IsImageFile(string? filePathToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".png", ".bmp", ".jpg", ".jpeg", ".jfif", ".gif", ".tiff", ".tif", ".jxr", ".webp", ".ico");
+			return HasExtension(filePathToCheck, ".png", ".bmp", ".jpg", ".jpeg", ".jfif", ".gif", ".tiff", ".tif", ".jxr", ".webp", ".ico");
 		}
 
 		/// <summary>
 		/// Checks if the file can be set as wallpaper.
 		/// </summary>
-		/// <param name="fileExtensionToCheck">The file extension to check.</param>
-		/// <returns><c>true</c> if the fileExtensionToCheck is an image; otherwise, <c>false</c>.</returns>
-		public static bool IsCompatibleToSetAsWindowsWallpaper(string? fileExtensionToCheck)
+		/// <param name="filePathToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is an image; otherwise, <c>false</c>.</returns>
+		public static bool IsCompatibleToSetAsWindowsWallpaper(string? filePathToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".png", ".bmp", ".jpg", ".jpeg", ".jfif", ".gif", ".tiff", ".tif", ".jxr");
+			return HasExtension(filePathToCheck, ".png", ".bmp", ".jpg", ".jpeg", ".jfif", ".gif", ".tiff", ".tif", ".jxr");
 		}
 
 		/// <summary>
 		/// Checks if the file extension represents an audio file.
 		/// </summary>
-		/// <param name="fileExtensionToCheck">The file extension to check.</param>
-		/// <returns><c>true</c> if the fileExtensionToCheck is an audio file; otherwise, <c>false</c>.</returns>
-		public static bool IsAudioFile(string? fileExtensionToCheck)
+		/// <param name="filePathToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is an audio file; otherwise, <c>false</c>.</returns>
+		public static bool IsAudioFile(string? filePathToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".mp3", ".m4a", ".wav", ".wma", ".aac", ".adt", ".adts", ".cda", ".flac");
+			return HasExtension(filePathToCheck, ".mp3", ".m4a", ".wav", ".wma", ".aac", ".adt", ".adts", ".cda", ".flac");
 		}
 
 		/// <summary>
 		/// Checks if the file extension represents a video file.
 		/// </summary>
-		/// <param name="fileExtensionToCheck">The file extension to check.</param>
-		/// <returns><c>true</c> if the fileExtensionToCheck is a video file; otherwise, <c>false</c>.</returns>
-		public static bool IsVideoFile(string? fileExtensionToCheck)
+		/// <param name="filePathToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a video file; otherwise, <c>false</c>.</returns>
+		public static bool IsVideoFile(string? filePathToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".mp4", ".webm", ".ogg", ".mov", ".qt", ".m4v", ".mp4v", ".3g2", ".3gp2", ".3gp", ".3gpp", ".mkv");
+			return HasExtension(filePathToCheck, ".mp4", ".webm", ".ogg", ".mov", ".qt", ".m4v", ".mp4v", ".3g2", ".3gp2", ".3gp", ".3gpp", ".mkv");
 		}
 
 		/// <summary>
 		/// Checks if the file extension represents a PowerShell script.
 		/// </summary>
-		/// <param name="fileExtensionToCheck">The file extension to check.</param>
-		/// <returns><c>true</c> if the fileExtensionToCheck is a PowerShell script; otherwise, <c>false</c>.</returns>
-		public static bool IsPowerShellFile(string fileExtensionToCheck)
+		/// <param name="filePathToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a PowerShell script; otherwise, <c>false</c>.</returns>
+		public static bool IsPowerShellFile(string filePathToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".ps1");
+			return HasExtension(filePathToCheck, ".ps1");
 		}
 
 		/// <summary>
 		/// Checks if the file extension represents a Batch file.
 		/// </summary>
-		/// <param name="fileExtensionToCheck">The file extension to check.</param>
-		/// <returns><c>true</c> if the fileExtensionToCheck is a Batch file; otherwise, <c>false</c>.</returns>
-		public static bool IsBatchFile(string fileExtensionToCheck)
+		/// <param name="filePathToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a Batch file; otherwise, <c>false</c>.</returns>
+		public static bool IsBatchFile(string filePathToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".bat");
+			return HasExtension(filePathToCheck, ".bat");
 		}
 
 		/// <summary>
 		/// Checks if the file extension represents a zip file.
 		/// </summary>
-		/// <param name="fileExtensionToCheck">The file extension to check.</param>
-		/// <returns><c>true</c> if the fileExtensionToCheck is a zip bundle file; otherwise, <c>false</c>.</returns>
-		public static bool IsZipFile(string? fileExtensionToCheck)
+		/// <param name="filePathToCheck">The file extension to check.</param>
+		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a zip bundle file; otherwise, <c>false</c>.</returns>
+		public static bool IsZipFile(string? filePathToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".zip", ".msix", ".appx", ".msixbundle", ".appxbundle", ".7z", ".rar", ".tar", ".mcpack", ".mcworld", ".mrpack", ".jar", ".gz", ".lzh");
+			return HasExtension(filePathToCheck, ".zip", ".msix", ".appx", ".msixbundle", ".appxbundle", ".7z", ".rar", ".tar", ".mcpack", ".mcworld", ".mrpack", ".jar", ".gz", ".lzh");
 		}
 
 		public static bool IsBrowsableZipFile(string? filePath, out string? ext)
@@ -179,21 +179,21 @@ namespace Files.Shared.Helpers
 		/// <summary>
 		/// Checks if the file extension represents a driver inf file.
 		/// </summary>
-		/// <param name="fileExtensionToCheck">The file extension to check.</param>
+		/// <param name="filePathToCheck">The file extension to check.</param>
 		/// <returns><c>true</c> if the <c>filePathToCheck</c> is an inf file; otherwise <c>false</c>.</returns>
-		public static bool IsInfFile(string? fileExtensionToCheck)
+		public static bool IsInfFile(string? filePathToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".inf");
+			return HasExtension(filePathToCheck, ".inf");
 		}
 
 		/// <summary>
 		/// Checks if the file extension represents a font file.
 		/// </summary>
-		/// <param name="fileExtensionToCheck">The file extension to check.</param>
+		/// <param name="filePathToCheck">The file extension to check.</param>
 		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a font file; otherwise <c>false</c>.</returns>
-		public static bool IsFontFile(string? fileExtensionToCheck)
+		public static bool IsFontFile(string? filePathToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".fon", ".otf", ".ttc", ".ttf");
+			return HasExtension(filePathToCheck, ".fon", ".otf", ".ttc", ".ttf");
 		}
 
 		/// <summary>
@@ -267,21 +267,21 @@ namespace Files.Shared.Helpers
 		/// <summary>
 		/// Checks if the file extension represents a vhd disk file.
 		/// </summary>
-		/// <param name="fileExtensionToCheck">The file extension to check.</param>
+		/// <param name="filePathToCheck">The file extension to check.</param>
 		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a vhd disk file; otherwise, <c>false</c>.</returns>
-		public static bool IsVhdFile(string? fileExtensionToCheck)
+		public static bool IsVhdFile(string? filePathToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".vhd", ".vhdx");
+			return HasExtension(filePathToCheck, ".vhd", ".vhdx");
 		}
 
 		/// <summary>
 		/// Checks if the file extension represents a screen saver file.
 		/// </summary>
-		/// <param name="fileExtensionToCheck">The file extension to check.</param>
+		/// <param name="filePathToCheck">The file extension to check.</param>
 		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a screen saver file; otherwise, <c>false</c>.</returns>
-		public static bool IsScreenSaverFile(string? fileExtensionToCheck)
+		public static bool IsScreenSaverFile(string? filePathToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".scr");
+			return HasExtension(filePathToCheck, ".scr");
 		}
 
 		/// <summary>
@@ -339,61 +339,61 @@ namespace Files.Shared.Helpers
 		/// <summary>
 		/// Checks if the file extension represents an Adobe Acrobat PDF file.
 		/// </summary>
-		/// <param name="fileExtensionToCheck">The file extension to check</param>
+		/// <param name="filePathToCheck">The file extension to check</param>
 		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a PDF file; otherwise, <c>false</c>.</returns>
-		public static bool IsPdfFile(string? fileExtensionToCheck)
+		public static bool IsPdfFile(string? filePathToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".pdf");
+			return HasExtension(filePathToCheck, ".pdf");
 		}
 
 		/// <summary>
 		/// Checks if the file extension represents an HTML file.
 		/// </summary>
-		/// <param name="fileExtensionToCheck">The file extension to check</param>
+		/// <param name="filePathToCheck">The file extension to check</param>
 		/// <returns><c>true</c> if the <c>filePathToCheck</c> is an HTML file; otherwise, <c>false</c>.</returns>
-		public static bool IsHtmlFile(string? fileExtensionToCheck)
+		public static bool IsHtmlFile(string? filePathToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".html", ".htm", ".xhtml");
+			return HasExtension(filePathToCheck, ".html", ".htm", ".xhtml");
 		}
 
 		/// <summary>
 		/// Checks if the file extension represents a markdown file.
 		/// </summary>
-		/// <param name="fileExtensionToCheck">The file extension to check</param>
+		/// <param name="filePathToCheck">The file extension to check</param>
 		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a markdown file; otherwise, <c>false</c>.</returns>
-		public static bool IsMarkdownFile(string? fileExtensionToCheck)
+		public static bool IsMarkdownFile(string? filePathToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".md", ".markdown");
+			return HasExtension(filePathToCheck, ".md", ".markdown");
 		}
 
 		/// <summary>
 		/// Checks if the file extension represents a rich text file.
 		/// </summary>
-		/// <param name="fileExtensionToCheck">The file extension to check</param>
+		/// <param name="filePathToCheck">The file extension to check</param>
 		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a rich text file; otherwise, <c>false</c>.</returns>
-		public static bool IsRichTextFile(string? fileExtensionToCheck)
+		public static bool IsRichTextFile(string? filePathToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".rtf");
+			return HasExtension(filePathToCheck, ".rtf");
 		}
 
 		/// <summary>
 		/// Checks if the file extension represents a plain text file.
 		/// </summary>
-		/// <param name="fileExtensionToCheck">The file extension to check</param>
+		/// <param name="filePathToCheck">The file extension to check</param>
 		/// <returns><c>true</c> if the <c>filePathToCheck</c> is a text file; otherwise, <c>false</c>.</returns>
-		public static bool IsTextFile(string? fileExtensionToCheck)
+		public static bool IsTextFile(string? filePathToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".txt");
+			return HasExtension(filePathToCheck, ".txt");
 		}
 
 		/// <summary>
 		/// Checks if the file extension represents an SVG file.
 		/// </summary>
-		/// <param name="fileExtensionToCheck">The file extension to check</param>
+		/// <param name="filePathToCheck">The file extension to check</param>
 		/// <returns><c>true</c> if the <c>filePathToCheck</c> is an SVG file; otherwise, <c>false</c>.</returns>
-		public static bool IsSvgFile(string? fileExtensionToCheck)
+		public static bool IsSvgFile(string? filePathToCheck)
 		{
-			return HasExtension(fileExtensionToCheck, ".svg");
+			return HasExtension(filePathToCheck, ".svg");
 		}
 
 		/// <summary>
