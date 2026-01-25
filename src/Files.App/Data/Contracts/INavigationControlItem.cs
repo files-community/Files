@@ -5,7 +5,7 @@ using Files.App.Controls;
 
 namespace Files.App.Data.Contracts
 {
-	public interface INavigationControlItem : IComparable<INavigationControlItem>, INotifyPropertyChanged, ISidebarItemModel
+	public interface INavigationControlItem : IComparable<INavigationControlItem>, INotifyPropertyChanged
 	{
 		public new string Text { get; }
 

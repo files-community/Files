@@ -5,6 +5,7 @@ using CommunityToolkit.WinUI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
+using Microsoft.UI.Xaml.Media;
 using System.Collections.Specialized;
 using Windows.ApplicationModel.DataTransfer;
 
@@ -14,8 +15,8 @@ namespace Files.App.Controls
 	{
 		private const double DROP_REPOSITION_THRESHOLD = 0.2; // Percentage of top/bottom at which we consider a drop to be a reposition/insertion
 
-		public bool HasChildren => Item?.Children is IList enumerable && enumerable.Count > 0;
-		public bool IsGroupHeader => Item?.Children is not null;
+		public bool HasChildren => Children is IList enumerable && enumerable.Count > 0;
+		public bool IsGroupHeader => Children is not null;
 		public bool CollapseEnabled => DisplayMode != SidebarDisplayMode.Compact;
 
 		private bool hasChildSelection => selectedChildItem != null;
@@ -23,7 +24,6 @@ namespace Files.App.Controls
 		private bool isClicking = false;
 		private object? selectedChildItem = null;
 		private ItemsRepeater? childrenRepeater;
-		private ISidebarItemModel? lastSubscriber;
 
 		public SidebarItem()
 		{
@@ -50,13 +50,13 @@ namespace Files.App.Controls
 
 		internal void Select()
 		{
-			if (Owner is not null)
-				Owner.SelectedItem = Item!;
+			Owner?.SelectedItem = Item!;
 		}
 
 		private void SidebarItem_Loaded(object sender, RoutedEventArgs e)
 		{
-			HookupOwners();
+			if (!IsInFlyout)
+				Owner = this.FindAscendant<SidebarView>()!;
 
 			if (GetTemplateChild("ElementBorder") is Border border)
 			{
@@ -82,56 +82,38 @@ namespace Files.App.Controls
 				flyoutRepeater.ElementPrepared += ChildrenPresenter_ElementPrepared;
 			}
 
+			if (GetTemplateChild("ChildrenFlyout") is Flyout flyout)
+			{
+				flyout.Opened += ChildrenFlyout_Opened;
+			}
+
 			HandleItemChange();
 		}
 
 		public void HandleItemChange()
 		{
-			HookupItemChangeListener(null, Item);
 			UpdateExpansionState();
 			ReevaluateSelection();
 		}
 
-		private void HookupOwners()
+		private void ChildrenFlyout_Opened(object? sender, object e)
 		{
-			FrameworkElement resolvingTarget = this;
-			if (GetTemplateRoot(Parent) is FrameworkElement element)
-			{
-				resolvingTarget = element;
-			}
-			Owner = resolvingTarget.FindAscendant<SidebarView>()!;
+			if (sender is not Flyout)
+				return;
 
-			Owner.RegisterPropertyChangedCallback(SidebarView.DisplayModeProperty, (sender, args) =>
-			{
-				DisplayMode = Owner.DisplayMode;
-			});
-			DisplayMode = Owner.DisplayMode;
+			var popup = VisualTreeHelper.GetOpenPopupsForXamlRoot(XamlRoot).ToList().FirstOrDefault();
+			var itemsRepeater = popup?.Child.FindDescendant<ItemsRepeater>();
+			if (itemsRepeater is null)
+				return;
 
-			Owner.RegisterPropertyChangedCallback(SidebarView.SelectedItemProperty, (sender, args) =>
+			var count = itemsRepeater.ItemsSourceView.Count;
+			for (int i = 0; i < count; i++)
 			{
-				ReevaluateSelection();
-			});
-			ReevaluateSelection();
-		}
+				if (itemsRepeater.GetOrCreateElement(i).FindDescendantOrSelf<SidebarItem>() is not { } sidebarItem)
+					continue;
 
-		private void HookupItemChangeListener(ISidebarItemModel? oldItem, ISidebarItemModel? newItem)
-		{
-			if (lastSubscriber != null)
-			{
-				if (lastSubscriber.Children is INotifyCollectionChanged observableCollection)
-					observableCollection.CollectionChanged -= ChildItems_CollectionChanged;
-			}
-
-			if (oldItem != null)
-			{
-				if (oldItem.Children is INotifyCollectionChanged observableCollection)
-					observableCollection.CollectionChanged -= ChildItems_CollectionChanged;
-			}
-			if (newItem != null)
-			{
-				lastSubscriber = newItem;
-				if (newItem.Children is INotifyCollectionChanged observableCollection)
-					observableCollection.CollectionChanged += ChildItems_CollectionChanged;
+				sidebarItem.Owner = Owner;
+				sidebarItem.IsInFlyout = true;
 			}
 		}
 
@@ -142,7 +124,7 @@ namespace Files.App.Controls
 
 		private void SetFlyoutOpen(bool isOpen = true)
 		{
-			if (Item?.Children is null) return;
+			if (Children is null) return;
 
 			var flyoutOwner = (GetTemplateChild("ElementGrid") as FrameworkElement)!;
 			if (isOpen)
@@ -175,7 +157,7 @@ namespace Files.App.Controls
 					Owner?.UpdateSelectedItemContainer(this);
 				}
 			}
-			else if (Item?.Children is IList list)
+			else if (Children is IList list)
 			{
 				if (list.Contains(Owner?.SelectedItem))
 				{
@@ -194,7 +176,7 @@ namespace Files.App.Controls
 		{
 			if (args.Element is SidebarItem item)
 			{
-				if (Item?.Children is IList enumerable)
+				if (Children is IList enumerable)
 				{
 					var newElement = enumerable[args.Index];
 					if (newElement == selectedChildItem)
@@ -293,9 +275,9 @@ namespace Files.App.Controls
 
 		private void UpdateExpansionState(bool useAnimations = true)
 		{
-			if (Item?.Children is null || !CollapseEnabled)
+			if (Children is null || !CollapseEnabled)
 			{
-				VisualStateManager.GoToState(this, Item?.PaddedItem == true ? "NoExpansionWithPadding" : "NoExpansion", useAnimations);
+				VisualStateManager.GoToState(this, IsPaddedItem ? "NoExpansionWithPadding" : "NoExpansion", useAnimations);
 			}
 			else if (!HasChildren)
 			{
@@ -303,10 +285,8 @@ namespace Files.App.Controls
 			}
 			else
 			{
-				if (Item?.Children is IList enumerable && enumerable.Count > 0 && childrenRepeater is not null)
+				if (Children is IList { Count: > 0 } enumerable && childrenRepeater?.ItemsSourceView.Count > 0 && childrenRepeater?.GetOrCreateElement(0) is UIElement firstChild)
 				{
-					var firstChild = childrenRepeater.GetOrCreateElement(0);
-
 					// Collapsed elements might have a desired size of 0 so we need to have a sensible fallback
 					var childHeight = firstChild.DesiredSize.Height > 0 ? firstChild.DesiredSize.Height : 32;
 					ChildrenPresenterHeight = enumerable.Count * childHeight;

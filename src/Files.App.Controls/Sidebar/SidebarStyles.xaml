@@ -39,9 +39,11 @@
 	<DataTemplate x:Key="DefaultSidebarItemTemplate">
 		<local:SidebarItem
 			AutomationProperties.AutomationId="{Binding Text}"
+			Children="{Binding Children}"
 			Decorator="{Binding ItemDecorator}"
 			Icon="{Binding IconElement}"
 			IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
+			IsPaddedItem="{Binding PaddedItem}"
 			Item="{Binding}"
 			Text="{Binding Text}"
 			ToolTip="{Binding ToolTip}" />
@@ -193,24 +195,10 @@
 										<ItemsRepeater
 											x:Name="FlyoutChildrenPresenter"
 											HorizontalAlignment="Stretch"
-											local:SidebarItem.TemplateRoot="{Binding ElementName=RootPanel}"
 											AutomationProperties.AccessibilityView="Content"
-											ItemsSource="{Binding Children, Mode=OneWay}"
-											XYFocusKeyboardNavigation="Enabled">
-											<ItemsRepeater.ItemTemplate>
-												<DataTemplate>
-													<local:SidebarItem
-														AutomationProperties.AutomationId="{Binding Text}"
-														Decorator="{Binding ItemDecorator}"
-														Icon="{Binding IconElement}"
-														IsExpanded="{Binding IsExpanded, Mode=TwoWay}"
-														IsInFlyout="True"
-														Item="{Binding}"
-														Text="{Binding Text}"
-														ToolTip="{Binding ToolTip}" />
-												</DataTemplate>
-											</ItemsRepeater.ItemTemplate>
-										</ItemsRepeater>
+											ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
+											ItemsSource="{TemplateBinding Children}"
+											XYFocusKeyboardNavigation="Enabled" />
 									</Flyout>
 								</FlyoutBase.AttachedFlyout>
 							</Grid>
@@ -222,10 +210,9 @@
 							Grid.Row="2"
 							Margin="-4,2"
 							HorizontalAlignment="Stretch"
-							local:SidebarItem.TemplateRoot="{Binding ElementName=RootPanel}"
 							AutomationProperties.AccessibilityView="Content"
 							ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
-							ItemsSource="{Binding Children, Mode=OneWay}"
+							ItemsSource="{TemplateBinding Children}"
 							Visibility="Collapsed"
 							XYFocusKeyboardNavigation="Enabled">
 							<ItemsRepeater.Layout>
