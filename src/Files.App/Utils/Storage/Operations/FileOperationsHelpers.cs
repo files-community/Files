@@ -1188,7 +1188,7 @@ namespace Files.App.Utils.Storage
 			var index = 2;
 			var filePath = filePathToCheck;
 			if (Path.HasExtension(filePathToCheck))
-				filePath = filePathToCheck.Substring(0, filePathToCheck.LastIndexOf("."));
+				filePath = filePathToCheck.Substring(0, filePathToCheck.LastIndexOf('.'));
 
 			Func<int, string> genFilePath = x => string.Concat([filePath, " (", x.ToString(), ")", Path.GetExtension(filePathToCheck)]);
 
