@@ -39,7 +39,7 @@ namespace Files.App.Utils.Shell
 
 			try
 			{
-				File.WriteAllText(compatibilityTroubleshooterAnswerFile, string.Format("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{0}</Value></Interaction></Answers>", filePath));
+				File.WriteAllText(compatibilityTroubleshooterAnswerFile, $"<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{filePath}</Value></Interaction></Answers>");
 			}
 			catch (IOException)
 			{
@@ -47,7 +47,7 @@ namespace Files.App.Utils.Shell
 				SafetyExtensions.IgnoreExceptions(() =>
 				{
 					compatibilityTroubleshooterAnswerFile = Path.Combine(Path.GetTempPath(), "CompatibilityTroubleshooterAnswerFile1.xml");
-					File.WriteAllText(compatibilityTroubleshooterAnswerFile, string.Format("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{0}</Value></Interaction></Answers>", filePath));
+					File.WriteAllText(compatibilityTroubleshooterAnswerFile, $"<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{filePath}</Value></Interaction></Answers>");
 				});
 			}
 

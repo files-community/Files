@@ -16,9 +16,9 @@ namespace Files.App.Converters
 				return string.Empty;
 
 			var str = new StringBuilder();
-			foreach (var i in array)
+			foreach (var s in array)
 			{
-				str.Append(string.Format("{0}; ", i));
+				str.Append($"{s}; ");
 			}
 
 			return str.ToString();

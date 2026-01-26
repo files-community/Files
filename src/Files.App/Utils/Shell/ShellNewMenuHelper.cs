@@ -116,7 +116,7 @@ namespace Files.App.Utils.Shell
 			var folder = await SafetyExtensions.IgnoreExceptions(() => ApplicationData.Current.LocalFolder.CreateFolderAsync("extensions", CreationCollisionOption.OpenIfExists).AsTask());
 			var sampleFile = folder is not null ? await SafetyExtensions.IgnoreExceptions(() => folder.CreateFileAsync("file" + extension, CreationCollisionOption.OpenIfExists).AsTask()) : null;
 
-			var displayType = sampleFile is not null ? sampleFile.DisplayType : string.Format("{0} {1}", "file", extension);
+			var displayType = sampleFile is not null ? sampleFile.DisplayType : $"file {extension}";
 			var thumbnail = sampleFile is not null ? await SafetyExtensions.IgnoreExceptions(() => sampleFile.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 24, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale).AsTask()) : null;
 
 			string iconString = null;
