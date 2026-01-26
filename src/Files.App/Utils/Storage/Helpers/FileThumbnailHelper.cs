@@ -1,12 +1,15 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Data.Contracts;
 using Windows.Storage.FileProperties;
 
 namespace Files.App.Utils.Storage
 {
 	public static class FileThumbnailHelper
 	{
+		private static readonly IThumbnailService thumbnailService = Ioc.Default.GetRequiredService<IThumbnailService>();
+
 		/// <summary>
 		/// Returns icon or thumbnail for given file or folder
 		/// </summary>
@@ -16,7 +19,11 @@ namespace Files.App.Utils.Storage
 			// Ensure size is at least 1 to prevent layout errors
 			size = Math.Max(1, size);
 
-			return await STATask.Run(() => Win32Helper.GetIcon(path, (int)size, isFolder, iconOptions), App.Logger);
+			return await thumbnailService.GetThumbnailAsync(
+				path,
+				(int)size,
+				isFolder,
+				iconOptions);
 		}
 
 		/// <summary>
