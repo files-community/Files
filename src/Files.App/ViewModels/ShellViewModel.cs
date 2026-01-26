@@ -64,6 +64,12 @@ namespace Files.App.ViewModels
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
 
+		/// <summary>
+		/// Gets the total count of all enumerated items including those that may be filtered from the display.
+		/// This represents the actual number of items in the directory, not just the visible ones.
+		/// </summary>
+		public int TotalItemCount => filesAndFolders?.Count ?? 0;
+
 		private LayoutPreferencesManager folderSettings = null;
 
 		private ListedItem? currentFolder;
@@ -2093,7 +2099,7 @@ namespace Files.App.ViewModels
 			else if (matchingStorageItem is BaseStorageFolder folder && folder.Properties != null)
 				return await FilesystemTasks.Wrap(() => folder.Properties.RetrievePropertiesAsync(["System.FreeSpace", "System.Capacity", "System.SFGAOFlags"]).AsTask());
 
-			return null;
+		 return null;
 		}
 
 		private async Task WatchForStorageFolderChangesAsync(BaseStorageFolder? rootFolder)
@@ -2244,6 +2250,7 @@ namespace Files.App.ViewModels
 							do
 							{
 								notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
+
 								string? FileName = null;
 								unsafe
 								{
