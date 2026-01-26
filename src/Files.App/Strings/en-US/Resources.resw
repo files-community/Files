@@ -3738,6 +3738,105 @@
     <value>Failed to empty Recycle Bin</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_GitPushCanceled_Header" xml:space="preserve">
+    <value>Canceled pushing to "{0}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitPushCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled pushing branch "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitPushComplete_Header" xml:space="preserve">
+    <value>Pushed to "{0}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitPushComplete_SubHeader" xml:space="preserve">
+    <value>Pushed branch "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitPushFailed_Header" xml:space="preserve">
+    <value>Error pushing to "{0}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitPushFailed_SubHeader" xml:space="preserve">
+    <value>Failed to push branch "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitPushInProgress_Header" xml:space="preserve">
+    <value>Pushing to "{0}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitPushInProgress_SubHeader" xml:space="preserve">
+    <value>Pushing branch "{0}" to "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchCanceled_Header" xml:space="preserve">
+    <value>Canceled fetching from "{0}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled fetching from "{0}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchComplete_Header" xml:space="preserve">
+    <value>Fetched from "{0}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchComplete_SubHeader" xml:space="preserve">
+    <value>Fetched from "{0}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchFailed_Header" xml:space="preserve">
+    <value>Error fetching from "{0}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchFailed_SubHeader" xml:space="preserve">
+    <value>Failed to fetch from "{0}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchInProgress_Header" xml:space="preserve">
+    <value>Fetching from "{0}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitFetchInProgress_SubHeader" xml:space="preserve">
+    <value>Fetching from "{0}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitPullCanceled_Header" xml:space="preserve">
+    <value>Canceled pulling from "{0}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitPullCanceled_SubHeader" xml:space="preserve">
+    <value>Canceled pulling branch "{0}" from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitPullComplete_Header" xml:space="preserve">
+    <value>Pulled from "{0}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitPullComplete_SubHeader" xml:space="preserve">
+    <value>Pulled branch "{0}" from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitPullFailed_Header" xml:space="preserve">
+    <value>Error pulling from "{0}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitPullFailed_SubHeader" xml:space="preserve">
+    <value>We couldn't pull the latest changes from the remote right now.</value>
+  </data>
+  <data name="GitError_UncommittedChanges" xml:space="preserve">
+    <value>Please commit or stash your changes before pulling.</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitPullInProgress_Header" xml:space="preserve">
+    <value>Pulling from "{0}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_GitPullInProgress_SubHeader" xml:space="preserve">
+    <value>Pulling branch "{0}" from "{1}"</value>
+    <comment>Shown in a StatusCenter card.</comment>
+  </data>
   <data name="StatusCenter_Prepare_Header" xml:space="preserve">
     <value>Preparing the operation...</value>
     <comment>Shown in a StatusCenter card.</comment>
