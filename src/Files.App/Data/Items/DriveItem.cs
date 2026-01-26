@@ -5,6 +5,7 @@ using Files.App.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
+using System.Runtime.CompilerServices;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using ByteSize = ByteSizeLib.ByteSize;
@@ -20,7 +21,7 @@ namespace Files.App.Data.Items
 			set
 			{
 				SetProperty(ref icon, value, nameof(Icon));
-				OnPropertyChanged(nameof(IconSource));
+				OnPropertyChanged(nameof(IconElement));
 			}
 		}
 
@@ -127,7 +128,7 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public string TypeText => string.Format("DriveType{0}", Type).GetLocalizedResource();
+		public string TypeText => $"DriveType{Type}".GetLocalizedResource();
 
 		private string filesystem = string.Empty;
 		public string Filesystem
@@ -191,12 +192,13 @@ namespace Files.App.Data.Items
 
 		public bool IsExpanded { get => false; set { } }
 
-		public IconSource? IconSource
+		public IconElement? IconElement
 		{
-			get => new ImageIconSource()
+			get
 			{
-				ImageSource = Icon
-			};
+				var source = new ImageIconSource() { ImageSource = Icon };
+				return source.CreateIconElement();
+			}
 		}
 
 		public FrameworkElement? ItemDecorator
@@ -315,13 +317,13 @@ namespace Files.App.Data.Items
 			}
 		}
 
-		public async IAsyncEnumerable<IStorableChild> GetItemsAsync(StorableType type = StorableType.All, CancellationToken cancellationToken = default)
+		public async IAsyncEnumerable<IStorableChild> GetItemsAsync(StorableType storableType = StorableType.All, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 		{
 			await Task.CompletedTask;
 			yield break;
 		}
 
-		public int CompareTo(INavigationControlItem other)
+		public int CompareTo(INavigationControlItem? other)
 		{
 			var result = Type.CompareTo((other as DriveItem)?.Type ?? Type);
 			return result == 0 ? Text.CompareTo(other.Text) : result;

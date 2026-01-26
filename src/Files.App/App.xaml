@@ -8,6 +8,8 @@
 	<Application.Resources>
 		<ResourceDictionary>
 
+			<x:Boolean x:Key="App.ScrollInertiaEnabled">True</x:Boolean>
+
 			<!--  Fix caption buttons background  -->
 			<SolidColorBrush x:Key="WindowCaptionBackground" Color="Transparent" />
 			<SolidColorBrush x:Key="WindowCaptionBackgroundDisabled" Color="Transparent" />
@@ -48,6 +50,10 @@
 			</Style>
 
 			<Style BasedOn="{StaticResource DefaultComboBoxStyle}" TargetType="uc:ComboBoxEx" />
+
+			<Style TargetType="ScrollViewer">
+				<Setter Property="IsScrollInertiaEnabled" Value="{ThemeResource App.ScrollInertiaEnabled}" />
+			</Style>
 
 			<ResourceDictionary.MergedDictionaries>
 				<XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />

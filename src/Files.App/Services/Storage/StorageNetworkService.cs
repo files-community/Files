@@ -18,6 +18,14 @@ namespace Files.App.Services
 
 		private readonly static string guid = "::{f02c1a0d-be21-4350-88b0-7367fc96ef3c}";
 
+		// Virtual disk path prefixes that don't work with Windows networking APIs
+		private readonly static string[] VirtualDiskPrefixes =
+		[
+			@"\\RaiDrive-",
+			@"\\cryptomator-vault\",
+			@"\\EgnyteDrive\"
+		];
+
 
 		private ObservableCollection<IFolder> _Computers = [];
 		/// <inheritdoc/>
@@ -91,7 +99,7 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public async Task<IEnumerable<IFolder>> GetShortcutsAsync()
 		{
-			var networkLocations = await Win32Helper.StartSTATask(() =>
+			var networkLocations = await STATask.Run(() =>
 			{
 				var locations = new List<ShellLinkItem>();
 				using (var netHood = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_NetHood))
@@ -114,7 +122,7 @@ namespace Files.App.Services
 					}
 				}
 				return locations;
-			});
+			}, App.Logger);
 
 			return (networkLocations ?? Enumerable.Empty<ShellLinkItem>()).Select(item =>
 			{
@@ -192,13 +200,13 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public Task OpenMapNetworkDriveDialogAsync()
 		{
-			return Win32Helper.StartSTATask(() =>
+			return STATask.Run(() =>
 			{
 				return CommonDialogService.Open_NetworkConnectionDialog(
 					MainWindow.Instance.WindowHandle,
 					useMostRecentPath: true,
 					hideRestoreConnectionCheckBox: false);
-			});
+			}, App.Logger);
 		}
 
 		/// <inheritdoc/>
@@ -225,6 +233,13 @@ namespace Files.App.Services
 					if (ret == 0)
 						path = path.Replace(lpLocalName, remoteName.ToString());
 
+				}
+
+				// Skip authentication for virtual disk shares
+				// These providers create virtual disk paths that don't work with Windows networking APIs
+				if (VirtualDiskPrefixes.Any(prefix => path.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)))
+				{
+					return true;
 				}
 
 				fixed (char* lpcPath = path)

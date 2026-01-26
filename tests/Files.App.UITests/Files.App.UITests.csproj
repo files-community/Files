@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <Manifest Include="$(ApplicationManifest)" />
-    <Content Include="Assetts\**\*.png" />
+    <Content Include="Assets\**\*.png" />
     <Content Include="Data\**\*.png" />
   </ItemGroup>
 

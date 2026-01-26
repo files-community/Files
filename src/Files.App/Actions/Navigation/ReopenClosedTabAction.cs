@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class ReopenClosedTabAction : ObservableObject, IAction
 	{
 		private readonly IMultitaskingContext context;

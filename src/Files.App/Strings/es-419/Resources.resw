@@ -309,6 +309,9 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>Oscuro</value>
   </data>
+  <data name="UseSystemSetting" xml:space="preserve">
+    <value>Configuración del sistema del usuario</value>
+  </data>
   <data name="Application" xml:space="preserve">
     <value>Aplicación</value>
   </data>
@@ -523,9 +526,6 @@
   </data>
   <data name="Status" xml:space="preserve">
     <value>Estado</value>
-  </data>
-  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Predeterminado de windows</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>No hay resultados</value>
@@ -1010,6 +1010,9 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Resultados de la búsqueda en {1} para {0}</value>
   </data>
+  <data name="SearchResultsFor" xml:space="preserve">
+    <value>Resultados de búsqueda para `{0}`</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Detalles</value>
   </data>
@@ -1102,6 +1105,12 @@
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
     <value>Cambiar la visibilidad del cuadro del filtro</value>
+  </data>
+  <data name="ToggleDualPane" xml:space="preserve">
+    <value>Mostrar/ocultar panel dual</value>
+  </data>
+  <data name="ToggleDualPaneDescription" xml:space="preserve">
+    <value>Mostrar/ocultar modo de panel dual</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>No hay vista previa disponible</value>
@@ -1764,7 +1773,7 @@
     <value>Etiqueta de archivo</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Abrir elementos con un solo clic</value>
+    <value>Abrir archivos con un solo clic</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Ruta de la carpeta</value>
@@ -2063,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Pantalla de bloqueo</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Abrir carpetas con un solo clic en el diseño de columnas</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Abrir carpetas con un solo clic</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Abrir elementos</value>
@@ -3123,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Tiene cambios no comprometidos en esta rama. ¿Qué le gustaría hacer con ellos?</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>Tiene una fusión en curso con conflictos sin resolver. Resuelva los conflictos o aborte la fusión para cambiar de rama.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Cancelar la fusión y cambiar a '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Permanecer en '{0}' y resolver los conflictos</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Cambiar rama</value>
   </data>
@@ -3478,6 +3496,9 @@
   <data name="ProcessingItems" xml:space="preserve">
     <value>Procesando elementos...</value>
   </data>
+  <data name="DiscoveringItems" xml:space="preserve">
+    <value>Descubriendo elementos...</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Velocidad:</value>
   </data>
@@ -3609,6 +3630,10 @@
     <value>Copiando {0, plural, one {# elemento} other {# elementos}} desde "{1}" a "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
+    <value>{0, plural, one {Descubierto # elemento} other {Descubiertos # elementos}}</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
+  </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>Cancelada la extracción de {0} elementos en "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3718,7 +3743,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} {0, plural, one {elemento procesado} other {elementos procesados}}</value>
+    <value>{0}/{1, plural, one {# elemento procesado} other {# elementos procesados}}</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -4002,6 +4027,10 @@
     <value>Archivos de Bitmap</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
+  <data name="ImageFiles" xml:space="preserve">
+    <value>Archivos de imagen</value>
+    <comment>This is the friendly name for image files.</comment>
+  </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Núm</value>
   </data>
@@ -4033,17 +4062,17 @@
   <data name="TabActions" xml:space="preserve">
     <value>Menú de acciones de pestaña</value>
   </data>
-  <data name="AddVerticalPane" xml:space="preserve">
-    <value>Panel vertical</value>
+  <data name="SplitPaneVertically" xml:space="preserve">
+    <value>Dividir verticalmente</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Añadir panel vertical</value>
+    <value>Dividir el panel verticalmente</value>
   </data>
-  <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Panel horizontal</value>
+  <data name="SplitPaneHorizontally" xml:space="preserve">
+    <value>Dividir horizontalmente</value>
   </data>
-  <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Añadir panel horizontal</value>
+  <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
+    <value>Dividir el panel horizontalmente</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Organizar verticalmente</value>
@@ -4057,8 +4086,8 @@
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
     <value>Organizar paneles horizontalmente</value>
   </data>
-  <data name="AddPane" xml:space="preserve">
-    <value>Añadir panel</value>
+  <data name="SplitPane" xml:space="preserve">
+    <value>Panel dividido</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Mostrar el botón de acciones de pestañas en la barra de título</value>
@@ -4066,8 +4095,11 @@
   <data name="ArrangePanes" xml:space="preserve">
     <value>Organizar paneles</value>
   </data>
-  <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>Disposición predeterminada de paneles</value>
+  <data name="DualPaneSplitDirection" xml:space="preserve">
+    <value>Dirección predeterminada de división del panel dual</value>
+  </data>
+  <data name="DualPane" xml:space="preserve">
+    <value>Modo de panel dual</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>Horizontal</value>
@@ -4273,7 +4305,55 @@
   <data name="Filename" xml:space="preserve">
     <value>Nombre del archivo</value>
   </data>
+  <data name="Signatures" xml:space="preserve">
+    <value>Firmas</value>
+   </data>
+  <data name="SignatureList" xml:space="preserve">
+    <value>Lista de firmas</value>
+  </data>
+  <data name="IssuedBy" xml:space="preserve">
+    <value>Emitido por:</value>
+  </data>
+  <data name="IssuedTo" xml:space="preserve">
+    <value>Emitido para:</value>
+  </data>
+  <data name="ValidFrom" xml:space="preserve">
+    <value>Válido desde:</value>
+  </data>
+  <data name="ValidTo" xml:space="preserve">
+    <value>Válido hasta:</value>
+  </data>
+  <data name="NoSignatureFound" xml:space="preserve">
+    <value>No se ha encontrado ninguna firma.</value>
+  </data>
   <data name="ShowOpenTerminal" xml:space="preserve">
-    <value>Show option to open folders in Windows Terminal</value>
+    <value>Mostrar opción para abrir carpetas en Terminal de Windows</value>
+  </data>
+  <data name="OpenLogFile" xml:space="preserve">
+    <value>Abrir archivo de registro</value>
+  </data>
+  <data name="OpenLogFileDescription" xml:space="preserve">
+    <value>Abrir el archivo de registro en el editor predeterminado</value>
+  </data>
+  <data name="OpenLogFileLocationDescription" xml:space="preserve">
+    <value>Abre la ubicación del archivo de registro en el administrador de archivos predeterminado</value>
+  </data>
+  <data name="FailedToOpenLogFile" xml:space="preserve">
+    <value>No se puede abir el archivo de registro</value>
+  </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Mostrar barra de estado</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Sólo en la vista de columnas</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>Nuevo {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Enable smooth scrolling</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Scrolling</value>
   </data>
 </root>

@@ -15,6 +15,7 @@ namespace Files.App.Services.PreviewPopupProviders
 		public static SeerProProvider Instance { get; } = new();
 
 		private string? CurrentPath;
+		private HWND? _cachedSeerWindowHandle;
 
 		private bool? _IsTrackSelectionSettingEnabledCache;
 		private bool IsTrackSelectionSettingEnabled
@@ -27,6 +28,12 @@ namespace Files.App.Services.PreviewPopupProviders
 			}
 		}
 
+		private HWND GetSeerWindowHandle()
+		{
+			_cachedSeerWindowHandle ??= PInvoke.FindWindow("SeerWindowClass", null);
+			return _cachedSeerWindowHandle.Value;
+		}
+
 		public unsafe async Task TogglePreviewPopupAsync(string path)
 		{
 			COPYDATASTRUCT data = default;
@@ -37,10 +44,11 @@ namespace Files.App.Services.PreviewPopupProviders
 			var pData = Marshal.AllocHGlobal(Marshal.SizeOf(data));
 			Marshal.StructureToPtr(data, pData, false);
 
-			HWND hWnd = PInvoke.FindWindow("SeerWindowClass", null);
+			HWND hWnd = GetSeerWindowHandle();
 			var result = PInvoke.SendMessage(hWnd, 0x004A /*WM_COPYDATA*/, 0, pData);
 
-			CurrentPath = PInvoke.IsWindowVisible(hWnd) ? path : null;
+			bool isVisible = PInvoke.IsWindowVisible(hWnd);
+			CurrentPath = isVisible ? path : null;
 
 			Marshal.FreeHGlobal((nint)data.lpData);
 			Marshal.FreeHGlobal(pData);
@@ -48,6 +56,15 @@ namespace Files.App.Services.PreviewPopupProviders
 
 		public async Task SwitchPreviewAsync(string path)
 		{
+			HWND hWnd = GetSeerWindowHandle();
+			bool isWindowVisible = PInvoke.IsWindowVisible(hWnd);
+
+			if (CurrentPath is not null && !isWindowVisible)
+			{
+				CurrentPath = null;
+				return;
+			}
+
 			// Close preview window is track selection setting is disabled
 			if (!IsTrackSelectionSettingEnabled && !string.IsNullOrEmpty(CurrentPath))
 			{
@@ -55,14 +72,14 @@ namespace Files.App.Services.PreviewPopupProviders
 				return;
 			}
 
-			// Update the preview window if the path changed
-			if (CurrentPath is not null && path != CurrentPath)
+			// Update the preview window if the path changed and window is currently open
+			if (CurrentPath is not null && path != CurrentPath && isWindowVisible)
 				await TogglePreviewPopupAsync(path);
 		}
 
 		public async unsafe Task<bool> DetectAvailability()
 		{
-			var hWnd = (nint)PInvoke.FindWindow("SeerWindowClass", null).Value;
+			var hWnd = (nint)GetSeerWindowHandle().Value;
 			return hWnd != nint.Zero && hWnd.ToInt64() != -1;
 		}
 

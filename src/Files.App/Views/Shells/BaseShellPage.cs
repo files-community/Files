@@ -29,7 +29,7 @@ namespace Files.App.Views.Shells
 			DependencyProperty.Register(
 				"NavParams",
 				typeof(NavigationParams),
-				typeof(ModernShellPage),
+				typeof(BaseShellPage),
 				new PropertyMetadata(null));
 
 		public StorageHistoryHelpers StorageHistoryHelpers { get; }
@@ -154,7 +154,7 @@ namespace Files.App.Views.Shells
 
 		public virtual Task WhenIsCurrent() => _IsCurrentInstanceTCS.Task;
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public event EventHandler<TabBarItemParameter> ContentChanged;
 
@@ -170,7 +170,7 @@ namespace Files.App.Views.Shells
 
 			InitToolbarCommands();
 
-			DisplayFilesystemConsentDialogAsync();
+			_ = DisplayFilesystemConsentDialogAsync();
 
 			if (AppLanguageHelper.IsPreferredLanguageRtl)
 				FlowDirection = FlowDirection.RightToLeft;
@@ -603,7 +603,7 @@ namespace Files.App.Views.Shells
 						// Remove the WorkingDir from previous dir
 						e.PreviousDirectory = e.PreviousDirectory.Replace(e.Path, string.Empty, StringComparison.Ordinal);
 
-						var isNetwork = e.Path.StartsWith("\\\\");
+						var isNetwork = e.Path.StartsWith("\\\\", StringComparison.Ordinal);
 						var isFtp = FtpHelpers.IsFtpPath(e.Path);
 						var separator = isFtp ? "/" : "\\";
 
@@ -664,7 +664,7 @@ namespace Files.App.Views.Shells
 		protected void InitToolbarCommands()
 		{
 			ToolbarViewModel.OpenNewWindowCommand = new AsyncRelayCommand(NavigationHelpers.LaunchNewWindowAsync);
-			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, x, this));
+			ToolbarViewModel.CreateNewFileCommand = new RelayCommand<ShellNewEntry>(x => _ = UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, x, this));
 			ToolbarViewModel.UpdateCommand = new AsyncRelayCommand(async () => await updateSettingsService.DownloadUpdatesAsync());
 		}
 

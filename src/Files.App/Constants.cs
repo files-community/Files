@@ -56,6 +56,7 @@ namespace Files.App
 			public const int Libraries = 1023;
 			public const int Folder = 3;
 			public const int ShieldIcon = 78;
+			public const int SearchIcon = 177;
 		}
 
 		public static class Shell32
@@ -268,6 +269,18 @@ namespace Files.App
 					{ MyComputerPath.ToUpperInvariant(), MyComputerPath },
 					{ NetworkFolderPath.ToUpperInvariant(), NetworkFolderPath },
 				};
+		}
+
+		public static class Distributions
+		{
+			public static readonly string[] KnownAppNames =
+			{
+				"49306atecsolution.FilesUWP", // store stable
+				"FilesStable", // sideload stable
+				"FilesPreview", // sideload preview
+				"49306atecsolution.FilesPreview", // store preview
+				"FilesDev", // dev
+			};
 		}
 	}
 }

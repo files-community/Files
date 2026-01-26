@@ -63,20 +63,20 @@ namespace Files.App.Services
 						(folderPaths.Contains(path) ||
 						(path.StartsWith(@"\\SHELL\\") && folderPaths.Any(x => x.StartsWith(@"\\SHELL\\")))))
 					{
-						await Win32Helper.StartSTATask(async () =>
+						await STATask.Run(async () =>
 						{
 							fi.InvokeVerb("unpinfromhome");
-						});
+						}, App.Logger);
 						continue;
 					}
 				}
 
 				if (folderPaths.Contains(pathStr))
 				{
-					await Win32Helper.StartSTATask(async () =>
+					await STATask.Run(async () =>
 					{
 						fi.InvokeVerb("unpinfromhome");
-					});
+					}, App.Logger);
 				}
 			}
 
@@ -95,13 +95,15 @@ namespace Files.App.Services
 			if (Equals(items, App.QuickAccessManager.Model.PinnedFolders.ToArray()))
 				return;
 
-			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
+			if (App.QuickAccessManager.PinnedItemsWatcher is not null)
+				App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = false;
 
 			// Unpin every item that is below this index and then pin them all in order
 			await UnpinFromSidebarAsync([], false);
 
 			await PinToSidebarAsync(items, false);
-			App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
+			if (App.QuickAccessManager.PinnedItemsWatcher is not null)
+				App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
 
 			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(items, true)
 			{

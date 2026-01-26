@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	sealed partial class GitInitAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext _context;

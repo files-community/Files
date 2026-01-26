@@ -104,28 +104,51 @@ namespace Files.App.Data.Models
 			{
 				locationItem.IsInvalid = false;
 				if (res.Result is not null)
-				{
-					var result = await FileThumbnailHelper.GetIconAsync(
-						res.Result.Path,
-						Constants.ShellIconSizes.Small,
-						true,
-						IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
-
-					locationItem.IconData = result;
-
-					var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
-					if (bitmapImage is not null)
-						locationItem.Icon = bitmapImage;
-				}
+					await LoadIconForLocationItemAsync(locationItem, res.Result.Path);
 			}
 			else
 			{
-				locationItem.Icon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => UIHelpers.GetSidebarIconResource(Constants.ImageRes.Folder));
 				locationItem.IsInvalid = true;
 				Debug.WriteLine($"Pinned item was invalid {res?.ErrorCode}, item: {path}");
+				await LoadDefaultIconForLocationItemAsync(locationItem);
 			}
 
 			return locationItem;
+		}
+
+		private async Task LoadIconForLocationItemAsync(LocationItem locationItem, string path)
+		{
+			try
+			{
+				var result = await FileThumbnailHelper.GetIconAsync(
+					path,
+					Constants.ShellIconSizes.Small,
+					true,
+					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
+
+				locationItem.IconData = result;
+
+				var bitmapImage = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => locationItem.IconData.ToBitmapAsync(), Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
+				if (bitmapImage is not null)
+					locationItem.Icon = bitmapImage;
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Error loading icon for {path}: {ex.Message}");
+			}
+		}
+
+		private async Task LoadDefaultIconForLocationItemAsync(LocationItem locationItem)
+		{
+			try
+			{
+				var defaultIcon = await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() => UIHelpers.GetSidebarIconResource(Constants.ImageRes.Folder));
+				locationItem.Icon = defaultIcon;
+			}
+			catch (Exception ex)
+			{
+				Debug.WriteLine($"Error loading default icon: {ex.Message}");
+			}
 		}
 
 		/// <summary>

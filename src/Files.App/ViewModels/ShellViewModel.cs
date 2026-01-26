@@ -59,6 +59,7 @@ namespace Files.App.ViewModels
 		private readonly IStorageCacheService fileListCache = Ioc.Default.GetRequiredService<IStorageCacheService>();
 		private readonly IWindowsSecurityService WindowsSecurityService = Ioc.Default.GetRequiredService<IWindowsSecurityService>();
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
+		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
 		public BulkConcurrentObservableCollection<ListedItem> FilesAndFolders { get; }
@@ -120,6 +121,14 @@ namespace Files.App.ViewModels
 			get => _FolderThumbnailImageSource;
 			private set => SetProperty(ref _FolderThumbnailImageSource, value);
 		}
+
+		private BitmapImage? _SearchIconBitmapImage;
+		public BitmapImage? SearchIconBitmapImage
+		{
+			get => _SearchIconBitmapImage;
+			private set => SetProperty(ref _SearchIconBitmapImage, value);
+		}
+
 
 		public bool ShowFilterHeader =>
 			UserSettingsService.GeneralSettingsService.ShowFilterHeader &&
@@ -194,7 +203,7 @@ namespace Files.App.ViewModels
 
 		public void InvokeFocusFilterHeader()
 		{
-			FocusFilterHeader.Invoke(this, null);
+			FocusFilterHeader?.Invoke(this, EventArgs.Empty);
 		}
 
 		public async Task SetWorkingDirectoryAsync(string? value)
@@ -739,7 +748,26 @@ namespace Files.App.ViewModels
 			itemLoadQueue.TryUpdate(item.ItemPath, true, false);
 		}
 
-		private bool IsSearchResults { get; set; }
+		private bool _isSearchResults;
+		public bool IsSearchResults
+		{
+			get => _isSearchResults;
+			set
+			{
+				if (SetProperty(ref _isSearchResults, value))
+				{
+					if (!value)
+						SearchHeaderTitle = string.Empty;
+				}
+			}
+		}
+
+		private string? _searchHeaderTitle;
+		public string? SearchHeaderTitle
+		{
+			get => _searchHeaderTitle;
+			set => SetProperty(ref _searchHeaderTitle, value);
+		}
 
 		public void UpdateEmptyTextType()
 		{
@@ -750,7 +778,18 @@ namespace Files.App.ViewModels
 		public string? FilesAndFoldersFilter
 		{
 			get => _filesAndFoldersFilter;
-			set => SetProperty(ref _filesAndFoldersFilter, value);
+			set
+			{
+				if (SetProperty(ref _filesAndFoldersFilter, value))
+				{
+					FilesAndFolderFilterUpdated();
+				}
+			}
+		}
+
+		private void FilesAndFolderFilterUpdated()
+		{
+			_ = ApplyFilesAndFoldersChangesAsync();
 		}
 
 
@@ -835,6 +874,11 @@ namespace Files.App.ViewModels
 
 		private Task RequestSelectionAsync(List<ListedItem> itemsToSelect)
 		{
+			// Don't notify if shell page is not the active pane (eg. Dual Pane)
+			// https://github.com/files-community/Files/issues/17427
+			if (WorkingDirectory != ContentPageContext.ShellPage!.ShellViewModel.WorkingDirectory)
+				return Task.CompletedTask;
+
 			// Don't notify if there weren't listed items
 			if (itemsToSelect is null || itemsToSelect.IsEmpty())
 				return Task.CompletedTask;
@@ -1171,7 +1215,7 @@ namespace Files.App.ViewModels
 					cts.Token.ThrowIfCancellationRequested();
 					if (item.IsLibrary || item.PrimaryItemAttribute == StorageItemTypes.File || item.IsArchive)
 					{
-						if (!item.IsShortcut && !item.IsHiddenItem && !FtpHelpers.IsFtpPath(item.ItemPath))
+						if (!item.IsShortcut && !FtpHelpers.IsFtpPath(item.ItemPath))
 						{
 							matchingStorageFile = await GetFileFromPathAsync(item.ItemPath, cts.Token);
 							if (matchingStorageFile is not null)
@@ -1514,7 +1558,7 @@ namespace Files.App.ViewModels
 
 		public void RefreshItems(string? previousDir, Action postLoadCallback = null)
 		{
-			RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, postLoadCallback);
+			_ = RapidAddItemsToCollectionAsync(WorkingDirectory, previousDir, postLoadCallback);
 		}
 
 		private async Task RapidAddItemsToCollectionAsync(string path, string? previousDir, Action postLoadCallback)
@@ -1621,7 +1665,7 @@ namespace Files.App.ViewModels
 					PageTypeUpdated?.Invoke(this, new PageTypeUpdatedEventArgs() { IsTypeCloudDrive = false, IsTypeRecycleBin = isRecycleBin });
 					currentStorageFolder ??= await FilesystemTasks.Wrap(() => StorageFileExtensions.DangerousGetFolderWithPathFromPathAsync(path));
 					if (!HasNoWatcher)
-						WatchForStorageFolderChangesAsync(currentStorageFolder?.Item);
+						_ = WatchForStorageFolderChangesAsync(currentStorageFolder?.Item);
 					break;
 
 				// Watch for changes using Win32 in Box Drive folder (#7428) and network drives (#5869)
@@ -1650,6 +1694,8 @@ namespace Files.App.ViewModels
 
 		public void CloseWatcher()
 		{
+			App.Logger.LogInformation($"CloseWatcher: aProcessQueueAction={aProcessQueueAction?.Status.ToString()}, gitProcessQueueAction={gitProcessQueueAction?.Status.ToString()}");
+
 			watcher?.Dispose();
 			watcher = null;
 
@@ -1867,7 +1913,6 @@ namespace Files.App.ViewModels
 						});
 
 						filesAndFolders.AddRange(fileList);
-						FilesAndFoldersFilter = null;
 
 						await OrderFilesAndFoldersAsync();
 						await ApplyFilesAndFoldersChangesAsync();
@@ -1876,6 +1921,7 @@ namespace Files.App.ViewModels
 						{
 							GetDesktopIniFileData();
 							CheckForBackgroundImage();
+							FilesAndFoldersFilter = null;
 						},
 						Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 					});
@@ -2692,6 +2738,13 @@ namespace Files.App.ViewModels
 			await ApplyFilesAndFoldersChangesAsync();
 			EmptyTextType = EmptyTextType.None;
 
+			SearchHeaderTitle = !string.IsNullOrEmpty(search.Query)
+				? string.Format(Strings.SearchResultsFor.GetLocalizedResource(), search.Query)
+				: string.Empty;
+
+			if (SearchIconBitmapImage is null)
+				SearchIconBitmapImage ??= await UIHelpers.GetSearchIconResource();
+
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.InProgress });
 
 			var results = new List<ListedItem>();
@@ -2720,6 +2773,8 @@ namespace Files.App.ViewModels
 
 		public void UpdateDateDisplay(bool isFormatChange)
 		{
+			App.Logger.LogDebug($"UpdateDateDisplay: isFormatChange={isFormatChange}, itemCount={filesAndFolders?.Count}");
+
 			filesAndFolders.ToList().AsParallel().ForAll(async item =>
 			{
 				// Reassign values to update date display
@@ -2741,6 +2796,8 @@ namespace Files.App.ViewModels
 		public void Dispose()
 		{
 			CancelLoadAndClearFiles();
+			App.Logger.LogInformation($"ShellViewModel.Dispose: CurrentFolder={LogPathHelper.GetPathIdentifier(CurrentFolder?.ItemPath)}");
+
 			StorageTrashBinService.Watcher.ItemAdded -= RecycleBinItemCreatedAsync;
 			StorageTrashBinService.Watcher.ItemDeleted -= RecycleBinItemDeletedAsync;
 			StorageTrashBinService.Watcher.RefreshRequested -= RecycleBinRefreshRequestedAsync;

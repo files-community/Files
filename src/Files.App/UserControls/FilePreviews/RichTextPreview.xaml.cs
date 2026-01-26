@@ -1,5 +1,7 @@
 using Files.App.ViewModels.Previews;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
+using System.IO;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -17,7 +19,14 @@ namespace Files.App.UserControls.FilePreviews
 
 		private void TextPreviewControl_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
 		{
-			TextPreviewControl.Document.LoadFromStream(Microsoft.UI.Text.TextSetOptions.FormatRtf, ViewModel.Stream);
+			try
+			{
+				TextPreviewControl.Document.LoadFromStream(Microsoft.UI.Text.TextSetOptions.FormatRtf, ViewModel.Stream);
+			}
+			catch (EndOfStreamException ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
+			}
 		}
 	}
 }

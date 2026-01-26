@@ -49,7 +49,7 @@ namespace Files.App.Utils.Storage
 
 			StatusCenterItemProgressModel fsProgress = new(
 				progress,
-				true,
+				false,
 				FileSystemStatusCode.InProgress,
 				source.Count);
 
@@ -415,7 +415,26 @@ namespace Files.App.Utils.Storage
 				else if (deleteResult.Items.Any(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse))
 				{
 					var failedSources = deleteResult.Items.Where(x => CopyEngineResult.Convert(x.HResult) == FileSystemStatusCode.InUse);
-					var filePath = failedSources.Select(x => x.Source); // When deleting only source can be in use but shell returns COPYENGINE_E_SHARING_VIOLATION_DEST for folders
+
+					var filesToCheck = new List<string>();
+					foreach (var failedSource in failedSources)
+					{
+						if (Directory.Exists(failedSource.Source))
+						{
+							try
+							{
+								var files = Directory.EnumerateFiles(failedSource.Source, "*", SearchOption.AllDirectories);
+								filesToCheck.AddRange(files);
+							}
+							catch { }
+						}
+						else if (File.Exists(failedSource.Source))
+						{
+							filesToCheck.Add(failedSource.Source);
+						}
+					}
+
+					var filePath = filesToCheck.Any() ? filesToCheck : failedSources.Select(x => x.Source);
 					var lockingProcess = WhoIsLocking(filePath);
 
 					switch (await GetFileInUseDialog(filePath, lockingProcess))

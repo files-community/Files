@@ -45,7 +45,6 @@ namespace Files.App.Views.Shells
 			ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
 			ShellViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
 			ShellViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
-			ShellViewModel.DirectoryInfoUpdated += ShellViewModel_DirectoryInfoUpdated;
 			ShellViewModel.FocusFilterHeader += ShellViewModel_FocusFilterHeader;
 
 			ToolbarViewModel.PathControlDisplayText = Strings.Home.GetLocalizedResource();
@@ -61,13 +60,6 @@ namespace Files.App.Views.Shells
 			await Task.Delay(100);
 			if (FilterTextBox?.IsLoaded ?? false)
 				FilterTextBox.Focus(FocusState.Programmatic);
-		}
-
-		private void ShellViewModel_DirectoryInfoUpdated(object sender, EventArgs e)
-		{
-			// Regular binding causes issues when refreshing the directory so we set the text manually
-			if (FilterTextBox?.IsLoaded ?? false)
-				FilterTextBox.Text = ShellViewModel.FilesAndFoldersFilter ?? string.Empty;
 		}
 
 		private void ModernShellPage_RefreshWidgetsRequested(object sender, EventArgs e)
@@ -180,6 +172,11 @@ namespace Files.App.Views.Shells
 
 			if (parameters.IsLayoutSwitch)
 				FilesystemViewModel_DirectoryInfoUpdated(sender, EventArgs.Empty);
+
+			// Update the ShellViewModel with the current working directory
+			// Fixes https://github.com/files-community/Files/issues/17469
+			if (parameters.IsSearchResultPage == false)
+				ShellViewModel.IsSearchResults = false;
 
 			_navigationInteractionTracker.CanNavigateBackward = CanNavigateBackward;
 			_navigationInteractionTracker.CanNavigateForward = CanNavigateForward;
@@ -340,16 +337,6 @@ namespace Files.App.Views.Shells
 			}
 
 			ToolbarViewModel.PathControlDisplayText = ShellViewModel.WorkingDirectory;
-		}
-
-		private async void FilterTextBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-		{
-			if (args.Reason is AutoSuggestionBoxTextChangeReason.UserInput)
-			{
-				ShellViewModel.FilesAndFoldersFilter = sender.Text;
-				await ShellViewModel.ApplyFilesAndFoldersChangesAsync();
-			}
-
 		}
 
 		private void FilterTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)

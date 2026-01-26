@@ -5,6 +5,7 @@ using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed class CopyPathAction : IAction
 	{
 		private readonly IContentPageContext context;

@@ -211,7 +211,7 @@ namespace Files.App.Views.Layouts
 
 			var parameters = (NavigationArguments)eventArgs.Parameter;
 			if (parameters.IsLayoutSwitch)
-				ReloadItemIconsAsync();
+				_ = ReloadItemIconsAsync();
 		}
 
 		protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -437,7 +437,7 @@ namespace Files.App.Views.Layouts
 			if (!IsRenamingItem)
 				return;
 
-			ValidateItemNameInputTextAsync(textBox, args, (showError) =>
+			_ = ValidateItemNameInputTextAsync(textBox, args, (showError) =>
 			{
 				FileNameTeachingTip.Visibility = showError ? Visibility.Visible : Visibility.Collapsed;
 				FileNameTeachingTip.IsOpen = showError;
@@ -602,7 +602,14 @@ namespace Files.App.Views.Layouts
 
 			var item = (e.OriginalSource as FrameworkElement)?.DataContext as ListedItem;
 			if (item is null)
+			{
+				// Clear selection when clicking empty area via touch
+				// https://github.com/files-community/Files/issues/15051
+				if (e.PointerDeviceType == PointerDeviceType.Touch)
+					ItemManipulationModel.ClearSelection();
+
 				return;
+			}
 
 			// Skip code if the control or shift key is pressed or if the user is using multiselect
 			if (ctrlPressed ||
@@ -614,7 +621,8 @@ namespace Files.App.Views.Layouts
 			}
 
 			// Check if the setting to open items with a single click is turned on
-			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if ((item.PrimaryItemAttribute is StorageItemTypes.File && UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick) ||
+				(item.PrimaryItemAttribute is StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick is OpenFoldersWithOneClickEnum.Always))
 			{
 				ResetRenameDoubleClick();
 				await Commands.OpenItem.ExecuteAsync();
@@ -652,7 +660,9 @@ namespace Files.App.Views.Layouts
 		private async void FileList_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
 			// Skip opening selected items if the double tap doesn't capture an item
-			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if ((e.OriginalSource as FrameworkElement)?.DataContext is ListedItem item &&
+				((item.PrimaryItemAttribute == StorageItemTypes.File && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick) ||
+				 (item.PrimaryItemAttribute == StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick is not OpenFoldersWithOneClickEnum.Always)))
 				await Commands.OpenItem.ExecuteAsync();
 			else if ((e.OriginalSource as FrameworkElement)?.DataContext is not ListedItem && UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 				await Commands.NavigateUp.ExecuteAsync();

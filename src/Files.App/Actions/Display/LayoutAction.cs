@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class LayoutDetailsAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
@@ -21,6 +22,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number1, KeyModifiers.CtrlShift);
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class LayoutListAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
@@ -39,6 +41,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number2, KeyModifiers.CtrlShift);
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class LayoutCardsAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
@@ -57,6 +60,7 @@ namespace Files.App.Actions
 			=> new(Keys.Number3, KeyModifiers.CtrlShift);
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class LayoutGridAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
@@ -75,8 +79,11 @@ namespace Files.App.Actions
 			=> new(Keys.Number4, KeyModifiers.CtrlShift);
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class LayoutColumnsAction : ToggleLayoutAction
 	{
+		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 		protected override LayoutTypes LayoutType
 			=> LayoutTypes.Columns;
 
@@ -91,8 +98,27 @@ namespace Files.App.Actions
 
 		public override HotKey HotKey
 			=> new(Keys.Number5, KeyModifiers.CtrlShift);
+
+		public override bool IsExecutable
+			=> ContentPageContext.PageType is not ContentPageTypes.RecycleBin;
+
+		public LayoutColumnsAction()
+		{
+			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
+		}
+
+		private void ContentPageContext_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			switch (e.PropertyName)
+			{
+				case nameof(IContentPageContext.PageType):
+					OnPropertyChanged(nameof(IsExecutable));
+					break;
+			}
+		}
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class LayoutAdaptiveAction : ToggleLayoutAction
 	{
 		protected override LayoutTypes LayoutType
@@ -168,6 +194,7 @@ namespace Files.App.Actions
 		}
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class LayoutDecreaseSizeAction : ObservableObject, IAction
 	{
 		private static readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
@@ -256,6 +283,7 @@ namespace Files.App.Actions
 		}
 	}
 
+	[GeneratedRichCommand]
 	internal sealed partial class LayoutIncreaseSizeAction : ObservableObject, IAction
 	{
 		private static readonly IUserSettingsService UserSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();

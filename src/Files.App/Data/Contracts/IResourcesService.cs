@@ -62,5 +62,11 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		/// <param name="contentControlThemeFontFamily"></param>
 		void SetAppThemeFontFamily(string contentControlThemeFontFamily);
+
+		/// <summary>
+		/// Overrides the XAML resource for scroll inertia enabled state
+		/// </summary>
+		/// <param name="enableScrollInertia"></param>
+		void SetScrollInertiaEnabled(bool enableScrollInertia);
 	}
 }

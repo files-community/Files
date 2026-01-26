@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -56,6 +57,9 @@ namespace Files.App.Views
 
 			AppInstance.ToolbarViewModel.PathComponents.Clear();
 
+			// Update Info Pane to avoid showing items from the previous directory
+			AppInstance.SlimContentPage?.InfoPaneViewModel.UpdateSelectedItemPreviewAsync();
+
 			string componentLabel =
 				parameters?.NavPathParam == "ReleaseNotes"
 					? Strings.ReleaseNotes.GetLocalizedResource()
@@ -83,27 +87,34 @@ namespace Files.App.Views
 
 		private async void BlogPostWebView_CoreWebView2Initialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
 		{
-			BlogPostWebView.CoreWebView2.Profile.PreferredColorScheme = (CoreWebView2PreferredColorScheme)RootAppElement.RequestedTheme;
-			BlogPostWebView.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
-			BlogPostWebView.CoreWebView2.Settings.AreDevToolsEnabled = false;
-			BlogPostWebView.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
-			BlogPostWebView.CoreWebView2.Settings.IsSwipeNavigationEnabled = false;
+			try
+			{
+				sender.CoreWebView2.Profile.PreferredColorScheme = (CoreWebView2PreferredColorScheme)RootAppElement.RequestedTheme;
+				sender.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
+				sender.CoreWebView2.Settings.AreDevToolsEnabled = false;
+				sender.CoreWebView2.Settings.AreBrowserAcceleratorKeysEnabled = false;
+				sender.CoreWebView2.Settings.IsSwipeNavigationEnabled = false;
 
-			var script = @"
-				document.addEventListener('click', function(event) {
-					var target = event.target;
-					while (target && target.tagName !== 'A') {
-						target = target.parentElement;
-					}
-					if (target && target.href) {
-						event.preventDefault();
-						window.chrome.webview.postMessage(target.href);
-					}
-				});
-			";
+				var script = @"
+					document.addEventListener('click', function(event) {
+						var target = event.target;
+						while (target && target.tagName !== 'A') {
+							target = target.parentElement;
+						}
+						if (target && target.href) {
+							event.preventDefault();
+							window.chrome.webview.postMessage(target.href);
+						}
+					});
+				";
 
-			await sender.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(script);
-			sender.WebMessageReceived += WebView_WebMessageReceived;
+				await sender.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(script);
+				sender.WebMessageReceived += WebView_WebMessageReceived;
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
+			}
 		}
 
 		private async void WebView_WebMessageReceived(WebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)

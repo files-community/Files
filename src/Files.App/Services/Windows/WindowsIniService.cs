@@ -20,19 +20,18 @@ namespace Files.App.Services
 					.Where(line => !line.StartsWith(';') && !string.IsNullOrEmpty(line))
 					.ToList();
 			}
-			catch (Exception ex) when (ex is UnauthorizedAccessException || ex is SystemIO.FileNotFoundException)
+			catch (Exception ex) when (ex is UnauthorizedAccessException || ex is SystemIO.FileNotFoundException || ex is SystemIO.IOException)
 			{
 				return [];
 			}
 
-			// Get sections
-			var sections = lines
-				.Where(line => line.StartsWith('[') && line.EndsWith(']'));
-
-			// Get section line indexes
+			// Get section line indexes directly to handle duplicate section names
 			List<int> sectionLineIndexes = [];
-			foreach (var section in sections)
-				sectionLineIndexes.Add(lines.IndexOf(section));
+			for (int i = 0; i < lines.Count; i++)
+			{
+				if (lines[i].StartsWith('[') && lines[i].EndsWith(']'))
+					sectionLineIndexes.Add(i);
+			}
 
 			List<IniSectionDataItem> dataItems = [];
 
@@ -42,10 +41,10 @@ namespace Files.App.Services
 
 				var count =
 					index + 1 == sectionLineIndexes.Count
-						? (lines.Count - 1) - sectionIndex
-						: sectionLineIndexes[index + 1] - sectionIndex;
+						? lines.Count - sectionIndex - 1
+						: sectionLineIndexes[index + 1] - sectionIndex - 1;
 
-				if (count == 0)
+				if (count <= 0)
 					continue;
 
 				var range = lines.GetRange(sectionIndex + 1, count);

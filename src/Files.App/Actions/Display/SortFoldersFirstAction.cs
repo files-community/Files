@@ -3,6 +3,7 @@
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class SortFoldersFirstAction : ObservableObject, IToggleAction
 	{
 		private readonly IDisplayPageContext context;

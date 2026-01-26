@@ -96,18 +96,31 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
-				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewTabFromHomeAction)
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewTabFromHome)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab && CommandManager.OpenInNewTabFromHomeAction.IsExecutable
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab && CommandManager.OpenInNewTabFromHome.IsExecutable
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewWindowFromHomeAction)
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewWindowFromHome)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow && CommandManager.OpenInNewWindowFromHomeAction.IsExecutable
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow && CommandManager.OpenInNewWindowFromHome.IsExecutable
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewPaneFromHomeAction)
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewPaneFromHome)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && CommandManager.OpenInNewPaneFromHomeAction.IsExecutable
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && CommandManager.OpenInNewPaneFromHome.IsExecutable
 				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.CopyItemFromHome)
+				{
+					IsPrimary = true,
+					IsVisible = CommandManager.CopyItemFromHome.IsExecutable
+				}.Build(),
+				new()
+				{
+					Text = Strings.Properties.GetLocalizedResource(),
+					ThemedIconModel = new ThemedIconModel() { ThemedIconStyle = "App.ThemedIcons.Properties" },
+					Command = OpenPropertiesCommand,
+					CommandParameter = item,
+					IsPrimary = true
+				},
 				new()
 				{
 					Text = Strings.PinFolderToSidebar.GetLocalizedResource(),
@@ -130,13 +143,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Command = EjectDeviceCommand,
 					CommandParameter = item,
 					ShowItem = options?.ShowEjectDevice ?? false
-				},
-				new()
-				{
-					Text = Strings.Properties.GetLocalizedResource(),
-					ThemedIconModel = new ThemedIconModel() { ThemedIconStyle = "App.ThemedIcons.Properties" },
-					Command = OpenPropertiesCommand,
-					CommandParameter = item
 				},
 				new()
 				{

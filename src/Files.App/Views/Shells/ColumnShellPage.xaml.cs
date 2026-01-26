@@ -4,6 +4,7 @@
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 
 namespace Files.App.Views.Shells
@@ -47,7 +48,7 @@ namespace Files.App.Views.Shells
 		{
 			base.OnNavigatedTo(eventArgs);
 
-			ColumnParams = eventArgs.Parameter as ColumnParam;
+			ColumnParams = eventArgs?.Parameter as ColumnParam;
 			if (ColumnParams?.IsLayoutSwitch ?? false)
 				FilesystemViewModel_DirectoryInfoUpdated(this, EventArgs.Empty);
 		}
@@ -59,32 +60,44 @@ namespace Files.App.Views.Shells
 
 		protected override void OnNavigationParamsChanged()
 		{
+			// Add null check for ColumnParams
+			if (ColumnParams == null)
+				return;
+
 			if (ColumnParams.NavPathParam is not null)
 				// This method call is required to load the sorting preferences.
-				InstanceViewModel.FolderSettings.GetLayoutType(ColumnParams.NavPathParam);
+				InstanceViewModel?.FolderSettings?.GetLayoutType(ColumnParams.NavPathParam);
 
-			ItemDisplayFrame.Navigate(
-				typeof(ColumnLayoutPage),
-				new NavigationArguments()
-				{
-					IsSearchResultPage = ColumnParams.IsSearchResultPage,
-					SearchQuery = ColumnParams.SearchQuery,
-					NavPathParam = ColumnParams.NavPathParam,
-					SearchPathParam = ColumnParams.SearchPathParam,
-					AssociatedTabInstance = this,
-					SelectItems = ColumnParams.SelectItems
-				});
+			// Add null check for ItemDisplayFrame
+			if (ItemDisplayFrame != null)
+			{
+				ItemDisplayFrame.Navigate(
+					typeof(ColumnLayoutPage),
+					new NavigationArguments()
+					{
+						IsSearchResultPage = ColumnParams.IsSearchResultPage,
+						SearchQuery = ColumnParams.SearchQuery,
+						NavPathParam = ColumnParams.NavPathParam,
+						SearchPathParam = ColumnParams.SearchPathParam,
+						AssociatedTabInstance = this,
+						SelectItems = ColumnParams.SelectItems
+					});
+			}
 		}
 
 		protected override void Page_Loaded(object sender, RoutedEventArgs e)
 		{
-			ShellViewModel = new ShellViewModel(InstanceViewModel?.FolderSettings);
-			ShellViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
-			ShellViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
-			ShellViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
-			ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
-			ShellViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
-			ShellViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
+			// Add null check for InstanceViewModel
+			if (InstanceViewModel?.FolderSettings != null)
+			{
+				ShellViewModel = new ShellViewModel(InstanceViewModel.FolderSettings);
+				ShellViewModel.WorkingDirectoryModified += ViewModel_WorkingDirectoryModified;
+				ShellViewModel.ItemLoadStatusChanged += FilesystemViewModel_ItemLoadStatusChanged;
+				ShellViewModel.DirectoryInfoUpdated += FilesystemViewModel_DirectoryInfoUpdated;
+				ShellViewModel.PageTypeUpdated += FilesystemViewModel_PageTypeUpdated;
+				ShellViewModel.OnSelectionRequestedEvent += FilesystemViewModel_OnSelectionRequestedEvent;
+				ShellViewModel.GitDirectoryUpdated += FilesystemViewModel_GitDirectoryUpdated;
+			}
 
 			PaneHolder = this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.PaneHolder;
 
@@ -93,8 +106,25 @@ namespace Files.App.Views.Shells
 			NotifyPropertyChanged(nameof(ShellViewModel));
 		}
 
+		private void Page_Unloaded(object sender, RoutedEventArgs e)
+		{
+			// Add null check for ShellViewModel before unsubscribing
+			if (ShellViewModel != null)
+			{
+				ShellViewModel.WorkingDirectoryModified -= ViewModel_WorkingDirectoryModified;
+				ShellViewModel.ItemLoadStatusChanged -= FilesystemViewModel_ItemLoadStatusChanged;
+				ShellViewModel.DirectoryInfoUpdated -= FilesystemViewModel_DirectoryInfoUpdated;
+				ShellViewModel.PageTypeUpdated -= FilesystemViewModel_PageTypeUpdated;
+				ShellViewModel.OnSelectionRequestedEvent -= FilesystemViewModel_OnSelectionRequestedEvent;
+				ShellViewModel.GitDirectoryUpdated -= FilesystemViewModel_GitDirectoryUpdated;
+			}
+		}
+
 		protected override async void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
 		{
+			// Add null check for e and e.Path
+			if (e == null) return;
+
 			string value = e.Path;
 			if (!string.IsNullOrWhiteSpace(value))
 				await UpdatePathUIToWorkingDirectoryAsync(value);
@@ -104,41 +134,48 @@ namespace Files.App.Views.Shells
 		{
 			ContentPage = await GetContentOrNullAsync();
 
-			if (ItemDisplayFrame.CurrentSourcePageType == typeof(ColumnLayoutPage))
+			if (ItemDisplayFrame?.CurrentSourcePageType == typeof(ColumnLayoutPage))
 			{
 				// Reset DataGrid Rows that may be in "cut" command mode
-				ContentPage.ResetItemOpacity();
+				ContentPage?.ResetItemOpacity();
 			}
 
-			var parameters = e.Parameter as NavigationArguments;
-			TabBarItemParameter = new TabBarItemParameter()
+			var parameters = e?.Parameter as NavigationArguments;
+			if (parameters != null)
 			{
-				InitialPageType = typeof(ColumnShellPage),
-				NavigationParameter = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
-			};
+				TabBarItemParameter = new TabBarItemParameter()
+				{
+					InitialPageType = typeof(ColumnShellPage),
+					NavigationParameter = parameters.IsSearchResultPage ? parameters.SearchPathParam : parameters.NavPathParam
+				};
+			}
 		}
 
 		public override void Back_Click()
 		{
-			ToolbarViewModel.CanGoBack = false;
-			if (ItemDisplayFrame.CanGoBack)
+			if (ToolbarViewModel != null)
+				ToolbarViewModel.CanGoBack = false;
+
+			if (ItemDisplayFrame?.CanGoBack == true)
 				base.Back_Click();
 			else
-				this.FindAscendant<ColumnsLayoutPage>().NavigateBack();
+				this.FindAscendant<ColumnsLayoutPage>()?.NavigateBack();
 		}
 
 		public override void Forward_Click()
 		{
-			ToolbarViewModel.CanGoForward = false;
-			if (ItemDisplayFrame.CanGoForward)
+			if (ToolbarViewModel != null)
+				ToolbarViewModel.CanGoForward = false;
+
+			if (ItemDisplayFrame?.CanGoForward == true)
 				base.Forward_Click();
 			else
-				this.FindAscendant<ColumnsLayoutPage>().NavigateForward();
+				this.FindAscendant<ColumnsLayoutPage>()?.NavigateForward();
 		}
 
 		public override void Up_Click()
 		{
-			if (!ToolbarViewModel.CanNavigateToParent)
+			if (ToolbarViewModel?.CanNavigateToParent != true)
 				return;
 
 			this.FindAscendant<ColumnsLayoutPage>()?.NavigateUp();
@@ -146,7 +183,40 @@ namespace Files.App.Views.Shells
 
 		public override void NavigateToPath(string navigationPath, Type sourcePageType, NavigationArguments navArgs = null)
 		{
-			this.FindAscendant<ColumnsLayoutPage>()?.SetSelectedPathOrNavigate(navigationPath, sourcePageType, navArgs);
+			if (string.IsNullOrEmpty(navigationPath))
+				return;
+
+			var columnsLayoutPage = this.FindAscendant<ColumnsLayoutPage>();
+			if (columnsLayoutPage != null)
+			{
+				columnsLayoutPage.SetSelectedPathOrNavigate(navigationPath, sourcePageType, navArgs);
+			}
+			else
+			{
+				if (sourcePageType is null)
+					sourcePageType = InstanceViewModel.FolderSettings.GetLayoutType(navigationPath);
+
+				if (navArgs is not null && navArgs.AssociatedTabInstance is not null)
+				{
+					ItemDisplayFrame.Navigate(
+						sourcePageType,
+						navArgs,
+						new SuppressNavigationTransitionInfo());
+				}
+				else
+				{
+					var newNavArgs = new NavigationArguments()
+					{
+						NavPathParam = navigationPath,
+						AssociatedTabInstance = this
+					};
+
+					ItemDisplayFrame.Navigate(
+						sourcePageType,
+						newNavArgs,
+						new SuppressNavigationTransitionInfo());
+				}
+			}
 		}
 
 		public override void NavigateHome()
@@ -160,6 +230,9 @@ namespace Files.App.Views.Shells
 		}
 
 		public override Task WhenIsCurrent()
-			=> Task.WhenAll(_IsCurrentInstanceTCS.Task, this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.WhenIsCurrent() ?? Task.CompletedTask);
+		{
+			var parentTask = this.FindAscendant<ColumnsLayoutPage>()?.ParentShellPageInstance?.WhenIsCurrent();
+			return Task.WhenAll(_IsCurrentInstanceTCS.Task, parentTask ?? Task.CompletedTask);
+		}
 	}
 }

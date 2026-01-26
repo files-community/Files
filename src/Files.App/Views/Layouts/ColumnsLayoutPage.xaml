@@ -24,7 +24,7 @@
 			<Setter Property="CloseButtonVisibility" Value="Collapsed" />
 			<Setter Property="BorderThickness" Value="0,0,1,0" />
 			<Setter Property="BorderBrush" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
-			<Setter Property="Width" Value="300" />
+			<Setter Property="Width" Value="200" />
 		</Style>
 	</local:BaseLayoutPage.Resources>
 

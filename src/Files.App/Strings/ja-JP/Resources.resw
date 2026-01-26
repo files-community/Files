@@ -309,6 +309,9 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>ダーク</value>
   </data>
+  <data name="UseSystemSetting" xml:space="preserve">
+    <value>システム設定を使用</value>
+  </data>
   <data name="Application" xml:space="preserve">
     <value>アプリ</value>
   </data>
@@ -523,9 +526,6 @@
   </data>
   <data name="Status" xml:space="preserve">
     <value>状態</value>
-  </data>
-  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Windows の既定</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>結果なし</value>
@@ -1010,6 +1010,9 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>{0} の {1} での検索結果を表示:</value>
   </data>
+  <data name="SearchResultsFor" xml:space="preserve">
+    <value>「{0}」の検索結果</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>詳細</value>
   </data>
@@ -1098,10 +1101,16 @@
     <value>ツールバーの表示/非表示</value>
   </data>
   <data name="ToggleFilterHeader" xml:space="preserve">
-    <value>Toggle filter header</value>
+    <value>絞り込みヘッダーを切り替える</value>
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
-    <value>Toggle visibility of the filter header</value>
+    <value>絞り込みヘッダーの表示/非表示を切り替える</value>
+  </data>
+  <data name="ToggleDualPane" xml:space="preserve">
+    <value>デュアルペインの切り替える</value>
+  </data>
+  <data name="ToggleDualPaneDescription" xml:space="preserve">
+    <value>デュアルペインモードを切り替える</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>プレビューを利用できません</value>
@@ -1764,7 +1773,7 @@
     <value>タグ</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>シングル クリックで項目を開く</value>
+    <value>シングルクリックでファイルを開く</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>フォルダー パス</value>
@@ -2063,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>ロック画面</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>カラム レイアウトでシングル クリックでフォルダーを開く</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>シングルクリックでフォルダを開く</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>項目を開くとき</value>
@@ -2592,13 +2601,13 @@
     <value>選択した {0, plural, other {アーカイブ}} を現在のフォルダに展開</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
+    <value>選択した {0, plural, other {アーカイブ}} を新規フォルダに展開</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected {0, plural, one {image} other {images}} to the left</value>
+    <value>選択した {0, plural, other {画像}} を左に回転</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected {0, plural, one {image} other {images}} to the right</value>
+    <value>選択した {0, plural, other {画像}} を右に回転</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>設定画面を開く</value>
@@ -2724,7 +2733,7 @@
     <value>前に戻る</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>次へ進む</value>
+    <value>次に進む</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>1つ上のフォルダーに移動する</value>
@@ -2757,7 +2766,7 @@
     <value>現在のタブを含むすべてのタブを閉じる</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>最近閉じたタブを開く</value>
+    <value>最近閉じたタブを再度開く</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
     <value>前のタブに移動する</value>
@@ -2769,13 +2778,13 @@
     <value>現在のタブを閉じる</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>アクティブなペインを閉じる</value>
+    <value>現在のペインを閉じる</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
     <value>別のペインに移動</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>他のペインにフォーカスする</value>
+    <value>他のペインに移動する</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>サイドバーの表示を切り替える</value>
@@ -2983,10 +2992,10 @@
     <value>タグなし</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>前のタブへ</value>
+    <value>前のタブ</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>次のタブへ</value>
+    <value>次のタブ</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
     <value>タブを閉じる</value>
@@ -3019,7 +3028,7 @@
     <value>項目選択時にチェック ボックスを表示する</value>
   </data>
   <data name="EditPathDescription" xml:space="preserve">
-    <value>Edit path in the OmniBar</value>
+    <value>OmniBarでパスを編集</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
     <value>新しい項目を作成する</value>
@@ -3034,7 +3043,7 @@
     <value>完全に削除</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Delete selected {0, plural, one {item} other {items}} permanently</value>
+    <value>選択した{0, plural, other {項目}}を完全に削除</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>選択したメディア ファイルを再生する</value>
@@ -3123,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>このブランチにはコミットされていない変更があります。どうしますか?</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>未解決の競合を含む統合が進行中です。競合を解決するか、統合を中止してからブランチを切り替えてください。</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>統合を中止し、「{0}」に切り替え</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>「{0}」に留まり競合を解決</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>ブランチを切り替え</value>
   </data>
@@ -3151,7 +3169,7 @@
     <value>新しいブランチに切り替える</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>選択された{0, plural, other {}}から新しいフォルダーを作成する</value>
+    <value>現在選択している{0, plural, other {項目}}でアーカイブを作成</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>プロパティ</value>
@@ -3299,7 +3317,7 @@
     <value>リポジトリの初期化</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>今いる場所をGitリポジトリとして初期化する</value>
+    <value>現在のフォルダを git リポジトリとして初期化</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
     <value>リモート リポジトリ名</value>
@@ -3314,13 +3332,13 @@
     <value>項目をパスで並べ替える</value>
   </data>
   <data name="OpenDirectoryInNewPaneDescription" xml:space="preserve">
-    <value>ディレクトリを新しいペインで開く</value>
+    <value>新しいペインで選択したフォルダーを開く</value>
   </data>
   <data name="OpenDirectoryInNewTabDescription" xml:space="preserve">
-    <value>ディレクトリを新しいタブで開く</value>
+    <value>新しいタブで選択したフォルダーを開く</value>
   </data>
   <data name="OpenInNewWindowDescription" xml:space="preserve">
-    <value>ディレクトリを新しいウインドウで開く</value>
+    <value>新しいウィンドウでフォルダーを開く</value>
   </data>
   <data name="OpenAllTaggedItems" xml:space="preserve">
     <value>すべて開く</value>
@@ -3345,10 +3363,10 @@
     <value>コマンド {0} は現在実行できません。</value>
   </data>
   <data name="CommandPalette" xml:space="preserve">
-    <value>コマンドパレット</value>
+    <value>コマンド パレット</value>
   </data>
   <data name="OpenCommandPaletteDescription" xml:space="preserve">
-    <value>Open Command Palette in the OmniBar</value>
+    <value>コマンド パレットをOmniBarで開く</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
     <value>作業フォルダー:</value>
@@ -3478,6 +3496,9 @@
   <data name="ProcessingItems" xml:space="preserve">
     <value>項目を処理しています...</value>
   </data>
+  <data name="DiscoveringItems" xml:space="preserve">
+    <value>項目を検出しています…</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>速度:</value>
   </data>
@@ -3490,27 +3511,27 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_Header" xml:space="preserve">
-    <value>Compressed {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>{0, plural, other {# 項目}}を "{1}" に圧縮しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressComplete_SubHeader" xml:space="preserve">
-    <value>Compressed {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>​"{1}" から "{2}" に {0, plural, other {# 項目}}を圧縮しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_Header" xml:space="preserve">
-    <value>Error compressing {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>​{0, plural, other {# 項目}}を "{1}" に圧縮する際にエラーが発生しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressFailed_SubHeader" xml:space="preserve">
-    <value>Failed to compress {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>"{1}" から "{2}" への {0, plural, other {# 項目}}の圧縮に失敗しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_Header" xml:space="preserve">
-    <value>Compressing {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>{0, plural, other {# 項目}}を "{1}" に圧縮しています</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CompressInProgress_SubHeader" xml:space="preserve">
-    <value>Compressing {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>"{1}" から "{2}" へ{0, plural, other {# 項目}}を圧縮中</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_GitCloneCanceled_Header" xml:space="preserve">
@@ -3550,64 +3571,68 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled installing {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>​"{1}" からの {0, plural, other {# 個のフォント}}のインストールがキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_Header" xml:space="preserve">
-    <value>Installed {0, plural, one {# font} other {# fonts}}</value>
+    <value>{0, plural, other {# 個のフォント}}をインストールしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontComplete_SubHeader" xml:space="preserve">
-    <value>Installed {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>"{1}" から {0, plural, other {# 個のフォント}}をインストールしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_Header" xml:space="preserve">
-    <value>Error installing {0, plural, one {# font} other {# fonts}}</value>
+    <value>{0, plural, other {# 個のフォント}}のインストール中にエラーが発生しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontFailed_SubHeader" xml:space="preserve">
-    <value>Failed to install {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>"{1}" から {0, plural, other {# 個のフォント}}のインストールに失敗しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_Header" xml:space="preserve">
-    <value>Installing {0, plural, one {# font} other {# fonts}}</value>
+    <value>{0, plural, other {# 個のフォント}}をインストールしています</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_InstallFontInProgress_SubHeader" xml:space="preserve">
-    <value>Installing {0, plural, one {# font} other {# fonts}} from "{1}"</value>
+    <value>​"{1}" から {0, plural, other {# 個のフォント}}をインストールしています</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_Header" xml:space="preserve">
-    <value>Canceled copying {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>​"{1}" への {0, plural, other {# 項目}}のコピーをキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled copying {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>​"{1}" から "{2}" への {0, plural, other {# 項目}}のコピーをキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_Header" xml:space="preserve">
-    <value>Copied {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>"{1}" へ {0, plural, other {# 項目}}をコピーしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyComplete_SubHeader" xml:space="preserve">
-    <value>Copied {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>"{1}" から "{2}" へ {0, plural, other {# 項目}}をコピーしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_Header" xml:space="preserve">
-    <value>Error copying {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>​"{1}" への {0, plural, other {# 項目}}のコピー中にエラーが発生しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyFailed_SubHeader" xml:space="preserve">
-    <value>Failed to copy {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>"{1}" から "{2}" への {0, plural, other {# 項目}}のコピーに失敗しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_Header" xml:space="preserve">
-    <value>Copying {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>​"{1}" へ {0, plural, other {# 項目}}をコピー中</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_CopyInProgress_SubHeader" xml:space="preserve">
-    <value>Copying {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>"{1}" から "{2}" へ {0, plural, other {# 項目}}をコピー中</value>
     <comment>Shown in a StatusCenter card.</comment>
+  </data>
+  <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
+    <value>{0, plural, one {# 件} other {# 件}}の項目を検出しました</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
   </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>"{0}" の "{1}" への展開をキャンセルしました</value>
@@ -3642,55 +3667,56 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteCanceled_Header" xml:space="preserve">
-    <value>Canceled deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>「{1}」から {0, plural, one {# 件} other {# 件}} の削除をキャンセルしました。
+</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteComplete_Header" xml:space="preserve">
-    <value>Deleted {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>「{1}」 から {0, plural, one {# 件} other {# 件}} を削除しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_Header" xml:space="preserve">
-    <value>Error deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>「{1}」から {0, plural, one {# 件} other {# 件}} を削除中にエラーが発生しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteFailed_SubHeader" xml:space="preserve">
-    <value>Failed to delete {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>「{1}」から {0, plural, one {# 件} other {# 件}} の削除に失敗しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_DeleteInProgress_Header" xml:space="preserve">
-    <value>Deleting {0, plural, one {# item} other {# items}} from "{1}"</value>
+    <value>「{1}」から {0, plural, one {# 件} other {# 件}} を削除中</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_Header" xml:space="preserve">
-    <value>Canceled moving {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>「{1}」から {0, plural, one {# 件} other {# 件}} の移動をキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled moving {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>「{1}」から「{2}」への {0, plural, one {# 件} other {# 件}} の移動をキャンセルしました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
-    <value>Moved {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>「{1}」に {0, plural, one {# 件} other {# 件}} を移動しましました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_SubHeader" xml:space="preserve">
-    <value>Moved {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>「{1}」から「{2}」へ {0, plural, one {# 件} other {# 件}} を移動しましました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_Header" xml:space="preserve">
-    <value>Moving {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>「{1}」から {0, plural, one {# 件} other {# 件}} を移動中</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveInProgress_SubHeader" xml:space="preserve">
-    <value>Moving {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>「{1}」から「{2}」へ {0, plural, one {# 件} other {# 件}} を移動中</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_Header" xml:space="preserve">
-    <value>Error moving {0, plural, one {# item} other {# items}} to "{1}"</value>
+    <value>「{1}」から {0, plural, one {# 件} other {# 件}} を移動中にエラーが発生しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveFailed_SubHeader" xml:space="preserve">
-    <value>Failed to move {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>「{1}」から「{2}」へ {0, plural, one {# 件} other {# 件}} の移動に失敗しました</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_EmptyRecycleBinCancel_Header" xml:space="preserve">
@@ -3718,7 +3744,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1}{0, plural, other {}} 完了</value>
+    <value>処理済み：{0}/{1, plural, one {# 件} other {# 件}}</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3764,7 +3790,7 @@
     <value>このタグを適用中にエラーが発生しました</value>
   </data>
   <data name="DecompressArchiveHereSmartDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
+    <value>選択した {0, plural, one {アーカイブ} other {アーカイブ}} を1 件の場合はここに、複数の場合は新しいフォルダーに展開します</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
     <value>ここに展開 (スマート)</value>
@@ -3773,7 +3799,7 @@
     <value>ファイルとフォルダーを一緒に並べ替える</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>Sort files and folders in the same list</value>
+    <value>ファイルとフォルダーを混ぜて並べ替える</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
     <value>ファイルを先に並べ替える</value>
@@ -4002,6 +4028,10 @@
     <value>ビットマップ ファイル</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
+  <data name="ImageFiles" xml:space="preserve">
+    <value>画像ファイル</value>
+    <comment>This is the friendly name for image files.</comment>
+  </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Num</value>
   </data>
@@ -4033,17 +4063,17 @@
   <data name="TabActions" xml:space="preserve">
     <value>タブ操作メニュー</value>
   </data>
-  <data name="AddVerticalPane" xml:space="preserve">
-    <value>垂直ペイン</value>
+  <data name="SplitPaneVertically" xml:space="preserve">
+    <value>縦に分割</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>縦にペインを追加する</value>
+    <value>ペインを垂直に分割</value>
   </data>
-  <data name="AddHorizontalPane" xml:space="preserve">
-    <value>水平ペイン</value>
+  <data name="SplitPaneHorizontally" xml:space="preserve">
+    <value>横に分割</value>
   </data>
-  <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>横にペインを追加する</value>
+  <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
+    <value>ペインを水平に分割</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>縦に配置</value>
@@ -4057,8 +4087,8 @@
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
     <value>ペインを横に配置する</value>
   </data>
-  <data name="AddPane" xml:space="preserve">
-    <value>ペインを追加</value>
+  <data name="SplitPane" xml:space="preserve">
+    <value>ペインを分割</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>タイトル バーにタブ操作ボタンを表示する</value>
@@ -4066,8 +4096,11 @@
   <data name="ArrangePanes" xml:space="preserve">
     <value>ペインの配置</value>
   </data>
-  <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>デフォルトのペイン配置</value>
+  <data name="DualPaneSplitDirection" xml:space="preserve">
+    <value>既定のデュアルペインの分割方向</value>
+  </data>
+  <data name="DualPane" xml:space="preserve">
+    <value>デュアルペインモード</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>横</value>
@@ -4103,7 +4136,7 @@
     <value>代替データ ストリームの作成</value>
   </data>
   <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
-    <value>Create alternate data stream for the selected {0, plural, one {item} other {items}}</value>
+    <value>選択した {0, plural, other {# 項目}}の代替データストリームを作成する</value>
   </data>
   <data name="EnterDataStreamName" xml:space="preserve">
     <value>データ ストリーム名を入力</value>
@@ -4133,10 +4166,10 @@
     <value>常に新しく作成したタブに表示を切り替える</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
-    <value>Toggle shelf pane</value>
+    <value>シェルフペインを切り替え</value>
   </data>
   <data name="ToggleShelfPaneDescription" xml:space="preserve">
-    <value>Toggle the visibility of the shelf pane</value>
+    <value>シェルフペインの表示を切り替え</value>
   </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
     <value>アドレス バーにシェルフ ウィンドウの切り替えボタンを表示する</value>
@@ -4239,27 +4272,27 @@
     <value>ファイルとフォルダーを検索…</value>
   </data>
   <data name="DuringOngoingFileOperations" xml:space="preserve">
-    <value>During file operations</value>
+    <value>ファイル操作中</value>
   </data>
   <data name="ShowStatusCenterButton" xml:space="preserve">
-    <value>Show status center button</value>
+    <value>ステータスセンターボタンを表示</value>
   </data>
   <data name="StatusCenterProgressRing" xml:space="preserve">
-    <value>Status center progress ring</value>
+    <value>ステータスセンターの進行状況表示リング</value>
     <comment>Screen reader name for the status center progress ring</comment>
   </data>
   <data name="IconFiles" xml:space="preserve">
-    <value>Icon files</value>
+    <value>アイコンファイル</value>
     <comment>This is the friendly name for a variety of different icon files.</comment>
   </data>
   <data name="BreadcrumbBarEllipsisButtonToolTip" xml:space="preserve">
-    <value>Show collapsed path breadcrumbs</value>
+    <value>折りたたんだパンくずリストを表示する</value>
   </data>
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
-    <value>Show folders in {0}</value>
+    <value>{0} 内のフォルダを表示</value>
   </data>
   <data name="BreadcrumbBarRootChevronButtonToolTip" xml:space="preserve">
-    <value>Show folders in Home</value>
+    <value>フォルダ内のフォルダを表示</value>
   </data>
   <data name="NoCommandsFound" xml:space="preserve">
     <value>{0}を含むコマンドは存在しません</value>
@@ -4273,7 +4306,55 @@
   <data name="Filename" xml:space="preserve">
     <value>ファイル名</value>
   </data>
+  <data name="Signatures" xml:space="preserve">
+    <value>署名</value>
+   </data>
+  <data name="SignatureList" xml:space="preserve">
+    <value>署名リスト</value>
+  </data>
+  <data name="IssuedBy" xml:space="preserve">
+    <value>発行者：</value>
+  </data>
+  <data name="IssuedTo" xml:space="preserve">
+    <value>発行先：</value>
+  </data>
+  <data name="ValidFrom" xml:space="preserve">
+    <value>有効期間の開始：</value>
+  </data>
+  <data name="ValidTo" xml:space="preserve">
+    <value>有効期間の終了：</value>
+  </data>
+  <data name="NoSignatureFound" xml:space="preserve">
+    <value>署名が見つかりませんでした。</value>
+  </data>
   <data name="ShowOpenTerminal" xml:space="preserve">
-    <value>Show option to open folders in Windows Terminal</value>
+    <value>Windows Terminal でフォルダーを開くオプションを表示する</value>
+  </data>
+  <data name="OpenLogFile" xml:space="preserve">
+    <value>ログファイルを開く</value>
+  </data>
+  <data name="OpenLogFileDescription" xml:space="preserve">
+    <value>既定のエディターでログファイルを開く</value>
+  </data>
+  <data name="OpenLogFileLocationDescription" xml:space="preserve">
+    <value>既定のファイルマネージャーでログファイルの場所を開く</value>
+  </data>
+  <data name="FailedToOpenLogFile" xml:space="preserve">
+    <value>ログファイルを開けません</value>
+  </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>ステータスバーを表示</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>カラム表示でのみ</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>新規 {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Enable smooth scrolling</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Scrolling</value>
   </data>
 </root>

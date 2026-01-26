@@ -5,6 +5,7 @@ using Windows.System;
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed class OpenHelpAction : IAction
 	{
 		public string Label

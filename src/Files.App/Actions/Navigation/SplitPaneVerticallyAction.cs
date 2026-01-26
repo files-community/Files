@@ -3,19 +3,19 @@
 
 namespace Files.App.Actions
 {
-	internal sealed partial class AddHorizontalPaneAction : ObservableObject, IAction
+	[GeneratedRichCommand]
+	internal sealed partial class SplitPaneVerticallyAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
-		private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
 		public string Label
-			=> Strings.AddHorizontalPane.GetLocalizedResource();
+			=> Strings.SplitPaneVertically.GetLocalizedResource();
 
 		public string Description
-			=> Strings.AddHorizontalPaneDescription.GetLocalizedResource();
+			=> Strings.AddVerticalPaneDescription.GetLocalizedResource();
 
 		public HotKey HotKey
-			=> new(Keys.H, KeyModifiers.AltShift);
+			=> new(Keys.V, KeyModifiers.AltShift);
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Panes.Vertical");
@@ -24,14 +24,14 @@ namespace Files.App.Actions
 			ContentPageContext.IsMultiPaneAvailable &&
 			!ContentPageContext.IsMultiPaneActive;
 
-		public AddHorizontalPaneAction()
+		public SplitPaneVerticallyAction()
 		{
 			ContentPageContext.PropertyChanged += ContentPageContext_PropertyChanged;
 		}
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			ContentPageContext.ShellPage!.PaneHolder.OpenSecondaryPane(arrangement: ShellPaneArrangement.Horizontal);
+			ContentPageContext.ShellPage!.PaneHolder.OpenSecondaryPane(ContentPageContext.ShellPage!.ShellViewModel.WorkingDirectory, ShellPaneArrangement.Vertical);
 
 			return Task.CompletedTask;
 		}

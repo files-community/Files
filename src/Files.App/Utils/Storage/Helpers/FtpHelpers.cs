@@ -33,7 +33,7 @@ namespace Files.App.Utils.Storage
 			var authority = GetFtpAuthority(path);
 			var index = authority.IndexOf(':', StringComparison.Ordinal);
 
-			return index == -1 || ushort.TryParse(authority.Substring(index + 1), out _);
+			return index == -1 || ushort.TryParse(authority.AsSpan(index + 1), out _);
 		}
 
 		public static string GetFtpHost(string path)

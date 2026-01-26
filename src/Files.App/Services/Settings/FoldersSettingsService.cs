@@ -41,9 +41,10 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool ColumnLayoutOpenFoldersWithOneClick
+		/// <inheritdoc/>
+		public OpenFoldersWithOneClickEnum OpenFoldersWithOneClick
 		{
-			get => Get(true);
+			get => Get(OpenFoldersWithOneClickEnum.OnlyInColumnsView);
 			set => Set(value);
 		}
 

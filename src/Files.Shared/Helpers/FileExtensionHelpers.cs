@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Frozen;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -12,13 +14,25 @@ namespace Files.Shared.Helpers
 	/// </summary>
 	public static class FileExtensionHelpers
 	{
+		private static readonly FrozenSet<string> _signableTypes = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+		{
+			".aab", ".apk", ".application", ".appx", ".appxbundle", ".arx", ".cab", ".cat", ".cbx",
+			".cpl", ".crx", ".dbx", ".deploy", ".dll", ".doc", ".docm", ".dot", ".dotm", ".drx",
+			".ear", ".efi", ".exe", ".jar", ".js", ".manifest", ".mpp", ".mpt", ".msi", ".msix",
+			".msixbundle", ".msm", ".msp", ".nupkg", ".ocx", ".pot", ".potm", ".ppa", ".ppam", ".pps",
+			".ppsm", ".ppt", ".pptm", ".ps1", ".psm1", ".psi", ".pub", ".sar", ".stl", ".sys", ".vbs",
+			".vdw", ".vdx", ".vsd", ".vsdm", ".vss", ".vssm", ".vst", ".vstm", ".vsto", ".vsix", ".vsx", ".vtx",
+			".vxd", ".war", ".wiz", ".wsf", ".xap", ".xla", ".xlam", ".xls", ".xlsb", ".xlsm", ".xlt",
+			".xltm", ".xlsm", ".xsn"
+		}.ToFrozenSet(StringComparer.OrdinalIgnoreCase);
+
 		/// <summary>
 		/// Check if the file extension matches one of the specified extensions.
 		/// </summary>
 		/// <param name="filePathToCheck">Path or name or extension of the file to check.</param>
 		/// <param name="extensions">List of the extensions to check.</param>
 		/// <returns><c>true</c> if the filePathToCheck has one of the specified extensions; otherwise, <c>false</c>.</returns>
-		public static bool HasExtension(string? filePathToCheck, params string[] extensions)
+		public static bool HasExtension(string? filePathToCheck, params ReadOnlySpan<string> extensions)
 		{
 			if (string.IsNullOrWhiteSpace(filePathToCheck))
 				return false;
@@ -28,7 +42,12 @@ namespace Files.Shared.Helpers
 			if (Directory.Exists(filePathToCheck))
 				return false;
 
-			return extensions.Any(ext => Path.GetExtension(filePathToCheck).Equals(ext, StringComparison.OrdinalIgnoreCase));
+			string pathExtension = Path.GetExtension(filePathToCheck);
+			foreach (string ext in extensions)
+				if (pathExtension.Equals(ext, StringComparison.OrdinalIgnoreCase))
+					return true;
+
+			return false;
 		}
 
 		/// <summary>
@@ -260,7 +279,7 @@ namespace Files.Shared.Helpers
 		/// <returns><c>true</c> if the filePathToCheck is a script file; otherwise, <c>false</c>.</returns>
 		public static bool IsScriptFile(string? filePathToCheck)
 		{
-			return HasExtension(filePathToCheck, ".py", ".ahk");
+			return HasExtension(filePathToCheck, ".py", ".ahk", ".bat", ".cmd", ".ps1");
 		}
 
 		/// <summary>
@@ -273,5 +292,20 @@ namespace Files.Shared.Helpers
 			return HasExtension(filePathToCheck, ".dll", ".exe", ".sys", ".inf");
 		}
 
+		/// <summary>
+		/// Check if the file is signable.
+		/// </summary>
+		/// <param name="filePathToCheck"></param>
+		/// <returns><c>true</c> if the filePathToCheck is a signable file; otherwise, <c>false</c>.</returns>
+		public static bool IsSignableFile(string? filePathToCheck, bool isExtension = false)
+		{
+			if (string.IsNullOrWhiteSpace(filePathToCheck))
+				return false;
+
+			if (!isExtension)
+				filePathToCheck = Path.GetExtension(filePathToCheck);
+
+			return _signableTypes.Contains(filePathToCheck);
+		}
 	}
 }

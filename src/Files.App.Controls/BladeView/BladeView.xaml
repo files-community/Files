@@ -21,16 +21,11 @@
 		<Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="True" />
 		<Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
 		<Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
-		<Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
+		<Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="False" />
 		<Setter Property="UseSystemFocusVisuals" Value="True" />
 		<Setter Property="ItemContainerTransitions">
 			<Setter.Value>
-				<TransitionCollection>
-					<AddDeleteThemeTransition />
-					<ContentThemeTransition />
-					<ReorderThemeTransition />
-					<EntranceThemeTransition IsStaggeringEnabled="False" />
-				</TransitionCollection>
+				<TransitionCollection />
 			</Setter.Value>
 		</Setter>
 		<Setter Property="ItemsPanel">
@@ -96,12 +91,10 @@
 		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="VerticalAlignment" Value="Stretch" />
 		<Setter Property="Margin" Value="0" />
-		<Setter Property="MinWidth" Value="{ThemeResource GridViewItemMinWidth}" />
 		<Setter Property="MinHeight" Value="{ThemeResource GridViewItemMinHeight}" />
 		<Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
 		<Setter Property="BorderThickness" Value="1" />
 		<Setter Property="IsTabStop" Value="False" />
-		<Setter Property="Width" Value="320" />
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="controls:BladeItem">
@@ -113,6 +106,18 @@
 							x:Name="ContentPresenter"
 							VerticalAlignment="Stretch"
 							Background="{TemplateBinding Background}" />
+
+						<!--  Resizer  -->
+						<Border
+							x:Name="BladeResizer"
+							Width="4"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Stretch"
+							AllowFocusOnInteraction="True"
+							Background="Transparent"
+							BorderBrush="Transparent"
+							CornerRadius="2"
+							ManipulationMode="TranslateX" />
 
 						<Button
 							Name="CloseButton"
@@ -127,6 +132,33 @@
 							Style="{StaticResource ButtonRevealStyle}"
 							TabIndex="0"
 							Visibility="{TemplateBinding CloseButtonVisibility}" />
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="ResizerStates">
+								<VisualState x:Name="ResizerNormal" />
+								<VisualState x:Name="ResizerPointerOver">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="BladeResizer" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CardStrokeColorDefaultSolidBrush}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="BladeResizer" Storyboard.TargetProperty="BorderBrush">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource CardStrokeColorDefaultSolidBrush}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+
+								<VisualState x:Name="ResizerPressed">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="BladeResizer" Storyboard.TargetProperty="Background">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SolidBackgroundFillColorSecondaryBrush}" />
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="BladeResizer" Storyboard.TargetProperty="BorderBrush">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SolidBackgroundFillColorSecondaryBrush}" />
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>

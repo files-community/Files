@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.App.Controls;
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -20,6 +21,7 @@ namespace Files.App.Views
 		// Dependency injections
 
 		private IGeneralSettingsService GeneralSettingsService { get; } = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
+		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 		private AppModel AppModel { get; } = Ioc.Default.GetRequiredService<AppModel>();
 
 		// Constants
@@ -31,6 +33,7 @@ namespace Files.App.Views
 		// Fields
 
 		private bool _wasRightPaneVisible;
+		private NavigationParams? _savedNavParamsRight;
 
 		// Properties
 
@@ -104,14 +107,24 @@ namespace Files.App.Views
 						// Close pane
 						_wasRightPaneVisible = GetPaneCount() >= 2;
 
-						if (GetPaneCount() >= 2)
+						if (_wasRightPaneVisible)
+						{
+							var currentPath = GetPane(1)?.TabBarItemParameter?.NavigationParameter as string ?? "Home";
+							_savedNavParamsRight = new NavigationParams { NavPath = currentPath };
 							RemovePane(1);
+						}
 					}
 					else if (_wasRightPaneVisible)
 					{
 						// Add back pane
 						if (GetPaneCount() == 1)
 							AddPane();
+
+						if (_savedNavParamsRight is not null)
+						{
+							NavParamsRight = _savedNavParamsRight;
+							_savedNavParamsRight = null;
+						}
 
 						_wasRightPaneVisible = false;
 					}
@@ -228,6 +241,7 @@ namespace Files.App.Views
 			}
 		}
 
+
 		// Events
 
 		public static event EventHandler<ShellPanesPage>? CurrentInstanceChanged;
@@ -288,7 +302,7 @@ namespace Files.App.Views
 			RootGrid.RowDefinitions.Clear();
 			RootGrid.ColumnDefinitions.Clear();
 
-			if (ShellPaneArrangement == ShellPaneArrangement.Horizontal)
+			if (ShellPaneArrangement == ShellPaneArrangement.Vertical)
 			{
 				foreach (var element in RootGrid.Children)
 				{
@@ -330,10 +344,22 @@ namespace Files.App.Views
 			{
 				sizer?.ChangeCursor(
 					InputSystemCursor.Create(
-						ShellPaneArrangement is ShellPaneArrangement.Horizontal
+						ShellPaneArrangement is ShellPaneArrangement.Vertical
 							? InputSystemCursorShape.SizeWestEast
 							: InputSystemCursorShape.SizeNorthSouth));
 			}
+		}
+
+		/// <inheritdoc/>
+		public void CloseOtherPane()
+		{
+			if (!IsMultiPaneActive)
+				return;
+
+			if (ActivePane == (IShellPage)GetPane(0)!)
+				RemovePane(1);
+			else
+				RemovePane(0);
 		}
 
 		/// <inheritdoc/>
@@ -355,6 +381,19 @@ namespace Files.App.Views
 				GetPane(1)?.Focus(FocusState.Programmatic);
 			else
 				GetPane(0)?.Focus(FocusState.Programmatic);
+		}
+
+		/// <inheritdoc/>
+		public void FocusActivePane()
+		{
+			if (ActivePane == (IShellPage)GetPane(0)!)
+				GetPane(0)?.Focus(FocusState.Programmatic);
+			else
+				GetPane(1)?.Focus(FocusState.Programmatic);
+
+			// Focus file list
+			if (ActivePane is BaseShellPage baseShellPage)
+				baseShellPage.ContentPage?.ItemManipulationModel.FocusFileList();
 		}
 
 		/// <inheritdoc/>
@@ -393,8 +432,8 @@ namespace Files.App.Views
 				RootGrid.ColumnDefinitions.Count is 0
 					? RootGrid.RowDefinitions.Count is 0
 						? ShellPaneArrangement
-						: ShellPaneArrangement.Vertical
-					: ShellPaneArrangement.Horizontal;
+						: ShellPaneArrangement.Horizontal
+					: ShellPaneArrangement.Vertical;
 
 			// Adding new pane is not the first time
 			if (RootGrid.Children.Count is not 0)
@@ -413,7 +452,7 @@ namespace Files.App.Views
 				RootGrid.Children.Add(sizer);
 
 				// Set to a new column
-				if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
+				if (ShellPaneArrangement is ShellPaneArrangement.Vertical)
 				{
 					RootGrid.ColumnDefinitions.Add(new() { Width = new(4) });
 					sizer.SetValue(Grid.ColumnProperty, RootGrid.ColumnDefinitions.Count - 1);
@@ -433,7 +472,7 @@ namespace Files.App.Views
 			var page = new ModernShellPage() { PaneHolder = this };
 			RootGrid.Children.Add(page);
 
-			if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
+			if (ShellPaneArrangement is ShellPaneArrangement.Vertical)
 			{
 				// Add a new definition
 				RootGrid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Star), MinWidth = 100d });
@@ -483,7 +522,7 @@ namespace Files.App.Views
 				// Remove sizer and pane
 				RootGrid.Children.RemoveAt(0);
 
-				if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
+				if (ShellPaneArrangement is ShellPaneArrangement.Vertical)
 					RootGrid.ColumnDefinitions.RemoveAt(0);
 				else
 					RootGrid.RowDefinitions.RemoveAt(0);
@@ -492,7 +531,7 @@ namespace Files.App.Views
 				{
 					RootGrid.Children.RemoveAt(0);
 
-					if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
+					if (ShellPaneArrangement is ShellPaneArrangement.Vertical)
 						RootGrid.ColumnDefinitions.RemoveAt(0);
 					else
 						RootGrid.RowDefinitions.RemoveAt(0);
@@ -510,7 +549,7 @@ namespace Files.App.Views
 				RootGrid.Children.RemoveAt(childIndex);
 				RootGrid.Children.RemoveAt(childIndex);
 
-				if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
+				if (ShellPaneArrangement is ShellPaneArrangement.Vertical)
 				{
 					RootGrid.ColumnDefinitions.RemoveAt(childIndex);
 					RootGrid.ColumnDefinitions.RemoveAt(childIndex);
@@ -587,7 +626,7 @@ namespace Files.App.Views
 
 				ShellPaneArrangement =
 					paneArgs.ShellPaneArrangement is ShellPaneArrangement.None
-						? ShellPaneArrangement.Horizontal
+						? ShellPaneArrangement.Vertical
 						: paneArgs.ShellPaneArrangement;
 			}
 
@@ -648,7 +687,11 @@ namespace Files.App.Views
 
 		private void Pane_PointerPressed(object sender, PointerRoutedEventArgs e)
 		{
-			if (sender != ActivePane && sender is IShellPage shellPage && shellPage.SlimContentPage is not ColumnsLayoutPage)
+			// Focus pane if interaction suggests intent to focus:
+			// 1. Sender is not the currently active pane (user is switching panes), or the sender is the active pane,
+			// but the user is refocusing the pane (e.g. user taps pane to refocus while the Omnibar flyout is open)
+			// 2. AND the sender is a valid shell page not using a column-based layout
+			if (((IsMultiPaneActive && sender != ActivePane) || e.Pointer.PointerDeviceType == PointerDeviceType.Touch) && sender is IShellPage shellPage && shellPage.SlimContentPage is not ColumnsLayoutPage)
 				(sender as UIElement)?.Focus(FocusState.Pointer);
 		}
 
@@ -688,7 +731,7 @@ namespace Files.App.Views
 			{
 				sizer.ChangeCursor(
 					InputSystemCursor.Create(
-						ShellPaneArrangement is ShellPaneArrangement.Horizontal
+						ShellPaneArrangement is ShellPaneArrangement.Vertical
 							? InputSystemCursorShape.SizeWestEast
 							: InputSystemCursorShape.SizeNorthSouth));
 			}
@@ -696,7 +739,7 @@ namespace Files.App.Views
 
 		private void Sizer_OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
-			if (ShellPaneArrangement is ShellPaneArrangement.Horizontal)
+			if (ShellPaneArrangement is ShellPaneArrangement.Vertical)
 			{
 				var definitions = RootGrid.ColumnDefinitions.Where(x => RootGrid.ColumnDefinitions.IndexOf(x) % 2 == 0);
 				definitions?.ForEach(x => x.Width = new GridLength(1, GridUnitType.Star));
@@ -712,7 +755,7 @@ namespace Files.App.Views
 		{
 			this.ChangeCursor(
 				InputSystemCursor.Create(
-					ShellPaneArrangement is ShellPaneArrangement.Horizontal
+					ShellPaneArrangement is ShellPaneArrangement.Vertical
 						? InputSystemCursorShape.SizeWestEast
 						: InputSystemCursorShape.SizeNorthSouth));
 		}
@@ -735,6 +778,8 @@ namespace Files.App.Views
 
 		public void Dispose()
 		{
+			App.Logger.LogInformation($"ShellPanesPage.Dispose: PaneCount={GetPaneCount()}, ActivePane={LogPathHelper.GetPathIdentifier(ActivePane?.TabBarItemParameter?.NavigationParameter?.ToString())}");
+
 			MainWindow.Instance.SizeChanged -= MainWindow_SizeChanged;
 
 			// Dispose panes

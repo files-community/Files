@@ -68,7 +68,9 @@ body:
         > [!IMPORTANT]
         > Please **upload** the log file by clicking "Attach files".
         >
-        > Feel free to remove sensitive information such as your usernames or drive names.
+        > The log file can be accessed from **Settings → About → Open log location**. If you cannot access the UI, you can locate the file [manually](https://files.community/docs/getting-started/faq#:~:text=How%20to%20Locate%20the%20Log%20File).
+        >
+        > Feel free to remove potentially sensitive information such as usernames or drive names before uploading the file.
 
   # Log File
   - type: textarea
@@ -77,8 +79,6 @@ body:
       description: |
         Please upload the log file as an attachment (DO NOT COPY OR PASTE THE CONTENTS INTO THIS FIELD)
       placeholder: |
-        To upload the log, access it from Settings -> About -> Open log location; Or
-        - Select the `debug.log` file from `%localappdata%\Packages\49306atecsolution.FilesUWP_et10x9a9vyk8t\LocalState`
-        - Drag and drop the file to upload as an attachment 
+        Please upload the log file as an attachment (DO NOT COPY OR PASTE THE CONTENTS INTO THIS FIELD)
     validations:
       required: true

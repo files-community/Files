@@ -274,10 +274,10 @@
 																<Button Click="CancelRemoveTag_Click" Content="{helpers:ResourceString Name=Cancel}" />
 
 																<Button
-																	Background="{ThemeResource SystemFillColorCriticalBackgroundBrush}"
 																	BorderBrush="Transparent"
 																	Click="RemoveTag_Click"
-																	Content="{helpers:ResourceString Name=Delete}" />
+																	Content="{helpers:ResourceString Name=Delete}"
+																	Style="{StaticResource AccentButtonStyle}" />
 															</StackPanel>
 														</StackPanel>
 													</Flyout>

@@ -309,6 +309,9 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>Темна</value>
   </data>
+  <data name="UseSystemSetting" xml:space="preserve">
+    <value>Використовувати системні налаштування</value>
+  </data>
   <data name="Application" xml:space="preserve">
     <value>За замовчуванням</value>
   </data>
@@ -349,7 +352,7 @@
     <value>Установити як фонове зображення екрана блокування</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Встановити як фон програми</value>
+    <value>Встановити як фон застосунку</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Не вдалося видалити цей елемент</value>
@@ -358,7 +361,7 @@
     <value>Підключить необхідний диск для доступу до цього елемента.</value>
   </data>
   <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
-    <value>Диск відключено</value>
+    <value>Диск від’єднано</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
     <value>Файл, до якого ви намагаєтеся отримати доступ, можливо було переміщено або видалено.</value>
@@ -452,7 +455,7 @@
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Items" xml:space="preserve">
-    <value>{0, plural, one {елемент} few {об'єкти} many {об'єкти} other {об'єкти}}</value>
+    <value>{0, plural, one {елемент} few {елементи} many {елементів} other {елементів}}</value>
     <comment>ICU format for plurals, more information here: https://support.crowdin.com/icu-message-syntax/#plural</comment>
   </data>
   <data name="Yes" xml:space="preserve">
@@ -523,9 +526,6 @@
   </data>
   <data name="Status" xml:space="preserve">
     <value>Стан</value>
-  </data>
-  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Стандартна</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>Немає результатів</value>
@@ -906,10 +906,10 @@
     <value>Швидкість потоку</value>
   </data>
   <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
-    <value>Аудіо бітрейт</value>
+    <value>Бітрейт звуку</value>
   </data>
   <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
-    <value>Бітрейт відео для кодування</value>
+    <value>Бітрейт відео</value>
   </data>
   <data name="Compression" xml:space="preserve">
     <value>Стискання</value>
@@ -1010,6 +1010,9 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Результати пошуку в</value>
   </data>
+  <data name="SearchResultsFor" xml:space="preserve">
+    <value>Результати пошуку по «{0}»</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Подробиці</value>
   </data>
@@ -1044,13 +1047,13 @@
     <value>Відображати опцію відкриття папок у новій панелі</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
-    <value>Відображати опцію копіювання шляху</value>
+    <value>Показувати параметр копіювання шляху</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
-    <value>Відображати опцію створення папки з обраними елементами</value>
+    <value>Показувати параметр створення теки з обраними елементами</value>
   </data>
   <data name="ShowCreateShortcut" xml:space="preserve">
-    <value>Відображати опцію створення ярлика</value>
+    <value>Показувати параметр створення ярлика</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Нова панель</value>
@@ -1059,7 +1062,7 @@
     <value>Відкрити в новій панелі</value>
   </data>
   <data name="FilesAndFolders" xml:space="preserve">
-    <value>Файли та папки</value>
+    <value>Файли та теки</value>
   </data>
   <data name="NavToolbarDetails.ToolTipService.ToolTip" xml:space="preserve">
     <value>Подробиці (Ctrl+Shift+1)</value>
@@ -1080,10 +1083,10 @@
     <value>Відобразити панель попереднього перегляду</value>
   </data>
   <data name="ToggleDetailsPane" xml:space="preserve">
-    <value>Зобразити панель подробиць</value>
+    <value>Показати / Приховати панель подробиць</value>
   </data>
   <data name="ToggleDetailsPaneDescription" xml:space="preserve">
-    <value>Перемкнути панель деталей для перегляду основних властивостей файлу</value>
+    <value>Перемкнути панель подробиць для перегляду основних властивостей файлу</value>
   </data>
   <data name="ToggleInfoPane" xml:space="preserve">
     <value>Перемкнути інформаційну панель</value>
@@ -1102,6 +1105,12 @@
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
     <value>Увімк. / Вимк. видимість заголовка фільтра</value>
+  </data>
+  <data name="ToggleDualPane" xml:space="preserve">
+    <value>Увімк. / Вимк. подвійні панелі</value>
+  </data>
+  <data name="ToggleDualPaneDescription" xml:space="preserve">
+    <value>Увімк. / Вимк. режим подвійних панелей</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Попередній перегляд недоступний</value>
@@ -1287,10 +1296,10 @@
     <value>Продовжити</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflicts" xml:space="preserve">
-    <value>{0, plural, one {Є одне конфліктуюче ім'я файлу} few {Є # конфліктуючі імена файлів} many {Є # конфліктуючих імен файлів} other {Є # конфліктуючі імена файлів}}</value>
+    <value>{0, plural, one {Є одне конфліктне ім'я файлу} few {Є # конфліктні імена файлів} many {Є # конфліктних імен файлів} other {Є # конфліктні імена файлів}}</value>
   </data>
   <data name="ConflictingItemsDialogSubtitleConflictsNonConflicts" xml:space="preserve">
-    <value>{0, plural, one {Є одне конфліктуюче ім'я файлу} few {Є # конфліктуючі імена файлів} many {Є # конфліктуючих імен файлів} other {Є # конфліктуючі імена файлів}}, і {1, plural, one {один вихідний елемент} few {# вихідні елементи} many {# вихідних елементів} other {# вихідні елементи}}</value>
+    <value>{0, plural, one {Є одне конфліктне ім'я файлу} few {Є # конфліктні імена файлів} many {Є # конфліктних імен файлів} other {Є # конфліктні імена файлів}}, і {1, plural, one {один вихідний елемент} few {# вихідні елементи} many {# вихідних елементів} other {# вихідні елементи}}</value>
   </data>
   <data name="ConflictingItemsDialogTitle" xml:space="preserve">
     <value>Конфлікт {0, plural, one {ім'я файлу} few {імен файлів} many {імен файлів} other {ім'я файлу}}</value>
@@ -1479,7 +1488,7 @@
     <value>Розпакувати архів</value>
   </data>
   <data name="DecompressArchiveDialogOpenDestinationWhenComplete.Content" xml:space="preserve">
-    <value>Після завершення відкрийте папку призначення</value>
+    <value>Після завершення відкрийте теку призначення</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtractToChildFolder" xml:space="preserve">
     <value>Видобути до {0}\</value>
@@ -1494,7 +1503,7 @@
     <value>Ви впевнені, що бажаєте відновити стандартні бібліотеки? Усі ваші файли залишаться у вашому сховищі.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
-    <value>Відновлення Бібліотек</value>
+    <value>Відновлення бібліотек</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Власник</value>
@@ -1515,7 +1524,7 @@
     <value>файли</value>
   </data>
   <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
-    <value>цю папку</value>
+    <value>цю теку</value>
   </data>
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
     <value>вкладені папки</value>
@@ -1566,7 +1575,7 @@
     <value>Видалення підкаталогів та файлів</value>
   </data>
   <data name="SecurityExecuteFileLabel.Text" xml:space="preserve">
-    <value>Виконати файли</value>
+    <value>Виконання файлів</value>
   </data>
   <data name="SecurityReadAttributesLabel.Text" xml:space="preserve">
     <value>Читання атрибутів</value>
@@ -1584,7 +1593,7 @@
     <value>Стати власником</value>
   </data>
   <data name="SecurityTraverseLabel.Text" xml:space="preserve">
-    <value>Перейти у папку</value>
+    <value>Перейти в теку</value>
   </data>
   <data name="SecurityWriteAttributesLabel.Text" xml:space="preserve">
     <value>Записування атрибутів</value>
@@ -1635,7 +1644,7 @@
     <value>Версія файлу:</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.Text" xml:space="preserve">
-    <value>Завантажити прев'ю повністю</value>
+    <value>Завантажити передперегляд повністю</value>
   </data>
   <data name="PreviewPaneLoadCloudItemButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Завантажує елемент з хмари і завантажує попередній перегляд</value>
@@ -1764,7 +1773,7 @@
     <value>Мітка</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Відкривати елементи одним кліком</value>
+    <value>Відкривати файли одним клацанням</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Шлях до папки</value>
@@ -2063,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Екран блокування</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Відкрити папки одним натисканням по Макету Стовпчиків</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Відкривати теки одним клацанням</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Відкриття елементів</value>
@@ -3123,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Ви маєте не закомічені зміни на даній гілці. Що б ви хотіли зробити з ними?</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>У вас є поточне злиття з невирішеними конфліктами. Вирішіть конфлікти або скасуйте злиття, щоб перейти до іншої гілки.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Скасувати злиття і перейти до «{0}»</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Залишитися в «{0}» і вирішити конфлікти</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Змінити гілку</value>
   </data>
@@ -3478,6 +3496,9 @@
   <data name="ProcessingItems" xml:space="preserve">
     <value>Опрацювання елементів...</value>
   </data>
+  <data name="DiscoveringItems" xml:space="preserve">
+    <value>Виявлення елементів...</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Швидкість:</value>
   </data>
@@ -3609,6 +3630,10 @@
     <value>Копіювання {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} з «{1}» до «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
+    <value>Виявлено {0, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}}</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
+  </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>Скасовано видобування "{0}" до "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3718,7 +3743,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} {0, plural, one {елемент} few {елементи} many {елементів} other {елементів}} оброблено</value>
+    <value>{0}/{1, plural, one {# елемент} few {# елементи} many {# елементів} other {# елементів}} оброблено</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -4002,6 +4027,10 @@
     <value>Файли растру</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
+  <data name="ImageFiles" xml:space="preserve">
+    <value>Файли зображень</value>
+    <comment>This is the friendly name for image files.</comment>
+  </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Номер</value>
   </data>
@@ -4033,17 +4062,17 @@
   <data name="TabActions" xml:space="preserve">
     <value>Меню дій вкладки</value>
   </data>
-  <data name="AddVerticalPane" xml:space="preserve">
-    <value>Вертикальна панель</value>
+  <data name="SplitPaneVertically" xml:space="preserve">
+    <value>Розділити вертикально</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Додати вертикальну панель</value>
+    <value>Розділити панелі вертикально</value>
   </data>
-  <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Горизонтальна панель</value>
+  <data name="SplitPaneHorizontally" xml:space="preserve">
+    <value>Розділити горизонтально</value>
   </data>
-  <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Додати горизонтальну панель</value>
+  <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
+    <value>Розділити панелі горизонтально</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Розташувати вертикально</value>
@@ -4057,8 +4086,8 @@
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
     <value>Розташувати панелі горизонтально</value>
   </data>
-  <data name="AddPane" xml:space="preserve">
-    <value>Додати панель</value>
+  <data name="SplitPane" xml:space="preserve">
+    <value>Розділена панель</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Показати кнопку дій вкладки в рядку заголовка</value>
@@ -4066,8 +4095,11 @@
   <data name="ArrangePanes" xml:space="preserve">
     <value>Розташувати панелі</value>
   </data>
-  <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>Розташування панелей за замовчуванням</value>
+  <data name="DualPaneSplitDirection" xml:space="preserve">
+    <value>Типовий напрямок розділення на дві панелі</value>
+  </data>
+  <data name="DualPane" xml:space="preserve">
+    <value>Режим подвійних панелей</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>Горизонтально</value>
@@ -4273,7 +4305,55 @@
   <data name="Filename" xml:space="preserve">
     <value>Назва файлу</value>
   </data>
+  <data name="Signatures" xml:space="preserve">
+    <value>Підписи</value>
+   </data>
+  <data name="SignatureList" xml:space="preserve">
+    <value>Список підписів</value>
+  </data>
+  <data name="IssuedBy" xml:space="preserve">
+    <value>Ким видано:</value>
+  </data>
+  <data name="IssuedTo" xml:space="preserve">
+    <value>Кому видано:</value>
+  </data>
+  <data name="ValidFrom" xml:space="preserve">
+    <value>Дійсний з:</value>
+  </data>
+  <data name="ValidTo" xml:space="preserve">
+    <value>Дійсний до:</value>
+  </data>
+  <data name="NoSignatureFound" xml:space="preserve">
+    <value>Підпис не знайдено.</value>
+  </data>
   <data name="ShowOpenTerminal" xml:space="preserve">
-    <value>Show option to open folders in Windows Terminal</value>
+    <value>Показати параметр відкриття тек у терміналі Windows</value>
+  </data>
+  <data name="OpenLogFile" xml:space="preserve">
+    <value>Відкрити файл журналу</value>
+  </data>
+  <data name="OpenLogFileDescription" xml:space="preserve">
+    <value>Відкрити файл журналу в типовому редакторі</value>
+  </data>
+  <data name="OpenLogFileLocationDescription" xml:space="preserve">
+    <value>Відкрити файл журналу в типовому файловому менеджері</value>
+  </data>
+  <data name="FailedToOpenLogFile" xml:space="preserve">
+    <value>Не вдається відкрити файл журналу</value>
+  </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Показувати рядок стану</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Лише в режимі стовпців</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>Новий {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Enable smooth scrolling</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Scrolling</value>
   </data>
 </root>

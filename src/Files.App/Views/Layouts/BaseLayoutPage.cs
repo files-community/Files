@@ -388,6 +388,12 @@ namespace Files.App.Views.Layouts
 				}
 
 				ParentShellPageInstance.ShellViewModel.UpdateEmptyTextType();
+
+				// Focus on the active pane in case it was lost during the layout switch.
+				// Allthough the focus is also set from SetSelectedItemsOnNavigation,
+				// that is only called when switching between a Grid based layout and Details,
+				// not between different Grid based layouts (eg. List and Cards).
+				ParentShellPageInstance!.PaneHolder.FocusActivePane();
 			}
 		}
 
@@ -506,7 +512,7 @@ namespace Files.App.Views.Layouts
 			BaseContextMenuFlyout.Opening += BaseContextFlyout_Opening;
 		}
 
-		public void SetSelectedItemsOnNavigation()
+		public async void SetSelectedItemsOnNavigation()
 		{
 			try
 			{
@@ -522,10 +528,14 @@ namespace Files.App.Views.Layouts
 					ItemManipulationModel.SetSelectedItems(listedItemsToSelect);
 					ItemManipulationModel.FocusSelectedItems();
 				}
-				else if (navigationArguments is not null && navigationArguments.FocusOnNavigation)
+				else if (navigationArguments is not null && ParentShellPageInstance!.InstanceViewModel.FolderSettings.LayoutMode is not FolderLayoutModes.ColumnView)
 				{
-					// Set focus on layout specific file list control
-					ItemManipulationModel.FocusFileList();
+					// Delay to ensure the new layout is loaded
+					if (navigationArguments.IsLayoutSwitch)
+						await Task.Delay(100);
+
+					// Focus on the active pane in case it was lost during navigation
+					ParentShellPageInstance!.PaneHolder.FocusActivePane();
 				}
 			}
 			catch (Exception) { }
@@ -1162,24 +1172,26 @@ namespace Files.App.Views.Layouts
 		protected virtual async void Item_Drop(object sender, DragEventArgs e)
 		{
 			var deferral = e.GetDeferral();
+			e.Handled = true;
+
 			try
 			{
-				e.Handled = true;
 				_ = e.Data.Properties;
 				var exists = e.Data.Properties.TryGetValue("Files_ActionBinder", out var val);
 				_ = val;
-
-				// Reset dragged over item
-				dragOverItem = null;
-
-				var item = GetItemFromElement(sender);
-				if (item is not null)
-					await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as IShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable, item.IsScriptFile);
 			}
-			finally
+			catch (NullReferenceException)
 			{
-				deferral.Complete();
+				// e.Data or e.Data.Properties is null, continue without the property check
 			}
+
+			// Reset dragged over item
+			dragOverItem = null;
+			var item = GetItemFromElement(sender);
+			if (item is not null)
+				await ParentShellPageInstance!.FilesystemHelpers.PerformOperationTypeAsync(e.AcceptedOperation, e.DataView, (item as IShortcutItem)?.TargetPath ?? item.ItemPath, false, true, item.IsExecutable, item.IsScriptFile);
+
+			deferral.Complete();
 		}
 
 		protected void FileList_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)

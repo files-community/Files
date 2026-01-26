@@ -47,5 +47,10 @@ namespace Files.App.Data.Enums
 		/// Shortcut page type
 		/// </summary>
 		Shortcut,
+
+		/// <summary>
+		/// Signatures page type
+		/// </summary>
+		Signatures,
 	}
 }

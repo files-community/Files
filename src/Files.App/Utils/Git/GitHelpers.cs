@@ -7,10 +7,11 @@ using Microsoft.Extensions.Logging;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Files.App.Utils.Git
 {
-	internal static class GitHelpers
+	internal static partial class GitHelpers
 	{
 		private static readonly StatusCenterViewModel StatusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
@@ -193,7 +194,24 @@ namespace Files.App.Utils.Git
 
 			IsExecutingGitAction = true;
 
-			if (repository.RetrieveStatus().IsDirty)
+			if (repository.Index.Conflicts.Any())
+			{
+				var dialog = DynamicDialogFactory.GetFor_GitMergeConflicts(checkoutBranch.FriendlyName, repository.Head.FriendlyName);
+				await dialog.ShowAsync();
+
+				var resolveConflictOption = (GitCheckoutOptions)dialog.ViewModel.AdditionalData;
+
+				switch (resolveConflictOption)
+				{
+					case GitCheckoutOptions.None:
+						IsExecutingGitAction = false;
+						return false;
+					case GitCheckoutOptions.AbortMerge:
+						repository.Reset(ResetMode.Hard);
+						break;
+				}
+			}
+			else if (repository.RetrieveStatus().IsDirty)
 			{
 				var dialog = DynamicDialogFactory.GetFor_GitCheckoutConflicts(checkoutBranch.FriendlyName, repository.Head.FriendlyName);
 				await dialog.ShowAsync();
@@ -203,6 +221,7 @@ namespace Files.App.Utils.Git
 				switch (resolveConflictOption)
 				{
 					case GitCheckoutOptions.None:
+						IsExecutingGitAction = false;
 						return false;
 					case GitCheckoutOptions.DiscardChanges:
 						options.CheckoutModifiers = CheckoutModifiers.Force;
@@ -211,7 +230,10 @@ namespace Files.App.Utils.Git
 					case GitCheckoutOptions.StashChanges:
 						var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
 						if (signature is null)
+						{
+							IsExecutingGitAction = false;
 							return false;
+						}
 
 						repository.Stashes.Add(signature);
 
@@ -864,20 +886,17 @@ namespace Files.App.Utils.Git
 		/// <returns></returns>
 		public static (string RepoUrl, string RepoName) GetRepoInfo(string url)
 		{
-			// Remove protocol and normalize slashes
-			var normalizedUrl = url.ToLower().Replace("https://", "").Replace("http://", "").Replace("//", "");
+			var match = GitHubRepositoryRegex().Match(url);
 
-			string[] parts = normalizedUrl.Split('/');
+			if (!match.Success)
+				return (string.Empty, string.Empty);
 
-			// Check if the URL includes an organization or user name + repo (github.com/username/repo)
-			if (parts.Length >= 3 && parts[0] == "github.com")
-			{
-				// Construct the repo URL from the first three parts
-				string repoUrl = $"https://{parts[0]}/{parts[1]}/{parts[2]}";
-				return (repoUrl, parts[2]);
-			}
+			string platform = match.Groups["domain"].Value;
+			string userOrOrg = match.Groups["user"].Value;
+			string repoName = match.Groups["repo"].Value;
 
-			return (string.Empty, string.Empty);
+			string repoUrl = $"https://{platform}.com/{userOrOrg}/{repoName}";
+			return (repoUrl, repoName);
 		}
 
 		/// <summary>
@@ -887,7 +906,7 @@ namespace Files.App.Utils.Git
 		/// <returns>True if the URL is a valid GitHub URL; otherwise, false.</returns>
 		public static bool IsValidRepoUrl(string url)
 		{
-			return !string.IsNullOrWhiteSpace(url) && url.Contains("github.com");
+			return GitHubRepositoryRegex().IsMatch(url);
 		}
 
 		public static async Task CloneRepoAsync(string repoUrl, string repoName, string targetDirectory)
@@ -945,5 +964,8 @@ namespace Files.App.Utils.Git
 				banner.CancellationToken.IsCancellationRequested ? ReturnResult.Cancelled :
 				ReturnResult.Failed);
 		}
+
+		[GeneratedRegex(@"^(?:https?:\/\/)?(?:www\.)?(?<domain>github|gitlab)\.com\/(?<user>[^\/]+)\/(?<repo>[^\/]+?)(?=\.git|\/|$)(?:\.git)?(?:\/)?", RegexOptions.IgnoreCase)]
+		private static partial Regex GitHubRepositoryRegex();
 	}
 }

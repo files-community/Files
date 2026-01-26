@@ -55,9 +55,19 @@ namespace Files.App.Data.Contracts
 		public void CloseActivePane();
 
 		/// <summary>
+		/// Closes the non active/focused pane.
+		/// </summary>
+		public void CloseOtherPane();
+
+		/// <summary>
 		/// Focuses the other pane.
 		/// </summary>
 		public void FocusOtherPane();
+
+		/// <summary>
+		/// Focuses the active pane.
+		/// </summary>
+		public void FocusActivePane();
 
 		/// <summary>
 		/// Gets open panes.

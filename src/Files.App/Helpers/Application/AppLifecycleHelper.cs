@@ -105,22 +105,34 @@ namespace Files.App.Helpers
 
 			// Start off a list of tasks we need to run before we can continue startup
 			await Task.WhenAll(
-				OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
-				App.LibraryManager.UpdateLibrariesAsync(),
-				OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
-				OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
 				App.QuickAccessManager.InitializeAsync()
 			);
 
-			await Task.WhenAll(
-				jumpListService.InitializeAsync(),
-				addItemService.InitializeAsync(),
-				ContextMenu.WarmUpQueryContextMenuAsync()
-			);
+			// Start non-critical tasks without waiting for them to complete
+			_ = Task.Run(async () =>
+			{
+				await Task.WhenAll(
+					OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
+					App.LibraryManager.UpdateLibrariesAsync(),
+					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
+					OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
+					jumpListService.InitializeAsync()
+				);
+
+				//Start the tasks separately to reduce resource contention
+				await Task.WhenAll(
+					addItemService.InitializeAsync(),
+					ContextMenu.WarmUpQueryContextMenuAsync()
+				);
+			});
 
 			FileTagsHelper.UpdateTagsDb();
 
-			await CheckAppUpdate();
+			_ = Task.Run(async () =>
+			{
+				// The follwing method invokes UI thread, so we run it in a separate task
+				await CheckAppUpdate();
+			});
 
 			static Task OptionalTaskAsync(Task task, bool condition)
 			{
@@ -148,13 +160,18 @@ namespace Files.App.Helpers
 				updateService.AreReleaseNotesAvailable &&
 				!ViewedReleaseNotes)
 			{
-				await Ioc.Default.GetRequiredService<ICommandManager>().OpenReleaseNotes.ExecuteAsync();
-				ViewedReleaseNotes = true;
+				await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				{
+					await Ioc.Default.GetRequiredService<ICommandManager>().OpenReleaseNotes.ExecuteAsync();
+					ViewedReleaseNotes = true;
+				});
 			}
 
 			await updateService.CheckForUpdatesAsync();
 			await updateService.DownloadMandatoryUpdatesAsync();
-			await updateService.CheckAndUpdateFilesLauncherAsync();
+
+			if (IsAppUpdated)
+				await updateService.CheckAndUpdateFilesLauncherAsync();
 		}
 
 		/// <summary>

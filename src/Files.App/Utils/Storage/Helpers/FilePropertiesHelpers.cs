@@ -100,8 +100,8 @@ namespace Files.App.Utils.Storage
 				propertiesWindow.Closed += PropertiesWindow_Closed;
 			}
 
-			var width = Convert.ToInt32(800 * App.AppModel.AppWindowDPI);
-			var height = Convert.ToInt32(500 * App.AppModel.AppWindowDPI);
+			var width = Math.Max(1, Convert.ToInt32(800 * App.AppModel.AppWindowDPI));
+			var height = Math.Max(1, Convert.ToInt32(500 * App.AppModel.AppWindowDPI));
 
 			propertiesWindow.AppWindow.Resize(new(width, height));
 			propertiesWindow.IsMinimizable = false;

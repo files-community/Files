@@ -32,7 +32,7 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.OriginalItemName = Drive.Text;
 
 			// NOTE: If DriveType enum changes, the corresponding resource keys should change too
-			ViewModel.ItemType = string.Format("DriveType{0}", Drive.Type).GetLocalizedResource();
+			ViewModel.ItemType = $"DriveType{Drive.Type}".GetLocalizedResource();
 		}
 
 		public async override Task GetSpecialPropertiesAsync()
@@ -71,13 +71,20 @@ namespace Files.App.ViewModels.Properties
 				return;
 			}
 
-			var syncRootStatus = await SyncRootHelpers.GetSyncRootQuotaAsync(Drive.Path);
-			if (syncRootStatus.Success)
+			try
 			{
-				ViewModel.DriveCapacityValue = syncRootStatus.Capacity;
-				ViewModel.DriveUsedSpaceValue = syncRootStatus.Used;
-				ViewModel.DriveFreeSpaceValue = syncRootStatus.Capacity - syncRootStatus.Used;
-				return;
+				var syncRootStatus = await SyncRootHelpers.GetSyncRootQuotaAsync(Drive.Path);
+				if (syncRootStatus.Success)
+				{
+					ViewModel.DriveCapacityValue = syncRootStatus.Capacity;
+					ViewModel.DriveUsedSpaceValue = syncRootStatus.Used;
+					ViewModel.DriveFreeSpaceValue = syncRootStatus.Capacity - syncRootStatus.Used;
+					return;
+				}
+			}
+			catch (Exception e)
+			{
+				App.Logger.LogWarning(e, "Failed to get sync root quota for path: {Path}", Drive.Path);
 			}
 
 			try

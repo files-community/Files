@@ -115,7 +115,13 @@ namespace Files.App.ViewModels.UserControls
 		public UIElement PreviewPaneContent
 		{
 			get => previewPaneContent;
-			set => SetProperty(ref previewPaneContent, value);
+			set
+			{
+				var oldType = previewPaneContent?.GetType()?.Name;
+				var newType = value?.GetType()?.Name;
+				App.Logger.LogDebug($"PreviewPaneContent changing: {oldType} -> {newType}");
+				SetProperty(ref previewPaneContent, value);
+			}
 		}
 
 		public bool LoadTagsList
@@ -175,7 +181,7 @@ namespace Files.App.ViewModels.UserControls
 
 		private async Task LoadPreviewControlAsync(CancellationToken token, bool downloadItem)
 		{
-			if (SelectedItem.IsHiddenItem && !SelectedItem.ItemPath.EndsWith("\\"))
+			if (SelectedItem.IsHiddenItem && !SelectedItem.ItemPath.EndsWith('\\'))
 			{
 				PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
 
@@ -352,7 +358,13 @@ namespace Files.App.ViewModels.UserControls
 		public async Task UpdateSelectedItemPreviewAsync(bool downloadItem = false)
 		{
 			loadCancellationTokenSource?.Cancel();
-			if (SelectedItem is not null && contentPageContext.SelectedItems.Count == 1)
+			if (contentPageContext.PageType is ContentPageTypes.ReleaseNotes || contentPageContext.PageType is ContentPageTypes.Settings)
+			{
+				PreviewPaneState = PreviewPaneStates.NoPreviewOrDetailsAvailable;
+				PreviewPaneContent = null;
+				return;
+			}
+			else if (SelectedItem is not null && contentPageContext.SelectedItems.Count == 1)
 			{
 				SelectedItem?.FileDetails?.Clear();
 

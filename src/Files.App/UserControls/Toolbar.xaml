@@ -687,7 +687,10 @@
 				<controls:ThemedIcon Style="{x:Bind ViewModel.LayoutThemedIcon, Mode=OneWay}" />
 
 				<AppBarButton.Flyout>
-					<Flyout contract8Present:ShouldConstrainToRootBounds="False" Placement="Bottom">
+					<Flyout
+						x:Name="LayoutFlyout"
+						contract8Present:ShouldConstrainToRootBounds="False"
+						Placement="Bottom">
 						<StackPanel Spacing="12">
 
 							<!--  Header  -->
@@ -699,6 +702,7 @@
 								<!--  Details  -->
 								<RadioButton
 									AutomationProperties.Name="{x:Bind Commands.LayoutDetails.AutomationName}"
+									Click="LayoutButton_Click"
 									Command="{x:Bind Commands.LayoutDetails}"
 									GroupName="LayoutRadio"
 									IsChecked="{x:Bind ViewModel.IsDetailsLayout, Mode=OneWay}"
@@ -722,6 +726,7 @@
 								<!--  List  -->
 								<RadioButton
 									AutomationProperties.Name="{x:Bind Commands.LayoutList.AutomationName}"
+									Click="LayoutButton_Click"
 									Command="{x:Bind Commands.LayoutList}"
 									GroupName="LayoutRadio"
 									IsChecked="{x:Bind ViewModel.IsListLayout, Mode=OneWay}"
@@ -746,6 +751,7 @@
 								<!--  Cards  -->
 								<RadioButton
 									AutomationProperties.Name="{x:Bind Commands.LayoutCards.AutomationName}"
+									Click="LayoutButton_Click"
 									Command="{x:Bind Commands.LayoutCards}"
 									GroupName="LayoutRadio"
 									IsChecked="{x:Bind ViewModel.IsCardsLayout, Mode=OneWay}"
@@ -770,6 +776,7 @@
 								<!--  Grid  -->
 								<RadioButton
 									AutomationProperties.Name="{x:Bind Commands.LayoutGrid.AutomationName}"
+									Click="LayoutButton_Click"
 									Command="{x:Bind Commands.LayoutGrid}"
 									GroupName="LayoutRadio"
 									IsChecked="{x:Bind ViewModel.IsGridLayout, Mode=OneWay}"
@@ -794,6 +801,7 @@
 								<!--  Columns  -->
 								<RadioButton
 									AutomationProperties.Name="{x:Bind Commands.LayoutColumns.AutomationName}"
+									Click="LayoutButton_Click"
 									Command="{x:Bind Commands.LayoutColumns}"
 									GroupName="LayoutRadio"
 									IsChecked="{x:Bind ViewModel.IsColumnLayout, Mode=OneWay}"

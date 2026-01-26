@@ -46,7 +46,7 @@ namespace Files.App.UserControls
 
 		private double LargerItemSize { get; set; }
 
-		private static DependencyProperty FileIconImageSourceProperty { get; } = DependencyProperty.Register(nameof(FileIconImageSource), typeof(BitmapImage), typeof(FileIcon), null);
+		public static readonly DependencyProperty FileIconImageSourceProperty = DependencyProperty.Register(nameof(FileIconImageSource), typeof(BitmapImage), typeof(FileIcon), null);
 
 		private BitmapImage FileIconImageSource
 		{
@@ -54,7 +54,7 @@ namespace Files.App.UserControls
 			set => SetValue(FileIconImageSourceProperty, value);
 		}
 
-		public static DependencyProperty FileIconImageDataProperty { get; } = DependencyProperty.Register(nameof(FileIconImageData), typeof(byte[]), typeof(FileIcon), null);
+		public static readonly DependencyProperty FileIconImageDataProperty = DependencyProperty.Register(nameof(FileIconImageData), typeof(byte[]), typeof(FileIcon), null);
 
 		public byte[] FileIconImageData
 		{
@@ -64,7 +64,7 @@ namespace Files.App.UserControls
 				SetValue(FileIconImageDataProperty, value);
 				if (value is not null)
 				{
-					UpdateImageSourceAsync();
+					_ = UpdateImageSourceAsync();
 				}
 			}
 		}

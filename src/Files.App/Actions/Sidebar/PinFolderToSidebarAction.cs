@@ -5,6 +5,7 @@ using Windows.Storage;
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class PinFolderToSidebarAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
@@ -47,6 +48,9 @@ namespace Files.App.Actions
 
 		private bool GetIsExecutable()
 		{
+			if (context.PageType == ContentPageTypes.RecycleBin)
+				return false;
+
 			string[] pinnedFolders = [.. App.QuickAccessManager.Model.PinnedFolders];
 
 			return context.HasSelection

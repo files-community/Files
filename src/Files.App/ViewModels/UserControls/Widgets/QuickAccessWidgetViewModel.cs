@@ -92,18 +92,31 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		{
 			return new List<ContextMenuFlyoutItemViewModel>()
 			{
-				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewTabFromHomeAction)
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewTabFromHome)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab && CommandManager.OpenInNewTabFromHomeAction.IsExecutable
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewTab && CommandManager.OpenInNewTabFromHome.IsExecutable
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewWindowFromHomeAction)
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewWindowFromHome)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow && CommandManager.OpenInNewWindowFromHomeAction.IsExecutable
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewWindow && CommandManager.OpenInNewWindowFromHome.IsExecutable
 				}.Build(),
-				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewPaneFromHomeAction)
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.OpenInNewPaneFromHome)
 				{
-					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && CommandManager.OpenInNewPaneFromHomeAction.IsExecutable
+					IsVisible = UserSettingsService.GeneralSettingsService.ShowOpenInNewPane && CommandManager.OpenInNewPaneFromHome.IsExecutable
 				}.Build(),
+				new ContextMenuFlyoutItemViewModelBuilder(CommandManager.CopyItemFromHome)
+				{
+					IsPrimary = true,
+					IsVisible = CommandManager.CopyItemFromHome.IsExecutable
+				}.Build(),
+				new()
+				{
+					Text = Strings.Properties.GetLocalizedResource(),
+					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.Properties" },
+					Command = OpenPropertiesCommand,
+					CommandParameter = item,
+					IsPrimary = true
+				},
 				new()
 				{
 					Text = Strings.PinFolderToSidebar.GetLocalizedResource(),
@@ -125,13 +138,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					Text = Strings.SendTo.GetLocalizedResource(),
 					Tag = "SendToPlaceholder",
 					ShowItem = UserSettingsService.GeneralSettingsService.ShowSendToMenu
-				},
-				new()
-				{
-					Text = Strings.Properties.GetLocalizedResource(),
-					ThemedIconModel = new() { ThemedIconStyle = "App.ThemedIcons.Properties" },
-					Command = OpenPropertiesCommand,
-					CommandParameter = item
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -193,6 +199,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			var lastPinnedItemIndex = Items.LastOrDefault(x => x.IsPinned) is { } lastPinnedItem ? Items.IndexOf(lastPinnedItem) : 0;
 			var currentPinnedItemIndex = Items.IndexOf(folderCardItem);
+
 			if (currentPinnedItemIndex is -1)
 				return;
 
@@ -212,19 +219,12 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					IShellItem* pShellItem = null;
 					hr = pAgileReference.Get()->Resolve(IID.IID_IShellItem, (void**)&pShellItem);
 					using var windowsFile = new WindowsFile(pShellItem);
-
 					// NOTE: "pintohome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CPinToFrequentExecute : public IExecuteCommand, ...
 					return windowsFile.TryInvokeContextMenuVerb("pintohome");
 				}
-			});
+			}, App.Logger);
 
-			if (hr.ThrowIfFailedOnDebug().Failed)
-				return;
-
-			// Add this to right before the last pinned item
-			// NOTE: To be honest, this is not needed as the file watcher will take care of this
-			if (lastPinnedItemIndex + 1 != currentPinnedItemIndex)
-				Items.Move(currentPinnedItemIndex, lastPinnedItemIndex + 1);
+			// The file watcher will update the collection automatically
 		}
 
 		public override async Task ExecuteUnpinFromSidebarCommand(WidgetCardItem? item)
@@ -253,12 +253,12 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					// NOTE: "remove" is for some shell folders where the "unpinfromhome" may not work
 					return windowsFile.TryInvokeContextMenuVerbs(["unpinfromhome", "remove"], true);
 				}
-			});
+			}, App.Logger);
 
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return;
 
-			Items.Remove(folderCardItem);
+			// The file watcher will update the collection automatically
 		}
 
 		private void ExecuteOpenPropertiesCommand(WidgetFolderCardItem? item)

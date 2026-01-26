@@ -37,7 +37,7 @@ namespace Files.App.Extensions
 				if (style is not null && style == string.Empty)
 				{
 					// Format the number '{0, number}'
-					formatted = string.Format($"{{0:#,##0}}", value);
+					formatted = $"{value:#,##0}";
 					return true;
 				}
 

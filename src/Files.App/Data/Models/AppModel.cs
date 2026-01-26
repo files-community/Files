@@ -42,11 +42,8 @@ namespace Files.App.Data.Models
 				{
 					if (value >= 0 && value < MainPageViewModel.AppInstances.Count)
 					{
-						var rootFrame = (Frame)MainWindow.Instance.Content;
-						if (rootFrame.Content is MainPage mainView)
-						{
+						if (MainWindow.Instance.Content is Frame rootFrame && rootFrame.Content is MainPage mainView)
 							mainView.ViewModel.SelectedTabItem = MainPageViewModel.AppInstances[value];
-						}
 					}
 				}
 				catch (COMException)
@@ -132,10 +129,18 @@ namespace Files.App.Data.Models
 		/// <summary>
 		/// Gets or sets a value indicating the AppWindow DPI.
 		/// </summary>
-		private float _AppWindowDPI = PInvoke.GetDpiForWindow((HWND)MainWindow.Instance.WindowHandle) / 96f;
+		private float? _AppWindowDPI = null;
 		public float AppWindowDPI
 		{
-			get => _AppWindowDPI;
+			get
+			{
+				if (_AppWindowDPI is null || _AppWindowDPI == 0f)
+				{
+					var dpi = PInvoke.GetDpiForWindow((HWND)MainWindow.Instance.WindowHandle);
+					_AppWindowDPI = dpi > 0 ? dpi / 96f : 1.0f; // Fallback to 1.0f if invalid DPI
+				}
+				return _AppWindowDPI.Value;
+			}
 			set => SetProperty(ref _AppWindowDPI, value);
 		}
 	}

@@ -68,14 +68,14 @@ namespace Files.App.Data.Items
 
 		private Task<bool> ViewMore()
 		{
-			return NavigationHelpers.OpenPath($"tag:{Name}", ContentPageContext.ShellPage!);
+			return NavigationHelpers.OpenPath(FolderSearch.FormatTagQuery(Name!), ContentPageContext.ShellPage!);
 		}
 
 		private Task OpenAll()
 		{
 			SelectedTagChanged?.Invoke(this, new(Tags.Select(tag => (tag.Path, tag.IsFolder))));
 
-			return Commands.OpenAllTaggedItems.ExecuteAsync();
+			return Commands.OpenAllTagged.ExecuteAsync();
 		}
 	}
 }

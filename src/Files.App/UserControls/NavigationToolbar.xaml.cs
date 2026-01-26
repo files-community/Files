@@ -37,7 +37,7 @@ namespace Files.App.UserControls
 		public partial bool ShowSettingsButton { get; set; }
 
 		[GeneratedDependencyProperty]
-		public partial NavigationToolbarViewModel ViewModel { get; set; }
+		public partial NavigationToolbarViewModel? ViewModel { get; set; }
 
 		// Constructor
 
@@ -177,7 +177,7 @@ namespace Files.App.UserControls
 			if (mode == OmnibarPathMode)
 			{
 				await ViewModel.HandleItemNavigationAsync(args.Text);
-				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+				ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
 				return;
 			}
 
@@ -197,7 +197,7 @@ namespace Files.App.UserControls
 						continue;
 
 					await command.ExecuteAsync();
-					(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+					ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
 					return;
 				}
 
@@ -214,14 +214,14 @@ namespace Files.App.UserControls
 						await overload?.InvokeAsync(actionInstance.Context);
 					}
 
-					(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+					ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
 					return;
 				}
 
 				await DialogDisplayHelper.ShowDialogAsync(Strings.InvalidCommand.GetLocalizedResource(),
 					string.Format(Strings.InvalidCommandContent.GetLocalizedResource(), args.Text));
 
-				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+				ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
 				return;
 			}
 
@@ -242,7 +242,7 @@ namespace Files.App.UserControls
 					ViewModel.SaveSearchQueryToList(searchQuery);
 				}
 
-				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+				ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
 				return;
 			}
 		}
@@ -274,12 +274,18 @@ namespace Files.App.UserControls
 				return;
 			}
 
+			// Validate index before accessing the collection
+			if (args.Index < 0 || args.Index >= ViewModel.PathComponents.Count)
+				return;
+
 			// Navigation to the current folder should not happen
 			if (args.Index == ViewModel.PathComponents.Count - 1 ||
 				ViewModel.PathComponents[args.Index].Path is not { } path)
 				return;
 
-			await ViewModel.HandleFolderNavigationAsync(path);
+			// If user clicked the item with middle mouse button, open it in new tab
+			var openInNewTab = args.PointerRoutedEventArgs?.GetCurrentPoint(null).Properties.PointerUpdateKind is PointerUpdateKind.MiddleButtonReleased;
+			await ViewModel.HandleFolderNavigationAsync(path, openInNewTab);
 		}
 
 		private async void BreadcrumbBar_ItemDropDownFlyoutOpening(object sender, BreadcrumbBarItemDropDownFlyoutEventArgs e)
@@ -357,10 +363,16 @@ namespace Files.App.UserControls
 			e.Flyout.Items.Clear();
 		}
 
+		/// <summary>
+		/// Handles mode changes in the Omnibar control. This event can fire even when the Omnibar
+		/// already has focus (e.g., user switching from Command Palette to Search mode).
+		/// Updates the appropriate text property and populates suggestions based on the new mode.
+		/// </summary>
 		private async void Omnibar_ModeChanged(object sender, OmnibarModeChangedEventArgs e)
 		{
 			if (e.NewMode == OmnibarPathMode)
 			{
+				// Initialize with current working directory or fallback to home path
 				ViewModel.PathText = string.IsNullOrEmpty(ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory)
 					? Constants.UserEnvironmentPaths.HomePath
 					: ContentPageContext.ShellPage.ShellViewModel.WorkingDirectory;
@@ -369,12 +381,14 @@ namespace Files.App.UserControls
 			}
 			else if (e.NewMode == OmnibarCommandPaletteMode)
 			{
+				// Clear text and load command suggestions
 				ViewModel.OmnibarCommandPaletteModeText = string.Empty;
 
 				await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode);
 			}
 			else if (e.NewMode == OmnibarSearchMode)
 			{
+				// Preserve existing search query or clear for new search
 				if (!ViewModel.InstanceViewModel.IsPageTypeSearchResults)
 					ViewModel.OmnibarSearchModeText = string.Empty;
 				else
@@ -384,10 +398,16 @@ namespace Files.App.UserControls
 			}
 		}
 
+		/// <summary>
+		/// Handles focus state changes for the Omnibar control.
+		/// When focused: Updates Path Mode content (Path Mode has both focused/unfocused states).
+		/// When unfocused: Automatically switches back to Path Mode to display the BreadcrumbBar.
+		/// </summary>
 		private async void Omnibar_IsFocusedChanged(Omnibar sender, OmnibarIsFocusedChangedEventArgs args)
 		{
 			if (args.IsFocused)
 			{
+				// Path Mode needs special handling when gaining focus since it has an unfocused state
 				if (Omnibar.CurrentSelectedMode == OmnibarPathMode)
 				{
 					ViewModel.PathText = string.IsNullOrEmpty(ContentPageContext.ShellPage?.ShellViewModel?.WorkingDirectory)
@@ -396,19 +416,10 @@ namespace Files.App.UserControls
 
 					await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForPathMode);
 				}
-				else if (Omnibar.CurrentSelectedMode == OmnibarCommandPaletteMode)
-				{
-					ViewModel.OmnibarCommandPaletteModeText = string.Empty;
-
-					await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForCommandPaletteMode);
-				}
-				else if (Omnibar.CurrentSelectedMode == OmnibarSearchMode)
-				{
-					await DispatcherQueue.EnqueueOrInvokeAsync(ViewModel.PopulateOmnibarSuggestionsForSearchMode);
-				}
 			}
 			else
 			{
+				// When Omnibar loses focus, revert to Path Mode to display BreadcrumbBar
 				Omnibar.CurrentSelectedMode = OmnibarPathMode;
 			}
 		}
@@ -418,7 +429,7 @@ namespace Files.App.UserControls
 			if (e.Key is VirtualKey.Escape)
 			{
 				Omnibar.IsFocused = false;
-				(MainPageViewModel.SelectedTabItem?.TabItemContent as Control)?.Focus(FocusState.Programmatic);
+				ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
 			}
 			else if (e.Key is VirtualKey.Tab && Omnibar.IsFocused && !InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
 			{

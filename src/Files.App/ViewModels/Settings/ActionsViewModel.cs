@@ -76,6 +76,8 @@ namespace Files.App.ViewModels.Settings
 			set => SetProperty(ref _SelectedActionItem, value);
 		}
 
+		private string _currentFilterQuery = string.Empty;
+
 		// Commands
 
 		public ICommand LoadAllActionsCommand { get; set; }
@@ -255,6 +257,9 @@ namespace Files.App.ViewModels.Settings
 
 			// Add to existing list
 			ValidActionItems.Insert(0, selectedNewItem);
+
+			// Refresh filtered list
+			FilterItems(_currentFilterQuery);
 		}
 
 		private void ExecuteShowRestoreDefaultsConfirmationCommand()
@@ -440,10 +445,16 @@ namespace Files.App.ViewModels.Settings
 			// Exit edit mode
 			item.IsInEditMode = false;
 			ValidActionItems.Remove(item);
+
+			// Refresh filtered list
+			FilterItems(_currentFilterQuery);
 		}
 
 		public void FilterItems(string query)
 		{
+			// Store the current filter query for later use
+			_currentFilterQuery = query ?? string.Empty;
+
 			if (string.IsNullOrEmpty(query))
 			{
 				FilteredActionItems = new ObservableCollection<ModifiableActionItem>(ValidActionItems);

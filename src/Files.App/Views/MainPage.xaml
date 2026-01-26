@@ -22,6 +22,7 @@
 	KeyboardAcceleratorPlacementMode="Hidden"
 	Loaded="Page_Loaded"
 	NavigationCacheMode="Required"
+	PointerReleased="Page_PointerReleased"
 	SizeChanged="Page_SizeChanged"
 	mc:Ignorable="d">
 
@@ -179,11 +180,14 @@
 			HorizontalContentAlignment="Stretch"
 			DisplayMode="{x:Bind SidebarAdaptiveViewModel.SidebarDisplayMode, Mode=TwoWay}"
 			IsPaneOpen="{x:Bind ViewModel.IsSidebarPaneOpen, Mode=TwoWay}"
+			ItemContextInvoked="SidebarControl_ItemContextInvoked"
+			ItemDragOver="SidebarControl_ItemDragOver"
+			ItemDropped="SidebarControl_ItemDropped"
+			ItemInvoked="SidebarControl_ItemInvoked"
 			Loaded="SidebarControl_Loaded"
 			MenuItemsSource="{x:Bind SidebarAdaptiveViewModel.SidebarItems, Mode=OneWay}"
 			OpenPaneLength="{x:Bind UserSettingsService.AppearanceSettingsService.SidebarWidth, Mode=TwoWay}"
-			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}"
-			ViewModel="{x:Bind SidebarAdaptiveViewModel}">
+			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}">
 
 			<!--  Inner Content  -->
 			<controls:SidebarView.InnerContent>
@@ -198,7 +202,7 @@
 							Height="*"
 							MinHeight="100" />
 						<RowDefinition Height="Auto" />
-						<RowDefinition x:Name="PaneRow" Height="Auto" />
+						<RowDefinition x:Name="InfoPaneRowDefinition" Height="Auto" />
 						<RowDefinition Height="Auto" MinHeight="8" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
@@ -207,7 +211,7 @@
 							Width="*"
 							MinWidth="208" />
 						<ColumnDefinition Width="Auto" />
-						<ColumnDefinition x:Name="PaneColumn" Width="Auto" />
+						<ColumnDefinition x:Name="InfoPaneColumnDefinition" Width="Auto" />
 						<ColumnDefinition x:Name="ShelfPaneColumn" Width="Auto" />
 					</Grid.ColumnDefinitions>
 
@@ -232,9 +236,9 @@
 						HorizontalContentAlignment="Stretch"
 						Content="{x:Bind ViewModel.SelectedTabItem.ContentFrame, Mode=OneWay}" />
 
-					<!--  Preview Pane Splitter  -->
+					<!--  Info Pane Splitter  -->
 					<controls:GridSplitter
-						x:Name="PaneSplitter"
+						x:Name="InfoPaneSizer"
 						Grid.Row="1"
 						Grid.Column="1"
 						x:Load="{x:Bind ViewModel.ShouldPreviewPaneBeActive, Mode=OneWay}"
@@ -435,7 +439,7 @@
 				</VisualState>
 			</VisualStateGroup>
 
-			<VisualStateGroup>
+			<VisualStateGroup x:Name="SidebarStates">
 				<VisualState x:Name="NormalSidebarState">
 					<VisualState.StateTriggers>
 						<AdaptiveTrigger MinWindowWidth="0" />
@@ -451,6 +455,44 @@
 					</VisualState.StateTriggers>
 				</VisualState>
 			</VisualStateGroup>
+
+			<VisualStateGroup x:Name="InfoPanePositionStates">
+				<VisualState x:Name="InfoPanePositionNone">
+					<VisualState.Setters>
+						<Setter Target="InfoPaneRowDefinition.MinHeight" Value="0" />
+						<Setter Target="InfoPaneRowDefinition.Height" Value="0" />
+						<Setter Target="InfoPaneColumnDefinition.MinWidth" Value="0" />
+						<Setter Target="InfoPaneColumnDefinition.Width" Value="0" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="InfoPanePositionRight">
+					<VisualState.Setters>
+						<Setter Target="InfoPane.(Grid.Row)" Value="1" />
+						<Setter Target="InfoPane.(Grid.Column)" Value="2" />
+						<Setter Target="InfoPaneSizer.(Grid.Row)" Value="1" />
+						<Setter Target="InfoPaneSizer.(Grid.Column)" Value="1" />
+						<Setter Target="InfoPaneSizer.Width" Value="2" />
+						<Setter Target="InfoPaneSizer.GripperCursor" Value="SizeWestEast" />
+						<Setter Target="InfoPaneColumnDefinition.MinWidth" Value="{x:Bind InfoPane.MinWidth, Mode=OneWay}" />
+						<Setter Target="InfoPaneRowDefinition.MinHeight" Value="0" />
+						<Setter Target="InfoPaneRowDefinition.Height" Value="0" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="InfoPanePositionBottom">
+					<VisualState.Setters>
+						<Setter Target="InfoPane.(Grid.Row)" Value="3" />
+						<Setter Target="InfoPane.(Grid.Column)" Value="0" />
+						<Setter Target="InfoPaneSizer.(Grid.Row)" Value="2" />
+						<Setter Target="InfoPaneSizer.(Grid.Column)" Value="0" />
+						<Setter Target="InfoPaneSizer.Height" Value="2" />
+						<Setter Target="InfoPaneSizer.GripperCursor" Value="SizeNorthSouth" />
+						<Setter Target="InfoPaneColumnDefinition.Width" Value="0" />
+						<Setter Target="InfoPaneColumnDefinition.MinWidth" Value="0" />
+						<Setter Target="InfoPaneRowDefinition.MinHeight" Value="{x:Bind InfoPane.MinHeight, Mode=OneWay}" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+
 		</VisualStateManager.VisualStateGroups>
 	</Grid>
 </Page>

@@ -17,9 +17,24 @@ namespace Files.App.Controls
 		private Viewbox? _layeredViewBox;
 		private Canvas? _layeredCanvas;
 
+		private long _stylePropertyChangedToken;
+
 		public ThemedIcon()
 		{
 			DefaultStyleKey = typeof(ThemedIcon);
+			_stylePropertyChangedToken = RegisterPropertyChangedCallback(
+				StyleProperty,
+				OnStylePropertyChanged
+			);
+
+			Unloaded += OnUnloaded;
+		}
+
+		private void OnUnloaded(object sender, RoutedEventArgs e)
+		{
+			UnregisterPropertyChangedCallback(StyleProperty, _stylePropertyChangedToken);
+			IsEnabledChanged -= OnIsEnabledChanged;
+			Unloaded -= OnUnloaded;
 		}
 
 		protected override void OnApplyTemplate()

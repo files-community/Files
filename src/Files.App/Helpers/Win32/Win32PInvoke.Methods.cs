@@ -1,9 +1,8 @@
-// Copyright (c) 2024 Files Community
-// Licensed under the MIT License. See the LICENSE.
+// Copyright (c) Files Community
+// Licensed under the MIT License.
 
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
@@ -67,15 +66,6 @@ namespace Files.App.Helpers
 		[DllImport("kernel32.dll")]
 		public static extern bool SetEvent(
 			IntPtr hEvent
-		);
-
-		[DllImport("ole32.dll")]
-		public static extern uint CoWaitForMultipleObjects(
-			uint dwFlags,
-			uint dwMilliseconds,
-			ulong nHandles,
-			IntPtr[] pHandles,
-			out uint dwIndex
 		);
 
 		[DllImport("shell32.dll")]
@@ -232,17 +222,17 @@ namespace Files.App.Helpers
 		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public static extern bool GetFileTime(
 			[In] IntPtr hFile,
-			out FILETIME lpCreationTime,
-			out FILETIME lpLastAccessTime,
-			out FILETIME lpLastWriteTime
+			out System.Runtime.InteropServices.ComTypes.FILETIME lpCreationTime,
+			out System.Runtime.InteropServices.ComTypes.FILETIME lpLastAccessTime,
+			out System.Runtime.InteropServices.ComTypes.FILETIME lpLastWriteTime
 		);
 
 		[DllImport("api-ms-win-core-file-l1-2-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
 		public static extern bool SetFileTime(
 			[In] IntPtr hFile,
-			in FILETIME lpCreationTime,
-			in FILETIME lpLastAccessTime,
-			in FILETIME lpLastWriteTime
+			in System.Runtime.InteropServices.ComTypes.FILETIME lpCreationTime,
+			in System.Runtime.InteropServices.ComTypes.FILETIME lpLastAccessTime,
+			in System.Runtime.InteropServices.ComTypes.FILETIME lpLastWriteTime
 		);
 
 		[DllImport("api-ms-win-core-file-l2-1-1.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, SetLastError = true)]
@@ -288,7 +278,7 @@ namespace Files.App.Helpers
 
 		[DllImport("api-ms-win-core-timezone-l1-1-0.dll", SetLastError = true)]
 		public static extern bool FileTimeToSystemTime(
-			ref FILETIME lpFileTime,
+			ref System.Runtime.InteropServices.ComTypes.FILETIME lpFileTime,
 			out SYSTEMTIME lpSystemTime
 		);
 
@@ -347,5 +337,9 @@ namespace Files.App.Helpers
 			IntPtr hToken,
 			out IntPtr pszPath
 		);
+
+		// cryptui.dll
+		[DllImport("cryptui.dll", SetLastError = true, CharSet = CharSet.Auto)]
+		public unsafe static extern bool CryptUIDlgViewSignerInfo(CRYPTUI_VIEWSIGNERINFO_STRUCT* pViewInfo);
 	}
 }

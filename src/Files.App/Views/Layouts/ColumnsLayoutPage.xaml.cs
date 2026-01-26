@@ -81,6 +81,18 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
+		public void SetWidth(int index)
+		{
+			var activeBlades = ColumnHost.ActiveBlades;
+			if (index < 0 || activeBlades is null || index >= activeBlades.Count)
+				return;
+
+			var blade = activeBlades[index];
+			blade?.SetWidth();
+
+			ColumnHost.ScrollToEnd();
+		}
+
 		private void ContentChanged(IShellPage p)
 		{
 			(ParentShellPageInstance as ModernShellPage)?.RaiseContentChanged(p, p.TabBarItemParameter);
@@ -152,9 +164,10 @@ namespace Files.App.Views.Layouts
 		{
 			base.Dispose();
 
-			var columnHostItems = ColumnHost.Items.OfType<BladeItem>().Select(blade => blade.Content as Frame);
+			var columnHostItems = ColumnHost.Items.OfType<BladeItem>().Select(blade => blade.Content as Frame).ToList();
 			foreach (var frame in columnHostItems)
 			{
+				// Unsubscribe all event handlers BEFORE disposing to prevent race conditions
 				if (frame?.Content is ColumnShellPage shPage)
 				{
 					shPage.ContentChanged -= ColumnViewBrowser_ContentChanged;
@@ -169,6 +182,7 @@ namespace Files.App.Views.Layouts
 				if (frame?.Content is UIElement element)
 					element.GotFocus -= ColumnViewBrowser_GotFocus;
 
+				// Dispose content AFTER unsubscribing all event handlers
 				if (frame?.Content is IDisposable disposable)
 					disposable.Dispose();
 			}
@@ -197,9 +211,7 @@ namespace Files.App.Views.Layouts
 					{
 						var frame = ColumnHost.ActiveBlades[index + 1].Content as Frame;
 
-						if (frame?.Content is IDisposable disposableContent)
-							disposableContent.Dispose();
-
+						// Unsubscribe event handlers BEFORE disposing to prevent race conditions
 						if ((frame?.Content as ColumnShellPage)?.SlimContentPage is ColumnLayoutPage columnLayout)
 						{
 							columnLayout.ItemInvoked -= ColumnViewBase_ItemInvoked;
@@ -209,6 +221,10 @@ namespace Files.App.Views.Layouts
 
 						(frame?.Content as UIElement).GotFocus -= ColumnViewBrowser_GotFocus;
 						(frame?.Content as ColumnShellPage).ContentChanged -= ColumnViewBrowser_ContentChanged;
+
+						// Dispose content AFTER unsubscribing event handlers
+						if (frame?.Content is IDisposable disposableContent)
+							disposableContent.Dispose();
 
 						ColumnHost.Items.RemoveAt(index + 1);
 						ColumnHost.ActiveBlades.RemoveAt(index + 1);
@@ -351,6 +367,7 @@ namespace Files.App.Views.Layouts
 		{
 			if (navArgs is not null && navArgs.IsSearchResultPage)
 			{
+				navArgs.AssociatedTabInstance = ParentShellPageInstance;
 				ParentShellPageInstance?.NavigateToPath(navArgs.SearchPathParam, typeof(DetailsLayoutPage), navArgs);
 				return;
 			}

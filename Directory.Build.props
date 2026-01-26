@@ -1,10 +1,13 @@
-<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+﻿<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Project>
   <PropertyGroup>
     <TargetFrameworkVersion>net9.0</TargetFrameworkVersion>
-    <TargetWindowsVersion>10.0.22621.0</TargetWindowsVersion>
+    <TargetWindowsVersion>10.0.26100.0</TargetWindowsVersion>
     <MinimalWindowsVersion>10.0.19041.0</MinimalWindowsVersion>
     <WindowsSdkPackageVersion>10.0.26100.67-preview</WindowsSdkPackageVersion>
     <WindowsTargetFramework>$(TargetFrameworkVersion)-windows$(TargetWindowsVersion)</WindowsTargetFramework>
+    <LangVersion>preview</LangVersion>
+
+    <EnableMSTestRunner>true</EnableMSTestRunner>
   </PropertyGroup>
 </Project>

@@ -39,7 +39,7 @@ namespace Files.App.Utils.Shell
 
 			try
 			{
-				File.WriteAllText(compatibilityTroubleshooterAnswerFile, string.Format("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{0}</Value></Interaction></Answers>", filePath));
+				File.WriteAllText(compatibilityTroubleshooterAnswerFile, $"<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{filePath}</Value></Interaction></Answers>");
 			}
 			catch (IOException)
 			{
@@ -47,7 +47,7 @@ namespace Files.App.Utils.Shell
 				SafetyExtensions.IgnoreExceptions(() =>
 				{
 					compatibilityTroubleshooterAnswerFile = Path.Combine(Path.GetTempPath(), "CompatibilityTroubleshooterAnswerFile1.xml");
-					File.WriteAllText(compatibilityTroubleshooterAnswerFile, string.Format("<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{0}</Value></Interaction></Answers>", filePath));
+					File.WriteAllText(compatibilityTroubleshooterAnswerFile, $"<?xml version=\"1.0\" encoding=\"UTF-8\"?><Answers Version=\"1.0\"><Interaction ID=\"IT_LaunchMethod\"><Value>CompatTab</Value></Interaction><Interaction ID=\"IT_BrowseForFile\"><Value>{filePath}</Value></Interaction></Answers>");
 				});
 			}
 
@@ -100,6 +100,17 @@ namespace Files.App.Utils.Shell
 					process.StartInfo.Arguments = arguments;
 
 					// Refresh env variables for the child process
+					foreach (DictionaryEntry ent in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.Machine))
+					{
+						string key = (string)ent.Key;
+
+						// Skip USERNAME to avoid issues where files were executed as SYSTEM user (#12139)
+						if (string.Equals(key, "USERNAME", StringComparison.OrdinalIgnoreCase)) 
+							continue;
+
+						process.StartInfo.EnvironmentVariables[key] = (string)ent.Value;
+					}
+
 					foreach (DictionaryEntry ent in Environment.GetEnvironmentVariables(EnvironmentVariableTarget.User))
 						process.StartInfo.EnvironmentVariables[(string)ent.Key] = (string)ent.Value;
 
@@ -141,7 +152,7 @@ namespace Files.App.Utils.Shell
 				{
 					try
 					{
-						var opened = await Win32Helper.StartSTATask(async () =>
+						var opened = await STATask.Run(async () =>
 						{
 							var split = application.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => GetMtpPath(x));
 							if (split.Count() == 1)
@@ -155,7 +166,7 @@ namespace Files.App.Utils.Shell
 								var groups = split.GroupBy(x => new
 								{
 									Dir = Path.GetDirectoryName(x),
-									Prog = Win32Helper.GetFileAssociationAsync(x).Result ?? Path.GetExtension(x)
+									Prog = Win32Helper.GetDefaultFileAssociationAsync(x).Result ?? Path.GetExtension(x)
 								});
 
 								foreach (var group in groups)
@@ -171,13 +182,13 @@ namespace Files.App.Utils.Shell
 							}
 
 							return true;
-						});
+						}, App.Logger);
 
 						if (!opened)
 						{
 							if (application.StartsWith(@"\\SHELL\", StringComparison.Ordinal))
 							{
-								opened = await Win32Helper.StartSTATask(async () =>
+								opened = await STATask.Run(async () =>
 								{
 									using var cMenu = await ContextMenu.GetContextMenuForFiles(new[] { application }, PInvoke.CMF_DEFAULTONLY);
 
@@ -185,7 +196,7 @@ namespace Files.App.Utils.Shell
 										await cMenu.InvokeItem(cMenu.Items.FirstOrDefault()?.ID ?? -1);
 
 									return true;
-								});
+								}, App.Logger);
 							}
 						}
 

@@ -5,6 +5,7 @@ using Files.Shared.Helpers;
 
 namespace Files.App.Actions
 {
+	[GeneratedRichCommand]
 	internal sealed partial class RunAsAnotherUserAction : BaseRunAsAction
 	{
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();

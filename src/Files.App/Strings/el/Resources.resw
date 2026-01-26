@@ -124,7 +124,7 @@
     <value>Αντιγραφή διαδρομής</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Copy item path</value>
+    <value>Αντιγραφή διαδρομής</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Αντιγραφή διαδρομής με εισαγωγικά</value>
@@ -166,7 +166,7 @@
     <value>Παράλειψη</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>Επιλογή όλων</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Αναστροφή επιλογής</value>
@@ -217,7 +217,7 @@
     <value>Εμφάνιση κρυφών αρχείων και φακέλων</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Εμφάνιση αρχείων dot</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Εμφάνιση</value>
@@ -308,6 +308,9 @@
   </data>
   <data name="DarkTheme" xml:space="preserve">
     <value>Σκούρο</value>
+  </data>
+  <data name="UseSystemSetting" xml:space="preserve">
+    <value>Χρήση της ρύθμισης συστήματος</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Εφαρμογή</value>
@@ -523,9 +526,6 @@
   </data>
   <data name="Status" xml:space="preserve">
     <value>Κατάσταση</value>
-  </data>
-  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Προεπιλογή των Windows</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>Δεν υπάρχουν αποτελέσματα</value>
@@ -1010,6 +1010,9 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Αποτελέσματα αναζήτησης στο {1} για {0}</value>
   </data>
+  <data name="SearchResultsFor" xml:space="preserve">
+    <value>Αποτελέσματα αναζήτησης για "{0}"</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Λεπτομέρειες</value>
   </data>
@@ -1089,19 +1092,25 @@
     <value>Εναλλαγή του πλαισίου πληροφοριών</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle visibility of the detail/preview panes</value>
+    <value>Εναλλαγή του πλαισίου πληροφοριών για προβολή των παραθύρων λεπτομερειών/προεπισκόπησης</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
-    <value>Toggle toolbar</value>
+    <value>Εναλλαγή γραμμής εργαλείων</value>
   </data>
   <data name="ToggleToolbarDescription" xml:space="preserve">
-    <value>Toggle visibility of the toolbar</value>
+    <value>Εναλλαγή ορατότητας της γραμμής εργαλείων</value>
   </data>
   <data name="ToggleFilterHeader" xml:space="preserve">
-    <value>Toggle filter header</value>
+    <value>Εναλλαγή κεφαλίδας φίλτρου</value>
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
-    <value>Toggle visibility of the filter header</value>
+    <value>Εναλλαγή ορατότητας της κεφαλίδας φίλτρου</value>
+  </data>
+  <data name="ToggleDualPane" xml:space="preserve">
+    <value>Εναλλαγή διπλού παραθύρου</value>
+  </data>
+  <data name="ToggleDualPaneDescription" xml:space="preserve">
+    <value>Εναλλαγή λειτουργίας διπλού παραθύρου</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Δεν υπάρχει διαθέσιμη προεπισκόπηση</value>
@@ -1611,7 +1620,7 @@
     <value>Αντικατάσταση όλων των καταχωρίσεων δικαιωμάτων θυγατρικών αντικειμένων με κληρονομήσιμες καταχωρίσεις δικαιωμάτων από αυτό το αντικείμενο</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
-    <value>Close pane</value>
+    <value>Κλείσιμο παραθύρου</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Εισαγωγή συμπαγούς επικάλυψης</value>
@@ -1764,7 +1773,7 @@
     <value>Ετικέτα</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Άνοιγμα αρχείων με ένα κλικ</value>
+    <value>Άνοιγμα αρχείων με ένα μόνο κλικ</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Διαδρομή φακέλου</value>
@@ -2019,7 +2028,7 @@
     <value>Συμπεριφορές</value>
   </data>
   <data name="Hello" xml:space="preserve">
-    <value>Hello!</value>
+    <value>Γειά!</value>
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Enjoying Files? Please consider reviewing in the Microsoft Store.</value>
@@ -2028,13 +2037,13 @@
     <value>Enjoying Files? Please consider supporting the project on GitHub.</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
-    <value>Sponsor</value>
+    <value>Χορηγός</value>
   </data>
   <data name="RateUs" xml:space="preserve">
-    <value>Rate us</value>
+    <value>Αξιολογήστε μας</value>
   </data>
   <data name="Dismiss" xml:space="preserve">
-    <value>Dismiss</value>
+    <value>Απόρριψη</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Ορισμός ως φόντο</value>
@@ -2063,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Οθόνη κλειδώματος</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Να ανοίγουν οι φάκελοι με ένα κλικ στη διάταξη "Στήλες"</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Άνοιγμα αρχείων με ένα μόνο κλικ</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Άνοιγμα στοιχείων</value>
@@ -2424,13 +2433,13 @@
     <value>Start search in the OmniBar</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
-    <value>Toggle visibility of hidden items</value>
+    <value>Εναλλαγή ορατότητας των κρυφών στοιχείων</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Toggle visibility of dot files</value>
+    <value>Εναλλαγή ορατότητας των αρχείων dot</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
-    <value>Toggle visibility of file extensions</value>
+    <value>Εναλλαγή ορατότητας των επεκτάσεων αρχείων</value>
   </data>
   <data name="TogglePreviewPaneDescription" xml:space="preserve">
     <value>Εναλλαγή του παραθύρου προεπισκόπησης για προβολή προεπισκόπησης αρχείων</value>
@@ -2442,10 +2451,10 @@
     <value>Copy selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of the current directory</value>
+    <value>Αντιγραφή διαδρομής του τρέχοντος καταλόγου</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Copy path of selected items</value>
+    <value>Αντιγραφή διαδρομής των επιλεγμένων στοιχείων</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
     <value>Copy path of selected items with quotes</value>
@@ -2496,7 +2505,7 @@
     <value>Open {0, plural, one {item} other {items}}</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Open {0, plural, one {item} other {items}} with selected application</value>
+    <value>Άνοιγμα {0, plural, one {στοιχείου} other {στοιχείων}} με την επιλεγμένη εφαρμογή</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
     <value>Άνοιγμα γονικού φακέλου του αναζητηθέντος στοιχείου</value>
@@ -3123,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Έχετε μη αλλαγές που δεν έχουν υποβληθεί σε αυτή την διακλάδωση. Τι θα θέλατε να κάνετε με αυτές;</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>You have an ongoing merge with unresolved conflicts. Please resolve the conflicts or abort the merge to switch branches.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Abort merge and switch to '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Stay on '{0}' and resolve conflicts</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Αλλαγή διακλάδωσης</value>
   </data>
@@ -3478,6 +3496,9 @@
   <data name="ProcessingItems" xml:space="preserve">
     <value>Επεξεργασία στοιχείων...</value>
   </data>
+  <data name="DiscoveringItems" xml:space="preserve">
+    <value>Discovering items...</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Ταχύτητα:</value>
   </data>
@@ -3609,6 +3630,10 @@
     <value>Copying {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
+    <value>Discovered {0, plural, one {# item} other {# items}}</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
+  </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>Ακυρώθηκε η εξαγωγή "{0}" σε "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3718,7 +3743,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} {0, plural, one {item} other {items}} processed</value>
+    <value>{0}/{1, plural, one {# item} other {# items}} processed</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -4002,6 +4027,10 @@
     <value>Αρχεία Bitmap</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
+  <data name="ImageFiles" xml:space="preserve">
+    <value>Image Files</value>
+    <comment>This is the friendly name for image files.</comment>
+  </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Num</value>
   </data>
@@ -4033,17 +4062,17 @@
   <data name="TabActions" xml:space="preserve">
     <value>Μενού ενεργειών καρτέλας</value>
   </data>
-  <data name="AddVerticalPane" xml:space="preserve">
-    <value>Vertical pane</value>
+  <data name="SplitPaneVertically" xml:space="preserve">
+    <value>Split vertically</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Add vertical pane</value>
+    <value>Split pane vertically</value>
   </data>
-  <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Horizontal pane</value>
+  <data name="SplitPaneHorizontally" xml:space="preserve">
+    <value>Split horizontally</value>
   </data>
-  <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Add horizontal pane</value>
+  <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
+    <value>Split pane horizontally</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Κατακόρυφη διάταξη</value>
@@ -4057,8 +4086,8 @@
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
     <value>Τακτοποίηση παραθύρων οριζόντια</value>
   </data>
-  <data name="AddPane" xml:space="preserve">
-    <value>Προσθήκη παραθύρου</value>
+  <data name="SplitPane" xml:space="preserve">
+    <value>Split pane</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Εμφάνιση κουμπιού ενεργειών καρτέλας στη γραμμή τίτλου</value>
@@ -4066,8 +4095,11 @@
   <data name="ArrangePanes" xml:space="preserve">
     <value>Τακτοποίηση παραθύρων</value>
   </data>
-  <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>Προεπιλεγμένη διάταξη παραθύρου</value>
+  <data name="DualPaneSplitDirection" xml:space="preserve">
+    <value>Default dual pane split direction</value>
+  </data>
+  <data name="DualPane" xml:space="preserve">
+    <value>Dual pane mode</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>Οριζόντιος</value>
@@ -4273,7 +4305,55 @@
   <data name="Filename" xml:space="preserve">
     <value>Filename</value>
   </data>
+  <data name="Signatures" xml:space="preserve">
+    <value>Signatures</value>
+   </data>
+  <data name="SignatureList" xml:space="preserve">
+    <value>Signature list</value>
+  </data>
+  <data name="IssuedBy" xml:space="preserve">
+    <value>Issued by:</value>
+  </data>
+  <data name="IssuedTo" xml:space="preserve">
+    <value>Issued to:</value>
+  </data>
+  <data name="ValidFrom" xml:space="preserve">
+    <value>Valid from:</value>
+  </data>
+  <data name="ValidTo" xml:space="preserve">
+    <value>Valid to:</value>
+  </data>
+  <data name="NoSignatureFound" xml:space="preserve">
+    <value>No signature was found.</value>
+  </data>
   <data name="ShowOpenTerminal" xml:space="preserve">
     <value>Show option to open folders in Windows Terminal</value>
+  </data>
+  <data name="OpenLogFile" xml:space="preserve">
+    <value>Open log file</value>
+  </data>
+  <data name="OpenLogFileDescription" xml:space="preserve">
+    <value>Open log file in your default editor</value>
+  </data>
+  <data name="OpenLogFileLocationDescription" xml:space="preserve">
+    <value>Open log file location in your default file manager</value>
+  </data>
+  <data name="FailedToOpenLogFile" xml:space="preserve">
+    <value>Unable to open the log file</value>
+  </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Show status bar</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Only in Columns View</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>New {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Enable smooth scrolling</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Scrolling</value>
   </data>
 </root>

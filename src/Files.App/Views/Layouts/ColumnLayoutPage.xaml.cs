@@ -80,9 +80,20 @@ namespace Files.App.Views.Layouts
 
 		// Methods
 
+		private void OnItemLoadStatusChanged(object sender, ItemLoadStatusChangedEventArgs args)
+		{
+			if (args.Status is ItemLoadStatusChangedEventArgs.ItemLoadStatus.Complete)
+			{
+				var currentBladeIndex = (ParentShellPageInstance is ColumnShellPage associatedColumnShellPage) ? associatedColumnShellPage.ColumnParams?.Column ?? 0 : 0;
+				this.FindAscendant<ColumnsLayoutPage>()?.SetWidth(currentBladeIndex);
+			}
+		}
+
+
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
 		{
 			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
+			ParentShellPageInstance.ShellViewModel.ItemLoadStatusChanged += OnItemLoadStatusChanged;
 		}
 
 		private void ColumnViewBase_GotFocus(object sender, RoutedEventArgs e)
@@ -186,6 +197,7 @@ namespace Files.App.Views.Layouts
 		{
 			base.OnNavigatingFrom(e);
 			UserSettingsService.LayoutSettingsService.PropertyChanged -= LayoutSettingsService_PropertyChanged;
+			ParentShellPageInstance.ShellViewModel.ItemLoadStatusChanged -= OnItemLoadStatusChanged;
 		}
 
 		private void LayoutSettingsService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -337,8 +349,9 @@ namespace Files.App.Views.Layouts
 					return;
 
 				// Open the selected folder if selected through tap
-				if (UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick && !isDraggingSelectionRectangle)
-					ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
+				if ((UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick == OpenFoldersWithOneClickEnum.Always ||
+					 UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick == OpenFoldersWithOneClickEnum.OnlyInColumnsView) &&
+					!isDraggingSelectionRectangle) ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 				else
 					CloseFolder();
 			}
@@ -455,7 +468,7 @@ namespace Files.App.Views.Layouts
 							await Commands.OpenItem.ExecuteAsync();
 						break;
 					case StorageItemTypes.Folder:
-						if (!UserSettingsService.FoldersSettingsService.ColumnLayoutOpenFoldersWithOneClick)
+						if (UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick is not OpenFoldersWithOneClickEnum.Always and not OpenFoldersWithOneClickEnum.OnlyInColumnsView)
 							ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (item is IShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
 						break;
 					default:
@@ -526,6 +539,11 @@ namespace Files.App.Views.Layouts
 			else
 			{
 				CloseFolder();
+
+				// Clear selection when clicking empty area via touch
+				// https://github.com/files-community/Files/issues/15051
+				if (e.PointerDeviceType == PointerDeviceType.Touch)
+					ItemManipulationModel.ClearSelection();
 			}
 		}
 

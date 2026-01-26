@@ -97,5 +97,22 @@ namespace Files.App.Controls
 		{
 			UpdateVisualStates();
 		}
+
+		private void OnStylePropertyChanged(DependencyObject sender, DependencyProperty dp)
+		{
+			if (dp != StyleProperty)
+				return;
+
+			DispatcherQueue.TryEnqueue(() =>
+			{
+				GetTemplateParts();
+				OnFilledIconChanged();
+				OnOutlineIconChanged();
+				OnLayeredIconChanged();
+				OnIconTypeChanged();
+				OnIconColorTypeChanged();
+				OnIconSizeChanged();
+			});
+		}
 	}
 }

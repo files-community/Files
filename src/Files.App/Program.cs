@@ -9,7 +9,6 @@ using System.IO;
 using System.Text;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
-using static Files.App.Helpers.Win32PInvoke;
 
 namespace Files.App
 {
@@ -21,9 +20,6 @@ namespace Files.App
 	/// </remarks>
 	internal sealed class Program
 	{
-		private const uint CWMO_DEFAULT = 0;
-		private const uint INFINITE = 0xFFFFFFFF;
-
 		public static Semaphore? Pool { get; set; }
 
 		static Program()
@@ -60,7 +56,7 @@ namespace Files.App
 			WinRT.ComWrappersSupport.InitializeComWrappers();
 
 			// We are about to do the first WinRT server call, in case the WinRT server is hanging
-			// we need to kill the server if there is no other Files instances already running
+			// we need to kill the server if there are no other Files instances already running
 
 			static bool ProcessPathPredicate(Process p)
 			{
@@ -99,7 +95,7 @@ namespace Files.App
 			}
 
 			// NOTE:
-			//  This has been commentted out since out-of-proc WinRT server seems not to support elevetion.
+			//  This has been commented out since out-of-proc WinRT server seems not to support elevation.
 			//  For more info, see the GitHub issue (#15384).
 			// Now we can do the first WinRT server call
 			//Server.AppInstanceMonitor.StartMonitor(Environment.ProcessId);
@@ -250,20 +246,7 @@ namespace Files.App
 		/// </remarks>
 		public static void RedirectActivationTo(AppInstance keyInstance, AppActivationArguments args)
 		{
-			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
-
-			Task.Run(() =>
-			{
-				keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
-				SetEvent(eventHandle);
-			});
-
-			_ = CoWaitForMultipleObjects(
-				CWMO_DEFAULT,
-				INFINITE,
-				1,
-				[eventHandle],
-				out uint handleIndex);
+			keyInstance.RedirectActivationToAsync(args).AsTask().Wait();
 		}
 
 		public static void OpenShellCommandInExplorer(string shellCommand, int pid)
@@ -273,20 +256,7 @@ namespace Files.App
 
 		public static void OpenFileFromTile(string filePath)
 		{
-			IntPtr eventHandle = CreateEvent(IntPtr.Zero, true, false, null);
-
-			Task.Run(() =>
-			{
-				LaunchHelper.LaunchAppAsync(filePath, null, null).Wait();
-				SetEvent(eventHandle);
-			});
-
-			_ = CoWaitForMultipleObjects(
-				CWMO_DEFAULT,
-				INFINITE,
-				1,
-				[eventHandle],
-				out uint handleIndex);
+			LaunchHelper.LaunchAppAsync(filePath, null, null).Wait();
 		}
 	}
 }

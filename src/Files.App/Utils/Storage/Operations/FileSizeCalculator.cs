@@ -18,6 +18,8 @@ namespace Files.App.Utils.Storage.Operations
 		public int ItemsCount => _computedFiles.Count;
 		public bool Completed { get; private set; }
 
+		public event Action<int>? ItemsCountChanged;
+
 		public FileSizeCalculator(params string[] paths)
 		{
 			_paths = paths;
@@ -118,7 +120,10 @@ namespace Files.App.Utils.Storage.Operations
 				null);
 
 			if (!hFile.IsInvalid && PInvoke.GetFileSizeEx(hFile, out size) && _computedFiles.TryAdd(path, size))
+			{
 				Interlocked.Add(ref _size, size);
+				ItemsCountChanged?.Invoke(ItemsCount);
+			}
 
 			return size;
 		}

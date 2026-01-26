@@ -19,7 +19,7 @@ namespace Files.App.Converters
 
 			foreach (var i in array)
 			{
-				str.Append(string.Format("{0}; ", i));
+				str.Append($"{i}; ");
 			}
 
 			return str.ToString();

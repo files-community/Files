@@ -70,6 +70,7 @@ namespace Files.App.Services.Settings
 			export.Remove(nameof(GeneralSettingsService.LastCrashedTabList));
 			export.Remove(nameof(GeneralSettingsService.PathHistoryList));
 			export.Remove(nameof(GeneralSettingsService.PreviousSearchQueriesList));
+			export.Remove(nameof(GeneralSettingsService.PreviousArchiveExtractionLocations));
 
 			return JsonSettingsSerializer.SerializeToJson(export);
 		}

@@ -187,7 +187,7 @@
     <value>Digite um caminho para navegar ou digite "&gt;" para abrir a paleta de comandos</value>
   </data>
   <data name="Search" xml:space="preserve">
-    <value>Procurar</value>
+    <value>Pesquisar</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Os arquivos que você acessou anteriormente serão exibidos aqui</value>
@@ -217,7 +217,7 @@
     <value>Mostrar arquivos e pastas ocultas</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Mostrar arquivos "."</value>
+    <value>Mostrar arquivos com ponto inicial</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Aparência</value>
@@ -277,7 +277,7 @@
     <value>Compartilhar</value>
   </data>
   <data name="Cut" xml:space="preserve">
-    <value>Cortar</value>
+    <value>Recortar</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Excluir</value>
@@ -301,13 +301,16 @@
     <value>Insira o nome do item</value>
   </data>
   <data name="CreateNewItemTitle" xml:space="preserve">
-    <value>Criar  {0}</value>
+    <value>Criar novo {0}</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Claro</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
     <value>Escuro</value>
+  </data>
+  <data name="UseSystemSetting" xml:space="preserve">
+    <value>Usar configuração do sistema</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Aplicativo</value>
@@ -331,7 +334,7 @@
     <value>Avançar</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>Em cima</value>
+    <value>Acima</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>Atualizar</value>
@@ -397,7 +400,7 @@
     <value>{0, plural, one {# dia atrás} other {# dias atrás}}</value>
   </data>
   <data name="DaysAgo_Singular" xml:space="preserve">
-    <value>Um dia atrás</value>
+    <value>1 dia atrás</value>
   </data>
   <data name="DaysAgo_Plural" xml:space="preserve">
     <value>{0} dias atrás</value>
@@ -523,9 +526,6 @@
   </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
-  </data>
-  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Padrão do Windows</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>Sem resultados</value>
@@ -1010,6 +1010,9 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Resultados da pesquisa em {1} para {0}</value>
   </data>
+  <data name="SearchResultsFor" xml:space="preserve">
+    <value>Resultados da pesquisa para '{0}'</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Detalhes</value>
   </data>
@@ -1017,10 +1020,10 @@
     <value>Não</value>
   </data>
   <data name="ShowProtectedSystemFiles" xml:space="preserve">
-    <value>Mostrar arquivos de sistema protegido</value>
+    <value>Mostrar arquivos protegidos do sistema</value>
   </data>
   <data name="SyncFolderPreferencesAcrossDirectories" xml:space="preserve">
-    <value>Sincronizar preferências de layout e classificação entre diretórios</value>
+    <value>Sincronizar preferências de disposição e classificação entre diretórios</value>
   </data>
   <data name="SettingsContextMenu.Text" xml:space="preserve">
     <value>Personalize o menu de contexto (Botão Direito)</value>
@@ -1102,6 +1105,12 @@
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
     <value>Alternar a visibilidade do cabeçalho do filtro</value>
+  </data>
+  <data name="ToggleDualPane" xml:space="preserve">
+    <value>Ativar/desativar painel duplo</value>
+  </data>
+  <data name="ToggleDualPaneDescription" xml:space="preserve">
+    <value>Alternar modo de painel duplo</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Nenhuma visualização disponível</value>
@@ -1743,7 +1752,7 @@
     <value>Coluna de tamanho do item</value>
   </data>
   <data name="ExperimentalFeatureFlags" xml:space="preserve">
-    <value>Flags de recursos experimentais</value>
+    <value>Sinalizadores de recursos experimentais</value>
   </data>
   <data name="HelpAndSupport" xml:space="preserve">
     <value>Ajuda e suporte</value>
@@ -1764,7 +1773,7 @@
     <value>Etiqueta</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Abrir itens com um único clique</value>
+    <value>Abrir arquivos com um único clique</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Caminho da pasta</value>
@@ -1797,7 +1806,7 @@
     <value>Restaurar padrão</value>
   </data>
   <data name="OpenTabInExistingInstance" xml:space="preserve">
-    <value>Abrir aba na janela existente ao abrir Files a partir de outro programa</value>
+    <value>Abrir aba na janela existente ao abrir o Files a partir de outro programa</value>
   </data>
   <data name="StartupSettings" xml:space="preserve">
     <value>Configurações de inicialização</value>
@@ -1896,7 +1905,7 @@
     <value>Arquivos recentes</value>
   </data>
   <data name="SettingsOpenInLogin" xml:space="preserve">
-    <value>Abrir arquivos na inicialização do Windows</value>
+    <value>Executar o Files na inicialização do Windows</value>
   </data>
   <data name="Attributes" xml:space="preserve">
     <value>Atributos</value>
@@ -2063,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Tela de bloqueio</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Abrir pastas com um único clique no Layout de Colunas</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Abrir pastas com um único clique</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Abrindo itens</value>
@@ -2082,7 +2091,7 @@
     <value>Nivelar</value>
   </data>
   <data name="FlattenFolderDialogContent" xml:space="preserve">
-    <value>Nivelar uma pasta moverá todo o conteúdo de suas subpastas para o local selecionado. Esta operação é permanente e não pode ser desfeita. Ao usar este recurso experimental, você reconhece o risco e concorda em não responsabilizar a equipe de Arquivos por qualquer perda de dados.</value>
+    <value>Nivelar uma pasta moverá todo o conteúdo de suas subpastas para o local selecionado. Esta operação é permanente e não pode ser desfeita. Ao usar este recurso experimental, você reconhece o risco e concorda em não responsabilizar a equipe do Files por qualquer perda de dados.</value>
   </data>
   <data name="ShowFlattenOptions" xml:space="preserve">
     <value>Mostrar opções de nivelamento</value>
@@ -2211,7 +2220,7 @@
     <value>Criar um novo atalho</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Criar atalhos para programas, arquivos locais ou em rede, pastas, computadores ou endereços de Internet.</value>
+    <value>Criar atalhos para programas locais ou em rede, arquivos, pastas, computadores ou endereços de Internet.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
     <value>Digite a localização do item:</value>
@@ -2220,10 +2229,10 @@
     <value>Cria um atalho</value>
   </data>
   <data name="RecentFilesDisabledOnWindowsWarning" xml:space="preserve">
-    <value>Arquivos usados recentemente estão desativados no Windows File Explorer.</value>
+    <value>Arquivos recentemente usados estão desativados no Explorador de Arquivos do Windows.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Editar arquivo de configurações</value>
+    <value>Editar o arquivo de configurações</value>
   </data>
   <data name="EditSettingsFileDescription" xml:space="preserve">
     <value>Abrir arquivo de configurações no seu editor padrão</value>
@@ -2298,7 +2307,7 @@
     <value>Nunca</value>
   </data>
   <data name="TagColor" xml:space="preserve">
-    <value>Cor da Etiqueta</value>
+    <value>Cor da etiqueta</value>
   </data>
   <data name="NewTag" xml:space="preserve">
     <value>Nova etiqueta</value>
@@ -2427,7 +2436,7 @@
     <value>Alternar a visibilidade dos itens ocultos</value>
   </data>
   <data name="ToggleDotFilesSettingDescription" xml:space="preserve">
-    <value>Alternar a visibilidade de arquivos com ponto</value>
+    <value>Alternar a visibilidade de arquivos com ponto inicial</value>
   </data>
   <data name="ToggleShowFileExtensionsDescription" xml:space="preserve">
     <value>Alternar a visibilidade das extensões de arquivos</value>
@@ -2475,7 +2484,7 @@
     <value>Criar nova pasta</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Create new {0, plural, one {shortcut} other {shortcuts}} to selected {0, plural, one {item} other {items}}</value>
+    <value>Criar {0, plural, one {atalho} other {atalhos}} para {0, plural, one {item} other {itens}} da seleção</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>Criar novo atalho para qualquer item</value>
@@ -2487,7 +2496,7 @@
     <value>Abra o menu "Formatar Drive" para o item selecionado</value>
   </data>
   <data name="RestoreRecycleBinDescription" xml:space="preserve">
-    <value>Restore selected {0, plural, one {item} other {items}} from recycle bin</value>
+    <value>Restaurar selecionado {0, plural, one {item} other {itens}} da lixeira</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
     <value>Restaurar todos os itens da lixeira</value>
@@ -3123,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Você tem alterações não confirmadas nesta ramificação. O que você gostaria de fazer com eles?</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>Você tem uma mesclagem em andamento com conflitos não resolvidos. Resolva os conflitos ou aborte a mesclagem para alternar os branches.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Abortar e mudar para '{0}'</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Permanecer em '{0}' e resolver conflitos</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Alternar branch</value>
   </data>
@@ -3218,7 +3236,7 @@
     <value>Confirmar SHA</value>
   </data>
   <data name="Git" xml:space="preserve">
-    <value>Estúpido</value>
+    <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
     <value>Acrílico</value>
@@ -3299,7 +3317,7 @@
     <value>Inicializar repositório</value>
   </data>
   <data name="InitRepoDescription" xml:space="preserve">
-    <value>Inicializar a pasta atual como um repositório git</value>
+    <value>Inicializar pasta atual como um repositório Git</value>
   </data>
   <data name="GitOriginRepositoryName" xml:space="preserve">
     <value>Nome do Repositório Remoto</value>
@@ -3375,7 +3393,7 @@
     <value>Devido a uma limitação com Windows e WinAppSdk, arrastar e soltar não está disponível ao executar Arquivos como administrador. Se você deseja usar arrastar e soltar, você pode contornar essa limitação abrindo UAC (Controle de Conta do Usuário) no menu inicial e selecionando o terceiro nível e reiniciando o Windows. Caso contrário, você pode continuar usando Arquivos sem arrastar e soltar.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
-    <value>Manter o aplicativo sendo executado em segundo plano quando a janela do files estiver fechada</value>
+    <value>Manter o aplicativo sendo executado em segundo plano ao fechar a janela</value>
   </data>
   <data name="Blue" xml:space="preserve">
     <value>Azul</value>
@@ -3478,8 +3496,11 @@
   <data name="ProcessingItems" xml:space="preserve">
     <value>Processando itens...</value>
   </data>
+  <data name="DiscoveringItems" xml:space="preserve">
+    <value>Descobrindo itens...</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
-    <value>Veocidade:</value>
+    <value>Velocidade:</value>
   </data>
   <data name="StatusCenter_CompressCanceled_Header" xml:space="preserve">
     <value>Cancelada a compressão dos ítens {0} para "{1}"</value>
@@ -3609,6 +3630,10 @@
     <value>Copiando {0, plural, one {# item} other {# itens}} de "{1}" para "{2}"</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
+    <value>{0, plural, one {# item descoberto} other {# itens descobertos}}</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
+  </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>Extração cancelada "{0}" para "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3718,7 +3743,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} {0, plural, one {item processado} other {itens processados}}</value>
+    <value>{0}/ {1, plural, one {# item processado} other {# itens processados}}</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -3773,7 +3798,7 @@
     <value>Classificar arquivos e pastas juntos</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>Sort files and folders in the same list</value>
+    <value>Ordenar arquivos e pastas na mesma lista</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
     <value>Ordene arquivos primeiro</value>
@@ -3915,7 +3940,7 @@
     <value>Personalizado</value>
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
-    <value>O layout adaptativo não está disponível quando as preferências estão sincronizadas, o layout padrão foi alterado para Detalhes.</value>
+    <value>A disposição adaptativa não está disponível quando as preferências estão sincronizadas, a disposição padrão foi alterada para Detalhes.</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
     <value>Imagem de fundo</value>
@@ -4002,6 +4027,10 @@
     <value>Arquivos Bitmap</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
+  <data name="ImageFiles" xml:space="preserve">
+    <value>Arquivos de imagem</value>
+    <comment>This is the friendly name for image files.</comment>
+  </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Num</value>
   </data>
@@ -4033,17 +4062,17 @@
   <data name="TabActions" xml:space="preserve">
     <value>Menu de ações de aba</value>
   </data>
-  <data name="AddVerticalPane" xml:space="preserve">
-    <value>Vertical pane</value>
+  <data name="SplitPaneVertically" xml:space="preserve">
+    <value>Dividir verticalmente</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Add vertical pane</value>
+    <value>Dividir painel verticalmente</value>
   </data>
-  <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Horizontal pane</value>
+  <data name="SplitPaneHorizontally" xml:space="preserve">
+    <value>Dividir horizontalmente</value>
   </data>
-  <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Add horizontal pane</value>
+  <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
+    <value>Dividir painel horizontalmente</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Organizar verticalmente</value>
@@ -4057,8 +4086,8 @@
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
     <value>Organizar painéis horizontalmente</value>
   </data>
-  <data name="AddPane" xml:space="preserve">
-    <value>Adicionar painel</value>
+  <data name="SplitPane" xml:space="preserve">
+    <value>Dividir painel</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Mostrar botão de ações da aba na barra de título</value>
@@ -4066,8 +4095,11 @@
   <data name="ArrangePanes" xml:space="preserve">
     <value>Organizar painéis</value>
   </data>
-  <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>Disposição padrão do painel</value>
+  <data name="DualPaneSplitDirection" xml:space="preserve">
+    <value>Direção padrão do duplo painel dividido</value>
+  </data>
+  <data name="DualPane" xml:space="preserve">
+    <value>Modo de painel duplo</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>Horizontal</value>
@@ -4103,7 +4135,7 @@
     <value>Criar fluxo de dados alternativo</value>
   </data>
   <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
-    <value>Create alternate data stream for the selected {0, plural, one {item} other {items}}</value>
+    <value>Crie fluxo de dados alternativos para o item {0, plural, one {item} other {items}}</value>
   </data>
   <data name="EnterDataStreamName" xml:space="preserve">
     <value>Digite o nome do fluxo de dados</value>
@@ -4121,7 +4153,7 @@
     <value>Você gostaria de exibir fluxos de dados alternativos? Você pode modificar essa configuração a qualquer momento a partir das configurações de pastas e arquivos.</value>
   </data>
   <data name="ManageTags" xml:space="preserve">
-    <value>Gerenciar tags</value>
+    <value>Gerenciar etiquetas</value>
   </data>
   <data name="Available" xml:space="preserve">
     <value>Disponível</value>
@@ -4133,10 +4165,10 @@
     <value>Sempre mudar o foco para a aba recém-criada</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
-    <value>Toggle shelf pane</value>
+    <value>Ativar/desativar o painel de prateleira</value>
   </data>
   <data name="ToggleShelfPaneDescription" xml:space="preserve">
-    <value>Toggle the visibility of the shelf pane</value>
+    <value>Alternar a visibilidade do painel da prateleira</value>
   </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
     <value>Exibir painel da prateleira na barra de endereços</value>
@@ -4273,7 +4305,55 @@
   <data name="Filename" xml:space="preserve">
     <value>Nome do arquivo</value>
   </data>
+  <data name="Signatures" xml:space="preserve">
+    <value>Assinaturas</value>
+   </data>
+  <data name="SignatureList" xml:space="preserve">
+    <value>Lista de assinaturas</value>
+  </data>
+  <data name="IssuedBy" xml:space="preserve">
+    <value>Emitido por:</value>
+  </data>
+  <data name="IssuedTo" xml:space="preserve">
+    <value>Emitido para:</value>
+  </data>
+  <data name="ValidFrom" xml:space="preserve">
+    <value>Válido de:</value>
+  </data>
+  <data name="ValidTo" xml:space="preserve">
+    <value>Válido até:</value>
+  </data>
+  <data name="NoSignatureFound" xml:space="preserve">
+    <value>Nenhuma assinatura foi encontrada.</value>
+  </data>
   <data name="ShowOpenTerminal" xml:space="preserve">
     <value>Mostrar a opção de abrir pastas no Terminal do Windows</value>
+  </data>
+  <data name="OpenLogFile" xml:space="preserve">
+    <value>Abrir arquivo de registro</value>
+  </data>
+  <data name="OpenLogFileDescription" xml:space="preserve">
+    <value>Abrir arquivo de registro no seu editor padrão</value>
+  </data>
+  <data name="OpenLogFileLocationDescription" xml:space="preserve">
+    <value>Abrir o local do arquivo de registro no seu gerenciador de arquivos padrão</value>
+  </data>
+  <data name="FailedToOpenLogFile" xml:space="preserve">
+    <value>Não foi possível abrir o arquivo de registro</value>
+  </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Mostrar barra de status</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Somente na visualização em colunas</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>Novo {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Ativar rolagem suave</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Rolagem</value>
   </data>
 </root>

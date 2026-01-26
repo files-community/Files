@@ -67,7 +67,7 @@ namespace Files.App.Utils.Library
 		/// <returns>List of library items</returns>
 		public static async Task<List<LibraryLocationItem>> ListUserLibraries()
 		{
-			var libraries = await Win32Helper.StartSTATask(() =>
+			var libraries = await STATask.Run(() =>
 			{
 				try
 				{
@@ -90,7 +90,7 @@ namespace Files.App.Utils.Library
 				}
 
 				return [];
-			});
+			}, App.Logger);
 
 			return libraries.Select(lib => new LibraryLocationItem(lib)).ToList();
 		}
@@ -134,7 +134,7 @@ namespace Files.App.Utils.Library
 			if (string.IsNullOrWhiteSpace(name) || !CanCreateLibrary(name).result)
 				return false;
 
-			var newLib = new LibraryLocationItem(await Win32Helper.StartSTATask(() =>
+			var newLib = new LibraryLocationItem(await STATask.Run(() =>
 			{
 				try
 				{
@@ -150,7 +150,7 @@ namespace Files.App.Utils.Library
 				}
 
 				return Task.FromResult<ShellLibraryItem>(null);
-			}));
+			}, App.Logger));
 
 			if (newLib is not null)
 			{
@@ -178,7 +178,7 @@ namespace Files.App.Utils.Library
 				// Nothing to update
 				return null;
 
-			var item = await Win32Helper.StartSTATask(() =>
+			var item = await STATask.Run(() =>
 			{
 				try
 				{
@@ -231,7 +231,7 @@ namespace Files.App.Utils.Library
 				}
 
 				return Task.FromResult<ShellLibraryItem>(null);
-			});
+			}, App.Logger);
 
 			var newLib = item is not null ? new LibraryLocationItem(item) : null;
 			if (newLib is not null)
@@ -382,7 +382,12 @@ namespace Files.App.Utils.Library
 					return;
 				}
 
-				var library1 = ShellFolderExtensions.GetShellLibraryItem(library, newPath);
+				var library1 = SafetyExtensions.IgnoreExceptions(() => ShellFolderExtensions.GetShellLibraryItem(library, newPath));
+				if (library1 is null)
+				{
+					App.Logger.LogWarning($"Failed to open library after {changeType}: {newPath}");
+					return;
+				}
 
 				string? path = oldPath;
 				if (string.IsNullOrEmpty(oldPath))

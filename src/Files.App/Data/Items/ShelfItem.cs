@@ -12,9 +12,9 @@ namespace Files.App.Data.Items
 		private readonly IImageService _imageService;
 		private readonly ICollection<ShelfItem> _sourceCollection;
 
-		[ObservableProperty] private IImage? _Icon;
-		[ObservableProperty] private string? _Name;
-		[ObservableProperty] private string? _Path;
+		[ObservableProperty] public partial IImage? Icon { get; set; }
+		[ObservableProperty] public partial string? Name { get; set; }
+		[ObservableProperty] public partial string? Path { get; set; }
 
 		/// <inheritdoc/>
 		public IStorableChild Inner { get; }

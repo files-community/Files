@@ -13,8 +13,10 @@ namespace Files.App.Utils.Storage
 		public static async Task<byte[]?> GetIconAsync(string path, uint requestedSize, bool isFolder, IconOptions iconOptions)
 		{
 			var size = iconOptions.HasFlag(IconOptions.UseCurrentScale) ? requestedSize * App.AppModel.AppWindowDPI : requestedSize;
+			// Ensure size is at least 1 to prevent layout errors
+			size = Math.Max(1, size);
 
-			return await Win32Helper.StartSTATask(() => Win32Helper.GetIcon(path, (int)size, isFolder, iconOptions));
+			return await STATask.Run(() => Win32Helper.GetIcon(path, (int)size, isFolder, iconOptions), App.Logger);
 		}
 
 		/// <summary>
@@ -24,7 +26,7 @@ namespace Files.App.Utils.Storage
 		/// <param name="isFolder"></param>
 		/// <returns></returns>
 		public static async Task<byte[]?> GetIconOverlayAsync(string path, bool isFolder)
-			=> await Win32Helper.StartSTATask(() => Win32Helper.GetIconOverlay(path, isFolder));
+			=> await STATask.Run(() => Win32Helper.GetIconOverlay(path, isFolder), App.Logger);
 
 		[Obsolete]
 		public static async Task<byte[]?> LoadIconFromPathAsync(string filePath, uint thumbnailSize, ThumbnailMode thumbnailMode, ThumbnailOptions thumbnailOptions, bool isFolder = false)

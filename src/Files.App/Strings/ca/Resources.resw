@@ -309,6 +309,9 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>Fosc</value>
   </data>
+  <data name="UseSystemSetting" xml:space="preserve">
+    <value>Utilitza la configuració del sistema</value>
+  </data>
   <data name="Application" xml:space="preserve">
     <value>Aplicació</value>
   </data>
@@ -523,9 +526,6 @@
   </data>
   <data name="Status" xml:space="preserve">
     <value>Estat</value>
-  </data>
-  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Windows per defecte</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>Cap resultat</value>
@@ -1010,6 +1010,9 @@
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>Resultats de la cerca en {1} per {0}</value>
   </data>
+  <data name="SearchResultsFor" xml:space="preserve">
+    <value>Resultats de la cerca per a «{0}»</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>Detalls</value>
   </data>
@@ -1102,6 +1105,12 @@
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
     <value>Commuta la visibilitat de la capçalera del filtre</value>
+  </data>
+  <data name="ToggleDualPane" xml:space="preserve">
+    <value>Commuta el panell doble</value>
+  </data>
+  <data name="ToggleDualPaneDescription" xml:space="preserve">
+    <value>Commuta el mode de panell doble</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Cap visualització prèvia disponible</value>
@@ -1764,7 +1773,7 @@
     <value>Etiqueta</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Obre els elements amb un sol clic</value>
+    <value>Obre els fitxers amb un sol clic</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Ruta de la carpeta</value>
@@ -2063,8 +2072,8 @@
   <data name="Lockscreen" xml:space="preserve">
     <value>Pantalla de bloqueig</value>
   </data>
-  <data name="OpenFolderWithOneClickColumnsLayout" xml:space="preserve">
-    <value>Obre les carpetes amb un sol clic al disseny de columnes</value>
+  <data name="OpenFolderWithOneClick" xml:space="preserve">
+    <value>Obre les carpetes amb un sol clic</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Obertura d'elements</value>
@@ -3123,6 +3132,15 @@
   <data name="UncommittedChanges" xml:space="preserve">
     <value>Teniu canvis no confirmats en aquesta branca. Què us agradaria fer amb ells?</value>
   </data>
+  <data name="MergeInProgress" xml:space="preserve">
+    <value>Teniu una fusió en curs amb conflictes no resolts. Resoleu els conflictes o cancel·leu la fusió per canviar de branques.</value>
+  </data>
+  <data name="AbortMergeAndSwitch" xml:space="preserve">
+    <value>Avorta la fusió i canvia a «{0}»</value>
+  </data>
+  <data name="StayAndResolveConflicts" xml:space="preserve">
+    <value>Continua a «{0}» i resol els conflictes</value>
+  </data>
   <data name="SwitchBranch" xml:space="preserve">
     <value>Canvia de branca</value>
   </data>
@@ -3478,6 +3496,9 @@
   <data name="ProcessingItems" xml:space="preserve">
     <value>Processant elements...</value>
   </data>
+  <data name="DiscoveringItems" xml:space="preserve">
+    <value>S'estan descobrint els elements...</value>
+  </data>
   <data name="SpeedWithColon" xml:space="preserve">
     <value>Velocitat:</value>
   </data>
@@ -3609,6 +3630,10 @@
     <value>S'està copiant {0, plural, one {# element} other {# elements}} de «{1}» a «{2}»</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
+  <data name="StatusCenter_CopyDiscovery_Header" xml:space="preserve">
+    <value>S'han descobert {0, plural, one {# element} other {# elements}}</value>
+    <comment>Shown in a StatusCenter card during file discovery phase.</comment>
+  </data>
   <data name="StatusCenter_DecompressCanceled_Header" xml:space="preserve">
     <value>S'ha cancel·lat l'extracció de "{0}" a "{1}"</value>
     <comment>Shown in a StatusCenter card.</comment>
@@ -3718,7 +3743,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_ProcessedItems_Header" xml:space="preserve">
-    <value>{0}/{1} {0, plural, one {item processat} other {items processats}}</value>
+    <value>{0}/{1, plural, one {# element processat} other {# elements processats}}</value>
     <comment>Shown in a StatusCenter card. Used as "8/20 items processed"</comment>
   </data>
   <data name="UnblockDownloadedFile" xml:space="preserve">
@@ -4002,6 +4027,10 @@
     <value>Fitxers de mapa de bits</value>
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
+  <data name="ImageFiles" xml:space="preserve">
+    <value>Fitxers d'imatge</value>
+    <comment>This is the friendly name for image files.</comment>
+  </data>
   <data name="NumPadTypeName" xml:space="preserve">
     <value>Núm.</value>
   </data>
@@ -4033,17 +4062,17 @@
   <data name="TabActions" xml:space="preserve">
     <value>Menú d'accions de la pestanya</value>
   </data>
-  <data name="AddVerticalPane" xml:space="preserve">
-    <value>Panell vertical</value>
+  <data name="SplitPaneVertically" xml:space="preserve">
+    <value>Divideix verticalment</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Afegeix un panell vertical</value>
+    <value>Divideix el panell verticalment</value>
   </data>
-  <data name="AddHorizontalPane" xml:space="preserve">
-    <value>Panell horitzontal</value>
+  <data name="SplitPaneHorizontally" xml:space="preserve">
+    <value>Divideix horitzontalment</value>
   </data>
-  <data name="AddHorizontalPaneDescription" xml:space="preserve">
-    <value>Afegeix un panell horitzontal</value>
+  <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
+    <value>Divideix el panell horitzontalment</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Organitza verticalment</value>
@@ -4057,8 +4086,8 @@
   <data name="ArrangePanesHorizontallyDescription" xml:space="preserve">
     <value>Organitza els panells horitzontalment</value>
   </data>
-  <data name="AddPane" xml:space="preserve">
-    <value>Afegeix panell</value>
+  <data name="SplitPane" xml:space="preserve">
+    <value>Divideix el panell</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Mostra el botó d'accions de la pestanya a la barra de títol</value>
@@ -4066,8 +4095,11 @@
   <data name="ArrangePanes" xml:space="preserve">
     <value>Organitza els panells</value>
   </data>
-  <data name="DefaultPaneArrangement" xml:space="preserve">
-    <value>Organització per defecte dels panells</value>
+  <data name="DualPaneSplitDirection" xml:space="preserve">
+    <value>Direcció per defecte de divisió del panell doble</value>
+  </data>
+  <data name="DualPane" xml:space="preserve">
+    <value>Mode de panell dual</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>Horitzontal</value>
@@ -4273,7 +4305,55 @@
   <data name="Filename" xml:space="preserve">
     <value>Nom del fitxer</value>
   </data>
+  <data name="Signatures" xml:space="preserve">
+    <value>Signatures</value>
+   </data>
+  <data name="SignatureList" xml:space="preserve">
+    <value>Llistat de signatures</value>
+  </data>
+  <data name="IssuedBy" xml:space="preserve">
+    <value>Emès per:</value>
+  </data>
+  <data name="IssuedTo" xml:space="preserve">
+    <value>Emès per a:</value>
+  </data>
+  <data name="ValidFrom" xml:space="preserve">
+    <value>Vàlid des de:</value>
+  </data>
+  <data name="ValidTo" xml:space="preserve">
+    <value>Vàlid fins al:</value>
+  </data>
+  <data name="NoSignatureFound" xml:space="preserve">
+    <value>No s'ha trobat cap signatura.</value>
+  </data>
   <data name="ShowOpenTerminal" xml:space="preserve">
-    <value>Show option to open folders in Windows Terminal</value>
+    <value>Mostra l'opció per a obrir carpetes a la consola d'ordres del Windows</value>
+  </data>
+  <data name="OpenLogFile" xml:space="preserve">
+    <value>Obre el fitxer de registre</value>
+  </data>
+  <data name="OpenLogFileDescription" xml:space="preserve">
+    <value>Obre el fitxer de registre a l'editor per defecte</value>
+  </data>
+  <data name="OpenLogFileLocationDescription" xml:space="preserve">
+    <value>Obre la ubicació del fitxer de registre al gestor de fitxers per defecte</value>
+  </data>
+  <data name="FailedToOpenLogFile" xml:space="preserve">
+    <value>No es pot obrir el fitxer de registre</value>
+  </data>
+  <data name="ShowStatusBar" xml:space="preserve">
+    <value>Mostra la barra d’estat</value>
+  </data>
+  <data name="OnlyInColumnsView" xml:space="preserve">
+    <value>Només a la vista de columnes</value>
+  </data>
+  <data name="CreateNewFile" xml:space="preserve">
+    <value>Nou {0}</value>
+  </data>
+  <data name="EnableSmoothScrolling" xml:space="preserve">
+    <value>Activa el desplaçament suau</value>
+  </data>
+  <data name="Scrolling" xml:space="preserve">
+    <value>Desplaçament</value>
   </data>
 </root>
