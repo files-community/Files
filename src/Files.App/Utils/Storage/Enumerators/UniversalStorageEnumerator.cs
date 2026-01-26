@@ -19,10 +19,11 @@ namespace Files.App.Utils.Storage
 			Func<List<ListedItem>, Task> intermediateAction,
 			Dictionary<string, BitmapImage> defaultIconPairs = null)
 		{
-			var sampler = new IntervalSampler(500);
+			var sampler = new IntervalSampler(5000);
 			var tempList = new List<ListedItem>();
 			uint count = 0;
 			var firstRound = true;
+			var disableIntermediateUpdates = false;
 
 			IUserSettingsService userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 
@@ -30,16 +31,16 @@ namespace Files.App.Utils.Storage
 			{
 				IReadOnlyList<IStorageItem> items;
 
-				uint maxItemsToRetrieve = 300;
+				uint maxItemsToRetrieve = 5000;
 
 				if (intermediateAction is null)
 				{
 					// without intermediate action increase batches significantly
-					maxItemsToRetrieve = 1000;
+					maxItemsToRetrieve = 10000;
 				}
 				else if (firstRound)
 				{
-					maxItemsToRetrieve = 32;
+					maxItemsToRetrieve = 1000;
 					firstRound = false;
 				}
 
@@ -116,7 +117,10 @@ namespace Files.App.Utils.Storage
 				if (countLimit > -1 && count >= countLimit)
 					break;
 
-				if (intermediateAction is not null && (items.Count == maxItemsToRetrieve || sampler.CheckNow()))
+				if (count > 50000 && !disableIntermediateUpdates)
+					disableIntermediateUpdates = true;
+
+				if (intermediateAction is not null && !disableIntermediateUpdates && (items.Count == maxItemsToRetrieve || sampler.CheckNow()))
 				{
 					await intermediateAction(tempList);
 
