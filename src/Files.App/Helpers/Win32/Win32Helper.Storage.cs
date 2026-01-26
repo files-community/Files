@@ -765,14 +765,21 @@ namespace Files.App.Helpers
 			return Win32PInvoke.SetFileTime(hFile.DangerousGetHandle(), new(), new(), dateModified);
 		}
 
-		public static bool HasFileAttribute(string lpFileName, FileAttributes dwAttrs)
+		public static FileAttributes GetFileAttributes(string lpFileName)
 		{
 			if (Win32PInvoke.GetFileAttributesExFromApp(
 				lpFileName, Win32PInvoke.GET_FILEEX_INFO_LEVELS.GetFileExInfoStandard, out var lpFileInfo))
 			{
-				return (lpFileInfo.dwFileAttributes & dwAttrs) == dwAttrs;
+				return lpFileInfo.dwFileAttributes;
 			}
-			return false;
+			return FileAttributes.None;
+		}
+
+		public static bool HasFileAttribute(string lpFileName, FileAttributes dwAttrs)
+		{
+			Debug.Assert(dwAttrs != FileAttributes.None);
+
+			return GetFileAttributes(lpFileName).HasFlag(dwAttrs);
 		}
 
 		public static bool SetFileAttribute(string lpFileName, FileAttributes dwAttrs)
