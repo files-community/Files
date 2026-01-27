@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.App.ViewModels.Previews;
@@ -89,7 +89,7 @@ namespace Files.App.Helpers
 
 			static bool IsImage(ListedItem item)
 				=> !string.IsNullOrEmpty(item.FileExtension)
-				&& ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
+				&& FileExtensionHelpers.IsImageFile(item.FileExtension.ToLowerInvariant());
 
 			static bool IsMedia(ListedItem item)
 				=> !string.IsNullOrEmpty(item.FileExtension)
