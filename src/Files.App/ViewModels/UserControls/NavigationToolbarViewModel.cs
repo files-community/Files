@@ -698,7 +698,7 @@ namespace Files.App.ViewModels.UserControls
 		private static string NormalizePathInput(string currentInput, bool isFtp)
 		{
 			if (currentInput.Contains('/') && !isFtp)
-				currentInput = currentInput.Replace("/", "\\", StringComparison.Ordinal);
+				currentInput = currentInput.Replace('/', '\\');
 
 			currentInput = currentInput.Replace("\\\\", "\\", StringComparison.Ordinal);
 
