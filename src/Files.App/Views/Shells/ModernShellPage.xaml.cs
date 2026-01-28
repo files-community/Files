@@ -239,9 +239,9 @@ namespace Files.App.Views.Shells
 			{
 				string parentDirectoryOfPath = ShellViewModel.WorkingDirectory.TrimEnd('\\', '/');
 
-				var lastSlashIndex = parentDirectoryOfPath.LastIndexOf("\\", StringComparison.Ordinal);
+				var lastSlashIndex = parentDirectoryOfPath.LastIndexOf('\\');
 				if (lastSlashIndex == -1)
-					lastSlashIndex = parentDirectoryOfPath.LastIndexOf("/", StringComparison.Ordinal);
+					lastSlashIndex = parentDirectoryOfPath.LastIndexOf('/');
 				if (lastSlashIndex != -1)
 					parentDirectoryOfPath = ShellViewModel.WorkingDirectory.Remove(lastSlashIndex);
 				if (parentDirectoryOfPath.EndsWith(':'))
