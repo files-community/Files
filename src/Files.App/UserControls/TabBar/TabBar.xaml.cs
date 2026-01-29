@@ -218,8 +218,7 @@ namespace Files.App.UserControls.TabBar
 			else
 				HorizontalTabView.SelectedItem = args.Tab;
 
-			if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier))
-				ApplicationData.Current.LocalSettings.Values.Remove(TabDropHandledIdentifier);
+			ApplicationData.Current.LocalSettings.Values.Remove(TabDropHandledIdentifier);
 		}
 
 		private async void TabView_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
