@@ -48,7 +48,7 @@ namespace Windows.Win32
 			NativeMemory.Fill(pvar, (uint)(sizeof(PROPVARIANT)), 0);
 		}
 
-		public static unsafe nint SetWindowLongPtr(HWND hWnd, WINDOW_LONG_PTR_INDEX nIndex, nint dwNewLong)
+		public static nint SetWindowLongPtr(HWND hWnd, WINDOW_LONG_PTR_INDEX nIndex, nint dwNewLong)
 		{
 			// NOTE:
 			//  Since CsWin32 generates SetWindowLong only on x86 and SetWindowLongPtr only on x64,
@@ -65,7 +65,7 @@ namespace Windows.Win32
 			static extern nint _SetWindowLongPtr(HWND hWnd, int nIndex, nint dwNewLong);
 		}
 
-		[LibraryImport("Shell32.dll", EntryPoint = "SHUpdateRecycleBinIcon")]
+		[LibraryImport("shell32.dll", EntryPoint = "SHUpdateRecycleBinIcon", SetLastError = true)]
 		public static partial void SHUpdateRecycleBinIcon();
 	}
 }

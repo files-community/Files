@@ -31,8 +31,8 @@ namespace Files.App.Storage
 		private FileSystemWatcher? _filesADLStoreFileWatcher;
 		private FileSystemWatcher? _filesCDLStoreFileWatcher;
 
-		public static event EventHandler? ExplorerJumpListChanged;
-		public static event EventHandler? FilesJumpListChanged;
+		public event EventHandler? ExplorerJumpListChanged;
+		public event EventHandler? FilesJumpListChanged;
 
 		private JumpListManager() { }
 
@@ -491,11 +491,13 @@ namespace Files.App.Storage
 
 		private void ExplorerJumpListWatcher_Changed(object sender, FileSystemEventArgs e)
 		{
+			ExplorerJumpListChanged?.Invoke(this, EventArgs.Empty);
 			PullJumpListFromExplorer();
 		}
 
 		private void FilesJumpListWatcher_Changed(object sender, FileSystemEventArgs e)
 		{
+			FilesJumpListChanged?.Invoke(this, EventArgs.Empty);
 			PushJumpListToExplorer();
 		}
 

@@ -12,10 +12,8 @@ using Microsoft.Win32;
 using Sentry;
 using Sentry.Protocol;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text;
 using Windows.ApplicationModel;
-using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.System;
 using Windows.Win32.Foundation;
@@ -173,6 +171,8 @@ namespace Files.App.Helpers
 
 					bool result = JumpListManager.WatchJumpListChanges(AppUserModelIdCrcHash);
 					if (!result) App.Logger.LogWarning("Failed to watch jump list unexpectedly.");
+
+					JumpListManager.FilesJumpListChanged += JumpListManager_FilesJumpListChanged;
 				}
 			},
 			App.Logger);
@@ -186,6 +186,13 @@ namespace Files.App.Helpers
 			}
 
 			generalSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
+		}
+
+		private static void JumpListManager_FilesJumpListChanged(object? sender, EventArgs e)
+		{
+			var quickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
+
+			quickAccessService.NotifyPinnedItemsChanged(true);
 		}
 
 		/// <summary>
