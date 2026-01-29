@@ -90,6 +90,13 @@ namespace Files.App.Services
 			return App.QuickAccessManager.Model.PinnedFolders.Contains(folderPath);
 		}
 
+		public async Task NotifyPinnedItemsChanged(bool doUpdateQuickAccessWidget)
+		{
+			await App.QuickAccessManager.Model.LoadAsync();
+			if (doUpdateQuickAccessWidget)
+				App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, null!);
+		}
+
 		public async Task SaveAsync(string[] items)
 		{
 			if (Equals(items, App.QuickAccessManager.Model.PinnedFolders.ToArray()))
