@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.Shared.Utils;
+using System.Windows.Documents;
 
 namespace Files.App.Data.Items
 {
@@ -32,6 +33,20 @@ namespace Files.App.Data.Items
 		public async Task InitAsync(CancellationToken cancellationToken = default)
 		{
 			Icon = await _imageService.GetIconAsync(Inner, cancellationToken);
+		}
+
+		[RelayCommand]
+		public async Task ViewInFolderAsync(CancellationToken cancellationToken)
+		{
+			var context = Ioc.Default.GetRequiredService<IContentPageContext>();
+			if (context.ShellPage is not { } shellPage)
+				return;
+
+			var parent = await Inner.GetParentAsync(cancellationToken);
+			if (parent is null)
+				return;
+
+			await NavigationHelpers.OpenPath(parent.Id, shellPage);
 		}
 
 		[RelayCommand]

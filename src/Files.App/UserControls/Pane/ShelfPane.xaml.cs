@@ -7,8 +7,10 @@ using System.Windows.Input;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel.DataTransfer;
+using Microsoft.UI.Xaml.Input;
 using WinRT;
 using DragEventArgs = Microsoft.UI.Xaml.DragEventArgs;
+using Visibility = Microsoft.UI.Xaml.Visibility;
 
 namespace Files.App.UserControls
 {
@@ -88,18 +90,21 @@ namespace Files.App.UserControls
 
 		private void ShelfItemsList_RightTapped(object sender, Microsoft.UI.Xaml.Input.RightTappedRoutedEventArgs e)
 		{
-			if (e.OriginalSource is not Microsoft.UI.Xaml.FrameworkElement widgetCardItem ||
-				widgetCardItem.DataContext is not ShelfItem item ||
-				item.Path is null)
+			if (e.OriginalSource is not Microsoft.UI.Xaml.FrameworkElement { DataContext: ShelfItem item } widgetCardItem || item.Path is null)
 				return;
 
 			var menuFlyout = new MenuFlyout();
-
+			menuFlyout.Items.Add(new MenuFlyoutItem
+			{
+				Text = Strings.BaseLayoutItemContextFlyoutOpenParentFolder_Text.GetLocalizedResource(),
+				Icon = new FontIcon() { Glyph = "\uE838" },
+				Command = item.ViewInFolderCommand
+			});
 			menuFlyout.Items.Add(new MenuFlyoutItem
 			{
 				Text = Strings.RemoveFromShelf.GetLocalizedResource(),
 				Icon = new FontIcon { Glyph = "\uE738" },
-				Command = new RelayCommand(item.Remove)
+				Command = item.RemoveCommand
 			});
 
 			menuFlyout.ShowAt(widgetCardItem);
@@ -108,8 +113,25 @@ namespace Files.App.UserControls
 
 		private void ShelfItemsList_GotFocus(object sender, RoutedEventArgs e)
 		{
-			if (ItemFocusedCommand is not null)
-				ItemFocusedCommand.Execute(null);
+			ItemFocusedCommand?.Execute(null);
+		}
+
+		private void HyperlinkBatch_Click(object sender, RoutedEventArgs e)
+		{
+			if (sender is not FrameworkElement element)
+				return;
+
+			BatchFlyout.ShowAt(element);
+		}
+
+		private void ShelfItemsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			BatchActionsButton.Visibility = ShelfItemsList.SelectedItems.IsEmpty() ? Visibility.Collapsed : Visibility.Visible;
+		}
+
+		private void Pane_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			ShelfItemsList.SelectedItems.Clear();
 		}
 
 		public ObservableCollection<ShelfItem>? ItemsSource
@@ -128,6 +150,30 @@ namespace Files.App.UserControls
 		public static readonly DependencyProperty ClearCommandProperty =
 			DependencyProperty.Register(nameof(ClearCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
 
+		public ICommand? BulkDeleteCommand
+		{
+			get => (ICommand?)GetValue(BulkDeleteCommandProperty);
+			set => SetValue(BulkDeleteCommandProperty, value);
+		}
+		public static readonly DependencyProperty BulkDeleteCommandProperty =
+			DependencyProperty.Register(nameof(BulkDeleteCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
+
+		public ICommand? BulkCopyCommand
+		{
+			get => (ICommand?)GetValue(BulkCopyCommandProperty);
+			set => SetValue(BulkCopyCommandProperty, value);
+		}
+		public static readonly DependencyProperty BulkCopyCommandProperty =
+			DependencyProperty.Register(nameof(BulkCopyCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
+
+		public ICommand? BulkCutCommand
+		{
+			get => (ICommand?)GetValue(BulkCutCommandProperty);
+			set => SetValue(BulkCutCommandProperty, value);
+		}
+		public static readonly DependencyProperty BulkCutCommandProperty =
+			DependencyProperty.Register(nameof(BulkCutCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
+
 		public ICommand? ItemFocusedCommand
 		{
 			get => (ICommand?)GetValue(ItemFocusedCommandProperty);
@@ -135,6 +181,5 @@ namespace Files.App.UserControls
 		}
 		public static readonly DependencyProperty ItemFocusedCommandProperty =
 			DependencyProperty.Register(nameof(ItemFocusedCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
-
 	}
 }

@@ -242,7 +242,9 @@ namespace Files.App.ViewModels.Layouts
 							new MenuFlyoutItem() { Text = string.Format(Strings.CopyToFolderCaptionText.GetLocalizedResource(), folderName), Command = new AsyncRelayCommand(async ct =>
 								await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Copy, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true)) },
 							new MenuFlyoutItem() { Text = string.Format(Strings.MoveToFolderCaptionText.GetLocalizedResource(), folderName), Command = new AsyncRelayCommand(async ct =>
-								await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Move, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true)) }
+								await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Move, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true)) },
+							new MenuFlyoutItem() { Text = string.Format(Strings.LinkToFolderCaptionText.GetLocalizedResource(), folderName), Command = new AsyncRelayCommand(async ct =>
+								await _associatedInstance.FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Link, e.DataView, _associatedInstance.ShellViewModel.WorkingDirectory, false, true)) }
 						}
 					};
 
