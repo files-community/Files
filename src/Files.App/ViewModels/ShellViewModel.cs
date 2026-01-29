@@ -50,7 +50,6 @@ namespace Files.App.ViewModels
 		// Files and folders list for manipulating
 		private ConcurrentCollection<ListedItem> filesAndFolders;
 		private readonly IWindowsIniService WindowsIniService = Ioc.Default.GetRequiredService<IWindowsIniService>();
-		private readonly IWindowsJumpListService jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
 		private readonly IDialogService dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 		private IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
 		private readonly INetworkService NetworkService = Ioc.Default.GetRequiredService<INetworkService>();
@@ -229,7 +228,13 @@ namespace Files.App.ViewModels
 			if (value == "Home" || value == "ReleaseNotes" || value == "Settings")
 				currentStorageFolder = null;
 			else
-				_ = Task.Run(() => jumpListService.AddFolderAsync(value));
+			{
+				_ = STATask.Run(() =>
+				{
+					AppLifecycleHelper.JumpListManager?.AddFolderToRecentCategory(value);
+				},
+				App.Logger);
+			}
 
 			WorkingDirectory = value;
 

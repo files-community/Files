@@ -288,6 +288,8 @@ namespace Files.App
 			// Method can take a long time, make sure the window is hidden
 			await Task.Yield();
 
+			AppLifecycleHelper.JumpListManager?.Dispose();
+
 			// Try to maintain clipboard data after app close
 			SafetyExtensions.IgnoreExceptions(() =>
 			{
