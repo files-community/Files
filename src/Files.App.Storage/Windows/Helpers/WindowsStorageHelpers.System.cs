@@ -16,7 +16,7 @@ namespace Files.App.Storage
 			bool fRes = pszBuffer.Allocate(1024U);
 			if (!fRes) return null;
 
-			uint cchBuffer = PInvoke.GetEnvironmentVariable((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in name.GetPinnableReference())), pszBuffer.Get(), (uint)name.Length + 1);
+			uint cchBuffer = PInvoke.GetEnvironmentVariable((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in name.GetPinnableReference())), pszBuffer.Get(), 1024U);
 			return cchBuffer is 0U ? null : new(pszBuffer.Get());
 		}
 
