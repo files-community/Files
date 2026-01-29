@@ -16,7 +16,7 @@ namespace Files.App.Helpers
 			string rootPath = string.Empty;
 			try
 			{
-				var pathAsUri = new Uri(path.Replace("\\", "/", StringComparison.Ordinal));
+				var pathAsUri = new Uri(path.Replace('\\', '/'));
 				rootPath = pathAsUri.GetLeftPart(UriPartial.Authority);
 				if (pathAsUri.IsFile && !string.IsNullOrEmpty(rootPath))
 					rootPath = new Uri(rootPath).LocalPath;
@@ -86,7 +86,7 @@ namespace Files.App.Helpers
 					name = root.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar, ':');
 			}
 
-			return folder.Contains('/', StringComparison.Ordinal) ? Path.Combine(folder, name).Replace("\\", "/", StringComparison.Ordinal) : Path.Combine(folder, name);
+			return folder.Contains('/', StringComparison.Ordinal) ? Path.Combine(folder, name).Replace('\\', '/') : Path.Combine(folder, name);
 		}
 	}
 }

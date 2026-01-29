@@ -37,7 +37,7 @@ namespace Files.App.Actions
 				var path = context.ShellPage.ShellViewModel.WorkingDirectory;
 
 				if (FtpHelpers.IsFtpPath(path))
-					path = path.Replace("\\", "/", StringComparison.Ordinal);
+					path = path.Replace('\\', '/');
 
 				SafetyExtensions.IgnoreExceptions(() =>
 				{

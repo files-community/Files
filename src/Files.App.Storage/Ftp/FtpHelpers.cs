@@ -10,7 +10,7 @@ namespace Files.App.Storage
 	{
 		public static string GetFtpPath(string path)
 		{
-			path = path.Replace("\\", "/", StringComparison.Ordinal);
+			path = path.Replace('\\', '/');
 
 			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
 			var hostIndex = path.IndexOf('/', schemaIndex);
@@ -44,7 +44,7 @@ namespace Files.App.Storage
 
 		public static string GetFtpAuthority(string path)
 		{
-			path = path.Replace("\\", "/", StringComparison.Ordinal);
+			path = path.Replace('\\', '/');
 			var schemaIndex = path.IndexOf("://", StringComparison.Ordinal) + 3;
 			var hostIndex = path.IndexOf('/', schemaIndex);
 
