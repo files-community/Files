@@ -173,7 +173,7 @@ namespace Files.App.Storage
 				if (FAILED(hr)) return hr;
 
 				// Append "Recent" category
-				hr = pFilesCDL.Get()->AppendCategory((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in "Recent".GetPinnableReference())), pNewObjectArray.Get());
+				hr = pFilesCDL.Get()->AppendCategory((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in _recentCategoryName.GetPinnableReference())), pNewObjectArray.Get());
 				if (FAILED(hr)) return hr;
 
 				// Commit the collection updates
@@ -406,8 +406,26 @@ namespace Files.App.Storage
 			}
 			catch
 			{
-				// Gracefully exit if we can't monitor the file
-				return false;
+				if (_explorerADLStoreFileWatcher is not null)
+				{
+					_explorerADLStoreFileWatcher.EnableRaisingEvents = false;
+					_explorerADLStoreFileWatcher.Changed -= ExplorerJumpListWatcher_Changed;
+					_explorerADLStoreFileWatcher.Dispose();
+				}
+
+				if (_filesADLStoreFileWatcher is not null)
+				{
+					_filesADLStoreFileWatcher.EnableRaisingEvents = false;
+					_filesADLStoreFileWatcher.Changed -= FilesJumpListWatcher_Changed;
+					_filesADLStoreFileWatcher.Dispose();
+				}
+
+				if (_filesCDLStoreFileWatcher is not null)
+				{
+					_filesCDLStoreFileWatcher.EnableRaisingEvents = false;
+					_filesCDLStoreFileWatcher.Changed -= FilesJumpListWatcher_Changed;
+					_filesCDLStoreFileWatcher.Dispose();
+				}
 			}
 
 			return true;
