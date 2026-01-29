@@ -98,7 +98,7 @@ namespace Files.App.Utils.Storage
 						  !devicePath.StartsWith(@"\\SHELL\", StringComparison.Ordinal)
 					)
 			{
-				int lastSepIndex = rootPath.LastIndexOf(@"\", StringComparison.Ordinal);
+				int lastSepIndex = rootPath.LastIndexOf('\\');
 				rootPath = lastSepIndex > 1 ? rootPath.Substring(0, lastSepIndex) : rootPath; // Remove share name
 				return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(rootPath), rootPath);
 			}

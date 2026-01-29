@@ -68,7 +68,7 @@ namespace Files.App.Helpers
 			if (string.IsNullOrEmpty(path))
 				return string.Empty;
 
-			var index = path.Contains('/', StringComparison.Ordinal) ? path.LastIndexOf("/", StringComparison.Ordinal) : path.LastIndexOf("\\", StringComparison.Ordinal);
+			var index = path.Contains('/', StringComparison.Ordinal) ? path.LastIndexOf('/') : path.LastIndexOf('\\');
 			return path.Substring(0, index != -1 ? index : path.Length);
 		}
 
