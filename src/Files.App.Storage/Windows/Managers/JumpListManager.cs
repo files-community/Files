@@ -23,6 +23,8 @@ namespace Files.App.Storage
 	/// </remarks>
 	public unsafe class JumpListManager : IDisposable
 	{
+		private static readonly Lock _updateJumpListLock = new();
+
 		private string _aumid = null!;
 		private string _exeAlias = null!;
 		private string _recentCategoryName = null!;
@@ -36,14 +38,14 @@ namespace Files.App.Storage
 
 		private JumpListManager() { }
 
-		public static JumpListManager? Create(string amuid, string exeAlias)
+		public static JumpListManager? Create(string aumid, string exeAlias)
 		{
 			var categoryName = WindowsStorableHelpers.ResolveIndirectString($"@{{{WindowsStorableHelpers.GetEnvironmentVariable("SystemRoot")}\\SystemResources\\Windows.UI.ShellCommon\\Windows.UI.ShellCommon.pri? ms-resource://Windows.UI.ShellCommon/JumpViewUI/JumpViewCategoryType_Recent}}");
 			if (categoryName is null) return null;
 
 			return new JumpListManager()
 			{
-				_aumid = amuid,
+				_aumid = aumid,
 				_exeAlias = exeAlias,
 				_recentCategoryName = categoryName,
 			};
@@ -111,12 +113,12 @@ namespace Files.App.Storage
 					if (FAILED(hr)) continue;
 
 					// Get an instance of IShellLinkW from the IShellItem instance
-					IShellLinkW* psl = default;
-					hr = CreateLinkFromItem(psi.Get(), &psl);
+					using ComPtr<IShellLinkW> psl = default;
+					hr = CreateLinkFromItem(psi.Get(), psl.GetAddressOf());
 					if (FAILED(hr)) continue;
 
 					// Pin it to the Files' Automatic Destinations
-					hr = pFilesADL.Get()->PinItem((IUnknown*)psl, pinIndex);
+					hr = pFilesADL.Get()->PinItem((IUnknown*)psl.Get(), pinIndex);
 					if (FAILED(hr)) continue;
 				}
 
@@ -147,12 +149,12 @@ namespace Files.App.Storage
 					if (SUCCEEDED(hr)) continue; // If not pinned, HRESULT is E_NOT_SET
 
 					// Get an instance of IShellLinkW from the IShellItem instance
-					IShellLinkW* psl = default;
-					hr = CreateLinkFromItem(psi.Get(), &psl);
+					using ComPtr<IShellLinkW> psl = default;
+					hr = CreateLinkFromItem(psi.Get(), psl.GetAddressOf());
 					if (FAILED(hr)) continue;
 
 					// Add it to the Files' Custom Destinations
-					hr = pNewObjectCollection.Get()->AddObject((IUnknown*)psl);
+					hr = pNewObjectCollection.Get()->AddObject((IUnknown*)psl.Get());
 					if (FAILED(hr)) continue;
 				}
 
@@ -224,7 +226,8 @@ namespace Files.App.Storage
 
 				// Get the count of categories in the Files' Custom Destinations
 				uint count = 0U;
-				pFilesICDL.Get()->GetCategoryCount(&count);
+				hr = pFilesICDL.Get()->GetCategoryCount(&count);
+				if (FAILED(hr)) return hr;
 
 				// Find the "Recent" category index
 				uint indexOfRecentCategory = 0U;
@@ -254,6 +257,7 @@ namespace Files.App.Storage
 				// Get the items in the "Recent" category
 				using ComPtr<IObjectCollection> poc = default;
 				hr = pFilesICDL.Get()->EnumerateCategoryDestinations(indexOfRecentCategory, IID.IID_IObjectCollection, (void**)poc.GetAddressOf());
+				if (FAILED(hr)) return hr;
 
 				// Get the count of items in the "Recent" category
 				uint countOfItems = 0U;
@@ -274,6 +278,7 @@ namespace Files.App.Storage
 					using ComHeapPtr<char> pszParseablePath = default;
 					pszParseablePath.Allocate(PInvoke.MAX_PATH);
 					hr = psl.Get()->GetArguments(pszParseablePath.Get(), (int)PInvoke.MAX_PATH);
+					if (FAILED(hr)) continue;
 
 					using ComHeapPtr<IShellItem> psi = default;
 					hr = PInvoke.SHCreateItemFromParsingName(pszParseablePath.Get(), null, IID.IID_IShellItem, (void**)psi.GetAddressOf());
@@ -308,6 +313,7 @@ namespace Files.App.Storage
 					using ComHeapPtr<char> pszParseablePath = default;
 					pszParseablePath.Allocate(PInvoke.MAX_PATH);
 					hr = psl.Get()->GetArguments(pszParseablePath.Get(), (int)PInvoke.MAX_PATH);
+					if (FAILED(hr)) continue;
 
 					using ComHeapPtr<IShellItem> psi = default;
 					hr = PInvoke.SHCreateItemFromParsingName(pszParseablePath.Get(), null, IID.IID_IShellItem, (void**)psi.GetAddressOf());
@@ -491,14 +497,20 @@ namespace Files.App.Storage
 
 		private void ExplorerJumpListWatcher_Changed(object sender, FileSystemEventArgs e)
 		{
-			ExplorerJumpListChanged?.Invoke(this, EventArgs.Empty);
-			PullJumpListFromExplorer();
+			lock (_updateJumpListLock)
+			{
+				ExplorerJumpListChanged?.Invoke(this, EventArgs.Empty);
+				PullJumpListFromExplorer();
+			}
 		}
 
 		private void FilesJumpListWatcher_Changed(object sender, FileSystemEventArgs e)
 		{
-			FilesJumpListChanged?.Invoke(this, EventArgs.Empty);
-			PushJumpListToExplorer();
+			lock (_updateJumpListLock)
+			{
+				FilesJumpListChanged?.Invoke(this, EventArgs.Empty);
+				PushJumpListToExplorer();
+			}
 		}
 
 		public void Dispose()
@@ -506,18 +518,21 @@ namespace Files.App.Storage
 			if (_explorerADLStoreFileWatcher is not null)
 			{
 				_explorerADLStoreFileWatcher.EnableRaisingEvents = false;
+				_explorerADLStoreFileWatcher.Changed -= ExplorerJumpListWatcher_Changed;
 				_explorerADLStoreFileWatcher.Dispose();
 			}
 
 			if (_filesADLStoreFileWatcher is not null)
 			{
 				_filesADLStoreFileWatcher.EnableRaisingEvents = false;
+				_filesADLStoreFileWatcher.Changed -= FilesJumpListWatcher_Changed;
 				_filesADLStoreFileWatcher.Dispose();
 			}
 
 			if (_filesCDLStoreFileWatcher is not null)
 			{
 				_filesCDLStoreFileWatcher.EnableRaisingEvents = false;
+				_filesCDLStoreFileWatcher.Changed -= FilesJumpListWatcher_Changed;
 				_filesCDLStoreFileWatcher.Dispose();
 			}
 		}
