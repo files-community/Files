@@ -9,6 +9,8 @@ namespace Files.App.ViewModels.Previews
 {
 	public sealed class FolderPreviewViewModel
 	{
+		private readonly IContentPageContext _contentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+
 		public ListedItem Item { get; }
 
 		public BitmapImage Thumbnail { get; set; } = new();
@@ -25,7 +27,9 @@ namespace Files.App.ViewModels.Previews
 		{
 			var rootItem = await FilesystemTasks.Wrap(() => DriveHelpers.GetRootFromPathAsync(Item.ItemPath));
 			Folder = await StorageFileExtensions.DangerousGetFolderFromPathAsync(Item.ItemPath, rootItem);
-			var items = await Folder.GetItemsAsync();
+
+			// Get actual item count including hidden files based on user settings
+			int itemCount = await GetItemCountAsync();
 
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Item.ItemPath,
@@ -46,7 +50,7 @@ namespace Files.App.ViewModels.Previews
 
 			Item.FileDetails =
 			[
-				GetFileProperty("PropertyItemCount", items.Count),
+				GetFileProperty("PropertyItemCount", itemCount),
 				GetFileProperty("PropertyDateModified", info.DateModified),
 				GetFileProperty("PropertyDateCreated", info.DateCreated),
 				GetFileProperty("PropertyParsingPath", Folder.Path),
@@ -64,6 +68,72 @@ namespace Files.App.ViewModels.Previews
 
 				if (!string.IsNullOrWhiteSpace(headName))
 					Item.FileDetails.Add(GetFileProperty("GitCurrentBranch", headName));
+			}
+		}
+
+		private async Task<int> GetItemCountAsync()
+		{
+			// If this is the current folder being viewed, use ShellViewModel's TotalItemCount
+			// which includes hidden files when the setting is enabled (same as status bar)
+			if (_contentPageContext.ShellPage?.ShellViewModel is not null &&
+				_contentPageContext.Folder?.ItemPath == Item.ItemPath)
+			{
+				return _contentPageContext.ShellPage.ShellViewModel.TotalItemCount;
+			}
+
+			// For other folders (e.g., selected folder in the file list), enumerate directly
+			// This respects the user's "Show hidden files" setting
+			return await Task.Run(() => CountItemsInFolder(Item.ItemPath));
+		}
+
+		private static int CountItemsInFolder(string folderPath)
+		{
+			try
+			{
+				var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
+				var showHiddenItems = userSettingsService.FoldersSettingsService.ShowHiddenItems;
+				var showProtectedSystemFiles = userSettingsService.FoldersSettingsService.ShowProtectedSystemFiles;
+
+				int count = 0;
+				var directory = new DirectoryInfo(folderPath);
+
+				// Count files
+				foreach (var file in directory.EnumerateFiles())
+				{
+					var isHidden = (file.Attributes & System.IO.FileAttributes.Hidden) != 0;
+					var isSystem = (file.Attributes & System.IO.FileAttributes.System) != 0;
+
+					// Skip hidden & system files if their respective settings are off
+					if (isHidden && (!showHiddenItems || (isSystem && !showProtectedSystemFiles)))
+						continue;
+
+					count++;
+				}
+
+				// Count directories
+				foreach (var dir in directory.EnumerateDirectories())
+				{
+					var isHidden = (dir.Attributes & System.IO.FileAttributes.Hidden) != 0;
+					var isSystem = (dir.Attributes & System.IO.FileAttributes.System) != 0;
+
+					// Skip hidden & system directories if their respective settings are off
+					if (isHidden && (!showHiddenItems || (isSystem && !showProtectedSystemFiles)))
+						continue;
+
+					count++;
+				}
+
+				return count;
+			}
+			catch (UnauthorizedAccessException)
+			{
+				// If we can't access the folder, return 0
+				return 0;
+			}
+			catch (Exception)
+			{
+				// For any other error, return 0
+				return 0;
 			}
 		}
 
