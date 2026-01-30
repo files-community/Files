@@ -1071,15 +1071,15 @@ namespace Files.App.ViewModels
 			{
 				if (!returnIconOnly)
 				{
-					// Get cached thumbnail
-					result = await FileThumbnailHelper.GetIconAsync(
+					// Check own cache first without hitting Shell API
+					result = await FileThumbnailHelper.GetCachedIconAsync(
 							item.ItemPath,
 							thumbnailSize,
 							item.IsFolder,
-							IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
+							IconOptions.ReturnThumbnailOnly | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
 
 					cancellationToken.ThrowIfCancellationRequested();
-					loadNonCachedThumbnail = true;
+					loadNonCachedThumbnail = result is null;
 				}
 
 				if (result is null)

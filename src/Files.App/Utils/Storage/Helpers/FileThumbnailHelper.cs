@@ -27,6 +27,22 @@ namespace Files.App.Utils.Storage
 		}
 
 		/// <summary>
+		/// Returns cached thumbnail without calling the Shell API.
+		/// Returns null if not found in the cache.
+		/// </summary>
+		public static async Task<byte[]?> GetCachedIconAsync(string path, uint requestedSize, bool isFolder, IconOptions iconOptions)
+		{
+			var size = iconOptions.HasFlag(IconOptions.UseCurrentScale) ? requestedSize * App.AppModel.AppWindowDPI : requestedSize;
+			size = Math.Max(1, size);
+
+			return await thumbnailService.GetCachedThumbnailAsync(
+				path,
+				(int)size,
+				isFolder,
+				iconOptions);
+		}
+
+		/// <summary>
 		/// Returns overlay for given file or folder
 		/// /// </summary>
 		/// <param name="path"></param>

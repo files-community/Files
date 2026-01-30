@@ -33,5 +33,16 @@ namespace Files.App.Data.Contracts
 		/// Removes all cached thumbnails.
 		/// </summary>
 		Task ClearAsync();
+
+		/// <summary>
+		/// Retrieves a cached icon from the in-memory icon cache.
+		/// </summary>
+		/// <returns>Icon bytes, or null if not cached.</returns>
+		byte[]? GetIcon(string extension, int size);
+
+		/// <summary>
+		/// Stores an icon in the in-memory icon cache.
+		/// </summary>
+		void SetIcon(string extension, int size, byte[] iconData);
 	}
 }

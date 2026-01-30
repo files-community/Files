@@ -36,10 +36,33 @@ namespace Files.App.Services.Thumbnails
 		{
 			try
 			{
+				var fileName = Path.GetFileName(path);
+
+				if (options.HasFlag(IconOptions.ReturnIconOnly) && !isFolder)
+				{
+					var extension = Path.GetExtension(path);
+					if (!string.IsNullOrEmpty(extension))
+					{
+						var cachedIcon = _cache.GetIcon(extension, size);
+						if (cachedIcon is not null)
+							return cachedIcon;
+					}
+				}
+
 				if (!_userSettingsService.GeneralSettingsService.EnableThumbnailCache)
 				{
 					var generator = SelectGenerator(path, isFolder);
-					return await generator.GenerateAsync(path, size, isFolder, options, ct);
+					var result = await generator.GenerateAsync(path, size, isFolder, options, ct);
+
+					// Store icon in memory cache
+					if (result is not null && options.HasFlag(IconOptions.ReturnIconOnly) && !isFolder)
+					{
+						var ext = Path.GetExtension(path);
+						if (!string.IsNullOrEmpty(ext))
+							_cache.SetIcon(ext, size, result);
+					}
+
+					return result;
 				}
 
 				var cached = await _cache.GetAsync(path, size, options, ct);
@@ -50,13 +73,46 @@ namespace Files.App.Services.Thumbnails
 				var thumbnail = await selectedGenerator.GenerateAsync(path, size, isFolder, options, ct);
 
 				if (thumbnail is not null)
-					await _cache.SetAsync(path, size, options, thumbnail, ct);
+				{
+					if (options.HasFlag(IconOptions.ReturnIconOnly) && !isFolder)
+					{
+						// Icons go to in-memory cache only, not disk
+						var ext = Path.GetExtension(path);
+						if (!string.IsNullOrEmpty(ext))
+							_cache.SetIcon(ext, size, thumbnail);
+					}
+					else
+					{
+						await _cache.SetAsync(path, size, options, thumbnail, ct);
+					}
+				}
 
 				return thumbnail;
 			}
 			catch (Exception ex)
 			{
 				_logger.LogError(ex, "Failed to get thumbnail for {Path}", path);
+				return null;
+			}
+		}
+
+		public async Task<byte[]?> GetCachedThumbnailAsync(
+			string path,
+			int size,
+			bool isFolder,
+			IconOptions options,
+			CancellationToken ct)
+		{
+			try
+			{
+				if (!_userSettingsService.GeneralSettingsService.EnableThumbnailCache)
+					return null;
+
+				return await _cache.GetAsync(path, size, options, ct);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, "Failed to get cached thumbnail for {Path}", path);
 				return null;
 			}
 		}

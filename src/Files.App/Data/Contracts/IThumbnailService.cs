@@ -20,6 +20,17 @@ namespace Files.App.Data.Contracts
 			CancellationToken ct = default);
 
 		/// <summary>
+		/// Gets a cached thumbnail without calling the Shell API.
+		/// Returns null if not found in the cache.
+		/// </summary>
+		Task<byte[]?> GetCachedThumbnailAsync(
+			string path,
+			int size,
+			bool isFolder,
+			IconOptions options,
+			CancellationToken ct = default);
+
+		/// <summary>
 		/// Registers a thumbnail generator.
 		/// </summary>
 		void RegisterGenerator(IThumbnailGenerator generator);

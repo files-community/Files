@@ -16,6 +16,7 @@ namespace Files.App.Services.Thumbnails
 	{
 		private readonly string _cacheDirectory;
 		private readonly ConcurrentDictionary<string, CacheEntry> _memoryIndex;
+		private readonly ConcurrentDictionary<string, byte[]> _iconCache;
 		private readonly SemaphoreSlim _evictionLock;
 		private readonly ILogger _logger;
 		private readonly IUserSettingsService _userSettingsService;
@@ -37,6 +38,7 @@ namespace Files.App.Services.Thumbnails
 			Directory.CreateDirectory(_cacheDirectory);
 
 			_memoryIndex = new ConcurrentDictionary<string, CacheEntry>();
+			_iconCache = new ConcurrentDictionary<string, byte[]>();
 			_evictionLock = new SemaphoreSlim(1, 1);
 
 			_ = LoadCacheIndexAsync();
@@ -310,6 +312,18 @@ namespace Files.App.Services.Thumbnails
 				removedCount, currentSize / 1024 / 1024);
 		}
 
+		public byte[]? GetIcon(string extension, int size)
+		{
+			var key = $"{extension.ToLowerInvariant()}|{size}";
+			return _iconCache.TryGetValue(key, out var data) ? data : null;
+		}
+
+		public void SetIcon(string extension, int size, byte[] iconData)
+		{
+			var key = $"{extension.ToLowerInvariant()}|{size}";
+			_iconCache.TryAdd(key, iconData);
+		}
+
 		public async Task ClearAsync()
 		{
 			await _evictionLock.WaitAsync();
@@ -326,6 +340,7 @@ namespace Files.App.Services.Thumbnails
 				}
 
 				_memoryIndex.Clear();
+				_iconCache.Clear();
 				_logger.LogInformation("Cache cleared");
 			}
 			finally
