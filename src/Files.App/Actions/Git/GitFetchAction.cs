@@ -24,11 +24,9 @@ namespace Files.App.Actions
 			_context.PropertyChanged += Context_PropertyChanged;
 		}
 
-		public Task ExecuteAsync(object? parameter = null)
+		public async Task ExecuteAsync(object? parameter = null)
 		{
-			GitHelpers.FetchOrigin(_context.ShellPage!.InstanceViewModel.GitRepositoryPath);
-
-			return Task.CompletedTask;
+			await GitHelpers.FetchOrigin(_context.ShellPage!.InstanceViewModel.GitRepositoryPath);
 		}
 
 		private void Context_PropertyChanged(object? sender, PropertyChangedEventArgs e)

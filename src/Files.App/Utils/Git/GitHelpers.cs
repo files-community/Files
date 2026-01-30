@@ -29,11 +29,6 @@ namespace Files.App.Utils.Git
 
 		private static readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
-		private static readonly FetchOptions _fetchOptions = new()
-		{
-			Prune = true
-		};
-
 		private static readonly PullOptions _pullOptions = new();
 
 		private static readonly string _clientId = AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev
@@ -355,7 +350,7 @@ namespace Files.App.Utils.Git
 				branch.FriendlyName.Equals(branchName, StringComparison.OrdinalIgnoreCase));
 		}
 
-		public static async void FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default)
+		public static async Task FetchOrigin(string? repositoryPath, CancellationToken cancellationToken = default)
 		{
 			if (string.IsNullOrWhiteSpace(repositoryPath))
 				return;
@@ -363,57 +358,101 @@ namespace Files.App.Utils.Git
 			using var repository = new Repository(repositoryPath);
 			var signature = repository.Config.BuildSignature(DateTimeOffset.Now);
 
-			var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
-			if (signature is not null && !string.IsNullOrWhiteSpace(token))
+			var remoteName = repository.Network.Remotes.FirstOrDefault()?.Name ?? "origin";
+
+			// Add Status Center Card
+			var banner = StatusCenterHelper.AddCard_GitFetch(remoteName, ReturnResult.InProgress);
+			var fsProgress = new StatusCenterItemProgressModel(banner.ProgressEventSource, enumerationCompleted: true, FileSystemStatusCode.InProgress);
+
+			// Link CancellationTokens
+			using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, banner.CancellationToken);
+			var token = linkedCts.Token;
+
+			var fetchOptions = new FetchOptions
 			{
-				_fetchOptions.CredentialsProvider = (url, user, cred)
-					=> new UsernamePasswordCredentials
+				CredentialsProvider = CredentialsHandler,
+				OnTransferProgress = (progress) =>
+				{
+					if (token.IsCancellationRequested)
+						return false;
+
+					// Ensure StatusCenter updates are dispatched to the UI thread
+					MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 					{
-						Username = signature.Name,
-						Password = token
-					};
-			}
+						if (progress.TotalObjects > 0)
+						{
+							fsProgress.ItemsCount = progress.TotalObjects;
+							fsProgress.SetProcessedSize(progress.ReceivedBytes);
+							fsProgress.AddProcessedItemsCount(progress.ReceivedObjects);
+							fsProgress.Report((int)((progress.ReceivedObjects / (double)progress.TotalObjects) * 100));
+						}
+					});
+					return true;
+				},
+				Prune = true // Restore Prune behavior as requested in PR review
+			};
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
 				IsExecutingGitAction = true;
 			});
 
-			await DoGitOperationAsync<GitOperationResult>(() =>
+			var result = await DoGitOperationAsync<GitOperationResult>(() =>
 			{
-				cancellationToken.ThrowIfCancellationRequested();
-
-				var result = GitOperationResult.Success;
 				try
 				{
+					token.ThrowIfCancellationRequested();
+
+					// Iterate remotes (though usually only one matters for progress, we'll fetch all)
 					foreach (var remote in repository.Network.Remotes)
 					{
-						cancellationToken.ThrowIfCancellationRequested();
+						token.ThrowIfCancellationRequested();
 
 						LibGit2Sharp.Commands.Fetch(
 							repository,
 							remote.Name,
 							remote.FetchRefSpecs.Select(rs => rs.Specification),
-							_fetchOptions,
+							fetchOptions,
 							"git fetch updated a ref");
 					}
 
-					cancellationToken.ThrowIfCancellationRequested();
+					token.ThrowIfCancellationRequested();
+					return GitOperationResult.Success;
+				}
+				catch (LibGit2SharpException e)
+				{
+					MainWindow.Instance.DispatcherQueue.TryEnqueue(async () =>
+					{
+						var dialog = new DynamicDialog(new DynamicDialogViewModel
+						{
+							TitleText = Strings.GitError.GetLocalizedResource(),
+							SubtitleText = e.Message,
+							CloseButtonText = Strings.Close.GetLocalizedResource(),
+							DynamicButtons = DynamicDialogButtons.Cancel
+						});
+						await dialog.TryShowAsync();
+					});
+					return GitOperationResult.GenericError;
 				}
 				catch (Exception ex)
 				{
-					result = IsAuthorizationException(ex)
+					return IsAuthorizationException(ex)
 						? GitOperationResult.AuthorizationError
 						: GitOperationResult.GenericError;
 				}
-
-				return result;
 			});
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
-				if (cancellationToken.IsCancellationRequested)
-					// Do nothing because the operation was cancelled and another fetch may be in progress
+				StatusCenterViewModel.RemoveItem(banner);
+				StatusCenterHelper.AddCard_GitFetch(
+					remoteName,
+					result == GitOperationResult.Success ? ReturnResult.Success : ReturnResult.Failed);
+			});
+
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			{
+				if (token.IsCancellationRequested)
 					return;
 
 				IsExecutingGitAction = false;
@@ -431,17 +470,40 @@ namespace Files.App.Utils.Git
 			if (signature is null)
 				return;
 
-			var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
-			if (!string.IsNullOrWhiteSpace(token))
+			var branchName = repository.Head.FriendlyName;
+			// We use 'origin' as generic remote name for display, though pull might use upstream
+			var remoteName = "origin";
+
+			// Add Status Center Card
+			var banner = StatusCenterHelper.AddCard_GitPull(remoteName, branchName, ReturnResult.InProgress);
+			var fsProgress = new StatusCenterItemProgressModel(banner.ProgressEventSource, enumerationCompleted: true, FileSystemStatusCode.InProgress);
+			var token = banner.CancellationToken;
+
+			var pullOptions = new PullOptions
 			{
-				_pullOptions.FetchOptions ??= _fetchOptions;
-				_pullOptions.FetchOptions.CredentialsProvider = (url, user, cred)
-					=> new UsernamePasswordCredentials
+				FetchOptions = new FetchOptions
+				{
+					CredentialsProvider = CredentialsHandler,
+					OnTransferProgress = (progress) =>
 					{
-						Username = signature.Name,
-						Password = token
-					};
-			}
+						if (token.IsCancellationRequested)
+							return false;
+
+						// Ensure StatusCenter updates are dispatched to the UI thread
+						MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+						{
+							if (progress.TotalObjects > 0)
+							{
+								fsProgress.ItemsCount = progress.TotalObjects;
+								fsProgress.SetProcessedSize(progress.ReceivedBytes);
+								fsProgress.AddProcessedItemsCount(progress.ReceivedObjects);
+								fsProgress.Report((int)((progress.ReceivedObjects / (double)progress.TotalObjects) * 100));
+							}
+						});
+						return true;
+					}
+				}
+			};
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
@@ -452,10 +514,41 @@ namespace Files.App.Utils.Git
 			{
 				try
 				{
+					// LibGit2Sharp Pull doesn't take CancellationToken explicitly in all overloads, rely on callbacks
 					LibGit2Sharp.Commands.Pull(
 						repository,
 						signature,
-						_pullOptions);
+						pullOptions);
+				}
+				catch (CheckoutConflictException)
+				{
+					MainWindow.Instance.DispatcherQueue.TryEnqueue(async () =>
+					{
+						var dialog = new DynamicDialog(new DynamicDialogViewModel
+						{
+							TitleText = Strings.GitError.GetLocalizedResource(),
+							SubtitleText = Strings.GitError_UncommittedChanges.GetLocalizedResource(),
+							CloseButtonText = Strings.Close.GetLocalizedResource(),
+							DynamicButtons = DynamicDialogButtons.Cancel
+						});
+						await dialog.TryShowAsync();
+					});
+					return GitOperationResult.GenericError;
+				}
+				catch (LibGit2SharpException e)
+				{
+					MainWindow.Instance.DispatcherQueue.TryEnqueue(async () =>
+					{
+						var dialog = new DynamicDialog(new DynamicDialogViewModel
+						{
+							TitleText = Strings.GitError.GetLocalizedResource(),
+							SubtitleText = e.Message,
+							CloseButtonText = Strings.Close.GetLocalizedResource(),
+							DynamicButtons = DynamicDialogButtons.Cancel
+						});
+						await dialog.TryShowAsync();
+					});
+					return GitOperationResult.GenericError;
 				}
 				catch (Exception ex)
 				{
@@ -465,6 +558,12 @@ namespace Files.App.Utils.Git
 				}
 
 				return GitOperationResult.Success;
+			});
+
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			{
+				StatusCenterViewModel.RemoveItem(banner);
+				StatusCenterHelper.AddCard_GitPull(remoteName, branchName, result == GitOperationResult.Success ? ReturnResult.Success : ReturnResult.Failed);
 			});
 
 			if (result is GitOperationResult.AuthorizationError)
@@ -487,6 +586,10 @@ namespace Files.App.Utils.Git
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
 				IsExecutingGitAction = false;
+				if (result == GitOperationResult.Success)
+				{
+					GitFetchCompleted?.Invoke(null, EventArgs.Empty);
+				}
 			});
 		}
 
@@ -500,21 +603,31 @@ namespace Files.App.Utils.Git
 			if (signature is null)
 				return;
 
-			var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
-			if (string.IsNullOrWhiteSpace(token))
+			// Add Status Center Card
+			var banner = StatusCenterHelper.AddCard_GitPush("origin", branchName, ReturnResult.InProgress);
+			var fsProgress = new StatusCenterItemProgressModel(banner.ProgressEventSource, enumerationCompleted: true, FileSystemStatusCode.InProgress);
+			banner.CancellationToken.Register(() =>
 			{
-				await RequireGitAuthenticationAsync();
-				token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
-			}
+				// Handle cancellation if needed, though LibGit2Sharp might not support seamless cancellation mid-push easily without callback
+			});
 
 			var options = new PushOptions()
 			{
-				CredentialsProvider = (url, user, cred)
-					=> new UsernamePasswordCredentials
+				CredentialsProvider = CredentialsHandler,
+				OnPushTransferProgress = (current, total, bytes) =>
+				{
+					if (banner.CancellationToken.IsCancellationRequested)
+						return false; // Cancel
+
+					if (total > 0)
 					{
-						Username = signature.Name,
-						Password = token
+						fsProgress.ItemsCount = total;
+						fsProgress.SetProcessedSize(bytes);
+						fsProgress.AddProcessedItemsCount(1); // Not accurate but shows activity
+						fsProgress.Report((int)((current / (double)total) * 100));
 					}
+					return true;
+				}
 			};
 
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
@@ -522,6 +635,7 @@ namespace Files.App.Utils.Git
 				IsExecutingGitAction = true;
 			});
 
+			GitOperationResult result = GitOperationResult.GenericError;
 			try
 			{
 				var branch = repository.Branches[branchName];
@@ -534,10 +648,13 @@ namespace Files.App.Utils.Git
 						b => b.UpstreamBranch = branch.CanonicalName);
 				}
 
-				var result = await DoGitOperationAsync<GitOperationResult>(() =>
+				result = await DoGitOperationAsync<GitOperationResult>(() =>
 				{
 					try
 					{
+						if (banner.CancellationToken.IsCancellationRequested)
+							return GitOperationResult.GenericError; // Or Cancelled
+
 						repository.Network.Push(branch, options);
 					}
 					catch (Exception ex)
@@ -558,9 +675,22 @@ namespace Files.App.Utils.Git
 				_logger.LogWarning(ex.Message);
 			}
 
+			// Remove InProgress Card
+			StatusCenterViewModel.RemoveItem(banner);
+
+			// Add Result Card
+			StatusCenterHelper.AddCard_GitPush(
+				"origin",
+				branchName,
+				result == GitOperationResult.Success ? ReturnResult.Success : ReturnResult.Failed);
+
 			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
 			{
 				IsExecutingGitAction = false;
+				if (result == GitOperationResult.Success)
+				{
+					GitFetchCompleted?.Invoke(null, EventArgs.Empty);
+				}
 			});
 		}
 
@@ -858,25 +988,29 @@ namespace Files.App.Utils.Git
 		{
 			return
 				ex.Message.Contains("status code: 401", StringComparison.OrdinalIgnoreCase) ||
-				ex.Message.Contains("authentication replays", StringComparison.OrdinalIgnoreCase);
+				ex.Message.Contains("authentication replays", StringComparison.OrdinalIgnoreCase) ||
+				ex.Message.Contains("authentication failed", StringComparison.OrdinalIgnoreCase) ||
+				ex.Message.Contains("user cancelled", StringComparison.OrdinalIgnoreCase);
 		}
 
 		private static async Task<T?> DoGitOperationAsync<T>(Func<object> payload, bool useSemaphore = false)
 		{
-			if (useSemaphore)
-				await GitOperationSemaphore.WaitAsync();
-			else
-				await Task.Yield();
-
-			try
-			{
-				return (T)payload();
-			}
-			finally
+			// Offload to background thread to prevent UI freeze
+			return await Task.Run(async () =>
 			{
 				if (useSemaphore)
-					GitOperationSemaphore.Release();
-			}
+					await GitOperationSemaphore.WaitAsync();
+
+				try
+				{
+					return (T)payload();
+				}
+				finally
+				{
+					if (useSemaphore)
+						GitOperationSemaphore.Release();
+				}
+			});
 		}
 
 		/// <summary>
@@ -891,11 +1025,21 @@ namespace Files.App.Utils.Git
 			if (!match.Success)
 				return (string.Empty, string.Empty);
 
-			string platform = match.Groups["domain"].Value;
+			string domain = match.Groups["domain"].Value;
 			string userOrOrg = match.Groups["user"].Value;
 			string repoName = match.Groups["repo"].Value;
+			string protocol = match.Groups["protocol"].Value;
 
-			string repoUrl = $"https://{platform}.com/{userOrOrg}/{repoName}";
+			string repoUrl;
+			if (protocol.Contains("@"))
+			{
+				repoUrl = $"git@{domain}.com:{userOrOrg}/{repoName}.git";
+			}
+			else
+			{
+				repoUrl = $"https://{domain}.com/{userOrOrg}/{repoName}";
+			}
+
 			return (repoUrl, repoName);
 		}
 
@@ -923,6 +1067,7 @@ namespace Files.App.Utils.Git
 					{
 						FetchOptions =
 						{
+							CredentialsProvider = CredentialsHandler,
 							OnTransferProgress = progress =>
 							{
 								banner.CancellationToken.ThrowIfCancellationRequested();
@@ -965,7 +1110,28 @@ namespace Files.App.Utils.Git
 				ReturnResult.Failed);
 		}
 
-		[GeneratedRegex(@"^(?:https?:\/\/)?(?:www\.)?(?<domain>github|gitlab)\.com\/(?<user>[^\/]+)\/(?<repo>[^\/]+?)(?=\.git|\/|$)(?:\.git)?(?:\/)?", RegexOptions.IgnoreCase)]
+		[GeneratedRegex(@"^(?:(?<protocol>https?:\/\/)?(?:www\.)?|(?<protocol>git@))(?<domain>github|gitlab)\.com(?:\/|:)(?<user>[^\/]+)\/(?<repo>[^\/]+?)(?=\.git|\/|$)(?:\.git)?(?:\/)?", RegexOptions.IgnoreCase)]
 		private static partial Regex GitHubRepositoryRegex();
+
+		private static Credentials? CredentialsHandler(string url, string usernameFromUrl, SupportedCredentialTypes types)
+		{
+			if (types.HasFlag(SupportedCredentialTypes.UsernamePassword))
+			{
+				var token = CredentialsHelpers.GetPassword(GIT_RESOURCE_NAME, GIT_RESOURCE_USERNAME);
+				if (!string.IsNullOrWhiteSpace(token))
+				{
+					return new UsernamePasswordCredentials
+					{
+						Username = "Personal Access Token",
+						Password = token
+					};
+				}
+			}
+
+			// For SSH or other types, return null to let LibGit2/OpenSSH handle it natively (e.g. via ssh-agent)
+			return null;
+		}
+
+
 	}
 }
