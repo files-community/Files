@@ -161,6 +161,41 @@
 				</ToggleSwitch>
 			</wctcontrols:SettingsCard>
 
+			<!--  Thumbnail Caching  -->
+			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=CacheThumbnails}" IsExpanded="False">
+				<wctcontrols:SettingsExpander.HeaderIcon>
+					<FontIcon Glyph="&#xEDA2;" />
+				</wctcontrols:SettingsExpander.HeaderIcon>
+				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=CacheThumbnails}" IsOn="{x:Bind ViewModel.EnableThumbnailCache, Mode=TwoWay}" />
+				<wctcontrols:SettingsExpander.Items>
+
+					<!--  Cache Size Limit  -->
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=CacheSizeLimit}" IsEnabled="{x:Bind ViewModel.EnableThumbnailCache, Mode=OneWay}">
+						<wctcontrols:SettingsCard.Description>
+							<TextBlock Text="{helpers:ResourceString Name=CacheSizeLimitDescription}" TextWrapping="WrapWholeWords" />
+						</wctcontrols:SettingsCard.Description>
+						<NumberBox
+							AutomationProperties.Name="{helpers:ResourceString Name=CacheSizeLimit}"
+							Maximum="5000"
+							Minimum="100"
+							SpinButtonPlacementMode="Inline"
+							Value="{x:Bind ViewModel.ThumbnailCacheSizeLimit, Mode=TwoWay}" />
+					</wctcontrols:SettingsCard>
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ClearCachedThumbnails}" IsEnabled="{x:Bind ViewModel.EnableThumbnailCache, Mode=OneWay}">
+						<wctcontrols:SettingsCard.Description>
+							<TextBlock>
+								<Run Text="{helpers:ResourceString Name=CurrentCacheSize}" />
+								<Run FontWeight="SemiBold" Text="{x:Bind ViewModel.CacheSizeText, Mode=OneWay}" />
+							</TextBlock>
+						</wctcontrols:SettingsCard.Description>
+						<Button
+							Command="{x:Bind ViewModel.ClearThumbnailCacheCommand}"
+							Content="{helpers:ResourceString Name=ClearCache}"
+							IsEnabled="{x:Bind ViewModel.IsClearCacheButtonEnabled, Mode=OneWay}" />
+					</wctcontrols:SettingsCard>
+				</wctcontrols:SettingsExpander.Items>
+			</wctcontrols:SettingsExpander>
+
 			<!--  Flatten options  -->
 			<wctcontrols:SettingsCard Description="{helpers:ResourceString Name=ShowFlattenOptionsDescription}" Header="{helpers:ResourceString Name=ShowFlattenOptions}">
 				<wctcontrols:SettingsCard.HeaderIcon>
@@ -169,5 +204,6 @@
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowFlattenOptions}" IsOn="{x:Bind ViewModel.ShowFlattenOptions, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 		</StackPanel>
+
 	</Grid>
 </Page>

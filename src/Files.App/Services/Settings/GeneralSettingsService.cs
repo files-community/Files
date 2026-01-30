@@ -387,10 +387,21 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		/// <inheritdoc/>
+		public bool EnableThumbnailCache
+    {
+			get => Get(true);
+			set => Set(value);
+		}
+
 		public bool EnableSmoothScrolling
 		{
 			get => Get(true);
+			set => Set(value);
+		}
+
+		public double ThumbnailCacheSizeLimit
+		{
+			get => Get(512d);
 			set => Set(value);
 		}
 

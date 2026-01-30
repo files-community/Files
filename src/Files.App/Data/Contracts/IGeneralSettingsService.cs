@@ -316,6 +316,15 @@ namespace Files.App.Data.Contracts
 		bool ShowFilterHeader { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether thumbnail cache should be enabled.
+		/// </summary>
+		bool EnableThumbnailCache { get; set; }
+
+		/// <summary>
+		/// Gets or sets the thumbnail cache size limit in MB.
+		/// </summary>
+		double ThumbnailCacheSizeLimit { get; set; }
+    
 		/// Gets or sets a value indicating whether smooth scrolling is enabled.
 		/// </summary>
 		bool EnableSmoothScrolling { get; set; }

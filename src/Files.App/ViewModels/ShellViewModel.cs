@@ -59,6 +59,7 @@ namespace Files.App.ViewModels
 		private readonly IStorageCacheService fileListCache = Ioc.Default.GetRequiredService<IStorageCacheService>();
 		private readonly IWindowsSecurityService WindowsSecurityService = Ioc.Default.GetRequiredService<IWindowsSecurityService>();
 		private readonly IStorageTrashBinService StorageTrashBinService = Ioc.Default.GetRequiredService<IStorageTrashBinService>();
+		private readonly IShellChangeNotifyService shellChangeNotifyService = Ioc.Default.GetRequiredService<IShellChangeNotifyService>();
 		private readonly IContentPageContext ContentPageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		// Only used for Binding and ApplyFilesAndFoldersChangesAsync, don't manipulate on this!
@@ -1071,15 +1072,15 @@ namespace Files.App.ViewModels
 			{
 				if (!returnIconOnly)
 				{
-					// Get cached thumbnail
-					result = await FileThumbnailHelper.GetIconAsync(
+					// Check own cache first without hitting Shell API
+					result = await FileThumbnailHelper.GetCachedIconAsync(
 							item.ItemPath,
 							thumbnailSize,
 							item.IsFolder,
-							IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
+							IconOptions.ReturnThumbnailOnly | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
 
 					cancellationToken.ThrowIfCancellationRequested();
-					loadNonCachedThumbnail = true;
+					loadNonCachedThumbnail = result is null;
 				}
 
 				if (result is null)
@@ -1365,21 +1366,7 @@ namespace Files.App.ViewModels
 							SetFileTag(item);
 						});
 					}
-					else
-					{
-						// Try loading thumbnail for cloud files in case they weren't cached the first time
-						if (item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.NotSynced && item.SyncStatusUI.SyncStatus != CloudDriveSyncStatus.Unknown)
-						{
-							_ = Task.Run(async () =>
-							{
-								await Task.Delay(500);
-								cts.Token.ThrowIfCancellationRequested();
-								await LoadThumbnailAsync(item, cts.Token);
-							});
-						}
-					}
-
-					if (loadGroupHeaderInfo)
+						if (loadGroupHeaderInfo)
 					{
 						cts.Token.ThrowIfCancellationRequested();
 						await SafetyExtensions.IgnoreExceptions(() =>
@@ -1655,7 +1642,10 @@ namespace Files.App.ViewModels
 					});
 
 					if (!HasNoWatcher)
+					{
 						WatchForDirectoryChanges(path, syncStatus);
+						StartShellChangeNotifications(path);
+					}
 					if (IsValidGitDirectory)
 						WatchForGitChanges();
 					break;
@@ -2152,6 +2142,44 @@ namespace Files.App.ViewModels
 				watcher.Renamed += DirectoryWatcher_Changed;
 				watcher.EnableRaisingEvents = true;
 			}, App.Logger);
+		}
+
+		private void StartShellChangeNotifications(string path)
+		{
+			shellChangeNotifyService.ItemUpdated += OnShellItemUpdated;
+			shellChangeNotifyService.AttributesChanged += OnShellAttributesChanged;
+			shellChangeNotifyService.StartMonitoring(path);
+
+			watcherCTS.Token.Register(() =>
+			{
+				shellChangeNotifyService.ItemUpdated -= OnShellItemUpdated;
+				shellChangeNotifyService.AttributesChanged -= OnShellAttributesChanged;
+				shellChangeNotifyService.StopMonitoring();
+			});
+		}
+
+		private async void OnShellItemUpdated(string path)
+		{
+			var item = filesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(path, StringComparison.OrdinalIgnoreCase));
+			if (item is not null)
+			{
+				await LoadThumbnailAsync(item, loadPropsCTS.Token);
+				return;
+			}
+
+			await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+			{
+				RefreshItems(null);
+			});
+		}
+
+		private async void OnShellAttributesChanged(string path)
+		{
+			var item = filesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(path, StringComparison.OrdinalIgnoreCase));
+			if (item is null)
+				return;
+
+			await LoadThumbnailAsync(item, loadPropsCTS.Token);
 		}
 
 		private async void DirectoryWatcher_Changed(object sender, FileSystemEventArgs e)
@@ -2806,6 +2834,9 @@ namespace Files.App.ViewModels
 			fileTagsSettingsService.OnTagsUpdated -= FileTagsSettingsService_OnSettingUpdated;
 			folderSizeProvider.SizeChanged -= FolderSizeProvider_SizeChanged;
 			folderSettings.LayoutModeChangeRequested -= LayoutModeChangeRequested;
+			shellChangeNotifyService.ItemUpdated -= OnShellItemUpdated;
+			shellChangeNotifyService.AttributesChanged -= OnShellAttributesChanged;
+			shellChangeNotifyService.StopMonitoring();
 		}
 	}
 
