@@ -265,6 +265,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IStorageArchiveService, StorageArchiveService>()
 					.AddSingleton<IStorageSecurityService, StorageSecurityService>()
 					.AddSingleton<IWindowsCompatibilityService, WindowsCompatibilityService>()
+					.AddSingleton<IShellChangeNotifyService, ShellChangeNotifyService>()
 					.AddSingleton<IThumbnailCache, ThumbnailCache>()
 					.AddSingleton<IThumbnailGenerator, ShellApiThumbnailGenerator>()
 					.AddSingleton<IThumbnailService, ThumbnailService>()
