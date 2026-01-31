@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.App.ViewModels.Properties;
@@ -33,9 +33,6 @@ namespace Files.App.ViewModels.Previews
 			: base(item)
 		{
 		}
-
-		public static bool ContainsExtension(string extension)
-			=> extension is ".pdf";
 
 		public async override Task<List<FileProperty>> LoadPreviewAndDetailsAsync()
 		{
