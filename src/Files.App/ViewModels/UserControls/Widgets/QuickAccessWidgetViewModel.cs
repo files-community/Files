@@ -208,7 +208,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			unsafe
 			{
-				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, (IUnknown*)folderCardItem.Item.ThisPtr, out agileReference);
+				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, folderCardItem.Item.ThisPtr, out agileReference);
 			}
 
 			// Pin to Quick Access on Windows
@@ -238,7 +238,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			unsafe
 			{
-				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, (IUnknown*)folderCardItem.Item.ThisPtr, out agileReference);
+				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, folderCardItem.Item.ThisPtr, out agileReference);
 			}
 
 			// Unpin from Quick Access on Windows
@@ -248,7 +248,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				{
 					hr = agileReference.Resolve(IID.IID_IShellItem, out var itemObj);
 					var item = (IShellItem)itemObj;
-					using var windowsFile = new WindowsFile(pShellItem);
+					using var windowsFile = new WindowsFile(item);
 
 					// NOTE: "unpinfromhome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CRemoveFromFrequentPlacesExecute : public IExecuteCommand, ...
 					// NOTE: "remove" is for some shell folders where the "unpinfromhome" may not work

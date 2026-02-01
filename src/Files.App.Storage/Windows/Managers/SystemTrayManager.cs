@@ -22,7 +22,7 @@ namespace Files.App.Storage
 		Action<uint> _callback = null!;
 
 		private HWND _hWnd = default;
-		private WNDPROC? _wndProc;
+		private WndProcDelegate? _wndProc;
 		private uint _dwTaskbarRestartMsgId;
 		private bool _isShown;
 
@@ -96,7 +96,7 @@ namespace Files.App.Storage
 		{
 			fixed (char* pszWndClassName = szWndClassName)
 			{
-				_wndProc = (WNDPROC)&WndProc;
+				_wndProc ??= new(WndProc);
 
 				WNDCLASSEXW wndClass = default;
 
@@ -104,7 +104,8 @@ namespace Files.App.Storage
 				wndClass.style = WNDCLASS_STYLES.CS_DBLCLKS;
 				wndClass.hInstance = PInvoke.GetModuleHandle(default(PCWSTR));
 				wndClass.lpszClassName = pszWndClassName;
-				wndClass.lpfnWndProc = _wndProc;
+				wndClass.lpfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)
+					Marshal.GetFunctionPointerForDelegate(_wndProc);
 
 				PInvoke.RegisterClassEx(&wndClass);
 

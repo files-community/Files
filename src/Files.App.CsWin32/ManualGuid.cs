@@ -58,8 +58,8 @@ namespace Windows.Win32
 		public static partial Guid* IID_IShellExtInit { get; }
 
 		[GuidRVAGen.Guid("000214F4-0000-0000-C000-000000000046")]
-			public static partial Guid* IID_IContextMenu2 { get; }
-		}
+		public static partial Guid* IID_IContextMenu2 { get; }
+	}
 
 	public static unsafe partial class CLSID
 	{

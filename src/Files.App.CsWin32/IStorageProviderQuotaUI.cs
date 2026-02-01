@@ -8,7 +8,7 @@ using Windows.Win32.Foundation;
 
 namespace Windows.Win32.System.WinRT
 {
-	[GeneratedComInterface, InterfaceType(ComInterfaceType.InterfaceIsIUnknown), Guid("12E46B74-4E5A-58D1-A62F-0376E8EE7DD8")]
+	[GeneratedComInterface, InterfaceType(ComInterfaceType.InterfaceIsIUnknown), Guid("BA6295C3-312E-544F-9FD5-1F81B21F3649")]
 	public partial interface IStorageProviderQuotaUI
 	{
 		// Slot: 3

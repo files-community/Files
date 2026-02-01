@@ -31,7 +31,7 @@ namespace Files.App.ViewModels.Previews
 		ContentExternalOutputLink? _contentExternalOutputLink;
 		PreviewHandler? _previewHandler;
 		WNDCLASSEXW _windowClass;
-		WNDPROC _windProc = null!;
+		WndProcDelegate _windProc = null!;
 		HWND _hWnd = HWND.Null;
 		bool _isOfficePreview = false;
 
