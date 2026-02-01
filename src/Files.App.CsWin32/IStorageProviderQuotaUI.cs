@@ -1,21 +1,44 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Attributes;
 using System;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 using Windows.Win32.Foundation;
 
 namespace Windows.Win32.System.WinRT
 {
-	public unsafe partial struct IStorageProviderQuotaUI : IComIID
+	[GeneratedComInterface, InterfaceType(ComInterfaceType.InterfaceIsIUnknown), Guid("12E46B74-4E5A-58D1-A62F-0376E8EE7DD8")]
+	public partial interface IStorageProviderQuotaUI
 	{
-		[GeneratedVTableFunction(Index = 6)]
-		public partial HRESULT GetQuotaTotalInBytes(ulong* value);
+		// Slot: 3
+		[PreserveSig]
+		[return: MarshalAs(UnmanagedType.Error)]
+		HRESULT GetIids(out uint iidCount, out nint iids);
 
-		[GeneratedVTableFunction(Index = 8)]
-		public partial HRESULT GetQuotaUsedInBytes(ulong* value);
+		// Slot: 4
+		[PreserveSig]
+		[return: MarshalAs(UnmanagedType.Error)]
+		HRESULT GetRuntimeClassName(out HSTRING className);
 
-		[GuidRVAGen.Guid("BA6295C3-312E-544F-9FD5-1F81B21F3649")]
-		public static partial ref readonly Guid Guid { get; }
+		// Slot: 5
+		[PreserveSig]
+		[return: MarshalAs(UnmanagedType.Error)]
+		HRESULT GetTrustLevel(out TrustLevel trustLevel);
+
+		// Slot: 6
+		[PreserveSig]
+		[return: MarshalAs(UnmanagedType.Error)]
+		HRESULT get_QuotaTotalInBytes(out ulong value);
+
+		// Slot: 7
+		[PreserveSig]
+		[return: MarshalAs(UnmanagedType.Error)]
+		HRESULT put_QuotaTotalInBytes(ulong value);
+
+		// Slot: 8
+		[PreserveSig]
+		[return: MarshalAs(UnmanagedType.Error)]
+		HRESULT get_QuotaUsedInBytes(out ulong value);
 	}
 }

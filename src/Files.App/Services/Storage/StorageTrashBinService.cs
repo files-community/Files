@@ -101,38 +101,39 @@ namespace Files.App.Services
 		private unsafe bool RestoreAllTrashesInternal()
 		{
 			// Get IShellItem for Recycle Bin folder
-			using ComPtr<IShellItem> pRecycleBinFolderShellItem = default;
-			HRESULT hr = PInvoke.SHGetKnownFolderItem(FOLDERID.FOLDERID_RecycleBinFolder, KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, HANDLE.Null, IID.IID_IShellItem, (void**)pRecycleBinFolderShellItem.GetAddressOf());
+			HRESULT hr = PInvoke.SHGetKnownFolderItem(FOLDERID.FOLDERID_RecycleBinFolder, KNOWN_FOLDER_FLAG.KF_FLAG_DEFAULT, hToken: HANDLE.Null, IID.IID_IShellItem, out var recycleBinFolderObj);
+			var recycleBinFolder = (IShellItem)recycleBinFolderObj;
 
 			// Get IEnumShellItems for Recycle Bin folder
-			using ComPtr<IEnumShellItems> pEnumShellItems = default;
-			hr = pRecycleBinFolderShellItem.Get()->BindToHandler(null, BHID.BHID_EnumItems, IID.IID_IEnumShellItems, (void**)pEnumShellItems.GetAddressOf());
+			hr = recycleBinFolder.BindToHandler(null, BHID.BHID_EnumItems, IID.IID_IEnumShellItems, out var enumShellItemsObj);
+			var enumShellItems = (IEnumShellItems)enumShellItemsObj;
 
 			// Initialize how to perform the operation
-			using ComPtr<IFileOperation> pFileOperation = default;
-			hr = PInvoke.CoCreateInstance(CLSID.CLSID_FileOperation, null, CLSCTX.CLSCTX_LOCAL_SERVER, IID.IID_IFileOperation, (void**)pFileOperation.GetAddressOf());
-			hr = pFileOperation.Get()->SetOperationFlags(FILEOPERATION_FLAGS.FOF_NO_UI);
-			hr = pFileOperation.Get()->SetOwnerWindow(new(MainWindow.Instance.WindowHandle));
+			hr = PInvoke.CoCreateInstance(CLSID.CLSID_FileOperation, null, CLSCTX.CLSCTX_LOCAL_SERVER, IID.IID_IFileOperation, out var fileOperationObj);
+			var fileOperation = (IFileOperation)fileOperationObj;
+			hr = fileOperation.SetOperationFlags(FILEOPERATION_FLAGS.FOF_NO_UI);
+			hr = fileOperation.SetOwnerWindow(new(MainWindow.Instance.WindowHandle));
 
-			using ComPtr<IShellItem> pShellItem = default;
-			while (pEnumShellItems.Get()->Next(1, pShellItem.GetAddressOf()) == HRESULT.S_OK)
+			var childItemArray = new IShellItem[1];
+			while (enumShellItems.Next(1, childItemArray) == HRESULT.S_OK)
 			{
+				IShellItem childItem = childItemArray[0];
+
 				// Get the original path
-				using ComPtr<IShellItem2> pShellItem2 = default;
-				hr = pShellItem.Get()->QueryInterface(IID.IID_IShellItem2, (void**)pShellItem2.GetAddressOf());
+				IShellItem2 childItem2 = (IShellItem2)childItem;
 				hr = PInvoke.PSGetPropertyKeyFromName("System.Recycle.DeletedFrom", out var originalPathPropertyKey);
-				hr = pShellItem2.Get()->GetString(originalPathPropertyKey, out var szOriginalPath);
+				hr = childItem2.GetString(originalPathPropertyKey, out var originalPath);
 
 				// Get IShellItem of the original path
-				hr = PInvoke.SHCreateItemFromParsingName(szOriginalPath.ToString(), null, typeof(IShellItem).GUID, out var pOriginalPathShellItemPtr);
-				var pOriginalPathShellItem = (IShellItem*)pOriginalPathShellItemPtr;
+				hr = PInvoke.SHCreateItemFromParsingName(originalPath.ToString(), null, typeof(IShellItem).GUID, out var originalPathItemObj);
+				var originalPathItem = (IShellItem)originalPathItemObj;
 
 				// Define the shell item to restore
-				hr = pFileOperation.Get()->MoveItem(pShellItem.Get(), pOriginalPathShellItem, default(PCWSTR), null);
+				hr = fileOperation.MoveItem(childItem, originalPathItem, default, null);
 			}
 
 			// Perform
-			hr = pFileOperation.Get()->PerformOperations();
+			hr = fileOperation.PerformOperations();
 
 			// Reset the icon
 			PInvoke.SHUpdateRecycleBinIcon();

@@ -62,24 +62,6 @@ namespace Windows.Win32
 			return (T**)Unsafe.AsPointer(ref Unsafe.AsRef(in this));
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public readonly HRESULT As<U>(U** other) where U : unmanaged, IComIID
-		{
-			return ((IUnknown*)_ptr)->QueryInterface((Guid*)Unsafe.AsPointer(ref Unsafe.AsRef(in U.Guid)), (void**)other);
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public readonly HRESULT As<U>(Guid* riid, IUnknown** other) where U : unmanaged, IComIID
-		{
-			return ((IUnknown*)_ptr)->QueryInterface(riid, (void**)other);
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public readonly HRESULT CoCreateInstance(Guid* rclsid, IUnknown* pUnkOuter = null, CLSCTX dwClsContext = CLSCTX.CLSCTX_LOCAL_SERVER)
-		{
-			return PInvoke.CoCreateInstance(rclsid, pUnkOuter, dwClsContext, (Guid*)Unsafe.AsPointer(ref Unsafe.AsRef(in T.Guid)), (void**)this.GetAddressOf());
-		}
-
 		// Disposer
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]

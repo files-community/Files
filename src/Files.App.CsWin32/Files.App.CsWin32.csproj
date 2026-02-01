@@ -11,6 +11,7 @@
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
         <IsAotCompatible>true</IsAotCompatible>
         <DisableRuntimeMarshalling>true</DisableRuntimeMarshalling>
+        <CsWin32RunAsBuildTask>true</CsWin32RunAsBuildTask>
     </PropertyGroup>
 
     <ItemGroup>
