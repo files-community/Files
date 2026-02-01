@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+IActivationFactory
 WNDPROC
 WNDCLASSEXW
 RegisterClassEx
