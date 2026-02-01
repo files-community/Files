@@ -50,21 +50,32 @@ namespace Files.App.ViewModels.Properties
 
 		public override async Task GetSpecialPropertiesAsync()
 		{
-			if (List.All(x => x.PrimaryItemAttribute == StorageItemTypes.File))
+			bool allFiles = true, allReadOnly = true, allNotReadOnly = true, allHidden = true, allNotHidden = true;
+			foreach (var x in List)
 			{
-				var fileAttributesReadOnly = List.Select(x => Win32Helper.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.ReadOnly));
-				if (fileAttributesReadOnly.All(x => x))
+				allFiles &= x.PrimaryItemAttribute == StorageItemTypes.File;
+				var fileAttributes = Win32Helper.GetFileAttributes(x.ItemPath);
+				bool isReadOnly = fileAttributes.HasFlag(System.IO.FileAttributes.ReadOnly);
+				allReadOnly &= isReadOnly;
+				allNotReadOnly &= !isReadOnly;
+				bool isHidden = fileAttributes.HasFlag(System.IO.FileAttributes.Hidden);
+				allHidden &= isHidden;
+				allNotHidden &= !isHidden;
+			}
+			
+			if (allFiles)
+			{
+				if (allReadOnly)
 					ViewModel.IsReadOnly = true;
-				else if (!fileAttributesReadOnly.Any(x => x))
+				else if (allNotReadOnly)
 					ViewModel.IsReadOnly = false;
 				else
 					ViewModel.IsReadOnly = null;
 			}
 
-			var fileAttributesHidden = List.Select(x => Win32Helper.HasFileAttribute(x.ItemPath, System.IO.FileAttributes.Hidden));
-			if (fileAttributesHidden.All(x => x))
+			if (allHidden)
 				ViewModel.IsHidden = true;
-			else if (!fileAttributesHidden.Any(x => x))
+			else if (allNotHidden)
 				ViewModel.IsHidden = false;
 			else
 				ViewModel.IsHidden = null;
@@ -72,13 +83,11 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.LastSeparatorVisibility = false;
 			ViewModel.ItemSizeVisibility = true;
 
-			ViewModel.FilesCount += List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File || x.IsArchive).ToList().Count;
-			ViewModel.FoldersCount += List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive).ToList().Count;
+			ViewModel.FilesCount += List.Count(x => x.PrimaryItemAttribute == StorageItemTypes.File || x.IsArchive);
+			ViewModel.FoldersCount += List.Count(x => x.PrimaryItemAttribute == StorageItemTypes.Folder && !x.IsArchive);
 
-			long totalSize = 0;
 			long filesSize = List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Sum(x => x.FileSizeBytes);
 			long foldersSize = 0;
-			long totalSizeOnDisk = 0;
 			long filesSizeOnDisk = List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File &&
 				x.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline)
 					.Sum(x => Win32Helper.GetFileSizeOnDisk(x.ItemPath) ?? 0);
@@ -96,11 +105,11 @@ namespace Files.App.ViewModels.Properties
 						CloudDriveSyncStatus.FolderOfflinePartial)
 						continue;
 
-					var fileSizeTask = Task.Run(() => CalculateFolderSizeAsync(item.ItemPath, TokenSource.Token));
+					var folderSizeTask = Task.Run(() => CalculateFolderSizeAsync(item.ItemPath, TokenSource.Token));
 
 					try
 					{
-						var folderSize = await fileSizeTask;
+						var folderSize = await folderSizeTask;
 						foldersSize += folderSize.size;
 						foldersSizeOnDisk += folderSize.sizeOnDisk;
 					}
@@ -114,9 +123,9 @@ namespace Files.App.ViewModels.Properties
 			ViewModel.ItemSizeProgressVisibility = false;
 			ViewModel.ItemSizeOnDiskProgressVisibility = false;
 
-			totalSize = filesSize + foldersSize;
+			long totalSize = filesSize + foldersSize;
 			ViewModel.ItemSize = totalSize.ToLongSizeString();
-			totalSizeOnDisk = filesSizeOnDisk + foldersSizeOnDisk;
+			long totalSizeOnDisk = filesSizeOnDisk + foldersSizeOnDisk;
 			ViewModel.ItemSizeOnDisk = totalSizeOnDisk.ToLongSizeString();
 
 			SetItemsCountString();

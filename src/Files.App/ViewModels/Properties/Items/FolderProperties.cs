@@ -74,9 +74,10 @@ namespace Files.App.ViewModels.Properties
 
 		public async override Task GetSpecialPropertiesAsync()
 		{
-			ViewModel.IsHidden = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+			var fileAttributes = Win32Helper.GetFileAttributes(Item.ItemPath);
+			ViewModel.IsHidden = fileAttributes.HasFlag(FileAttributes.Hidden);
 			ViewModel.CanCompressContent = Win32Helper.CanCompressContent(Item.ItemPath);
-			ViewModel.IsContentCompressed = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Compressed);
+			ViewModel.IsContentCompressed = fileAttributes.HasFlag(FileAttributes.Compressed);
 
 			var result = await FileThumbnailHelper.GetIconAsync(
 				Item.ItemPath,

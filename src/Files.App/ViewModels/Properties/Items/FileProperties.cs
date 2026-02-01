@@ -98,8 +98,9 @@ namespace Files.App.ViewModels.Properties
 			var isOnDevice = Item.SyncStatusUI.SyncStatus is not CloudDriveSyncStatus.FileOnline and not CloudDriveSyncStatus.FolderOnline;
 
 			// Set basic file attributes
-			ViewModel.IsReadOnly = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.ReadOnly);
-			ViewModel.IsHidden = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Hidden);
+			FileAttributes fileAttributes = Win32Helper.GetFileAttributes(Item.ItemPath);
+			ViewModel.IsReadOnly = fileAttributes.HasFlag(FileAttributes.ReadOnly);
+			ViewModel.IsHidden = fileAttributes.HasFlag(FileAttributes.Hidden);
 			ViewModel.CanCompressContent = Win32Helper.CanCompressContent(Item.ItemPath);
 			ViewModel.ItemSizeVisibility = true;
 			ViewModel.ItemSize = Item.FileSizeBytes.ToLongSizeString();
@@ -107,7 +108,7 @@ namespace Files.App.ViewModels.Properties
 			// Only check the compressed attribute and size on disk for items on the device
 			if (isOnDevice)
 			{
-				ViewModel.IsContentCompressed = Win32Helper.HasFileAttribute(Item.ItemPath, System.IO.FileAttributes.Compressed);
+				ViewModel.IsContentCompressed = fileAttributes.HasFlag(FileAttributes.Compressed);
 				ViewModel.ItemSizeOnDisk = Win32Helper.GetFileSizeOnDisk(Item.ItemPath)?.ToLongSizeString() ?? string.Empty;
 			}
 
