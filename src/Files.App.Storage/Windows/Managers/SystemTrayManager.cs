@@ -96,7 +96,7 @@ namespace Files.App.Storage
 		{
 			fixed (char* pszWndClassName = szWndClassName)
 			{
-				_wndProc ??= new(WndProc);
+				_wndProc = (WNDPROC)&WndProc;
 
 				WNDCLASSEXW wndClass = default;
 
@@ -104,8 +104,7 @@ namespace Files.App.Storage
 				wndClass.style = WNDCLASS_STYLES.CS_DBLCLKS;
 				wndClass.hInstance = PInvoke.GetModuleHandle(default(PCWSTR));
 				wndClass.lpszClassName = pszWndClassName;
-				wndClass.lpfnWndProc = (delegate* unmanaged[Stdcall]<HWND, uint, WPARAM, LPARAM, LRESULT>)
-					Marshal.GetFunctionPointerForDelegate(_wndProc);
+				wndClass.lpfnWndProc = _wndProc;
 
 				PInvoke.RegisterClassEx(&wndClass);
 
