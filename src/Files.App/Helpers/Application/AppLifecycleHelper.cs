@@ -167,13 +167,12 @@ namespace Files.App.Helpers
 				if (JumpListManager is not null)
 				{
 					HRESULT hr = JumpListManager.PullJumpListFromExplorer();
-					if (hr.Failed) App.Logger.LogWarning("Failed to synchronize jump list unexpectedly.");
+					if (hr.Failed) App.Logger.LogWarning("Failed to synchronizing jump list unexpectedly.");
 
 					bool result = JumpListManager.WatchJumpListChanges(AppUserModelIdCrcHash);
 					if (!result) App.Logger.LogWarning("Failed to watch jump list unexpectedly.");
 
-					JumpListManager.ExplorerJumpListChanged += JumpListManager_JumpListChanged;
-					JumpListManager.FilesJumpListChanged += JumpListManager_JumpListChanged;
+					JumpListManager.FilesJumpListChanged += JumpListManager_FilesJumpListChanged;
 				}
 			},
 			App.Logger);
@@ -189,7 +188,7 @@ namespace Files.App.Helpers
 			generalSettingsService.PropertyChanged += GeneralSettingsService_PropertyChanged;
 		}
 
-		private static void JumpListManager_JumpListChanged(object? sender, EventArgs e)
+		private static void JumpListManager_FilesJumpListChanged(object? sender, EventArgs e)
 		{
 			var quickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
