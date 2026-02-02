@@ -12,10 +12,8 @@ using Microsoft.Win32;
 using Sentry;
 using Sentry.Protocol;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Text;
 using Windows.ApplicationModel;
-using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.System;
 using Windows.Win32.Foundation;
@@ -169,7 +167,7 @@ namespace Files.App.Helpers
 				if (JumpListManager is not null)
 				{
 					HRESULT hr = JumpListManager.PullJumpListFromExplorer();
-					if (hr.Failed) App.Logger.LogWarning("Failed to synchronizing jump list unexpectedly.");
+					if (hr.Failed) App.Logger.LogWarning("Failed to synchronize jump list unexpectedly.");
 
 					bool result = JumpListManager.WatchJumpListChanges(AppUserModelIdCrcHash);
 					if (!result) App.Logger.LogWarning("Failed to watch jump list unexpectedly.");

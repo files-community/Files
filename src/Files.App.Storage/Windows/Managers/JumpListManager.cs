@@ -31,6 +31,8 @@ namespace Files.App.Storage
 		private FileSystemWatcher? _filesADLStoreFileWatcher;
 		private FileSystemWatcher? _filesCDLStoreFileWatcher;
 
+		private readonly Lock _updateJumpListLock = new();
+
 		public static event EventHandler? ExplorerJumpListChanged;
 		public static event EventHandler? FilesJumpListChanged;
 
@@ -53,7 +55,9 @@ namespace Files.App.Storage
 		{
 			try
 			{
-				// This method changes the jump list of Files, so we disable the watcher temporarily
+				// Disable all watchers that could be triggered by this operation
+				if (_explorerADLStoreFileWatcher is not null && _explorerADLStoreFileWatcher.EnableRaisingEvents)
+					_explorerADLStoreFileWatcher.EnableRaisingEvents = false;
 				if (_filesADLStoreFileWatcher is not null && _filesADLStoreFileWatcher.EnableRaisingEvents)
 					_filesADLStoreFileWatcher.EnableRaisingEvents = false;
 				if (_filesCDLStoreFileWatcher is not null && _filesCDLStoreFileWatcher.EnableRaisingEvents)
@@ -178,6 +182,9 @@ namespace Files.App.Storage
 			}
 			finally
 			{
+				// Re-enable all watchers
+				if (_explorerADLStoreFileWatcher is not null && !_explorerADLStoreFileWatcher.EnableRaisingEvents)
+					_explorerADLStoreFileWatcher.EnableRaisingEvents = true;
 				if (_filesADLStoreFileWatcher is not null && !_filesADLStoreFileWatcher.EnableRaisingEvents)
 					_filesADLStoreFileWatcher.EnableRaisingEvents = true;
 				if (_filesCDLStoreFileWatcher is not null && !_filesCDLStoreFileWatcher.EnableRaisingEvents)
@@ -189,8 +196,13 @@ namespace Files.App.Storage
 		{
 			try
 			{
+				// Disable all watchers that could be triggered by this operation
 				if (_explorerADLStoreFileWatcher is not null && _explorerADLStoreFileWatcher.EnableRaisingEvents)
 					_explorerADLStoreFileWatcher.EnableRaisingEvents = false;
+				if (_filesADLStoreFileWatcher is not null && _filesADLStoreFileWatcher.EnableRaisingEvents)
+					_filesADLStoreFileWatcher.EnableRaisingEvents = false;
+				if (_filesCDLStoreFileWatcher is not null && _filesCDLStoreFileWatcher.EnableRaisingEvents)
+					_filesCDLStoreFileWatcher.EnableRaisingEvents = false;
 
 				HRESULT hr;
 
@@ -253,7 +265,7 @@ namespace Files.App.Storage
 				if (FAILED(hr)) return hr;
 
 				// Get the count of items in the "Recent" category
-				uint countOfItems = 0U;
+			 uint countOfItems = 0U;
 				hr = poc.Get()->GetCount(&countOfItems);
 				if (FAILED(hr)) return hr;
 
@@ -333,8 +345,13 @@ namespace Files.App.Storage
 			}
 			finally
 			{
+				// Re-enable all watchers
 				if (_explorerADLStoreFileWatcher is not null && !_explorerADLStoreFileWatcher.EnableRaisingEvents)
 					_explorerADLStoreFileWatcher.EnableRaisingEvents = true;
+				if (_filesADLStoreFileWatcher is not null && !_filesADLStoreFileWatcher.EnableRaisingEvents)
+					_filesADLStoreFileWatcher.EnableRaisingEvents = true;
+				if (_filesCDLStoreFileWatcher is not null && !_filesCDLStoreFileWatcher.EnableRaisingEvents)
+					_filesCDLStoreFileWatcher.EnableRaisingEvents = true;
 			}
 		}
 
@@ -399,7 +416,27 @@ namespace Files.App.Storage
 			}
 			catch
 			{
-				// Gracefully exit if we can't monitor the file
+				if (_explorerADLStoreFileWatcher is not null)
+				{
+					_explorerADLStoreFileWatcher.EnableRaisingEvents = false;
+					_explorerADLStoreFileWatcher.Changed -= ExplorerJumpListWatcher_Changed;
+					_explorerADLStoreFileWatcher.Dispose();
+				}
+
+				if (_filesADLStoreFileWatcher is not null)
+				{
+					_filesADLStoreFileWatcher.EnableRaisingEvents = false;
+					_filesADLStoreFileWatcher.Changed -= FilesJumpListWatcher_Changed;
+					_filesADLStoreFileWatcher.Dispose();
+				}
+
+				if (_filesCDLStoreFileWatcher is not null)
+				{
+					_filesCDLStoreFileWatcher.EnableRaisingEvents = false;
+					_filesCDLStoreFileWatcher.Changed -= FilesJumpListWatcher_Changed;
+					_filesCDLStoreFileWatcher.Dispose();
+				}
+
 				return false;
 			}
 
@@ -462,7 +499,7 @@ namespace Files.App.Storage
 			if (FAILED(hr)) return hr;
 
 			hr = pps.Get()->Commit();
-			if (FAILED(hr)) return hr;
+		 if (FAILED(hr)) return hr;
 
 			hr = PInvoke.PropVariantClear(&PVAR_Title);
 			if (FAILED(hr)) return hr;
@@ -490,12 +527,44 @@ namespace Files.App.Storage
 
 		private void ExplorerJumpListWatcher_Changed(object sender, FileSystemEventArgs e)
 		{
-			PullJumpListFromExplorer();
+			_ = STATask.Run(() =>
+			{
+				if (_updateJumpListLock.TryEnter())
+				{
+					try
+					{
+						Debug.WriteLine("in: ExplorerJumpListWatcher_Changed");
+						PullJumpListFromExplorer();
+						Debug.WriteLine("out: ExplorerJumpListWatcher_Changed");
+					}
+					finally
+					{
+						_updateJumpListLock.Exit();
+					}
+				}
+			},
+			null);
 		}
 
 		private void FilesJumpListWatcher_Changed(object sender, FileSystemEventArgs e)
 		{
-			PushJumpListToExplorer();
+			_ = STATask.Run(() =>
+			{
+				if (_updateJumpListLock.TryEnter())
+				{
+					try
+					{
+						Debug.WriteLine("in: FilesJumpListWatcher_Changed");
+						PushJumpListToExplorer();
+						Debug.WriteLine("out: FilesJumpListWatcher_Changed");
+					}
+					finally
+					{
+						_updateJumpListLock.Exit();
+					}
+				}
+			},
+			null);
 		}
 
 		public void Dispose()
@@ -503,18 +572,21 @@ namespace Files.App.Storage
 			if (_explorerADLStoreFileWatcher is not null)
 			{
 				_explorerADLStoreFileWatcher.EnableRaisingEvents = false;
+				_explorerADLStoreFileWatcher.Changed -= ExplorerJumpListWatcher_Changed;
 				_explorerADLStoreFileWatcher.Dispose();
 			}
 
 			if (_filesADLStoreFileWatcher is not null)
 			{
 				_filesADLStoreFileWatcher.EnableRaisingEvents = false;
+				_filesADLStoreFileWatcher.Changed -= FilesJumpListWatcher_Changed;
 				_filesADLStoreFileWatcher.Dispose();
 			}
 
 			if (_filesCDLStoreFileWatcher is not null)
 			{
 				_filesCDLStoreFileWatcher.EnableRaisingEvents = false;
+				_filesCDLStoreFileWatcher.Changed -= FilesJumpListWatcher_Changed;
 				_filesCDLStoreFileWatcher.Dispose();
 			}
 		}
