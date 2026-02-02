@@ -51,28 +51,28 @@ namespace Files.App.Storage
 
 		public HRESULT PullJumpListFromExplorer(int maxCount = 200)
 		{
-			// This method changes the jump list of Files, so we disable the watcher temporarily
-			if (_filesADLStoreFileWatcher is not null && _filesADLStoreFileWatcher.EnableRaisingEvents)
-				_filesADLStoreFileWatcher.EnableRaisingEvents = false;
-			if (_filesCDLStoreFileWatcher is not null && _filesCDLStoreFileWatcher.EnableRaisingEvents)
-				_filesCDLStoreFileWatcher.EnableRaisingEvents = false;
-
-			HRESULT hr;
-
-			using ComPtr<IAutomaticDestinationList> pExplorerADL = default;
-			hr = PInvoke.CoCreateInstance(CLSID.CLSID_AutomaticDestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IAutomaticDestinationList, (void**)pExplorerADL.GetAddressOf());
-			fixed (char* pAumid = "Microsoft.Windows.Explorer") pExplorerADL.Get()->Initialize(pAumid, default, default);
-
-			using ComPtr<IAutomaticDestinationList> pFilesADL = default;
-			hr = PInvoke.CoCreateInstance(CLSID.CLSID_AutomaticDestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IAutomaticDestinationList, (void**)pFilesADL.GetAddressOf());
-			fixed (char* pAumid = _aumid) pFilesADL.Get()->Initialize(pAumid, default, default);
-
-			using ComPtr<ICustomDestinationList> pFilesCDL = default;
-			hr = PInvoke.CoCreateInstance(CLSID.CLSID_DestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_ICustomDestinationList, (void**)pFilesCDL.GetAddressOf());
-			fixed (char* pAumid = _aumid) pFilesCDL.Get()->SetAppID(pAumid);
-
 			try
 			{
+				// This method changes the jump list of Files, so we disable the watcher temporarily
+				if (_filesADLStoreFileWatcher is not null && _filesADLStoreFileWatcher.EnableRaisingEvents)
+					_filesADLStoreFileWatcher.EnableRaisingEvents = false;
+				if (_filesCDLStoreFileWatcher is not null && _filesCDLStoreFileWatcher.EnableRaisingEvents)
+					_filesCDLStoreFileWatcher.EnableRaisingEvents = false;
+
+				HRESULT hr;
+
+				using ComPtr<IAutomaticDestinationList> pExplorerADL = default;
+				hr = PInvoke.CoCreateInstance(CLSID.CLSID_AutomaticDestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IAutomaticDestinationList, (void**)pExplorerADL.GetAddressOf());
+				fixed (char* pAumid = "Microsoft.Windows.Explorer") pExplorerADL.Get()->Initialize(pAumid, default, default);
+
+				using ComPtr<IAutomaticDestinationList> pFilesADL = default;
+				hr = PInvoke.CoCreateInstance(CLSID.CLSID_AutomaticDestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IAutomaticDestinationList, (void**)pFilesADL.GetAddressOf());
+				fixed (char* pAumid = _aumid) pFilesADL.Get()->Initialize(pAumid, default, default);
+
+				using ComPtr<ICustomDestinationList> pFilesCDL = default;
+				hr = PInvoke.CoCreateInstance(CLSID.CLSID_DestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_ICustomDestinationList, (void**)pFilesCDL.GetAddressOf());
+				fixed (char* pAumid = _aumid) pFilesCDL.Get()->SetAppID(pAumid);
+
 				// Get whether the Files's Automatic Destination has items
 				BOOL hasList = default;
 				hr = pFilesADL.Get()->HasList(&hasList);
@@ -88,44 +88,12 @@ namespace Files.App.Storage
 				// Clear the Files' Custom Destination
 				hr = pFilesCDL.Get()->DeleteList((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in _aumid.GetPinnableReference())));
 
-				// Get the Explorer's Pinned items from its Automatic Destination
 				using ComPtr<IObjectCollection> poc = default;
-				hr = pExplorerADL.Get()->GetList(DESTLISTTYPE.PINNED, maxCount, GETDESTLISTFLAGS.NONE, IID.IID_IObjectCollection, (void**)poc.GetAddressOf());
-				if (FAILED(hr)) return hr;
-
-				// Get the count of the Explorer's Pinned items
-				uint dwItemsCount = 0U;
-				hr = poc.Get()->GetCount(&dwItemsCount);
-				if (FAILED(hr)) return hr;
-
-				for (uint dwIndex = 0; dwIndex < dwItemsCount; dwIndex++)
-				{
-					// Get an instance of IShellItem
-					using ComPtr<IShellItem> psi = default;
-					hr = poc.Get()->GetAt(dwIndex, IID.IID_IShellItem, (void**)psi.GetAddressOf());
-					if (FAILED(hr)) continue;
-
-					// Get its pin index
-					int pinIndex = 0;
-					hr = pExplorerADL.Get()->GetPinIndex((IUnknown*)psi.Get(), &pinIndex);
-					if (FAILED(hr)) continue;
-
-					// Get an instance of IShellLinkW from the IShellItem instance
-					IShellLinkW* psl = default;
-					hr = CreateLinkFromItem(psi.Get(), &psl);
-					if (FAILED(hr)) continue;
-
-					// Pin it to the Files' Automatic Destinations
-					hr = pFilesADL.Get()->PinItem((IUnknown*)psl, pinIndex);
-					if (FAILED(hr)) continue;
-				}
-
-				// Get the Explorer's Recent items from its Automatic Destination
-				poc.Dispose();
 				hr = pExplorerADL.Get()->GetList(DESTLISTTYPE.RECENT, maxCount, GETDESTLISTFLAGS.NONE, IID.IID_IObjectCollection, (void**)poc.GetAddressOf());
 				if (FAILED(hr)) return hr;
 
 				// Get the count of the Explorer's Recent items
+				uint dwItemsCount = 0U;
 				hr = poc.Get()->GetCount(&dwItemsCount);
 				if (FAILED(hr)) return hr;
 
@@ -140,11 +108,6 @@ namespace Files.App.Storage
 					using ComPtr<IShellItem> psi = default;
 					hr = poc.Get()->GetAt(dwIndex, IID.IID_IShellItem, (void**)psi.GetAddressOf());
 					if (FAILED(hr)) continue;
-
-					// Try to get the pin index of the item. If it is not pinned, keep going
-					int pinIndex = 0;
-					hr = pExplorerADL.Get()->GetPinIndex((IUnknown*)psi.Get(), &pinIndex);
-					if (SUCCEEDED(hr)) continue; // If not pinned, HRESULT is E_NOT_SET
 
 					// Get an instance of IShellLinkW from the IShellItem instance
 					IShellLinkW* psl = default;
@@ -178,6 +141,39 @@ namespace Files.App.Storage
 				hr = pFilesCDL.Get()->CommitList();
 				if (FAILED(hr)) return hr;
 
+				// Get the Explorer's Recent items from its Automatic Destination
+				poc.Dispose();
+
+				// Get the Explorer's Pinned items from its Automatic Destination
+				hr = pExplorerADL.Get()->GetList(DESTLISTTYPE.PINNED, maxCount, GETDESTLISTFLAGS.NONE, IID.IID_IObjectCollection, (void**)poc.GetAddressOf());
+				if (FAILED(hr)) return hr;
+
+				// Get the count of the Explorer's Pinned items
+				hr = poc.Get()->GetCount(&dwItemsCount);
+				if (FAILED(hr)) return hr;
+
+				for (uint dwIndex = 0; dwIndex < dwItemsCount; dwIndex++)
+				{
+					// Get an instance of IShellItem
+					using ComPtr<IShellItem> psi = default;
+					hr = poc.Get()->GetAt(dwIndex, IID.IID_IShellItem, (void**)psi.GetAddressOf());
+					if (FAILED(hr)) continue;
+
+					// Get its pin index
+					int pinIndex = 0;
+					hr = pExplorerADL.Get()->GetPinIndex((IUnknown*)psi.Get(), &pinIndex);
+					if (FAILED(hr)) continue;
+
+					// Get an instance of IShellLinkW from the IShellItem instance
+					IShellLinkW* psl = default;
+					hr = CreateLinkFromItem(psi.Get(), &psl);
+					if (FAILED(hr)) continue;
+
+					// Pin it to the Files' Automatic Destinations
+					hr = pFilesADL.Get()->PinItem((IUnknown*)psl, pinIndex);
+					if (FAILED(hr)) continue;
+				}
+
 				return hr;
 			}
 			finally
@@ -191,25 +187,25 @@ namespace Files.App.Storage
 
 		public HRESULT PushJumpListToExplorer(int maxCount = 200)
 		{
-			if (_explorerADLStoreFileWatcher is not null && _explorerADLStoreFileWatcher.EnableRaisingEvents)
-				_explorerADLStoreFileWatcher.EnableRaisingEvents = false;
-
-			HRESULT hr;
-
-			using ComPtr<IAutomaticDestinationList> pExplorerADL = default;
-			hr = PInvoke.CoCreateInstance(CLSID.CLSID_AutomaticDestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IAutomaticDestinationList, (void**)pExplorerADL.GetAddressOf());
-			fixed (char* pAumid = "Microsoft.Windows.Explorer") pExplorerADL.Get()->Initialize(pAumid, default, default);
-
-			using ComPtr<IAutomaticDestinationList> pFilesADL = default;
-			hr = PInvoke.CoCreateInstance(CLSID.CLSID_AutomaticDestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IAutomaticDestinationList, (void**)pFilesADL.GetAddressOf());
-			fixed (char* pAumid = _aumid) pFilesADL.Get()->Initialize(pAumid, default, default);
-
-			using ComPtr<IInternalCustomDestinationList> pFilesICDL = default;
-			hr = PInvoke.CoCreateInstance(CLSID.CLSID_DestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IInternalCustomDestinationList, (void**)pFilesICDL.GetAddressOf());
-			fixed (char* pAumid = _aumid) pFilesICDL.Get()->SetApplicationID(pAumid);
-
 			try
 			{
+				if (_explorerADLStoreFileWatcher is not null && _explorerADLStoreFileWatcher.EnableRaisingEvents)
+					_explorerADLStoreFileWatcher.EnableRaisingEvents = false;
+
+				HRESULT hr;
+
+				using ComPtr<IAutomaticDestinationList> pExplorerADL = default;
+				hr = PInvoke.CoCreateInstance(CLSID.CLSID_AutomaticDestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IAutomaticDestinationList, (void**)pExplorerADL.GetAddressOf());
+				fixed (char* pAumid = "Microsoft.Windows.Explorer") pExplorerADL.Get()->Initialize(pAumid, default, default);
+
+				using ComPtr<IAutomaticDestinationList> pFilesADL = default;
+				hr = PInvoke.CoCreateInstance(CLSID.CLSID_AutomaticDestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IAutomaticDestinationList, (void**)pFilesADL.GetAddressOf());
+				fixed (char* pAumid = _aumid) pFilesADL.Get()->Initialize(pAumid, default, default);
+
+				using ComPtr<IInternalCustomDestinationList> pFilesICDL = default;
+				hr = PInvoke.CoCreateInstance(CLSID.CLSID_DestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IInternalCustomDestinationList, (void**)pFilesICDL.GetAddressOf());
+				fixed (char* pAumid = _aumid) pFilesICDL.Get()->SetApplicationID(pAumid);
+
 				// Get whether the Explorer's Automatic Destination has items
 				BOOL hasList = default;
 				hr = pExplorerADL.Get()->HasList(&hasList);
@@ -254,6 +250,7 @@ namespace Files.App.Storage
 				// Get the items in the "Recent" category
 				using ComPtr<IObjectCollection> poc = default;
 				hr = pFilesICDL.Get()->EnumerateCategoryDestinations(indexOfRecentCategory, IID.IID_IObjectCollection, (void**)poc.GetAddressOf());
+				if (FAILED(hr)) return hr;
 
 				// Get the count of items in the "Recent" category
 				uint countOfItems = 0U;
@@ -274,6 +271,7 @@ namespace Files.App.Storage
 					using ComHeapPtr<char> pszParseablePath = default;
 					pszParseablePath.Allocate(PInvoke.MAX_PATH);
 					hr = psl.Get()->GetArguments(pszParseablePath.Get(), (int)PInvoke.MAX_PATH);
+					if (FAILED(hr)) return hr;
 
 					using ComHeapPtr<IShellItem> psi = default;
 					hr = PInvoke.SHCreateItemFromParsingName(pszParseablePath.Get(), null, IID.IID_IShellItem, (void**)psi.GetAddressOf());
@@ -308,6 +306,7 @@ namespace Files.App.Storage
 					using ComHeapPtr<char> pszParseablePath = default;
 					pszParseablePath.Allocate(PInvoke.MAX_PATH);
 					hr = psl.Get()->GetArguments(pszParseablePath.Get(), (int)PInvoke.MAX_PATH);
+					if (FAILED(hr)) return hr;
 
 					using ComHeapPtr<IShellItem> psi = default;
 					hr = PInvoke.SHCreateItemFromParsingName(pszParseablePath.Get(), null, IID.IID_IShellItem, (void**)psi.GetAddressOf());
