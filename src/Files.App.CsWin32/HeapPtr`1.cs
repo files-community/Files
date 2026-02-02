@@ -55,14 +55,14 @@ namespace Windows.Win32
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public bool Allocate(nuint cch)
 		{
-			_ptr = (T*)NativeMemory.Alloc(cch * (nuint)sizeof(T)); // malloc()
+			_ptr = (T*)NativeMemory.Alloc(cch); // malloc()
 			return _ptr is not null;
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public bool Reallocate(nuint cch)
 		{
-			T* ptr = (T*)NativeMemory.Realloc(_ptr, cch * (nuint)sizeof(T)); // realloc()
+			T* ptr = (T*)NativeMemory.Realloc(_ptr, cch); // realloc()
 			if (ptr is null) return false;
 			_ptr = ptr;
 			return true;
