@@ -1,9 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Actions;
 using Microsoft.Extensions.Logging;
-using System.Collections.Frozen;
 using System.Collections.Immutable;
 
 namespace Files.App.Data.Commands
@@ -16,23 +14,12 @@ namespace Files.App.Data.Commands
 
 		// Fields
 
+		private readonly ImmutableArray<IRichCommand> _commands;
+
 		private ImmutableDictionary<HotKey, IRichCommand> _allKeyBindings = new Dictionary<HotKey, IRichCommand>().ToImmutableDictionary();
 
-		public IRichCommand this[CommandCodes code] => commands.TryGetValue(code, out var command) ? command : None;
-		public IRichCommand this[string code]
-		{
-			get
-			{
-				try
-				{
-					return commands[Enum.Parse<CommandCodes>(code, true)];
-				}
-				catch
-				{
-					return None;
-				}
-			}
-		}
+		public IRichCommand this[CommandCodes code] => _commands[(int)code];
+		public IRichCommand this[string code] => Enum.TryParse<CommandCodes>(code, true, out var codeValue) ? this[codeValue] : None;
 		public IRichCommand this[HotKey hotKey]
 			=> _allKeyBindings.TryGetValue(hotKey with { IsVisible = true }, out var command) ? command
 			: _allKeyBindings.TryGetValue(hotKey with { IsVisible = false }, out command) ? command
@@ -40,11 +27,7 @@ namespace Files.App.Data.Commands
 
 		public CommandManager()
 		{
-			commands = CreateActions()
-				.Select(action => new ActionCommand(this, action.Key, action.Value))
-				.Cast<IRichCommand>()
-				.Append(new NoneCommand())
-				.ToFrozenDictionary(command => command.Code);
+			_commands = CreateCommands();
 
 			ActionsSettingsService.PropertyChanged += (s, e) => { OverwriteKeyBindings(); };
 
@@ -54,24 +37,25 @@ namespace Files.App.Data.Commands
 		IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
 		public IEnumerator<IRichCommand> GetEnumerator() =>
-			(commands.Values as IEnumerable<IRichCommand>).GetEnumerator();
+			(_commands as IEnumerable<IRichCommand>).GetEnumerator();
 
 		/// <summary>
 		/// Replaces default key binding collection with customized one(s) if exists.
 		/// </summary>
 		private void OverwriteKeyBindings()
 		{
-			var allCommands = commands.Values.OfType<ActionCommand>();
+			var allCommands = _commands.OfType<ActionCommand>();
 
 			if (ActionsSettingsService.ActionsV2 is null)
 			{
-				allCommands.ForEach(x => x.RestoreKeyBindings());
+				RestoreKeyBindings(allCommands);
 			}
 			else
 			{
 				foreach (var command in allCommands)
 				{
-					var customizedKeyBindings = ActionsSettingsService.ActionsV2.FindAll(x => x.CommandCode == command.Code.ToString());
+					string code = command.Code.ToString();
+					var customizedKeyBindings = ActionsSettingsService.ActionsV2.FindAll(x => x.CommandCode == code);
 
 					if (customizedKeyBindings.IsEmpty())
 					{
@@ -94,7 +78,7 @@ namespace Files.App.Data.Commands
 			try
 			{
 				// Set collection of a set of command code and key bindings to dictionary
-				_allKeyBindings = commands.Values
+				_allKeyBindings = _commands
 					.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
 					.ToImmutableDictionary(item => item.HotKey, item => item.Command);
 			}
@@ -103,7 +87,7 @@ namespace Files.App.Data.Commands
 				// The keys are not necessarily all different because they can be set manually in text editor
 				// ISSUE: https://github.com/files-community/Files/issues/15331
 
-				var flat = commands.Values.SelectMany(x => x.HotKeys).Select(x => x.LocalizedLabel);
+				var flat = _commands.SelectMany(x => x.HotKeys).Select(x => x.LocalizedLabel);
 				var duplicates = flat.GroupBy(x => x).Where(x => x.Count() > 1).Select(group => group.Key);
 
 				foreach (var item in duplicates)
@@ -113,7 +97,7 @@ namespace Files.App.Data.Commands
 						var occurrences = allCommands.Where(x => x.HotKeys.Select(x => x.LocalizedLabel).Contains(item));
 
 						// Restore the defaults for all occurrences in our cache
-						occurrences.ForEach(x => x.RestoreKeyBindings());
+						RestoreKeyBindings(occurrences);
 
 						// Get all customized key bindings from user settings json
 						var actions =
@@ -130,7 +114,7 @@ namespace Files.App.Data.Commands
 				}
 
 				// Set collection of a set of command code and key bindings to dictionary
-				_allKeyBindings = commands.Values
+				_allKeyBindings = _commands
 					.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
 					.ToImmutableDictionary(item => item.HotKey, item => item.Command);
 
@@ -138,10 +122,10 @@ namespace Files.App.Data.Commands
 			}
 			catch (Exception ex)
 			{
-				allCommands.ForEach(x => x.RestoreKeyBindings());
+				RestoreKeyBindings(allCommands);
 
 				// Set collection of a set of command code and key bindings to dictionary
-				_allKeyBindings = commands.Values
+				_allKeyBindings = _commands
 					.SelectMany(command => command.HotKeys, (command, hotKey) => (Command: command, HotKey: hotKey))
 					.ToImmutableDictionary(item => item.HotKey, item => item.Command);
 
@@ -149,9 +133,10 @@ namespace Files.App.Data.Commands
 			}
 		}
 
-		public static HotKeyCollection GetDefaultKeyBindings(IAction action)
+		private static void RestoreKeyBindings(IEnumerable<ActionCommand> allCommands)
 		{
-			return new(action.HotKey, action.SecondHotKey, action.ThirdHotKey, action.MediaHotKey);
+			foreach (var command in allCommands)
+				command.RestoreKeyBindings();
 		}
 	}
 }
