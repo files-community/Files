@@ -116,11 +116,8 @@ namespace Files.App.ViewModels
 
 		public async Task RefreshWidgetProperties()
 		{
-			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
-			{
-				foreach (var viewModel in WidgetItems.Select(x => x.WidgetItemModel).ToList())
-					await viewModel.RefreshWidgetAsync();
-			});
+			var items = WidgetItems.ToArray();
+			await Task.WhenAll(items.Select(x => x.WidgetItemModel.RefreshWidgetAsync()));
 		}
 
 		private bool InsertWidget(WidgetContainerItem widgetModel, int atIndex)
