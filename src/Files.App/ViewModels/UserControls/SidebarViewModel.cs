@@ -1031,7 +1031,7 @@ namespace Files.App.ViewModels.UserControls
 						ThemedIconStyle = "App.ThemedIcons.FavoritePin",
 					},
 					Command = PinItemCommand,
-					ShowItem = isDriveItem && !isDriveItemPinned
+					ShowItem = isDriveItem && !isDriveItemPinned && UserSettingsService.GeneralSettingsService.ShowPinToSideBar
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{
@@ -1041,7 +1041,7 @@ namespace Files.App.ViewModels.UserControls
 						ThemedIconStyle = "App.ThemedIcons.FavoritePinRemove",
 					},
 					Command = UnpinItemCommand,
-					ShowItem = options.ShowUnpinItem || isDriveItemPinned
+					ShowItem = (options.ShowUnpinItem || isDriveItemPinned) && UserSettingsService.GeneralSettingsService.ShowPinToSideBar
 				},
 				new ContextMenuFlyoutItemViewModel()
 				{

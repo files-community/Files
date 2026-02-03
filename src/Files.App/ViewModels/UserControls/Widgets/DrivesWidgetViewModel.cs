@@ -127,7 +127,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					ThemedIconModel = new ThemedIconModel() { ThemedIconStyle = "App.ThemedIcons.FavoritePin" },
 					Command = PinToSidebarCommand,
 					CommandParameter = item,
-					ShowItem = !isPinned
+					ShowItem = !isPinned && UserSettingsService.GeneralSettingsService.ShowPinToSideBar
 				},
 				new()
 				{

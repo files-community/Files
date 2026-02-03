@@ -442,6 +442,32 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
+		public bool ShowPinToSideBar
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowPinToSideBar;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowPinToSideBar)
+				{
+					UserSettingsService.GeneralSettingsService.ShowPinToSideBar = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool ShowPinToStart
+		{
+			get => UserSettingsService.GeneralSettingsService.ShowPinToStart;
+			set
+			{
+				if (value != UserSettingsService.GeneralSettingsService.ShowPinToStart)
+				{
+					UserSettingsService.GeneralSettingsService.ShowPinToStart = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+		
 		public bool ShowEditTagsMenu
 		{
 			get => UserSettingsService.GeneralSettingsService.ShowEditTagsMenu;

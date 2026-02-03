@@ -206,6 +206,16 @@ namespace Files.App.Data.Contracts
 		bool ShowEditTagsMenu { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to pin to the sidebar.
+		/// </summary>
+		bool ShowPinToSideBar { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether or not to show the option to pin to the start menu.
+		/// </summary>
+		bool ShowPinToStart { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether or not to show the option to open folders in a new tab.
 		/// </summary>
 		bool ShowOpenInNewTab { get; set; }

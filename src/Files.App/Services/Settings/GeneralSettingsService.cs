@@ -245,6 +245,18 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		public bool ShowPinToSideBar
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
+		public bool ShowPinToStart
+		{
+			get => Get(true);
+			set => Set(value);
+		}
+
 		public bool ShowEditTagsMenu
 		{
 			get => Get(true);

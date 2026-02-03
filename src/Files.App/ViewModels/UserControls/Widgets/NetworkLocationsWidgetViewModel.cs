@@ -132,7 +132,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					ThemedIconModel = new ThemedIconModel() { ThemedIconStyle = "App.ThemedIcons.FavoritePin" },
 					Command = PinToSidebarCommand,
 					CommandParameter = item,
-					ShowItem = !isPinned
+					ShowItem = !isPinned && UserSettingsService.GeneralSettingsService.ShowPinToSideBar
 				},
 				new()
 				{
@@ -140,7 +140,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					ThemedIconModel = new ThemedIconModel() { ThemedIconStyle = "App.ThemedIcons.FavoritePinRemove" },
 					Command = UnpinFromSidebarCommand,
 					CommandParameter = item,
-					ShowItem = isPinned
+					ShowItem = isPinned && UserSettingsService.GeneralSettingsService.ShowPinToSideBar
 				},
 				new()
 				{
