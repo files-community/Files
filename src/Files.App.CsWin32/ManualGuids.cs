@@ -89,6 +89,9 @@ namespace Windows.Win32
 
 		[GuidRVAGen.Guid("000214E6-0000-0000-C000-000000000046")]
 		public static partial Guid* IID_IShellFolder { get; }
+
+		[GuidRVAGen.Guid("00000146-0000-0000-C000-000000000046")]
+		public static partial Guid* IID_IGlobalInterfaceTable { get; }
 	}
 
 	public static unsafe partial class CLSID
@@ -128,6 +131,9 @@ namespace Windows.Win32
 
 		[GuidRVAGen.Guid("00021401-0000-0000-C000-000000000046")]
 		public static partial Guid* CLSID_ShellLink { get; }
+
+		[GuidRVAGen.Guid("00000323-0000-0000-C000-000000000046")]
+		public static partial Guid* CLSID_StdGlobalInterfaceTable { get; }
 	}
 
 	public static unsafe partial class BHID

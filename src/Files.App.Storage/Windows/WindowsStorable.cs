@@ -2,8 +2,10 @@
 // Licensed under the MIT License.
 
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Foundation;
+using Windows.Win32.System.Com;
 using Windows.Win32.System.SystemServices;
 using Windows.Win32.UI.Shell;
 
@@ -11,24 +13,48 @@ namespace Files.App.Storage
 {
 	public unsafe abstract class WindowsStorable : IWindowsStorable
 	{
+		private readonly IGlobalInterfaceTable* _globalInterfaceTable;
+		private uint _gitCookieForThisPtr = 0U;
+		private uint _gitCookieForContextMenu = 0U;
+
 		/// <inheritdoc/>
 		public IShellItem* ThisPtr
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get;
+			get
+			{
+				void* pv;
+				HRESULT hr = _globalInterfaceTable->GetInterfaceFromGlobal(_gitCookieForThisPtr, IID.IID_IShellItem, &pv);
+				return (IShellItem*)pv;
+			}
 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set;
+			protected set
+			{
+				uint cookie;
+				HRESULT hr = _globalInterfaceTable->RegisterInterfaceInGlobal((IUnknown*)value, IID.IID_IShellItem, &cookie);
+				_gitCookieForThisPtr = cookie;
+			}
 		}
 
 		/// <inheritdoc/>
 		public IContextMenu* ContextMenu
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			get;
+			get
+			{
+				void* pv;
+				HRESULT hr = _globalInterfaceTable->GetInterfaceFromGlobal(_gitCookieForContextMenu, IID.IID_IContextMenu, &pv);
+				return (IContextMenu*)pv;
+			}
 
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
-			set;
+			protected set
+			{
+				uint cookie;
+				HRESULT hr = _globalInterfaceTable->RegisterInterfaceInGlobal((IUnknown*)value, IID.IID_IContextMenu, &cookie);
+				_gitCookieForContextMenu = cookie;
+			}
 		}
 
 		/// <inheritdoc/>
@@ -36,6 +62,13 @@ namespace Files.App.Storage
 
 		/// <inheritdoc/>
 		public string Name => this.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI);
+
+		public WindowsStorable()
+		{
+			void* globalInterfaceTable;
+			PInvoke.CoCreateInstance(CLSID.CLSID_StdGlobalInterfaceTable, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IGlobalInterfaceTable, &globalInterfaceTable);
+			_globalInterfaceTable = (IGlobalInterfaceTable*)globalInterfaceTable;
+		}
 
 		public static WindowsStorable? TryParse(string szPath)
 		{
@@ -86,6 +119,7 @@ namespace Files.App.Storage
 		/// <inheritdoc/>
 		public virtual void Dispose()
 		{
+			_globalInterfaceTable->Release();
 			if (ThisPtr is not null) ThisPtr->Release();
 			if (ContextMenu is not null) ContextMenu->Release();
 		}

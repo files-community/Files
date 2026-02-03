@@ -63,28 +63,32 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// Methods
 
-		public Task RefreshWidgetAsync()
+		public async Task RefreshWidgetAsync()
 		{
-			return MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+			var list = new List<WidgetFolderCardItem>();
+
+			await foreach (IWindowsStorable folder in HomePageContext.HomeFolder.GetQuickAccessFolderAsync(default))
+			{
+				folder.GetPropertyValue<bool>("System.Home.IsPinned", out var isPinned);
+				folder.TryGetShellTooltip(out var tooltip);
+
+				list.Add(
+					new WidgetFolderCardItem(
+						folder,
+						folder.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI),
+						isPinned,
+						tooltip ?? string.Empty));
+			}
+
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
 				foreach (var item in Items)
 					item.Dispose();
 
 				Items.Clear();
 
-				await foreach (IWindowsStorable folder in HomePageContext.HomeFolder.GetQuickAccessFolderAsync(default))
-				{
-					folder.GetPropertyValue<bool>("System.Home.IsPinned", out var isPinned);
-					folder.TryGetShellTooltip(out var tooltip);
-
-					Items.Insert(
-						Items.Count,
-						new WidgetFolderCardItem(
-							folder,
-							folder.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI),
-							isPinned,
-							tooltip ?? string.Empty));
-				}
+				foreach (var newItem in list)
+					Items.Add(newItem);
 			});
 		}
 
@@ -203,26 +207,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (currentPinnedItemIndex is -1)
 				return;
 
-			HRESULT hr = default;
-			using ComPtr<IAgileReference> pAgileReference = default;
-
-			unsafe
+			HRESULT hr = await STATask.Run(() =>
 			{
-				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, (IUnknown*)folderCardItem.Item.ThisPtr, pAgileReference.GetAddressOf());
-			}
-
-			// Pin to Quick Access on Windows
-			hr = await STATask.Run(() =>
-			{
-				unsafe
-				{
-					IShellItem* pShellItem = null;
-					hr = pAgileReference.Get()->Resolve(IID.IID_IShellItem, (void**)&pShellItem);
-					using var windowsFile = new WindowsFile(pShellItem);
-					// NOTE: "pintohome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CPinToFrequentExecute : public IExecuteCommand, ...
-					return windowsFile.TryInvokeContextMenuVerb("pintohome");
-				}
+				// NOTE: "pintohome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CPinToFrequentExecute : public IExecuteCommand, ...
+				return folderCardItem.Item.TryInvokeContextMenuVerb("pintohome");
 			}, App.Logger);
+
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return;
 
 			// The file watcher will update the collection automatically
 		}
@@ -232,27 +224,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (item is not WidgetFolderCardItem folderCardItem || folderCardItem.Path is null)
 				return;
 
-			HRESULT hr = default;
-			using ComPtr<IAgileReference> pAgileReference = default;
-
-			unsafe
+			HRESULT hr = await STATask.Run(() =>
 			{
-				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, (IUnknown*)folderCardItem.Item.ThisPtr, pAgileReference.GetAddressOf());
-			}
-
-			// Unpin from Quick Access on Windows
-			hr = await STATask.Run(() =>
-			{
-				unsafe
-				{
-					IShellItem* pShellItem = null;
-					hr = pAgileReference.Get()->Resolve(IID.IID_IShellItem, (void**)&pShellItem);
-					using var windowsFile = new WindowsFile(pShellItem);
-
-					// NOTE: "unpinfromhome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CRemoveFromFrequentPlacesExecute : public IExecuteCommand, ...
-					// NOTE: "remove" is for some shell folders where the "unpinfromhome" may not work
-					return windowsFile.TryInvokeContextMenuVerbs(["unpinfromhome", "remove"], true);
-				}
+				// NOTE: "unpinfromhome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CRemoveFromFrequentPlacesExecute : public IExecuteCommand, ...
+				// NOTE: "remove" is for some shell folders where the "unpinfromhome" may not work
+				return folderCardItem.Item.TryInvokeContextMenuVerbs(["unpinfromhome", "remove"], true);
 			}, App.Logger);
 
 			if (hr.ThrowIfFailedOnDebug().Failed)

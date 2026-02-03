@@ -58,8 +58,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public async Task RefreshWidgetAsync()
 		{
-			var updateTasks = Items.Select(item => item.Item.UpdatePropertiesAsync());
-			await Task.WhenAll(updateTasks);
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+			{
+				var updateTasks = Items.Select(item => item.Item.UpdatePropertiesAsync());
+				await Task.WhenAll(updateTasks);
+			});
 		}
 
 		public async Task NavigateToPath(string path)

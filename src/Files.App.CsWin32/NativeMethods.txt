@@ -290,3 +290,4 @@ MAX_PATH
 GetEnvironmentVariable
 CoTaskMemRealloc
 PKEY_AppUserModel_IsDestListSeparator
+IGlobalInterfaceTable
