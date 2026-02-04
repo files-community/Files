@@ -101,11 +101,6 @@ namespace Files.App.Storage
 				hr = poc.Get()->GetCount(&dwItemsCount);
 				if (FAILED(hr)) return hr;
 
-				// Instantiate an instance of IObjectCollection
-				using ComPtr<IObjectCollection> pNewObjectCollection = default;
-				hr = PInvoke.CoCreateInstance(CLSID.CLSID_EnumerableObjectCollection, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IObjectCollection, (void**)pNewObjectCollection.GetAddressOf());
-				if (FAILED(hr)) return hr;
-
 				for (uint dwIndex = 0; dwIndex < dwItemsCount; dwIndex++)
 				{
 					// Get an instance of IShellItem
@@ -114,67 +109,27 @@ namespace Files.App.Storage
 					if (FAILED(hr)) continue;
 
 					// Get an instance of IShellLinkW from the IShellItem instance
-					IShellLinkW* psl = default;
-					hr = CreateLinkFromItem(psi.Get(), &psl);
+					using ComPtr<IShellLinkW> psl = default;
+					hr = CreateLinkFromItem(psi.Get(), psl.GetAddressOf());
 					if (FAILED(hr)) continue;
 
-					// Add it to the Files' Custom Destinations
-					hr = pNewObjectCollection.Get()->AddObject((IUnknown*)psl);
-					if (FAILED(hr)) continue;
-				}
-
-				// Get IObjectArray from IObjectCollection
-				using ComPtr<IObjectArray> pNewObjectArray = default;
-				hr = pNewObjectCollection.Get()->QueryInterface(IID.IID_IObjectArray, (void**)pNewObjectArray.GetAddressOf());
-				if (FAILED(hr)) return hr;
-
-				// Set the collection
-				uint cMinSlots;
-				using ComPtr<IObjectArray> pRemovedObjectArray = default;
-				hr = pFilesCDL.Get()->BeginList(&cMinSlots, IID.IID_IObjectArray, (void**)pRemovedObjectArray.GetAddressOf());
-				if (FAILED(hr)) return hr;
-
-				hr = pRemovedObjectArray.Get()->GetCount(out var count);
-				if (FAILED(hr)) return hr;
-
-				// Append "Recent" category
-				hr = pFilesCDL.Get()->AppendCategory((PCWSTR)Unsafe.AsPointer(ref Unsafe.AsRef(in "Recent".GetPinnableReference())), pNewObjectArray.Get());
-				if (FAILED(hr)) return hr;
-
-				// Commit the collection updates
-				hr = pFilesCDL.Get()->CommitList();
-				if (FAILED(hr)) return hr;
-
-				// Get the Explorer's Recent items from its Automatic Destination
-				poc.Dispose();
-
-				// Get the Explorer's Pinned items from its Automatic Destination
-				hr = pExplorerADL.Get()->GetList(DESTLISTTYPE.PINNED, maxCount, GETDESTLISTFLAGS.NONE, IID.IID_IObjectCollection, (void**)poc.GetAddressOf());
-				if (FAILED(hr)) return hr;
-
-				// Get the count of the Explorer's Pinned items
-				hr = poc.Get()->GetCount(&dwItemsCount);
-				if (FAILED(hr)) return hr;
-
-				for (uint dwIndex = 0; dwIndex < dwItemsCount; dwIndex++)
-				{
-					// Get an instance of IShellItem
-					using ComPtr<IShellItem> psi = default;
-					hr = poc.Get()->GetAt(dwIndex, IID.IID_IShellItem, (void**)psi.GetAddressOf());
+					// Get freqency data of the item
+					float accessCount; long lastAccessedTimeUtc;
+					hr = pExplorerADL.Get()->GetUsageData((IUnknown*)psi.Get(), &accessCount, &lastAccessedTimeUtc);
 					if (FAILED(hr)) continue;
 
-					// Get its pin index
+					hr = pFilesADL.Get()->AddUsagePoint((IUnknown*)psl.Get());
+					if (FAILED(hr)) continue;
+
+					hr = pFilesADL.Get()->SetUsageData((IUnknown*)psl.Get(), &accessCount, &lastAccessedTimeUtc);
+					if (FAILED(hr)) continue;
+
 					int pinIndex = 0;
 					hr = pExplorerADL.Get()->GetPinIndex((IUnknown*)psi.Get(), &pinIndex);
 					if (FAILED(hr)) continue;
 
-					// Get an instance of IShellLinkW from the IShellItem instance
-					IShellLinkW* psl = default;
-					hr = CreateLinkFromItem(psi.Get(), &psl);
-					if (FAILED(hr)) continue;
-
 					// Pin it to the Files' Automatic Destinations
-					hr = pFilesADL.Get()->PinItem((IUnknown*)psl, pinIndex);
+					hr = pFilesADL.Get()->PinItem((IUnknown*)psl.Get(), pinIndex);
 					if (FAILED(hr)) continue;
 				}
 
@@ -265,7 +220,7 @@ namespace Files.App.Storage
 				if (FAILED(hr)) return hr;
 
 				// Get the count of items in the "Recent" category
-			 uint countOfItems = 0U;
+				 uint countOfItems = 0U;
 				hr = poc.Get()->GetCount(&countOfItems);
 				if (FAILED(hr)) return hr;
 
@@ -288,6 +243,22 @@ namespace Files.App.Storage
 					using ComHeapPtr<IShellItem> psi = default;
 					hr = PInvoke.SHCreateItemFromParsingName(pszParseablePath.Get(), null, IID.IID_IShellItem, (void**)psi.GetAddressOf());
 					if (FAILED(hr)) continue;
+
+					//using ComPtr<IPropertyStore> pps = default;
+					//hr = ((IUnknown*)psl.Get())->QueryInterface(IID.IID_IPropertyStore, (void**)pps.GetAddressOf());
+					//if (FAILED(hr)) continue;
+
+					//PROPERTYKEY PKEY_CustomBlobForDestListShellLink = new() { fmtid = new("01234567-89AB-CDEF-0123-456789ABCDEF"), pid = 1 };
+
+					//PROPVARIANT propVar;
+					//hr = pps.Get()->GetValue(&PKEY_CustomBlobForDestListShellLink, &propVar);
+					//if (FAILED(hr)) continue;
+
+					//JumpListItemAccessInfo accessInfo = default;
+					//hr = PInvoke.PropVariantToBuffer(&propVar, &accessInfo, (uint)sizeof(JumpListItemAccessInfo));
+					//if (FAILED(hr)) continue;
+
+					//hr = pExplorerADL.Get()->SetUsageData((IUnknown*)psi.Get(), &accessInfo.AccessCount, &accessInfo.LastAccessedTimeUtc);
 
 					fixed (char* pAumid = "Microsoft.Windows.Explorer")
 					{
@@ -590,5 +561,11 @@ namespace Files.App.Storage
 				_filesCDLStoreFileWatcher.Dispose();
 			}
 		}
+	}
+
+	internal struct JumpListItemAccessInfo
+	{
+		internal float AccessCount;
+		internal long LastAccessedTimeUtc;
 	}
 }
