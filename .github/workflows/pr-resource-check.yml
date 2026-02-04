@@ -1,0 +1,55 @@
+
+name: Resource File Check
+permissions:
+  contents: read
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  check-non-enus-resources:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Get PR branch info
+        id: pr_branch
+        run: |
+          echo "pr_head_repo=$(jq -r .pull_request.head.repo.full_name < $GITHUB_EVENT_PATH)" >> $GITHUB_OUTPUT
+          echo "pr_base_repo=$(jq -r .pull_request.base.repo.full_name < $GITHUB_EVENT_PATH)" >> $GITHUB_OUTPUT
+
+
+      - name: List changed files under Strings (including subfolders)
+        id: changed_files
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          git diff --name-only origin/${{ github.base_ref }}...${{ github.sha }} | grep "/Strings/" > changed_files.txt || true
+          cat changed_files.txt
+
+      - name: Detect non-enus resource changes in Strings
+        id: detect
+        run: |
+          # Only check for .resw files (including subfolders)
+          grep -E "\.resw$" changed_files.txt | grep -vi "en-us" > non_enus_resources.txt || true
+          count=$(cat non_enus_resources.txt | wc -l)
+          echo "count=$count" >> $GITHUB_OUTPUT
+
+      - name: Comment on PR if needed
+        if: steps.detect.outputs.count != '0' && steps.pr_branch.outputs.pr_head_repo == steps.pr_branch.outputs.pr_base_repo
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const files = fs.readFileSync('non_enus_resources.txt', 'utf8').split('\n').filter(Boolean);
+            if (files.length > 0) {
+              const body = `:warning: Detected changes to non en-US resource files in this PR (${files.length} file(s)):\n\n\n${files.map(f => `- \\`${f}\\``).join('\n')}\n\nPlease revert these changes. Only en-US resource files should be modified directly. Changes to non en-US files should be made from Crowdin: https://crowdin.com/project/files-app`;
+              await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body
+              });
+            }
