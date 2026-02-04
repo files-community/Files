@@ -4360,6 +4360,6 @@
     <value>Show option to Pin to Sidebar</value>
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
-    <value>Show "Pin to the Start Menu" option</value>
+    <value>Show option to Pin to the Start Menu</value>
   </data>
 </root>
