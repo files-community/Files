@@ -4357,7 +4357,7 @@
     <value>Scrolling</value>
   </data>
   <data name="ShowPinToSideBar" xml:space="preserve">
-    <value>Show "Pin to Sidebar" option</value>
+    <value>Show option to Pin to Sidebar</value>
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Show "Pin to the Start Menu" option</value>
