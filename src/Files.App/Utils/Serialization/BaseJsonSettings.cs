@@ -94,15 +94,40 @@ namespace Files.App.Utils.Serialization
 				return false;
 			}
 
+			// Sanitize special double values to prevent JSON serialization errors
+			var sanitizedValue = SanitizeValue(value);
+
 			if (JsonSettingsDatabase is not null &&
-				(!JsonSettingsDatabase.GetValue<TValue>(propertyName)?.Equals(value) ?? true) &&
-				JsonSettingsDatabase.SetValue(propertyName, value))
+				(!JsonSettingsDatabase.GetValue<TValue>(propertyName)?.Equals(sanitizedValue) ?? true) &&
+				JsonSettingsDatabase.SetValue(propertyName, sanitizedValue))
 			{
-				RaiseOnSettingChangedEvent(this, new SettingChangedEventArgs(propertyName, value));
+				RaiseOnSettingChangedEvent(this, new SettingChangedEventArgs(propertyName, sanitizedValue));
 				return true;
 			}
 
 			return false;
+		}
+
+		private static TValue? SanitizeValue<TValue>(TValue? value)
+		{
+			// Handle double values
+			if (value is double doubleValue)
+			{
+				if (double.IsInfinity(doubleValue) || double.IsNaN(doubleValue))
+				{
+					return default;
+				}
+			}
+			// Handle float values
+			else if (value is float floatValue)
+			{
+				if (float.IsInfinity(floatValue) || float.IsNaN(floatValue))
+				{
+					return default;
+				}
+			}
+
+			return value;
 		}
 
 		protected virtual void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)

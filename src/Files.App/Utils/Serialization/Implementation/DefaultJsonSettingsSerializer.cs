@@ -1,13 +1,16 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.Text.Json.Serialization;
+
 namespace Files.App.Utils.Serialization.Implementation
 {
 	internal sealed class DefaultJsonSettingsSerializer : IJsonSettingsSerializer
 	{
 		public static readonly JsonSerializerOptions Options = new JsonSerializerOptions
 		{
-			WriteIndented = true
+			WriteIndented = true,
+			NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals
 		};
 
 		public string? SerializeToJson(object? obj)
@@ -17,7 +20,7 @@ namespace Files.App.Utils.Serialization.Implementation
 
 		public T? DeserializeFromJson<T>(string json)
 		{
-			return JsonSerializer.Deserialize<T?>(json);
+			return JsonSerializer.Deserialize<T?>(json, Options);
 		}
 	}
 }

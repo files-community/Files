@@ -121,7 +121,8 @@ namespace Files.App.Utils.Serialization.Implementation
 			{
 				try
 				{
-					return jElem.Deserialize<TValue>();
+					var value = jElem.Deserialize<TValue>();
+					return SanitizeSpecialFloatingPointValues(value);
 				}
 				catch (JsonException)
 				{
@@ -131,7 +132,30 @@ namespace Files.App.Utils.Serialization.Implementation
 				}
 			}
 
-			return (TValue?)obj;
+			var result = (TValue?)obj;
+			return SanitizeSpecialFloatingPointValues(result);
+		}
+
+		private static TValue? SanitizeSpecialFloatingPointValues<TValue>(TValue? value)
+		{
+			// Handle double values - replace Infinity/NaN with default
+			if (value is double doubleValue)
+			{
+				if (double.IsInfinity(doubleValue) || double.IsNaN(doubleValue))
+				{
+					return default;
+				}
+			}
+			// Handle float values - replace Infinity/NaN with default
+			else if (value is float floatValue)
+			{
+				if (float.IsInfinity(floatValue) || float.IsNaN(floatValue))
+				{
+					return default;
+				}
+			}
+
+			return value;
 		}
 	}
 }
