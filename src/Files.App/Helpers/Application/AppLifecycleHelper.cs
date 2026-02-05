@@ -170,7 +170,11 @@ namespace Files.App.Helpers
 					if (hr.Failed) App.Logger.LogWarning("Failed to synchronize jump list unexpectedly.");
 
 					bool result = JumpListManager.WatchJumpListChanges(AppUserModelIdCrcHash);
-					if (!result) App.Logger.LogWarning("Failed to watch jump list unexpectedly.");
+					if (result)
+					{
+						// TODO: Remove this after the sidebar refactoring (this has to be self-notified in the sidebar)
+						JumpListManager.JumpListChanged += JumpListManager_JumpListChanged;
+					}
 				}
 			},
 			App.Logger);
@@ -453,6 +457,17 @@ namespace Files.App.Helpers
 				.Wait(100);
 			}
 			Process.GetCurrentProcess().Kill();
+		}
+
+		/// <summary>
+		/// Handles the event that occurs when the files jump list changes, and notifies the quick access service of updates
+		/// to pinned items.
+		/// </summary>
+		private static void JumpListManager_JumpListChanged(object? sender, EventArgs e)
+		{
+			var quickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
+
+			quickAccessService.NotifyPinnedItemsChanged(true);
 		}
 
 		/// <summary>
