@@ -30,8 +30,7 @@ namespace Files.App.Storage
 
 		private readonly Lock _updateJumpListLock = new();
 
-		public static event EventHandler? ExplorerJumpListChanged;
-		public static event EventHandler? FilesJumpListChanged;
+		public static event EventHandler? JumpListChanged;
 
 		private JumpListManager() { }
 
@@ -385,6 +384,7 @@ namespace Files.App.Storage
 					{
 						Debug.WriteLine("in: ExplorerJumpListWatcher_Changed");
 						PullJumpListFromExplorer();
+						JumpListChanged?.Invoke(this, EventArgs.Empty);
 						Debug.WriteLine("out: ExplorerJumpListWatcher_Changed");
 					}
 					finally
@@ -406,6 +406,7 @@ namespace Files.App.Storage
 					{
 						Debug.WriteLine("in: FilesJumpListWatcher_Changed");
 						PushJumpListToExplorer();
+						JumpListChanged?.Invoke(this, EventArgs.Empty);
 						Debug.WriteLine("out: FilesJumpListWatcher_Changed");
 					}
 					finally

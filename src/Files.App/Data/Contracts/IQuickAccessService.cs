@@ -52,5 +52,15 @@ namespace Files.App.Data.Contracts
 		/// <param name="items">The array of items to save</param>
 		/// <returns></returns>
 		Task SaveAsync(string[] items);
+
+		/// <summary>
+		/// Notifies listeners that the collection of pinned items has changed.
+		/// </summary>
+		/// <remarks>Call this method when the set of pinned items is modified to ensure that any UI components or
+		/// services reflecting pinned items remain in sync. If doUpdateQuickAccessWidget is set to true, the quick access
+		/// widget will be refreshed to display the latest pinned items.</remarks>
+		/// <param name="doUpdateQuickAccessWidget">true to update the quick access widget after notifying the change; otherwise, false.</param>
+		/// <returns>A task that represents the asynchronous notification operation.</returns>
+		Task NotifyPinnedItemsChanged(bool doUpdateQuickAccessWidget);
 	}
 }
