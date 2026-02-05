@@ -54,14 +54,14 @@ namespace Windows.Win32
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public bool Allocate(nuint cch)
 		{
-			_ptr = (T*)PInvoke.CoTaskMemAlloc(cch);
+			_ptr = (T*)PInvoke.CoTaskMemAlloc(cch * (nuint)sizeof(T));
 			return _ptr is not null;
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public bool Reallocate(nuint cch)
 		{
-			T* ptr = (T*)PInvoke.CoTaskMemRealloc(_ptr, cch);
+			T* ptr = (T*)PInvoke.CoTaskMemRealloc(_ptr, cch * (nuint)sizeof(T));
 			if (ptr is null) return false;
 			_ptr = ptr;
 			return true;

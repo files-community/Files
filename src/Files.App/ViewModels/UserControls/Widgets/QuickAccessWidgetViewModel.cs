@@ -1,16 +1,16 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI;
+using Files.Shared.Utils;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
 using Windows.Storage;
-using Windows.System;
 using Windows.UI.Core;
 using Windows.Win32;
 using Windows.Win32.Foundation;
-using Windows.Win32.System.Com;
-using Windows.Win32.System.WinRT;
 using Windows.Win32.UI.Shell;
 
 namespace Files.App.ViewModels.UserControls.Widgets
@@ -36,10 +36,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		// TODO: Replace with IMutableFolder.GetWatcherAsync() once it gets implemented in IWindowsStorable
 		private readonly SystemIO.FileSystemWatcher _quickAccessFolderWatcher;
 
+		private readonly DispatcherQueueTimer _dispatcherQueueTimer;
+
 		// Constructor
 
 		public QuickAccessWidgetViewModel()
 		{
+			_dispatcherQueueTimer = MainWindow.Instance.DispatcherQueue.CreateTimer();
+
 			Items.CollectionChanged += Items_CollectionChanged;
 
 			OpenPropertiesCommand = new RelayCommand<WidgetFolderCardItem>(ExecuteOpenPropertiesCommand);
@@ -50,35 +54,48 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				Path = SystemIO.Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations"),
 				Filter = "f01b4d95cf55d32a.automaticDestinations-ms",
-				NotifyFilter = SystemIO.NotifyFilters.LastAccess | SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName
+				NotifyFilter = SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.CreationTime
 			};
 
-			_quickAccessFolderWatcher.Changed += async (s, e) =>
-			{
-				await RefreshWidgetAsync();
-			};
-
+			_quickAccessFolderWatcher.Changed += QuickAccessFolderWatcher_Changed;
 			_quickAccessFolderWatcher.EnableRaisingEvents = true;
+		}
+
+		private void QuickAccessFolderWatcher_Changed(object sender, SystemIO.FileSystemEventArgs e)
+		{
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			{
+				_dispatcherQueueTimer.Debounce(async () =>
+				{
+					await RefreshWidgetAsync();
+				},
+				TimeSpan.FromMilliseconds(500));
+			});
 		}
 
 		// Methods
 
 		public async Task RefreshWidgetAsync()
 		{
-			var list = new List<WidgetFolderCardItem>();
-
-			await foreach (IWindowsStorable folder in HomePageContext.HomeFolder.GetQuickAccessFolderAsync(default))
+			var list = await Task.Run(async () =>
 			{
-				folder.GetPropertyValue<bool>("System.Home.IsPinned", out var isPinned);
-				folder.TryGetShellTooltip(out var tooltip);
+				var list = new List<WidgetFolderCardItem>();
 
-				list.Add(
-					new WidgetFolderCardItem(
-						folder,
-						folder.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI),
-						isPinned,
-						tooltip ?? string.Empty));
-			}
+				await foreach (IWindowsStorable folder in HomePageContext.HomeFolder.GetQuickAccessFolderAsync(default))
+				{
+					folder.GetPropertyValue<bool>("System.Home.IsPinned", out var isPinned);
+					folder.TryGetShellTooltip(out var tooltip);
+
+					list.Add(
+						new WidgetFolderCardItem(
+							folder,
+							folder.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI),
+							isPinned,
+							tooltip ?? string.Empty));
+				}
+
+				return list;
+			});
 
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
 			{
@@ -171,7 +188,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public async Task NavigateToPath(string path)
 		{
-			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(Windows.System.VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			if (ctrlPressed)
 			{
 				await NavigationHelpers.OpenPathInNewTab(path);
