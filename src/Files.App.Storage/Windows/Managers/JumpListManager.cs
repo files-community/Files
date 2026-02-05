@@ -1,10 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using System;
 using System.IO;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
@@ -187,7 +184,7 @@ namespace Files.App.Storage
 					using ComHeapPtr<char> pszParseablePath = default;
 					pszParseablePath.Allocate(PInvoke.MAX_PATH);
 					hr = psl.Get()->GetArguments(pszParseablePath.Get(), (int)PInvoke.MAX_PATH);
-					if (FAILED(hr)) return hr;
+					if (FAILED(hr)) continue;
 
 					using ComHeapPtr<IShellItem> psi = default;
 					hr = PInvoke.SHCreateItemFromParsingName(pszParseablePath.Get(), null, IID.IID_IShellItem, (void**)psi.GetAddressOf());
