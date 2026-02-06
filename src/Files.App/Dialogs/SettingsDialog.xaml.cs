@@ -5,6 +5,12 @@ using Files.App.Views.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
+using CommunityToolkit.WinUI.Controls;
+using Microsoft.UI.Xaml.Media;
+using System.Threading.Tasks;
+using System.IO;
+using Windows.Storage;
+using Windows.Foundation;
 
 namespace Files.App.Dialogs
 {
@@ -15,12 +21,18 @@ namespace Files.App.Dialogs
 		private FrameworkElement RootAppElement
 			=> (FrameworkElement)MainWindow.Instance.Content;
 
+
+
+
+
 		public SettingsDialog()
 		{
 			InitializeComponent();
 
 			MainWindow.Instance.SizeChanged += Current_SizeChanged;
+
 			UpdateDialogLayout();
+			LoadSettingsKeysAsync();
 		}
 
 		public new async Task<DialogResult> ShowAsync()
@@ -77,6 +89,134 @@ namespace Files.App.Dialogs
 				SettingsPageKind.AboutPage => SettingsContentFrame.Navigate(typeof(AboutPage), null, new SuppressNavigationTransitionInfo()),
 				_ => SettingsContentFrame.Navigate(typeof(AppearancePage), null, new SuppressNavigationTransitionInfo())
 			};
+		}
+
+		private Dictionary<string, List<string>> settingsKeysByPage = new();
+		private Dictionary<string, string> keyToPage = new();
+		private Dictionary<string, string> keyToLocalized = new();
+
+		public async void LoadSettingsKeysAsync()
+		{
+			try
+			{
+				var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(Constants.ResourceFilePaths.SettingsStringKeysJsonPath));
+				using var stream = await file.OpenStreamForReadAsync();
+				var dict = await JsonSerializer.DeserializeAsync<Dictionary<string, List<string>>>(stream);
+				if (dict != null)
+				{
+					settingsKeysByPage = dict;
+					keyToPage.Clear();
+					keyToLocalized.Clear();
+					var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
+					foreach (var kvp in dict)
+					{
+						foreach (var key in kvp.Value)
+						{
+							keyToPage[key] = kvp.Key;
+							string localized = resourceLoader.GetString(key);
+							if (string.IsNullOrEmpty(localized))
+								localized = key;
+							keyToLocalized[key] = localized;
+						}
+					}
+				}
+			}
+			catch { }
+		}
+
+		private void SettingsSearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+		{
+			if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
+				return;
+
+			var query = sender.Text?.Trim().ToLowerInvariant() ?? string.Empty;
+
+			// Debounce: Only update suggestions if query changed
+			var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
+			string noResults = resourceLoader.GetString("NoResultsFound");
+			if (string.IsNullOrEmpty(query))
+			{
+				// Show a placeholder for empty search
+				sender.ItemsSource = new List<SettingSuggestion> {
+					new SettingSuggestion { Key = null, Localized = noResults }
+				};
+				return;
+			}
+
+			var suggestions = keyToLocalized
+				.Where(kvp => kvp.Value.ToLowerInvariant().Contains(query))
+				.Select(kvp => new SettingSuggestion { Key = kvp.Key, Localized = kvp.Value })
+				.DistinctBy(s => s.Localized)
+				.ToList();
+
+			if (suggestions.Count == 0)
+			{
+				// Show a placeholder for no results
+				sender.ItemsSource = new List<SettingSuggestion> {
+					new SettingSuggestion { Key = null, Localized = noResults }
+				};
+			}
+			else
+			{
+				sender.ItemsSource = suggestions;
+			}
+		}
+
+		private class SettingSuggestion
+		{
+			public string Key { get; set; }
+			public string Localized { get; set; }
+			public override string ToString() => Localized;
+		}
+
+		private void SettingsSearchBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+		{
+			if (args.SelectedItem is SettingSuggestion suggestion && !string.IsNullOrEmpty(suggestion.Key))
+			{
+				if (keyToPage.TryGetValue(suggestion.Key, out var page))
+				{
+					NavigateToPageByName(page);
+				}
+			}
+
+			// Close the suggestion dropdown
+			sender.IsSuggestionListOpen = false;
+			// Clear the query after a suggestion is chosen
+			sender.Text = string.Empty;
+		}
+
+		private void SettingsSearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+		{
+			var query = args.QueryText?.Trim().ToLowerInvariant() ?? string.Empty;
+			if (string.IsNullOrEmpty(query))
+			{
+				// Close dropdown and clear text
+				sender.IsSuggestionListOpen = false;
+				sender.Text = string.Empty;
+				return;
+			}
+
+			var match = keyToLocalized.FirstOrDefault(x => x.Value.ToLowerInvariant().Contains(query));
+			if (!string.IsNullOrEmpty(match.Key) && keyToPage.TryGetValue(match.Key, out var page))
+			{
+				NavigateToPageByName(page);
+			}
+
+			// Close dropdown and clear text
+			sender.IsSuggestionListOpen = false;
+			sender.Text = string.Empty;
+		}
+
+		private void NavigateToPageByName(string pageName)
+		{
+			foreach (NavigationViewItem item in MainSettingsNavigationView.MenuItems)
+			{
+				if ((item.Tag as string) == pageName)
+				{
+					MainSettingsNavigationView.SelectedItem = item;
+					break;
+				}
+			}
 		}
 
 		private void ContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)

@@ -189,6 +189,9 @@
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="NoResultsFound" xml:space="preserve">
+    <value>No results found</value>
+  </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Files you've previously accessed will show up here</value>
   </data>

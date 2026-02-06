@@ -189,6 +189,11 @@ namespace Files.App
 			/// The path to the json file containing a list of file properties to be loaded in the preview pane.
 			/// </summary>
 			public const string PreviewPaneDetailsPropertiesJsonPath = @"ms-appx:///Assets/Resources/PreviewPanePropertiesInformation.json";
+
+			/// <summary>
+			/// The path to the json file containing settings string keys used for localized settings search.
+			/// </summary>
+			public const string SettingsStringKeysJsonPath = @"ms-appx:///Assets/Data/settings_string_keys.json";
 		}
 
 		public static class Filesystem

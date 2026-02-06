@@ -60,7 +60,14 @@
         <Content Include="7zArm64.dll">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+        <Content Include="Assets\Data\settings_string_keys.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
+
+        <Target Name="ExtractSettingsStrings" BeforeTargets="Build">
+            <Exec Command="powershell -ExecutionPolicy Bypass -File Scripts\extract_settings_strings.ps1" WorkingDirectory="$(ProjectDir)" />
+        </Target>
 
     <ItemGroup>
         <PackageReference Include="ByteSize" />
