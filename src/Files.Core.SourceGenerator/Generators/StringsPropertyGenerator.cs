@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.Threading;
 using static Files.Core.SourceGenerator.Constants.DiagnosticDescriptors;
 using static Files.Core.SourceGenerator.Constants.StringsPropertyGenerator;
 using static Files.Core.SourceGenerator.Utilities.SourceGeneratorHelper;
@@ -13,9 +14,6 @@ namespace Files.Core.SourceGenerator.Generators
 	[Generator]
 	internal sealed class StringsPropertyGenerator : IIncrementalGenerator
 	{
-		// Static HashSet to track generated file names
-		private readonly HashSet<string> _generatedFileNames = [];
-
 		/// <summary>
 		/// Initializes the generator and registers source output based on resource files.
 		/// </summary>
@@ -26,6 +24,23 @@ namespace Files.Core.SourceGenerator.Generators
 				.AdditionalTextsProvider.Where(af => af.Path.Contains("en-US\\Resources"));
 
 			context.RegisterSourceOutput(additionalFiles, Execute);
+
+			var additionalFileNames = additionalFiles
+				.Select((af, ct) => SystemIO.Path.GetFileNameWithoutExtension(af.Path))
+				.Collect();
+
+			context.RegisterSourceOutput(additionalFileNames, (ctx, fileNames) =>
+			{
+				if (fileNames.Length <= 1)
+					return;
+
+				var duplicates = fileNames.GroupBy(n => n).Where(g => g.Count() > 1).Select(g => g.Key);
+
+				foreach (string fileName in duplicates)
+				{
+					ctx.ReportDiagnostic(Diagnostic.Create(FSG1003, Location.None, fileName));
+				}
+			});
 		}
 
 		/// <summary>
@@ -37,17 +52,9 @@ namespace Files.Core.SourceGenerator.Generators
 		{
 			var fileName = SystemIO.Path.GetFileNameWithoutExtension(file.Path);
 
-			lock (_generatedFileNames)
-			{
-				if (_generatedFileNames.Contains(fileName))
-					ctx.ReportDiagnostic(Diagnostic.Create(FSG1003, Location.None, fileName));
-
-				_ = _generatedFileNames.Add(fileName);
-			}
-
 			var tabString = Spacing(1);
 
-			var sb = new StringBuilder();
+			var sb = new StringBuilder(8000);
 			_ = sb.AppendFullHeader(file.Path);
 			_ = sb.AppendLine();
 			_ = sb.AppendLine($"namespace {HelperNamespace.Remove(HelperNamespace.Length - 1)}");
@@ -58,7 +65,7 @@ namespace Files.Core.SourceGenerator.Generators
 			_ = sb.AppendLine($"{tabString}public sealed partial class {StringsClassName}");
 			_ = sb.AppendLine($"{tabString}{{");
 
-			foreach (var key in ReadAllKeys(file)) // Write all keys from file
+			foreach (var key in ReadAllKeys(file, ctx.CancellationToken)) // Write all keys from file
 				AddKey(
 					buffer: sb,
 					key: key.Key,
@@ -83,7 +90,7 @@ namespace Files.Core.SourceGenerator.Generators
 		/// <param name="value">Optional value assigned to the key. If null, the key will be used as the value.</param>
 		/// <param name="exampleValue">Optional example value for the key.</param>
 		/// <param name="tabPos">Position of the tab.</param>
-		private void AddKey(StringBuilder buffer, string key, string? comment = null, string? value = null, string? exampleValue = null, int tabPos = 2)
+		private static void AddKey(StringBuilder buffer, string key, string? comment = null, string? value = null, string? exampleValue = null, int tabPos = 2)
 		{
 			var tabString = Spacing(tabPos);
 
@@ -113,12 +120,14 @@ namespace Files.Core.SourceGenerator.Generators
 		/// </summary>
 		/// <param name="file">The additional text file to read keys from.</param>
 		/// <returns>An enumerable of <see cref="ParserItem"/> objects containing the keys and their associated values.</returns>
-		private IEnumerable<ParserItem> ReadAllKeys(AdditionalText file)
+		private static IEnumerable<ParserItem> ReadAllKeys(AdditionalText file, CancellationToken cancellationToken)
 		{
+			string text = file.GetText(cancellationToken)!.ToString();
+
 			return SystemIO.Path.GetExtension(file.Path) switch
 			{
-				".resw" => ReswParser.GetKeys(file),
-				".json" => JsonParser.GetKeys(file),
+				".resw" => ReswParser.GetKeys(text),
+				".json" => JsonParser.GetKeys(text),
 				_ => []
 			};
 		}
@@ -128,7 +137,7 @@ namespace Files.Core.SourceGenerator.Generators
 		/// </summary>
 		/// <param name="key">The key to validate.</param>
 		/// <returns>A valid C# identifier based on the key.</returns>
-		private string KeyNameValidator(string key)
+		private static string KeyNameValidator(string key)
 		{
 			Span<char> resultSpan = key.Length <= 256 ? stackalloc char[key.Length] : new char[key.Length];
 			var keySpan = key.AsSpan();
