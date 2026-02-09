@@ -126,39 +126,38 @@ namespace Files.App.Dialogs
 
 		private void SettingsSearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
 		{
-			if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
-				return;
-
-			var query = sender.Text?.Trim().ToLowerInvariant() ?? string.Empty;
-
-			// Debounce: Only update suggestions if query changed
-			var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
-			string noResults = resourceLoader.GetString("NoResultsFound");
-			if (string.IsNullOrEmpty(query))
+			if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
 			{
-				// Show a placeholder for empty search
-				sender.ItemsSource = new List<SettingSuggestion> {
-					new SettingSuggestion { Key = null, Localized = noResults }
-				};
-				return;
-			}
+				var query = sender.Text?.Trim().ToLowerInvariant() ?? string.Empty;
 
-			var suggestions = keyToLocalized
-				.Where(kvp => kvp.Value.ToLowerInvariant().Contains(query))
-				.Select(kvp => new SettingSuggestion { Key = kvp.Key, Localized = kvp.Value })
-				.DistinctBy(s => s.Localized)
-				.ToList();
+				var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
+				string noResults = resourceLoader.GetString("NoResultsFound");
+				if (string.IsNullOrEmpty(query))
+				{
+					// Show a placeholder for empty search
+					sender.ItemsSource = new List<SettingSuggestion> {
+						new SettingSuggestion { Key = null, Localized = noResults }
+					};
+					return;
+				}
 
-			if (suggestions.Count == 0)
-			{
-				// Show a placeholder for no results
-				sender.ItemsSource = new List<SettingSuggestion> {
-					new SettingSuggestion { Key = null, Localized = noResults }
-				};
-			}
-			else
-			{
-				sender.ItemsSource = suggestions;
+				var suggestions = keyToLocalized
+					.Where(kvp => kvp.Value.ToLowerInvariant().Contains(query))
+					.Select(kvp => new SettingSuggestion { Key = kvp.Key, Localized = kvp.Value })
+					.DistinctBy(s => s.Localized)
+					.ToList();
+
+				if (suggestions.Count == 0)
+				{
+					// Show a placeholder for no results
+					sender.ItemsSource = new List<SettingSuggestion> {
+						new SettingSuggestion { Key = null, Localized = noResults }
+					};
+				}
+				else
+				{
+					sender.ItemsSource = suggestions;
+				}
 			}
 		}
 
@@ -171,40 +170,41 @@ namespace Files.App.Dialogs
 
 		private void SettingsSearchBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
 		{
-			if (args.SelectedItem is SettingSuggestion suggestion && !string.IsNullOrEmpty(suggestion.Key))
+			// No action needed
+		}
+
+		private void SettingsSearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+		{
+			var query = args.QueryText?.Trim().ToLowerInvariant() ?? string.Empty;
+
+			if (args.ChosenSuggestion is SettingSuggestion suggestion && !string.IsNullOrEmpty(suggestion.Key))
 			{
 				if (keyToPage.TryGetValue(suggestion.Key, out var page))
 				{
 					NavigateToPageByName(page);
 				}
 			}
-
-			// Close the suggestion dropdown
-			sender.IsSuggestionListOpen = false;
-			// Clear the query after a suggestion is chosen
-			sender.Text = string.Empty;
-		}
-
-		private void SettingsSearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-		{
-			var query = args.QueryText?.Trim().ToLowerInvariant() ?? string.Empty;
-			if (string.IsNullOrEmpty(query))
+			else
 			{
-				// Close dropdown and clear text
-				sender.IsSuggestionListOpen = false;
-				sender.Text = string.Empty;
-				return;
-			}
+				var suggestions = keyToLocalized
+					.Where(x => x.Value.ToLowerInvariant().Contains(query))
+					.Select(x => new SettingSuggestion { Key = x.Key, Localized = x.Value })
+					.DistinctBy(s => s.Localized)
+					.ToList();
 
-			var match = keyToLocalized.FirstOrDefault(x => x.Value.ToLowerInvariant().Contains(query));
-			if (!string.IsNullOrEmpty(match.Key) && keyToPage.TryGetValue(match.Key, out var page))
-			{
-				NavigateToPageByName(page);
+				if (suggestions.Count == 0)
+				{
+					var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
+					string noResults = resourceLoader.GetString("NoResultsFound");
+					sender.ItemsSource = new List<SettingSuggestion> {
+					new SettingSuggestion { Key = null, Localized = noResults }
+				};
+				}
+				else
+				{
+					sender.ItemsSource = suggestions;
+				}
 			}
-
-			// Close dropdown and clear text
-			sender.IsSuggestionListOpen = false;
-			sender.Text = string.Empty;
 		}
 
 		private void NavigateToPageByName(string pageName)
