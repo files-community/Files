@@ -101,6 +101,13 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		private string? _DirectoryItemCount;
+		public string? DirectoryItemCount
+		{
+			get => _DirectoryItemCount;
+			set => SetProperty(ref _DirectoryItemCount, value);
+		}
+
 		/// <summary>
 		/// Value indicating if the download cloud files option should be displayed
 		/// </summary>
