@@ -70,7 +70,7 @@ namespace Files.App.Actions
 			context.HasSelection &&
 			context.PageType != ContentPageTypes.RecycleBin &&
 			context.SelectedItems.All(i =>
-				(i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && !i.IsExecutable) ||
+				(i.PrimaryItemAttribute == StorageItemTypes.File && !i.IsShortcut && (!i.IsExecutable || i.IsScriptFile)) ||
 				(i.PrimaryItemAttribute == StorageItemTypes.Folder && i.IsArchive));
 
 		public OpenItemWithApplicationPickerAction()
