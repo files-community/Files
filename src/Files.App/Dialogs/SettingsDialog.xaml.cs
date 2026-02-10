@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.IO;
 using Windows.Storage;
 using Windows.Foundation;
+using Windows.UI.Xaml.Automation;
+using Microsoft.UI.Xaml.Automation;
 
 namespace Files.App.Dialogs
 {
@@ -173,7 +175,7 @@ namespace Files.App.Dialogs
 			// No action needed
 		}
 
-		private void SettingsSearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+		private async void SettingsSearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
 		{
 			var query = args.QueryText?.Trim().ToLowerInvariant() ?? string.Empty;
 
@@ -181,7 +183,7 @@ namespace Files.App.Dialogs
 			{
 				if (keyToPage.TryGetValue(suggestion.Key, out var page))
 				{
-					NavigateToPageByName(page);
+					await NavigateToPageByName(page, suggestion.Localized);
 				}
 			}
 			else
@@ -207,7 +209,7 @@ namespace Files.App.Dialogs
 			}
 		}
 
-		private void NavigateToPageByName(string pageName)
+		private async Task NavigateToPageByName(string pageName, string? localizedName = null)
 		{
 			foreach (NavigationViewItem item in MainSettingsNavigationView.MenuItems)
 			{
@@ -217,6 +219,65 @@ namespace Files.App.Dialogs
 					break;
 				}
 			}
+
+			if (localizedName is not null)
+			{
+				await Task.Delay(100); // Wait for UI to render
+				var page = SettingsContentFrame.Content as FrameworkElement;
+				if (page is not null)
+				{
+					var element = FindElementByText(page, localizedName);
+					if (element is not null)
+					{
+						// Check if inside an Expander
+						var expander = FindParent<Expander>(element);
+						if (expander is not null && !expander.IsExpanded)
+						{
+							expander.IsExpanded = true;
+							await Task.Delay(100); // Wait for animation
+						}
+
+						// Scroll to the element
+						var transform = element.TransformToVisual(SettingsContentScrollViewer);
+						var position = transform.TransformPoint(new Point(0, 0));
+						SettingsContentScrollViewer.ChangeView(null, position.Y, null, false);
+					}
+				}
+			}
+		}
+
+		private FrameworkElement? FindElementByText(FrameworkElement root, string text)
+		{
+			if (root is TextBlock tb && tb.Text == text)
+				return root;
+			if (AutomationProperties.GetName(root) == text)
+				return root;
+			if (root is ContentControl cc && cc.Content is string s && s == text)
+				return root;
+
+			for (int i = 0; i < VisualTreeHelper.GetChildrenCount(root); i++)
+			{
+				var child = VisualTreeHelper.GetChild(root, i) as FrameworkElement;
+				if (child is not null)
+				{
+					var found = FindElementByText(child, text);
+					if (found is not null)
+						return found;
+				}
+			}
+			return null;
+		}
+
+		private T? FindParent<T>(DependencyObject child) where T : DependencyObject
+		{
+			var parent = VisualTreeHelper.GetParent(child);
+			while (parent is not null)
+			{
+				if (parent is T t)
+					return t;
+				parent = VisualTreeHelper.GetParent(parent);
+			}
+			return null;
 		}
 
 		private void ContentDialog_Closing(ContentDialog sender, ContentDialogClosingEventArgs args)
