@@ -2032,7 +2032,7 @@
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>¿Disfrutando de Files? Por favor, considere hacer una reseña en Microsoft Store.</value>
-  </data>  
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
     <value>¿Qué le parece Files? Considere la posibilidad de apoyar el proyecto en GitHub.</value>
   </data>
@@ -4307,7 +4307,7 @@
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>Firmas</value>
-   </data>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Lista de firmas</value>
   </data>
@@ -4351,9 +4351,15 @@
     <value>Nuevo {0}</value>
   </data>
   <data name="EnableSmoothScrolling" xml:space="preserve">
-    <value>Enable smooth scrolling</value>
+    <value>Activar deslizamiento suave</value>
   </data>
   <data name="Scrolling" xml:space="preserve">
-    <value>Scrolling</value>
+    <value>Deslizando</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Show option to Pin to Sidebar</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Show option to Pin to the Start Menu</value>
   </data>
 </root>
