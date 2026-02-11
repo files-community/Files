@@ -2032,7 +2032,7 @@
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Подобається Files? Залиште відгук у Microsoft Store.</value>
-  </data>  
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
     <value>Подобається Files? Підтримайте проєкт на GitHub.</value>
   </data>
@@ -2052,7 +2052,7 @@
     <value>Установити як тло робочого стола</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
-    <value>Встановити за замовчуванням</value>
+    <value>Зробити типовим</value>
   </data>
   <data name="DateColumn" xml:space="preserve">
     <value>Стовпчик дати</value>
@@ -3922,7 +3922,7 @@
     <value>Додати команду</value>
   </data>
   <data name="RestoreDefaults" xml:space="preserve">
-    <value>Відновити значення за замовчуванням</value>
+    <value>Відновити усталені значення</value>
   </data>
   <data name="ChooseAnAction" xml:space="preserve">
     <value>Виберіть дію</value>
@@ -3940,7 +3940,7 @@
     <value>Модифікований</value>
   </data>
   <data name="AdaptiveLayoutDisabledNotification" xml:space="preserve">
-    <value>Адаптивна розкладка неможлива при синхронізації налаштувань, макет за замовчуванням змінено на деталі.</value>
+    <value>Адаптивна розкладка неможлива при синхронізації налаштувань, типовий макет змінено на деталі.</value>
   </data>
   <data name="BackgroundImage" xml:space="preserve">
     <value>Фонове зображення</value>
@@ -4307,7 +4307,7 @@
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>Підписи</value>
-   </data>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Список підписів</value>
   </data>
@@ -4351,9 +4351,15 @@
     <value>Новий {0}</value>
   </data>
   <data name="EnableSmoothScrolling" xml:space="preserve">
-    <value>Enable smooth scrolling</value>
+    <value>Увімкнути плавне гортання</value>
   </data>
   <data name="Scrolling" xml:space="preserve">
-    <value>Scrolling</value>
+    <value>Гортання</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Показувати параметр закріплення в бічній панелі</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Показувати параметр закріплення у меню «Пуск»</value>
   </data>
 </root>
