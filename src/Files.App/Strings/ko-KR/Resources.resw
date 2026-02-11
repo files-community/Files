@@ -2032,7 +2032,7 @@
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Files를 유용하게 사용하고 계신다면 Microsoft Store에 리뷰를 남겨 주세요.</value>
-  </data>  
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
     <value>Files를 유용하게 사용하고 계신다면 GitHub에서 프로젝트를 후원해 주세요.</value>
   </data>
@@ -3798,7 +3798,7 @@
     <value>파일과 폴더를 함께 정렬</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>Sort files and folders in the same list</value>
+    <value>파일과 폴더를 함께 정렬</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
     <value>파일 우선 정렬</value>
@@ -4063,13 +4063,13 @@
     <value>탭 동작 메뉴</value>
   </data>
   <data name="SplitPaneVertically" xml:space="preserve">
-    <value>Split vertically</value>
+    <value>세로로 분할</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
     <value>Split pane vertically</value>
   </data>
   <data name="SplitPaneHorizontally" xml:space="preserve">
-    <value>Split horizontally</value>
+    <value>가로로 분할</value>
   </data>
   <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
     <value>Split pane horizontally</value>
@@ -4087,7 +4087,7 @@
     <value>패널을 수평 정렬합니다</value>
   </data>
   <data name="SplitPane" xml:space="preserve">
-    <value>Split pane</value>
+    <value>분할 화면</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>제목 표시줄에 탭 동작 버튼 표시</value>
@@ -4192,7 +4192,7 @@
     <comment>Placeholder that appears in the compare hash text box</comment>
   </data>
   <data name="HashesMatch" xml:space="preserve">
-    <value>Matches {0}</value>
+    <value>일치함 {0}</value>
     <comment>Appears when two compared hashes match, e.g. "Matches SHA256"</comment>
   </data>
   <data name="HashesDoNotMatch" xml:space="preserve">
@@ -4243,7 +4243,7 @@
     <comment>Cannot clone repo dialog title</comment>
   </data>
   <data name="CompareFile" xml:space="preserve">
-    <value>Compare a file</value>
+    <value>비교할 파일</value>
     <comment>Button that appears in file hash properties that allows the user to compare two files</comment>
   </data>
   <data name="SizeFormat" xml:space="preserve">
@@ -4262,13 +4262,13 @@
     <value>Drag files or folders here to interact with them across different tabs</value>
   </data>
   <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
-    <value>Enter a path to navigate to...</value>
+    <value>탐색할 경로를 입력하세요...</value>
   </data>
   <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
-    <value>Find features and commands...</value>
+    <value>기능 및 명령 검색...</value>
   </data>
   <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
-    <value>Search for files and folders...</value>
+    <value>파일 및 폴더 검색...</value>
   </data>
   <data name="DuringOngoingFileOperations" xml:space="preserve">
     <value>During file operations</value>
@@ -4300,28 +4300,28 @@
     <value>See more</value>
   </data>
   <data name="FilteringFor" xml:space="preserve">
-    <value>Filtering for</value>
+    <value>필터링 대상</value>
   </data>
   <data name="Filename" xml:space="preserve">
-    <value>Filename</value>
+    <value>파일이름</value>
   </data>
   <data name="Signatures" xml:space="preserve">
-    <value>Signatures</value>
-   </data>
+    <value>디지털 서명</value>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Signature list</value>
   </data>
   <data name="IssuedBy" xml:space="preserve">
-    <value>Issued by:</value>
+    <value>발급자:</value>
   </data>
   <data name="IssuedTo" xml:space="preserve">
-    <value>Issued to:</value>
+    <value>발급 대상:</value>
   </data>
   <data name="ValidFrom" xml:space="preserve">
-    <value>Valid from:</value>
+    <value>유효 기간(시작):</value>
   </data>
   <data name="ValidTo" xml:space="preserve">
-    <value>Valid to:</value>
+    <value>유효 기간(종료):</value>
   </data>
   <data name="NoSignatureFound" xml:space="preserve">
     <value>No signature was found.</value>
@@ -4355,5 +4355,11 @@
   </data>
   <data name="Scrolling" xml:space="preserve">
     <value>Scrolling</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Show option to Pin to Sidebar</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Show option to Pin to the Start Menu</value>
   </data>
 </root>
