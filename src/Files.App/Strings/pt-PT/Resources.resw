@@ -2032,7 +2032,7 @@
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Está a gostar do Files? Considere deixar uma classificação na Microsoft Store.</value>
-  </data>  
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
     <value>Está a gostar do Files? Considere apoiar o projeto no GitHub.</value>
   </data>
@@ -4307,7 +4307,7 @@
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>Assinaturas</value>
-   </data>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Lista de assinaturas</value>
   </data>
@@ -4351,9 +4351,15 @@
     <value>Novo {0}</value>
   </data>
   <data name="EnableSmoothScrolling" xml:space="preserve">
-    <value>Ativar deslocação suve</value>
+    <value>Ativar deslocamento suave</value>
   </data>
   <data name="Scrolling" xml:space="preserve">
-    <value>Deslocação</value>
+    <value>Deslocamento</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Mostrar opção para Afixar em Acesso rápido</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Mostrar opção para Afixar em Iniciar</value>
   </data>
 </root>
