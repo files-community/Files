@@ -307,5 +307,15 @@ namespace Files.Shared.Helpers
 
 			return _signableTypes.Contains(filePathToCheck);
 		}
+
+		/// <summary>
+		/// Check if the file extension is a markdown file.
+		/// </summary>
+		/// <param name="filePathToCheck"></param>
+		/// <returns><c>true</c> if the filePathToCheck is a markdown file; otherwise, <c>false</c>.</returns>
+		public static bool IsMarkdownFile(string? filePathToCheck)
+		{
+			return HasExtension(filePathToCheck, ".md", ".markdown");
+		}
 	}
 }
