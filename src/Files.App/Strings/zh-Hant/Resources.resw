@@ -2032,7 +2032,7 @@
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>喜歡「Files」嗎？請考慮至 Microsoft Store 留下評論。</value>
-  </data>  
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
     <value>喜歡 Files 嗎？請考慮在 GitHub 上支持本專案。</value>
   </data>
@@ -3043,7 +3043,7 @@
     <value>永久刪除</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>永久刪除選取的 {0, plural, one {item} other {items}}</value>
+    <value>永久刪除選取的{0, plural, other {項目}}</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>播放所選取的媒體檔</value>
@@ -4200,7 +4200,7 @@
     <comment>Appears when two compared hashes don't match</comment>
   </data>
   <data name="PathOrAlias" xml:space="preserve">
-    <value>檔案路徑或是alias</value>
+    <value>路徑或別名</value>
   </data>
   <data name="InvalidPath" xml:space="preserve">
     <value>無效的路徑</value>
@@ -4307,7 +4307,7 @@
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>電子簽章</value>
-   </data>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>電子簽章清單</value>
   </data>
@@ -4355,5 +4355,11 @@
   </data>
   <data name="Scrolling" xml:space="preserve">
     <value>Scrolling</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Show option to Pin to Sidebar</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Show option to Pin to the Start Menu</value>
   </data>
 </root>
