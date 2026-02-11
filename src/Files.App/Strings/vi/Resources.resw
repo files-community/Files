@@ -1890,7 +1890,7 @@
     <value>Tùy chọn này sửa đổi các khóa registry của hệ thống và có thể gây ra vấn đề trên thiết bị của bạn. Vui lòng cân nhắc trước khi bật tùy chọn.</value>
   </data>
   <data name="ShowFlattenOptionsDescription" xml:space="preserve">
-    <value>Thao tác làm phẳng có hiệu lực vĩnh viễn và không thể hoàn tác, không được khuyến khích sử dụng. Vui lòng cân nhắc trước khi thực hiện.</value>
+    <value>Thao tác khử thư mục con có hiệu lực vĩnh viễn và không thể hoàn tác, không được khuyến khích sử dụng. Vui lòng cân nhắc trước khi thực hiện.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Tạo thư viện</value>
@@ -2032,7 +2032,7 @@
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Thích Files? Hãy gửi nhận xét của bạn lên Microsoft Store.</value>
-  </data>  
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
     <value>Thích Files? Hãy cân nhắc hỗ trợ dự án trên GitHub.</value>
   </data>
@@ -2085,16 +2085,16 @@
     <value>Di chuyển tất cả nội dung từ thư mục con đến vị trí đã chọn</value>
   </data>
   <data name="FlattenFolder" xml:space="preserve">
-    <value>Làm phẳng thư mục</value>
+    <value>Khử thư mục con</value>
   </data>
   <data name="Flatten" xml:space="preserve">
-    <value>Làm phẳng</value>
+    <value>Khử thư mục con</value>
   </data>
   <data name="FlattenFolderDialogContent" xml:space="preserve">
     <value>Tùy chọn này sẽ di chuyển tất cả nội dung từ thư mục con đến vị trí đã chọn. Thao tác có hiệu lực vĩnh viễn và không thể hoàn tác. Đây là tính năng thử nghiệm và bằng việc sử dụng, bạn đã hiểu các rủi ro và đồng ý miễn trừ trách nhiệm của đội ngũ Files khi xảy ra mất mát dữ liệu.</value>
   </data>
   <data name="ShowFlattenOptions" xml:space="preserve">
-    <value>Hiện tùy chọn làm phẳng</value>
+    <value>Hiện tùy chọn khử thư mục con</value>
   </data>
   <data name="SelectFilesAndFoldersOnHover" xml:space="preserve">
     <value>Chọn tệp và thư mục khi di chuột lên</value>
@@ -3753,7 +3753,7 @@
     <value>Không có tác vụ đang thực hiện nào</value>
   </data>
   <data name="OpenOnStartupDisabled" xml:space="preserve">
-    <value>Tùy chọn mở Files khi khởi động Windows không khả dụng do các cài đặt hệ thống hoặc group policy của bạn. Để kích hoạt lại, hãy mở mục khởi động trong Trình quản lý Tác vụ.</value>
+    <value>Tùy chọn mở Files khi khởi động Windows không khả dụng do các cài đặt hệ thống hoặc Group Policy của bạn. Để kích hoạt lại, hãy mở mục khởi động trong Trình quản lý Tác vụ.</value>
   </data>
   <data name="FailedToRestore" xml:space="preserve">
     <value>Không thể khôi phục khoản mục từ thùng rác</value>
@@ -4307,7 +4307,7 @@
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>Chữ ký</value>
-   </data>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Danh sách chữ ký</value>
   </data>
@@ -4355,5 +4355,11 @@
   </data>
   <data name="Scrolling" xml:space="preserve">
     <value>Cuộn trang</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Hiện tùy chọn ghim vào thanh bên</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Hiện tùy chọn ghim vào menu Bắt đầu</value>
   </data>
 </root>
