@@ -2032,7 +2032,7 @@
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Gefällt dir Files? Bitte hinterlasse eine Bewertung im Microsoft Store.</value>
-  </data>  
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
     <value>Gefällt dir Files? Bitte unterstütze das Projekt auf GitHub.</value>
   </data>
@@ -4307,7 +4307,7 @@
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>Signaturen</value>
-   </data>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Signaturliste</value>
   </data>
@@ -4355,5 +4355,11 @@
   </data>
   <data name="Scrolling" xml:space="preserve">
     <value>Scrollen</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Option zum Anheften in der Seitenleiste anzeigen</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Option zum Anheften im Startmenü anzeigen</value>
   </data>
 </root>
