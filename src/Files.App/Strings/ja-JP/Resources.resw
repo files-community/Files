@@ -2032,7 +2032,7 @@
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Files をお楽しみいただけましたか? Microsoft Store でのレビューをご検討ください。</value>
-  </data>  
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
     <value>Files をお楽しみいただけましたか? GitHub でプロジェクトをサポートすることをご検討ください。</value>
   </data>
@@ -4308,7 +4308,7 @@
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>署名</value>
-   </data>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>署名リスト</value>
   </data>
@@ -4352,9 +4352,15 @@
     <value>新規 {0}</value>
   </data>
   <data name="EnableSmoothScrolling" xml:space="preserve">
-    <value>Enable smooth scrolling</value>
+    <value>スムーズスクロールを有効にする</value>
   </data>
   <data name="Scrolling" xml:space="preserve">
-    <value>Scrolling</value>
+    <value>スクロール</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Show option to Pin to Sidebar</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Show option to Pin to the Start Menu</value>
   </data>
 </root>
