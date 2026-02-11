@@ -217,7 +217,7 @@
     <value>‏‏הצג קבצים ותיקיות מוסתרים</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>הצג קבצי נקודה</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>מראה</value>
@@ -310,7 +310,7 @@
     <value>כהה</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
-    <value>Use system setting</value>
+    <value>השתמש בהגדרות מערכת</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>אפליקציה</value>
@@ -403,7 +403,7 @@
     <value>לפני יום</value>
   </data>
   <data name="DaysAgo_Plural" xml:space="preserve">
-    <value>{0} days ago</value>
+    <value>לפני {0} ימים</value>
   </data>
   <data name="HoursAgo" xml:space="preserve">
     <value>{0, plural, one {# hour ago} other {# hours ago}}</value>
@@ -513,7 +513,7 @@
     <value>שטח פנוי:</value>
   </data>
   <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
-    <value>קיבולת</value>
+    <value>קיבולת:</value>
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
     <value>מערכת קבצים:</value>
@@ -987,7 +987,7 @@
     <value>הוצא</value>
   </data>
   <data name="DuplicateTab" xml:space="preserve">
-    <value>שכפל כרטיסיה</value>
+    <value>שכפל כרטיסייה</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
     <value>הזז כרטיסיה לחלון חדש</value>
@@ -1005,13 +1005,13 @@
     <value>בדקו את המצב של פעולות קבצים פה</value>
   </data>
   <data name="OngoingTasksTeachingTip.Title" xml:space="preserve">
-    <value>Status center</value>
+    <value>מרכז מצב</value>
   </data>
   <data name="SearchPagePathBoxOverrideText" xml:space="preserve">
     <value>תוצאות חיפוש ב{1} עבור {0}</value>
   </data>
   <data name="SearchResultsFor" xml:space="preserve">
-    <value>Search results for `{0}`</value>
+    <value>תוצאות חיפוש עבור `{0}`</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>פרטים</value>
@@ -1203,7 +1203,7 @@
     <value>מפה כונן רשת</value>
   </data>
   <data name="Pinned" xml:space="preserve">
-    <value>Pinned</value>
+    <value>מוצמד</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>ספריות</value>
@@ -1266,7 +1266,7 @@
     <value>פתח את Storage Sense</value>
   </data>
   <data name="OpenStorageSenseDescription" xml:space="preserve">
-    <value>Open the Storage Sense page in Windows Settings</value>
+    <value>פתח את דף Storage Sense בהגדרות Windows</value>
   </data>
   <data name="Cleanup" xml:space="preserve">
     <value>Cleanup</value>
@@ -1323,7 +1323,7 @@
     <value>Create folder with selection</value>
   </data>
   <data name="ItemType" xml:space="preserve">
-    <value>סוג</value>
+    <value>סוג:</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>תאריך שינוי</value>
@@ -1413,7 +1413,7 @@
     <value>{0} פריטים</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>Reopen tab</value>
+    <value>פתח מחדש כרטיסייה</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>שנה שם</value>
@@ -1524,7 +1524,7 @@
     <value>קבצים</value>
   </data>
   <data name="SecurityAdvancedFlagsFolderLabel" xml:space="preserve">
-    <value>this folder</value>
+    <value>תיקייה זו</value>
   </data>
   <data name="SecurityAdvancedFlagsSubfoldersLabel" xml:space="preserve">
     <value>תיקיות משנה</value>
@@ -1533,7 +1533,7 @@
     <value>Inherited</value>
   </data>
   <data name="Permissions" xml:space="preserve">
-    <value>Permissions</value>
+    <value>הרשאות</value>
   </data>
   <data name="SecurityAdvancedCannotReadProperties.Text" xml:space="preserve">
     <value>You do not have permissions to view the security properties of this object. You can try to take ownership of this object.</value>
@@ -1581,7 +1581,7 @@
     <value>קריאת תכונות</value>
   </data>
   <data name="SecurityReadDataLabel.Text" xml:space="preserve">
-    <value>Read data</value>
+    <value>קרא נתונים</value>
   </data>
   <data name="SecurityReadExtendedAttributesLabel.Text" xml:space="preserve">
     <value>קריאת תכונות מורחבות</value>
@@ -1743,7 +1743,7 @@
     <value>פתח תיקיות בכרטיסיה חדשה</value>
   </data>
   <data name="StatusCenter" xml:space="preserve">
-    <value>Status center</value>
+    <value>מרכז מצב</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
     <value>Date created column</value>
@@ -1764,7 +1764,7 @@
     <value>דווח על תקלה</value>
   </data>
   <data name="SettingsSetAsDefaultFileManager" xml:space="preserve">
-    <value>Set Files as the default file manager</value>
+    <value>הגדר Files כסייר הקבצים ברירית מחדל</value>
   </data>
   <data name="SettingsSetAsOpenDialog" xml:space="preserve">
     <value>Use Files as Open File Dialog</value>
@@ -1836,7 +1836,7 @@
     <value>8-bit (256) color</value>
   </data>
   <data name="CompatibilityDisableFullscreenOptimizations" xml:space="preserve">
-    <value>Disable full-screen optimizations</value>
+    <value>בטל מיטוב מסך מלא</value>
   </data>
   <data name="CompatibilityRunIn640x480Resolution" xml:space="preserve">
     <value>Run in 640 x 480 screen resolution</value>
@@ -1896,7 +1896,7 @@
     <value>‏‏צור ספריה</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryInputPlaceholderText" xml:space="preserve">
-    <value>Enter Library name</value>
+    <value>הכנס שם ספרייה</value>
   </data>
   <data name="CalculateFolderSizes" xml:space="preserve">
     <value>Calculate folder sizes</value>
@@ -1920,7 +1920,7 @@
     <value>לקריאה בלבד</value>
   </data>
   <data name="CleanupDrive" xml:space="preserve">
-    <value>Cleanup your drive contents</value>
+    <value>נקה את תוכן הכונן</value>
   </data>
   <data name="Type" xml:space="preserve">
     <value>סוג</value>
@@ -1947,7 +1947,7 @@
     <value>הפעל קובץ Script</value>
   </data>
   <data name="RunWithPowerShell" xml:space="preserve">
-    <value>Run with PowerShell</value>
+    <value>הרץ עם PowerShell</value>
   </data>
   <data name="ShowFolderSizesWarning" xml:space="preserve">
     <value>Calculating folder sizes is resource intensive and may cause your CPU usage to increase.</value>
@@ -1962,7 +1962,7 @@
     <value>‏‏התקן את</value>
   </data>
   <data name="CloseTabsToTheLeft" xml:space="preserve">
-    <value>Close tabs to the left</value>
+    <value>סגור כרטיסיות לשמאל</value>
   </data>
   <data name="CloseTabsToTheRight" xml:space="preserve">
     <value>סגור כרטיסיות משמאל</value>
@@ -2032,7 +2032,7 @@
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Enjoying Files? Please consider reviewing in the Microsoft Store.</value>
-  </data>  
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
     <value>Enjoying Files? Please consider supporting the project on GitHub.</value>
   </data>
@@ -2046,7 +2046,7 @@
     <value>Dismiss</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Set as background</value>
+    <value>החל כרקע</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>קבע כרקע שולחן העבודה</value>
@@ -2070,7 +2070,7 @@
     <value>Type column</value>
   </data>
   <data name="Lockscreen" xml:space="preserve">
-    <value>Lockscreen</value>
+    <value>מסך נעילה</value>
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
     <value>Open folders with a single click</value>
@@ -2079,7 +2079,7 @@
     <value>Opening items</value>
   </data>
   <data name="Compress" xml:space="preserve">
-    <value>Compress</value>
+    <value>דחוס</value>
   </data>
   <data name="FlattenFolderDescription" xml:space="preserve">
     <value>Move all contents from subfolders into the selected location</value>
@@ -2214,7 +2214,7 @@
     <value>Group in descending order</value>
   </data>
   <data name="SortInDescendingOrder" xml:space="preserve">
-    <value>Sort in descending order</value>
+    <value>מיין בסדר יורד</value>
   </data>
   <data name="NewShortcutDialogTitle" xml:space="preserve">
     <value>Create a new shortcut</value>
@@ -2232,7 +2232,7 @@
     <value>Recently used files is currently disabled in Windows File Explorer.</value>
   </data>
   <data name="EditSettingsFile" xml:space="preserve">
-    <value>Edit settings file</value>
+    <value>ערוך קבצי מערכת</value>
   </data>
   <data name="EditSettingsFileDescription" xml:space="preserve">
     <value>Open settings file in your default editor</value>
@@ -2265,7 +2265,7 @@
     <value>הצג תפריט עריכת תגיות</value>
   </data>
   <data name="ShowCompressionOptions" xml:space="preserve">
-    <value>Show compression options</value>
+    <value>הראה אפשרויות דחיסה</value>
   </data>
   <data name="ShowSendToMenu" xml:space="preserve">
     <value>הצג שלח לתפריט</value>
@@ -2292,28 +2292,28 @@
     <value>Network folder error</value>
   </data>
   <data name="AppVersion" xml:space="preserve">
-    <value>App version</value>
+    <value>גרסת יישום</value>
   </data>
   <data name="WindowsVersion" xml:space="preserve">
-    <value>Windows version</value>
+    <value>גרסת Windows</value>
   </data>
   <data name="Always" xml:space="preserve">
-    <value>Always</value>
+    <value>תמיד</value>
   </data>
   <data name="PermanentDeletionOnly" xml:space="preserve">
     <value>Permanent deletion only</value>
   </data>
   <data name="Never" xml:space="preserve">
-    <value>Never</value>
+    <value>אף פעם</value>
   </data>
   <data name="TagColor" xml:space="preserve">
     <value>Tag color</value>
   </data>
   <data name="NewTag" xml:space="preserve">
-    <value>New tag</value>
+    <value>תג חדש</value>
   </data>
   <data name="CreateNewTag" xml:space="preserve">
-    <value>Create new tag</value>
+    <value>צור תג חדש</value>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>Loading...</value>
@@ -2349,13 +2349,13 @@
     <value>Apply this action to all conflicting items</value>
   </data>
   <data name="OpenTerminal" xml:space="preserve">
-    <value>Open in Windows Terminal</value>
+    <value>פתח בWindows Terminal</value>
   </data>
   <data name="OpenTerminalAsAdmin" xml:space="preserve">
     <value>Open in Windows Terminal as administrator</value>
   </data>
   <data name="Save" xml:space="preserve">
-    <value>Save</value>
+    <value>שמור</value>
   </data>
   <data name="MultiSelect" xml:space="preserve">
     <value>Multiselect</value>
@@ -2487,10 +2487,10 @@
     <value>Create new {0, plural, one {shortcut} other {shortcuts}} to selected {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
-    <value>Create new shortcut to any item</value>
+    <value>צור קיצור דרך לכל פריט</value>
   </data>
   <data name="EmptyRecycleBinDescription" xml:space="preserve">
-    <value>Empty the contents of Recycle Bin</value>
+    <value>נקה את תוכן הסל מחזור</value>
   </data>
   <data name="FormatDriveDescription" xml:space="preserve">
     <value>Open "Format Drive" menu for selected item</value>
@@ -2499,7 +2499,7 @@
     <value>Restore selected {0, plural, one {item} other {items}} from recycle bin</value>
   </data>
   <data name="RestoreAllRecycleBinDescription" xml:space="preserve">
-    <value>Restore all items from recycle bin</value>
+    <value>שחזר את כל הפריטים מסל המחזור</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
     <value>Open {0, plural, one {item} other {items}}</value>
@@ -2511,13 +2511,13 @@
     <value>Open parent folder of searched item</value>
   </data>
   <data name="RefreshItemsDescription" xml:space="preserve">
-    <value>Refresh page contents</value>
+    <value>רענן תוכן עמוד</value>
   </data>
   <data name="RenameDescription" xml:space="preserve">
     <value>Rename selected item</value>
   </data>
   <data name="SelectAllDescription" xml:space="preserve">
-    <value>Select all items</value>
+    <value>בחר את כל הפריטים</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
     <value>Invert selected items</value>
@@ -2610,13 +2610,13 @@
     <value>Rotate selected {0, plural, one {image} other {images}} to the right</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
-    <value>Open settings page</value>
+    <value>פתח דף הגדרות</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
-    <value>Open folder in terminal</value>
+    <value>פתח תיקייה במסוף</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Open folder in terminal as administrator</value>
+    <value>פתח תיקייה במסוף כמנהל מערכת</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
     <value>Decrease item size in the current view</value>
@@ -2649,19 +2649,19 @@
     <value>שנה תצוגות באופן אדפטיבי</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
-    <value>Sort items by name</value>
+    <value>מיין פריטים לפי שם</value>
   </data>
   <data name="SortByDateModifiedDescription" xml:space="preserve">
-    <value>Sort items by date modified</value>
+    <value>מיין פריטים לפי תאריך שינוי</value>
   </data>
   <data name="SortByDateCreatedDescription" xml:space="preserve">
-    <value>Sort items by date created</value>
+    <value>מיין פריטים לפי תאריך יצירה</value>
   </data>
   <data name="SortBySizeDescription" xml:space="preserve">
-    <value>Sort items by size</value>
+    <value>מיין פריטים לפי גודל</value>
   </data>
   <data name="SortByTypeDescription" xml:space="preserve">
-    <value>Sort items by type</value>
+    <value>מיין פריטים לפי סוג</value>
   </data>
   <data name="SortBySyncStatusDescription" xml:space="preserve">
     <value>Sort items by sync status</value>
@@ -2688,25 +2688,25 @@
     <value>List items without grouping</value>
   </data>
   <data name="GroupByNameDescription" xml:space="preserve">
-    <value>Group items by name</value>
+    <value>קבץ פריטים לפי שם</value>
   </data>
   <data name="GroupByDateModifiedDescription" xml:space="preserve">
-    <value>Group items by date modified</value>
+    <value>קבץ קבצים לפי תאריך שינוי</value>
   </data>
   <data name="GroupByDateCreatedDescription" xml:space="preserve">
-    <value>Group items by date created</value>
+    <value>קבץ קבצים לפי תאריך יצירה</value>
   </data>
   <data name="GroupBySizeDescription" xml:space="preserve">
-    <value>Group items by size</value>
+    <value>קבץ קבצים לפי גודל</value>
   </data>
   <data name="GroupByTypeDescription" xml:space="preserve">
-    <value>Group items by type</value>
+    <value>קבץ קבצים לפי סוג</value>
   </data>
   <data name="GroupBySyncStatusDescription" xml:space="preserve">
     <value>Group items by sync status</value>
   </data>
   <data name="GroupByTagDescription" xml:space="preserve">
-    <value>Group items by tags</value>
+    <value>קבץ קבצים לפי תג</value>
   </data>
   <data name="GroupByOriginalFolderDescription" xml:space="preserve">
     <value>Group items by original folder</value>
@@ -2742,7 +2742,7 @@
     <value>Duplicate current tab</value>
   </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
-    <value>Duplicate selected tab</value>
+    <value>שכפל כרטיסייה נוכחית</value>
   </data>
   <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
     <value>Close tabs to the left of current tab</value>
@@ -2763,19 +2763,19 @@
     <value>Close tabs other than selected tab</value>
   </data>
   <data name="CloseAllTabsDescription" xml:space="preserve">
-    <value>Close all tabs including the current tab</value>
+    <value>סגור את כל הכרטיסיות כולל הכרטיסייה הנוכחית</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen recently closed tab</value>
+    <value>פתח מחדש את הכרטיסייה האחרונה</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
-    <value>Move to the previous tab</value>
+    <value>עבור לכרטיסייה הקודמת</value>
   </data>
   <data name="NextTabDescription" xml:space="preserve">
-    <value>Move to the next tab</value>
+    <value>עבור לכרטיסייה הבאה</value>
   </data>
   <data name="CloseSelectedTabDescription" xml:space="preserve">
-    <value>Close current tab</value>
+    <value>סגור כרטיסייה נוכחית</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
     <value>Close the active pane</value>
@@ -2986,7 +2986,7 @@
     <value>This PC</value>
   </data>
   <data name="RecycleBin" xml:space="preserve">
-    <value>Recycle Bin</value>
+    <value>סל המיחזור</value>
   </data>
   <data name="Untagged" xml:space="preserve">
     <value>Untagged</value>
@@ -2995,10 +2995,10 @@
     <value>Previous tab</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Next tab</value>
+    <value>כרטיסייה חדשה</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Close tab</value>
+    <value>סגור כרטיסייה</value>
   </data>
   <data name="EditPath" xml:space="preserve">
     <value>Edit path</value>
@@ -3031,7 +3031,7 @@
     <value>Edit path in the OmniBar</value>
   </data>
   <data name="AddItemDescription" xml:space="preserve">
-    <value>Create new item</value>
+    <value>צור פריט חדש</value>
   </data>
   <data name="SecurityNoAccessControlEntriesText" xml:space="preserve">
     <value>No groups or users have permission to access this object. However, the owner of this object can assign permissions.</value>
@@ -3088,7 +3088,7 @@
     <value>Group items by month of date created</value>
   </data>
   <data name="GroupByDateCreatedYearDescription" xml:space="preserve">
-    <value>Group items by year of date created</value>
+    <value>קבץ קבצים לפי שנת יצירה</value>
   </data>
   <data name="GroupByDateDeletedDayDescription" xml:space="preserve">
     <value>Group items by day of date deleted</value>
@@ -3100,13 +3100,13 @@
     <value>Group items by year of date deleted</value>
   </data>
   <data name="GroupByDateModifiedDayDescription" xml:space="preserve">
-    <value>Group items by day of date modified</value>
+    <value>קבץ קבצים לפי תאריך יום שינוי</value>
   </data>
   <data name="GroupByDateModifiedMonthDescription" xml:space="preserve">
-    <value>Group items by month of date modified</value>
+    <value>קבץ קבצים לפי תאריך חודש שינוי</value>
   </data>
   <data name="GroupByDateModifiedYearDescription" xml:space="preserve">
-    <value>Group items by year of date modified</value>
+    <value>קבץ קבצים לפי תאריך שנת שינוי</value>
   </data>
   <data name="SecurityClickAdvancedPermissions" xml:space="preserve">
     <value>Click 'Advanced permissions' to continue.</value>
@@ -3178,10 +3178,10 @@
     <value>Open File Explorer properties</value>
   </data>
   <data name="OpenPropertiesDescription" xml:space="preserve">
-    <value>Open properties window</value>
+    <value>פתח מאפיינים בWindow</value>
   </data>
   <data name="OpenClassicPropertiesDescription" xml:space="preserve">
-    <value>Open File Explorer properties window</value>
+    <value>פתח את המאפיינים של File Explorer בWindow</value>
   </data>
   <data name="Locals" xml:space="preserve">
     <value>Locals</value>
@@ -3393,7 +3393,7 @@
     <value>Due to a limitation with Windows and WinAppSdk, drag and drop isn't available when running Files as admin. If you wish to use drag and drop, you can work around this limitation by opening UAC (User Account Control) from the Start Menu and selecting the third level, and restarting Windows. Otherwise, you can keep using Files without drag &amp; drop.</value>
   </data>
   <data name="SettingsLeaveAppRunning" xml:space="preserve">
-    <value>Leave app running in the background when the window is closed</value>
+    <value>השאר את האפליקציה פועלת ברקע כאשר החלון סגור</value>
   </data>
   <data name="Blue" xml:space="preserve">
     <value>Blue</value>
@@ -3771,10 +3771,10 @@
     <value>Are you sure you want to permanently delete "{0}" branch?</value>
   </data>
   <data name="ConnectedToGitHub" xml:space="preserve">
-    <value>Connected to GitHub</value>
+    <value>מחובר לGitHub</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>Logout</value>
+    <value>התנתק</value>
   </data>
   <data name="ConnectToGitHub" xml:space="preserve">
     <value>Connect to GitHub</value>
@@ -3792,25 +3792,25 @@
     <value>Extract selected {0, plural, one {archive} other {archives}} here for single-item or to new folder for multi-item</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
-    <value>Extract here (Smart)</value>
+    <value>חלץ לכאן (חכם)</value>
   </data>
   <data name="SortFilesAndFoldersTogether" xml:space="preserve">
     <value>מיין קבצים ותיקיות יחד</value>
   </data>
   <data name="SortFilesAndFoldersTogetherDescription" xml:space="preserve">
-    <value>Sort files and folders in the same list</value>
+    <value>מיין קבצים ותיקיות באותה רשימה</value>
   </data>
   <data name="SortFilesFirst" xml:space="preserve">
-    <value>Sort files first</value>
+    <value>מיין קבצים בהתחלה</value>
   </data>
   <data name="SortFilesFirstDescription" xml:space="preserve">
-    <value>Sort files first then folders</value>
+    <value>מיין קבצים קודם ואז תיקיות</value>
   </data>
   <data name="SortFoldersFirst" xml:space="preserve">
     <value>מיין תיקיות תחילה</value>
   </data>
   <data name="SortFoldersFirstDescription" xml:space="preserve">
-    <value>Sort folders first then files</value>
+    <value>מיין תיקיות קודם ואז קבצים</value>
   </data>
   <data name="SortPriority" xml:space="preserve">
     <value>העדפות מיון</value>
@@ -3831,10 +3831,10 @@
     <value>Scroll to previous folder when navigating up</value>
   </data>
   <data name="NewWindowDescription" xml:space="preserve">
-    <value>Open new window</value>
+    <value>פתח חלון חדש</value>
   </data>
   <data name="ChangeAlbumCover" xml:space="preserve">
-    <value>Change album cover</value>
+    <value>שנה עטיפת אלבום</value>
   </data>
   <data name="ItemRenameFailed" xml:space="preserve">
     <value>Failed to rename item</value>
@@ -3919,13 +3919,13 @@
     <value>Commands</value>
   </data>
   <data name="AddCommand" xml:space="preserve">
-    <value>Add command</value>
+    <value>הוסף פקודה</value>
   </data>
   <data name="RestoreDefaults" xml:space="preserve">
-    <value>Restore defaults</value>
+    <value>שחזר ברירות מחדל</value>
   </data>
   <data name="ChooseAnAction" xml:space="preserve">
-    <value>Choose an action</value>
+    <value>בחר פעולה</value>
   </data>
   <data name="RestoreDefaultKeybindingsConfirmation" xml:space="preserve">
     <value>Are you sure you want to restore the default key bindings? This action cannot be undone.</value>
@@ -3964,14 +3964,14 @@
     <value>התאם תמונה</value>
   </data>
   <data name="Left" xml:space="preserve">
-    <value>Left</value>
+    <value>שמאלה</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Opacity" xml:space="preserve">
     <value>אטימות</value>
   </data>
   <data name="Right" xml:space="preserve">
-    <value>Right</value>
+    <value>ימינה</value>
     <comment>Image alignment type</comment>
   </data>
   <data name="Top" xml:space="preserve">
@@ -4268,7 +4268,7 @@
     <value>Find features and commands...</value>
   </data>
   <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
-    <value>Search for files and folders...</value>
+    <value>חפש תיקיות וקבצים...</value>
   </data>
   <data name="DuringOngoingFileOperations" xml:space="preserve">
     <value>During file operations</value>
@@ -4307,7 +4307,7 @@
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>Signatures</value>
-   </data>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Signature list</value>
   </data>
@@ -4318,10 +4318,10 @@
     <value>Issued to:</value>
   </data>
   <data name="ValidFrom" xml:space="preserve">
-    <value>Valid from:</value>
+    <value>תקף מ:</value>
   </data>
   <data name="ValidTo" xml:space="preserve">
-    <value>Valid to:</value>
+    <value>תקף ל:</value>
   </data>
   <data name="NoSignatureFound" xml:space="preserve">
     <value>No signature was found.</value>
@@ -4355,5 +4355,11 @@
   </data>
   <data name="Scrolling" xml:space="preserve">
     <value>Scrolling</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Show option to Pin to Sidebar</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Show option to Pin to the Start Menu</value>
   </data>
 </root>
