@@ -2032,7 +2032,7 @@
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Élvezi a Files használatát? Kérem fontolja meg, hogy véleményt ír a Microsoft Store-ban.</value>
-  </data>  
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
     <value>Élvezi a Files használatát? Kérem fontolja meg, hogy támogatja a projektet GitHub-on.</value>
   </data>
@@ -4307,7 +4307,7 @@
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>Aláírások</value>
-   </data>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Aláírás lista</value>
   </data>
@@ -4355,5 +4355,11 @@
   </data>
   <data name="Scrolling" xml:space="preserve">
     <value>Scrolling</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Show option to Pin to Sidebar</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Show option to Pin to the Start Menu</value>
   </data>
 </root>
