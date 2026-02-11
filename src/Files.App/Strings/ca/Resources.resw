@@ -2032,7 +2032,7 @@
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Us agrada el Files? Considereu fer una ressenya a la Microsoft Store.</value>
-  </data>  
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
     <value>Us agrada el Files? Penseu en donar suport al projecte al GitHub.</value>
   </data>
@@ -4307,7 +4307,7 @@
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>Signatures</value>
-   </data>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Llistat de signatures</value>
   </data>
@@ -4355,5 +4355,11 @@
   </data>
   <data name="Scrolling" xml:space="preserve">
     <value>Desplaçament</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Mostra l'opció per fixar a la barra lateral</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Mostra l'opció per fixar al menú Inici</value>
   </data>
 </root>
