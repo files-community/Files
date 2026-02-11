@@ -166,7 +166,7 @@
     <value>រំលង</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>ជ្រើស​​​ទាំង​អស់</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>បញ្ច្រាស់ការជ្រើសរើស​</value>
@@ -310,7 +310,7 @@
     <value>ងងឹត</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
-    <value>Use system setting</value>
+    <value>ប្រើ​​​​​ការ​​​​កំណត់​របស់​​​​​ប្រព័ន្ធ ​</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>កម្មវិធី</value>
@@ -1011,7 +1011,7 @@
     <value>លទ្ធផលស្វែងរកក្នុង {1} សម្រាប់ {0}</value>
   </data>
   <data name="SearchResultsFor" xml:space="preserve">
-    <value>Search results for `{0}`</value>
+    <value>លទ្ធផលស្វែងរកសម្រាប់ `{0}`</value>
   </data>
   <data name="Details" xml:space="preserve">
     <value>ពត៌មាន​លម្អិត</value>
@@ -1203,7 +1203,7 @@
     <value>Map network drive</value>
   </data>
   <data name="Pinned" xml:space="preserve">
-    <value>Pinned</value>
+    <value>បានខ្ទាស់</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>បណ្ណាល័យ</value>
@@ -1212,7 +1212,7 @@
     <value>មិនមានធាតុដែលត្រូវបានជ្រើសរើស</value>
   </data>
   <data name="PropertyItemTarget" xml:space="preserve">
-    <value>Target</value>
+    <value>គោលដៅ</value>
   </data>
   <data name="Arguments" xml:space="preserve">
     <value>Arguments</value>
@@ -1242,10 +1242,10 @@
     <value>បណ្ណាល័យ​</value>
   </data>
   <data name="LibraryLocations.Text" xml:space="preserve">
-    <value>Locations:</value>
+    <value>ទីតាំង៖</value>
   </data>
   <data name="SetAsDefaultSavePath" xml:space="preserve">
-    <value>Set as default save path</value>
+    <value>កំណត់ជាទីតាំងរក្សាលំនាំដើម</value>
   </data>
   <data name="LibraryNoLocations.Text" xml:space="preserve">
     <value>No locations</value>
@@ -1323,7 +1323,7 @@
     <value>Create folder with selection</value>
   </data>
   <data name="ItemType" xml:space="preserve">
-    <value>Type:</value>
+    <value>ប្រភេទ៖</value>
   </data>
   <data name="ToolTipDescriptionDate" xml:space="preserve">
     <value>កាលបរិច្ឆេទកែប្រែ</value>
@@ -1518,7 +1518,7 @@
     <value>អនុវត្តចំពោះ</value>
   </data>
   <data name="Principal" xml:space="preserve">
-    <value>Principal</value>
+    <value>ប្រាក់ដើម</value>
   </data>
   <data name="SecurityAdvancedFlagsFilesLabel" xml:space="preserve">
     <value>ឯកសារ</value>
@@ -1731,7 +1731,7 @@
     <value>បើកទៅកាន់ទីតាំងឯកសារ</value>
   </data>
   <data name="LinkToFolderCaptionText" xml:space="preserve">
-    <value>Create link in {0}</value>
+    <value>បង្កើតតំណភ្ជាប់</value>
   </data>
   <data name="Columns" xml:space="preserve">
     <value>ជួរឈរ</value>
@@ -1746,7 +1746,7 @@
     <value>មណ្ឌលស្ថានភាព</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowDateCreated.Text" xml:space="preserve">
-    <value>Date created column</value>
+    <value>ជួរឈរកាលបរិច្ឆេទបង្កើត</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemSize.Text" xml:space="preserve">
     <value>ជួរឈរទំហំធាតុ</value>
@@ -2032,7 +2032,7 @@
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
     <value>Enjoying Files? Please consider reviewing in the Microsoft Store.</value>
-  </data>  
+  </data>
   <data name="SponsorSubtitle" xml:space="preserve">
     <value>Enjoying Files? Please consider supporting the project on GitHub.</value>
   </data>
@@ -2049,7 +2049,7 @@
     <value>Set as background</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
-    <value>Set as desktop background</value>
+    <value>កំណត់ជាផ្ទាំងបង្ហាញអេក្រង់</value>
   </data>
   <data name="SetAsDefault" xml:space="preserve">
     <value>កំណត់ជាបុរេជម្រើស</value>
@@ -2058,7 +2058,7 @@
     <value>ជួរឈរកាលបរិច្ឆេទ</value>
   </data>
   <data name="DateCreatedColumn" xml:space="preserve">
-    <value>Date created column</value>
+    <value>ជួរឈរកាលបរិច្ឆេទបង្កើត</value>
   </data>
   <data name="SizeColumn" xml:space="preserve">
     <value>Size column</value>
@@ -4307,7 +4307,7 @@
   </data>
   <data name="Signatures" xml:space="preserve">
     <value>Signatures</value>
-   </data>
+  </data>
   <data name="SignatureList" xml:space="preserve">
     <value>Signature list</value>
   </data>
@@ -4355,5 +4355,11 @@
   </data>
   <data name="Scrolling" xml:space="preserve">
     <value>Scrolling</value>
+  </data>
+  <data name="ShowPinToSideBar" xml:space="preserve">
+    <value>Show option to Pin to Sidebar</value>
+  </data>
+  <data name="ShowPinToStart" xml:space="preserve">
+    <value>Show option to Pin to the Start Menu</value>
   </data>
 </root>
