@@ -24,6 +24,11 @@ on:
       - 'builds/**'
       - 'docs/**'
       - '*.md'
+  workflow_run:
+    workflows:
+      - Format XAML
+    types:
+      - completed
 
 run-name: ${{ github.event_name == 'pull_request' && 'Files PR Validation' || 'Files CI Validation' }}
 
