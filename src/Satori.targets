@@ -16,7 +16,7 @@
       <SatoriDownloadedThisRun>true</SatoriDownloadedThisRun>
     </PropertyGroup>
     <DownloadFile
-        SourceUrl="https://github.com/files-community/Satori/releases/latest/download/windows_$(Platform).zip"
+        SourceUrl="https://github.com/files-community/Satori/releases/latest/download/$(SatoriArchiveName)"
         DestinationFolder="$(IntermediateOutputPath)SatoriPackage\$(SatoriDownloadDate)"
         Retries="3"
         Condition="!Exists('$(SatoriArchivePath)')">
