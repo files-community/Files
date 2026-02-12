@@ -317,5 +317,15 @@ namespace Files.Shared.Helpers
 		{
 			return HasExtension(filePathToCheck, ".md", ".markdown");
 		}
+
+		/// <summary>
+		/// Check if the file extension is a text file.
+		/// </summary>
+		/// <param name="filePathToCheck"></param>
+		/// <returns><c>true</c> if the filePathToCheck is a text file; otherwise, <c>false</c>.</returns>
+		public static bool IsTextFile(string? filePathToCheck)
+		{
+			return HasExtension(filePathToCheck, ".txt");
+		}
 	}
 }

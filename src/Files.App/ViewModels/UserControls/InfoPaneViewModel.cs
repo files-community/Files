@@ -300,7 +300,7 @@ namespace Files.App.ViewModels.UserControls
 				return new ImagePreview(model);
 			}
 
-			if (TextPreviewViewModel.ContainsExtension(ext))
+			if (FileExtensionHelpers.IsTextFile(ext))
 			{
 				var model = new TextPreviewViewModel(item);
 				await model.LoadAsync();
