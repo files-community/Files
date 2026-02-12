@@ -124,7 +124,7 @@
     <value>Copy path</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Copy item path</value>
+    <value>test</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Copy path with quotes</value>
