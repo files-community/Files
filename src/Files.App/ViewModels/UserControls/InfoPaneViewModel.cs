@@ -324,7 +324,7 @@ namespace Files.App.ViewModels.UserControls
 				return new HtmlPreview(model);
 			}*/
 
-			if (RichTextPreviewViewModel.ContainsExtension(ext))
+			if (FileExtensionHelpers.IsRichTextFile(ext))
 			{
 				var model = new RichTextPreviewViewModel(item);
 				await model.LoadAsync();

@@ -327,5 +327,15 @@ namespace Files.Shared.Helpers
 		{
 			return HasExtension(fileExtensionToCheck, ".txt");
 		}
+
+		/// <summary>
+		/// Check if the file extension is a rich text file.
+		/// </summary>
+		/// <param name="fileExtensionToCheck"></param>
+		/// <returns><c>true</c> if the fileExtensionToCheck is a rich text file; otherwise, <c>false</c>.</returns>
+		public static bool IsRichTextFile(string? fileExtensionToCheck)
+		{
+			return HasExtension(fileExtensionToCheck, ".rtf");
+		}
 	}
 }
