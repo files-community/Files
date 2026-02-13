@@ -235,7 +235,13 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				IsNoNetworkLocations = false;
 
-				foreach (DriveItem drive in source.ToList().Cast<DriveItem>())
+				List<DriveItem> drivesList;
+				lock (source)
+				{
+					drivesList = source.Cast<DriveItem>().ToList();
+				}
+
+				foreach (DriveItem drive in drivesList)
 				{
 					if (!Items.Any(x => x.Item == drive) && drive.Type is DriveType.Network)
 					{
@@ -248,7 +254,21 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 				foreach (WidgetDriveCardItem driveCard in Items.ToList())
 				{
-					if (!DrivesViewModel.Drives.Contains(driveCard.Item) && !NetworkService.Shortcuts.Contains(driveCard.Item))
+					bool shouldRemove;
+					lock (DrivesViewModel.Drives)
+					{
+						shouldRemove = !DrivesViewModel.Drives.Contains(driveCard.Item);
+					}
+
+					if (shouldRemove)
+					{
+						lock (NetworkService.Shortcuts)
+						{
+							shouldRemove = !NetworkService.Shortcuts.Contains(driveCard.Item);
+						}
+					}
+
+					if (shouldRemove)
 						Items.Remove(driveCard);
 				}
 
