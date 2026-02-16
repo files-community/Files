@@ -34,7 +34,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		// Fields
 
 		// TODO: Replace with IMutableFolder.GetWatcherAsync() once it gets implemented in IWindowsStorable
-		private readonly SystemIO.FileSystemWatcher _quickAccessFolderWatcher;
+		private readonly SystemIO.FileSystemWatcher? _quickAccessFolderWatcher;
 
 		// Constructor
 
@@ -46,19 +46,32 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			PinToSidebarCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecutePinToSidebarCommand);
 			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetFolderCardItem>(ExecuteUnpinFromSidebarCommand);
 
-			_quickAccessFolderWatcher = new()
-			{
-				Path = SystemIO.Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations"),
-				Filter = "f01b4d95cf55d32a.automaticDestinations-ms",
-				NotifyFilter = SystemIO.NotifyFilters.LastAccess | SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName
-			};
+			var automaticDestinationsPath = SystemIO.Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations");
 
-			_quickAccessFolderWatcher.Changed += async (s, e) =>
+			// Only initialize FileSystemWatcher if the directory exists
+			// This handles cases where AppData is redirected to network locations that don't contain Windows system directories
+			if (SystemIO.Directory.Exists(automaticDestinationsPath))
 			{
-				await RefreshWidgetAsync();
-			};
+				_quickAccessFolderWatcher = new()
+				{
+					Path = automaticDestinationsPath,
+					Filter = "f01b4d95cf55d32a.automaticDestinations-ms",
+					NotifyFilter = SystemIO.NotifyFilters.LastAccess | SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName
+				};
 
-			_quickAccessFolderWatcher.EnableRaisingEvents = true;
+				_quickAccessFolderWatcher.Changed += async (s, e) =>
+				{
+					await RefreshWidgetAsync();
+				};
+
+				_quickAccessFolderWatcher.EnableRaisingEvents = true;
+			}
+			else
+			{
+				// If the directory doesn't exist (e.g., redirected AppData), skip FileSystemWatcher initialization
+				// The widget will still function, but won't receive automatic updates when pinned items change externally
+				_quickAccessFolderWatcher = null;
+			}
 		}
 
 		// Methods
