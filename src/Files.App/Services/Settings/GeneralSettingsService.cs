@@ -412,7 +412,7 @@ namespace Files.App.Services.Settings
 		}
 
 		public bool EnableThumbnailCache
-    {
+		{
 			get => Get(true);
 			set => Set(value);
 		}
