@@ -37,6 +37,7 @@ namespace Files.App.Helpers
 					{
 						IFile => await shellViewModel.GetFileFromPathAsync(storable.Id).OnSuccess(x => items.Add(x)),
 						IFolder => await shellViewModel.GetFolderFromPathAsync(storable.Id).OnSuccess(x => items.Add(x)),
+						_ => throw new ArgumentOutOfRangeException(nameof(storable)),
 					};
 
 					if (!result)
