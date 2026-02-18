@@ -97,6 +97,22 @@ jobs:
         -p:Configuration=$env:CONFIGURATION `
         -v:quiet
 
+    - name: Sign launcher EXE with Azure Trusted Signing
+      uses: azure/trusted-signing-action@v0.4.0
+      with:
+        azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+        endpoint: https://eus.codesigning.azure.net/
+        trusted-signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
+        certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
+        files-folder: ${{ github.workspace }}\src\Files.App\Assets\FilesOpenDialog
+        files-folder-filter: "*.exe"
+        files-folder-recurse: false
+        file-digest: SHA256
+        timestamp-rfc3161: http://timestamp.acs.microsoft.com
+        timestamp-digest: SHA256
+
     - name: Build & package Files
       shell: pwsh
       run: |
