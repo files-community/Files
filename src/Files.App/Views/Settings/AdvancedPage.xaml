@@ -203,6 +203,5 @@
 				<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowFlattenOptions}" IsOn="{x:Bind ViewModel.ShowFlattenOptions, Mode=TwoWay}" />
 			</wctcontrols:SettingsCard>
 		</StackPanel>
-
 	</Grid>
 </Page>
