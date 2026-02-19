@@ -1,4 +1,4 @@
-﻿using Windows.UI.StartScreen;
+using Windows.UI.StartScreen;
 
 namespace Files.App.Services
 {
@@ -27,6 +27,19 @@ namespace Files.App.Services
 			var tileId = GetNativeTileId(storable.Id);
 			displayName ??= storable.Name;
 
+			// Check whether the app has a package identity. Secondary tiles persist reliably only for
+			// packaged apps; running unpackaged (during development) can cause pins to not stick.
+			bool isPackaged = true;
+			try
+			{
+				_ = Windows.ApplicationModel.Package.Current;
+			}
+			catch
+			{
+				isPackaged = false;
+				Debug.WriteLine($"Start pinning may not persist: app has no package identity (unpackaged). TileId: {tileId}");
+			}
+
 			try
 			{
 				var path150x150 = new Uri("ms-appx:///Assets/tile-0-300x300.png");
@@ -48,7 +61,16 @@ namespace Files.App.Services
 
 				WinRT.Interop.InitializeWithWindow.Initialize(tile, MainWindow.Instance.WindowHandle);
 
-				await tile.RequestCreateAsync();
+				// RequestCreateAsync returns a bool indicating whether the tile was created.
+				var created = await tile.RequestCreateAsync();
+				if (!created)
+				{
+					Debug.WriteLine($"SecondaryTile.RequestCreateAsync returned false for {tileId}");
+				}
+				else
+				{
+					Debug.WriteLine($"SecondaryTile created: {tileId}");
+				}
 			}
 			catch (Exception e)
 			{
