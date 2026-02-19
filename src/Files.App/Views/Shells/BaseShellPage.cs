@@ -394,32 +394,47 @@ namespace Files.App.Views.Shells
 		{
 			if (string.IsNullOrWhiteSpace(singleItemOverride))
 			{
+				// Cancel any previous operation
+				cts?.Cancel();
 				cts = new CancellationTokenSource();
+				var localCts = cts;
 
 				var components = await StorageFileExtensions.GetDirectoryPathComponentsWithDisplayNameAsync(newWorkingDir);
 
-				// Cancel if overrided by single item
-				if (cts.IsCancellationRequested)
+				// Cancel if overrided by single item or if a new operation has started
+				if (localCts.IsCancellationRequested || cts != localCts)
 					return;
 
-				ToolbarViewModel.PathComponents.Clear();
-				foreach (var component in components)
-					ToolbarViewModel.PathComponents.Add(component);
+				// Dispatch all collection modifications to the UI thread atomically
+				await DispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					// Double-check cancellation before modifying the collection
+					if (localCts.IsCancellationRequested || cts != localCts)
+						return;
+
+					ToolbarViewModel.PathComponents.Clear();
+					foreach (var component in components)
+						ToolbarViewModel.PathComponents.Add(component);
+				});
 			}
 			else
 			{
 				cts?.Cancel();
 
-				// Clear the path UI
-				ToolbarViewModel.PathComponents.Clear();
-				ToolbarViewModel.IsSingleItemOverride = true;
-				ToolbarViewModel.PathComponents.Add(
-					new()
-					{
-						Path = null,
-						Title = singleItemOverride,
-						ChevronToolTip = string.Format(Strings.BreadcrumbBarChevronButtonToolTip.GetLocalizedResource(), singleItemOverride),
-					});
+				// Dispatch all collection modifications to the UI thread atomically
+				await DispatcherQueue.EnqueueOrInvokeAsync(() =>
+				{
+					// Clear the path UI
+					ToolbarViewModel.PathComponents.Clear();
+					ToolbarViewModel.IsSingleItemOverride = true;
+					ToolbarViewModel.PathComponents.Add(
+						new()
+						{
+							Path = null,
+							Title = singleItemOverride,
+							ChevronToolTip = string.Format(Strings.BreadcrumbBarChevronButtonToolTip.GetLocalizedResource(), singleItemOverride),
+						});
+				});
 			}
 		}
 

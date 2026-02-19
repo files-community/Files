@@ -278,9 +278,26 @@ namespace Files.App.UserControls
 			if (args.Index < 0 || args.Index >= ViewModel.PathComponents.Count)
 				return;
 
+			// Safely retrieve the path from the collection with additional bounds check
+			// to prevent race condition with collection modifications
+			string? path = null;
+			try
+			{
+				// Re-check bounds and get the path atomically
+				if (args.Index < ViewModel.PathComponents.Count)
+				{
+					var component = ViewModel.PathComponents[args.Index];
+					path = component?.Path;
+				}
+			}
+			catch
+			{
+				// Collection was modified during access, safely ignore
+				return;
+			}
+
 			// Navigation to the current folder should not happen
-			if (args.Index == ViewModel.PathComponents.Count - 1 ||
-				ViewModel.PathComponents[args.Index].Path is not { } path)
+			if (args.Index == ViewModel.PathComponents.Count - 1 || path is null)
 				return;
 
 			// If user clicked the item with middle mouse button, open it in new tab
