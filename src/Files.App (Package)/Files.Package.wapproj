@@ -74,6 +74,9 @@
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" IncludeAssets="build" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
+    <Target Name="DeleteFilesOpenDialogFolder" BeforeTargets="_GenerateCurrentProjectAppxManifest">
+      <RemoveDir Directories="$(MSBuildProjectDirectory)\Assets\FilesOpenDialog" />
+    </Target>
   <Target Name="RemoveOutOfProcWinMD" BeforeTargets="_GenerateCurrentProjectAppxManifest">
     <ItemGroup>
       <_AppxWinmdFilesToHarvest Condition="'%(FileName)' == 'Files.App.Server'" Remove="@(_AppxWinmdFilesToHarvest)" />
