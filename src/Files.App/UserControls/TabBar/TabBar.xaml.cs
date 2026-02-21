@@ -170,6 +170,7 @@ namespace Files.App.UserControls.TabBar
 			else
 			{
 				HorizontalTabView.CanReorderTabs = false;
+				e.AcceptedOperation = DataPackageOperation.None;
 			}
 		}
 
