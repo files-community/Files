@@ -1,7 +1,10 @@
 {
   "profiles": {
-    "MsixPackage": {
-      "commandName": "MsixPackage"
+    "Files.App (Packaged)": {
+        "commandName": "MsixPackage"
+    },
+    "Files.App (Unpackaged)": {
+      "commandName": "Project"
     }
   }
 }
