@@ -30,15 +30,14 @@ run-name: ${{ github.event_name == 'pull_request' && 'Files PR Validation' || 'F
 env:
   WORKING_DIR: ${{ github.workspace }} # Default: 'D:\a\Files\Files'
   SOLUTION_PATH: '${{ github.workspace }}\Files.slnx'
-  PACKAGE_PROJECT_DIR: '${{ github.workspace }}\src\Files.App (Package)'
-  PACKAGE_PROJECT_PATH: '${{ github.workspace }}\src\Files.App (Package)\Files.Package.wapproj'
+  APP_PROJECT_PATH: '${{ github.workspace }}\src\Files.App\Files.App.csproj'
   AUTOMATED_TESTS_ARCHITECTURE: 'x64'
   AUTOMATED_TESTS_CONFIGURATION: 'Release'
   AUTOMATED_TESTS_PROJECT_DIR: '${{ github.workspace }}\tests\Files.InteractionTests'
   AUTOMATED_TESTS_PROJECT_PATH: '${{ github.workspace }}\tests\Files.InteractionTests\Files.InteractionTests.csproj'
   AUTOMATED_TESTS_ASSEMBLY_DIR: '${{ github.workspace }}\artifacts\TestsAssembly'
   ARTIFACTS_STAGING_DIR:  '${{ github.workspace }}\artifacts'
-  APPX_PACKAGE_DIR: '${{ github.workspace }}\artifacts\AppxPackages'
+  APPX_PACKAGE_DIR: '${{ github.workspace }}\artifacts\AppxPackages\'
   APPX_SELFSIGNED_CERT_PATH: '${{ github.workspace }}\.github\workflows\FilesApp_SelfSigned.pfx'
   WINAPPDRIVER_EXE86_PATH: 'C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe'
   WINAPPDRIVER_EXE64_PATH: 'C:\Program Files\Windows Application Driver\WinAppDriver.exe'
@@ -122,11 +121,12 @@ jobs:
       name: Build Files
       run: |
         msbuild `
-          $env:PACKAGE_PROJECT_PATH `
+          $env:APP_PROJECT_PATH `
           -t:Build `
           -p:Configuration=$env:CONFIGURATION `
           -p:Platform=$env:ARCHITECTURE `
           -p:AppxBundle=Never `
+          -p:GenerateAppxPackageOnBuild=false `
           -v:quiet
 
     - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION && env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE
@@ -137,13 +137,13 @@ jobs:
       name: Build & package Files
       run: |
         msbuild `
-          $env:PACKAGE_PROJECT_PATH `
+          $env:APP_PROJECT_PATH `
           -t:Build `
-          -t:_GenerateAppxPackage `
           -p:Configuration=$env:CONFIGURATION `
           -p:Platform=$env:ARCHITECTURE `
           -p:AppxBundlePlatforms=$env:AUTOMATED_TESTS_ARCHITECTURE `
           -p:AppxBundle=Always `
+          -p:GenerateAppxPackageOnBuild=true `
           -p:UapAppxPackageBuildMode=SideloadOnly `
           -p:AppxPackageDir=$env:APPX_PACKAGE_DIR `
           -p:AppxPackageSigningEnabled=true `
@@ -168,6 +168,8 @@ jobs:
         Copy-Item `
           -Path "$env:AUTOMATED_TESTS_PROJECT_DIR\bin" `
           -Destination "$env:AUTOMATED_TESTS_ASSEMBLY_DIR" -Recurse
+        # Copy the self-signed cert so the test job can trust it
+        Copy-Item -Path "$env:APPX_SELFSIGNED_CERT_PATH" -Destination "$env:ARTIFACTS_STAGING_DIR"
 
     - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
       name: Upload the packages to the Artifacts
@@ -215,11 +217,27 @@ jobs:
     - name: Install Files
       shell: powershell
       run: |
-        Set-Location "$env:APPX_PACKAGE_DIR"
-        $AppxPackageBundleDir = Get-ChildItem -Filter Files.Package_*_Test -Name
-        Set-Location $AppxPackageBundleDir
-        ./Install.ps1 -Force
-        Get-AppxPackage
+        # Trust the self-signed certificate
+        Import-PfxCertificate `
+          -FilePath (Join-Path $env:ARTIFACTS_STAGING_DIR "FilesApp_SelfSigned.pfx") `
+          -CertStoreLocation Cert:\LocalMachine\Root `
+          -Password (New-Object System.Security.SecureString)
+
+        # Install Windows App Runtime
+        $installer = Join-Path $env:TEMP "windowsappruntimeinstall-x64.exe"
+        Invoke-WebRequest -Uri "https://aka.ms/windowsappsdk/1.8/latest/windowsappruntimeinstall-x64.exe" -OutFile $installer
+        Start-Process $installer -ArgumentList "--quiet","--force" -Wait -NoNewWindow
+
+        # Install the app package (with any sideload dependencies)
+        $pkg = Get-ChildItem $env:APPX_PACKAGE_DIR -Recurse -Include *.msixbundle, *.msix |
+          Where-Object { $_.DirectoryName -notmatch '\\Dependencies\\' } | Select-Object -First 1
+        $deps = @(Get-ChildItem $env:APPX_PACKAGE_DIR -Recurse -Filter *.appx |
+          Where-Object { $_.DirectoryName -match '\\Dependencies\\' } | ForEach-Object { $_.FullName })
+        if ($deps.Count -gt 0) {
+          Add-AppxPackage -Path $pkg.FullName -DependencyPath $deps
+        } else {
+          Add-AppxPackage -Path $pkg.FullName
+        }
 
     - name: Set full HD resolution
       run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
