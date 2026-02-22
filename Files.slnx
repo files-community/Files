@@ -5,6 +5,12 @@
     <Platform Name="x86" />
   </Configurations>
   <Folder Name="/global/" Id="ddb4ef12-cc4e-5e88-e6fc-71a802f4de97">
+    <File Path=".github/workflows/cd-sideload-preview.yml" />
+    <File Path=".github/workflows/cd-sideload-stable.yml" />
+    <File Path=".github/workflows/cd-store-preview.yml" />
+    <File Path=".github/workflows/cd-store-stable.yml" />
+    <File Path=".github/workflows/ci.yml" />
+    <File Path=".github/workflows/format-xaml.yml" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
   </Folder>

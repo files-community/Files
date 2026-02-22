@@ -46,7 +46,7 @@ jobs:
 
   check-formatting:
 
-    #if: github.repository_owner == 'files-community'
+    if: github.repository_owner == 'files-community'
 
     runs-on: windows-latest
 
@@ -114,7 +114,6 @@ jobs:
           -t:Restore `
           -p:Platform=$env:ARCHITECTURE `
           -p:Configuration=$env:CONFIGURATION `
-          -p:PublishReadyToRun=true `
           -v:quiet
 
     - if: env.CONFIGURATION != env.AUTOMATED_TESTS_CONFIGURATION || env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE 
