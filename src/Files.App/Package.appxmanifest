@@ -164,7 +164,7 @@
     <Extensions>
         <Extension Category="windows.activatableClass.inProcessServer">
             <InProcessServer>
-                <Path>Files.App\WinRT.Host.dll</Path>
+                <Path>WinRT.Host.dll</Path>
                 <ActivatableClass ActivatableClassId="Files.App.BackgroundTasks.UpdateTask" ThreadingModel="both" />
             </InProcessServer>
         </Extension>
