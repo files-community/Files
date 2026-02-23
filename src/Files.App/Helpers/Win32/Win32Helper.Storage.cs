@@ -75,8 +75,6 @@ namespace Files.App.Helpers
 			}
 		}
 
-		private static readonly object _iconOverlayLock = new object();
-
 		/// <summary>
 		/// Returns overlay for given file or folder
 		/// </summary>
@@ -97,31 +95,28 @@ namespace Files.App.Helpers
 
 				User32.DestroyIcon(shFileInfo.hIcon);
 
-				lock (_iconOverlayLock)
+				if (!Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var imageListOut).Succeeded)
+					return null;
+
+				var imageList = (ComCtl32.IImageList)imageListOut;
+
+				var overlayIdx = shFileInfo.iIcon >> 24;
+				if (overlayIdx != 0)
 				{
-					if (!Shell32.SHGetImageList(Shell32.SHIL.SHIL_LARGE, typeof(ComCtl32.IImageList).GUID, out var imageListOut).Succeeded)
-						return null;
+					var overlayImage = imageList.GetOverlayImage(overlayIdx);
 
-					var imageList = (ComCtl32.IImageList)imageListOut;
+					using var hOverlay = imageList.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
 
-					var overlayIdx = shFileInfo.iIcon >> 24;
-					if (overlayIdx != 0)
+					if (!hOverlay.IsNull && !hOverlay.IsInvalid)
 					{
-						var overlayImage = imageList.GetOverlayImage(overlayIdx);
+						using var icon = hOverlay.ToIcon();
+						using var image = icon.ToBitmap();
 
-						using var hOverlay = imageList.GetIcon(overlayImage, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
-
-						if (!hOverlay.IsNull && !hOverlay.IsInvalid)
-						{
-							using var icon = hOverlay.ToIcon();
-							using var image = icon.ToBitmap();
-
-							overlayData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
-						}
+						overlayData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
 					}
-
-					Marshal.ReleaseComObject(imageList);
 				}
+
+				Marshal.ReleaseComObject(imageList);
 			}
 			catch (Exception)
 			{
@@ -130,8 +125,6 @@ namespace Files.App.Helpers
 
 			return overlayData;
 		}
-
-		private static readonly object _iconLock = new object();
 
 		/// <summary>
 		/// Returns an icon if returnIconOnly is true, otherwise a thumbnail will be returned if available.
@@ -203,47 +196,44 @@ namespace Files.App.Helpers
 						_ => Shell32.SHIL.SHIL_JUMBO,
 					};
 
-					lock (_iconLock)
+					if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.IImageList).GUID, out var imageListOut).Succeeded)
+						return iconData;
+
+					var imageList = (ComCtl32.IImageList)imageListOut;
+
+					if (iconData is null)
 					{
-						if (!Shell32.SHGetImageList(imageListSize, typeof(ComCtl32.IImageList).GUID, out var imageListOut).Succeeded)
-							return iconData;
-
-						var imageList = (ComCtl32.IImageList)imageListOut;
-
-						if (iconData is null)
+						var iconIdx = shfi.iIcon & 0xFFFFFF;
+						if (iconIdx != 0)
 						{
-							var iconIdx = shfi.iIcon & 0xFFFFFF;
-							if (iconIdx != 0)
+							// Could not fetch thumbnail, load simple icon
+							using var hIcon = imageList.GetIcon(iconIdx, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
+							if (!hIcon.IsNull && !hIcon.IsInvalid)
 							{
-								// Could not fetch thumbnail, load simple icon
-								using var hIcon = imageList.GetIcon(iconIdx, ComCtl32.IMAGELISTDRAWFLAGS.ILD_TRANSPARENT);
-								if (!hIcon.IsNull && !hIcon.IsInvalid)
+								using (var icon = hIcon.ToIcon())
+								using (var image = icon.ToBitmap())
 								{
-									using (var icon = hIcon.ToIcon())
-									using (var image = icon.ToBitmap())
-									{
-										iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
-									}
+									iconData = (byte[]?)new ImageConverter().ConvertTo(image, typeof(byte[]));
 								}
 							}
-							else if (isFolder)
-							{
-								// Could not icon, load generic icon
-								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), [2], size);
-								var generic = icons.SingleOrDefault(x => x.Index == 2);
-								iconData = generic?.IconData;
-							}
-							else
-							{
-								// Could not icon, load generic icon
-								var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), [1], size);
-								var generic = icons.SingleOrDefault(x => x.Index == 1);
-								iconData = generic?.IconData;
-							}
 						}
-
-						Marshal.ReleaseComObject(imageList);
+						else if (isFolder)
+						{
+							// Could not icon, load generic icon
+							var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "imageres.dll"), [2], size);
+							var generic = icons.SingleOrDefault(x => x.Index == 2);
+							iconData = generic?.IconData;
+						}
+						else
+						{
+							// Could not icon, load generic icon
+							var icons = ExtractSelectedIconsFromDLL(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "shell32.dll"), [1], size);
+							var generic = icons.SingleOrDefault(x => x.Index == 1);
+							iconData = generic?.IconData;
+						}
 					}
+
+					Marshal.ReleaseComObject(imageList);
 
 					return iconData;
 				}
