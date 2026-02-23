@@ -34,7 +34,7 @@
         <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
         <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
         <GenerateTestArtifacts>False</GenerateTestArtifacts>
-        <AppxBundle>Always</AppxBundle>
+        <AppxBundle>Never</AppxBundle>
         <DisableXbfLineInfo>False</DisableXbfLineInfo>
         <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
         <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
