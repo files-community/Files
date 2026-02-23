@@ -66,8 +66,28 @@ namespace Files.App.Actions
 
 		private void FlattenFolder(string path)
 		{
-			var containedFolders = Directory.GetDirectories(path);
-			var containedFiles = Directory.GetFiles(path);
+			string[] containedFolders;
+			string[] containedFiles;
+
+			try
+			{
+				containedFolders = Directory.GetDirectories(path);
+			}
+			catch (Exception ex) when (ex is DirectoryNotFoundException or UnauthorizedAccessException or IOException)
+			{
+				App.Logger.LogWarning(ex, $"Failed to enumerate directories in '{path}'.");
+				return;
+			}
+
+			try
+			{
+				containedFiles = Directory.GetFiles(path);
+			}
+			catch (Exception ex) when (ex is DirectoryNotFoundException or UnauthorizedAccessException or IOException)
+			{
+				App.Logger.LogWarning(ex, $"Failed to enumerate files in '{path}'.");
+				return;
+			}
 
 			foreach (var containedFolder in containedFolders)
 			{
@@ -107,16 +127,23 @@ namespace Files.App.Actions
 				}
 			}
 
-			if (Directory.GetFiles(path).Length == 0 && Directory.GetDirectories(path).Length == 0)
+			try
 			{
-				try
+				if (Directory.GetFiles(path).Length == 0 && Directory.GetDirectories(path).Length == 0)
 				{
-					Directory.Delete(path);
+					try
+					{
+						Directory.Delete(path);
+					}
+					catch (Exception ex)
+					{
+						App.Logger.LogWarning(ex.Message, $"Failed to delete folder '{path}'.");
+					}
 				}
-				catch (Exception ex)
-				{
-					App.Logger.LogWarning(ex.Message, $"Failed to delete folder '{path}'.");
-				}
+			}
+			catch (Exception ex) when (ex is DirectoryNotFoundException or UnauthorizedAccessException or IOException)
+			{
+				App.Logger.LogWarning(ex, $"Failed to check if directory '{path}' is empty.");
 			}
 		}
 
