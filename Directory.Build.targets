@@ -1,0 +1,5 @@
+<Project>
+
+    <Target Name="_DeleteAppxOutputFolderIfNecessary" />
+
+</Project>

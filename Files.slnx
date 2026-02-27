@@ -8,6 +8,20 @@
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
   </Folder>
+  <Folder Name="/global/scripts/">
+    <File Path=".github/scripts/Build-AppSolution.ps1" />
+    <File Path=".github/scripts/Configure-AppxManifest.ps1" />
+    <File Path=".github/scripts/Convert-TrxToMarkdown.ps1" />
+    <File Path=".github/scripts/Generate-SelfCertPfx.ps1" />
+  </Folder>
+  <Folder Name="/global/workflows/">
+    <File Path=".github/workflows/cd-sideload-preview.yml" />
+    <File Path=".github/workflows/cd-sideload-stable.yml" />
+    <File Path=".github/workflows/cd-store-preview.yml" />
+    <File Path=".github/workflows/cd-store-stable.yml" />
+    <File Path=".github/workflows/ci.yml" />
+    <File Path=".github/workflows/format-xaml.yml" />
+  </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/core/">
     <Project Path="src/Files.Core.SourceGenerator/Files.Core.SourceGenerator.csproj" />
@@ -59,12 +73,12 @@
       <Platform Solution="*|x86" Project="x86" />
     </Project>
     <Project Path="src/Files.App/Files.App.csproj">
-      <BuildDependency Project="src/Files.App.Server/Files.App.Server.csproj" />
       <BuildDependency Project="src/Files.App.Launcher/Files.App.Launcher.vcxproj" />
       <BuildDependency Project="src/Files.App.OpenDialog/Files.App.OpenDialog.vcxproj" />
       <BuildDependency Project="src/Files.App.OpenDialog/Files.App.OpenDialog.Win32.vcxproj" />
       <BuildDependency Project="src/Files.App.SaveDialog/Files.App.SaveDialog.vcxproj" />
       <BuildDependency Project="src/Files.App.SaveDialog/Files.App.SaveDialog.Win32.vcxproj" />
+      <BuildDependency Project="src/Files.App.Server/Files.App.Server.csproj" />
       <Platform Solution="*|arm64" Project="arm64" />
       <Platform Solution="*|x64" Project="x64" />
       <Platform Solution="*|x86" Project="x86" />

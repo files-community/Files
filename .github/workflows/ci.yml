@@ -28,20 +28,17 @@ on:
 run-name: ${{ github.event_name == 'pull_request' && 'Files PR Validation' || 'Files CI Validation' }}
 
 env:
-  WORKING_DIR: ${{ github.workspace }} # Default: 'D:\a\Files\Files'
-  SOLUTION_PATH: '${{ github.workspace }}\Files.slnx'
-  PACKAGE_PROJECT_DIR: '${{ github.workspace }}\src\Files.App (Package)'
-  PACKAGE_PROJECT_PATH: '${{ github.workspace }}\src\Files.App (Package)\Files.Package.wapproj'
-  AUTOMATED_TESTS_ARCHITECTURE: 'x64'
+  WORKING_DIR:                   '${{ github.workspace }}' # Default: 'D:\a\Files\Files'
+  SOLUTION_PATH:                 '${{ github.workspace }}\Files.slnx'
+  STARTUP_PROJECT_PATH:          '${{ github.workspace }}\src\Files.App\Files.App.csproj'
+  AUTOMATED_TESTS_ARCHITECTURE:  'x64'
   AUTOMATED_TESTS_CONFIGURATION: 'Release'
-  AUTOMATED_TESTS_PROJECT_DIR: '${{ github.workspace }}\tests\Files.InteractionTests'
-  AUTOMATED_TESTS_PROJECT_PATH: '${{ github.workspace }}\tests\Files.InteractionTests\Files.InteractionTests.csproj'
-  AUTOMATED_TESTS_ASSEMBLY_DIR: '${{ github.workspace }}\artifacts\TestsAssembly'
-  ARTIFACTS_STAGING_DIR:  '${{ github.workspace }}\artifacts'
-  APPX_PACKAGE_DIR: '${{ github.workspace }}\artifacts\AppxPackages'
-  APPX_SELFSIGNED_CERT_PATH: '${{ github.workspace }}\.github\workflows\FilesApp_SelfSigned.pfx'
-  WINAPPDRIVER_EXE86_PATH: 'C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe'
-  WINAPPDRIVER_EXE64_PATH: 'C:\Program Files\Windows Application Driver\WinAppDriver.exe'
+  AUTOMATED_TESTS_PROJECT_DIR:   '${{ github.workspace }}\tests\Files.InteractionTests'
+  AUTOMATED_TESTS_PROJECT_PATH:  '${{ github.workspace }}\tests\Files.InteractionTests\Files.InteractionTests.csproj'
+  APPX_ARTIFACTS_PATH:           '${{ github.workspace }}\artifacts\' # The trailing backslash is needed
+  APPX_SELFSIGNED_CERT_PATH:     '${{ github.workspace }}\FilesApp_SelfSigned.pfx'
+  WINAPPDRIVER_EXE86_PATH:       'C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe'
+  WINAPPDRIVER_EXE64_PATH:       'C:\Program Files\Windows Application Driver\WinAppDriver.exe'
 
 jobs:
 
@@ -108,73 +105,23 @@ jobs:
       with:
         global-json-file: global.json
 
-    - name: Restore Files
-      shell: pwsh
+    - name: Build Files
       run: |
-        msbuild $env:SOLUTION_PATH `
-          -t:Restore `
-          -p:Platform=$env:ARCHITECTURE `
-          -p:Configuration=$env:CONFIGURATION `
-          -p:PublishReadyToRun=true `
-          -v:quiet
-
-    - if: env.CONFIGURATION != env.AUTOMATED_TESTS_CONFIGURATION || env.ARCHITECTURE != env.AUTOMATED_TESTS_ARCHITECTURE 
-      name: Build Files
-      run: |
-        msbuild `
-          $env:PACKAGE_PROJECT_PATH `
-          -t:Build `
-          -p:Configuration=$env:CONFIGURATION `
-          -p:Platform=$env:ARCHITECTURE `
-          -p:AppxBundle=Never `
-          -v:quiet
-
-    - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION && env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE
-      name: Create self signed cert as a pfx file
-      run: ./.github/scripts/Generate-SelfCertPfx.ps1 -Destination "$env:APPX_SELFSIGNED_CERT_PATH"
-
-    - if: env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION && env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE
-      name: Build & package Files
-      run: |
-        msbuild `
-          $env:PACKAGE_PROJECT_PATH `
-          -t:Build `
-          -t:_GenerateAppxPackage `
-          -p:Configuration=$env:CONFIGURATION `
-          -p:Platform=$env:ARCHITECTURE `
-          -p:AppxBundlePlatforms=$env:AUTOMATED_TESTS_ARCHITECTURE `
-          -p:AppxBundle=Always `
-          -p:UapAppxPackageBuildMode=SideloadOnly `
-          -p:AppxPackageDir=$env:APPX_PACKAGE_DIR `
-          -p:AppxPackageSigningEnabled=true `
-          -p:PackageCertificateKeyFile=$env:APPX_SELFSIGNED_CERT_PATH `
-          -p:PackageCertificatePassword="" `
-          -p:PackageCertificateThumbprint="" `
-          -v:quiet
-
-    - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
-      name: Build interaction tests
-      run: |
-        msbuild $env:AUTOMATED_TESTS_PROJECT_PATH `
-          -t:Build `
-          -p:Configuration=$env:CONFIGURATION `
-          -p:Platform=$env:AUTOMATED_TESTS_ARCHITECTURE `
-          -v:quiet
-
-    - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
-      name: Copy tests bin to the artifacts dir
-      shell: pwsh
-      run: |
-        Copy-Item `
-          -Path "$env:AUTOMATED_TESTS_PROJECT_DIR\bin" `
-          -Destination "$env:AUTOMATED_TESTS_ASSEMBLY_DIR" -Recurse
+        ./.github/scripts/Build-AppSolution.ps1 `
+            -ReleaseBranch               "$env:CONFIGURATION" `
+            -SolutionPath                "$env:SOLUTION_PATH" `
+            -StartupProjectPath          "$env:STARTUP_PROJECT_PATH" `
+            -Configuration               "$env:CONFIGURATION" `
+            -Platform                    "$env:ARCHITECTURE" `
+            -AppxPackageDir              "$env:APPX_ARTIFACTS_PATH" `
+            -$AppxPackageCertKeyFilePath "$env:APPX_SELFSIGNED_CERT_PATH"
 
     - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
       name: Upload the packages to the Artifacts
       uses: actions/upload-artifact@v4
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.ARCHITECTURE }})'
-        path: ${{ env.ARTIFACTS_STAGING_DIR }}
+        path: '${{ env.APPX_ARTIFACTS_PATH }}'
 
   test:
 
@@ -189,6 +136,7 @@ jobs:
         platform: [x64]
     env:
       CONFIGURATION: ${{ matrix.configuration }}
+      ARCHITECTURE: ${{ matrix.platform }}
     permissions:
       contents: read
       pull-requests: write
@@ -201,6 +149,10 @@ jobs:
 
     - name: Checkout the repository
       uses: actions/checkout@v4
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v2
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
@@ -209,27 +161,22 @@ jobs:
     - name: Download the packages from the Artifacts
       uses: actions/download-artifact@v4
       with:
-        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.AUTOMATED_TESTS_ARCHITECTURE }})'
-        path: ${{ env.ARTIFACTS_STAGING_DIR }}
+        name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.ARCHITECTURE }})'
+        path: '${{ env.APPX_ARTIFACTS_PATH }}'
 
-    - name: Install Files
-      shell: powershell
+    - name: Prepare for the tests
       run: |
-        Set-Location "$env:APPX_PACKAGE_DIR"
-        $AppxPackageBundleDir = Get-ChildItem -Filter Files.Package_*_Test -Name
+        msbuild -restore $env:AUTOMATED_TESTS_PROJECT_PATH /p:Configuration=$env:CONFIGURATION /p:Platform=$env:ARCHITECTURE
+        Set-Location "$env:APPX_ARTIFACTS_PATH"
+        $AppxPackageBundleDir = Get-ChildItem -Filter *_*_Test -Name
         Set-Location $AppxPackageBundleDir
         ./Install.ps1 -Force
         Get-AppxPackage
-
-    - name: Set full HD resolution
-      run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
-
-    - name: Start WinAppDriver process
-      shell: pwsh
-      run: Start-Process -FilePath "$env:WINAPPDRIVER_EXE86_PATH"
+        Set-DisplayResolution -Width 1920 -Height 1080 -Force
+        Start-Process -FilePath "$env:WINAPPDRIVER_EXE86_PATH"
 
     # Retry integration tests if first attempt fails
-    - name: Run interaction tests
+    - name: Run the interaction tests
       uses: nick-fields/retry@v3
       with:
         timeout_minutes: 15
@@ -238,32 +185,9 @@ jobs:
         command: |
           dotnet test `
             --test-modules **\Files.InteractionTests.dll `
-            --root-directory $env:AUTOMATED_TESTS_ASSEMBLY_DIR `
-            --results-directory $env:AUTOMATED_TESTS_ASSEMBLY_DIR `
-            --report-trx `
-            --report-trx-filename testResults.trx
+            --root-directory $env:AUTOMATED_TESTS_PROJECT_DIR\bin
 
     - if: github.event_name == 'pull_request'
       uses: geekyeggo/delete-artifact@v5
       with:
           name: '*'
-
-    # - name: Generate markdown from the tests result
-    #   shell: pwsh
-    #   run: |
-    #     . './scripts/Convert-TrxToMarkdown.ps1' `
-    #       -Source "$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.trx" `
-    #       -Destination "$env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.md"
-    #   env:
-    #     PULL_REQUEST_ID: ${{ github.event.pull_request_id }}
-
-    # - name: Display the markdown on the output (temp)
-    #   shell: pwsh
-    #   run: |
-    #     Get-Content $env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.md
-
-    # - name: Publish tests result
-    #   uses: marocchino/sticky-pull-request-comment@v2
-    #   with:
-    #     header: test-result
-    #     path: '${{ env.AUTOMATED_TESTS_ASSEMBLY_DIR }}\testResults.md'

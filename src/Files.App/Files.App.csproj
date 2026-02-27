@@ -1,53 +1,65 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>$(WindowsTargetFramework)</TargetFramework>
+
+        <!--  Genral properties  -->
         <OutputType>WinExe</OutputType>
-        <AssemblyName>Files</AssemblyName>
-        <DefaultLanguage>en-US</DefaultLanguage>
-        <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
-        <AppxDefaultResourceQualifiers>Language=en-US;af;ar;be-BY;bg;ca;cs-CZ;da;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;hy-AM;id-ID;it-IT;ja-JP;ka;km-KH;ko-KR;lt-LT;lv-LV;ms-MY;nb-NO;nl-NL;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sq-AL;sr-Cyrl;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
+        <TargetFramework>$(WindowsTargetFramework)</TargetFramework>
         <TargetPlatformMinVersion>$(MinimalWindowsVersion)</TargetPlatformMinVersion>
-        <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-        <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-        <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-        <GenerateTestArtifacts>False</GenerateTestArtifacts>
-        <AppxBundle>Always</AppxBundle>
-        <DisableXbfLineInfo>False</DisableXbfLineInfo>
-        <AppxBundlePlatforms>x64|arm64</AppxBundlePlatforms>
-        <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-        <Nullable>Enable</Nullable>
+        <AssemblyName>Files</AssemblyName>
         <ApplicationManifest>app.manifest</ApplicationManifest>
-        <Platforms>x86;x64;arm64</Platforms>
+        <Platforms>x86;x64;ARM64</Platforms>
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-        <UseWinUI>true</UseWinUI>
+        <PublishProfile>win-$(Platform).pubxml</PublishProfile>
+        <Nullable>enable</Nullable>
+
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <CETCompat>false</CETCompat>
-        <Configurations>Debug;Release</Configurations>
+        <ApplicationIcon>Assets\AppTiles\Dev\Logo.ico</ApplicationIcon>
+
+        <!--  WinUI reference & packaging properties  -->
+        <UseWinUI>true</UseWinUI>
+        <WinUISDKReferences>false</WinUISDKReferences>
+        <EnableMsixTooling>true</EnableMsixTooling>
+        <DefaultLanguage>en-US</DefaultLanguage>
+        <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+        <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+        <AppxAutoIncrementPackageRevision>true</AppxAutoIncrementPackageRevision>
+        <AppxBundle>Always</AppxBundle>
+        <AppxBundlePlatforms>x64|arm64</AppxBundlePlatforms>
+        <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+        <UapAppxPackageBuildMode>StoreAndSideload</UapAppxPackageBuildMode>
+        <GenerateTestArtifacts>false</GenerateTestArtifacts>
+        <GenerateAppInstallerFile>false</GenerateAppInstallerFile>
+        <GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
+
+        <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
+        <AppxDefaultResourceQualifiers>Language=en-US;af;ar;be-BY;bg;ca;cs-CZ;da;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;hy-AM;id-ID;it-IT;ja-JP;ka;km-KH;ko-KR;lt-LT;lv-LV;ms-MY;nb-NO;nl-NL;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sq-AL;sr-Cyrl;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
+        <DisableXbfLineInfo>False</DisableXbfLineInfo>
+        
         <CsWinRTIncludes>Files.App.Server;Microsoft.UI.Content.ContentExternalOutputLink;Microsoft.UI.Content.IContentExternalOutputLink</CsWinRTIncludes>
-        <PublishDir>bin\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\publish\</PublishDir>
         <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
         <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
         <PublishReadyToRunComposite Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRunComposite>
         <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-        <GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
-        <ApplicationIcon>Assets\AppTiles\Dev\Logo.ico</ApplicationIcon>
+
     </PropertyGroup>
   
     <ItemGroup>
-        <Manifest Include="app.manifest" />
-        <Content Update="Assets\**">
+        <Manifest Include="$(ApplicationManifest)" />
+        <Content Update="Assets\**" CopyToOutputDirectory="PreserveNewest" />
+        <Content Condition="'$(AppxBundlePlatform)' == 'x86'" Include="7z.dll" CopyToOutputDirectory="PreserveNewest" />
+        <Content Condition="'$(AppxBundlePlatform)' == 'x64'" Include="7z64.dll" CopyToOutputDirectory="PreserveNewest" />
+        <Content Condition="'$(AppxBundlePlatform)' == 'arm64'" Include="7zArm64.dll" CopyToOutputDirectory="PreserveNewest" />
+        <CsWinRTInputs Include="Assets\Libraries\Microsoft.UI.winmd" />
+        <CsWinRTInputs Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\Files.App.Server.winmd" />
+        <None Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\Files.App.Server.winmd">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Include="7z64.dll">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content><Content Include="7z.dll">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
-        <Content Include="7zArm64.dll">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Content>
+            <Link>Files.App.Server.winmd</Link>
+            <Visible>false</Visible>
+        </None>
+        <AdditionalFiles Include="Strings\en-US\Resources.resw" />
     </ItemGroup>
 
     <ItemGroup>
@@ -95,16 +107,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <CsWinRTInputs Include="Assets\Libraries\Microsoft.UI.winmd" />
-        <CsWinRTInputs Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\Files.App.Server.winmd" />
-        <None Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\Files.App.Server.winmd">
-          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>Files.App.Server.winmd</Link>
-            <Visible>false</Visible>
-        </None>
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\Files.App.CsWin32\Files.App.CsWin32.csproj" />
         <ProjectReference Include="..\Files.App.BackgroundTasks\Files.App.BackgroundTasks.csproj" />
         <ProjectReference Include="..\Files.App.Controls\Files.App.Controls.csproj" />
@@ -123,9 +125,11 @@
         <TrimmerRootAssembly Include="Files.Shared" />
     </ItemGroup>
 
-    <ItemGroup>
-        <AdditionalFiles Include="Strings\en-US\Resources.resw" />
-    </ItemGroup>
+    <!--<Import Project="..\Satori.targets" Condition=" '$(Platform)' != 'x86' " />-->
 
-  <Import Project="..\Satori.targets" Condition=" '$(Platform)' != 'x86' " />
+    <!--  Build Files.App.Server manually beforehand  -->
+    <Target Name="BuildFilesAppServer" BeforeTargets="ResolveAssemblyReferences">
+        <MSBuild Projects="..\Files.App.Server\Files.App.Server.csproj" Targets="Build" Properties="Configuration=$(Configuration);Platform=$(Platform)" />
+    </Target>
+
 </Project>
