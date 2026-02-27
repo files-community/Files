@@ -148,4 +148,6 @@
                  Targets="Build"
                  Properties="Configuration=$(Configuration);Platform=$(Platform)" />
     </Target>
+
+    <Import Project="..\Satori.targets" Condition=" '$(Platform)' != 'x86' " />
 </Project>
