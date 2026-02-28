@@ -48,14 +48,6 @@ namespace Files.App.ViewModels.Settings
 			}
 		}
 
-
-		// Debug method to verify robocopy setting status
-		public string GetRobocopyStatus()
-		{
-			var enabled = UserSettingsService.DevToolsSettingsService.UseRobocopyForFileOperations;
-			return $"Robocopy for file operations: {(enabled ? "ENABLED" : "DISABLED")}";
-		}
-
 		private readonly IFileTagsSettingsService fileTagsSettingsService = Ioc.Default.GetRequiredService<IFileTagsSettingsService>();
 
 		public ICommand SetAsDefaultExplorerCommand { get; }

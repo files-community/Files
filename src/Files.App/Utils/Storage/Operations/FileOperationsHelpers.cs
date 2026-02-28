@@ -22,6 +22,7 @@ namespace Files.App.Utils.Storage
 		private const uint PS_CLOUDFILE_PLACEHOLDER = 8;
 
 		private static ProgressHandler? progressHandler; // Warning: must be initialized from a MTA thread
+		private static readonly ConcurrentDictionary<string, CancellationTokenSource> robocopyOperationTokens = new();
 
 		public static Task SetClipboard(string[] filesToCopy, DataPackageOperation operation)
 		{
@@ -686,64 +687,15 @@ namespace Files.App.Utils.Storage
 				shellPage);
 		}
 
-		private static void ParseRobocopySummaryLine(ReadOnlySpan<char> line, ref int totalFiles)
-		{
-			// Parse summary lines for total count (e.g., "Files : 5  0  5")
-			// Expected format: "Files : copied  skipped  failed"
-			// Skip "Files :" (7 chars) and parse the numbers
-			if (line.Length < 12) // Minimum length for "Files : 0 0 0"
-				return;
-
-			ReadOnlySpan<char> numbersPart = line.Slice(7); // Skip "Files :"
-
-			// Find the three numbers separated by spaces
-			int copied = 0, skipped = 0, failed = 0;
-			int spaceCount = 0;
-			int start = 0;
-
-			for (int i = 0; i < numbersPart.Length && spaceCount < 3; i++)
-			{
-				if (numbersPart[i] == ' ')
-				{
-					if (i > start)
-					{
-						ReadOnlySpan<char> numberSpan = numbersPart.Slice(start, i - start);
-						if (!numberSpan.IsEmpty && int.TryParse(numberSpan, out int value))
-						{
-							switch (spaceCount)
-							{
-								case 0: copied = value; break;
-								case 1: skipped = value; break;
-								case 2: failed = value; break;
-							}
-						}
-					}
-					start = i + 1;
-					spaceCount++;
-				}
-			}
-
-			// Handle the last number if no trailing space
-			if (spaceCount >= 2 && start < numbersPart.Length)
-			{
-				ReadOnlySpan<char> numberSpan = numbersPart.Slice(start);
-				if (!numberSpan.IsEmpty && int.TryParse(numberSpan, out int value))
-				{
-					failed = value;
-				}
-			}
-
-			if (spaceCount >= 2) // We need at least 3 parts (copied, skipped, failed)
-			{
-				totalFiles = copied + skipped + failed;
-			}
-		}
-
 		private static async Task<(bool success, int exitCode)> RunRobocopyAsync(string arguments, StatusCenterItemProgressModel progressModel, string operationID, CancellationToken cancellationToken)
 		{
 			try
 			{
 				App.Logger?.LogInformation($"Robocopy operation {operationID}: Starting with arguments: {arguments}");
+
+				// Robocopy writes output using the system OEM code page, not UTF-8.
+				var oemEncoding = System.Text.Encoding.GetEncoding(
+					System.Globalization.CultureInfo.CurrentCulture.TextInfo.OEMCodePage);
 
 				var psi = new ProcessStartInfo
 				{
@@ -753,50 +705,30 @@ namespace Files.App.Utils.Storage
 					RedirectStandardOutput = true,
 					RedirectStandardError = true,
 					CreateNoWindow = true,
-					StandardOutputEncoding = System.Text.Encoding.UTF8,
-					StandardErrorEncoding = System.Text.Encoding.UTF8
+					StandardOutputEncoding = oemEncoding,
+					StandardErrorEncoding = oemEncoding
 				};
 
 				using var process = new Process { StartInfo = psi };
 
 				int completedFiles = 0;
-				int totalFiles = 0;
 
+				// With /NP suppressing intermediate percent lines, each non-empty output line is one completed file.
 				process.OutputDataReceived += (sender, e) =>
 				{
 					if (string.IsNullOrEmpty(e.Data))
 						return;
 
-					ReadOnlySpan<char> line = e.Data;
-
-					// Fast path: check for file completion lines (e.g., "100%    12345   filename.ext")
-					// Use IndexOf for faster scanning than Contains
-					if (line.Length > 10 && line.IndexOf('%') >= 0)
+					completedFiles++;
+					if (completedFiles % 5 == 0)
 					{
-						completedFiles++;
-						// Update progress for every few files to avoid too frequent updates
-						if (completedFiles % 5 == 0)
-						{
-							// Estimate total progress within this operation
-							// This is a simple approach - we don't know exact total, so we use a rolling estimate
-							var estimatedProgress = Math.Min(95, completedFiles * 2); // Conservative estimate
-							progressModel.Report(estimatedProgress);
-						}
-					}
-					// Parse summary lines for total count (e.g., "Files : 5  0  5")
-					else if (line.StartsWith("Files :", StringComparison.OrdinalIgnoreCase))
-					{
-						ParseRobocopySummaryLine(line, ref totalFiles);
+						var estimatedProgress = Math.Min(95, completedFiles * 2);
+						progressModel.Report(estimatedProgress);
 					}
 				};
 
+				// process.Start() throws on failure; no need to validate Id afterwards.
 				process.Start();
-
-				// Verify process started successfully
-				if (process.Id <= 0)
-				{
-					return (false, -4); // Process start failure
-				}
 
 				// Begin async reading of output
 				process.BeginOutputReadLine();
@@ -970,7 +902,10 @@ namespace Files.App.Utils.Storage
 				false,
 				FileSystemStatusCode.InProgress);
 
-			var cts = new CancellationTokenSource();
+			CancellationTokenSource cts = new();
+			robocopyOperationTokens.TryGetValue(operationID, out var previousCts);
+			robocopyOperationTokens[operationID] = cts;
+
 			var sizeCalculator = new FileSizeCalculator(filePaths);
 			var sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
 			sizeTask.ContinueWith(_ =>
@@ -1015,8 +950,11 @@ namespace Files.App.Utils.Storage
 					var completed = 0;
 					foreach (var groupKvp in fileBatchesByGroup)
 					{
-						if (cts.Token.IsCancellationRequested)
+						if (cts.Token.IsCancellationRequested || progressHandler.CheckCanceled(operationID))
+						{
+							cts.Cancel();
 							break;
+						}
 
 						(string sourceDir, string destDir) = groupKvp.Key;
 						var groupBatches = groupKvp.Value;
@@ -1025,8 +963,11 @@ namespace Files.App.Utils.Storage
 
 						foreach (var itemNames in groupBatches)
 						{
-							if (cts.Token.IsCancellationRequested)
+							if (cts.Token.IsCancellationRequested || progressHandler.CheckCanceled(operationID))
+							{
+								cts.Cancel();
 								break;
+							}
 
 							var batchOk = true;
 							var exitCode = 0;
@@ -1041,8 +982,16 @@ namespace Files.App.Utils.Storage
 								"/W:1",
 								"/NJH",
 								"/NJS",
+								"/NP",
 								$"/MT:{threads}"
 							};
+
+							if (!overwriteOnOperation)
+							{
+								argsList.Add("/XN");
+								argsList.Add("/XO");
+								argsList.Add("/XC");
+							}
 
 							// Add operation-specific flags
 							if (isMoveOperation)
@@ -1058,6 +1007,18 @@ namespace Files.App.Utils.Storage
 
 							App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Executing file batch with {itemNames.Count} items, args length: {robocopyArgs.Length}");
 							(batchOk, exitCode) = await RunRobocopyAsync(robocopyArgs, fsProgress, operationID, cts.Token);
+
+							// Populate result items for each file in this batch
+							foreach (var itemName in itemNames)
+							{
+								shellOperationResult.Items.Add(new ShellOperationItemResult
+								{
+									Succeeded = batchOk,
+									Source = Path.Combine(sourceDir, itemName),
+									Destination = Path.Combine(destDir, itemName),
+									HResult = batchOk ? 0 : exitCode
+								});
+							}
 
 							if (!batchOk)
 							{
@@ -1085,8 +1046,11 @@ namespace Files.App.Utils.Storage
 					// Process folders individually
 					foreach (var (sourcePath, destPath) in folderItems)
 					{
-						if (cts.Token.IsCancellationRequested)
+						if (cts.Token.IsCancellationRequested || progressHandler.CheckCanceled(operationID))
+						{
+							cts.Cancel();
 							break;
+						}
 
 						var folderOk = true;
 						var exitCode = 0;
@@ -1100,8 +1064,16 @@ namespace Files.App.Utils.Storage
 							"/W:1",
 							"/NJH",
 							"/NJS",
+							"/NP",
 							$"/MT:{threads}"
 						};
+
+						if (!overwriteOnOperation)
+						{
+							argsList.Add("/XN");
+							argsList.Add("/XO");
+							argsList.Add("/XC");
+						}
 
 						// Add operation-specific flags
 						if (isMoveOperation)
@@ -1111,6 +1083,15 @@ namespace Files.App.Utils.Storage
 
 						App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Processing folder {sourcePath} -> {destPath}");
 						(folderOk, exitCode) = await RunRobocopyAsync(robocopyArgs, fsProgress, operationID, cts.Token);
+
+						// Populate result item for this folder
+						shellOperationResult.Items.Add(new ShellOperationItemResult
+						{
+							Succeeded = folderOk,
+							Source = sourcePath,
+							Destination = destPath,
+							HResult = folderOk ? 0 : exitCode
+						});
 
 						if (!folderOk)
 						{
@@ -1134,21 +1115,41 @@ namespace Files.App.Utils.Storage
 						}
 					}
 
-					progressHandler.RemoveOperation(operationID);
-					cts.Cancel();
-
 					App.Logger?.LogInformation($"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Completed with overall success: {success}");
 				}
 				catch (Exception ex)
 				{
 					App.Logger?.LogError(ex, $"Robocopy {(isMoveOperation ? "move" : "copy")} operation {operationID}: Failed with exception");
 					success = false;
+				}
+				finally
+				{
 					progressHandler.RemoveOperation(operationID);
+					if (robocopyOperationTokens.TryGetValue(operationID, out var trackedCts)
+						&& ReferenceEquals(trackedCts, cts))
+					{
+						if (previousCts is not null)
+							robocopyOperationTokens[operationID] = previousCts;
+						else
+							robocopyOperationTokens.TryRemove(operationID, out _);
+					}
 					cts.Cancel();
+					cts.Dispose();
 				}
 
 				return (success, shellOperationResult);
 			});
+		}
+
+		private static string GetUniqueTempDeleteName(string baseName, HashSet<string> usedNames)
+		{
+			var name = baseName;
+			var stem = Path.GetFileNameWithoutExtension(baseName);
+			var ext = Path.GetExtension(baseName);
+			var i = 1;
+			while (!usedNames.Add(name))
+				name = $"{stem} ({i++}){ext}";
+			return name;
 		}
 
 		private static Task<(bool, ShellOperationResult)> PerformRobocopyDeleteOperationAsync(
@@ -1164,7 +1165,10 @@ namespace Files.App.Utils.Storage
 				false,
 				FileSystemStatusCode.InProgress);
 
-			var cts = new CancellationTokenSource();
+			CancellationTokenSource cts = new();
+			robocopyOperationTokens.TryGetValue(operationID, out var previousCts);
+			robocopyOperationTokens[operationID] = cts;
+
 			var sizeCalculator = new FileSizeCalculator(filePaths);
 			var sizeTask = sizeCalculator.ComputeSizeAsync(cts.Token);
 			sizeTask.ContinueWith(_ =>
@@ -1207,10 +1211,12 @@ namespace Files.App.Utils.Storage
 
 					// Step 2: Move files to temp folder first (reuse existing move logic)
 					var tempDestinations = new string[filePaths.Length];
+					var usedNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 					for (var i = 0; i < filePaths.Length; i++)
 					{
 						var fileName = Path.GetFileName(filePaths[i]);
-						tempDestinations[i] = Path.Combine(tempDeleteFolder, fileName);
+						var uniqueName = GetUniqueTempDeleteName(fileName, usedNames);
+						tempDestinations[i] = Path.Combine(tempDeleteFolder, uniqueName);
 					}
 
 					App.Logger?.LogInformation($"Robocopy delete operation {operationID}: Starting move to temp folder");
@@ -1236,7 +1242,7 @@ namespace Files.App.Utils.Storage
 						fsProgress.Report(50); // 50% complete after move
 
 						// Step 3: Use robocopy MIR to delete all data (single command, no batching)
-						var robocopyArgs = $"\"{emptyFolder}\" \"{tempDeleteFolder}\" /MIR /MT:{threads} /R:0 /W:0 /NJH /NJS";
+						var robocopyArgs = $"\"{emptyFolder}\" \"{tempDeleteFolder}\" /MIR /MT:{threads} /R:0 /W:0 /NJH /NJS /NP";
 
 						App.Logger?.LogInformation($"Robocopy delete operation {operationID}: Starting MIR deletion with args: {robocopyArgs}");
 
@@ -1293,15 +1299,25 @@ namespace Files.App.Utils.Storage
 							shellPage.ShellViewModel.RefreshItems(null));
 					}
 
-					progressHandler.RemoveOperation(operationID);
-					cts.Cancel();
 				}
 				catch (Exception ex)
 				{
 					App.Logger?.LogError(ex, $"Robocopy delete operation {operationID}: Failed with exception");
 					success = false;
+				}
+				finally
+				{
 					progressHandler.RemoveOperation(operationID);
+					if (robocopyOperationTokens.TryGetValue(operationID, out var trackedCts)
+						&& ReferenceEquals(trackedCts, cts))
+					{
+						if (previousCts is not null)
+							robocopyOperationTokens[operationID] = previousCts;
+						else
+							robocopyOperationTokens.TryRemove(operationID, out _);
+					}
 					cts.Cancel();
+					cts.Dispose();
 				}
 
 				return (success, shellOperationResult);
@@ -1309,7 +1325,19 @@ namespace Files.App.Utils.Storage
 		}
 
 		public static void TryCancelOperation(string operationId)
-			=> progressHandler?.TryCancel(operationId);
+		{
+			progressHandler?.TryCancel(operationId);
+			if (robocopyOperationTokens.TryGetValue(operationId, out var cts))
+			{
+				try
+				{
+					cts.Cancel();
+				}
+				catch
+				{
+				}
+			}
+		}
 
 		public static IEnumerable<Win32Process>? CheckFileInUse(string[] fileToCheckPath)
 		{

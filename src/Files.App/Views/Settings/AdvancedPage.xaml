@@ -170,12 +170,15 @@
 			</wctcontrols:SettingsCard>
 
 			<!--  Use Robocopy for file operations  -->
-			<wctcontrols:SettingsExpander Header="Use Robocopy for file operations" IsExpanded="False">
+			<wctcontrols:SettingsExpander
+				Header="{helpers:ResourceString Name=UseRobocopyForFileOperations}"
+				Description="{helpers:ResourceString Name=UseRobocopyForFileOperationsDescription}"
+				IsExpanded="False">
 				<wctcontrols:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE8B5;" />
 				</wctcontrols:SettingsExpander.HeaderIcon>
 				<ToggleSwitch
-					AutomationProperties.Name="Use Robocopy for file operations"
+					AutomationProperties.Name="{helpers:ResourceString Name=UseRobocopyForFileOperations}"
 					IsOn="{x:Bind ViewModel.UseRobocopyForFileOperations, Mode=TwoWay}" />
 				<wctcontrols:SettingsExpander.ItemsHeader>
 					<Grid
@@ -184,7 +187,7 @@
 						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
 						RowSpacing="4">
 						<StackPanel Orientation="Horizontal" Spacing="12">
-							<TextBlock VerticalAlignment="Center" Text="Threads:" />
+							<TextBlock VerticalAlignment="Center" Text="{helpers:ResourceString Name=RobocopyThreads}" />
 							<NumberBox
 								Width="160"
 								SpinButtonPlacementMode="Compact"
