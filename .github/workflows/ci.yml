@@ -121,7 +121,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.ARCHITECTURE }})'
-        path: '${{ env.APPX_ARTIFACTS_PATH }}'
+        path: ${{ env.APPX_ARTIFACTS_PATH }}
 
   test:
 
@@ -162,7 +162,7 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.ARCHITECTURE }})'
-        path: '${{ env.APPX_ARTIFACTS_PATH }}'
+        path: ${{ env.APPX_ARTIFACTS_PATH }}
 
     - name: Prepare for the tests
       run: |

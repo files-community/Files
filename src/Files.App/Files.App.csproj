@@ -40,7 +40,7 @@
         <PublishReadyToRunComposite Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRunComposite>
         <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
 
-	</PropertyGroup>
+    </PropertyGroup>
   
     <ItemGroup>
         <Manifest Include="$(ApplicationManifest)" />
@@ -48,6 +48,8 @@
         <Content Condition="'$(Platform)' == 'x86'" Include="7z.dll" CopyToOutputDirectory="PreserveNewest" />
         <Content Condition="'$(Platform)' == 'x64'" Include="7z64.dll" CopyToOutputDirectory="PreserveNewest" />
         <Content Condition="'$(Platform)' == 'arm64'" Include="7zArm64.dll" CopyToOutputDirectory="PreserveNewest" />
+        <Content Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\publish\Files.App.Server.winmd" CopyToOutputDirectory="PreserveNewest" Link="Files.App.Server.winmd" Visible="false" />
+        <Content Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\publish\Files.App.Server.exe" CopyToOutputDirectory="PreserveNewest" Link="Files.App.Server.exe" Visible="false" />
         <CsWinRTInputs Include="Assets\Libraries\Microsoft.UI.winmd" />
         <CsWinRTInputs Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\Files.App.Server.winmd" />
         <AdditionalFiles Include="Strings\en-US\Resources.resw" />
@@ -119,10 +121,10 @@
     <Import Project="..\Satori.targets" Condition=" '$(Platform)' != 'x86' " />
 
     <!--  Build Files.App.Server manually beforehand  -->
-	<Target Name="BuildWinRTServerAotAndCopy" BeforeTargets="CsWinRTRemoveWinMDReferences">
-		<MSBuild Projects="..\Files.App.Server\Files.App.Server.csproj" Targets="Publish" Properties="Configuration=$(Configuration);Platform=$(Platform);" />
-		<Copy SourceFiles="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\publish\Files.App.Server.exe" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
-		<Copy SourceFiles="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\publish\Files.App.Server.winmd" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
-	</Target>
+    <Target Name="BuildWinRTServerAotAndCopy" BeforeTargets="CsWinRTRemoveWinMDReferences">
+        <MSBuild Projects="..\Files.App.Server\Files.App.Server.csproj" Targets="Publish" Properties="Configuration=$(Configuration);Platform=$(Platform);" />
+        <!--<Copy SourceFiles="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\publish\Files.App.Server.exe" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+        <Copy SourceFiles="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\publish\Files.App.Server.winmd" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />-->
+    </Target>
 
 </Project>
