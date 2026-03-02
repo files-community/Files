@@ -20,24 +20,15 @@ jobs:
   build:
     runs-on: windows-latest
     environment: Deployments
-    strategy:
-      fail-fast: false
-      matrix:
-        configuration: [Release]
-        platform: [x64]
     env:
-      SOLUTION_NAME:              'Files.slnx'
-      CONFIGURATION:              '${{ matrix.configuration }}'
-      PLATFORM:                   '${{ matrix.platform }}'
-      APPX_BUNDLE_PLATFORMS:      'x64|arm64'
+      CONFIGURATION:              'Release'
+      PLATFORM:                   'x64'
       WORKING_DIR:                '${{ github.workspace }}' # D:\a\Files\Files\
-      ARTIFACTS_STAGING_DIR:      '${{ github.workspace }}\artifacts'
-      APPX_PACKAGE_DIR:           '${{ github.workspace }}\artifacts\AppxPackages'
-      PACKAGE_PROJECT_DIR:        'src\Files.App (Package)'
-      PACKAGE_PROJECT_PATH:       'src\Files.App (Package)\Files.Package.wapproj'
-      PACKAGE_MANIFEST_PATH:      'src\Files.App (Package)\Package.appxmanifest'
-      LAUNCHER_PROJECT_PATH:      'src\Files.App.Launcher\Files.App.Launcher.vcxproj'
-      TEST_PROJECT_PATH:          'tests\Files.InteractionTests\Files.InteractionTests.csproj'
+      SOLUTION_PATH:              '${{ github.workspace }}\Files.slnx'
+      APPX_ARTIFACTS_PATH:        '${{ github.workspace }}\artifacts\'
+      APP_PROJECT_DIR:            '${{ github.workspace }}\src\Files.App'
+      STARTUP_PROJECT_PATH:       '${{ github.workspace }}\src\Files.App\Files.App.csproj'
+      PACKAGE_MANIFEST_PATH:      '${{ github.workspace }}\src\Files.App\Package.appxmanifest'
       APP_INSTALLER_SIDELOAD_URL: 'https://cdn.files.community/files/preview/'
 
     steps:
@@ -53,52 +44,32 @@ jobs:
         global-json-file: global.json
 
     - name: Configure the package manifest, logo, and secrets
-      shell: pwsh
       run: |
-        . './.github/scripts/Configure-AppxManifest.ps1' `
-          -Branch "SideloadPreview" `
-          -PackageManifestPath "$env:PACKAGE_MANIFEST_PATH" `
-          -Publisher "$env:SIDELOAD_PUBLISHER_SECRET" `
-          -WorkingDir "$env:WORKING_DIR" `
-          -SecretBingMapsKey "$env:SECRET_BINGMAPS_KEY" `
-          -SecretSentry "$env:SECRET_SENTRY" `
-          -SecretGitHubOAuthClientId "$env:SECRET_GITHUB_OAUTH_CLIENT_ID"
+        ./.github/scripts/Configure-AppxManifest.ps1 `
+            -Branch                      "SideloadPreview" `
+            -PackageManifestPath         "$env:PACKAGE_MANIFEST_PATH" `
+            -Publisher                   "$env:SIDELOAD_PUBLISHER_SECRET" `
+            -WorkingDir                  "$env:WORKING_DIR" `
+            -SecretBingMapsKey           "$env:SECRET_BINGMAPS_KEY" `
+            -SecretSentry                "$env:SECRET_SENTRY" `
+            -SecretGitHubOAuthClientId   "$env:SECRET_GITHUB_OAUTH_CLIENT_ID"
       env:
         SIDELOAD_PUBLISHER_SECRET: ${{ secrets.SIDELOAD_PUBLISHER_SECRET }}
         SECRET_BINGMAPS_KEY: ${{ secrets.BING_MAPS_SECRET }}
         SECRET_SENTRY: ${{ secrets.SENTRY_SECRET }}
         SECRET_GITHUB_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
 
-    - name: Use Windows SDK Preview
-      shell: cmd
-      run: |
-        for /f %%a in ('dir /b /a:d %localappdata%\Microsoft\VisualStudio\17*') do echo UsePreviews=True>%localappdata%\Microsoft\VisualStudio\%%a\sdk.txt
-
-    - name: Restore Files
+    - name: Build & package Files
       shell: pwsh
       run: |
-        msbuild $env:SOLUTION_NAME `
-        -t:Restore `
-        -p:Platform=$env:PLATFORM `
-        -p:Configuration=$env:CONFIGURATION `
-        -p:PublishReadyToRun=true `
-        -v:quiet
-
-    - name: Restore NuGet Packages for Launcher Project
-      shell: pwsh
-      run: |
-        nuget restore "$env:LAUNCHER_PROJECT_PATH" `
-          -SolutionDirectory "$env:WORKING_DIR" `
-          -Verbosity detailed
-
-    - name: Build launcher project
-      shell: pwsh
-      run: |
-        msbuild "$env:LAUNCHER_PROJECT_PATH" `
-        -t:Build `
-        -p:Platform=$env:PLATFORM `
-        -p:Configuration=$env:CONFIGURATION `
-        -v:quiet
+        ./.github/scripts/Build-AppSolution.ps1 `
+            -ReleaseBranch               "SideloadPreview" `
+            -SolutionPath                "$env:SOLUTION_PATH" `
+            -StartupProjectPath          "$env:STARTUP_PROJECT_PATH" `
+            -Configuration               "$env:CONFIGURATION" `
+            -Platform                    "$env:PLATFORM" `
+            -AppxPackageDir              "$env:APPX_ARTIFACTS_PATH" `
+            -AppInstallerUrl             "$env:APP_INSTALLER_SIDELOAD_URL"
 
     - name: Sign launcher EXE with Azure Trusted Signing
       uses: azure/trusted-signing-action@v0.4.0
@@ -116,34 +87,6 @@ jobs:
         timestamp-rfc3161: http://timestamp.acs.microsoft.com
         timestamp-digest: SHA256
 
-    - name: Build & package Files
-      shell: pwsh
-      run: |
-        msbuild "$env:PACKAGE_PROJECT_PATH" `
-        -t:Build `
-        -t:_GenerateAppxPackage `
-        -p:Platform=$env:PLATFORM `
-        -p:Configuration=$env:CONFIGURATION `
-        -p:AppxBundlePlatforms=$env:APPX_BUNDLE_PLATFORMS `
-        -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
-        -p:AppxBundle=Always `
-        -p:UapAppxPackageBuildMode=Sideload `
-        -p:GenerateAppInstallerFile=True `
-        -p:AppInstallerUri=$env:APP_INSTALLER_SIDELOAD_URL `
-        -v:quiet
-
-    - name: Remove empty files from the packages
-      shell: bash
-      run: find $ARTIFACTS_STAGING_DIR -empty -delete
-
-    - name: Update appinstaller schema
-      run: |
-        $newSchema = "http://schemas.microsoft.com/appx/appinstaller/2018"
-        $localFilePath = "${{ env.APPX_PACKAGE_DIR }}/Files.Package.appinstaller"
-        $fileContent = Get-Content $localFilePath
-        $fileContent = $fileContent.Replace("http://schemas.microsoft.com/appx/appinstaller/2017/2", $newSchema)
-        $fileContent | Set-Content $localFilePath
-
     - name: Sign Files with Azure Trusted Signing
       uses: azure/trusted-signing-action@v0.4.0
       with:
@@ -153,7 +96,7 @@ jobs:
         endpoint: https://eus.codesigning.azure.net/
         trusted-signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
         certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
-        files-folder: ${{ env.APPX_PACKAGE_DIR }}
+        files-folder: ${{ env.APPX_ARTIFACTS_PATH }}
         files-folder-filter: msixbundle
         files-folder-recurse: true
         files-folder-depth: 4
@@ -168,11 +111,11 @@ jobs:
         r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
         r2-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         r2-bucket: ${{ secrets.R2_BUCKET }}
-        source-dir: ${{ env.APPX_PACKAGE_DIR }}
+        source-dir: ${{ env.APPX_ARTIFACTS_PATH }}
         destination-dir: ./files/preview
 
     - name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v4
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
-        path: ${{ env.ARTIFACTS_STAGING_DIR }}
+        path: ${{ env.APPX_ARTIFACTS_PATH }}

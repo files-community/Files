@@ -1,5 +1,11 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
 <Project>
 
+    <!--
+        Microsoft.Windows.SDK.BuildTools.MSIX has an issue where it runs _DeleteAppxOutputFolderIfNecessary when it should not.
+        This causes scrips and dependency msix files to be cleaned up, leading to installation failure in CI tests.
+        Here, we override the target to do nothing.
+    -->
     <Target Name="_DeleteAppxOutputFolderIfNecessary" />
 
 </Project>

@@ -4,6 +4,10 @@
     <SatoriArchiveName>windows_$(Platform).zip</SatoriArchiveName>
     <SatoriArchivePath>$(IntermediateOutputPath)SatoriPackage\$(SatoriDownloadDate)\$(SatoriArchiveName)</SatoriArchivePath>
     <SatoriDownloadedThisRun>false</SatoriDownloadedThisRun>
+    <UseSatoriCoreLibOverride Condition="'$(UseSatoriCoreLibOverride)' == ''">true</UseSatoriCoreLibOverride>
+    <UseSatoriNativeRuntimeOverride Condition="'$(UseSatoriNativeRuntimeOverride)' == ''">true</UseSatoriNativeRuntimeOverride>
+    <UseSatoriCoreLibOverride Condition="'$(EnableMsixTooling)' == 'true'">false</UseSatoriCoreLibOverride>
+    <UseSatoriNativeRuntimeOverride Condition="'$(EnableMsixTooling)' == 'true'">false</UseSatoriNativeRuntimeOverride>
   </PropertyGroup>
   <Target Name="FetchSatori" AfterTargets="ResolveRuntimePackAssets">
     <!-- Skip download if the archive already exists -->
@@ -36,14 +40,13 @@
   <Target Name="IncludeSatoriInRuntimePackAssets" AfterTargets="ExtractSatori" DependsOnTargets="ExtractSatori">
     <ItemGroup>
       <RuntimePackAsset Remove="@(RuntimePackAsset)"
-                        Condition=" '%(RuntimePackAsset.Filename)' == 'coreclr'
-                                 Or '%(RuntimePackAsset.Filename)' == 'clrjit'
-                                 Or '%(RuntimePackAsset.Filename)' == 'System.Private.CoreLib' " />
+                        Condition="('%(RuntimePackAsset.Filename)' == 'coreclr' Or '%(RuntimePackAsset.Filename)' == 'clrjit') And '$(UseSatoriNativeRuntimeOverride)' == 'true'
+                                 Or ('%(RuntimePackAsset.Filename)' == 'System.Private.CoreLib' And '$(UseSatoriCoreLibOverride)' == 'true') " />
 
-      <SatoriRuntimePackAsset Include="$(IntermediateOutputPath)Satori\System.Private.CoreLib.dll">
+      <SatoriRuntimePackAsset Include="$(IntermediateOutputPath)Satori\System.Private.CoreLib.dll" Condition="'$(UseSatoriCoreLibOverride)' == 'true'">
         <AssetType>runtime</AssetType>
       </SatoriRuntimePackAsset>
-      <SatoriRuntimePackAsset Include="$(IntermediateOutputPath)Satori\clrjit.dll;$(IntermediateOutputPath)Satori\coreclr.dll">
+      <SatoriRuntimePackAsset Include="$(IntermediateOutputPath)Satori\clrjit.dll;$(IntermediateOutputPath)Satori\coreclr.dll" Condition="'$(UseSatoriNativeRuntimeOverride)' == 'true'">
         <AssetType>native</AssetType>
         <DropFromSingleFile>true</DropFromSingleFile>
       </SatoriRuntimePackAsset>

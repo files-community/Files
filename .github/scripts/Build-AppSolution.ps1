@@ -19,9 +19,7 @@ if ($ReleaseBranch -eq "Debug")
     msbuild $StartupProjectPath `
         /clp:ErrorsOnly `
         /p:Platform=$Platform `
-        /p:Configuration=$Configuration `
-        /p:AppxBundle=Never `
-        /p:GenerateAppxPackageOnBuild=False
+        /p:Configuration=$Configuration
 }
 elseif ($ReleaseBranch -eq "Release")
 {
@@ -36,6 +34,8 @@ elseif ($ReleaseBranch -eq "Release")
             /p:AppxBundlePlatforms=$Platform `
             /p:UapAppxPackageBuildMode=SideloadOnly `
             /p:AppxPackageDir=$AppxPackageDir `
+            /p:GenerateAppInstallerFile=true `
+            /p:AppInstallerUri=$AppxPackageDir `
             /p:AppxPackageSigningEnabled=true `
             /p:PackageCertificateKeyFile=$AppxPackageCertKeyFilePath
     }
@@ -44,37 +44,56 @@ elseif ($ReleaseBranch -eq "Release")
         msbuild $StartupProjectPath `
             /clp:ErrorsOnly `
             /p:Platform=$Platform `
-            /p:Configuration=$Configuration `
-            /p:AppxBundle=Never `
-            /p:GenerateAppxPackageOnBuild=False
+            /p:Configuration=$Configuration
     }
 }
-elseif ($ReleaseBranch -contains "Sideload")
+elseif ($ReleaseBranch -eq "SideloadPreview" -or $ReleaseBranch -eq "SideloadStable")
 {
     msbuild $StartupProjectPath `
-        /t:Build `
-        /t:_GenerateAppxPackage `
         /clp:ErrorsOnly `
         /p:Platform=$Platform `
         /p:Configuration=$Configuration `
         /p:UapAppxPackageBuildMode=SideloadOnly `
-        /p:GenerateAppInstallerFile=True `
-        /p:AppInstallerUri=$AppInstallerUrl `
+        /p:AppxPackageDir=$AppxPackageDir `
+        /p:GenerateAppInstallerFile=true `
+        /p:AppInstallerUri=$AppInstallerUrl
 
-    $newSchema = 'http://schemas.microsoft.com/appx/appinstaller/2018'
-    $localFilePath = '$AppxPackageDir/Files.Package.appinstaller'
-    $fileContent = Get-Content $localFilePath
-    $fileContent = $fileContent.Replace('http://schemas.microsoft.com/appx/appinstaller/2017/2', $newSchema)
-    $fileContent | Set-Content $localFilePath
+    # Path
+    $localFilePath = Join-Path $AppxPackageDir "Files.App.appinstaller"
+
+    # Update scheme (namespace URI string swap)
+    $fileContent = Get-Content -LiteralPath $localFilePath -Raw
+    $fileContent = $fileContent.Replace(
+      'http://schemas.microsoft.com/appx/appinstaller/2017/2',
+      'http://schemas.microsoft.com/appx/appinstaller/2018'
+    )
+    Set-Content -LiteralPath $localFilePath -Value $fileContent -Encoding UTF8
+
+    # Delete UpdateSettings section (proper XML load)
+    [xml]$xml = Get-Content -LiteralPath $localFilePath
+    $ns = New-Object System.Xml.XmlNamespaceManager($xml.NameTable)
+    $ns.AddNamespace("ai", "http://schemas.microsoft.com/appx/appinstaller/2018")
+
+    $node = $xml.SelectSingleNode("//ai:UpdateSettings", $ns)
+    if ($node) { [void]$node.ParentNode.RemoveChild($node) }
+
+    $xml.Save($localFilePath)
+
+    # Rename from 'Files.App' to 'Files.Package' in all occurrences in file/folder names to keep backwards compatibility with older versions of the installer/updater
+    Get-ChildItem -Path $AppxPackageDir -Recurse -Force |
+        Where-Object { $_.Name -like "*Files.App*" } |
+        Sort-Object FullName -Descending |
+        ForEach-Object {
+            $newName = $_.Name -replace "Files\.App", "Files.Package"
+            Rename-Item -LiteralPath $_.FullName -NewName $newName
+        }
 }
-elseif ($ReleaseBranch -contains "Store")
+elseif ($ReleaseBranch -eq "StorePreview" -or $ReleaseBranch -eq "StoreStable")
 {
     msbuild $StartupProjectPath `
-        /t:Build `
-        /t:_GenerateAppxPackage `
         /clp:ErrorsOnly `
         /p:Platform=$Platform `
         /p:Configuration=$Configuration `
-        /p:AppxPackageDir=$AppxPackageDir `
-        /p:UapAppxPackageBuildMode=StoreUpload `
+        /p:UapAppxPackageBuildMode=StoreOnly `
+        /p:AppxPackageDir=$AppxPackageDir
 }

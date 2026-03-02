@@ -114,7 +114,7 @@ jobs:
             -Configuration               "$env:CONFIGURATION" `
             -Platform                    "$env:ARCHITECTURE" `
             -AppxPackageDir              "$env:APPX_ARTIFACTS_PATH" `
-            -$AppxPackageCertKeyFilePath "$env:APPX_SELFSIGNED_CERT_PATH"
+            -AppxPackageCertKeyFilePath  "$env:APPX_SELFSIGNED_CERT_PATH"
 
     - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
       name: Upload the packages to the Artifacts
@@ -170,6 +170,7 @@ jobs:
         Set-Location "$env:APPX_ARTIFACTS_PATH"
         $AppxPackageBundleDir = Get-ChildItem -Filter *_*_Test -Name
         Set-Location $AppxPackageBundleDir
+        Get-ChildItem
         ./Install.ps1 -Force
         Get-AppxPackage
         Set-DisplayResolution -Width 1920 -Height 1080 -Force

@@ -8,7 +8,7 @@
         <TargetPlatformMinVersion>$(MinimalWindowsVersion)</TargetPlatformMinVersion>
         <AssemblyName>Files</AssemblyName>
         <ApplicationManifest>app.manifest</ApplicationManifest>
-        <Platforms>x86;x64;ARM64</Platforms>
+        <Platforms>x86;x64;arm64</Platforms>
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
         <PublishProfile>win-$(Platform).pubxml</PublishProfile>
         <Nullable>enable</Nullable>
@@ -18,25 +18,23 @@
         <CETCompat>false</CETCompat>
         <ApplicationIcon>Assets\AppTiles\Dev\Logo.ico</ApplicationIcon>
 
-        <!--  WinUI reference & packaging properties  -->
+        <!--  WinUI reference & MSIX packaging properties  -->
         <UseWinUI>true</UseWinUI>
         <WinUISDKReferences>false</WinUISDKReferences>
+        <DisableXbfLineInfo>false</DisableXbfLineInfo>
         <EnableMsixTooling>true</EnableMsixTooling>
         <DefaultLanguage>en-US</DefaultLanguage>
         <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
         <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
         <AppxAutoIncrementPackageRevision>true</AppxAutoIncrementPackageRevision>
-        <AppxBundle>Always</AppxBundle>
+        <AppxBundle Condition="'$(Configuration)' == 'Debug'">Never</AppxBundle>
+        <AppxBundle Condition="'$(Configuration)' != 'Debug'">Always</AppxBundle>
         <AppxBundlePlatforms>x64|arm64</AppxBundlePlatforms>
         <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
         <UapAppxPackageBuildMode>StoreAndSideload</UapAppxPackageBuildMode>
-        <GenerateTestArtifacts>false</GenerateTestArtifacts>
-        <GenerateAppInstallerFile>false</GenerateAppInstallerFile>
-        <GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
-
+        <GenerateAppxPackageOnBuild Condition="'$(Configuration)' != 'Debug'">true</GenerateAppxPackageOnBuild>
         <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
         <AppxDefaultResourceQualifiers>Language=en-US;af;ar;be-BY;bg;ca;cs-CZ;da;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;hy-AM;id-ID;it-IT;ja-JP;ka;km-KH;ko-KR;lt-LT;lv-LV;ms-MY;nb-NO;nl-NL;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sq-AL;sr-Cyrl;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
-        <DisableXbfLineInfo>False</DisableXbfLineInfo>
         
         <CsWinRTIncludes>Files.App.Server;Microsoft.UI.Content.ContentExternalOutputLink;Microsoft.UI.Content.IContentExternalOutputLink</CsWinRTIncludes>
         <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
@@ -49,9 +47,9 @@
     <ItemGroup>
         <Manifest Include="$(ApplicationManifest)" />
         <Content Update="Assets\**" CopyToOutputDirectory="PreserveNewest" />
-        <Content Condition="'$(AppxBundlePlatform)' == 'x86'" Include="7z.dll" CopyToOutputDirectory="PreserveNewest" />
-        <Content Condition="'$(AppxBundlePlatform)' == 'x64'" Include="7z64.dll" CopyToOutputDirectory="PreserveNewest" />
-        <Content Condition="'$(AppxBundlePlatform)' == 'arm64'" Include="7zArm64.dll" CopyToOutputDirectory="PreserveNewest" />
+        <Content Condition="'$(Platform)' == 'x86'" Include="7z.dll" CopyToOutputDirectory="PreserveNewest" />
+        <Content Condition="'$(Platform)' == 'x64'" Include="7z64.dll" CopyToOutputDirectory="PreserveNewest" />
+        <Content Condition="'$(Platform)' == 'arm64'" Include="7zArm64.dll" CopyToOutputDirectory="PreserveNewest" />
         <CsWinRTInputs Include="Assets\Libraries\Microsoft.UI.winmd" />
         <CsWinRTInputs Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\Files.App.Server.winmd" />
         <None Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\Files.App.Server.winmd">
