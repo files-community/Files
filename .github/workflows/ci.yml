@@ -170,9 +170,7 @@ jobs:
         Set-Location "$env:APPX_ARTIFACTS_PATH"
         $AppxPackageBundleDir = Get-ChildItem -Filter *_*_Test -Name
         Set-Location $AppxPackageBundleDir
-        Get-ChildItem
         ./Install.ps1 -Force
-        Get-AppxPackage
         Set-DisplayResolution -Width 1920 -Height 1080 -Force
         Start-Process -FilePath "$env:WINAPPDRIVER_EXE86_PATH"
 

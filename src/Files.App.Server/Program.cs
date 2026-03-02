@@ -2,8 +2,13 @@
 // Licensed under the MIT License.
 
 using Files.Shared.Helpers;
+using System;
+using System.IO;
+using System.Linq;
 using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Win32;
 using Windows.Win32.Foundation;
@@ -25,10 +30,12 @@ class Program
 
 		_ = PInvoke.RoInitialize(RO_INIT_TYPE.RO_INIT_MULTITHREADED);
 
-		var classIds = typeof(Program).Assembly.GetTypes()
-			.Where(t => t.IsSealed && t.IsPublic && t.IsClass)
-			.Select(t => t.FullName!)
-			.Where(name => name.StartsWith("Files.App.Server.", StringComparison.Ordinal))
+		string[] classIdsStringArray =
+		[
+			"Files.App.Server.AppInstanceMonitor"
+		];
+
+		var classIds = classIdsStringArray
 			.Select(name =>
 			{
 				if (PInvoke.WindowsCreateString(name, (uint)name.Length, out var classId) is HRESULT hr && hr.Value is not 0)

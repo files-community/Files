@@ -7,6 +7,11 @@
     <WindowsSdkPackageVersion>10.0.26100.67-preview</WindowsSdkPackageVersion>
     <WindowsTargetFramework>$(TargetFrameworkVersion)-windows$(TargetWindowsVersion)</WindowsTargetFramework>
     <LangVersion>preview</LangVersion>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <VerifyReferenceAotCompatibility>true</VerifyReferenceAotCompatibility>
+    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
     <EnableMSTestRunner>true</EnableMSTestRunner>
   </PropertyGroup>

@@ -6,31 +6,29 @@
         <OutputType>WinExe</OutputType>
         <TargetFramework>$(WindowsTargetFramework)</TargetFramework>
         <TargetPlatformMinVersion>$(MinimalWindowsVersion)</TargetPlatformMinVersion>
+        <Configurations>Debug;Release</Configurations>
         <AssemblyName>Files</AssemblyName>
-        <ApplicationManifest>app.manifest</ApplicationManifest>
         <Platforms>x86;x64;arm64</Platforms>
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
         <PublishProfile>win-$(Platform).pubxml</PublishProfile>
-        <Nullable>enable</Nullable>
+        <PublishDir>bin\$(Platform)\$(Configuration)\$(TargetFramework)\publish\</PublishDir>
 
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
-        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <CETCompat>false</CETCompat>
         <ApplicationIcon>Assets\AppTiles\Dev\Logo.ico</ApplicationIcon>
 
         <!--  WinUI reference & MSIX packaging properties  -->
         <UseWinUI>true</UseWinUI>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
         <WinUISDKReferences>false</WinUISDKReferences>
         <DisableXbfLineInfo>false</DisableXbfLineInfo>
         <EnableMsixTooling>true</EnableMsixTooling>
         <DefaultLanguage>en-US</DefaultLanguage>
-        <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
-        <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+        <AppxPackageSigningTimestampDigestAlgorithm>sha256</AppxPackageSigningTimestampDigestAlgorithm>
         <AppxAutoIncrementPackageRevision>true</AppxAutoIncrementPackageRevision>
         <AppxBundle Condition="'$(Configuration)' == 'Debug'">Never</AppxBundle>
         <AppxBundle Condition="'$(Configuration)' != 'Debug'">Always</AppxBundle>
         <AppxBundlePlatforms>x64|arm64</AppxBundlePlatforms>
-        <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
         <UapAppxPackageBuildMode>StoreAndSideload</UapAppxPackageBuildMode>
         <GenerateAppxPackageOnBuild Condition="'$(Configuration)' != 'Debug'">true</GenerateAppxPackageOnBuild>
         <AppxBundleAutoResourcePackageQualifiers>Scale|DXFeatureLevel</AppxBundleAutoResourcePackageQualifiers>
@@ -42,7 +40,7 @@
         <PublishReadyToRunComposite Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRunComposite>
         <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
 
-    </PropertyGroup>
+	</PropertyGroup>
   
     <ItemGroup>
         <Manifest Include="$(ApplicationManifest)" />
@@ -51,12 +49,7 @@
         <Content Condition="'$(Platform)' == 'x64'" Include="7z64.dll" CopyToOutputDirectory="PreserveNewest" />
         <Content Condition="'$(Platform)' == 'arm64'" Include="7zArm64.dll" CopyToOutputDirectory="PreserveNewest" />
         <CsWinRTInputs Include="Assets\Libraries\Microsoft.UI.winmd" />
-        <CsWinRTInputs Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\Files.App.Server.winmd" />
-        <None Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\Files.App.Server.winmd">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Link>Files.App.Server.winmd</Link>
-            <Visible>false</Visible>
-        </None>
+        <CsWinRTInputs Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\Files.App.Server.winmd" />
         <AdditionalFiles Include="Strings\en-US\Resources.resw" />
     </ItemGroup>
 
@@ -123,11 +116,13 @@
         <TrimmerRootAssembly Include="Files.Shared" />
     </ItemGroup>
 
-    <!--<Import Project="..\Satori.targets" Condition=" '$(Platform)' != 'x86' " />-->
+    <Import Project="..\Satori.targets" Condition=" '$(Platform)' != 'x86' " />
 
     <!--  Build Files.App.Server manually beforehand  -->
-    <Target Name="BuildFilesAppServer" BeforeTargets="ResolveAssemblyReferences">
-        <MSBuild Projects="..\Files.App.Server\Files.App.Server.csproj" Targets="Build" Properties="Configuration=$(Configuration);Platform=$(Platform)" />
-    </Target>
+	<Target Name="BuildWinRTServerAotAndCopy" BeforeTargets="CsWinRTRemoveWinMDReferences">
+		<MSBuild Projects="..\Files.App.Server\Files.App.Server.csproj" Targets="Publish" Properties="Configuration=$(Configuration);Platform=$(Platform);" />
+		<Copy SourceFiles="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\publish\Files.App.Server.exe" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+		<Copy SourceFiles="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\publish\Files.App.Server.winmd" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+	</Target>
 
 </Project>
