@@ -911,6 +911,20 @@ namespace Files.App.Views.Layouts
 		private void FileList_Loaded(object sender, RoutedEventArgs e)
 		{
 			ContentScroller = FileList.FindDescendant<ScrollViewer>(x => x.Name == "ScrollViewer");
+			const double OffsetCorrection = 88; // HeaderGrid (40) + ListViewHeaderItem (44 + 4 margin)
+
+			RootGridZoom.ViewChangeStarted += (_, args) =>
+			{
+				var scroller = ContentScroller;
+				if (args.IsSourceZoomedInView || scroller is null)
+					return;
+				void OnZoomScrolled(object? s, ScrollViewerViewChangedEventArgs ve)
+				{
+					scroller.ViewChanged -= OnZoomScrolled; 
+					scroller.ChangeView(0, Math.Max(0, scroller.VerticalOffset - OffsetCorrection), null, true);
+				}
+				scroller.ViewChanged += OnZoomScrolled;
+			};
 		}
 
 		private void SetDetailsColumnsAsDefault_Click(object sender, RoutedEventArgs e)
