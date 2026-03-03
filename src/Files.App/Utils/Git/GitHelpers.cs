@@ -126,9 +126,9 @@ namespace Files.App.Utils.Git
 					using var repository = new Repository(path);
 
 					branches = GetValidBranches(repository.Branches)
-						.Where(b => !b.IsRemote || b.RemoteName == "origin")
 						.OrderByDescending(b => b.Tip?.Committer.When)
-						.Take(MAX_NUMBER_OF_BRANCHES)
+						.GroupBy(b => b.IsRemote)
+						.SelectMany(g => g.Take(MAX_NUMBER_OF_BRANCHES))
 						.OrderByDescending(b => b.IsCurrentRepositoryHead)
 						.Select(b => new BranchItem(b.FriendlyName, b.IsCurrentRepositoryHead, b.IsRemote, TryGetTrackingDetails(b)?.AheadBy ?? 0, TryGetTrackingDetails(b)?.BehindBy ?? 0))
 						.ToArray();
