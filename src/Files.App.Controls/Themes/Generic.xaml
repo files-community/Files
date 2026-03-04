@@ -84,7 +84,7 @@
 		<!--#endregion-->
 
 		<!--#region TableView-->
-		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ReorderableStackPanelContainer/ReorderableStackPanelContainer.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ReorderablePanelContainer/ReorderablePanelContainer.xaml" />
 		<!--#endregion-->
 
 		<!--#region TableView-->

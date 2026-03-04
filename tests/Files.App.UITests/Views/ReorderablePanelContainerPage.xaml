@@ -1,5 +1,5 @@
 <Page
-	x:Class="Files.App.UITests.Views.SnapPanelContainerPage"
+	x:Class="Files.App.UITests.Views.ReorderablePanelContainerPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:controls="using:Files.App.Controls"
@@ -10,10 +10,10 @@
 
 	<StackPanel Spacing="24">
 
-		<controls:SamplePanel Header="With Items">
+		<controls:SamplePanel Header="Horizontal">
 			<controls:SamplePanel.MainContent>
 
-				<controls:ReorderableStackPanelContainer>
+				<controls:ReorderablePanelContainer>
 					<Rectangle
 						Width="160"
 						Height="40"
@@ -34,18 +34,44 @@
 						Height="40"
 						Fill="Yellow"
 						Opacity="0.5" />
-				</controls:ReorderableStackPanelContainer>
+				</controls:ReorderablePanelContainer>
 
 			</controls:SamplePanel.MainContent>
 		</controls:SamplePanel>
 
-		<!--<controls:SamplePanel Header="With ItemsSource">
+		<controls:SamplePanel Header="Vertical">
 			<controls:SamplePanel.MainContent>
 
-				<controls:SnapPanelContainer ItemsSource="" />
+				<controls:ReorderablePanelContainer>
+					<controls:ReorderablePanelContainer.ItemsPanel>
+						<ItemsPanelTemplate>
+							<StackPanel Orientation="Vertical" />
+						</ItemsPanelTemplate>
+					</controls:ReorderablePanelContainer.ItemsPanel>
+					<Rectangle
+						Width="200"
+						Height="40"
+						Fill="Blue"
+						Opacity="0.5" />
+					<Rectangle
+						Width="200"
+						Height="60"
+						Fill="Green"
+						Opacity="0.5" />
+					<Rectangle
+						Width="200"
+						Height="30"
+						Fill="Red"
+						Opacity="0.5" />
+					<Rectangle
+						Width="200"
+						Height="50"
+						Fill="Yellow"
+						Opacity="0.5" />
+				</controls:ReorderablePanelContainer>
 
 			</controls:SamplePanel.MainContent>
-		</controls:SamplePanel>-->
+		</controls:SamplePanel>
 
 	</StackPanel>
 </Page>

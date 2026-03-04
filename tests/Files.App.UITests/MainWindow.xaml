@@ -96,7 +96,7 @@
 						<NavigationViewItem Content="BreadcrumbBar" Tag="BreadcrumbBarPage" />
 						<NavigationViewItem Content="ResizeVisual" Tag="ResizeVisualPage" />
 						<NavigationViewItem Content="TableView" Tag="TableViewPage" />
-						<NavigationViewItem Content="SnapPanelContainer" Tag="SnapPanelContainerPage" />
+						<NavigationViewItem Content="ReorderablePanelContainer" Tag="ReorderablePanelContainerPage" />
 						<NavigationViewItem Content="DragSelectionContainer" Tag="DragSelectionContainerPage" />
 					</NavigationViewItem.MenuItems>
 				</NavigationViewItem>
