@@ -13,14 +13,14 @@
 		<controls:SamplePanel Header="With Items">
 			<controls:SamplePanel.MainContent>
 
-				<controls:SnapPanelContainer>
+				<controls:ReorderableStackPanelContainer>
 					<Rectangle
-						Width="200"
+						Width="160"
 						Height="40"
 						Fill="Blue"
 						Opacity="0.5" />
 					<Rectangle
-						Width="200"
+						Width="70"
 						Height="40"
 						Fill="Green"
 						Opacity="0.5" />
@@ -30,11 +30,11 @@
 						Fill="Red"
 						Opacity="0.5" />
 					<Rectangle
-						Width="200"
+						Width="100"
 						Height="40"
 						Fill="Yellow"
 						Opacity="0.5" />
-				</controls:SnapPanelContainer>
+				</controls:ReorderableStackPanelContainer>
 
 			</controls:SamplePanel.MainContent>
 		</controls:SamplePanel>

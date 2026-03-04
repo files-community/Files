@@ -84,7 +84,7 @@
 		<!--#endregion-->
 
 		<!--#region TableView-->
-		<ResourceDictionary Source="ms-appx:///Files.App.Controls/SnapPanel/SnapPanelContainer.xaml" />
+		<ResourceDictionary Source="ms-appx:///Files.App.Controls/ReorderableStackPanelContainer/ReorderableStackPanelContainer.xaml" />
 		<!--#endregion-->
 
 		<!--#region TableView-->
