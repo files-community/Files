@@ -98,6 +98,7 @@
 						<NavigationViewItem Content="TableView" Tag="TableViewPage" />
 						<NavigationViewItem Content="ReorderablePanelContainer" Tag="ReorderablePanelContainerPage" />
 						<NavigationViewItem Content="DragSelectionContainer" Tag="DragSelectionContainerPage" />
+						<NavigationViewItem Content="ResizablePanel" Tag="ResizablePanelPage" />
 					</NavigationViewItem.MenuItems>
 				</NavigationViewItem>
 			</NavigationView.MenuItems>

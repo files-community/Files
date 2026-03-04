@@ -62,8 +62,13 @@ namespace Files.App.Controls
 			if (itemCount < 2)
 				return;
 
-			_isHorizontal = ItemsPanelRoot is StackPanel { Orientation: Orientation.Horizontal };
-			e.Mode = _isHorizontal ? ManipulationModes.TranslateX : ManipulationModes.TranslateY;
+			_isHorizontal = ItemsPanelRoot switch
+				{
+					StackPanel sp => sp.Orientation is Orientation.Horizontal,
+					ResizablePanel rp => rp.Orientation is Orientation.Horizontal,
+					_ => false,
+				};
+				e.Mode = _isHorizontal ? ManipulationModes.TranslateX : ManipulationModes.TranslateY;
 
 			_dragItem = dragElement;
 			_dragItemOriginalIndex = IndexFromContainer(dragElement);
@@ -233,6 +238,11 @@ namespace Files.App.Controls
 
 				foreach (var item in reorderedItemsArray)
 					Items.Add(item);
+
+				// If using ResizablePanel, force it to regenerate auto-generated ResizeVisuals
+				// for the reordered containers
+				if (ItemsPanelRoot is ResizablePanel resizablePanel)
+					resizablePanel.InvalidateAutoGeneration();
 			}
 
 			// Reset state

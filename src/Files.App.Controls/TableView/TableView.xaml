@@ -6,6 +6,28 @@
 	xmlns:wct="using:CommunityToolkit.WinUI"
 	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls">
 
+	<ResourceDictionary.ThemeDictionaries>
+
+		<ResourceDictionary x:Key="Default">
+			<StaticResource x:Key="TableViewColumnBorderBrush" ResourceKey="ControlElevationBorderBrush" />
+			<StaticResource x:Key="TableViewColumnBackground" ResourceKey="ControlFillColorTransparentBrush" />
+		</ResourceDictionary>
+
+		<ResourceDictionary x:Key="Dark">
+			<StaticResource x:Key="TableViewColumnBorderBrush" ResourceKey="ControlElevationBorderBrush" />
+			<StaticResource x:Key="TableViewColumnBackground" ResourceKey="ControlFillColorTransparentBrush" />
+		</ResourceDictionary>
+
+		<ResourceDictionary x:Key="HighContrast">
+			<StaticResource x:Key="TableViewColumnBorderBrush" ResourceKey="ControlElevationBorderBrush" />
+			<StaticResource x:Key="TableViewColumnBackground" ResourceKey="ControlFillColorTransparentBrush" />
+		</ResourceDictionary>
+
+	</ResourceDictionary.ThemeDictionaries>
+
+	<Thickness x:Key="TableViewColumnBorderThickness">1</Thickness>
+	<StaticResource x:Key="TableViewColumnCornerRadius" ResourceKey="ControlCornerRadius" />
+
 	<DataTemplate x:Key="DefaultTableViewTextCellTemplate">
 		<TextBlock />
 	</DataTemplate>
@@ -20,11 +42,16 @@
 			<Setter Property="Background" Value="{ThemeResource ControlFillColorTransparentBrush}" />
 			<Setter Property="BorderThickness" Value="1" />
 			<Setter Property="BorderBrush" Value="{ThemeResource ControlElevationBorderBrush}" />
-			<Setter Property="CornerRadius" Value="{StaticResource ControlCornerRadius}" />
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="local:TableView">
-						<Grid x:Name="PART_Root" RowSpacing="8">
+						<Grid
+							x:Name="PART_Root"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="{TemplateBinding CornerRadius}"
+							RowSpacing="8">
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
 								<RowDefinition Height="*" />
@@ -37,10 +64,10 @@
 								Height="44"
 								HorizontalAlignment="Left"
 								wct:UIElementExtensions.ClipToBounds="True"
-								Background="{TemplateBinding Background}"
-								BorderBrush="{TemplateBinding BorderBrush}"
-								BorderThickness="{TemplateBinding BorderThickness}"
-								CornerRadius="{TemplateBinding CornerRadius}" />
+								Background="{ThemeResource TableViewColumnBackground}"
+								BorderBrush="{ThemeResource TableViewColumnBorderBrush}"
+								BorderThickness="{StaticResource TableViewColumnBorderThickness}"
+								CornerRadius="{StaticResource TableViewColumnCornerRadius}" />
 
 							<!--  View  -->
 							<ContentPresenter

@@ -9,7 +9,7 @@
 		<Setter Property="ItemsPanel">
 			<Setter.Value>
 				<ItemsPanelTemplate>
-					<StackPanel Orientation="Horizontal" />
+					<local:ResizablePanel Orientation="Horizontal" />
 				</ItemsPanelTemplate>
 			</Setter.Value>
 		</Setter>

@@ -78,7 +78,9 @@ namespace Files.App.Controls
 							_reachedToBounds = false;
 					}
 
-					((TranslateTransform)RenderTransform).Y = Target.ActualHeight - ActualHeight / 2;
+					// Use Target.Height (the value we just set) instead of Target.ActualHeight
+					// to avoid drift caused by layout not having run yet during fast drags.
+					((TranslateTransform)RenderTransform).Y = Target.Height - ActualHeight / 2;
 				}
 				else if (Orientation is Orientation.Horizontal)
 				{
@@ -107,7 +109,9 @@ namespace Files.App.Controls
 							_reachedToBounds = false;
 					}
 
-					((TranslateTransform)RenderTransform).X = Target.ActualWidth - ActualWidth / 2;
+					// Use Target.Width (the value we just set) instead of Target.ActualWidth
+					// to avoid drift caused by layout not having run yet during fast drags.
+					((TranslateTransform)RenderTransform).X = Target.Width - ActualWidth / 2;
 				}
 				else
 				{

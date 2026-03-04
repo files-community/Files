@@ -13,7 +13,7 @@
 		<controls:SamplePanel Header="Horizontal">
 			<controls:SamplePanel.MainContent>
 
-				<controls:ReorderablePanelContainer>
+				<controls:ReorderablePanelContainer HorizontalAlignment="Left">
 					<Rectangle
 						Width="160"
 						Height="40"

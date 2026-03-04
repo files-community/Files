@@ -39,27 +39,42 @@
 
 		<controls:SamplePanel Header="Default usage">
 			<controls:SamplePanel.MainContent>
-				<Grid Height="500">
-					<controls:TableView Grid.Row="1" VerticalAlignment="Top">
-						<controls:TableView.Columns>
-							<controls:TableViewTextColumn Binding="Name" Header="Name" />
-							<controls:TableViewTextColumn Binding="DateUpdated" Header="Date updated" />
-							<controls:TableViewTextColumn Binding="Type" Header="Type" />
-							<controls:TableViewTextColumn Binding="Size" Header="Size" />
-						</controls:TableView.Columns>
-						<controls:TableView.View>
-							<ListView
-								ItemContainerStyle="{StaticResource TableViewListViewItemStyle}"
-								ItemsSource="{x:Bind Items, Mode=OneWay}"
-								Style="{StaticResource TableViewListViewStyle}">
-								<ListView.ItemTemplate>
-									<DataTemplate x:DataType="data:TableViewItemModel">
-										<controls:TableViewRow HorizontalAlignment="Left" />
-									</DataTemplate>
-								</ListView.ItemTemplate>
-							</ListView>
-						</controls:TableView.View>
-					</controls:TableView>
+				<Grid>
+
+					<controls:DragSelectionContainer Height="700">
+						<controls:DragSelectionContainer.Targets>
+							<controls:DragSelectionTarget Target="{x:Bind Sample1ListView1}" />
+						</controls:DragSelectionContainer.Targets>
+
+						<controls:TableView
+							Grid.Row="1"
+							Height="600"
+							VerticalAlignment="Top"
+							BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+							BorderThickness="1">
+							<controls:TableView.Columns>
+								<controls:TableViewTextColumn Binding="Name" Header="Name" />
+								<controls:TableViewTextColumn Binding="DateUpdated" Header="Date updated" />
+								<controls:TableViewTextColumn Binding="Type" Header="Type" />
+								<controls:TableViewTextColumn Binding="Size" Header="Size" />
+							</controls:TableView.Columns>
+							<controls:TableView.View>
+								<ListView
+									x:Name="Sample1ListView1"
+									ItemContainerStyle="{StaticResource TableViewListViewItemStyle}"
+									ItemsSource="{x:Bind Items, Mode=OneWay}"
+									Style="{StaticResource TableViewListViewStyle}">
+									<ListView.ItemTemplate>
+										<DataTemplate x:DataType="data:TableViewItemModel">
+											<controls:TableViewRow HorizontalAlignment="Left" />
+										</DataTemplate>
+									</ListView.ItemTemplate>
+								</ListView>
+							</controls:TableView.View>
+						</controls:TableView>
+
+					</controls:DragSelectionContainer>
+
 				</Grid>
 			</controls:SamplePanel.MainContent>
 			<controls:SamplePanel.SideContent>
