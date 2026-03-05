@@ -4354,12 +4354,12 @@
     <value>Activer le défilement fluide</value>
   </data>
   <data name="Scrolling" xml:space="preserve">
-    <value>Défiler</value>
+    <value>Défilement</value>
   </data>
   <data name="ShowPinToSideBar" xml:space="preserve">
-    <value>Show option to Pin to Sidebar</value>
+    <value>Afficher l'option pour épingler sur la barre latérale</value>
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
-    <value>Show option to Pin to the Start Menu</value>
+    <value>Afficher l'option pour épingler au menu Démarrer</value>
   </data>
 </root>
