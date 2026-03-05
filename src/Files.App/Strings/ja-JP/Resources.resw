@@ -4358,9 +4358,9 @@
     <value>スクロール</value>
   </data>
   <data name="ShowPinToSideBar" xml:space="preserve">
-    <value>Show option to Pin to Sidebar</value>
+    <value>[サイドバーにピン留め] オプションを表示する</value>
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
-    <value>Show option to Pin to the Start Menu</value>
+    <value>[スタートメニューにピン留め] オプションを表示する</value>
   </data>
 </root>
