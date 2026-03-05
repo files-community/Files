@@ -21,7 +21,7 @@ on:
   pull_request:
     paths-ignore:
       - 'assets/**'
-      - 'builds/**' 
+      - 'builds/**'
       - 'docs/**'
       - '*.md'
 
