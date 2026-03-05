@@ -4357,9 +4357,9 @@
     <value>Deslizando</value>
   </data>
   <data name="ShowPinToSideBar" xml:space="preserve">
-    <value>Show option to Pin to Sidebar</value>
+    <value>Mostrar opción Anclar en la barra lateral</value>
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
-    <value>Show option to Pin to the Start Menu</value>
+    <value>Mostrar opción Anclar en el menú Inicio</value>
   </data>
 </root>

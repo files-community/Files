@@ -588,7 +588,7 @@
     <value>פריט פסול</value>
   </data>
   <data name="SettingsAboutVersionTitle" xml:space="preserve">
-    <value>גירסה</value>
+    <value>גרסה:</value>
   </data>
   <data name="ShareDialogFailMessage" xml:space="preserve">
     <value>אין כרגע פריטים לשיתוף.</value>

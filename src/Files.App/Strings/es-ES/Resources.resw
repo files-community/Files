@@ -4351,15 +4351,15 @@
     <value>Nuevo {0}</value>
   </data>
   <data name="EnableSmoothScrolling" xml:space="preserve">
-    <value>Activar deslizamiento suave</value>
+    <value>Activar desplazamiento suave</value>
   </data>
   <data name="Scrolling" xml:space="preserve">
-    <value>Deslizando</value>
+    <value>Desplazamiento</value>
   </data>
   <data name="ShowPinToSideBar" xml:space="preserve">
-    <value>Show option to Pin to Sidebar</value>
+    <value>Mostrar opción Anclar en la barra lateral</value>
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
-    <value>Show option to Pin to the Start Menu</value>
+    <value>Mostrar opción Anclar en el menú Inicio</value>
   </data>
 </root>

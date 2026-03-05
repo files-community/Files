@@ -4357,9 +4357,9 @@
     <value>Defilare</value>
   </data>
   <data name="ShowPinToSideBar" xml:space="preserve">
-    <value>Show option to Pin to Sidebar</value>
+    <value>Afișați opțiunea de fixare în bara laterală</value>
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
-    <value>Show option to Pin to the Start Menu</value>
+    <value>Afișați opțiunea de fixare în Meniul Start</value>
   </data>
 </root>
