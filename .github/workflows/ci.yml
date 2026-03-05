@@ -19,8 +19,11 @@ on:
       - 'docs/**'
       - '*.md'
   pull_request:
-    branches:
-      - main
+    paths-ignore:
+      - 'assets/**'
+      - 'builds/**'
+      - 'docs/**'
+      - '*.md'
 
 run-name: ${{ github.event_name == 'pull_request' && 'Files PR Validation' || 'Files CI Validation' }}
 
