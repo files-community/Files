@@ -1,13 +1,17 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.Collections;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
+using Windows.Foundation;
 
 namespace Files.App.Controls
 {
-	public partial class ReorderablePanelContainer : ItemsControl
+	public partial class ReorderableItemsControl : ItemsControl
 	{
 		private bool _isDragging;
 		private bool _isSnapping;
@@ -22,10 +26,16 @@ namespace Files.App.Controls
 		private List<int>? _logicalOrder;
 		private Storyboard?[]? _displacementStoryboards;
 		private double[]? _displacementTargets;
+		private ScrollViewer? _ancestorScrollViewer;
 
-		public ReorderablePanelContainer()
+		private const double AutoScrollActivationMargin = 40;
+		private const double AutoScrollMaxStep = 18;
+
+		public event EventHandler<ReorderedItemsEventArgs>? Reordered;
+
+		public ReorderableItemsControl()
 		{
-			DefaultStyleKey = typeof(ReorderablePanelContainer);
+			DefaultStyleKey = typeof(ReorderableItemsControl);
 		}
 
 		protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
@@ -34,7 +44,7 @@ namespace Files.App.Controls
 
 			if (element is UIElement uiElement)
 			{
-				uiElement.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
+				uiElement.ManipulationMode = ManipulationModes.System | ManipulationModes.TranslateX | ManipulationModes.TranslateY;
 				uiElement.ManipulationStarting += OnItemManipulationStarting;
 				uiElement.ManipulationDelta += OnItemManipulationDelta;
 				uiElement.ManipulationCompleted += OnItemManipulationCompleted;
@@ -61,6 +71,8 @@ namespace Files.App.Controls
 			var itemCount = Items.Count;
 			if (itemCount < 2)
 				return;
+
+			_ancestorScrollViewer ??= TryFindAncestorScrollViewer(dragElement);
 
 			_isHorizontal = ItemsPanelRoot switch
 				{
@@ -112,6 +124,9 @@ namespace Files.App.Controls
 			_ = _isHorizontal
 				? _dragItemTransform.X += e.Delta.Translation.X
 				: _dragItemTransform.Y += e.Delta.Translation.Y;
+
+			if (sender is UIElement senderElement)
+				TryAutoScrollDuringDrag(senderElement, e.Position);
 
 			var dragCenterPosition =
 				_originalPositions[_dragItemOriginalIndex] +
@@ -228,21 +243,22 @@ namespace Files.App.Controls
 			}
 
 			// Commit reordering if it changed
-			if (orderChanged)
+			if (orderChanged && _logicalOrder is not null)
 			{
-				if (_logicalOrder is null)
-					return;
+				int[] reorderedIndexMap = [.. _logicalOrder];
+				var committed = ItemsSource is not null
+					? TryCommitReorderToItemsSource(reorderedIndexMap)
+					: TryCommitReorderToItems(reorderedIndexMap);
 
-				object[] reorderedItemsArray = [.. _logicalOrder.Select(i => Items[i])];
-				Items.Clear();
+				if (committed)
+				{
+					// If using ResizablePanel, force it to regenerate auto-generated ResizeVisuals
+					// for the reordered containers
+					if (ItemsPanelRoot is ResizablePanel resizablePanel)
+						resizablePanel.InvalidateAutoGeneration();
 
-				foreach (var item in reorderedItemsArray)
-					Items.Add(item);
-
-				// If using ResizablePanel, force it to regenerate auto-generated ResizeVisuals
-				// for the reordered containers
-				if (ItemsPanelRoot is ResizablePanel resizablePanel)
-					resizablePanel.InvalidateAutoGeneration();
+					Reordered?.Invoke(this, new ReorderedItemsEventArgs(reorderedIndexMap));
+				}
 			}
 
 			// Reset state
@@ -255,7 +271,161 @@ namespace Files.App.Controls
 			_logicalOrder = null;
 			_displacementStoryboards = null;
 			_displacementTargets = null;
+			_ancestorScrollViewer = null;
 			_isSnapping = false;
+		}
+
+		[UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Move is discovered dynamically to support ObservableCollection<T> ItemsSource.")]
+		private bool TryCommitReorderToItemsSource(int[] reorderedIndexMap)
+		{
+			if (ItemsSource is not IList itemsSource ||
+				itemsSource.IsReadOnly ||
+				itemsSource.IsFixedSize ||
+				itemsSource.Count != reorderedIndexMap.Length)
+				return false;
+
+			// TODO: This uses reflection, consider root the Move method
+			var moveMethod = itemsSource.GetType().GetMethod(
+				"Move",
+				BindingFlags.Instance | BindingFlags.Public,
+				null,
+				[typeof(int), typeof(int)],
+				null);
+
+			var currentOrder = Enumerable.Range(0, reorderedIndexMap.Length).ToList();
+
+			try
+			{
+				for (var targetIndex = 0; targetIndex < reorderedIndexMap.Length; targetIndex++)
+				{
+					var desiredOldIndex = reorderedIndexMap[targetIndex];
+					var currentIndex = currentOrder.IndexOf(desiredOldIndex);
+					if (currentIndex == targetIndex)
+						continue;
+
+					if (moveMethod is not null)
+					{
+						_ = moveMethod.Invoke(itemsSource, [currentIndex, targetIndex]);
+					}
+					else
+					{
+						var movedItem = itemsSource[currentIndex];
+						itemsSource.RemoveAt(currentIndex);
+						itemsSource.Insert(targetIndex, movedItem);
+					}
+
+					currentOrder.RemoveAt(currentIndex);
+					currentOrder.Insert(targetIndex, desiredOldIndex);
+				}
+
+				return true;
+			}
+			catch (NotSupportedException)
+			{
+				return false;
+			}
+			catch (TargetInvocationException ex) when (ex.InnerException is NotSupportedException)
+			{
+				return false;
+			}
+		}
+
+		private bool TryCommitReorderToItems(int[] reorderedIndexMap)
+		{
+			if (ItemsSource is not null || Items.Count != reorderedIndexMap.Length)
+				return false;
+
+			var reorderedItems = new object[reorderedIndexMap.Length];
+			for (var i = 0; i < reorderedIndexMap.Length; i++)
+				reorderedItems[i] = Items[reorderedIndexMap[i]]!;
+
+			Items.Clear();
+			foreach (var item in reorderedItems)
+				Items.Add(item);
+
+			return true;
+		}
+
+		private ScrollViewer? TryFindAncestorScrollViewer(DependencyObject? element)
+		{
+			while (element is not null)
+			{
+				if (element is ScrollViewer scrollViewer)
+					return scrollViewer;
+
+				element = VisualTreeHelper.GetParent(element);
+			}
+
+			return null;
+		}
+
+		private void TryAutoScrollDuringDrag(UIElement senderElement, Point pointerPositionInSender)
+		{
+			if (_ancestorScrollViewer is null || _dragItemTransform is null)
+				return;
+
+			var transformToScrollViewer = senderElement.TransformToVisual(_ancestorScrollViewer);
+			var pointerInViewport = transformToScrollViewer.TransformPoint(pointerPositionInSender);
+
+			if (_isHorizontal)
+			{
+				var horizontalDelta = ComputeAutoScrollDelta(
+					pointerInViewport.X,
+					_ancestorScrollViewer.ViewportWidth,
+					_ancestorScrollViewer.HorizontalOffset,
+					_ancestorScrollViewer.ScrollableWidth);
+
+				if (horizontalDelta == 0)
+					return;
+
+				var newHorizontalOffset = _ancestorScrollViewer.HorizontalOffset + horizontalDelta;
+				var didScroll = _ancestorScrollViewer.ChangeView(newHorizontalOffset, null, null, true);
+				if (didScroll)
+					_dragItemTransform.X += horizontalDelta;
+			}
+			else
+			{
+				var verticalDelta = ComputeAutoScrollDelta(
+					pointerInViewport.Y,
+					_ancestorScrollViewer.ViewportHeight,
+					_ancestorScrollViewer.VerticalOffset,
+					_ancestorScrollViewer.ScrollableHeight);
+
+				if (verticalDelta == 0)
+					return;
+
+				var newVerticalOffset = _ancestorScrollViewer.VerticalOffset + verticalDelta;
+				var didScroll = _ancestorScrollViewer.ChangeView(null, newVerticalOffset, null, true);
+				if (didScroll)
+					_dragItemTransform.Y += verticalDelta;
+			}
+		}
+
+		private static double ComputeAutoScrollDelta(double pointerPosition, double viewportSize, double currentOffset, double scrollableSize)
+		{
+			if (viewportSize <= 0 || scrollableSize <= 0)
+				return 0;
+
+			double delta = 0;
+
+			if (pointerPosition < AutoScrollActivationMargin && currentOffset > 0)
+			{
+				var overscroll = AutoScrollActivationMargin - pointerPosition;
+				var strength = Math.Clamp(overscroll / AutoScrollActivationMargin, 0, 1);
+				delta = -Math.Clamp(strength * AutoScrollMaxStep, 1, AutoScrollMaxStep);
+			}
+			else if (pointerPosition > viewportSize - AutoScrollActivationMargin && currentOffset < scrollableSize)
+			{
+				var overscroll = pointerPosition - (viewportSize - AutoScrollActivationMargin);
+				var strength = Math.Clamp(overscroll / AutoScrollActivationMargin, 0, 1);
+				delta = Math.Clamp(strength * AutoScrollMaxStep, 1, AutoScrollMaxStep);
+			}
+
+			if (delta is 0)
+				return 0;
+
+			var targetOffset = Math.Clamp(currentOffset + delta, 0, scrollableSize);
+			return targetOffset - currentOffset;
 		}
 
 		private double[] ComputeTargetPositions()

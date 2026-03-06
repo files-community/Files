@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
+using Files.App.Controls;
 using Files.App.UITests.Data;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -13,7 +14,41 @@ namespace Files.App.UITests.Views
 {
 	internal sealed partial class TableViewPage : Page
 	{
-		public ObservableCollection<TableViewItemModel> Items { get; set; }
+		private const int GeneratedItemCount = 5000;
+
+		private static readonly TableViewItemModel[] SampleItems =
+		[
+			new() { Name = "Designs", DateUpdated = new DateTimeOffset(2026, 3, 8, 9, 14, 0, TimeSpan.FromHours(9)), Type = "File folder", Size = string.Empty },
+			new() { Name = "Quarterly Report Q1 2026.xlsx", DateUpdated = new DateTimeOffset(2026, 3, 8, 8, 2, 0, TimeSpan.FromHours(9)), Type = "Microsoft Excel Worksheet", Size = "2.4 MB" },
+			new() { Name = "Product Roadmap.pptx", DateUpdated = new DateTimeOffset(2026, 3, 7, 16, 42, 0, TimeSpan.FromHours(9)), Type = "Microsoft PowerPoint Presentation", Size = "18.7 MB" },
+			new() { Name = "Brand Guidelines.pdf", DateUpdated = new DateTimeOffset(2026, 3, 7, 14, 18, 0, TimeSpan.FromHours(9)), Type = "PDF Document", Size = "6.1 MB" },
+			new() { Name = "HeroBanner_Final.png", DateUpdated = new DateTimeOffset(2026, 3, 6, 11, 31, 0, TimeSpan.FromHours(9)), Type = "PNG File", Size = "4.8 MB" },
+			new() { Name = "SpringCampaign", DateUpdated = new DateTimeOffset(2026, 3, 6, 9, 7, 0, TimeSpan.FromHours(9)), Type = "File folder", Size = string.Empty },
+			new() { Name = "Invoice_10482.docx", DateUpdated = new DateTimeOffset(2026, 3, 5, 15, 26, 0, TimeSpan.FromHours(9)), Type = "Microsoft Word Document", Size = "184 KB" },
+			new() { Name = "Onboarding Checklist.txt", DateUpdated = new DateTimeOffset(2026, 3, 5, 10, 13, 0, TimeSpan.FromHours(9)), Type = "Text Document", Size = "12 KB" },
+			new() { Name = "Team Photo.jpg", DateUpdated = new DateTimeOffset(2026, 3, 4, 18, 54, 0, TimeSpan.FromHours(9)), Type = "JPEG File", Size = "3.2 MB" },
+			new() { Name = "ReleaseNotes-v3.8.md", DateUpdated = new DateTimeOffset(2026, 3, 4, 13, 22, 0, TimeSpan.FromHours(9)), Type = "Markdown Source File", Size = "28 KB" },
+			new() { Name = "Customer Interviews", DateUpdated = new DateTimeOffset(2026, 3, 3, 17, 40, 0, TimeSpan.FromHours(9)), Type = "File folder", Size = string.Empty },
+			new() { Name = "Demo Reel.mp4", DateUpdated = new DateTimeOffset(2026, 3, 3, 11, 8, 0, TimeSpan.FromHours(9)), Type = "MP4 Video", Size = "124 MB" },
+			new() { Name = "appsettings.json", DateUpdated = new DateTimeOffset(2026, 3, 2, 20, 49, 0, TimeSpan.FromHours(9)), Type = "JSON Source File", Size = "5 KB" },
+			new() { Name = "prototype-v12.fig", DateUpdated = new DateTimeOffset(2026, 3, 2, 14, 16, 0, TimeSpan.FromHours(9)), Type = "FIG File", Size = "31.5 MB" },
+			new() { Name = "Assets", DateUpdated = new DateTimeOffset(2026, 3, 1, 16, 3, 0, TimeSpan.FromHours(9)), Type = "File folder", Size = string.Empty },
+			new() { Name = "archive-2025.zip", DateUpdated = new DateTimeOffset(2026, 2, 28, 19, 12, 0, TimeSpan.FromHours(9)), Type = "Compressed (zipped) Folder", Size = "842 MB" },
+			new() { Name = "setup.exe", DateUpdated = new DateTimeOffset(2026, 2, 28, 10, 55, 0, TimeSpan.FromHours(9)), Type = "Application", Size = "67.9 MB" },
+			new() { Name = "Vacation Budget.csv", DateUpdated = new DateTimeOffset(2026, 2, 27, 13, 47, 0, TimeSpan.FromHours(9)), Type = "CSV File", Size = "96 KB" },
+			new() { Name = "wireframes.sketch", DateUpdated = new DateTimeOffset(2026, 2, 26, 9, 33, 0, TimeSpan.FromHours(9)), Type = "SKETCH File", Size = "14.2 MB" },
+			new() { Name = "Meeting Recording.m4a", DateUpdated = new DateTimeOffset(2026, 2, 25, 17, 11, 0, TimeSpan.FromHours(9)), Type = "M4A Audio File", Size = "48.6 MB" },
+		];
+
+		public ObservableCollection<TableViewColumnModel> Columns { get; } =
+		[
+			new("Name" , nameof(TableViewItemModel.Name)),
+			new("Date updated", nameof(TableViewItemModel.DateUpdated), TableViewColumnValueType.DateTimeOffset),
+			new("Type" , nameof(TableViewItemModel.Type)),
+			new("Size" , nameof(TableViewItemModel.Size)),
+		];
+
+		public BulkConcurrentObservableCollection<TableViewItemModel> Items { get; }
 
 		public TableViewPage()
 		{
@@ -24,29 +59,32 @@ namespace Files.App.UITests.Views
 
 		private async void TableViewPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
 		{
-			var list = await Task.Run(() =>
-			{
-				var tmp = new List<TableViewItemModel>(/*4000*/20);
-				for (int index = 0; index < /*4000*/20; index++)
-				{
-					tmp.Add(new() { Name = $"Name {index}", DateUpdated = $"DateUpdated {index}", Size = $"Size {index}", Type = $"Type {index}" });
-				}
-				return tmp;
-			});
+			var list = await Task.Run(() => GenerateItems(GeneratedItemCount));
 
 			await DispatcherQueue.EnqueueAsync(() =>
 			{
 				Items.Clear();
-
-				// TODO:
-				//   This invokes 4000 collection changed events and thus cause a hang,
-				//   we should replace this with AddRange (which does not exist out of box) in the future
-				foreach (var item in list)
-					Items.Add(item);
-
-				Items = new(list);
+				Items.AddRange(list);
 			});
+		}
 
+		private static List<TableViewItemModel> GenerateItems(int count)
+		{
+			var items = new List<TableViewItemModel>(count);
+			var sampleCount = SampleItems.Length;
+			for (var i = 0; i < count; i++)
+			{
+				var template = SampleItems[i % sampleCount];
+				items.Add(new TableViewItemModel
+				{
+					Name = $"{template.Name} ({i + 1})",
+					DateUpdated = template.DateUpdated?.AddMinutes(-i),
+					Type = template.Type,
+					Size = template.Size
+				});
+			}
+
+			return items;
 		}
 	}
 }

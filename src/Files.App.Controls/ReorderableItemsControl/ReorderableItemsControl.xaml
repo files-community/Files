@@ -3,9 +3,9 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:local="using:Files.App.Controls">
 
-	<Style BasedOn="{StaticResource DefaultSnapPanelContainerStyle}" TargetType="local:ReorderablePanelContainer" />
+	<Style BasedOn="{StaticResource DefaultSnapPanelContainerStyle}" TargetType="local:ReorderableItemsControl" />
 
-	<Style x:Key="DefaultSnapPanelContainerStyle" TargetType="local:ReorderablePanelContainer">
+	<Style x:Key="DefaultSnapPanelContainerStyle" TargetType="local:ReorderableItemsControl">
 		<Setter Property="ItemsPanel">
 			<Setter.Value>
 				<ItemsPanelTemplate>

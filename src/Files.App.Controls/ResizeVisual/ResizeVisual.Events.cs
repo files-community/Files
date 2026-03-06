@@ -1,9 +1,8 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Controls
 {
@@ -16,6 +15,17 @@ namespace Files.App.Controls
 			OnOrientationChanged(Orientation);
 			OnThumbHeightChanged(ThumbHeight);
 			OnThumbWidthChanged(ThumbWidth);
+			UpdateThumbTranslation();
+		}
+
+		private void ResizeVisual_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			UpdateThumbTranslation();
+		}
+
+		private void Target_SizeChanged(object sender, SizeChangedEventArgs e)
+		{
+			UpdateThumbTranslation();
 		}
 
 		private void RootGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -80,7 +90,7 @@ namespace Files.App.Controls
 
 					// Use Target.Height (the value we just set) instead of Target.ActualHeight
 					// to avoid drift caused by layout not having run yet during fast drags.
-					((TranslateTransform)RenderTransform).Y = Target.Height - ActualHeight / 2;
+					EnsureTranslateTransform().Y = Target.Height - ActualHeight / 2;
 				}
 				else if (Orientation is Orientation.Horizontal)
 				{
@@ -111,7 +121,7 @@ namespace Files.App.Controls
 
 					// Use Target.Width (the value we just set) instead of Target.ActualWidth
 					// to avoid drift caused by layout not having run yet during fast drags.
-					((TranslateTransform)RenderTransform).X = Target.Width - ActualWidth / 2;
+					EnsureTranslateTransform().X = Target.Width - ActualWidth / 2;
 				}
 				else
 				{
@@ -138,6 +148,10 @@ namespace Files.App.Controls
 		{
 			Loaded -= ResizeVisual_Loaded;
 			Unloaded -= ResizeVisual_Unloaded;
+			SizeChanged -= ResizeVisual_SizeChanged;
+
+			if (_observedTarget is not null)
+				_observedTarget.SizeChanged -= Target_SizeChanged;
 
 			if (_rootGrid is not null)
 			{
@@ -148,7 +162,6 @@ namespace Files.App.Controls
 			if (_outerThumb is not null)
 			{
 				_outerThumb.PointerEntered -= OuterThumb_PointerEntered;
-				_outerThumb.PointerExited -= OuterThumb_PointerExited;
 				_outerThumb.PointerExited -= OuterThumb_PointerExited;
 
 				_outerThumb.DragStarted -= Thumb_DragStarted;

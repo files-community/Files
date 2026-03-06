@@ -10,11 +10,20 @@ namespace Files.App.Controls
 {
 	public partial class TableView
 	{
-		[GeneratedDependencyProperty]
-		public partial ObservableCollection<TableViewColumn> Columns { get; internal protected set; }
+		[GeneratedDependencyProperty(IsLocalCacheEnabled = true)]
+		public partial ObservableCollection<TableViewColumn> Columns { get; private set; }
 
-		[GeneratedDependencyProperty]
-		public partial object View { get; set; }
+		[GeneratedDependencyProperty(IsLocalCacheEnabled = true)]
+		public partial object? ColumnsSource { get; set; }
+
+		[GeneratedDependencyProperty(IsLocalCacheEnabled = true)]
+		public partial DataTemplate? ColumnTemplate { get; set; }
+
+		[GeneratedDependencyProperty(IsLocalCacheEnabled = true)]
+		public partial DataTemplateSelector? ColumnTemplateSelector { get; set; }
+
+		[GeneratedDependencyProperty(IsLocalCacheEnabled = true)]
+		public partial object? View { get; set; }
 
 		[GeneratedDependencyProperty]
 		public partial bool IsColumnResizing { get; internal protected set; }
@@ -26,11 +35,39 @@ namespace Files.App.Controls
 			if (e.NewValue is INotifyCollectionChanged newColumns)
 				newColumns.CollectionChanged += Columns_CollectionChanged;
 
-			if (_columnsPanel is not null)
-			{
-				_columnsPanel.Children.Clear();
-				_columnsPanel.ColumnDefinitions.Clear();
-			}
+			foreach (var column in Columns)
+				column.EnsureOwner(this);
+
+			RefreshVisibleRows();
+			InvalidateLayoutOfAllRows();
+		}
+
+		partial void OnColumnsSourcePropertyChanged(DependencyPropertyChangedEventArgs e)
+		{
+			if (e.OldValue is INotifyCollectionChanged oldColumnsSource)
+				oldColumnsSource.CollectionChanged -= ColumnsSource_CollectionChanged;
+			if (e.NewValue is INotifyCollectionChanged newColumnsSource)
+				newColumnsSource.CollectionChanged += ColumnsSource_CollectionChanged;
+
+			SynchronizeColumnsFromSource();
+		}
+
+		partial void OnColumnTemplateChanged(DataTemplate? newValue)
+		{
+			if (ColumnsSource is null)
+				return;
+
+			RefreshVisibleRows();
+			InvalidateLayoutOfAllRows();
+		}
+
+		partial void OnColumnTemplateSelectorChanged(DataTemplateSelector? newValue)
+		{
+			if (ColumnsSource is null)
+				return;
+
+			RefreshVisibleRows();
+			InvalidateLayoutOfAllRows();
 		}
 
 		partial void OnIsColumnResizingChanged(bool newValue)

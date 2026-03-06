@@ -5,9 +5,9 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace Files.App.UITests.Views
 {
-	public sealed partial class ReorderablePanelContainerPage : Page
+	public sealed partial class ReorderableItemsControlPage : Page
 	{
-		public ReorderablePanelContainerPage()
+		public ReorderableItemsControlPage()
 		{
 			InitializeComponent();
 		}

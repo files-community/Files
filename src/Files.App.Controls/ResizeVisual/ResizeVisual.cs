@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Controls
 {
@@ -16,6 +17,8 @@ namespace Files.App.Controls
 	{
 		private Grid? _rootGrid;
 		private Thumb? _outerThumb;
+		private FrameworkElement? _observedTarget;
+		private TranslateTransform? _translateTransform;
 
 		private bool _isDragging;
 		private bool _pointerExited;
@@ -34,6 +37,38 @@ namespace Files.App.Controls
 		public ResizeVisual()
 		{
 			DefaultStyleKey = typeof(ResizeVisual);
+		}
+
+		private TranslateTransform EnsureTranslateTransform()
+		{
+			if (RenderTransform is TranslateTransform existingTransform)
+			{
+				_translateTransform = existingTransform;
+				return existingTransform;
+			}
+
+			_translateTransform = new TranslateTransform();
+			RenderTransform = _translateTransform;
+			return _translateTransform;
+		}
+
+		private void UpdateThumbTranslation()
+		{
+			if (Target is null)
+				return;
+
+			var transform = EnsureTranslateTransform();
+
+			if (Orientation is Orientation.Vertical)
+			{
+				transform.X = 0;
+				transform.Y = Target.ActualHeight - ActualHeight / 2;
+			}
+			else if (Orientation is Orientation.Horizontal)
+			{
+				transform.X = Target.ActualWidth - ActualWidth / 2;
+				transform.Y = 0;
+			}
 		}
 
 		protected override void OnApplyTemplate()
@@ -57,6 +92,7 @@ namespace Files.App.Controls
 			_outerThumb.DragDelta += Thumb_DragDelta;
 			_outerThumb.DragCompleted += Thumb_DragCompleted;
 
+			SizeChanged += ResizeVisual_SizeChanged;
 			Unloaded += ResizeVisual_Unloaded;
 		}
 

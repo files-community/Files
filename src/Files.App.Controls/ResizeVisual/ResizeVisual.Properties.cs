@@ -1,9 +1,8 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Input;
-using Microsoft.UI.Xaml.Media;
 
 namespace Files.App.Controls
 {
@@ -32,30 +31,20 @@ namespace Files.App.Controls
 
 		partial void OnTargetChanged(FrameworkElement? newValue)
 		{
-			if (newValue?.ActualHeight is 0 || ActualHeight is 0 ||
-				newValue?.ActualWidth is 0 || ActualWidth is 0)
-				return;
+			if (_observedTarget is not null)
+				_observedTarget.SizeChanged -= Target_SizeChanged;
 
-			Debug.WriteLine("OnTargetChanged");
+			_observedTarget = newValue;
 
-			RenderTransform = new TranslateTransform();
+			if (_observedTarget is not null)
+				_observedTarget.SizeChanged += Target_SizeChanged;
 
-			if (Orientation is Orientation.Vertical)
-			{
-				((TranslateTransform)RenderTransform).Y = newValue?.ActualHeight - ActualHeight / 2 ?? 0;
-			}
-			else if (Orientation is Orientation.Horizontal)
-			{
-				((TranslateTransform)RenderTransform).X = newValue?.ActualWidth - ActualWidth / 2 ?? 0;
-			}
+			UpdateThumbTranslation();
 		}
 
 		partial void OnCursorShapeChanged(InputSystemCursorShape newValue)
 		{
-			if (_outerThumb is not null)
-			{
-				_outerThumb.ChangeCursor(InputSystemCursor.Create(newValue));
-			}
+			this.ChangeCursor(InputSystemCursor.Create(newValue));
 		}
 
 		partial void OnOrientationChanged(Orientation newValue)
@@ -65,8 +54,7 @@ namespace Files.App.Controls
 			else if (newValue is Orientation.Horizontal)
 				CursorShape = InputSystemCursorShape.SizeWestEast;
 
-			// Reset the translation
-			if (Target is not null && _outerThumb is not null)
+			if (_outerThumb is not null)
 			{
 				_outerThumb.VerticalAlignment = VerticalAlignment.Stretch;
 				_outerThumb.HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -74,16 +62,14 @@ namespace Files.App.Controls
 				if (newValue is Orientation.Vertical)
 				{
 					_outerThumb.HorizontalAlignment = HorizontalAlignment.Center;
-					((TranslateTransform)RenderTransform).X = 0;
-					((TranslateTransform)RenderTransform).Y = Target.ActualHeight - ActualHeight / 2;
 				}
 				else if (newValue is Orientation.Horizontal)
 				{
 					_outerThumb.VerticalAlignment = VerticalAlignment.Center;
-					((TranslateTransform)RenderTransform).X = Target.ActualWidth - ActualWidth / 2;
-					((TranslateTransform)RenderTransform).Y = 0;
 				}
 			}
+
+			UpdateThumbTranslation();
 		}
 
 		partial void OnThumbHeightChanged(double newValue)

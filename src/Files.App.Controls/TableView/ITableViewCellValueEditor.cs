@@ -3,8 +3,8 @@
 
 namespace Files.App.Controls
 {
-	public interface ITableViewCellValueProvider
+	public interface ITableViewCellValueEditor
 	{
-		public T GetValue<T>(string name);
+		public bool TrySetValue<T>(string name, T value);
 	}
 }

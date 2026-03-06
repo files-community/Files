@@ -54,7 +54,7 @@ namespace Files.App.UITests
 					nameof(BreadcrumbBarPage) => typeof(BreadcrumbBarPage),
 					nameof(ResizeVisualPage) => typeof(ResizeVisualPage),
 					nameof(TableViewPage) => typeof(TableViewPage),
-					nameof(ReorderablePanelContainerPage) => typeof(ReorderablePanelContainerPage),
+					nameof(ReorderableItemsControlPage) => typeof(ReorderableItemsControlPage),
 					nameof(DragSelectionContainerPage) => typeof(DragSelectionContainerPage),
 					nameof(ResizablePanelPage) => typeof(ResizablePanelPage),
 					_ => throw new InvalidOperationException("There's no applicable page associated with the given key."),
