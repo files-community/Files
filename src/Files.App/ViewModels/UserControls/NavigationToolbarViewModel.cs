@@ -635,11 +635,18 @@ namespace Files.App.ViewModels.UserControls
 		public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem)
 		{
 			var nextPathItemTitle = PathComponents[PathComponents.IndexOf(pathItem) + 1].Title;
-			IList<StorageFolderWithPath>? childFolders = null;
+			var childFolders = GetSubfolders(pathItem.Path);
 
-			StorageFolderWithPath folder = await ContentPageContext.ShellPage.ShellViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
-			if (folder is not null)
-				childFolders = (await FilesystemTasks.Wrap(() => folder.GetFoldersWithPathAsync(string.Empty))).Result;
+			// Fall back to StorageFolder API for non-filesystem paths (e.g. FTP)
+			if (childFolders is null)
+			{
+				StorageFolderWithPath folder = await ContentPageContext.ShellPage.ShellViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
+				if (folder is not null)
+				{
+					var result = (await FilesystemTasks.Wrap(() => folder.GetFoldersWithPathAsync(string.Empty))).Result;
+					childFolders = result?.Select(f => (f.Item.Name, f.Path, false)).ToList();
+				}
+			}
 
 			flyout.Items?.Clear();
 
@@ -663,28 +670,78 @@ namespace Files.App.ViewModels.UserControls
 			var workingPath =
 				PathComponents[PathComponents.Count - 1].Path?.TrimEnd(Path.DirectorySeparatorChar);
 
-			foreach (var childFolder in childFolders)
+			foreach (var (name, path, isHidden) in childFolders)
 			{
 				var flyoutItem = new MenuFlyoutItem
 				{
 					Icon = new FontIcon { Glyph = "\uE8B7" }, // Use font icon as placeholder
-					Text = childFolder.Item.Name,
+					Text = name,
+					Opacity = isHidden ? Constants.UI.DimItemOpacity : 1.0,
 				};
 
-				if (workingPath != childFolder.Path)
+				if (workingPath != path)
 				{
 					flyoutItem.Click += (sender, args) =>
 					{
 						// Navigate to the directory
-						ContentPageContext.ShellPage.NavigateToPath(childFolder.Path);
+						ContentPageContext.ShellPage.NavigateToPath(path);
 					};
 				}
 
 				flyout.Items?.Add(flyoutItem);
 
 				// Start loading the thumbnail in the background
-				_ = LoadFlyoutItemIconAsync(flyoutItem, childFolder.Path);
+				_ = LoadFlyoutItemIconAsync(flyoutItem, path);
 			}
+		}
+
+		/// <summary>
+		/// Enumerates subfolders using Win32 API, including hidden folders based on user settings.
+		/// Returns null if the path cannot be enumerated with Win32.
+		/// </summary>
+		private List<(string Name, string Path, bool IsHidden)>? GetSubfolders(string parentPath)
+		{
+			IntPtr hFile = Win32PInvoke.FindFirstFileExFromApp(
+				$"{parentPath}{Path.DirectorySeparatorChar}*.*",
+				Win32PInvoke.FINDEX_INFO_LEVELS.FindExInfoBasic,
+				out Win32PInvoke.WIN32_FIND_DATA findData,
+				Win32PInvoke.FINDEX_SEARCH_OPS.FindExSearchNameMatch,
+				IntPtr.Zero,
+				Win32PInvoke.FIND_FIRST_EX_LARGE_FETCH);
+
+			if (hFile.ToInt64() == -1)
+				return null;
+
+			var showHidden = UserSettingsService.FoldersSettingsService.ShowHiddenItems;
+			var showSystem = UserSettingsService.FoldersSettingsService.ShowProtectedSystemFiles;
+			var showDot = UserSettingsService.FoldersSettingsService.ShowDotFiles;
+			var folders = new List<(string Name, string Path, bool IsHidden)>();
+
+			do
+			{
+				if (findData.cFileName is "." or "..")
+					continue;
+
+				if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == 0)
+					continue;
+
+				bool isHidden = ((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != 0;
+				bool isSystem = ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != 0;
+
+				if (isHidden && (!showHidden || (isSystem && !showSystem)))
+					continue;
+
+				if (findData.cFileName.StartsWith('.') && !showDot)
+					continue;
+
+				folders.Add((findData.cFileName, Path.Combine(parentPath, findData.cFileName), isHidden));
+			}
+			while (Win32PInvoke.FindNextFile(hFile, out findData));
+
+			Win32PInvoke.FindClose(hFile);
+			folders.Sort((a, b) => string.Compare(a.Name, b.Name, StringComparison.OrdinalIgnoreCase));
+
+			return folders;
 		}
 
 		private async Task LoadFlyoutItemIconAsync(MenuFlyoutItem flyoutItem, string path)
