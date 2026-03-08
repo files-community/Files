@@ -631,10 +631,19 @@ namespace Files.App.Helpers
 								{
 									//try using launcher first
 									bool launchSuccess = false;
+
+									// The Windows 11 Photos app ignores NeighboringFilesQuery when launched as default app.
+									// Use the app URI only when this extension is associated with Microsoft Photos.
+									if (FileAssociationHelpers.IsMicrosoftPhotosDefaultAssociation(fileExtension))
+									{
+										string uri = $"ms-photos:viewer?fileName={Uri.EscapeDataString(path)}";
+										launchSuccess = await Launcher.LaunchUriAsync(new Uri(uri));
+									}
+
 									BaseStorageFileQueryResult? fileQueryResult = null;
 									//Get folder to create a file query (to pass to apps like Photos, Movies & TV..., needed to scroll through the folder like what Windows Explorer does)
 									BaseStorageFolder currentFolder = await shellViewModel.GetFolderFromPathAsync(PathNormalization.GetParentDir(path));
-									if (currentFolder is not null)
+									if (!launchSuccess && currentFolder is not null)
 									{
 										QueryOptions queryOptions = new(CommonFileQuery.DefaultQuery, null);
 										//We can have many sort entries
