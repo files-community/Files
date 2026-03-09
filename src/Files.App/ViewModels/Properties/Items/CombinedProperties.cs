@@ -51,6 +51,7 @@ namespace Files.App.ViewModels.Properties
 		public override async Task GetSpecialPropertiesAsync()
 		{
 			bool allFiles = true, allReadOnly = true, allNotReadOnly = true, allHidden = true, allNotHidden = true;
+			bool allCompressed = true, allNotCompressed = true, anyCanCompress = false;
 			foreach (var x in List)
 			{
 				allFiles &= x.PrimaryItemAttribute == StorageItemTypes.File;
@@ -61,6 +62,10 @@ namespace Files.App.ViewModels.Properties
 				bool isHidden = fileAttributes.HasFlag(System.IO.FileAttributes.Hidden);
 				allHidden &= isHidden;
 				allNotHidden &= !isHidden;
+				bool isCompressed = fileAttributes.HasFlag(System.IO.FileAttributes.Compressed);
+				allCompressed &= isCompressed;
+				allNotCompressed &= !isCompressed;
+				anyCanCompress |= Win32Helper.CanCompressContent(x.ItemPath);
 			}
 			
 			if (allFiles)
@@ -79,6 +84,14 @@ namespace Files.App.ViewModels.Properties
 				ViewModel.IsHidden = false;
 			else
 				ViewModel.IsHidden = null;
+
+			ViewModel.CanCompressContent = anyCanCompress;
+			if (allCompressed)
+				ViewModel.IsContentCompressed = true;
+			else if (allNotCompressed)
+				ViewModel.IsContentCompressed = false;
+			else
+				ViewModel.IsContentCompressed = null;
 
 			ViewModel.LastSeparatorVisibility = false;
 			ViewModel.ItemSizeVisibility = true;
@@ -131,7 +144,7 @@ namespace Files.App.ViewModels.Properties
 			SetItemsCountString();
 		}
 
-		private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+		private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
 			switch (e.PropertyName)
 			{
@@ -174,9 +187,12 @@ namespace Files.App.ViewModels.Properties
 
 				case "IsContentCompressed":
 					{
-						List.ForEach(x =>
+						var isCompressed = ViewModel.IsContentCompressed ?? false;
+						var items = List.Select(x => x.ItemPath).ToList();
+						await Task.Run(() =>
 						{
-							Win32Helper.SetCompressionAttributeIoctl(x.ItemPath, ViewModel.IsContentCompressed ?? false);
+							foreach (var path in items)
+								Win32Helper.SetCompressionAttributeIoctl(path, isCompressed);
 						});
 					}
 					break;
