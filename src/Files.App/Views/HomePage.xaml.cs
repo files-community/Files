@@ -1,7 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 
 namespace Files.App.Views
@@ -10,6 +12,7 @@ namespace Files.App.Views
 	{
 		// Dependency injections
 
+		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		public HomeViewModel ViewModel { get; } = Ioc.Default.GetRequiredService<HomeViewModel>();
 
 		// Properties
@@ -75,6 +78,14 @@ namespace Files.App.Views
 			AppInstance.ToolbarViewModel.PathComponents.Add(item);
 
 			base.OnNavigatedTo(e);
+		}
+
+		private void ScrollViewer_RightTapped(object sender, RightTappedRoutedEventArgs e)
+		{
+			if (sender is FrameworkElement element)
+				HomePageContextMenu.ShowAt(element, e.GetPosition(element));
+
+			e.Handled = true;
 		}
 
 		protected override void OnNavigatedFrom(NavigationEventArgs e)
