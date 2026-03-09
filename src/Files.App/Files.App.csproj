@@ -124,7 +124,7 @@
 
     <!-- Files.App.Server is an out-of-process COM server, not a project reference.
          Build it before we resolve assemblies so its .winmd is available for CsWinRT. -->
-    <Target Name="BuildFilesAppServer" BeforeTargets="ResolveAssemblyReferences">
+    <Target Name="BuildFilesAppServer" BeforeTargets="CsWinRTRemoveWinMDReferences">
         <MSBuild Projects="..\Files.App.Server\Files.App.Server.csproj"
                  Targets="Build"
                  Properties="Configuration=$(Configuration);Platform=$(Platform)" />
