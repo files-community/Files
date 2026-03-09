@@ -121,6 +121,9 @@ namespace Files.App.Dialogs
 		{
 			private readonly IGeneralSettingsService GeneralSettingsService = Ioc.Default.GetRequiredService<IGeneralSettingsService>();
 
+			private readonly long _totalMemory;
+			private readonly long _availableMemory;
+
 			public bool IsNameValid => FilesystemHelpers.IsValidForFilename(fileName);
 
 			public bool ShowNameWarning => !string.IsNullOrEmpty(fileName) && !IsNameValid;
@@ -148,6 +151,7 @@ namespace Files.App.Dialogs
 					{
 						GeneralSettingsService.ArchiveFormatsOption = value.Key;
 						OnPropertyChanged(nameof(CanSplit));
+						OnPropertyChanged(nameof(EstimatedMemoryText));
 					}
 				}
 			}
@@ -158,7 +162,10 @@ namespace Files.App.Dialogs
 				set
 				{
 					if (value.Key != GeneralSettingsService.ArchiveCompressionLevelsOption)
+					{
 						GeneralSettingsService.ArchiveCompressionLevelsOption = value.Key;
+						OnPropertyChanged(nameof(EstimatedMemoryText));
+					}
 				}
 			}
 
@@ -180,7 +187,10 @@ namespace Files.App.Dialogs
 				set
 				{
 					if (value.Key != GeneralSettingsService.ArchiveDictionarySizesOption)
+					{
 						GeneralSettingsService.ArchiveDictionarySizesOption = value.Key;
+						OnPropertyChanged(nameof(EstimatedMemoryText));
+					}
 				}
 			}
 
@@ -190,7 +200,10 @@ namespace Files.App.Dialogs
 				set
 				{
 					if (value.Key != GeneralSettingsService.ArchiveWordSizesOption)
+					{
 						GeneralSettingsService.ArchiveWordSizesOption = value.Key;
+						OnPropertyChanged(nameof(EstimatedMemoryText));
+					}
 				}
 			}
 
@@ -198,7 +211,11 @@ namespace Files.App.Dialogs
 			public int CPUThreads
 			{
 				get => cpuThreads;
-				set => SetProperty(ref cpuThreads, value);
+				set
+				{
+					if (SetProperty(ref cpuThreads, value))
+						OnPropertyChanged(nameof(EstimatedMemoryText));
+				}
 			}
 
 			private bool useEncryption = false;
@@ -287,7 +304,79 @@ namespace Files.App.Dialogs
 
 			public DialogViewModel()
 			{
+				var gcMemoryInfo = GC.GetGCMemoryInfo();
+				_totalMemory = gcMemoryInfo.TotalAvailableMemoryBytes;
+				_availableMemory = _totalMemory - gcMemoryInfo.MemoryLoadBytes;
+			}
 
+			public string EstimatedMemoryText
+			{
+				get
+				{
+					long estimated = EstimateCompressionMemory();
+					return string.Format(
+						Strings.EstimatedMemoryUsage.GetLocalizedResource(),
+						((double)estimated).ToSizeString());
+				}
+			}
+
+			public string AvailableMemoryText
+			{
+				get
+				{
+					return string.Format(
+						Strings.AvailableMemory.GetLocalizedResource(),
+						((double)_availableMemory).ToSizeString());
+				}
+			}
+
+			private long EstimateCompressionMemory()
+			{
+				long dictBytes = GetEffectiveDictionaryBytes();
+				int threads = Math.Max(1, cpuThreads);
+
+				// LZMA2 compression memory per thread:
+				// Each thread uses: dictionary + dictionary/2 (hash) + ~6 MB overhead
+				// Reference: 7-Zip source (LzmaEnc.c, Lzma2Enc.c)
+				long perThread = dictBytes + dictBytes / 2 + 6 * 1024 * 1024;
+				return perThread * threads;
+			}
+
+			private long GetEffectiveDictionaryBytes()
+			{
+				var dictSizeKey = DictionarySize.Key;
+
+				if (dictSizeKey is ArchiveDictionarySizes.Auto)
+				{
+					// Default dictionary sizes for LZMA2 based on compression level
+					return CompressionLevel.Key switch
+					{
+						ArchiveCompressionLevels.Ultra => 64L * 1024 * 1024,
+						ArchiveCompressionLevels.High => 32L * 1024 * 1024,
+						ArchiveCompressionLevels.Normal => 16L * 1024 * 1024,
+						ArchiveCompressionLevels.Low => 1L * 1024 * 1024,
+						ArchiveCompressionLevels.Fast => 64L * 1024,
+						_ => 0L
+					};
+				}
+
+				return dictSizeKey switch
+				{
+					ArchiveDictionarySizes.Kb64 => 64L * 1024,
+					ArchiveDictionarySizes.Kb256 => 256L * 1024,
+					ArchiveDictionarySizes.Mb1 => 1L * 1024 * 1024,
+					ArchiveDictionarySizes.Mb2 => 2L * 1024 * 1024,
+					ArchiveDictionarySizes.Mb4 => 4L * 1024 * 1024,
+					ArchiveDictionarySizes.Mb8 => 8L * 1024 * 1024,
+					ArchiveDictionarySizes.Mb16 => 16L * 1024 * 1024,
+					ArchiveDictionarySizes.Mb32 => 32L * 1024 * 1024,
+					ArchiveDictionarySizes.Mb64 => 64L * 1024 * 1024,
+					ArchiveDictionarySizes.Mb128 => 128L * 1024 * 1024,
+					ArchiveDictionarySizes.Mb256 => 256L * 1024 * 1024,
+					ArchiveDictionarySizes.Mb512 => 512L * 1024 * 1024,
+					ArchiveDictionarySizes.Mb1024 => 1024L * 1024 * 1024,
+					_ => 16L * 1024 * 1024
+				};
 			}
 
 			private static string ToSizeText(ulong megaBytes) => ByteSize.FromMebiBytes(megaBytes).ShortString;
