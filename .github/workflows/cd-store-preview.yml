@@ -19,22 +19,15 @@ jobs:
   build:
     runs-on: windows-2025-vs2026
     environment: Deployments
-    strategy:
-      fail-fast: false
-      matrix:
-        configuration: [Release]
-        platform: [x64]
     env:
-      SOLUTION_NAME:              'Files.slnx'
-      CONFIGURATION:              '${{ matrix.configuration }}'
-      PLATFORM:                   '${{ matrix.platform }}'
-      APPX_BUNDLE_PLATFORMS:      'x64|arm64'
+      CONFIGURATION:              'Release'
+      PLATFORM:                   'x64'
       WORKING_DIR:                '${{ github.workspace }}' # D:\a\Files\Files\
-      ARTIFACTS_STAGING_DIR:      '${{ github.workspace }}\artifacts'
-      APPX_PACKAGE_DIR:           '${{ github.workspace }}\artifacts\AppxPackages\'
-      APP_PROJECT_PATH:            '${{ github.workspace }}\src\Files.App\Files.App.csproj'
+      SOLUTION_PATH:              '${{ github.workspace }}\Files.slnx'
+      ARTIFACTS_STAGING_DIR:      '${{ github.workspace }}\artifacts\'
+      APP_PROJECT_DIR:            '${{ github.workspace }}\src\Files.App'
+      STARTUP_PROJECT_PATH:       '${{ github.workspace }}\src\Files.App\Files.App.csproj'
       PACKAGE_MANIFEST_PATH:      '${{ github.workspace }}\src\Files.App\Package.appxmanifest'
-      LAUNCHER_PROJECT_PATH:      'src\Files.App.Launcher\Files.App.Launcher.vcxproj'
 
     steps:
     - name: Checkout the repository
@@ -49,47 +42,30 @@ jobs:
         global-json-file: global.json
 
     - name: Configure the package manifest, logo, and secrets
-      shell: pwsh
       run: |
-        . './.github/scripts/Configure-AppxManifest.ps1' `
-          -Branch "StorePreview" `
-          -PackageManifestPath "$env:PACKAGE_MANIFEST_PATH" `
-          -Publisher "$env:STORE_PUBLISHER_SECRET" `
-          -WorkingDir "$env:WORKING_DIR" `
-          -SecretBingMapsKey "$env:SECRET_BINGMAPS_KEY" `
-          -SecretSentry "$env:SECRET_SENTRY" `
-          -SecretGitHubOAuthClientId "$env:SECRET_GITHUB_OAUTH_CLIENT_ID"
+        ./.github/scripts/Configure-AppxManifest.ps1 `
+            -Branch                      "StorePreview" `
+            -PackageManifestPath         "$env:PACKAGE_MANIFEST_PATH" `
+            -Publisher                   "$env:STORE_PUBLISHER_SECRET" `
+            -WorkingDir                  "$env:WORKING_DIR" `
+            -SecretBingMapsKey           "$env:SECRET_BINGMAPS_KEY" `
+            -SecretSentry                "$env:SECRET_SENTRY" `
+            -SecretGitHubOAuthClientId   "$env:SECRET_GITHUB_OAUTH_CLIENT_ID"
       env:
         STORE_PUBLISHER_SECRET: ${{ secrets.STORE_PUBLISHER_SECRET }}
         SECRET_BINGMAPS_KEY: ${{ secrets.BING_MAPS_SECRET }}
         SECRET_SENTRY: ${{ secrets.SENTRY_SECRET }}
         SECRET_GITHUB_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
   
-    - name: Restore Files
-      shell: pwsh
+    - name: Build & package Files
       run: |
-        msbuild $env:SOLUTION_NAME `
-        -t:Restore `
-        -p:Platform=$env:PLATFORM `
-        -p:Configuration=$env:CONFIGURATION `
-        -p:PublishReadyToRun=true `
-        -v:quiet
-
-    - name: Restore NuGet Packages for Launcher Project
-      shell: pwsh
-      run: |
-        nuget restore "$env:LAUNCHER_PROJECT_PATH" `
-          -SolutionDirectory "$env:WORKING_DIR" `
-          -Verbosity detailed
-          
-    - name: Build launcher project
-      shell: pwsh
-      run: |
-        msbuild "$env:LAUNCHER_PROJECT_PATH" `
-        -t:Build `
-        -p:Platform=$env:PLATFORM `
-        -p:Configuration=$env:CONFIGURATION `
-        -v:quiet
+        ./.github/scripts/Build-AppSolution.ps1 `
+            -ReleaseBranch               "StorePreview" `
+            -SolutionPath                "$env:SOLUTION_PATH" `
+            -StartupProjectPath          "$env:STARTUP_PROJECT_PATH" `
+            -Configuration               "$env:CONFIGURATION" `
+            -Platform                    "$env:PLATFORM" `
+            -AppxPackageDir              "$env:ARTIFACTS_STAGING_DIR" `
 
     - name: Sign launcher EXE with Azure Trusted Signing
       uses: azure/trusted-signing-action@v0.4.0
@@ -107,35 +83,6 @@ jobs:
         timestamp-rfc3161: http://timestamp.acs.microsoft.com
         timestamp-digest: SHA256
 
-    - name: Build & package Files
-      shell: pwsh
-      run: |
-        $platforms = "$env:APPX_BUNDLE_PLATFORMS" -split '\|'
-        foreach ($plat in $platforms) {
-          Write-Host "Building for $plat..."
-          msbuild "$env:APP_PROJECT_PATH" `
-            -t:Build `
-            -p:Platform=$plat `
-            -p:Configuration=$env:CONFIGURATION `
-            -p:AppxPackageDir="$env:APPX_PACKAGE_DIR" `
-            -p:AppxBundle=Never `
-            -p:GenerateAppxPackageOnBuild=true `
-            -p:UapAppxPackageBuildMode=StoreUpload `
-            -v:quiet
-        }
-
-    - name: Create msixbundle and msixupload
-      shell: pwsh
-      run: |
-        . './.github/scripts/Create-MsixBundle.ps1' `
-          -AppxPackageDir "$env:APPX_PACKAGE_DIR" `
-          -BundleName "Files.Package" `
-          -BuildMode "StoreUpload"
-
-    - name: Remove empty files from the packages
-      shell: bash
-      run: find $ARTIFACTS_STAGING_DIR -empty -delete
-        
     - name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v4
       with:
