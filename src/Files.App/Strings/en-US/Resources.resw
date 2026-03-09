@@ -2180,6 +2180,15 @@
   <data name="DoNotSplit" xml:space="preserve">
     <value>Do not split</value>
   </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="DictionarySize" xml:space="preserve">
+    <value>Dictionary size</value>
+  </data>
+  <data name="WordSize" xml:space="preserve">
+    <value>Word size</value>
+  </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
   </data>

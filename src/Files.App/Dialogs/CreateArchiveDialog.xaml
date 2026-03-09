@@ -78,6 +78,8 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 			</Grid.RowDefinitions>
 
 			<!--  Archive Format  -->
@@ -140,14 +142,50 @@
 				</ComboBox.ItemTemplate>
 			</ComboBox>
 
-			<!--  CPU Threads  -->
+			<!--  Dictionary Size  -->
 			<TextBlock
 				Grid.Row="3"
 				Grid.Column="0"
 				VerticalAlignment="Center"
+				Text="{helpers:ResourceString Name=DictionarySize}" />
+			<ComboBox
+				x:Name="DictionarySizeSelector"
+				Grid.Row="3"
+				Grid.Column="1"
+				Width="160"
+				HorizontalAlignment="Right"
+				DisplayMemberPath="Label"
+				IsEnabled="{x:Bind ViewModel.CanSplit, Mode=OneWay}"
+				ItemsSource="{x:Bind ViewModel.DictionarySizes}"
+				SelectedItem="{x:Bind ViewModel.DictionarySize, Mode=TwoWay}"
+				SelectedValuePath="Key" />
+
+			<!--  Word Size  -->
+			<TextBlock
+				Grid.Row="4"
+				Grid.Column="0"
+				VerticalAlignment="Center"
+				Text="{helpers:ResourceString Name=WordSize}" />
+			<ComboBox
+				x:Name="WordSizeSelector"
+				Grid.Row="4"
+				Grid.Column="1"
+				Width="160"
+				HorizontalAlignment="Right"
+				DisplayMemberPath="Label"
+				IsEnabled="{x:Bind ViewModel.CanSplit, Mode=OneWay}"
+				ItemsSource="{x:Bind ViewModel.WordSizes}"
+				SelectedItem="{x:Bind ViewModel.WordSize, Mode=TwoWay}"
+				SelectedValuePath="Key" />
+
+			<!--  CPU Threads  -->
+			<TextBlock
+				Grid.Row="5"
+				Grid.Column="0"
+				VerticalAlignment="Center"
 				Text="{helpers:ResourceString Name=CPUThreads}" />
 			<NumberBox
-				Grid.Row="3"
+				Grid.Row="5"
 				Grid.Column="1"
 				HorizontalAlignment="Right"
 				AutomationProperties.Name="{helpers:ResourceString Name=CPUThreads}"

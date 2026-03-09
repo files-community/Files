@@ -52,6 +52,18 @@ namespace Files.App.Dialogs
 			set => ViewModel.SplittingSize = ViewModel.SplittingSizes.First(size => size.Key == value);
 		}
 
+		public ArchiveDictionarySizes DictionarySize
+		{
+			get => ViewModel.DictionarySize.Key;
+			set => ViewModel.DictionarySize = ViewModel.DictionarySizes.First(size => size.Key == value);
+		}
+
+		public ArchiveWordSizes WordSize
+		{
+			get => ViewModel.WordSize.Key;
+			set => ViewModel.WordSize = ViewModel.WordSizes.First(size => size.Key == value);
+		}
+
 		public int CPUThreads
 		{
 			get => ViewModel.CPUThreads;
@@ -162,6 +174,26 @@ namespace Files.App.Dialogs
 				}
 			}
 
+			public DictionarySizeItem DictionarySize
+			{
+				get => DictionarySizes.First(size => size.Key == GeneralSettingsService.ArchiveDictionarySizesOption);
+				set
+				{
+					if (value.Key != GeneralSettingsService.ArchiveDictionarySizesOption)
+						GeneralSettingsService.ArchiveDictionarySizesOption = value.Key;
+				}
+			}
+
+			public WordSizeItem WordSize
+			{
+				get => WordSizes.First(size => size.Key == GeneralSettingsService.ArchiveWordSizesOption);
+				set
+				{
+					if (value.Key != GeneralSettingsService.ArchiveWordSizesOption)
+						GeneralSettingsService.ArchiveWordSizesOption = value.Key;
+				}
+			}
+
 			private int cpuThreads = Environment.ProcessorCount;
 			public int CPUThreads
 			{
@@ -223,6 +255,36 @@ namespace Files.App.Dialogs
 				new(ArchiveSplittingSizes.Bd23040, ToSizeText(23040), Strings.Bluray.GetLocalizedResource()),
 			];
 
+			public ImmutableList<DictionarySizeItem> DictionarySizes { get; } =
+			[
+				new(ArchiveDictionarySizes.Auto, Strings.Auto.GetLocalizedResource()),
+				new(ArchiveDictionarySizes.Kb64, "64 KB"),
+				new(ArchiveDictionarySizes.Kb256, "256 KB"),
+				new(ArchiveDictionarySizes.Mb1, "1 MB"),
+				new(ArchiveDictionarySizes.Mb2, "2 MB"),
+				new(ArchiveDictionarySizes.Mb4, "4 MB"),
+				new(ArchiveDictionarySizes.Mb8, "8 MB"),
+				new(ArchiveDictionarySizes.Mb16, "16 MB"),
+				new(ArchiveDictionarySizes.Mb32, "32 MB"),
+				new(ArchiveDictionarySizes.Mb64, "64 MB"),
+				new(ArchiveDictionarySizes.Mb128, "128 MB"),
+				new(ArchiveDictionarySizes.Mb256, "256 MB"),
+				new(ArchiveDictionarySizes.Mb512, "512 MB"),
+				new(ArchiveDictionarySizes.Mb1024, "1024 MB"),
+			];
+
+			public ImmutableList<WordSizeItem> WordSizes { get; } =
+			[
+				new(ArchiveWordSizes.Auto, Strings.Auto.GetLocalizedResource()),
+				new(ArchiveWordSizes.Fb8, "8"),
+				new(ArchiveWordSizes.Fb16, "16"),
+				new(ArchiveWordSizes.Fb32, "32"),
+				new(ArchiveWordSizes.Fb64, "64"),
+				new(ArchiveWordSizes.Fb128, "128"),
+				new(ArchiveWordSizes.Fb256, "256"),
+				new(ArchiveWordSizes.Fb273, "273"),
+			];
+
 			public DialogViewModel()
 			{
 
@@ -233,6 +295,10 @@ namespace Files.App.Dialogs
 			public record FileFormatItem(ArchiveFormats Key, string Label);
 
 			public record CompressionLevelItem(ArchiveCompressionLevels Key, string Label);
+
+			public record DictionarySizeItem(ArchiveDictionarySizes Key, string Label);
+
+			public record WordSizeItem(ArchiveWordSizes Key, string Label);
 		}
 	}
 

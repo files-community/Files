@@ -301,6 +301,16 @@ namespace Files.App.Data.Contracts
 		ArchiveSplittingSizes ArchiveSplittingSizesOption { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating the default archive dictionary size for 7z.
+		/// </summary>
+		ArchiveDictionarySizes ArchiveDictionarySizesOption { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating the default archive word size for 7z.
+		/// </summary>
+		ArchiveWordSizes ArchiveWordSizesOption { get; set; }
+
+		/// <summary>
 		/// A dictionary to determine which hashes should be shown.
 		/// </summary>
 		Dictionary<string, bool> ShowHashesDictionary { get; set; }

@@ -369,6 +369,18 @@ namespace Files.App.Services.Settings
 			set => Set((long)value);
 		}
 
+		public ArchiveDictionarySizes ArchiveDictionarySizesOption
+		{
+			get => (ArchiveDictionarySizes)Get((long)ArchiveDictionarySizes.Auto);
+			set => Set((long)value);
+		}
+
+		public ArchiveWordSizes ArchiveWordSizesOption
+		{
+			get => (ArchiveWordSizes)Get((long)ArchiveWordSizes.Auto);
+			set => Set((long)value);
+		}
+
 		public Dictionary<string, bool> ShowHashesDictionary
 		{
 			get => Get<Dictionary<string, bool>>(null);
