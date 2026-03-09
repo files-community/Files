@@ -24,7 +24,7 @@ jobs:
       PLATFORM:                   'x64'
       WORKING_DIR:                '${{ github.workspace }}' # D:\a\Files\Files\
       SOLUTION_PATH:              '${{ github.workspace }}\Files.slnx'
-      APPX_ARTIFACTS_PATH:        '${{ github.workspace }}\artifacts\'
+      ARTIFACTS_STAGING_DIR:      '${{ github.workspace }}\artifacts\'
       APP_PROJECT_DIR:            '${{ github.workspace }}\src\Files.App'
       STARTUP_PROJECT_PATH:       '${{ github.workspace }}\src\Files.App\Files.App.csproj'
       PACKAGE_MANIFEST_PATH:      '${{ github.workspace }}\src\Files.App\Package.appxmanifest'
@@ -65,7 +65,7 @@ jobs:
             -StartupProjectPath          "$env:STARTUP_PROJECT_PATH" `
             -Configuration               "$env:CONFIGURATION" `
             -Platform                    "$env:PLATFORM" `
-            -AppxPackageDir              "$env:APPX_ARTIFACTS_PATH" `
+            -AppxPackageDir              "$env:ARTIFACTS_STAGING_DIR" `
 
     - name: Sign launcher EXE with Azure Trusted Signing
       uses: azure/trusted-signing-action@v0.4.0
@@ -87,4 +87,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
-        path: ${{ env.APPX_ARTIFACTS_PATH }}
+        path: ${{ env.ARTIFACTS_STAGING_DIR }}

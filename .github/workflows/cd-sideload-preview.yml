@@ -25,7 +25,7 @@ jobs:
       PLATFORM:                   'x64'
       WORKING_DIR:                '${{ github.workspace }}' # D:\a\Files\Files\
       SOLUTION_PATH:              '${{ github.workspace }}\Files.slnx'
-      APPX_ARTIFACTS_PATH:        '${{ github.workspace }}\artifacts\'
+      ARTIFACTS_STAGING_DIR:      '${{ github.workspace }}\artifacts\'
       APP_PROJECT_DIR:            '${{ github.workspace }}\src\Files.App'
       STARTUP_PROJECT_PATH:       '${{ github.workspace }}\src\Files.App\Files.App.csproj'
       PACKAGE_MANIFEST_PATH:      '${{ github.workspace }}\src\Files.App\Package.appxmanifest'
@@ -68,7 +68,7 @@ jobs:
             -StartupProjectPath          "$env:STARTUP_PROJECT_PATH" `
             -Configuration               "$env:CONFIGURATION" `
             -Platform                    "$env:PLATFORM" `
-            -AppxPackageDir              "$env:APPX_ARTIFACTS_PATH" `
+            -AppxPackageDir              "$env:ARTIFACTS_STAGING_DIR" `
             -AppInstallerUrl             "$env:APP_INSTALLER_SIDELOAD_URL"
 
     - name: Sign launcher EXE with Azure Trusted Signing
@@ -96,7 +96,7 @@ jobs:
         endpoint: https://eus.codesigning.azure.net/
         trusted-signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
         certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
-        files-folder: ${{ env.APPX_ARTIFACTS_PATH }}
+        files-folder: ${{ env.ARTIFACTS_STAGING_DIR }}
         files-folder-filter: msixbundle
         files-folder-recurse: true
         files-folder-depth: 4
@@ -111,11 +111,11 @@ jobs:
         r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
         r2-secret-access-key: ${{ secrets.R2_SECRET_ACCESS_KEY }}
         r2-bucket: ${{ secrets.R2_BUCKET }}
-        source-dir: ${{ env.APPX_ARTIFACTS_PATH }}
+        source-dir: ${{ env.ARTIFACTS_STAGING_DIR }}
         destination-dir: ./files/preview
 
     - name: Upload the packages to GitHub Actions
       uses: actions/upload-artifact@v4
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
-        path: ${{ env.APPX_ARTIFACTS_PATH }}
+        path: ${{ env.ARTIFACTS_STAGING_DIR }}

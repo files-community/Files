@@ -35,7 +35,7 @@ env:
   AUTOMATED_TESTS_CONFIGURATION: 'Release'
   AUTOMATED_TESTS_PROJECT_DIR:   '${{ github.workspace }}\tests\Files.InteractionTests'
   AUTOMATED_TESTS_PROJECT_PATH:  '${{ github.workspace }}\tests\Files.InteractionTests\Files.InteractionTests.csproj'
-  APPX_ARTIFACTS_PATH:           '${{ github.workspace }}\artifacts\' # The trailing backslash is needed
+  ARTIFACTS_STAGING_DIR:         '${{ github.workspace }}\artifacts\' # The trailing backslash is needed
   APPX_SELFSIGNED_CERT_PATH:     '${{ github.workspace }}\FilesApp_SelfSigned.pfx'
   WINAPPDRIVER_EXE86_PATH:       'C:\Program Files (x86)\Windows Application Driver\WinAppDriver.exe'
   WINAPPDRIVER_EXE64_PATH:       'C:\Program Files\Windows Application Driver\WinAppDriver.exe'
@@ -113,7 +113,7 @@ jobs:
             -StartupProjectPath          "$env:STARTUP_PROJECT_PATH" `
             -Configuration               "$env:CONFIGURATION" `
             -Platform                    "$env:ARCHITECTURE" `
-            -AppxPackageDir              "$env:APPX_ARTIFACTS_PATH" `
+            -AppxPackageDir              "$env:ARTIFACTS_STAGING_DIR" `
             -AppxPackageCertKeyFilePath  "$env:APPX_SELFSIGNED_CERT_PATH"
 
     - if: env.ARCHITECTURE == env.AUTOMATED_TESTS_ARCHITECTURE && env.CONFIGURATION == env.AUTOMATED_TESTS_CONFIGURATION
@@ -121,7 +121,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.ARCHITECTURE }})'
-        path: ${{ env.APPX_ARTIFACTS_PATH }}
+        path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
   test:
 
@@ -162,12 +162,12 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.ARCHITECTURE }})'
-        path: ${{ env.APPX_ARTIFACTS_PATH }}
+        path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
     - name: Prepare for the tests
       run: |
         msbuild -restore $env:AUTOMATED_TESTS_PROJECT_PATH /p:Configuration=$env:CONFIGURATION /p:Platform=$env:ARCHITECTURE
-        Set-Location "$env:APPX_ARTIFACTS_PATH"
+        Set-Location "$env:ARTIFACTS_STAGING_DIR"
         $AppxPackageBundleDir = Get-ChildItem -Filter *_*_Test -Name
         Set-Location $AppxPackageBundleDir
         ./Install.ps1 -Force
