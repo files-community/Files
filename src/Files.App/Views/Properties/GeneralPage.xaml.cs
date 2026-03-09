@@ -128,6 +128,8 @@ namespace Files.App.Views.Properties
 				var itemMM = AppInstance?.SlimContentPage?.ItemManipulationModel;
 				if (itemMM is not null) // null on homepage
 				{
+					ViewModel.IsContentCompressed = ViewModel.IsContentCompressedEditedValue;
+
 					foreach (var fileOrFolder in fileOrFolders)
 					{
 						if (ViewModel.IsHiddenEditedValue is not null)
@@ -140,7 +142,6 @@ namespace Files.App.Views.Properties
 						}
 
 						ViewModel.IsReadOnly = ViewModel.IsReadOnlyEditedValue;
-						ViewModel.IsContentCompressed = ViewModel.IsContentCompressedEditedValue;
 
 						if (ViewModel.IsAblumCoverModified)
 						{
