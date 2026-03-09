@@ -335,11 +335,12 @@ namespace Files.App.Dialogs
 				long dictBytes = GetEffectiveDictionaryBytes();
 				int threads = Math.Max(1, cpuThreads);
 
-				// LZMA2 compression memory per thread:
-				// Each thread uses: dictionary + dictionary/2 (hash) + ~6 MB overhead
-				// Reference: 7-Zip source (LzmaEnc.c, Lzma2Enc.c)
-				long perThread = dictBytes + dictBytes / 2 + 6 * 1024 * 1024;
-				return perThread * threads;
+				// LZMA2 compression memory estimation:
+				// Per encoder instance: ~dictSize * 11.5 + 6 MB
+				// LZMA2 uses ceil(threads / 2) encoder instances
+				int numEncoders = (threads + 1) / 2;
+				long perEncoder = (long)(dictBytes * 11.5) + 6 * 1024 * 1024;
+				return perEncoder * numEncoders;
 			}
 
 			private long GetEffectiveDictionaryBytes()
