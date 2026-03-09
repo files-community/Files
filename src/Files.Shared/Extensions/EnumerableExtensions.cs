@@ -36,22 +36,6 @@ namespace Files.Shared.Extensions
 			return list;
 		}
 
-		public static ICollection<T> EnumeratedAdd<T>(this ICollection<T> collection, IEnumerable<T> source)
-		{
-			foreach (var item in source)
-				collection.Add(item);
-
-			return collection;
-		}
-
-		public static IDictionary<TKey, TValue> AddIfNotPresent<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
-		{
-			if (!dictionary.ContainsKey(key))
-				dictionary.Add(key, value);
-
-			return dictionary;
-		}
-
 		/// <summary>
 		/// Executes given lambda parallelly on given data set with max degree of parallelism set up
 		/// </summary>
@@ -87,17 +71,6 @@ namespace Files.Shared.Extensions
 		public static Task<IList<T>> ToListAsync<T>(this IEnumerable<T> source)
 		{
 			return Task.Run(() => (IList<T>)source.ToList());
-		}
-
-		public static IEnumerable<TResult> Zip<T1, T2, TResult>(this IEnumerable<T1> source, IEnumerable<T2> second, Func<T1, T2, int, TResult> func)
-		{
-			using var e1 = source.GetEnumerator();
-			using var e2 = second.GetEnumerator();
-
-			var index = 0;
-
-			while (e1.MoveNext() && e2.MoveNext())
-				yield return func(e1.Current, e2.Current, index++);
 		}
 	}
 }

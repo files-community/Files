@@ -303,7 +303,7 @@ namespace Files.App.Utils.Storage
 
 			var token = banner.CancellationToken;
 
-			var (collisions, cancelOperation, itemsResult) = await GetCollision(FilesystemOperationType.Copy, source, destination, showDialog);
+			var (collisions, cancelOperation, itemsResult) = await GetCollisions(FilesystemOperationType.Copy, source, destination, showDialog);
 
 			if (cancelOperation)
 			{
@@ -319,14 +319,14 @@ namespace Files.App.Utils.Storage
 
 			if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
 			{
-				foreach (var item in history.Source.Zip(history.Destination, (k, v) => new { Key = k, Value = v }).ToDictionary(k => k.Key, v => v.Value))
+				foreach (var (histSrcItem, histDestItem) in history.Source.Zip(history.Destination))
 				{
-					foreach (var item2 in itemsResult)
+					foreach (var conflictItem in itemsResult)
 					{
-						if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path && Path.GetFileName(item2.SourcePath) != item2.CustomName)
+						if (!string.IsNullOrEmpty(conflictItem.CustomName) && conflictItem.SourcePath == histSrcItem.Path && Path.GetFileName(conflictItem.SourcePath) != conflictItem.CustomName)
 						{
-							var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ProgressEventSource, token);
-							history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
+							var renameHistory = await filesystemOperations.RenameAsync(histDestItem, conflictItem.CustomName, NameCollisionOption.FailIfExists, banner.ProgressEventSource, token);
+							history.Destination[history.Source.IndexOf(histSrcItem)] = renameHistory.Destination[0];
 						}
 					}
 				}
@@ -437,7 +437,7 @@ namespace Files.App.Utils.Storage
 
 			var token = banner.CancellationToken;
 
-			var (collisions, cancelOperation, itemsResult) = await GetCollision(FilesystemOperationType.Move, source, destination, showDialog);
+			var (collisions, cancelOperation, itemsResult) = await GetCollisions(FilesystemOperationType.Move, source, destination, showDialog);
 
 			if (cancelOperation)
 			{
@@ -445,9 +445,6 @@ namespace Files.App.Utils.Storage
 
 				return ReturnResult.Cancelled;
 			}
-
-			var sw = new Stopwatch();
-			sw.Start();
 
 			itemManipulationModel?.ClearSelection();
 
@@ -459,14 +456,14 @@ namespace Files.App.Utils.Storage
 
 			if (registerHistory && history is not null && source.Any((item) => !string.IsNullOrWhiteSpace(item.Path)))
 			{
-				foreach (var item in history.Source.Zip(history.Destination, (k, v) => new { Key = k, Value = v }).ToDictionary(k => k.Key, v => v.Value))
+				foreach (var (histSrcItem, histDestItem) in history.Source.Zip(history.Destination))
 				{
-					foreach (var item2 in itemsResult)
+					foreach (var conflictItem in itemsResult)
 					{
-						if (!string.IsNullOrEmpty(item2.CustomName) && item2.SourcePath == item.Key.Path)
+						if (!string.IsNullOrEmpty(conflictItem.CustomName) && conflictItem.SourcePath == histSrcItem.Path)
 						{
-							var renameHistory = await filesystemOperations.RenameAsync(item.Value, item2.CustomName, NameCollisionOption.FailIfExists, banner.ProgressEventSource, token);
-							history.Destination[history.Source.IndexOf(item.Key)] = renameHistory.Destination[0];
+							var renameHistory = await filesystemOperations.RenameAsync(histDestItem, conflictItem.CustomName, NameCollisionOption.FailIfExists, banner.ProgressEventSource, token);
+							history.Destination[history.Source.IndexOf(histSrcItem)] = renameHistory.Destination[0];
 						}
 					}
 				}
@@ -481,8 +478,6 @@ namespace Files.App.Utils.Storage
 			var itemsCount = banner.TotalItemsCount;
 
 			_statusCenterViewModel.RemoveItem(banner);
-
-			sw.Stop();
 
 			StatusCenterHelper.AddCard_Move(
 				token.IsCancellationRequested ? ReturnResult.Cancelled : returnStatus,
@@ -645,42 +640,50 @@ namespace Files.App.Utils.Storage
 		public static bool IsValidForFilename(string name)
 			=> !string.IsNullOrWhiteSpace(name) && !ContainsRestrictedCharacters(name) && !ContainsRestrictedFileName(name);
 
-		private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation, IEnumerable<IFileSystemDialogConflictItemViewModel>)> GetCollision(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
+		private static async Task<(List<FileNameConflictResolveOptionType> collisions, bool cancelOperation, IEnumerable<IFileSystemDialogConflictItemViewModel>)> GetCollisions(FilesystemOperationType operationType, IEnumerable<IStorageItemWithPath> source, IEnumerable<string> destination, bool forceDialog)
 		{
-			var incomingItems = new List<BaseFileSystemDialogItemViewModel>();
+			var nonConflictingItems = new List<BaseFileSystemDialogItemViewModel>();
 			var conflictingItems = new List<BaseFileSystemDialogItemViewModel>();
 			var collisions = new Dictionary<string, FileNameConflictResolveOptionType>();
 
-			foreach (var item in source.Zip(destination, (src, dest, index) => new { src, dest, index }))
+			foreach (var (src, dest) in source.Zip(destination))
 			{
-				var itemPathOrName = string.IsNullOrEmpty(item.src.Path) ? item.src.Item.Name : item.src.Path;
-				incomingItems.Add(new FileSystemDialogConflictItemViewModel() { ConflictResolveOption = FileNameConflictResolveOptionType.None, SourcePath = itemPathOrName, DestinationPath = item.dest, DestinationDisplayName = Path.GetFileName(item.dest) });
-				var path = incomingItems.ElementAt(item.index).SourcePath;
-				if (path is not null && collisions.ContainsKey(path))
+				string itemPathOrName = string.IsNullOrEmpty(src.Path) ? src.Item.Name : src.Path;
+				var incomingItem = new FileSystemDialogConflictItemViewModel
+				{
+					ConflictResolveOption = FileNameConflictResolveOptionType.None,
+					SourcePath = itemPathOrName,
+					DestinationPath = dest,
+					DestinationDisplayName = Path.GetFileName(dest)
+				};
+
+				if (!collisions.TryAdd(itemPathOrName, FileNameConflictResolveOptionType.GenerateNewName))
 				{
 					// Something strange happened, log
-					App.Logger.LogWarning($"Duplicate key when resolving conflicts: {incomingItems.ElementAt(item.index).SourcePath}, {item.src.Name}\n" +
+					App.Logger.LogWarning($"Duplicate key when resolving conflicts: {itemPathOrName}, {src.Name}\n" +
 						$"Source: {string.Join(", ", source.Select(x => string.IsNullOrEmpty(x.Path) ? x.Item.Name : x.Path))}");
 				}
-				collisions.AddIfNotPresent(incomingItems.ElementAt(item.index).SourcePath, FileNameConflictResolveOptionType.GenerateNewName);
 
 				// Assume GenerateNewName when source and destination are the same
-				if (string.IsNullOrEmpty(item.src.Path) || item.src.Path != item.dest)
+				if (string.IsNullOrEmpty(src.Path) || src.Path != dest)
 				{
 					// Same item names in both directories
-					if (StorageHelpers.Exists(item.dest) ||
-						(FtpHelpers.IsFtpPath(item.dest) &&
-						await Ioc.Default.GetRequiredService<IFtpStorageService>().TryGetFileAsync(item.dest) is not null))
+					if (StorageHelpers.Exists(dest) ||
+						(FtpHelpers.IsFtpPath(dest) &&
+						await Ioc.Default.GetRequiredService<IFtpStorageService>().TryGetFileAsync(dest) is not null))
 					{
-						(incomingItems[item.index] as FileSystemDialogConflictItemViewModel)!.ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;
-						conflictingItems.Add(incomingItems.ElementAt(item.index));
+						incomingItem.ConflictResolveOption = FileNameConflictResolveOptionType.GenerateNewName;
+						conflictingItems.Add(incomingItem);
+						continue;
 					}
 				}
+
+				nonConflictingItems.Add(incomingItem);
 			}
 
 			IEnumerable<IFileSystemDialogConflictItemViewModel>? itemsResult = null;
 
-			var mustResolveConflicts = !conflictingItems.IsEmpty();
+			bool mustResolveConflicts = conflictingItems.Count > 0;
 			if (mustResolveConflicts || forceDialog)
 			{
 				var dialogService = Ioc.Default.GetRequiredService<IDialogService>();
@@ -689,7 +692,7 @@ namespace Files.App.Utils.Storage
 					new() { ConflictsExist = mustResolveConflicts },
 					(false, false),
 					operationType,
-					incomingItems.Except(conflictingItems).ToList(), // TODO: Could be optimized
+					nonConflictingItems,
 					conflictingItems);
 
 				var result = await dialogService.ShowDialogAsync(dialogViewModel);
@@ -705,7 +708,7 @@ namespace Files.App.Utils.Storage
 				collisions.Clear();
 				foreach (var item in itemsResult)
 				{
-					collisions.AddIfNotPresent(item.SourcePath, item.ConflictResolveOption);
+					collisions.TryAdd(item.SourcePath!, item.ConflictResolveOption);
 				}
 			}
 
@@ -715,8 +718,8 @@ namespace Files.App.Utils.Storage
 			foreach (var src in source)
 			{
 				var itemPathOrName = string.IsNullOrEmpty(src.Path) ? src.Item.Name : src.Path;
-				var match = collisions.SingleOrDefault(x => x.Key == itemPathOrName);
-				var fileNameConflictResolveOptionType = (match.Key is not null) ? match.Value : FileNameConflictResolveOptionType.Skip;
+				bool found = collisions.TryGetValue(itemPathOrName, out var match);
+				var fileNameConflictResolveOptionType = found ? match : FileNameConflictResolveOptionType.Skip;
 				newCollisions.Add(fileNameConflictResolveOptionType);
 			}
 
