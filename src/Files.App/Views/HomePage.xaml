@@ -9,6 +9,7 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:i="using:Microsoft.Xaml.Interactivity"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc="using:Files.App.UserControls"
 	DataContext="{x:Bind ViewModel, Mode=OneWay}"
 	mc:Ignorable="d">
 
@@ -421,7 +422,40 @@
 	</UserControl.Resources>
 
 	<!--  Widget List  -->
-	<ScrollViewer>
+	<ScrollViewer Background="Transparent" RightTapped="ScrollViewer_RightTapped">
+		<FlyoutBase.AttachedFlyout>
+			<MenuFlyout x:Name="HomePageContextMenu">
+				<MenuFlyoutSubItem Text="{helpers:ResourceString Name=Widgets}">
+					<MenuFlyoutSubItem.Icon>
+						<FontIcon Glyph="&#xF246;" />
+					</MenuFlyoutSubItem.Icon>
+					<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowQuickAccessWidget, Mode=TwoWay}" Text="{helpers:ResourceString Name=QuickAccess}" />
+					<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowDrivesWidget, Mode=TwoWay}" Text="{helpers:ResourceString Name=Drives}" />
+					<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowNetworkLocationsWidget, Mode=TwoWay}" Text="{helpers:ResourceString Name=NetworkLocations}" />
+					<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowFileTagsWidget, Mode=TwoWay}" Text="{helpers:ResourceString Name=FileTags}" />
+					<ToggleMenuFlyoutItem IsChecked="{x:Bind ViewModel.ShowRecentFilesWidget, Mode=TwoWay}" Text="{helpers:ResourceString Name=RecentFiles}" />
+				</MenuFlyoutSubItem>
+				<MenuFlyoutSubItem
+					x:Name="SplitPaneSubMenu"
+					x:Load="{x:Bind Commands.SplitPaneHorizontally.IsExecutable, Mode=OneWay}"
+					Text="{helpers:ResourceString Name=SplitPane}">
+					<uc:MenuFlyoutItemWithThemedIcon
+						Command="{x:Bind Commands.SplitPaneVertically, Mode=OneWay}"
+						Text="{x:Bind Commands.SplitPaneVertically.Label}"
+						ThemedIconStyle="{x:Bind Commands.SplitPaneVertically.ThemedIconStyle}" />
+					<uc:MenuFlyoutItemWithThemedIcon
+						Command="{x:Bind Commands.SplitPaneHorizontally, Mode=OneWay}"
+						Text="{x:Bind Commands.SplitPaneHorizontally.Label}"
+						ThemedIconStyle="{x:Bind Commands.SplitPaneHorizontally.ThemedIconStyle}" />
+				</MenuFlyoutSubItem>
+				<uc:MenuFlyoutItemWithThemedIcon
+					x:Name="CloseActivePaneMenuItem"
+					x:Load="{x:Bind Commands.CloseActivePane.IsExecutable, Mode=OneWay}"
+					Command="{x:Bind Commands.CloseActivePane}"
+					Text="{x:Bind Commands.CloseActivePane.Label}"
+					ThemedIconStyle="{x:Bind Commands.CloseActivePane.ThemedIconStyle}" />
+			</MenuFlyout>
+		</FlyoutBase.AttachedFlyout>
 		<ListView ItemsSource="{x:Bind ViewModel.WidgetItems, Mode=OneWay}" SelectionMode="None">
 
 			<ListView.ItemTemplate>
