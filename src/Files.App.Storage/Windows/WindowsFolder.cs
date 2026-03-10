@@ -44,6 +44,50 @@ namespace Files.App.Storage
 			ThisPtr = pShellItem;
 		}
 
+		public async IAsyncEnumerable<IStorableChild> GetItemsAsync(int count, int flags, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+		{
+			var list = EnumerateChildren();
+
+			foreach (var item in list)
+			{
+				cancellationToken.ThrowIfCancellationRequested();
+				yield return item;
+			}
+
+			unsafe List<IStorableChild> EnumerateChildren()
+			{
+				using ComPtr<IEnumShellItems> pEnumShellItems = default;
+				HRESULT hr = ThisPtr->BindToHandler(null, BHID.BHID_EnumItems, IID.IID_IEnumShellItems, (void**)pEnumShellItems.GetAddressOf());
+				if (hr.ThrowIfFailedOnDebug().Failed)
+					return [];
+
+				List<IStorableChild> childItems = [];
+
+				IShellItem* pChildShellItem = null; int i = 0;
+				while ((hr = pEnumShellItems.Get()->Next(1, &pChildShellItem)) == HRESULT.S_OK)
+				{
+					if (count is not 0 && i >= count) // When count is 0, it means no limit.
+						break;
+
+					bool isFolder =
+						pChildShellItem->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var dwAttributes).Succeeded
+						&& dwAttributes is SFGAO_FLAGS.SFGAO_FOLDER;
+
+					childItems.Add(
+						isFolder
+							? new WindowsFolder(pChildShellItem)
+							: new WindowsFile(pChildShellItem));
+
+					i++;
+				}
+
+				if (hr.ThrowIfFailedOnDebug().Failed)
+					return [];
+
+				return childItems;
+			}
+		}
+
 		public async IAsyncEnumerable<IStorableChild> GetItemsAsync(StorableType type = StorableType.All, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 		{
 			var list = EnumerateChildren(type);
