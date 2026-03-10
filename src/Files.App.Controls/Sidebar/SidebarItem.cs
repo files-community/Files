@@ -6,7 +6,9 @@ using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Automation.Peers;
 using System.Collections.Specialized;
+using System.IO;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
 
 namespace Files.App.Controls
 {
@@ -90,6 +92,7 @@ namespace Files.App.Controls
 			HookupItemChangeListener(null, Item);
 			UpdateExpansionState();
 			ReevaluateSelection();
+			CanDrag = Item?.GetType().GetProperty("Path")?.GetValue(Item) is string path && Path.IsPathRooted(path);
 		}
 
 		private void HookupOwners()
@@ -137,7 +140,30 @@ namespace Files.App.Controls
 
 		private void SidebarItem_DragStarting(UIElement sender, DragStartingEventArgs args)
 		{
-			args.Data.SetData(StandardDataFormats.Text, Text?.ToString() ?? string.Empty);
+			if (Item?.GetType().GetProperty("Path")?.GetValue(Item) is not string dragPath || !Path.IsPathRooted(dragPath))
+				return;
+
+			args.Data.SetData(StandardDataFormats.Text, dragPath);
+			args.Data.RequestedOperation = DataPackageOperation.Move | DataPackageOperation.Copy | DataPackageOperation.Link;
+			args.Data.SetDataProvider(StandardDataFormats.StorageItems, async request =>
+			{
+				var deferral = request.GetDeferral();
+				try
+				{
+					if (Directory.Exists(dragPath))
+					{
+						var folder = await StorageFolder.GetFolderFromPathAsync(dragPath);
+						request.SetData(new IStorageItem[] { folder });
+					}
+				}
+				catch
+				{
+				}
+				finally
+				{
+					deferral.Complete();
+				}
+			});
 		}
 
 		private void SetFlyoutOpen(bool isOpen = true)
