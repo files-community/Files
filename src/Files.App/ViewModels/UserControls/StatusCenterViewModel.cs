@@ -5,6 +5,8 @@ namespace Files.App.ViewModels.UserControls
 {
 	public sealed partial class StatusCenterViewModel : ObservableObject
 	{
+		private readonly Files.App.Storage.TaskbarManager _taskbar = Files.App.Storage.TaskbarManager.Default;
+
 		public ObservableCollection<StatusCenterItem> StatusCenterItems { get; } = [];
 
 		private int _AverageOperationProgressValue = 0;
@@ -150,12 +152,37 @@ namespace Files.App.ViewModels.UserControls
 			OnPropertyChanged(nameof(InfoBadgeValue));
 
 			UpdateAverageProgressValue();
+			UpdateTaskbarProgress();
 		}
 
 		public void UpdateAverageProgressValue()
 		{
 			if (HasAnyItemInProgress)
 				AverageOperationProgressValue = (int)StatusCenterItems.Where((item) => item.IsInProgress).Average(x => x.ProgressPercentage);
+			else
+				AverageOperationProgressValue = 0;
+		}
+
+		private void UpdateTaskbarProgress()
+		{
+			try
+			{
+				var hwnd = new Windows.Win32.Foundation.HWND(MainWindow.Instance.WindowHandle);
+
+				if (HasAnyItemInProgress)
+				{
+					_taskbar.SetProgressState(hwnd, Windows.Win32.UI.Shell.TBPFLAG.TBPF_NORMAL);
+					_taskbar.SetProgressValue(hwnd, (ulong)Math.Clamp(AverageOperationProgressValue, 0, 100), 100);
+				}
+				else
+				{
+					_taskbar.SetProgressState(hwnd, Windows.Win32.UI.Shell.TBPFLAG.TBPF_NOPROGRESS);
+				}
+			}
+			catch
+			{
+				// Ignore taskbar update failures to avoid interrupting status updates.
+			}
 		}
 	}
 }
