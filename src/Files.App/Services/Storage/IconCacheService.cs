@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Helpers;
 using System.Collections.Concurrent;
 using System.IO;
 
@@ -21,13 +20,10 @@ namespace Files.App.Services
 			if (_cache.TryGetValue(key, out var cached))
 				return cached;
 
-			string iconPath;
-			if (isFolder)
-				iconPath = _dummyPath;
-			else if (FileExtensionHelpers.IsExecutableFile(extension) || FileExtensionHelpers.IsShortcutOrUrlFile(extension))
-				iconPath = _dummyPath + extension;
-			else
-				iconPath = itemPath;
+			// Always use the dummy path so the shell resolves the generic type icon from the
+			// extension alone. This works correctly for all path types (local, MTP, FTP, network,
+			// cloud, etc.) because the cache is keyed by extension anyway, not by item identity.
+			var iconPath = isFolder || string.IsNullOrEmpty(extension) ? _dummyPath : _dummyPath + extension;
 
 			var icon = await FileThumbnailHelper.GetIconAsync(
 				iconPath,
