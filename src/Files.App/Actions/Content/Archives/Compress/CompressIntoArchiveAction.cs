@@ -45,7 +45,9 @@ namespace Files.App.Actions
 				dialog.Password,
 				dialog.FileFormat,
 				dialog.CompressionLevel,
-				dialog.SplittingSize);
+				dialog.SplittingSize,
+				dialog.DictionarySize,
+				dialog.WordSize);
 
 			await StorageArchiveService.CompressAsync(compressionModel);
 		}
