@@ -11,7 +11,5 @@ namespace Files.App.Storage
 		/// Gets or sets the cached <see cref="IContextMenu"/> for the ShellNew context menu.
 		/// </summary>
 		public IContextMenu* ShellNewMenu { get; set; }
-
-		public IAsyncEnumerable<IStorableChild> GetItemsAsync(int count, int flags, CancellationToken cancellationToken = default);
 	}
 }

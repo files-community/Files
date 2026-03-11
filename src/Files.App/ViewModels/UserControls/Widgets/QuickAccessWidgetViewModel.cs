@@ -81,28 +81,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				var list = new List<WidgetFolderCardItem>();
 
-				IWindowsFolder quickAccessFolder = new WindowsFolder(new Guid("3936E9E4-D92C-4EEE-A85A-BC16D5EA0819"));
-
-				await foreach (IWindowsStorable folder in quickAccessFolder.GetItemsAsync(0, 0))
+				await foreach (IWindowsStorable folder in HomePageContext.HomeFolder.GetQuickAccessFolderAsync(default))
 				{
 					folder.GetPropertyValue<bool>("System.Home.IsPinned", out var isPinned);
-					folder.TryGetShellTooltip(out var tooltip);
-
-					list.Add(
-						new WidgetFolderCardItem(
-							folder,
-							folder.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI),
-							isPinned,
-							tooltip ?? string.Empty));
-				}
-
-				IWindowsFolder recentFoldersPlace = new WindowsFolder(new Guid("22877A6D-37A1-461A-91B0-DBDA5AAEBC99"));
-
-				await foreach (IWindowsStorable folder in recentFoldersPlace.GetItemsAsync(5, 0))
-				{
-					folder.GetPropertyValue<bool>("System.Home.IsPinned", out var isPinned);
-					if (isPinned) continue;
-
 					folder.TryGetShellTooltip(out var tooltip);
 
 					list.Add(
