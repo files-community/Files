@@ -30,16 +30,10 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
-			if (Ioc.Default.GetService<SidebarViewModel>() is SidebarViewModel sidebarViewModel)
-			{
-				sidebarViewModel.SidebarDisplayMode = IsOn
-					? SidebarDisplayMode.Compact
-					: SidebarDisplayMode.Expanded;
-			}
-			else
-			{
-				AppearanceSettingsService.IsSidebarOpen = !IsOn;
-			}
+			var sidebarViewModel = Ioc.Default.GetRequiredService<SidebarViewModel>();
+			sidebarViewModel.SidebarDisplayMode = IsOn
+				? SidebarDisplayMode.Compact
+				: SidebarDisplayMode.Expanded;
 
 			return Task.CompletedTask;
 		}
