@@ -6,7 +6,6 @@ using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Security.Principal;
 using Tulpep.ActiveDirectoryObjectPicker;
 using Vanara.PInvoke;
@@ -1084,14 +1083,12 @@ namespace Files.App.Utils.Storage
 				public bool Canceled { get; set; }
 			}
 
-			private readonly Shell32.ITaskbarList4? taskbar;
 			private readonly ConcurrentDictionary<string, OperationWithProgress> operations;
 
 			public HWND OwnerWindow { get; set; }
 
 			public ProgressHandler()
 			{
-				taskbar = Win32Helper.CreateTaskbarObject();
 				operations = new ConcurrentDictionary<string, OperationWithProgress>();
 				operationsCompletedEvent = new ManualResetEvent(true);
 			}
@@ -1108,14 +1105,12 @@ namespace Files.App.Utils.Storage
 			public void AddOperation(string uid)
 			{
 				operations.TryAdd(uid, new OperationWithProgress());
-				UpdateTaskbarProgress();
 				operationsCompletedEvent.Reset();
 			}
 
 			public void RemoveOperation(string uid)
 			{
 				operations.TryRemove(uid, out _);
-				UpdateTaskbarProgress();
 				if (!operations.Any())
 				{
 					operationsCompletedEvent.Set();
@@ -1127,7 +1122,6 @@ namespace Files.App.Utils.Storage
 				if (operations.TryGetValue(uid, out var op))
 				{
 					op.Progress = progress;
-					UpdateTaskbarProgress();
 				}
 			}
 
@@ -1141,23 +1135,6 @@ namespace Files.App.Utils.Storage
 				if (operations.TryGetValue(uid, out var op))
 				{
 					op.Canceled = true;
-					UpdateTaskbarProgress();
-				}
-			}
-
-			private void UpdateTaskbarProgress()
-			{
-				if (OwnerWindow == HWND.NULL || taskbar is null)
-				{
-					return;
-				}
-				if (operations.Any())
-				{
-					taskbar.SetProgressValue(OwnerWindow, (ulong)Progress, 100);
-				}
-				else
-				{
-					taskbar.SetProgressState(OwnerWindow, Shell32.TBPFLAG.TBPF_NOPROGRESS);
 				}
 			}
 
@@ -1171,8 +1148,6 @@ namespace Files.App.Utils.Storage
 				if (disposing)
 				{
 					operationsCompletedEvent?.Dispose();
-					if (taskbar is not null)
-						Marshal.ReleaseComObject(taskbar);
 				}
 			}
 		}
