@@ -148,8 +148,66 @@ namespace Files.App.Helpers
 				var a2 = navigationArg is PaneNavigationArguments pna2 ? pna2 : new PaneNavigationArguments() { LeftPaneNavPathParam = navigationArg as string };
 
 				if (a1.LeftPaneNavPathParam == a2.LeftPaneNavPathParam && a1.RightPaneNavPathParam == a2.RightPaneNavPathParam)
-					(tabItem.Header, tabItem.IconSource, tabItem.ToolTipText) = result;
+				{
+					tabItem.Description = result.Item1;
+					tabItem.IconSource = result.Item2;
+					tabItem.ToolTipText = result.Item3;
+					RefreshTabPathHints();
+				}
 			}
+		}
+
+		internal static void RefreshTabPathHints()
+		{
+			foreach (var group in MainPageViewModel.AppInstances
+				.Where(t => !string.IsNullOrEmpty(t.Description))
+				.GroupBy(t => t.Description!, StringComparer.OrdinalIgnoreCase))
+			{
+				var tabs = group.ToArray();
+
+				foreach (var t in tabs)
+					t.Header = t.Description;
+
+				if (tabs.Length < 2 || tabs[0].Description!.Contains(" | "))
+					continue;
+
+				var hints = tabs.ToDictionary(t => t, t => AncestorHints(t.ToolTipText));
+
+				foreach (var tab in tabs)
+				{
+					for (var d = 0; d < hints[tab].Length; d++)
+					{
+						if (tabs.All(t => t == tab || d >= hints[t].Length || hints[t][d] != hints[tab][d]))
+						{
+							tab.Header = $"{hints[tab][d]}\\{tab.Description}";
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		private static string[] AncestorHints(string? path)
+		{
+			var result = new List<string>();
+
+			try
+			{
+				var root = (PathNormalization.GetPathRoot(path) ?? "").TrimEnd('\\', '/');
+				var prefix = root.Length >= 2 && root[1] == ':'
+					? $"{char.ToUpperInvariant(root[0])}:\\..."
+					: root.Length > 0 ? $"{root}\\..." : "...";
+
+				var dir = path?.TrimEnd('\\', '/');
+				while ((dir = Path.GetDirectoryName(dir)) is not null
+					&& Path.GetFileName(dir) is { Length: > 0 } seg)
+				{
+					result.Add($"{prefix}\\{seg}");
+				}
+			}
+			catch (ArgumentException) { }
+
+			return result.ToArray();
 		}
 
 		public static async Task<ImageSource?> GetIconForPathAsync(string path)
