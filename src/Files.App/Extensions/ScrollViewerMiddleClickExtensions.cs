@@ -59,7 +59,9 @@ namespace Files.App.Extensions
 			private const double DeadZone = 12;
 			private const double SpeedFactor = 0.12;
 			private const double MaxSpeedPerTick = 32;
-			private static readonly InputSystemCursor AutoScrollCursor = InputSystemCursor.Create(InputSystemCursorShape.SizeAll);
+			private static readonly InputSystemCursor ScrollCursorAll = InputSystemCursor.Create(InputSystemCursorShape.SizeAll);
+			private static readonly InputSystemCursor ScrollCursorVertical = InputSystemCursor.Create(InputSystemCursorShape.SizeNorthSouth);
+			private static readonly InputSystemCursor ScrollCursorHorizontal = InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast);
 			private static readonly InputSystemCursor DefaultCursor = InputSystemCursor.Create(InputSystemCursorShape.Arrow);
 
 			private readonly FrameworkElement _element;
@@ -208,7 +210,7 @@ namespace Files.App.Extensions
 				_ignoreActivationMiddleRelease = true;
 				_holdScrollDetected = false;
 				_scrollTimer.Start();
-				ApplyCursor(AutoScrollCursor, e.OriginalSource as UIElement);
+				ApplyCursor(GetAutoScrollCursor(_scrollViewer), e.OriginalSource as UIElement);
 				e.Handled = true;
 			}
 
@@ -228,7 +230,7 @@ namespace Files.App.Extensions
 						_holdScrollDetected = true;
 				}
 
-				ApplyCursor(AutoScrollCursor, e.OriginalSource as UIElement);
+				ApplyCursor(GetAutoScrollCursor(_scrollViewer), e.OriginalSource as UIElement);
 			}
 
 			private void RootElement_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -380,6 +382,21 @@ namespace Files.App.Extensions
 			private static bool CanScroll(ScrollViewer scrollViewer)
 			{
 				return scrollViewer.ScrollableHeight > 0 || scrollViewer.ScrollableWidth > 0;
+			}
+
+			private static InputSystemCursor GetAutoScrollCursor(ScrollViewer? sv)
+			{
+				if (sv is null)
+					return ScrollCursorAll;
+
+				bool canV = sv.ScrollableHeight > 0;
+				bool canH = sv.ScrollableWidth > 0;
+
+				if (canV && canH)
+					return ScrollCursorAll;
+				if (canH)
+					return ScrollCursorHorizontal;
+				return ScrollCursorVertical;
 			}
 
 			private static double CalculateVelocity(double delta)
