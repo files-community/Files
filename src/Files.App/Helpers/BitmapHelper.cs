@@ -40,6 +40,29 @@ namespace Files.App.Helpers
 		}
 
 		/// <summary>
+		/// Synchronous version of <see cref="ToBitmapAsync"/> optimized for small cached thumbnails.
+		/// Avoids async state machine and task scheduling overhead.
+		/// </summary>
+		public static BitmapImage? ToBitmap(this byte[]? data)
+		{
+			if (data is null)
+				return null;
+
+			try
+			{
+				using var ms = new MemoryStream(data);
+				var image = new BitmapImage();
+				image.DecodePixelType = DecodePixelType.Logical;
+				image.SetSource(ms.AsRandomAccessStream());
+				return image;
+			}
+			catch (Exception)
+			{
+				return null;
+			}
+		}
+
+		/// <summary>
 		/// Rotates the image at the specified file path.
 		/// </summary>
 		/// <param name="filePath">The file path to the image.</param>

@@ -34,7 +34,6 @@ namespace Files.App.ViewModels
 		private readonly SemaphoreSlim enumFolderSemaphore;
 		private readonly SemaphoreSlim getFileOrFolderSemaphore;
 		private readonly SemaphoreSlim bulkOperationSemaphore;
-		private readonly SemaphoreSlim loadThumbnailSemaphore;
 		private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
 		private readonly ConcurrentQueue<uint> gitChangesQueue;
 		private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
@@ -570,7 +569,6 @@ namespace Files.App.ViewModels
 			enumFolderSemaphore = new SemaphoreSlim(1, 1);
 			getFileOrFolderSemaphore = new SemaphoreSlim(50);
 			bulkOperationSemaphore = new SemaphoreSlim(1, 1);
-			loadThumbnailSemaphore = new SemaphoreSlim(1, 1);
 			dispatcherQueue = DispatcherQueue.GetForCurrentThread();
 
 			UserSettingsService.OnSettingChangedEvent += UserSettingsService_OnSettingChangedEvent;
@@ -1074,40 +1072,41 @@ namespace Files.App.ViewModels
 			var loadNonCachedThumbnail = false;
 			var thumbnailSize = LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
 			var returnIconOnly = UserSettingsService.FoldersSettingsService.ShowThumbnails == false || thumbnailSize < 48;
+			var enableThumbnailCache = UserSettingsService.GeneralSettingsService.EnableThumbnailCache;
 
 			// TODO Remove this property when all the layouts can support different icon sizes
 			var useCurrentScale = folderSettings.LayoutMode == FolderLayoutModes.DetailsView || folderSettings.LayoutMode == FolderLayoutModes.ListView || folderSettings.LayoutMode == FolderLayoutModes.ColumnView || folderSettings.LayoutMode == FolderLayoutModes.CardsView;
+			var scaleFlag = useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None;
 
 			byte[]? result = null;
+			var sw = Stopwatch.StartNew();
 
 			// Non-cached thumbnails take longer to generate
 			if (item.IsFolder || !FileExtensionHelpers.IsExecutableFile(item.FileExtension))
 			{
-				if (!returnIconOnly)
-				{
-					// Get cached thumbnail
+				//Folders and non-executable files are more likely to have thumbnails, so try to get thumbnail first
 					result = await FileThumbnailHelper.GetIconAsync(
 							item.ItemPath,
 							thumbnailSize,
 							item.IsFolder,
-							IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
+							IconOptions.ReturnThumbnailOnly | scaleFlag,
+							cancellationToken);
 
+				loadNonCachedThumbnail = result is null;
 					cancellationToken.ThrowIfCancellationRequested();
-					loadNonCachedThumbnail = result is null;
-				}
 
-				if (result is null)
-				{
-					// Get icon
-					result = await FileThumbnailHelper.GetIconAsync(
-							item.ItemPath,
-							thumbnailSize,
-							item.IsFolder,
-							IconOptions.ReturnIconOnly | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
+					if (result is null)
+					{
+						result = await FileThumbnailHelper.GetIconAsync(
+								item.ItemPath,
+								thumbnailSize,
+								item.IsFolder,
+								IconOptions.ReturnIconOnly | scaleFlag,
+								cancellationToken);
 
-					cancellationToken.ThrowIfCancellationRequested();
+						cancellationToken.ThrowIfCancellationRequested();
+					}
 				}
-			}
 			else
 			{
 				// Get icon or thumbnail
@@ -1115,73 +1114,43 @@ namespace Files.App.ViewModels
 						item.ItemPath,
 						thumbnailSize,
 						item.IsFolder,
-						(returnIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None) | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
+						(returnIconOnly ? IconOptions.ReturnIconOnly : IconOptions.None) | scaleFlag,
+						cancellationToken);
 
 				cancellationToken.ThrowIfCancellationRequested();
 			}
 
+			sw.Stop();
+			App.Logger.LogInformation("Thumbnail loaded for {Path} in {ElapsedMs}ms (initial)", item.ItemPath, sw.ElapsedMilliseconds);
+
 			if (result is not null)
 			{
-				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				var image = result.ToBitmap();
+				if (image is not null)
 				{
-					// Assign FileImage property
-					var image = await result.ToBitmapAsync();
-					if (image is not null)
+					await dispatcherQueue.EnqueueOrInvokeAsync(() =>
+					{
 						item.FileImage = image;
-				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
-
+					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
+				}
 				cancellationToken.ThrowIfCancellationRequested();
 			}
 
 			// Get icon overlay
-			var iconOverlay = await FileThumbnailHelper.GetIconOverlayAsync(item.ItemPath, true);
-
-			cancellationToken.ThrowIfCancellationRequested();
-
-			if (iconOverlay is not null)
+			_ = Task.Run(async () =>
 			{
-				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-				{
-					item.IconOverlay = await iconOverlay.ToBitmapAsync();
-					item.ShieldIcon = await GetShieldIcon();
-				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
-
+				var iconOverlay = await FileThumbnailHelper.GetIconOverlayAsync(item.ItemPath, true);
 				cancellationToken.ThrowIfCancellationRequested();
-			}
-
-			if (loadNonCachedThumbnail)
-			{
-				// Get non-cached thumbnail asynchronously
-				_ = Task.Run(async () =>
+				if (iconOverlay is not null)
 				{
-					await loadThumbnailSemaphore.WaitAsync(cancellationToken);
-					try
+					var overlayImage = iconOverlay.ToBitmap();
+					await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
-						result = await FileThumbnailHelper.GetIconAsync(
-								item.ItemPath,
-								thumbnailSize,
-								item.IsFolder,
-								IconOptions.ReturnThumbnailOnly | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
-					}
-					finally
-					{
-						loadThumbnailSemaphore.Release();
-					}
-
-					cancellationToken.ThrowIfCancellationRequested();
-
-					if (result is not null)
-					{
-						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-						{
-							// Assign FileImage property
-							var image = await result.ToBitmapAsync();
-							if (image is not null)
-								item.FileImage = image;
-						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
-					}
-				}, cancellationToken);
-			}
+						item.IconOverlay = overlayImage;
+						item.ShieldIcon = await GetShieldIcon();
+					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
+				}
+			});
 		}
 
 		private static void SetFileTag(ListedItem item)
@@ -1386,7 +1355,7 @@ namespace Files.App.ViewModels
 						{
 							_ = Task.Run(async () =>
 							{
-								await Task.Delay(500);
+								await Task.Delay(1000);
 								cts.Token.ThrowIfCancellationRequested();
 								await LoadThumbnailAsync(item, cts.Token);
 							});
