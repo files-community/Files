@@ -15,7 +15,7 @@ using Windows.Storage;
 using Windows.System;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 
-namespace Files.App.Views.Layouts
+namespace Files.App.Extensions
 {
 	/// <summary>
 	/// Provides middle-click auto-scroll for list controls backed by a <see cref="ScrollViewer"/>.
@@ -148,6 +148,9 @@ namespace Files.App.Views.Layouts
 					DetachRootHandlers();
 
 				_rootElement = root;
+
+				// Use AddHandler with handledEventsToo: true so we receive pointer events
+				// even when child controls (list items, scroll bars, etc.) mark them as Handled.
 				_rootElement.AddHandler(UIElement.PointerMovedEvent, _rootPointerMovedHandler, true);
 				_rootElement.AddHandler(UIElement.PointerPressedEvent, _rootPointerPressedHandler, true);
 				_rootElement.AddHandler(UIElement.PointerReleasedEvent, _rootPointerReleasedHandler, true);
