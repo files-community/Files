@@ -16,7 +16,11 @@ namespace Files.App.Utils.Storage
 			// Ensure size is at least 1 to prevent layout errors
 			size = Math.Max(1, size);
 
-			return await STATask.Run(() => Win32Helper.GetIcon(path, (int)size, isFolder, iconOptions), App.Logger);
+			var resolvedPath = path.StartsWith(@"\\?\", StringComparison.Ordinal)
+				? MtpHelpers.ResolveMtpShellPath(path) ?? path
+				: path;
+
+			return await STATask.Run(() => Win32Helper.GetIcon(resolvedPath, (int)size, isFolder, iconOptions), App.Logger);
 		}
 
 		/// <summary>
