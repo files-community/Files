@@ -7,6 +7,7 @@
 	xmlns:controls="using:Files.App.Controls"
 	xmlns:converters="using:Files.App.Converters"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:ext="using:Files.App.Extensions"
 	xmlns:filesystem="using:Files.App.Utils"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:local="using:Files.App.Views.Layouts"
@@ -179,6 +180,7 @@
 				<ListView
 					x:Name="FileList"
 					Padding="8,0,8,0"
+					ext:ScrollViewerMiddleClickExtensions.EnableMiddleClickScrolling="{x:Bind IsMiddleClickToScrollEnabled, Mode=OneWay}"
 					x:FieldModifier="public"
 					AllowDrop="{x:Bind InstanceViewModel.IsPageTypeSearchResults, Converter={StaticResource BoolNegationConverter}, Mode=OneWay}"
 					CanDragItems="{x:Bind AllowItemDrag, Mode=OneWay}"
