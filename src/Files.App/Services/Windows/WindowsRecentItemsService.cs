@@ -121,10 +121,10 @@ namespace Files.App.Services
 		{
 			try
 			{
-				using ComPtr<IContextMenu> pContextMenu = default;
-				HRESULT hr = item.ShellItem.Get()->BindToHandler(null, BHID.BHID_SFUIObject, IID.IID_IContextMenu, (void**)pContextMenu.GetAddressOf());
+				HRESULT hr = item.ShellItem.BindToHandler(null, BHID.BHID_SFUIObject, IID.IID_IContextMenu, out var contextMenuObj);
+				var contextMenu = (IContextMenu)contextMenuObj;
 				HMENU hMenu = PInvoke.CreatePopupMenu();
-				hr = pContextMenu.Get()->QueryContextMenu(hMenu, 0, 1, 0x7FFF, PInvoke.CMF_OPTIMIZEFORINVOKE);
+				hr = contextMenu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, PInvoke.CMF_OPTIMIZEFORINVOKE);
 
 				// Initialize invocation info
 				CMINVOKECOMMANDINFO cmi = default;
@@ -132,19 +132,19 @@ namespace Files.App.Services
 				cmi.nShow = (int)SHOW_WINDOW_CMD.SW_HIDE;
 
 				// Unpin the item
-				fixed (byte* pVerb1 = Encoding.ASCII.GetBytes("remove"),
-					pVerb2 = Encoding.ASCII.GetBytes("unpinfromhome"),
-					pVerb3 = Encoding.ASCII.GetBytes("removefromhome"))
+				fixed (byte* verb1 = Encoding.ASCII.GetBytes("remove"),
+					verb2 = Encoding.ASCII.GetBytes("unpinfromhome"),
+					verb3 = Encoding.ASCII.GetBytes("removefromhome"))
 				{
 					// Try unpin files
-					cmi.lpVerb = new(pVerb1);
-					hr = pContextMenu.Get()->InvokeCommand(cmi);
+					cmi.lpVerb = new(verb1);
+					hr = contextMenu.InvokeCommand(cmi);
 					if (hr == HRESULT.S_OK)
 						return true;
 
 					// Try unpin folders
-					cmi.lpVerb = new(pVerb2);
-					hr = pContextMenu.Get()->InvokeCommand(cmi);
+					cmi.lpVerb = new(verb2);
+					hr = contextMenu.InvokeCommand(cmi);
 					if (hr == HRESULT.S_OK)
 						return true;
 
@@ -152,8 +152,8 @@ namespace Files.App.Services
 					//  There seems to be an issue with unpinfromhome where some shell folders
 					//  won't be removed via unpinfromhome verb.
 					// Try unpin folders again
-					cmi.lpVerb = new(pVerb3);
-					hr = pContextMenu.Get()->InvokeCommand(cmi);
+					cmi.lpVerb = new(verb3);
+					hr = contextMenu.InvokeCommand(cmi);
 					if (hr == HRESULT.S_OK)
 						return true;
 				}
@@ -189,44 +189,45 @@ namespace Files.App.Services
 			{
 				HRESULT hr = default;
 
-				string szFolderShellPath =
+				string folderShellPath =
 					isFolder
 						? "Shell:::{22877A6D-37A1-461A-91B0-DBDA5AAEBC99}"  // Recent Places folder (recent folders)
 						: "Shell:::{679F85CB-0220-4080-B29B-5540CC05AAB6}"; // Quick Access folder (recent files)
 
 				// Get IShellItem of the shell folder
-				using ComPtr<IShellItem> pFolderShellItem = default;
-				fixed (char* pszFolderShellPath = szFolderShellPath)
-					hr = PInvoke.SHCreateItemFromParsingName(pszFolderShellPath, null, IID.IID_IShellItem, (void**)pFolderShellItem.GetAddressOf());
+				hr = PInvoke.SHCreateItemFromParsingName(folderShellPath, null, typeof(IShellItem).GUID, out var folderShellItemObj);
+				var folderShellItem = (IShellItem)folderShellItemObj;
 
 				// Get IEnumShellItems of the quick access shell folder
-				using ComPtr<IEnumShellItems> pEnumShellItems = default;
-				hr = pFolderShellItem.Get()->BindToHandler(null, BHID.BHID_EnumItems, IID.IID_IEnumShellItems, (void**)pEnumShellItems.GetAddressOf());
+				hr = folderShellItem.BindToHandler(null, BHID.BHID_EnumItems, IID.IID_IEnumShellItems, out var enumShellItemsObj);
+				var enumShellItems = (IEnumShellItems)enumShellItemsObj;
 
 				// Enumerate recent items and populate the list
 				int index = 0;
 				List<RecentItem> recentItems = [];
-				ComPtr<IShellItem> pShellItem = default; // Do not dispose in this method to use later to prepare for its deletion
-				while (pEnumShellItems.Get()->Next(1, pShellItem.GetAddressOf()) == HRESULT.S_OK)
+				var shellItemArray = new IShellItem[1];
+				while (enumShellItems.Next(1, shellItemArray) == HRESULT.S_OK)
 				{
+					var shellItem = shellItemArray[0];
+
 					// Get top 20 items
 					if (index is 20)
 						break;
 
 					// Exclude folders
-					if (pShellItem.Get()->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var attribute) == HRESULT.S_OK &&
+					if (shellItem.GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var attribute) == HRESULT.S_OK &&
 						(attribute & SFGAO_FLAGS.SFGAO_FOLDER) == SFGAO_FLAGS.SFGAO_FOLDER)
 						continue;
 
 					// Get the target path
-					pShellItem.Get()->GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEEDITING, out var szDisplayName);
-					var targetPath = szDisplayName.ToString();
-					PInvoke.CoTaskMemFree(szDisplayName.Value);
+					shellItem.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEEDITING, out var displayName);
+					var targetPath = displayName.ToString();
+					PInvoke.CoTaskMemFree(displayName.Value);
 
 					// Get the display name
-					pShellItem.Get()->GetDisplayName(SIGDN.SIGDN_NORMALDISPLAY, out szDisplayName);
-					var fileName = szDisplayName.ToString();
-					PInvoke.CoTaskMemFree(szDisplayName.Value);
+					shellItem.GetDisplayName(SIGDN.SIGDN_NORMALDISPLAY, out displayName);
+					var fileName = displayName.ToString();
+					PInvoke.CoTaskMemFree(displayName.Value);
 
 					// Strip the file extension except when the file name only contains extension (e.g. ".gitignore")
 					if (!FoldersSettingsService.ShowFileExtensions &&
@@ -234,18 +235,17 @@ namespace Files.App.Services
 						fileName = string.IsNullOrEmpty(fileNameWithoutExtension) ? SystemIO.Path.GetFileName(fileName) : fileNameWithoutExtension;
 
 					// Get the date last modified
-					using ComPtr<IShellItem2> pShellItem2 = default;
-					hr = pShellItem.Get()->QueryInterface(IID.IID_IShellItem2, (void**)pShellItem2.GetAddressOf());
+					var shellItem2 = (IShellItem2)shellItem;
 					hr = PInvoke.PSGetPropertyKeyFromName("System.DateModified", out var propertyKey);
-					hr = pShellItem2.Get()->GetString(propertyKey, out var szPropertyValue);
-					if (DateTime.TryParse(szPropertyValue.ToString(), out var lastModified))
+					hr = shellItem2.GetString(propertyKey, out var propertyValue);
+					if (DateTime.TryParse(propertyValue.ToString(), out var lastModified))
 						lastModified = DateTime.MinValue;
 
 					recentItems.Add(new()
 					{
 						Path = targetPath,
 						Name = fileName,
-						ShellItem = pShellItem,
+						ShellItem = shellItem,
 						LastModified = lastModified,
 					});
 

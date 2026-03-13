@@ -1,18 +1,34 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.Shared.Attributes;
 using System;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.Marshalling;
 using Windows.Win32.Foundation;
 
 namespace Windows.Win32.System.WinRT
 {
-	public unsafe partial struct IStorageProviderStatusUISourceFactory : IComIID
+	[GeneratedComInterface, InterfaceType(ComInterfaceType.InterfaceIsIUnknown), Guid("12E46B74-4E5A-58D1-A62F-0376E8EE7DD8")]
+	public partial interface IStorageProviderStatusUISourceFactory
 	{
-		[GeneratedVTableFunction(Index = 6)]
-		public partial HRESULT GetStatusUISource(nint syncRootId, IStorageProviderStatusUISource** result);
+		// Slot: 3
+		[PreserveSig]
+		[return: MarshalAs(UnmanagedType.Error)]
+		HRESULT GetIids(out uint iidCount, out nint iids);
 
-		[GuidRVAGen.Guid("12E46B74-4E5A-58D1-A62F-0376E8EE7DD8")]
-		public static partial ref readonly Guid Guid { get; }
+		// Slot: 4
+		[PreserveSig]
+		[return: MarshalAs(UnmanagedType.Error)]
+		HRESULT GetRuntimeClassName(out HSTRING className);
+
+		// Slot: 5
+		[PreserveSig]
+		[return: MarshalAs(UnmanagedType.Error)]
+		HRESULT GetTrustLevel(out TrustLevel trustLevel);
+
+		// Slot: 6
+		[PreserveSig]
+		[return: MarshalAs(UnmanagedType.Error)]
+		HRESULT GetStatusUISource([MarshalAs(UnmanagedType.LPWStr)] string syncRootId, [MarshalAs(UnmanagedType.Interface)] out IStorageProviderStatusUISource result);
 	}
 }

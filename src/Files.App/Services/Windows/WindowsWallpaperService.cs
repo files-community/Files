@@ -14,62 +14,61 @@ namespace Files.App.Services
 	public sealed class WindowsWallpaperService : IWindowsWallpaperService
 	{
 		/// <inheritdoc/>
-		public unsafe void SetDesktopWallpaper(string szPath)
+		public unsafe void SetDesktopWallpaper(string path)
 		{
 			// Instantiate IDesktopWallpaper
-			using ComPtr<IDesktopWallpaper> pDesktopWallpaper = default;
-			HRESULT hr = pDesktopWallpaper.CoCreateInstance(CLSID.CLSID_DesktopWallpaper);
+			HRESULT hr = PInvoke.CoCreateInstance(CLSID.CLSID_DesktopWallpaper, null, Windows.Win32.System.Com.CLSCTX.CLSCTX_ALL, IID.IID_IDesktopWallpaper, out var desktopWallpaperObj);
+			var desktopWallpaper = (IDesktopWallpaper)desktopWallpaperObj;
 
 			// Get total count of all available monitors
-			hr = pDesktopWallpaper.Get()->GetMonitorDevicePathCount(out var dwMonitorCount);
+			hr = desktopWallpaper.GetMonitorDevicePathCount(out var monitorCount);
 
-			fixed (char* pszPath = szPath)
+			fixed (char* pathPtr = path)
 			{
-				PWSTR pMonitorId = default;
+				PWSTR monitorId = default;
 
 				// Set the selected image file as wallpaper for all available monitors
-				for (uint dwIndex = 0u; dwIndex < dwMonitorCount; dwIndex++)
+				for (uint index = 0u; index < monitorCount; index++)
 				{
 					// Set the wallpaper
-					hr = pDesktopWallpaper.Get()->GetMonitorDevicePathAt(dwIndex, &pMonitorId);
-					hr = pDesktopWallpaper.Get()->SetWallpaper(pMonitorId, pszPath);
+					hr = desktopWallpaper.GetMonitorDevicePathAt(index, &monitorId);
+					hr = desktopWallpaper.SetWallpaper(monitorId, pathPtr);
 
-					pMonitorId = default;
+					monitorId = default;
 				}
 			}
 		}
 
 		/// <inheritdoc/>
-		public unsafe void SetDesktopSlideshow(string[] aszPaths)
+		public unsafe void SetDesktopSlideshow(string[] paths)
 		{
 			// Instantiate IDesktopWallpaper
-			using ComPtr<IDesktopWallpaper> pDesktopWallpaper = default;
-			HRESULT hr = pDesktopWallpaper.CoCreateInstance(CLSID.CLSID_DesktopWallpaper);
+			HRESULT hr = PInvoke.CoCreateInstance(CLSID.CLSID_DesktopWallpaper, null, Windows.Win32.System.Com.CLSCTX.CLSCTX_ALL, IID.IID_IDesktopWallpaper, out var desktopWallpaperObj);
+			var desktopWallpaper = (IDesktopWallpaper)desktopWallpaperObj;
 
-			uint dwCount = (uint)aszPaths.Length;
-			ITEMIDLIST** ppItemIdList = stackalloc ITEMIDLIST*[aszPaths.Length];
+			uint count = (uint)paths.Length;
+			ITEMIDLIST** itemIdList = stackalloc ITEMIDLIST*[paths.Length];
 
 			// Get an array of PIDL from the selected image files
-			for (uint dwIndex = 0u; dwIndex < dwCount; dwIndex++)
-				ppItemIdList[dwIndex] = PInvoke.ILCreateFromPath(aszPaths[dwIndex]);
+			for (uint index = 0u; index < count; index++)
+				itemIdList[index] = PInvoke.ILCreateFromPath(paths[index]);
 
 			// Get an IShellItemArray from the array of the PIDL
-			using ComPtr<IShellItemArray> pShellItemArray = default;
-			hr = PInvoke.SHCreateShellItemArrayFromIDLists(dwCount, ppItemIdList, pShellItemArray.GetAddressOf());
+			hr = PInvoke.SHCreateShellItemArrayFromIDLists(count, itemIdList, out var shellItemArray);
 
 			// Release the allocated PIDL
-			for (uint dwIndex = 0u; dwIndex < dwCount; dwIndex++)
-				PInvoke.CoTaskMemFree((void*)ppItemIdList[dwIndex]);
+			for (uint index = 0u; index < count; index++)
+				PInvoke.CoTaskMemFree((void*)itemIdList[index]);
 
 			// Set the slideshow and its position
-			hr = pDesktopWallpaper.Get()->SetSlideshow(pShellItemArray.Get());
-			hr = pDesktopWallpaper.Get()->SetPosition(DESKTOP_WALLPAPER_POSITION.DWPOS_FILL);
+			hr = desktopWallpaper.SetSlideshow(shellItemArray);
+			hr = desktopWallpaper.SetPosition(DESKTOP_WALLPAPER_POSITION.DWPOS_FILL);
 		}
 
 		/// <inheritdoc/>
-		public async Task SetLockScreenWallpaper(string szPath)
+		public async Task SetLockScreenWallpaper(string path)
 		{
-			IStorageFile sourceFile = await StorageFile.GetFileFromPathAsync(szPath);
+			IStorageFile sourceFile = await StorageFile.GetFileFromPathAsync(path);
 			await LockScreen.SetImageFileAsync(sourceFile);
 		}
 	}

@@ -38,10 +38,10 @@ namespace Files.App.Extensions
 				Guid classId = Guid.Parse(ActionRuntimeClsidStr);
 				Guid iid = IActionRuntimeIID;
 
-				HRESULT hresult = PInvoke.CoCreateInstance(&classId, null, CLSCTX.CLSCTX_LOCAL_SERVER, &iid, (void**)&abiPtr);
+				HRESULT hresult = PInvoke.CoCreateInstance(&classId, null, CLSCTX.CLSCTX_LOCAL_SERVER, &iid, out var actionRuntimeObj);
 				Marshal.ThrowExceptionForHR((int)hresult);
 
-				return MarshalInterface<Windows.AI.Actions.ActionRuntime>.FromAbi(abiPtr);
+				return (ActionRuntime)actionRuntimeObj;
 			}
 			catch
 			{

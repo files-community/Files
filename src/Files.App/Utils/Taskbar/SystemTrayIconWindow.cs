@@ -17,7 +17,7 @@ namespace Files.App.Utils.Taskbar
 	{
 		private SystemTrayIcon _trayIcon;
 
-		private readonly WNDPROC _windowProcedure;
+		private readonly WndProcDelegate _windowProcedure;
 
 		private HWND _windowHandle;
 		internal HWND WindowHandle

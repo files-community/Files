@@ -363,9 +363,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		public void Dispose()
 		{
 			WindowsRecentItemsService.RecentFilesChanged -= Manager_RecentFilesChanged;
-
-			foreach (var item in Items)
-				item.Dispose();
 		}
 	}
 }

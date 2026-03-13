@@ -9,9 +9,6 @@ namespace Windows.Win32
 {
 	public static unsafe partial class IID
 	{
-		public static Guid* IID_IStorageProviderStatusUISourceFactory
-			=> (Guid*)Unsafe.AsPointer(ref Unsafe.AsRef(in IStorageProviderStatusUISourceFactory.Guid));
-
 		[GuidRVAGen.Guid("000214E4-0000-0000-C000-000000000046")]
 		public static partial Guid* IID_IContextMenu { get; }
 

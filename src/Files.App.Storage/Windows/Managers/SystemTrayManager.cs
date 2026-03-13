@@ -22,7 +22,7 @@ namespace Files.App.Storage
 		Action<uint> _callback = null!;
 
 		private HWND _hWnd = default;
-		private WNDPROC? _wndProc;
+		private WndProcDelegate? _wndProc;
 		private uint _dwTaskbarRestartMsgId;
 		private bool _isShown;
 
