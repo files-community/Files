@@ -1,16 +1,16 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI;
+using Files.Shared.Utils;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
 using Windows.Storage;
-using Windows.System;
 using Windows.UI.Core;
 using Windows.Win32;
 using Windows.Win32.Foundation;
-using Windows.Win32.System.Com;
-using Windows.Win32.System.WinRT;
 using Windows.Win32.UI.Shell;
 
 namespace Files.App.ViewModels.UserControls.Widgets
@@ -36,10 +36,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 		// TODO: Replace with IMutableFolder.GetWatcherAsync() once it gets implemented in IWindowsStorable
 		private readonly SystemIO.FileSystemWatcher _quickAccessFolderWatcher;
 
+		private readonly DispatcherQueueTimer _dispatcherQueueTimer;
+
 		// Constructor
 
 		public QuickAccessWidgetViewModel()
 		{
+			_dispatcherQueueTimer = MainWindow.Instance.DispatcherQueue.CreateTimer();
+
 			Items.CollectionChanged += Items_CollectionChanged;
 
 			OpenPropertiesCommand = new RelayCommand<WidgetFolderCardItem>(ExecuteOpenPropertiesCommand);
@@ -50,41 +54,77 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				Path = SystemIO.Path.Join(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Microsoft", "Windows", "Recent", "AutomaticDestinations"),
 				Filter = "f01b4d95cf55d32a.automaticDestinations-ms",
-				NotifyFilter = SystemIO.NotifyFilters.LastAccess | SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.FileName
+				NotifyFilter = SystemIO.NotifyFilters.LastWrite | SystemIO.NotifyFilters.CreationTime
 			};
 
-			_quickAccessFolderWatcher.Changed += async (s, e) =>
-			{
-				await RefreshWidgetAsync();
-			};
-
+			_quickAccessFolderWatcher.Changed += QuickAccessFolderWatcher_Changed;
 			_quickAccessFolderWatcher.EnableRaisingEvents = true;
+		}
+
+		private void QuickAccessFolderWatcher_Changed(object sender, SystemIO.FileSystemEventArgs e)
+		{
+			MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+			{
+				_dispatcherQueueTimer.Debounce(async () =>
+				{
+					await RefreshWidgetAsync();
+				},
+				TimeSpan.FromMilliseconds(500));
+			});
 		}
 
 		// Methods
 
-		public Task RefreshWidgetAsync()
+		public async Task RefreshWidgetAsync()
 		{
-			return MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
+			var list = await Task.Run(async () =>
 			{
-				foreach (var item in Items)
-					item.Dispose();
+				var list = new List<WidgetFolderCardItem>();
 
-				Items.Clear();
+				IWindowsFolder quickAccessFolder = new WindowsFolder(new Guid("3936E9E4-D92C-4EEE-A85A-BC16D5EA0819"));
 
-				await foreach (IWindowsStorable folder in HomePageContext.HomeFolder.GetQuickAccessFolderAsync(default))
+				await foreach (IWindowsStorable folder in quickAccessFolder.GetItemsAsync(0, 0))
 				{
 					folder.GetPropertyValue<bool>("System.Home.IsPinned", out var isPinned);
 					folder.TryGetShellTooltip(out var tooltip);
 
-					Items.Insert(
-						Items.Count,
+					list.Add(
 						new WidgetFolderCardItem(
 							folder,
 							folder.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI),
 							isPinned,
 							tooltip ?? string.Empty));
 				}
+
+				IWindowsFolder recentFoldersPlace = new WindowsFolder(new Guid("22877A6D-37A1-461A-91B0-DBDA5AAEBC99"));
+
+				await foreach (IWindowsStorable folder in recentFoldersPlace.GetItemsAsync(5, 0))
+				{
+					folder.GetPropertyValue<bool>("System.Home.IsPinned", out var isPinned);
+					if (isPinned) continue;
+
+					folder.TryGetShellTooltip(out var tooltip);
+
+					list.Add(
+						new WidgetFolderCardItem(
+							folder,
+							folder.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI),
+							isPinned,
+							tooltip ?? string.Empty));
+				}
+
+				return list;
+			});
+
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(() =>
+			{
+				foreach (var item in Items)
+					item.Dispose();
+
+				Items.Clear();
+
+				foreach (var newItem in list)
+					Items.Add(newItem);
 			});
 		}
 
@@ -167,7 +207,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public async Task NavigateToPath(string path)
 		{
-			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+			var ctrlPressed = InputKeyboardSource.GetKeyStateForCurrentThread(Windows.System.VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
 			if (ctrlPressed)
 			{
 				await NavigationHelpers.OpenPathInNewTab(path);
@@ -203,26 +243,14 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (currentPinnedItemIndex is -1)
 				return;
 
-			HRESULT hr = default;
-			using ComPtr<IAgileReference> pAgileReference = default;
-
-			unsafe
+			HRESULT hr = await STATask.Run(() =>
 			{
-				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, (IUnknown*)folderCardItem.Item.ThisPtr, pAgileReference.GetAddressOf());
-			}
-
-			// Pin to Quick Access on Windows
-			hr = await STATask.Run(() =>
-			{
-				unsafe
-				{
-					IShellItem* pShellItem = null;
-					hr = pAgileReference.Get()->Resolve(IID.IID_IShellItem, (void**)&pShellItem);
-					using var windowsFile = new WindowsFile(pShellItem);
-					// NOTE: "pintohome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CPinToFrequentExecute : public IExecuteCommand, ...
-					return windowsFile.TryInvokeContextMenuVerb("pintohome");
-				}
+				// NOTE: "pintohome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CPinToFrequentExecute : public IExecuteCommand, ...
+				return folderCardItem.Item.TryInvokeContextMenuVerb("pintohome");
 			}, App.Logger);
+
+			if (hr.ThrowIfFailedOnDebug().Failed)
+				return;
 
 			// The file watcher will update the collection automatically
 		}
@@ -232,27 +260,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			if (item is not WidgetFolderCardItem folderCardItem || folderCardItem.Path is null)
 				return;
 
-			HRESULT hr = default;
-			using ComPtr<IAgileReference> pAgileReference = default;
-
-			unsafe
+			HRESULT hr = await STATask.Run(() =>
 			{
-				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, (IUnknown*)folderCardItem.Item.ThisPtr, pAgileReference.GetAddressOf());
-			}
-
-			// Unpin from Quick Access on Windows
-			hr = await STATask.Run(() =>
-			{
-				unsafe
-				{
-					IShellItem* pShellItem = null;
-					hr = pAgileReference.Get()->Resolve(IID.IID_IShellItem, (void**)&pShellItem);
-					using var windowsFile = new WindowsFile(pShellItem);
-
-					// NOTE: "unpinfromhome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CRemoveFromFrequentPlacesExecute : public IExecuteCommand, ...
-					// NOTE: "remove" is for some shell folders where the "unpinfromhome" may not work
-					return windowsFile.TryInvokeContextMenuVerbs(["unpinfromhome", "remove"], true);
-				}
+				// NOTE: "unpinfromhome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CRemoveFromFrequentPlacesExecute : public IExecuteCommand, ...
+				// NOTE: "remove" is for some shell folders where the "unpinfromhome" may not work
+				return folderCardItem.Item.TryInvokeContextMenuVerbs(["unpinfromhome", "remove"], true);
 			}, App.Logger);
 
 			if (hr.ThrowIfFailedOnDebug().Failed)

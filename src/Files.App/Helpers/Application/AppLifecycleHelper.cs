@@ -16,6 +16,7 @@ using System.Text;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
+using Windows.Win32.Foundation;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Files.App.Helpers
@@ -41,6 +42,8 @@ namespace Files.App.Helpers
 		/// Gets the value that indicates the total launch count of the app.
 		/// </summary>
 		public static long TotalLaunchCount { get; }
+
+		public static JumpListManager? JumpListManager { get; private set; }
 
 		/// <summary>
 		/// Gets the value that indicates if the release notes tab was automatically opened.
@@ -71,10 +74,36 @@ namespace Files.App.Helpers
 		/// Gets the value that provides application environment or branch name.
 		/// </summary>
 		public static AppEnvironment AppEnvironment =>
-			Enum.TryParse("cd_app_env_placeholder", true, out AppEnvironment appEnvironment)
+			Enum.TryParse("cd_app_env_placeholder" /* This will be replaced with an actual value by the Files CD */, true, out AppEnvironment appEnvironment)
 				? appEnvironment
 				: AppEnvironment.Dev;
 
+		/// <summary>
+		/// Gets the executable alias associated with the current application environment.
+		/// </summary>
+		public static string AppExeAlias => AppEnvironment switch
+		{
+			AppEnvironment.SideloadStable => "files.exe",
+			AppEnvironment.SideloadPreview => "files-preview.exe",
+			AppEnvironment.StoreStable => "files.exe",
+			AppEnvironment.StorePreview => "files-preview.exe",
+			_ => "files-dev.exe", // Default to Dev
+		};
+
+		/// <summary>
+		/// Gets the CRC hash string associated with the current application environment's AppUserModelId.
+		/// </summary>
+		/// <remarks>
+		/// See <a href="https://github.com/0x5bfa/JumpListManager/blob/HEAD/JumpListManager/AppIdCrcHash.cs" />
+		/// </remarks>
+		public static string AppUserModelIdCrcHash => AppEnvironment switch
+			{
+				AppEnvironment.SideloadStable => "3b19d860a346d7da",
+				AppEnvironment.SideloadPreview => "1265066178db259d",
+				AppEnvironment.StoreStable => "8e2322986488aba5",
+				AppEnvironment.StorePreview => "6b0bf5ca007c8bea",
+				_ => "1527fd0cf5681354", // Default to Dev
+			};
 
 		/// <summary>
 		/// Gets application package version.
@@ -101,7 +130,6 @@ namespace Files.App.Helpers
 			var userSettingsService = Ioc.Default.GetRequiredService<IUserSettingsService>();
 			var addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 			var generalSettingsService = userSettingsService.GeneralSettingsService;
-			var jumpListService = Ioc.Default.GetRequiredService<IWindowsJumpListService>();
 
 			// Start off a list of tasks we need to run before we can continue startup
 			await Task.WhenAll(
@@ -115,8 +143,7 @@ namespace Files.App.Helpers
 					OptionalTaskAsync(CloudDrivesManager.UpdateDrivesAsync(), generalSettingsService.ShowCloudDrivesSection),
 					App.LibraryManager.UpdateLibrariesAsync(),
 					OptionalTaskAsync(WSLDistroManager.UpdateDrivesAsync(), generalSettingsService.ShowWslSection),
-					OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection),
-					jumpListService.InitializeAsync()
+					OptionalTaskAsync(App.FileTagsManager.UpdateFileTagsAsync(), generalSettingsService.ShowFileTagsSection)
 				);
 
 				//Start the tasks separately to reduce resource contention
@@ -133,6 +160,24 @@ namespace Files.App.Helpers
 				// The follwing method invokes UI thread, so we run it in a separate task
 				await CheckAppUpdate();
 			});
+
+			_ = STATask.Run(() =>
+			{
+				JumpListManager = JumpListManager.Create($"{Package.Current.Id.FamilyName}!App", AppExeAlias);
+				if (JumpListManager is not null)
+				{
+					HRESULT hr = JumpListManager.PullJumpListFromExplorer();
+					if (hr.Failed) App.Logger.LogWarning("Failed to synchronize jump list unexpectedly.");
+
+					bool result = JumpListManager.WatchJumpListChanges(AppUserModelIdCrcHash);
+					if (result)
+					{
+						// TODO: Remove this after the sidebar refactoring (this has to be self-notified in the sidebar)
+						JumpListManager.JumpListChanged += JumpListManager_JumpListChanged;
+					}
+				}
+			},
+			App.Logger);
 
 			static Task OptionalTaskAsync(Task task, bool condition)
 			{
@@ -254,7 +299,6 @@ namespace Files.App.Helpers
 					.AddSingleton<ISizeProvider, UserSizeProvider>()
 					.AddSingleton<IQuickAccessService, QuickAccessService>()
 					.AddSingleton<IResourcesService, ResourcesService>()
-					.AddSingleton<IWindowsJumpListService, WindowsJumpListService>()
 					.AddSingleton<IStorageTrashBinService, StorageTrashBinService>()
 					.AddSingleton<IRemovableDrivesService, RemovableDrivesService>()
 					.AddSingleton<INetworkService, NetworkService>()
@@ -413,6 +457,17 @@ namespace Files.App.Helpers
 				.Wait(100);
 			}
 			Process.GetCurrentProcess().Kill();
+		}
+
+		/// <summary>
+		/// Handles the event that occurs when the files jump list changes, and notifies the quick access service of updates
+		/// to pinned items.
+		/// </summary>
+		private static void JumpListManager_JumpListChanged(object? sender, EventArgs e)
+		{
+			var quickAccessService = Ioc.Default.GetRequiredService<IQuickAccessService>();
+
+			quickAccessService.NotifyPinnedItemsChanged(true);
 		}
 
 		/// <summary>
