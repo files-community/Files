@@ -3,6 +3,7 @@
 
 using Microsoft.Extensions.Logging;
 using Windows.Win32;
+using Windows.Win32.System.WinRT;
 
 namespace Files.App.Storage
 {
@@ -25,6 +26,7 @@ namespace Files.App.Storage
 				new(() =>
 				{
 					PInvoke.OleInitialize();
+					PInvoke.RoInitialize(RO_INIT_TYPE.RO_INIT_SINGLETHREADED);
 
 					try
 					{
@@ -38,6 +40,7 @@ namespace Files.App.Storage
 					}
 					finally
 					{
+						PInvoke.RoUninitialize();
 						PInvoke.OleUninitialize();
 					}
 				});
@@ -64,6 +67,7 @@ namespace Files.App.Storage
 				new(() =>
 				{
 					PInvoke.OleInitialize();
+					PInvoke.RoInitialize(RO_INIT_TYPE.RO_INIT_SINGLETHREADED);
 
 					try
 					{
@@ -76,6 +80,7 @@ namespace Files.App.Storage
 					}
 					finally
 					{
+						PInvoke.RoUninitialize();
 						PInvoke.OleUninitialize();
 					}
 				});
@@ -101,6 +106,7 @@ namespace Files.App.Storage
 				new(async () =>
 				{
 					PInvoke.OleInitialize();
+					PInvoke.RoInitialize(RO_INIT_TYPE.RO_INIT_SINGLETHREADED);
 
 					try
 					{
@@ -114,6 +120,7 @@ namespace Files.App.Storage
 					}
 					finally
 					{
+						PInvoke.RoUninitialize();
 						PInvoke.OleUninitialize();
 					}
 				});
@@ -140,6 +147,7 @@ namespace Files.App.Storage
 				new(async () =>
 				{
 					PInvoke.OleInitialize();
+					PInvoke.RoInitialize(RO_INIT_TYPE.RO_INIT_SINGLETHREADED);
 
 					try
 					{
@@ -152,6 +160,7 @@ namespace Files.App.Storage
 					}
 					finally
 					{
+						PInvoke.RoUninitialize();
 						PInvoke.OleUninitialize();
 					}
 				});

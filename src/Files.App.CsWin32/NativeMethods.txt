@@ -293,3 +293,10 @@ PKEY_AppUserModel_IsDestListSeparator
 IGlobalInterfaceTable
 InitPropVariantFromBuffer
 PropVariantToBuffer
+RoUninitialize
+RoActivateInstance
+IStorageItem
+SafeArrayCreateVector
+SafeArrayAccessData
+SafeArrayDestroy
+SafeArrayUnaccessData

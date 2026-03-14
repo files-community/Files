@@ -1,11 +1,16 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.Shared.Utils;
 using System.IO;
+using System.Runtime.CompilerServices;
+using Windows.ApplicationModel.Activation;
+using Windows.Storage;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
 using Windows.Win32.System.Com.StructuredStorage;
+using Windows.Win32.System.WinRT;
 using Windows.Win32.UI.Shell;
 using Windows.Win32.UI.Shell.Common;
 using Windows.Win32.UI.Shell.PropertiesSystem;
@@ -59,13 +64,16 @@ namespace Files.App.Storage
 
 				HRESULT hr;
 
-				using ComPtr<IAutomaticDestinationList> pExplorerADL = default;
+				using ComPtr<IAutomaticDestinationList2> pExplorerADL = default;
 				hr = PInvoke.CoCreateInstance(CLSID.CLSID_AutomaticDestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IAutomaticDestinationList, (void**)pExplorerADL.GetAddressOf());
-				fixed (char* pAumid = "Microsoft.Windows.Explorer") pExplorerADL.Get()->Initialize(pAumid, default, default);
+				fixed (char* pAumid = "Microsoft.Windows.Explorer", pExePath = "C:\\Windows\\explorer.exe") pExplorerADL.Get()->Initialize(pAumid, pExePath, default);
 
-				using ComPtr<IAutomaticDestinationList> pFilesADL = default;
+				using ComPtr<IAutomaticDestinationList2> pFilesADL = default;
 				hr = PInvoke.CoCreateInstance(CLSID.CLSID_AutomaticDestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IAutomaticDestinationList, (void**)pFilesADL.GetAddressOf());
 				fixed (char* pAumid = _aumid) pFilesADL.Get()->Initialize(pAumid, default, default);
+
+				using ComPtr<IInspectable> storageObj = default;
+				hr = PInvoke.RoActivateInstance("Windows.Internal.AutomaticDestinationListStorage", storageObj.GetAddressOf());
 
 				// Get whether the Files's Automatic Destination has items
 				BOOL hasList = default;
@@ -100,15 +108,68 @@ namespace Files.App.Storage
 					hr = CreateLinkFromItem(psi.Get(), psl.GetAddressOf());
 					if (FAILED(hr)) continue;
 
-					// Get freqency data of the item
+					hr = pFilesADL.Get()->AddUsagePointsEx((IUnknown*)psl.Get(), true, 0);
+					if (FAILED(hr)) continue;
+
 					float accessCount; long lastAccessedTimeUtc;
 					hr = pExplorerADL.Get()->GetUsageData((IUnknown*)psi.Get(), &accessCount, &lastAccessedTimeUtc);
-					if (FAILED(hr)) continue;
-
-					hr = pFilesADL.Get()->AddUsagePoint((IUnknown*)psl.Get());
-					if (FAILED(hr)) continue;
 
 					hr = pFilesADL.Get()->SetUsageData((IUnknown*)psl.Get(), &accessCount, &lastAccessedTimeUtc);
+					if (FAILED(hr)) continue;
+
+					var IID_IStorageItem = new Guid("4207A996-CA2F-42F7-BDE8-8B10457A7F30");
+					void* pStorageItem;
+					hr = psi.Get()->BindToHandler(null, BHID.BHID_StorageItem, (Guid*)Unsafe.AsPointer(ref Unsafe.AsRef(in IID_IStorageItem)), &pStorageItem);
+					if (FAILED(hr)) continue;
+
+					using ComPtr<IAutomaticDestinationListStorage> storage = default;
+					hr = storageObj.As(storage.GetAddressOf());
+					if (FAILED(hr)) continue;
+
+					var explorerAumid = "Microsoft.Windows.Explorer";
+					hr = PInvoke.WindowsCreateString(explorerAumid, (uint)explorerAumid.Length, out var explorerAumidAsHSTRING);
+					if (FAILED(hr)) continue;
+
+					hr = storage.Get()->Load(0, HSTRING.Null, (HSTRING)explorerAumidAsHSTRING.DangerousGetHandle(), HSTRING.Null);
+					if (FAILED(hr)) continue;
+
+					using ComPtr<IAutomaticDestinationListItemInfo> pInfo = default;
+					hr = storage.Get()->GetInfoForItem(pStorageItem, pInfo.GetAddressOf());
+					if (FAILED(hr)) continue;
+
+					uint actionCount;
+					hr = pInfo.Get()->get_ActionCount(&actionCount);
+					if (FAILED(hr)) continue;
+
+					hr = storage.Get()->Close();
+					if (FAILED(hr)) continue;
+
+					explorerAumidAsHSTRING.Close();
+
+					using ComPtr<IAutomaticDestinationListPropertyStore> pPropertyStore = default;
+					hr = pFilesADL.As(pPropertyStore.GetAddressOf());
+					if (FAILED(hr)) continue;
+
+					JumpListItemAccessInfo info = default;
+					info.ActionCount = actionCount * 3;
+
+					PROPVARIANT pv;
+					hr = PInvoke.InitVariantFromBuffer(&info, (uint)sizeof(JumpListItemAccessInfo), &pv);
+					if (FAILED(hr)) continue;
+
+					using ComPtr<IPropertyStore> itemPropertyStore = default;
+					//hr = pPropertyStore.Get()->GetPropertyStorageForItem((IUnknown*)psl.Get(), itemPropertyStore.GetAddressOf());
+					hr = psl.As(itemPropertyStore.GetAddressOf());
+					if (FAILED(hr)) continue;
+
+					PROPERTYKEY PKEY_JumpList_ActionCount = default;
+					PKEY_JumpList_ActionCount.fmtid = new Guid("D8E6A5C2-6F47-4D7B-A7D1-5D4F9E3C2101");
+					PKEY_JumpList_ActionCount.pid = 2;
+
+					hr = itemPropertyStore.Get()->SetValue(&PKEY_JumpList_ActionCount, &pv);
+					if (FAILED(hr)) continue;
+
+					hr = itemPropertyStore.Get()->Commit();
 					if (FAILED(hr)) continue;
 
 					int pinIndex = 0;
@@ -144,13 +205,16 @@ namespace Files.App.Storage
 
 				HRESULT hr;
 
-				using ComPtr<IAutomaticDestinationList> pExplorerADL = default;
+				using ComPtr<IAutomaticDestinationList2> pExplorerADL = default;
 				hr = PInvoke.CoCreateInstance(CLSID.CLSID_AutomaticDestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IAutomaticDestinationList, (void**)pExplorerADL.GetAddressOf());
 				fixed (char* pAumid = "Microsoft.Windows.Explorer") pExplorerADL.Get()->Initialize(pAumid, default, default);
 
-				using ComPtr<IAutomaticDestinationList> pFilesADL = default;
+				using ComPtr<IAutomaticDestinationList2> pFilesADL = default;
 				hr = PInvoke.CoCreateInstance(CLSID.CLSID_AutomaticDestinationList, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IAutomaticDestinationList, (void**)pFilesADL.GetAddressOf());
 				fixed (char* pAumid = _aumid) pFilesADL.Get()->Initialize(pAumid, default, default);
+
+				using ComPtr<IInspectable> storageObj = default;
+				hr = PInvoke.RoActivateInstance("Windows.Internal.AutomaticDestinationListStorage", storageObj.GetAddressOf());
 
 				// Get whether the Explorer's Automatic Destination has items
 				BOOL hasList = default;
@@ -189,15 +253,68 @@ namespace Files.App.Storage
 					hr = PInvoke.SHCreateItemFromParsingName(pszParseablePath.Get(), null, IID.IID_IShellItem, (void**)psi.GetAddressOf());
 					if (FAILED(hr)) continue;
 
-					// Get freqency data of the item
+					hr = pExplorerADL.Get()->AddUsagePointsEx((IUnknown*)psi.Get(), true, 0);
+					if (FAILED(hr)) continue;
+
 					float accessCount; long lastAccessedTimeUtc;
 					hr = pFilesADL.Get()->GetUsageData((IUnknown*)psl.Get(), &accessCount, &lastAccessedTimeUtc);
 					if (FAILED(hr)) continue;
 
-					hr = pExplorerADL.Get()->AddUsagePoint((IUnknown*)psi.Get());
+					hr = pExplorerADL.Get()->SetUsageData((IUnknown*)psi.Get(), &accessCount, &lastAccessedTimeUtc);
 					if (FAILED(hr)) continue;
 
-					hr = pExplorerADL.Get()->SetUsageData((IUnknown*)psi.Get(), &accessCount, &lastAccessedTimeUtc);
+					using ComPtr<IAutomaticDestinationListPropertyStore> pPropertyStore = default;
+					pFilesADL.As(pPropertyStore.GetAddressOf());
+
+					using ComPtr<IPropertyStore> itemPropertyStore = default;
+					//hr = pPropertyStore.Get()->GetPropertyStorageForItem((IUnknown*)psl.Get(), itemPropertyStore.GetAddressOf());
+					hr = psl.As(itemPropertyStore.GetAddressOf());
+					if (FAILED(hr)) continue;
+
+					PROPERTYKEY PKEY_JumpList_ActionCount = default;
+					PKEY_JumpList_ActionCount.fmtid = new Guid("D8E6A5C2-6F47-4D7B-A7D1-5D4F9E3C2101");
+					PKEY_JumpList_ActionCount.pid = 2;
+
+					PROPVARIANT pv;
+					hr = itemPropertyStore.Get()->GetValue(&PKEY_JumpList_ActionCount, &pv);
+					if (FAILED(hr)) continue;
+
+					JumpListItemAccessInfo info;
+					hr = PInvoke.PropVariantToBuffer(&pv, &info, (uint)sizeof(JumpListItemAccessInfo));
+					if (FAILED(hr)) continue;
+
+					hr = PInvoke.PropVariantClear(&pv);
+					if (FAILED(hr)) continue;
+
+					var IID_IStorageItem = new Guid("4207A996-CA2F-42F7-BDE8-8B10457A7F30");
+					void* pStorageItem;
+					hr = psi.Get()->BindToHandler(null, BHID.BHID_StorageItem, (Guid*)Unsafe.AsPointer(ref Unsafe.AsRef(in IID_IStorageItem)), &pStorageItem);
+					if (FAILED(hr)) continue;
+
+					using ComPtr<IAutomaticDestinationListStorage> storage = default;
+					hr = storageObj.As(storage.GetAddressOf());
+					if (FAILED(hr)) continue;
+
+					var explorerAumid = "Microsoft.Windows.Explorer";
+					hr = PInvoke.WindowsCreateString(explorerAumid, (uint)explorerAumid.Length, out var explorerAumidAsHSTRING);
+					if (FAILED(hr)) continue;
+
+					hr = storage.Get()->Load(1, HSTRING.Null, (HSTRING)explorerAumidAsHSTRING.DangerousGetHandle(), HSTRING.Null);
+					if (FAILED(hr)) continue;
+
+					using ComPtr<IAutomaticDestinationListItemInfo> pInfo = default;
+					hr = storage.Get()->GetInfoForItem(pStorageItem, pInfo.GetAddressOf());
+					if (FAILED(hr)) continue;
+
+					hr = pInfo.Get()->put_ActionCount(info.ActionCount);
+					if (FAILED(hr)) continue;
+
+					explorerAumidAsHSTRING.Close();
+
+					hr = storage.Get()->Save();
+					if (FAILED(hr)) continue;
+
+					hr = storage.Get()->Close();
 					if (FAILED(hr)) continue;
 
 					int pinIndex = 0;
@@ -438,7 +555,6 @@ namespace Files.App.Storage
 
 	internal struct JumpListItemAccessInfo
 	{
-		internal float AccessCount;
-		internal long LastAccessedTimeUtc;
+		internal uint ActionCount;
 	}
 }

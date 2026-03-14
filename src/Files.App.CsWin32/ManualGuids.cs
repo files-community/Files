@@ -143,6 +143,9 @@ namespace Windows.Win32
 
 		[GuidRVAGen.Guid("94F60519-2850-4924-AA5A-D15E84868039")]
 		public static partial Guid* BHID_EnumItems { get; }
+
+		[GuidRVAGen.Guid("404E2109-77D2-4699-A5A0-4FDF10DB9837")]
+		public static partial Guid* BHID_StorageItem { get; }
 	}
 
 	public static unsafe partial class FOLDERID

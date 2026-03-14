@@ -1,87 +1,132 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.Shared.Attributes;
 using System;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Windows.Win32.Foundation;
-using Windows.Win32.UI.Shell;
+using Windows.Win32.System.Com.StructuredStorage;
+using Windows.Win32.UI.Shell.PropertiesSystem;
 
-namespace Windows.Win32.System.Com
+namespace Windows.Win32.System.Com;
+
+public unsafe partial struct IAutomaticDestinationList2 : IComIID
 {
-	/// <summary>
-	/// Defines unmanaged raw vtable for the <see cref="IAutomaticDestinationList"/> interface.
-	/// </summary>
-	public unsafe partial struct IAutomaticDestinationList : IComIID
-	{
-#pragma warning disable CS0649 // Field 'field' is never assigned to, and will always have its default value 'value'
-		private void** lpVtbl;
-#pragma warning restore CS0649 // Field 'field' is never assigned to, and will always have its default value 'value'
+	[GeneratedVTableFunction(Index = 3)]
+	public partial HRESULT Initialize(PCWSTR szAppId, PCWSTR exePath, PCWSTR unknown);
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public HRESULT Initialize(PCWSTR szAppId, PCWSTR a2, PCWSTR a3)
-			=> (HRESULT)((delegate* unmanaged[MemberFunction]<IAutomaticDestinationList*, PCWSTR, PCWSTR, PCWSTR, int>)lpVtbl[3])
-				((IAutomaticDestinationList*)Unsafe.AsPointer(ref this), szAppId, a2, a3);
+	[GeneratedVTableFunction(Index = 4)]
+	public partial HRESULT HasList(BOOL* hasList);
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public HRESULT HasList(BOOL* pfHasList)
-			=> (HRESULT)((delegate* unmanaged[MemberFunction]<IAutomaticDestinationList*, BOOL*, int>)lpVtbl[4])
-				((IAutomaticDestinationList*)Unsafe.AsPointer(ref this), pfHasList);
+	[GeneratedVTableFunction(Index = 5)]
+	public partial HRESULT GetList(DESTLISTTYPE type, int count, GETDESTLISTFLAGS flags, Guid* riid, void** ppv);
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public HRESULT GetList(DESTLISTTYPE type, int maxCount, GETDESTLISTFLAGS flags, Guid* riid, void** ppvObject)
-			=> (HRESULT)((delegate* unmanaged[MemberFunction]<IAutomaticDestinationList*, DESTLISTTYPE, int, GETDESTLISTFLAGS, Guid*, void**, int>)lpVtbl[5])
-				((IAutomaticDestinationList*)Unsafe.AsPointer(ref this), type, maxCount, flags, riid, ppvObject);
+	[GeneratedVTableFunction(Index = 6)]
+	public partial HRESULT AddUsagePoint(IUnknown* punk);
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public HRESULT AddUsagePoint(IUnknown* pUnk)
-			=> (HRESULT)((delegate* unmanaged[MemberFunction]<IAutomaticDestinationList*, IUnknown*, int>)lpVtbl[6])
-				((IAutomaticDestinationList*)Unsafe.AsPointer(ref this), pUnk);
+	[GeneratedVTableFunction(Index = 7)]
+	public partial HRESULT PinItem(IUnknown* punk, int pinState);
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public HRESULT PinItem(IUnknown* pUnk, int index)
-			=> (HRESULT)((delegate* unmanaged[MemberFunction]<IAutomaticDestinationList*, IUnknown*, int, int>)lpVtbl[7])
-				((IAutomaticDestinationList*)Unsafe.AsPointer(ref this), pUnk, index);
+	[GeneratedVTableFunction(Index = 8)]
+	public partial HRESULT GetPinIndex(IUnknown* punk, int* index);
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public HRESULT GetPinIndex(IUnknown* punk, int* piIndex)
-			=> (HRESULT)((delegate* unmanaged[MemberFunction]<IAutomaticDestinationList*, IUnknown*, int*, int>)lpVtbl[8])
-				((IAutomaticDestinationList*)Unsafe.AsPointer(ref this), punk, piIndex);
+	[GeneratedVTableFunction(Index = 9)]
+	public partial HRESULT RemoveDestination(IUnknown* punk);
 
-		public HRESULT RemoveDestination(IUnknown* psi)
-			=> (HRESULT)((delegate* unmanaged[MemberFunction]<IAutomaticDestinationList*, IUnknown*, int>)lpVtbl[9])
-				((IAutomaticDestinationList*)Unsafe.AsPointer(ref this), psi);
+	[GeneratedVTableFunction(Index = 10)]
+	public partial HRESULT SetUsageData(IUnknown* punk, float* usagePoints, long* lastAccessTime);
 
-		public HRESULT SetUsageData(IUnknown* pItem, float* accessCount, long* pFileTime)
-			=> (HRESULT)((delegate* unmanaged[MemberFunction]<IAutomaticDestinationList*, IUnknown*, float*, long*, int>)lpVtbl[10])
-				((IAutomaticDestinationList*)Unsafe.AsPointer(ref this), pItem, accessCount, pFileTime);
+	[GeneratedVTableFunction(Index = 11)]
+	public partial HRESULT GetUsageData(IUnknown* punk, float* usagePoints, long* lastAccessTime);
 
-		public HRESULT GetUsageData(IUnknown* pItem, float* accessCount, long* pFileTime)
-			=> (HRESULT)((delegate* unmanaged[MemberFunction]<IAutomaticDestinationList*, IUnknown*, float*, long*, int>)lpVtbl[11])
-				((IAutomaticDestinationList*)Unsafe.AsPointer(ref this), pItem, accessCount, pFileTime);
+	[GeneratedVTableFunction(Index = 12)]
+	public partial HRESULT ResolveDestination(HWND hwnd, uint flags, IUnknown* shellItem, Guid* riid, void** ppv);
 
-		public HRESULT ResolveDestination(HWND hWnd, int a2, IShellItem* pShellItem, Guid* riid, void** ppvObject)
-			=> (HRESULT)((delegate* unmanaged[MemberFunction]<IAutomaticDestinationList*, HWND, int, IShellItem*, Guid*, void**, int>)lpVtbl[12])
-				((IAutomaticDestinationList*)Unsafe.AsPointer(ref this), hWnd, a2, pShellItem, riid, ppvObject);
+	[GeneratedVTableFunction(Index = 13)]
+	public partial HRESULT ClearList(BOOL unknown);
 
-		public HRESULT ClearList(BOOL clearPinsToo)
-			=> (HRESULT)((delegate* unmanaged[MemberFunction]<IAutomaticDestinationList*, BOOL, int>)lpVtbl[13])
-				((IAutomaticDestinationList*)Unsafe.AsPointer(ref this), clearPinsToo);
+	[GeneratedVTableFunction(Index = 14)]
+	public partial HRESULT AddUsagePointsEx(IUnknown* punk, BOOL createDestinationItem, int action);
 
-		[GuidRVAGen.Guid("E9C5EF8D-FD41-4F72-BA87-EB03BAD5817C")]
-		public static partial ref readonly Guid Guid { get; }
-	}
+	[GeneratedVTableFunction(Index = 15)]
+	public partial HRESULT BlockItem(IUnknown* punk);
 
-	public enum DESTLISTTYPE : uint
-	{
-		PINNED,
-		RECENT,
-		FREQUENT,
-	}
+	[GeneratedVTableFunction(Index = 16)]
+	public partial HRESULT ClearBlocked();
 
-	public enum GETDESTLISTFLAGS : uint
-	{
-		NONE,
-		EXCLUDE_UNNAMED_DESTINATIONS,
-	}
+	[GeneratedVTableFunction(Index = 17)]
+	public partial HRESULT TransferPoints(void* from, void* to);
+
+	[GeneratedVTableFunction(Index = 18)]
+	public partial HRESULT HasListEx(int* hasList, int* unknown);
+
+	[GeneratedVTableFunction(Index = 19)]
+	public partial HRESULT SetDataInternal(void* punk, float* usagePoints, FILETIME* lastAccessTime, int unknown);
+
+	[GeneratedVTableFunction(Index = 20)]
+	public partial HRESULT GetDataInternal(void* punk, int matchTarget, float* usagePoints, FILETIME* lastAccessTime, uint* unknownOut1, int* indexOrUnknownOut2);
+
+	[GeneratedVTableFunction(Index = 21)]
+	public partial HRESULT UpdateRenamedItems(void* oldItems, void* newItems, int* updatedCount);
+
+	[GeneratedVTableFunction(Index = 22)]
+	public partial HRESULT RemoveDeletedItems(void* deletedItems, int* removedCount);
+
+	[GeneratedVTableFunction(Index = 23)]
+	public partial HRESULT AddUsagePointsForFolders(void* folders, int action);
+
+	[GeneratedVTableFunction(Index = 24)]
+	public partial HRESULT UpdateCachedItems(void* items, int* updatedCount);
+
+	[GeneratedVTableFunction(Index = 25)]
+	public partial HRESULT TryAddUsagePointsIfExists(void* punk, int* updated);
+
+	[GeneratedVTableFunction(Index = 26)]
+	public partial HRESULT AddFileUsagePoints(void* punk, int createDestinationItem, uint actionOrFlags);
+
+	[GuidRVAGen.Guid("8DC24A1A-6314-4769-9D68-179786F4CED6")]
+	public static partial ref readonly Guid Guid { get; }
+}
+
+public unsafe partial struct IAutomaticDestinationListPropertyStore : IComIID
+{
+	[GeneratedVTableFunction(Index = 3)]
+	public partial HRESULT GetPropertyStorageForItem(IUnknown* item, IPropertyStore** propertyStore);
+
+	[GeneratedVTableFunction(Index = 4)]
+	public partial HRESULT SetPropertyStorageForItem(IUnknown* item, IPropertyStore* propertyStore);
+
+	[GeneratedVTableFunction(Index = 5)]
+	public partial HRESULT GetPropertyForItem(IUnknown* item, PCWSTR propertyName, PROPVARIANT* value);
+
+	[GeneratedVTableFunction(Index = 6)]
+	public partial HRESULT SetPropertyForItem(IUnknown* item, PCWSTR propertyName, PROPVARIANT* value);
+
+	[GeneratedVTableFunction(Index = 7)]
+	public partial HRESULT GetPropertyStorageForList(IPropertyStore** propertyStore);
+
+	[GeneratedVTableFunction(Index = 8)]
+	public partial HRESULT SetPropertyStorageForList(IPropertyStore* propertyStore);
+
+	[GeneratedVTableFunction(Index = 9)]
+	public partial HRESULT GetPropertyForList(PCWSTR propertyName, PROPVARIANT** value);
+
+	[GeneratedVTableFunction(Index = 10)]
+	public partial HRESULT SetPropertyForList(PCWSTR propertyName, PROPVARIANT* value);
+
+	[GuidRVAGen.Guid("8DC24A1A-6314-4769-9D68-179786F4CED6")]
+	public static partial ref readonly Guid Guid { get; }
+}
+
+public enum DESTLISTTYPE : uint
+{
+	PINNED,
+	RECENT,
+	FREQUENT,
+}
+
+public enum GETDESTLISTFLAGS : uint
+{
+	NONE,
+	EXCLUDE_UNNAMED_DESTINATIONS,
 }

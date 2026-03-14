@@ -1,11 +1,18 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
+using Windows.ApplicationModel.Activation;
 using Windows.Win32.Foundation;
+using Windows.Win32.System.Com;
 using Windows.Win32.System.Com.StructuredStorage;
 using Windows.Win32.System.Variant;
+using Windows.Win32.System.WinRT;
 using Windows.Win32.UI.WindowsAndMessaging;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Windows.Win32
 {
@@ -43,9 +50,62 @@ namespace Windows.Win32
 			return HRESULT.S_OK;
 		}
 
+		public static HRESULT InitVariantFromBuffer(void* pv, uint cb, PROPVARIANT* ppropvar)
+		{
+			HRESULT hr;
+			SAFEARRAY* arr;
+			void* data;
+
+			arr = SafeArrayCreateVector(VARENUM.VT_UI1, 0, cb);
+			if (arr is null)
+				return HRESULT.E_OUTOFMEMORY;
+
+			hr = SafeArrayAccessData(arr, &data);
+			if (FAILED(hr))
+			{
+				SafeArrayDestroy(arr);
+				return hr;
+			}
+
+			Buffer.MemoryCopy(data, pv, cb, cb);
+
+			hr = SafeArrayUnaccessData(arr);
+			if (FAILED(hr))
+			{
+				SafeArrayDestroy(arr);
+				return hr;
+			}
+
+			ppropvar->Anonymous.Anonymous.vt = VARENUM.VT_ARRAY | VARENUM.VT_UI1;
+			ppropvar->Anonymous.Anonymous.Anonymous.parray = arr;
+
+			return HRESULT.S_OK;
+		}
+
 		public static void PropVariantInit(PROPVARIANT* pvar)
 		{
 			NativeMemory.Fill(pvar, (uint)(sizeof(PROPVARIANT)), 0);
+		}
+
+		/// <inheritdoc cref="RoActivateInstance(HSTRING, IInspectable**)"/>
+		[SupportedOSPlatform("windows8.0")]
+		[OverloadResolutionPriority(1)]
+		public static HRESULT RoActivateInstance(string activatableClassId, IInspectable** instance)
+		{
+			WindowsDeleteStringSafeHandle activatableClassIdAsHSTRING = null!;
+
+			try
+			{
+				HRESULT hr = WindowsCreateString(activatableClassId, (uint)activatableClassId.Length, out activatableClassIdAsHSTRING);
+				if (hr.Failed) return hr;
+
+				return RoActivateInstance(activatableClassIdAsHSTRING, instance);
+			}
+			finally
+			{
+				if (!activatableClassIdAsHSTRING.IsInvalid)
+					activatableClassIdAsHSTRING.Close();
+			}
 		}
 
 		public static unsafe nint SetWindowLongPtr(HWND hWnd, WINDOW_LONG_PTR_INDEX nIndex, nint dwNewLong)
