@@ -166,7 +166,8 @@ namespace Files.App.Services
 				// TODO: Get this method return result
 				await zipFile.ExtractArchiveAsync(destinationFolderPath);
 
-				isSuccess = true;
+				if (!statusCard.CancellationToken.IsCancellationRequested)
+					isSuccess = true;
 			}
 			catch (Exception ex)
 			{
