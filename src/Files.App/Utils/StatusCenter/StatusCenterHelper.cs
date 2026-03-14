@@ -538,6 +538,191 @@ namespace Files.App.Utils.StatusCenter
 			}
 		}
 
+		public static StatusCenterItem AddCard_GitPush(
+			string destination,
+			string branchName,
+			ReturnResult returnStatus,
+			long itemsCount = 0,
+			long totalSize = 0)
+		{
+			if (returnStatus == ReturnResult.Cancelled)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_GitPushCanceled_Header",
+					"StatusCenter_GitPushCanceled_SubHeader",
+					ReturnResult.Cancelled,
+					FileOperationType.GitPush,
+					branchName.CreateEnumerable(),
+					destination.CreateEnumerable(),
+					false,
+					itemsCount,
+					totalSize);
+			}
+			else if (returnStatus == ReturnResult.InProgress)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_GitPushInProgress_Header",
+					"StatusCenter_GitPushInProgress_SubHeader",
+					ReturnResult.InProgress,
+					FileOperationType.GitPush,
+					branchName.CreateEnumerable(),
+					destination.CreateEnumerable(),
+					true,
+					itemsCount,
+					totalSize,
+					new CancellationTokenSource());
+			}
+			else if (returnStatus == ReturnResult.Success)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_GitPushComplete_Header",
+					"StatusCenter_GitPushComplete_SubHeader",
+					ReturnResult.Success,
+					FileOperationType.GitPush,
+					branchName.CreateEnumerable(),
+					destination.CreateEnumerable(),
+					false,
+					itemsCount,
+					totalSize);
+			}
+			else
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_GitPushFailed_Header",
+					"StatusCenter_GitPushFailed_SubHeader",
+					ReturnResult.Failed,
+					FileOperationType.GitPush,
+					branchName.CreateEnumerable(),
+					destination.CreateEnumerable(),
+					false,
+					itemsCount,
+					totalSize);
+			}
+		}
+
+		public static StatusCenterItem AddCard_GitFetch(
+			string remoteName,
+			ReturnResult returnStatus,
+			long itemsCount = 0,
+			long totalSize = 0)
+		{
+			if (returnStatus == ReturnResult.Cancelled)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_GitFetchCanceled_Header",
+					"StatusCenter_GitFetchCanceled_SubHeader",
+					ReturnResult.Cancelled,
+					FileOperationType.GitFetch,
+					remoteName.CreateEnumerable(),
+					null,
+					false,
+					itemsCount,
+					totalSize);
+			}
+			else if (returnStatus == ReturnResult.InProgress)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_GitFetchInProgress_Header",
+					"StatusCenter_GitFetchInProgress_SubHeader",
+					ReturnResult.InProgress,
+					FileOperationType.GitFetch,
+					remoteName.CreateEnumerable(),
+					null,
+					true,
+					itemsCount,
+					totalSize,
+					new CancellationTokenSource());
+			}
+			else if (returnStatus == ReturnResult.Success)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_GitFetchComplete_Header",
+					"StatusCenter_GitFetchComplete_SubHeader",
+					ReturnResult.Success,
+					FileOperationType.GitFetch,
+					remoteName.CreateEnumerable(),
+					null,
+					false,
+					itemsCount,
+					totalSize);
+			}
+			else
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_GitFetchFailed_Header",
+					"StatusCenter_GitFetchFailed_SubHeader",
+					ReturnResult.Failed,
+					FileOperationType.GitFetch,
+					remoteName.CreateEnumerable(),
+					null,
+					false,
+					itemsCount,
+					totalSize);
+			}
+		}
+
+		public static StatusCenterItem AddCard_GitPull(
+			string destination,
+			string branchName,
+			ReturnResult returnStatus,
+			long itemsCount = 0,
+			long totalSize = 0)
+		{
+			if (returnStatus == ReturnResult.Cancelled)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_GitPullCanceled_Header",
+					"StatusCenter_GitPullCanceled_SubHeader",
+					ReturnResult.Cancelled,
+					FileOperationType.GitPull,
+					branchName.CreateEnumerable(),
+					destination.CreateEnumerable(),
+					false,
+					itemsCount,
+					totalSize);
+			}
+			else if (returnStatus == ReturnResult.InProgress)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_GitPullInProgress_Header",
+					"StatusCenter_GitPullInProgress_SubHeader",
+					ReturnResult.InProgress,
+					FileOperationType.GitPull,
+					branchName.CreateEnumerable(),
+					destination.CreateEnumerable(),
+					true,
+					itemsCount,
+					totalSize,
+					new CancellationTokenSource());
+			}
+			else if (returnStatus == ReturnResult.Success)
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_GitPullComplete_Header",
+					"StatusCenter_GitPullComplete_SubHeader",
+					ReturnResult.Success,
+					FileOperationType.GitPull,
+					branchName.CreateEnumerable(),
+					destination.CreateEnumerable(),
+					false,
+					itemsCount,
+					totalSize);
+			}
+			else
+			{
+				return _statusCenterViewModel.AddItem(
+					"StatusCenter_GitPullFailed_Header",
+					"StatusCenter_GitPullFailed_SubHeader",
+					ReturnResult.Failed,
+					FileOperationType.GitPull,
+					branchName.CreateEnumerable(),
+					destination.CreateEnumerable(),
+					false,
+					itemsCount,
+					totalSize);
+			}
+		}
+
 		public static StatusCenterItem AddCard_InstallFont(
 			IEnumerable<string> source,
 			ReturnResult returnStatus,
@@ -752,6 +937,40 @@ namespace Files.App.Utils.StatusCenter
 
 						string subHeaderString = string.IsNullOrWhiteSpace(card.SubHeaderStringResource) ? string.Empty
 							: card.SubHeaderStringResource.GetLocalizedFormatResource(card.TotalItemsCount, sourcePath);
+						card.SubHeader = subHeaderString;
+						break;
+					}
+
+				case FileOperationType.GitPush:
+					{
+						string headerString = string.IsNullOrWhiteSpace(card.HeaderStringResource) ? string.Empty
+							: card.HeaderStringResource.GetLocalizedFormatResource(destinationDirName);
+						card.Header = headerString;
+
+						string subHeaderString = string.IsNullOrWhiteSpace(card.SubHeaderStringResource) ? string.Empty
+							: card.SubHeaderStringResource.GetLocalizedFormatResource(sourceFileName, destinationDirName);
+						card.SubHeader = subHeaderString;
+						break;
+					}
+				case FileOperationType.GitFetch:
+					{
+						string headerString = string.IsNullOrWhiteSpace(card.HeaderStringResource) ? string.Empty
+							: card.HeaderStringResource.GetLocalizedFormatResource(sourceFileName);
+						card.Header = headerString;
+
+						string subHeaderString = string.IsNullOrWhiteSpace(card.SubHeaderStringResource) ? string.Empty
+							: card.SubHeaderStringResource.GetLocalizedFormatResource(sourceFileName);
+						card.SubHeader = subHeaderString;
+						break;
+					}
+				case FileOperationType.GitPull:
+					{
+						string headerString = string.IsNullOrWhiteSpace(card.HeaderStringResource) ? string.Empty
+							: card.HeaderStringResource.GetLocalizedFormatResource(destinationDirName);
+						card.Header = headerString;
+
+						string subHeaderString = string.IsNullOrWhiteSpace(card.SubHeaderStringResource) ? string.Empty
+							: card.SubHeaderStringResource.GetLocalizedFormatResource(sourceFileName, destinationDirName);
 						card.SubHeader = subHeaderString;
 						break;
 					}

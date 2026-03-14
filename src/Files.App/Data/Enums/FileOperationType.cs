@@ -72,5 +72,20 @@ namespace Files.App.Data.Enums
 		/// A font has been installed
 		/// </summary>
 		InstallFont = 13,
+
+		/// <summary>
+		/// A git repo has been pushed
+		/// </summary>
+		GitPush = 14,
+
+		/// <summary>
+		/// A git repo has been fetched
+		/// </summary>
+		GitFetch = 15,
+
+		/// <summary>
+		/// A git repo has been pulled
+		/// </summary>
+		GitPull = 16,
 	}
 }
