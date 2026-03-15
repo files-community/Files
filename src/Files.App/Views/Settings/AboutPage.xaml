@@ -175,27 +175,25 @@
 				</wctcontrols:SettingsExpander.HeaderIcon>
 				<wctcontrols:SettingsExpander.ItemsHeader>
 					<Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
-						<ItemsRepeater
-							Margin="58,16,16,16"
-							ItemsSource="{x:Bind ViewModel.OpenSourceLibraries, Mode=OneWay}">
-						<ItemsRepeater.ItemTemplate>
-							<DataTemplate x:DataType="dataitems:OpenSourceLibraryItem">
-								<TextBlock Margin="4,0" VerticalAlignment="Center">
-									<Hyperlink NavigateUri="{x:Bind Url}" UnderlineStyle="None">
-										<Run Text="{x:Bind Name}" />
-									</Hyperlink>
-								</TextBlock>
-							</DataTemplate>
-						</ItemsRepeater.ItemTemplate>
-						<ItemsRepeater.Layout>
-							<UniformGridLayout
-								ItemsStretch="Fill"
-								MaximumRowsOrColumns="4"
-								MinColumnSpacing="8"
-								MinItemWidth="200"
-								MinRowSpacing="8"
-								Orientation="Horizontal" />
-						</ItemsRepeater.Layout>
+						<ItemsRepeater Margin="58,16,16,16" ItemsSource="{x:Bind ViewModel.OpenSourceLibraries, Mode=OneWay}">
+							<ItemsRepeater.ItemTemplate>
+								<DataTemplate x:DataType="dataitems:OpenSourceLibraryItem">
+									<TextBlock Margin="4,0" VerticalAlignment="Center">
+										<Hyperlink NavigateUri="{x:Bind Url}" UnderlineStyle="None">
+											<Run Text="{x:Bind Name}" />
+										</Hyperlink>
+									</TextBlock>
+								</DataTemplate>
+							</ItemsRepeater.ItemTemplate>
+							<ItemsRepeater.Layout>
+								<UniformGridLayout
+									ItemsStretch="Fill"
+									MaximumRowsOrColumns="4"
+									MinColumnSpacing="8"
+									MinItemWidth="200"
+									MinRowSpacing="8"
+									Orientation="Horizontal" />
+							</ItemsRepeater.Layout>
 						</ItemsRepeater>
 					</Grid>
 				</wctcontrols:SettingsExpander.ItemsHeader>
