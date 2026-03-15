@@ -173,9 +173,9 @@
 				<wctcontrols:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xE90F;" />
 				</wctcontrols:SettingsExpander.HeaderIcon>
-				<wctcontrols:SettingsExpander.Items>
-					<wctcontrols:SettingsCard>
-						<ItemsRepeater Margin="0,12,0,12" ItemsSource="{x:Bind ViewModel.OpenSourceLibraries, Mode=OneWay}">
+				<wctcontrols:SettingsExpander.ItemsHeader>
+					<Grid Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
+						<ItemsRepeater Margin="58,16,16,16" ItemsSource="{x:Bind ViewModel.OpenSourceLibraries, Mode=OneWay}">
 							<ItemsRepeater.ItemTemplate>
 								<DataTemplate x:DataType="dataitems:OpenSourceLibraryItem">
 									<TextBlock Margin="4,0" VerticalAlignment="Center">
@@ -195,8 +195,8 @@
 									Orientation="Horizontal" />
 							</ItemsRepeater.Layout>
 						</ItemsRepeater>
-					</wctcontrols:SettingsCard>
-				</wctcontrols:SettingsExpander.Items>
+					</Grid>
+				</wctcontrols:SettingsExpander.ItemsHeader>
 			</wctcontrols:SettingsExpander>
 
 			<!--  Open GitHub repo  -->
