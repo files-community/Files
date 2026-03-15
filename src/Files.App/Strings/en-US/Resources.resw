@@ -1697,6 +1697,9 @@
   <data name="EditTags" xml:space="preserve">
     <value>Edit tags</value>
   </data>
+  <data name="RemoveAllTags" xml:space="preserve">
+    <value>Remove all tags</value>
+  </data>
   <data name="PropertyPartOfSet" xml:space="preserve">
     <value>Part of set</value>
   </data>

@@ -13,9 +13,14 @@
     <ItemGroup>
         <PackageReference Include="Appium.WebDriver" />
         <PackageReference Include="Axe.Windows" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
         <PackageReference Include="MSTest.TestAdapter" />
         <PackageReference Include="MSTest.TestFramework" />
         <PackageReference Include="Microsoft.Testing.Extensions.TrxReport" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\Files.App\Files.App.csproj" />
     </ItemGroup>
 
 </Project>

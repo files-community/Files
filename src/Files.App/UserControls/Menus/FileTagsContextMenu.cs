@@ -5,14 +5,15 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media;
-using static Files.App.Helpers.MenuFlyoutHelper;
+using Files.App.ViewModels.UserControls.Menus;
 
 namespace Files.App.UserControls.Menus
 {
 	public sealed partial class FileTagsContextMenu : MenuFlyout
 	{
-		private IFileTagsSettingsService FileTagsSettingsService { get; } =
-			Ioc.Default.GetService<IFileTagsSettingsService>();
+		private readonly MenuFlyoutItem removeAllTagsMenuItem;
+
+		private readonly FileTagsContextMenuViewModel viewModel;
 
 		/// <summary>
 		/// Event fired when an item's tags are updated (added/removed).
@@ -20,86 +21,75 @@ namespace Files.App.UserControls.Menus
 		/// </summary>
 		public event EventHandler? TagsChanged;
 
-		public IEnumerable<ListedItem> SelectedItems { get; }
+		public IEnumerable<ListedItem> SelectedItems
+			=> viewModel.SelectedItems;
 
 		public FileTagsContextMenu(IEnumerable<ListedItem> selectedItems)
 		{
-			SetValue(MenuFlyoutHelper.ItemsSourceProperty, FileTagsSettingsService.FileTagList
-				.Select(tag => new MenuFlyoutFactoryItemViewModel(() =>
-				{
-					var tagItem = new ToggleMenuFlyoutItem()
-					{
-						Text = tag.Name,
-						Tag = tag
-					};
-					tagItem.Icon = new PathIcon()
-					{
-						Data = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), (string)Application.Current.Resources["App.Theme.PathIcon.FilledTag"]),
-						Foreground = new SolidColorBrush(ColorHelpers.FromHex(tag.Color))
-					};
-					tagItem.Click += TagItem_Click;
-					return tagItem;
-				})));
+			viewModel = new(
+				selectedItems,
+				Ioc.Default.GetRequiredService<IFileTagsSettingsService>());
+			viewModel.TagsChanged += ViewModel_TagsChanged;
 
-			SelectedItems = selectedItems;
+			removeAllTagsMenuItem = new MenuFlyoutItem()
+			{
+				Text = Strings.RemoveAllTags.GetLocalizedResource(),
+				Command = viewModel.RemoveAllTagsCommand,
+				Icon = new PathIcon()
+				{
+					Data = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), (string)Application.Current.Resources["App.Theme.PathIcon.ActionDelete"]),
+				}
+			};
+			AutomationProperties.SetName(removeAllTagsMenuItem, Strings.RemoveAllTags.GetLocalizedResource());
+
+			Items.Add(removeAllTagsMenuItem);
+			Items.Add(new MenuFlyoutSeparator());
+
+			foreach (var tag in viewModel.AvailableTags)
+			{
+				Items.Add(CreateTagItem(tag));
+			}
 
 			Opening += Item_Opening;
+		}
+
+		private ToggleMenuFlyoutItem CreateTagItem(TagViewModel tag)
+		{
+			var tagItem = new ToggleMenuFlyoutItem()
+			{
+				Text = tag.Name,
+				Tag = tag
+			};
+
+			tagItem.Icon = new PathIcon()
+			{
+				Data = (Geometry)XamlBindingHelper.ConvertValue(typeof(Geometry), (string)Application.Current.Resources["App.Theme.PathIcon.FilledTag"]),
+				Foreground = new SolidColorBrush(ColorHelpers.FromHex(tag.Color))
+			};
+			AutomationProperties.SetName(tagItem, tag.Name);
+			tagItem.Click += TagItem_Click;
+
+			return tagItem;
 		}
 
 		private void TagItem_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
 		{
 			var tagItem = (ToggleMenuFlyoutItem)sender;
-			if (tagItem.IsChecked)
-			{
-				AddFileTag(SelectedItems, (TagViewModel)tagItem.Tag);
-			}
-			else
-			{
-				RemoveFileTag(SelectedItems, (TagViewModel)tagItem.Tag);
-			}
+			viewModel.UpdateTagSelection((TagViewModel)tagItem.Tag, tagItem.IsChecked);
+			removeAllTagsMenuItem.IsEnabled = viewModel.CanRemoveAllTags;
 		}
 
 		private void Item_Opening(object? sender, object e)
 		{
-			Opening -= Item_Opening;
+			removeAllTagsMenuItem.IsEnabled = viewModel.CanRemoveAllTags;
 
-			if (SelectedItems is null)
-				return;
-
-			// go through each tag and find the common one for all files
-			var commonFileTags = SelectedItems
-				.Select(x => x?.FileTags ?? Enumerable.Empty<string>())
-				.DefaultIfEmpty(Enumerable.Empty<string>())
-				.Aggregate((x, y) => x.Intersect(y))
-				.Select(x => Items.FirstOrDefault(y => x == ((TagViewModel)y.Tag)?.Uid));
-
-			commonFileTags.OfType<ToggleMenuFlyoutItem>().ForEach(x => x.IsChecked = true);
+			Items
+				.OfType<ToggleMenuFlyoutItem>()
+				.ForEach(tagItem => tagItem.IsChecked = viewModel.IsTagAppliedToAllSelectedItems((TagViewModel)tagItem.Tag));
 		}
 
-		private void RemoveFileTag(IEnumerable<ListedItem> selectedListedItems, TagViewModel removed)
+		private void ViewModel_TagsChanged(object? sender, EventArgs e)
 		{
-			foreach (var selectedItem in selectedListedItems)
-			{
-				var existingTags = selectedItem.FileTags ?? [];
-				if (existingTags.Contains(removed.Uid))
-				{
-					var tagList = existingTags.Except(new[] { removed.Uid }).ToArray();
-					selectedItem.FileTags = tagList;
-				}
-			}
-			TagsChanged?.Invoke(this, EventArgs.Empty);
-		}
-
-		private void AddFileTag(IEnumerable<ListedItem> selectedListedItems, TagViewModel added)
-		{
-			foreach (var selectedItem in selectedListedItems)
-			{
-				var existingTags = selectedItem.FileTags ?? [];
-				if (!existingTags.Contains(added.Uid))
-				{
-					selectedItem.FileTags = [.. existingTags, added.Uid];
-				}
-			}
 			TagsChanged?.Invoke(this, EventArgs.Empty);
 		}
 	}
