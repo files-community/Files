@@ -174,7 +174,10 @@
 					<FontIcon Glyph="&#xE90F;" />
 				</wctcontrols:SettingsExpander.HeaderIcon>
 				<wctcontrols:SettingsExpander.ItemsHeader>
-					<ItemsRepeater Margin="58,16,16,16" ItemsSource="{x:Bind ViewModel.OpenSourceLibraries, Mode=OneWay}">
+					<ItemsRepeater
+						Margin="58,16,16,16"
+						Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+						ItemsSource="{x:Bind ViewModel.OpenSourceLibraries, Mode=OneWay}">
 						<ItemsRepeater.ItemTemplate>
 							<DataTemplate x:DataType="dataitems:OpenSourceLibraryItem">
 								<TextBlock Margin="4,0" VerticalAlignment="Center">
