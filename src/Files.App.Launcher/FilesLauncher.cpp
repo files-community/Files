@@ -348,6 +348,7 @@ bool OpenInExistingShellWindow(const TCHAR* folderPath)
 	if (strifind(openDirectory, L"::{") == 0)
 		openDirectory = L"shell:" + openDirectory;
 
+	// Exclude this shell address so that it opens in File Explorer
 	if (strifind(openDirectory, godModeClsid) != std::wstring::npos)
 		mustOpenInExplorer = true;
 
