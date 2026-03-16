@@ -79,7 +79,7 @@
 				<!--  New Item  -->
 				<AppBarButton
 					x:Name="NewEmptySpaceAppBarButton"
-					AccessKey="W"
+					AccessKey="{x:Bind Commands.Groups.NewItem.AccessKey}"
 					AccessKeyInvoked="AppBarButton_AccessKeyInvoked"
 					AutomationProperties.AutomationId="InnerNavigationToolbarNewButton"
 					IsEnabled="{x:Bind Commands.AddItem.IsExecutable, Mode=OneWay, FallbackValue=False}"
@@ -254,7 +254,7 @@
 					x:Name="ExtractButton"
 					Width="Auto"
 					MinWidth="40"
-					AccessKey="Z"
+					AccessKey="{x:Bind Commands.Groups.Extract.AccessKey}"
 					AccessKeyInvoked="AppBarButton_AccessKeyInvoked"
 					IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
 					Label="{x:Bind Commands.Groups.Extract.DisplayName}"
@@ -311,6 +311,7 @@
 					x:Name="SetAsBackgroundButton"
 					Width="Auto"
 					MinWidth="40"
+					AccessKey="{x:Bind Commands.Groups.SetAs.AccessKey}"
 					Label="{x:Bind Commands.Groups.SetAs.DisplayName}"
 					LabelPosition="Default"
 					Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"

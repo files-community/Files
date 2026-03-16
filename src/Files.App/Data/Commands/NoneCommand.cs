@@ -59,6 +59,10 @@ namespace Files.App.Data.Commands
 			=> null;
 
 		/// <inheritdoc/>
+		public string AccessKey
+			=> string.Empty;
+
+		/// <inheritdoc/>
 		public HotKeyCollection HotKeys
 		{
 			get => HotKeyCollection.Empty;

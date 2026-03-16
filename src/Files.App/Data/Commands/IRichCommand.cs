@@ -70,6 +70,11 @@ namespace Files.App.Data.Commands
 		string? HotKeyText { get; }
 
 		/// <summary>
+		/// Gets the access key hint for menus.
+		/// </summary>
+		string AccessKey { get; }
+
+		/// <summary>
 		/// Gets the hotkey that is assigned to this command.
 		/// </summary>
 		HotKeyCollection HotKeys { get; set; }

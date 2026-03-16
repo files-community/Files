@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.CreateFolderDescription.GetLocalizedResource();
 
+		public string AccessKey
+			=> "F";
+
 		public HotKey HotKey
 			=> new(Keys.N, KeyModifiers.CtrlShift);
 

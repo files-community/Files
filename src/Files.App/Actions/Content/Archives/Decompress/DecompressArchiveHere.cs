@@ -12,6 +12,9 @@ namespace Files.App.Actions
 		public override string Description
 			=> Strings.DecompressArchiveHereDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
+		public string AccessKey
+			=> "H";
+
 		public DecompressArchiveHereAction()
 		{
 		}

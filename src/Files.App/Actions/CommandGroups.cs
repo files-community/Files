@@ -11,6 +11,7 @@ public abstract class CommandGroup
 {
 	public abstract string DisplayName { get; }
 	public abstract RichGlyph Glyph { get; }
+	public abstract string AccessKey { get; }
 	public abstract IReadOnlyList<CommandCodes> Commands { get; }
 
 	public object? Icon
@@ -31,6 +32,9 @@ internal sealed class ExtractCommandGroup : CommandGroup
 	public override RichGlyph Glyph
 		=> new(themedIconStyle: "App.ThemedIcons.Zip");
 
+	public override string AccessKey
+		=> "Z";
+
 	public override IReadOnlyList<CommandCodes> Commands =>
 	[
 		CommandCodes.DecompressArchive,
@@ -48,6 +52,9 @@ internal sealed class SetAsCommandGroup : CommandGroup
 	public override RichGlyph Glyph
 		=> new(themedIconStyle: "App.ThemedIcons.SetWallpaper.16");
 
+	public override string AccessKey
+		=> "B";
+
 	public override IReadOnlyList<CommandCodes> Commands =>
 	[
 		CommandCodes.SetAsWallpaperBackground,
@@ -63,6 +70,9 @@ internal sealed class NewItemCommandGroup : CommandGroup
 
 	public override RichGlyph Glyph
 		=> new(themedIconStyle: "App.ThemedIcons.New.Item");
+
+	public override string AccessKey
+		=> "W";
 
 	public override IReadOnlyList<CommandCodes> Commands =>
 	[

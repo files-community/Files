@@ -18,6 +18,9 @@ namespace Files.App.Actions
 		public override string Description
 			=> Strings.DecompressArchiveToChildFolderDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
+		public string AccessKey
+			=> "C";
+
 		public DecompressArchiveToChildFolderAction()
 		{
 		}

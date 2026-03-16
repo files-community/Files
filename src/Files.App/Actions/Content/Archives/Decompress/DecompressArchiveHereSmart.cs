@@ -12,6 +12,9 @@ namespace Files.App.Actions
 		public override string Description
 			=> Strings.DecompressArchiveHereSmartDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
+		public string AccessKey
+			=> "S";
+
 		public override HotKey HotKey
 			=> new(Keys.E, KeyModifiers.CtrlShift);
 

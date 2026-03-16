@@ -109,10 +109,13 @@ namespace Files.App.UserControls
 		}
 
 		private IEnumerable<MenuFlyoutItem> CreateActionGroupMenuItems(CommandGroup group)
-			=> group.Commands
+		{
+			return group.Commands
 				.Select(code => Commands[code])
 				.Where(command => command.Code != CommandCodes.None)
-				.Select(CreateGroupMenuItem);
+				.Select(CreateGroupMenuItem)
+				.ToList();
+		}
 
 		private static MenuFlyoutItem CreateGroupMenuItem(IRichCommand command)
 		{
@@ -122,6 +125,10 @@ namespace Files.App.UserControls
 				Command = command,
 				Visibility = command.IsExecutable ? Visibility.Visible : Visibility.Collapsed,
 			};
+
+			if (!string.IsNullOrWhiteSpace(command.AccessKey))
+				item.AccessKey = command.AccessKey;
+
 			if (command.HotKeyText is string hotKey)
 				item.KeyboardAcceleratorTextOverride = hotKey;
 			var icon = command.Glyph.ToFontIcon();

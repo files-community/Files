@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public override string Description
 			=> Strings.SetAsAppBackgroundDescription.GetLocalizedResource();
 
+		public string AccessKey
+			=> "A";
+
 		public override RichGlyph Glyph
 			=> new("\uE91B");
 

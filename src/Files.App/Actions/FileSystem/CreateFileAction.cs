@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.NewFile.GetLocalizedResource();
 
+		public string AccessKey
+			=> "I";
+
 		public RichGlyph Glyph
 			=> new(baseGlyph: "\uE7C3");
 

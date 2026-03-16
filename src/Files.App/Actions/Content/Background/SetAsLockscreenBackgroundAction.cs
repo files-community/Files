@@ -12,6 +12,9 @@ namespace Files.App.Actions
 		public override string Description
 			=> Strings.SetAsLockscreenBackgroundDescription.GetLocalizedResource();
 
+		public string AccessKey
+			=> "L";
+
 		public override RichGlyph Glyph
 			=> new("\uEE3F");
 
