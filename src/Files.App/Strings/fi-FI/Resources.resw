@@ -2180,6 +2180,21 @@
   <data name="DoNotSplit" xml:space="preserve">
     <value>Älä jaa</value>
   </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Automaattinen</value>
+  </data>
+  <data name="DictionarySize" xml:space="preserve">
+    <value>Sanaston koko</value>
+  </data>
+  <data name="WordSize" xml:space="preserve">
+    <value>Sanan koko</value>
+  </data>
+  <data name="EstimatedMemoryUsage" xml:space="preserve">
+    <value>Arvioitu muistin käyttö: {0}</value>
+  </data>
+  <data name="AvailableMemory" xml:space="preserve">
+    <value>Muistia käytettävissä: {0}</value>
+  </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
   </data>
