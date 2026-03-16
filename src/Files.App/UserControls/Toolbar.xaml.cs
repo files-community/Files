@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI;
 using Files.App.Actions;
+using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -131,10 +132,27 @@ namespace Files.App.UserControls
 
 			if (command.HotKeyText is string hotKey)
 				item.KeyboardAcceleratorTextOverride = hotKey;
+
+			if (GetToolbarMenuItemAutomationId(command.Code) is string automationId)
+				AutomationProperties.SetAutomationId(item, automationId);
+
 			var icon = command.Glyph.ToFontIcon();
 			if (icon is not null)
 				item.Icon = icon;
 			return item;
+		}
+
+		private static string? GetToolbarMenuItemAutomationId(CommandCodes code)
+		{
+			// These flyout items are generated at runtime, but the interaction tests still
+			// locate them by the legacy toolbar automation IDs from the old static XAML.
+			return code switch
+			{
+				CommandCodes.CreateFolder => "InnerNavigationToolbarNewFolderButton",
+				CommandCodes.CreateFile => "File",
+				CommandCodes.CreateShortcutFromDialog => "InnerNavigationToolbarNewShortcutButton",
+				_ => null,
+			};
 		}
 
 		private void SortGroup_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)
