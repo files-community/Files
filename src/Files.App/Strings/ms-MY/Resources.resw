@@ -268,10 +268,10 @@
     <value>Buka</value>
   </data>
   <data name="OpenInNewTab" xml:space="preserve">
-    <value>Buka dalam tab baru</value>
+    <value>Buka dalam tab baharu</value>
   </data>
   <data name="OpenInNewWindow" xml:space="preserve">
-    <value>Buka dalam tetingkap baru</value>
+    <value>Buka dalam tetingkap baharu</value>
   </data>
   <data name="Share" xml:space="preserve">
     <value>Kongsi</value>
@@ -283,7 +283,7 @@
     <value>Padam</value>
   </data>
   <data name="PinFolderToSidebar" xml:space="preserve">
-    <value>Pin ke Sisi Bar</value>
+    <value>Semat ke Bar Sisi</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
     <value>Selamat datang ke Files!</value>
@@ -543,7 +543,7 @@
     <value>Clone to {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>Buat pintasan</value>
+    <value>Cipta pintasan</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>Buka lokasi fail</value>
@@ -624,7 +624,7 @@
     <value>Nama item terlalu panjang</value>
   </data>
   <data name="ShowMoreOptions" xml:space="preserve">
-    <value>Tunjukkan lebih banyak pilihan</value>
+    <value>Tunjuk lebih banyak pilihan</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
     <value>Aplikasi perlu dimulakan semula untuk menerapkan tetapan ini, adakah anda mahu memulakan semula aplikasi?</value>
@@ -1203,7 +1203,7 @@
     <value>Map network drive</value>
   </data>
   <data name="Pinned" xml:space="preserve">
-    <value>Disematkan</value>
+    <value>Disemat</value>
   </data>
   <data name="SidebarLibraries" xml:space="preserve">
     <value>Pusaka</value>
@@ -1320,7 +1320,7 @@
     <value>Generate new name</value>
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
-    <value>Create folder with selection</value>
+    <value>Cipta folder dengan pilihan</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Type:</value>
@@ -2079,7 +2079,7 @@
     <value>Membuka item</value>
   </data>
   <data name="Compress" xml:space="preserve">
-    <value>Compress</value>
+    <value>Mampatkan</value>
   </data>
   <data name="FlattenFolderDescription" xml:space="preserve">
     <value>Move all contents from subfolders into the selected location</value>
@@ -2179,6 +2179,21 @@
   </data>
   <data name="DoNotSplit" xml:space="preserve">
     <value>Do not split</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="DictionarySize" xml:space="preserve">
+    <value>Dictionary size</value>
+  </data>
+  <data name="WordSize" xml:space="preserve">
+    <value>Word size</value>
+  </data>
+  <data name="EstimatedMemoryUsage" xml:space="preserve">
+    <value>Estimated memory usage: {0}</value>
+  </data>
+  <data name="AvailableMemory" xml:space="preserve">
+    <value>Available memory: {0}</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>

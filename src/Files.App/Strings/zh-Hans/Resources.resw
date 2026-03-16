@@ -2180,6 +2180,21 @@
   <data name="DoNotSplit" xml:space="preserve">
     <value>不分卷</value>
   </data>
+  <data name="Auto" xml:space="preserve">
+    <value>自动</value>
+  </data>
+  <data name="DictionarySize" xml:space="preserve">
+    <value>字典大小</value>
+  </data>
+  <data name="WordSize" xml:space="preserve">
+    <value>字号</value>
+  </data>
+  <data name="EstimatedMemoryUsage" xml:space="preserve">
+    <value>估计内存使用率: {0}</value>
+  </data>
+  <data name="AvailableMemory" xml:space="preserve">
+    <value>可用内存: {0}</value>
+  </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
   </data>

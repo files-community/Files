@@ -2180,6 +2180,21 @@
   <data name="DoNotSplit" xml:space="preserve">
     <value>Nu despărțiți</value>
   </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Automat</value>
+  </data>
+  <data name="DictionarySize" xml:space="preserve">
+    <value>Dimensiune dicționar</value>
+  </data>
+  <data name="WordSize" xml:space="preserve">
+    <value>Dimensiune cuvânt</value>
+  </data>
+  <data name="EstimatedMemoryUsage" xml:space="preserve">
+    <value>Utilizare estimată a memoriei: {0}</value>
+  </data>
+  <data name="AvailableMemory" xml:space="preserve">
+    <value>Memorie disponibilă: {0}</value>
+  </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
   </data>

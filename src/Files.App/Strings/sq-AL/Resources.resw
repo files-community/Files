@@ -124,13 +124,13 @@
     <value>Kopjo vendndodhjen</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Copy item path</value>
+    <value>Kopjo shtegun e elementit</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Kopje vendndodhjen me thonjëza</value>
   </data>
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
-    <value>Copy selected item path with quotes</value>
+    <value>Kopjo shtegun e elementit të zgjedhur me thonjëza</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Shfleto</value>
@@ -166,7 +166,7 @@
     <value>Anashkalo</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>Zgjidh të gjitha</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Përkëmbe përzgjedhjen</value>
@@ -217,7 +217,7 @@
     <value>Shfaq skedarët dhe dosjet e fshehura</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Shfaq skedarët me pikë</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Pamja e jashtme</value>
@@ -238,7 +238,7 @@
     <value>Hap një ose disa faqe specifike</value>
   </data>
   <data name="Desktop" xml:space="preserve">
-    <value>Desktop</value>
+    <value>Desktopi</value>
   </data>
   <data name="Documents" xml:space="preserve">
     <value>Documentat</value>
@@ -256,7 +256,7 @@
     <value>Ngjit</value>
   </data>
   <data name="PasteShortcut" xml:space="preserve">
-    <value>Paste shortcut</value>
+    <value>Ngjit shkurtoren</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Label" xml:space="preserve">
     <value>i/e Re</value>
@@ -283,79 +283,79 @@
     <value>Fshije</value>
   </data>
   <data name="PinFolderToSidebar" xml:space="preserve">
-    <value>Pin to Sidebar</value>
+    <value>Fiksoje te shiriti anësor</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Welcome to Files!</value>
+    <value>Mirë se vini në Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Grant permission</value>
+    <value>Jep lejen</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
+    <value>Për të filluar, duhet të na jepni leje që të shfaqim skedarët tuaj. Kjo do të hapë një faqe të Cilësimeve ku mund ta jepni këtë leje. Pasi ta keni përfunduar këtë hap, do t'ju duhet ta rihapni aplikacionin.</value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Display</value>
+    <value>Ekrani</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>Shkruani emrin e një elementi</value>
   </data>
   <data name="CreateNewItemTitle" xml:space="preserve">
-    <value>Create new {0}</value>
+    <value>Krijo {0} të ri</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>Light</value>
+    <value>E çelët</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>Dark</value>
+    <value>E errët</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
-    <value>Use system setting</value>
+    <value>Përdor cilësimin e sistemit</value>
   </data>
   <data name="Application" xml:space="preserve">
-    <value>Application</value>
+    <value>Aplikacion</value>
   </data>
   <data name="SystemTimeStyle" xml:space="preserve">
-    <value>System</value>
+    <value>Sistemi</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>New folder</value>
+    <value>Dosje e re</value>
   </data>
   <data name="NewFile" xml:space="preserve">
-    <value>New file</value>
+    <value>Skedar i ri</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
-    <value>This folder is empty.</value>
+    <value>Kjo dosje është bosh.</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>Back</value>
+    <value>Mbrapa</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>Forward</value>
+    <value>Përpara</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>Up</value>
+    <value>Lart</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Rifresko</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
-    <value>An item with this name already exists in this directory.</value>
+    <value>Një element me këtë emër ekziston tashmë në këtë drejtori.</value>
   </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Replace existing item</value>
+    <value>Zëvendëso elementin ekzistues</value>
   </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
-    <value>Item already exists</value>
+    <value>Elementi ekziston tashmë</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen background</value>
+    <value>Vendose si sfond të ekranit të kyçjes</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>Vendose si sfond të aplikacionit</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
-    <value>We weren't able to delete this item</value>
+    <value>Nuk arritëm ta fshinim këtë element</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Please insert the necessary drive to access this item.</value>
@@ -1824,7 +1824,7 @@
     <value>On this program start</value>
   </data>
   <data name="System" xml:space="preserve">
-    <value>System</value>
+    <value>Sistemi</value>
   </data>
   <data name="CompatibilitySystemEnhanced" xml:space="preserve">
     <value>System (Enhanced)</value>
@@ -2179,6 +2179,21 @@
   </data>
   <data name="DoNotSplit" xml:space="preserve">
     <value>Do not split</value>
+  </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Automatik</value>
+  </data>
+  <data name="DictionarySize" xml:space="preserve">
+    <value>Madhësia e fjalorit</value>
+  </data>
+  <data name="WordSize" xml:space="preserve">
+    <value>Madhësia e fjalës</value>
+  </data>
+  <data name="EstimatedMemoryUsage" xml:space="preserve">
+    <value>Përdorimi i vlerësuar i memories: {0}</value>
+  </data>
+  <data name="AvailableMemory" xml:space="preserve">
+    <value>Memoria e disponueshme: {0}</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2846,7 +2861,7 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Up" xml:space="preserve">
-    <value>Up</value>
+    <value>Lart</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.Home" xml:space="preserve">

@@ -130,7 +130,7 @@
     <value>Kopijuoti kelio adresą su kabutėmis</value>
   </data>
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
-    <value>Copy selected item path with quotes</value>
+    <value>Kopijuoti pasirinkto elemento kelią su kabutėmis</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Naršyti</value>
@@ -166,13 +166,13 @@
     <value>Praleisti</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>Pažymėti viską</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
-    <value>Invert selection</value>
+    <value>Invertuoti pasirinkimą</value>
   </data>
   <data name="ClearSelection" xml:space="preserve">
-    <value>Clear selection</value>
+    <value>Išvalyti pasirinkimą</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modifikuota:</value>
@@ -184,7 +184,7 @@
     <value>Išvalyti visus elementus</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path to navigate to or type "&gt;" to open the command palette</value>
+    <value>Įveskite kelią, kuriuo norite pereiti, arba įrašykite "&gt;", kad atvertumėte komandų paletę</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>Ieškoti</value>
@@ -193,7 +193,7 @@
     <value>Čia bus rodomi failai, kuriuos anksčiau atidarėte</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Remove this item</value>
+    <value>Pašalinti šį elementą</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>„GitHub“ saugykla</value>
@@ -214,10 +214,10 @@
     <value>Rodyti žinomų failų plėtinius</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenItems" xml:space="preserve">
-    <value>Show hidden files and folders</value>
+    <value>Rodyti paslėptus failus ir aplankus</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Rodyti taškinius failus</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Išvaizda</value>
@@ -229,13 +229,13 @@
     <value>Išplėstinė</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Continue where you left off</value>
+    <value>Tęsti nuo ten, kur baigėte</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
-    <value>Open a new tab</value>
+    <value>Atidaryti naują skirtuką</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Open a specific page or pages</value>
+    <value>Atidaryti konkretų puslapį arba puslapius</value>
   </data>
   <data name="Desktop" xml:space="preserve">
     <value>Darbalaukis</value>
@@ -250,7 +250,7 @@
     <value>Pavadinimas/-ą</value>
   </data>
   <data name="Ascending" xml:space="preserve">
-    <value>Ascending</value>
+    <value>Didėjančia tvarka</value>
   </data>
   <data name="Paste" xml:space="preserve">
     <value>Įklijuoti</value>
@@ -274,31 +274,31 @@
     <value>Atidaryti naujame lange</value>
   </data>
   <data name="Share" xml:space="preserve">
-    <value>Share</value>
+    <value>Bendrinti</value>
   </data>
   <data name="Cut" xml:space="preserve">
     <value>Iškirpti</value>
   </data>
   <data name="Delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>Ištrinti</value>
   </data>
   <data name="PinFolderToSidebar" xml:space="preserve">
-    <value>Pin to Sidebar</value>
+    <value>Prisegti prie šoninės juostos</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Welcome to Files!</value>
+    <value>Sveiki atvykę į Files!</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Grant permission</value>
+    <value>Suteikti leidimą</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once you've completed this step. </value>
+    <value>Norėdami pradėti, turėsite suteikti mums leidimą rodyti jūsų failus. Bus atidarytas nustatymų puslapis, kuriame galėsite suteikti šį leidimą. Atlikę šį veiksmą turėsite iš naujo atidaryti programą.</value>
   </data>
   <data name="Display" xml:space="preserve">
-    <value>Display</value>
+    <value>Ekranas</value>
   </data>
   <data name="EnterAnItemName" xml:space="preserve">
-    <value>Enter an item name</value>
+    <value>Įveskite elemento pavadinimą</value>
   </data>
   <data name="CreateNewItemTitle" xml:space="preserve">
     <value>Sukurti naują – „{0}“</value>
@@ -310,7 +310,7 @@
     <value>Tamsus</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
-    <value>Use system setting</value>
+    <value>Naudoti sistemos nustatymą</value>
   </data>
   <data name="Application" xml:space="preserve">
     <value>Paraiška</value>
@@ -319,13 +319,13 @@
     <value>Sistema</value>
   </data>
   <data name="NewFolder" xml:space="preserve">
-    <value>New folder</value>
+    <value>Naujas aplankas</value>
   </data>
   <data name="NewFile" xml:space="preserve">
     <value>Naujas failas</value>
   </data>
   <data name="EmptyFolder.Text" xml:space="preserve">
-    <value>This folder is empty.</value>
+    <value>Šis aplankas tuščias.</value>
   </data>
   <data name="Back" xml:space="preserve">
     <value>Back (Alt+Left Arrow)</value>
@@ -337,25 +337,25 @@
     <value>Up (Alt+Up Arrow)</value>
   </data>
   <data name="Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Atnaujinti</value>
   </data>
   <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
-    <value>An item with this name already exists in this directory.</value>
+    <value>Elementas tokiu pavadinimu šiame kataloge jau yra.</value>
   </data>
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
-    <value>Replace existing item</value>
+    <value>Pakeisti esamą elementą</value>
   </data>
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
-    <value>Item already exists</value>
+    <value>Elementas jau yra</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Set as lockscreen background</value>
+    <value>Nustatyti kaip užrakinimo ekrano foną</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Set as app background</value>
+    <value>Nustatyti kaip programos foną</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
-    <value>We weren't able to delete this item</value>
+    <value>Nepavyko ištrinti šio elemento</value>
   </data>
   <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
     <value>Please insert the necessary drive to access this item.</value>
@@ -2180,6 +2180,21 @@
   <data name="DoNotSplit" xml:space="preserve">
     <value>Do not split</value>
   </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Automatinis</value>
+  </data>
+  <data name="DictionarySize" xml:space="preserve">
+    <value>Žodyno dydis</value>
+  </data>
+  <data name="WordSize" xml:space="preserve">
+    <value>Žodžio dydis</value>
+  </data>
+  <data name="EstimatedMemoryUsage" xml:space="preserve">
+    <value>Numatomas atminties naudojimas: {0}</value>
+  </data>
+  <data name="AvailableMemory" xml:space="preserve">
+    <value>Prieinama atmintis: {0}</value>
+  </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
   </data>
@@ -2727,7 +2742,7 @@
     <value>Toggle group sort direction</value>
   </data>
   <data name="NewTabDescription" xml:space="preserve">
-    <value>Open a new tab</value>
+    <value>Atidaryti naują skirtuką</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
     <value>Navigate backward</value>
