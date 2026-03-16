@@ -21,6 +21,7 @@ namespace Files.App.Actions
 
 		public bool IsExecutable =>
 			context.SelectedItem is not null &&
+			context.PageType != ContentPageTypes.RecycleBin &&
 			FileExtensionHelpers.IsPowerShellFile(context.SelectedItem.FileExtension);
 
 		public RunWithPowershellAction()
