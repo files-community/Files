@@ -2180,6 +2180,21 @@
   <data name="DoNotSplit" xml:space="preserve">
     <value>Không chia nhỏ</value>
   </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Tự động</value>
+  </data>
+  <data name="DictionarySize" xml:space="preserve">
+    <value>Kích cỡ từ điển</value>
+  </data>
+  <data name="WordSize" xml:space="preserve">
+    <value>Kích cỡ từ</value>
+  </data>
+  <data name="EstimatedMemoryUsage" xml:space="preserve">
+    <value>Mức sử dụng bộ nhớ ước tính: {0}</value>
+  </data>
+  <data name="AvailableMemory" xml:space="preserve">
+    <value>Bộ nhớ khả dụng: {0}</value>
+  </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
   </data>
@@ -4351,7 +4366,7 @@
     <value>New {0}</value>
   </data>
   <data name="EnableSmoothScrolling" xml:space="preserve">
-    <value>Bật làm mịn chuyển động cuộn trang</value>
+    <value>Làm mịn chuyển động cuộn trang</value>
   </data>
   <data name="Scrolling" xml:space="preserve">
     <value>Cuộn trang</value>
