@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Files.App.ViewModels.Properties;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Storage;
 
@@ -18,7 +19,7 @@ namespace Files.App.Utils
 		ObservableCollection<FileProperty> FileDetails { get; set; }
 		string FileExtension { get; set; }
 		ulong? FileFRN { get; set; }
-		BitmapImage FileImage { get; set; }
+		ImageSource FileImage { get; set; }
 		string FileSize { get; set; }
 		long FileSizeBytes { get; set; }
 		string FileSizeDisplay { get; }
