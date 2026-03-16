@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using CommunityToolkit.WinUI;
+using Files.App.Actions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -34,53 +35,99 @@ namespace Files.App.UserControls
 
 		private void NewEmptySpace_Opening(object sender, object e)
 		{
-			var shell = NewEmptySpace.Items.Where(x => (x.Tag as string) == "CreateNewFile").Reverse().ToList();
-			shell.ForEach(x => NewEmptySpace.Items.Remove(x));
+			if (ViewModel is null)
+				return;
+
+			NewEmptySpace.Items.Clear();
+
+			foreach (var item in CreateActionGroupMenuItems(Commands.Groups.NewItem))
+				NewEmptySpace.Items.Add(item);
+
+			NewEmptySpace.Items.Add(NewMenuFileFolderSeparator);
+
 			if (!ViewModel.InstanceViewModel.CanCreateFileInPage)
 				return;
 
 			var cachedNewContextMenuEntries = addItemService.GetEntries();
-			if (cachedNewContextMenuEntries is null)
+			if (cachedNewContextMenuEntries is null || cachedNewContextMenuEntries.Count == 0)
 				return;
 
-			var separatorIndex = NewEmptySpace.Items.IndexOf(NewEmptySpace.Items.Single(x => x.Name == "NewMenuFileFolderSeparator"));
-
-			ushort key = 0;
 			string keyFormat = $"D{cachedNewContextMenuEntries.Count.ToString().Length}";
 
-			foreach (var newEntry in Enumerable.Reverse(cachedNewContextMenuEntries))
+			for (int index = 0; index < cachedNewContextMenuEntries.Count; index++)
 			{
-				MenuFlyoutItem menuLayoutItem;
-				if (!string.IsNullOrEmpty(newEntry.IconBase64))
-				{
-					byte[] bitmapData = Convert.FromBase64String(newEntry.IconBase64);
-					using var ms = new MemoryStream(bitmapData);
-					var image = new BitmapImage();
-					_ = image.SetSourceAsync(ms.AsRandomAccessStream());
-					menuLayoutItem = new MenuFlyoutItemWithImage()
-					{
-						Text = newEntry.Name,
-						BitmapIcon = image,
-						Tag = "CreateNewFile"
-					};
-				}
-				else
-				{
-					menuLayoutItem = new MenuFlyoutItem()
-					{
-						Text = newEntry.Name,
-						Icon = new FontIcon
-						{
-							Glyph = "\xE7C3"
-						},
-						Tag = "CreateNewFile"
-					};
-				}
-				menuLayoutItem.AccessKey = (cachedNewContextMenuEntries.Count + 1 - (++key)).ToString(keyFormat);
-				menuLayoutItem.Command = ViewModel.CreateNewFileCommand;
-				menuLayoutItem.CommandParameter = newEntry;
-				NewEmptySpace.Items.Insert(separatorIndex + 1, menuLayoutItem);
+				var newEntry = cachedNewContextMenuEntries[index];
+				var menuItem = CreateShellNewEntryMenuItem(newEntry);
+				menuItem.AccessKey = (index + 1).ToString(keyFormat);
+				menuItem.Command = ViewModel.CreateNewFileCommand;
+				menuItem.CommandParameter = newEntry;
+				NewEmptySpace.Items.Add(menuItem);
 			}
+		}
+
+		private static MenuFlyoutItem CreateShellNewEntryMenuItem(ShellNewEntry newEntry)
+		{
+			if (!string.IsNullOrEmpty(newEntry.IconBase64))
+			{
+				byte[] bitmapData = Convert.FromBase64String(newEntry.IconBase64);
+				using var ms = new MemoryStream(bitmapData);
+				var image = new BitmapImage();
+				_ = image.SetSourceAsync(ms.AsRandomAccessStream());
+
+				return new MenuFlyoutItemWithImage
+				{
+					Text = newEntry.Name,
+					BitmapIcon = image,
+				};
+			}
+
+			return new MenuFlyoutItem
+			{
+				Text = newEntry.Name,
+				Icon = new FontIcon
+				{
+					Glyph = "\xE7C3"
+				},
+			};
+		}
+
+		private void ActionGroupFlyout_Opening(object sender, object e)
+		{
+			if (sender is not MenuFlyout flyout)
+				return;
+
+			var group = flyout == ExtractFlyout ? Commands.Groups.Extract
+				: flyout == SetAsFlyout ? Commands.Groups.SetAs
+				: null;
+
+			if (group is null)
+				return;
+
+			flyout.Items.Clear();
+			foreach (var item in CreateActionGroupMenuItems(group))
+				flyout.Items.Add(item);
+		}
+
+		private IEnumerable<MenuFlyoutItem> CreateActionGroupMenuItems(CommandGroup group)
+			=> group.Commands
+				.Select(code => Commands[code])
+				.Where(command => command.Code != CommandCodes.None)
+				.Select(CreateGroupMenuItem);
+
+		private static MenuFlyoutItem CreateGroupMenuItem(IRichCommand command)
+		{
+			var item = new MenuFlyoutItem
+			{
+				Text = command.Label,
+				Command = command,
+				Visibility = command.IsExecutable ? Visibility.Visible : Visibility.Collapsed,
+			};
+			if (command.HotKeyText is string hotKey)
+				item.KeyboardAcceleratorTextOverride = hotKey;
+			var icon = command.Glyph.ToFontIcon();
+			if (icon is not null)
+				item.Icon = icon;
+			return item;
 		}
 
 		private void SortGroup_AccessKeyInvoked(UIElement sender, AccessKeyInvokedEventArgs args)

@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Files.App.Actions;
 using Microsoft.Extensions.Logging;
 using System.Collections.Immutable;
 
@@ -24,6 +25,8 @@ namespace Files.App.Data.Commands
 			=> _allKeyBindings.TryGetValue(hotKey with { IsVisible = true }, out var command) ? command
 			: _allKeyBindings.TryGetValue(hotKey with { IsVisible = false }, out command) ? command
 			: None;
+
+		public CommandGroups Groups { get; } = new();
 
 		public CommandManager()
 		{
