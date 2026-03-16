@@ -2180,6 +2180,21 @@
   <data name="DoNotSplit" xml:space="preserve">
     <value>Nicht aufteilen</value>
   </data>
+  <data name="Auto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="DictionarySize" xml:space="preserve">
+    <value>Größe des Wörterbuchs</value>
+  </data>
+  <data name="WordSize" xml:space="preserve">
+    <value>Wortgröße</value>
+  </data>
+  <data name="EstimatedMemoryUsage" xml:space="preserve">
+    <value>Geschätzte Speicherauslastung: {0}</value>
+  </data>
+  <data name="AvailableMemory" xml:space="preserve">
+    <value>Verfügbarer Speicher: {0}</value>
+  </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
   </data>
