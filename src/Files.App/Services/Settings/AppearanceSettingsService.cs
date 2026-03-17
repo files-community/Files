@@ -166,6 +166,20 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
+		/// <inheritdoc/>
+		public Dictionary<string, List<ToolbarItemSettingsEntry>>? CustomToolbarItems
+		{
+			get => Get<Dictionary<string, List<ToolbarItemSettingsEntry>>?>(null);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public Dictionary<string, List<string>>? LastKnownToolbarDefaults
+		{
+			get => Get<Dictionary<string, List<string>>?>(null);
+			set => Set(value);
+		}
+
 		protected override void RaiseOnSettingChangedEvent(object sender, SettingChangedEventArgs e)
 		{
 			base.RaiseOnSettingChangedEvent(sender, e);
