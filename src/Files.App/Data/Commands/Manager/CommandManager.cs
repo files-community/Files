@@ -1,7 +1,6 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Files.App.Actions;
 using Microsoft.Extensions.Logging;
 using System.Collections.Immutable;
 
