@@ -23,6 +23,12 @@ namespace Files.App.Actions
 			=> RichGlyph.None;
 
 		/// <summary>
+		/// Access key hint used in menus.
+		/// </summary>
+		string AccessKey
+			=> string.Empty;
+
+		/// <summary>
 		/// Primary hotkey to execute the action.
 		/// </summary>
 		HotKey HotKey

@@ -1,33 +1,30 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 namespace Files.App.Actions
 {
 	[GeneratedRichCommand]
-	internal sealed partial class CreateFolderAction : BaseUIAction, IAction
+	internal sealed partial class CreateFileAction : BaseUIAction, IAction
 	{
 		private readonly IContentPageContext context;
 
 		public string Label
-			=> Strings.Folder.GetLocalizedResource();
+			=> Strings.File.GetLocalizedResource();
 
 		public string Description
-			=> Strings.CreateFolderDescription.GetLocalizedResource();
+			=> Strings.NewFile.GetLocalizedResource();
 
 		public string AccessKey
-			=> "F";
-
-		public HotKey HotKey
-			=> new(Keys.N, KeyModifiers.CtrlShift);
+			=> "I";
 
 		public RichGlyph Glyph
-			=> new(baseGlyph: "\uE8B7");
+			=> new(baseGlyph: "\uE7C3");
 
 		public override bool IsExecutable =>
 			context.CanCreateItem &&
 			UIHelpers.CanShowDialog;
 
-		public CreateFolderAction()
+		public CreateFileAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
 
@@ -37,7 +34,7 @@ namespace Files.App.Actions
 		public Task ExecuteAsync(object? parameter = null)
 		{
 			if (context.ShellPage is not null)
-				_ = UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.Folder, null!, context.ShellPage);
+				_ = UIFilesystemHelpers.CreateFileFromDialogResultTypeAsync(AddItemDialogItemType.File, null, context.ShellPage);
 
 			return Task.CompletedTask;
 		}

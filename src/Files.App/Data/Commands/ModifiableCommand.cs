@@ -51,6 +51,9 @@ namespace Files.App.Data.Commands
 		public string? HotKeyText => BaseCommand.HotKeyText;
 
 		/// <inheritdoc/>
+		public string AccessKey => BaseCommand.AccessKey;
+
+		/// <inheritdoc/>
 		public HotKeyCollection HotKeys
 		{
 			get => BaseCommand.HotKeys;
@@ -131,6 +134,9 @@ namespace Files.App.Data.Commands
 					OnPropertyChanging(nameof(LabelWithHotKey));
 					OnPropertyChanging(nameof(AutomationName));
 					break;
+				case nameof(IAction.AccessKey):
+					OnPropertyChanging(nameof(AccessKey));
+					break;
 				case nameof(IToggleAction.IsOn) when IsToggle:
 					OnPropertyChanging(nameof(IsOn));
 					break;
@@ -148,6 +154,9 @@ namespace Files.App.Data.Commands
 					OnPropertyChanged(nameof(Label));
 					OnPropertyChanged(nameof(LabelWithHotKey));
 					OnPropertyChanged(nameof(AutomationName));
+					break;
+				case nameof(IAction.AccessKey):
+					OnPropertyChanged(nameof(AccessKey));
 					break;
 				case nameof(IToggleAction.IsOn) when IsToggle:
 					OnPropertyChanged(nameof(IsOn));

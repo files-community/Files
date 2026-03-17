@@ -79,7 +79,7 @@
 				<!--  New Item  -->
 				<AppBarButton
 					x:Name="NewEmptySpaceAppBarButton"
-					AccessKey="W"
+					AccessKey="{x:Bind Commands.Groups.NewItem.AccessKey}"
 					AccessKeyInvoked="AppBarButton_AccessKeyInvoked"
 					AutomationProperties.AutomationId="InnerNavigationToolbarNewButton"
 					IsEnabled="{x:Bind Commands.AddItem.IsExecutable, Mode=OneWay, FallbackValue=False}"
@@ -93,40 +93,6 @@
 							x:Name="NewEmptySpace"
 							Opening="NewEmptySpace_Opening"
 							Placement="BottomEdgeAlignedLeft">
-							<MenuFlyoutItem
-								x:Name="ToolbarNewFolderItem"
-								AccessKey="D"
-								AutomationProperties.AutomationId="InnerNavigationToolbarNewFolderButton"
-								Command="{x:Bind Commands.CreateFolder, Mode=OneWay}"
-								KeyboardAcceleratorTextOverride="{x:Bind Commands.CreateFolder.HotKeyText, Mode=OneWay}"
-								Text="{x:Bind Commands.CreateFolder.Label}">
-								<MenuFlyoutItem.Icon>
-									<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="&#xE8B7;" />
-								</MenuFlyoutItem.Icon>
-							</MenuFlyoutItem>
-							<MenuFlyoutItem
-								x:Name="NewFile"
-								AccessKey="F"
-								AutomationProperties.AutomationId="File"
-								Command="{x:Bind ViewModel.CreateNewFileCommand, Mode=OneWay}"
-								CommandParameter="{x:Null}"
-								IsEnabled="{x:Bind ViewModel.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=File}">
-								<MenuFlyoutItem.Icon>
-									<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="&#xE7C3;" />
-								</MenuFlyoutItem.Icon>
-							</MenuFlyoutItem>
-							<MenuFlyoutItem
-								x:Name="NewShortcut"
-								AccessKey="S"
-								AutomationProperties.AutomationId="InnerNavigationToolbarNewShortcutButton"
-								Command="{x:Bind Commands.CreateShortcutFromDialog, Mode=OneWay}"
-								KeyboardAcceleratorTextOverride="{x:Bind Commands.CreateShortcutFromDialog.HotKeyText, Mode=OneWay}"
-								Text="{x:Bind Commands.CreateShortcutFromDialog.Label}">
-								<MenuFlyoutItem.Icon>
-									<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="&#xE71B;" />
-								</MenuFlyoutItem.Icon>
-							</MenuFlyoutItem>
 							<MenuFlyoutSeparator x:Name="NewMenuFileFolderSeparator" />
 						</MenuFlyout>
 					</AppBarButton.Flyout>
@@ -288,41 +254,22 @@
 					x:Name="ExtractButton"
 					Width="Auto"
 					MinWidth="40"
-					AccessKey="Z"
+					AccessKey="{x:Bind Commands.Groups.Extract.AccessKey}"
 					AccessKeyInvoked="AppBarButton_AccessKeyInvoked"
 					IsEnabled="{x:Bind ViewModel.CanExtract, Mode=OneWay, FallbackValue=False}"
-					Label="{helpers:ResourceString Name=Extract}"
+					Label="{x:Bind Commands.Groups.Extract.DisplayName}"
 					LabelPosition="Default"
 					Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
 					Visibility="{x:Bind ViewModel.CanExtract, Mode=OneWay}">
 
-					<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.Zip}" />
+					<controls:ThemedIcon Style="{x:Bind Commands.Groups.Extract.ThemedIconStyle}" />
 
 					<AppBarButton.Flyout>
-						<MenuFlyout helpers:MenuFlyoutHelper.IsVisible="{x:Bind ViewModel.CanExtract, Mode=OneWay}" Placement="Bottom">
-							<MenuFlyoutItem
-								x:Name="ExtractSingle"
-								Command="{x:Bind Commands.DecompressArchive, Mode=OneWay}"
-								KeyboardAcceleratorTextOverride="{x:Bind Commands.DecompressArchive.HotKeyText, Mode=OneWay}"
-								Text="{x:Bind Commands.DecompressArchive.Label}"
-								Visibility="{x:Bind Commands.DecompressArchive.IsExecutable, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-							<MenuFlyoutItem
-								x:Name="ExtractHereSmart"
-								Command="{x:Bind Commands.DecompressArchiveHereSmart, Mode=OneWay}"
-								KeyboardAcceleratorTextOverride="{x:Bind Commands.DecompressArchiveHereSmart.HotKeyText, Mode=OneWay}"
-								Text="{x:Bind Commands.DecompressArchiveHereSmart.Label}"
-								Visibility="{x:Bind Commands.DecompressArchiveHereSmart.IsExecutable, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-							<MenuFlyoutItem
-								x:Name="ExtractHere"
-								Command="{x:Bind Commands.DecompressArchiveHere, Mode=OneWay}"
-								Text="{x:Bind Commands.DecompressArchiveHere.Label}"
-								Visibility="{x:Bind Commands.DecompressArchiveHere.IsExecutable, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-							<MenuFlyoutItem
-								x:Name="ExtractTo"
-								Command="{x:Bind Commands.DecompressArchiveToChildFolder, Mode=OneWay}"
-								Text="{x:Bind Commands.DecompressArchiveToChildFolder.Label, Mode=OneWay}"
-								Visibility="{x:Bind Commands.DecompressArchiveToChildFolder.IsExecutable, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-						</MenuFlyout>
+						<MenuFlyout
+							x:Name="ExtractFlyout"
+							helpers:MenuFlyoutHelper.IsVisible="{x:Bind ViewModel.CanExtract, Mode=OneWay}"
+							Opening="ActionGroupFlyout_Opening"
+							Placement="Bottom" />
 					</AppBarButton.Flyout>
 
 				</AppBarButton>
@@ -364,44 +311,20 @@
 					x:Name="SetAsBackgroundButton"
 					Width="Auto"
 					MinWidth="40"
-					Label="{helpers:ResourceString Name=SetAsBackgroundFlyout}"
+					AccessKey="{x:Bind Commands.Groups.SetAs.AccessKey}"
+					Label="{x:Bind Commands.Groups.SetAs.DisplayName}"
 					LabelPosition="Default"
 					Style="{StaticResource ToolBarAppBarButtonFlyoutStyle}"
-					ToolTipService.ToolTip="{helpers:ResourceString Name=SetAsBackgroundFlyout}"
+					ToolTipService.ToolTip="{x:Bind Commands.Groups.SetAs.DisplayName}"
 					Visibility="{x:Bind Commands.SetAsWallpaperBackground.IsExecutable, Mode=OneWay}">
 
-					<controls:ThemedIcon Style="{StaticResource App.ThemedIcons.SetWallpaper.16}" />
+					<controls:ThemedIcon Style="{x:Bind Commands.Groups.SetAs.ThemedIconStyle}" />
 
 					<AppBarButton.Flyout>
-						<MenuFlyout Placement="Bottom">
-							<MenuFlyoutItem
-								x:Name="SetAsBackgroundFlyoutItem"
-								Command="{x:Bind Commands.SetAsWallpaperBackground}"
-								KeyboardAcceleratorTextOverride="{x:Bind Commands.SetAsWallpaperBackground.HotKeyText, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=Desktop}">
-								<MenuFlyoutItem.Icon>
-									<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="{x:Bind Commands.SetAsWallpaperBackground.Glyph.BaseGlyph}" />
-								</MenuFlyoutItem.Icon>
-							</MenuFlyoutItem>
-							<MenuFlyoutItem
-								x:Name="SetAsLockscreenFlyoutItem"
-								Command="{x:Bind Commands.SetAsLockscreenBackground}"
-								KeyboardAcceleratorTextOverride="{x:Bind Commands.SetAsLockscreenBackground.HotKeyText, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=Lockscreen}">
-								<MenuFlyoutItem.Icon>
-									<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="{x:Bind Commands.SetAsLockscreenBackground.Glyph.BaseGlyph}" />
-								</MenuFlyoutItem.Icon>
-							</MenuFlyoutItem>
-							<MenuFlyoutItem
-								x:Name="SetAsAppBackgroundFlyoutItem"
-								Command="{x:Bind Commands.SetAsAppBackground}"
-								KeyboardAcceleratorTextOverride="{x:Bind Commands.SetAsAppBackground.HotKeyText, Mode=OneWay}"
-								Text="{helpers:ResourceString Name=Application}">
-								<MenuFlyoutItem.Icon>
-									<FontIcon Foreground="{ThemeResource App.Theme.IconBaseBrush}" Glyph="{x:Bind Commands.SetAsAppBackground.Glyph.BaseGlyph}" />
-								</MenuFlyoutItem.Icon>
-							</MenuFlyoutItem>
-						</MenuFlyout>
+						<MenuFlyout
+							x:Name="SetAsFlyout"
+							Opening="ActionGroupFlyout_Opening"
+							Placement="Bottom" />
 					</AppBarButton.Flyout>
 
 				</AppBarButton>

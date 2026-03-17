@@ -12,6 +12,9 @@ namespace Files.App.Actions
 		public override string Description
 			=> Strings.SetAsWallpaperBackgroundDescription.GetLocalizedResource();
 
+		public string AccessKey
+			=> "W";
+
 		public override RichGlyph Glyph
 			=> new("\uE91B");
 

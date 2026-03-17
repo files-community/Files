@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.CreateShortcutFromDialogDescription.GetLocalizedResource();
 
+		public string AccessKey
+			=> "S";
+
 		public RichGlyph Glyph
 			=> new("\uE71B");
 
