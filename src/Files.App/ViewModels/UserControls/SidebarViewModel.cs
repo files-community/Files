@@ -239,6 +239,7 @@ namespace Files.App.ViewModels.UserControls
 		public SidebarViewModel()
 		{
 			dispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread();
+			dispatcherQueue.ShutdownStarting += DispatcherQueue_ShutdownStarting;
 			fileTagsService = Ioc.Default.GetRequiredService<IFileTagsService>();
 
 			sidebarItems = [];
@@ -683,10 +684,23 @@ namespace Files.App.ViewModels.UserControls
 			}
 		}
 
+		private void DispatcherQueue_ShutdownStarting(DispatcherQueue sender, DispatcherQueueShutdownStartingEventArgs args)
+		{
+			UnsubscribeDataChangedEvents();
+		}
+
 		public void Dispose()
 		{
 			UserSettingsService.OnSettingChangedEvent -= UserSettingsService_OnSettingChangedEvent;
+			dispatcherQueue.ShutdownStarting -= DispatcherQueue_ShutdownStarting;
 
+			UnsubscribeDataChangedEvents();
+
+			dispatcherQueue = null;
+		}
+
+		private void UnsubscribeDataChangedEvents()
+		{
 			App.QuickAccessManager.Model.DataChanged -= Manager_DataChanged;
 			App.LibraryManager.DataChanged -= Manager_DataChanged;
 			drivesViewModel.Drives.CollectionChanged -= Manager_DataChangedForDrives;
@@ -694,8 +708,6 @@ namespace Files.App.ViewModels.UserControls
 			NetworkService.Computers.CollectionChanged -= Manager_DataChangedForNetworkComputers;
 			WSLDistroManager.DataChanged -= Manager_DataChanged;
 			App.FileTagsManager.DataChanged -= Manager_DataChanged;
-
-			dispatcherQueue = null;
 		}
 
 		public void UpdateTabControlMargin()
