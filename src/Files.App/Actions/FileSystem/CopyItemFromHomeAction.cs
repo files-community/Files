@@ -25,6 +25,9 @@ namespace Files.App.Actions
 		public bool IsExecutable
 			=> GetIsExecutable();
 
+		public bool IsAccessibleGlobally
+			=> false;
+
 		public CopyItemFromHomeAction()
 		{
 			context = Ioc.Default.GetRequiredService<IContentPageContext>();
