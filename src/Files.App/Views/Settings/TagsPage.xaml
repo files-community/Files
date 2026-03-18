@@ -170,7 +170,7 @@
 							SelectionMode="None">
 							<ListView.ItemTemplate>
 								<DataTemplate x:DataType="datamodels:ListedTagViewModel">
-									<Grid ColumnSpacing="16">
+									<Grid KeyboardAcceleratorPlacementMode="Hidden" ColumnSpacing="16">
 										<Grid.KeyboardAccelerators>
 											<KeyboardAccelerator Key="Escape" Invoked="KeyboardAccelerator_Invoked" />
 										</Grid.KeyboardAccelerators>
