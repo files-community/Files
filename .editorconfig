@@ -1,11 +1,27 @@
 root = true
 
+[*]
+end_of_line = crlf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.md]
+charset = utf-8
+trim_trailing_whitespace = false
+
+[*.{cs,xaml,slnx,json,yml,yaml,ps1,cmd,bat}]
+charset = utf-8
+
+[*.{csproj,props,targets,vcxproj,vcxproj.filters,config,manifest,appxmanifest}]
+charset = utf-8-bom
+
 [**/*.cs]
 indent_style = tab
 indent_size = 4
 tab_width = 4
 
 [**/*.xaml]
+charset = utf-8
 indent_style = tab
 indent_size = 4
 tab_width = 4
