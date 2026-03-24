@@ -6,7 +6,7 @@ on:
 jobs:
   format-xaml:
     if: github.event.issue.pull_request && github.event.comment.body == '/format'
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
     environment: Pull Requests
     permissions: 
       contents: write

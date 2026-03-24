@@ -48,7 +48,7 @@ jobs:
 
     if: github.repository_owner == 'files-community'
 
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
 
     steps:
 
@@ -84,7 +84,7 @@ jobs:
 
     if: github.repository_owner == 'files-community'
 
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
     strategy:
       fail-fast: false
       matrix:
@@ -183,7 +183,7 @@ jobs:
     if: github.repository_owner == 'files-community' && always()
 
     needs: [build]
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
     strategy:
       fail-fast: false
       matrix:
