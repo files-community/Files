@@ -288,7 +288,10 @@ namespace Files.App.UserControls.TabBar
 		private async void TabBarAddNewTabButton_Drop(object sender, DragEventArgs e)
 		{
 			if (_lockDropOperation || !FilesystemHelpers.HasDraggedStorageItems(e.DataView))
+			{
+				e.Handled = true; // Prevent event from bubbling up to TabView
 				return;
+			}
 
 			_lockDropOperation = true;
 
@@ -314,6 +317,7 @@ namespace Files.App.UserControls.TabBar
 			if (!FilesystemHelpers.HasDraggedStorageItems(e.DataView))
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
+				e.Handled = true; // Prevent event from bubbling up to TabView
 				return;
 			}
 
@@ -324,6 +328,7 @@ namespace Files.App.UserControls.TabBar
 			if (!hasValidDraggedItems)
 			{
 				e.AcceptedOperation = DataPackageOperation.None;
+				e.Handled = true; // Prevent event from bubbling up to TabView
 				return;
 			}
 
