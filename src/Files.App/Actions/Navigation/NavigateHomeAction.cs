@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.NavigateHomeDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Navigation;
+
 		public RichGlyph Glyph
 			=> new("\uE80F");
 

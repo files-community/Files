@@ -14,11 +14,20 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.RenameDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
 		public HotKey HotKey
 			=> new(Keys.F2);
 
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Rename");
+
+		public string AutomationId
+			=> "InnerNavigationToolbarRenameButton";
+
+		public string AccessKey
+			=> "M";
 
 		public bool IsExecutable =>
 			context.ShellPage is not null &&

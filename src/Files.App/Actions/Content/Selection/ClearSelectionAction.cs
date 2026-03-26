@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.ClearSelectionDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Selection;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.SelectNone");
 

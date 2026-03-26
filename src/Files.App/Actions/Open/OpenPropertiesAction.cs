@@ -14,8 +14,17 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.OpenPropertiesDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Open;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Properties");
+
+		public string AutomationId
+			=> "InnerNavigationToolbarPropertiesButton";
+
+		public string AccessKey
+			=> "O";
 
 		public HotKey HotKey
 			=> new(Keys.Enter, KeyModifiers.Alt);

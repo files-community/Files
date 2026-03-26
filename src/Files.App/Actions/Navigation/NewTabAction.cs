@@ -12,6 +12,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.NewTabDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Navigation;
+
 		public HotKey HotKey
 			=> new(Keys.T, KeyModifiers.Ctrl);
 

@@ -18,6 +18,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.NextTabDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Navigation;
+
 		public bool IsExecutable
 			=> multitaskingContext.TabCount > 1;
 

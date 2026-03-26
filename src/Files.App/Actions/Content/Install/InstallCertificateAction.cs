@@ -19,6 +19,9 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new("\uEB95");
 
+		public ActionCategory Category
+			=> ActionCategory.Install;
+
 		public bool IsExecutable =>
 			context.SelectedItems.Any() &&
 			context.SelectedItems.All(x => FileExtensionHelpers.IsCertificateFile(x.FileExtension)) &&

@@ -23,6 +23,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.EnterCompactOverlayDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Window;
+
 		public bool IsExecutable
 			=> !windowContext.IsCompactOverlay;
 

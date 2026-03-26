@@ -16,6 +16,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.RunWithPowershellDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Run;
+
 		public RichGlyph Glyph
 			=> new("\uE756");
 

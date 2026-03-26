@@ -17,6 +17,9 @@ namespace Files.App.Actions
 		public virtual string Description
 			=> Strings.OpenTerminalDescription.GetLocalizedResource();
 
+		public virtual ActionCategory Category
+			=> ActionCategory.Open;
+
 		public virtual HotKey HotKey
 			=> new(Keys.Oem3, KeyModifiers.Ctrl);
 

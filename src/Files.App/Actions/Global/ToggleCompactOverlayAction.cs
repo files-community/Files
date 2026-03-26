@@ -20,6 +20,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.ToggleCompactOverlayDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Window;
+
 		public bool IsOn
 			=> windowContext.IsCompactOverlay;
 

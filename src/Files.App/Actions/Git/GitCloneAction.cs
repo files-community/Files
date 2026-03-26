@@ -13,6 +13,9 @@ namespace Files.App.Actions
 
 		public string Description { get; } = Strings.GitCloneDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Git;
+
 		public bool IsExecutable
 			=> pageContext.CanCreateItem && !pageContext.IsGitRepository;
 

@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.ToggleShowHiddenItemsDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Show;
+
 		public HotKey HotKey
 			=> new(Keys.H, KeyModifiers.Ctrl);
 

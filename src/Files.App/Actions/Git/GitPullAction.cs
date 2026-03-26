@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.GitPullDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Git;
+
 		public RichGlyph Glyph
 			=> new("\uE74B");
 

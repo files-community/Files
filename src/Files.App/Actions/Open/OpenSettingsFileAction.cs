@@ -18,6 +18,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.EditSettingsFileDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Open;
+
 		public HotKey HotKey
 			=> new(Keys.OemComma, KeyModifiers.CtrlShift);
 

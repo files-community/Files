@@ -14,8 +14,17 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.CutItemDescription.GetLocalizedFormatResource(ContentPageContext.SelectedItems.Count);
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Cut");
+
+		public string AutomationId
+			=> "InnerNavigationToolbarCutButton";
+
+		public string AccessKey
+			=> "X";
 
 		public HotKey HotKey
 			=> new(Keys.X, KeyModifiers.Ctrl);

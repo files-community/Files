@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 namespace Files.App.Actions
@@ -14,8 +14,14 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.NewFile.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Create;
+
 		public string AccessKey
 			=> "I";
+
+		public string AutomationId
+			=> "File";
 
 		public RichGlyph Glyph
 			=> new(baseGlyph: "\uE7C3");

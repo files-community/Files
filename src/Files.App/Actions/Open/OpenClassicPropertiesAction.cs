@@ -18,6 +18,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.OpenClassicPropertiesDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Open;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Properties");
 
