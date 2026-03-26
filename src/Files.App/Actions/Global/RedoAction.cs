@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.RedoDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
 		public HotKey HotKey
 			=> new(Keys.Y, KeyModifiers.Ctrl);
 

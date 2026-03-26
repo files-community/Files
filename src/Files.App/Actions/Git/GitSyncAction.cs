@@ -12,6 +12,9 @@ namespace Files.App.Actions
 
 		public string Description { get; } = Strings.GitSyncDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Git;
+
 		public RichGlyph Glyph { get; } = new("\uEDAB");
 
 		public bool IsExecutable =>

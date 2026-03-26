@@ -15,6 +15,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.ToggleFilterHeaderDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Show;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Filter");
 

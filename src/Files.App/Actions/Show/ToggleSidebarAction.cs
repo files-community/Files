@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Files.App.Controls;
@@ -16,6 +16,9 @@ namespace Files.App.Actions
 
 		public string Description
 			=> Strings.ToggleSidebarDescription.GetLocalizedResource();
+
+		public ActionCategory Category
+			=> ActionCategory.Show;
 
 		public HotKey HotKey
 			=> new(Keys.B, KeyModifiers.Ctrl);

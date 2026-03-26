@@ -16,6 +16,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.OpenDirectoryInNewTabDescription.GetLocalizedResource();
 
+		public virtual ActionCategory Category
+			=> ActionCategory.Navigation;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.OpenInTab");
 

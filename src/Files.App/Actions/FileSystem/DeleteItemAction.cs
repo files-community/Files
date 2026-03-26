@@ -12,8 +12,14 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.DeleteItemDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
 		public RichGlyph Glyph
 			=> new RichGlyph(themedIconStyle: "App.ThemedIcons.Delete");
+
+		public string AutomationId
+			=> "InnerNavigationToolbarDeleteButton";
 
 		public HotKey HotKey
 			=> new(Keys.Delete);

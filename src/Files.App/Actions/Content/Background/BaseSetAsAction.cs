@@ -13,7 +13,13 @@ namespace Files.App.Actions
 
 		public abstract string Label { get; }
 
+		public virtual string ExtendedLabel
+			=> Label;
+
 		public abstract string Description { get; }
+
+		public virtual ActionCategory Category
+			=> ActionCategory.Image;
 
 		public abstract RichGlyph Glyph { get; }
 

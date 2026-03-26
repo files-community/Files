@@ -7,6 +7,9 @@ namespace Files.App.Actions
 	internal sealed partial class SetAsLockscreenBackgroundAction : BaseSetAsAction
 	{
 		public override string Label
+			=> Strings.Lockscreen.GetLocalizedResource();
+
+		public override string ExtendedLabel
 			=> Strings.SetAsLockscreen.GetLocalizedResource();
 
 		public override string Description

@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.ToggleDotFilesSettingDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Show;
+
 		public bool IsOn
 			=> FoldersSettingsService.ShowDotFiles;
 

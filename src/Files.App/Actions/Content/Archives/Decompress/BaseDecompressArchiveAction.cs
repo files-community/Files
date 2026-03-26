@@ -19,6 +19,9 @@ namespace Files.App.Actions
 
 		public abstract string Description { get; }
 
+		public virtual ActionCategory Category
+			=> ActionCategory.Archive;
+
 		public virtual HotKey HotKey
 			=> HotKey.None;
 

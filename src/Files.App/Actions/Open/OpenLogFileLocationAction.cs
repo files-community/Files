@@ -15,6 +15,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.OpenLogFileLocationDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Open;
+
 		public HotKey HotKey
 			=> new(Keys.OemPeriod, KeyModifiers.CtrlShift);
 

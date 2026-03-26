@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
-using System.IO;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 
@@ -20,8 +19,12 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.CopyItemDescription.GetLocalizedFormatResource(1);
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Copy");
+
 		public bool IsExecutable
 			=> GetIsExecutable();
 
