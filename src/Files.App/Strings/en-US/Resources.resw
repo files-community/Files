@@ -2144,6 +2144,12 @@
   <data name="CreateArchive" xml:space="preserve">
     <value>Create archive</value>
   </data>
+  <data name="CompressIntoZip" xml:space="preserve">
+    <value>Create zip archive</value>
+  </data>
+  <data name="CompressIntoSevenZip" xml:space="preserve">
+    <value>Create 7z archive</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Create</value>
   </data>
@@ -4364,5 +4370,32 @@
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Show option to Pin to the Start Menu</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Archive</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>Selection</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Navigation</value>
+  </data>
+  <data name="FileSystem" xml:space="preserve">
+    <value>File system</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Window</value>
+  </data>
+  <data name="DualPaneCategory" xml:space="preserve">
+    <value>Dual Pane</value>
   </data>
 </root>
