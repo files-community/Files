@@ -206,14 +206,14 @@ namespace Files.App.Data.Commands
 				{
 					StringBuilder builder = new();
 					if (modifiers.HasFlag(KeyModifiers.Alt))
-						builder.Append($"+{KeyModifiers.Alt}");
+						builder.Append("Alt+");
 					if (modifiers.HasFlag(KeyModifiers.Ctrl))
-						builder.Append($"+{KeyModifiers.Ctrl}");
+						builder.Append("Ctrl+");
 					if (modifiers.HasFlag(KeyModifiers.Shift))
-						builder.Append($"+{KeyModifiers.Shift}");
+						builder.Append("Shift+");
 					if (modifiers.HasFlag(KeyModifiers.Win))
-						builder.Append($"+{KeyModifiers.Win}");
-					builder.Remove(0, 1);
+						builder.Append("Win+");
+					builder.Length--;
 					return builder.ToString();
 				}
 			}
@@ -241,14 +241,14 @@ namespace Files.App.Data.Commands
 				{
 					StringBuilder builder = new();
 					if (modifier.HasFlag(KeyModifiers.Alt))
-						builder.Append($"+{LocalizedModifiers[KeyModifiers.Alt]}");
+						builder.Append($"{LocalizedModifiers[KeyModifiers.Alt]}+");
 					if (modifier.HasFlag(KeyModifiers.Ctrl))
-						builder.Append($"+{LocalizedModifiers[KeyModifiers.Ctrl]}");
+						builder.Append($"{LocalizedModifiers[KeyModifiers.Ctrl]}+");
 					if (modifier.HasFlag(KeyModifiers.Shift))
-						builder.Append($"+{LocalizedModifiers[KeyModifiers.Shift]}");
+						builder.Append($"{LocalizedModifiers[KeyModifiers.Shift]}+");
 					if (modifier.HasFlag(KeyModifiers.Win))
-						builder.Append($"+{LocalizedModifiers[KeyModifiers.Win]}");
-					builder.Remove(0, 1);
+						builder.Append($"{LocalizedModifiers[KeyModifiers.Win]}+");
+					builder.Length--;
 					return builder.ToString();
 				}
 			}
