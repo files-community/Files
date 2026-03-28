@@ -12,10 +12,9 @@ namespace Files.App.Actions
 	{
 		private readonly IContentPageContext context;
 		private const string TerminalExecutable = "wt.exe";
-		private static readonly bool isWindowsTerminalAvailable = IsExecutableOnPath(TerminalExecutable);
 
 		protected bool IsWindowsTerminalAvailable
-			=> isWindowsTerminalAvailable;
+			=> IsExecutableOnPath(TerminalExecutable);
 
 		public virtual string Label
 			=> Strings.OpenTerminal.GetLocalizedResource();
