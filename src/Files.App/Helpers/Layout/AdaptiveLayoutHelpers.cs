@@ -74,9 +74,6 @@ namespace Files.App.Helpers
 				return Layouts.Grid;
 			return Layouts.Detail;
 
-			static bool IsFolder(ListedItem item)
-				=> item.PrimaryItemAttribute is StorageItemTypes.Folder;
-
 			static bool IsImage(ListedItem item)
 				=> !string.IsNullOrEmpty(item.FileExtension)
 				&& ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
