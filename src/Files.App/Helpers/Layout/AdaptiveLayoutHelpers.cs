@@ -67,22 +67,12 @@ namespace Files.App.Helpers
 			if (filesAndFolders.Count is 0)
 				return Layouts.None;
 
-			float folderPercentage = 100f * filesAndFolders.Count(IsFolder) / itemCount;
 			float imagePercentage = 100f * filesAndFolders.Count(IsImage) / itemCount;
 			float mediaPercentage = 100f * filesAndFolders.Count(IsMedia) / itemCount;
-			float miscPercentage = 100f - (folderPercentage + imagePercentage + mediaPercentage);
 
-			if (folderPercentage + miscPercentage > LargeThreshold)
-				return Layouts.Detail;
-			if (imagePercentage > ExtraLargeThreshold)
+			if (imagePercentage > ExtraLargeThreshold || mediaPercentage > ExtraLargeThreshold)
 				return Layouts.Grid;
-			if (imagePercentage <= MediumThreshold)
-				return Layouts.Detail;
-			if (100f - imagePercentage <= SmallThreshold)
-				return Layouts.Detail;
-			if (folderPercentage + miscPercentage <= ExtraSmallThreshold)
-				return Layouts.Detail;
-			return Layouts.Grid;
+			return Layouts.Detail;
 
 			static bool IsFolder(ListedItem item)
 				=> item.PrimaryItemAttribute is StorageItemTypes.Folder;
