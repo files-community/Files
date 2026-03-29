@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.IO;
 using System.Text;
 using Windows.Storage;
 
@@ -10,6 +11,11 @@ namespace Files.App.Actions
 	internal partial class OpenTerminalAction : ObservableObject, IAction
 	{
 		private readonly IContentPageContext context;
+		private const string TerminalExecutable = "wt.exe";
+		private static readonly bool isWindowsTerminalAvailable = IsExecutableOnPath(TerminalExecutable);
+
+		protected bool IsWindowsTerminalAvailable
+			=> isWindowsTerminalAvailable;
 
 		public virtual string Label
 			=> Strings.OpenTerminal.GetLocalizedResource();
@@ -27,7 +33,7 @@ namespace Files.App.Actions
 			=> new("\uE756");
 
 		public virtual bool IsExecutable
-			=> GetIsExecutable();
+			=> IsWindowsTerminalAvailable && GetIsExecutable();
 
 		public virtual bool IsAccessibleGlobally
 			=> true;
@@ -41,6 +47,9 @@ namespace Files.App.Actions
 
 		public Task ExecuteAsync(object? parameter = null)
 		{
+			if (!IsWindowsTerminalAvailable)
+				return Task.CompletedTask;
+
 			var terminalStartInfo = GetProcessStartInfo();
 			if (terminalStartInfo is not null)
 			{
@@ -61,6 +70,9 @@ namespace Files.App.Actions
 
 		protected virtual ProcessStartInfo? GetProcessStartInfo()
 		{
+			if (!IsWindowsTerminalAvailable)
+				return null;
+
 			var paths = GetPaths();
 			if (paths.Length is 0)
 				return null;
@@ -76,8 +88,9 @@ namespace Files.App.Actions
 
 			return new()
 			{
-				FileName = "wt.exe",
-				Arguments = args.ToString()
+				FileName = TerminalExecutable,
+				Arguments = args.ToString(),
+				UseShellExecute = true
 			};
 		}
 
@@ -96,6 +109,28 @@ namespace Files.App.Actions
 			}
 
 			return [];
+		}
+
+		private static bool IsExecutableOnPath(string executableName)
+		{
+			try
+			{
+				var path = Environment.GetEnvironmentVariable("PATH");
+				if (string.IsNullOrWhiteSpace(path))
+					return false;
+
+				foreach (var folder in path.Split(Path.PathSeparator, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+				{
+					var candidate = Path.Combine(folder, executableName);
+					if (File.Exists(candidate))
+						return true;
+				}
+			}
+			catch
+			{
+			}
+
+			return false;
 		}
 
 		private bool GetIsExecutable()
