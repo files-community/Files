@@ -99,7 +99,7 @@ namespace Files.App.Data.Items
 			Closed += WindowEx_Closed;
 		}
 
-		private static string GetPlacementDataKey(string persistenceId) 
+		private static string GetPlacementDataKey(string persistenceId)
 			=> string.Equals(persistenceId, MainWindowPersistenceId, StringComparison.Ordinal)
 				? "MainWindowPlacementData"
 				: $"WindowPlacementData_{persistenceId}";
@@ -111,6 +111,8 @@ namespace Files.App.Data.Items
 		{
 			var persistenceId = PersistenceId;
 			if (string.IsNullOrEmpty(persistenceId))
+				return;
+
 			using var data = new SystemIO.MemoryStream();
 			using var sw = new SystemIO.BinaryWriter(data);
 
