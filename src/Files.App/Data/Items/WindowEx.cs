@@ -19,6 +19,7 @@ namespace Files.App.Data.Items
 	/// </summary>
 	public unsafe partial class WindowEx : Window, IDisposable
 	{
+		private const string MainWindowPersistenceId = "FilesMainWindow";
 		private bool _isInitialized;
 		private readonly WNDPROC _oldWndProc;
 		private readonly WNDPROC _newWndProc;
@@ -39,6 +40,11 @@ namespace Files.App.Data.Items
 		/// Gets min height of this <see cref="Window"/>.
 		/// </summary>
 		public int MinHeight { get; }
+
+		/// <summary>
+		/// Gets or sets the identifier used to persist this window's size and placement.
+		/// </summary>
+		public string? PersistenceId { get; set; }
 
 		private bool _IsMaximizable = true;
 		/// <summary>
@@ -93,13 +99,18 @@ namespace Files.App.Data.Items
 			Closed += WindowEx_Closed;
 		}
 
+		private static string GetPlacementDataKey(string persistenceId) 
+			=> string.Equals(persistenceId, MainWindowPersistenceId, StringComparison.Ordinal)
+				? "MainWindowPlacementData"
+				: $"WindowPlacementData_{persistenceId}";
+
+		private static string GetLegacyPlacementDataKey(string persistenceId)
+			=> $"WindowPersistance_{persistenceId}";
+
 		private unsafe void StoreWindowPlacementData()
 		{
-			// Save window placement only for MainWindow
-			if (!GetType().Name.Equals(nameof(MainWindow), StringComparison.OrdinalIgnoreCase))
-				return;
-
-			// Store monitor info
+			var persistenceId = PersistenceId;
+			if (string.IsNullOrEmpty(persistenceId))
 			using var data = new SystemIO.MemoryStream();
 			using var sw = new SystemIO.BinaryWriter(data);
 
@@ -131,22 +142,24 @@ namespace Files.App.Data.Items
 
 			var values = GetDataStore(out _, true);
 
-			if (_applicationDataContainer.Containers.ContainsKey("WinUIEx"))
+			if (string.Equals(persistenceId, MainWindowPersistenceId, StringComparison.Ordinal)
+					&& _applicationDataContainer.Containers.ContainsKey("WinUIEx"))
 				_applicationDataContainer.Values.Remove("WinUIEx");
 
-			values["MainWindowPlacementData"] = Convert.ToBase64String(data.ToArray());
+			values[GetPlacementDataKey(persistenceId)] = Convert.ToBase64String(data.ToArray());
 		}
 
 		private void RestoreWindowPlacementData()
 		{
-			// Save window placement only for MainWindow
-			if (!GetType().Name.Equals(nameof(MainWindow), StringComparison.OrdinalIgnoreCase))
+			var persistenceId = PersistenceId;
+			if (string.IsNullOrEmpty(persistenceId))
 				return;
 
 			var values = GetDataStore(out var oldDataExists, false);
 
 			byte[]? data = null;
-			if (values.TryGetValue(oldDataExists ? "WindowPersistance_FilesMainWindow" : "MainWindowPlacementData", out object? value))
+			if (values.TryGetValue(GetPlacementDataKey(persistenceId), out object? value)
+					|| oldDataExists && values.TryGetValue(GetLegacyPlacementDataKey(persistenceId), out value))
 			{
 				if (value is string base64)
 					data = Convert.FromBase64String(base64);
