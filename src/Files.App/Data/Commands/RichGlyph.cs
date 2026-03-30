@@ -106,5 +106,6 @@ namespace Files.App.Data.Commands
 				}
 			}
 
-			return null;	}
-}
+			return null;
+		}
+	}
