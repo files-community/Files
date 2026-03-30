@@ -109,3 +109,4 @@ namespace Files.App.Data.Commands
 			return null;
 		}
 	}
+}
