@@ -65,21 +65,17 @@ namespace Files.App.Helpers
 			if (filesAndFolders.Count is 0)
 				return Layouts.None;
 
-			float imagePercentage = 100f * filesAndFolders.Count(IsImage) / itemCount;
 			float mediaPercentage = 100f * filesAndFolders.Count(IsMedia) / itemCount;
 
-			if (imagePercentage > 60.0f || mediaPercentage > 60.0f)
+			if (mediaPercentage > 60f)
 				return Layouts.Grid;
 			return Layouts.Detail;
-
-			static bool IsImage(ListedItem item)
-				=> !string.IsNullOrEmpty(item.FileExtension)
-				&& ImagePreviewViewModel.ContainsExtension(item.FileExtension.ToLowerInvariant());
 
 			static bool IsMedia(ListedItem item)
 				=> !string.IsNullOrEmpty(item.FileExtension)
 				&& (FileExtensionHelpers.IsAudioFile(item.FileExtension)
-				|| FileExtensionHelpers.IsVideoFile(item.FileExtension));
+				|| FileExtensionHelpers.IsVideoFile(item.FileExtension)
+				|| FileExtensionHelpers.IsImageFile(item.FileExtension));
 		}
 
 		private enum Layouts
