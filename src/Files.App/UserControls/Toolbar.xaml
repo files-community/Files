@@ -335,11 +335,12 @@
 					Width="Auto"
 					MinWidth="40"
 					Command="{x:Bind Commands.SetAsSlideshowBackground}"
-					Icon="{x:Bind Commands.SetAsSlideshowBackground.FontIcon}"
 					Label="{x:Bind Commands.SetAsSlideshowBackground.Label}"
 					LabelPosition="Default"
 					ToolTipService.ToolTip="{x:Bind Commands.SetAsSlideshowBackground.LabelWithHotKey, Mode=OneWay}"
-					Visibility="{x:Bind Commands.SetAsSlideshowBackground.IsExecutable, Mode=OneWay}" />
+					Visibility="{x:Bind Commands.SetAsSlideshowBackground.IsExecutable, Mode=OneWay}">
+					<controls:ThemedIcon Style="{x:Bind Commands.SetAsSlideshowBackground.ThemedIconStyle}" />
+				</AppBarButton>
 
 				<!--  Install Inf  -->
 				<AppBarButton

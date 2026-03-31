@@ -13,7 +13,7 @@ namespace Files.App.Actions
 			=> Strings.SetAsSlideshowBackgroundDescription.GetLocalizedResource();
 
 		public override RichGlyph Glyph
-			=> new("\uE91B");
+			=> new(themedIconStyle: "App.ThemedIcons.SetSlideshow.16");
 
 		public override bool IsExecutable =>
 			base.IsExecutable &&
