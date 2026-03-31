@@ -12,6 +12,9 @@ namespace Files.App.Actions
 
 		public string Description { get; } = Strings.GitPushDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Git;
+
 		public RichGlyph Glyph { get; } = new("\uE74A");
 
 		public bool IsExecutable =>

@@ -25,6 +25,11 @@ namespace Files.App.Data.Commands
 		string Label { get; }
 
 		/// <summary>
+		/// Gets the extended label of this command, used to differentiate similar worded labels. Defaults to <see cref="Label"/>.
+		/// </summary>
+		string ExtendedLabel { get; }
+
+		/// <summary>
 		/// Gets the combined string of the command label and humanized hotkey string.
 		/// </summary>
 		string LabelWithHotKey { get; }
@@ -103,6 +108,11 @@ namespace Files.App.Data.Commands
 		/// Returns whether the action is accessible in any context.
 		/// </summary>
 		bool IsAccessibleGlobally { get; }
+
+		/// <summary>
+		/// Gets the automation ID for UI testing.
+		/// </summary>
+		string AutomationId { get; }
 
 		/// <summary>
 		/// Executes the command.

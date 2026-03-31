@@ -16,6 +16,9 @@ namespace Files.App.Actions
 
 		public abstract string Description { get; }
 
+		public virtual ActionCategory Category
+			=> ActionCategory.Image;
+
 		public abstract RichGlyph Glyph { get; }
 
 		protected abstract BitmapRotation Rotation { get; }

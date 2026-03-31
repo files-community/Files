@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.ToggleFullScreenDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Window;
+
 		public HotKey HotKey
 			=> new(Keys.F11);
 

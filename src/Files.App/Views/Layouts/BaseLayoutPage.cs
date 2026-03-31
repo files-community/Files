@@ -1409,7 +1409,6 @@ namespace Files.App.Views.Layouts
 
 		public virtual void Dispose()
 		{
-			InfoPaneViewModel?.Dispose();
 			UnhookBaseEvents();
 		}
 

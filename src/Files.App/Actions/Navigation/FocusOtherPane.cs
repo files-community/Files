@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.FocusOtherPaneDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.DualPane;
+
 		public HotKey HotKey
 			=> new(Keys.Right, KeyModifiers.CtrlShift);
 

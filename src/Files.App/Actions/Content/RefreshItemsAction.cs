@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.RefreshItemsDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
 		public RichGlyph Glyph
 			=> new("\uE72C");
 

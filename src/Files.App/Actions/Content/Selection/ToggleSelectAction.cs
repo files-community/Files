@@ -15,6 +15,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.ToggleSelectDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.Selection;
+
 		public HotKey HotKey
 			=> new(Keys.Space, KeyModifiers.Ctrl);
 

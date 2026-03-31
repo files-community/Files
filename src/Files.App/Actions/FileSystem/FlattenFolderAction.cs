@@ -21,6 +21,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.FlattenFolderDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Folder");
 

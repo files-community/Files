@@ -23,6 +23,10 @@ namespace Files.App.Data.Commands
 			=> string.Empty;
 
 		/// <inheritdoc/>
+		public string ExtendedLabel
+			=> string.Empty;
+
+		/// <inheritdoc/>
 		public string LabelWithHotKey
 			=> string.Empty;
 
@@ -94,6 +98,10 @@ namespace Files.App.Data.Commands
 		/// <inheritdoc/>
 		public bool IsAccessibleGlobally
 			=> false;
+
+		/// <inheritdoc/>
+		public string AutomationId
+			=> string.Empty;
 
 		public bool CanExecute(object? parameter)
 			=> false;

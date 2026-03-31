@@ -16,6 +16,9 @@ namespace Files.App.Actions
 		public string Description
 			=> string.Format(Strings.OpenRepoInIDEDescription.GetLocalizedResource(), _devToolsSettingsService.IDEName);
 
+		public ActionCategory Category
+			=> ActionCategory.Open;
+
 		public bool IsExecutable =>
 			_context.Folder is not null &&
 			_context.ShellPage!.InstanceViewModel.IsGitRepository &&

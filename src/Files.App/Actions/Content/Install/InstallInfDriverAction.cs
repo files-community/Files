@@ -19,6 +19,9 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new("\uE9F5");
 
+		public ActionCategory Category
+			=> ActionCategory.Install;
+
 		public bool IsExecutable =>
 			context.SelectedItems.Count == 1 &&
 			FileExtensionHelpers.IsInfFile(context.SelectedItems[0].FileExtension) &&

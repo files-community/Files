@@ -14,6 +14,9 @@ namespace Files.App.Actions
 		public string Description
 			=> Strings.UndoDescription.GetLocalizedResource();
 
+		public ActionCategory Category
+			=> ActionCategory.FileSystem;
+
 		public HotKey HotKey
 			=> new(Keys.Z, KeyModifiers.Ctrl);
 

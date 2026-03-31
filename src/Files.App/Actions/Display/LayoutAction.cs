@@ -156,6 +156,9 @@ namespace Files.App.Actions
 
 		public abstract string Description { get; }
 
+		public virtual ActionCategory Category
+			=> ActionCategory.Layout;
+
 		public abstract RichGlyph Glyph { get; }
 
 		public abstract HotKey HotKey { get; }
@@ -205,6 +208,9 @@ namespace Files.App.Actions
 
 		public string Description
 			=> Strings.LayoutDecreaseSizeDescription.GetLocalizedResource();
+
+		public ActionCategory Category
+			=> ActionCategory.Layout;
 
 		public HotKey HotKey
 			=> new(Keys.Subtract, KeyModifiers.Ctrl);
@@ -294,6 +300,9 @@ namespace Files.App.Actions
 
 		public string Description
 			=> Strings.LayoutIncreaseSizeDescription.GetLocalizedResource();
+
+		public ActionCategory Category
+			=> ActionCategory.Layout;
 
 		public HotKey HotKey
 			=> new(Keys.Add, KeyModifiers.Ctrl);

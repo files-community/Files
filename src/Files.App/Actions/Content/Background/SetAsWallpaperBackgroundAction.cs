@@ -7,6 +7,9 @@ namespace Files.App.Actions
 	internal sealed partial class SetAsWallpaperBackgroundAction : BaseSetAsAction
 	{
 		public override string Label
+			=> Strings.Desktop.GetLocalizedResource();
+
+		public override string ExtendedLabel
 			=> Strings.SetAsBackground.GetLocalizedResource();
 
 		public override string Description

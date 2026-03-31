@@ -1,4 +1,4 @@
-// Copyright (c) Files Community
+﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 namespace Files.App.Actions
@@ -15,6 +15,9 @@ namespace Files.App.Actions
 
 		public string Description
 			=> Strings.FormatDriveDescription.GetLocalizedResource();
+
+		public virtual ActionCategory Category
+			=> ActionCategory.FileSystem;
 
 		public virtual bool IsExecutable =>
 			context.HasItem &&

@@ -9,6 +9,9 @@ namespace Files.App.Actions
 		public override string Label
 			=> string.Format(Strings.CreateNamedArchive.GetLocalizedResource(), $"{StorageArchiveService.GenerateArchiveNameFromItems(context.SelectedItems)}.zip");
 
+		public override string ExtendedLabel
+			=> Strings.CompressIntoZip.GetLocalizedResource();
+
 		public override string Description
 			=> Strings.CompressIntoZipDescription.GetLocalizedFormatResource(context.SelectedItems.Count);
 
