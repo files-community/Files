@@ -4,7 +4,6 @@
 using Files.App.ViewModels.Previews;
 using Files.Shared.Helpers;
 using Windows.Storage;
-using static Files.App.Constants.AdaptiveLayout;
 
 namespace Files.App.Helpers
 {
@@ -70,7 +69,7 @@ namespace Files.App.Helpers
 			float imagePercentage = 100f * filesAndFolders.Count(IsImage) / itemCount;
 			float mediaPercentage = 100f * filesAndFolders.Count(IsMedia) / itemCount;
 
-			if (imagePercentage > MediumThreshold || mediaPercentage > MediumThreshold)
+			if (imagePercentage > 60.0f || mediaPercentage > 60.0f)
 				return Layouts.Grid;
 			return Layouts.Detail;
 
