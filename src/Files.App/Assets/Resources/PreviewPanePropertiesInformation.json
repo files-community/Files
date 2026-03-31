@@ -406,6 +406,7 @@
 		"SectionResource": "PropertySectionCore",
 		"Property": "System.Comment",
 		"IsReadOnly": false,
+    "IsMultiLine": true,
 		"ID": null
 	},
 	{
