@@ -3,7 +3,6 @@
 
 using Files.App.ViewModels.Previews;
 using Files.Shared.Helpers;
-using Windows.Storage;
 
 namespace Files.App.Helpers
 {
