@@ -70,7 +70,7 @@ namespace Files.App.Helpers
 			float imagePercentage = 100f * filesAndFolders.Count(IsImage) / itemCount;
 			float mediaPercentage = 100f * filesAndFolders.Count(IsMedia) / itemCount;
 
-			if (imagePercentage > ExtraLargeThreshold || mediaPercentage > ExtraLargeThreshold)
+			if (imagePercentage > MediumThreshold || mediaPercentage > MediumThreshold)
 				return Layouts.Grid;
 			return Layouts.Detail;
 
