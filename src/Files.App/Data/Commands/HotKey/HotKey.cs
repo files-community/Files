@@ -4,6 +4,7 @@
 using System.Collections.Frozen;
 using System.Text;
 using Windows.Win32;
+using Windows.Win32.UI.Input.KeyboardAndMouse;
 using Forms = System.Windows.Forms;
 
 namespace Files.App.Data.Commands
@@ -81,46 +82,46 @@ namespace Files.App.Data.Commands
 			[Keys.Number7] = "7",
 			[Keys.Number8] = "8",
 			[Keys.Number9] = "9",
-			[Keys.A] = GetKeyCharacter(Forms.Keys.A).ToUpper(),
-			[Keys.B] = GetKeyCharacter(Forms.Keys.B).ToUpper(),
-			[Keys.C] = GetKeyCharacter(Forms.Keys.C).ToUpper(),
-			[Keys.D] = GetKeyCharacter(Forms.Keys.D).ToUpper(),
-			[Keys.E] = GetKeyCharacter(Forms.Keys.E).ToUpper(),
-			[Keys.F] = GetKeyCharacter(Forms.Keys.F).ToUpper(),
-			[Keys.G] = GetKeyCharacter(Forms.Keys.G).ToUpper(),
-			[Keys.H] = GetKeyCharacter(Forms.Keys.H).ToUpper(),
-			[Keys.I] = GetKeyCharacter(Forms.Keys.I).ToUpper(),
-			[Keys.J] = GetKeyCharacter(Forms.Keys.J).ToUpper(),
-			[Keys.K] = GetKeyCharacter(Forms.Keys.K).ToUpper(),
-			[Keys.L] = GetKeyCharacter(Forms.Keys.L).ToUpper(),
-			[Keys.M] = GetKeyCharacter(Forms.Keys.M).ToUpper(),
-			[Keys.N] = GetKeyCharacter(Forms.Keys.N).ToUpper(),
-			[Keys.O] = GetKeyCharacter(Forms.Keys.O).ToUpper(),
-			[Keys.P] = GetKeyCharacter(Forms.Keys.P).ToUpper(),
-			[Keys.Q] = GetKeyCharacter(Forms.Keys.Q).ToUpper(),
-			[Keys.R] = GetKeyCharacter(Forms.Keys.R).ToUpper(),
-			[Keys.S] = GetKeyCharacter(Forms.Keys.S).ToUpper(),
-			[Keys.T] = GetKeyCharacter(Forms.Keys.T).ToUpper(),
-			[Keys.U] = GetKeyCharacter(Forms.Keys.U).ToUpper(),
-			[Keys.V] = GetKeyCharacter(Forms.Keys.V).ToUpper(),
-			[Keys.W] = GetKeyCharacter(Forms.Keys.W).ToUpper(),
-			[Keys.X] = GetKeyCharacter(Forms.Keys.X).ToUpper(),
-			[Keys.Y] = GetKeyCharacter(Forms.Keys.Y).ToUpper(),
-			[Keys.Z] = GetKeyCharacter(Forms.Keys.Z).ToUpper(),
-			[Keys.Oem1] = GetKeyCharacter(Forms.Keys.Oem1).ToUpper(),
-			[Keys.Oem2] = GetKeyCharacter(Forms.Keys.Oem2).ToUpper(),
-			[Keys.Oem3] = GetKeyCharacter(Forms.Keys.Oem3).ToUpper(),
-			[Keys.Oem4] = GetKeyCharacter(Forms.Keys.Oem4).ToUpper(),
-			[Keys.Oem5] = GetKeyCharacter(Forms.Keys.Oem5).ToUpper(),
-			[Keys.Oem6] = GetKeyCharacter(Forms.Keys.Oem6).ToUpper(),
-			[Keys.Oem7] = GetKeyCharacter(Forms.Keys.Oem7).ToUpper(),
-			[Keys.Oem8] = GetKeyCharacter(Forms.Keys.Oem8).ToUpper(),
-			[Keys.Oem102] = GetKeyCharacter(Forms.Keys.Oem102).ToUpper(),
-			[Keys.OemPlus] = GetKeyCharacter(Forms.Keys.Oemplus).ToUpper(),
-			[Keys.OemComma] = GetKeyCharacter(Forms.Keys.Oemcomma).ToUpper(),
-			[Keys.OemMinus] = GetKeyCharacter(Forms.Keys.OemMinus).ToUpper(),
-			[Keys.OemPeriod] = GetKeyCharacter(Forms.Keys.OemPeriod).ToUpper(),
-			[Keys.OemClear] = GetKeyCharacter(Forms.Keys.OemClear).ToUpper(),
+			[Keys.A] = GetKeyCharacter(Forms.Keys.A),
+			[Keys.B] = GetKeyCharacter(Forms.Keys.B),
+			[Keys.C] = GetKeyCharacter(Forms.Keys.C),
+			[Keys.D] = GetKeyCharacter(Forms.Keys.D),
+			[Keys.E] = GetKeyCharacter(Forms.Keys.E),
+			[Keys.F] = GetKeyCharacter(Forms.Keys.F),
+			[Keys.G] = GetKeyCharacter(Forms.Keys.G),
+			[Keys.H] = GetKeyCharacter(Forms.Keys.H),
+			[Keys.I] = GetKeyCharacter(Forms.Keys.I),
+			[Keys.J] = GetKeyCharacter(Forms.Keys.J),
+			[Keys.K] = GetKeyCharacter(Forms.Keys.K),
+			[Keys.L] = GetKeyCharacter(Forms.Keys.L),
+			[Keys.M] = GetKeyCharacter(Forms.Keys.M),
+			[Keys.N] = GetKeyCharacter(Forms.Keys.N),
+			[Keys.O] = GetKeyCharacter(Forms.Keys.O),
+			[Keys.P] = GetKeyCharacter(Forms.Keys.P),
+			[Keys.Q] = GetKeyCharacter(Forms.Keys.Q),
+			[Keys.R] = GetKeyCharacter(Forms.Keys.R),
+			[Keys.S] = GetKeyCharacter(Forms.Keys.S),
+			[Keys.T] = GetKeyCharacter(Forms.Keys.T),
+			[Keys.U] = GetKeyCharacter(Forms.Keys.U),
+			[Keys.V] = GetKeyCharacter(Forms.Keys.V),
+			[Keys.W] = GetKeyCharacter(Forms.Keys.W),
+			[Keys.X] = GetKeyCharacter(Forms.Keys.X),
+			[Keys.Y] = GetKeyCharacter(Forms.Keys.Y),
+			[Keys.Z] = GetKeyCharacter(Forms.Keys.Z),
+			[Keys.Oem1] = GetKeyCharacter(Forms.Keys.Oem1),
+			[Keys.Oem2] = GetKeyCharacter(Forms.Keys.Oem2),
+			[Keys.Oem3] = GetKeyCharacter(Forms.Keys.Oem3),
+			[Keys.Oem4] = GetKeyCharacter(Forms.Keys.Oem4),
+			[Keys.Oem5] = GetKeyCharacter(Forms.Keys.Oem5),
+			[Keys.Oem6] = GetKeyCharacter(Forms.Keys.Oem6),
+			[Keys.Oem7] = GetKeyCharacter(Forms.Keys.Oem7),
+			[Keys.Oem8] = GetKeyCharacter(Forms.Keys.Oem8),
+			[Keys.Oem102] = GetKeyCharacter(Forms.Keys.Oem102),
+			[Keys.OemPlus] = GetKeyCharacter(Forms.Keys.Oemplus),
+			[Keys.OemComma] = GetKeyCharacter(Forms.Keys.Oemcomma),
+			[Keys.OemMinus] = GetKeyCharacter(Forms.Keys.OemMinus),
+			[Keys.OemPeriod] = GetKeyCharacter(Forms.Keys.OemPeriod),
+			[Keys.OemClear] = GetKeyCharacter(Forms.Keys.OemClear),
 			[Keys.Application] = GetLocalizedKey("Application"),
 			[Keys.Application1] = GetLocalizedKey("Application1"),
 			[Keys.Application2] = GetLocalizedKey("Application2"),
@@ -373,26 +374,12 @@ namespace Files.App.Data.Commands
 
 		private static string GetKeyCharacter(Forms.Keys key)
 		{
-			var buffer = new StringBuilder(4);
-			var state = new byte[256];
+			char result = (char)PInvoke.MapVirtualKey((uint)key, MAP_VIRTUAL_KEY_TYPE.MAPVK_VK_TO_CHAR);
 
-			// Get the current keyboard state
-			if (!PInvoke.GetKeyboardState(state))
-				return buffer.ToString();
+			if (result > 0)
+				return result.ToString();
 
-			// Convert the key to its virtual key code
-			var virtualKey = (uint)key;
-
-			// Map the virtual key to a scan code
-			var scanCode = PInvoke.MapVirtualKey(virtualKey, 0);
-
-			// Get the active keyboard layout
-			var keyboardLayout = PInvoke.GetKeyboardLayout(0);
-
-			if (Win32PInvoke.ToUnicodeEx(virtualKey, scanCode, state, buffer, buffer.Capacity, 0, keyboardLayout) > 0)
-				return buffer[^1].ToString();
-
-			return buffer.ToString();
+			return string.Empty;
 		}
 	}
 }
