@@ -33,7 +33,7 @@ jobs:
       WORKING_DIR:                '${{ github.workspace }}' # D:\a\Files\Files\
       ARTIFACTS_STAGING_DIR:      '${{ github.workspace }}\artifacts'
       APPX_PACKAGE_DIR:           '${{ github.workspace }}\artifacts\AppxPackages\'
-      APP_PROJECT_PATH:            'src\Files.App\Files.App.csproj'
+      APP_PROJECT_PATH:           'src\Files.App\Files.App.csproj'
       PACKAGE_MANIFEST_PATH:      'src\Files.App\Package.appxmanifest'
       LAUNCHER_PROJECT_PATH:      'src\Files.App.Launcher\Files.App.Launcher.vcxproj'
       TEST_PROJECT_PATH:          'tests\Files.InteractionTests\Files.InteractionTests.csproj'
@@ -41,13 +41,13 @@ jobs:
 
     steps:
     - name: Checkout the repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v2
+      uses: microsoft/setup-msbuild@v3
     - name: Setup NuGet
-      uses: NuGet/setup-nuget@v2
+      uses: NuGet/setup-nuget@v3
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         global-json-file: global.json
 
@@ -67,7 +67,7 @@ jobs:
         SECRET_BINGMAPS_KEY: ${{ secrets.BING_MAPS_SECRET }}
         SECRET_SENTRY: ${{ secrets.SENTRY_SECRET }}
         SECRET_GITHUB_OAUTH_CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
-  
+
     - name: Restore Files
       shell: pwsh
       run: |
@@ -84,7 +84,7 @@ jobs:
         nuget restore "$env:LAUNCHER_PROJECT_PATH" `
           -SolutionDirectory "$env:WORKING_DIR" `
           -Verbosity detailed
-    
+
     - name: Build launcher project
       shell: pwsh
       run: |
@@ -95,7 +95,7 @@ jobs:
         -v:quiet
 
     - name: Sign launcher EXE with Azure Trusted Signing
-      uses: azure/trusted-signing-action@v0.4.0
+      uses: Azure/artifact-signing-action@v1
       with:
         azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -142,7 +142,7 @@ jobs:
       run: find $ARTIFACTS_STAGING_DIR -empty -delete
 
     - name: Sign Files with Azure Trusted Signing
-      uses: azure/trusted-signing-action@v0.4.0
+      uses: Azure/artifact-signing-action@v1
       with:
         azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -159,7 +159,7 @@ jobs:
         timestamp-digest: SHA256
 
     - name: Upload packages to Cloudflare
-      uses: ryand56/r2-upload-action@latest
+      uses: ryand56/r2-upload-action@v1
       with:
         r2-account-id: ${{ secrets.R2_ACCOUNT_ID }}
         r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}
@@ -167,9 +167,9 @@ jobs:
         r2-bucket: ${{ secrets.R2_BUCKET }}
         source-dir: ${{ env.APPX_PACKAGE_DIR }}
         destination-dir: ./files/stable
-          
+
     - name: Upload the packages to GitHub Actions
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: 'Appx Packages (${{ env.CONFIGURATION }}, ${{ env.PLATFORM }})'
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
