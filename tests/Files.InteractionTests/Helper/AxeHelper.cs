@@ -24,9 +24,17 @@ namespace Files.InteractionTests.Helper
 			AccessibilityScanner = ScannerFactory.CreateScanner(config);
 		}
 
-		public static void AssertNoAccessibilityErrors()
+		public static void AssertNoAccessibilityErrors(Func<ScanResult, bool>? ignoredIssueFilter = null)
 		{
-			var testResult = AccessibilityScanner.Scan(null).WindowScanOutputs.SelectMany(output => output.Errors).Where(error => error.Rule.ID != RuleId.BoundingRectangleNotNull);
+			var testResult = AccessibilityScanner
+				.Scan(null)
+				.WindowScanOutputs
+				.SelectMany(output => output.Errors)
+				.Where(error => error.Rule.ID != RuleId.BoundingRectangleNotNull);
+
+			if (ignoredIssueFilter is not null)
+				testResult = testResult.Where(error => !ignoredIssueFilter(error));
+
 			if (testResult.Any())
 			{
 				StringBuilder sb = new();
@@ -38,6 +46,17 @@ namespace Files.InteractionTests.Helper
 
 				Assert.Fail(sb.ToString());
 			}
+		}
+
+		public static bool IsCommunityToolkitWindowsIssue430(ScanResult result)
+		{
+			// CommunityToolkit/Windows#430: SettingsExpander internal controls can report
+			// duplicate Name + LocalizedControlType until the toolkit fix lands.
+			var description = result.Rule.Description;
+			return !string.IsNullOrWhiteSpace(description)
+				&& description.Contains("LocalizedControlType", StringComparison.OrdinalIgnoreCase)
+				&& description.Contains("Name", StringComparison.OrdinalIgnoreCase)
+				&& description.Contains("same", StringComparison.OrdinalIgnoreCase);
 		}
 
 		private static string BuildAssertMessage(ScanResult result)
