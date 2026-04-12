@@ -21,4 +21,17 @@ namespace Files.App.Controls
 		/// </summary>
 		bool PaddedItem { get; }
 	}
+
+	public interface IDraggableSidebarItemModel : ISidebarItemModel
+	{
+		/// <summary>
+		/// The file path used for drag and drop operations
+		/// </summary>
+		string? DropPath { get; }
+
+		/// <summary>
+		/// Indicates whether the item supports reorder dropping
+		/// </summary>
+		bool IsReorderDropItem { get; }
+	}
 }

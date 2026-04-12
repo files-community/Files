@@ -20,13 +20,13 @@ namespace Files.App.Services
 
 		public Task PinToSidebarAsync(string[] folderPaths) => PinToSidebarAsync(folderPaths, true);
 
-		private async Task PinToSidebarAsync(string[] folderPaths, bool doUpdateQuickAccessWidget)
+		private async Task PinToSidebarAsync(string[] folderPaths, bool doUpdateQuickAccessWidget, bool force = false)
 		{
 			foreach (string folderPath in folderPaths)
 			{
 				// make sure that the item has not yet been pinned
 				// the verb 'pintohome' is for both adding and removing
-				if (!IsItemPinned(folderPath))
+				if (force || !IsItemPinned(folderPath))
 					await ContextMenu.InvokeVerb("pintohome", folderPath);
 			}
 
@@ -101,14 +101,9 @@ namespace Files.App.Services
 			// Unpin every item that is below this index and then pin them all in order
 			await UnpinFromSidebarAsync([], false);
 
-			await PinToSidebarAsync(items, false);
+			await PinToSidebarAsync(items, false, force: true);
 			if (App.QuickAccessManager.PinnedItemsWatcher is not null)
 				App.QuickAccessManager.PinnedItemsWatcher.EnableRaisingEvents = true;
-
-			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(items, true)
-			{
-				Reorder = true
-			});
 		}
 	}
 }

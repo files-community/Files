@@ -476,26 +476,66 @@ namespace Files.App.Views
 
 		private async void SidebarControl_ItemDragOver(object sender, ItemDragOverEventArgs e)
 		{
-			var deferral = e.RawEvent.GetDeferral();
-
-			await SafetyExtensions.IgnoreExceptions(async () =>
+			DragOperationDeferral? deferral = null;
+			try
 			{
-				await SidebarAdaptiveViewModel.HandleItemDragOverAsync(e);
-			}, App.Logger);
+				deferral = e.RawEvent.GetDeferral();
 
-			deferral.Complete();
+				var completionTask = SafetyExtensions.IgnoreExceptions(async () =>
+				{
+					await SidebarAdaptiveViewModel.HandleItemDragOverAsync(e);
+				}, App.Logger);
+				
+				e.CompletionTask = completionTask;
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Error during drag over operation");
+			}
+			finally
+			{
+				try
+				{
+					deferral?.Complete();
+				}
+				catch (Exception ex) when (ex is System.Runtime.InteropServices.COMException)
+				{
+					// Expected: OLE deferral can fail with stale COM state when
+					// Windows Explorer is active during a drag operation.
+					App.Logger.LogTrace(ex, "Deferral.Complete() failed during drag over (stale OLE state).");
+				}
+			}
 		}
 
 		private async void SidebarControl_ItemDropped(object sender, ItemDroppedEventArgs e)
 		{
-			var deferral = e.RawEvent.GetDeferral();
-
-			await SafetyExtensions.IgnoreExceptions(async () =>
+			DragOperationDeferral? deferral = null;
+			try
 			{
-				await SidebarAdaptiveViewModel.HandleItemDroppedAsync(e);
-			}, App.Logger);
+				deferral = e.RawEvent.GetDeferral();
 
-			deferral.Complete();
+				await SafetyExtensions.IgnoreExceptions(async () =>
+				{
+					await SidebarAdaptiveViewModel.HandleItemDroppedAsync(e);
+				}, App.Logger);
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Error during drop operation");
+			}
+			finally
+			{
+				try
+				{
+					deferral?.Complete();
+				}
+				catch (Exception ex) when (ex is System.Runtime.InteropServices.COMException)
+				{
+					// Expected: OLE deferral can fail with stale COM state when
+					// Windows Explorer is active during a drop operation.
+					App.Logger.LogTrace(ex, "Deferral.Complete() failed during drop (stale OLE state).");
+				}
+			}
 		}
 
 		private void SidebarControl_ItemInvoked(object sender, ItemInvokedEventArgs e)
