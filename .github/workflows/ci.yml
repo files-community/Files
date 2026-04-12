@@ -43,12 +43,15 @@ env:
   WINAPPDRIVER_EXE64_PATH: 'C:\Program Files\Windows Application Driver\WinAppDriver.exe'
 
 jobs:
+
   check-formatting:
+
     if: github.repository_owner == 'files-community'
 
     runs-on: windows-2025-vs2026
 
     steps:
+
     - name: Checkout the repository
       uses: actions/checkout@v6
       with:
@@ -78,6 +81,7 @@ jobs:
       run: exit 1
 
   build:
+
     if: github.repository_owner == 'files-community'
 
     runs-on: windows-2025-vs2026
@@ -91,6 +95,7 @@ jobs:
       ARCHITECTURE: ${{ matrix.platform }}
 
     steps:
+
     - name: Checkout the repository
       uses: actions/checkout@v6
     - name: Setup MSBuild
@@ -174,6 +179,7 @@ jobs:
         path: ${{ env.ARTIFACTS_STAGING_DIR }}
 
   test:
+
     if: github.repository_owner == 'files-community' && always()
 
     needs: [build]
@@ -190,6 +196,7 @@ jobs:
       pull-requests: write
 
     steps:
+
     - if: contains(join(needs.*.result, ','), 'failure')
       name: Fail if necessary
       run: exit 1
