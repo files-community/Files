@@ -265,7 +265,7 @@ jobs:
             --report-trx-filename testResults.trx
 
     - if: github.event_name == 'pull_request'
-      uses: geekyeggo/delete-artifact@v6
+      uses: GeekyEggo/delete-artifact@v6
       with:
         name: '*'
 
