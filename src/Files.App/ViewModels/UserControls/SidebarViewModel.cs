@@ -1171,6 +1171,15 @@ namespace Files.App.ViewModels.UserControls
 						return;
 					}
 
+					if (args.dropPosition == SidebarItemDropPosition.Center)
+					{
+						rawEvent.Handled = true;
+						rawEvent.AcceptedOperation = DataPackageOperation.Link;
+						rawEvent.DragUIOverride.IsCaptionVisible = true;
+						rawEvent.DragUIOverride.Caption = string.Format(Strings.LinkToFolderCaptionText.GetLocalizedResource(), locationItem.Text);
+						return;
+					}
+
 					if (section.ChildItems.IndexOf(locationItem) == 0 && args.dropPosition == SidebarItemDropPosition.Top)
 					{
 						rawEvent.Handled = true;
@@ -1187,6 +1196,15 @@ namespace Files.App.ViewModels.UserControls
 
 				if (!locationItem.IsHeader)
 				{
+					if (args.dropPosition != SidebarItemDropPosition.Center)
+					{
+						rawEvent.Handled = true;
+						rawEvent.AcceptedOperation = DataPackageOperation.Move;
+						rawEvent.DragUIOverride.IsCaptionVisible = true;
+						rawEvent.DragUIOverride.Caption = Strings.PinFolderToSidebar.GetLocalizedResource();
+						return;
+					}
+
 					rawEvent.Handled = true;
 					rawEvent.AcceptedOperation = DataPackageOperation.None;
 					return;
@@ -1201,7 +1219,14 @@ namespace Files.App.ViewModels.UserControls
 				var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
 				var hasStorageItems = storageItems.Any();
 
-				if (isPathNull && hasStorageItems && SectionType.Pinned.Equals(locationItem.Section))
+				if (!isPathNull && hasStorageItems && SectionType.Pinned.Equals(locationItem.Section)
+					&& args.dropPosition != SidebarItemDropPosition.Center
+					&& storageItems.Any(item => item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.PinnedFolders.Contains(item.Path)))
+				{
+					var captionText = Strings.PinFolderToSidebar.GetLocalizedResource();
+					CompleteDragEventArgs(rawEvent, captionText, DataPackageOperation.Move);
+				}
+				else if (isPathNull && hasStorageItems && SectionType.Pinned.Equals(locationItem.Section))
 				{
 					var haveFoldersToPin = storageItems.Any(item => item.ItemType == FilesystemItemType.Directory && !SidebarPinnedModel.PinnedFolders.Contains(item.Path));
 
@@ -1377,6 +1402,12 @@ namespace Files.App.ViewModels.UserControls
 						if (locationItem.IsHeader)
 							return;
 
+						if (args.dropPosition == SidebarItemDropPosition.Center)
+						{
+							await FilesystemHelpers.PerformOperationTypeAsync(DataPackageOperation.Link, args.DroppedItem, locationItem.Path, false, true);
+							return;
+						}
+
 						await reorderSemaphore.WaitAsync();
 						try
 						{
@@ -1422,11 +1453,102 @@ namespace Files.App.ViewModels.UserControls
 						}
 						return;
 					}
+
+					if (dragPath is not null && args.dropPosition != SidebarItemDropPosition.Center && !locationItem.IsHeader)
+					{
+						await reorderSemaphore.WaitAsync();
+						try
+						{
+							using (SidebarPinnedModel.SuspendSync())
+							{
+								if (!SidebarPinnedModel.PinnedFolders.Contains(dragPath))
+								{
+									var targetIndex = section.ChildItems.IndexOf(locationItem);
+									if (targetIndex >= 0)
+									{
+										if (args.dropPosition == SidebarItemDropPosition.Bottom)
+											targetIndex++;
+
+										var newLocationItem = await SidebarPinnedModel.CreateLocationItemFromPathAsync(dragPath);
+										section.ChildItems.Insert(targetIndex, newLocationItem);
+
+										var newOrder = section.ChildItems
+											.OfType<LocationItem>()
+											.Where(x => !x.IsDefaultLocation && !string.IsNullOrEmpty(x.Path))
+											.Select(x => x.Path)
+											.ToArray();
+										SidebarPinnedModel.UpdateOrderSilently(newOrder);
+										await QuickAccessService.SaveAsync(newOrder);
+
+										App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(newOrder, true)
+										{
+											Reorder = true
+										});
+									}
+								}
+							}
+						}
+						finally
+						{
+							reorderSemaphore.Release();
+						}
+						return;
+					}
 				}
 			}
 
 			if (Utils.Storage.FilesystemHelpers.HasDraggedStorageItems(args.DroppedItem))
 			{
+				if (!string.IsNullOrEmpty(locationItem.Path) && SectionType.Pinned.Equals(locationItem.Section)
+					&& args.dropPosition != SidebarItemDropPosition.Center)
+				{
+					var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
+					var pinnedSection = sidebarItems.FirstOrDefault(x => x.Section == SectionType.Pinned);
+					if (pinnedSection is LocationItem section && section.ChildItems is not null)
+					{
+						await reorderSemaphore.WaitAsync();
+						try
+						{
+							using (SidebarPinnedModel.SuspendSync())
+							{
+								foreach (var item in storageItems)
+								{
+									if (item.ItemType != FilesystemItemType.Directory || SidebarPinnedModel.PinnedFolders.Contains(item.Path))
+										continue;
+
+									var targetIndex = section.ChildItems.IndexOf(locationItem);
+									if (targetIndex < 0)
+										continue;
+
+									if (args.dropPosition == SidebarItemDropPosition.Bottom)
+										targetIndex++;
+
+									var newLocationItem = await SidebarPinnedModel.CreateLocationItemFromPathAsync(item.Path);
+									section.ChildItems.Insert(targetIndex, newLocationItem);
+								}
+
+								var newOrder = section.ChildItems
+									.OfType<LocationItem>()
+									.Where(x => !x.IsDefaultLocation && !string.IsNullOrEmpty(x.Path))
+									.Select(x => x.Path)
+									.ToArray();
+								SidebarPinnedModel.UpdateOrderSilently(newOrder);
+								await QuickAccessService.SaveAsync(newOrder);
+
+								App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(newOrder, true)
+								{
+									Reorder = true
+								});
+							}
+						}
+						finally
+						{
+							reorderSemaphore.Release();
+						}
+					}
+					return;
+				}
+
 				if (string.IsNullOrEmpty(locationItem.Path) && SectionType.Pinned.Equals(locationItem.Section))
 				{
 					var storageItems = await Utils.Storage.FilesystemHelpers.GetDraggedStorageItems(args.DroppedItem);
