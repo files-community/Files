@@ -2144,6 +2144,12 @@
   <data name="CreateArchive" xml:space="preserve">
     <value>Criar arquivo</value>
   </data>
+  <data name="CompressIntoZip" xml:space="preserve">
+    <value>Criar arquivo zip</value>
+  </data>
+  <data name="CompressIntoSevenZip" xml:space="preserve">
+    <value>Criar arquivo 7z</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Criar</value>
   </data>
@@ -2753,26 +2759,14 @@
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Navegar para cima uma pasta</value>
   </data>
-  <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Duplicar aba atual</value>
-  </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
     <value>Duplicar aba selecionada</value>
-  </data>
-  <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Fechar abas à esquerda da aba atual</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
     <value>Fechar abas à esquerda da aba selecionada</value>
   </data>
-  <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Fechar abas à direita da aba atual</value>
-  </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
     <value>Fechar abas à direita da aba selecionada</value>
-  </data>
-  <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Fechar abas diferentes da aba atual</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Fechar abas diferentes da aba selecionada</value>
@@ -4376,5 +4370,32 @@
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Mostrar a opção de Fixar no Menu Iniciar</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Arquivo</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>Executar</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Iniciar</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>Seleção</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Mostrar</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Navegação</value>
+  </data>
+  <data name="FileSystem" xml:space="preserve">
+    <value>Sistema de arquivos</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Janela</value>
+  </data>
+  <data name="DualPaneCategory" xml:space="preserve">
+    <value>Painel duplo</value>
   </data>
 </root>

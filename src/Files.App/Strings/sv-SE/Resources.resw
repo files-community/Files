@@ -124,13 +124,13 @@
     <value>Kopiera sökväg</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Copy item path</value>
+    <value>Kopiera fil adress</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Kopiera sökväg med citattecken</value>
   </data>
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
-    <value>Copy selected item path with quotes</value>
+    <value>Kopiera vald objektsökväg</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Bläddra</value>
@@ -166,7 +166,7 @@
     <value>Hoppa över</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>Välj alla</value>
   </data>
   <data name="InvertSelection" xml:space="preserve">
     <value>Omvänd markering</value>
@@ -217,7 +217,7 @@
     <value>Visa dolda filer och mappar</value>
   </data>
   <data name="ShowDotFiles" xml:space="preserve">
-    <value>Show dot files</value>
+    <value>Visa punktfiler</value>
   </data>
   <data name="Appearance" xml:space="preserve">
     <value>Utseende</value>
@@ -1092,25 +1092,25 @@
     <value>Slå av eller på informationspanelen</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Toggle visibility of the detail/preview panes</value>
+    <value>Växla synlighet av detaljerna/förhandsgranskningsrutorna</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
     <value>Växla verktygsfält</value>
   </data>
   <data name="ToggleToolbarDescription" xml:space="preserve">
-    <value>Toggle visibility of the toolbar</value>
+    <value>Växla synlighet i verktygsfältet</value>
   </data>
   <data name="ToggleFilterHeader" xml:space="preserve">
-    <value>Toggle filter header</value>
+    <value>Växla filter-sidhuvud</value>
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
-    <value>Toggle visibility of the filter header</value>
+    <value>Växla synlighet för filterhuvudet</value>
   </data>
   <data name="ToggleDualPane" xml:space="preserve">
-    <value>Toggle dual pane</value>
+    <value>Växla dubbel panel</value>
   </data>
   <data name="ToggleDualPaneDescription" xml:space="preserve">
-    <value>Toggle dual pane mode</value>
+    <value>Växla dubbelruta läge</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Ingen förhandsgranskning är tillgänglig</value>
@@ -1266,10 +1266,10 @@
     <value>Öppna Storage Sense</value>
   </data>
   <data name="OpenStorageSenseDescription" xml:space="preserve">
-    <value>Open the Storage Sense page in Windows Settings</value>
+    <value>Öppna Storage Sense-sidan i Windows-inställningarna</value>
   </data>
   <data name="Cleanup" xml:space="preserve">
-    <value>Cleanup</value>
+    <value>Rensning</value>
   </data>
   <data name="Copy" xml:space="preserve">
     <value>Kopiera</value>
@@ -1305,7 +1305,7 @@
     <value>Motstridiga {0, plural, one {filnamn} other {filnamn}}</value>
   </data>
   <data name="CopyItemsDialogSubtitle" xml:space="preserve">
-    <value>{0, plural, one {One item will be copied} other {# items will be copied}}</value>
+    <value>{0, plural, one {Ett objekt kommer att flyttas} other {# objekt kommer flyttas}}</value>
   </data>
   <data name="DeleteItemsDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Ta bort permanent</value>
@@ -1413,7 +1413,7 @@
     <value>{0} objekt</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>Reopen tab</value>
+    <value>Öppna sidan igen</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>Byt namn</value>
@@ -1620,7 +1620,7 @@
     <value>Ersätt alla underordnade objekträttighetsposter med ärftliga rättighetsposter från detta objekt</value>
   </data>
   <data name="CloseActivePane" xml:space="preserve">
-    <value>Close pane</value>
+    <value>Stäng fönster</value>
   </data>
   <data name="EnterCompactOverlay" xml:space="preserve">
     <value>Öppna kompakt överlägg</value>
@@ -1773,7 +1773,7 @@
     <value>Tagg</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>Öppna filer med ett enda klick</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Mappsökväg</value>
@@ -1851,7 +1851,7 @@
     <value>Registrera detta program för omstart</value>
   </data>
   <data name="StartWindow" xml:space="preserve">
-    <value>Start window</value>
+    <value>Startsida</value>
   </data>
   <data name="NormalWindow" xml:space="preserve">
     <value>Normalt fönster</value>
@@ -1890,7 +1890,7 @@
     <value>Det här alternativet ändrar systemregistret och kan ha oväntade effekter på din enhet. Fortsätt på egen risk.</value>
   </data>
   <data name="ShowFlattenOptionsDescription" xml:space="preserve">
-    <value>The flatten operations are permanent and not recommended. Continue at your own risk.</value>
+    <value>Den platta verksamheten är permanent och inte rekommenderas. Fortsätt på egen risk.</value>
   </data>
   <data name="FolderWidgetCreateNewLibraryDialogTitleText" xml:space="preserve">
     <value>Skapa bibliotek</value>
@@ -2031,19 +2031,19 @@
     <value>Hej!</value>
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
-    <value>Enjoying Files? Please consider reviewing in the Microsoft Store.</value>
+    <value>Gillar du filer? Fundera på att lämna en recension på Microsoft Store</value>
   </data>
   <data name="SponsorSubtitle" xml:space="preserve">
-    <value>Enjoying Files? Please consider supporting the project on GitHub.</value>
+    <value>Gillar du filer? Fundera på att lämna en recension på Github</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
-    <value>Sponsor</value>
+    <value>Donera</value>
   </data>
   <data name="RateUs" xml:space="preserve">
-    <value>Rate us</value>
+    <value>Betygsätt oss</value>
   </data>
   <data name="Dismiss" xml:space="preserve">
-    <value>Dismiss</value>
+    <value>Avfärda</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Ange som bakgrund</value>
@@ -2073,7 +2073,7 @@
     <value>Låsskärm</value>
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
-    <value>Open folders with a single click</value>
+    <value>Öppna mappar med ett enda klick</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Öppnar objekt</value>
@@ -2082,16 +2082,16 @@
     <value>Komprimera</value>
   </data>
   <data name="FlattenFolderDescription" xml:space="preserve">
-    <value>Move all contents from subfolders into the selected location</value>
+    <value>Flytta allt innehåll från undermappar till den valda platsen</value>
   </data>
   <data name="FlattenFolder" xml:space="preserve">
-    <value>Flatten folder</value>
+    <value>Platta ut mapp</value>
   </data>
   <data name="Flatten" xml:space="preserve">
-    <value>Flatten</value>
+    <value>Platta</value>
   </data>
   <data name="FlattenFolderDialogContent" xml:space="preserve">
-    <value>Flattening a folder will move all contents from its subfolders to the selected location. This operation is permanent and cannot be undone. By using this experimental feature, you acknowledge the risk and agree not to hold the Files team responsible for any data loss.</value>
+    <value>Att platta en mapp flyttar allt innehåll från undermappar till den valda platsen. Den här åtgärden är permanent och kan inte ångras. Genom att använda denna experimentella funktion bekräftar du risken och samtycker till att inte hålla Filteamet ansvarigt för dataförlust.</value>
   </data>
   <data name="ShowFlattenOptions" xml:space="preserve">
     <value>Show flatten options</value>
@@ -2143,6 +2143,12 @@
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>Skapa arkiv</value>
+  </data>
+  <data name="CompressIntoZip" xml:space="preserve">
+    <value>Create zip archive</value>
+  </data>
+  <data name="CompressIntoSevenZip" xml:space="preserve">
+    <value>Create 7z archive</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Skapa</value>
@@ -2211,7 +2217,7 @@
     <value>Kryptering</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>Losenord</value>
+    <value>Lösenord</value>
   </data>
   <data name="Format" xml:space="preserve">
     <value>Format</value>
@@ -2753,26 +2759,14 @@
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Gå upp en mapp</value>
   </data>
-  <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Duplicera nuvarande flik</value>
-  </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
     <value>Duplicera vald flik</value>
-  </data>
-  <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Stäng flikar till vänster om nuvarande flik</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
     <value>Stäng flikar till vänster om den valda fliken</value>
   </data>
-  <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Stäng flikar till höger om nuvarande flik</value>
-  </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
     <value>Stäng flikar till höger om den valda fliken</value>
-  </data>
-  <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Stäng alla andra flikar än den nuvarande fliken</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Stäng alla andra flikar än den valda fliken</value>
@@ -2981,11 +2975,11 @@
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeDown" xml:space="preserve">
-    <value>Volvos</value>
+    <value>Volym ned</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Key.MediaVolumeUp" xml:space="preserve">
-    <value>Volym</value>
+    <value>Volym up</value>
     <comment>Key name for hotkeys in menus. Use abbreviation if possible.</comment>
   </data>
   <data name="Change" xml:space="preserve">
@@ -3211,7 +3205,7 @@
     <value>Hämta</value>
   </data>
   <data name="GitPull" xml:space="preserve">
-    <value>Dra</value>
+    <value>Hämta</value>
   </data>
   <data name="GitFetchDescription" xml:space="preserve">
     <value>Kör hämtning av git</value>
@@ -3254,7 +3248,7 @@
     <value>Git</value>
   </data>
   <data name="Acrylic" xml:space="preserve">
-    <value>Acrylic</value>
+    <value>Akryl</value>
   </data>
   <data name="Mica" xml:space="preserve">
     <value>Mica</value>
@@ -3281,7 +3275,7 @@
     <value>Synk</value>
   </data>
   <data name="GitSyncDescription" xml:space="preserve">
-    <value>Kör git pull och sedan git push</value>
+    <value>Kör git hämta och sedan git ladda upp</value>
   </data>
   <data name="GitSyncStatusExtendedInfo" xml:space="preserve">
     <value>{0} utgående / {1} inkommande incheckningar</value>
@@ -3471,7 +3465,7 @@
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Seafoam" xml:space="preserve">
-    <value>Seafoam</value>
+    <value>Sjögräs</value>
     <comment>One of the custom color themes</comment>
   </data>
   <data name="Storm" xml:space="preserve">
@@ -4376,5 +4370,32 @@
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Show option to Pin to the Start Menu</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Archive</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>Selection</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Navigation</value>
+  </data>
+  <data name="FileSystem" xml:space="preserve">
+    <value>File system</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Window</value>
+  </data>
+  <data name="DualPaneCategory" xml:space="preserve">
+    <value>Dual Pane</value>
   </data>
 </root>

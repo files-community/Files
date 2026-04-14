@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NewWindow" xml:space="preserve">
-    <value>Fereastră Nouă</value>
+    <value>Fereastră nouă</value>
   </data>
   <data name="CopyPath" xml:space="preserve">
     <value>Copiere cale</value>
@@ -436,7 +436,7 @@
     <value>Acum</value>
   </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
-    <value>Operația solicitată nu este suportată</value>
+    <value>Operația solicitată nu este acceptată</value>
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} liber din {1}</value>
@@ -636,7 +636,7 @@
     <value>Nu s-a putut crea acest element</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
-    <value>Acces Respins</value>
+    <value>Acces respins</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
     <value>Stabilire ca</value>
@@ -690,7 +690,7 @@
     <value>Cale element</value>
   </data>
   <data name="PropertyItemTypeText" xml:space="preserve">
-    <value>Tip Element</value>
+    <value>Tip element</value>
   </data>
   <data name="PropertyTitle" xml:space="preserve">
     <value>Titlu</value>
@@ -702,22 +702,22 @@
     <value>Comentariu</value>
   </data>
   <data name="PropertyCopyright" xml:space="preserve">
-    <value>Drepturi de Autor</value>
+    <value>Drepturi de autor</value>
   </data>
   <data name="PropertyDateModified" xml:space="preserve">
-    <value>Data Modificării</value>
+    <value>Data modificării</value>
   </data>
   <data name="PropertyBitDepth" xml:space="preserve">
-    <value>Adâncime de Biți</value>
+    <value>Adâncime de biți</value>
   </data>
   <data name="PropertyDimensions" xml:space="preserve">
     <value>Dimensiuni</value>
   </data>
   <data name="PropertyHorizontalSize" xml:space="preserve">
-    <value>Dimensiune Orizontală</value>
+    <value>Dimensiune orizontală</value>
   </data>
   <data name="PropertyVerticalSize" xml:space="preserve">
-    <value>Dimensiune Verticală</value>
+    <value>Dimensiune verticală</value>
   </data>
   <data name="PropertyHorizontalResolution" xml:space="preserve">
     <value>Rezoluție orizontală</value>
@@ -735,55 +735,55 @@
     <value>Nespecificat</value>
   </data>
   <data name="PropertyLongitudeDecimal" xml:space="preserve">
-    <value>Longitudine Zecimală</value>
+    <value>Longitudine zecimală</value>
   </data>
   <data name="PropertyLatitudeDecimal" xml:space="preserve">
-    <value>Latitudine Zecimală</value>
+    <value>Latitudine zecimală</value>
   </data>
   <data name="PropertyAltitude" xml:space="preserve">
     <value>Altitudine</value>
   </data>
   <data name="PropertyDateTaken" xml:space="preserve">
-    <value>Data Preluării</value>
+    <value>Data preluării</value>
   </data>
   <data name="PropertyCameraManufacturer" xml:space="preserve">
-    <value>Producător Cameră</value>
+    <value>Producător cameră</value>
   </data>
   <data name="PropertyCameraModel" xml:space="preserve">
-    <value>Model Cameră</value>
+    <value>Model cameră</value>
   </data>
   <data name="PropertyExposureTime" xml:space="preserve">
-    <value>Timp de Expunere</value>
+    <value>Timp de expunere</value>
   </data>
   <data name="PropertyFocalLength" xml:space="preserve">
-    <value>Distanță Focală</value>
+    <value>Distanță focală</value>
   </data>
   <data name="PropertyAperture" xml:space="preserve">
     <value>Apertură</value>
   </data>
   <data name="PropertyPeopleNames" xml:space="preserve">
-    <value>Nume Persoane</value>
+    <value>Nume persoane</value>
   </data>
   <data name="PropertyChannelCount" xml:space="preserve">
-    <value>Număr de Canale</value>
+    <value>Număr de canale</value>
   </data>
   <data name="PropertyFormat" xml:space="preserve">
     <value>Format</value>
   </data>
   <data name="PropertySampleRate" xml:space="preserve">
-    <value>Rată de Eșantionare</value>
+    <value>Rată de eșantionare</value>
   </data>
   <data name="PropertyAlbumArtist" xml:space="preserve">
-    <value>Artist Album</value>
+    <value>Artist album</value>
   </data>
   <data name="PropertyAlbumTitle" xml:space="preserve">
-    <value>Titlu Album</value>
+    <value>Titlu album</value>
   </data>
   <data name="Artist" xml:space="preserve">
     <value>Artist</value>
   </data>
   <data name="PropertyBeatsPerMinute" xml:space="preserve">
-    <value>Bătăi Pe Minut</value>
+    <value>Bătăi pe minut</value>
   </data>
   <data name="PropertyComposer" xml:space="preserve">
     <value>Compozitor</value>
@@ -792,67 +792,67 @@
     <value>Dirijor</value>
   </data>
   <data name="PropertyDiscNumber" xml:space="preserve">
-    <value>Numărul Discului</value>
+    <value>Numărul discului</value>
   </data>
   <data name="PropertyGenre" xml:space="preserve">
     <value>Gen</value>
   </data>
   <data name="PropertyTrackNumber" xml:space="preserve">
-    <value>Număr Piesă</value>
+    <value>Număr piesă</value>
   </data>
   <data name="PropertyDuration" xml:space="preserve">
     <value>Durată</value>
   </data>
   <data name="PropertyFrameCount" xml:space="preserve">
-    <value>Număr Cadre</value>
+    <value>Număr cadre</value>
   </data>
   <data name="PropertyProtectionType" xml:space="preserve">
-    <value>Tip Protecție</value>
+    <value>Tip protecție</value>
   </data>
   <data name="PropertyAuthorUrl" xml:space="preserve">
-    <value>URL Autor</value>
+    <value>URL autor</value>
   </data>
   <data name="PropertyContentDistributor" xml:space="preserve">
-    <value>Distribuitor Conținut</value>
+    <value>Distribuitor conținut</value>
   </data>
   <data name="PropertyDateReleased" xml:space="preserve">
-    <value>Data Lansării</value>
+    <value>Data lansării</value>
   </data>
   <data name="PropertySeriesName" xml:space="preserve">
-    <value>Numele Seriei</value>
+    <value>Numele seriei</value>
   </data>
   <data name="PropertySeasonNumber" xml:space="preserve">
-    <value>Numărul Sezonului</value>
+    <value>Numărul sezonului</value>
   </data>
   <data name="PropertyEpisodeNumber" xml:space="preserve">
-    <value>Numărul Episodului</value>
+    <value>Numărul episodului</value>
   </data>
   <data name="PropertyProducer" xml:space="preserve">
     <value>Producător</value>
   </data>
   <data name="PropertyPromotionUrl" xml:space="preserve">
-    <value>URL Promoție</value>
+    <value>URL promoțional</value>
   </data>
   <data name="PropertyProviderStyle" xml:space="preserve">
-    <value>Stilul Furnizorului</value>
+    <value>Stilul furnizorului</value>
   </data>
   <data name="PropertyPublisher" xml:space="preserve">
     <value>Editor</value>
   </data>
   <data name="PropertyThumbnailLargePath" xml:space="preserve">
-    <value>Cale Miniatură Mare</value>
+    <value>Cale miniatură mare</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
-    <value>URI Miniatură Mare</value>
+    <value>URI miniatură mare</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
-    <value>Cale Miniatură Mică</value>
+    <value>Cale miniatură mică</value>
   </data>
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
-    <value>URI Miniatură Mică</value>
+    <value>URI miniatură mică</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
-    <value>URL Web Utilizator</value>
+    <value>URL web utilizator</value>
   </data>
   <data name="PropertyWriter" xml:space="preserve">
     <value>Autor</value>
@@ -864,61 +864,61 @@
     <value>Contribuitor</value>
   </data>
   <data name="PropertyLastAuthor" xml:space="preserve">
-    <value>Ultimul Autor</value>
+    <value>Ultimul autor</value>
   </data>
   <data name="PropertyRevisionNumber" xml:space="preserve">
-    <value>Număr Revizuire</value>
+    <value>Număr revizuire</value>
   </data>
   <data name="PropertyVersion" xml:space="preserve">
     <value>Versiune</value>
   </data>
   <data name="PropertyDateCreated" xml:space="preserve">
-    <value>Data Creării</value>
+    <value>Data creării</value>
   </data>
   <data name="PropertyTotalEditingTime" xml:space="preserve">
-    <value>Timp Total de Editare</value>
+    <value>Timp total de editare</value>
   </data>
   <data name="PropertyTemplate" xml:space="preserve">
     <value>Șablon</value>
   </data>
   <data name="PropertyWordCount" xml:space="preserve">
-    <value>Contor de Cuvinte</value>
+    <value>Număr de cuvinte</value>
   </data>
   <data name="PropertyCharacterCount" xml:space="preserve">
-    <value>Contor Caractere</value>
+    <value>Număr de caractere</value>
   </data>
   <data name="PropertyLineCount" xml:space="preserve">
-    <value>Contor Linii</value>
+    <value>Număr de linii</value>
   </data>
   <data name="PropertyParagraphCount" xml:space="preserve">
-    <value>Contor Paragrafe</value>
+    <value>Număr paragrafe</value>
   </data>
   <data name="PropertyPageCount" xml:space="preserve">
-    <value>Număr Pagini</value>
+    <value>Număr pagini</value>
   </data>
   <data name="PropertySlideCount" xml:space="preserve">
-    <value>Contor Diapozitive</value>
+    <value>Număr diapozitive</value>
   </data>
   <data name="PropertyFrameRate" xml:space="preserve">
-    <value>Frecvență Cadre</value>
+    <value>Frecvență cadre</value>
   </data>
   <data name="PropertyEncodingBitrate" xml:space="preserve">
-    <value>Codificare Rată de Biți</value>
+    <value>Codificare rată de biți</value>
   </data>
   <data name="PropertyPreviewAudioEncodingBitrate" xml:space="preserve">
-    <value>Codificare Rată de Biți Audio</value>
+    <value>Codificare rată de biți audio</value>
   </data>
   <data name="PropertyPreviewVideoEncodingBitrate" xml:space="preserve">
-    <value>Codificare Rată de Biți Video</value>
+    <value>Codificare rată de biți video</value>
   </data>
   <data name="Compression" xml:space="preserve">
-    <value>Compresie</value>
+    <value>Comprimare</value>
   </data>
   <data name="PropertyFrameWidth" xml:space="preserve">
-    <value>Lățime Cadru</value>
+    <value>Lățime cadru</value>
   </data>
   <data name="PropertyFrameHeight" xml:space="preserve">
-    <value>Înălțime Cadru</value>
+    <value>Înălțime cadru</value>
   </data>
   <data name="PropertyOrientation" xml:space="preserve">
     <value>Orientare</value>
@@ -945,7 +945,7 @@
     <value>Muzică</value>
   </data>
   <data name="PropertySectionVideo" xml:space="preserve">
-    <value>Video</value>
+    <value>Videoclip</value>
   </data>
   <data name="Document" xml:space="preserve">
     <value>Document</value>
@@ -978,7 +978,7 @@
     <value>Dispozitivul poate fi acum scos în siguranță din calculator.</value>
   </data>
   <data name="EjectNotificationErrorDialogHeader" xml:space="preserve">
-    <value>Problemă la Scoaterea Dispozitivului</value>
+    <value>Problemă la scoaterea dispozitivului</value>
   </data>
   <data name="EjectNotificationErrorDialogBody" xml:space="preserve">
     <value>Acest dispozitiv este în prezent în uz. Închideți orice programe, ferestre sau file care ar putea utiliza dispozitivul și apoi încercați din nou.</value>
@@ -990,7 +990,7 @@
     <value>Duplicare filă</value>
   </data>
   <data name="HorizontalMultitaskingControlMoveTabToNewWindow.Text" xml:space="preserve">
-    <value>Mutare fila într-o fereastră nouă</value>
+    <value>Mutare filă într-o fereastră nouă</value>
   </data>
   <data name="NewTab" xml:space="preserve">
     <value>Filă nouă</value>
@@ -1095,7 +1095,7 @@
     <value>Comutare vizibilitate panourilor de detalii și de previzualizare</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
-    <value>Comutare Bară de Instrumente</value>
+    <value>Comutare bară de instrumente</value>
   </data>
   <data name="ToggleToolbarDescription" xml:space="preserve">
     <value>Comutați vizibilitatea barei de instrumente</value>
@@ -1116,7 +1116,7 @@
     <value>Nicio previzualizare disponibilă</value>
   </data>
   <data name="PropertyItemName" xml:space="preserve">
-    <value>Nume Element</value>
+    <value>Nume element</value>
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Anulați fixarea la Bara Laterală</value>
@@ -1170,28 +1170,28 @@
     <value>Unitate în Cloud</value>
   </data>
   <data name="DriveTypeFixed" xml:space="preserve">
-    <value>Unitate de Disc Fixă</value>
+    <value>Unitate de disc fixă</value>
   </data>
   <data name="DriveTypeFloppyDisk" xml:space="preserve">
-    <value>Unitate de Disc Floppy</value>
+    <value>Unitate de disc floppy</value>
   </data>
   <data name="DriveTypeNetwork" xml:space="preserve">
-    <value>Unitate de Rețea</value>
+    <value>Unitate de rețea</value>
   </data>
   <data name="DriveTypeNoRootDirectory" xml:space="preserve">
-    <value>Unitate Nemontată</value>
+    <value>Unitate nemontată</value>
   </data>
   <data name="DriveTypeRam" xml:space="preserve">
-    <value>Unitate Disc RAM</value>
+    <value>Unitate disc RAM</value>
   </data>
   <data name="DriveTypeRemovable" xml:space="preserve">
-    <value>Dispozitiv de Stocare Amovibil</value>
+    <value>Dispozitiv de stocare amovibil</value>
   </data>
   <data name="DriveTypeUnknown" xml:space="preserve">
     <value>Necunoscut</value>
   </data>
   <data name="DriveTypeVirtualDrive" xml:space="preserve">
-    <value>Unitate Virtuală</value>
+    <value>Unitate virtuală</value>
   </data>
   <data name="DateCreated" xml:space="preserve">
     <value>Data creării</value>
@@ -1233,10 +1233,10 @@
     <value>Coloane (Ctrl + Shift+6)</value>
   </data>
   <data name="PinItemToStart.Text" xml:space="preserve">
-    <value>Fixare la Meniul Start</value>
+    <value>Fixare la meniul Start</value>
   </data>
   <data name="UnpinItemFromStart.Text" xml:space="preserve">
-    <value>Anulați fixarea la Meniul Start</value>
+    <value>Anulați fixarea la meniul Start</value>
   </data>
   <data name="Library" xml:space="preserve">
     <value>Bibliotecă</value>
@@ -1263,10 +1263,10 @@
     <value>O bibliotecă cu același nume exista deja!</value>
   </data>
   <data name="OpenStorageSense" xml:space="preserve">
-    <value>Deschidere Stocare Inteligentă</value>
+    <value>Deschidere Stocare inteligentă</value>
   </data>
   <data name="OpenStorageSenseDescription" xml:space="preserve">
-    <value>Deschideți pagina Stocare Inteligentă în Setările Windows</value>
+    <value>Deschideți pagina Stocare inteligentă în Setările Windows</value>
   </data>
   <data name="Cleanup" xml:space="preserve">
     <value>Curățare</value>
@@ -1335,7 +1335,7 @@
     <value>Fișier pictogramă</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
-    <value>Coloana de cale originală</value>
+    <value>Coloană cale originală</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowItemType.Text" xml:space="preserve">
     <value>Coloană tip element</value>
@@ -1473,7 +1473,7 @@
     <value>Scriere</value>
   </data>
   <data name="SecurityUnknownAccount" xml:space="preserve">
-    <value>Cont Necunoscut</value>
+    <value>Cont necunoscut</value>
   </data>
   <data name="SecurityCannotReadProperties.Text" xml:space="preserve">
     <value>Nu aveți permisiuni pentru a vizualiza proprietățile de securitate ale acestui obiect. Faceți clic pe „Permisiuni avansate” pentru a continua.</value>
@@ -1503,7 +1503,7 @@
     <value>Sigur doriți să restaurați bibliotecile implicite? Toate fișierele dvs. vor rămâne în spațiul de stocare.</value>
   </data>
   <data name="DialogRestoreLibrariesTitleText" xml:space="preserve">
-    <value>Restabilire Biblioteci</value>
+    <value>Restabilire biblioteci</value>
   </data>
   <data name="PropertyFileOwner" xml:space="preserve">
     <value>Proprietar</value>
@@ -2144,6 +2144,12 @@
   <data name="CreateArchive" xml:space="preserve">
     <value>Creare arhivă</value>
   </data>
+  <data name="CompressIntoZip" xml:space="preserve">
+    <value>Creare arhivă zip</value>
+  </data>
+  <data name="CompressIntoSevenZip" xml:space="preserve">
+    <value>Creare arhivă 7z</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Creare</value>
   </data>
@@ -2753,26 +2759,14 @@
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Navigați în sus într-un director</value>
   </data>
-  <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Duplicați fila curentă</value>
-  </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
     <value>Duplicați fila selectată</value>
-  </data>
-  <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Închideți filele din stânga filei curente</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
     <value>Închideți filele din stânga filei selectate</value>
   </data>
-  <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Închideți filele din dreapta filei curente</value>
-  </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
     <value>Închideți filele din dreapta filei selectate</value>
-  </data>
-  <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Închideți alte file decât fila curentă</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Închideți alte file decât fila selectată</value>
@@ -4376,5 +4370,32 @@
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Afișați opțiunea de fixare în Meniul Start</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Arhivare</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>Executare</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Pornire</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>Selectare</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Afișare</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Navigare</value>
+  </data>
+  <data name="FileSystem" xml:space="preserve">
+    <value>Sistem de fișiere</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Fereastră</value>
+  </data>
+  <data name="DualPaneCategory" xml:space="preserve">
+    <value>Panou dublu</value>
   </data>
 </root>

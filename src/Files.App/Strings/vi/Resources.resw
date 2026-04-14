@@ -124,13 +124,13 @@
     <value>Sao chép đường dẫn</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Sao chép đường dẫn khoản mục</value>
+    <value>Sao chép đường dẫn</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Sao chép đường dẫn kèm dấu ngoặc kép</value>
   </data>
   <data name="CopyItemPathWithQuotes" xml:space="preserve">
-    <value>Sao chép đường dẫn khoản mục đã chọn kèm dấu ngoặc kép</value>
+    <value>Sao chép đường dẫn đã chọn kèm dấu ngoặc kép</value>
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Duyệt tìm</value>
@@ -181,7 +181,7 @@
     <value>Đã truy cập:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Loại bỏ tất cả khoản mục</value>
+    <value>Dọn lịch sử các tệp mới mở gần đây</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Nhập đường dẫn hoặc gõ "&gt;" để mở bảng lệnh</value>
@@ -202,7 +202,7 @@
     <value>Giới thiệu</value>
   </data>
   <data name="OpenSource" xml:space="preserve">
-    <value>Nguồn mở</value>
+    <value>Mã nguồn mở</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>Định dạng thời gian</value>
@@ -331,7 +331,7 @@
     <value>Quay lại</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>Tiến</value>
+    <value>Chuyển tiếp</value>
   </data>
   <data name="Up" xml:space="preserve">
     <value>Lùi về</value>
@@ -349,10 +349,10 @@
     <value>Khoản mục đã tồn tại</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Hình nền màn hình khóa</value>
+    <value>Đặt làm hình nền màn hình khoá</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Hình nền ứng dụng</value>
+    <value>Đặt làm hình nền màn hình chính</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Chúng tôi không thể xóa khoản mục này</value>
@@ -2144,6 +2144,12 @@
   <data name="CreateArchive" xml:space="preserve">
     <value>Tạo tệp nén</value>
   </data>
+  <data name="CompressIntoZip" xml:space="preserve">
+    <value>Tạo tệp nén zip</value>
+  </data>
+  <data name="CompressIntoSevenZip" xml:space="preserve">
+    <value>Tạo tệp nén 7z</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Tạo</value>
   </data>
@@ -2753,26 +2759,14 @@
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Điều hướng về thư mục nguồn</value>
   </data>
-  <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Nhân đôi thẻ hiện tại</value>
-  </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
     <value>Nhân đôi thẻ đã chọn</value>
-  </data>
-  <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Đóng các thẻ ở phía bên trái thẻ hiện tại</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
     <value>Đóng các thẻ ở phía bên trái thẻ đã chọn</value>
   </data>
-  <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Đóng các thẻ ở phía bên phải thẻ hiện tại</value>
-  </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
     <value>Đóng các thẻ ở phía bên phải thẻ đã chọn</value>
-  </data>
-  <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Đóng các thẻ khác ngoài thẻ hiện tại</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Đóng các thẻ khác ngoài thẻ đã chọn</value>
@@ -4376,5 +4370,32 @@
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Hiện tùy chọn ghim vào menu Bắt đầu</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Tệp nén</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>Chạy</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Bắt đầu</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>Lựa chọn</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Hiển thị</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Điều hướng</value>
+  </data>
+  <data name="FileSystem" xml:space="preserve">
+    <value>Hệ thống tệp</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Cửa sổ</value>
+  </data>
+  <data name="DualPaneCategory" xml:space="preserve">
+    <value>Chế độ hai ngăn</value>
   </data>
 </root>

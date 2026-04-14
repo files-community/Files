@@ -1092,25 +1092,25 @@
     <value>Infopaneel in-/uitschakelen</value>
   </data>
   <data name="ToggleInfoPaneDescription" xml:space="preserve">
-    <value>Detail‑/voorbeeldvensters tonen/verbergen</value>
+    <value>Detail-/voorbeeldpanelen tonen/verbergen</value>
   </data>
   <data name="ToggleToolbar" xml:space="preserve">
     <value>Werkbalk in-/uitschakelen</value>
   </data>
   <data name="ToggleToolbarDescription" xml:space="preserve">
-    <value>Toggle visibility of the toolbar</value>
+    <value>Zichtbaarheid van werkbalk in-/uitschakelen</value>
   </data>
   <data name="ToggleFilterHeader" xml:space="preserve">
-    <value>Toggle filter header</value>
+    <value>Filterheader in-/uitschakelen</value>
   </data>
   <data name="ToggleFilterHeaderDescription" xml:space="preserve">
-    <value>Toggle visibility of the filter header</value>
+    <value>Zichtbaarheid van filterheader in-/uitschakelen</value>
   </data>
   <data name="ToggleDualPane" xml:space="preserve">
-    <value>Toggle dual pane</value>
+    <value>Dubbel paneel in-/uitschakelen</value>
   </data>
   <data name="ToggleDualPaneDescription" xml:space="preserve">
-    <value>Toggle dual pane mode</value>
+    <value>Dubbele paneelmodus in-/uitschakelen</value>
   </data>
   <data name="DetailsPanePreviewNotAvaliableText" xml:space="preserve">
     <value>Geen voorbeeld beschikbaar</value>
@@ -1413,7 +1413,7 @@
     <value>{0} items</value>
   </data>
   <data name="ReopenClosedTab" xml:space="preserve">
-    <value>Gesloten tab heropenen</value>
+    <value>Tabblad opnieuw openen</value>
   </data>
   <data name="Rename" xml:space="preserve">
     <value>Hernoemen</value>
@@ -1773,7 +1773,7 @@
     <value>Label</value>
   </data>
   <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Open bestanden met één klik</value>
+    <value>Bestanden openen met één klik</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Map pad</value>
@@ -2031,19 +2031,19 @@
     <value>Hallo!</value>
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
-    <value>Enjoying Files? Please consider reviewing in the Microsoft Store.</value>
+    <value>Tevreden met Files? Overweeg dan om in de Microsoft Store te beoordelen.</value>
   </data>
   <data name="SponsorSubtitle" xml:space="preserve">
-    <value>Enjoying Files? Please consider supporting the project on GitHub.</value>
+    <value>Tevreden met Files? Overweeg dan om het project op GitHub te steunen.</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
     <value>Sponsor</value>
   </data>
   <data name="RateUs" xml:space="preserve">
-    <value>Rate us</value>
+    <value>Beoordeel ons</value>
   </data>
   <data name="Dismiss" xml:space="preserve">
-    <value>Dismiss</value>
+    <value>Afwijzen</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
     <value>Als achtergrond instellen</value>
@@ -2073,7 +2073,7 @@
     <value>Vergrendelingsscherm</value>
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
-    <value>Open mappen met één klik</value>
+    <value>Mappen openen met één klik</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Items openen</value>
@@ -2106,7 +2106,7 @@
     <value>Alle items herstellen</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogContent" xml:space="preserve">
-    <value>Do you want to restore the {0, plural, one {selected item} other {{0} selected items}}?</value>
+    <value>Wil je {0, plural, one {het geselecteerde item} other {de {0} geselecteerde items}} herstellen?</value>
   </data>
   <data name="ConfirmRestoreSelectionBinDialogTitle" xml:space="preserve">
     <value>Herstel selectie</value>
@@ -2143,6 +2143,12 @@
   </data>
   <data name="CreateArchive" xml:space="preserve">
     <value>ZIP-bestand maken</value>
+  </data>
+  <data name="CompressIntoZip" xml:space="preserve">
+    <value>Zip-archief aanmaken</value>
+  </data>
+  <data name="CompressIntoSevenZip" xml:space="preserve">
+    <value>7z-archief aanmaken</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Maken</value>
@@ -2184,16 +2190,16 @@
     <value>Auto</value>
   </data>
   <data name="DictionarySize" xml:space="preserve">
-    <value>Dictionary size</value>
+    <value>Grootte woordenboek</value>
   </data>
   <data name="WordSize" xml:space="preserve">
-    <value>Word size</value>
+    <value>Woordlengte</value>
   </data>
   <data name="EstimatedMemoryUsage" xml:space="preserve">
-    <value>Estimated memory usage: {0}</value>
+    <value>Geschat geheugengebruik: {0}</value>
   </data>
   <data name="AvailableMemory" xml:space="preserve">
-    <value>Available memory: {0}</value>
+    <value>Beschikbaar geheugen: {0}</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2412,7 +2418,7 @@
     <value>Vergroten</value>
   </data>
   <data name="ToggleSortDirection" xml:space="preserve">
-    <value>Sort direction</value>
+    <value>Sorteerrichting</value>
   </data>
   <data name="InvalidTagNameWarning" xml:space="preserve">
     <value>Ongeldige naam</value>
@@ -2424,13 +2430,13 @@
     <value>Video's</value>
   </data>
   <data name="LaunchPreviewPopup" xml:space="preserve">
-    <value>Preview popup</value>
+    <value>Voorbeeld pop-up</value>
   </data>
   <data name="ToggleCompactOverlay" xml:space="preserve">
     <value>Compacte overlay in-/uitschakelen</value>
   </data>
   <data name="OpenHelpDescription" xml:space="preserve">
-    <value>Open the online help page in your browser</value>
+    <value>Open de online helppagina in je browser</value>
   </data>
   <data name="ToggleFullScreenDescription" xml:space="preserve">
     <value>Volledig scherm in-/uitschakelen</value>
@@ -2439,13 +2445,13 @@
     <value>Ga naar compacte overlay</value>
   </data>
   <data name="ExitCompactOverlayDescription" xml:space="preserve">
-    <value>Exit compact overlay mode</value>
+    <value>Compacte overlay modus afsluiten</value>
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
-    <value>Toggle compact overlay mode</value>
+    <value>Compacte overlay modus in-/uitschakelen</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
-    <value>Start search in the OmniBar</value>
+    <value>Begin met zoeken in de OmniBar</value>
   </data>
   <data name="ToggleShowHiddenItemsDescription" xml:space="preserve">
     <value>Verborgen items tonen/verbergen</value>
@@ -2466,31 +2472,31 @@
     <value>Geselecteerde {0, plural, one {item} other {items}} kopiëren</value>
   </data>
   <data name="CopyPathDescription" xml:space="preserve">
-    <value>Copy path of the current directory</value>
+    <value>Kopieer pad van de huidige map</value>
   </data>
   <data name="CopyItemPathDescription" xml:space="preserve">
-    <value>Copy path of selected items</value>
+    <value>Kopieer pad van geselecteerde items</value>
   </data>
   <data name="CopyItemPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of selected items with quotes</value>
+    <value>Kopieer pad van geselecteerde items met aanhalingstekens</value>
   </data>
   <data name="CopyPathWithQuotesDescription" xml:space="preserve">
-    <value>Copy path of the current directory with quotes</value>
+    <value>Kopieer pad van de huidige map met aanhalingstekens</value>
   </data>
   <data name="CutItemDescription" xml:space="preserve">
     <value>Geselecteerde {0, plural, one {item} other {items}} knippen</value>
   </data>
   <data name="PasteItemDescription" xml:space="preserve">
-    <value>Paste items to the current folder</value>
+    <value>Items plakken naar huidige map</value>
   </data>
   <data name="PasteShortcutDescription" xml:space="preserve">
-    <value>Paste items to the current folder as shortcuts</value>
+    <value>Items naar huidige map als snelkoppelingen plakken</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items to the selected folder</value>
+    <value>Items plakken naar geselecteerde map</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
-    <value>Paste to selected folder</value>
+    <value>Plakken naar geselecteerde map</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>Geselecteerde {0, plural, one {item} other {items}} verwijderen</value>
@@ -2535,10 +2541,10 @@
     <value>Selecteer alle items</value>
   </data>
   <data name="InvertSelectionDescription" xml:space="preserve">
-    <value>Invert selected items</value>
+    <value>Geselecteerde items omkeren</value>
   </data>
   <data name="ClearSelectionDescription" xml:space="preserve">
-    <value>Clear selected items</value>
+    <value>Geselecteerde items wissen</value>
   </data>
   <data name="ToggleSelectDescription" xml:space="preserve">
     <value>Items selectie in-/uitschakelen</value>
@@ -2571,22 +2577,22 @@
     <value>Stel geselecteerde afbeelding in als app-achtergrond</value>
   </data>
   <data name="InstallFont" xml:space="preserve">
-    <value>Install font</value>
+    <value>Lettertype installeren</value>
   </data>
   <data name="InstallDriver" xml:space="preserve">
-    <value>Install driver</value>
+    <value>Driver installeren</value>
   </data>
   <data name="InstallCertificate" xml:space="preserve">
-    <value>Install certificate</value>
+    <value>Certificaat installeren</value>
   </data>
   <data name="InstallFontDescription" xml:space="preserve">
-    <value>Install selected {0, plural, one {font} other {fonts}}</value>
+    <value>Installeer geselecteerde {0, plural, one {lettertype} other {lettertypen}}</value>
   </data>
   <data name="InstallInfDriverDescription" xml:space="preserve">
-    <value>Install {0, plural, one {driver} other {drivers}} using selected inf {0, plural, one {file} other {files}}</value>
+    <value>Installeer {0, plural, one {driver} other {drivers}} met gebruik van geselecteerde inf {0, plural, one {bestand} other {bestanden}}</value>
   </data>
   <data name="InstallCertificateDescription" xml:space="preserve">
-    <value>Install selected {0, plural, one {certificate} other {certificates}}</value>
+    <value>Installeer geselecteerde {0, plural, one {certificaat} other {certificaten}}</value>
   </data>
   <data name="RunAsAdminDescription" xml:space="preserve">
     <value>Geselecteerde toepassing uitvoeren als beheerder</value>
@@ -2601,28 +2607,28 @@
     <value>Voorbeeld openen in pop-upvenster</value>
   </data>
   <data name="CompressIntoArchiveDescription" xml:space="preserve">
-    <value>Create archive with selected {0, plural, one {item} other {items}}</value>
+    <value>Archief aanmaken met geselecteerde {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CompressIntoSevenZipDescription" xml:space="preserve">
-    <value>Create 7z archive with selected {0, plural, one {item} other {items}}</value>
+    <value>7z-archief aanmaken met geselecteerde {0, plural, one {item} other {items}}</value>
   </data>
   <data name="CompressIntoZipDescription" xml:space="preserve">
-    <value>Create zip archive with selected {0, plural, one {item} other {items}}</value>
+    <value>Zip-archief aanmaken met geselecteerde {0, plural, one {item} other {items}}</value>
   </data>
   <data name="DecompressArchiveDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to any folder</value>
+    <value>Geselecteerde {0, plural, one {archief} other {archieven}} uitpakken naar map</value>
   </data>
   <data name="DecompressArchiveHereDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to the current folder</value>
+    <value>Geselecteerde {0, plural, one {archief} other {archieven}} uitpakken naar huidige map</value>
   </data>
   <data name="DecompressArchiveToChildFolderDescription" xml:space="preserve">
-    <value>Extract selected {0, plural, one {archive} other {archives}} to new folder</value>
+    <value>Geselecteerde {0, plural, one {archief} other {archieven}} uitpakken naar nieuwe map</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Rotate selected {0, plural, one {image} other {images}} to the left</value>
+    <value>Geselecteerde {0, plural, one {afbeelding} other {afbeeldingen}} naar links draaien</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Rotate selected {0, plural, one {image} other {images}} to the right</value>
+    <value>Geselecteerde {0, plural, one {afbeelding} other {afbeeldingen}} naar rechts draaien</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>Open instellingen pagina</value>
@@ -2745,34 +2751,22 @@
     <value>Nieuw tabblad openen</value>
   </data>
   <data name="NavigateBackDescription" xml:space="preserve">
-    <value>Navigate backward</value>
+    <value>Achteruit navigeren</value>
   </data>
   <data name="NavigateForwardDescription" xml:space="preserve">
-    <value>Navigate forward</value>
+    <value>Vooruit navigeren</value>
   </data>
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Navigeer één map naar boven</value>
   </data>
-  <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Huidig tabblad dupliceren</value>
-  </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
     <value>Geselecteerde tabblad dupliceren</value>
-  </data>
-  <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Tabbladen aan de linkerkant van het huidige tabblad sluiten</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
     <value>Tabbladen aan de linkerkant van geselecteerde tabblad sluiten</value>
   </data>
-  <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Tabbladen aan de rechterkant van het huidige tabblad sluiten</value>
-  </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
     <value>Tabbladen aan de rechterkant van geselecteerde tabblad sluiten</value>
-  </data>
-  <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Tabbladen sluiten anders dan huidige tabblad</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Tabbladen sluiten anders dan geselecteerd tabblad</value>
@@ -2781,7 +2775,7 @@
     <value>Alle tabbladen sluiten inclusief het huidige tabblad</value>
   </data>
   <data name="ReopenClosedTabDescription" xml:space="preserve">
-    <value>Reopen recently closed tab</value>
+    <value>Onlangs gesloten tabblad heropenen</value>
   </data>
   <data name="PreviousTabDescription" xml:space="preserve">
     <value>Verplaats naar het vorige tabblad</value>
@@ -2793,13 +2787,13 @@
     <value>Huidig tabblad sluiten</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>Close the active pane</value>
+    <value>Actieve paneel sluiten</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
     <value>Focus op ander paneel</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Switch focus to the other pane</value>
+    <value>Wijzig focus naar het andere paneel</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Zijbalk in-/uitschakelen</value>
@@ -3007,13 +3001,13 @@
     <value>Zonder label</value>
   </data>
   <data name="PreviousTab" xml:space="preserve">
-    <value>Previous tab</value>
+    <value>Vorig tabblad</value>
   </data>
   <data name="NextTab" xml:space="preserve">
-    <value>Next tab</value>
+    <value>Volgend tabblad</value>
   </data>
   <data name="CloseTab" xml:space="preserve">
-    <value>Close tab</value>
+    <value>Tabblad sluiten</value>
   </data>
   <data name="EditPath" xml:space="preserve">
     <value>Pad bewerken</value>
@@ -3706,7 +3700,7 @@
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveCanceled_SubHeader" xml:space="preserve">
-    <value>Canceled moving {0, plural, one {# item} other {# items}} from "{1}" to "{2}"</value>
+    <value>Verplaatsen {0, plural, one {# item} other {# items}} van "{1}" naar "{2}" geannuleerd</value>
     <comment>Shown in a StatusCenter card.</comment>
   </data>
   <data name="StatusCenter_MoveComplete_Header" xml:space="preserve">
@@ -4043,7 +4037,7 @@
     <comment>This is the friendly name for bitmap files.</comment>
   </data>
   <data name="ImageFiles" xml:space="preserve">
-    <value>Image Files</value>
+    <value>Afbeeldingsbestanden</value>
     <comment>This is the friendly name for image files.</comment>
   </data>
   <data name="NumPadTypeName" xml:space="preserve">
@@ -4078,16 +4072,16 @@
     <value>Tabblad acties-menu</value>
   </data>
   <data name="SplitPaneVertically" xml:space="preserve">
-    <value>Split vertically</value>
+    <value>Verticaal splitsen</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
-    <value>Split pane vertically</value>
+    <value>Paneel verticaal splitsen</value>
   </data>
   <data name="SplitPaneHorizontally" xml:space="preserve">
-    <value>Split horizontally</value>
+    <value>Horizontaal splitsen</value>
   </data>
   <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
-    <value>Split pane horizontally</value>
+    <value>Paneel horizontaal splitsen</value>
   </data>
   <data name="ArrangePanesVertically" xml:space="preserve">
     <value>Verticaal ordenen</value>
@@ -4102,7 +4096,7 @@
     <value>Panelen horizontaal ordenen</value>
   </data>
   <data name="SplitPane" xml:space="preserve">
-    <value>Split pane</value>
+    <value>Paneel splitsen</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>Tabblad acties knop weergeven in titelbalk</value>
@@ -4114,7 +4108,7 @@
     <value>Default dual pane split direction</value>
   </data>
   <data name="DualPane" xml:space="preserve">
-    <value>Dual pane mode</value>
+    <value>Dubbele paneelmodus</value>
   </data>
   <data name="Horizontal" xml:space="preserve">
     <value>Horizontaal</value>
@@ -4180,26 +4174,26 @@
     <value>Focus altijd schakelen naar nieuw gemaakte tabblad</value>
   </data>
   <data name="ToggleShelfPane" xml:space="preserve">
-    <value>Toggle shelf pane</value>
+    <value>Boekenplank paneel in-/uitschakelen</value>
   </data>
   <data name="ToggleShelfPaneDescription" xml:space="preserve">
-    <value>Toggle the visibility of the shelf pane</value>
+    <value>Zichtbaarheid van boekenplank paneel in-/uitschakelen</value>
   </data>
   <data name="ShowShelfPaneButtonInAddressBar" xml:space="preserve">
-    <value>Plankpaneel toggle weergeven in adresbalk</value>
+    <value>Boekenplank paneel toggle weergeven in adresbalk</value>
   </data>
   <data name="Shelf" xml:space="preserve">
-    <value>Plank</value>
+    <value>Boekenplank</value>
     <comment>'Shelf' refers to the Shelf Pane feature, where users can conveniently drag and drop files for quick access and perform bulk actions with ease.</comment>
   </data>
   <data name="ClearItems" xml:space="preserve">
     <value>Items wissen</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
-    <value>Verwijderen van plank</value>
+    <value>Verwijderen van boekenplank</value>
   </data>
   <data name="AddToShelf" xml:space="preserve">
-    <value>Toevoegen aan plank</value>
+    <value>Toevoegen aan boekenplank</value>
     <comment>Tooltip that displays when dragging items to the Shelf Pane</comment>
   </data>
   <data name="EnterHashToCompare" xml:space="preserve">
@@ -4274,7 +4268,7 @@
     <value>You can add sections to the sidebar by right-clicking and selecting the sections you want to add</value>
   </data>
   <data name="EmptyShelfText" xml:space="preserve">
-    <value>Drag files or folders here to interact with them across different tabs</value>
+    <value>Sleep bestanden of mappen hierheen om ze in verschillende tabbladen te gebruiken</value>
   </data>
   <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
     <value>Enter a path to navigate to...</value>
@@ -4286,33 +4280,33 @@
     <value>Search for files and folders...</value>
   </data>
   <data name="DuringOngoingFileOperations" xml:space="preserve">
-    <value>During file operations</value>
+    <value>Tijdens bestandsbewerkingen</value>
   </data>
   <data name="ShowStatusCenterButton" xml:space="preserve">
-    <value>Show status center button</value>
+    <value>Statuscentrum knop weergeven</value>
   </data>
   <data name="StatusCenterProgressRing" xml:space="preserve">
-    <value>Status center progress ring</value>
+    <value>Statuscentrum voortgangsring</value>
     <comment>Screen reader name for the status center progress ring</comment>
   </data>
   <data name="IconFiles" xml:space="preserve">
-    <value>Icon files</value>
+    <value>Pictogram bestanden</value>
     <comment>This is the friendly name for a variety of different icon files.</comment>
   </data>
   <data name="BreadcrumbBarEllipsisButtonToolTip" xml:space="preserve">
-    <value>Show collapsed path breadcrumbs</value>
+    <value>Samengevouwen broodkruimelspad weergeven</value>
   </data>
   <data name="BreadcrumbBarChevronButtonToolTip" xml:space="preserve">
-    <value>Show folders in {0}</value>
+    <value>Mappen weergeven in {0}</value>
   </data>
   <data name="BreadcrumbBarRootChevronButtonToolTip" xml:space="preserve">
-    <value>Show folders in Home</value>
+    <value>Mappen in Home weergeven</value>
   </data>
   <data name="NoCommandsFound" xml:space="preserve">
-    <value>There are no commands containing {0}</value>
+    <value>Er zijn geen commando's die {0} bevatten</value>
   </data>
   <data name="SeeMore" xml:space="preserve">
-    <value>See more</value>
+    <value>Meer bekijken</value>
   </data>
   <data name="FilteringFor" xml:space="preserve">
     <value>Filteren voor</value>
@@ -4324,7 +4318,7 @@
     <value>Handtekeningen</value>
   </data>
   <data name="SignatureList" xml:space="preserve">
-    <value>Signature list</value>
+    <value>Handtekeningenlijst</value>
   </data>
   <data name="IssuedBy" xml:space="preserve">
     <value>Verleend door:</value>
@@ -4339,42 +4333,69 @@
     <value>Geldig tot:</value>
   </data>
   <data name="NoSignatureFound" xml:space="preserve">
-    <value>No signature was found.</value>
+    <value>Geen handtekening gevonden.</value>
   </data>
   <data name="ShowOpenTerminal" xml:space="preserve">
-    <value>Show option to open folders in Windows Terminal</value>
+    <value>Optie om mappen te openen in Windows Terminal weergeven</value>
   </data>
   <data name="OpenLogFile" xml:space="preserve">
-    <value>Open log file</value>
+    <value>Logbestand openen</value>
   </data>
   <data name="OpenLogFileDescription" xml:space="preserve">
-    <value>Open log file in your default editor</value>
+    <value>Open logbestand in je standaard editor</value>
   </data>
   <data name="OpenLogFileLocationDescription" xml:space="preserve">
-    <value>Open log file location in your default file manager</value>
+    <value>Logbestandslocatie openen in je standaard bestandsbeheerder</value>
   </data>
   <data name="FailedToOpenLogFile" xml:space="preserve">
-    <value>Unable to open the log file</value>
+    <value>Kan logbestand niet openen</value>
   </data>
   <data name="ShowStatusBar" xml:space="preserve">
-    <value>Show status bar</value>
+    <value>Statusbalk weergeven</value>
   </data>
   <data name="OnlyInColumnsView" xml:space="preserve">
-    <value>Only in Columns View</value>
+    <value>Alleen in kolommenweergave</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
-    <value>New {0}</value>
+    <value>Nieuw {0}</value>
   </data>
   <data name="EnableSmoothScrolling" xml:space="preserve">
-    <value>Enable smooth scrolling</value>
+    <value>Vloeiend scrollen inschakelen</value>
   </data>
   <data name="Scrolling" xml:space="preserve">
-    <value>Scrolling</value>
+    <value>Scrollen</value>
   </data>
   <data name="ShowPinToSideBar" xml:space="preserve">
-    <value>Show option to Pin to Sidebar</value>
+    <value>Optie voor vastmaken aan zijbalk weergeven</value>
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
-    <value>Show option to Pin to the Start Menu</value>
+    <value>Optie voor vastmaken aan startmenu weergeven</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Archief</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>Uitvoeren</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>Selectie</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Weergeven</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Navigatie</value>
+  </data>
+  <data name="FileSystem" xml:space="preserve">
+    <value>Bestandssysteem</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Venster</value>
+  </data>
+  <data name="DualPaneCategory" xml:space="preserve">
+    <value>Dubbele panelen</value>
   </data>
 </root>
