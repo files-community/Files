@@ -1093,7 +1093,7 @@ namespace Files.App.ViewModels
 							IconOptions.ReturnThumbnailOnly | IconOptions.ReturnOnlyIfCached | (useCurrentScale ? IconOptions.UseCurrentScale : IconOptions.None));
 
 					cancellationToken.ThrowIfCancellationRequested();
-					loadNonCachedThumbnail = result is null;
+					loadNonCachedThumbnail = true;
 				}
 
 				if (result is null)
