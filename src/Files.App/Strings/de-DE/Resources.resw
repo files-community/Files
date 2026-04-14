@@ -2144,6 +2144,12 @@
   <data name="CreateArchive" xml:space="preserve">
     <value>Archiv erstellen</value>
   </data>
+  <data name="CompressIntoZip" xml:space="preserve">
+    <value>ZIP-Archiv erstellen</value>
+  </data>
+  <data name="CompressIntoSevenZip" xml:space="preserve">
+    <value>7z-Archiv erstellen</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Erstellen</value>
   </data>
@@ -2753,26 +2759,14 @@
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Ein Verzeichnis nach oben navigieren</value>
   </data>
-  <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Aktuellen Tab duplizieren</value>
-  </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
     <value>Ausgewählten Tab duplizieren</value>
-  </data>
-  <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Tabs links neben aktuellem Tab schließen</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
     <value>Tabs links neben ausgewähltem Tab schließen</value>
   </data>
-  <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Tabs rechts neben aktuellem Tab schließen</value>
-  </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
     <value>Tabs rechts neben ausgewähltem Tab schließen</value>
-  </data>
-  <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Alle anderen außer aktuellem Tab schließen</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Alle Tabs außer ausgewähltem Tab schließen</value>
@@ -4376,5 +4370,32 @@
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Option zum Anheften im Startmenü anzeigen</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Archiv</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>Ausführen</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Starten</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>Auswahl</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Zeigen</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Navigation</value>
+  </data>
+  <data name="FileSystem" xml:space="preserve">
+    <value>Dateisystem</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Fenster</value>
+  </data>
+  <data name="DualPaneCategory" xml:space="preserve">
+    <value>Geteilte Ansicht</value>
   </data>
 </root>
