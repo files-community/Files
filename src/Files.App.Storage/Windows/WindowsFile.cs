@@ -9,7 +9,7 @@ namespace Files.App.Storage
 	[DebuggerDisplay("{" + nameof(ToString) + "()}")]
 	public unsafe class WindowsFile : WindowsStorable, IWindowsFile
 	{
-		public WindowsFile(IShellItem* ptr)
+		public WindowsFile(IShellItem* ptr) : base()
 		{
 			ThisPtr = ptr;
 		}
