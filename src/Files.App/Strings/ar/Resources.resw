@@ -2145,6 +2145,12 @@
   <data name="CreateArchive" xml:space="preserve">
     <value>إنشاء أرشيف</value>
   </data>
+  <data name="CompressIntoZip" xml:space="preserve">
+    <value>Create zip archive</value>
+  </data>
+  <data name="CompressIntoSevenZip" xml:space="preserve">
+    <value>Create 7z archive</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>إنشاء</value>
   </data>
@@ -2338,7 +2344,7 @@
     <value>خيارات قائمة السياق</value>
   </data>
   <data name="ShowFileExtensions" xml:space="preserve">
-    <value>عرض امتدادات الملفات</value>
+    <value>عرض نوع الملفات</value>
   </data>
   <data name="FormatDriveText" xml:space="preserve">
     <value>تنسيق</value>
@@ -2754,26 +2760,14 @@
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>الانتقال لأعلى دليل واحد</value>
   </data>
-  <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>تكرار علامة التبويب الحالية</value>
-  </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
     <value>تكرار علامة التبويب المحددة</value>
-  </data>
-  <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>إغلاق علامات التبويب إلى اليسار من علامة التبويب الحالية</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
     <value>إغلاق علامات التبويب إلى اليسار من علامة التبويب المحددة</value>
   </data>
-  <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>إغلاق علامات التبويب إلى يمين علامة التبويب الحالية</value>
-  </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
     <value>إغلاق علامات التبويب إلى يمين علامة التبويب المحددة</value>
-  </data>
-  <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>إغلاق علامات التبويب غير علامة التبويب الحالية</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>إغلاق علامات التبويب غير علامة التبويب المحددة</value>
@@ -4079,13 +4073,13 @@
     <value>قائمة إجراءات علامة التبويب</value>
   </data>
   <data name="SplitPaneVertically" xml:space="preserve">
-    <value>Split vertically</value>
+    <value>تقسيم عمودي</value>
   </data>
   <data name="AddVerticalPaneDescription" xml:space="preserve">
     <value>Split pane vertically</value>
   </data>
   <data name="SplitPaneHorizontally" xml:space="preserve">
-    <value>Split horizontally</value>
+    <value>تقسيم أُفُقي</value>
   </data>
   <data name="SplitPaneHorizontallyDescription" xml:space="preserve">
     <value>Split pane horizontally</value>
@@ -4103,7 +4097,7 @@
     <value>ترتيب اللوحات أفقياً</value>
   </data>
   <data name="SplitPane" xml:space="preserve">
-    <value>Split pane</value>
+    <value>تقسيم اللوحة</value>
   </data>
   <data name="ShowTabActions" xml:space="preserve">
     <value>إظهار زر إجراءات علامة التبويب في شريط العنوان</value>
@@ -4259,7 +4253,7 @@
     <comment>Cannot clone repo dialog title</comment>
   </data>
   <data name="CompareFile" xml:space="preserve">
-    <value>Compare a file</value>
+    <value>مقارنة ملف</value>
     <comment>Button that appears in file hash properties that allows the user to compare two files</comment>
   </data>
   <data name="SizeFormat" xml:space="preserve">
@@ -4278,13 +4272,13 @@
     <value>Drag files or folders here to interact with them across different tabs</value>
   </data>
   <data name="OmnibarPathModeTextPlaceholder" xml:space="preserve">
-    <value>Enter a path to navigate to...</value>
+    <value>أدخل مسار للوصول له...</value>
   </data>
   <data name="OmnibarCommandPaletteModeTextPlaceholder" xml:space="preserve">
-    <value>Find features and commands...</value>
+    <value>البحث عن ميزات وأوامر...</value>
   </data>
   <data name="OmnibarSearchModeTextPlaceholder" xml:space="preserve">
-    <value>Search for files and folders...</value>
+    <value>البحث عن ملفات ومجلدات...</value>
   </data>
   <data name="DuringOngoingFileOperations" xml:space="preserve">
     <value>During file operations</value>
@@ -4377,5 +4371,32 @@
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
     <value>إظهار خيار التثبيت إلى قائمة البدء</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Archive</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>Run</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>Selection</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Navigation</value>
+  </data>
+  <data name="FileSystem" xml:space="preserve">
+    <value>File system</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Window</value>
+  </data>
+  <data name="DualPaneCategory" xml:space="preserve">
+    <value>Dual Pane</value>
   </data>
 </root>
