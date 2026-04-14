@@ -59,6 +59,29 @@ namespace Files.InteractionTests.Helper
 				&& description.Contains("same", StringComparison.OrdinalIgnoreCase);
 		}
 
+		public static bool IsCommunityToolkitSettingsCardButtonNameIssue(ScanResult result)
+		{
+			if (string.IsNullOrWhiteSpace(result.Rule.Description) ||
+				!result.Rule.Description.Contains("must not include the element's control type", StringComparison.OrdinalIgnoreCase))
+			{
+				return false;
+			}
+
+			if (!result.Element.Properties.TryGetValue("ControlType", out string? controlType) ||
+				!controlType.StartsWith("Button(", StringComparison.OrdinalIgnoreCase))
+			{
+				return false;
+			}
+
+			if (!result.Element.Properties.TryGetValue("Name", out string? name) ||
+				string.IsNullOrWhiteSpace(name))
+			{
+				return false;
+			}
+
+			return name.Contains("button", StringComparison.OrdinalIgnoreCase);
+		}
+
 		private static string BuildAssertMessage(ScanResult result)
 		{
 			// e.g., "Element Button(50000) violated rule 'The Name property of a focusable element must not be null.'."
