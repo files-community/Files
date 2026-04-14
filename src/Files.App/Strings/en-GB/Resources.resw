@@ -2493,10 +2493,10 @@
     <value>Paste items to the current folder as shortcuts</value>
   </data>
   <data name="PasteItemToSelectionDescription" xml:space="preserve">
-    <value>Paste items to the current folder</value>
+    <value>Paste items to the selected folder</value>
   </data>
   <data name="PasteToSelectedFolder" xml:space="preserve">
-    <value>Paste items to the current folder</value>
+    <value>Paste to selected folder</value>
   </data>
   <data name="DeleteItemDescription" xml:space="preserve">
     <value>Delete {0, plural, one {item} other {items}}</value>
@@ -2523,7 +2523,7 @@
     <value>Restore all items from recycle bin</value>
   </data>
   <data name="OpenItemDescription" xml:space="preserve">
-    <value>Move {0, plural, one {item} other {items}}</value>
+    <value>Open {0, plural, one {item} other {items}}</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
     <value>Open {0, plural, one {item} other {items}} with selected application</value>
@@ -2577,7 +2577,7 @@
     <value>Set selected picture as the app background</value>
   </data>
   <data name="InstallFont" xml:space="preserve">
-    <value>Install Font</value>
+    <value>Install font</value>
   </data>
   <data name="InstallDriver" xml:space="preserve">
     <value>Install driver</value>
@@ -2787,13 +2787,13 @@
     <value>Close current tab</value>
   </data>
   <data name="CloseActivePaneDescription" xml:space="preserve">
-    <value>Close active pane</value>
+    <value>Close the active pane</value>
   </data>
   <data name="FocusOtherPane" xml:space="preserve">
     <value>Focus other pane</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Switch focus to the non-active pane</value>
+    <value>Switch focus to the other pane</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Toggle the sidebar</value>
@@ -3052,7 +3052,7 @@
     <value>Delete permanently</value>
   </data>
   <data name="DeleteItemPermanentlyDescription" xml:space="preserve">
-    <value>Restore selected {0, plural, one {item} other {items}} from recycle bin</value>
+    <value>Delete selected {0, plural, one {item} other {items}} permanently</value>
   </data>
   <data name="PlayAllDescription" xml:space="preserve">
     <value>Play the selected media files</value>
