@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,7 +24,7 @@ namespace Files.Shared.Extensions
 		/// <typeparam name="T"></typeparam>
 		/// <param name="enumerable"></param>
 		/// <returns></returns>
-		public static bool IsEmpty<T>(this IEnumerable<T> enumerable)
+		public static bool IsEmpty<T>([NotNullWhen(false)] this IEnumerable<T>? enumerable)
 		{
 			return enumerable is null || !enumerable.Any();
 		}
