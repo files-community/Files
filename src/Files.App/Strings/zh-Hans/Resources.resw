@@ -151,7 +151,7 @@
     <value>占用空间:</value>
   </data>
   <data name="UncompressedSize" xml:space="preserve">
-    <value>压缩前大小:</value>
+    <value>压缩前大小：</value>
   </data>
   <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
     <value>操作无法完成</value>
@@ -196,7 +196,7 @@
     <value>移除此项</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
-    <value>GitHub 存储库</value>
+    <value>GitHub 仓库</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>关于</value>
@@ -328,13 +328,13 @@
     <value>此文件夹为空。</value>
   </data>
   <data name="Back" xml:space="preserve">
-    <value>后退 (Alt+左方向键)</value>
+    <value>后退</value>
   </data>
   <data name="Forward" xml:space="preserve">
-    <value>前进 (Alt+右方向键)</value>
+    <value>前进</value>
   </data>
   <data name="Up" xml:space="preserve">
-    <value>上移 (Alt+上方向键)</value>
+    <value>上移</value>
   </data>
   <data name="Refresh" xml:space="preserve">
     <value>刷新</value>
@@ -627,7 +627,7 @@
     <value>显示更多选项</value>
   </data>
   <data name="RestartNotificationText.Text" xml:space="preserve">
-    <value>一些设置需要重新启动 Files 才会应用，是否立即重启？</value>
+    <value>若要应用这些设置，需要重新启动应用程序。是否立即重启？</value>
   </data>
   <data name="SponsorUsOnGitHub" xml:space="preserve">
     <value>在 GitHub 上赞助我们</value>
@@ -2144,6 +2144,12 @@
   <data name="CreateArchive" xml:space="preserve">
     <value>创建压缩文件</value>
   </data>
+  <data name="CompressIntoZip" xml:space="preserve">
+    <value>创建 zip 压缩文件</value>
+  </data>
+  <data name="CompressIntoSevenZip" xml:space="preserve">
+    <value>创建 7z 压缩文件</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>创建</value>
   </data>
@@ -2753,26 +2759,14 @@
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>导航至上一级目录</value>
   </data>
-  <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>复制当前标签页</value>
-  </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
     <value>复制所选标签页</value>
-  </data>
-  <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>关闭当前标签页左侧的标签页</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
     <value>关闭所选标签页左侧的标签页</value>
   </data>
-  <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>关闭当前标签页右侧的标签页</value>
-  </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
     <value>关闭所选标签页右侧的标签页</value>
-  </data>
-  <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>关闭除当前标签页以外的标签页</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>关闭除所选标签页以外的标签页</value>
@@ -3326,7 +3320,7 @@
     <value>无法显示当前所有者。</value>
   </data>
   <data name="AuthorizationSucceded" xml:space="preserve">
-    <value>真不错！你现在已获得授权。</value>
+    <value>很好！你现在已获得授权。</value>
   </data>
   <data name="InitRepo" xml:space="preserve">
     <value>初始化存储库</value>
@@ -4376,5 +4370,32 @@
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
     <value>显示固定选项到“开始菜单”</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>压缩</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>运行</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>启动</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>选择</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>显示</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>导航</value>
+  </data>
+  <data name="FileSystem" xml:space="preserve">
+    <value>文件系统</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>窗口</value>
+  </data>
+  <data name="DualPaneCategory" xml:space="preserve">
+    <value>双栏</value>
   </data>
 </root>
