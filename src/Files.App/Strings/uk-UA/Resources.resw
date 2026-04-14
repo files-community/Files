@@ -2144,6 +2144,12 @@
   <data name="CreateArchive" xml:space="preserve">
     <value>Створити архів</value>
   </data>
+  <data name="CompressIntoZip" xml:space="preserve">
+    <value>Створити zip-архів</value>
+  </data>
+  <data name="CompressIntoSevenZip" xml:space="preserve">
+    <value>Створити 7z-архів</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Створити</value>
   </data>
@@ -2181,19 +2187,19 @@
     <value>Не розділяти</value>
   </data>
   <data name="Auto" xml:space="preserve">
-    <value>Auto</value>
+    <value>Авто</value>
   </data>
   <data name="DictionarySize" xml:space="preserve">
-    <value>Dictionary size</value>
+    <value>Розмір словника</value>
   </data>
   <data name="WordSize" xml:space="preserve">
-    <value>Word size</value>
+    <value>Розмір слова</value>
   </data>
   <data name="EstimatedMemoryUsage" xml:space="preserve">
-    <value>Estimated memory usage: {0}</value>
+    <value>Орієнтовне використання пам’яті: {0}</value>
   </data>
   <data name="AvailableMemory" xml:space="preserve">
-    <value>Available memory: {0}</value>
+    <value>Доступно пам’яті: {0}</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2753,26 +2759,14 @@
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Перейти на один каталог вище</value>
   </data>
-  <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Дублювати поточну вкладку</value>
-  </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
     <value>Дублювати вибрану вкладку</value>
-  </data>
-  <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Закрити вкладки ліворуч від поточної вкладки</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
     <value>Закрити вкладки ліворуч від вибраної вкладки</value>
   </data>
-  <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Закрити вкладки праворуч від поточної вкладки</value>
-  </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
     <value>Закрити вкладки праворуч від вибраної вкладки</value>
-  </data>
-  <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Закрити вкладки, окрім поточної вкладки</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Закрити вкладки, окрім вибраної вкладки</value>
@@ -4376,5 +4370,32 @@
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Показувати параметр закріплення у меню «Пуск»</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Архів</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>Запустити</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Розпочати</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>Виділення</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Показати</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Навігація</value>
+  </data>
+  <data name="FileSystem" xml:space="preserve">
+    <value>Файлова система</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Вікно</value>
+  </data>
+  <data name="DualPaneCategory" xml:space="preserve">
+    <value>Подвійна панель</value>
   </data>
 </root>
