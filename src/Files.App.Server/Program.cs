@@ -42,13 +42,13 @@ class Program
 
 		unsafe
 		{
-			delegate* unmanaged[Stdcall]<HSTRING, IActivationFactory**, HRESULT>[] callbacks = new delegate* unmanaged[Stdcall]<HSTRING, IActivationFactory**, HRESULT>[classIds.Length];
+			delegate* unmanaged[Stdcall]<HSTRING, IActivationFactory_unmanaged**, HRESULT>[] callbacks = new delegate* unmanaged[Stdcall]<HSTRING, IActivationFactory_unmanaged**, HRESULT>[classIds.Length];
 			for (int i = 0; i < callbacks.Length; i++)
 			{
 				callbacks[i] = &Helpers.GetActivationFactory;
 			}
 
-			fixed (delegate* unmanaged[Stdcall]<HSTRING, IActivationFactory**, HRESULT>* pCallbacks = callbacks)
+			fixed (delegate* unmanaged[Stdcall]<HSTRING, IActivationFactory_unmanaged**, HRESULT>* pCallbacks = callbacks)
 			{
 				if (PInvoke.RoRegisterActivationFactories(classIds, pCallbacks, out cookie) is HRESULT hr && hr.Value != 0)
 				{

@@ -12,7 +12,7 @@ namespace Files.App.Server;
 unsafe partial class Helpers
 {
 	[UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
-	public static HRESULT GetActivationFactory(HSTRING activatableClassId, IActivationFactory** factory)
+	public static HRESULT GetActivationFactory(HSTRING activatableClassId, IActivationFactory_unmanaged** factory)
 	{
 		if (activatableClassId.IsNull || factory is null)
 		{
@@ -21,7 +21,7 @@ unsafe partial class Helpers
 
 		try
 		{
-			*factory = (IActivationFactory*)Module.GetActivationFactory(MarshalString.FromAbi((IntPtr)activatableClassId));
+			*factory = (IActivationFactory_unmanaged*)Module.GetActivationFactory(MarshalString.FromAbi((IntPtr)activatableClassId));
 			return *factory is null ? HRESULT.CLASS_E_CLASSNOTAVAILABLE : HRESULT.S_OK;
 		}
 		catch (Exception e)

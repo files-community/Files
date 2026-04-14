@@ -10,7 +10,7 @@ namespace Files.App.Data.Items
 	/// <summary>
 	/// Represents an item for recent item of File Explorer on Windows.
 	/// </summary>
-	public sealed partial class RecentItem : WidgetCardItem, IEquatable<RecentItem>, IDisposable
+	public sealed partial class RecentItem : WidgetCardItem, IEquatable<RecentItem>
 	{
 		private BitmapImage? _Icon;
 		/// <summary>
@@ -38,7 +38,7 @@ namespace Files.App.Data.Items
 		/// <remarks>
 		/// This has to be removed in the future.
 		/// </remarks>
-		public unsafe required ComPtr<IShellItem> ShellItem { get; init; }
+		public required IShellItem ShellItem { get; init; }
 
 		/// <summary>
 		/// Loads thumbnail icon of the recent item.
@@ -56,10 +56,5 @@ namespace Files.App.Data.Items
 		public override int GetHashCode() => (Path, Name).GetHashCode();
 		public override bool Equals(object? other) => other is RecentItem item && Equals(item);
 		public bool Equals(RecentItem? other) => other is not null && other.Name == Name && other.Path == Path;
-
-		public unsafe void Dispose()
-		{
-			ShellItem.Dispose();
-		}
 	}
 }
