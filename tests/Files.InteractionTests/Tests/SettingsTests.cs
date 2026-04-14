@@ -20,7 +20,9 @@ namespace Files.InteractionTests.Tests
 		public void VerifySettingsAreAccessible()
 		{
 			TestHelper.InvokeButtonById("SettingsButton");
-			AxeHelper.AssertNoAccessibilityErrors(AxeHelper.IsCommunityToolkitWindowsIssue430);
+			AxeHelper.AssertNoAccessibilityErrors(error =>
+				AxeHelper.IsCommunityToolkitWindowsIssue430(error) ||
+				AxeHelper.IsCommunityToolkitSettingsCardButtonNameIssue(error));
 
 			var settingsItems = new string[]
 			{
@@ -55,10 +57,14 @@ namespace Files.InteractionTests.Tests
 				try
 				{
 					// First run can be flaky due to external components
-					AxeHelper.AssertNoAccessibilityErrors(AxeHelper.IsCommunityToolkitWindowsIssue430);
+					AxeHelper.AssertNoAccessibilityErrors(error =>
+						AxeHelper.IsCommunityToolkitWindowsIssue430(error) ||
+						AxeHelper.IsCommunityToolkitSettingsCardButtonNameIssue(error));
 				}
 				catch (System.Exception) { }
-				AxeHelper.AssertNoAccessibilityErrors(AxeHelper.IsCommunityToolkitWindowsIssue430);
+				AxeHelper.AssertNoAccessibilityErrors(error =>
+					AxeHelper.IsCommunityToolkitWindowsIssue430(error) ||
+					AxeHelper.IsCommunityToolkitSettingsCardButtonNameIssue(error));
 			}
 		}
 	}
