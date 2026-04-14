@@ -16,7 +16,23 @@ namespace Files.App.Storage
 
 		public Task<Stream> OpenStreamAsync(FileAccess accessMode, CancellationToken cancellationToken = default)
 		{
-			throw new NotImplementedException();
+			cancellationToken.ThrowIfCancellationRequested();
+
+			// Get the file path from the shell item
+			var filePath = Id;
+			
+			// Convert FileAccess to FileMode and FileAccess
+			var fileMode = accessMode switch
+			{
+				FileAccess.Read => FileMode.Open,
+				FileAccess.Write => FileMode.OpenOrCreate,
+				FileAccess.ReadWrite => FileMode.OpenOrCreate,
+				_ => throw new ArgumentException($"Invalid {nameof(accessMode)} flag.", nameof(accessMode))
+			};
+
+			// Open the file stream
+			var stream = new FileStream(filePath, fileMode, accessMode, FileShare.Read);
+			return Task.FromResult<Stream>(stream);
 		}
 	}
 }

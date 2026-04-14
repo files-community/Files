@@ -111,8 +111,11 @@ namespace Files.App.Helpers
 							{
 								processes.Add(Process.GetProcessById(processInfo[i].Process.dwProcessId));
 							}
-							// catch the error -- in case the process is no longer running
-							catch (ArgumentException) { }
+							// Catch the error -- in case the process is no longer running
+							catch (ArgumentException ex)
+							{
+								Debug.WriteLine($"Process {processInfo[i].Process.dwProcessId} no longer exists: {ex.Message}");
+							}
 						}
 					}
 					else throw new Exception("Could not list processes locking resource.");
