@@ -2144,6 +2144,12 @@
   <data name="CreateArchive" xml:space="preserve">
     <value>Luo arkisto</value>
   </data>
+  <data name="CompressIntoZip" xml:space="preserve">
+    <value>Luo zip-arkisto</value>
+  </data>
+  <data name="CompressIntoSevenZip" xml:space="preserve">
+    <value>Luo 7z-arkisto</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Luo</value>
   </data>
@@ -2753,26 +2759,14 @@
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Navigoi yksi hakemisto ylöspäin</value>
   </data>
-  <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Monista nykyinen välilehti</value>
-  </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
     <value>Monista valittu välilehti</value>
-  </data>
-  <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Sulje välilehdet nykyisen välilehden vasemmalla puolella</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
     <value>Sulje välilehdet valitun välilehden vasemmalla puolella</value>
   </data>
-  <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Sulje välilehdet nykyisen välilehden oikealla puolella</value>
-  </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
     <value>Sulje välilehdet valitun välilehden oikealla puolella</value>
-  </data>
-  <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Sulje muut kuin nykyinen välilehti</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Sulje muut kuin valittu välilehti</value>
@@ -4376,5 +4370,32 @@
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Show option to Pin to the Start Menu</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Arkisto</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>Suorita</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Käynnistä</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>Valinta</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Näytä</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Siirtyminen</value>
+  </data>
+  <data name="FileSystem" xml:space="preserve">
+    <value>Tiedostojärjestelmä</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Ikkuna</value>
+  </data>
+  <data name="DualPaneCategory" xml:space="preserve">
+    <value>Kaksiruutuinen näkymä</value>
   </data>
 </root>
