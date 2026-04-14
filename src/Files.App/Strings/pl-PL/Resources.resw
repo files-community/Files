@@ -2144,6 +2144,12 @@
   <data name="CreateArchive" xml:space="preserve">
     <value>Utwórz archiwum</value>
   </data>
+  <data name="CompressIntoZip" xml:space="preserve">
+    <value>Create zip archive</value>
+  </data>
+  <data name="CompressIntoSevenZip" xml:space="preserve">
+    <value>Create 7z archive</value>
+  </data>
   <data name="Create" xml:space="preserve">
     <value>Utwórz</value>
   </data>
@@ -2184,7 +2190,7 @@
     <value>Auto</value>
   </data>
   <data name="DictionarySize" xml:space="preserve">
-    <value>Dictionary size</value>
+    <value>Rozmiar słownika</value>
   </data>
   <data name="WordSize" xml:space="preserve">
     <value>Word size</value>
@@ -2193,7 +2199,7 @@
     <value>Estimated memory usage: {0}</value>
   </data>
   <data name="AvailableMemory" xml:space="preserve">
-    <value>Available memory: {0}</value>
+    <value>Dostępna pamięć: {0}</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2753,26 +2759,14 @@
   <data name="NavigateUpDescription" xml:space="preserve">
     <value>Przejdź jeden katalog wyżej</value>
   </data>
-  <data name="DuplicateCurrentTabDescription" xml:space="preserve">
-    <value>Duplikuj bieżącą kartę</value>
-  </data>
   <data name="DuplicateSelectedTabDescription" xml:space="preserve">
     <value>Duplikuj wybraną kartę</value>
-  </data>
-  <data name="CloseTabsToTheLeftCurrentDescription" xml:space="preserve">
-    <value>Zamknij karty na lewo od bieżącej karty</value>
   </data>
   <data name="CloseTabsToTheLeftSelectedDescription" xml:space="preserve">
     <value>Zamknij karty na lewo od wybranej karty</value>
   </data>
-  <data name="CloseTabsToTheRightCurrentDescription" xml:space="preserve">
-    <value>Zamknij karty na prawo od bieżącej karty</value>
-  </data>
   <data name="CloseTabsToTheRightSelectedDescription" xml:space="preserve">
     <value>Zamknij karty na prawo od wybranej karty</value>
-  </data>
-  <data name="CloseOtherTabsCurrentDescription" xml:space="preserve">
-    <value>Zamknij wszystkie karty poza bieżącą</value>
   </data>
   <data name="CloseOtherTabsSelectedDescription" xml:space="preserve">
     <value>Zamknij wszystkie karty oprócz zaznaczonej</value>
@@ -4376,5 +4370,32 @@
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Show option to Pin to the Start Menu</value>
+  </data>
+  <data name="Archive" xml:space="preserve">
+    <value>Archive</value>
+  </data>
+  <data name="Run" xml:space="preserve">
+    <value>Uruchom</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="Selection" xml:space="preserve">
+    <value>Selection</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Pokaż</value>
+  </data>
+  <data name="Navigation" xml:space="preserve">
+    <value>Nawigacja</value>
+  </data>
+  <data name="FileSystem" xml:space="preserve">
+    <value>System plików</value>
+  </data>
+  <data name="Window" xml:space="preserve">
+    <value>Okno</value>
+  </data>
+  <data name="DualPaneCategory" xml:space="preserve">
+    <value>Dual Pane</value>
   </data>
 </root>
