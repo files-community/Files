@@ -159,7 +159,7 @@ jobs:
         timestamp-digest: SHA256
 
     - name: Upload packages to Cloudflare
-      uses: ryand56/r2-upload-action@v1
+      uses: ryand56/r2-upload-action@latest
       with:
         r2-account-id: ${{ secrets.R2_ACCOUNT_ID }}
         r2-access-key-id: ${{ secrets.R2_ACCESS_KEY_ID }}

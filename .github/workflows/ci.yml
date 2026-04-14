@@ -251,7 +251,7 @@ jobs:
 
     # Retry integration tests if first attempt fails
     - name: Run interaction tests
-      uses: nick-fields/retry@v4
+      uses: nick-fields/retry@v3
       with:
         timeout_minutes: 15
         max_attempts: 2
@@ -265,7 +265,7 @@ jobs:
             --report-trx-filename testResults.trx
 
     - if: github.event_name == 'pull_request'
-      uses: GeekyEggo/delete-artifact@v6
+      uses: geekyeggo/delete-artifact@v5
       with:
         name: '*'
 
