@@ -284,7 +284,7 @@ jobs:
     #     Get-Content $env:AUTOMATED_TESTS_ASSEMBLY_DIR\testResults.md
 
     # - name: Publish tests result
-    #   uses: marocchino/sticky-pull-request-comment@v3
+    #   uses: marocchino/sticky-pull-request-comment@v2
     #   with:
     #     header: test-result
     #     path: '${{ env.AUTOMATED_TESTS_ASSEMBLY_DIR }}\testResults.md'
