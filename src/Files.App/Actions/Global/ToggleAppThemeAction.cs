@@ -36,7 +36,8 @@ namespace Files.App.Actions
 				_ => ElementTheme.Light,
 			};
 
-			return SetThemeAsync(nextTheme);
+			SetTheme(nextTheme);
+			return Task.CompletedTask;
 		}
 	}
 }

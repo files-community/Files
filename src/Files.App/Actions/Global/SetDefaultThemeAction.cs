@@ -24,6 +24,9 @@ namespace Files.App.Actions
 			=> AppThemeModeService.AppThemeMode is not ElementTheme.Default;
 
 		public Task ExecuteAsync(object? parameter = null)
-			=> SetThemeAsync(ElementTheme.Default);
+		{
+			SetTheme(ElementTheme.Default);
+			return Task.CompletedTask;
+		}
 	}
 }

@@ -35,10 +35,9 @@ namespace Files.App.Actions
 			return ResolveSystemThemeFallback();
 		}
 
-		protected Task SetThemeAsync(ElementTheme appTheme)
+		protected void SetTheme(ElementTheme appTheme)
 		{
 			AppThemeModeService.AppThemeMode = appTheme;
-			return Task.CompletedTask;
 		}
 
 		private void AppThemeModeService_AppThemeModeChanged(object? sender, EventArgs e)
