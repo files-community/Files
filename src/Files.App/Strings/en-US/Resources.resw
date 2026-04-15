@@ -4434,9 +4434,6 @@
   <data name="Archive" xml:space="preserve">
     <value>Archive</value>
   </data>
-  <data name="Groups" xml:space="preserve">
-    <value>Groups</value>
-  </data>
   <data name="Run" xml:space="preserve">
     <value>Run</value>
   </data>
@@ -4493,5 +4490,8 @@
   </data>
   <data name="NewItemGroupDescription" xml:space="preserve">
     <value>Create new files and folders</value>
+  </data>
+  <data name="EditTagsGroupDescription" xml:space="preserve">
+    <value>Add or remove file tags</value>
   </data>
 </root>

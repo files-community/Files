@@ -22,6 +22,8 @@ namespace Files.App.UserControls
 		private readonly IModifiableCommandManager ModifiableCommands = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
 		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 		private readonly DispatcherQueueTimer toolbarRefreshTimer;
+		private readonly IContentPageContext PageContext = Ioc.Default.GetRequiredService<IContentPageContext>();
+		private UserControls.Menus.FileTagsContextMenu? editTagsMenu;
 
 		[GeneratedDependencyProperty]
 		public partial NavigationToolbarViewModel? ViewModel { get; set; }
@@ -51,6 +53,8 @@ namespace Files.App.UserControls
 		{
 			foreach (var cmd in Commands) cmd.PropertyChanged -= Command_PropertyChanged;
 			UserSettingsService.AppearanceSettingsService.PropertyChanged -= AppearanceSettings_PropertyChanged;
+			if (editTagsMenu is not null)
+				editTagsMenu.TagsChanged -= EditTagsMenu_TagsChanged;
 		}
 
 		partial void OnViewModelChanged(NavigationToolbarViewModel? newValue)
@@ -85,6 +89,12 @@ namespace Files.App.UserControls
 		{
 			if (e.PropertyName is nameof(IAppearanceSettingsService.CustomToolbarItems))
 				RequestToolbarRefresh();
+		}
+
+		private async void EditTagsMenu_TagsChanged(object? sender, EventArgs e)
+		{
+			if (PageContext.ShellPage is not null)
+				await PageContext.ShellPage.ShellViewModel.RefreshTagGroups();
 		}
 
 		private void RequestToolbarRefresh()
@@ -166,21 +176,40 @@ namespace Files.App.UserControls
 				var btn = CreateButton(showIcon, showLabel, group.DisplayName, group.DisplayName,
 					group.AccessKey, group.AutomationId, group.Glyph);
 
-				btn.Flyout = new MenuFlyout
+				if (group is EditTagsCommandGroup)
 				{
-					Placement = group is NewItemCommandGroup
-					? FlyoutPlacementMode.BottomEdgeAlignedLeft
-					: FlyoutPlacementMode.Bottom
-				};
+					if (editTagsMenu is null)
+					{
+						editTagsMenu = new UserControls.Menus.FileTagsContextMenu(() => PageContext.SelectedItems)
+						{
+							Placement = FlyoutPlacementMode.Bottom
+						};
+						editTagsMenu.TagsChanged += EditTagsMenu_TagsChanged;
+					}
+					btn.Flyout = editTagsMenu;
+					btn.IsEnabled = PageContext.SelectedItems.Count > 0
+						&& PageContext.PageType is not ContentPageTypes.Home
+							and not ContentPageTypes.RecycleBin
+							and not ContentPageTypes.None;
+				}
+				else
+				{
+					btn.Flyout = new MenuFlyout
+					{
+						Placement = group is NewItemCommandGroup
+						? FlyoutPlacementMode.BottomEdgeAlignedLeft
+						: FlyoutPlacementMode.Bottom
+					};
 
-				((MenuFlyout)btn.Flyout).Opening += (s, _) => PopulateGroupFlyout((MenuFlyout)s, group);
+					((MenuFlyout)btn.Flyout).Opening += (s, _) => PopulateGroupFlyout((MenuFlyout)s, group);
+
+					btn.IsEnabled = group.Commands.Any(c => c is not CommandCodes.None && Commands[c].IsExecutable);
+				}
 
 				btn.Style = (Style)Resources["ToolBarAppBarButtonFlyoutStyle"];
 
 				if (showIcon)
 					ApplyIcon(btn, group.Glyph, setContent: true);
-
-				btn.IsEnabled = group.Commands.Any(c => c is not CommandCodes.None && Commands[c].IsExecutable);
 
 				return btn;
 			}
