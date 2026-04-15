@@ -169,7 +169,10 @@ namespace Files.App.Data.Items
 
 		private static string GetToolbarSectionId(IRichCommand cmd) => cmd.Code switch
 		{
-			CommandCodes.DecompressArchiveToChildFolder => ArchiveFilesContextId,
+			CommandCodes.DecompressArchive
+				or CommandCodes.DecompressArchiveHere
+				or CommandCodes.DecompressArchiveHereSmart
+				or CommandCodes.DecompressArchiveToChildFolder => ArchiveFilesContextId,
 			CommandCodes.RunWithPowershell => PowerShellFilesContextId,
 			CommandCodes.EditInNotepad => BatchFilesContextId,
 			CommandCodes.SetAsWallpaperBackground or CommandCodes.SetAsLockscreenBackground or CommandCodes.SetAsAppBackground
