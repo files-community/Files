@@ -309,6 +309,9 @@
   <data name="DarkTheme" xml:space="preserve">
     <value>Dark</value>
   </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>System Theme</value>
+  </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Use system setting</value>
   </data>
@@ -2452,6 +2455,21 @@
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Toggle compact overlay mode</value>
+  </data>
+  <data name="ToggleTheme" xml:space="preserve">
+    <value>Toggle Theme</value>
+  </data>
+  <data name="ToggleThemeDescription" xml:space="preserve">
+    <value>Toggle the app theme</value>
+  </data>
+  <data name="SwitchToLightThemeDescription" xml:space="preserve">
+    <value>Switch to Light Theme</value>
+  </data>
+  <data name="SwitchToDarkThemeDescription" xml:space="preserve">
+    <value>Switch to Dark Theme</value>
+  </data>
+  <data name="SwitchToDefaultThemeDescription" xml:space="preserve">
+    <value>Switch to System Theme</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>Start search in the OmniBar</value>
