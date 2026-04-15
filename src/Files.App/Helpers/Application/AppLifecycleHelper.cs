@@ -272,6 +272,7 @@ namespace Files.App.Helpers
 					.AddSingleton<ShelfViewModel>()
 					.AddSingleton<StatusCenterViewModel>()
 					.AddSingleton<AppearanceViewModel>()
+					.AddSingleton<ToolbarCustomizationViewModel>()
 					.AddTransient<HomeViewModel>()
 					.AddSingleton<QuickAccessWidgetViewModel>()
 					.AddSingleton<DrivesWidgetViewModel>()

@@ -1,0 +1,375 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<Page
+	x:Class="Files.App.Views.Settings.ToolbarCustomizationPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:behaviors="using:Files.App.Data.Behaviors"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:dataitem="using:Files.App.Data.Items"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:i="using:Microsoft.Xaml.Interactivity"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc="using:Files.App.UserControls"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
+	x:Name="PageRoot"
+	mc:Ignorable="d">
+
+	<Page.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="ms-appx:///Styles/ToolbarButtonStyle.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+
+			<Style
+				x:Key="HeaderTextStyle"
+				BasedOn="{StaticResource App.Theme.CaptionTextBlockStyle}"
+				TargetType="TextBlock">
+				<Setter Property="FontWeight" Value="SemiBold" />
+				<Setter Property="Foreground" Value="{ThemeResource TextFillColorTertiaryBrush}" />
+				<Setter Property="TextWrapping" Value="NoWrap" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+			</Style>
+
+			<Style
+				x:Key="ItemCheckBoxStyle"
+				BasedOn="{StaticResource DefaultCheckBoxStyle}"
+				TargetType="CheckBox">
+				<Setter Property="Width" Value="20" />
+				<Setter Property="Height" Value="20" />
+				<Setter Property="MinWidth" Value="0" />
+				<Setter Property="MinHeight" Value="0" />
+				<Setter Property="Margin" Value="0" />
+				<Setter Property="Padding" Value="0" />
+				<Setter Property="HorizontalAlignment" Value="Center" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+			</Style>
+
+			<wctconverters:BoolToVisibilityConverter
+				x:Key="NegatedBoolToVisibilityConverter"
+				FalseValue="Visible"
+				TrueValue="Collapsed" />
+			<SolidColorBrush x:Key="CommandBarBackground" Color="Transparent" />
+			<SolidColorBrush x:Key="CommandBarBackgroundOpen" Color="Transparent" />
+			<SolidColorBrush x:Key="CommandBarBorderBrushOpen" Color="Transparent" />
+		</ResourceDictionary>
+	</Page.Resources>
+
+	<Grid RowSpacing="0">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<!--  Title bar  -->
+		<Grid
+			x:Name="WindowTitleBar"
+			Height="36"
+			Padding="12,0,160,0"
+			Background="Transparent">
+			<TextBlock
+				VerticalAlignment="Center"
+				Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
+				Text="{helpers:ResourceString Name=CustomizeToolbar}" />
+		</Grid>
+
+		<!--  Context picker  -->
+		<Grid Grid.Row="1" Padding="16,12">
+			<StackPanel
+				x:Name="ContextPickerPanel"
+				Orientation="Horizontal"
+				Spacing="12">
+				<TextBlock
+					x:Name="ToolbarModeLabel"
+					VerticalAlignment="Center"
+					Text="{helpers:ResourceString Name=ChooseToolbarModeToCustomize}"
+					TextWrapping="WrapWholeWords" />
+				<uc:ComboBoxEx
+					x:Name="ToolbarModeComboBox"
+					Width="240"
+					HorizontalAlignment="Left"
+					AutomationProperties.Name="{helpers:ResourceString Name=ChooseToolbarModeToCustomize}"
+					DisplayMemberPath="Value"
+					ItemsSource="{x:Bind ViewModel.ToolbarContexts, Mode=OneWay}"
+					SelectedValue="{x:Bind ViewModel.SelectedToolbarContextId, Mode=TwoWay}"
+					SelectedValuePath="Key" />
+			</StackPanel>
+		</Grid>
+
+		<!--  Available and Added items  -->
+		<Grid
+			Grid.Row="2"
+			Padding="16,12"
+			ColumnSpacing="12">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="240" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<TextBlock
+				Margin="4,0,0,8"
+				Style="{StaticResource HeaderTextStyle}"
+				Text="{helpers:ResourceString Name=AvailableToolbarItems}" />
+			<TextBlock
+				Grid.Column="1"
+				Margin="4,0,0,8"
+				Style="{StaticResource HeaderTextStyle}"
+				Text="{helpers:ResourceString Name=AddedToolbarItems}" />
+
+			<!--  Available items tree  -->
+			<Border
+				Grid.Row="1"
+				Grid.Column="0"
+				Background="{ThemeResource LayerFillColorDefaultBrush}"
+				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+				BorderThickness="1"
+				CornerRadius="8">
+				<ScrollViewer
+					Padding="0,4,0,4"
+					HorizontalScrollBarVisibility="Auto"
+					HorizontalScrollMode="Enabled"
+					VerticalScrollBarVisibility="Auto"
+					VerticalScrollMode="Enabled">
+					<TreeView
+						AllowDrop="False"
+						CanDragItems="True"
+						DragItemsCompleted="AvailableToolbarItemsTree_DragItemsCompleted"
+						DragItemsStarting="AvailableToolbarItemsTree_DragItemsStarting"
+						ItemsSource="{x:Bind ViewModel.AvailableToolbarTreeItems, Mode=OneWay}"
+						SelectionMode="Single">
+						<TreeView.ItemTemplate>
+							<DataTemplate x:DataType="dataitem:ToolbarAvailableTreeItem">
+								<TreeViewItem Content="{x:Bind DisplayName}" ItemsSource="{x:Bind Children}" />
+							</DataTemplate>
+						</TreeView.ItemTemplate>
+					</TreeView>
+				</ScrollViewer>
+			</Border>
+
+			<!--  Added items list  -->
+			<Border
+				Grid.Row="1"
+				Grid.Column="1"
+				Background="{ThemeResource LayerFillColorDefaultBrush}"
+				BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+				BorderThickness="1"
+				CornerRadius="8">
+				<ListView
+					x:Name="ToolbarItemsList"
+					Padding="4"
+					AllowDrop="True"
+					CanDragItems="True"
+					CanReorderItems="True"
+					ContainerContentChanging="ToolbarItemsList_ContainerContentChanging"
+					DragOver="AddedToolbarItemsList_DragOver"
+					Drop="AddedToolbarItemsList_Drop"
+					ItemsSource="{x:Bind ViewModel.ToolbarItems, Mode=OneWay}"
+					ReorderMode="Enabled"
+					ScrollViewer.HorizontalScrollBarVisibility="Auto"
+					ScrollViewer.HorizontalScrollMode="Enabled"
+					ScrollViewer.VerticalScrollBarVisibility="Auto"
+					ScrollViewer.VerticalScrollMode="Enabled"
+					SelectionMode="None">
+					<i:Interaction.Behaviors>
+						<behaviors:StickyHeaderBehavior />
+					</i:Interaction.Behaviors>
+
+					<ListView.Header>
+						<Border
+							Height="32"
+							Background="{ThemeResource ControlFillColorDefaultBrush}"
+							BorderBrush="{ThemeResource ControlElevationBorderBrush}"
+							BorderThickness="1"
+							CornerRadius="8">
+							<Grid x:Name="ToolbarItemsHeaderGrid">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="48" />
+								</Grid.ColumnDefinitions>
+								<TextBlock
+									Margin="24,0,0,0"
+									Style="{StaticResource HeaderTextStyle}"
+									Text="{helpers:ResourceString Name=Action}" />
+								<Border
+									Grid.Column="1"
+									Padding="12,0"
+									BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+									BorderThickness="1,0,0,0">
+									<TextBlock
+										HorizontalAlignment="Center"
+										Style="{StaticResource HeaderTextStyle}"
+										Text="{helpers:ResourceString Name=Icon}" />
+								</Border>
+								<Border
+									Grid.Column="2"
+									Padding="12,0"
+									BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+									BorderThickness="1,0,0,0">
+									<TextBlock
+										HorizontalAlignment="Center"
+										Style="{StaticResource HeaderTextStyle}"
+										Text="{helpers:ResourceString Name=Label}" />
+								</Border>
+								<Border
+									Grid.Column="3"
+									BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+									BorderThickness="1,0,0,0" />
+							</Grid>
+						</Border>
+					</ListView.Header>
+
+					<ListView.ItemTemplate>
+						<DataTemplate x:DataType="dataitem:ToolbarItemDescriptor">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="48" />
+									<ColumnDefinition Width="48" />
+									<ColumnDefinition Width="48" />
+								</Grid.ColumnDefinitions>
+								<PathIcon
+									Margin="4,0,0,0"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Center"
+									Data="{StaticResource App.Theme.PathIcon.DragGripper}" />
+								<TextBlock
+									Margin="24,0,8,0"
+									VerticalAlignment="Center"
+									Text="{x:Bind ExtendedDisplayNameWithGroupSuffix}"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="NoWrap"
+									ToolTipService.ToolTip="{x:Bind ExtendedDisplayNameWithGroupSuffix}" />
+								<CheckBox
+									Grid.Column="1"
+									AutomationProperties.Name="{helpers:ResourceString Name=ShowToolbarIconOnly}"
+									IsChecked="{x:Bind ShowIcon, Mode=TwoWay}"
+									IsEnabled="{x:Bind HasIcon, Mode=OneWay}"
+									Style="{StaticResource ItemCheckBoxStyle}"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=ShowToolbarIconOnly}"
+									Visibility="{x:Bind IsSeparator, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+								<CheckBox
+									Grid.Column="2"
+									AutomationProperties.Name="{helpers:ResourceString Name=ShowToolbarLabels}"
+									IsChecked="{x:Bind ShowLabel, Mode=TwoWay}"
+									Style="{StaticResource ItemCheckBoxStyle}"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=ShowToolbarLabels}"
+									Visibility="{x:Bind IsSeparator, Converter={StaticResource NegatedBoolToVisibilityConverter}}" />
+								<Button
+									Grid.Column="3"
+									Width="32"
+									Height="24"
+									Padding="0"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									AutomationProperties.Name="{helpers:ResourceString Name=Remove}"
+									Background="Transparent"
+									BorderThickness="0"
+									Command="{Binding ElementName=PageRoot, Path=DataContext.RemoveToolbarItemCommand, Mode=OneWay}"
+									CommandParameter="{x:Bind}"
+									ToolTipService.ToolTip="{helpers:ResourceString Name=Remove}">
+									<Button.Resources>
+										<SolidColorBrush x:Key="ButtonForegroundPointerOver" Color="{ThemeResource SystemFillColorCritical}" />
+										<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
+									</Button.Resources>
+									<FontIcon FontSize="12" Glyph="&#xE711;" />
+								</Button>
+							</Grid>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+
+					<ListView.ItemContainerStyle>
+						<Style TargetType="ListViewItem">
+							<Setter Property="Margin" Value="0" />
+							<Setter Property="BorderBrush" Value="{ThemeResource DividerStrokeColorDefaultBrush}" />
+							<Setter Property="BorderThickness" Value="0,0,0,1" />
+							<Setter Property="Padding" Value="0" />
+							<Setter Property="MinHeight" Value="40" />
+							<Setter Property="HorizontalAlignment" Value="Stretch" />
+							<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+						</Style>
+					</ListView.ItemContainerStyle>
+				</ListView>
+			</Border>
+		</Grid>
+
+		<!--  Preview  -->
+		<Grid
+			Grid.Row="3"
+			Margin="16,0"
+			Padding="12"
+			Background="{ThemeResource LayerFillColorDefaultBrush}"
+			BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+			BorderThickness="1"
+			CornerRadius="8">
+			<ScrollViewer
+				HorizontalScrollBarVisibility="Auto"
+				HorizontalScrollMode="Enabled"
+				VerticalScrollBarVisibility="Disabled"
+				VerticalScrollMode="Disabled">
+				<CommandBar
+					x:Name="PreviewCommandBar"
+					HorizontalAlignment="Center"
+					DefaultLabelPosition="Right"
+					IsDynamicOverflowEnabled="False" />
+			</ScrollViewer>
+		</Grid>
+
+		<!--  Actions  -->
+		<Grid
+			Grid.Row="4"
+			Padding="16,12"
+			ColumnSpacing="12">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<Button Command="{x:Bind ViewModel.ResetToolbarCommand, Mode=OneWay}" Content="{helpers:ResourceString Name=ResetDefaults}" />
+			<StackPanel
+				Grid.Column="2"
+				Orientation="Horizontal"
+				Spacing="8">
+				<Button
+					MinWidth="96"
+					Command="{x:Bind ViewModel.SaveToolbarCommand, Mode=OneWay}"
+					Content="{helpers:ResourceString Name=Save}"
+					IsEnabled="{x:Bind ViewModel.HasToolbarChanges, Mode=OneWay}"
+					Style="{StaticResource AccentButtonStyle}" />
+				<Button
+					MinWidth="96"
+					Command="{x:Bind ViewModel.CancelToolbarCommand, Mode=OneWay}"
+					Content="{helpers:ResourceString Name=Cancel}" />
+			</StackPanel>
+		</Grid>
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup>
+				<VisualState x:Name="DefaultContextPickerState">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="640" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="ContextPickerPanel.Orientation" Value="Horizontal" />
+						<Setter Target="ContextPickerPanel.Spacing" Value="12" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="CompactContextPickerState">
+					<VisualState.StateTriggers>
+						<AdaptiveTrigger MinWindowWidth="0" />
+					</VisualState.StateTriggers>
+					<VisualState.Setters>
+						<Setter Target="ContextPickerPanel.Orientation" Value="Vertical" />
+						<Setter Target="ContextPickerPanel.Spacing" Value="8" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
+	</Grid>
+</Page>

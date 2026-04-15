@@ -7,7 +7,7 @@
 		<Setter Property="Background" Value="{ThemeResource AppBarButtonBackground}" />
 		<Setter Property="Foreground" Value="{ThemeResource AppBarButtonForeground}" />
 		<Setter Property="BorderBrush" Value="{ThemeResource AppBarButtonBorderBrush}" />
-		<Setter Property="HorizontalAlignment" Value="Left" />
+		<Setter Property="HorizontalAlignment" Value="Stretch" />
 		<Setter Property="VerticalAlignment" Value="Top" />
 		<Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
 		<Setter Property="FontWeight" Value="Normal" />
@@ -57,7 +57,7 @@
 								AutomationProperties.AccessibilityView="Raw">
 								<ContentPresenter
 									x:Name="Content"
-									Content="{TemplateBinding Icon}"
+									Content="{TemplateBinding Content}"
 									Foreground="{TemplateBinding Foreground}" />
 							</Viewbox>
 							<TextBlock
@@ -125,9 +125,16 @@
 						</Grid>
 						<VisualStateManager.VisualStateGroups>
 							<VisualStateGroup x:Name="ApplicationViewStates">
-								<VisualState x:Name="FullSize" />
+								<VisualState x:Name="FullSize">
+									<VisualState.Setters>
+										<Setter Target="SubItemChevron.Visibility" Value="Visible" />
+										<Setter Target="OverflowSubItemChevron.Visibility" Value="Collapsed" />
+									</VisualState.Setters>
+								</VisualState>
 								<VisualState x:Name="Compact">
 									<VisualState.Setters>
+										<Setter Target="SubItemChevron.Visibility" Value="Visible" />
+										<Setter Target="OverflowSubItemChevron.Visibility" Value="Collapsed" />
 										<Setter Target="AppBarButtonInnerBorder.Margin" Value="{StaticResource AppBarButtonInnerBorderCompactMargin}" />
 									</VisualState.Setters>
 									<Storyboard>
@@ -137,6 +144,10 @@
 									</Storyboard>
 								</VisualState>
 								<VisualState x:Name="LabelOnRight">
+									<VisualState.Setters>
+										<Setter Target="SubItemChevron.Visibility" Value="Visible" />
+										<Setter Target="OverflowSubItemChevron.Visibility" Value="Collapsed" />
+									</VisualState.Setters>
 									<Storyboard>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentViewbox" Storyboard.TargetProperty="Margin">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarButtonContentViewboxMargin}" />
@@ -162,12 +173,16 @@
 									</Storyboard>
 								</VisualState>
 								<VisualState x:Name="LabelCollapsed">
+									<VisualState.Setters>
+										<Setter Target="SubItemChevron.Visibility" Value="Visible" />
+										<Setter Target="OverflowSubItemChevron.Visibility" Value="Collapsed" />
+									</VisualState.Setters>
 									<Storyboard>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="MinHeight">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarThemeCompactHeight}" />
 										</ObjectAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="Width">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="46" />
+											<DiscreteObjectKeyFrame KeyTime="0" Value="40" />
 										</ObjectAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Visibility">
 											<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
@@ -184,6 +199,8 @@
 										<Setter Target="ContentViewbox.Visibility" Value="Collapsed" />
 										<Setter Target="TextLabel.Visibility" Value="Collapsed" />
 										<Setter Target="OverflowTextLabel.Visibility" Value="Visible" />
+										<Setter Target="SubItemChevron.Visibility" Value="Collapsed" />
+										<Setter Target="OverflowSubItemChevron.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="OverflowWithToggleButtons">
@@ -194,6 +211,8 @@
 										<Setter Target="TextLabel.Visibility" Value="Collapsed" />
 										<Setter Target="OverflowTextLabel.Visibility" Value="Visible" />
 										<Setter Target="OverflowTextLabel.Margin" Value="38,0,12,0" />
+										<Setter Target="SubItemChevron.Visibility" Value="Collapsed" />
+										<Setter Target="OverflowSubItemChevron.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="OverflowWithMenuIcons">
@@ -208,6 +227,8 @@
 										<Setter Target="TextLabel.Visibility" Value="Collapsed" />
 										<Setter Target="OverflowTextLabel.Visibility" Value="Visible" />
 										<Setter Target="OverflowTextLabel.Margin" Value="38,0,12,0" />
+										<Setter Target="SubItemChevron.Visibility" Value="Collapsed" />
+										<Setter Target="OverflowSubItemChevron.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
 								<VisualState x:Name="OverflowWithToggleButtonsAndMenuIcons">
@@ -222,6 +243,8 @@
 										<Setter Target="TextLabel.Visibility" Value="Collapsed" />
 										<Setter Target="OverflowTextLabel.Visibility" Value="Visible" />
 										<Setter Target="OverflowTextLabel.Margin" Value="76,0,12,0" />
+										<Setter Target="SubItemChevron.Visibility" Value="Collapsed" />
+										<Setter Target="OverflowSubItemChevron.Visibility" Value="Visible" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>
@@ -257,6 +280,7 @@
 										<Setter Target="TextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundDisabled}" />
 										<Setter Target="OverflowTextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundDisabled}" />
 										<Setter Target="SubItemChevron.Foreground" Value="{ThemeResource AppBarButtonSubItemChevronForegroundDisabled}" />
+										<Setter Target="OverflowSubItemChevron.Foreground" Value="{ThemeResource AppBarButtonSubItemChevronForegroundDisabled}" />
 										<Setter Target="KeyboardAcceleratorTextLabel.Foreground" Value="{ThemeResource AppBarButtonKeyboardAcceleratorTextForegroundDisabled}" />
 									</VisualState.Setters>
 								</VisualState>
@@ -336,8 +360,6 @@
 								<VisualState x:Name="HasFlyout">
 									<VisualState.Setters>
 										<Setter Target="SubItemChevronPanel.Visibility" Value="Visible" />
-										<Setter Target="SubItemChevron.Visibility" Value="Visible" />
-										<Setter Target="OverflowSubItemChevron.Visibility" Value="Collapsed" />
 									</VisualState.Setters>
 								</VisualState>
 							</VisualStateGroup>

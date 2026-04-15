@@ -10,6 +10,7 @@ namespace Files.App.ViewModels.Settings
 {
 	public sealed partial class AppearanceViewModel : ObservableObject
 	{
+		private ICommandManager CommandManager { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
 		private IAppThemeModeService AppThemeModeService { get; } = Ioc.Default.GetRequiredService<IAppThemeModeService>();
 		private ICommonDialogService CommonDialogService { get; } = Ioc.Default.GetRequiredService<ICommonDialogService>();
 		private readonly IUserSettingsService UserSettingsService;
@@ -30,6 +31,7 @@ namespace Files.App.ViewModels.Settings
 
 		public ICommand SelectImageCommand { get; }
 		public ICommand RemoveImageCommand { get; }
+		public ICommand CustomizeToolbarCommand { get; }
 
 		public AppearanceViewModel(IUserSettingsService userSettingsService, IResourcesService resourcesService)
 		{
@@ -85,6 +87,7 @@ namespace Files.App.ViewModels.Settings
 
 			SelectImageCommand = new RelayCommand(SelectBackgroundImage);
 			RemoveImageCommand = new RelayCommand(RemoveBackgroundImage);
+			CustomizeToolbarCommand = new AsyncRelayCommand(() => CommandManager.CustomizeToolbar.ExecuteAsync());
 		}
 
 		/// <summary>

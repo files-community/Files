@@ -9,14 +9,11 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
-	xmlns:vm="using:Files.App.ViewModels.Settings"
 	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls"
-	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	mc:Ignorable="d">
 
 	<Page.Resources>
 		<ResourceDictionary>
-			<wctconverters:BoolNegationConverter x:Key="BoolNegationConverter" />
 			<converters:StringToBrushConverter x:Key="StringToBrushConverter" />
 
 			<DataTemplate x:Key="AppThemeResourcesItemTemplate" x:DataType="dataitem:AppThemeResourceItem">
@@ -244,7 +241,7 @@
 			</wctcontrols:SettingsCard>
 
 			<!--  Toolbar  -->
-			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=Toolbars}">
+			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=AddressBar}">
 				<wctcontrols:SettingsExpander.HeaderIcon>
 					<PathIcon Data="{StaticResource App.Theme.PathIcon.WebAsset}" />
 				</wctcontrols:SettingsExpander.HeaderIcon>
@@ -258,17 +255,35 @@
 						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowShelfPaneButtonInAddressBar}" IsOn="{x:Bind ViewModel.ShowShelfPaneToggleButton, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
-					<!--  Show toolbar  -->
-					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowToolbar}">
-						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=ShowToolbar}" IsOn="{x:Bind ViewModel.ShowToolbar, Mode=TwoWay}" />
-					</wctcontrols:SettingsCard>
-
 					<!--  Show status center  -->
 					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowStatusCenterButton}">
 						<uc:ComboBoxEx
 							AutomationProperties.Name="{helpers:ResourceString Name=ShowStatusCenterButton}"
 							ItemsSource="{x:Bind ViewModel.StatusCenterVisibilityOptions.Values}"
 							SelectedItem="{x:Bind ViewModel.SelectedStatusCenterVisibilityOption, Mode=TwoWay}" />
+					</wctcontrols:SettingsCard>
+				</wctcontrols:SettingsExpander.Items>
+			</wctcontrols:SettingsExpander>
+
+			<!--  Toolbar Customization  -->
+			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=Toolbar}">
+				<wctcontrols:SettingsExpander.HeaderIcon>
+					<PathIcon Data="{StaticResource App.Theme.PathIcon.Toolbar}" />
+				</wctcontrols:SettingsExpander.HeaderIcon>
+
+				<ToggleSwitch
+					AutomationProperties.AutomationControlType="Custom"
+					AutomationProperties.Name="{helpers:ResourceString Name=ShowToolbar}"
+					IsOn="{x:Bind ViewModel.ShowToolbar, Mode=TwoWay}" />
+
+				<wctcontrols:SettingsExpander.Items>
+					<wctcontrols:SettingsCard
+						Command="{x:Bind ViewModel.CustomizeToolbarCommand, Mode=OneWay}"
+						Header="{helpers:ResourceString Name=CustomizeToolbarDescription}"
+						IsClickEnabled="True">
+						<wctcontrols:SettingsCard.ActionIcon>
+							<FontIcon Glyph="&#xE8A7;" />
+						</wctcontrols:SettingsCard.ActionIcon>
 					</wctcontrols:SettingsCard>
 				</wctcontrols:SettingsExpander.Items>
 			</wctcontrols:SettingsExpander>
