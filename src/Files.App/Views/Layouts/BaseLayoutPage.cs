@@ -1206,6 +1206,7 @@ namespace Files.App.Views.Layouts
 
 		private void RefreshContainer(SelectorItem container, bool inRecycleQueue)
 		{
+			container.Loaded -= FileListItem_Loaded;
 			container.PointerPressed -= FileListItem_PointerPressed;
 			container.PointerEntered -= FileListItem_PointerEntered;
 			container.PointerExited -= FileListItem_PointerExited;
@@ -1219,6 +1220,7 @@ namespace Files.App.Views.Layouts
 			}
 			else
 			{
+				container.Loaded += FileListItem_Loaded;
 				container.PointerPressed += FileListItem_PointerPressed;
 				container.PointerEntered += FileListItem_PointerEntered;
 				container.PointerExited += FileListItem_PointerExited;
@@ -1235,10 +1237,12 @@ namespace Files.App.Views.Layouts
 
 			if (inRecycleQueue)
 			{
+				UpdateItemToolTip(container, null);
 				ParentShellPageInstance!.ShellViewModel.CancelExtendedPropertiesLoadingForItem(listedItem);
 			}
 			else
 			{
+				UpdateItemToolTip(container, listedItem.ItemTooltipText);
 				InitializeDrag(container, listedItem);
 
 				if (listedItem.PreloadedIconData is not null && listedItem.FileImage is null)
@@ -1255,6 +1259,32 @@ namespace Files.App.Views.Layouts
 					});
 				}
 			}
+		}
+
+		private static void UpdateItemToolTip(SelectorItem container, string? tooltipText)
+		{
+			// Apply the tooltip to both the container and the realized template root so every layout
+			// gets the same behavior, even when the DataTemplate is wrapped in a UserControl.
+			UpdateItemToolTip(container as FrameworkElement, tooltipText);
+
+			if (container.ContentTemplateRoot is FrameworkElement contentTemplateRoot)
+				UpdateItemToolTip(contentTemplateRoot, tooltipText);
+		}
+
+		private static void UpdateItemToolTip(FrameworkElement? target, string? tooltipText)
+		{
+			if (target is null)
+				return;
+
+			ToolTipService.SetToolTip(target, tooltipText);
+			target.SetValue(ToolTipService.PlacementProperty, PlacementMode.Mouse);
+		}
+
+		private void FileListItem_Loaded(object sender, RoutedEventArgs e)
+		{
+			// Set the initial tooltip before hover starts so WinUI doesn't miss the first dwell.
+			if (sender is SelectorItem container && container.Content is ListedItem listedItem)
+				UpdateItemToolTip(container, listedItem.ItemTooltipText);
 		}
 
 		private static async Task ApplyPreloadedIconAsync(ListedItem item)
@@ -1298,6 +1328,9 @@ namespace Files.App.Views.Layouts
 			// Set can window to front (#13255)
 			if (sender is SelectorItem selectorItem && selectorItem.IsSelected)
 				MainWindow.Instance.SetCanWindowToFront(false);
+
+			if (sender is SelectorItem tooltipContainer && tooltipContainer.Content is ListedItem listedItem)
+				UpdateItemToolTip(tooltipContainer, listedItem.ItemTooltipText);
 
 			if (!UserSettingsService.FoldersSettingsService.SelectFilesOnHover)
 				return;

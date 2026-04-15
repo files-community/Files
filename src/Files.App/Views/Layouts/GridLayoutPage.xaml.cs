@@ -756,13 +756,6 @@ namespace Files.App.Views.Layouts
 			}
 		}
 
-		private void Grid_PointerEntered(object sender, PointerRoutedEventArgs e)
-		{
-			if (sender is FrameworkElement element && element.DataContext is ListedItem item)
-				// Reassign values to update date display
-				ToolTipService.SetToolTip(element, item.ItemTooltipText);
-		}
-
 		private void SelectionCheckbox_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
 			UpdateCheckboxVisibility((sender as FrameworkElement)!.FindAscendant<GridViewItem>()!, true);

@@ -216,8 +216,7 @@
 								VerticalAlignment="Center"
 								CornerRadius="{StaticResource ControlCornerRadius}"
 								IsRightTapEnabled="True"
-								Loaded="Grid_Loaded"
-								PointerEntered="Grid_PointerEntered">
+								Loaded="Grid_Loaded">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition Width="Auto" />
 									<ColumnDefinition Width="*" />

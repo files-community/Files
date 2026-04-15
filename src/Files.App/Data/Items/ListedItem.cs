@@ -51,6 +51,8 @@ namespace Files.App.Utils
 					tooltipBuilder.Append($"{Environment.NewLine}{Strings.SizeLabel.GetLocalizedResource()} {FileSize}");
 				if (!string.IsNullOrWhiteSpace(ImageDimensions))
 					tooltipBuilder.Append($"{Environment.NewLine}{Strings.PropertyDimensionsColon.GetLocalizedResource()} {ImageDimensions}");
+				if (!string.IsNullOrWhiteSpace(MediaDuration))
+					tooltipBuilder.Append($"{Environment.NewLine}{Strings.PropertyDuration.GetLocalizedResource()}: {MediaDuration}");
 				if (SyncStatusUI.LoadSyncStatus)
 					tooltipBuilder.Append($"{Environment.NewLine}{Strings.StatusWithColon.GetLocalizedResource()} {syncStatusUI.SyncStatusString}");
 
