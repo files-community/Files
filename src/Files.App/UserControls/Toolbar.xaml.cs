@@ -9,6 +9,8 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
+using DispatcherQueue = Microsoft.UI.Dispatching.DispatcherQueue;
+using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using FlyoutPlacementMode = Microsoft.UI.Xaml.Controls.Primitives.FlyoutPlacementMode;
 
 namespace Files.App.UserControls
@@ -19,7 +21,7 @@ namespace Files.App.UserControls
 		private readonly ICommandManager Commands = Ioc.Default.GetRequiredService<ICommandManager>();
 		private readonly IModifiableCommandManager ModifiableCommands = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
 		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
-		private bool isToolbarRefreshQueued;
+		private readonly DispatcherQueueTimer toolbarRefreshTimer;
 
 		[GeneratedDependencyProperty]
 		public partial NavigationToolbarViewModel? ViewModel { get; set; }
@@ -32,6 +34,7 @@ namespace Files.App.UserControls
 
 		public Toolbar()
 		{
+			toolbarRefreshTimer = DispatcherQueue.GetForCurrentThread().CreateTimer();
 			InitializeComponent();
 			Loaded += Toolbar_Loaded;
 			Unloaded += Toolbar_Unloaded;
@@ -86,13 +89,7 @@ namespace Files.App.UserControls
 
 		private void RequestToolbarRefresh()
 		{
-			if (isToolbarRefreshQueued) return;
-			isToolbarRefreshQueued = true;
-			DispatcherQueue.TryEnqueue(() =>
-			{
-				isToolbarRefreshQueued = false;
-				PopulateToolbarItems();
-			});
+			toolbarRefreshTimer.Debounce(PopulateToolbarItems, TimeSpan.FromMilliseconds(100));
 		}
 
 		private void ContextCommandBar_Loaded(object sender, RoutedEventArgs e)
@@ -100,25 +97,35 @@ namespace Files.App.UserControls
 
 		private void PopulateToolbarItems()
 		{
-			if (ContextCommandBar is null) return;
+			if (ContextCommandBar is null)
+				return;
+
 			ContextCommandBar.PrimaryCommands.Clear();
+
 			var active = GetActiveToolbarContexts();
 			var itemsByContext = ToolbarDefaultsTemplate.ResolveToolbarItemsByContext(UserSettingsService.AppearanceSettingsService);
+
 			foreach (var contextId in ToolbarDefaultsTemplate.ContextOrder)
 			{
 				if (!itemsByContext.TryGetValue(contextId, out var entries) || entries.Count == 0
 					|| !ShouldShowContext(contextId, active))
 					continue;
+
 				if (contextId != ToolbarDefaultsTemplate.AlwaysVisibleContextId)
 					ContextCommandBar.PrimaryCommands.Add(new AppBarSeparator());
+
 				for (int i = 0; i < entries.Count; i++)
+				{
 					if (CreateToolbarElement(entries[i]) is { } el)
 					{
 						if (el is AppBarButton btn && !ToolbarItemDescriptor.IsSeparatorCode(entries[i].CommandCode ?? ""))
 							AttachContextFlyout(btn, contextId, entries[i], i);
+
 						ContextCommandBar.PrimaryCommands.Add(el);
 					}
+				}
 			}
+
 			UpdateCommandBarSeparatorVisibility(ContextCommandBar.PrimaryCommands);
 		}
 
@@ -145,49 +152,77 @@ namespace Files.App.UserControls
 		{
 			if (!string.IsNullOrEmpty(entry.CommandCode) && ToolbarItemDescriptor.IsSeparatorCode(entry.CommandCode))
 				return new AppBarSeparator();
+
 			var (showIcon, showLabel) = (entry.ShowIcon, entry.ShowLabel);
+
 			if (!string.IsNullOrEmpty(entry.CommandGroup)
 				&& Commands.Groups.All.FirstOrDefault(g => g.Name == entry.CommandGroup) is { } group)
 			{
 				showIcon &= !group.Glyph.IsNone;
-				if (!showIcon && !showLabel) return null;
+
+				if (!showIcon && !showLabel)
+					return null;
+
 				var btn = CreateButton(showIcon, showLabel, group.DisplayName, group.DisplayName,
 					group.AccessKey, group.AutomationId, group.Glyph);
+
 				btn.Flyout = new MenuFlyout
 				{
 					Placement = group is NewItemCommandGroup
 					? FlyoutPlacementMode.BottomEdgeAlignedLeft
 					: FlyoutPlacementMode.Bottom
 				};
+
 				((MenuFlyout)btn.Flyout).Opening += (s, _) => PopulateGroupFlyout((MenuFlyout)s, group);
+
 				btn.Style = (Style)Resources["ToolBarAppBarButtonFlyoutStyle"];
-				if (showIcon) ApplyIcon(btn, group.Glyph, setContent: true);
+
+				if (showIcon)
+					ApplyIcon(btn, group.Glyph, setContent: true);
+
 				btn.IsEnabled = group.Commands.Any(c => c is not CommandCodes.None && Commands[c].IsExecutable);
+
 				return btn;
 			}
+
 			if (!string.IsNullOrEmpty(entry.CommandCode) && Enum.TryParse<CommandCodes>(entry.CommandCode, out var code) && code != CommandCodes.None)
 			{
 				var mod = ModifiableCommands[code];
 				var cmd = mod.Code != CommandCodes.None ? mod : Commands[code];
 				showIcon &= !cmd.Glyph.IsNone;
-				if (!showIcon && !showLabel) return null;
+
+				if (!showIcon && !showLabel)
+					return null;
+
 				var tooltip = cmd.HotKeyText is null ? cmd.ExtendedLabel : $"{cmd.ExtendedLabel} ({cmd.HotKeyText})";
 				var btn = CreateButton(showIcon, showLabel, cmd.ExtendedLabel, tooltip,
 					cmd.AccessKey, cmd.AutomationId, cmd.Glyph, cmd.HotKeyText);
 				var useStyled = showIcon && !string.IsNullOrEmpty(cmd.Glyph.ThemedIconStyle);
-				if (useStyled) btn.Style = (Style)Resources["ToolBarAppBarButtonFlyoutStyle"];
-				if (showIcon) ApplyIcon(btn, cmd.Glyph, setContent: useStyled);
+
+				if (useStyled)
+					btn.Style = (Style)Resources["ToolBarAppBarButtonFlyoutStyle"];
+
+				if (showIcon)
+					ApplyIcon(btn, cmd.Glyph, setContent: useStyled);
+
 				btn.Command = cmd;
+
 				return btn;
 			}
+
 			return null;
 		}
 
 		internal static ICommandBarElement? CreatePreviewElement(ToolbarItemDescriptor item, Style flyoutStyle)
 		{
-			if (item.IsSeparator) return new AppBarSeparator();
+			if (item.IsSeparator)
+				return new AppBarSeparator();
+
 			var showIcon = item.ShowIcon && item.HasIcon;
-			if (!showIcon && !item.ShowLabel) return null;
+
+			if (!showIcon && !item.ShowLabel)
+				return null;
+
 			var useStyled = item.IsGroup || (showIcon && !string.IsNullOrEmpty(item.Glyph.ThemedIconStyle));
 			var button = new AppBarButton
 			{
@@ -199,8 +234,12 @@ namespace Files.App.UserControls
 				Style = useStyled ? flyoutStyle : null,
 				Flyout = item.IsGroup ? new MenuFlyout() : null,
 			};
-			if (showIcon) ApplyIcon(button, item.Glyph, setContent: useStyled);
-			else button.Loaded += CollapseIconViewbox;
+
+			if (showIcon)
+				ApplyIcon(button, item.Glyph, setContent: useStyled);
+			else
+				button.Loaded += CollapseIconViewbox;
+
 			return button;
 		}
 
@@ -214,21 +253,32 @@ namespace Files.App.UserControls
 				Label = label,
 				LabelPosition = showLabel ? CommandBarLabelPosition.Default : CommandBarLabelPosition.Collapsed,
 			};
-			if (!showIcon) button.Loaded += CollapseIconViewbox;
+
+			if (!showIcon)
+				button.Loaded += CollapseIconViewbox;
+
 			ToolTipService.SetToolTip(button, tooltip);
+
 			if (!string.IsNullOrEmpty(accessKey))
 			{
 				button.AccessKey = accessKey;
 				button.AccessKeyInvoked += AppBarButton_AccessKeyInvoked;
 			}
-			if (!string.IsNullOrEmpty(automationId)) AutomationProperties.SetAutomationId(button, automationId);
-			if (hotKeyText is not null) button.KeyboardAcceleratorTextOverride = hotKeyText;
+
+			if (!string.IsNullOrEmpty(automationId))
+				AutomationProperties.SetAutomationId(button, automationId);
+
+			if (hotKeyText is not null)
+				button.KeyboardAcceleratorTextOverride = hotKeyText;
+
 			return button;
 		}
 
 		internal static void ApplyIcon(AppBarButton button, RichGlyph glyph, bool setContent)
 		{
-			if (setContent) button.Content = glyph.ToIcon();
+			if (setContent)
+				button.Content = glyph.ToIcon();
+
 			button.Icon = glyph.ToFontIcon() ?? glyph.ToOverflowIcon();
 		}
 
@@ -236,13 +286,16 @@ namespace Files.App.UserControls
 		{
 			var button = (AppBarButton)sender;
 			button.Loaded -= CollapseIconViewbox;
-			if (button.FindDescendant("ContentViewbox") is Viewbox vb) vb.Visibility = Visibility.Collapsed;
+
+			if (button.FindDescendant("ContentViewbox") is Viewbox vb)
+				vb.Visibility = Visibility.Collapsed;
 		}
 
 		internal static void UpdateCommandBarSeparatorVisibility(IList<ICommandBarElement> commands)
 		{
 			bool prevSep = true;
 			AppBarSeparator? last = null;
+
 			for (int i = 0; i < commands.Count; i++)
 			{
 				if (commands[i] is AppBarSeparator sep)
@@ -254,7 +307,9 @@ namespace Files.App.UserControls
 				else if (commands[i] is UIElement { Visibility: Visibility.Visible })
 					prevSep = false;
 			}
-			if (last is not null && prevSep) last.Visibility = Visibility.Collapsed;
+
+			if (last is not null && prevSep)
+				last.Visibility = Visibility.Collapsed;
 		}
 
 		private void AttachContextFlyout(AppBarButton button, string contextId, ToolbarItemSettingsEntry entry, int index)
@@ -269,7 +324,9 @@ namespace Files.App.UserControls
 		private void UnpinToolbarItem(string contextId, int index, ToolbarItemSettingsEntry entry)
 		{
 			var items = ToolbarDefaultsTemplate.ResolveToolbarItemsByContext(UserSettingsService.AppearanceSettingsService);
-			if (!items.TryGetValue(contextId, out var list) || (uint)index >= (uint)list.Count) return;
+			if (!items.TryGetValue(contextId, out var list) || (uint)index >= (uint)list.Count)
+				return;
+
 			var target = list[index];
 			if ((!string.IsNullOrEmpty(entry.CommandCode) && entry.CommandCode == target.CommandCode)
 				|| (!string.IsNullOrEmpty(entry.CommandGroup) && entry.CommandGroup == target.CommandGroup))
