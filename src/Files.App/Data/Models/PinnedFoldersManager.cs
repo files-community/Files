@@ -172,13 +172,25 @@ namespace Files.App.Data.Models
 		/// </summary>
 		private int GetPinnedItemsBaseIndex()
 		{
-			int baseIndex = _PinnedFolderItems.FindIndex(x => x is LocationItem item && !item.IsDefaultLocation);
-			if (baseIndex == -1)
+			int firstPinnedIndex = _PinnedFolderItems.FindIndex(x => x is LocationItem item && !item.IsDefaultLocation);
+			if (firstPinnedIndex >= 0)
 			{
-				baseIndex = _PinnedFolderItems.FindLastIndex(x => x is LocationItem item && item.IsDefaultLocation);
-				baseIndex = baseIndex == -1 ? 0 : baseIndex + 1;
+				// Default locations should always appear before user-pinned locations
+				var hasDefaultAfterFirstPinned = _PinnedFolderItems
+					.Skip(firstPinnedIndex)
+					.Any(x => x is LocationItem item && item.IsDefaultLocation);
+					
+				Debug.Assert(!hasDefaultAfterFirstPinned);
+
+				if (!hasDefaultAfterFirstPinned)
+					return firstPinnedIndex;
+
+				int lastDefaultIndex = _PinnedFolderItems.FindLastIndex(x => x is LocationItem item && item.IsDefaultLocation);
+				return lastDefaultIndex == -1 ? 0 : lastDefaultIndex + 1;
 			}
-			return baseIndex;
+
+			int trailingDefaultIndex = _PinnedFolderItems.FindLastIndex(x => x is LocationItem item && item.IsDefaultLocation);
+			return trailingDefaultIndex == -1 ? 0 : trailingDefaultIndex + 1;
 		}
 
 		/// <summary>

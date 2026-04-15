@@ -1429,22 +1429,7 @@ namespace Files.App.ViewModels.UserControls
 							if (sourceIndex != targetIndex && targetIndex >= 0 && targetIndex < section.ChildItems.Count)
 							{
 								section.ChildItems.Move(sourceIndex, targetIndex);
-
-								var newOrder = section.ChildItems
-									.OfType<LocationItem>()
-									.Where(x => !x.IsDefaultLocation && !string.IsNullOrEmpty(x.Path))
-									.Select(x => x.Path)
-									.ToArray();
-								using (SidebarPinnedModel.SuspendSync())
-								{
-									SidebarPinnedModel.UpdateOrderSilently(newOrder);
-									await QuickAccessService.SaveAsync(newOrder);
-								}
-
-								App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(newOrder, true)
-								{
-									Reorder = true
-								});
+								await PersistPinnedOrderAsync(section);
 							}
 						}
 						finally
@@ -1463,6 +1448,9 @@ namespace Files.App.ViewModels.UserControls
 							{
 								if (!SidebarPinnedModel.PinnedFolders.Contains(dragPath))
 								{
+									if (section.ChildItems.Any(x => string.Equals(x.Path, dragPath, StringComparison.OrdinalIgnoreCase)))
+										return;
+
 									var targetIndex = section.ChildItems.IndexOf(locationItem);
 									if (targetIndex >= 0)
 									{
@@ -1471,19 +1459,7 @@ namespace Files.App.ViewModels.UserControls
 
 										var newLocationItem = await SidebarPinnedModel.CreateLocationItemFromPathAsync(dragPath);
 										section.ChildItems.Insert(targetIndex, newLocationItem);
-
-										var newOrder = section.ChildItems
-											.OfType<LocationItem>()
-											.Where(x => !x.IsDefaultLocation && !string.IsNullOrEmpty(x.Path))
-											.Select(x => x.Path)
-											.ToArray();
-										SidebarPinnedModel.UpdateOrderSilently(newOrder);
-										await QuickAccessService.SaveAsync(newOrder);
-
-										App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(newOrder, true)
-										{
-											Reorder = true
-										});
+										await PersistPinnedOrderAsync(section, isSyncSuspended: true);
 									}
 								}
 							}
@@ -1516,6 +1492,9 @@ namespace Files.App.ViewModels.UserControls
 									if (item.ItemType != FilesystemItemType.Directory || SidebarPinnedModel.PinnedFolders.Contains(item.Path))
 										continue;
 
+									if (section.ChildItems.Any(x => string.Equals(x.Path, item.Path, StringComparison.OrdinalIgnoreCase)))
+										continue;
+
 									var targetIndex = section.ChildItems.IndexOf(locationItem);
 									if (targetIndex < 0)
 										continue;
@@ -1527,18 +1506,7 @@ namespace Files.App.ViewModels.UserControls
 									section.ChildItems.Insert(targetIndex, newLocationItem);
 								}
 
-								var newOrder = section.ChildItems
-									.OfType<LocationItem>()
-									.Where(x => !x.IsDefaultLocation && !string.IsNullOrEmpty(x.Path))
-									.Select(x => x.Path)
-									.ToArray();
-								SidebarPinnedModel.UpdateOrderSilently(newOrder);
-								await QuickAccessService.SaveAsync(newOrder);
-
-								App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(newOrder, true)
-								{
-									Reorder = true
-								});
+								await PersistPinnedOrderAsync(section, isSyncSuspended: true);
 							}
 						}
 						finally
@@ -1563,6 +1531,39 @@ namespace Files.App.ViewModels.UserControls
 					await FilesystemHelpers.PerformOperationTypeAsync(args.RawEvent.AcceptedOperation, args.DroppedItem, locationItem.Path, false, true);
 				}
 			}
+		}
+
+		private static string[] BuildPinnedOrderFromSectionItems(LocationItem section)
+		{
+			return section.ChildItems
+				.OfType<LocationItem>()
+				.Where(x => !x.IsDefaultLocation && !string.IsNullOrEmpty(x.Path))
+				.Select(x => x.Path)
+				.ToArray();
+		}
+
+		private async Task PersistPinnedOrderAsync(LocationItem section, bool isSyncSuspended = false)
+		{
+			var newOrder = BuildPinnedOrderFromSectionItems(section);
+
+			if (isSyncSuspended)
+			{
+				SidebarPinnedModel.UpdateOrderSilently(newOrder);
+				await QuickAccessService.SaveAsync(newOrder);
+			}
+			else
+			{
+				using (SidebarPinnedModel.SuspendSync())
+				{
+					SidebarPinnedModel.UpdateOrderSilently(newOrder);
+					await QuickAccessService.SaveAsync(newOrder);
+				}
+			}
+
+			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, new ModifyQuickAccessEventArgs(newOrder, true)
+			{
+				Reorder = true
+			});
 		}
 
 		private Task<ReturnResult> HandleDriveItemDroppedAsync(DriveItem driveItem, ItemDroppedEventArgs args)

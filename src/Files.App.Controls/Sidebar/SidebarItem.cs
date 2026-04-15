@@ -437,10 +437,10 @@ namespace Files.App.Controls
 
 			try
 			{
-				var insertsAbove = DetermineDropTargetPosition(e);
+				var dropPosition = DetermineDropTargetPosition(e);
 
 				if (Owner is not null)
-					await Owner.RaiseItemDragOverAsync(this, insertsAbove, e);
+					await Owner.RaiseItemDragOverAsync(this, dropPosition, e);
 
 				if (!e.Handled || e.AcceptedOperation == DataPackageOperation.None)
 				{
@@ -448,15 +448,15 @@ namespace Files.App.Controls
 					return;
 				}
 
-				if (insertsAbove == SidebarItemDropPosition.Center)
+				if (dropPosition == SidebarItemDropPosition.Center)
 				{
 					VisualStateManager.GoToState(this, "DragOnTop", true);
 				}
-				else if (insertsAbove == SidebarItemDropPosition.Top)
+				else if (dropPosition == SidebarItemDropPosition.Top)
 				{
 					VisualStateManager.GoToState(this, "DragInsertAbove", true);
 				}
-				else if (insertsAbove == SidebarItemDropPosition.Bottom)
+				else if (dropPosition == SidebarItemDropPosition.Bottom)
 				{
 					VisualStateManager.GoToState(this, "DragInsertBelow", true);
 				}
