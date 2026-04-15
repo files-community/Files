@@ -66,7 +66,7 @@ namespace Files.App.Data.Items
 		{
 			yield return CreateSeparator(contextId);
 			foreach (var group in commands.Groups.All)
-				if (!string.IsNullOrEmpty(group.Name) && group.Commands.Any(c => c is not CommandCodes.None && commands[c].IsAccessibleGlobally))
+				if (!string.IsNullOrEmpty(group.Name) && (group.Commands.Count == 0 || group.Commands.Any(c => c is not CommandCodes.None && commands[c].IsAccessibleGlobally)))
 					yield return FromGroup(group, contextId: contextId);
 			foreach (var cmd in commands)
 				if (cmd.Code is not CommandCodes.None && cmd.IsAccessibleGlobally)
@@ -184,13 +184,7 @@ namespace Files.App.Data.Items
 			=> cmd is ActionCommand { Action: { Category: not ActionCategory.Unspecified } action }
 				? ActionCategoryConverter.ToLocalizedCategoryPath(action.Category) : Strings.General.GetLocalizedResource();
 
-		private static string GetCategoryPath(CommandGroup grp) => grp.Name switch
-		{
-			nameof(CommandGroups.SetAs) => Strings.PropertySectionImage.GetLocalizedResource(),
-			nameof(CommandGroups.Extract) => Strings.Archive.GetLocalizedResource(),
-			nameof(CommandGroups.NewItem) => Strings.Create.GetLocalizedResource(),
-			_ => Strings.Groups.GetLocalizedResource(),
-		};
+		private static string GetCategoryPath(CommandGroup grp) => ActionCategoryConverter.ToLocalizedCategoryPath(grp.Category);
 	}
 
 	public sealed class ToolbarAvailableTreeItem(string displayName, ToolbarItemDescriptor? toolbarItem = null)

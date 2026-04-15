@@ -19,6 +19,9 @@ internal sealed class ExtractCommandGroup : CommandGroup
 	public override string AccessKey
 		=> "Z";
 
+	public override ActionCategory Category
+		=> ActionCategory.Archive;
+
 	public override IReadOnlyList<CommandCodes> Commands =>
 	[
 		CommandCodes.DecompressArchive,
@@ -44,6 +47,9 @@ internal sealed class SetAsCommandGroup : CommandGroup
 	public override string AccessKey
 		=> "B";
 
+	public override ActionCategory Category
+		=> ActionCategory.Image;
+
 	public override IReadOnlyList<CommandCodes> Commands =>
 	[
 		CommandCodes.SetAsWallpaperBackground,
@@ -68,6 +74,9 @@ internal sealed class NewItemCommandGroup : CommandGroup
 	public override string AccessKey
 		=> "W";
 
+	public override ActionCategory Category
+		=> ActionCategory.Create;
+
 	public override string AutomationId
 		=> "InnerNavigationToolbarNewButton";
 
@@ -77,4 +86,28 @@ internal sealed class NewItemCommandGroup : CommandGroup
 		CommandCodes.CreateFile,
 		CommandCodes.CreateShortcutFromDialog,
 	];
+}
+
+internal sealed class EditTagsCommandGroup : CommandGroup
+{
+	public override string Name => "EditTags";
+
+	public override string DisplayName
+		=> Strings.EditTags.GetLocalizedResource();
+
+	public override string Description
+		=> Strings.EditTagsGroupDescription.GetLocalizedResource();
+
+	public override RichGlyph Glyph
+		=> new(themedIconStyle: "App.ThemedIcons.TagEdit");
+
+	public override string AccessKey
+		=> string.Empty;
+
+	public override ActionCategory Category
+		=> ActionCategory.FileSystem;
+
+	// No predefined commands — the flyout contents are built dynamically
+	// from the user's defined file tags via FileTagsContextMenu.
+	public override IReadOnlyList<CommandCodes> Commands => [];
 }
