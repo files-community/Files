@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Files.App.Server;
 
