@@ -132,7 +132,8 @@ namespace Files.App.Data.Items
 		{
 			AlwaysVisibleContextId => Strings.AlwaysVisible.GetLocalizedResource(),
 			ArchiveFilesContextId => Strings.ArchiveFiles.GetLocalizedResource(),
-			ScriptFilesContextId => Strings.ScriptFiles.GetLocalizedResource(),
+			BatchFilesContextId => Strings.BatchFiles.GetLocalizedResource(),
+			PowerShellFilesContextId => Strings.PowerShellFiles.GetLocalizedResource(),
 			ImageFilesContextId => Strings.ImageFiles.GetLocalizedResource(),
 			MediaFilesContextId => Strings.MediaFiles.GetLocalizedResource(),
 			FontFilesContextId => Strings.FontFiles.GetLocalizedResource(),
@@ -169,7 +170,8 @@ namespace Files.App.Data.Items
 		private static string GetToolbarSectionId(IRichCommand cmd) => cmd.Code switch
 		{
 			CommandCodes.DecompressArchiveToChildFolder => ArchiveFilesContextId,
-			CommandCodes.RunWithPowershell or CommandCodes.EditInNotepad => ScriptFilesContextId,
+			CommandCodes.RunWithPowershell => PowerShellFilesContextId,
+			CommandCodes.EditInNotepad => BatchFilesContextId,
 			CommandCodes.SetAsWallpaperBackground or CommandCodes.SetAsLockscreenBackground or CommandCodes.SetAsAppBackground
 				or CommandCodes.SetAsSlideshowBackground or CommandCodes.RotateLeft or CommandCodes.RotateRight => ImageFilesContextId,
 			CommandCodes.PlayAll => MediaFilesContextId,

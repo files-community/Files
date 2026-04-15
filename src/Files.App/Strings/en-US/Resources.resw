@@ -4416,8 +4416,11 @@
   <data name="ArchiveFiles" xml:space="preserve">
     <value>Archive files</value>
   </data>
-  <data name="ScriptFiles" xml:space="preserve">
-    <value>Script files</value>
+  <data name="BatchFiles" xml:space="preserve">
+    <value>Batch files</value>
+  </data>
+  <data name="PowerShellFiles" xml:space="preserve">
+    <value>PowerShell files</value>
   </data>
   <data name="MediaFiles" xml:space="preserve">
     <value>Media files</value>

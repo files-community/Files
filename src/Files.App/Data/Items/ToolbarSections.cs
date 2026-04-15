@@ -10,7 +10,8 @@ namespace Files.App.Data.Items
 	{
 		public const string AlwaysVisibleContextId = "AlwaysVisible";
 		public const string ArchiveFilesContextId = "ArchiveFiles";
-		public const string ScriptFilesContextId = "ScriptFiles";
+		public const string BatchFilesContextId = "BatchFiles";
+		public const string PowerShellFilesContextId = "PowerShellFiles";
 		public const string ImageFilesContextId = "ImageFiles";
 		public const string MediaFilesContextId = "MediaFiles";
 		public const string FontFilesContextId = "FontFiles";
@@ -35,11 +36,8 @@ namespace Files.App.Data.Items
 					new(commandCode: nameof(CommandCodes.OpenProperties)),
 				],
 				[ArchiveFilesContextId] = [new(commandGroup: nameof(CommandGroups.Extract), showLabel: true)],
-				[ScriptFilesContextId] =
-				[
-					new(commandCode: nameof(CommandCodes.RunWithPowershell), showLabel: true),
-					new(commandCode: nameof(CommandCodes.EditInNotepad), showLabel: true),
-				],
+				[BatchFilesContextId] = [new(commandCode: nameof(CommandCodes.EditInNotepad), showLabel: true)],
+				[PowerShellFilesContextId] = [new(commandCode: nameof(CommandCodes.RunWithPowershell), showLabel: true)],
 				[ImageFilesContextId] =
 				[
 					new(commandGroup: nameof(CommandGroups.SetAs), showLabel: true),
