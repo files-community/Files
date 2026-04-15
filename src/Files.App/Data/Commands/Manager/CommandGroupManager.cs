@@ -55,6 +55,7 @@ internal sealed class SetAsCommandGroup : CommandGroup
 		CommandCodes.SetAsWallpaperBackground,
 		CommandCodes.SetAsLockscreenBackground,
 		CommandCodes.SetAsAppBackground,
+		CommandCodes.SetAsSlideshowBackground,
 	];
 }
 

@@ -43,7 +43,6 @@ namespace Files.App.Data.Items
 				[ImageFilesContextId] =
 				[
 					new(commandGroup: nameof(CommandGroups.SetAs), showLabel: true),
-					new(commandCode: nameof(CommandCodes.SetAsSlideshowBackground), showLabel: true),
 					new(commandCode: nameof(CommandCodes.RotateLeft), showLabel: true),
 					new(commandCode: nameof(CommandCodes.RotateRight), showLabel: true),
 				],

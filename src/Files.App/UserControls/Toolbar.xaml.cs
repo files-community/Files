@@ -408,7 +408,7 @@ namespace Files.App.UserControls
 				Text = cmd.Label,
 				Command = cmd,
 				Visibility = cmd.IsExecutable ? Visibility.Visible : Visibility.Collapsed,
-				Icon = cmd.Glyph.ToFontIcon(),
+				Icon = cmd.Glyph.ToOverflowIcon() ?? cmd.Glyph.ToFontIcon(),
 			};
 			if (!string.IsNullOrWhiteSpace(cmd.AccessKey)) item.AccessKey = cmd.AccessKey;
 			if (cmd.HotKeyText is string hk) item.KeyboardAcceleratorTextOverride = hk;
