@@ -81,6 +81,26 @@
 			OpenPaneLength="260"
 			PaneDisplayMode="Left"
 			SelectionChanged="MainSettingsNavigationView_SelectionChanged">
+			<NavigationView.AutoSuggestBox>
+				<AutoSuggestBox
+					x:Name="SettingsSearchBox"
+					AutomationProperties.Name="{helpers:ResourceString Name=Search}"
+					PlaceholderText="{helpers:ResourceString Name=Search}"
+					QueryIcon="Find"
+					QuerySubmitted="SettingsSearchBox_QuerySubmitted"
+					SuggestionChosen="SettingsSearchBox_SuggestionChosen"
+					TextChanged="SettingsSearchBox_TextChanged">
+					<AutoSuggestBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock
+								Padding="0,8,0,8"
+								AutomationProperties.Name="{Binding Localized}"
+								Text="{Binding Localized}"
+								TextWrapping="Wrap" />
+						</DataTemplate>
+					</AutoSuggestBox.ItemTemplate>
+				</AutoSuggestBox>
+			</NavigationView.AutoSuggestBox>
 
 			<!--  Menu Items  -->
 			<NavigationView.MenuItems>
