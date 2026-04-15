@@ -44,8 +44,6 @@ namespace Files.App.Actions
 		private void AppThemeModeService_AppThemeModeChanged(object? sender, EventArgs e)
 		{
 			OnPropertyChanged(nameof(IAction.IsExecutable));
-			if (this is IToggleAction)
-				OnPropertyChanged(nameof(IToggleAction.IsOn));
 		}
 	}
 }
