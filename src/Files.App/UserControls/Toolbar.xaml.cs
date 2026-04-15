@@ -20,7 +20,6 @@ namespace Files.App.UserControls
 		private readonly IModifiableCommandManager ModifiableCommands = Ioc.Default.GetRequiredService<IModifiableCommandManager>();
 		private readonly IAddItemService addItemService = Ioc.Default.GetRequiredService<IAddItemService>();
 		private bool isToolbarRefreshQueued;
-		private HashSet<string> lastActiveContexts = new(StringComparer.Ordinal);
 
 		[GeneratedDependencyProperty]
 		public partial NavigationToolbarViewModel? ViewModel { get; set; }
@@ -65,10 +64,11 @@ namespace Files.App.UserControls
 			if (e.PropertyName is not nameof(IRichCommand.IsExecutable) || sender is not IRichCommand cmd
 				|| cmd.Code is CommandCodes.None || !cmd.IsAccessibleGlobally)
 				return;
-			var ctxId = ToolbarItemDescriptor.ResolveToolbarSectionId(cmd.Code.ToString(), Commands);
-			if (ctxId != ToolbarDefaultsTemplate.AlwaysVisibleContextId
-				&& lastActiveContexts.Contains(ctxId) != IsContextActive(ctxId))
-				RequestToolbarRefresh();
+			// Debouncing in RequestToolbarRefresh() coalesces rapid IsExecutable changes,
+			// so we don't need to check if the context visibility actually changed here.
+			// Checking IsContextActive() loops through all commands and is expensive during
+			// file selection when many commands' executability changes rapidly.
+			RequestToolbarRefresh();
 		}
 
 		private void InstanceViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -103,7 +103,6 @@ namespace Files.App.UserControls
 			if (ContextCommandBar is null) return;
 			ContextCommandBar.PrimaryCommands.Clear();
 			var active = GetActiveToolbarContexts();
-			lastActiveContexts = active;
 			var itemsByContext = ToolbarDefaultsTemplate.ResolveToolbarItemsByContext(UserSettingsService.AppearanceSettingsService);
 			foreach (var contextId in ToolbarDefaultsTemplate.ContextOrder)
 			{
@@ -135,18 +134,6 @@ namespace Files.App.UserControls
 				active.Add(ctxId);
 			}
 			return active;
-		}
-
-		private bool IsContextActive(string contextId)
-		{
-			foreach (var cmd in Commands)
-			{
-				if (cmd.Code is CommandCodes.None || !cmd.IsAccessibleGlobally || !cmd.IsExecutable) continue;
-				var resolved = ToolbarItemDescriptor.ResolveToolbarSectionId(cmd.Code.ToString(), Commands);
-				if (resolved == ToolbarDefaultsTemplate.RecycleBinContextId && ViewModel?.InstanceViewModel?.IsPageTypeRecycleBin != true) continue;
-				if (resolved == contextId) return true;
-			}
-			return false;
 		}
 
 		private static bool ShouldShowContext(string contextId, ISet<string> active)
