@@ -101,7 +101,6 @@
 							<Grid x:Name="SubItemChevronPanel" Grid.Column="2">
 								<FontIcon
 									x:Name="SubItemChevron"
-									Margin="{ThemeResource AppBarButtonSubItemChevronMargin}"
 									VerticalAlignment="Top"
 									AutomationProperties.AccessibilityView="Raw"
 									FontFamily="{ThemeResource SymbolThemeFontFamily}"
@@ -188,7 +187,7 @@
 											<DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
 										</ObjectAnimationUsingKeyFrames>
 										<ObjectAnimationUsingKeyFrames Storyboard.TargetName="SubItemChevron" Storyboard.TargetProperty="Margin">
-											<DiscreteObjectKeyFrame KeyTime="0" Value="0,20,8,0" />
+											<DiscreteObjectKeyFrame KeyTime="0" Value="4,20,4,0" />
 										</ObjectAnimationUsingKeyFrames>
 									</Storyboard>
 								</VisualState>

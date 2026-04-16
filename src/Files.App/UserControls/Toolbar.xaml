@@ -110,7 +110,7 @@
 			<AppBarButton
 				x:Name="SelectionOptions"
 				Width="Auto"
-				MinWidth="40"
+				MinWidth="46"
 				x:Load="{x:Bind ShowViewControlButton, Mode=OneWay}"
 				AccessKey="S"
 				AccessKeyInvoked="AppBarButton_AccessKeyInvoked"
@@ -154,7 +154,7 @@
 			<AppBarButton
 				x:Name="ArrangementOptions"
 				Width="Auto"
-				MinWidth="40"
+				MinWidth="46"
 				x:Load="{x:Bind ShowViewControlButton, Mode=OneWay}"
 				AccessKey="A"
 				AccessKeyInvoked="AppBarButton_AccessKeyInvoked"
@@ -265,7 +265,7 @@
 			<AppBarButton
 				x:Name="LayoutOptionsButton"
 				Width="Auto"
-				MinWidth="40"
+				MinWidth="46"
 				x:Load="{x:Bind ShowViewControlButton, Mode=OneWay}"
 				AccessKey="L"
 				AccessKeyInvoked="AppBarButton_AccessKeyInvoked"
