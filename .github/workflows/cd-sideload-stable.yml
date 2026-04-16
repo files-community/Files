@@ -101,7 +101,7 @@ jobs:
         azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
         azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
         endpoint: https://eus.codesigning.azure.net/
-        trusted-signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
+        signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
         certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
         files-folder: ${{ github.workspace }}\src\Files.App\Assets\FilesOpenDialog
         files-folder-filter: "*.exe"
@@ -148,7 +148,7 @@ jobs:
         azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
         azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
         endpoint: https://eus.codesigning.azure.net/
-        trusted-signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
+        signing-account-name: ${{ secrets.SIGNING_ACCOUNT_NAME }}
         certificate-profile-name: ${{ secrets.SIGNING_PROFILE_NAME }}
         files-folder: ${{ env.APPX_PACKAGE_DIR }}
         files-folder-filter: msixbundle
