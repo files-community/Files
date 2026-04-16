@@ -5,6 +5,7 @@ using Files.App.ViewModels.Properties;
 using Files.Shared.Helpers;
 using FluentFTP;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using System.Text;
@@ -174,15 +175,15 @@ namespace Files.App.Utils
 			get => string.IsNullOrEmpty(SyncStatusUI?.SyncStatusString) ? Strings.CloudDriveSyncStatus_Unknown.GetLocalizedResource() : SyncStatusUI.SyncStatusString;
 		}
 
-		private BitmapImage fileImage;
-		public BitmapImage FileImage
+		private ImageSource fileImage;
+		public ImageSource FileImage
 		{
 			get => fileImage;
 			set
 			{
 				if (SetProperty(ref fileImage, value))
 				{
-					if (value is BitmapImage)
+					if (value is not null)
 					{
 						LoadFileIcon = true;
 						NeedsPlaceholderGlyph = false;
