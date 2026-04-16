@@ -5,6 +5,8 @@ using Files.App.UserControls;
 using Files.App.ViewModels.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
@@ -199,6 +201,22 @@ namespace Files.App.Views.Settings
 		{
 			skipSessionRestoreOnUnload = true;
 			hostWindow?.Close();
+		}
+
+		private void TreeViewItem_Tapped(object sender, TappedRoutedEventArgs e)
+		{
+			if (sender is not FrameworkElement element)
+				return;
+
+			for (DependencyObject? current = element; current is not null; current = VisualTreeHelper.GetParent(current))
+			{
+				if (current is TreeViewItem treeItem)
+				{
+					treeItem.IsExpanded = !treeItem.IsExpanded;
+					e.Handled = true;
+					break;
+				}
+			}
 		}
 	}
 }

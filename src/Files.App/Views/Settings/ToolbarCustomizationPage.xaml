@@ -145,7 +145,11 @@
 						SelectionMode="Single">
 						<TreeView.ItemTemplate>
 							<DataTemplate x:DataType="dataitem:ToolbarAvailableTreeItem">
-								<TreeViewItem Content="{x:Bind DisplayName}" ItemsSource="{x:Bind Children}" />
+								<TreeViewItem ItemsSource="{x:Bind Children}">
+									<Grid x:Name="TreeItemContent" Tapped="TreeViewItem_Tapped">
+										<TextBlock VerticalAlignment="Center" Text="{x:Bind DisplayName}" />
+									</Grid>
+								</TreeViewItem>
 							</DataTemplate>
 						</TreeView.ItemTemplate>
 					</TreeView>
