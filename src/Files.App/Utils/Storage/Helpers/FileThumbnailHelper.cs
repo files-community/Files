@@ -16,7 +16,7 @@ namespace Files.App.Utils.Storage
 			// Ensure size is at least 1 to prevent layout errors
 			size = Math.Max(1, size);
 
-			var resolvedPath = path.StartsWith(@"\\?\", StringComparison.Ordinal)
+			var resolvedPath = path is not null && path.StartsWith(@"\\?\", StringComparison.Ordinal)
 				? MtpHelpers.ResolveMtpShellPath(path) ?? path
 				: path;
 
