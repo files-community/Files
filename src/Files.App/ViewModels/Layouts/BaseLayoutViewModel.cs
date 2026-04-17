@@ -205,6 +205,15 @@ namespace Files.App.ViewModels.Layouts
 
 		public async Task DropAsync(DragEventArgs e)
 		{
+			if (e is null)
+				return;
+
+			if (e.DataView is null)
+			{
+				e.AcceptedOperation = DataPackageOperation.None;
+				return;
+			}
+
 			e.Handled = true;
 			if (e.DataView.Contains(StandardDataFormats.Uri) && await e.DataView.GetUriAsync() is { } uri)
 			{
