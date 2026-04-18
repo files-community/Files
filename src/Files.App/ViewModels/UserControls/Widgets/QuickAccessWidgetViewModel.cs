@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
@@ -55,35 +56,104 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			_quickAccessFolderWatcher.Changed += async (s, e) =>
 			{
-				await RefreshWidgetAsync();
+				try
+				{
+					await RefreshWidgetAsync();
+				}
+				catch (Exception ex)
+				{
+					App.Logger.LogWarning(ex, "Error refreshing quick access widget on file system change");
+				}
 			};
 
 			_quickAccessFolderWatcher.EnableRaisingEvents = true;
+
+			App.QuickAccessManager.UpdateQuickAccessWidget += async (s, e) =>
+			{
+				if (e.Reorder)
+				{
+					try
+					{
+						await RefreshWidgetAsync(bypassSuspend: true);
+					}
+					catch (Exception ex)
+					{
+						App.Logger.LogWarning(ex, "Error refreshing quick access widget on reorder");
+					}
+				}
+			};
 		}
 
 		// Methods
 
 		public Task RefreshWidgetAsync()
 		{
+			return RefreshWidgetAsync(false);
+		}
+
+		public Task RefreshWidgetAsync(bool bypassSuspend)
+		{
+			if (!bypassSuspend && App.QuickAccessManager.Model.IsSyncSuspended)
+				return Task.CompletedTask;
+
 			return MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				foreach (var item in Items)
-					item.Dispose();
-
-				Items.Clear();
+				var newItems = new List<(IWindowsStorable folder, string name, bool isPinned, string tooltip, string path)>();
 
 				await foreach (IWindowsStorable folder in HomePageContext.HomeFolder.GetQuickAccessFolderAsync(default))
 				{
 					folder.GetPropertyValue<bool>("System.Home.IsPinned", out var isPinned);
 					folder.TryGetShellTooltip(out var tooltip);
 
+					var name = folder.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI);
+					var path = folder.GetDisplayName(SIGDN.SIGDN_DESKTOPABSOLUTEPARSING);
+
+					newItems.Add((folder, name, isPinned, tooltip ?? string.Empty, path));
+				}
+
+				var currentPaths = Items.Select(i => i.Path).ToList();
+				var newPaths = newItems.Select(i => i.path).ToList();
+
+				if (currentPaths.Count == newPaths.Count &&
+					new HashSet<string>(currentPaths, StringComparer.OrdinalIgnoreCase)
+						.SetEquals(newPaths))
+				{
+					foreach (var ni in newItems)
+						ni.folder.Dispose();
+
+					for (int targetIdx = 0; targetIdx < newPaths.Count; targetIdx++)
+					{
+						var currentIdx = -1;
+						for (int j = targetIdx; j < Items.Count; j++)
+						{
+							if (string.Equals(Items[j].Path, newPaths[targetIdx], StringComparison.OrdinalIgnoreCase))
+							{
+								currentIdx = j;
+								break;
+							}
+						}
+
+						if (currentIdx >= 0 && currentIdx != targetIdx)
+							Items.Move(currentIdx, targetIdx);
+					}
+
+					return;
+				}
+
+				foreach (var item in Items)
+					item.Dispose();
+
+				Items.Clear();
+
+				foreach (var (folder, name, isPinned, tooltip, path) in newItems)
+				{
 					Items.Insert(
 						Items.Count,
 						new WidgetFolderCardItem(
 							folder,
-							folder.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI),
+							name,
 							isPinned,
-							tooltip ?? string.Empty));
+							tooltip));
 				}
 			});
 		}

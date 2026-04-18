@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.Extensions.Logging;
 using System.Collections.Specialized;
 using System.IO;
 
@@ -16,6 +17,33 @@ namespace Files.App.Data.Models
 		private readonly SemaphoreSlim addSyncSemaphore = new(1, 1);
 
 		public List<string> PinnedFolders { get; set; } = [];
+
+		private int _syncSuspendCount;
+
+		/// <summary>
+		/// Returns true when sync is suspended
+		/// </summary>
+		public bool IsSyncSuspended => _syncSuspendCount > 0;
+
+		/// <summary>
+		/// Suspends sync operations until the returned value is disposed
+		/// </summary>
+		public IDisposable SuspendSync()
+		{
+			Interlocked.Increment(ref _syncSuspendCount);
+			return new SyncSuspensionScope(this);
+		}
+
+		private sealed class SyncSuspensionScope(PinnedFoldersManager owner) : IDisposable
+		{
+			private int _disposed;
+
+			public void Dispose()
+			{
+				if (Interlocked.Exchange(ref _disposed, 1) == 0)
+					Interlocked.Decrement(ref owner._syncSuspendCount);
+			}
+		}
 
 		public readonly List<INavigationControlItem> _PinnedFolderItems = [];
 
@@ -34,6 +62,9 @@ namespace Files.App.Data.Models
 		/// </summary>
 		public async Task UpdateItemsWithExplorerAsync()
 		{
+			if (IsSyncSuspended)
+				return;
+
 			await addSyncSemaphore.WaitAsync();
 
 			try
@@ -46,14 +77,120 @@ namespace Files.App.Data.Models
 
 				if (formerPinnedFolders.SequenceEqual(PinnedFolders))
 					return;
+				if (formerPinnedFolders.Count == PinnedFolders.Count &&
+					new HashSet<string>(formerPinnedFolders, StringComparer.OrdinalIgnoreCase)
+						.SetEquals(PinnedFolders))
+				{
+					ApplyReorderToPinnedItems();
+					return;
+				}
 
 				RemoveStaleSidebarItems();
-				await AddAllItemsToSidebarAsync();
+				foreach (var path in PinnedFolders)
+				{
+					bool exists;
+					lock (_PinnedFolderItems)
+					{
+						exists = _PinnedFolderItems.Any(x => x.Path.Equals(path, StringComparison.OrdinalIgnoreCase));
+					}
+					if (!exists)
+						await AddItemToSidebarAsync(path);
+				}
+				ApplyReorderToPinnedItems();
 			}
 			finally
 			{
 				addSyncSemaphore.Release();
 			}
+		}
+
+		/// <summary>
+		/// Reorders <see cref="_PinnedFolderItems"/> and <see cref="PinnedFolders"/> to match
+		/// <paramref name="newOrder"/> without firing <see cref="DataChanged"/> events.
+		/// Only intended to be called from <c>SidebarViewModel</c>.
+		/// </summary>
+		internal void UpdateOrderSilently(string[] newOrder)
+		{
+			lock (_PinnedFolderItems)
+			{
+				ReorderPinnedItemsCore(newOrder, moves: null);
+			}
+
+			PinnedFolders = newOrder.ToList();
+		}
+
+		private void ApplyReorderToPinnedItems()
+		{
+			var moves = new List<(INavigationControlItem item, int newIndex, int oldIndex)>();
+
+			lock (_PinnedFolderItems)
+			{
+				ReorderPinnedItemsCore(PinnedFolders, moves);
+			}
+
+			foreach (var move in moves)
+			{
+				DataChanged?.Invoke(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, move.item, move.newIndex, move.oldIndex));
+			}
+		}
+
+		/// <summary>
+		/// Reorders <see cref="_PinnedFolderItems"/> to match <paramref name="desiredOrder"/>.
+		/// Must be called while holding the <c>_PinnedFolderItems</c> lock
+		/// </summary>
+		private void ReorderPinnedItemsCore(IList<string> desiredOrder, List<(INavigationControlItem item, int newIndex, int oldIndex)>? moves)
+		{
+			int baseIndex = GetPinnedItemsBaseIndex();
+
+			for (int i = 0; i < desiredOrder.Count; i++)
+			{
+				var path = desiredOrder[i];
+				var currentItem = _PinnedFolderItems.FirstOrDefault(x => x.Path.Equals(path, StringComparison.OrdinalIgnoreCase));
+				if (currentItem is null)
+					continue;
+
+				int oldIndex = _PinnedFolderItems.IndexOf(currentItem);
+				int newIndex = baseIndex + i;
+
+				if (oldIndex != newIndex && newIndex < _PinnedFolderItems.Count)
+				{
+					_PinnedFolderItems.RemoveAt(oldIndex);
+					_PinnedFolderItems.Insert(newIndex, currentItem);
+					moves?.Add((currentItem, newIndex, oldIndex));
+				}
+			}
+		}
+
+		/// <summary>
+		/// Returns the base index of user-pinned items in <see cref="_PinnedFolderItems"/>.
+		/// Must be called while holding the <c>_PinnedFolderItems</c> lock.
+		/// <para>
+		/// Invariant assumed: default-location items always appear before user-pinned items and
+		/// are never interspersed with them. If the first non-default item is found, that is the
+		/// base index.
+		/// </para>
+		/// </summary>
+		private int GetPinnedItemsBaseIndex()
+		{
+			int firstPinnedIndex = _PinnedFolderItems.FindIndex(x => x is LocationItem item && !item.IsDefaultLocation);
+			if (firstPinnedIndex >= 0)
+			{
+				// Default locations should always appear before user-pinned locations
+				var hasDefaultAfterFirstPinned = _PinnedFolderItems
+					.Skip(firstPinnedIndex)
+					.Any(x => x is LocationItem item && item.IsDefaultLocation);
+					
+				Debug.Assert(!hasDefaultAfterFirstPinned);
+
+				if (!hasDefaultAfterFirstPinned)
+					return firstPinnedIndex;
+
+				int lastDefaultIndex = _PinnedFolderItems.FindLastIndex(x => x is LocationItem item && item.IsDefaultLocation);
+				return lastDefaultIndex == -1 ? 0 : lastDefaultIndex + 1;
+			}
+
+			int trailingDefaultIndex = _PinnedFolderItems.FindLastIndex(x => x is LocationItem item && item.IsDefaultLocation);
+			return trailingDefaultIndex == -1 ? 0 : trailingDefaultIndex + 1;
 		}
 
 		/// <summary>
@@ -198,8 +335,7 @@ namespace Files.App.Data.Models
 		/// </summary>
 		public void RemoveStaleSidebarItems()
 		{
-			// Remove unpinned items from PinnedFolderItems
-			foreach (var childItem in PinnedFolderItems)
+			foreach (var childItem in PinnedFolderItems.ToList())
 			{
 				if (childItem is LocationItem item && !item.IsDefaultLocation && !PinnedFolders.Contains(item.Path))
 				{
@@ -210,18 +346,23 @@ namespace Files.App.Data.Models
 					DataChanged?.Invoke(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
 				}
 			}
-
-			// Remove unpinned items from sidebar
-			DataChanged?.Invoke(SectionType.Pinned, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
 		}
 
 		public async void LoadAsync(object? sender, FileSystemEventArgs e)
 		{
-			await LoadAsync();
-			App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(null, new ModifyQuickAccessEventArgs((await QuickAccessService.GetPinnedFoldersAsync()).ToArray(), true)
+			try
 			{
-				Reset = true
-			});
+				await LoadAsync();
+				var pinnedFolders = await QuickAccessService.GetPinnedFoldersAsync();
+				App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(null, new ModifyQuickAccessEventArgs(pinnedFolders.ToArray(), true)
+				{
+					Reset = true
+				});
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Error loading pinned folders from watcher");
+			}
 		}
 
 		public async Task LoadAsync()

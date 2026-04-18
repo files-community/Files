@@ -276,7 +276,14 @@ namespace Files.App.Utils.Storage
 			}
 			finally
 			{
-				packageView.ReportOperationCompleted(packageView.RequestedOperation);
+				try
+				{
+					packageView.ReportOperationCompleted(packageView.RequestedOperation);
+				}
+				catch (Exception ex)
+				{
+					App.Logger.LogInformation(ex, "Drag data package became unavailable while reporting the completed operation");
+				}
 			}
 		}
 
@@ -728,15 +735,37 @@ namespace Files.App.Utils.Storage
 
 		public static bool HasDraggedStorageItems(DataPackageView packageView)
 		{
-			return packageView is not null && (packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains("FileDrop"));
+			if (packageView is null)
+				return false;
+
+			try
+			{
+				return packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains("FileDrop");
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogInformation(ex, "Drag data package became unavailable while checking storage items");
+				return false;
+			}
 		}
 
 		public static async Task<IEnumerable<IStorageItemWithPath>> GetDraggedStorageItems(DataPackageView packageView)
 		{
 			var itemsList = new List<IStorageItemWithPath>();
 			var hasVirtualItems = false;
+			bool containsStorageItems;
 
-			if (packageView.Contains(StandardDataFormats.StorageItems))
+			try
+			{
+				containsStorageItems = packageView.Contains(StandardDataFormats.StorageItems);
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogInformation(ex, "Drag data package became unavailable while enumerating storage items");
+				return itemsList;
+			}
+
+			if (containsStorageItems)
 			{
 				try
 				{
@@ -757,7 +786,11 @@ namespace Files.App.Utils.Storage
 			// workaround for pasting folders from remote desktop (#12318)
 			try
 			{
-				if (hasVirtualItems && packageView.Contains("FileContents"))
+				var containsFileContents = false;
+				if (hasVirtualItems)
+					containsFileContents = packageView.Contains("FileContents");
+
+				if (hasVirtualItems && containsFileContents)
 				{
 					var descriptor = NativeClipboard.CurrentDataObject.GetData<Shell32.FILEGROUPDESCRIPTOR>("FileGroupDescriptorW");
 					for (var ii = 0; ii < descriptor.cItems; ii++)
@@ -779,7 +812,18 @@ namespace Files.App.Utils.Storage
 
 			// workaround for GetStorageItemsAsync() bug that only yields 16 items at most
 			// https://learn.microsoft.com/windows/win32/shell/clipboard#cf_hdrop
-			if (packageView.Contains("FileDrop"))
+			bool containsFileDrop;
+			try
+			{
+				containsFileDrop = packageView.Contains("FileDrop");
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogInformation(ex, "Drag data package became unavailable while reading file-drop data");
+				return itemsList;
+			}
+
+			if (containsFileDrop)
 			{
 				var fileDropData = await SafetyExtensions.IgnoreExceptions(
 					() => packageView.GetDataAsync("FileDrop").AsTask());
