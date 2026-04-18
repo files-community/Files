@@ -347,7 +347,10 @@ namespace Files.App.ViewModels.UserControls
 									newIndex = section.ChildItems.Count - 1;
 
 								if (newIndex >= 0 && oldIndex >= 0 && oldIndex != newIndex)
-									section.ChildItems.Move(oldIndex, newIndex);
+								{
+									Manager_DataChanged(section.Section, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+									return;
+								}
 							}
 						}
 						break;
@@ -1180,13 +1183,6 @@ namespace Files.App.ViewModels.UserControls
 						return;
 					}
 
-					if (section.ChildItems.IndexOf(locationItem) == 0 && args.dropPosition == SidebarItemDropPosition.Top)
-					{
-						rawEvent.Handled = true;
-						rawEvent.AcceptedOperation = DataPackageOperation.None;
-						return;
-					}
-
 					rawEvent.Handled = true;
 					rawEvent.AcceptedOperation = DataPackageOperation.Move;
 					rawEvent.DragUIOverride.IsCaptionVisible = true;
@@ -1417,9 +1413,6 @@ namespace Files.App.ViewModels.UserControls
 							if (sourceIndex < 0 || targetIndex < 0)
 								return;
 
-							if (targetIndex == 0 && args.dropPosition == SidebarItemDropPosition.Top)
-								return;
-
 							if (args.dropPosition == SidebarItemDropPosition.Bottom)
 								targetIndex++;
 
@@ -1428,7 +1421,9 @@ namespace Files.App.ViewModels.UserControls
 
 							if (sourceIndex != targetIndex && targetIndex >= 0 && targetIndex < section.ChildItems.Count)
 							{
-								section.ChildItems.Move(sourceIndex, targetIndex);
+								var item = section.ChildItems[sourceIndex];
+								section.ChildItems.RemoveAt(sourceIndex);
+								section.ChildItems.Insert(targetIndex, item);
 								await PersistPinnedOrderAsync(section);
 							}
 						}
@@ -1458,6 +1453,10 @@ namespace Files.App.ViewModels.UserControls
 											targetIndex++;
 
 										var newLocationItem = await SidebarPinnedModel.CreateLocationItemFromPathAsync(dragPath);
+										lock (SidebarPinnedModel._PinnedFolderItems)
+										{
+											SidebarPinnedModel._PinnedFolderItems.Add(newLocationItem);
+										}
 										section.ChildItems.Insert(targetIndex, newLocationItem);
 										await PersistPinnedOrderAsync(section, isSyncSuspended: true);
 									}
@@ -1503,6 +1502,10 @@ namespace Files.App.ViewModels.UserControls
 										targetIndex++;
 
 									var newLocationItem = await SidebarPinnedModel.CreateLocationItemFromPathAsync(item.Path);
+									lock (SidebarPinnedModel._PinnedFolderItems)
+									{
+										SidebarPinnedModel._PinnedFolderItems.Add(newLocationItem);
+									}
 									section.ChildItems.Insert(targetIndex, newLocationItem);
 								}
 
@@ -1548,15 +1551,15 @@ namespace Files.App.ViewModels.UserControls
 
 			if (isSyncSuspended)
 			{
-				SidebarPinnedModel.UpdateOrderSilently(newOrder);
 				await QuickAccessService.SaveAsync(newOrder);
+				SidebarPinnedModel.UpdateOrderSilently(newOrder);
 			}
 			else
 			{
 				using (SidebarPinnedModel.SuspendSync())
 				{
-					SidebarPinnedModel.UpdateOrderSilently(newOrder);
 					await QuickAccessService.SaveAsync(newOrder);
+					SidebarPinnedModel.UpdateOrderSilently(newOrder);
 				}
 			}
 
