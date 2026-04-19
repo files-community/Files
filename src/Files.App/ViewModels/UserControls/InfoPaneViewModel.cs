@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections.Specialized;
+using System.Runtime.InteropServices;
 using Windows.Storage;
 
 namespace Files.App.ViewModels.UserControls
@@ -518,26 +519,35 @@ namespace Files.App.ViewModels.UserControls
 
 		private void UpdateTagsItems()
 		{
-			Items.Clear();
-
-			SelectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
-
-			var contextMenu = new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem });
-			contextMenu.Closed += HandleClosed;
-			contextMenu.TagsChanged += RequireTagGroupsUpdate;
-
-			Items.Add(new FlyoutItem(contextMenu));
-
-			async void RequireTagGroupsUpdate(object? sender, EventArgs e)
+			try
 			{
-				if (contentPageContext.ShellPage is not null)
-					await contentPageContext.ShellPage.ShellViewModel.RefreshTagGroups();
+				Items.Clear();
+
+				SelectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
+
+				var contextMenu = new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem });
+				contextMenu.Closed += HandleClosed;
+				contextMenu.TagsChanged += RequireTagGroupsUpdate;
+
+				Items.Add(new FlyoutItem(contextMenu));
+
+				async void RequireTagGroupsUpdate(object? sender, EventArgs e)
+				{
+					if (contentPageContext.ShellPage is not null)
+						await contentPageContext.ShellPage.ShellViewModel.RefreshTagGroups();
+				}
+
+				void HandleClosed(object? sender, object e)
+				{
+					contextMenu.TagsChanged -= RequireTagGroupsUpdate;
+					contextMenu.Closed -= HandleClosed;
+				}
 			}
-
-			void HandleClosed(object? sender, object e)
+			catch (COMException ex)
 			{
-				contextMenu.TagsChanged -= RequireTagGroupsUpdate;
-				contextMenu.Closed -= HandleClosed;
+				// MenuFlyout construction fails (0x8001010E: RPC_E_DISCONNECTED) when UI is being torn down
+				App.Logger.LogInformation($"InfoPaneViewModel.UpdateTagsItems: Suppressed COMException during UI teardown: {ex.HResult}");
+				Items.Clear(); // Clean up partial state
 			}
 		}
 
