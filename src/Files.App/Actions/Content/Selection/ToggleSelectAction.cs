@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
+using System.Runtime.InteropServices;
 
 namespace Files.App.Actions
 {
@@ -34,7 +35,14 @@ namespace Files.App.Actions
 
 		private static SelectorItem? GetFocusedElement()
 		{
-			return FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot) as SelectorItem;
+			try
+			{
+				return FocusManager.GetFocusedElement(MainWindow.Instance.Content.XamlRoot) as SelectorItem;
+			}
+			catch (COMException) // Window may already be closed
+			{
+				return null;
+			}
 		}
 	}
 }

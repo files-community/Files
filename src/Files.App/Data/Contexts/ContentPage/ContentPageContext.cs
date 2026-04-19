@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.Extensions.Logging;
 using System.Collections.Immutable;
+using System.Runtime.InteropServices;
 
 namespace Files.App.Data.Contexts
 {
@@ -57,6 +59,21 @@ namespace Files.App.Data.Contexts
 			GitHelpers.IsExecutingGitActionChanged += GitHelpers_IsExecutingGitActionChanged;
 
 			Update();
+		}
+
+		// XAML bindings can be torn down during navigation/tab switches; swallow the resulting COMException
+		// rather than propagating it through CsWinRT's native delegate boundaries.
+		protected override void OnPropertyChanged(PropertyChangedEventArgs e)
+		{
+			try
+			{
+				base.OnPropertyChanged(e);
+			}
+			catch (COMException ex)
+			{
+				// Expected during app/pane/tab teardown when XAML bindings are destroyed
+				App.Logger.LogInformation($"ContentPageContext.OnPropertyChanged: Suppressed COMException for property '{e.PropertyName}': {ex.HResult}");
+			}
 		}
 
 		private void GitHelpers_IsExecutingGitActionChanged(object? sender, PropertyChangedEventArgs e)
