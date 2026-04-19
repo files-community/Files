@@ -20,6 +20,7 @@ namespace Files.App.ViewModels.UserControls
 		private DrivesViewModel drivesViewModel { get; } = Ioc.Default.GetRequiredService<DrivesViewModel>();
 
 		private CancellationTokenSource loadCancellationTokenSource;
+		private Files.App.UserControls.Menus.FileTagsContextMenu? cachedTagsContextMenu;
 
 		/// <summary>
 		/// Value indicating if the info pane is on/off
@@ -525,23 +526,23 @@ namespace Files.App.ViewModels.UserControls
 
 				SelectedItem?.FileTagsUI?.ForEach(tag => Items.Add(new TagItem(tag)));
 
-				var contextMenu = new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem });
-				contextMenu.Closed += HandleClosed;
-				contextMenu.TagsChanged += RequireTagGroupsUpdate;
-
-				Items.Add(new FlyoutItem(contextMenu));
-
-				async void RequireTagGroupsUpdate(object? sender, EventArgs e)
+				// Create menu once and reuse it for subsequent selections
+				if (cachedTagsContextMenu is null)
 				{
-					if (contentPageContext.ShellPage is not null)
-						await contentPageContext.ShellPage.ShellViewModel.RefreshTagGroups();
+					cachedTagsContextMenu = new Files.App.UserControls.Menus.FileTagsContextMenu(new List<ListedItem>() { SelectedItem });
+					cachedTagsContextMenu.TagsChanged += async (s, e) =>
+					{
+						if (contentPageContext.ShellPage is not null)
+							await contentPageContext.ShellPage.ShellViewModel.RefreshTagGroups();
+					};
+				}
+				else
+				{
+					// Reset menu for new selection
+					cachedTagsContextMenu.ResetForItems(new List<ListedItem>() { SelectedItem });
 				}
 
-				void HandleClosed(object? sender, object e)
-				{
-					contextMenu.TagsChanged -= RequireTagGroupsUpdate;
-					contextMenu.Closed -= HandleClosed;
-				}
+				Items.Add(new FlyoutItem(cachedTagsContextMenu));
 			}
 			catch (COMException ex)
 			{
@@ -574,6 +575,7 @@ namespace Files.App.ViewModels.UserControls
 			infoPaneSettingsService.PropertyChanged -= PreviewSettingsService_OnPropertyChangedEvent;
 			contentPageContext.PropertyChanged -= ContentPageContext_PropertyChanged;
 			CloudDrivesManager.DataChanged -= CloudDrivesManager_DataChanged;
+			cachedTagsContextMenu = null;
 		}
 	}
 }
