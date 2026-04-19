@@ -89,6 +89,9 @@ namespace Files.App.Views
 		{
 			try
 			{
+				if (sender.CoreWebView2 is null)
+					return;
+
 				sender.CoreWebView2.Profile.PreferredColorScheme = (CoreWebView2PreferredColorScheme)RootAppElement.RequestedTheme;
 				sender.CoreWebView2.Settings.AreDefaultContextMenusEnabled = false;
 				sender.CoreWebView2.Settings.AreDevToolsEnabled = false;
@@ -119,17 +122,31 @@ namespace Files.App.Views
 
 		private async void WebView_WebMessageReceived(WebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
 		{
-			// Open link in web browser
-			if (Uri.TryCreate(args.TryGetWebMessageAsString(), UriKind.Absolute, out Uri? uri))
-				await Launcher.LaunchUriAsync(uri);
+			try
+			{
+				var coreWebView = sender.CoreWebView2;
+				if (coreWebView is null)
+					return;
 
-			// Navigate back to blog post
-			if (sender.CoreWebView2.CanGoBack)
-				sender.CoreWebView2.GoBack();
+				var message = args.TryGetWebMessageAsString();
+
+				// Open link in web browser
+				if (Uri.TryCreate(message, UriKind.Absolute, out Uri? uri))
+					await Launcher.LaunchUriAsync(uri);
+
+				// Navigate back to blog post
+				if (coreWebView.CanGoBack)
+					coreWebView.GoBack();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, ex.Message);
+			}
 		}
 
 		public void Dispose()
 		{
+			BlogPostWebView.WebMessageReceived -= WebView_WebMessageReceived;
 			BlogPostWebView.Close();
 		}
 	}
