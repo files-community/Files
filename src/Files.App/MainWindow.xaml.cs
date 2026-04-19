@@ -207,10 +207,11 @@ namespace Files.App
 					break;
 			}
 
-			if (!AppWindow.IsVisible)
+			var appWindow = AppWindow;
+			if (appWindow is not null && !appWindow.IsVisible)
 			{
 				// When resuming the cached instance
-				AppWindow.Show();
+				appWindow.Show();
 				Activate();
 
 				// Bring to foreground (#14730) in case Activate() doesn't

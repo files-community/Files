@@ -3,6 +3,7 @@
 
 using Files.App.Helpers.Application;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.Windows.AppLifecycle;
@@ -40,7 +41,7 @@ namespace Files.App
 		public static FileTagsManager FileTagsManager { get; private set; } = null!;
 		public static LibraryManager LibraryManager { get; private set; } = null!;
 		public static AppModel AppModel { get; private set; } = null!;
-		public static ILogger Logger { get; private set; } = null!;
+		public static ILogger Logger { get; private set; } = NullLogger.Instance;
 
 		/// <summary>
 		/// Initializes an instance of <see cref="App"/>.
@@ -161,9 +162,7 @@ namespace Files.App
 		{
 			var activatedEventArgsData = activatedEventArgs.Data;
 
-			// Logger may not be initialized yet due to race condition during startup
-			if (Logger is not null)
-				Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgsData.GetType().Name}");
+			Logger.LogInformation($"The app is being activated. Activation type: {activatedEventArgsData?.GetType().Name ?? "Unknown"}");
 
 			// InitializeApplication accesses UI, needs to be called on UI thread
 			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(()
