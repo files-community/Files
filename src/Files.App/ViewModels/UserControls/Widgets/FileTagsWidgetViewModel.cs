@@ -80,6 +80,12 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		private void CreateTagContainerItem(TagViewModel tag)
 		{
+			// Don't create duplicate containers
+			if (Containers.Any(c => c.Uid == tag.Uid))
+			{
+				return;
+			}
+
 			var container = new WidgetFileTagsContainerItem(tag.Uid)
 			{
 				Name = tag.Name,

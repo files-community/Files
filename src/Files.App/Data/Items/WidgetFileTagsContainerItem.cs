@@ -59,11 +59,23 @@ namespace Files.App.Data.Items
 		/// <inheritdoc/>
 		public async Task InitAsync(CancellationToken cancellationToken = default)
 		{
+			Tags.Clear();
+			
 			await foreach (var item in FileTagsService.GetItemsForTagAsync(_tagUid, cancellationToken))
 			{
-				var icon = await ImageService.GetIconAsync(item.Storable, default);
-				Tags.Add(new(item.Storable, icon));
+				// Create item without waiting for icon
+				var cardItem = new WidgetFileTagCardItem(item.Storable, null);
+				Tags.Add(cardItem);
+				
+				// Load icon asynchronously in background
+				_ = LoadIconAsync(cardItem, item.Storable, cancellationToken);
 			}
+		}
+
+		private async Task LoadIconAsync(WidgetFileTagCardItem cardItem, IStorable storable, CancellationToken cancellationToken)
+		{
+			var icon = await ImageService.GetIconAsync(storable, default);
+			cardItem.Icon = icon;
 		}
 
 		private Task<bool> ViewMore()
