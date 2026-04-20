@@ -110,5 +110,12 @@ namespace Files.App.Services
 				Reorder = true
 			});
 		}
+
+		public async Task NotifyPinnedItemsChanged(bool doUpdateQuickAccessWidget)
+		{
+			await App.QuickAccessManager.Model.LoadAsync();
+			if (doUpdateQuickAccessWidget)
+				App.QuickAccessManager.UpdateQuickAccessWidget?.Invoke(this, null!);
+		}
 	}
 }

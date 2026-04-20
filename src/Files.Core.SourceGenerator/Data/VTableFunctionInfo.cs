@@ -7,6 +7,7 @@ namespace Files.Core.SourceGenerator.Data
 		string FullyQualifiedParentTypeName,
 		string ParentTypeNamespace,
 		string ParentTypeName,
+		EquatableArray<string> Win32Usings,
 		bool IsReturnTypeVoid,
 		string Name,
 		string ReturnTypeName,

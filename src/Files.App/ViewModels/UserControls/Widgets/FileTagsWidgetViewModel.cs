@@ -56,26 +56,29 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public async Task RefreshWidgetAsync()
 		{
-			_updateCTS?.Cancel();
-			_updateCTS = new CancellationTokenSource();
-			await foreach (var item in FileTagsService.GetTagsAsync())
+			await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				if (_updateCTS.IsCancellationRequested)
-					break;
+				_updateCTS?.Cancel();
+				_updateCTS = new CancellationTokenSource();
+				await foreach (var item in FileTagsService.GetTagsAsync())
+				{
+					if (_updateCTS.IsCancellationRequested)
+						break;
 
-				var matchingItem = Containers.FirstOrDefault(c => c.Uid == item.Uid);
-				if (matchingItem is null)
-				{
-					CreateTagContainerItem(item);
+					var matchingItem = Containers.FirstOrDefault(c => c.Uid == item.Uid);
+					if (matchingItem is null)
+					{
+						CreateTagContainerItem(item);
+					}
+					else
+					{
+						matchingItem.Name = item.Name;
+						matchingItem.Color = item.Color;
+						matchingItem.Tags.Clear();
+						_ = matchingItem.InitAsync(_updateCTS.Token);
+					}
 				}
-				else
-				{
-					matchingItem.Name = item.Name;
-					matchingItem.Color = item.Color;
-					matchingItem.Tags.Clear();
-					_ = matchingItem.InitAsync(_updateCTS.Token);
-				}
-			}
+			});
 		}
 
 		private void CreateTagContainerItem(TagViewModel tag)
