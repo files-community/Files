@@ -99,11 +99,11 @@ namespace Files.App
 					{
 						rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 
-						if (MainPageViewModel.AppInstances.Count > 0)
-						{
-							// Bring to foreground (#14730)
-							Win32Helper.BringToForegroundEx(new(WindowHandle));
-						}
+						// Bring to foreground (#14730)
+						Win32Helper.BringToForegroundEx(new(WindowHandle));
+
+						// Ensure app-level keyboard shortcuts work immediately after Win+E activation.
+						_ = EnsureContentHasKeyboardFocusAsync();
 					}
 					else
 					{
@@ -220,6 +220,12 @@ namespace Files.App
 
 			if (Windows.Win32.PInvoke.IsIconic(new(WindowHandle)))
 				WinUIEx.WindowExtensions.Restore(Instance); // Restore window if minimized
+		}
+
+		private async Task EnsureContentHasKeyboardFocusAsync()
+		{
+			await Task.Delay(100);
+			Ioc.Default.GetService<IContentPageContext>()?.ShellPage?.PaneHolder.FocusActivePane();
 		}
 
 		private Frame? EnsureWindowIsInitialized()
