@@ -16,6 +16,7 @@ namespace Files.App.Data.Items
 		private IContentPageContext ContentPageContext { get; } = Ioc.Default.GetRequiredService<IContentPageContext>();
 
 		private readonly string _tagUid;
+		private CancellationTokenSource _initCTS = new();
 
 		// Properties
 
@@ -59,16 +60,20 @@ namespace Files.App.Data.Items
 		/// <inheritdoc/>
 		public async Task InitAsync(CancellationToken cancellationToken = default)
 		{
+			_initCTS.Cancel();
+			_initCTS = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+			var linkedToken = _initCTS.Token;
+
 			Tags.Clear();
-			
-			await foreach (var item in FileTagsService.GetItemsForTagAsync(_tagUid, cancellationToken))
+
+			await foreach (var item in FileTagsService.GetItemsForTagAsync(_tagUid, linkedToken))
 			{
 				// Create item without waiting for icon
 				var cardItem = new WidgetFileTagCardItem(item.Storable, null);
 				Tags.Add(cardItem);
-				
+
 				// Load icon asynchronously in background
-				_ = LoadIconAsync(cardItem, item.Storable, cancellationToken);
+				_ = LoadIconAsync(cardItem, item.Storable, linkedToken);
 			}
 		}
 

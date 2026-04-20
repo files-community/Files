@@ -72,7 +72,6 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				{
 					matchingItem.Name = item.Name;
 					matchingItem.Color = item.Color;
-					matchingItem.Tags.Clear();
 					_ = matchingItem.InitAsync(_updateCTS.Token);
 				}
 			}
