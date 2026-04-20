@@ -141,14 +141,13 @@
 						CanDragItems="True"
 						DragItemsCompleted="AvailableToolbarItemsTree_DragItemsCompleted"
 						DragItemsStarting="AvailableToolbarItemsTree_DragItemsStarting"
+						ItemInvoked="AvailableToolbarItemsTree_ItemInvoked"
 						ItemsSource="{x:Bind ViewModel.AvailableToolbarTreeItems, Mode=OneWay}"
 						SelectionMode="Single">
 						<TreeView.ItemTemplate>
 							<DataTemplate x:DataType="dataitem:ToolbarAvailableTreeItem">
 								<TreeViewItem ItemsSource="{x:Bind Children}">
-									<Grid x:Name="TreeItemContent" Tapped="TreeViewItem_Tapped">
-										<TextBlock VerticalAlignment="Center" Text="{x:Bind DisplayName}" />
-									</Grid>
+									<TextBlock VerticalAlignment="Center" Text="{x:Bind DisplayName}" />
 								</TreeViewItem>
 							</DataTemplate>
 						</TreeView.ItemTemplate>

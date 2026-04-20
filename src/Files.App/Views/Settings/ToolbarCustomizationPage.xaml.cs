@@ -6,7 +6,6 @@ using Files.App.ViewModels.Settings;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
@@ -203,20 +202,12 @@ namespace Files.App.Views.Settings
 			hostWindow?.Close();
 		}
 
-		private void TreeViewItem_Tapped(object sender, TappedRoutedEventArgs e)
+		private void AvailableToolbarItemsTree_ItemInvoked(TreeView sender, TreeViewItemInvokedEventArgs args)
 		{
-			if (sender is not FrameworkElement element)
+			if (args.InvokedItem is not ToolbarAvailableTreeItem { Children.Count: > 0 } item)
 				return;
-
-			for (DependencyObject? current = element; current is not null; current = VisualTreeHelper.GetParent(current))
-			{
-				if (current is TreeViewItem treeItem)
-				{
-					treeItem.IsExpanded = !treeItem.IsExpanded;
-					e.Handled = true;
-					break;
-				}
-			}
+			if (sender.ContainerFromItem(item) is TreeViewItem container)
+				container.IsExpanded = !container.IsExpanded;
 		}
 	}
 }
