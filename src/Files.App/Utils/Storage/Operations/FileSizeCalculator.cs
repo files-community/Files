@@ -11,7 +11,7 @@ namespace Files.App.Utils.Storage.Operations
 	internal sealed class FileSizeCalculator
 	{
 		private readonly string[] _paths;
-		private readonly ConcurrentDictionary<string, long> _computedFiles = new();
+		private readonly ConcurrentDictionary<string, long> _computedFiles = new(StringComparer.OrdinalIgnoreCase);
 		private long _size;
 
 		public long Size => _size;
