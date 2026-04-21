@@ -18,7 +18,9 @@ namespace Files.App.Helpers
 			var application = applicationPaths.FirstOrDefault();
 
 			if (string.IsNullOrEmpty(workingDirectory) && associatedInstance?.ShellViewModel != null && !associatedInstance.ShellViewModel.IsSearchResults)
+			{
 				workingDirectory = associatedInstance.ShellViewModel.WorkingDirectory;
+			}
 
 			if (runAsAdmin)
 			{
