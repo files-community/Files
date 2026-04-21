@@ -1331,6 +1331,9 @@
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Create folder with selection</value>
   </data>
+  <data name="CreateShortcutWithSelection" xml:space="preserve">
+    <value>Create shortcuts with selection</value>
+  </data>
   <data name="ItemType" xml:space="preserve">
     <value>Type:</value>
   </data>

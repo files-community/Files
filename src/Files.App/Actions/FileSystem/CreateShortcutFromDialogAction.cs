@@ -11,6 +11,9 @@ namespace Files.App.Actions
 		public string Label
 			=> Strings.Shortcut.GetLocalizedResource();
 
+		public string ExtendedLabel
+			=> Strings.CreateShortcut.GetLocalizedResource();
+
 		public string Description
 			=> Strings.CreateShortcutFromDialogDescription.GetLocalizedResource();
 
