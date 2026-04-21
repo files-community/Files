@@ -15,6 +15,9 @@ namespace Files.App.Actions
 		public ActionCategory Category
 			=> ActionCategory.FileSystem;
 
+		public string AccessKey
+			=> "D";
+
 		public HotKey HotKey
 			=> new(Keys.Delete, KeyModifiers.Shift);
 

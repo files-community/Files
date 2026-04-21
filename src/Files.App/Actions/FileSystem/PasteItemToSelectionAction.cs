@@ -20,6 +20,9 @@ namespace Files.App.Actions
 		public RichGlyph Glyph
 			=> new(themedIconStyle: "App.ThemedIcons.Paste");
 
+		public string AccessKey
+			=> "V";
+
 		public HotKey HotKey
 			=> new(Keys.V, KeyModifiers.CtrlShift);
 
