@@ -144,6 +144,11 @@
 						ItemInvoked="AvailableToolbarItemsTree_ItemInvoked"
 						ItemsSource="{x:Bind ViewModel.AvailableToolbarTreeItems, Mode=OneWay}"
 						SelectionMode="Single">
+						<TreeView.ItemContainerStyle>
+							<Style TargetType="TreeViewItem">
+								<Setter Property="Padding" Value="0,0,8,0" />
+							</Style>
+						</TreeView.ItemContainerStyle>
 						<TreeView.ItemTemplate>
 							<DataTemplate x:DataType="dataitem:ToolbarAvailableTreeItem">
 								<TreeViewItem ItemsSource="{x:Bind Children}">
