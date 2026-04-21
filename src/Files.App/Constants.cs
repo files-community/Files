@@ -108,7 +108,14 @@ namespace Files.App
 
 		public static class Appearance
 		{
-			public const string StandardFont = "Segoe UI Variable";
+			/// <summary>
+			/// The system default font family. Returns "Segoe UI Variable" on Windows 11+
+			/// and "Segoe UI" on Windows 10, matching the WinUI ContentControlThemeFontFamily default.
+			/// </summary>
+			public static string StandardFont =>
+				OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000)
+					? "Segoe UI Variable"
+					: "Segoe UI";
 		}
 
 		// Default icon sizes that are available for files and folders

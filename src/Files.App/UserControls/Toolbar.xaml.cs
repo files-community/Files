@@ -71,6 +71,11 @@ namespace Files.App.UserControls
 			if (e.PropertyName is not nameof(IRichCommand.IsExecutable) || sender is not IRichCommand cmd
 				|| cmd.Code is CommandCodes.None || !cmd.IsAccessibleGlobally)
 				return;
+
+			var contextId = ToolbarItemDescriptor.ResolveToolbarSectionId(cmd.Code.ToString(), Commands);
+			if (contextId is ToolbarDefaultsTemplate.AlwaysVisibleContextId or ToolbarDefaultsTemplate.OtherContextsContextId)
+				return;
+
 			// Debouncing in RequestToolbarRefresh() coalesces rapid IsExecutable changes,
 			// so we don't need to check if the context visibility actually changed here.
 			// Checking IsContextActive() loops through all commands and is expensive during

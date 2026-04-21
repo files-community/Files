@@ -85,7 +85,7 @@ namespace Files.App.Services.Settings
 		/// <inheritdoc/>
 		public String AppThemeFontFamily
 		{
-			get => Get("Segoe UI Variable");
+			get => Get(Constants.Appearance.StandardFont);
 			set => Set(value);
 		}
 
