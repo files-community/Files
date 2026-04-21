@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
+using System.Text;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.Win32;
@@ -19,6 +20,57 @@ namespace Files.App.Helpers
 	public static class ShellContextFlyoutFactory
 	{
 		public static IUserSettingsService UserSettingsService { get; } = Ioc.Default.GetRequiredService<IUserSettingsService>();
+
+		private static (string Label, string AccessKey) ExtractLabelAndAccessKey(string rawLabel)
+		{
+			if (string.IsNullOrEmpty(rawLabel))
+				return (string.Empty, string.Empty);
+
+			string accessKey = string.Empty;
+			var labelBuilder = new StringBuilder(rawLabel.Length);
+
+			for (int i = 0; i < rawLabel.Length; i++)
+			{
+				char current = rawLabel[i];
+				if (current != '&')
+				{
+					labelBuilder.Append(current);
+					continue;
+				}
+
+				if (i + 1 >= rawLabel.Length)
+				{
+					labelBuilder.Append('&');
+					continue;
+				}
+
+				char next = rawLabel[++i];
+				if (next == '&')
+				{
+					labelBuilder.Append('&');
+					continue;
+				}
+
+				if (string.IsNullOrEmpty(accessKey) && !char.IsWhiteSpace(next))
+					accessKey = char.ToUpperInvariant(next).ToString();
+
+				labelBuilder.Append(next);
+			}
+
+			return (labelBuilder.ToString(), accessKey);
+		}
+
+		private static ContextMenuFlyoutItemViewModel CreateShellMenuItem(Win32ContextMenuItem menuFlyoutItem, BitmapImage? image)
+		{
+			var (label, accessKey) = ExtractLabelAndAccessKey(menuFlyoutItem.Label ?? string.Empty);
+			return new ContextMenuFlyoutItemViewModel
+			{
+				Text = label,
+				AccessKey = accessKey,
+				Tag = menuFlyoutItem,
+				BitmapIcon = image,
+			};
+		}
 
 		public static async Task<List<ContextMenuFlyoutItemViewModel>> GetShellContextmenuAsync(bool showOpenMenu, bool shiftPressed, string workingDirectory, List<ListedItem>? selectedItems, CancellationToken cancellationToken)
 		{
@@ -134,13 +186,8 @@ namespace Files.App.Helpers
 					if (string.Equals(menuFlyoutItem.Label, Win32Helper.ExtractStringFromDLL("shell32.dll", 30312)))
 						menuFlyoutItem.CommandString = "sendto";
 
-					var menuLayoutSubItem = new ContextMenuFlyoutItemViewModel()
-					{
-						Text = menuFlyoutItem.Label.Replace("&", "", StringComparison.Ordinal),
-						Tag = menuFlyoutItem,
-						BitmapIcon = image,
-						Items = [],
-					};
+					var menuLayoutSubItem = CreateShellMenuItem(menuFlyoutItem, image);
+					menuLayoutSubItem.Items = [];
 
 					if (menuFlyoutItem.SubItems.Any())
 					{
@@ -159,14 +206,9 @@ namespace Files.App.Helpers
 				}
 				else if (!string.IsNullOrEmpty(menuFlyoutItem.Label))
 				{
-					var menuLayoutItem = new ContextMenuFlyoutItemViewModel
-					{
-						Text = menuFlyoutItem.Label.Replace("&", "", StringComparison.Ordinal),
-						Tag = menuFlyoutItem,
-						BitmapIcon = image,
-						Command = new AsyncRelayCommand<object>(x => InvokeShellMenuItemAsync(contextMenu, x)),
-						CommandParameter = menuFlyoutItem
-					};
+					var menuLayoutItem = CreateShellMenuItem(menuFlyoutItem, image);
+					menuLayoutItem.Command = new AsyncRelayCommand<object>(x => InvokeShellMenuItemAsync(contextMenu, x));
+					menuLayoutItem.CommandParameter = menuFlyoutItem;
 					menuItemsListLocal.Insert(0, menuLayoutItem);
 				}
 			}
