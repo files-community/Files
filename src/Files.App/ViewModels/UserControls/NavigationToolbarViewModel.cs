@@ -529,8 +529,8 @@ namespace Files.App.ViewModels.UserControls
 			else if (normalizedInput.Equals("Settings", StringComparison.OrdinalIgnoreCase) ||
 				normalizedInput.Equals(Strings.Settings.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
 			{
-				//SavePathToHistory("Settings");
-				//ContentPageContext.ShellPage.NavigateToSettings();
+				SavePathToHistory("Settings");
+				ContentPageContext.ShellPage.NavigateToSettings();
 			}
 			else
 			{
@@ -804,12 +804,11 @@ namespace Files.App.ViewModels.UserControls
 					SavePathToHistory("ReleaseNotes");
 					shellPage.NavigateToReleaseNotes();
 				}
-				// TODO add settings page
-				//else if (normalizedInput.Equals("Settings", StringComparison.OrdinalIgnoreCase) || normalizedInput.Equals(Strings.Settings.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
-				//{
-				//	SavePathToHistory("Settings");
-				//	shellPage.NavigateToReleaseNotes();
-				//}
+				else if (normalizedInput.Equals("Settings", StringComparison.OrdinalIgnoreCase) || normalizedInput.Equals(Strings.Settings.GetLocalizedResource(), StringComparison.OrdinalIgnoreCase))
+				{
+					SavePathToHistory("Settings");
+					shellPage.NavigateToSettings();
+				}
 				else
 				{
 					normalizedInput = StorageFileExtensions.GetResolvedPath(normalizedInput, isFtp);

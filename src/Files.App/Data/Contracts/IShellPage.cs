@@ -71,6 +71,11 @@ namespace Files.App.Data.Contracts
 		/// </summary>
 		public void NavigateToReleaseNotes();
 
+		/// <summary>
+		/// Navigates to the settings page
+		/// </summary>
+		public void NavigateToSettings(string? selectItem = null);
+
 		void NavigateWithArguments(Type sourcePageType, NavigationArguments navArgs);
 
 		void RemoveLastPageFromBackStack();

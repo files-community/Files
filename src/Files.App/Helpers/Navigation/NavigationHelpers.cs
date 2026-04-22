@@ -217,9 +217,8 @@ namespace Files.App.Helpers
 				imageSource = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 			else if (path == "ReleaseNotes")
 				imageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
-			// TODO add settings page
-			//else if (path == "Settings")
-			//	imageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
+			else if (path == "Settings")
+				imageSource = null;
 			else if (WSLDistroManager.TryGetDistro(path, out WslDistroItem? wslDistro) && path.Equals(wslDistro.Path))
 				imageSource = new BitmapImage(wslDistro.Icon);
 			else
@@ -247,25 +246,25 @@ namespace Files.App.Helpers
 		public static async Task<(string tabLocationHeader, IconSource tabIcon, string toolTipText)> GetSelectedTabInfoAsync(string currentPath)
 		{
 			string? tabLocationHeader;
-			var iconSource = new ImageIconSource();
+			IconSource iconSource = new ImageIconSource();
 			string toolTipText = currentPath;
 
 			if (string.IsNullOrEmpty(currentPath) || currentPath == "Home")
 			{
 				tabLocationHeader = Strings.Home.GetLocalizedResource();
-				iconSource.ImageSource = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
+				((ImageIconSource)iconSource).ImageSource = new BitmapImage(new Uri(Constants.FluentIconsPaths.HomeIcon));
 			}
 			else if (currentPath == "ReleaseNotes")
 			{
 				tabLocationHeader = Strings.ReleaseNotes.GetLocalizedResource();
-				iconSource.ImageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
+				((ImageIconSource)iconSource).ImageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
 			}
-			// TODO add settings page
-			//else if (currentPath == "Settings")
-			//{ 
-			//	tabLocationHeader = Strings.Settings.GetLocalizedResource();
-			//	iconSource.ImageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
-			//}
+			else if (currentPath == "Settings")
+			{
+				tabLocationHeader = Strings.Settings.GetLocalizedResource();
+				iconSource = new FontIconSource() { Glyph = "\uE713" };
+				toolTipText = Strings.Settings.GetLocalizedResource();
+			}
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.DesktopPath, StringComparison.OrdinalIgnoreCase))
 				tabLocationHeader = Strings.Desktop.GetLocalizedResource();
 			else if (currentPath.Equals(Constants.UserEnvironmentPaths.DownloadsPath, StringComparison.OrdinalIgnoreCase))
@@ -285,7 +284,7 @@ namespace Files.App.Helpers
 			else if (WSLDistroManager.TryGetDistro(currentPath, out WslDistroItem? wslDistro) && currentPath.Equals(wslDistro.Path))
 			{
 				tabLocationHeader = wslDistro.Text;
-				iconSource.ImageSource = new BitmapImage(wslDistro.Icon);
+				((ImageIconSource)iconSource).ImageSource = new BitmapImage(wslDistro.Icon);
 			}
 			else
 			{
@@ -293,7 +292,7 @@ namespace Files.App.Helpers
 				var matchingCloudDrive = CloudDrivesManager.Drives.FirstOrDefault(x => normalizedCurrentPath.Equals(PathNormalization.NormalizePath(x.Path), StringComparison.OrdinalIgnoreCase));
 				if (matchingCloudDrive is not null)
 				{
-					iconSource.ImageSource = matchingCloudDrive.Icon;
+					((ImageIconSource)iconSource).ImageSource = matchingCloudDrive.Icon;
 					tabLocationHeader = matchingCloudDrive.Text;
 				}
 				else if (PathNormalization.NormalizePath(PathNormalization.GetPathRoot(currentPath)) == normalizedCurrentPath) // If path is a drive's root
@@ -316,7 +315,7 @@ namespace Files.App.Helpers
 				}
 			}
 
-			if (iconSource.ImageSource is null)
+			if (iconSource is ImageIconSource imageIcon && imageIcon.ImageSource is null)
 			{
 				var result = await FileThumbnailHelper.GetIconAsync(
 					currentPath,
@@ -325,7 +324,7 @@ namespace Files.App.Helpers
 					IconOptions.ReturnIconOnly | IconOptions.UseCurrentScale);
 
 				if (result is not null)
-					iconSource.ImageSource = await result.ToBitmapAsync();
+					imageIcon.ImageSource = await result.ToBitmapAsync();
 			}
 
 			return (tabLocationHeader, iconSource, toolTipText);

@@ -1,0 +1,76 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<Page
+	x:Class="Files.App.UITests.Views.ThemedIconGalleryPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="using:Files.App.UITests.Views"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d">
+
+	<Grid RowSpacing="12">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<!--  Search  -->
+		<TextBox
+			x:Name="SearchBox"
+			Grid.Row="0"
+			PlaceholderText="Search icons..."
+			TextChanged="SearchBox_TextChanged" />
+
+		<!--  Copied notification  -->
+		<InfoBar
+			x:Name="CopiedInfoBar"
+			Grid.Row="1"
+			IsClosable="False"
+			IsOpen="False"
+			Message="Icon key copied to clipboard"
+			Severity="Success" />
+
+		<!--  Gallery  -->
+		<ScrollViewer Grid.Row="2">
+			<ItemsRepeater x:Name="IconRepeater" ItemsSource="{x:Bind FilteredIcons, Mode=OneWay}">
+				<ItemsRepeater.Layout>
+					<UniformGridLayout
+						ItemsStretch="None"
+						MinColumnSpacing="8"
+						MinItemHeight="96"
+						MinItemWidth="140"
+						MinRowSpacing="8" />
+				</ItemsRepeater.Layout>
+				<ItemsRepeater.ItemTemplate>
+					<DataTemplate x:DataType="local:IconGalleryEntry">
+						<Button
+							HorizontalAlignment="Stretch"
+							HorizontalContentAlignment="Stretch"
+							Click="IconButton_Click"
+							Tag="{x:Bind Key}"
+							ToolTipService.ToolTip="{x:Bind Key}">
+							<StackPanel
+								Padding="8"
+								HorizontalAlignment="Center"
+								Spacing="6">
+								<controls:ThemedIcon
+									Width="24"
+									Height="24"
+									HorizontalAlignment="Center"
+									Style="{x:Bind IconStyle}" />
+								<TextBlock
+									MaxLines="2"
+									Text="{x:Bind ShortName}"
+									TextAlignment="Center"
+									TextTrimming="CharacterEllipsis"
+									TextWrapping="WrapWholeWords" />
+							</StackPanel>
+						</Button>
+					</DataTemplate>
+				</ItemsRepeater.ItemTemplate>
+			</ItemsRepeater>
+		</ScrollViewer>
+	</Grid>
+</Page>

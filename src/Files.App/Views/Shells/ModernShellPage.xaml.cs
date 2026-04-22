@@ -92,35 +92,16 @@ namespace Files.App.Views.Shells
 		{
 			if (string.IsNullOrEmpty(NavParams?.NavPath) || NavParams.NavPath == "Home")
 			{
-				ItemDisplayFrame.Navigate(
-					typeof(HomePage),
-					new NavigationArguments()
-					{
-						NavPathParam = NavParams?.NavPath,
-						AssociatedTabInstance = this
-					}, new SuppressNavigationTransitionInfo());
+				NavigateHome();
 			}
 			else if (NavParams.NavPath == "ReleaseNotes")
 			{
-				ItemDisplayFrame.Navigate(
-					typeof(ReleaseNotesPage),
-					new NavigationArguments()
-					{
-						NavPathParam = NavParams?.NavPath,
-						AssociatedTabInstance = this
-					}, new SuppressNavigationTransitionInfo());
+				NavigateToReleaseNotes();
 			}
-			// TODO add settings page
-			//else if (NavParams.NavPath == "Settings")
-			//{
-			//	ItemDisplayFrame.Navigate(
-			//		typeof(ReleaseNotesPage),
-			//		new NavigationArguments()
-			//		{
-			//			NavPathParam = NavParams?.NavPath,
-			//			AssociatedTabInstance = this
-			//		}, new SuppressNavigationTransitionInfo());
-			//}
+			else if (NavParams.NavPath == "Settings")
+			{
+				NavigateToSettings(NavParams?.SelectItem);
+			}
 			else
 			{
 				var isTagSearch = NavParams.NavPath.StartsWith("tag:");
@@ -287,6 +268,19 @@ namespace Files.App.Views.Shells
 				new NavigationArguments()
 				{
 					NavPathParam = "ReleaseNotes",
+					AssociatedTabInstance = this
+				},
+				new SuppressNavigationTransitionInfo());
+		}
+
+		public override void NavigateToSettings(string? selectItem = null)
+		{
+			ItemDisplayFrame.Navigate(
+				typeof(SettingsPage),
+				new NavigationArguments()
+				{
+					NavPathParam = "Settings",
+					SelectItems = !string.IsNullOrWhiteSpace(selectItem) ? new[] { selectItem } : null,
 					AssociatedTabInstance = this
 				},
 				new SuppressNavigationTransitionInfo());
