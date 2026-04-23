@@ -218,6 +218,7 @@ namespace Files.App.Helpers
 			else if (path == "ReleaseNotes")
 				imageSource = new BitmapImage(new Uri(AppLifecycleHelper.AppIconPath));
 			else if (path == "Settings")
+				// Settings uses its own animated icon in the sidebar, so we intentionally skip a file-based icon here.
 				imageSource = null;
 			else if (WSLDistroManager.TryGetDistro(path, out WslDistroItem? wslDistro) && path.Equals(wslDistro.Path))
 				imageSource = new BitmapImage(wslDistro.Icon);

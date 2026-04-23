@@ -321,6 +321,8 @@
 						AccessKeyInvoked="SettingsButton_AccessKeyInvoked"
 						AutomationProperties.AutomationId="SettingsButton"
 						AutomationProperties.Name="{x:Bind SidebarAdaptiveViewModel.SettingsSidebarItem.Text, Mode=OneWay}"
+						AutomationProperties.PositionInSet="1"
+						AutomationProperties.SizeOfSet="1"
 						Item="{x:Bind SidebarAdaptiveViewModel.SettingsSidebarItem, Mode=OneWay}"
 						Text="{x:Bind SidebarAdaptiveViewModel.SettingsSidebarItem.Text, Mode=OneWay}"
 						ToolTip="{x:Bind SidebarAdaptiveViewModel.SettingsSidebarItem.ToolTip, Mode=OneWay}">
