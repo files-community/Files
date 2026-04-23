@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using Microsoft.Extensions.Logging;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
@@ -13,6 +14,24 @@ namespace Files.App.Helpers
 {
 	internal static class BitmapHelper
 	{
+		public static async Task<SoftwareBitmap?> ToSoftwareBitmapAsync(this byte[]? data)
+		{
+			if (data is null)
+				return null;
+
+			try
+			{
+				using var ms = new MemoryStream(data);
+				var decoder = await BitmapDecoder.CreateAsync(ms.AsRandomAccessStream());
+				return await decoder.GetSoftwareBitmapAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied);
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogWarning(ex, "Failed to decode bitmap, size={Bytes}b", data.Length);
+				return null;
+			}
+		}
+
 		public static async Task<BitmapImage?> ToBitmapAsync(this byte[]? data, int decodeSize = -1)
 		{
 			if (data is null)

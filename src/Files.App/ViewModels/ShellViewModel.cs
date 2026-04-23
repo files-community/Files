@@ -15,6 +15,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Vanara.Windows.Shell;
 using Windows.Foundation;
+using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
@@ -1122,14 +1123,7 @@ namespace Files.App.ViewModels
 
 			if (result is not null)
 			{
-				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-				{
-					// Assign FileImage property
-					var image = await result.ToBitmapAsync();
-					if (image is not null)
-						item.FileImage = image;
-				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
-
+				await SetFileImageAsync(item, result, cancellationToken);
 				cancellationToken.ThrowIfCancellationRequested();
 			}
 
@@ -1172,15 +1166,25 @@ namespace Files.App.ViewModels
 
 					if (result is not null)
 					{
-						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
-						{
-							// Assign FileImage property
-							var image = await result.ToBitmapAsync();
-							if (image is not null)
-								item.FileImage = image;
-						}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
+						await SetFileImageAsync(item, result, cancellationToken);
 					}
 				}, cancellationToken);
+			}
+		}
+
+		private async Task SetFileImageAsync(ListedItem item, byte[] data, CancellationToken cancellationToken)
+		{
+			// Decode off UI thread
+			var softwareBitmap = await data.ToSoftwareBitmapAsync();
+			if (softwareBitmap is not null)
+			{
+				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				{
+					// Assign FileImage property — only SoftwareBitmapSource creation on UI thread
+					var source = new SoftwareBitmapSource();
+					await source.SetBitmapAsync(softwareBitmap);
+					item.FileImage = source;
+				}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Normal);
 			}
 		}
 
