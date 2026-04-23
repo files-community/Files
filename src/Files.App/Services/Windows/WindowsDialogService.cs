@@ -22,9 +22,9 @@ namespace Files.App.Services
 
 			try
 			{
-				using ComPtr<IFileOpenDialog> pDialog = default;
-				HRESULT hr = pDialog.CoCreateInstance(CLSID.CLSID_FileOpenDialog, null, CLSCTX.CLSCTX_INPROC_SERVER);
-				
+				HRESULT hr = PInvoke.CoCreateInstance(CLSID.CLSID_FileOpenDialog, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IFileOpenDialog, out var dialogObj);
+				var dialog = (IFileOpenDialog)dialogObj;
+
 				// Handle COM creation failure gracefully
 				if (hr.Failed)
 				{
@@ -48,40 +48,37 @@ namespace Files.App.Services
 					}
 
 					// Set the file type using the extension list
-					pDialog.Get()->SetFileTypes(extensions.ToArray());
+					dialog.SetFileTypes(extensions.ToArray());
 				}
 
 				// Get the default shell folder (My Computer)
-				using ComPtr<IShellItem> pDefaultFolderShellItem = default;
-				fixed (char* pszDefaultFolderPath = Environment.GetFolderPath(defaultFolder))
+				hr = PInvoke.SHCreateItemFromParsingName(
+					Environment.GetFolderPath(defaultFolder),
+					null,
+					typeof(IShellItem).GUID,
+					out var defaultFolderShellItemObj);
+				var defaultFolderShellItem = (IShellItem)defaultFolderShellItemObj;
+
+				// Handle shell item creation failure gracefully
+				if (hr.Failed)
 				{
-					hr = PInvoke.SHCreateItemFromParsingName(
-						pszDefaultFolderPath,
-						null,
-						IID.IID_IShellItem,
-						(void**)pDefaultFolderShellItem.GetAddressOf());
-					
-					// Handle shell item creation failure gracefully
-					if (hr.Failed)
-					{
-						App.Logger.LogWarning("Failed to create shell item for default folder '{0}'. HRESULT: 0x{1:X8}. Dialog will open without default folder.", Environment.GetFolderPath(defaultFolder), hr.Value);
-						// Continue without setting default folder rather than failing completely
-					}
+					App.Logger.LogWarning("Failed to create shell item for default folder '{0}'. HRESULT: 0x{1:X8}. Dialog will open without default folder.", Environment.GetFolderPath(defaultFolder), hr.Value);
+					// Continue without setting default folder rather than failing completely
 				}
 
 				// Folder picker
 				if (pickFoldersOnly)
-					pDialog.Get()->SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
+					dialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
 
 				// Set the default folder to open in the dialog (only if creation succeeded)
-				if (pDefaultFolderShellItem.Get() is not null)
+				if (defaultFolderShellItem is not null)
 				{
-					pDialog.Get()->SetFolder(pDefaultFolderShellItem.Get());
-					pDialog.Get()->SetDefaultFolder(pDefaultFolderShellItem.Get());
+					dialog.SetFolder(defaultFolderShellItem);
+					dialog.SetDefaultFolder(defaultFolderShellItem);
 				}
 
 				// Show the dialog
-				hr = pDialog.Get()->Show(new HWND(hWnd));
+				hr = dialog.Show(new HWND(hWnd));
 				if (hr.Value == unchecked((int)0x800704C7)) // HRESULT_FROM_WIN32(ERROR_CANCELLED)
 					return false;
 
@@ -93,12 +90,11 @@ namespace Files.App.Services
 				}
 
 				// Get the file that user chose
-				using ComPtr<IShellItem> pResultShellItem = default;
-				pDialog.Get()->GetResult(pResultShellItem.GetAddressOf());
-				if (pResultShellItem.Get() is null)
+				dialog.GetResult(out var resultShellItem);
+				if (resultShellItem is null)
 					throw new COMException("FileOpenDialog returned invalid shell item.");
-				pResultShellItem.Get()->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
-				filePath = lpFilePath.ToString();
+				resultShellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var resultFilePath);
+				filePath = resultFilePath.ToString();
 
 				return true;
 			}
@@ -121,9 +117,9 @@ namespace Files.App.Services
 
 			try
 			{
-				using ComPtr<IFileSaveDialog> pDialog = default;
-				HRESULT hr = pDialog.CoCreateInstance(CLSID.CLSID_FileSaveDialog, null, CLSCTX.CLSCTX_INPROC_SERVER);
-				
+				HRESULT hr = PInvoke.CoCreateInstance(CLSID.CLSID_FileSaveDialog, null, CLSCTX.CLSCTX_INPROC_SERVER, IID.IID_IFileSaveDialog, out var dialogObj);
+				var dialog = (IFileSaveDialog)dialogObj;
+
 				// Handle COM creation failure gracefully
 				if (hr.Failed)
 				{
@@ -147,40 +143,37 @@ namespace Files.App.Services
 					}
 
 					// Set the file type using the extension list
-					pDialog.Get()->SetFileTypes(extensions.ToArray());
+					dialog.SetFileTypes(extensions.ToArray());
 				}
 
 				// Get the default shell folder (My Computer)
-				using ComPtr<IShellItem> pDefaultFolderShellItem = default;
-				fixed (char* pszDefaultFolderPath = Environment.GetFolderPath(defaultFolder))
+				hr = PInvoke.SHCreateItemFromParsingName(
+					Environment.GetFolderPath(defaultFolder),
+					null,
+					typeof(IShellItem).GUID,
+					out var defaultFolderShellItemObj);
+				var defaultFolderShellItem = (IShellItem)defaultFolderShellItemObj;
+
+				// Handle shell item creation failure gracefully
+				if (hr.Failed)
 				{
-					hr = PInvoke.SHCreateItemFromParsingName(
-						pszDefaultFolderPath,
-						null,
-						IID.IID_IShellItem,
-						(void**)pDefaultFolderShellItem.GetAddressOf());
-					
-					// Handle shell item creation failure gracefully
-					if (hr.Failed)
-					{
-						App.Logger.LogWarning("Failed to create shell item for default folder '{0}'. HRESULT: 0x{1:X8}. Dialog will open without default folder.", Environment.GetFolderPath(defaultFolder), hr.Value);
-						// Continue without setting default folder rather than failing completely
-					}
+					App.Logger.LogWarning("Failed to create shell item for default folder '{0}'. HRESULT: 0x{1:X8}. Dialog will open without default folder.", Environment.GetFolderPath(defaultFolder), hr.Value);
+					// Continue without setting default folder rather than failing completely
 				}
 
 				// Folder picker
 				if (pickFoldersOnly)
-					pDialog.Get()->SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
+					dialog.SetOptions(FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS);
 
 				// Set the default folder to open in the dialog (only if creation succeeded)
-				if (pDefaultFolderShellItem.Get() is not null)
+				if (defaultFolderShellItem is not null)
 				{
-					pDialog.Get()->SetFolder(pDefaultFolderShellItem.Get());
-					pDialog.Get()->SetDefaultFolder(pDefaultFolderShellItem.Get());
+					dialog.SetFolder(defaultFolderShellItem);
+					dialog.SetDefaultFolder(defaultFolderShellItem);
 				}
 
 				// Show the dialog
-				hr = pDialog.Get()->Show(new HWND(hWnd));
+				hr = dialog.Show(new HWND(hWnd));
 				if (hr.Value == unchecked((int)0x800704C7)) // HRESULT_FROM_WIN32(ERROR_CANCELLED)
 					return false;
 
@@ -192,12 +185,11 @@ namespace Files.App.Services
 				}
 
 				// Get the file that user chose
-				using ComPtr<IShellItem> pResultShellItem = default;
-				pDialog.Get()->GetResult(pResultShellItem.GetAddressOf());
-				if (pResultShellItem.Get() is null)
+				dialog.GetResult(out var resultShellItem);
+				if (resultShellItem is null)
 					throw new COMException("FileSaveDialog returned invalid shell item.");
-				pResultShellItem.Get()->GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var lpFilePath);
-				filePath = lpFilePath.ToString();
+				resultShellItem.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var resultFilePath);
+				filePath = resultFilePath.ToString();
 
 				return true;
 			}

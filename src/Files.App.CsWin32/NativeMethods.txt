@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+IActivationFactory
 WNDPROC
 WNDCLASSEXW
 RegisterClassEx
@@ -125,6 +126,7 @@ SHQUERYRBINFO
 SHQueryRecycleBin
 FileOperation
 IFileOperation
+IFileOperationProgressSink
 IShellItem2
 PSGetPropertyKeyFromName
 ShellExecuteEx

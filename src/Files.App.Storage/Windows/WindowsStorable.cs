@@ -12,7 +12,7 @@ namespace Files.App.Storage
 	public unsafe abstract class WindowsStorable : IWindowsStorable
 	{
 		/// <inheritdoc/>
-		public IShellItem* ThisPtr
+		public IShellItem ThisPtr
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get;
@@ -22,7 +22,7 @@ namespace Files.App.Storage
 		}
 
 		/// <inheritdoc/>
-		public IContextMenu* ContextMenu
+		public IContextMenu ContextMenu
 		{
 			[MethodImpl(MethodImplOptions.AggressiveInlining)]
 			get;
@@ -37,25 +37,21 @@ namespace Files.App.Storage
 		/// <inheritdoc/>
 		public string Name => this.GetDisplayName(SIGDN.SIGDN_PARENTRELATIVEFORUI);
 
-		public static WindowsStorable? TryParse(string szPath)
+		public static WindowsStorable? TryParse(string parseablePath)
 		{
-			HRESULT hr = default;
-			IShellItem* pShellItem = null;
-
-			fixed (char* pszPath = szPath)
-				hr = PInvoke.SHCreateItemFromParsingName(pszPath, null, IID.IID_IShellItem, (void**)&pShellItem);
-
-			if (pShellItem is null)
+			HRESULT hr = PInvoke.SHCreateItemFromParsingName(parseablePath, null, typeof(IShellItem).GUID, out var shellItemObj);
+			var shellItem = (IShellItem)shellItemObj;
+			if (shellItem is null)
 				return null;
 
-			return TryParse(pShellItem);
+			return TryParse(shellItem);
 		}
 
-		public static WindowsStorable? TryParse(IShellItem* pShellItem)
+		public static WindowsStorable? TryParse(IShellItem shellItem)
 		{
-			bool isFolder = pShellItem->GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var returnedAttributes).Succeeded && returnedAttributes is SFGAO_FLAGS.SFGAO_FOLDER;
+			bool isFolder = shellItem.GetAttributes(SFGAO_FLAGS.SFGAO_FOLDER, out var returnedAttributes).Succeeded && returnedAttributes is SFGAO_FLAGS.SFGAO_FOLDER;
 
-			return isFolder ? new WindowsFolder(pShellItem) : new WindowsFile(pShellItem);
+			return isFolder ? new WindowsFolder(shellItem) : new WindowsFile(shellItem);
 		}
 
 		/// <inheritdoc/>
@@ -63,12 +59,11 @@ namespace Files.App.Storage
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 
-			IShellItem* pParentFolder = default;
-			HRESULT hr = ThisPtr->GetParent(&pParentFolder);
+			HRESULT hr = ThisPtr.GetParent(out var parentFolder);
 			if (hr.ThrowIfFailedOnDebug().Failed)
 				return Task.FromResult<IFolder?>(null);
 
-			return Task.FromResult<IFolder?>(new WindowsFolder(pParentFolder));
+			return Task.FromResult<IFolder?>(new WindowsFolder(parentFolder));
 		}
 
 		/// <inheritdoc/>
@@ -86,8 +81,6 @@ namespace Files.App.Storage
 		/// <inheritdoc/>
 		public virtual void Dispose()
 		{
-			if (ThisPtr is not null) ThisPtr->Release();
-			if (ContextMenu is not null) ContextMenu->Release();
 		}
 
 		/// <inheritdoc/>
@@ -102,7 +95,7 @@ namespace Files.App.Storage
 			if (other is null)
 				return false;
 
-			return ThisPtr->Compare(other.ThisPtr, (uint)_SICHINTF.SICHINT_DISPLAY, out int order).Succeeded && order is 0;
+			return ThisPtr.Compare(other.ThisPtr, (uint)_SICHINTF.SICHINT_DISPLAY, out int order).Succeeded && order is 0;
 		}
 
 		public static bool operator ==(WindowsStorable left, WindowsStorable right)

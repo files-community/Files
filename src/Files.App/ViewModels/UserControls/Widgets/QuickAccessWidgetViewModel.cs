@@ -204,11 +204,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				return;
 
 			HRESULT hr = default;
-			using ComPtr<IAgileReference> pAgileReference = default;
+			IAgileReference agileReference;
 
 			unsafe
 			{
-				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, (IUnknown*)folderCardItem.Item.ThisPtr, pAgileReference.GetAddressOf());
+				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, folderCardItem.Item.ThisPtr, out agileReference);
 			}
 
 			// Pin to Quick Access on Windows
@@ -216,9 +216,10 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				unsafe
 				{
-					IShellItem* pShellItem = null;
-					hr = pAgileReference.Get()->Resolve(IID.IID_IShellItem, (void**)&pShellItem);
-					using var windowsFile = new WindowsFile(pShellItem);
+					hr = agileReference.Resolve(IID.IID_IShellItem, out var itemObj);
+					var item = (IShellItem)itemObj;
+					using var windowsFile = new WindowsFile(item);
+
 					// NOTE: "pintohome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CPinToFrequentExecute : public IExecuteCommand, ...
 					return windowsFile.TryInvokeContextMenuVerb("pintohome");
 				}
@@ -233,11 +234,11 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				return;
 
 			HRESULT hr = default;
-			using ComPtr<IAgileReference> pAgileReference = default;
+			IAgileReference agileReference;
 
 			unsafe
 			{
-				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, (IUnknown*)folderCardItem.Item.ThisPtr, pAgileReference.GetAddressOf());
+				hr = PInvoke.RoGetAgileReference(AgileReferenceOptions.AGILEREFERENCE_DEFAULT, IID.IID_IShellItem, folderCardItem.Item.ThisPtr, out agileReference);
 			}
 
 			// Unpin from Quick Access on Windows
@@ -245,9 +246,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			{
 				unsafe
 				{
-					IShellItem* pShellItem = null;
-					hr = pAgileReference.Get()->Resolve(IID.IID_IShellItem, (void**)&pShellItem);
-					using var windowsFile = new WindowsFile(pShellItem);
+					hr = agileReference.Resolve(IID.IID_IShellItem, out var itemObj);
+					var item = (IShellItem)itemObj;
+					using var windowsFile = new WindowsFile(item);
 
 					// NOTE: "unpinfromhome" is an undocumented verb, which calls an undocumented COM class, windows.storage.dll!CRemoveFromFrequentPlacesExecute : public IExecuteCommand, ...
 					// NOTE: "remove" is for some shell folders where the "unpinfromhome" may not work

@@ -16,8 +16,8 @@ namespace Files.App.Storage
 	{
 		// Fields
 
-		private readonly IFileOperation* _pFileOperation;
-		private readonly IFileOperationProgressSink* _pProgressSink;
+		private readonly IFileOperation _fileOperation;
+		private readonly IFileOperationProgressSink _pProgressSink;
 		private readonly uint _progressSinkCookie;
 
 		// Events
@@ -70,20 +70,18 @@ namespace Files.App.Storage
 		/// <param name="flags">Defines the behavior of the file operation, such as allowing undo and suppressing directory confirmation.</param>
 		public unsafe WindowsBulkOperations(HWND ownerHWnd = default, FILEOPERATION_FLAGS flags = FILEOPERATION_FLAGS.FOF_ALLOWUNDO | FILEOPERATION_FLAGS.FOF_NOCONFIRMMKDIR)
 		{
-			IFileOperation* pFileOperation = null;
 
-			HRESULT hr = PInvoke.CoCreateInstance(CLSID.CLSID_FileOperation, null, CLSCTX.CLSCTX_LOCAL_SERVER, IID.IID_IFileOperation, (void**)&pFileOperation);
+			HRESULT hr = PInvoke.CoCreateInstance(CLSID.CLSID_FileOperation, null, CLSCTX.CLSCTX_LOCAL_SERVER, IID.IID_IFileOperation, out var fileOperationObj);
+			_fileOperation = (IFileOperation)fileOperationObj;
 			hr.ThrowIfFailedOnDebug();
 
-			_pFileOperation = pFileOperation;
-
 			if (ownerHWnd != default)
-				hr = _pFileOperation->SetOwnerWindow(ownerHWnd).ThrowIfFailedOnDebug();
+				hr = _fileOperation.SetOwnerWindow(ownerHWnd).ThrowIfFailedOnDebug();
 
-			hr = _pFileOperation->SetOperationFlags(flags).ThrowIfFailedOnDebug();
+			hr = _fileOperation.SetOperationFlags(flags).ThrowIfFailedOnDebug();
 
-			_pProgressSink = (IFileOperationProgressSink*)WindowsBulkOperationsSink.Create(this);
-			hr = _pFileOperation->Advise(_pProgressSink, out var progressSinkCookie).ThrowIfFailedOnDebug();
+			_pProgressSink = new WindowsBulkOperationsSink(this);
+			hr = _fileOperation.Advise(_pProgressSink, out var progressSinkCookie).ThrowIfFailedOnDebug();
 			_progressSinkCookie = progressSinkCookie;
 		}
 
@@ -97,7 +95,7 @@ namespace Files.App.Storage
 		public unsafe HRESULT QueueCopyOperation(WindowsStorable targetItem, WindowsFolder destinationFolder, string? copyName)
 		{
 			fixed (char* pszCopyName = copyName)
-				return _pFileOperation->CopyItem(targetItem.ThisPtr, destinationFolder.ThisPtr, pszCopyName, _pProgressSink);
+				return _fileOperation.CopyItem(targetItem.ThisPtr, destinationFolder.ThisPtr, pszCopyName, _pProgressSink);
 		}
 
 		/// <summary>
@@ -107,7 +105,7 @@ namespace Files.App.Storage
 		/// <returns>If this method succeeds, it returns <see cref="HRESULT.S_OK"/>. Otherwise, it returns an <see cref="HRESULT"/> error code.</returns>
 		public unsafe HRESULT QueueDeleteOperation(WindowsStorable targetItem)
 		{
-			return _pFileOperation->DeleteItem(targetItem.ThisPtr, _pProgressSink);
+			return _fileOperation.DeleteItem(targetItem.ThisPtr, _pProgressSink);
 		}
 
 		/// <summary>
@@ -120,7 +118,7 @@ namespace Files.App.Storage
 		public unsafe HRESULT QueueMoveOperation(WindowsStorable targetItem, WindowsFolder destinationFolder, string? newName)
 		{
 			fixed (char* pszNewName = newName)
-				return _pFileOperation->MoveItem(targetItem.ThisPtr, destinationFolder.ThisPtr, pszNewName, null);
+				return _fileOperation.MoveItem(targetItem.ThisPtr, destinationFolder.ThisPtr, pszNewName, null);
 		}
 
 		/// <summary>
@@ -134,7 +132,7 @@ namespace Files.App.Storage
 		public unsafe HRESULT QueueCreateOperation(WindowsFolder destinationFolder, FILE_FLAGS_AND_ATTRIBUTES fileAttributes, string name, string? templateName)
 		{
 			fixed (char* pszName = name, pszTemplateName = templateName)
-				return _pFileOperation->NewItem(destinationFolder.ThisPtr, (uint)fileAttributes, pszName, pszTemplateName, _pProgressSink);
+				return _fileOperation.NewItem(destinationFolder.ThisPtr, (uint)fileAttributes, pszName, pszTemplateName, _pProgressSink);
 		}
 
 		/// <summary>
@@ -146,7 +144,7 @@ namespace Files.App.Storage
 		public unsafe HRESULT QueueRenameOperation(WindowsStorable targetItem, string newName)
 		{
 			fixed (char* pszNewName = newName)
-				return _pFileOperation->RenameItem(targetItem.ThisPtr, pszNewName, _pProgressSink);
+				return _fileOperation.RenameItem(targetItem.ThisPtr, pszNewName, _pProgressSink);
 		}
 
 		/// <summary>
@@ -155,7 +153,7 @@ namespace Files.App.Storage
 		/// <returns>If this method succeeds, it returns <see cref="HRESULT.S_OK"/>. Otherwise, it returns an <see cref="HRESULT"/> error code.</returns>
 		public unsafe HRESULT PerformAllOperations()
 		{
-			return _pFileOperation->PerformOperations();
+			return _fileOperation.PerformOperations();
 		}
 
 		// Disposer
@@ -164,10 +162,7 @@ namespace Files.App.Storage
 		public unsafe void Dispose()
 		{
 			if (_pProgressSink is not null)
-				_pFileOperation->Unadvise(_progressSinkCookie);
-
-			_pFileOperation->Release();
-			_pProgressSink->Release();
+				_fileOperation.Unadvise(_progressSinkCookie);
 		}
 	}
 }

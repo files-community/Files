@@ -18,10 +18,10 @@ namespace Files.App.Utils.Shell
 	{
 		public unsafe static void LaunchSettings(string page)
 		{
-			using ComPtr<IApplicationActivationManager> pApplicationActivationManager = default;
-			pApplicationActivationManager.CoCreateInstance(CLSID.CLSID_ApplicationActivationManager);
+			Windows.Win32.Foundation.HRESULT hr = PInvoke.CoCreateInstance(CLSID.CLSID_ApplicationActivationManager, null, Windows.Win32.System.Com.CLSCTX.CLSCTX_ALL, IID.IID_IApplicationActivationManager, out var pApplicationActivationManagerObj);
+			var pApplicationActivationManager = (IApplicationActivationManager)pApplicationActivationManagerObj;
 
-			pApplicationActivationManager.Get()->ActivateApplication(
+			pApplicationActivationManager.ActivateApplication(
 				"windows.immersivecontrolpanel_cw5n1h2txyewy!microsoft.windows.immersivecontrolpanel",
 				page,
 				ACTIVATEOPTIONS.AO_NONE,

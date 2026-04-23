@@ -20,8 +20,8 @@ namespace Files.App.Data.Items
 	public unsafe partial class WindowEx : Window, IDisposable
 	{
 		private bool _isInitialized;
-		private readonly WNDPROC _oldWndProc;
-		private readonly WNDPROC _newWndProc;
+		private readonly WndProcDelegate _oldWndProc;
+		private readonly WndProcDelegate _newWndProc;
 
 		private readonly ApplicationDataContainer _applicationDataContainer = ApplicationData.Current.LocalSettings;
 
@@ -89,7 +89,7 @@ namespace Files.App.Data.Items
 			_newWndProc = new(NewWindowProc);
 			var pNewWndProc = Marshal.GetFunctionPointerForDelegate(_newWndProc);
 			var pOldWndProc = PInvoke.SetWindowLongPtr(new(WindowHandle), WINDOW_LONG_PTR_INDEX.GWL_WNDPROC, pNewWndProc);
-			_oldWndProc = Marshal.GetDelegateForFunctionPointer<WNDPROC>(pOldWndProc);
+			_oldWndProc = Marshal.GetDelegateForFunctionPointer<WndProcDelegate>(pOldWndProc);
 
 			Closed += WindowEx_Closed;
 		}
@@ -224,7 +224,7 @@ namespace Files.App.Data.Items
 		{
 			List<Tuple<string, Rect>> monitors = [];
 
-			MONITORENUMPROC monitorEnumProc = new((HMONITOR monitor, HDC deviceContext, RECT* rect, LPARAM data) =>
+			MonitorEnumProcDelegate monitorEnumProc = new((HMONITOR monitor, HDC deviceContext, RECT* rect, LPARAM data) =>
 			{
 				MONITORINFOEXW info = default;
 				info.monitorInfo.cbSize = (uint)Marshal.SizeOf<MONITORINFOEXW>();
