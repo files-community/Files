@@ -1,0 +1,82 @@
+<!--  Copyright (c) Files Community. Licensed under the MIT License.  -->
+<Page
+	x:Class="Files.App.Views.SettingsPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:helpers="using:Files.App.Helpers"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc="using:Files.App.UserControls"
+	x:Name="RootPage"
+	Background="Transparent"
+	Loaded="SettingsPage_Loaded"
+	SizeChanged="SettingsPage_SizeChanged"
+	mc:Ignorable="d">
+
+	<Grid RightTapped="Grid_RightTapped">
+		<FlyoutBase.AttachedFlyout>
+			<MenuFlyout x:Name="SettingsPageContextMenu">
+				<MenuFlyoutSubItem
+					x:Name="SplitPaneSubMenu"
+					x:Load="{x:Bind Commands.SplitPaneHorizontally.IsExecutable, Mode=OneWay}"
+					Text="{helpers:ResourceString Name=SplitPane}">
+					<uc:MenuFlyoutItemWithThemedIcon
+						Command="{x:Bind Commands.SplitPaneVertically, Mode=OneWay}"
+						Text="{x:Bind Commands.SplitPaneVertically.Label}"
+						ThemedIconStyle="{x:Bind Commands.SplitPaneVertically.ThemedIconStyle}" />
+					<uc:MenuFlyoutItemWithThemedIcon
+						Command="{x:Bind Commands.SplitPaneHorizontally, Mode=OneWay}"
+						Text="{x:Bind Commands.SplitPaneHorizontally.Label}"
+						ThemedIconStyle="{x:Bind Commands.SplitPaneHorizontally.ThemedIconStyle}" />
+				</MenuFlyoutSubItem>
+				<uc:MenuFlyoutItemWithThemedIcon
+					x:Name="CloseActivePaneMenuItem"
+					x:Load="{x:Bind Commands.CloseActivePane.IsExecutable, Mode=OneWay}"
+					Command="{x:Bind Commands.CloseActivePane}"
+					Text="{x:Bind Commands.CloseActivePane.Label}"
+					ThemedIconStyle="{x:Bind Commands.CloseActivePane.ThemedIconStyle}" />
+			</MenuFlyout>
+		</FlyoutBase.AttachedFlyout>
+		<controls:SidebarView
+			x:Name="SettingsSidebar"
+			CanResizePane="False"
+			ItemInvoked="SettingsSidebar_ItemInvoked"
+			MenuItemsSource="{x:Bind ViewModel.NavigationItems}"
+			OpenPaneLength="240">
+
+			<controls:SidebarView.Header>
+				<TextBlock
+					x:Name="PageHeaderTextBlock"
+					Margin="16,12,0,4"
+					Style="{StaticResource App.Theme.SubtitleTextBlockStyle}"
+					Text="{helpers:ResourceString Name=Settings}" />
+			</controls:SidebarView.Header>
+
+			<controls:SidebarView.InnerContent>
+				<ScrollViewer x:Name="SettingsContentScrollViewer" Padding="24,0,0,0">
+					<Frame x:Name="SettingsContentFrame" Padding="0,12,24,24" />
+				</ScrollViewer>
+			</controls:SidebarView.InnerContent>
+
+		</controls:SidebarView>
+
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup>
+				<VisualState x:Name="ExpandedSidebarState">
+					<VisualState.Setters>
+						<Setter Target="SettingsSidebar.DisplayMode" Value="Expanded" />
+						<Setter Target="PageHeaderTextBlock.Visibility" Value="Visible" />
+					</VisualState.Setters>
+				</VisualState>
+				<VisualState x:Name="CompactSidebarState">
+					<VisualState.Setters>
+						<Setter Target="SettingsSidebar.DisplayMode" Value="Compact" />
+						<Setter Target="PageHeaderTextBlock.Visibility" Value="Collapsed" />
+					</VisualState.Setters>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
+	</Grid>
+
+</Page>

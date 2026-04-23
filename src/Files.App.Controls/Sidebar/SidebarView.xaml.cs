@@ -82,15 +82,18 @@ namespace Files.App.Controls
 			{
 				case SidebarDisplayMode.Compact:
 					VisualStateManager.GoToState(this, "Compact", true);
-					return;
+					break;
 				case SidebarDisplayMode.Expanded:
+					UpdateOpenPaneLengthColumn();
 					VisualStateManager.GoToState(this, "Expanded", true);
-					return;
+					break;
 				case SidebarDisplayMode.Minimal:
 					IsPaneOpen = false;
 					UpdateMinimalMode();
-					return;
+					break;
 			}
+
+			UpdateResizerAvailability();
 		}
 
 		private void UpdateDisplayModeForPaneWidth(double newPaneWidth)
@@ -108,18 +111,38 @@ namespace Files.App.Controls
 
 		private void UpdateOpenPaneLengthColumn()
 		{
+			if (DisplayMode != SidebarDisplayMode.Expanded)
+				return;
+
 			PaneColumnDefinition.Width = new GridLength(OpenPaneLength);
+		}
+
+		private void UpdateResizerAvailability()
+		{
+			if (!CanResizePane)
+			{
+				SidebarResizer.Visibility = Visibility.Collapsed;
+				SidebarResizer.IsHitTestVisible = false;
+				return;
+			}
+
+			SidebarResizer.IsHitTestVisible = true;
+			if (DisplayMode != SidebarDisplayMode.Minimal)
+				SidebarResizer.Visibility = Visibility.Visible;
 		}
 
 		private void SidebarView_Loaded(object sender, RoutedEventArgs e)
 		{
 			UpdateDisplayMode();
-			UpdateOpenPaneLengthColumn();
+			UpdateResizerAvailability();
 			PaneColumnGrid.Translation = new System.Numerics.Vector3(0, 0, 32);
 		}
 
 		private void SidebarResizer_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
 		{
+			if (!CanResizePane)
+				return;
+
 			draggingSidebarResizer = true;
 			preManipulationSidebarWidth = PaneColumnGrid.ActualWidth;
 			VisualStateManager.GoToState(this, "ResizerPressed", true);
@@ -135,6 +158,9 @@ namespace Files.App.Controls
 
 		private void SidebarResizerControl_KeyDown(object sender, KeyRoutedEventArgs e)
 		{
+			if (!CanResizePane)
+				return;
+
 			if
 			(
 				e.Key != VirtualKey.Space &&
@@ -190,6 +216,9 @@ namespace Files.App.Controls
 
 		private void SidebarResizer_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
 		{
+			if (!CanResizePane)
+				return;
+
 			if (DisplayMode == SidebarDisplayMode.Expanded)
 			{
 				DisplayMode = SidebarDisplayMode.Compact;
@@ -204,6 +233,9 @@ namespace Files.App.Controls
 
 		private void SidebarResizer_PointerEntered(object sender, PointerRoutedEventArgs e)
 		{
+			if (!CanResizePane)
+				return;
+
 			var sidebarResizer = (FrameworkElement)sender;
 			sidebarResizer.ChangeCursor(InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast));
 			VisualStateManager.GoToState(this, "ResizerPointerOver", true);
@@ -212,7 +244,7 @@ namespace Files.App.Controls
 
 		private void SidebarResizer_PointerExited(object sender, PointerRoutedEventArgs e)
 		{
-			if (draggingSidebarResizer)
+			if (!CanResizePane || draggingSidebarResizer)
 				return;
 
 			var sidebarResizer = (FrameworkElement)sender;

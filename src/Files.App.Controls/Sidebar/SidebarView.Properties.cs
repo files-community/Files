@@ -29,6 +29,14 @@ namespace Files.App.Controls
 		public static readonly DependencyProperty SidebarContentProperty =
 			DependencyProperty.Register("SidebarContent", typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
 
+		public UIElement Header
+		{
+			get { return (UIElement)GetValue(HeaderProperty); }
+			set { SetValue(HeaderProperty, value); }
+		}
+		public static readonly DependencyProperty HeaderProperty =
+			DependencyProperty.Register(nameof(Header), typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
+
 		public UIElement Footer
 		{
 			get { return (UIElement)GetValue(FooterProperty); }
@@ -36,6 +44,14 @@ namespace Files.App.Controls
 		}
 		public static readonly DependencyProperty FooterProperty =
 			DependencyProperty.Register("Footer", typeof(UIElement), typeof(SidebarView), new PropertyMetadata(null));
+
+		public Microsoft.UI.Xaml.Media.Brush PaneBackgroundBrush
+		{
+			get { return (Microsoft.UI.Xaml.Media.Brush)GetValue(PaneBackgroundBrushProperty); }
+			set { SetValue(PaneBackgroundBrushProperty, value); }
+		}
+		public static readonly DependencyProperty PaneBackgroundBrushProperty =
+			DependencyProperty.Register(nameof(PaneBackgroundBrush), typeof(Microsoft.UI.Xaml.Media.Brush), typeof(SidebarView), new PropertyMetadata(null));
 
 		public bool IsPaneOpen
 		{
@@ -64,6 +80,14 @@ namespace Files.App.Controls
 		}
 		public static readonly DependencyProperty NegativeOpenPaneLengthProperty =
 			DependencyProperty.Register(nameof(NegativeOpenPaneLength), typeof(double), typeof(SidebarView), new PropertyMetadata(null));
+
+		public bool CanResizePane
+		{
+			get => (bool)GetValue(CanResizePaneProperty);
+			set => SetValue(CanResizePaneProperty, value);
+		}
+		public static readonly DependencyProperty CanResizePaneProperty =
+			DependencyProperty.Register(nameof(CanResizePane), typeof(bool), typeof(SidebarView), new PropertyMetadata(true, OnPropertyChanged));
 
 		public ISidebarItemModel SelectedItem
 		{
@@ -99,6 +123,10 @@ namespace Files.App.Controls
 			else if (e.Property == IsPaneOpenProperty)
 			{
 				control.UpdateMinimalMode();
+			}
+			else if (e.Property == CanResizePaneProperty)
+			{
+				control.UpdateResizerAvailability();
 			}
 		}
 	}

@@ -401,11 +401,12 @@ namespace Files.App.Views
 			{
 				var isHomePage = !(SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false);
 				var isReleaseNotesPage = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeReleaseNotes ?? false;
+				var isSettingsPage = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeSettings ?? false;
 				var isMultiPane = SidebarAdaptiveViewModel.PaneHolder?.IsMultiPaneActive ?? false;
 				var isBigEnough = !App.AppModel.IsMainWindowClosed &&
 					(MainWindow.Instance.Bounds.Width > 450 && MainWindow.Instance.Bounds.Height > 450 || RootGrid.ActualWidth > 700 && MainWindow.Instance.Bounds.Height > 360);
 
-				ViewModel.ShouldPreviewPaneBeDisplayed = ((!isHomePage && !isReleaseNotesPage) || isMultiPane) && isBigEnough;
+				ViewModel.ShouldPreviewPaneBeDisplayed = ((!isHomePage && !isReleaseNotesPage && !isSettingsPage) || isMultiPane) && isBigEnough;
 				ViewModel.ShouldPreviewPaneBeActive = UserSettingsService.InfoPaneSettingsService.IsInfoPaneEnabled && ViewModel.ShouldPreviewPaneBeDisplayed;
 				ViewModel.ShouldViewControlBeDisplayed = SidebarAdaptiveViewModel.PaneHolder?.ActivePane?.InstanceViewModel?.IsPageTypeNotHome ?? false;
 
@@ -503,7 +504,18 @@ namespace Files.App.Views
 			if (sender is not SidebarItem { Item: ISidebarItemModel item })
 				return;
 
+			if (item is INavigationControlItem navItem &&
+				string.Equals(navItem.Path, "Settings", StringComparison.OrdinalIgnoreCase))
+				_ = AnimateSettingsIconAsync();
+
 			SidebarAdaptiveViewModel.HandleItemInvokedAsync(item, e.PointerUpdateKind);
+		}
+
+		private async Task AnimateSettingsIconAsync()
+		{
+			AnimatedIcon.SetState(SettingAnimatedIcon, "Pressed");
+			await Task.Delay(140);
+			AnimatedIcon.SetState(SettingAnimatedIcon, "Normal");
 		}
 	}
 }

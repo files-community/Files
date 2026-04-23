@@ -187,6 +187,7 @@
 			Loaded="SidebarControl_Loaded"
 			MenuItemsSource="{x:Bind SidebarAdaptiveViewModel.SidebarItems, Mode=OneWay}"
 			OpenPaneLength="{x:Bind UserSettingsService.AppearanceSettingsService.SidebarWidth, Mode=TwoWay}"
+			PaneBackgroundBrush="{ThemeResource App.Theme.Sidebar.BackgroundBrush}"
 			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}">
 
 			<!--  Inner Content  -->
@@ -308,40 +309,29 @@
 
 			<!--  Footer  -->
 			<controls:SidebarView.Footer>
-				<StackPanel Padding="4" Spacing="4">
+				<StackPanel Padding="4,2,4,2" Spacing="2">
 					<Border
 						Height="1"
 						HorizontalAlignment="Stretch"
 						BorderBrush="{ThemeResource ControlStrokeColorDefaultBrush}"
 						BorderThickness="1" />
-					<!--  Open the Settings dialog  -->
-					<Button
+					<controls:SidebarItem
 						x:Name="SettingsButton"
-						Height="28"
-						Padding="12,0,12,0"
-						HorizontalAlignment="Stretch"
-						HorizontalContentAlignment="Stretch"
 						AccessKey="I"
 						AccessKeyInvoked="SettingsButton_AccessKeyInvoked"
 						AutomationProperties.AutomationId="SettingsButton"
-						AutomationProperties.Name="{x:Bind Commands.OpenSettings.Label, Mode=OneWay}"
-						Background="Transparent"
-						BorderThickness="0"
-						Command="{x:Bind Commands.OpenSettings, Mode=OneWay}"
-						ToolTipService.Placement="Bottom">
-						<Button.Resources>
-							<SolidColorBrush x:Key="ButtonBackgroundPointerOver" Color="{ThemeResource SubtleFillColorSecondary}" />
-							<SolidColorBrush x:Key="ButtonForegroundDisabled" Color="{ThemeResource TextFillColorPrimary}" />
-						</Button.Resources>
-						<Grid HorizontalAlignment="Stretch">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="Auto" />
-								<ColumnDefinition Width="*" />
-							</Grid.ColumnDefinitions>
+						AutomationProperties.Name="{x:Bind SidebarAdaptiveViewModel.SettingsSidebarItem.Text, Mode=OneWay}"
+						AutomationProperties.PositionInSet="1"
+						AutomationProperties.SizeOfSet="1"
+						Item="{x:Bind SidebarAdaptiveViewModel.SettingsSidebarItem, Mode=OneWay}"
+						Text="{x:Bind SidebarAdaptiveViewModel.SettingsSidebarItem.Text, Mode=OneWay}"
+						ToolTip="{x:Bind SidebarAdaptiveViewModel.SettingsSidebarItem.ToolTip, Mode=OneWay}">
+						<controls:SidebarItem.Icon>
 							<AnimatedIcon
 								x:Name="SettingAnimatedIcon"
+								Width="16"
 								Height="16"
-								Margin="4,0,0,0">
+								AnimatedIcon.State="Normal">
 								<AnimatedIcon.Source>
 									<animatedvisuals:AnimatedSettingsVisualSource />
 								</AnimatedIcon.Source>
@@ -349,22 +339,8 @@
 									<SymbolIconSource Symbol="Setting" />
 								</AnimatedIcon.FallbackIconSource>
 							</AnimatedIcon>
-
-							<TextBlock
-								Grid.Column="1"
-								Margin="12,0,0,0"
-								Text="{x:Bind Commands.OpenSettings.Label, Mode=OneWay}" />
-						</Grid>
-
-						<Button.ContextFlyout>
-							<MenuFlyout>
-								<MenuFlyoutItem
-									Command="{x:Bind Commands.OpenSettingsFile, Mode=OneWay}"
-									Icon="{x:Bind Commands.OpenSettingsFile.FontIcon, Mode=OneWay}"
-									Text="{x:Bind Commands.OpenSettingsFile.Label, Mode=OneWay}" />
-							</MenuFlyout>
-						</Button.ContextFlyout>
-					</Button>
+						</controls:SidebarItem.Icon>
+					</controls:SidebarItem>
 				</StackPanel>
 			</controls:SidebarView.Footer>
 		</controls:SidebarView>
