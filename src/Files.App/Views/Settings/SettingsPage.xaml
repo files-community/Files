@@ -8,11 +8,22 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
+	xmlns:vm="using:Files.App.ViewModels.Settings"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
+	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls"
 	x:Name="RootPage"
 	Background="Transparent"
 	Loaded="SettingsPage_Loaded"
 	SizeChanged="SettingsPage_SizeChanged"
 	mc:Ignorable="d">
+
+	<Page.Resources>
+		<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+		<wctconverters:BoolToVisibilityConverter
+			x:Key="NegationBoolToVisibilityConverter"
+			FalseValue="Visible"
+			TrueValue="Collapsed" />
+	</Page.Resources>
 
 	<Grid RightTapped="Grid_RightTapped">
 		<FlyoutBase.AttachedFlyout>
@@ -46,16 +57,63 @@
 			OpenPaneLength="240">
 
 			<controls:SidebarView.Header>
-				<TextBlock
-					x:Name="PageHeaderTextBlock"
-					Margin="16,12,0,4"
-					Style="{StaticResource App.Theme.SubtitleTextBlockStyle}"
-					Text="{helpers:ResourceString Name=Settings}" />
+				<StackPanel Margin="16,12,12,4" Spacing="8">
+					<TextBlock
+						x:Name="PageHeaderTextBlock"
+						Style="{StaticResource App.Theme.SubtitleTextBlockStyle}"
+						Text="{helpers:ResourceString Name=Settings}" />
+					<AutoSuggestBox
+						x:Name="SettingsSearchBox"
+						HorizontalAlignment="Stretch"
+						AutomationProperties.Name="{helpers:ResourceString Name=SearchSettings}"
+						PlaceholderText="{helpers:ResourceString Name=SearchSettings}"
+						QueryIcon="Find"
+						QuerySubmitted="SettingsSearchBox_QuerySubmitted"
+						TextChanged="SettingsSearchBox_TextChanged" />
+				</StackPanel>
 			</controls:SidebarView.Header>
 
 			<controls:SidebarView.InnerContent>
-				<ScrollViewer x:Name="SettingsContentScrollViewer" Padding="24,0,0,0">
-					<Frame x:Name="SettingsContentFrame" Padding="0,12,24,24" />
+				<ScrollViewer x:Name="SettingsContentScrollViewer" Padding="24,12,24,24">
+					<Grid>
+						<Frame
+							x:Name="SettingsContentFrame"
+							Visibility="{x:Bind ViewModel.IsSearchActive, Mode=OneWay, Converter={StaticResource NegationBoolToVisibilityConverter}}" />
+
+						<StackPanel
+							Spacing="4"
+							Visibility="{x:Bind ViewModel.IsSearchActive, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+							<TextBlock
+								Padding="0,0,0,12"
+								Style="{StaticResource App.Theme.SubtitleTextBlockStyle}"
+								Text="{x:Bind ViewModel.SearchHeading, Mode=OneWay}"
+								TextTrimming="CharacterEllipsis" />
+
+							<TextBlock
+								Padding="0,8,0,0"
+								FontSize="14"
+								Opacity="0.7"
+								Text="{helpers:ResourceString Name=NoSearchResults}"
+								Visibility="{x:Bind ViewModel.HasNoSearchResults, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+							<ItemsControl ItemsSource="{x:Bind ViewModel.SearchResults, Mode=OneWay}">
+								<ItemsControl.ItemsPanel>
+									<ItemsPanelTemplate>
+										<StackPanel Spacing="4" />
+									</ItemsPanelTemplate>
+								</ItemsControl.ItemsPanel>
+								<ItemsControl.ItemTemplate>
+									<DataTemplate x:DataType="vm:SettingsSearchResult">
+										<wctcontrols:SettingsCard
+											Click="SearchResultCard_Click"
+											Description="{x:Bind DisplayPath}"
+											Header="{x:Bind HeaderText}"
+											IsClickEnabled="True" />
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</StackPanel>
+					</Grid>
 				</ScrollViewer>
 			</controls:SidebarView.InnerContent>
 
@@ -73,6 +131,7 @@
 					<VisualState.Setters>
 						<Setter Target="SettingsSidebar.DisplayMode" Value="Compact" />
 						<Setter Target="PageHeaderTextBlock.Visibility" Value="Collapsed" />
+						<Setter Target="SettingsSearchBox.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>

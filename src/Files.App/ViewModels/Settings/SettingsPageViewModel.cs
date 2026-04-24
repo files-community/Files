@@ -1,11 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Controls;
-using Files.App.Data.Enums;
 using Microsoft.UI.Xaml;
-using System.Collections.ObjectModel;
 
 namespace Files.App.ViewModels.Settings
 {
@@ -13,8 +10,21 @@ namespace Files.App.ViewModels.Settings
 	{
 		public ObservableCollection<SettingsNavigationItem> NavigationItems { get; } = [];
 
+		public ObservableCollection<SettingsSearchResult> SearchResults { get; } = [];
+
+		private List<SettingsSearchResult>? _searchIndex;
+
 		[ObservableProperty]
 		private SettingsPageKind _selectedPage = SettingsPageKind.GeneralPage;
+
+		[ObservableProperty]
+		private bool _isSearchActive;
+
+		[ObservableProperty]
+		private bool _hasNoSearchResults;
+
+		[ObservableProperty]
+		private string _searchHeading = string.Empty;
 
 		public SettingsPageViewModel()
 		{
@@ -41,6 +51,38 @@ namespace Files.App.ViewModels.Settings
 				item.IconElement.IsFilled = isSelected;
 				item.IconElement.IconType = ThemedIconTypes.Outline;
 			}
+		}
+
+		public void UpdateSearchResults(string? query)
+		{
+			SearchResults.Clear();
+
+			if (string.IsNullOrWhiteSpace(query))
+			{
+				ClearSearch();
+				return;
+			}
+
+			_searchIndex ??= SettingsSearchIndexer.BuildIndex();
+			var terms = query.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+			foreach (var entry in _searchIndex)
+			{
+				if (terms.All(term => entry.Haystack.Contains(term, StringComparison.CurrentCultureIgnoreCase)))
+					SearchResults.Add(entry);
+			}
+
+			IsSearchActive = true;
+			HasNoSearchResults = SearchResults.Count == 0;
+			SearchHeading = string.Format(Strings.SearchResultsFor.GetLocalizedResource(), query);
+		}
+
+		public void ClearSearch()
+		{
+			SearchResults.Clear();
+			IsSearchActive = false;
+			HasNoSearchResults = false;
+			SearchHeading = string.Empty;
 		}
 
 		private static SettingsNavigationItem CreateNavigationItem(SettingsPageKind pageKind, string automationId, string text, string iconStyleKey)
