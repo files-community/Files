@@ -18,13 +18,18 @@ namespace Files.App.ViewModels.Settings
 		private SettingsPageKind _selectedPage = SettingsPageKind.GeneralPage;
 
 		[ObservableProperty]
-		private bool _isSearchActive;
+		[NotifyPropertyChangedFor(nameof(IsSearchActive))]
+		[NotifyPropertyChangedFor(nameof(HasNoSearchResults))]
+		[NotifyPropertyChangedFor(nameof(SearchHeading))]
+		private string _searchQuery = string.Empty;
 
-		[ObservableProperty]
-		private bool _hasNoSearchResults;
+		public bool IsSearchActive => !string.IsNullOrWhiteSpace(SearchQuery);
 
-		[ObservableProperty]
-		private string _searchHeading = string.Empty;
+		public bool HasNoSearchResults => IsSearchActive && SearchResults.Count == 0;
+
+		public string SearchHeading => IsSearchActive
+			? string.Format(Strings.SearchResultsFor.GetLocalizedResource(), SearchQuery)
+			: string.Empty;
 
 		public SettingsPageViewModel()
 		{
@@ -55,8 +60,6 @@ namespace Files.App.ViewModels.Settings
 
 		public void UpdateSearchResults(string? query)
 		{
-			SearchResults.Clear();
-
 			if (string.IsNullOrWhiteSpace(query))
 			{
 				ClearSearch();
@@ -66,23 +69,20 @@ namespace Files.App.ViewModels.Settings
 			_searchIndex ??= SettingsSearchIndexer.BuildIndex();
 			var terms = query.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
+			SearchResults.Clear();
 			foreach (var entry in _searchIndex)
 			{
 				if (terms.All(term => entry.Haystack.Contains(term, StringComparison.CurrentCultureIgnoreCase)))
 					SearchResults.Add(entry);
 			}
 
-			IsSearchActive = true;
-			HasNoSearchResults = SearchResults.Count == 0;
-			SearchHeading = string.Format(Strings.SearchResultsFor.GetLocalizedResource(), query);
+			SearchQuery = query;
 		}
 
 		public void ClearSearch()
 		{
 			SearchResults.Clear();
-			IsSearchActive = false;
-			HasNoSearchResults = false;
-			SearchHeading = string.Empty;
+			SearchQuery = string.Empty;
 		}
 
 		private static SettingsNavigationItem CreateNavigationItem(SettingsPageKind pageKind, string automationId, string text, string iconStyleKey)
