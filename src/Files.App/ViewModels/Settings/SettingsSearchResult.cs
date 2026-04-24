@@ -5,20 +5,32 @@ namespace Files.App.ViewModels.Settings
 {
 	public sealed class SettingsSearchResult
 	{
-		public SettingsPageKind PageKind { get; init; }
+		public SettingsSearchResult(SettingsPageKind pageKind, string pageDisplayName, string headerText, string? parentHeaderText = null)
+		{
+			PageKind = pageKind;
+			PageDisplayName = pageDisplayName;
+			HeaderText = headerText;
+			ParentHeaderText = parentHeaderText;
 
-		public string PageDisplayName { get; init; } = string.Empty;
+			DisplayPath = parentHeaderText is null
+				? pageDisplayName
+				: $"{pageDisplayName} › {parentHeaderText}";
 
-		public string HeaderText { get; init; } = string.Empty;
+			Haystack = parentHeaderText is null
+				? $"{pageDisplayName} {headerText}"
+				: $"{pageDisplayName} {parentHeaderText} {headerText}";
+		}
 
-		public string? ParentHeaderText { get; init; }
+		public SettingsPageKind PageKind { get; }
 
-		public string DisplayPath => ParentHeaderText is null
-			? PageDisplayName
-			: $"{PageDisplayName} › {ParentHeaderText}";
+		public string PageDisplayName { get; }
 
-		public string Haystack => ParentHeaderText is null
-			? $"{PageDisplayName} {HeaderText}"
-			: $"{PageDisplayName} {ParentHeaderText} {HeaderText}";
+		public string HeaderText { get; }
+
+		public string? ParentHeaderText { get; }
+
+		public string DisplayPath { get; }
+
+		public string Haystack { get; }
 	}
 }

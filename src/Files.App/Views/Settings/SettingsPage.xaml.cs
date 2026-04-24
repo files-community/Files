@@ -164,19 +164,13 @@ namespace Files.App.Views
 		private async void SettingsSearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
 		{
 			if (ViewModel.SearchResults.FirstOrDefault() is { } result)
-				await SelectSearchResultAsync(result);
+				await JumpToSearchResultAsync(result);
 		}
 
 		private async void SearchResultCard_Click(object sender, RoutedEventArgs e)
 		{
 			if (sender is SettingsCard { DataContext: SettingsSearchResult result })
-				await SelectSearchResultAsync(result);
-		}
-
-		private async Task SelectSearchResultAsync(SettingsSearchResult result)
-		{
-			ResetSearch();
-			await JumpToSearchResultAsync(result);
+				await JumpToSearchResultAsync(result);
 		}
 
 		private void ResetSearch()
@@ -187,6 +181,8 @@ namespace Files.App.Views
 
 		private async Task JumpToSearchResultAsync(SettingsSearchResult result)
 		{
+			ResetSearch();
+
 			if (ViewModel.SelectedPage != result.PageKind)
 				NavigateTo(new SettingsNavigationParams() { PageKind = result.PageKind });
 
@@ -205,8 +201,8 @@ namespace Files.App.Views
 				await tcs.Task;
 			}
 
-			// Expand the parent group so the nested card is realized; wait for the animation
-			// to settle before scrolling so we land in the right place.
+			// Expand the parent group so the nested card is realized, then wait for the
+			// expander animation to settle before scrolling so we land in the right place.
 			if (result.ParentHeaderText is not null &&
 				FindExpander(page, result.ParentHeaderText) is { IsExpanded: false } parentExpander)
 			{
@@ -222,20 +218,17 @@ namespace Files.App.Views
 		}
 
 		private static SettingsExpander? FindExpander(DependencyObject root, string header)
-			=> DependencyObjectHelpers.FindChildren<SettingsExpander>(root)
-				.FirstOrDefault(e => e.Header as string == header);
+			=> DependencyObjectHelpers.FindChild<SettingsExpander>(root, e => e.Header as string == header);
 
 		private static FrameworkElement? FindTarget(DependencyObject root, SettingsSearchResult result)
 		{
-			// Nested setting: look in the parent expander's logical Items.
 			if (result.ParentHeaderText is not null)
 				return FindExpander(root, result.ParentHeaderText)?.Items
 					.OfType<SettingsCard>()
 					.FirstOrDefault(c => c.Header as string == result.HeaderText);
 
-			// Top-level card, or fall back to an expander header match.
-			return DependencyObjectHelpers.FindChildren<SettingsCard>(root)
-					.FirstOrDefault(c => c.Header as string == result.HeaderText
+			return DependencyObjectHelpers.FindChild<SettingsCard>(root,
+					c => c.Header as string == result.HeaderText
 						&& DependencyObjectHelpers.FindParent<SettingsExpander>(c) is null)
 				?? (FrameworkElement?)FindExpander(root, result.HeaderText);
 		}

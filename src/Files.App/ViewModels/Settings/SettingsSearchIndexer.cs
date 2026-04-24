@@ -47,24 +47,13 @@ namespace Files.App.ViewModels.Settings
 			switch (node)
 			{
 				case SettingsExpander expander when expander.Header is string groupHeader && !string.IsNullOrWhiteSpace(groupHeader):
-					results.Add(new SettingsSearchResult
-					{
-						PageKind = kind,
-						PageDisplayName = pageName,
-						HeaderText = groupHeader,
-					});
+					results.Add(new SettingsSearchResult(kind, pageName, groupHeader));
 					foreach (var item in expander.Items)
 						Walk(item, kind, pageName, groupHeader, results);
 					return;
 
 				case SettingsCard card when card.Header is string cardHeader && !string.IsNullOrWhiteSpace(cardHeader):
-					results.Add(new SettingsSearchResult
-					{
-						PageKind = kind,
-						PageDisplayName = pageName,
-						HeaderText = cardHeader,
-						ParentHeaderText = parentHeader,
-					});
+					results.Add(new SettingsSearchResult(kind, pageName, cardHeader, parentHeader));
 					return;
 
 				case Panel panel:
