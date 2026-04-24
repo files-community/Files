@@ -122,7 +122,9 @@ namespace Files.App.Services.Settings
 		{
 			if (import is string importString)
 			{
-				FileTagList = JsonSettingsSerializer.DeserializeFromJson<List<TagViewModel>>(importString);
+				var settings = JsonSettingsSerializer.DeserializeFromJson<Dictionary<string, List<TagViewModel>>>(importString);
+				if (settings is not null && settings.TryGetValue("FileTagList", out var importedTags))
+					FileTagList = importedTags;
 			}
 			else if (import is List<TagViewModel> importList)
 			{
