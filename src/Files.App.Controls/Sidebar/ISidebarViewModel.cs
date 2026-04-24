@@ -9,6 +9,12 @@ namespace Files.App.Controls
 {
 	public record ItemInvokedEventArgs(PointerUpdateKind PointerUpdateKind) { }
 	public record ItemDroppedEventArgs(object DropTarget, DataPackageView DroppedItem, SidebarItemDropPosition dropPosition, DragEventArgs RawEvent) { }
-	public record ItemDragOverEventArgs(object DropTarget, DataPackageView DroppedItem, SidebarItemDropPosition dropPosition, DragEventArgs RawEvent) { }
+	public record ItemDragOverEventArgs(object DropTarget, DataPackageView DroppedItem, SidebarItemDropPosition dropPosition, DragEventArgs RawEvent)
+	{
+		/// <summary>
+		/// Set by the event handler to signal async completion
+		/// </summary>
+		public Task? CompletionTask { get; set; }
+	}
 	public record ItemContextInvokedArgs(object? Item, Point Position) { }
 }
