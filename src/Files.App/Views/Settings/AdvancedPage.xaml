@@ -161,7 +161,10 @@
 			</wctcontrols:SettingsCard>
 
 			<!--  Thumbnail Caching  -->
-			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=CacheThumbnails}" IsExpanded="False">
+			<wctcontrols:SettingsExpander
+				x:Load="{x:Bind ViewModel.IsAppEnvironmentDev}"
+				Header="{helpers:ResourceString Name=CacheThumbnails}"
+				IsExpanded="False">
 				<wctcontrols:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xEDA2;" />
 				</wctcontrols:SettingsExpander.HeaderIcon>
