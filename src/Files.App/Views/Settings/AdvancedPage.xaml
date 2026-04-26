@@ -162,6 +162,7 @@
 
 			<!--  Thumbnail Caching  -->
 			<wctcontrols:SettingsExpander
+				x:Name="CacheSettings"
 				x:Load="{x:Bind ViewModel.IsAppEnvironmentDev}"
 				Header="{helpers:ResourceString Name=CacheThumbnails}"
 				IsExpanded="False">
