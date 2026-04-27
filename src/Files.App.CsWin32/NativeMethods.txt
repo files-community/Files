@@ -266,3 +266,4 @@ HCERTSTORE
 CERT_QUERY_ENCODING_TYPE
 CertGetNameString
 MessageBox
+GetDoubleClickTime

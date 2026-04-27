@@ -23,6 +23,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
+using Windows.Win32;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.App.Data.Enums.SortDirection;
@@ -53,7 +54,6 @@ namespace Files.App.Views.Layouts
 		public BaseLayoutViewModel? CommandsViewModel { get; protected set; }
 
 		// Fields
-
 		private readonly DispatcherQueueTimer jumpTimer;
 		private readonly DispatcherQueueTimer dragOverTimer;
 		private readonly DispatcherQueueTimer tapDebounceTimer;
@@ -1547,6 +1547,8 @@ namespace Files.App.Views.Layouts
 		{
 			if (clickedItem is ListedItem item)
 			{
+				var doubleClickTimeDelay = PInvoke.GetDoubleClickTime() + Constants.UI.RenameDelayBufferMs;
+
 				if (item == preRenamingItem)
 				{
 					tapDebounceTimer.Debounce(() =>
@@ -1557,7 +1559,7 @@ namespace Files.App.Views.Layouts
 							tapDebounceTimer.Stop();
 						}
 					},
-					TimeSpan.FromMilliseconds(1500));
+					TimeSpan.FromMilliseconds(doubleClickTimeDelay));
 				}
 				else
 				{
