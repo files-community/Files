@@ -473,7 +473,7 @@ namespace Files.App.Views.Layouts
 						NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, selectedFolders.First());
 					}
 				}
-				else if (!ctrlPressed && !shiftPressed && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+				else if (!ctrlPressed && !shiftPressed && UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick != SingleClickOpenMode.Always)
 				{
 					if (SelectedItems?.Any() ?? false)
 					{
@@ -593,8 +593,8 @@ namespace Files.App.Views.Layouts
 			}
 
 			// Check if the setting to open items with a single click is turned on
-			if ((item.PrimaryItemAttribute is StorageItemTypes.File && UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick) ||
-				(item.PrimaryItemAttribute is StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick is OpenFoldersWithOneClickEnum.Always))
+			if ((item.PrimaryItemAttribute is StorageItemTypes.File && UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType)) ||
+				(item.PrimaryItemAttribute is StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType)))
 			{
 				ResetRenameDoubleClick();
 				await Commands.OpenItem.ExecuteAsync();
@@ -643,9 +643,9 @@ namespace Files.App.Views.Layouts
 			if (item == null && sender is ListView listView && listView.SelectedItem is ListedItem selectedItem)
 				item = selectedItem;
 
-			if (item != null && item.PrimaryItemAttribute == StorageItemTypes.File && !UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+			if (item != null && item.PrimaryItemAttribute == StorageItemTypes.File && !UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
 				await OpenItem(item);
-			else if (item != null && item.PrimaryItemAttribute == StorageItemTypes.Folder && UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick is not OpenFoldersWithOneClickEnum.Always)
+			else if (item != null && item.PrimaryItemAttribute == StorageItemTypes.Folder && !UserSettingsService.FoldersSettingsService.OpenFoldersWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
 				await OpenItem(item);
 			else if (item == null && UserSettingsService.FoldersSettingsService.DoubleClickToGoUp)
 				await Commands.NavigateUp.ExecuteAsync();

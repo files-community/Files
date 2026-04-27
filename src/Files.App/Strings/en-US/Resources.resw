@@ -677,11 +677,17 @@
   <data name="File" xml:space="preserve">
     <value>File</value>
   </data>
+  <data name="Files" xml:space="preserve">
+    <value>Files</value>
+  </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Creates an empty file</value>
   </data>
   <data name="Folder" xml:space="preserve">
     <value>Folder</value>
+  </data>
+  <data name="Folders" xml:space="preserve">
+    <value>Folders</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Creates an empty folder</value>
@@ -1802,7 +1808,7 @@
   <data name="Tag" xml:space="preserve">
     <value>Tag</value>
   </data>
-  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+  <data name="OpenFilesWithOneClick" xml:space="preserve">
     <value>Open files with a single click</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
@@ -2107,6 +2113,15 @@
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
     <value>Open folders with a single click</value>
+  </data>
+  <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
+    <value>Open folders with a single click in Columns View</value>
+  </data>
+  <data name="SingleClickToOpen" xml:space="preserve">
+    <value>Open items with a single click</value>
+  </data>
+  <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
+    <value>Folders in Columns View</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Opening items</value>
@@ -4404,8 +4419,11 @@
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Show status bar</value>
   </data>
-  <data name="OnlyInColumnsView" xml:space="preserve">
-    <value>Only in Columns View</value>
+  <data name="OnlyForTouch" xml:space="preserve">
+    <value>When using touch</value>
+  </data>
+  <data name="OnlyForMouse" xml:space="preserve">
+    <value>When using mouse</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>New {0}</value>

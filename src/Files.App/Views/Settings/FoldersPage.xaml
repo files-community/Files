@@ -3,6 +3,7 @@
 	x:Class="Files.App.Views.Settings.FoldersPage"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="using:Files.App.Controls"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -93,31 +94,45 @@
 				FontWeight="Medium"
 				Text="{helpers:ResourceString Name=Behaviors}" />
 
-			<!--  Opening items  -->
-			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=OpeningItems}">
+			<!--  Single-click to open  -->
+			<wctcontrols:SettingsExpander Header="{helpers:ResourceString Name=SingleClickToOpen}">
 				<wctcontrols:SettingsExpander.HeaderIcon>
 					<FontIcon Glyph="&#xED25;" />
 				</wctcontrols:SettingsExpander.HeaderIcon>
 				<wctcontrols:SettingsExpander.Items>
-					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SettingsOpenItemsWithOneClick}">
-						<ToggleSwitch AutomationProperties.Name="{helpers:ResourceString Name=SettingsOpenItemsWithOneClick}" IsOn="{x:Bind ViewModel.OpenItemsWithOneClick, Mode=TwoWay}" />
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=Files}">
+						<uc:ComboBoxEx
+							AutomationProperties.Name="{helpers:ResourceString Name=OpenFilesWithOneClick}"
+							ItemsSource="{x:Bind ViewModel.SingleClickOpenModeOptions.Values}"
+							SelectedItem="{x:Bind ViewModel.SelectedOpenFilesWithSingleClickOption, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
-					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=OpenFolderWithOneClick}">
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=Folders}">
 						<uc:ComboBoxEx
 							AutomationProperties.Name="{helpers:ResourceString Name=OpenFolderWithOneClick}"
-							ItemsSource="{x:Bind ViewModel.OpenFoldersWithOneClickOptions.Values}"
-							SelectedItem="{x:Bind ViewModel.SelectedOpenFoldersWithOneClickOption, Mode=TwoWay}" />
+							ItemsSource="{x:Bind ViewModel.SingleClickOpenModeOptions.Values}"
+							SelectedItem="{x:Bind ViewModel.SelectedOpenFoldersWithSingleClickOption, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 
-					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=OpenFoldersInNewTab}">
-						<ToggleSwitch
-							x:Name="OpenFoldersNewTab"
-							AutomationProperties.Name="{helpers:ResourceString Name=OpenFoldersInNewTab}"
-							IsOn="{x:Bind ViewModel.OpenFoldersNewTab, Mode=TwoWay}" />
+					<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=SingleClickFoldersInColumnsViewHeader}">
+						<uc:ComboBoxEx
+							AutomationProperties.Name="{helpers:ResourceString Name=OpenFolderWithOneClickInColumnsView}"
+							ItemsSource="{x:Bind ViewModel.SingleClickOpenModeOptions.Values}"
+							SelectedItem="{x:Bind ViewModel.SelectedOpenFoldersInColumnsViewWithSingleClickOption, Mode=TwoWay}" />
 					</wctcontrols:SettingsCard>
 				</wctcontrols:SettingsExpander.Items>
 			</wctcontrols:SettingsExpander>
+
+			<!--  Open Folders in New Tab  -->
+			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=OpenFoldersInNewTab}">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<PathIcon Data="m2.5,13c-.83,0-1.5-.67-1.5-1.5V2.5c0-.83.67-1.5,1.5-1.5h2.5v1.5c0,.83.67,1.5,1.5,1.5h6.5v2.21c.35.1.68.23,1,.39V2.5C14,1.12,12.88,0,11.5,0H2.5C1.12,0,0,1.12,0,2.5v9c0,1.38,1.12,2.5,2.5,2.5h4.1c-.16-.32-.29-.65-.39-1h-3.71ZM6,1h5.5c.83,0,1.5.67,1.5,1.5v.5h-6.5c-.28,0-.5-.22-.5-.5v-1.5Zm8.68,7.32c-.84-.84-1.99-1.32-3.18-1.32s-2.34.47-3.18,1.32c-.84.84-1.32,1.99-1.32,3.18s.47,2.34,1.32,3.18c.84.84,1.99,1.32,3.18,1.32s2.34-.47,3.18-1.32c.84-.84,1.32-1.99,1.32-3.18s-.47-2.34-1.32-3.18Zm-.68,4.18c0,.13-.05.26-.15.35-.09.09-.22.15-.35.15s-.26-.05-.35-.15c-.09-.09-.15-.22-.15-.35v-1.74l-2.62,2.62c-.1.1-.24.16-.38.16s-.28-.06-.38-.16c-.1-.1-.16-.24-.16-.38s.06-.28.16-.38l2.62-2.62h-1.74c-.13,0-.26-.05-.35-.15-.09-.09-.15-.22-.15-.35s.05-.26.15-.35c.09-.09.22-.15.35-.15h3c.13,0,.26.05.35.15.09.09.15.22.15.35v3Z" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch
+					x:Name="OpenFoldersNewTab"
+					AutomationProperties.Name="{helpers:ResourceString Name=OpenFoldersInNewTab}"
+					IsOn="{x:Bind ViewModel.OpenFoldersNewTab, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
 
 			<!--  Confirm Delete  -->
 			<wctcontrols:SettingsCard Header="{helpers:ResourceString Name=ShowConfirmationWhenDeletingItems}">
