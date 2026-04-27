@@ -383,6 +383,10 @@ namespace Files.App.Views.Layouts
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
+			// Keyboard navigation has no pointer device; clear the cached value so SelectionChanged
+			// falls back to the helper's "null is mouse-like" semantics instead of using a stale device.
+			lastPointerDeviceType = null;
+
 			if
 			(
 				ParentShellPageInstance is null ||
