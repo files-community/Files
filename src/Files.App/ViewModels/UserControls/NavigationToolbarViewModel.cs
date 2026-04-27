@@ -236,7 +236,13 @@ namespace Files.App.ViewModels.UserControls
 		private void InstanceViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(CurrentInstanceViewModel.IsPageTypeSettings))
+			{
 				OnPropertyChanged(nameof(OmnibarSearchModePlaceholder));
+
+				// Suggestion source differs between settings and file search — drop stale items.
+				OmnibarSearchModeSuggestionItems.Clear();
+				OmnibarSearchModeText = string.Empty;
+			}
 		}
 
 		private List<ListedItem>? _SelectedItems;
