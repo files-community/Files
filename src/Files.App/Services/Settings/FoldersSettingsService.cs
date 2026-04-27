@@ -9,6 +9,45 @@ namespace Files.App.Services.Settings
 		{
 			// Register root
 			RegisterSettingsContext(settingsSharingContext);
+			MigrateLegacySingleClickSettings();
+		}
+
+		// Migrates the pre-SingleClickOpenMode settings (`OpenItemsWithOneClick` as bool and `OpenFoldersWithOneClick`
+		// as the legacy 3-value enum) into the new mode-based properties. Runs once per install — the legacy keys
+		// are removed after migration so subsequent launches no-op.
+		private void MigrateLegacySingleClickSettings()
+		{
+			if (JsonSettingsDatabase?.ExportSettings() is not IDictionary<string, object?> data)
+				return;
+
+			if (data.ContainsKey("OpenItemsWithOneClick"))
+			{
+				var legacy = JsonSettingsDatabase.GetValue<bool>("OpenItemsWithOneClick");
+				OpenFilesWithSingleClick = legacy ? SingleClickOpenMode.Always : SingleClickOpenMode.Never;
+				JsonSettingsDatabase.RemoveKey("OpenItemsWithOneClick");
+			}
+
+			if (data.ContainsKey("OpenFoldersWithOneClick"))
+			{
+				// Legacy values: 0 = OnlyInColumnsView, 1 = Always, 2 = Never
+				var legacy = JsonSettingsDatabase.GetValue<int>("OpenFoldersWithOneClick");
+				switch (legacy)
+				{
+					case 0:
+						OpenFoldersWithSingleClick = SingleClickOpenMode.Never;
+						OpenFoldersInColumnsViewWithSingleClick = SingleClickOpenMode.Always;
+						break;
+					case 1:
+						OpenFoldersWithSingleClick = SingleClickOpenMode.Always;
+						OpenFoldersInColumnsViewWithSingleClick = SingleClickOpenMode.Always;
+						break;
+					case 2:
+						OpenFoldersWithSingleClick = SingleClickOpenMode.Never;
+						OpenFoldersInColumnsViewWithSingleClick = SingleClickOpenMode.Never;
+						break;
+				}
+				JsonSettingsDatabase.RemoveKey("OpenFoldersWithOneClick");
+			}
 		}
 
 		public bool ShowHiddenItems
@@ -35,16 +74,24 @@ namespace Files.App.Services.Settings
 			set => Set(value);
 		}
 
-		public bool OpenItemsWithOneClick
+		/// <inheritdoc/>
+		public SingleClickOpenMode OpenFilesWithSingleClick
 		{
-			get => Get(false);
+			get => Get(SingleClickOpenMode.OnlyForTouch);
 			set => Set(value);
 		}
 
 		/// <inheritdoc/>
-		public OpenFoldersWithOneClickEnum OpenFoldersWithOneClick
+		public SingleClickOpenMode OpenFoldersWithSingleClick
 		{
-			get => Get(OpenFoldersWithOneClickEnum.OnlyInColumnsView);
+			get => Get(SingleClickOpenMode.OnlyForTouch);
+			set => Set(value);
+		}
+
+		/// <inheritdoc/>
+		public SingleClickOpenMode OpenFoldersInColumnsViewWithSingleClick
+		{
+			get => Get(SingleClickOpenMode.Always);
 			set => Set(value);
 		}
 

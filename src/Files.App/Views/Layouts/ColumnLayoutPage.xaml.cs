@@ -33,6 +33,10 @@ namespace Files.App.Views.Layouts
 
 		private bool isDraggingSelectionRectangle = false;
 
+		// Tracks the most recent pointer device that interacted with the FileList,
+		// so SelectionChanged (which has no PointerDeviceType of its own) can honor input-method-aware single-click settings.
+		private PointerDeviceType? lastPointerDeviceType;
+
 		public event EventHandler? ItemInvoked;
 		public event EventHandler? ItemTapped;
 
@@ -349,8 +353,7 @@ namespace Files.App.Views.Layouts
 					return;
 
 				// Open the selected folder if selected through tap
-				if ((UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick == OpenFoldersWithOneClickEnum.Always ||
-					 UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick == OpenFoldersWithOneClickEnum.OnlyInColumnsView) &&
+				if (UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick.ShouldOpenWithSingleClick(lastPointerDeviceType) &&
 					!isDraggingSelectionRectangle) ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (SelectedItem is IShortcutItem sht ? sht.TargetPath : SelectedItem.ItemPath), ListView = FileList }, EventArgs.Empty);
 				else
 					CloseFolder();
@@ -380,6 +383,10 @@ namespace Files.App.Views.Layouts
 
 		protected override async void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
 		{
+			// Keyboard navigation has no pointer device; clear the cached value so SelectionChanged
+			// falls back to the helper's "null is mouse-like" semantics instead of using a stale device.
+			lastPointerDeviceType = null;
+
 			if
 			(
 				ParentShellPageInstance is null ||
@@ -464,11 +471,11 @@ namespace Files.App.Views.Layouts
 				switch (item.PrimaryItemAttribute)
 				{
 					case StorageItemTypes.File:
-						if (!UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick)
+						if (!UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
 							await Commands.OpenItem.ExecuteAsync();
 						break;
 					case StorageItemTypes.Folder:
-						if (UserSettingsService.FoldersSettingsService.OpenFoldersWithOneClick is not OpenFoldersWithOneClickEnum.Always and not OpenFoldersWithOneClickEnum.OnlyInColumnsView)
+						if (!UserSettingsService.FoldersSettingsService.OpenFoldersInColumnsViewWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType))
 							ItemInvoked?.Invoke(new ColumnParam { Source = this, NavPathParam = (item is IShortcutItem sht ? sht.TargetPath : item.ItemPath), ListView = FileList }, EventArgs.Empty);
 						break;
 					default:
@@ -488,6 +495,11 @@ namespace Files.App.Views.Layouts
 		private void FileList_Holding(object sender, HoldingRoutedEventArgs e)
 		{
 			HandleRightClick();
+		}
+
+		private void FileList_PointerPressed(object sender, PointerRoutedEventArgs e)
+		{
+			lastPointerDeviceType = e.Pointer.PointerDeviceType;
 		}
 
 		private void HandleRightClick()
@@ -512,7 +524,7 @@ namespace Files.App.Views.Layouts
 			var isItemFolder = item?.PrimaryItemAttribute is StorageItemTypes.Folder;
 
 			// Check if the setting to open items with a single click is turned on
-			if (UserSettingsService.FoldersSettingsService.OpenItemsWithOneClick && isItemFile)
+			if (UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(e.PointerDeviceType) && isItemFile)
 			{
 				ResetRenameDoubleClick();
 				await Commands.OpenItem.ExecuteAsync();

@@ -199,6 +199,7 @@
 					ItemContainerTransitions="{x:Null}"
 					ItemsSource="{x:Bind CollectionViewSource.View, Mode=OneWay}"
 					Loaded="FileList_Loaded"
+					PointerPressed="FileList_PointerPressed"
 					PreviewKeyDown="FileList_PreviewKeyDown"
 					RightTapped="FileList_RightTapped"
 					SelectionChanged="FileList_SelectionChanged"
