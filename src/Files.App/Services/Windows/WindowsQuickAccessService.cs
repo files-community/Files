@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.IO;
+using System.Runtime.InteropServices;
 using Microsoft.Extensions.Logging;
 
 namespace Files.App.Services
@@ -115,7 +116,7 @@ namespace Files.App.Services
 						if (fi is null) continue;
 						string pathStr = (string)fi.GetType().InvokeMember("Path", System.Reflection.BindingFlags.GetProperty, null, fi, [])!;
 						var normalizedPathStr = NormalizeQuickAccessPath(pathStr);
-					bool shouldUnpin = normalizedTargetPaths.Contains(normalizedPathStr);
+						bool shouldUnpin = normalizedTargetPaths.Contains(normalizedPathStr);
 
 					if (!shouldUnpin && ShellStorageFolder.IsShellPath(pathStr))
 					{
@@ -242,9 +243,9 @@ namespace Files.App.Services
 				if (!string.IsNullOrWhiteSpace(parsingName))
 					return parsingName;
 			}
-			catch
+			catch (COMException ex)
 			{
-				// fallback to raw PIDL strings
+				App.Logger.LogDebug(ex, "Failed to resolve shell path {Path}", path);
 			}
 
 			return path.StartsWith(@"\\SHELL\", StringComparison.OrdinalIgnoreCase)

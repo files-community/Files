@@ -745,17 +745,7 @@ namespace Files.App.Utils.Storage
 		{
 			var itemsList = new List<IStorageItemWithPath>();
 			var hasVirtualItems = false;
-			bool containsStorageItems;
-
-			try
-			{
-				containsStorageItems = packageView.Contains(StandardDataFormats.StorageItems);
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogInformation(ex, "Drag data package became unavailable while enumerating storage items");
-				return itemsList;
-			}
+			bool containsStorageItems = packageView.Contains(StandardDataFormats.StorageItems);
 
 			if (containsStorageItems)
 			{

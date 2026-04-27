@@ -1,4 +1,4 @@
-﻿// Copyright (c) Files Community
+// Copyright (c) Files Community
 // Licensed under the MIT License.
 
 using Microsoft.Extensions.Logging;
@@ -36,6 +36,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		// TODO: Replace with IMutableFolder.GetWatcherAsync() once it gets implemented in IWindowsStorable
 		private readonly SystemIO.FileSystemWatcher _quickAccessFolderWatcher;
+		private readonly EventHandler<ModifyQuickAccessEventArgs> _quickAccessWidgetUpdatedHandler;
 
 		// Constructor
 
@@ -68,7 +69,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 			_quickAccessFolderWatcher.EnableRaisingEvents = true;
 
-			App.QuickAccessManager.UpdateQuickAccessWidget += async (s, e) =>
+			_quickAccessWidgetUpdatedHandler = async (s, e) =>
 			{
 				if (e.Reorder)
 				{
@@ -82,6 +83,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 					}
 				}
 			};
+			App.QuickAccessManager.UpdateQuickAccessWidget += _quickAccessWidgetUpdatedHandler;
 		}
 
 		// Methods
@@ -371,6 +373,8 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public void Dispose()
 		{
+			App.QuickAccessManager.UpdateQuickAccessWidget -= _quickAccessWidgetUpdatedHandler;
+
 			foreach (var item in Items)
 				item.Dispose();
 		}
