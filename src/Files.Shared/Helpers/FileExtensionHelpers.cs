@@ -411,35 +411,5 @@ namespace Files.Shared.Helpers
 
 			return _signableTypes.Contains(filePathToCheck);
 		}
-
-		/// <summary>
-		/// Check if the file extension is a markdown file.
-		/// </summary>
-		/// <param name="fileExtensionToCheck"></param>
-		/// <returns><c>true</c> if the fileExtensionToCheck is a markdown file; otherwise, <c>false</c>.</returns>
-		public static bool IsMarkdownFile(string? fileExtensionToCheck)
-		{
-			return HasExtension(fileExtensionToCheck, ".md", ".markdown");
-		}
-
-		/// <summary>
-		/// Check if the file extension is a text file.
-		/// </summary>
-		/// <param name="fileExtensionToCheck"></param>
-		/// <returns><c>true</c> if the fileExtensionToCheck is a text file; otherwise, <c>false</c>.</returns>
-		public static bool IsTextFile(string? fileExtensionToCheck)
-		{
-			return HasExtension(fileExtensionToCheck, ".txt");
-		}
-
-		/// <summary>
-		/// Check if the file extension is a rich text file.
-		/// </summary>
-		/// <param name="fileExtensionToCheck"></param>
-		/// <returns><c>true</c> if the fileExtensionToCheck is a rich text file; otherwise, <c>false</c>.</returns>
-		public static bool IsRichTextFile(string? fileExtensionToCheck)
-		{
-			return HasExtension(fileExtensionToCheck, ".rtf");
-		}
 	}
 }
