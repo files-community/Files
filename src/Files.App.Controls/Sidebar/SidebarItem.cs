@@ -440,7 +440,7 @@ namespace Files.App.Controls
 				var dropPosition = DetermineDropTargetPosition(e);
 
 				if (Owner is not null)
-					await Owner.RaiseItemDragOverAsync(this, dropPosition, e);
+					Owner.RaiseItemDragOver(this, dropPosition, e);
 
 				if (!e.Handled || e.AcceptedOperation == DataPackageOperation.None)
 				{

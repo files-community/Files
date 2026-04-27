@@ -738,15 +738,7 @@ namespace Files.App.Utils.Storage
 			if (packageView is null)
 				return false;
 
-			try
-			{
-				return packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains("FileDrop");
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogInformation(ex, "Drag data package became unavailable while checking storage items");
-				return false;
-			}
+			return packageView.Contains(StandardDataFormats.StorageItems) || packageView.Contains("FileDrop");
 		}
 
 		public static async Task<IEnumerable<IStorageItemWithPath>> GetDraggedStorageItems(DataPackageView packageView)
@@ -812,16 +804,7 @@ namespace Files.App.Utils.Storage
 
 			// workaround for GetStorageItemsAsync() bug that only yields 16 items at most
 			// https://learn.microsoft.com/windows/win32/shell/clipboard#cf_hdrop
-			bool containsFileDrop;
-			try
-			{
-				containsFileDrop = packageView.Contains("FileDrop");
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogInformation(ex, "Drag data package became unavailable while reading file-drop data");
-				return itemsList;
-			}
+			bool containsFileDrop = packageView.Contains("FileDrop");
 
 			if (containsFileDrop)
 			{

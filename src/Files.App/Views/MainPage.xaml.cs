@@ -474,10 +474,30 @@ namespace Files.App.Views
 			SidebarAdaptiveViewModel.HandleItemContextInvokedAsync(sender, e);
 		}
 
-		private void SidebarControl_ItemDragOver(object sender, ItemDragOverEventArgs e)
+		private async void SidebarControl_ItemDragOver(object sender, ItemDragOverEventArgs e)
 		{
-			e.CompletionTask = SafetyExtensions.IgnoreExceptions(
+			DragOperationDeferral? deferral = null;
+			try
+			{
+				deferral = e.RawEvent.GetDeferral();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogTrace(ex, "Deferral.GetDeferral() failed during drag over.");
+				return;
+			}
+
+			await SafetyExtensions.IgnoreExceptions(
 				() => SidebarAdaptiveViewModel.HandleItemDragOverAsync(e), App.Logger);
+
+			try
+			{
+				deferral?.Complete();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogTrace(ex, "Deferral.Complete() failed during drag over.");
+			}
 		}
 
 		private async void SidebarControl_ItemDropped(object sender, ItemDroppedEventArgs e)
@@ -486,25 +506,24 @@ namespace Files.App.Views
 			try
 			{
 				deferral = e.RawEvent.GetDeferral();
-
-				await SafetyExtensions.IgnoreExceptions(
-					() => SidebarAdaptiveViewModel.HandleItemDroppedAsync(e), App.Logger);
 			}
 			catch (Exception ex)
 			{
-				App.Logger.LogWarning(ex, "Error during drop operation");
+				App.Logger.LogTrace(ex, "Deferral.GetDeferral() failed during drop.");
+				return;
 			}
-			finally
+
+			await SafetyExtensions.IgnoreExceptions(
+				() => SidebarAdaptiveViewModel.HandleItemDroppedAsync(e), App.Logger);
+
+			try
 			{
-				try
-				{
-					deferral?.Complete();
-				}
-				catch (Exception ex)
-				{
-					// Expected: OLE deferral can fail with stale COM state while Explorer is open.
-					App.Logger.LogTrace(ex, "Deferral.Complete() failed during drop (stale OLE state).");
-				}
+				deferral?.Complete();
+			}
+			catch (Exception ex)
+			{
+				// Expected: OLE deferral can fail with stale COM state while Explorer is open.
+				App.Logger.LogTrace(ex, "Deferral.Complete() failed during drop (stale OLE state).");
 			}
 		}
 

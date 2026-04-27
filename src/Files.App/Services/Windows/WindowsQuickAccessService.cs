@@ -52,10 +52,10 @@ namespace Files.App.Services
 								pathForShell = shellItem.ParsingName ?? folderPath;
 							}
 
-							dynamic? f2 = shellAppType.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shell, [pathForShell]);
+							object? f2 = shellAppType.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shell, [pathForShell]);
 							if (f2 != null)
 							{
-								dynamic? fi = f2.Self;
+								object? fi = f2.GetType().InvokeMember("Self", System.Reflection.BindingFlags.GetProperty, null, f2, []);
 								success = TryInvokeShellVerb(fi, "pintohome", pathForShell);
 							}
 						}, App.Logger);
@@ -100,17 +100,21 @@ namespace Files.App.Services
 					return;
 
 				object? shell = Activator.CreateInstance(shellAppType);
-				dynamic? f2 = shellAppType.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shell, [$"shell:{guid}"]);
+				object? f2 = shellAppType.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shell, [$"shell:{guid}"]);
 				if (f2 == null)
 					return;
 
 				List<string> pathsToUnpin = new();
 				var normalizedTargetPaths = BuildNormalizedPathSet(folderPaths);
 
-				foreach (dynamic? fi in f2.Items())
+				object? items = f2.GetType().InvokeMember("Items", System.Reflection.BindingFlags.InvokeMethod, null, f2, []);
+				if (items is System.Collections.IEnumerable enumerable)
 				{
-					string pathStr = (string)fi.Path;
-					var normalizedPathStr = NormalizeQuickAccessPath(pathStr);
+					foreach (object? fi in enumerable)
+					{
+						if (fi is null) continue;
+						string pathStr = (string)fi.GetType().InvokeMember("Path", System.Reflection.BindingFlags.GetProperty, null, fi, [])!;
+						var normalizedPathStr = NormalizeQuickAccessPath(pathStr);
 					bool shouldUnpin = normalizedTargetPaths.Contains(normalizedPathStr);
 
 					if (!shouldUnpin && ShellStorageFolder.IsShellPath(pathStr))
@@ -127,6 +131,7 @@ namespace Files.App.Services
 						pathsToUnpin.Add(pathStr);
 					}
 				}
+				}
 
 				if (pathsToUnpin.Count > 0)
 				{
@@ -136,17 +141,22 @@ namespace Files.App.Services
 						Type? shellAppTypeSTA = Type.GetTypeFromProgID("Shell.Application");
 						if (shellAppTypeSTA == null) return;
 						object? shellSTA = Activator.CreateInstance(shellAppTypeSTA);
-						dynamic? f2STA = shellAppTypeSTA.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shellSTA, [$"shell:{guid}"]);
+						object? f2STA = shellAppTypeSTA.InvokeMember("NameSpace", System.Reflection.BindingFlags.InvokeMethod, null, shellSTA, [$"shell:{guid}"]);
 						if (f2STA == null) return;
 
-						foreach (dynamic? fi in f2STA.Items())
+						object? itemsSTA = f2STA.GetType().InvokeMember("Items", System.Reflection.BindingFlags.InvokeMethod, null, f2STA, []);
+						if (itemsSTA is System.Collections.IEnumerable enumerableSTA)
 						{
-							string pathStr = (string)fi.Path;
-							if (normalizedPathsToUnpin.Contains(NormalizeQuickAccessPath(pathStr)))
+							foreach (object? fi in enumerableSTA)
 							{
-								var unpinned = TryInvokeShellVerb(fi, "unpinfromhome", pathStr);
-								if (!unpinned && ShellStorageFolder.IsShellPath(pathStr))
-									TryInvokeShellVerb(fi, "remove", pathStr);
+								if (fi is null) continue;
+								string pathStr = (string)fi.GetType().InvokeMember("Path", System.Reflection.BindingFlags.GetProperty, null, fi, [])!;
+								if (normalizedPathsToUnpin.Contains(NormalizeQuickAccessPath(pathStr)))
+								{
+									var unpinned = TryInvokeShellVerb(fi, "unpinfromhome", pathStr);
+									if (!unpinned && ShellStorageFolder.IsShellPath(pathStr))
+										TryInvokeShellVerb(fi, "remove", pathStr);
+								}
 							}
 						}
 					}, App.Logger);
@@ -173,14 +183,14 @@ namespace Files.App.Services
 				.Any(x => string.Equals(NormalizeQuickAccessPath(x), normalizedPath, StringComparison.OrdinalIgnoreCase));
 		}
 
-		private static bool TryInvokeShellVerb(dynamic? shellItem, string verb, string path)
+		private static bool TryInvokeShellVerb(object? shellItem, string verb, string path)
 		{
 			if (shellItem is null)
 				return false;
 
 			try
 			{
-				shellItem.InvokeVerb(verb);
+				shellItem.GetType().InvokeMember("InvokeVerb", System.Reflection.BindingFlags.InvokeMethod, null, shellItem, [verb]);
 				return true;
 			}
 			catch (Exception ex)

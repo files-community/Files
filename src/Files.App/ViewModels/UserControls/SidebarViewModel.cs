@@ -48,7 +48,7 @@ namespace Files.App.ViewModels.UserControls
 		public PinnedFoldersManager SidebarPinnedModel => App.QuickAccessManager.Model;
 		public IQuickAccessService QuickAccessService { get; } = Ioc.Default.GetRequiredService<IQuickAccessService>();
 
-		private readonly SemaphoreSlim reorderSemaphore = new(1, 1);
+		private bool isReordering = false;
 
 		private SidebarDisplayMode sidebarDisplayMode;
 		public SidebarDisplayMode SidebarDisplayMode
@@ -282,9 +282,9 @@ namespace Files.App.ViewModels.UserControls
 			if (dispatcherQueue is null)
 				return;
 
-			try
+			await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 			{
-				await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
+				try
 				{
 					var sectionType = (SectionType)sender;
 					var section = await GetOrCreateSectionAsync(sectionType);
@@ -300,12 +300,12 @@ namespace Files.App.ViewModels.UserControls
 						_ => null
 					};
 					await SyncSidebarItemsAsync(section, getElements, e);
-				});
-			}
-			catch (Exception ex)
-			{
-				App.Logger.LogWarning(ex, "Error syncing sidebar items");
-			}
+				}
+				catch (Exception ex)
+				{
+					App.Logger.LogWarning(ex, "Error syncing sidebar items");
+				}
+			});
 		}
 
 		private void Manager_DataChangedForDrives(object? sender, NotifyCollectionChangedEventArgs e) => Manager_DataChanged(SectionType.Drives, e);
@@ -336,24 +336,24 @@ namespace Files.App.ViewModels.UserControls
 					{
 						if (e.OldItems?.Count == 1 && e.NewItems?.Count == 1)
 						{
-							var itemToMove = e.OldItems[0] as INavigationControlItem;
-							var match = section.ChildItems.FirstOrDefault(x => x.Path == itemToMove?.Path);
-							if (match != null)
+							var item = (INavigationControlItem)e.OldItems[0];
+							var match = section.ChildItems.FirstOrDefault(x => x.Path == item.Path);
+							if (match is not null)
 							{
-								var oldIndex = section.ChildItems.IndexOf(match);
-								var newIndex = e.NewStartingIndex;
-
-								if (newIndex >= section.ChildItems.Count)
-									newIndex = section.ChildItems.Count - 1;
-
-								if (newIndex >= 0 && oldIndex >= 0 && oldIndex != newIndex)
-								{
-									Manager_DataChanged(section.Section, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-									return;
-								}
+								section.ChildItems.Remove(match);
+								var newIndex = e.NewStartingIndex < 0 ? section.ChildItems.Count : Math.Min(e.NewStartingIndex, section.ChildItems.Count);
+								section.ChildItems.Insert(newIndex, match);
 							}
+							return;
 						}
-						break;
+
+						// fallback 
+						section.ChildItems.Clear();
+						foreach (INavigationControlItem elem in getElements())
+						{
+							await AddElementToSectionAsync(elem, section);
+						}
+						return;
 					}
 
 				case NotifyCollectionChangedAction.Remove:
@@ -439,8 +439,6 @@ namespace Files.App.ViewModels.UserControls
 					section.ChildItems.Insert(index < 0 ? section.ChildItems.Count : Math.Min(index, section.ChildItems.Count), elem);
 				}
 			}
-
-			section.PropertyChanged += Section_PropertyChanged;
 		}
 
 		private void Section_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -616,6 +614,11 @@ namespace Files.App.ViewModels.UserControls
 				{
 					section.Icon = await UIHelpers.GetSidebarIconResource(iconIdex);
 				}
+			}
+
+			if (section is not null)
+			{
+				section.PropertyChanged += Section_PropertyChanged;
 			}
 
 			return section;
@@ -1123,7 +1126,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			// Reject if reorder is in progress
 			// Prevents TOCTOU between drag-over and drop handlers
-			if (reorderSemaphore.CurrentCount == 0)
+			if (isReordering)
 			{
 				args.RawEvent.Handled = true;
 				args.RawEvent.AcceptedOperation = DataPackageOperation.None;
@@ -1404,7 +1407,8 @@ namespace Files.App.ViewModels.UserControls
 							return;
 						}
 
-						await reorderSemaphore.WaitAsync();
+						if (isReordering) return;
+						isReordering = true;
 						try
 						{
 							var sourceIndex = section.ChildItems.IndexOf(sourceItem);
@@ -1429,43 +1433,35 @@ namespace Files.App.ViewModels.UserControls
 						}
 						finally
 						{
-							reorderSemaphore.Release();
+							isReordering = false;
 						}
 						return;
 					}
 
 					if (dragPath is not null && args.dropPosition != SidebarItemDropPosition.Center && !locationItem.IsHeader)
 					{
-						await reorderSemaphore.WaitAsync();
-						try
+						using (SidebarPinnedModel.SuspendSync())
 						{
-							using (SidebarPinnedModel.SuspendSync())
+							if (!SidebarPinnedModel.PinnedFolders.Contains(dragPath))
 							{
-								if (!SidebarPinnedModel.PinnedFolders.Contains(dragPath))
+								if (section.ChildItems.Any(x => string.Equals(x.Path, dragPath, StringComparison.OrdinalIgnoreCase)))
+									return;
+
+								var targetIndex = section.ChildItems.IndexOf(locationItem);
+								if (targetIndex >= 0)
 								{
-									if (section.ChildItems.Any(x => string.Equals(x.Path, dragPath, StringComparison.OrdinalIgnoreCase)))
-										return;
+									if (args.dropPosition == SidebarItemDropPosition.Bottom)
+										targetIndex++;
 
-									var targetIndex = section.ChildItems.IndexOf(locationItem);
-									if (targetIndex >= 0)
+									var newLocationItem = await SidebarPinnedModel.CreateLocationItemFromPathAsync(dragPath);
+									lock (SidebarPinnedModel._PinnedFolderItems)
 									{
-										if (args.dropPosition == SidebarItemDropPosition.Bottom)
-											targetIndex++;
-
-										var newLocationItem = await SidebarPinnedModel.CreateLocationItemFromPathAsync(dragPath);
-										lock (SidebarPinnedModel._PinnedFolderItems)
-										{
-											SidebarPinnedModel._PinnedFolderItems.Add(newLocationItem);
-										}
-										section.ChildItems.Insert(targetIndex, newLocationItem);
-										await PersistPinnedOrderAsync(section, isSyncSuspended: true);
+										SidebarPinnedModel._PinnedFolderItems.Add(newLocationItem);
 									}
+									section.ChildItems.Insert(targetIndex, newLocationItem);
+									await PersistPinnedOrderAsync(section, isSyncSuspended: true);
 								}
 							}
-						}
-						finally
-						{
-							reorderSemaphore.Release();
 						}
 						return;
 					}
@@ -1481,40 +1477,32 @@ namespace Files.App.ViewModels.UserControls
 					var pinnedSection = sidebarItems.FirstOrDefault(x => x.Section == SectionType.Pinned);
 					if (pinnedSection is LocationItem section && section.ChildItems is not null)
 					{
-						await reorderSemaphore.WaitAsync();
-						try
+						using (SidebarPinnedModel.SuspendSync())
 						{
-							using (SidebarPinnedModel.SuspendSync())
+							foreach (var item in storageItems)
 							{
-								foreach (var item in storageItems)
+								if (item.ItemType != FilesystemItemType.Directory || SidebarPinnedModel.PinnedFolders.Contains(item.Path))
+									continue;
+
+								if (section.ChildItems.Any(x => string.Equals(x.Path, item.Path, StringComparison.OrdinalIgnoreCase)))
+									continue;
+
+								var targetIndex = section.ChildItems.IndexOf(locationItem);
+								if (targetIndex < 0)
+									continue;
+
+								if (args.dropPosition == SidebarItemDropPosition.Bottom)
+									targetIndex++;
+
+								var newLocationItem = await SidebarPinnedModel.CreateLocationItemFromPathAsync(item.Path);
+								lock (SidebarPinnedModel._PinnedFolderItems)
 								{
-									if (item.ItemType != FilesystemItemType.Directory || SidebarPinnedModel.PinnedFolders.Contains(item.Path))
-										continue;
-
-									if (section.ChildItems.Any(x => string.Equals(x.Path, item.Path, StringComparison.OrdinalIgnoreCase)))
-										continue;
-
-									var targetIndex = section.ChildItems.IndexOf(locationItem);
-									if (targetIndex < 0)
-										continue;
-
-									if (args.dropPosition == SidebarItemDropPosition.Bottom)
-										targetIndex++;
-
-									var newLocationItem = await SidebarPinnedModel.CreateLocationItemFromPathAsync(item.Path);
-									lock (SidebarPinnedModel._PinnedFolderItems)
-									{
-										SidebarPinnedModel._PinnedFolderItems.Add(newLocationItem);
-									}
-									section.ChildItems.Insert(targetIndex, newLocationItem);
+									SidebarPinnedModel._PinnedFolderItems.Add(newLocationItem);
 								}
-
-								await PersistPinnedOrderAsync(section, isSyncSuspended: true);
+								section.ChildItems.Insert(targetIndex, newLocationItem);
 							}
-						}
-						finally
-						{
-							reorderSemaphore.Release();
+
+							await PersistPinnedOrderAsync(section, isSyncSuspended: true);
 						}
 					}
 					return;

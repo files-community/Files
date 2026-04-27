@@ -54,36 +54,31 @@ namespace Files.App.Controls
 		internal void RaiseItemDropped(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
 		{
 			if (sideBarItem.Item is null) return;
-			DataPackageView dataView;
+
 			try
 			{
-				dataView = rawEvent.DataView;
+				ItemDropped?.Invoke(this, new(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
 			}
 			catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
 			{
 				DragDropExceptionHelper.LogStaleDrag(ex, "Stale OLE drag payload reading DataView in RaiseItemDropped.");
 				return;
 			}
-			ItemDropped?.Invoke(this, new(sideBarItem.Item, dataView, dropPosition, rawEvent));
 		}
 
-		internal async Task RaiseItemDragOverAsync(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
+		internal void RaiseItemDragOver(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
 		{
 			if (sideBarItem.Item is null) return;
-			DataPackageView dataView;
+
 			try
 			{
-				dataView = rawEvent.DataView;
+				var args = new ItemDragOverEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent);
+				ItemDragOver?.Invoke(this, args);
 			}
 			catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
 			{
-				DragDropExceptionHelper.LogStaleDrag(ex, "Stale OLE drag payload reading DataView in RaiseItemDragOverAsync.");
-				return;
+				DragDropExceptionHelper.LogStaleDrag(ex, "Stale OLE drag payload reading DataView in RaiseItemDragOver.");
 			}
-			var args = new ItemDragOverEventArgs(sideBarItem.Item, dataView, dropPosition, rawEvent);
-			ItemDragOver?.Invoke(this, args);
-			if (args.CompletionTask is not null)
-				await args.CompletionTask;
 		}
 
 		private void UpdateMinimalMode()
