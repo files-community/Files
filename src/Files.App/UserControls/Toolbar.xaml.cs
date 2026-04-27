@@ -45,7 +45,7 @@ namespace Files.App.UserControls
 		private void Toolbar_Loaded(object sender, RoutedEventArgs e)
 		{
 			foreach (var cmd in Commands) cmd.PropertyChanged += Command_PropertyChanged;
-			PopulateToolbarItems();
+			RequestToolbarRefresh(true);
 			UserSettingsService.AppearanceSettingsService.PropertyChanged += AppearanceSettings_PropertyChanged;
 		}
 
@@ -62,7 +62,7 @@ namespace Files.App.UserControls
 			if (newValue?.InstanceViewModel is not null)
 			{
 				newValue.InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
-				PopulateToolbarItems();
+				RequestToolbarRefresh(true);
 			}
 		}
 
@@ -80,20 +80,20 @@ namespace Files.App.UserControls
 			// so we don't need to check if the context visibility actually changed here.
 			// Checking IsContextActive() loops through all commands and is expensive during
 			// file selection when many commands' executability changes rapidly.
-			RequestToolbarRefresh();
+			RequestToolbarRefresh(false);
 		}
 
 		private void InstanceViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(CurrentInstanceViewModel.IsPageTypeNotHome)
 				or nameof(CurrentInstanceViewModel.IsPageTypeRecycleBin))
-				RequestToolbarRefresh();
+				RequestToolbarRefresh(false);
 		}
 
 		private void AppearanceSettings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName is nameof(IAppearanceSettingsService.CustomToolbarItems))
-				RequestToolbarRefresh();
+				RequestToolbarRefresh(true);
 		}
 
 		private async void EditTagsMenu_TagsChanged(object? sender, EventArgs e)
@@ -102,13 +102,13 @@ namespace Files.App.UserControls
 				await PageContext.ShellPage.ShellViewModel.RefreshTagGroups();
 		}
 
-		private void RequestToolbarRefresh()
+		private void RequestToolbarRefresh(bool ignoreDebounce)
 		{
-			toolbarRefreshTimer.Debounce(PopulateToolbarItems, TimeSpan.FromMilliseconds(100));
+			toolbarRefreshTimer.Debounce(PopulateToolbarItems, TimeSpan.FromMilliseconds(100), ignoreDebounce);
 		}
 
 		private void ContextCommandBar_Loaded(object sender, RoutedEventArgs e)
-			=> PopulateToolbarItems();
+			=> RequestToolbarRefresh(true);
 
 		private void PopulateToolbarItems()
 		{
@@ -367,7 +367,6 @@ namespace Files.App.UserControls
 			{
 				list.RemoveAt(index);
 				UserSettingsService.AppearanceSettingsService.CustomToolbarItems = items;
-				PopulateToolbarItems();
 			}
 		}
 
