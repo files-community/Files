@@ -88,6 +88,14 @@ namespace Files.App.Views
 			base.OnNavigatedTo(e);
 		}
 
+		public void ApplySearchQuery(string? query)
+		{
+			if (string.IsNullOrWhiteSpace(query))
+				ViewModel.ClearSearch();
+			else
+				ViewModel.UpdateSearchResults(query);
+		}
+
 		public void NavigateTo(SettingsNavigationParams navParams)
 		{
 			var item = ViewModel.NavigationItems.FirstOrDefault(x => x.PageKind == navParams.PageKind);
@@ -104,7 +112,7 @@ namespace Files.App.Views
 			if (sender is not SidebarItem { Item: SettingsNavigationItem navItem })
 				return;
 
-			ResetSearch();
+			ViewModel.ClearSearch();
 
 			if (ViewModel.SelectedPage == navItem.PageKind)
 				return;
@@ -153,35 +161,15 @@ namespace Files.App.Views
 				true);
 		}
 
-		private void SettingsSearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-		{
-			if (args.Reason != AutoSuggestionBoxTextChangeReason.UserInput)
-				return;
-
-			ViewModel.UpdateSearchResults(sender.Text);
-		}
-
-		private async void SettingsSearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
-		{
-			if (ViewModel.SearchResults.FirstOrDefault() is { } result)
-				await JumpToSearchResultAsync(result);
-		}
-
 		private async void SearchResultCard_Click(object sender, RoutedEventArgs e)
 		{
 			if (sender is SettingsCard { DataContext: SettingsSearchResult result })
 				await JumpToSearchResultAsync(result);
 		}
 
-		private void ResetSearch()
+		public async Task JumpToSearchResultAsync(SettingsSearchResult result)
 		{
-			SettingsSearchBox.Text = string.Empty;
 			ViewModel.ClearSearch();
-		}
-
-		private async Task JumpToSearchResultAsync(SettingsSearchResult result)
-		{
-			ResetSearch();
 
 			if (ViewModel.SelectedPage != result.PageKind)
 				NavigateTo(new SettingsNavigationParams() { PageKind = result.PageKind });

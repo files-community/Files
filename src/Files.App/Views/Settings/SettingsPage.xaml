@@ -62,14 +62,6 @@
 						x:Name="PageHeaderTextBlock"
 						Style="{StaticResource App.Theme.SubtitleTextBlockStyle}"
 						Text="{helpers:ResourceString Name=Settings}" />
-					<AutoSuggestBox
-						x:Name="SettingsSearchBox"
-						HorizontalAlignment="Stretch"
-						AutomationProperties.Name="{helpers:ResourceString Name=SearchSettings}"
-						PlaceholderText="{helpers:ResourceString Name=SearchSettings}"
-						QueryIcon="Find"
-						QuerySubmitted="SettingsSearchBox_QuerySubmitted"
-						TextChanged="SettingsSearchBox_TextChanged" />
 				</StackPanel>
 			</controls:SidebarView.Header>
 
@@ -124,7 +116,6 @@
 					<VisualState.Setters>
 						<Setter Target="SettingsSidebar.DisplayMode" Value="Compact" />
 						<Setter Target="PageHeaderTextBlock.Visibility" Value="Collapsed" />
-						<Setter Target="SettingsSearchBox.Visibility" Value="Collapsed" />
 					</VisualState.Setters>
 				</VisualState>
 			</VisualStateGroup>

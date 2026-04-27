@@ -230,6 +230,26 @@ namespace Files.App.UserControls
 			{
 				var shellPage = ContentPageContext.ShellPage;
 
+				// Settings search: jump to the matching card, or apply the query in-page.
+				if (ViewModel.InstanceViewModel?.IsPageTypeSettings == true)
+				{
+					var settingsPage = (MainWindow.Instance.Content as FrameworkElement)?.FindDescendant<Files.App.Views.SettingsPage>();
+
+					if (args.Item is SuggestionModel { SettingsResult: { } settingsResult } && settingsPage is not null)
+					{
+						await settingsPage.JumpToSearchResultAsync(settingsResult);
+					}
+					else
+					{
+						settingsPage?.ApplySearchQuery(args.Text);
+					}
+
+					ViewModel.OmnibarSearchModeText = string.Empty;
+					Omnibar.IsFocused = false;
+					shellPage?.PaneHolder.FocusActivePane();
+					return;
+				}
+
 				if (args.Item is SuggestionModel item && !string.IsNullOrWhiteSpace(item.ItemPath) && shellPage is not null)
 					await NavigationHelpers.OpenPath(item.ItemPath, shellPage);
 				else

@@ -190,7 +190,7 @@
     <value>Search</value>
   </data>
   <data name="SearchSettings" xml:space="preserve">
-    <value>Search settings</value>
+    <value>Search settings...</value>
   </data>
   <data name="NoSearchResults" xml:space="preserve">
     <value>No settings match your search.</value>

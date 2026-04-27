@@ -345,7 +345,7 @@
 				IsAutoFocusEnabled="True"
 				ItemsSource="{x:Bind ViewModel.OmnibarSearchModeSuggestionItems, Mode=OneWay}"
 				ModeName="{x:Bind Commands.Search.LabelWithHotKey, Mode=OneWay}"
-				PlaceholderText="{helpers:ResourceString Name=OmnibarSearchModeTextPlaceholder}"
+				PlaceholderText="{x:Bind ViewModel.OmnibarSearchModePlaceholder, Mode=OneWay}"
 				Text="{x:Bind ViewModel.OmnibarSearchModeText, Mode=TwoWay}"
 				UpdateTextOnSelect="False">
 				<controls:OmnibarMode.ItemTemplate>
@@ -373,10 +373,14 @@
 									FontSize="14"
 									Glyph="{x:Bind IsRecentSearch, Mode=OneTime, Converter={StaticResource SearchSuggestionGlyphConverter}}" />
 							</Grid>
-							<TextBlock
-								Grid.Column="1"
-								VerticalAlignment="Center"
-								Text="{x:Bind Name}" />
+							<StackPanel Grid.Column="1" VerticalAlignment="Center">
+								<TextBlock Text="{x:Bind Name}" />
+								<TextBlock
+									FontSize="11"
+									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+									Text="{x:Bind Description}"
+									Visibility="{x:Bind DescriptionVisibility}" />
+							</StackPanel>
 						</Grid>
 					</DataTemplate>
 				</controls:OmnibarMode.ItemTemplate>
