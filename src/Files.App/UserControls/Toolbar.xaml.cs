@@ -102,9 +102,9 @@ namespace Files.App.UserControls
 				await PageContext.ShellPage.ShellViewModel.RefreshTagGroups();
 		}
 
-		private void RequestToolbarRefresh(bool immediate)
+		private void RequestToolbarRefresh(bool ignoreDebounce)
 		{
-			toolbarRefreshTimer.Debounce(PopulateToolbarItems, TimeSpan.FromMilliseconds(100), immediate);
+			toolbarRefreshTimer.Debounce(PopulateToolbarItems, TimeSpan.FromMilliseconds(100), ignoreDebounce);
 		}
 
 		private void ContextCommandBar_Loaded(object sender, RoutedEventArgs e)
