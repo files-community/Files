@@ -473,7 +473,7 @@ namespace Files.App.Views.Layouts
 						NavigationHelpers.OpenInSecondaryPane(ParentShellPageInstance, selectedFolders.First());
 					}
 				}
-				else if (!ctrlPressed && !shiftPressed && !UserSettingsService.FoldersSettingsService.OpenFilesWithSingleClick.ShouldOpenWithSingleClick(null))
+				else if (!ctrlPressed && !shiftPressed)
 				{
 					if (SelectedItems?.Any() ?? false)
 					{
