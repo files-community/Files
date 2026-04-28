@@ -9,10 +9,8 @@ using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media.Imaging;
 using System.IO;
 using System.Windows.Input;
-using Windows.AI.Actions;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Text;
 
@@ -59,8 +57,6 @@ namespace Files.App.ViewModels.UserControls
 		public event EventHandler? RefreshWidgetsRequested;
 
 		// Properties
-
-		internal static ActionRuntime? ActionRuntime { get; private set; }
 
 		public ObservableCollection<PathBoxItem> PathComponents { get; } = [];
 
@@ -1016,43 +1012,6 @@ namespace Files.App.ViewModels.UserControls
 			var (suggestionsToProcess, commandsToProcess) = await Task.Run(() =>
 			{
 				var suggestions = new List<NavigationBarSuggestionItem>();
-
-				if (ContentPageContext.SelectedItems.Count == 1 && ContentPageContext.SelectedItem is not null && !ContentPageContext.SelectedItem.IsFolder)
-				{
-					try
-					{
-						var selectedItemPath = ContentPageContext.SelectedItem.ItemPath;
-						var fileActionEntity = ActionManager.Instance.EntityFactory.CreateFileEntity(selectedItemPath);
-						var actions = ActionManager.Instance.ActionRuntime.ActionCatalog.GetActionsForInputs(new[] { fileActionEntity });
-
-						foreach (var action in actions.Where(a => a.Definition.Description.Contains(OmnibarCommandPaletteModeText, StringComparison.OrdinalIgnoreCase)))
-						{
-							var newItem = new NavigationBarSuggestionItem
-							{
-								PrimaryDisplay = action.Definition.Description,
-								SearchText = OmnibarCommandPaletteModeText,
-								ActionInstance = action
-							};
-
-							if (Uri.TryCreate(action.Definition.IconFullPath, UriKind.RelativeOrAbsolute, out Uri? validUri))
-							{
-								try
-								{
-									newItem.ActionIconSource = new BitmapImage(validUri);
-								}
-								catch (Exception)
-								{
-								}
-							}
-
-							suggestions.Add(newItem);
-						}
-					}
-					catch (Exception ex)
-					{
-						App.Logger.LogWarning(ex, ex.Message);
-					}
-				}
 
 				var commandsData = Commands
 					.Where(command => command.IsAccessibleGlobally
