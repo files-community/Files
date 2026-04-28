@@ -34,7 +34,7 @@ namespace Files.App.Actions
 				if (page is null)
 					return false;
 
-				bool isRenaming = page.SlimContentPage.IsRenamingItem;
+				bool isRenaming = page.SlimContentPage?.IsRenamingItem ?? false;
 
 				return !isRenaming;
 			}

@@ -1,11 +1,8 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using Files.App.Controls;
-using Files.App.Data.Enums;
 using Microsoft.UI.Xaml;
-using System.Collections.ObjectModel;
 
 namespace Files.App.ViewModels.Settings
 {
@@ -13,8 +10,26 @@ namespace Files.App.ViewModels.Settings
 	{
 		public ObservableCollection<SettingsNavigationItem> NavigationItems { get; } = [];
 
+		public ObservableCollection<SettingsSearchResult> SearchResults { get; } = [];
+
+		private List<SettingsSearchResult>? _searchIndex;
+
 		[ObservableProperty]
 		private SettingsPageKind _selectedPage = SettingsPageKind.GeneralPage;
+
+		[ObservableProperty]
+		[NotifyPropertyChangedFor(nameof(IsSearchActive))]
+		[NotifyPropertyChangedFor(nameof(HasNoSearchResults))]
+		[NotifyPropertyChangedFor(nameof(SearchHeading))]
+		private string _searchQuery = string.Empty;
+
+		public bool IsSearchActive => !string.IsNullOrWhiteSpace(SearchQuery);
+
+		public bool HasNoSearchResults => IsSearchActive && SearchResults.Count == 0;
+
+		public string SearchHeading => IsSearchActive
+			? string.Format(Strings.SearchResultsFor.GetLocalizedResource(), SearchQuery)
+			: string.Empty;
 
 		public SettingsPageViewModel()
 		{
@@ -41,6 +56,33 @@ namespace Files.App.ViewModels.Settings
 				item.IconElement.IsFilled = isSelected;
 				item.IconElement.IconType = ThemedIconTypes.Outline;
 			}
+		}
+
+		public void UpdateSearchResults(string? query)
+		{
+			if (string.IsNullOrWhiteSpace(query))
+			{
+				ClearSearch();
+				return;
+			}
+
+			_searchIndex ??= SettingsSearchIndexer.BuildIndex();
+			var terms = query.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+			SearchResults.Clear();
+			foreach (var entry in _searchIndex)
+			{
+				if (terms.All(term => entry.Haystack.Contains(term, StringComparison.CurrentCultureIgnoreCase)))
+					SearchResults.Add(entry);
+			}
+
+			SearchQuery = query;
+		}
+
+		public void ClearSearch()
+		{
+			SearchResults.Clear();
+			SearchQuery = string.Empty;
 		}
 
 		private static SettingsNavigationItem CreateNavigationItem(SettingsPageKind pageKind, string automationId, string text, string iconStyleKey)

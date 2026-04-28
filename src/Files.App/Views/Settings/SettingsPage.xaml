@@ -8,11 +8,22 @@
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:uc="using:Files.App.UserControls"
+	xmlns:vm="using:Files.App.ViewModels.Settings"
+	xmlns:wctcontrols="using:CommunityToolkit.WinUI.Controls"
+	xmlns:wctconverters="using:CommunityToolkit.WinUI.Converters"
 	x:Name="RootPage"
 	Background="Transparent"
 	Loaded="SettingsPage_Loaded"
 	SizeChanged="SettingsPage_SizeChanged"
 	mc:Ignorable="d">
+
+	<Page.Resources>
+		<wctconverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+		<wctconverters:BoolToVisibilityConverter
+			x:Key="NegationBoolToVisibilityConverter"
+			FalseValue="Visible"
+			TrueValue="Collapsed" />
+	</Page.Resources>
 
 	<Grid RightTapped="Grid_RightTapped">
 		<FlyoutBase.AttachedFlyout>
@@ -54,8 +65,38 @@
 			</controls:SidebarView.Header>
 
 			<controls:SidebarView.InnerContent>
-				<ScrollViewer x:Name="SettingsContentScrollViewer" Padding="24,0,0,0">
-					<Frame x:Name="SettingsContentFrame" Padding="0,12,24,24" />
+				<ScrollViewer x:Name="SettingsContentScrollViewer" Padding="24,12,24,24">
+					<Grid>
+						<Frame x:Name="SettingsContentFrame" Visibility="{x:Bind ViewModel.IsSearchActive, Mode=OneWay, Converter={StaticResource NegationBoolToVisibilityConverter}}" />
+
+						<StackPanel Spacing="4" Visibility="{x:Bind ViewModel.IsSearchActive, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+							<TextBlock
+								Padding="0,0,0,12"
+								Style="{StaticResource App.Theme.SubtitleTextBlockStyle}"
+								Text="{x:Bind ViewModel.SearchHeading, Mode=OneWay}"
+								TextTrimming="CharacterEllipsis" />
+
+							<TextBlock
+								Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+								Text="{helpers:ResourceString Name=NoSearchResults}"
+								Visibility="{x:Bind ViewModel.HasNoSearchResults, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+							<ItemsRepeater ItemsSource="{x:Bind ViewModel.SearchResults, Mode=OneWay}">
+								<ItemsRepeater.Layout>
+									<StackLayout Spacing="4" />
+								</ItemsRepeater.Layout>
+								<ItemsRepeater.ItemTemplate>
+									<DataTemplate x:DataType="vm:SettingsSearchResult">
+										<wctcontrols:SettingsCard
+											Click="SearchResultCard_Click"
+											Description="{x:Bind DisplayPath}"
+											Header="{x:Bind HeaderText}"
+											IsClickEnabled="True" />
+									</DataTemplate>
+								</ItemsRepeater.ItemTemplate>
+							</ItemsRepeater>
+						</StackPanel>
+					</Grid>
 				</ScrollViewer>
 			</controls:SidebarView.InnerContent>
 

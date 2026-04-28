@@ -331,7 +331,8 @@
 								x:Name="SettingAnimatedIcon"
 								Width="16"
 								Height="16"
-								AnimatedIcon.State="Normal">
+								AnimatedIcon.State="Normal"
+								Foreground="{ThemeResource TextFillColorSecondaryBrush}">
 								<AnimatedIcon.Source>
 									<animatedvisuals:AnimatedSettingsVisualSource />
 								</AnimatedIcon.Source>

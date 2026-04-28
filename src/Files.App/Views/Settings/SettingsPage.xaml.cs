@@ -1,6 +1,7 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using CommunityToolkit.WinUI.Controls;
 using Files.App.Controls;
 using Files.App.ViewModels.Settings;
 using Files.App.Views.Settings;
@@ -87,6 +88,14 @@ namespace Files.App.Views
 			base.OnNavigatedTo(e);
 		}
 
+		public void ApplySearchQuery(string? query)
+		{
+			if (string.IsNullOrWhiteSpace(query))
+				ViewModel.ClearSearch();
+			else
+				ViewModel.UpdateSearchResults(query);
+		}
+
 		public void NavigateTo(SettingsNavigationParams navParams)
 		{
 			var item = ViewModel.NavigationItems.FirstOrDefault(x => x.PageKind == navParams.PageKind);
@@ -102,6 +111,8 @@ namespace Files.App.Views
 		{
 			if (sender is not SidebarItem { Item: SettingsNavigationItem navItem })
 				return;
+
+			ViewModel.ClearSearch();
 
 			if (ViewModel.SelectedPage == navItem.PageKind)
 				return;
@@ -150,5 +161,64 @@ namespace Files.App.Views
 				true);
 		}
 
+		private async void SearchResultCard_Click(object sender, RoutedEventArgs e)
+		{
+			if (sender is SettingsCard { DataContext: SettingsSearchResult result })
+				await JumpToSearchResultAsync(result);
+		}
+
+		public async Task JumpToSearchResultAsync(SettingsSearchResult result)
+		{
+			ViewModel.ClearSearch();
+
+			if (ViewModel.SelectedPage != result.PageKind)
+				NavigateTo(new SettingsNavigationParams() { PageKind = result.PageKind });
+
+			if (SettingsContentFrame.Content is not FrameworkElement page)
+				return;
+
+			if (!page.IsLoaded)
+			{
+				var tcs = new TaskCompletionSource();
+				void OnLoaded(object s, RoutedEventArgs e)
+				{
+					page.Loaded -= OnLoaded;
+					tcs.TrySetResult();
+				}
+				page.Loaded += OnLoaded;
+				await tcs.Task;
+			}
+
+			// Expand the parent group so the nested card is realized, then wait for the
+			// expander animation to settle before scrolling so we land in the right place.
+			if (result.ParentHeaderText is not null &&
+				FindExpander(page, result.ParentHeaderText) is { IsExpanded: false } parentExpander)
+			{
+				parentExpander.IsExpanded = true;
+				await Task.Delay(TimeSpan.FromMilliseconds(350));
+			}
+
+			FindTarget(page, result)?.StartBringIntoView(new BringIntoViewOptions
+			{
+				AnimationDesired = true,
+				VerticalAlignmentRatio = 0.2,
+			});
+		}
+
+		private static SettingsExpander? FindExpander(DependencyObject root, string header)
+			=> DependencyObjectHelpers.FindChild<SettingsExpander>(root, e => e.Header as string == header);
+
+		private static FrameworkElement? FindTarget(DependencyObject root, SettingsSearchResult result)
+		{
+			if (result.ParentHeaderText is not null)
+				return FindExpander(root, result.ParentHeaderText)?.Items
+					.OfType<SettingsCard>()
+					.FirstOrDefault(c => c.Header as string == result.HeaderText);
+
+			return DependencyObjectHelpers.FindChild<SettingsCard>(root,
+					c => c.Header as string == result.HeaderText
+						&& DependencyObjectHelpers.FindParent<SettingsExpander>(c) is null)
+				?? (FrameworkElement?)FindExpander(root, result.HeaderText);
+		}
 	}
 }

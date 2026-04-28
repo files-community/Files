@@ -3,6 +3,7 @@
 
 using CommunityToolkit.WinUI;
 using Files.App.Controls;
+using Files.App.ViewModels.Settings;
 using Files.Shared.Helpers;
 using Microsoft.Extensions.Logging;
 using Microsoft.UI.Dispatching;
@@ -197,6 +198,12 @@ namespace Files.App.ViewModels.UserControls
 		private string? _OmnibarSearchModeText;
 		public string? OmnibarSearchModeText { get => _OmnibarSearchModeText; set => SetProperty(ref _OmnibarSearchModeText, value); }
 
+		public string OmnibarSearchModePlaceholder => InstanceViewModel?.IsPageTypeSettings == true
+			? Strings.SearchSettings.GetLocalizedResource()
+			: Strings.OmnibarSearchModeTextPlaceholder.GetLocalizedResource();
+
+		private List<SettingsSearchResult>? _settingsSearchIndex;
+
 		private string _OmnibarCurrentSelectedModeName = OmnibarPathModeName;
 		public string OmnibarCurrentSelectedModeName { get => _OmnibarCurrentSelectedModeName; set => SetProperty(ref _OmnibarCurrentSelectedModeName, value); }
 
@@ -209,11 +216,28 @@ namespace Files.App.ViewModels.UserControls
 				if (_InstanceViewModel?.FolderSettings is not null)
 					_InstanceViewModel.FolderSettings.PropertyChanged -= FolderSettings_PropertyChanged;
 
+				if (_InstanceViewModel is not null)
+					_InstanceViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
+
 				if (SetProperty(ref _InstanceViewModel, value) && _InstanceViewModel?.FolderSettings is not null)
 				{
 					FolderSettings_PropertyChanged(this, new PropertyChangedEventArgs(nameof(LayoutPreferencesManager.LayoutMode)));
 					_InstanceViewModel.FolderSettings.PropertyChanged += FolderSettings_PropertyChanged;
+					_InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
+					OnPropertyChanged(nameof(OmnibarSearchModePlaceholder));
 				}
+			}
+		}
+
+		private void InstanceViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+		{
+			if (e.PropertyName is nameof(CurrentInstanceViewModel.IsPageTypeSettings))
+			{
+				OnPropertyChanged(nameof(OmnibarSearchModePlaceholder));
+
+				// Suggestion source differs between settings and file search — drop stale items.
+				OmnibarSearchModeSuggestionItems.Clear();
+				OmnibarSearchModeText = string.Empty;
 			}
 		}
 
@@ -1107,6 +1131,12 @@ namespace Files.App.ViewModels.UserControls
 			if (ContentPageContext.ShellPage is null)
 				return;
 
+			if (InstanceViewModel?.IsPageTypeSettings == true)
+			{
+				PopulateOmnibarSuggestionsForSettingsSearch();
+				return;
+			}
+
 			List<SuggestionModel> newSuggestions = [];
 
 			if (string.IsNullOrWhiteSpace(OmnibarSearchModeText))
@@ -1142,6 +1172,26 @@ namespace Files.App.ViewModels.UserControls
 
 			foreach (var item in toAdd)
 				OmnibarSearchModeSuggestionItems.Add(item);
+		}
+
+		private void PopulateOmnibarSuggestionsForSettingsSearch()
+		{
+			OmnibarSearchModeSuggestionItems.Clear();
+
+			if (string.IsNullOrWhiteSpace(OmnibarSearchModeText))
+				return;
+
+			_settingsSearchIndex ??= SettingsSearchIndexer.BuildIndex();
+			var terms = OmnibarSearchModeText.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+			foreach (var entry in _settingsSearchIndex)
+			{
+				if (terms.All(term => entry.Haystack.Contains(term, StringComparison.CurrentCultureIgnoreCase)))
+					OmnibarSearchModeSuggestionItems.Add(new SuggestionModel(entry));
+
+				if (OmnibarSearchModeSuggestionItems.Count >= MaxSuggestionsCount)
+					break;
+			}
 		}
 
 		private void FolderSettings_PropertyChanged(object? sender, PropertyChangedEventArgs e)
