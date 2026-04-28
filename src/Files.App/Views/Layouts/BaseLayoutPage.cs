@@ -73,6 +73,7 @@ namespace Files.App.Views.Layouts
 		private ListedItem? dragOverItem = null;
 		private ListedItem? hoveredItem = null;
 		private ListedItem? preRenamingItem = null;
+		private DateTime preRenamingItemTime;
 
 		// Properties
 
@@ -274,6 +275,7 @@ namespace Files.App.Views.Layouts
 								// Tapped event must be executed first
 								await Task.Delay(50);
 								preRenamingItem = SelectedItem;
+								preRenamingItemTime = DateTime.UtcNow;
 							});
 						}
 						else
@@ -1547,7 +1549,7 @@ namespace Files.App.Views.Layouts
 		{
 			if (clickedItem is ListedItem item)
 			{
-				var doubleClickTimeDelay = PInvoke.GetDoubleClickTime() + Constants.UI.RenameDelayBufferMs;
+				var doubleClickTimeDelay = Math.Max(0, PInvoke.GetDoubleClickTime() + Constants.UI.RenameDelayBufferMs - (DateTime.UtcNow - preRenamingItemTime).TotalMilliseconds);
 
 				if (item == preRenamingItem)
 				{
@@ -1565,6 +1567,7 @@ namespace Files.App.Views.Layouts
 				{
 					tapDebounceTimer.Stop();
 					preRenamingItem = item;
+					preRenamingItemTime = DateTime.UtcNow;
 				}
 			}
 			else
