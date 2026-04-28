@@ -374,11 +374,11 @@
 									Glyph="{x:Bind IsRecentSearch, Mode=OneTime, Converter={StaticResource SearchSuggestionGlyphConverter}}" />
 							</Grid>
 							<StackPanel Grid.Column="1" VerticalAlignment="Center">
-								<TextBlock Text="{x:Bind Name}" />
+								<TextBlock Text="{x:Bind Name, Mode=OneWay}" />
 								<TextBlock
-									FontSize="11"
+									FontSize="12"
 									Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-									Text="{x:Bind Description}"
+									Text="{x:Bind Description, Mode=OneWay}"
 									Visibility="{x:Bind DescriptionVisibility}" />
 							</StackPanel>
 						</Grid>
