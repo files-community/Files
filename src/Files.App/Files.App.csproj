@@ -111,6 +111,12 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Update="Microsoft.WindowsAppSDK.AI" ExcludeAssets="all" />
+        <PackageReference Update="Microsoft.WindowsAppSDK.ML" ExcludeAssets="all" />
+        <PackageReference Update="Microsoft.WindowsAppSDK.Widgets" ExcludeAssets="all" />
+    </ItemGroup>
+
+    <ItemGroup>
         <CsWinRTInputs Include="Assets\Libraries\Microsoft.UI.winmd" />
         <CsWinRTInputs Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\Files.App.Server.winmd" />
         <None Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\win-$(Platform)\Files.App.Server.winmd">
