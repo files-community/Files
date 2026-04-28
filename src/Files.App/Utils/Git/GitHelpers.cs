@@ -19,6 +19,9 @@ namespace Files.App.Utils.Git
 		/// <inheritdoc cref="IVersionControl.GetGitRepositoryPath(string?,string)"/>
 		public static string? GetGitRepositoryPath(string? path, string root) => _implementation.GetGitRepositoryPath(path, root);
 
+		/// <inheritdoc cref="IVersionControl.GetOriginRepositoryName(string?)"/>
+		public static string GetOriginRepositoryName(string? path) => _implementation.GetOriginRepositoryName(path);
+
 		#region Legacy implementation
 
 		private static readonly StatusCenterViewModel StatusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
@@ -67,21 +70,6 @@ namespace Files.App.Utils.Git
 		public static event PropertyChangedEventHandler? IsExecutingGitActionChanged;
 
 		public static event EventHandler? GitFetchCompleted;
-
-		public static string GetOriginRepositoryName(string? path)
-		{
-			if (string.IsNullOrWhiteSpace(path) || !IsRepoValid(path))
-				return string.Empty;
-
-			using var repository = new Repository(path);
-			var repositoryUrl = repository.Network.Remotes.FirstOrDefault()?.Url;
-
-			if (string.IsNullOrEmpty(repositoryUrl))
-				return string.Empty;
-
-			var repositoryName = repositoryUrl.Split('/').Last();
-			return repositoryName[..repositoryName.LastIndexOf(".git")];
-		}
 
 		public static async Task<BranchItem[]> GetBranchesNames(string? path)
 		{

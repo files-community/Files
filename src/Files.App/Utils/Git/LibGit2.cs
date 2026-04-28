@@ -47,6 +47,21 @@ internal sealed partial class LibGit2 // : IVersionControl
 		}
 	}
 
+	public string GetOriginRepositoryName(string? path)
+	{
+		if (string.IsNullOrWhiteSpace(path) || !IsRepoValid(path))
+			return string.Empty;
+
+		using var repository = new Repository(path);
+		var repositoryUrl = repository.Network.Remotes.FirstOrDefault()?.Url;
+
+		if (string.IsNullOrEmpty(repositoryUrl))
+			return string.Empty;
+
+		var repositoryName = repositoryUrl.Split('/').Last();
+		return repositoryName[..repositoryName.LastIndexOf(".git")];
+	}
+
 	private static bool IsRepoValid(string path)
 	{
 		return SafetyExtensions.IgnoreExceptions(() => Repository.IsValid(path));
