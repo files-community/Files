@@ -9,7 +9,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
-using Windows.AI.Actions.Hosting;
 using Windows.System;
 using Windows.UI.Core;
 
@@ -197,23 +196,6 @@ namespace Files.App.UserControls
 						continue;
 
 					await command.ExecuteAsync();
-					ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
-					return;
-				}
-
-				// Try invoking Windows app action
-				if (ActionManager.Instance.ActionRuntime is not null && item?.ActionInstance is ActionInstance actionInstance)
-				{
-					// Workaround for https://github.com/microsoft/App-Actions-On-Windows-Samples/issues/7
-					var action = ActionManager.Instance.ActionRuntime.ActionCatalog.GetAllActions()
-						.FirstOrDefault(a => a.Id == actionInstance.Context.ActionId);
-
-					if (action is not null)
-					{
-						var overload = action.GetOverloads().FirstOrDefault();
-						await overload?.InvokeAsync(actionInstance.Context);
-					}
-
 					ContentPageContext.ShellPage!.PaneHolder.FocusActivePane();
 					return;
 				}

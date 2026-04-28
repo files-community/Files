@@ -4,7 +4,6 @@
 using Files.App.Controls;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
-using Windows.AI.Actions.Hosting;
 
 namespace Files.App.Data.Items
 {
@@ -50,14 +49,6 @@ namespace Files.App.Data.Items
 		{
 			get => _PrimaryDisplayPreMatched;
 			private set => SetProperty(ref _PrimaryDisplayPreMatched, value);
-		}
-
-
-		private ActionInstance? _ActionInstance;
-		public ActionInstance? ActionInstance
-		{
-			get => _ActionInstance;
-			set => SetProperty(ref _ActionInstance, value);
 		}
 
 		private string? _PrimaryDisplayMatched;

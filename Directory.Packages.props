@@ -29,7 +29,7 @@
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.2" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="10.0.2" />
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1721" />
-    <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.0" />
+    <PackageVersion Include="Microsoft.Xaml.Behaviors.WinUI.Managed" Version="3.0.1" />
     <PackageVersion Include="OwlCore.Storage" Version="0.14.0.999" />
     <PackageVersion Include="Sentry" Version="6.0.0" />
     <PackageVersion Include="SevenZipSharp" Version="1.0.2" />
@@ -40,8 +40,7 @@
     <PackageVersion Include="TagLibSharp" Version="2.3.0" />
     <PackageVersion Include="Tulpep.ActiveDirectoryObjectPicker" Version="3.0.11" />
     <PackageVersion Include="UTF.Unknown" Version="2.6.0" />
-    <!-- Note, updating WinUIEx seems to cause an increase in crashes -->
-    <PackageVersion Include="WinUIEx" Version="2.5.1" />
+    <PackageVersion Include="WinUIEx" Version="2.9.0" />
     <PackageVersion Include="Vanara.Windows.Extensions" Version="4.0.1" />
     <PackageVersion Include="Vanara.Windows.Shell" Version="4.0.1" />
     <PackageVersion Include="Microsoft.Management.Infrastructure" Version="3.0.0" />
