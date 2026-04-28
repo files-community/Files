@@ -188,7 +188,7 @@ namespace Files.App.Views.Layouts
 		private void HighlightPathDirectory(ListViewBase sender, ContainerContentChangingEventArgs args)
 		{
 			if (args.Item is ListedItem item && columnsOwner?.OwnerPath is string ownerPath
-				&& (ownerPath == item.ItemPath || ownerPath.StartsWith(item.ItemPath) && ownerPath[item.ItemPath.Length] is '/' or '\\'))
+				&& (ownerPath == item.ItemPath || (ownerPath.Length > item.ItemPath.Length && ownerPath.StartsWith(item.ItemPath) && ownerPath[item.ItemPath.Length] is '/' or '\\')))
 			{
 				SetFolderBackground(args.ItemContainer as ListViewItem, this.Resources["ListViewItemBackgroundSelected"] as SolidColorBrush);
 
