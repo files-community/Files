@@ -23,6 +23,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
+using Windows.Win32;
 using static Files.App.Helpers.PathNormalization;
 using DispatcherQueueTimer = Microsoft.UI.Dispatching.DispatcherQueueTimer;
 using SortDirection = Files.App.Data.Enums.SortDirection;
@@ -53,7 +54,6 @@ namespace Files.App.Views.Layouts
 		public BaseLayoutViewModel? CommandsViewModel { get; protected set; }
 
 		// Fields
-
 		private readonly DispatcherQueueTimer jumpTimer;
 		private readonly DispatcherQueueTimer dragOverTimer;
 		private readonly DispatcherQueueTimer tapDebounceTimer;
@@ -73,6 +73,7 @@ namespace Files.App.Views.Layouts
 		private ListedItem? dragOverItem = null;
 		private ListedItem? hoveredItem = null;
 		private ListedItem? preRenamingItem = null;
+		private DateTime preRenamingItemTime;
 
 		// Properties
 
@@ -274,6 +275,7 @@ namespace Files.App.Views.Layouts
 								// Tapped event must be executed first
 								await Task.Delay(50);
 								preRenamingItem = SelectedItem;
+								preRenamingItemTime = DateTime.UtcNow;
 							});
 						}
 						else
@@ -1547,6 +1549,8 @@ namespace Files.App.Views.Layouts
 		{
 			if (clickedItem is ListedItem item)
 			{
+				var doubleClickTimeDelay = Math.Max(0, PInvoke.GetDoubleClickTime() + Constants.UI.RenameDelayBufferMs - (DateTime.UtcNow - preRenamingItemTime).TotalMilliseconds);
+
 				if (item == preRenamingItem)
 				{
 					tapDebounceTimer.Debounce(() =>
@@ -1557,12 +1561,13 @@ namespace Files.App.Views.Layouts
 							tapDebounceTimer.Stop();
 						}
 					},
-					TimeSpan.FromMilliseconds(1500));
+					TimeSpan.FromMilliseconds(doubleClickTimeDelay));
 				}
 				else
 				{
 					tapDebounceTimer.Stop();
 					preRenamingItem = item;
+					preRenamingItemTime = DateTime.UtcNow;
 				}
 			}
 			else
