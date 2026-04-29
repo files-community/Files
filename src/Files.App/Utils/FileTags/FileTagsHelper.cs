@@ -40,17 +40,20 @@ namespace Files.App.Utils.FileTags
 				var result = Win32Helper.WriteStringToFile($"{filePath}:files", string.Join(',', tag));
 				if (result == false)
 				{
-					ContentDialog dialog = new()
+					await MainWindow.Instance.DispatcherQueue.EnqueueOrInvokeAsync(async () =>
 					{
-						Title = Strings.ErrorApplyingTagTitle.GetLocalizedResource(),
-						Content = Strings.ErrorApplyingTagContent.GetLocalizedResource(),
-						PrimaryButtonText = "Ok".GetLocalizedResource()
-					};
+						ContentDialog dialog = new()
+						{
+							Title = Strings.ErrorApplyingTagTitle.GetLocalizedResource(),
+							Content = Strings.ErrorApplyingTagContent.GetLocalizedResource(),
+							PrimaryButtonText = "Ok".GetLocalizedResource()
+						};
 
-					if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
-						dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
+						if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+							dialog.XamlRoot = MainWindow.Instance.Content.XamlRoot;
 
-					await dialog.TryShowAsync();
+						await dialog.TryShowAsync();
+					});
 				}
 			}
 			if (isReadOnly) // Restore read-only attribute (#7534)
