@@ -797,8 +797,9 @@ namespace Files.App.Utils.Storage
 			return Task.FromResult(false);
 		}
 
-		public static bool SetLinkIcon(string filePath, string iconFile, int iconIndex)
+		public static bool SetLinkIcon(string filePath, string? iconFile, int iconIndex)
 		{
+			iconFile ??= string.Empty;
 			var ext = Path.GetExtension(filePath).ToLowerInvariant();
 
 			try
@@ -912,7 +913,7 @@ namespace Files.App.Utils.Storage
 				index++;
 			}
 
-			if(insertedIndex > 0)
+			if (insertedIndex > 0 && !string.IsNullOrEmpty(iconFile))
 			{
 				lines.Insert(insertedIndex, $"IconFile={iconFile}");
 				lines.Insert(insertedIndex + 1, $"IconIndex={iconIndex}");
