@@ -22,6 +22,9 @@ namespace Files.App.Utils.Git
 		/// <inheritdoc cref="IVersionControl.GetOriginRepositoryName(string?)"/>
 		public static string GetOriginRepositoryName(string? path) => _implementation.GetOriginRepositoryName(path);
 
+		/// <inheritdoc cref="IVersionControl.GetBranchNames(string?)"/>
+		public static Task<BranchItem[]> GetBranchNames(string? path) => _implementation.GetBranchNames(path);
+
 		#region Legacy implementation
 
 		private static readonly StatusCenterViewModel StatusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
@@ -70,38 +73,6 @@ namespace Files.App.Utils.Git
 		public static event PropertyChangedEventHandler? IsExecutingGitActionChanged;
 
 		public static event EventHandler? GitFetchCompleted;
-
-		public static async Task<BranchItem[]> GetBranchesNames(string? path)
-		{
-			if (string.IsNullOrWhiteSpace(path) || !IsRepoValid(path))
-				return [];
-
-			var (result, returnValue) = await DoGitOperationAsync<(GitOperationResult, BranchItem[])>(() =>
-			{
-				var branches = Array.Empty<BranchItem>();
-				var result = GitOperationResult.Success;
-				try
-				{
-					using var repository = new Repository(path);
-
-					branches = GetValidBranches(repository.Branches)
-						.OrderByDescending(b => b.Tip?.Committer.When)
-						.GroupBy(b => b.IsRemote)
-						.SelectMany(g => g.Take(MAX_NUMBER_OF_BRANCHES))
-						.OrderByDescending(b => b.IsCurrentRepositoryHead)
-						.Select(b => new BranchItem(b.FriendlyName, b.IsCurrentRepositoryHead, b.IsRemote, TryGetTrackingDetails(b)?.AheadBy ?? 0, TryGetTrackingDetails(b)?.BehindBy ?? 0))
-						.ToArray();
-				}
-				catch (Exception)
-				{
-					result = GitOperationResult.GenericError;
-				}
-
-				return (result, branches);
-			});
-
-			return returnValue;
-		}
 
 		public static async Task<BranchItem?> GetRepositoryHead(string? path)
 		{
@@ -821,6 +792,7 @@ namespace Files.App.Utils.Git
 				ex.Message.Contains("authentication replays", StringComparison.OrdinalIgnoreCase);
 		}
 
+		// Method already moved into abstraction
 		private static async Task<T?> DoGitOperationAsync<T>(Func<object> payload, bool useSemaphore = false)
 		{
 			if (useSemaphore)
