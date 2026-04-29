@@ -24,36 +24,51 @@ namespace Files.App.Utils.Git
 
 		#region Legacy implementation
 
+		// Property already moved into abstraction
 		private static readonly StatusCenterViewModel StatusCenterViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
 
+		// Constant already moved into abstraction
 		private const string GIT_RESOURCE_NAME = "Files:https://github.com";
 
+		// Constant already moved into abstraction
 		private const string GIT_RESOURCE_USERNAME = "Personal Access Token";
 
+		// Constant already moved into abstraction
 		private const string CLIENT_ID_SECRET = Constants.AutomatedWorkflowInjectionKeys.GitHubClientId;
 
+		// Constant already moved into abstraction
 		private const int END_OF_ORIGIN_PREFIX = 7;
 
+		// Constant already moved into abstraction
 		private const int MAX_NUMBER_OF_BRANCHES = 30;
 
+		// Property already moved into abstraction
 		private static readonly ILogger _logger = Ioc.Default.GetRequiredService<ILogger<App>>();
 
+		// Property already moved into abstraction
 		private static readonly IDialogService _dialogService = Ioc.Default.GetRequiredService<IDialogService>();
 
+		// Property already moved into abstraction
 		private static readonly FetchOptions _fetchOptions = new()
 		{
 			Prune = true
 		};
 
+		// Property already moved into abstraction
 		private static readonly PullOptions _pullOptions = new();
 
+		// Property already moved into abstraction
 		private static readonly string _clientId = AppLifecycleHelper.AppEnvironment is AppEnvironment.Dev
 				? string.Empty
 				: CLIENT_ID_SECRET;
 
+		// Property already moved into abstraction
 		private static readonly SemaphoreSlim GitOperationSemaphore = new SemaphoreSlim(1, 1);
 
+		// Field already moved into abstraction
 		private static bool _IsExecutingGitAction;
+
+		// Field already moved into abstraction
 		public static bool IsExecutingGitAction
 		{
 			get => _IsExecutingGitAction;
@@ -67,8 +82,10 @@ namespace Files.App.Utils.Git
 			}
 		}
 
+		// Event handler already moved into abstraction
 		public static event PropertyChangedEventHandler? IsExecutingGitActionChanged;
 
+		// Event handler already moved into abstraction
 		public static event EventHandler? GitFetchCompleted;
 
 		public static async Task<BranchItem[]> GetBranchesNames(string? path)
@@ -733,6 +750,7 @@ namespace Files.App.Utils.Git
 			return SafetyExtensions.IgnoreExceptions(() => Repository.IsValid(path));
 		}
 
+		// Method already moved into abstraction
 		private static IEnumerable<Branch> GetValidBranches(BranchCollection branches)
 		{
 			foreach (var branch in branches)
@@ -750,6 +768,7 @@ namespace Files.App.Utils.Git
 			}
 		}
 
+		// Method already moved into abstraction
 		private static BranchTrackingDetails? TryGetTrackingDetails(Branch branch)
 		{
 			try
@@ -762,6 +781,7 @@ namespace Files.App.Utils.Git
 			}
 		}
 
+		// Method already moved into abstraction
 		private static Commit? GetLastCommitForFile(Repository repository, string currentPath)
 		{
 			foreach (var currentCommit in repository.Commits)
@@ -796,6 +816,7 @@ namespace Files.App.Utils.Git
 			return null;
 		}
 
+		// Method already moved into abstraction
 		private static void CheckoutRemoteBranch(Repository repository, Branch branch)
 		{
 			var uniqueName = branch.FriendlyName.Substring(END_OF_ORIGIN_PREFIX);
@@ -814,6 +835,7 @@ namespace Files.App.Utils.Git
 			LibGit2Sharp.Commands.Checkout(repository, newBranch);
 		}
 
+		// Method already moved into abstraction
 		private static bool IsAuthorizationException(Exception ex)
 		{
 			return
@@ -821,6 +843,7 @@ namespace Files.App.Utils.Git
 				ex.Message.Contains("authentication replays", StringComparison.OrdinalIgnoreCase);
 		}
 
+		// Method already moved into abstraction
 		private static async Task<T?> DoGitOperationAsync<T>(Func<object> payload, bool useSemaphore = false)
 		{
 			if (useSemaphore)
@@ -925,6 +948,7 @@ namespace Files.App.Utils.Git
 				ReturnResult.Failed);
 		}
 
+		// Method already moved into abstraction
 		[GeneratedRegex(@"^(?:https?:\/\/)?(?:www\.)?(?<domain>github|gitlab)\.com\/(?<user>[^\/]+)\/(?<repo>[^\/]+?)(?=\.git|\/|$)(?:\.git)?(?:\/)?", RegexOptions.IgnoreCase)]
 		private static partial Regex GitHubRepositoryRegex();
 
