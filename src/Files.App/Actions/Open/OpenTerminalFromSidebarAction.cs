@@ -15,7 +15,6 @@ namespace Files.App.Actions
 			=> Strings.OpenTerminalDescription.GetLocalizedResource();
 
 		public override bool IsExecutable =>
-			IsWindowsTerminalAvailable &&
 			SidebarContext.IsItemRightClicked &&
 			SidebarContext.RightClickedItem is not null &&
 			SidebarContext.RightClickedItem.MenuOptions.ShowShellItems &&

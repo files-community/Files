@@ -15,9 +15,9 @@ namespace Files.App.Actions
 		public override HotKey HotKey
 			=> new(Keys.Oem3, KeyModifiers.CtrlShift);
 
-		protected override ProcessStartInfo? GetProcessStartInfo()
+		protected override ProcessStartInfo? GetProcessStartInfo(string[] paths)
 		{
-			var startInfo = base.GetProcessStartInfo();
+			var startInfo = base.GetProcessStartInfo(paths);
 			if (startInfo is not null)
 			{
 				startInfo.Verb = "runas";
