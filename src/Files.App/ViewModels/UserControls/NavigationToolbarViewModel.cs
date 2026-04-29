@@ -13,7 +13,6 @@ using Microsoft.UI.Xaml.Input;
 using System.IO;
 using System.Windows.Input;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.UI.Text;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -654,7 +653,6 @@ namespace Files.App.ViewModels.UserControls
 
 		public async Task SetPathBoxDropDownFlyoutAsync(MenuFlyout flyout, PathBoxItem pathItem)
 		{
-			var nextPathItemTitle = PathComponents[PathComponents.IndexOf(pathItem) + 1].Title;
 			var childFolders = GetSubfolders(pathItem.Path);
 
 			// Fall back to StorageFolder API for non-filesystem paths (e.g. FTP)
@@ -683,9 +681,6 @@ namespace Files.App.ViewModels.UserControls
 
 				return;
 			}
-
-			var boldFontWeight = new FontWeight { Weight = 800 };
-			var normalFontWeight = new FontWeight { Weight = 400 };
 
 			var workingPath =
 				PathComponents[PathComponents.Count - 1].Path?.TrimEnd(Path.DirectorySeparatorChar);
