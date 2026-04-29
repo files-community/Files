@@ -7,7 +7,7 @@ using System.ComponentModel;
 namespace Files.App.Utils.Git
 {
 	/// <summary>
-	/// Defines a version control abstraction
+	/// Defines a version control abstraction.
 	/// </summary>
 	/// <remarks>
 	/// This interface is intended to decouple the app from a specific backend implementation (e.g. a library such as LibGit2Sharp, or a command-line implementation backed by the <c>git.exe</c> executable).
