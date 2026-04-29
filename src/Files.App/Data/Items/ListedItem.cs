@@ -32,6 +32,8 @@ namespace Files.App.Utils
 
 		public byte[]? PreloadedIconData { get; set; }
 
+		public bool NeedsDelayedThumbnailLoad { get; set; }
+
 		private volatile int itemPropertiesInitialized = 0;
 		public bool ItemPropertiesInitialized
 		{

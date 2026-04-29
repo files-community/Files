@@ -35,6 +35,7 @@ namespace Files.App.ViewModels
 		private readonly SemaphoreSlim getFileOrFolderSemaphore;
 		private readonly SemaphoreSlim bulkOperationSemaphore;
 		private readonly SemaphoreSlim loadThumbnailSemaphore;
+		private readonly ConcurrentDictionary<string, CancellationTokenSource> thumbnailRetryDebounce;
 		private readonly ConcurrentQueue<(uint Action, string FileName)> operationQueue;
 		private readonly ConcurrentQueue<uint> gitChangesQueue;
 		private readonly ConcurrentDictionary<string, bool> itemLoadQueue;
@@ -561,6 +562,7 @@ namespace Files.App.ViewModels
 			operationQueue = new ConcurrentQueue<(uint Action, string FileName)>();
 			gitChangesQueue = new ConcurrentQueue<uint>();
 			itemLoadQueue = new ConcurrentDictionary<string, bool>();
+			thumbnailRetryDebounce = new ConcurrentDictionary<string, CancellationTokenSource>();
 			addFilesCTS = new CancellationTokenSource();
 			semaphoreCTS = new CancellationTokenSource();
 			loadPropsCTS = new CancellationTokenSource();
@@ -733,6 +735,12 @@ namespace Files.App.ViewModels
 				addFilesCTS = new CancellationTokenSource();
 			}
 			CancelExtendedPropertiesLoading();
+			foreach (var cts in thumbnailRetryDebounce.Values)
+			{
+				cts.Cancel();
+				cts.Dispose();
+			}
+			thumbnailRetryDebounce.Clear();
 			filesAndFolders.Clear();
 			FilesAndFolders.Clear();
 			CancelSearch();
@@ -1170,7 +1178,11 @@ namespace Files.App.ViewModels
 
 					cancellationToken.ThrowIfCancellationRequested();
 
-					if (result is not null)
+					if (result is null)
+					{
+						item.NeedsDelayedThumbnailLoad = true;
+					}
+					else
 					{
 						await dispatcherQueue.EnqueueOrInvokeAsync(async () =>
 						{
@@ -2650,6 +2662,34 @@ namespace Files.App.ViewModels
 
 		private async Task UpdateFilesOrFoldersAsync(IEnumerable<string> paths, bool hasSyncStatus)
 		{
+			foreach (var path in paths)
+			{
+				var item = filesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(path, StringComparison.OrdinalIgnoreCase));
+				if (item is not null && item.NeedsDelayedThumbnailLoad)
+				{
+					if (thumbnailRetryDebounce.TryGetValue(path, out var existingCts))
+					{
+						existingCts.Cancel();
+						existingCts.Dispose();
+					}
+
+					var debounceCts = new CancellationTokenSource();
+					thumbnailRetryDebounce[path] = debounceCts;
+					var debounceToken = debounceCts.Token;
+
+					_ = Task.Delay(500, debounceToken)
+						.ContinueWith(_ =>
+						{
+							if (thumbnailRetryDebounce.TryRemove(path, out var cts))
+								cts.Dispose();
+
+							item.NeedsDelayedThumbnailLoad = false;
+							return LoadThumbnailAsync(item, debounceToken);
+						}, debounceToken, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default)
+						.Unwrap();
+				}
+			}
+
 			try
 			{
 				await enumFolderSemaphore.WaitAsync(semaphoreCTS.Token);
@@ -2711,6 +2751,12 @@ namespace Files.App.ViewModels
 				if (matchingItem is not null)
 				{
 					filesAndFolders.Remove(matchingItem);
+
+					if (thumbnailRetryDebounce.TryRemove(matchingItem.ItemPath, out var debounceCts))
+					{
+						debounceCts.Cancel();
+						debounceCts.Dispose();
+					}
 
 					if (UserSettingsService.FoldersSettingsService.AreAlternateStreamsVisible)
 					{
