@@ -104,9 +104,6 @@ namespace Files.App
 			public const double ContextMenuItemsMaxWidth = 250;
 
 			public const double MultiplePaneWidthThreshold = 750;
-
-			public const int RenameDelayBufferMs = 150;
-
 		}
 
 		public static class Appearance
