@@ -12,8 +12,7 @@
         <Platforms>x86;x64;arm64</Platforms>
         <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
         <SelfContained>false</SelfContained>
-        <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
-        <PublishProfile>win-$(Platform).pubxml</PublishProfile>
+        <PublishSingleFile>False</PublishSingleFile>
         <PublishDir>bin\$(Platform)\$(Configuration)\$(TargetFramework)\publish\</PublishDir>
 
         <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
@@ -22,6 +21,7 @@
         <!--  WinUI properties  -->
         <UseWinUI>true</UseWinUI>
         <WinUISDKReferences>false</WinUISDKReferences>
+        <WindowsAppSDKSelfContained>false</WindowsAppSDKSelfContained>
         <ApplicationIcon>Assets\AppTiles\Dev\Logo.ico</ApplicationIcon>
         <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
         <DisableXbfLineInfo>false</DisableXbfLineInfo>
@@ -42,7 +42,6 @@
         <AppxDefaultResourceQualifiers>Language=en-US;af;ar;be-BY;bg;ca;cs-CZ;da;de-DE;el;en-GB;es-ES;es-419;fa-IR;fi-FI;fil-PH;fr-FR;he-IL;hi-IN;hr-HR;hu-HU;hy-AM;id-ID;it-IT;ja-JP;ka;km-KH;ko-KR;lt-LT;lv-LV;ms-MY;nb-NO;nl-NL;pl-PL;pt-BR;pt-PT;ro-RO;ru-RU;sk-SK;sq-AL;sr-Cyrl;sv-SE;ta;th-TH;tr-TR;uk-UA;vi;zh-Hans;zh-Hant</AppxDefaultResourceQualifiers>
 
         <!--  Enable R2R until we enable Native AOT  -->
-        <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
         <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
         <PublishReadyToRunComposite Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRunComposite>
 
@@ -54,10 +53,10 @@
         <Content Condition="'$(Platform)' == 'x86'" Include="7z.dll" CopyToOutputDirectory="PreserveNewest" />
         <Content Condition="'$(Platform)' == 'x64'" Include="7z64.dll" CopyToOutputDirectory="PreserveNewest" />
         <Content Condition="'$(Platform)' == 'arm64'" Include="7zArm64.dll" CopyToOutputDirectory="PreserveNewest" />
-        <Content Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\publish\Files.App.Server.winmd" CopyToOutputDirectory="PreserveNewest" Link="Files.App.Server.winmd" Visible="false" />
-        <Content Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\publish\Files.App.Server.exe" CopyToOutputDirectory="PreserveNewest" Link="Files.App.Server.exe" Visible="false" />
+        <!--<Content Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\publish\Files.App.Server.winmd" CopyToOutputDirectory="PreserveNewest" Link="Files.App.Server.winmd" Visible="false" />
+        <Content Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\publish\Files.App.Server.exe" CopyToOutputDirectory="PreserveNewest" Link="Files.App.Server.exe" Visible="false" />-->
         <CsWinRTInputs Include="Assets\Libraries\Microsoft.UI.winmd" />
-        <CsWinRTInputs Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\Files.App.Server.winmd" />
+        <!--<CsWinRTInputs Include="..\Files.App.Server\bin\$(Platform)\$(Configuration)\$(TargetFramework)\Files.App.Server.winmd" />-->
         <AdditionalFiles Include="Strings\en-US\Resources.resw" />
     </ItemGroup>
 
@@ -132,11 +131,9 @@
 
     <!-- Files.App.Server is an out-of-process COM server, not a project reference.
          Build it before we resolve assemblies so its .winmd is available for CsWinRT. -->
-    <Target Name="BuildFilesAppServer" BeforeTargets="CsWinRTRemoveWinMDReferences">
-        <MSBuild Projects="..\Files.App.Server\Files.App.Server.csproj"
-                 Targets="Build"
-                 Properties="Configuration=$(Configuration);Platform=$(Platform)" />
-    </Target>
+    <!--<Target Name="BuildFilesAppServer" BeforeTargets="CsWinRTRemoveWinMDReferences">
+        <MSBuild Projects="..\Files.App.Server\Files.App.Server.csproj" Targets="Build" Properties="Configuration=$(Configuration);Platform=$(Platform)" />
+    </Target>-->
 
     <Import Project="..\Satori.targets" Condition=" '$(Platform)' != 'x86' " />
 </Project>
