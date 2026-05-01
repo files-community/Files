@@ -16,7 +16,6 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.Logging" />
         <PackageReference Include="System.IO.Hashing" />
-        <PackageReference Include="System.Threading.Tasks.Dataflow" />
     </ItemGroup>
 
 </Project>
