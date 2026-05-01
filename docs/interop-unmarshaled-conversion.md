@@ -2,6 +2,8 @@
 
 This repository is moving trim-unsafe manual interop toward source-generated CsWin32 interop. When a user asks to convert marshaled interop code into unmarshaled interop, prefer updating `NativeMethods.txt` and the call sites instead of preserving manual `DllImport` declarations or wrapping them with more local P/Invoke code.
 
+Removing Vanara interop usage is also part of this direction. When a Vanara call is just a thin Win32 API wrapper and CsWin32 can generate the same API, prefer moving that call site to CsWin32 too.
+
 ## Goal
 
 Remove manual interop definitions that rely on runtime marshalling, especially declarations using `DllImport`, `MarshalAs`, `StringBuilder`, `IntPtr`-based COM creation, or hand-written structs that duplicate Win32 metadata.
@@ -20,6 +22,7 @@ The target shape is:
    ```powershell
    git grep -n "DllImport\|MarshalAs\|StringBuilder" -- src
    git grep -n "Win32PInvoke\." -- src/Files.App
+   git grep -n "using Vanara\|Vanara\.PInvoke\|Kernel32\.\|Shell32\.\|User32\." -- src/Files.App
    ```
 
 2. Add the API and related generated types to `src/Files.App.CsWin32/NativeMethods.txt`.
@@ -84,6 +87,36 @@ The target shape is:
 
 - Restart Manager APIs can use generated `RM_PROCESS_INFO` and `Span<char>` session keys instead of local struct definitions.
 - Do not keep a local `LibraryImport` copy when the API can be represented in `NativeMethods.txt`. The requested direction is to update callees to CsWin32-generated interop.
+
+## Vanara Conversion Notes
+
+Treat Vanara removal the same way as manual P/Invoke removal when Vanara is only wrapping a native API. Add the API to `NativeMethods.txt`, inspect the generated CsWin32 signature, then update the call site to generated types.
+
+Example conversion:
+
+```csharp
+// Before
+var lib = Kernel32.LoadLibrary(file);
+StringBuilder result = new(2048);
+_ = User32.LoadString(lib, number, result, result.Capacity);
+Kernel32.FreeLibrary(lib);
+return result.ToString();
+
+// After
+using var lib = PInvoke.LoadLibrary(file);
+Span<char> result = stackalloc char[2048];
+int length = PInvoke.LoadString(lib, (uint)number, result, result.Length);
+return result[..length].ToString();
+```
+
+Useful heuristics:
+
+- Start with simple `Kernel32.*`, `User32.*`, or `Shell32.*` calls that map directly to one Win32 function.
+- Keep high-level Vanara shell abstractions, PIDL helpers, context menus, and shell libraries for later focused conversions; those often require several CsWin32 COM interfaces and lifetime changes.
+- Remove `using Vanara.PInvoke` only when no remaining types in the file depend on it.
+- Prefer generated `Span<T>` overloads over `StringBuilder` buffers when available.
+- Prefer generated handle types and `SafeHandle` overloads where CsWin32 provides them.
+- Watch for CsWin32 convenience overloads. Some APIs generate safer shapes than the underlying Win32 signature; for example, `LoadLibrary` returns a disposable `FreeLibrarySafeHandle`, so the call site can use `using var` instead of a separate `FreeLibrary` call.
 
 ## Verification Checklist
 

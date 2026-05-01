@@ -146,6 +146,9 @@ WindowsDeleteString
 IPreviewHandler
 AssocQueryString
 GetModuleHandle
+LoadLibrary
+FreeLibrary
+LoadString
 SHEmptyRecycleBin
 SHFileOperation
 SHGetFolderPath
