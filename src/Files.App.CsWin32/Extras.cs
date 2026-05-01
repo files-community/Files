@@ -22,11 +22,11 @@ namespace Windows.Win32
 
 	public static partial class PInvoke
 	{
-		[DllImport("User32", EntryPoint = "SetWindowLongW", ExactSpelling = true)]
-		static extern int _SetWindowLong(HWND hWnd, int nIndex, int dwNewLong);
+		[LibraryImport("User32", EntryPoint = "SetWindowLongW")]
+		private static partial int _SetWindowLong(nint hWnd, int nIndex, int dwNewLong);
 
-		[DllImport("User32", EntryPoint = "SetWindowLongPtrW", ExactSpelling = true)]
-		static extern nint _SetWindowLongPtr(HWND hWnd, int nIndex, nint dwNewLong);
+		[LibraryImport("User32", EntryPoint = "SetWindowLongPtrW")]
+		private static partial nint _SetWindowLongPtr(nint hWnd, int nIndex, nint dwNewLong);
 
 		// NOTE:
 		//  CsWin32 doesn't generate SetWindowLong on other than x86 and vice versa.

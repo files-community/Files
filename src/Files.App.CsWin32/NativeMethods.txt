@@ -50,6 +50,7 @@ WNetAddConnection3
 CREDENTIALW
 CredWrite
 WNetConnectionDialog1
+WNetGetConnection
 CONNECTDLGSTRUCTW
 DwmSetWindowAttribute
 WIN32_ERROR
