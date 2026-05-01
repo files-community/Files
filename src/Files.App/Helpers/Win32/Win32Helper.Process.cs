@@ -1,6 +1,10 @@
 // Copyright (c) 2024 Files Community
 // Licensed under the MIT License. See the LICENSE.
 
+using Windows.Win32;
+using Windows.Win32.Foundation;
+using Windows.Win32.System.RestartManager;
+
 namespace Files.App.Helpers
 {
 	/// <summary>
@@ -68,36 +72,37 @@ namespace Files.App.Helpers
 		/// </remarks>
 		public static List<Process> WhoIsLocking(string[] resources)
 		{
-			string key = Guid.NewGuid().ToString();
+			Span<char> key = stackalloc char[64];
+			Guid.NewGuid().TryFormat(key, out var charsWritten);
+			key = key[..charsWritten];
 			List<Process> processes = [];
 
-			int res = Win32PInvoke.RmStartSession(out uint handle, 0, key);
-			if (res != 0) throw new Exception("Could not begin restart session.  Unable to determine file locker.");
+			WIN32_ERROR res = PInvoke.RmStartSession(out uint handle, key);
+			if (res != WIN32_ERROR.NO_ERROR) throw new Exception("Could not begin restart session.  Unable to determine file locker.");
 
 			try
 			{
-				const int ERROR_MORE_DATA = 234;
 				uint pnProcInfo = 0;
-				uint lpdwRebootReasons = Win32PInvoke.RmRebootReasonNone;
+				uint lpdwRebootReasons;
 
-				res = Win32PInvoke.RmRegisterResources(handle, (uint)resources.Length, resources, 0, null, 0, null);
+				res = PInvoke.RmRegisterResources(handle, resources, [], []);
 
-				if (res != 0) throw new Exception("Could not register resource.");
+				if (res != WIN32_ERROR.NO_ERROR) throw new Exception("Could not register resource.");
 
 				// Note:
 				//  There's a race condition here -- the first call to RmGetList() returns the total number of process.
 				//  However, when we call RmGetList() again to get the actual processes this number may have increased.
-				res = Win32PInvoke.RmGetList(handle, out uint pnProcInfoNeeded, ref pnProcInfo, null, ref lpdwRebootReasons);
+				res = PInvoke.RmGetList(handle, out uint pnProcInfoNeeded, ref pnProcInfo, [], out lpdwRebootReasons);
 
-				if (res == ERROR_MORE_DATA)
+				if (res == WIN32_ERROR.ERROR_MORE_DATA)
 				{
 					// Create an array to store the process results
-					var processInfo = new Win32PInvoke.RM_PROCESS_INFO[pnProcInfoNeeded];
+					var processInfo = new RM_PROCESS_INFO[pnProcInfoNeeded];
 					pnProcInfo = pnProcInfoNeeded;
 
 					// Get the list
-					res = Win32PInvoke.RmGetList(handle, out pnProcInfoNeeded, ref pnProcInfo, processInfo, ref lpdwRebootReasons);
-					if (res == 0)
+					res = PInvoke.RmGetList(handle, out pnProcInfoNeeded, ref pnProcInfo, processInfo, out lpdwRebootReasons);
+					if (res == WIN32_ERROR.NO_ERROR)
 					{
 						processes = new List<Process>((int)pnProcInfo);
 
@@ -107,7 +112,7 @@ namespace Files.App.Helpers
 						{
 							try
 							{
-								processes.Add(Process.GetProcessById(processInfo[i].Process.dwProcessId));
+								processes.Add(Process.GetProcessById((int)processInfo[i].Process.dwProcessId));
 							}
 							// catch the error -- in case the process is no longer running
 							catch (ArgumentException) { }
@@ -115,11 +120,11 @@ namespace Files.App.Helpers
 					}
 					else throw new Exception("Could not list processes locking resource.");
 				}
-				else if (res != 0) throw new Exception("Could not list processes locking resource. Failed to get size of result.");
+				else if (res != WIN32_ERROR.NO_ERROR) throw new Exception("Could not list processes locking resource. Failed to get size of result.");
 			}
 			finally
 			{
-				_ = Win32PInvoke.RmEndSession(handle);
+				_ = PInvoke.RmEndSession(handle);
 			}
 
 			return processes;

@@ -9,6 +9,8 @@ using System.Xml.Serialization;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
 using Windows.Storage;
+using Windows.Win32;
+using Windows.Win32.System.Recovery;
 
 namespace Files.App.Services
 {
@@ -227,7 +229,7 @@ namespace Files.App.Services
 			{
 				PackageManager packageManager = new PackageManager();
 
-				var restartStatus = Win32PInvoke.RegisterApplicationRestart(null, 0);
+				var restartStatus = PInvoke.RegisterApplicationRestart(null, (REGISTER_APPLICATION_RESTART_FLAGS)0);
 				App.AppModel.ForceProcessTermination = true;
 
 				Logger?.LogInformation($"Register for restart: {restartStatus}");

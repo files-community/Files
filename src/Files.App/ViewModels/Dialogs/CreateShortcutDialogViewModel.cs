@@ -4,8 +4,9 @@
 using Files.Shared.Helpers;
 using System.IO;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows.Input;
+using Windows.Win32;
+using Windows.Win32.UI.Shell;
 
 namespace Files.App.ViewModels.Dialogs
 {
@@ -228,20 +229,31 @@ namespace Files.App.ViewModels.Dialogs
 			return Path.Exists(path) && Path.IsPathFullyQualified(path) && path != Path.GetPathRoot(path);
 		}
 
-		private Task SelectDestination()
+		private unsafe Task SelectDestination()
 		{
-			Win32PInvoke.BROWSEINFO bi = new Win32PInvoke.BROWSEINFO();
-			bi.ulFlags = 0x00004000;
-			bi.lpszTitle = "Select a folder";
-			nint pidl = Win32PInvoke.SHBrowseForFolder(ref bi);
-			if (pidl != nint.Zero)
+			BROWSEINFOW bi = new()
 			{
-				StringBuilder path = new StringBuilder(260);
-				if (Win32PInvoke.SHGetPathFromIDList(pidl, path))
+				ulFlags = 0x00004000
+			};
+
+			fixed (char* title = "Select a folder")
+			{
+				bi.lpszTitle = title;
+				var pidl = PInvoke.SHBrowseForFolder(ref bi);
+				if (pidl is not null)
 				{
-					ShortcutTarget = path.ToString();
+					Span<char> path = stackalloc char[260];
+					fixed (char* pathBuffer = path)
+					{
+						if (PInvoke.SHGetPathFromIDList(pidl, pathBuffer))
+						{
+							var length = path.IndexOf('\0');
+							ShortcutTarget = path[..(length < 0 ? path.Length : length)].ToString();
+						}
+					}
+
+					Marshal.FreeCoTaskMem((nint)pidl);
 				}
-				Marshal.FreeCoTaskMem(pidl);
 			}
 
 			return Task.CompletedTask;
