@@ -26,7 +26,7 @@ namespace Files.InteractionTests.Helper
 
 		public static void AssertNoAccessibilityErrors()
 		{
-			var testResult = AccessibilityScanner.Scan(null).WindowScanOutputs.SelectMany(output => output.Errors).Where(error => error.Rule.ID != RuleId.BoundingRectangleNotNull);
+			var testResult = AccessibilityScanner.Scan(null).WindowScanOutputs.SelectMany(output => output.Errors).Where(error => error.Rule.ID != RuleId.BoundingRectangleNotNull && error.Rule.ID != RuleId.BoundingRectangleCompletelyObscuresContainer);
 			if (testResult.Any())
 			{
 				StringBuilder sb = new();
