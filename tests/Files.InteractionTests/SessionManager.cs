@@ -94,7 +94,7 @@ namespace Files.InteractionTests
 					timeoutCount *= 2;
 				}
 
-				Thread.Sleep(5000);
+				Thread.Sleep(3000);
 				Assert.IsNotNull(_session);
 				Assert.IsNotNull(_session.SessionId);
 
@@ -107,7 +107,7 @@ namespace Files.InteractionTests
 				catch (OpenQA.Selenium.WebDriverException) { }
 
 				// Wait if something is still animating in the visual tree
-				_session.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+				_session.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
 				_session.Manage().Window.Maximize();
 
 				AxeHelper.InitializeAxe();
