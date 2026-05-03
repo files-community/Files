@@ -189,6 +189,12 @@
   <data name="Search" xml:space="preserve">
     <value>Пошук</value>
   </data>
+  <data name="SearchSettings" xml:space="preserve">
+    <value>Налаштування пошуку...</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>За вашим запитом налаштувань не знайдено.</value>
+  </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Тут відображатимуться файли, до яких ви раніше отримували доступ</value>
   </data>
@@ -210,6 +216,9 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Тема</value>
   </data>
+  <data name="Font" xml:space="preserve">
+    <value>Шрифт</value>
+  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Показувати розширення для зареєстрованих типів файлів</value>
   </data>
@@ -227,6 +236,24 @@
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Розширені</value>
+  </data>
+  <data name="CacheThumbnails" xml:space="preserve">
+    <value>Кешувати мініатюри</value>
+  </data>
+  <data name="CacheSizeLimitDescription" xml:space="preserve">
+    <value>Максимальний обсяг дискового простору для кешу мініатюр (100-5000 МіБ).</value>
+  </data>
+  <data name="CacheSizeLimit" xml:space="preserve">
+    <value>Обмеження розміру кешу</value>
+  </data>
+  <data name="ClearCachedThumbnails" xml:space="preserve">
+    <value>Очистьте кеш мініатюр, щоб звільнити місце</value>
+  </data>
+  <data name="CurrentCacheSize" xml:space="preserve">
+    <value>Поточний розмір кешу: </value>
+  </data>
+  <data name="ClearCache" xml:space="preserve">
+    <value>Очистити кеш</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Продовжити з місця, де Ви зупинилися</value>
@@ -308,6 +335,9 @@
   </data>
   <data name="DarkTheme" xml:space="preserve">
     <value>Темна</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>Системна тема</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Використовувати системні налаштування</value>
@@ -653,11 +683,17 @@
   <data name="File" xml:space="preserve">
     <value>Файл</value>
   </data>
+  <data name="Files" xml:space="preserve">
+    <value>Файли</value>
+  </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Створює порожній файл</value>
   </data>
   <data name="Folder" xml:space="preserve">
     <value>Папка</value>
+  </data>
+  <data name="Folders" xml:space="preserve">
+    <value>Теки</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Створює порожню папку</value>
@@ -1118,6 +1154,9 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Ім'я елемента</value>
   </data>
+  <data name="Unpin" xml:space="preserve">
+    <value>Відкріпити</value>
+  </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Відкріпити від бічної панелі</value>
   </data>
@@ -1321,6 +1360,9 @@
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Створити папку з виділення</value>
+  </data>
+  <data name="CreateShortcutWithSelection" xml:space="preserve">
+    <value>Створити ярлики з виділеного</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Тип:</value>
@@ -1772,7 +1814,7 @@
   <data name="Tag" xml:space="preserve">
     <value>Мітка</value>
   </data>
-  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+  <data name="OpenFilesWithOneClick" xml:space="preserve">
     <value>Відкривати файли одним клацанням</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
@@ -2006,6 +2048,9 @@
   <data name="Custom" xml:space="preserve">
     <value>Користувацький</value>
   </data>
+  <data name="Slideshow" xml:space="preserve">
+    <value>Показ слайдів</value>
+  </data>
   <data name="SetAsSlideshow" xml:space="preserve">
     <value>Встановити як слайд-шоу на робочому столі</value>
   </data>
@@ -2074,6 +2119,15 @@
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
     <value>Відкривати теки одним клацанням</value>
+  </data>
+  <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
+    <value>Відкривати теки одним клацанням у режимі перегляду колонками</value>
+  </data>
+  <data name="SingleClickToOpen" xml:space="preserve">
+    <value>Відкривати елементи одним клацанням</value>
+  </data>
+  <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
+    <value>Теки у перегляді колонок</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Відкриття елементів</value>
@@ -2449,6 +2503,21 @@
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Увімк. / Вимк. компактне накладання</value>
+  </data>
+  <data name="ToggleTheme" xml:space="preserve">
+    <value>Перемкнути тему</value>
+  </data>
+  <data name="ToggleThemeDescription" xml:space="preserve">
+    <value>Змінити тему застосунку</value>
+  </data>
+  <data name="SwitchToLightThemeDescription" xml:space="preserve">
+    <value>Перейти на світлу тему</value>
+  </data>
+  <data name="SwitchToDarkThemeDescription" xml:space="preserve">
+    <value>Перейти на темну тему</value>
+  </data>
+  <data name="SwitchToDefaultThemeDescription" xml:space="preserve">
+    <value>Змінити на Системну Тему</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>Почати пошук в OmniBar</value>
@@ -3924,6 +3993,9 @@
   <data name="Actions" xml:space="preserve">
     <value>Дії</value>
   </data>
+  <data name="Action" xml:space="preserve">
+    <value>Дія</value>
+  </data>
   <data name="Commands" xml:space="preserve">
     <value>Команди</value>
   </data>
@@ -4125,8 +4197,8 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Перейти до головної сторінки</value>
   </data>
-  <data name="Toolbars" xml:space="preserve">
-    <value>Панелі інструментів</value>
+  <data name="AddressBar" xml:space="preserve">
+    <value>Адресний рядок</value>
   </data>
   <data name="UserID" xml:space="preserve">
     <value>Ідентифікатор користувача</value>
@@ -4353,8 +4425,11 @@
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Показувати рядок стану</value>
   </data>
-  <data name="OnlyInColumnsView" xml:space="preserve">
-    <value>Лише в режимі стовпців</value>
+  <data name="OnlyForTouch" xml:space="preserve">
+    <value>При використанні сенсорного керування</value>
+  </data>
+  <data name="OnlyForMouse" xml:space="preserve">
+    <value>При використанні миші</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>Новий {0}</value>
@@ -4370,6 +4445,45 @@
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Показувати параметр закріплення у меню «Пуск»</value>
+  </data>
+  <data name="Toolbar" xml:space="preserve">
+    <value>Панель інструментів</value>
+  </data>
+  <data name="CustomizeToolbar" xml:space="preserve">
+    <value>Налаштувати панель інструментів</value>
+  </data>
+  <data name="CustomizeToolbarDescription" xml:space="preserve">
+    <value>Налаштувати кнопки панелі інструментів</value>
+  </data>
+  <data name="ChooseToolbarModeToCustomize" xml:space="preserve">
+    <value>Виберіть режим панелі інструментів, щоби налаштувати</value>
+  </data>
+  <data name="AlwaysVisible" xml:space="preserve">
+    <value>Завжди показувати</value>
+  </data>
+  <data name="ArchiveFiles" xml:space="preserve">
+    <value>Архівні файли</value>
+  </data>
+  <data name="BatchFiles" xml:space="preserve">
+    <value>Пакетні файли</value>
+  </data>
+  <data name="PowerShellFiles" xml:space="preserve">
+    <value>Файли PowerShell</value>
+  </data>
+  <data name="MediaFiles" xml:space="preserve">
+    <value>Медіафайли</value>
+  </data>
+  <data name="FontFiles" xml:space="preserve">
+    <value>Файли шрифтів</value>
+  </data>
+  <data name="DriverFiles" xml:space="preserve">
+    <value>Файли драйверів</value>
+  </data>
+  <data name="CertificateFiles" xml:space="preserve">
+    <value>Файли сертифікатів</value>
+  </data>
+  <data name="OtherContexts" xml:space="preserve">
+    <value>Інші контексти</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>Архів</value>
@@ -4397,5 +4511,41 @@
   </data>
   <data name="DualPaneCategory" xml:space="preserve">
     <value>Подвійна панель</value>
+  </data>
+  <data name="ResetDefaults" xml:space="preserve">
+    <value>Скинути до типових</value>
+  </data>
+  <data name="Separator" xml:space="preserve">
+    <value>Роздільник</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>Значок</value>
+  </data>
+  <data name="Label" xml:space="preserve">
+    <value>Мітка</value>
+  </data>
+  <data name="ShowToolbarLabels" xml:space="preserve">
+    <value>Показувати мітку</value>
+  </data>
+  <data name="ShowToolbarIconOnly" xml:space="preserve">
+    <value>Показувати значок</value>
+  </data>
+  <data name="AvailableToolbarItems" xml:space="preserve">
+    <value>Доступні елементи</value>
+  </data>
+  <data name="AddedToolbarItems" xml:space="preserve">
+    <value>Додані елементи</value>
+  </data>
+  <data name="ExtractGroupDescription" xml:space="preserve">
+    <value>Розпакувати стиснуті архіви</value>
+  </data>
+  <data name="SetAsGroupDescription" xml:space="preserve">
+    <value>Встановити зображення як шпалери або фон</value>
+  </data>
+  <data name="NewItemGroupDescription" xml:space="preserve">
+    <value>Зробити новий Файл або Папку</value>
+  </data>
+  <data name="EditTagsGroupDescription" xml:space="preserve">
+    <value>Додати або видалити теги файлів</value>
   </data>
 </root>

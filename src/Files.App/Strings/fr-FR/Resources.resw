@@ -189,6 +189,12 @@
   <data name="Search" xml:space="preserve">
     <value>Rechercher</value>
   </data>
+  <data name="SearchSettings" xml:space="preserve">
+    <value>Search settings...</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>No settings match your search.</value>
+  </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Les fichiers précédemment ouverts s'afficheront ici</value>
   </data>
@@ -210,6 +216,9 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Thème</value>
   </data>
+  <data name="Font" xml:space="preserve">
+    <value>Font</value>
+  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Afficher les extensions des types de fichiers connus</value>
   </data>
@@ -227,6 +236,24 @@
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Avancé</value>
+  </data>
+  <data name="CacheThumbnails" xml:space="preserve">
+    <value>Cache thumbnails</value>
+  </data>
+  <data name="CacheSizeLimitDescription" xml:space="preserve">
+    <value>Maximum disk space to use for thumbnail cache (100-5000 MiB).</value>
+  </data>
+  <data name="CacheSizeLimit" xml:space="preserve">
+    <value>Cache size limit</value>
+  </data>
+  <data name="ClearCachedThumbnails" xml:space="preserve">
+    <value>Clear cached thumbnails to free up space</value>
+  </data>
+  <data name="CurrentCacheSize" xml:space="preserve">
+    <value>Current cache size: </value>
+  </data>
+  <data name="ClearCache" xml:space="preserve">
+    <value>Clear cache</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Continuez là où vous vous êtes arrêté</value>
@@ -308,6 +335,9 @@
   </data>
   <data name="DarkTheme" xml:space="preserve">
     <value>Sombre</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>Thème du système</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Utiliser les paramètres système</value>
@@ -653,11 +683,17 @@
   <data name="File" xml:space="preserve">
     <value>Fichier</value>
   </data>
+  <data name="Files" xml:space="preserve">
+    <value>Files</value>
+  </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Crée un fichier vide</value>
   </data>
   <data name="Folder" xml:space="preserve">
     <value>Dossier</value>
+  </data>
+  <data name="Folders" xml:space="preserve">
+    <value>Folders</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Crée un dossier vide</value>
@@ -1118,6 +1154,9 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Nom de l'élément</value>
   </data>
+  <data name="Unpin" xml:space="preserve">
+    <value>Désépingler</value>
+  </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Désépingler de la barre latérale</value>
   </data>
@@ -1321,6 +1360,9 @@
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Créer un dossier avec la sélection</value>
+  </data>
+  <data name="CreateShortcutWithSelection" xml:space="preserve">
+    <value>Create shortcuts with selection</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Type :</value>
@@ -1772,8 +1814,8 @@
   <data name="Tag" xml:space="preserve">
     <value>Étiquette</value>
   </data>
-  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Ouvrir les fichiers d'un seul clic</value>
+  <data name="OpenFilesWithOneClick" xml:space="preserve">
+    <value>Open files with a single click</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Chemin du dossier</value>
@@ -2006,6 +2048,9 @@
   <data name="Custom" xml:space="preserve">
     <value>Personnalisé</value>
   </data>
+  <data name="Slideshow" xml:space="preserve">
+    <value>Diaporama</value>
+  </data>
   <data name="SetAsSlideshow" xml:space="preserve">
     <value>Définir comme diaporama du bureau</value>
   </data>
@@ -2074,6 +2119,15 @@
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
     <value>Ouvrir les dossiers d'un seul clic</value>
+  </data>
+  <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
+    <value>Open folders with a single click in Columns View</value>
+  </data>
+  <data name="SingleClickToOpen" xml:space="preserve">
+    <value>Open items with a single click</value>
+  </data>
+  <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
+    <value>Folders in Columns View</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Ouverture des éléments</value>
@@ -2145,10 +2199,10 @@
     <value>Créer une archive</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
-    <value>Create zip archive</value>
+    <value>Créer une archive ZIP</value>
   </data>
   <data name="CompressIntoSevenZip" xml:space="preserve">
-    <value>Create 7z archive</value>
+    <value>Créer une archive 7z</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Créer</value>
@@ -2196,7 +2250,7 @@
     <value>Taille des mots</value>
   </data>
   <data name="EstimatedMemoryUsage" xml:space="preserve">
-    <value>Utilisation estimée de la mémoire : {0}</value>
+    <value>Utilisation mémoire estimée : {0}</value>
   </data>
   <data name="AvailableMemory" xml:space="preserve">
     <value>Mémoire disponible : {0}</value>
@@ -2450,6 +2504,21 @@
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Activer/Désactiver le mode compact</value>
   </data>
+  <data name="ToggleTheme" xml:space="preserve">
+    <value>Changer de thème</value>
+  </data>
+  <data name="ToggleThemeDescription" xml:space="preserve">
+    <value>Modifier le thème de l'application</value>
+  </data>
+  <data name="SwitchToLightThemeDescription" xml:space="preserve">
+    <value>Passer au thème clair</value>
+  </data>
+  <data name="SwitchToDarkThemeDescription" xml:space="preserve">
+    <value>Passer au thème sombre</value>
+  </data>
+  <data name="SwitchToDefaultThemeDescription" xml:space="preserve">
+    <value>Utiliser le thème système</value>
+  </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>Démarrer la recherche dans l'OmniBar</value>
   </data>
@@ -2646,13 +2715,13 @@
     <value>Augmenter la taille des éléments dans la vue actuelle</value>
   </data>
   <data name="LayoutDetailsDescription" xml:space="preserve">
-    <value>Basculer en vue détaillée</value>
+    <value>Afficher en mode détails</value>
   </data>
   <data name="LayoutCardsDescription" xml:space="preserve">
-    <value>Basculer en vue tuiles</value>
+    <value>Afficher en mode cartes</value>
   </data>
   <data name="LayoutListDescription" xml:space="preserve">
-    <value>Basculer en vue liste</value>
+    <value>Afficher en liste</value>
   </data>
   <data name="List" xml:space="preserve">
     <value>Liste</value>
@@ -2661,13 +2730,13 @@
     <value>Grille</value>
   </data>
   <data name="LayoutGridDescription" xml:space="preserve">
-    <value>Basculer en vue grille</value>
+    <value>Afficher en grille</value>
   </data>
   <data name="LayoutColumnsDescription" xml:space="preserve">
-    <value>Basculer en vue colonnes</value>
+    <value>Afficher en colonnes</value>
   </data>
   <data name="LayoutAdaptiveDescription" xml:space="preserve">
-    <value>Basculer en vue adaptative</value>
+    <value>Adapter automatiquement la vue</value>
   </data>
   <data name="SortByNameDescription" xml:space="preserve">
     <value>Trier les éléments par nom</value>
@@ -2793,7 +2862,7 @@
     <value>Se focaliser sur un autre volet</value>
   </data>
   <data name="FocusOtherPaneDescription" xml:space="preserve">
-    <value>Basculer le focus sur l'autre volet</value>
+    <value>Basculer le focus vers l'autre volet</value>
   </data>
   <data name="ToggleSidebar" xml:space="preserve">
     <value>Afficher/Masquer la barre latérale</value>
@@ -3157,7 +3226,7 @@
     <value>Branches</value>
   </data>
   <data name="Switch" xml:space="preserve">
-    <value>Changer</value>
+    <value>Basculer</value>
   </data>
   <data name="NewBranch" xml:space="preserve">
     <value>Nouvelle branche</value>
@@ -3924,6 +3993,9 @@
   <data name="Actions" xml:space="preserve">
     <value>Actions</value>
   </data>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
   <data name="Commands" xml:space="preserve">
     <value>Commandes</value>
   </data>
@@ -4125,8 +4197,8 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Naviguer vers la page d'accueil</value>
   </data>
-  <data name="Toolbars" xml:space="preserve">
-    <value>Barre d'outils</value>
+  <data name="AddressBar" xml:space="preserve">
+    <value>Barre d'adresse</value>
   </data>
   <data name="UserID" xml:space="preserve">
     <value>ID utilisateur</value>
@@ -4353,8 +4425,11 @@
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Afficher la barre de statut</value>
   </data>
-  <data name="OnlyInColumnsView" xml:space="preserve">
-    <value>Seulement en vue colonnes</value>
+  <data name="OnlyForTouch" xml:space="preserve">
+    <value>When using touch</value>
+  </data>
+  <data name="OnlyForMouse" xml:space="preserve">
+    <value>When using mouse</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>Nouveau {0}</value>
@@ -4371,31 +4446,106 @@
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Afficher l'option pour épingler au menu Démarrer</value>
   </data>
+  <data name="Toolbar" xml:space="preserve">
+    <value>Barre d'outils</value>
+  </data>
+  <data name="CustomizeToolbar" xml:space="preserve">
+    <value>Personnaliser la barre d'outils</value>
+  </data>
+  <data name="CustomizeToolbarDescription" xml:space="preserve">
+    <value>Personnaliser les boutons de la barre d’outils</value>
+  </data>
+  <data name="ChooseToolbarModeToCustomize" xml:space="preserve">
+    <value>Choisir le mode de la barre d'outils à personnaliser</value>
+  </data>
+  <data name="AlwaysVisible" xml:space="preserve">
+    <value>Toujours visible</value>
+  </data>
+  <data name="ArchiveFiles" xml:space="preserve">
+    <value>Fichiers d'archive</value>
+  </data>
+  <data name="BatchFiles" xml:space="preserve">
+    <value>Fichiers batch</value>
+  </data>
+  <data name="PowerShellFiles" xml:space="preserve">
+    <value>Fichiers PowerShell</value>
+  </data>
+  <data name="MediaFiles" xml:space="preserve">
+    <value>Fichiers multimédias</value>
+  </data>
+  <data name="FontFiles" xml:space="preserve">
+    <value>Fichiers de police</value>
+  </data>
+  <data name="DriverFiles" xml:space="preserve">
+    <value>Fichiers de pilote</value>
+  </data>
+  <data name="CertificateFiles" xml:space="preserve">
+    <value>Fichiers de certificat</value>
+  </data>
+  <data name="OtherContexts" xml:space="preserve">
+    <value>Autres contextes</value>
+  </data>
   <data name="Archive" xml:space="preserve">
     <value>Archive</value>
   </data>
   <data name="Run" xml:space="preserve">
-    <value>Run</value>
+    <value>Exécuter</value>
   </data>
   <data name="Start" xml:space="preserve">
-    <value>Start</value>
+    <value>Démarrer</value>
   </data>
   <data name="Selection" xml:space="preserve">
-    <value>Selection</value>
+    <value>Sélection</value>
   </data>
   <data name="Show" xml:space="preserve">
-    <value>Show</value>
+    <value>Afficher</value>
   </data>
   <data name="Navigation" xml:space="preserve">
     <value>Navigation</value>
   </data>
   <data name="FileSystem" xml:space="preserve">
-    <value>File system</value>
+    <value>Système de fichiers</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>Window</value>
+    <value>Fenêtre</value>
   </data>
   <data name="DualPaneCategory" xml:space="preserve">
-    <value>Dual Pane</value>
+    <value>Double volet</value>
+  </data>
+  <data name="ResetDefaults" xml:space="preserve">
+    <value>Réinitialiser les paramètres par défaut</value>
+  </data>
+  <data name="Separator" xml:space="preserve">
+    <value>Séparateur</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>Icône</value>
+  </data>
+  <data name="Label" xml:space="preserve">
+    <value>Étiquette</value>
+  </data>
+  <data name="ShowToolbarLabels" xml:space="preserve">
+    <value>Afficher l'étiquette</value>
+  </data>
+  <data name="ShowToolbarIconOnly" xml:space="preserve">
+    <value>Afficher l'icône</value>
+  </data>
+  <data name="AvailableToolbarItems" xml:space="preserve">
+    <value>Éléments disponibles</value>
+  </data>
+  <data name="AddedToolbarItems" xml:space="preserve">
+    <value>Éléments ajoutés</value>
+  </data>
+  <data name="ExtractGroupDescription" xml:space="preserve">
+    <value>Extraire les archives compressées</value>
+  </data>
+  <data name="SetAsGroupDescription" xml:space="preserve">
+    <value>Définir l'image comme fond d'écran</value>
+  </data>
+  <data name="NewItemGroupDescription" xml:space="preserve">
+    <value>Créer de nouveaux fichiers et dossiers</value>
+  </data>
+  <data name="EditTagsGroupDescription" xml:space="preserve">
+    <value>Ajouter ou supprimer des étiquettes de fichiers</value>
   </data>
 </root>

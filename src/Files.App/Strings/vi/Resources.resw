@@ -189,6 +189,12 @@
   <data name="Search" xml:space="preserve">
     <value>Tìm kiếm</value>
   </data>
+  <data name="SearchSettings" xml:space="preserve">
+    <value>Tìm kiếm cài đặt...</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>Không có cài đặt nào khớp với tìm kiếm của bạn.</value>
+  </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Tệp bạn đã truy cập trước đó sẽ hiển thị tại đây</value>
   </data>
@@ -210,6 +216,9 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Chủ đề</value>
   </data>
+  <data name="Font" xml:space="preserve">
+    <value>Phông chữ</value>
+  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Hiện phần mở rộng của các tệp đã biết</value>
   </data>
@@ -227,6 +236,24 @@
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Nâng cao</value>
+  </data>
+  <data name="CacheThumbnails" xml:space="preserve">
+    <value>Lưu hình xem trước vào bộ nhớ đệm</value>
+  </data>
+  <data name="CacheSizeLimitDescription" xml:space="preserve">
+    <value>Dung lượng ổ lưu trữ tối đa cho bộ nhớ đệm hình xem trước (100 - 5000 MiB).</value>
+  </data>
+  <data name="CacheSizeLimit" xml:space="preserve">
+    <value>Giới hạn kích cỡ bộ nhớ đệm</value>
+  </data>
+  <data name="ClearCachedThumbnails" xml:space="preserve">
+    <value>Xóa hình xem trước đã lưu trong bộ nhớ đệm để giải phóng dung lượng</value>
+  </data>
+  <data name="CurrentCacheSize" xml:space="preserve">
+    <value>Kích cỡ bộ nhớ đệm hiện tại: </value>
+  </data>
+  <data name="ClearCache" xml:space="preserve">
+    <value>Xóa bộ nhớ đệm</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Tiếp tục từ nơi bạn đã dừng lại</value>
@@ -308,6 +335,9 @@
   </data>
   <data name="DarkTheme" xml:space="preserve">
     <value>Tối</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>Giao diện hệ thống</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Dùng cài đặt hệ thống</value>
@@ -445,7 +475,7 @@
     <value>Gửi tới</value>
   </data>
   <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
-    <value>Tên khoản mục không được chứa những ký tự sau: \ / : * ? " &lt; &gt; |</value>
+    <value>Tên khoản mục không được chứa các ký tự sau: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="InvalidFilename.Text" xml:space="preserve">
     <value>Tên khoản mục đã nhập không hợp lệ</value>
@@ -507,7 +537,7 @@
     <value>Tất cả trong {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
-    <value>Đã chiếm dụng:</value>
+    <value>Đã dùng:</value>
   </data>
   <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
     <value>Còn trống:</value>
@@ -609,7 +639,7 @@
     <value>Khoản mục bạn cố đặt lại tên không còn tồn tại nữa. Vui lòng kiểm tra lại vị trí chính xác của khoản mục.</value>
   </data>
   <data name="RenameError.ItemDeleted.Title" xml:space="preserve">
-    <value>Mục không còn tồn tại</value>
+    <value>Khoản mục không còn tồn tại</value>
   </data>
   <data name="RenameError.NameInvalid.Text" xml:space="preserve">
     <value>Tên đã nhập không hợp lệ. Vui lòng kiểm tra và thử lại.</value>
@@ -653,10 +683,16 @@
   <data name="File" xml:space="preserve">
     <value>Tệp</value>
   </data>
+  <data name="Files" xml:space="preserve">
+    <value>Tệp</value>
+  </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Tạo một tệp trống</value>
   </data>
   <data name="Folder" xml:space="preserve">
+    <value>Thư mục</value>
+  </data>
+  <data name="Folders" xml:space="preserve">
     <value>Thư mục</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
@@ -1118,6 +1154,9 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Tên khoản mục</value>
   </data>
+  <data name="Unpin" xml:space="preserve">
+    <value>Bỏ ghim</value>
+  </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Bỏ ghim khỏi thanh bên</value>
   </data>
@@ -1254,7 +1293,7 @@
     <value>Trường nhập không được để trống!</value>
   </data>
   <data name="ErrorNameInputRestrictedCharacters" xml:space="preserve">
-    <value>Tên không được chứa những kí tự sau: \ / : * ? " &lt; &gt; |</value>
+    <value>Tên không được chứa các kí tự sau: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="ErrorNameInputRestricted" xml:space="preserve">
     <value>Tên này không được phép sử dụng!</value>
@@ -1321,6 +1360,9 @@
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Tạo thư mục từ lựa chọn</value>
+  </data>
+  <data name="CreateShortcutWithSelection" xml:space="preserve">
+    <value>Tạo lối tắt từ lựa chọn</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Loại:</value>
@@ -1772,7 +1814,7 @@
   <data name="Tag" xml:space="preserve">
     <value>Nhãn</value>
   </data>
-  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+  <data name="OpenFilesWithOneClick" xml:space="preserve">
     <value>Mở tệp bằng một lần nhấp</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
@@ -1944,7 +1986,7 @@
     <value>Giải nén vào {0}</value>
   </data>
   <data name="RunScript" xml:space="preserve">
-    <value>Chạy kịch bản</value>
+    <value>Chạy script</value>
   </data>
   <data name="RunWithPowerShell" xml:space="preserve">
     <value>Chạy bằng PowerShell</value>
@@ -1989,7 +2031,7 @@
     <value>Phổ thông</value>
   </data>
   <data name="DateFormatSample" xml:space="preserve">
-    <value>vd: {0}, {1}</value>
+    <value>VD: {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
     <value>Hiện hình xem trước</value>
@@ -2005,6 +2047,9 @@
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Tùy chỉnh</value>
+  </data>
+  <data name="Slideshow" xml:space="preserve">
+    <value>Trình chiếu</value>
   </data>
   <data name="SetAsSlideshow" xml:space="preserve">
     <value>Trình chiếu trên màn hình chính</value>
@@ -2074,6 +2119,15 @@
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
     <value>Mở thư mục bằng một lần nhấp</value>
+  </data>
+  <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
+    <value>Mở thư mục bằng một lần nhấp trong bố cục cột</value>
+  </data>
+  <data name="SingleClickToOpen" xml:space="preserve">
+    <value>Mở khoản mục bằng một lần nhấp</value>
+  </data>
+  <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
+    <value>Thư mục trong bố cục cột</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Mở các khoản mục</value>
@@ -2450,6 +2504,21 @@
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Bật hoặc tắt chế độ thu gọn</value>
   </data>
+  <data name="ToggleTheme" xml:space="preserve">
+    <value>Đổi giao diện</value>
+  </data>
+  <data name="ToggleThemeDescription" xml:space="preserve">
+    <value>Đổi giao diện của ứng dụng</value>
+  </data>
+  <data name="SwitchToLightThemeDescription" xml:space="preserve">
+    <value>Đổi sang giao diện sáng</value>
+  </data>
+  <data name="SwitchToDarkThemeDescription" xml:space="preserve">
+    <value>Đổi sang giao diện tối</value>
+  </data>
+  <data name="SwitchToDefaultThemeDescription" xml:space="preserve">
+    <value>Đổi sang giao diện hệ thống</value>
+  </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>Tìm kiếm nội dung trong thanh kết hợp</value>
   </data>
@@ -2601,7 +2670,7 @@
     <value>Chạy ứng dụng đã chọn với vai trò là người dùng khác</value>
   </data>
   <data name="RunWithPowershellDescription" xml:space="preserve">
-    <value>Chạy kịch bản PowerShell đã chọn</value>
+    <value>Chạy script PowerShell đã chọn</value>
   </data>
   <data name="LaunchPreviewPopupDescription" xml:space="preserve">
     <value>Khởi chạy bản xem trước trong cửa sổ bật lên</value>
@@ -2634,10 +2703,10 @@
     <value>Mở trang cài đặt</value>
   </data>
   <data name="OpenTerminalDescription" xml:space="preserve">
-    <value>Mở thư mục trong cửa sổ lệnh</value>
+    <value>Mở thư mục trong Terminal</value>
   </data>
   <data name="OpenTerminalAsAdminDescription" xml:space="preserve">
-    <value>Mở thư mục trong cửa sổ lệnh với quyền quản trị viên</value>
+    <value>Mở thư mục trong Terminal với quyền quản trị viên</value>
   </data>
   <data name="LayoutDecreaseSizeDescription" xml:space="preserve">
     <value>Giảm kích thước khoản mục trong bố cục hiện tại</value>
@@ -2655,7 +2724,7 @@
     <value>Chuyển sang bố cục danh sách</value>
   </data>
   <data name="List" xml:space="preserve">
-    <value>Danh sách</value>
+    <value>D.sách</value>
   </data>
   <data name="Grid" xml:space="preserve">
     <value>Lưới</value>
@@ -3229,7 +3298,7 @@
     <value>git pull không thành công do hết thời gian chờ</value>
   </data>
   <data name="MultipleValues" xml:space="preserve">
-    <value>(đa giá trị)</value>
+    <value>(nhiều giá trị)</value>
     <comment>Text indicating that multiple selected files have different metadata values.</comment>
   </data>
   <data name="Author" xml:space="preserve">
@@ -3378,7 +3447,7 @@
     <value>Mở bảng lệnh trong thanh kết hợp</value>
   </data>
   <data name="ShortcutItemWorkingDir" xml:space="preserve">
-    <value>Bắt đầu trong:</value>
+    <value>Bắt đầu từ:</value>
   </data>
   <data name="TurnOnBitLocker" xml:space="preserve">
     <value>Bật BitLocker</value>
@@ -3387,7 +3456,7 @@
     <value>Quản lý BitLocker</value>
   </data>
   <data name="CopyFailureFileToLarge" xml:space="preserve">
-    <value>Những khoản mục sau là quá lớn để có thể sao chép vào ổ lưu trữ này</value>
+    <value>Các khoản mục sau là quá lớn để có thể sao chép vào ổ lưu trữ này</value>
   </data>
   <data name="FormatDrive" xml:space="preserve">
     <value>Định dạng ổ lưu trữ</value>
@@ -3801,7 +3870,7 @@
     <value>Giải nén {0, plural, other {tệp}} tại đây nếu chỉ chứa một khoản mục, hoặc vào thư mục mới nếu chứa nhiều khoản mục</value>
   </data>
   <data name="ExtractHereSmart" xml:space="preserve">
-    <value>Giải nén tại đây (Thông minh)</value>
+    <value>Giải nén tại đây (thông minh)</value>
   </data>
   <data name="SortFilesAndFoldersTogether" xml:space="preserve">
     <value>Sắp xếp tệp chung với thư mục</value>
@@ -3924,6 +3993,9 @@
   <data name="Actions" xml:space="preserve">
     <value>Phím tắt tác vụ</value>
   </data>
+  <data name="Action" xml:space="preserve">
+    <value>Tác vụ</value>
+  </data>
   <data name="Commands" xml:space="preserve">
     <value>Lệnh</value>
   </data>
@@ -4007,7 +4079,7 @@
     <comment>Setting where users can choose to display "Open IDE" button for Git Repos</comment>
   </data>
   <data name="DevTools" xml:space="preserve">
-    <value>Công cụ nhà phát triển</value>
+    <value>Công cụ phát triển</value>
   </data>
   <data name="DisplayOpenIDE" xml:space="preserve">
     <value>Cấu hình nút "Mở IDE" trên thanh trạng thái</value>
@@ -4125,8 +4197,8 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Điều hướng về trang chủ</value>
   </data>
-  <data name="Toolbars" xml:space="preserve">
-    <value>Thanh công cụ</value>
+  <data name="AddressBar" xml:space="preserve">
+    <value>Thanh địa chỉ</value>
   </data>
   <data name="UserID" xml:space="preserve">
     <value>ID người dùng</value>
@@ -4353,8 +4425,11 @@
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Hiện thanh trạng thái</value>
   </data>
-  <data name="OnlyInColumnsView" xml:space="preserve">
-    <value>Chỉ trong bố cục cột</value>
+  <data name="OnlyForTouch" xml:space="preserve">
+    <value>Khi dùng cảm ứng</value>
+  </data>
+  <data name="OnlyForMouse" xml:space="preserve">
+    <value>Khi dùng chuột</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>New {0}</value>
@@ -4370,6 +4445,45 @@
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Hiện tùy chọn ghim vào menu Bắt đầu</value>
+  </data>
+  <data name="Toolbar" xml:space="preserve">
+    <value>Thanh công cụ</value>
+  </data>
+  <data name="CustomizeToolbar" xml:space="preserve">
+    <value>Tuỳ chỉnh thanh công cụ</value>
+  </data>
+  <data name="CustomizeToolbarDescription" xml:space="preserve">
+    <value>Tùy chỉnh các nút trên thanh công cụ</value>
+  </data>
+  <data name="ChooseToolbarModeToCustomize" xml:space="preserve">
+    <value>Chọn chế độ thanh công cụ để tùy chỉnh</value>
+  </data>
+  <data name="AlwaysVisible" xml:space="preserve">
+    <value>Luôn hiện</value>
+  </data>
+  <data name="ArchiveFiles" xml:space="preserve">
+    <value>Tệp nén</value>
+  </data>
+  <data name="BatchFiles" xml:space="preserve">
+    <value>Tệp batch</value>
+  </data>
+  <data name="PowerShellFiles" xml:space="preserve">
+    <value>Tệp PowerShell</value>
+  </data>
+  <data name="MediaFiles" xml:space="preserve">
+    <value>Tệp đa phương tiện</value>
+  </data>
+  <data name="FontFiles" xml:space="preserve">
+    <value>Tệp phông chữ</value>
+  </data>
+  <data name="DriverFiles" xml:space="preserve">
+    <value>Tệp trình điều khiển</value>
+  </data>
+  <data name="CertificateFiles" xml:space="preserve">
+    <value>Tệp chứng chỉ</value>
+  </data>
+  <data name="OtherContexts" xml:space="preserve">
+    <value>Ngữ cảnh khác</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>Tệp nén</value>
@@ -4397,5 +4511,41 @@
   </data>
   <data name="DualPaneCategory" xml:space="preserve">
     <value>Chế độ hai ngăn</value>
+  </data>
+  <data name="ResetDefaults" xml:space="preserve">
+    <value>Khôi phục mặc định</value>
+  </data>
+  <data name="Separator" xml:space="preserve">
+    <value>Dấu phân cách</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>Biểu tượng</value>
+  </data>
+  <data name="Label" xml:space="preserve">
+    <value>Tiêu đề</value>
+  </data>
+  <data name="ShowToolbarLabels" xml:space="preserve">
+    <value>Hiện tiêu đề</value>
+  </data>
+  <data name="ShowToolbarIconOnly" xml:space="preserve">
+    <value>Hiện biểu tượng</value>
+  </data>
+  <data name="AvailableToolbarItems" xml:space="preserve">
+    <value>Khoản mục khả dụng</value>
+  </data>
+  <data name="AddedToolbarItems" xml:space="preserve">
+    <value>Khoản mục đã thêm</value>
+  </data>
+  <data name="ExtractGroupDescription" xml:space="preserve">
+    <value>Giải nén tệp</value>
+  </data>
+  <data name="SetAsGroupDescription" xml:space="preserve">
+    <value>Đặt hình ảnh làm hình nền hoặc nền ứng dụng</value>
+  </data>
+  <data name="NewItemGroupDescription" xml:space="preserve">
+    <value>Tạo tệp và thư mục mới</value>
+  </data>
+  <data name="EditTagsGroupDescription" xml:space="preserve">
+    <value>Thêm hoặc loại bỏ nhãn</value>
   </data>
 </root>

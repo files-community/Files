@@ -189,6 +189,12 @@
   <data name="Search" xml:space="preserve">
     <value>検索</value>
   </data>
+  <data name="SearchSettings" xml:space="preserve">
+    <value>Search settings...</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>No settings match your search.</value>
+  </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>最近アクセスしたファイルがここに表示されます</value>
   </data>
@@ -210,6 +216,9 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>テーマ</value>
   </data>
+  <data name="Font" xml:space="preserve">
+    <value>Font</value>
+  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>既知のファイル タイプの拡張子を表示する</value>
   </data>
@@ -227,6 +236,24 @@
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>高度な設定</value>
+  </data>
+  <data name="CacheThumbnails" xml:space="preserve">
+    <value>Cache thumbnails</value>
+  </data>
+  <data name="CacheSizeLimitDescription" xml:space="preserve">
+    <value>Maximum disk space to use for thumbnail cache (100-5000 MiB).</value>
+  </data>
+  <data name="CacheSizeLimit" xml:space="preserve">
+    <value>Cache size limit</value>
+  </data>
+  <data name="ClearCachedThumbnails" xml:space="preserve">
+    <value>Clear cached thumbnails to free up space</value>
+  </data>
+  <data name="CurrentCacheSize" xml:space="preserve">
+    <value>Current cache size: </value>
+  </data>
+  <data name="ClearCache" xml:space="preserve">
+    <value>Clear cache</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>最後の操作を続行</value>
@@ -308,6 +335,9 @@
   </data>
   <data name="DarkTheme" xml:space="preserve">
     <value>ダーク</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>System Theme</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>システム設定を使用</value>
@@ -653,11 +683,17 @@
   <data name="File" xml:space="preserve">
     <value>ファイル</value>
   </data>
+  <data name="Files" xml:space="preserve">
+    <value>Files</value>
+  </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>空のファイルを作成</value>
   </data>
   <data name="Folder" xml:space="preserve">
     <value>フォルダー</value>
+  </data>
+  <data name="Folders" xml:space="preserve">
+    <value>Folders</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>空のフォルダーを作成</value>
@@ -1118,6 +1154,9 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>ファイル名</value>
   </data>
+  <data name="Unpin" xml:space="preserve">
+    <value>Unpin</value>
+  </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>サイドバーからピン留めを外す</value>
   </data>
@@ -1321,6 +1360,9 @@
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>選択した項目でフォルダーを作成</value>
+  </data>
+  <data name="CreateShortcutWithSelection" xml:space="preserve">
+    <value>Create shortcuts with selection</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>種類:</value>
@@ -1772,8 +1814,8 @@
   <data name="Tag" xml:space="preserve">
     <value>タグ</value>
   </data>
-  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>シングルクリックでファイルを開く</value>
+  <data name="OpenFilesWithOneClick" xml:space="preserve">
+    <value>Open files with a single click</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>フォルダー パス</value>
@@ -2006,6 +2048,9 @@
   <data name="Custom" xml:space="preserve">
     <value>カスタム</value>
   </data>
+  <data name="Slideshow" xml:space="preserve">
+    <value>Slideshow</value>
+  </data>
   <data name="SetAsSlideshow" xml:space="preserve">
     <value>デスクトップのスライドショーとして設定</value>
   </data>
@@ -2074,6 +2119,15 @@
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
     <value>シングルクリックでフォルダを開く</value>
+  </data>
+  <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
+    <value>Open folders with a single click in Columns View</value>
+  </data>
+  <data name="SingleClickToOpen" xml:space="preserve">
+    <value>Open items with a single click</value>
+  </data>
+  <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
+    <value>Folders in Columns View</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>項目を開くとき</value>
@@ -2449,6 +2503,21 @@
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>コンパクト オーバーレイモードを切り替える</value>
+  </data>
+  <data name="ToggleTheme" xml:space="preserve">
+    <value>Toggle Theme</value>
+  </data>
+  <data name="ToggleThemeDescription" xml:space="preserve">
+    <value>Toggle the app theme</value>
+  </data>
+  <data name="SwitchToLightThemeDescription" xml:space="preserve">
+    <value>Switch to Light Theme</value>
+  </data>
+  <data name="SwitchToDarkThemeDescription" xml:space="preserve">
+    <value>Switch to Dark Theme</value>
+  </data>
+  <data name="SwitchToDefaultThemeDescription" xml:space="preserve">
+    <value>Switch to System Theme</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>OmniBarで検索を開始</value>
@@ -3925,6 +3994,9 @@
   <data name="Actions" xml:space="preserve">
     <value>操作</value>
   </data>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
   <data name="Commands" xml:space="preserve">
     <value>コマンド</value>
   </data>
@@ -4126,8 +4198,8 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>ホーム ページに移動する</value>
   </data>
-  <data name="Toolbars" xml:space="preserve">
-    <value>ツールバー</value>
+  <data name="AddressBar" xml:space="preserve">
+    <value>Address bar</value>
   </data>
   <data name="UserID" xml:space="preserve">
     <value>ユーザー ID</value>
@@ -4354,8 +4426,11 @@
   <data name="ShowStatusBar" xml:space="preserve">
     <value>ステータスバーを表示</value>
   </data>
-  <data name="OnlyInColumnsView" xml:space="preserve">
-    <value>カラム表示でのみ</value>
+  <data name="OnlyForTouch" xml:space="preserve">
+    <value>When using touch</value>
+  </data>
+  <data name="OnlyForMouse" xml:space="preserve">
+    <value>When using mouse</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>新規 {0}</value>
@@ -4371,6 +4446,45 @@
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
     <value>[スタートメニューにピン留め] オプションを表示する</value>
+  </data>
+  <data name="Toolbar" xml:space="preserve">
+    <value>Toolbar</value>
+  </data>
+  <data name="CustomizeToolbar" xml:space="preserve">
+    <value>Customize toolbar</value>
+  </data>
+  <data name="CustomizeToolbarDescription" xml:space="preserve">
+    <value>Customize toolbar buttons</value>
+  </data>
+  <data name="ChooseToolbarModeToCustomize" xml:space="preserve">
+    <value>Choose toolbar mode to customize</value>
+  </data>
+  <data name="AlwaysVisible" xml:space="preserve">
+    <value>Always visible</value>
+  </data>
+  <data name="ArchiveFiles" xml:space="preserve">
+    <value>Archive files</value>
+  </data>
+  <data name="BatchFiles" xml:space="preserve">
+    <value>Batch files</value>
+  </data>
+  <data name="PowerShellFiles" xml:space="preserve">
+    <value>PowerShell files</value>
+  </data>
+  <data name="MediaFiles" xml:space="preserve">
+    <value>Media files</value>
+  </data>
+  <data name="FontFiles" xml:space="preserve">
+    <value>Font files</value>
+  </data>
+  <data name="DriverFiles" xml:space="preserve">
+    <value>Driver files</value>
+  </data>
+  <data name="CertificateFiles" xml:space="preserve">
+    <value>Certificate files</value>
+  </data>
+  <data name="OtherContexts" xml:space="preserve">
+    <value>Other contexts</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>Archive</value>
@@ -4398,5 +4512,41 @@
   </data>
   <data name="DualPaneCategory" xml:space="preserve">
     <value>Dual Pane</value>
+  </data>
+  <data name="ResetDefaults" xml:space="preserve">
+    <value>Reset defaults</value>
+  </data>
+  <data name="Separator" xml:space="preserve">
+    <value>Separator</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>Icon</value>
+  </data>
+  <data name="Label" xml:space="preserve">
+    <value>Label</value>
+  </data>
+  <data name="ShowToolbarLabels" xml:space="preserve">
+    <value>Show label</value>
+  </data>
+  <data name="ShowToolbarIconOnly" xml:space="preserve">
+    <value>Show icon</value>
+  </data>
+  <data name="AvailableToolbarItems" xml:space="preserve">
+    <value>Available items</value>
+  </data>
+  <data name="AddedToolbarItems" xml:space="preserve">
+    <value>Added items</value>
+  </data>
+  <data name="ExtractGroupDescription" xml:space="preserve">
+    <value>Extract compressed archives</value>
+  </data>
+  <data name="SetAsGroupDescription" xml:space="preserve">
+    <value>Set image as wallpaper or background</value>
+  </data>
+  <data name="NewItemGroupDescription" xml:space="preserve">
+    <value>Create new files and folders</value>
+  </data>
+  <data name="EditTagsGroupDescription" xml:space="preserve">
+    <value>Add or remove file tags</value>
   </data>
 </root>
