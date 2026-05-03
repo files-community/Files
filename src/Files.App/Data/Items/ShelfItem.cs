@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using Files.Shared.Utils;
-using System.Windows.Documents;
 
 namespace Files.App.Data.Items
 {

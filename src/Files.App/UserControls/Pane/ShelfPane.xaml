@@ -181,7 +181,7 @@
 					Background="Transparent"
 					BorderThickness="0"
 					Click="HyperlinkBatch_Click"
-					Content="Batch action"
+					Content="{helpers:ResourceString Name=BatchAction}"
 					Visibility="Collapsed">
 					<HyperlinkButton.ContextFlyout>
 						<MenuFlyout x:Name="BatchFlyout" Placement="Top">
