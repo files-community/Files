@@ -124,7 +124,7 @@
     <value>Copiar ruta</value>
   </data>
   <data name="CopyItemPath" xml:space="preserve">
-    <value>Copiar ruta del elemento</value>
+    <value>Copiar rutas de los elementos</value>
   </data>
   <data name="CopyPathWithQuotes" xml:space="preserve">
     <value>Copiar la ruta entre comillas</value>
@@ -189,6 +189,12 @@
   <data name="Search" xml:space="preserve">
     <value>Buscar</value>
   </data>
+  <data name="SearchSettings" xml:space="preserve">
+    <value>Buscar configuraciones...</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>Ninguna configuración coincide con su búsqueda.</value>
+  </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Los archivos a los que previamente haya accedido se mostrarán aquí</value>
   </data>
@@ -210,6 +216,9 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Tema</value>
   </data>
+  <data name="Font" xml:space="preserve">
+    <value>Fuente</value>
+  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Mostrar extensiones de tipos de archivo conocidos</value>
   </data>
@@ -227,6 +236,24 @@
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Avanzado</value>
+  </data>
+  <data name="CacheThumbnails" xml:space="preserve">
+    <value>Caché de miniaturas</value>
+  </data>
+  <data name="CacheSizeLimitDescription" xml:space="preserve">
+    <value>Máximo espacio en disco para la caché de miniaturas (100-5000 MiB).</value>
+  </data>
+  <data name="CacheSizeLimit" xml:space="preserve">
+    <value>Límite de tamaño de la caché</value>
+  </data>
+  <data name="ClearCachedThumbnails" xml:space="preserve">
+    <value>Borrar miniaturas en caché para liberar espacio</value>
+  </data>
+  <data name="CurrentCacheSize" xml:space="preserve">
+    <value>Tamaño actual de la caché: </value>
+  </data>
+  <data name="ClearCache" xml:space="preserve">
+    <value>Limpiar caché</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Continuar donde se dejó</value>
@@ -308,6 +335,9 @@
   </data>
   <data name="DarkTheme" xml:space="preserve">
     <value>Oscuro</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>Tema del sistema</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Utilizar la configuración del sistema</value>
@@ -543,7 +573,7 @@
     <value>Clonar a {0}</value>
   </data>
   <data name="CreateShortcut" xml:space="preserve">
-    <value>Crear acceso directo</value>
+    <value>Crear accesos directos</value>
   </data>
   <data name="OpenFileLocation" xml:space="preserve">
     <value>Abrir ubicación del archivo</value>
@@ -639,7 +669,7 @@
     <value>Acceso denegado</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAs.Text" xml:space="preserve">
-    <value>Establecer como</value>
+    <value>Establecer como fondo de</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancelar</value>
@@ -653,11 +683,17 @@
   <data name="File" xml:space="preserve">
     <value>Archivo</value>
   </data>
+  <data name="Files" xml:space="preserve">
+    <value>Archivos</value>
+  </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Crea un archivo vacío</value>
   </data>
   <data name="Folder" xml:space="preserve">
     <value>Carpeta</value>
+  </data>
+  <data name="Folders" xml:space="preserve">
+    <value>Carpetas</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Crea una carpeta vacía</value>
@@ -1047,13 +1083,13 @@
     <value>Mostrar opción para abrir carpetas en un nuevo panel</value>
   </data>
   <data name="ShowCopyPath" xml:space="preserve">
-    <value>Mostrar opción para copiar ruta</value>
+    <value>Mostrar opción para copiar rutas</value>
   </data>
   <data name="ShowCreateFolderWithSelection" xml:space="preserve">
     <value>Mostrar opción para crear una carpeta con la selección</value>
   </data>
   <data name="ShowCreateShortcut" xml:space="preserve">
-    <value>Mostrar opción para crear acceso directo</value>
+    <value>Mostrar opción para crear accesos directos</value>
   </data>
   <data name="NavigationToolbarNewPane.Label" xml:space="preserve">
     <value>Nuevo panel</value>
@@ -1117,6 +1153,9 @@
   </data>
   <data name="PropertyItemName" xml:space="preserve">
     <value>Nombre del elemento</value>
+  </data>
+  <data name="Unpin" xml:space="preserve">
+    <value>Desanclar</value>
   </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Desanclar de la barra lateral</value>
@@ -1321,6 +1360,9 @@
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Crear carpeta con la selección</value>
+  </data>
+  <data name="CreateShortcutWithSelection" xml:space="preserve">
+    <value>Crear accesos directos con la selección</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Tipo:</value>
@@ -1772,7 +1814,7 @@
   <data name="Tag" xml:space="preserve">
     <value>Etiqueta</value>
   </data>
-  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+  <data name="OpenFilesWithOneClick" xml:space="preserve">
     <value>Abrir archivos con un solo clic</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
@@ -1887,7 +1929,7 @@
     <value>Bibliotecas de terceros</value>
   </data>
   <data name="SettingsSetAsDefaultFileManagerDescription" xml:space="preserve">
-    <value>Esta configuración modifica los archivos del sistema y puede tener efectos secundarios inesperados en su dispositivo. Los desarrolladores no asumen ninguna responsabilidad en caso de que se produzca un problema como resultado. Continuar con esta opción es un reconocimiento de los riesgos que implica esta acción.</value>
+    <value>Esta configuración modifica los archivos del sistema y puede tener efectos secundarios inesperados en su dispositivo. Los desarrolladores no asumen ninguna responsabilidad en caso que se produzca algún tipo de problema al seleccionar esta opción. Activarla implica un reconocimiento explícito de los riesgos que supone.</value>
   </data>
   <data name="ShowFlattenOptionsDescription" xml:space="preserve">
     <value>Las operaciones de aplanado (flatten) son permanentes y no se recomiendan. Continúe bajo su propia responsabilidad.</value>
@@ -2006,6 +2048,9 @@
   <data name="Custom" xml:space="preserve">
     <value>Personalizado</value>
   </data>
+  <data name="Slideshow" xml:space="preserve">
+    <value>Presentación de diapositivas</value>
+  </data>
   <data name="SetAsSlideshow" xml:space="preserve">
     <value>Establecer como presentación de diapositivas de escritorio</value>
   </data>
@@ -2031,10 +2076,10 @@
     <value>¡Hola!</value>
   </data>
   <data name="ReviewFilesSubtitle" xml:space="preserve">
-    <value>¿Disfrutando de Files? Por favor, considere hacer una reseña en Microsoft Store.</value>
+    <value>¿Le gusta Files? Por favor, considere hacer una reseña en Microsoft Store.</value>
   </data>
   <data name="SponsorSubtitle" xml:space="preserve">
-    <value>¿Qué le parece Files? Considere la posibilidad de apoyar el proyecto en GitHub.</value>
+    <value>¿Le gusta Files? Considere la posibilidad de apoyar el proyecto en GitHub.</value>
   </data>
   <data name="Sponsor" xml:space="preserve">
     <value>Patrocinador</value>
@@ -2046,7 +2091,7 @@
     <value>Descartar</value>
   </data>
   <data name="SetAsBackgroundFlyout" xml:space="preserve">
-    <value>Establecer como fondo de pantalla</value>
+    <value>Establecer como fondo de</value>
   </data>
   <data name="SetAsBackground" xml:space="preserve">
     <value>Establecer como fondo de Escritorio</value>
@@ -2074,6 +2119,15 @@
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
     <value>Abrir carpetas con un solo clic</value>
+  </data>
+  <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
+    <value>Abrir carpetas con un solo clic en la vista de columnas</value>
+  </data>
+  <data name="SingleClickToOpen" xml:space="preserve">
+    <value>Abrir elementos con un solo clic</value>
+  </data>
+  <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
+    <value>Carpetas en la vista de columnas</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Abrir elementos</value>
@@ -2241,7 +2295,7 @@
     <value>Crear un nuevo acceso directo</value>
   </data>
   <data name="NewShortcutDialogDescription" xml:space="preserve">
-    <value>Crear accesos directos a programas locales o de red, archivos, carpetas, equipos o direcciones de Internet.</value>
+    <value>Crea accesos directos a archivos, carpetas, equipos o direcciones de Internet, tanto locales como de red.</value>
   </data>
   <data name="NewShortcutDialogPrompt" xml:space="preserve">
     <value>Introducir la ubicación del elemento:</value>
@@ -2450,6 +2504,21 @@
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Entrar/Salir de superposición compacta</value>
   </data>
+  <data name="ToggleTheme" xml:space="preserve">
+    <value>Cambiar tema</value>
+  </data>
+  <data name="ToggleThemeDescription" xml:space="preserve">
+    <value>Cambiar tema de la aplicación</value>
+  </data>
+  <data name="SwitchToLightThemeDescription" xml:space="preserve">
+    <value>Cambiar al tema claro</value>
+  </data>
+  <data name="SwitchToDarkThemeDescription" xml:space="preserve">
+    <value>Cambiar al tema oscuro</value>
+  </data>
+  <data name="SwitchToDefaultThemeDescription" xml:space="preserve">
+    <value>Cambiar al tema del sistema</value>
+  </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>Iniciar búsqueda en la barra unificada (omnibar)</value>
   </data>
@@ -2505,7 +2574,7 @@
     <value>Crear nueva carpeta</value>
   </data>
   <data name="CreateShortcutDescription" xml:space="preserve">
-    <value>Crea {0, plural, one {nuevo acceso directo} other {nuevos accesos directos}} para {0, plural, one {elemento seleccionado} other {elementos seleccionados}}</value>
+    <value>Crear {0, plural, one {nuevo acceso directo} other {nuevos accesos directos}} para {0, plural, one {el elemento seleccionado} other {los elementos seleccionados}}</value>
   </data>
   <data name="CreateShortcutFromDialogDescription" xml:space="preserve">
     <value>Crear nuevo acceso directo para cualquier elemento</value>
@@ -2526,7 +2595,7 @@
     <value>Abrir {0, plural, one {elemento} other {elementos}}</value>
   </data>
   <data name="OpenItemWithApplicationPickerDescription" xml:space="preserve">
-    <value>Abre {0, plural, one {elemento} other {elementos}} con la aplicación seleccionada</value>
+    <value>Abrir {0, plural, one {elemento} other {elementos}} con la aplicación seleccionada</value>
   </data>
   <data name="OpenParentFolderDescription" xml:space="preserve">
     <value>Abrir la carpeta contenedora del elemento buscado</value>
@@ -2550,7 +2619,7 @@
     <value>Seleccionar/No selecionar elemento</value>
   </data>
   <data name="ShareItemDescription" xml:space="preserve">
-    <value>Comparte {0, plural, one {archivo seleccionado} other {archivos seleccionados}} con otros</value>
+    <value>Compartir {0, plural, one {archivo seleccionado} other {archivos seleccionados}} con otros</value>
   </data>
   <data name="PinToStartDescription" xml:space="preserve">
     <value>Anclar {0, plural, one {elemento} other {elementos}} al Menú Inicio</value>
@@ -2565,10 +2634,10 @@
     <value>Desanclar {0, plural, one {carpeta} other {carpetas}} de la Barra lateral</value>
   </data>
   <data name="SetAsWallpaperBackgroundDescription" xml:space="preserve">
-    <value>Establecer imagen seleccionada como fondo de escritorio</value>
+    <value>Establece imagen seleccionada como fondo de escritorio</value>
   </data>
   <data name="SetAsSlideshowBackgroundDescription" xml:space="preserve">
-    <value>Establecer imágenes seleccionadas como diapositivas de escritorio</value>
+    <value>Establece imágenes seleccionadas como diapositivas de escritorio</value>
   </data>
   <data name="SetAsLockscreenBackgroundDescription" xml:space="preserve">
     <value>Establecer imagen seleccionada como fondo de pantalla de bloqueo</value>
@@ -2625,10 +2694,10 @@
     <value>Extraer {0, plural, one {archivo seleccionado} other {archivos seleccionados}} en una nueva carpeta</value>
   </data>
   <data name="RotateLeftDescription" xml:space="preserve">
-    <value>Gira {0, plural, one {imagen seleccionada} other {imágenes seleccionadas}} a la izquierda</value>
+    <value>Girar {0, plural, one {imagen seleccionada} other {imágenes seleccionadas}} a la izquierda</value>
   </data>
   <data name="RotateRightDescription" xml:space="preserve">
-    <value>Gira {0, plural, one {imagen seleccionada} other {imágenes seleccionadas}} a la derecha</value>
+    <value>Girar {0, plural, one {imagen seleccionada} other {imágenes seleccionadas}} a la derecha</value>
   </data>
   <data name="OpenSettingsDescription" xml:space="preserve">
     <value>Abrir página de configuración</value>
@@ -3022,7 +3091,7 @@
     <value>Ubicación no válida</value>
   </data>
   <data name="CopyFileWithoutProperties" xml:space="preserve">
-    <value>¿Está seguro que desea copiar estos archivos sin sus propiedades?</value>
+    <value>¿Está seguro de que desea copiar estos archivos sin sus propiedades?</value>
   </data>
   <data name="FilePropertiesCannotBeCopied" xml:space="preserve">
     <value>Estos archivos tienen propiedades que no pueden copiarse en la nueva ubicación</value>
@@ -3178,7 +3247,7 @@
     <value>Cambiar a nueva rama</value>
   </data>
   <data name="CreateFolderWithSelectionDescription" xml:space="preserve">
-    <value>Crea una carpeta con {0, plural, one {elemento seleccionado} other {elementos seleccionados}} actualmente</value>
+    <value>Crear una carpeta con {0, plural, one {el elemento seleccionado} other {los elementos seleccionados}} actualmente</value>
   </data>
   <data name="OpenProperties" xml:space="preserve">
     <value>Propiedades</value>
@@ -3287,7 +3356,7 @@
     <value>Introducir el siguiente código en el enlace inferior para empezar a trabajar con repositorios GitHub.</value>
   </data>
   <data name="CannotReachGitHubError" xml:space="preserve">
-    <value>Los archivos no tienen acceso a GitHub en este momento.</value>
+    <value>Files no tiene acceso a GitHub en este momento.</value>
   </data>
   <data name="OpenInIDE" xml:space="preserve">
     <value>Abrir carpeta en {0}</value>
@@ -3855,7 +3924,7 @@
     <value>Editar permisos</value>
   </data>
   <data name="BackgroundRunningNotificationBody" xml:space="preserve">
-    <value>Files sigue ejecutándose en segundo plano para mejorar el rendimiento del arranque.</value>
+    <value>Files sigue ejecutándose en segundo plano para mejorar el rendimiento al arrancar.</value>
   </data>
   <data name="BackgroundRunningNotificationHeader" xml:space="preserve">
     <value>¿Dónde ha ido Files?</value>
@@ -3923,6 +3992,9 @@
   </data>
   <data name="Actions" xml:space="preserve">
     <value>Acciones</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Acción</value>
   </data>
   <data name="Commands" xml:space="preserve">
     <value>Comandos</value>
@@ -4125,8 +4197,8 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Ir a la página de inicio</value>
   </data>
-  <data name="Toolbars" xml:space="preserve">
-    <value>Barra de herramientas</value>
+  <data name="AddressBar" xml:space="preserve">
+    <value>Barra de direcciones</value>
   </data>
   <data name="UserID" xml:space="preserve">
     <value>ID de usuario</value>
@@ -4144,7 +4216,7 @@
     <value>Crear flujo de datos alternativos</value>
   </data>
   <data name="CreateAlternateDataStreamDescription" xml:space="preserve">
-    <value>Crea flujo de datos alternativo para {0, plural, one {elemento seleccionado} other {elementos seleccionados}}</value>
+    <value>Crear flujo de datos alternativo para {0, plural, one {elemento seleccionado} other {elementos seleccionados}}</value>
   </data>
   <data name="EnterDataStreamName" xml:space="preserve">
     <value>Introducir nombre de flujo de datos</value>
@@ -4283,10 +4355,10 @@
     <value>Durante las operaciones de archivo</value>
   </data>
   <data name="ShowStatusCenterButton" xml:space="preserve">
-    <value>Mostrar botón del centro de estado</value>
+    <value>Mostrar botón del centro de actividades</value>
   </data>
   <data name="StatusCenterProgressRing" xml:space="preserve">
-    <value>Anillo de progreso del centro de estado</value>
+    <value>Anillo de progreso del centro de actividades</value>
     <comment>Screen reader name for the status center progress ring</comment>
   </data>
   <data name="IconFiles" xml:space="preserve">
@@ -4353,8 +4425,11 @@
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Mostrar barra de estado</value>
   </data>
-  <data name="OnlyInColumnsView" xml:space="preserve">
-    <value>Sólo en la vista de columnas</value>
+  <data name="OnlyForTouch" xml:space="preserve">
+    <value>Al utilizar la entrada táctil</value>
+  </data>
+  <data name="OnlyForMouse" xml:space="preserve">
+    <value>Al utilizar el ratón</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>Nuevo {0}</value>
@@ -4370,6 +4445,45 @@
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Mostrar opción Anclar en el menú Inicio</value>
+  </data>
+  <data name="Toolbar" xml:space="preserve">
+    <value>Barra de herramientas</value>
+  </data>
+  <data name="CustomizeToolbar" xml:space="preserve">
+    <value>Personalizar barra de herramientas</value>
+  </data>
+  <data name="CustomizeToolbarDescription" xml:space="preserve">
+    <value>Personalizar botones de la barra de herramientas</value>
+  </data>
+  <data name="ChooseToolbarModeToCustomize" xml:space="preserve">
+    <value>Seleccionar modo de barra de herramientas para personalizar</value>
+  </data>
+  <data name="AlwaysVisible" xml:space="preserve">
+    <value>Siempre visible</value>
+  </data>
+  <data name="ArchiveFiles" xml:space="preserve">
+    <value>Archivos comprimidos</value>
+  </data>
+  <data name="BatchFiles" xml:space="preserve">
+    <value>Archivos por lotes</value>
+  </data>
+  <data name="PowerShellFiles" xml:space="preserve">
+    <value>Archivos PowerShell</value>
+  </data>
+  <data name="MediaFiles" xml:space="preserve">
+    <value>Archivos multimedia</value>
+  </data>
+  <data name="FontFiles" xml:space="preserve">
+    <value>Archivos de fuentes</value>
+  </data>
+  <data name="DriverFiles" xml:space="preserve">
+    <value>Archivos de controladores</value>
+  </data>
+  <data name="CertificateFiles" xml:space="preserve">
+    <value>Archivos de certificados</value>
+  </data>
+  <data name="OtherContexts" xml:space="preserve">
+    <value>Otros contextos</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>Archivo</value>
@@ -4397,5 +4511,41 @@
   </data>
   <data name="DualPaneCategory" xml:space="preserve">
     <value>Panel dual</value>
+  </data>
+  <data name="ResetDefaults" xml:space="preserve">
+    <value>Restablecer predeterminados</value>
+  </data>
+  <data name="Separator" xml:space="preserve">
+    <value>Separador</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>Icono</value>
+  </data>
+  <data name="Label" xml:space="preserve">
+    <value>Etiqueta</value>
+  </data>
+  <data name="ShowToolbarLabels" xml:space="preserve">
+    <value>Mostrar etiqueta</value>
+  </data>
+  <data name="ShowToolbarIconOnly" xml:space="preserve">
+    <value>Mostrar icono</value>
+  </data>
+  <data name="AvailableToolbarItems" xml:space="preserve">
+    <value>Elementos disponibles</value>
+  </data>
+  <data name="AddedToolbarItems" xml:space="preserve">
+    <value>Elementos añadidos</value>
+  </data>
+  <data name="ExtractGroupDescription" xml:space="preserve">
+    <value>Extraer archivos comprimidos</value>
+  </data>
+  <data name="SetAsGroupDescription" xml:space="preserve">
+    <value>Establece imagen como fondo de escritorio o fondo</value>
+  </data>
+  <data name="NewItemGroupDescription" xml:space="preserve">
+    <value>Crear nuevos archivos y carpetas</value>
+  </data>
+  <data name="EditTagsGroupDescription" xml:space="preserve">
+    <value>Agregar o eliminar etiquetas de archivo</value>
   </data>
 </root>
