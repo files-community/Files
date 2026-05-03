@@ -92,7 +92,7 @@ namespace Files.App.Controls
 			HookupItemChangeListener(null, Item);
 			UpdateExpansionState();
 			ReevaluateSelection();
-			CanDrag = Item?.GetType().GetProperty("Path")?.GetValue(Item) is string path && Path.IsPathRooted(path);
+			CanDrag = Item?.Path is string path && Path.IsPathRooted(path);
 		}
 
 		private void HookupOwners()
@@ -140,7 +140,7 @@ namespace Files.App.Controls
 
 		private void SidebarItem_DragStarting(UIElement sender, DragStartingEventArgs args)
 		{
-			if (Item?.GetType().GetProperty("Path")?.GetValue(Item) is not string dragPath || !Path.IsPathRooted(dragPath))
+			if (Item?.Path is not string dragPath || !Path.IsPathRooted(dragPath))
 				return;
 
 			args.Data.SetData(StandardDataFormats.Text, dragPath);
