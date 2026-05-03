@@ -189,6 +189,12 @@
   <data name="Search" xml:space="preserve">
     <value>Ara</value>
   </data>
+  <data name="SearchSettings" xml:space="preserve">
+    <value>Search settings...</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>No settings match your search.</value>
+  </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Daha önce eriştiğiniz dosya ve dizinler burada görüntülenir</value>
   </data>
@@ -210,6 +216,9 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Tema</value>
   </data>
+  <data name="Font" xml:space="preserve">
+    <value>Yazı Tipi</value>
+  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Bilinen dosya türleri için uzantıları göster</value>
   </data>
@@ -227,6 +236,24 @@
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Gelişmiş</value>
+  </data>
+  <data name="CacheThumbnails" xml:space="preserve">
+    <value>Küçük resimleri önbellekte sakla</value>
+  </data>
+  <data name="CacheSizeLimitDescription" xml:space="preserve">
+    <value>Küçük resim önbelleği için kullanılacak maksimum disk alanı (100-5000 MiB).</value>
+  </data>
+  <data name="CacheSizeLimit" xml:space="preserve">
+    <value>Önbellek boyut sınırı</value>
+  </data>
+  <data name="ClearCachedThumbnails" xml:space="preserve">
+    <value>Yer açmak için önbelleğe alınmış küçük resimleri temizle</value>
+  </data>
+  <data name="CurrentCacheSize" xml:space="preserve">
+    <value>Mevcut önbellek boyutu: </value>
+  </data>
+  <data name="ClearCache" xml:space="preserve">
+    <value>Önbelleği temizle</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Kaldığınız yerden devam edin</value>
@@ -308,6 +335,9 @@
   </data>
   <data name="DarkTheme" xml:space="preserve">
     <value>Koyu</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>Sistem Teması</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Sistem ayarını kullan</value>
@@ -653,11 +683,17 @@
   <data name="File" xml:space="preserve">
     <value>Dosya</value>
   </data>
+  <data name="Files" xml:space="preserve">
+    <value>Files</value>
+  </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Boş bir dosya oluşturur</value>
   </data>
   <data name="Folder" xml:space="preserve">
     <value>Klasör</value>
+  </data>
+  <data name="Folders" xml:space="preserve">
+    <value>Folders</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Boş bir klasör oluşturur</value>
@@ -1118,6 +1154,9 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Öge Adı</value>
   </data>
+  <data name="Unpin" xml:space="preserve">
+    <value>Sabitlemeyi Kaldır</value>
+  </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Kenar çubuğundan kaldır</value>
   </data>
@@ -1321,6 +1360,9 @@
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Seçimle klasör oluştur</value>
+  </data>
+  <data name="CreateShortcutWithSelection" xml:space="preserve">
+    <value>Seçim ile kısayollar oluştur</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Tip:</value>
@@ -1772,8 +1814,8 @@
   <data name="Tag" xml:space="preserve">
     <value>Dosya etiketi</value>
   </data>
-  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
-    <value>Dosyaları tek tıklamayla açın</value>
+  <data name="OpenFilesWithOneClick" xml:space="preserve">
+    <value>Open files with a single click</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Klasör yolu</value>
@@ -2006,6 +2048,9 @@
   <data name="Custom" xml:space="preserve">
     <value>Özel</value>
   </data>
+  <data name="Slideshow" xml:space="preserve">
+    <value>Slayt Gösterisi</value>
+  </data>
   <data name="SetAsSlideshow" xml:space="preserve">
     <value>Masaüstü slayt gösterisi olarak ayarla</value>
   </data>
@@ -2074,6 +2119,15 @@
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
     <value>Klasörleri tek tıklamayla açın</value>
+  </data>
+  <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
+    <value>Open folders with a single click in Columns View</value>
+  </data>
+  <data name="SingleClickToOpen" xml:space="preserve">
+    <value>Open items with a single click</value>
+  </data>
+  <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
+    <value>Folders in Columns View</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Açılış öğeleri</value>
@@ -2145,10 +2199,10 @@
     <value>Arşiv oluştur</value>
   </data>
   <data name="CompressIntoZip" xml:space="preserve">
-    <value>Create zip archive</value>
+    <value>Zip arşivi oluştur</value>
   </data>
   <data name="CompressIntoSevenZip" xml:space="preserve">
-    <value>Create 7z archive</value>
+    <value>7z arşivi oluştur</value>
   </data>
   <data name="Create" xml:space="preserve">
     <value>Oluştur</value>
@@ -2187,19 +2241,19 @@
     <value>Bölme yapma</value>
   </data>
   <data name="Auto" xml:space="preserve">
-    <value>Auto</value>
+    <value>Oto</value>
   </data>
   <data name="DictionarySize" xml:space="preserve">
-    <value>Dictionary size</value>
+    <value>Sözlük boyutu</value>
   </data>
   <data name="WordSize" xml:space="preserve">
-    <value>Word size</value>
+    <value>Kelime boyutu</value>
   </data>
   <data name="EstimatedMemoryUsage" xml:space="preserve">
-    <value>Estimated memory usage: {0}</value>
+    <value>Tahmini bellek kullanımı: {0}</value>
   </data>
   <data name="AvailableMemory" xml:space="preserve">
-    <value>Available memory: {0}</value>
+    <value>Kullanılabilir bellek: {0}</value>
   </data>
   <data name="CD" xml:space="preserve">
     <value>CD</value>
@@ -2449,6 +2503,21 @@
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Kompakt katman modunu değiştir</value>
+  </data>
+  <data name="ToggleTheme" xml:space="preserve">
+    <value>Temayı Değiştir</value>
+  </data>
+  <data name="ToggleThemeDescription" xml:space="preserve">
+    <value>Uygulama temasını değiştir</value>
+  </data>
+  <data name="SwitchToLightThemeDescription" xml:space="preserve">
+    <value>Açık temaya geç</value>
+  </data>
+  <data name="SwitchToDarkThemeDescription" xml:space="preserve">
+    <value>Koyu Temaya geç</value>
+  </data>
+  <data name="SwitchToDefaultThemeDescription" xml:space="preserve">
+    <value>Sistem temasına geç</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>OmniBar üstünde arama başlat</value>
@@ -3924,6 +3993,9 @@
   <data name="Actions" xml:space="preserve">
     <value>Eylemler</value>
   </data>
+  <data name="Action" xml:space="preserve">
+    <value>Eylem</value>
+  </data>
   <data name="Commands" xml:space="preserve">
     <value>Komutlar</value>
   </data>
@@ -4125,8 +4197,8 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Ev sayfasına gidin</value>
   </data>
-  <data name="Toolbars" xml:space="preserve">
-    <value>Araç çubukları</value>
+  <data name="AddressBar" xml:space="preserve">
+    <value>Adres çubuğu</value>
   </data>
   <data name="UserID" xml:space="preserve">
     <value>Kullanıcı kimliği</value>
@@ -4353,8 +4425,11 @@
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Durum çubuğunu göster</value>
   </data>
-  <data name="OnlyInColumnsView" xml:space="preserve">
-    <value>Yalnızca Sütunlar Görünümünde</value>
+  <data name="OnlyForTouch" xml:space="preserve">
+    <value>When using touch</value>
+  </data>
+  <data name="OnlyForMouse" xml:space="preserve">
+    <value>When using mouse</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>Yeni '{0}'</value>
@@ -4366,36 +4441,111 @@
     <value>Kaydırma</value>
   </data>
   <data name="ShowPinToSideBar" xml:space="preserve">
-    <value>Show option to Pin to Sidebar</value>
+    <value>Kenar Çubuğuna Sabitleme seçeneğini göster</value>
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
-    <value>Show option to Pin to the Start Menu</value>
+    <value>Başlat Menüsüne Sabitleme seçeneğini göster</value>
+  </data>
+  <data name="Toolbar" xml:space="preserve">
+    <value>Araç Çubuğu</value>
+  </data>
+  <data name="CustomizeToolbar" xml:space="preserve">
+    <value>Araç çubuğunu özelleştir</value>
+  </data>
+  <data name="CustomizeToolbarDescription" xml:space="preserve">
+    <value>Araç çubuğu düğmelerini özelleştir</value>
+  </data>
+  <data name="ChooseToolbarModeToCustomize" xml:space="preserve">
+    <value>Özelleştirmek için araç çubuğu modunu seç</value>
+  </data>
+  <data name="AlwaysVisible" xml:space="preserve">
+    <value>Her zaman görünür</value>
+  </data>
+  <data name="ArchiveFiles" xml:space="preserve">
+    <value>Arşiv dosyaları</value>
+  </data>
+  <data name="BatchFiles" xml:space="preserve">
+    <value>Batch dosyaları</value>
+  </data>
+  <data name="PowerShellFiles" xml:space="preserve">
+    <value>PowerShell dosyaları</value>
+  </data>
+  <data name="MediaFiles" xml:space="preserve">
+    <value>Medya dosyaları</value>
+  </data>
+  <data name="FontFiles" xml:space="preserve">
+    <value>Yazı tipi dosyaları</value>
+  </data>
+  <data name="DriverFiles" xml:space="preserve">
+    <value>Sürücü dosyaları</value>
+  </data>
+  <data name="CertificateFiles" xml:space="preserve">
+    <value>Sertifika dosyaları</value>
+  </data>
+  <data name="OtherContexts" xml:space="preserve">
+    <value>Diğer bağlamlar</value>
   </data>
   <data name="Archive" xml:space="preserve">
-    <value>Archive</value>
+    <value>Arşiv</value>
   </data>
   <data name="Run" xml:space="preserve">
-    <value>Run</value>
+    <value>Çalıştır</value>
   </data>
   <data name="Start" xml:space="preserve">
-    <value>Start</value>
+    <value>Başlat</value>
   </data>
   <data name="Selection" xml:space="preserve">
-    <value>Selection</value>
+    <value>Seçim</value>
   </data>
   <data name="Show" xml:space="preserve">
-    <value>Show</value>
+    <value>Göster</value>
   </data>
   <data name="Navigation" xml:space="preserve">
-    <value>Navigation</value>
+    <value>Navigasyon</value>
   </data>
   <data name="FileSystem" xml:space="preserve">
-    <value>File system</value>
+    <value>Dosya sistemi</value>
   </data>
   <data name="Window" xml:space="preserve">
-    <value>Window</value>
+    <value>Pencere</value>
   </data>
   <data name="DualPaneCategory" xml:space="preserve">
-    <value>Dual Pane</value>
+    <value>Çift Bölme</value>
+  </data>
+  <data name="ResetDefaults" xml:space="preserve">
+    <value>Varsayılanları sıfırla</value>
+  </data>
+  <data name="Separator" xml:space="preserve">
+    <value>Ayraç</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>Simge</value>
+  </data>
+  <data name="Label" xml:space="preserve">
+    <value>Etiket</value>
+  </data>
+  <data name="ShowToolbarLabels" xml:space="preserve">
+    <value>Etiketi göster</value>
+  </data>
+  <data name="ShowToolbarIconOnly" xml:space="preserve">
+    <value>Simgeyi göster</value>
+  </data>
+  <data name="AvailableToolbarItems" xml:space="preserve">
+    <value>Uygun ögeler</value>
+  </data>
+  <data name="AddedToolbarItems" xml:space="preserve">
+    <value>Eklenen ögeler</value>
+  </data>
+  <data name="ExtractGroupDescription" xml:space="preserve">
+    <value>Sıkıştırılmış arşivleri ayıkla</value>
+  </data>
+  <data name="SetAsGroupDescription" xml:space="preserve">
+    <value>Resmi duvar kağıdı veya arka plan olarak ayarla</value>
+  </data>
+  <data name="NewItemGroupDescription" xml:space="preserve">
+    <value>Yeni dosyalar ve klasörler oluştur</value>
+  </data>
+  <data name="EditTagsGroupDescription" xml:space="preserve">
+    <value>Dosya etiketlerini ekle veya kaldır</value>
   </data>
 </root>
