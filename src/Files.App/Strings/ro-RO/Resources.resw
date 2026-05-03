@@ -189,6 +189,12 @@
   <data name="Search" xml:space="preserve">
     <value>Căutare</value>
   </data>
+  <data name="SearchSettings" xml:space="preserve">
+    <value>Căutare setări...</value>
+  </data>
+  <data name="NoSearchResults" xml:space="preserve">
+    <value>Nicio setare nu corespunde căutării dvs.</value>
+  </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Fișierele pe care le veți accesa vor apărea aici</value>
   </data>
@@ -210,6 +216,9 @@
   <data name="SettingsAppearanceTheme" xml:space="preserve">
     <value>Temă</value>
   </data>
+  <data name="Font" xml:space="preserve">
+    <value>Font</value>
+  </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Afișare extensii pentru tipurile de fișiere cunoscute</value>
   </data>
@@ -227,6 +236,24 @@
   </data>
   <data name="Advanced" xml:space="preserve">
     <value>Avansat</value>
+  </data>
+  <data name="CacheThumbnails" xml:space="preserve">
+    <value>Cache miniaturi</value>
+  </data>
+  <data name="CacheSizeLimitDescription" xml:space="preserve">
+    <value>Spațiu maxim pe disc de utilizat pentru memoria cache a miniaturilor (100-5000 MiB).</value>
+  </data>
+  <data name="CacheSizeLimit" xml:space="preserve">
+    <value>Limită de dimensiune cache</value>
+  </data>
+  <data name="ClearCachedThumbnails" xml:space="preserve">
+    <value>Curățați miniaturile din memoria cache pentru a elibera spațiu</value>
+  </data>
+  <data name="CurrentCacheSize" xml:space="preserve">
+    <value>Dimensiunea actuală a memoriei cache: </value>
+  </data>
+  <data name="ClearCache" xml:space="preserve">
+    <value>Goliți memoria cache</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Continuați de unde ați rămas</value>
@@ -308,6 +335,9 @@
   </data>
   <data name="DarkTheme" xml:space="preserve">
     <value>Întunecată</value>
+  </data>
+  <data name="DefaultTheme" xml:space="preserve">
+    <value>Temă de sistem</value>
   </data>
   <data name="UseSystemSetting" xml:space="preserve">
     <value>Utilizați setările de sistem</value>
@@ -653,11 +683,17 @@
   <data name="File" xml:space="preserve">
     <value>Fișier</value>
   </data>
+  <data name="Files" xml:space="preserve">
+    <value>Fișiere</value>
+  </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Creare fișier gol</value>
   </data>
   <data name="Folder" xml:space="preserve">
     <value>Folder</value>
+  </data>
+  <data name="Folders" xml:space="preserve">
+    <value>Foldere</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Creează un folder gol</value>
@@ -1118,6 +1154,9 @@
   <data name="PropertyItemName" xml:space="preserve">
     <value>Nume element</value>
   </data>
+  <data name="Unpin" xml:space="preserve">
+    <value>Anulare fixarea</value>
+  </data>
   <data name="UnpinFolderFromSidebar" xml:space="preserve">
     <value>Anulați fixarea la Bara Laterală</value>
   </data>
@@ -1321,6 +1360,9 @@
   </data>
   <data name="CreateFolderWithSelection" xml:space="preserve">
     <value>Creare folder cu selecție</value>
+  </data>
+  <data name="CreateShortcutWithSelection" xml:space="preserve">
+    <value>Creare comandă rapidă cu selecție</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Tip:</value>
@@ -1772,7 +1814,7 @@
   <data name="Tag" xml:space="preserve">
     <value>Etichetă</value>
   </data>
-  <data name="SettingsOpenItemsWithOneClick" xml:space="preserve">
+  <data name="OpenFilesWithOneClick" xml:space="preserve">
     <value>Deschidere fișiere cu un singur clic</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
@@ -2006,6 +2048,9 @@
   <data name="Custom" xml:space="preserve">
     <value>Personalizat</value>
   </data>
+  <data name="Slideshow" xml:space="preserve">
+    <value>Prezentare</value>
+  </data>
   <data name="SetAsSlideshow" xml:space="preserve">
     <value>Setare ca expunere de diapozitive pe desktop</value>
   </data>
@@ -2074,6 +2119,15 @@
   </data>
   <data name="OpenFolderWithOneClick" xml:space="preserve">
     <value>Deschidere foldere cu un singur clic</value>
+  </data>
+  <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
+    <value>Deschidere foldere cu un singur clic în vizualizarea coloană</value>
+  </data>
+  <data name="SingleClickToOpen" xml:space="preserve">
+    <value>Deschidere elemente cu un singur clic</value>
+  </data>
+  <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
+    <value>Foldere în vizualizare coloane</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Deschidere elemente</value>
@@ -2449,6 +2503,21 @@
   </data>
   <data name="ToggleCompactOverlayDescription" xml:space="preserve">
     <value>Comutare suprapunere compactă</value>
+  </data>
+  <data name="ToggleTheme" xml:space="preserve">
+    <value>Comutare temă</value>
+  </data>
+  <data name="ToggleThemeDescription" xml:space="preserve">
+    <value>Comutați tema aplicației</value>
+  </data>
+  <data name="SwitchToLightThemeDescription" xml:space="preserve">
+    <value>Comutați la tema luminoasă</value>
+  </data>
+  <data name="SwitchToDarkThemeDescription" xml:space="preserve">
+    <value>Comutați la tema întunecată</value>
+  </data>
+  <data name="SwitchToDefaultThemeDescription" xml:space="preserve">
+    <value>Comutați la tema de sistem</value>
   </data>
   <data name="SearchDescription" xml:space="preserve">
     <value>Începeți căutarea în OmniBar</value>
@@ -3924,6 +3993,9 @@
   <data name="Actions" xml:space="preserve">
     <value>Acțiuni</value>
   </data>
+  <data name="Action" xml:space="preserve">
+    <value>Acțiune</value>
+  </data>
   <data name="Commands" xml:space="preserve">
     <value>Comenzi</value>
   </data>
@@ -4125,8 +4197,8 @@
   <data name="NavigateHomeDescription" xml:space="preserve">
     <value>Navigați spre pagina principală</value>
   </data>
-  <data name="Toolbars" xml:space="preserve">
-    <value>Bare de Instrumente</value>
+  <data name="AddressBar" xml:space="preserve">
+    <value>Bara de adrese</value>
   </data>
   <data name="UserID" xml:space="preserve">
     <value>ID utilizator</value>
@@ -4353,8 +4425,11 @@
   <data name="ShowStatusBar" xml:space="preserve">
     <value>Afișați bara de stare</value>
   </data>
-  <data name="OnlyInColumnsView" xml:space="preserve">
-    <value>Doar în Vizualizarea coloane</value>
+  <data name="OnlyForTouch" xml:space="preserve">
+    <value>Când se utilizează atingerea</value>
+  </data>
+  <data name="OnlyForMouse" xml:space="preserve">
+    <value>Când se utilizează mouse-ul</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>Nou {0}</value>
@@ -4370,6 +4445,45 @@
   </data>
   <data name="ShowPinToStart" xml:space="preserve">
     <value>Afișați opțiunea de fixare în Meniul Start</value>
+  </data>
+  <data name="Toolbar" xml:space="preserve">
+    <value>Bară de instrumente</value>
+  </data>
+  <data name="CustomizeToolbar" xml:space="preserve">
+    <value>Personalizare bară de instrumente</value>
+  </data>
+  <data name="CustomizeToolbarDescription" xml:space="preserve">
+    <value>Personalizați butoanele din bara de instrumente</value>
+  </data>
+  <data name="ChooseToolbarModeToCustomize" xml:space="preserve">
+    <value>Alegeți modul bară de instrumente pentru a personaliza</value>
+  </data>
+  <data name="AlwaysVisible" xml:space="preserve">
+    <value>Vizibil mereu</value>
+  </data>
+  <data name="ArchiveFiles" xml:space="preserve">
+    <value>Fișiere arhivă</value>
+  </data>
+  <data name="BatchFiles" xml:space="preserve">
+    <value>Fișiere batch</value>
+  </data>
+  <data name="PowerShellFiles" xml:space="preserve">
+    <value>Fișiere PowerShell</value>
+  </data>
+  <data name="MediaFiles" xml:space="preserve">
+    <value>Fișiere media</value>
+  </data>
+  <data name="FontFiles" xml:space="preserve">
+    <value>Fișiere font</value>
+  </data>
+  <data name="DriverFiles" xml:space="preserve">
+    <value>Fișiere driver</value>
+  </data>
+  <data name="CertificateFiles" xml:space="preserve">
+    <value>Fișiere certificat</value>
+  </data>
+  <data name="OtherContexts" xml:space="preserve">
+    <value>Alte contexte</value>
   </data>
   <data name="Archive" xml:space="preserve">
     <value>Arhivare</value>
@@ -4397,5 +4511,41 @@
   </data>
   <data name="DualPaneCategory" xml:space="preserve">
     <value>Panou dublu</value>
+  </data>
+  <data name="ResetDefaults" xml:space="preserve">
+    <value>Resetare la valori implicite</value>
+  </data>
+  <data name="Separator" xml:space="preserve">
+    <value>Separator</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>Pictogramă</value>
+  </data>
+  <data name="Label" xml:space="preserve">
+    <value>Etichetă</value>
+  </data>
+  <data name="ShowToolbarLabels" xml:space="preserve">
+    <value>Afișare etichetă</value>
+  </data>
+  <data name="ShowToolbarIconOnly" xml:space="preserve">
+    <value>Afișare pictogramă</value>
+  </data>
+  <data name="AvailableToolbarItems" xml:space="preserve">
+    <value>Elemente disponibile</value>
+  </data>
+  <data name="AddedToolbarItems" xml:space="preserve">
+    <value>Elemente adăugate</value>
+  </data>
+  <data name="ExtractGroupDescription" xml:space="preserve">
+    <value>Extragere arhive comprimate</value>
+  </data>
+  <data name="SetAsGroupDescription" xml:space="preserve">
+    <value>Setare imagine ca imagine de fundal sau fundal</value>
+  </data>
+  <data name="NewItemGroupDescription" xml:space="preserve">
+    <value>Creare fișiere și foldere noi</value>
+  </data>
+  <data name="EditTagsGroupDescription" xml:space="preserve">
+    <value>Adăugare sau ștergere etichete fișiere</value>
   </data>
 </root>
