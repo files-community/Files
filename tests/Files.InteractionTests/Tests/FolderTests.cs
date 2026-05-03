@@ -97,7 +97,7 @@ namespace Files.InteractionTests.Tests
 			action.SendKeys(Keys.Enter).Perform();
 
 			// Wait for the folder to be renamed
-			Thread.Sleep(3500);
+			Thread.Sleep(4000);
 		}
 
 		/// <summary>
@@ -115,7 +115,7 @@ namespace Files.InteractionTests.Tests
 			TestHelper.InvokeButtonById("InnerNavigationToolbarPasteButton");
 
 			// Wait for folder to be pasted
-			Thread.Sleep(3500);
+			Thread.Sleep(4000);
 		}
 
 		/// <summary>
