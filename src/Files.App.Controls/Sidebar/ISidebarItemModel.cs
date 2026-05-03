@@ -8,7 +8,7 @@ namespace Files.App.Controls
 		/// <summary>
 		/// The filesystem path represented by this item, if any.
 		/// </summary>
-		string? Path => null;
+		string? Path { get; }
 
 		/// <summary>
 		/// The children of this item that will be rendered as child elements of the SidebarItem
