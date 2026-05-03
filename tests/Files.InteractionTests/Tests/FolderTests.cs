@@ -41,7 +41,7 @@ namespace Files.InteractionTests.Tests
 			TestHelper.InvokeButtonById("Desktop");
 
 			// Wait for the desktop folder to load
-			Thread.Sleep(2000);
+			Thread.Sleep(2500);
 		}
 
 
@@ -54,13 +54,13 @@ namespace Files.InteractionTests.Tests
 			TestHelper.InvokeButtonById("InnerNavigationToolbarNewButton");
 
 			// Wait for the flyout to load
-			Thread.Sleep(1000);
+			Thread.Sleep(1500);
 
 			// Click the "Folder" item from the menu flyout
 			TestHelper.InvokeButtonById("InnerNavigationToolbarNewFolderButton");
 
 			// Wait for the content dialog to load
-			Thread.Sleep(3000);
+			Thread.Sleep(3500);
 
 			// Check for accessibility issues in the new folder prompt
 			AxeHelper.AssertNoAccessibilityErrors();
@@ -74,7 +74,7 @@ namespace Files.InteractionTests.Tests
 			action.SendKeys(Keys.Enter).Perform();
 
 			// Wait for folder to be created
-			Thread.Sleep(3000);
+			Thread.Sleep(3500);
 
 			// Check for accessibility issues in the file area
 			AxeHelper.AssertNoAccessibilityErrors();
@@ -97,7 +97,7 @@ namespace Files.InteractionTests.Tests
 			action.SendKeys(Keys.Enter).Perform();
 
 			// Wait for the folder to be renamed
-			Thread.Sleep(3000);
+			Thread.Sleep(3500);
 		}
 
 		/// <summary>
@@ -109,13 +109,13 @@ namespace Files.InteractionTests.Tests
 			TestHelper.InvokeButtonById("InnerNavigationToolbarCopyButton");
 
 			// Wait for folder to be copied
-			Thread.Sleep(3000);
+			Thread.Sleep(3500);
 
 			// Click the "paste" button on the toolbar
 			TestHelper.InvokeButtonById("InnerNavigationToolbarPasteButton");
 
 			// Wait for folder to be pasted
-			Thread.Sleep(3000);
+			Thread.Sleep(3500);
 		}
 
 		/// <summary>
@@ -128,7 +128,7 @@ namespace Files.InteractionTests.Tests
 			TestHelper.InvokeButtonById("InnerNavigationToolbarDeleteButton");
 
 			// Wait for prompt to show
-			Thread.Sleep(3000);
+			Thread.Sleep(3500);
 
 			// Check for accessibility issues in the confirm delete prompt
 			AxeHelper.AssertNoAccessibilityErrors();
@@ -143,7 +143,7 @@ namespace Files.InteractionTests.Tests
 			TestHelper.InvokeButtonById("InnerNavigationToolbarDeleteButton");
 
 			// Wait for prompt to show
-			Thread.Sleep(3000);
+			Thread.Sleep(3500);
 
 			// Check for accessibility issues in the confirm delete prompt
 			AxeHelper.AssertNoAccessibilityErrors();
@@ -153,7 +153,7 @@ namespace Files.InteractionTests.Tests
 			action.SendKeys(Keys.Enter).Perform();
 
 			// Wait for items to finish being deleted
-			Thread.Sleep(3000);
+			Thread.Sleep(3500);
 		}
 	}
 }
