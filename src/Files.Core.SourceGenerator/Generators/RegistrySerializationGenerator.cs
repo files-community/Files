@@ -181,9 +181,9 @@ namespace Files.Core.SourceGenerator.Generators
 					case { TypeKind: TypeKind.Enum }:
 						_ = sb.AppendLine(
 							$$"""
-									if (key.GetValue($"{prefix}{{propertyName}}") is string valueOf{{propertyName}})
+									if (key.GetValue($"{prefix}{{propertyName}}") is string valueOf{{propertyName}} && Enum.TryParse<{{propertyType}}>(valueOf{{propertyName}}, out var parsed{{propertyName}}))
 									{
-										target.{{propertyName}} = Enum.Parse<{{propertyType}}>(valueOf{{propertyName}});
+										target.{{propertyName}} = parsed{{propertyName}};
 									}
 							""");
 						EmitNullBranch(emitNullBranch, propertyName);
