@@ -3,7 +3,6 @@
 
 using Files.Shared.Utils;
 using System.Collections.Specialized;
-using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.App.ViewModels.UserControls
 {
@@ -16,6 +15,8 @@ namespace Files.App.ViewModels.UserControls
 	public sealed partial class ShelfViewModel : ObservableObject, IAsyncInitialize
 	{
 		private readonly Dictionary<string, WatcherReference> _watchers;
+
+		public static event EventHandler<IReadOnlyList<ShelfItem>>? SelectedItemsChanged;
 
 		public ObservableCollection<ShelfItem> Items { get; }
 
@@ -39,62 +40,8 @@ namespace Files.App.ViewModels.UserControls
 			Items.Clear();
 		}
 
-		[RelayCommand]
-		private async Task BulkDeleteAsync(IEnumerable? enumerable, CancellationToken cancellationToken)
-		{
-			var items = enumerable?.Cast<ShelfItem>().ToArray();
-			if (items.IsEmpty())
-				return;
-
-			var context = Ioc.Default.GetRequiredService<IContentPageContext>();
-			if (context.ShellPage is not { } shellPage)
-				return;
-
-			var itemsToDelete = items.Select(x => StorageHelpers.FromPathAndType(x.Inner.Id, x.Inner switch
-			{
-				IFile => FilesystemItemType.File,
-				IFolder => FilesystemItemType.Directory,
-				_ => throw new ArgumentOutOfRangeException(nameof(ShelfViewModel))
-			}));
-
-			var settings = Ioc.Default.GetRequiredService<IFoldersSettingsService>();
-			await shellPage.FilesystemHelpers.DeleteItemsAsync(itemsToDelete, settings.DeleteConfirmationPolicy, false, true);
-			await shellPage.ShellViewModel.ApplyFilesAndFoldersChangesAsync();
-		}
-
-		[RelayCommand]
-		private async Task BulkCopyAsync(IEnumerable? enumerable, CancellationToken cancellationToken)
-		{
-			var items = enumerable?.Cast<ShelfItem>().ToArray();
-			if (items.IsEmpty())
-				return;
-
-			var context = Ioc.Default.GetRequiredService<IContentPageContext>();
-			var statusViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
-
-			if (context.ShellPage?.ShellViewModel is not { } shellViewModel)
-				return;
-
-			var itemsToCopy = items.Select(x => x.Inner).ToArray();
-			await TransferHelpers.ExecuteTransferAsync(itemsToCopy, shellViewModel, statusViewModel, DataPackageOperation.Copy);
-		}
-
-		[RelayCommand]
-		private async Task BulkCutAsync(IEnumerable? enumerable, CancellationToken cancellationToken)
-		{
-			var items = enumerable?.Cast<ShelfItem>().ToArray();
-			if (items.IsEmpty())
-				return;
-
-			var context = Ioc.Default.GetRequiredService<IContentPageContext>();
-			var statusViewModel = Ioc.Default.GetRequiredService<StatusCenterViewModel>();
-
-			if (context.ShellPage?.ShellViewModel is not { } shellViewModel)
-				return;
-
-			var itemsToCut = items.Select(x => x.Inner).ToArray();
-			await TransferHelpers.ExecuteTransferAsync(itemsToCut, shellViewModel, statusViewModel, DataPackageOperation.Move);
-		}
+		internal static void RaiseSelectedItemsChanged(IReadOnlyList<ShelfItem> items)
+			=> SelectedItemsChanged?.Invoke(null, items);
 
 		private async void Items_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
@@ -112,7 +59,7 @@ namespace Files.App.ViewModels.UserControls
 						reference.ReferenceCount += 1;
 						return;
 					}
-					
+
 					if (await shelfItem.Inner.GetParentAsync() is not IMutableFolder mutableFolder)
 						return;
 

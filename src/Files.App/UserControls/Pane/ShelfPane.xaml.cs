@@ -16,9 +16,12 @@ namespace Files.App.UserControls
 {
 	public sealed partial class ShelfPane : UserControl
 	{
+		public ICommandManager Commands { get; } = Ioc.Default.GetRequiredService<ICommandManager>();
+
 		public ShelfPane()
 		{
 			InitializeComponent();
+			Unloaded += ShelfPane_Unloaded;
 		}
 
 		private void Shelf_DragOver(object sender, DragEventArgs e)
@@ -126,12 +129,20 @@ namespace Files.App.UserControls
 
 		private void ShelfItemsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			BatchActionsButton.Visibility = ShelfItemsList.SelectedItems.IsEmpty() ? Visibility.Collapsed : Visibility.Visible;
+			var selected = ShelfItemsList.SelectedItems.OfType<ShelfItem>().ToArray();
+			BatchActionsButton.Visibility = selected.Length is 0 ? Visibility.Collapsed : Visibility.Visible;
+			ShelfViewModel.RaiseSelectedItemsChanged(selected);
 		}
 
 		private void Pane_Tapped(object sender, TappedRoutedEventArgs e)
 		{
 			ShelfItemsList.SelectedItems.Clear();
+		}
+
+		private void ShelfPane_Unloaded(object sender, RoutedEventArgs e)
+		{
+			// Drop the shelf context's selection so actions don't operate on stale items
+			ShelfViewModel.RaiseSelectedItemsChanged([]);
 		}
 
 		public ObservableCollection<ShelfItem>? ItemsSource
@@ -149,30 +160,6 @@ namespace Files.App.UserControls
 		}
 		public static readonly DependencyProperty ClearCommandProperty =
 			DependencyProperty.Register(nameof(ClearCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
-
-		public ICommand? BulkDeleteCommand
-		{
-			get => (ICommand?)GetValue(BulkDeleteCommandProperty);
-			set => SetValue(BulkDeleteCommandProperty, value);
-		}
-		public static readonly DependencyProperty BulkDeleteCommandProperty =
-			DependencyProperty.Register(nameof(BulkDeleteCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
-
-		public ICommand? BulkCopyCommand
-		{
-			get => (ICommand?)GetValue(BulkCopyCommandProperty);
-			set => SetValue(BulkCopyCommandProperty, value);
-		}
-		public static readonly DependencyProperty BulkCopyCommandProperty =
-			DependencyProperty.Register(nameof(BulkCopyCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
-
-		public ICommand? BulkCutCommand
-		{
-			get => (ICommand?)GetValue(BulkCutCommandProperty);
-			set => SetValue(BulkCutCommandProperty, value);
-		}
-		public static readonly DependencyProperty BulkCutCommandProperty =
-			DependencyProperty.Register(nameof(BulkCutCommand), typeof(ICommand), typeof(ShelfPane), new PropertyMetadata(null));
 
 		public ICommand? ItemFocusedCommand
 		{

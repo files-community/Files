@@ -230,6 +230,7 @@ namespace Files.App.Helpers
 					.AddSingleton<IMultitaskingContext, MultitaskingContext>()
 					.AddSingleton<ITagsContext, TagsContext>()
 					.AddSingleton<ISidebarContext, SidebarContext>()
+					.AddSingleton<IShelfContext, ShelfContext>()
 					// Services
 					.AddSingleton<IWindowsRecentItemsService, WindowsRecentItemsService>()
 					.AddSingleton<IWindowsIniService, WindowsIniService>()
