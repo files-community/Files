@@ -62,8 +62,75 @@ internal sealed partial class LibGit2 // : IVersionControl
 		return repositoryName[..repositoryName.LastIndexOf(".git")];
 	}
 
+	public async Task<BranchItem[]> GetBranchNames(string? path)
+	{
+		if (string.IsNullOrWhiteSpace(path) || !IsRepoValid(path))
+			return [];
+
+		var (result, returnValue) = await DoGitOperationAsync<(GitOperationResult, BranchItem[])>(() =>
+		{
+			var branches = Array.Empty<BranchItem>();
+			var result = GitOperationResult.Success;
+			try
+			{
+				using var repository = new Repository(path);
+
+				branches = GetValidBranches(repository.Branches)
+					.OrderByDescending(b => b.Tip?.Committer.When)
+					.GroupBy(b => b.IsRemote)
+					.SelectMany(g => g.Take(MAX_NUMBER_OF_BRANCHES))
+					.OrderByDescending(b => b.IsCurrentRepositoryHead)
+					.Select(b => new BranchItem(b.FriendlyName, b.IsCurrentRepositoryHead, b.IsRemote, TryGetTrackingDetails(b)?.AheadBy ?? 0, TryGetTrackingDetails(b)?.BehindBy ?? 0))
+					.ToArray();
+			}
+			catch (Exception)
+			{
+				result = GitOperationResult.GenericError;
+			}
+
+			return (result, branches);
+		});
+
+		return returnValue;
+	}
+
 	private static bool IsRepoValid(string path)
 	{
 		return SafetyExtensions.IgnoreExceptions(() => Repository.IsValid(path));
+	}
+
+	private static async Task<T?> DoGitOperationAsync<T>(Func<object> payload, bool useSemaphore = false)
+	{
+		if (useSemaphore)
+			await GitOperationSemaphore.WaitAsync();
+		else
+			await Task.Yield();
+
+		try
+		{
+			return (T)payload();
+		}
+		finally
+		{
+			if (useSemaphore)
+				GitOperationSemaphore.Release();
+		}
+	}
+
+	private static IEnumerable<Branch> GetValidBranches(BranchCollection branches)
+	{
+		foreach (var branch in branches)
+		{
+			try
+			{
+				var throwIfInvalid = branch.IsCurrentRepositoryHead;
+			}
+			catch (LibGit2SharpException)
+			{
+				continue;
+			}
+
+			yield return branch;
+		}
 	}
 }
