@@ -96,13 +96,47 @@ namespace Files.App.UserControls
 			if (e.OriginalSource is not Microsoft.UI.Xaml.FrameworkElement { DataContext: ShelfItem item } widgetCardItem || item.Path is null)
 				return;
 
-			var menuFlyout = new MenuFlyout();
-			menuFlyout.Items.Add(new MenuFlyoutItem
+			// If the right-clicked item isn't already part of the selection, select just it
+			if (!ShelfItemsList.SelectedItems.Contains(item))
+				ShelfItemsList.SelectedItem = item;
+
+			var menuFlyout = new MenuFlyout
 			{
-				Text = Strings.BaseLayoutItemContextFlyoutOpenParentFolder_Text.GetLocalizedResource(),
-				Icon = new FontIcon() { Glyph = "\uE838" },
-				Command = item.ViewInFolderCommand
+				Placement = Microsoft.UI.Xaml.Controls.Primitives.FlyoutPlacementMode.Bottom
+			};
+
+			// Batch actions (operate on the current shelf selection via IShelfContext)
+			menuFlyout.Items.Add(new MenuFlyoutItemWithThemedIcon
+			{
+				Text = Commands.CopyItemFromShelf.Label,
+				Command = Commands.CopyItemFromShelf,
+				ThemedIconStyle = Commands.CopyItemFromShelf.ThemedIconStyle
 			});
+			menuFlyout.Items.Add(new MenuFlyoutItemWithThemedIcon
+			{
+				Text = Commands.CutItemFromShelf.Label,
+				Command = Commands.CutItemFromShelf,
+				ThemedIconStyle = Commands.CutItemFromShelf.ThemedIconStyle
+			});
+			menuFlyout.Items.Add(new MenuFlyoutItemWithThemedIcon
+			{
+				Text = Commands.DeleteItemFromShelf.Label,
+				Command = Commands.DeleteItemFromShelf,
+				ThemedIconStyle = Commands.DeleteItemFromShelf.ThemedIconStyle
+			});
+
+			menuFlyout.Items.Add(new MenuFlyoutSeparator());
+
+			// Per-item actions
+			if (ShelfItemsList.SelectedItems.Count is 1)
+			{
+				menuFlyout.Items.Add(new MenuFlyoutItem
+				{
+					Text = Strings.BaseLayoutItemContextFlyoutOpenParentFolder_Text.GetLocalizedResource(),
+					Icon = new FontIcon() { Glyph = "\uE838" },
+					Command = item.ViewInFolderCommand
+				});
+			}
 			menuFlyout.Items.Add(new MenuFlyoutItem
 			{
 				Text = Strings.RemoveFromShelf.GetLocalizedResource(),

@@ -8,6 +8,7 @@
 	xmlns:data="using:Files.App.Data.Items"
 	xmlns:helpers="using:Files.App.Helpers"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:uc="using:Files.App.UserControls"
 	mc:Ignorable="d">
 
 	<UserControl.Resources>
@@ -184,21 +185,18 @@
 					Visibility="Collapsed">
 					<HyperlinkButton.ContextFlyout>
 						<MenuFlyout x:Name="BatchFlyout" Placement="Top">
-							<MenuFlyoutItem Command="{x:Bind Commands.CopyItemFromShelf}" Text="{helpers:ResourceString Name=Copy}">
-								<MenuFlyoutItem.Icon>
-									<FontIcon Glyph="&#xE8C8;" />
-								</MenuFlyoutItem.Icon>
-							</MenuFlyoutItem>
-							<MenuFlyoutItem Command="{x:Bind Commands.CutItemFromShelf}" Text="{helpers:ResourceString Name=Cut}">
-								<MenuFlyoutItem.Icon>
-									<FontIcon Glyph="&#xE8C6;" />
-								</MenuFlyoutItem.Icon>
-							</MenuFlyoutItem>
-							<MenuFlyoutItem Command="{x:Bind Commands.DeleteItemFromShelf}" Text="{helpers:ResourceString Name=Delete}">
-								<MenuFlyoutItem.Icon>
-									<FontIcon Glyph="&#xE74D;" />
-								</MenuFlyoutItem.Icon>
-							</MenuFlyoutItem>
+							<uc:MenuFlyoutItemWithThemedIcon
+								Command="{x:Bind Commands.CopyItemFromShelf}"
+								Text="{helpers:ResourceString Name=Copy}"
+								ThemedIconStyle="{x:Bind Commands.CopyItemFromShelf.ThemedIconStyle}" />
+							<uc:MenuFlyoutItemWithThemedIcon
+								Command="{x:Bind Commands.CutItemFromShelf}"
+								Text="{helpers:ResourceString Name=Cut}"
+								ThemedIconStyle="{x:Bind Commands.CutItemFromShelf.ThemedIconStyle}" />
+							<uc:MenuFlyoutItemWithThemedIcon
+								Command="{x:Bind Commands.DeleteItemFromShelf}"
+								Text="{helpers:ResourceString Name=Delete}"
+								ThemedIconStyle="{x:Bind Commands.DeleteItemFromShelf.ThemedIconStyle}" />
 						</MenuFlyout>
 					</HyperlinkButton.ContextFlyout>
 				</HyperlinkButton>
