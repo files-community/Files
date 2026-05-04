@@ -144,6 +144,9 @@ namespace Files.App.ViewModels.UserControls
 		private bool _IsUpdating;
 		public bool IsUpdating { get => _IsUpdating; set => SetProperty(ref _IsUpdating, value); }
 
+		private int _UpdateProgress;
+		public int UpdateProgress { get => _UpdateProgress; set => SetProperty(ref _UpdateProgress, value); }
+
 		private bool _IsUpdateAvailable;
 		public bool IsUpdateAvailable { get => _IsUpdateAvailable; set => SetProperty(ref _IsUpdateAvailable, value); }
 
@@ -328,6 +331,7 @@ namespace Files.App.ViewModels.UserControls
 		{
 			IsUpdateAvailable = UpdateService.IsUpdateAvailable;
 			IsUpdating = UpdateService.IsUpdating;
+			UpdateProgress = UpdateService.UpdateProgress;
 		}
 
 		private void UserSettingsService_OnSettingChangedEvent(object? sender, SettingChangedEventArgs e)

@@ -16,6 +16,11 @@ namespace Files.App.Data.Contracts
 		bool IsUpdating { get; }
 
 		/// <summary>
+		/// Gets the percentage (0-100) of the update download/install in progress.
+		/// </summary>
+		int UpdateProgress { get; }
+
+		/// <summary>
 		/// Gets a value indicating if the app is being used the first time after an update.
 		/// </summary>
 		bool IsAppUpdated { get; }

@@ -34,6 +34,13 @@ namespace Files.App.Services
 			private set => SetProperty(ref _isUpdating, value);
 		}
 
+		private int _updateProgress;
+		public int UpdateProgress
+		{
+			get => _updateProgress;
+			private set => SetProperty(ref _updateProgress, value);
+		}
+
 		public bool IsAppUpdated
 		{
 			get => AppLifecycleHelper.IsAppUpdated;
@@ -134,6 +141,18 @@ namespace Files.App.Services
 			App.AppModel.ForceProcessTermination = true;
 
 			var downloadOperation = _storeContext?.RequestDownloadAndInstallStorePackageUpdatesAsync(_updatePackages);
+
+			if (downloadOperation is not null)
+			{
+				downloadOperation.Progress = (op, status) =>
+				{
+					MainWindow.Instance.DispatcherQueue.TryEnqueue(() =>
+					{
+						UpdateProgress = (int)(status.TotalDownloadProgress * 100);
+					});
+				};
+			}
+
 			var result = await downloadOperation.AsTask();
 
 			if (result.OverallState == StorePackageUpdateState.Canceled)
@@ -230,6 +249,7 @@ namespace Files.App.Services
 		{
 			IsUpdating = false;
 			IsUpdateAvailable = false;
+			UpdateProgress = 0;
 
 			_updatePackages?.Clear();
 		}
@@ -237,6 +257,7 @@ namespace Files.App.Services
 		private void OnUpdateCancelled()
 		{
 			IsUpdating = false;
+			UpdateProgress = 0;
 		}
 	}
 }
