@@ -3,6 +3,7 @@
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
+using System.Text.Json.Nodes;
 
 namespace Files.App.Data.Settings;
 
@@ -161,7 +162,7 @@ public sealed partial class Settings : BaseJsonSettings
 	[GeneratedSettingsProperty(DefaultValue = true)]
 	public partial bool ShowDotFiles { get; set; }
 
-	[GeneratedSettingsProperty(DefaultValue = SingleClickOpenMode.OnlyForTouch)]
+	[GeneratedSettingsProperty(DefaultValue = SingleClickOpenMode.OnlyForTouch, MigrateValueCallback = nameof(MigrateLegacySingleClickSettings))]
 	public partial SingleClickOpenMode OpenFilesWithSingleClick { get; set; }
 
 	[GeneratedSettingsProperty(DefaultValue = SingleClickOpenMode.OnlyForTouch)]
@@ -202,6 +203,39 @@ public sealed partial class Settings : BaseJsonSettings
 
 	[GeneratedSettingsProperty(DefaultValue = SizeUnitTypes.BinaryUnits)]
 	public partial SizeUnitTypes SizeUnitFormat { get; set; }
+
+	private void MigrateLegacySingleClickSettings(JsonObject settings)
+	{
+		if (settings.TryGetPropertyValue("OpenItemsWithOneClick", out var openItemsWithOneClick) &&
+			openItemsWithOneClick is not null)
+		{
+			var legacy = openItemsWithOneClick.GetValue<bool>();
+			OpenFilesWithSingleClick = legacy
+				? SingleClickOpenMode.Always
+				: SingleClickOpenMode.Never;
+		}
+
+		if (settings.TryGetPropertyValue("OpenFoldersWithOneClick", out var openFoldersWithOneClick) &&
+			openFoldersWithOneClick is not null)
+		{
+			var legacy = openFoldersWithOneClick.GetValue<int>();
+			switch (legacy)
+			{
+				case 0:
+					OpenFoldersWithSingleClick = SingleClickOpenMode.Never;
+					OpenFoldersInColumnsViewWithSingleClick = SingleClickOpenMode.Always;
+					break;
+				case 1:
+					OpenFoldersWithSingleClick = SingleClickOpenMode.Always;
+					OpenFoldersInColumnsViewWithSingleClick = SingleClickOpenMode.Always;
+					break;
+				case 2:
+					OpenFoldersWithSingleClick = SingleClickOpenMode.Never;
+					OpenFoldersInColumnsViewWithSingleClick = SingleClickOpenMode.Never;
+					break;
+			}
+		}
+	}
 
 	[GeneratedSettingsProperty(DefaultValue = false)]
 	public partial bool OpenSpecificPageOnStartup { get; set; }

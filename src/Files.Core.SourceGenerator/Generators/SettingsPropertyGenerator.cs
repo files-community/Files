@@ -1,14 +1,10 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Collections.Immutable;
-using System.Text;
-
 namespace Files.Core.SourceGenerator.Generators;
 
 [Generator]
-internal sealed class GeneratedSettingsPropertyGenerator : IIncrementalGenerator
+internal sealed class SettingsPropertyGenerator : IIncrementalGenerator
 {
 	private const string AttributeMetadataName = "Files.Shared.Attributes.GeneratedSettingsPropertyAttribute";
 
@@ -56,6 +52,11 @@ internal sealed class GeneratedSettingsPropertyGenerator : IIncrementalGenerator
 			.ToArray();
 		if (properties.Length == 0)
 			return null;
+		var migrateValueCallbacks = properties
+			.Select(static p => TryGetStringNamedArgument(p, "MigrateValueCallback"))
+			.Where(static callback => callback is not null)
+			.Distinct(StringComparer.Ordinal)
+			.ToArray();
 
 		var ns = typeSymbol.ContainingNamespace?.IsGlobalNamespace is false
 			? typeSymbol.ContainingNamespace.ToDisplayString()
@@ -102,6 +103,7 @@ internal sealed class GeneratedSettingsPropertyGenerator : IIncrementalGenerator
 		{
 			_ = sb.AppendLine($"\t\t\t__{p.Name} = loaded.__{p.Name};");
 		}
+		EmitMigrateValueCallbacks(sb, migrateValueCallbacks);
 		_ = sb.AppendLine("\t\t}");
 		_ = sb.AppendLine("\t}");
 		_ = sb.AppendLine();
@@ -135,6 +137,12 @@ internal sealed class GeneratedSettingsPropertyGenerator : IIncrementalGenerator
 			_ = sb.AppendLine($"\t\tif (document.RootElement.TryGetProperty(nameof({p.Name}), out _))");
 			_ = sb.AppendLine($"\t\t\timported |= SetProperty(ref __{p.Name}, loaded.__{p.Name}, nameof({p.Name}));");
 		}
+		if (migrateValueCallbacks.Length > 0)
+		{
+			_ = sb.AppendLine();
+			EmitMigrateValueCallbacks(sb, migrateValueCallbacks, "\t\t");
+			_ = sb.AppendLine("\t\timported = true;");
+		}
 		_ = sb.AppendLine();
 		_ = sb.AppendLine("\t\treturn imported;");
 		_ = sb.AppendLine("\t}");
@@ -143,8 +151,7 @@ internal sealed class GeneratedSettingsPropertyGenerator : IIncrementalGenerator
 		foreach (var p in properties)
 		{
 			var defaultExpr = TryGetDefaultCallbackExpression(p) ?? TryGetDefaultExpression(p, diagnostics);
-			if (defaultExpr is null)
-				defaultExpr = GetTypeDefaultExpression(p.Type);
+			defaultExpr ??= GetTypeDefaultExpression(p.Type);
 
 			var getValueCallback = TryGetStringNamedArgument(p, "GetValueCallback");
 			var typeName = p.Type.ToDisplayString(FullyQualifiedWithNullable);
@@ -163,6 +170,22 @@ internal sealed class GeneratedSettingsPropertyGenerator : IIncrementalGenerator
 
 		_ = sb.AppendLine("}");
 		return sb.ToString();
+	}
+
+	private static void EmitMigrateValueCallbacks(StringBuilder sb, string?[] migrateValueCallbacks, string indent = "\t\t\t")
+	{
+		if (migrateValueCallbacks.Length == 0)
+			return;
+
+		_ = sb.AppendLine();
+		_ = sb.AppendLine($"{indent}var settingsJson = JsonNode.Parse(json) as JsonObject;");
+		_ = sb.AppendLine($"{indent}if (settingsJson is not null)");
+		_ = sb.AppendLine($"{indent}{{");
+		foreach (var callback in migrateValueCallbacks)
+		{
+			_ = sb.AppendLine($"{indent}\t{callback}(settingsJson);");
+		}
+		_ = sb.AppendLine($"{indent}}}");
 	}
 
 	private static bool IsExportIgnored(IPropertySymbol property)
@@ -244,7 +267,13 @@ internal sealed class GeneratedSettingsPropertyGenerator : IIncrementalGenerator
 		if (targetType.TypeKind == TypeKind.Enum)
 		{
 			var enumType = targetType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
-			return $"({enumType}){FormatNumericLiteral(constant.Value)}";
+			var enumMember = targetType.GetMembers()
+				.OfType<IFieldSymbol>()
+				.FirstOrDefault(m => m.HasConstantValue && Equals(m.ConstantValue, constant.Value));
+
+			return enumMember is not null
+				? $"{enumType}.{enumMember.Name}"
+				: $"({enumType}){FormatNumericLiteral(constant.Value)}";
 		}
 
 		return constant.Value switch
