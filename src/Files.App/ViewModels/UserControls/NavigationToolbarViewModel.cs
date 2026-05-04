@@ -145,7 +145,19 @@ namespace Files.App.ViewModels.UserControls
 		public bool IsUpdating { get => _IsUpdating; set => SetProperty(ref _IsUpdating, value); }
 
 		private int _UpdateProgress;
-		public int UpdateProgress { get => _UpdateProgress; set => SetProperty(ref _UpdateProgress, value); }
+		public int UpdateProgress
+		{
+			get => _UpdateProgress;
+			set
+			{
+				if (SetProperty(ref _UpdateProgress, value))
+					OnPropertyChanged(nameof(IsUpdateProgressIndeterminate));
+			}
+		}
+
+		// AddPackageByAppInstallerFileAsync often reports 0% for most of the deployment,
+		// so fall back to an indeterminate ring until a real percentage arrives.
+		public bool IsUpdateProgressIndeterminate => _UpdateProgress == 0;
 
 		private bool _IsUpdateAvailable;
 		public bool IsUpdateAvailable { get => _IsUpdateAvailable; set => SetProperty(ref _IsUpdateAvailable, value); }

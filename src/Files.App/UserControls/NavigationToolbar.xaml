@@ -504,7 +504,7 @@
 						Width="20"
 						Height="20"
 						x:Load="{x:Bind ViewModel.IsUpdating, Mode=OneWay}"
-						IsIndeterminate="False"
+						IsIndeterminate="{x:Bind ViewModel.IsUpdateProgressIndeterminate, Mode=OneWay}"
 						Value="{x:Bind ViewModel.UpdateProgress, Mode=OneWay}" />
 				</Grid>
 			</Button>
