@@ -16,12 +16,12 @@ namespace Files.App.Controls
 		internal static readonly InputCursor ColumnsSplitterCursor = InputSystemCursor.Create(InputSystemCursorShape.SizeWestEast);
 		internal static readonly InputCursor RowSplitterCursor = InputSystemCursor.Create(InputSystemCursorShape.SizeNorthSouth);
 
-		internal InputCursor PreviousCursor { get; set; }
+		internal InputCursor? PreviousCursor { get; set; }
 
 		private GridResizeDirection _resizeDirection;
 		private GridResizeBehavior _resizeBehavior;
-		private GripperHoverWrapper _hoverWrapper;
-		private TextBlock _gripperDisplay;
+		private GripperHoverWrapper? _hoverWrapper;
+		private TextBlock? _gripperDisplay;
 
 		private bool _pressed = false;
 		private bool _dragging = false;
@@ -49,19 +49,19 @@ namespace Files.App.Controls
 					}
 				}
 
-				return parent as FrameworkElement;
+				return parent as FrameworkElement ?? this;
 			}
 		}
 
 		/// <summary>
 		/// Gets GridSplitter Container Grid
 		/// </summary>
-		private Grid Resizable => TargetControl?.Parent as Grid;
+		private Grid? Resizable => TargetControl.Parent as Grid;
 
 		/// <summary>
 		/// Gets the current Column definition of the parent Grid
 		/// </summary>
-		private ColumnDefinition CurrentColumn
+		private ColumnDefinition? CurrentColumn
 		{
 			get
 			{
@@ -85,7 +85,7 @@ namespace Files.App.Controls
 		/// <summary>
 		/// Gets the Sibling Column definition of the parent Grid
 		/// </summary>
-		private ColumnDefinition SiblingColumn
+		private ColumnDefinition? SiblingColumn
 		{
 			get
 			{
@@ -109,7 +109,7 @@ namespace Files.App.Controls
 		/// <summary>
 		/// Gets the current Row definition of the parent Grid
 		/// </summary>
-		private RowDefinition CurrentRow
+		private RowDefinition? CurrentRow
 		{
 			get
 			{
@@ -133,7 +133,7 @@ namespace Files.App.Controls
 		/// <summary>
 		/// Gets the Sibling Row definition of the parent Grid
 		/// </summary>
-		private RowDefinition SiblingRow
+		private RowDefinition? SiblingRow
 		{
 			get
 			{

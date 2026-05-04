@@ -110,6 +110,7 @@ namespace Files.App.ViewModels.Settings
 		// ISidebarItemModel
 		public object? Children => null;
 		public bool PaddedItem => false;
+		public string? Path => null;
 		[ObservableProperty] private bool _isExpanded;
 
 		// DefaultSidebarItemTemplate bindings
