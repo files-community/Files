@@ -48,6 +48,8 @@ namespace Files.App.Data.Items
 				ToolTip = string.IsNullOrEmpty(Path) ||
 					Path.Contains('?', StringComparison.Ordinal) ||
 					Path.StartsWith("shell:", StringComparison.OrdinalIgnoreCase) ||
+					Path.StartsWith("::{", StringComparison.Ordinal) ||
+					Path.StartsWith(@"\\SHELL\", StringComparison.OrdinalIgnoreCase) ||
 					Path.EndsWith(ShellLibraryItem.EXTENSION, StringComparison.OrdinalIgnoreCase) ||
 					Path == "Home" ||
 					Path == "ReleaseNotes" ||

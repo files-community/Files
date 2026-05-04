@@ -92,7 +92,17 @@ namespace Files.App.Controls
 			HookupItemChangeListener(null, Item);
 			UpdateExpansionState();
 			ReevaluateSelection();
-			CanDrag = Item?.GetType().GetProperty("Path")?.GetValue(Item) is string path && Path.IsPathRooted(path);
+
+			if (Item is IDraggableSidebarItemModel draggableItem)
+			{
+				CanDrag = IsValidDropPath(draggableItem.DropPath);
+				UseReorderDrop = !IsGroupHeader && CanDrag && draggableItem.IsReorderDropItem;
+			}
+			else
+			{
+				CanDrag = false;
+				UseReorderDrop = false;
+			}
 		}
 
 		private void HookupOwners()
@@ -138,32 +148,51 @@ namespace Files.App.Controls
 			}
 		}
 
+		private static bool IsValidDropPath(string? path)
+			=> path is not null && (System.IO.Path.IsPathRooted(path) || path.StartsWith("Shell:", StringComparison.OrdinalIgnoreCase));
+
 		private void SidebarItem_DragStarting(UIElement sender, DragStartingEventArgs args)
 		{
-			if (Item?.GetType().GetProperty("Path")?.GetValue(Item) is not string dragPath || !Path.IsPathRooted(dragPath))
+			if (Item is not IDraggableSidebarItemModel draggableItem || draggableItem.DropPath is not string dragPath || !IsValidDropPath(dragPath))
 				return;
 
-			args.Data.SetData(StandardDataFormats.Text, dragPath);
-			args.Data.RequestedOperation = DataPackageOperation.Move | DataPackageOperation.Copy | DataPackageOperation.Link;
-			args.Data.SetDataProvider(StandardDataFormats.StorageItems, async request =>
+			try
 			{
-				var deferral = request.GetDeferral();
-				try
+				args.Data.SetData(StandardDataFormats.Text, dragPath);
+				args.Data.RequestedOperation = DataPackageOperation.Move | DataPackageOperation.Copy | DataPackageOperation.Link;
+				args.Data.SetDataProvider(StandardDataFormats.StorageItems, async request =>
 				{
-					if (Directory.Exists(dragPath))
+					var deferral = request.GetDeferral();
+					try
 					{
-						var folder = await StorageFolder.GetFolderFromPathAsync(dragPath);
-						request.SetData(new IStorageItem[] { folder });
+						if (Directory.Exists(dragPath))
+						{
+							var folder = await StorageFolder.GetFolderFromPathAsync(dragPath);
+							request.SetData(new IStorageItem[] { folder });
+						}
 					}
-				}
-				catch
-				{
-				}
-				finally
-				{
-					deferral.Complete();
-				}
-			});
+					catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
+					{
+						DragDropExceptionHelper.LogStaleDrag(ex, "Stale external drag payload while resolving StorageFolder in data provider.");
+					}
+					finally
+					{
+						try
+						{
+							deferral.Complete();
+						}
+						catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
+						{
+							DragDropExceptionHelper.LogStaleDrag(ex, "Stale OLE deferral during drag data provider completion.");
+						}
+					}
+				});
+			}
+			catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
+			{
+				DragDropExceptionHelper.LogStaleDrag(ex, "Stale OLE drag payload on DragStarting, cancelling drag.");
+				args.Cancel = true;
+			}
 		}
 
 		private void SetFlyoutOpen(bool isOpen = true)
@@ -394,21 +423,61 @@ namespace Files.App.Controls
 				IsExpanded = true;
 			}
 
-			var insertsAbove = DetermineDropTargetPosition(e);
-			if (insertsAbove == SidebarItemDropPosition.Center)
+			DragOperationDeferral? deferral = null;
+			try
 			{
-				VisualStateManager.GoToState(this, "DragOnTop", true);
+				deferral = e.GetDeferral();
 			}
-			else if (insertsAbove == SidebarItemDropPosition.Top)
+			catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
 			{
-				VisualStateManager.GoToState(this, "DragInsertAbove", true);
-			}
-			else if (insertsAbove == SidebarItemDropPosition.Bottom)
-			{
-				VisualStateManager.GoToState(this, "DragInsertBelow", true);
+				DragDropExceptionHelper.LogStaleDrag(ex, "Stale OLE drag payload on GetDeferral during DragOver.");
+				VisualStateManager.GoToState(this, "Normal", true);
+				return;
 			}
 
-			Owner?.RaiseItemDragOver(this, insertsAbove, e);
+			try
+			{
+				var dropPosition = DetermineDropTargetPosition(e);
+
+				if (Owner is not null)
+					Owner.RaiseItemDragOver(this, dropPosition, e);
+
+				if (!e.Handled || e.AcceptedOperation == DataPackageOperation.None)
+				{
+					VisualStateManager.GoToState(this, "Normal", true);
+					return;
+				}
+
+				if (dropPosition == SidebarItemDropPosition.Center)
+				{
+					VisualStateManager.GoToState(this, "DragOnTop", true);
+				}
+				else if (dropPosition == SidebarItemDropPosition.Top)
+				{
+					VisualStateManager.GoToState(this, "DragInsertAbove", true);
+				}
+				else if (dropPosition == SidebarItemDropPosition.Bottom)
+				{
+					VisualStateManager.GoToState(this, "DragInsertBelow", true);
+				}
+			}
+			catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
+			{
+				DragDropExceptionHelper.LogStaleDrag(ex, "Stale external drag payload during sidebar DragOver processing.");
+				e.AcceptedOperation = DataPackageOperation.None;
+				VisualStateManager.GoToState(this, "Normal", true);
+			}
+			finally
+			{
+				try
+				{
+					deferral?.Complete();
+				}
+				catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
+				{
+					DragDropExceptionHelper.LogStaleDrag(ex, "Stale OLE deferral on DragOver completion.");
+				}
+			}
 		}
 
 		private void ItemBorder_ContextRequested(UIElement sender, Microsoft.UI.Xaml.Input.ContextRequestedEventArgs args)
@@ -425,7 +494,16 @@ namespace Files.App.Controls
 		private void ItemBorder_Drop(object sender, DragEventArgs e)
 		{
 			UpdatePointerState();
-			Owner?.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
+			try
+			{
+				Owner?.RaiseItemDropped(this, DetermineDropTargetPosition(e), e);
+			}
+			catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
+			{
+				DragDropExceptionHelper.LogStaleDrag(ex, "Stale external drag payload during sidebar Drop, drop discarded.");
+				e.AcceptedOperation = DataPackageOperation.None;
+				e.Handled = true;
+			}
 		}
 
 		private SidebarItemDropPosition DetermineDropTargetPosition(DragEventArgs args)

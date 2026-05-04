@@ -4,6 +4,7 @@
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Markup;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Core;
@@ -53,13 +54,31 @@ namespace Files.App.Controls
 		internal void RaiseItemDropped(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
 		{
 			if (sideBarItem.Item is null) return;
-			ItemDropped?.Invoke(this, new(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
+
+			try
+			{
+				ItemDropped?.Invoke(this, new(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
+			}
+			catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
+			{
+				DragDropExceptionHelper.LogStaleDrag(ex, "Stale OLE drag payload reading DataView in RaiseItemDropped.");
+				return;
+			}
 		}
 
 		internal void RaiseItemDragOver(SidebarItem sideBarItem, SidebarItemDropPosition dropPosition, DragEventArgs rawEvent)
 		{
 			if (sideBarItem.Item is null) return;
-			ItemDragOver?.Invoke(this, new(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent));
+
+			try
+			{
+				var args = new ItemDragOverEventArgs(sideBarItem.Item, rawEvent.DataView, dropPosition, rawEvent);
+				ItemDragOver?.Invoke(this, args);
+			}
+			catch (Exception ex) when (DragDropExceptionHelper.IsExpectedStaleDragData(ex))
+			{
+				DragDropExceptionHelper.LogStaleDrag(ex, "Stale OLE drag payload reading DataView in RaiseItemDragOver.");
+			}
 		}
 
 		private void UpdateMinimalMode()

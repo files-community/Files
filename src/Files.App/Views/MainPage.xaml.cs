@@ -477,26 +477,55 @@ namespace Files.App.Views
 
 		private async void SidebarControl_ItemDragOver(object sender, ItemDragOverEventArgs e)
 		{
-			var deferral = e.RawEvent.GetDeferral();
-
-			await SafetyExtensions.IgnoreExceptions(async () =>
+			DragOperationDeferral? deferral = null;
+			try
 			{
-				await SidebarAdaptiveViewModel.HandleItemDragOverAsync(e);
-			}, App.Logger);
+				deferral = e.RawEvent.GetDeferral();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogTrace(ex, "Deferral.GetDeferral() failed during drag over.");
+				return;
+			}
 
-			deferral.Complete();
+			await SafetyExtensions.IgnoreExceptions(
+				() => SidebarAdaptiveViewModel.HandleItemDragOverAsync(e), App.Logger);
+
+			try
+			{
+				deferral?.Complete();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogTrace(ex, "Deferral.Complete() failed during drag over.");
+			}
 		}
 
 		private async void SidebarControl_ItemDropped(object sender, ItemDroppedEventArgs e)
 		{
-			var deferral = e.RawEvent.GetDeferral();
-
-			await SafetyExtensions.IgnoreExceptions(async () =>
+			DragOperationDeferral? deferral = null;
+			try
 			{
-				await SidebarAdaptiveViewModel.HandleItemDroppedAsync(e);
-			}, App.Logger);
+				deferral = e.RawEvent.GetDeferral();
+			}
+			catch (Exception ex)
+			{
+				App.Logger.LogTrace(ex, "Deferral.GetDeferral() failed during drop.");
+				return;
+			}
 
-			deferral.Complete();
+			await SafetyExtensions.IgnoreExceptions(
+				() => SidebarAdaptiveViewModel.HandleItemDroppedAsync(e), App.Logger);
+
+			try
+			{
+				deferral?.Complete();
+			}
+			catch (Exception ex)
+			{
+				// Expected: OLE deferral can fail with stale COM state while Explorer is open.
+				App.Logger.LogTrace(ex, "Deferral.Complete() failed during drop (stale OLE state).");
+			}
 		}
 
 		private void SidebarControl_ItemInvoked(object sender, ItemInvokedEventArgs e)
