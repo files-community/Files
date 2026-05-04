@@ -106,6 +106,7 @@ namespace Files.App.ViewModels.Settings
 		public string AutomationId { get; }
 		public string Text { get; }
 		public ThemedIcon IconElement { get; }
+		public string? Path => null;
 
 		// ISidebarItemModel
 		public object? Children => null;
