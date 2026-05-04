@@ -56,19 +56,19 @@ namespace Files.App.Controls
 
 		private static void OnOneRowModeEnabledChanged(DependencyObject d, object newValue)
 		{
-			var self = d as AdaptiveGridView;
+			var self = (AdaptiveGridView)d;
 			self.DetermineOneRowMode();
 		}
 
 		private static void DesiredWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			var self = d as AdaptiveGridView;
+			var self = (AdaptiveGridView)d;
 			self.RecalculateLayout(self.ActualWidth);
 		}
 
 		private static void OnStretchContentForSingleRowPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			var self = d as AdaptiveGridView;
+			var self = (AdaptiveGridView)d;
 			self.RecalculateLayout(self.ActualWidth);
 		}
 

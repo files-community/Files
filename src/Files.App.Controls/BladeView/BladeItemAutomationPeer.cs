@@ -25,7 +25,7 @@ namespace Files.App.Controls
 
 		private BladeItem OwnerBladeItem
 		{
-			get { return this.Owner as BladeItem; }
+			get { return (BladeItem)Owner; }
 		}
 
 		/// <summary>
@@ -70,7 +70,7 @@ namespace Files.App.Controls
 				return name;
 			}
 
-			TextBlock textBlock = this.OwnerBladeItem.FindDescendant<TextBlock>();
+			TextBlock? textBlock = this.OwnerBladeItem.FindDescendant<TextBlock>();
 			if (textBlock != null)
 			{
 				return textBlock.Text;
