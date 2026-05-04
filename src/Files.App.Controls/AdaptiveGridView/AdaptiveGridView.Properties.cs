@@ -39,7 +39,7 @@ namespace Files.App.Controls
 		/// <summary>
 		/// Identifies the <see cref="ItemWidth"/> dependency property.
 		/// </summary>
-		private static readonly DependencyProperty ItemWidthProperty =
+		public static readonly DependencyProperty ItemWidthProperty =
 			DependencyProperty.Register(nameof(ItemWidth), typeof(double), typeof(AdaptiveGridView), new PropertyMetadata(double.NaN));
 
 		/// <summary>
