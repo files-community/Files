@@ -14,7 +14,7 @@ namespace Files.App.Controls
 	/// </summary>
 	public partial class BladeView : ItemsControl
 	{
-		private ScrollViewer _scrollViewer;
+		private ScrollViewer _scrollViewer = null!;
 
 		private Dictionary<BladeItem, Size> _cachedBladeItemSizes = new Dictionary<BladeItem, Size>();
 

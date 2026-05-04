@@ -26,7 +26,7 @@ namespace Files.App.Controls
 		{
 			get
 			{
-				return Owner as BladeView;
+				return (BladeView)Owner;
 			}
 		}
 
@@ -93,7 +93,7 @@ namespace Files.App.Controls
 			ItemCollection items = owner.Items;
 			if (items.Count <= 0)
 			{
-				return null;
+				return [];
 			}
 
 			List<AutomationPeer> peers = new List<AutomationPeer>(items.Count);
