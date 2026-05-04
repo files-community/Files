@@ -236,8 +236,11 @@ namespace Files.App.ViewModels.Dialogs
 				ulFlags = 0x00004000
 			};
 
+			Span<char> displayName = stackalloc char[260];
+			fixed (char* displayNameBuffer = displayName)
 			fixed (char* title = "Select a folder")
 			{
+				bi.pszDisplayName = displayNameBuffer;
 				bi.lpszTitle = title;
 				var pidl = PInvoke.SHBrowseForFolder(ref bi);
 				if (pidl is not null)
