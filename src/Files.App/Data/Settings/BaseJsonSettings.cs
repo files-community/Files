@@ -92,6 +92,34 @@ public abstract class BaseJsonSettings : IDisposable, INotifyPropertyChanged
 		}
 	}
 
+	public string ExportSettings()
+	{
+		lock (gate)
+		{
+			ThrowIfDisposed();
+			return ExportCore();
+		}
+	}
+
+	public bool ImportSettings(string json)
+	{
+		if (string.IsNullOrWhiteSpace(json))
+			return false;
+
+		lock (gate)
+		{
+			ThrowIfDisposed();
+			try
+			{
+				return ImportCore(json);
+			}
+			catch (JsonException)
+			{
+				return false;
+			}
+		}
+	}
+
 	private void QueueSave_NoLock()
 	{
 		saveTimer ??= new Timer(static s =>
@@ -120,6 +148,8 @@ public abstract class BaseJsonSettings : IDisposable, INotifyPropertyChanged
 
 	protected abstract string SerializeCore();
 	protected abstract void DeserializeCore(string json);
+	protected abstract string ExportCore();
+	protected abstract bool ImportCore(string json);
 
 	public void Dispose()
 	{

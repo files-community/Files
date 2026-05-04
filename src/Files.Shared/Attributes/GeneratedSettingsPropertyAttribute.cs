@@ -8,4 +8,5 @@ public sealed class GeneratedSettingsPropertyAttribute : Attribute
 	public object? DefaultValue { get; set; }
 	public string? DefaultValueCallback { get; set; }
 	public string? GetValueCallback { get; set; }
+	public bool ExportIgnore { get; set; }
 }

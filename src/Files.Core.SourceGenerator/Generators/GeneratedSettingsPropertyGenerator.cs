@@ -68,6 +68,7 @@ internal sealed class GeneratedSettingsPropertyGenerator : IIncrementalGenerator
 		_ = sb.AppendLine("using System;");
 		_ = sb.AppendLine("using System.Text;");
 		_ = sb.AppendLine("using System.Text.Json;");
+		_ = sb.AppendLine("using System.Text.Json.Nodes;");
 		_ = sb.AppendLine("using System.Text.Json.Serialization;");
 		_ = sb.AppendLine();
 
@@ -104,6 +105,40 @@ internal sealed class GeneratedSettingsPropertyGenerator : IIncrementalGenerator
 		_ = sb.AppendLine("\t\t}");
 		_ = sb.AppendLine("\t}");
 		_ = sb.AppendLine();
+		_ = sb.AppendLine("\tprotected override string ExportCore()");
+		_ = sb.AppendLine("\t{");
+		_ = sb.AppendLine("\t\tvar exported = JsonNode.Parse(SerializeCore()) as JsonObject;");
+		_ = sb.AppendLine("\t\tif (exported is null)");
+		_ = sb.AppendLine("\t\t\treturn \"{}\";");
+		_ = sb.AppendLine();
+		foreach (var p in properties.Where(IsExportIgnored))
+		{
+			_ = sb.AppendLine($"\t\texported.Remove(nameof({p.Name}));");
+		}
+		_ = sb.AppendLine();
+		_ = sb.AppendLine("\t\treturn exported.ToJsonString(new JsonSerializerOptions { WriteIndented = true });");
+		_ = sb.AppendLine("\t}");
+		_ = sb.AppendLine();
+		_ = sb.AppendLine("\tprotected override bool ImportCore(string json)");
+		_ = sb.AppendLine("\t{");
+		_ = sb.AppendLine("\t\tusing var document = JsonDocument.Parse(json);");
+		_ = sb.AppendLine("\t\tif (document.RootElement.ValueKind != JsonValueKind.Object)");
+		_ = sb.AppendLine("\t\t\treturn false;");
+		_ = sb.AppendLine();
+		_ = sb.AppendLine($"\t\tvar loaded = JsonSerializer.Deserialize(json, SettingsJsonContext.Default.{typeSymbol.Name}) as {typeSymbol.Name};");
+		_ = sb.AppendLine("\t\tif (loaded is null)");
+		_ = sb.AppendLine("\t\t\treturn false;");
+		_ = sb.AppendLine();
+		_ = sb.AppendLine("\t\tvar imported = false;");
+		foreach (var p in properties.Where(static p => !IsExportIgnored(p)))
+		{
+			_ = sb.AppendLine($"\t\tif (document.RootElement.TryGetProperty(nameof({p.Name}), out _))");
+			_ = sb.AppendLine($"\t\t\timported |= SetProperty(ref __{p.Name}, loaded.__{p.Name}, nameof({p.Name}));");
+		}
+		_ = sb.AppendLine();
+		_ = sb.AppendLine("\t\treturn imported;");
+		_ = sb.AppendLine("\t}");
+		_ = sb.AppendLine();
 
 		foreach (var p in properties)
 		{
@@ -128,6 +163,16 @@ internal sealed class GeneratedSettingsPropertyGenerator : IIncrementalGenerator
 
 		_ = sb.AppendLine("}");
 		return sb.ToString();
+	}
+
+	private static bool IsExportIgnored(IPropertySymbol property)
+	{
+		var attr = property.GetAttributes().FirstOrDefault(static a => a.AttributeClass?.ToDisplayString() == AttributeMetadataName);
+		if (attr is null)
+			return false;
+
+		var named = attr.NamedArguments.FirstOrDefault(static kv => kv.Key == "ExportIgnore");
+		return !named.Equals(default(KeyValuePair<string, TypedConstant>)) && named.Value.Value is true;
 	}
 
 	private static string? TryGetDefaultCallbackExpression(IPropertySymbol property)
