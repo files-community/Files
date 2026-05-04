@@ -77,6 +77,30 @@ namespace Files.App.Data.Items
 			}
 		}
 
+		public Task InitAsync(IEnumerable<TaggedItemModel> preloadedItems, CancellationToken cancellationToken = default)
+		{
+			_initCTS.Cancel();
+			_initCTS = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+			var linkedToken = _initCTS.Token;
+
+			Tags.Clear();
+
+			foreach (var item in preloadedItems)
+			{
+				if (linkedToken.IsCancellationRequested)
+					break;
+
+				// Create item without waiting for icon
+				var cardItem = new WidgetFileTagCardItem(item.Storable, null);
+				Tags.Add(cardItem);
+
+				// Load icon asynchronously in background
+				_ = LoadIconAsync(cardItem, item.Storable, linkedToken);
+			}
+
+			return Task.CompletedTask;
+		}
+
 		private async Task LoadIconAsync(WidgetFileTagCardItem cardItem, IStorable storable, CancellationToken cancellationToken)
 		{
 			var icon = await ImageService.GetIconAsync(storable, default);

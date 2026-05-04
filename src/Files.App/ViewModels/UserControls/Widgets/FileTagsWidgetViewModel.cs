@@ -13,6 +13,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 	public sealed partial class FileTagsWidgetViewModel : BaseWidgetViewModel, IWidgetViewModel
 	{
 		private CancellationTokenSource _updateCTS;
+		private bool _isInitialized;
 
 		// Properties
 
@@ -34,9 +35,9 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public FileTagsWidgetViewModel()
 		{
-			_ = InitializeWidget();
-
 			FileTagsSettingsService.OnTagsUpdated += FileTagsSettingsService_OnTagsUpdated;
+
+			_ = InitializeWidget();
 
 			PinToSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(ExecutePinToSidebarCommand);
 			UnpinFromSidebarCommand = new AsyncRelayCommand<WidgetCardItem>(ExecuteUnpinFromSidebarCommand);
@@ -48,17 +49,27 @@ namespace Files.App.ViewModels.UserControls.Widgets
 
 		public async Task InitializeWidget()
 		{
-			await foreach (var item in FileTagsService.GetTagsAsync())
+			_isInitialized = false;
+
+			var grouped = await FileTagsService.GetAllItemsGroupedByTagAsync();
+			await foreach (var tag in FileTagsService.GetTagsAsync())
 			{
-				CreateTagContainerItem(item);
+				CreateTagContainerItem(tag, grouped[tag.Uid]);
 			}
+
+			_isInitialized = true;
 		}
 
 		public async Task RefreshWidgetAsync()
 		{
+			if (!_isInitialized)
+				return;
+
 			_updateCTS?.Cancel();
 			_updateCTS = new CancellationTokenSource();
-			await foreach (var item in FileTagsService.GetTagsAsync())
+
+			var grouped = await FileTagsService.GetAllItemsGroupedByTagAsync(_updateCTS.Token);
+			await foreach (var item in FileTagsService.GetTagsAsync(_updateCTS.Token))
 			{
 				if (_updateCTS.IsCancellationRequested)
 					break;
@@ -66,18 +77,18 @@ namespace Files.App.ViewModels.UserControls.Widgets
 				var matchingItem = Containers.FirstOrDefault(c => c.Uid == item.Uid);
 				if (matchingItem is null)
 				{
-					CreateTagContainerItem(item);
+					CreateTagContainerItem(item, grouped[item.Uid]);
 				}
 				else
 				{
 					matchingItem.Name = item.Name;
 					matchingItem.Color = item.Color;
-					_ = matchingItem.InitAsync(_updateCTS.Token);
+					_ = matchingItem.InitAsync(grouped[item.Uid], _updateCTS.Token);
 				}
 			}
 		}
 
-		private void CreateTagContainerItem(TagViewModel tag)
+		private void CreateTagContainerItem(TagViewModel tag, IEnumerable<TaggedItemModel> preloadedItems)
 		{
 			// Don't create duplicate containers
 			if (Containers.Any(c => c.Uid == tag.Uid))
@@ -92,7 +103,7 @@ namespace Files.App.ViewModels.UserControls.Widgets
 			};
 
 			Containers.Add(container);
-			_ = container.InitAsync();
+			_ = container.InitAsync(preloadedItems);
 		}
 
 		public override List<ContextMenuFlyoutItemViewModel> GetItemMenuItems(WidgetCardItem item, bool isPinned, bool isFolder = false)
