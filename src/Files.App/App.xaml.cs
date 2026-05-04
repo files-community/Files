@@ -284,6 +284,11 @@ namespace Files.App
 				}
 			}
 
+			// Stop the tray icon's hidden window before continuing teardown so a late "Quit"
+			// click can't dispatch into OnQuitClicked once Application.Current is null.
+			SystemTrayIcon?.Dispose();
+			SystemTrayIcon = null;
+
 			// Method can take a long time, make sure the window is hidden
 			await Task.Yield();
 
