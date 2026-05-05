@@ -280,9 +280,6 @@ namespace Files.App.ViewModels
 					case nameof(GeneralSettingsService.ShowShelfPane):
 						OnPropertyChanged(nameof(ShowShelfPane));
 						break;
-					case nameof(GeneralSettingsService.IsTerminalIntegrationEnabled):
-						OnPropertyChanged(nameof(IsTerminalIntegrationEnabled));
-						break;
 				}
 			};
 		}
@@ -480,8 +477,6 @@ namespace Files.App.ViewModels
 		public List<ShellProfile> TerminalProfiles => _terminalProfiles;
 
 		public ShellProfile TerminalSelectedProfile => TerminalProfiles[0];
-
-		public bool IsTerminalIntegrationEnabled => GeneralSettingsService.IsTerminalIntegrationEnabled;
 
 		private bool _isTerminalViewOpen;
 		public bool IsTerminalViewOpen

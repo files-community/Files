@@ -204,8 +204,8 @@
 							MinHeight="100" />
 						<RowDefinition Height="Auto" />
 						<RowDefinition x:Name="InfoPaneRowDefinition" Height="Auto" />
-						<RowDefinition x:Name="TerminalRow" Height="0" />
 						<RowDefinition Height="Auto" MinHeight="8" />
+						<RowDefinition x:Name="TerminalRow" Height="0" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition
@@ -260,23 +260,23 @@
 						Loaded="PreviewPane_Loaded"
 						Unloaded="PreviewPane_Unloaded" />
 
-					<!--  Terminal  -->
-					<ContentPresenter
-						x:Name="TerminalControl"
-						Grid.Row="4"
-						Grid.ColumnSpan="3"
-						Margin="0,4,0,4"
-						Content="{x:Bind ViewModel.ActiveTerminal, Mode=OneWay}"
-						Visibility="{x:Bind ViewModel.IsTerminalViewOpen, Mode=OneWay}" />
-
 					<!--  Status Bar  -->
 					<uc:StatusBar
 						x:Name="StatusBar"
-						Grid.Row="5"
+						Grid.Row="4"
 						Grid.ColumnSpan="3"
 						x:Load="False"
 						ShowInfoText="{x:Bind ViewModel.ShowStatusBar, Mode=OneWay}"
 						Visibility="{x:Bind ViewModel.ShowStatusBar, Mode=OneWay}" />
+
+					<!--  Terminal  -->
+					<uc:TerminalPane
+						x:Name="TerminalControl"
+						Grid.Row="5"
+						Grid.ColumnSpan="3"
+						Margin="0,0,0,4"
+						MainPageViewModel="{x:Bind ViewModel}"
+						Visibility="{x:Bind ViewModel.IsTerminalViewOpen, Mode=OneWay}" />
 
 					<!--  Shelf Pane  -->
 					<uc:ShelfPane
