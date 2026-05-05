@@ -38,7 +38,7 @@ namespace Files.App.Controls
 		public event TypedEventHandler<Omnibar, OmnibarSuggestionChosenEventArgs>? SuggestionChosen;
 		public event TypedEventHandler<Omnibar, OmnibarTextChangedEventArgs>? TextChanged;
 		public event TypedEventHandler<Omnibar, OmnibarModeChangedEventArgs>? ModeChanged;
-		public event TypedEventHandler<Omnibar, OmnibarIsFocusedChangedEventArgs> IsFocusedChanged;
+		public event TypedEventHandler<Omnibar, OmnibarIsFocusedChangedEventArgs>? IsFocusedChanged;
 
 		// Constructor
 
@@ -146,7 +146,7 @@ namespace Files.App.Controls
 			var itemCount = Modes.Count;
 			var itemIndex = Modes.IndexOf(newMode);
 			var modeButtonWidth = newMode.ActualWidth;
-			var modeSeparatorWidth = itemCount is not 0 or 1 ? _modesHostGrid.Children[1] is FrameworkElement frameworkElement ? frameworkElement.ActualWidth : 0 : 0;
+			var modeSeparatorWidth = itemCount is not (0 or 1) ? _modesHostGrid.Children[1] is FrameworkElement frameworkElement ? frameworkElement.ActualWidth : 0 : 0;
 
 			var leftPadding = (itemIndex + 1) * modeButtonWidth + modeSeparatorWidth * itemIndex;
 			var rightPadding = (itemCount - itemIndex - 1) * modeButtonWidth + modeSeparatorWidth * (itemCount - itemIndex - 1) + 8;

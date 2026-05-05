@@ -28,15 +28,16 @@ namespace Files.App.Controls
 			if (Element == default(UIElement))
 			{
 				CreateGripperDisplay();
-				Element = _gripperDisplay;
+				Element = _gripperDisplay!;
 			}
 
 			if (_hoverWrapper == null)
 			{
+				var hoverElement = CursorBehavior == SplitterCursorBehavior.ChangeOnSplitterHover
+					? (UIElement)this
+					: Element!;
 				var hoverWrapper = new GripperHoverWrapper(
-					CursorBehavior == SplitterCursorBehavior.ChangeOnSplitterHover
-					? this
-					: Element,
+					hoverElement,
 					_resizeDirection,
 					GripperCursor,
 					GripperCustomCursorResource);
@@ -189,7 +190,8 @@ namespace Files.App.Controls
 
 		private bool VerticalMove(double verticalChange)
 		{
-			if (CurrentRow == null || SiblingRow == null)
+			var resizable = Resizable;
+			if (CurrentRow == null || SiblingRow == null || resizable == null)
 			{
 				return true;
 			}
@@ -233,7 +235,7 @@ namespace Files.App.Controls
 					return true;
 				}
 
-				foreach (var rowDefinition in Resizable.RowDefinitions)
+				foreach (var rowDefinition in resizable.RowDefinitions)
 				{
 					if (rowDefinition == CurrentRow)
 					{
@@ -255,7 +257,8 @@ namespace Files.App.Controls
 
 		private bool HorizontalMove(double horizontalChange)
 		{
-			if (CurrentColumn == null || SiblingColumn == null)
+			var resizable = Resizable;
+			if (CurrentColumn == null || SiblingColumn == null || resizable == null)
 			{
 				return true;
 			}
@@ -299,7 +302,7 @@ namespace Files.App.Controls
 					return true;
 				}
 
-				foreach (var columnDefinition in Resizable.ColumnDefinitions)
+				foreach (var columnDefinition in resizable.ColumnDefinitions)
 				{
 					if (columnDefinition == CurrentColumn)
 					{

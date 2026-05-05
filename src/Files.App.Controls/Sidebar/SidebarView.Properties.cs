@@ -79,7 +79,7 @@ namespace Files.App.Controls
 			set { SetValue(NegativeOpenPaneLengthProperty, value); }
 		}
 		public static readonly DependencyProperty NegativeOpenPaneLengthProperty =
-			DependencyProperty.Register(nameof(NegativeOpenPaneLength), typeof(double), typeof(SidebarView), new PropertyMetadata(null));
+			DependencyProperty.Register(nameof(NegativeOpenPaneLength), typeof(double), typeof(SidebarView), new PropertyMetadata(-240d));
 
 		public bool CanResizePane
 		{

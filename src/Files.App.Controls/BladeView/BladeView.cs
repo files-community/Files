@@ -14,7 +14,7 @@ namespace Files.App.Controls
 	/// </summary>
 	public partial class BladeView : ItemsControl
 	{
-		private ScrollViewer _scrollViewer;
+		private ScrollViewer? _scrollViewer;
 
 		private Dictionary<BladeItem, Size> _cachedBladeItemSizes = new Dictionary<BladeItem, Size>();
 
@@ -91,7 +91,7 @@ namespace Files.App.Controls
 			ActiveBlades = new ObservableCollection<BladeItem>();
 			foreach (var item in Items)
 			{
-				BladeItem blade = GetBladeItem(item);
+				var blade = GetBladeItem(item);
 				if (blade != null)
 				{
 					if (blade.IsOpen)
@@ -102,29 +102,26 @@ namespace Files.App.Controls
 			}
 		}
 
-		private BladeItem GetBladeItem(object item)
+		private BladeItem? GetBladeItem(object item)
 		{
-			BladeItem blade = item as BladeItem;
-			if (blade == null)
-			{
-				blade = (BladeItem)ContainerFromItem(item);
-			}
-
-			return blade;
+			return item as BladeItem ?? ContainerFromItem(item) as BladeItem;
 		}
 
-		private async void BladeOnVisibilityChanged(object sender, Visibility visibility)
+		private async void BladeOnVisibilityChanged(object? sender, Visibility visibility)
 		{
-			var blade = sender as BladeItem;
+			if (sender is not BladeItem blade)
+			{
+				return;
+			}
 
 			if (visibility == Visibility.Visible)
 			{
-				if (Items == null)
+				var item = ItemFromContainer(blade);
+				if (item is null)
 				{
 					return;
 				}
 
-				var item = ItemFromContainer(blade);
 				Items.Remove(item);
 				Items.Add(item);
 				BladeOpened?.Invoke(this, blade);
@@ -135,7 +132,8 @@ namespace Files.App.Controls
 				await DispatcherQueue.EnqueueAsync(
 					() =>
 					{
-						GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
+						var scrollViewer = GetScrollViewer();
+						scrollViewer?.ChangeView(scrollViewer.ScrollableWidth, null, null);
 					}, Microsoft.UI.Dispatching.DispatcherQueuePriority.Low);
 
 				return;
@@ -145,9 +143,10 @@ namespace Files.App.Controls
 			ActiveBlades.Remove(blade);
 		}
 
-		private ScrollViewer GetScrollViewer()
+		private ScrollViewer? GetScrollViewer()
 		{
-			return _scrollViewer ?? (_scrollViewer = this.FindDescendant<ScrollViewer>());
+			_scrollViewer ??= this.FindDescendant<ScrollViewer>();
+			return _scrollViewer;
 		}
 
 		public void ScrollToEnd()
@@ -155,22 +154,29 @@ namespace Files.App.Controls
 			LayoutUpdated += OnLayoutUpdatedScrollToEnd;
 		}
 
-		private void OnLayoutUpdatedScrollToEnd(object sender, object e)
+		private void OnLayoutUpdatedScrollToEnd(object? sender, object e)
 		{
 			LayoutUpdated -= OnLayoutUpdatedScrollToEnd;
-			GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null, false);
+			var scrollViewer = GetScrollViewer();
+			scrollViewer?.ChangeView(scrollViewer.ScrollableWidth, null, null, false);
 		}
 
 		private void AdjustBladeItemSize()
 		{
 			// Adjust blade items to be full screen
-			if (BladeMode == BladeMode.Fullscreen && GetScrollViewer() != null)
+			var scrollViewer = GetScrollViewer();
+			if (BladeMode == BladeMode.Fullscreen && scrollViewer is not null)
 			{
 				foreach (var item in Items)
 				{
 					var blade = GetBladeItem(item);
-					blade.Width = _scrollViewer.ActualWidth;
-					blade.Height = _scrollViewer.ActualHeight;
+					if (blade is null)
+					{
+						continue;
+					}
+
+					blade.Width = scrollViewer.ActualWidth;
+					blade.Height = scrollViewer.ActualHeight;
 				}
 			}
 		}

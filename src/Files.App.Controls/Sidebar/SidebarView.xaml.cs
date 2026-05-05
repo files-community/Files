@@ -11,7 +11,7 @@ using Windows.UI.Core;
 namespace Files.App.Controls
 {
 	[ContentProperty(Name = "InnerContent")]
-	public sealed partial class SidebarView : UserControl, INotifyPropertyChanged
+	public sealed partial class SidebarView : UserControl
 	{
 		private const double COMPACT_MAX_WIDTH = 200;
 
@@ -19,8 +19,6 @@ namespace Files.App.Controls
 		public event EventHandler<ItemContextInvokedArgs>? ItemContextInvoked;
 		public event EventHandler<ItemDragOverEventArgs>? ItemDragOver;
 		public event EventHandler<ItemDroppedEventArgs>? ItemDropped;
-		public event PropertyChangedEventHandler? PropertyChanged;
-
 		internal SidebarItem? SelectedItemContainer = null;
 
 		private bool draggingSidebarResizer;

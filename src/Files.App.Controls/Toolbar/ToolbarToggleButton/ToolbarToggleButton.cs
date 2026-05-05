@@ -56,7 +56,7 @@ namespace Files.App.Controls
 
 
 
-		private void UpdateContent(object newContent)
+		private void UpdateContent(object? newContent)
 		{
 			if (CheckHasContent() == false)
 			{
@@ -161,7 +161,7 @@ namespace Files.App.Controls
 		/// is triggered.
 		/// </summary>
 		/// <param name="newContent"></param>
-		private void ContentChanged(object newContent)
+		private void ContentChanged(object? newContent)
 		{
 			if (newContent != null)
 			{

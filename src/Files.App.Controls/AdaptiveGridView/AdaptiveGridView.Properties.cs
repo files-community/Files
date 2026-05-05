@@ -39,7 +39,7 @@ namespace Files.App.Controls
 		/// <summary>
 		/// Identifies the <see cref="ItemWidth"/> dependency property.
 		/// </summary>
-		private static readonly DependencyProperty ItemWidthProperty =
+		public static readonly DependencyProperty ItemWidthProperty =
 			DependencyProperty.Register(nameof(ItemWidth), typeof(double), typeof(AdaptiveGridView), new PropertyMetadata(double.NaN));
 
 		/// <summary>
@@ -56,19 +56,19 @@ namespace Files.App.Controls
 
 		private static void OnOneRowModeEnabledChanged(DependencyObject d, object newValue)
 		{
-			var self = d as AdaptiveGridView;
+			var self = (AdaptiveGridView)d;
 			self.DetermineOneRowMode();
 		}
 
 		private static void DesiredWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			var self = d as AdaptiveGridView;
+			var self = (AdaptiveGridView)d;
 			self.RecalculateLayout(self.ActualWidth);
 		}
 
 		private static void OnStretchContentForSingleRowPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
 		{
-			var self = d as AdaptiveGridView;
+			var self = (AdaptiveGridView)d;
 			self.RecalculateLayout(self.ActualWidth);
 		}
 

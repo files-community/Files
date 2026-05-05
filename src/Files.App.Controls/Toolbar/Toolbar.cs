@@ -9,11 +9,11 @@ namespace Files.App.Controls
 		private double _availableSize;
 
 		private ItemsRepeater? _itemsRepeater;
-		private ToolbarItemList? _toolbarItemsList;
-		private ToolbarItemOverflowList? _toolbarItemsOverflowList;
+		private ToolbarItemList _toolbarItemsList = new();
+		private ToolbarItemOverflowList _toolbarItemsOverflowList = new();
 
-		private ToolbarItemList _tempToolbarItemsList;
-		private ToolbarItemOverflowList _tempToolbarItemsOverflowList;
+		private ToolbarItemList _tempToolbarItemsList = new();
+		private ToolbarItemOverflowList _tempToolbarItemsOverflowList = new();
 
 
 		private double _smallMinWidth = 24; // I have set default values, but we pull from resources
@@ -46,11 +46,11 @@ namespace Files.App.Controls
 				UpdateItems(Items);
 			}
 
-			SetItemsRepeater(GetTemplateChild(ToolbarItemsRepeaterPartName) as ItemsRepeater);
+			var itemsRepeater = GetTemplateChild(ToolbarItemsRepeaterPartName) as ItemsRepeater;
+			SetItemsRepeater(itemsRepeater);
 
-			if (GetItemsRepeater() != null)
+			if (itemsRepeater is not null)
 			{
-				ItemsRepeater itemsRepeater = GetItemsRepeater();
 				itemsRepeater.ItemsSource = GetToolbarItemsList();
 			}
 		}
@@ -62,7 +62,7 @@ namespace Files.App.Controls
 			return _availableSize;
 		}
 
-		private ItemsRepeater GetItemsRepeater()
+		private ItemsRepeater? GetItemsRepeater()
 		{
 			return _itemsRepeater;
 		}
@@ -126,7 +126,7 @@ namespace Files.App.Controls
 			_availableSize = newValue;
 		}
 
-		private void SetItemsRepeater(ItemsRepeater itemsRepeater)
+		private void SetItemsRepeater(ItemsRepeater? itemsRepeater)
 		{
 			_itemsRepeater = itemsRepeater;
 		}
@@ -426,7 +426,7 @@ namespace Files.App.Controls
 		/// private ItemList
 		/// </summary>
 		/// <param name="item"></param>
-		private IToolbarItemSet SortByItemTypeForItemList(ToolbarItem item)
+		private IToolbarItemSet? SortByItemTypeForItemList(ToolbarItem item)
 		{
 			switch (item.ItemType)
 			{
@@ -470,7 +470,7 @@ namespace Files.App.Controls
 		/// private OverflowItemList
 		/// </summary>
 		/// <param name="item"></param>
-		private IToolbarOverflowItemSet SortByItemTypeForOverflowItemList(ToolbarItem item)
+		private IToolbarOverflowItemSet? SortByItemTypeForOverflowItemList(ToolbarItem item)
 		{
 			switch (item.ItemType)
 			{
@@ -526,7 +526,11 @@ namespace Files.App.Controls
 			/// remove that value from the availableSize + Spacing value
 			/// 
 
-			ItemsRepeater itemsRepeater = GetItemsRepeater();
+			var itemsRepeater = GetItemsRepeater();
+			if (itemsRepeater is null)
+			{
+				return;
+			}
 
 			foreach (ToolbarItem item in GetToolbarItemsList())
 			{
@@ -707,9 +711,9 @@ namespace Files.App.Controls
 		/// Adds the given Item into the ToolbarItemOverflowList
 		/// </summary>
 		/// <param name="item"></param>
-		private void AddItemToOverflowList(IToolbarOverflowItemSet item)
+		private void AddItemToOverflowList(IToolbarOverflowItemSet? item)
 		{
-			if (item != null && _tempToolbarItemsOverflowList != null)
+			if (item != null)
 			{
 				_tempToolbarItemsOverflowList.Add(item);
 				Debug.Write("<- Added " + item.ToString() + " to OverflowList " + Environment.NewLine);
@@ -722,9 +726,9 @@ namespace Files.App.Controls
 		/// Adds the given Item into the ToolbarItemList
 		/// </summary>
 		/// <param name="item"></param>
-		private void AddItemToItemList(IToolbarItemSet item)
+		private void AddItemToItemList(IToolbarItemSet? item)
 		{
-			if (item != null && _tempToolbarItemsList != null)
+			if (item != null)
 			{
 				_tempToolbarItemsList.Add(item);
 				Debug.Write("Added " + item.ToString() + " to ItemList " + Environment.NewLine);
