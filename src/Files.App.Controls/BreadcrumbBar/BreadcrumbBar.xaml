@@ -59,7 +59,7 @@
 							ChevronToolTip="{TemplateBinding RootItemChevronToolTip}"
 							CornerRadius="{StaticResource BreadcrumbBarRootItemCornerRadius}"
 							ItemToolTip="{TemplateBinding RootItemToolTip}">
-							<ContentPresenter Content="{Binding RootItem, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+							<ContentPresenter Content="{TemplateBinding RootItem}" />
 						</local:BreadcrumbBarItem>
 
 						<local:BreadcrumbBarItem
@@ -77,8 +77,8 @@
 							Grid.Column="2"
 							Margin="{StaticResource BreadcrumbBarItemMargin}"
 							HorizontalAlignment="Left"
-							ItemTemplate="{Binding ItemTemplate, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
-							ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+							ItemTemplate="{TemplateBinding ItemTemplate}"
+							ItemsSource="{TemplateBinding ItemsSource}" />
 
 					</Grid>
 				</ControlTemplate>
