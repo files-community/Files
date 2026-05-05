@@ -392,6 +392,9 @@ namespace Files.App.Views.Shells
 		// the updated, most-current path and add them to the UI.
 		public async Task UpdatePathUIToWorkingDirectoryAsync(string newWorkingDir, string singleItemOverride = null)
 		{
+			if (ToolbarViewModel?.PathComponents is null)
+				return;
+
 			if (string.IsNullOrWhiteSpace(singleItemOverride))
 			{
 				cts = new CancellationTokenSource();
@@ -402,24 +405,38 @@ namespace Files.App.Views.Shells
 				if (cts.IsCancellationRequested)
 					return;
 
-				ToolbarViewModel.PathComponents.Clear();
-				foreach (var component in components)
-					ToolbarViewModel.PathComponents.Add(component);
+				// Guard against a rare race where a native CollectionChanged subscriber (e.g. the
+				// bound BreadcrumbBar) is in a torn-down state during navigation and throws NRE.
+				try
+				{
+					ToolbarViewModel.PathComponents.Clear();
+					foreach (var component in components)
+						ToolbarViewModel.PathComponents.Add(component);
+				}
+				catch (NullReferenceException)
+				{
+				}
 			}
 			else
 			{
 				cts?.Cancel();
 
-				// Clear the path UI
-				ToolbarViewModel.PathComponents.Clear();
-				ToolbarViewModel.IsSingleItemOverride = true;
-				ToolbarViewModel.PathComponents.Add(
-					new()
-					{
-						Path = null,
-						Title = singleItemOverride,
-						ChevronToolTip = string.Format(Strings.BreadcrumbBarChevronButtonToolTip.GetLocalizedResource(), singleItemOverride),
-					});
+				try
+				{
+					// Clear the path UI
+					ToolbarViewModel.PathComponents.Clear();
+					ToolbarViewModel.IsSingleItemOverride = true;
+					ToolbarViewModel.PathComponents.Add(
+						new()
+						{
+							Path = null,
+							Title = singleItemOverride,
+							ChevronToolTip = string.Format(Strings.BreadcrumbBarChevronButtonToolTip.GetLocalizedResource(), singleItemOverride),
+						});
+				}
+				catch (NullReferenceException)
+				{
+				}
 			}
 		}
 

@@ -122,7 +122,7 @@ namespace Files.App.Views.Shells
 
 		protected override async void ViewModel_WorkingDirectoryModified(object sender, WorkingDirectoryModifiedEventArgs e)
 		{
-			if (string.IsNullOrWhiteSpace(e.Path))
+			if (e is null || string.IsNullOrWhiteSpace(e.Path))
 				return;
 
 			if (e.IsLibrary)
