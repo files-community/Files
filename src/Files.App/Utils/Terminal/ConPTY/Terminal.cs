@@ -158,7 +158,7 @@ namespace Files.App.Utils.Terminal.ConPTY
 		public void Dispose()
 		{
 			Dispose(true);
-			GC.SuppressFinalize(true);
+			GC.SuppressFinalize(this);
 		}
 
 		private bool alreadyDisposed = false;

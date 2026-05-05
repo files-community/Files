@@ -172,50 +172,50 @@ namespace Files.App.ViewModels
 			DismissReviewPromptCommand = new RelayCommand(ExecuteDismissReviewPromptCommand);
 			SponsorCommand = new RelayCommand(ExecuteSponsorCommand);
 			DismissSponsorPromptCommand = new RelayCommand(ExecuteDismissSponsorPromptCommand);
-            TerminalAddCommand = new RelayCommand<ShellProfile>((e) =>
-            {
-                if (Terminals.IsEmpty())
-                    IsTerminalViewOpen = true;
-                var termId = Guid.NewGuid().ToString();
-                Terminals.Add(new TerminalModel()
-                {
-                    Name = (e ?? TerminalSelectedProfile).Name,
-                    Id = termId,
-                    Control = new TerminalView(e ?? TerminalSelectedProfile, termId)
-                });
-                OnPropertyChanged(nameof(SelectedTerminal));
-                OnPropertyChanged(nameof(ActiveTerminal));
-            });
-            TerminalToggleCommand = new RelayCommand(() =>
-            {
-                IsTerminalViewOpen = !IsTerminalViewOpen;
-                if (IsTerminalViewOpen && Terminals.IsEmpty())
-                    TerminalAddCommand.Execute(TerminalSelectedProfile);
-            });
-            TerminalSyncUpCommand = new AsyncRelayCommand(async () =>
-            {
-                var context = Ioc.Default.GetRequiredService<IContentPageContext>();
-                if (GetTerminalFolder is not null && await GetTerminalFolder() is string terminalFolder)
-                    _ = NavigationHelpers.OpenPath(terminalFolder, context.ShellPage, FilesystemItemType.Directory);
-            });
-            TerminalSyncDownCommand = new RelayCommand(() =>
-            {
-                var context = Ioc.Default.GetRequiredService<IContentPageContext>();
-                if (context.Folder?.ItemPath is string currentFolder)
-                    SetTerminalFolder?.Invoke(currentFolder);
-            });
-            TerminalCloseCommand = new RelayCommand<string>((name) =>
-            {
-                var terminal = Terminals.FirstOrDefault(x => x.Id == name);
-                if (terminal is null)
-                    return;
-                terminal.Dispose();
-                Terminals.Remove(terminal);
-                SelectedTerminal = int.Min(SelectedTerminal, Terminals.Count - 1);
-                if (Terminals.IsEmpty())
-                    IsTerminalViewOpen = false;
-                OnPropertyChanged(nameof(ActiveTerminal));
-            });
+			TerminalAddCommand = new RelayCommand<ShellProfile>((e) =>
+			{
+				if (Terminals.IsEmpty())
+					IsTerminalViewOpen = true;
+				var termId = Guid.NewGuid().ToString();
+				Terminals.Add(new TerminalModel()
+				{
+					Name = (e ?? TerminalSelectedProfile).Name,
+					Id = termId,
+					Control = new TerminalView(e ?? TerminalSelectedProfile, termId)
+				});
+				OnPropertyChanged(nameof(SelectedTerminal));
+				OnPropertyChanged(nameof(ActiveTerminal));
+			});
+			TerminalToggleCommand = new RelayCommand(() =>
+			{
+				IsTerminalViewOpen = !IsTerminalViewOpen;
+				if (IsTerminalViewOpen && Terminals.IsEmpty())
+					TerminalAddCommand.Execute(TerminalSelectedProfile);
+			});
+			TerminalSyncUpCommand = new AsyncRelayCommand(async () =>
+			{
+				var context = Ioc.Default.GetRequiredService<IContentPageContext>();
+				if (GetTerminalFolder is not null && await GetTerminalFolder() is string terminalFolder)
+					_ = NavigationHelpers.OpenPath(terminalFolder, context.ShellPage, FilesystemItemType.Directory);
+			});
+			TerminalSyncDownCommand = new RelayCommand(() =>
+			{
+				var context = Ioc.Default.GetRequiredService<IContentPageContext>();
+				if (context.Folder?.ItemPath is string currentFolder)
+					SetTerminalFolder?.Invoke(currentFolder);
+			});
+			TerminalCloseCommand = new RelayCommand<string>((name) =>
+			{
+				var terminal = Terminals.FirstOrDefault(x => x.Id == name);
+				if (terminal is null)
+					return;
+				terminal.Dispose();
+				Terminals.Remove(terminal);
+				SelectedTerminal = int.Min(SelectedTerminal, Terminals.Count - 1);
+				if (Terminals.IsEmpty())
+					IsTerminalViewOpen = false;
+				OnPropertyChanged(nameof(ActiveTerminal));
+			});
 
             AppearanceSettingsService.PropertyChanged += (s, e) =>
 			{
@@ -279,6 +279,9 @@ namespace Files.App.ViewModels
 				{
 					case nameof(GeneralSettingsService.ShowShelfPane):
 						OnPropertyChanged(nameof(ShowShelfPane));
+						break;
+					case nameof(GeneralSettingsService.IsTerminalIntegrationEnabled):
+						OnPropertyChanged(nameof(IsTerminalIntegrationEnabled));
 						break;
 				}
 			};
@@ -473,9 +476,10 @@ namespace Files.App.ViewModels
 		public Func<Task<string?>>? GetTerminalFolder { get; set; }
 		public Action<string>? SetTerminalFolder { get; set; }
 
-		public List<ShellProfile> TerminalProfiles => new DefaultValueProvider().GetPreinstalledShellProfiles().ToList();
+		private static readonly List<ShellProfile> _terminalProfiles = new DefaultValueProvider().GetPreinstalledShellProfiles().ToList();
+		public List<ShellProfile> TerminalProfiles => _terminalProfiles;
 
-		public ShellProfile TerminalSelectedProfile => TerminalProfiles[0]; // TODO: selectable in settings
+		public ShellProfile TerminalSelectedProfile => TerminalProfiles[0];
 
 		public bool IsTerminalIntegrationEnabled => GeneralSettingsService.IsTerminalIntegrationEnabled;
 

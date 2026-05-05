@@ -262,13 +262,8 @@ namespace Files.App.UserControls
 			}
 		}
 
-		async void IxtermEventListener.OnSelectionChanged(string selection)
+		void IxtermEventListener.OnSelectionChanged(string selection)
 		{
-			if (!string.IsNullOrEmpty(selection) && false)
-			{
-				CopyTextToClipbpard(selection);
-				await ExecuteScriptAsync("term.clearSelection()").ConfigureAwait(false);
-			}
 		}
 
 		void IxtermEventListener.OnTerminalResized(int columns, int rows)
@@ -313,7 +308,7 @@ namespace Files.App.UserControls
 			_terminal.WriteToPseudoConsole(data);
 		}
 
-		private void CopyTextToClipbpard(string content)
+		private void CopyTextToClipboard(string content)
 		{
 			SafetyExtensions.IgnoreExceptions(() =>
 			{
@@ -411,7 +406,7 @@ namespace Files.App.UserControls
 				case nameof(Command.Copy):
 					{
 						var selection = await ExecuteScriptAsync("term.getSelection()").ConfigureAwait(false);
-						CopyTextToClipbpard(selection);
+						CopyTextToClipboard(selection);
 						return;
 					}
 				case nameof(Command.Paste):
