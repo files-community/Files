@@ -55,10 +55,16 @@ namespace Files.App.Services
 			}
 		}
 
-		public async Task<IFolder> GetPrimaryDriveAsync()
+		public Task<IFolder?> GetPrimaryDriveAsync()
 		{
 			var cDrivePath = $@"{Constants.UserEnvironmentPaths.SystemDrivePath}\";
-			return new SystemFolder(cDrivePath);
+			if (!Directory.Exists(cDrivePath))
+			{
+				App.Logger.LogWarning($"Primary system drive '{cDrivePath}' could not be found.");
+				return Task.FromResult<IFolder?>(null);
+			}
+
+			return Task.FromResult<IFolder?>(new SystemFolder(cDrivePath));
 		}
 
 		public async Task UpdateDrivePropertiesAsync(IFolder drive)

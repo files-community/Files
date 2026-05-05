@@ -101,13 +101,21 @@ namespace Files.App.Data.Models
 			}
 
 			var osDrive = await removableDrivesService.GetPrimaryDriveAsync();
-			var osDrivePath = osDrive.Id.EndsWith(Path.DirectorySeparatorChar)
-				? osDrive.Id
-				: $"{osDrive.Id}{Path.DirectorySeparatorChar}";
 
 			// Show consent dialog if the OS drive could not be accessed
-			if (Drives.All(x => Path.GetFullPath(x.Id) != osDrivePath))
+			if (osDrive is null)
+			{
 				ShowUserConsentOnInit = true;
+			}
+			else
+			{
+				var osDrivePath = osDrive.Id.EndsWith(Path.DirectorySeparatorChar)
+					? osDrive.Id
+					: $"{osDrive.Id}{Path.DirectorySeparatorChar}";
+
+				if (Drives.All(x => Path.GetFullPath(x.Id) != osDrivePath))
+					ShowUserConsentOnInit = true;
+			}
 
 			if (watcher.CanBeStarted)
 				watcher.Start();
