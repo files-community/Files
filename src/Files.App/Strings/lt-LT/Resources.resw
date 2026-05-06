@@ -4261,6 +4261,9 @@
   <data name="ClearItems" xml:space="preserve">
     <value>Išvalyti elementus</value>
   </data>
+  <data name="BatchAction" xml:space="preserve">
+    <value>Batch action</value>
+  </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>Išimkite iš lentynos</value>
   </data>
