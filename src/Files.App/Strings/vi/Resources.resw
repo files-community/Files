@@ -181,7 +181,7 @@
     <value>Đã truy cập:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Dọn lịch sử các tệp mới mở gần đây</value>
+    <value>Xóa tất cả khỏi danh sách</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Nhập đường dẫn hoặc gõ "&gt;" để mở bảng lệnh</value>
@@ -199,7 +199,7 @@
     <value>Tệp bạn đã truy cập trước đó sẽ hiển thị tại đây</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Loại bỏ khoản mục này</value>
+    <value>Xóa khỏi danh sách</value>
   </data>
   <data name="OpenGitHubRepo" xml:space="preserve">
     <value>Kho lưu trữ GitHub</value>
@@ -379,10 +379,10 @@
     <value>Khoản mục đã tồn tại</value>
   </data>
   <data name="SetAsLockscreen" xml:space="preserve">
-    <value>Đặt làm hình nền màn hình khoá</value>
+    <value>Hình nền màn hình khóa</value>
   </data>
   <data name="SetAsAppBackground" xml:space="preserve">
-    <value>Đặt làm hình nền màn hình chính</value>
+    <value>Hình nền ứng dụng</value>
   </data>
   <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
     <value>Chúng tôi không thể xóa khoản mục này</value>
@@ -4260,6 +4260,9 @@
   </data>
   <data name="ClearItems" xml:space="preserve">
     <value>Loại bỏ tất cả</value>
+  </data>
+  <data name="BatchAction" xml:space="preserve">
+    <value>Batch action</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>Loại bỏ khỏi ngăn tạm</value>

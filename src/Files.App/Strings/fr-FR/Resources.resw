@@ -190,10 +190,10 @@
     <value>Rechercher</value>
   </data>
   <data name="SearchSettings" xml:space="preserve">
-    <value>Search settings...</value>
+    <value>Rechercher dans les paramètres...</value>
   </data>
   <data name="NoSearchResults" xml:space="preserve">
-    <value>No settings match your search.</value>
+    <value>Aucun paramètre ne correspond à votre recherche.</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Les fichiers précédemment ouverts s'afficheront ici</value>
@@ -217,7 +217,7 @@
     <value>Thème</value>
   </data>
   <data name="Font" xml:space="preserve">
-    <value>Font</value>
+    <value>Police</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>Afficher les extensions des types de fichiers connus</value>
@@ -238,22 +238,22 @@
     <value>Avancé</value>
   </data>
   <data name="CacheThumbnails" xml:space="preserve">
-    <value>Cache thumbnails</value>
+    <value>Mettre en cache les miniatures</value>
   </data>
   <data name="CacheSizeLimitDescription" xml:space="preserve">
-    <value>Maximum disk space to use for thumbnail cache (100-5000 MiB).</value>
+    <value>Espace disque maximal à utiliser pour le cache des miniatures (100 à 5000 Mio).</value>
   </data>
   <data name="CacheSizeLimit" xml:space="preserve">
-    <value>Cache size limit</value>
+    <value>Limite de taille du cache</value>
   </data>
   <data name="ClearCachedThumbnails" xml:space="preserve">
-    <value>Clear cached thumbnails to free up space</value>
+    <value>Supprimer les miniatures en cache pour libérer de l’espace</value>
   </data>
   <data name="CurrentCacheSize" xml:space="preserve">
-    <value>Current cache size: </value>
+    <value>Taille actuelle du cache :</value>
   </data>
   <data name="ClearCache" xml:space="preserve">
-    <value>Clear cache</value>
+    <value>Vider le cache</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Continuez là où vous vous êtes arrêté</value>
@@ -684,7 +684,7 @@
     <value>Fichier</value>
   </data>
   <data name="Files" xml:space="preserve">
-    <value>Files</value>
+    <value>Fichiers</value>
   </data>
   <data name="AddDialogListFileSubHeader" xml:space="preserve">
     <value>Crée un fichier vide</value>
@@ -693,7 +693,7 @@
     <value>Dossier</value>
   </data>
   <data name="Folders" xml:space="preserve">
-    <value>Folders</value>
+    <value>Dossiers</value>
   </data>
   <data name="AddDialogListFolderSubHeader" xml:space="preserve">
     <value>Crée un dossier vide</value>
@@ -876,16 +876,16 @@
     <value>Éditeur</value>
   </data>
   <data name="PropertyThumbnailLargePath" xml:space="preserve">
-    <value>Chemin de la grande vignette</value>
+    <value>Chemin de la grande miniature</value>
   </data>
   <data name="PropertyThumbnailLargeUri" xml:space="preserve">
-    <value>URI de la grande vignette</value>
+    <value>URI de la grande miniature</value>
   </data>
   <data name="PropertyThumbnailSmallPath" xml:space="preserve">
-    <value>Chemin de la petite vignette</value>
+    <value>Chemin de la petite miniature</value>
   </data>
   <data name="PropertyThumbnailSmallUri" xml:space="preserve">
-    <value>URI de la petite vignette</value>
+    <value>URI de la petite miniature</value>
   </data>
   <data name="PropertyUserWebUrl" xml:space="preserve">
     <value>URL du site de l'utilisateur</value>
@@ -1362,7 +1362,7 @@
     <value>Créer un dossier avec la sélection</value>
   </data>
   <data name="CreateShortcutWithSelection" xml:space="preserve">
-    <value>Create shortcuts with selection</value>
+    <value>Créer des raccourcis à partir de la sélection</value>
   </data>
   <data name="ItemType" xml:space="preserve">
     <value>Type :</value>
@@ -1374,7 +1374,7 @@
     <value>Ouvrir avec</value>
   </data>
   <data name="FileBrowserThumbnailIconColumnGrid.AutomationProperties.Name" xml:space="preserve">
-    <value>Icône de fichier</value>
+    <value>Icône du fichier</value>
   </data>
   <data name="DetailsViewHeaderFlyout_ShowOriginalPath.Text" xml:space="preserve">
     <value>Chemin d'origine</value>
@@ -1815,7 +1815,7 @@
     <value>Étiquette</value>
   </data>
   <data name="OpenFilesWithOneClick" xml:space="preserve">
-    <value>Open files with a single click</value>
+    <value>Ouvrir les fichiers d’un simple clic</value>
   </data>
   <data name="FolderPath" xml:space="preserve">
     <value>Chemin du dossier</value>
@@ -2034,7 +2034,7 @@
     <value>ex : {0}, {1}</value>
   </data>
   <data name="SettingsFilesAndFoldersShowThumbnails" xml:space="preserve">
-    <value>Afficher les vignettes</value>
+    <value>Afficher les miniatures</value>
   </data>
   <data name="Retry" xml:space="preserve">
     <value>Réessayer</value>
@@ -2121,13 +2121,13 @@
     <value>Ouvrir les dossiers d'un seul clic</value>
   </data>
   <data name="OpenFolderWithOneClickInColumnsView" xml:space="preserve">
-    <value>Open folders with a single click in Columns View</value>
+    <value>Ouvrir les dossiers d’un simple clic en mode colonnes</value>
   </data>
   <data name="SingleClickToOpen" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>Ouvrir les éléments d’un simple clic</value>
   </data>
   <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
-    <value>Folders in Columns View</value>
+    <value>Dossiers en mode colonnes</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>Ouverture des éléments</value>
@@ -4261,6 +4261,9 @@
   <data name="ClearItems" xml:space="preserve">
     <value>Effacer les éléments</value>
   </data>
+  <data name="BatchAction" xml:space="preserve">
+    <value>Action groupée</value>
+  </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>Retirer de l'étagère</value>
   </data>
@@ -4426,10 +4429,10 @@
     <value>Afficher la barre de statut</value>
   </data>
   <data name="OnlyForTouch" xml:space="preserve">
-    <value>When using touch</value>
+    <value>Lors de l’utilisation tactile</value>
   </data>
   <data name="OnlyForMouse" xml:space="preserve">
-    <value>When using mouse</value>
+    <value>Lors de l’utilisation de la souris</value>
   </data>
   <data name="CreateNewFile" xml:space="preserve">
     <value>Nouveau {0}</value>

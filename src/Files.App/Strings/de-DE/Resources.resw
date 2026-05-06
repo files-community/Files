@@ -4261,6 +4261,9 @@
   <data name="ClearItems" xml:space="preserve">
     <value>Elemente leeren</value>
   </data>
+  <data name="BatchAction" xml:space="preserve">
+    <value>Massenaktion</value>
+  </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>Aus der Ablage entfernen</value>
   </data>

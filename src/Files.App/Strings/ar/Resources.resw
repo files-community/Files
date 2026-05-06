@@ -4262,6 +4262,9 @@
   <data name="ClearItems" xml:space="preserve">
     <value>مسح العناصر</value>
   </data>
+  <data name="BatchAction" xml:space="preserve">
+    <value>Batch action</value>
+  </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>إزالة من الرف</value>
   </data>
