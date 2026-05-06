@@ -4261,6 +4261,9 @@
   <data name="ClearItems" xml:space="preserve">
     <value>Limpar itens</value>
   </data>
+  <data name="BatchAction" xml:space="preserve">
+    <value>Ação em lote</value>
+  </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>Remover da prateleira</value>
   </data>
