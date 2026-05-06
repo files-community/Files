@@ -329,7 +329,7 @@ namespace Files.App.Helpers
 			try
 			{
 				// IoC may not be configured yet if the exception happened during early startup
-				var generalSettingsService = Ioc.Default.GetService<IGeneralSettingsService>();
+				var generalSettingsService = SafetyExtensions.IgnoreExceptions(Ioc.Default.GetService<IGeneralSettingsService>);
 
 				StringBuilder formattedException = new()
 				{
@@ -423,6 +423,11 @@ namespace Files.App.Helpers
 						.Wait(100);
 					}
 				});
+			}
+			catch
+			{
+				// Swallow any exception escaping the handler so it can't re-enter
+				// Application.UnhandledException before Process.Kill terminates the process.
 			}
 			finally
 			{
