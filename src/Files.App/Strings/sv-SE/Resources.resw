@@ -4261,6 +4261,9 @@
   <data name="ClearItems" xml:space="preserve">
     <value>Clear items</value>
   </data>
+  <data name="BatchAction" xml:space="preserve">
+    <value>Batch action</value>
+  </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>Ta bort från hylla</value>
   </data>
