@@ -4261,6 +4261,9 @@
   <data name="ClearItems" xml:space="preserve">
     <value>Очистити елементи</value>
   </data>
+  <data name="BatchAction" xml:space="preserve">
+    <value>Пакетні дії</value>
+  </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>Вилучити з полиці</value>
   </data>
