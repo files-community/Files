@@ -4261,6 +4261,9 @@
   <data name="ClearItems" xml:space="preserve">
     <value>清除項目</value>
   </data>
+  <data name="BatchAction" xml:space="preserve">
+    <value>Batch action</value>
+  </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>從置放架移除</value>
   </data>
