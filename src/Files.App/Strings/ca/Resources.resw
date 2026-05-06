@@ -4261,6 +4261,9 @@
   <data name="ClearItems" xml:space="preserve">
     <value>Esborra els elements</value>
   </data>
+  <data name="BatchAction" xml:space="preserve">
+    <value>Acció per lots</value>
+  </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>Elimina del prestatge</value>
   </data>
