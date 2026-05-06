@@ -217,7 +217,7 @@
     <value>主题</value>
   </data>
   <data name="Font" xml:space="preserve">
-    <value>Font</value>
+    <value>字体</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions" xml:space="preserve">
     <value>显示已知文件类型的扩展名</value>
@@ -2124,10 +2124,10 @@
     <value>Open folders with a single click in Columns View</value>
   </data>
   <data name="SingleClickToOpen" xml:space="preserve">
-    <value>Open items with a single click</value>
+    <value>单击打开文件夹</value>
   </data>
   <data name="SingleClickFoldersInColumnsViewHeader" xml:space="preserve">
-    <value>Folders in Columns View</value>
+    <value>仅在列视图时</value>
   </data>
   <data name="OpeningItems" xml:space="preserve">
     <value>打开项目</value>
@@ -4260,6 +4260,9 @@
   </data>
   <data name="ClearItems" xml:space="preserve">
     <value>清除所有项目</value>
+  </data>
+  <data name="BatchAction" xml:space="preserve">
+    <value>批量操作</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>从中转站移除</value>
