@@ -4262,7 +4262,7 @@
     <value>Borrar Elementos</value>
   </data>
   <data name="BatchAction" xml:space="preserve">
-    <value>Batch action</value>
+    <value>Acción por lotes</value>
   </data>
   <data name="RemoveFromShelf" xml:space="preserve">
     <value>Eliminar del estante</value>
