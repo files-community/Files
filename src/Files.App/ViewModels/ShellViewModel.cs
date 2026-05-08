@@ -1077,7 +1077,7 @@ namespace Files.App.ViewModels
 			return shieldIcon;
 		}
 
-		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken)
+		private async Task LoadThumbnailAsync(ListedItem item, CancellationToken cancellationToken, bool scheduleTimerRetry = true)
 		{
 			var loadNonCachedThumbnail = false;
 			var thumbnailSize = LayoutSizeKindHelper.GetIconSize(folderSettings.LayoutMode);
@@ -1181,6 +1181,38 @@ namespace Files.App.ViewModels
 					if (result is null)
 					{
 						item.NeedsDelayedThumbnailLoad = true;
+
+						if (scheduleTimerRetry)
+						{
+							var retryCts = new CancellationTokenSource();
+							if (thumbnailRetryDebounce.TryAdd(item.ItemPath, retryCts))
+							{
+								App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}'; scheduling 2s timer retry.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+
+								var retryToken = retryCts.Token;
+								_ = Task.Delay(2000, retryToken)
+									.ContinueWith(_ =>
+									{
+										if (thumbnailRetryDebounce.TryRemove(item.ItemPath, out var cts))
+											cts.Dispose();
+
+										App.Logger.LogInformation("Timer-based thumbnail retry firing [{Id}] '{Extension}'.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+
+										item.NeedsDelayedThumbnailLoad = false;
+										return LoadThumbnailAsync(item, retryToken, scheduleTimerRetry: false);
+									}, retryToken, TaskContinuationOptions.OnlyOnRanToCompletion, TaskScheduler.Default)
+									.Unwrap();
+							}
+							else
+							{
+								App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}'; mod-retry already pending, skipping timer.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+								retryCts.Dispose();
+							}
+						}
+						else
+						{
+							App.Logger.LogWarning("Thumbnail load failed [{Id}] '{Extension}' on timer retry; awaiting next FILE_ACTION_MODIFIED.", item.ItemPath.GetHashCode(), Path.GetExtension(item.ItemPath));
+						}
 					}
 					else
 					{
@@ -2667,6 +2699,8 @@ namespace Files.App.ViewModels
 				var item = filesAndFolders.ToList().FirstOrDefault(x => x.ItemPath.Equals(path, StringComparison.OrdinalIgnoreCase));
 				if (item is not null && item.NeedsDelayedThumbnailLoad)
 				{
+					App.Logger.LogInformation("FILE_ACTION_MODIFIED thumbnail retry triggered [{Id}] '{Extension}'.", path.GetHashCode(), Path.GetExtension(path));
+
 					if (thumbnailRetryDebounce.TryGetValue(path, out var existingCts))
 					{
 						existingCts.Cancel();
