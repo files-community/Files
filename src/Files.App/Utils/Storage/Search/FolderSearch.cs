@@ -69,29 +69,30 @@ namespace Files.App.Utils.Storage
 			}
 		}
 
-		public Task SearchAsync(IList<ListedItem> results, CancellationToken token)
+		public async Task SearchAsync(IList<ListedItem> results, CancellationToken token)
 		{
 			try
 			{
 				if (App.LibraryManager.TryGetLibrary(Folder, out var library))
 				{
-					return AddItemsForLibraryAsync(library, results, token);
+					await AddItemsForLibraryAsync(library, results, token);
 				}
 				else if (Folder == "Home")
 				{
-					return AddItemsForHomeAsync(results, token);
+					await AddItemsForHomeAsync(results, token);
 				}
 				else
 				{
-					return AddItemsAsync(Folder, results, token);
+					await AddItemsAsync(Folder, results, token);
 				}
+			}
+			catch (OperationCanceledException)
+			{
 			}
 			catch (Exception e)
 			{
 				App.Logger.LogWarning(e, "Search failure");
 			}
-
-			return Task.CompletedTask;
 		}
 
 		private async Task AddItemsForHomeAsync(IList<ListedItem> results, CancellationToken token)
