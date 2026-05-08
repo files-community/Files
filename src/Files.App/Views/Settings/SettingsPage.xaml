@@ -89,6 +89,7 @@
 									<DataTemplate x:DataType="vm:SettingsSearchResult">
 										<wctcontrols:SettingsCard
 											Click="SearchResultCard_Click"
+											DataContext="{x:Bind}"
 											Description="{x:Bind DisplayPath}"
 											Header="{x:Bind HeaderText}"
 											IsClickEnabled="True" />
