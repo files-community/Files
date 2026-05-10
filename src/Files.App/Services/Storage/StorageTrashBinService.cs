@@ -1,7 +1,9 @@
 // Copyright (c) Files Community
 // Licensed under the MIT License.
 
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.Principal;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.System.Com;
@@ -42,7 +44,34 @@ namespace Files.App.Services
 		/// <inheritdoc/>
 		public bool HasItems()
 		{
-			return QueryRecycleBin().NumItems > 0;
+			var sid = WindowsIdentity.GetCurrent().User?.Value;
+			if (string.IsNullOrEmpty(sid))
+				return false;
+
+			foreach (DriveInfo drive in DriveInfo.GetDrives())
+			{
+				if (!drive.IsReady || drive.DriveType == System.IO.DriveType.Network)
+					continue;
+
+				string recyclePath = Path.Combine(drive.RootDirectory.FullName, "$RECYCLE.BIN", sid);
+				if (!Directory.Exists(recyclePath))
+					continue;
+
+				try
+				{
+					var files = Directory.EnumerateFiles(recyclePath, "$I*", SearchOption.TopDirectoryOnly);
+					if (files.Any())
+						return true;
+				}
+				catch (UnauthorizedAccessException)
+				{
+				}
+				catch (IOException)
+				{
+				}
+			}
+
+			return false;
 		}
 
 		/// <inheritdoc/>
