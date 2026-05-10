@@ -409,3 +409,10 @@ FodyWeavers.xsd
 *.sln.iml
 .idea/
 src/Files.App/Assets/FilesOpenDialog/Files.App.Launcher.exe.sha256
+
+# Search bench corpora and run outputs (generated, large, deterministic).
+.bench/
+bench-results/
+
+# Claude Code local settings (per-user, not for the repo).
+.claude/

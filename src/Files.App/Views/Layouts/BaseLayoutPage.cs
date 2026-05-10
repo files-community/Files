@@ -489,7 +489,7 @@ namespace Files.App.Views.Layouts
 				{
 					var displayName = App.LibraryManager.TryGetLibrary(navigationArguments.SearchPathParam, out var lib) ? lib.Text : navigationArguments.SearchPathParam;
 					await ParentShellPageInstance.UpdatePathUIToWorkingDirectoryAsync(null, string.Format(Strings.SearchPagePathBoxOverrideText.GetLocalizedResource(), navigationArguments.SearchQuery, displayName));
-					var searchInstance = new Utils.Storage.FolderSearch
+					var searchInstance = new Utils.Storage.SearchRouter
 					{
 						Query = navigationArguments.SearchQuery,
 						Folder = navigationArguments.SearchPathParam,

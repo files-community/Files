@@ -1,0 +1,42 @@
+[package]
+name = "files-search-service"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[[bin]]
+name = "files-search-service"
+path = "src/main.rs"
+
+[dependencies]
+tokio = { version = "1.40", features = ["macros", "rt-multi-thread", "signal", "net"] }
+tokio-stream = "0.1"
+tonic = "0.12"
+prost = "0.13"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+walkdir = "2"
+async-stream = "0.3"
+tantivy = "0.22"
+anyhow = "1"
+rayon = "1.10"
+notify = "6"
+parking_lot = "0.12"
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.58", features = [
+  "Win32_Foundation",
+  "Win32_Storage_FileSystem",
+  "Win32_System_WindowsProgramming",
+  "Win32_System_Threading",
+  "Win32_System_Power",
+  "Win32_UI_Shell",
+] }
+
+[build-dependencies]
+tonic-build = "0.12"
+protoc-bin-vendored = "3"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1

@@ -2785,7 +2785,7 @@ namespace Files.App.ViewModels
 			await ApplyFilesAndFoldersChangesAsync();
 		}
 
-		public async Task SearchAsync(FolderSearch search)
+		public async Task SearchAsync(SearchRouter search)
 		{
 			ItemLoadStatusChanged?.Invoke(this, new ItemLoadStatusChangedEventArgs() { Status = ItemLoadStatusChangedEventArgs.ItemLoadStatus.Starting });
 
