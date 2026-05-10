@@ -484,7 +484,8 @@ namespace Files.App.Views
 				await SidebarAdaptiveViewModel.HandleItemDragOverAsync(e);
 			}, App.Logger);
 
-			deferral.Complete();
+			// Complete() can throw COMException if the underlying drag operation has already been released (e.g. canceled by the system or window closed)
+			SafetyExtensions.IgnoreExceptions(() => deferral.Complete(), App.Logger);
 		}
 
 		private async void SidebarControl_ItemDropped(object sender, ItemDroppedEventArgs e)
@@ -496,7 +497,8 @@ namespace Files.App.Views
 				await SidebarAdaptiveViewModel.HandleItemDroppedAsync(e);
 			}, App.Logger);
 
-			deferral.Complete();
+			// Complete() can throw COMException if the underlying drag operation has already been released (e.g. canceled by the system or window closed)
+			SafetyExtensions.IgnoreExceptions(() => deferral.Complete(), App.Logger);
 		}
 
 		private void SidebarControl_ItemInvoked(object sender, ItemInvokedEventArgs e)
