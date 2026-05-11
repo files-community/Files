@@ -130,7 +130,9 @@ namespace Files.App.ViewModels.Dialogs
 		// Private Methods
 		private string DefaultDestinationFolderPath()
 		{
-			return Path.Combine(Path.GetDirectoryName(archive.Path), Path.GetFileNameWithoutExtension(archive.Path));
+			var directory = Path.GetDirectoryName(archive.Path);
+			var fileName = Path.GetFileNameWithoutExtension(archive.Path);
+			return string.IsNullOrEmpty(directory) ? fileName : Path.Combine(directory, fileName);
 		}
 
 		private async Task SelectDestinationAsync()
