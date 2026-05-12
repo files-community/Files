@@ -209,6 +209,14 @@
 				</wctcontrols:SettingsExpander.ItemsHeader>
 			</wctcontrols:SettingsExpander>
 
+			<!--  TreeView sidebar (experimental)  -->
+			<wctcontrols:SettingsCard Description="Shows an experimental WinUI TreeView sidebar next to the page content. Per-tab expansion state is preserved when switching tabs." Header="TreeView sidebar (experimental)">
+				<wctcontrols:SettingsCard.HeaderIcon>
+					<FontIcon Glyph="&#xE9D5;" />
+				</wctcontrols:SettingsCard.HeaderIcon>
+				<ToggleSwitch IsOn="{x:Bind ViewModel.ShowTreeViewSidebar, Mode=TwoWay}" />
+			</wctcontrols:SettingsCard>
+
 			<!--  Connect to GitHub  -->
 			<wctcontrols:SettingsCard
 				x:Name="ConnectToGitHubSection"
