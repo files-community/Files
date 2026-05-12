@@ -6,6 +6,7 @@
   </Configurations>
   <Folder Name="/global/" Id="ddb4ef12-cc4e-5e88-e6fc-71a802f4de97">
     <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
     <File Path="Directory.Packages.props" />
   </Folder>
   <Folder Name="/src/" />
