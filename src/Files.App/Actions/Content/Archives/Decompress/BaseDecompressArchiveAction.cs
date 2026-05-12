@@ -55,11 +55,14 @@ namespace Files.App.Actions
 			if (context.SelectedItems.Count is 0)
 				return;
 
-			foreach (var selectedItem in context.SelectedItems)
+			var selectedItems = context.SelectedItems.ToList();
+			var currentFolderPath = context.ShellPage?.ShellViewModel.CurrentFolder?.ItemPath ?? string.Empty;
+			BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(currentFolderPath);
+
+			foreach (var selectedItem in selectedItems)
 			{
 				var password = string.Empty;
 				BaseStorageFile archive = await StorageHelpers.ToStorageItem<BaseStorageFile>(selectedItem.ItemPath);
-				BaseStorageFolder currentFolder = await StorageHelpers.ToStorageItem<BaseStorageFolder>(context.ShellPage?.ShellViewModel.CurrentFolder?.ItemPath ?? string.Empty);
 
 				if (archive?.Path is null)
 					return;
