@@ -185,7 +185,7 @@
 			ItemDropped="SidebarControl_ItemDropped"
 			ItemInvoked="SidebarControl_ItemInvoked"
 			Loaded="SidebarControl_Loaded"
-			MenuItemsSource="{x:Bind SidebarAdaptiveViewModel.SidebarItems, Mode=OneWay}"
+			MenuItemsSource="{x:Bind GetEffectiveMenuItemsSourceResponsive(DevToolsSettingsService.ShowTreeViewSidebar, SidebarControl.DisplayMode, SidebarControl.IsPaneOpen, UserSettingsService.AppearanceSettingsService.SidebarWidth), Mode=OneWay}"
 			OpenPaneLength="{x:Bind UserSettingsService.AppearanceSettingsService.SidebarWidth, Mode=TwoWay}"
 			PaneBackgroundBrush="{ThemeResource App.Theme.Sidebar.BackgroundBrush}"
 			SelectedItem="{x:Bind SidebarAdaptiveViewModel.SidebarSelectedItem, Mode=TwoWay}">
@@ -303,7 +303,6 @@
 						Style="{StaticResource App.Theme.CaptionTextBlockStyle}"
 						Text="{helpers:ResourceString Name=SectionsHiddenMessage}"
 						TextAlignment="Center" />
-
 				</StackPanel>
 			</controls:SidebarView.SidebarContent>
 
@@ -345,6 +344,17 @@
 				</StackPanel>
 			</controls:SidebarView.Footer>
 		</controls:SidebarView>
+
+		<!--  TreeView Sidebar (experimental) — overlays the sidebar pane area so it can intercept clicks. Visibility tracks SidebarView's IsPaneOpen so it hides when the SidebarView is collapsed in minimal mode and reappears (as overlay) when the user opens it. Width tracks the same SidebarWidth the original resizer writes, so dragging the SidebarView resizer resizes the TreeView too.  -->
+		<uc:TreeViewSidebar
+			x:Name="TreeViewSidebarControl"
+			Grid.Row="2"
+			Margin="0,0,0,52"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Stretch"
+			x:Load="{x:Bind DevToolsSettingsService.ShowTreeViewSidebar, Mode=OneWay}"
+			Visibility="{x:Bind GetTreeViewSidebarVisibility(SidebarControl.DisplayMode, SidebarControl.IsPaneOpen, UserSettingsService.AppearanceSettingsService.SidebarWidth), Mode=OneWay}"
+			Width="{x:Bind UserSettingsService.AppearanceSettingsService.SidebarWidth, Mode=OneWay}" />
 
 		<!--  Review Files Prompt  -->
 		<TeachingTip

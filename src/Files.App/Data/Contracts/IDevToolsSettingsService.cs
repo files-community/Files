@@ -19,5 +19,10 @@ namespace Files.App.Data.Contracts
 		/// Gets or sets the name of the chosen IDE.
 		/// </summary>
 		string IDEName { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether the experimental TreeView sidebar is shown.
+		/// </summary>
+		bool ShowTreeViewSidebar { get; set; }
 	}
 }

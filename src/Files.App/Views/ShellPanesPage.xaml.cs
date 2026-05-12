@@ -298,6 +298,10 @@ namespace Files.App.Views
 			if (arrangement is not ShellPaneArrangement.None)
 				ShellPaneArrangement = arrangement;
 
+			// RootGrid can be null when ArrangePanes is invoked via the ShellPaneArrangement setter before InitializeComponent has named the elements (intermittent startup race)
+			if (RootGrid is null)
+				return;
+
 			// Clear definitions
 			RootGrid.RowDefinitions.Clear();
 			RootGrid.ColumnDefinitions.Clear();
