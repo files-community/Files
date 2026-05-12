@@ -10,6 +10,9 @@ namespace Files.App.ViewModels.Settings
 	{
 		public ObservableCollection<SettingsNavigationItem> NavigationItems { get; } = [];
 
+		// Wrapped projection of NavigationItems for binding to SidebarView.MenuItemsSource (which renders FlatSidebarItem rows). Settings is a flat list so every entry sits at Depth=0.
+		public ObservableCollection<FlatSidebarItem> FlatNavigationItems { get; } = [];
+
 		public ObservableCollection<SettingsSearchResult> SearchResults { get; } = [];
 
 		private List<SettingsSearchResult>? _searchIndex;
@@ -42,6 +45,9 @@ namespace Files.App.ViewModels.Settings
 			NavigationItems.Add(CreateNavigationItem(SettingsPageKind.DevToolsPage, "SettingsItemDevTools", Strings.DevTools.GetLocalizedResource(), "App.ThemedIcons.Settings.DevTools"));
 			NavigationItems.Add(CreateNavigationItem(SettingsPageKind.AdvancedPage, "SettingsItemAdvanced", Strings.Advanced.GetLocalizedResource(), "App.ThemedIcons.Settings.Advanced"));
 			NavigationItems.Add(CreateNavigationItem(SettingsPageKind.AboutPage, "SettingsItemAbout", Strings.About.GetLocalizedResource(), "App.ThemedIcons.Info"));
+
+			foreach (var navItem in NavigationItems)
+				FlatNavigationItems.Add(new FlatSidebarItem(navItem, 0));
 
 			SetSelectedPage(SettingsPageKind.GeneralPage);
 		}
@@ -109,7 +115,6 @@ namespace Files.App.ViewModels.Settings
 
 		// ISidebarItemModel
 		public object? Children => null;
-		public bool PaddedItem => false;
 		public string? Path => null;
 		[ObservableProperty] private bool _isExpanded;
 
