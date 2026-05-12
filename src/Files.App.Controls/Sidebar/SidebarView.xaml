@@ -85,7 +85,8 @@
 					x:Name="MenuItemHostScrollViewer"
 					Padding="0,8,0,0"
 					ContextRequested="MenuItemHostScrollViewer_ContextRequested"
-					HorizontalScrollMode="Disabled"
+					HorizontalScrollBarVisibility="Visible"
+					HorizontalScrollMode="Enabled"
 					VerticalScrollBarVisibility="Auto"
 					XYFocusKeyboardNavigation="Enabled">
 					<ItemsRepeater
@@ -97,7 +98,6 @@
 						IsTabStop="True"
 						ItemTemplate="{StaticResource DefaultSidebarItemTemplate}"
 						ItemsSource="{x:Bind MenuItemsSource, Mode=OneWay}"
-						VerticalCacheLength="100"
 						XYFocusKeyboardNavigation="Enabled" />
 				</ScrollViewer>
 			</ItemsRepeaterScrollHost>
@@ -161,6 +161,8 @@
 				<VisualState x:Name="Compact">
 					<VisualState.Setters>
 						<Setter Target="PaneColumnDefinition.Width" Value="{StaticResource SidebarCompactOpenPaneLength}" />
+						<Setter Target="MenuItemHostScrollViewer.HorizontalScrollMode" Value="Disabled" />
+						<Setter Target="MenuItemHostScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
 					</VisualState.Setters>
 				</VisualState>
 				<VisualState x:Name="MinimalCollapsed">

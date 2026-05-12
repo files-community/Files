@@ -53,7 +53,7 @@
 			x:Name="SettingsSidebar"
 			CanResizePane="False"
 			ItemInvoked="SettingsSidebar_ItemInvoked"
-			MenuItemsSource="{x:Bind ViewModel.NavigationItems}"
+			MenuItemsSource="{x:Bind ViewModel.FlatNavigationItems}"
 			OpenPaneLength="240">
 
 			<controls:SidebarView.Header>
